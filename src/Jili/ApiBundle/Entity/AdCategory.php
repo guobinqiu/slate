@@ -6,50 +6,27 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * AdCategory
+ *
+ * @ORM\Table(name="ad_category")
+ * @ORM\Entity
  */
 class AdCategory
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var varchar
-     */
-    private $category_name;
-
-
-    /**
-     * Get id
+     * @var string
      *
-     * @return integer 
+     * @ORM\Column(name="category_name", type="string", length=45, nullable=true)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $categoryName;
 
-    /**
-     * Set category_name
-     *
-     * @param \varchar $categoryName
-     * @return AdCategory
-     */
-    public function setCategoryName(\varchar $categoryName)
-    {
-        $this->category_name = $categoryName;
-    
-        return $this;
-    }
 
-    /**
-     * Get category_name
-     *
-     * @return \varchar 
-     */
-    public function getCategoryName()
-    {
-        return $this->category_name;
-    }
 }

@@ -6,106 +6,41 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * AdPosition
+ *
+ * @ORM\Table(name="ad_position")
+ * @ORM\Entity
  */
 class AdPosition
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var int
-     */
-    private $ad_id;
-
-    /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=45, nullable=true)
      */
     private $type;
 
     /**
-     * @var int
+     * @var integer
+     *
+     * @ORM\Column(name="position", type="integer", nullable=true)
      */
     private $position;
 
-
     /**
-     * Get id
+     * @var integer
      *
-     * @return integer 
+     * @ORM\Column(name="ad_id", type="integer", nullable=false)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $adId;
 
-    /**
-     * Set ad_id
-     *
-     * @param \int $adId
-     * @return AdPosition
-     */
-    public function setAdId(\int $adId)
-    {
-        $this->ad_id = $adId;
-    
-        return $this;
-    }
 
-    /**
-     * Get ad_id
-     *
-     * @return \int 
-     */
-    public function getAdId()
-    {
-        return $this->ad_id;
-    }
-
-    /**
-     * Set type
-     *
-     * @param \varchar $type
-     * @return AdPosition
-     */
-    public function setType(\varchar $type)
-    {
-        $this->type = $type;
-    
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return \varchar 
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set position
-     *
-     * @param \int $position
-     * @return AdPosition
-     */
-    public function setPosition(\int $position)
-    {
-        $this->position = $position;
-    
-        return $this;
-    }
-
-    /**
-     * Get position
-     *
-     * @return \int 
-     */
-    public function getPosition()
-    {
-        return $this->position;
-    }
 }

@@ -6,106 +6,41 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * RateAdResult
+ *
+ * @ORM\Table(name="rate_ad_result")
+ * @ORM\Entity
  */
 class RateAdResult
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var int
-     */
-    private $user_id;
-
-    /**
-     * @var int
-     */
-    private $rate_ad_id;
-
-    /**
-     * @var varchar
-     */
-    private $result_point;
-
-
-    /**
-     * Get id
+     * @var integer
      *
-     * @return integer 
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $userId;
 
     /**
-     * Set user_id
+     * @var integer
      *
-     * @param \int $userId
-     * @return RateAdResult
+     * @ORM\Column(name="rate_ad_id", type="integer", nullable=false)
      */
-    public function setUserId(\int $userId)
-    {
-        $this->user_id = $userId;
-    
-        return $this;
-    }
+    private $rateAdId;
 
     /**
-     * Get user_id
+     * @var string
      *
-     * @return \int 
+     * @ORM\Column(name="result_point", type="string", length=45, nullable=true)
      */
-    public function getUserId()
-    {
-        return $this->user_id;
-    }
+    private $resultPoint;
 
-    /**
-     * Set rate_ad_id
-     *
-     * @param \int $rateAdId
-     * @return RateAdResult
-     */
-    public function setRateAdId(\int $rateAdId)
-    {
-        $this->rate_ad_id = $rateAdId;
-    
-        return $this;
-    }
 
-    /**
-     * Get rate_ad_id
-     *
-     * @return \int 
-     */
-    public function getRateAdId()
-    {
-        return $this->rate_ad_id;
-    }
-
-    /**
-     * Set result_point
-     *
-     * @param \varchar $resultPoint
-     * @return RateAdResult
-     */
-    public function setResultPoint(\varchar $resultPoint)
-    {
-        $this->result_point = $resultPoint;
-    
-        return $this;
-    }
-
-    /**
-     * Get result_point
-     *
-     * @return \varchar 
-     */
-    public function getResultPoint()
-    {
-        return $this->result_point;
-    }
 }

@@ -1,0 +1,23 @@
+LimitAdResult:
+    type: entity
+    table: limit_ad_result
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        limitAdId:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: limit_ad_id
+        resultPoint:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+            column: result_point
+    lifecycleCallbacks: {  }

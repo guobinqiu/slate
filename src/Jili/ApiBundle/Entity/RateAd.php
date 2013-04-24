@@ -6,50 +6,27 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * RateAd
+ *
+ * @ORM\Table(name="rate_ad")
+ * @ORM\Entity
  */
 class RateAd
 {
     /**
      * @var integer
-     */
-    private $id;
-
-    /**
-     * @var varchar
-     */
-    private $incentive_rate;
-
-
-    /**
-     * Get id
      *
-     * @return integer 
+     * @ORM\Column(name="ad_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $adId;
 
     /**
-     * Set incentive_rate
+     * @var string
      *
-     * @param \varchar $incentiveRate
-     * @return RateAd
+     * @ORM\Column(name="incentive_rate", type="string", length=45, nullable=true)
      */
-    public function setIncentiveRate(\varchar $incentiveRate)
-    {
-        $this->incentive_rate = $incentiveRate;
-    
-        return $this;
-    }
+    private $incentiveRate;
 
-    /**
-     * Get incentive_rate
-     *
-     * @return \varchar 
-     */
-    public function getIncentiveRate()
-    {
-        return $this->incentive_rate;
-    }
+
 }

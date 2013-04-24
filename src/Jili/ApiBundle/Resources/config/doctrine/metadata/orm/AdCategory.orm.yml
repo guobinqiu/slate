@@ -1,0 +1,18 @@
+AdCategory:
+    type: entity
+    table: ad_category
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        categoryName:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+            column: category_name
+    lifecycleCallbacks: {  }

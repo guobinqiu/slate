@@ -1,0 +1,18 @@
+LimitAd:
+    type: entity
+    table: limit_ad
+    fields:
+        adId:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: ad_id
+            generator:
+                strategy: IDENTITY
+        incentive:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+    lifecycleCallbacks: {  }

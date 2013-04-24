@@ -6,50 +6,27 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * ActionType
+ *
+ * @ORM\Table(name="action_type")
+ * @ORM\Entity
  */
 class ActionType
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var varchar
-     */
-    private $action_type;
-
-
-    /**
-     * Get id
+     * @var string
      *
-     * @return integer 
+     * @ORM\Column(name="action_type", type="string", length=45, nullable=true)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $actionType;
 
-    /**
-     * Set action_type
-     *
-     * @param \varchar $actionType
-     * @return ActionType
-     */
-    public function setActionType(\varchar $actionType)
-    {
-        $this->action_type = $actionType;
-    
-        return $this;
-    }
 
-    /**
-     * Get action_type
-     *
-     * @return \varchar 
-     */
-    public function getActionType()
-    {
-        return $this->action_type;
-    }
 }

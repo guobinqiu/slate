@@ -5,163 +5,56 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CallBoard
+ * Callboard
+ *
+ * @ORM\Table(name="callboard")
+ * @ORM\Entity
  */
-class CallBoard
+class Callboard
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=45, nullable=true)
      */
     private $title;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="content", type="string", length=45, nullable=true)
      */
     private $content;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="start_time", type="datetime", nullable=true)
      */
-    private $start_time;
+    private $startTime;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="end_time", type="datetime", nullable=true)
      */
-    private $end_time;
+    private $endTime;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=45, nullable=true)
      */
     private $url;
 
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set title
-     *
-     * @param \varchar $title
-     * @return CallBoard
-     */
-    public function setTitle(\varchar $title)
-    {
-        $this->title = $title;
-    
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return \varchar 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set content
-     *
-     * @param \varchar $content
-     * @return CallBoard
-     */
-    public function setContent(\varchar $content)
-    {
-        $this->content = $content;
-    
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return \varchar 
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * Set start_time
-     *
-     * @param \DateTime $startTime
-     * @return CallBoard
-     */
-    public function setStartTime($startTime)
-    {
-        $this->start_time = $startTime;
-    
-        return $this;
-    }
-
-    /**
-     * Get start_time
-     *
-     * @return \DateTime 
-     */
-    public function getStartTime()
-    {
-        return $this->start_time;
-    }
-
-    /**
-     * Set end_time
-     *
-     * @param \DateTime $endTime
-     * @return CallBoard
-     */
-    public function setEndTime($endTime)
-    {
-        $this->end_time = $endTime;
-    
-        return $this;
-    }
-
-    /**
-     * Get end_time
-     *
-     * @return \DateTime 
-     */
-    public function getEndTime()
-    {
-        return $this->end_time;
-    }
-
-    /**
-     * Set url
-     *
-     * @param \varchar $url
-     * @return CallBoard
-     */
-    public function setUrl(\varchar $url)
-    {
-        $this->url = $url;
-    
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return \varchar 
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
 }

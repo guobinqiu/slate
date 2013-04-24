@@ -1,0 +1,20 @@
+AdwAccessRecord:
+    type: entity
+    table: adw_access_record
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        time:
+            type: datetime
+            nullable: true
+        key:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+    lifecycleCallbacks: {  }

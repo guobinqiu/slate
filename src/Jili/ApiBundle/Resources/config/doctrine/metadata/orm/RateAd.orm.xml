@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="RateAd" table="rate_ad">
+    <id name="adId" type="integer" column="ad_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="incentiveRate" type="string" column="incentive_rate" length="45" nullable="true"/>
+  </entity>
+</doctrine-mapping>

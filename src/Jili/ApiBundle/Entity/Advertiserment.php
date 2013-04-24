@@ -6,392 +6,118 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Advertiserment
+ *
+ * @ORM\Table(name="advertiserment")
+ * @ORM\Entity
  */
 class Advertiserment
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var int
+     * @var integer
+     *
+     * @ORM\Column(name="type", type="integer", nullable=false)
      */
     private $type;
-    
-    /**
-     * @var int
-     */
-    private $show_flag;
 
     /**
-     * @var varchar
+     * @var integer
+     *
+     * @ORM\Column(name="show_flag", type="integer", nullable=false)
+     */
+    private $showFlag;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=45, nullable=true)
      */
     private $title;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created_time", type="datetime", nullable=true)
      */
-    private $created_time;
+    private $createdTime;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="start_time", type="datetime", nullable=true)
      */
-    private $start_time;
+    private $startTime;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="end_time", type="datetime", nullable=true)
      */
-    private $end_time;
+    private $endTime;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="update_time", type="datetime", nullable=true)
      */
-    private $update_time;
+    private $updateTime;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="content", type="string", length=10000, nullable=true)
      */
     private $content;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="imageurl", type="string", length=45, nullable=true)
      */
     private $imageurl;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="incentive _type", type="string", length=45, nullable=true)
      */
-    private $incentive;
+    private $incentiveType;
 
     /**
-     * @var varchar
-     */
-    private $_type;
-
-    /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="info", type="string", length=45, nullable=true)
      */
     private $info;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="income", type="string", length=45, nullable=true)
      */
     private $income;
 
     /**
-     * @var int
-     */
-    private $delete_flag;
-
-
-    /**
-     * Get id
+     * @var integer
      *
-     * @return integer 
+     * @ORM\Column(name="category", type="integer", nullable=false)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $category;
 
     /**
-     * Set type
+     * @var integer
      *
-     * @param \int $type
-     * @return Advertiserment
+     * @ORM\Column(name="delete_flag", type="integer", nullable=true)
      */
-    public function setType(\int $type)
-    {
-        $this->type = $type;
-    
-        return $this;
-    }
+    private $deleteFlag;
 
-    /**
-     * Get type
-     *
-     * @return \int 
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-    
-    
-    /**
-     * Set show_flag
-     *
-     * @param \int $type
-     * @return Advertiserment
-     */
-    public function setShow_flag(\int $show_flag)
-    {
-    	$this->show_flag = $show_flag;
-    
-    	return $this;
-    }
-    
-    /**
-     * Get show_flag
-     *
-     * @return \int
-     */
-    public function getShow_flag()
-    {
-    	return $this->show_flag;
-    }
 
-    /**
-     * Set title
-     *
-     * @param \varchar $title
-     * @return Advertiserment
-     */
-    public function setTitle(\varchar $title)
-    {
-        $this->title = $title;
-    
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return \varchar 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set created_time
-     *
-     * @param \DateTime $createdTime
-     * @return Advertiserment
-     */
-    public function setCreatedTime($createdTime)
-    {
-        $this->created_time = $createdTime;
-    
-        return $this;
-    }
-
-    /**
-     * Get created_time
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedTime()
-    {
-        return $this->created_time;
-    }
-
-    /**
-     * Set start_time
-     *
-     * @param \DateTime $startTime
-     * @return Advertiserment
-     */
-    public function setStartTime($startTime)
-    {
-        $this->start_time = $startTime;
-    
-        return $this;
-    }
-
-    /**
-     * Get start_time
-     *
-     * @return \DateTime 
-     */
-    public function getStartTime()
-    {
-        return $this->start_time;
-    }
-
-    /**
-     * Set end_time
-     *
-     * @param \DateTime $endTime
-     * @return Advertiserment
-     */
-    public function setEndTime($endTime)
-    {
-        $this->end_time = $endTime;
-    
-        return $this;
-    }
-
-    /**
-     * Get end_time
-     *
-     * @return \DateTime 
-     */
-    public function getEndTime()
-    {
-        return $this->end_time;
-    }
-
-    /**
-     * Set update_time
-     *
-     * @param \DateTime $updateTime
-     * @return Advertiserment
-     */
-    public function setUpdateTime($updateTime)
-    {
-        $this->update_time = $updateTime;
-    
-        return $this;
-    }
-
-    /**
-     * Get update_time
-     *
-     * @return \DateTime 
-     */
-    public function getUpdateTime()
-    {
-        return $this->update_time;
-    }
-
-    /**
-     * Set content
-     *
-     * @param \varchar $content
-     * @return Advertiserment
-     */
-    public function setContent(\varchar $content)
-    {
-        $this->content = $content;
-    
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return \varchar 
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * Set imageurl
-     *
-     * @param \varchar $imageurl
-     * @return Advertiserment
-     */
-    public function setImageurl(\varchar $imageurl)
-    {
-        $this->imageurl = $imageurl;
-    
-        return $this;
-    }
-
-    /**
-     * Get imageurl
-     *
-     * @return \varchar 
-     */
-    public function getImageurl()
-    {
-        return $this->imageurl;
-    }
-
-    /**
-     * Set incentive
-     *
-     * @param string $incentive
-     * @return Advertiserment
-     */
-    public function setIncentive($incentive)
-    {
-        $this->incentive = $incentive;
-    
-        return $this;
-    }
-
-    /**
-     * Get incentive
-     *
-     * @return string 
-     */
-    public function getIncentive()
-    {
-        return $this->incentive;
-    }
-
-    /**
-     * Set info
-     *
-     * @param \varchar $info
-     * @return Advertiserment
-     */
-    public function setInfo(\varchar $info)
-    {
-        $this->info = $info;
-    
-        return $this;
-    }
-
-    /**
-     * Get info
-     *
-     * @return \varchar 
-     */
-    public function getInfo()
-    {
-        return $this->info;
-    }
-
-    /**
-     * Set income
-     *
-     * @param \varchar $income
-     * @return Advertiserment
-     */
-    public function setIncome(\varchar $income)
-    {
-        $this->income = $income;
-    
-        return $this;
-    }
-
-    /**
-     * Get income
-     *
-     * @return \varchar 
-     */
-    public function getIncome()
-    {
-        return $this->income;
-    }
-
-    /**
-     * Set delete_flag
-     *
-     * @param \int $deleteFlag
-     * @return Advertiserment
-     */
-    public function setDeleteFlag(\int $deleteFlag)
-    {
-        $this->delete_flag = $deleteFlag;
-    
-        return $this;
-    }
-
-    /**
-     * Get delete_flag
-     *
-     * @return \int 
-     */
-    public function getDeleteFlag()
-    {
-        return $this->delete_flag;
-    }
 }

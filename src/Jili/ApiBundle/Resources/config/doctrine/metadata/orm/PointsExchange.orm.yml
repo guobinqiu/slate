@@ -1,0 +1,50 @@
+PointsExchange:
+    type: entity
+    table: points_exchange
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        userId:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: user_id
+        exchangeDate:
+            type: datetime
+            nullable: true
+            column: exchange_date
+        type:
+            type: integer
+            unsigned: false
+            nullable: false
+        account:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+        point:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+        exchangedPoint:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+            column: exchanged_point
+        status:
+            type: integer
+            unsigned: false
+            nullable: true
+        ip:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+    lifecycleCallbacks: {  }

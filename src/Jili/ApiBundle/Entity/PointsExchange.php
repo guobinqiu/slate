@@ -6,218 +6,76 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * PointsExchange
+ *
+ * @ORM\Table(name="points_exchange")
+ * @ORM\Entity
  */
 class PointsExchange
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var int
+     * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
-    private $user_id;
+    private $userId;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="exchange_date", type="datetime", nullable=true)
      */
-    private $exchange_date;
+    private $exchangeDate;
 
     /**
-     * @var int
+     * @var integer
+     *
+     * @ORM\Column(name="type", type="integer", nullable=false)
      */
     private $type;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="account", type="string", length=45, nullable=true)
      */
     private $account;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="point", type="string", length=45, nullable=true)
      */
     private $point;
 
     /**
-     * @var int
+     * @var string
+     *
+     * @ORM\Column(name="exchanged_point", type="string", length=45, nullable=true)
+     */
+    private $exchangedPoint;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="ip", type="string", length=45, nullable=true)
      */
     private $ip;
 
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set user_id
-     *
-     * @param \int $userId
-     * @return PointsExchange
-     */
-    public function setUserId(\int $userId)
-    {
-        $this->user_id = $userId;
-    
-        return $this;
-    }
-
-    /**
-     * Get user_id
-     *
-     * @return \int 
-     */
-    public function getUserId()
-    {
-        return $this->user_id;
-    }
-
-    /**
-     * Set exchange_date
-     *
-     * @param \DateTime $exchangeDate
-     * @return PointsExchange
-     */
-    public function setExchangeDate($exchangeDate)
-    {
-        $this->exchange_date = $exchangeDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get exchange_date
-     *
-     * @return \DateTime 
-     */
-    public function getExchangeDate()
-    {
-        return $this->exchange_date;
-    }
-
-    /**
-     * Set type
-     *
-     * @param \int $type
-     * @return PointsExchange
-     */
-    public function setType(\int $type)
-    {
-        $this->type = $type;
-    
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return \int 
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set account
-     *
-     * @param \varchar $account
-     * @return PointsExchange
-     */
-    public function setAccount(\varchar $account)
-    {
-        $this->account = $account;
-    
-        return $this;
-    }
-
-    /**
-     * Get account
-     *
-     * @return \varchar 
-     */
-    public function getAccount()
-    {
-        return $this->account;
-    }
-
-    /**
-     * Set point
-     *
-     * @param \varchar $point
-     * @return PointsExchange
-     */
-    public function setPoint(\varchar $point)
-    {
-        $this->point = $point;
-    
-        return $this;
-    }
-
-    /**
-     * Get point
-     *
-     * @return \varchar 
-     */
-    public function getPoint()
-    {
-        return $this->point;
-    }
-
-    /**
-     * Set status
-     *
-     * @param \int $status
-     * @return PointsExchange
-     */
-    public function setStatus(\int $status)
-    {
-        $this->status = $status;
-    
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return \int 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set ip
-     *
-     * @param \varchar $ip
-     * @return PointsExchange
-     */
-    public function setIp(\varchar $ip)
-    {
-        $this->ip = $ip;
-    
-        return $this;
-    }
-
-    /**
-     * Get ip
-     *
-     * @return \varchar 
-     */
-    public function getIp()
-    {
-        return $this->ip;
-    }
 }

@@ -6,78 +6,34 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * LimitAdResult
+ *
+ * @ORM\Table(name="limit_ad_result")
+ * @ORM\Entity
  */
 class LimitAdResult
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var int
-     */
-    private $limit_ad_id;
-
-    /**
-     * @var varchar
-     */
-    private $result_point;
-
-
-    /**
-     * Get id
+     * @var integer
      *
-     * @return integer 
+     * @ORM\Column(name="limit_ad_id", type="integer", nullable=false)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $limitAdId;
 
     /**
-     * Set limit_ad_id
+     * @var string
      *
-     * @param \int $limitAdId
-     * @return LimitAdResult
+     * @ORM\Column(name="result_point", type="string", length=45, nullable=true)
      */
-    public function setLimitAdId(\int $limitAdId)
-    {
-        $this->limit_ad_id = $limitAdId;
-    
-        return $this;
-    }
+    private $resultPoint;
 
-    /**
-     * Get limit_ad_id
-     *
-     * @return \int 
-     */
-    public function getLimitAdId()
-    {
-        return $this->limit_ad_id;
-    }
 
-    /**
-     * Set result_point
-     *
-     * @param \varchar $resultPoint
-     * @return LimitAdResult
-     */
-    public function setResultPoint(\varchar $resultPoint)
-    {
-        $this->result_point = $resultPoint;
-    
-        return $this;
-    }
-
-    /**
-     * Get result_point
-     *
-     * @return \varchar 
-     */
-    public function getResultPoint()
-    {
-        return $this->result_point;
-    }
 }

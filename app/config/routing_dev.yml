@@ -1,13 +1,13 @@
 _welcome:
     pattern:  /
-    defaults: { _controller: AcmeDemoBundle:Welcome:index }
+    defaults: { _controller: JiliApiBundle:Default:index }
 
 _demo_secured:
-    resource: "@AcmeDemoBundle/Controller/SecuredController.php"
+    resource: "@JiliApiBundle/Controller/DefaultController.php"
     type:     annotation
 
 _demo:
-    resource: "@AcmeDemoBundle/Controller/DemoController.php"
+    resource: "@JiliApiBundle/Controller/DefaultController.php"
     type:     annotation
     prefix:   /demo
 

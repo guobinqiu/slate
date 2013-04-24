@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="PointsExchange" table="points_exchange">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="userId" type="integer" column="user_id" nullable="false"/>
+    <field name="exchangeDate" type="datetime" column="exchange_date" nullable="true"/>
+    <field name="type" type="integer" column="type" nullable="false"/>
+    <field name="account" type="string" column="account" length="45" nullable="true"/>
+    <field name="point" type="string" column="point" length="45" nullable="true"/>
+    <field name="exchangedPoint" type="string" column="exchanged_point" length="45" nullable="true"/>
+    <field name="status" type="integer" column="status" nullable="true"/>
+    <field name="ip" type="string" column="ip" length="45" nullable="true"/>
+  </entity>
+</doctrine-mapping>

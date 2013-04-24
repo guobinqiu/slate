@@ -6,106 +6,41 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * LoginLog
+ *
+ * @ORM\Table(name="login_log")
+ * @ORM\Entity
  */
 class LoginLog
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var int
+     * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
-    private $user_id;
+    private $userId;
 
     /**
      * @var \DateTime
-     */
-    private $login_date;
-
-    /**
-     * @var varchar
-     */
-    private $login_ip;
-
-
-    /**
-     * Get id
      *
-     * @return integer 
+     * @ORM\Column(name="login_date", type="datetime", nullable=true)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $loginDate;
 
     /**
-     * Set user_id
+     * @var string
      *
-     * @param \int $userId
-     * @return LoginLog
+     * @ORM\Column(name="login_ip", type="string", length=45, nullable=true)
      */
-    public function setUserId(\int $userId)
-    {
-        $this->user_id = $userId;
-    
-        return $this;
-    }
+    private $loginIp;
 
-    /**
-     * Get user_id
-     *
-     * @return \int 
-     */
-    public function getUserId()
-    {
-        return $this->user_id;
-    }
 
-    /**
-     * Set login_date
-     *
-     * @param \DateTime $loginDate
-     * @return LoginLog
-     */
-    public function setLoginDate($loginDate)
-    {
-        $this->login_date = $loginDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get login_date
-     *
-     * @return \DateTime 
-     */
-    public function getLoginDate()
-    {
-        return $this->login_date;
-    }
-
-    /**
-     * Set login_ip
-     *
-     * @param \varchar $loginIp
-     * @return LoginLog
-     */
-    public function setLoginIp(\varchar $loginIp)
-    {
-        $this->login_ip = $loginIp;
-    
-        return $this;
-    }
-
-    /**
-     * Get login_ip
-     *
-     * @return \varchar 
-     */
-    public function getLoginIp()
-    {
-        return $this->login_ip;
-    }
 }

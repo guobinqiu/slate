@@ -1,0 +1,86 @@
+User:
+    type: entity
+    table: user
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        nick:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+        pwd:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+        sex:
+            type: integer
+            unsigned: false
+            nullable: true
+        birthday:
+            type: datetime
+            nullable: true
+        email:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+        isEmailConfirmed:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+            column: is_email_confirmed
+        tel:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+        isTelConfirmed:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+            column: is_tel_confirmed
+        city:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+        identityNum:
+            type: string
+            length: 40
+            fixed: false
+            nullable: true
+            column: identity_num
+        registerDate:
+            type: datetime
+            nullable: true
+            column: register_date
+        lastLoginDate:
+            type: datetime
+            nullable: true
+            column: last_login_date
+        lastLoginIp:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+            column: last_login_ip
+        points:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+        deleteFlag:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: delete_flag
+    lifecycleCallbacks: {  }

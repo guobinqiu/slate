@@ -1,0 +1,27 @@
+PointHistory00:
+    type: entity
+    table: point_history_00
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        userId:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: user_id
+        pointChangeNum:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+            column: point_change_num
+        reason:
+            type: integer
+            unsigned: false
+            nullable: false
+    lifecycleCallbacks: {  }

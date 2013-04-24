@@ -6,442 +6,125 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
+ *
+ * @ORM\Table(name="user")
+ * @ORM\Entity
  */
 class User
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="nick", type="string", length=45, nullable=true)
      */
     private $nick;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="pwd", type="string", length=45, nullable=true)
      */
     private $pwd;
 
     /**
-     * @var int
+     * @var integer
+     *
+     * @ORM\Column(name="sex", type="integer", nullable=true)
      */
     private $sex;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="birthday", type="datetime", nullable=true)
      */
     private $birthday;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=45, nullable=true)
      */
     private $email;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="is_email_confirmed", type="string", length=45, nullable=true)
      */
-    private $is_email_confirmed;
+    private $isEmailConfirmed;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="tel", type="string", length=45, nullable=true)
      */
     private $tel;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="is_tel_confirmed", type="string", length=45, nullable=true)
      */
-    private $is_tel_confirmed;
+    private $isTelConfirmed;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="city", type="string", length=45, nullable=true)
      */
     private $city;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="identity_num", type="string", length=40, nullable=true)
      */
-    private $identity_num;
+    private $identityNum;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="register_date", type="datetime", nullable=true)
      */
-    private $register_date;
+    private $registerDate;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="last_login_date", type="datetime", nullable=true)
      */
-    private $last_login_date;
+    private $lastLoginDate;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="last_login_ip", type="string", length=45, nullable=true)
      */
-    private $last_login_ip;
+    private $lastLoginIp;
 
     /**
-     * @var varchar
+     * @var string
+     *
+     * @ORM\Column(name="points", type="string", length=45, nullable=true)
      */
     private $points;
 
     /**
-     * @var int
-     */
-    private $delete_flag;
-
-
-    /**
-     * Get id
+     * @var integer
      *
-     * @return integer 
+     * @ORM\Column(name="delete_flag", type="integer", nullable=true)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $deleteFlag;
 
-    /**
-     * Set nick
-     *
-     * @param \varchar $nick
-     * @return User
-     */
-    public function setNick(\varchar $nick)
-    {
-        $this->nick = $nick;
-    
-        return $this;
-    }
 
-    /**
-     * Get nick
-     *
-     * @return \varchar 
-     */
-    public function getNick()
-    {
-        return $this->nick;
-    }
-
-    /**
-     * Set pwd
-     *
-     * @param \varchar $pwd
-     * @return User
-     */
-    public function setPwd(\varchar $pwd)
-    {
-        $this->pwd = $pwd;
-    
-        return $this;
-    }
-
-    /**
-     * Get pwd
-     *
-     * @return \varchar 
-     */
-    public function getPwd()
-    {
-        return $this->pwd;
-    }
-
-    /**
-     * Set sex
-     *
-     * @param \int $sex
-     * @return User
-     */
-    public function setSex(\int $sex)
-    {
-        $this->sex = $sex;
-    
-        return $this;
-    }
-
-    /**
-     * Get sex
-     *
-     * @return \int 
-     */
-    public function getSex()
-    {
-        return $this->sex;
-    }
-
-    /**
-     * Set birthday
-     *
-     * @param \DateTime $birthday
-     * @return User
-     */
-    public function setBirthday($birthday)
-    {
-        $this->birthday = $birthday;
-    
-        return $this;
-    }
-
-    /**
-     * Get birthday
-     *
-     * @return \DateTime 
-     */
-    public function getBirthday()
-    {
-        return $this->birthday;
-    }
-
-    /**
-     * Set email
-     *
-     * @param \varchar $email
-     * @return User
-     */
-    public function setEmail(\varchar $email)
-    {
-        $this->email = $email;
-    
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return \varchar 
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set is_email_confirmed
-     *
-     * @param \varchar $isEmailConfirmed
-     * @return User
-     */
-    public function setIsEmailConfirmed(\varchar $isEmailConfirmed)
-    {
-        $this->is_email_confirmed = $isEmailConfirmed;
-    
-        return $this;
-    }
-
-    /**
-     * Get is_email_confirmed
-     *
-     * @return \varchar 
-     */
-    public function getIsEmailConfirmed()
-    {
-        return $this->is_email_confirmed;
-    }
-
-    /**
-     * Set tel
-     *
-     * @param \varchar $tel
-     * @return User
-     */
-    public function setTel(\varchar $tel)
-    {
-        $this->tel = $tel;
-    
-        return $this;
-    }
-
-    /**
-     * Get tel
-     *
-     * @return \varchar 
-     */
-    public function getTel()
-    {
-        return $this->tel;
-    }
-
-    /**
-     * Set is_tel_confirmed
-     *
-     * @param \varchar $isTelConfirmed
-     * @return User
-     */
-    public function setIsTelConfirmed(\varchar $isTelConfirmed)
-    {
-        $this->is_tel_confirmed = $isTelConfirmed;
-    
-        return $this;
-    }
-
-    /**
-     * Get is_tel_confirmed
-     *
-     * @return \varchar 
-     */
-    public function getIsTelConfirmed()
-    {
-        return $this->is_tel_confirmed;
-    }
-
-    /**
-     * Set city
-     *
-     * @param \varchar $city
-     * @return User
-     */
-    public function setCity(\varchar $city)
-    {
-        $this->city = $city;
-    
-        return $this;
-    }
-
-    /**
-     * Get city
-     *
-     * @return \varchar 
-     */
-    public function getCity()
-    {
-        return $this->city;
-    }
-
-    /**
-     * Set identity_num
-     *
-     * @param \varchar $identityNum
-     * @return User
-     */
-    public function setIdentityNum(\varchar $identityNum)
-    {
-        $this->identity_num = $identityNum;
-    
-        return $this;
-    }
-
-    /**
-     * Get identity_num
-     *
-     * @return \varchar 
-     */
-    public function getIdentityNum()
-    {
-        return $this->identity_num;
-    }
-
-    /**
-     * Set register_date
-     *
-     * @param \DateTime $registerDate
-     * @return User
-     */
-    public function setRegisterDate($registerDate)
-    {
-        $this->register_date = $registerDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get register_date
-     *
-     * @return \DateTime 
-     */
-    public function getRegisterDate()
-    {
-        return $this->register_date;
-    }
-
-    /**
-     * Set last_login_date
-     *
-     * @param \DateTime $lastLoginDate
-     * @return User
-     */
-    public function setLastLoginDate($lastLoginDate)
-    {
-        $this->last_login_date = $lastLoginDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get last_login_date
-     *
-     * @return \DateTime 
-     */
-    public function getLastLoginDate()
-    {
-        return $this->last_login_date;
-    }
-
-    /**
-     * Set last_login_ip
-     *
-     * @param \varchar $lastLoginIp
-     * @return User
-     */
-    public function setLastLoginIp(\varchar $lastLoginIp)
-    {
-        $this->last_login_ip = $lastLoginIp;
-    
-        return $this;
-    }
-
-    /**
-     * Get last_login_ip
-     *
-     * @return \varchar 
-     */
-    public function getLastLoginIp()
-    {
-        return $this->last_login_ip;
-    }
-
-    /**
-     * Set points
-     *
-     * @param \varchar $points
-     * @return User
-     */
-    public function setPoints(\varchar $points)
-    {
-        $this->points = $points;
-    
-        return $this;
-    }
-
-    /**
-     * Get points
-     *
-     * @return \varchar 
-     */
-    public function getPoints()
-    {
-        return $this->points;
-    }
-
-    /**
-     * Set delete_flag
-     *
-     * @param \int $deleteFlag
-     * @return User
-     */
-    public function setDeleteFlag(\int $deleteFlag)
-    {
-        $this->delete_flag = $deleteFlag;
-    
-        return $this;
-    }
-
-    /**
-     * Get delete_flag
-     *
-     * @return \int 
-     */
-    public function getDeleteFlag()
-    {
-        return $this->delete_flag;
-    }
 }
