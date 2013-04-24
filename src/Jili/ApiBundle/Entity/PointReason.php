@@ -29,4 +29,37 @@ class PointReason
     private $reason;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set reason
+     *
+     * @param string $reason
+     * @return PointReason
+     */
+    public function setReason($reason)
+    {
+        $this->reason = $reason;
+    
+        return $this;
+    }
+
+    /**
+     * Get reason
+     *
+     * @return string 
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
 }

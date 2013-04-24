@@ -29,4 +29,37 @@ class RateAd
     private $incentiveRate;
 
 
+
+    /**
+     * Get adId
+     *
+     * @return integer 
+     */
+    public function getAdId()
+    {
+        return $this->adId;
+    }
+
+    /**
+     * Set incentiveRate
+     *
+     * @param string $incentiveRate
+     * @return RateAd
+     */
+    public function setIncentiveRate($incentiveRate)
+    {
+        $this->incentiveRate = $incentiveRate;
+    
+        return $this;
+    }
+
+    /**
+     * Get incentiveRate
+     *
+     * @return string 
+     */
+    public function getIncentiveRate()
+    {
+        return $this->incentiveRate;
+    }
 }

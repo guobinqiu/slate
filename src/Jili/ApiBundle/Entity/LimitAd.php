@@ -29,4 +29,37 @@ class LimitAd
     private $incentive;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set incentive
+     *
+     * @param string $incentive
+     * @return LimitAd
+     */
+    public function setIncentive($incentive)
+    {
+        $this->incentive = $incentive;
+    
+        return $this;
+    }
+
+    /**
+     * Get incentive
+     *
+     * @return string 
+     */
+    public function getIncentive()
+    {
+        return $this->incentive;
+    }
 }

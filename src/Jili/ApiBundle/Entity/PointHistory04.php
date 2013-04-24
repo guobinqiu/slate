@@ -43,4 +43,83 @@ class PointHistory04
     private $reason;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     * @return PointHistory04
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set pointChangeNum
+     *
+     * @param string $pointChangeNum
+     * @return PointHistory04
+     */
+    public function setPointChangeNum($pointChangeNum)
+    {
+        $this->pointChangeNum = $pointChangeNum;
+    
+        return $this;
+    }
+
+    /**
+     * Get pointChangeNum
+     *
+     * @return string 
+     */
+    public function getPointChangeNum()
+    {
+        return $this->pointChangeNum;
+    }
+
+    /**
+     * Set reason
+     *
+     * @param integer $reason
+     * @return PointHistory04
+     */
+    public function setReason($reason)
+    {
+        $this->reason = $reason;
+    
+        return $this;
+    }
+
+    /**
+     * Get reason
+     *
+     * @return integer 
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
 }

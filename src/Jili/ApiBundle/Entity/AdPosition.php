@@ -43,4 +43,83 @@ class AdPosition
     private $adId;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return AdPosition
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set position
+     *
+     * @param integer $position
+     * @return AdPosition
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return integer 
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set adId
+     *
+     * @param integer $adId
+     * @return AdPosition
+     */
+    public function setAdId($adId)
+    {
+        $this->adId = $adId;
+    
+        return $this;
+    }
+
+    /**
+     * Get adId
+     *
+     * @return integer 
+     */
+    public function getAdId()
+    {
+        return $this->adId;
+    }
 }

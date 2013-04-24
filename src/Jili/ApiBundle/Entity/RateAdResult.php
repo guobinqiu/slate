@@ -43,4 +43,83 @@ class RateAdResult
     private $resultPoint;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     * @return RateAdResult
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set rateAdId
+     *
+     * @param integer $rateAdId
+     * @return RateAdResult
+     */
+    public function setRateAdId($rateAdId)
+    {
+        $this->rateAdId = $rateAdId;
+    
+        return $this;
+    }
+
+    /**
+     * Get rateAdId
+     *
+     * @return integer 
+     */
+    public function getRateAdId()
+    {
+        return $this->rateAdId;
+    }
+
+    /**
+     * Set resultPoint
+     *
+     * @param string $resultPoint
+     * @return RateAdResult
+     */
+    public function setResultPoint($resultPoint)
+    {
+        $this->resultPoint = $resultPoint;
+    
+        return $this;
+    }
+
+    /**
+     * Get resultPoint
+     *
+     * @return string 
+     */
+    public function getResultPoint()
+    {
+        return $this->resultPoint;
+    }
 }

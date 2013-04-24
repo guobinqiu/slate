@@ -43,4 +43,83 @@ class BlackUsers
     private $status;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     * @return BlackUsers
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set blackedDate
+     *
+     * @param \DateTime $blackedDate
+     * @return BlackUsers
+     */
+    public function setBlackedDate($blackedDate)
+    {
+        $this->blackedDate = $blackedDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get blackedDate
+     *
+     * @return \DateTime 
+     */
+    public function getBlackedDate()
+    {
+        return $this->blackedDate;
+    }
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     * @return BlackUsers
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 }

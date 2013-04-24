@@ -29,4 +29,37 @@ class ActionType
     private $actionType;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set actionType
+     *
+     * @param string $actionType
+     * @return ActionType
+     */
+    public function setActionType($actionType)
+    {
+        $this->actionType = $actionType;
+    
+        return $this;
+    }
+
+    /**
+     * Get actionType
+     *
+     * @return string 
+     */
+    public function getActionType()
+    {
+        return $this->actionType;
+    }
 }

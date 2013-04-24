@@ -36,4 +36,60 @@ class LimitAdResult
     private $resultPoint;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set limitAdId
+     *
+     * @param integer $limitAdId
+     * @return LimitAdResult
+     */
+    public function setLimitAdId($limitAdId)
+    {
+        $this->limitAdId = $limitAdId;
+    
+        return $this;
+    }
+
+    /**
+     * Get limitAdId
+     *
+     * @return integer 
+     */
+    public function getLimitAdId()
+    {
+        return $this->limitAdId;
+    }
+
+    /**
+     * Set resultPoint
+     *
+     * @param string $resultPoint
+     * @return LimitAdResult
+     */
+    public function setResultPoint($resultPoint)
+    {
+        $this->resultPoint = $resultPoint;
+    
+        return $this;
+    }
+
+    /**
+     * Get resultPoint
+     *
+     * @return string 
+     */
+    public function getResultPoint()
+    {
+        return $this->resultPoint;
+    }
 }
