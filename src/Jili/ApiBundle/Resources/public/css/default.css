@@ -1,0 +1,122 @@
+/* CSS Document */
+body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, textarea, p, blockquote, th, td {
+	margin: 0;
+	padding: 0;
+}
+body {
+	color: #666;
+	background-color:#f6f6f6;
+	font-size: 12px;
+	line-height:150%;
+	font-family:"宋体";
+}
+h1, h2, h3, h4, h5, h6, small, sub, sup {
+	font-size: 100%;
+}
+a {
+	color: #333;
+	cursor: pointer;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration:underline;
+}
+ul {
+	list-style: none outside none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+img {
+	border: 0 none;
+}
+input, textarea {
+	border: medium none;
+	outline: 0 none;
+	resize: none;
+}
+header {
+	background-color:#EA4B11;
+}
+header section{
+	width:960px;
+	height:70px;
+	margin:auto;
+	position:relative;
+}
+header #logo {
+	width: 134px;
+	height: 45px;
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	background-image:url(../images/logo_bg.gif);
+	text-align:center;
+	padding-top:12px;
+}
+header nav#menu {
+	margin-left:180px;
+	padding-top: 35px;
+}
+header nav#menu ul li{
+	float:left;
+	border-right:1px dotted #FFF;
+	padding: 0 10px;
+}
+header nav#menu ul li.last{
+	border-right:none;
+}
+header nav#menu ul li a{
+	color:#FFF;
+	font-size:16px;
+	padding:3px 10px;
+	display:inline-block;
+}
+header nav#menu ul li a:hover{
+	background-color:#cc380c;
+	text-decoration:none;
+}
+header nav#user {
+	position:absolute;
+	top:3px;
+	right:3px;
+}
+header nav#user a{
+	color:#FFF;
+	display:inline-block;
+	margin-left:10px;
+	background-repeat:no-repeat;
+	text-indent:13px;
+}
+header nav#user a.log{
+	background-image:url(../images/log_ico.gif);
+	background-position:0px 5px;
+}
+header nav#user a.reg{
+	background-image:url(../images/sign_ico.gif);
+	background-position:0px 4px;
+}
+footer{
+	background-color:#ececec;
+	color:#666;
+	margin:0;
+}
+footer section{
+	height: 20px;
+    margin: 0 auto;
+    padding: 40px;
+    position: relative;
+    text-align: center;
+    width: 960px;
+}
+footer section a, footer section span{
+	margin:10px;
+	color:#666;
+}
+.webArticle {
+	width: 960px;
+	margin: auto;
+	padding:0 0 50px 0;
+	display:table;
+}

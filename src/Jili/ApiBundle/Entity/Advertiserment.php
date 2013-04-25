@@ -87,7 +87,7 @@ class Advertiserment
     /**
      * @var string
      *
-     * @ORM\Column(name="incentive _type", type="string", length=45, nullable=true)
+     * @ORM\Column(name="incentive_type", type="string", length=45, nullable=true)
      */
     private $incentiveType;
 

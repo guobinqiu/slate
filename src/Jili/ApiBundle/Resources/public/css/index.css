@@ -1,0 +1,145 @@
+.index section.one, .index section.process, .index section.main {
+	margin: 20px 0 0px 0;
+	display: inline-block;
+	position:relative;
+}
+.index section.one #banner {
+	width: 722px;
+	height: 250px;
+	overflow:hidden;
+	float: left;
+	position:relative;
+}
+.index section.one #banner ul.bannerImg {
+	position:absolute;
+}
+.index section.one #banner ul.bannerImg li{
+	width: 722px;
+	height: 250px;
+}
+.index section.one #banner div.bannerNumber{
+	position:absolute;
+	right:10px;
+	bottom:10px;
+}
+.index section.one #banner div.bannerNumber a{
+	width:20px;
+	height:20px;
+	display:inline-block;
+	text-align:center;
+	line-height:20px;
+	color:#ee472c;
+	background-color:#FFF;
+	margin-left:5px;
+}
+.index section.one #banner div.bannerNumber a:hover, .index section.one #banner div.bannerNumber a.hover{
+	color:#FFF;
+	background-color:#ee472c;
+	text-decoration:none;
+}
+.index section.one #userInformation {
+	float: left;
+	background-color: #FFF;
+	border: 1px solid #ececec;
+	border-left: none;
+	width: 237px;
+	height: 250px;
+	box-shadow: 3px 0 1px #DDDDDD inset;
+}
+.index section.main article {
+	width: 723px;
+	_margin-right:-15px;
+	float:left;
+	display:inline-block;
+}
+.index section.main article h2 {
+	position: relative;
+	margin: 0 15px 0 0;
+	height:30px;
+}
+.index section.main article h2 a.more {
+	position: absolute;
+	right: 0px;
+	bottom: 5px;
+	font-size: 12px;
+	color:#666666;
+	font-weight:normal;
+}
+.index section.main article div.task {
+	width: 200px;
+	padding: 10px 10px 5px 10px;
+	float: left;
+	border: 3px solid #ececec;
+	margin: 0 15px 15px 0;
+	background-color: #FFF;
+}
+.index section.main article div.task:hover{
+	border: 3px solid #ea4b11;
+}
+.index section.main article div.task img{
+	margin:0 0 5px 0;
+}
+.index section.main article div.task h3 {
+	position: relative;
+	color: #ec4920;
+}
+.index section.main article div.task p span {
+	font-weight: bold;
+	color: #ec4920;
+}
+.index section.main aside {
+	float:left;
+	width: 237px;
+	margin-top: 30px;
+}
+.index section.main aside section {
+	border: 1px solid #ececec;
+	background-color: #FFF;
+	margin: 0 0 15px 0;
+}
+.index section.main aside section h4 {
+	border-bottom: 1px solid #ECECEC;
+    color: #333333;
+    font-size: 14px;
+    height: 20px;
+    padding: 12px 5px 5px 10px;
+    position: relative;
+}
+.index section.main aside section h4 a.more {
+	position: absolute;
+	right: 10px;
+	bottom: 5px;
+	font-size: 12px;
+	color:#666666;
+	font-weight:normal;
+}
+.index section.main aside section ul {
+	width: 90%;
+	overflow: hidden;
+	margin: auto;
+}
+.index section.main aside section ul.news a span {
+	color: #ec4920;
+}
+.index section.main aside section ul.news a {
+	color: #666666;
+}
+.index section.main aside section ul.news a:hover{
+	text-decoration:none;
+}
+.index section.main aside section ul.timeline a {
+	color: #ec4920;
+	margin-right: 5px;
+}
+.index section.main aside section ul.timeline font {
+	color: #54b9e8;
+	margin: 0 5px;
+}
+.index section.main aside section li {
+	height:30px;
+	line-height: 30px;
+	border-bottom: 1px solid #ececec;
+}
+.index section.main aside section li.last{
+	border-bottom: none;
+}
