@@ -1,6 +1,6 @@
-_welcome:
-    pattern:  /
-    defaults: { _controller: JiliApiBundle:Default:index }
+# _welcome:
+#   pattern:  / 
+#   defaults: { _controller: JiliApiBundle:Default:index }
 
 _demo_secured:
     resource: "@JiliApiBundle/Controller/DefaultController.php"

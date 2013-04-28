@@ -1,3 +1,11 @@
-jili_api_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: JiliApiBundle:Default:index }
+post:
+    resource: "@JiliApiBundle/Controller/DefaultController.php"
+    type:     annotation
+user:
+    resource: "@JiliApiBundle/Controller/UserController.php"
+    prefix:   /user
+    type:     annotation   
+advertiserment:
+    resource: "@JiliApiBundle/Controller/AdvertisermentController.php"
+    prefix:   /advertiserment
+    type:     annotation
