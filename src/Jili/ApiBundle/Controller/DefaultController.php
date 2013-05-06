@@ -15,10 +15,14 @@ class DefaultController extends Controller
 	 */
     public function indexAction()
     {
-    	$em = $this->getDoctrine()->getManager();
-        $sql = 'select ad.type,ad.position,a.title,a.content from ad_position ad inner join advertiserment a on ad.ad_id = a.id';
+//     	$em = $this->getDoctrine()->getManager();
+//      $sql = 'select ad.type,ad.position,a.title,a.content from ad_position ad inner join advertiserment a on ad.ad_id = a.id';
         
-        $advertise = $em->getConnection()->executeQuery($sql)->fetchAll();
+//      $advertise = $em->getConnection()->executeQuery($sql)->fetchAll();
+    	$em = $this->getDoctrine()->getManager();
+    	$sql = 'select ad.id,ad.title,ad.content,ad.info,a.type,a.position from advertiserment ad inner join ad_position a on ad.id = a.ad_id';
+    	$advertise = $em->getConnection()->executeQuery($sql)->fetchAll();
+    	
     	foreach ($advertise as $k=>$v){
     		if($v['type']==0){
     			$arr['advertise_banner'][] = $v;

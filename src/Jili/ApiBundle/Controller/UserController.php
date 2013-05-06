@@ -19,8 +19,19 @@ class UserController extends Controller
 		return $this->render('JiliApiBundle:User:index.html.twig',$arr);
 	}
 	
+	/**
+	 * @Route("/update/{id}", name="_user_update")
+	 */
+	public function updateAction($id)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$product = $em->getRepository('JiliApiBundle:User')->find($id);
+		
+		$product->setSex('');
+        $em->flush();
+		return $this->render('JiliApiBundle:User:update.html.twig',$arr);
+	}
 	
 	
-    
-    
+	
 }

@@ -18,7 +18,7 @@
     <nav id="menu">
       <ul>
         <li><a href="#">首页</a></li>
-        <li><a href="#">体验广告</a></li>
+        <li><a href="{{ path('_advertiserment_list')}}">体验广告</a></li>
         <li><a href="#">兑换中心</a></li>
         <li><a href="#">关于我们</a></li>
         <li class="last"><a href="#">帮助中心</a></li>
@@ -50,7 +50,7 @@
         	{% for item in advertise %}
                <div class="task">
                {{  item.content | raw  }}
-                <h3>{{ item.title }}</h3>
+                <h3><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.title }}</a></h3>
                 <p>任务奖励：<span>500</span>积分</p>
             </div>
             {% endfor %}
@@ -58,7 +58,7 @@
     </article>
     	<aside>
         	<section>
-            	<h4>公告<a class="more" href="#">更多>></a></h4>
+            	<h4>公告<a class="more" href="{{ path('_advertiserment_list')}}">更多>></a></h4>
               <ul class="news">
                 	<li><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>
                     <li><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>
