@@ -36,6 +36,9 @@ input, textarea {
 	outline: 0 none;
 	resize: none;
 }
+.clear{
+	clear:both;
+}
 header {
 	background-color:#EA4B11;
 }
