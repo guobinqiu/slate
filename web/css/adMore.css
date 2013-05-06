@@ -1,0 +1,82 @@
+.adMore{
+	margin-top:30px;
+}
+.adMore article{
+	width: 955px;
+	height:819px;
+	display: inline-block;
+	background-image:url(../images/adMoreBg.jpg);
+}
+.adMore article div.adTitle{
+	width:80%;
+	margin:50px auto 20px auto;
+	height:100px;
+	position:relative;
+}
+.adMore article div.rule, .adMore article div.explain{
+	background-color: #F7F5F2;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 10px #CCCCCC inset;
+    margin: 20px auto;
+    padding: 0 0 20px;
+    width: 80%;
+	text-align:center;
+}
+.adMore article div.rule h2, .adMore article div.explain h2{
+	border-bottom: 1px solid #EDE4DF;
+    color: #EA4B11;
+    font-size: 16px;
+    margin: 0 auto;
+    padding: 20px 0 10px;
+    width: 90%;
+	text-align:left;
+}
+.adMore article div.rule .article, .adMore article div.explain .article{
+	border-top: 1px solid #FFFFFF;
+    margin: 0 auto;
+    width: 90%;
+	padding: 10px 0 0;
+	display:inline-block;
+	text-align:left;
+}
+.adMore article div.rule .article h3{
+	font-size:14px;
+	font-weight:bold;
+	color:#666;
+	line-height:200%;
+	margin:5px 0;
+}
+.adMore article div.rule .article p, .adMore article div.explain p{
+	font-size:14px;
+	color:#666;
+	line-height:200%;
+}
+.adMore article div.explain div.img{
+	float: left;
+    margin: 0 20px 0 0;
+}
+.adTitle h1{
+	color: #E87400;
+    font-size: 24px;
+    margin-bottom: 30px;
+	line-height:24px;
+}
+.adTitle p{
+	color: #E87400;
+    font-size: 14px;
+    margin: 10px 0;
+}
+.adTitle p span{
+	font-weight:bold;
+	color:#666666;
+}
+.adTitle a.getBtn{
+	background-image: url("../images/getBtn.jpg");
+    display: inline-block;
+    height: 73px;
+    position: absolute;
+    right: 60px;
+    text-indent: -9999px;
+    top: 10px;
+    width: 213px;
+}
