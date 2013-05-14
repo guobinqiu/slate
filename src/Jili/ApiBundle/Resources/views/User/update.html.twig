@@ -1,3 +1,106 @@
-{{ user.id }}
-{{ user.nick }}
-{{ user.email }}
+  <form action="{{ path('_user_update',{'id':user.id}) }}" method="post" {{ form_enctype(form) }}>
+ <section>
+    <h3>个人信息<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
+    <div class="content info">
+      <a class="edit" href="#">修改 »</a>
+      <ul>
+        <li>
+          <dd>登录账号：</dd>
+          <dt>{{ user.email }}  </dt>
+        </li>
+        <li>
+          <dd>昵  称：</dd>
+          <dt>
+              {{ form_row(form.nick) }}
+          </dt>
+        </li>
+        <li>
+          <dd>性  别：</dd>
+          <dt>
+            {{ form_row(form.sex) }}
+</dt>
+        </li>
+        <li>
+          <dd>生  日：</dd>
+          <dt>
+            <select name="">
+              <option>1999</option>
+              <option>2000</option>
+              <option>2001</option>
+              <option>2002</option>
+            </select>
+            <select name="">
+              <option>04</option>
+            </select>
+            <select name="">
+              <option>23</option>
+            </select>
+          </dt>
+        </li>
+        <li>
+          <dd>手机号码：</dd>
+          <dt>
+            <input name="" type="text">
+          </dt>
+        </li>
+        <li>
+          <dd>现居住地：</dd>
+          <dt>
+            <select name="">
+              <option>--</option>
+            </select>
+            省
+            <select name="">
+              <option>--</option>
+            </select>
+            市</dt>
+        </li>
+        <li>
+          <dd>学  历：</dd>
+          <dt>
+            <select name="">
+              <option>请选择</option>
+            </select>
+          </dt>
+        </li>
+        <li>
+          <dd>职  业：</dd>
+          <dt>
+            <select name="">
+              <option>请选择</option>
+            </select>
+          </dt>
+        </li>
+        <li>
+          <dd>兴趣爱好：</dd>
+          <dt>
+            <input name="" type="checkbox" value="">
+            音乐
+            <input name="" type="checkbox" value="">
+            运动
+            <input name="" type="checkbox" value="">
+            旅游
+            <input name="" type="checkbox" value="">
+            电影
+            <input name="" type="checkbox" value="">
+            健康
+            <input name="" type="checkbox" value="">
+            购物
+            <input name="" type="checkbox" value="">
+            美食</dt>
+        </li>
+        <li>
+          <dd>个性说明：</dd>
+          <dt>
+            <textarea name="" cols="" rows="6"></textarea>
+          </dt>
+        </li>
+        <li>
+          <dd>&nbsp;</dd>
+          <dt>
+            <input name="保存" type="submit" value="保存">
+          </dt>
+        </li>
+      </ul>
+    </div>
+  </section></form>

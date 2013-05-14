@@ -1,4 +1,3 @@
 jili_api:
     resource: "@JiliApiBundle/Resources/config/routing.yml"
-    prefix:   /
 

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PointsExchange
  *
  * @ORM\Table(name="points_exchange")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\PointsExchangeRepository")
  */
 class PointsExchange
 {

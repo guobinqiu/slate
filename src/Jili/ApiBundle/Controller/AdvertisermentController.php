@@ -3,7 +3,8 @@ namespace Jili\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Jili\ApiBundle\Entity\AdwAccessRecord ;
+use Jili\ApiBundle\Entity\AdwAccessRecord;
+use Jili\ApiBundle\Entity\Advertiserment;
 
 class AdvertisermentController extends Controller
 {
@@ -12,10 +13,9 @@ class AdvertisermentController extends Controller
 	 */
 	public function infoAction($id)
 	{
-		$advertiserment= $this->getAdvertiseInfo($id);
-		$arr['advertiserment'] = $advertiserment;
-// 		echo "<pre>";
-// 		print_r($advertiserment);
+		$em = $this->getDoctrine()->getManager();
+		$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
+        $arr['advertiserment'] = $advertiserment;
 		return $this->render('JiliApiBundle:Advertiserment:info.html.twig',$arr);
 	}
 	/**
@@ -23,31 +23,27 @@ class AdvertisermentController extends Controller
 	 */
 	public function listAction(){
 		$em = $this->getDoctrine()->getManager();
-		$sql = 'select ad.id,ad.title,ad.content,ad.info,a.type,a.position from advertiserment ad inner join ad_position a on ad.id = a.ad_id';
-		$advertise = $em->getConnection()->executeQuery($sql)->fetchAll();
+		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
+		$advertise = $repository->getAdvertiserment();
+
 		$arr['advertiserment'] = $advertise;
-// 		echo "<pre>";
-// 		print_r($arr);
+
 		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
-	}
-	
-	//获取广告列表
-	private function getAdvertiseInfo($id){
-		$em = $this->getDoctrine()->getManager();
-		$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-		return $advertiserment;
-		
 	}
 	
 	/**
 	 * @Route("/click/{id}", name="_advertiserment_click")
 	 */
 	public function clickAction($id){
-// 		$advertiserment= $this->getAdvertiseInfo($id);
+
+// 		$em = $this->getDoctrine()->getManager();
+// 		$sql = 'select ad.title,ad.content,a.type,a.position from advertiserment ad inner join ad_position a on ad.id = a.ad_id where ad.id=:id';
+// 		$advertise = $em->getConnection()->executeQuery($sql,array('id'=>$id))->fetchAll();
 
 		$em = $this->getDoctrine()->getManager();
-		$sql = 'select ad.title,ad.content,a.type,a.position from advertiserment ad inner join ad_position a on ad.id = a.ad_id where ad.id=:id';
-		$advertise = $em->getConnection()->executeQuery($sql,array('id'=>$id))->fetchAll();
+		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
+		$advertise = $repository->getAdvertiserment(1);
+		
 // 		$param = array(
 // 				'date'=>date('Ymd'),
 // 				'time'=>date('His'),
@@ -85,7 +81,7 @@ class AdvertisermentController extends Controller
 				'sig'=>'f754bc8afdc96f4dbf47c4ef613dfefa',
 		);
 
-		print_r($this->getStatus($param));
+// 		print_r($this->getStatus($param));
 		
 // 		$adwAccessRecord = new AdwAccessRecord();
 // 		$datetime = array('date'=>date('Y-m-d H:i:s'),'timezone_type'=>3,'timezone'=>'Europe/Berlin');

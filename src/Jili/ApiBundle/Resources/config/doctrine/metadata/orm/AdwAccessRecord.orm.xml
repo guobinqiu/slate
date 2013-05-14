@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="AdwAccessRecord" table="adw_access_record">
+  <entity name="Jili\ApiBundle\Entity\AdwAccessRecord">
     <id name="id" type="integer" column="id">
-      <generator strategy="IDENTITY"/>
+      <generator strategy="AUTO"/>
     </id>
-    <field name="time" type="datetime" column="time" nullable="true"/>
-    <field name="key" type="string" column="key" length="45" nullable="true"/>
+    <field name="userid" type="integer" column="userid"/>
+    <field name="adid" type="integer" column="adid"/>
+    <field name="action" type="string" column="action" length="45"/>
+    <field name="time" type="datetime" column="time"/>
+    <field name="key" type="string" column="key" length="45"/>
   </entity>
 </doctrine-mapping>

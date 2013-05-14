@@ -1,5 +1,6 @@
-post:
+default:
     resource: "@JiliApiBundle/Controller/DefaultController.php"
+    prefix:   /
     type:     annotation
 user:
     resource: "@JiliApiBundle/Controller/UserController.php"
@@ -8,4 +9,8 @@ user:
 advertiserment:
     resource: "@JiliApiBundle/Controller/AdvertisermentController.php"
     prefix:   /advertiserment
+    type:     annotation
+callboard:
+    resource: "@JiliApiBundle/Controller/CallboardController.php"
+    prefix:   /callboard
     type:     annotation

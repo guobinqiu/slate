@@ -1,7 +1,6 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-
 framework:
     #esi:             ~
     #translator:      { fallback: %locale% }
@@ -71,3 +70,6 @@ swiftmailer:
     username:   quickresearch_1@163.com
     password:   quickresearch
 
+parameters:
+    upload_tmp_dir: uploads/user/
+    page_num: 10

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Advertiserment
  *
  * @ORM\Table(name="advertiserment")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\AdvertisermentRepository")
  */
 class Advertiserment
 {

@@ -1,6 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/Jili/ApiBundle/Resources/views/Default/email.txt.twig=UTF-8
 encoding//src/Jili/ApiBundle/Resources/views/Default/index.html.twig=UTF-8
-encoding//src/Jili/ApiBundle/Resources/views/Default/login.html.twig.twig=UTF-8
-encoding//src/Jili/ApiBundle/Resources/views/Default/mission.html.twig=UTF-8
-encoding//src/Jili/ApiBundle/Resources/views/Default/reg.html.twig=UTF-8
+encoding//src/Jili/ApiBundle/Resources/views/User/login.html.twig=UTF-8
+encoding//src/Jili/ApiBundle/Resources/views/User/mission.html.twig=UTF-8
+encoding//src/Jili/ApiBundle/Resources/views/User/reg.html.twig=UTF-8

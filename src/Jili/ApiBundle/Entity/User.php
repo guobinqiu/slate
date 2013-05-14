@@ -3,6 +3,8 @@
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+// use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * User
@@ -12,6 +14,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
+	public $attachment;
+	
+	public function __construct() {
+		$this->registerDate = new \DateTime();
+		$this->lastLoginDate = new \DateTime();
+	}
+	
     /**
      * @var integer
      *
@@ -43,9 +52,9 @@ class User
     private $sex;
 
     /**
-     * @var \DateTime
+     * @var date
      *
-     * @ORM\Column(name="birthday", type="datetime", nullable=true)
+     * @ORM\Column(name="birthday", type="date", nullable=true)
      */
     private $birthday;
 
@@ -83,6 +92,34 @@ class User
      * @ORM\Column(name="city", type="string", length=45, nullable=true)
      */
     private $city;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="education", type="string", length=45, nullable=true)
+     */
+    private $education;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="profession", type="string", length=45, nullable=true)
+     */
+    private $profession;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hobby", type="string", length=45, nullable=true)
+     */
+    private $hobby;
+   
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="personalDes", type="string", length=45, nullable=true)
+     */
+    private $personalDes;
 
     /**
      * @var string
@@ -92,14 +129,14 @@ class User
     private $identityNum;
 
     /**
-     * @var \DateTime
+     * @var datetime $registerDate
      *
      * @ORM\Column(name="register_date", type="datetime", nullable=true)
      */
     private $registerDate;
 
     /**
-     * @var \DateTime
+     *@var datetime $lastLoginDate
      *
      * @ORM\Column(name="last_login_date", type="datetime", nullable=true)
      */
@@ -126,8 +163,78 @@ class User
      */
     private $deleteFlag;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="flag", type="integer", nullable=false)
+     */
+    private $flag;
 
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="path", type="string",length=255, nullable=true)
+     */
+    private $path;
 
+    
+/**
+     * upload image to temp dir
+     */
+    public function upload($upload_dir)
+    {
+        $fileNames = array('attachment');
+        
+        $upload_dir .= $this->getId()%100;
+        if(!is_dir($upload_dir)){
+        	mkdir($upload_dir,0777);
+        }
+        $upload_dir.='/';
+        foreach ($fileNames as $key=>$fileName){
+        	$filename_upload = '';
+        	if (null === $this->$fileName) {
+	            unset($fileNames[$key]);
+	            continue ;
+	        }
+	        $field = 'path';
+	        switch ($fileName){
+	        	case 'attachment':$field = 'path';break;
+	        }    
+	    
+	        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+	        
+	        $this->$fileName->move($upload_dir, $filename_upload);
+	
+	        $this->$field = $upload_dir.$filename_upload;
+			
+	        $this->$fileName = null;
+        }
+    }
+    
+    
+     /**
+     * Set path
+     *
+     * @param string $path
+     * @return User
+     */
+    public function setPath($path)
+    {
+    	$this->path = $path;
+    }
+    
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+    	return $this->path;
+    }
+    
+    
     /**
      * Get id
      *
@@ -169,7 +276,7 @@ class User
      */
     public function setPwd($pwd)
     {
-        $this->pwd = $pwd;
+        $this->pwd = $this->pw_encode($pwd);
     
         return $this;
     }
@@ -182,6 +289,21 @@ class User
     public function getPwd()
     {
         return $this->pwd;
+    }
+    
+    /**
+     * sha1 pwd
+     *
+     * @return string
+     */
+    public function pw_encode($pwd)
+    {
+    	$seed = '';
+    	for ($i = 1; $i <= 9; $i++)
+    		$seed .= sha1($pwd.'0123456789abcdef');
+    		for ($i = 1; $i <= 11; $i++)
+    		$seed .= sha1($seed);
+    		return sha1($seed);
     }
 
     /**
@@ -196,6 +318,8 @@ class User
     
         return $this;
     }
+    
+    
 
     /**
      * Get sex
@@ -330,20 +454,118 @@ class User
      */
     public function setCity($city)
     {
-        $this->city = $city;
+    	$this->city = $city;
     
-        return $this;
+    	return $this;
     }
-
+    
     /**
      * Get city
      *
-     * @return string 
+     * @return string
      */
     public function getCity()
     {
-        return $this->city;
+    	return $this->city;
     }
+    
+    
+    /**
+     * Set education
+     *
+     * @param string $education
+     * @return User
+     */
+    public function setEducation($education)
+    {
+    	$this->education = $education;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get education
+     *
+     * @return string
+     */
+    public function getEducation()
+    {
+    	return $this->education;
+    }
+    
+    
+    /**
+     * Set profession
+     *
+     * @param string $profession
+     * @return User
+     */
+    public function setProfession($profession)
+    {
+    	$this->profession = $profession;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get profession
+     *
+     * @return string
+     */
+    public function getProfession()
+    {
+    	return $this->profession;
+    }
+    
+    
+    /**
+     * Set hobby
+     *
+     * @param string $hobby
+     * @return User
+     */
+    public function setHobby($hobby)
+    {
+    	$this->hobby = $hobby;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get hobby
+     *
+     * @return string
+     */
+    public function getHobby()
+    {
+    	return $this->hobby;
+    }
+    
+    
+    /**
+     * Set personalDes
+     *
+     * @param string $personalDes
+     * @return User
+     */
+    public function setPersonalDes($personalDes)
+    {
+    	$this->personalDes = $personalDes;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get personalDes
+     *
+     * @return string
+     */
+    public function getPersonalDes()
+    {
+    	return $this->personalDes;
+    }
+    
+    
 
     /**
      * Set identityNum
@@ -482,4 +704,31 @@ class User
     {
         return $this->deleteFlag;
     }
+    
+    
+    /**
+     * Set flag
+     *
+     * @param integer $flag
+     * @return User
+     */
+    public function setFlag($flag)
+    {
+    	$this->flag = $flag;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get flag
+     *
+     * @return integer
+     */
+    public function getFlag()
+    {
+    	return $this->flag;
+    }
+    
+    
+    
 }

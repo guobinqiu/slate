@@ -16,21 +16,7 @@
 
 </head>
 <body>
-<header>
-  <section>
-    <div id="logo"><a href="#"><img src="{{ asset('images/logo.gif')}}" width="109" height="37"></a></div>
-    <nav id="menu">
-      <ul>
-        <li><a href="#">首页</a></li>
-        <li><a href="{{ path('_advertiserment_list')}}">体验广告</a></li>
-        <li><a href="#">兑换中心</a></li>
-        <li><a href="#">关于我们</a></li>
-        <li class="last"><a href="#">帮助中心</a></li>
-      </ul>
-    </nav>
-    <nav id="user"> <a class="log" href="#">登录</a><a class="reg" href="#">注册</a> </nav>
-  </section>
-</header>
+{% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle adList">
   <article>
     <h2><img src="images/adTitle.jpg" width="149" height="19"></h2>
@@ -105,8 +91,6 @@
     </section>
   </aside>
 </div>
-<footer>
-  <section><a href="#">关于彩虹贝贝</a>|<a href="#">服务条款</a>|<a href="#">广告服务</a>|<a href="#">合作商家</a>|<span>彩虹贝贝版权所有 @2013</span> </section>
-</footer>
+{% include 'JiliApiBundle::footer.html.twig' %}
 </body>
 </html>
