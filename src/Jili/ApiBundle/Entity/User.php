@@ -177,6 +177,14 @@ class User
      * @ORM\Column(name="path", type="string",length=255, nullable=true)
      */
     private $path;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string",length=45, nullable=true)
+     */
+    private $code;
 
     
 /**
@@ -212,6 +220,17 @@ class User
         }
     }
     
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+    	return $this->path;
+    }
+    
     
      /**
      * Set path
@@ -223,16 +242,30 @@ class User
     {
     	$this->path = $path;
     }
+   
     
     /**
-     * Get path
+     * Get code
      *
      * @return string
      */
-    public function getPath()
+    public function getCode()
     {
-    	return $this->path;
+    	return $this->code;
     }
+    
+    
+    /**
+     * Set path
+     *
+     * @param string $code
+     * @return User
+     */
+    public function setCode($code)
+    {
+    	$this->code = $code;
+    }
+    
     
     
     /**
@@ -305,6 +338,9 @@ class User
     		$seed .= sha1($seed);
     		return sha1($seed);
     }
+    
+    
+   
 
     /**
      * Set sex

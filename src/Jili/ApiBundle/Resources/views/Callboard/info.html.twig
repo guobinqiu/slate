@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title></title>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/newsMore.css')}}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+
+<div class="webArticle newsMore">
+  <article>
+    <h1>{{ callboard.title }}</h1>
+    <div class="artInfo">[<time>{{ callboard.startTime.date }}</time>发表&nbsp;&nbsp;作者：<span class="media_name">91积粒网</span>]</div>
+    <div class="content">
+    {{ callboard.content }}
+    </div>
+  </article>
+  <aside>
+    <section>
+      <h4> 帮助中心<a class="more" href="#">更多>></a> </h4>
+      <ul class="help">
+        <li><a href="#">在沙沙网络可以做什么？</a></li>
+        <li><a href="#">在沙沙网络可以做什么？</a></li>
+        <li><a href="#">在沙沙网络可以做什么？</a></li>
+        <li><a href="#">在沙沙网络可以做什么？</a></li>
+        <li><a href="#">在沙沙网络可以做什么？</a></li>
+        <li><a href="#">在沙沙网络可以做什么？</a></li>
+        <li class="last"><a href="#">在沙沙网络可以做什么？</a></li>
+      </ul>
+    </section>
+  </aside>
+</div>
+
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>
