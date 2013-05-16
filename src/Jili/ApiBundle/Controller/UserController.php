@@ -110,41 +110,41 @@ class UserController extends Controller
 		$em = $this->getDoctrine()
 		->getRepository('JiliApiBundle:User')
 		->findByNick($nick);
-		if(!$em){
-			echo 'nick is unexist!';
-		}else{
-			$id = $em[0]->getId();
-			$em1 = $this->getDoctrine()
-			->getRepository('JiliApiBundle:User')
-			->findById($id);
-			if($pwd != $em1[0]->getPwd()){
-				echo 'pwd is error!';
+		$request = $this->get('request');
+		if ($request->getMethod() == 'POST'){
+			if(!$em){
+				echo 'nick is unexist!';
 			}else{
-				$em = $this->getDoctrine()->getManager();
-				$loginInfo = $em->getRepository('JiliApiBundle:LoginLog')->find($id);
-				if(!$loginInfo){
-					$loginlog = new Loginlog();
-					$loginlog->setUserId($id);
-					$loginlog->setLoginDate(date('Y-m-d H:i:s'));
-					$loginlog->setLoginIp($_SERVER["REMOTE_ADDR"]);
+				$id = $em[0]->getId();
+				$em1 = $this->getDoctrine()
+				->getRepository('JiliApiBundle:User')
+				->findById($id);
+				if($pwd != $em1[0]->getPwd()){
+					echo 'pwd is error!';
+				}else{
 					$em = $this->getDoctrine()->getManager();
-					$em->persist($loginlog);
+					$loginInfo = $em->getRepository('JiliApiBundle:LoginLog')->find($id);
+					if(!$loginInfo){
+						$loginlog = new Loginlog();
+						$loginlog->setUserId($id);
+						$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
+						$loginlog->setLoginIp($_SERVER["REMOTE_ADDR"]);
+						$em = $this->getDoctrine()->getManager();
+						$em->persist($loginlog);
+						$em->flush();
+					}
+					$loginInfo->setLoginDate(date_create(date('Y-m-d H:i:s')));
+					$loginInfo->setLoginIp($_SERVER["REMOTE_ADDR"]);
 					$em->flush();
+					echo 'success!';
 				}
-				$loginInfo->setLoginDate(date('Y-m-d H:i:s'));
-				$loginInfo->setLoginIp($_SERVER["REMOTE_ADDR"]);
-				$em->flush();
-				echo 'success!';
+			
 			}
-			 
 		}
-		//     	$request = $this->get('request');
-		//     	if ($request->getMethod() == 'POST'){
-		//     		$form->bindRequest($request);
-		//     	}
 	
 		return $this->render('JiliApiBundle:User:login.html.twig',array(
-				'form' => $form->createView(),));
+// 				'form' => $form->createView(),
+				));
 	}
 	
 	/**
@@ -178,7 +178,8 @@ class UserController extends Controller
 		}
 				
 		return $this->render('JiliApiBundle:User:reg.html.twig',array(
-				'form' => $form->createView(),));
+// 				'form' => $form->createView(),
+				));
 	}
 	
 	/**

@@ -1,0 +1,160 @@
+.regStep{
+	margin-top:30px;
+}
+.regStep article{
+	width: 955px;
+	display: inline-block;
+}
+.regStep article .step{
+	margin:0 auto 30px auto;
+}
+.regStep article .regForm, .regStep article .regFrame{
+	background-color:#FFF;
+	border:1px solid #ececec;
+	padding:50px 100px;
+}
+.regStep article .regForm li{
+	display:inline-block;
+	width:100%;
+	margin:10px 0;
+	color:#000;
+	font-size:14px;
+}
+.regStep article .regForm li dd{
+	float:left;
+	width:100px;
+	text-align:right;
+	padding-right:10px;
+	line-height:35px;
+	height:35px;
+	display:inline-block;
+}
+.regStep article .regForm li dt{
+	float:left;
+	line-height:35px;
+	height:35px;
+}
+.regStep article .regForm li dt input[type="text"]{
+	border:1px solid #999;
+	font-size:14px;
+	padding:5px;
+	vertical-align:middle;
+	width:250px;
+	box-shadow:1px 1px 3px #CCC inset;
+	margin:1px;
+}
+.regStep article .regForm li dt input[type="text"]:hover, .regStep article .regForm li dt input[type="text"]:focus{
+	border:2px solid #7fcaf1;
+	margin:0px;
+}
+.regStep article .regForm li dt input.verification{
+	width:80px;
+}
+.regStep article .regForm li dt span{
+	margin:0 11px;
+	display:inline-block;
+}
+.regStep article .regForm li dt.error input[type="text"]{
+	border:1px solid #f4784a;
+	margin:1px;
+}
+.regStep article .regForm li dt.error span{
+	background-image:url(../images/errorIcon.jpg);
+	background-repeat:no-repeat;
+	background-position:0 10px;
+	text-indent:20px;
+}
+.regStep article .regForm li dt a.provision{
+	color:#146096;
+}
+.regStep article .regForm li dt .regBtn{
+	color:#FFF;
+	font-weight:bold;
+	font-size:16px;
+	width:95px;
+	height:33px;
+	text-align:center;
+	display:inline-block;
+	border:1px solid #6dbade;
+	background-color:#7acaef;
+	background-image: -moz-linear-gradient(top, #8cd2f3, #7acaef); /* Firefox */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #8cd2f3), color-stop(1, #7acaef)); /* Saf4+, Chrome */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8cd2f3', endColorstr='#7acaef', GradientType='0'); /* IE*/
+}
+.regStep article .regForm li dt .regBtn:hover{
+	text-decoration:none;
+}
+.regStep article .regForm li dt.otherLogin{
+	background-color:#fafbfa;
+	border:1px solid #ececec;
+	padding:10px 20px;
+	width:300px;
+	height:auto;
+}
+.regStep article .regFrame{
+	text-align:center;
+}
+.regStep article .regFrame .goToMail{
+	font-size:14px;
+	line-height:250%;
+	display:inline-block;
+	width:100%;
+	text-align:left;
+}
+.regStep article .regFrame .goToMail .img{
+	float:left;
+	margin:10px 20px;
+}
+.regStep article .regFrame .goToMail a.again{
+	color:#146096;
+}
+.regStep article .regFrame .notMail{
+	background-color:#fafbfa;
+	border:1px solid #ececec;
+	padding:10px 20px 20px;
+	width:600px;
+	height:auto;
+	display:inline-block;
+	text-align:left;
+	margin:50px 0 10px 0;
+	line-height:200%;
+}
+.regStep article .regFrame .notMail h6{
+	color:#ea4b11;
+	font-size:14px;
+	font-weight:bold;
+	margin:10px 0;
+}
+.regStep article .regFrame .notMail .dustbin{
+	float:left;
+	width:250px;
+	padding:0 20px 0 0;
+	margin:0 30px 0 0; 
+	border-right:1px dotted #ccc;
+}
+.regStep article .regFrame .notMail .change{
+	float:left;
+}
+.regStep article .regFrame .notMail .change a{
+	color:#146096;
+}
+
+.regStep article .regFrame .finish{
+	font-size:14px;
+	line-height:300%;
+	display:inline-block;
+	width:480px;
+	text-align:left;
+	margin:50px 0;
+}
+.regStep article .regFrame .finish .img{
+	float:left;
+	margin:0px 20px;
+}
+.regStep article .regFrame .finish h2{
+	font-size:24px;
+	font-weight:bold;
+}
+.regStep article .regFrame .finish a{
+	color:#146096;
+}

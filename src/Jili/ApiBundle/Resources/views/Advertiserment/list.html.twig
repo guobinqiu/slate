@@ -19,7 +19,7 @@
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle adList">
   <article>
-    <h2><img src="images/adTitle.jpg" width="149" height="19"></h2>
+    <h2><img src="{{ asset('images/adTitle.jpg')}}" width="149" height="19"></h2>
     <div class="ad top">
       <div class="topIcon"><img src="{{ asset('images/topIcon.png')}}" width="60" height="60"></div>
       <div class="img"><a href="#"><img src="{{ asset('other/pic2.jpg')}}"></a></div>
@@ -34,11 +34,13 @@
     </div>
     
      {% for item in advertiserment %}
+        <a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><span>
                <div class="ad">
-                 {{  item.content | raw  }} 
-               <div class="txt"><a href="#">{{ item.info }}</a></div>
+                  <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{  item.imageurl | raw }}' width="149" height="19"/></a></div>
+               <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.info }}</a></div>
                <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a><span class="reward"><font>5000</font>积分</span>
-            </div>
+              </div></span></a>
+          
             {% endfor %}
     <ul class="pageNav">
       <li class="prevPage"> <a href="#"> <span class="arrowleftOrange"></span> </a> </li>

@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AdwAccessRecord
 {
+	public function __construct() {
+		$this->time = new \DateTime();
+	}
      /**
      * @var integer
      *
@@ -44,17 +47,24 @@ class AdwAccessRecord
     /**
      * @var datetime $time
      *
-     * @ORM\Column(name="time", type="datetime", nullable=true)
+     * @ORM\Column(name="ad_time", type="datetime", nullable=true)
      */
-    private $time;
+    private $adtime;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="key", type="string", length=45, nullable=true)
+     * @ORM\Column(name="ad_key", type="string", length=45, nullable=true)
      */
-    private $key;
+    private $adkey;
 
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="flag", type="integer", nullable=true)
+     */
+    private $flag;
 
     /**
      * Get id
@@ -136,14 +146,14 @@ class AdwAccessRecord
     }
 
     /**
-     * Set time
+     * Set adtime
      *
-     * @param \DateTime $time
+     * @param \DateTime $adtime
      * @return AdwAccessRecord
      */
-    public function setTime($time)
+    public function setAdTime($adtime)
     {
-        $this->time = $time;
+        $this->adtime = $adtime;
     
         return $this;
     }
@@ -153,31 +163,56 @@ class AdwAccessRecord
      *
      * @return \DateTime 
      */
-    public function getTime()
+    public function getAdTime()
     {
-        return $this->time;
+        return $this->adtime;
     }
+    
 
     /**
-     * Set key
+     * Set adkey
      *
-     * @param string $key
+     * @param string $adkey
      * @return AdwAccessRecord
      */
-    public function setkey($key)
+    public function setAdKey($adkey)
     {
-        $this->key = $key;
+        $this->adkey = $adkey;
     
         return $this;
     }
 
     /**
-     * Get key
+     * Get adkey
      *
      * @return string 
      */
-    public function getkey()
+    public function getAdKey()
     {
-        return $this->key;
+        return $this->adkey;
+    }
+    
+    
+    /**
+     * Set flag
+     *
+     * @param integer $flag
+     * @return AdwAccessRecord
+     */
+    public function setFlag($flag)
+    {
+    	$this->flag = $flag;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get flag
+     *
+     * @return integer
+     */
+    public function getFlag()
+    {
+    	return $this->flag;
     }
 }

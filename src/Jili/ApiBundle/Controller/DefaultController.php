@@ -16,7 +16,8 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
 		$advertise = $repository->getAdvertiserment();
-    	
+// 		$callboard = $em->getRepository('JiliApiBundle:Callboard')->findAll();
+// 		$arr['callboard'] =  $callboard;
     	foreach ($advertise as $k=>$v){
     		if($v['type']==0){
     			$arr['advertise_banner'][] = $v;

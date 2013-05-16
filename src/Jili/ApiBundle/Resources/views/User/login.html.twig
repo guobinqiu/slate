@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title></title>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/login.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+</head>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+<div class="webArticle login">
+  <article>
+    <ul class="loginForm">
+    	<h2>登录积粒网</h2>
+    	<li><dd>注册邮箱：</dd><dt><input name="" type="text"></dt></li>
+        <li><dd>密码：</dd><dt><input name="" type="text"></dt></li>
+        <li><dd>验证码：</dd><dt><input class="verification" name="" type="text"></dt></li>
+        <li class="forget"><a href="#">忘记密码</a></li>
+        <li class="loginBtn"><input name="" type="button" value="登录"></li>
+        <li class="otherLogin">使用合作网站登录<a class="weibo" href="#"></a><a class="qq" href="#"></a></li>
+    </ul>
+  </article>
+</div>
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>

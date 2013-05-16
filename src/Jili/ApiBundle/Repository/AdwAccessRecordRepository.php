@@ -20,4 +20,18 @@ class AdwAccessRecordRepository extends EntityRepository
 		
 	}
 	
+	public function getAccessExist($uid,$adid)
+	{
+		$query = $this->createQueryBuilder('ad')
+		->select('ad.id')
+		->where('ad.userid = :userid')
+		->andWhere('ad.adid = :adid')
+		->andwhere('ad.flag = 1')
+		->setParameters(array('userid'=>$uid,'adid'=>$adid,))
+        ->getQuery();
+		return $query->getResult();
+		
+	}
+	
+	
 }

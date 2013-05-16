@@ -1,0 +1,28 @@
+aside {
+	float:left;
+	width: 200px;
+	margin:20px 0 0 0 ;
+}
+aside section {
+	background-color: #FFFFFF;
+    border: 1px solid #ECECEC;
+    box-shadow: 0 0 3px #CCCCCC;
+    margin: 0 0 15px;
+    padding: 10px;
+}
+aside section p.name{
+	padding:15px 0;
+	color:#666666;
+	border-bottom:1px solid #ececec;
+	margin-bottom:15px;
+}
+aside section p.point{
+	color:#999;
+	font-size:14px;
+	line-height:200%;
+}
+aside section p.point span{
+	color:#FF7114;
+	font-weight:bold;
+	font-size:36px;
+}
