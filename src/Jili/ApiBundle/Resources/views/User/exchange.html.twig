@@ -33,8 +33,12 @@
           <td></td>
         </tr>
         {% endfor %}
-      </table>
-      {{ pagination.render()|raw }}
+</table>
+{# display navigation #}
+<div>
+    {{ pagination.render()|raw }}
+</div>
+
 </div>
   </section>
 {% include 'JiliApiBundle::footer.html.twig' %}

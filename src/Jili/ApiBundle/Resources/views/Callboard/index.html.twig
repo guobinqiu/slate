@@ -18,7 +18,7 @@
   <article>
     <h2><span>公告中心</span></h2>
     <ul class="news">
-     {% for item in callboard %}
+     {% for item in pagination %}
               <li>
                 <div class="title"><a href="{{ path('_callboard_info',{'id':item.id}) }}">{{ item.title }}</a></div>
                 <div class="artInfo">[
@@ -27,7 +27,7 @@
               </li>
     {% endfor %}
     </ul>
-    <ul class="pageNav">
+    <!--  <ul class="pageNav">
       <li class="prevPage"> <a href="#"> <span class="arrowleftOrange"></span> </a> </li>
       <li class="currPage"> <a href="#">1</a> </li>
       <li> <a href="#">2</a> </li>
@@ -42,7 +42,10 @@
         <span>页</span>
         <input type="button" value="确定" class="J_JumpTo">
         </span> </li>
-    </ul>
+    </ul>-->
+
+ {{ pagination.render()|raw }}
+
   </article>
   <aside>
     <section>

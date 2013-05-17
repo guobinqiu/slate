@@ -27,7 +27,14 @@ class AdvertisermentController extends Controller
 		$advertise = $repository->getAdvertiserment();
 
 		$arr['advertiserment'] = $advertise;
-
+		
+		$paginator  = $this->get('knp_paginator');
+		$arr['pagination'] = $paginator->paginate(
+				$advertise,
+				$this->get('request')->query->get('page', 1),
+				 $this->container->getParameter('page_num')
+		);
+		$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
 		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
 	}
 	

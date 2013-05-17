@@ -33,7 +33,7 @@
       <a href="#" class="advertising">蛋蛋微信蛋</a><span class="reward"><font>5000</font>积分</span>
     </div>
     
-     {% for item in advertiserment %}
+     {% for item in pagination %}
         <a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><span>
                <div class="ad">
                   <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{  item.imageurl | raw }}' width="149" height="19"/></a></div>
@@ -41,8 +41,9 @@
                <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a><span class="reward"><font>5000</font>积分</span>
               </div></span></a>
           
-            {% endfor %}
-    <ul class="pageNav">
+     {% endfor %}
+     
+     <!--  <ul class="pageNav">
       <li class="prevPage"> <a href="#"> <span class="arrowleftOrange"></span> </a> </li>
       <li class="currPage"> <a href="#">1</a> </li>
       <li> <a href="#">2</a> </li>    
@@ -57,7 +58,12 @@
         <span>页</span>
         <input type="button" value="确定" class="J_JumpTo">
         </span> </li>
-    </ul>
+    </ul>-->
+    {# display navigation #}
+
+     {{ pagination.render()|raw }}
+
+    
   </article>
   <aside>
     <section>

@@ -7,13 +7,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class  CallboardController extends Controller
 {
 	/**
-	 * @Route("/", name="_callboard_index")
+	 * @Route("/index", name="_callboard_index")
 	 */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 		$callboard = $em->getRepository('JiliApiBundle:Callboard')->findAll();
         $arr['callboard'] =  $callboard;   	
+        $paginator  = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator->paginate(
+        		$callboard,
+        		$this->get('request')->query->get('page', 1),
+        		$this->container->getParameter('page_num')
+        );
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         return $this->render('JiliApiBundle:Callboard:index.html.twig',$arr);
     }
     

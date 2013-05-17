@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title></title>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+</head>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+<div class="webArticle regStep">
+  <article>
+  	<div class="step"><img src="{{ asset('images/step2.jpg')}}" width="960" height="36"></div>
+    <div class="regFrame">
+    	<div class="goToMail">
+   	    <div class="img"><img src="{{ asset('images/emailImage.jpg')}}" width="123" height="115"></div>
+        <p>我们已经发送了激活右键给您<br />请查看您的邮箱，确认是否收到来自积粒网的激活邮件，并点击邮件中的验证链接。<br /><a href="http://{{ gotoEmial }}"><img src="{{ asset('images/goMailBtn.jpg')}}" width="115" height="35"></a></p>
+        <p><a class="again" href="#">没收到？再次发送！</a></p>
+        </div>
+        <div class="notMail">
+        	<h6>还没收到激活邮件？</h6>
+            <p class="dustbin">确认邮件是否被您提供的邮箱系统自动拦截，或被误认为垃圾邮件放到了垃圾箱了。</p>
+            <p class="change">如果再次发送激活邮件还是没有收到，请试试：<br /><a href="#">更换激活邮箱</a></p>
+        </div>
+    </div>
+  </article>
+</div>
+<footer>
+  <section><a href="#">关于彩虹贝贝</a>|<a href="#">服务条款</a>|<a href="#">广告服务</a>|<a href="#">合作商家</a>|<span>彩虹贝贝版权所有 @2013</span> </section>
+</footer>
+</body>
+</html>

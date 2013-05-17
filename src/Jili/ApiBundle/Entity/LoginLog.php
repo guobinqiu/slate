@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class LoginLog
 {
+	
+	public function __construct() {
+		$this->loginDate = new \DateTime();
+	}
+	
     /**
      * @var integer
      *
@@ -29,7 +34,7 @@ class LoginLog
     private $userId;
 
     /**
-     * @var \DateTime
+     * @var datetime $loginDate
      *
      * @ORM\Column(name="login_date", type="datetime", nullable=true)
      */

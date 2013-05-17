@@ -1,0 +1,114 @@
+{# default Sliding pagination control implementation #}
+<style>
+.pageNav {
+    display: inline;
+    float: right;
+    margin: 10px 0;
+}
+.pageNav li {
+    color: #666;
+    display: inline;
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    margin-right: 3px;
+	position:relative;
+}
+.pageNav a {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    color: #0066CC;
+    display: block;
+    height: 23px;
+    line-height: 23px;
+    min-width: 15px;
+    padding: 0 5px;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.pageNav a:hover{
+	color:#FF0000;
+	border-color:#FF5500;
+}
+.pageNav .currPage a {
+    background-color: #FFEEE5;
+    border-color: #FF5500;
+    color: #FF0000;
+    font-weight: bold;
+}
+.pageNav input {
+    vertical-align: middle;
+}
+.arrowleftOrange{
+	border: 5px solid transparent;
+    cursor: pointer;
+    height: 0;
+    margin-right: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 7px;
+	left:5px;
+    width: 0;
+	border-right-color: #FF6600;
+}
+.arrowRightOrange{
+	border: 5px solid transparent;
+    cursor: pointer;
+    height: 0;
+    margin-right: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 8px;
+	right:6px;
+    width: 0;
+	border-left-color: #FF6600;
+}
+.J_PageNum {
+    border: 1px solid #999999;
+    height: 21px;
+    margin: 0 2px;
+    width: 32px;
+}
+.J_JumpTo{
+	border: 1px solid #999999;
+    height: 25px;
+    margin: 0 2px;
+}
+</style>
+    
+{% if pageCount > 1 %}
+ <ul class="pageNav">
+    {% if first is defined and current != first %}
+        <li class="prevPage">
+       <a href="{{ path(route, query|merge({(pageParameterName): first})) }}"> <span class="arrowleftOrange"></span> </a> 
+        </li>
+    {% endif %}
+
+    {% for page in pagesInRange %}
+        {% if page != current %}
+           <li class="currPage">
+                <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a> 
+            </li>
+        {% else %}
+             <li>{{ page }}</li> 
+        {% endif %}
+
+    {% endfor %}
+
+   {% if last is defined and current != last %}
+        <li class="nextPage">
+            <a href="{{ path(route, query|merge({(pageParameterName): last})) }}"> <span class="arrowRightOrange"></span> </a>
+        </li>
+    {% endif %}
+    
+     <li> <span>共{{ pageCount }}页</span> </li>
+      <li> <span>到第
+        <input type="text" maxlengh="4" size="2" class="J_PageNum">
+        <span>页</span>
+        <input type="button" value="确定" class="J_JumpTo">
+        </span> </li>
+  
+</ul>
+{% endif %}
+

@@ -29,7 +29,7 @@
     <section class="process"><img src="{{ asset('images/process.jpg')}}" width="960" height="85"></section>
   <section class="main">
     	<article>
-        	<h2><img src="{{ asset('images/hotTask.jpg')}}" width="209" height="19" alt="热门任务"><a class="more" href="#">更多>></a></h2>
+        	<h2><img src="{{ asset('images/hotTask.jpg')}}" width="209" height="19" alt="热门任务"><a class="more" href="{{ path('_advertiserment_list')}}">更多>></a></h2>
         	
         	{% for item in advertise %}
                <div class="task">
@@ -42,32 +42,16 @@
     </article>
     	<aside>
         	<section>
-            	<h4>公告<a class="more" href="{{ path('_advertiserment_list')}}">更多>></a></h4>
+            	<h4>公告<a class="more" href="{{ path('_callboard_index')}}">更多>></a></h4>
               <ul class="news">
-              
-                	<li><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>
-                    <li><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>
-                    <li><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>
-                    <li><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>
-                    <li><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>
-                    <li class="last"><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>
+              {% for item in callboard %}
+                	<li><a href="{{ path('_callboard_info',{'id':item.id}) }}"><span>【活动】</span>{{ item.title }}</a></li>
+                   
+                {% endfor %}
+                   <!--   <li class="last"><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>-->
                 </ul>
             </section>
-            <section>
-            	<h4>最新兑换<a class="more" href="#">更多>></a></h4>
-              <ul class="timeline">
-                	<li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-                    <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-                    <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-                    <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-                    <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-                    <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-                    <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-                    <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-                    <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-                    <li class="last"><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-                </ul>
-            </section>
+           
         </aside>
   </section>
 </div>

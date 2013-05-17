@@ -104,22 +104,23 @@ class UserController extends Controller
 		//     	$user = new User();
 		//     	$form = $this->createForm(new LoginType() , $user);
 		//     	$form->bind($request);
-		$nick = 'test';
-		//     	$request = $this->get('request');
-		$pwd = '123456';
+		$request = $this->get('request');
+		
+		$email = $request->request->get('email');
+		$pwd = $request->request->get('pwd');
 		$em = $this->getDoctrine()
 		->getRepository('JiliApiBundle:User')
-		->findByNick($nick);
+		->findByEmail($email);
 		$request = $this->get('request');
 		if ($request->getMethod() == 'POST'){
 			if(!$em){
-				echo 'nick is unexist!';
+				echo 'email is unexist!';
 			}else{
 				$id = $em[0]->getId();
 				$em1 = $this->getDoctrine()
 				->getRepository('JiliApiBundle:User')
 				->findById($id);
-				if($pwd != $em1[0]->getPwd()){
+				if($em1[0]->pw_encode($pwd) != $em1[0]->getPwd()){
 					echo 'pwd is error!';
 				}else{
 					$em = $this->getDoctrine()->getManager();
@@ -128,35 +129,47 @@ class UserController extends Controller
 						$loginlog = new Loginlog();
 						$loginlog->setUserId($id);
 						$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-						$loginlog->setLoginIp($_SERVER["REMOTE_ADDR"]);
+						$loginlog->setLoginIp($this->get('request')->getClientIp());
 						$em = $this->getDoctrine()->getManager();
 						$em->persist($loginlog);
 						$em->flush();
 					}
 					$loginInfo->setLoginDate(date_create(date('Y-m-d H:i:s')));
-					$loginInfo->setLoginIp($_SERVER["REMOTE_ADDR"]);
+					$loginInfo->setLoginIp($this->get('request')->getClientIp());
 					$em->flush();
 					echo 'success!';
 				}
 			
 			}
 		}
-	
 		return $this->render('JiliApiBundle:User:login.html.twig',array(
 // 				'form' => $form->createView(),
 				));
 	}
 	
 	/**
+	 * @Route("/checkReg/{id}", name="_user_checkReg")
+	 */
+	public function checkRegAction($id){
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		$arr['gotoEmial'] = $user->gotomail($user->getEmail());
+		return $this->render('JiliApiBundle:User:checkReg.html.twig',$arr);
+	}
+	
+	
+	/**
 	 * @Route("/reg", name="_user_reg")
 	 */
 	public function regAction(){
 		$user = new User();
-		$form = $this->createForm(new FirstRegType() , $user);
+		
+// 		$form = $this->createForm(new FirstRegType() , $user);
 		$request = $this->get('request');
+		
 		if ($request->getMethod() == 'POST'){
-			$form->bind($request);
-			if($form->isvalid()){
+			// 			$form->bind($request);
+			if($request->request->get('ck')==1){
 				$em = $this->getDoctrine()->getManager();
 				$user->setNick($request->request->get('nick'));
 				$user->setEmail($request->request->get('email'));
@@ -171,9 +184,11 @@ class UserController extends Controller
 					$user->setCode($code);
 					$em->persist($user);
 					$em->flush();
-					echo 'success';
+// 					echo 'success';
+					return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
 				}
-				
+			}else{
+				echo 'read and agree to the "plot grain network Member Terms and Conditions"';
 			}
 		}
 				
@@ -197,7 +212,7 @@ class UserController extends Controller
 		return $this->render('JiliApiBundle:User:exchange.html.twig',$arr);
 	}
 	
-	
+	    
 	/**
 	 * @Route("/adtaste/{id}", name="_user_adtaste")
 	 */
