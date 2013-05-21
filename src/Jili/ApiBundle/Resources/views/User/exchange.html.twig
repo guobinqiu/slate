@@ -7,8 +7,9 @@
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/personal.css')}}" rel="stylesheet" type="text/css" />
-<script src="{{ asset('js/jquery-1.7.j')}}" type="text/javascript"></script>
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/personal.js')}}" type="text/javascript"></script>
 </head>
 <body>
@@ -24,7 +25,7 @@
           <th>状态</th>
           <th>操作</th>
         </tr>
-        {% for item in exchange %}
+        {% for item in pagination %}
         <tr>
           <td>{{ item.exchangeDate.date }}</td>
           <td>{{ item.type }}</td>
@@ -35,9 +36,9 @@
         {% endfor %}
 </table>
 {# display navigation #}
-<div>
+
     {{ pagination.render()|raw }}
-</div>
+
 
 </div>
   </section>

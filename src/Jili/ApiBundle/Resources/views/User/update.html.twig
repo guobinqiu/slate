@@ -1,8 +1,7 @@
   <form action="{{ path('_user_update',{'id':user.id}) }}" method="post" {{ form_enctype(form) }}>
- <section>
     <h3>个人信息<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
     <div class="content info">
-      <a class="edit" href="#">修改 »</a>
+      <a class="edit"href="javascript:void(0);" id="change">修改 »</a>
       <ul>
         <li>
           <dd>登录账号：</dd>
@@ -11,28 +10,30 @@
         <li>
           <dd>昵  称：</dd>
           <dt>
-              {{ form_row(form.nick) }}
+              <input name="nick" type="text" value="{{ user.nick }}">
           </dt>
         </li>
         <li>
           <dd>性  别：</dd>
           <dt>
-            {{ form_row(form.sex) }}
-</dt>
+            <input name="sex" type="radio" value="">
+            男
+            <input name="sex" type="radio" value="">
+            女</dt>
         </li>
         <li>
           <dd>生  日：</dd>
           <dt>
-            <select name="">
+            <select name="year">
               <option>1999</option>
               <option>2000</option>
               <option>2001</option>
               <option>2002</option>
             </select>
-            <select name="">
+            <select name="month">
               <option>04</option>
             </select>
-            <select name="">
+            <select name="day">
               <option>23</option>
             </select>
           </dt>
@@ -40,7 +41,7 @@
         <li>
           <dd>手机号码：</dd>
           <dt>
-            <input name="" type="text">
+            <input name="tel" type="text" value="{{ user.tel }}">
           </dt>
         </li>
         <li>
@@ -92,7 +93,7 @@
         <li>
           <dd>个性说明：</dd>
           <dt>
-            <textarea name="" cols="" rows="6"></textarea>
+            <textarea name="personalDes" cols="" rows="6" value="{{ user.personalDes }}"></textarea>
           </dt>
         </li>
         <li>
@@ -103,4 +104,4 @@
         </li>
       </ul>
     </div>
-  </section></form>
+</form>

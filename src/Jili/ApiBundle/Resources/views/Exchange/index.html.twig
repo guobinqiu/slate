@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title></title>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/personalAside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/exchange.css')}}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+<div class="webArticle exchange">
+	<div class="about"><img src="{{ asset('images/exchange.jpg')}}" width="875" height="640"></div>
+    <div class="btnArea"><a href="{{ path('_exchange_info',{'id':userId}) }}"><img src="{{ asset('images/exchangeBtn.jpg')}}" width="208" height="59"></a></div>
+</div>
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>
+

@@ -12,4 +12,5 @@ if (!function_exists('intl_get_error_code')) {
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 $loader->add('Knp\\Component',__DIR__.'/../vendor/knp-components/src');
 $loader->add('Knp\\Bundle',__DIR__.'/../vendor/bundles');
+$loader->add('Gregwar' , __DIR__.'/../vendor/bundles');
 return $loader;

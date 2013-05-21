@@ -31,6 +31,14 @@ class DefaultController extends Controller
     	}   
         return $this->render('JiliApiBundle:Default:index.html.twig',$arr);
     }
+    
+    /**
+     * @Route("/about", name="_default_about")
+     */
+    public function aboutAction()
+    {
+    	return $this->render('JiliApiBundle:Default:about.html.twig');
+    }
    
     
 }

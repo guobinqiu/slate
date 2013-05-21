@@ -14,6 +14,10 @@ callboard:
     resource: "@JiliApiBundle/Controller/CallboardController.php"
     prefix:   /callboard
     type:     annotation
+exchange:
+    resource: "@JiliApiBundle/Controller/ExchangeController.php"
+    prefix:   /exchange
+    type:     annotation
 api:
     resource: "@JiliApiBundle/Controller/ApiController.php"
     prefix:   /api

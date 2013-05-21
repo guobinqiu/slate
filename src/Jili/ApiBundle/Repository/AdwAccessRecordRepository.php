@@ -6,16 +6,18 @@ use Doctrine\ORM\EntityRepository;
 
 class AdwAccessRecordRepository extends EntityRepository
 {
-	public function getUseradtaste($id,$offset=0,$limit=10)
+	public function getUseradtaste($id,$offset=null,$limit=null)
 	{
-		$query = $this->createQueryBuilder('ad')
-        ->select('count(ad.id) as num,ad.action,ad.time,a.title')
-        ->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ad.adid = a.id')
-        ->Where('ad.userid = :id')
-        ->setFirstResult($offset)
-		->setMaxResults($limit)
-        ->setParameter('id',$id)
-        ->getQuery();
+		$query = $this->createQueryBuilder('ad');
+        $query = $query->select('count(ad.id) as num,ad.action,ad.adtime,a.title');
+        $query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ad.adid = a.id');
+        $query = $query->Where('ad.userid = :id');
+        if($offset && $limit){
+        	$query = $query->setFirstResult($offset);
+        	$query = $query->setMaxResults($limit);
+        }
+        $query = $query->setParameter('id',$id);
+        $query = $query->getQuery();
 		return $query->getResult();
 		
 	}

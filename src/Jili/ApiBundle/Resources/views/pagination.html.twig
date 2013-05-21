@@ -76,7 +76,6 @@
     margin: 0 2px;
 }
 </style>
-    
 {% if pageCount > 1 %}
  <ul class="pageNav">
     {% if first is defined and current != first %}
@@ -87,11 +86,13 @@
 
     {% for page in pagesInRange %}
         {% if page != current %}
-           <li class="currPage">
+           <li>
                 <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a> 
             </li>
         {% else %}
-             <li>{{ page }}</li> 
+            <li  class="currPage">
+             <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a> 
+             </li>
         {% endif %}
 
     {% endfor %}
@@ -101,14 +102,35 @@
             <a href="{{ path(route, query|merge({(pageParameterName): last})) }}"> <span class="arrowRightOrange"></span> </a>
         </li>
     {% endif %}
-    
+ 
      <li> <span>共{{ pageCount }}页</span> </li>
-      <li> <span>到第
-        <input type="text" maxlengh="4" size="2" class="J_PageNum">
+      <li>   <span>到第
+        <input type="text" maxlengh="4" id="page" size="2" class="J_PageNum" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
         <span>页</span>
-        <input type="button" value="确定" class="J_JumpTo">
+        <input type="button" value="确定" class="J_JumpTo" id="goto">
         </span> </li>
-  
+
 </ul>
 {% endif %}
-
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#goto").click(function(){
+      var url = window.location.href;
+      url = url.split("?page=");
+      var currentPage = $("#page").val();
+      var first = {{ first }};
+      var pageCount = {{ pageCount }} ;
+      if (!currentPage || currentPage  <= first ){
+    	  currentPage = first;
+    	  window.location.href = url[0];
+      }
+      if(currentPage >= pageCount ){
+    	  currentPage = pageCount;
+    	  window.location.href = url[0]+'?page='+pageCount;
+      }
+      if(currentPage > first && currentPage < pageCount )
+    	  window.location.href = url[0]+'?page='+currentPage;
+      
+    });
+});
+</script>

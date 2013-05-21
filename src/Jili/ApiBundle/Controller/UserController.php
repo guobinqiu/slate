@@ -2,9 +2,7 @@
 namespace Jili\ApiBundle\Controller;
 
 use Jili\ApiBundle\Form\FirstRegType;
-
 use Jili\ApiBundle\Form\forgetPassType;
-
 use Symfony\Component\HttpFoundation\Request;
 use Jili\ApiBundle\Form\RegType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,9 +22,17 @@ use Jili\ApiBundle\Entity\PointHistory08;
 use Jili\ApiBundle\Entity\PointHistory09;
 
 
-
 class UserController extends Controller
 {
+	/**
+	 * @Route("/checkFlag/{id}", name="_user_checkFlag")
+	 */
+	public function checkFlagAction($id){
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		echo $user->getFlag();
+		exit;
+	}
 	
 	/**
 	 * @Route("/info/{id}", name="_user_info")
@@ -37,9 +43,9 @@ class UserController extends Controller
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$form  = $this->createForm(new RegType(), $user);
 		$adtaste = $em->getRepository('JiliApiBundle:AdwAccessRecord');
-		$adtaste = $adtaste->getUseradtaste($id);
+		$adtaste = $adtaste->getUseradtaste($id,0,10);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
-		$exchange = $exchange->getUserExchange($id);
+		$exchange = $exchange->getUserExchange($id,0,10);
 		return $this->render('JiliApiBundle:User:info.html.twig',array( 
 				'form' => $form->createView(),
 				'form_upload' =>$form->createView(),
@@ -48,7 +54,6 @@ class UserController extends Controller
 				'exchange' => $exchange,
 				));
 	}
-	
 	
 	/**
 	 * @Route("/upload/{id}", name="_user_upload")
@@ -77,7 +82,7 @@ class UserController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		$form  = $this->createForm(new RegType(), $user);
+// 		$form  = $this->createForm(new RegType(), $user);
 		$request = $this->get('request');
 		if ($request->getMethod() == 'POST') {
 	    	$user->setNick($request->request->get('nick'));
@@ -159,6 +164,18 @@ class UserController extends Controller
 	
 	
 	/**
+	 * @Route("/captcha", name="_user_captcha")
+	 */
+	public function captcha(){
+		
+		$captcha = new Securimage();
+		$captcha->captcha_type = Securimage::SI_CAPTCHA_MATHEMATIC;
+		$captcha->show();
+// 		$this->Session->write ('captcha_keystring',$captcha->vcode);
+		exit;
+	}
+	
+	/**
 	 * @Route("/reg", name="_user_reg")
 	 */
 	public function regAction(){
@@ -209,6 +226,7 @@ class UserController extends Controller
 		$arr['pagination'] = $paginator
 		        ->paginate($exchange,
 				$this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
+		$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
 		return $this->render('JiliApiBundle:User:exchange.html.twig',$arr);
 	}
 	
@@ -221,6 +239,11 @@ class UserController extends Controller
 		$repository = $em->getRepository('JiliApiBundle:AdwAccessRecord');
 		$adtaste = $repository->getUseradtaste($id);
 		$arr['adtaste'] = $adtaste;
+		$paginator = $this->get('knp_paginator');
+		$arr['pagination'] = $paginator
+		->paginate($adtaste,
+				$this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
+		$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
 		return $this->render('JiliApiBundle:User:adtaste.html.twig',$arr);
 	}
 	
@@ -254,10 +277,7 @@ class UserController extends Controller
         				'user' =>$user
         		));
         	}
-        	
         }
-
-		
 	}
 	    
 	/**
@@ -304,9 +324,5 @@ class UserController extends Controller
 		}
 	
 	}
-	
-	
-	
-	
 	
 }

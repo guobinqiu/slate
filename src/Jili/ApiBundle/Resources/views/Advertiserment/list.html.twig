@@ -43,22 +43,7 @@
           
      {% endfor %}
      
-     <!--  <ul class="pageNav">
-      <li class="prevPage"> <a href="#"> <span class="arrowleftOrange"></span> </a> </li>
-      <li class="currPage"> <a href="#">1</a> </li>
-      <li> <a href="#">2</a> </li>    
-      <li> <a href="#">3</a> </li>
-      <li> <a href="#">4</a> </li>
-      <li> <a href="#">5</a> </li>
-      <li>...</li>
-      <li class="nextPage"> <a href="#"> <span class="arrowRightOrange"></span> </a> </li>
-      <li> <span>共28页</span> </li>
-      <li> <span>到第
-        <input type="text" maxlengh="4" size="2" class="J_PageNum">
-        <span>页</span>
-        <input type="button" value="确定" class="J_JumpTo">
-        </span> </li>
-    </ul>-->
+   
     {# display navigation #}
 
      {{ pagination.render()|raw }}
