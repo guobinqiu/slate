@@ -54,7 +54,7 @@
 .photo p span{
 	color:#ee472c;
 }
-.photo .upload{
+.photo a.upload{
 	height:32px;
 	background-image:url(../images/uploadBg);
 	font-size:16px;
@@ -106,7 +106,7 @@
 	padding: 5px;
 	width: 360px;
 }
-.info ul li dt input[type="submit"] {
+.info ul li dt input[type="button"] {
 	height: 29px;
 	background-image: url(../images/formButtonBg);
 	border: 1px solid #cf410c;

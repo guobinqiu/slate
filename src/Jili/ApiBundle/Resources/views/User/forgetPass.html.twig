@@ -7,17 +7,31 @@
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('css/personal.css')}}" rel="stylesheet" type="text/css" />
-<script src="{{ asset('js/jquery-1.7.j')}}" type="text/javascript"></script>
-<script src="{{ asset('js/personal.js')}}" type="text/javascript"></script>
+<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
- <form action="{{ path('_user_forgetPass',{'code':user.code,'id':user.id }) }}" method="post" {{ form_enctype(form) }}>
-  {{ form_widget(form) }}
-    <input type="submit" />
+<div class="webArticle regStep">
+  <article>
+  	<div class="step"><img src="{{ asset('images/step3.jpg')}}" width="960" height="86"></div>
+    <div class="regForm">
+    <div class="message"><img src="{{ asset('images/succeed.jpg')}}" width="39" height="44">邮箱验证成功！你的邮箱是：<span>{{ user.email }}</span></div>
+    <div class="remind">HI,{{ user.nick }},欢迎来到积粒网。请完善一下信息创建您的积粒账号</div>
+    <form action="{{ path('_user_forgetPass',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
+    <ul class="form activate">
+    	<li><dd>密码：</dd><dt><input name="pwd" type="text"><br /><span>电子邮件就是您今后登录积粒网的账号</span></dt></li>
+        <li><dd>确认密码：</dd><dt><input name="que_pwd" type="text"><br /><span>2-12个字符，不能含特殊符号</span></dt></li>
+        <li><dd></dd><dt><input name="ck" type="checkbox" value="1">我已认真阅读并同意接受<a href="#" class="provision">《积粒网会员服务条款》</a></dt></li>
+        <li><dd></dd><dt><!--  <a class="regBtn" href="#">创建账号</a>--><input type='submit' name='submit' class='regBtn' value='创建账号'/></dt></li>
+    </ul>
     </form>
-
+    </div>
+  </article>
+</div>
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
 </html>
+

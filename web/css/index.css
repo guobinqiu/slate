@@ -42,9 +42,53 @@
 	background-color: #FFF;
 	border: 1px solid #ececec;
 	border-left: none;
-	width: 237px;
 	height: 250px;
+    padding: 0px 8px 0px 12px;
+    width: 217px;
 	box-shadow: 3px 0 1px #DDDDDD inset;
+}
+.index section.one #userInformation p{
+	margin:15px 0;
+}
+.index section.one #userInformation a.reg{
+	background-image:url(../images/indexRegBtn.jpg);
+	width:214px;
+	height:51px;
+	text-indent:-9999px;
+	display:inline-block;
+}
+.index section.one #userInformation a.reg:hover{
+	opacity:.8;
+}
+.index section.one #userInformation input[type="text"], .index section.one #userInformation input[type="password"]{
+	border:1px solid #cacaca;
+	width:172px;
+	height:35px;
+	background-repeat:no-repeat;
+	display:inline-block;
+	padding:0 5px 0 35px;
+	color:#c5c5c5;
+}
+.index section.one #userInformation input[type="text"]:focus, .index section.one #userInformation input[type="password"]:focus{
+	color:#666;
+}
+.index section.one #userInformation input[type="text"]{
+	background-image:url(../images/inputUserIcon.jpg);
+	background-position:8px;
+}
+.index section.one #userInformation input[type="password"]{
+	background-image:url(../images/inputPasswordIcon.jpg);
+	background-position:10px;
+}
+.index section.one #userInformation input[type="image"]{
+	vertical-align:middle;
+	margin-right:5px;
+}
+.index section.one #userInformation input[type="image"]:hover{
+	opacity:.8;
+}
+.index section.one #userInformation a.forget{
+	color:#54b9e8;
 }
 .index section.main article {
 	width: 723px;
@@ -69,12 +113,12 @@
 	width: 200px;
 	padding: 10px 10px 5px 10px;
 	float: left;
-	border: 3px solid #ececec;
+	border: 3px solid #ECECEC;
 	margin: 0 15px 15px 0;
 	background-color: #FFF;
 }
 .index section.main article div.task:hover{
-	border: 3px solid #ea4b11;
+	border: 3px solid #ffd8c9;
 }
 .index section.main article div.task img{
 	margin:0 0 5px 0;

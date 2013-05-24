@@ -24,17 +24,30 @@ class LimitAdResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="limit_ad_id", type="integer", nullable=false)
+     * @ORM\Column(name="access_history_id", type="integer")
+     */
+    private $accessHistoryId;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer")
+     */
+    private $userId;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="limit_ad_id", type="integer")
      */
     private $limitAdId;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="result_point", type="string", length=45, nullable=true)
+     * @ORM\Column(name="result_incentive", type="integer")
      */
-    private $resultPoint;
-
+    private $resultIncentive;
 
 
     /**
@@ -46,50 +59,97 @@ class LimitAdResult
     {
         return $this->id;
     }
-
+    
+    
     /**
-     * Set limitAdId
+     * Set accessHistoryId
      *
-     * @param integer $limitAdId
+     * @param integer $accessHistoryId
      * @return LimitAdResult
      */
-    public function setLimitAdId($limitAdId)
+    public function setAccessHistoryId($accessHistoryId)
     {
-        $this->limitAdId = $limitAdId;
+    	$this->accessHistoryId = $accessHistoryId;
     
-        return $this;
+    	return $this;
+    }
+    
+    /**
+     * Get accessHistoryId
+     *
+     * @return integer
+     */
+    public function getAccessHistoryId()
+    {
+    	return $this->accessHistoryId;
+    }
+    
+    
+    /**
+     * Set accessHistoryId
+     *
+     * @param integer $accessHistoryId
+     * @return LimitAdResult
+     */
+    public function setAccessHistoryId($accessHistoryId)
+    {
+    	$this->accessHistoryId = $accessHistoryId;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get accessHistoryId
+     *
+     * @return integer
+     */
+    public function getAccessHistoryId()
+    {
+    	return $this->accessHistoryId;
     }
 
     /**
-     * Get limitAdId
+     * Set userId
+     *
+     * @param integer $userId
+     * @return LimitAdResult
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    
+        return $this;
+    }
+    /**
+     * Get userId
      *
      * @return integer 
      */
-    public function getLimitAdId()
+    public function getUserId()
     {
-        return $this->limitAdId;
+        return $this->userId;
     }
 
     /**
-     * Set resultPoint
+     * Set resultIncentive
      *
-     * @param string $resultPoint
+     * @param integer $resultIncentive
      * @return LimitAdResult
      */
-    public function setResultPoint($resultPoint)
+    public function setResultIncentive($resultIncentive)
     {
-        $this->resultPoint = $resultPoint;
+        $this->resultIncentive = $resultIncentive;
     
         return $this;
     }
 
     /**
-     * Get resultPoint
+     * Get resultIncentive
      *
-     * @return string 
+     * @return integer 
      */
-    public function getResultPoint()
+    public function getResultIncentive()
     {
-        return $this->resultPoint;
+        return $this->resultIncentive;
     }
 }

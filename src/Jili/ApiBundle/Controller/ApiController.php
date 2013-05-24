@@ -4,7 +4,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Jili\ApiBundle\Entity\AdwAccessRecord;
+use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\PointHistory00;
 use Jili\ApiBundle\Entity\PointHistory01;
 use Jili\ApiBundle\Entity\PointHistory02;
@@ -18,13 +18,19 @@ use Jili\ApiBundle\Entity\PointHistory09;
 
 class ApiController extends Controller
 {
+	
+
 	/**
 	 * @Route("/getAdInfo", name="_api_getAdInfo")
 	 */
-    public function getAdInfoAction()
-    {
+	public function getAdInfoAction()
+	{
+		$code = array('code'=>'','msg'=>'');
+		
+	
+	
 //     	echo md5('20130516&104600&1&20&100&8845114535&XLGt8P9wgCz9QPfJ');
-        $code = array('code'=>'','msg'=>'');
+        
     	$request = $this->get('request');
     	$id =1;
     	$em = $this->getDoctrine()->getManager();
@@ -41,10 +47,10 @@ class ApiController extends Controller
 		$request->query->get('paid')==$advertise->getPaid()	&&$request->query->get('status')==$advertise->getStatus()&&$request->query->get('confirm')==$advertise->getConfirm()){
 		    $u_sig =md5($request->query->get('date')."&".$request->query->get('time')."&".$request->query->get('promotionID')."&".$request->query->get('comm')."&".$request->query->get('totalPrice')."&".$request->query->get('ocd')."&XLGt8P9wgCz9QPfJ");
 			if($u_sig == $request->query->get('sig')){
-				$repository = $em->getRepository('JiliApiBundle:AdwAccessRecord');
-				$adwaccess = $repository->getAccessExist($u_userinfo,$u_extinfo);
-				if(!empty($adwaccess[0])){
-					$adwAccessRecord = new  AdwAccessRecord();
+// 				$repository = $em->getRepository('JiliApiBundle:AdwAccessHistory');
+// 				$adwaccess = $repository->getAccessExist($u_userinfo,$u_extinfo);
+// 				if(!empty($adwaccess[0])){
+					$adwAccessRecord = new  AdwAccessHistory();
 					$adwAccessRecord->setUserId($u[0]);
 					$adwAccessRecord->setAdId($u[1]);
 					$adwAccessRecord->setAction('点击广告');
@@ -99,9 +105,9 @@ class ApiController extends Controller
                     $em->persist($user);
                     $em->flush();
 					$code = array('code'=>'1','msg'=>'The information is correct');
-				}else{
-					$code = array('code'=>'5','msg'=>'Orders already exists');
-				}
+// 				}else{
+// 					$code = array('code'=>'5','msg'=>'Orders already exists');
+// 				}
 				
 			}else{
 				$code = array('code'=>'3','msg'=>'Signature verification is incorrect');

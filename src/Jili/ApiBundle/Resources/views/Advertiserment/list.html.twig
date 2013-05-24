@@ -5,7 +5,7 @@
 <meta charset="UTF-8" />
 <title></title>
 <!-- [if lt IE9] -->
-<script src="{{ ('js/html5.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
@@ -34,19 +34,17 @@
     </div>
     
      {% for item in pagination %}
-        <a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><span>
                <div class="ad">
                   <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{  item.imageurl | raw }}' width="149" height="19"/></a></div>
                <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.info }}</a></div>
                <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a><span class="reward"><font>5000</font>积分</span>
-              </div></span></a>
-          
+              </div>
      {% endfor %}
      
    
     {# display navigation #}
 
-     {{ pagination.render()|raw }}
+   {{ knp_pagination_render(pagination) }}
 
     
   </article>

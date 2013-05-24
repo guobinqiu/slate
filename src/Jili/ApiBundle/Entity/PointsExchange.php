@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PointsExchange
 {
+	
+	public function __construct() {
+		$this->exchangeDate = new \DateTime();
+	}
     /**
      * @var integer
      *
@@ -31,7 +35,7 @@ class PointsExchange
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="exchange_date", type="datetime", nullable=true)
+     * @ORM\Column(name="exchange_date", type="datetime")
      */
     private $exchangeDate;
 
@@ -45,35 +49,35 @@ class PointsExchange
     /**
      * @var string
      *
-     * @ORM\Column(name="account", type="string", length=45, nullable=true)
+     * @ORM\Column(name="target_account", type="string", length=45)
      */
-    private $account;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="point", type="string", length=45, nullable=true)
-     */
-    private $point;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="exchanged_point", type="string", length=45, nullable=true)
-     */
-    private $exchangedPoint;
+    private $targetAccount;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer", nullable=true)
+     * @ORM\Column(name="source_point", type="integer")
+     */
+    private $sourcePoint;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="target_point", type="integer")
+     */
+    private $targetPoint;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="status", type="integer")
      */
     private $status;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ip", type="string", length=45, nullable=true)
+     * @ORM\Column(name="ip", type="string", length=20)
      */
     private $ip;
 
@@ -159,72 +163,72 @@ class PointsExchange
     }
 
     /**
-     * Set account
+     * Set targetAccount
      *
-     * @param string $account
+     * @param integer $targetAccount
      * @return PointsExchange
      */
-    public function setAccount($account)
+    public function setTargetAccount($targetAccount)
     {
-        $this->account = $account;
+        $this->targetAccount = targetAccount;
     
         return $this;
     }
 
     /**
-     * Get account
+     * Get targetAccount
      *
-     * @return string 
+     * @return integer 
      */
-    public function getAccount()
+    public function getTargetAccount()
     {
-        return $this->account;
+        return $this->targetAccount;
     }
 
     /**
-     * Set point
+     * Set sourcePoint
      *
-     * @param string $point
+     * @param integer $point
      * @return PointsExchange
      */
-    public function setPoint($point)
+    public function setSourcePoint($sourcePoint)
     {
-        $this->point = $point;
+        $this->sourcePoint = $sourcePoint;
     
         return $this;
     }
 
     /**
-     * Get point
+     * Get sourcePoint
      *
-     * @return string 
+     * @return integer 
      */
-    public function getPoint()
+    public function getSourcePoint()
     {
-        return $this->point;
+        return $this->sourcePoint;
     }
 
     /**
-     * Set exchangedPoint
+     * Set targetPoint
      *
-     * @param string $exchangedPoint
+     * @param integer $targetPoint
      * @return PointsExchange
      */
-    public function setExchangedPoint($exchangedPoint)
+    public function setTargetPoint($targetPoint)
     {
-        $this->exchangedPoint = $exchangedPoint;
+        $this->targetPoint = $targetPoint;
     
         return $this;
     }
 
     /**
-     * Get exchangedPoint
+     * Get targetPoint
      *
-     * @return string 
+     * @return integer 
      */
-    public function getExchangedPoint()
+    public function getTargetPoint()
     {
-        return $this->exchangedPoint;
+        return $this->targetPoint;
     }
 
     /**

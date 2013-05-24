@@ -11,27 +11,6 @@
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/personal.js')}}" type="text/javascript"></script>
 </head>
-<script type="text/javascript">
-$(document).ready(function(){
-	
-		$.ajax({
-			url : '{{ path('_user_checkFlag',{'id':user.id}) }}',
-			type : 'get',
-			success : function(msg) {
-				if(msg=='1'){
-					$("#update").hide();
-				}else{
-					$("#info").hide();
-				}
-			}
-		});
-
-	$("#change").click(function (){
-		$("#info").hide();
-		$("#update").show();
-	})
-});
-</script>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="personal">
@@ -39,7 +18,7 @@ $(document).ready(function(){
     <h3>头像</h3>
     <div class="photo">
     	<div class="img">
-        	<img src='{{ asset(user.path) }}'/>
+        	<img src='{{ asset(user.iconPath) }}' height='100' width='80'/>
         </div>
         <form action="{{ path('_user_upload',{'id':user.id}) }}" method="post" {{ form_enctype(form) }}>
         <p>欢迎您,{{ user.nick }}&nbsp;我的积分：<span>{{ user.points }}</span></p>
@@ -48,47 +27,6 @@ $(document).ready(function(){
         </form>
         <div class="clear"></div>
     </div>
-  </section>
-   <section id= "info">
-    <h3>个人信息<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
-    <div class="content info">
-      <a class="edit" href="javascript:void(0);" id="change">修改 »</a>
-      <ul>
-        <li>
-          <dd>登录账号：</dd>
-          <dt>{{ user.email }} </dt>
-        </li>
-        <li>
-          <dd>昵  称：</dd>
-          <dt>{{ user.nick }}</dt>
-        </li>
-        <li>
-          <dd>性  别：</dd>
-          <dt>{{ user.sex }}</dt>
-        </li>
-        <li>
-          <dd>生  日：</dd>
-          <dt>{{ user.birthday }}
-          </dt>
-        </li>
-        <li>
-          <dd>手机号码：</dd>
-          <dt>
-            {{ user.tel }}
-          </dt>
-        </li>  
-        <li>
-          <dd>兴趣爱好：</dd>       
-            音乐 
-            美食</dt>
-        </li>
-       
-      </ul>
-    </div>
-  </section>
-
-  <section id= "update">
-  {% include 'JiliApiBundle:User:update.html.twig' %}
   </section>
 
   <section>
@@ -106,18 +44,21 @@ $(document).ready(function(){
           <th>体验进度</th>
           <th>领取奖励</th>
         </tr>
+        {% if adtasteNum > 0 %}
          {% for item in adtaste %}
         <tr>
           <td>{{ item.title }} </td>
           <td>60</td>
           <td>长期</td>
-          <td>{{ item.adtime.date  }}</td>
+          <td>{{ item.accessTime.date  }}</td>
           <td></td>
           <td>领取奖励</td>
         </tr>
          {% endfor %}
+         <center><p><a href="{{ path('_user_adtaste',{'id':user.id}) }}">更多</a></p></center>
+         {% endif %}
       </table>
-     <center><p><a href="{{ path('_user_adtaste',{'id':user.id}) }}">更多</a></p></center>
+     
     </div>
   </section>
   <section>
@@ -131,6 +72,7 @@ $(document).ready(function(){
           <th>状态</th>
           <th>操作</th>
         </tr>
+        {% if exchange %}
         {% for item in exchange %}
         <tr>
           <td>{{ item.exchangeDate.date }}</td>
@@ -140,8 +82,10 @@ $(document).ready(function(){
           <td></td>
         </tr>
         {% endfor %}
+          <center><p><a href="{{ path('_user_exchange',{'id':user.id}) }}">更多</a></p></center>
+          {% endif %}
       </table>
-      <center><p><a href="{{ path('_user_exchange',{'id':user.id}) }}">更多</a></p></center>
+    
     </div>
   </section>
   <section>

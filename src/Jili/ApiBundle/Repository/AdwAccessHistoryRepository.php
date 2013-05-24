@@ -4,12 +4,12 @@ namespace Jili\ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
 
-class AdwAccessRecordRepository extends EntityRepository
+class AdwAccessHistoryRepository extends EntityRepository
 {
 	public function getUseradtaste($id,$offset=null,$limit=null)
 	{
 		$query = $this->createQueryBuilder('ad');
-        $query = $query->select('count(ad.id) as num,ad.action,ad.adtime,a.title');
+        $query = $query->select('count(ad.id) as num,ad.accessTime,ad.incentiveType,ad.incentive,ad.incentiveRate,a.title');
         $query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ad.adid = a.id');
         $query = $query->Where('ad.userid = :id');
         if($offset && $limit){
@@ -22,6 +22,7 @@ class AdwAccessRecordRepository extends EntityRepository
 		
 	}
 	
+	/*
 	public function getAccessExist($uid,$adid)
 	{
 		$query = $this->createQueryBuilder('ad')
@@ -34,6 +35,6 @@ class AdwAccessRecordRepository extends EntityRepository
 		return $query->getResult();
 		
 	}
-	
+	*/
 	
 }

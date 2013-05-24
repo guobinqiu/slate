@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Callboard
 {
+	public function __construct() {
+		$this->createTime = new \DateTime();
+		$this->updateTime = new \DateTime();
+		$this->startTime = new \DateTime();
+		$this->endTime = new \DateTime();
+	}
     /**
      * @var integer
      *
@@ -24,17 +30,32 @@ class Callboard
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=45, nullable=true)
+     * @ORM\Column(name="title", type="string", length=250, nullable=true)
      */
     private $title;
 
     /**
-     * @var string
+     * @var text
      *
-     * @ORM\Column(name="content", type="string", length=45, nullable=true)
+     * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
-
+    
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_time", type="datetime", nullable=true)
+     */
+    private $createTime;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="update_time", type="datetime", nullable=true)
+     */
+    private $updateTime;
+    
     /**
      * @var \DateTime
      *
@@ -52,7 +73,7 @@ class Callboard
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string", length=45, nullable=true)
+     * @ORM\Column(name="url", type="string", length=250, nullable=true)
      */
     private $url;
 
@@ -113,6 +134,52 @@ class Callboard
     {
         return $this->content;
     }
+    
+    /**
+     * Set createTime
+     *
+     * @param \DateTime $createTime
+     * @return Callboard
+     */
+    public function setCreateTime($createTime)
+    {
+    	$this->createTime = $createTime;
+    	return $this;
+    }
+    
+    /**
+     * Get createTime
+     *
+     * @return \DateTime
+     */
+    public function getCreateTime()
+    {
+    	return $this->createTime;
+    }
+    
+    
+    /**
+     * Set updateTime
+     *
+     * @param \DateTime $updateTime
+     * @return Callboard
+     */
+    public function setUpdateTime($updateTime)
+    {
+    	$this->updateTime = $updateTime;
+    	return $this;
+    }
+    
+    /**
+     * Get updateTime
+     *
+     * @return \DateTime
+     */
+    public function getUpdateTime()
+    {
+    	return $this->updateTime;
+    }
+    
 
     /**
      * Set startTime

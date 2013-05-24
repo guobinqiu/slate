@@ -64,7 +64,7 @@ header nav#menu {
 }
 header nav#menu ul li{
 	float:left;
-	border-right:1px dotted #FFF;
+	border-right:1px dotted #f5a588;
 	padding: 0 10px;
 }
 header nav#menu ul li.last{

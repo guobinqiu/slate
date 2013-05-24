@@ -7,11 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PointHistory00
  *
- * @ORM\Table(name="point_history_00")
+ * @ORM\Table(name="point_history00")
  * @ORM\Entity
  */
 class PointHistory00
 {
+	public function __construct() {
+		$this->createTime = new \DateTime();
+	}
     /**
      * @var integer
      *
@@ -29,9 +32,9 @@ class PointHistory00
     private $userId;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="point_change_num", type="string", length=45, nullable=true)
+     * @ORM\Column(name="point_change_num", type="integer", nullable=false)
      */
     private $pointChangeNum;
 
@@ -42,6 +45,12 @@ class PointHistory00
      */
     private $reason;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_time", type="datetime")
+     */
+    private $createTime;
 
 
     /**
@@ -80,7 +89,7 @@ class PointHistory00
     /**
      * Set pointChangeNum
      *
-     * @param string $pointChangeNum
+     * @param integer $pointChangeNum
      * @return PointHistory00
      */
     public function setPointChangeNum($pointChangeNum)
@@ -93,7 +102,7 @@ class PointHistory00
     /**
      * Get pointChangeNum
      *
-     * @return string 
+     * @return integer 
      */
     public function getPointChangeNum()
     {
@@ -122,4 +131,34 @@ class PointHistory00
     {
         return $this->reason;
     }
+    
+    
+    /**
+     * Set createTime
+     *
+     * @param \DateTime $createTime
+     * @return Advertiserment
+     */
+    public function setCreateTime($createTime)
+    {
+    	$this->createTime = $createTime;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get createTime
+     *
+     * @return \DateTime
+     */
+    public function getCreateTime()
+    {
+    	return $this->createTime;
+    }
+    
+    
 }
+
+
+
+

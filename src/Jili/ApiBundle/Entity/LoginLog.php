@@ -29,7 +29,7 @@ class LoginLog
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
@@ -43,7 +43,7 @@ class LoginLog
     /**
      * @var string
      *
-     * @ORM\Column(name="login_ip", type="string", length=45, nullable=true)
+     * @ORM\Column(name="login_ip", type="string", length=20, nullable=true)
      */
     private $loginIp;
 

@@ -24,10 +24,6 @@ class DefaultController extends Controller
     		if($v['type']==0){
     			$arr['advertise_banner'][] = $v;
     		}
-//     		if($v['type']==1){
-//     			$arr['advertise'][] = $v;
-    			
-//     		}
     	}   
         return $this->render('JiliApiBundle:Default:index.html.twig',$arr);
     }
@@ -39,6 +35,15 @@ class DefaultController extends Controller
     {
     	return $this->render('JiliApiBundle:Default:about.html.twig');
     }
+    
+    /**
+     * @Route("/help", name="_default_help")
+     */
+    public function helpAction()
+    {
+    	return $this->render('JiliApiBundle:Default:help.html.twig');
+    }
+     
    
     
 }

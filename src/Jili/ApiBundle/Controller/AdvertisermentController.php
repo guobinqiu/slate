@@ -3,7 +3,7 @@ namespace Jili\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Jili\ApiBundle\Entity\AdwAccessRecord;
+use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\Advertiserment;
 
 class AdvertisermentController extends Controller

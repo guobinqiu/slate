@@ -33,7 +33,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="nick", type="string", length=45, nullable=true)
+     * @ORM\Column(name="nick", type="string", length=25, nullable=true)
      */
     private $nick;
 
@@ -61,14 +61,14 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=45, nullable=true)
+     * @ORM\Column(name="email", type="string", length=250, nullable=true)
      */
     private $email;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="is_email_confirmed", type="string", length=45, nullable=true)
+     * @ORM\Column(name="is_email_confirmed", type="integer",nullable=true)
      */
     private $isEmailConfirmed;
 
@@ -80,44 +80,44 @@ class User
     private $tel;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="is_tel_confirmed", type="string", length=45, nullable=true)
+     * @ORM\Column(name="is_tel_confirmed", type="integer" , nullable=true)
      */
     private $isTelConfirmed;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="city", type="string", length=45, nullable=true)
+     * @ORM\Column(name="city", type="integer", nullable=true)
      */
     private $city;
     
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="education", type="string", length=45, nullable=true)
+     * @ORM\Column(name="education", type="integer", nullable=true)
      */
     private $education;
     
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="profession", type="string", length=45, nullable=true)
+     * @ORM\Column(name="profession", type="integer", nullable=true)
      */
     private $profession;
     
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="hobby", type="string", length=45, nullable=true)
+     * @ORM\Column(name="hobby", type="integer", nullable=true)
      */
     private $hobby;
    
     /**
-     * @var string
+     * @var text
      *
-     * @ORM\Column(name="personalDes", type="string", length=45, nullable=true)
+     * @ORM\Column(name="personalDes", type="text", nullable=true)
      */
     private $personalDes;
 
@@ -145,14 +145,14 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="last_login_ip", type="string", length=45, nullable=true)
+     * @ORM\Column(name="last_login_ip", type="string", length=20, nullable=true)
      */
     private $lastLoginIp;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="points", type="string", length=45, nullable=true)
+     * @ORM\Column(name="points", type="integer", nullable=false)
      */
     private $points;
 
@@ -166,26 +166,17 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="flag", type="integer", nullable=false)
+     * @ORM\Column(name="is_info_set", type="integer")
      */
-    private $flag;
-
+    private $isInfoSet;
     
     /**
      * @var string
      *
-     * @ORM\Column(name="path", type="string",length=255, nullable=true)
+     * @ORM\Column(name="icon_path", type="string",length=255, nullable=true)
      */
-    private $path;
+    private $iconPath;
     
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="code", type="string",length=45, nullable=true)
-     */
-    private $code;
-
     
 /**
      * upload image to temp dir
@@ -205,9 +196,9 @@ class User
 	            unset($fileNames[$key]);
 	            continue ;
 	        }
-	        $field = 'path';
+	        $field = 'iconPath';
 	        switch ($fileName){
-	        	case 'attachment':$field = 'path';break;
+	        	case 'attachment':$field = 'iconPath';break;
 	        }    
 	    
 	        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
@@ -277,50 +268,27 @@ class User
     
 
     /**
-     * Get path
+     * Get iconPath
      *
      * @return string
      */
-    public function getPath()
+    public function getIconPath()
     {
-    	return $this->path;
+    	return $this->iconPath;
     }
     
     
      /**
-     * Set path
+     * Set iconPath
      *
-     * @param string $path
+     * @param string $iconPath
      * @return User
      */
-    public function setPath($path)
+    public function setIconPath($iconPath)
     {
-    	$this->path = $path;
+    	$this->iconPath = $iconPath;
     }
    
-    
-    /**
-     * Get code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-    	return $this->code;
-    }
-    
-    
-    /**
-     * Set path
-     *
-     * @param string $code
-     * @return User
-     */
-    public function setCode($code)
-    {
-    	$this->code = $code;
-    }
-    
     
     
     /**
@@ -471,7 +439,7 @@ class User
     /**
      * Set isEmailConfirmed
      *
-     * @param string $isEmailConfirmed
+     * @param integer $isEmailConfirmed
      * @return User
      */
     public function setIsEmailConfirmed($isEmailConfirmed)
@@ -484,7 +452,7 @@ class User
     /**
      * Get isEmailConfirmed
      *
-     * @return string 
+     * @return integer 
      */
     public function getIsEmailConfirmed()
     {
@@ -517,7 +485,7 @@ class User
     /**
      * Set isTelConfirmed
      *
-     * @param string $isTelConfirmed
+     * @param integer $isTelConfirmed
      * @return User
      */
     public function setIsTelConfirmed($isTelConfirmed)
@@ -530,7 +498,7 @@ class User
     /**
      * Get isTelConfirmed
      *
-     * @return string 
+     * @return integer 
      */
     public function getIsTelConfirmed()
     {
@@ -540,7 +508,7 @@ class User
     /**
      * Set city
      *
-     * @param string $city
+     * @param integer $city
      * @return User
      */
     public function setCity($city)
@@ -553,7 +521,7 @@ class User
     /**
      * Get city
      *
-     * @return string
+     * @return integer
      */
     public function getCity()
     {
@@ -564,7 +532,7 @@ class User
     /**
      * Set education
      *
-     * @param string $education
+     * @param integer $education
      * @return User
      */
     public function setEducation($education)
@@ -577,7 +545,7 @@ class User
     /**
      * Get education
      *
-     * @return string
+     * @return integer
      */
     public function getEducation()
     {
@@ -588,7 +556,7 @@ class User
     /**
      * Set profession
      *
-     * @param string $profession
+     * @param integer $profession
      * @return User
      */
     public function setProfession($profession)
@@ -601,7 +569,7 @@ class User
     /**
      * Get profession
      *
-     * @return string
+     * @return integer
      */
     public function getProfession()
     {
@@ -612,7 +580,7 @@ class User
     /**
      * Set hobby
      *
-     * @param string $hobby
+     * @param integer $hobby
      * @return User
      */
     public function setHobby($hobby)
@@ -625,7 +593,7 @@ class User
     /**
      * Get hobby
      *
-     * @return string
+     * @return integer
      */
     public function getHobby()
     {
@@ -753,7 +721,7 @@ class User
     /**
      * Set points
      *
-     * @param string $points
+     * @param integer $points
      * @return User
      */
     public function setPoints($points)
@@ -766,7 +734,7 @@ class User
     /**
      * Get points
      *
-     * @return string 
+     * @return integer 
      */
     public function getPoints()
     {
@@ -782,7 +750,7 @@ class User
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-    
+        
         return $this;
     }
 
@@ -798,28 +766,26 @@ class User
     
     
     /**
-     * Set flag
+     * Set isInfoSet
      *
-     * @param integer $flag
+     * @param integer $isInfoSet
      * @return User
      */
-    public function setFlag($flag)
+    public function setIsInfoSet($isInfoSet)
     {
-    	$this->flag = $flag;
+    	$this->isInfoSet = $isInfoSet;
     
     	return $this;
     }
     
     /**
-     * Get flag
+     * Get isInfoSet
      *
      * @return integer
      */
-    public function getFlag()
+    public function getIsInfoSet()
     {
-    	return $this->flag;
+    	return $this->isInfoSet;
     }
-    
-    
     
 }

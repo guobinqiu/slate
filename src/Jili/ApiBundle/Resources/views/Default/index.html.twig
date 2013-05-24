@@ -24,7 +24,12 @@
             </ul>
             <div class="bannerNumber"><a href="#" class="hover">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a></div>
         </div>
-        <div id="userInformation"></div>
+         <div id="userInformation">
+        	<p><a class="reg" href="{{ path('_user_reg') }}">免费注册</a></p>
+            <p><input name="" type="text"></p>
+          	<p><input name="" type="password"></p>
+            <p><input name="" type="image" src="{{ asset('images/indexLoginBtn.jpg')}}"><label><input name="" type="checkbox" value="">记住我</label> | <a class="forget" href="#">忘记密码?</a></span></p>            
+        </div>
     </section>
     <section class="process"><img src="{{ asset('images/process.jpg')}}" width="960" height="85"></section>
   <section class="main">

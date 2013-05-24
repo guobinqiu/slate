@@ -24,6 +24,13 @@ class RateAdResult
     /**
      * @var integer
      *
+     * @ORM\Column(name="access_history_id", type="integer", nullable=false)
+     */
+    private $accessHistoryId;
+    
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
     private $userId;
@@ -34,13 +41,20 @@ class RateAdResult
      * @ORM\Column(name="rate_ad_id", type="integer", nullable=false)
      */
     private $rateAdId;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="result_price", type="integer", nullable=false)
+     */
+    private $resultPrice;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="result_point", type="string", length=45, nullable=true)
+     * @ORM\Column(name="result_incentive", type="integer")
      */
-    private $resultPoint;
+    private $resultIncentive;
 
 
 
@@ -99,27 +113,51 @@ class RateAdResult
     {
         return $this->rateAdId;
     }
-
+    
+    
     /**
-     * Set resultPoint
+     * Set resultPrice
      *
-     * @param string $resultPoint
+     * @param integer $resultPrice
      * @return RateAdResult
      */
-    public function setResultPoint($resultPoint)
+    public function setResultPrice($resultPrice)
     {
-        $this->resultPoint = $resultPoint;
+    	$this->resultPrice = $resultPrice;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get resultPrice
+     *
+     * @return integer
+     */
+    public function getResultPrice()
+    {
+    	return $this->resultPrice;
+    }
+
+    /**
+     * Set resultIncentive
+     *
+     * @param integer $resultIncentive
+     * @return RateAdResult
+     */
+    public function setResultIncentive($resultIncentive)
+    {
+        $this->resultIncentive = $resultIncentive;
     
         return $this;
     }
 
     /**
-     * Get resultPoint
+     * Get resultIncentive
      *
-     * @return string 
+     * @return integer 
      */
-    public function getResultPoint()
+    public function getResultIncentive()
     {
-        return $this->resultPoint;
+        return $this->resultIncentive;
     }
 }

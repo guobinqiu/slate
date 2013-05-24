@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Advertiserment
 {
+	public function __construct() {
+		$this->createdTime = new \DateTime();
+		$this->updateTime = new \DateTime();
+		$this->startTime = new \DateTime();
+		$this->endTime = new \DateTime();
+	}
     /**
      * @var integer
      *
@@ -28,12 +34,6 @@ class Advertiserment
      */
     private $type;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="show_flag", type="integer")
-     */
-    private $showFlag;
 
     /**
      * @var string
@@ -71,39 +71,39 @@ class Advertiserment
     private $updateTime;
 
     /**
-     * @var string
+     * @var text
      *
-     * @ORM\Column(name="content", type="string", length=1000)
+     * @ORM\Column(name="content", type="text")
      */
     private $content;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="imageurl", type="string", length=45)
+     * @ORM\Column(name="imageurl", type="string", length=250)
      */
     private $imageurl;
-
+    
     /**
      * @var string
      *
-     * @ORM\Column(name="incentive_type", type="string", length=250)
+     * @ORM\Column(name="icon_image", type="string", length=250)
+     */
+    private $iconImage;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="incentive_type", type="integer")
      */
     private $incentiveType;
 
     /**
-     * @var string
+     * @var text
      *
-     * @ORM\Column(name="info", type="string", length=45)
+     * @ORM\Column(name="info", type="text")
      */
     private $info;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="income", type="string", length=45)
-     */
-    private $income;
 
     /**
      * @var integer
@@ -119,61 +119,6 @@ class Advertiserment
      */
     private $deleteFlag;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="comm", type="float")
-     */
-    private $comm;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="totalprice", type="float")
-     */
-    private $totalprice;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ocd", type="string", length=1000)
-     */
-    private $ocd;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="goodspricecount", type="string", length=1000)
-     */
-    private $goodspricecount;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="paymentmethod", type="integer")
-     */
-    private $paymentmethod;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="status", type="integer")
-     */
-    private $status;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="paid", type="integer")
-     */
-    private $paid;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="confirm", type="integer")
-     */
-    private $confirm;
 
 
     /**
@@ -207,29 +152,6 @@ class Advertiserment
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * Set showFlag
-     *
-     * @param integer $showFlag
-     * @return Advertiserment
-     */
-    public function setShowFlag($showFlag)
-    {
-        $this->showFlag = $showFlag;
-    
-        return $this;
-    }
-
-    /**
-     * Get showFlag
-     *
-     * @return integer 
-     */
-    public function getShowFlag()
-    {
-        return $this->showFlag;
     }
 
     /**
@@ -350,7 +272,7 @@ class Advertiserment
     /**
      * Set content
      *
-     * @param string $content
+     * @param text $content
      * @return Advertiserment
      */
     public function setContent($content)
@@ -363,7 +285,7 @@ class Advertiserment
     /**
      * Get content
      *
-     * @return string 
+     * @return text 
      */
     public function getContent()
     {
@@ -394,9 +316,33 @@ class Advertiserment
     }
 
     /**
+     * Set iconImage
+     *
+     * @param string $iconImage
+     * @return Advertiserment
+     */
+    public function setIconImage($iconImage)
+    {
+    	$this->iconImage = $iconImage;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get iconImage
+     *
+     * @return string
+     */
+    public function getIconImage()
+    {
+    	return $this->iconImage;
+    }
+    
+    
+    /**
      * Set incentiveType
      *
-     * @param string $incentiveType
+     * @param integer $incentiveType
      * @return Advertiserment
      */
     public function setIncentiveType($incentiveType)
@@ -409,7 +355,7 @@ class Advertiserment
     /**
      * Get incentiveType
      *
-     * @return string 
+     * @return integer 
      */
     public function getIncentiveType()
     {
@@ -419,7 +365,7 @@ class Advertiserment
     /**
      * Set info
      *
-     * @param string $info
+     * @param text $info
      * @return Advertiserment
      */
     public function setInfo($info)
@@ -432,34 +378,11 @@ class Advertiserment
     /**
      * Get info
      *
-     * @return string 
+     * @return text 
      */
     public function getInfo()
     {
         return $this->info;
-    }
-
-    /**
-     * Set income
-     *
-     * @param string $income
-     * @return Advertiserment
-     */
-    public function setIncome($income)
-    {
-        $this->income = $income;
-    
-        return $this;
-    }
-
-    /**
-     * Get income
-     *
-     * @return string 
-     */
-    public function getIncome()
-    {
-        return $this->income;
     }
 
     /**
@@ -508,187 +431,4 @@ class Advertiserment
         return $this->deleteFlag;
     }
 
-    /**
-     * Set comm
-     *
-     * @param float $comm
-     * @return Advertiserment
-     */
-    public function setComm($comm)
-    {
-        $this->comm = $comm;
-    
-        return $this;
-    }
-
-    /**
-     * Get comm
-     *
-     * @return float 
-     */
-    public function getComm()
-    {
-        return $this->comm;
-    }
-
-    /**
-     * Set totalprice
-     *
-     * @param float $totalprice
-     * @return Advertiserment
-     */
-    public function setTotalprice($totalprice)
-    {
-        $this->totalprice = $totalprice;
-    
-        return $this;
-    }
-
-    /**
-     * Get totalprice
-     *
-     * @return float 
-     */
-    public function getTotalprice()
-    {
-        return $this->totalprice;
-    }
-
-    /**
-     * Set ocd
-     *
-     * @param string $ocd
-     * @return Advertiserment
-     */
-    public function setOcd($ocd)
-    {
-        $this->ocd = $ocd;
-    
-        return $this;
-    }
-
-    /**
-     * Get ocd
-     *
-     * @return string 
-     */
-    public function getOcd()
-    {
-        return $this->ocd;
-    }
-
-    /**
-     * Set goodspricecount
-     *
-     * @param string $goodspricecount
-     * @return Advertiserment
-     */
-    public function setGoodspricecount($goodspricecount)
-    {
-        $this->goodspricecount = $goodspricecount;
-    
-        return $this;
-    }
-
-    /**
-     * Get goodspricecount
-     *
-     * @return string 
-     */
-    public function getGoodspricecount()
-    {
-        return $this->goodspricecount;
-    }
-
-    /**
-     * Set paymentmethod
-     *
-     * @param integer $paymentmethod
-     * @return Advertiserment
-     */
-    public function setPaymentmethod($paymentmethod)
-    {
-        $this->paymentmethod = $paymentmethod;
-    
-        return $this;
-    }
-
-    /**
-     * Get paymentmethod
-     *
-     * @return integer 
-     */
-    public function getPaymentmethod()
-    {
-        return $this->paymentmethod;
-    }
-
-    /**
-     * Set status
-     *
-     * @param integer $status
-     * @return Advertiserment
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return integer 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set paid
-     *
-     * @param integer $paid
-     * @return Advertiserment
-     */
-    public function setPaid($paid)
-    {
-        $this->paid = $paid;
-    
-        return $this;
-    }
-
-    /**
-     * Get paid
-     *
-     * @return integer 
-     */
-    public function getPaid()
-    {
-        return $this->paid;
-    }
-
-    /**
-     * Set confirm
-     *
-     * @param integer $confirm
-     * @return Advertiserment
-     */
-    public function setConfirm($confirm)
-    {
-        $this->confirm = $confirm;
-    
-        return $this;
-    }
-
-    /**
-     * Get confirm
-     *
-     * @return integer 
-     */
-    public function getConfirm()
-    {
-        return $this->confirm;
-    }
 }

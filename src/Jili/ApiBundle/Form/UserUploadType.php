@@ -10,7 +10,7 @@ class UserUploadType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('path','file',array('required'=>false, 'error_bubbling'=>true));
+            ->add('icon_path','file',array('required'=>false, 'error_bubbling'=>true));
     }
 
     public function getName()

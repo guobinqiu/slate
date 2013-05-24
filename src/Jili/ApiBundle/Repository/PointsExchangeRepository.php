@@ -9,7 +9,7 @@ class PointsExchangeRepository extends EntityRepository
 	public function getUserExchange($id,$offset=null,$limit=null)
 	{
 		$query = $this->createQueryBuilder('p');
-        $query = $query->select('p.account,p.userId,p.point,p.exchangedPoint,p.exchangeDate,pe.type');
+        $query = $query->select('p.targetAccount,p.userId,p.sourcePoint,p.targetPoint,p.exchangeDate,pe.type');
     	$query = $query->innerJoin('JiliApiBundle:PointsExchangeType', 'pe', 'WITH', 'p.type = pe.id');
     	$query = $query->Where('p.userId = :id');
     	if($offset && $limit){

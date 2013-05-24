@@ -20,7 +20,7 @@
 	background-image:url(../images/adBg.jpg);
 	background-position:center bottom;
 	background-repeat:no-repeat;
-	box-shadow: 0 2px 1px #DDDDDD;
+	box-shadow: 0 2px 1px #EDEDED;
 	position:relative;
 	padding:10px 10px 40px 10px;
 	padding:10px 10px 45px 10px/9;
@@ -28,7 +28,10 @@
 	_padding:10px 10px 45px 10px;
 }
 .adList article .ad:hover{
-	border: 1px solid #EA4B11;
+	border: 1px solid #FFD8C9;
+}
+.adList article .ad.top:hover{
+	border: 1px solid #FFD8C9;
 }
 .adList article .ad .img{
 	float:left;

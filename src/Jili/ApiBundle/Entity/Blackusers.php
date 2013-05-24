@@ -24,21 +24,21 @@ class BlackUsers
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="blacked_date", type="datetime", nullable=true)
+     * @ORM\Column(name="blacked_date", type="datetime")
      */
     private $blackedDate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer", nullable=true)
+     * @ORM\Column(name="status", type="integer")
      */
     private $status;
 
