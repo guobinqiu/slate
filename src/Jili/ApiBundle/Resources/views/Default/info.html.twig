@@ -1,0 +1,7 @@
+<nav id="user">
+{% if app.session.get('uid') %}
+     <a class="log" href="{{ path('_user_info') }}">{{ app.session.get('nick') }}</a><a class="reg" href="{{ path('_user_loginOut') }}">退出</a>
+{% else %}
+    <a class="log" href="{{ path('_user_login') }}">登录</a><a class="reg" href="{{ path('_user_reg') }}">注册</a>
+{% endif %}
+</nav>

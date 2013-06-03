@@ -5,6 +5,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Jili\ApiBundle\Form\FirstRegType;
 use Jili\ApiBundle\Form\forgetPassType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Form\CaptchaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,51 +24,106 @@ class UserController extends Controller
 	public function checkFlagAction($id){
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		echo $user->getFlag();
-		exit;
+		return new Response($user->getIsInfoSet());
+// 		exit;
+	}
+	
+	
+	/**
+	 * @Route("/checkPwd", name="_user_checkPwd")
+	 */
+	public function checkPwdAction(){
+		$request = $this->get('request');
+		$pwd = $request->query->get('pwd');
+// 		$id = 48;
+		$id = $this->get('request')->getSession()->get('uid');
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+	    if($user->pw_encode($pwd) == $user->getPwd())
+			$code = $this->container->getParameter('init');
+		else
+			$code = $this->container->getParameter('init_one');
+		return new Response($code);
+	}
+	
+	
+	/**
+	 * @Route("/updatePwd", name="_user_updatePwd")
+	 */
+	public function updatePwdAction(){
+		return $this->render('JiliApiBundle:User:changePwd.html.twig');
 	}
 	
 	/**
-	 * @Route("/info/{id}", name="_user_info")
+	 * @Route("/changePwd", name="_user_changePwd")
 	 */
-	public function infoAction($id)
+	public function changePwdAction(){
+		$request = $this->get('request');
+		$pwd = $request->query->get('pwd');
+		$id = $this->get('request')->getSession()->get('uid');
+// 		$id = 48;
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+// 		if ($request->getMethod() == 'POST') {
+        if($pwd){
+    		$user->setPwd($pwd);
+    		$em->flush();
+    		$code = $this->container->getParameter('init_one');
+        }else{
+        	$code = $this->container->getParameter('init');
+        }
+		return new Response($code);
+// 		}
+// 		return $this->render('JiliApiBundle:User:changePwd.html.twig');
+	}
+	
+	
+	/**
+	 * @Route("/info", name="_user_info")
+	 */
+	public function infoAction()
 	{
+		$code = '';
+		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$form  = $this->createForm(new RegType(), $user);
-		$adtaste = $em->getRepository('JiliApiBundle:AdwAccessHistory');
-		$adtaste = $adtaste->getUseradtaste($id,0,10);
-		$adtasteNum = $adtaste[0]['num'];
+		$adtaste = $em->getRepository('JiliApiBundle:AdwOrder');
+		$option = array('daytype'=>1,'offset'=>0,'limit'=>10);
+		$adtaste = $adtaste->getUseradtaste($id,$option);
+		$adtasteNum = count($adtaste);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
-		$exchange = $exchange->getUserExchange($id,0,10);
+		$exchange = $exchange->getUserExchange($id,$option);
+		
+		$request = $this->get('request');
+		if ($request->getMethod() == 'POST') {
+			$em = $this->getDoctrine()->getManager();
+// 			$user = $em->getRepository('JiliApiBundle:User')->find($id);
+			$form  = $this->createForm(new RegType(), $user);
+			$form->bind($request);
+			$path =  $this->container->getParameter('upload_tmp_dir');
+			$code = $user->upload($path);
+			if(!$code)
+                $em->flush();
+		}
 		return $this->render('JiliApiBundle:User:info.html.twig',array( 
 				'form' => $form->createView(),
 				'form_upload' =>$form->createView(),
 				'user' => $user,
 				'adtaste' => $adtaste,
 				'exchange' => $exchange,
+				'code' => $code,
 				'adtasteNum'=>$adtasteNum,
 				));
 	}
 	
 	/**
-	 * @Route("/upload/{id}", name="_user_upload")
+	 * @Route("/upload", name="_user_upload")
 	 */
-	public function uploadAction($id){
-		$request = $this->get('request');
-		if ($request->getMethod() == 'POST') {
-			$em = $this->getDoctrine()->getManager();
-			$user = $em->getRepository('JiliApiBundle:User')->find($id);
-			$form  = $this->createForm(new RegType(), $user);
-			$form->bind($request);
-			$path =  $this->container->getParameter('upload_tmp_dir');
-			$em->persist($user);
-			$em->flush();
-			$user->upload($path);
-			$em->flush();
-		}
+	public function uploadAction(){
+	
 
-		return $this->redirect($this->generateUrl('_user_info',array('id'=>$user->getId())));
+		return $this->redirect($this->generateUrl('_user_info',array('code'=>$code)));
 	}
 	
 	/**
@@ -89,11 +145,20 @@ class UserController extends Controller
 	    	$user->setProfession($request->request->get('profession'));
 	    	$user->setHobby($request->request->get('hobby'));
 	    	$user->setPersonalDes($request->request->get('personalDes'));
-	    	$user->setFlag(1);
+	    	$user->setFlag($this->container->getParameter('init_one'));
 	    	$em->persist($user);
 	    	$em->flush();
 		}
 		return $this->render('JiliApiBundle:User:update.html.twig',array('user' => $user));
+	}
+	
+	/**
+	 * @Route("/loginOut", name="_user_loginOut")
+	 */
+	public function loginOutAction(){
+		$this->get('request')->getSession()->remove('uid');
+		$this->get('request')->getSession()->remove('nick');
+		return $this->redirect($this->generateUrl('_default_index'));
 	}
 	
 
@@ -109,28 +174,35 @@ class UserController extends Controller
 		->findByEmail($email);
 		$request = $this->get('request');
 		if ($request->getMethod() == 'POST'){
-			if(!$em_email){
-				echo 'email is unexist!';
-			}else{
-				$id = $em_email[0]->getId();
-				$em = $this->getDoctrine()->getEntityManager();
-				$user = $em->getRepository('JiliApiBundle:User')->find($id);
-				if($user->pw_encode($pwd) != $user->getPwd()){
-					echo 'pwd is error!';
-				}else{
-					$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-					$user->setLastLoginIp($this->get('request')->getClientIp());
-					$em->flush();
-					$em = $this->getDoctrine()->getManager();
-					$loginlog = new Loginlog();
-					$loginlog->setUserId($id);
-					$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-					$loginlog->setLoginIp($this->get('request')->getClientIp());
-					$em->persist($loginlog);
-					$em->flush();
-					echo 'success!';
-				}
-			}
+		    if($this->get('request')->getSession()->get('phrase') != $request->request->get('captcha')){
+		    	echo 'captcha is error!';
+		    }else{
+		    	$this->get('request')->getSession()->remove('phrase');
+		    	if(!$em_email){
+		    		echo 'email is unexist!';
+		    	}else{
+		    		$id = $em_email[0]->getId();
+		    		$em = $this->getDoctrine()->getEntityManager();
+		    		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		    		if($user->pw_encode($pwd) != $user->getPwd()){
+		    			echo 'pwd is error!';
+		    		}else{
+		    			$this->get('request')->getSession()->set('uid',$id);
+		    			$this->get('request')->getSession()->set('nick',$user->getNick());
+		    			$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
+		    			$user->setLastLoginIp($this->get('request')->getClientIp());
+		    			$em->flush();
+		    			$em = $this->getDoctrine()->getManager();
+		    			$loginlog = new Loginlog();
+		    			$loginlog->setUserId($id);
+		    			$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
+		    			$loginlog->setLoginIp($this->get('request')->getClientIp());
+		    			$em->persist($loginlog);
+		    			$em->flush();
+		    			return $this->redirect($this->generateUrl('_default_index'));
+		    		}
+		    	}
+		    }
 		}
 		return $this->render('JiliApiBundle:User:login.html.twig',array(
 // 				'form' => $form->createView(),
@@ -148,43 +220,99 @@ class UserController extends Controller
 	}
 	
 	/**
+	 * @Route("/checkCaptcha", name="_user_checkCaptcha")
+	 */
+	public function checkCaptchaAction(){
+		$request = $this->get('request');
+		if($this->get('request')->getSession()->get('phrase') != $request->query->get('captcha'))
+			$code = $this->container->getParameter('init_one');
+		else{
+			$this->get('request')->getSession()->remove('phrase');
+			$code = $this->container->getParameter('init');
+		}
+		return new Response($code);
+	}
+	
+	/**
+	 * @Route("/checkEmail", name="_user_checkEmail")
+	 */
+	public function checkEmailAction(){
+		$request = $this->get('request');
+		$email = $request->query->get('email');
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+	    if(empty($user))
+	    	$code = $this->container->getParameter('init_one');
+	    else 
+	    	$code = $this->container->getParameter('init');
+		return new Response($code);
+	}
+	
+	/**
+	 * @Route("/checkNick", name="_user_checkNick")
+	 */
+	public function checkNickAction(){
+		$request = $this->get('request');
+		$nick = $request->query->get('nick');
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
+		if(empty($user))
+			$code = $this->container->getParameter('init_one');
+		else
+			$code = $this->container->getParameter('init');
+		return new Response($code);
+	}
+	
+	
+	/**
 	 * @Route("/reg", name="_user_reg")
 	 */
 	public function regAction(){
 		$user = new User();
+		$error = '';
 		$form = $this->createForm(new CaptchaType(), array());
 		$request = $this->get('request');
 		if ($request->getMethod() == 'POST'){
 			// 			$form->bind($request);
-    			$session = new Session();
-    			$session->start();
-			    echo $session->get('phrase');
-			    $session->remove('phrase');
-			    die;
-				$em = $this->getDoctrine()->getManager();
-				$user->setNick($request->request->get('nick'));
-				$user->setEmail($request->request->get('email'));
-				$user->setPoints(0);
-				$user->setIsInfoSet(0);
-				$em->persist($user);
-				$em->flush();
-				$str = 'jilifirstregister';
-				$code = md5($user->getId().str_shuffle($str));
-				$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
-				if($this->sendMail($url, $user->getEmail())){
-					$setPasswordCode = new setPasswordCode();
-					$setPasswordCode->setUserId($user->getId());
-					$setPasswordCode->setCode($code);
-					$setPasswordCode->setIsAvailable(1);
-					$em->persist($setPasswordCode);
-					$em->flush();
-// 					echo 'success';
-					return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
-				}
+// 			    if($this->get('request')->getSession()->get('phrase') != $request->request->get('captcha')){
+// 			    	$this->get('request')->getSession()->remove('phrase');
+// 			    	$error = 'captcha is error!';
+// 			    }else{
+			    	$this->get('request')->getSession()->remove('phrase');
+			    	$em = $this->getDoctrine()->getManager();
+			    	$user->setNick($request->request->get('nick'));
+			    	$user->setEmail($request->request->get('email'));
+			    	$user->setPoints($this->container->getParameter('init'));
+			    	$user->setIsInfoSet($this->container->getParameter('init'));
+			    	$em->persist($user);
+			    	$em->flush();
+			    	$str = 'jilifirstregister';
+			    	$code = md5($user->getId().str_shuffle($str));
+			    	$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
+			    	if($this->sendMail($url, $user->getEmail(),$user->getNick())){
+			    		$setPasswordCode = new setPasswordCode();
+			    		$setPasswordCode->setUserId($user->getId());
+			    		$setPasswordCode->setCode($code);
+			    		$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
+			    		$em->persist($setPasswordCode);
+			    		$em->flush();
+			    		// 					echo 'success';
+			    		return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
+			    	}
+			    	
+// 			    }
 		}
 		return $this->render('JiliApiBundle:User:reg.html.twig',array(
-				'form' => $form->createView()
+				'form' => $form->createView(),
+				'error'=>$error
 				));
+	}
+	
+	/**
+	 * @Route("/agreement", name="_user_agreement")
+	 */
+	public function agreementAction(){
+		return $this->render('JiliApiBundle:User:agreement.html.twig');
 	}
 
 	/**
@@ -202,13 +330,17 @@ class UserController extends Controller
 	}
 	
 	/**
-	 * @Route("/exchange/{id}", name="_user_exchange")
+	 * @Route("/exchange/{type}", name="_user_exchange")
 	 */
-	public function exchangeAction($id){
+	public function exchangeAction($type){
+		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$repository = $em->getRepository('JiliApiBundle:PointsExchange');
-		$exchange = $repository->getUserExchange($id);
+		$option = array('daytype' => $type ,'offset'=>'','limit'=>'');
+		$exchange = $repository->getUserExchange($id,$option);
 		$arr['exchange'] = $exchange;
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		$arr['user'] = $user;
 		$paginator = $this->get('knp_paginator');
 		$arr['pagination'] = $paginator
 		        ->paginate($exchange,
@@ -217,15 +349,18 @@ class UserController extends Controller
 		return $this->render('JiliApiBundle:User:exchange.html.twig',$arr);
 	}
 	
-	    
 	/**
-	 * @Route("/adtaste/{id}", name="_user_adtaste")
+	 * @Route("/adtaste/{type}", name="_user_adtaste")
 	 */
-	public function adtasteAction($id){
+	public function adtasteAction($type){
+		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
-		$repository = $em->getRepository('JiliApiBundle:AdwAccessHistory');
-		$adtaste = $repository->getUseradtaste($id);
+		$repository = $em->getRepository('JiliApiBundle:AdwOrder');
+		$option = array('daytype' => $type ,'offset'=>'','limit'=>'');
+		$adtaste = $repository->getUseradtaste($id,$option);
 		$arr['adtaste'] = $adtaste;
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		$arr['user'] = $user;
 		$paginator = $this->get('knp_paginator');
 		$arr['pagination'] = $paginator
 		->paginate($adtaste,
@@ -250,10 +385,13 @@ class UserController extends Controller
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$arr['user'] = $user;
 		$setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneByUserId($id);
+		if($setPasswordCode->getIsAvailable()==0){
+			return $this->render('JiliApiBundle::error.html.twig');
+		}
 		$arr['pwdcode'] = $setPasswordCode;
 		$time = $setPasswordCode->getCreateTime();
-        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600){
-        	echo '链接失效';
+        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
+        	return $this->render('JiliApiBundle::error.html.twig');
         }else{
         	if($setPasswordCode->getCode() == $code){
         		$request = $this->get('request');
@@ -265,8 +403,10 @@ class UserController extends Controller
         					}else{
         						echo '重置密码';
         					}
+        					$this->get('request')->getSession()->set('uid',$id);
+        					$this->get('request')->getSession()->set('nick',$user->getNick());
         					$user->setPwd($request->request->get('pwd'));
-        					$setPasswordCode->setIsAvailable(0);
+        					$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
         					$em->persist($user);
         					$em->persist($setPasswordCode);
         					$em->flush();
@@ -279,7 +419,6 @@ class UserController extends Controller
         			}
         		}
         		return $this->render('JiliApiBundle:User:forgetPass.html.twig',$arr);
-        		
         	}
         }
 	}
@@ -293,10 +432,11 @@ class UserController extends Controller
 		$code = md5($id.str_shuffle($str));
 // 		$request = $this->get('request');
 		$email = '278583642@qq.com';
+		$nick = '';
 		$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		if($this->sendMail($url, $email)){
+		if($this->sendMail($url, $email,$nick)){
 			$setPasswordCode = new setPasswordCode();
 			$setPasswordCode->setUserId($user->getId());
 			$setPasswordCode->setCode($code);
@@ -308,19 +448,20 @@ class UserController extends Controller
     	return $this->render('JiliApiBundle:User:mission.html.twig');
 	}
 
-	public function sendMail($url,$email){
-		$endTime = date('Y-m-d H:i:s');
+	public function sendMail($url,$email,$nick){
 		$message = \Swift_Message::newInstance()
-		->setSubject('set pwd')
-		->setFrom('quickresearch_1@163.com')
+		->setSubject('亲爱的#'.$nick."#")
+		->setFrom('signup@91jili.com')
 		->setTo($email)
 		->setBody(
-				$this->renderView(
-						'JiliApiBundle:User:email.txt.twig',array(
-								'end_time'=>$endTime,
-								'url' => $url
-								)
-				)
+				        '<html>' .
+						' <head></head>' .
+						' <body>' .
+						'  感谢您注册成为“积粒网”会员！请点击以下链接，立即激活您的帐户！</br><a href='.$url.'>'.$url.'</a></br>' .
+						'  积粒网，一站式积分媒体！</br>赚米粒，攒米粒，花米粒，一站搞定！' .
+						' </body>' .
+						'</html>',
+						'text/html'
 		);
 		$flag = $this->get('mailer')->send($message);
 		if($flag===1){

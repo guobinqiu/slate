@@ -9,7 +9,7 @@ class AdvertisermentRepository extends EntityRepository
 	public function getAdvertiserment($id=null)
 	{
 		$query = $this->createQueryBuilder('a');
-        $query = $query->select('a.id,a.title,a.content,a.imageurl,a.info,ap.type,ap.position');
+        $query = $query->select('a.id,a.title,a.content,a.imageurl,a.iconImage,a.info,ap.type,ap.position');
         $query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
         $query = $query->orderBy('a.id', 'DESC');
         if($id){
@@ -20,11 +20,22 @@ class AdvertisermentRepository extends EntityRepository
 		return $query->getResult();
 		
 	}
+	public function getAdverRecommandList()
+	{
+		$query = $this->createQueryBuilder('a');
+		$query = $query->select('a.id,a.title,a.content,a.imageurl,a.iconImage,a.info,ap.type,ap.position');
+		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
+		$query = $query->Where('ap.type = 2');
+		$query = $query->orderBy('ap.position');
+		$query =  $query->getQuery();
+		return $query->getResult();
+	
+	}
 	
 	public function getAdvertiserList()
 	{
 		$query = $this->createQueryBuilder('a');
-		$query = $query->select('a.id,a.title,a.content,a.imageurl,a.info,ap.type,ap.position');
+		$query = $query->select('a.id,a.title,a.content,a.imageurl,a.iconImage,a.info,ap.type,ap.position');
 		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
 		$query = $query->Where('ap.type = 1');
 		$query = $query->orderBy('a.id', 'DESC');

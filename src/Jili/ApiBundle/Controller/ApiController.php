@@ -6,19 +6,47 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\PointHistory00;
-use Jili\ApiBundle\Entity\PointHistory01;
-use Jili\ApiBundle\Entity\PointHistory02;
-use Jili\ApiBundle\Entity\PointHistory03;
-use Jili\ApiBundle\Entity\PointHistory04;
-use Jili\ApiBundle\Entity\PointHistory05;
-use Jili\ApiBundle\Entity\PointHistory06;
-use Jili\ApiBundle\Entity\PointHistory07;
-use Jili\ApiBundle\Entity\PointHistory08;
-use Jili\ApiBundle\Entity\PointHistory09;
+
 
 class ApiController extends Controller
 {
-	
+	/**
+	 * @Route("/getAdwInfo", name="_api_getAdwInfo")
+	 */
+	public function getAdwInfoAction()
+	{
+		$code = array('code'=>'','msg'=>'');
+		$request = $this->get('request');
+		$uid = $request->query->get('userinfo');
+		$adid = $request->query->get('extinfo');
+		$u_sig =md5($request->query->get('date')."&".$request->query->get('time')."&".$request->query->get('promotionID')."&".$request->query->get('comm')."&".$request->query->get('totalPrice')."&".$request->query->get('ocd')."&XLGt8P9wgCz9QPfJ");
+		if($u_sig == $request->query->get('sig')){
+			$em = $this->getDoctrine()->getManager();
+			$order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid);
+			if($order){
+				$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+				if($adver->getCategory() == $request->query->get('type')){
+					$issetStauts = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid,$this->container->getParameter('init_two'));
+					if($issetStauts){
+						$code = array('code'=>'5','msg'=>'Orders already exists');
+					}else{
+						$issetOrder = $em->getRepository('JiliApiBundle:AdwOrder')->find($order[0]['id']);
+						$issetOrder->setOrderStatus($this->container->getParameter('init_two'));
+						$em->flush();
+						$code = array('code'=>'1','msg'=>'The information is correct');
+					}
+				}else{
+					$code = array('code'=>'2','msg'=>'Incorrect parameter');
+				}
+			}else{
+				$code = array('code'=>'2','msg'=>'Incorrect parameter');
+			}
+		}else{
+			$code = array('code'=>'3','msg'=>'Signature verification is incorrect');
+		}
+		
+		return new Response(json_encode($code));
+	}
 
 	/**
 	 * @Route("/getAdInfo", name="_api_getAdInfo")
@@ -45,7 +73,7 @@ class ApiController extends Controller
 		$request->query->get('userinfo')==$u_userinfo&&	$request->query->get('comm')==$advertise->getComm()&&$request->query->get('totalPrice')==$advertise->getTotalprice()&&
 		$request->query->get('ocd')==$advertise->getOcd()&&	$request->query->get('goodDetails')==$advertise->getGoodspricecount()&&$request->query->get('paymentmethod')==$advertise->getPaymentmethod()&&
 		$request->query->get('paid')==$advertise->getPaid()	&&$request->query->get('status')==$advertise->getStatus()&&$request->query->get('confirm')==$advertise->getConfirm()){
-		    $u_sig =md5($request->query->get('date')."&".$request->query->get('time')."&".$request->query->get('promotionID')."&".$request->query->get('comm')."&".$request->query->get('totalPrice')."&".$request->query->get('ocd')."&XLGt8P9wgCz9QPfJ");
+			$u_sig =md5($request->query->get('date')."&".$request->query->get('time')."&".$request->query->get('promotionID')."&".$request->query->get('comm')."&".$request->query->get('totalPrice')."&".$request->query->get('ocd')."&XLGt8P9wgCz9QPfJ");
 			if($u_sig == $request->query->get('sig')){
 // 				$repository = $em->getRepository('JiliApiBundle:AdwAccessHistory');
 // 				$adwaccess = $repository->getAccessExist($u_userinfo,$u_extinfo);

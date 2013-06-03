@@ -13,30 +13,47 @@
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
 </head>
+<script type="text/javascript">
+$(function(){
+	$("#getTask").click(function(){
+  	  $.ajax({
+      		url: "{{ path('_advertiserment_click') }}?id="+$('#aid').val(),
+      		post: "GET",
+      		success:function(data){
+          		if(data==1){
+          			window.open("{{ adwurl }}","_blank");
+          		}
+      		}
+      	});
+	});
+});
+
+</script>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle adMore">
   <article>
   	<div class="adTitle">
-    	<h1>我爱酷，全场满380送100元！</h1>
-        <p><span>截止日期：</span>2013年04月05日 ( 还有4天)</p>
-		<p><span>任务奖励：</span>10积分</p>
-        <a class="getBtn" href='{{ advertiserment.content }}' target="_blank">领取任务</a>
+    	<h1>{{ advertiserment.title }}</h1>
+        <p><span>截止日期：</span>{{ advertiserment.endTime.date }}</p>
+		<p><span>任务奖励：</span></p>
+        <a class="getBtn" id="getTask">领取任务</a>
     </div>
     <div class="rule">
     	<h2>活动规则</h2>
         <div class="article">
-        	<h3>温馨提示：</h3>
-            <p>【成果定义】成功购买，无退货。结算销售额为订单总金额扣除缺货商品金额、退货商品金额、运送费用、礼券费用的净值。<br />【数据返回形式】实时<br />备注：支付方式为支付宝付款时，需付款成功后订单才能返回</p>
+        	{{ advertiserment.info  }}
         </div>
     </div>
     <div class="explain">
     	<h2>活动说明</h2>
         <div class="article">
-       	  <div class="img"><img src="{{ asset('other/pic3.jpg')}}"></div>
-        	<p>Wacoal以独有的人体科学研究所为强大的产品研发后盾，并从卓越的品质、严谨的科研、优秀的产品、贴心的服务四方面着眼，为中国女性提供兼具卓越机能性与时尚设计感于一体的内衣产品。  现华歌尔的产品线分为主打系列、金标系列、年轻系列，满足不同消费者的需求。</p>
+       	  <div class="img"><img src="{{ asset(advertiserment.iconImage) }}" width="300" height="300" ></div>
+        	<p>{{ advertiserment.content }}</p>
       </div>
     </div>
+    <input type="hidden" value="{{ id }}" id="aid"/>
+    
   </article>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}

@@ -1,0 +1,25 @@
+ <!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title></title>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/agreement.css')}}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+<div class="agreement">
+  <section>
+    <h2>积粒网会员协议</h2>
+    <hr />
+    <iframe src="{{ asset('other/agreementText.html')}}" frameborder="0" width="920" height="500"></iframe>
+  </section>
+</div>
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>
+ 
+ 

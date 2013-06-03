@@ -46,6 +46,8 @@
 	line-height:35px;
 	height:35px;
 }
+
+
 .login article .loginForm li dt input[type="text"]{
 	border:1px solid #999;
 	font-size:14px;
@@ -59,6 +61,21 @@
 	border:2px solid #7fcaf1;
 	margin:0px;
 }
+
+.login article .loginForm li dt input[type="password"]{
+	border:1px solid #999;
+	font-size:14px;
+	padding:5px;
+	vertical-align:middle;
+	width:200px;
+	box-shadow:1px 1px 3px #CCC inset;
+	margin:1px;
+}
+.login article .loginForm li dt input[type="password"]:hover, .login article .loginForm li dt input[type="password"]:focus{
+	border:2px solid #7fcaf1;
+	margin:0px;
+}
+
 .login article .loginForm li dt input.verification{
 	width:80px;
 }

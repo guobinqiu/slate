@@ -12,30 +12,109 @@
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
 </head>
+
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle regStep">
   <article>
   	<div class="step"><img src="{{ asset('images/step1.jpg')}}" width="960" height="86"></div>
     <div class="regForm" style="padding-top:100px;">
-    <h2>快速注册<span>通过邮箱注册，快速加入积粒网，轻轻松松拿积分、换现金！</span></h2>
-      <form action="{{ path('_user_reg') }}" method="post" name="form1" id="form1">
-    <ul class="form">
-    	<li><dd>邮件地址：</dd><dt><input name="email" type="text"><br /><span>电子邮件就是您今后登录积粒网的账号</span></dt></li>
-        <li><dd>昵称：</dd><dt><input name="nick" type="text"><br /><span>2-12个字符，不能含特殊符号</span></dt></li>
-        <li><dd>验证码：</dd><dt><input name="captcha" type="text" class="verification"></dt>
+    <h2>快速注册<span>通过邮箱注册，快速加入积粒网，轻轻松松拿米粒、换现金！</span></h2>
+    <ul class="form"> 
+    <form action="{{ path('_user_reg') }}" method="post" name="form1" id="form1" >
+    	<li><dd>邮件地址：</dd><dt><input name="email" type="text" id="email" onblur="return check();"><br />
+    	    <span id="emailError">电子邮件就是您今后登录积粒网的账号</span>
+    	</dt></li>
+        <li><dd>昵称：</dd><dt><input name="nick" type="text" id="nick" onblur="return check();"><br /><span id="nickError">2-20个字符</span></dt></li>
+        <li><dd>验证码：</dd><dt><input id="captcha" name="captcha" type="text" class="verification" onblur="return check();"></dt>
         <img name="captcha" onclick="this.src='{{  path('_user_captcha',{'r': random(999999) } )}}'" src="{{ path('_user_captcha') }}" />
+        <br /><dd>&nbsp;</dd><dt></dt><span id="captchaError"></span>
          </li>
         <li><dd></dd><dt><!--  <a class="regBtn" href="#">发送验证邮件</a>-->
-        <input type='submit' name='submit' class='regBtn' value='发送验证邮件'/>
-        </dt></li>
-    </ul></form>
-    <div class="loginArea">我已经注册，现在就<a class="login" href="{{ path('_user_reg') }}">注册</a></div>
+        <input type='button' class='regBtn' value='发送验证邮件' onclick='return check();'/>
+        </dt></li></form>
+    </ul>
+    <div class="loginArea">我已经注册，现在就<a class="login" href="{{ path('_user_login') }}">登录</a></div>
     <div class="clear"></div>
     </div>
   </article>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
+<script type="text/javascript">
+   function check(){
+      var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      if($("#email").val()==''){
+          $("#emailError").html('<font color="red">email不为空</font>');
+          $("#email").focus();
+          return false;
+      }else{
+    	  if (!filter.test($("#email").val())){
+        	  $("#emailError").html('<font color="red">请填写正确的email</font>');
+        	  $("#email").focus();
+              return false;
+          }else{
+        	  $.ajax({
+            		url: "{{ path('_user_checkEmail') }}?email="+$("#email").val(),
+            		post: "GET",
+            		success:function(data){
+            		    if(data==0){
+            		    	$("#emailError").html('<font color="red">邮箱已被注册</font>');
+            		        $("#emailError").focus();
+            		        return false;
+                		}else{
+                		  $("#emailError").html('电子邮件就是您今后登录积粒网的账号');
+                		  var nick_filter = /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[\w]){2,20}$/;
+                      	  if($("#nick").val()==''){
+                          	  $("#nickError").html('<font color="red">昵称不为空</font>');
+                                $("#nick").focus();
+                                return false;
+                            }else{
+                          	  if (!nick_filter.test($("#nick").val())){
+                              	  $("#nickError").html('<font color="red">昵称只能是2-20位中英文下划线</font>');
+                              	  $("#nick").focus();
+                                    return false;
+                                }else{
+                                	$.ajax({
+                                		url: "{{ path('_user_checkNick') }}?nick="+$("#nick").val(),
+                                		post: "GET",
+                                		success:function(data){
+                                			if(data==0){
+                                		    	$("#nickError").html('<font color="red">昵称已被注册</font>');
+                                		        $("#nickError").focus();
+                                		        return false;
+                                    		}else{
+                                       			 $("#nickError").html('2-20个字符');
+                                            	  $.ajax({
+                                                		url: "{{ path('_user_checkCaptcha') }}?captcha="+$("#captcha").val(),
+                                                		post: "GET",
+                                                		success:function(data){
+                                                		    if(data==1){
+                                                		    	$("#captchaError").html('<font color="red">验证码不正确</font>');
+                                                		        $("#captchaError").focus();
+                                                		        return false;
+                                                    		}else{
+                                                    			$("#captchaError").html('');
+                                                        		document.form1.submit();
+                                                        	}
+                                                		}
+                                                	});
+                                        		
+                                    		}
+                                		}
+                                   });
+                              	 
+                                }
+                                    
+                            }
+                    		
+                    	}
+            		}
+            	});
+          }
+      }
+   }
+
+</script>
 </html>
 

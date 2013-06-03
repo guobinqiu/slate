@@ -115,6 +115,26 @@
 	float:left;
 	line-height:35px;
 }
+
+.regStep article ul.form li dt input[type="password"]{
+	border:1px solid #CCC;
+	font-size:14px;
+	padding:5px;
+	vertical-align:middle;
+	width:250px;
+	box-shadow:1px 1px 3px #DDD inset;
+	margin:1px;
+}
+.regStep article ul.form li dt input[type="password"]:hover, .regStep article ul.form li dt input[type="password"]:focus{
+	border:2px solid #7fcaf1;
+	margin:0px;
+}
+.regStep article ul.form li dt.error input[type="password"]{
+	border:1px solid #f4784a;
+	margin:1px;
+}
+
+
 .regStep article ul.form li dt input[type="text"]{
 	border:1px solid #CCC;
 	font-size:14px;

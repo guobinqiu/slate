@@ -24,7 +24,7 @@ class BlackUsers
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
     private $userId;
 

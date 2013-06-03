@@ -11,6 +11,13 @@
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
 </head>
+<script type="text/javascript">
+$(function(){
+	  $("#login").click(function(){
+		  $("#form1").submit();
+		 })
+	})
+</script>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle index">
@@ -18,19 +25,44 @@
         <div id="banner">
         	<ul class="bannerImg">
         	{% for item in advertise_banner %}
-        	<li><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{  item.imageurl | raw }}' width="722" height="250"/></a></li>
+        	<li><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.iconImage) }}" width="722" height="250"/></a></li>
         	{% endfor %}
             	
             </ul>
             <div class="bannerNumber"><a href="#" class="hover">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a></div>
         </div>
-         <div id="userInformation">
-        	<p><a class="reg" href="{{ path('_user_reg') }}">免费注册</a></p>
-            <p><input name="" type="text"></p>
-          	<p><input name="" type="password"></p>
-            <p><input name="" type="image" src="{{ asset('images/indexLoginBtn.jpg')}}"><label><input name="" type="checkbox" value="">记住我</label> | <a class="forget" href="#">忘记密码?</a></span></p>            
+
+        <div id="userInformation">
+        {% if user %}
+    	<div class="after">
+        	<div class="user">
+        	    {% if user.iconPath %}
+            	    <div class="photo"><img src="{{ asset(user.iconPath) }}" width="90" height="90"></div>
+            	{% else %}
+            	   <div class="photo"> <img src="{{ asset('images/default_face.jpg') }}" width="90" height="90"/></div>
+            	 {% endif %}
+                <p>您好，{{ user.nick }}</p>
+                <p><a href="{{ path('_user_info')}}" target="blank">个人中心</a></p>
+                <div class="clear"></div>
+                <p class="point">当前米粒数：<span>{{ user.points }}</span></p>
+            </div>
+            <ul>
+            	<li><a href="{{ path('_user_adtaste',{'type':1}) }}" target="blank">我的体验历史</a></li>
+                <li><a href="{{ path('_user_exchange',{'type':1}) }}" target="blank">我的兑换历史</a></li>
+            </ul>
+        </div> 
+        {% else %}
+       <form action="{{ path('_default_fastLogin') }}" method="post" name="form1" id="form1">
+        <div class="before">
+            <p><input name="email" type="text"></p>
+            <p><input name="pwd" type="password"></p>
+            <p><input name="" id='login' type="image" src="{{ asset('images/indexLoginBtn.jpg') }}"><label><input name="" type="checkbox" value="">记住我</label> | <a class="forget" href="#">忘记密码?</a></span></p> 
+            <p><a class="reg" href="{{ path('_user_reg') }}">免费注册</a></p>
         </div>
-    </section>
+        </form>
+        {% endif %}    
+</div>
+        </section>
     <section class="process"><img src="{{ asset('images/process.jpg')}}" width="960" height="85"></section>
   <section class="main">
     	<article>
@@ -38,9 +70,9 @@
         	
         	{% for item in advertise %}
                <div class="task">
-               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{  item.imageurl | raw }}' width="200" height="130"/></a>
+               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{ asset(item.iconImage) }}' width="200" height="130"/></a>
                 <h3><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.title }}</a></h3>
-                <p>任务奖励：<span>500</span>积分</p>
+                <p>任务奖励：<span>500</span>米粒</p>
             </div>
             {% endfor %}
         	

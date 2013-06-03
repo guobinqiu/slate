@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Jili\ApiBundle\JiliApiBundle(),
         	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         	new Gregwar\CaptchaBundle\GregwarCaptchaBundle(),
+        	new PunkAve\FileUploaderBundle\PunkAveFileUploaderBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

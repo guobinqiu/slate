@@ -20,24 +20,20 @@
 <div class="webArticle adList">
   <article>
     <h2><img src="{{ asset('images/adTitle.jpg')}}" width="149" height="19"></h2>
+     {% for item in adverRecommand %}
     <div class="ad top">
       <div class="topIcon"><img src="{{ asset('images/topIcon.png')}}" width="60" height="60"></div>
-      <div class="img"><a href="#"><img src="{{ asset('other/pic2.jpg')}}"></a></div>
-      <div class="txt"><a href="#">在手机上成功添加蛋蛋微信好友并完成关注，给蛋蛋微信发送蛋蛋ID即可获3万金蛋</a></div>
-      <a href="#" class="advertising">蛋蛋微信蛋</a><span class="reward"><font>5000</font>积分</span>
+      <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.iconImage) }}" width="202" height="132"/></a></div>
+      <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.info }}</a></div>
+      <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a><span class="reward"><font>5000</font>米粒</span>
     </div>
-    <div class="ad top">
-      <div class="topIcon"><img src="{{ asset('images/topIcon.png')}}" width="60" height="60"></div>
-      <div class="img"><a href="#"><img src="{{ asset('other/pic2.jpg')}}"></a></div>
-      <div class="txt"><a href="#">在手机上成功添加蛋蛋微信好友并完成关注，给蛋蛋微信发送蛋蛋ID即可获3万金蛋</a></div>
-      <a href="#" class="advertising">蛋蛋微信蛋</a><span class="reward"><font>5000</font>积分</span>
-    </div>
+    {% endfor %}
     
      {% for item in pagination %}
                <div class="ad">
-                  <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{  item.imageurl | raw }}' width="149" height="19"/></a></div>
+                  <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.iconImage) }}" width="149" height="19"/></a></div>
                <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.info }}</a></div>
-               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a><span class="reward"><font>5000</font>积分</span>
+               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a><span class="reward"><font>5000</font>米粒</span>
               </div>
      {% endfor %}
      
@@ -69,7 +65,7 @@
       </ul>
     </section>
     <section>
-      <h4> 帮助中心<a class="more" href="#">更多>></a> </h4>
+      <h4> 帮助中心<a class="more" href="{{ path('_default_help')}}">更多>></a> </h4>
       <ul class="help">
         <li><a href="#">在沙沙网络可以做什么？</a></li>
         <li><a href="#">在沙沙网络可以做什么？</a></li>

@@ -65,9 +65,9 @@ swiftmailer:
     transport:  smtp
     encryption: ~
     auth_mode:  login
-    host:       smtp.163.com
-    username:   quickresearch_1@163.com
-    password:   quickresearch
+    host:       smtp.exmail.qq.com
+    username:   signup@91jili.com
+    password:   91jili
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
@@ -98,3 +98,7 @@ gregwar_captcha:
 parameters:
     upload_tmp_dir: uploads/user/
     page_num: 10
+    init: 0
+    init_one: 1
+    init_two: 2
+    init_three: 3

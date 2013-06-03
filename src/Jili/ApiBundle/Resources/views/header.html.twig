@@ -10,8 +10,8 @@
         <li class="last"><a href="{{ path('_default_help')}}">帮助中心</a></li>
       </ul>
     </nav>
-    <nav id="user">
-    	<a class="log" href="{{ path('_user_login') }}">登录</a><a class="reg" href="{{ path('_user_reg') }}">注册</a>
-    </nav>
+  
+    {% include 'JiliApiBundle:Default:info.html.twig' %}
+
   </section>
 </header>

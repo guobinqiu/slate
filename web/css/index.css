@@ -46,21 +46,22 @@
     padding: 0px 8px 0px 12px;
     width: 217px;
 	box-shadow: 3px 0 1px #DDDDDD inset;
+	position:relative;
 }
-.index section.one #userInformation p{
+.index section.one #userInformation .before p{
 	margin:15px 0;
 }
-.index section.one #userInformation a.reg{
+.index section.one #userInformation .before a.reg{
 	background-image:url(../images/indexRegBtn.jpg);
 	width:214px;
 	height:51px;
 	text-indent:-9999px;
 	display:inline-block;
 }
-.index section.one #userInformation a.reg:hover{
+.index section.one #userInformation .before a.reg:hover{
 	opacity:.8;
 }
-.index section.one #userInformation input[type="text"], .index section.one #userInformation input[type="password"]{
+.index section.one #userInformation .before input[type="text"], .index section.one #userInformation .before input[type="password"]{
 	border:1px solid #cacaca;
 	width:172px;
 	height:35px;
@@ -69,26 +70,76 @@
 	padding:0 5px 0 35px;
 	color:#c5c5c5;
 }
-.index section.one #userInformation input[type="text"]:focus, .index section.one #userInformation input[type="password"]:focus{
+.index section.one #userInformation .before input[type="text"]:focus, .index section.one #userInformation .before input[type="password"]:focus{
 	color:#666;
 }
-.index section.one #userInformation input[type="text"]{
+.index section.one #userInformation .before input[type="text"]{
 	background-image:url(../images/inputUserIcon.jpg);
 	background-position:8px;
 }
-.index section.one #userInformation input[type="password"]{
+.index section.one #userInformation .before input[type="password"]{
 	background-image:url(../images/inputPasswordIcon.jpg);
 	background-position:10px;
 }
-.index section.one #userInformation input[type="image"]{
+.index section.one #userInformation .before input[type="image"]{
 	vertical-align:middle;
 	margin-right:5px;
 }
-.index section.one #userInformation input[type="image"]:hover{
+.index section.one #userInformation .before input[type="image"]:hover{
 	opacity:.8;
 }
-.index section.one #userInformation a.forget{
+.index section.one #userInformation .before a.forget{
 	color:#54b9e8;
+}
+.index section.one #userInformation .after{
+	margin:10px 0;
+}
+.index section.one #userInformation .after .user{
+	display: inline-block;
+    width: 217px;
+}
+.index section.one #userInformation .after .user .photo{
+	float:left;
+	width:90px;
+	height:90px;
+	margin:0 10px 0 0;
+}
+.index section.one #userInformation .after .user .photo img{
+	width:90px;
+	height:90px;
+}
+.index section.one #userInformation .after .user p{
+	margin:20px 0;
+}
+.index section.one #userInformation .after .user p.point{
+	font-size:18px;
+	color:#CCC;
+}
+.index section.one #userInformation .after .user p.point span{
+	color:#FF7114;
+	font-weight:bold;
+}
+.index section.one #userInformation .after ul{
+	position:absolute;
+	bottom:0px;
+	right:0px;
+}
+.index section.one #userInformation .after ul li a{
+	background-color: #F6F6F6;
+    background-image: url("../images/listArrow.gif");
+    background-position: 200px 50%;
+    background-repeat: no-repeat;
+    border-top: 1px solid #ECECEC;
+    display: inline-block;
+    font-size: 14px;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 0 0 20px;
+    width: 214px;
+}
+.index section.one #userInformation .after ul li a:hover{
+	background-color: #F0F0F0;
+	text-decoration:none;
 }
 .index section.main article {
 	width: 723px;

@@ -106,16 +106,43 @@ footer{
 	margin:0;
 }
 footer section{
-	height: 20px;
-    margin: 0 auto;
-    padding: 40px;
+	margin: 0 auto;
+    padding: 20px 40px 10px 40px;
     position: relative;
     text-align: center;
     width: 960px;
 }
+footer section p{
+	margin:5px 0;
+}
 footer section a, footer section span{
 	margin:10px;
 	color:#666;
+}
+footer section a.sina{
+	background-image: url("../images/sinaIcon.jpg");
+    background-repeat: no-repeat;
+    padding-left: 20px;
+	height:16px;
+	display:inline-block;
+}
+footer section a.tencent{
+	background-image:url("../images/txweiboIcon.jpg");
+	background-repeat:no-repeat;
+	padding-left: 20px;
+	height:16px;
+	display:inline-block;
+}
+footer section a.weixin{
+	background-image:url("../images/weixinIcon.jpg");
+	background-repeat:no-repeat;
+	padding-left: 20px;
+	height:16px;
+	display:inline-block;
+}
+footer section a:hover{
+	text-decoration:none;
+	color:#000;
 }
 .webArticle {
 	width: 960px;

@@ -172,7 +172,7 @@ class User
     
     /**
      * @var string
-     *
+     * 
      * @ORM\Column(name="icon_path", type="string",length=255, nullable=true)
      */
     private $iconPath;
@@ -184,7 +184,7 @@ class User
     public function upload($upload_dir)
     {
         $fileNames = array('attachment');
-        
+        $types = array('jpg','jpeg','png');
         $upload_dir .= $this->getId()%100;
         if(!is_dir($upload_dir)){
         	mkdir($upload_dir,0777);
@@ -200,14 +200,24 @@ class User
 	        switch ($fileName){
 	        	case 'attachment':$field = 'iconPath';break;
 	        }    
-	    
-	        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-	        
-	        $this->$fileName->move($upload_dir, $filename_upload);
-	
-	        $this->$field = $upload_dir.$filename_upload;
-			
-	        $this->$fileName = null;
+	        if(!in_array($this->$fileName->guessExtension(),$types)){
+	        	return 'type is jpg or png';//类型不对 
+                
+	        }else{
+	        	if($this->$fileName->getClientSize() > 20480000){
+	        		return 'size is less than 2M';//图片大于2m
+	        	}else{
+	        		$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+	        		 
+	        		$this->$fileName->move($upload_dir, $filename_upload);
+	        		
+	        		$this->$field = $upload_dir.$filename_upload;
+	        		 
+	        		$this->$fileName = null;
+	        		
+// 	        		return '';
+	        	}
+	        }
         }
     }
     

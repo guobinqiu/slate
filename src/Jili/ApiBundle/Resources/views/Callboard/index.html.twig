@@ -44,12 +44,12 @@
         </span> </li>
     </ul>-->
 
- {{ pagination.render()|raw }}
+{{ knp_pagination_render(pagination) }}
 
   </article>
   <aside>
     <section>
-      <h4> 帮助中心<a class="more" href="#">更多>></a> </h4>
+      <h4> 帮助中心<a class="more" href="{{ path('_default_help')}}">更多>></a> </h4>
       <ul class="help">
         <li><a href="#">在沙沙网络可以做什么？</a></li>
         <li><a href="#">在沙沙网络可以做什么？</a></li>

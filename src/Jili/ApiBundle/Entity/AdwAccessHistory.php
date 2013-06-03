@@ -39,36 +39,12 @@ class AdwAccessHistory
 
     
     /**
-     * @var datetime $accessTime
+     * @var \DateTime
      *
      * @ORM\Column(name="access_time", type="datetime")
      */
     private $accessTime;
 
-    
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="incentive_type", type="integer")
-     */
-    private $incentiveType;
-    
-    
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="incentive", type="integer")
-     */
-    private $incentive;
-    
-    
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="incentive_rate", type="integer")
-     */
-    private $incentiveRate;
-    
     
     /**
      * Get id
@@ -150,77 +126,5 @@ class AdwAccessHistory
         return $this->accessTime;
     }
     
-
     
-    /**
-     * Set incentiveType
-     *
-     * @param integer $incentiveType
-     * @return AdwAccessHistory
-     */
-    public function setIncentiveType($incentiveType)
-    {
-    	$this->incentiveType = $incentiveType;
-    
-    	return $this;
-    }
-    
-    /**
-     * Get incentiveType
-     *
-     * @return integer
-     */
-    public function getIncentiveType()
-    {
-    	return $this->incentiveType;
-    }
-    
-    /**
-     * Set incentive
-     *
-     * @param integer $incentive
-     * @return AdwAccessHistory
-     */
-    public function setIncentive($incentive)
-    {
-    	$this->incentive = $incentive;
-    
-    	return $this;
-    }
-    
-    /**
-     * Get incentive
-     *
-     * @return integer
-     */
-    public function getIncentive()
-    {
-    	return $this->incentive;
-    }
-
-    
-    
-    /**
-     * Set incentiveRate 	
-     *
-     * @param integer $incentiveRate
-     * @return AdwAccessHistory
-     */
-    public function setIncentiveRate($incentiveRate)
-    {
-    	$this->incentiveRate = $incentiveRate;
-    
-    	return $this;
-    }
-    
-    /**
-     * Get incentiveRate
-     *
-     * @return integer
-     */
-    public function getIncentiveRate()
-    {
-    	return $this->incentiveRate;
-    }
-
 }

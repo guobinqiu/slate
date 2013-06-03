@@ -13,4 +13,5 @@ AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 $loader->add('Knp\\Component',__DIR__.'/../vendor/knp-components/src');
 $loader->add('Knp\\Bundle',__DIR__.'/../vendor/bundles');
 $loader->add('Gregwar' , __DIR__.'/../vendor/bundles');
+$loader->add('PunkAve' , __DIR__.'/../vendor/bundles');
 return $loader;
