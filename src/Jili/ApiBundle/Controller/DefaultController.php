@@ -2,8 +2,10 @@
 namespace Jili\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Cookie;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Mailer;
 use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Entity\LoginLog;
@@ -50,8 +52,6 @@ class DefaultController extends Controller
     	->findByEmail($email);
     	$request = $this->get('request');
     	if ($request->getMethod() == 'POST'){
-    		$session = new Session();
-    		$session->start();
 			if(!$em_email){
 				echo 'email is unexist!';
 			}else{
@@ -61,8 +61,16 @@ class DefaultController extends Controller
 				if($user->pw_encode($pwd) != $user->getPwd()){
 					echo 'pwd is error!';
 				}else{
-					$session->set('uid',$id);
-					$session->set('nick',$user->getNick());
+					if($request->request->get('remember_me')=='1'){
+						$response = new Response();
+						$response->headers->setCookie(new Cookie('jili_uid', $id,(time() + 3600 * 24 * 365), '/'));
+						$response->headers->setCookie(new Cookie('jili_nick', $user->getNick(),(time() + 3600 * 24 * 365), '/'));
+// 						$response->send();
+					}
+					$session = new Session();
+					$session->start();
+					$session->set('uid', $id);
+					$session->set('nick', $user->getNick());
 					$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
 					$user->setLastLoginIp($this->get('request')->getClientIp());
 					$em->flush();

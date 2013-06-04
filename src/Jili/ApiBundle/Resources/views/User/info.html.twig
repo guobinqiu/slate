@@ -12,6 +12,8 @@
 <script src="{{ asset('js/personal.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	$("#update").hide();
+	/*
 		$.ajax({
 			url : '{{ path('_user_checkFlag',{'id':user.id}) }}',
 			type : 'get',
@@ -23,7 +25,7 @@ $(document).ready(function(){
 				}
 			}
 		});
-
+    */
 	$("#change").click(function (){
 		$("#info").hide();
 		$("#update").show();

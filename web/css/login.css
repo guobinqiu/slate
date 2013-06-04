@@ -2,93 +2,60 @@
 	margin-top:30px;
 	text-align:center;
 }
+.login .img{
+	float:left;
+	width: 436px;
+	margin: 50px 30px;
+}
 .login article{
-	background-color: #FFFFFF;
-    background-image: url("../images/loginBg.jpg");
-    background-position: center bottom;
-    background-repeat: no-repeat;
-    border: 1px solid #E6E6E6;
-    border-radius: 5px 5px 5px 5px;
+    background-image: url("../images/loginFrameBg.jpg");
     display: inline-block;
-    height: 435px;
-    margin: 50px auto;
+    float: right;
+    height: 457px;
+    margin: 50px 30px;
     text-align: left;
-    width: 784px;
+    width: 377px;
+	padding:0 2px;
 }
 .login article .loginForm{
-	padding: 70px 30px 10px;
+	padding: 40px 50px 10px;
+	border-bottom: 1px dashed #DDDDDD;
 }
 .login article .loginForm h2{
 	color: #F9840D;
     font-size: 22px;
     font-weight: bold;
-    margin: 0 auto 30px;
-    padding-left: 110px;
+    margin: 0 auto 10px;
 }
 .login article .loginForm li{
-	display:inline-block;
 	width:100%;
 	margin:5px 0;
 	color:#000;
 	font-size:14px;
+	padding:5px 0;
 }
-.login article .loginForm li dd{
-	float:left;
-	width:100px;
-	text-align:right;
-	padding-right:10px;
-	line-height:35px;
-	height:35px;
-	display:inline-block;
+.login article .loginForm li.error{
+	color:#F00;
 }
-.login article .loginForm li dt{
-	float:left;
-	line-height:35px;
-	height:35px;
-}
-
-
-.login article .loginForm li dt input[type="text"]{
-	border:1px solid #999;
+.login article .loginForm li input[type="text"],.login article .loginForm li input[type="password"]{
+	border:1px solid #DDD;
 	font-size:14px;
 	padding:5px;
 	vertical-align:middle;
-	width:200px;
+	width:260px;
 	box-shadow:1px 1px 3px #CCC inset;
 	margin:1px;
-}
-.login article .loginForm li dt input[type="text"]:hover, .login article .loginForm li dt input[type="text"]:focus{
-	border:2px solid #7fcaf1;
-	margin:0px;
-}
-
-.login article .loginForm li dt input[type="password"]{
-	border:1px solid #999;
-	font-size:14px;
-	padding:5px;
-	vertical-align:middle;
-	width:200px;
-	box-shadow:1px 1px 3px #CCC inset;
-	margin:1px;
-}
-.login article .loginForm li dt input[type="password"]:hover, .login article .loginForm li dt input[type="password"]:focus{
-	border:2px solid #7fcaf1;
-	margin:0px;
-}
-
-.login article .loginForm li dt input.verification{
-	width:80px;
-}
-.login article .loginForm li.forget, .login article .loginForm li.loginBtn, .login article .loginForm li.otherLogin{
-	padding-left:110px;
-	line-height:25px;
 	height:25px;
 }
+.login article .loginForm li input[type="text"]:hover, .login article .loginForm li input[type="text"]:focus, .login article .loginForm li input[type="password"]:hover, .login article .loginForm li input[type="password"]:focus{
+	border:2px solid #7fcaf1;
+	margin:0px;
+}
 .login article .loginForm li.loginBtn{
-	margin-top:50px;
-	margin-top:80px\9;
-	margin-top:50px\0;
-	_margin-top:80px;
+	margin-top:0px;
+	margin-top:30px\9;
+	margin-top:0px\0;
+	_margin-top:30px;
 }
 .login article .loginForm li.otherLogin{
 	margin-top:10px;
@@ -96,19 +63,21 @@
 .login article .loginForm li.forget a{
 	color:#54b9e8;
 }
-.login article .loginForm li.loginBtn input[type="submit"]{
+.login article .loginForm li.loginBtn input[type="button"]{
 	color:#FFF;
 	font-weight:bold;
-	font-size:16px;
-	width:95px;
-	height:33px;
+	font-size:18px;
+	width:135px;
+	height:45px;
+	margin-right:10px;
 	text-align:center;
+	border-radius:5px;
 	display:inline-block;
-	border:1px solid #6dbade;
-	background-color:#7acaef;
-	background-image: -moz-linear-gradient(top, #8cd2f3, #7acaef); /* Firefox */
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #8cd2f3), color-stop(1, #7acaef)); /* Saf4+, Chrome */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8cd2f3', endColorstr='#7acaef', GradientType='0'); /* IE*/
+	border:1px solid #fb742c;
+	background-color:#ff8f4b;
+	background-image: -moz-linear-gradient(top, #ff8f4b, #fb742c); /* Firefox */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff8f4b), color-stop(1, #fb742c)); /* Saf4+, Chrome */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8f4b', endColorstr='#fb742c', GradientType='0'); /* IE*/
 }
 .login article .loginForm li.otherLogin a{
 	display: inline-block;
@@ -122,4 +91,26 @@
 }
 .login article .loginForm li.otherLogin a.qq{
 	background-image:url(../images/qqIcon.jpg);
+}
+.login article .regArea{
+	text-align:center;
+	padding:20px 0;
+}
+.login article .regArea a.reg{
+	color:#dd621f;
+	font-weight:bold;
+	font-size:18px;
+	width:135px;
+	height:45px;
+	line-height:45px;
+	width:270px;
+	margin-right:10px;
+	text-align:center;
+	border-radius:5px;
+	display:inline-block;
+	border:1px solid #dadada;
+	background-color:#ececec;
+	background-image: -moz-linear-gradient(top, #f5f5f5, #ececec); /* Firefox */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f5f5f5), color-stop(1, #ececec)); /* Saf4+, Chrome */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#ececec', GradientType='0'); /* IE*/
 }

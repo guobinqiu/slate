@@ -35,6 +35,7 @@ input, textarea {
 	border: medium none;
 	outline: 0 none;
 	resize: none;
+	vertical-align: middle;
 }
 .clear{
 	clear:both;

@@ -15,7 +15,6 @@
 $(function(){
 	$("#spans").hide();
 	$("#sames").hide();
-	$(".message").hide();
 });
 function check(){
 	$.ajax({
@@ -42,30 +41,12 @@ function check(){
 		        	if( $("#pwd").val() !=  $("#newPwd").val()){
 		        		$("#newPwdError").addClass('error');
 		        		$("#sames").show();
-		        		 $("#newPwdError").focus();
+		        		$("#newPwdError").focus();
 		        		return false;
 		        	}else{
-		        		$("#newPwdError").removeClass('error');
-		        		$("#pwdError").addClass('succeed');
 		        		$("#sames").hide();
-		        		$(".message").show();
-		        		$.ajax({
-		        			url: "{{ path('_user_changePwd') }}?pwd="+$("#newPwd").val(),
-		        			post: "GET",
-		        			success:function(data){
-			        			if(data==1){
-			        				$(".message").show();
-			        				$("#oldPwdError").removeClass('succeed');
-			        				$("#pwdError").removeClass('succeed');
-			        				$('#oldPwd').val('');
-			        				$("#pwd").val('');
-			        				$("#newPwd").val('');
-				        		}
-			        			    
-		        			}
-		        		});
+			        	$("#form1").submit();
 			        }
-			        
 		        }
         	}
 		}
@@ -77,10 +58,12 @@ function check(){
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle password">
   <article>
-  
+    <form action="{{ path('_user_changePwd') }}" method="post" name="form1" id="form1" >
     <div class="form">
       <h2>修改密码</h2>
+      {% if codeflag == 1 %}
       <div class="message"><img src="{{ asset('images/succeed.jpg')}}" width="39" height="44">密码修改成功！</div>
+      {% endif %}
       <ul class="activate">
         <li>
           <dd>请输入旧密码：</dd>
@@ -109,7 +92,7 @@ function check(){
       </ul>
       <div class="clear"></div>
     </div>
-    
+    </form>
   </article>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
