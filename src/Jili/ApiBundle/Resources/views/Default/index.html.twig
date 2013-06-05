@@ -37,17 +37,17 @@ $(function(){
     	<div class="after">
         	<div class="user">
         	    {% if user.iconPath %}
-            	    <div class="photo"><a href="{{ path('_user_info')}}" target="blank"><img src="{{ asset(user.iconPath) }}" width="90" height="90"></a></div>
+            	    <div class="photo"><a href="{{ path('_user_info')}}" ><img src="{{ asset(user.iconPath) }}" width="90" height="90"></a></div>
             	{% else %}
-            	   <div class="photo"> <a href="{{ path('_user_info')}}" target="blank"><img src="{{ asset('images/default_face.jpg') }}" width="90" height="90"/></a></div>
+            	   <div class="photo"> <a href="{{ path('_user_info')}}" ><img src="{{ asset('images/default_face.jpg') }}" width="90" height="90"/></a></div>
             	 {% endif %}
-                <p>您好，<a href="{{ path('_user_info')}}" target="blank">{{ user.nick }}</a></p>
+                <p>您好，<a href="{{ path('_user_info')}}">{{ user.nick }}</a><br/><br/><a href="{{ path('_user_info')}}"><img src="{{ asset('images/myCenterBtn.png') }}"/></a></p>
                 <div class="clear"></div>
                 <p class="point">当前米粒数：<span>{{ user.points }}</span></p>
             </div>
             <ul>
-            	<li><a href="{{ path('_user_adtaste',{'type':1}) }}" target="blank">我的体验历史</a></li>
-                <li><a href="{{ path('_user_exchange',{'type':1}) }}" target="blank">我的兑换历史</a></li>
+            	<li><a href="{{ path('_user_adtaste',{'type':1}) }}" >我的体验历史</a></li>
+                <li><a href="{{ path('_user_exchange',{'type':1}) }}" >我的兑换历史</a></li>
             </ul>
         </div> 
         {% else %}

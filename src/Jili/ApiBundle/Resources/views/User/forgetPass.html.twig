@@ -20,32 +20,10 @@ $(document).ready(function(){
           else
         	  $("#but").attr("disabled", "disabled");
 	});	
+	$("#but").click(function() {
+		 $("#form1").submit();
+	});	
 });
-function check(){
-	var pwd_filter = /^[0-9A-Za-z_]{6,20}$/;
-	if($("#pwd").val()==''){
-		$("#pwdError").html('<font color="red">密码不为空</font>');
-        $("#pwd").focus();
-        return false;
-	}else{
-		  if(!pwd_filter.test($("#pwd").val())){
-        	  $("#pwdError").html('<font color="red">密码为6-20位英文数字下划线 </font>');
-        	  $("#pwd").focus();
-              return false;
-          }else{
-        	  $("#pwdError").html('电子邮件就是您今后登录积粒网的账号');
-	          if($("#que_pwd").val() != $("#pwd").val()){
-	        	  $("#newError").html('<font color="red">密码不相同 </font>');
-	        	  $("#que_pwd").focus();
-	              return false;
-		      }else{
-		    	  $("#newError").html('6-20个字符');
-			      $("#form1").submit();
-			  }
-	          
-          }
-	}
-}
 </script>
 </head>
 <body>
@@ -58,10 +36,21 @@ function check(){
     <div class="remind">HI,{{ user.nick }},欢迎来到积粒网。请完善一下信息创建您的积粒账号</div>
     <form action="{{ path('_user_forgetPass',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
     <ul class="form activate">
-    	<li><dd>密码：</dd><dt><input id="pwd" name="pwd" type="password" onblur="return check();"><br /><span id="pwdError">电子邮件就是您今后登录积粒网的账号</span></dt></li>
-        <li><dd>确认密码：</dd><dt><input id="que_pwd" name="que_pwd" type="password"><br /><span id="newError">6-20个字符</span></dt></li>
+    	<li><dd>密码：</dd><dt><input id="pwd" name="pwd" type="password"><br />
+    	<span id="pwdError">
+    	 {% if code_pwd ==0 %}电子邮件就是您今后登录积粒网的账号
+    	 {% elseif code_pwd==1 %}<font color="red">请输入密码</font>
+    	 {% else %} <font color="red">密码为6-20位</font>
+    	 {%  endif %}
+    	</span></dt></li>
+        <li><dd>确认密码：</dd><dt><input id="que_pwd" name="que_pwd" type="password"><br />
+        <span id="newError">
+        {% if code_que_pwd ==0 %}6-20个字符
+    	 {% else %}<font color="red"> 2次密码不相同</font>
+    	 {%  endif %}
+        </span></dt></li>
         <li><dd></dd><dt><input name="ck" type="checkbox" value="1" id="ck">我已认真阅读并同意接受<a href="{{ path('_user_agreement') }}" target="blank" class="provision">《积粒网会员协议》</a></dt></li>
-        <li><dd></dd><dt><input type='button' name='but' id='but' value='创建账号' onclick="return check();"/></dt></li>
+        <li><dd></dd><dt><input type='button' name='but' id='but' value='创建账号'/></dt></li>
     </ul>
     </form>
     </div>

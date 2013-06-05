@@ -201,11 +201,11 @@ class User
 	        	case 'attachment':$field = 'iconPath';break;
 	        }    
 	        if(!in_array($this->$fileName->guessExtension(),$types)){
-	        	return 'type is jpg or png';//类型不对 
+	        	return  'type is jpg or png';//类型不对 
                 
 	        }else{
-	        	if($this->$fileName->getClientSize() > 20480000){
-	        		return 'size is less than 2M';//图片大于2m
+	        	if($this->$fileName->getClientSize() > 100000){
+	        		return  'size is less than 100k';//图片大于100k
 	        	}else{
 	        		$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
 	        		 

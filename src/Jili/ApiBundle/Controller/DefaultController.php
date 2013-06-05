@@ -17,6 +17,12 @@ class DefaultController extends Controller
 	 */
     public function indexAction()
     {
+    	$request = $this->get('request');
+        $cookies = $request->cookies;
+        if ($cookies->has('jili_uid') &&  $cookies->has('jili_nick')){
+            $this->get('request')->getSession()->set('uid',$cookies->get('jili_uid'));
+            $this->get('request')->getSession()->set('nick',$cookies->get('jili_nick'));
+    	}
     	$arr['user'] = array();
         $em = $this->getDoctrine()->getManager();
         if( $this->get('request')->getSession()->get('uid')){
@@ -61,14 +67,12 @@ class DefaultController extends Controller
 				if($user->pw_encode($pwd) != $user->getPwd()){
 					echo 'pwd is error!';
 				}else{
-					if($request->request->get('remember_me')=='1'){
-						$response = new Response();
-						$response->headers->setCookie(new Cookie('jili_uid', $id,(time() + 3600 * 24 * 365), '/'));
-						$response->headers->setCookie(new Cookie('jili_nick', $user->getNick(),(time() + 3600 * 24 * 365), '/'));
-// 						$response->send();
-					}
 					$session = new Session();
 					$session->start();
+					if($request->request->get('remember_me')=='1'){
+						setcookie("jili_uid", $id, time() + 3600 * 24 * 365,'/');
+						setcookie("jili_nick",$user->getNick(), time() + 3600 * 24 * 365,'/');
+					}
 					$session->set('uid', $id);
 					$session->set('nick', $user->getNick());
 					$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));

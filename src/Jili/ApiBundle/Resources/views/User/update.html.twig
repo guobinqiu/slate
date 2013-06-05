@@ -1,4 +1,4 @@
-  <form action="{{ path('_user_update',{'id':user.id}) }}" method="post" {{ form_enctype(form) }}>
+  <form action="{{ path('_user_update',{'id':user.id}) }}" method="post">
     <h3>个人信息<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
     <div class="content info">
       <a class="edit"href="javascript:void(0);" id="change">修改 »</a>
@@ -10,33 +10,16 @@
         <li>
           <dd>昵  称：</dd>
           <dt>
-              <input name="nick" type="text" value="{{ user.nick }}">
+             {{ user.nick }}
           </dt>
         </li>
         <li>
           <dd>性  别：</dd>
           <dt>
-            <input name="sex" type="radio" value="">
+            <input name="sex" type="radio" {% if user.sex==0 %} checked='checked' {% endif %} value="0">
             男
-            <input name="sex" type="radio" value="">
+            <input name="sex" type="radio" {% if user.sex==1 %} checked='checked' {% endif %} value="1">
             女</dt>
-        </li>
-        <li>
-          <dd>生  日：</dd>
-          <dt>
-            <select name="year">
-              <option>1999</option>
-              <option>2000</option>
-              <option>2001</option>
-              <option>2002</option>
-            </select>
-            <select name="month">
-              <option>04</option>
-            </select>
-            <select name="day">
-              <option>23</option>
-            </select>
-          </dt>
         </li>
         <li>
           <dd>手机号码：</dd>
@@ -44,58 +27,7 @@
             <input name="tel" type="text" value="{{ user.tel }}">
           </dt>
         </li>
-        <li>
-          <dd>现居住地：</dd>
-          <dt>
-            <select name="">
-              <option>--</option>
-            </select>
-            省
-            <select name="">
-              <option>--</option>
-            </select>
-            市</dt>
-        </li>
-        <li>
-          <dd>学  历：</dd>
-          <dt>
-            <select name="">
-              <option>请选择</option>
-            </select>
-          </dt>
-        </li>
-        <li>
-          <dd>职  业：</dd>
-          <dt>
-            <select name="">
-              <option>请选择</option>
-            </select>
-          </dt>
-        </li>
-        <li>
-          <dd>兴趣爱好：</dd>
-          <dt>
-            <input name="" type="checkbox" value="">
-            音乐
-            <input name="" type="checkbox" value="">
-            运动
-            <input name="" type="checkbox" value="">
-            旅游
-            <input name="" type="checkbox" value="">
-            电影
-            <input name="" type="checkbox" value="">
-            健康
-            <input name="" type="checkbox" value="">
-            购物
-            <input name="" type="checkbox" value="">
-            美食</dt>
-        </li>
-        <li>
-          <dd>个性说明：</dd>
-          <dt>
-            <textarea name="personalDes" cols="" rows="6" value="{{ user.personalDes }}"></textarea>
-          </dt>
-        </li>
+       
         <li>
           <dd>&nbsp;</dd>
           <dt>

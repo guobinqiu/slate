@@ -16,15 +16,29 @@
 <script type="text/javascript">
 $(function(){
 	$("#getTask").click(function(){
-  	  $.ajax({
-      		url: "{{ path('_advertiserment_click') }}?id="+$('#aid').val(),
-      		post: "GET",
-      		success:function(data){
-          		if(data==1){
-          			window.open("{{ adwurl }}","_blank");
-          		}
-      		}
-      	});
+	if($('#uid').val()==''){
+		window.location.href="{{ path('_user_login') }}";
+	}else{
+		var w = window.open("","_blank");
+	  	  $.ajax({
+	      		url: "{{ path('_advertiserment_click') }}?id="+$('#aid').val(),
+	      		post: "GET",
+	      		success:function(data){
+	          		if(data==1){
+	          			w.location.href="{{ adwurl }}";
+	          		} else if(data==0) {
+	              		window.location.href="{{ path('_user_login') }}";
+	              		w.close();
+	          		}else{
+	         			w.close();
+	              	}
+	      		},
+			    error:function(){
+			       w.close();
+				 }
+	      	});
+		}
+	  
 	});
 });
 
@@ -35,10 +49,44 @@ $(function(){
   <article>
   	<div class="adTitle">
     	<h1>{{ advertiserment.title }}</h1>
-        <p><span>截止日期：</span>{{ advertiserment.endTime.date }}</p>
+        <p><span>截止日期：</span>
+            {{ advertiserment.endTime.date }}
+</p>
 		<p><span>任务奖励：</span></p>
-        <a class="getBtn" id="getTask">领取任务</a>
-    </div>
+	      {% if code==1 %}
+	          {% if orderStatus %}
+    	            {% if orderStatus==1 %}
+    	                                     已过期
+                     {% elseif orderStatus==2 %}
+                                                             确认中
+                     {% elseif orderStatus==3 %}
+                                                             已完成                                                  
+                     {% elseif orderStatus==4 %} 
+                                                              任务失败               
+                     {% else %}                                                       
+    	             {% endif %}
+	           {% else %}
+	                                               已过期   
+	           {% endif %}                        
+	      {% else %}
+        	      {% if orderStatus %}
+                	      {% if orderStatus==1 %}
+            	                                 继续完成
+                             {% elseif orderStatus==2 %}
+                                                                                      确认中                                                    
+                             {% elseif orderStatus==3 %}
+                                                                                     已完成                                                  
+                              {% elseif orderStatus==4 %} 
+                                                                                  任务失败   
+                              {% else %}                                                                                               
+            	             {% endif %}
+        	      {% else %}
+        	        <a class="getBtn" id="getTask">领取任务</a>
+        	     {% endif %}
+	      {% endif %}
+		
+
+  </div>
     <div class="rule">
     	<h2>活动规则</h2>
         <div class="article">
@@ -48,12 +96,14 @@ $(function(){
     <div class="explain">
     	<h2>活动说明</h2>
         <div class="article">
-       	  <div class="img"><img src="{{ asset(advertiserment.iconImage) }}" width="300" height="250" ></div>
+       	  <div class="img">
+       	  <img src="{{ asset(advertiserment.iconImage) }}" width="300" height="250" >
+       	  </div>
         	<p>{{ advertiserment.content }}</p>
       </div>
     </div>
     <input type="hidden" value="{{ id }}" id="aid"/>
-    
+     <input type="hidden" value="{{ uid }}" id="uid"/>
   </article>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}

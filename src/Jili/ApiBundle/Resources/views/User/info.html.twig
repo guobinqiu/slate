@@ -26,6 +26,9 @@ $(document).ready(function(){
 			}
 		});
     */
+    $(".upload").click(function (){
+        $("#form1").submit();
+    });
 	$("#change").click(function (){
 		$("#info").hide();
 		$("#update").show();
@@ -47,9 +50,9 @@ $(document).ready(function(){
     	        <img src='{{ asset("images/default_face.jpg") }}' height='110'/>
     	    {% endif %}
         </div>
-        <form action="{{ path('_user_info') }}" method="post" {{ form_enctype(form) }}>
+        <form action="{{ path('_user_info') }}" method="post" {{ form_enctype(form) }} id="form1">
         <p>欢迎您,{{ user.nick }}&nbsp;我的米粒：<span>{{ user.points }}</span></p>
-        <p>{{ form_widget(form.attachment) }}<input type="submit" class="upload" value="上传头像" /></p>
+        <p>{{ form_widget(form.attachment) }}<a class="upload">上传头像</a></p>
         <!-- <a class="upload" href="">上传头像</a> -->
         <p> {% if code %}
         <font color='red'>{{ code }}</font>
@@ -75,25 +78,16 @@ $(document).ready(function(){
         </li>
         <li>
           <dd>性  别：</dd>
-          <dt>{{ user.sex }}</dt>
+          <dt>{% if user.sex==0 %} 
+         男{% else %}女{% endif %}</dt>
         </li>
-        <li>
-          <dd>生  日：</dd>
-          <dt>{{ user.birthday }}
-          </dt>
-        </li>
+       
         <li>
           <dd>手机号码：</dd>
           <dt>
             {{ user.tel }}
           </dt>
         </li>  
-        <li>
-          <dd>兴趣爱好：</dd>       
-            音乐 
-            美食</dt>
-        </li>
-       
       </ul>
     </div>
   </section>
@@ -102,29 +96,25 @@ $(document).ready(function(){
   {% include 'JiliApiBundle:User:update.html.twig' %}
   </section>
 
-  
-  
   <section>
     <h3>我的广告体验<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
     <div class="content ad">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <th>广告名称</th>
-          <th>已获得米粒</th>
-          <th>下线日期</th>
-          <th>最后更新时间</th>
-          <th>体验进度</th>
-          <th>领取奖励</th>
+          <th>任务类型</th>
+          <th>任务名称</th>
+          <th>奖励积分</th>
+          <th>任务领取时间</th>
+          <th>状态</th>
         </tr>
         {% if adtasteNum > 0 %}
          {% for item in adtaste %}
         <tr>
-          <td>{{ item.title }} </td>
-          <td></td>
+           <td>{{ item.categoryName }}</td>
+           <td>{{ item.title }} </td>
           <td>长期</td>
           <td>{{ item.createTime.date  }}</td>
-          <td></td>
-          <td>领取奖励</td>
+           <td>领取奖励</td>
         </tr>
          {% endfor %}
          <center><p><a href="{{ path('_user_adtaste',{'type': 1}) }}">更多</a></p></center>
@@ -138,11 +128,11 @@ $(document).ready(function(){
     <div class="content score">
     	<table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <th>兑换时间</th>
+          <th>兑换申请时间</th>
           <th>兑换方式</th>
-          <th>兑换数量</th>
+          <th>米粒数</th>
+          <th>兑换完成时间</th>
           <th>状态</th>
-          <th>操作</th>
         </tr>
         {% if exchange %}
         {% for item in exchange %}
@@ -150,8 +140,8 @@ $(document).ready(function(){
           <td>{{ item.exchangeDate.date }}</td>
           <td>{{ item.type }}</td>
           <td>50元</td>
+          <td>{{ item.exchangeDate.date }}</td>
           <td>兑换成功</td>
-          <td></td>
         </tr>
         {% endfor %}
           <center><p><a href="{{ path('_user_exchange',{'type': 1}) }}">更多</a></p></center>

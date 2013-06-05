@@ -110,7 +110,7 @@
 	padding: 5px;
 	width: 360px;
 }
-.info ul li dt input[type="button"] {
+.info ul li dt input[type="submit"] {
 	height: 29px;
 	background-image: url(../images/formButtonBg);
 	border: 1px solid #cf410c;

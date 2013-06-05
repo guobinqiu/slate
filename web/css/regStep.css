@@ -168,6 +168,7 @@
 	color:#146096;
 }
 .regStep article ul.form li dt .regBtn{
+	cursor: pointer;
 	color:#FFF;
 	font-weight:bold;
 	font-size:16px;
