@@ -69,7 +69,14 @@ class Advertiserment
      * @ORM\Column(name="update_time", type="datetime")
      */
     private $updateTime;
-
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="decription", type="string", length=1000)
+     */
+    private $decription;
+    
     /**
      * @var text
      *
@@ -90,6 +97,14 @@ class Advertiserment
      * @ORM\Column(name="icon_image", type="string", length=250)
      */
     private $iconImage;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="list_image", type="string", length=250)
+     */
+    private $listImage;
 
     /**
      * @var integer
@@ -97,6 +112,23 @@ class Advertiserment
      * @ORM\Column(name="incentive_type", type="integer")
      */
     private $incentiveType;
+    
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="incentive_rate", type="integer")
+     */
+    private $incentiveRate;
+    
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="incentive", type="integer")
+     */
+    private $incentive;
+    
 
     /**
      * @var text
@@ -268,6 +300,29 @@ class Advertiserment
     {
         return $this->updateTime;
     }
+    
+    /**
+     * Set decription
+     *
+     * @param string $decription
+     * @return Advertiserment
+     */
+    public function setDecription($decription)
+    {
+    	$this->decription = $decription;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get decription
+     *
+     * @return string
+     */
+    public function getDecription()
+    {
+    	return $this->decription;
+    }
 
     /**
      * Set content
@@ -340,6 +395,30 @@ class Advertiserment
     
     
     /**
+     * Set listImage
+     *
+     * @param string $listImage
+     * @return Advertiserment
+     */
+    public function setListImage($listImage)
+    {
+    	$this->listImage = $listImage;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get listImage
+     *
+     * @return string
+     */
+    public function getListImage()
+    {
+    	return $this->listImage;
+    }
+    
+    
+    /**
      * Set incentiveType
      *
      * @param integer $incentiveType
@@ -347,20 +426,71 @@ class Advertiserment
      */
     public function setIncentiveType($incentiveType)
     {
-        $this->incentiveType = $incentiveType;
+    	$this->incentiveType = $incentiveType;
     
-        return $this;
+    	return $this;
     }
-
+    
     /**
      * Get incentiveType
      *
-     * @return integer 
+     * @return integer
      */
     public function getIncentiveType()
     {
-        return $this->incentiveType;
+    	return $this->incentiveType;
     }
+    
+    
+    /**
+     * Set incentiveRate
+     *
+     * @param integer $incentiveRate
+     * @return Advertiserment
+     */
+    public function setIncentiveRate($incentiveRate)
+    {
+    	$this->incentiveRate = $incentiveRate;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get incentiveRate
+     *
+     * @return integer
+     */
+    public function getIncentiveRate()
+    {
+    	return $this->incentiveRate;
+    }
+    
+    
+    
+    /**
+     * Set incentive
+     *
+     * @param integer $incentive
+     * @return Advertiserment
+     */
+    public function setIncentive($incentive)
+    {
+    	$this->incentive = $incentive;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get incentive
+     *
+     * @return integer
+     */
+    public function getIncentive()
+    {
+    	return $this->incentive;
+    }
+    
+    
 
     /**
      * Set info

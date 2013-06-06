@@ -163,6 +163,7 @@
 }
 .index section.main article div.task {
 	width: 200px;
+	height: 180px;
 	padding: 10px 10px 5px 10px;
 	float: left;
 	border: 3px solid #ECECEC;
@@ -174,7 +175,12 @@
 }
 .index section.main article div.task img{
 	margin:0 0 5px 0;
+	border: 1px solid #EEEEEE;
+    height: 130px;
+    margin: -1px 0 0 -1px;
+    width: 200px;
 }
+
 .index section.main article div.task h3 {
 	position: relative;
 	color: #ec4920;

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title></title>
+<title>积粒网-首页 一站式积分媒体！</title>
 <!-- [if lt IE9] -->
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
@@ -25,11 +25,11 @@ $(function(){
         <div id="banner">
         	<ul class="bannerImg">
         	{% for item in advertise_banner %}
-        	<li><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.iconImage) }}" width="722" height="250"/></a></li>
+        	<li><a href="{{ item.adUrl }}" target="_blank"><img src="{{ asset(item.iconImage) }}"/></a></li>
         	{% endfor %}
             	
             </ul>
-            <div class="bannerNumber"><a href="#" class="hover">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a></div>
+            <div class="bannerNumber"><a href="#" class="hover">1</a><a href="#">2</a><a href="#">3</a></div>
         </div>
 
         <div id="userInformation">
@@ -46,7 +46,7 @@ $(function(){
                 <p class="point">当前米粒数：<span>{{ user.points }}</span></p>
             </div>
             <ul>
-            	<li><a href="{{ path('_user_adtaste',{'type':1}) }}" >我的体验历史</a></li>
+            	<li><a href="{{ path('_user_adtaste',{'type':1}) }}" >我的任务历史</a></li>
                 <li><a href="{{ path('_user_exchange',{'type':1}) }}" >我的兑换历史</a></li>
             </ul>
         </div> 
@@ -70,15 +70,22 @@ $(function(){
         	
         	{% for item in advertise %}
                <div class="task">
-               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{ asset(item.iconImage) }}' width="200" height="130"/></a>
+               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{ asset(item.listImage) }}' /></a>
                 <h3><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.title }}</a></h3>
-                <p>任务奖励：<span>500</span>米粒</p>
+                <p>任务奖励：
+                {% if item.incentive %}
+                     <span>{{ item.incentive }}</span>米粒
+                     {% else %}
+                     最高获消费额<span>{{ item.incentiveRate }}%</span>的米粒
+                     {% endif %}
+                  </p>
+                     
             </div>
             {% endfor %}
         	
     </article>
     	<aside>
-        	<section>
+        	<section style="height:200px;">
             	<h4>公告<a class="more" href="{{ path('_callboard_index')}}">更多>></a></h4>
               <ul class="news">
               {% for item in callboard %}
@@ -86,6 +93,15 @@ $(function(){
                    
                 {% endfor %}
                    <!--   <li class="last"><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>-->
+                </ul>
+            </section>
+            
+            
+             <section style="height:400px;">
+            	<h4>最新兑换</h4>
+              <ul class="timeline">
+                	<li>暂无兑换信息</li>
+                    
                 </ul>
             </section>
            

@@ -34,20 +34,19 @@ class AdvertisermentController extends Controller
 		    $orderStatus = $adw_status[0]['orderStatus'];
             $arr['orderStatus'] = $orderStatus;
 		}
-		
 		$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-		$time =  $advertiserment->getEndTime()->format('Y-m-d H:i:s');
+		$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->getAdwAdverList($advertiserment->getIncentiveType(),$id);
+		$time =  $advertiserment[0]['endTime']->format('Y-m-d H:i:s');
 		if(time()-strtotime($time)>=0){
 			$code = $this->container->getParameter('init_one');
 			$arr['code'] = $code;
 		}
-        $arr['advertiserment'] = $advertiserment;
-        
-        $adw_info = $advertiserment->getImageUrl();
+        $adw_info = $advertiserment[0]['imageurl'];
         $adw_info = explode("u=",$adw_info);
         $new_url = $adw_info[0]."u=".$uid.$adw_info[1].$id;
         $arr['id'] = $id;
         $arr['adwurl'] = $new_url;
+        $arr['advertiserment'] = $advertiserment[0];
 		return $this->render('JiliApiBundle:Advertiserment:info.html.twig',$arr);
 	}
 	/**
@@ -56,7 +55,7 @@ class AdvertisermentController extends Controller
 	public function listAction(){
 		$em = $this->getDoctrine()->getManager();
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
-		$advertise = $repository->getAdvertiserment();
+		$advertise = $repository->getAdvertisermentList();
 		$adverRecommand = $repository->getAdverRecommandList();
 		$arr['adverRecommand'] = $adverRecommand;
 		$arr['advertiserment'] = $advertise;
@@ -79,6 +78,9 @@ class AdvertisermentController extends Controller
 			$request = $this->get('request');
 			$id = $request->query->get('id');
 			$em = $this->getDoctrine()->getManager();
+			$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
+		    $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->getAdwAdverList($advertiserment->getIncentiveType(),$id);
+		    
 			$adwAccessHistory = new AdwAccessHistory();
 			$adwAccessHistory->setUserId($this->get('request')->getSession()->get('uid'));
 			$adwAccessHistory->setAdId($id);
@@ -91,6 +93,13 @@ class AdvertisermentController extends Controller
 				$adwOrder->setUserId($this->get('request')->getSession()->get('uid'));
 				$adwOrder->setAdId($id);
 				$adwOrder->setCreateTime(date_create(date('Y-m-d H:i:s')));
+				$adwOrder->setIncentiveType($advertiserment[0]['incentiveType']);
+				if($advertiserment[0]['incentiveType']==1){
+					$adwOrder->setIncentive($advertiserment[0]['incentive']);
+				}
+				if($advertiserment[0]['incentiveType']==2){
+					$adwOrder->setIncentiveRate($advertiserment[0]['incentiveRate']);
+				}
 				$adwOrder->setOrderStatus($this->container->getParameter('init_one'));
 				$adwOrder->setDeleteFlag($this->container->getParameter('init'));
 				$em->persist($adwOrder);
@@ -103,7 +112,6 @@ class AdvertisermentController extends Controller
 			$code = $this->container->getParameter('init_one');
 		}
 		return new Response($code);
-// 		return $this->render('JiliApiBundle:Advertiserment:info.html.twig');
 	}
 	
 	

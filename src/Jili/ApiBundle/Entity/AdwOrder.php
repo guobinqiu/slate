@@ -12,8 +12,8 @@ class AdwOrder
 {
 	public function __construct() {
 		$this->createTime = new \DateTime();
-		$this->adwReturnTime = new \DateTime();
-		$this->confirmTime = new \DateTime();
+		//$this->adwReturnTime = new \DateTime();
+		//$this->confirmTime = new \DateTime();
 	}
 	
      /**
@@ -87,6 +87,13 @@ class AdwOrder
      * @ORM\Column(name="incentive_rate", type="integer")
      */
     private $incentiveRate;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="order_price", type="integer")
+     */
+    private $oldPrice;
     
     
     /**
@@ -307,6 +314,31 @@ class AdwOrder
     	return $this->incentiveRate;
     }
     
+    
+    
+    
+    /**
+     * Set orderPrice
+     *
+     * @param integer $orderPrice
+     * @return AdwOrder
+     */
+    public function setOrderPrice($orderPrice)
+    {
+    	$this->orderPrice = $orderPrice;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get orderPrice
+     *
+     * @return integer
+     */
+    public function getOrderPrice()
+    {
+    	return $this->orderPrice;
+    }
     
     
 

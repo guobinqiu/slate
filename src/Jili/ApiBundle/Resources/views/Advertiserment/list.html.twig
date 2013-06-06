@@ -1,9 +1,8 @@
-
 <!doctype html>
 <html>
 <head>
 <meta charset="UTF-8" />
-<title></title>
+<title>积粒网-体验广告列表</title>
 <!-- [if lt IE9] -->
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
@@ -13,7 +12,6 @@
 <link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
-
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
@@ -23,58 +21,41 @@
      {% for item in adverRecommand %}
     <div class="ad top">
       <div class="topIcon"><img src="{{ asset('images/topIcon.png')}}" width="60" height="60"></div>
-      <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.iconImage) }}" width="202" height="132"/></a></div>
-      <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.info }}</a></div>
-      <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a><span class="reward"><font>5000</font>米粒</span>
+      <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="202" height="132"/></a></div>
+      <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.decription | raw }}</a></div>
+      <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a>
+     {% if item.incentive %}
+                     <span class="reward"><font>{{ item.incentive }}</font>米粒</span>
+                     {% else %}
+                     <span class="reward">最高获消费额<font>{{ item.incentiveRate }}%</font>的米粒</span>
+                     {% endif %}
     </div>
     {% endfor %}
     
      {% for item in pagination %}
                <div class="ad">
-                  <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.iconImage) }}" width="149" height="19"/></a></div>
-               <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.info }}</a></div>
-               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a><span class="reward"><font>5000</font>米粒</span>
+                  <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="149" height="19"/></a></div>
+               <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.decription | raw }}</a></div>
+               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a>
+               {% if item.incentive %}
+                     <span class="reward"><font>{{ item.incentive }}</font>米粒</span>
+                     {% else %}
+                     <span class="reward">最高获消费额<font>{{ item.incentiveRate }}%</font>的米粒</span>
+                     {% endif %}
               </div>
      {% endfor %}
      
-   
+     <div style="display: inline-block; width: 100%;">
     {# display navigation #}
 
    {{ knp_pagination_render(pagination) }}
-
-    
+   </div>
   </article>
+  
   <aside>
     <section>
       <h4><img src="{{ asset('images/adFlowTitle.jpg')}}" width="118" height="18"></h4>
       <div class="flow"><img src="{{ asset('images/adFlow.jpg')}}" width="187" height="229"></div>
-    </section>
-    <section>
-      <h4> 最新兑换<a class="more" href="#">更多>></a> </h4>
-      <ul class="timeline">
-        <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-        <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-        <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-        <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-        <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-        <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-        <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-        <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-        <li><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-        <li class="last"><a href="#">14896630</a>兑换移动花费<font>50</font>元直冲话</li>
-      </ul>
-    </section>
-    <section>
-      <h4> 帮助中心<a class="more" href="{{ path('_default_help')}}">更多>></a> </h4>
-      <ul class="help">
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li class="last"><a href="#">在沙沙网络可以做什么？</a></li>
-      </ul>
     </section>
   </aside>
 </div>

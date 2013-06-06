@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title></title>
+<title>积粒网-体验广告</title>
 <!-- [if lt IE9] -->
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
@@ -12,10 +12,8 @@
 <link href="{{ asset('css/adMore.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
-</head>
 <script type="text/javascript">
-$(function(){
-	$("#getTask").click(function(){
+function goto(){
 	if($('#uid').val()==''){
 		window.location.href="{{ path('_user_login') }}";
 	}else{
@@ -25,7 +23,7 @@ $(function(){
 	      		post: "GET",
 	      		success:function(data){
 	          		if(data==1){
-	          			w.location.href="{{ adwurl }}";
+	          			w.location.href="{{ adwurl | raw }}";
 	          		} else if(data==0) {
 	              		window.location.href="{{ path('_user_login') }}";
 	              		w.close();
@@ -38,72 +36,78 @@ $(function(){
 				 }
 	      	});
 		}
-	  
-	});
-});
-
+}
 </script>
+</head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle adMore">
   <article>
-  	<div class="adTitle">
+      <div class="top">
+  	<div class="actionTitle">
     	<h1>{{ advertiserment.title }}</h1>
         <p><span>截止日期：</span>
-            {{ advertiserment.endTime.date }}
+            {{ advertiserment.endTime.date | date("Y-m-d") }}
 </p>
-		<p><span>任务奖励：</span></p>
-	      {% if code==1 %}
-	          {% if orderStatus %}
-    	            {% if orderStatus==1 %}
-    	                                     已过期
-                     {% elseif orderStatus==2 %}
-                                                             确认中
-                     {% elseif orderStatus==3 %}
-                                                             已完成                                                  
-                     {% elseif orderStatus==4 %} 
-                                                              任务失败               
-                     {% else %}                                                       
-    	             {% endif %}
-	           {% else %}
-	                                               已过期   
-	           {% endif %}                        
-	      {% else %}
-        	      {% if orderStatus %}
-                	      {% if orderStatus==1 %}
-            	                                 继续完成
-                             {% elseif orderStatus==2 %}
-                                                                                      确认中                                                    
-                             {% elseif orderStatus==3 %}
-                                                                                     已完成                                                  
-                              {% elseif orderStatus==4 %} 
-                                                                                  任务失败   
-                              {% else %}                                                                                               
-            	             {% endif %}
-        	      {% else %}
-        	        <a class="getBtn" id="getTask">领取任务</a>
-        	     {% endif %}
-	      {% endif %}
-		
-
+		<p><span>任务奖励：</span>
+		{% if advertiserment.incentiveType==1 %}
+		        {{  advertiserment.incentive }}米粒
+		{% elseif advertiserment.incentiveType==2 %}
+		       最高获消费额{{ advertiserment.incentiveRate }}%的米粒
+		{% else %}
+		{% endif %}
+		</p>
+      {% if code==1 %}
+          {% if orderStatus %}
+	            {% if orderStatus==1 %}
+	           <span class="getBtn"> <img src="{{ asset('images/endBtn.jpg')}}" /></span>
+                 {% elseif orderStatus==2 %}
+                  <span class="getBtn"> <img src="{{ asset('images/oncheckBtn.jpg')}}" /></span> 
+                 {% elseif orderStatus==3 %}
+               <span class="getBtn"> <img src="{{ asset('images/finishBtn.jpg')}}" /> </span>                                                
+                 {% elseif orderStatus==4 %} 
+                  <span class="getBtn">  <img src="{{ asset('images/unpassBtn.jpg .jpg')}}" /></span>                                                       
+                 {% else %}                                                       
+	             {% endif %}
+           {% else %}
+                <span class="getBtn"> <img src="{{ asset('images/endBtn.jpg')}}" /> </span> 
+           {% endif %}                        
+      {% else %}
+    	      {% if orderStatus %}
+            	      {% if orderStatus==1 %}
+        	          <a href="javascript:void(0);" class="getBtn"  onclick="goto();"><img src="{{ asset('images/continueBtn.jpg')}}" /></a> 
+                         {% elseif orderStatus==2 %}
+                       <span class="getBtn"><img src="{{ asset('images/oncheckBtn.jpg')}}" />  </span>                                                 
+                         {% elseif orderStatus==3 %}
+                       <span class="getBtn">  <img src="{{ asset('images/finishBtn.jpg')}}" /> </span>                                             
+                          {% elseif orderStatus==4 %} 
+                     <span class="getBtn"> <img src="{{ asset('images/unpassBtn.jpg .jpg')}}" />  </span>   
+                          {% else %}                                                                                               
+        	             {% endif %}
+    	      {% else %}
+    	            <a class="getBtn" id="getTask" onclick="goto();"><img src="{{ asset('images/getBtn.jpg')}}" /></a>
+    	     {% endif %}
+      {% endif %}
+  </div>
   </div>
     <div class="rule">
     	<h2>活动规则</h2>
         <div class="article">
-        	{{ advertiserment.info  }}
+        	{{ advertiserment.info | raw  }}
         </div>
     </div>
     <div class="explain">
     	<h2>活动说明</h2>
         <div class="article">
        	  <div class="img">
-       	  <img src="{{ asset(advertiserment.iconImage) }}" width="300" height="250" >
+       	  <img src="{{ asset(advertiserment.iconImage) }}" >
        	  </div>
-        	<p>{{ advertiserment.content }}</p>
+        	<p>{{ advertiserment.content | raw }}</p>
       </div>
     </div>
     <input type="hidden" value="{{ id }}" id="aid"/>
      <input type="hidden" value="{{ uid }}" id="uid"/>
+     <div class="bottom"></div>
   </article>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}

@@ -183,7 +183,9 @@ class User
      */
     public function upload($upload_dir)
     {
+    	
         $fileNames = array('attachment');
+       
         $types = array('jpg','jpeg','png');
         $upload_dir .= $this->getId()%100;
         if(!is_dir($upload_dir)){
@@ -199,25 +201,29 @@ class User
 	        $field = 'iconPath';
 	        switch ($fileName){
 	        	case 'attachment':$field = 'iconPath';break;
-	        }    
-	        if(!in_array($this->$fileName->guessExtension(),$types)){
-	        	return  'type is jpg or png';//类型不对 
-                
+	        }  
+	        if($this->$fileName->getError()==1){
+	        	return  '文件类型为jpg或png';//类型不对
 	        }else{
-	        	if($this->$fileName->getClientSize() > 100000){
-	        		return  'size is less than 100k';//图片大于100k
+	        	if(!in_array($this->$fileName->guessExtension(),$types)){
+	        		return  '文件类型为jpg或png';//类型不对
 	        	}else{
-	        		$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-	        		 
-	        		$this->$fileName->move($upload_dir, $filename_upload);
-	        		
-	        		$this->$field = $upload_dir.$filename_upload;
-	        		 
-	        		$this->$fileName = null;
-	        		
-// 	        		return '';
+	        		if($this->$fileName->getClientSize() > 100000){
+	        			return  '图片大小为100k以内';//图片大于100k
+	        		}else{
+	        			$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+	        	
+	        			$this->$fileName->move($upload_dir, $filename_upload);
+	        			 
+	        			$this->$field = $upload_dir.$filename_upload;
+	        	
+	        			$this->$fileName = null;
+	        			 
+	        			// 	        		return '';
+	        		}
 	        	}
 	        }
+	        
         }
     }
     

@@ -30,20 +30,14 @@ class DefaultController extends Controller
         	$arr['user'] = $user;
         }
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
-		$advertise = $repository->getAdvertiserment();
-		$arr['advertise'] = $repository->getAdvertiserList();
+		$advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->findAll();
+		$advertise = $repository->getAdvertiserList();
 		$callboard = $em->getRepository('JiliApiBundle:Callboard')->findAll();
 		$arr['callboard'] =  $callboard;
-    	foreach ($advertise as $k=>$v){
-    		$i = 0;
-    		if($v['type']==0){
-    			$arr['advertise_banner'][] = $v;
-    		}
-    	} 
-    	  
+		$arr['advertise_banner'] = $advertiseBanner;
+    	$arr['advertise'] = $advertise;
         return $this->render('JiliApiBundle:Default:index.html.twig',$arr);
     }
-    
     
     /**
      * @Route("/fastLogin", name="_default_fastLogin")
@@ -85,13 +79,10 @@ class DefaultController extends Controller
 					$loginlog->setLoginIp($this->get('request')->getClientIp());
 					$em->persist($loginlog);
 					$em->flush();
-// 					$userInfo = $em->getRepository('JiliApiBundle:User')->find($session->get('uid'));
-// 					$arr['userInfo'] = $userInfo;
 				}
 			}
     	}
     	return $this->redirect($this->generateUrl('_default_index'));
-//     	return $this->render('JiliApiBundle:Default:index.html.twig',$arr);
     }
     
     /**

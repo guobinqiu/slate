@@ -2,7 +2,7 @@
     {% if user.iconPath %}
 	   <div class="photo"><img src="{{ asset(user.iconPath) }}" width="180" height="180"></div>
 	{% else %}
-	   <div class="photo"><img src="{{ asset('other/photo')}}" width="180" height="180"></div>
+	   <div class="photo"><img src="{{ asset('images/default_face.jpg')}}" width="180" height="180"></div>
 	 {% endif %}
       <p class="name">您好，{{ user.nick }}</p>
       <p class="point">当前米粒数<br />

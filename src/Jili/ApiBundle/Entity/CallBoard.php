@@ -33,6 +33,14 @@ class Callboard
      * @ORM\Column(name="title", type="string", length=250, nullable=true)
      */
     private $title;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="author", type="string", length=100)
+     */
+    private $author;
 
     /**
      * @var text
@@ -111,6 +119,30 @@ class Callboard
     {
         return $this->title;
     }
+    
+    /**
+     * Set author
+     *
+     * @param string $author
+     * @return Callboard
+     */
+    public function setAuthor($author)
+    {
+    	$this->author = $author;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get author
+     *
+     * @return string
+     */
+    public function getAuthor()
+    {
+    	return $this->author;
+    }
+    
 
     /**
      * Set content

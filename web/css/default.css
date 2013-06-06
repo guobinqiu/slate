@@ -9,6 +9,7 @@ body {
 	font-size: 12px;
 	line-height:150%;
 	font-family:"宋体";
+	position:relative;
 }
 h1, h2, h3, h4, h5, h6, small, sub, sup {
 	font-size: 100%;
@@ -50,7 +51,7 @@ header section{
 	position:relative;
 }
 header #logo {
-	width: 134px;
+	width: 164px;
 	height: 45px;
 	position:absolute;
 	bottom:0px;
@@ -105,6 +106,9 @@ footer{
 	background-color:#ececec;
 	color:#666;
 	margin:0;
+	width: 100%;
+	position:absolute;
+	bottom: 0;
 }
 footer section{
 	margin: 0 auto;
@@ -148,6 +152,6 @@ footer section a:hover{
 .webArticle {
 	width: 960px;
 	margin: auto;
-	padding:0 0 50px 0;
+	padding:0 0 140px 0;
 	display:table;
 }

@@ -3,13 +3,26 @@
 }
 .adMore article{
 	width: 955px;
-	height:819px;
 	display: inline-block;
-	background-image:url(../images/adMoreBg.jpg);
+	background-image:url(../images/adMoreBg_repeat.jpg);
 }
-.adMore article div.adTitle{
+.adMore article .top{
+	background-image: url("../images/adMoreBg_top.jpg");
+    background-repeat: no-repeat;
+    height: 100px;
+    padding-top: 50px;
+    width: 100%;
+}
+.adMore article .bottom{
+	background-image: url("../images/adMoreBg_bottom.jpg");
+    background-repeat: no-repeat;
+    height: 25px;
+    margin-top: 30px;
+    width: 100%;
+}
+.adMore article div.actionTitle{
 	width:80%;
-	margin:50px auto 20px auto;
+	margin:0px auto 20px auto;
 	height:100px;
 	position:relative;
 }
@@ -55,28 +68,26 @@
 	float: left;
     margin: 0 20px 0 0;
 }
-.adTitle h1{
+.actionTitle h1{
 	color: #E87400;
     font-size: 24px;
     margin-bottom: 30px;
 	line-height:24px;
 }
-.adTitle p{
+.actionTitle p{
 	color: #E87400;
     font-size: 14px;
     margin: 10px 0;
 }
-.adTitle p span{
+.actionTitle p span{
 	font-weight:bold;
 	color:#666666;
 }
-.adTitle a.getBtn{
-	background-image: url("../images/getBtn.jpg");
+.actionTitle .getBtn{
     display: inline-block;
     height: 73px;
     position: absolute;
     right: 60px;
-    text-indent: -9999px;
     top: 10px;
     width: 213px;
 }

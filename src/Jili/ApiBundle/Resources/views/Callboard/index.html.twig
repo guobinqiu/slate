@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title></title>
+<title>积粒网-公告列表</title>
 <!-- [if lt IE9] -->
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
@@ -21,9 +21,9 @@
      {% for item in pagination %}
               <li>
                 <div class="title"><a href="{{ path('_callboard_info',{'id':item.id}) }}">{{ item.title }}</a></div>
-                <div class="artInfo">[
-                  <time>{{ item.startTime.date }}</time>
-                  发表]</div>
+                <div class="artInfo">
+                  <time>{{ item.startTime.date | date("Y-m-d") }}</time>
+                 </div>
               </li>
     {% endfor %}
     </ul>
@@ -48,18 +48,6 @@
 
   </article>
   <aside>
-    <section>
-      <h4> 帮助中心<a class="more" href="{{ path('_default_help')}}">更多>></a> </h4>
-      <ul class="help">
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li><a href="#">在沙沙网络可以做什么？</a></li>
-        <li class="last"><a href="#">在沙沙网络可以做什么？</a></li>
-      </ul>
-    </section>
   </aside>
 </div>
 

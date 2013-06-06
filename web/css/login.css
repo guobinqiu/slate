@@ -5,7 +5,7 @@
 .login .img{
 	float:left;
 	width: 436px;
-	margin: 50px 30px;
+	margin: 80px 30px 50px 30px;
 }
 .login article{
     background-image: url("../images/loginFrameBg.jpg");
@@ -40,12 +40,21 @@
 .login article .loginForm li input[type="text"],.login article .loginForm li input[type="password"]{
 	border:1px solid #DDD;
 	font-size:14px;
-	padding:5px;
+	padding:5px 5px 5px 30px;
 	vertical-align:middle;
-	width:260px;
+	width:235px;
 	box-shadow:1px 1px 3px #CCC inset;
 	margin:1px;
 	height:25px;
+	background-repeat:no-repeat;
+}
+.login article .loginForm li input[type="text"]{
+	background-image: url("../images/inputUserIcon.jpg");
+    background-position: 8px center;
+}
+.login article .loginForm li input[type="password"]{
+	background-image: url("../images/inputPasswordIcon.jpg");
+    background-position: 10px center;
 }
 .login article .loginForm li input[type="text"]:hover, .login article .loginForm li input[type="text"]:focus, .login article .loginForm li input[type="password"]:hover, .login article .loginForm li input[type="password"]:focus{
 	border:2px solid #7fcaf1;

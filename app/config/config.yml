@@ -102,3 +102,6 @@ parameters:
     init_one: 1
     init_two: 2
     init_three: 3
+    init_four: 4
+    init_five: 5
+    init_six: 6

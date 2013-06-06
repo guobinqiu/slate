@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title></title>
+<title>积粒网-任务历史</title>
 <!-- [if lt IE9] -->
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
@@ -60,7 +60,7 @@ function addClass(type){
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle history">
-  <h2><span>体验历史</span></h2>
+  <h2><span>任务历史</span></h2>
   <aside>
 {% include 'JiliApiBundle:User:rightInfo.html.twig' %}
   </aside>
@@ -82,11 +82,26 @@ function addClass(type){
         {% if pagination %}
          {% for item in pagination %}
         <tr>
-          <td>{{ item.categoryName }}</td>
+          <td>
+         {% if item.incentiveType==1 %}
+         cpa
+         {% else %}
+         cps
+         {% endif %}
+          </td>
           <td>{{ item.title }} </td>
-          <td></td>
+          <td>{% if item.incentiveType==1 %}
+                 {{ item.incentive }}米粒
+                 {% else %}
+                 最高获消费额{{ item.incentiveRate }}%的米粒
+                 {% endif %}</td>
           <td>{{ item.createTime.date }}</td>
-          <td>领取奖励</td>
+          <td>{% if item.orderStatus==1  %} 已领取
+             {% elseif item.orderStatus==2  %} 确认中
+              {% elseif item.orderStatus==3  %} 已完成
+          {% elseif item.orderStatus==3  %} 任务失败
+          {% else %}{% endif %}
+          </td>
         </tr>
          {% endfor %}
          {%  endif %}

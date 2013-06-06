@@ -26,7 +26,6 @@ class UserController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		return new Response($user->getIsInfoSet());
-// 		exit;
 	}
 	
 	/**
@@ -45,7 +44,6 @@ class UserController extends Controller
 		return new Response($code);
 	}
 	
-	
 	/**
 	 * @Route("/updatePwd", name="_user_updatePwd")
 	 */
@@ -59,14 +57,37 @@ class UserController extends Controller
 	public function changePwdAction(){
 		$arr['codeflag'] = $this->container->getParameter('init');
 		$request = $this->get('request');
+		$oldPwd =  $request->request->get('oldPwd');
 		$pwd = $request->request->get('pwd');
+		$newPwd = $request->request->get('newPwd');
 		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		if ($request->getMethod() == 'POST') {
-    		$user->setPwd($pwd);
-    		$em->flush();
-    		$arr['codeflag'] = $this->container->getParameter('init_one');
+			if($oldPwd){
+				if($user->pw_encode($oldPwd) == $user->getPwd()){
+					if($pwd){
+						if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+							$arr['codeflag'] = $this->container->getParameter('init_three');
+						}else{
+							if($pwd == $newPwd){
+								$user->setPwd($pwd);
+								$em->flush();
+								$arr['codeflag'] = $this->container->getParameter('init_one');
+							}else{
+								$arr['codeflag'] = $this->container->getParameter('init_four');
+							}
+						}
+					}else{
+						$arr['codeflag'] = $this->container->getParameter('init_five');
+					}
+				}else{
+					$arr['codeflag'] = $this->container->getParameter('init_two');
+				}
+			}else{
+				$arr['codeflag'] = $this->container->getParameter('init_six');
+			}
+    		
 		}
 		return $this->render('JiliApiBundle:User:changePwd.html.twig',$arr);
 	}
@@ -78,6 +99,7 @@ class UserController extends Controller
 	public function infoAction()
 	{
 		$code = '';
+		$codeflag = $this->container->getParameter('init');
 		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
@@ -88,17 +110,32 @@ class UserController extends Controller
 		$adtasteNum = count($adtaste);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
 		$exchange = $exchange->getUserExchange($id,$option);
-		
 		$request = $this->get('request');
+		$sex = $request->request->get('sex');
+		$tel = $request->request->get('tel');
 		if ($request->getMethod() == 'POST') {
-			$em = $this->getDoctrine()->getManager();
-// 			$user = $em->getRepository('JiliApiBundle:User')->find($id);
-			$form  = $this->createForm(new RegType(), $user);
-			$form->bind($request);
-			$path =  $this->container->getParameter('upload_tmp_dir');
-			$code = $user->upload($path);
-			if(!$code)
-                $em->flush();
+			if($request->request->get('update')){
+				if($sex){
+					if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+						$codeflag = $this->container->getParameter('init_two');
+					}else{
+						$user->setSex($sex);
+						$user->setTel($tel);
+						// 	    	$em->persist($user);
+						$user->setIsInfoSet($this->container->getParameter('init_one'));
+						$em->flush();
+					}
+				}else{
+					$codeflag = $this->container->getParameter('init_one');
+				}
+			}else{
+    			$form  = $this->createForm(new RegType(), $user);
+    			$form->bind($request);
+    			$path =  $this->container->getParameter('upload_tmp_dir');
+    			$code = $user->upload($path);
+    			if(!$code)
+                    $em->flush();
+			}
 		}
 		return $this->render('JiliApiBundle:User:info.html.twig',array( 
 				'form' => $form->createView(),
@@ -107,6 +144,7 @@ class UserController extends Controller
 				'adtaste' => $adtaste,
 				'exchange' => $exchange,
 				'code' => $code,
+				'codeflag'=>$codeflag,
 				'adtasteNum'=>$adtasteNum,
 				));
 	}
@@ -119,20 +157,32 @@ class UserController extends Controller
 	}
 	
 	/**
-	 * @Route("/update/{id}", name="_user_update")
+	 * @Route("/update", name="_user_update")
 	 */
-	public function updateAction($id)
+	public function updateAction()
 	{
+		$code = $this->container->getParameter('init');
+		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 // 		$form  = $this->createForm(new RegType(), $user);
 		$request = $this->get('request');
-		if ($request->getMethod() == 'POST') {
-	    	$user->setSex(1);
-	    	$user->setTel($request->request->get('tel'));
-// 	    	$em->persist($user);
-	    	$user->setIsInfoSet($this->container->getParameter('init_one'));
-	    	$em->flush();
+		$ck = $request->query->get('ck');
+		$tel = $request->query->get('tel');
+	    if ($request->getMethod() == 'POST') {
+			if($ck){
+				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0189]{1}[0-9]{8}$|189[0-9]{8}$/",$tel)){
+					$code = $this->container->getParameter('init_two');
+				}else{
+					$user->setSex($ck);
+					$user->setTel($tel);
+					// 	    	$em->persist($user);
+					$user->setIsInfoSet($this->container->getParameter('init_one'));
+					$em->flush();
+				}
+			}else{
+				$code = $this->container->getParameter('init_one');
+			}
 		}
 		return $this->redirect($this->generateUrl('_user_info'));
 	}
@@ -239,9 +289,6 @@ class UserController extends Controller
 						
 							$session->set('uid', $id);
 							$session->set('nick', $user->getNick());
-// 							$this->get('request')->getSession()->set('uid',$id);
-// 							$this->get('request')->getSession()->set('nick',$user->getNick());
-							
 							$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
 							$user->setLastLoginIp($this->get('request')->getClientIp());
 							$em->flush();
@@ -366,19 +413,30 @@ class UserController extends Controller
 		}else{
 			if($setPasswordCode->getCode() == $code){
 				$request = $this->get('request');
+				$pwd = $request->request->get('pwd');
+				$newPwd = $request->request->get('newPwd');
 				if ($request->getMethod() == 'POST'){
-						if($request->request->get('pwd') == $request->request->get('newPwd')){
-							$this->get('request')->getSession()->set('uid',$id);
-							$this->get('request')->getSession()->set('nick',$user->getNick());
-							$user->setPwd($request->request->get('pwd'));
-							$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
-							$em->persist($user);
-							$em->persist($setPasswordCode);
-							$em->flush();
-							$arr['codeflag'] = $this->container->getParameter('init_one');
+					if($pwd){
+						if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+							$arr['codeflag'] = $this->container->getParameter('init_three');
 						}else{
-							echo 'check pwd same';
+							if($pwd == $newPwd){
+								$this->get('request')->getSession()->set('uid',$id);
+								$this->get('request')->getSession()->set('nick',$user->getNick());
+								$user->setPwd($pwd);
+								$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
+								$em->persist($user);
+								$em->persist($setPasswordCode);
+								$em->flush();
+								$arr['codeflag'] = $this->container->getParameter('init_one');
+							}else{
+								$arr['codeflag'] = $this->container->getParameter('init_four');
+							}
 						}
+					}else{
+						$arr['codeflag'] = $this->container->getParameter('init_two');
+					}
+					
 				}
 				return $this->render('JiliApiBundle:User:resetPass.html.twig',$arr);
 			}
@@ -418,7 +476,7 @@ class UserController extends Controller
         							if($user_nick)
         								$code_nick = $this->container->getParameter('init_two');
         							else{
-        								if (!preg_match("/[\x{4e00}-\x{9fa5}\w]{2,20}$/u",$nick)){
+        								if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick)){
         									$code_nick = $this->container->getParameter('init_three');
         								}else{
         									$user->setNick($request->request->get('nick'));
@@ -531,8 +589,6 @@ class UserController extends Controller
 	}
 	
 	
-	
-	
 	/**
 	 * @Route("/forgetPass/{code}/{id}", name="_user_forgetPass")
 	 */
@@ -565,7 +621,6 @@ class UserController extends Controller
         						$arr['code_pwd']  = $code_pwd;
         					}else{
         						if($pwd == $que_pwd){
-        							//         					$pwd_flag = $user->getPwd();
         							$this->get('request')->getSession()->set('uid',$id);
         							$this->get('request')->getSession()->set('nick',$user->getNick());
         							$user->setPwd($request->request->get('pwd'));
@@ -630,7 +685,7 @@ class UserController extends Controller
 				' <body>' .
 				'亲爱的'.$nick.'<br/>'.
 				'<br/>'.
-				'  我们收到您因为忘记密码，要求重置积粒网帐号密码的申请，请点击以下链接重置您的密码。<br/><a href='.$url.'>'.$url.'</a><br/>' .
+				'  我们收到您因为忘记密码，要求重置积粒网帐号密码的申请，请点击以下链接重置您的密码。<br/><a href='.$url.' target="_blank">'.$url.'</a><br/>' .
 				'  如果您并未提交重置密码的申请，请忽略本邮件，并关注您的账号安全，因为可能有其他人试图登录您的账户。<br/><br/>积粒网运营中心' .
 				' </body>' .
 				'</html>',
@@ -658,7 +713,7 @@ class UserController extends Controller
 						' <body>' .
 				        '亲爱的'.$nick.'<br/>'.
 				        '<br/>'.
-						'  感谢您注册成为“积粒网”会员！请点击以下链接，立即激活您的帐户！<br/><a href='.$url.'>'.$url.'</a><br/><br/>' .
+						'  感谢您注册成为“积粒网”会员！请点击以下链接，立即激活您的帐户！<br/><a href='.$url.' target="_blank">'.$url.'</a><br/><br/>' .
 						'  积粒网，一站式积分媒体！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
 						' </body>' .
 						'</html>',
