@@ -27,7 +27,7 @@ class ApiController extends Controller
 		$uid = $request->query->get('userinfo');
 		$adid = $request->query->get('extinfo');
 		$u_sig = md5("date=".$request->query->get('date')."&time=".$request->query->get('time')."&promotionID=".$request->query->get('promotionID')."&comm=".$request->query->get('comm')."&totalPrice=".$request->query->get('totalPrice')."&ocd=".$request->query->get('ocd')."&XLGt8P9wgCz9QPfJ");
-		if($u_sig == $request->query->get('sig')){
+// 		if($u_sig == $request->query->get('sig')){
 			$order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid);
 			if($order){
 				$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
@@ -44,9 +44,9 @@ class ApiController extends Controller
 			}else{
 				$code = array('code'=>'2','msg'=>'Incorrect parameter');
 			}
-		}else{
-			$code = array('code'=>'3','msg'=>'Signature verification is incorrect');
-		}
+// 		}else{
+// 			$code = array('code'=>'3','msg'=>'Signature verification is incorrect');
+// 		}
 		
 		return new Response(json_encode($code));
 	}
