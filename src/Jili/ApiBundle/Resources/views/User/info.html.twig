@@ -84,7 +84,7 @@ $(document).ready(function(){
         <li>
           <dd>性  别：</dd>
           <dt>{% if user.sex==1 %} 
-         男{% else %}女{% endif %}</dt>
+         男{% elseif user.sex==2 %}女{% else %}&nbsp;{% endif %}</dt>
         </li>
        
         <li>
