@@ -89,7 +89,7 @@ $(function(){
             	<h4>公告<a class="more" href="{{ path('_callboard_index')}}">更多>></a></h4>
               <ul class="news">
               {% for item in callboard %}
-                	<li><a href="{{ path('_callboard_info',{'id':item.id}) }}"><span>【活动】</span>{{ item.title }}</a></li>
+                	<li><a href="{{ path('_callboard_info',{'id':item.id}) }}"><span>【系统】</span>{{ item.title }}</a></li>
                    
                 {% endfor %}
                    <!--   <li class="last"><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>-->
