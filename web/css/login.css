@@ -72,7 +72,7 @@
 .login article .loginForm li.forget a{
 	color:#54b9e8;
 }
-.login article .loginForm li.loginBtn input[type="button"]{
+.login article .loginForm li.loginBtn input[type="submit"]{
 	color:#FFF;
 	font-weight:bold;
 	font-size:18px;
