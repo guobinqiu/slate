@@ -41,7 +41,7 @@
         </span>
         </dt></li>
         <li><dd>验证码：</dd><dt><input id="captcha" name="captcha" type="text" class="verification"></dt>
-        <img name="captcha" onclick="this.src='{{  path('_user_captcha',{'r': random(999999) } )}}'" src="{{ path('_user_captcha') }}" />
+        <img name="captcha" onclick="this.src='{{  path('_user_captcha') }}?r='+100000*Math.random()" src="{{ path('_user_captcha') }}" />
         <br /><dd>&nbsp;</dd><dt></dt>
         <span id="captchaError">
     	    {% if code_cha==1 %}<font color='red'>验证码不对</font>
