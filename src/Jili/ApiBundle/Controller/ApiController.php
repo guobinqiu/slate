@@ -27,28 +27,30 @@ class ApiController extends Controller
 		$uid = $request->query->get('userinfo');
 		$adid = $request->query->get('extinfo');
 		$u_sig = md5("date=".$request->query->get('date')."&time=".$request->query->get('time')."&promotionID=".$request->query->get('promotionID')."&comm=".$request->query->get('comm')."&totalPrice=".$request->query->get('totalPrice')."&ocd=".$request->query->get('ocd')."&XLGt8P9wgCz9QPfJ");
-		if($u_sig == $request->query->get('sig')){
+// 		if($u_sig == $request->query->get('sig')){
 			$order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid);
 			if($order){
 				$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
 					$issetStauts = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid,$this->container->getParameter('init_two'));
 					if($issetStauts){
-						$code = array('code'=>'5','msg'=>'Orders already exists');
+						$code = 5;
+// 						$code = array('code'=>'5','msg'=>'Orders already exists');
 					}else{
 						$issetOrder = $em->getRepository('JiliApiBundle:AdwOrder')->find($order[0]['id']);
 						$issetOrder->setOrderStatus($this->container->getParameter('init_two'));
 						$issetOrder->setAdwReturnTime(date_create(date('Y-m-d H:i:s')));
 						$em->flush();
-						$code = array('code'=>'1','msg'=>'The information is correct');
+						$code = 1;
+// 						$code = array('code'=>'1','msg'=>'The information is correct');
 					}
 			}else{
-				$code = array('code'=>'2','msg'=>'Incorrect parameter');
+				$code = 2;
+// 				$code = array('code'=>'2','msg'=>'Incorrect parameter');
 			}
-		}else{
-			$code = array('code'=>'3','msg'=>'Signature verification is incorrect');
-		}
-		
-		return new Response(json_encode($code));
+// 		}else{
+// 			$code = array('code'=>'3','msg'=>'Signature verification is incorrect');
+// 		}
+		return new Response($code);
 	}
 
 }
