@@ -105,7 +105,7 @@ class UserController extends Controller
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$form  = $this->createForm(new RegType(), $user);
 		$adtaste = $em->getRepository('JiliApiBundle:AdwOrder');
-		$option = array('daytype'=>1,'offset'=>0,'limit'=>10);
+		$option = array('daytype'=>1,'offset'=>'1','limit'=>'10');
 		$adtaste = $adtaste->getUseradtaste($id,$option);
 		$adtasteNum = count($adtaste);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
