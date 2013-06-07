@@ -1,0 +1,45 @@
+.newsList {
+    margin-top: 30px;
+}
+.newsList article {
+    display: inline-block;
+    float: left;
+    width: 663px;
+	margin-top:30px;
+	background-color:#FFF;
+	border:1px solid #ececec;
+	padding:10px 20px;
+}
+.newsList article h2 {
+    height: 30px;
+    line-height: 30px;
+	font-size:14px;
+	border-bottom:3px solid #ececec;
+}
+.newsList article h2 span{
+	border-bottom:3px solid #ff8b3b;
+	display:inline-block;
+}
+.newsList article ul.news{
+	padding:10px 0;
+}
+.newsList article ul.news li{
+	display:inline-block;
+	border-bottom:1px dotted #cecece;
+	width:100%;
+	padding:6px 0;
+}
+.newsList article ul.news li .title{
+	float:left;
+	padding-left:5px;
+}
+.newsList article ul.news li .title span{
+	color:#EC4920;
+}
+.newsList article ul.news li .artInfo{
+	float:right;
+	color:#999999;
+}
+.newsList article ul.news li .artInfo time{
+	margin-right:10px;
+}

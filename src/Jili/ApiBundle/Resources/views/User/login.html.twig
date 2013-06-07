@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>积粒网-会员登录</title>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/login.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+
+function clear(){
+	$(".error").html('&nbsp;');
+}
+    
+</script>
+</head>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+<div class="webArticle login">
+  <div class="img"><img src="{{ asset('images/loginImage.jpg') }}" width="436" height="423"></div>
+  <form action="{{ path('_user_login') }}" method="post" name="form1" id="form1">
+  <article>
+    <ul class="loginForm">
+      <h2>欢迎登录积粒账户</h2>
+      {% if code==1 %}
+           <li class="error">用户名或密码错误</li>
+       {% elseif code==2 %}
+           <li class="error">用户格式不对</li>
+       {% elseif code==3 %}
+            <li class="error">请输入账号</li>
+       {% else %}
+           <li class="error">&nbsp;</li>
+       {% endif %}
+      <li>
+          <input name="email" id="email" type="text" onFocus="$('.error').html('&nbsp;');" >
+      </li>
+      <li>
+          <input name="pwd" id="pwd" type="password"  onFocus="clear();">
+      </li>
+      <li>
+      <input id="remember_me" name="remember_me" type="checkbox" value="1">记住我
+      </li>
+      <li class="loginBtn"><input name="" type="submit" value="登录"><a class="forget" href="{{ path('_user_resetPwd') }}" target="_blank">忘记密码</a></li>
+      <!--  <li class="otherLogin">使用合作网站登录<a class="weibo" href="#"></a><a class="qq" href="#"></a></li>-->
+    </ul>
+    <div class="regArea"><a href="{{ path('_user_reg') }}" target="_blank" class="reg">立即注册</a></div>
+  </article></form>
+</div>
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>
+

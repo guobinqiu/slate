@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>积粒网-快速注册</title>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+</head>
+
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+<div class="webArticle regStep">
+  <article>
+  	<div class="step"><img src="{{ asset('images/step1.jpg')}}" width="960" height="86"></div>
+    <div class="regForm" style="padding-top:100px;">
+    <h2>快速注册<span>通过邮箱注册，快速加入积粒网，轻轻松松拿米粒、换现金！</span></h2>
+    <ul class="form"> 
+    <form action="{{ path('_user_reg') }}" method="post" name="form1" id="form1" >
+    	<li><dd>邮件地址：</dd><dt><input name="email" type="text" id="email"><br />
+    	    <span id="emailError">
+    	    {% if code_email==0%}电子邮件就是您今后登录积粒网的账号
+    	    {% elseif code_email==1 %}<font color='red'>请输入邮箱</font>
+    	    {% elseif code_email==2 %}<font color='red'>邮箱格式不对</font>
+    	    {% else %}<font color='red'>邮箱已经注册</font>
+    	    {% endif %}
+    	    </span>
+    	</dt></li>
+        <li><dd>昵称：</dd><dt><input name="nick" type="text" id="nick"><br />
+        <span id="nickError">
+        {% if code_nick==0%}2-20个字符
+    	    {% elseif code_nick==1 %}<font color='red'>请输入昵称</font>
+    	    {% elseif code_nick==2 %}<font color='red'>昵称已经注册</font>
+    	    {% elseif code_nick==3 %}<font color='red'>昵称为2-20个字符</font>
+    	    {% endif %}
+        </span>
+        </dt></li>
+        <li><dd>验证码：</dd><dt><input id="captcha" name="captcha" type="text" class="verification"></dt>
+        <img name="captcha" onclick="this.src='{{  path('_user_captcha',{'r': random(999999) } )}}'" src="{{ path('_user_captcha') }}" />
+        <br /><dd>&nbsp;</dd><dt></dt>
+        <span id="captchaError">
+    	    {% if code_cha==1 %}<font color='red'>验证码不对</font>
+    	    {% endif %} 
+        </span>
+         </li>
+        <li><dd></dd><dt><!--  <a class="regBtn" href="#">发送验证邮件</a>-->
+        <input type='button' id='reg' class='regBtn' value='发送验证邮件'/>
+        </dt></li></form>
+    </ul>
+    <div class="loginArea">我已经注册，现在就<a class="login" href="{{ path('_user_login') }}">登录</a></div>
+    <div class="clear"></div>
+    </div>
+  </article>
+</div>
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#reg").click(function(){
+		$("#form1").submit();
+	});
+});
+
+</script>
+</html>
+

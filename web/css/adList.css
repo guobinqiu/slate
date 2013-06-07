@@ -1,0 +1,89 @@
+.adList{
+	margin-top:30px;
+}
+.adList article{
+	width: 723px;
+	_margin-right: -15px;
+	float: left;
+	display: inline-block;
+}
+.adList article h2{
+	height:30px;
+	line-height:30px;
+}
+.adList article .ad{
+	background-color: #FFFFFF;
+    border: 1px solid #ECECEC;
+    float: left;
+    margin: 0 15px 15px 0;
+    width: 324px;
+	background-image:url(../images/adBg.jpg);
+	background-position:center bottom;
+	background-repeat:no-repeat;
+	box-shadow: 0 2px 1px #EDEDED;
+	position:relative;
+	padding:10px 10px 40px 10px;
+	padding:10px 10px 45px 10px/9;
+	padding:10px 10px 40px 10px/0;
+	_padding:10px 10px 45px 10px;
+}
+.adList article .ad:hover{
+	border: 1px solid #FFD8C9;
+}
+.adList article .ad.top:hover{
+	border: 1px solid #FFD8C9;
+}
+.adList article .ad .img{
+	float:left;
+	margin-right:10px;
+}
+.adList article .ad .img img{
+	width:100px;
+	height:65px;
+	border:1px solid #EEE;
+}
+.adList article .ad.top .img img{
+	width:200px;
+	height:130px;
+}
+.adList article .ad .txt{
+	height: 65px;
+    overflow: hidden;
+	line-height:180%;
+	color:#666666;
+}
+.adList article .ad.top .txt{
+	height:130px;
+}
+.adList article .ad .txt a{
+	text-decoration:none;
+}
+.adList article .ad a.advertising{
+	bottom: 0;
+    color: #54B9E8;
+    left: 10px;
+    line-height: 35px;
+    position: absolute;
+}
+.adList article .ad span.reward{
+	position:absolute;
+	right:10px;
+	bottom:0;
+	line-height:35px;
+	background-image:url(../images/rewardIcon.png);
+	background-repeat:no-repeat;
+	background-position:0px 10px;
+	text-indent:18px;
+}
+.adList article .ad span.reward font{
+	color:#ff4400;
+	font-size:18px;
+	margin:0 1px;
+	font-weight:bold;
+	vertical-align: top;
+}
+.adList article .ad .topIcon{
+	position:absolute;
+	top:-1px;
+	left:-1px;
+}

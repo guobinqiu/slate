@@ -1,0 +1,35 @@
+.newsMore {
+    margin-top: 30px;
+}
+.newsMore article {
+    display: inline-block;
+    float: left;
+    width: 663px;
+	margin-top:30px;
+	background-color:#FFF;
+	border:1px solid #ececec;
+	padding:10px 20px;
+}
+.newsMore article h1 {
+	font-size:22px;
+	color:#54b9e8;
+	font-weight:bold;
+	text-align:center;
+	line-height:200%;
+}
+.newsMore article .artInfo{
+	text-align:center;
+	color:#CCC;
+	padding-bottom:10px;
+	border-bottom:1px dotted #ccc;
+}
+.newsMore article .artInfo time{
+	margin-right:10px;
+}
+.newsMore article .content{
+	padding:20px;
+}
+.newsMore article .content p{
+	margin:10px 0;
+	line-height:200%;
+}

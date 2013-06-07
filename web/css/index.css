@@ -1,0 +1,247 @@
+.index section.one, .index section.process, .index section.main {
+	margin: 20px 0 0px 0;
+	display: inline-block;
+	position:relative;
+}
+.index section.one #banner {
+	width: 722px;
+	height: 250px;
+	overflow:hidden;
+	float: left;
+	position:relative;
+}
+.index section.one #banner ul.bannerImg {
+	position:absolute;
+}
+.index section.one #banner ul.bannerImg li{
+	width: 722px;
+	height: 250px;
+}
+.index section.one #banner div.bannerNumber{
+	position:absolute;
+	right:10px;
+	bottom:10px;
+}
+.index section.one #banner div.bannerNumber a{
+	width:20px;
+	height:20px;
+	display:inline-block;
+	text-align:center;
+	line-height:20px;
+	color:#ee472c;
+	background-color:#FFF;
+	margin-left:5px;
+}
+.index section.one #banner div.bannerNumber a:hover, .index section.one #banner div.bannerNumber a.hover{
+	color:#FFF;
+	background-color:#ee472c;
+	text-decoration:none;
+}
+.index section.one #userInformation {
+	float: left;
+	background-color: #FFF;
+	border: 1px solid #ececec;
+	border-left: none;
+	height: 250px;
+    padding: 0px 8px 0px 12px;
+    width: 217px;
+	box-shadow: 3px 0 1px #DDDDDD inset;
+	position:relative;
+}
+.index section.one #userInformation .before p{
+	margin:15px 0;
+}
+.index section.one #userInformation .before a.reg{
+	background-image:url(../images/indexRegBtn.jpg);
+	width:214px;
+	height:51px;
+	text-indent:-9999px;
+	display:block;
+}
+.index section.one #userInformation .before a.reg:hover{
+	opacity:.8;
+}
+.index section.one #userInformation .before input[type="text"], .index section.one #userInformation .before input[type="password"]{
+	border:1px solid #cacaca;
+	width:172px;
+	height:35px;
+	background-repeat:no-repeat;
+	display:inline-block;
+	padding:0 5px 0 35px;
+	color:#c5c5c5;
+	line-height:35px;
+}
+.index section.one #userInformation .before input[type="text"]:focus, .index section.one #userInformation .before input[type="password"]:focus{
+	color:#666;
+}
+.index section.one #userInformation .before input[type="text"]{
+	background-image:url(../images/inputUserIcon.jpg);
+	background-position:8px;
+}
+.index section.one #userInformation .before input[type="password"]{
+	background-image:url(../images/inputPasswordIcon.jpg);
+	background-position:10px;
+}
+.index section.one #userInformation .before input[type="image"]{
+	vertical-align:middle;
+	margin-right:5px;
+}
+.index section.one #userInformation .before input[type="image"]:hover{
+	opacity:.8;
+}
+.index section.one #userInformation .before a.forget{
+	color:#54b9e8;
+}
+.index section.one #userInformation .after{
+	margin:10px 0;
+}
+.index section.one #userInformation .after .user{
+	display: inline-block;
+    width: 217px;
+}
+.index section.one #userInformation .after .user .photo{
+	float:left;
+	width:90px;
+	height:90px;
+	margin:0 10px 0 0;
+}
+.index section.one #userInformation .after .user .photo img{
+	width:90px;
+	height:90px;
+}
+.index section.one #userInformation .after .user p{
+	margin:20px 0;
+}
+.index section.one #userInformation .after .user p.point{
+	font-size:18px;
+	color:#CCC;
+}
+.index section.one #userInformation .after .user p.point span{
+	color:#FF7114;
+	font-weight:bold;
+}
+.index section.one #userInformation .after ul{
+	position:absolute;
+	bottom:0px;
+	right:0px;
+}
+.index section.one #userInformation .after ul li a{
+	background-color: #F6F6F6;
+    background-image: url("../images/listArrow.gif");
+    background-position: 200px 50%;
+    background-repeat: no-repeat;
+    border-top: 1px solid #ECECEC;
+    display: inline-block;
+    font-size: 14px;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 0 0 20px;
+    width: 214px;
+}
+.index section.one #userInformation .after ul li a:hover{
+	background-color: #F0F0F0;
+	text-decoration:none;
+}
+.index section.main article {
+	width: 723px;
+	_margin-right:-15px;
+	float:left;
+	display:inline-block;
+}
+.index section.main article h2 {
+	position: relative;
+	margin: 0 15px 0 0;
+	height:30px;
+}
+.index section.main article h2 a.more {
+	position: absolute;
+	right: 0px;
+	bottom: 5px;
+	font-size: 12px;
+	color:#666666;
+	font-weight:normal;
+}
+.index section.main article div.task {
+	width: 200px;
+	height: 180px;
+	padding: 10px 10px 5px 10px;
+	float: left;
+	border: 3px solid #ECECEC;
+	margin: 0 15px 15px 0;
+	background-color: #FFF;
+}
+.index section.main article div.task:hover{
+	border: 3px solid #ffd8c9;
+}
+.index section.main article div.task img{
+	margin:0 0 5px 0;
+	border: 1px solid #EEEEEE;
+    height: 130px;
+    margin: -1px 0 0 -1px;
+    width: 200px;
+}
+
+.index section.main article div.task h3 {
+	position: relative;
+	color: #ec4920;
+}
+.index section.main article div.task p span {
+	font-weight: bold;
+	color: #ec4920;
+}
+.index section.main aside {
+	float:left;
+	width: 237px;
+	margin-top: 30px;
+}
+.index section.main aside section {
+	border: 1px solid #ececec;
+	background-color: #FFF;
+	margin: 0 0 15px 0;
+}
+.index section.main aside section h4 {
+	border-bottom: 1px solid #ECECEC;
+    color: #333333;
+    font-size: 14px;
+    height: 20px;
+    padding: 12px 5px 5px 10px;
+    position: relative;
+}
+.index section.main aside section h4 a.more {
+	position: absolute;
+	right: 10px;
+	bottom: 5px;
+	font-size: 12px;
+	color:#666666;
+	font-weight:normal;
+}
+.index section.main aside section ul {
+	width: 90%;
+	overflow: hidden;
+	margin: auto;
+}
+.index section.main aside section ul.news a span {
+	color: #ec4920;
+}
+.index section.main aside section ul.news a {
+	color: #666666;
+}
+.index section.main aside section ul.news a:hover{
+	text-decoration:none;
+}
+.index section.main aside section ul.timeline a {
+	color: #ec4920;
+	margin-right: 5px;
+}
+.index section.main aside section ul.timeline font {
+	color: #54b9e8;
+	margin: 0 5px;
+}
+.index section.main aside section li {
+	height:30px;
+	line-height: 30px;
+	border-bottom: 1px solid #ececec;
+}
+.index section.main aside section li.last{
+	border-bottom: none;
+}

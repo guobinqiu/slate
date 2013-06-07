@@ -1,0 +1,28 @@
+.agreement {
+	margin: auto;
+	width: 960px;
+	padding: 45px 0 140px 0;
+	font-size: 14px;
+}
+.agreement section {
+	background-color: #ffffff;
+	border: 1px solid #e0e0e0;
+	border-top:3px solid #ff8b3b;
+	width: 100%;
+	margin-bottom: 2px
+}
+.agreement section h2{
+	width:100%;
+	text-align:center;
+	margin:10px 0;
+}
+.agreement section hr{
+	background-image:url(../images/agreementHr.jpg);
+	background-position:center center;
+	border:none;
+	background-repeat:no-repeat;
+	height:15px;
+}
+.agreement section iframe{
+    margin: 20px;
+}

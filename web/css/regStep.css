@@ -1,0 +1,261 @@
+.regStep{
+	margin-top:30px;
+}
+.regStep article{
+	width: 955px;
+	display: inline-block;
+}
+.regStep article .step{
+	margin:0 auto 30px auto;
+}
+.regStep article .regForm, .regStep article .regFrame{
+	background-color:#FFF;
+	border:1px solid #ececec;
+	padding:50px 100px;
+	position:relative;
+}
+.regStep article .loginArea{
+	color: #333333;
+    float: right;
+    margin-right: -30px;
+    padding: 80px 10px 20px;
+    text-align: center;
+    width: 250px;
+	font-size:14px;
+}
+.regStep article .loginArea a.login{
+	border: 1px solid #D7D7D7;
+    border-radius: 0 0 0 0;
+    color: #666666;
+    display: inline-block;
+    font-size: 15px;
+    margin: 0 10px;
+    padding: 5px 15px;
+	background-image: -moz-linear-gradient(top, #ffffff, #f5f5f5); /* Firefox */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(1, #f5f5f5)); /* Saf4+, Chrome */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f5f5f5', GradientType='0'); /* IE*/
+}
+.regStep article .loginArea a.login:hover{
+	text-decoration:none;
+}
+.regStep article .message{
+	width: 680px;
+	text-align: center;
+	font-size:14px;
+	color:#666;
+}
+.regStep article .message span{
+	color:#84c928;
+}
+.regStep article .message img{
+	vertical-align:middle;
+	margin:0 10px;
+}
+.regStep article .remind {
+	background-color: #FAFAFA;
+    border: 1px solid #F0F0F0;
+    color: #666666;
+    font-size: 14px;
+    margin: 20px auto;
+    padding: 20px 0;
+    text-align: center;
+    width: 680px;
+}
+.regStep article .regForm h2{
+	border-bottom: 1px dotted #DDDDDD;
+    color: #F5875F;
+    font-size: 26px;
+    font-weight: normal;
+    left: 0;
+    line-height: 250%;
+    padding: 0 0 0 40px;
+    position: absolute;
+    top: 0;
+    width: 913px;
+}
+.regStep article .regForm h2 span{
+	background-image: url("../images/giftIcon.jpg");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    bottom: 18px;
+    font-size: 12px;
+    line-height: 25px;
+    padding-left: 25px;
+    position: absolute;
+    right: 18px;
+}
+.regStep article ul.form{
+	float: left;
+    width: 500px;
+	border-right: 1px dotted #EEEEEE;
+	margin-left:-30px;
+}
+.regStep article ul.form.activate{
+	border-right:none;
+	float:none;
+	margin:auto;
+}
+.regStep article ul.form li{
+	display:inline-block;
+	width:100%;
+	margin:0;
+	color:#000;
+	font-size:14px;
+}
+.regStep article ul.form li dd{
+	float:left;
+	width:100px;
+	text-align:right;
+	padding-right:10px;
+	line-height:35px;
+	height:35px;
+	display:inline-block;
+}
+.regStep article ul.form li dt{
+	float:left;
+	line-height:35px;
+}
+
+.regStep article ul.form li dt input[type="password"]{
+	border:1px solid #CCC;
+	font-size:14px;
+	padding:5px;
+	vertical-align:middle;
+	width:250px;
+	box-shadow:1px 1px 3px #DDD inset;
+	margin:1px;
+}
+.regStep article ul.form li dt input[type="password"]:hover, .regStep article ul.form li dt input[type="password"]:focus{
+	border:2px solid #7fcaf1;
+	margin:0px;
+}
+.regStep article ul.form li dt.error input[type="password"]{
+	border:1px solid #f4784a;
+	margin:1px;
+}
+
+
+.regStep article ul.form li dt input[type="text"]{
+	border:1px solid #CCC;
+	font-size:14px;
+	padding:5px;
+	vertical-align:middle;
+	width:250px;
+	box-shadow:1px 1px 3px #DDD inset;
+	margin:1px;
+}
+.regStep article ul.form li dt input[type="text"]:hover, .regStep article ul.form li dt input[type="text"]:focus{
+	border:2px solid #7fcaf1;
+	margin:0px;
+}
+.regStep article ul.form li dt input.verification{
+	width:80px;
+}
+.regStep article ul.form li dt span{
+	display:inline-block;
+}
+.regStep article ul.form li dt.error input[type="text"]{
+	border:1px solid #f4784a;
+	margin:1px;
+}
+.regStep article ul.form li dt.error span{
+	background-image:url(../images/errorIcon.jpg);
+	background-repeat:no-repeat;
+	background-position:0 10px;
+	text-indent:20px;
+}
+.regStep article ul.form li dt a.provision{
+	color:#146096;
+}
+.regStep article ul.form li dt .regBtn{
+	cursor: pointer;
+	color:#FFF;
+	font-weight:bold;
+	font-size:16px;
+	padding:0 20px;
+	height:33px;
+	text-align:center;
+	display:inline-block;
+	margin-top:20px;
+	border:1px solid #6dbade;
+	background-color:#7acaef;
+	background-image: -moz-linear-gradient(top, #8cd2f3, #7acaef); /* Firefox */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #8cd2f3), color-stop(1, #7acaef)); /* Saf4+, Chrome */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8cd2f3', endColorstr='#7acaef', GradientType='0'); /* IE*/
+}
+.regStep article ul.form li dt .regBtn:hover{
+	text-decoration:none;
+}
+.regStep article ul.form li dt.otherLogin{
+	background-color:#fafbfa;
+	border:1px solid #ececec;
+	padding:10px 20px;
+	width:300px;
+	height:auto;
+}
+.regStep article .regFrame{
+	text-align:center;
+}
+.regStep article .regFrame .goToMail{
+	font-size:14px;
+	line-height:250%;
+	display:inline-block;
+	width:100%;
+	text-align:left;
+}
+.regStep article .regFrame .goToMail .img{
+	float:left;
+	margin:10px 20px;
+}
+.regStep article .regFrame .goToMail a.again{
+	color:#146096;
+}
+.regStep article .regFrame .notMail{
+	border-top: 1px dotted #EEEEEE;
+    display: inline-block;
+    height: auto;
+    line-height: 200%;
+    margin: 50px 0 10px;
+    padding: 10px 20px 20px;
+    text-align: left;
+    width: 680px;
+}
+.regStep article .regFrame .notMail h6{
+	color:#ea4b11;
+	font-size:14px;
+	font-weight:bold;
+	margin:10px 0;
+}
+.regStep article .regFrame .notMail .dustbin{
+	border-right: 1px dotted #EEEEEE;
+    float: left;
+    margin: 0 50px 0 0;
+    padding: 0 40px 0 0;
+    width: 300px;
+}
+.regStep article .regFrame .notMail .change{
+	float:left;
+}
+.regStep article .regFrame .notMail .change a{
+	color:#146096;
+}
+
+.regStep article .regFrame .finish{
+	font-size:14px;
+	line-height:300%;
+	display:inline-block;
+	width:480px;
+	text-align:left;
+	margin:50px 0;
+}
+.regStep article .regFrame .finish .img{
+	float:left;
+	margin:0px 20px;
+}
+.regStep article .regFrame .finish h2{
+	font-size:24px;
+	font-weight:bold;
+}
+.regStep article .regFrame .finish a{
+	color:#146096;
+}

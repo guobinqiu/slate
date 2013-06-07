@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>积粒网-重置密码</title>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/password.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+$(document).ready(function(){
+	{% if codeflag==1 %}
+	$(".activate").hide();
+	{% endif %}
+});
+function check(){
+	$("#form1").submit();
+}
+
+</script>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+<div class="webArticle password">
+  <article>
+     <form action="{{ path('_user_resetPass',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
+    <div class="form">
+      <h2>输入邮箱地址 > <span>重置密码</h2>
+      {%  if codeflag==1 %}
+          <div class="message"><img src="{{ asset('images/succeed.jpg')}}" width="39" height="44">密码修改成功！</div>
+      {% endif %}
+      <ul class="activate">
+        <li>
+          <dd>请输入新密码：</dd>
+          {%  if codeflag==2 %}
+          <dt id="pwdError" class="error">
+            <input name="pwd" id="pwd" type="password"><font>&nbsp;</font>
+            <br />
+            <span>请输入密码</span></dt>
+            {% elseif codeflag==3 %}
+            <dt id="pwdError" class="error">
+            <input name="pwd" id="pwd" type="password"><font>&nbsp;</font>
+            <br />
+            <span>密码为6-20个字符，不能含特殊符号</span></dt>
+            {% else %}
+            <dt id="pwdError">
+            <input name="pwd" id="pwd" type="password"><font>&nbsp;</font></dt>
+            {% endif %}
+        </li>
+        <li>
+          <dd>请再次输入新密码：</dd>
+           {%  if codeflag==4 %}
+          <dt id="newPwdError" class="error">
+            <input name="newPwd" id="newPwd"  type="password"><font>&nbsp;</font>
+             <br />
+            <span>2次密码不相同</span></dt>
+            {% else %}
+              <dt id="newPwdError">
+            <input name="newPwd" id="newPwd"  type="password"><font>&nbsp;</font>
+            </dt>
+             {% endif %}
+        </li>
+        <li>
+          <dd></dd>
+          <dt><a class="saveBtn" href="javascript:void(0);" onclick="check();">保存设置</a></dt>
+        </li>
+      </ul>
+      <div class="clear"></div>
+    </div></form>
+  </article>
+</div>
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>
+
+

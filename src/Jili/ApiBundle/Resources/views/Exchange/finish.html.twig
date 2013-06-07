@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>积粒网-兑换91问问积分</title>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/personalAside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/exchange.css')}}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+<div class="webArticle exchange">
+  <h2><span>兑换信息</span></h2>
+  <aside>
+    <section>
+      <div class="photo"><img src="{{ asset('other/photo')}}" width="180" height="180"></div>
+      <p class="name">您好，{{ user.nick }}</p>
+      <p class="point">当前米粒数<br />
+        <span>{{ user.points }}</span></p>
+    </section>
+  </aside>
+  <article>
+    <div class="wenwen">
+      <div class="finish">
+   	    <div class="img"><img width="108" height="82" src="{{ asset('images/regFinish.jpg')}}"></div>
+        <h2>我们已经收到您的兑换申请！</h2>
+        <p>兑换将在下一个工作日（遇节假日顺延）完成，请关注您的兑换状态邮件通知。</p>
+        <hr />
+        <p>※ 如您的信息有误造成兑换失败，米粒将会自动返还到您的账户。</p>
+        <p><a href="{{ path('_default_index') }}">返回首页</a></p>
+      </div>
+    </div>
+  </article>
+</div>
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>
+

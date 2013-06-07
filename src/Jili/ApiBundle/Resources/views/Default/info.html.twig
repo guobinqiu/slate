@@ -1,0 +1,17 @@
+<nav id="user">
+{% if app.request.cookies.has('jili_uid') and app.request.cookies.has('jili_nick') %}
+        {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
+        {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
+        {% if app.session.get('uid') %}
+             <a class="log" href="{{ path('_user_info') }}">{{ app.session.get('nick') }}</a><a class="reg" href="{{ path('_user_loginOut') }}">退出</a>
+        {% else %}
+            <a class="log" href="{{ path('_user_login') }}">登录</a><a class="reg" href="{{ path('_user_reg') }}">注册</a>
+        {% endif %}   
+{%  else %}
+        {% if app.session.get('uid') %}
+             <a class="log" href="{{ path('_user_info') }}">{{ app.session.get('nick') }}</a><a class="reg" href="{{ path('_user_loginOut') }}">退出</a>
+        {% else %}
+            <a class="log" href="{{ path('_user_login') }}">登录</a><a class="reg" href="{{ path('_user_reg') }}">注册</a>
+        {% endif %}   
+{% endif %}
+</nav>
