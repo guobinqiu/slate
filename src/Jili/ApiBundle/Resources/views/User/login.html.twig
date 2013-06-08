@@ -37,15 +37,15 @@ function clear(){
            <li class="error">&nbsp;</li>
        {% endif %}
       <li>
-          <input name="email" id="email" type="text" onFocus="$('.error').html('&nbsp;');" >
+          <input name="email" id="email" type="text" class="text" onFocus="$('.error').html('&nbsp;');" >
       </li>
       <li>
-          <input name="pwd" id="pwd" type="password"  onFocus="clear();">
+          <input name="pwd" id="pwd" type="password" class="password"  onFocus="clear();">
       </li>
       <li>
       <input id="remember_me" name="remember_me" type="checkbox" value="1">记住我
       </li>
-      <li class="loginBtn"><input name="" type="submit" value="登录"><a class="forget" href="{{ path('_user_resetPwd') }}" target="_blank">忘记密码</a></li>
+      <li class="loginBtn"><input name="" type="submit" class="submit" value="登录"><a class="forget" href="{{ path('_user_resetPwd') }}" target="_blank">忘记密码</a></li>
       <!--  <li class="otherLogin">使用合作网站登录<a class="weibo" href="#"></a><a class="qq" href="#"></a></li>-->
     </ul>
     <div class="regArea"><a href="{{ path('_user_reg') }}" target="_blank" class="reg">立即注册</a></div>

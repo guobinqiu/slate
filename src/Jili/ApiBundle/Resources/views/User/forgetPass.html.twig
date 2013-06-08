@@ -36,14 +36,14 @@ $(document).ready(function(){
     <div class="remind">HI,{{ user.nick }},欢迎来到积粒网。请完善一下信息创建您的积粒账号</div>
     <form action="{{ path('_user_forgetPass',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
     <ul class="form activate">
-    	<li><dd>密码：</dd><dt><input id="pwd" name="pwd" type="password"><br />
+    	<li><dd>密码：</dd><dt><input id="pwd" name="pwd" type="password" class="password"><br />
     	<span id="pwdError">
     	 {% if code_pwd ==0 %}电子邮件就是您今后登录积粒网的账号
     	 {% elseif code_pwd==1 %}<font color="red">请输入密码</font>
     	 {% else %} <font color="red">密码为6-20位</font>
     	 {%  endif %}
     	</span></dt></li>
-        <li><dd>确认密码：</dd><dt><input id="que_pwd" name="que_pwd" type="password"><br />
+        <li><dd>确认密码：</dd><dt><input id="que_pwd" name="que_pwd" type="password" class="password"><br />
         <span id="newError">
         {% if code_que_pwd ==0 %}6-20个字符
     	 {% else %}<font color="red"> 2次密码不相同</font>

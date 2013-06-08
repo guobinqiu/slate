@@ -124,6 +124,10 @@ footer section a, footer section span{
 	margin:10px;
 	color:#666;
 }
+footer section span.about{
+	height:16px;
+	display:inline-block;
+}
 footer section a.sina{
 	background-image: url("../images/sinaIcon.jpg");
     background-repeat: no-repeat;

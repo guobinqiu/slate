@@ -61,7 +61,7 @@
 .index section.one #userInformation .before a.reg:hover{
 	opacity:.8;
 }
-.index section.one #userInformation .before input[type="text"], .index section.one #userInformation .before input[type="password"]{
+.index section.one #userInformation .before input.text, .index section.one #userInformation .before input.password{
 	border:1px solid #cacaca;
 	width:172px;
 	height:35px;
@@ -71,22 +71,32 @@
 	color:#c5c5c5;
 	line-height:35px;
 }
-.index section.one #userInformation .before input[type="text"]:focus, .index section.one #userInformation .before input[type="password"]:focus{
+.index section.one #userInformation .before input.text, .index section.one #userInformation .before input.password{
+	border:1px solid #cacaca;
+	width:172px;
+	height:35px;
+	background-repeat:no-repeat;
+	display:inline-block;
+	padding:0 5px 0 35px;
+	color:#c5c5c5;
+	line-height:35px;
+}
+.index section.one #userInformation .before input.text:focus, .index section.one #userInformation .before input.password:focus{
 	color:#666;
 }
-.index section.one #userInformation .before input[type="text"]{
+.index section.one #userInformation .before input.text{
 	background-image:url(../images/inputUserIcon.jpg);
 	background-position:8px;
 }
-.index section.one #userInformation .before input[type="password"]{
+.index section.one #userInformation .before input.password{
 	background-image:url(../images/inputPasswordIcon.jpg);
 	background-position:10px;
 }
-.index section.one #userInformation .before input[type="image"]{
+.index section.one #userInformation .before input.image{
 	vertical-align:middle;
 	margin-right:5px;
 }
-.index section.one #userInformation .before input[type="image"]:hover{
+.index section.one #userInformation .before input.image:hover{
 	opacity:.8;
 }
 .index section.one #userInformation .before a.forget{
@@ -168,6 +178,7 @@
 	float: left;
 	border: 3px solid #ECECEC;
 	margin: 0 15px 15px 0;
+	_margin:0 14px 15px 0;
 	background-color: #FFF;
 }
 .index section.main article div.task:hover{

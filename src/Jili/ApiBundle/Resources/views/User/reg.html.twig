@@ -22,7 +22,7 @@
     <h2>快速注册<span>通过邮箱注册，快速加入积粒网，轻轻松松拿米粒、换现金！</span></h2>
     <ul class="form"> 
     <form action="{{ path('_user_reg') }}" method="post" name="form1" id="form1" >
-    	<li><dd>邮件地址：</dd><dt><input name="email" type="text" id="email"><br />
+    	<li><dd>邮件地址：</dd><dt><input name="email" type="text" class="text" id="email"><br />
     	    <span id="emailError">
     	    {% if code_email==0%}电子邮件就是您今后登录积粒网的账号
     	    {% elseif code_email==1 %}<font color='red'>请输入邮箱</font>
@@ -31,7 +31,7 @@
     	    {% endif %}
     	    </span>
     	</dt></li>
-        <li><dd>昵称：</dd><dt><input name="nick" type="text" id="nick"><br />
+        <li><dd>昵称：</dd><dt><input name="nick" type="text" class="text" id="nick"><br />
         <span id="nickError">
         {% if code_nick==0%}2-20个字符
     	    {% elseif code_nick==1 %}<font color='red'>请输入昵称</font>
@@ -40,7 +40,7 @@
     	    {% endif %}
         </span>
         </dt></li>
-        <li><dd>验证码：</dd><dt><input id="captcha" name="captcha" type="text" class="verification"></dt>
+        <li><dd>验证码：</dd><dt><input id="captcha" name="captcha" type="text" class="text verification"></dt>
         <img name="captcha" onclick="this.src='{{  path('_user_captcha') }}?r='+100000*Math.random()" src="{{ path('_user_captcha') }}" />
         <br /><dd>&nbsp;</dd><dt></dt>
         <span id="captchaError">

@@ -15,6 +15,7 @@
     margin: 50px 30px;
     text-align: left;
     width: 377px;
+   	_margin:50px 30px 50px 0;
 	padding:0 2px;
 }
 .login article .loginForm{
@@ -37,7 +38,7 @@
 .login article .loginForm li.error{
 	color:#F00;
 }
-.login article .loginForm li input[type="text"],.login article .loginForm li input[type="password"]{
+.login article .loginForm li input.text,.login article .loginForm li input.password{
 	border:1px solid #DDD;
 	font-size:14px;
 	padding:5px 5px 5px 30px;
@@ -46,17 +47,18 @@
 	box-shadow:1px 1px 3px #CCC inset;
 	margin:1px;
 	height:25px;
+	line-height:25px;
 	background-repeat:no-repeat;
 }
-.login article .loginForm li input[type="text"]{
+.login article .loginForm li input.text{
 	background-image: url("../images/inputUserIcon.jpg");
     background-position: 8px center;
 }
-.login article .loginForm li input[type="password"]{
+.login article .loginForm li input.password{
 	background-image: url("../images/inputPasswordIcon.jpg");
     background-position: 10px center;
 }
-.login article .loginForm li input[type="text"]:hover, .login article .loginForm li input[type="text"]:focus, .login article .loginForm li input[type="password"]:hover, .login article .loginForm li input[type="password"]:focus{
+.login article .loginForm li input.text:hover, .login article .loginForm li input.text:focus, .login article .loginForm li input.password:hover, .login article .loginForm li input.password:focus{
 	border:2px solid #7fcaf1;
 	margin:0px;
 }
@@ -72,7 +74,7 @@
 .login article .loginForm li.forget a{
 	color:#54b9e8;
 }
-.login article .loginForm li.loginBtn input[type="submit"]{
+.login article .loginForm li.loginBtn input.submit{
 	color:#FFF;
 	font-weight:bold;
 	font-size:18px;
