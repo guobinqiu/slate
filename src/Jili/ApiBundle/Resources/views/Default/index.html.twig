@@ -13,9 +13,10 @@
 </head>
 <script type="text/javascript">
 $(function(){
-	  $("#login").click(function(){
-		  $("#form1").submit();
-		 })
+	 $("#login").click(function(){
+	       $("#form1").submit();
+		  
+		})
 	})
 </script>
 <body>
@@ -51,12 +52,12 @@ $(function(){
             </ul>
         </div> 
         {% else %}
-       <form action="{{ path('_default_fastLogin') }}" method="post" name="form1" id="form1">
+       <form action="{{ path('_default_index') }}" method="post" name="form1" id="form1">
         <div class="before">
-            <p><input name="email" type="text" class="text"></p>
-            <p><input name="pwd" type="password" class="password"></p>
+            <p><input name="email" type="text" class="text" id="email" value="{{ email }}"></p>
+            <p><input name="pwd" type="password" class="password" id="password"></p>
             <p><input name="" id='login' type="image" class="image" src="{{ asset('images/indexLoginBtn.jpg') }}"><label>
-            <input name="remember_me" type="checkbox" value="1">记住我</label> | <a class="forget" href="{{ path('_user_resetPwd') }}">忘记密码?</a></span></p> 
+            <input name="remember_me" type="checkbox" value="1" id="rem">记住我</label> | <a class="forget" href="{{ path('_user_resetPwd') }}">忘记密码?</a></span></p> 
             <p><a class="reg" href="{{ path('_user_reg') }}">免费注册</a></p>
         </div>
         </form>

@@ -37,7 +37,7 @@ function clear(){
            <li class="error">&nbsp;</li>
        {% endif %}
       <li>
-          <input name="email" id="email" type="text" class="text" onFocus="$('.error').html('&nbsp;');" >
+          <input name="email" id="email" type="text" class="text" onFocus="$('.error').html('&nbsp;');" value="{{ email }}">
       </li>
       <li>
           <input name="pwd" id="pwd" type="password" class="password"  onFocus="clear();">

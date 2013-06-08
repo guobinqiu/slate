@@ -308,7 +308,7 @@ class UserController extends Controller
 		    }
 			
 	    }
-		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code));
+		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
 	}
 	
 	/**
@@ -516,7 +516,9 @@ class UserController extends Controller
 				'form' => $form->createView(),
 				'code_nick'=>$code_nick,
 				'code_cha'=>$code_cha,
-				'code_email'=>$code_email
+				'code_email'=>$code_email,
+				'email'=>$email,
+				'nick' =>$nick
 				));
 	}
 	
