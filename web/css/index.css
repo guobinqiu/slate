@@ -54,7 +54,7 @@
 .index section.one #userInformation .before a.reg{
 	background-image:url(../images/indexRegBtn.jpg);
 	width:214px;
-	height:51px;
+	height:53px;
 	text-indent:-9999px;
 	display:block;
 }
@@ -72,7 +72,7 @@
 	line-height:35px;
 }
 .index section.one #userInformation .before input.text, .index section.one #userInformation .before input.password{
-	border:1px solid #cacaca;
+	border:1px solid #e4e4e4;
 	width:172px;
 	height:35px;
 	background-repeat:no-repeat;
