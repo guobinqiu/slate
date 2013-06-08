@@ -13,7 +13,10 @@
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#but").attr("disabled", "disabled");
+	if ($("#ck").attr("checked")) 
+	    $("#but").attr("disabled",false);
+    else
+        $("#but").attr("disabled", "disabled");
 	$("#ck").click(function() {
 		  if ($("#ck").attr("checked")) 
 			  $("#but").attr("disabled",false);
@@ -49,7 +52,7 @@ $(document).ready(function(){
     	 {% else %}<font color="red"> 2次密码不相同</font>
     	 {%  endif %}
         </span></dt></li>
-        <li><dd></dd><dt><input name="ck" type="checkbox" value="1" id="ck">我已认真阅读并同意接受<a href="{{ path('_user_agreement') }}" target="_blank" class="provision">《积粒网会员协议》</a></dt></li>
+        <li><dd></dd><dt><input name="ck" type="checkbox" value="1" id="ck" checked="checked">我已认真阅读并同意接受<a href="{{ path('_user_agreement') }}" target="_blank" class="provision">《积粒网会员协议》</a></dt></li>
         <li><dd></dd><dt><input type='button' name='but' id='but' value='创建账号'/></dt></li>
     </ul>
     </form>
