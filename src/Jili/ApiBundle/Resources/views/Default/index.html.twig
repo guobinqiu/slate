@@ -13,9 +13,18 @@
 </head>
 <script type="text/javascript">
 $(function(){
+	{% if code==1 %}
+       $("#email").focus();
+	   alert('用户名或密码错误');
+	{% elseif code==2 %}
+	   $("#password").focus();
+       alert('用户名或密码错误');
+	{% else %}
+	
+	{%  endif %}
+	
 	 $("#login").click(function(){
 	       $("#form1").submit();
-		  
 		})
 	})
 </script>

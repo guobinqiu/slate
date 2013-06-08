@@ -12,6 +12,7 @@ use Jili\ApiBundle\Entity\LoginLog;
 
 class DefaultController extends Controller
 {
+	
 	/**
 	 * @Route("/", name="_default_index")
 	 */
@@ -73,6 +74,7 @@ class DefaultController extends Controller
             	}
             }
         }
+        $arr['code'] = $code;
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
 		$advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->findAll();
 		$advertise = $repository->getAdvertiserList();
