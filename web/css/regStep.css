@@ -153,6 +153,17 @@
 }
 .regStep article ul.form li dt input.verification{
 	width:80px;
+	
+}
+.regStep article ul.form li dt img.verificationImg {
+	height: 30px;
+    margin: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.regStep article ul.form li dt img.refreshImg{
+	vertical-align: middle;
+	cursor: pointer;
 }
 .regStep article ul.form li dt span{
 	display:inline-block;
