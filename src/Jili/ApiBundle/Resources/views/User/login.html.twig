@@ -26,7 +26,7 @@ function clear(){
   <form action="{{ path('_user_login') }}" method="post" name="form1" id="form1">
   <article>
     <ul class="loginForm">
-      <h2>欢迎登录积粒账户</h2>
+      <h2><img src='{{ asset('images/logTitle.gif') }}'/></h2>
       {% if code==1 %}
            <li class="error">用户名或密码错误</li>
        {% elseif code==2 %}
@@ -45,10 +45,10 @@ function clear(){
       <li>
       <input id="remember_me" name="remember_me" type="checkbox" value="1">记住我
       </li>
-      <li class="loginBtn"><input name="" type="submit" class="submit" value="登录"><a class="forget" href="{{ path('_user_resetPwd') }}" target="_blank">忘记密码</a></li>
+      <li class="loginBtn"><input name="" type="submit" class="submit" value="&nbsp;"><a class="forget" href="{{ path('_user_resetPwd') }}" target="_blank">忘记密码</a></li>
       <!--  <li class="otherLogin">使用合作网站登录<a class="weibo" href="#"></a><a class="qq" href="#"></a></li>-->
     </ul>
-    <div class="regArea"><a href="{{ path('_user_reg') }}" target="_blank" class="reg">立即注册</a></div>
+    <div class="regArea"><a href="{{ path('_user_reg') }}" target="_blank" class="reg"></a></div>
   </article></form>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
