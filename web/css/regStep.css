@@ -13,6 +13,8 @@
 	border:1px solid #ececec;
 	padding:50px 100px;
 	position:relative;
+	width:753px;
+	display: inline-block;
 }
 .regStep article .loginArea{
 	color: #333333;
@@ -72,6 +74,7 @@
     position: absolute;
     top: 0;
     width: 913px;
+    z-index:1002;
 }
 .regStep article .regForm h2 span{
 	background-image: url("../images/giftIcon.jpg");
@@ -116,7 +119,7 @@
 	line-height:35px;
 }
 
-.regStep article ul.form li dt input[type="password"]{
+.regStep article ul.form li dt input.password{
 	border:1px solid #CCC;
 	font-size:14px;
 	padding:5px;
@@ -125,17 +128,17 @@
 	box-shadow:1px 1px 3px #DDD inset;
 	margin:1px;
 }
-.regStep article ul.form li dt input[type="password"]:hover, .regStep article ul.form li dt input[type="password"]:focus{
+.regStep article ul.form li dt input.password:hover, .regStep article ul.form li dt input.password:focus{
 	border:2px solid #7fcaf1;
 	margin:0px;
 }
-.regStep article ul.form li dt.error input[type="password"]{
+.regStep article ul.form li dt.error input.password{
 	border:1px solid #f4784a;
 	margin:1px;
 }
 
 
-.regStep article ul.form li dt input[type="text"]{
+.regStep article ul.form li dt input.text{
 	border:1px solid #CCC;
 	font-size:14px;
 	padding:5px;
@@ -144,17 +147,28 @@
 	box-shadow:1px 1px 3px #DDD inset;
 	margin:1px;
 }
-.regStep article ul.form li dt input[type="text"]:hover, .regStep article ul.form li dt input[type="text"]:focus{
+.regStep article ul.form li dt input.text:hover, .regStep article ul.form li dt input.text:focus{
 	border:2px solid #7fcaf1;
 	margin:0px;
 }
 .regStep article ul.form li dt input.verification{
 	width:80px;
+	
+}
+.regStep article ul.form li dt img.verificationImg {
+	height: 30px;
+    margin: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.regStep article ul.form li dt img.refreshImg{
+	vertical-align: middle;
+	cursor: pointer;
 }
 .regStep article ul.form li dt span{
 	display:inline-block;
 }
-.regStep article ul.form li dt.error input[type="text"]{
+.regStep article ul.form li dt.error input.text{
 	border:1px solid #f4784a;
 	margin:1px;
 }

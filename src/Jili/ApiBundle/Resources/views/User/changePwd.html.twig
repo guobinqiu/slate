@@ -32,34 +32,34 @@ function check(){
           <dd>请输入旧密码：</dd>
           {% if codeflag == 2 %}
                   <dt id="oldPwdError" class="error">
-                    <input name="oldPwd" id="oldPwd" type="password"><font>&nbsp;</font>
+                    <input name="oldPwd" id="oldPwd" type="password" class="password"><font>&nbsp;</font>
                      <br />
                     <span>旧密码不对</span></dt>
             {% elseif codeflag == 6  %}
                     <dt id="oldPwdError" class="error">
-                    <input name="oldPwd" id="oldPwd" type="password"><font>&nbsp;</font>
+                    <input name="oldPwd" id="oldPwd" type="password" class="password"><font>&nbsp;</font>
                     <br />
                     <span>请输入旧密码</span></dt>
             {% else %}
                     <dt id="oldPwdError">
-                    <input name="oldPwd" id="oldPwd" type="password"><font>&nbsp;</font>
+                    <input name="oldPwd" id="oldPwd" type="password" class="password"><font>&nbsp;</font>
             {% endif %}
         </li>
         <li>
           <dd>请输入新密码：</dd>
           {% if codeflag == 3 %}
           <dt id="pwdError" class="error">
-            <input name="pwd" id="pwd" type="password"><font>&nbsp;</font>
+            <input name="pwd" id="pwd" type="password" class="password"><font>&nbsp;</font>
             <br />
             <span>密码为6-20个字符，不能含特殊符号</span></dt>
             {% elseif codeflag == 5 %}
              <dt id="pwdError" class="error">
-            <input name="pwd" id="pwd" type="password"><font>&nbsp;</font>
+            <input name="pwd" id="pwd" type="password" class="password"><font>&nbsp;</font>
             <br />
             <span>请输入新密码</span></dt>
             {% else %}
              <dt id="pwdError">
-            <input name="pwd" id="pwd" type="password"><font>&nbsp;</font>
+            <input name="pwd" id="pwd" type="password" class="password"><font>&nbsp;</font>
            </dt>
             {% endif %}
         </li>
@@ -67,12 +67,12 @@ function check(){
           <dd>请再次输入新密码：</dd>
            {% if codeflag == 4 %}
           <dt id="newPwdError" class="error">
-            <input name="newPwd" id="newPwd" type="password">
+            <input name="newPwd" id="newPwd" type="password" class="password">
              <br />
             <span>2次密码不相同</span></dt>
             {% else %}
              <dt id="newPwdError">
-            <input name="newPwd" id="newPwd" type="password">
+            <input name="newPwd" id="newPwd" type="password" class="password">
            </dt>
            {% endif %}
         </li>

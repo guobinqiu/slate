@@ -308,7 +308,7 @@ class UserController extends Controller
 		    }
 			
 	    }
-		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code));
+		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
 	}
 	
 	/**
@@ -516,7 +516,9 @@ class UserController extends Controller
 				'form' => $form->createView(),
 				'code_nick'=>$code_nick,
 				'code_cha'=>$code_cha,
-				'code_email'=>$code_email
+				'code_email'=>$code_email,
+				'email'=>$email,
+				'nick' =>$nick
 				));
 	}
 	
@@ -685,7 +687,7 @@ class UserController extends Controller
 				' <body>' .
 				'亲爱的'.$nick.'<br/>'.
 				'<br/>'.
-				'  我们收到您因为忘记密码，要求重置积粒网帐号密码的申请，请点击以下链接重置您的密码。<br/><a href='.$url.' target="_blank">'.$url.'</a><br/>' .
+				'  我们收到您因为忘记密码，要求重置积粒网帐号密码的申请，请点击<a href='.$url.' target="_blank">这里</a>重置您的密码。<br/><br/>' .
 				'  如果您并未提交重置密码的申请，请忽略本邮件，并关注您的账号安全，因为可能有其他人试图登录您的账户。<br/><br/>积粒网运营中心' .
 				' </body>' .
 				'</html>',
@@ -713,7 +715,7 @@ class UserController extends Controller
 						' <body>' .
 				        '亲爱的'.$nick.'<br/>'.
 				        '<br/>'.
-						'  感谢您注册成为“积粒网”会员！请点击以下链接，立即激活您的帐户！<br/><a href='.$url.' target="_blank">'.$url.'</a><br/><br/>' .
+						'  感谢您注册成为“积粒网”会员！请点击<a href='.$url.' target="_blank">这里</a>，立即激活您的帐户！<br/><br/>' .
 						'  积粒网，一站式积分媒体！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
 						' </body>' .
 						'</html>',

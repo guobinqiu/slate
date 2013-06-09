@@ -24,6 +24,7 @@
     text-align: center;
     text-decoration: none;
     white-space: nowrap;
+    _width:20px;
 }
 .pageNav a:hover{
 	color:#FF0000;

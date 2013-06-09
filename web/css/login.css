@@ -15,6 +15,7 @@
     margin: 50px 30px;
     text-align: left;
     width: 377px;
+   	_margin:50px 30px 50px 0;
 	padding:0 2px;
 }
 .login article .loginForm{
@@ -37,26 +38,27 @@
 .login article .loginForm li.error{
 	color:#F00;
 }
-.login article .loginForm li input[type="text"],.login article .loginForm li input[type="password"]{
+.login article .loginForm li input.text,.login article .loginForm li input.password{
 	border:1px solid #DDD;
 	font-size:14px;
-	padding:5px 5px 5px 30px;
+	padding:10px 5px 10px 30px;
 	vertical-align:middle;
 	width:235px;
 	box-shadow:1px 1px 3px #CCC inset;
 	margin:1px;
-	height:25px;
+	height:15px;
+	line-height:15px;
 	background-repeat:no-repeat;
 }
-.login article .loginForm li input[type="text"]{
+.login article .loginForm li input.text{
 	background-image: url("../images/inputUserIcon.jpg");
     background-position: 8px center;
 }
-.login article .loginForm li input[type="password"]{
+.login article .loginForm li input.password{
 	background-image: url("../images/inputPasswordIcon.jpg");
     background-position: 10px center;
 }
-.login article .loginForm li input[type="text"]:hover, .login article .loginForm li input[type="text"]:focus, .login article .loginForm li input[type="password"]:hover, .login article .loginForm li input[type="password"]:focus{
+.login article .loginForm li input.text:hover, .login article .loginForm li input.text:focus, .login article .loginForm li input.password:hover, .login article .loginForm li input.password:focus{
 	border:2px solid #7fcaf1;
 	margin:0px;
 }
@@ -66,27 +68,32 @@
 	margin-top:0px\0;
 	_margin-top:30px;
 }
+.login article .loginForm li.loginBtn .forget{
+	font-size:12px;
+}
 .login article .loginForm li.otherLogin{
 	margin-top:10px;
 }
 .login article .loginForm li.forget a{
 	color:#54b9e8;
 }
-.login article .loginForm li.loginBtn input[type="submit"]{
+.login article .loginForm li.loginBtn input.submit{
 	color:#FFF;
 	font-weight:bold;
 	font-size:18px;
-	width:135px;
-	height:45px;
+	width:134px;
+	height:44px;
 	margin-right:10px;
 	text-align:center;
 	border-radius:5px;
 	display:inline-block;
-	border:1px solid #fb742c;
+	cursor: pointer;
 	background-color:#ff8f4b;
-	background-image: -moz-linear-gradient(top, #ff8f4b, #fb742c); /* Firefox */
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff8f4b), color-stop(1, #fb742c)); /* Saf4+, Chrome */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8f4b', endColorstr='#fb742c', GradientType='0'); /* IE*/
+	background-image: url("../images/logBtn.png");
+}
+.login article .loginForm li.loginBtn input.submit:hover{
+	opacity: .7;
+	Filter:alpha(opacity=70);
 }
 .login article .loginForm li.otherLogin a{
 	display: inline-block;
@@ -110,16 +117,17 @@
 	font-weight:bold;
 	font-size:18px;
 	width:135px;
-	height:45px;
+	height:46px;
 	line-height:45px;
-	width:270px;
+	width:276px;
 	margin-right:10px;
 	text-align:center;
 	border-radius:5px;
 	display:inline-block;
-	border:1px solid #dadada;
 	background-color:#ececec;
-	background-image: -moz-linear-gradient(top, #f5f5f5, #ececec); /* Firefox */
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f5f5f5), color-stop(1, #ececec)); /* Saf4+, Chrome */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#ececec', GradientType='0'); /* IE*/
+	background-image: url("../images/signBtn.png")
+}
+.login article .regArea a.reg:hover{
+	opacity: .7;
+	Filter:alpha(opacity=70);
 }

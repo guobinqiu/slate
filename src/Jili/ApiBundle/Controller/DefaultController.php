@@ -12,6 +12,7 @@ use Jili\ApiBundle\Entity\LoginLog;
 
 class DefaultController extends Controller
 {
+	
 	/**
 	 * @Route("/", name="_default_index")
 	 */
@@ -29,6 +30,51 @@ class DefaultController extends Controller
         	$user = $em->getRepository('JiliApiBundle:User')->find($this->get('request')->getSession()->get('uid'));
         	$arr['user'] = $user;
         }
+        $code = $this->container->getParameter('init');
+        $arr['userInfo'] = array();
+        $email = $request->request->get('email');
+        $arr['email'] = $email;
+        $pwd = $request->request->get('pwd');
+        $em_email = $this->getDoctrine()
+        ->getRepository('JiliApiBundle:User')
+        ->findByEmail($email);
+        if ($request->getMethod() == 'POST'){
+            if(!$em_email){
+            	//echo 'email is unexist!';
+            	$code = $this->container->getParameter('init_one');
+            }else{
+            	$id = $em_email[0]->getId();
+            	$em = $this->getDoctrine()->getEntityManager();
+            	$user = $em->getRepository('JiliApiBundle:User')->find($id);
+            	if($user->pw_encode($pwd) != $user->getPwd()){
+            		// 					echo 'pwd is error!';
+            		$code = $this->container->getParameter('init_two');
+            	}else{
+//             		$session = new Session();
+//             		$session->start();
+            		if($request->request->get('remember_me')=='1'){
+            			setcookie("jili_uid", $id, time() + 3600 * 24 * 365,'/');
+            			setcookie("jili_nick",$user->getNick(), time() + 3600 * 24 * 365,'/');
+            		}
+            		$request->getSession()->set('uid', $id);
+            		$request->getSession()->set('nick', $user->getNick());
+//             		$session->set('uid', $id);
+//             		$session->set('nick', $user->getNick());
+            		$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
+            		$user->setLastLoginIp($this->get('request')->getClientIp());
+            		$em->flush();
+            		$em = $this->getDoctrine()->getManager();
+            		$loginlog = new Loginlog();
+            		$loginlog->setUserId($id);
+            		$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
+            		$loginlog->setLoginIp($this->get('request')->getClientIp());
+            		$em->persist($loginlog);
+            		$em->flush();
+            		return $this->redirect($this->generateUrl('_default_index'));
+            	}
+            }
+        }
+        $arr['code'] = $code;
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
 		$advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->findAll();
 		$advertise = $repository->getAdvertiserList();
@@ -43,27 +89,29 @@ class DefaultController extends Controller
      * @Route("/fastLogin", name="_default_fastLogin")
      */
     function fastLoginAction(){
+    	$code = $this->container->getParameter('init');
     	$arr['userInfo'] = array();
     	$request = $this->get('request');
-    	$email = $request->request->get('email');
-    	$pwd = $request->request->get('pwd');
+    	$email = $request->query->get('email');
+    	$pwd = $request->query->get('pwd');
     	$em_email = $this->getDoctrine()
     	->getRepository('JiliApiBundle:User')
     	->findByEmail($email);
-    	$request = $this->get('request');
-    	if ($request->getMethod() == 'POST'){
+//     	if ($request->getMethod() == 'POST'){
 			if(!$em_email){
-				echo 'email is unexist!';
+				//echo 'email is unexist!';
+				$code = $this->container->getParameter('init_one');
 			}else{
 				$id = $em_email[0]->getId();
 				$em = $this->getDoctrine()->getEntityManager();
 				$user = $em->getRepository('JiliApiBundle:User')->find($id);
 				if($user->pw_encode($pwd) != $user->getPwd()){
-					echo 'pwd is error!';
+// 					echo 'pwd is error!';
+					$code = $this->container->getParameter('init_two');
 				}else{
 					$session = new Session();
 					$session->start();
-					if($request->request->get('remember_me')=='1'){
+					if($request->query->get('remember_me')=='1'){
 						setcookie("jili_uid", $id, time() + 3600 * 24 * 365,'/');
 						setcookie("jili_nick",$user->getNick(), time() + 3600 * 24 * 365,'/');
 					}
@@ -79,10 +127,12 @@ class DefaultController extends Controller
 					$loginlog->setLoginIp($this->get('request')->getClientIp());
 					$em->persist($loginlog);
 					$em->flush();
+// 					return $this->redirect($this->generateUrl('_default_index'));
 				}
 			}
-    	}
-    	return $this->redirect($this->generateUrl('_default_index'));
+//     	}
+    	return new Response($code);
+
     }
     
     /**
