@@ -68,6 +68,9 @@
 	margin-top:0px\0;
 	_margin-top:30px;
 }
+.login article .loginForm li.loginBtn .forget{
+	font-size:12px;
+}
 .login article .loginForm li.otherLogin{
 	margin-top:10px;
 }
@@ -84,6 +87,7 @@
 	text-align:center;
 	border-radius:5px;
 	display:inline-block;
+	cursor: pointer;
 	background-color:#ff8f4b;
 	background-image: url("../images/logBtn.png");
 }
