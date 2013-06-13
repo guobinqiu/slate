@@ -249,7 +249,7 @@ class User
     		return 'mail.tom.com';
     	}else if($t=='vip.sina.com'){
     		return 'vip.sina.com';
-    	}else if($t=='sina.com.cn'||$t=='sina.com'){
+    	}else if($t=='sina.com.cn'||$t=='sina.com'||$t=='sina.cn'){
     		return 'mail.sina.com.cn';
     	}else if($t=='tom.com'){
     		return 'mail.tom.com';
