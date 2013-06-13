@@ -91,3 +91,7 @@
     top: 10px;
     width: 213px;
 }
+.actionTitle .getBtn:hover img{
+	opacity: .8;
+	Filter:alpha(opacity=80);
+}

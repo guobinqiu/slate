@@ -92,8 +92,8 @@
 	background-image: url("../images/logBtn.png");
 }
 .login article .loginForm li.loginBtn input.submit:hover{
-	opacity: .7;
-	Filter:alpha(opacity=70);
+	opacity: .8;
+	Filter:alpha(opacity=80);
 }
 .login article .loginForm li.otherLogin a{
 	display: inline-block;
@@ -128,6 +128,6 @@
 	background-image: url("../images/signBtn.png")
 }
 .login article .regArea a.reg:hover{
-	opacity: .7;
-	Filter:alpha(opacity=70);
+	opacity: .8;
+	Filter:alpha(opacity=80);
 }

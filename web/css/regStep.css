@@ -39,6 +39,8 @@
 }
 .regStep article .loginArea a.login:hover{
 	text-decoration:none;
+	opacity: .8;
+	Filter:alpha(opacity=80);
 }
 .regStep article .message{
 	width: 680px;
@@ -199,6 +201,8 @@
 }
 .regStep article ul.form li dt .regBtn:hover{
 	text-decoration:none;
+	opacity: .8;
+	Filter:alpha(opacity=80);
 }
 .regStep article ul.form li dt.otherLogin{
 	background-color:#fafbfa;
@@ -220,6 +224,10 @@
 .regStep article .regFrame .goToMail .img{
 	float:left;
 	margin:10px 20px;
+}
+.regStep article .regFrame .goToMail .goMailBtn:hover{
+	opacity: .8;
+	Filter:alpha(opacity=80);
 }
 .regStep article .regFrame .goToMail a.again{
 	color:#146096;
