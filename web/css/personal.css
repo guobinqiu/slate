@@ -70,6 +70,11 @@
 	line-height:32px;
 	border-radius:5px;
 }
+.photo a.upload:hover{
+	opacity: .8;
+	Filter:alpha(opacity=80);
+	text-decoration:none;
+}
 .info{
 	position:relative;
 }
