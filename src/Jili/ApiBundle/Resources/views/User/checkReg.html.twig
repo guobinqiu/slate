@@ -14,6 +14,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#prompt").hide();
+	$("#sendAgain").hide();
 	$(".again").click(function(){
 		$.ajax({
 			url : "{{ path('_user_reSend') }}?id="+$('#uid').val()+"&code="+$('#code').val()+"&nick="+$('#nick').val()+"&email="+$('#email').val(),
@@ -25,9 +26,10 @@ $(document).ready(function(){
 					//SysSecond = 5;
 					InterValObj = window.setInterval(SetRemainTime, 1000); //间隔函数，1秒执行 
 					$("#prompt").show();
-					$('.again').removeAttr('href');
-					$(".again").attr('href','javascript:void(0);');
-					$(".again").html('已发送&nbsp;&nbsp;');
+					$("#sendAgain").show();
+					$('.again').hide();
+					//$(".again").attr('href','javascript:void(0);');
+					//$(".again").html('已发送&nbsp;&nbsp;');
 				}else{
 					alert('发送失败');
 				}
@@ -41,8 +43,9 @@ function SetRemainTime() {
         var second = Math.floor(SysSecond % 60);             // 计算秒     
         $("#second").html(second); 
     } else {
+    	$("#sendAgain").hide();
+    	$(".again").show();
     	$("#second").html('59');
-    	$(".again").html("没收到？再次发送！");
         $("#prompt").hide();
         window.clearInterval(InterValObj);
     } 
@@ -64,7 +67,7 @@ function SetRemainTime() {
         <a href="{{ path('_default_error') }}" target="_blank">
         {% endif %}
        <img src="{{ asset('images/goMailBtn.jpg')}}" width="128" height="35"></a></p>
-        <p><a class="again" >没收到？再次发送！</a><span id="prompt"><span id="second">59</span>秒后可重新发送</span></p>
+        <p><span id="sendAgain">已发送&nbsp;&nbsp;</span><a class="again" >没收到？再次发送！</a><span id="prompt"><span id="second">59</span>秒后可重新发送</span></p>
          <input type='hidden' id='uid' value='{{ user.id }}'/>
         <input type='hidden' id='code' value='{{ user.code }}'/>
         <input type='hidden' id='nick'  value='{{ user.nick  }}'/>
