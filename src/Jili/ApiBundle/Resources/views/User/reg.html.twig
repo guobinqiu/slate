@@ -40,13 +40,15 @@
     	    {% endif %}
         </span>
         </dt></li>
-        <li><dd>验证码：</dd><dt><input id="captcha" name="captcha" type="text" class="text verification"></dt>
-        <img name="captcha" onclick="this.src='{{  path('_user_captcha') }}?r='+100000*Math.random()" src="{{ path('_user_captcha') }}" />
-        <br /><dd>&nbsp;</dd><dt></dt>
+        <li><dd>验证码：</dd><dt><input id="captcha" name="captcha" type="text" class="text verification">
+        <img id="verificationImg" class="verificationImg" name="captcha" onclick="this.src='{{  path('_user_captcha') }}?r='+100000*Math.random()" src="{{ path('_user_captcha') }}" />
+        <img class="refreshImg" src="{{ asset('images/refresh.png') }}" onclick="refresh()" />
+        <br />
         <span id="captchaError">
     	    {% if code_cha==1 %}<font color='red'>验证码不对</font>
     	    {% endif %} 
         </span>
+        </dt>
          </li>
         <li><dd></dd><dt><!--  <a class="regBtn" href="#">发送验证邮件</a>-->
         <input type='button' id='reg' class='regBtn' value='发送验证邮件'/>
@@ -60,6 +62,9 @@
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
 <script type="text/javascript">
+function refresh(){
+	 document.getElementById("verificationImg").src='{{  path('_user_captcha') }}?r='+100000*Math.random();
+}
 $(document).ready(function(){
 	$("#reg").click(function(){
 		$("#form1").submit();

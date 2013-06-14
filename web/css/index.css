@@ -60,6 +60,7 @@
 }
 .index section.one #userInformation .before a.reg:hover{
 	opacity:.8;
+	Filter:alpha(opacity=80);
 }
 .index section.one #userInformation .before input.text, .index section.one #userInformation .before input.password{
 	border:1px solid #cacaca;
@@ -98,6 +99,7 @@
 }
 .index section.one #userInformation .before input.image:hover{
 	opacity:.8;
+	Filter:alpha(opacity=80);
 }
 .index section.one #userInformation .before a.forget{
 	color:#54b9e8;
@@ -119,6 +121,10 @@
 	width:90px;
 	height:90px;
 }
+.index section.one #userInformation .after .user .photo:hover img{
+	opacity: .8;
+	Filter:alpha(opacity=80);
+}
 .index section.one #userInformation .after .user p{
 	margin:20px 0;
 }
@@ -129,6 +135,10 @@
 .index section.one #userInformation .after .user p.point span{
 	color:#FF7114;
 	font-weight:bold;
+}
+.index section.one #userInformation .after .user p a.personal:hover img{
+	opacity: .8;
+	Filter:alpha(opacity=80);
 }
 .index section.one #userInformation .after ul{
 	position:absolute;

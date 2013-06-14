@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * User
  *
  * @ORM\Table(name="user")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserRepository")
  */
 class User
 {
@@ -249,7 +249,7 @@ class User
     		return 'mail.tom.com';
     	}else if($t=='vip.sina.com'){
     		return 'vip.sina.com';
-    	}else if($t=='sina.com.cn'||$t=='sina.com'){
+    	}else if($t=='sina.com.cn'||$t=='sina.com'||$t=='sina.cn'){
     		return 'mail.sina.com.cn';
     	}else if($t=='tom.com'){
     		return 'mail.tom.com';

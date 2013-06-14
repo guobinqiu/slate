@@ -41,13 +41,13 @@
 .login article .loginForm li input.text,.login article .loginForm li input.password{
 	border:1px solid #DDD;
 	font-size:14px;
-	padding:5px 5px 5px 30px;
+	padding:10px 5px 10px 30px;
 	vertical-align:middle;
 	width:235px;
 	box-shadow:1px 1px 3px #CCC inset;
 	margin:1px;
-	height:25px;
-	line-height:25px;
+	height:15px;
+	line-height:15px;
 	background-repeat:no-repeat;
 }
 .login article .loginForm li input.text{
@@ -93,8 +93,8 @@
 	background-image: url("../images/logBtn.png");
 }
 .login article .loginForm li.loginBtn input.submit:hover{
-	opacity: .7;
-	Filter:alpha(opacity=70);
+	opacity: .8;
+	Filter:alpha(opacity=80);
 }
 .login article .loginForm li.otherLogin a{
 	display: inline-block;
@@ -129,6 +129,6 @@
 	background-image: url("../images/signBtn.png")
 }
 .login article .regArea a.reg:hover{
-	opacity: .7;
-	Filter:alpha(opacity=70);
+	opacity: .8;
+	Filter:alpha(opacity=80);
 }

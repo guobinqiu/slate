@@ -21,10 +21,11 @@ function SetRemainTime() {
         var second = Math.floor(SysSecond % 60);             // 计算秒     
         $("#second").html(second); 
     } else {
-        //window.clearInterval(InterValObj);
+    	$("#second").html('59');
     	$("#sendEmail").removeClass('disabled'); 
         $(".prompt").hide();
         $("#sendEmail").attr("onclick","check()"); 
+        window.clearInterval(InterValObj);
     } 
 } 
 function check(){
