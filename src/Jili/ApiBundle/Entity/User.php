@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * User
  *
  * @ORM\Table(name="user")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserRepository")
  */
 class User
 {

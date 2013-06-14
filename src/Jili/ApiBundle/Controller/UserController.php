@@ -317,7 +317,9 @@ class UserController extends Controller
 	public function checkRegAction($id){
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		$arr['gotoEmial'] = $user->gotomail($user->getEmail());
+		$info = $em->getRepository('JiliApiBundle:User')->getUserList($id);
+		$arr['gotoEmial'] = $user->gotomail($info[0]['email']);
+		$arr['user'] = $info[0];
 		return $this->render('JiliApiBundle:User:checkReg.html.twig',$arr);
 	}
 	
@@ -443,6 +445,25 @@ class UserController extends Controller
 		}
 	}
 	
+	/**
+	 * @Route("/reSend", name="_user_reSend")
+	 */
+	public function reSend(){
+		$request = $this->get('request');
+		$id = $request->query->get('id');
+		$code = $request->query->get('code');
+		$nick = $request->query->get('nick');
+		$email = $request->query->get('email');
+		$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+		if($this->sendMail($url, $email,$nick)){
+			$code = $this->container->getParameter('init_one');
+		}else{
+			$code = $this->container->getParameter('init');
+		}
+		return new Response($code);
+		
+	}
+	
 	
 	/**
 	 * @Route("/reg", name="_user_reg")
@@ -497,8 +518,8 @@ class UserController extends Controller
         										$em->flush();
         										// 					echo 'success';
         										
+        									    return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
         									}
-        									return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
         								}
         							}
         						}else{
@@ -640,7 +661,6 @@ class UserController extends Controller
         					$code_pwd = $this->container->getParameter('init_one');
         					$arr['code_pwd']  = $code_pwd;
         				}
-        				
         			}else{
         				echo 'choose agree';
         			}
@@ -649,7 +669,7 @@ class UserController extends Controller
         	}
         }
 	}
-	    
+	
 	/**
 	* @Route("/mission/{id}", name="_user_mission")
 	*/
