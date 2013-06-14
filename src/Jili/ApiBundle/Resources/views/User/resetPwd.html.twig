@@ -21,10 +21,11 @@ function SetRemainTime() {
         var second = Math.floor(SysSecond % 60);             // 计算秒     
         $("#second").html(second); 
     } else {
-        //window.clearInterval(InterValObj);
+    	$("#second").html('59');
     	$("#sendEmail").removeClass('disabled'); 
         $(".prompt").hide();
         $("#sendEmail").attr("onclick","check()"); 
+        window.clearInterval(InterValObj);
     } 
 } 
 function check(){
@@ -60,7 +61,7 @@ function check(){
       <p>请输入您注册时填写的邮箱</p>
       <p><input name="email" type="text" class="text" id="email"></p>
       <p><a id="sendEmail" onclick='check();'>下一步</a></p>
-      <p class="prompt">重置密码邮件已经发送至您的邮箱，<span id="second">59</span>秒后可重新发送。</p>
+      <p class="prompt">重置密码邮件已经发送至您的邮箱，<span id="second">5</span>秒后可重新发送。</p>
       <div class="clear"></div>
     </div>
   </article>
