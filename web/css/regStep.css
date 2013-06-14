@@ -17,7 +17,7 @@
 	display: inline-block;
 }
 .regStep article .loginArea{
-	color: #333333;
+	color: #666;
     float: right;
     margin-right: -30px;
     padding: 80px 10px 20px;
@@ -169,6 +169,8 @@
 }
 .regStep article ul.form li dt span{
 	display:inline-block;
+	color:#999;
+	font-size:12px;
 }
 .regStep article ul.form li dt.error input.text{
 	border:1px solid #f4784a;
@@ -230,7 +232,7 @@
 	Filter:alpha(opacity=80);
 }
 .regStep article .regFrame .goToMail a.again{
-	color:#146096;
+	color:#54B9E8;
 }
 .regStep article .regFrame .notMail{
 	border-top: 1px dotted #EEEEEE;
@@ -259,7 +261,7 @@
 	float:left;
 }
 .regStep article .regFrame .notMail .change a{
-	color:#146096;
+	color:#54B9E8;
 }
 
 .regStep article .regFrame .finish{
