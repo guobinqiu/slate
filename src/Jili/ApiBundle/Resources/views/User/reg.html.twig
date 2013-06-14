@@ -19,7 +19,7 @@
   <article>
   	<div class="step"><img src="{{ asset('images/step1.jpg')}}" width="960" height="86"></div>
     <div class="regForm" style="padding-top:100px;">
-    <h2>快速注册<span>通过邮箱注册，快速加入积粒网，轻轻松松拿米粒、换现金！</span></h2>
+    <h2><img src="{{ asset('images/quickLogin.gif')}}" alt="快速注册"><span>通过邮箱注册，快速加入积粒网，轻轻松松拿米粒、换现金！</span></h2>
     <ul class="form"> 
     <form action="{{ path('_user_reg') }}" method="post" name="form1" id="form1" >
     	<li><dd>邮件地址：</dd><dt><input name="email" type="text" class="text" id="email" value="{{ email }}"><br />
