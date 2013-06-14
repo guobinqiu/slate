@@ -51,6 +51,8 @@
 	padding: 10px 0 0;
 	display:inline-block;
 	text-align:left;
+	line-height:200%;
+	font-size:14px;
 }
 .adMore article div.rule .article h3{
 	font-size:14px;
@@ -90,4 +92,8 @@
     right: 60px;
     top: 10px;
     width: 213px;
+}
+.actionTitle a.getBtn:hover img{
+	opacity: .8;
+	Filter:alpha(opacity=80);
 }

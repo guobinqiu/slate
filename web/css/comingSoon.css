@@ -4,7 +4,7 @@
 .comingSoon article{
 	background-image: url("../images/comingSoon.jpg");
     height: 103px;
-    margin: 100px auto;
+    margin: 120px auto 0 auto;
     padding: 105px 0 0 250px;
     width: 317px;
 }

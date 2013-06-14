@@ -28,6 +28,8 @@
 }
 .newsMore article .content{
 	padding:20px;
+	font-size:14px;
+	line-height:200%;
 }
 .newsMore article .content p{
 	margin:10px 0;
