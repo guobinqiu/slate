@@ -57,14 +57,14 @@ function SetRemainTime() {
     <div class="regFrame">
     	<div class="goToMail">
    	    <div class="img"><img src="{{ asset('images/emailImage.jpg')}}" width="123" height="115"></div>
-        <p>我们已经发送了激活右键给您<br />请查看您的邮箱，确认是否收到来自积粒网的激活邮件，并点击邮件中的验证链接。<br />
+        <p>我们已经发送了激活邮件给您<br />请查看您的邮箱，确认是否收到来自积粒网的激活邮件，并点击邮件中的验证链接。<br />
         {% if gotoEmial %}
          <a href="http://{{ gotoEmial }}" target="_blank">
         {% else %}
         <a href="{{ path('_default_error') }}" target="_blank">
         {% endif %}
        <img src="{{ asset('images/goMailBtn.jpg')}}" width="128" height="35"></a></p>
-        <p><a class="again" >没收到？再次发送！</a><span id="prompt"><span id="second">5</span>秒后可重新发送</span></p>
+        <p><a class="again" >没收到？再次发送！</a><span id="prompt"><span id="second">59</span>秒后可重新发送</span></p>
          <input type='hidden' id='uid' value='{{ user.id }}'/>
         <input type='hidden' id='code' value='{{ user.code }}'/>
         <input type='hidden' id='nick'  value='{{ user.nick  }}'/>
