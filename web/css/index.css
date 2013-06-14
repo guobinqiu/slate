@@ -196,6 +196,10 @@
 	position: relative;
 	color: #ec4920;
 }
+.index section.main article div.task h3 a:hover{
+	color: #EC4920;
+	text-decoration:none;
+}
 .index section.main article div.task p span {
 	font-weight: bold;
 	color: #ec4920;
