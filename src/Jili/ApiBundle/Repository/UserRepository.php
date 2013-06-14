@@ -12,7 +12,7 @@ class UserRepository extends EntityRepository
 		$query = $this->createQueryBuilder('u');
 	
 		$query = $query->select('u.id,u.nick,u.email,sp.code');
-		$query = $query->innerJoin('JiliApiBundle:SetPasswordCode', 'sp', 'WITH', 'u.id = sp.userId');
+		$query = $query->innerJoin('JiliApiBundle:setPasswordCode', 'sp', 'WITH', 'u.id = sp.userId');
 	
 		$query = $query->Where('u.id = :id');
 		$query = $query->setParameter('id',$id);
