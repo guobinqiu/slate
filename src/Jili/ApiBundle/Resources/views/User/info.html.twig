@@ -165,7 +165,7 @@ $(document).ready(function(){
          cps
          {% endif %}
           </td>
-          <td>{{ item.title }} </td>
+          <td><a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a> </td>
           <td>{% if item.incentiveType==1 %}
                  {{ item.incentive }}米粒
                  {% else %}
