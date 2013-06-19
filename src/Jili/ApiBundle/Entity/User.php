@@ -29,7 +29,14 @@ class User
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
+        
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="wenwen_user", type="string", length=100, nullable=true)
+     */
+    private $wenwenUser;
+    
     /**
      * @var string
      *
@@ -183,9 +190,7 @@ class User
      */
     public function upload($upload_dir)
     {
-    	
         $fileNames = array('attachment');
-       
         $types = array('jpg','jpeg','png');
         $upload_dir .= $this->getId()%100;
         if(!is_dir($upload_dir)){
@@ -208,18 +213,24 @@ class User
 	        	if(!in_array($this->$fileName->guessExtension(),$types)){
 	        		return  '文件类型为jpg或png';//类型不对
 	        	}else{
-	        		if($this->$fileName->getClientSize() > 100000){
-	        			return  '图片大小为100k以内';//图片大于100k
+	        		if($this->$fileName->getClientSize() > 1024000){
+	        			return  '图片大小为1M以内';//图片大于1M
 	        		}else{
 	        			$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-	        	
-	        			$this->$fileName->move($upload_dir, $filename_upload);
-	        			 
+	        			$size = getimagesize($this->$fileName);
+	        			$width = $size[0];
+	        			$height = $size[1];
+	        			$src = imagecreatefromjpeg($this->$fileName);
+	        			$dst = imagecreatetruecolor(250, 250); //新建一个真彩色图像
+	        			imagecopyresampled($dst, $src, 0, 0, 0, 0,
+	        			250, 250, $width, $height);        //重采样拷贝部分图像并调整大小
+	        			header('Content-Type: image/jpeg');
+	        			imagejpeg($dst,$upload_dir.$filename_upload,100);
+	        			//imagedestroy($src);
+	        			//imagedestroy($dst);
 	        			$this->$field = $upload_dir.$filename_upload;
-	        	
 	        			$this->$fileName = null;
-	        			 
-	        			// 	        		return '';
+// 	        			return '';
 	        		}
 	        	}
 	        }
@@ -316,7 +327,30 @@ class User
     {
         return $this->id;
     }
-
+    
+    /**
+     * Get wenwenUser
+     *
+     * @return string
+     */
+    public function getWenwenUser()
+    {
+    	return $this->wenwenUser;
+    }
+    
+    
+    /**
+     * Set wenwenUser
+     *
+     * @param string $wenwenUser
+     * @return User
+     */
+    public function setWenwenUser($wenwenUser)
+    {
+    	$this->wenwenUser = $wenwenUser;
+    }
+    
+    
     /**
      * Set nick
      *
