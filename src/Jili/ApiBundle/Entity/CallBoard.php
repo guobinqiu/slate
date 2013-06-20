@@ -14,7 +14,7 @@ class Callboard
 {
 	public function __construct() {
 		$this->createTime = new \DateTime();
-		$this->updateTime = new \DateTime();
+		//$this->updateTime = new \DateTime();
 		$this->startTime = new \DateTime();
 		$this->endTime = new \DateTime();
 	}

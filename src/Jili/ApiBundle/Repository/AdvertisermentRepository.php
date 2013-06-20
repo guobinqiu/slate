@@ -50,7 +50,7 @@ class AdvertisermentRepository extends EntityRepository
 	public function getAdvertisermentList()
 	{
 		$query = $this->createQueryBuilder('a');
-		$query = $query->select('a.id,a.title,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.incentiveRate,a.incentive,a.info');
+		$query = $query->select('a.id,a.title,a.startTime,a.endTime,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.incentiveRate,a.incentive,a.info');
 		$query = $query->where('a.deleteFlag = 0');
 		$query = $query->orderBy('a.id', 'DESC');
 		$query =  $query->getQuery();

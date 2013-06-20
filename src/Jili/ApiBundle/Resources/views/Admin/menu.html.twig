@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=UTF8">
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+<SCRIPT language=javascript>
+	function expand(el)
+	{
+		childObj = document.getElementById("child" + el);
+
+		if (childObj.style.display == 'none')
+		{
+			childObj.style.display = 'block';
+		}
+		else
+		{
+			childObj.style.display = 'none';
+		}
+		return;
+	}
+</SCRIPT>
+</HEAD>
+<BODY>
+<TABLE height="100%" cellSpacing=0 cellPadding=0 width=170 background="{{ asset('images/admin/menu_bg.jpg')}}" border=0>
+  <TR>
+    <TD vAlign=top align=middle>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        
+        <TR>
+          <TD height=10></TD></TR></TABLE>
+      <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+        
+        <TR height=22>
+          <TD style="PADDING-LEFT: 30px" background={{ asset('images/admin/menu_bt.jpg')}}><A 
+            class=menuParent onclick=expand(1) 
+            href="javascript:void(0);">广告管理</A></TD></TR>
+        <TR height=4>
+          <TD></TD></TR></TABLE>
+      <TABLE id=child1 style="DISPLAY: none" cellSpacing=0 cellPadding=0 
+      width=150 border=0>
+        <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_addAdver') }}" 
+            target=main>添加广告</A></TD></TR>
+        <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_infoAdver') }}" 
+            target=main>编辑广告</A></TD></TR>
+        
+        <TR height=4>
+          <TD colSpan=2></TD></TR></TABLE>
+      <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+        <TR height=22>
+          <TD style="PADDING-LEFT: 30px" background="{{ asset('images/admin/menu_bt.jpg')}}"><A 
+            class=menuParent onclick=expand(2) 
+            href="javascript:void(0);">广告位置管理</A></TD></TR>
+        <TR height=4>
+          <TD></TD></TR></TABLE>
+      <TABLE id=child2 style="DISPLAY: none" cellSpacing=0 cellPadding=0 
+      width=150 border=0>
+        <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_infoPostion') }}" 
+            target=main>广告位置编辑</A></TD></TR>
+       
+        <TR height=4>
+          <TD colSpan=2></TD></TR></TABLE>
+      <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+        <TR height=22>
+          <TD style="PADDING-LEFT: 30px" background="{{ asset('images/admin/menu_bt.jpg')}}"><A 
+            class=menuParent onclick=expand(3) 
+            href="javascript:void(0);">banner管理</A></TD></TR>
+        <TR height=4>
+          <TD></TD></TR></TABLE>
+      <TABLE id=child3 style="DISPLAY: none" cellSpacing=0 cellPadding=0 
+      width=150 border=0>
+        <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_infoBanner') }}" 
+            target=main>banner编辑</A></TD></TR>
+        <TR height=4>
+          <TD colSpan=2></TD></TR></TABLE>
+      <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+        <TR height=22>
+          <TD style="PADDING-LEFT: 30px" background="{{ asset('images/admin/menu_bt.jpg')}}"><A 
+            class=menuParent onclick=expand(4) 
+            href="javascript:void(0);">公告管理</A></TD></TR>
+        <TR height=4>
+          <TD></TD></TR></TABLE>
+      <TABLE id=child4 style="DISPLAY: none" cellSpacing=0 cellPadding=0 
+      width=150 border=0>
+        <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_addCallboard') }}" 
+            target=main>添加公告</A></TD></TR>
+        <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_infoCallboard') }}" 
+            target=main>编辑公告</A></TD></TR>
+        <TR height=4>
+          <TD colSpan=2></TD></TR></TABLE>
+      </BODY></HTML>
+    
+
+

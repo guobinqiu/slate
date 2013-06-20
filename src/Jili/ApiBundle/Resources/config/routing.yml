@@ -22,3 +22,7 @@ api:
     resource: "@JiliApiBundle/Controller/ApiController.php"
     prefix:   /api
     type:     annotation
+admin:
+    resource: "@JiliApiBundle/Controller/AdminController.php"
+    prefix:   /admin
+    type:     annotation
