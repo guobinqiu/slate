@@ -19,6 +19,7 @@
           <td align="center"><img src="{{ asset(item.iconImage)}}"/></td>
            <td align="center">{{ item.adUrl }}</td>
           <td align="center"><a href="{{ path('_admin_editBanner',{'id':item.id}) }}">编辑</a>
+          <a href="{{ path('_admin_delBanner',{'id':item.id}) }}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a>
           </td>
         </tr>
          {% endfor %}

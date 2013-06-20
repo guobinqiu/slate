@@ -89,9 +89,10 @@ class AdvertisermentRepository extends EntityRepository
 	public function getAdvertiserList()
 	{
 		$query = $this->createQueryBuilder('a');
-		$query = $query->select('a.id,a.title,a.content,a.imageurl,a.iconImage,a.listImage,a.incentive,a.incentiveType,a.info,ap.type,ap.position');
+		$query = $query->select('a.id,a.title,a.content,a.imageurl,a.iconImage,a.listImage,a.incentive,a.incentiveType,a.incentiveRate,a.info,ap.type,ap.position');
 		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
 		$query = $query->Where('ap.type = 1');
+		$query = $query->andWhere('a.deleteFlag = 0');
 		$query = $query->orderBy('ap.position');
 		$query = $query->setFirstResult(0);
 		$query = $query->setMaxResults(9);

@@ -40,7 +40,7 @@
 <tr><td>广告链接:</td><td><input type="text" name="url" size='60' value="{{ url }}"/></td></tr>
 <tr><td>广告类型:</td><td><input type="radio" name="category" value="1" {% if category==1 %} checked="checked" {% endif %}/>CPA
 <input type="radio" name="category" value="2" {% if category==2 %} checked="checked" {% endif %}/>CPS</td></tr>
-<tr><td>广告积分:</td><td><input type="text" name="score" size='60' value="{{ score }}"/></td></tr>
+<tr><td>广告积分:</td><td><input type="text" name="score" size='10' onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" value="{{ score }}"/></td></tr>
 <tr><td>广告规则:</td><td><textarea id="rule" cols="120" rows="10" name="rule" style="width:700px;height:300px;">{{ rule }}</textarea></td></tr>
 <tr><td>广告图片:(300X250)</td><td>{{ form_widget(form.large) }}</td></tr>
 <tr><td>广告图片:(200X130)</td><td>{{ form_widget(form.small) }}</td></tr>

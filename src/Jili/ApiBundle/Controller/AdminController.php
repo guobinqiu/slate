@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\Advertiserment;
 use Jili\ApiBundle\Entity\AdPosition;
 use Jili\ApiBundle\Entity\CallBoard;
+use Jili\ApiBundle\Entity\LimitAd;
+use Jili\ApiBundle\Entity\RateAd;
 
 class AdminController extends Controller
 {
@@ -38,6 +40,17 @@ class AdminController extends Controller
         return $this->render('JiliApiBundle:Admin:login.html.twig',array('code'=>$code));
     }
     
+    /**
+     * @Route("/delBanner/{id}", name="_admin_delBanner")
+     */
+    public function delBannerAction($id)
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	$banner = $em->getRepository('JiliApiBundle:AdBanner')->find($id);
+    	$em->remove($banner);
+    	$em->flush();
+    	return $this->redirect($this->generateUrl('_admin_infoBanner'));
+    }
     
     
     /**
@@ -162,7 +175,11 @@ class AdminController extends Controller
         		$adver->setDecription($comment);
         		$adver->setImageurl($url);
         		$adver->setIncentiveType($category);
-        		$adver->setIncentive($score);
+        		if($category==1){
+        			$adver->setIncentive($score);
+        		}else{
+        			$adver->setIncentiveRate($score);
+        		}
         		$adver->setContent($info);
         		$adver->setInfo($rule);
         		$adver->setDeleteFlag($this->container->getParameter('init'));
@@ -176,6 +193,21 @@ class AdminController extends Controller
         			$adposition->setPosition($this->container->getParameter('init'));
         			$em->persist($adposition);
         			$em->flush();
+        			if($adver->getIncentiveType()==1){
+        				$limit = new LimitAd();
+        				$limit->setAdId($adver->getId());
+        				$limit->setIncentive($adver->getIncentive());
+        				$limit->setIncome(floor($adver->getIncentive()/30));
+        				$em->persist($limit);
+        				$em->flush();
+        			}else{
+        				$rate = new RateAd();
+        				$rate->setAdId($adver->getId());
+        				$rate->setIncentiveRate($adver->getIncentiveRate());
+        				$em->persist($rate);
+        				$em->flush();
+        				
+        			}
         			return $this->redirect($this->generateUrl('_admin_infoAdver'));
         		}
     		}else{
@@ -208,6 +240,7 @@ class AdminController extends Controller
     	$request = $this->get('request');
     	$em = $this->getDoctrine()->getManager();
     	$adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAdvertisermentList();
+    	$time =  $adver[0]['endTime']->format('Y-m-d H:i:s');
     	$paginator = $this->get('knp_paginator');
     	$arr['pagination'] = $paginator
     	->paginate($adver,
@@ -215,6 +248,21 @@ class AdminController extends Controller
     	$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
     	return $this->render('JiliApiBundle:Admin:infoAdver.html.twig',$arr);
     	 
+    }
+    
+    
+    /**
+     * @Route("/stopAdver/{id}", name="_admin_stopAdver")
+     */
+    public function stopAdverAction($id)
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
+    	$stopTime = date("Y-m-d",strtotime("-1 day"));
+    	$adver->setEndTime(date_create($stopTime));
+    	$em->persist($adver);
+    	$em->flush();
+    	return $this->redirect($this->generateUrl('_admin_infoAdver'));
     }
     
     /**
@@ -261,6 +309,11 @@ class AdminController extends Controller
     			$adver->setDecription($comment);
     			$adver->setImageurl($url);
     			$adver->setIncentiveType($category);
+    			if($category==1){
+    				$adver->setIncentive($score);
+    			}else{
+    				$adver->setIncentiveRate($score);
+    			}
     			$adver->setIncentive($score);
     			$adver->setContent($info);
     			$adver->setInfo($rule);
@@ -269,10 +322,34 @@ class AdminController extends Controller
     			$code = $adver->upload($path);
     			if(!$code){
     				$em->flush();
+    				if($adver->getIncentiveType()==1){
+    					$limit = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adver->getId());
+    					$limit->setIncentive($adver->getIncentive());
+    					$limit->setIncome(floor($adver->getIncentive()/30));
+    					$em->persist($limit);
+    					$em->flush();
+    				}else{
+    					$rate = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adver->getId());
+    					$rate->setIncentiveRate($adver->getIncentiveRate());
+    					$em->persist($rate);
+    					$em->flush();
+    				}
     				return $this->redirect($this->generateUrl('_admin_infoAdver'));
     			}else{
     				if($code=='图片为必填项'){
     					$em->flush();
+    					if($adver->getIncentiveType()==1){
+    						$limit = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adver->getId());
+    						$limit[0]->setIncentive($adver->getIncentive());
+    						$limit[0]->setIncome(floor($adver->getIncentive()/30));
+    						$em->persist($limit[0]);
+    						$em->flush();
+    					}else{
+    						$rate = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adver->getId());
+    						$rate[0]->setIncentiveRate($adver->getIncentiveRate());
+    						$em->persist($rate[0]);
+    						$em->flush();
+    					}
     					return $this->redirect($this->generateUrl('_admin_infoAdver'));
     				}
     			}
