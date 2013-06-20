@@ -6,6 +6,17 @@ use Doctrine\ORM\EntityRepository;
 
 class PointsExchangeRepository extends EntityRepository
 {
+	public function getExchangeStatus($id)
+	{
+		$query = $this->createQueryBuilder('p');
+		$query = $query->select('p.targetAccount,p.userId,p.sourcePoint,p.targetPoint,p.exchangeDate,p.status');
+		$query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'p.userId = u.id');
+		$query = $query->Where('p.userId = :id');
+		$query = $query->andWhere('p.status = 1');
+		$query = $query->setParameter('id',$id);
+		$query = $query->getQuery();
+		return $query->getResult();
+	}
 	public function getUserExchange($id,$option=array())
 	{
 		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
