@@ -165,7 +165,7 @@ $(document).ready(function(){
          cps
          {% endif %}
           </td>
-          <td>{{ item.title }} </td>
+          <td><a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a> </td>
           <td>{% if item.incentiveType==1 %}
                  {{ item.incentive }}米粒
                  {% else %}
@@ -202,9 +202,9 @@ $(document).ready(function(){
         <tr>
           <td>{{ item.exchangeDate.date }}</td>
           <td>{{ item.type }}</td>
-          <td>50元</td>
-          <td>{{ item.exchangeDate.date }}</td>
-          <td>兑换成功</td>
+           <td>{{ item.targetPoint }}</td>
+          <td>{% if item.status %} {{ item.finishDate.date }} {% else %} {% endif %}</td>
+          <td>{% if item.status %} 兑换成功  {% else %} 处理中 {% endif %}</td>
         </tr>
         {% endfor %}
           <center><p><a href="{{ path('_user_exchange',{'type': 1}) }}">更多</a></p></center>

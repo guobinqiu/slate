@@ -32,12 +32,20 @@ class PointsExchange
      */
     private $userId;
 
+    
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="exchange_date", type="datetime")
      */
     private $exchangeDate;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="finish_date", type="datetime")
+     */
+    private $finishDate;
 
     /**
      * @var integer
@@ -115,7 +123,8 @@ class PointsExchange
     {
         return $this->userId;
     }
-
+    
+    
     /**
      * Set exchangeDate
      *
@@ -138,6 +147,31 @@ class PointsExchange
     {
         return $this->exchangeDate;
     }
+    
+    /**
+     * Set finishDate
+     *
+     * @param \DateTime $finishDate
+     * @return PointsExchange
+     */
+    public function setFinishDate($finishDate)
+    {
+    	$this->finishDate = $finishDate;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get finishDate
+     *
+     * @return \DateTime
+     */
+    public function getFinishDate()
+    {
+    	return $this->finishDate;
+    }
+    
+    
 
     /**
      * Set type

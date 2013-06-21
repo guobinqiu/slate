@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Advertiserment
 {
+	public $large;
+	public $small;
 	public function __construct() {
 		$this->createdTime = new \DateTime();
 		$this->updateTime = new \DateTime();
@@ -151,7 +153,59 @@ class Advertiserment
      */
     private $deleteFlag;
 
-
+    
+    /**
+     * upload image to temp dir
+     */
+    public function upload($upload_dir)
+    {
+    	$fileNames = array('large','small');
+    	$types = array('jpg','jpeg','png','gif');
+    	if(!is_dir($upload_dir)){
+    		mkdir($upload_dir,0777);
+    	}
+    	foreach ($fileNames as $key=>$fileName){
+    		$filename_upload = '';
+    		if (null === $this->$fileName) {
+    			return  '图片为必填项';
+    		}else{
+    			$field = 'iconImage';
+    			switch ($fileName){
+    			    case 'large':$field = 'iconImage';break;
+    			    case 'small':$field = 'listImage';break;
+    			}
+    			
+    			if($this->$fileName->getError()==1){
+    				return  '文件类型为jpg或png或gif';//类型不对
+    			}else{
+    				if(!in_array($this->$fileName->guessExtension(),$types)){
+    					return  '文件类型为jpg或png或gif';//类型不对
+    				}else{
+    					$size = getimagesize($this->$fileName);
+    					if($fileName=='large'){
+    						if($size[0]!='300' && $size[1]!='250')
+    							return   '图片像素为300X250';
+    					}
+    					if($fileName=='small'){
+    						if($size[0]!='200' && $size[1]!='130')
+    							return   '图片像素为200X130';
+    					}
+    					$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+    			
+    					$this->$fileName->move($upload_dir, $filename_upload);
+    			
+    					$this->$field = $upload_dir.$filename_upload;
+    			
+    					$this->$fileName = null;
+    			
+    					// 	        		return '';
+    			
+    				}
+    			}
+    		}
+    		 
+    	}
+    }
 
     /**
      * Get id

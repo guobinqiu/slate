@@ -96,6 +96,8 @@ gregwar_captcha:
         as_url: true
 
 parameters:
+    upload_banner_dir: images/banner/
+    upload_adver_dir: images/actionPic/
     upload_tmp_dir: uploads/user/
     page_num: 10
     init: 0

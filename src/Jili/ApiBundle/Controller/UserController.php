@@ -622,6 +622,8 @@ class UserController extends Controller
 		$arr['code_que_pwd']  = $code_que_pwd;
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+// 		$province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+// 		$arr['province'] = $province;
 		$arr['user'] = $user;
 		$setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneByUserId($id);
 		if($setPasswordCode->getIsAvailable()==0){
@@ -651,6 +653,7 @@ class UserController extends Controller
         							$em->persist($user);
         							$em->persist($setPasswordCode);
         							$em->flush();
+//         							return $this->redirect($this->generateUrl('_user_regSuccess'));
         							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
         						}else{
         							$code_que_pwd = $this->container->getParameter('init_one');
@@ -699,7 +702,7 @@ class UserController extends Controller
 	public function sendMail_reset($url,$email,$nick){
 		$message = \Swift_Message::newInstance()
 		->setSubject('积粒网-帐号密码重置')
-		->setFrom('account@91jili.com')
+		->setFrom(array('account@91jili.com'=>'积粒网'))
 		->setTo($email)
 		->setBody(
 				'<html>' .
@@ -727,7 +730,7 @@ class UserController extends Controller
 	public function sendMail($url,$email,$nick){
 		$message = \Swift_Message::newInstance()
 		->setSubject('积粒网-注册激活邮件')
-		->setFrom('account@91jili.com')
+		->setFrom(array('account@91jili.com'=>'积粒网'))
 		->setTo($email)
 		->setBody(
 				        '<html>' .

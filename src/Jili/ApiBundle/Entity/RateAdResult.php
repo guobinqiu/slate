@@ -24,7 +24,7 @@ class RateAdResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="access_history_id", type="integer", nullable=false)
+     * @ORM\Column(name="adw_history_id", type="integer", nullable=false)
      */
     private $accessHistoryId;
     
