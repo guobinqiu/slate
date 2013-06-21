@@ -24,7 +24,7 @@ class LimitAdResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="access_history_id", type="integer")
+     * @ORM\Column(name="adw_history_id", type="integer")
      */
     private $accessHistoryId;
     
@@ -86,26 +86,26 @@ class LimitAdResult
     
     
     /**
-     * Set accessHistoryId
+     * Set limitAdId
      *
-     * @param integer $accessHistoryId
+     * @param integer $limitAdId
      * @return LimitAdResult
      */
-    public function setAccessHistoryId($accessHistoryId)
+    public function setLimitAdId($limitAdId)
     {
-    	$this->accessHistoryId = $accessHistoryId;
+    	$this->limitAdId = $limitAdId;
     
     	return $this;
     }
     
     /**
-     * Get accessHistoryId
+     * Get limitAdId
      *
      * @return integer
      */
-    public function getAccessHistoryId()
+    public function getLimitAdId()
     {
-    	return $this->accessHistoryId;
+    	return $this->limitAdId;
     }
 
     /**
