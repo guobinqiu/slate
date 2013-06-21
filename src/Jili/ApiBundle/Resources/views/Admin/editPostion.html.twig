@@ -12,6 +12,8 @@
 <tr><td>&nbsp;</td><td>
         {% if codeflag==1 %}
         <font color='red'>都为必填项</font>
+        {% elseif codeflag==2 %}
+        <font color='red'>位置序号已存在</font>
         {% else %}
         &nbsp;
         {% endif %}

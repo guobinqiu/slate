@@ -1,5 +1,9 @@
 <?php
 namespace Jili\ApiBundle\Controller;
+use Jili\ApiBundle\Entity\RateAdResult;
+
+use Jili\ApiBundle\Entity\LimitAdResult;
+
 use Jili\ApiBundle\Form\EditBannerType;
 
 use Jili\ApiBundle\Form\AddAdverType;
@@ -14,6 +18,7 @@ use Jili\ApiBundle\Entity\AdPosition;
 use Jili\ApiBundle\Entity\CallBoard;
 use Jili\ApiBundle\Entity\LimitAd;
 use Jili\ApiBundle\Entity\RateAd;
+use Jili\ApiBundle\Entity\AdwOrder;
 
 class AdminController extends Controller
 {
@@ -38,6 +43,107 @@ class AdminController extends Controller
     		}
     	}
         return $this->render('JiliApiBundle:Admin:login.html.twig',array('code'=>$code));
+    }
+    
+    //没有认证
+    private function noCertified($userId,$adid){
+    	$em = $this->getDoctrine()->getManager();
+    	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid);
+    	if(empty($adworder)){
+    		return false;
+    	}else{
+    		$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
+    		$adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')));
+    		$adworder->setOrderStatus($this->container->getParameter('init_four'));
+    		$em->persist($adworder);
+    		$em->flush();
+    		return true;
+    	}
+    }
+    //已经认证
+    private function hasCertified($userId,$adid,$price){
+    	$em = $this->getDoctrine()->getManager();
+    	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid);
+    	if(empty($adworder)){
+    		return false;
+    	}else{
+    		$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
+    		$adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')));
+    		$adworder->setOrderStatus($this->container->getParameter('init_three'));
+    		$em->persist($adworder);
+    		$em->flush();
+    		if($adworder->getIncentiveType()==1){
+    			$limitrs = new LimitAdResult();
+    			$limitrs->setAccessHistoryId($adworder->getId());
+    			$limitrs->setUserId($userId);
+    			$limitrs->setLimitAdId($adid);
+    			$limitrs->setResultIncentive($adworder->getIncentive());
+    			$em->persist($limitrs);
+    			$em->flush();
+    			$user = $em->getRepository('JiliApiBundle:User')->find($userId);
+    			$user->setPoints(intval($user->getPoints()+$adworder[0]['incentive']));
+    			$em->persist($user);
+    			$em->flush();
+    		}else{
+    			$raters = new RateAdResult();
+    			$raters->setAccessHistoryId($adworder->getId());
+    			$raters->setUserId($userId);
+    			$raters->setRateAdId($adid);
+    			$raters->setResultPrice($price);
+    			$raters->setResultIncentive(intval($price*$adworder->getIncentiveRate()/100));
+    			$em->persist($raters);
+    			$em->flush();
+    			$user = $em->getRepository('JiliApiBundle:User')->find($userId);
+    			$user->setPoints(intval($user->getPoints()+$raters->getResultIncentive()));
+    			$em->persist($user);
+    			$em->flush();
+    		}
+    	}
+    	
+    }
+    
+    
+    
+    /**
+     * @Route("/importAdver", name="_admin_importAdver")
+     */
+    public function importAdverAction()
+    {
+    	$code = array();
+    	$request = $this->get('request');
+    	$userId = '';
+    	$adid = '';
+    	if ($request->getMethod('post') == 'POST') {
+    	    if (isset($_FILES['csv'])) {
+            $file = $_FILES['csv']['tmp_name']; 
+            $handle = fopen($file,'r'); 
+            while ($data = fgetcsv($handle)){ 
+               $goods_list[] = $data;
+               unset($goods_list[0]);
+            }
+            echo "<pre>";
+            print_r($goods_list);
+            foreach ($goods_list as $k=>$v){
+            	$status = iconv('gb2312','UTF-8//IGNORE',$v[5]);
+            	if($status == '未通过'){
+            		$adid = explode("'",$v[7]);
+            		$userId = explode("'",$v[8]);
+            		if($this->noCertified($userId[1],$adid[1])){
+            			$code[] = ''; 
+            		}else{
+            			$code[] = $userId[1].'-'.$adid[1].'插入数据失败';
+            		}
+            	}else{
+            		if($status == '已认证'){
+            			
+            		}
+            		
+            	}
+            }
+            fclose($handle);
+    	    }
+    	}
+    	return $this->render('JiliApiBundle:Admin:importAdver.html.twig');
     }
     
     /**
@@ -112,12 +218,21 @@ class AdminController extends Controller
     	$number = $request->request->get('number');
     	if ($request->getMethod() == 'POST') {
     		if($position && $number){
-    			$adposition = $em->getRepository('JiliApiBundle:AdPosition')->find($id);
-    			$adposition->setType($position);
-    			$adposition->setPosition($number);
-    			$em->persist($adposition);
-    			$em->flush();
-    			return $this->redirect($this->generateUrl('_admin_infoPostion'));
+    			$exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
+    			foreach($exist as $k=>$v){
+    				$existNum[] = $v['position'];
+    			}
+    			if(in_array($number,$existNum)){
+    				$codeflag = $this->container->getParameter('init_two');
+    			}else{
+    				$adposition = $em->getRepository('JiliApiBundle:AdPosition')->findByAdId($id);
+    				$adposition[0]->setType($position);
+    				$adposition[0]->setPosition($number);
+    				$em->persist($adposition[0]);
+    				$em->flush();
+    				return $this->redirect($this->generateUrl('_admin_infoPostion'));
+    			}
+    			
     		}else{
     			$codeflag = $this->container->getParameter('init_one');
     		}
