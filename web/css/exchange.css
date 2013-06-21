@@ -89,6 +89,13 @@
 	text-align:center;
 	margin:10px 0;
 }
+.exchange article .wenwen div.btnArea #active{
+	cursor: pointer;
+}
+.exchange .btnArea a:hover img, .exchange article .wenwen div.btnArea #active:hover{
+	opacity:.8;
+	Filter:alpha(opacity=80);
+}
 .exchange article .wenwen div.mt50{
 	margin-top:50px;
 }

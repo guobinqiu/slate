@@ -10,7 +10,7 @@ class AdwOrderRepository extends EntityRepository
 	{
 		$parameters = array();
 		$query = $this->createQueryBuilder('ao');
-        $query = $query->select('ao.id,ao.orderStatus');
+        $query = $query->select('ao.id,ao.orderStatus,ao.confirmTime');
         $query = $query->Where('ao.userid = :id');
         $query = $query->andWhere('ao.adid = :adid');
         $parameters = array('id'=>$userid,'adid'=>$adid);

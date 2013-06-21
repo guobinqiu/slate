@@ -27,41 +27,56 @@ class  ExchangeController extends Controller
     		$id = $this->get('request')->getSession()->get('uid');
     		$em = $this->getDoctrine()->getManager();
     		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-    		$pointsExchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExchangeStatus($id);
     		$points = $user->getPoints();
             $arr['user'] = $user;
             $arr['points'] = $points;
-            $arr['pointsExchange'] = $pointsExchange;
             $request = $this->get('request');
             $wenwen =  $request->request->get('wenwen');
             $ck =  $request->request->get('ck');
             $arr['ck'] = $ck;
             $change_point =  $request->request->get('point');
             if ($request->getMethod() == 'POST') {
-            	if($wenwen){
-            		if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$wenwen)){
-            			$code = $this->container->getParameter('init_two');
-            			$arr['code'] = $code;
-            		}else{
-            			if(empty($pointsExchange)){
-            				$user->setWenwenUser($wenwen);
-            				$em->persist($user);
-            			}
-            			$pointschange->setUserId($id);
-            			$pointschange->setType($this->container->getParameter('init_one'));
-            			//$pointschange->setTargetAccount();
-            			$pointschange->setSourcePoint($points);
-            			$pointschange->setTargetPoint(intval($change_point*500));
-            			//$pointschange->setStatus();
-            			$pointschange->setIp($this->get('request')->getClientIp());
-            			$em->persist($pointschange);
-            			$em->flush();
-            			return $this->redirect($this->generateUrl('_exchange_finish'));
-            		}
+            	if($user->getWenwenUser()){
+            		$user->setPoints($points-intval($change_point*500));
+            		$em->persist($user);
+            		$em->flush();
+            		$pointschange->setUserId($id);
+            		$pointschange->setType($this->container->getParameter('init_one'));
+            		//$pointschange->setTargetAccount();
+            		$pointschange->setSourcePoint($points-intval($change_point*500));
+            		$pointschange->setTargetPoint(intval($change_point*500));
+            		//$pointschange->setStatus();
+            		$pointschange->setIp($this->get('request')->getClientIp());
+            		$em->persist($pointschange);
+            		$em->flush();
+            		return $this->redirect($this->generateUrl('_exchange_finish'));
             	}else{
-            		$code = $this->container->getParameter('init_one');
-            		$arr['code'] = $code;
+            		if($wenwen){
+            			if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$wenwen)){
+            				$code = $this->container->getParameter('init_two');
+            				$arr['code'] = $code;
+            			}else{
+            				$user->setWenwenUser($wenwen);
+            				$user->setPoints($points-intval($change_point*500));
+            				$em->persist($user);
+            				$em->flush();
+            				$pointschange->setUserId($id);
+            				$pointschange->setType($this->container->getParameter('init_one'));
+            				//$pointschange->setTargetAccount();
+            				$pointschange->setSourcePoint($points-intval($change_point*500));
+            				$pointschange->setTargetPoint(intval($change_point*500));
+            				//$pointschange->setStatus();
+            				$pointschange->setIp($this->get('request')->getClientIp());
+            				$em->persist($pointschange);
+            				$em->flush();
+            				return $this->redirect($this->generateUrl('_exchange_finish'));
+            			}
+            		}else{
+            			$code = $this->container->getParameter('init_one');
+            			$arr['code'] = $code;
+            		}
             	}
+            	
             }
     	}
     	return $this->render('JiliApiBundle:Exchange:info.html.twig',$arr);

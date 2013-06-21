@@ -51,8 +51,10 @@ class AdvertisermentRepository extends EntityRepository
 	{
 		$query = $this->createQueryBuilder('a');
 		$query = $query->select('a.id,a.title,a.startTime,a.endTime,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.incentiveRate,a.incentive,a.info');
-		$query = $query->where('a.deleteFlag = 0');
-		$query = $query->orderBy('a.id', 'DESC');
+		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
+		$query = $query->where('ap.type = 1');
+		$query = $query->andwhere('a.deleteFlag = 0');
+		$query = $query->orderBy('ap.position','ASC');
 		$query =  $query->getQuery();
 		return $query->getResult();
 	
@@ -80,6 +82,7 @@ class AdvertisermentRepository extends EntityRepository
 		$query = $query->select('a.id,a.title,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentiveRate,a.incentive,a.info,ap.type,ap.position');
 		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
 		$query = $query->Where('ap.type = 2');
+		$query = $query->andWhere('a.deleteFlag = 0');
 		$query = $query->orderBy('ap.position');
 		$query =  $query->getQuery();
 		return $query->getResult();
