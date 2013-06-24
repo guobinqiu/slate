@@ -159,6 +159,7 @@ class Advertiserment
      */
     public function upload($upload_dir)
     {
+    	
     	$fileNames = array('large','small');
     	$types = array('jpg','jpeg','png','gif');
     	if(!is_dir($upload_dir)){
@@ -167,8 +168,11 @@ class Advertiserment
     	foreach ($fileNames as $key=>$fileName){
     		$filename_upload = '';
     		if (null === $this->$fileName) {
-    			return  '图片为必填项';
-    		}else{
+//     			unset($fileNames[$key]);
+    			echo  '图片为必填项';
+    			continue ;
+    		}
+//     		else{
     			$field = 'iconImage';
     			switch ($fileName){
     			    case 'large':$field = 'iconImage';break;
@@ -202,7 +206,7 @@ class Advertiserment
     			
     				}
     			}
-    		}
+//     		}
     		 
     	}
     }

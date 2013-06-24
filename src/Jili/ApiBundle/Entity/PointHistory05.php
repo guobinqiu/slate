@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PointHistory05
 {
+	public function __construct() {
+		$this->createTime = new \DateTime();
+	}
     /**
      * @var integer
      *
@@ -42,6 +45,13 @@ class PointHistory05
      */
     private $reason;
 
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_time", type="datetime")
+     */
+    private $createTime;
 
 
     /**

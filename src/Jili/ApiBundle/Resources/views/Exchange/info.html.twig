@@ -13,10 +13,18 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#active").hide();
+	if($("#over").html()<0){
+		$("#active").hide();
+		}
 	$("#ck").click(function(){
 		if ($("#ck").attr("checked")){
-    		$("#unactive").hide();
-    		$("#active").show();
+			if($("#over").html()<0){
+				$("#active").hide();
+				$("#unactive").show();
+				}else{
+					$("#unactive").hide();
+		    		$("#active").show();
+				}
 		}else{
 			$("#active").hide();
 			$("#unactive").show();
@@ -35,6 +43,10 @@ function changePoint(){
 	var over = {{ points }} - total;
 	$("#rechange").html(total);
 	$("#over").html(over);
+	if($("#over").html()<0){
+		$("#active").hide();
+		$("#unactive").show();
+	}
 }
 </script>
 </head>
