@@ -137,7 +137,7 @@ class PointHistory00
      * Set createTime
      *
      * @param \DateTime $createTime
-     * @return Advertiserment
+     * @return PointHistory00
      */
     public function setCreateTime($createTime)
     {
@@ -158,6 +158,8 @@ class PointHistory00
     
     
 }
+
+
 
 
 

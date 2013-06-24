@@ -17,7 +17,7 @@ $(document).ready(function() {
 		$("#active").hide();
 		}
 	$("#ck").click(function(){
-		if ($("#ck").attr("checked")){
+		if($("#ck").attr("checked")){
 			if($("#over").html()<0){
 				$("#active").hide();
 				$("#unactive").show();
@@ -28,8 +28,7 @@ $(document).ready(function() {
 		}else{
 			$("#active").hide();
 			$("#unactive").show();
-			}
-		
+	    }
 	});
     
 });
@@ -46,6 +45,12 @@ function changePoint(){
 	if($("#over").html()<0){
 		$("#active").hide();
 		$("#unactive").show();
+	}else{
+		if($("#ck").attr("checked")){
+			$("#unactive").hide();
+    		$("#active").show();
+		}
+		
 	}
 }
 </script>
