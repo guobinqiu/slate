@@ -44,8 +44,9 @@ class AdwOrderRepository extends EntityRepository
 		$monthdate =  date("Y-m-d H:i:s", strtotime(' -6 month'));
 		$yeardate =  date("Y-m-d H:i:s", strtotime(' -1 year'));
 		$query = $this->createQueryBuilder('ao');
-		$query = $query->select('ao.adid,ao.createTime,ao.orderStatus,ao.incentiveRate,a.title,a.incentiveType,a.incentive');
+		$query = $query->select('ao.adid,ao.createTime,ao.orderStatus,ao.incentiveRate,a.title,a.incentiveType,a.incentive,a.category,ad.displayName');
 		$query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
+		$query = $query->innerJoin('JiliApiBundle:AdCategory', 'ad', 'WITH', 'a.category = ad.id');
 		$query = $query->Where('ao.userid = :id');
 		if($option['daytype']){
 			switch($option['daytype']){

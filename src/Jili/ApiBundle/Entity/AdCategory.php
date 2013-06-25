@@ -27,6 +27,13 @@ class AdCategory
      * @ORM\Column(name="category_name", type="string", length=45, nullable=true)
      */
     private $categoryName;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="display_name", type="string", length=100, nullable=true)
+     */
+    private $displayName;
 
 
 
@@ -61,5 +68,28 @@ class AdCategory
     public function getCategoryName()
     {
         return $this->categoryName;
+    }
+    
+    /**
+     * Set displayName
+     *
+     * @param string $displayName
+     * @return AdCategory
+     */
+    public function setDisplayName($displayName)
+    {
+    	$this->displayName = $displayName;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get displayName
+     *
+     * @return string
+     */
+    public function getDisplayName()
+    {
+    	return $this->displayName;
     }
 }

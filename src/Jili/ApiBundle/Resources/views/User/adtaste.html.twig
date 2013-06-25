@@ -84,11 +84,7 @@ function addClass(type){
          {% for item in pagination %}
         <tr>
           <td>
-         {% if item.incentiveType==1 %}
-         cpa
-         {% else %}
-         cps
-         {% endif %}
+         {{ item.displayName }}
           </td>
           <td><a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a> </td>
           <td>{% if item.incentiveType==1 %}
@@ -100,7 +96,7 @@ function addClass(type){
           <td>{% if item.orderStatus==1  %} 已领取
              {% elseif item.orderStatus==2  %} 确认中
               {% elseif item.orderStatus==3  %} 已完成
-          {% elseif item.orderStatus==3  %} 任务失败
+          {% elseif item.orderStatus==4  %} 任务失败
           {% else %}{% endif %}
           </td>
         </tr>
