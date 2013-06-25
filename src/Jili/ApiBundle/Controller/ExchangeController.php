@@ -51,28 +51,34 @@ class  ExchangeController extends Controller
             		$em->flush();
             		return $this->redirect($this->generateUrl('_exchange_finish'));
             	}else{
-            		if($wenwen){
-            			if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$wenwen)){
-            				$code = $this->container->getParameter('init_two');
-            				$arr['code'] = $code;
+            		$userExchange = $em->getRepository('JiliApiBundle:PointsExchange')->existUserExchange($id);
+            		if(empty($userExchange)){
+            			if($wenwen){
+            				if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$wenwen)){
+            					$code = $this->container->getParameter('init_two');
+            					$arr['code'] = $code;
+            				}else{
+            					//$user->setWenwenUser($wenwen);
+            					$user->setPoints($points-intval($change_point*500));
+            					$em->persist($user);
+            					$em->flush();
+            					$pointschange->setUserId($id);
+            					$pointschange->setType($this->container->getParameter('init_one'));
+            					//$pointschange->setTargetAccount();
+            					$pointschange->setSourcePoint($points-intval($change_point*500));
+            					$pointschange->setTargetPoint(intval($change_point*500));
+            					//$pointschange->setStatus();
+            					$pointschange->setIp($this->get('request')->getClientIp());
+            					$em->persist($pointschange);
+            					$em->flush();
+            					return $this->redirect($this->generateUrl('_exchange_finish'));
+            				}
             			}else{
-            				$user->setWenwenUser($wenwen);
-            				$user->setPoints($points-intval($change_point*500));
-            				$em->persist($user);
-            				$em->flush();
-            				$pointschange->setUserId($id);
-            				$pointschange->setType($this->container->getParameter('init_one'));
-            				//$pointschange->setTargetAccount();
-            				$pointschange->setSourcePoint($points-intval($change_point*500));
-            				$pointschange->setTargetPoint(intval($change_point*500));
-            				//$pointschange->setStatus();
-            				$pointschange->setIp($this->get('request')->getClientIp());
-            				$em->persist($pointschange);
-            				$em->flush();
-            				return $this->redirect($this->generateUrl('_exchange_finish'));
+            				$code = $this->container->getParameter('init_one');
+            				$arr['code'] = $code;
             			}
             		}else{
-            			$code = $this->container->getParameter('init_one');
+            			$code = $this->container->getParameter('init_three');
             			$arr['code'] = $code;
             		}
             	}

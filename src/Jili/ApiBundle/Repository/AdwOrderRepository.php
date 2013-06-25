@@ -6,6 +6,20 @@ use Doctrine\ORM\EntityRepository;
 
 class AdwOrderRepository extends EntityRepository
 {
+	public function getOrderStatus($uid,$aid){
+		$parameters = array();
+		$query = $this->createQueryBuilder('ao');
+		$query = $query->select('ao.id,ao.orderStatus,ao.confirmTime');
+		$query = $query->Where('ao.userid = :id');
+		$query = $query->andWhere('ao.adid = :adid');
+		$query = $query->andWhere("ao.orderStatus in (3,4)");
+		$parameters = array('id'=>$uid,'adid'=>$aid);
+		$query = $query->setParameters($parameters);
+		$query = $query->getQuery();
+		return $query->getResult();
+		
+	}
+	
 	public function getOrderInfo($userid,$adid,$status=null)
 	{
 		$parameters = array();

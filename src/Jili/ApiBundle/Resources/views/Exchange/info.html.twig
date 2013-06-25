@@ -13,15 +13,22 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#active").hide();
+	if($("#over").html()<0){
+		$("#active").hide();
+		}
 	$("#ck").click(function(){
-		if ($("#ck").attr("checked")){
-    		$("#unactive").hide();
-    		$("#active").show();
+		if($("#ck").attr("checked")){
+			if($("#over").html()<0){
+				$("#active").hide();
+				$("#unactive").show();
+				}else{
+					$("#unactive").hide();
+		    		$("#active").show();
+				}
 		}else{
 			$("#active").hide();
 			$("#unactive").show();
-			}
-		
+	    }
 	});
     
 });
@@ -35,6 +42,16 @@ function changePoint(){
 	var over = {{ points }} - total;
 	$("#rechange").html(total);
 	$("#over").html(over);
+	if($("#over").html()<0){
+		$("#active").hide();
+		$("#unactive").show();
+	}else{
+		if($("#ck").attr("checked")){
+			$("#unactive").hide();
+    		$("#active").show();
+		}
+		
+	}
 }
 </script>
 </head>
@@ -91,6 +108,8 @@ function changePoint(){
      <font color='red'>请输入91问问账号</font>
      {% elseif code==2 %}
      <font color='red'>91问问账号为邮件格式</font>
+      {% elseif code==3 %}
+     <font color='red'>已成功兑换，等待账号绑定</font>
      {% else %}
      {% endif %}
      </span></div>
