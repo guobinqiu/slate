@@ -26,35 +26,16 @@ class AdvertisermentRepository extends EntityRepository
 		return $query->getResult();
 	}
 	
-// 	public function getCpaAdverList()
-// 	{
-// 		$query = $this->createQueryBuilder('a');
-// 		$query = $query->select('a.id,a.title,a.content,a.endTime,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.info,la.incentive');
-// 		$query = $query->innerJoin('JiliApiBundle:LimitAd', 'la', 'WITH', 'a.id = la.adId');
-		
-// 		$query =  $query->getQuery();
-// 		return $query->getResult();
-// 	}
-	
-
-// 	public function getCpsAdverList()
-// 	{
-// 		$query = $this->createQueryBuilder('a');
-// 		$query = $query->select('a.id,a.title,a.content,a.endTime,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.info,ra.incentiveRate as incentive');
-//         $query = $query->innerJoin('JiliApiBundle:RateAd', 'ra', 'WITH', 'a.id = ra.adId');
-// 		$query =  $query->getQuery();
-	    
-// 		return $query->getResult();
-// 	}
-
-	public function getAdvertisermentList()
+	public function getAdvertisermentList($type)
 	{
 		$query = $this->createQueryBuilder('a');
 		$query = $query->select('a.id,a.title,a.startTime,a.endTime,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.incentiveRate,a.incentive,a.info');
 		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
-		$query = $query->where('ap.type = 1');
-		$query = $query->andwhere('a.deleteFlag = 0');
+		$query = $query->Where('a.incentiveType = :type');
+		$query = $query->andWhere('ap.type = 1');
+		$query = $query->andWhere('a.deleteFlag = 0');
 		$query = $query->orderBy('ap.position','ASC');
+		$query = $query->setParameter('type',$type);
 		$query =  $query->getQuery();
 		return $query->getResult();
 	
@@ -76,14 +57,16 @@ class AdvertisermentRepository extends EntityRepository
 		return $query->getResult();
 		
 	}
-	public function getAdverRecommandList()
+	public function getAdverRecommandList($type)
 	{
 		$query = $this->createQueryBuilder('a');
-		$query = $query->select('a.id,a.title,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentiveRate,a.incentive,a.info,ap.type,ap.position');
+		$query = $query->select('a.id,a.title,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.incentiveRate,a.incentive,a.info,ap.type,ap.position');
 		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
-		$query = $query->Where('ap.type = 2');
+		$query = $query->Where('a.incentiveType = :type');
+		$query = $query->andWhere('ap.type = 2');
 		$query = $query->andWhere('a.deleteFlag = 0');
 		$query = $query->orderBy('ap.position');
+		$query = $query->setParameter('type',$type);
 		$query =  $query->getQuery();
 		return $query->getResult();
 	

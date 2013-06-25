@@ -55,8 +55,8 @@ class AdvertisermentController extends Controller
 	public function listAction(){
 		$em = $this->getDoctrine()->getManager();
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
-		$advertise = $repository->getAdvertisermentList();
-		$adverRecommand = $repository->getAdverRecommandList();
+		$advertise = $repository->getAdvertisermentList($this->container->getParameter('init_one'));
+		$adverRecommand = $repository->getAdverRecommandList($this->container->getParameter('init_one'));
 		$arr['adverRecommand'] = $adverRecommand;
 		$arr['advertiserment'] = $advertise;
 		$paginator  = $this->get('knp_paginator');

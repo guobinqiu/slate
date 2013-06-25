@@ -83,10 +83,11 @@ $(function(){
                <a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{ asset(item.listImage) }}' /></a>
                 <h3><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.title }}</a></h3>
                 <p>任务奖励：
-                {% if item.incentive %}
+                {% if item.incentiveType==1 %}
                      <span>{{ item.incentive }}</span>米粒
+                     {% elseif item.incentiveType==2 %}
+                                                                 最高获消费额<span>{{ item.incentiveRate }}%</span>的米粒
                      {% else %}
-                     最高获消费额<span>{{ item.incentiveRate }}%</span>的米粒
                      {% endif %}
                   </p>
                      
