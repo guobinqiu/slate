@@ -281,6 +281,7 @@ class AdminController extends Controller
      */
     public function addPostionAction()
     {
+    	$advermentTitle = '';
     	$adposition = '';
     	$code = '';
     	$ad_title = '';
@@ -289,8 +290,13 @@ class AdminController extends Controller
     	$request = $this->get('request');
     	$position = $request->request->get('position');
     	$title = $request->request->get('title');
+    	$adid = $request->query->get('id');
     	$number = $request->request->get('number');
     	$em = $this->getDoctrine()->getManager();
+    	if($adid){
+        	$ad_adv = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+        	$advermentTitle = $ad_adv->getTitle();
+    	}
     	if ($request->getMethod() == 'POST') {
     		if($request->request->get('search')){
     			$adposition = $em->getRepository('JiliApiBundle:Advertiserment')->getSearchAd($title);
@@ -312,10 +318,7 @@ class AdminController extends Controller
     		}
     		if($request->request->get('add')){
     			if($title && $position && $number){
-    				$adverment = $em->getRepository('JiliApiBundle:Advertiserment')->findByTitle($title);
-    				if(empty($adverment)){
-    					$codeflag = $this->container->getParameter('init_two');
-    				}else{
+    				if($adid){
     					$exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
     					foreach($exist as $k=>$v){
     						$existNum[] = $v['position'];
@@ -325,19 +328,43 @@ class AdminController extends Controller
     					}else{
     						$postion->setType($position);
     						$postion->setPosition($number);
-    						$postion->setAdId($adverment[0]->getId());
+    						$postion->setAdId($adid);
     						$em->persist($postion);
     						$em->flush();
     						return $this->redirect($this->generateUrl('_admin_infoPostion'));
     					}
+    					
+    				}else{
+    					$adverment = $em->getRepository('JiliApiBundle:Advertiserment')->findByTitle($title);
+    					if(empty($adverment)){
+    						$codeflag = $this->container->getParameter('init_two');
+    					}else{
+    						$exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
+    						foreach($exist as $k=>$v){
+    							$existNum[] = $v['position'];
+    						}
+    						if(in_array($number,$existNum)){
+    							$codeflag = $this->container->getParameter('init_three');
+    						}else{
+    							$postion->setType($position);
+    							$postion->setPosition($number);
+    							$postion->setAdId($adverment[0]->getId());
+    							$em->persist($postion);
+    							$em->flush();
+    							return $this->redirect($this->generateUrl('_admin_infoPostion'));
+    						}
+    					}
     				}
+    				
     			}else{
     				$codeflag = $this->container->getParameter('init_one');
     			}
     		}
     	}
     	return $this->render('JiliApiBundle:Admin:addPostion.html.twig',
-    			array('codeflag'=>$codeflag,'code'=>$code,'title'=>$title,'ad_title'=>$ad_title,'position'=>$position,'number'=>$number,'adposition'=>$adposition));
+    			array('codeflag'=>$codeflag,'adid'=>$adid,'code'=>$code,
+    				  'title'=>$title,'ad_title'=>$ad_title,'position'=>$position,'number'=>$number,
+    					'adposition'=>$adposition,'advermentTitle'=>$advermentTitle));
     }
     
     /**

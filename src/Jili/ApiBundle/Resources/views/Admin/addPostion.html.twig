@@ -61,7 +61,7 @@ $(document).ready(function() {
         &nbsp;
         {% endif %}
 </td></tr>
-<tr height='60'><td align="right">广告标题:</td><td><input type="text" id="title" name="title" size='30' value="{% if ad_title %}{{ ad_title }}{% else %}{{ title }}{% endif %}"/>&nbsp;&nbsp;<input type="submit" id="but" name="search" value="检 索"></td></tr> 
+<tr height='60'><td align="right">广告标题:</td><td><input type="text" id="title" name="title" size='30' value="{% if advermentTitle %}{{ advermentTitle }}{% else %}{% if ad_title %}{{ ad_title }}{% else %}{{ title }}{% endif %}{% endif %}"/>&nbsp;&nbsp;<input type="submit" id="but" name="search" value="检 索"></td></tr> 
 <tr height='60'><td align="right">广告位置:</td><td>
 <input type="radio" name="position" value="1"  {% if position==1 %} checked="checked" {% endif %}/>首页
 <input type="radio" name="position" value="2"  {% if position==2 %} checked="checked" {% endif %}/>广告推荐

@@ -32,7 +32,7 @@
           <td align="center"><a href="{{ path('_admin_editAdver',{'id':item.id}) }}">编辑</a>&nbsp;&nbsp;
           <a href="{{ path('_admin_delAdver',{'id':item.id}) }}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a>
           &nbsp;&nbsp;<a href="{{ path('_admin_stopAdver',{'id':item.id}) }}" onclick="if (confirm('确定要停止吗？')) return true; else return false;">停止</a>
-          </td>
+         <a href="{{ path('_admin_addPostion',{'id':item.id}) }}">添加广告位置</a> </td>
            <td align="center">{% if date(item.endTime) < date() %} 已停止 {% else %} 投放中 {% endif %}</td>
         </tr>
          {% endfor %}
