@@ -6,6 +6,20 @@ use Doctrine\ORM\EntityRepository;
 
 class AdvertisermentRepository extends EntityRepository
 {
+	public function getSearchAd($title)
+	{
+		$query = $this->createQueryBuilder('a');
+		$query = $query->select('a.id,a.title,a.startTime,a.endTime,a.decription,a.content,a.incentive,a.info');
+// 		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
+		$query = $query->Where('a.deleteFlag = 0');
+		$query = $query->andWhere("a.title LIKE :title");
+		$query = $query->setParameter('title','%'.$title.'%');
+		$query = $query->orderBy('a.id','DESC');
+		$query = $query->setFirstResult(0);
+		$query = $query->setMaxResults(10);
+		$query =  $query->getQuery();    
+		return $query->getResult();
+	}
 	
 	public function getAdwAdverList($incentiveType,$id)
 	{
@@ -103,7 +117,7 @@ class AdvertisermentRepository extends EntityRepository
 		$query = $query->orderBy('ap.position');
 		$query = $query->setFirstResult(0);
 		$query = $query->setMaxResults(9);
-		$query =  $query->getQuery();
+		$query = $query->getQuery();
 		return $query->getResult();
 	
 	}

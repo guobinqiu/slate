@@ -2,7 +2,6 @@
 namespace Jili\ApiBundle\Controller;
 
 use Jili\ApiBundle\Repository\AdPositionRepository;
-
 use Jili\ApiBundle\Entity\RateAdResult;
 use Jili\ApiBundle\Entity\LimitAdResult;
 use Jili\ApiBundle\Form\EditBannerType;
@@ -282,41 +281,86 @@ class AdminController extends Controller
      */
     public function addPostionAction()
     {
+    	$adposition = '';
+    	$code = '';
+    	$ad_title = '';
     	$postion = new AdPosition();
     	$codeflag = $this->container->getParameter('init');
     	$request = $this->get('request');
-    	$aid = $request->request->get('aid');
     	$position = $request->request->get('position');
+    	$title = $request->request->get('title');
     	$number = $request->request->get('number');
     	$em = $this->getDoctrine()->getManager();
     	if ($request->getMethod() == 'POST') {
-    		if($aid && $position && $number){
-    			$adverment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
-    			if(empty($adverment)){
-    				$codeflag = $this->container->getParameter('init_two');
+    		if($request->request->get('search')){
+    			$adposition = $em->getRepository('JiliApiBundle:Advertiserment')->getSearchAd($title);
+    			if(!empty($adposition)){
+    				$code = $this->container->getParameter('init_one');
     			}else{
-    				$exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
-    				foreach($exist as $k=>$v){
-    					$existNum[] = $v['position'];
-    				}
-    				if(in_array($number,$existNum)){
-    					$codeflag = $this->container->getParameter('init_three');
-    				}else{
-    					$postion->setType($position);
-    					$postion->setPosition($number);
-    					$postion->setAdId($aid);
-    					$em->persist($postion);
-    					$em->flush();
-    					return $this->redirect($this->generateUrl('_admin_infoPostion'));
-    				}
+    				$codeflag = $this->container->getParameter('init_five');
     			}
-    		}else{
-    			$codeflag = $this->container->getParameter('init_one');
+    		}
+    		if($request->request->get('selected')){
+    			$ck = $request->request->get('ck');
+    			if($ck){
+    				$ad_position = $em->getRepository('JiliApiBundle:Advertiserment')->find($ck);
+    				$ad_title = $ad_position->getTitle();
+    			}else{
+    				$adposition = $em->getRepository('JiliApiBundle:Advertiserment')->getSearchAd($title);
+    				$codeflag = $this->container->getParameter('init_four');
+    			}
+    		}
+    		if($request->request->get('add')){
+    			if($title && $position && $number){
+    				$adverment = $em->getRepository('JiliApiBundle:Advertiserment')->findByTitle($title);
+    				if(empty($adverment)){
+    					$codeflag = $this->container->getParameter('init_two');
+    				}else{
+    					$exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
+    					foreach($exist as $k=>$v){
+    						$existNum[] = $v['position'];
+    					}
+    					if(in_array($number,$existNum)){
+    						$codeflag = $this->container->getParameter('init_three');
+    					}else{
+    						$postion->setType($position);
+    						$postion->setPosition($number);
+    						$postion->setAdId($adverment[0]->getId());
+    						$em->persist($postion);
+    						$em->flush();
+    						return $this->redirect($this->generateUrl('_admin_infoPostion'));
+    					}
+    				}
+    			}else{
+    				$codeflag = $this->container->getParameter('init_one');
+    			}
     		}
     	}
     	return $this->render('JiliApiBundle:Admin:addPostion.html.twig',
-    			array('codeflag'=>$codeflag,'aid'=>$aid,'position'=>$position,'number'=>$number));
+    			array('codeflag'=>$codeflag,'code'=>$code,'title'=>$title,'ad_title'=>$ad_title,'position'=>$position,'number'=>$number,'adposition'=>$adposition));
     }
+    
+    /**
+     * @Route("/searchPosition", name="_admin_searchPosition")
+     */
+    public function searchPositionAction()
+    {
+    	$ad_code = '';
+    	$request = $this->get('request');
+    	$title = $request->request->get('title');
+    	$em = $this->getDoctrine()->getManager();
+    	if ($request->getMethod() == 'POST') {
+    		$adposition = $em->getRepository('JiliApiBundle:Advertiserment')->getSearchAd($title);
+    		if(empty($adposition)){
+    			$ad_code = $this->container->getParameter('init_one');
+    		}else{
+    			$ad_code = $this->container->getParameter('init_two');
+    		}
+    	}
+    	return $this->render('JiliApiBundle:Admin:searchPosition.html.twig',array('adposition'=>$adposition,'ad_code'=>$ad_code));
+    	
+    }
+    
     
     /**
      * @Route("/delAdPosition/{id}", name="_admin_delAdPosition")
@@ -625,7 +669,6 @@ class AdminController extends Controller
 					));
     
     }
-    
     
     /**
      * @Route("/editCallboard/{id}", name="_admin_editCallboard")
