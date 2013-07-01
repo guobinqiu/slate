@@ -24,11 +24,12 @@
       <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="202" height="132"/></a></div>
       <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.decription | raw }}</a></div>
       <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a>
-     {% if item.incentive %}
+             {% if item.incentiveType==1 %}
                      <span class="reward"><font>{{ item.incentive }}</font>米粒</span>
-                     {% else %}
+             {% elseif item.incentiveType==2 %}
                      <span class="reward">最高获消费额<font>{{ item.incentiveRate }}%</font>的米粒</span>
-                     {% endif %}
+             {% else %}
+             {% endif %}
     </div>
     {% endfor %}
     
@@ -37,10 +38,11 @@
                   <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="149" height="19"/></a></div>
                <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.decription | raw }}</a></div>
                <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a>
-               {% if item.incentive %}
-                     <span class="reward"><font>{{ item.incentive }}</font>米粒</span>
-                     {% else %}
-                     <span class="reward">最高获消费额<font>{{ item.incentiveRate }}%</font>的米粒</span>
+                      {% if item.incentiveType==1 %}
+                         <span class="reward"><font>{{ item.incentive }}</font>米粒</span>
+                        {% elseif item.incentiveType==2 %}
+                         <span class="reward">最高获消费额<font>{{ item.incentiveRate }}%</font>的米粒</span>
+                         {% else %}
                      {% endif %}
               </div>
      {% endfor %}

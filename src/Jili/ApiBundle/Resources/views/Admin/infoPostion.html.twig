@@ -20,10 +20,18 @@
         <tr>
           <td align="center">{{ item.title }} </td>
           <td align="center"><img src="{{ asset(item.listImage)}}"/></td>
-           <td align="center">{% if item.type ==1 %} 不推荐 {% elseif item.type ==2  %} 推荐 {% else %} {% endif %}   </td>
+           <td align="center">
+           {% if item.type ==1 %} 首页 
+           {% elseif item.type ==2  %} 广告推荐 
+           {% elseif item.type ==3  %} 广告不推荐 
+           {% elseif item.type ==4  %} 购物推荐 
+           {% elseif item.type ==5  %} 购物不推荐 
+           {% else %} {% endif %}  
+            </td>
             <td align="center">{{ item.position }} </td>
           
-          <td align="center"><a href="{{ path('_admin_editPostion',{'id':item.id}) }}">编辑</a>
+          <td align="center"><a href="{{ path('_admin_editPostion',{'id':item.aid}) }}">编辑</a>
+          <a href="{{ path('_admin_delAdPosition',{'id':item.aid}) }}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a>
           </td>
         </tr>
          {% endfor %}

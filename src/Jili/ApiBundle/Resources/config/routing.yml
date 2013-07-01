@@ -6,6 +6,10 @@ user:
     resource: "@JiliApiBundle/Controller/UserController.php"
     prefix:   /user
     type:     annotation   
+shopping:
+    resource: "@JiliApiBundle/Controller/ShoppingController.php"
+    prefix:   /shopping
+    type:     annotation
 advertiserment:
     resource: "@JiliApiBundle/Controller/AdvertisermentController.php"
     prefix:   /advertiserment

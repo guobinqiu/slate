@@ -151,6 +151,15 @@ class DefaultController extends Controller
     	return $this->render('JiliApiBundle::error.html.twig');
     }
     
+
+    /**
+     * @Route("/services", name="_default_services")
+     */
+    public function servicesAction()
+    {
+    	return $this->render('JiliApiBundle::onservice.html.twig');
+    }
+    
     /**
      * @Route("/help", name="_default_help")
      */

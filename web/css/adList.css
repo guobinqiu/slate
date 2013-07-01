@@ -13,14 +13,13 @@
 }
 .adList article .ad{
 	background-color: #FFFFFF;
-    border: 1px solid #ECECEC;
     float: left;
     margin: 0 15px 15px 0;
     width: 324px;
 	background-image:url(../images/adBg.jpg);
 	background-position:center bottom;
 	background-repeat:no-repeat;
-	box-shadow: 0 2px 1px #EDEDED;
+	box-shadow: 0 2px 2px #EDEDED;
 	position:relative;
 	padding:10px 10px 40px 10px;
 	padding:10px 10px 45px 10px/9;
@@ -28,10 +27,10 @@
 	_padding:10px 10px 45px 10px;
 }
 .adList article .ad:hover{
-	border: 1px solid #FFD8C9;
+	box-shadow: 0 0px 2px #FFD8C9;
 }
 .adList article .ad.top:hover{
-	border: 1px solid #FFD8C9;
+	box-shadow: 0 0px 2px #FFD8C9;
 }
 .adList article .ad .img{
 	float:left;
