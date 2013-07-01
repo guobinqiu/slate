@@ -1,0 +1,24 @@
+.comingSoon{
+	
+}
+.comingSoon article{
+	background-image: url("../images/maintain.jpg");
+    height: 103px;
+    margin: 120px auto 0 auto;
+    padding: 105px 0 0 250px;
+    width: 317px;
+}
+.comingSoon article a{
+	color:#EA4B11;
+}
+.error404 article{
+	background-image: url("../images/404.jpg");
+    height: 102px;
+    margin: 100px auto;
+    padding: 105px 0 0 350px;
+    width: 186px;
+}
+.error404 article a{
+	color:#EA4B11;
+	margin:0 10px;
+}
