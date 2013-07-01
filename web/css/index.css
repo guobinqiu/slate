@@ -40,7 +40,7 @@
 .index section.one #userInformation {
 	float: left;
 	background-color: #FFF;
-	border: 1px solid #ececec;
+	border: 0px;
 	border-left: none;
 	height: 250px;
     padding: 0px 8px 0px 12px;
@@ -182,7 +182,7 @@
 	font-weight:normal;
 }
 .index section.main article div.task {
-	width: 200px;
+	width: 199px;
 	height: 180px;
 	padding: 10px 10px 5px 10px;
 	float: left;
