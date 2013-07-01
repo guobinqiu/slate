@@ -82,10 +82,11 @@ class AdminController extends Controller
     		$em->persist($adworder);
     		$em->flush();
     		if($adworder->getIncentiveType()==1){
+    			$limitAd = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adid);
     			$limitrs = new LimitAdResult();
     			$limitrs->setAccessHistoryId($adworder->getId());
     			$limitrs->setUserId($userId);
-    			$limitrs->setLimitAdId($adid);
+    			$limitrs->setLimitAdId($limitAd[0]->getId());
     			$limitrs->setResultIncentive($adworder->getIncentive());
     			$em->persist($limitrs);
     			$em->flush();
@@ -95,10 +96,11 @@ class AdminController extends Controller
     			$em->flush();
     			$this->getPointHistory($userId,$adworder->getIncentive());
     		}else{
+    			$rateAd = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adid);
     			$raters = new RateAdResult();
     			$raters->setAccessHistoryId($adworder->getId());
     			$raters->setUserId($userId);
-    			$raters->setRateAdId($adid);
+    			$raters->setRateAdId($rateAd[0]->getId());
     			$raters->setResultPrice($price);
     			$raters->setResultIncentive(intval($price*$adworder->getIncentiveRate()/100));
     			$em->persist($raters);

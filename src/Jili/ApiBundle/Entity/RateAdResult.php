@@ -24,7 +24,7 @@ class RateAdResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="adw_history_id", type="integer", nullable=false)
+     * @ORM\Column(name="adw_order_id", type="integer", nullable=false)
      */
     private $accessHistoryId;
     
@@ -67,6 +67,32 @@ class RateAdResult
     {
         return $this->id;
     }
+    
+    
+
+    /**
+     * Set accessHistoryId
+     *
+     * @param integer $accessHistoryId
+     * @return RateAdResult
+     */
+    public function setAccessHistoryId($accessHistoryId)
+    {
+    	$this->accessHistoryId = $accessHistoryId;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get accessHistoryId
+     *
+     * @return integer
+     */
+    public function getAccessHistoryId()
+    {
+    	return $this->accessHistoryId;
+    }
+    
 
     /**
      * Set userId

@@ -24,7 +24,7 @@ class LimitAdResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="adw_history_id", type="integer")
+     * @ORM\Column(name="adw_order_id", type="integer")
      */
     private $accessHistoryId;
     
