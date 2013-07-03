@@ -97,9 +97,9 @@ class AdvertisermentController extends Controller
 				if($advertiserment[0]['incentiveType']==1){
 					$adwOrder->setIncentive($advertiserment[0]['incentive']);
 				}
-				if($advertiserment[0]['incentiveType']==2){
-					$adwOrder->setIncentiveRate($advertiserment[0]['incentiveRate']);
-				}
+// 				if($advertiserment[0]['incentiveType']==2){
+// 					$adwOrder->setIncentiveRate($advertiserment[0]['incentiveRate']);
+// 				}
 				$adwOrder->setOrderStatus($this->container->getParameter('init_one'));
 				$adwOrder->setDeleteFlag($this->container->getParameter('init'));
 				$em->persist($adwOrder);

@@ -6,6 +6,15 @@ use Doctrine\ORM\EntityRepository;
 
 class AdwOrderRepository extends EntityRepository
 {
+	public function getOrderNum($aid){
+		$query = $this->createQueryBuilder('ao');
+		$query = $query->select('ao.id,ao.adid,ao.orderStatus,ao.confirmTime');
+		$query = $query->Where('ao.adid = :aid');
+		$query = $query->setParameter('aid',$aid);
+		$query = $query->getQuery();
+		return count($query->getResult());
+	}
+	
 	public function getOrderStatus($uid,$aid){
 		$parameters = array();
 		$query = $this->createQueryBuilder('ao');
@@ -44,7 +53,7 @@ class AdwOrderRepository extends EntityRepository
 		$monthdate =  date("Y-m-d H:i:s", strtotime(' -6 month'));
 		$yeardate =  date("Y-m-d H:i:s", strtotime(' -1 year'));
 		$query = $this->createQueryBuilder('ao');
-		$query = $query->select('ao.adid,ao.createTime,ao.orderStatus,ao.incentiveRate,a.title,a.incentiveType,a.incentive,a.category,ad.displayName');
+		$query = $query->select('ao.adid,ao.createTime,ao.orderStatus,a.incentiveRate,a.title,a.incentiveType,a.incentive,a.category,ad.displayName');
 		$query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
 		$query = $query->innerJoin('JiliApiBundle:AdCategory', 'ad', 'WITH', 'a.category = ad.id');
 		$query = $query->Where('ao.userid = :id');
