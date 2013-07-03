@@ -70,7 +70,7 @@ class AdminController extends Controller
     	}
     }
     //已经认证
-    private function hasCertified($userId,$adid,$price){
+    private function hasCertified($userId,$adid){
     	$em = $this->getDoctrine()->getManager();
     	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid);
     	if(empty($adworder)){
@@ -101,15 +101,15 @@ class AdminController extends Controller
     			$raters->setAccessHistoryId($adworder->getId());
     			$raters->setUserId($userId);
     			$raters->setRateAdId($rateAd[0]->getId());
-    			$raters->setResultPrice($price);
-    			$raters->setResultIncentive(intval($price*$adworder->getIncentiveRate()/100));
+    			$raters->setResultPrice($adworder->getComm());
+    			$raters->setResultIncentive($adworder->getIncentiveRate());
     			$em->persist($raters);
     			$em->flush();
     			$user = $em->getRepository('JiliApiBundle:User')->find($userId);
     			$user->setPoints(intval($user->getPoints()+$raters->getResultIncentive()));
     			$em->persist($user);
     			$em->flush();
-    			$this->getPointHistory($userId,intval($price*$adworder->getIncentiveRate()/100));
+    			$this->getPointHistory($userId,$adworder->getIncentiveRate());
     		}
     		return true;
     	}
@@ -204,7 +204,7 @@ class AdminController extends Controller
                 			}
                 		}
                 		if($status == '已认证'){
-                			if(!$this->hasCertified($userId[1],$adid[1],$v[4])){
+                			if(!$this->hasCertified($userId[1],$adid[1])){
                 				$code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
                 			}
                 		}

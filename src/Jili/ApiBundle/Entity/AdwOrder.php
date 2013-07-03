@@ -89,6 +89,14 @@ class AdwOrder
     private $incentiveRate;
     
     /**
+     * @var float
+     *
+     * @ORM\Column(name="comm", type="float")
+     */
+    private $comm;
+    
+    
+    /**
      * @var integer
      *
      * @ORM\Column(name="order_price", type="integer")
@@ -300,6 +308,29 @@ class AdwOrder
     public function setIncentiveRate($incentiveRate)
     {
     	$this->incentiveRate = $incentiveRate;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get comm
+     *
+     * @return float
+     */
+    public function getComm()
+    {
+    	return $this->comm;
+    }
+    
+    /**
+     * Set comm
+     *
+     * @param float $comm
+     * @return AdwOrder
+     */
+    public function setComm($comm)
+    {
+    	$this->comm = $comm;
     
     	return $this;
     }
