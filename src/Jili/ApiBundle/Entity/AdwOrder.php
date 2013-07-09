@@ -48,6 +48,13 @@ class AdwOrder
      */
     private $createTime;
     
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="happen_time", type="datetime")
+     */
+    private $happenTime;
+    
 
     /**
      * @var \DateTime
@@ -95,6 +102,12 @@ class AdwOrder
      */
     private $comm;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ocd", type="string", length=100, nullable=true)
+     */
+    private $ocd;
     
     /**
      * @var integer
@@ -198,6 +211,31 @@ class AdwOrder
     {
         return $this->createTime;
     }
+    
+    
+    /**
+     * Set happenTime
+     *
+     * @param \DateTime $happenTime
+     * @return AdwOrder
+     */
+    public function setHappenTime($happenTime)
+    {
+    	$this->happenTime = $happenTime;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get happenTime
+     *
+     * @return \DateTime
+     */
+    public function getHappenTime()
+    {
+    	return $this->happenTime;
+    }
+    
     
     
     
@@ -334,6 +372,32 @@ class AdwOrder
     
     	return $this;
     }
+    
+    
+    /**
+     * Set ocd
+     *
+     * @param string $ocd
+     * @return AdwOrder
+     */
+    public function setOcd($ocd)
+    {
+    	$this->ocd = $ocd;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get ocd
+     *
+     * @return string
+     */
+    public function getOcd()
+    {
+    	return $this->ocd;
+    }
+    
+    
     
     /**
      * Get incentiveRate
