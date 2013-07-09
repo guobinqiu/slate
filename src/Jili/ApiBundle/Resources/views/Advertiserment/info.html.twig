@@ -76,16 +76,16 @@ function goto(){
     	      {% if orderStatus %}
             	      {% if orderStatus==1 %}
         	          <a href="javascript:void(0);" class="getBtn"  onclick="goto();"><img src="{{ asset('images/continueBtn.jpg')}}" /></a> 
-                         {% elseif orderStatus==2 %}
-                       <span class="getBtn"><img src="{{ asset('images/oncheckBtn.jpg')}}" />  </span>                                                 
+            	      {% elseif orderStatus==2 %}
+                       <span class="getBtn"><img src="{{ asset('images/oncheckBtn.jpg')}}" /><a onclick="goto();"> <img src="{{ asset('images/againBuy.jpg')}}" /></a></span>  
                          {% elseif orderStatus==3 %}
-                       <span class="getBtn">  <img src="{{ asset('images/finishBtn.jpg')}}" /> </span>                                             
+                       <span class="getBtn"><img src="{{ asset('images/finishBtn.jpg')}}" /><a onclick="goto();"> <img src="{{ asset('images/againBuy.jpg')}}" /></a></span>  
                           {% elseif orderStatus==4 %} 
-                     <span class="getBtn"> <img src="{{ asset('images/unpassBtn.jpg')}}" />  </span>   
+                      <span class="getBtn"><img src="{{ asset('images/unpassBtn.jpg')}}" /><a onclick="goto();"> <img src="{{ asset('images/againBuy.jpg')}}" /></a></span>  
                           {% else %}                                                                                               
         	             {% endif %}
     	      {% else %}
-    	            <a class="getBtn" id="getTask" onclick="goto();"><img src="{{ asset('images/getBtn.jpg')}}" /></a>
+    	            <a class="getBtn" id="getTask" onclick="goto();"><img src="{{ asset('images/getBtn.jpg')}}" /></a></span>
     	     {% endif %}
       {% endif %}
   </div>

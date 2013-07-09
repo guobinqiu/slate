@@ -90,7 +90,10 @@ function addClass(type){
           <td>{% if item.incentiveType==1 %}
                  {{ item.incentive }}米粒
                  {% else %}
-                 最高获消费额{{ item.incentiveRate }}%的米粒
+                     {% if item.orderStatus > 1 %}
+                        {{ item.incentive }}米粒
+                     {% else %}
+                                                                         最高获消费额{{ item.incentiveRate }}%的米粒{% endif %}
                  {% endif %}</td>
           <td>{{ item.createTime.date }}</td>
           <td>{% if item.orderStatus==1  %} 已领取

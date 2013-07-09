@@ -114,7 +114,7 @@ class AdwOrder
      *
      * @ORM\Column(name="order_price", type="integer")
      */
-    private $oldPrice;
+    private $orderPrice;
     
     
     /**
