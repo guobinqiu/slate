@@ -1,5 +1,6 @@
 <?php
 namespace Jili\ApiBundle\Controller;
+use Jili\ApiBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -133,6 +134,87 @@ class DefaultController extends Controller
 //     	}
     	return new Response($code);
 
+    }
+    
+    /**
+     * @Route("/landing", name="_default_landing")
+     */
+    public function landingAction(){
+    	$code = '';
+    	$is_user = '';
+    	$request = $this->get('request');
+    	$email = $request->query->get('email');
+    	$fornick = $request->query->get('nick');
+    	if(!$fornick)
+    		$fornick = '';
+    	if($email)
+    		$request->getSession()->set('email',$email);
+    	$u_email = $request->getSession()->get('email');
+    	if(!$u_email)
+    		return $this->redirect($this->generateUrl('_default_index'));
+    	$nick = $request->request->get('nick');
+    	$pwd = $request->request->get('pwd');
+    	$newPwd = $request->request->get('newPwd');
+    	$em = $this->getDoctrine()->getManager();
+    	$is_from_wenwen = $em->getRepository('JiliApiBundle:User')->findByEmail($u_email);
+    	if(!empty($is_from_wenwen)){
+    		if($is_from_wenwen[0]->getPwd())
+    			$is_user = $this->container->getParameter('init_one');
+    		else
+    			$is_user = $this->container->getParameter('init_two');
+    	}
+    	if($request->getMethod() == 'POST'){
+    		if($nick && $pwd && $newPwd){
+    			if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick)){
+    				$code = $this->container->getParameter('init_one');
+    			}else{
+    				$user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
+    				if($user_nick){
+    					$code = $this->container->getParameter('init_two');
+    				}else{
+    					if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+    						$code = $this->container->getParameter('init_three');
+    					}else{
+    						if($pwd == $newPwd){
+    							if($is_user){
+    								$is_from_wenwen[0]->setNick($nick);
+    								$is_from_wenwen[0]->setPwd($pwd);
+    								$em->persist($is_from_wenwen[0]);
+    								$em->flush();
+    								$id = $is_from_wenwen[0]->getId();
+    							}else{
+    								$user = new User();
+    								$user->setNick($nick);
+    								$user->setPwd($pwd);
+    								$user->setEmail($u_email);
+    								$user->setIsFromWenwen($this->container->getParameter('init_one'));
+    								$user->setPoints($this->container->getParameter('init'));
+    								$user->setIsInfoSet($this->container->getParameter('init'));
+    								$em->persist($user);
+    								$em->flush();
+    								$id = $user->getId();
+    							}
+    							$request->getSession()->remove('email');
+    							$request->getSession()->set('uid',$id);
+    							$request->getSession()->set('nick',$nick);
+    							return $this->redirect($this->generateUrl('_default_index'));
+    						}else{
+    							$code = $this->container->getParameter('init_four');
+    						}
+    					}
+    				}
+    			}
+    		}else{
+    			$code = $this->container->getParameter('init_five');
+    		}
+    	}
+    	return $this->render('JiliApiBundle:Default:landing.html.twig',
+    			array(
+    				  'code'=>$code,
+    				  'is_user'=>$is_user,
+    				  'nick'=>$nick,
+    				  'fornick'=>$fornick
+    				 ));
     }
     
     /**

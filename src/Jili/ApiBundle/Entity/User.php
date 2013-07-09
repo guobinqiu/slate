@@ -31,6 +31,13 @@ class User
     private $id;
         
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="is_from_wenwen",  type="integer", nullable=true)
+     */
+    private $isFromWenwen;
+    
+    /**
      * @var string
      *
      * @ORM\Column(name="wenwen_user", type="string", length=100, nullable=true)
@@ -349,6 +356,34 @@ class User
     {
     	$this->wenwenUser = $wenwenUser;
     }
+    
+    
+
+    /**
+     * Set isFromWenwen
+     *
+     * @param integer $isFromWenwen
+     * @return User
+     */
+    public function setIsFromWenwen($isFromWenwen)
+    {
+    	$this->isFromWenwen = $isFromWenwen;
+    
+    	return $this;
+    }
+    
+    
+    
+    /**
+     * Get isFromWenwen
+     *
+     * @return integer
+     */
+    public function getIsFromWenwen()
+    {
+    	return $this->isFromWenwen;
+    }
+    
     
     
     /**

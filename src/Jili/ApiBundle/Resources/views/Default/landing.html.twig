@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>91jili landingpage</title>
+<link rel="stylesheet" type="text/css" href="{{ asset('css/css.css')}}">
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+
+function fastreg(){
+	$("#form1").submit();
+}
+</script>
+</head>
+<body style="background:#f3f3f3;">
+<div class="main">
+  <div class="main_wrap">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td valign="top" style="background:url({{ asset('images/landing/title_bg11.jpg') }}) no-repeat;"><a href="http://www.91jili.com" target="_blank"><img border="0" src="{{ asset('images/landing/logo.jpg') }}" width="172" height="64" /></a></td>
+          <td><img src="{{ asset('images/landing/title_bg12.jpg') }}" width="488" height="109" /></td>
+          <td><img src="{{ asset('images/landing/title_bg13.jpg') }}" width="274" height="109" /></td>
+        </tr>
+        <tr>
+          <td><img src="{{ asset('images/landing/title_bg21.jpg') }}" width="198" height="125" /></td>
+          <td><img src="{{ asset('images/landing/title_bg22.jpg') }}" width="488" height="125" /></td>
+          <td><img src="{{ asset('images/landing/title_bg23.jpg') }}" width="274" height="125" /></td>
+        </tr>
+        <tr>
+          <td><img src="{{ asset('images/landing/title_bg31.jpg') }}" width="198" height="91" /></td>
+          <td><img src="{{ asset('images/landing/title_bg32.jpg') }}" width="488" height="91" /></td>
+          <td><img src="{{ asset('images/landing/title_bg33.jpg') }}" width="274" height="91" /></td>
+        </tr>
+        <tr>
+          <td><img src="{{ asset('images/landing/title_bg41.jpg') }}" width="198" height="49" /></td>
+          <td><img src="{{ asset('images/landing/title_bg42.jpg') }}" width="488" height="49" /></td>
+          <td><img src="{{ asset('images/landing/title_bg43.jpg') }}" width="274" height="49" /></td>
+        </tr>
+        <tr>
+          <td colspan="3" style=" background:#fffdfa; padding:0 0 30px;"><img style=" float:left; padding:68px 0 0 51px;" src="{{ asset('images/landing/process.gif') }}" width="378" height="167" />
+          	<div class="login">
+          	  <form action="{{ path('_default_landing') }}" method="post" name="form1" id="form1" >
+            	<table class="login_wrap" cellpadding="0" cellspacing="12" border="0">
+              <tbody>
+                <tr>
+                  <td class="form_l">邮箱地址：</td>
+                  <td><span>{{ app.session.get('email') }}</span><span style="margin:0 0 0 52px;"><a href="{{ path('_user_reg') }}" style="color:#ea5922;">用其它邮箱注册</a></span></td>
+                </tr>
+                {% if is_user==1 %}
+                     <tr>
+                      <td colspan="2" align="center">你已经注册过,请<a href="{{ path('_user_login') }}">登录</a></td>
+                    </tr>
+                {% else %}
+                     <tr>
+                      <td class="form_l">昵称：</td>
+                      <td><input type="text" value="{% if nick %}{{ nick }}{% else %}{% if fornick %}{{ fornick }}{% endif %}{% endif %}" tabindex="1" name="nick" class="frame1"></td>
+                    </tr>
+                    <tr>
+                      <td class="form_l">密码：</td>
+                      <td><input type="password" value="" tabindex="1" name="pwd" class="frame1"></td>
+                    </tr>
+                    <tr>
+                      <td class="form_l">确认密码：</td>
+                      <td><input type="password" value="" tabindex="1" name="newPwd" class="frame1"></td>
+                    </tr>
+                    {% if code == 1 %}
+                        <tr>
+                          <td></td>
+                          <td><font color='red'>昵称为2-20个字符</font></td>
+                        </tr>
+                    {% elseif code == 2 %}
+                     <tr>
+                          <td></td>
+                          <td><font color='red'>昵称已经注册</font></td>
+                        </tr>
+                    {% elseif code == 3 %}
+                    <tr>
+                          <td></td>
+                          <td><font color='red'>密码为6-20个字符，不能含特殊符号</font></td>
+                        </tr>
+                    {% elseif code == 4 %}
+                    <tr>
+                          <td></td>
+                          <td><font color='red'>2次密码不相同</font></td>
+                        </tr>
+                    {% elseif code == 5 %}
+                       <tr>
+                          <td></td>
+                          <td><font color='red'>都为必填项</font></td>
+                        </tr>
+                    {% else %}
+                    {% endif %}
+                    <tr>
+                      <td></td>
+                      <td><a href="javascript:void(0);"><img border="0" src="{{ asset('images/landing/login_btn.gif') }}" width="151" height="42" alt="1秒快速注册" onclick="fastreg()"/></a></td>
+                    </tr>
+                {% endif %}
+               
+                
+              </tbody>
+            </table>
+            </form>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div id="footer">
+      <div class="fl">
+        <dl>
+          <dt>关于我们</dt>
+          <dd><a href="/index.php/corp/about_company" target="_blank" title="集团公司介绍">集团公司介绍</a></dd>
+          <dd><a href="/index.php/corp/about_91wenwen" target="_blank" title="91问问调查网介绍">91问问调查网介绍</a></dd>
+          <dd><a href="/index.php/corp/regulations" title="会员协议">会员协议</a></dd>
+        </dl>
+        <dl>
+          <dt>集团网站</dt>
+          <dd><a href="http://www.researchpanelasia.com/" title="Research Panel Asia" target="_blank">Research Panel Asia</a></dd>
+          <dd><a href="http://www.lifestyleindex.asia/" title="LifeStyle Index" target="_blank">LifeStyle Index</a></dd>
+          <dd><a href="http://research-panel.jp/" title="Japan Panel" target="_blank">Japan Panel</a></dd>
+          <dd><a href="http://www.panelnow.co.kr/" title="South Korea Panel" target="_blank">South Korea Panel</a></dd>
+        </dl>
+        <dl>
+          <dt>联系我们</dt>
+          <dd><a href="/index.php/faq/" title="帮助中心">帮助中心</a></dd>
+          <dd><a href="https://www.researchpanelasia.com/contact/" target="_blank" title="合作咨询">合作咨询</a></dd>
+          <dd><a title="注销账户" href="/index.php/withdraw/">注销账户</a></dd>
+        </dl>
+        <dl>
+          <dt><a href="/index.php/corp/links" title="友情链接">友情链接</a></dt>
+        </dl>
+      </div>
+      <!-- /#fl -->
+      <div class="f2">
+        <div class="clear"></div>
+        <div id="followUs">关注91问问：<a target="_blank" href="http://weibo.com/91wenwen"><img border="0" src="images/sina_ico.png" width="16" height="16" /></a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://t.qq.com/RPA_91wenwen?preview"><img border="0" src="{{ asset('images/landing/tencent_ico.png') }}" width="16" height="16" /></a></div>
+        <div id="copyright">COPYRIGHT © RESEARCH PANEL ASIA INC, ALL RIGHTS RESERVED<br>
+          <a href="http://www.miibeian.gov.cn/">沪ICP备10212377号-1</a></div>
+        <div class="clear"></div>
+      </div>
+      <!-- /#f2 --> 
+    </div>
+  </div>
+</div>
+</body>
+</html>
