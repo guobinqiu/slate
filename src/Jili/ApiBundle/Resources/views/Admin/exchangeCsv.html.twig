@@ -1,0 +1,7 @@
+email,91wenwen_user,exchange_date,exchange_points,exchange_type
+{% if exchange %}
+{% for item in exchange %}
+{{ item.email }},{{ item.wenwenUser }},{{ item.exchangeDate.date | date('Y-m-d') }},{{ item.targetPoint }},{{ item.type }}
+{% endfor %}
+{% endif  %}
+

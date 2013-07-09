@@ -6,6 +6,15 @@ use Doctrine\ORM\EntityRepository;
 
 class PointsExchangeRepository extends EntityRepository
 {
+	public function exchangeInfo(){
+		$query = $this->createQueryBuilder('p');
+		$query = $query->select('p.userId,u.email,u.wenwenUser,p.targetPoint,p.exchangeDate,p.status,pt.type');
+		$query = $query->innerJoin('JiliApiBundle:PointsExchangeType', 'pt', 'WITH', 'p.type = pt.id');
+		$query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'p.userId = u.id');
+		$query = $query->getQuery();
+		return $query->getResult();
+	}
+	
 	public function existUserExchange($id)
 	{
 		$query = $this->createQueryBuilder('p');

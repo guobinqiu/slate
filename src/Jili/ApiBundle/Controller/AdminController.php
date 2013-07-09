@@ -29,6 +29,7 @@ use Jili\ApiBundle\Entity\PointHistory07;
 use Jili\ApiBundle\Entity\PointHistory08;
 use Jili\ApiBundle\Entity\PointHistory09;
 
+
 class AdminController extends Controller
 {
 	/**
@@ -55,9 +56,9 @@ class AdminController extends Controller
     }
     
     //没有通过认证
-    private function noCertified($userId,$adid){
+    private function noCertified($userId,$adid,$happentime){
     	$em = $this->getDoctrine()->getManager();
-    	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid);
+    	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$happentime);
     	if(empty($adworder)){
     		return false;
     	}else{
@@ -70,9 +71,9 @@ class AdminController extends Controller
     	}
     }
     //已经认证
-    private function hasCertified($userId,$adid){
+    private function hasCertified($userId,$adid,$happentime){
     	$em = $this->getDoctrine()->getManager();
-    	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid);
+    	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$happentime);
     	if(empty($adworder)){
     		return false;
     	}else{
@@ -162,15 +163,14 @@ class AdminController extends Controller
 		$em->flush();
     }
     
-    private function getStatus($uid,$aid){
+    private function getStatus($uid,$aid,$happentime){
     	$em = $this->getDoctrine()->getManager();
-    	$adwStatus = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($uid,$aid);
+    	$adwStatus = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($uid,$aid,$happentime);
     	if(empty($adwStatus))
     		return true;
     	else
     		return false;
     }
-    
     
     
     /**
@@ -197,14 +197,14 @@ class AdminController extends Controller
                 	$name = iconv('gb2312','UTF-8//IGNORE',$v[0]);
                 	$adid = explode("'",$v[7]);
                 	$userId = explode("'",$v[8]);
-                	if($this->getStatus($userId[1],$adid[1])){
+                	if($this->getStatus($userId[1],$adid[1],$v[2])){
                 		if($status == '未通过'){
-                			if(!$this->noCertified($userId[1],$adid[1])){
+                			if(!$this->noCertified($userId[1],$adid[1],$v[2])){
                 				$code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
                 			}
                 		}
                 		if($status == '已认证'){
-                			if(!$this->hasCertified($userId[1],$adid[1])){
+                			if(!$this->hasCertified($userId[1],$adid[1],$v[2])){
                 				$code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
                 			}
                 		}
@@ -802,6 +802,44 @@ class AdminController extends Controller
 		    		'author'=>$author
 					));
     	
+    }
+    
+    /**
+     * @Route("/exchangeCsv", name="_admin_exchangeCsv")
+     */
+    public function exchangeCsvAction()
+    {
+    	$response = new Response();
+    	$em = $this->getDoctrine()->getManager();
+    	$exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo();
+    	$arr['exchange'] = $exchange;
+    	$response =  $this->render('JiliApiBundle:Admin:exchangeCsv.html.twig',$arr);
+    	$response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+//     	$response->headers->set("Content-type","application/vnd.ms-excel; charset=utf-8");
+        $filename = "export".date("YmdHis").".csv";
+        $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
+//         $response->headers->set('Content-Transfer-Encoding', 'binary');
+//         $response->headers->set("Expires","0");
+//         $response->headers->set("Pragma","no-cache");
+        return $response;
+    	
+    }
+    
+    /**
+     * @Route("/exchangeInfo", name="_admin_exchangeInfo")
+     */
+    public function exchangeInfoAction()
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	$exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo();
+    	$paginator  = $this->get('knp_paginator');
+    	$arr['pagination'] = $paginator->paginate(
+    			$exchange,
+    			$this->get('request')->query->get('page', 1),
+    			$this->container->getParameter('page_num')
+    	);
+    	$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+    	return $this->render('JiliApiBundle:Admin:exchangeInfo.html.twig',$arr);
     }
     
     /**
