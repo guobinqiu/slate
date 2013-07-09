@@ -103,14 +103,14 @@ class AdminController extends Controller
     			$raters->setUserId($userId);
     			$raters->setRateAdId($rateAd[0]->getId());
     			$raters->setResultPrice($adworder->getComm());
-    			$raters->setResultIncentive($adworder->getIncentiveRate());
+    			$raters->setResultIncentive($adworder->getIncentive());
     			$em->persist($raters);
     			$em->flush();
     			$user = $em->getRepository('JiliApiBundle:User')->find($userId);
     			$user->setPoints(intval($user->getPoints()+$raters->getResultIncentive()));
     			$em->persist($user);
     			$em->flush();
-    			$this->getPointHistory($userId,$adworder->getIncentiveRate());
+    			$this->getPointHistory($userId,$adworder->getIncentive());
     		}
     		return true;
     	}
