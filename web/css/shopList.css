@@ -1,0 +1,145 @@
+.shopList {
+	margin-top: 30px;
+}
+.shopList article {
+	width: 723px;
+	_margin-right: -15px;
+	float: left;
+	display: inline-block;
+}
+.shopList article h2 {
+	height: 30px;
+	line-height: 30px;
+}
+.shopList ul.shopRecommend {
+	background-color: #FFF;
+	border: 1px solid #ececec;
+	width: 702px;
+	border-right: none;
+	display: inline-block;
+}
+.shopList ul.shopRecommend li {
+	border-right: 1px solid #ECECEC;
+	float: left;
+	height: 140px;
+	padding: 25px 0 0;
+	text-align: center;
+	width: 233px;
+	position: relative;
+}
+.shopList ul.shopRecommend li:hover img{
+	opacity:.8;    
+	Filter:alpha(opacity=80);
+}
+.shopList ul.shopRecommend li p.about {
+	position: absolute;
+	right: 0;
+	top: 0;
+	display: inline-block;
+}
+.shopList ul.shopRecommend li p.about span.store {
+	background-color: #f5602a;
+	display: inline-block;
+	color: #FFF;
+	padding: 0 5px;
+	height: 18px;
+	line-height: 18px;
+}
+.shopList ul.shopRecommend li p.about span.rebate {
+	background-color: #46baf0;
+	display: inline-block;
+	color: #FFF;
+	padding: 0 5px;
+	height: 18px;
+	line-height: 18px;
+}
+.shopList .shopRebate {
+	text-align: center;
+	background: #FFF;
+	width: 700px;
+	margin: 10px 0;
+	border: 1px solid #ececec;
+	border-bottom: none;
+	border-right: none;
+	display: inline-block;
+}
+.shopList .shopRebate .s_box {
+	border: 1px solid #ececec;
+	border-top: none;
+	border-left: none;
+	padding: 15px 0 5px;
+	display: inline-table;
+	position: relative;
+	width: 139px;
+	height: 110px;
+	float: left;
+}
+.shopList .shopRebate .s_box p.store {
+	color: #5d5d5d;
+}
+.shopList .shopRebate .s_box p.rebate {
+	color: #999999;
+}
+.shopList .shopRebate .s_box p.rebate em {
+	color: #ea4b11;
+	font-style: normal;
+}
+.shopList .shopRebate .s_box div.hover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 138px;
+	height: 103px;
+	padding: 20px 0 5px;
+	background-color: #fffcd9;
+	background-image: url(../images/s_box_bg.jpg);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	border: 1px dashed #fb991a;
+	display: none;
+}
+.shopList .shopRebate .s_box div.hover .tr{
+	display: inline-block;
+    float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.shopList .shopRebate .s_box div.hover .img {
+	display: block;
+	float: left;
+	margin: 0px 5px 0px 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.shopList .shopRebate .s_box div.hover .text {
+	display: block;
+	float: left;
+	overflow: hidden;
+}
+.shopList .shopRebate .s_box div.hover .text em, .shopList .shopRebate .s_box div.hover p em {
+	color: #ea4b11;
+	font-size: 14px;
+	font-weight: bold;
+	font-style: normal;
+}
+.shopList .shopRebate .s_box div.hover p {
+	margin: 5px 0;
+}
+.shopList .shopRebate .s_box div.hover p a.btnDetail {
+	background-color: #f5602a;
+	display: inline-block;
+	color: #FFF;
+	border-radius: 0 10px 10px 10px;
+	padding: 0px 5px;
+	margin-right: 5px;
+}
+.shopList .shopRebate .s_box div.hover p a.btnShopping {
+	background-color: #46baf0;
+	display: inline-block;
+	color: #FFF;
+	border-radius: 0 10px 10px 10px;
+	padding: 0px 5px;
+}
+.shopList .shopRebate .s_box div.hover p a:hover {
+	text-decoration: none;
+}

@@ -11,8 +11,15 @@
 <link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
-</head>
+<script type="text/javascript">
+$(document).ready(function(){
+	 {% if code_email==5 %}
+	    window.location.href="{{ path('_default_landing') }}?email={{ email }}&nick={{ nick }}";
+	 {% endif %}
+});
 
+</script>
+</head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle regStep">
@@ -24,10 +31,13 @@
     <form action="{{ path('_user_reg') }}" method="post" name="form1" id="form1" >
     	<li><dd>邮件地址：</dd><dt><input name="email" type="text" class="text" id="email" value="{{ email }}"><br />
     	    <span id="emailError">
-    	    {% if code_email==0%}电子邮件就是您今后登录积粒网的账号
+    	    {% if code_email==0 %}电子邮件就是您今后登录积粒网的账号
     	    {% elseif code_email==1 %}<font color='red'>请输入邮箱</font>
     	    {% elseif code_email==2 %}<font color='red'>邮箱格式不对</font>
-    	    {% else %}<font color='red'>邮箱已经注册</font>
+    	    {% elseif code_email==3 %}<font color='red'>邮箱已注册，但未激活，请重新<a href="{{ path('_user_activeEmail',{'email':email}) }}">激活</a></font>
+    	    {% elseif code_email==4 %}<font color='red'>邮箱已经注册</font>
+    	    {% elseif code_email==6 %}<font color='red'>邮箱已经注册</font>
+    	    {% else %}
     	    {% endif %}
     	    </span>
     	</dt></li>
@@ -51,7 +61,7 @@
         </dt>
          </li>
         <li><dd></dd><dt><!--  <a class="regBtn" href="#">发送验证邮件</a>-->
-        <input type='button' id='reg' class='regBtn' value='发送验证邮件'/>
+        <input type='button' id='reg' class='regBtn' value='快速注册'/>
         </dt></li></form>
     </ul>
     <div class="loginArea">我已经注册，现在就<a class="login" href="{{ path('_user_login') }}">登录</a></div>

@@ -463,6 +463,47 @@ class UserController extends Controller
 		return new Response($code);
 		
 	}
+	/**
+	 * @Route("/activeEmail/{email}", name="_user_activeEmail")
+	 */
+	public function activeEmail($email){
+		$em = $this->getDoctrine()->getManager();
+		$user_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+		$str = 'jiliactiveregister';
+		$code = md5($user_email[0]->getId().str_shuffle($str));
+		$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
+		if($this->sendMail($url,$email,$user_email[0]->getNick())){
+			$setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user_email[0]->getId());
+			$setPasswordCode[0]->setCode($code);
+			$setPasswordCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
+			$em->persist($setPasswordCode[0]);
+			$em->flush();
+			// 					echo 'success';
+			return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user_email[0]->getId()),true));
+		}
+	}
+	
+	
+	public function wenwenEmail($email){
+		$em = $this->getDoctrine()->getManager();
+		$is_wenwen = $em->getRepository('JiliApiBundle:User')->isFromWenwen($email);
+		if(empty($is_wenwen)){
+			$is_wenwen_pwd = $em->getRepository('JiliApiBundle:User')->isWenwenPwd($email);
+			if($is_wenwen_pwd){
+				$code = $this->container->getParameter('init_one');//普通用户已注册
+			}else{
+				$code = $this->container->getParameter('init');//普通用户重新激活
+			}
+		}else{
+			$is_wenwen_pwd = $em->getRepository('JiliApiBundle:User')->isWenwenPwd($email);
+			if($is_wenwen_pwd){
+				$code = $this->container->getParameter('init_two');//91wenwen已注册
+			}else{
+				$code = $this->container->getParameter('init_three');//91wenwen未注册
+			}
+		}
+		return $code;
+	}
 	
 	
 	/**
@@ -489,9 +530,17 @@ class UserController extends Controller
         				}else{
         					$em = $this->getDoctrine()->getManager();
         					$user_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-                    	    if($user_email)
-                    	    	$code_email = $this->container->getParameter('init_three');
-        					else{
+                    	    if($user_email){
+                    	    	$wenwen = $this->wenwenEmail($email);
+                    	    	if($wenwen==$this->container->getParameter('init'))
+                    	    		$code_email = $this->container->getParameter('init_three');//重新激活
+                    	    	if($wenwen==$this->container->getParameter('init_one'))
+                    	    		$code_email = $this->container->getParameter('init_four');//提示已经注册
+                    	    	if($wenwen==$this->container->getParameter('init_two'))
+                    	    		$code_email = $this->container->getParameter('init_six');//提示已经注册
+                    	    	if($wenwen==$this->container->getParameter('init_three'))
+                    	    		$code_email = $this->container->getParameter('init_five');//跳landing 
+                    	    }else{
         						if($nick){
         							$user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
         							if($user_nick)

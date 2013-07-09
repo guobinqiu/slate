@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class AdvertisermentRepository extends EntityRepository
 {
+	
 	public function getSearchAd($title)
 	{
 		$query = $this->createQueryBuilder('a');

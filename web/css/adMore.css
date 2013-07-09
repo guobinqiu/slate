@@ -86,6 +86,7 @@
 	color:#666666;
 }
 .actionTitle .getBtn{
+	text-align: center;
     display: inline-block;
     height: 73px;
     position: absolute;

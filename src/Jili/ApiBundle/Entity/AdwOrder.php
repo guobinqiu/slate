@@ -48,6 +48,13 @@ class AdwOrder
      */
     private $createTime;
     
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="happen_time", type="datetime")
+     */
+    private $happenTime;
+    
 
     /**
      * @var \DateTime
@@ -89,11 +96,25 @@ class AdwOrder
     private $incentiveRate;
     
     /**
+     * @var float
+     *
+     * @ORM\Column(name="comm", type="float")
+     */
+    private $comm;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ocd", type="string", length=100, nullable=true)
+     */
+    private $ocd;
+    
+    /**
      * @var integer
      *
      * @ORM\Column(name="order_price", type="integer")
      */
-    private $oldPrice;
+    private $orderPrice;
     
     
     /**
@@ -190,6 +211,31 @@ class AdwOrder
     {
         return $this->createTime;
     }
+    
+    
+    /**
+     * Set happenTime
+     *
+     * @param \DateTime $happenTime
+     * @return AdwOrder
+     */
+    public function setHappenTime($happenTime)
+    {
+    	$this->happenTime = $happenTime;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get happenTime
+     *
+     * @return \DateTime
+     */
+    public function getHappenTime()
+    {
+    	return $this->happenTime;
+    }
+    
     
     
     
@@ -303,6 +349,55 @@ class AdwOrder
     
     	return $this;
     }
+    
+    /**
+     * Get comm
+     *
+     * @return float
+     */
+    public function getComm()
+    {
+    	return $this->comm;
+    }
+    
+    /**
+     * Set comm
+     *
+     * @param float $comm
+     * @return AdwOrder
+     */
+    public function setComm($comm)
+    {
+    	$this->comm = $comm;
+    
+    	return $this;
+    }
+    
+    
+    /**
+     * Set ocd
+     *
+     * @param string $ocd
+     * @return AdwOrder
+     */
+    public function setOcd($ocd)
+    {
+    	$this->ocd = $ocd;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get ocd
+     *
+     * @return string
+     */
+    public function getOcd()
+    {
+    	return $this->ocd;
+    }
+    
+    
     
     /**
      * Get incentiveRate

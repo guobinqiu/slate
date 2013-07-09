@@ -20,4 +20,28 @@ class UserRepository extends EntityRepository
 		return $query->getResult();
 		
 	}
+	
+	public function isFromWenwen($email)
+	{
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('u.id,u.nick,u.email');
+		$query = $query->Where('u.email = :email');
+		$query = $query->andWhere('u.isFromWenwen = 1');
+		$query = $query->setParameter('email',$email);
+		$query = $query->getQuery();
+		return $query->getResult();
+	
+	}
+	
+	public function isWenwenPwd($email)
+	{
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('u.pwd');
+		$query = $query->Where('u.email = :email');
+		$query = $query->setParameter('email',$email);
+		$query = $query->getQuery();
+		$result = $query->getResult();
+		return $result[0]['pwd'];
+	
+	}
 }
