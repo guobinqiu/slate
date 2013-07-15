@@ -19,8 +19,8 @@ framework:
             version:              ~
             version_format:       %%s?%%s
             base_urls:
-                http:        [http://192.168.1.235]
-                ssl:         [http://192.168.1.235]
+                http:        [www.91jilili.com]
+                ssl:         [www.91jilili.com]
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
