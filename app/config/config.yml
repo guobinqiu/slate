@@ -12,7 +12,15 @@ framework:
     csrf_protection: ~
     validation:      { enable_annotations: true }
     templating:
-        engines: ['twig']
+        engines: [twig]
+        packages:
+        # Prototype
+          cdn1:
+            version:              ~
+            version_format:       %%s?%%s
+            base_urls:
+                http:        [http://192.168.1.235]
+                ssl:         [http://192.168.1.235]
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~

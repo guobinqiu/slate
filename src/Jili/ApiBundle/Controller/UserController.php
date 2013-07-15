@@ -94,11 +94,12 @@ class UserController extends Controller
 	
 	
 	/**
-	 * @Route("/info", name="_user_info")
+	 * @Route("/info", name="_user_info",requirements={"_scheme"="https"})
 	 */
 	public function infoAction()
 	{
 		$code = '';
+		$request = $this->get('request');
 		$codeflag = $this->container->getParameter('init');
 		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
@@ -110,7 +111,6 @@ class UserController extends Controller
 		$adtasteNum = count($adtaste);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
 		$exchange = $exchange->getUserExchange($id,$option);
-		$request = $this->get('request');
 		$sex = $request->request->get('sex');
 		$tel = $request->request->get('tel');
 		if ($request->getMethod() == 'POST') {
@@ -243,7 +243,7 @@ class UserController extends Controller
 	
 
 	/**
-	 * @Route("/login", name="_user_login")
+	 * @Route("/login", name="_user_login",requirements={"_scheme"="https"})
 	 */
 	public function loginAction(){
 		
@@ -507,12 +507,13 @@ class UserController extends Controller
 	
 	
 	/**
-	 * @Route("/reg", name="_user_reg")
+	 * @Route("/reg", name="_user_reg",requirements={"_scheme"="https"})
 	 */
 	public function regAction(){
+		
+		$request = $this->get('request');
 		$user = new User();
 		$form = $this->createForm(new CaptchaType(), array());
-		$request = $this->get('request');
 		$email = $request->request->get('email');
 		$nick = $request->request->get('nick');
 		$code_nick = $this->container->getParameter('init');

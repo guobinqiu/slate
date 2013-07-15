@@ -56,8 +56,8 @@ $(function(){
                 <p class="point">当前米粒数：<span>{{ user.points }}</span></p>
             </div>
             <ul>
-            	<li><a href="{{ path('_user_adtaste',{'type':1}) }}" >我的任务历史</a></li>
-                <li><a href="{{ path('_user_exchange',{'type':1}) }}" >我的兑换历史</a></li>
+            	<li><a href="{{ asset(path('_user_adtaste',{'type':1}),'cdn1') }}" >我的任务历史</a></li>
+                <li><a href="{{ asset(path('_user_exchange',{'type':1}),'cdn1') }}" >我的兑换历史</a></li>
             </ul>
         </div> 
         {% else %}
@@ -66,7 +66,7 @@ $(function(){
             <p><input name="email" type="text" class="text" id="email" value="{{ email }}"></p>
             <p><input name="pwd" type="password" class="password" id="password"></p>
             <p><input name="" id='login' type="image" class="image" src="{{ asset('images/indexLoginBtn.jpg') }}"><label>
-            <input name="remember_me" type="checkbox" value="1" id="rem">记住我</label> | <a class="forget" href="{{ path('_user_resetPwd') }}">忘记密码?</a></span></p> 
+            <input name="remember_me" type="checkbox" value="1" id="rem">记住我</label> | <a class="forget" href="{{ asset(path('_user_resetPwd'),'cdn1') }}">忘记密码?</a></span></p> 
             <p><a class="reg" href="{{ path('_user_reg') }}">免费注册</a></p>
         </div>
         </form>
@@ -76,12 +76,12 @@ $(function(){
     <section class="process"><img src="{{ asset('images/process.jpg')}}" width="960" height="85"></section>
   <section class="main">
     	<article>
-        	<h2><img src="{{ asset('images/hotTask.jpg')}}" width="209" height="19" alt="热门任务"><a class="more" href="{{ path('_advertiserment_list')}}">更多>></a></h2>
+        	<h2><img src="{{ asset('images/hotTask.jpg')}}" width="209" height="19" alt="热门任务"><a class="more" href="{{ asset(path('_advertiserment_list'),'cdn1') }}">更多>></a></h2>
         	
         	{% for item in advertise %}
                <div class="task">
-               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src='{{ asset(item.listImage) }}' /></a>
-                <h3><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.title }}</a></h3>
+               <a href="{{ asset(path('_advertiserment_index',{'id':item.id}),'cdn1') }}"><img src='{{ asset(item.listImage) }}' /></a>
+                <h3><a href="{{ asset(path('_advertiserment_index',{'id':item.id}),'cdn1') }}">{{ item.title }}</a></h3>
                 <p>任务奖励：
                 {% if item.incentiveType==1 %}
                      <span>{{ item.incentive }}</span>米粒
@@ -97,10 +97,10 @@ $(function(){
     </article>
     	<aside>
         	<section style="height:200px;">
-            	<h4>公告<a class="more" href="{{ path('_callboard_index')}}">更多>></a></h4>
+            	<h4>公告<a class="more" href="{{ asset(path('_callboard_index'),'cdn1') }}">更多>></a></h4>
               <ul class="news">
               {% for item in callboard %}
-                	<li><a href="{{ path('_callboard_info',{'id':item.id}) }}"><span>【系统】</span>{{ item.title }}</a></li>
+                	<li><a href="{{ asset(path('_callboard_info',{'id':item.id}),'cdn1') }}"><span>【系统】</span>{{ item.title }}</a></li>
                    
                 {% endfor %}
                    <!--   <li class="last"><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>-->
