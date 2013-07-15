@@ -41,7 +41,7 @@ class ShoppingController extends Controller
 		$arr['pagination'] = $paginator->paginate(
 				$advertise,
 				$this->get('request')->query->get('page', 1),
-				$this->container->getParameter('page_num')
+				25
 		);
 		$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
 		$arr['uid'] = $uid;
