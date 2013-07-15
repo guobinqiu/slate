@@ -4,11 +4,11 @@
     <div id="logo"><a href="{{ path('_default_index') }}"><img src="{{ asset('images/logo.gif')}}"></a></div>
     <nav id="menu">
       <ul>
-        <li><a href="{{ path('_default_index') }}">首页</a></li>
-        <li><a href="{{ path('_advertiserment_list')}}">体验广告</a></li>
-        <li><a href="{{ path('_exchange_index')}}">兑换中心</a></li>
-        <li><a href="{{ path('_default_about')}}">关于我们</a></li>
-        <li class="last"><a href="{{ path('_default_help')}}">帮助中心</a></li>
+        <li><a href="{{ path('_default_index')  }}">首页</a></li>
+        <li><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
+        <li><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
+        <li><a href="{{ asset(path('_default_about'),'cdn1')  }}">关于我们</a></li>
+        <li class="last"><a href="{{ asset(path('_default_help'),'cdn1')  }}">帮助中心</a></li>
       </ul>
     </nav>
   

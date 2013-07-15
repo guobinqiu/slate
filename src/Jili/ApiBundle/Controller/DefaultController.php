@@ -15,8 +15,9 @@ class DefaultController extends Controller
 {
 	
 	/**
-	 * @Route("/", name="_default_index")
-	 */
+	 * @Route("/", name="_default_index",requirements={"_scheme"="https"})
+	 * 
+	 */ 
     public function indexAction()
     {
     	$request = $this->get('request');
@@ -24,7 +25,7 @@ class DefaultController extends Controller
         if ($cookies->has('jili_uid') &&  $cookies->has('jili_nick')){
             $this->get('request')->getSession()->set('uid',$cookies->get('jili_uid'));
             $this->get('request')->getSession()->set('nick',$cookies->get('jili_nick'));
-    	}
+    	}     
     	$arr['user'] = array();
         $em = $this->getDoctrine()->getManager();
         if( $this->get('request')->getSession()->get('uid')){
@@ -137,7 +138,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/landing", name="_default_landing")
+     * @Route("/landing", name="_default_landing",requirements={"_scheme"="https"})
      */
     public function landingAction(){
     	$code = '';
