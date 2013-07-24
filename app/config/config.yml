@@ -19,8 +19,8 @@ framework:
             version:              ~
             version_format:       %%s?%%s
             base_urls:
-                http:        [www.91jilili.com]
-                ssl:         [www.91jilili.com]
+                http:        [http://192.168.1.235]
+                ssl:         [http://192.168.1.235]
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
@@ -115,3 +115,16 @@ parameters:
     init_four: 4
     init_five: 5
     init_six: 6
+    init_seven: 7
+    init_eight: 8
+    init_nine: 9
+    game_type: 小鸡找米
+    game_ad: 游戏广告
+    game_pag: 游戏积分码
+    game_goal: 游戏通关
+    game_rank: 游戏排名
+    game_attend: 游戏全勤
+    game_attend: 游戏全勤
+    certified: 已认证
+    nothrough: 未通过
+
