@@ -161,21 +161,33 @@ $(document).ready(function(){
           <td>
         {{ item.displayName }}
           </td>
-          <td><a href="{{ asset(path('_advertiserment_index',{'id':item.adid}),'cdn1') }}" target="_blank">{{ item.title }}</a> </td>
-          <td>{% if item.incentiveType==1 %}
-                 {{ item.incentive }}米粒
-                {% else %}
+          <td>
+            {% if item.adid %}<a href="{{ asset(path('_advertiserment_index',{'id':item.adid}),'cdn1') }}" target="_blank">{{ item.title }}</a>
+              {% else%}
+              <a href="{{ asset(path('_game_index'),'cdn1') }}" target="_blank">{{ item.title }}</a>
+              {% endif %}  
+          </td>
+          <td>{% if item.incentiveType==2 %}
                      {% if item.orderStatus > 1 %}
                         {{ item.incentive }}米粒
                      {% else %}
-                                                                         最高获消费额{{ item.incentiveRate }}%的米粒{% endif %}
-                 {% endif %}</td>
+                     {% endif %}
+              {% else %}
+                     {{ item.incentive }}米粒
+              {% endif %}</td>
           <td>{{ item.createTime.date }}</td>
-          <td>{% if item.orderStatus==1  %} 已领取
-             {% elseif item.orderStatus==2  %} 确认中
-              {% elseif item.orderStatus==3  %} 已完成
-          {% elseif item.orderStatus==4  %} 任务失败
-          {% else %}{% endif %}
+          <td>{% if item.incentiveType==1 or item.incentiveType==2 %}
+                  {% if item.orderStatus==1  %} 已参加
+                  {% elseif item.orderStatus==2  %} 确认中
+                  {% elseif item.orderStatus==3  %} 已完成
+                  {% elseif item.orderStatus==4  %} 任务失败
+                  {% else %}{% endif %}
+              {% else %}
+                  {% if item.orderStatus==0  %} 确认中
+                  {% elseif item.orderStatus==1  %} 已完成
+                  {% else %} 任务失败
+                  {% endif %}
+              {% endif %}
           </td>
         </tr>
          {% endfor %}

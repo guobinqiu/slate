@@ -1,6 +1,5 @@
 <?php
 namespace Jili\ApiBundle\Controller;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -9,6 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\ApiBundle\Entity\Advertiserment;
+use Jili\ApiBundle\Entity\TaskHistory00;
+use Jili\ApiBundle\Entity\TaskHistory01;
+use Jili\ApiBundle\Entity\TaskHistory02;
+use Jili\ApiBundle\Entity\TaskHistory03;
+use Jili\ApiBundle\Entity\TaskHistory04;
+use Jili\ApiBundle\Entity\TaskHistory05;
+use Jili\ApiBundle\Entity\TaskHistory06;
+use Jili\ApiBundle\Entity\TaskHistory07;
+use Jili\ApiBundle\Entity\TaskHistory08;
+use Jili\ApiBundle\Entity\TaskHistory09;
 
 class AdvertisermentController extends Controller
 {
@@ -104,6 +113,32 @@ class AdvertisermentController extends Controller
 				$adwOrder->setDeleteFlag($this->container->getParameter('init'));
 				$em->persist($adwOrder);
 				$em->flush();
+                if($adwOrder->getIncentiveType()==1){
+                	$parms = array(
+	                  'orderId' => $adwOrder->getId(),
+	                  'userid' => $this->get('request')->getSession()->get('uid'),
+	                  'task_type' => $this->container->getParameter('init_one'),
+	                  'categoryId' => $this->container->getParameter('init_one'),
+	                  'taskName' => $advertiserment[0]['title'],
+	                  'point' => $advertiserment[0]['incentive'],
+	                  'date' => date('Y-m-d H:i:s'),
+	                  'status' => $adwOrder->getOrderStatus()
+	                );
+                }else{
+                	$parms = array(
+	                  'orderId' => $adwOrder->getId(),
+	                  'userid' => $this->get('request')->getSession()->get('uid'),
+	                  'task_type' => $this->container->getParameter('init_one'),
+	                  'categoryId' => $this->container->getParameter('init_two'),
+	                  'taskName' => $advertiserment[0]['title'],
+	                  'point' => 0,
+	                  'date' => date('Y-m-d H:i:s'),
+	                  'status' => $adwOrder->getOrderStatus()
+	                );
+
+                }
+                $this->getTaskHistory($parms);
+
 			}else{
 				$issetOrder = $em->getRepository('JiliApiBundle:AdwOrder')->find($order[0]['id']);
 				$issetOrder->setCreateTime(date_create(date('Y-m-d H:i:s')));
@@ -113,6 +148,59 @@ class AdvertisermentController extends Controller
 		}
 		return new Response($code);
 	}
+
+	private function getTaskHistory($parms=array()){
+	  extract($parms);
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      switch($uid){
+            case 0:
+                  $po = new TaskHistory00();
+                  break;
+            case 1:
+                  $po = new TaskHistory01();
+                  break;
+            case 2:
+                  $po = new TaskHistory02();
+                  break;
+            case 3:
+                  $po = new TaskHistory03();
+                  break;
+            case 4:
+                  $po = new TaskHistory04();
+                  break;
+            case 5:
+                  $po = new TaskHistory05();
+                  break;
+            case 6:
+                  $po = new TaskHistory06();
+                  break;
+            case 7:
+                  $po = new TaskHistory07();
+                  break;
+            case 8:
+                  $po = new TaskHistory08();
+                  break;
+            case 9:
+                  $po = new TaskHistory09();
+                  break;
+      }
+      $em = $this->getDoctrine()->getManager();
+      $po->setOrderId($orderId);
+      $po->setUserId($userid);
+      $po->setTaskType($task_type);
+      $po->setCategoryType($categoryId);
+      $po->setTaskName($taskName);
+      $po->setPoint($point);
+      $po->setDate(date_create($date));
+      $po->setStatus($status);
+      $em->persist($po);
+      $em->flush();
+    }
+
 	
 	
 }

@@ -22,7 +22,8 @@ class AdwOrderRepository extends EntityRepository
 	
 	public function getCpsInfo($uid,$adid){
 		$query = $this->createQueryBuilder('ao');
-		$query = $query->select('ao.id,ao.ocd');
+		$query = $query->select('ao.id,ao.ocd,a.title');
+		$query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
 		$query = $query->Where('ao.adid = :adid');
 		$query = $query->andWhere('ao.userid = :uid');
 		$parameters = array('uid'=>$uid,'adid'=>$adid);
@@ -60,7 +61,8 @@ class AdwOrderRepository extends EntityRepository
 	{
 		$parameters = array();
 		$query = $this->createQueryBuilder('ao');
-        $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime');
+        $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime,a.title');
+        $query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
         $query = $query->Where('ao.userid = :id');
         $query = $query->andWhere('ao.adid = :adid');
         $parameters = array('id'=>$userid,'adid'=>$adid);
@@ -78,6 +80,7 @@ class AdwOrderRepository extends EntityRepository
 		
 	}
 	
+	/*
 	public function getUseradtaste($id,$option=array())
 	{
 		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
@@ -115,6 +118,8 @@ class AdwOrderRepository extends EntityRepository
 		$query = $query->getQuery();
 		return $query->getResult();
 	}
+	*/
+	
 	
 	
 }

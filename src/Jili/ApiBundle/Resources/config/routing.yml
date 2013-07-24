@@ -30,3 +30,7 @@ admin:
     resource: "@JiliApiBundle/Controller/AdminController.php"
     prefix:   /admin
     type:     annotation
+game:
+    resource: "@JiliApiBundle/Controller/GameController.php"
+    prefix:   /game
+    type:     annotation
