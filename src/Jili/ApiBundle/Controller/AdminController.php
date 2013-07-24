@@ -17,6 +17,7 @@ use Jili\ApiBundle\Entity\AdPosition;
 use Jili\ApiBundle\Entity\CallBoard;
 use Jili\ApiBundle\Entity\LimitAd;
 use Jili\ApiBundle\Entity\RateAd;
+use Jili\ApiBundle\Entity\TaskOrder;
 use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\ApiBundle\Entity\PointHistory00;
 use Jili\ApiBundle\Entity\PointHistory01;
@@ -55,6 +56,20 @@ class AdminController extends Controller
         return $this->render('JiliApiBundle:Admin:login.html.twig',array('code'=>$code));
     }
     
+    /**
+     * @Route("/game", name="_admin_game")
+     */
+    public function GameAction(){
+        return $this->render('JiliApiBundle:Admin:game.html.twig');
+    }
+
+    /**
+     * @Route("/gameAd", name="_admin_gameAd")
+     */
+    public function GameAdAction(){
+        return $this->render('JiliApiBundle:Admin:gameAd.html.twig');
+    }
+    
     //没有通过认证
     private function noCertified($userId,$adid,$happentime){
     	$em = $this->getDoctrine()->getManager();
@@ -67,21 +82,43 @@ class AdminController extends Controller
     		$adworder->setOrderStatus($this->container->getParameter('init_four'));
     		$em->persist($adworder);
     		$em->flush();
+            $parms = array(
+              'userid' => $userId,
+              'orderId' => $adworder->getId(),
+              'taskType' => $this->container->getParameter('init_one'),
+              'point' => $adworder->getIncentive(),
+              'date' => date('Y-m-d H:i:s'),
+              'status' => $this->container->getParameter('init_four')
+            );
+            $this->updateTaskHistory($parms);  
     		return true;
+
     	}
     }
     //已经认证
-    private function hasCertified($userId,$adid,$happentime){
+    private function hasCertified($userId,$adid,$happentime,$comm){
     	$em = $this->getDoctrine()->getManager();
     	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$happentime);
     	if(empty($adworder)){
     		return false;
     	}else{
     		$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
+            if($adworder->getIncentiveType()==2){
+                $adworder->setIncentive(intval($comm*30));
+            }
     		$adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')));
     		$adworder->setOrderStatus($this->container->getParameter('init_three'));
     		$em->persist($adworder);
     		$em->flush();
+            $parms = array(
+              'userid' => $userId,
+              'orderId' => $adworder->getId(),
+              'taskType' => $this->container->getParameter('init_one'),
+              'point' => $adworder->getIncentive(),
+              'date' => date('Y-m-d H:i:s'),
+              'status' => $this->container->getParameter('init_three')
+            );
+            $this->updateTaskHistory($parms);  
     		if($adworder->getIncentiveType()==1){
     			$limitAd = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adid);
     			$limitrs = new LimitAdResult();
@@ -115,6 +152,55 @@ class AdminController extends Controller
     		return true;
     	}
     	
+    }
+
+    private function updateTaskHistory($parms=array()){
+      extract($parms);
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      $em = $this->getDoctrine()->getManager();
+      switch($uid){
+            case 0:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory00'); 
+                  break;
+            case 1:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');  
+                  break;
+            case 2:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');  
+                  break;
+            case 3:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory03'); 
+                  break;
+            case 4:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory04'); 
+                  break;
+            case 5:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory05'); 
+                  break;
+            case 6:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory06'); 
+                  break;
+            case 7:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory07'); 
+                  break;
+            case 8:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory08'); 
+                  break;
+            case 9:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
+                  break;
+      }
+      $task_order = $task->getFindOrderId($orderId,$taskType);
+      $po = $task->findById($task_order[0]['id']);
+      $po[0]->setDate(date_create($date));
+      $po[0]->setPoint($point);
+      $po[0]->setStatus($status);
+      $em->persist($po[0]);
+      $em->flush();
     }
     
     private function getPointHistory($userid,$point){
@@ -198,13 +284,13 @@ class AdminController extends Controller
                 	$adid = explode("'",$v[7]);
                 	$userId = explode("'",$v[8]);
                 	if($this->getStatus($userId[1],$adid[1],$v[2])){
-                		if($status == '未通过'){
+                		if($status == $this->container->getParameter('nothrough')){
                 			if(!$this->noCertified($userId[1],$adid[1],$v[2])){
                 				$code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
                 			}
                 		}
-                		if($status == '已认证'){
-                			if(!$this->hasCertified($userId[1],$adid[1],$v[2])){
+                		if($status == $this->container->getParameter('certified')){
+                			if(!$this->hasCertified($userId[1],$adid[1],$v[2],$v[4])){
                 				$code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
                 			}
                 		}
