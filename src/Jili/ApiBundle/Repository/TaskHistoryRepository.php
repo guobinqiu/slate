@@ -59,7 +59,10 @@ class TaskHistoryRepository extends EntityRepository
 	{
 		$query = $this->createQueryBuilder('to');
 		$query = $query->select('to.id,to.status,to.date');
-		$query = $query->innerJoin('JiliApiBundle:AdwOrder', 'ao', 'WITH', 'to.orderId = ao.id');
+		if($taskType==1)
+			$query = $query->innerJoin('JiliApiBundle:AdwOrder', 'ao', 'WITH', 'to.orderId = ao.id');
+		if($taskType==2)
+			$query = $query->innerJoin('JiliApiBundle:PagOrder', 'po', 'WITH', 'to.orderId = po.id');
 		$query = $query->Where('to.orderId = :orderId');
 		$query = $query->andWhere('to.taskType = :taskType');
 		$query = $query->setParameters(array('orderId'=>$orderId,'taskType'=>$taskType));
@@ -67,5 +70,6 @@ class TaskHistoryRepository extends EntityRepository
 		return $query->getResult();
 
 	}
+
 
 }
