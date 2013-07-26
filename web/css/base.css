@@ -1,0 +1,142 @@
+@charset "UTF-8";
+
+/*-------------------------------------------------------------------------------
+  初期スタイルのリセット
+--------------------------------------------------------------------------------*/
+
+/*　共通
+-------------------------------------------------------------------------------*/
+*{
+  margin:0;
+  padding:0;
+  font-family:
+  "ＭＳ Ｐゴシック",
+  Osaka,
+  "ヒラギノ角ゴ Pro W3",
+  "Hiragino Kaku Gothic Pro",
+  "HiraKakuPro-W3",
+  sans-serif;
+  font-style:normal;
+}
+
+
+/*　基本
+-------------------------------------------------------------------------------*/
+html{}
+body{font-size:100%;}
+div{}
+p{line-height: 1.7em;}
+img{border:none;}
+
+
+.red{color: #F00;}
+.fClear{clear:both;}
+
+/*　見出し
+-------------------------------------------------------------------------------*/
+h1{display:none;}
+
+h2, h3, h4, h5, h6{
+  clear:both;
+  margin: 0px;
+}
+h2{}
+h3{}
+h4{}
+h5{}
+h6{}
+
+/*アンカーリンク*/
+a{}
+a:hover{}
+
+/*　リスト
+-------------------------------------------------------------------------------*/
+ul{}
+ol{}
+li{list-style:none;}
+
+
+/*　テーブル
+-------------------------------------------------------------------------------*/
+table{
+  border-collapse:collapse;
+}
+  caption{}
+  table th,
+  table td{}
+  table th{}
+  table td{}
+
+/*　フォーム
+-------------------------------------------------------------------------------*/
+form{}
+fileset{}
+legend{}
+
+/*　frame
+-------------------------------------------------------------------------------*/
+dl.frame{
+    width: 100%;
+    border: 2px solid #98D731;
+    margin-bottom: 25px;
+    }
+    dl.frame dt.frame{
+        background-color: #5BA603;
+        color: #FFF;
+        font-weight: bold;
+        font-size: 130%;
+        padding: 7px;
+        }
+    dl.frame dd.frame{
+        background-color: #FFF;
+        font-size: 110%;
+        padding: 10px;
+        }
+
+
+/*　table_list
+-------------------------------------------------------------------------------*/
+    .table_list{
+        width: 100%;
+        border: 1px #DDD solid;
+        margin-bottom: 15px;
+    }
+    
+    .table_list th{
+        background-color: #FFFEBB;
+        border: 1px #DDD solid;
+        padding: 10px;
+    }
+    
+    .table_list td{
+        border: 1px #DDD solid;
+        padding: 10px;
+    }
+
+
+/*　クリアフィックス
+-------------------------------------------------------------------------------*/
+div:after,
+ul:after,
+ol:after,
+dl:after{
+    content:".";
+    display:block;
+    clear:both;
+    height:0px;
+    visibility:hidden;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix {display: inline-block;}
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */

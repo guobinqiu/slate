@@ -12,10 +12,21 @@ use Jili\ApiBundle\Form\CaptchaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\TaskOrder;
 use Jili\ApiBundle\Entity\PointsExchange;
 use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\setPasswordCode;
 use Gregwar\Captcha\CaptchaBuilder;
+use Jili\ApiBundle\Entity\TaskHistory00;
+use Jili\ApiBundle\Entity\TaskHistory01;
+use Jili\ApiBundle\Entity\TaskHistory02;
+use Jili\ApiBundle\Entity\TaskHistory03;
+use Jili\ApiBundle\Entity\TaskHistory04;
+use Jili\ApiBundle\Entity\TaskHistory05;
+use Jili\ApiBundle\Entity\TaskHistory06;
+use Jili\ApiBundle\Entity\TaskHistory07;
+use Jili\ApiBundle\Entity\TaskHistory08;
+use Jili\ApiBundle\Entity\TaskHistory09;
 
 class UserController extends Controller
 {
@@ -105,9 +116,8 @@ class UserController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$form  = $this->createForm(new RegType(), $user);
-		$adtaste = $em->getRepository('JiliApiBundle:AdwOrder');
-		$option = array('daytype'=>1,'offset'=>'0','limit'=>'10');
-		$adtaste = $adtaste->getUseradtaste($id,$option);
+		$option = array('daytype' => 1 ,'offset'=>'1','limit'=>'10');
+		$adtaste = $this->selTaskHistory($id,$option);
 		$adtasteNum = count($adtaste);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
 		$exchange = $exchange->getUserExchange($id,$option);
@@ -526,7 +536,7 @@ class UserController extends Controller
 			    }else{
 			    	$this->get('request')->getSession()->remove('phrase');
 			    	if($email){
-			    		if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$email)){
+			    		if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$email)){
         					$code_email = $this->container->getParameter('init_two');
         				}else{
         					$em = $this->getDoctrine()->getManager();
@@ -633,6 +643,7 @@ class UserController extends Controller
 		$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
 		return $this->render('JiliApiBundle:User:exchange.html.twig',$arr);
 	}
+
 	
 	/**
 	 * @Route("/adtaste/{type}", name="_user_adtaste")
@@ -640,9 +651,8 @@ class UserController extends Controller
 	public function adtasteAction($type){
 		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
-		$repository = $em->getRepository('JiliApiBundle:AdwOrder');
 		$option = array('daytype' => $type ,'offset'=>'','limit'=>'');
-		$adtaste = $repository->getUseradtaste($id,$option);
+		$adtaste = $this->selTaskHistory($id,$option);
 		$arr['adtaste'] = $adtaste;
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$arr['user'] = $user;
@@ -802,5 +812,59 @@ class UserController extends Controller
 		}
 	
 	}
+
+	private function selTaskHistory($userid,$type){
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      $em = $this->getDoctrine()->getManager();
+      switch($uid){
+            case 0:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory00'); 
+                  break;
+            case 1:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');  
+                  break;
+            case 2:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');  
+                  break;
+            case 3:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory03'); 
+                  break;
+            case 4:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory04'); 
+                  break;
+            case 5:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory05'); 
+                  break;
+            case 6:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory06'); 
+                  break;
+            case 7:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory07'); 
+                  break;
+            case 8:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory08'); 
+                  break;
+            case 9:
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
+                  break;
+      }
+      $option = array('daytype' => $type ,'offset'=>'','limit'=>'');
+      $po = $task->getUseradtaste($userid,$option);
+
+      foreach ($po as $key => $value) {
+			if($value['type']==1){
+				$adUrl = $task->getUserAdwId($value['orderId']);
+				$po[$key]['adid'] = $adUrl[0]['adid'];
+			}else{
+				$po[$key]['adid'] = '';
+			}
+		}
+		return $po;
+
+    }
 	
 }

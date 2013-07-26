@@ -77,11 +77,23 @@ function goto(){
             	      {% if orderStatus==1 %}
         	          <a href="javascript:void(0);" class="getBtn"  onclick="goto();"><img src="{{ asset('images/continueBtn.jpg')}}" /></a> 
             	      {% elseif orderStatus==2 %}
-                       <span class="getBtn"><img src="{{ asset('images/oncheckBtn.jpg')}}" /><a onclick="goto();"> <img src="{{ asset('images/againBuy.jpg')}}" /></a></span>  
+                       <span class="getBtn"><img src="{{ asset('images/oncheckBtn.jpg')}}" />
+                       {% if advertiserment.incentiveType==2 %}
+                             <a onclick="goto();"><img src="{{ asset('images/againBuy.jpg')}}" /></a>
+                        {% endif %} 
+                       </span>  
                          {% elseif orderStatus==3 %}
-                       <span class="getBtn"><img src="{{ asset('images/finishBtn.jpg')}}" /><a onclick="goto();"> <img src="{{ asset('images/againBuy.jpg')}}" /></a></span>  
+                       <span class="getBtn"><img src="{{ asset('images/finishBtn.jpg')}}" />
+                        {% if advertiserment.incentiveType==2 %}
+                             <a onclick="goto();"><img src="{{ asset('images/againBuy.jpg')}}" /></a>
+                        {% endif %} 
+                       </span>  
                           {% elseif orderStatus==4 %} 
-                      <span class="getBtn"><img src="{{ asset('images/unpassBtn.jpg')}}" /><a onclick="goto();"> <img src="{{ asset('images/againBuy.jpg')}}" /></a></span>  
+                      <span class="getBtn"><img src="{{ asset('images/unpassBtn.jpg')}}" />
+                       {% if advertiserment.incentiveType==2 %}
+                             <a onclick="goto();"><img src="{{ asset('images/againBuy.jpg')}}" /></a>
+                        {% endif %}
+                      </span>  
                           {% else %}                                                                                               
         	             {% endif %}
     	      {% else %}

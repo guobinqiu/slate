@@ -1,0 +1,115 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/* ++++++++++++++++++++++++++++++++++++++++++++
+　■container
+++++++++++++++++++++++++++++++++++++++++++++ */
+div#container{
+    margin: 50px auto 0;
+    width: 956px;
+    font-size: 100%;
+    color: #555;
+    padding-bottom: 120px;
+}
+
+
+/* ++++++++++++++++++++++++++++++++++++++++++++
+　■ポイント
+++++++++++++++++++++++++++++++++++++++++++++ */
+div#header{
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+
+/* ++++++++++++++++++++++++++++++++++++++++++++
+　■ポイント
+++++++++++++++++++++++++++++++++++++++++++++ */
+.point_list{}
+    .point_list dt{}
+    .point_list dd{}
+       
+    .point_list dd p{margin-bottom: 15px;}
+    
+    .point_list dd ul{margin-bottom: 15px;}
+    .point_list dd ul li{margin-bottom: 7px;}
+    
+    .point_list dd span{display: block;}
+    
+    
+    /* item
+    ++++++++++++++++++++++++++++++++++++++++++++ */
+    .item_list{
+        width: 48%;
+        float: left;
+        margin-right: 7px;
+    }
+    .item_list dt{
+        font-size: 90%;
+        font-weight: bold;
+        padding: 5px 0;
+       }
+    .item_list dd{
+        padding: 5px 0;
+        font-size: 90%;
+        }
+
+
+/* ++++++++++++++++++++++++++++++++++++++++++++
+　■ゲームの遊び方
+++++++++++++++++++++++++++++++++++++++++++++ */
+.play_game{}
+    .play_game dt{}
+    .play_game dd{}
+    
+    /* step
+    ++++++++++++++++++++++++++++++++++++++++++++ */
+    .step{margin-bottom: 20px;}
+    .step dt{
+        width: 9%;
+        font-size: 120%;
+        font-weight: bold;
+        background-color: #99cc33;
+        padding: 5px;
+        color: #FFF;
+        text-align: center;
+        margin-bottom: 7px;
+    }
+    .step dd{margin-bottom: 5px;}
+    .step dd table{
+        width: 100%;
+        margin: 15px auto;
+    }
+    .step dd table td{width: 48%; padding: 5px;}
+    .step dd table td img{ margin-right: 7px;}
+
+
+/* ++++++++++++++++++++++++++++++++++++++++++++
+　■ゲームで遊ぶときの注意事項
+++++++++++++++++++++++++++++++++++++++++++++ */
+.atn_list{}
+    .atn_list dt{
+        font-size: 120%;
+        font-weight: bold;
+        padding: 5px 0;
+    }
+    .atn_list dd{
+        margin-bottom: 15px;
+    }
+
+    
+/* ++++++++++++++++++++++++++++++++++++++++++++
+　■ゲーム開始
+++++++++++++++++++++++++++++++++++++++++++++ */
+.btn_game_start{
+    width: 100%;
+    margin-bottom: 25px;
+}
+    .btn_game_start a{
+         width: 365px;
+         height: 70px;
+         display: block;
+         margin: 0 auto;
+    }
+    
+    
