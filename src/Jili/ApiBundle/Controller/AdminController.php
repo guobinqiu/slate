@@ -55,6 +55,13 @@ class AdminController extends Controller
     	}
         return $this->render('JiliApiBundle:Admin:login.html.twig',array('code'=>$code));
     }
+
+    /**
+     * @Route("/gameAd", name="_admin_gameAd")
+     */
+    public function GameAdAction(){
+        return $this->render('JiliApiBundle:Admin:gameAd.html.twig');
+    }
     
     /**
      * @Route("/game", name="_admin_game")
@@ -64,10 +71,10 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/gameAd", name="_admin_gameAd")
+     * @Route("/adwAd", name="_admin_adwAd")
      */
-    public function GameAdAction(){
-        return $this->render('JiliApiBundle:Admin:gameAd.html.twig');
+    public function AdwAdAction(){
+        return $this->render('JiliApiBundle:Admin:adwAd.html.twig');
     }
     
     //没有通过认证
@@ -128,11 +135,12 @@ class AdminController extends Controller
     			$limitrs->setResultIncentive($adworder->getIncentive());
     			$em->persist($limitrs);
     			$em->flush();
+                $this->getPointHistory($userId,$adworder->getIncentive());
     			$user = $em->getRepository('JiliApiBundle:User')->find($userId);
     			$user->setPoints(intval($user->getPoints()+$adworder->getIncentive()));
     			$em->persist($user);
     			$em->flush();
-    			$this->getPointHistory($userId,$adworder->getIncentive());
+		
     		}else{
     			$rateAd = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adid);
     			$raters = new RateAdResult();
@@ -143,11 +151,12 @@ class AdminController extends Controller
     			$raters->setResultIncentive($adworder->getIncentive());
     			$em->persist($raters);
     			$em->flush();
+                $this->getPointHistory($userId,$adworder->getIncentive());
     			$user = $em->getRepository('JiliApiBundle:User')->find($userId);
     			$user->setPoints(intval($user->getPoints()+$raters->getResultIncentive()));
     			$em->persist($user);
     			$em->flush();
-    			$this->getPointHistory($userId,$adworder->getIncentive());
+    			
     		}
     		return true;
     	}
