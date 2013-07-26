@@ -151,7 +151,7 @@ class ApiController extends Controller
 	}
 
       /**
-     * @Route("/getGamePoint", name="_api_getPoint")  
+     * @Route("/getGamePoint", name="_api_getGamePoint")  
      */
     public function getGamePointAction(){
         $request = $this->get('request');
