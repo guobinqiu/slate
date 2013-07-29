@@ -154,115 +154,118 @@ class ApiController extends Controller
      * @Route("/getGamePoint", name="_api_getGamePoint")  
      */
     public function getGamePointAction(){
-        $request = $this->get('request');
-        $point_uid = $request->request->get('point_uid');
-        $point = $request->request->get('game_point');
-        $date = $request->request->get('game_date');
-        $time = $request->request->get('game_time');
-        $score = $request->request->get('game_score');
-        if(!$score) $score = 0;
-        $type = $request->request->get('game_type');
-        if(!$type) $type = 0;
-        $massPoint = $request->request->get('mass_point');
-        if(!$massPoint) $massPoint = 0;
-        $goalPoint = $request->request->get('goal_point');
-        if(!$goalPoint) $goalPoint = 0;
-        $rankingPoint = $request->request->get('ranking_point');
-        if(!$rankingPoint) $rankingPoint = 0;
-        $attendancePoint = $request->request->get('attendance_point');
-        if(!$attendancePoint) $attendancePoint = 0;
-        $total = $massPoint + $goalPoint + $rankingPoint + $attendancePoint;
-        $em = $this->getDoctrine()->getManager();
-        if($point_uid && $point && $date && $time){
-            $isset_user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
-            if($isset_user){
-                  if($point == $total){
-                        $rs = $em->getRepository('JiliApiBundle:GameLog')->getGameInfo($point_uid,$date);
-                        if(empty($rs)){
-                              $gamelog = new GameLog();
-                              $gamelog->setPointUid($point_uid);
-                              $gamelog->setGamePoint($point);
-                              $gamelog->setGameDate($date);
-                              $gamelog->setGameTime($time);
-                              $gamelog->setGameScore($score);
-                              $gamelog->setGameType($type);
-                              $gamelog->setMassPoint($massPoint);
-                              $gamelog->setGoalPoint($goalPoint);
-                              $gamelog->setRankingPoint($rankingPoint);
-                              $gamelog->setAttendancePoint($attendancePoint);
-                              $em->persist($gamelog);
-                              $em->flush();       
-                              if($massPoint && $massPoint>0){
-                                  $parms = array(
-                                    'orderId' => 0,
-                                    'userid' => $point_uid,
-                                    'task_type' => $this->container->getParameter('init_three'),
-                                    'categoryId' => $this->container->getParameter('init_four'),
-                                    'taskName' => $this->container->getParameter('game_type'),
-                                    'point' => $massPoint,
-                                    'date' => $this->getDateTime($time),
-                                    'status' => $this->container->getParameter('init_one')
-                                  );
-                                  $this->getTaskHistory($parms);
-                                  $this->getPoint($point_uid,$massPoint,$this->container->getParameter('init_four'));
-                              }
-                              if($goalPoint && $goalPoint>0){
-                                 $parms = array(
-                                    'orderId' => 0,
-                                    'userid' => $point_uid,
-                                    'task_type' => $this->container->getParameter('init_three'),
-                                    'categoryId' => $this->container->getParameter('init_five'),
-                                    'taskName' => $this->container->getParameter('game_type'),
-                                    'point' => $goalPoint,
-                                    'date' => $this->getDateTime($time),
-                                    'status' => $this->container->getParameter('init_one')
-                                  );
-                                  $this->getTaskHistory($parms);
-                                  $this->getPoint($point_uid,$goalPoint,$this->container->getParameter('init_five'));
-                              }
-                              if($rankingPoint && $rankingPoint>0){
-                                  $parms = array(
-                                    'orderId' => 0,
-                                    'userid' => $point_uid,
-                                    'task_type' => $this->container->getParameter('init_three'),
-                                    'categoryId' => $this->container->getParameter('init_six'),
-                                    'taskName' => $this->container->getParameter('game_type'),
-                                    'point' => $rankingPoint,
-                                    'date' => $this->getDateTime($time),
-                                    'status' => $this->container->getParameter('init_one')
-                                  );
-                                  $this->getTaskHistory($parms);
-                                  $this->getPoint($point_uid,$rankingPoint,$this->container->getParameter('init_six'));
-                              }
-                              if($attendancePoint && $attendancePoint>0){
-                                 $parms = array(
-                                    'orderId' => 0,
-                                    'userid' => $point_uid,
-                                    'task_type' => $this->container->getParameter('init_three'),
-                                    'categoryId' => $this->container->getParameter('init_seven'),
-                                    'taskName' => $this->container->getParameter('game_type'),
-                                    'point' => $attendancePoint,
-                                    'date' => $this->getDateTime($time),
-                                    'status' => $this->container->getParameter('init_one')
-                                  );
-                                  $this->getTaskHistory($parms);                                  
-                                  $this->getPoint($point_uid,$attendancePoint,$this->container->getParameter('init_seven'));
-                              }
-                              $user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
-                              $user->setPoints(intval($user->getPoints()+$point));
-                              $em->persist($user);
-                              $em->flush();
-                              $code = 'OK';
-                        }else
-                              $code = 'RB';  
+        if($_SERVER['REMOTE_ADDR']=='210.149.97.219' || $_SERVER['REMOTE_ADDR']=='112.65.174.206'){
+            $request = $this->get('request');
+            $point_uid = $request->request->get('point_uid');
+            $point = $request->request->get('game_point');
+            $date = $request->request->get('game_date');
+            $time = $request->request->get('game_time');
+            $score = $request->request->get('game_score');
+            if(!$score) $score = 0;
+            $type = $request->request->get('game_type');
+            if(!$type) $type = 0;
+            $massPoint = $request->request->get('mass_point');
+            if(!$massPoint) $massPoint = 0;
+            $goalPoint = $request->request->get('goal_point');
+            if(!$goalPoint) $goalPoint = 0;
+            $rankingPoint = $request->request->get('ranking_point');
+            if(!$rankingPoint) $rankingPoint = 0;
+            $attendancePoint = $request->request->get('attendance_point');
+            if(!$attendancePoint) $attendancePoint = 0;
+            $total = $massPoint + $goalPoint + $rankingPoint + $attendancePoint;
+            $em = $this->getDoctrine()->getManager();
+            if($point_uid && $point && $date && $time){
+                $isset_user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
+                if($isset_user){
+                      if($point == $total){
+                            $rs = $em->getRepository('JiliApiBundle:GameLog')->getGameInfo($point_uid,$date);
+                            if(empty($rs)){
+                                  $gamelog = new GameLog();
+                                  $gamelog->setPointUid($point_uid);
+                                  $gamelog->setGamePoint($point);
+                                  $gamelog->setGameDate($date);
+                                  $gamelog->setGameTime($time);
+                                  $gamelog->setGameScore($score);
+                                  $gamelog->setGameType($type);
+                                  $gamelog->setMassPoint($massPoint);
+                                  $gamelog->setGoalPoint($goalPoint);
+                                  $gamelog->setRankingPoint($rankingPoint);
+                                  $gamelog->setAttendancePoint($attendancePoint);
+                                  $em->persist($gamelog);
+                                  $em->flush();       
+                                  if($massPoint && $massPoint>0){
+                                      $parms = array(
+                                        'orderId' => 0,
+                                        'userid' => $point_uid,
+                                        'task_type' => $this->container->getParameter('init_three'),
+                                        'categoryId' => $this->container->getParameter('init_four'),
+                                        'taskName' => $this->container->getParameter('game_type'),
+                                        'point' => $massPoint,
+                                        'date' => $this->getDateTime($time),
+                                        'status' => $this->container->getParameter('init_one')
+                                      );
+                                      $this->getTaskHistory($parms);
+                                      $this->getPoint($point_uid,$massPoint,$this->container->getParameter('init_four'));
+                                  }
+                                  if($goalPoint && $goalPoint>0){
+                                     $parms = array(
+                                        'orderId' => 0,
+                                        'userid' => $point_uid,
+                                        'task_type' => $this->container->getParameter('init_three'),
+                                        'categoryId' => $this->container->getParameter('init_five'),
+                                        'taskName' => $this->container->getParameter('game_type'),
+                                        'point' => $goalPoint,
+                                        'date' => $this->getDateTime($time),
+                                        'status' => $this->container->getParameter('init_one')
+                                      );
+                                      $this->getTaskHistory($parms);
+                                      $this->getPoint($point_uid,$goalPoint,$this->container->getParameter('init_five'));
+                                  }
+                                  if($rankingPoint && $rankingPoint>0){
+                                      $parms = array(
+                                        'orderId' => 0,
+                                        'userid' => $point_uid,
+                                        'task_type' => $this->container->getParameter('init_three'),
+                                        'categoryId' => $this->container->getParameter('init_six'),
+                                        'taskName' => $this->container->getParameter('game_type'),
+                                        'point' => $rankingPoint,
+                                        'date' => $this->getDateTime($time),
+                                        'status' => $this->container->getParameter('init_one')
+                                      );
+                                      $this->getTaskHistory($parms);
+                                      $this->getPoint($point_uid,$rankingPoint,$this->container->getParameter('init_six'));
+                                  }
+                                  if($attendancePoint && $attendancePoint>0){
+                                     $parms = array(
+                                        'orderId' => 0,
+                                        'userid' => $point_uid,
+                                        'task_type' => $this->container->getParameter('init_three'),
+                                        'categoryId' => $this->container->getParameter('init_seven'),
+                                        'taskName' => $this->container->getParameter('game_type'),
+                                        'point' => $attendancePoint,
+                                        'date' => $this->getDateTime($time),
+                                        'status' => $this->container->getParameter('init_one')
+                                      );
+                                      $this->getTaskHistory($parms);                                  
+                                      $this->getPoint($point_uid,$attendancePoint,$this->container->getParameter('init_seven'));
+                                  }
+                                  $user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
+                                  $user->setPoints(intval($user->getPoints()+$point));
+                                  $em->persist($user);
+                                  $em->flush();
+                                  $code = 'OK';
+                            }else
+                                  $code = 'RB';  
 
-                  }else
-                        $code = 'PF';   
+                      }else
+                            $code = 'PF';   
+                }else
+                      $code = 'NM'; 
             }else
-                  $code = 'NM'; 
-        }else
-            $code = 'PF';     
-
+                $code = 'PF';     
+        }else{
+            $code = '';
+        }
         return new Response($code);
  
     }
@@ -292,88 +295,92 @@ class ApiController extends Controller
      * @Route("/getGameAd", name="_api_getGameAd")
      */
     public function getGameAdAction(){
-        $request = $this->get('request'); 
-        $session_id = $request->request->get('session_id');
-        $point_uid = $request->request->get('point_uid');
-        $point_pid = $request->request->get('point_pid');
-        $date = $request->request->get('date');
-        $date2 = $request->request->get('date2');
-        $price = $request->request->get('price');
-        $status = $request->request->get('status');
-        $amounts = $request->request->get('amounts');
-        $point = $request->request->get('point');
-        $em = $this->getDoctrine()->getManager();
-        if($session_id && $point_uid && $point_pid && $date && $date2 && $price && $status!='' && $amounts && $point){
-                $confireTime = $this->getDateTime($date); 
-                $pag = $em->getRepository('JiliApiBundle:PagOrder')->findBySessionId($session_id); 
-                if(empty($pag)){
-                    $pagorder = new PagOrder();
-                    $pagorder->setSessionId($session_id);
-                    $pagorder->setPointUid($point_uid);
-                    $pagorder->setPointPid($point_pid);            
-                    $pagorder->setDate($date);
-                    $pagorder->setDate2($date2);
-                    $pagorder->setPrice($price);
-                    $pagorder->setStatus($status);
-                    $pagorder->setAmounts($amounts);
-                    $pagorder->setPoint($point);
-                    $em->persist($pagorder);
-                    $em->flush();
-                    $parms = array(
-                      'orderId' => $pagorder->getId(),
-                      'userid' => $point_uid,
-                      'task_type' => $this->container->getParameter('init_two'),
-                      'categoryId' => $this->container->getParameter('init_three'),
-                      'taskName' => $this->container->getParameter('game_type'),
-                      'point' => $point,
-                      'date' => $confireTime,
-                      'status' => $status
-                    );
-                    $this->getTaskHistory($parms); 
-                    if($status==1){
-                      $this->getPoint($point_uid,$point,$this->container->getParameter('init_three'));
-                      $user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
-                      $user->setPoints(intval($user->getPoints()+$point));
-                      $em->persist($user);
-                      $em->flush();
-                    }  
-                    $code = 'yes';
-
-                }else{  
-                    if($status == $pag[0]->getStatus()){
-                      $code = '';
-                    }else{
-                      if($pag[0]->getStatus()==1){
-                        $code = '';
-                      }else{
-                        $pag[0]->setDate($date);
-                        $pag[0]->setPoint($point);
-                        $pag[0]->setStatus($status);     
-                        $em->persist($pag[0]);
+        if($_SERVER['REMOTE_ADDR']=='210.149.66.167' || $_SERVER['REMOTE_ADDR']=='112.65.174.206'){
+            $request = $this->get('request'); 
+            $session_id = $request->request->get('session_id');
+            $point_uid = $request->request->get('point_uid');
+            $point_pid = $request->request->get('point_pid');
+            $date = $request->request->get('date');
+            $date2 = $request->request->get('date2');
+            $price = $request->request->get('price');
+            $status = $request->request->get('status');
+            $amounts = $request->request->get('amounts');
+            $point = $request->request->get('point');
+            $em = $this->getDoctrine()->getManager();
+            if($session_id && $point_uid && $point_pid && $date && $date2 && $price && $status!='' && $amounts && $point){
+                    $confireTime = $this->getDateTime($date); 
+                    $pag = $em->getRepository('JiliApiBundle:PagOrder')->findBySessionId($session_id); 
+                    if(empty($pag)){
+                        $pagorder = new PagOrder();
+                        $pagorder->setSessionId($session_id);
+                        $pagorder->setPointUid($point_uid);
+                        $pagorder->setPointPid($point_pid);            
+                        $pagorder->setDate($date);
+                        $pagorder->setDate2($date2);
+                        $pagorder->setPrice($price);
+                        $pagorder->setStatus($status);
+                        $pagorder->setAmounts($amounts);
+                        $pagorder->setPoint($point);
+                        $em->persist($pagorder);
                         $em->flush();
                         $parms = array(
+                          'orderId' => $pagorder->getId(),
                           'userid' => $point_uid,
-                          'orderId' => $pag[0]->getId(),
-                          'taskType' => $this->container->getParameter('init_two'),
+                          'task_type' => $this->container->getParameter('init_two'),
+                          'categoryId' => $this->container->getParameter('init_three'),
+                          'taskName' => $this->container->getParameter('game_type'),
                           'point' => $point,
                           'date' => $confireTime,
                           'status' => $status
                         );
-                        $this->updateTaskHistory($parms); 
+                        $this->getTaskHistory($parms); 
                         if($status==1){
                           $this->getPoint($point_uid,$point,$this->container->getParameter('init_three'));
                           $user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
                           $user->setPoints(intval($user->getPoints()+$point));
                           $em->persist($user);
-                          $em->flush(); 
-                        }
+                          $em->flush();
+                        }  
                         $code = 'yes';
-                      }
-                    }      
-                }
-             
+
+                    }else{  
+                        if($status == $pag[0]->getStatus()){
+                          $code = '';
+                        }else{
+                          if($pag[0]->getStatus()==1){
+                            $code = '';
+                          }else{
+                            $pag[0]->setDate($date);
+                            $pag[0]->setPoint($point);
+                            $pag[0]->setStatus($status);     
+                            $em->persist($pag[0]);
+                            $em->flush();
+                            $parms = array(
+                              'userid' => $point_uid,
+                              'orderId' => $pag[0]->getId(),
+                              'taskType' => $this->container->getParameter('init_two'),
+                              'point' => $point,
+                              'date' => $confireTime,
+                              'status' => $status
+                            );
+                            $this->updateTaskHistory($parms); 
+                            if($status==1){
+                              $this->getPoint($point_uid,$point,$this->container->getParameter('init_three'));
+                              $user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
+                              $user->setPoints(intval($user->getPoints()+$point));
+                              $em->persist($user);
+                              $em->flush(); 
+                            }
+                            $code = 'yes';
+                          }
+                        }      
+                    }
+                 
+            }else{
+              $code = '';
+            }
         }else{
-          $code = '';
+            $code = '';          
         }
         return new Response($code);
 
