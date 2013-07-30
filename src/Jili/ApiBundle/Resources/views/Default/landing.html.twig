@@ -45,16 +45,19 @@ function fastreg(){
               <tbody>
                 <tr>
                   <td class="form_l">邮箱地址：</td>
-                  <td><span>{{ app.session.get('email') }}</span><span style="margin:0 0 0 52px;"><a href="{{ path('_user_reg') }}" style="color:#ea5922;">用其它邮箱注册</a></span></td>
+                  <td><span>{{ email }}</span></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td><td><a href="{{ path('_user_reg') }}" style="color:#ea5922;">用其它邮箱注册</a></td>
                 </tr>
                 {% if is_user==1 %}
                      <tr>
-                      <td colspan="2" align="center">你已经注册过,请<a href="{{ path('_user_login') }}">登录</a></td>
+                      <td>&nbsp;</td><td>你已经注册过,请<a href="{{ path('_user_login') }}">登录</a></td>
                     </tr>
                 {% else %}
                      <tr>
                       <td class="form_l">昵称：</td>
-                      <td><input type="text" value="{% if nick %}{{ nick }}{% else %}{% if fornick %}{{ fornick }}{% endif %}{% endif %}" tabindex="1" name="nick" class="frame1"></td>
+                      <td><input type="text" value="{% if nick %}{{ nick }}{% endif %}" tabindex="1" name="nick" class="frame1"></td>
                     </tr>
                     <tr>
                       <td class="form_l">密码：</td>

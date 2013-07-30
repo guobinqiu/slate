@@ -493,34 +493,42 @@ class UserController extends Controller
 		}
 	}
 	
-	
-	public function wenwenEmail($email){
+	public function issetReg($email){
 		$em = $this->getDoctrine()->getManager();
-		$is_wenwen = $em->getRepository('JiliApiBundle:User')->isFromWenwen($email);
-		if(empty($is_wenwen)){
-			$is_wenwen_pwd = $em->getRepository('JiliApiBundle:User')->isWenwenPwd($email);
-			if($is_wenwen_pwd){
-				$code = $this->container->getParameter('init_one');//普通用户已注册
-			}else{
-				$code = $this->container->getParameter('init');//普通用户重新激活
-			}
+		$is_pwd = $em->getRepository('JiliApiBundle:User')->isPwd($email);
+		if($is_pwd){
+			$code = $this->container->getParameter('init_one');//用户已注册
 		}else{
-			$is_wenwen_pwd = $em->getRepository('JiliApiBundle:User')->isWenwenPwd($email);
-			if($is_wenwen_pwd){
-				$code = $this->container->getParameter('init_two');//91wenwen已注册
-			}else{
-				$code = $this->container->getParameter('init_three');//91wenwen未注册
-			}
+			$code = $this->container->getParameter('init_two');//用户未注册	
 		}
 		return $code;
 	}
+	// public function wenwenEmail($email){
+	// 	$em = $this->getDoctrine()->getManager();
+	// 	$is_wenwen = $em->getRepository('JiliApiBundle:User')->isFromWenwen($email);
+	// 	if(empty($is_wenwen)){
+	// 		$is_wenwen_pwd = $em->getRepository('JiliApiBundle:User')->isWenwenPwd($email);
+	// 		if($is_wenwen_pwd){
+	// 			$code = $this->container->getParameter('init_one');//普通用户已注册
+	// 		}else{
+	// 			$code = $this->container->getParameter('init');//普通用户重新激活
+	// 		}
+	// 	}else{
+	// 		$is_wenwen_pwd = $em->getRepository('JiliApiBundle:User')->isWenwenPwd($email);
+	// 		if($is_wenwen_pwd){
+	// 			$code = $this->container->getParameter('init_two');//91wenwen已注册
+	// 		}else{
+	// 			$code = $this->container->getParameter('init_three');//91wenwen未注册
+	// 		}
+	// 	}
+	// 	return $code;
+	// }
 	
 	
 	/**
 	 * @Route("/reg", name="_user_reg",requirements={"_scheme"="https"})
 	 */
 	public function regAction(){
-		
 		$request = $this->get('request');
 		$user = new User();
 		$form = $this->createForm(new CaptchaType(), array());
@@ -542,15 +550,11 @@ class UserController extends Controller
         					$em = $this->getDoctrine()->getManager();
         					$user_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
                     	    if($user_email){
-                    	    	$wenwen = $this->wenwenEmail($email);
-                    	    	if($wenwen==$this->container->getParameter('init'))
-                    	    		$code_email = $this->container->getParameter('init_three');//重新激活
+                    	    	$wenwen = $this->issetReg($email);
                     	    	if($wenwen==$this->container->getParameter('init_one'))
-                    	    		$code_email = $this->container->getParameter('init_four');//提示已经注册
+                    	    		$code_email = $this->container->getParameter('init_four');//重新激活
                     	    	if($wenwen==$this->container->getParameter('init_two'))
-                    	    		$code_email = $this->container->getParameter('init_six');//提示已经注册
-                    	    	if($wenwen==$this->container->getParameter('init_three'))
-                    	    		$code_email = $this->container->getParameter('init_five');//跳landing 
+                    	    		$code_email = $this->container->getParameter('init_three');//提示已经注册
                     	    }else{
         						if($nick){
         							$user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);

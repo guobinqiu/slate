@@ -7,6 +7,31 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class UserRepository extends EntityRepository
 {
+    
+	public function findNick($email,$nick)
+	{
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('u.id');
+		$query = $query->Where('u.nick = :nick');
+		$query = $query->andWhere('u.email <> :email');
+		$query = $query->setParameters(array('email'=>$email,'nick'=>$nick));
+		$query =  $query->getQuery();
+		return $query->getResult();
+		
+	}
+
+	public function getWenwenUser($email)
+	{
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('u.id');
+		$query = $query->Where('u.email = :email');
+		$query = $query->andWhere('u.pwd is not null');
+		$query = $query->setParameter('email',$email);
+		$query =  $query->getQuery();
+		return $query->getResult();
+		
+	}
+
 	public function getUserList($id)
 	{
 		$query = $this->createQueryBuilder('u');
@@ -33,7 +58,7 @@ class UserRepository extends EntityRepository
 	
 	}
 	
-	public function isWenwenPwd($email)
+	public function isPwd($email)
 	{
 		$query = $this->createQueryBuilder('u');
 		$query = $query->select('u.pwd');
