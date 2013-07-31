@@ -619,6 +619,9 @@ class UserController extends Controller
 	 */
 	public function captchaAction(){
 	    $builder = new CaptchaBuilder;
+	    $builder->setBackgroundColor(255,255,255);
+	    $builder->setMaxBehindLines(0);
+	    $builder->setMaxFrontLines(0);
 	    $builder->build();
 	    header('Content-type: image/jpeg');
 	    $builder->output();
