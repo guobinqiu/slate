@@ -30,7 +30,10 @@ class  CallboardController extends Controller
     public function infoAction($id){
     	$em = $this->getDoctrine()->getManager();
     	$callboard = $em->getRepository('JiliApiBundle:Callboard')->find($id);
-    	$arr['callboard'] = $callboard;
+        if($callboard)
+    	    $arr['callboard'] = $callboard;
+        else
+            return $this->redirect($this->generateUrl('_default_error'));
     	return $this->render('JiliApiBundle:Callboard:info.html.twig',$arr);
     	
     }
