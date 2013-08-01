@@ -59,7 +59,7 @@ function goto(aid){
          {% if item.incentiveType==1 %}
                      <span class="rebate">{{ item.incentive }}米粒</span>
              {% elseif item.incentiveType==2 %}
-                     <span class="rebate">最高返{{ item.incentiveRate }}%的米粒</span>
+                     <span class="rebate">最高返{{ item.incentiveRate/100 }}%</span>
              {% else %}
              {% endif %}
         </p>
