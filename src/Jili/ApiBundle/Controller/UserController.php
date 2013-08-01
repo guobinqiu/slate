@@ -256,9 +256,14 @@ class UserController extends Controller
 	 * @Route("/login", name="_user_login",requirements={"_scheme"="https"})
 	 */
 	public function loginAction(){
-		
-		$code = $this->container->getParameter('init');
+		$session = new Session();
+		$session->start();
 		$request = $this->get('request');
+		$goToUrl = $request->headers->get('referer');
+		if(substr($goToUrl, -10) != 'user/login'){
+			$session->set('goToUrl', $goToUrl);
+		}
+		$code = $this->container->getParameter('init');
 		$email = $request->request->get('email');
 		$pwd = $request->request->get('pwd');
 		if ($request->getMethod() == 'POST'){
@@ -280,8 +285,7 @@ class UserController extends Controller
 							// 		    			echo 'pwd is error!';
 							$code = $this->container->getParameter('init_one');
 						}else{
-							$session = new Session();
-							$session->start();
+							
 							if($request->request->get('remember_me')=='1'){
 								setcookie("jili_uid", $id, time() + 3600 * 24 * 365,'/');
 								setcookie("jili_nick",$user->getNick(), time() + 3600 * 24 * 365,'/');
@@ -309,7 +313,9 @@ class UserController extends Controller
 							$loginlog->setLoginIp($this->get('request')->getClientIp());
 							$em->persist($loginlog);
 							$em->flush();
-							return $this->redirect($this->generateUrl('_default_index'));
+							$current_url = $request->getSession()->get('goToUrl');
+							$request->getSession()->remove('goToUrl');
+							return $this->redirect($current_url);
 						}
 					}
 			    }
@@ -327,7 +333,10 @@ class UserController extends Controller
 	public function checkRegAction($id){
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		$info = $em->getRepository('JiliApiBundle:User')->getUserList($id);
+		if($user)
+			$info = $em->getRepository('JiliApiBundle:User')->getUserList($id);
+		else
+			return $this->redirect($this->generateUrl('_default_error'));
 		$arr['gotoEmial'] = $user->gotomail($info[0]['email']);
 		$arr['user'] = $info[0];
 		return $this->render('JiliApiBundle:User:checkReg.html.twig',$arr);
