@@ -90,7 +90,8 @@ function addClass(type){
           <td>{% if item.status %} 兑换成功  {% else %} 处理中 {% endif %}</td>
         </tr>
         {% endfor %}
-         {%  endif %}
+        <tr><td align="center" colspan="5">没有兑换记录</td></tr>
+      {% endif %}
        
     </table>
     {{ knp_pagination_render(pagination) }}

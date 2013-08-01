@@ -115,7 +115,9 @@ function addClass(type){
           </td>
         </tr>
          {% endfor %}
-         {%  endif %}
+       {% else %}
+      <tr><td align="center" colspan="5">没有任务记录</td></tr>
+      {% endif %}
          
     </table>
     {{ knp_pagination_render(pagination) }}
