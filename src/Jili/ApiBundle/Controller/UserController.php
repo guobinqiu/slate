@@ -258,6 +258,9 @@ class UserController extends Controller
 	public function loginAction(){
 		$session = new Session();
 		$session->start();
+		if($this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_default_index'));
+        }
 		$request = $this->get('request');
 		$goToUrl = $request->headers->get('referer');
 		if(substr($goToUrl, -10) != 'user/login'){
@@ -300,7 +303,7 @@ class UserController extends Controller
 // 									var_dump($cookies->get('uid'));
 // 								}
 							}
-						
+							
 							$session->set('uid', $id);
 							$session->set('nick', $user->getNick());
 							$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
@@ -538,6 +541,9 @@ class UserController extends Controller
 	 * @Route("/reg", name="_user_reg",requirements={"_scheme"="https"})
 	 */
 	public function regAction(){
+		if($this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_default_index'));
+        }
 		$request = $this->get('request');
 		$user = new User();
 		$form = $this->createForm(new CaptchaType(), array());
