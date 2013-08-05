@@ -75,16 +75,32 @@
 	Filter:alpha(opacity=80);
 	text-decoration:none;
 }
-.info{
+.info, .ad{
 	position:relative;
 }
-.info a.edit{
+.ad p.prompt {
+    background: url("../images/adv_prompt_icon.png") no-repeat scroll left center transparent;
+    color: #DBA400;
+    display: block;
+    font-weight: normal;
+    line-height: 30px;
+    padding: 0 0 0 44px;
+    position: absolute;
+    top: 15px;
+}
+.info a.edit, .ad a.more{
 	position:absolute;
 	right:20px;
 	top:20px;
 	color:#54b9e8;
 	text-decoration:none;
 }
+.personal .photo a.edit{
+	position:absolute;
+	color:#54b9e8;
+	text-decoration:none;
+}
+
 .info ul {
 	padding: 20px 0;
 }
