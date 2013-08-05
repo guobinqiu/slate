@@ -62,25 +62,31 @@ header #logo {
 }
 header nav#menu {
 	margin-left:180px;
-	padding-top: 35px;
+	padding-top: 31px;
+	float:left;
 }
 header nav#menu ul li{
 	float:left;
-	border-right:1px dotted #f5a588;
-	padding: 0 10px;
+	height: 38px;
+	line-height:38px;
 }
-header nav#menu ul li.last{
+header nav#menu ul li:hover{
+	background-color:#d33c0d;
+	
+}
+header nav#menu ul li.last a{
 	border-right:none;
 }
 header nav#menu ul li a{
 	color:#FFF;
 	font-size:16px;
-	padding:3px 10px;
-	display:inline-block;
+	padding:0 30px;
+	display:inline;
+	border-right:1px dotted #f5a588;
 }
 header nav#menu ul li a:hover{
-	background-color:#cc380c;
 	text-decoration:none;
+	display:inline;
 }
 header nav#user {
 	position:absolute;
