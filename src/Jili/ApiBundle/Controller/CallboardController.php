@@ -12,7 +12,7 @@ class  CallboardController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-		$callboard = $em->getRepository('JiliApiBundle:Callboard')->findAll();
+		$callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboard();
         $arr['callboard'] =  $callboard;   	
         $paginator  = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate(

@@ -835,7 +835,7 @@ class UserController extends Controller
 	
 	}
 
-	private function selTaskHistory($userid,$type){
+	private function selTaskHistory($userid,$option){
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
       }else{
@@ -874,7 +874,7 @@ class UserController extends Controller
                   $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
                   break;
       }
-      $option = array('daytype' => $type ,'offset'=>'','limit'=>'');
+      //$option = array('daytype' => '' ,'offset'=>'','limit'=>'');
       $po = $task->getUseradtaste($userid,$option);
 
       foreach ($po as $key => $value) {
