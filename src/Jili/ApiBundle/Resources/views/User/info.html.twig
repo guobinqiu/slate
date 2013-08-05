@@ -45,8 +45,8 @@ $(document).ready(function(){
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="personal">
-  <section>
-    <h3>头像</h3>
+  <section class="line">
+    <h3 class="line">头像</h3>
     <div class="photo">
     	<div class="img">
     	    {% if user.iconPath %}
@@ -191,8 +191,8 @@ $(document).ready(function(){
           </td>
         </tr>
          {% endfor %}
-         <p class="prompt">商家审核需要8周，判定有效后立即到账（退货无返利）</p>
-         <a href="{{ asset(path('_user_adtaste',{'type': 1}),'cdn1') }}" class="more">更多 »</a>
+         <p class="prompt">*&nbsp;商家审核需要8周，判定有效后立即到账（退货无返利）</p>
+         <a href="{{ asset(path('_user_adtaste',{'type': 1}),'cdn1') }}" class="more edit">更多 »</a>
           {% else %}
         <tr><td align="center" colspan="5">没有任务记录</td></tr>
         {% endif %}
@@ -221,7 +221,7 @@ $(document).ready(function(){
           <td>{% if item.status %} 兑换成功  {% else %} 处理中 {% endif %}</td>
         </tr>
         {% endfor %}
-          <a href="{{  asset(path('_user_exchange',{'type': 1}),'cdn1') }}" class="more">更多 »</a>
+          <a href="{{  asset(path('_user_exchange',{'type': 1}),'cdn1') }}" class="more edit">更多 »</a>
         {% else %}
         <tr><td align="center" colspan="5">没有兑换记录</td></tr>
         {% endif %}

@@ -72,13 +72,12 @@
 	text-align:center;
 }
 .history .screen .prompt {
-    background: url("../images/adv_prompt_icon.png") no-repeat scroll left center transparent;
-    color: #DBA400;
+    /*background: url("../images/adv_prompt_icon.png") no-repeat scroll left center transparent;*/
+    color: #EE472C;
     display: block;
     font-weight: normal;
     font-size:12px;
     line-height: 30px;
-    padding: 0 0 0 44px;
     position: absolute;
     top: 5px;
 }

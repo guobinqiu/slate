@@ -17,6 +17,12 @@
 	padding: 20px;
 	position: relative;
 }
+.personal section.line{ 
+	padding:1px 0 0 0;
+}
+.personal section h3.line{ 
+	border-top: 1px solid #e0e0e0;
+}
 .personal section h3 a.close {
 	background-image: url(../images/upIcon.jpg);
 	width: 22px;
@@ -79,14 +85,14 @@
 	position:relative;
 }
 .ad p.prompt {
-    background: url("../images/adv_prompt_icon.png") no-repeat scroll left center transparent;
-    color: #DBA400;
+   /* background: url("../images/adv_prompt_icon.png") no-repeat scroll left center transparent;*/
+    color: #EE472C;
     display: block;
     font-weight: normal;
     line-height: 30px;
-    padding: 0 0 0 44px;
     position: absolute;
     top: 15px;
+	font-size:13px;
 }
 .info a.edit, .ad a.more{
 	position:absolute;
@@ -166,22 +172,23 @@
 	padding: 50px 0;
 }
 .ad table, .score table {
-	border: 1px solid #b8d4e0;
+	border: 1px solid #F0F0F0;
 	border-bottom: none;
 	border-right: none;
 }
 .ad th, .ad td, .score th, .score td {
-	border: 1px solid #b8d4e0;
+	border: 1px solid #F0F0F0;
 	border-top: none;
 	border-left: none;
 	text-align: center;
 }
 .ad th, .score th {
-	height: 46px;
-	background-image: url(../images/adTableThBg.jpg);
+	height: 40px;
+	background: #FAFAFA;
+	/*background-image: url(../images/adTableThBg.jpg);*/
 }
 .ad td, .score td {
-	padding: 15px 0;
+	padding: 10px 0;
 }
 .expand{
 	padding:20px 50px;
