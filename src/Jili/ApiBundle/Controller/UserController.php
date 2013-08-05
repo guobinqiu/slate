@@ -256,9 +256,17 @@ class UserController extends Controller
 	 * @Route("/login", name="_user_login",requirements={"_scheme"="https"})
 	 */
 	public function loginAction(){
-		
-		$code = $this->container->getParameter('init');
+		$session = new Session();
+		$session->start();
+		if($this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_default_index'));
+        }
 		$request = $this->get('request');
+		$goToUrl = $request->headers->get('referer');
+		if(substr($goToUrl, -10) != 'user/login'){
+			$session->set('goToUrl', $goToUrl);
+		}
+		$code = $this->container->getParameter('init');
 		$email = $request->request->get('email');
 		$pwd = $request->request->get('pwd');
 		if ($request->getMethod() == 'POST'){
@@ -280,8 +288,7 @@ class UserController extends Controller
 							// 		    			echo 'pwd is error!';
 							$code = $this->container->getParameter('init_one');
 						}else{
-							$session = new Session();
-							$session->start();
+							
 							if($request->request->get('remember_me')=='1'){
 								setcookie("jili_uid", $id, time() + 3600 * 24 * 365,'/');
 								setcookie("jili_nick",$user->getNick(), time() + 3600 * 24 * 365,'/');
@@ -296,7 +303,7 @@ class UserController extends Controller
 // 									var_dump($cookies->get('uid'));
 // 								}
 							}
-						
+							
 							$session->set('uid', $id);
 							$session->set('nick', $user->getNick());
 							$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
@@ -309,7 +316,9 @@ class UserController extends Controller
 							$loginlog->setLoginIp($this->get('request')->getClientIp());
 							$em->persist($loginlog);
 							$em->flush();
-							return $this->redirect($this->generateUrl('_default_index'));
+							$current_url = $request->getSession()->get('goToUrl');
+							$request->getSession()->remove('goToUrl');
+							return $this->redirect($current_url);
 						}
 					}
 			    }
@@ -327,7 +336,10 @@ class UserController extends Controller
 	public function checkRegAction($id){
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		$info = $em->getRepository('JiliApiBundle:User')->getUserList($id);
+		if($user)
+			$info = $em->getRepository('JiliApiBundle:User')->getUserList($id);
+		else
+			return $this->redirect($this->generateUrl('_default_error'));
 		$arr['gotoEmial'] = $user->gotomail($info[0]['email']);
 		$arr['user'] = $info[0];
 		return $this->render('JiliApiBundle:User:checkReg.html.twig',$arr);
@@ -529,6 +541,9 @@ class UserController extends Controller
 	 * @Route("/reg", name="_user_reg",requirements={"_scheme"="https"})
 	 */
 	public function regAction(){
+		if($this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_default_index'));
+        }
 		$request = $this->get('request');
 		$user = new User();
 		$form = $this->createForm(new CaptchaType(), array());
@@ -619,6 +634,9 @@ class UserController extends Controller
 	 */
 	public function captchaAction(){
 	    $builder = new CaptchaBuilder;
+	    $builder->setBackgroundColor(255,255,255);
+	    $builder->setMaxBehindLines(0);
+	    $builder->setMaxFrontLines(0);
 	    $builder->build();
 	    header('Content-type: image/jpeg');
 	    $builder->output();
@@ -817,7 +835,7 @@ class UserController extends Controller
 	
 	}
 
-	private function selTaskHistory($userid,$type){
+	private function selTaskHistory($userid,$option){
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
       }else{
@@ -856,7 +874,7 @@ class UserController extends Controller
                   $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
                   break;
       }
-      $option = array('daytype' => $type ,'offset'=>'','limit'=>'');
+      //$option = array('daytype' => '' ,'offset'=>'','limit'=>'');
       $po = $task->getUseradtaste($userid,$option);
 
       foreach ($po as $key => $value) {

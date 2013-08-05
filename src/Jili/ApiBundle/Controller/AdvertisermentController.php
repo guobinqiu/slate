@@ -44,7 +44,10 @@ class AdvertisermentController extends Controller
             $arr['orderStatus'] = $orderStatus;
 		}
 		$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-		$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->getAdwAdverList($advertiserment->getIncentiveType(),$id);
+		if($advertiserment)
+			$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->getAdwAdverList($advertiserment->getIncentiveType(),$id);
+		else
+			return $this->redirect($this->generateUrl('_default_error'));
 		$time =  $advertiserment[0]['endTime']->format('Y-m-d H:i:s');
 		if(time()-strtotime($time)>=0){
 			$code = $this->container->getParameter('init_one');
@@ -54,7 +57,7 @@ class AdvertisermentController extends Controller
         $adw_info = explode("u=",$adw_info);
         $new_url = $adw_info[0]."u=".$uid.$adw_info[1].$id;
         $arr['id'] = $id;
-        $arr['adwurl'] = $new_url;
+        $arr['adwurl'] = $new_url; 	
         $arr['advertiserment'] = $advertiserment[0];
 		return $this->render('JiliApiBundle:Advertiserment:info.html.twig',$arr);
 	}

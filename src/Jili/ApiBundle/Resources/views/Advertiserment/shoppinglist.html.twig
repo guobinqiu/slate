@@ -59,7 +59,7 @@ function goto(aid){
          {% if item.incentiveType==1 %}
                      <span class="rebate">{{ item.incentive }}米粒</span>
              {% elseif item.incentiveType==2 %}
-                     <span class="rebate">最高返{{ item.incentiveRate }}%的米粒</span>
+                     <span class="rebate">最高返{{ item.incentiveRate/100 }}%</span>
              {% else %}
              {% endif %}
         </p>
@@ -73,7 +73,7 @@ function goto(aid){
          {% if item.incentiveType==1 %}
                 <p class="rebate"><em>{{ item.incentive }}米粒</em></p>
          {% elseif item.incentiveType==2 %}
-                <p class="rebate">最高返<em>{{ item.incentiveRate }}%</em></p>
+                <p class="rebate">最高返<em>{{ item.incentiveRate/100 }}%</em></p>
           {% else %}
          {% endif %}
         <div class="hover">
@@ -82,7 +82,7 @@ function goto(aid){
                              <div class="text">{{ item.incentive }}米粒</div>
                         {% elseif item.incentiveType==2 %}
                             <div class="text">最高返<br>
-                            <em>{{ item.incentiveRate }}%</em></div>
+                            <em>{{ item.incentiveRate/100 }}%</em></div>
                          {% else %}
                      {% endif %}
              </div>

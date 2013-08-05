@@ -11,6 +11,7 @@ use Jili\ApiBundle\Mailer;
 use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\WenwenUser;
+use Jili\ApiBundle\Entity\CallBoard;
 
 class DefaultController extends Controller
 {
@@ -81,7 +82,7 @@ class DefaultController extends Controller
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
 		$advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->findAll();
 		$advertise = $repository->getAdvertiserList();
-		$callboard = $em->getRepository('JiliApiBundle:Callboard')->findAll();
+		$callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboard();
 		$arr['callboard'] =  $callboard;
 		$arr['advertise_banner'] = $advertiseBanner;
     	$arr['advertise'] = $advertise;
