@@ -9,7 +9,6 @@
 .adMore article .top{
 	background-image: url("../images/adMoreBg_top.jpg");
     background-repeat: no-repeat;
-    height: 100px;
     padding-top: 50px;
     width: 100%;
 }
@@ -22,15 +21,15 @@
 }
 .adMore article div.actionTitle{
 	width:80%;
-	margin:0px auto 20px auto;
-	height:100px;
+	margin:0px auto 20px;
+	/*height:100px;*/
 	position:relative;
 }
 .adMore article div.rule, .adMore article div.explain{
 	background-color: #F7F5F2;
     border-radius: 10px 10px 10px 10px;
     box-shadow: 0 0 10px #CCCCCC inset;
-    margin: 20px auto;
+    margin: 15px auto;
     padding: 0 0 20px;
     width: 80%;
 	text-align:center;
@@ -38,7 +37,7 @@
 .adMore article div.rule h2, .adMore article div.explain h2{
 	border-bottom: 1px solid #EDE4DF;
     color: #EA4B11;
-    font-size: 16px;
+    font-size: 14px;
     margin: 0 auto;
     padding: 20px 0 10px;
     width: 90%;
@@ -75,6 +74,7 @@
     font-size: 24px;
     margin-bottom: 30px;
 	line-height:24px;
+	font-family:""
 }
 .actionTitle p{
 	color: #E87400;
@@ -84,6 +84,21 @@
 .actionTitle p span{
 	font-weight:bold;
 	color:#666666;
+}
+.actionTitle p.prompt{ 
+	line-height:26px; 
+	padding:5px 0 5px 10px; 
+	background:#fffceb; 
+	border:1px solid #e6d181;
+	
+}
+.actionTitle p.prompt span{
+	background:url(../images/adv_prompt_icon.png) left no-repeat;
+	display:block;
+	padding: 0 0 0 44px;
+	color:#dba400;
+	font-size:12px;
+	font-weight:normal;
 }
 .actionTitle .getBtn{
 	text-align: center;
