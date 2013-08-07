@@ -18,9 +18,12 @@ div#container{
 ++++++++++++++++++++++++++++++++++++++++++++ */
 div#header{
     width: 100%;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
 }
-
+div#rule{
+    width: 100%;
+    margin-bottom: 15px;
+}
 
 /* ++++++++++++++++++++++++++++++++++++++++++++
 　■ポイント
