@@ -116,7 +116,7 @@ class UserController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$form  = $this->createForm(new RegType(), $user);
-		$option = array('daytype' => 1 ,'offset'=>'1','limit'=>'10');
+		$option = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 		$adtaste = $this->selTaskHistory($id,$option);
 		$adtasteNum = count($adtaste);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
@@ -655,6 +655,7 @@ class UserController extends Controller
 		$repository = $em->getRepository('JiliApiBundle:PointsExchange');
 		$option = array('daytype' => $type ,'offset'=>'','limit'=>'');
 		$exchange = $repository->getUserExchange($id,$option);
+		
 		$arr['exchange'] = $exchange;
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$arr['user'] = $user;

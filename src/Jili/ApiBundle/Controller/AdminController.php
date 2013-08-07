@@ -33,39 +33,45 @@ use Jili\ApiBundle\Entity\PointHistory09;
 
 class AdminController extends Controller
 {
+    private function getAdminIp(){
+        if($_SERVER['REMOTE_ADDR'] != $this->container->getParameter('admin_ip'))
+            return true;
+        else
+            return false;
+          
+    }
 	/**
 	 * @Route("/login", name="_admin_login")
 	 */
     public function loginAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
-            return $this->redirect($this->generateUrl('_default_error'));
-    	$code = $this->container->getParameter('init');
-    	$request = $this->get('request');
-    	$username = $request->request->get('username');
-    	$password = $request->request->get('password');
-    	if ($request->getMethod() == 'POST') {
-    		if($username=='admin' && $password=='admin'){
-    			// $session = new Session();
-    			// $session->start();
-    			// $session->set('admin_name', $username);
-    			$code = $this->container->getParameter('init');
-    			return $this->redirect($this->generateUrl('_admin_index' ));
-    		}else{
-    			$code = $this->container->getParameter('init_one');
-    		}
-    	}
+        if($this->getAdminIp())
+              return $this->redirect($this->generateUrl('_default_error'));
+        $code = $this->container->getParameter('init');
+        $request = $this->get('request');
+        $username = $request->request->get('username');
+        $password = $request->request->get('password');
+        if ($request->getMethod() == 'POST') {
+            if($username=='admin' && $password=='admin'){
+                // $session = new Session();
+                // $session->start();
+                // $session->set('admin_name', $username);
+                $code = $this->container->getParameter('init');
+                return $this->redirect($this->generateUrl('_admin_index' ));
+            }else{
+                $code = $this->container->getParameter('init_one');
+            }
+        }
         return $this->render('JiliApiBundle:Admin:login.html.twig',array('code'=>$code));
-        
-            
-        
+
+      
     }
 
     /**
      * @Route("/gameAd", name="_admin_gameAd")
      */
     public function GameAdAction(){
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:gameAd.html.twig');
     }
@@ -74,7 +80,7 @@ class AdminController extends Controller
      * @Route("/game", name="_admin_game")
      */
     public function GameAction(){
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:game.html.twig');
     }
@@ -83,7 +89,7 @@ class AdminController extends Controller
      * @Route("/adwAd", name="_admin_adwAd")
      */
     public function AdwAdAction(){
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:adwAd.html.twig');
     }
@@ -284,7 +290,7 @@ class AdminController extends Controller
      */
     public function importAdverAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$code = array();
     	$request = $this->get('request');
@@ -332,7 +338,7 @@ class AdminController extends Controller
      */
     public function delBannerAction($id)
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$em = $this->getDoctrine()->getManager();
     	$banner = $em->getRepository('JiliApiBundle:AdBanner')->find($id);
@@ -347,7 +353,7 @@ class AdminController extends Controller
      */
     public function infoBannerAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$request = $this->get('request');
     	$em = $this->getDoctrine()->getManager();
@@ -366,7 +372,7 @@ class AdminController extends Controller
      */
     public function editBannerAction($id)
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$code ='';
     	$request = $this->get('request');
@@ -397,7 +403,7 @@ class AdminController extends Controller
      */
     public function addPostionAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$advermentTitle = '';
     	$adposition = '';
@@ -490,7 +496,7 @@ class AdminController extends Controller
      */
     public function searchPositionAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$ad_code = '';
     	$request = $this->get('request');
@@ -514,7 +520,7 @@ class AdminController extends Controller
      */
     public function delAdPositionAction($id)
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$em = $this->getDoctrine()->getManager();
     	$adposition = $em->getRepository('JiliApiBundle:AdPosition')->find($id);
@@ -529,7 +535,7 @@ class AdminController extends Controller
      */
     public function editPostionAction($id)
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$codeflag = $this->container->getParameter('init');
     	$request = $this->get('request');
@@ -565,7 +571,7 @@ class AdminController extends Controller
      */
     public function infoPostionAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$request = $this->get('request');
     	$em = $this->getDoctrine()->getManager();
@@ -586,7 +592,7 @@ class AdminController extends Controller
      */
     public function addAdverAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$code = '';
     	$codeflag = $this->container->getParameter('init');
@@ -677,7 +683,7 @@ class AdminController extends Controller
      */
     public function infoAdverAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$request = $this->get('request');
     	$em = $this->getDoctrine()->getManager();
@@ -697,7 +703,7 @@ class AdminController extends Controller
      */
     public function stopAdverAction($id)
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$em = $this->getDoctrine()->getManager();
     	$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
@@ -713,7 +719,7 @@ class AdminController extends Controller
      */
     public function delAdverAction($id)
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$em = $this->getDoctrine()->getManager();
     	$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
@@ -728,7 +734,7 @@ class AdminController extends Controller
      */
     public function editAdverAction($id)
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$code = '';
     	$codeflag = $this->container->getParameter('init');
@@ -838,7 +844,7 @@ class AdminController extends Controller
      */
     public function editCallboardAction($id)
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$codeflag = $this->container->getParameter('init');
     	$request = $this->get('request');
@@ -877,7 +883,7 @@ class AdminController extends Controller
      */
     public function delCallboardAction($id)
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$em = $this->getDoctrine()->getManager();
     	$callboard = $em->getRepository('JiliApiBundle:Callboard')->find($id);
@@ -893,7 +899,7 @@ class AdminController extends Controller
      */
     public function infoCallboardAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$request = $this->get('request');
     	$em = $this->getDoctrine()->getManager();
@@ -912,7 +918,7 @@ class AdminController extends Controller
      */
     public function addCallboardAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$codeflag = $this->container->getParameter('init');
     	$callboard = new Callboard();
@@ -951,7 +957,7 @@ class AdminController extends Controller
      */
     public function exchangeCsvAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
+        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$response = new Response();
     	$em = $this->getDoctrine()->getManager();
@@ -974,8 +980,8 @@ class AdminController extends Controller
      */
     public function exchangeInfoAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
-            return $this->redirect($this->generateUrl('_default_error'));
+        if($this->getAdminIp())
+          return $this->redirect($this->generateUrl('_default_error'));
     	$em = $this->getDoctrine()->getManager();
     	$exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo();
     	$paginator  = $this->get('knp_paginator');
@@ -993,9 +999,9 @@ class AdminController extends Controller
      */
     public function indexAction()
     {
-        if($_SERVER['REMOTE_ADDR']!='112.65.174.206')
-            return $this->redirect($this->generateUrl('_default_error'));
-        return $this->redirect($this->generateUrl('_admin_login'));
+        if($this->getAdminIp())
+              return $this->redirect($this->generateUrl('_default_error'));
+        return $this->render('JiliApiBundle:Admin:index.html.twig');
     }
     
     /**
@@ -1003,7 +1009,7 @@ class AdminController extends Controller
      */
     public function mainAction()
     {
-    	return $this->render('JiliApiBundle:Admin:main.html.twig');
+    	   return $this->render('JiliApiBundle:Admin:main.html.twig');
     }
     
     /**
