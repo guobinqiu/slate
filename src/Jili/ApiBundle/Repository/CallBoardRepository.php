@@ -15,6 +15,17 @@ class CallBoardRepository extends EntityRepository
 		$query =  $query->getQuery();
 		return $query->getResult();
 	}
+
+	public function getFiveCallboard()
+	{
+		$query = $this->createQueryBuilder('cb');
+		$query = $query->select('cb.id,cb.title,cb.author,cb.content,cb.createTime,cb.startTime,cb.url');
+		$query = $query->orderBy('cb.createTime','DESC');
+		$query = $query->setFirstResult(0);
+		$query = $query->setMaxResults(5);
+		$query =  $query->getQuery();
+		return $query->getResult();
+	}
 	
 
 	

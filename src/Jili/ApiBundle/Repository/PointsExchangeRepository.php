@@ -67,8 +67,8 @@ class PointsExchangeRepository extends EntityRepository
     	$query = $query->setParameter('id',$id);
     	$query = $query->orderBy('p.exchangeDate', 'DESC');
     	if($option['offset'] && $option['limit']){
-    		$query = $query->setFirstResult($option['offset']);
-    		$query = $query->setMaxResults($option['limit']);
+    		$query = $query->setFirstResult(0);
+			$query = $query->setMaxResults(10);
     	}
     	$query = $query->getQuery();
 		return $query->getResult();

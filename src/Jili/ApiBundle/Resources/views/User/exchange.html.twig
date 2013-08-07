@@ -80,16 +80,17 @@ function addClass(type){
             <th>兑换完成时间</th>
             <th>状态</th>
         </tr>
-         {% if pagination %}
-       {% for item in pagination %}
-        <tr>
-          <td>{{ item.exchangeDate.date }}</td>
-          <td>{{ item.type }}</td>
-          <td>{{ item.targetPoint }}</td>
-          <td>{% if item.status %} {{ item.finishDate.date }} {% else %} {% endif %}</td>
-          <td>{% if item.status %} 兑换成功  {% else %} 处理中 {% endif %}</td>
-        </tr>
-        {% endfor %}
+      {% if exchange %}
+         {% for item in pagination %}
+          <tr>
+            <td>{{ item.exchangeDate.date }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.targetPoint }}</td>
+            <td>{% if item.status %} {{ item.finishDate.date }} {% else %} {% endif %}</td>
+            <td>{% if item.status %} 兑换成功  {% else %} 处理中 {% endif %}</td>
+          </tr>
+          {% endfor %}
+      {% else %}
         <tr><td align="center" colspan="5">没有兑换记录</td></tr>
       {% endif %}
        
