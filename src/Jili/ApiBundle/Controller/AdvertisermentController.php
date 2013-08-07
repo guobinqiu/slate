@@ -52,7 +52,7 @@ class AdvertisermentController extends Controller
 		}
         $adw_info = $advertiserment[0]['imageurl'];
         $adw_info = explode("u=",$adw_info);
-        $new_url = $adw_info[0]."u=".$uid.$adw_info[1].$id;
+        $new_url = trim($adw_info[0])."u=".$uid.trim($adw_info[1]).$id;
         $arr['id'] = $id;
         $arr['adwurl'] = $new_url;
         $arr['advertiserment'] = $advertiserment[0];
