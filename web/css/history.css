@@ -32,6 +32,7 @@
 .history article .screen{
 	text-align:right;
 	padding:10px;
+	position: relative;
 }
 .history article .screen a{
 	display:inline-block;
@@ -69,4 +70,14 @@
 	border-top:none;
 	padding:10px 2px;
 	text-align:center;
+}
+.history .screen .prompt {
+    /*background: url("../images/adv_prompt_icon.png") no-repeat scroll left center transparent;*/
+    color: #EE472C;
+    display: block;
+    font-weight: normal;
+    font-size:12px;
+    line-height: 30px;
+    position: absolute;
+    top: 5px;
 }

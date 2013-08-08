@@ -11,6 +11,7 @@ use Jili\ApiBundle\Mailer;
 use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\WenwenUser;
+use Jili\ApiBundle\Entity\CallBoard;
 
 class DefaultController extends Controller
 {
@@ -21,6 +22,8 @@ class DefaultController extends Controller
 	 */ 
     public function indexAction()
     {
+        if($_SERVER['HTTP_HOST']=='91jili.com')
+            return $this->redirect('https://www.91jili.com');
     	$request = $this->get('request');
         $cookies = $request->cookies;
         if ($cookies->has('jili_uid') &&  $cookies->has('jili_nick')){
@@ -81,7 +84,7 @@ class DefaultController extends Controller
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
 		$advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->findAll();
 		$advertise = $repository->getAdvertiserList();
-		$callboard = $em->getRepository('JiliApiBundle:Callboard')->findAll();
+		$callboard = $em->getRepository('JiliApiBundle:CallBoard')->getFiveCallboard();
 		$arr['callboard'] =  $callboard;
 		$arr['advertise_banner'] = $advertiseBanner;
     	$arr['advertise'] = $advertise;

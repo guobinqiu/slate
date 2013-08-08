@@ -40,7 +40,7 @@ function change(){
 function changePoint(){
 	var total = $("#point").val()*500;
 	var over = {{ points }} - total;
-	$("#rechange").html(total);
+	$(".rechange").html(total);
 	$("#over").html(over);
 	if($("#over").html()<0){
 		$("#active").hide();
@@ -99,9 +99,9 @@ function changePoint(){
             <option>9</option>
             <option>10</option>
           </select>
-          = <span>500</span> 91问问积分</dt>
+          = <span  class="rechange">500</span> 91问问积分</dt>
       </div>
-      <div class="changePoint mt50">本次充值所需米粒：<span id="rechange">500</span></div>
+      <div class="changePoint mt50">本次充值所需米粒：<span class="rechange">500</span></div>
       <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-500 }}</span></div>
       <div><span>
       {% if code==1 %}

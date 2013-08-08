@@ -53,10 +53,11 @@ function goto(){
 		{% if advertiserment.incentiveType==1 %}
 		        {{  advertiserment.incentive }}米粒
 		{% elseif advertiserment.incentiveType==2 %}
-		       最高获消费额{{ advertiserment.incentiveRate }}%的米粒
+		       最高获消费额{{ advertiserment.incentiveRate/100 }}%
 		{% else %}
 		{% endif %}
 		</p>
+		<p class="prompt"><span>商家审核需要8周，判定有效后立即到账（退货无返利）</span></p>
       {% if code==1 %}
           {% if orderStatus %}
 	            {% if orderStatus==1 %}

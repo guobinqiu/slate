@@ -45,8 +45,8 @@ $(document).ready(function(){
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="personal">
-  <section>
-    <h3>头像</h3>
+  <section class="line">
+    <h3 class="line">头像</h3>
     <div class="photo">
     	<div class="img">
     	    {% if user.iconPath %}
@@ -56,7 +56,7 @@ $(document).ready(function(){
     	    {% endif %}
         </div>
         <form action="{{ path('_user_info') }}" method="post" {{ form_enctype(form) }} id="form1">
-        <p>欢迎您,{{ user.nick }}&nbsp;我的米粒：<span>{{ user.points }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ asset(path('_user_changePwd'),'cdn1') }}">修改密码</a></p>
+        <p>欢迎您,{{ user.nick }}&nbsp;我的米粒：<span>{{ user.points }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ asset(path('_user_changePwd'),'cdn1') }}" class="edit">修改密码 »</a></p>
         <p>{{ form_widget(form.attachment) }}<a class="upload">上传头像</a></p>
         <!-- <a class="upload" href="">上传头像</a> -->
         <p> {% if code %}
@@ -101,7 +101,7 @@ $(document).ready(function(){
    <form action="{{ path('_user_info') }}" method="post">
     <h3>个人信息<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
     <div class="content info">
-      <a class="edit"href="javascript:void(0);" id="change">修改 »</a>
+      <a class="edit" href="javascript:void(0);" id="change">修改 »</a>
       <ul>
         <li>
           <dd>登录账号：</dd>
@@ -191,8 +191,11 @@ $(document).ready(function(){
           </td>
         </tr>
          {% endfor %}
-         <center><p><a href="{{ asset(path('_user_adtaste',{'type': 1}),'cdn1') }}">更多</a></p></center>
-         {% endif %}
+         <p class="prompt">*&nbsp;商家审核需要8周，判定有效后立即到账（退货无返利）</p>
+         <a href="{{ asset(path('_user_adtaste',{'type': 1}),'cdn1') }}" class="more edit">更多 »</a>
+          {% else %}
+        <tr><td align="center" colspan="5">没有任务记录</td></tr>
+        {% endif %}
       </table>
      
     </div>
@@ -218,8 +221,10 @@ $(document).ready(function(){
           <td>{% if item.status %} 兑换成功  {% else %} 处理中 {% endif %}</td>
         </tr>
         {% endfor %}
-          <center><p><a href="{{  asset(path('_user_exchange',{'type': 1}),'cdn1') }}">更多</a></p></center>
-          {% endif %}
+          <a href="{{  asset(path('_user_exchange',{'type': 1}),'cdn1') }}" class="more edit">更多 »</a>
+        {% else %}
+        <tr><td align="center" colspan="5">没有兑换记录</td></tr>
+        {% endif %}
       </table>
     
     </div>

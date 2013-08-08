@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Callboard
  *
  * @ORM\Table(name="callboard")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\CallBoardRepository")
  */
 class Callboard
 {
