@@ -204,7 +204,7 @@ class PointsExchange
      */
     public function setTargetAccount($targetAccount)
     {
-        $this->targetAccount = targetAccount;
+        $this->targetAccount = $targetAccount;
     
         return $this;
     }

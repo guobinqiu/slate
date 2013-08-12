@@ -34,8 +34,11 @@ $(document).ready(function() {
 });
 
 function change(){
-		if($("#over").html()>=0)
+		if($("#over").html()>=0){
+      var exchange_total = $(".rechange").html();
+      $('#changes').val(exchange_total);
 			$("#form1").submit();
+    }
 }
 function changePoint(){
 	var total = $("#point").val()*500;
@@ -87,7 +90,7 @@ function changePoint(){
       <div class="form">
         <dd>选择兑换的积分：</dd>
         <dt><img src="{{ asset('images/91wenwenCard.jpg')}}" width="79" height="44"> *
-          <select id="point" name="point"  onclick="changePoint();">
+          <select id="point" name="point"  onchange="changePoint();">
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -101,6 +104,7 @@ function changePoint(){
           </select>
           = <span  class="rechange">500</span> 91问问积分</dt>
       </div>
+      <input type="hidden" name="rechange" id="changes"/>
       <div class="changePoint mt50">本次充值所需米粒：<span class="rechange">500</span></div>
       <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-500 }}</span></div>
       <div><span>
@@ -110,6 +114,8 @@ function changePoint(){
      <font color='red'>91问问账号为邮件格式</font>
       {% elseif code==3 %}
      <font color='red'>已成功兑换，等待账号绑定</font>
+     {% elseif code==4 %}
+     <font color='red'>积分错误，兑换失败</font>
      {% else %}
      {% endif %}
      </span></div>
