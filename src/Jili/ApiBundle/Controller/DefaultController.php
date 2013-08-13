@@ -140,6 +140,17 @@ class DefaultController extends Controller
     	return new Response($code);
 
     }
+
+    public function getToken($email){
+        $seed="ADF93768CF";
+        $hash = sha1($email.$seed);
+        for ($i = 0; $i < 5; $i++) { 
+            $hash = sha1($hash); 
+        }
+        return $hash;
+    }
+
+
     
      /**
      * @Route("/landing", name="_default_landing",requirements={"_scheme"="https"})
@@ -152,6 +163,9 @@ class DefaultController extends Controller
         $code = '';
         $request = $this->get('request');
         $token = $request->query->get('secret_token');
+        $nick = $request->request->get('nick');
+        $pwd = $request->request->get('pwd');
+        $newPwd = $request->request->get('newPwd');
         if($token){
             $request->getSession()->remove('token');
             $request->getSession()->set('token',$token);
@@ -163,11 +177,71 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $wenuser = $em->getRepository('JiliApiBundle:WenwenUser')->findByToken($u_token);
         if(!$wenuser){
-            return $this->redirect($this->generateUrl('_user_reg'));
+            $params = json_decode(base64_decode($token));
+            $email = ''; 
+            $signature = ''; 
+            if($params){
+                $email = $params->email;
+                $signature = $params->signature;
+            }   
+            if($this->getToken($email) == $signature){ 
+                $is_email = $em->getRepository('JiliApiBundle:User')->getWenwenUser($email);
+                if($is_email){
+                    $is_user = $this->container->getParameter('init_one');
+                }else{
+                    if($request->getMethod() == 'POST'){
+                        if($nick && $pwd && $newPwd){
+                            if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick)){
+                                $code = $this->container->getParameter('init_one');
+                            }else{
+                                $user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email,$nick);
+                                if($user_nick)
+                                    $code = $this->container->getParameter('init_two');
+                                else{
+                                    if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+                                        $code = $this->container->getParameter('init_three');
+                                    }else{
+                                        if($pwd == $newPwd){
+                                             $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+                                            if($isset_email){
+                                                $isset_email[0]->setNick($nick);
+                                                $isset_email[0]->setPwd($pwd);
+                                                $isset_email[0]->setIsFromWenwen($this->container->getParameter('init_one'));
+                                                $em->persist($isset_email[0]);
+                                                $em->flush();
+                                                $id = $isset_email[0]->getId();
+                                            }else{
+                                                $user = new User();
+                                                $user->setNick($nick);
+                                                $user->setPwd($pwd);
+                                                $user->setEmail($email);
+                                                $user->setIsFromWenwen($this->container->getParameter('init_one'));
+                                                $user->setPoints($this->container->getParameter('init'));
+                                                $user->setIsInfoSet($this->container->getParameter('init'));
+                                                $em->persist($user);
+                                                $em->flush();
+                                                $id = $user->getId();
+                                            }
+                                            $request->getSession()->remove('token');
+                                            $request->getSession()->set('uid',$id);
+                                            $request->getSession()->set('nick',$nick);
+                                            return $this->redirect($this->generateUrl('_default_index'));
+                                        }else{
+                                            $code = $this->container->getParameter('init_four');
+                                        }
+                                    }
+                                }
+                            }
+                        }else{
+                            $code = $this->container->getParameter('init_five');
+                        }
+
+                    }
+                }  
+            }else{
+                return $this->redirect($this->generateUrl('_user_reg'));
+            }   
         }else{
-            $nick = $request->request->get('nick');
-            $pwd = $request->request->get('pwd');
-            $newPwd = $request->request->get('newPwd');
             $email = $wenuser[0]->getEmail();   
             $is_email = $em->getRepository('JiliApiBundle:User')->getWenwenUser($email);
             if($is_email){
