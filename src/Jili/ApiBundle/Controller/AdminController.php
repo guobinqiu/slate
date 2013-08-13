@@ -34,10 +34,11 @@ use Jili\ApiBundle\Entity\PointHistory09;
 class AdminController extends Controller
 {
     private function getAdminIp(){
-        if($_SERVER['REMOTE_ADDR'] != $this->container->getParameter('admin_ip'))
-            return true;
-        else
+        if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
+            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip'))
             return false;
+        else
+            return true;
           
     }
 	/**
@@ -960,6 +961,11 @@ class AdminController extends Controller
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$response = new Response();
+
+        $request = $this->get('request');
+        $start_time = $request->request->get('start_time');
+        $end_time = $request->request->get('end_time');
+
     	$em = $this->getDoctrine()->getManager();
     	$exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo();
     	$arr['exchange'] = $exchange;
@@ -974,16 +980,133 @@ class AdminController extends Controller
         return $response;
     	
     }
+
+
+    public function exchangeOK($exchange_id,$email,$status,$points,$finish_time){
+        $em = $this->getDoctrine()->getManager();
+        $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
+        if(!$exchanges->getStatus()){
+             $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+            if(strlen($userInfo[0]->getId())>1){
+                $uid = substr($userInfo[0]->getId(),-1,1);
+            }else{
+                $uid = $userInfo[0]->getId();
+            }
+            switch($uid){
+                case 0:
+                    $po = new PointHistory00();
+                    break;
+                case 1:
+                    $po = new PointHistory01();
+                    break;
+                case 2:
+                    $po = new PointHistory02();
+                    break;
+                case 3:
+                    $po = new PointHistory03();
+                    break;
+                case 4:
+                    $po = new PointHistory04();
+                    break;
+                case 5:
+                    $po = new PointHistory05();
+                    break;
+                case 6:
+                    $po = new PointHistory06();
+                    break;
+                case 7:
+                    $po = new PointHistory07();
+                    break;
+                case 8:
+                    $po = new PointHistory08();
+                    break;
+                case 9:
+                    $po = new PointHistory09();
+                    break;
+            }
+            $po->setUserId($userInfo[0]->getId());
+            $po->setPointChangeNum('-'.$points);
+            $po->setReason($this->container->getParameter('init_eight'));
+            $em->persist($po);
+            $em->flush();
+            // $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
+            
+            $exchanges->setStatus($this->container->getParameter('init_one'));
+            $exchanges->setFinishDate(date_create($finish_time));
+            $em->persist($exchanges);
+            $em->flush();
+        }
+        return true;
+    }
+
+    public function exchangeNG($exchange_id,$email,$status,$points,$finish_time){
+        $em = $this->getDoctrine()->getManager();
+        $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
+        if(!$exchanges->getStatus()){
+            $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+            $user = $em->getRepository('JiliApiBundle:User')->find($userInfo[0]->getId());
+            $user->setPoints(intval($user->getPoints()+$points));
+            $em->persist($user);
+            $em->flush();
+            $exchanges->setStatus($this->container->getParameter('init_two'));
+            $exchanges->setFinishDate(date_create($finish_time));
+            $em->persist($exchanges);
+            $em->flush();
+        }   
+        return true;
+    }
+    /**
+     * @Route("/exchangeIn", name="_admin_exchangeIn")
+     */
+    public function exchangeInAction()
+    {
+        $success = '';
+        $request = $this->get('request');
+        if ($request->getMethod('post') == 'POST') {
+            if (isset($_FILES['csv'])) {
+                $file = $_FILES['csv']['tmp_name']; 
+                $handle = fopen($file,'r'); 
+                while ($data = fgetcsv($handle)){ 
+                   $goods_list[] = $data;
+                   unset($goods_list[0]);
+                }
+                foreach ($goods_list as $k=>$v){
+                    $exchange_id = $v[0];
+                    $email = iconv('gb2312','UTF-8//IGNORE',$v[1]);
+                    $status = $v[6];
+                    $finish_time = $v[7];
+                    $points = $v[4];
+                    if($status == 'ok'){
+                        $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time);
+                    }else{
+                        $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);       
+                    }
+                    $success = $this->container->getParameter('init_one');
+                }
+                fclose($handle);
+            }
+        }
+        $arr['success'] = $success;
+        return $this->render('JiliApiBundle:Admin:exchangeIn.html.twig',$arr);
+
+    }
     
     /**
      * @Route("/exchangeInfo", name="_admin_exchangeInfo")
      */
     public function exchangeInfoAction()
     {
+        $code = '';
+        $start_time = '';
+        $end_time = '';
+        $arr['code'] = $code;
+        $arr['start'] = $start_time;
+        $arr['end'] = $end_time;
+        $request = $this->get('request');
         if($this->getAdminIp())
           return $this->redirect($this->generateUrl('_default_error'));
     	$em = $this->getDoctrine()->getManager();
-    	$exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo();
+    	$exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo('','');
     	$paginator  = $this->get('knp_paginator');
     	$arr['pagination'] = $paginator->paginate(
     			$exchange,
@@ -991,7 +1114,75 @@ class AdminController extends Controller
     			$this->container->getParameter('page_num')
     	);
     	$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        if ($request->getMethod() == 'POST'){
+            $start_time = $request->request->get('start_time');
+            $end_time = $request->request->get('end_time');
+            if($request->request->get('add')){
+                $response = new Response();   
+                $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time);
+                $arr['exchange'] = $exchange;
+                $response =  $this->render('JiliApiBundle:Admin:exchangeCsv.html.twig',$arr);
+                $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+                $filename = "export".date("YmdHis").".csv";
+                $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
+                return $response;
+
+                // }else{
+                //     if(!$start_time && !$end_time){
+                //         $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo();
+                //         $arr['exchange'] = $exchange;
+                //         $response =  $this->render('JiliApiBundle:Admin:exchangeCsv.html.twig',$arr);
+                //         $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+                //         $filename = "export".date("YmdHis").".csv";
+                //         $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
+                //         return $response;
+
+                //     }else{
+                //         $code = $this->container->getParameter('init_one');
+                //         $arr['code'] = $code;
+                //     }
+                // }
+            }
+            if($request->request->get('select')){ 
+                $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo($start_time,$end_time);
+                $paginator  = $this->get('knp_paginator');
+                $arr['pagination'] = $paginator->paginate(
+                        $exchange,
+                        $this->get('request')->query->get('page', 1),
+                        $this->container->getParameter('page_num')
+                );
+                $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');    
+                
+            }   
+            $arr['start'] = $start_time;
+            $arr['end'] = $end_time;
+        }
+        
     	return $this->render('JiliApiBundle:Admin:exchangeInfo.html.twig',$arr);
+    }
+
+    /**
+     * @Route("/selectUser", name="_admin_selectUser")
+     */
+    public function SelectUserAction(){
+        $code = '';
+        $count_user = '';
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $start_time = $request->request->get('start_time');
+        $end_time = $request->request->get('end_time');
+        if ($request->getMethod() == 'POST'){
+            if($start_time  && $end_time){
+                if($start_time>$end_time){
+                    $code = $this->container->getParameter('init_two');
+                }else{
+                    $count_user = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time);
+                }
+            }else{
+                $code = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:selectUser.html.twig',array('code'=>$code,'count_user'=>$count_user));
     }
     
     /**

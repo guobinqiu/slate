@@ -1,7 +1,5 @@
-email,91wenwen_user,exchange_date,exchange_points,exchange_type
+id,email,91wenwen_user,exchange_date,exchange_points,exchange_type,exchange_status,add_point_date
 {% if exchange %}
-{% for item in exchange %}
-{{ item.email }},{{ item.wenwenUser }},{{ item.exchangeDate.date | date('Y-m-d') }},{{ item.targetPoint }},{{ item.type }}
+{% for item in exchange %}{{ item.id }},{{ item.email }},{{ item.wenwenUser }},{{ item.exchangeDate.date | date('Y-m-d') }},{{ item.targetPoint }},{{ item.type }},{% if item.status == 1%}ok{% elseif item.status == 2%}ng{% else %}{% endif %},{% if item.finishDate %}{{ item.finishDate.date | date('Y-m-d') }}{% endif %},
 {% endfor %}
-{% endif  %}
-
+{% endif %}
