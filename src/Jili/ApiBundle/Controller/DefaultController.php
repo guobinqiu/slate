@@ -177,7 +177,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $wenuser = $em->getRepository('JiliApiBundle:WenwenUser')->findByToken($u_token);
         if(!$wenuser){
-            $params = json_decode(base64_decode($u_token));
+            $params = json_decode(base64_decode(strtr($u_token, '-_', '+/')));
             $email = ''; 
             $signature = ''; 
             $uniqkey = '';
