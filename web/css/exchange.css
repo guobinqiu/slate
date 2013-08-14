@@ -52,6 +52,14 @@
 	font-size:12px;
 	font-weight:normal;
 }
+.exchange article .wenwen div.form dt span.info{
+	font-size:12px;
+	font-weight:normal;
+}
+.exchange article .wenwen div.form dt span.info a{
+	margin: 0 3px;
+	text-decoration: underline;
+}
 .exchange article .wenwen div.form dt span.account{
 	color:#999;
 	font-size:14px;
