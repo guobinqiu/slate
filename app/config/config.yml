@@ -105,7 +105,8 @@ gregwar_captcha:
 
 parameters:
     admin_home_ip: 192.168.1.198
-    admin_ip: 112.65.174.206
+    admin_ele_ip: 112.65.174.206
+    admin_un_ip: 180.169.71.34
     upload_banner_dir: images/banner/
     upload_adver_dir: images/actionPic/
     upload_tmp_dir: uploads/user/

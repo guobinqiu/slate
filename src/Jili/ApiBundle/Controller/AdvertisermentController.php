@@ -22,7 +22,7 @@ use Jili\ApiBundle\Entity\TaskHistory09;
 class AdvertisermentController extends Controller
 {
 	/**
-	 * @Route("/info/{id}", name="_advertiserment_index")
+	 * @Route("/info/{id}", requirements={"id" = "\d+"},name="_advertiserment_index")
 	 */
 	public function infoAction($id)
 	{

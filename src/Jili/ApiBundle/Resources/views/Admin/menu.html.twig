@@ -154,6 +154,15 @@
           <TD><A class=menuChild 
             href="{{ path('_admin_exchangeInfo') }}" 
             target=main>兑换信息导出</A></TD></TR>
+
+            <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_exchangeIn') }}" 
+            target=main>兑换信息导入</A></TD></TR>
+
+
         <TR height=4>
           <TD colSpan=2></TD></TR></TABLE>
 
@@ -197,6 +206,24 @@
           <TD><A class=menuChild 
             href="{{ path('_admin_adwAd') }}" 
             target=main>广告测试</A></TD></TR>
+       </TABLE>
+
+       <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+        <TR height=22>
+          <TD style="PADDING-LEFT: 30px" background="{{ asset('images/admin/menu_bt.jpg')}}"><A 
+            class=menuParent onclick=expand(9) 
+            href="javascript:void(0);">会员数查询</A></TD></TR>
+        <TR height=4>
+          <TD></TD></TR></TABLE>
+      <TABLE id=child9 style="DISPLAY: none" cellSpacing=0 cellPadding=0 
+      width=150 border=0>
+        <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_selectUser') }}" 
+            target=main>会员数查询</A></TD></TR>
+
        </TABLE>
          
           
