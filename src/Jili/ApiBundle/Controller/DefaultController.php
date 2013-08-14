@@ -177,12 +177,15 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $wenuser = $em->getRepository('JiliApiBundle:WenwenUser')->findByToken($u_token);
         if(!$wenuser){
-            $params = json_decode(base64_decode($token));
+            $params = json_decode(base64_decode($u_token));
             $email = ''; 
             $signature = ''; 
+            $uniqkey = '';
             if($params){
                 $email = $params->email;
                 $signature = $params->signature;
+                if(isset($params->uniqkey))
+                    $uniqkey = $params->uniqkey;
             }   
             if($this->getToken($email) == $signature){ 
                 $is_email = $em->getRepository('JiliApiBundle:User')->getWenwenUser($email);
@@ -207,6 +210,7 @@ class DefaultController extends Controller
                                                 $isset_email[0]->setNick($nick);
                                                 $isset_email[0]->setPwd($pwd);
                                                 $isset_email[0]->setIsFromWenwen($this->container->getParameter('init_one'));
+                                                $isset_email[0]->setUniqkey($uniqkey);
                                                 $em->persist($isset_email[0]);
                                                 $em->flush();
                                                 $id = $isset_email[0]->getId();
@@ -218,6 +222,7 @@ class DefaultController extends Controller
                                                 $user->setIsFromWenwen($this->container->getParameter('init_one'));
                                                 $user->setPoints($this->container->getParameter('init'));
                                                 $user->setIsInfoSet($this->container->getParameter('init'));
+                                                $user->setUniqkey($uniqkey);
                                                 $em->persist($user);
                                                 $em->flush();
                                                 $id = $user->getId();

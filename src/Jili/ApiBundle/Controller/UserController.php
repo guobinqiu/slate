@@ -331,7 +331,7 @@ class UserController extends Controller
 	}
 	
 	/**
-	 * @Route("/checkReg/{id}", name="_user_checkReg")
+	 * @Route("/checkReg/{id}",requirements={"id" = "\d+"}, name="_user_checkReg")
 	 */
 	public function checkRegAction($id){
 		$em = $this->getDoctrine()->getManager();

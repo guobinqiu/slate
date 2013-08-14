@@ -191,7 +191,13 @@ class User
      */
     private $iconPath;
     
-    
+     /**
+     * @var string
+     * 
+     * @ORM\Column(name="uniqkey", type="string",length=250, nullable=true)
+     */
+    private $uniqkey;
+        
 /**
      * upload image to temp dir
      */
@@ -871,6 +877,29 @@ class User
     public function getIsInfoSet()
     {
     	return $this->isInfoSet;
+    }
+
+     /**
+     * Set uniqkey
+     *
+     * @param string $uniqkey
+     * @return User
+     */
+    public function setUniqkey($uniqkey)
+    {
+        $this->uniqkey = $uniqkey;
+    
+        return $this;
+    }
+
+    /**
+     * Get uniqkey
+     *
+     * @return string 
+     */
+    public function getUniqkey()
+    {
+        return $this->uniqkey;
     }
     
 }
