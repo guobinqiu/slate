@@ -113,9 +113,11 @@
 }
 .index section.one #userInformation .after .user .photo{
 	float:left;
-	width:90px;
-	height:90px;
+	width:98px;
+	height:98px;
 	margin:0 10px 0 0;
+	padding:4px;
+	background:url(../images/user_head_bg.gif) no-repeat;
 }
 .index section.one #userInformation .after .user .photo img{
 	width:90px;
@@ -127,6 +129,7 @@
 }
 .index section.one #userInformation .after .user p{
 	margin:20px 0;
+	white-space:nowrap;
 }
 .index section.one #userInformation .after .user p.point{
 	font-size:18px;

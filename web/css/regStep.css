@@ -78,6 +78,10 @@
     width: 913px;
     z-index:1002;
 }
+.regStep article .regForm h2{ 
+	position:absolute;
+	top:10px;
+}
 .regStep article .regForm h2 span{
 	background-image: url("../images/giftIcon.jpg");
     background-position: 0 0;
@@ -119,6 +123,7 @@
 .regStep article ul.form li dt{
 	float:left;
 	line-height:35px;
+	font-size:12px;
 }
 
 .regStep article ul.form li dt input.password{
@@ -127,7 +132,6 @@
 	padding:5px;
 	vertical-align:middle;
 	width:250px;
-	box-shadow:1px 1px 3px #DDD inset;
 	margin:1px;
 }
 .regStep article ul.form li dt input.password:hover, .regStep article ul.form li dt input.password:focus{
@@ -146,7 +150,6 @@
 	padding:5px;
 	vertical-align:middle;
 	width:250px;
-	box-shadow:1px 1px 3px #DDD inset;
 	margin:1px;
 }
 .regStep article ul.form li dt input.text:hover, .regStep article ul.form li dt input.text:focus{
@@ -159,9 +162,10 @@
 }
 .regStep article ul.form li dt img.verificationImg {
 	height: 30px;
-    margin: 5px;
+    margin: 5px 0;
     vertical-align: middle;
     cursor: pointer;
+	border:1px solid #ccc;
 }
 .regStep article ul.form li dt img.refreshImg{
 	vertical-align: middle;
@@ -183,7 +187,7 @@
 	text-indent:20px;
 }
 .regStep article ul.form li dt a.provision{
-	color:#146096;
+	color:#54b9e8;
 }
 .regStep article ul.form li dt .regBtn{
 	cursor: pointer;
@@ -225,8 +229,13 @@
 }
 .regStep article .regFrame .goToMail .img{
 	float:left;
-	margin:10px 20px;
+	margin:24px 20px;
 }
+.regStep article .regFrame .goToMail .img img{
+	width:107px;
+	height:82px;
+}
+
 .regStep article .regFrame .goToMail .goMailBtn:hover{
 	opacity: .8;
 	Filter:alpha(opacity=80);
@@ -276,10 +285,14 @@
 	float:left;
 	margin:0px 20px;
 }
+.regStep article .regFrame .finish .img img{
+	width:62px;
+	height:47px;	
+}
 .regStep article .regFrame .finish h2{
 	font-size:24px;
 	font-weight:bold;
 }
 .regStep article .regFrame .finish a{
-	color:#146096;
+	color:#54B9E8;
 }
