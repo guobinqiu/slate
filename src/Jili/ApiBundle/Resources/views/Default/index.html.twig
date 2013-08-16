@@ -51,7 +51,7 @@ $(function(){
             	{% else %}
             	   <div class="photo"> <a href="{{ path('_user_info')}}" ><img src="{{ asset('images/default_face.jpg') }}" width="90" height="90"/></a></div>
             	 {% endif %}
-                <p>您好，<a href="{{ path('_user_info')}}">{{ user.nick }}</a><br/><br/><a class="personal" href="{{ path('_user_info')}}"><img src="{{ asset('images/myCenterBtn.png') }}"/></a></p>
+                <p>您好，<a href="{{ path('_user_info')}}" class="hello">{{ user.nick }}</a><br/><a class="personal" href="{{ path('_user_info')}}"><img src="{{ asset('images/myCenterBtn.png') }}"/></a></p>
                 <div class="clear"></div>
                 <p class="point">当前米粒数：<span>{{ user.points }}</span></p>
             </div>
@@ -111,8 +111,7 @@ $(function(){
              <section style="height:400px;">
             	<h4>最新兑换</h4>
               <ul class="timeline">
-                	<li>暂无兑换信息</li>
-                    
+                  <li>暂无兑换信息</li>
                 </ul>
             </section>
            
