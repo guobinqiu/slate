@@ -8,32 +8,76 @@
 <!-- [endif] -->
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/personal.css')}}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{ asset('css/jquery.Jcrop.css')}}" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/personal.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/jquery.ui.widget.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/jquery.iframe-transport.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/jquery.fileupload.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/jquery.Jcrop.min.js')}}"></script>
 <script type="text/javascript">
+var path = '{{ asset("") }}';
 $(document).ready(function(){
+    function showPreview(coords){
+      var rx = 100 / coords.w;
+      var ry = 100 / coords.h;
+      $('#preview').css({
+        width: Math.round(rx * $('#target').width()) + 'px',
+        height: Math.round(ry * $('#target').height()) + 'px',
+        marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+        marginTop: '-' + Math.round(ry * coords.y) + 'px'
+      });
+    }
+    function checkCoords(){
+      if (parseInt($('#w').val())) return true;
+      alert('Please select a crop region then press submit.');
+      return false;
+    }
+    function updateCoords(c){
+      jQuery('#x').val(c.x);
+      jQuery('#y').val(c.y);
+      jQuery('#w').val(c.w);
+      jQuery('#h').val(c.h);
+    }
+    
+
+  $('#attachment').fileupload({
+        dataType: 'json',
+        done: function (e, data) {
+          if(data.result=='1'){
+            $(".errorInfo").html("<font color='red'>文件类型为jpg或png</font>");
+
+          }else if(data.result=='2'){
+            $(".errorInfo").html("<font color='red'>图片大小为1M以内</font>");
+          }else{
+            //$(".img img").attr("src",path+data.result);
+            $(".imageInfo").html("<img src='"+path+data.result+"' id='target'/>");
+            $("#resizePath").val(data.result);
+            var Jcrop_api;
+            $('#target').Jcrop({
+              aspectRatio: 1,
+              onChange: showPreview,
+              onSelect: showPreview,
+              onSelect: updateCoords
+            },function(){
+              this.animateTo([0,0,256,256]);
+            });
+            $(".resizeimage").html("<img src='"+path+data.result+"' id='preview'/>");
+            $(".resizeSubmit").html("<input type='submit' value='上传图片' name='resize' class='resBut'/><br/><input type='submit' value='取消上传' name='cancer' class='cancerBut'/>");
+          }  
+        }
+    });
+
 	{% if codeflag == 0 %}
       $("#update").hide();
       {% else %}
       $("#info").hide();
       $("#update").show();
-      {%  endif %}
-	/*
-		$.ajax({
-			url : '{{ path('_user_checkFlag',{'id':user.id}) }}',
-			type : 'get',
-			success : function(msg) {
-				if(msg=='1'){
-					$("#update").hide();
-				}else{
-					$("#info").hide();
-				}
-			}
-		});
-    */
-    $(".upload").click(function (){
-        $("#form1").submit();
-    });
+  {% endif %}
+
+  $(".upload").click(function (){
+      $("#form1").submit();
+  });
 	$("#change").click(function (){
 		$("#info").hide();
 		$("#update").show();
@@ -57,11 +101,21 @@ $(document).ready(function(){
         </div>
         <form action="{{ path('_user_info') }}" method="post" {{ form_enctype(form) }} id="form1">
         <p>欢迎您,{{ user.nick }}&nbsp;我的米粒：<span>{{ user.points }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ asset(path('_user_changePwd'),'cdn1') }}" class="edit">修改密码 »</a></p>
-        <p>{{ form_widget(form.attachment) }}<a class="upload">上传头像</a></p>
+        <p>{{ form_widget(form.attachment) }}<!--<a class="upload">上传头像</a>--></p>
         <!-- <a class="upload" href="">上传头像</a> -->
-        <p> {% if code %}
-        <font color='red'>{{ code }}</font>
-        {% endif %}</p>
+        <p class="errorInfo"></p></form>
+        <form action="{{ path('_user_resUp') }}" method="post">
+        <div style="float:left;"><p class="imageInfo"></p></div>
+        <div class="resDiv">
+         <div class="resImg"><p class="resizeimage" style="margin:0;"></p></div>
+          <input type="hidden" id="x" name="x" />
+          <input type="hidden" id="y" name="y" />
+          <input type="hidden" id="w" name="w" />
+          <input type="hidden" id="h" name="h" />
+          <input type="hidden" id="resizePath"  name="resizePath" />
+          <div class="resizeSubmit">
+          </div>
+         </div>
         </form>
         <div class="clear">
          </div>
@@ -136,7 +190,8 @@ $(document).ready(function(){
         </li>
         <li><dd>&nbsp;</dd>
           <dt>
-            <input name="update" type="submit" value="保存">
+            <input name="update" type="submit" value="保存" class="infoFinish">
+            <input name="reset" type="submit" value="取消" class="infoReset">
           </dt>
         </li>
       </ul>

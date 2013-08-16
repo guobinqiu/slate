@@ -1,5 +1,6 @@
 <?php
 namespace Jili\ApiBundle\Controller;
+
 use Gregwar\CaptchaBundle\GregwarCaptchaBundle;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -103,19 +104,55 @@ class UserController extends Controller
 		return $this->render('JiliApiBundle:User:changePwd.html.twig',$arr);
 	}
 	
-	
+
+	/**
+	 * @Route("/resUp", name="_user_resUp")
+	 */
+	public function resUp(){
+		$request = $this->get('request');
+		if($request->getSession()->get('uid')){
+			$id = $request->getSession()->get('uid');
+			$em = $this->getDoctrine()->getManager();
+			$user = $em->getRepository('JiliApiBundle:User')->find($id);
+			if ($request->getMethod() == 'POST'){
+				if($request->request->get('resize')){
+					$resizePath = $request->request->get('resizePath');
+					$x = $request->request->get('x');
+					$y = $request->request->get('y');
+					$x1 = $request->request->get('w');
+					$y1 = $request->request->get('h');
+					if(!$x)
+						$x=0;
+					if(!$y)
+						$y=0;
+					if(!$x1)
+						$x1=256;
+					if(!$y1)
+						$y1=256;
+					$user->resizeUpload($resizePath,$x,$y,$x1,$y1);
+					$user->setIconPath($resizePath);
+					$em->flush();
+					
+				}
+				return $this->redirect($this->generateUrl('_user_info'));
+
+			}	
+		}
+	}
+
+
 	/**
 	 * @Route("/info", name="_user_info",requirements={"_scheme"="https"})
 	 */
 	public function infoAction()
 	{
 		$code = '';
+		$flag = '';
 		$request = $this->get('request');
 		$codeflag = $this->container->getParameter('init');
-		$id = $this->get('request')->getSession()->get('uid');
+		$id = $request->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		$form  = $this->createForm(new RegType(), $user);
 		$option = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 		$adtaste = $this->selTaskHistory($id,$option);
 		$adtasteNum = count($adtaste);
@@ -123,6 +160,7 @@ class UserController extends Controller
 		$exchange = $exchange->getUserExchange($id,$option);
 		$sex = $request->request->get('sex');
 		$tel = $request->request->get('tel');
+		$form  = $this->createForm(new RegType(), $user);
 		if ($request->getMethod() == 'POST') {
 			if($request->request->get('update')){
 				if($sex){
@@ -139,14 +177,21 @@ class UserController extends Controller
 					$codeflag = $this->container->getParameter('init_one');
 				}
 			}else{
-    			$form  = $this->createForm(new RegType(), $user);
-    			$form->bind($request);
-    			$path =  $this->container->getParameter('upload_tmp_dir');
-    			$code = $user->upload($path);
-    			if(!$code)
-                    $em->flush();
+				if($request->request->get('reset')){
+	    			return $this->redirect($this->generateUrl('_user_info'));
+    				
+	    		}else{
+	    			$form->bindRequest($request);
+	    			$path =  $this->container->getParameter('upload_tmp_dir');
+	    			$code = $user->upload($path);
+		    		return new Response(json_encode($code));
+	    		}
+
 			}
+			
+			 
 		}
+		
 		return $this->render('JiliApiBundle:User:info.html.twig',array( 
 				'form' => $form->createView(),
 				'form_upload' =>$form->createView(),
@@ -155,7 +200,7 @@ class UserController extends Controller
 				'exchange' => $exchange,
 				'code' => $code,
 				'codeflag'=>$codeflag,
-				'adtasteNum'=>$adtasteNum,
+				'adtasteNum'=>$adtasteNum
 				));
 	}
 	
@@ -271,7 +316,7 @@ class UserController extends Controller
 		$pwd = $request->request->get('pwd');
 		if ($request->getMethod() == 'POST'){
 			if($email){
-				if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$email)){
+				if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$email)){
 					$code = $this->container->getParameter('init_two');
 				}else{
 					$em_email = $this->getDoctrine()
