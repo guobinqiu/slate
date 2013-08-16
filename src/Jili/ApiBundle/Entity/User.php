@@ -198,11 +198,35 @@ class User
      */
     private $uniqkey;
         
+    /**
+     * upload resizeimage to temp dir
+     */
+    public function resizeUpload($path,$x,$y,$x1,$y1){
+        $size = getimagesize($path);
+        // $width = $size[0];
+        // $height = $size[1];
+        // $max = 512;
+        // $width = $max;
+        // $height = $height * ($max/$size[0]);
+        $src = imagecreatefromjpeg($path);
+        if(!$x1)
+            $x1 = 256;
+         if(!$y1)
+            $y1 = 256;
+        $dst = imagecreatetruecolor($x1, $y1); //新建一个真彩色图像
+        imagecopyresampled($dst,$src,0,0,$x,$y,$size[0],$size[1],$size[0],$size[1]);        //重采样拷贝部分图像并调整大小
+        header('Content-Type: image/jpeg');
+        imagejpeg($dst,$path,100);
+        imagedestroy($src);
+        imagedestroy($dst);
+
+    }
 /**
      * upload image to temp dir
      */
     public function upload($upload_dir)
     {
+
         $fileNames = array('attachment');
         $types = array('jpg','jpeg','png');
         $upload_dir .= $this->getId()%100;
@@ -221,29 +245,36 @@ class User
 	        	case 'attachment':$field = 'iconPath';break;
 	        }  
 	        if($this->$fileName->getError()==1){
-	        	return  '文件类型为jpg或png';//类型不对
+	        	return  '1';//'文件类型为jpg或png';
 	        }else{
 	        	if(!in_array($this->$fileName->guessExtension(),$types)){
-	        		return  '文件类型为jpg或png';//类型不对
+	        		return  '1';//'文件类型为jpg或png';
 	        	}else{
 	        		if($this->$fileName->getClientSize() > 1024000){
-	        			return  '图片大小为1M以内';//图片大于1M
+	        			return  '2';//'图片大小为1M以内';
 	        		}else{
 	        			$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+                        //$this->$fileName->move($upload_dir, $filename_upload);
 	        			$size = getimagesize($this->$fileName);
 	        			$width = $size[0];
 	        			$height = $size[1];
-	        			$src = imagecreatefromjpeg($this->$fileName);
-	        			$dst = imagecreatetruecolor(250, 250); //新建一个真彩色图像
-	        			imagecopyresampled($dst, $src, 0, 0, 0, 0,
-	        			250, 250, $width, $height);        //重采样拷贝部分图像并调整大小
-	        			header('Content-Type: image/jpeg');
-	        			imagejpeg($dst,$upload_dir.$filename_upload,100);
-	        			//imagedestroy($src);
-	        			//imagedestroy($dst);
-	        			$this->$field = $upload_dir.$filename_upload;
-	        			$this->$fileName = null;
-// 	        			return '';
+                        
+                        $max = 512;
+                        $width = $max;
+                        $height = $height * ($max/$size[0]);
+                        $src = imagecreatefromjpeg($this->$fileName);
+                        $dst = imagecreatetruecolor($width, $height); //新建一个真彩色图像
+                        imagecopyresampled($dst, $src, 0, 0, 0, 0,
+                        $width, $height,$size[0], $size[1]);        //重采样拷贝部分图像并调整大小
+                        header('Content-Type: image/jpeg');
+                        imagejpeg($dst,$upload_dir.$filename_upload,100);
+                        imagedestroy($src);
+                        imagedestroy($dst);
+                        $this->$field = $upload_dir.$filename_upload;
+                        $this->$fileName = null;
+    //                      return '';
+                        return  $this->$field;       
+                        
 	        		}
 	        	}
 	        }
