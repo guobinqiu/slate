@@ -228,7 +228,7 @@ class User
     {
 
         $fileNames = array('attachment');
-        $types = array('jpg','jpeg','png');
+        $types = array('jpg','jpeg');
         $upload_dir .= $this->getId()%100;
         if(!is_dir($upload_dir)){
         	mkdir($upload_dir,0777);

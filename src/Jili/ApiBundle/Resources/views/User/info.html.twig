@@ -45,7 +45,7 @@ $(document).ready(function(){
         dataType: 'json',
         done: function (e, data) {
           if(data.result=='1'){
-            $(".errorInfo").html("<font color='red'>文件类型为jpg或png</font>");
+            $(".errorInfo").html("<font color='red'>文件类型为jpg</font>");
 
           }else if(data.result=='2'){
             $(".errorInfo").html("<font color='red'>图片大小为1M以内</font>");
