@@ -1,6 +1,7 @@
 <?php
 namespace Jili\ApiBundle\Controller;
 use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\PointsExchange;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -85,12 +86,75 @@ class DefaultController extends Controller
 		$advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->findAll();
 		$advertise = $repository->getAdvertiserList();
 		$callboard = $em->getRepository('JiliApiBundle:CallBoard')->getFiveCallboard();
+        $exchangeInfo = $em->getRepository('JiliApiBundle:PointsExchange')->exList();
+        foreach ($exchangeInfo as $key => $value) {
+            if($this->countStrs($exchangeInfo[$key]['nick']) > 12){
+                if($this->isUnion($exchangeInfo[$key]['nick']))
+                    $exchangeInfo[$key]['nick'] = $this->my_substr($value['nick'], 0,15).'...';
+                else{
+                    if($this->conUnion($exchangeInfo[$key]['nick']))
+                        $exchangeInfo[$key]['nick'] = $this->my_substr($value['nick'], 0,12).'...';
+                    else
+                        $exchangeInfo[$key]['nick'] = $this->my_substr($value['nick'], 0,10).'...';
+                }
+            }
+        }
+        $arr['exchange'] = $exchangeInfo;
 		$arr['callboard'] =  $callboard;
 		$arr['advertise_banner'] = $advertiseBanner;
     	$arr['advertise'] = $advertise;
         return $this->render('JiliApiBundle:Default:index.html.twig',$arr);
     }
-    
+
+    public function conUnion($str){
+        $pattern = '/[^\x00-\x80]/';
+        if(preg_match($pattern,$str)){
+            return true;// "含有中文";
+        }else{
+            return false;
+        }
+    }
+
+    public function isUnion($str){
+        if(!eregi("[^\x80-\xff]","$str")){
+            return true;//全是中文
+        }else{
+            return false;
+        } 
+    }
+
+    public function my_substr($str, $start, $len)
+    {
+        $tmpstr = "";
+        $strlen = $start + $len;
+        for($i = 0; $i < $strlen; $i++)
+        {
+            if( ord( substr($str, $i, 1) ) > 0xa0 )
+            {
+                $tmpstr .= substr($str, $i, 3);
+                $i += 2;
+            } else
+                $tmpstr .= substr($str, $i, 1);
+        }
+        return $tmpstr;
+    }
+
+    public function  countStrs($str){
+        $len=strlen($str); 
+        $i=0;  
+        while($i<$len)  
+        {  
+               if(preg_match("/^[".chr(0xa1)."-".chr(0xff)."]+$/",$str[$i]))  
+               {  
+                 $i+=2;  
+               }  
+               else  
+               {  
+                 $i+=1;  
+               }  
+        }  
+        return $i;  
+    }
     /**
      * @Route("/fastLogin", name="_default_fastLogin")
      */
@@ -149,7 +213,6 @@ class DefaultController extends Controller
         }
         return $hash;
     }
-
 
     
      /**

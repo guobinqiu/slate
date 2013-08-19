@@ -1,3 +1,9 @@
+.userNick{
+	color:#0000ff;
+}
+.userType{
+	color:#ff0000;
+}
 .index section.one, .index section.process, .index section.main {
 	margin: 20px 0 0px 0;
 	display: inline-block;
