@@ -1172,15 +1172,7 @@ class AdminController extends Controller
         $start_time = $request->request->get('start_time');
         $end_time = $request->request->get('end_time');
         if ($request->getMethod() == 'POST'){
-            if($start_time  && $end_time){
-                if($start_time>$end_time){
-                    $code = $this->container->getParameter('init_two');
-                }else{
-                    $count_user = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time);
-                }
-            }else{
-                $code = $this->container->getParameter('init_one');
-            }
+            $count_user = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time);   
         }
         return $this->render('JiliApiBundle:Admin:selectUser.html.twig',array('code'=>$code,'count_user'=>$count_user));
     }

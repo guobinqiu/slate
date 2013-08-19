@@ -1,3 +1,9 @@
+.userNick{
+	color:#54B9E8;
+}
+.userType{
+	color:#ec4920;
+}
 .index section.one, .index section.process, .index section.main {
 	margin: 20px 0 0px 0;
 	display: inline-block;
@@ -113,9 +119,11 @@
 }
 .index section.one #userInformation .after .user .photo{
 	float:left;
-	width:90px;
-	height:90px;
+	width:98px;
+	height:98px;
 	margin:0 10px 0 0;
+	padding:4px;
+	background:url(../images/user_head_bg.gif) no-repeat;
 }
 .index section.one #userInformation .after .user .photo img{
 	width:90px;
@@ -126,15 +134,26 @@
 	Filter:alpha(opacity=80);
 }
 .index section.one #userInformation .after .user p{
-	margin:20px 0;
+	margin:10px 0;
 }
 .index section.one #userInformation .after .user p.point{
 	font-size:18px;
 	color:#CCC;
+	position: absolute;
+	bottom: 95px;
 }
 .index section.one #userInformation .after .user p.point span{
 	color:#FF7114;
 	font-weight:bold;
+}
+.index section.one #userInformation .after .user p a.hello{
+	display: inline-block;
+	width: 100px;
+	word-wrap:break-word;
+}
+.index section.one #userInformation .after .user p a.personal{
+	display: inline-block;
+	margin-top: 8px;
 }
 .index section.one #userInformation .after .user p a.personal:hover img{
 	opacity: .8;

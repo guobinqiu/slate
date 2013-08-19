@@ -8,13 +8,26 @@ use Doctrine\Common\Collections\ArrayCollection;
 class UserRepository extends EntityRepository
 {
 	public function getUserCount($start,$end){
-		$start_time = $start.' 00:00:00';
-		$end_time = $end.' 23:59:59';
+		if($start)
+			$start_time = $start.' 00:00:00';
+		if($end)
+			$end_time = $end.' 23:59:59';
 		$query = $this->createQueryBuilder('u');
 		$query = $query->select('u.id,u.nick');
-		$query = $query->Where('u.registerDate>=:start_time');
-		$query = $query->andWhere('u.registerDate<=:end_time');
-		$query = $query->setParameters(array('start_time'=>$start_time,'end_time'=>$end_time));
+
+		if($start && $end){
+			$query = $query->Where('u.registerDate>=:start_time');
+			$query = $query->andWhere('u.registerDate<=:end_time');
+			$query = $query->setParameters(array('start_time'=>$start_time,'end_time'=>$end_time));
+		}
+		if($start && !$end){
+			$query = $query->Where('u.registerDate>=:start_time');
+			$query = $query->setParameter('start_time',$start_time);
+		}
+		if(!$start && $end){
+			$query = $query->Where('u.registerDate<=:end_time');
+			$query = $query->setParameter('end_time',$end_time);
+		}
 		$query = $query->getQuery();
 		return count($query->getResult());
 	}

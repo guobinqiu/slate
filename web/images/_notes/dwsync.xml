@@ -4,4 +4,20 @@
 <file name="adMoreBg_top.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467894640994" remote="130201482670000000" Dst="0" />
 <file name="adMoreBg_bottom.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467894630994" remote="130201482670000000" Dst="0" />
 <file name="adv_prompt_icon.png" server="192.168.1.235//var/www/html/jili/" local="130201479593860151" remote="130201483340000000" Dst="0" />
+<file name="user_head_bg.gif" server="192.168.1.235//var/www/html/jili/" local="130211109428846577" remote="130211109880000000" Dst="0" />
+<file name="indexRegBtn.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467895081019" remote="130211110490000000" Dst="0" />
+<file name="inputUserIcon.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467895101020" remote="130211110490000000" Dst="0" />
+<file name="inputPasswordIcon.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467895091020" remote="130211110490000000" Dst="0" />
+<file name="listArrow.gif" server="192.168.1.235//var/www/html/jili/" local="130201467895311032" remote="130211110500000000" Dst="0" />
+<file name="giftIcon.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467895041017" remote="130211114430000000" Dst="0" />
+<file name="errorIcon.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467894871007" remote="130211114440000000" Dst="0" />
+<file name="emailImage.jpg" server="192.168.1.235//var/www/html/jili/" local="130211122490123639" remote="130211120740000000" Dst="0" />
+<file name="loginFrameBg.jpg" server="192.168.1.235//var/www/html/jili/" local="130211148449418426" remote="130211145670000000" Dst="0" />
+<file name="logBtn.png" server="192.168.1.235//var/www/html/jili/" local="130201467895321033" remote="130211142010000000" Dst="0" />
+<file name="weiboIcon.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467895701055" remote="130211142010000000" Dst="0" />
+<file name="qqIcon.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467895501043" remote="130211142010000000" Dst="0" />
+<file name="signBtn.png" server="192.168.1.235//var/www/html/jili/" local="130201467895551046" remote="130211142010000000" Dst="0" />
+<file name="banner-1.png" server="192.168.1.235//var/www/html/jili/" local="130213536697129956" remote="130213533770000000" Dst="0" />
+<file name="game_start_btn.jpg" server="192.168.1.235//var/www/html/jili/" local="130213630926002312" remote="130213628710000000" Dst="0" />
+<file name="game_start_btn_h.jpg" server="192.168.1.235//var/www/html/jili/" local="130213631100712305" remote="130213628710000000" Dst="0" />
 </dwsync>

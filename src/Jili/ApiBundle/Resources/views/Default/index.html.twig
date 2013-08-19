@@ -51,7 +51,7 @@ $(function(){
             	{% else %}
             	   <div class="photo"> <a href="{{ path('_user_info')}}" ><img src="{{ asset('images/default_face.jpg') }}" width="90" height="90"/></a></div>
             	 {% endif %}
-                <p>您好，<a href="{{ path('_user_info')}}">{{ user.nick }}</a><br/><br/><a class="personal" href="{{ path('_user_info')}}"><img src="{{ asset('images/myCenterBtn.png') }}"/></a></p>
+                <p>您好，<a href="{{ path('_user_info')}}" class="hello">{{ user.nick }}</a><br/><a class="personal" href="{{ path('_user_info')}}"><img src="{{ asset('images/myCenterBtn.png') }}"/></a></p>
                 <div class="clear"></div>
                 <p class="point">当前米粒数：<span>{{ user.points }}</span></p>
             </div>
@@ -76,7 +76,7 @@ $(function(){
     <section class="process"><img src="{{ asset('images/process.jpg')}}" width="960" height="85"></section>
   <section class="main">
     	<article>
-        	<h2><img src="{{ asset('images/hotTask.jpg')}}" width="209" height="19" alt="热门任务"><a class="more" href="{{ asset(path('_advertiserment_list'),'cdn1') }}">更多>></a></h2>
+        	<h2><img src="{{ asset('images/hotTask.jpg')}}" width="209" height="19" alt="热门任务"><a class="more" href="{{ asset(path('_shopping_list'),'cdn1') }}">更多>></a></h2>
         	
         	{% for item in advertise %}
                <div class="task">
@@ -111,8 +111,9 @@ $(function(){
              <section style="height:400px;">
             	<h4>最新兑换</h4>
               <ul class="timeline">
-                	<li>暂无兑换信息</li>
-                    
+                {% for item in exchange %}
+                  <li><span class="userNick">{{ item.nick }}</span>兑换了{{ item.type}}<span class="userType">{{ item.targetPoint }}</span>积分</li>
+               {% endfor %}
                 </ul>
             </section>
            

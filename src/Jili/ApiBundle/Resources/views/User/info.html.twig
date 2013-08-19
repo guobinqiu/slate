@@ -45,7 +45,7 @@ $(document).ready(function(){
         dataType: 'json',
         done: function (e, data) {
           if(data.result=='1'){
-            $(".errorInfo").html("<font color='red'>文件类型为jpg或png</font>");
+            $(".errorInfo").html("<font color='red'>文件类型为jpg</font>");
 
           }else if(data.result=='2'){
             $(".errorInfo").html("<font color='red'>图片大小为1M以内</font>");
@@ -104,8 +104,9 @@ $(document).ready(function(){
         <p>{{ form_widget(form.attachment) }}<!--<a class="upload">上传头像</a>--></p>
         <!-- <a class="upload" href="">上传头像</a> -->
         <p class="errorInfo"></p></form>
+        <div class="clear"></div>
         <form action="{{ path('_user_resUp') }}" method="post">
-        <div style="float:left;"><p class="imageInfo"></p></div>
+        <div style="float:left; margin-left:150px;"><p class="imageInfo"></p></div>
         <div class="resDiv">
          <div class="resImg"><p class="resizeimage" style="margin:0;"></p></div>
           <input type="hidden" id="x" name="x" />

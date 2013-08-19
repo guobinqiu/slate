@@ -18,9 +18,24 @@
 <div class="webArticle adList">
   <article>
     <h2><img src="{{ asset('images/adTitle.jpg')}}" width="149" height="19"></h2>
+    <ul id="adRecommend">
      {% for item in adverRecommand %}
-    <div class="ad top">
-      <div class="topIcon"><img src="{{ asset('images/topIcon.png')}}" width="60" height="60"></div>
+
+     <li><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.iconImage) }}" width="300" height="250"></a>
+        <p class="about"><span class="store">{{ item.title  }}</span>
+         {% if item.incentiveType==1 %}
+                     <span class="rebate">{{ item.incentive }}米粒</span>
+             {% elseif item.incentiveType==2 %}
+                     <span class="rebate">最高返{{ item.incentiveRate/100 }}%</span>
+             {% else %}
+             {% endif %}
+        </p>
+      </li>
+    {% endfor %}
+    </ul>
+    
+     {% for item in pagination %}
+               <div class="ad top">
       <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="202" height="132"/></a></div>
       <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.decription | raw }}</a></div>
       <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a>
@@ -31,20 +46,6 @@
              {% else %}
              {% endif %}
     </div>
-    {% endfor %}
-    
-     {% for item in pagination %}
-               <div class="ad">
-                  <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="149" height="19"/></a></div>
-               <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.decription | raw }}</a></div>
-               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a>
-                      {% if item.incentiveType==1 %}
-                         <span class="reward"><font>{{ item.incentive }}</font>米粒</span>
-                        {% elseif item.incentiveType==2 %}
-                         <span class="reward">最高获消费额<font>{{ item.incentiveRate/100 }}%</font></span>
-                         {% else %}
-                     {% endif %}
-              </div>
      {% endfor %}
      
      <div style="display: inline-block; width: 100%;">
