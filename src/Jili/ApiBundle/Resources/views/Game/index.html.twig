@@ -19,10 +19,10 @@
 {% include 'JiliApiBundle::header.html.twig' %}
  <div id="container">
          <!--    *** ▼▼▼ Header ▼▼▼ ********************    -->
-         <div id="header">
-             <a href="{{ path("_game_chick") }}"><img src="{{ asset("images/banner-1.png") }}" /></a>
+         <div id="header" class="game_start">
+             <img src="{{ asset("images/banner-1.png") }}" />
+			 <a class="game_start_btn" href="{{ path("_game_chick") }}">开始</a>
          </div><!--    *** ▲▲▲ /End Header ▲▲▲ ********************    -->
-         
          <!--    *** ▼▼▼ Contents ▼▼▼ ********************    -->
          <div id="rule"><img src="{{ asset("images/rank.png") }}" /></div>
          <div id="contents">

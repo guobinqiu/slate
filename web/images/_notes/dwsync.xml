@@ -17,4 +17,7 @@
 <file name="weiboIcon.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467895701055" remote="130211142010000000" Dst="0" />
 <file name="qqIcon.jpg" server="192.168.1.235//var/www/html/jili/" local="130201467895501043" remote="130211142010000000" Dst="0" />
 <file name="signBtn.png" server="192.168.1.235//var/www/html/jili/" local="130201467895551046" remote="130211142010000000" Dst="0" />
+<file name="banner-1.png" server="192.168.1.235//var/www/html/jili/" local="130213536697129956" remote="130213533770000000" Dst="0" />
+<file name="game_start_btn.jpg" server="192.168.1.235//var/www/html/jili/" local="130213630926002312" remote="130213628710000000" Dst="0" />
+<file name="game_start_btn_h.jpg" server="192.168.1.235//var/www/html/jili/" local="130213631100712305" remote="130213628710000000" Dst="0" />
 </dwsync>
