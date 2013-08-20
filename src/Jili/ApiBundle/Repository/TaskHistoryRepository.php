@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityRepository;
 
 class TaskHistoryRepository extends EntityRepository
 {
-
 	public function getUseradtaste($id,$option=array())
 	{
 		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
@@ -19,7 +18,7 @@ class TaskHistoryRepository extends EntityRepository
 		if($option['daytype']){
 			switch($option['daytype']){
 			    case 0:
-			    	break;
+			    	break;	
 			    case 1:
 			    	$query = $query->andWhere('to.date > :daydate');
 			    	$query = $query->setParameter('daydate',$daydate);
@@ -31,10 +30,10 @@ class TaskHistoryRepository extends EntityRepository
 			    case 3:
 			    	$query = $query->andWhere('to.date > :yeardate');
 			    	$query = $query->setParameter('yeardate',$yeardate);
-			    	break;    
+			    	break;
 			}
 		}
-		$query = $query->setParameter('id',$id);
+	 	$query = $query->setParameter('id',$id);
 		$query = $query->orderBy('to.date', 'DESC');
 		if($option['offset'] && $option['limit']){
 			$query = $query->setFirstResult(0);
