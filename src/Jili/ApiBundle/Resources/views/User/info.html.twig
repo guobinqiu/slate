@@ -51,6 +51,7 @@ $(document).ready(function(){
             $(".errorInfo").html("<font color='red'>图片大小为1M以内</font>");
           }else{
             //$(".img img").attr("src",path+data.result);
+            $(".resDiv").show();
             $(".imageInfo").html("<img src='"+path+data.result+"' id='target'/>");
             $("#resizePath").val(data.result);
             var Jcrop_api;
