@@ -148,6 +148,7 @@ class UserController extends Controller
 	{
 		$code = '';
 		$flag = '';
+		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
 		$request = $this->get('request');
 		$codeflag = $this->container->getParameter('init');
 		$id = $request->getSession()->get('uid');
@@ -155,6 +156,11 @@ class UserController extends Controller
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$option = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 		$adtaste = $this->selTaskHistory($id,$option);
+		foreach ($adtaste as $key => $value) {
+			if(($value['incentive']==0 || $value['orderStatus'] == 1) && strtotime($value['createTime']->format('Y-m-d H:i:s')) < strtotime($daydate)){
+				unset($adtaste[$key]);
+			}
+		}
 		$adtasteNum = count($adtaste);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
 		$exchange = $exchange->getUserExchange($id,$option);
@@ -581,7 +587,6 @@ class UserController extends Controller
 	// 	return $code;
 	// }
 	
-	
 	/**
 	 * @Route("/reg", name="_user_reg",requirements={"_scheme"="https"})
 	 */
@@ -622,28 +627,35 @@ class UserController extends Controller
         								$code_nick = $this->container->getParameter('init_two');
         							else{
         								if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick)){
-        									$code_nick = $this->container->getParameter('init_three');
+        										$code_nick = $this->container->getParameter('init_three');
         								}else{
-        									$user->setNick($request->request->get('nick'));
-        									$user->setEmail($request->request->get('email'));
-        									$user->setPoints($this->container->getParameter('init'));
-        									$user->setIsInfoSet($this->container->getParameter('init'));
-        									$em->persist($user);
-        									$em->flush();
-        									$str = 'jilifirstregister';
-        									$code = md5($user->getId().str_shuffle($str));
-        									$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
-        									if($this->sendMail($url, $user->getEmail(),$user->getNick())){
-        										$setPasswordCode = new setPasswordCode();
-        										$setPasswordCode->setUserId($user->getId());
-        										$setPasswordCode->setCode($code);
-        										$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
-        										$em->persist($setPasswordCode);
-        										$em->flush();
-        										// 					echo 'success';
-        										
-        									    return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
+        									$count = (strlen($nick) + mb_strlen($nick,'UTF8')) / 2;
+        									if($count > 20)
+        										$code_nick = $this->container->getParameter('init_three');
+        									else{
+        										$user->setNick($request->request->get('nick'));
+	        									$user->setEmail($request->request->get('email'));
+	        									$user->setPoints($this->container->getParameter('init'));
+	        									$user->setIsInfoSet($this->container->getParameter('init'));
+	        									$em->persist($user);
+	        									$em->flush();
+	        									$str = 'jilifirstregister';
+	        									$code = md5($user->getId().str_shuffle($str));
+	        									$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
+	        									if($this->sendMail($url, $user->getEmail(),$user->getNick())){
+	        										$setPasswordCode = new setPasswordCode();
+	        										$setPasswordCode->setUserId($user->getId());
+	        										$setPasswordCode->setCode($code);
+	        										$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
+	        										$em->persist($setPasswordCode);
+	        										$em->flush();
+	        										// 					echo 'success';
+	        										
+	        									    return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
+	        									}
+
         									}
+        									
         								}
         							}
         						}else{
@@ -717,10 +729,16 @@ class UserController extends Controller
 	 * @Route("/adtaste/{type}", name="_user_adtaste")
 	 */
 	public function adtasteAction($type){
+		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
 		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$option = array('daytype' => $type ,'offset'=>'','limit'=>'');
 		$adtaste = $this->selTaskHistory($id,$option);
+		foreach ($adtaste as $key => $value) {
+			if(($value['incentive']==0 || $value['orderStatus'] == 1) && strtotime($value['createTime']->format('Y-m-d H:i:s')) < strtotime($daydate)){
+				unset($adtaste[$key]);
+			}
+		}
 		$arr['adtaste'] = $adtaste;
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$arr['user'] = $user;
