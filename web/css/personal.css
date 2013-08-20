@@ -125,6 +125,7 @@
     position: absolute;
     top: 15px;
 	font-size:13px;
+	left: 10px;
 }
 .info a.edit, .ad a.more, .score a.more{
 	position:absolute;
