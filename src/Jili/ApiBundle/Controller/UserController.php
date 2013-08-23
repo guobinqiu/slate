@@ -164,7 +164,7 @@ class UserController extends Controller
 		$option = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 		$adtaste = $this->selTaskHistory($id,$option);
 		foreach ($adtaste as $key => $value) {
-			if(($value['incentive']==0 || $value['orderStatus'] == 1) && strtotime($value['createTime']->format('Y-m-d H:i:s')) < strtotime($daydate)){
+			if(($value['incentive']==0 || $value['orderStatus'] == 1) && $value['type']==1 && strtotime($value['createTime']->format('Y-m-d H:i:s')) < strtotime($daydate)){
 				unset($adtaste[$key]);
 			}
 		}
