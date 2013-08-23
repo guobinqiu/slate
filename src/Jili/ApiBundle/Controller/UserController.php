@@ -67,7 +67,8 @@ class UserController extends Controller
 	 * @Route("/changePwd", name="_user_changePwd")
 	 */
 	public function changePwdAction(){
-		$arr['codeflag'] = $this->container->getParameter('init');
+		$arr['codeflag'] = '';
+		$arr['code'] = '';
 		$request = $this->get('request');
 		$oldPwd =  $request->request->get('oldPwd');
 		$pwd = $request->request->get('pwd');
@@ -80,23 +81,29 @@ class UserController extends Controller
 				if($user->pw_encode($oldPwd) == $user->getPwd()){
 					if($pwd){
 						if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+							$arr['code'] = $this->container->getParameter('change_wr_pwd');
 							$arr['codeflag'] = $this->container->getParameter('init_three');
 						}else{
 							if($pwd == $newPwd){
 								$user->setPwd($pwd);
 								$em->flush();
 								$arr['codeflag'] = $this->container->getParameter('init_one');
+								$arr['code'] = $this->container->getParameter('forget_su_pwd');
 							}else{
 								$arr['codeflag'] = $this->container->getParameter('init_four');
+								$arr['code'] = $this->container->getParameter('change_unsame_pwd');
 							}
 						}
 					}else{
+						$arr['code'] = $this->container->getParameter('change_en_newpwd');
 						$arr['codeflag'] = $this->container->getParameter('init_five');
 					}
 				}else{
+					$arr['code'] = $this->container->getParameter('change_wr_oldpwd');
 					$arr['codeflag'] = $this->container->getParameter('init_two');
 				}
 			}else{
+				$arr['code'] = $this->container->getParameter('change_en_oldpwd');
 				$arr['codeflag'] = $this->container->getParameter('init_six');
 			}
     		
@@ -148,13 +155,19 @@ class UserController extends Controller
 	{
 		$code = '';
 		$flag = '';
+		$codeflag = '';
+		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
 		$request = $this->get('request');
-		$codeflag = $this->container->getParameter('init');
 		$id = $request->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$option = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 		$adtaste = $this->selTaskHistory($id,$option);
+		foreach ($adtaste as $key => $value) {
+			if(($value['incentive']==0 || $value['orderStatus'] == 1) && strtotime($value['createTime']->format('Y-m-d H:i:s')) < strtotime($daydate)){
+				unset($adtaste[$key]);
+			}
+		}
 		$adtasteNum = count($adtaste);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
 		$exchange = $exchange->getUserExchange($id,$option);
@@ -165,7 +178,7 @@ class UserController extends Controller
 			if($request->request->get('update')){
 				if($sex){
 					if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
-						$codeflag = $this->container->getParameter('init_two');
+						$codeflag = $this->container->getParameter('update_wr_mobile');
 					}else{
 						$user->setSex($sex);
 						$user->setTel($tel);
@@ -174,7 +187,7 @@ class UserController extends Controller
 						$em->flush();
 					}
 				}else{
-					$codeflag = $this->container->getParameter('init_one');
+					$codeflag = $this->container->getParameter('update_se_sex');
 				}
 			}else{
 				if($request->request->get('reset')){
@@ -184,6 +197,12 @@ class UserController extends Controller
 	    			$form->bindRequest($request);
 	    			$path =  $this->container->getParameter('upload_tmp_dir');
 	    			$code = $user->upload($path);
+	    			if($code == 1){
+	    				$code =  $this->container->getParameter('upload_img_type');
+	    			} 
+	    			if($code == 2){
+	    				$code =  $this->container->getParameter('upload_img_size');
+	    			}
 		    		return new Response(json_encode($code));
 	    		}
 
@@ -311,19 +330,19 @@ class UserController extends Controller
 		if(substr($goToUrl, -10) != 'user/login'){
 			$session->set('goToUrl', $goToUrl);
 		}
-		$code = $this->container->getParameter('init');
+		$code = '';
 		$email = $request->request->get('email');
 		$pwd = $request->request->get('pwd');
 		if ($request->getMethod() == 'POST'){
 			if($email){
 				if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$email)){
-					$code = $this->container->getParameter('init_two');
+					$code = $this->container->getParameter('login_wr_mail');
 				}else{
 					$em_email = $this->getDoctrine()
 					->getRepository('JiliApiBundle:User')
 					->findByEmail($email);
 					if(!$em_email){
-						$code = $this->container->getParameter('init_one');
+						$code = $this->container->getParameter('login_wr');
 						// 		    		echo 'email is unexist!';
 					}else{
 						$id = $em_email[0]->getId();
@@ -331,7 +350,7 @@ class UserController extends Controller
 						$user = $em->getRepository('JiliApiBundle:User')->find($id);
 						if($user->pw_encode($pwd) != $user->getPwd()){
 							// 		    			echo 'pwd is error!';
-							$code = $this->container->getParameter('init_one');
+							$code = $this->container->getParameter('login_wr');
 						}else{
 							
 							if($request->request->get('remember_me')=='1'){
@@ -368,7 +387,7 @@ class UserController extends Controller
 					}
 			    }
 			}else{
-			    $code = $this->container->getParameter('init_three');
+			    $code = $this->container->getParameter('login_en_mail');
 		    }
 			
 	    }
@@ -438,13 +457,13 @@ class UserController extends Controller
 	 * @Route("/reset", name="_user_reset")
 	 */
 	public function resetAction(){
-		$code = $this->container->getParameter('init');
+		$code = '';
 		$request = $this->get('request');
 		$email = $request->query->get('email');
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
 		if(empty($user)){
-			$code = $this->container->getParameter('init');
+			$code = $this->container->getParameter('chnage_no_email');
 		}else{
 			$nick = $user[0]->getNick();
 			$id = $user[0]->getId();
@@ -488,6 +507,7 @@ class UserController extends Controller
 					if($pwd){
 						if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
 							$arr['codeflag'] = $this->container->getParameter('init_three');
+							$arr['code'] = $this->container->getParameter('forget_wr_pwd');
 						}else{
 							if($pwd == $newPwd){
 								$this->get('request')->getSession()->set('uid',$id);
@@ -498,12 +518,15 @@ class UserController extends Controller
 								$em->persist($setPasswordCode);
 								$em->flush();
 								$arr['codeflag'] = $this->container->getParameter('init_one');
+								$arr['code'] = $this->container->getParameter('forget_su_pwd');
 							}else{
 								$arr['codeflag'] = $this->container->getParameter('init_four');
+								$arr['code'] = $this->container->getParameter('forget_unsame_pwd');
 							}
 						}
 					}else{
 						$arr['codeflag'] = $this->container->getParameter('init_two');
+						$arr['code'] = $this->container->getParameter('forget_en_pwd');
 					}
 					
 				}
@@ -581,11 +604,14 @@ class UserController extends Controller
 	// 	return $code;
 	// }
 	
-	
 	/**
 	 * @Route("/reg", name="_user_reg",requirements={"_scheme"="https"})
 	 */
 	public function regAction(){
+		$code_nick = '';
+		$code_cha = '';
+		$code_email = '';
+		$code_re = '';
 		if($this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_default_index'));
         }
@@ -594,66 +620,76 @@ class UserController extends Controller
 		$form = $this->createForm(new CaptchaType(), array());
 		$email = $request->request->get('email');
 		$nick = $request->request->get('nick');
-		$code_nick = $this->container->getParameter('init');
-		$code_cha = $this->container->getParameter('init');
-		$code_email = $this->container->getParameter('init');
 		if ($request->getMethod() == 'POST'){
 			    if($this->get('request')->getSession()->get('phrase') != $request->request->get('captcha')){
 			    	$this->get('request')->getSession()->remove('phrase');
-			    	$code_cha = $this->container->getParameter('init_one');
+			    	// $code_cha = $this->container->getParameter('init_one');
+			    	$code_cha = $this->container->getParameter('reg_wr_captcha');
 			    }else{
 			    	$this->get('request')->getSession()->remove('phrase');
 			    	if($email){
 			    		if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$email)){
-        					$code_email = $this->container->getParameter('init_two');
+        					// $code_email = $this->container->getParameter('init_two');
+        					$code_email = $this->container->getParameter('reg_wr_mail');
         				}else{
         					$em = $this->getDoctrine()->getManager();
         					$user_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
                     	    if($user_email){
                     	    	$wenwen = $this->issetReg($email);
-                    	    	if($wenwen==$this->container->getParameter('init_one'))
-                    	    		$code_email = $this->container->getParameter('init_four');//重新激活
-                    	    	if($wenwen==$this->container->getParameter('init_two'))
-                    	    		$code_email = $this->container->getParameter('init_three');//提示已经注册
+                    	    	if($wenwen==$this->container->getParameter('init_one')){
+                    	    		$code_email = $this->container->getParameter('reg_al_mail');               	
+                    	    	}
+                    	    	if($wenwen==$this->container->getParameter('init_two')){
+                    	    		$code_re = $this->container->getParameter('init_one');
+                    	    		$code_email = $this->container->getParameter('reg_noal_mail');
+                    	    	}	
                     	    }else{
         						if($nick){
         							$user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
         							if($user_nick)
-        								$code_nick = $this->container->getParameter('init_two');
+        								$code_nick = $this->container->getParameter('reg_al_nick');
         							else{
         								if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick)){
-        									$code_nick = $this->container->getParameter('init_three');
+        										// $code_nick = $this->container->getParameter('init_three');
+        									$code_nick = $this->container->getParameter('reg_wr_nick');
         								}else{
-        									$user->setNick($request->request->get('nick'));
-        									$user->setEmail($request->request->get('email'));
-        									$user->setPoints($this->container->getParameter('init'));
-        									$user->setIsInfoSet($this->container->getParameter('init'));
-        									$em->persist($user);
-        									$em->flush();
-        									$str = 'jilifirstregister';
-        									$code = md5($user->getId().str_shuffle($str));
-        									$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
-        									if($this->sendMail($url, $user->getEmail(),$user->getNick())){
-        										$setPasswordCode = new setPasswordCode();
-        										$setPasswordCode->setUserId($user->getId());
-        										$setPasswordCode->setCode($code);
-        										$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
-        										$em->persist($setPasswordCode);
-        										$em->flush();
-        										// 					echo 'success';
-        										
-        									    return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
+        									$count = (strlen($nick) + mb_strlen($nick,'UTF8')) / 2;
+        									if($count > 20)
+        										$code_nick = $this->container->getParameter('reg_wr_nick');
+        									else{
+        										$user->setNick($request->request->get('nick'));
+	        									$user->setEmail($request->request->get('email'));
+	        									$user->setPoints($this->container->getParameter('init'));
+	        									$user->setIsInfoSet($this->container->getParameter('init'));
+	        									$em->persist($user);
+	        									$em->flush();
+	        									$str = 'jilifirstregister';
+	        									$code = md5($user->getId().str_shuffle($str));
+	        									$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
+	        									if($this->sendMail($url, $user->getEmail(),$user->getNick())){
+	        										$setPasswordCode = new setPasswordCode();
+	        										$setPasswordCode->setUserId($user->getId());
+	        										$setPasswordCode->setCode($code);
+	        										$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
+	        										$em->persist($setPasswordCode);
+	        										$em->flush();
+	        										// 					echo 'success';
+	        										
+	        									    return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
+	        									}
+
         									}
+        									
         								}
         							}
         						}else{
-        							$code_nick = $this->container->getParameter('init_one');
+        							$code_nick = $this->container->getParameter('reg_en_nick');
         						}
         						
         					}
         				}
 			    	}else{
-			    		$code_email = $this->container->getParameter('init_one');
+			    		$code_email = $this->container->getParameter('reg_en_mail');
 			    	}
 			    }
 		}
@@ -662,6 +698,7 @@ class UserController extends Controller
 				'code_nick'=>$code_nick,
 				'code_cha'=>$code_cha,
 				'code_email'=>$code_email,
+				'code_re'=>$code_re,
 				'email'=>$email,
 				'nick' =>$nick
 				));
@@ -717,10 +754,16 @@ class UserController extends Controller
 	 * @Route("/adtaste/{type}", name="_user_adtaste")
 	 */
 	public function adtasteAction($type){
+		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
 		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$option = array('daytype' => $type ,'offset'=>'','limit'=>'');
 		$adtaste = $this->selTaskHistory($id,$option);
+		foreach ($adtaste as $key => $value) {
+			if(($value['incentive']==0 || $value['orderStatus'] == 1) && strtotime($value['createTime']->format('Y-m-d H:i:s')) < strtotime($daydate)){
+				unset($adtaste[$key]);
+			}
+		}
 		$arr['adtaste'] = $adtaste;
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$arr['user'] = $user;
@@ -744,9 +787,9 @@ class UserController extends Controller
 	 * @Route("/forgetPass/{code}/{id}", name="_user_forgetPass")
 	 */
 	public function forgetPassAction($code,$id){
-		$code_pwd = $this->container->getParameter('init');
+		$code_pwd = '';
 		$arr['code_pwd']  = $code_pwd;
-		$code_que_pwd = $this->container->getParameter('init');
+		$code_que_pwd = '';
 		$arr['code_que_pwd']  = $code_que_pwd;
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
@@ -770,7 +813,7 @@ class UserController extends Controller
         			if($request->request->get('ck')=='1'){
         				if($pwd){
         					if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
-        						$code_pwd = $this->container->getParameter('init_two');
+        						$code_pwd = $this->container->getParameter('forget_wr_pwd');
         						$arr['code_pwd']  = $code_pwd;
         					}else{
         						if($pwd == $que_pwd){
@@ -784,12 +827,12 @@ class UserController extends Controller
 //         							return $this->redirect($this->generateUrl('_user_regSuccess'));
         							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
         						}else{
-        							$code_que_pwd = $this->container->getParameter('init_one');
+        							$code_que_pwd = $this->container->getParameter('forget_unsame_pwd');
         							$arr['code_que_pwd']  = $code_que_pwd;
         						}
         					}
         				}else{
-        					$code_pwd = $this->container->getParameter('init_one');
+        					$code_pwd = $this->container->getParameter('forget_en_pwd');
         					$arr['code_pwd']  = $code_pwd;
         				}
         			}else{

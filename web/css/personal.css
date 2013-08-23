@@ -2,6 +2,7 @@
 	margin-top: 20px;
 	float: left;
 	margin-left: 10px;
+	display: none;
 }
 .resImg{
 	width:100px;
@@ -125,6 +126,7 @@
     position: absolute;
     top: 15px;
 	font-size:13px;
+	left: 10px;
 }
 .info a.edit, .ad a.more, .score a.more{
 	position:absolute;

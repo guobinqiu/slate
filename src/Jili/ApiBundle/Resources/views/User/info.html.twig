@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <title>积粒网-个人中心</title>
+{% include 'JiliApiBundle::seo.html.twig' %}
 <!-- [if lt IE9] -->
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
@@ -44,13 +45,11 @@ $(document).ready(function(){
   $('#attachment').fileupload({
         dataType: 'json',
         done: function (e, data) {
-          if(data.result=='1'){
-            $(".errorInfo").html("<font color='red'>文件类型为jpg</font>");
-
-          }else if(data.result=='2'){
-            $(".errorInfo").html("<font color='red'>图片大小为1M以内</font>");
+          if(data.result.substr(0,7)!='uploads'){
+            $(".errorInfo").html("<font color='red'>"+data.result+"</font>");
           }else{
             //$(".img img").attr("src",path+data.result);
+            $(".resDiv").show();
             $(".imageInfo").html("<img src='"+path+data.result+"' id='target'/>");
             $("#resizePath").val(data.result);
             var Jcrop_api;
@@ -68,11 +67,11 @@ $(document).ready(function(){
         }
     });
 
-	{% if codeflag == 0 %}
-      $("#update").hide();
-      {% else %}
+	{% if codeflag %}
       $("#info").hide();
       $("#update").show();
+  {% else %}
+      $("#update").hide();
   {% endif %}
 
   $(".upload").click(function (){
@@ -180,13 +179,9 @@ $(document).ready(function(){
           <dd>手机号码：</dd>
           <dt>
             <input name="tel" type="text" value="{{ user.tel }}"><br/>
-              {% if codeflag == 1 %}
-            <font color='red'>请选择性别</font>
-       {% elseif codeflag ==2  %}
-           <font color='red'>手机格式不对</font>
-       {% else %}
-         
-       {% endif %}
+                   {% if codeflag  %}
+                     <font color='red'>{{ codeflag }}</font>
+                   {% endif %}
           </dt>
         </li>
         <li><dd>&nbsp;</dd>
@@ -201,8 +196,13 @@ $(document).ready(function(){
   </section>
 
   <section>
+
     <h3>我的任务历史<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
     <div class="content ad">
+    {% if adtasteNum > 0 %}
+      <p class="prompt">*&nbsp;商家审核需要8周，判定有效后立即到账（退货无返利）</p>
+      <a href="{{ asset(path('_user_adtaste',{'type': 1}),'cdn1') }}" class="more edit">更多 »</a>
+    {% endif %}
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <th>任务类型</th>
@@ -210,8 +210,7 @@ $(document).ready(function(){
           <th>奖励积分</th>
           <th>任务领取时间</th>
           <th>任务状态</th>
-        </tr>
-        {% if adtasteNum > 0 %}
+        </tr>     
          {% for item in adtaste %}
         <tr>
           <td>
@@ -247,9 +246,7 @@ $(document).ready(function(){
           </td>
         </tr>
          {% endfor %}
-         <p class="prompt">*&nbsp;商家审核需要8周，判定有效后立即到账（退货无返利）</p>
-         <a href="{{ asset(path('_user_adtaste',{'type': 1}),'cdn1') }}" class="more edit">更多 »</a>
-          {% else %}
+        {% if adtasteNum == 0 %}
         <tr><td align="center" colspan="5">没有任务记录</td></tr>
         {% endif %}
       </table>
