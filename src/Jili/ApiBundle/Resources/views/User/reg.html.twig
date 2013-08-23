@@ -25,21 +25,22 @@
     <form action="{{ path('_user_reg') }}" method="post" name="form1" id="form1" >
     	<li><dd>邮件地址：</dd><dt><input name="email" type="text" class="text" id="email" value="{{ email }}"><br />
     	    <span id="emailError">
-    	    {% if code_email==0 %}电子邮件就是您今后登录积粒网的账号
-    	    {% elseif code_email==1 %}<font color='red'>请输入邮箱</font>
-    	    {% elseif code_email==2 %}<font color='red'>邮箱格式不对</font>
-    	    {% elseif code_email==3 %}<font color='red'>邮箱已注册，但未激活，请重新<a href="{{ path('_user_activeEmail',{'email':email}) }}">激活</a></font>
-    	    {% elseif code_email==4 %}<font color='red'>邮箱已经注册</font>
-    	    {% else %}
+            {% if code_email %}
+                {% if code_re %}
+                    <font color='red'>{{ code_email }}<a href="{{ path('_user_activeEmail',{'email':email}) }}">激活</a></font>
+                {% else %}
+                    <font color='red'>{{ code_email }}</font>
+                {% endif %}
+            {% else %}
+    	       电子邮件就是您今后登录积粒网的账号
     	    {% endif %}
     	    </span>
     	</dt></li>
         <li><dd>昵称：</dd><dt><input name="nick" type="text" class="text" id="nick" value="{{ nick }}"><br />
         <span id="nickError">
-        {% if code_nick==0%}2-20个字符
-    	    {% elseif code_nick==1 %}<font color='red'>请输入昵称</font>
-    	    {% elseif code_nick==2 %}<font color='red'>昵称已经注册</font>
-    	    {% elseif code_nick==3 %}<font color='red'>昵称为2-20个字符</font>
+            {% if code_nick %}
+    	    <font color='red'>{{ code_nick }}</font>
+    	    {% else %}2-20个字符
     	    {% endif %}
         </span>
         </dt></li>
@@ -48,7 +49,7 @@
         <img class="refreshImg" src="{{ asset('images/refresh.png') }}" onclick="refresh()" />
         <br />
         <span id="captchaError">
-    	    {% if code_cha==1 %}<font color='red'>验证码不对</font>
+    	    {% if code_cha %}<font color='red'>{{ code_cha }}</font>
     	    {% endif %} 
         </span>
         </dt>

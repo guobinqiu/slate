@@ -250,8 +250,8 @@ class User
 	        	if(!in_array($this->$fileName->guessExtension(),$types)){
 	        		return  '1';//'文件类型为jpg或png';
 	        	}else{
-	        		if($this->$fileName->getClientSize() > 1024000){
-	        			return  '2';//'图片大小为1M以内';
+	        		if($this->$fileName->getClientSize() > 2048000){
+	        			return  '2';//'图片大小为2M以内';
 	        		}else{
 	        			$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
                         //$this->$fileName->move($upload_dir, $filename_upload);
@@ -298,39 +298,45 @@ class User
     		return 'mail.qq.com';
     	}else if($t=='gmail.com'){
     		return 'mail.google.com';
-    	}else if($t=='sohu.com'){
+    	}else if($t=='me.com' || $t=='icloud.com' || $t=='mac.com'){
+            return 'www.icloud.com';
+        }else if($t=='263.com' || $t=='263.net' || $t=='263.net.cn' || $t=='x263.net'){
+            return 'mail.263.net';
+        }else if($t=='sohu.com'){
     		return 'mail.sohu.com';
-    	}else if($t=='tom.com'){
-    		return 'mail.tom.com';
     	}else if($t=='vip.sina.com'){
     		return 'vip.sina.com';
     	}else if($t=='sina.com.cn'||$t=='sina.com'||$t=='sina.cn'){
     		return 'mail.sina.com.cn';
     	}else if($t=='tom.com'){
     		return 'mail.tom.com';
-    	}else if($t=='yahoo.com.cn'||$t=='yahoo.cn'){
+    	}else if($t=='aliyun.com'){
+            return 'mail.aliyun.com';
+        }else if($t=='yahoo.com.cn'||$t=='yahoo.cn'){
     		return 'mail.cn.yahoo.com';
-    	}else if($t=='tom.com'){
-    		return 'mail.tom.com';
-    	}else if($t=='yeah.net'){
+    	}else if($t=='hotmail.com' || $t=='outlook.com' || $t=='live.cn' ||  $t=='live.com' || $t=='msn.com'){
+            return 'www.hotmail.com';
+        }else if($t=='yeah.net'){
     		return 'www.yeah.net';
     	}else if($t=='21cn.com'){
     		return 'mail.21cn.com';
-    	}else if($t=='hotmail.com'){
-    		return 'www.hotmail.com';
     	}else if($t=='sogou.com'){
     		return 'mail.sogou.com';
-    	}else if($t=='188.com'){
-    		return 'www.188.com';
-    	}else if($t=='139.com'){
-    		return 'mail.10086.cn';
     	}else if($t=='189.cn'){
     		return 'webmail15.189.cn/webmail';
     	}else if($t=='wo.com.cn'){
     		return 'mail.wo.com.cn/smsmail';
     	}else if($t=='139.com'){
     		return 'mail.10086.cn';
-    	}else {
+    	}else if($t=='188.com'){
+            return 'www.188.com';
+        }else if($t=='xinhuanet.com'){
+            return 'mail.xinhuanet.com';
+        }else if($t=='eyou.com'){
+            return 'www.eyou.com';
+        }else if($t=='chinaren.com'){
+            return 'mail.chinaren.com';
+        }else {
     		return '';
     	}
     	

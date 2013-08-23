@@ -130,4 +130,37 @@ parameters:
     game_attend: 游戏全勤
     certified: 已认证
     nothrough: 未通过
+    reg_en_mail: 请输入邮箱地址
+    reg_wr_mail: 邮箱地址格式不正确
+    reg_noal_mail: 邮箱地址未激活，请重新
+    reg_al_mail: 邮箱地址已经注册
+    reg_en_nick: 请输入用户昵称
+    reg_al_nick: 用户昵称已经注册
+    reg_wr_nick: 用户昵称为2-20个字符
+    reg_wr_captcha: 请输入正确的验证码
+    login_wr: 邮箱地址或密码输入错误
+    login_wr_mail: 邮箱地址格式不正确
+    login_en_mail: 请输入邮箱地址
+    upload_img_type: 上传的图片类型只能为JPG格式
+    upload_img_size: 图片大小请控制在2M以内
+    update_se_sex: 请选择性别
+    update_wr_mobile: 输入的手机格式不正确
+    exchange_en_wen: 请输入您的91问问账号
+    exchange_wr_mail: 91问问账号应是邮件格式
+    exchange_su_bind: 已成功兑换，等待账号绑定
+    exchange_wr_point: 兑换失败，积分错误
+    forget_en_pwd: 请输入用户密码
+    forget_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
+    forget_unsame_pwd: 2次输入的用户密码不相同
+    forget_su_pwd: 密码修改成功 
+    change_wr_oldpwd: 旧密码不正确
+    change_en_oldpwd: 请输入旧的用户密码
+    change_en_newpwd: 请输入新的用户密码
+    change_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
+    change_unsame_pwd: 2次输入的用户密码不相同
+    chnage_no_email: 邮箱地址未注册
+
+
+
+
 

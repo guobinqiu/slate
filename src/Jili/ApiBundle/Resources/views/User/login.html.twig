@@ -28,14 +28,8 @@ function clear(){
   <article>
     <ul class="loginForm">
       <h2><img src='{{ asset('images/logTitle.gif') }}'/></h2>
-      {% if code==1 %}
-           <li class="error">用户名或密码错误</li>
-       {% elseif code==2 %}
-           <li class="error">用户格式不对</li>
-       {% elseif code==3 %}
-            <li class="error">请输入账号</li>
-       {% else %}
-           <li class="error">&nbsp;</li>
+      {% if code %}
+           <li class="error">{{ code }}</li>
        {% endif %}
       <li>
           <input name="email" id="email" type="text" class="text" onFocus="$('.error').html('&nbsp;');" value="{{ email }}">

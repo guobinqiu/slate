@@ -45,11 +45,8 @@ $(document).ready(function(){
   $('#attachment').fileupload({
         dataType: 'json',
         done: function (e, data) {
-          if(data.result=='1'){
-            $(".errorInfo").html("<font color='red'>文件类型为jpg</font>");
-
-          }else if(data.result=='2'){
-            $(".errorInfo").html("<font color='red'>图片大小为1M以内</font>");
+          if(data.result.substr(0,7)!='uploads'){
+            $(".errorInfo").html("<font color='red'>"+data.result+"</font>");
           }else{
             //$(".img img").attr("src",path+data.result);
             $(".resDiv").show();
@@ -70,11 +67,11 @@ $(document).ready(function(){
         }
     });
 
-	{% if codeflag == 0 %}
-      $("#update").hide();
-      {% else %}
+	{% if codeflag %}
       $("#info").hide();
       $("#update").show();
+  {% else %}
+      $("#update").hide();
   {% endif %}
 
   $(".upload").click(function (){
@@ -182,13 +179,9 @@ $(document).ready(function(){
           <dd>手机号码：</dd>
           <dt>
             <input name="tel" type="text" value="{{ user.tel }}"><br/>
-              {% if codeflag == 1 %}
-            <font color='red'>请选择性别</font>
-       {% elseif codeflag ==2  %}
-           <font color='red'>手机格式不对</font>
-       {% else %}
-         
-       {% endif %}
+                   {% if codeflag  %}
+                     <font color='red'>{{ codeflag }}</font>
+                   {% endif %}
           </dt>
         </li>
         <li><dd>&nbsp;</dd>

@@ -21,7 +21,7 @@ class  ExchangeController extends Controller
     	if(!$this->get('request')->getSession()->get('uid')){
     		return $this->redirect($this->generateUrl('_user_login'));
     	}else{
-    		$code = $this->container->getParameter('init');
+    		$code = '';
     		$arr['code'] = $code;
     		$pointschange  = new PointsExchange();
     		$id = $this->get('request')->getSession()->get('uid');
@@ -39,11 +39,11 @@ class  ExchangeController extends Controller
             if ($request->getMethod() == 'POST') {
                 if($rechange > 0 && $rechange <= 5000){
                     if($rechange-$points>0){
-                        $code = $this->container->getParameter('init_four');
+                        $code = $this->container->getParameter('exchange_wr_point');
                         $arr['code'] = $code;
                     }else{
                         if($rechange%500 != 0){
-                            $code = $this->container->getParameter('init_four');
+                            $code = $this->container->getParameter('exchange_wr_point');
                             $arr['code'] = $code;
                         }else{
                             if($user->getWenwenUser()){
@@ -65,7 +65,7 @@ class  ExchangeController extends Controller
                                 if(empty($userExchange)){
                                     if($wenwen){
                                         if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$wenwen)){
-                                            $code = $this->container->getParameter('init_two');
+                                            $code = $this->container->getParameter('exchange_wr_mail');
                                             $arr['code'] = $code;
                                         }else{
                                             $user->setWenwenUser($wenwen);
@@ -84,11 +84,11 @@ class  ExchangeController extends Controller
                                             return $this->redirect($this->generateUrl('_exchange_finish'));
                                         }
                                     }else{
-                                        $code = $this->container->getParameter('init_one');
+                                        $code = $this->container->getParameter('exchange_en_wen');
                                         $arr['code'] = $code;
                                     }
                                 }else{
-                                    $code = $this->container->getParameter('init_three');
+                                    $code = $this->container->getParameter('exchange_su_bind');
                                     $arr['code'] = $code;
                                 }
                             }
@@ -96,7 +96,7 @@ class  ExchangeController extends Controller
                         }
                     }
                 }else{
-                    $code = $this->container->getParameter('init_four');
+                    $code = $this->container->getParameter('exchange_wr_point');
                     $arr['code'] = $code;
                 }             
             	

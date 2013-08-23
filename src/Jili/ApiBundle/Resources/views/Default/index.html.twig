@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>积粒网-首页 一站式积分媒体！</title>
 {% include 'JiliApiBundle::seo.html.twig' %}
+<title>积粒网-首页 一站式积分媒体！</title>
 <!-- [if lt IE9] -->
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
@@ -14,14 +14,9 @@
 </head>
 <script type="text/javascript">
 $(function(){
-	{% if code==1 %}
+	{% if code %}
        $("#email").focus();
-	   alert('用户名或密码错误');
-	{% elseif code==2 %}
-	   $("#password").focus();
-       alert('用户名或密码错误');
-	{% else %}
-	
+	   alert('{{ code }}');
 	{%  endif %}
 	
 	 $("#login").click(function(){

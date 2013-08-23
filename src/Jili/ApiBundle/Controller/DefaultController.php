@@ -37,7 +37,7 @@ class DefaultController extends Controller
         	$user = $em->getRepository('JiliApiBundle:User')->find($this->get('request')->getSession()->get('uid'));
         	$arr['user'] = $user;
         }
-        $code = $this->container->getParameter('init');
+        $code = '';
         $arr['userInfo'] = array();
         $email = $request->request->get('email');
         $arr['email'] = $email;
@@ -48,14 +48,16 @@ class DefaultController extends Controller
         if ($request->getMethod() == 'POST'){
             if(!$em_email){
             	//echo 'email is unexist!';
-            	$code = $this->container->getParameter('init_one');
+            	// $code = $this->container->getParameter('init_one');
+                $code = $this->container->getParameter('login_wr');
             }else{
             	$id = $em_email[0]->getId();
             	$em = $this->getDoctrine()->getEntityManager();
             	$user = $em->getRepository('JiliApiBundle:User')->find($id);
             	if($user->pw_encode($pwd) != $user->getPwd()){
             		// 					echo 'pwd is error!';
-            		$code = $this->container->getParameter('init_two');
+            		// $code = $this->container->getParameter('init_two');
+                    $code = $this->container->getParameter('login_wr');
             	}else{
 //             		$session = new Session();
 //             		$session->start();
