@@ -78,6 +78,13 @@ class Callboard
      */
     private $endTime;
 
+      /**
+     * @var integer
+     *
+     * @ORM\Column(name="cb_type", type="integer")
+     */
+    private $cbType;
+
     /**
      * @var string
      *
@@ -257,6 +264,30 @@ class Callboard
     public function getEndTime()
     {
         return $this->endTime;
+    }
+
+
+    /**
+     * Set cbType
+     *
+     * @param integer $cbType
+     * @return Callboard
+     */
+    public function setCbType($cbType)
+    {
+        $this->cbType = $cbType;
+    
+        return $this;
+    }
+
+    /**
+     * Get cbType
+     *
+     * @return integer 
+     */
+    public function getCbType()
+    {
+        return $this->cbType;
     }
 
     /**

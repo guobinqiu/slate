@@ -26,6 +26,9 @@
 <tr><td>公告标题:</td><td><input type="text" name="title" size='60' value="{{ title }}"/></td></tr>
 <tr><td>公告作者:</td><td><input type="text" name="author" size='60' value="{{ author }}"/></td></tr>
 <tr><td>发布时间:</td><td><input name="start_time" value="{{ start_time }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/></td></tr>
+<tr><td>公告分类:</td><td>
+	<select name="category">{% for item in cb_category %}<option value="{{ item.id }}">{{ item.categoryName }}</option>{% endfor %}</select>
+</td></tr>
 <tr><td>公告内容:</td><td><textarea id="content" cols="120" rows="10" name="content" style="width:700px;height:300px;">{{ content }}</textarea></td></tr>
 
 <tr><td>&nbsp;</td><td><input type="submit" name="add" value="提 交"/></td></tr>

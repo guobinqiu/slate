@@ -35,7 +35,11 @@ $(function(){
         	{% endfor %}
             	
             </ul>
-            <div class="bannerNumber"><a href="#" class="hover">1</a><a href="#">2</a><a href="#">3</a></div>
+            <div class="bannerNumber"><a href="#" class="hover">1</a>
+            {% for i in 2..banner_count %}
+               <a href="#">{{ i }}</a> 
+            {% endfor %}
+            </div>
         </div>
 
         <div id="userInformation">
@@ -96,7 +100,7 @@ $(function(){
             	<h4>公告<a class="more" href="{{ asset(path('_callboard_index'),'cdn1') }}">更多>></a></h4>
               <ul class="news">
               {% for item in callboard %}
-                	<li><a href="{{ asset(path('_callboard_info',{'id':item.id}),'cdn1') }}"><span>【系统】</span>{{ item.title }}</a></li>
+                	<li><a href="{{ asset(path('_callboard_info',{'id':item.id}),'cdn1') }}"><span>【{{ item.categoryName }}】</span>{{ item.title }}</a></li>
                    
                 {% endfor %}
                    <!--   <li class="last"><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>-->
