@@ -22,7 +22,7 @@
     <ul class="news">
      {% for item in pagination %}
               <li>
-                <div class="title"><a href="{{ path('_callboard_info',{'id':item.id}) }}"><span>【系统】</span>{{ item.title }}</a></div>
+                <div class="title"><a href="{{ path('_callboard_info',{'id':item.id}) }}"><span>【{{ item.categoryName }}】</span>{{ item.title }}</a></div>
                 <div class="artInfo">
                   <time>{{ item.startTime.date | date("Y-m-d") }}</time>
                  </div>

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AdBanner
  *
  * @ORM\Table(name="ad_banner")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\AdBannerRepository")
  */
 class AdBanner
 {
@@ -40,7 +40,13 @@ class AdBanner
      */
     private $iconImage;
     
-    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="position", type="integer", nullable=true)
+     */
+    private $position;
+
     /**
      * @var string
      *
@@ -48,7 +54,54 @@ class AdBanner
      */
     private $adUrl;
 
-    
+    /**
+     * editupload image to temp dir
+     */
+    public function editupload($upload_dir)
+    {
+         
+        $fileNames = array('attachment');
+         
+        $types = array('jpg','jpeg','png','gif');
+        
+        if(!is_dir($upload_dir)){
+            mkdir($upload_dir,0777);
+        }
+        foreach ($fileNames as $key=>$fileName){
+            $filename_upload = '';
+            if (null === $this->$fileName) {
+                unset($fileNames[$key]);
+                continue ;
+            }
+            $field = 'iconImage';
+            switch ($fileName){
+                case 'attachment':$field = 'iconImage';break;
+            }
+             
+            if($this->$fileName->getError()==1){
+                return  '文件类型为jpg或png或gif';//类型不对
+            }else{
+                if(!in_array($this->$fileName->guessExtension(),$types)){
+                    return  '文件类型为jpg或png或gif';//类型不对
+                }else{
+                    $size = getimagesize($this->$fileName);
+                    if($size[0]=='722' && $size[1]=='250'){
+                        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+                            
+                        $this->$fileName->move($upload_dir, $filename_upload);
+                            
+                        $this->$field = $upload_dir.$filename_upload;
+                            
+                        $this->$fileName = null;
+                    }
+                    else{
+                        return   '图片像素为722X250';
+                    }
+                }
+            }
+             
+        }
+    }
     
     /**
      * upload image to temp dir
@@ -66,8 +119,8 @@ class AdBanner
     	foreach ($fileNames as $key=>$fileName){
     		$filename_upload = '';
     		if (null === $this->$fileName) {
-    			unset($fileNames[$key]);
-    			continue ;
+    			return  '图片为必填项';
+                break ;
     		}
     		$field = 'iconImage';
     		switch ($fileName){
@@ -156,6 +209,30 @@ class AdBanner
     {
     	return $this->adUrl;
     }
+
+    /**
+     * Set position
+     *
+     * @param integer $position
+     * @return AdBanner
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return integer 
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
     
     /**
      * Set createTime

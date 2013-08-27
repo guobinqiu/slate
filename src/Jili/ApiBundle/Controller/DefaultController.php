@@ -85,7 +85,7 @@ class DefaultController extends Controller
         }
         $arr['code'] = $code;
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
-		$advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->findAll();
+		$advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoBanner();
 		$advertise = $repository->getAdvertiserList();
 		$callboard = $em->getRepository('JiliApiBundle:CallBoard')->getFiveCallboard();
         $exchangeInfo = $em->getRepository('JiliApiBundle:PointsExchange')->exList();
@@ -101,6 +101,7 @@ class DefaultController extends Controller
                 }
             }
         }
+        $arr['banner_count'] = count($advertiseBanner);
         $arr['exchange'] = $exchangeInfo;
 		$arr['callboard'] =  $callboard;
 		$arr['advertise_banner'] = $advertiseBanner;

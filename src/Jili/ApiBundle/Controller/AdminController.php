@@ -14,7 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\Advertiserment;
 use Jili\ApiBundle\Entity\AdPosition;
+use Jili\ApiBundle\Entity\AdBanner;
 use Jili\ApiBundle\Entity\CallBoard;
+use Jili\ApiBundle\Entity\CbCategory;
 use Jili\ApiBundle\Entity\LimitAd;
 use Jili\ApiBundle\Entity\RateAd;
 use Jili\ApiBundle\Entity\TaskOrder;
@@ -348,6 +350,51 @@ class AdminController extends Controller
     	return $this->redirect($this->generateUrl('_admin_infoBanner'));
     }
     
+
+    /**
+     * @Route("/addBanner", name="_admin_addBanner")
+     */
+    public function addBannerAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $code ='';
+        $codeflag = '';
+        $banner = new adBanner();
+        $form  = $this->createForm(new EditBannerType(),$banner);
+        $request = $this->get('request');
+        $bannerUrl = $request->request->get('url');
+        $position = $request->request->get('position');
+        $em = $this->getDoctrine()->getManager();
+        $bannerNum = $em->getRepository('JiliApiBundle:AdBanner')->findAll();
+        if ($request->getMethod() == 'POST') {
+            if($bannerUrl && $position){
+                $isPostion = $em->getRepository('JiliApiBundle:AdBanner')->findByPosition($position);
+                if($isPostion){
+                    $codeflag = $this->container->getParameter('init_two');
+                }else{
+                    $form->bind($request);
+                    $path =  $this->container->getParameter('upload_banner_dir');
+                    $banner->setAdUrl($bannerUrl);
+                    $banner->setPosition($position);
+                    $banner->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                    $em->persist($banner);
+                    $code = $banner->upload($path);
+                    if(!$code){
+                        $em->flush();
+                        return $this->redirect($this->generateUrl('_admin_infoBanner'));
+                    }
+                }
+                
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+
+            }
+            
+        }
+        return $this->render('JiliApiBundle:Admin:addBanner.html.twig',
+                array('url'=>$bannerUrl,'position'=>$position,'form' => $form->createView(),'code'=>$code,'codeflag'=>$codeflag));
+    }
     
     /**
      * @Route("/infoBanner", name="_admin_infoBanner")
@@ -358,7 +405,7 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('_default_error'));
     	$request = $this->get('request');
     	$em = $this->getDoctrine()->getManager();
-    	$adbanner = $em->getRepository('JiliApiBundle:AdBanner')->findAll();
+    	$adbanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoAdminBanner();
     	$paginator = $this->get('knp_paginator');
     	$arr['pagination'] = $paginator
     	->paginate($adbanner,
@@ -376,25 +423,41 @@ class AdminController extends Controller
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$code ='';
+        $codeflag = '';
     	$request = $this->get('request');
     	$url = $request->request->get('url');
+        $position = $request->request->get('position');
     	$em = $this->getDoctrine()->getManager();
     	$adbanner = $em->getRepository('JiliApiBundle:AdBanner')->find($id);
     	$form  = $this->createForm(new EditBannerType(),$adbanner);
     	if ($request->getMethod() == 'POST') {
-    		$form->bind($request);
-    		$path =  $this->container->getParameter('upload_banner_dir');
-    		$adbanner->setAdUrl($url);
-    		$adbanner->setCreateTime(date_create(date('Y-m-d H:i:s')));
-    		$em->persist($adbanner);
-    		$code = $adbanner->upload($path);
-    		if(!$code){
-    			$em->flush();
-    			return $this->redirect($this->generateUrl('_admin_infoBanner'));
-    		}
+             if($url && $position){
+                $form->bind($request);
+                $path =  $this->container->getParameter('upload_banner_dir');
+                $isPostion = $em->getRepository('JiliApiBundle:AdBanner')->getBannerPosition($position,$id);
+                if($isPostion){
+                    $findBanner = $em->getRepository('JiliApiBundle:AdBanner')->find($isPostion[0]['id']);
+                    $findBanner->setPosition($adbanner->getPosition());
+                    $findBanner->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                    $em->persist($adbanner);
+                    $em->flush();
+                }
+                $adbanner->setAdUrl($url);
+                $adbanner->setPosition($position);
+                $adbanner->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                $em->persist($adbanner);
+                $code = $adbanner->editupload($path);
+                if(!$code){
+                    $em->flush();
+                    return $this->redirect($this->generateUrl('_admin_infoBanner'));
+                }
+             }else{
+                $codeflag = $this->container->getParameter('init_one');
+             }
+            
     	}
     	return $this->render('JiliApiBundle:Admin:editBanner.html.twig',
-    			array('banner'=>$adbanner,'form' => $form->createView(),'code'=>$code));
+    			array('banner'=>$adbanner,'form' => $form->createView(),'code'=>$code,'codeflag'=>$codeflag));
     
     }
     
@@ -850,11 +913,13 @@ class AdminController extends Controller
     	$codeflag = $this->container->getParameter('init');
     	$request = $this->get('request');
     	$em = $this->getDoctrine()->getManager();
+        $cb_category = $em->getRepository('JiliApiBundle:CbCategory')->findAll();
     	$callboard = $em->getRepository('JiliApiBundle:CallBoard')->find($id);
     	$title = $request->request->get('title');
     	$author = $request->request->get('author');
     	$start_time = $request->request->get('start_time');
     	$content = $request->request->get('content');
+        $category = $request->request->get('category');
     	if ($request->getMethod() == 'POST') {
     	    if($title && $start_time  && $author && $content){
     			$callboard->setTitle($title);
@@ -862,6 +927,7 @@ class AdminController extends Controller
     			$callboard->setUpdateTime(date_create(date('Y-m-d H:i:s')));
     			$callboard->setAuthor($author);
     			$callboard->setContent($content);
+                $callboard->setCbType($category);
     			$em->persist($callboard);
 				$em->flush();
 				return $this->redirect($this->generateUrl('_admin_infoCallboard'));
@@ -871,6 +937,7 @@ class AdminController extends Controller
     	}
     	return $this->render('JiliApiBundle:Admin:editCallboard.html.twig',array(
 					'callboard'=>$callboard,
+                    'cb_category'=>$cb_category,
 		    		'codeflag'=>$codeflag,
 		    		'title'=>$title,
 		    		'start_time'=>$start_time,
@@ -887,7 +954,7 @@ class AdminController extends Controller
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
     	$em = $this->getDoctrine()->getManager();
-    	$callboard = $em->getRepository('JiliApiBundle:Callboard')->find($id);
+    	$callboard = $em->getRepository('JiliApiBundle:CallBoard')->find($id);
     	$em->remove($callboard);
     	$em->flush();
     	return $this->redirect($this->generateUrl('_admin_infoCallboard'));
@@ -904,7 +971,7 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('_default_error'));
     	$request = $this->get('request');
     	$em = $this->getDoctrine()->getManager();
-    	$callboard = $em->getRepository('JiliApiBundle:CallBoard')->findAll();
+    	$callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboard();
     	$paginator = $this->get('knp_paginator');
     	$arr['pagination'] = $paginator
     	->paginate($callboard,
@@ -929,12 +996,15 @@ class AdminController extends Controller
     	$start_time = $request->request->get('start_time');
     	$content = $request->request->get('content');
     	$author = $request->request->get('author');
+        $category = $request->request->get('category');
+        $cb_category = $em->getRepository('JiliApiBundle:CbCategory')->findAll();
     	if ($request->getMethod() == 'POST') {
     		if($title && $start_time  && $author && $content){
     			$callboard->setTitle($title);
     			$callboard->setStartTime(date_create($start_time));
     			$callboard->setAuthor($author);
     			$callboard->setContent($content);
+                $callboard->setCbType($category);
     			$em->persist($callboard);
 				$em->flush();
 				return $this->redirect($this->generateUrl('_admin_infoCallboard'));
@@ -948,7 +1018,8 @@ class AdminController extends Controller
 		    		'title'=>$title,
 		    		'start_time'=>$start_time,
 		    		'content'=>	$content,
-		    		'author'=>$author
+		    		'author'=>$author,
+                    'cb_category'=> $cb_category
 					));
     	
     }
