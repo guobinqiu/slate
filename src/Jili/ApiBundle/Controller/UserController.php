@@ -188,7 +188,7 @@ class UserController extends Controller
 					}
 				}else{
 					$codeflag = $this->container->getParameter('update_se_sex');
-				}
+				}	
 			}else{
 				if($request->request->get('reset')){
 	    			return $this->redirect($this->generateUrl('_user_info'));
@@ -197,10 +197,10 @@ class UserController extends Controller
 	    			$form->bindRequest($request);
 	    			$path =  $this->container->getParameter('upload_tmp_dir');
 	    			$code = $user->upload($path);
-	    			if($code == 1){
+	    			if($code == $this->container->getParameter('init_one')){
 	    				$code =  $this->container->getParameter('upload_img_type');
 	    			} 
-	    			if($code == 2){
+	    			if($code == $this->container->getParameter('init_two')){
 	    				$code =  $this->container->getParameter('upload_img_size');
 	    			}
 		    		return new Response(json_encode($code));
@@ -218,8 +218,8 @@ class UserController extends Controller
 				'adtaste' => $adtaste,
 				'exchange' => $exchange,
 				'code' => $code,
-				'codeflag'=>$codeflag,
-				'adtasteNum'=>$adtasteNum
+				'codeflag'=> $codeflag,
+				'adtasteNum'=> $adtasteNum
 				));
 	}
 	
@@ -468,15 +468,31 @@ class UserController extends Controller
 			$nick = $user[0]->getNick();
 			$id = $user[0]->getId();
 			$passCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($id);
-			$url = $this->generateUrl('_user_resetPass',array('code'=>$passCode[0]->getCode(),'id'=>$id),true);
-			$em = $this->getDoctrine()->getManager();
-			$user = $em->getRepository('JiliApiBundle:User')->find($id);
-			if($this->sendMail_reset($url, $email,$nick)){
-				$passCode[0]->setIsAvailable($this->container->getParameter('init_one'));
-				$passCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
-				$em->flush();
-				$code = $this->container->getParameter('init_one');
+			if(empty($passCode)){
+				$str = 'jiliforgetpassword';
+				$code = md5($id.str_shuffle($str));
+				$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+				if($this->sendMail_reset($url, $email,$nick)){
+					$setPasswordCode = new setPasswordCode();
+					$setPasswordCode->setUserId($id);
+					$setPasswordCode->setCode($code);
+					$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
+					$em->persist($setPasswordCode);
+					$em->flush();
+					$code = $this->container->getParameter('init_one');
+				}
+			}else{
+				$url = $this->generateUrl('_user_resetPass',array('code'=>$passCode[0]->getCode(),'id'=>$id),true);
+				$em = $this->getDoctrine()->getManager();
+				$user = $em->getRepository('JiliApiBundle:User')->find($id);
+				if($this->sendMail_reset($url, $email,$nick)){
+					$passCode[0]->setIsAvailable($this->container->getParameter('init_one'));
+					$passCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
+					$em->flush();
+					$code = $this->container->getParameter('init_one');
+				}
 			}
+			
 		}
 		return new Response($code);
 	}
