@@ -12,7 +12,13 @@
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
-<div  style="margin:50px auto 0 auto; width:720px;" ><iframe src="{{ url | raw }}"width="720" height="3650" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" allowTransparency="true"></iframe> </div>
+{% if code %}
+<div style="text-align: center;padding: 100px 0;">
+<img src="{{ asset('images/error_support.gif')}}">
+</div>
+{% else %}
+<div style="margin:50px auto 0 auto; width:720px;" ><iframe src="{{ url | raw }}"width="720" height="3650" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" allowTransparency="true"></iframe> </div>
+{% endif %}
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
 </html>
