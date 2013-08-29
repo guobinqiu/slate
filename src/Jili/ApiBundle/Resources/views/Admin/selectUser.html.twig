@@ -16,8 +16,8 @@
 <form action="{{ path('_admin_selectUser') }}" method="post" id="form1"}} >
 <table align='center'>
 <tr><td>{{ count_user }}</td></tr>
-<tr><td>注册开始时间:<input name="start_time" value="" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
-&nbsp;注册结束时间:<input name="end_time" value="" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>&nbsp;<input type="submit" name="add" value="提 交"/></td></tr>
+<tr><td>注册开始时间:<input name="start_time" value="{{ start_time }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
+&nbsp;注册结束时间:<input name="end_time" value="{{ end_time }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>&nbsp;<input type="submit" name="add" value="提 交"/></td></tr>
 </table>
 </form>
 </BODY></HTML>

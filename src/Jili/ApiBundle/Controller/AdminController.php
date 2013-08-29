@@ -1242,10 +1242,12 @@ class AdminController extends Controller
         $request = $this->get('request');
         $start_time = $request->request->get('start_time');
         $end_time = $request->request->get('end_time');
+        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $count_user = count($users);
         if ($request->getMethod() == 'POST'){
             $count_user = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time);   
         }
-        return $this->render('JiliApiBundle:Admin:selectUser.html.twig',array('code'=>$code,'count_user'=>$count_user));
+        return $this->render('JiliApiBundle:Admin:selectUser.html.twig',array('code'=>$code,'count_user'=>$count_user,'start_time'=>$start_time,'end_time'=>$end_time));
     }
     
     /**
