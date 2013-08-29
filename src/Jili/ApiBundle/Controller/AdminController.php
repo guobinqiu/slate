@@ -1023,6 +1023,96 @@ class AdminController extends Controller
 					));
     	
     }
+
+    /**
+     * @Route("/delCbType/{id}", name="_admin_delCbType")
+     */
+    public function delCbTypeAction($id)
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $em = $this->getDoctrine()->getManager();
+        $cbcategory = $em->getRepository('JiliApiBundle:CbCategory')->find($id);
+        $em->remove($cbcategory);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoCbType'));
+    }
+    
+
+     /**
+     * @Route("/editCbType/{id}", name="_admin_editCbType")
+     */
+    public function editCbTypeAction($id)
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $codeflag = $this->container->getParameter('init');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $cbcategory = $em->getRepository('JiliApiBundle:CbCategory')->find($id);
+        $cbname = $request->request->get('categoryName');
+        if ($request->getMethod() == 'POST') {
+            if($cbname){
+                $cbcategory->setCategoryName($cbname);
+                $em->persist($cbcategory);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_infoCbType'));
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:editCbType.html.twig',array(
+                    'cbcategory'=>$cbcategory,
+                    'codeflag'=>$codeflag
+                    ));
+    
+    }
+
+    /**
+     * @Route("/infoCbType", name="_admin_infoCbType")
+     */
+    public function infoCbTypeAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $cbType = $em->getRepository('JiliApiBundle:CbCategory')->findAll();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($cbType,
+                $request->query->get('page', 1), $this->container->getParameter('page_num'));
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:infoCbType.html.twig',$arr);              
+
+    }
+
+    /**
+     * @Route("/addCbType", name="_admin_addCbType")
+     */
+    public function addCbTypeAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $codeflag = $this->container->getParameter('init');
+        $cbcategory = new CbCategory();
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $cbname = $request->request->get('categoryName');
+        if ($request->getMethod() == 'POST') {
+            if($cbname){
+                $cbcategory->setCategoryName($cbname);
+                $em->persist($cbcategory);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_infoCbType'));
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:addCbType.html.twig',array('codeflag'=>$codeflag));
+                    
+
+    }
     
     /**
      * @Route("/exchangeCsv", name="_admin_exchangeCsv")
