@@ -149,6 +149,29 @@ class UserController extends Controller
 
 
 	/**
+	 * @Route("/getCity", name="_user_getCity")
+	 */
+	public function getCityAction()
+	{
+		$array = array();
+		//$arr[] = array('id'=>0,'cityName'=>'请选择地区');
+		$request = $this->get('request');
+		$cid = $request->query->get('cid');
+		$em = $this->getDoctrine()->getManager();
+		$city = $em->getRepository('JiliApiBundle:CityList')->findByProvinceId($cid);
+		if($city){
+			foreach ($city as $key => $value){
+				$arr[] = array('id'=>$value->getId(),'cityName'=>$value->getCityName());
+			}
+			return new Response(json_encode($arr));
+		}else{
+			return new Response('');
+		}
+		
+	}
+
+
+	/**
 	 * @Route("/info", name="_user_info",requirements={"_scheme"="https"})
 	 */
 	public function infoAction()
@@ -156,11 +179,41 @@ class UserController extends Controller
 		$code = '';
 		$flag = '';
 		$codeflag = '';
+		$birthday = '';
+		$city = '';
+		$month_income = '';
+		$newYear = $this->container->getParameter('init');
+		$newMonth =$this->container->getParameter('init');
+		$newHobby = '';
+		$disarea = '';
+		$usercomes = '';
+		$userProHobby = '';
 		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
 		$request = $this->get('request');
 		$id = $request->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		if($user->getHobby()){
+			$userProHobby = explode(",",$user->getHobby());
+			foreach ($userProHobby as $key => $value) {
+				$userHobby = $em->getRepository('JiliApiBundle:HobbyList')->find($value);
+				$userHobbyList[] = $userHobby->getHobbyName();
+			}
+			$newHobby = implode(',',$userHobbyList);
+		}
+
+		if($user->getBirthday()){
+			if(strlen($user->getBirthday())>5){
+				$newBirthday = explode("-",$user->getBirthday());
+				$newYear = $newBirthday[0];
+				$newMonth = $newBirthday[1];
+			}else{
+				$newYear = $user->getBirthday();
+			}
+		}
+		$hobbyList = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
+		$province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+		$income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
 		$option = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 		$adtaste = $this->selTaskHistory($id,$option);
 		foreach ($adtaste as $key => $value) {
@@ -173,21 +226,52 @@ class UserController extends Controller
 		$exchange = $exchange->getUserExchange($id,$option);
 		$sex = $request->request->get('sex');
 		$tel = $request->request->get('tel');
+		$year = $request->request->get('year');
+		$month = $request->request->get('month');
+		$provinceId = $request->request->get('province');
+		$city = $request->request->get('city');
+		$month_income = $request->request->get('income');
+		$hobby = $request->request->get('hobby');
 		$form  = $this->createForm(new RegType(), $user);
 		if ($request->getMethod() == 'POST') {
 			if($request->request->get('update')){
-				if($sex){
-					if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
-						$codeflag = $this->container->getParameter('update_wr_mobile');
+				if($sex && $year && $city && $month_income && $hobby){
+					if($year){
+						$birthday = $year;
+						if($month)
+							$birthday = $birthday.'-'.$month;
+					}	
+					if($hobby)
+						$hobbys = implode(",",$hobby);
+					if($tel){
+						if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+							$codeflag = $this->container->getParameter('update_wr_mobile');
+						}else{
+							$user->setSex($sex);
+							$user->setBirthday($birthday);
+							$user->setProvince($provinceId);
+							$user->setCity($city);
+							$user->setTel($tel);
+							$user->setIncome($month_income);
+							$user->setHobby($hobbys);
+							$user->setIsInfoSet($this->container->getParameter('init_one'));
+							$em->flush();
+							return $this->redirect($this->generateUrl('_user_info'));
+						}
 					}else{
 						$user->setSex($sex);
+						$user->setBirthday($birthday);
+						$user->setProvince($provinceId);
+						$user->setCity($city);
 						$user->setTel($tel);
-						// 	    	$em->persist($user);
+						$user->setIncome($month_income);
+						$user->setHobby($hobbys);
 						$user->setIsInfoSet($this->container->getParameter('init_one'));
 						$em->flush();
+						return $this->redirect($this->generateUrl('_user_info'));
 					}
 				}else{
-					$codeflag = $this->container->getParameter('update_se_sex');
+					$codeflag = '除手机号码外都为必填项';
 				}	
 			}else{
 				if($request->request->get('reset')){
@@ -205,12 +289,23 @@ class UserController extends Controller
 	    			}
 		    		return new Response(json_encode($code));
 	    		}
-
-			}
-			
-			 
+			} 
 		}
-		
+		//用户地区
+		if($user->getProvince()){
+			$userProvince = $em->getRepository('JiliApiBundle:ProvinceList')->find($user->getProvince());
+			if($user->getCity()){
+				$userCity = $em->getRepository('JiliApiBundle:CityList')->find($user->getCity());
+				$disarea = $userProvince->getProvinceName()." ".$userCity->getCityName();
+			}else{
+				$disarea = $userProvince->getProvinceName();
+			}
+		}
+		//月收入
+		if($user->getIncome()){
+			$userIncome = $em->getRepository('JiliApiBundle:MonthIncome')->find($user->getIncome());
+			$usercomes = $userIncome->getIncome();
+		}	
 		return $this->render('JiliApiBundle:User:info.html.twig',array( 
 				'form' => $form->createView(),
 				'form_upload' =>$form->createView(),
@@ -218,8 +313,25 @@ class UserController extends Controller
 				'adtaste' => $adtaste,
 				'exchange' => $exchange,
 				'code' => $code,
-				'codeflag'=> $codeflag,
-				'adtasteNum'=> $adtasteNum
+				'codeflag' => $codeflag,
+				'adtasteNum' => $adtasteNum,
+				'hobbyList' => $hobbyList,
+				'province' => $province,
+				'income' => $income,
+				'newHobby' => $userProHobby,
+				'newYear' => $newYear,
+				'newMonth' => $newMonth,
+				'userHobby' =>	$newHobby,
+			 	'disarea' => $disarea,
+				'usercomes'=> $usercomes,
+				'sex' => $sex,
+				'tel' => $tel,
+				'month_income' => $month_income,
+				'hobby' => $hobby,
+				'year' => $year,
+				'month' => $month,
+				'provinceId' => $provinceId,
+				'city' => $city 
 				));
 	}
 	

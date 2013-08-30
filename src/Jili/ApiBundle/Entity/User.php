@@ -68,7 +68,7 @@ class User
     /**
      * @var date
      *
-     * @ORM\Column(name="birthday", type="date", nullable=true)
+     * @ORM\Column(name="birthday", type="string",length=50, nullable=true)
      */
     private $birthday;
 
@@ -103,6 +103,13 @@ class User
     /**
      * @var integer
      *
+     * @ORM\Column(name="province", type="integer", nullable=true)
+     */
+    private $province;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="city", type="integer", nullable=true)
      */
     private $city;
@@ -120,11 +127,18 @@ class User
      * @ORM\Column(name="profession", type="integer", nullable=true)
      */
     private $profession;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="income", type="integer", nullable=true)
+     */
+    private $income;
     
     /**
      * @var integer
      *
-     * @ORM\Column(name="hobby", type="integer", nullable=true)
+     * @ORM\Column(name="hobby", type="string", length=250, nullable=true)
      */
     private $hobby;
    
@@ -521,7 +535,7 @@ class User
     /**
      * Set birthday
      *
-     * @param \DateTime $birthday
+     * @param string $birthday
      * @return User
      */
     public function setBirthday($birthday)
@@ -534,7 +548,7 @@ class User
     /**
      * Get birthday
      *
-     * @return \DateTime 
+     * @return string 
      */
     public function getBirthday()
     {
@@ -633,6 +647,29 @@ class User
         return $this->isTelConfirmed;
     }
 
+     /**
+     * Set province
+     *
+     * @param integer $province
+     * @return User
+     */
+    public function setProvince($province)
+    {
+        $this->province = $province;
+    
+        return $this;
+    }
+    
+    /**
+     * Get province
+     *
+     * @return integer
+     */
+    public function getProvince()
+    {
+        return $this->province;
+    }
+
     /**
      * Set city
      *
@@ -703,12 +740,39 @@ class User
     {
     	return $this->profession;
     }
+
+
+     /**
+     * Set income
+     *
+     * @param integer $income
+     * @return User
+     */
+    public function setIncome($income)
+    {
+        $this->income = $income;
+    
+        return $this;
+    }
+    
+    
+    
+    /**
+     * Get income
+     *
+     * @return integer
+     */
+    public function getIncome()
+    {
+        return $this->income;
+    }
+    
     
     
     /**
      * Set hobby
      *
-     * @param integer $hobby
+     * @param string $hobby
      * @return User
      */
     public function setHobby($hobby)
@@ -721,7 +785,7 @@ class User
     /**
      * Get hobby
      *
-     * @return integer
+     * @return string
      */
     public function getHobby()
     {

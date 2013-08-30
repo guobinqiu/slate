@@ -143,12 +143,14 @@
 
 .info ul {
 	padding: 20px 0;
+	display: inline-block;
 }
 .info ul li {
 	display: inline-block;
 	width: 100%;
 	line-height: 25px;
 	margin: 10px 0;
+	float: left;
 }
 .info ul li dd {
 	float: left;
