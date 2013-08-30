@@ -69,6 +69,7 @@ header nav#menu ul li{
 	float:left;
 	height: 38px;
 	line-height:38px;
+	position: relative;
 }
 header nav#menu ul li:hover{
 	background-color:#d33c0d;

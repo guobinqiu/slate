@@ -13,6 +13,7 @@ use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\WenwenUser;
 use Jili\ApiBundle\Entity\CallBoard;
+use Jili\ApiBundle\Entity\UserGameVisit;
 
 class DefaultController extends Controller
 {
@@ -376,6 +377,55 @@ class DefaultController extends Controller
                       'nick'=>$nick,
                       'email'=>$email
                      ));
+
+    }
+
+    /**
+     * @Route("/isExistVist", name="_default_isExistVist")
+     */
+    public function isExistVistAction()
+    {
+        $day = date('Ymd');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->getSession()->get('uid');
+        if($id){
+            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id,$day);
+            if(empty($visit)){
+                $code = $this->container->getParameter('init_one');
+            }else{
+                $code = $this->container->getParameter('init');
+            }
+        }else{
+            $code = $this->container->getParameter('init');
+        }
+        return new Response($code);
+
+    }
+
+    /**
+     * @Route("/gameVisit", name="_default_gameVisit")
+     */
+    public function gameVisitAction()
+    {   
+        $day = date('Ymd');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->getSession()->get('uid');
+        if($id){
+            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id,$day);
+            if(empty($visit)){
+                $gameVisit = new UserGameVisit();
+                $gameVisit->setUserId($id);
+                $gameVisit->setVisitDate($day);
+                $em->persist($gameVisit);
+                $em->flush();
+            }
+            $code =  $this->container->getParameter('init_one');
+        }else{
+            $code = $this->container->getParameter('init');
+        }
+        return new Response($code);
 
     }
     

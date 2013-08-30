@@ -1,11 +1,43 @@
+<link href="{{ asset('css/game_prompt.css')}}" rel="stylesheet" type="text/css"/>
 <script src="{{ asset('js/bottom.js')}}" type="text/javascript"></script>
+<script>
+$(document).ready(function(){
+  {% if app.session.get('uid') %}
+      $.ajax({
+            url: "{{ path('_default_isExistVist') }}",
+            post: "GET",
+            success:function(data){
+                if(data==1){
+                  $("#playGame").addClass("gameset");
+                }
+            }
+          });
+  {% endif %}
+});
+function func(){
+  {% if app.session.get('uid') %}
+      $.ajax({
+            url: "{{ path('_default_gameVisit') }}",
+            post: "GET",
+            success:function(data){
+                if(data==1){
+                  $("#playGame").removeClass("gameset");
+                }
+                location.href="{{ asset(path('_game_index'),'cdn1') }}";
+            }
+          });
+ {% else %}
+      location.href="{{ asset(path('_game_index'),'cdn1') }}";
+  {% endif %} 
+}
+</script>
 <header>
   <section>
     <div id="logo"><a href="{{ path('_default_index') }}"><img src="{{ asset('images/logo.gif')}}"></a></div>
     <nav id="menu">
       <ul>
-        <li><a href="{{ path('_default_index')  }}">首页</a></li>
-        <li><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
+        <li><a href="{{ path('_default_index') }}">首页</a></li>
+        <li><a href="javascript:void(0);" onclick="func()">游戏体验</a><span id="playGame"></span></li>
         <li><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
         <li><a href="{{ asset(path('_shopping_list'),'cdn1') }}">购物返利</a></li>
         <li><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
