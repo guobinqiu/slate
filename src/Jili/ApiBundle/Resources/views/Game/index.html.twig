@@ -15,6 +15,20 @@
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script type="text/javascript" src="{{ asset('js/control.js')}}"></script>
+<script type="text/javascript">
+function func(){
+    $.ajax({
+        url: "{{ path('_default_gameVisit') }}",
+        post: "GET",
+        success:function(data){
+            if(data==1)
+                location.href="{{ path("_game_chick") }}";
+            else
+                location.href="{{ path('_user_login') }}";
+        }
+    });     
+}
+</script>
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
@@ -22,7 +36,7 @@
          <!--    *** ▼▼▼ Header ▼▼▼ ********************    -->
          <div id="header" class="game_start">
              <img src="{{ asset("images/banner-1.png") }}" />
-			 <a class="game_start_btn" href="{{ path("_game_chick") }}">开始</a>
+			 <a class="game_start_btn" onclick="func()">开始</a>
          </div><!--    *** ▲▲▲ /End Header ▲▲▲ ********************    -->
          <!--    *** ▼▼▼ Contents ▼▼▼ ********************    -->
          <div style="margin-bottom:6px;"><img src="{{ asset("images/strategy.png") }}" /></div>
