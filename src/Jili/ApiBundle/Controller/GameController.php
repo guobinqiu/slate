@@ -24,7 +24,7 @@ class GameController extends Controller
     public function chickAction(){
         $code = '';
         $arr['code'] = $code;
-        if($this->checkMobile()!='pc'){
+        if($this->checkMobile()=='noaceess'){
             $arr['code'] = $this->container->getParameter('init_one');
         }
         $em = $this->getDoctrine()->getManager();
@@ -42,19 +42,12 @@ class GameController extends Controller
     }
       
     private function checkMobile(){
-        $agent = strtolower($_SERVER['HTTP_USER_AGENT']);  
-        $is_pc = (strpos($agent, 'windows nt')) ? true : false;   
+        $agent = strtolower($_SERVER['HTTP_USER_AGENT']);   
         $is_iphone = (strpos($agent, 'iphone')) ? true : false;
         $is_ipad = (strpos($agent, 'ipad')) ? true : false;   
         $is_android = (strpos($agent, 'android')) ? true : false; 
-        if($is_pc)
-            return 'pc';
-        if($is_iphone)
-            return 'iphone';
-        if($is_ipad) 
-            return 'ipad'; 
-        if($is_android)  
-            return 'android';
+        if($is_iphone || $is_ipad || $is_android)
+            return 'noaceess';
     }
     
 }
