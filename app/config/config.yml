@@ -121,6 +121,8 @@ parameters:
     init_seven: 7
     init_eight: 8
     init_nine: 9
+    init_fivty: 50
+    reg_mobile: 除手机号码外都为必填项
     game_type: 小鸡找米
     game_ad: 游戏广告
     game_pag: 游戏积分码

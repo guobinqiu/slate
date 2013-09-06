@@ -64,7 +64,7 @@ $(document).ready(function(){
           }  
         }
     });
-	{% if codeflag %}
+  {% if codeflag %}
       $("#info").hide();
       $("#update").show();
       var year = $("#year");  
@@ -123,54 +123,60 @@ $(document).ready(function(){
   $(".upload").click(function (){
       $("#form1").submit();
   });
-	$("#change").click(function (){
-		$("#info").hide();
-		$("#update").show();
-    // var oldcity = {{ user.city }};
-    var html = '';
-    {% if user.province %}
-      $.ajax({
-            url: "{{ path('_user_getCity') }}?cid={{ user.province }}",
-            post: "GET",
-            success:function(data){
-              var obj = eval(data);
-              for(var i=0;i<obj.length;i++){ 
-                  var selected = '';
-                 if({{ user.city }}){
-                    var oldcity = {{ user.city }};
-                    selected = ( oldcity == obj[i]['id'])?"selected='selected'":""; 
-                 }
+  $("#change").click(function (){
+      {% if existUserinfo %}
+          $("#info").hide();
+          $("#update").show();
+          // var oldcity = {{ user.city }};
+          var html = '';
+          {% if user.province %}
+            $.ajax({
+                  url: "{{ path('_user_getCity') }}?cid={{ user.province }}",
+                  post: "GET",
+                  success:function(data){
+                    var obj = eval(data);
+                    for(var i=0;i<obj.length;i++){ 
+                        var selected = '';
+                       if({{ user.city }}){
+                          var oldcity = {{ user.city }};
+                          selected = ( oldcity == obj[i]['id'])?"selected='selected'":""; 
+                       }
 
-                 html += "<option value='"+obj[i]['id']+"'  " + selected+ " >"+obj[i]['cityName']+"</option>";                 
-              }
-              $("#city").html(html); 
-            }
-        });
-    {% endif %}
-    var year = $("#year");  
-    var month = $("#month");  
-    var newYear = {{ newYear }};
-    var newMonth = {{ newMonth }};
-    var yearhtml = '';
-    var monthhtml = '';
-    var date = new Date();  
-    var y = date.getFullYear();  
-    yearhtml += "<option value='0'>请选择年</option>";   
-    for (var i = 1940; i <= y ; i++) {  
-       var selected = (newYear == i)?"selected='selected'":""; 
-       yearhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>";
-    } 
-    year.html(yearhtml);
-    monthhtml += "<option value='0'>请选择月</option>";   
-    for (var i = 1; i < 13; i++) {  
-        var selected = '';
-          if(newMonth) 
-            selected = (newMonth == i)?"selected='selected'":""; 
-          monthhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>"; 
-    }
-    month.html(monthhtml);
-	})
-
+                       html += "<option value='"+obj[i]['id']+"'  " + selected+ " >"+obj[i]['cityName']+"</option>";                 
+                    }
+                    $("#city").html(html); 
+                  }
+              });
+          {% endif %}
+          var year = $("#year");  
+          var month = $("#month");  
+          var newYear = {{ newYear }};
+          var newMonth = {{ newMonth }};
+          var yearhtml = '';
+          var monthhtml = '';
+          var date = new Date();  
+          var y = date.getFullYear();  
+          yearhtml += "<option value='0'>请选择年</option>";   
+          for (var i = 1940; i <= y ; i++) {  
+             var selected = (newYear == i)?"selected='selected'":""; 
+             yearhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>";
+          } 
+          year.html(yearhtml);
+          monthhtml += "<option value='0'>请选择月</option>";   
+          for (var i = 1; i < 13; i++) {  
+              var selected = '';
+                if(newMonth) 
+                  selected = (newMonth == i)?"selected='selected'":""; 
+                monthhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>"; 
+          }
+          month.html(monthhtml);
+       
+         
+      {% else %}
+           window.location.href = "{{ path('_user_registerReward') }}";
+      {% endif %}
+  })
+   
 });
 function selectYear(){
   var month = $("#month"); 
@@ -213,12 +219,12 @@ function selectCity(){
   <section class="line">
     <h3 class="line">头像</h3>
     <div class="photo">
-    	<div class="img">
-    	    {% if user.iconPath %}
-    	        <img src='{{ asset(user.iconPath) }}' height='110'/>
-    	    {% else %}
-    	        <img src='{{ asset("images/default_face.jpg") }}' height='110'/>
-    	    {% endif %}
+      <div class="img">
+          {% if user.iconPath %}
+              <img src='{{ asset(user.iconPath) }}' height='110'/>
+          {% else %}
+              <img src='{{ asset("images/default_face.jpg") }}' height='110'/>
+          {% endif %}
         </div>
         <form action="{{ path('_user_info') }}" method="post" {{ form_enctype(form) }} id="form1">
         <p>欢迎您,{{ user.nick }}&nbsp;我的米粒：<span>{{ user.points }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ asset(path('_user_changePwd'),'cdn1') }}" class="edit">修改密码 »</a></p>
@@ -325,7 +331,7 @@ function selectCity(){
           </dt>
         </li>
         <li style="width:60%;">
-          <dd>性  别：</dd>
+          <dd><font style="color:#EE472C;"> * </font>性  别：</dd>
           <dt>
             <input name="sex" type="radio" {% if sex %}{% if sex==1 %} checked='checked' {% endif %}{% endif %}{% if user.sex==1 %} checked='checked' {% endif %} value="1">
             男
@@ -334,13 +340,13 @@ function selectCity(){
         </li>
 
 
-       <li style="width:40%;"><dd>出  生：</dd>
+       <li style="width:40%;"><dd><font style="color:#EE472C;"> * </font>出生年月：</dd>
             <dt><select id="year" name="year" onchange="selectYear()"></select>      
             &nbsp;<select id="month" name="month"></select>      
           </dt>
       </li>
 
-          <li style="width:60%;"><dd>地区：</dd>
+          <li style="width:60%;"><dd><font style="color:#EE472C;"> * </font>地区：</dd>
             <dt><select id="province" name="province" onchange="selectCity()">
             <option value="0">请选择省</option>
               {% for item in province %}
@@ -361,7 +367,7 @@ function selectCity(){
         </li>
 
          <li>
-          <dd>月收入：</dd>
+          <dd><font style="color:#EE472C;"> * </font>月收入：</dd>
           <dt>
            {% for item in income %}
             <input name="income" type="radio" value="{{ item.id }}" {% if month_income %}{% if month_income==item.id %} checked='checked' {% endif %}{% endif %}{% if user.income == item.id %} checked = "checked" {% endif %}>{{ item.income }}
@@ -370,7 +376,7 @@ function selectCity(){
         </li>
 
          <li>
-          <dd>兴趣爱好：</dd>
+          <dd><font style="color:#EE472C;"> * </font>兴趣爱好：</dd>
           <dt>
            {% for item in hobbyList %}
             <input type="checkbox"  name="hobby[]" value="{{ item.id }}" {% if hobby %}{% for i in hobby %} {% if i ==item.id %} checked = "checked" {% endif %}{% endfor %}{% endif %}  {% if newHobby %}{% for i in newHobby %} {% if i ==item.id %} checked = "checked" {% endif %}{% endfor %}{% endif %}>{{ item.hobbyName }}
@@ -454,7 +460,7 @@ function selectCity(){
   <section>
     <h3>我的兑换历史<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
     <div class="content score">
-    	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <th>兑换申请时间</th>
           <th>兑换方式</th>
@@ -483,7 +489,7 @@ function selectCity(){
   <!--  <section>
     <h3>账户扩展<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
     <div class="content expand">
-    	内容
+      内容
     </div>
   </section>-->
 </div>

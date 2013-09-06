@@ -1,6 +1,5 @@
 <?php
 namespace Jili\ApiBundle\Controller;
-
 use Gregwar\CaptchaBundle\GregwarCaptchaBundle;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -17,7 +16,19 @@ use Jili\ApiBundle\Entity\TaskOrder;
 use Jili\ApiBundle\Entity\PointsExchange;
 use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\setPasswordCode;
+use Jili\ApiBundle\Entity\AmazonCoupon;
+use Jili\ApiBundle\Entity\RegisterReward;
 use Gregwar\Captcha\CaptchaBuilder;
+use Jili\ApiBundle\Entity\PointHistory00;
+use Jili\ApiBundle\Entity\PointHistory01;
+use Jili\ApiBundle\Entity\PointHistory02;
+use Jili\ApiBundle\Entity\PointHistory03;
+use Jili\ApiBundle\Entity\PointHistory04;
+use Jili\ApiBundle\Entity\PointHistory05;
+use Jili\ApiBundle\Entity\PointHistory06;
+use Jili\ApiBundle\Entity\PointHistory07;
+use Jili\ApiBundle\Entity\PointHistory08;
+use Jili\ApiBundle\Entity\PointHistory09;
 use Jili\ApiBundle\Entity\TaskHistory00;
 use Jili\ApiBundle\Entity\TaskHistory01;
 use Jili\ApiBundle\Entity\TaskHistory02;
@@ -170,12 +181,212 @@ class UserController extends Controller
 		
 	}
 
+	/**
+	 * @Route("/getCoupon", name="_user_getCoupon")
+	 */
+	public function getCouponAction(){
+		$code = '';
+		$getCoupon = '';
+		$request = $this->get('request');
+		$id = $request->getSession()->get('uid');
+		if(!$id){
+            return $this->redirect($this->generateUrl('_default_index'));
+        }
+        $em = $this->getDoctrine()->getManager();
+       
+        $userCount = $em->getRepository('JiliApiBundle:AmazonCoupon')->isUserCoupon($id);
+        if($userCount > $this->container->getParameter('init')){
+			$code = $this->container->getParameter('init_one');
+			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+			$getCoupon = $userCoupon[0]->getCoupon();
+        }else{
+        	$amazonCount = $em->getRepository('JiliApiBundle:AmazonCoupon')->countCoupon();
+        	if($amazonCount > $this->container->getParameter('init')){
+        		$amazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->getAmcoupon();
+	        	$getCoupon = $amazon['0']['coupon'];
+		        $amazonCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->find($amazon['0']['id']);
+		        $amazonCoupon->setUserId($id);
+		        $em->flush();
+        	}else{
+        		$code = $this->container->getParameter('init_two');
+       		}	
+        }
+        return $this->render('JiliApiBundle:User:getCoupon.html.twig',array(
+				'coupon'=>$getCoupon,
+				'code'=>$code
+				));
+       
+	}
+    //领取亚马逊优惠券
+	private function getCoupons($id){
+		$em = $this->getDoctrine()->getManager();
+		$isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+		if(empty($isuserAmazon)){
+			$amazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->getAmcoupon();
+			$getCoupon = $amazon['0']['coupon'];
+	        $amazonCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->find($amazon['0']['id']);
+	        $amazonCoupon->setUserId($id);
+	        $em->flush();
+	        $reward =  new RegisterReward();
+			$reward->setUserId($id);
+			$reward->setType($this->container->getParameter('init_one'));
+			$em->persist($reward);
+			$em->flush();
+	        return true;
+		}else{
+			return false;
+		}
+		
+	}
+    // 是否完善资料
+	private function isExistInfo($userid){
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('JiliApiBundle:User')->find($userid);
+		if($user->getSex() && $user->getBirthday() && $user->getProvince() && $user->getCity() && $user->getIncome() && $user->getHobby())
+			return true;
+		else
+			return false;
+	}
+	//是否给过奖励
+	private function isGetReward($userid,$componType){
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($userid);
+		if($user){
+			if($componType == 'point'){
+				if($user[0]->getType() == $this->container->getParameter('init_one'))
+					return $this->container->getParameter('init_four');//参加其他活动领取的
+				if($user[0]->getType() == $this->container->getParameter('init_two'))
+					return $this->container->getParameter('init_one');
+			}else{
+				if($user[0]->getType() == $this->container->getParameter('init_one')){
+					$isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($userid);
+					if(empty($isuserAmazon)){
+						return $this->container->getParameter('init_three');//获得米粒的
+					}else{
+						return $this->container->getParameter('init_two');//获得优惠券的
+					}
+				}else{
+					return $this->container->getParameter('init_four');//参加其他活动领取的
+				}
+			}
+		}else{
+			return false;
+		}
+		
+	}
+
+	//给米粒奖励
+	private function getPointReward($componType,$userid){
+		$em = $this->getDoctrine()->getManager();
+		$isuserPoint = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($userid);
+		if(empty($isuserPoint)){
+			$reward =  new RegisterReward();
+			$reward->setUserId($userid);
+			if($componType == 'point')
+				$reward->setType($this->container->getParameter('init_two'));
+			else
+				$reward->setType($this->container->getParameter('init_one'));
+			$reward->setRewards($this->container->getParameter('init_fivty'));
+			$em->persist($reward);
+			$em->flush();
+			$this->getPointHistory($userid,$this->container->getParameter('init_fivty'));
+			$user = $em->getRepository('JiliApiBundle:User')->find($userid);
+			$user->setPoints(intval($user->getPoints()+$this->container->getParameter('init_fivty')));
+			$em->persist($user);
+			$em->flush();
+			return true;
+		}else{
+			return false;
+		}
+			
+	}
+
+	private function getPointHistory($userid,$point){
+    	if(strlen($userid)>1){
+    		$uid = substr($userid,-1,1);
+    	}else{
+    		$uid = $userid;
+    	}
+    	switch($uid){
+    	    case 0:
+    	    	$po = new PointHistory00();
+    	    	break;
+	    	case 1:
+	    		$po = new PointHistory01();
+	    		break;
+		    case 2:
+		    	$po = new PointHistory02();
+			    break;
+			case 3:
+				$po = new PointHistory03();
+				break;
+			case 4:
+				$po = new PointHistory04();
+				break;
+			case 5:
+				$po = new PointHistory05();
+				break;
+			case 6:
+				$po = new PointHistory06();
+				break;
+			case 7:
+				$po = new PointHistory07();
+				break;
+			case 8:
+				$po = new PointHistory08();
+				break;
+			case 9:
+				$po = new PointHistory09();
+				break;
+    	}
+		$em = $this->getDoctrine()->getManager();
+		$po->setUserId($userid);
+		$po->setPointChangeNum($point);
+		$po->setReason($this->container->getParameter('init_nine'));
+		$em->persist($po);
+		$em->flush();
+		return true;
+    }
+	//完善后领取(积分或优惠券）
+    private function getReward($componType,$id){
+    	$em = $this->getDoctrine()->getManager();
+    	if($componType == 'point'){
+			$this->getPointReward($componType,$id);
+			return $this->container->getParameter('init_one');
+		}else{
+			$amazonCount = $em->getRepository('JiliApiBundle:AmazonCoupon')->countCoupon();
+			if($amazonCount == $this->container->getParameter('init')){
+				$isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+				if(empty($isuserAmazon)){
+					$this->getPointReward($componType,$id);
+					return $this->container->getParameter('init_three');
+				}else{
+					return false;
+				}
+			}else{
+				if($this->getCoupons($id)){
+					return $this->container->getParameter('init_two');
+				}else{
+					return false;
+				}
+				
+			}
+			
+		}
+
+    }
+
 
 	/**
-	 * @Route("/info", name="_user_info",requirements={"_scheme"="https"})
+	 * @Route("/registerReward", name="_user_registerReward")
 	 */
-	public function infoAction()
-	{
+	public function registerRewardAction(){
+		$componType = 'point';
+		// $componType = 'activity';
+		$isgetReward = '';
+		$getInfoReward = '';
+		$getInfoReward = '';
+		$rsReward = '';
 		$code = '';
 		$flag = '';
 		$codeflag = '';
@@ -183,7 +394,173 @@ class UserController extends Controller
 		$city = '';
 		$month_income = '';
 		$newYear = $this->container->getParameter('init');
-		$newMonth =$this->container->getParameter('init');
+		$newMonth = $this->container->getParameter('init');
+		$newHobby = '';
+		$disarea = '';
+		$usercomes = '';
+		$userProHobby = '';
+		$request = $this->get('request');
+		$id = $request->getSession()->get('uid');
+		// if(!$id)
+		// 	return $this->redirect($this->generateUrl('_default_index'));
+		$em = $this->getDoctrine()->getManager();
+        if($this->isExistInfo($id)){
+        	if($this->isGetReward($id,$componType)){
+        		$isgetReward = $this->isGetReward($id,$componType);
+        		if($isgetReward ==  $this->container->getParameter('init_two')){
+        			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+					$getInfoReward = $userCoupon[0]->getCoupon();
+        		}
+        	}else{
+        		$rsReward = $this->getReward($componType,$id);
+        		if($rsReward == $this->container->getParameter('init_two')){
+        			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+					$getInfoReward = $userCoupon[0]->getCoupon();
+        		}
+        	}
+        }
+
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		if($user->getHobby()){
+			$userProHobby = explode(",",$user->getHobby());
+			foreach ($userProHobby as $key => $value) {
+				$userHobby = $em->getRepository('JiliApiBundle:HobbyList')->find($value);
+				$userHobbyList[] = $userHobby->getHobbyName();
+			}
+			$newHobby = implode(',',$userHobbyList);
+		}
+		if($user->getBirthday()){
+			if(strlen($user->getBirthday())>5){
+				$newBirthday = explode("-",$user->getBirthday());
+				$newYear = $newBirthday[0];
+				$newMonth = $newBirthday[1];
+			}else{
+				$newYear = $user->getBirthday();
+			}
+		}
+		$hobbyList = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
+		$province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+		$income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
+		$sex = $request->request->get('sex');
+		$tel = $request->request->get('tel');
+		$year = $request->request->get('year');
+		$month = $request->request->get('month');
+		$provinceId = $request->request->get('province');
+		$city = $request->request->get('city');
+		$month_income = $request->request->get('income');
+		$hobby = $request->request->get('hobby');
+		if ($request->getMethod() == 'POST') {
+				if($sex && $year && $city && $month_income && $hobby){
+					if($year){
+						$birthday = $year;
+						if($month)
+							$birthday = $birthday.'-'.$month;
+					}	
+					if($hobby)
+						$hobbys = implode(",",$hobby);
+					if($tel){
+						if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+							$codeflag = $this->container->getParameter('update_wr_mobile');
+						}else{
+							$user->setSex($sex);
+							$user->setBirthday($birthday);
+							$user->setProvince($provinceId);
+							$user->setCity($city);
+							$user->setTel($tel);
+							$user->setIncome($month_income);
+							$user->setHobby($hobbys);
+							$user->setIsInfoSet($this->container->getParameter('init_one'));
+							$em->flush();
+
+							if($this->isGetReward($id,$componType)){
+				        		$isgetReward = $this->isGetReward($id,$componType);
+				        		if($isgetReward ==  $this->container->getParameter('init_two')){
+				        			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+									$getInfoReward = $userCoupon[0]->getCoupon();
+				        		}
+				        	}else{
+				        		$rsReward = $this->getReward($componType,$id);
+				        		if($rsReward == $this->container->getParameter('init_two')){
+				        			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+									$getInfoReward = $userCoupon[0]->getCoupon();
+				        		}
+				        	}
+						}
+					}else{
+						$user->setSex($sex);
+						$user->setBirthday($birthday);
+						$user->setProvince($provinceId);
+						$user->setCity($city);
+						$user->setTel($tel);
+						$user->setIncome($month_income);
+						$user->setHobby($hobbys);
+						$user->setIsInfoSet($this->container->getParameter('init_one'));
+						$em->flush();
+
+						if($this->isGetReward($id,$componType)){
+			        		$isgetReward = $this->isGetReward($id,$componType);
+			        		if($isgetReward ==  $this->container->getParameter('init_two')){
+			        			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+								$getInfoReward = $userCoupon[0]->getCoupon();
+			        		}
+			        	}else{
+			        		$rsReward = $this->getReward($componType,$id);
+			        		if($rsReward == $this->container->getParameter('init_two')){
+			        			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+								$getInfoReward = $userCoupon[0]->getCoupon();
+			        		}
+			        	}
+					}
+				}else{
+					$codeflag = $this->container->getParameter('reg_mobile');
+				}
+		}	
+
+		
+		return $this->render('JiliApiBundle:User:coupon.html.twig',array( 
+				'user' => $user,
+				'code' => $code,
+				'codeflag' => $codeflag,
+				'componType' => $componType,
+				'isgetReward' => $isgetReward,
+				'rsReward' => $rsReward,
+				'couponCode' => $getInfoReward,
+				'hobbyList' => $hobbyList,
+				'province' => $province,
+				'income' => $income,
+				'newHobby' => $userProHobby,
+				'newYear' => $newYear,
+				'newMonth' => $newMonth,
+				'userHobby' =>	$newHobby,
+			 	'disarea' => $disarea,
+				'usercomes'=> $usercomes,
+				'sex' => $sex,
+				'tel' => $tel,
+				'month_income' => $month_income,
+				'hobby' => $hobby,
+				'year' => $year,
+				'month' => $month,
+				'provinceId' => $provinceId,
+				'city' => $city,
+				'id' => $id
+				));
+	}
+
+
+	/**
+	 * @Route("/info", name="_user_info",requirements={"_scheme"="https"})
+	 */
+	public function infoAction()
+	{
+		$existUserinfo = '';
+		$code = '';
+		$flag = '';
+		$codeflag = '';
+		$birthday = '';
+		$city = '';
+		$month_income = '';
+		$newYear = $this->container->getParameter('init');
+		$newMonth = $this->container->getParameter('init');
 		$newHobby = '';
 		$disarea = '';
 		$usercomes = '';
@@ -192,6 +569,11 @@ class UserController extends Controller
 		$request = $this->get('request');
 		$id = $request->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
+		$em = $this->getDoctrine()->getManager();
+		$isuserinfo = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($id);
+		if($isuserinfo){
+			$existUserinfo = $this->container->getParameter('init_one');
+		}
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		if($user->getHobby()){
 			$userProHobby = explode(",",$user->getHobby());
@@ -271,7 +653,7 @@ class UserController extends Controller
 						return $this->redirect($this->generateUrl('_user_info'));
 					}
 				}else{
-					$codeflag = '除手机号码外都为必填项';
+					$codeflag = $codeflag = $this->container->getParameter('reg_mobile');
 				}	
 			}else{
 				if($request->request->get('reset')){
@@ -314,6 +696,7 @@ class UserController extends Controller
 				'exchange' => $exchange,
 				'code' => $code,
 				'codeflag' => $codeflag,
+				'existUserinfo' => $existUserinfo,
 				'adtasteNum' => $adtasteNum,
 				'hobbyList' => $hobbyList,
 				'province' => $province,

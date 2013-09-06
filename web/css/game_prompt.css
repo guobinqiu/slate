@@ -1,9 +1,9 @@
 .gameset{
 	background-image: url("../images/game_prompt.gif");
 	display: inline-block;
-	height: 24px;
-	left: 60px;
+	height: 38px;
+	left: 90px;
 	position: absolute;
-	top: -25px;
-	width: 128px;
+	top: -28px;
+	width: 120px;
 }
