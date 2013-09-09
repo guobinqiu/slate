@@ -552,7 +552,8 @@ class UserController extends Controller
 	 */
 	public function infoAction()
 	{
-		$existUserinfo = '';
+		// $existUserinfo = '';
+		$existUserinfo = $this->container->getParameter('init_one');
 		$code = '';
 		$flag = '';
 		$codeflag = '';
@@ -570,10 +571,10 @@ class UserController extends Controller
 		$id = $request->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
 		$em = $this->getDoctrine()->getManager();
-		$isuserinfo = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($id);
-		if($isuserinfo){
-			$existUserinfo = $this->container->getParameter('init_one');
-		}
+		// $isuserinfo = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($id);
+		// if($isuserinfo){
+		// 	$existUserinfo = $this->container->getParameter('init_one');
+		// }
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		if($user->getHobby()){
 			$userProHobby = explode(",",$user->getHobby());
