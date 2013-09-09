@@ -1325,7 +1325,7 @@ class AdminController extends Controller
     /**
      * @Route("/selectUser", name="_admin_selectUser")
      */
-    public function SelectUserAction(){
+    public function selectUserAction(){
         $code = '';
         $count_user = '';
         $em = $this->getDoctrine()->getManager();
