@@ -195,7 +195,7 @@ function selectCity(){
   var html = ''; 
   if($("#provinceInfo").val()!=0){
      $.ajax({
-              url: "{{ path('_user_getCity') }}?cid="+$('#province').val(),
+              url: "{{ path('_user_getCity') }}?cid="+$('#provinceInfo').val(),
               post: "GET",
               success:function(data){
                 var obj = eval(data);
