@@ -132,7 +132,7 @@ class DefaultController extends Controller
 
 
 	/**
-	 * @Route("/?banner=info", name="_default_index",requirements={"_scheme"="https"})
+	 * @Route("/", name="_default_index",requirements={"_scheme"="https"})
 	 * 
 	 */ 
     public function indexAction()
