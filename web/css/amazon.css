@@ -6,6 +6,7 @@
 }
 #reward p{
 	margin:20px 0;
+	line-height: 180%;
 }
 #reward .cardDiv{
 	float: left;
@@ -82,6 +83,7 @@ a.amazonHref{
 	top:0;
 	background-color: #000;
 	opacity: .5;
+	Filter:alpha(opacity=50);
 	z-index: 9998;
 }
 .amazon #update{
