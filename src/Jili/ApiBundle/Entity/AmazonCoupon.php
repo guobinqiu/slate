@@ -32,9 +32,16 @@ class AmazonCoupon
      /**
      * @var string
      *
-     * @ORM\Column(name="coupon", type="string" ,length=50)
+     * @ORM\Column(name="coupon_od", type="string" ,length=50)
      */
-    private $coupon;
+    private $couponOd;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="coupon_elec", type="string" ,length=50)
+     */
+    private $couponElec;
 
 
     /**
@@ -71,26 +78,49 @@ class AmazonCoupon
     }
 
     /**
-     * Set coupon
+     * Set couponOd
      *
-     * @param string $coupon
+     * @param string $couponOd
      * @return AmazonCoupon
      */
-    public function setCoupon($coupon)
+    public function setCouponOd($couponOd)
     {
-        $this->coupon = $coupon;
+        $this->couponOd = $couponOd;
     
         return $this;
     }
 
     /**
-     * Get coupon
+     * Get couponOd
      *
      * @return string 
      */
-    public function getCoupon()
+    public function getCouponOd()
     {
-        return $this->coupon;
+        return $this->couponOd;
+    }
+
+    /**
+     * Set couponElec
+     *
+     * @param string $couponElec
+     * @return AmazonCoupon
+     */
+    public function setCouponElec($couponElec)
+    {
+        $this->couponElec = $couponElec;
+    
+        return $this;
+    }
+
+    /**
+     * Get couponElec
+     *
+     * @return string 
+     */
+    public function getCouponElec()
+    {
+        return $this->couponElec;
     }
     
 }

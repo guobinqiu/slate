@@ -14,10 +14,42 @@ use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\WenwenUser;
 use Jili\ApiBundle\Entity\CallBoard;
 use Jili\ApiBundle\Entity\UserGameVisit;
+use Jili\ApiBundle\Entity\UserInfoVisit;
 
 class DefaultController extends Controller
 {
-	
+	 // 是否完善资料
+    private function isExistInfo($userid){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($userid);
+        if($user->getSex() && $user->getBirthday() && $user->getProvince() && $user->getCity() && $user->getIncome() && $user->getHobby())
+            return true;
+        else
+            return false;
+    }
+
+    //是否给过奖励
+    private function isGetReward($userid){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($userid);
+        if($user){
+            if($user[0]->getType() == $this->container->getParameter('init_one')){
+                $isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($userid);
+                if(empty($isuserAmazon)){
+                    return $this->container->getParameter('init_three');//获得米粒的
+                }else{
+                    return $this->container->getParameter('init_two');//获得优惠券的
+                }
+            }else{
+                return $this->container->getParameter('init_four');//参加其他活动领取的
+            }
+        }else{
+            return false;
+        }
+        
+    }
+
+
 	/**
 	 * @Route("/", name="_default_index",requirements={"_scheme"="https"})
 	 * 
@@ -34,10 +66,34 @@ class DefaultController extends Controller
     	}     
     	$arr['user'] = array();
         $em = $this->getDoctrine()->getManager();
-        if( $this->get('request')->getSession()->get('uid')){
-        	$user = $em->getRepository('JiliApiBundle:User')->find($this->get('request')->getSession()->get('uid'));
+        $id = $request->getSession()->get('uid');
+        if($id){
+        	$user = $em->getRepository('JiliApiBundle:User')->find($id);
         	$arr['user'] = $user;
         }
+        $info = '';
+        $couponOd = '';
+        $couponElec = '';
+        if($request->query->get('banner')=='info'){
+            $visit = $em->getRepository('JiliApiBundle:UserInfoVisit')->findByUserid($id);
+            if(!empty($visit[0])){
+               $em->remove($visit[0]);
+               $em->flush();
+            }
+            if($this->isExistInfo($id)){
+                $info = $this->isGetReward($id);
+                if($info ==  $this->container->getParameter('init_two')){
+                    $userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+                    $couponOd = $userCoupon[0]->getCouponOd();
+                    $couponElec = $userCoupon[0]->getCouponElec();
+                }
+            }else{ 
+                $info = $this->container->getParameter('init_one');
+            }
+        }
+        $arr['info'] = $info;
+        $arr['couponOd'] = $couponOd;
+        $arr['couponElec'] = $couponElec;
         $code = '';
         $arr['userInfo'] = array();
         $email = $request->request->get('email');
@@ -396,6 +452,34 @@ class DefaultController extends Controller
             }else{
                 $code = $this->container->getParameter('init');
             }
+        }else{
+            $code = $this->container->getParameter('init');
+        }
+        return new Response($code);
+
+    }
+
+    /**
+     * @Route("/infoVisit", name="_default_infoVisit")
+     */
+    public function infoVisitAction()
+    {   
+        $day = date('Ymd');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->getSession()->get('uid');
+        if($id){
+            $visit = $em->getRepository('JiliApiBundle:UserInfoVisit')->getInfoVisit($id,$day);
+            if(empty($visit)){
+                $infoVisit = new UserInfoVisit();
+                $infoVisit->setUserId($id);
+                $infoVisit->setVisitDate($day);
+                $em->persist($infoVisit);
+                $em->flush();
+                $code =  $this->container->getParameter('init_one');
+            }else{
+                $code = $this->container->getParameter('init');
+            }  
         }else{
             $code = $this->container->getParameter('init');
         }

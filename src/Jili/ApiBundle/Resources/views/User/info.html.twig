@@ -66,9 +66,9 @@ $(document).ready(function(){
     });
   {% if codeflag %}
       $("#info").hide();
-      $("#update").show();
-      var year = $("#year");  
-      var month = $("#month");  
+      $("#updateInfo").show();
+      var year = $("#yearInfo");  
+      var month = $("#monthInfo");  
       var newYear = {{ newYear }};
       var newMonth = {{ newMonth }};
       var yearhtml = '';
@@ -113,12 +113,12 @@ $(document).ready(function(){
                  }
                  html += "<option value='"+obj[i]['id']+"'  " + selected+ " >"+obj[i]['cityName']+"</option>";                 
               }
-              $("#city").html(html); 
+              $("#cityInfo").html(html); 
             }
         });
     {% endif %}
   {% else %}
-      $("#update").hide();
+      $("#updateInfo").hide();
   {% endif %}
   $(".upload").click(function (){
       $("#form1").submit();
@@ -126,7 +126,7 @@ $(document).ready(function(){
   $("#change").click(function (){
       {% if existUserinfo %}
           $("#info").hide();
-          $("#update").show();
+          $("#updateInfo").show();
           // var oldcity = {{ user.city }};
           var html = '';
           {% if user.province %}
@@ -144,12 +144,12 @@ $(document).ready(function(){
 
                        html += "<option value='"+obj[i]['id']+"'  " + selected+ " >"+obj[i]['cityName']+"</option>";                 
                     }
-                    $("#city").html(html); 
+                    $("#cityInfo").html(html); 
                   }
               });
           {% endif %}
-          var year = $("#year");  
-          var month = $("#month");  
+          var year = $("#yearInfo");  
+          var month = $("#monthInfo");  
           var newYear = {{ newYear }};
           var newMonth = {{ newMonth }};
           var yearhtml = '';
@@ -179,8 +179,8 @@ $(document).ready(function(){
    
 });
 function selectYear(){
-  var month = $("#month"); 
-  if($("#year").val()=='0'){
+  var month = $("#monthInfo"); 
+  if($("#yearInfo").val()=='0'){
     month.get(0).options.length = 0; 
     month.get(0).options.add(new Option("请选择月", "0"));  
   }else{
@@ -193,7 +193,7 @@ function selectYear(){
 }
 function selectCity(){
   var html = ''; 
-  if($("#province").val()!=0){
+  if($("#provinceInfo").val()!=0){
      $.ajax({
               url: "{{ path('_user_getCity') }}?cid="+$('#province').val(),
               post: "GET",
@@ -202,12 +202,12 @@ function selectCity(){
                 for(var i=0;i<obj.length;i++){ 
                     html += "<option value='"+obj[i]['id']+"'>"+obj[i]['cityName']+"</option>";                 
                 }
-                $("#city").html(html); 
+                $("#cityInfo").html(html); 
               }
           });
   }else{
       html += "<option value='0'>请选择地区</option>";   
-      $("#city").html(html);
+      $("#cityInfo").html(html);
   }
 }
 </script>
@@ -314,7 +314,7 @@ function selectCity(){
     </div>
   </section>
   
-  <section id= "update">
+  <section id= "updateInfo">
    <form action="{{ path('_user_info') }}" method="post">
     <h3>个人信息<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
     <div class="content info">
@@ -341,20 +341,20 @@ function selectCity(){
 
 
        <li style="width:40%;"><dd><font style="color:#EE472C;"> * </font>出生年月：</dd>
-            <dt><select id="year" name="year" onchange="selectYear()"></select>      
-            &nbsp;<select id="month" name="month"></select>      
+            <dt><select id="yearInfo" name="year" onchange="selectYear()"></select>      
+            &nbsp;<select id="monthInfo" name="month"></select>      
           </dt>
       </li>
 
           <li style="width:60%;"><dd><font style="color:#EE472C;"> * </font>地区：</dd>
-            <dt><select id="province" name="province" onchange="selectCity()">
+            <dt><select id="provinceInfo" name="province" onchange="selectCity()">
             <option value="0">请选择省</option>
               {% for item in province %}
                <option value="{{ item.id }}" {% if provinceId %} {% if provinceId == item.id %} selected = "selected" {% endif %} {% endif %}{% if user.province == item.id %} selected = "selected" {% endif %}>{{ item.provinceName }}</option>
               {% endfor %}
             
             </select>
-            <select id="city" name="city"><option value='0'>请选择地区</option>
+            <select id="cityInfo" name="city"><option value='0'>请选择地区</option>
               </select>
               </dt></li>
 

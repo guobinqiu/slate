@@ -10,7 +10,7 @@ class AmazonCouponRepository extends EntityRepository
 	public function getAmcoupon()
 	{
 		$query = $this->createQueryBuilder('ac');
-		$query = $query->select('ac.id','ac.coupon');
+		$query = $query->select('ac.id','ac.couponOd','ac.couponElec');
 		$query = $query->Where('ac.userid is null');
 		$query = $query->setFirstResult(0);
 		$query = $query->setMaxResults(1);
@@ -20,7 +20,7 @@ class AmazonCouponRepository extends EntityRepository
 
 	public function countCoupon(){
 		$query = $this->createQueryBuilder('ac');
-		$query = $query->select('ac.id','ac.coupon');
+		$query = $query->select('ac.id','ac.couponOd','ac.couponElec');
 		$query = $query->Where('ac.userid is null');
 		$query =  $query->getQuery();
 		return count($query->getResult());
@@ -28,7 +28,7 @@ class AmazonCouponRepository extends EntityRepository
 
 	public function isUserCoupon($userid){
 		$query = $this->createQueryBuilder('ac');
-		$query = $query->select('ac.id','ac.coupon');
+		$query = $query->select('ac.id','ac.couponOd','ac.couponElec');
 		$query = $query->Where('ac.userid = :userid');
 		$query = $query->setParameter('userid',$userid);
 		$query =  $query->getQuery();

@@ -12,8 +12,21 @@
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
 </head>
+{% include 'JiliApiBundle::header.html.twig' %}
 <script type="text/javascript">
-$(function(){
+var info = {{ info }};
+var reward = '';
+var couponOd = '';
+var couponElec = '';
+{% if couponOd %}
+  couponOd = "{{ couponOd }}";
+{% endif %}
+{% if couponElec %}
+  couponElec = "{{ couponElec }}";
+{% endif %}
+var uid = {{ app.session.get('uid') }};
+$(document).ready(function(){
+  showAmazon(info,couponOd,couponElec,uid);
 	{% if code %}
        $("#email").focus();
 	   alert('{{ code }}');
@@ -22,10 +35,10 @@ $(function(){
 	 $("#login").click(function(){
 	       $("#form1").submit();
 		})
-	})
+	});
 </script>
 <body>
-{% include 'JiliApiBundle::header.html.twig' %}
+
 <div class="webArticle index">
 	<section class="one">
         <div id="banner">

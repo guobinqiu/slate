@@ -14,7 +14,7 @@ class UserRepository extends EntityRepository
 			$end_time = $end.' 23:59:59';
 		$query = $this->createQueryBuilder('u');
 		$query = $query->select('u.id,u.nick');
-
+		
 		if($start && $end){
 			$query = $query->Where('u.registerDate>=:start_time');
 			$query = $query->andWhere('u.registerDate<=:end_time');

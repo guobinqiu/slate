@@ -1,35 +1,49 @@
-#reward{
-	 line-height: 200%;
-    margin-left: 240px;
-    margin-top: 30px;
-    position: absolute;
+#reward {
+    line-height: 200%;
+    margin: 0 0 10px;
     text-align: center;
+    display: inline-block;
 }
 #reward p{
 	margin:20px 0;
 }
+#reward .cardDiv{
+	float: left;
+    margin: 0 3%;
+    text-align: left;
+    width: 44%;
+    font-size: 12px;
+}
+#reward .cardDiv img{
+	margin-bottom: 20px;
+}
 #reward .codeReward{
-	color: #0066FF;
+	color: #ff7300;
     display: inline-block;
-    font-size: 48px;
+    font-size: 26px;
     line-height: 100%;
     margin: 0 10px;
     vertical-align: middle;
     font-family: 'Lucida Console';
 }
+#reward .codeReward.blue{
+	color:#0099cc;
+}
+a.amazonHref{
+	margin-left: 3%;
+}
 .codeflag{
 	color:#EE472C;
-	margin-left: -168px;
+	margin-left: 205px;
 }
 .amazon #getPoint{
 	position: absolute;
 	top: 100px;
 	left: 290px;
 }
-.amazon #amazonEmpty{
-	position: absolute;
-	top: 90px;
-	left: 310px;
+.amazon #amazonEmpty {
+    margin: 60px 0 120px;
+    text-align: center;
 }
 .amazon #hasReward{
 	position: absolute;
@@ -37,27 +51,48 @@
 	left: 290px;
 }
 .regTitle{
-	left: 60px;
+	border-bottom: 1px dashed #CCCCCC;
+    left: 60px;
+    padding-bottom: 10px;
     position: absolute;
-    top: -30px;
+    top: 10px;
+    width: 750px;
 }
 .amazon{
-	font-size: 14px;
-    margin: 0 auto;
-    padding: 0px 0 140px;
-    width: 960px;
+	background-color: #FFFFFF;
+    background-image: url("../images/amazonBanner.jpg");
+    background-repeat: no-repeat;
+    border-radius: 5px 5px 5px 5px;
+    font-size: 14px;
+    left: 0;
+    margin: auto;
+    padding-top: 200px;
+    position: absolute;
+    right: 0;
+    top: 100px;
+    width: 864px;
+    z-index: 9999;
+    box-shadow: 0 0 5px #333333;
 }
-.amazon .banner{
-	height: 430px;
+.blackBg{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top:0;
+	background-color: #000;
+	opacity: .5;
+	z-index: 9998;
 }
 .amazon #update{
-	background-image: url("../images/amazonFrame.jpg");
-    height: 450px;
-    padding-left: 30px;
-    width: 930px;
     position: relative;
 }
-.info ul li dt input.infoFinish{
+.amazon .closeBtn{
+	position: absolute;
+	right: 7px;
+	top:5px;
+}
+.amazon .info ul li dt input.infoFinish{
 	border: 0;
 	width: 181px;
 	height: 54px;
@@ -65,7 +100,7 @@
 	background-image: url("../images/amazonBtn.jpg");
 	cursor: pointer;
 }
-.info ul li dt input.rewardInfoFinish{
+.amazon .info ul li dt input.rewardInfoFinish{
 	border: 0;
 	width: 181px;
 	height: 54px;
@@ -74,6 +109,5 @@
 	cursor: pointer;
 }
 .submitDt{
-	padding-left: 190px;
-    padding-top: 25px;
+	padding-left: 175px;
 }
