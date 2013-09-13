@@ -151,11 +151,11 @@
 	width: 100px;
 	word-wrap:break-word;
 }
-.index section.one #userInformation .after .user p a.personal{
+.index section.one #userInformation .after .user p a.personalBtn{
 	display: inline-block;
 	margin-top: 8px;
 }
-.index section.one #userInformation .after .user p a.personal:hover img{
+.index section.one #userInformation .after .user p a.personalBtn:hover img{
 	opacity: .8;
 	Filter:alpha(opacity=80);
 }

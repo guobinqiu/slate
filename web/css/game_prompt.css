@@ -6,4 +6,5 @@
 	position: absolute;
 	top: -28px;
 	width: 120px;
+	z-index: 9997;
 }

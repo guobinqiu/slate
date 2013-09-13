@@ -145,6 +145,8 @@ function amazonEmpty(){
 function amazonReward(){
    $('.blackBg').show();
    $('.amazon').show();
+   $("#update").show();
+   $('.amazon').css("left",($('body').width()-$('.amazon').width())/2);
    if($('body').height() < $('.amazon').height() + 240){
       $('.blackBg').height($('.amazon').height() + 400)
    }else{
@@ -312,9 +314,9 @@ function selectCity_amazon(){
   礼品卡号:<font class='codeReward blue'></font>
   <p><b>使用说明</b><br />
 1.单张订单购买亚马逊自营小家电产品（飞利浦品牌商品和第三方卖家商品除外）。<br />
-2.本活动优惠不可与其他活动同时使用；<br />
-3.每个用户ID只能使用优惠码一次，不可重复享受优惠；<br />
-4.活动时间：2013年9月5日——2013年10月15日；</p>
+2.本活动优惠不可与其他活动同时使用。<br />
+3.每个用户ID只能使用优惠码一次，不可重复享受优惠。<br />
+4.活动时间：2013年9月5日——2013年10月15日。</p>
 </div>
 
 </div>
@@ -354,7 +356,6 @@ function selectCity_amazon(){
             <select id="city" name="city"><option value='0'>请选择地区</option>
               </select>
               </dt></li>
-        <li>
 
 	 <li>
           <dd>手机号码：</dd>
