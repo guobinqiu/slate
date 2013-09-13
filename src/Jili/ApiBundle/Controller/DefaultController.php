@@ -13,6 +13,7 @@ use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\WenwenUser;
 use Jili\ApiBundle\Entity\CallBoard;
+use Jili\ApiBundle\Entity\RegisterReward;
 use Jili\ApiBundle\Entity\UserGameVisit;
 use Jili\ApiBundle\Entity\UserInfoVisit;
 
@@ -49,9 +50,89 @@ class DefaultController extends Controller
         
     }
 
+    //给米粒奖励
+    private function getPointReward($componType,$userid){
+        $em = $this->getDoctrine()->getManager();
+        $isuserPoint = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($userid);
+        if(empty($isuserPoint)){
+            $reward =  new RegisterReward();
+            $reward->setUserId($userid);
+            if($componType == 'point'){
+                $reward->setType($this->container->getParameter('init_two'));
+                $reward->setRewards($this->container->getParameter('init_fivty'));
+                $em->persist($reward);
+                $em->flush();
+                $this->getPointHistory($userid,$this->container->getParameter('init_fivty'));
+                $user = $em->getRepository('JiliApiBundle:User')->find($userid);
+                $user->setPoints(intval($user->getPoints()+$this->container->getParameter('init_fivty')));
+                $em->persist($user);
+                $em->flush();
+            }else{
+                $reward->setType($this->container->getParameter('init_one'));
+                $reward->setRewards($this->container->getParameter('init'));
+                $em->persist($reward);
+                $em->flush();
+            }
+            return true;
+        }else{
+            return false;
+        }
+            
+    }
+
+    //完善后领取(积分或优惠券）
+    private function getReward($componType,$id){
+        $em = $this->getDoctrine()->getManager();
+        if($componType == 'point'){
+            $this->getPointReward($componType,$id);
+            return $this->container->getParameter('init_one');
+        }else{
+            $amazonCount = $em->getRepository('JiliApiBundle:AmazonCoupon')->countCoupon();
+            if($amazonCount == $this->container->getParameter('init')){
+                $isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+                if(empty($isuserAmazon)){
+                    $this->getPointReward($componType,$id);
+                    return $this->container->getParameter('init_three');
+                }else{
+                    return false;
+                }
+            }else{
+                if($this->getCoupons($id)){
+                    return $this->container->getParameter('init_two');
+                }else{
+                    return false;
+                }
+                
+            }
+            
+        }
+
+    }
+     //领取亚马逊优惠券
+    private function getCoupons($id){
+        $em = $this->getDoctrine()->getManager();
+        $isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+        if(empty($isuserAmazon)){
+            $amazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->getAmcoupon();
+            // $getCoupon = $amazon['0']['coupon'];
+            $amazonCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->find($amazon['0']['id']);
+            $amazonCoupon->setUserId($id);
+            $em->flush();
+            $reward =  new RegisterReward();
+            $reward->setUserId($id);
+            $reward->setType($this->container->getParameter('init_one'));
+            $em->persist($reward);
+            $em->flush();
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
+
 
 	/**
-	 * @Route("/", name="_default_index",requirements={"_scheme"="https"})
+	 * @Route("/?banner=info", name="_default_index",requirements={"_scheme"="https"})
 	 * 
 	 */ 
     public function indexAction()
@@ -74,26 +155,43 @@ class DefaultController extends Controller
         $info = '';
         $couponOd = '';
         $couponElec = '';
+        $getRewards = '';
+        $banner = '';
         if($request->query->get('banner')=='info'){
-            $visit = $em->getRepository('JiliApiBundle:UserInfoVisit')->findByUserid($id);
-            if(!empty($visit[0])){
-               $em->remove($visit[0]);
-               $em->flush();
-            }
-            if($this->isExistInfo($id)){
-                $info = $this->isGetReward($id);
-                if($info ==  $this->container->getParameter('init_two')){
-                    $userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
-                    $couponOd = $userCoupon[0]->getCouponOd();
-                    $couponElec = $userCoupon[0]->getCouponElec();
+            $banner = $this->container->getParameter('init_one');
+            if($id){
+                $visit = $em->getRepository('JiliApiBundle:UserInfoVisit')->findByUserid($id);
+                if(!empty($visit[0])){
+                   $em->remove($visit[0]);
+                   $em->flush();
                 }
-            }else{ 
-                $info = $this->container->getParameter('init_one');
+                if($this->isExistInfo($id)){
+                    $info = $this->isGetReward($id);
+                    if($info){
+                        if($info ==  $this->container->getParameter('init_two')){
+                            $userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+                            $couponOd = $userCoupon[0]->getCouponOd();
+                            $couponElec = $userCoupon[0]->getCouponElec();
+                        }
+                    }else{
+                        $getRewards =  $this->getReward('activity',$id);
+                        if($getRewards ==  $this->container->getParameter('init_two')){
+                            $userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+                            $couponOd = $userCoupon[0]->getCouponOd();
+                            $couponElec = $userCoupon[0]->getCouponElec();
+                        }
+                    }
+                    
+                }else{ 
+                    $info = $this->container->getParameter('init_one');
+                }
             }
         }
         $arr['info'] = $info;
         $arr['couponOd'] = $couponOd;
         $arr['couponElec'] = $couponElec;
+        $arr['getRewards'] = $getRewards;
+        $arr['banner'] = $banner;
         $code = '';
         $arr['userInfo'] = array();
         $email = $request->request->get('email');

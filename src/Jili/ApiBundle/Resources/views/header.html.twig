@@ -107,21 +107,35 @@ function showInfo(){
           }
       });
 }
+function getCoupon(couponOd,couponElec,uid){
+     amazonReward();
+     $('#update').hide();
+     $("#reward").show();
+     $(".codeReward").html(couponOd);
+     $(".codeReward.blue").html(couponElec);
+     $('.amazonHref').attr('href',"http://count.chanet.com.cn/click.cgi?a=480534&d=338264&u="+uid+"&e=45"); 
+}
 
-function showAmazon(info,couponOd,couponElec,uid){
-    if(info&&info==1){
-       isExistInfo();
-    }else if(info==2){
-       amazonReward();
-       $('#update').hide();
-       $("#reward").show();
-       $(".codeReward").html(couponOd);
-       $(".codeReward.blue").html(couponElec);
-       $('.amazonHref').attr('href',"http://count.chanet.com.cn/click.cgi?a=480534&d=338264&u="+uid+"&e=45"); 
-    }else if(info==3){
-       amazonReward();
-       amazonEmpty();  
+function showAmazon(info,couponOd,couponElec,uid,getRewards){
+    if(info){
+      if(info==1){
+         isExistInfo();
+      }else if(info==2){
+         getCoupon(couponOd,couponElec,uid);
+      }else if(info==3){
+         amazonReward();
+         amazonEmpty();  
+      }
+    }else{
+      if(getRewards==2){
+        getCoupon(couponOd,couponElec,uid);
+      }
+      else if(getRewards==3){
+        amazonReward();
+        amazonEmpty();  
+      }
     }
+    
 }
 
 function amazonEmpty(){

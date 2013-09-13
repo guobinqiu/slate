@@ -14,19 +14,25 @@
 </head>
 {% include 'JiliApiBundle::header.html.twig' %}
 <script type="text/javascript">
-var info = {{ info }};
+var info = "{{ info }}";
 var reward = '';
 var couponOd = '';
 var couponElec = '';
+var getRewards = "{{ getRewards }}";
+var uid = "{{ app.session.get('uid') }}";
+var banner = "{{ banner }}";
 {% if couponOd %}
   couponOd = "{{ couponOd }}";
 {% endif %}
 {% if couponElec %}
   couponElec = "{{ couponElec }}";
 {% endif %}
-var uid = {{ app.session.get('uid') }};
 $(document).ready(function(){
-  showAmazon(info,couponOd,couponElec,uid);
+  if(banner)
+      if(uid)
+        showAmazon(info,couponOd,couponElec,uid,getRewards);
+      else
+        window.location.href = "{{ path('_user_login') }}";
 	{% if code %}
        $("#email").focus();
 	   alert('{{ code }}');
@@ -44,7 +50,7 @@ $(document).ready(function(){
         <div id="banner">
         	<ul class="bannerImg">
         	{% for item in advertise_banner %}
-        	<li><a href="{{ item.adUrl }}" target="_blank"><img src="{{ asset(item.iconImage) }}"/></a></li>
+        	<li><a href="{{ item.adUrl }}"><img src="{{ asset(item.iconImage) }}"/></a></li>
         	{% endfor %}
             	
             </ul>
