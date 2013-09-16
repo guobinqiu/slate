@@ -7,29 +7,37 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class UserRepository extends EntityRepository
 {
+	public function userCount(){
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('count(u.id) as num');
+		$query = $query->getQuery();
+		return $query->getResult();
+	}
+
 	public function getUserCount($start,$end){
 		if($start)
 			$start_time = $start.' 00:00:00';
 		if($end)
 			$end_time = $end.' 23:59:59';
 		$query = $this->createQueryBuilder('u');
-		$query = $query->select('u.id,u.nick');
-		
+		$query = $query->select('count(u.id) as num');
 		if($start && $end){
 			$query = $query->Where('u.registerDate>=:start_time');
 			$query = $query->andWhere('u.registerDate<=:end_time');
 			$query = $query->setParameters(array('start_time'=>$start_time,'end_time'=>$end_time));
-		}
-		if($start && !$end){
-			$query = $query->Where('u.registerDate>=:start_time');
-			$query = $query->setParameter('start_time',$start_time);
-		}
-		if(!$start && $end){
-			$query = $query->Where('u.registerDate<=:end_time');
-			$query = $query->setParameter('end_time',$end_time);
+		}else{
+			if($start){
+				$query = $query->Where('u.registerDate>=:start_time');
+				$query = $query->setParameter('start_time',$start_time);
+			}else{
+				if($end){
+					$query = $query->Where('u.registerDate<=:end_time');
+					$query = $query->setParameter('end_time',$end_time);
+				}	
+			}
 		}
 		$query = $query->getQuery();
-		return count($query->getResult());
+		return $query->getResult();
 	}
     
 	public function findNick($email,$nick)
