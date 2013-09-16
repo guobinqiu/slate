@@ -1336,7 +1336,7 @@ class AdminController extends Controller
         $count_user = $userCount[0]['num'];
         if ($request->getMethod() == 'POST'){
             $select_user = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time); 
-            $count_user = $select_user[0]['num'];  119
+            $count_user = $select_user[0]['num'];
         }
         return $this->render('JiliApiBundle:Admin:selectUser.html.twig',array('code'=>$code,'count_user'=>$count_user,'start_time'=>$start_time,'end_time'=>$end_time));
     }
