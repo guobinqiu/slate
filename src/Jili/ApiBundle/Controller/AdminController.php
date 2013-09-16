@@ -37,7 +37,8 @@ class AdminController extends Controller
 {
     private function getAdminIp(){
         if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
-            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip'))
+            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip')) ||
+            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_vpn_ip'))
             return false;
         else
             return true;
@@ -1144,6 +1145,8 @@ class AdminController extends Controller
 
 
     public function exchangeOK($exchange_id,$email,$status,$points,$finish_time){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         if(!$exchanges->getStatus()){
@@ -1201,6 +1204,8 @@ class AdminController extends Controller
     }
 
     public function exchangeNG($exchange_id,$email,$status,$points,$finish_time){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         if(!$exchanges->getStatus()){
@@ -1221,6 +1226,8 @@ class AdminController extends Controller
      */
     public function exchangeInAction()
     {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
         $success = '';
         $request = $this->get('request');
         if ($request->getMethod('post') == 'POST') {
@@ -1257,6 +1264,8 @@ class AdminController extends Controller
      */
     public function exchangeInfoAction()
     {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
         $start_time = '';
         $end_time = '';
@@ -1326,6 +1335,8 @@ class AdminController extends Controller
      * @Route("/selectUser", name="_admin_selectUser")
      */
     public function selectUserAction(){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
         $count_user = '';
         $em = $this->getDoctrine()->getManager();
@@ -1356,6 +1367,8 @@ class AdminController extends Controller
      */
     public function mainAction()
     {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
     	   return $this->render('JiliApiBundle:Admin:main.html.twig');
     }
     
@@ -1364,6 +1377,8 @@ class AdminController extends Controller
      */
     public function menuAction()
     {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
     	return $this->render('JiliApiBundle:Admin:menu.html.twig');
     }
     
@@ -1372,6 +1387,8 @@ class AdminController extends Controller
      */
     public function headerAction()
     {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
     	return $this->render('JiliApiBundle:Admin:header.html.twig');
     }
     

@@ -154,7 +154,7 @@ class ApiController extends Controller
      * @Route("/getGamePoint", name="_api_getGamePoint")  
      */
     public function getGamePointAction(){
-        if($_SERVER['REMOTE_ADDR']=='210.149.97.219' || $_SERVER['REMOTE_ADDR']=='112.65.174.206'){
+        if($_SERVER['REMOTE_ADDR']=='101.227.252.89' || $_SERVER['REMOTE_ADDR']=='112.65.174.206'){
             $request = $this->get('request');
             $point_uid = $request->request->get('point_uid');
             $point = $request->request->get('game_point');
@@ -295,7 +295,7 @@ class ApiController extends Controller
      * @Route("/getGameAd", name="_api_getGameAd")
      */
     public function getGameAdAction(){
-        if($_SERVER['REMOTE_ADDR']=='210.149.66.167' || $_SERVER['REMOTE_ADDR']=='112.65.174.206'){
+        if($_SERVER['REMOTE_ADDR']=='101.227.252.16' || $_SERVER['REMOTE_ADDR']=='112.65.174.206'){
             $request = $this->get('request'); 
             $session_id = $request->request->get('session_id');
             $point_uid = $request->request->get('point_uid');
