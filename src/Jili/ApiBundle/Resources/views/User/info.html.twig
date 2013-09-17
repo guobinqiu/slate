@@ -297,7 +297,7 @@ function selectCity(){
         </li>  
 
         <li>
-          <dd>月收入:</dd>
+          <dd>个人月收入:</dd>
           <dt>
             {{ usercomes }}
           </dt>
@@ -367,7 +367,7 @@ function selectCity(){
         </li>
 
          <li>
-          <dd><font style="color:#EE472C;"> * </font>月收入：</dd>
+          <dd><font style="color:#EE472C;"> * </font>个人月收入：</dd>
           <dt>
            {% for item in income %}
             <input name="income" type="radio" value="{{ item.id }}" {% if month_income %}{% if month_income==item.id %} checked='checked' {% endif %}{% endif %}{% if user.income == item.id %} checked = "checked" {% endif %}>{{ item.income }}
