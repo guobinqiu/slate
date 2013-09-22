@@ -44,9 +44,9 @@ class AdminController extends Controller
             return true;
           
     }
-	/**
-	 * @Route("/login", name="_admin_login")
-	 */
+    /**
+     * @Route("/login", name="_admin_login")
+     */
     public function loginAction()
     {
         if($this->getAdminIp())
@@ -100,16 +100,16 @@ class AdminController extends Controller
     
     //没有通过认证
     private function noCertified($userId,$adid,$happentime){
-    	$em = $this->getDoctrine()->getManager();
-    	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$happentime);
-    	if(empty($adworder)){
-    		return false;
-    	}else{
-    		$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
-    		$adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')));
-    		$adworder->setOrderStatus($this->container->getParameter('init_four'));
-    		$em->persist($adworder);
-    		$em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$happentime);
+        if(empty($adworder)){
+            return false;
+        }else{
+            $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
+            $adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')));
+            $adworder->setOrderStatus($this->container->getParameter('init_four'));
+            $em->persist($adworder);
+            $em->flush();
             $parms = array(
               'userid' => $userId,
               'orderId' => $adworder->getId(),
@@ -119,13 +119,13 @@ class AdminController extends Controller
               'status' => $this->container->getParameter('init_four')
             );
             $this->updateTaskHistory($parms);  
-    		return true;
+            return true;
 
-    	}
+        }
     }
     //已经认证
     private function hasCertified($userId,$adid,$happentime,$comm){
-    	$em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
         if($advertiserment->getIncentiveType()==2){
             $rewardRate = $advertiserment->getRewardRate();
@@ -135,18 +135,18 @@ class AdminController extends Controller
             $rate = $user_rate > $campaign_multiple ? $user_rate : $campaign_multiple;
             $cps_reward = intval($comm*$rewardRate*$rate);
         }
-    	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$happentime);
-    	if(empty($adworder)){
-    		return false;
-    	}else{
-    		$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
+        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$happentime);
+        if(empty($adworder)){
+            return false;
+        }else{
+            $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
             if($adworder->getIncentiveType()==2){
                 $adworder->setIncentive(intval($cps_reward));
             }
-    		$adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')));
-    		$adworder->setOrderStatus($this->container->getParameter('init_three'));
-    		$em->persist($adworder);
-    		$em->flush();
+            $adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')));
+            $adworder->setOrderStatus($this->container->getParameter('init_three'));
+            $em->persist($adworder);
+            $em->flush();
             $parms = array(
               'userid' => $userId,
               'orderId' => $adworder->getId(),
@@ -156,41 +156,41 @@ class AdminController extends Controller
               'status' => $this->container->getParameter('init_three')
             );
             $this->updateTaskHistory($parms);  
-    		if($adworder->getIncentiveType()==1){
-    			$limitAd = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adid);
-    			$limitrs = new LimitAdResult();
-    			$limitrs->setAccessHistoryId($adworder->getId());
-    			$limitrs->setUserId($userId);
-    			$limitrs->setLimitAdId($limitAd[0]->getId());
-    			$limitrs->setResultIncentive($adworder->getIncentive());
-    			$em->persist($limitrs);
-    			$em->flush();
+            if($adworder->getIncentiveType()==1){
+                $limitAd = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adid);
+                $limitrs = new LimitAdResult();
+                $limitrs->setAccessHistoryId($adworder->getId());
+                $limitrs->setUserId($userId);
+                $limitrs->setLimitAdId($limitAd[0]->getId());
+                $limitrs->setResultIncentive($adworder->getIncentive());
+                $em->persist($limitrs);
+                $em->flush();
                 $this->getPointHistory($userId,$adworder->getIncentive());
-    			$user = $em->getRepository('JiliApiBundle:User')->find($userId);
-    			$user->setPoints(intval($user->getPoints()+$adworder->getIncentive()));
-    			$em->persist($user);
-    			$em->flush();
-		
-    		}else{
-    			$rateAd = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adid);
-    			$raters = new RateAdResult();
-    			$raters->setAccessHistoryId($adworder->getId());
-    			$raters->setUserId($userId);
-    			$raters->setRateAdId($rateAd[0]->getId());
-    			$raters->setResultPrice($adworder->getComm());
-    			$raters->setResultIncentive($adworder->getIncentive());
-    			$em->persist($raters);
-    			$em->flush();
+                $user = $em->getRepository('JiliApiBundle:User')->find($userId);
+                $user->setPoints(intval($user->getPoints()+$adworder->getIncentive()));
+                $em->persist($user);
+                $em->flush();
+        
+            }else{
+                $rateAd = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adid);
+                $raters = new RateAdResult();
+                $raters->setAccessHistoryId($adworder->getId());
+                $raters->setUserId($userId);
+                $raters->setRateAdId($rateAd[0]->getId());
+                $raters->setResultPrice($adworder->getComm());
+                $raters->setResultIncentive($adworder->getIncentive());
+                $em->persist($raters);
+                $em->flush();
                 $this->getPointHistory($userId,$adworder->getIncentive());
-    			$user = $em->getRepository('JiliApiBundle:User')->find($userId);
-    			$user->setPoints(intval($user->getPoints()+$raters->getResultIncentive()));
-    			$em->persist($user);
-    			$em->flush();
-    			
-    		}
-    		return true;
-    	}
-    	
+                $user = $em->getRepository('JiliApiBundle:User')->find($userId);
+                $user->setPoints(intval($user->getPoints()+$raters->getResultIncentive()));
+                $em->persist($user);
+                $em->flush();
+                
+            }
+            return true;
+        }
+        
     }
 
     private function updateTaskHistory($parms=array()){
@@ -243,58 +243,58 @@ class AdminController extends Controller
     }
     
     private function getPointHistory($userid,$point){
-    	if(strlen($userid)>1){
-    		$uid = substr($userid,-1,1);
-    	}else{
-    		$uid = $userid;
-    	}
-    	switch($uid){
-    	    case 0:
-    	    	$po = new PointHistory00();
-    	    	break;
-	    	case 1:
-	    		$po = new PointHistory01();
-	    		break;
-		    case 2:
-		    	$po = new PointHistory02();
-			    break;
-			case 3:
-				$po = new PointHistory03();
-				break;
-			case 4:
-				$po = new PointHistory04();
-				break;
-			case 5:
-				$po = new PointHistory05();
-				break;
-			case 6:
-				$po = new PointHistory06();
-				break;
-			case 7:
-				$po = new PointHistory07();
-				break;
-			case 8:
-				$po = new PointHistory08();
-				break;
-			case 9:
-				$po = new PointHistory09();
-				break;
-    	}
-		$em = $this->getDoctrine()->getManager();
-		$po->setUserId($userid);
-		$po->setPointChangeNum($point);
-		$po->setReason($this->container->getParameter('init_one'));
-		$em->persist($po);
-		$em->flush();
+        if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+        }else{
+            $uid = $userid;
+        }
+        switch($uid){
+            case 0:
+                $po = new PointHistory00();
+                break;
+            case 1:
+                $po = new PointHistory01();
+                break;
+            case 2:
+                $po = new PointHistory02();
+                break;
+            case 3:
+                $po = new PointHistory03();
+                break;
+            case 4:
+                $po = new PointHistory04();
+                break;
+            case 5:
+                $po = new PointHistory05();
+                break;
+            case 6:
+                $po = new PointHistory06();
+                break;
+            case 7:
+                $po = new PointHistory07();
+                break;
+            case 8:
+                $po = new PointHistory08();
+                break;
+            case 9:
+                $po = new PointHistory09();
+                break;
+        }
+        $em = $this->getDoctrine()->getManager();
+        $po->setUserId($userid);
+        $po->setPointChangeNum($point);
+        $po->setReason($this->container->getParameter('init_one'));
+        $em->persist($po);
+        $em->flush();
     }
     
     private function getStatus($uid,$aid,$happentime){
-    	$em = $this->getDoctrine()->getManager();
-    	$adwStatus = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($uid,$aid,$happentime);
-    	if(empty($adwStatus))
-    		return true;
-    	else
-    		return false;
+        $em = $this->getDoctrine()->getManager();
+        $adwStatus = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($uid,$aid,$happentime);
+        if(empty($adwStatus))
+            return true;
+        else
+            return false;
     }
 
 
@@ -355,14 +355,14 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$code = array();
-    	$request = $this->get('request');
-    	$success = '';
-    	$userId = '';
-    	$adid = '';
-    	if ($request->getMethod('post') == 'POST') {
-    		$success = $this->container->getParameter('init_one');
-    	    if (isset($_FILES['csv'])) {
+        $code = array();
+        $request = $this->get('request');
+        $success = '';
+        $userId = '';
+        $adid = '';
+        if ($request->getMethod('post') == 'POST') {
+            $success = $this->container->getParameter('init_one');
+            if (isset($_FILES['csv'])) {
                 $file = $_FILES['csv']['tmp_name']; 
                 $handle = fopen($file,'r'); 
                 while ($data = fgetcsv($handle)){ 
@@ -370,30 +370,30 @@ class AdminController extends Controller
                    unset($goods_list[0]);
                 }
                 foreach ($goods_list as $k=>$v){
-                	$status = iconv('gb2312','UTF-8//IGNORE',$v[5]);
-                	$name = iconv('gb2312','UTF-8//IGNORE',$v[0]);
-                	$adid = explode("'",$v[7]);
-                	$userId = explode("'",$v[8]);
-                	if($this->getStatus($userId[1],$adid[1],$v[2])){
-                		if($status == $this->container->getParameter('nothrough')){
-                			if(!$this->noCertified($userId[1],$adid[1],$v[2])){
-                				$code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
-                			}
-                		}
-                		if($status == $this->container->getParameter('certified')){
-                			if(!$this->hasCertified($userId[1],$adid[1],$v[2],$v[4])){
-                				$code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
-                			}
-                		}
-                	}
-                	
+                    $status = iconv('gb2312','UTF-8//IGNORE',$v[5]);
+                    $name = iconv('gb2312','UTF-8//IGNORE',$v[0]);
+                    $adid = explode("'",$v[7]);
+                    $userId = explode("'",$v[8]);
+                    if($this->getStatus($userId[1],$adid[1],$v[2])){
+                        if($status == $this->container->getParameter('nothrough')){
+                            if(!$this->noCertified($userId[1],$adid[1],$v[2])){
+                                $code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                            }
+                        }
+                        if($status == $this->container->getParameter('certified')){
+                            if(!$this->hasCertified($userId[1],$adid[1],$v[2],$v[4])){
+                                $code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                            }
+                        }
+                    }
+                    
                 }
                 fclose($handle);
-    	    }
-    	}
-    	$arr['success'] = $success;
-    	$arr['code'] = $code;
-    	return $this->render('JiliApiBundle:Admin:importAdver.html.twig',$arr);
+            }
+        }
+        $arr['success'] = $success;
+        $arr['code'] = $code;
+        return $this->render('JiliApiBundle:Admin:importAdver.html.twig',$arr);
     }
     
     /**
@@ -403,11 +403,11 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$em = $this->getDoctrine()->getManager();
-    	$banner = $em->getRepository('JiliApiBundle:AdBanner')->find($id);
-    	$em->remove($banner);
-    	$em->flush();
-    	return $this->redirect($this->generateUrl('_admin_infoBanner'));
+        $em = $this->getDoctrine()->getManager();
+        $banner = $em->getRepository('JiliApiBundle:AdBanner')->find($id);
+        $em->remove($banner);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoBanner'));
     }
     
 
@@ -463,15 +463,15 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$request = $this->get('request');
-    	$em = $this->getDoctrine()->getManager();
-    	$adbanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoAdminBanner();
-    	$paginator = $this->get('knp_paginator');
-    	$arr['pagination'] = $paginator
-    	->paginate($adbanner,
-    			$request->query->get('page', 1), $this->container->getParameter('page_num'));
-    	$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
-    	return $this->render('JiliApiBundle:Admin:infoBanner.html.twig',$arr);
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $adbanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoAdminBanner();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($adbanner,
+                $request->query->get('page', 1), $this->container->getParameter('page_num'));
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:infoBanner.html.twig',$arr);
     
     }
     
@@ -482,15 +482,15 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$code ='';
+        $code ='';
         $codeflag = '';
-    	$request = $this->get('request');
-    	$url = $request->request->get('url');
+        $request = $this->get('request');
+        $url = $request->request->get('url');
         $position = $request->request->get('position');
-    	$em = $this->getDoctrine()->getManager();
-    	$adbanner = $em->getRepository('JiliApiBundle:AdBanner')->find($id);
-    	$form  = $this->createForm(new EditBannerType(),$adbanner);
-    	if ($request->getMethod() == 'POST') {
+        $em = $this->getDoctrine()->getManager();
+        $adbanner = $em->getRepository('JiliApiBundle:AdBanner')->find($id);
+        $form  = $this->createForm(new EditBannerType(),$adbanner);
+        if ($request->getMethod() == 'POST') {
              if($url && $position){
                 $form->bind($request);
                 $path =  $this->container->getParameter('upload_banner_dir');
@@ -515,9 +515,9 @@ class AdminController extends Controller
                 $codeflag = $this->container->getParameter('init_one');
              }
             
-    	}
-    	return $this->render('JiliApiBundle:Admin:editBanner.html.twig',
-    			array('banner'=>$adbanner,'form' => $form->createView(),'code'=>$code,'codeflag'=>$codeflag));
+        }
+        return $this->render('JiliApiBundle:Admin:editBanner.html.twig',
+                array('banner'=>$adbanner,'form' => $form->createView(),'code'=>$code,'codeflag'=>$codeflag));
     
     }
     
@@ -529,90 +529,90 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$advermentTitle = '';
-    	$adposition = '';
-    	$code = '';
-    	$ad_title = '';
-    	$postion = new AdPosition();
-    	$codeflag = $this->container->getParameter('init');
-    	$request = $this->get('request');
-    	$position = $request->request->get('position');
-    	$title = $request->request->get('title');
-    	$adid = $request->query->get('id');
-    	$number = $request->request->get('number');
-    	$em = $this->getDoctrine()->getManager();
-    	if($adid){
-        	$ad_adv = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
-        	$advermentTitle = $ad_adv->getTitle();
-    	}
-    	if ($request->getMethod() == 'POST') {
-    		if($request->request->get('search')){
-    			$adposition = $em->getRepository('JiliApiBundle:Advertiserment')->getSearchAd($title);
-    			if(!empty($adposition)){
-    				$code = $this->container->getParameter('init_one');
-    			}else{
-    				$codeflag = $this->container->getParameter('init_five');
-    			}
-    		}
-    		if($request->request->get('selected')){
-    			$ck = $request->request->get('ck');
-    			if($ck){
-    				$ad_position = $em->getRepository('JiliApiBundle:Advertiserment')->find($ck);
-    				$ad_title = $ad_position->getTitle();
-    			}else{
-    				$adposition = $em->getRepository('JiliApiBundle:Advertiserment')->getSearchAd($title);
-    				$codeflag = $this->container->getParameter('init_four');
-    			}
-    		}
-    		if($request->request->get('add')){
-    			if($title && $position && $number){
-    				if($adid){
-    					$exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
-    					foreach($exist as $k=>$v){
-    						$existNum[] = $v['position'];
-    					}
-    					if(in_array($number,$existNum)){
-    						$codeflag = $this->container->getParameter('init_three');
-    					}else{
-    						$postion->setType($position);
-    						$postion->setPosition($number);
-    						$postion->setAdId($adid);
-    						$em->persist($postion);
-    						$em->flush();
-    						return $this->redirect($this->generateUrl('_admin_infoPostion'));
-    					}
-    					
-    				}else{
-    					$adverment = $em->getRepository('JiliApiBundle:Advertiserment')->findByTitle($title);
-    					if(empty($adverment)){
-    						$codeflag = $this->container->getParameter('init_two');
-    					}else{
-    						$exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
-    						foreach($exist as $k=>$v){
-    							$existNum[] = $v['position'];
-    						}
-    						if(in_array($number,$existNum)){
-    							$codeflag = $this->container->getParameter('init_three');
-    						}else{
-    							$postion->setType($position);
-    							$postion->setPosition($number);
-    							$postion->setAdId($adverment[0]->getId());
-    							$em->persist($postion);
-    							$em->flush();
-    							return $this->redirect($this->generateUrl('_admin_infoPostion'));
-    						}
-    					}
-    				}
-    				
-    			}else{
-    				$codeflag = $this->container->getParameter('init_one');
-    			}
-    		}
-    	}
-    	return $this->render('JiliApiBundle:Admin:addPostion.html.twig',
-    			array('codeflag'=>$codeflag,'adid'=>$adid,'code'=>$code,
-    				  'title'=>$title,'ad_title'=>$ad_title,'position'=>$position,'number'=>$number,
-    					'adposition'=>$adposition,'advermentTitle'=>$advermentTitle));
+        $advermentTitle = '';
+        $adposition = '';
+        $code = '';
+        $ad_title = '';
+        $postion = new AdPosition();
+        $codeflag = $this->container->getParameter('init');
+        $request = $this->get('request');
+        $position = $request->request->get('position');
+        $title = $request->request->get('title');
+        $adid = $request->query->get('id');
+        $number = $request->request->get('number');
+        $em = $this->getDoctrine()->getManager();
+        if($adid){
+            $ad_adv = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+            $advermentTitle = $ad_adv->getTitle();
+        }
+        if ($request->getMethod() == 'POST') {
+            if($request->request->get('search')){
+                $adposition = $em->getRepository('JiliApiBundle:Advertiserment')->getSearchAd($title);
+                if(!empty($adposition)){
+                    $code = $this->container->getParameter('init_one');
+                }else{
+                    $codeflag = $this->container->getParameter('init_five');
+                }
+            }
+            if($request->request->get('selected')){
+                $ck = $request->request->get('ck');
+                if($ck){
+                    $ad_position = $em->getRepository('JiliApiBundle:Advertiserment')->find($ck);
+                    $ad_title = $ad_position->getTitle();
+                }else{
+                    $adposition = $em->getRepository('JiliApiBundle:Advertiserment')->getSearchAd($title);
+                    $codeflag = $this->container->getParameter('init_four');
+                }
+            }
+            if($request->request->get('add')){
+                if($title && $position && $number){
+                    if($adid){
+                        $exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
+                        foreach($exist as $k=>$v){
+                            $existNum[] = $v['position'];
+                        }
+                        if(in_array($number,$existNum)){
+                            $codeflag = $this->container->getParameter('init_three');
+                        }else{
+                            $postion->setType($position);
+                            $postion->setPosition($number);
+                            $postion->setAdId($adid);
+                            $em->persist($postion);
+                            $em->flush();
+                            return $this->redirect($this->generateUrl('_admin_infoPostion'));
+                        }
+                        
+                    }else{
+                        $adverment = $em->getRepository('JiliApiBundle:Advertiserment')->findByTitle($title);
+                        if(empty($adverment)){
+                            $codeflag = $this->container->getParameter('init_two');
+                        }else{
+                            $exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
+                            foreach($exist as $k=>$v){
+                                $existNum[] = $v['position'];
+                            }
+                            if(in_array($number,$existNum)){
+                                $codeflag = $this->container->getParameter('init_three');
+                            }else{
+                                $postion->setType($position);
+                                $postion->setPosition($number);
+                                $postion->setAdId($adverment[0]->getId());
+                                $em->persist($postion);
+                                $em->flush();
+                                return $this->redirect($this->generateUrl('_admin_infoPostion'));
+                            }
+                        }
+                    }
+                    
+                }else{
+                    $codeflag = $this->container->getParameter('init_one');
+                }
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:addPostion.html.twig',
+                array('codeflag'=>$codeflag,'adid'=>$adid,'code'=>$code,
+                      'title'=>$title,'ad_title'=>$ad_title,'position'=>$position,'number'=>$number,
+                        'adposition'=>$adposition,'advermentTitle'=>$advermentTitle));
     }
     
     /**
@@ -622,20 +622,20 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$ad_code = '';
-    	$request = $this->get('request');
-    	$title = $request->request->get('title');
-    	$em = $this->getDoctrine()->getManager();
-    	if ($request->getMethod() == 'POST') {
-    		$adposition = $em->getRepository('JiliApiBundle:Advertiserment')->getSearchAd($title);
-    		if(empty($adposition)){
-    			$ad_code = $this->container->getParameter('init_one');
-    		}else{
-    			$ad_code = $this->container->getParameter('init_two');
-    		}
-    	}
-    	return $this->render('JiliApiBundle:Admin:searchPosition.html.twig',array('adposition'=>$adposition,'ad_code'=>$ad_code));
-    	
+        $ad_code = '';
+        $request = $this->get('request');
+        $title = $request->request->get('title');
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST') {
+            $adposition = $em->getRepository('JiliApiBundle:Advertiserment')->getSearchAd($title);
+            if(empty($adposition)){
+                $ad_code = $this->container->getParameter('init_one');
+            }else{
+                $ad_code = $this->container->getParameter('init_two');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:searchPosition.html.twig',array('adposition'=>$adposition,'ad_code'=>$ad_code));
+        
     }
     
     
@@ -646,12 +646,12 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$em = $this->getDoctrine()->getManager();
-    	$adposition = $em->getRepository('JiliApiBundle:AdPosition')->find($id);
-    	$adposition->setPosition($this->container->getParameter('init'));
-    	$em->persist($adposition);
-    	$em->flush();
-    	return $this->redirect($this->generateUrl('_admin_infoPostion'));
+        $em = $this->getDoctrine()->getManager();
+        $adposition = $em->getRepository('JiliApiBundle:AdPosition')->find($id);
+        $adposition->setPosition($this->container->getParameter('init'));
+        $em->persist($adposition);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoPostion'));
     }
     
     /**
@@ -661,33 +661,33 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$codeflag = $this->container->getParameter('init');
-    	$request = $this->get('request');
-    	$em = $this->getDoctrine()->getManager();
-    	$adver = $em->getRepository('JiliApiBundle:AdPosition')->getInfoPosition($id);
-    	$position = $request->request->get('position');
-    	$number = $request->request->get('number');
-    	if ($request->getMethod() == 'POST') {
-    		if($position && $number){
-    			$exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
-    			foreach($exist as $k=>$v){
-    				$existNum[] = $v['position'];
-    			}
-    			if(in_array($number,$existNum)){
-    				$codeflag = $this->container->getParameter('init_two');
-    			}else{
-    				$adposition = $em->getRepository('JiliApiBundle:AdPosition')->find($id);
-    				$adposition->setType($position);
-    				$adposition->setPosition($number);
-    				$em->persist($adposition);
-    				$em->flush();
-    				return $this->redirect($this->generateUrl('_admin_infoPostion'));
-    			}
-    		}else{
-    			$codeflag = $this->container->getParameter('init_one');
-    		}
-    	}
-    	return $this->render('JiliApiBundle:Admin:editPostion.html.twig',array('adver'=>$adver[0],'codeflag'=>$codeflag));
+        $codeflag = $this->container->getParameter('init');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $adver = $em->getRepository('JiliApiBundle:AdPosition')->getInfoPosition($id);
+        $position = $request->request->get('position');
+        $number = $request->request->get('number');
+        if ($request->getMethod() == 'POST') {
+            if($position && $number){
+                $exist = $em->getRepository('JiliApiBundle:AdPosition')->getAdPosition($position);
+                foreach($exist as $k=>$v){
+                    $existNum[] = $v['position'];
+                }
+                if(in_array($number,$existNum)){
+                    $codeflag = $this->container->getParameter('init_two');
+                }else{
+                    $adposition = $em->getRepository('JiliApiBundle:AdPosition')->find($id);
+                    $adposition->setType($position);
+                    $adposition->setPosition($number);
+                    $em->persist($adposition);
+                    $em->flush();
+                    return $this->redirect($this->generateUrl('_admin_infoPostion'));
+                }
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:editPostion.html.twig',array('adver'=>$adver[0],'codeflag'=>$codeflag));
     }
     
     /**
@@ -697,17 +697,17 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$request = $this->get('request');
-    	$em = $this->getDoctrine()->getManager();
-    	$adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAdvertiserment();
-    	$paginator = $this->get('knp_paginator');
-    	$arr['pagination'] = $paginator
-    	->paginate($adver,
-    			$request->query->get('page', 1), $this->container->getParameter('page_num'));
-    	$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
-    	return $this->render('JiliApiBundle:Admin:infoPostion.html.twig',$arr);
-    	
-    	
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAdvertiserment();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($adver,
+                $request->query->get('page', 1), $this->container->getParameter('page_num'));
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:infoPostion.html.twig',$arr);
+        
+        
     }
     
     
@@ -718,25 +718,25 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$code = '';
-    	$codeflag = $this->container->getParameter('init');
-    	$adver = new Advertiserment();
-    	$em = $this->getDoctrine()->getManager();
-    	$request = $this->get('request');
-    	$title = $request->request->get('title');
-    	$start_time = $request->request->get('start_time');
-    	$end_time = $request->request->get('end_time');
-    	$info = $request->request->get('info');
-    	$comment = $request->request->get('comment');
-    	$url = $request->request->get('url');
-    	$category = $request->request->get('category');
-    	$score = $request->request->get('score');
+        $code = '';
+        $codeflag = $this->container->getParameter('init');
+        $adver = new Advertiserment();
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $title = $request->request->get('title');
+        $start_time = $request->request->get('start_time');
+        $end_time = $request->request->get('end_time');
+        $info = $request->request->get('info');
+        $comment = $request->request->get('comment');
+        $url = $request->request->get('url');
+        $category = $request->request->get('category');
+        $score = $request->request->get('score');
         $intReward = $request->request->get('intReward');
         $rewardRate = $request->request->get('rewardRate');
-    	$rule = $request->request->get('rule');
-    	$form  = $this->createForm(new AddAdverType(),$adver);
-    	if ($request->getMethod() == 'POST') {
-    		if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){ 
+        $rule = $request->request->get('rule');
+        $form  = $this->createForm(new AddAdverType(),$adver);
+        if ($request->getMethod() == 'POST') {
+            if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){ 
                 if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate)){
                     $form->bind($request);
                     $path =  $this->container->getParameter('upload_adver_dir');
@@ -782,26 +782,26 @@ class AdminController extends Controller
                 }else{
                     $codeflag = $this->container->getParameter('init_one');
                 }
-    		}else{
-    			$codeflag = $this->container->getParameter('init_one');
-    		}
-    	}
-    	return $this->render('JiliApiBundle:Admin:addAdver.html.twig',
-            			    array(
-            					'form' => $form->createView(),
-            					'code'=>$code,
-            					'codeflag'=>$codeflag,
-            			    	'title'=>$title,
-            			    	'start_time'=>$start_time,
-            			    	'end_time'=>$end_time,
-            			    	'info'=>$info,
-            			    	'comment'=>	$comment,
-            			    	'url'=>	$url,
-            			    	'category'=>$category,
-            			    	'score'=>$score,
-            			    	'rule'=>$rule
-            			    		
-            					));
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:addAdver.html.twig',
+                            array(
+                                'form' => $form->createView(),
+                                'code'=>$code,
+                                'codeflag'=>$codeflag,
+                                'title'=>$title,
+                                'start_time'=>$start_time,
+                                'end_time'=>$end_time,
+                                'info'=>$info,
+                                'comment'=> $comment,
+                                'url'=> $url,
+                                'category'=>$category,
+                                'score'=>$score,
+                                'rule'=>$rule
+                                    
+                                ));
     }
     
     /**
@@ -811,17 +811,17 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$request = $this->get('request');
-    	$em = $this->getDoctrine()->getManager();
-    	$adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAllAdvertiserList();
-//     	$time =  $adver[0]['endTime']->format('Y-m-d H:i:s');
-    	$paginator = $this->get('knp_paginator');
-    	$arr['pagination'] = $paginator
-    	->paginate($adver,
-    			$request->query->get('page', 1), $this->container->getParameter('page_num'));
-    	$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
-    	return $this->render('JiliApiBundle:Admin:infoAdver.html.twig',$arr);
-    	 
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAllAdvertiserList();
+//      $time =  $adver[0]['endTime']->format('Y-m-d H:i:s');
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($adver,
+                $request->query->get('page', 1), $this->container->getParameter('page_num'));
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:infoAdver.html.twig',$arr);
+         
     }
     
     /**
@@ -831,13 +831,13 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$em = $this->getDoctrine()->getManager();
-    	$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-    	$stopTime = date("Y-m-d",strtotime("-1 day"));
-    	$adver->setEndTime(date_create($stopTime));
-    	$em->persist($adver);
-    	$em->flush();
-    	return $this->redirect($this->generateUrl('_admin_infoAdver'));
+        $em = $this->getDoctrine()->getManager();
+        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
+        $stopTime = date("Y-m-d",strtotime("-1 day"));
+        $adver->setEndTime(date_create($stopTime));
+        $em->persist($adver);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoAdver'));
     }
     
     /**
@@ -847,12 +847,12 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$em = $this->getDoctrine()->getManager();
-    	$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-    	$adver->setDeleteFlag($this->container->getParameter('init_one'));
-    	$em->persist($adver);
-    	$em->flush();
-    	return $this->redirect($this->generateUrl('_admin_infoAdver'));
+        $em = $this->getDoctrine()->getManager();
+        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
+        $adver->setDeleteFlag($this->container->getParameter('init_one'));
+        $em->persist($adver);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoAdver'));
     }
     
     /**
@@ -862,25 +862,25 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$code = '';
-    	$codeflag = $this->container->getParameter('init');
-    	$em = $this->getDoctrine()->getManager();
-    	$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-    	$request = $this->get('request');
-    	$title = $request->request->get('title');
-    	$start_time = $request->request->get('start_time');
-    	$end_time = $request->request->get('end_time');
-    	$info = $request->request->get('info');
-    	$comment = $request->request->get('comment');
-    	$url = $request->request->get('url');
-    	$category = $request->request->get('category');
-    	$score = $request->request->get('score');
+        $code = '';
+        $codeflag = $this->container->getParameter('init');
+        $em = $this->getDoctrine()->getManager();
+        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
+        $request = $this->get('request');
+        $title = $request->request->get('title');
+        $start_time = $request->request->get('start_time');
+        $end_time = $request->request->get('end_time');
+        $info = $request->request->get('info');
+        $comment = $request->request->get('comment');
+        $url = $request->request->get('url');
+        $category = $request->request->get('category');
+        $score = $request->request->get('score');
         $intReward = $request->request->get('intReward');
         $rewardRate = $request->request->get('rewardRate');
-    	$rule = $request->request->get('rule');
-    	$form  = $this->createForm(new AddAdverType(),$adver);
-    	if ($request->getMethod() == 'POST') {
-    		if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){
+        $rule = $request->request->get('rule');
+        $form  = $this->createForm(new AddAdverType(),$adver);
+        if ($request->getMethod() == 'POST') {
+            if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){
                 if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate)){
                     $form->bind($request);
                     $path =  $this->container->getParameter('upload_adver_dir');
@@ -948,26 +948,26 @@ class AdminController extends Controller
                 }else{
                     $codeflag = $this->container->getParameter('init_one');
                 }
-    		}else{
-    			$codeflag = $this->container->getParameter('init_one');
-    		}
-    	}
-    	return $this->render('JiliApiBundle:Admin:editAdver.html.twig',
-			    array(
-					'adver'=>$adver,
-					'form' => $form->createView(),
-		    		'code'=>$code,
-		    		'codeflag'=>$codeflag,
-		    		'title'=>$title,
-		    		'start_time'=>$start_time,
-		    		'end_time'=>$end_time,
-		    		'info'=>$info,
-		    		'comment'=>	$comment,
-		    		'url'=>	$url,
-		    		'category'=>$category,
-		    		'score'=>$score,
-		    		'rule'=>$rule
-					));
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:editAdver.html.twig',
+                array(
+                    'adver'=>$adver,
+                    'form' => $form->createView(),
+                    'code'=>$code,
+                    'codeflag'=>$codeflag,
+                    'title'=>$title,
+                    'start_time'=>$start_time,
+                    'end_time'=>$end_time,
+                    'info'=>$info,
+                    'comment'=> $comment,
+                    'url'=> $url,
+                    'category'=>$category,
+                    'score'=>$score,
+                    'rule'=>$rule
+                    ));
     
     }
     
@@ -978,40 +978,40 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$codeflag = $this->container->getParameter('init');
-    	$request = $this->get('request');
-    	$em = $this->getDoctrine()->getManager();
+        $codeflag = $this->container->getParameter('init');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
         $cb_category = $em->getRepository('JiliApiBundle:CbCategory')->findAll();
-    	$callboard = $em->getRepository('JiliApiBundle:CallBoard')->find($id);
-    	$title = $request->request->get('title');
-    	$author = $request->request->get('author');
-    	$start_time = $request->request->get('start_time');
-    	$content = $request->request->get('content');
+        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->find($id);
+        $title = $request->request->get('title');
+        $author = $request->request->get('author');
+        $start_time = $request->request->get('start_time');
+        $content = $request->request->get('content');
         $category = $request->request->get('category');
-    	if ($request->getMethod() == 'POST') {
-    	    if($title && $start_time  && $author && $content){
-    			$callboard->setTitle($title);
-    			$callboard->setStartTime(date_create($start_time));
-    			$callboard->setUpdateTime(date_create(date('Y-m-d H:i:s')));
-    			$callboard->setAuthor($author);
-    			$callboard->setContent($content);
+        if ($request->getMethod() == 'POST') {
+            if($title && $start_time  && $author && $content){
+                $callboard->setTitle($title);
+                $callboard->setStartTime(date_create($start_time));
+                $callboard->setUpdateTime(date_create(date('Y-m-d H:i:s')));
+                $callboard->setAuthor($author);
+                $callboard->setContent($content);
                 $callboard->setCbType($category);
-    			$em->persist($callboard);
-				$em->flush();
-				return $this->redirect($this->generateUrl('_admin_infoCallboard'));
-    		}else{
-    			$codeflag = $this->container->getParameter('init_one');
-    		}
-    	}
-    	return $this->render('JiliApiBundle:Admin:editCallboard.html.twig',array(
-					'callboard'=>$callboard,
+                $em->persist($callboard);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_infoCallboard'));
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:editCallboard.html.twig',array(
+                    'callboard'=>$callboard,
                     'cb_category'=>$cb_category,
-		    		'codeflag'=>$codeflag,
-		    		'title'=>$title,
-		    		'start_time'=>$start_time,
-		    		'content'=>	$content,
-		    		'author'=>	$author,
-					));
+                    'codeflag'=>$codeflag,
+                    'title'=>$title,
+                    'start_time'=>$start_time,
+                    'content'=> $content,
+                    'author'=>  $author,
+                    ));
     }
     
     /**
@@ -1021,11 +1021,11 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$em = $this->getDoctrine()->getManager();
-    	$callboard = $em->getRepository('JiliApiBundle:CallBoard')->find($id);
-    	$em->remove($callboard);
-    	$em->flush();
-    	return $this->redirect($this->generateUrl('_admin_infoCallboard'));
+        $em = $this->getDoctrine()->getManager();
+        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->find($id);
+        $em->remove($callboard);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoCallboard'));
     }
     
     
@@ -1037,15 +1037,15 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$request = $this->get('request');
-    	$em = $this->getDoctrine()->getManager();
-    	$callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboard();
-    	$paginator = $this->get('knp_paginator');
-    	$arr['pagination'] = $paginator
-    	->paginate($callboard,
-    			$request->query->get('page', 1), $this->container->getParameter('page_num'));
-    	$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
-    	return $this->render('JiliApiBundle:Admin:infoCallboard.html.twig',$arr);
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboard();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($callboard,
+                $request->query->get('page', 1), $this->container->getParameter('page_num'));
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:infoCallboard.html.twig',$arr);
     }
     
     
@@ -1056,40 +1056,40 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$codeflag = $this->container->getParameter('init');
-    	$callboard = new Callboard();
-    	$em = $this->getDoctrine()->getManager();
-    	$request = $this->get('request');
-    	$title = $request->request->get('title');
-    	$start_time = $request->request->get('start_time');
-    	$content = $request->request->get('content');
-    	$author = $request->request->get('author');
+        $codeflag = $this->container->getParameter('init');
+        $callboard = new Callboard();
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $title = $request->request->get('title');
+        $start_time = $request->request->get('start_time');
+        $content = $request->request->get('content');
+        $author = $request->request->get('author');
         $category = $request->request->get('category');
         $cb_category = $em->getRepository('JiliApiBundle:CbCategory')->findAll();
-    	if ($request->getMethod() == 'POST') {
-    		if($title && $start_time  && $author && $content){
-    			$callboard->setTitle($title);
-    			$callboard->setStartTime(date_create($start_time));
-    			$callboard->setAuthor($author);
-    			$callboard->setContent($content);
+        if ($request->getMethod() == 'POST') {
+            if($title && $start_time  && $author && $content){
+                $callboard->setTitle($title);
+                $callboard->setStartTime(date_create($start_time));
+                $callboard->setAuthor($author);
+                $callboard->setContent($content);
                 $callboard->setCbType($category);
-    			$em->persist($callboard);
-				$em->flush();
-				return $this->redirect($this->generateUrl('_admin_infoCallboard'));
-    		}else{
-    			$codeflag = $this->container->getParameter('init_one');
-    		}
-    	}
-    	return $this->render('JiliApiBundle:Admin:addCallboard.html.twig',
-    			array(
-		    		'codeflag'=>$codeflag,
-		    		'title'=>$title,
-		    		'start_time'=>$start_time,
-		    		'content'=>	$content,
-		    		'author'=>$author,
+                $em->persist($callboard);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_infoCallboard'));
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:addCallboard.html.twig',
+                array(
+                    'codeflag'=>$codeflag,
+                    'title'=>$title,
+                    'start_time'=>$start_time,
+                    'content'=> $content,
+                    'author'=>$author,
                     'cb_category'=> $cb_category
-					));
-    	
+                    ));
+        
     }
 
     /**
@@ -1189,25 +1189,25 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	$response = new Response();
+        $response = new Response();
 
         $request = $this->get('request');
         $start_time = $request->request->get('start_time');
         $end_time = $request->request->get('end_time');
 
-    	$em = $this->getDoctrine()->getManager();
-    	$exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo();
-    	$arr['exchange'] = $exchange;
-    	$response =  $this->render('JiliApiBundle:Admin:exchangeCsv.html.twig',$arr);
-    	$response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
-//     	$response->headers->set("Content-type","application/vnd.ms-excel; charset=utf-8");
+        $em = $this->getDoctrine()->getManager();
+        $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo();
+        $arr['exchange'] = $exchange;
+        $response =  $this->render('JiliApiBundle:Admin:exchangeCsv.html.twig',$arr);
+        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+//      $response->headers->set("Content-type","application/vnd.ms-excel; charset=utf-8");
         $filename = "export".date("YmdHis").".csv";
         $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
 //         $response->headers->set('Content-Transfer-Encoding', 'binary');
 //         $response->headers->set("Expires","0");
 //         $response->headers->set("Pragma","no-cache");
         return $response;
-    	
+        
     }
 
 
@@ -1342,15 +1342,15 @@ class AdminController extends Controller
         $request = $this->get('request');
         if($this->getAdminIp())
           return $this->redirect($this->generateUrl('_default_error'));
-    	$em = $this->getDoctrine()->getManager();
-    	$exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo('','');
-    	$paginator  = $this->get('knp_paginator');
-    	$arr['pagination'] = $paginator->paginate(
-    			$exchange,
-    			$this->get('request')->query->get('page', 1),
-    			$this->container->getParameter('page_num')
-    	);
-    	$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo('','');
+        $paginator  = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator->paginate(
+                $exchange,
+                $this->get('request')->query->get('page', 1),
+                $this->container->getParameter('page_num')
+        );
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         if ($request->getMethod() == 'POST'){
             $start_time = $request->request->get('start_time');
             $end_time = $request->request->get('end_time');
@@ -1395,7 +1395,7 @@ class AdminController extends Controller
             $arr['end'] = $end_time;
         }
         
-    	return $this->render('JiliApiBundle:Admin:exchangeInfo.html.twig',$arr);
+        return $this->render('JiliApiBundle:Admin:exchangeInfo.html.twig',$arr);
     }
 
     /**
@@ -1451,7 +1451,7 @@ class AdminController extends Controller
             }
                
         }
-        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email,'code'=>$code));  
+        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email,'code'=>$code,'$multiple'=>$multiple));  
     }
     
     /**
@@ -1471,7 +1471,7 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	   return $this->render('JiliApiBundle:Admin:main.html.twig');
+           return $this->render('JiliApiBundle:Admin:main.html.twig');
     }
     
     /**
@@ -1481,7 +1481,7 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	return $this->render('JiliApiBundle:Admin:menu.html.twig');
+        return $this->render('JiliApiBundle:Admin:menu.html.twig');
     }
     
     /**
@@ -1491,7 +1491,7 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-    	return $this->render('JiliApiBundle:Admin:header.html.twig');
+        return $this->render('JiliApiBundle:Admin:header.html.twig');
     }
     
     
