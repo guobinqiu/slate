@@ -8,7 +8,11 @@
 <BODY>
 <form action="{{ path('_admin_rewardRate') }}" method="post" id="form1" enctype="multipart/form-data" >
 <table align='center'>
+{% if code %}
+<tr><td  colspan="2"><font color='red'>编辑成功</font></td></tr>
+{% else %}
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+{% endif %}
 <tr><td>用户名精确检索(email):<input type="text" name="email" value="{{ email }}"/></td><td><input type="submit" name="add" value="提 交"/></td></tr>
 </table>
 {% if search %}
