@@ -30,7 +30,7 @@ class AdvertisermentRepository extends EntityRepository
         	$query = $query->innerJoin('JiliApiBundle:LimitAd', 'la', 'WITH', 'a.id = la.adId');
         }
         if($incentiveType==2){
-        	$query = $query->select('a.id,a.title,a.content,a.endTime,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.info,ra.incentiveRate');
+        	$query = $query->select('a.id,a.title,a.content,a.endTime,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.rewardRate,a.info,ra.incentiveRate');
         	$query = $query->innerJoin('JiliApiBundle:RateAd', 'ra', 'WITH', 'a.id = ra.adId');
         }
         $query = $query->Where('a.incentiveType = :incentiveType');
@@ -93,7 +93,7 @@ class AdvertisermentRepository extends EntityRepository
 	public function getAdvertiserAreaList($area)
 	{
 		$query = $this->createQueryBuilder('a');
-		$query = $query->select('a.id,a.title,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentive,a.incentiveType,a.incentiveRate,a.info,ap.type,ap.position');
+		$query = $query->select('a.id,a.title,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentive,a.incentiveType,a.incentiveRate,a.rewardRate,a.info,ap.type,ap.position');
 		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
 		$query = $query->Where('ap.type = :area');
 		$query = $query->andWhere('a.deleteFlag = 0');
@@ -110,7 +110,7 @@ class AdvertisermentRepository extends EntityRepository
 	public function getAdvertiserList()
 	{
 		$query = $this->createQueryBuilder('a');
-		$query = $query->select('a.id,a.title,a.content,a.imageurl,a.iconImage,a.listImage,a.incentive,a.incentiveType,a.incentiveRate,a.info,ap.type,ap.position');
+		$query = $query->select('a.id,a.title,a.content,a.imageurl,a.iconImage,a.listImage,a.incentive,a.incentiveType,a.incentiveRate,a.rewardRate,a.info,ap.type,ap.position');
 		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
 		$query = $query->Where('ap.type = 1');
 		$query = $query->andWhere('a.deleteFlag = 0');

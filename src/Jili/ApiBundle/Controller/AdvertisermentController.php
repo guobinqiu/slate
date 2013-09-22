@@ -26,16 +26,18 @@ class AdvertisermentController extends Controller
 	 */
 	public function infoAction($id)
 	{
+		$uid='';
+		$reward_multiple = '';
+		$uid = $this->get('request')->getSession()->get('uid');
+		$campaign_multiple = $this->container->getParameter('campaign_multiple');
 		$code = $this->container->getParameter('init');
 		$arr['code'] = $code;
-		$uid='';
-		$uid = $this->get('request')->getSession()->get('uid');
-		if($this->get('request')->getSession()->get('uid')){
-			$uid = $this->get('request')->getSession()->get('uid');
+		$em = $this->getDoctrine()->getManager();
+		if($uid){
+			$user = $em->getRepository('JiliApiBundle:User')->find($uid);
+        	$reward_multiple = $user->getRewardMultiple();
 		}
 		$arr['uid'] = $uid;
-		$em = $this->getDoctrine()->getManager();
-		
 		$arr['orderStatus'] = '';
 		$adw = $em->getRepository('JiliApiBundle:AdwOrder');
 		$adw_status = $adw->getOrderInfo($uid,$id);
@@ -44,9 +46,19 @@ class AdvertisermentController extends Controller
             $arr['orderStatus'] = $orderStatus;
 		}
 		$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-		if($advertiserment)
+		if($advertiserment){
 			$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->getAdwAdverList($advertiserment->getIncentiveType(),$id);
-		else
+			if($reward_multiple){
+				if($advertiserment[0]['incentiveType']==2){
+                    $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
+                    $advertiserment[0]['reward_rate'] = $advertiserment[0]['incentiveRate'] * $advertiserment[0]['rewardRate'] * $cps_rate;
+                }
+			}else{
+				if($advertiserment[0]['incentiveType']==2){
+                    $advertiserment[0]['reward_rate'] = $advertiserment[0]['incentiveRate'] * $advertiserment[0]['rewardRate'] * $campaign_multiple;
+                }
+			}
+		}else
 			return $this->redirect($this->generateUrl('_default_error'));
 		$time =  $advertiserment[0]['endTime']->format('Y-m-d H:i:s');
 		if(time()-strtotime($time)>=0){

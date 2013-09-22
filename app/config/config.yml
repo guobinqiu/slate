@@ -104,6 +104,7 @@ gregwar_captcha:
         as_url: true
 
 parameters:
+    campaign_multiple: 1
     admin_home_ip: 192.168.1.198
     admin_vpn_ip: 210.175.54.14
     admin_ele_ip: 112.65.174.206

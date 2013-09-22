@@ -123,6 +123,12 @@ class Advertiserment
      */
     private $incentiveRate;
     
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="reward_rate", type="float")
+     */
+    private $rewardRate;
     
     /**
      * @var integer
@@ -521,6 +527,29 @@ class Advertiserment
     public function getIncentiveRate()
     {
     	return $this->incentiveRate;
+    }
+
+     /**
+     * Set rewardRate
+     *
+     * @param float $rewardRate
+     * @return Advertiserment
+     */
+    public function setRewardRate($rewardRate)
+    {
+        $this->rewardRate = $rewardRate;
+    
+        return $this;
+    }
+    
+    /**
+     * Get rewardRate
+     *
+     * @return float
+     */
+    public function getRewardRate()
+    {
+        return $this->rewardRate;
     }
     
     

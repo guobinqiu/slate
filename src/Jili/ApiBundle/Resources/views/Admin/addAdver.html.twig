@@ -9,12 +9,27 @@
 <script src="{{ asset('js/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
+$(document).ready(function(){
+    $(".cpaReward").hide();
+    $(".cpsReward").hide();
+});
     KE.show({
         id : 'info'
     });
     KE.show({
         id : 'rule'
     });
+function ck(){
+    var cate = $("input[name='category']:checked").val();
+    if(cate==1){
+        $(".cpaReward").show();
+        $(".cpsReward").hide();
+    }
+    if(cate==2){
+        $(".cpsReward").show();
+        $(".cpaReward").hide();
+    }
+}
 </script>
 </HEAD>
 <BODY>
@@ -38,9 +53,13 @@
 <tr><td>广告描述:</td><td><textarea cols="60" rows="5" name="comment">{{ comment }}</textarea></td></tr>
 <tr><td>广告说明:</td><td><textarea id="info" cols="120" rows="10" name="info" style="width:700px;height:300px;">{{ info }}</textarea></td></tr>
 <tr><td>广告链接:</td><td><input type="text" name="url" size='60' value="{{ url }}"/></td></tr>
-<tr><td>广告类型:</td><td><input type="radio" name="category" value="1" {% if category==1 %} checked="checked" {% endif %}/>CPA
-<input type="radio" name="category" value="2" {% if category==2 %} checked="checked" {% endif %}/>CPS</td></tr>
-<tr><td>广告积分:</td><td><input type="text" name="score" size='10' onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" value="{{ score }}"/></td></tr>
+<tr><td>广告类型:</td><td><input type="radio" name="category" value="1" onchange="ck();"  {% if category==1 %} checked="checked" {% endif %}/>CPA
+<input type="radio" name="category" value="2" onchange="ck();" {% if category==2 %} checked="checked" {% endif %}/>CPS</td></tr>
+<tr class="cpaReward"><td>广告积分:</td><td><input type="text" name="score" size='10' onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" value="{{ score }}"/></td></tr>
+
+<tr class="cpsReward"><td>佣金:</td><td><input type="text" name="intReward" size='10' value=""/>%</td></tr>
+<tr class="cpsReward"><td>返利:</td><td><input type="text" name="rewardRate" size='10' value=""/>%</td></tr>
+
 <tr><td>广告规则:</td><td><textarea id="rule" cols="120" rows="10" name="rule" style="width:700px;height:300px;">{{ rule }}</textarea></td></tr>
 <tr><td>广告图片:(300X250)</td><td>{{ form_widget(form.large) }}</td></tr>
 <tr><td>广告图片:(200X130)</td><td>{{ form_widget(form.small) }}</td></tr>

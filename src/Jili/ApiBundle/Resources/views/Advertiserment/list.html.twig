@@ -28,7 +28,7 @@
              {% if item.incentiveType==1 %}
                      <span class="reward"><font>{{ item.incentive }}</font>米粒</span>
              {% elseif item.incentiveType==2 %}
-                     <span class="reward">最高获消费额<font>{{ item.incentiveRate/100 }}%</font></span>
+                     <span class="reward">最高获消费额<font>{{ item.incentiveRate/10000 }}%</font></span>
              {% else %}
              {% endif %}
     </div>
@@ -42,7 +42,7 @@
                       {% if item.incentiveType==1 %}
                          <span class="reward"><font>{{ item.incentive }}</font>米粒</span>
                         {% elseif item.incentiveType==2 %}
-                         <span class="reward">最高获消费额<font>{{ item.incentiveRate/100 }}%</font></span>
+                         <span class="reward">最高获消费额<font>{{ item.incentiveRate/10000 }}%</font></span>
                          {% else %}
                      {% endif %}
               </div>

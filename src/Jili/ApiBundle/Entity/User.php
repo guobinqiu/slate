@@ -157,6 +157,13 @@ class User
     private $identityNum;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="reward_multiple", type="float")
+     */
+    private $rewardMultiple;
+
+    /**
      * @var datetime $registerDate
      *
      * @ORM\Column(name="register_date", type="datetime", nullable=true)
@@ -839,6 +846,29 @@ class User
     public function getIdentityNum()
     {
         return $this->identityNum;
+    }
+
+ /**
+     * Set rewardMultiple
+     *
+     * @param float $rewardMultiple
+     * @return User
+     */
+    public function setRewardMultiple($rewardMultiple)
+    {
+        $this->rewardMultiple = $rewardMultiple;
+    
+        return $this;
+    }
+
+    /**
+     * Get rewardMultiple
+     *
+     * @return float 
+     */
+    public function getRewardMultiple()
+    {
+        return $this->rewardMultiple;
     }
 
     /**

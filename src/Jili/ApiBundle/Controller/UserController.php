@@ -1165,6 +1165,7 @@ class UserController extends Controller
 	        									$user->setEmail($request->request->get('email'));
 	        									$user->setPoints($this->container->getParameter('init'));
 	        									$user->setIsInfoSet($this->container->getParameter('init'));
+	        									$user->setRewardMultiple($this->container->getParameter('init_one'));
 	        									$em->persist($user);
 	        									$em->flush();
 	        									$str = 'jilifirstregister';

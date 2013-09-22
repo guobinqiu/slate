@@ -68,7 +68,6 @@ class ApiController extends Controller
 		$type = $request->query->get('type');
 		$ocd = $request->query->get('ocd');
 		$totalPrice = $request->query->get('totalPrice');
-// 		$u_sig = md5("date=".$request->query->get('date')."&time=".$request->query->get('time')."&promotionID=".$request->query->get('promotionID')."&comm=".$request->query->get('comm')."&totalPrice=".$request->query->get('totalPrice')."&ocd=".$request->query->get('ocd')."&XLGt8P9wgCz9QPfJ");
 		$order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid);
 		if($order){
             if($type==1){
@@ -94,6 +93,14 @@ class ApiController extends Controller
             		$code = 1;
             	}
             }else{//cps
+              $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+              $rewardRate = $advertiserment->getRewardRate();
+              $users = $em->getRepository('JiliApiBundle:User')->find($uid);
+              $user_rate = $users->getRewardMultiple();
+              $campaign_multiple = $this->container->getParameter('campaign_multiple');
+              $rate = $user_rate > $campaign_multiple ? $user_rate : $campaign_multiple;
+              $cps_reward = intval($comm*$rewardRate*$rate);
+              
             	$issetCpsInfo = $em->getRepository('JiliApiBundle:AdwOrder')->getCpsInfo($uid,$adid);
             	if($issetCpsInfo[0]['ocd']){
             		$cpsOrder = new AdwOrder();
@@ -103,7 +110,7 @@ class ApiController extends Controller
             		$cpsOrder->setHappenTime(date_create($happenTime));
             		$cpsOrder->setAdwReturnTime(date_create(date('Y-m-d H:i:s')));
             		$cpsOrder->setIncentiveType($type);
-            		$cpsOrder->setIncentive(intval($comm*30));
+            		$cpsOrder->setIncentive($cps_reward);
             		$cpsOrder->setOcd($ocd);
             		$cpsOrder->setComm($comm);
             		$cpsOrder->setOrderPrice($totalPrice);
@@ -117,7 +124,7 @@ class ApiController extends Controller
                     'task_type' => $this->container->getParameter('init_one'),
                     'categoryId' => $this->container->getParameter('init_two'),
                     'taskName' => $issetCpsInfo[0]['title'],
-                    'point' => intval($comm*30),
+                    'point' => intval($cps_reward),
                     'date' => $happenTime,
                     'status' => $cpsOrder->getOrderStatus()
                   );
@@ -127,7 +134,7 @@ class ApiController extends Controller
             		$cpsOrder->setComm($comm);
             		$cpsOrder->setOcd($ocd);
             		$cpsOrder->setOrderPrice($totalPrice);
-            		$cpsOrder->setIncentive(intval($comm*30));
+            		$cpsOrder->setIncentive(intval($cps_reward));
             		$cpsOrder->setHappenTime(date_create($happenTime));
             		$cpsOrder->setOrderStatus($this->container->getParameter('init_two'));
             		$cpsOrder->setAdwReturnTime(date_create(date('Y-m-d H:i:s')));
@@ -136,7 +143,7 @@ class ApiController extends Controller
                       'userid' => $uid,
                       'orderId' => $order[0]['id'],
                       'taskType' => $this->container->getParameter('init_one'),
-                      'point' => intval($comm*30),
+                      'point' => intval($cps_reward),
                       'date' => $happenTime,
                       'status' => $this->container->getParameter('init_two')
                     );

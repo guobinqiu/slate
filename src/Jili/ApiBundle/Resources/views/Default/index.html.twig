@@ -83,7 +83,7 @@ $(document).ready(function(){
                 {% if item.incentiveType==1 %}
                      <span>{{ item.incentive }}</span>米粒
                      {% elseif item.incentiveType==2 %}
-                                                                 最高获消费额<span>{{ item.reward_rate/100 }}%</span>
+                                                                 最高获消费额<span>{{ item.reward_rate/10000 }}%</span>
                      {% else %}
                      {% endif %}
                   </p>

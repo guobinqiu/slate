@@ -148,8 +148,10 @@ class DefaultController extends Controller
     	$arr['user'] = array();
         $em = $this->getDoctrine()->getManager();
         $id = $request->getSession()->get('uid');
+        $reward_multiple = '';
         if($id){
         	$user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $reward_multiple = $user->getRewardMultiple();
         	$arr['user'] = $user;
         }
         $info = '';
@@ -202,28 +204,20 @@ class DefaultController extends Controller
         ->findByEmail($email);
         if ($request->getMethod() == 'POST'){
             if(!$em_email){
-            	//echo 'email is unexist!';
-            	// $code = $this->container->getParameter('init_one');
                 $code = $this->container->getParameter('login_wr');
             }else{
             	$id = $em_email[0]->getId();
             	$em = $this->getDoctrine()->getEntityManager();
             	$user = $em->getRepository('JiliApiBundle:User')->find($id);
             	if($user->pw_encode($pwd) != $user->getPwd()){
-            		// 					echo 'pwd is error!';
-            		// $code = $this->container->getParameter('init_two');
                     $code = $this->container->getParameter('login_wr');
             	}else{
-//             		$session = new Session();
-//             		$session->start();
             		if($request->request->get('remember_me')=='1'){
             			setcookie("jili_uid", $id, time() + 3600 * 24 * 365,'/');
             			setcookie("jili_nick",$user->getNick(), time() + 3600 * 24 * 365,'/');
             		}
             		$request->getSession()->set('uid', $id);
             		$request->getSession()->set('nick', $user->getNick());
-//             		$session->set('uid', $id);
-//             		$session->set('nick', $user->getNick());
             		$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
             		$user->setLastLoginIp($this->get('request')->getClientIp());
             		$em->flush();
@@ -242,6 +236,19 @@ class DefaultController extends Controller
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
 		$advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoBanner();
 		$advertise = $repository->getAdvertiserList();
+        foreach ($advertise as $key => $value) {
+            $campaign_multiple = $this->container->getParameter('campaign_multiple');
+            if($reward_multiple){
+                if($value['incentiveType']==2){
+                    $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
+                    $advertise[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $cps_rate;
+                }
+            }else{
+                if($value['incentiveType']==2){
+                    $advertise[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $campaign_multiple;
+                }
+            }
+        }
 		$callboard = $em->getRepository('JiliApiBundle:CallBoard')->getFiveCallboard();
         $exchangeInfo = $em->getRepository('JiliApiBundle:PointsExchange')->exList();
         foreach ($exchangeInfo as $key => $value) {

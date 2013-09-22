@@ -101,4 +101,13 @@ class UserRepository extends EntityRepository
 		return $result[0]['pwd'];
 	
 	}
+
+	public function getSearch($email){
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('u.id,u.nick,u.email,u.rewardMultiple');
+		$query = $query->Where('u.email = :email');
+		$query = $query->setParameter('email',$email);
+		$query = $query->getQuery();
+		return $query->getResult();
+	}
 }

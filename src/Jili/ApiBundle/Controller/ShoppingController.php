@@ -17,23 +17,43 @@ class ShoppingController extends Controller
 	 */
 	public function listAction()
 	{
+		$reward_multiple = '';
 		$uid = '';
 		$uid = $this->get('request')->getSession()->get('uid');
-		if($this->get('request')->getSession()->get('uid'))
-			$uid = $this->get('request')->getSession()->get('uid');
+		$campaign_multiple = $this->container->getParameter('campaign_multiple');
 		$em = $this->getDoctrine()->getManager();
+		if($uid){
+			$user = $em->getRepository('JiliApiBundle:User')->find($uid);
+        	$reward_multiple = $user->getRewardMultiple();
+		}
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
 		$advertise = $repository->getAdvertiserAreaList($this->container->getParameter('init_five'));
 		$adverRecommand = $repository->getAdvertiserAreaList($this->container->getParameter('init_four'));
-		foreach ( $advertise as $k=>$v){
-			$adnum = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderNum($v['id']);
-			$advertise[$k]['num'] = $adnum;
-// 			if($uid){
-// 				$adw_info = $v['imageurl'];
-// 				$adw_info = explode("u=",$adw_info);
-// 				$new_url = $adw_info[0]."u=".$uid.$adw_info[1].$v['id'];
-// 				$advertise[$k]['imageurl'] = $new_url;
-// 			}
+		foreach ( $advertise as $key=>$value){
+			$adnum = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderNum($value['id']);
+			$advertise[$key]['num'] = $adnum;
+            if($reward_multiple){
+                if($value['incentiveType']==2){
+                    $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
+                    $advertise[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $cps_rate;
+                }
+            }else{
+                if($value['incentiveType']==2){
+                    $advertise[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $campaign_multiple;
+                }
+            }
+		}
+		foreach ( $adverRecommand as $key=>$value){
+            if($reward_multiple){
+                if($value['incentiveType']==2){
+                    $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
+                    $adverRecommand[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $cps_rate;
+                }
+            }else{
+                if($value['incentiveType']==2){
+                    $adverRecommand[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $campaign_multiple;
+                }
+            }
 		}
 		$arr['adverRecommand'] = $adverRecommand;
 		$arr['advertiserment'] = $advertise;
@@ -57,9 +77,8 @@ class ShoppingController extends Controller
 		$new_url = '';
 		$request = $this->get('request');
 		$aid = $request->query->get('aid');
-		$uid = $this->get('request')->getSession()->get('uid');
-		if($this->get('request')->getSession()->get('uid')){
-			$uid = $this->get('request')->getSession()->get('uid');
+		$uid = $request->getSession()->get('uid');
+		if($uid){
 			$em = $this->getDoctrine()->getManager();
 			$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
 			$adw_info = $advertiserment->getImageurl();

@@ -126,13 +126,22 @@ class AdminController extends Controller
     //已经认证
     private function hasCertified($userId,$adid,$happentime,$comm){
     	$em = $this->getDoctrine()->getManager();
+        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+        if($advertiserment->getIncentiveType()==2){
+            $rewardRate = $advertiserment->getRewardRate();
+            $users = $em->getRepository('JiliApiBundle:User')->find($userId);
+            $user_rate = $users->getRewardMultiple();
+            $campaign_multiple = $this->container->getParameter('campaign_multiple');
+            $rate = $user_rate > $campaign_multiple ? $user_rate : $campaign_multiple;
+            $cps_reward = intval($comm*$rewardRate*$rate);
+        }
     	$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$happentime);
     	if(empty($adworder)){
     		return false;
     	}else{
     		$adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
             if($adworder->getIncentiveType()==2){
-                $adworder->setIncentive(intval($comm*30));
+                $adworder->setIncentive(intval($cps_reward));
             }
     		$adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')));
     		$adworder->setOrderStatus($this->container->getParameter('init_three'));
@@ -286,6 +295,56 @@ class AdminController extends Controller
     		return true;
     	else
     		return false;
+    }
+
+
+     /**
+     * @Route("/importCpsAdver", name="_admin_importCpsAdver")
+     */
+    public function importCpsAdverAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $code = array();
+        $request = $this->get('request');
+        $success = '';
+        $userId = '';
+        $adid = '';
+        if ($request->getMethod('post') == 'POST') {
+            $success = $this->container->getParameter('init_one');
+            if (isset($_FILES['csv'])) {
+                $file = $_FILES['csv']['tmp_name']; 
+                $handle = fopen($file,'r'); 
+                while ($data = fgetcsv($handle)){ 
+                   $goods_list[] = $data;
+                   unset($goods_list[0]);
+                }
+                foreach ($goods_list as $k=>$v){
+                    $status = iconv('gb2312','UTF-8//IGNORE',$v[6]);
+                    $name = iconv('gb2312','UTF-8//IGNORE',$v[0]);
+                    $adid = explode("'",$v[7]);
+                    $userId = explode("'",$v[8]);
+                    if($this->getStatus($userId[1],$adid[1],$v[2])){
+                        if($status == $this->container->getParameter('nothrough')){
+                            if(!$this->noCertified($userId[1],$adid[1],$v[2])){
+                                $code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                            }
+                        }
+                        if($status == $this->container->getParameter('certified')){
+                            if(!$this->hasCertified($userId[1],$adid[1],$v[2],$v[5])){
+                                $code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                            }
+                        }
+                    }
+                    
+                }
+                fclose($handle);
+            }
+        }
+        $arr['success'] = $success;
+        $arr['code'] = $code;
+        return $this->render('JiliApiBundle:Admin:importCpsAdver.html.twig',$arr);
+
     }
     
     
@@ -672,55 +731,57 @@ class AdminController extends Controller
     	$url = $request->request->get('url');
     	$category = $request->request->get('category');
     	$score = $request->request->get('score');
+        $intReward = $request->request->get('intReward');
+        $rewardRate = $request->request->get('rewardRate');
     	$rule = $request->request->get('rule');
     	$form  = $this->createForm(new AddAdverType(),$adver);
     	if ($request->getMethod() == 'POST') {
-    		if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category && $score){ 
-        		$form->bind($request);
-        		$path =  $this->container->getParameter('upload_adver_dir');
-        		$adver->setType($this->container->getParameter('init'));
-        		$adver->setTitle($title);
-        		$adver->setStartTime(date_create($start_time));
-        		$adver->setEndTime(date_create($end_time));
-        		$adver->setDecription($comment);
-        		$adver->setImageurl($url);
-        		$adver->setIncentiveType($category);
-        		$adver->setCategory($category);
-        		if($category==1){
-        			$adver->setIncentive($score);
-        		}else{
-        			$adver->setIncentiveRate($score);
-        		}
-        		$adver->setContent($info);
-        		$adver->setInfo($rule);
-        		$adver->setDeleteFlag($this->container->getParameter('init'));
-        		$em->persist($adver);
-        		$code = $adver->upload($path);
-        		if(!$code){
-        			$em->flush();
-//         			$adposition = new AdPosition();
-//         			$adposition->setAdId($adver->getId());
-//         			$adposition->setType($this->container->getParameter('init_one'));
-//         			$adposition->setPosition($this->container->getParameter('init'));
-//         			$em->persist($adposition);
-//         			$em->flush();
-        			if($adver->getIncentiveType()==1){
-        				$limit = new LimitAd();
-        				$limit->setAdId($adver->getId());
-        				$limit->setIncentive($adver->getIncentive());
-        				$limit->setIncome(floor($adver->getIncentive()/30));
-        				$em->persist($limit);
-        				$em->flush();
-        			}else{
-        				$rate = new RateAd();
-        				$rate->setAdId($adver->getId());
-        				$rate->setIncentiveRate($adver->getIncentiveRate());
-        				$em->persist($rate);
-        				$em->flush();
-        				
-        			}
-        			return $this->redirect($this->generateUrl('_admin_infoAdver'));
-        		}
+    		if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){ 
+                if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate)){
+                    $form->bind($request);
+                    $path =  $this->container->getParameter('upload_adver_dir');
+                    $adver->setType($this->container->getParameter('init'));
+                    $adver->setTitle($title);
+                    $adver->setStartTime(date_create($start_time));
+                    $adver->setEndTime(date_create($end_time));
+                    $adver->setDecription($comment);
+                    $adver->setImageurl($url);
+                    $adver->setIncentiveType($category);
+                    $adver->setCategory($category);
+                    if($category==1){
+                        $adver->setIncentive($score);
+                    }else{
+                        $adver->setIncentiveRate($intReward);
+                        $adver->setRewardRate($rewardRate);
+                    }
+                    $adver->setContent($info);
+                    $adver->setInfo($rule);
+                    $adver->setDeleteFlag($this->container->getParameter('init'));
+                    $em->persist($adver);
+                    $code = $adver->upload($path);
+                    if(!$code){
+                        $em->flush();
+                        if($adver->getIncentiveType()==1){
+                            $limit = new LimitAd();
+                            $limit->setAdId($adver->getId());
+                            $limit->setIncentive($adver->getIncentive());
+                            $limit->setIncome(floor($adver->getIncentive()/30));
+                            $em->persist($limit);
+                            $em->flush();
+                        }else{
+                            $rate = new RateAd();
+                            $rate->setAdId($adver->getId());
+                            $rate->setIncentiveRate($adver->getIncentiveRate());
+                            $em->persist($rate);
+                            $em->flush();
+                            
+                        }
+                        return $this->redirect($this->generateUrl('_admin_infoAdver'));
+                    }
+
+                }else{
+                    $codeflag = $this->container->getParameter('init_one');
+                }
     		}else{
     			$codeflag = $this->container->getParameter('init_one');
     		}
@@ -814,73 +875,79 @@ class AdminController extends Controller
     	$url = $request->request->get('url');
     	$category = $request->request->get('category');
     	$score = $request->request->get('score');
+        $intReward = $request->request->get('intReward');
+        $rewardRate = $request->request->get('rewardRate');
     	$rule = $request->request->get('rule');
     	$form  = $this->createForm(new AddAdverType(),$adver);
     	if ($request->getMethod() == 'POST') {
-    		if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category && $score){
-    			$form->bind($request);
-    			$path =  $this->container->getParameter('upload_adver_dir');
-    			$adver->setType($this->container->getParameter('init'));
-    			$adver->setTitle($title);
-    			$adver->setStartTime(date_create($start_time));
-    			$adver->setEndTime(date_create($end_time));
-    			$adver->setDecription($comment);
-    			$adver->setImageurl($url);
-    			$adver->setIncentiveType($category);
-    			$adver->setCategory($category);
-    			if($category==1){
-    				$adver->setIncentive($score);
-    			}else{
-    				$adver->setIncentiveRate($score);
-    			}
-    			$adver->setIncentive($score);
-    			$adver->setContent($info);
-    			$adver->setInfo($rule);
-    			$adver->setDeleteFlag($this->container->getParameter('init'));
-    			$em->persist($adver);
-    			$code = $adver->upload($path);
-    			if(!$code || $code=='图片为必填项'){
-    				$em->flush();
-    				if($adver->getIncentiveType()==1){
-    					$limit = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adver->getId());
-    					if(empty($limit)){
-    						$del = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adver->getId());
-    						$em->remove($del[0]);
-    						$em->flush();
-    						$new_limit = new LimitAd();
-    						$new_limit->setAdId($adver->getId());
-    						$new_limit->setIncentive($adver->getIncentive());
-    						$new_limit->setIncome(floor($adver->getIncentive()/30));
-    						$em->persist($new_limit);
-    						$em->flush();
-    					}else{
-    						$limit[0]->setAdId($adver->getId());
-    						$limit[0]->setIncentive($adver->getIncentive());
-    						$limit[0]->setIncome(floor($adver->getIncentive()/30));
-    						$em->persist($limit[0]);
-    						$em->flush();
-    					}
-    				}else{
-    					$rate = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adver->getId());
-    					if(empty($rate)){
-    						$del = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adver->getId());
-    						$em->remove($del[0]);
-    						$em->flush();
-    						$new_rate = new RateAd();
-    						$new_rate->setAdId($adver->getId());
-    						$new_rate->setIncentiveRate($adver->getIncentiveRate());
-    						$em->persist($new_rate);
-    						$em->flush();
-    					}else{
-    						$rate[0]->setAdId($adver->getId());
-    						$rate[0]->setIncentiveRate($adver->getIncentiveRate());
-    					    $em->persist($rate[0]);
-    					    $em->flush();
-    					}
-    					
-    				}
-    				return $this->redirect($this->generateUrl('_admin_infoAdver'));
-    			}
+    		if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){
+                if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate)){
+                    $form->bind($request);
+                    $path =  $this->container->getParameter('upload_adver_dir');
+                    $adver->setType($this->container->getParameter('init'));
+                    $adver->setTitle($title);
+                    $adver->setStartTime(date_create($start_time));
+                    $adver->setEndTime(date_create($end_time));
+                    $adver->setDecription($comment);
+                    $adver->setImageurl($url);
+                    $adver->setIncentiveType($category);
+                    $adver->setCategory($category);
+                    if($category==1){
+                        $adver->setIncentive($score);
+                    }else{
+                        $adver->setIncentiveRate($intReward);
+                        $adver->setRewardRate($rewardRate);
+                    }
+                    $adver->setContent($info);
+                    $adver->setInfo($rule);
+                    $adver->setDeleteFlag($this->container->getParameter('init'));
+                    $em->persist($adver);
+                    $code = $adver->upload($path);
+                    if(!$code || $code=='图片为必填项'){
+                        $em->flush();
+                        if($adver->getIncentiveType()==1){
+                            $limit = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adver->getId());
+                            if(empty($limit)){
+                                $del = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adver->getId());
+                                $em->remove($del[0]);
+                                $em->flush();
+                                $new_limit = new LimitAd();
+                                $new_limit->setAdId($adver->getId());
+                                $new_limit->setIncentive($adver->getIncentive());
+                                $new_limit->setIncome(floor($adver->getIncentive()/30));
+                                $em->persist($new_limit);
+                                $em->flush();
+                            }else{
+                                $limit[0]->setAdId($adver->getId());
+                                $limit[0]->setIncentive($adver->getIncentive());
+                                $limit[0]->setIncome(floor($adver->getIncentive()/30));
+                                $em->persist($limit[0]);
+                                $em->flush();
+                            }
+                        }else{
+                            $rate = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adver->getId());
+                            if(empty($rate)){
+                                $del = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adver->getId());
+                                $em->remove($del[0]);
+                                $em->flush();
+                                $new_rate = new RateAd();
+                                $new_rate->setAdId($adver->getId());
+                                $new_rate->setIncentiveRate($adver->getIncentiveRate());
+                                $em->persist($new_rate);
+                                $em->flush();
+                            }else{
+                                $rate[0]->setAdId($adver->getId());
+                                $rate[0]->setIncentiveRate($adver->getIncentiveRate());
+                                $em->persist($rate[0]);
+                                $em->flush();
+                            }
+                            
+                        }
+                        return $this->redirect($this->generateUrl('_admin_infoAdver'));
+                    }
+                }else{
+                    $codeflag = $this->container->getParameter('init_one');
+                }
     		}else{
     			$codeflag = $this->container->getParameter('init_one');
     		}
@@ -1351,10 +1418,44 @@ class AdminController extends Controller
         }
         return $this->render('JiliApiBundle:Admin:selectUser.html.twig',array('code'=>$code,'count_user'=>$count_user,'start_time'=>$start_time,'end_time'=>$end_time));
     }
+
+
+    /**
+     * @Route("/rewardRate", name="_admin_rewardRate")
+     */
+     public function rewardRateAction(){
+        if($this->getAdminIp())
+              return $this->redirect($this->generateUrl('_default_error'));  
+        $search = array();
+        $email = '';
+        $edit = '';
+        $multiple = '';
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $email = $request->request->get('email');
+        if ($request->getMethod() == 'POST'){
+            $user = $em->getRepository('JiliApiBundle:User')->getSearch($email);
+            if($user){
+                $search = $user[0];
+                $edit = $request->request->get('edit');
+                $multiple = $request->request->get('multiple');
+                if($edit){
+                    $editUser = $em->getRepository('JiliApiBundle:User')->find($search['id']);
+                    $editUser->setRewardMultiple($multiple);
+                    $em->persist($editUser);
+                    $em->flush();
+                    return $this->redirect($this->generateUrl('_admin_rewardRate'));
+                }
+
+            }
+               
+        }
+        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email));  
+    }
     
     /**
      * @Route("/index", name="_admin_index")
-     */
+     */ 
     public function indexAction()
     {
         if($this->getAdminIp())
