@@ -15,30 +15,7 @@
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <script type="text/javascript">
-var info = "{{ info }}";
-var reward = '';
-var couponOd = '';
-var couponElec = '';
-var getRewards = "{{ getRewards }}";
-var uid = "{{ app.session.get('uid') }}";
-var banner = "{{ banner }}";
-{% if couponOd %}
-  couponOd = "{{ couponOd }}";
-{% endif %}
-{% if couponElec %}
-  couponElec = "{{ couponElec }}";
-{% endif %}
 $(document).ready(function(){
-  if(banner)
-      if(uid)
-        showAmazon(info,couponOd,couponElec,uid,getRewards);
-      else
-        window.location.href = "{{ path('_user_login') }}";
-	{% if code %}
-       $("#email").focus();
-	   alert('{{ code }}');
-	{%  endif %}
-	
 	 $("#login").click(function(){
 	       $("#form1").submit();
 		})
@@ -106,7 +83,7 @@ $(document).ready(function(){
                 {% if item.incentiveType==1 %}
                      <span>{{ item.incentive }}</span>米粒
                      {% elseif item.incentiveType==2 %}
-                                                                 最高获消费额<span>{{ item.incentiveRate/100 }}%</span>
+                                                                 最高获消费额<span>{{ item.reward_rate/100 }}%</span>
                      {% else %}
                      {% endif %}
                   </p>
