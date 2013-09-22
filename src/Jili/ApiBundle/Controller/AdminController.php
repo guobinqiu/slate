@@ -1429,6 +1429,7 @@ class AdminController extends Controller
         $search = array();
         $email = '';
         $edit = '';
+        $code = '';
         $multiple = '';
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
@@ -1444,13 +1445,13 @@ class AdminController extends Controller
                     $editUser->setRewardMultiple($multiple);
                     $em->persist($editUser);
                     $em->flush();
-                    return $this->redirect($this->generateUrl('_admin_rewardRate'));
+                    $code  = $this->container->getParameter('init_one');
                 }
 
             }
                
         }
-        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email));  
+        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email,'code'=>$code));  
     }
     
     /**
