@@ -1447,9 +1447,7 @@ class AdminController extends Controller
                     $em->flush();
                     $code  = $this->container->getParameter('init_one');
                 }
-
-            }
-               
+            }          
         }
         return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email,'code'=>$code,'$multiple'=>$multiple));  
     }
