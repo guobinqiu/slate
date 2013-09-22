@@ -1449,7 +1449,7 @@ class AdminController extends Controller
                 }
             }          
         }
-        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email,'code'=>$code,'$multiple'=>$multiple));  
+        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email,'code'=>$code,'multiple'=>$multiple));  
     }
     
     /**
