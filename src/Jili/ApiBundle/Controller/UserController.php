@@ -158,6 +158,7 @@ class UserController extends Controller
 		}
 	}
 
+    
 
 	/**
 	 * @Route("/getCity", name="_user_getCity")
@@ -333,6 +334,33 @@ class UserController extends Controller
 		}
 
     }
+
+
+    /**
+	 * @Route("/amazonResult", name="_user_amazonResult")
+	 */
+	public function amazonResultAction(){
+		$em = $this->getDoctrine()->getManager();
+		$request = $this->get('request');
+		$couponOd = '';
+        $couponElec = '';
+        $uid = '';
+		$uid = $request->getSession()->get('uid');
+		if($uid){
+			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($uid);
+			if(!empty($userCoupon)){
+				$couponOd = $userCoupon[0]->getCouponOd();
+           		$couponElec = $userCoupon[0]->getCouponElec();
+			}
+		}else{
+			return $this->redirect($this->generateUrl('_default_index'));
+		}
+		return $this->render('JiliApiBundle:User:amazonResult.html.twig',array(
+							'couponOd'=>$couponOd,
+							'couponElec'=>$couponElec,
+							'uid'=>$uid
+							)); 
+	}
 
     /**
 	 * @Route("/isExistInfo", name="_user_isExistInfo")

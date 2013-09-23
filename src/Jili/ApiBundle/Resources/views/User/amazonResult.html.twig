@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+{% include 'JiliApiBundle::seo.html.twig' %}
+<title>积粒网-首页 一站式积分媒体！</title>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/index.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+</head>
+<script>
+var uid = {{ uid }};
+$(document).ready(function(){
+      $('.amazonHref').attr('href',"http://count.chanet.com.cn/click.cgi?a=480534&d=338264&u="+uid+"&e=45"); 
+ });
+</script>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+
+<div class="amazonAct">
+<div class="banner" align="center"><img src="{{ asset('images/amazonBanner.jpg') }}"></div>
+{% if couponOd and couponElec %}
+
+<div id="reward">
+<p><img src="{{ asset('images/amazonReward.jpg') }}"><a class="amazonHref" target="_blank"><img src="{{ asset('images/amazonHref.jpg') }}"></a></p>
+
+<div class="cardDiv">
+  <img src="{{ asset('images/amazonCard1.jpg') }}">
+  礼品卡号:<font class='codeReward'>{{ couponOd }}</font>
+  <p><b>使用说明</b><br />
+1.单张订单购买亚马逊运动户外类商品（仅限同亚马逊直接销售和发货，同时鞋靴产品除外）。<br />
+2.在支付页面“礼品卡或促销优惠券”处将优惠码输入，结算时商品均可享受满299元减20元的优惠。（在8月26日至9月28日期间，该优惠券可与运动户外商品满299元减50元的礼券同时使用。）<br />
+3.每个用户ID只能使用优惠码一次，不可重复享受优惠。<br />
+4.活动时间：2013年8月26日——2013年10月20日。</p>
+</div>
+<div class="cardDiv">
+  <img src="{{ asset('images/amazonCard2.jpg') }}">
+  礼品卡号:<font class='codeReward blue'>{{ couponElec }}</font>
+  <p><b>使用说明</b><br />
+1.单张订单购买亚马逊自营小家电产品（飞利浦品牌商品和第三方卖家商品除外）。<br />
+2.本活动优惠不可与其他活动同时使用。<br />
+3.每个用户ID只能使用优惠码一次，不可重复享受优惠。<br />
+4.活动时间：2013年9月5日——2013年10月15日。</p>
+</div>
+</div>
+{% else %}
+<div id="amazonEmpty" align="center"><img src="{{ asset('images/amazonEmpty.jpg') }}"></div>
+
+{% endif %}
+</div>
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>

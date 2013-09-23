@@ -3,6 +3,7 @@
     margin: 0 0 10px;
     text-align: center;
     display: inline-block;
+    background-color: #FFFFFF;
 }
 #reward p{
 	margin:20px 0;
@@ -29,6 +30,18 @@
 }
 #reward .codeReward.blue{
 	color:#0099cc;
+}
+.amazonAct{
+	margin: 40px auto 0;
+    padding-bottom: 120px;
+    width: 864px;
+}
+.amazonAct .banner{
+	height:209px;
+}
+#amazonEmpty{
+	background-color: #FFF;
+	padding: 100px 20px;
 }
 a.amazonHref{
 	margin-left: 3%;
