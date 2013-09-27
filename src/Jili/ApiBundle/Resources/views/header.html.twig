@@ -4,13 +4,36 @@
 <script src="{{ asset('js/bottom.js')}}" type="text/javascript"></script>
 <script>
 $(document).ready(function(){
-  
   {% if app.session.get('uid') %}
-    
       isVisit();
-
+      isNewMs();
+      countMs();   
   {% endif %}
 });
+function isNewMs(){
+   {% if app.session.get('uid') %}
+   $.ajax({
+          url: "{{ path('_user_isNewMs',{'id':app.session.get('uid')}) }}",
+          type: "GET",
+          success:function(data){
+              if(data){
+                   $('.newms').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
+              }else{
+                  $('.newms').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
+              }
+          }
+        });
+  {% endif %}
+}
+function countMs(){
+    $.ajax({
+          url: "{{ path('_user_countMs') }}",
+          type: "GET",
+          success:function(data){
+              $("#countMessage").html(data);
+          }
+        });
+}
 
 function isVisit(){
    $.ajax({
@@ -23,7 +46,6 @@ function isVisit(){
           }
         });
 }
-
 
 </script>
 <header>
@@ -40,8 +62,6 @@ function isVisit(){
         <!--<li class="last"><a href="{{ asset(path('_default_help'),'cdn1')  }}">帮助中心</a></li>-->
       </ul>
     </nav>
-  
     {% include 'JiliApiBundle:Default:info.html.twig' %}
-
   </section>
 </header>

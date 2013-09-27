@@ -101,6 +101,17 @@ header nav#user a{
 	background-repeat:no-repeat;
 	text-indent:13px;
 }
+header nav#user a.newms{
+	background-image: url("../images/newMs.gif");
+    background-position: 0 4px;
+    background-repeat: no-repeat;
+    padding-left: 5px;
+}
+header nav#user a span#countMessage{
+	color: #FFE75E;
+    font-weight: bold;
+    margin: 0px;
+}
 header nav#user a.log{
 	background-image:url(../images/log_ico.gif);
 	background-position:0px 5px;

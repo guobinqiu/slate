@@ -19,6 +19,8 @@ use Jili\ApiBundle\Entity\setPasswordCode;
 use Jili\ApiBundle\Entity\AmazonCoupon;
 use Jili\ApiBundle\Entity\RegisterReward;
 use Gregwar\Captcha\CaptchaBuilder;
+use Jili\ApiBundle\Entity\SendCallboard;
+use Jili\ApiBundle\Entity\IsReadCallboard;
 use Jili\ApiBundle\Entity\PointHistory00;
 use Jili\ApiBundle\Entity\PointHistory01;
 use Jili\ApiBundle\Entity\PointHistory02;
@@ -485,10 +487,6 @@ class UserController extends Controller
 	 * @Route("/registerReward", name="_user_registerReward")
 	 */
 	public function registerRewardAction(){
-		// $componType = 'point';
-		$componType = 'activity';
-		$isgetReward = '';
-		$rsReward = '';
 		$code = array();
 		$codeflag = '';
 		$birthday = '';
@@ -496,8 +494,6 @@ class UserController extends Controller
 		$month_income = '';
 		$request = $this->get('request');
 		$id = $request->getSession()->get('uid');
-		$couponOd = '';
-	    $couponElec = '';
 		// if(!$id)
 		// 	return $this->redirect($this->generateUrl('_default_index'));
 		$em = $this->getDoctrine()->getManager();
@@ -532,13 +528,7 @@ class UserController extends Controller
 					$user->setHobby($hobbys);
 					$user->setIsInfoSet($this->container->getParameter('init_one'));
 					$em->flush();
-	        		$rsReward = $this->getReward($componType,$id);
-	        		if($rsReward == $this->container->getParameter('init_two')){
-	        			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
-						$couponOd = $userCoupon[0]->getCouponOd();
-						$couponElec = $userCoupon[0]->getCouponElec();
-	        		}	
-					$code[] = array("code"=>$rsReward,"couponOd"=>$couponOd,"couponElec"=>$couponElec);  
+					$code[] = array("code"=>$this->container->getParameter('init_one'));  
 				}
 			}else{
 				$user->setSex($sex);
@@ -550,14 +540,7 @@ class UserController extends Controller
 				$user->setHobby($hobbys);
 				$user->setIsInfoSet($this->container->getParameter('init_one'));
 				$em->flush();
-        		$rsReward = $this->getReward($componType,$id);
-        		if($rsReward == $this->container->getParameter('init_two')){
-        			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
-					$couponOd = $userCoupon[0]->getCouponOd();
-					$couponElec = $userCoupon[0]->getCouponElec();
-        		}
-        		$code[] = array("code"=>$rsReward,"couponOd"=>$couponOd,"couponElec"=>$couponElec);  
-	        	
+        		$code[] = array("code"=>$this->container->getParameter('init_one')); 
 			}
 		}else{
 			$codeflag = $this->container->getParameter('reg_mobile');
@@ -568,6 +551,34 @@ class UserController extends Controller
 	}
 
 
+	private function notReadCb(){
+		$id = $this->get('request')->getSession()->get('uid');
+		$em = $this->getDoctrine()->getManager();
+		$countCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountAllCallboard();
+		$countIsCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountIsReadCallboard($id);
+		$countUserCb = intval($countCb[0]['num']) - intval($countIsCb[0]['num']);
+		return $countUserCb;
+	}
+
+	private function notReadMs($id){
+		$countUserMs = $this->countSendMs($id);
+		return $countUserMs[0]['num'];
+	}
+
+	/**
+	 * @Route("/isNewMs/{id}", name="_user_isNewMs")
+	 */
+	public function isNewMsAction($id)
+	{
+		$countMessage = '';
+		if($this->notReadCb() == 0 && $this->notReadMs($id)>0){
+			$countMessage = $this->container->getParameter('init_one');
+		}
+		return new Response($countMessage);
+	}
+	
+
+
 	/**
 	 * @Route("/info", name="_user_info",requirements={"_scheme"="https"})
 	 */
@@ -575,6 +586,7 @@ class UserController extends Controller
 	{
 		// $existUserinfo = '';
 		$existUserinfo = $this->container->getParameter('init_one');
+		$countMessage = '';
 		$code = '';
 		$flag = '';
 		$codeflag = '';
@@ -709,6 +721,9 @@ class UserController extends Controller
 			$userIncome = $em->getRepository('JiliApiBundle:MonthIncome')->find($user->getIncome());
 			$usercomes = $userIncome->getIncome();
 		}	
+		if($this->notReadCb() == 0 && $this->notReadMs($id)>0){
+			$countMessage = $this->container->getParameter('init_one');
+		}		
 		return $this->render('JiliApiBundle:User:info.html.twig',array( 
 				'form' => $form->createView(),
 				'form_upload' =>$form->createView(),
@@ -735,7 +750,8 @@ class UserController extends Controller
 				'year' => $year,
 				'month' => $month,
 				'provinceId' => $provinceId,
-				'city' => $city 
+				'city' => $city,
+				'countMessage'=>$countMessage
 				));
 	}
 	
@@ -1376,6 +1392,104 @@ class UserController extends Controller
         	}
         }
 	}
+
+	/**
+	 * @Route("/updateIsRead", name="_user_updateIsRead")
+	 */
+	public function updateIsReadAction(){
+		$content = '';
+		$isRead = '';
+		$code = array();
+		$request = $this->get('request');
+		$id = $request->getSession()->get('uid');
+		$sendid = $request->query->get('sendid');
+		$em = $this->getDoctrine()->getManager();
+		$isreadInfo = $em->getRepository('JiliApiBundle:IsReadCallboard')->isreadInfo($sendid,$id);
+		if(empty($isreadInfo)){
+			$isRead = new IsReadCallboard();
+			$isRead->setSendCbId($sendid);
+			$isRead->setUserId($id);
+			$em->persist($isRead);
+	        $em->flush();
+	        $isRead = $this->container->getParameter('init_one');
+    	}
+		$sendCb = $em->getRepository('JiliApiBundle:SendCallboard')->find($sendid);
+		$content = $sendCb->getContent();
+		$code[] = array('content'=>$content,'isRead'=>$isRead);
+		return new Response(json_encode($code));
+	}
+
+
+	/**
+	 * @Route("/updateSendMs", name="_user_updateSendMs")
+	 */
+	public function updateSendMsAction(){
+		$code = array();
+		$request = $this->get('request');
+		$id = $request->getSession()->get('uid');
+		$sendid = $request->query->get('sendid');
+		$em = $this->getDoctrine()->getManager();
+		$showMs = $this->updateSendMs($id,$sendid);
+		return new Response(json_encode($showMs));
+	}
+
+
+	/**
+	 * @Route("/message/{sid}",requirements={"sid" = "\d+"}, name="_user_message")
+	 */
+	public function messageAction($sid){
+		$id = $this->get('request')->getSession()->get('uid');
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		$arr['user'] = $user;
+		if($sid == $this->container->getParameter('init_one')){//公告
+			$sendCb = $em->getRepository('JiliApiBundle:SendCallboard')->getSendCb();	
+			$userCb = $em->getRepository('JiliApiBundle:IsReadCallboard')->getUserIsRead($id);	
+			$userIsRead = array();
+			foreach ($userCb as $keyCb => $valueCb) {
+				$userIsRead[$valueCb['sendCbId']] = $valueCb['sendCbId'];
+			}
+			foreach ($sendCb as $key => $value) {	
+				if(array_key_exists($value['id'],$userIsRead))
+					$sendCb[$key]['isRead'] = $this->container->getParameter('init_one');
+				else
+					$sendCb[$key]['isRead'] = '';
+			}
+			$arr['sendCb'] = $sendCb;
+			$paginator = $this->get('knp_paginator');
+			$arr['pagination'] = $paginator
+			->paginate($sendCb,
+					$this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
+			$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+		}
+		if($sid == $this->container->getParameter('init_two')){//消息
+			$showMs  = $this->selectSendMs($id);
+			$arr['showMs'] = $showMs;
+			$paginator = $this->get('knp_paginator');
+			$arr['pagination'] = $paginator
+			->paginate($showMs,
+					$this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
+			$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+
+		}
+		$arr['sid'] = $sid;
+		return $this->render('JiliApiBundle:User:message.html.twig',$arr);
+	}
+
+
+	/**
+	* @Route("/countMs", name="_user_countMs")
+	*/
+	public function countMsAction(){
+		$notRead = $this->container->getParameter('init');
+		$id = $this->get('request')->getSession()->get('uid');
+		$em = $this->getDoctrine()->getManager();
+		$countCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountAllCallboard();
+		$countIsCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountIsReadCallboard($id);
+		$countMs = $this->countSendMs($id);
+		$notRead = intval($countMs[0]['num']) + intval($countCb[0]['num']) - intval($countIsCb[0]['num']);
+ 		return new Response($notRead);
+	}
 	
 	/**
 	* @Route("/mission/{id}", name="_user_mission")
@@ -1456,6 +1570,150 @@ class UserController extends Controller
 		}
 	
 	}
+
+
+	private function updateSendMs($userid,$sendid){
+		$isRead = '';
+		$code = array();
+		if(strlen($userid)>1){
+			$uid = substr($userid,-1,1);
+		}else{
+			$uid = $userid;
+		}
+		$em = $this->getDoctrine()->getManager();
+		switch($uid){
+		case 0:
+		      $sm = $em->getRepository('JiliApiBundle:SendMessage00');
+		      break;
+		case 1:
+		      $sm = $em->getRepository('JiliApiBundle:SendMessage01');
+		      break;
+		case 2:
+		      $sm = $em->getRepository('JiliApiBundle:SendMessage02');
+		      break;
+		case 3:
+		      $sm = $em->getRepository('JiliApiBundle:SendMessage03');
+		      break;
+		case 4:
+		      $sm = $em->getRepository('JiliApiBundle:SendMessage04');
+		      break;
+		case 5:
+		      $sm = $em->getRepository('JiliApiBundle:SendMessage05');
+		      break;
+		case 6:
+		      $sm = $em->getRepository('JiliApiBundle:SendMessage06');
+		      break;
+		case 7:
+		      $sm = $em->getRepository('JiliApiBundle:SendMessage07');
+		      break;
+		case 8:
+		      $sm = $em->getRepository('JiliApiBundle:SendMessage08');
+		      break;
+		case 9:
+		      $sm = $em->getRepository('JiliApiBundle:SendMessage09');
+		      break;
+		}
+
+		$updateSm = $sm->find($sendid);
+		if($updateSm->getReadFlag() == 0){
+			$updateSm->setReadFlag($this->container->getParameter('init_one'));
+			$em->persist($updateSm);
+			$em->flush();
+			$isRead = $this->container->getParameter('init_one');
+		}
+		$code[] = array('content'=>$updateSm->getContent(),'isRead'=>$isRead);
+		return $code;
+    }
+
+
+    private function countSendMs($userid){
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      $em = $this->getDoctrine()->getManager();
+      switch($uid){
+            case 0:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
+                  break;
+            case 1:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
+                  break;
+            case 2:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
+                  break;
+            case 3:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
+                  break;
+            case 4:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
+                  break;
+            case 5:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
+                  break;
+            case 6:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
+                  break;
+            case 7:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
+                  break;
+            case 8:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
+                  break;
+            case 9:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
+                  break;
+      }
+ 	  $countMs = $sm->CountSendMs($userid);
+ 	  return $countMs; 
+    }
+
+
+	private function selectSendMs($userid){
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      $em = $this->getDoctrine()->getManager();
+      switch($uid){
+            case 0:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
+                  break;
+            case 1:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
+                  break;
+            case 2:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
+                  break;
+            case 3:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
+                  break;
+            case 4:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
+                  break;
+            case 5:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
+                  break;
+            case 6:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
+                  break;
+            case 7:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
+                  break;
+            case 8:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
+                  break;
+            case 9:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
+                  break;
+      }
+ 	  $showMs = $sm->getSendMsById($userid);
+ 	  return $showMs;
+     
+    }
+
 
 	private function selTaskHistory($userid,$option){
       if(strlen($userid)>1){

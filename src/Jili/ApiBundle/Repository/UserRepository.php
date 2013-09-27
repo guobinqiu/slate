@@ -110,4 +110,14 @@ class UserRepository extends EntityRepository
 		$query = $query->getQuery();
 		return $query->getResult();
 	}
+
+
+	public function getMultiple($times){
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('u.id,u.nick,u.email,u.rewardMultiple');
+		$query = $query->Where('u.rewardMultiple > :times');
+		$query = $query->setParameter('times',$times);
+		$query = $query->getQuery();
+		return $query->getResult();
+	}
 }

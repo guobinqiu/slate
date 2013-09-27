@@ -135,12 +135,26 @@
 	color:#54b9e8;
 	text-decoration:none;
 }
-.personal .photo a.edit{
-	position:absolute;
-	color:#54b9e8;
-	text-decoration:none;
+.personal .photo a.passwordEdit{
+	background-image: url("../images/password.jpg");
+	background-position: 0 3px;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    text-decoration: none;
+    margin-right: 50px;
 }
-
+.personal .photo a.message{
+	background-image: url("../images/message.jpg");
+    background-position: 0 3px;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    text-decoration: none;
+    margin-right: 50px;
+}
+.personal .photo img.mili{
+	margin-right: 5px;
+	vertical-align: middle;
+}
 .info ul {
 	padding: 20px 0;
 	display: inline-block;
