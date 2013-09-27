@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>积粒网-站内消息</title>
+{% include 'JiliApiBundle::seo.html.twig' %}
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/personalAside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/message.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  var url = window.location.href;
+    url = url.split("message/");
+    url = url[1].substring(0,1);
+    $("div article .screen a").removeClass("hover"); 
+    if(url){
+      switch(url){
+        case "1":
+            $("div article .screen a:first").addClass("hover"); 
+            break;
+        case "2":
+            $("div article .screen a:last").addClass("hover"); 
+            break;
+       default:
+          location.href="{{ path('_user_message',{'sid': 1}) }}";
+            break;
+        }
+    }
+});
+function showCb(id){
+  var isRead = '.isRead'+id;
+  var show = '#showContent'+id;
+    $.ajax({
+      url : "{{ path('_user_updateIsRead') }}?sendid="+id,
+      type : 'get',
+      success : function(data) { 
+        var obj = eval(data);
+        var str = obj[0]['content'];
+        $(isRead).removeClass("new");
+        $(show).show();
+        $(show +' .text').html(str);
+        if(obj[0]['isRead'] == 1){
+            var html = parseInt($("#countMessage").text()-1);
+            $("#countMessage").html(html);
+        }      
+      }
+    });
+}
+function showMs(id){
+  var isRead = '.isRead'+id;
+  var show = '#showContent'+id;
+    $.ajax({
+      url : "{{ path('_user_updateSendMs') }}?sendid="+id,
+      type : 'get',
+      success : function(data) {  
+        var obj = eval(data);
+        var str = obj[0]['content'];
+        $(isRead).removeClass("new");
+        $(show).show();
+        $(show +' .text').html(str);
+        if(obj[0]['isRead'] == 1){
+            var html = parseInt($("#countMessage").text()-1);
+            $("#countMessage").html(html);
+        }   
+      }
+    });
+}
+function addClass(type){
+  switch(type){
+        case 1:
+          location.href="{{ path('_user_message',{'sid': 1}) }}";
+          break;
+        case 2:
+          location.href="{{ path('_user_message',{'sid': 2}) }}";
+          break;
+  }
+}
+
+</script>
+</head>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+
+<div class="webArticle message">
+  <h2><span><img src="{{ asset('images/infoCenter.gif')}}" alt="消息中心"></span></h2>
+  <aside>
+{% include 'JiliApiBundle:User:rightInfo.html.twig' %}
+  </aside>
+
+  <article>
+ <div class="screen">
+    <a href="javascript:void(0);" class="hoverCb" onclick="addClass(1);return false;">公告</a>
+    <a href="javascript:void(0);" class="hoverMs" onclick="addClass(2);return false;">消息</a>
+    </div>
+{% if sid == 1 %}
+<ul class="sendCallboard">
+    <li class="title"><span class="title">标题</span>
+          <span class="time">时间</span>
+          <span class="from">来自</span></li>
+   {% if sendCb %}
+      {% for item in pagination %}
+        {% if item.isRead %} 
+          <li class="isRead{{ item.id }}">
+        {% else %}
+          <li class="isRead{{ item.id }} new">
+        {% endif %}
+          <span class="title"><a onclick="showCb({{ item.id }})">{{ item.title }}</a></span>
+          <span class="time">{{ item.createtime.date | date("Y-m-d H:i")}}</span>
+          <span class="from">系统</span></li>
+          <div class="showContent" id="showContent{{ item.id }}">
+            <img src="{{ asset('images/messageMoreCorner.jpg')}}" class="corner">
+            <div class="text"></div>
+          </div>
+      {% endfor %}
+    {% endif %}    
+</ul>
+ {{ knp_pagination_render(pagination) }}
+{% elseif sid == 2 %} 
+<ul class="sendCallboard">
+    <li class="title"><span class="title">标题</span>
+          <span class="time">时间</span>
+          <span class="from">来自</span></li>
+   {% if showMs %}
+      {% for item in pagination %}
+        {% if item.readFlag == 1 %} 
+          <li class="isRead{{ item.id }}">
+        {% else %}
+          <li class="isRead{{ item.id }} new">
+        {% endif %}
+          <span class="title"><a onclick="showMs({{ item.id }})">{{ item.title }}</a></span>
+          <span class="time">{{ item.createtime.date | date("Y-m-d H:i")}}</span>
+          <span class="from">系统</span></li>
+          <div class="showContent" id="showContent{{ item.id }}">
+            <img src="{{ asset('images/messageMoreCorner.jpg')}}" class="corner">
+            <div class="text"></div>
+          </div>
+      {% endfor %}
+    {% endif %}    
+</ul>
+ {{ knp_pagination_render(pagination) }}
+{% else %}
+{% endif %}
+
+  </article>
+</div>
+
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>
+ 
+ 

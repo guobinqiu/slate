@@ -217,7 +217,6 @@ function selectCity(){
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="personal">
   <section class="line">
-    <h3 class="line">头像</h3>
     <div class="photo">
       <div class="img">
           {% if user.iconPath %}
@@ -227,9 +226,13 @@ function selectCity(){
           {% endif %}
         </div>
         <form action="{{ path('_user_info') }}" method="post" {{ form_enctype(form) }} id="form1">
-        <p>欢迎您,{{ user.nick }}&nbsp;我的米粒：<span>{{ user.points }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ asset(path('_user_changePwd'),'cdn1') }}" class="edit">修改密码 »</a></p>
-        <p>{{ form_widget(form.attachment) }}<!--<a class="upload">上传头像</a>--></p>
-        <!-- <a class="upload" href="">上传头像</a> -->
+        <p><span>{{ user.nick }}</span>,欢迎您</p><p><img class="mili" src='{{ asset("images/mili.jpg") }}' />我的米粒数：<span>{{ user.points }}</span>
+        {% if countMessage %}
+          <a href="{{ path('_user_message',{'sid': 2}) }}" class="message" style="margin-left:50px">
+        {% else %}
+          <a href="{{ path('_user_message',{'sid': 1}) }}" class="message" style="margin-left:50px">
+        {% endif %}
+        站内消息</a><a href="{{ asset(path('_user_changePwd'),'cdn1') }}" class="passwordEdit">修改密码</a></p><p>{{ form_widget(form.attachment) }}</p>
         <p class="errorInfo"></p></form>
         <div class="clear"></div>
         <form action="{{ path('_user_resUp') }}" method="post">

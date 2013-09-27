@@ -1,0 +1,164 @@
+.message {
+    margin-top: 30px;
+}
+.message .sendCallboard{
+	 margin: 50px 20px 0 20px;
+	 font-size:12px;
+}
+.message .sendCallboard li{
+	border-bottom: 1px dotted #DDD;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+    width: 100%;
+    color: #999;
+}
+.message .sendCallboard li.new{
+	color:#000;
+}
+.message .sendCallboard li.new .title{
+	background-image: url("../images/newIcon.jpg");
+    background-position: right center;
+    background-repeat: no-repeat;
+    padding-right: 40px;
+    color:#000;
+}
+.message .sendCallboard li.new .title a{
+	color:#000;
+}
+.message .sendCallboard li.title{
+	border-bottom: 2px solid #EEE;
+	height: 30px;
+    line-height: 30px;
+}
+.message .sendCallboard li .title{
+	float: left;
+	color:#999;
+}
+.message .sendCallboard li .title a{
+	color:#999;
+}
+.message .sendCallboard li .from{
+	float: right;
+	width: 100px;
+	color:#999;
+}
+.message .sendCallboard li .time{
+	float:right;
+	width: 100px;
+	color:#999;
+}
+.message .about{
+	text-align:center;
+}
+.message .btnArea{
+	text-align:center;
+	margin:50px 0 0 0;
+}
+.message h2{
+	font-size:18px;
+	font-weight:bold;
+	border-bottom:3px solid #eaeaea;
+	padding:5px 0;
+}
+.message h2 span{
+	color:#ff7114;
+	border-bottom:3px solid #ff7114;
+	padding:5px 0;
+}
+.message article {
+    background-color: #FFFFFF;
+    box-shadow: 0 0 3px #CCCCCC;
+    float: right;
+    font-size: 14px;
+    margin: 20px 0 0;
+    padding: 10px;
+    text-align: center;
+    width: 710px;
+    position: relative;
+}
+.message article .screen{
+	background-color: #FCFCFC;
+    height: 50px;
+    left: 0;
+    position: absolute;
+    text-align: left;
+    top: 0;
+    width: 100%;
+    border-bottom: 1px solid #E9E9E9;
+}
+.message article .screen a{
+	display:inline-block;
+	padding: 5px 15px;
+	font-size:14px;
+	border-radius:3px 3px 0 0;
+	position: absolute;
+	background-color: #EEE;
+	border: 1px solid #E9E9E9;
+	color:#999;
+}
+.message article .screen a.hoverCb{
+	bottom: -1px;
+    left: 20px;
+}
+.message article .screen a.hoverMs{
+	bottom: -1px;
+    left: 85px;
+}
+.message article .screen a:hover , .message article .screen a.hover{
+	text-decoration:none;
+	color:#000;
+	background-color: #FFF;
+	border-bottom: 1px solid #FFFFFF;
+}
+.message article table{
+	width:100%;
+	border:1px solid #f0f0f0;
+	border-right:none;
+	border-bottom:none;
+	font-size:12px;
+}
+.message article table th{
+	background-color:#fafafa;
+	text-align:center;
+	padding:10px 2px;
+	border:1px solid #f0f0f0;
+	border-left:none;
+	border-top:none;
+}
+.message article table td{
+	border:1px solid #f0f0f0;
+	border-left:none;
+	border-top:none;
+	padding:10px 2px;
+	text-align:center;
+}
+.message .screen .prompt {
+    /*background: url("../images/adv_prompt_icon.png") no-repeat scroll left center transparent;*/
+    color: #EE472C;
+    display: block;
+    font-weight: normal;
+    font-size:12px;
+    line-height: 30px;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+.message .showContent{
+    display: none;
+    width: 100%;
+    position: relative;
+}
+.message .showContent div.text{
+	background-color: #EEEEEE;
+    border-radius: 5px 5px 5px 5px;
+    margin-top: 11px;
+    padding: 10px;
+    text-align: left;
+}
+.message .showContent img.corner{
+	left: 80px;
+    position: absolute;
+    top: -11px;
+}

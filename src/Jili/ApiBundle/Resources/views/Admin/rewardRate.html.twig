@@ -13,10 +13,19 @@
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 {% endif %}
 <tr><td>用户名精确检索(email):<input type="text" name="email" value="{{ email }}"/></td><td><input type="submit" name="add" value="提 交"/></td></tr>
+<tr><td>用户返利倍数检索(大于):<input type="text" name="times"/></td><td><input type="submit" name="timeCk" value="提 交"/></td></tr>
 </table>
 {% if search %}
 <table align='center'>
 	 <tr><td>用户名:{{ search.email }}</td><td>昵称:{{ search.nick }}</td><td>返利倍数:<input type="text" name="multiple" value="{% if multiple %}{{ multiple }}{% else %}{{ search.rewardMultiple }}{% endif %}" size="6"/></td><td><input type="submit" name="edit" value="编 辑"/></td></tr>
+</table>
+{% endif %}
+
+{% if user_multiple %}
+<table align='center'>
+{% for item in user_multiple %}
+	 <tr><td>用户名:{{ item.email }}</td><td>昵称:{{ item.nick }}</td><td>返利倍数:<input type="text" name="multiple" value="" size="6"/></td><td><input type="submit" name="edit" value="编 辑"/></td></tr>
+	 {% endfor %}
 </table>
 {% endif %}
 </form>

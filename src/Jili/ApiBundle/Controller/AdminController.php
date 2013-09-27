@@ -21,6 +21,7 @@ use Jili\ApiBundle\Entity\LimitAd;
 use Jili\ApiBundle\Entity\RateAd;
 use Jili\ApiBundle\Entity\TaskOrder;
 use Jili\ApiBundle\Entity\AdwOrder;
+use Jili\ApiBundle\Entity\SendCallboard;
 use Jili\ApiBundle\Entity\PointHistory00;
 use Jili\ApiBundle\Entity\PointHistory01;
 use Jili\ApiBundle\Entity\PointHistory02;
@@ -31,7 +32,16 @@ use Jili\ApiBundle\Entity\PointHistory06;
 use Jili\ApiBundle\Entity\PointHistory07;
 use Jili\ApiBundle\Entity\PointHistory08;
 use Jili\ApiBundle\Entity\PointHistory09;
-
+use Jili\ApiBundle\Entity\SendMessage00;
+use Jili\ApiBundle\Entity\SendMessage01;
+use Jili\ApiBundle\Entity\SendMessage02;
+use Jili\ApiBundle\Entity\SendMessage03;
+use Jili\ApiBundle\Entity\SendMessage04;
+use Jili\ApiBundle\Entity\SendMessage05;
+use Jili\ApiBundle\Entity\SendMessage06;
+use Jili\ApiBundle\Entity\SendMessage07;
+use Jili\ApiBundle\Entity\SendMessage08;
+use Jili\ApiBundle\Entity\SendMessage09;
 
 class AdminController extends Controller
 {
@@ -1427,29 +1437,495 @@ class AdminController extends Controller
         if($this->getAdminIp())
               return $this->redirect($this->generateUrl('_default_error'));  
         $search = array();
+        $user_multiple = '';
         $email = '';
         $edit = '';
         $code = '';
         $multiple = '';
+        $timeCk = '';
+        $times = '';
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         $email = $request->request->get('email');
         if ($request->getMethod() == 'POST'){
-            $user = $em->getRepository('JiliApiBundle:User')->getSearch($email);
-            if($user){
-                $search = $user[0];
-                $edit = $request->request->get('edit');
-                $multiple = $request->request->get('multiple');
-                if($edit){
-                    $editUser = $em->getRepository('JiliApiBundle:User')->find($search['id']);
-                    $editUser->setRewardMultiple($multiple);
-                    $em->persist($editUser);
-                    $em->flush();
-                    $code  = $this->container->getParameter('init_one');
-                }
-            }          
+            $timeCk = $request->request->get('timeCk');
+            $times = $request->request->get('times');
+            if($timeCk){
+                $user_multiple = $em->getRepository('JiliApiBundle:User')->getMultiple($times);
+
+            }else{
+                $user = $em->getRepository('JiliApiBundle:User')->getSearch($email);
+                if($user){
+                    $search = $user[0];
+                    $edit = $request->request->get('edit');
+                    if($edit){
+                        $multiple = $request->request->get('multiple');
+                        $editUser = $em->getRepository('JiliApiBundle:User')->find($search['id']);
+                        $editUser->setRewardMultiple($multiple);
+                        $em->persist($editUser);
+                        $em->flush();
+                        $code  = $this->container->getParameter('init_one');
+                    }
+                }         
+            }
+             
         }
-        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email,'code'=>$code,'multiple'=>$multiple));  
+        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email,'code'=>$code,'multiple'=>$multiple,'user_multiple'=>$user_multiple));  
+    }
+
+
+
+    /**
+     * @Route("/sendCb", name="_admin_sendCb")
+     */
+     public function sendCbAction(){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $codeflag = $this->container->getParameter('init');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $title = $request->request->get('title');
+        $content = $request->request->get('content');
+        $sendCallboard = new SendCallboard();
+        if ($request->getMethod() == 'POST') {
+            if($title  && $content){
+                $sendCallboard->setSendFrom($this->container->getParameter('init'));
+                $sendCallboard->setSendTo($this->container->getParameter('init'));
+                $sendCallboard->setTitle($title);
+                $sendCallboard->setContent($content);
+                $sendCallboard->setReadFlag($this->container->getParameter('init'));
+                $sendCallboard->setDeleteFlag($this->container->getParameter('init'));
+                $em->persist($sendCallboard);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_infoCb'));
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:sendCb.html.twig',array(
+                    'codeflag'=>$codeflag,
+                    'title'=>$title,
+                    'content'=>$content
+                    ));
+
+
+     }
+
+     /**
+     * @Route("/delCb/{id}", name="_admin_delCb")
+     */
+     public function delCbAction($id){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $em = $this->getDoctrine()->getManager();
+        $sendCallboard = $em->getRepository('JiliApiBundle:SendCallboard')->find($id);
+        $sendCallboard->setDeleteFlag($this->container->getParameter('init_one'));
+        $em->persist($sendCallboard);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoCb'));
+      
+     }
+
+     /**
+     * @Route("/editCb/{id}", name="_admin_editCb")
+     */
+     public function editCbAction($id){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $codeflag = $this->container->getParameter('init');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $sendCbs = $em->getRepository('JiliApiBundle:SendCallboard')->find($id);
+        $title = $request->request->get('title');
+        $content = $request->request->get('content');
+        if ($request->getMethod() == 'POST') {
+            if($title && $content){
+                $sendCbs->setTitle($title);
+                $sendCbs->setContent($content);
+                $em->persist($sendCbs);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_infoCb'));
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:editCb.html.twig',array(
+                    'sendCbs'=>$sendCbs,
+                    'codeflag'=>$codeflag
+                    ));
+
+     }
+
+     /**
+     * @Route("/infoCb", name="_admin_infoCb")
+     */
+     public function infoCbAction(){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $sendCb = $em->getRepository('JiliApiBundle:SendCallboard')->getSendCb();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($sendCb,
+                $request->query->get('page', 1), $this->container->getParameter('page_num'));
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:infoCb.html.twig',$arr);
+        
+     }
+
+     /**
+     * @Route("/delMs/{id}/{sendid}", name="_admin_delMs")
+     */
+     public function delMsAction($id,$sendid){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $this->delSendMs($id,$sendid);
+        return $this->redirect($this->generateUrl('_admin_infoMs',array('id'=>$id)));
+      
+     }
+
+
+      /**
+     * @Route("/editMs/{id}/{sendid}", name="_admin_editMs")
+     */
+     public function editMsAction($id,$sendid){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $codeflag = $this->container->getParameter('init');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $sendMsById = $this->selectSendMsById($id,$sendid);
+        $email = $request->request->get('email');
+        $title = $request->request->get('title');
+        $content = $request->request->get('content');
+        if ($request->getMethod() == 'POST') {
+            if($title  && $content && $email){
+                $isUserEmail = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+                if($isUserEmail){
+                    $parms = array(
+                      'sendid'=> $sendid,
+                      'userid' => $isUserEmail[0]->getId(),
+                      'title' => $title,
+                      'content' => $content
+                    );
+                    $this->updateSendMs($parms);
+                    return $this->redirect($this->generateUrl('_admin_infoMs',array('id'=>$id)));
+
+                }else{
+                    $codeflag = $this->container->getParameter('init_two');
+                }
+                
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+
+        return $this->render('JiliApiBundle:Admin:editMs.html.twig',array(
+                    'codeflag'=>$codeflag,
+                    'id'=>$id,
+                    'sendid'=>$sendid,
+                    'sendMsById'=>$sendMsById,
+                    'email'=>$email,
+                    'title'=>$title,
+                    'content'=>$content
+                    ));
+
+     }
+
+      /**
+     * @Route("/infoMs/{id}", name="_admin_infoMs")
+     */
+     public function infoMsAction($id){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $sendMs = $this->selectSendMs($id);
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($sendMs,
+                $request->query->get('page', 1), $this->container->getParameter('page_num'));
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        $arr['id'] = $id;
+        return $this->render('JiliApiBundle:Admin:infoMs.html.twig',$arr);
+        
+     }
+
+
+
+      /**
+     * @Route("/sendMs", name="_admin_sendMs")
+     */
+     public function sendMsAction(){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $codeflag = $this->container->getParameter('init');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $title = $request->request->get('title');
+        $content = $request->request->get('content');
+        $email = $request->request->get('email');
+        if ($request->getMethod() == 'POST') {
+            if($title  && $content && $email){
+                $isUserEmail = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+                if($isUserEmail){
+                    $parms = array(
+                      'userid' => $isUserEmail[0]->getId(),
+                      'title' => $title,
+                      'content' => $content
+                    );
+                    $this->insertSendMs($parms);
+                    if(strlen($isUserEmail[0]->getId())>1){
+                        $uid = substr($isUserEmail[0]->getId(),-1,1);
+                    }else{
+                        $uid = $isUserEmail[0]->getId();
+                    }
+                    return $this->redirect($this->generateUrl('_admin_infoMs',array('id'=>$uid)));
+
+                }else{
+                    $codeflag = $this->container->getParameter('init_two');
+                }
+                
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:sendMs.html.twig',array(
+                    'codeflag'=>$codeflag,
+                    'title'=>$title,
+                    'content'=>$content,
+                    'email'=>$email
+                    ));
+     }
+
+
+     private function insertSendMs($parms=array()){
+      extract($parms);
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      switch($uid){
+            case 0:
+                  $sm = new SendMessage00();
+                  break;
+            case 1:
+                  $sm = new SendMessage01();
+                  break;
+            case 2:
+                  $sm = new SendMessage02();
+                  break;
+            case 3:
+                  $sm = new SendMessage03();
+                  break;
+            case 4:
+                  $sm = new SendMessage04();
+                  break;
+            case 5:
+                  $sm = new SendMessage05();
+                  break;
+            case 6:
+                  $sm = new SendMessage06();
+                  break;
+            case 7:
+                  $sm = new SendMessage07();
+                  break;
+            case 8:
+                  $sm = new SendMessage08();
+                  break;
+            case 9:
+                  $sm = new SendMessage09();
+                  break;
+      }
+      $em = $this->getDoctrine()->getManager();
+      $sm->setSendFrom($this->container->getParameter('init'));
+      $sm->setSendTo($userid);
+      $sm->setTitle($title);
+      $sm->setContent($content);
+      $sm->setReadFlag($this->container->getParameter('init'));
+      $sm->setDeleteFlag($this->container->getParameter('init'));
+      $em->persist($sm);
+      $em->flush();
+    }
+
+
+    private function delSendMs($userid,$sendid){
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      $em = $this->getDoctrine()->getManager();
+      switch($uid){
+             case 0:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
+                  break;
+            case 1:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
+                  break;
+            case 2:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
+                  break;
+            case 3:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
+                  break;
+            case 4:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
+                  break;
+            case 5:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
+                  break;
+            case 6:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
+                  break;
+            case 7:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
+                  break;
+            case 8:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
+                  break;
+            case 9:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
+                  break;
+      }
+      $delSm = $sm->find($sendid);
+      $delSm->setDeleteFlag($this->container->getParameter('init_one'));
+      $em->persist($delSm);
+      $em->flush();
+    }
+
+    private function updateSendMs($parms=array()){
+      extract($parms);
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      $em = $this->getDoctrine()->getManager();
+      switch($uid){
+             case 0:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
+                  break;
+            case 1:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
+                  break;
+            case 2:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
+                  break;
+            case 3:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
+                  break;
+            case 4:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
+                  break;
+            case 5:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
+                  break;
+            case 6:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
+                  break;
+            case 7:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
+                  break;
+            case 8:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
+                  break;
+            case 9:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
+                  break;
+      }
+      $updateSm = $sm->find($sendid);
+      $updateSm->setSendTo($userid);
+      $updateSm->setTitle($title);
+      $updateSm->setContent($content);
+      $em->persist($updateSm);
+      $em->flush();
+    }
+
+    private function selectSendMsById($userid,$sendid){
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      $em = $this->getDoctrine()->getManager();
+      switch($uid){
+            case 0:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
+                  break;
+            case 1:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
+                  break;
+            case 2:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
+                  break;
+            case 3:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
+                  break;
+            case 4:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
+                  break;
+            case 5:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
+                  break;
+            case 6:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
+                  break;
+            case 7:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
+                  break;
+            case 8:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
+                  break;
+            case 9:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
+                  break;
+      }
+      $showMsById = $sm->getUserSendMs($sendid);
+      return $showMsById[0];
+
+    }
+
+
+    private function selectSendMs($id){
+      $em = $this->getDoctrine()->getManager();
+      switch($id){
+            case 0:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
+                  break;
+            case 1:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
+                  break;
+            case 2:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
+                  break;
+            case 3:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
+                  break;
+            case 4:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
+                  break;
+            case 5:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
+                  break;
+            case 6:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
+                  break;
+            case 7:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
+                  break;
+            case 8:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
+                  break;
+            case 9:
+                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
+                  break;
+      }
+      $showMs = $sm->getSendMs();
+      return $showMs;
+     
     }
     
     /**

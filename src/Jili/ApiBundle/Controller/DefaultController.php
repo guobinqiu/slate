@@ -498,6 +498,7 @@ class DefaultController extends Controller
                                             $isset_email[0]->setNick($nick);
                                             $isset_email[0]->setPwd($pwd);
                                             $isset_email[0]->setIsFromWenwen($this->container->getParameter('init_one'));
+                                            $isset_email[0]->setRewardMultiple($this->container->getParameter('init_one'));
                                             $em->persist($isset_email[0]);
                                             $em->flush();
                                             $id = $isset_email[0]->getId();
@@ -508,6 +509,7 @@ class DefaultController extends Controller
                                             $user->setEmail($email);
                                             $user->setIsFromWenwen($this->container->getParameter('init_one'));
                                             $user->setPoints($this->container->getParameter('init'));
+                                            $user->setRewardMultiple($this->container->getParameter('init_one'));
                                             $user->setIsInfoSet($this->container->getParameter('init'));
                                             $em->persist($user);
                                             $em->flush();
