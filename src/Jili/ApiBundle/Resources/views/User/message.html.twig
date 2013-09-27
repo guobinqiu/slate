@@ -99,10 +99,10 @@ function addClass(type){
     </div>
 {% if sid == 1 %}
 <ul class="sendCallboard">
+  {% if sendCb %}
     <li class="title"><span class="title">标题</span>
           <span class="time">时间</span>
           <span class="from">来自</span></li>
-   {% if sendCb %}
       {% for item in pagination %}
         {% if item.isRead %} 
           <li class="isRead{{ item.id }}">
@@ -117,15 +117,17 @@ function addClass(type){
             <div class="text"></div>
           </div>
       {% endfor %}
+      {% else %}
+        暂无公告
     {% endif %}    
 </ul>
  {{ knp_pagination_render(pagination) }}
 {% elseif sid == 2 %} 
 <ul class="sendCallboard">
+ {% if showMs %}
     <li class="title"><span class="title">标题</span>
           <span class="time">时间</span>
           <span class="from">来自</span></li>
-   {% if showMs %}
       {% for item in pagination %}
         {% if item.readFlag == 1 %} 
           <li class="isRead{{ item.id }}">
@@ -140,6 +142,8 @@ function addClass(type){
             <div class="text"></div>
           </div>
       {% endfor %}
+      {% else %}
+        暂无消息
     {% endif %}    
 </ul>
  {{ knp_pagination_render(pagination) }}

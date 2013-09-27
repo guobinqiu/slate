@@ -58,8 +58,9 @@ a.amazonHref{
 }
 .amazon #amazonEmpty {
 	display: none;
-    padding: 60px 0 120px;
+    padding: 60px 0;
     text-align: center;
+    background-image: url("../images/userInfoBg.png");
 }
 .amazon #hasReward{
 	position: absolute;
@@ -75,20 +76,23 @@ a.amazonHref{
     width: 750px;
 }
 .amazon{
-	background-color: #FFFFFF;
-    background-image: url("../images/amazonBanner.jpg");
-    background-repeat: no-repeat;
-    border-radius: 5px 5px 5px 5px;
     font-size: 14px;
     left: 0;
-    padding-top: 200px;
     position: absolute;
     right: 0;
     top: 100px;
-    width: 864px;
+    width: 861px;
     z-index: 9999;
-    box-shadow: 0 0 5px #333333;
     display: none;
+}
+.amazon .banner{
+	height:124px;
+}
+.amazon .bottom{
+	height:15px;
+}
+.amazon .closeDiv{
+	margin-top: 20px;
 }
 .blackBg{
 	display: none;
@@ -108,15 +112,18 @@ a.amazonHref{
 }
 .amazon .closeBtn{
 	position: absolute;
-	right: 7px;
-	top:5px;
+    right: 20px;
+    top: 25px;
+}
+.amazon .info{
+	background-image: url("../images/userInfoBg.png");
 }
 .amazon .info ul li dt input.infoFinish{
 	border: 0;
-	width: 181px;
+	width: 121px;
 	height: 54px;
 	font-size: 0px;
-	background-image: url("../images/amazonBtn.jpg");
+	background-image: url("../images/finishBtn.jpg");
 	cursor: pointer;
 }
 .amazon .info ul li dt input.rewardInfoFinish{
@@ -128,5 +135,5 @@ a.amazonHref{
 	cursor: pointer;
 }
 .submitDt{
-	padding-left: 175px;
+	padding-left: 185px;
 }
