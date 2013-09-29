@@ -123,7 +123,7 @@ a.amazonHref{
 	width: 121px;
 	height: 54px;
 	font-size: 0px;
-	background-image: url("../images/finishBtn.jpg");
+	background-image: url("../images/userInfoFinishBtn.jpg");
 	cursor: pointer;
 }
 .amazon .info ul li dt input.rewardInfoFinish{
