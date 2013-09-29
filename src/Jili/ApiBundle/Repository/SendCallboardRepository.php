@@ -19,10 +19,12 @@ class SendCallboardRepository extends EntityRepository
 
 
 
-	public function CountAllCallboard(){
+	public function CountAllCallboard($regDate){
 		$query = $this->createQueryBuilder('scb');
 		$query = $query->select('count(scb.id) as num');
-		$query = $query->Where('scb.deleteFlag = 0 ');
+		$query = $query->Where('scb.createtime > :regDate ');
+		$query = $query->andWhere('scb.deleteFlag = 0 ');
+		$query = $query->setParameter('regDate',$regDate);
 		$query =  $query->getQuery();
 		return $query->getResult();
 	}

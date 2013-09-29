@@ -59,6 +59,7 @@ class ApiController extends Controller
 		$em->persist($adwapi);
 		$em->flush();
 		$code = array('code'=>'','msg'=>'');
+    $issetOrderOcd = array();
 		$uid = $request->query->get('userinfo');
 		$adid = $request->query->get('extinfo');
 		$date = $request->query->get('date');
@@ -102,33 +103,41 @@ class ApiController extends Controller
               $cps_reward = intval($comm*$rewardRate*$rate);
               
             	$issetCpsInfo = $em->getRepository('JiliApiBundle:AdwOrder')->getCpsInfo($uid,$adid);
-            	if($issetCpsInfo[0]['ocd']){
-            		$cpsOrder = new AdwOrder();
-            		$cpsOrder->setUserId($uid);
-            		$cpsOrder->setAdId($adid);
-            		$cpsOrder->setCreateTime(date_create(date('Y-m-d H:i:s')));
-            		$cpsOrder->setHappenTime(date_create($happenTime));
-            		$cpsOrder->setAdwReturnTime(date_create(date('Y-m-d H:i:s')));
-            		$cpsOrder->setIncentiveType($type);
-            		$cpsOrder->setIncentive($cps_reward);
-            		$cpsOrder->setOcd($ocd);
-            		$cpsOrder->setComm($comm);
-            		$cpsOrder->setOrderPrice($totalPrice);
-            		$cpsOrder->setOrderStatus($this->container->getParameter('init_two'));
-            		$cpsOrder->setDeleteFlag($this->container->getParameter('init'));
-            		$em->persist($cpsOrder);
-            		$em->flush();
-                $parms = array(
-                    'orderId' => $cpsOrder->getId(),
-                    'userid' => $uid,
-                    'task_type' => $this->container->getParameter('init_one'),
-                    'categoryId' => $this->container->getParameter('init_two'),
-                    'taskName' => $issetCpsInfo[0]['title'],
-                    'point' => intval($cps_reward),
-                    'date' => $happenTime,
-                    'status' => $cpsOrder->getOrderStatus()
-                  );
-                $this->getTaskHistory($parms);   
+              if($issetCpsInfo[0]['ocd']){
+                      foreach ($issetCpsInfo as $key => $value) {
+                          $issetOrderOcd[] = $value['ocd']; 
+                      }
+                      if(in_array($ocd, $issetOrderOcd)){
+                        $code = 3;
+                      }else{
+                        $cpsOrder = new AdwOrder();
+                        $cpsOrder->setUserId($uid);
+                        $cpsOrder->setAdId($adid);
+                        $cpsOrder->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                        $cpsOrder->setHappenTime(date_create($happenTime));
+                        $cpsOrder->setAdwReturnTime(date_create(date('Y-m-d H:i:s')));
+                        $cpsOrder->setIncentiveType($type);
+                        $cpsOrder->setIncentive($cps_reward);
+                        $cpsOrder->setOcd($ocd);
+                        $cpsOrder->setComm($comm);
+                        $cpsOrder->setOrderPrice($totalPrice);
+                        $cpsOrder->setOrderStatus($this->container->getParameter('init_two'));
+                        $cpsOrder->setDeleteFlag($this->container->getParameter('init'));
+                        $em->persist($cpsOrder);
+                        $em->flush();
+                        $parms = array(
+                            'orderId' => $cpsOrder->getId(),
+                            'userid' => $uid,
+                            'task_type' => $this->container->getParameter('init_one'),
+                            'categoryId' => $this->container->getParameter('init_two'),
+                            'taskName' => $issetCpsInfo[0]['title'],
+                            'point' => intval($cps_reward),
+                            'date' => $happenTime,
+                            'status' => $cpsOrder->getOrderStatus()
+                          );
+                        $this->getTaskHistory($parms);  
+                        $code = 1 ;
+                      } 
             	}else{
             		$cpsOrder = $em->getRepository('JiliApiBundle:AdwOrder')->find($issetCpsInfo[0]['id']);
             		$cpsOrder->setComm($comm);
@@ -147,9 +156,9 @@ class ApiController extends Controller
                       'date' => $happenTime,
                       'status' => $this->container->getParameter('init_two')
                     );
-                $this->updateTaskHistory($parms);  
-            	}                 
-            	$code = 1;
+                $this->updateTaskHistory($parms); 
+                $code = 1;  
+            	}                
             }
 		}else{
 			$code = 2;

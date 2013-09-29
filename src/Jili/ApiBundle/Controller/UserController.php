@@ -1449,11 +1449,17 @@ class UserController extends Controller
 			foreach ($userCb as $keyCb => $valueCb) {
 				$userIsRead[$valueCb['sendCbId']] = $valueCb['sendCbId'];
 			}
+			$reg_date = $user->getRegisterDate()->format('Y-m-d H:i:s');
 			foreach ($sendCb as $key => $value) {	
-				if(array_key_exists($value['id'],$userIsRead))
-					$sendCb[$key]['isRead'] = $this->container->getParameter('init_one');
-				else
-					$sendCb[$key]['isRead'] = '';
+				if($value['createtime']->format('Y-m-d H:i:s') > $reg_date){
+					if(array_key_exists($value['id'],$userIsRead))
+						$sendCb[$key]['isRead'] = $this->container->getParameter('init_one');
+					else
+						$sendCb[$key]['isRead'] = '';
+				}else{
+					unset($sendCb[$key]);
+				}
+				
 			}
 			$arr['sendCb'] = $sendCb;
 			$paginator = $this->get('knp_paginator');
@@ -1484,7 +1490,8 @@ class UserController extends Controller
 		$notRead = $this->container->getParameter('init');
 		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
-		$countCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountAllCallboard();
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		$countCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountAllCallboard($user->getRegisterDate()->format('Y-m-d H:i:s'));
 		$countIsCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountIsReadCallboard($id);
 		$countMs = $this->countSendMs($id);
 		$notRead = intval($countMs[0]['num']) + intval($countCb[0]['num']) - intval($countIsCb[0]['num']);
