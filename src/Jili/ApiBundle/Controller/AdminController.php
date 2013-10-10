@@ -109,14 +109,12 @@ class AdminController extends Controller
     }
     
     //没有通过认证
-    private function noCertified($userId,$adid,$happentime,$ocd){
+    private function noCertified($userId,$adid,$ocd){
         $em = $this->getDoctrine()->getManager();
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
         if($advertiserment->getIncentiveType()==1)
             $ocd = '';
-        if($advertiserment->getIncentiveType()==2)
-            $happentime = '';
-        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$happentime,$ocd);
+        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd);
         if(empty($adworder)){
             return false;
         }else{
@@ -140,14 +138,14 @@ class AdminController extends Controller
         }
     }
     //已经认证
-    private function hasCertified($userId,$adid,$happentime,$ocd,$comm){
+    private function hasCertified($userId,$adid,$ocd,$comm){
         $em = $this->getDoctrine()->getManager();
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
         if($advertiserment->getIncentiveType()==1){
-            $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$happentime);
+            $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid);
         }
         if($advertiserment->getIncentiveType()==2){
-            $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,'',$ocd);
+            $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd);
         }
         if(empty($adworder)){
             return false;
@@ -161,15 +159,27 @@ class AdminController extends Controller
             $adworder->setOrderStatus($this->container->getParameter('init_three'));
             $em->persist($adworder);
             $em->flush();
-            $parms = array(
-              'userid' => $userId,
-              'orderId' => $adworder->getId(),
-              'taskType' => $this->container->getParameter('init_one'),
-              //'point' => $adworder->getIncentive(),
-              'point' => intval($comm*$taskPercent['rewardPercent']),
-              'date' => date('Y-m-d H:i:s'),
-              'status' => $this->container->getParameter('init_three')
-            );
+            if($adworder->getIncentiveType()==1){
+                $parms = array(
+                'userid' => $userId,
+                'orderId' => $adworder->getId(),
+                'taskType' => $this->container->getParameter('init_one'),
+                'point' => $adworder->getIncentive(),
+                'date' => date('Y-m-d H:i:s'),
+                'status' => $this->container->getParameter('init_three')
+              );
+            }
+            if($adworder->getIncentiveType()==2){
+                $parms = array(
+                'userid' => $userId,
+                'orderId' => $adworder->getId(),
+                'taskType' => $this->container->getParameter('init_one'),
+                'point' => intval($comm*$taskPercent['rewardPercent']),
+                'date' => date('Y-m-d H:i:s'),
+                'status' => $this->container->getParameter('init_three')
+              );
+            }
+           
             $this->updateTaskHistory($parms);  
             if($adworder->getIncentiveType()==1){
                 $limitAd = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adid);
@@ -347,14 +357,14 @@ class AdminController extends Controller
         $em->flush();
     }
     
-    private function getStatus($uid,$aid,$happentime,$ocd){
+    private function getStatus($uid,$aid,$ocd){
         $em = $this->getDoctrine()->getManager();
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
         if($advertiserment->getIncentiveType()==1){
-            $adwStatus = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($uid,$aid,$happentime);
+            $adwStatus = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($uid,$aid);
         }
         if($advertiserment->getIncentiveType()==2){
-            $adwStatus = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($uid,$aid,'',$ocd);
+            $adwStatus = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($uid,$aid,$ocd);
         }
         if(empty($adwStatus))
             return true;
@@ -390,14 +400,14 @@ class AdminController extends Controller
                     $ocd = explode("'",$v[3]);
                     $adid = explode("'",$v[7]);
                     $userId = explode("'",$v[8]);
-                    if($this->getStatus($userId[1],$adid[1],$v[2],$ocd[1])){
+                    if($this->getStatus($userId[1],$adid[1],$ocd[1])){
                         if($status == $this->container->getParameter('nothrough')){
-                            if(!$this->noCertified($userId[1],$adid[1],$v[2],$ocd[1])){
+                            if(!$this->noCertified($userId[1],$adid[1],$ocd[1])){
                                 $code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
                             }
                         }
                         if($status == $this->container->getParameter('certified')){
-                            if(!$this->hasCertified($userId[1],$adid[1],$v[2],$ocd[1],$v[5])){
+                            if(!$this->hasCertified($userId[1],$adid[1],$ocd[1],$v[5])){
                                 $code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
                             }
                         }
@@ -441,14 +451,14 @@ class AdminController extends Controller
                     $adid = explode("'",$v[7]);
                     $userId = explode("'",$v[8]);
                     $ocd = '';
-                    if($this->getStatus($userId[1],$adid[1],$v[2],$ocd)){
+                    if($this->getStatus($userId[1],$adid[1],$ocd)){
                         if($status == $this->container->getParameter('nothrough')){
-                            if(!$this->noCertified($userId[1],$adid[1],$v[2],$ocd)){
+                            if(!$this->noCertified($userId[1],$adid[1],$ocd)){
                                 $code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
                             }
                         }
                         if($status == $this->container->getParameter('certified')){
-                            if(!$this->hasCertified($userId[1],$adid[1],$v[2],$ocd,$v[4])){
+                            if(!$this->hasCertified($userId[1],$adid[1],$ocd,$v[4])){
                                 $code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
                             }
                         }

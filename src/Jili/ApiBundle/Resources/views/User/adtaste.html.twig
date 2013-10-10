@@ -20,17 +20,17 @@ $(document).ready(function() {
     $("div article .screen a").removeClass("hover"); 
     if(url){
     	switch(url){
-        case "0":
-            $("div article .screen a:last").addClass("hover"); 
+        case "0":   
+            $("div article .screen a:first").addClass("hover");
             break;
         case "1":
-            $("div article .screen a:first").addClass("hover"); 
+             $("div article .screen a:eq(1)").addClass("hover");
             break;
         case "2":
-            $("div article .screen a:eq(1)").addClass("hover");
+            $("div article .screen a:eq(2)").addClass("hover"); 
             break; 
         case "3":
-            $("div article .screen a:eq(2)").addClass("hover"); 
+            $("div article .screen a:last").addClass("hover"); 
             break;
        default:
         	location.href="{{ path('_user_adtaste',{'type': 0}) }}";
@@ -69,10 +69,11 @@ function addClass(type){
   <article>
   	<div class="screen">
     <p class="prompt">*&nbsp;商家审核需要8周，判定有效后立即到账（退货无返利）</p>
-  	<a href="javascript:void(0);" class="hover" onclick="addClass(1);return false;">近3个月</a>
-  	<a href="javascript:void(0);" onclick="addClass(2);return false;">过去6个月内</a>
-  	<a href="javascript:void(0);" onclick="addClass(3);return false;">过去1年内</a>
-  	<a href="javascript:void(0);" onclick="addClass(0);return false;">全部</a>
+    <a href="javascript:void(0);" class="hover"  onclick="addClass(0);return false;">全部</a>
+  	<a href="javascript:void(0);" onclick="addClass(1);return false;">确认中</a>
+  	<a href="javascript:void(0);" onclick="addClass(2);return false;">已完成</a>
+  	<a href="javascript:void(0);" onclick="addClass(3);return false;">已拒绝</a>
+  	
   	</div>
     <table>
     	<tr>
@@ -106,12 +107,12 @@ function addClass(type){
                   {% if item.orderStatus==1  %} 已参加
                   {% elseif item.orderStatus==2  %} 确认中
                   {% elseif item.orderStatus==3  %} 已完成
-                  {% elseif item.orderStatus==4  %} 任务失败
+                  {% elseif item.orderStatus==4  %} 已拒绝
                   {% else %}{% endif %}
                   {% else %}
                   {% if item.orderStatus==0  %} 确认中
                   {% elseif item.orderStatus==1  %} 已完成
-                  {% else %} 任务失败
+                  {% else %} 已拒绝
                   {% endif %}
               {% endif %}
           </td>
