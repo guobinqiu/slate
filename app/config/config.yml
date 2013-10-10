@@ -133,7 +133,7 @@ parameters:
     game_attend: 游戏全勤
     game_attend: 游戏全勤
     certified: 已认证
-    nothrough: 未通过
+    nothrough: 已拒绝
     reg_en_mail: 请输入邮箱地址
     reg_wr_mail: 邮箱地址格式不正确
     reg_noal_mail: 邮箱地址未激活，请重新
