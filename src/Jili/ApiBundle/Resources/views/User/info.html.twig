@@ -408,7 +408,7 @@ function selectCity(){
     <div class="content ad">
     {% if adtasteNum > 0 %}
       <p class="prompt">*&nbsp;商家审核需要8周，判定有效后立即到账（退货无返利）</p>
-      <a href="{{ asset(path('_user_adtaste',{'type': 1}),'cdn1') }}" class="more edit">更多 »</a>
+      <a href="{{ asset(path('_user_adtaste',{'type': 0}),'cdn1') }}" class="more edit">更多 »</a>
     {% endif %}
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -442,12 +442,12 @@ function selectCity(){
                   {% if item.orderStatus==1  %} 已参加
                   {% elseif item.orderStatus==2  %} 确认中
                   {% elseif item.orderStatus==3  %} 已完成
-                  {% elseif item.orderStatus==4  %} 任务失败
+                  {% elseif item.orderStatus==4  %} 已拒绝
                   {% else %}{% endif %}
               {% else %}
                   {% if item.orderStatus==0  %} 确认中
                   {% elseif item.orderStatus==1  %} 已完成
-                  {% else %} 任务失败
+                  {% else %} 已拒绝
                   {% endif %}
               {% endif %}
           </td>

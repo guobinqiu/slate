@@ -17,28 +17,22 @@ class TaskHistoryRepository extends EntityRepository
 	}
 	public function getUseradtaste($id,$option=array())
 	{
-		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
-		$monthdate =  date("Y-m-d H:i:s", strtotime(' -6 month'));
-		$yeardate =  date("Y-m-d H:i:s", strtotime(' -1 year'));
 		$query = $this->createQueryBuilder('to');
 		$query = $query->select('to.userId,to.orderId,to.date as createTime,to.taskType as type,to.status as orderStatus,to.categoryType as incentiveType,to.point as incentive,to.taskName as title,adc.displayName');
 		$query = $query->innerJoin('JiliApiBundle:AdCategory', 'adc', 'WITH', 'to.categoryType = adc.id');
 		$query = $query->Where('to.userId = :id');
-		if($option['daytype']){
-			switch($option['daytype']){
+		if($option['status']){
+			switch($option['status']){
 			    case 0:
 			    	break;	
 			    case 1:
-			    	$query = $query->andWhere('to.date > :daydate');
-			    	$query = $query->setParameter('daydate',$daydate);
+			    	$query = $query->andWhere('(to.status = 2  and to.taskType = 1) or to.status = 0');
 			        break;
 			    case 2:
-			    	$query = $query->andWhere('to.date > :monthdate');
-			    	$query = $query->setParameter('monthdate',$monthdate);
+			    	$query = $query->andWhere('to.status = 3 or (to.status = 1 and to.taskType > 1)');
 			    	break;    
 			    case 3:
-			    	$query = $query->andWhere('to.date > :yeardate');
-			    	$query = $query->setParameter('yeardate',$yeardate);
+			    	$query = $query->andWhere('to.status = 4 or (to.status = 2 and to.taskType > 1)');
 			    	break;
 			}
 		}

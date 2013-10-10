@@ -600,14 +600,10 @@ class UserController extends Controller
 		$disarea = '';
 		$usercomes = '';
 		$userProHobby = '';
-		$daydate =  date("Y-m-d H:i:s", strtotime(' -90 day'));
+		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
 		$request = $this->get('request');
 		$id = $request->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
-		// $isuserinfo = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($id);
-		// if($isuserinfo){
-		// 	$existUserinfo = $this->container->getParameter('init_one');
-		// }
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		if($user->getHobby()){
 			$userProHobby = explode(",",$user->getHobby());
@@ -630,16 +626,17 @@ class UserController extends Controller
 		$hobbyList = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
 		$province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
 		$income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
-		$option = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
+		$option = array('status' => 0 ,'offset'=>'1','limit'=>'10');
+		$option_ex = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 		$adtaste = $this->selTaskHistory($id,$option);
 		foreach ($adtaste as $key => $value) {
-			if($value['incentive']==0 || $value['orderStatus'] == 1 || strtotime($value['createTime']->format('Y-m-d H:i:s')) < strtotime($daydate)){
+			if($value['incentive']==0 || ($value['orderStatus'] == 1 && $value['type'] ==1)){
 				unset($adtaste[$key]);
 			}
 		}
 		$adtasteNum = count($adtaste);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
-		$exchange = $exchange->getUserExchange($id,$option);
+		$exchange = $exchange->getUserExchange($id,$option_ex);
 		$sex = $request->request->get('sex');
 		$tel = $request->request->get('tel');
 		$year = $request->request->get('year');
@@ -1304,16 +1301,12 @@ class UserController extends Controller
 	 * @Route("/adtaste/{type}", name="_user_adtaste")
 	 */
 	public function adtasteAction($type){
-		$daydate =  date("Y-m-d H:i:s", strtotime(' -90 day'));
 		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
-		$option = array('daytype' => $type ,'offset'=>'','limit'=>'');
+		$option = array('status' => $type ,'offset'=>'','limit'=>'');
 		$adtaste = $this->selTaskHistory($id,$option);
 		foreach ($adtaste as $key => $value) {
-			// if(($value['incentive']==0 || $value['orderStatus'] == 1) && strtotime($value['createTime']->format('Y-m-d H:i:s')) < strtotime($daydate)){
-			// 	unset($adtaste[$key]);
-			// }
-			if($value['incentive']==0 || $value['orderStatus'] == 1 || strtotime($value['createTime']->format('Y-m-d H:i:s')) < strtotime($daydate)){
+			if($value['incentive']==0 || ($value['orderStatus'] == 1 && $value['type'] ==1)){
 				unset($adtaste[$key]);
 			}
 		}
