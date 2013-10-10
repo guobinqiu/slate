@@ -42,26 +42,33 @@ class AdwOrderRepository extends EntityRepository
 		return count($query->getResult());
 	}
 	
-	public function getOrderStatus($uid,$aid,$happentime){
+	public function getOrderStatus($uid,$aid,$happentime='',$ocd=''){
 		$parameters = array();
 		$query = $this->createQueryBuilder('ao');
 		$query = $query->select('ao.id,ao.incentiveType,ao.orderStatus,ao.confirmTime');
 		$query = $query->Where('ao.userid = :id');
 		$query = $query->andWhere('ao.adid = :adid');
-		$query = $query->andWhere('ao.happenTime = :happentime');
 		$query = $query->andWhere("ao.orderStatus in (3,4)");
-		$parameters = array('id'=>$uid,'adid'=>$aid,'happentime'=>$happentime);
+		$parameters = array('id'=>$uid,'adid'=>$aid);
+		if($happentime){
+        	$query = $query->andWhere('ao.happenTime = :happentime');
+        	$parameters['happentime'] = $happentime;
+        }
+        if($ocd){
+        	$query = $query->andWhere('ao.ocd = :ocd');
+        	$parameters['ocd'] = $ocd;
+        }
 		$query = $query->setParameters($parameters);
 		$query = $query->getQuery();
 		return $query->getResult();
 		
 	}
 	
-	public function getOrderInfo($userid,$adid,$happentime=null,$status=null)
+	public function getOrderInfo($userid,$adid,$happentime='',$ocd='',$status='')
 	{
 		$parameters = array();
 		$query = $this->createQueryBuilder('ao');
-        $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime,a.title');
+        $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime,ao.ocd,a.title');
         $query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
         $query = $query->Where('ao.userid = :id');
         $query = $query->andWhere('ao.adid = :adid');
@@ -69,6 +76,10 @@ class AdwOrderRepository extends EntityRepository
         if($happentime){
         	$query = $query->andWhere('ao.happenTime = :happentime');
         	$parameters['happentime'] = $happentime;
+        }
+        if($ocd){
+        	$query = $query->andWhere('ao.ocd = :ocd');
+        	$parameters['ocd'] = $ocd;
         }
         if($status){
         	$query = $query->andWhere('ao.orderStatus = :status');
