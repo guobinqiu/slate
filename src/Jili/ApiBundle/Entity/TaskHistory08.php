@@ -56,6 +56,13 @@ class TaskHistory08
      */
     private $taskName;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="reward_percent", type="float")
+     */
+    private $rewardPercent;
+
      /**
      * @var integer
      *
@@ -204,6 +211,29 @@ class TaskHistory08
     public function getTaskName()
     {
     	return $this->taskName;
+    }
+
+    /**
+     * Set rewardPercent
+     *
+     * @param float $rewardPercent
+     * @return TaskHistory08
+     */
+    public function setRewardPercent($rewardPercent)
+    {
+        $this->rewardPercent = $rewardPercent;
+    
+        return $this;
+    }
+    
+    /**
+     * Get rewardPercent
+     *
+     * @return float
+     */
+    public function getRewardPercent()
+    {
+        return $this->rewardPercent;
     }
 
     /**

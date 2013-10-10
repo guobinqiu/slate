@@ -6,6 +6,15 @@ use Doctrine\ORM\EntityRepository;
 
 class TaskHistoryRepository extends EntityRepository
 {
+	public function getTaskPercent($orderId){
+		$query = $this->createQueryBuilder('to');
+		$query = $query->select('to.rewardPercent');
+		$query = $query->Where('to.orderId = :orderId');
+		$query = $query->andWhere('to.taskType = 1');
+		$query = $query->setParameter('orderId',$orderId);
+		$query = $query->getQuery();
+		return $query->getResult();
+	}
 	public function getUseradtaste($id,$option=array())
 	{
 		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));

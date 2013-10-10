@@ -72,7 +72,7 @@ class ApiController extends Controller
 		$order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid);
 		if($order){
             if($type==1){
-            	$issetStauts = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid,$happenTime,$this->container->getParameter('init_two'));
+            	$issetStauts = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid,null,$this->container->getParameter('init_two'));
             	if($issetStauts){
             		$code = 5;
             	}else{
@@ -86,6 +86,7 @@ class ApiController extends Controller
                       'userid' => $uid,
                       'orderId' => $issetOrder->getId(),
                       'taskType' => $this->container->getParameter('init_one'),
+                      'reward_percent' => '',
                       'point' => $issetOrder->getIncentive(),
                       'date' => $happenTime,
                       'status' => $issetOrder->getOrderStatus()
@@ -100,8 +101,8 @@ class ApiController extends Controller
               $user_rate = $users->getRewardMultiple();
               $campaign_multiple = $this->container->getParameter('campaign_multiple');
               $rate = $user_rate > $campaign_multiple ? $user_rate : $campaign_multiple;
-              $cps_reward = intval($comm*$rewardRate*$rate);
-              
+              $reward_percent = $rewardRate*$rate;
+              $cps_reward = intval($comm*$reward_percent);
             	$issetCpsInfo = $em->getRepository('JiliApiBundle:AdwOrder')->getCpsInfo($uid,$adid);
               if($issetCpsInfo[0]['ocd']){
                       foreach ($issetCpsInfo as $key => $value) {
@@ -131,7 +132,8 @@ class ApiController extends Controller
                             'task_type' => $this->container->getParameter('init_one'),
                             'categoryId' => $this->container->getParameter('init_two'),
                             'taskName' => $issetCpsInfo[0]['title'],
-                            'point' => intval($cps_reward),
+                            'reward_percent' => $reward_percent,
+                            'point' => $cps_reward,
                             'date' => $happenTime,
                             'status' => $cpsOrder->getOrderStatus()
                           );
@@ -152,7 +154,8 @@ class ApiController extends Controller
                       'userid' => $uid,
                       'orderId' => $order[0]['id'],
                       'taskType' => $this->container->getParameter('init_one'),
-                      'point' => intval($cps_reward),
+                      'reward_percent' => $reward_percent,
+                      'point' => $cps_reward,
                       'date' => $happenTime,
                       'status' => $this->container->getParameter('init_two')
                     );
@@ -216,6 +219,7 @@ class ApiController extends Controller
                                         'task_type' => $this->container->getParameter('init_three'),
                                         'categoryId' => $this->container->getParameter('init_four'),
                                         'taskName' => $this->container->getParameter('game_type'),
+                                        'reward_percent' => '',
                                         'point' => $massPoint,
                                         'date' => $this->getDateTime($time),
                                         'status' => $this->container->getParameter('init_one')
@@ -230,6 +234,7 @@ class ApiController extends Controller
                                         'task_type' => $this->container->getParameter('init_three'),
                                         'categoryId' => $this->container->getParameter('init_five'),
                                         'taskName' => $this->container->getParameter('game_type'),
+                                        'reward_percent' => '',
                                         'point' => $goalPoint,
                                         'date' => $this->getDateTime($time),
                                         'status' => $this->container->getParameter('init_one')
@@ -244,6 +249,7 @@ class ApiController extends Controller
                                         'task_type' => $this->container->getParameter('init_three'),
                                         'categoryId' => $this->container->getParameter('init_six'),
                                         'taskName' => $this->container->getParameter('game_type'),
+                                        'reward_percent' => '',
                                         'point' => $rankingPoint,
                                         'date' => $this->getDateTime($time),
                                         'status' => $this->container->getParameter('init_one')
@@ -258,6 +264,7 @@ class ApiController extends Controller
                                         'task_type' => $this->container->getParameter('init_three'),
                                         'categoryId' => $this->container->getParameter('init_seven'),
                                         'taskName' => $this->container->getParameter('game_type'),
+                                        'reward_percent' => '',
                                         'point' => $attendancePoint,
                                         'date' => $this->getDateTime($time),
                                         'status' => $this->container->getParameter('init_one')
@@ -345,6 +352,7 @@ class ApiController extends Controller
                           'task_type' => $this->container->getParameter('init_two'),
                           'categoryId' => $this->container->getParameter('init_three'),
                           'taskName' => $this->container->getParameter('game_type'),
+                          'reward_percent' => '',
                           'point' => $point,
                           'date' => $confireTime,
                           'status' => $status
@@ -375,6 +383,7 @@ class ApiController extends Controller
                               'userid' => $point_uid,
                               'orderId' => $pag[0]->getId(),
                               'taskType' => $this->container->getParameter('init_two'),
+                              'reward_percent' => '',
                               'point' => $point,
                               'date' => $confireTime,
                               'status' => $status
@@ -493,6 +502,7 @@ class ApiController extends Controller
       $task_order = $task->getFindOrderId($orderId,$taskType);
       $po = $task->findById($task_order[0]['id']);
       $po[0]->setDate(date_create($date));
+      $po[0]->setRewardPercent($reward_percent);
       $po[0]->setPoint($point);
       $po[0]->setStatus($status);
       $em->persist($po[0]);
@@ -545,6 +555,7 @@ class ApiController extends Controller
       $po->setTaskType($task_type);
       $po->setCategoryType($categoryId);
       $po->setTaskName($taskName);
+      $po->setRewardPercent($reward_percent);
       $po->setPoint($point);
       $po->setDate(date_create($date));
       $po->setStatus($status);
