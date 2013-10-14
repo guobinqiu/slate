@@ -20,12 +20,7 @@ $(document).ready(function(){
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle exchange">
-<div class="about"><img src="{{ asset('images/exchange.jpg')}}" width="875" height="640" usemap="#Map">
-      <map name="Map">
-        <area shape="rect" coords="661,618,759,637" href="https://www.91wenwen.net/signup/profile" target="_blank">
-      </map>
- </div>
-    <div class="btnArea"><a href="{{ path('_exchange_info') }}"><img src="{{ asset('images/exchangeBtn.jpg')}}"></a></div>
+	<div class="about"><a class="exchangeBtn wenwen" href="{{ path('_exchange_info') }}">立即兑换</a><a class="await mobiel">即将开放</a><img src="{{ asset('images/exchangeContent.jpg')}}" width="813" height="270"><img src="{{ asset('images/exchangeFuture.jpg')}}" width="830" height="480"></div>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>

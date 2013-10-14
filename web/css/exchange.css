@@ -3,10 +3,40 @@
 }
 .exchange .about{
 	text-align:center;
+	position:relative;
+}
+.exchange .about a.exchangeBtn{
+	background-image: url("../images/exchange_91ww_btn.gif");
+    background-position: 0 0;
+    display: inline-block;
+    height: 36px;
+    width: 112px;
+	font-size: 0;
+	position:absolute;
+}
+.exchange .about a.exchangeBtn:hover{
+	background-position:0px 36px;
+}
+.exchange .about a.await{
+	background-image:url(../images/exchange_mobile_unavailable_btn.gif);
+	background-position: 0 0;
+    display: inline-block;
+    height: 36px;
+    width: 112px;
+	font-size: 0;
+	position:absolute;
+}
+.exchange .about a.wenwen{
+	left: 213px;
+    top: 355px;
+}
+.exchange .about a.mobiel{
+	right: 132px;
+    top: 440px;
 }
 .exchange .btnArea{
 	text-align:center;
-	margin:50px 0 0 0;
+	margin:30px 0 0 0;
 }
 .exchange h2{
 	font-size:18px;
