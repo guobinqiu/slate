@@ -73,7 +73,7 @@ class MarketActivityRepository extends EntityRepository
 			$query = $query->andWhere('ma.aid = :aid');
 			$query = $query->setParameter('aid',$aid);
 		}
-		$query = $query->orderBy('ma.id','DESC');
+		$query = $query->orderBy('ma.startTime','DESC');
 		$query =  $query->getQuery();
 		return $query->getResult();
 	}
