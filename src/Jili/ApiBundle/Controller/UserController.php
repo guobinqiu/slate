@@ -630,7 +630,7 @@ class UserController extends Controller
 		$option_ex = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 		$adtaste = $this->selTaskHistory($id,$option);
 		foreach ($adtaste as $key => $value) {
-			if($value['incentive']==0 || ($value['orderStatus'] == 1 && $value['type'] ==1)){
+			if($value['orderStatus'] == 1 && $value['type'] ==1){
 				unset($adtaste[$key]);
 			}
 		}
@@ -1306,7 +1306,7 @@ class UserController extends Controller
 		$option = array('status' => $type ,'offset'=>'','limit'=>'');
 		$adtaste = $this->selTaskHistory($id,$option);
 		foreach ($adtaste as $key => $value) {
-			if($value['incentive']==0 || ($value['orderStatus'] == 1 && $value['type'] ==1)){
+			if($value['orderStatus'] == 1 && $value['type'] ==1){
 				unset($adtaste[$key]);
 			}
 		}
