@@ -56,7 +56,7 @@ $(document).ready(function() {
         <ul class="activityAll">
         {% for item in busi %}
              {% if date(item.startTime) < date() and  date(item.endTime) > date() %}
-                 <li><img src="{{ asset(item.activityImage) }}" width="470" height="200"><div class="more"><h4>{{ item.businessName }}</h4><a class="moreBtn" href="{{ path('_marketActivity_index',{'id': item.id }) }}" target="_blank">查看详情>></a></div></li>
+                 <li><img src="{{ asset(item.activityImage) }}" width="470" height="200"><div class="more"><h4>{{ item.businessName }}</h4><a class="moreBtn" href="{{ path('_marketActivity_info',{'id': item.id }) }}" target="_blank">查看详情>></a></div></li>
             {% endif %}
          {% endfor %}
         </ul>
