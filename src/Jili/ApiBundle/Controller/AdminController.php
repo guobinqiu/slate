@@ -6,6 +6,7 @@ use Jili\ApiBundle\Entity\RateAdResult;
 use Jili\ApiBundle\Entity\LimitAdResult;
 use Jili\ApiBundle\Form\EditBannerType;
 use Jili\ApiBundle\Form\AddAdverType;
+use Jili\ApiBundle\Form\AddBusinessActivityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -22,6 +23,8 @@ use Jili\ApiBundle\Entity\RateAd;
 use Jili\ApiBundle\Entity\TaskOrder;
 use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\ApiBundle\Entity\SendCallboard;
+use Jili\ApiBundle\Entity\ActivityCategory;
+use Jili\ApiBundle\Entity\MarketActivity;
 use Jili\ApiBundle\Entity\PointHistory00;
 use Jili\ApiBundle\Entity\PointHistory01;
 use Jili\ApiBundle\Entity\PointHistory02;
@@ -46,12 +49,12 @@ use Jili\ApiBundle\Entity\SendMessage09;
 class AdminController extends Controller
 {
     private function getAdminIp(){
-        if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
-            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
-            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_vpn_ip'))
+        // if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
+        //     $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
+        //     $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_vpn_ip'))
             return false;
-        else
-            return true;
+        // else
+        //     return true;
           
     }
     /**
@@ -1766,6 +1769,265 @@ class AdminController extends Controller
                     ));
      }
 
+    /**
+     * @Route("/addActivityCategory", name="_admin_addActivityCategory")
+     */
+    public function addActivityCategoryAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $codeflag = $this->container->getParameter('init');
+        $actCategory = new ActivityCategory();
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $categoryName = $request->request->get('category');
+        if ($request->getMethod() == 'POST') {
+            if($categoryName){
+                $actCategory->setCategory($categoryName);
+                $em->persist($actCategory);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_infoActivityCategory'));
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:addActivityCategory.html.twig',array('codeflag'=>$codeflag));           
+
+    }
+
+    /**
+     * @Route("/editActivityCategory/{id}", name="_admin_editActivityCategory")
+     */
+    public function editActivityCategoryAction($id)
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $codeflag = $this->container->getParameter('init');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->find($id);
+        $categoryName = $request->request->get('category');
+        if ($request->getMethod() == 'POST') {
+            if($categoryName){
+                $actCategory->setCategory($categoryName);
+                $em->persist($actCategory);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_infoActivityCategory'));
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:editActivityCategory.html.twig',array(
+                    'actCategory'=>$actCategory,
+                    'codeflag'=>$codeflag
+                    ));
+    
+    }
+
+     /**
+     * @Route("/infoActivityCategory", name="_admin_infoActivityCategory")
+     */
+    public function infoActivityCategoryAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($actCategory,
+                $request->query->get('page', 1), $this->container->getParameter('page_num'));
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:infoActivityCategory.html.twig',$arr);              
+
+    }
+
+    /**
+     * @Route("/delActivityCategory/{id}", name="_admin_delActivityCategory")
+     */
+    public function delActivityCategoryAction($id)
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $em = $this->getDoctrine()->getManager();
+        $activityCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->find($id);
+        $em->remove($activityCategory);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoActivityCategory'));
+    }
+
+    /**
+   * @Route("/getAdver",name="_businessActivity_getAdver")
+   */
+  public function getAdverAction()
+  {
+    $request = $this->get('request');
+    $name = $request->query->get('name');
+    $em = $this->getDoctrine()->getManager();
+    $adverName = $em->getRepository('JiliApiBundle:Advertiserment')->getCpsSearchAd($name);
+    if($adverName){
+      foreach ($adverName as $key => $value){
+        $arr[] = array('id'=>$value['id'],'name'=>$value['title']);
+      }
+      return new Response(json_encode($arr));
+    }else{
+      return new Response('');
+    }
+    
+  }
+
+    /**
+     * @Route("/addBusinessActivity", name="_admin_addBusinessActivity")
+     */
+    public function addBusinessActivityAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $code ='';
+        $codeflag = $this->container->getParameter('init');
+        $business = new MarketActivity();
+        $form  = $this->createForm(new AddBusinessActivityType(),$business);
+        $em = $this->getDoctrine()->getManager();
+        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAllCps(2);
+        $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
+        $request = $this->get('request');
+        $actId = $request->request->get('actId');
+        $category = $request->request->get('category');
+        $businessName = $request->request->get('businessname');
+        $startTime = $request->request->get('start_time');
+        $endTime = $request->request->get('end_time');
+        $url = $request->request->get('url');
+        if ($request->getMethod() == 'POST') {
+             if($actId && $startTime && $endTime && $businessName && $url && $category){ 
+                $form->bind($request);
+                $category = implode(",",$category);
+                $path =  $this->container->getParameter('upload_activity_dir');
+                $business->setAid($actId);
+                $business->setBusinessName($businessName);
+                $business->setCategoryId($category);
+                $business->setActivityUrl($url);
+                $business->setStartTime(date_create($startTime));
+                $business->setEndTime(date_create($endTime));
+                $em->persist($business);
+                $code = $business->upload($path);
+                if(!$code){
+                    $em->flush();
+                    return $this->redirect($this->generateUrl('_admin_infoBusinessActivity'));
+                }  
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:addBusinessActivity.html.twig',
+                    array('code'=>$code,
+                          'codeflag'=>$codeflag,
+                          'adver'=>$adver,
+                          'actCategory'=>$actCategory,
+                          'form' => $form->createView(),
+                          'businessName'=>$businessName,
+                          'url'=>$url,
+                          'start_time'=>$startTime,
+                          'end_time'=>$endTime));           
+
+    }
+
+
+    /**
+     * @Route("/infoBusinessActivity", name="_admin_infoBusinessActivity")
+     */
+    public function infoBusinessActivityAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $business = $em->getRepository('JiliApiBundle:MarketActivity')->getAllBusinessList();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($business,
+                $request->query->get('page', 1), $this->container->getParameter('page_num'));
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:infoBusinessActivity.html.twig',$arr);
+         
+    }
+
+     /**
+     * @Route("/editBusinessActivity/{id}", name="_admin_editBusinessActivity")
+     */
+    public function editBusinessActivityAction($id)
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $code ='';
+        $codeflag = $this->container->getParameter('init');
+        $em = $this->getDoctrine()->getManager();
+        $business = $em->getRepository('JiliApiBundle:MarketActivity')->find($id);
+        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAllCps(2);
+        $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
+        $newCategory = explode(",",$business->getCategoryId());
+        $form  = $this->createForm(new AddBusinessActivityType(),$business);
+        $request = $this->get('request');
+        $actId = $request->request->get('actId');
+        $category = $request->request->get('category');
+        $businessName = $request->request->get('businessname');
+        $startTime = $request->request->get('start_time');
+        $endTime = $request->request->get('end_time');
+        $url = $request->request->get('url');
+        if ($request->getMethod() == 'POST') {
+             if($actId && $startTime && $endTime && $businessName && $url && $category){ 
+                $form->bind($request);
+                $path =  $this->container->getParameter('upload_activity_dir');
+                $category = implode(",",$category);
+                $business->setAid($actId);
+                $business->setBusinessName($businessName);
+                $business->setCategoryId($category);
+                $business->setActivityUrl($url);
+                $business->setStartTime(date_create($startTime));
+                $business->setEndTime(date_create($endTime));
+                $em->persist($business);
+                $code = $business->editupload($path);
+                if(!$code){
+                    $em->flush();
+                    return $this->redirect($this->generateUrl('_admin_infoBusinessActivity'));
+                }  
+            }else{
+                $codeflag = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:editBusinessActivity.html.twig',
+                    array(
+                          'business'=>$business,
+                          'code'=>$code,
+                          'codeflag'=>$codeflag,
+                          'actId'=>$actId,
+                          'adver'=>$adver,
+                          'category'=>$category,
+                          'actCategory'=>$actCategory,
+                          'newCategory'=>$newCategory,
+                          'form' => $form->createView(),
+                          'businessName'=>$businessName,
+                          'url'=>$url,
+                          'start_time'=>$startTime,
+                          'end_time'=>$endTime));           
+
+    }
+
+     /**
+     * @Route("/delBusinessActivity/{id}", name="_admin_delBusinessActivity")
+     */
+    public function delBusinessActivityAction($id)
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $em = $this->getDoctrine()->getManager();
+        $business = $em->getRepository('JiliApiBundle:MarketActivity')->find($id);
+        $business->setDeleteFlag($this->container->getParameter('init_one'));
+        $em->persist($business);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoBusinessActivity'));
+    }
+    
 
      private function insertSendMs($parms=array()){
       extract($parms);

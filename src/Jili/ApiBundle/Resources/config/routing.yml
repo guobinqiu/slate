@@ -34,3 +34,7 @@ game:
     resource: "@JiliApiBundle/Controller/GameController.php"
     prefix:   /game
     type:     annotation
+marketActivity:
+    resource: "@JiliApiBundle/Controller/MarketActivityController.php"
+    prefix:   /marketActivity
+    type:     annotation
