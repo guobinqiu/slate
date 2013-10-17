@@ -35,8 +35,8 @@ $(document).ready(function(){
          {% for item in pagination %}
         <tr>
           <td align="center">{{ item.businessName }} </td>
-          <td align="center">{{ item.startTime.date | date('Y-m-d') }}</td>
-          <td align="center">{{ item.endTime.date | date('Y-m-d') }}</td>
+          <td align="center">{{ item.startTime.date | date('Y-m-d H:i:s') }}</td>
+          <td align="center">{{ item.endTime.date | date('Y-m-d H:i:s') }}</td>
           <td align="center"><img src="{{ asset(item.activityImage)}}"/></td>
           <td align="center"><a href="{{ path('_admin_editBusinessActivity',{'id':item.id}) }}">编辑</a>&nbsp;&nbsp;
           <a href="{{ path('_admin_delBusinessActivity',{'id':item.id}) }}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a>
