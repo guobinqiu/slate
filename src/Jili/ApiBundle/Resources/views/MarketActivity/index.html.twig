@@ -14,16 +14,41 @@
 <script src="{{ asset('js/analytics.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-  
- {% if aid == 0 %}
-    $('#mall').addClass("hover");
-  {% else %}
-      {% if cateId == 0 %}
+  var url = window.location.href;
+  url = url.split("marketActivity/index/");
+  if(url[1]){
+    id = url[1].split("/");
+    if(id[0].indexOf('?page=')>0){
+      mall = id[0].split("?page=");
+      $('.tags a').removeClass("hover");
+      $('.btags a').removeClass("hover");
+      $('#mall'+mall[0]).addClass("hover");
+    }else{
+      if(id[1]){
+          if(id[1].indexOf('?page=')>0){
+            cate = id[1].split("?page=");
             $('.tags a').removeClass("hover");
             $('.btags a').removeClass("hover");
-            $('#mall'+{{ aid }}).addClass("hover");
-      {% else %}
-      {% endif %}   
+            $('#mall'+id[0]).addClass("hover");
+            $('#cate'+cate[0]).addClass("hover");
+          }else{
+            $('.tags a').removeClass("hover");
+            $('.btags a').removeClass("hover");
+            $('#mall'+id[0]).addClass("hover");
+            $('#cate'+id[1]).addClass("hover");
+          }
+      }else{
+        $('.tags a').removeClass("hover");
+        $('.btags a').removeClass("hover");
+        $('#mall'+id[0]).addClass("hover");
+        $('#cate'+id[1]).addClass("hover");
+
+      }
+      
+    }
+  }
+ {% if aid == 0 %}
+    $('#mall').addClass("hover");
  {% endif %}
  {% if cateId == 0 %}
     $('#cate').addClass("hover");
