@@ -20,15 +20,34 @@ class MarketActivityRepository extends EntityRepository
 		return $query->getResult();
 	}
 
-	public function nowCate(){
+	public function existMarket($id){
+		$date = date('Y-m-d H:i:s');
+		$query = $this->createQueryBuilder('ma');
+		$query = $query->select('ma.aid,ma.activityUrl');
+		$query = $query->Where('ma.deleteFlag is null');
+		$query = $query->andWhere('ma.startTime <= :startTime');
+		$query = $query->andWhere('ma.endTime >= :endTime');
+		$query = $query->andWhere('ma.id = :id');
+		$query = $query->setParameters(array('startTime'=>$date,'endTime'=>$date,'id'=>$id));
+		$query =  $query->getQuery();
+		return $query->getResult();
+	}
+
+	public function nowCate($mallId = null){
 		$date = date('Y-m-d H:i:s');
 		$query = $this->createQueryBuilder('ma');
 		$query = $query->select('ma.categoryId');
 		$query = $query->Where('ma.deleteFlag is null');
+		if($mallId){
+			$query = $query->andWhere("ma.aid = :aid");
+			$parameters['aid'] = $mallId;
+		}
 		$query = $query->andWhere('ma.startTime <= :startTime');
 		$query = $query->andWhere('ma.endTime >= :endTime');
 		$query = $query->groupBy('ma.categoryId');
-		$query = $query->setParameters(array('startTime'=>$date,'endTime'=>$date));
+		$parameters['startTime'] = $date;
+		$parameters['endTime'] = $date;
+		$query = $query->setParameters($parameters);
 		$query =  $query->getQuery();
 		return $query->getResult();
 	}

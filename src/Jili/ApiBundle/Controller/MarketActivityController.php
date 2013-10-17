@@ -47,12 +47,20 @@ class MarketActivityController extends Controller
 				}
 			}
 		}
+		$paginator  = $this->get('knp_paginator');
+        $pagin = $paginator->paginate(
+        		$busiAct,
+        		$this->get('request')->query->get('page', 1),
+        		$this->container->getParameter('page_num')
+        );
+        $pagin->setTemplate('JiliApiBundle::pagination.html.twig');
 		return $this->render('JiliApiBundle:MarketActivity:index.html.twig',
 					array('nowMall'=>$nowMall,
 						  'cate'=>$actCate,
 						  'busi'=>$busiAct,
 						  'aid'=>$aid,
-						  'cateId'=>$cateId
+						  'cateId'=>$cateId,
+						  'pagin'=>$pagin
 						  ));
 	}
 
@@ -63,11 +71,14 @@ class MarketActivityController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 		$uid = $this->get('request')->getSession()->get('uid');
-		$busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->find($id);
-		$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($busiAct->getAid());
+		$busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->existMarket($id);
+		if(empty($busiAct)){
+			return $this->redirect($this->generateUrl('_default_error'));
+		}
+		$adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($busiAct[0]['aid']);
 		$adw_info = explode("u=",$adver->getImageurl());
         $new_url = trim($adw_info[0])."u=".$uid.trim($adw_info[1]).$id;
-		$yixun = $busiAct->getActivityUrl();
+		$yixun = $busiAct[0]['activityUrl'];
 		return $this->render('JiliApiBundle:MarketActivity:info.html.twig',
 				array('url'=>$new_url,'yixun'=>$yixun));
 
