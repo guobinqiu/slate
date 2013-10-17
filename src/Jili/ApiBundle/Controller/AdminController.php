@@ -49,12 +49,12 @@ use Jili\ApiBundle\Entity\SendMessage09;
 class AdminController extends Controller
 {
     private function getAdminIp(){
-        // if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
-        //     $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
-        //     $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_vpn_ip'))
+        if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
+            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
+            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_vpn_ip'))
             return false;
-        // else
-        //     return true;
+        else
+            return true;
           
     }
     /**
