@@ -66,7 +66,7 @@ function ck(){
 <tr><td>广告类型:</td><td><input type="radio" name="category" value="1" onchange="ck();" {% if adver.incentiveType==1 %} checked="checked" {% endif %}/>CPA
 <input type="radio" name="category" value="2" onchange="ck();" {% if adver.incentiveType==2 %} checked="checked" {% endif %}/>CPS</td></tr>
 
-<tr class="cpaReward"><td>广告积分:</td><td><input type="text" name="score" size='10' onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" value="{{ score }}"/></td></tr>
+<tr class="cpaReward"><td>广告积分:</td><td><input type="text" name="score" size='10' onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" value="{{ adver.incentive }}"/></td></tr>
 
 <tr class="cpsReward"><td>佣金:</td><td><input type="text" name="intReward" size='10' value="{{ adver.incentiveRate }}"/>%</td></tr>
 <tr class="cpsReward"><td>返利:</td><td><input type="text" name="rewardRate" size='10' value="{{ adver.rewardRate }}"/>%</td></tr>

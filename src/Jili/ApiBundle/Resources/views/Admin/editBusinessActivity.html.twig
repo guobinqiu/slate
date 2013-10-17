@@ -66,8 +66,8 @@ $(document).ready(function(){
 {% endfor %}
 </td></tr>
 <tr><td>活动链接:</td><td><input type="text" name="url" size='100' value="{{ business.activityUrl  }}"/></td></tr>
-<tr><td>活动有效期:</td><td><input name="start_time" value="{{ business.startTime.date | date('Y-m-d') }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
-&nbsp;到&nbsp;<input name="end_time" value="{{ business.endTime.date | date('Y-m-d') }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/></td></tr>
+<tr><td>活动有效期:</td><td><input name="start_time" value="{{ business.startTime.date | date('Y-m-d H:i:s') }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  class="Wdate" style="cursor:pointer"/>
+&nbsp;到&nbsp;<input name="end_time" value="{{ business.endTime.date | date('Y-m-d H:i:s') }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  class="Wdate" style="cursor:pointer"/></td></tr>
 <tr><td>活动图片:(470X200)</td><td><img src="{{ asset(business.activityImage) }}"/>{{ form_widget(form.actImage) }}(不传为原来的图片)</td></tr>
 
 <tr><td>&nbsp;</td><td><input type="submit" name="add" value="提 交"/></td></tr>

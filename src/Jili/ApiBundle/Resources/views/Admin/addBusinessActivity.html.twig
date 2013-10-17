@@ -65,8 +65,8 @@ KE.show({
 {% endfor %}
 </td></tr>
 <tr><td>活动链接:</td><td><input type="text" name="url" size='100' value="{{ url }}"/></td></tr>
-<tr><td>活动有效期:</td><td><input name="start_time" value="{{ start_time }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
-&nbsp;到&nbsp;<input name="end_time" value="{{ end_time }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/></td></tr>
+<tr><td>活动有效期:</td><td><input name="start_time" value="{{ start_time }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  class="Wdate" style="cursor:pointer"/>
+&nbsp;到&nbsp;<input name="end_time" value="{{ end_time }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  class="Wdate" style="cursor:pointer"/></td></tr>
 <tr><td>活动图片:(470X200)</td><td>{{ form_widget(form.actImage) }}</td></tr>
 
 
