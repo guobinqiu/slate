@@ -378,6 +378,47 @@
             href="{{ path('_admin_infoMs',{'id': 9}) }}" 
             target=main>消息管理09</A></TD></TR>
 
+       </TABLE>
+
+
+       <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+        <TR height=22>
+          <TD style="PADDING-LEFT: 30px" background="{{ asset('images/admin/menu_bt.jpg')}}"><A 
+            class=menuParent onclick=expand(12) 
+            href="javascript:void(0);">商家活动管理</A></TD></TR>
+        <TR height=4>
+          <TD></TD></TR></TABLE>
+      <TABLE id=child12 style="DISPLAY: none" cellSpacing=0 cellPadding=0 
+      width=150 border=0>
+      
+           <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_addActivityCategory') }}" 
+            target=main>添加活动分类</A></TD></TR>
+
+             <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_infoActivityCategory',{'id': 0}) }}" 
+            target=main>编辑活动分类</A></TD></TR>
+
+         <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_addBusinessActivity',{'id': 1}) }}" 
+            target=main>添加活动</A></TD></TR>
+
+            <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('_admin_infoBusinessActivity',{'id': 2}) }}" 
+            target=main>编辑活动</A></TD></TR>  
+
               <TR height=4>
           <TD colSpan=2></TD></TR>
 

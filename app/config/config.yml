@@ -112,6 +112,7 @@ parameters:
     upload_banner_dir: images/banner/
     upload_adver_dir: images/actionPic/
     upload_tmp_dir: uploads/user/
+    upload_activity_dir: images/activity/
     page_num: 10
     init: 0
     init_one: 1

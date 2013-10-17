@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class AdvertisermentRepository extends EntityRepository
 {
-	
+
 	public function getSearchAd($title)
 	{
 		$query = $this->createQueryBuilder('a');
@@ -18,6 +18,34 @@ class AdvertisermentRepository extends EntityRepository
 		$query = $query->orderBy('a.id','DESC');
 		$query = $query->setFirstResult(0);
 		$query = $query->setMaxResults(10);
+		$query =  $query->getQuery();    
+		return $query->getResult();
+	}
+
+	public function getAllCps()
+	{
+		$query = $this->createQueryBuilder('a');
+		$query = $query->select('a.id,a.title,a.startTime,a.endTime,a.decription,a.content,a.incentive,a.info');
+		$query = $query->Where('a.deleteFlag = 0');
+		$query = $query->andWhere("a.incentiveType = 2");
+		$query = $query->orderBy('a.id','DESC');
+		$query =  $query->getQuery();    
+		return $query->getResult();
+	}
+
+
+	public function getCpsSearchAd($title)
+	{
+		$query = $this->createQueryBuilder('a');
+		$query = $query->select('a.id,a.title,a.startTime,a.endTime,a.decription,a.content,a.incentive,a.info');
+		$query = $query->Where('a.deleteFlag = 0');
+		if($title){
+			$query = $query->andWhere("a.title LIKE :title");
+			$query = $query->setParameter('title','%'.$title.'%');
+		}
+		$query = $query->andWhere("a.incentiveType = 2");
+		
+		$query = $query->orderBy('a.id','DESC');
 		$query =  $query->getQuery();    
 		return $query->getResult();
 	}
