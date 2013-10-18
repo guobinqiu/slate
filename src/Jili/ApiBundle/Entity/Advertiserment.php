@@ -30,9 +30,9 @@ class Advertiserment
     private $id;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="type", type="integer")
+     * @ORM\Column(name="type", type="string", length=250)
      */
     private $type;
 
@@ -230,7 +230,7 @@ class Advertiserment
     /**
      * Set type
      *
-     * @param integer $type
+     * @param string $type
      * @return Advertiserment
      */
     public function setType($type)

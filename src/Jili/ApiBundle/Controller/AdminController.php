@@ -814,13 +814,16 @@ class AdminController extends Controller
         $intReward = $request->request->get('intReward');
         $rewardRate = $request->request->get('rewardRate');
         $rule = $request->request->get('rule');
+        $type = $request->request->get('type');
         $form  = $this->createForm(new AddAdverType(),$adver);
+        $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
         if ($request->getMethod() == 'POST') {
             if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){ 
                 if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate)){
                     $form->bind($request);
+                    $type = implode(",",$type);
                     $path =  $this->container->getParameter('upload_adver_dir');
-                    $adver->setType($this->container->getParameter('init'));
+                    $adver->setType($type);
                     $adver->setTitle($title);
                     $adver->setStartTime(date_create($start_time));
                     $adver->setEndTime(date_create($end_time));
@@ -879,8 +882,8 @@ class AdminController extends Controller
                                 'url'=> $url,
                                 'category'=>$category,
                                 'score'=>$score,
-                                'rule'=>$rule
-                                    
+                                'rule'=>$rule,
+                                'actCategory'=>$actCategory
                                 ));
     }
     
@@ -946,6 +949,8 @@ class AdminController extends Controller
         $codeflag = $this->container->getParameter('init');
         $em = $this->getDoctrine()->getManager();
         $adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
+        $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
+        $newType = explode(",",$adver->getType());
         $request = $this->get('request');
         $title = $request->request->get('title');
         $start_time = $request->request->get('start_time');
@@ -958,13 +963,15 @@ class AdminController extends Controller
         $intReward = $request->request->get('intReward');
         $rewardRate = $request->request->get('rewardRate');
         $rule = $request->request->get('rule');
+        $type = $request->request->get('type');
         $form  = $this->createForm(new AddAdverType(),$adver);
         if ($request->getMethod() == 'POST') {
             if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){
                 if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate)){
                     $form->bind($request);
                     $path =  $this->container->getParameter('upload_adver_dir');
-                    $adver->setType($this->container->getParameter('init'));
+                    $type = implode(",",$type);
+                    $adver->setType($type);
                     $adver->setTitle($title);
                     $adver->setStartTime(date_create($start_time));
                     $adver->setEndTime(date_create($end_time));
@@ -1046,7 +1053,9 @@ class AdminController extends Controller
                     'url'=> $url,
                     'category'=>$category,
                     'score'=>$score,
-                    'rule'=>$rule
+                    'rule'=>$rule,
+                    'actCategory'=>$actCategory,
+                    'newType'=>$newType
                     ));
     
     }
