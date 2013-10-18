@@ -70,6 +70,11 @@ function ck(){
 
 <tr class="cpsReward"><td>佣金:</td><td><input type="text" name="intReward" size='10' value="{{ adver.incentiveRate }}"/>%</td></tr>
 <tr class="cpsReward"><td>返利:</td><td><input type="text" name="rewardRate" size='10' value="{{ adver.rewardRate }}"/>%</td></tr>
+<tr class="cpsReward"><td>广告分类名:</td><td>
+{% for item in actCategory %}
+<input type="checkbox"  name="type[]" value="{{ item.id }}" {% if newType %}{% for i in newType %} {% if i ==item.id %} checked = "checked" {% endif %}{% endfor %}{% endif %}>{{ item.category }}
+{% endfor %}
+</td></tr>
 
 <tr><td>广告规则:</td><td><textarea id="rule" cols="120" rows="10" name="rule" style="width:700px;height:300px;">{% if rule %} {{ rule }} {% else %} {{ adver.info }} {% endif %}</textarea></td></tr>
 <tr><td>广告图片:(300X250)</td><td><img src="{{ asset(adver.iconImage) }}"/>{{ form_widget(form.large) }}(不传为原来的图片)</td></tr>
