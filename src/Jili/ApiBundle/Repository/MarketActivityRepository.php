@@ -65,15 +65,21 @@ class MarketActivityRepository extends EntityRepository
 	}
 	
 	public function nowActivity($aid=null){
+		$date = date('Y-m-d H:i:s');
 		$query = $this->createQueryBuilder('ma');
 		$query = $query->select('ma.id,ma.aid,ma.businessName,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime,a.imageurl,a.title');
 		$query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ma.aid = a.id');
 		$query = $query->Where('ma.deleteFlag is null');
 		if($aid){
 			$query = $query->andWhere('ma.aid = :aid');
-			$query = $query->setParameter('aid',$aid);
+			$parameters['aid'] = $aid;
 		}
+		$query = $query->andWhere('ma.startTime <= :startTime');
+		$query = $query->andWhere('ma.endTime >= :endTime');
 		$query = $query->orderBy('ma.startTime','DESC');
+		$parameters['startTime'] = $date;
+		$parameters['endTime'] = $date;
+		$query = $query->setParameters($parameters);
 		$query =  $query->getQuery();
 		return $query->getResult();
 	}
