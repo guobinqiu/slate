@@ -60,7 +60,7 @@
 .shopList .classify-nav{
 	border: 1px solid #EEEEEE;
 	background-color: #FFF;
-	width: 700px;
+	width: 696px;
     padding: 0;
     display: inline-block;
 }
@@ -75,7 +75,7 @@
     overflow: hidden;
     text-align: center;
     text-decoration: none;
-    width: 98px;
+    width: 85px;
     float: left;
     border:1px dotted #EEEEEE;
     border-left-color:#FFFFFF;
@@ -105,7 +105,7 @@
 .shopList .shopRebate {
 	text-align: center;
 	background: #FFF;
-	width: 700px;
+	width: 695px;
 	margin: 10px 0;
 	border: 1px solid #ececec;
 	border-bottom: none;
@@ -119,7 +119,7 @@
 	padding: 15px 0 5px;
 	display: inline-table;
 	position: relative;
-	width: 139px;
+	width: 138px;
 	height: 110px;
 	float: left;
 }
