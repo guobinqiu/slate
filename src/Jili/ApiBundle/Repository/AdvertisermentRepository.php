@@ -6,7 +6,16 @@ use Doctrine\ORM\EntityRepository;
 
 class AdvertisermentRepository extends EntityRepository
 {
-
+	public function getAdvCate(){
+		$query = $this->createQueryBuilder('a');
+		$query = $query->select('a.id,a.type');
+		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
+		$query = $query->Where('ap.type = 5 or ap.type = 4');
+		$query = $query->andWhere('a.deleteFlag = 0');
+		$query = $query->andWhere('ap.position <> 0');
+		$query =  $query->getQuery();
+		return $query->getResult();
+	}
 	public function getSearchAd($title)
 	{
 		$query = $this->createQueryBuilder('a');
@@ -121,9 +130,13 @@ class AdvertisermentRepository extends EntityRepository
 	public function getAdvertiserAreaList($area)
 	{
 		$query = $this->createQueryBuilder('a');
-		$query = $query->select('a.id,a.title,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentive,a.incentiveType,a.incentiveRate,a.rewardRate,a.info,ap.type,ap.position');
+		$query = $query->select('a.id,a.type as cate,a.title,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentive,a.incentiveType,a.incentiveRate,a.rewardRate,a.info,ap.type,ap.position');
 		$query = $query->innerJoin('JiliApiBundle:AdPosition', 'ap', 'WITH', 'a.id = ap.adId');
-		$query = $query->Where('ap.type = :area');
+		if($area == 5){
+			$query = $query->Where('ap.type = :area or ap.type = 4');
+		}else{
+			$query = $query->Where('ap.type = :area');
+		}
 		$query = $query->andWhere('a.deleteFlag = 0');
 		$query = $query->andWhere('ap.position <> 0');
 		$query = $query->orderBy('ap.position');

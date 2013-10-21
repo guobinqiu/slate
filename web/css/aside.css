@@ -8,6 +8,11 @@ aside section {
 	background-color: #FFF;
 	margin: 0 0 15px 0;
 }
+
+aside h2 {
+    height: 30px;
+    line-height: 30px;
+}
 aside section h4 {
 	border-bottom: 1px solid #ECECEC;
     color: #333333;
