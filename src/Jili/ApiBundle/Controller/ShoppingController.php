@@ -13,15 +13,17 @@ use Jili\ApiBundle\Entity\Advertiserment;
 class ShoppingController extends Controller
 {
 	/**
-	 * @Route("/list", name="_shopping_list")
+	 * @Route("/list/{id}", requirements={"id" = "\d+"},name="_shopping_list")
 	 */
-	public function listAction()
+	public function listAction($id=0)
 	{
 		$reward_multiple = '';
+		$str = '';
 		$uid = '';
 		$uid = $this->get('request')->getSession()->get('uid');
 		$campaign_multiple = $this->container->getParameter('campaign_multiple');
 		$em = $this->getDoctrine()->getManager();
+		$actCate = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
 		if($uid){
 			$user = $em->getRepository('JiliApiBundle:User')->find($uid);
         	$reward_multiple = $user->getRewardMultiple();
@@ -56,6 +58,32 @@ class ShoppingController extends Controller
             }
 		}
 		$arr['adverRecommand'] = $adverRecommand;
+		
+		$nowCate = $em->getRepository('JiliApiBundle:Advertiserment')->getAdvCate();
+		foreach ($nowCate as $key => $value) {
+        	$arrType[] = $value['type'];
+        }
+        foreach ($arrType as  $value) {
+        	$str .= $value.',';
+        }
+        $allCate = explode(",",$str);
+        if($id){
+        	if(!in_array($id,$allCate)){
+        		return $this->redirect($this->generateUrl('_default_error'));
+        	}
+			foreach ($advertise as $key => $value) {
+				$cate = explode(",",$value['cate']);
+				if(!in_array($id,$cate)){
+					unset($advertise[$key]);
+				}
+			}
+		}
+        foreach ($actCate as $key => $value) {
+    		if(!in_array($value->getId(),$allCate)){
+    			unset($actCate[$key]);
+    		}
+    	}
+    	$arr['cate'] = $actCate;
 		$arr['advertiserment'] = $advertise;
 		$paginator  = $this->get('knp_paginator');
 		$arr['pagination'] = $paginator->paginate(
@@ -65,6 +93,7 @@ class ShoppingController extends Controller
 		);
 		$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
 		$arr['uid'] = $uid;
+		$arr['id'] = $id;
 		return $this->render('JiliApiBundle:Advertiserment:shoppinglist.html.twig',$arr);
 		
 	}

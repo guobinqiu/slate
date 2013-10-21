@@ -47,12 +47,18 @@ $(document).ready(function() {
       
     }
   }
- {% if aid == 0 %}
-    $('#mall').addClass("hover");
- {% endif %}
- {% if cateId == 0 %}
-    $('#cate').addClass("hover");
- {% endif %}
+  {% if aid == 0 %}
+      $('#mall').addClass("hover");
+  {% else %}
+      $(".unfoldBtn").hide();
+      $(".tags").css("height","auto");
+  {% endif %}
+  {% if cateId == 0 %}
+      $('#cate').addClass("hover");
+  {% else %}
+      $(".bunfoldBtn").hide();
+      $(".btags").css("height","auto");
+  {% endif %}
 });
 </script>
 </head>

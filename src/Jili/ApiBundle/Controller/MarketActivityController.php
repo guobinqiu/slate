@@ -25,6 +25,9 @@ class MarketActivityController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$actCate = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
 		$busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->nowActivity($aid);
+		if(empty($busiAct)){
+			return $this->redirect($this->generateUrl('_default_error'));
+		}
         $nowMall = $em->getRepository('JiliApiBundle:MarketActivity')->nowMall();
         $nowCate = $em->getRepository('JiliApiBundle:MarketActivity')->nowCate();
         foreach ($nowCate as $key => $value) {
@@ -33,13 +36,17 @@ class MarketActivityController extends Controller
         foreach ($arr as  $value) {
         	$str .= $value.',';
         }
-		$allCate = explode(",",$str);
+		$allCate = explode(",",$str);//所有广告分类
+        //去除没有广告的分类
 		foreach ($actCate as $key => $value) {
     		if(!in_array($value->getId(),$allCate)){
     			unset($actCate[$key]);
     		}
     	}
 		if($cateId){
+			if(!in_array($cateId,$allCate)){
+        		return $this->redirect($this->generateUrl('_default_error'));
+        	}
 			foreach ($busiAct as $key => $value) {
 				$cate = explode(",",$value['categoryId']);
 				if(!in_array($cateId,$cate)){

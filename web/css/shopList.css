@@ -13,29 +13,33 @@
 }
 .shopList ul.shopRecommend {
 	background-color: #FFF;
-	border: 1px solid #ececec;
-	width: 702px;
+	width: 215px;
+	padding: 0 10px;
 	border-right: none;
 	display: inline-block;
 }
 .shopList ul.shopRecommend li {
-	border-right: 1px solid #ECECEC;
 	float: left;
-	height: 140px;
-	padding: 25px 0 0;
+	height: auto;
+	padding: 0;
 	text-align: center;
-	width: 233px;
+	width: 107px;
 	position: relative;
+	border-bottom: medium none;
+	margin:10px 0;
+}
+.shopList ul.shopRecommend li img{
+	width:70%;
+	height:auto;
 }
 .shopList ul.shopRecommend li:hover img{
-	opacity:.8;    
-	Filter:alpha(opacity=80);
+	
 }
 .shopList ul.shopRecommend li p.about {
-	position: absolute;
-	right: 0;
-	top: 0;
-	display: inline-block;
+	line-height: 18px;
+    margin: 0;
+    margin-top: -20px;
+    padding: 0;
 }
 .shopList ul.shopRecommend li p.about span.store {
 	background-color: #f5602a;
@@ -46,17 +50,62 @@
 	line-height: 18px;
 }
 .shopList ul.shopRecommend li p.about span.rebate {
-	background-color: #46baf0;
-	display: inline-block;
-	color: #FFF;
-	padding: 0 5px;
-	height: 18px;
-	line-height: 18px;
+	color: #999999;
+    height: 18px;
+    line-height: 18px;
 }
+.shopList ul.shopRecommend li:hover p.about span.rebate{
+	color: #EA4B11;
+}
+.shopList .classify-nav{
+	border: 1px solid #EEEEEE;
+	background-color: #FFF;
+	width: 696px;
+    padding: 0;
+    display: inline-block;
+}
+.shopList .classify-nav h4{
+	float: left;
+    margin-right: 10px;
+}
+.shopList .classify-nav a{
+	display: inline-block;
+    height: 35px;
+    line-height: 35px;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    width: 85px;
+    float: left;
+    border:1px dotted #EEEEEE;
+    border-left-color:#FFFFFF;
+    border-top-color:#FFF;
+    background-image: url(../images/hotcatg-bg.png);
+}
+.shopList .classify-nav a:hover{
+	background-color:#ea4b11;
+	color:#FFF;
+	background-image: none;
+	border-style: solid;
+}
+.shopList .classify-nav a.hover{
+	background-color:#ea4b11;
+	color:#FFF;
+	background-image: none;
+	border-style: solid;
+}
+
+.shopList .classify-nav a.unfoldBtn{
+	position: absolute;
+    right: 0;
+    top: 3px;
+	color:#54b9e8;
+}
+
 .shopList .shopRebate {
 	text-align: center;
 	background: #FFF;
-	width: 700px;
+	width: 695px;
 	margin: 10px 0;
 	border: 1px solid #ececec;
 	border-bottom: none;
@@ -70,7 +119,7 @@
 	padding: 15px 0 5px;
 	display: inline-table;
 	position: relative;
-	width: 139px;
+	width: 138px;
 	height: 110px;
 	float: left;
 }
