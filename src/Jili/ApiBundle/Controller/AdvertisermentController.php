@@ -52,10 +52,12 @@ class AdvertisermentController extends Controller
 				if($advertiserment[0]['incentiveType']==2){
                     $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
                     $advertiserment[0]['reward_rate'] = $advertiserment[0]['incentiveRate'] * $advertiserment[0]['rewardRate'] * $cps_rate;
+                    $advertiserment[0]['reward_rate']= round($advertiserment[0]['reward_rate']/10000,2);
                 }
 			}else{
 				if($advertiserment[0]['incentiveType']==2){
                     $advertiserment[0]['reward_rate'] = $advertiserment[0]['incentiveRate'] * $advertiserment[0]['rewardRate'] * $campaign_multiple;
+                    $advertiserment[0]['reward_rate']= round($advertiserment[0]['reward_rate']/10000,2);
                 }
 			}
 		}else
