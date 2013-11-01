@@ -242,12 +242,16 @@ class DefaultController extends Controller
                 if($value['incentiveType']==2){
                     $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
                     $advertise[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $cps_rate;
+                    $advertise[$key]['reward_rate'] = round($advertise[$key]['reward_rate']/10000,2);
                 }
             }else{
                 if($value['incentiveType']==2){
                     $advertise[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $campaign_multiple;
+                    $advertise[$key]['reward_rate'] = round($advertise[$key]['reward_rate']/10000,2);
                 }
             }
+                
+
         }
 		$callboard = $em->getRepository('JiliApiBundle:CallBoard')->getFiveCallboard();
         $exchangeInfo = $em->getRepository('JiliApiBundle:PointsExchange')->exList();
