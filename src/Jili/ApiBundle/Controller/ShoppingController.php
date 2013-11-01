@@ -38,10 +38,12 @@ class ShoppingController extends Controller
                 if($value['incentiveType']==2){
                     $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
                     $advertise[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $cps_rate;
+                    $advertise[$key]['reward_rate'] = round($advertise[$key]['reward_rate']/10000,2);
                 }
             }else{
                 if($value['incentiveType']==2){
                     $advertise[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $campaign_multiple;
+                    $advertise[$key]['reward_rate'] = round($advertise[$key]['reward_rate']/10000,2);
                 }
             }
 		}
@@ -50,10 +52,13 @@ class ShoppingController extends Controller
                 if($value['incentiveType']==2){
                     $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
                     $adverRecommand[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $cps_rate;
+                    $adverRecommand[$key]['reward_rate'] = round($adverRecommand[$key]['reward_rate']/10000,2);
                 }
             }else{
                 if($value['incentiveType']==2){
                     $adverRecommand[$key]['reward_rate'] = $value['incentiveRate'] * $value['rewardRate'] * $campaign_multiple;
+                    $adverRecommand[$key]['reward_rate'] = round($adverRecommand[$key]['reward_rate']/10000,2);
+
                 }
             }
 		}

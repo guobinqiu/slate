@@ -54,7 +54,7 @@ $(document).ready(function(){
             </div>
             <ul>
             	<li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}" >我的任务历史</a></li>
-                <li><a href="{{ asset(path('_user_exchange',{'type':1}),'cdn1') }}" >我的兑换历史</a></li>
+                <li><a href="{{ asset(path('_user_exchange',{'type':0}),'cdn1') }}" >我的兑换历史</a></li>
             </ul>
         </div> 
         {% else %}
@@ -83,7 +83,7 @@ $(document).ready(function(){
                 {% if item.incentiveType==1 %}
                      <span>{{ item.incentive }}</span>米粒
                      {% elseif item.incentiveType==2 %}
-                                                                 最高获消费额<span>{{ item.reward_rate/10000 }}%</span>
+                     最高获消费额<span>{{ item.reward_rate }}%</span>
                      {% else %}
                      {% endif %}
                   </p>
