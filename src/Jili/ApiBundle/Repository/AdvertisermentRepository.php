@@ -67,7 +67,7 @@ class AdvertisermentRepository extends EntityRepository
         	$query = $query->innerJoin('JiliApiBundle:LimitAd', 'la', 'WITH', 'a.id = la.adId');
         }
         if($incentiveType==2){
-        	$query = $query->select('a.id,a.title,a.content,a.endTime,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.rewardRate,a.info,ra.incentiveRate');
+        	$query = $query->select('a.id,a.title,a.content,a.endTime,a.imageurl,a.iconImage,a.listImage,a.incentiveType,a.rewardRate,a.info,a.incentiveRate');
         	$query = $query->innerJoin('JiliApiBundle:RateAd', 'ra', 'WITH', 'a.id = ra.adId');
         }
         $query = $query->Where('a.incentiveType = :incentiveType');
