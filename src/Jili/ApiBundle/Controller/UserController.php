@@ -572,7 +572,7 @@ class UserController extends Controller
 	public function isNewMsAction($id)
 	{
 		$countMessage = '';
-		if($this->notReadCb() == 0 && $this->notReadMs($id)>0){
+		if($this->notReadCb() > 0 && $this->notReadMs($id) == 0){
 			$countMessage = $this->container->getParameter('init_one');
 		}
 		return new Response($countMessage);
@@ -637,6 +637,7 @@ class UserController extends Controller
 		$adtasteNum = count($adtaste);
 		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
 		$exchange = $exchange->getUserExchange($id,$option_ex);
+		$exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenByIdMaxTen($id);
 		$sex = $request->request->get('sex');
 		$tel = $request->request->get('tel');
 		$year = $request->request->get('year');
@@ -749,7 +750,8 @@ class UserController extends Controller
 				'month' => $month,
 				'provinceId' => $provinceId,
 				'city' => $city,
-				'countMessage'=>$countMessage
+				'countMessage'=>$countMessage,
+				'exFrWen'=> $exFrWen
 				));
 	}
 	
@@ -878,7 +880,9 @@ class UserController extends Controller
 						$id = $em_email[0]->getId();
 						$em = $this->getDoctrine()->getEntityManager();
 						$user = $em->getRepository('JiliApiBundle:User')->find($id);
-						if($user->pw_encode($pwd) != $user->getPwd()){
+						if($user->getDeleteFlag() == 1){
+							$code = $this->container->getParameter('login_wr');
+						}elseif($user->pw_encode($pwd) != $user->getPwd()){
 							// 		    			echo 'pwd is error!';
 							$code = $this->container->getParameter('login_wr');
 						}else{
@@ -1274,25 +1278,58 @@ class UserController extends Controller
 	    $session->set('phrase', $builder->getPhrase());
 	    exit;
 	}
+
+	/**
+	 * @Route("/exchangeLook", name="_user_exchangeLook")
+	 */
+	public function exchangeLook(){
+		$code = array();
+		$request = $this->get('request');
+        $exid = $request->query->get('exid');
+		$em = $this->getDoctrine()->getManager();
+		$ear = $em->getRepository('JiliApiBundle:ExchangeAmazonResult')->findByExchangeId($exid);
+
+		$code[] = array("a"=>$ear[0]->getAmazonCardOne());
+		$code[] = array("a"=>$ear[0]->getAmazonCardTwo());
+		$code[] = array("a"=>$ear[0]->getAmazonCardThree());
+		$code[] = array("a"=>$ear[0]->getAmazonCardFour());
+		$code[] = array("a"=>$ear[0]->getAmazonCardFive());
+		return new Response(json_encode($code));
+	}
 	
 	/**
-	 * @Route("/exchange/{type}", name="_user_exchange")
+	 * @Route("/exchange/{type}/{exchangeType}", name="_user_exchange")
 	 */
-	public function exchangeAction($type){
+	public function exchangeAction($type=0,$exchangeType){
 		$id = $this->get('request')->getSession()->get('uid');
 		$em = $this->getDoctrine()->getManager();
-		$repository = $em->getRepository('JiliApiBundle:PointsExchange');
-		$option = array('daytype' => $type ,'offset'=>'','limit'=>'');
-		$exchange = $repository->getUserExchange($id,$option);
-		
-		$arr['exchange'] = $exchange;
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$arr['user'] = $user;
-		$paginator = $this->get('knp_paginator');
-		$arr['pagination'] = $paginator
-		        ->paginate($exchange,
-				$this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-		$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+		if($exchangeType==1){
+			$repository = $em->getRepository('JiliApiBundle:PointsExchange');
+			$option = array('daytype' => $type ,'offset'=>'','limit'=>'');
+			$exchange = $repository->getUserExchange($id,$option);
+			$arr['exchange'] = $exchange;
+			$paginator = $this->get('knp_paginator');
+			$arr['pagination'] = $paginator
+			        ->paginate($exchange,
+					$this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
+			$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+		}else if($exchangeType==2){
+			$exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenById($id);
+			$arr['exFrWen'] = $exFrWen;
+			$paginator = $this->get('knp_paginator');
+			$arr['pagination'] = $paginator
+			        ->paginate($exFrWen,
+					$this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
+			$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+
+		}else{
+			return $this->redirect($this->generateUrl('_default_error'));
+
+		}
+		$arr['exchangeType'] = $exchangeType;
+		$arr['type'] = $type;
 		return $this->render('JiliApiBundle:User:exchange.html.twig',$arr);
 	}
 
@@ -1439,7 +1476,7 @@ class UserController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$arr['user'] = $user;
-		if($sid == $this->container->getParameter('init_one')){//公告
+		if($sid == $this->container->getParameter('init_two')){//公告
 			$sendCb = $em->getRepository('JiliApiBundle:SendCallboard')->getSendCb();	
 			$userCb = $em->getRepository('JiliApiBundle:IsReadCallboard')->getUserIsRead($id);	
 			$userIsRead = array();
@@ -1465,7 +1502,7 @@ class UserController extends Controller
 					$this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
 			$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
 		}
-		if($sid == $this->container->getParameter('init_two')){//消息
+		if($sid == $this->container->getParameter('init_one')){//消息
 			$showMs  = $this->selectSendMs($id);
 			$arr['showMs'] = $showMs;
 			$paginator = $this->get('knp_paginator');
