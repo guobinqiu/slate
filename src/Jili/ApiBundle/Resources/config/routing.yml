@@ -38,3 +38,7 @@ marketActivity:
     resource: "@JiliApiBundle/Controller/MarketActivityController.php"
     prefix:   /marketActivity
     type:     annotation
+cardRecord:
+    resource: "@JiliApiBundle/Controller/CardRecordController.php"
+    prefix:   /cardRecord
+    type:     annotation

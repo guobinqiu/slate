@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META http-equiv=Content-Type content="text/html; charset=utf8">
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<SCRIPT src="{{ asset('js/load.js')}}" type=text/javascript></SCRIPT>
+</HEAD>
+<BODY>
+<form action="{{ path('_admin_giveCardPoint')}}" method="post" id="form1"}} >
+<table align="center" width="1024">
+      <tr><td colspan="2" align="center"><h3>已经上传的csv文件列表</h3></td></tbody>
+    	<tr>
+        	<th align="center">csv文件</th>
+          <th align="center">上传时间</th>
+     </tr>
+        {% if pagination %}
+         {% for item in pagination %}
+        <tr> 
+          <td align="center">{{ item.csvFileName }}</td>
+          <td align="center">{{ item.createTime.date | date('Y-m-d')}}</td>
+        </tr>
+         {% endfor %}
+         {%  endif %}
+    </table></form>
+    {{ knp_pagination_render(pagination) }}
+
+</BODY></HTML>
+
+
