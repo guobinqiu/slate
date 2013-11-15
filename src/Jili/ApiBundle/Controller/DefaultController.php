@@ -209,7 +209,9 @@ class DefaultController extends Controller
             	$id = $em_email[0]->getId();
             	$em = $this->getDoctrine()->getEntityManager();
             	$user = $em->getRepository('JiliApiBundle:User')->find($id);
-            	if($user->pw_encode($pwd) != $user->getPwd()){
+                if($user->getDeleteFlag() == 1){
+                    $code = $this->container->getParameter('login_wr');
+                }elseif($user->pw_encode($pwd) != $user->getPwd()){
                     $code = $this->container->getParameter('login_wr');
             	}else{
             		if($request->request->get('remember_me')=='1'){

@@ -878,7 +878,9 @@ class UserController extends Controller
 						$id = $em_email[0]->getId();
 						$em = $this->getDoctrine()->getEntityManager();
 						$user = $em->getRepository('JiliApiBundle:User')->find($id);
-						if($user->pw_encode($pwd) != $user->getPwd()){
+						if($user->getDeleteFlag() == 1){
+							$code = $this->container->getParameter('login_wr');
+						}elseif($user->pw_encode($pwd) != $user->getPwd()){
 							// 		    			echo 'pwd is error!';
 							$code = $this->container->getParameter('login_wr');
 						}else{
