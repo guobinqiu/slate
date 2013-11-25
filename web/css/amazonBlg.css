@@ -1,0 +1,12 @@
+.am_blackBg{
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top:0;
+	background-color: #000;
+	opacity: .5;
+	Filter:alpha(opacity=50);
+	z-index: 999;
+}

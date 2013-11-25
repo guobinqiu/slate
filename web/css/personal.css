@@ -1,3 +1,32 @@
+.score .screen{
+	position: relative;
+	margin-left: -20px;
+}
+.score .screen a{
+	display:inline-block;
+	padding: 5px 15px;
+	font-size:14px;
+	position: absolute;
+	background-color: #FFF;
+	border: 1px solid #E9E9E9;
+	color:#999;
+	margin-bottom: 8px;
+}
+.score .screen a.hoverCb{
+	bottom: 0px;
+    left: 20px;
+}
+.score .screen a.hoverMs{
+	bottom: 0px;
+    left: 87px;
+}
+.score .screen a:hover , .score .screen a.hover{
+	background-color: #EA4B11;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-decoration: none;
+}
 .resDiv{
 	margin-top: 20px;
 	float: left;
@@ -117,6 +146,20 @@
 .info, .ad, .score{
 	position:relative;
 }
+
+.lookMore{
+	background-color: #EA4B11;
+    background-image: url("../images/moreBtn.jpg");
+    background-repeat: no-repeat;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 12px;
+    height: 19px;
+    padding-left: 3px;
+    text-decoration: none;
+    width: 40px;
+}
+
 .ad p.prompt {
    /* background: url("../images/adv_prompt_icon.png") no-repeat scroll left center transparent;*/
     color: #EE472C;
@@ -247,4 +290,54 @@
 }
 .expand{
 	padding:20px 50px;
+}
+
+.web_click_bg{
+	background-color: #FFFFFF;
+    border: 3px solid #EA4B11;
+    border-radius: 3px 3px 3px 3px;
+    left: 650px;
+    position: fixed;
+    top: 190px;
+    width: 380px;
+    z-index: 1000;
+}
+.web_click_bg h3{
+	background-color: #EA4B11;
+	background-image: -moz-linear-gradient(top, #FD7B19, #EC4E11); /* Firefox */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FD7B19), color-stop(1, #EC4E11)); /* Saf4+, Chrome */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FD7B19', endColorstr='#EC4E11', GradientType='0'); /* IE*/
+    color: #FFFFFF;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    position: relative;
+}
+.web_click_bg h3 a.amClose{
+	background-image: url("../images/amazon_click_close.gif");
+    display: inline-block;
+    height: 18px;
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    width: 18px;
+}
+.web_click_bg .cardNumberArea{
+	padding:15px;
+	font-size:18px;
+	line-height: 200%;
+	text-align: center;
+}
+.web_click_bg .cardNumberArea p{
+
+}
+.web_click_bg .cardNumberArea .copy{
+	background-color: #EA4B11;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 100%;
+    margin: 0 0 0 10px;
+    padding: 5px;
 }

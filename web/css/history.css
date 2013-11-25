@@ -1,6 +1,42 @@
 .history {
     margin-top: 30px;
 }
+.web_click_bg .cardNumberArea .copy{
+	background-color: #EA4B11;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 100%;
+    margin: 0 0 0 10px;
+    padding: 5px;
+}
+.history .exscreen{
+	margin: 0 0 10px 0;
+	z-index: 1001;
+	text-align: left;
+}
+.history .exscreen a{
+	display:inline-block;
+	padding: 5px 15px;
+	font-size:14px;
+	background-color: #FFF;
+	border: 1px solid #E9E9E9;
+	color:#999;
+}
+.history .exscreen a.hoverCb{
+    left: 00px;
+}
+.history .exscreen a.hoverMs{
+    left: 70px;
+}
+.history .exscreen a:hover , .history .exscreen a.hover{
+	background-color: #EA4B11;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 .history .about{
 	text-align:center;
 }
@@ -28,11 +64,14 @@
     padding: 10px;
     text-align: center;
     width: 710px;
+    position: relative;
 }
 .history article .screen{
-	text-align:right;
-	padding:10px;
-	position: relative;
+	padding: 10px;
+    /*position: absolute;*/
+    right: 0;
+    text-align: right;
+    top: 5px;
 }
 .history article .screen a{
 	display:inline-block;
@@ -77,8 +116,61 @@
     display: block;
     font-weight: normal;
     font-size:12px;
-    line-height: 30px;
+    /*line-height: 30px;*/
     position: absolute;
-    top: 5px;
-    left: 10px;
+    /*top: 5px;*/
+    /*left: 10px;*/
+}
+.history .screen .lookMore{
+	background-color: #EA4B11;
+    background-image: url("../images/moreBtn.jpg");
+    background-repeat: no-repeat;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 12px;
+    height: 19px;
+    padding-left: 3px;
+    text-decoration: none;
+    width: 40px;
+}
+
+.web_click_bg{
+	background-color: #FFFFFF;
+    border: 3px solid #EA4B11;
+    border-radius: 3px 3px 3px 3px;
+    left: 650px;
+    position: fixed;
+    top: 190px;
+    width: 380px;
+    z-index: 1000;
+}
+.web_click_bg h3{
+	background-color: #EA4B11;
+	background-image: -moz-linear-gradient(top, #FD7B19, #EC4E11); /* Firefox */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FD7B19), color-stop(1, #EC4E11)); /* Saf4+, Chrome */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FD7B19', endColorstr='#EC4E11', GradientType='0'); /* IE*/
+    color: #FFFFFF;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    position: relative;
+}
+.web_click_bg h3 a.close{
+	background-image: url("../images/amazon_click_close.gif");
+    display: inline-block;
+    height: 18px;
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    width: 18px;
+}
+.web_click_bg .cardNumberArea{
+	padding:15px;
+	font-size:18px;
+	line-height: 200%;
+	text-align: center;
+}
+.web_click_bg .cardNumberArea p{
+
 }

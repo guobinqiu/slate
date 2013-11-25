@@ -78,6 +78,12 @@ class PointsExchange
     /**
      * @var integer
      *
+     * @ORM\Column(name="exchange_item_number", type="integer")
+     */
+    private $exchangeItemNumber;
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="status", type="integer")
      */
     private $status;
@@ -199,7 +205,7 @@ class PointsExchange
     /**
      * Set targetAccount
      *
-     * @param integer $targetAccount
+     * @param string $targetAccount
      * @return PointsExchange
      */
     public function setTargetAccount($targetAccount)
@@ -212,7 +218,7 @@ class PointsExchange
     /**
      * Get targetAccount
      *
-     * @return integer 
+     * @return string 
      */
     public function getTargetAccount()
     {
@@ -263,6 +269,30 @@ class PointsExchange
     public function getTargetPoint()
     {
         return $this->targetPoint;
+    }
+
+    
+     /**
+     * Set exchangeItemNumber
+     *
+     * @param integer $exchangeItemNumber
+     * @return PointsExchange
+     */
+    public function setExchangeItemNumber($exchangeItemNumber)
+    {
+        $this->exchangeItemNumber = $exchangeItemNumber;
+    
+        return $this;
+    }
+
+    /**
+     * Get exchangeItemNumber
+     *
+     * @return integer 
+     */
+    public function getExchangeItemNumber()
+    {
+        return $this->exchangeItemNumber;
     }
 
     /**

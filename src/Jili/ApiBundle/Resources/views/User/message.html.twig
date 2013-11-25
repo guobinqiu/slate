@@ -31,18 +31,26 @@ $(document).ready(function() {
             break;
         }
     }
+   
 });
+var oid = null;
+var cid = null;
 function showCb(id){
   var isRead = '.isRead'+id;
   var show = '#showContent'+id;
+  var temp = $(show).is(":hidden");//是否隐藏
+  if(temp){
     $.ajax({
       url : "{{ path('_user_updateIsRead') }}?sendid="+id,
       type : 'get',
       success : function(data) { 
+        if(cid)
+            $('#showContent'+cid).hide();  
         var obj = eval(data);
         var str = obj[0]['content'];
         $(isRead).removeClass("new");
         $(show).show();
+        cid = id;
         $(show +' .text').html(str);
         if(obj[0]['isRead'] == 1){
             var html = parseInt($("#countMessage").text()-1);
@@ -50,25 +58,38 @@ function showCb(id){
         }      
       }
     });
+  }else{
+      $(show).hide();
+      cid = null;
+  }
 }
 function showMs(id){
-  var isRead = '.isRead'+id;
-  var show = '#showContent'+id;
-    $.ajax({
-      url : "{{ path('_user_updateSendMs') }}?sendid="+id,
-      type : 'get',
-      success : function(data) {  
-        var obj = eval(data);
-        var str = obj[0]['content'];
-        $(isRead).removeClass("new");
-        $(show).show();
-        $(show +' .text').html(str);
-        if(obj[0]['isRead'] == 1){
-            var html = parseInt($("#countMessage").text()-1);
-            $("#countMessage").html(html);
-        }   
-      }
-    });
+    var isRead = '.isRead'+id;
+    var show = '#showContent'+id;
+    var temp = $(show).is(":hidden");//是否隐藏
+    if(temp){
+        $.ajax({
+        url : "{{ path('_user_updateSendMs') }}?sendid="+id,
+        type : 'get',
+        success : function(data) {
+          if(oid)
+            $('#showContent'+oid).hide();  
+          var obj = eval(data);
+          var str = obj[0]['content'];
+          $(isRead).removeClass("new");
+          $(show).show();
+          oid = id;
+          $(show +' .text').html(str);
+          if(obj[0]['isRead'] == 1){
+              var html = parseInt($("#countMessage").text()-1);
+              $("#countMessage").html(html);
+          }   
+        }
+      });
+    }else{
+      $(show).hide();
+      oid = null;
+    }
 }
 function addClass(type){
   switch(type){
@@ -94,58 +115,58 @@ function addClass(type){
 
   <article>
  <div class="screen">
-    <a href="javascript:void(0);" class="hoverCb" onclick="addClass(1);return false;">公告</a>
-    <a href="javascript:void(0);" class="hoverMs" onclick="addClass(2);return false;">消息</a>
+    <a href="javascript:void(0);" class="hoverCb" onclick="addClass(1);return false;">消息</a>
+    <a href="javascript:void(0);" class="hoverMs" onclick="addClass(2);return false;">公告</a>
     </div>
 {% if sid == 1 %}
-<ul class="sendCallboard">
-  {% if sendCb %}
-    <li class="title"><span class="title">标题</span>
-          <span class="time">时间</span>
-          <span class="from">来自</span></li>
-      {% for item in pagination %}
-        {% if item.isRead %} 
-          <li class="isRead{{ item.id }}">
+  <ul class="sendCallboard">
+   {% if showMs %}
+      <li class="title"><span class="title">标题</span>
+            <span class="time">时间</span>
+            <span class="from">来自</span></li>
+        {% for item in pagination %}
+          {% if item.readFlag == 1 %} 
+            <li class="isRead{{ item.id }}">
+          {% else %}
+            <li class="isRead{{ item.id }} new">
+          {% endif %}
+            <span class="title"><a onclick="showMs({{ item.id }})">{{ item.title }}</a></span>
+            <span class="time">{{ item.createtime.date | date("Y-m-d H:i")}}</span>
+            <span class="from">系统</span></li>
+            <div class="showContent" id="showContent{{ item.id }}">
+              <img src="{{ asset('images/messageMoreCorner.jpg')}}" class="corner">
+              <div class="text"></div>
+            </div>
+        {% endfor %}
         {% else %}
-          <li class="isRead{{ item.id }} new">
-        {% endif %}
-          <span class="title"><a onclick="showCb({{ item.id }})">{{ item.title }}</a></span>
-          <span class="time">{{ item.createtime.date | date("Y-m-d H:i")}}</span>
-          <span class="from">系统</span></li>
-          <div class="showContent" id="showContent{{ item.id }}">
-            <img src="{{ asset('images/messageMoreCorner.jpg')}}" class="corner">
-            <div class="text"></div>
-          </div>
-      {% endfor %}
-      {% else %}
-        暂无公告
-    {% endif %}    
-</ul>
+          暂无消息
+      {% endif %}    
+  </ul>
  {{ knp_pagination_render(pagination) }}
 {% elseif sid == 2 %} 
-<ul class="sendCallboard">
- {% if showMs %}
-    <li class="title"><span class="title">标题</span>
-          <span class="time">时间</span>
-          <span class="from">来自</span></li>
-      {% for item in pagination %}
-        {% if item.readFlag == 1 %} 
-          <li class="isRead{{ item.id }}">
+  <ul class="sendCallboard">
+    {% if sendCb %}
+      <li class="title"><span class="title">标题</span>
+            <span class="time">时间</span>
+            <span class="from">来自</span></li>
+        {% for item in pagination %}
+          {% if item.isRead %} 
+            <li class="isRead{{ item.id }}">
+          {% else %}
+            <li class="isRead{{ item.id }} new">
+          {% endif %}
+            <span class="title"><a onclick="showCb({{ item.id }})">{{ item.title }}</a></span>
+            <span class="time">{{ item.createtime.date | date("Y-m-d H:i")}}</span>
+            <span class="from">系统</span></li>
+            <div class="showContent" id="showContent{{ item.id }}">
+              <img src="{{ asset('images/messageMoreCorner.jpg')}}" class="corner">
+              <div class="text"></div>
+            </div>
+        {% endfor %}
         {% else %}
-          <li class="isRead{{ item.id }} new">
-        {% endif %}
-          <span class="title"><a onclick="showMs({{ item.id }})">{{ item.title }}</a></span>
-          <span class="time">{{ item.createtime.date | date("Y-m-d H:i")}}</span>
-          <span class="from">系统</span></li>
-          <div class="showContent" id="showContent{{ item.id }}">
-            <img src="{{ asset('images/messageMoreCorner.jpg')}}" class="corner">
-            <div class="text"></div>
-          </div>
-      {% endfor %}
-      {% else %}
-        暂无消息
-    {% endif %}    
-</ul>
+          暂无公告
+      {% endif %}    
+  </ul>
  {{ knp_pagination_render(pagination) }}
 {% else %}
 {% endif %}

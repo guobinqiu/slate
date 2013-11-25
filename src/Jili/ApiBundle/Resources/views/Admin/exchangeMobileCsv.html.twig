@@ -1,0 +1,5 @@
+id,email,mobile,exchange_date,exchange_points,exchange_goods,exchange_type,exchange_status,add_point_date,ident_suspicion,ip_suspicion,mobile_suspicion
+{% if exchange %}
+{% for item in exchange %}{{ item.id }},{{ item.email }},{{ item.targetAccount }},{{ item.exchangeDate.date | date('Y-m-d') }},{{ item.targetPoint }},{{ item.exchangeItemNumber }}元手机话费,{{ item.type }},{% if item.status == 1%}ok{% elseif item.status == 2%}ng{% else %}{% endif %},{% if item.finishDate %}{{ item.finishDate.date | date('Y-m-d') }}{% endif %},{{ item.ident }},{{ item.ip }},{{ item.mobile }},
+{% endfor %}
+{% endif %}

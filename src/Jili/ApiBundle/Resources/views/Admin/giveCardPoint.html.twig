@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META http-equiv=Content-Type content="text/html; charset=utf8">
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<SCRIPT src="{{ asset('js/load.js')}}" type=text/javascript></SCRIPT>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#all").click(function(){
+         $("input[name='mc[]']").each(function(){
+             this.checked = true;
+         });
+    });
+    $("#allNo").click(function(){
+          $("input[name='mc[]']").each(function(){
+              this.checked = false;
+          })
+    });
+    $("#revser").click(function(){
+        $("input[name='mc[]']").each(function(){
+            if (this.checked) {
+               this.checked = false;
+            }
+            else {
+                this.checked = true;
+            }
+        });
+    });
+});
+function sendPoint(id){
+    $.ajax({  
+        url: "{{ path('_admin_insertCardReward') }}?id="+id,
+        type: "GET",
+        success:function(data){
+           if(data==1){
+              // alert('发放成功');
+              window.location.href = "{{ path('_admin_giveCardPoint') }}";
+           }
+        }
+      });
+}
+function watchIt(id){
+    window.location.href = "{{ path('_admin_cardInfo') }}?userId="+id;
+}
+</script>
+</HEAD>
+<BODY>
+<form action="{{ path('_admin_giveCardPoint')}}" method="post" id="form1"}} >
+<table align="center" width="1024">
+<tr><td colspan="5">&nbsp;</td></tr>
+<tr><td colspan="5">{% if code %}<font color='red'>请选择后点击发放</font>{% else %}&nbsp;{% endif %}</td></tr>
+    	<tr><th>&nbsp;</th>
+        	<th align="left">用户id</th>
+          <th align="left">用户账号</th>
+          <th align="left">时间</th>
+     </tr>
+        {% if pagination %}
+         {% for item in pagination %}
+        <tr>
+          <td align="left">{% if item.isProvideFlag=='' %}<input type="checkbox" name="mc[]" value="{{ item.id }}" />{% endif %}</td>
+          <td align="left">{{ item.userId }}</td>
+           <td align="left">{{ item.email }}</td>
+          <td align="left">{{ item.createTime.date | date('Y-m-d')}}</td>
+          <td align="left"><input type="button" name="receive" value="查看详细" onclick="watchIt({{ item.userId }});" /> 
+          <input type="button" {% if item.isProvideFlag %} disabled='disabled' {% endif %} name="receive" value="发 放" onclick="sendPoint({{ item.id }})" /></td>
+        </tr>
+         {% endfor %}
+         <tr><td colspan="5" align="left"><input type="button" id="all" name="selectAll" value="全 选"/>
+         <input type="button" name="selectNo" id="allNo" value="全不选" />
+         <input type="button" name="selectRevser" id="revser" value="反 选"/>
+         <input type="submit" name="provide" value="发 放"/></td></tr>
+         {%  endif %}
+    </table></form>
+    {{ knp_pagination_render(pagination) }}
+
+</BODY></HTML>
+
+

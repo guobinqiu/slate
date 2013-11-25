@@ -1,6 +1,5 @@
 <?php
 namespace Jili\ApiBundle\Controller;
-
 use Jili\ApiBundle\Repository\AdPositionRepository;
 use Jili\ApiBundle\Entity\RateAdResult;
 use Jili\ApiBundle\Entity\LimitAdResult;
@@ -25,6 +24,12 @@ use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\ApiBundle\Entity\SendCallboard;
 use Jili\ApiBundle\Entity\ActivityCategory;
 use Jili\ApiBundle\Entity\MarketActivity;
+use Jili\ApiBundle\Entity\ExchangeAmazonResult;
+use Jili\ApiBundle\Entity\ExchangeFromWenwen;
+use Jili\ApiBundle\Entity\CardRecordedMatch;
+use Jili\ApiBundle\Entity\CardRecordedRemain;
+use Jili\ApiBundle\Entity\CardRecordedReward;
+use Jili\ApiBundle\Entity\IsReadFile;
 use Jili\ApiBundle\Entity\PointHistory00;
 use Jili\ApiBundle\Entity\PointHistory01;
 use Jili\ApiBundle\Entity\PointHistory02;
@@ -35,6 +40,16 @@ use Jili\ApiBundle\Entity\PointHistory06;
 use Jili\ApiBundle\Entity\PointHistory07;
 use Jili\ApiBundle\Entity\PointHistory08;
 use Jili\ApiBundle\Entity\PointHistory09;
+use Jili\ApiBundle\Entity\TaskHistory00;
+use Jili\ApiBundle\Entity\TaskHistory01;
+use Jili\ApiBundle\Entity\TaskHistory02;
+use Jili\ApiBundle\Entity\TaskHistory03;
+use Jili\ApiBundle\Entity\TaskHistory04;
+use Jili\ApiBundle\Entity\TaskHistory05;
+use Jili\ApiBundle\Entity\TaskHistory06;
+use Jili\ApiBundle\Entity\TaskHistory07;
+use Jili\ApiBundle\Entity\TaskHistory08;
+use Jili\ApiBundle\Entity\TaskHistory09;
 use Jili\ApiBundle\Entity\SendMessage00;
 use Jili\ApiBundle\Entity\SendMessage01;
 use Jili\ApiBundle\Entity\SendMessage02;
@@ -193,7 +208,7 @@ class AdminController extends Controller
                 $limitrs->setResultIncentive($adworder->getIncentive());
                 $em->persist($limitrs);
                 $em->flush();
-                $this->getPointHistory($userId,$adworder->getIncentive());
+                $this->getPointHistory($userId,$adworder->getIncentive(),$adworder->getIncentiveType());
                 $user = $em->getRepository('JiliApiBundle:User')->find($userId);
                 $user->setPoints(intval($user->getPoints()+$adworder->getIncentive()));
                 $em->persist($user);
@@ -209,7 +224,7 @@ class AdminController extends Controller
                 $raters->setResultIncentive($adworder->getIncentive());
                 $em->persist($raters);
                 $em->flush();
-                $this->getPointHistory($userId,$adworder->getIncentive());
+                $this->getPointHistory($userId,$adworder->getIncentive(),$adworder->getIncentiveType());
                 $user = $em->getRepository('JiliApiBundle:User')->find($userId);
                 $user->setPoints(intval($user->getPoints()+$raters->getResultIncentive()));
                 $em->persist($user);
@@ -314,7 +329,7 @@ class AdminController extends Controller
       $em->flush();
     }
     
-    private function getPointHistory($userid,$point){
+    private function getPointHistory($userid,$point,$type){
         if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
         }else{
@@ -355,7 +370,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $po->setUserId($userid);
         $po->setPointChangeNum($point);
-        $po->setReason($this->container->getParameter('init_one'));
+        $po->setReason($type);
         $em->persist($po);
         $em->flush();
     }
@@ -895,9 +910,15 @@ class AdminController extends Controller
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
+        $arr['title'] = '';
         $em = $this->getDoctrine()->getManager();
         $adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAllAdvertiserList();
 //      $time =  $adver[0]['endTime']->format('Y-m-d H:i:s');
+        if ($request->getMethod() == 'POST') {
+           $title = $request->request->get('title');
+           $adver = $em->getRepository('JiliApiBundle:Advertiserment')->searchTitle($title);
+           $arr['title'] =  $title;
+        }
         $paginator = $this->get('knp_paginator');
         $arr['pagination'] = $paginator
         ->paginate($adver,
@@ -1299,14 +1320,13 @@ class AdminController extends Controller
         
     }
 
-
-    public function exchangeOK($exchange_id,$email,$status,$points,$finish_time){
+    public function exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type){
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         if(!$exchanges->getStatus()){
-             $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+            $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
             if(strlen($userInfo[0]->getId())>1){
                 $uid = substr($userInfo[0]->getId(),-1,1);
             }else{
@@ -1346,11 +1366,16 @@ class AdminController extends Controller
             }
             $po->setUserId($userInfo[0]->getId());
             $po->setPointChangeNum('-'.$points);
-            $po->setReason($this->container->getParameter('init_eight'));
+            if($type == 1)
+              $po->setReason($this->container->getParameter('init_eight'));
+            if($type == 2)  
+              $po->setReason($this->container->getParameter('page_num'));
+            if($type == 3)  
+              $po->setReason($this->container->getParameter('init_eleven'));
+            if($type == 4)  
+              $po->setReason($this->container->getParameter('init_twelve'));
             $em->persist($po);
             $em->flush();
-            // $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
-            
             $exchanges->setStatus($this->container->getParameter('init_one'));
             $exchanges->setFinishDate(date_create($finish_time));
             $em->persist($exchanges);
@@ -1377,6 +1402,335 @@ class AdminController extends Controller
         }   
         return true;
     }
+
+    public function handleExchange($file,$type){
+       $em = $this->getDoctrine()->getManager();
+       if($type == 1 || $type == 3 || $type == 4){
+          foreach ($file as $k=>$v){
+              $exchange_id = $v[0];
+              $email = iconv('gb2312','UTF-8//IGNORE',$v[1]);
+              $status = $v[7];
+              $finish_time = $v[8];
+              $points = $v[4];
+              $ear = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
+              if($status == 'ok'){
+                  $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type);
+                  $this->exchangeSendMs($type,$ear->getUserId());
+              }else{
+                  $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time); 
+                  $this->exchangeSendMsFail($type,$ear->getUserId());           
+              }
+          }
+       }
+       if($type == 2){
+          foreach ($file as $k=>$v){
+                $exchange_id = $v[0];
+                $email = iconv('gb2312','UTF-8//IGNORE',$v[1]);
+                $status = $v[6];
+                $finish_time = $v[7];
+                $points = $v[3];
+                $amazonCard1 = $v[8];
+                $amazonCard2 = $v[9];
+                $amazonCard3 = $v[10];
+                $amazonCard4 = $v[11];
+                $amazonCard5 = $v[12];
+                $ear = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
+                if($status == 'ok'){
+                    $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type);
+                    $ex = $em->getRepository('JiliApiBundle:ExchangeAmazonResult')->findByExchangeId($exchange_id);
+                    if(empty($ex)){
+                      $exchangeAmazon = new ExchangeAmazonResult();
+                      $exchangeAmazon->setExchangeId($exchange_id);
+                      $exchangeAmazon->setAmazonCardOne($amazonCard1);
+                      $exchangeAmazon->setAmazonCardTwo($amazonCard2);
+                      $exchangeAmazon->setAmazonCardThree($amazonCard3);
+                      $exchangeAmazon->setAmazonCardFour($amazonCard4);
+                      $exchangeAmazon->setAmazonCardFive($amazonCard5);
+                      $em->persist($exchangeAmazon);
+                      $em->flush();
+                      $this->exchangeSendMs($type,$ear->getUserId());
+                    } 
+                }else{
+                    $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);  
+                    $this->exchangeSendMsFail($type,$ear->getUserId());     
+                }
+            }
+       }
+       return true;       
+
+    }
+
+    public function exchangeSendMsFail($type,$uid){
+        $title = '';
+        $content = '';
+        switch ($type) {
+            case '2':
+                $title = $this->container->getParameter('exchange_fail_amazon_tilte');
+                $content = $this->container->getParameter('exchange_fail_amazon_content');
+                break;
+            case '3':
+                $title = $this->container->getParameter('exchange_fail_alipay_tilte');
+                $content = $this->container->getParameter('exchange_fail_alipay_content');
+                break;
+            case '4':
+                $title = $this->container->getParameter('exchange_fail_mobile_tilte');
+                $content = $this->container->getParameter('exchange_fail_mobile_content');
+                break;
+            default:
+                break;
+        }
+        if($title && $content){
+          $parms = array(
+                  'userid' => $uid,
+                  'title' => $title,
+                  'content' => $content
+                );
+          $this->insertSendMs($parms);
+        }
+    }
+
+    public function exchangeSendMs($type,$uid){
+        $title = '';
+        $content = '';
+        switch ($type) {
+            case '2':
+                $title = $this->container->getParameter('exchange_finish_amazon_tilte');
+                $content = $this->container->getParameter('exchange_finish_amazon_content');
+                break;
+            case '3':
+                $title = $this->container->getParameter('exchange_finish_alipay_tilte');
+                $content = $this->container->getParameter('exchange_finish_alipay_content');
+                break;
+            case '4':
+                $title = $this->container->getParameter('exchange_finish_mobile_tilte');
+                $content = $this->container->getParameter('exchange_finish_mobile_content');
+                break;
+            default:
+                break;
+        }
+        if($title && $content){
+          $parms = array(
+                  'userid' => $uid,
+                  'title' => $title,
+                  'content' => $content
+                );
+          $this->insertSendMs($parms);
+        }
+    }
+
+
+    public function exchangeOKWen($email,$points){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $em = $this->getDoctrine()->getManager();
+        $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+        if(strlen($userInfo[0]->getId())>1){
+            $uid = substr($userInfo[0]->getId(),-1,1);
+        }else{
+            $uid = $userInfo[0]->getId();
+        }
+        switch($uid){
+            case 0:
+                $po = new PointHistory00();
+                break;
+            case 1:
+                $po = new PointHistory01();
+                break;
+            case 2:
+                $po = new PointHistory02();
+                break;
+            case 3:
+                $po = new PointHistory03();
+                break;
+            case 4:
+                $po = new PointHistory04();
+                break;
+            case 5:
+                $po = new PointHistory05();
+                break;
+            case 6:
+                $po = new PointHistory06();
+                break;
+            case 7:
+                $po = new PointHistory07();
+                break;
+            case 8:
+                $po = new PointHistory08();
+                break;
+            case 9:
+                $po = new PointHistory09();
+                break;
+        }
+        $po->setUserId($userInfo[0]->getId());
+        $po->setPointChangeNum('+'.$points);
+        $po->setReason($this->container->getParameter('init_thirteen'));
+        $em->persist($po);
+        $em->flush();
+        $user = $em->getRepository('JiliApiBundle:User')->find($userInfo[0]->getId());
+        $user->setPoints(intval($user->getPoints()+$points));
+        return true;
+    }
+
+    //成功发放
+    public function insertExWenwen($parms=array()){
+      extract($parms);
+      $em = $this->getDoctrine()->getManager();
+      $exFromWen = new ExchangeFromWenwen();
+      $exFromWen->setWenwenExchangeId($wenwenExId);
+      $exFromWen->setPaymentPoint($points);
+      $exFromWen->setUserId($userId);
+      $exFromWen->setEmail($email);
+      $exFromWen->setStatus($this->container->getParameter('init_one'));
+      $em->persist($exFromWen);
+      $em->flush();
+
+    }
+
+     //失败发放
+    public function insertFailExWenwen($parms=array()){
+      extract($parms);
+      $em = $this->getDoctrine()->getManager();
+      $exFromWen = new ExchangeFromWenwen();
+      $exFromWen->setWenwenExchangeId($wenwenExId);
+      $exFromWen->setPaymentPoint($points);
+      $exFromWen->setEmail($email);
+      $exFromWen->setReason($reason);
+      $em->persist($exFromWen);
+      $em->flush();
+
+    }
+
+
+
+    //91wenwen兑换列表
+    public function handleExchangeWen($file){
+      $code = array();
+      $title = $this->container->getParameter('exchange_finish_wenwen_title');
+      $content = $this->container->getParameter('ecchange_finish_wenwen_content');
+      $em = $this->getDoctrine()->getManager();
+      foreach ($file as $k=>$v){
+          $email = iconv('gb2312','UTF-8//IGNORE',$v[1]);
+          $wenwenExId = $v[0];
+          $points = $v[3];
+          $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+          $wenwenEx = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
+          if(empty($wenwenEx)){
+              if(empty($userInfo)){
+                 $array = array(
+                          'wenwenExId' => $wenwenExId,
+                          'email' => $email,
+                          'points' => $points, 
+                          'reason' => 'account not exists'
+                      );
+                 $this->insertFailExWenwen($array);
+                 $code[] = $wenwenExId.'兑换失败';
+              }else{
+                $array = array(
+                          'wenwenExId' => $wenwenExId,
+                          'userId' => $userInfo[0]->getId(),
+                          'email' => $email,
+                          'points' => $points,
+                          'status' => $this->container->getParameter('init_one')
+                      );
+                 $this->insertExWenwen($array);
+                 $this->exchangeOKWen($email,$points);
+                 $parms = array(
+                      'userid' => $userInfo[0]->getId(),
+                      'title' => $title,
+                      'content' => $content
+                    );
+                  $this->insertSendMs($parms);
+              }
+            }else{
+              $code[] = $wenwenExId.'已发放';
+
+          }
+          
+      }
+      return $code;
+       
+    }
+
+
+    /**
+     * @Route("/exchangeInWen", name="_admin_exchangeInWen")
+     */
+    public function exchangeInWenAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $success = '';
+        $code = array();
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        if ($request->getMethod('post') == 'POST') {
+            if (isset($_FILES['csv'])) {
+                $file = $_FILES['csv']['tmp_name']; 
+                if($file){
+                  $handle = fopen($file,'r'); 
+                  while ($data = fgetcsv($handle)){ 
+                     $goods_list[] = $data;
+                  }
+                  unset($goods_list[0]);
+                  $flag = $this->handleExchangeWen($goods_list);
+                  $success = $this->container->getParameter('init_one');
+                  if($flag){
+                    $code = $flag;
+                  }
+                  fclose($handle);
+                }else{
+                  $success = $this->container->getParameter('init_two');
+                }
+            }
+        }
+        $arr['success'] = $success;
+        $arr['code'] = $code;
+        return $this->render('JiliApiBundle:Admin:exchangeInWen.html.twig',$arr);
+
+    }
+
+
+    /**
+     * @Route("/exchangeCsvWen", name="_admin_exchangeCsvWen")
+     */
+    public function exchangeCsvWenAction()
+    {
+      if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+      $start_time = '';
+      $end_time = '';
+      $em = $this->getDoctrine()->getManager();
+      $request = $this->get('request');
+      $start_time = $request->query->get('start');
+      $end_time = $request->query->get('end');
+      $exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->exFromWen($start_time,$end_time);
+      $paginator  = $this->get('knp_paginator');
+      $arr['pagination'] = $paginator->paginate(
+              $exFrWen,
+              $this->get('request')->query->get('page', 1),
+              20
+      );
+      $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig'); 
+      if ($request->getMethod('post') == 'POST') {
+          $start_time = $request->request->get('start_time');
+          $end_time = $request->request->get('end_time');
+          if($request->request->get('add')){
+                $response = new Response();   
+                $exchange = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->exFromWen($start_time,$end_time);
+                $arr['exchange'] = $exchange;
+                $response =  $this->render('JiliApiBundle:Admin:exchangeFromWenWenCsv.html.twig',$arr);
+                $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+                $filename = "export".date("YmdHis").".csv";
+                $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
+                return $response;     
+          }
+      }
+      $arr['start'] = $start_time;
+      $arr['end'] = $end_time;
+      return $this->render('JiliApiBundle:Admin:exchangeCsvWen.html.twig',$arr);
+    }
+
+
     /**
      * @Route("/exchangeIn", name="_admin_exchangeIn")
      */
@@ -1385,104 +1739,171 @@ class AdminController extends Controller
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $success = '';
+        $exType = '';
+        $em = $this->getDoctrine()->getManager();
+        $exchangeType = $em->getRepository('JiliApiBundle:PointsExchangeType')->findAll();
+        $arr['exchangeType'] = $exchangeType;
         $request = $this->get('request');
         if ($request->getMethod('post') == 'POST') {
+            $exType = $request->request->get('exchangeType');
             if (isset($_FILES['csv'])) {
                 $file = $_FILES['csv']['tmp_name']; 
-                $handle = fopen($file,'r'); 
-                while ($data = fgetcsv($handle)){ 
-                   $goods_list[] = $data;
-                   unset($goods_list[0]);
+                if($file){
+                  $handle = fopen($file,'r'); 
+                  while ($data = fgetcsv($handle)){ 
+                     $goods_list[] = $data;
+                  }
+                   if($exType == 1){
+                      if($goods_list[0][2] != '91wenwen_user'){
+                        $success = $this->container->getParameter('init_three');
+                      }else{
+                        unset($goods_list[0]);
+                        if($this->handleExchange($goods_list,$exType)){
+                            $success = $this->container->getParameter('init_one');
+                        }
+                      }
+                   }
+                   if($exType == 2){
+                        if($goods_list[0][8] != 'amazonCard1'){
+                           $success = $this->container->getParameter('init_three');
+                        }else{
+                          unset($goods_list[0]);
+                          if($this->handleExchange($goods_list,$exType)){
+                              $success = $this->container->getParameter('init_one');
+                          }
+                        }
+                   }
+                   if($exType == 3){
+                      if($goods_list[0][2] != 'alipay_user'){
+                        $success = $this->container->getParameter('init_three');
+                      }else{
+                        unset($goods_list[0]);
+                        if($this->handleExchange($goods_list,$exType)){
+                            $success = $this->container->getParameter('init_one');
+                        }
+                      }
+                   }
+                  if($exType == 4){
+                      if($goods_list[0][2] != 'mobile'){
+                        $success = $this->container->getParameter('init_three');
+                      }else{
+                        unset($goods_list[0]);
+                        if($this->handleExchange($goods_list,$exType)){
+                            $success = $this->container->getParameter('init_one');
+                        }
+                      }
+                   }
+                  fclose($handle);
+                }else{
+                  $success = $this->container->getParameter('init_two');
                 }
-                foreach ($goods_list as $k=>$v){
-                    $exchange_id = $v[0];
-                    $email = iconv('gb2312','UTF-8//IGNORE',$v[1]);
-                    $status = $v[6];
-                    $finish_time = $v[7];
-                    $points = $v[4];
-                    if($status == 'ok'){
-                        $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time);
-                    }else{
-                        $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);       
-                    }
-                    $success = $this->container->getParameter('init_one');
-                }
-                fclose($handle);
             }
         }
         $arr['success'] = $success;
+        $arr['exType'] = $exType;
         return $this->render('JiliApiBundle:Admin:exchangeIn.html.twig',$arr);
 
     }
-    
+
+
     /**
      * @Route("/exchangeInfo", name="_admin_exchangeInfo")
      */
     public function exchangeInfoAction()
     {
+
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-        $code = '';
         $start_time = '';
         $end_time = '';
-        $arr['code'] = $code;
-        $arr['start'] = $start_time;
-        $arr['end'] = $end_time;
+        $exType = $this->container->getParameter('init');
         $request = $this->get('request');
-        if($this->getAdminIp())
-          return $this->redirect($this->generateUrl('_default_error'));
+        $start_time = $request->query->get('start');
+        $end_time = $request->query->get('end');
+        $exType = $request->query->get('exType');
         $em = $this->getDoctrine()->getManager();
-        $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo('','');
+        $exchangeType = $em->getRepository('JiliApiBundle:PointsExchangeType')->findAll();
+        $arr['exchangeType'] = $exchangeType;
+        $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time,$exType);
+        foreach ($exchange as $key => $value) {
+           $exchangeDanger = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeId($value['id']);
+           if(!empty($exchangeDanger)){
+              foreach ($exchangeDanger as $key1 => $value1) {
+                 if($value1->getDangerType() == $this->container->getParameter('init_one'))
+                    $exchange[$key]['mobile'] = $this->container->getParameter('init_one');
+                  else
+                    $exchange[$key]['mobile'] = '';
+                 if($value1->getDangerType() == $this->container->getParameter('init_two'))
+                    $exchange[$key]['ip'] = $this->container->getParameter('init_one');
+                  else
+                     $exchange[$key]['ip'] = '';
+                 if($value1->getDangerType() == $this->container->getParameter('init_three'))
+                    $exchange[$key]['ident'] = $this->container->getParameter('init_one');
+                  else
+                    $exchange[$key]['ident'] = '';
+              }
+           }else{
+              $exchange[$key]['mobile']='';
+              $exchange[$key]['ident'] = '';
+              $exchange[$key]['ip'] = '';
+           }
+        }
         $paginator  = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate(
                 $exchange,
                 $this->get('request')->query->get('page', 1),
-                $this->container->getParameter('page_num')
+                20
         );
-        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');              
         if ($request->getMethod() == 'POST'){
             $start_time = $request->request->get('start_time');
             $end_time = $request->request->get('end_time');
+            $exType = $request->request->get('exchangeType');
             if($request->request->get('add')){
                 $response = new Response();   
-                $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time);
+                $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time,$exType);
+                foreach ($exchange as $key => $value) {
+                     $exchangeDanger = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeId($value['id']);
+                     if(!empty($exchangeDanger)){
+                        foreach ($exchangeDanger as $key1 => $value1) {
+                           if($value1->getDangerType() == $this->container->getParameter('init_one'))
+                              $exchange[$key]['mobile'] = $this->container->getParameter('init_one');
+                            else
+                              $exchange[$key]['mobile'] = '';
+                           if($value1->getDangerType() == $this->container->getParameter('init_two'))
+                              $exchange[$key]['ip'] = $this->container->getParameter('init_one');
+                            else
+                               $exchange[$key]['ip'] = '';
+                           if($value1->getDangerType() == $this->container->getParameter('init_three'))
+                              $exchange[$key]['ident'] = $this->container->getParameter('init_one');
+                            else
+                              $exchange[$key]['ident'] = '';
+                        }
+                     }else{
+                        $exchange[$key]['mobile']='';
+                        $exchange[$key]['ip'] = '';
+                        $exchange[$key]['ident'] = '';
+                     }
+                }
                 $arr['exchange'] = $exchange;
-                $response =  $this->render('JiliApiBundle:Admin:exchangeCsv.html.twig',$arr);
+                if($exType == 1)
+                  $response =  $this->render('JiliApiBundle:Admin:exchangeCsv.html.twig',$arr);
+                if($exType == 2)
+                   $response =  $this->render('JiliApiBundle:Admin:exchangeAmazonCsv.html.twig',$arr);
+                if($exType == 3)
+                   $response =  $this->render('JiliApiBundle:Admin:exchangeAlipayCsv.html.twig',$arr);
+                if($exType == 4)
+                   $response =  $this->render('JiliApiBundle:Admin:exchangeMobileCsv.html.twig',$arr);
                 $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
                 $filename = "export".date("YmdHis").".csv";
                 $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
-                return $response;
-
-                // }else{
-                //     if(!$start_time && !$end_time){
-                //         $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo();
-                //         $arr['exchange'] = $exchange;
-                //         $response =  $this->render('JiliApiBundle:Admin:exchangeCsv.html.twig',$arr);
-                //         $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
-                //         $filename = "export".date("YmdHis").".csv";
-                //         $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
-                //         return $response;
-
-                //     }else{
-                //         $code = $this->container->getParameter('init_one');
-                //         $arr['code'] = $code;
-                //     }
-                // }
-            }
-            if($request->request->get('select')){ 
-                $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->exchangeInfo($start_time,$end_time);
-                $paginator  = $this->get('knp_paginator');
-                $arr['pagination'] = $paginator->paginate(
-                        $exchange,
-                        $this->get('request')->query->get('page', 1),
-                        $this->container->getParameter('page_num')
-                );
-                $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');    
-                
-            }   
-            $arr['start'] = $start_time;
-            $arr['end'] = $end_time;
+                return $response;     
+            } 
+           
         }
+        $arr['start'] = $start_time;
+        $arr['end'] = $end_time;
+        $arr['exType'] = $exType;
         
         return $this->render('JiliApiBundle:Admin:exchangeInfo.html.twig',$arr);
     }
@@ -2036,7 +2457,281 @@ class AdminController extends Controller
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoBusinessActivity'));
     }
+
+     /**
+     * @Route("/cardInfo", name="_admin_cardInfo")
+     */
+    public function cardInfoAction(){
+        if($this->getAdminIp())
+          return $this->redirect($this->generateUrl('_default_error'));
+        $arr['code'] = '';
+        $arr['pagination'] = '';
+        $arr['userFlag'] = '';
+        $arr['card_remain'] = '';
+        $request = $this->get('request');
+        $userId = $request->query->get('userId');
+        $arr['userFlag'] = $userId;
+        if($request->getMethod() == 'POST' || $userId) {
+           $em = $this->getDoctrine()->getManager();
+           if($userId)
+              $userFlag = $userId;
+           else
+              $userFlag = $request->request->get('user_flag');
+           if($userFlag){
+              $userCard = $em->getRepository('JiliApiBundle:CardRecordedMatch')->userCardInfo($userFlag);
+              if(!empty($userCard)){
+                  $paginator = $this->get('knp_paginator');
+                  $arr['pagination'] = $paginator
+                  ->paginate($userCard,
+                  $request->query->get('page', 1), 50);
+                  $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+                  $userCard_remain = $em->getRepository('JiliApiBundle:CardRecordedRemain')->userCardRemain($userFlag);
+                  if(empty($userCard_remain)){
+                      $arr['card_remain'] = $this->container->getParameter('init');
+                  }else{
+                      $arr['card_remain'] = $userCard_remain[0]['remainCount'];
+                  }
+              }
+           }else{
+              $arr['code'] = $this->container->getParameter('init_one');
+           } 
+           $arr['userFlag'] = $userFlag;  
+
+        }
+        
+        return $this->render('JiliApiBundle:Admin:cardInfo.html.twig',$arr);
+    }
+
+    /**
+     * @Route("/giveCardPoint", name="_admin_giveCardPoint")
+     */
+    public function giveCardPointAction(){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $code = '';
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST') {
+             $mc = $request->request->get('mc');
+             if(empty($mc)){
+                $code = $this->container->getParameter('init_one');
+             }else{
+                foreach ($mc as $key => $value){
+                  $this->handleCReward($value);
+                }
+             }   
+        }
+        $crm = $em->getRepository('JiliApiBundle:CardRecordedMatch')->cardByTime();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($crm,
+                $request->query->get('page', 1), 50);
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        $arr['code'] = $code;
+        return $this->render('JiliApiBundle:Admin:giveCardPoint.html.twig',$arr);
+
+    }
+
+     /**
+     * @Route("/downCardList", name="_admin_downCardList")
+     */
+    public function downCardListAction(){
+        // $baseUrl = $this->getRequest()->getBasePath();
+        return $this->render('JiliApiBundle:Admin:downCardList.html.twig');
+
+    }
+
+    /**
+     * @Route("/awsCsvList", name="_admin_awsCsvList")
+     */
+    public function awsCsvListAction(){
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $file_name = $em->getRepository('JiliApiBundle:IsReadFile')->fileByTime();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($file_name,
+                $request->query->get('page', 1), 50);
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:awsCsvList.html.twig',$arr);
+
+    }
+
     
+     /**
+     * @Route("/awsDayCsc", name="_admin_awsDayCsc")
+     */
+    public function awsDayCscAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $success = '';
+        $check_date = date("Y-m-d",strtotime('-2 day')); 
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        if ($request->getMethod('post') == 'POST') {
+            if (isset($_FILES['csv'])) {
+                $file = $_FILES['csv']['tmp_name']; 
+                $now_file = $_FILES['csv']['name'];
+                $now_date = explode('.',$now_file);
+                if($file){
+                  $isFile = $em->getRepository('JiliApiBundle:IsReadFile')->findByCsvFileName($now_file);
+                  if(empty($isFile)){
+                      if(strtotime($now_date[0])>strtotime($check_date)){
+                          $success = $this->container->getParameter('init_five');
+                      }else{
+                          $handle = fopen($file,'r'); 
+                          while ($data = fgetcsv($handle)){ 
+                             $goods_list[] = $data;
+                          }
+                          $handlStr = explode("\t",$goods_list[0][0]);
+                          if($handlStr[0] == 'user_id' && $handlStr[1] == 'match_count'){
+                              unset($goods_list[0]);
+                              $this->handleCard($goods_list);
+                              $this->insertIsReadFile($now_file);
+                              $success = $this->container->getParameter('init_one');
+                          }else{
+                              $success = $this->container->getParameter('init_three');
+                          }
+                          fclose($handle);
+                      }
+                  }else{
+                      $success = $this->container->getParameter('init_four');
+                  }
+                }else{
+                  $success = $this->container->getParameter('init_two');
+                }
+            }
+        }
+        $arr['success'] = $success;
+        return $this->render('JiliApiBundle:Admin:awsDayCsc.html.twig',$arr);
+        
+    }
+
+    private function handleCard($file){
+        $em = $this->getDoctrine()->getManager();
+        foreach ($file as $k=>$v){
+            $handlStr = explode("\t",$v[0]);
+            $uid = $handlStr[0];
+            $points = $handlStr[1];
+            $this->insertCardMatch($uid,$points);
+        }
+
+    }
+    private function insertIsReadFile($filename){
+        $em = $this->getDoctrine()->getManager();
+        $irf = new IsReadFile();
+        $irf->setCsvFileName($filename);
+        $em->persist($irf);
+        $em->flush();
+    }
+
+    private function insertCardMatch($uid,$count){
+        $em = $this->getDoctrine()->getManager();
+        $crm = new CardRecordedMatch();
+        $crm->setUserId($uid);
+        $crm->setMatchCount($count);
+        $em->persist($crm);
+        $em->flush();
+    }
+
+    private function insertCardRemain($uid,$count){
+        $em = $this->getDoctrine()->getManager();
+        $crr = new CardRecordedRemain();
+        $crr->setUserId($uid);
+        $crr->setRemainCount($count);
+        $em->persist($crr);
+        $em->flush();
+    }
+
+    private function insertCardReward($mid,$uid,$count,$point){
+        $em = $this->getDoctrine()->getManager();
+        $crr = new CardRecordedReward();
+        $crr->setMatchId($mid);
+        $crr->setUserId($uid);
+        $crr->setRewardCount($count);
+        $crr->setRewardPoint($point);
+        $em->persist($crr);
+        $em->flush();
+    }
+
+    private function insertCardTask($uid,$point){
+        $parms = array(
+          'orderId' => $this->container->getParameter('init'),
+          'userid' => $uid,
+          'task_type' => $this->container->getParameter('init_four'),
+          'categoryId' => $this->container->getParameter('init_fourteen'),
+          'taskName' => $this->container->getParameter('card_record'),
+          'reward_percent' => $this->container->getParameter('init'),
+          'point' => $point,
+          'date' => date('Y-m-d H:i:s'),
+          'status' => $this->container->getParameter('init_one')
+        );
+        $this->getTaskHistory($parms);
+    }
+
+    private function handleCReward($id){
+        $is_crr_flag = '';
+        $em = $this->getDoctrine()->getManager();
+        $crm = $em->getRepository('JiliApiBundle:CardRecordedMatch')->find($id);
+        $uid = $crm->getUserId();
+        $match_count = $crm->getMatchCount();
+        $crdr = $em->getRepository('JiliApiBundle:CardRecordedRemain')->findByUserId($uid);
+        if(!empty($crdr)){
+            $match_count = $match_count + $crdr[0]->getRemainCount();
+            $is_crr_flag = $this->container->getParameter('init_one');
+        }
+        if($match_count%4 == 0){
+            $point = $match_count/4;
+            $rewardCount = $match_count;
+            $remain_count = $this->container->getParameter('init');
+        }else{
+            $point = intval($match_count/4);
+            $remain_count = $match_count%4;
+            $rewardCount = $match_count-$remain_count;
+        }
+        $this->insertCardReward($id,$uid,$rewardCount,$point);
+        if($is_crr_flag){
+           $update_crdr = $em->getRepository('JiliApiBundle:CardRecordedRemain')->find($crdr['0']->getId());
+           $update_crdr->setRemainCount($remain_count);
+           $em->persist($update_crdr);
+           $em->flush();
+        }else{
+          if($remain_count != $this->container->getParameter('init'))
+              $this->insertCardRemain($uid,$remain_count);
+        }
+        $this->getPointHistory($uid,$point,$this->container->getParameter('init_fourteen'));
+        $this->insertCardTask($uid,$point);
+        $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+        $user->setPoints(intval($user->getPoints()+$point));
+        $em->persist($user);
+        $em->flush();
+        $crm->setIsProvideFlag($this->container->getParameter('init_one'));
+        $em->persist($crm);
+        $em->flush();
+
+    } 
+
+
+    /**
+     * @Route("/insertCardReward",name="_admin_insertCardReward")
+     */
+    public function insertCardRewardAction(){
+        $request = $this->get('request');
+        $id = $request->query->get('id');
+        $this->handleCReward($id);
+        return new Response($this->container->getParameter('init_one'));
+    }
+
+
+     /**
+     * @Route("/",name="")
+     */
+    public function Action(){
+
+    }
+
+
 
      private function insertSendMs($parms=array()){
       extract($parms);
@@ -2264,6 +2959,60 @@ class AdminController extends Controller
       $showMs = $sm->getSendMs();
       return $showMs;
      
+    }
+
+
+    public function getTaskHistory($parms=array()){
+    extract($parms);
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      switch($uid){
+            case 0:
+                  $po = new TaskHistory00();
+                  break;
+            case 1:
+                  $po = new TaskHistory01();
+                  break;
+            case 2:
+                  $po = new TaskHistory02();
+                  break;
+            case 3:
+                  $po = new TaskHistory03();
+                  break;
+            case 4:
+                  $po = new TaskHistory04();
+                  break;
+            case 5:
+                  $po = new TaskHistory05();
+                  break;
+            case 6:
+                  $po = new TaskHistory06();
+                  break;
+            case 7:
+                  $po = new TaskHistory07();
+                  break;
+            case 8:
+                  $po = new TaskHistory08();
+                  break;
+            case 9:
+                  $po = new TaskHistory09();
+                  break;
+      }
+      $em = $this->getDoctrine()->getManager();
+      $po->setOrderId($orderId);
+      $po->setUserId($userid);
+      $po->setTaskType($task_type);
+      $po->setCategoryType($categoryId);
+      $po->setTaskName($taskName);
+      $po->setRewardPercent($reward_percent);
+      $po->setPoint($point);
+      $po->setDate(date_create($date));
+      $po->setStatus($status);
+      $em->persist($po);
+      $em->flush();
     }
     
     /**
