@@ -327,7 +327,7 @@ class  ExchangeController extends Controller
         $existIdent = $em->getRepository('JiliApiBundle:IdentityConfirm')->issetIndentity($identityCard[0]->getIdentityCard(),$uid);
         if(!empty($existIdent)){
             foreach ($existIdent as $key => $value) {
-                 $existUserExchange = $em111->getRepository('JiliApiBundle:PointsExchange')->existOneExchange($value['userId'],$type);
+                 $existUserExchange = $em->getRepository('JiliApiBundle:PointsExchange')->existOneExchange($value['userId'],$type);
                  if(!empty($existUserExchange)){
                     foreach ($existUserExchange as $key1 => $value1) {
                          $ExchangeDanger = new ExchangeDanger();
