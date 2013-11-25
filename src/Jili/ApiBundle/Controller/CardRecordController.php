@@ -10,6 +10,8 @@ class  CardRecordController extends Controller
      * @Route("/index", name="_cardRecord_index")
      */
     public function indexAction(){ 
+        exit;
+        /*
     	$iframeurl = 'https://entry.eightbiz.net/login';
     	$provider_key = 'jili';
     	$provider_secret = 'DXl1nnDbU3dAHXQdttSHzcZQVK4MWVOT';
@@ -22,6 +24,7 @@ class  CardRecordController extends Controller
 		$signature = urlencode(base64_encode(hash_hmac('sha1', $encodedstring, 'DXl1nnDbU3dAHXQdttSHzcZQVK4MWVOT',true)));
 		$url = $iframeurl.'?'.$iframeparam.'&signature='.$signature;
         return $this->render('JiliApiBundle:CardRecord:index.html.twig',array('url'=>$url));
+        */
     }
 
 }
