@@ -1412,6 +1412,11 @@ class AdminController extends Controller
               $status = $v[7];
               $finish_time = $v[8];
               $points = $v[4];
+              if($type == 3){
+                  $status = $v[8];
+                  $finish_time = $v[9];
+                  $points = $v[5];
+              }
               $ear = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
               if($status == 'ok'){
                   $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type);
@@ -1774,7 +1779,7 @@ class AdminController extends Controller
                         }
                    }
                    if($exType == 3){
-                      if($goods_list[0][2] != 'alipay_user'){
+                      if($goods_list[0][2] != 'real_name'){
                         $success = $this->container->getParameter('init_three');
                       }else{
                         unset($goods_list[0]);

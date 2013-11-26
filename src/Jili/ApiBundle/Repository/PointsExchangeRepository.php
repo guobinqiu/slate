@@ -46,7 +46,7 @@ class PointsExchangeRepository extends EntityRepository
 
 	public function getTargetAccount($uid,$type){
 		$query = $this->createQueryBuilder('p');
-		$query = $query->select('p.id,p.targetAccount');
+		$query = $query->select('p.id,p.targetAccount,p.realName');
 		$query = $query->Where('p.userId = :uid');
 		$query = $query->andWhere('p.type = :type');
 		$query = $query->orderBy('p.id','DESC');
@@ -85,7 +85,7 @@ class PointsExchangeRepository extends EntityRepository
 		if($end)
 			$end_time = $end.' 23:59:59';
 		$query = $this->createQueryBuilder('p');
-		$query = $query->select('p.id,p.userId,u.email,p.targetAccount,p.targetPoint,p.type as exType,p.exchangeItemNumber,p.exchangeDate,p.finishDate,p.status,pt.type');
+		$query = $query->select('p.id,p.userId,u.email,p.targetAccount,p.targetPoint,p.realName,p.type as exType,p.exchangeItemNumber,p.exchangeDate,p.finishDate,p.status,pt.type');
 		$query = $query->innerJoin('JiliApiBundle:PointsExchangeType', 'pt', 'WITH', 'p.type = pt.id');
 		$query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'p.userId = u.id');
 		$query = $query->Where('1 = 1');
