@@ -125,6 +125,20 @@ class AdvertisermentRepository extends EntityRepository
 	
 	}
 
+	//搜索标题
+	public function searchTitle($title)
+	{
+		$query = $this->createQueryBuilder('a');
+		$query = $query->select('a.id,a.title,a.endTime,a.decription,a.content,a.imageurl,a.iconImage,a.listImage,a.incentive,a.incentiveType,a.incentiveRate,a.info');
+		$query = $query->Where('a.deleteFlag = 0');
+		$query = $query->andWhere('a.title like :title');
+		$query = $query->orderBy('a.id','DESC');
+		$query = $query->setParameter('title','%'.$title.'%');
+		$query = $query->getQuery();
+		return $query->getResult();
+	
+	}
+
 	
 	//获取广告位置列表
 	public function getAdvertiserAreaList($area)

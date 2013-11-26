@@ -5,6 +5,15 @@
 	text-align:center;
 	position:relative;
 }
+.exchange .about .historyExchange{
+	background-image: url("../images/goExchangeHistory.gif");
+    display: inline-block;
+    height: 40px;
+    position: absolute;
+    right: 100px;
+    top: 165px;
+    width: 169px;
+}
 .exchange .about a.exchangeBtn{
 	background-image: url("../images/exchange_91ww_btn.gif");
     background-position: 0 0;
@@ -26,13 +35,26 @@
 	font-size: 0;
 	position:absolute;
 }
+.exchange .about a.mobileBtn{
+    left: 248px;
+    top: 580px;
+}
+
+.exchange .about a.alipayBtn{
+    right: 174px;
+    top: 714px;
+}
+.exchange .about .amazonBtn{
+	right: 172px;
+    top: 450px;
+}
 .exchange .about a.wenwen{
-	left: 213px;
-    top: 355px;
+	left: 233px;
+    top: 350px;
 }
 .exchange .about a.mobiel{
-	right: 132px;
-    top: 440px;
+	left: 247px;
+    top: 578px;
 }
 .exchange .btnArea{
 	text-align:center;
@@ -62,6 +84,16 @@
 .exchange article .wenwen{
 	padding:20px 50px;
 }
+
+.exchange article .wenwen div.desCon{
+	 margin-top: 50px;
+	  font-size: 16px;
+}
+
+.exchange article .wenwen div.identity{
+	 margin: 50px 50px 100px;
+
+}
 .exchange article .wenwen div.form{
 	display:inline-block;
 	text-align:left;
@@ -70,12 +102,39 @@
 	line-height:200%;
 }
 
+.exchange article .wenwen span.error{
+	
+}
+
+.exchange article .wenwen div.identity dt input[type="text"]{
+	border:1px solid #cccccc;
+	padding:5px;
+	width:200px;
+	box-shadow:inset 1px 1px 2px #eee;
+	margin:0 5px 0 0;
+}
+.exchange article .wenwen div.identity dt{
+	margin: 10px -55px;
+    width: 460px;
+}
+.exchange article .wenwen div.identity dd{
+	float: left;
+    margin: 5px 0 0 60px;
+    width: 120px;
+}
+
+
 .exchange article .wenwen div.form dd{
-	width:120px;
-	float:left;
+	float: left;
+    margin: 10px 0;
+    padding-right: 20px;
+    text-align: right;
+    width: 120px;
 }
 .exchange article .wenwen div.form dt{
 	float:left;
+	width:460px;
+	margin: 10px 0;
 }
 .exchange article .wenwen div.form dt span.warn{
 	color:#F00;
@@ -97,6 +156,10 @@
 }
 .exchange article .wenwen div.form dt a{
 	color:#8abf0f;
+}
+.exchange article .wenwen div.form dt a.otherUser{
+	font-size: 12px;
+	color: #EA4B11;
 }
 .exchange article .wenwen div.form dt img, .exchange article div.wenwen div dt input{
 	vertical-align:middle;

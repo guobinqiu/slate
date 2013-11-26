@@ -1,0 +1,5 @@
+exchange_id,91jili_email,payment_amount,payment_point,status,reason,create_time
+{% if exchange %}
+{% for item in exchange %}{{ item.wenwenExchangeId }},{{ item.email }},{{ item.paymentPoint }},{{ item.paymentPoint }},{% if item.status == 1 %}ok{% else %}ng{% endif %},{{ item.reason }},{{ item.createTime.date | date('Y-m-d') }}
+{% endfor %}
+{% endif %}

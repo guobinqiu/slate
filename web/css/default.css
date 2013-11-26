@@ -8,7 +8,7 @@ body {
 	background-color:#f6f6f6;
 	font-size: 12px;
 	line-height:150%;
-	font-family:"宋体";
+	font-family: 'Hiragino Sans GB','Microsoft YaHei','SimSun',sans-serif;
 	position:relative;
 }
 h1, h2, h3, h4, h5, h6, small, sub, sup {

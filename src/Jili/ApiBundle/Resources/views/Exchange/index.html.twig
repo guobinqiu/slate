@@ -20,9 +20,16 @@ $(document).ready(function(){
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle exchange">
-	<div class="about"><a class="exchangeBtn wenwen" href="{{ path('_exchange_info') }}">立即兑换</a><a class="await mobiel">即将开放</a><img src="{{ asset('images/exchangeContent.jpg')}}" width="813" height="270"><img src="{{ asset('images/exchangeFuture.jpg')}}" width="830" height="480"></div>
+	<div class="about">
+	<a class="historyExchange" href="{{  asset(path('_user_exchange',{'type': 0,'exchangeType':1}),'cdn1') }}"></a>
+	<a class="exchangeBtn wenwen" href="{{ path('_exchange_info') }}">立即兑换</a>
+	<!--<a class="await mobiel">即将开放</a>-->
+	<a class="exchangeBtn amazonBtn" href="{{ path('_exchange_identityCardComfirm',{'type': 'amazon'}) }}">立即兑换</a>
+	<a class="exchangeBtn alipayBtn" href="{{ path('_exchange_identityCardComfirm',{'type': 'alipay'}) }}">立即兑换</a>
+	<a class="exchangeBtn mobileBtn" href="{{ path('_exchange_identityCardComfirm',{'type': 'mobile'}) }}">立即兑换</a>
+
+	<img src="{{ asset('images/exchangeContent.jpg')}}" width="813" height="270"><img src="{{ asset('images/exchangeFuture.jpg')}}"></div>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
 </html>
-
