@@ -60,6 +60,13 @@ class PointsExchange
      * @ORM\Column(name="target_account", type="string", length=45)
      */
     private $targetAccount;
+        
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="real_name", type="string", length=45)
+     */
+    private $realName;
 
     /**
      * @var integer
@@ -223,6 +230,30 @@ class PointsExchange
     public function getTargetAccount()
     {
         return $this->targetAccount;
+    }
+
+
+    /**
+     * Set realName
+     *
+     * @param string $realName
+     * @return PointsExchange
+     */
+    public function setRealName($realName)
+    {
+        $this->realName = $realName;
+    
+        return $this;
+    }
+
+    /**
+     * Get realName
+     *
+     * @return string 
+     */
+    public function getRealName()
+    {
+        return $this->realName;
     }
 
     /**
