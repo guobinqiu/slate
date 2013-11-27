@@ -1,14 +1,22 @@
 $(document).ready(function() {
 	
-	$(".close").click(function(){
-		$(this).parent().next(".content").hide();
-		$(this).parent().children(".open").show();
-		$(this).hide();
-	})
-	$(".open").click(function(){
-		$(this).parent().next(".content").show();
+	$(".personal section .content").show();
+	$(".personal h3 a").addClass("close");
+	
+	$(".personal h3 a").toggle(
+	  function () {
+	  	$(this).removeClass("close");
+	    $(this).addClass("open");
+	    $(this).parent().next(".content").slideUp("normal");
 		$(this).parent().children(".close").show();
-		$(this).hide();
-	})
+	  },
+	  function () {
+		$(this).removeClass("open");
+	    $(this).addClass("close");
+	    $(this).parent().next(".content").slideDown("normal");
+		$(this).parent().children(".open").show();
+	  }
+	);
+	
 	
 });

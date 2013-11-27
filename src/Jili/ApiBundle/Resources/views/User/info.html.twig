@@ -316,7 +316,7 @@ function addClass(id){
   </section>
   
 <section id= "info">
-    <h3>个人信息<a class="close">关闭</a><a class="open">打开</a></h3>
+    <h3>个人信息<a></a></h3>
     <div class="content info">
       <a class="edit" href="javascript:void(0);" id="change">修改 »</a>
       <ul>
@@ -381,7 +381,7 @@ function addClass(id){
   
   <section id= "updateInfo">
    <form action="{{ path('_user_info') }}" method="post">
-    <h3>个人信息<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
+    <h3>个人信息<a></a></h3>
     <div class="content info">
       <a class="edit" href="javascript:void(0);" id="change">修改 »</a>
       <ul>
@@ -466,7 +466,7 @@ function addClass(id){
 
   <section>
 
-    <h3>我的任务历史<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
+    <h3>我的任务历史<a></a></h3>
     <div class="content ad">
     {% if adtasteNum > 0 %}
       <p class="prompt">*&nbsp;商家审核需要8周，判定有效后立即到账（退货无返利）</p>
@@ -523,7 +523,7 @@ function addClass(id){
     </div>
   </section>
   <section>
-    <h3>我的兑换历史<a class="close">关闭</a><a class="open" style="display:none;">打开</a></h3>
+    <h3>我的兑换历史<a></a></h3>
     <div class="content score">
     <div class="screen">
       <a onclick="addClass(1);" class="hoverCb hover" href="javascript:void(0);">兑出</a>
@@ -565,7 +565,7 @@ function addClass(id){
         {% endfor %}
 
         {% else %}
-        <tr><td align="center" colspan="5">没有兑换记录</td></tr>
+        <tr><td align="center" colspan="6">没有兑换记录</td></tr>
         {% endif %}
          
       </table>
@@ -585,7 +585,7 @@ function addClass(id){
         {% endfor %}
           <!-- <a href="{{  asset(path('_user_exchange',{'type': 0,'exchangeType':2 }),'cdn1') }}" class="more edit">更多 »</a> -->
         {% else %}
-        <tr><td align="center" colspan="5">没有兑换记录</td></tr>
+        <tr><td align="center" colspan="3">没有兑换记录</td></tr>
         {% endif %}
       </table>
     

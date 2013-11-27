@@ -186,7 +186,7 @@ function look(eid){
             </tr>
             {% endfor %}
         {% else %}
-          <tr><td align="center" colspan="5">没有兑换记录</td></tr>
+          <tr><td align="center" colspan="6">没有兑换记录</td></tr>
         {% endif %} </table>
         {{ knp_pagination_render(pagination) }}
       {% elseif exchangeType == 2 %}
@@ -205,7 +205,7 @@ function look(eid){
         </tr>
         {% endfor %}
         {% else %}
-        <tr><td align="center" colspan="5">没有兑换记录</td></tr>
+        <tr><td align="center" colspan="3">没有兑换记录</td></tr>
         {% endif %}
       </table>
       {{ knp_pagination_render(pagination) }}
