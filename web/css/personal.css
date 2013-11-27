@@ -75,9 +75,11 @@
 .personal section h3 {
 	font-size: 18px;
 	color: #666666;
-	border-bottom: 1px #e0e0e0 dashed;
 	padding: 20px;
 	position: relative;
+}
+.personal section .content{	
+	border-top: 1px #e0e0e0 dashed;
 }
 .personal section.line{ 
 	padding:1px 0 0 0;
@@ -87,23 +89,27 @@
 }
 .personal section h3 a.close {
 	background-image: url(../images/upIcon.jpg);
-	width: 22px;
-	height: 22px;
+	width: 100%;
+	height: 58px;
 	display: inline-block;
 	text-indent: -9999px;
 	position: absolute;
-	right: 20px;
-	top: 20px;
+	right: 0px;
+	top: 0px;
+	background-repeat: no-repeat;
+	background-position: 920px center;
 }
 .personal section h3 a.open {
 	background-image: url(../images/downIcon.jpg);
-	width: 22px;
-	height: 22px;
+	width: 100%;
+	height: 58px;
 	display: inline-block;
 	text-indent: -9999px;
 	position: absolute;
-	right: 20px;
-	top: 20px;
+	right: 0px;
+	top: 0px;
+	background-repeat: no-repeat;
+	background-position: 920px center;
 }
 .photo{
 	padding: 20px 50px;
@@ -169,11 +175,11 @@
     position: absolute;
     top: 15px;
 	font-size:13px;
-	left: 10px;
+	left: 65px;
 }
 .info a.edit, .ad a.more, .score a.more{
 	position:absolute;
-	right:20px;
+	right:60px;
 	top:20px;
 	color:#54b9e8;
 	text-decoration:none;
@@ -267,7 +273,7 @@
 .ad, .score {
 	width: 850px;
 	margin: auto;
-	padding: 50px 0;
+	padding: 50px 55px;
 }
 .ad table, .score table {
 	border: 1px solid #F0F0F0;
