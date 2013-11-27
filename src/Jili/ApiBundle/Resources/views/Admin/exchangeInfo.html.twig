@@ -67,8 +67,17 @@ $(document).ready(function(){
                  <td align="center">{{ item.exchangeItemNumber }}</td>
            {% else %}
             {% endif %}
+            {% if item.exType == 1 %}
+                 <td align="center">91wenwen</td>
+            {% elseif item.exType == 2 %}
+                 <td align="center">amazon</td>
+            {% elseif item.exType == 3 %}
+                 <td align="center">alipay</td>
+            {% elseif item.exType == 4 %}
+                 <td align="center">mobile</td>
+           {% else %}
+            {% endif %}
 
-           <td align="center">{{ item.type }}</td>
            <td align="center">{% if item.status==1 %}success{% elseif  item.status==2 %}fail{% else %}audit{% endif %}</td>
            <td align="center">{% if item.finishDate %}{{ item.finishDate.date | date('Y-m-d') }}{% endif %}</td>
            <td align="center">{{ item.ident }}</td>
