@@ -13,20 +13,29 @@
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
 var existAlipay = "{{ existAlipay }}";
+var existRealName = "{{ existRealName }}";
 $(document).ready(function() {
   {% if existAlipay %}
     $(".form dt:eq(1)").hide();
     $(".form dt:eq(2)").hide();
+    $(".form dt:eq(4)").hide();
+    $(".form dt:eq(5)").hide();
     $(".form dd:eq(1)").hide();
+    $(".form dd:eq(3)").hide();
   {% else %}
     $(".form dt:eq(0)").hide();
+    $(".form dt:eq(3)").hide();
   {% endif %}
   $(".otherUser").click(function (){
     $("#existAlipay").val('1');
     $(".form dt:eq(0)").hide();
+    $(".form dt:eq(3)").hide();
     $(".form dt:eq(1)").show();
     $(".form dt:eq(2)").show();
     $(".form dd:eq(1)").show();
+    $(".form dd:eq(3)").show();
+    $(".form dt:eq(4)").show();
+    $(".form dt:eq(5)").show();
   })
 	if($("#over").html()<0){
 		$("#active").hide();
@@ -51,6 +60,10 @@ function change(){
         if($("#alipay").val()!=$("#re_alipay").val()){
           $("#error").html("<font color='red'>2次输入的支付宝账号不相同</font>");
           return false;
+        }
+         if($("#real_name").val()==''){
+            $("#error").html("<font color='red'>请输入您的真实姓名</font>");
+            return false;
         }
       }
       var exchange_total = $(".rechange").html();
@@ -90,6 +103,10 @@ function changePoint(){
         <dt><input id="alipay" type="text" name="alipay" value="{{ alipay }}" /></dt>
         <dd>再次输入账号：</dd>
         <dt><input id="re_alipay" type="text" name="re_alipay" /></dt>
+        <dd>姓名：</dd>
+        <dt>{{ existRealName }}</dt>
+        <dt><input id="real_name" type="text" name="real_name"  onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"/></dt>
+        <dd>&nbsp;</dd><dt style="color: #EA4B11;">请填写真实姓名与支付宝匹配，否则有可能兑换失败</dt>
         <dd>选择兑换金额：</dd>
         <dt><select id="point" name="point"  onchange="changePoint();">
             <option value='3000'>30元</option>
@@ -99,6 +116,7 @@ function changePoint(){
 
       </div>
        <input type="hidden" name="existAlipay" id="existAlipay"/>
+       <input type="hidden" name="existRealName" id="existRealName"/>
       <input type="hidden" name="rechange" id="changes"/>
       <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">3000</span></div>
       <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-3000 }}</span></div>

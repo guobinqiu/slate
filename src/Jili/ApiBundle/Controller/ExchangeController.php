@@ -35,6 +35,7 @@ class  ExchangeController extends Controller
         }else{
             $arr['code'] = '';
             $arr['existAlipay'] = '';
+            $arr['existRealName'] = '';
             $arr['alipay'] = '';
             $pointschange  = new PointsExchange();
             $id = $this->get('request')->getSession()->get('uid');
@@ -48,10 +49,13 @@ class  ExchangeController extends Controller
             $change_point =  $request->request->get('point');
             $alipay = $request->request->get('alipay');
             $re_alipay = $request->request->get('re_alipay');
+            $real_name = $request->request->get('real_name');
             $existAlipay = $request->request->get('existAlipay');
+            $existRealName = $request->request->get('existRealName');
             $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($id,$this->container->getParameter('init_three'));
             if(!empty($targetAcc)){
                  $arr['existAlipay'] = $targetAcc[0]['targetAccount'];
+                 $arr['existRealName'] = $targetAcc[0]['realName'];
             }
             if ($request->getMethod() == 'POST') {
                     $arr['alipay'] = $alipay;
@@ -67,22 +71,34 @@ class  ExchangeController extends Controller
                                                 $arr['code'] = $code;
                                             }else{
                                                 if($alipay == $re_alipay){
-                                                    $user->setPoints($points-intval($change_point));
-                                                    $em->persist($user);
-                                                    $em->flush();
-                                                    $pointschange->setUserId($id);
-                                                    $pointschange->setType($this->container->getParameter('init_three'));
-                                                    $pointschange->setSourcePoint($points-intval($change_point));
-                                                    $pointschange->setTargetPoint(intval($change_point));
-                                                    $pointschange->setTargetAccount($alipay);
-                                                    $pointschange->setExchangeItemNumber($change_point/100);
-                                                    $pointschange->setIp($this->get('request')->getClientIp());
-                                                    $em->persist($pointschange);
-                                                    $em->flush();
-                                                    $this->identDanger($this->container->getParameter('init_three'),$pointschange->getId(),$id);
-                                                    $this->ipDanger($this->container->getParameter('init_three'),$pointschange->getIp(),$pointschange->getId(),$id);
-                                                    $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
-                                                    return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'alipay')));
+                                                    if($real_name){
+                                                        if(!eregi("[^\x80-\xff]",$real_name)){
+                                                            $user->setPoints($points-intval($change_point));
+                                                            $em->persist($user);
+                                                            $em->flush();
+                                                            $pointschange->setUserId($id);
+                                                            $pointschange->setType($this->container->getParameter('init_three'));
+                                                            $pointschange->setSourcePoint($points-intval($change_point));
+                                                            $pointschange->setTargetPoint(intval($change_point));
+                                                            $pointschange->setTargetAccount($alipay);
+                                                            $pointschange->setRealName($real_name);
+                                                            $pointschange->setExchangeItemNumber($change_point/100);
+                                                            $pointschange->setIp($this->get('request')->getClientIp());
+                                                            $em->persist($pointschange);
+                                                            $em->flush();
+                                                            $this->identDanger($this->container->getParameter('init_three'),$pointschange->getId(),$id);
+                                                            $this->ipDanger($this->container->getParameter('init_three'),$pointschange->getIp(),$pointschange->getId(),$id);
+                                                            $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
+                                                            return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'alipay')));
+                                                                
+                                                        }else{
+                                                            $code = $this->container->getParameter('exchange_right_name');
+                                                            $arr['code'] = $code;        
+                                                        }
+                                                    }else{
+                                                        $code = $this->container->getParameter('exchange_real_name');
+                                                        $arr['code'] = $code;
+                                                    }
                                                 }else{
                                                     $code = $this->container->getParameter('exchange_unsame_alipay');
                                                     $arr['code'] = $code;
@@ -94,7 +110,6 @@ class  ExchangeController extends Controller
                                             $arr['code'] = $code;
 
                                         }
-
                                     }else{
                                         $user->setPoints($points-intval($change_point));
                                         $em->persist($user);
@@ -104,6 +119,7 @@ class  ExchangeController extends Controller
                                         $pointschange->setSourcePoint($points-intval($change_point));
                                         $pointschange->setTargetPoint(intval($change_point));
                                         $pointschange->setTargetAccount($arr['existAlipay']);
+                                        $pointschange->setRealName($arr['existRealName']);
                                         $pointschange->setExchangeItemNumber($change_point/100);
                                         $pointschange->setIp($this->get('request')->getClientIp());
                                         $em->persist($pointschange);

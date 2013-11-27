@@ -22,9 +22,9 @@ $(document).ready(function(){
 <BODY>
 <form action="{{ path('_admin_exchangeInfo')}}" method="post" id="form1"}} >
 <table align="center" width="1024">
-<tr><td colspan="7">&nbsp;</td></tr>
-<tr><td colspan="7">&nbsp;</td></tr>
-<tr><td colspan="7" align="center">兑换开始时间:<input id="start" name="start_time" value="{% if start %}{{ start }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
+<tr><td colspan="12">&nbsp;</td></tr>
+<tr><td colspan="12">&nbsp;</td></tr>
+<tr><td colspan="12" align="center">兑换开始时间:<input id="start" name="start_time" value="{% if start %}{{ start }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
 &nbsp;兑换结束时间:<input name="end_time" id="end" value="{% if end %}{{ end }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>&nbsp;
 <select name="exchangeType" id="exchangeType">
   <option value="0">全部</option>
@@ -34,40 +34,42 @@ $(document).ready(function(){
 </select>
 <type type="hidden" id="hided" />
 <input type="button" id="select" name="select" value="查 询"/>&nbsp;<input type="submit" id="add" name="add" value="导出兑换数据"/></td></tr>
-<tr><td colspan="7">&nbsp;</td></tr>
+<tr><td colspan="12">&nbsp;</td></tr>
     	<tr>
-        	<th>兑换账号</th>
-        	<th>对方账号</th>
-            <th>兑换时间</th>
-            <th>兑换米粒</th>
-            <th>兑换物品</th>
-            <th>兑换类型</th>
-            <th>兑换状态</th>
-            <th>完成时间</th>
-            <th>身份证嫌疑</th>
-            <th>ip嫌疑</th>
-            <th>手机号码嫌疑</th>
+        	<th>exchangeAccount</th>
+        	<th>oppositeAccount</th>
+          <th>realName</th>
+            <th>exchangeTime</th>
+            <th>exchangePoint</th>
+            <th>money</th>
+            <th>type</th>
+            <th>status</th>
+            <th>completeTime</th>
+            <th>identSuspicion</th>
+            <th>ipSuspicion</th>
+            <th>mobileSuspicion</th>
         </tr>
         {% if pagination %}
          {% for item in pagination %}
         <tr>
           <td align="center">{{ item.email }}</td>
           <td align="center">{{ item.targetAccount }}</td>
+          <td align="center">{{ item.realName }}</td>
           <td align="center">{{ item.exchangeDate.date | date('Y-m-d') }}</td>
           <td align="center">{{ item.targetPoint }} </td>
             {% if item.exType == 1 %}
-                 <td align="center">{{ item.targetPoint }}问问积分</td>
+                 <td align="center">{{ item.targetPoint }}</td>
             {% elseif item.exType == 2 %}
-                 <td align="center">{{ item.exchangeItemNumber }}张亚马逊礼品卡</td>
+                 <td align="center">{{ item.exchangeItemNumber }}</td>
             {% elseif item.exType == 3 %}
-                 <td align="center">{{ item.exchangeItemNumber }}元支付宝</td>
+                 <td align="center">{{ item.exchangeItemNumber }}</td>
             {% elseif item.exType == 4 %}
-                 <td align="center">{{ item.exchangeItemNumber }}元手机话费</td>
+                 <td align="center">{{ item.exchangeItemNumber }}</td>
            {% else %}
             {% endif %}
 
            <td align="center">{{ item.type }}</td>
-           <td align="center">{% if item.status==1 %}兑换成功{% elseif  item.status==2 %}兑换失败{% else %}审核中{% endif %}</td>
+           <td align="center">{% if item.status==1 %}success{% elseif  item.status==2 %}fail{% else %}audit{% endif %}</td>
            <td align="center">{% if item.finishDate %}{{ item.finishDate.date | date('Y-m-d') }}{% endif %}</td>
            <td align="center">{{ item.ident }}</td>
            <td align="center">{{ item.ip }}</td>
