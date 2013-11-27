@@ -42,7 +42,9 @@ aside section.menu ul li a{
     text-align: left;
     text-decoration: none;
     width: 168px;
+    font-size: 14px;
+    color: #666;
 }
 aside section.menu ul li a:hover{
-	background-color: #DDD;
+	background-color: #EEE;
 }
