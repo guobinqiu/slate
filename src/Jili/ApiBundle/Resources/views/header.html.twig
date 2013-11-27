@@ -95,8 +95,10 @@ function isNewMs(){
           success:function(data){
               if(data){
                    $('.newms').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
+                   $('.myMes').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
               }else{
                   $('.newms').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
+                  $('.myMes').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
               }
           }
         });

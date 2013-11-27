@@ -26,3 +26,23 @@ aside section p.point span{
 	font-weight:bold;
 	font-size:36px;
 }
+aside section.menu{
+	padding:5px 0;
+	text-align: center;
+}
+aside section.menu ul li a{
+	background-color: #FFFFFF;
+    background-image: url("../images/userAsideMenuArrow.gif");
+    background-position: 175px 10px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 35px;
+    line-height: 35px;
+    padding: 0 15px;
+    text-align: left;
+    text-decoration: none;
+    width: 168px;
+}
+aside section.menu ul li a:hover{
+	background-color: #DDD;
+}
