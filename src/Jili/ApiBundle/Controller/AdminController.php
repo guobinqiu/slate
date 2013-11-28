@@ -1779,7 +1779,7 @@ class AdminController extends Controller
                         }
                    }
                    if($exType == 3){
-                      if($goods_list[0][2] != 'real_name'){
+                      if($goods_list[0][2] != 'alipay_user'){
                         $success = $this->container->getParameter('init_three');
                       }else{
                         unset($goods_list[0]);
