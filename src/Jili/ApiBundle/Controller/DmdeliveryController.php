@@ -27,9 +27,10 @@ class DmdeliveryController extends Controller
 	 */
 	public function pointFailureAction()
 	{	
+		set_time_limit(0);
 		$failTime = 180;
 		$companyId = 4;
-		$mailingId = 23;
+		$mailingId = 25;
 		$rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
 		return new Response($rs);
 
@@ -40,9 +41,10 @@ class DmdeliveryController extends Controller
 	 */
 	public function pointFailureForWeekAction()
 	{
+		set_time_limit(0);
 		$failTime = 173;
 		$companyId = 4;
-		$mailingId = 23;
+		$mailingId = 26;
 		$rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
 		return new Response($rs);
 
@@ -53,9 +55,10 @@ class DmdeliveryController extends Controller
 	 */
 	public function pointFailureForMonthAction()
 	{
+		set_time_limit(0);
 		$failTime = 150;
 		$companyId = 4;
-		$mailingId = 23;
+		$mailingId = 24;
 		$rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
 		return new Response($rs);
 
@@ -115,10 +118,11 @@ class DmdeliveryController extends Controller
 	public function updatePointZero($userId){
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($userId);
+		$oldPoint = $user->getPoints();
 		$user->setPoints($this->container->getParameter('init'));
 		$em->persist($user);
 		$em->flush();
-
+		$this->getPoint($userId,'-'.$oldPoint,$this->container->getParameter('init_fifteen'));
 	}
 
 	public function insertSendPointFail($userId,$type){
@@ -128,6 +132,7 @@ class DmdeliveryController extends Controller
 		$sendPoint->setSendType($type);
 		$em->persist($sendPoint);
 		$em->flush();
+
 	}
 
 	public function init_client(){
@@ -135,6 +140,7 @@ class DmdeliveryController extends Controller
 		$client = new \SoapClient($this->soap,array('encoding'=>'utf-8', 'features'=>SOAP_SINGLE_ELEMENT_ARRAYS));
 		return $client;
 	}
+
 
 	public function addRecipientsSendMailing($companyId,$mailingId,$groupId,$recipient_arr){
 		$login = array('username' => $this->username, 'password' => $this->password);
@@ -166,7 +172,7 @@ class DmdeliveryController extends Controller
 				$companyId,
 		        $mailingId,
 				true,
-				"leeqinm@sina.cn",
+				"yang@voyagegroup.com.cn",
 		        array($groupId),
 				"",
 				"",
@@ -253,6 +259,53 @@ class DmdeliveryController extends Controller
     {
         return $this->password;
     }
+
+    private function getPoint($userid,$point,$type){
+      if(strlen($userid)>1){
+            $uid = substr($userid,-1,1);
+      }else{
+            $uid = $userid;
+      }
+      switch($uid){
+            case 0:
+                  $po = new PointHistory00();
+                  break;
+            case 1:
+                  $po = new PointHistory01();
+                  break;
+            case 2:
+                  $po = new PointHistory02();
+                  break;
+            case 3:
+                  $po = new PointHistory03();
+                  break;
+            case 4:
+                  $po = new PointHistory04();
+                  break;
+            case 5:
+                  $po = new PointHistory05();
+                  break;
+            case 6:
+                  $po = new PointHistory06();
+                  break;
+            case 7:
+                  $po = new PointHistory07();
+                  break;
+            case 8:
+                  $po = new PointHistory08();
+                  break;
+            case 9:
+                  $po = new PointHistory09();
+                  break;
+      }
+      $em = $this->getDoctrine()->getManager();
+      $po->setUserId($userid);
+      $po->setPointChangeNum($point);
+      $po->setReason($type);
+      $em->persist($po);
+      $em->flush();
+    }
+ 
 
 
 }
