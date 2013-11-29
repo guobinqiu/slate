@@ -214,7 +214,7 @@ class  ExchangeController extends Controller
                                             $pointschange->setIp($this->get('request')->getClientIp());
                                             $em->persist($pointschange);
                                             $em->flush();
-                                             $this->identDanger($this->container->getParameter('init_four'),$pointschange->getId(),$id);
+                                             // $this->identDanger($this->container->getParameter('init_four'),$pointschange->getId(),$id);
                                             $this->ipDanger($this->container->getParameter('init_four'),$pointschange->getIp(),$pointschange->getId(),$id);
                                             $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
                                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'mobile')));
@@ -259,7 +259,7 @@ class  ExchangeController extends Controller
                             $pointschange->setIp($this->get('request')->getClientIp());
                             $em->persist($pointschange);
                             $em->flush();
-                            $this->identDanger($this->container->getParameter('init_four'),$pointschange->getId(),$id);
+                            // $this->identDanger($this->container->getParameter('init_four'),$pointschange->getId(),$id);
                             $this->ipDanger($this->container->getParameter('init_four'),$pointschange->getIp(),$pointschange->getId(),$id);
                             $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'mobile')));
@@ -320,7 +320,7 @@ class  ExchangeController extends Controller
                             $pointschange->setIp($this->get('request')->getClientIp());
                             $em->persist($pointschange);
                             $em->flush();
-                            $this->identDanger($this->container->getParameter('init_two'),$pointschange->getId(),$id);
+                            // $this->identDanger($this->container->getParameter('init_two'),$pointschange->getId(),$id);
                             $this->ipDanger($this->container->getParameter('init_two'),$pointschange->getIp(),$pointschange->getId(),$id);
                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'amazon')));
                         }
