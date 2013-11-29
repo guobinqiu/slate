@@ -1409,13 +1409,20 @@ class AdminController extends Controller
           foreach ($file as $k=>$v){
               $exchange_id = $v[0];
               $email = iconv('gb2312','UTF-8//IGNORE',$v[1]);
-              $status = $v[7];
-              $finish_time = $v[8];
-              $points = $v[4];
+              if($type == 1){
+                  $status = $v[6];
+                  $finish_time = $v[7];
+                  $points = $v[4];
+              } 
               if($type == 3){
                   $status = $v[8];
                   $finish_time = $v[9];
                   $points = $v[5];
+              }
+              if($type == 4){
+                  $status = $v[7];
+                  $finish_time = $v[8];
+                  $points = $v[4];
               }
               $ear = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
               if($status == 'ok'){
