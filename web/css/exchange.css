@@ -36,21 +36,21 @@
 	position:absolute;
 }
 .exchange .about a.mobileBtn{
-    left: 248px;
-    top: 580px;
+    left: 186px;
+    top: 590px;
 }
 
 .exchange .about a.alipayBtn{
-    right: 174px;
-    top: 714px;
+    right: 141px;
+    top: 728px;
 }
 .exchange .about .amazonBtn{
-	right: 172px;
-    top: 450px;
+	right: 142px;
+    top: 484px;
 }
 .exchange .about a.wenwen{
-	left: 233px;
-    top: 350px;
+	left: 185px;
+    top: 357px;
 }
 .exchange .about a.mobiel{
 	left: 247px;
