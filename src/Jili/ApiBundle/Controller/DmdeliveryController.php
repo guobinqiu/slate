@@ -27,10 +27,11 @@ class DmdeliveryController extends Controller
 	 */
 	public function pointFailureAction()
 	{	
+
 		set_time_limit(0);
 		$failTime = 180;
 		$companyId = 4;
-		$mailingId = 25;
+		$mailingId = 27;
 		$rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
 		return new Response($rs);
 
@@ -90,7 +91,7 @@ class DmdeliveryController extends Controller
 				}
 				if(!empty($recipient_arr)){
 					$send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
-	                if($send->status == "OK"){
+	                if($send->status != "ERROR"){
 	                	foreach ($user as $key => $value){
 							$this->insertSendPointFail($value['id'],$failTime);
 							if($failTime == 180){
@@ -98,8 +99,6 @@ class DmdeliveryController extends Controller
 							}
 						}
 						$rs = 'Send email successfully';
-	                }elseif($send->status == "DUPLICATE"){
-						$rs = 'Email has already send';
 	                }else{
 						$rs = 'Cannot send email:'.$send->statusMsg;
 	                }
