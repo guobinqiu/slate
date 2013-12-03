@@ -688,7 +688,7 @@ class DefaultController extends Controller {
 		$mailer = \Swift_Mailer :: newInstance($transport);
 		$message = \Swift_Message :: newInstance()->setSubject($subject)->setFrom(array (
 			'contact@91jili.com' => '积粒网'
-		))->setTo('zhangmm@voyagegroup.com.cn')->setBody('<html>' .
+		))->setTo('cs@91jili.com')->setBody('<html>' .
 		'<head></head>' .
 		'<body>' .
 		'咨询内容<br/>' .
