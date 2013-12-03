@@ -1,5 +1,16 @@
 $(document).ready(function() {
-	
+	$(window).resize(function() {
+		resizeFooter()
+	});
+	var resizeFooter =function(){
+		if($(window).height() > $("body").height()){
+			$("footer").css("position","fixed");
+		}
+		else{
+			$("footer").css("position","absolute");
+		}
+	}
+
 	$(".tabs-nav li").each(function(i) {
 		$(this).children("a").click(function() {
 			$(".tabs-nav li").removeClass("hover");
@@ -13,7 +24,8 @@ $(document).ready(function() {
 	var goToHelp = function(i){
 		$("#helpMain").load("help/help"+ (i+1) +".html", {limit: 25}, function(){
 			$("#helpMain ul").fadeIn("normal");
-		});	
+			resizeFooter();
+		});
 	}
 	
 	goToHelp(0)
