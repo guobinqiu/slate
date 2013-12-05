@@ -42,3 +42,7 @@ cardRecord:
     resource: "@JiliApiBundle/Controller/CardRecordController.php"
     prefix:   /cardRecord
     type:     annotation
+dmdelivery:
+    resource: "@JiliApiBundle/Controller/DmdeliveryController.php"
+    prefix:   /dmdelivery
+    type:     annotation

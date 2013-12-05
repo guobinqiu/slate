@@ -120,4 +120,15 @@ class UserRepository extends EntityRepository
 		$query = $query->getQuery();
 		return $query->getResult();
 	}
+
+	public function pointFail($type){
+		$daydate =  date("Y-m-d H:i:s", strtotime(' -'.$type.' day'));
+		$sqlpoint = "(select b.user_id from (select user_id,reason,create_time from point_history00 union select user_id,reason,create_time from point_history01  union select user_id,reason,create_time from point_history02 union select user_id,reason,create_time from point_history03  union select user_id,reason,create_time from point_history04  union select user_id,reason,create_time from point_history05  union select user_id,reason,create_time from point_history06  union select user_id,reason,create_time from point_history07  union select user_id,reason,create_time from point_history08  union select user_id,reason,create_time from point_history09) b where create_time > '".$daydate."')";
+
+		$sqltask = "(select c.user_id from (select user_id,status,date from task_history00 union select user_id,status,date from task_history01 union select user_id,status,date from task_history02 union select user_id,status,date from task_history03 union select user_id,status,date from task_history04 union select user_id,status,date from task_history05 union select user_id,status,date from task_history06 union select user_id,status,date from task_history07 union select user_id,status,date from task_history08 union select user_id,status,date from task_history09) c where status=2 and date > '".$daydate."')";
+
+		$sql = "select e.id,e.email,e.nick,e.register_date from user e where e.points>0 and e.register_date < '".$daydate."' and e.id not in ".$sqlpoint." and e.id not in ".$sqltask ;
+		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+
+	}
 }
