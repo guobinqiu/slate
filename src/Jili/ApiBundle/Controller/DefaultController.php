@@ -14,6 +14,8 @@ use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\WenwenUser;
 use Jili\ApiBundle\Entity\CallBoard;
 use Jili\ApiBundle\Entity\UserGameVisit;
+use Jili\ApiBundle\Entity\RegisterReward;
+use Jili\ApiBundle\Entity\UserInfoVisit;
 
 class DefaultController extends Controller {
 	// 是否完善资料
