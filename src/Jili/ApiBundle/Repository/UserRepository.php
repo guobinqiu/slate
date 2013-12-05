@@ -122,16 +122,12 @@ class UserRepository extends EntityRepository
 	}
 
 	public function pointFail($type){
-		$sqlpoint = "(select user_id,create_time from point_history00 union select user_id,create_time from point_history01 union select user_id,create_time from point_history02 union select user_id,create_time from point_history03 union select user_id,create_time from point_history04 union select user_id,create_time from point_history05 union select user_id,create_time from point_history06 union select user_id,create_time from point_history07 union select user_id,create_time from point_history08 union select user_id,create_time from point_history09) b";
-		
-		$sqltask = "(select user_id,status,date from task_history00 union select user_id,status,date from task_history01 union select user_id,status,date from task_history02 union select user_id,status,date from task_history03 union select user_id,status,date from task_history04 union select user_id,status,date from task_history05 union select user_id,status,date from task_history06 union select user_id,status,date from task_history07 union select user_id,status,date from task_history08 union select user_id,status,date from task_history09) c";
+		$daydate =  date("Y-m-d H:i:s", strtotime(' -'.$type.' day'));
+		$sqlpoint = "(select b.user_id from (select user_id,reason,create_time from point_history00 union select user_id,reason,create_time from point_history01  union select user_id,reason,create_time from point_history02 union select user_id,reason,create_time from point_history03  union select user_id,reason,create_time from point_history04  union select user_id,reason,create_time from point_history05  union select user_id,reason,create_time from point_history06  union select user_id,reason,create_time from point_history07  union select user_id,reason,create_time from point_history08  union select user_id,reason,create_time from point_history09) b where create_time > '".$daydate."')";
 
-		$RegBefore = "b.user_id is null and e.points>0 and TO_DAYS( now( ) ) - TO_DAYS( e.register_date ) >= $type and id not in (select id from user a left join ".$sqlpoint." on a.id = b.user_id left join ".$sqltask." on a.id = c.user_id where b.user_id is null and TO_DAYS( now( ) ) - TO_DAYS( a.register_date ) >= $type and TO_DAYS( c.date ) - TO_DAYS( a.register_date ) < $type  and c.status = 2)";
+		$sqltask = "(select c.user_id from (select user_id,status,date from task_history00 union select user_id,status,date from task_history01 union select user_id,status,date from task_history02 union select user_id,status,date from task_history03 union select user_id,status,date from task_history04 union select user_id,status,date from task_history05 union select user_id,status,date from task_history06 union select user_id,status,date from task_history07 union select user_id,status,date from task_history08 union select user_id,status,date from task_history09) c where status=2 and date > '".$daydate."')";
 
-		$Regafter = "b.user_id is null and e.points>0 and id not in (select id from user a left join ".$sqlpoint." on a.id = b.user_id left join ".$sqltask." on a.id = c.user_id where b.user_id is null and TO_DAYS( now() ) - TO_DAYS( c.date ) < $type  and c.status = 2)";
-		$sql = "select e.id,e.email,e.nick,e.register_date from user e left join ".$sqlpoint." on e.id = b.user_id where
-		       e.points > 0 and case when TO_DAYS( now( ) ) - TO_DAYS( e.register_date) < $type then ".$RegBefore." 
-		       else ".$Regafter." end";
+		$sql = "select e.id,e.email,e.nick,e.register_date from user e where e.points>0 and e.register_date < '".$daydate."' and e.id not in ".$sqlpoint." and e.id not in ".$sqltask ;
 		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 
 	}

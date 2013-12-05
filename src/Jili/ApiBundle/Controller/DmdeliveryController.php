@@ -31,7 +31,7 @@ class DmdeliveryController extends Controller
 		set_time_limit(0);
 		$failTime = 180;
 		$companyId = 4;
-		$mailingId = 27;
+		$mailingId = 28;
 		$rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
 		return new Response($rs);
 
@@ -45,7 +45,7 @@ class DmdeliveryController extends Controller
 		set_time_limit(0);
 		$failTime = 173;
 		$companyId = 4;
-		$mailingId = 26;
+		$mailingId = 31;
 		$rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
 		return new Response($rs);
 
@@ -59,7 +59,7 @@ class DmdeliveryController extends Controller
 		set_time_limit(0);
 		$failTime = 150;
 		$companyId = 4;
-		$mailingId = 24;
+		$mailingId = 30;
 		$rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
 		return new Response($rs);
 
@@ -67,11 +67,46 @@ class DmdeliveryController extends Controller
 
 	public function issetFailRecord($user_id,$failTime){
 		$em = $this->getDoctrine()->getManager();
-		$failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,$failTime);
-		if(empty($failRecord))
-			return '';
-		else
-			return $failRecord[0]['userId'];
+		switch ($failTime)
+		{
+		case 150:
+			  $failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,180);
+			  if(empty($failRecord)){
+					$failRecordWeek = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,173);
+					if(empty($failRecordWeek)){
+						$failRecordMonth = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,150);
+						if(empty($failRecordMonth)){
+							return '';
+						}else{
+							return $failRecordMonth[0]['userId'];
+						}
+					}else
+						return $failRecordWeek[0]['userId'];
+			  }else
+				return $failRecord[0]['userId'];
+		  break;
+		case 173:
+		    $failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,180);
+			if(empty($failRecord)){
+				$failRecordWeek = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,173);
+				if(empty($failRecordWeek)){
+					return '';
+				}else
+					return $failRecordWeek[0]['userId'];
+			}else
+				return $failRecord[0]['userId'];
+		  break;
+		case 180:
+			$failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,180);
+			if(empty($failRecord))
+				return '';
+			else
+				return $failRecord[0]['userId'];
+		  break;
+		default:
+		 	 return '';
+		}
+		
 	}
 
 	public function handleSendPointFail($failTime,$companyId,$mailingId){

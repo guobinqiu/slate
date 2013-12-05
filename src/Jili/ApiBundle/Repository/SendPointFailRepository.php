@@ -9,7 +9,7 @@ class SendPointFailRepository extends EntityRepository
 {
 	public function issetFailRecord($user_id,$send_type)
 	{
-		$daydate =  date("Y-m-d H:i:s", strtotime(' -'.$send_type.' day'));
+		$daydate =  date("Y-m-d H:i:s", strtotime(' -180 day'));
 		$query = $this->createQueryBuilder('spf');
 		$query = $query->select('spf.userId');
 		$query = $query->Where('spf.userId = :user_id');
