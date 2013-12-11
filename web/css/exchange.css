@@ -81,6 +81,17 @@
 	font-size:14px;
 	text-align:center;
 }
+.exchange article .warn{
+	background-image: url("../images/warn.gif");
+    background-position: 0 5px;
+    background-repeat: no-repeat;
+    color: #FF0000;
+    line-height: 180%;
+    margin-bottom: 10px;
+    padding-left: 60px;
+    text-align: left;
+    width: 500px;
+}
 .exchange article .wenwen{
 	padding:20px 50px;
 }
