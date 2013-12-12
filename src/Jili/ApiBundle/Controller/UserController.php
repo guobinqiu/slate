@@ -1302,6 +1302,9 @@ class UserController extends Controller
 	 */
 	public function exchangeAction($type=0,$exchangeType){
 		$id = $this->get('request')->getSession()->get('uid');
+        if(!$id){
+           return $this->redirect($this->generateUrl('_user_login'));
+        }
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$arr['user'] = $user;
