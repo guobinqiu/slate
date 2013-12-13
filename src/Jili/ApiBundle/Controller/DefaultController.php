@@ -16,6 +16,10 @@ use Jili\ApiBundle\Entity\CallBoard;
 use Jili\ApiBundle\Entity\UserGameVisit;
 use Jili\ApiBundle\Entity\RegisterReward;
 use Jili\ApiBundle\Entity\UserInfoVisit;
+use Jili\ApiBundle\Entity\CheckinAdverList;
+use Jili\ApiBundle\Entity\CheckinUserList;
+use Jili\ApiBundle\Entity\CheckinClickList;
+use Jili\ApiBundle\Entity\CheckinPointTimes;
 
 class DefaultController extends Controller {
 	// 是否完善资料
@@ -129,6 +133,37 @@ class DefaultController extends Controller {
 
 	}
 
+	//获取签到积分
+	public function getCheckinPoint(){
+		$clickTimes = $this->container->getParameter('init_one');
+		$em = $this->getDoctrine()->getManager();
+		$pointTimes = $em->getRepository('JiliApiBundle:CheckinPointTimes')->getCheckinTimes();
+		$nowPoint = $pointTimes[0]['pointTimes'] ? $pointTimes[0]['pointTimes'] : $clickTimes;
+		return $nowPoint;
+	}
+
+	//签到列表
+	public function checkinList(){
+		$arrList = array();
+		$date = date('Y-m-d H:i:s');
+		$campaign_multiple = $this->container->getParameter('campaign_multiple');
+		$request = $this->get('request');
+		$uid = $request->getSession()->get('uid');
+		$em = $this->getDoctrine()->getManager();	
+		$user = $em->getRepository('JiliApiBundle:User')->find($uid);
+        $reward_multiple = $user->getRewardMultiple();
+		$cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
+		$calNow = array_rand($cal, 6);//随机取数组中6个键值
+		for ($i=0; $i < 6; $i++) { 
+			$cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
+            $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
+            $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate']/10000,2);
+			$arrList[] = $cal[$calNow[$i]];
+		}
+		return $arrList;
+
+	}
+
 	/**
 	 * @Route("/", name="_default_index",requirements={"_scheme"="https"})
 	 * 
@@ -142,7 +177,9 @@ class DefaultController extends Controller {
 			$this->get('request')->getSession()->set('uid', $cookies->get('jili_uid'));
 			$this->get('request')->getSession()->set('nick', $cookies->get('jili_nick'));
 		}
-		$arr['user'] = array ();
+		$arr['user'] = array();
+		$arr['arrList'] = array();
+		$arr['checkinPoint'] = '';
 		$em = $this->getDoctrine()->getManager();
 		$id = $request->getSession()->get('uid');
 		$reward_multiple = '';
@@ -150,6 +187,8 @@ class DefaultController extends Controller {
 			$user = $em->getRepository('JiliApiBundle:User')->find($id);
 			$reward_multiple = $user->getRewardMultiple();
 			$arr['user'] = $user;
+			$arr['arrList'] = $this->checkinList();
+			$arr['checkinPoint'] = $this->getCheckinPoint();
 		}
 		$info = '';
 		$couponOd = '';

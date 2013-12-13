@@ -11,17 +11,105 @@
 <link href="{{ asset('css/index.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/signIn.js')}}" type="text/javascript"></script>
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <script type="text/javascript">
 $(document).ready(function(){
-	 $("#login").click(function(){
-	       $("#form1").submit();
-		})
-	});
-</script>
+   getCenter();
+   $(".signInExplain").hide();
+   $("#signInFrame").hide();
+   $.ajax({
+          url: "{{ path('_checkin_clickCount') }}",
+          post: "GET",
+          success:function(data){
+              if(data<3){
+                var times = 3-data;
+                $("#remain").text(times);
+              }else{
+                $("#remain").text(0);
+                aremove();
+              } 
+          }
+    });
 
+    $("#login").click(function(){
+       $("#form1").submit();
+    })
+
+    $(".close").click(function(){
+       $(".signInExplain").hide();
+       $(".blackBg").hide();
+       $("#signInFrame").hide();
+    });
+});
+function getCenter(){
+    var windowWidth = document.documentElement.clientWidth;
+    var windowHeight = document.documentElement.clientHeight;
+    var popupHeight = $("#signInFrame").height();
+    var popupWidth = $("#signInFrame").width();
+    $("#signInFrame").css({
+        "position": "absolute",
+        "top": windowHeight/2-popupHeight/2,
+        "left": windowWidth/2-popupWidth/2
+    });
+}
+function signs(){
+  $(".signInExplain").show();
+  $("#signInFrame").show();
+  $(".blackBg").show();
+}
+function aremove(){
+  $("#sign").removeClass('signIn');
+  $("#sign").addClass('signIn close');
+  $("#sign").removeAttr("onclick");
+}
+function goto(cid,aid,points){
+    var w = window.open("","_blank");
+    $.ajax({
+          url: "{{ path('_advertiserment_click') }}?id="+aid,
+          post: "GET",
+          success:function(data){
+              if(data==1){
+                  var nowTimes = $("#remain").text()-1;
+                  if(nowTimes<=0){
+                      $("#signInFrame h5").text('签到成功,已获得'+points+'米粒');
+                  }else{
+                      $("#remain").text(nowTimes);
+                  }
+                  $(".image"+cid).removeAttr("onclick");
+                  $(".goTo "+cid).removeAttr("onclick");
+                  $.ajax({
+                        url: "{{ path('_checkin_clickInsert') }}?cid="+cid+"&aid="+aid,
+                        post: "GET",
+                        success:function(data){ 
+                          var points = $("#points").text();
+                          var obj = JSON.parse(data);
+                          w.location.href = obj.url;
+                          // w.focus();
+                          // window.open(obj.url, "s", "resizable=yes, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, copyhistory=no").blur();
+                          // window.focus();
+                          if(obj.code==1){  
+                              $(".signInExplain").hide();
+                              aremove();
+                              $("#points").text(parseInt(obj.point)+parseInt(points));
+                          }
+                        }
+                  });
+              }else if(data==0){
+                  window.location.href="{{ path('_user_login') }}";
+                  w.close();
+              }else{
+                  w.close();
+              }
+          },
+          error:function(){
+             w.close();
+          }
+      });
+}
+</script>
 
 <div class="webArticle index">
 	<section class="one">
@@ -48,7 +136,14 @@ $(document).ready(function(){
             	{% else %}
             	   <div class="photo"> <a href="{{ path('_user_info')}}" ><img src="{{ asset('images/default_face.jpg') }}" width="90" height="90"/></a></div>
             	 {% endif %}
-                <p>您好，<a href="{{ path('_user_info')}}" class="hello">{{ user.nick }}</a><br/><a class="personalBtn" href="{{ path('_user_info')}}"><img src="{{ asset('images/myCenterBtn.png') }}"/></a></p>
+                <p>您好，<a href="{{ path('_user_info')}}" class="hello">{{ user.nick }}</a>
+               <!-- <a class="personalBtn" href="{{ path('_user_info')}}"><img src="{{ asset('images/myCenterBtn.png') }}"/></a>--></p>
+                <p class="point">米粒：<span id="points">{{ user.points }}</span></p>
+
+                 <div class="clear"></div>
+                  <a class="signIn" id="sign" onclick="signs();"></a>
+                  <div class="signInExplain">打开<span>3</span>个商城就可获得<span>1</span>个积分！</div>
+
                 <div class="clear"></div>
                 <p class="point">当前米粒数：<span>{{ user.points }}</span></p>
             </div>
@@ -118,5 +213,15 @@ $(document).ready(function(){
   </section>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
+<div class="signBlackBg"></div>
+<div id="signInFrame">
+  <h5>再打开<span id="remain">3</span>个商城就可以得到<span>1</span>个米粒啦</h5>
+    <a class="close">关闭</a>
+    <ul>
+    {% for item in arrList %}
+      <li><a onclick="goto({{ item.cid }},{{ item.id }},{{ checkinPoint }});" class="image{{ item.cid }}"><img src="{{ asset(item.list_image) }}" width="200" height="130"><p>最高返利{{ item.reward_rate }}%</p><div class="gray"></div><div class="goTo {{ item.cid }}">点击前往</div><div class="finish">已打开</div></a></li>
+    {% endfor %}
+    </ul>
+</div>
 </body>
 </html>

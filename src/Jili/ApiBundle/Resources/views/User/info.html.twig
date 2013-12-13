@@ -488,7 +488,11 @@ function addClass(id){
           <td>
             {% if item.adid %}<a href="{{ asset(path('_advertiserment_index',{'id':item.adid}),'cdn1') }}" target="_blank">{{ item.title }}</a>
               {% else%}
-              <a href="{{ asset(path('_game_index'),'cdn1') }}" target="_blank">{{ item.title }}</a>
+                  {% if item.incentiveType == 16 %}
+                    {{ item.title }}
+                  {% else %}
+                    <a href="{{ path('_game_index') }}" target="_blank">{{ item.title }}</a>
+                  {% endif %}
               {% endif %}  
           </td>
           <td>{% if item.incentiveType==2 %}

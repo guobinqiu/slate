@@ -46,3 +46,7 @@ dmdelivery:
     resource: "@JiliApiBundle/Controller/DmdeliveryController.php"
     prefix:   /dmdelivery
     type:     annotation
+checkin:
+    resource: "@JiliApiBundle/Controller/CheckinController.php"
+    prefix:   /checkin
+    type:     annotation

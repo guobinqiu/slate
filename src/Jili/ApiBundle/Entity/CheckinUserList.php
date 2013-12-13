@@ -5,16 +5,17 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PointHistory04
+ * CheckinUserList
  *
- * @ORM\Table(name="point_history04")
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\PointHistoryRepository")
+ * @ORM\Table(name="checkin_user_list")
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\CheckinUserListRepository")
  */
-class PointHistory04
+class CheckinUserList
 {
-	public function __construct() {
-		$this->createTime = new \DateTime();
-	}
+    public function __construct() {
+        $this->createTime = new \DateTime();
+    }
+
     /**
      * @var integer
      *
@@ -27,23 +28,23 @@ class PointHistory04
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=true)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="point_change_num", type="string", length=45, nullable=true)
+     * @ORM\Column(name="click_date", type="string" ,length=20)
      */
-    private $pointChangeNum;
+    private $clickDate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="reason", type="integer", nullable=true)
+     * @ORM\Column(name="open_shop_id", type="integer")
      */
-    private $reason;
+    private $openShopId;
 
     /**
      * @var \DateTime
@@ -63,11 +64,12 @@ class PointHistory04
         return $this->id;
     }
 
+
     /**
      * Set userId
      *
      * @param integer $userId
-     * @return PointHistory04
+     * @return CheckinUserList
      */
     public function setUserId($userId)
     {
@@ -87,73 +89,75 @@ class PointHistory04
     }
 
     /**
-     * Set pointChangeNum
+     * Set clickDate
      *
-     * @param string $pointChangeNum
-     * @return PointHistory04
+     * @param string $clickDate
+     * @return CheckinUserList
      */
-    public function setPointChangeNum($pointChangeNum)
+    public function setClickDate($clickDate)
     {
-        $this->pointChangeNum = $pointChangeNum;
+        $this->clickDate = $clickDate;
     
         return $this;
     }
 
     /**
-     * Get pointChangeNum
+     * Get clickDate
      *
      * @return string 
      */
-    public function getPointChangeNum()
+    public function getClickDate()
     {
-        return $this->pointChangeNum;
+        return $this->clickDate;
     }
 
+
     /**
-     * Set reason
+     * Set openShopId
      *
-     * @param integer $reason
-     * @return PointHistory04
+     * @param integer $openShopId
+     * @return CheckinUserList
      */
-    public function setReason($reason)
+    public function setOpenShopId($openShopId)
     {
-        $this->reason = $reason;
+        $this->openShopId = $openShopId;
     
         return $this;
     }
 
     /**
-     * Get reason
+     * Get openShopId
      *
      * @return integer 
      */
-    public function getReason()
+    public function getOpenShopId()
     {
-        return $this->reason;
+        return $this->openShopId;
     }
-    
+
     /**
      * Set createTime
      *
      * @param \DateTime $createTime
-     * @return PointHistory04
+     * @return CheckinUserList
      */
     public function setCreateTime($createTime)
     {
-    	$this->createTime = $createTime;
+        $this->createTime = $createTime;
     
-    	return $this;
+        return $this;
     }
-    
+
     /**
      * Get createTime
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getCreateTime()
     {
-    	return $this->createTime;
+        return $this->createTime;
     }
+
     
     
 }

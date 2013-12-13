@@ -30,6 +30,10 @@ use Jili\ApiBundle\Entity\CardRecordedMatch;
 use Jili\ApiBundle\Entity\CardRecordedRemain;
 use Jili\ApiBundle\Entity\CardRecordedReward;
 use Jili\ApiBundle\Entity\IsReadFile;
+use Jili\ApiBundle\Entity\CheckinAdverList;
+use Jili\ApiBundle\Entity\CheckinUserList;
+use Jili\ApiBundle\Entity\CheckinClickList;
+use Jili\ApiBundle\Entity\CheckinPointTimes;
 use Jili\ApiBundle\Entity\PointHistory00;
 use Jili\ApiBundle\Entity\PointHistory01;
 use Jili\ApiBundle\Entity\PointHistory02;
@@ -2299,25 +2303,229 @@ class AdminController extends Controller
         return $this->redirect($this->generateUrl('_admin_infoActivityCategory'));
     }
 
-    /**
-   * @Route("/getAdver",name="_businessActivity_getAdver")
-   */
-  public function getAdverAction()
-  {
-    $request = $this->get('request');
-    $name = $request->query->get('name');
-    $em = $this->getDoctrine()->getManager();
-    $adverName = $em->getRepository('JiliApiBundle:Advertiserment')->getCpsSearchAd($name);
-    if($adverName){
-      foreach ($adverName as $key => $value){
-        $arr[] = array('id'=>$value['id'],'name'=>$value['title']);
-      }
+      /**
+     * @Route("/getAdver",name="_businessActivity_getAdver")
+     */
+    public function getAdverAction()
+    {
+      $request = $this->get('request');
+      $name = $request->query->get('name');
+      $em = $this->getDoctrine()->getManager();
+      $adverName = $em->getRepository('JiliApiBundle:Advertiserment')->getCpsSearchAd($name);
+      if($adverName){
+          foreach ($adverName as $key => $value){
+            $arr[] = array('id'=>$value['id'],'name'=>$value['title']);
+          }
       return new Response(json_encode($arr));
-    }else{
-      return new Response('');
+      }else{
+          return new Response('');
+      }
+      
     }
+
     
-  }
+    /**
+    * @Route("/delCheckinShop/{id}", name="_admin_delCheckinShop")
+    */
+    public function delCheckinShopAction($id)
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $em = $this->getDoctrine()->getManager();
+        $checkinOne = $em->getRepository('JiliApiBundle:CheckinAdverList')->find($id);
+        $em->remove($checkinOne);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoCheckinShop'));
+    }
+
+
+   /**
+     * @Route("/editCheckinShop/{id}", name="_admin_editCheckinShop")
+     */
+    public function editCheckinShopAction($id){
+       if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $code = '';
+        $request = $this->get('request');
+        $actId = $request->request->get('actId');
+        $interSpace = $request->request->get('inter_space');
+        $em = $this->getDoctrine()->getManager();
+        $checkinOne = $em->getRepository('JiliApiBundle:CheckinAdverList')->find($id);
+        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAllCps(2);
+        if ($request->getMethod() == 'POST') {
+            if($interSpace){
+                $checkinOne->setAdId($actId);
+                $checkinOne->setInterSpace($interSpace);
+                $em->persist($checkinOne);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_infoCheckinShop'));
+            }else{
+                $code = $this->container->getParameter('init_one');
+            }
+
+        }
+        return $this->render('JiliApiBundle:Admin:editCheckinShop.html.twig',
+                              array('adver'=>$adver,
+                                    'code'=>$code,
+                                    'checkinOne'=>$checkinOne
+                                    ));
+
+    }
+
+    /**
+     * @Route("/addCheckinShop", name="_admin_addCheckinShop")
+     */
+    public function addCheckinShopAction(){
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $code = '';
+        $request = $this->get('request');
+        $actId = $request->request->get('actId');
+        $interSpace = $request->request->get('inter_space');
+        $cal = new CheckinAdverList();
+        $em = $this->getDoctrine()->getManager();
+        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAllCps(2);
+        if ($request->getMethod() == 'POST') {
+            if($interSpace){
+                $cal->setAdId($actId);
+                $cal->setInterSpace($interSpace);
+                $em->persist($cal);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_infoCheckinShop'));
+            }else{
+                $code = $this->container->getParameter('init_one');
+            }
+
+        }
+        return $this->render('JiliApiBundle:Admin:addCheckinShop.html.twig',
+                              array('adver'=>$adver,'code'=>$code));
+
+    }
+
+    /**
+     * @Route("/infoCheckinShop", name="_admin_infoCheckinShop")
+     */
+    public function infoCheckinShopAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $business = $em->getRepository('JiliApiBundle:CheckinAdverList')->getAllCheckinList();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($business,
+                $request->query->get('page', 1), 20);
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:infoCheckinShop.html.twig',$arr);
+         
+    }
+
+    /**
+    * @Route("/delCheckinPointTimes/{id}", name="_admin_delCheckinPointTimes")
+    */
+    public function delCheckinPointTimesAction($id)
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $em = $this->getDoctrine()->getManager();
+        $checkinPoint = $em->getRepository('JiliApiBundle:CheckinPointTimes')->find($id);
+        $em->remove($checkinPoint);
+        $em->flush();
+        return $this->redirect($this->generateUrl('_admin_infoCheckinPointTimes'));
+    }
+
+    /**
+     * @Route("/editCheckinPointTimes/{id}", name="_admin_editCheckinPointTimes")
+     */
+    public function editCheckinPointTimesAction($id)
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $code = '';
+        $request = $this->get('request');
+        $start_time = $request->request->get('start_time');
+        $end_time = $request->request->get('end_time');
+        $times = $request->request->get('times');
+        $em = $this->getDoctrine()->getManager();
+        $cpt = $em->getRepository('JiliApiBundle:CheckinPointTimes')->find($id);
+        if ($request->getMethod() == 'POST') {
+            if($start_time && $end_time && $times){
+                if(empty($isDate)){
+                  $cpt->setStartTime(date_create($start_time));
+                  $cpt->setEndTime(date_create($end_time));
+                  $cpt->setPointTimes($times);
+                  $em->persist($cpt);
+                  $em->flush();
+                  return $this->redirect($this->generateUrl('_admin_infoCheckinPointTimes'));
+                }else{
+                  $code = $this->container->getParameter('init_two');
+                }     
+            }else{
+                $code = $this->container->getParameter('init_one');
+            }
+
+        }
+        return $this->render('JiliApiBundle:Admin:editCheckinPointTimes.html.twig',
+                        array('code'=>$code,'cpt'=>$cpt));
+
+    }
+
+    /**
+     * @Route("/addCheckinPointTimes", name="_admin_addCheckinPointTimes")
+     */
+    public function addCheckinPointTimesAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $code = '';
+        $request = $this->get('request');
+        $start_time = $request->request->get('start_time');
+        $end_time = $request->request->get('end_time');
+        $times = $request->request->get('times');
+        $cpt = new CheckinPointTimes();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST') {
+            if($start_time && $end_time && $times){
+                $isDate = $em->getRepository('JiliApiBundle:CheckinPointTimes')->checkDate($start_time,$end_time);
+                if(empty($isDate)){
+                  $cpt->setStartTime(date_create($start_time));
+                  $cpt->setEndTime(date_create($end_time));
+                  $cpt->setPointTimes($times);
+                  $em->persist($cpt);
+                  $em->flush();
+                  return $this->redirect($this->generateUrl('_admin_infoCheckinPointTimes'));
+                }else{
+                  $code = $this->container->getParameter('init_two');
+                }     
+            }else{
+                $code = $this->container->getParameter('init_one');
+            }
+
+        }
+        return $this->render('JiliApiBundle:Admin:addCheckinPointTimes.html.twig',
+                        array('code'=>$code,'start'=>$start_time,'end'=>$end_time ));
+
+    }
+
+    /**
+     * @Route("/infoCheckinPointTimes", name="_admin_infoCheckinPointTimes")
+     */
+    public function infoCheckinPointTimesAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $cpt = $em->getRepository('JiliApiBundle:CheckinPointTimes')->getAllCheckinPoint();
+        $paginator = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator
+        ->paginate($cpt,
+                $request->query->get('page', 1), 20);
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        return $this->render('JiliApiBundle:Admin:infoCheckinPointTimes.html.twig',$arr);
+
+    }
 
     /**
      * @Route("/addBusinessActivity", name="_admin_addBusinessActivity")
@@ -2455,9 +2663,9 @@ class AdminController extends Controller
 
     }
 
-     /**
-     * @Route("/delBusinessActivity/{id}", name="_admin_delBusinessActivity")
-     */
+    /**
+    * @Route("/delBusinessActivity/{id}", name="_admin_delBusinessActivity")
+    */
     public function delBusinessActivityAction($id)
     {
         if($this->getAdminIp())

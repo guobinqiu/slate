@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PointHistory06
  *
  * @ORM\Table(name="point_history06")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\PointHistoryRepository")
  */
 class PointHistory06
 {
