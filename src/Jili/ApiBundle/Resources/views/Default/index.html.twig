@@ -157,7 +157,7 @@ function goto(cid,aid,points){
             	{% else %}
             	   <div class="photo"> <a href="{{ path('_user_info')}}" ><img src="{{ asset('images/default_face.jpg') }}" width="90" height="90"/></a></div>
             	 {% endif %}
-                <p>您好，<a href="{{ path('_user_info')}}" class="hello">{{ user.nick }}</a>
+                <p>您好，<a href="{{ path('_user_info')}}" class="hello">{{ limitNick }}</a>
                <!-- <a class="personalBtn" href="{{ path('_user_info')}}"><img src="{{ asset('images/myCenterBtn.png') }}"/></a>--></p>
                 <p class="point">米粒：<span id="points">{{ user.points }}</span></p>
 

@@ -146,6 +146,7 @@ class DefaultController extends Controller {
 	public function checkinList(){
 		$arrList = array();
 		$date = date('Y-m-d H:i:s');
+		$cal_count = 6;
 		$campaign_multiple = $this->container->getParameter('campaign_multiple');
 		$request = $this->get('request');
 		$uid = $request->getSession()->get('uid');
@@ -153,8 +154,13 @@ class DefaultController extends Controller {
 		$user = $em->getRepository('JiliApiBundle:User')->find($uid);
         $reward_multiple = $user->getRewardMultiple();
 		$cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
-		$calNow = array_rand($cal, 6);//随机取数组中6个键值
-		for ($i=0; $i < 6; $i++) { 
+	    if(count($cal) > 6){
+			$calNow = array_rand($cal, 6);//随机取数组中6个键值
+		}else{
+			$cal_count = count($cal);
+			$calNow = array_rand($cal, $cal_count);
+		}
+		for ($i=0; $i < $cal_count; $i++) { 
 			$cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
             $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
             $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate']/10000,2);
@@ -183,10 +189,24 @@ class DefaultController extends Controller {
 		$em = $this->getDoctrine()->getManager();
 		$id = $request->getSession()->get('uid');
 		$reward_multiple = '';
+		$limitNick = '';
 		if ($id) {
 			$user = $em->getRepository('JiliApiBundle:User')->find($id);
+			if ($this->countStrs($user->getNick()) > 15) {
+				if ($this->isUnion($user->getNick())){
+					$limitNick = $this->my_substr($user->getNick(), 0, 18) . '...';
+				}
+				else {
+					if ($this->conUnion($user->getNick()))
+						$limitNick = $this->my_substr($user->getNick(), 0, 15) . '...';
+					else
+						$limitNick = $this->my_substr($user->getNick(), 0, 12) . '...';
+				}
+				
+			} 
 			$reward_multiple = $user->getRewardMultiple();
 			$arr['user'] = $user;
+			$arr['limitNick'] = $limitNick;
 			$arr['arrList'] = $this->checkinList();
 			$arr['checkinPoint'] = $this->getCheckinPoint();
 		}
