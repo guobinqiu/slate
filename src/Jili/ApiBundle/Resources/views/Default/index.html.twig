@@ -25,10 +25,12 @@ $(document).ready(function(){
           post: "GET",
           success:function(data){
               if(data<3){
-                var times = 3-data;
+                var times = parseInt(3-parseInt(data));
                 $("#remain").text(times);
+                $("#m_remain").text(times);
               }else{
                 $("#remain").text(0);
+                $("#m_remain").text(times);
                 aremove();
               } 
           }
@@ -55,6 +57,12 @@ function getCenter(){
         "left": windowWidth/2-popupWidth/2
     });
 }
+function popIn(){
+   $(".signInExplain").show();
+}
+function popOut(){
+   $(".signInExplain").hide();
+}
 function signs(){
   $(".signInExplain").show();
   $("#signInFrame").show();
@@ -64,6 +72,7 @@ function aremove(){
   $("#sign").removeClass('signIn');
   $("#sign").addClass('signIn close');
   $("#sign").removeAttr("onclick");
+  $("#sign").attr('onMouseOver',null);
 }
 function goto(cid,aid,points){
     var w = window.open("","_blank");
@@ -72,31 +81,43 @@ function goto(cid,aid,points){
           post: "GET",
           success:function(data){
               if(data==1){
-                  var nowTimes = $("#remain").text()-1;
-                  if(nowTimes<=0){
-                      $("#signInFrame h5").text('签到成功,已获得'+points+'米粒');
-                  }else{
-                      $("#remain").text(nowTimes);
-                  }
-                  $(".image"+cid).removeAttr("onclick");
-                  $(".goTo "+cid).removeAttr("onclick");
-                  $.ajax({
-                        url: "{{ path('_checkin_clickInsert') }}?cid="+cid+"&aid="+aid,
-                        post: "GET",
-                        success:function(data){ 
-                          var points = $("#points").text();
-                          var obj = JSON.parse(data);
-                          w.location.href = obj.url;
-                          // w.focus();
-                          // window.open(obj.url, "s", "resizable=yes, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, copyhistory=no").blur();
-                          // window.focus();
-                          if(obj.code==1){  
-                              $(".signInExplain").hide();
-                              aremove();
-                              $("#points").text(parseInt(obj.point)+parseInt(points));
+                 $.ajax({
+                    url: "{{ path('_checkin_issetClick') }}?cid="+cid,
+                    post: "GET",
+                    success:function(data){
+                      if(data == 1){
+                          var nowTimes = parseInt(parseInt($("#remain").text())-1);
+                          if(nowTimes<=0){
+                              $("#signInFrame h5").text('签到成功,已获得,'+points+'米粒');
+                              $("#m_remain").text(nowTimes);
+                          }else{
+                              $("#remain").text(nowTimes);
+                              $("#m_remain").text(nowTimes);
                           }
-                        }
-                  });
+                          
+
+                      }
+                      $(".image"+cid).removeAttr("onclick");
+                          $(".goTo "+cid).removeAttr("onclick");
+                          $.ajax({
+                                url: "{{ path('_checkin_clickInsert') }}?cid="+cid+"&aid="+aid,
+                                post: "GET",
+                                success:function(data){ 
+                                  var points = $("#points").text();
+                                  var obj = JSON.parse(data);
+                                  w.location.href = obj.url;
+                                  // w.focus();
+                                  // window.open(obj.url, "s", "resizable=yes, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, copyhistory=no").blur();
+                                  // window.focus();
+                                  if(obj.code==1){  
+                                      $(".signInExplain").hide();
+                                      aremove();
+                                      $("#points").text(parseInt(obj.point)+parseInt(points));
+                                  }
+                                }
+                          });
+                    }
+                 });
               }else if(data==0){
                   window.location.href="{{ path('_user_login') }}";
                   w.close();
@@ -141,8 +162,8 @@ function goto(cid,aid,points){
                 <p class="point">米粒：<span id="points">{{ user.points }}</span></p>
 
                  <div class="clear"></div>
-                  <a class="signIn" id="sign" onclick="signs();"></a>
-                  <div class="signInExplain">打开<span>3</span>个商城就可获得<span>1</span>个积分！</div>
+                  <a class="signIn" id="sign" onclick="signs();" onMouseOver="popIn();" onMouseOut="popOut();"></a>
+                  <div class="signInExplain">打开<span id="m_remain">3</span>个商城就可获得<span>{{ checkinPoint }}</span>个积分！</div>
 
                 <div class="clear"></div>
                 <p class="point">当前米粒数：<span>{{ user.points }}</span></p>
@@ -215,11 +236,15 @@ function goto(cid,aid,points){
 {% include 'JiliApiBundle::footer.html.twig' %}
 <div class="signBlackBg"></div>
 <div id="signInFrame">
-  <h5>再打开<span id="remain">3</span>个商城就可以得到<span>1</span>个米粒啦</h5>
+  <h5>再打开<span id="remain">3</span>个商城就可以得到<span>{{ checkinPoint }}</span>个米粒啦</h5>
     <a class="close">关闭</a>
     <ul>
     {% for item in arrList %}
-      <li><a onclick="goto({{ item.cid }},{{ item.id }},{{ checkinPoint }});" class="image{{ item.cid }}"><img src="{{ asset(item.list_image) }}" width="200" height="130"><p>最高返利{{ item.reward_rate }}%</p><div class="gray"></div><div class="goTo {{ item.cid }}">点击前往</div><div class="finish">已打开</div></a></li>
+      <li><a onclick="goto({{ item.cid }},{{ item.id }},{{ checkinPoint }});" class="image{{ item.cid }}"><img src="{{ asset(item.list_image) }}" width="200" height="130"><p>最高返利{{ item.reward_rate }}%</p>
+      <div class="gray"></div>
+      <div class="goTo {{ item.cid }}">点击前往</div>
+      <div class="finish">已打开</div>
+      </a></li>
     {% endfor %}
     </ul>
 </div>
