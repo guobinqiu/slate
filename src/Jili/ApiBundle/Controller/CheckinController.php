@@ -50,6 +50,24 @@ class CheckinController extends Controller
 		return new Response($culTimes);
 
 	}
+		
+	/**
+	 * @Route("/issetClick",name="_checkin_issetClick")
+	 */
+	public function issetClickAction(){//判断是否点击checkin_user_list记录返回
+		$code = '';
+		$date = date("Y-m-d");
+		$request = $this->get('request');
+		$uid = $request->getSession()->get('uid');
+		$clickAdid = $request->query->get('cid');
+		$em = $this->getDoctrine()->getManager();	
+		$issetClickShop = $em->getRepository('JiliApiBundle:CheckinUserList')->issetClickShop($uid,$date,$clickAdid);
+		if(empty($issetClickShop)){
+			$code = $this->container->getParameter('init_one');
+		}
+		return new Response($code);
+
+	}
 
 	/**
 	 * @Route("/clickInsert",name="_checkin_clickInsert")
