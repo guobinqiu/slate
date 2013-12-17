@@ -22,7 +22,7 @@ $(document).ready(function(){
 <div class="webArticle exchange">
 	<div class="about">
 	<a class="historyExchange" href="{{  asset(path('_user_exchange',{'type': 0,'exchangeType':1}),'cdn1') }}"></a>
-	<a class="exchangeBtn wenwen" href="{{ path('_exchange_info') }}">立即兑换</a>
+	<a class="close wenwen">停止兑换</a>
 	<!--<a class="await mobiel">即将开放</a>-->
 	<a class="exchangeBtn amazonBtn" href="{{ path('_exchange_amazonInfo') }}">立即兑换</a>
 	<a class="exchangeBtn alipayBtn" href="{{ path('_exchange_identityCardComfirm',{'type': 'alipay'}) }}">立即兑换</a>
