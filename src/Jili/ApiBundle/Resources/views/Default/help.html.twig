@@ -16,7 +16,7 @@
 <script type="text/javascript">
 function sendContent(){
     $.ajax({  
-        url: "{{ path('_default_contact') }}?content="+$("#fbc").val()+"&email="+$("#email").val(),
+        url: "{{ path('_default_contact') }}?content="+encodeURIComponent($("#fbc").val())+"&email="+$("#email").val(),
         type: "POST",
         success:function(data){
            if(data==1){
