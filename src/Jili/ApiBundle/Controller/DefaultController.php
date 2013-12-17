@@ -138,8 +138,9 @@ class DefaultController extends Controller {
 		$clickTimes = $this->container->getParameter('init_one');
 		$em = $this->getDoctrine()->getManager();
 		$pointTimes = $em->getRepository('JiliApiBundle:CheckinPointTimes')->getCheckinTimes();
-		$nowPoint = $pointTimes[0]['pointTimes'] ? $pointTimes[0]['pointTimes'] : $clickTimes;
-		return $nowPoint;
+		if(!empty($pointTimes))
+			$clickTimes = $pointTimes[0]['pointTimes'] ? $pointTimes[0]['pointTimes'] : $clickTimes;
+		return $clickTimes;
 	}
 
 	//签到列表
