@@ -1,3 +1,6 @@
+.signWait{
+
+}
 .userNick{
 	color:#54B9E8;
 }
@@ -146,6 +149,14 @@
 }
 .index section.one #userInformation .after .user a.signIn{
 	background-image: url("../images/signInBtn.jpg");
+    display: inline-block;
+    height: 45px;
+    margin-top: 20px;
+    width: 214px;
+	cursor:pointer;
+}
+.index section.one #userInformation .after .user a.signWait{
+	background-image: url("../images/signInWait.jpg");
     display: inline-block;
     height: 45px;
     margin-top: 20px;

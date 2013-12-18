@@ -88,7 +88,7 @@ function goto(cid,aid,points){
                       if(data == 1){
                           var nowTimes = parseInt(parseInt($("#remain").text())-1);
                           if(nowTimes<=0){
-                              $("#signInFrame h5").html("签到成功,已获得<font color='#E94C1B'>"+points+"</font>米粒");
+                              $("#signInFrame h5").html("恭喜您签到成功，已获得<font color='#E94C1B'>"+points+"</font>米粒！");
                               $("#m_remain").text(nowTimes);
                           }else{
                               $("#remain").text(nowTimes);
@@ -160,12 +160,12 @@ function goto(cid,aid,points){
                <!-- <a class="personalBtn" href="{{ path('_user_info')}}"><img src="{{ asset('images/myCenterBtn.png') }}"/></a>--></p>
                 <p class="point">米粒：<span id="points">{{ user.points }}</span></p>
 
-                 <div class="clear"></div>
+                 <!--<div class="clear"></div>
                   <a class="signIn" id="sign" onclick="signs();" onMouseOver="popIn();" onMouseOut="popOut();"></a>
-                  <div class="signInExplain">打开<span id="m_remain">3</span>个商城就可获得<span>{{ checkinPoint }}</span>个积分！</div>
-
+                  <div class="signInExplain">打开<span id="m_remain">3</span>个商城就可获得<span>{{ checkinPoint }}</span>个积分！</div>-->
+               
+                <a class="signWait"></a>
                 <div class="clear"></div>
-                <p class="point">当前米粒数：<span>{{ user.points }}</span></p>
             </div>
             <ul>
             	<li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}" >我的任务历史</a></li>
