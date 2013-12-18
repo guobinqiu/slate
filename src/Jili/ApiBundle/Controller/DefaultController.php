@@ -187,6 +187,7 @@ class DefaultController extends Controller {
 		$arr['user'] = array();
 		$arr['arrList'] = array();
 		$arr['checkinPoint'] = '';
+		$arr['limitNick'] = '';
 		$em = $this->getDoctrine()->getManager();
 		$id = $request->getSession()->get('uid');
 		$reward_multiple = '';
