@@ -114,6 +114,23 @@ class CheckinController extends Controller
 	}
 
 	/**
+	 * @Route("/checkinInfo",name="_checkin_checkinInfo",requirements={"_scheme"="http"})
+	 */
+	public function checkinInfoAction()
+	{
+		$em = $this->getDoctrine()->getManager();
+		$request = $this->get('request');
+		$uid = $request->getSession()->get('uid');
+		$id = $request->query->get('aid');
+		$yixun = $this->advInfo($uid,$id);
+		$url = "http://www.91jili.com/shopping/list/".$uid;
+		return $this->render('JiliApiBundle:Checkin:info.html.twig',
+				array('yixun'=>$yixun,'url'=>$url));
+
+	}
+
+
+	/**
 	* @Route("/checkinList",name="_checkin_checkinList")
 	*/
 	public function checkinListAction(){
@@ -137,7 +154,7 @@ class CheckinController extends Controller
 		$adw_info = $advertiserment->getImageurl();
 		$adw_info = explode("u=",$adw_info);
 		$new_url = trim($adw_info[0])."u=".$uid.trim($adw_info[1]).$aid;
-		return $new_url;
+		return trim($new_url);
 	}
 
 	public function insertUserList($uid,$date,$clickAdid){
@@ -206,7 +223,7 @@ class CheckinController extends Controller
             'userid' => $userId,
             'task_type' => $this->container->getParameter('init_four'),
             'categoryId' => 16,
-            'taskName' => '每天签到获取积分',
+            'taskName' => '每天签到获取米拉',
             'point' => $point,
             'date' => date('Y-m-d H:i:s'),
             'status' => $this->container->getParameter('init_one')
