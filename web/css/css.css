@@ -49,103 +49,53 @@ td {
 	width: 100px;
 }
 /*footer stard*/
-div#footer {
-	margin-top: 10px;
-}
-div#footer div.fl dl {
-	height: 124px;
-	padding: 5px 23px 5px 5px;
-	margin-right: 23px;
-	float: left;
-	background-image: url("../../img/common/footer_line.jpg");
-	background-position: right;
-	background-repeat: no-repeat;
-	font-size: 12px;
-	line-height: 20px;
-}
-div#footer div.fl dl dt {
+div.footer{
 	color: #666666;
-	font-weight: bold;
-	margin-bottom: 5px;
+    font-size: 12px;
+    margin: 0 auto;
+    width: 960px;
 }
-div#footer div.fl dl dt a:link, a:visited, a:active {
-	color: #666666;
-	text-decoration: none;
+div.footer div.section{
+	margin: 0 auto;
+    padding: 20px 40px 10px 40px;
+    position: relative;
+    text-align: center;
+    width: 960px;
 }
-div#footer div.fl dl dt a:hover {
-	color: #666666;
-	text-decoration: underline;
+div.footer div.section p{
+	margin:5px 0;
 }
-div#footer div.fl dl dd a:link, a:visited, a:active {
-	color: #8E8E8E;
-	text-decoration: none;
+div.footer div.section a, div.footer div.section span{
+	margin:10px;
+	color:#666;
 }
-div#footer div.fl dl dd a:hover {
-	color: #8E8E8E;
-	text-decoration: underline;
+div.footer div.section span.footAbout{
+	height:16px;
+	display:inline-block;
 }
-div#footer div.f2 {
-	float: right;
-	padding: 5px;
-	width: 240px;
+div.footer div.section a.sina{
+	background-image: url("../images/sinaIcon.jpg");
+    background-repeat: no-repeat;
+    padding-left: 20px;
+	height:16px;
+	display:inline-block;
 }
-div#footer div.f2 div.backTop {
-	float: right;
-	color: #484848;
-	padding-bottom: 20px;
+div.footer div.section a.tencent{
+	background-image:url("../images/txweiboIcon.jpg");
+	background-repeat:no-repeat;
+	padding-left: 20px;
+	height:16px;
+	display:inline-block;
 }
-div#footer div.f2 div.backTop a.backToTop {
-	background-image: url("../../img/common/backToTop.jpg");
-	background-repeat: no-repeat;
-	background-position: left;
-	padding-left: 10px;
-	text-decoration: none;
-	color: #484848;
+div.footer div.section a.weixin{
+	background-image:url("../images/weixinIcon.jpg");
+	background-repeat:no-repeat;
+	padding-left: 20px;
+	height:16px;
+	display:inline-block;
 }
-div#footer div.f2 div#openSet {
-	float: left;
-	color: #484848;
-	padding-bottom: 20px;
-}
-div#footer div.f2 div#openSet span {
-	float: left;
-	margin-right: 2px;
-}
-div#footer div.f2 div#openSet a.btnNoBlank_off {
-	background-image: url("../../img/common/windows.gif");
-	width: 40px;
-	height: 17px;
-	text-decoration: none;
-	color: #888886;
-	display: block;
-}
-div#footer div.f2 div#openSet a.btnNoBlank_on {
-	background-image: url("../../img/common/windows_on.gif");
-	width: 40px;
-	height: 17px;
-	text-decoration: none;
-	color: #414141;
-	display: block;
-}
-div#footer div.f2 div#followUs {
-	float: left;
-	color: #8C8C8C;
-	padding-bottom: 10px;
-	width: 100%;
-	font-size: 12px;
-}
-div#footer div.f2 div#followUs img {
-	vertical-align: middle;
-}
-div#footer div.f2 div#copyright {
-	float: left;
-	color: #8C8C8C;
-	font-size: 77%;
-	font-family: Verdana;
-	width: 100%;
-}
-div#footer div.f2 div#copyright a {
-	color: #8C8C8C;
-	text-decoration: underline;
+div.footer div.section a:hover{
+	text-decoration:none;
+	color:#000;
 }
 /*footer end*/
