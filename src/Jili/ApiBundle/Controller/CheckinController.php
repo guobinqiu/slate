@@ -223,7 +223,7 @@ class CheckinController extends Controller
             'userid' => $userId,
             'task_type' => $this->container->getParameter('init_four'),
             'categoryId' => 16,
-            'taskName' => '每天签到获取米拉',
+            'taskName' => '每天签到获取米粒',
             'point' => $point,
             'date' => date('Y-m-d H:i:s'),
             'status' => $this->container->getParameter('init_one')
