@@ -39,7 +39,7 @@ function fastreg(){
           <td><img src="{{ asset('images/landing/title_bg43.jpg') }}" width="274" height="49" /></td>
         </tr>
         <tr>
-          <td colspan="3" style=" background:#fffdfa; padding:0 0 30px;"><img style=" float:left; padding:68px 0 0 51px;" src="{{ asset('images/landing/process.gif') }}" width="378" height="167" />
+          <td colspan="3" style=" background:#fffdfa; padding:0 0 30px;"><img style=" float:left; padding:48px 0 0 51px;" src="{{ asset('images/landing/process.gif') }}" />
           	<div class="login">
           	  <form action="{{ path('_default_landing') }}" method="post" name="form1" id="form1" >
             	<table class="login_wrap" cellpadding="0" cellspacing="12" border="0">
@@ -110,42 +110,29 @@ function fastreg(){
         </tr>
       </tbody>
     </table>
-    <div id="footer">
-      <div class="fl">
-        <dl>
-          <dt>关于我们</dt>
-          <dd><a href="/index.php/corp/about_company" target="_blank" title="集团公司介绍">集团公司介绍</a></dd>
-          <dd><a href="/index.php/corp/about_91wenwen" target="_blank" title="91问问调查网介绍">91问问调查网介绍</a></dd>
-          <dd><a href="/index.php/corp/regulations" title="会员协议">会员协议</a></dd>
-        </dl>
-        <dl>
-          <dt>集团网站</dt>
-          <dd><a href="http://www.researchpanelasia.com/" title="Research Panel Asia" target="_blank">Research Panel Asia</a></dd>
-          <dd><a href="http://www.lifestyleindex.asia/" title="LifeStyle Index" target="_blank">LifeStyle Index</a></dd>
-          <dd><a href="http://research-panel.jp/" title="Japan Panel" target="_blank">Japan Panel</a></dd>
-          <dd><a href="http://www.panelnow.co.kr/" title="South Korea Panel" target="_blank">South Korea Panel</a></dd>
-        </dl>
-        <dl>
-          <dt>联系我们</dt>
-          <dd><a href="/index.php/faq/" title="帮助中心">帮助中心</a></dd>
-          <dd><a href="https://www.researchpanelasia.com/contact/" target="_blank" title="合作咨询">合作咨询</a></dd>
-          <dd><a title="注销账户" href="/index.php/withdraw/">注销账户</a></dd>
-        </dl>
-        <dl>
-          <dt><a href="/index.php/corp/links" title="友情链接">友情链接</a></dt>
-        </dl>
-      </div>
-      <!-- /#fl -->
-      <div class="f2">
-        <div class="clear"></div>
-        <div id="followUs">关注91问问：<a target="_blank" href="http://weibo.com/91wenwen"><img border="0" src="images/sina_ico.png" width="16" height="16" /></a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://t.qq.com/RPA_91wenwen?preview"><img border="0" src="{{ asset('images/landing/tencent_ico.png') }}" width="16" height="16" /></a></div>
-        <div id="copyright">COPYRIGHT © RESEARCH PANEL ASIA INC, ALL RIGHTS RESERVED<br>
-          <a href="http://www.miibeian.gov.cn/">沪ICP备10212377号-1</a></div>
-        <div class="clear"></div>
-      </div>
-      <!-- /#f2 --> 
-    </div>
-  </div>
 </div>
+<div class="footer">
+<div class="section">
+<p><a href="{{ path('_default_about') }}" target="_blank">关于积粒网</a>|<a
+  href="{{ path('_user_agreement') }}" target="_blank">服务条款</a>|<a
+  href="{{ path('_default_service') }}">广告服务</a>|<a
+  href="{{ asset(path('_default_support'),'cdn1')  }}">帮助中心</a><span><a
+  href="http://www.miibeian.gov.cn/" target="_blank">ICP证号：沪ICP备10212377号-2</a></span></p>
+<p><span class="footAbout">关注我们：</span><a class="sina"
+  target="_blank" href="http://www.weibo.com/91jili">新浪微博</a><a
+  class="tencent" target="_blank" href="http://t.qq.com/china91jili">腾讯微博</a><!--<a class="weixin" href="#">微信</a>--></p>
+</div>
+</div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41491522-1', '91jili.com');
+  ga('send', 'pageview');
+
+</script>
+  </div>
 </body>
 </html>
