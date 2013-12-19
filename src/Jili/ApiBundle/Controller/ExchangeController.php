@@ -2,6 +2,7 @@
 namespace Jili\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Jili\ApiBundle\Entity\PointsExchange;
 use Jili\ApiBundle\Entity\SendMessage00;
 use Jili\ApiBundle\Entity\SendMessage01;
@@ -66,10 +67,7 @@ class  ExchangeController extends Controller
                         if($rechange == 3000 || $rechange == 5000){
                                     if($existAlipay || $arr['existAlipay']==''){
                                         if($alipay){
-                                            if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$alipay)){
-                                                $code = $this->container->getParameter('exchange_wr_alipay');
-                                                $arr['code'] = $code;
-                                            }else{
+                                            if (preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){          
                                                 if($alipay == $re_alipay){
                                                     if($real_name){
                                                         if(!eregi("[^\x80-\xff]",$real_name)){
@@ -103,6 +101,9 @@ class  ExchangeController extends Controller
                                                     $code = $this->container->getParameter('exchange_unsame_alipay');
                                                     $arr['code'] = $code;
                                                 }
+                                            }else{
+                                                $code = $this->container->getParameter('exchange_wr_alipay');
+                                                $arr['code'] = $code;   
                                                 
                                             }
                                         }else{
@@ -279,7 +280,6 @@ class  ExchangeController extends Controller
         return $this->render('JiliApiBundle:Exchange:mobileInfo.html.twig',$arr);
     }
 
-
      /**
      * @Route("/amazonInfo", name="_exchange_amazonInfo")
      */
@@ -300,36 +300,36 @@ class  ExchangeController extends Controller
             $rechange =  $request->request->get('rechange');
             $change_point =  $request->request->get('point');
             if ($request->getMethod() == 'POST') {
-                if($rechange > 0 && $rechange <= 5000){
-                    if($rechange-$points>0){
-                        $code = $this->container->getParameter('exchange_wr_point');
-                        $arr['code'] = $code;
-                    }else{
-                        if($rechange%1000 != 0){
+                    if($rechange > 0 && $rechange <= 5000){
+                        if($rechange-$points>0){
                             $code = $this->container->getParameter('exchange_wr_point');
                             $arr['code'] = $code;
                         }else{
-                            $user->setPoints($points-intval($change_point*1000));
-                            $em->persist($user);
-                            $em->flush();
-                            $pointschange->setUserId($id);
-                            $pointschange->setType($this->container->getParameter('init_two'));
-                            $pointschange->setSourcePoint($points-intval($change_point*1000));
-                            $pointschange->setTargetPoint(intval($change_point*1000));
-                            $pointschange->setExchangeItemNumber($change_point);
-                            $pointschange->setIp($this->get('request')->getClientIp());
-                            $em->persist($pointschange);
-                            $em->flush();
-                            // $this->identDanger($this->container->getParameter('init_two'),$pointschange->getId(),$id);
-                            $this->ipDanger($this->container->getParameter('init_two'),$pointschange->getIp(),$pointschange->getId(),$id);
-                            return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'amazon')));
+                            if($rechange%1000 != 0){
+                                $code = $this->container->getParameter('exchange_wr_point');
+                                $arr['code'] = $code;
+                            }else{
+                                $user->setPoints($points-intval($change_point*1000));
+                                $em->persist($user);
+                                $em->flush();
+                                $pointschange->setUserId($id);
+                                $pointschange->setType($this->container->getParameter('init_two'));
+                                $pointschange->setSourcePoint($points-intval($change_point*1000));
+                                $pointschange->setTargetPoint(intval($change_point*1000));
+                                $pointschange->setExchangeItemNumber($change_point);
+                                $pointschange->setIp($this->get('request')->getClientIp());
+                                $em->persist($pointschange);
+                                $em->flush();
+                                // $this->identDanger($this->container->getParameter('init_two'),$pointschange->getId(),$id);
+                                $this->ipDanger($this->container->getParameter('init_two'),$pointschange->getIp(),$pointschange->getId(),$id);
+                                return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'amazon')));
+                            }
                         }
-                    }
-                }else{
-                    $code = $this->container->getParameter('exchange_wr_point');
-                    $arr['code'] = $code;
-                }             
-                
+                    }else{
+                        $code = $this->container->getParameter('exchange_wr_point');
+                        $arr['code'] = $code;
+                    }      
+  
             }
         }
         return $this->render('JiliApiBundle:Exchange:amazonInfo.html.twig',$arr);
@@ -675,7 +675,6 @@ class  ExchangeController extends Controller
     public function successAction(){
     	
     }
-
     public static $areas = array(
         11 => "北京", 12 => "天津", 13 => "河北", 14 => "山西", 15 => "内蒙古",
         21 => "辽宁", 22 => "吉林", 23 => "黑龙江",
