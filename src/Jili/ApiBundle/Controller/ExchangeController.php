@@ -3,6 +3,8 @@ namespace Jili\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\PointsExchange;
 use Jili\ApiBundle\Entity\SendMessage00;
 use Jili\ApiBundle\Entity\SendMessage01;
@@ -19,12 +21,13 @@ use Jili\ApiBundle\Entity\ExchangeDanger;
 
 class  ExchangeController extends Controller
 {
-	/**
-	 * @Route("/center", name="_exchange_index")
-	 */
+    /**
+     * @Route("/center", name="_exchange_index")
+     */
     public function indexAction()
     {
-        return $this->render('JiliApiBundle:Exchange:index.html.twig');
+        $token_key = $this->getTokenKey();
+        return $this->render('JiliApiBundle:Exchange:index.html.twig',array('key'=>$token_key));
     }
 
     /**
@@ -34,6 +37,8 @@ class  ExchangeController extends Controller
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
+            $tokenKey = '';
+            $getToken = '';
             $arr['code'] = '';
             $arr['existAlipay'] = '';
             $arr['existRealName'] = '';
@@ -41,18 +46,38 @@ class  ExchangeController extends Controller
             $pointschange  = new PointsExchange();
             $id = $this->get('request')->getSession()->get('uid');
             $em = $this->getDoctrine()->getManager();
+            $request = $this->get('request');
+            $getToken = $request->query->get('token');
+            $tokenKey = $request->request->get('tokenKey');
+            $arr['tokenKey'] = $tokenKey;
+            if(!$getToken){
+                $session = $this->getRequest()->getSession();
+                $session->set('alipayToken', $tokenKey);
+            }
+            if(!$this->get('request')->getSession()->get('alipayToken')){
+                return $this->redirect($this->generateUrl('_default_error'));
+            }
+            if($getToken){
+                if($getToken != $this->get('request')->getSession()->get('alipayToken')){
+                    return $this->redirect($this->generateUrl('_default_error'));
+                }
+            }else{
+                if($tokenKey != $this->get('request')->getSession()->get('alipayToken')){
+                    return $this->redirect($this->generateUrl('_default_error'));
+                }
+            }
+
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
             $points = $user->getPoints();
             $arr['user'] = $user;
             $arr['points'] = $points;
-            $request = $this->get('request');
             $rechange =  $request->request->get('rechange');
             $change_point =  $request->request->get('point');
             $alipay = $request->request->get('alipay');
             $re_alipay = $request->request->get('re_alipay');
             $real_name = $request->request->get('real_name');
             $existAlipay = $request->request->get('existAlipay');
-            $existRealName = $request->request->get('existRealName');
+            $existRealName = $request->request->get('existRealName'); 
             $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($id,$this->container->getParameter('init_three'));
             if(!empty($targetAcc)){
                  $arr['existAlipay'] = $targetAcc[0]['targetAccount'];
@@ -65,71 +90,78 @@ class  ExchangeController extends Controller
                         $arr['code'] = $code;
                     }else{
                         if($rechange == 3000 || $rechange == 5000){
-                                    if($existAlipay || $arr['existAlipay']==''){
-                                        if($alipay){
-                                            if (preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){          
-                                                if($alipay == $re_alipay){
-                                                    if($real_name){
-                                                        if(!eregi("[^\x80-\xff]",$real_name)){
-                                                            $user->setPoints($points-intval($change_point));
-                                                            $em->persist($user);
-                                                            $em->flush();
-                                                            $pointschange->setUserId($id);
-                                                            $pointschange->setType($this->container->getParameter('init_three'));
-                                                            $pointschange->setSourcePoint($points-intval($change_point));
-                                                            $pointschange->setTargetPoint(intval($change_point));
-                                                            $pointschange->setTargetAccount($alipay);
-                                                            $pointschange->setRealName($real_name);
-                                                            $pointschange->setExchangeItemNumber($change_point/100);
-                                                            $pointschange->setIp($this->get('request')->getClientIp());
-                                                            $em->persist($pointschange);
-                                                            $em->flush();
-                                                            $this->identDanger($this->container->getParameter('init_three'),$pointschange->getId(),$id);
-                                                            $this->ipDanger($this->container->getParameter('init_three'),$pointschange->getIp(),$pointschange->getId(),$id);
-                                                            $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
-                                                            return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'alipay')));
-                                                                
-                                                        }else{
-                                                            $code = $this->container->getParameter('exchange_right_name');
-                                                            $arr['code'] = $code;        
-                                                        }
-                                                    }else{
-                                                        $code = $this->container->getParameter('exchange_real_name');
-                                                        $arr['code'] = $code;
-                                                    }
+                            if($existAlipay || $arr['existAlipay']==''){
+                                if($alipay){
+                                    if (preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){          
+                                        if($alipay == $re_alipay){
+                                            if($real_name){
+                                                if(!eregi("[^\x80-\xff]",$real_name)){
+                                                    $user->setPoints($points-intval($change_point));
+                                                    $em->persist($user);
+                                                    $em->flush();
+                                                    $pointschange->setUserId($id);
+                                                    $pointschange->setType($this->container->getParameter('init_three'));
+                                                    $pointschange->setSourcePoint($points-intval($change_point));
+                                                    $pointschange->setTargetPoint(intval($change_point));
+                                                    $pointschange->setTargetAccount($alipay);
+                                                    $pointschange->setRealName($real_name);
+                                                    $pointschange->setExchangeItemNumber($change_point/100);
+                                                    $pointschange->setIp($this->get('request')->getClientIp());
+                                                    $em->persist($pointschange);
+                                                    $em->flush();
+                                                    $this->identDanger($this->container->getParameter('init_three'),$pointschange->getId(),$id);
+                                                    $this->ipDanger($this->container->getParameter('init_three'),$pointschange->getIp(),$pointschange->getId(),$id);
+                                                    $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
+
+                                                    $token_key = $this->getTokenKey();
+                                                    $session = $this->getRequest()->getSession();
+                                                    $session->set('alipay', $token_key);
+                                                    return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'alipay')));
+                                                        
                                                 }else{
-                                                    $code = $this->container->getParameter('exchange_unsame_alipay');
-                                                    $arr['code'] = $code;
+                                                    $code = $this->container->getParameter('exchange_right_name');
+                                                    $arr['code'] = $code;        
                                                 }
                                             }else{
-                                                $code = $this->container->getParameter('exchange_wr_alipay');
-                                                $arr['code'] = $code;   
-                                                
+                                                $code = $this->container->getParameter('exchange_real_name');
+                                                $arr['code'] = $code;
                                             }
                                         }else{
-                                            $code = $this->container->getParameter('exchange_en_alipay');
+                                            $code = $this->container->getParameter('exchange_unsame_alipay');
                                             $arr['code'] = $code;
-
                                         }
                                     }else{
-                                        $user->setPoints($points-intval($change_point));
-                                        $em->persist($user);
-                                        $em->flush();
-                                        $pointschange->setUserId($id);
-                                        $pointschange->setType($this->container->getParameter('init_three'));
-                                        $pointschange->setSourcePoint($points-intval($change_point));
-                                        $pointschange->setTargetPoint(intval($change_point));
-                                        $pointschange->setTargetAccount($arr['existAlipay']);
-                                        $pointschange->setRealName($arr['existRealName']);
-                                        $pointschange->setExchangeItemNumber($change_point/100);
-                                        $pointschange->setIp($this->get('request')->getClientIp());
-                                        $em->persist($pointschange);
-                                        $em->flush();
-                                        $this->identDanger($this->container->getParameter('init_three'),$pointschange->getId(),$id);
-                                        $this->ipDanger($this->container->getParameter('init_three'),$pointschange->getIp(),$pointschange->getId(),$id);
-                                        $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
-                                        return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'alipay')));
-                                    }          
+                                        $code = $this->container->getParameter('exchange_wr_alipay');
+                                        $arr['code'] = $code;   
+                                        
+                                    }
+                                }else{
+                                    $code = $this->container->getParameter('exchange_en_alipay');
+                                    $arr['code'] = $code;
+
+                                }
+                            }else{
+                                $user->setPoints($points-intval($change_point));
+                                $em->persist($user);
+                                $em->flush();
+                                $pointschange->setUserId($id);
+                                $pointschange->setType($this->container->getParameter('init_three'));
+                                $pointschange->setSourcePoint($points-intval($change_point));
+                                $pointschange->setTargetPoint(intval($change_point));
+                                $pointschange->setTargetAccount($arr['existAlipay']);
+                                $pointschange->setRealName($arr['existRealName']);
+                                $pointschange->setExchangeItemNumber($change_point/100);
+                                $pointschange->setIp($this->get('request')->getClientIp());
+                                $em->persist($pointschange);
+                                $em->flush();
+                                $this->identDanger($this->container->getParameter('init_three'),$pointschange->getId(),$id);
+                                $this->ipDanger($this->container->getParameter('init_three'),$pointschange->getIp(),$pointschange->getId(),$id);
+                                $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
+                                $token_key = $this->getTokenKey();
+                                $session = $this->getRequest()->getSession();
+                                $session->set('alipay', $token_key);
+                                return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'alipay')));
+                            }          
                                 
                         }else{
                             $code = $this->container->getParameter('exchange_wr_point');
@@ -140,7 +172,7 @@ class  ExchangeController extends Controller
                 } 
 
         }
-       
+        $this->get('request')->getSession()->remove('alipayToken');
         return $this->render('JiliApiBundle:Exchange:alipayInfo.html.twig',$arr);
     }
 
@@ -152,6 +184,7 @@ class  ExchangeController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
             $itemNumber = '';
+            $tokenKey = '';
             $arr['mobile'] = '';
             $arr['code'] = '';
             $arr['existMobile'] = '';
@@ -168,12 +201,23 @@ class  ExchangeController extends Controller
             $mobile = $request->request->get('mobile');
             $re_mobile = $request->request->get('re_mobile');
             $existMobile = $request->request->get('existMobile');
+
+            $tokenKey = $request->request->get('tokenKey');
+            $session = $this->getRequest()->getSession();
+            $session->set('mobileToken', $tokenKey);
+            if(!$this->get('request')->getSession()->get('mobileToken')){
+                return $this->redirect($this->generateUrl('_default_error'));
+            }
+            if($tokenKey != $this->get('request')->getSession()->get('mobileToken')){
+                return $this->redirect($this->generateUrl('_default_error'));
+            }
             $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($id,$this->container->getParameter('init_four'));
             if(!empty($targetAcc)){
                  $arr['existMobile'] = $targetAcc[0]['targetAccount'];
             }
             if($request->getMethod() == 'POST') {
                 $arr['mobile'] = $mobile;
+                $arr['tokenKey'] = $tokenKey;
                 if($rechange-$points>0){
                     $code = $this->container->getParameter('exchange_wr_point');
                     $arr['code'] = $code;
@@ -263,6 +307,11 @@ class  ExchangeController extends Controller
                             // $this->identDanger($this->container->getParameter('init_four'),$pointschange->getId(),$id);
                             $this->ipDanger($this->container->getParameter('init_four'),$pointschange->getIp(),$pointschange->getId(),$id);
                             $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
+
+                            $token_key = $this->getTokenKey();
+                            $session = $this->getRequest()->getSession();
+                            $session->set('mobile', $token_key);
+
                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'mobile')));
 
                         }
@@ -276,8 +325,55 @@ class  ExchangeController extends Controller
                 
             }
         }
-       
         return $this->render('JiliApiBundle:Exchange:mobileInfo.html.twig',$arr);
+    }
+
+    /**
+     * @Route("/amazonCheck", name="_exchange_amazonCheck")
+     */
+    public function amazonCheckAction(){
+        if(!$this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_user_login'));
+        }else{
+            $request = $this->get('request');
+            $tokenKey = $request->request->get('tokenKey');
+            $session = $this->getRequest()->getSession();
+            $session->set('amazonToken', $tokenKey);
+            return $this->redirect($this->generateUrl('_exchange_amazonInfo'));
+        }
+
+    }
+
+    /**
+     * @Route("/alipayCheck", name="_exchange_alipayCheck")
+     */
+    public function alipayCheckAction(){
+        if(!$this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_user_login'));
+        }else{
+            $request = $this->get('request');
+            $tokenKey = $request->request->get('tokenKey');
+            $session = $this->getRequest()->getSession();
+            $session->set('alipayToken', $tokenKey);
+            return $this->redirect($this->generateUrl('_exchange_identityCardComfirm',array('type'=>'alipay')));
+        }
+
+    }
+
+    /**
+     * @Route("/mobileCheck", name="_exchange_mobileCheck")
+     */
+    public function mobileCheckAction(){
+        if(!$this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_user_login'));
+        }else{
+            $request = $this->get('request');
+            $tokenKey = $request->request->get('tokenKey');
+            $session = $this->getRequest()->getSession();
+            $session->set('mobileToken', $tokenKey);
+            return $this->redirect($this->generateUrl('_exchange_mobileInfo'));
+        }
+
     }
 
      /**
@@ -288,6 +384,7 @@ class  ExchangeController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
             $code = '';
+            $tokenKey = '';
             $arr['code'] = $code;
             $pointschange  = new PointsExchange();
             $id = $this->get('request')->getSession()->get('uid');
@@ -299,7 +396,19 @@ class  ExchangeController extends Controller
             $request = $this->get('request');
             $rechange =  $request->request->get('rechange');
             $change_point =  $request->request->get('point');
+
+            $tokenKey = $request->request->get('tokenKey');
+            $session = $this->getRequest()->getSession();
+            $session->set('amazonToken', $tokenKey);
+            if(!$this->get('request')->getSession()->get('amazonToken')){
+                return $this->redirect($this->generateUrl('_default_error'));
+            }
+            if($tokenKey != $this->get('request')->getSession()->get('amazonToken')){
+                return $this->redirect($this->generateUrl('_default_error'));
+            }
             if ($request->getMethod() == 'POST') {
+                $arr['tokenKey'] = $tokenKey;
+                if($rechange){
                     if($rechange > 0 && $rechange <= 5000){
                         if($rechange-$points>0){
                             $code = $this->container->getParameter('exchange_wr_point');
@@ -322,13 +431,19 @@ class  ExchangeController extends Controller
                                 $em->flush();
                                 // $this->identDanger($this->container->getParameter('init_two'),$pointschange->getId(),$id);
                                 $this->ipDanger($this->container->getParameter('init_two'),$pointschange->getIp(),$pointschange->getId(),$id);
+
+                                $token_key = $this->getTokenKey();
+                                $session = $this->getRequest()->getSession();
+                                $session->set('amazon', $token_key);
                                 return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'amazon')));
                             }
                         }
                     }else{
                         $code = $this->container->getParameter('exchange_wr_point');
                         $arr['code'] = $code;
-                    }      
+                    }    
+                }         
+                
   
             }
         }
@@ -415,13 +530,15 @@ class  ExchangeController extends Controller
     }
 
 
-    public function gotoComfirmUrl($type){
+    public function gotoComfirmUrl($type,$token){
         switch ($type) {
             case 'amazon':
                 return $this->redirect($this->generateUrl('_exchange_amazonInfo'));
                 break;
             case 'alipay':
-                return $this->redirect($this->generateUrl('_exchange_alipayInfo'));
+                $session = $this->getRequest()->getSession();
+                $session->set('alipayToken', $token);
+                return $this->redirect($this->generateUrl('_exchange_alipayInfo',array('token'=>$token)));
                 break;
             case 'mobile':
                 return $this->redirect($this->generateUrl('_exchange_mobileInfo'));
@@ -433,22 +550,48 @@ class  ExchangeController extends Controller
     }
 
     /**
+     * @Route("/issetIdent", name="_exchange_issetIdent")
+     */
+    public function issetIdentAction(){
+        $code = '';
+        $id = $this->get('request')->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $issetIdent = $em->getRepository('JiliApiBundle:IdentityConfirm')->findByUserId($id);
+        if(!empty($issetIdent)){
+            $code = $this->container->getParameter('init_one');
+        }
+        return new Response($code);
+    }
+
+    /**
      * @Route("/info/{type}", name="_exchange_identityCardComfirm")
      */
-    public function IdentityCardComfirm($type){
+    public function IdentityCardComfirmAction($type){
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
             $arr['code'] = '';
+            $tokenKey = '';
             $arr['type'] = $type;
             $id = $this->get('request')->getSession()->get('uid');
             $request = $this->get('request');
             $identityCard =  $request->request->get('identityCard');
-            $em = $this->getDoctrine()->getManager();
-            $issetIdent = $em->getRepository('JiliApiBundle:IdentityConfirm')->findByUserId($id);
-            if(!empty($issetIdent)){
-                return $this->gotoComfirmUrl($type);
+
+            $tokenKey = $request->request->get('tokenKey');
+            $arr['tokenKey'] = $tokenKey;
+            $session = $this->getRequest()->getSession();
+            $session->set('alipayToken', $tokenKey);
+            if(!$this->get('request')->getSession()->get('alipayToken')){
+                return $this->redirect($this->generateUrl('_default_error'));
             }
+            if($tokenKey != $this->get('request')->getSession()->get('alipayToken')){
+                return $this->redirect($this->generateUrl('_default_error'));
+            }
+            $em = $this->getDoctrine()->getManager();
+            // $issetIdent = $em->getRepository('JiliApiBundle:IdentityConfirm')->findByUserId($id);
+            // if(!empty($issetIdent)){
+            //     return $this->gotoComfirmUrl($type);
+            // }
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
             $arr['user'] = $user;
             if ($request->getMethod() == 'POST') {
@@ -461,7 +604,7 @@ class  ExchangeController extends Controller
                         $identC->setIdentityCard($identityCard);
                         $em->persist($identC);
                         $em->flush(); 
-                        return $this->gotoComfirmUrl($type);
+                        return $this->gotoComfirmUrl($type,$tokenKey);
                     }
                 }else{
                     $arr['code'] =  $this->container->getParameter('card_number_is_null');
@@ -477,16 +620,16 @@ class  ExchangeController extends Controller
      * @Route("/info", name="_exchange_info")
      */
     public function infoAction(){
-    	if(!$this->get('request')->getSession()->get('uid')){
-    		return $this->redirect($this->generateUrl('_user_login'));
-    	}else{
-    		$code = '';
-    		$arr['code'] = $code;
-    		$pointschange  = new PointsExchange();
-    		$id = $this->get('request')->getSession()->get('uid');
-    		$em = $this->getDoctrine()->getManager();
-    		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-    		$points = $user->getPoints();
+        if(!$this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_user_login'));
+        }else{
+            $code = '';
+            $arr['code'] = $code;
+            $pointschange  = new PointsExchange();
+            $id = $this->get('request')->getSession()->get('uid');
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $points = $user->getPoints();
             $arr['user'] = $user;
             $arr['points'] = $points;
             $request = $this->get('request');
@@ -560,27 +703,69 @@ class  ExchangeController extends Controller
                     $code = $this->container->getParameter('exchange_wr_point');
                     $arr['code'] = $code;
                 }             
-            	
+                
             }
-    	}
-    	return $this->render('JiliApiBundle:Exchange:info.html.twig',$arr);
+        }
+        return $this->render('JiliApiBundle:Exchange:info.html.twig',$arr);
+    }
+
+    public function checkFinish($type){
+        $code = '';
+        switch ($type) {
+            case 'amazon':
+                if(!$this->get('request')->getSession()->get('amazon')){
+                   $code = $this->container->getParameter('init_one');
+                }
+                break;
+            case 'alipay':
+                if(!$this->get('request')->getSession()->get('alipay')){
+                   $code = $this->container->getParameter('init_one');
+                }
+                break;
+            case 'mobile':
+                 if(!$this->get('request')->getSession()->get('mobile')){
+                    $code = $this->container->getParameter('init_one');
+                }
+                break;
+            default:
+                break;
+        }
+        return $code;
+
     }
     
     /**
      * @Route("/finish/{type}", name="_exchange_finish")
      */
     public function finishAction($type){
-    	if(!$this->get('request')->getSession()->get('uid')){
-    		return $this->redirect($this->generateUrl('_user_login'));
-    	}else{
-    		$em = $this->getDoctrine()->getManager();
-    		$id = $this->get('request')->getSession()->get('uid');
-    		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+        if(!$this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_user_login'));
+        }else{
+            $em = $this->getDoctrine()->getManager();
+            $id = $this->get('request')->getSession()->get('uid');
+            $code = $this->checkFinish($type);
+            if($code){
+                return $this->redirect($this->generateUrl('_default_error'));
+            }
+            $user = $em->getRepository('JiliApiBundle:User')->find($id);
             $this->exchange_send_message($type,$id);
-    		$arr['user'] = $user;
+            if($type='amazon'){
+                $this->get('request')->getSession()->remove('amazonToken');
+                $this->get('request')->getSession()->remove('amazon');
+            }
+            if($type='alipay'){
+                $this->get('request')->getSession()->remove('alipayToken');
+                $this->get('request')->getSession()->remove('alipay');
+            }
+            if($type='mobile'){
+                $this->get('request')->getSession()->remove('mobileToken');
+                $this->get('request')->getSession()->remove('mobile');
+            }
+            $arr['user'] = $user;
             $arr['type'] = $type;
-    	}
-    	return $this->render('JiliApiBundle:Exchange:finish.html.twig',$arr);
+            return $this->render('JiliApiBundle:Exchange:finish.html.twig',$arr);
+        }
+        
     }
 
 
@@ -673,8 +858,21 @@ class  ExchangeController extends Controller
      * @Route("/success", name="_exchange_success")
      */
     public function successAction(){
-    	
+        
     }
+
+    public function getTokenKey(){
+        $key = '';
+        $date = date("YmdHis");
+        $request = $this->get('request');
+        $uid = $request->getSession()->get('uid');
+        if($uid){
+            for ($i = 1; $i <= 9; $i++)
+                $key .= sha1($uid.$date);
+        }
+        return sha1($key);
+    }
+
     public static $areas = array(
         11 => "北京", 12 => "天津", 13 => "河北", 14 => "山西", 15 => "内蒙古",
         21 => "辽宁", 22 => "吉林", 23 => "黑龙江",
