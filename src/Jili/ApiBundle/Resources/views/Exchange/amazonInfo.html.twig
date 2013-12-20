@@ -78,6 +78,7 @@ function changePoint(){
       <img id="unactive" src="{{ asset('images/changeEnterBtn_unactive.jpg')}}" width="175" height="60"></div>
     </div>
   </article>
+  <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
   </form>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
