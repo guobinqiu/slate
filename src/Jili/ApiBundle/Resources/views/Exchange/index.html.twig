@@ -13,22 +13,53 @@
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("div .btnArea a").attr("disabled", "disabled");
+	// $("div .btnArea a").attr("disabled", "disabled");
+	$("#amazonBtn").click(function(){
+		$('#exchangeForm').attr("action", "{{ path('_exchange_amazonInfo') }}"); 
+		$("#exchangeForm").submit();
+	});
+	$("#alipayBtn").click(function(){
+		alipayClick();
+	});
+	$("#mobileBtn").click(function(){
+		$('#exchangeForm').attr("action", "{{ path('_exchange_mobileInfo') }}"); 
+		$("#exchangeForm").submit();
+	});
 });
+function alipayClick(){
+	$.ajax({
+          url: "{{ path('_exchange_issetIdent') }}",
+          post: "GET",
+          success:function(data){
+              if(data==1){
+                $('#exchangeForm').attr("action", "{{ path('_exchange_alipayInfo') }}"); 
+				$("#exchangeForm").submit();
+              }else{
+              	$('#exchangeForm').attr("action", "{{ path('_exchange_identityCardComfirm',{'type': 'alipay'}) }}"); 
+              	$("#exchangeForm").submit();
+              }
+          }
+        });	
+}
 </script>
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle exchange">
+<form method="post" name="exchangeForm" id="exchangeForm">
+
 	<div class="about">
 	<a class="historyExchange" href="{{  asset(path('_user_exchange',{'type': 0,'exchangeType':1}),'cdn1') }}"></a>
 	<a class="close wenwen">停止兑换</a>
-	<!--<a class="await mobiel">即将开放</a>-->
-	<a class="exchangeBtn amazonBtn" href="{{ path('_exchange_amazonInfo') }}">立即兑换</a>
-	<a class="exchangeBtn alipayBtn" href="{{ path('_exchange_identityCardComfirm',{'type': 'alipay'}) }}">立即兑换</a>
-	<a class="exchangeBtn mobileBtn" href="{{ path('_exchange_mobileInfo') }}">立即兑换</a>
-
-	<img src="{{ asset('images/exchangeContent.jpg')}}" width="813" height="270"><img src="{{ asset('images/exchangeFuture.jpg')}}"></div>
+	<!-- <a class="await mobiel">即将开放</a> -->
+	<a class="exchangeBtn amazonBtn" id="amazonBtn">立即兑换</a>
+	<a class="exchangeBtn alipayBtn" id="alipayBtn">立即兑换</a>
+	<a class="exchangeBtn mobileBtn" id="mobileBtn">立即兑换</a>
+	<img src="{{ asset('images/exchangeContent.jpg')}}" width="813" height="270"><img src="{{ asset('images/exchangeFuture.jpg')}}">
+	<input type="hidden" value="{{ key }}" name="tokenKey" />
+	</div>
+	
+</form>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
