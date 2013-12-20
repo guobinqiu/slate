@@ -595,19 +595,22 @@ class  ExchangeController extends Controller
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
             $arr['user'] = $user;
             if ($request->getMethod() == 'POST') {
-                if($identityCard){
-                    if(!$this->isValid($identityCard)){
-                        $arr['code'] =  $this->container->getParameter('card_number_is_error');
+                $btn = $request->request->get('btn');
+                if(!$btn){
+                    if($identityCard){
+                        if(!$this->isValid($identityCard)){
+                            $arr['code'] =  $this->container->getParameter('card_number_is_error');
+                        }else{
+                            $identC = new IdentityConfirm();
+                            $identC->setUserId($id);
+                            $identC->setIdentityCard($identityCard);
+                            $em->persist($identC);
+                            $em->flush(); 
+                            return $this->gotoComfirmUrl($type,$tokenKey);
+                        }
                     }else{
-                        $identC = new IdentityConfirm();
-                        $identC->setUserId($id);
-                        $identC->setIdentityCard($identityCard);
-                        $em->persist($identC);
-                        $em->flush(); 
-                        return $this->gotoComfirmUrl($type,$tokenKey);
+                        $arr['code'] =  $this->container->getParameter('card_number_is_null');
                     }
-                }else{
-                    $arr['code'] =  $this->container->getParameter('card_number_is_null');
                 }
             }
             
