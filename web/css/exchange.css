@@ -37,7 +37,7 @@
 }
 .exchange .about a.mobileBtn{
     left: 186px;
-    top: 590px;
+    top: 366px;
 }
 .exchange .about a.close{
 	background-color: #999999;
@@ -54,8 +54,8 @@
 }
 
 .exchange .about a.alipayBtn{
-    right: 141px;
-    top: 728px;
+    right: 642px;
+    top: 618px;
 }
 .exchange .about .amazonBtn{
 	right: 142px;
