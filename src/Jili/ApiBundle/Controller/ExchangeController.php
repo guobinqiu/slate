@@ -263,6 +263,9 @@ class  ExchangeController extends Controller
                                             $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
                                             $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
                                             $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
+                                            $token_key = $this->getTokenKey();
+                                            $session = $this->getRequest()->getSession();
+                                            $session->set('mobile', $token_key);
                                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'mobile')));
                                         }else{
                                             $code = $this->container->getParameter('exchange_unsame_mobile');
@@ -450,6 +453,17 @@ class  ExchangeController extends Controller
 
     }
 
+    public function insertDanger($uid,$exid,$type,$dgcontent){
+        $em = $this->getDoctrine()->getManager();
+        $ExchangeDanger = new ExchangeDanger();
+        $ExchangeDanger->setUserId($uid);
+        $ExchangeDanger->setExchangeId($exid);
+        $ExchangeDanger->setDangerType($type);
+        $ExchangeDanger->setDangerContent($dgcontent);
+        $em->persist($ExchangeDanger);
+        $em->flush(); 
+    }
+
     //判断身份证危险
     public function identDanger($type,$exchange_id,$uid){
         $em = $this->getDoctrine()->getManager();
@@ -460,19 +474,10 @@ class  ExchangeController extends Controller
                  $existUserExchange = $em->getRepository('JiliApiBundle:PointsExchange')->existOneExchange($value['userId'],$type);
                  if(!empty($existUserExchange)){
                     foreach ($existUserExchange as $key1 => $value1) {
-                         $ExchangeDanger = new ExchangeDanger();
-                         $ExchangeDanger->setUserId($value1['userId']);
-                         $ExchangeDanger->setExchangeId($value1['id']);
-                         $ExchangeDanger->setDangerType($this->container->getParameter('init_three'));
-                         $em->persist($ExchangeDanger);
-                         $em->flush(); 
+                        $this->insertDanger($value1['userId'],$value1['id'],$this->container->getParameter('init_three'),$identityCard[0]->getIdentityCard());
+
                     }
-                    $ExchangeDanger = new ExchangeDanger();
-                    $ExchangeDanger->setUserId($uid);
-                    $ExchangeDanger->setExchangeId($exchange_id);
-                    $ExchangeDanger->setDangerType($this->container->getParameter('init_three'));
-                    $em->persist($ExchangeDanger);
-                    $em->flush(); 
+                    $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_three'),$identityCard[0]->getIdentityCard());
 
                  }          
 
@@ -488,19 +493,9 @@ class  ExchangeController extends Controller
         $existTar = $em->getRepository('JiliApiBundle:PointsExchange')->existTargetAcc($targetAcc,$uid);
         if(!empty($existTar)){
             foreach ($existTar as $key => $value) {
-                $ExchangeDanger = new ExchangeDanger();
-                $ExchangeDanger->setUserId($value['userId']);
-                $ExchangeDanger->setExchangeId($value['id']);
-                $ExchangeDanger->setDangerType($this->container->getParameter('init_one'));
-                $em->persist($ExchangeDanger);
-                $em->flush(); 
+                $this->insertDanger($value['userId'],$value['id'],$this->container->getParameter('init_one'),$targetAcc);
             }
-            $ExchangeDanger = new ExchangeDanger();
-            $ExchangeDanger->setUserId($uid);
-            $ExchangeDanger->setExchangeId($exchange_id);
-            $ExchangeDanger->setDangerType($this->container->getParameter('init_one'));
-            $em->persist($ExchangeDanger);
-            $em->flush();    
+            $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_one'),$targetAcc);  
         }
      
     }
@@ -511,19 +506,9 @@ class  ExchangeController extends Controller
         $existIp = $em->getRepository('JiliApiBundle:PointsExchange')->existIp($ip,$uid);
         if(!empty($existIp)){
             foreach ($existIp as $key => $value) {
-                $ExchangeDanger = new ExchangeDanger();
-                $ExchangeDanger->setUserId($value['userId']);
-                $ExchangeDanger->setExchangeId($value['id']);
-                $ExchangeDanger->setDangerType($this->container->getParameter('init_two'));
-                $em->persist($ExchangeDanger);
-                $em->flush(); 
-            }
-            $ExchangeDanger = new ExchangeDanger();
-            $ExchangeDanger->setUserId($uid);
-            $ExchangeDanger->setExchangeId($exchange_id);
-            $ExchangeDanger->setDangerType($this->container->getParameter('init_two'));
-            $em->persist($ExchangeDanger);
-            $em->flush();    
+                $this->insertDanger($value['userId'],$value['id'],$this->container->getParameter('init_two'),$ip);  
+            } 
+            $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_two'),$ip);  
         }
 
     }
@@ -533,20 +518,10 @@ class  ExchangeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $existPwd = $em->getRepository('JiliApiBundle:PointsExchange')->existPwd($pwd,$uid);
         if(!empty($existPwd)){
-            foreach ($existPwd as $key => $value) {
-                $ExchangeDanger = new ExchangeDanger();
-                $ExchangeDanger->setUserId($value['userId']);
-                $ExchangeDanger->setExchangeId($value['id']);
-                $ExchangeDanger->setDangerType($this->container->getParameter('init_four'));
-                $em->persist($ExchangeDanger);
-                $em->flush(); 
+            foreach ($existPwd as $key => $value) { 
+                $this->insertDanger($value['userId'],$value['id'],$this->container->getParameter('init_four'),$pwd);
             }
-            $ExchangeDanger = new ExchangeDanger();
-            $ExchangeDanger->setUserId($uid);
-            $ExchangeDanger->setExchangeId($exchange_id);
-            $ExchangeDanger->setDangerType($this->container->getParameter('init_four'));
-            $em->persist($ExchangeDanger);
-            $em->flush();    
+            $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_four'),$pwd);
         }
 
     }

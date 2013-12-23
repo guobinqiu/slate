@@ -42,7 +42,12 @@ class ExchangeDanger
      */
     private $dangerType;
 
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="danger_content", type="string",length=50)
+     */
+    private $dangerContent;
 
     /**
      * Get id
@@ -122,6 +127,30 @@ class ExchangeDanger
     public function getDangerType()
     {
         return $this->dangerType;
+    }
+
+
+    /**
+     * Set dangerContent
+     *
+     * @param string $dangerContent
+     * @return ExchangeDanger
+     */
+    public function setDangerContent($dangerContent)
+    {
+    	$this->dangerContent = $dangerContent;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get dangerContent
+     *
+     * @return string
+     */
+    public function getDangerContent()
+    {
+    	return $this->dangerContent;
     }
 
     
