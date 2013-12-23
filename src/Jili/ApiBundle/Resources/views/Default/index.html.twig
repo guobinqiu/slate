@@ -164,7 +164,11 @@ function goto(cid,aid,points){
                 <p class="point">米粒：<span id="points">{{ user.points }}</span></p>
 
                  <div class="clear"></div>
+                 {% if clickDayCount > 2 %}
+                 <a id="sign" class="signIn close" onmouseout="popOut();"></a>
+                 {% else %}
                   <a class="signIn" id="sign" onclick="signs();" onMouseOver="popIn();" onMouseOut="popOut();"></a>
+                  {% endif %}
                   <div class="signInExplain">打开<span id="m_remain">3</span>个商城就可获得<span>{{ checkinPoint }}</span>个积分！</div>
                 <!-- <a class="signWait"></a> -->
                 <div class="clear"></div>

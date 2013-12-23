@@ -262,6 +262,9 @@ class  ExchangeController extends Controller
                                              // $this->identDanger($this->container->getParameter('init_four'),$pointschange->getId(),$id);
                                             $this->ipDanger($this->container->getParameter('init_four'),$pointschange->getIp(),$pointschange->getId(),$id);
                                             $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
+                                            $token_key = $this->getTokenKey();
+				                            $session = $this->getRequest()->getSession();
+				                            $session->set('mobile', $token_key);
                                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'mobile')));
                                         }else{
                                             $code = $this->container->getParameter('exchange_unsame_mobile');

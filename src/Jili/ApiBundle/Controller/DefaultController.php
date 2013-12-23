@@ -171,6 +171,19 @@ class DefaultController extends Controller {
 
 	}
 
+
+	public function clickDayCount()
+	{
+		$culTimes = $this->container->getParameter('init');
+		$date = date('Y-m-d');
+		$request = $this->get('request');
+		$uid = $request->getSession()->get('uid');
+		$em = $this->getDoctrine()->getManager();	
+		$culTimes = $em->getRepository('JiliApiBundle:CheckinUserList')->countUserList($uid,$date);
+		return $culTimes;
+
+	}
+
 	/**
 	 * @Route("/", name="_default_index",requirements={"_scheme"="https"})
 	 * 
@@ -211,6 +224,7 @@ class DefaultController extends Controller {
 			$arr['limitNick'] = $limitNick;
 			$arr['arrList'] = $this->checkinList();
 			$arr['checkinPoint'] = $this->getCheckinPoint();
+			$arr['clickDayCount'] = $this->clickDayCount();
 		}
 		$info = '';
 		$couponOd = '';
