@@ -110,9 +110,9 @@ class  ExchangeController extends Controller
                                                     $em->persist($pointschange);
                                                     $em->flush();
                                                     $this->identDanger($this->container->getParameter('init_three'),$pointschange->getId(),$id);
-                                                    $this->ipDanger($this->container->getParameter('init_three'),$pointschange->getIp(),$pointschange->getId(),$id);
+                                                    $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
                                                     $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
-
+                                                    $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
                                                     $token_key = $this->getTokenKey();
                                                     $session = $this->getRequest()->getSession();
                                                     $session->set('alipay', $token_key);
@@ -155,8 +155,9 @@ class  ExchangeController extends Controller
                                 $em->persist($pointschange);
                                 $em->flush();
                                 $this->identDanger($this->container->getParameter('init_three'),$pointschange->getId(),$id);
-                                $this->ipDanger($this->container->getParameter('init_three'),$pointschange->getIp(),$pointschange->getId(),$id);
+                                $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
                                 $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
+                                $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
                                 $token_key = $this->getTokenKey();
                                 $session = $this->getRequest()->getSession();
                                 $session->set('alipay', $token_key);
@@ -258,10 +259,10 @@ class  ExchangeController extends Controller
                                             $pointschange->setExchangeItemNumber($itemNumber);
                                             $pointschange->setIp($this->get('request')->getClientIp());
                                             $em->persist($pointschange);
-                                            $em->flush();
-                                             // $this->identDanger($this->container->getParameter('init_four'),$pointschange->getId(),$id);
-                                            $this->ipDanger($this->container->getParameter('init_four'),$pointschange->getIp(),$pointschange->getId(),$id);
+                                            $em->flush();               
+                                            $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
                                             $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
+                                            $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
                                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'mobile')));
                                         }else{
                                             $code = $this->container->getParameter('exchange_unsame_mobile');
@@ -304,10 +305,9 @@ class  ExchangeController extends Controller
                             $pointschange->setIp($this->get('request')->getClientIp());
                             $em->persist($pointschange);
                             $em->flush();
-                            // $this->identDanger($this->container->getParameter('init_four'),$pointschange->getId(),$id);
-                            $this->ipDanger($this->container->getParameter('init_four'),$pointschange->getIp(),$pointschange->getId(),$id);
+                            $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
                             $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
-
+                            $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
                             $token_key = $this->getTokenKey();
                             $session = $this->getRequest()->getSession();
                             $session->set('mobile', $token_key);
@@ -429,9 +429,8 @@ class  ExchangeController extends Controller
                                 $pointschange->setIp($this->get('request')->getClientIp());
                                 $em->persist($pointschange);
                                 $em->flush();
-                                // $this->identDanger($this->container->getParameter('init_two'),$pointschange->getId(),$id);
-                                $this->ipDanger($this->container->getParameter('init_two'),$pointschange->getIp(),$pointschange->getId(),$id);
-
+                                $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
+                                $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
                                 $token_key = $this->getTokenKey();
                                 $session = $this->getRequest()->getSession();
                                 $session->set('amazon', $token_key);
@@ -507,9 +506,9 @@ class  ExchangeController extends Controller
     }
 
     //判断ip危险
-    public function ipDanger($type,$ip,$exchange_id,$uid){
+    public function ipDanger($ip,$exchange_id,$uid){
         $em = $this->getDoctrine()->getManager();
-        $existIp = $em->getRepository('JiliApiBundle:PointsExchange')->existIp($type,$ip,$uid);
+        $existIp = $em->getRepository('JiliApiBundle:PointsExchange')->existIp($ip,$uid);
         if(!empty($existIp)){
             foreach ($existIp as $key => $value) {
                 $ExchangeDanger = new ExchangeDanger();
@@ -529,6 +528,28 @@ class  ExchangeController extends Controller
 
     }
 
+    //判断密码危险
+    public function pwdDanger($pwd,$exchange_id,$uid){
+        $em = $this->getDoctrine()->getManager();
+        $existPwd = $em->getRepository('JiliApiBundle:PointsExchange')->existPwd($pwd,$uid);
+        if(!empty($existPwd)){
+            foreach ($existPwd as $key => $value) {
+                $ExchangeDanger = new ExchangeDanger();
+                $ExchangeDanger->setUserId($value['userId']);
+                $ExchangeDanger->setExchangeId($value['id']);
+                $ExchangeDanger->setDangerType($this->container->getParameter('init_four'));
+                $em->persist($ExchangeDanger);
+                $em->flush(); 
+            }
+            $ExchangeDanger = new ExchangeDanger();
+            $ExchangeDanger->setUserId($uid);
+            $ExchangeDanger->setExchangeId($exchange_id);
+            $ExchangeDanger->setDangerType($this->container->getParameter('init_four'));
+            $em->persist($ExchangeDanger);
+            $em->flush();    
+        }
+
+    }
 
     public function gotoComfirmUrl($type,$token){
         switch ($type) {
@@ -623,6 +644,7 @@ class  ExchangeController extends Controller
      * @Route("/info", name="_exchange_info")
      */
     public function infoAction(){
+        exit('不支持该兑换');
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
@@ -664,7 +686,7 @@ class  ExchangeController extends Controller
                                 $pointschange->setIp($this->get('request')->getClientIp());
                                 $em->persist($pointschange);
                                 $em->flush();
-                                $this->ipDanger($this->container->getParameter('init_one'),$pointschange->getIp(),$pointschange->getId(),$id);
+                                $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
                                 return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'jili')));
                             }else{
                                 $userExchange = $em->getRepository('JiliApiBundle:PointsExchange')->existUserExchange($id);
@@ -687,7 +709,7 @@ class  ExchangeController extends Controller
                                             $pointschange->setIp($this->get('request')->getClientIp());
                                             $em->persist($pointschange);
                                             $em->flush();
-                                            $this->ipDanger($this->container->getParameter('init_one'),$pointschange->getIp(),$pointschange->getId(),$id);
+                                            $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
                                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'jili')));
                                         }
                                     }else{

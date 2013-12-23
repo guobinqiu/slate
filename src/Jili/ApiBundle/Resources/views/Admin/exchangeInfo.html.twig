@@ -48,6 +48,7 @@ $(document).ready(function(){
             <th>identSuspicion</th>
             <th>ipSuspicion</th>
             <th>mobileSuspicion</th>
+            <th>pwdSuspicion</th>
         </tr>
         {% if pagination %}
          {% for item in pagination %}
@@ -83,6 +84,7 @@ $(document).ready(function(){
            <td align="center">{{ item.ident }}</td>
            <td align="center">{{ item.ip }}</td>
            <td align="center">{{ item.mobile }}</td>
+           <td align="center">{{ item.pwd }}</td>
         </tr>
          {% endfor %}
          {%  endif %}
