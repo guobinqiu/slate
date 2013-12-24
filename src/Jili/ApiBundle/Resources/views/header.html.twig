@@ -75,7 +75,6 @@ function showFlag(){
         url: "{{ path('_user_createFlag') }}",
         type: "GET",
         success:function(data){
-        alert(data);
           if(data==1){
                window.location.href="{{ path('_default_index') }}";
           }
