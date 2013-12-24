@@ -7,7 +7,12 @@ $(document).ready(function(){
   $('.amazon').hide();
   $('.blackBg').hide();
   $("#amazonEmpty").hide();
+  {% if app.request.cookies.has('jili_uid') and app.request.cookies.has('jili_nick') %}
+      {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
+      {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
+  {% endif %}
   {% if app.session.get('uid') %}
+      showFlag();
       isVisit();
       isNewMs();
       countMs();
@@ -64,6 +69,20 @@ $(document).ready(function(){
       getHobby();
   {% endif %}
 });
+
+function showFlag(){
+    $.ajax({
+        url: "{{ path('_user_createFlag') }}",
+        type: "GET",
+        success:function(data){
+        alert(data);
+          if(data==1){
+               window.location.href="{{ path('_default_index') }}";
+          }
+          
+        }
+    });
+}
 
 function showInfo(){
      $.ajax({

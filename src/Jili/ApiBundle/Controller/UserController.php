@@ -45,6 +45,45 @@ use Jili\ApiBundle\Entity\TaskHistory09;
 class UserController extends Controller
 {
 	/**
+	* @Route("/createFlag", name="_user_createFlag")
+	*/
+	public function createFlagAction(){	
+		$code = '';
+		$request = $this->get('request');
+		$id = $request->getSession()->get('uid');
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		if($user->getDeleteFlag() == 1){
+				$this->removeSession();
+				$code = $this->container->getParameter('init_one');
+		}
+		if(!$request->getSession()->get('flag')){
+			$session = $this->getRequest()->getSession();
+            $session->set('flag', 1);
+			$loginlog = new Loginlog();
+			$loginlog->setUserId($id);
+			$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
+			$loginlog->setLoginIp($this->get('request')->getClientIp());
+			$em->persist($loginlog);
+			$em->flush();
+			if($user->getDeleteFlag() == 1){
+				$this->removeSession();
+				// return $this->redirect($this->generateUrl('_default_index'));
+				$code = $this->container->getParameter('init_one');
+			}
+		}
+		return new Response($code);
+
+	}
+
+	public function removeSession(){
+		$this->get('request')->getSession()->remove('uid');
+		$this->get('request')->getSession()->remove('nick');
+		setcookie ("jili_uid", "", time() - 3600,'/');
+		setcookie ("jili_nick", "", time() - 3600,'/');
+	}
+
+	/**
 	 * @Route("/checkFlag/{id}", name="_user_checkFlag")
 	 */
 	public function checkFlagAction($id){
