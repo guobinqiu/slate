@@ -18,15 +18,26 @@ class PointsExchangeRepository extends EntityRepository
 		return $query->getResult();
 	}
 
-	public function existIp($type,$ip,$uid){
+	public function existPwd($pwd,$uid){
+		$query = $this->createQueryBuilder('p');
+		$query = $query->select('p.id,p.userId');
+		$query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'p.userId = u.id');
+		$query = $query->Where('u.pwd = :pwd');
+		$query = $query->andWhere('u.id <> :uid');
+		$query = $query->setParameters(array('pwd'=>$pwd,'uid'=>$uid));
+		$query =  $query->getQuery();
+		return $query->getResult();
+	}
+
+
+	public function existIp($ip,$uid){
 		$query = $this->createQueryBuilder('p');
 		$query = $query->select('p.id,p.userId,p.ip');
 		$query = $query->Where('p.ip = :ip');
-		$query = $query->andWhere('p.type = :type');
 		$query = $query->andWhere('p.userId <> :uid');
 		$query = $query->orderBy('p.id','DESC');
 		$query = $query->groupBy('p.userId');
-		$query = $query->setParameters(array('ip'=>$ip,'uid'=>$uid,'type'=>$type));
+		$query = $query->setParameters(array('ip'=>$ip,'uid'=>$uid));
 		$query = $query->getQuery();
 		return $query->getResult();
 	}

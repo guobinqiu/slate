@@ -1843,25 +1843,21 @@ class AdminController extends Controller
         $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time,$exType);
         foreach ($exchange as $key => $value) {
            $exchangeDanger = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeId($value['id']);
+           $exchange[$key]['mobile']='';
+           $exchange[$key]['ident'] = '';
+           $exchange[$key]['ip'] = '';
+           $exchange[$key]['pwd'] = '';
            if(!empty($exchangeDanger)){
               foreach ($exchangeDanger as $key1 => $value1) {
                  if($value1->getDangerType() == $this->container->getParameter('init_one'))
-                    $exchange[$key]['mobile'] = $this->container->getParameter('init_one');
-                  else
-                    $exchange[$key]['mobile'] = '';
+                    $exchange[$key]['mobile'] = $this->container->getParameter('init_one');                 
                  if($value1->getDangerType() == $this->container->getParameter('init_two'))
-                    $exchange[$key]['ip'] = $this->container->getParameter('init_one');
-                  else
-                     $exchange[$key]['ip'] = '';
+                    $exchange[$key]['ip'] = $this->container->getParameter('init_one');                
                  if($value1->getDangerType() == $this->container->getParameter('init_three'))
                     $exchange[$key]['ident'] = $this->container->getParameter('init_one');
-                  else
-                    $exchange[$key]['ident'] = '';
+                 if($value1->getDangerType() == $this->container->getParameter('init_four'))
+                    $exchange[$key]['pwd'] = $this->container->getParameter('init_one');
               }
-           }else{
-              $exchange[$key]['mobile']='';
-              $exchange[$key]['ident'] = '';
-              $exchange[$key]['ip'] = '';
            }
         }
         $paginator  = $this->get('knp_paginator');
@@ -1879,27 +1875,23 @@ class AdminController extends Controller
                 $response = new Response();   
                 $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time,$exType);
                 foreach ($exchange as $key => $value) {
-                     $exchangeDanger = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeId($value['id']);
-                     if(!empty($exchangeDanger)){
+                    $exchangeDanger = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeId($value['id']);
+                    $exchange[$key]['mobile']='';
+					$exchange[$key]['ident'] = '';
+					$exchange[$key]['ip'] = '';
+					$exchange[$key]['pwd'] = '';
+                    if(!empty($exchangeDanger)){	
                         foreach ($exchangeDanger as $key1 => $value1) {
-                           if($value1->getDangerType() == $this->container->getParameter('init_one'))
-                              $exchange[$key]['mobile'] = $this->container->getParameter('init_one');
-                            else
-                              $exchange[$key]['mobile'] = '';
-                           if($value1->getDangerType() == $this->container->getParameter('init_two'))
-                              $exchange[$key]['ip'] = $this->container->getParameter('init_one');
-                            else
-                               $exchange[$key]['ip'] = '';
-                           if($value1->getDangerType() == $this->container->getParameter('init_three'))
-                              $exchange[$key]['ident'] = $this->container->getParameter('init_one');
-                            else
-                              $exchange[$key]['ident'] = '';
+                            if($value1->getDangerType() == $this->container->getParameter('init_one'))
+								$exchange[$key]['mobile'] = $this->container->getParameter('init_one');                 
+							if($value1->getDangerType() == $this->container->getParameter('init_two'))
+								$exchange[$key]['ip'] = $this->container->getParameter('init_one');                
+							if($value1->getDangerType() == $this->container->getParameter('init_three'))
+								$exchange[$key]['ident'] = $this->container->getParameter('init_one');
+							if($value1->getDangerType() == $this->container->getParameter('init_four'))
+								$exchange[$key]['pwd'] = $this->container->getParameter('init_one');
                         }
-                     }else{
-                        $exchange[$key]['mobile']='';
-                        $exchange[$key]['ip'] = '';
-                        $exchange[$key]['ident'] = '';
-                     }
+                    }
                 }
                 $arr['exchange'] = $exchange;
                 if($exType == 1)

@@ -17,7 +17,7 @@
 <img src="{{ asset('images/error_support.gif')}}">
 </div>
 {% else %}
-<div style="margin:50px auto 0 auto; width:720px;" ><iframe src="{{ url | raw }}" width="720" height="3650" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" allowTransparency="true"></iframe> </div>
+<div style="margin:50px auto 0 auto; width:720px;" ><iframe src="{{ url | raw }}" width="720" {% if heightFlag %} height="3000" {% else%} height="3650" {% endif %} scrolling="no" marginwidth="0" marginheight="0" frameborder="0" allowTransparency="true"></iframe> </div>
 {% endif %}
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
