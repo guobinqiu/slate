@@ -95,7 +95,7 @@ class  ExchangeController extends Controller
                                     if (preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){          
                                         if($alipay == $re_alipay){
                                             if($real_name){
-                                                if(!eregi("[^\x80-\xff]",$real_name)){
+                                                // if(!eregi("[^\x80-\xff]",$real_name)){
                                                     $user->setPoints($points-intval($change_point));
                                                     $em->persist($user);
                                                     $em->flush();
@@ -118,10 +118,10 @@ class  ExchangeController extends Controller
                                                     $session->set('alipay', $token_key);
                                                     return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'alipay')));
                                                         
-                                                }else{
-                                                    $code = $this->container->getParameter('exchange_right_name');
-                                                    $arr['code'] = $code;        
-                                                }
+                                                // }else{
+                                                //     $code = $this->container->getParameter('exchange_right_name');
+                                                //     $arr['code'] = $code;        
+                                                // }
                                             }else{
                                                 $code = $this->container->getParameter('exchange_real_name');
                                                 $arr['code'] = $code;
