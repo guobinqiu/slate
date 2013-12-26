@@ -24,9 +24,18 @@ class CheckinClickListRepository extends EntityRepository
 		$query = $query->setParameters(array('uid'=>$uid,'cdate'=>$date));
 		$query = $query->getQuery();
 		return $query->getResult();
-
 	}
+    
+    public function checkStatus($uid,$date)
+    {
+        $query = $this->createQueryBuilder('ccl');
+        $query = $query->select('ccl.userId,ccl.clickDate,ccl.createTime,ccl.status,ccl.openShopTimes');
+        $query = $query->Where('ccl.status = 1');
+        $query = $query->andWhere('ccl.userId = :uid');
+        $query = $query->andWhere('ccl.clickDate = :cdate');
+        $query = $query->setParameters(array('uid'=>$uid,'cdate'=>$date));
+        $query = $query->getQuery();
+        return $query->getResult();
+    }
 
-	
-	
 }

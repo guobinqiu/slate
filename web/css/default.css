@@ -98,16 +98,18 @@ header nav#menu ul li a:hover{
 	display:inline;
 }
 header nav#user {
-	position:absolute;
-	top:3px;
-	right:3px;
+	background-color: #C33E0E;
+    border-radius: 0 0 5px 5px;
+    padding: 3px 12px 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 header nav#user a{
 	color:#FFF;
 	display:inline-block;
-	margin-left:10px;
 	background-repeat:no-repeat;
-	text-indent:13px;
+	text-indent:15px;
 }
 header nav#user a.newms{
 	background-image: url("../images/newMs.gif");
@@ -122,11 +124,74 @@ header nav#user a span#countMessage{
 }
 header nav#user a.log{
 	background-image:url(../images/log_ico.gif);
-	background-position:0px 5px;
+	background-position:0px 4px;
 }
 header nav#user a.reg{
 	background-image:url(../images/sign_ico.gif);
-	background-position:0px 4px;
+	background-position:0px 3px;
+}
+header nav#user span.division{
+	background-image: url("../images/division.jpg");
+    display: inline-block;
+    height: 11px;
+    margin: 0 10px;
+    vertical-align: middle;
+    width: 2px;
+}
+header nav#user a.personalMenu{
+	background-image: url("../images/personalIcon.gif");
+    background-position: right center;
+    padding-right: 12px;
+    text-indent: 0;
+}
+header nav#user a:hover{
+	text-decoration:none;
+}
+header #userFrame{
+	background-color: #FFFFFF;
+    border: 1px solid #EA4B11;
+    left: 0;
+    position: absolute;
+    top: 24px;
+    width: 100%;
+    z-index: 8000;
+	display:none;
+	display:none;
+}
+header nav#user .helpBtn{
+	position: absolute;
+	left: -75px;
+	top: 3px;
+}
+header #userFrame .userInfo{
+	background-image: url("../images/newUserIco.jpg");
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 10px 0 5px 33px;
+	margin-bottom:5px;
+}
+header #userFrame .userInfo p.coin{
+	color:#ea4b11;
+}
+header #userFrame ul.menu{
+}
+header #userFrame ul.menu li{
+	line-height:230%;
+}
+header #userFrame ul.menu li a{
+	color:#666;
+	width:100%;
+	display:inline-block;
+}
+header #userFrame ul.menu li a:hover{
+	background-color:#f0f0f0;
+	text-decoration:none;
+}
+header #userFrame ul.menu li.logOut{
+	border-top:1px solid #EEE;
+	line-height:250%;
+	margin-top:5px;
 }
 footer{
 	background-color:#ececec;
@@ -184,4 +249,92 @@ footer section a:hover{
 	margin: auto;
 	padding:0 0 140px 0;
 	display:table;
+}
+#loginFrame{
+	background-color: #F5F6F8;
+    border-radius: 5px;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 430px;
+    z-index: 10010;
+	display:none;
+}
+#loginFrame h2{
+	background-color: #EA4B11;
+    color: #FFFFFF;
+    font-size: 16px;
+    line-height: 220%;
+    padding-left: 20px;
+	font-weight:normal;
+	position:relative;
+}
+#loginFrame h2 a.close{
+	color: #FFFFFF;
+    font-family: Verdana;
+    position: absolute;
+    right: 15px;
+}
+#loginFrame .loginForm{
+	margin: 20px 40px;
+}
+#loginFrame .loginForm li{
+	list-style:none;
+	margin: 25px 0 0;
+}
+#loginFrame .loginForm li dd{
+	float:left;
+	width:60px;
+	line-height:28px;
+	font-size: 14px;
+}
+#loginFrame .loginForm li dt{
+	
+}
+#loginFrame .loginForm li dt input.name,#loginFrame .loginForm li dt input.password{
+	border: 1px solid #DDDDDD;
+    height: 25px;
+    margin-right: 10px;
+    padding: 0 5px;
+    width: 200px;
+}
+#loginFrame .loginForm li dt a.loginBtn{
+	background-color: #55B9E8;
+    border: 1px solid #309ACB;
+    border-radius: 3px;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0 10px 0 0;
+    padding: 5px 14px;
+    text-align: center;
+}
+#loginFrame .loginForm li dt a.forget{
+	color:#54b9e8;
+}
+#loginFrame .loginForm li dt a.regBtn{
+	color:#54b9e8;
+	font-weight:bold;
+	margin:0 10px;
+}
+#loginFrame .directGo{
+	border-top: 1px dotted #CCCCCC;
+    font-size: 16px;
+    line-height: 300%;
+    padding: 0 0 0 100px;
+}
+#loginFrame .directGo a.directGoBtn{
+	color:#54b9e8;
+	margin:0 10px;
+}
+.blackLayer{
+	background-color:#000;
+	opacity:.5;
+	Filter:alpha(opacity=50);
+	width:100%;
+	height:100%;
+	display:none;
+	position:absolute;
+	z-index:10009;
 }

@@ -17,14 +17,14 @@ class CallBoardRepository extends EntityRepository
 		return $query->getResult();
 	}
 
-	public function getFiveCallboard()
+	public function getCallboardLimit($limit)
 	{
 		$query = $this->createQueryBuilder('cb');
 		$query = $query->select('cb.id,cb.title,cb.author,cb.content,cb.createTime,cb.startTime,cb.url,cc.categoryName');
 		$query = $query->innerJoin('JiliApiBundle:CbCategory', 'cc', 'WITH', 'cb.cbType = cc.id ');
 		$query = $query->orderBy('cb.startTime','DESC');
 		$query = $query->setFirstResult(0);
-		$query = $query->setMaxResults(5);
+		$query = $query->setMaxResults($limit);
 		$query =  $query->getQuery();
 		return $query->getResult();
 	}

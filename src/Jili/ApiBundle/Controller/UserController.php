@@ -904,6 +904,7 @@ class UserController extends Controller
 							
 							$session->set('uid', $id);
 							$session->set('nick', $user->getNick());
+							$session->set('points', $user->getPoints());
 							$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
 							$user->setLastLoginIp($this->get('request')->getClientIp());
 							$em->flush();
