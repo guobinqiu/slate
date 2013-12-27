@@ -114,6 +114,44 @@ class CheckinController extends Controller
 	}
 
 	/**
+	 * @Route("/location",name="_checkin_location",requirements={"_scheme"="http"})
+	 */
+	public function locationAction()
+	{
+		
+		$em = $this->getDoctrine()->getManager();
+		$request = $this->get('request');
+		$uid = $request->getSession()->get('uid');
+		if(!$uid){
+			$uid = '';
+		}
+		$markId = $request->query->get('markid');
+		$aid = $request->query->get('aid');
+		$type = $request->query->get('type');
+		switch ($type) {
+			case '1':
+			    $firstUrl = $this->advInfo($uid,$aid);
+				$lastUrl = "";
+				break;
+			case '2':
+				$busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->existMarket($markId);
+				if(empty($busiAct)){
+					return $this->redirect($this->generateUrl('_default_error'));
+				}
+				$firstUrl = $this->advInfo($uid,$busiAct[0]['aid']);
+				$lastUrl = $busiAct[0]['activityUrl'];
+				break;
+			default:
+				# code...
+				break;
+		}
+		
+		return $this->render('JiliApiBundle:Checkin:info.html.twig',
+				array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type));
+
+	}
+
+	/**
 	 * @Route("/checkinInfo",name="_checkin_checkinInfo",requirements={"_scheme"="http"})
 	 */
 	public function checkinInfoAction()
