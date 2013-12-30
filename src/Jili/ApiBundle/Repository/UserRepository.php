@@ -127,7 +127,7 @@ class UserRepository extends EntityRepository
 
 		$sqltask = "(select c.user_id from (select user_id,status,date from task_history00 union select user_id,status,date from task_history01 union select user_id,status,date from task_history02 union select user_id,status,date from task_history03 union select user_id,status,date from task_history04 union select user_id,status,date from task_history05 union select user_id,status,date from task_history06 union select user_id,status,date from task_history07 union select user_id,status,date from task_history08 union select user_id,status,date from task_history09) c where status=2 and date > '".$daydate."')";
 
-		$sql = "select e.id,e.email,e.nick,e.register_date from user e where e.points>0 and e.register_date < '".$daydate."' and e.id not in ".$sqlpoint." and e.id not in ".$sqltask ;
+		$sql = "select e.id,e.email,e.nick,e.register_date,e.delete_flag from user e where e.points>0 and e.register_date < '".$daydate."' and e.id not in ".$sqlpoint." and e.id not in ".$sqltask ;
 		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 
 	}
