@@ -73,6 +73,13 @@ class TaskHistory08
     /**
      * @var \DateTime
      *
+     * @ORM\Column(name="ocd_created_date", type="datetime")
+     */
+    private $ocdCreatedDate;
+
+    /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
@@ -258,6 +265,30 @@ class TaskHistory08
     {
         return $this->point;
     }
+
+    /**
+     * Set ocdCreatedDate
+     *
+     * @param \DateTime $ocdCreatedDate
+     * @return TaskHistory08
+     */
+    public function setOcdCreatedDate($ocdCreatedDate)
+    {
+        $this->ocdCreatedDate = $ocdCreatedDate;
+    
+        return $this;
+    }
+    
+    /**
+     * Get ocdCreatedDate
+     *
+     * @return \DateTime
+     */
+    public function getOcdCreatedDate()
+    {
+        return $this->ocdCreatedDate;
+    }
+
 
 
      /**
