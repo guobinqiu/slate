@@ -117,21 +117,34 @@ class DmdeliveryController extends Controller
 			$group = $this->addgroup($companyId);
 			if($group->status != "ERROR"){
 				foreach ($user as $key => $value) {
-					$failId = $this->issetFailRecord($value['id'],$failTime);
-					if(!$failId)
-						$recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
-												 array('name'=>'nick','value'=>$value['nick']));
-					else 
-						unset($user[$key]);
+					if($value['delete_flag'] != 1){
+						$failId = $this->issetFailRecord($value['id'],$failTime);
+						if(!$failId)
+							$recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
+													 array('name'=>'nick','value'=>$value['nick']));
+						else 
+							unset($user[$key]);
+					}else{
+						$failId = $this->issetFailRecord($value['id'],$failTime);
+						if(!$failId){
+							$this->insertSendPointFail($value['id'],$failTime);
+							if($failTime == 180){
+								$this->updatePointZero($value['id']);
+							}
+						}
+
+					}
 				}
 				if(!empty($recipient_arr)){
 					$send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
 	                if($send->status != "ERROR"){
 	                	foreach ($user as $key => $value){
-							$this->insertSendPointFail($value['id'],$failTime);
-							if($failTime == 180){
-								$this->updatePointZero($value['id']);
-							}
+	                		if($value['delete_flag'] != 1){
+	                			$this->insertSendPointFail($value['id'],$failTime);
+								if($failTime == 180){
+									$this->updatePointZero($value['id']);
+								}
+	                		}	
 						}
 						$rs = 'Send email successfully';
 	                }else{
