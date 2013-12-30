@@ -161,11 +161,13 @@ class DefaultController extends Controller {
 			$cal_count = count($cal);
 			$calNow = array_rand($cal, $cal_count);
 		}
-		for ($i=0; $i < $cal_count; $i++) { 
-			$cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
-            $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
-            $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate']/10000,2);
-			$arrList[] = $cal[$calNow[$i]];
+		if($cal_count>0){
+			for ($i=0; $i < $cal_count; $i++) { 
+				$cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
+	            $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
+	            $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate']/10000,2);
+				$arrList[] = $cal[$calNow[$i]];
+			}
 		}
 		return $arrList;
 

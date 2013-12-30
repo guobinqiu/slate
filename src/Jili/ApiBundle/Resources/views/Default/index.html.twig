@@ -106,7 +106,7 @@ function goto(cid,aid,points){
                               var points = $("#points").text();
                               var obj = JSON.parse(data);
                               // w.location.href = obj.url;
-                              w.location.href = "{{ path('_checkin_checkinInfo') }}?aid="+aid;
+                              w.location.href = "{{ path('_checkin_location') }}?aid="+aid+"&type=1";
                               // w.focus();
                               // window.open(obj.url, "s", "resizable=yes, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, copyhistory=no").blur();
                               // window.focus();

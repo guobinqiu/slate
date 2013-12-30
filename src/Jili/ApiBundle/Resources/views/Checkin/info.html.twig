@@ -7,18 +7,19 @@
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script>
 $(document).ready(function(){
-     {% if app.session.get('uid') %}
+	 {% if app.session.get('uid') %}
 	 {% else %}
 	 	window.location.href="{{ path('_user_login') }}";
      {% endif %}
 });
 function onloadfinish(){
 	window.location.href='{{ yixun | raw }}';
-}
+
+}	
 </script>
 </head>
 <body>
-<iframe id="iframe" src="{{ url | raw }}" onload="onloadfinish()" name="iframe" style="display:none;"></iframe>
+<iframe id="iframe" src="{{ yixun | raw }}" onload="onloadfinish()" name="iframe" style="display:none;"></iframe>
 <div class="loadingFrame">
 	<p class="logo"><img src="{{ asset('images/logo.gif') }}"></p>
 	<p>积粒网正在为您跳转，请稍等...</p>
