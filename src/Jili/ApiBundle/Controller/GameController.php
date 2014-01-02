@@ -59,7 +59,7 @@ class GameController extends Controller
 
     public function getInfo($url){
         $contents = file_get_contents($url,'r');//得到文件的内容赋给字符串的变量
-        $arr = explode("<span>",$contents);
+        $arr = explode("<h1>",$contents);
         $str = strstr($arr[1],"今日游戏数据已保存");
         if($str){
             return true;
