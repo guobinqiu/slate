@@ -22,28 +22,29 @@ class GameController extends Controller
      * @Route("/chick", name="_game_chick")
      */
     public function chickAction(){
-        $code = '';
-        $arr['heightFlag'] = '';
-        $arr['code'] = $code;
-        if($this->checkMobile()=='noaceess'){
-            $arr['code'] = $this->container->getParameter('init_one');
-        }
-        $em = $this->getDoctrine()->getManager();
-        $uid = '';
-        $uid = $this->get('request')->getSession()->get('uid');
-        if(!$uid){
-           return $this->redirect($this->generateUrl('_user_login'));
-        }
-        $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+        return $this->render('JiliApiBundle:Game:server.html.twig');
+        // $code = '';
+        // $arr['heightFlag'] = '';
+        // $arr['code'] = $code;
+        // if($this->checkMobile()=='noaceess'){
+        //     $arr['code'] = $this->container->getParameter('init_one');
+        // }
+        // $em = $this->getDoctrine()->getManager();
+        // $uid = '';
+        // $uid = $this->get('request')->getSession()->get('uid');
+        // if(!$uid){
+        //    return $this->redirect($this->generateUrl('_user_login'));
+        // }
+        // $user = $em->getRepository('JiliApiBundle:User')->find($uid);
 
-        $key = sha1(date("Ymd")."ADF93768CF".$uid);
-        $url = "http://sugoroku01.cn.pag-asia.com/index.php?point_uid=".$uid."&nickname=".$user->getNick()."&key=".$key;
-        $arr['url'] = $url;
-        if($this->getInfo($url)){
-           $arr['heightFlag'] = $this->container->getParameter('init_one');
-        }
+        // $key = sha1(date("Ymd")."ADF93768CF".$uid);
+        // $url = "http://sugoroku01.cn.pag-asia.com/index.php?point_uid=".$uid."&nickname=".$user->getNick()."&key=".$key;
+        // $arr['url'] = $url;
+        // if($this->getInfo($url)){
+        //    $arr['heightFlag'] = $this->container->getParameter('init_one');
+        // }
 
-        return $this->render('JiliApiBundle:Game:chick.html.twig',$arr);
+        // return $this->render('JiliApiBundle:Game:chick.html.twig',$arr);
     }
 
       
