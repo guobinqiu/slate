@@ -10,7 +10,6 @@ $(document).ready(function(){
   $('.blackBg').hide();
   $("#amazonEmpty").hide();
   {% if app.session.get('uid') %}
-      isVisit();
       isNewMs();
       countMs();
       $(".closeBtn").click(function(){
@@ -112,18 +111,6 @@ function countMs(){
           type: "GET",
           success:function(data){
               $("#countMessage").html(data);
-          }
-        });
-}
-
-function isVisit(){
-   $.ajax({
-          url: "{{ path('_default_isExistVist') }}",
-          type: "GET",
-          success:function(data){
-              if(data==1){
-                $("#playGame").addClass("gameset");
-              }
           }
         });
 }

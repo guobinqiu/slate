@@ -156,18 +156,18 @@ class DefaultController extends Controller {
 		$user = $em->getRepository('JiliApiBundle:User')->find($uid);
         $reward_multiple = $user->getRewardMultiple();
 		$cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
-	    if(count($cal) > 6){
-			$calNow = array_rand($cal, 6);//随机取数组中6个键值
-		}else{
-			$cal_count = count($cal);
+		if (count($cal) > 6) {
+			$calNow = array_rand($cal, 6); //随机取数组中6个键值
+		} else if(count($cal)>1) {
+            $cal_count = count($cal);
 			$calNow = array_rand($cal, $cal_count);
-		}
-		for ($i=0; $i < $cal_count; $i++) { 
-			$cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
-            $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
-            $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate']/10000,2);
-			$arrList[] = $cal[$calNow[$i]];
-		}
+    		for ($i = 0; $i < $cal_count; $i++) {
+    			$cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
+    			$cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
+    			$cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate'] / 10000, 2);
+    			$arrList[] = $cal[$calNow[$i]];
+    		}
+        }
 		return $arrList;
 
 	}
@@ -255,46 +255,53 @@ class DefaultController extends Controller {
 		$arr['getRewards'] = $getRewards;
 		$arr['banner'] = $banner;
 		$code = '';
-		$arr['userInfo'] = array ();
-		$email = $request->request->get('email');
+//		$arr['userInfo'] = array ();
+		$email = $request->get('email');
+		$pwd = $request->get('pwd');
 		$arr['email'] = $email;
-		$pwd = $request->request->get('pwd');
-		$em_email = $this->getDoctrine()->getRepository('JiliApiBundle:User')->findByEmail($email);
-		//首页登录
-		if ($request->getMethod() == 'POST') {
-			if (!$em_email) {
-				$code = $this->container->getParameter('login_wr');
-			} else {
-				$id = $em_email[0]->getId();
-				$em = $this->getDoctrine()->getEntityManager();
-				$user = $em->getRepository('JiliApiBundle:User')->find($id);
-				if ($user->getDeleteFlag() == 1) {
-					$code = $this->container->getParameter('login_wr');
-				}
-				elseif ($user->pw_encode($pwd) != $user->getPwd()) {
-					$code = $this->container->getParameter('login_wr');
-				} else {
-					if ($request->request->get('remember_me') == '1') {
-						setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
-						setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
-					}
-					$request->getSession()->set('uid', $id);
-					$request->getSession()->set('nick', $user->getNick());
-					$request->getSession()->set('points', $user->getPoints());
-					$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-					$user->setLastLoginIp($this->get('request')->getClientIp());
-					$em->flush();
-					$em = $this->getDoctrine()->getManager();
-					$loginlog = new Loginlog();
-					$loginlog->setUserId($id);
-					$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-					$loginlog->setLoginIp($this->get('request')->getClientIp());
-					$em->persist($loginlog);
-					$em->flush();
-					return $this->redirect($this->generateUrl('_default_index'));
-				}
-			}
-		}
+
+        //首页登录
+        $loginLister = $this->get('login.listener');
+        $code = $loginLister->login($this->get('request'),$email,$pwd);
+        if($code == "ok"){
+        	return $this->redirect($this->generateUrl('_default_index'));
+        }
+
+//		//首页登录
+//		if ($request->getMethod() == 'POST') {
+//			if (!$em_email) {
+//				$code = $this->container->getParameter('login_wr');
+//			} else {
+//				$id = $em_email[0]->getId();
+//				$em = $this->getDoctrine()->getEntityManager();
+//				$user = $em->getRepository('JiliApiBundle:User')->find($id);
+//				if ($user->getDeleteFlag() == 1) {
+//					$code = $this->container->getParameter('login_wr');
+//				}
+//				elseif ($user->pw_encode($pwd) != $user->getPwd()) {
+//					$code = $this->container->getParameter('login_wr');
+//				} else {
+//					if ($request->request->get('remember_me') == '1') {
+//						setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
+//						setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
+//					}
+//					$request->getSession()->set('uid', $id);
+//					$request->getSession()->set('nick', $user->getNick());
+//					$request->getSession()->set('points', $user->getPoints());
+//					$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
+//					$user->setLastLoginIp($this->get('request')->getClientIp());
+//					$em->flush();
+//					$em = $this->getDoctrine()->getManager();
+//					$loginlog = new Loginlog();
+//					$loginlog->setUserId($id);
+//					$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
+//					$loginlog->setLoginIp($this->get('request')->getClientIp());
+//					$em->persist($loginlog);
+//					$em->flush();
+//					return $this->redirect($this->generateUrl('_default_index'));
+//				}
+//			}
+//		}
 		$arr['code'] = $code;
 
 		//最新公告，取6条，右三
@@ -336,8 +343,6 @@ class DefaultController extends Controller {
 		$advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoBanner();
 
 		//可以做的任务，签到+游戏+91问问+购物+cpa,右二
-		$arr['task'] = "";
-		$count_task = 1; //购物 是固定的
 		$day = date('Ymd');
 		$request = $this->get('request');
 		$em = $this->getDoctrine()->getManager();
@@ -345,7 +350,6 @@ class DefaultController extends Controller {
 			//游戏
 			$visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
 			if (empty ($visit)) {
-				$count_task = $count_task +1;
 				$arr['task']['game'] = $this->container->getParameter('init_one');
 			} else {
 				$arr['task']['game'] = $this->container->getParameter('init');
@@ -354,7 +358,6 @@ class DefaultController extends Controller {
 			//91wenwen
 			$visit = $em->getRepository('JiliApiBundle:UserWenwenVisit')->getWenwenVisit($id, $day);
 			if (empty ($visit)) {
-				$count_task = $count_task +1;
 				$arr['task']['wen'] = $this->container->getParameter('init_one');
 			} else {
 				$arr['task']['wen'] = $this->container->getParameter('init');
@@ -366,7 +369,6 @@ class DefaultController extends Controller {
 			if (!empty ($checkin)) {
 				$arr['task']['checkin'] = $this->container->getParameter('init');
 			} else {
-				$count_task = $count_task +1;
 				$arr['task']['checkinPoint'] = $this->getCheckinPoint();
 				$arr['task']['checkin'] = $this->container->getParameter('init_one');
 			}
@@ -375,9 +377,7 @@ class DefaultController extends Controller {
 			$repository = $em->getRepository('JiliApiBundle:Advertiserment');
 			$advertise = $repository->getAdvertiserListCPA($id);
 			$arr['advertise'] = $advertise;
-			$count_task = $count_task +count($advertise);
 			$arr['task']['cpa'] = $advertise;
-			$arr['task']['count'] = $count_task;
 		}
 
 		$arr['callboard'] = $callboard;
@@ -873,6 +873,20 @@ class DefaultController extends Controller {
 		} else {
 			$code = $this->container->getParameter('init');
 		}
+		return new Response($code);
+
+	}
+
+	/**
+	* @Route("/adLogin", name="_default_ad_login")
+	*/
+	public function adLoginAction() {
+
+        $request = $this->get('request');
+        $email = $request->query->get('email');
+        $pwd = $request->query->get('pwd');
+        $loginLister = $this->get('login.listener');
+        $code = $loginLister->login($this->get('request'),$email,$pwd);
 		return new Response($code);
 
 	}

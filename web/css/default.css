@@ -251,11 +251,11 @@ footer section a:hover{
 	display:table;
 }
 #loginFrame{
-	background-color: #F5F6F8;
+	background-color: #FFF;
     border-radius: 5px;
     left: 0;
     overflow: hidden;
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 430px;
     z-index: 10010;
@@ -319,7 +319,7 @@ footer section a:hover{
 	margin:0 10px;
 }
 #loginFrame .directGo{
-	border-top: 1px dotted #CCCCCC;
+	border-top: 1px dotted #DEDEDE;
     font-size: 16px;
     line-height: 300%;
     padding: 0 0 0 100px;

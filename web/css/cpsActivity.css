@@ -120,18 +120,6 @@
 	text-align:center;
 }
 .loadingFrame{
-	width: 550px;
-	height: 320px;
-	margin:60px auto 0 auto;
-	border:1px solid #DDD;
-	border-top:3px solid #EA4B11;
 	text-align: center;
 	color: #666666;
-	background-color: #F6F6F6;
-}
-.loadingFrame p.logo{
-	margin-top: 120px;
-}
-.loadingFrame p{
-
 }

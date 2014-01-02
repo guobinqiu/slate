@@ -63,7 +63,11 @@ $(document).ready(function() {
 	var bannerPage = 1
 	var sliderTime = 500
 	var nextTime = 3000
-	$(".bannerNumber a").eq(bannerPage-1).addClass("hover")
+	var bannerLength = $(".bannerImg li").length;
+	for(i=1;i<=bannerLength;i++){
+		$(".bannerNumber").append("<a>"+ i +"</a>");
+	}
+	$(".bannerNumber a").eq(bannerPage-1).addClass("hover");
     var slider = function(){
 		$(".bannerImg").stop(true,false).animate({top:-$(".bannerImg li").height()*(bannerPage-1)},sliderTime);
 	}
@@ -239,8 +243,14 @@ $(document).ready(function() {
  	
  	rankingNumber();
 	
-//mainHotMarket
+	//mainHotMarket
+	$("#mainHotMarket ul li:lt(5)").addClass("tbn");
 	
-	$("#mainHotMarket ul li:lt(5)").addClass("tbn")
-
+	//task
+	setTaskNumber();
+	
 });
+
+var setTaskNumber = function(){
+	$("#task h3 span").text($("#task ul li").length);
+}

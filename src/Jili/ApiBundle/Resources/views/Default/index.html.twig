@@ -8,7 +8,6 @@
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('css/index.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/indexNew.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/signIn.js')}}" type="text/javascript"></script>
@@ -45,6 +44,19 @@ $(document).ready(function(){
 	    $(".blackBg").hide();
 	    $("#signInFrame").hide();
 	 });
+
+	$(".vote").click(function(){
+	        $.ajax({
+            url: "{{ path('_default_wenwenVisit') }}",
+            post: "GET",
+            success:function(data){
+                if(data==1){
+                	$(".vote").remove();
+                	setTaskNumber();
+                }
+            }
+        }); 
+    });
 
 });
 
@@ -91,6 +103,8 @@ function goto(cid,aid,points){
                           var nowTimes = parseInt(parseInt($("#remain").text())-1);
                           if(nowTimes<=0){
                               $("#signInFrame h5").html("恭喜您签到成功，已获得<font color='#E94C1B'>"+points+"</font>米粒！");
+                              $(".signs").remove();
+                              setTaskNumber();
                               $("#m_remain").text(nowTimes);
                           }else{
                               $("#remain").text(nowTimes);
@@ -107,7 +121,7 @@ function goto(cid,aid,points){
                               var points = $("#points").text();
                               var obj = JSON.parse(data);
                               // w.location.href = obj.url;
-                              w.location.href = "{{ path('_checkin_checkinInfo') }}?aid="+aid;
+                              w.location.href = "{{ path('_checkin_location') }}?aid="+aid+"&type=1";
                               // w.focus();
                               // window.open(obj.url, "s", "resizable=yes, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, copyhistory=no").blur();
                               // window.focus();
@@ -149,8 +163,8 @@ function goto(cid,aid,points){
                 <ul>
                    {% for item in market %}
                     <li>
-                        <a href="{{ path('_marketActivity_info',{'id': item.id }) }}"><img src="{{ asset(item.activityImage) }}" ></a>
-                        <div class="more"><h4>{{ item.businessName }}</h4><a target="_blank" href="{{ path('_marketActivity_info',{'id': item.id }) }}" class="moreBtn">查看详情&gt;&gt;</a></div>
+                        <a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><img src="{{ asset(item.activityImage) }}" ></a>
+                        <div class="more"><h4>{{ item.businessName }}</h4><a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" class="moreBtn">查看详情&gt;&gt;</a></div>
                     </li>
                     {% endfor %}
                 </ul>
@@ -173,9 +187,9 @@ function goto(cid,aid,points){
 				          {% endif %}
                         </dd>
                         <dt>
-                            <p><h4>{{ item.0 }}</h4></p>
-                            <p>{{ item.3 }}{% if item.2 > 0 %}获得{% else %}兑换{% endif %}{{ item.2|abs }}积分
-                            </p>
+                            <h4>{{ item.0 }}</h4>
+                            <span>&nbsp;</span>
+                            <p>{{ item.3 }}{% if item.2 > 0 %}获得{% else %}兑换{% endif %}{{ item.2|abs }}积分</p>
                         </dt>
                     </li>
                     {% endfor %}
@@ -188,7 +202,7 @@ function goto(cid,aid,points){
                 <ul>
                     {% for item in adverRecommand %}
                     <li>
-                        <a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}"></a>
+                        <a target="_blank" href="{{ path('_checkin_location') }}?aid={{ item.id }}&type=1"><img src="{{ asset(item.listImage) }}"></a>
                         <p>
                          {% if item.incentiveType==1 %}
                              <span class="rebate">{{ item.incentive }}米粒</span>
@@ -210,17 +224,19 @@ function goto(cid,aid,points){
 	                 <li><a href="{{ item.adUrl }}"><img src="{{ asset(item.iconImage) }}"/></a></li>
 	                 {% endfor %}
                 </ul>
-                <div class="bannerNumber"><a href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a></div>
+                <div class="bannerNumber"></div>
         </div>
          <div id="task">
-            <h3>您今天可做任务<span>{{ task.count }}</span></h3>
+            <h3>您今天可做任务<span></span></h3>
             <div class="mask">
             <div class="all">
             <ul>
                 {% if task.checkin==1 %}
-                <li class="signs"><a id="sign" onclick="signs();" onMouseOver="popIn();" onMouseOut="popOut();"><dd>签到</dd><dt><span>{{task.checkinPoint}}</span>米粒</dt></a></li>
+                <li class="signs"><div class="signInExplain">打开<span id="m_remain">3</span>个商城就可获得<span>{{ checkinPoint }}</span>个积分！</div><a id="sign" onclick="signs();" onMouseOver="popIn();" onMouseOut="popOut();"><dd>签到</dd><dt><span>{{task.checkinPoint}}</span>米粒</dt></a></li>
                 {% endif %}
-                <li class="vote"><a href="http://www.91wenwen.net/vote/#active"><dd>91问问快速问答</dd></a></li>
+                {% if task.wen==1 %}
+                <li class="vote"><a target="_bank" href="http://www.91wenwen.net/vote/#active"><dd>91问问快速问答</dd></a></li>
+                {% endif %}
                 {% if task.game==1 %}
                 <li class="game"><a href="{{ asset(path('_game_index'),'cdn1')  }}"><dd>小鸡找米</dd><dt>最高<span>5888</span>米粒</dt></a></li>
                 {% endif %}
@@ -231,7 +247,6 @@ function goto(cid,aid,points){
             </ul>
             </div>
             </div>
-            <div class="signInExplain">打开<span id="m_remain">3</span>个商城就可获得<span>{{ checkinPoint }}</span>个积分！</div>
             <!-- <div class="pageNumber"><a class="prev"></a><a class="next"></a></div> -->
             <div class="bottom"></div>
         </div>
@@ -239,6 +254,9 @@ function goto(cid,aid,points){
         <div class="frame">
             <div id="userInformation">
                 <form action="{{ path('_default_index') }}" method="post" name="form1" id="form1">
+                    {% if code %}
+			        <p class="error">{{ code }}</p>
+			    	{% endif %}
                     <p><input name="email" type="text" class="text" id="email" value="{{ email }}"></p>
                     <p><input name="pwd" type="password" class="password" id="password"></p>
                     <p><input type="image" src="{{ asset('images/logBtn.jpg') }}" class="image" id="login" name=""><label>
@@ -263,7 +281,7 @@ function goto(cid,aid,points){
                 <div class="all">
                 <ul>
                     {% for item in callboard %}
-                    <li>{{ item.title }}</li>
+                    <li><a target="_blank" href="{{ asset(path('_callboard_info',{'id':item.id}),'cdn1') }}"><span>【{{ item.categoryName }}】</span>{{ item.title }}</a></li>
                     {% if loop.length > 3 and loop.index % 3 == 0 %}
                     </ul>
                     <ul>

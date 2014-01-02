@@ -1,4 +1,3 @@
-        <a href="{{ asset(path('_default_support'),'cdn1')  }}">帮助中心</a>
 <nav id="user">
 {% if app.request.cookies.has('jili_uid') and app.request.cookies.has('jili_nick') %}
         {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
@@ -18,4 +17,5 @@
         {% else %}
             <a class="log" href="{{ path('_user_login') }}">登录</a><span class="division"></span><a class="reg" href="{{ path('_user_reg') }}">注册</a>
         {% endif %}   
+		<a class="helpBtn" href="{{ asset(path('_default_support'),'cdn1')  }}">帮助中心</a>
 </nav>

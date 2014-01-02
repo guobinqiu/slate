@@ -135,160 +135,160 @@ class UserRepository extends EntityRepository {
 		$start = $yesterday . " 00:00:00";
 		$end = $yesterday . " 23:59:59";
 		$sql = "select
-	                      a.nick,
-	                      a.icon_path,
-	                      b.create_time,
-	                      b.reason,
-	                      b.point_change_num,
-	                      c.display_name
-	                    from
-	                      user a
-	                      left join (
-	                        select
-	                          user_id,
-	                          create_time ,
-	                          point_change_num,reason
-	                        from
-	                          point_history00
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num,reason
-	                        from
-	                          point_history01
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num,reason
-	                        from
-	                          point_history02
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num,reason
-	                        from
-	                          point_history03
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num,reason
-	                        from
-	                          point_history04
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num,reason
-	                        from
-	                          point_history05
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num,reason
-	                        from
-	                          point_history06
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num,reason
-	                        from
-	                          point_history07
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num,reason
-	                        from
-	                          point_history08
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num,reason
-	                        from
-	                          point_history09
-	                      ) b on a.id = b.user_id
-	                    left join ad_category c on b.reason = c.id
-	                    where create_time >= '" . $start . "'
-	                    and create_time <= '" . $end . "'
-	                    order by
-	                      abs(point_change_num) desc
-	                    limit 100";
+                  a.nick,
+                  a.icon_path,
+                  b.create_time,
+                  b.reason,
+                  b.point_change_num,
+                  c.display_name
+                from
+                  user a
+                  left join (
+                    select
+                      user_id,
+                      create_time ,
+                      point_change_num,reason
+                    from
+                      point_history00
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history01
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history02
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history03
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history04
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history05
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history06
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history07
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history08
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history09
+                  ) b on a.id = b.user_id
+                left join ad_category c on b.reason = c.id
+                where create_time >= '" . $start . "'
+                and create_time <= '" . $end . "'
+                order by
+                  abs(point_change_num) desc
+                limit 100";
 		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 	}
 
 	public function getRanking($start, $end) {
 		$sql = "select
-	                      a.nick,
-	                      sum(b.point_change_num) total
-	                    from
-	                      user a
-	                      left join (
-	                        select
-	                          user_id,
-	                          create_time ,
-	                          point_change_num
-	                        from
-	                          point_history00
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num
-	                        from
-	                          point_history01
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num
-	                        from
-	                          point_history02
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num
-	                        from
-	                          point_history03
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num
-	                        from
-	                          point_history04
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num
-	                        from
-	                          point_history05
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num
-	                        from
-	                          point_history06
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num
-	                        from
-	                          point_history07
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num
-	                        from
-	                          point_history08
-	                        union
-	                        select
-	                          user_id,
-	                          create_time ,point_change_num
-	                        from
-	                          point_history09
-	                      ) b on a.id = b.user_id
-	                    where create_time >= '" . $start . "'
-	                    and create_time <= '" . $end . "'
-	                    and point_change_num > 0
-	                    group by nick
-	                    order by total desc
-	                    limit 5
-	                    ";
+                  a.nick,
+                  sum(b.point_change_num) total
+                from
+                  user a
+                  left join (
+                    select
+                      user_id,
+                      create_time ,
+                      point_change_num
+                    from
+                      point_history00
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num
+                    from
+                      point_history01
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num
+                    from
+                      point_history02
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num
+                    from
+                      point_history03
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num
+                    from
+                      point_history04
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num
+                    from
+                      point_history05
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num
+                    from
+                      point_history06
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num
+                    from
+                      point_history07
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num
+                    from
+                      point_history08
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num
+                    from
+                      point_history09
+                  ) b on a.id = b.user_id
+                where create_time >= '" . $start . "'
+                and create_time <= '" . $end . "'
+                and point_change_num > 0
+                group by nick
+                order by total desc
+                limit 5
+                ";
 		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 	}
 }
