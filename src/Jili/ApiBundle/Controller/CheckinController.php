@@ -118,7 +118,6 @@ class CheckinController extends Controller
 	 */
 	public function locationAction()
 	{
-		
 		$em = $this->getDoctrine()->getManager();
 		$request = $this->get('request');
 		$uid = $request->getSession()->get('uid');
@@ -145,10 +144,9 @@ class CheckinController extends Controller
 				# code...
 				break;
 		}
-		
-		return $this->render('JiliApiBundle:Checkin:info.html.twig',
-				array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type));
 
+		return $this->render('JiliApiBundle:Checkin:info.html.twig',
+				array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));
 	}
 
 	/**
@@ -164,7 +162,6 @@ class CheckinController extends Controller
 		$url = "http://www.91jili.com/shopping/list/".$uid;
 		return $this->render('JiliApiBundle:Checkin:info.html.twig',
 				array('yixun'=>$yixun,'url'=>$url));
-
 	}
 
 
@@ -416,40 +413,5 @@ class CheckinController extends Controller
       $em->flush();
     }
 
-
-
 	
 }
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

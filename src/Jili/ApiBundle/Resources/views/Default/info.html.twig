@@ -2,18 +2,20 @@
 {% if app.request.cookies.has('jili_uid') and app.request.cookies.has('jili_nick') %}
         {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
         {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
-        {% if app.session.get('uid') %}
-            <a class="newms">新消息(<span id="countMessage"></span>)</a>
-             <a class="log" href="{{ path('_user_info') }}">{{ app.session.get('nick') }}</a><a class="reg" href="{{ path('_user_loginOut') }}">退出</a>
-        {% else %}
-            <a class="log" href="{{ path('_user_login') }}">登录</a><a class="reg" href="{{ path('_user_reg') }}">注册</a>
-        {% endif %}   
-{%  else %}
-        {% if app.session.get('uid') %}
-             <a class="newms">新消息(<span id="countMessage"></span>)</a>
-             <a class="log" href="{{ path('_user_info') }}">{{ app.session.get('nick') }}</a><a class="reg" href="{{ path('_user_loginOut') }}">退出</a>
-        {% else %}
-            <a class="log" href="{{ path('_user_login') }}">登录</a><a class="reg" href="{{ path('_user_reg') }}">注册</a>
-        {% endif %}   
 {% endif %}
+        {% if app.session.get('uid') %}
+        <a class="newms" href="#">新消息(<span id="countMessage"></span>)</a><span class="division"></span><a class="personalMenu" href="#">个人中心</a>
+        <div id="userFrame">
+            <div class="userInfo"><p>{{ app.session.get('nick')[:10] }}</p><p class="coin">米粒：{{ app.session.get('points') }}</p></div>
+            <ul class="menu">
+                <li><a href="{{ path('_user_info') }}">个人信息</a></li>
+                <li><a href="{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}">我的任务历史</a></li>
+                <li><a href="{{ path('_user_exchange',{'type': 0,'exchangeType':2 }) }}">我的兑换历史</a></li>
+                <li class="logOut"><a href="{{ path('_user_loginOut') }}">退出</a></li>
+            </ul>
+        </div>
+        {% else %}
+            <a class="log" href="{{ path('_user_login') }}">登录</a><span class="division"></span><a class="reg" href="{{ path('_user_reg') }}">注册</a>
+        {% endif %}   
+		<a class="helpBtn" href="{{ asset(path('_default_support'),'cdn1')  }}">帮助中心</a>
 </nav>

@@ -5,12 +5,12 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Callboard
+ * CallBoard
  *
  * @ORM\Table(name="callboard")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\CallBoardRepository")
  */
-class Callboard
+class CallBoard
 {
 	public function __construct() {
 		$this->createTime = new \DateTime();

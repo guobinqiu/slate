@@ -904,66 +904,16 @@ class UserController extends Controller
 		$code = '';
 		$email = $request->request->get('email');
 		$pwd = $request->request->get('pwd');
-		if ($request->getMethod() == 'POST'){
-			if($email){
-				if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$email)){
-					$code = $this->container->getParameter('login_wr_mail');
-				}else{
-					$em_email = $this->getDoctrine()
-					->getRepository('JiliApiBundle:User')
-					->findByEmail($email);
-					if(!$em_email){
-						$code = $this->container->getParameter('login_wr');
-						// 		    		echo 'email is unexist!';
-					}else{
-						$id = $em_email[0]->getId();
-						$em = $this->getDoctrine()->getEntityManager();
-						$user = $em->getRepository('JiliApiBundle:User')->find($id);
-						if($user->getDeleteFlag() == 1){
-							$code = $this->container->getParameter('login_wr');
-						}elseif($user->pw_encode($pwd) != $user->getPwd()){
-							// 		    			echo 'pwd is error!';
-							$code = $this->container->getParameter('login_wr');
-						}else{
-							
-							if($request->request->get('remember_me')=='1'){
-								setcookie("jili_uid", $id, time() + 3600 * 24 * 365,'/');
-								setcookie("jili_nick",$user->getNick(), time() + 3600 * 24 * 365,'/');
-// 								$response = new Response();
-// 								$response->headers->setCookie(new Cookie('jili_uid', $id,(time() + 3600 * 24 * 365), '/'));
-// 								$response->headers->setCookie(new Cookie('jili_nick', $user->getNick(),(time() + 3600 * 24 * 365), '/'));
-// 								$response->send();
-// 								$request = $this->get('request');
-// 								$cookies = $request->cookies;
-// 								if ($cookies->has('uid'))
-// 								{
-// 									var_dump($cookies->get('uid'));
-// 								}
-							}
-							
-							$session->set('uid', $id);
-							$session->set('nick', $user->getNick());
-							$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-							$user->setLastLoginIp($this->get('request')->getClientIp());
-							$em->flush();
-							$em = $this->getDoctrine()->getManager();
-							$loginlog = new Loginlog();
-							$loginlog->setUserId($id);
-							$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-							$loginlog->setLoginIp($this->get('request')->getClientIp());
-							$em->persist($loginlog);
-							$em->flush();
-							$current_url = $request->getSession()->get('goToUrl');
-							$request->getSession()->remove('goToUrl');
-							return $this->redirect($current_url);
-						}
-					}
-			    }
-			}else{
-			    $code = $this->container->getParameter('login_en_mail');
-		    }
-			
-	    }
+
+        //login
+        $loginLister = $this->get('login.listener');
+        $code = $loginLister->login($request,$email,$pwd);
+        if($code == "ok"){
+            $current_url = $request->getSession()->get('goToUrl');
+            $request->getSession()->remove('goToUrl');
+            return $this->redirect($current_url);
+        }
+
 		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
 	}
 	
