@@ -210,8 +210,7 @@ class UserRepository extends EntityRepository {
                 and create_time <= '" . $end . "'
                 order by
                   abs(point_change_num) desc
-                limit 100";
-
+                limit 99";
 		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 	}
 

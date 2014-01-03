@@ -756,3 +756,123 @@
 	margin: 0 3px;
 	color: #E0542D;
 }
+
+.index aside #task ul li .signInExplain {
+	background-image: url("../images/signInExplain.gif");
+	height: 40px;
+	left: 8px;
+	line-height: 40px;
+	padding-top: 5px;
+	position: absolute;
+	text-align: center;
+	top: 31px;
+	width: 193px;
+	z-index: 9997;
+}
+
+.index aside #task ul li .signInExplain span {
+	color: #ff7114;
+}
+
+#signInFrame {
+	background-image: url("../images/signInFrame.jpg");
+	height: 264px;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 483px;
+	padding: 20px 30px;
+	z-index: 9999;
+}
+
+#signInFrame h5 {
+	font-weight: normal;
+	font-size: 14px;
+}
+
+#signInFrame h5 span {
+	color: #e94c1b;
+}
+
+#signInFrame a.close {
+	background-image: url("../images/closeTag.gif");
+	display: inline-block;
+	font-size: 0;
+	height: 13px;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 14px;
+}
+
+#signInFrame ul {
+	margin-top: 10px;
+}
+
+#signInFrame li {
+	float: left;
+	width: 160px;
+	border-top: 1px dotted #dcdcdc;
+	border-right: 1px dotted #dcdcdc;
+	text-align: center;
+	padding: 5px 0;
+	position: relative;
+}
+
+#signInFrame li.rbn {
+	border-right: none;
+}
+
+#signInFrame li.tbn {
+	border-top: none;
+}
+
+#signInFrame li img {
+	width: 120px;
+	height: auto;
+}
+
+#signInFrame li p {
+	text-align: center;
+}
+
+#signInFrame li .gray {
+	background-color: #000;
+	opacity: .5;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+
+#signInFrame li .goTo {
+	text-align: center;
+	color: #FFF;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	background-color: #5eb524;
+	display: none;
+}
+
+#signInFrame li .finish {
+	text-align: center;
+	color: #bcbdbd;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	background-color: #e0e2e2;
+	display: none;
+}
+
+#signInFrame li.finish .gray,#signInFrame li.finish .finish {
+	display: block;
+}
