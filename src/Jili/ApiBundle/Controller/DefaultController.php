@@ -281,41 +281,6 @@ class DefaultController extends Controller {
         	return $this->redirect($this->generateUrl('_default_index'));
         }
 
-//		//首页登录
-//		if ($request->getMethod() == 'POST') {
-//			if (!$em_email) {
-//				$code = $this->container->getParameter('login_wr');
-//			} else {
-//				$id = $em_email[0]->getId();
-//				$em = $this->getDoctrine()->getEntityManager();
-//				$user = $em->getRepository('JiliApiBundle:User')->find($id);
-//				if ($user->getDeleteFlag() == 1) {
-//					$code = $this->container->getParameter('login_wr');
-//				}
-//				elseif ($user->pw_encode($pwd) != $user->getPwd()) {
-//					$code = $this->container->getParameter('login_wr');
-//				} else {
-//					if ($request->request->get('remember_me') == '1') {
-//						setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
-//						setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
-//					}
-//					$request->getSession()->set('uid', $id);
-//					$request->getSession()->set('nick', $user->getNick());
-//					$request->getSession()->set('points', $user->getPoints());
-//					$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-//					$user->setLastLoginIp($this->get('request')->getClientIp());
-//					$em->flush();
-//					$em = $this->getDoctrine()->getManager();
-//					$loginlog = new Loginlog();
-//					$loginlog->setUserId($id);
-//					$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-//					$loginlog->setLoginIp($this->get('request')->getClientIp());
-//					$em->persist($loginlog);
-//					$em->flush();
-//					return $this->redirect($this->generateUrl('_default_index'));
-//				}
-//			}
-//		}
 		$arr['code'] = $code;
 
 		//最新公告，取6条，右三

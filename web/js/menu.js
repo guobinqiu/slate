@@ -1,12 +1,12 @@
 $(document).ready(function() {
-	
+
 	var menuState = false;
 	var settingMenu = function(){
 		if(!menuState){
 			$("#userFrame").show();
 			menuState = true;
 		}else{
-			$("#userFrame").hide();	
+			$("#userFrame").hide();
 			menuState = false;
 		}	
 	}

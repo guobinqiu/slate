@@ -251,12 +251,10 @@
 	margin-left: 5px;
 	font-size: 0;
 }
-
-.index section .frame #recommended div.number a:hover,.index section .frame #recommended div.number a.hover
-	{
-	color: #FFF;
-	background-color: #ee6f41;
-	text-decoration: none;
+.index section .frame #recommended div.number a:hover, .index section .frame #recommended div.number a.hover{
+	color:#FFF;
+	background-color:#ee6f41;
+	text-decoration:none;
 }
 
 .index section .frame #market {
@@ -339,27 +337,24 @@
 	left: 5px;
 	bottom: 5px;
 }
-
-.index aside #banner div.bannerNumber a {
-	width: 10px;
-	height: 10px;
-	display: inline-block;
-	text-align: center;
-	line-height: 20px;
-	color: #ee472c;
-	background-color: #FFF;
-	margin-left: 5px;
-	opacity: .3;
+.index aside #banner div.bannerNumber a{
+	width:10px;
+	height:10px;
+	display:inline-block;
+	text-align:center;
+	line-height:20px;
+	color:#ee472c;
+	background-color:#FFF;
+	margin-left:5px;
+	opacity: .8;
 	border-radius: 10px;
 	font-size: 0;
 }
-
-.index aside #banner div.bannerNumber a:hover,.index aside #banner div.bannerNumber a.hover
-	{
-	color: #FFF;
-	background-color: #fd662f;
-	opacity: .3;
-	text-decoration: none;
+.index aside #banner div.bannerNumber a:hover, .index aside #banner div.bannerNumber a.hover{
+	color:#FFF;
+	background-color:#fd662f;
+	opacity: .8;
+	text-decoration:none;
 }
 
 .index aside #task {
@@ -410,7 +405,6 @@
 
 .index aside #task ul li.signs {
 	background-position: 3px -26px;
-	position: relative;
 }
 
 .index aside #task ul li.vote {
@@ -432,10 +426,8 @@
 .index aside #task ul li:hover {
 	background-color: #f4f4f4;
 }
-
-.index aside #task ul li:hover a,.index aside #task ul li:hover dd,.index aside #task ul li:hover dt
-	{
-	color: #ea4c11;
+.index aside #task ul li:hover a,.index aside #task ul li:hover dd,.index aside #task ul li:hover dt{
+	color:#ea4c11;
 }
 
 .index aside #task ul li dd {
@@ -501,13 +493,12 @@
 
 .index aside .frame #news .mask {
 	overflow: hidden;
-	height: 80px;
+	height:90px;
 	width: 100%;
 }
-
-.index aside .frame #news .all {
-	height: 80px;
-	position: relative;
+.index aside .frame #news .all{
+	height:90px;
+	position:relative;
 }
 
 .index aside .frame #news ul {
@@ -522,10 +513,16 @@
 	position: relative;
 	list-style: disc outside none;
 	margin-left: 15px;
-	line-height: 200%;
+	line-height: 220%;
 }
-
-.index aside .frame #news .pageNumber {
+.index aside .frame #news ul li a{
+	color:#666;
+}
+.index aside .frame #news ul li a:hover{
+	text-decoration:none;
+	color:#EA4C11;
+}
+.index aside .frame #news .pageNumber{
 	position: absolute;
 	top: 0px;
 	right: 0px;
@@ -617,34 +614,28 @@
 	opacity: .8;
 	Filter: alpha(opacity = 80);
 }
-
-.index aside #userInformation input.text,.index aside #userInformation input.password
-	{
-	border: 1px solid #cacaca;
-	width: 163px;
-	height: 35px;
-	background-repeat: no-repeat;
-	display: inline-block;
-	padding: 0 5px 0 35px;
-	color: #c5c5c5;
-	line-height: 35px;
+.index aside #userInformation input.text, .index aside #userInformation input.password{
+	border:1px solid #cacaca;
+	width:163px;
+	height:35px;
+	background-repeat:no-repeat;
+	display:inline-block;
+	padding:0 5px 0 35px;
+	color:#c5c5c5;
+	line-height:35px;
 }
-
-.index aside #userInformation input.text,.index aside #userInformation input.password
-	{
-	border: 1px solid #e4e4e4;
-	width: 163px;
-	height: 35px;
-	background-repeat: no-repeat;
-	display: inline-block;
-	padding: 0 5px 0 35px;
-	color: #c5c5c5;
-	line-height: 35px;
+.index aside #userInformation input.text, .index aside #userInformation input.password{
+	border:1px solid #e4e4e4;
+	width:163px;
+	height:35px;
+	background-repeat:no-repeat;
+	display:inline-block;
+	padding:0 5px 0 35px;
+	color:#c5c5c5;
+	line-height:35px;
 }
-
-.index aside #userInformation input.text:focus,.index aside #userInformation input.password:focus
-	{
-	color: #666;
+.index aside #userInformation input.text:focus, .index aside #userInformation input.password:focus{
+	color:#666;
 }
 
 .index aside #userInformation input.text {
@@ -692,9 +683,7 @@
 	background-position: center center;
 	margin: 0 1px;
 }
-
-.index aside .frame #ranking .menu a.hover,.index aside .frame #ranking .menu a:hover
-	{
+.index aside .frame #ranking .menu a.hover,.index aside .frame #ranking .menu a:hover{
 	background-image: url("../images/rankMenuHover.jpg");
 	color: #FFF;
 	font-weight: bold;
@@ -766,124 +755,4 @@
 .index aside .frame #ranking ul li dt span {
 	margin: 0 3px;
 	color: #E0542D;
-}
-
-.index aside #task ul li .signInExplain {
-	background-image: url("../images/signInExplain.gif");
-	height: 40px;
-	left: 8px;
-	line-height: 40px;
-	padding-top: 5px;
-	position: absolute;
-	text-align: center;
-	top: 31px;
-	width: 193px;
-	z-index: 9997;
-}
-
-.index aside #task ul li .signInExplain span {
-	color: #ff7114;
-}
-
-#signInFrame {
-	background-image: url("../images/signInFrame.jpg");
-	height: 264px;
-	left: 0;
-	position: fixed;
-	top: 0;
-	width: 483px;
-	padding: 20px 30px;
-	z-index: 9999;
-}
-
-#signInFrame h5 {
-	font-weight: normal;
-	font-size: 14px;
-}
-
-#signInFrame h5 span {
-	color: #e94c1b;
-}
-
-#signInFrame a.close {
-	background-image: url("../images/closeTag.gif");
-	display: inline-block;
-	font-size: 0;
-	height: 13px;
-	position: absolute;
-	right: 10px;
-	top: 10px;
-	width: 14px;
-}
-
-#signInFrame ul {
-	margin-top: 10px;
-}
-
-#signInFrame li {
-	float: left;
-	width: 160px;
-	border-top: 1px dotted #dcdcdc;
-	border-right: 1px dotted #dcdcdc;
-	text-align: center;
-	padding: 5px 0;
-	position: relative;
-}
-
-#signInFrame li.rbn {
-	border-right: none;
-}
-
-#signInFrame li.tbn {
-	border-top: none;
-}
-
-#signInFrame li img {
-	width: 120px;
-	height: auto;
-}
-
-#signInFrame li p {
-	text-align: center;
-}
-
-#signInFrame li .gray {
-	background-color: #000;
-	opacity: .5;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: none;
-}
-
-#signInFrame li .goTo {
-	text-align: center;
-	color: #FFF;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 30px;
-	line-height: 30px;
-	background-color: #5eb524;
-	display: none;
-}
-
-#signInFrame li .finish {
-	text-align: center;
-	color: #bcbdbd;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 30px;
-	line-height: 30px;
-	background-color: #e0e2e2;
-	display: none;
-}
-
-#signInFrame li.finish .gray,#signInFrame li.finish .finish {
-	display: block;
 }

@@ -71,8 +71,11 @@ header nav#menu ul li{
 	line-height:38px;
 	position: relative;
 }
+header nav#menu ul li.navSelectedBg {
+    background: none repeat scroll 0 0 #CC380C;
+}
 header nav#menu ul li:hover{
-	background-color:#d33c0d;
+	background-color:#DE3900;
 	
 }
 header nav#menu ul li.last a{
