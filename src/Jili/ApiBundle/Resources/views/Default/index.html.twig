@@ -120,7 +120,13 @@ function goto(cid,aid,points){
                             post: "GET",
                             success:function(data){ 
                               var points = $("#points").text();
-                              var obj = JSON.parse(data);
+                              var obj ;
+                              if (typeof(JSON) == 'undefined'){
+                                obj = eval("("+data+")");
+	                          }else{
+	                            obj = JSON.parse(data);
+	                          }
+
                               // w.location.href = obj.url;
                               w.location.href = "{{ path('_checkin_location') }}?aid="+aid+"&type=1";
                               // w.focus();
@@ -283,7 +289,7 @@ function goto(cid,aid,points){
                 <ul>
                     {% for item in callboard %}
                     <li><a target="_blank" href="{{ asset(path('_callboard_info',{'id':item.id}),'cdn1') }}"><span>【{{ item.categoryName }}】</span>{{ item.title }}</a></li>
-                    {% if loop.length > 3 and loop.index % 3 == 0 %}
+                    {% if loop.length > 3 and loop.index % 3 == 0 and (not loop.last)%}
                     </ul>
                     <ul>
                     {% endif %}
@@ -318,7 +324,7 @@ function goto(cid,aid,points){
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
 <div class="signBlackBg"></div>
-<div id="signInFrame">
+<div id="signInFrame" style="display:none;">
   <h5>再打开<span id="remain">3</span>个商城就可以得到<span>{{ checkinPoint }}</span>个米粒</h5>
     <a class="close">关闭</a>
     <ul>

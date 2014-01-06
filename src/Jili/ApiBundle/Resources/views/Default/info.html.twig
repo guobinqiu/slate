@@ -6,11 +6,11 @@
         {% if app.session.get('uid') %}
         <a class="newms" href="#">新消息(<span id="countMessage"></span>)</a><span class="division"></span><a class="personalMenu" href="#">个人中心</a>
         <div id="userFrame">
-            <div class="userInfo"><p>{{ app.session.get('nick')[:10] }}</p><p class="coin">米粒：{{ app.session.get('points') }}</p></div>
+            <div class="userInfo"><p>{{ app.session.get('nick')[:10] }}</p></div>
             <ul class="menu">
                 <li><a href="{{ path('_user_info') }}">个人信息</a></li>
-                <li><a href="{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}">我的任务历史</a></li>
-                <li><a href="{{ path('_user_exchange',{'type': 0,'exchangeType':2 }) }}">我的兑换历史</a></li>
+                <li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a></li>
+                <li><a href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}">我的兑换历史</a></li>
                 <li class="logOut"><a href="{{ path('_user_loginOut') }}">退出</a></li>
             </ul>
         </div>

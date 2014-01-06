@@ -7,13 +7,13 @@ $(document).ready(function() {
 	  function () {
 	  	$(this).removeClass("close");
 	    $(this).addClass("open");
-	    $(this).parent().next(".content").slideUp("normal");
+	    $(this).parent().next(".content").hide();
 		$(this).parent().children(".close").show();
 	  },
 	  function () {
 		$(this).removeClass("open");
 	    $(this).addClass("close");
-	    $(this).parent().next(".content").slideDown("normal");
+	    $(this).parent().next(".content").show();
 		$(this).parent().children(".open").show();
 	  }
 	);

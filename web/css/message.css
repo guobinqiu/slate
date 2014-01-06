@@ -8,11 +8,11 @@
 .message .sendCallboard li{
 	border-bottom: 1px dotted #DDD;
     display: inline-block;
-    height: 40px;
     line-height: 40px;
     text-align: left;
     width: 100%;
     color: #999;
+	position:relative;
 }
 .message .sendCallboard li.new{
 	color:#000;
@@ -46,7 +46,7 @@
 }
 .message .sendCallboard li .time{
 	float:right;
-	width: 110px;
+	width: 120px;
 	color:#999;
 }
 .message .about{
@@ -149,11 +149,13 @@
     display: none;
     width: 100%;
     position: relative;
+	margin-bottom:10px;
+	margin-top:45px;
+	line-height:150%;
 }
 .message .showContent div.text{
 	background-color: #EEEEEE;
     border-radius: 5px 5px 5px 5px;
-    margin-top: 11px;
     padding: 10px;
     text-align: left;
 }
