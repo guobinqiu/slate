@@ -798,7 +798,8 @@ class DefaultController extends Controller {
 		'咨询内容<br/>' .
 		$content . '<br/><br/>' .
 		'联系方式<br/>' .
-		$email . '<br/>' .
+		$email . '<br/><br/>' .
+		'浏览器<br/>'.$_SERVER['HTTP_USER_AGENT'] . '<br/>' .
 		'</body>' .
 		'</html>', 'text/html');
 		$flag = $mailer->send($message);
