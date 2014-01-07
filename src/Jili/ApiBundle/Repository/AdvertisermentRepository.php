@@ -171,16 +171,19 @@ class AdvertisermentRepository extends EntityRepository {
 
 	//首页 可以做的任务 cpa
 	public function getAdvertiserListCPA($user_id) {
-		$sql = "SELECT id, title, incentive
-	                FROM advertiserment
-	                WHERE incentive_type = 1
-	                AND id NOT
-	                IN (
-	                SELECT ad_id AS id
-	                FROM adw_order
-	                WHERE user_id = " . $user_id . "
-	                AND order_status > 1
-	                )";
+		$date = date('Y-m-d H:i:s');
+        $sql = "SELECT id, title, incentive
+                    FROM advertiserment
+                    WHERE incentive_type = 1
+                    AND id NOT
+                    IN (
+                    SELECT ad_id AS id
+                    FROM adw_order
+                    WHERE user_id = " . $user_id . "
+                    AND order_status > 1
+                    )
+                    AND advertiserment.end_time >= '".$date."'
+                    AND advertiserment.start_time <= '".$date."'";
 		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 	}
 }
