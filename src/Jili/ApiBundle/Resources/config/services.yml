@@ -1,9 +1,44 @@
 parameters:
     login.listener.class: Jili\ApiBundle\EventListener\LoginListener
 
+    general_api.task_history.class: Jili\ApiBundle\EventListener\TaskHistory
+    general_api.point_history.class: Jili\ApiBundle\EventListener\PointHistory
+
+
+    offerwow_api_return.logger.class: Jili\ApiBundle\EventListener\OfferwowApiLogger
+    offer_wow_request.validation.class: Jili\ApiBundle\EventListener\OfferwowRequestValidation
+    offer_wow_request.processor.class:  Jili\ApiBundle\EventListener\OfferwowRequestProcessor
+
 services:
     login.listener:
         class: %login.listener.class%
         calls:
             - [setContainer, ["@service_container"] ] 
         arguments: [ "@doctrine.orm.entity_manager" ]
+
+    general_api.task_history:
+        class: %general_api.task_history.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    general_api.point_history:
+        class: %general_api.point_history.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    offerwow_api.init_log:
+        class: %offerwow_api_return.logger.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    offer_wow_request.validation:
+        class: %offer_wow_request.validation.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    offer_wow_request.processor:
+        class: %offer_wow_request.processor.class%
+        calls:
+            - [setContainer, ["@service_container"] ] 
+            - [setTaskLogger, ["@general_api.task_history"] ]
+            - [setPointLogger, ["@general_api.point_history"] ]
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+
+

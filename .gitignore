@@ -4,4 +4,13 @@
 /app/logs/*
 /vendor/
 /app/config/parameters.ini
-web\uploads/
+/web/uploads/
+/composer.lock
+/makefile
+/bin/phpunit
+/config/rsync_exclude.txt
+/web/i.php
+/config/
+*.swp
+/web/images/actionPic/*
+
