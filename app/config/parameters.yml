@@ -1,12 +1,11 @@
 parameters:
     database_driver:   pdo_mysql
-    database_host:     192.168.1.235
-    #database_host:     127.0.0.1
+    #database_host:     192.168.1.235
+    database_host:     127.0.0.1
     database_port:     ~
     database_name:     jili_db
     database_user:     root
     database_password: ecnavi
-   #database_password: 123456
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
     mailer_user:       ~
@@ -14,3 +13,9 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    offerwow_com.websiteid: 1162  
+    offerwow_com.key: "91jili2offerwow"
+    offerwow_com.name: "offer-wow"
+    offerwow_com.category_type: 17 # in ad_category table where cateogry_name ='offerwow' ??
+    offerwow_com.task_type: 5
