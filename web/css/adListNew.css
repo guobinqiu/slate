@@ -1,0 +1,65 @@
+aside {
+    width:225px;
+}
+.adList{
+    margin-top:30px;
+}
+.adList article{
+    width: 723px;
+    _margin-right: -15px;
+    float: left;
+    display: inline-block;
+}
+.adList article h2{
+    height:30px;
+    line-height:30px;
+}
+.cpaMain{
+    background-color:#770316;
+    border-radius:10px 10px 0 0;
+    padding-top:17px;
+    width:225px;
+    border-bottom: 3px solid #E6E6E6;
+}
+.cpaMain .cpaAll{
+    background-color:#FFF;
+    border-radius:10px 10px 0 0;
+    padding:0px 12px 4px;
+}
+.cpaMain .cpaAll .cpa{
+    border-bottom:1px solid #cccccc;
+    padding: 10px 0 5px;
+    font-size:13px;
+}
+.cpaMain .cpaAll .cpa.last{
+    border:none;
+}
+.cpaMain .cpaAll .cpa dd{
+    float:left;
+    margin-right:10px;
+}
+.cpaMain .cpaAll .cpa dt{
+    text-align:center;
+    color:#ee691e;
+    font-weight:bold;
+    padding-top:3px;
+}
+.cpaMain .cpaAll .cpa dt .joinBtn{
+    background-color: #FDCE6F;
+    border-radius: 5px;
+    color: #EA4B11;
+    display: inline-block;
+    font-size: 13px;
+    margin-top: 3px;
+    padding: 2px 15px;
+}
+.cpaMain .cpaAll .cpa dt .joinBtn:hover{
+    text-decoration:none;
+}
+.cpaMain .cpaAll .cpa .title{
+    display: inline-block;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: center;
+    width: 100%;
+}

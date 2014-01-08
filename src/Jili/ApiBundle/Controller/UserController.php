@@ -891,7 +891,8 @@ class UserController extends Controller
 	 * @Route("/login", name="_user_login",requirements={"_scheme"="https"})
 	 */
 	public function loginAction(){
-		$session = new Session();
+		//$session = new Session();
+        $session = $this->get('session');
 		$session->start();
 		if($this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_default_index'));
@@ -1791,9 +1792,12 @@ class UserController extends Controller
       $po = $task->getUseradtaste($userid,$option);
 
       foreach ($po as $key => $value) {
-			if($value['type']==1){
+			if($value['type']==1 ) {
+
 				$adUrl = $task->getUserAdwId($value['orderId']);
+
 				$po[$key]['adid'] = $adUrl[0]['adid'];
+
 			}else{
 				$po[$key]['adid'] = '';
 			}

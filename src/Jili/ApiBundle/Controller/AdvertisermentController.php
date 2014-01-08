@@ -79,19 +79,25 @@ class AdvertisermentController extends Controller
 	 * @Route("/list", name="_advertiserment_list")
 	 */
 	public function listAction(){
+        $uid = $this->get('request')->getSession()->get('uid');
+        if(!$uid){
+
+#		$goToUrl = $request->headers->get('referer');
+           $response =  $this->forward('JiliApiBundle:User:login' );
+           $response->headers->set('referer', $this->generateUrl('_advertiserment_list') );
+           return $response;
+        }
+
 		$em = $this->getDoctrine()->getManager();
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
 		$advertise = $repository->getAdvertiserAreaList($this->container->getParameter('init_three'));
 		$adverRecommand = $repository->getAdvertiserAreaList($this->container->getParameter('init_two'));
-		$arr['adverRecommand'] = $adverRecommand;
-		$arr['advertiserment'] = $advertise;
-		$paginator  = $this->get('knp_paginator');
-		$arr['pagination'] = $paginator->paginate(
-				$advertise,
-				$this->get('request')->query->get('page', 1),
-				 $this->container->getParameter('page_num')
-		);
-		$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+
+        $arr['ads'] = array_merge($adverRecommand,$advertise );
+
+        $logger= $this->get('logger');
+        $logger->debug('{jaord}'.__FILE__.'@'.__LINE__.':'. var_export( count( $arr['ads']), true));
+
 		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
 	}
 	/**

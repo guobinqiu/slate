@@ -272,9 +272,9 @@ function selectCity_amazon(){
       <ul>
         <li class="{% if app.request.attributes.get('_route') == '_default_index' %} navSelectedBg {% endif %}"><a href="{{ path('_default_index') }}">首页</a></li>
         <li class="{% if app.request.attributes.get('_route') == '_game_index' %} navSelectedBg {% endif %}"><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a><span id="playGame"></span></li>
-        <li class="{% if app.request.attributes.get('_route') == '_advertiserment_list' %} navSelectedBg {% endif %}"><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
+        <li class="{% if app.request.attributes.get('_route') == '_advertiserment_list' %} navSelectedBg {% endif %}"><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a><span class="new"></span></li>
         <li class="{% if app.request.attributes.get('_route') == '_shopping_list' %} navSelectedBg {% endif %}"><a href="{{ asset(path('_shopping_list'),'cdn1') }}">购物返利</a></li>
-        <li class="{% if app.request.attributes.get('_route') == '_marketActivity_index' %} navSelectedBg {% endif %}"><a href="{{ asset(path('_marketActivity_index'),'cdn1')  }}">商家活动</a><span class="new"></span></li>
+        <li class="{% if app.request.attributes.get('_route') == '_marketActivity_index' %} navSelectedBg {% endif %}"><a href="{{ asset(path('_marketActivity_index'),'cdn1')  }}">商家活动</a></li>
         <li class="{% if app.request.attributes.get('_route') == '_exchange_index' %} navSelectedBg {% endif %} last"><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
       </ul>
     </nav>
