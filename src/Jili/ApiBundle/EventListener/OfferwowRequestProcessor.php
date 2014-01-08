@@ -154,7 +154,7 @@ class OfferwowRequestProcessor
               'categoryType' => $category_type,
               'point' => $point,
               'date' => date_create(),
-              'status' => $this->getParameter('init_four')
+              'status' => $order->getStatus()
             );
             $this->updateTaskHistory($params);  
 
@@ -173,7 +173,7 @@ class OfferwowRequestProcessor
               'categoryType' => $category_type,
               'point' => $point,
               'date' => date_create(),
-              'status' => $this->getParameter('init_four')
+              'status' => $order->getStatus()
             );
 
             $this->updateTaskHistory($params);  
