@@ -70,95 +70,96 @@ offer_wow_com:
 
 加密格式：
 
-CREATE TABLE `ad_owner` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-CREATE TABLE `offerwow_order` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `ad_id` int(11) NOT NULL,
-  `create_time` datetime NOT NULL,
-  `adw_return_time` datetime DEFAULT NULL,
-  `confirm_time` datetime DEFAULT NULL,
-  `happen_time` datetime DEFAULT NULL,
-  `incentive_type` int(1) DEFAULT NULL,
-  `incentive` int(11) DEFAULT NULL,
-  `incentive_rate` int(6) DEFAULT NULL,
-  `comm` float DEFAULT NULL,
-  `ocd` varchar(100) DEFAULT NULL,
-  `order_price` int(11) DEFAULT NULL,
-  `order_status` int(2) NOT NULL DEFAULT '0',
-  `delete_flag` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-CREATE TABLE `offerwow_website` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `website_id` int(11) NOT NULL COMMENT ' offerwow 网站信息的websiteid ',
-  `advertiserment_id` int(11) NOT NULL COMMENT '广告表主键',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='检查websiteid是否存在。';
-
-CREATE TABLE `offerwow_api_return` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `create_time` datetime NOT NULL,
-  `content` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8;
-
-ALTER TABLE `advertiserment` ADD `ad_owner_id` INT( 11 ) NULL AFTER `title` ;
-
-ALTER TABLE `task_history00`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
-ALTER TABLE `task_history01`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
-ALTER TABLE `task_history02`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
-ALTER TABLE `task_history03`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
-ALTER TABLE `task_history04`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
-ALTER TABLE `task_history05`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
-ALTER TABLE `task_history06`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
-ALTER TABLE `task_history07`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
-ALTER TABLE `task_history08`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
-ALTER TABLE `task_history09`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
-
-
-ALTER TABLE `task_history00`  ADD `ocd_created_date` datetime NULL AFTER `point`
-ALTER TABLE `task_history01`  ADD `ocd_created_date` datetime NULL AFTER `point`
-ALTER TABLE `task_history02`  ADD `ocd_created_date` datetime NULL AFTER `point`
-ALTER TABLE `task_history03`  ADD `ocd_created_date` datetime NULL AFTER `point`
-ALTER TABLE `task_history04`  ADD `ocd_created_date` datetime NULL AFTER `point`
-ALTER TABLE `task_history05`  ADD `ocd_created_date` datetime NULL AFTER `point`
-ALTER TABLE `task_history06`  ADD `ocd_created_date` datetime NULL AFTER `point`
-ALTER TABLE `task_history07`  ADD `ocd_created_date` datetime NULL AFTER `point`
-ALTER TABLE `task_history08`  ADD `ocd_created_date` datetime NULL AFTER `point`
-ALTER TABLE `task_history09`  ADD `ocd_created_date` datetime NULL AFTER `point`
-
+-- CREATE TABLE `ad_owner` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `name` varchar(255) CHARACTER SET utf8 NOT NULL,
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+-- 
+-- 
+-- CREATE TABLE `offerwow_order` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `user_id` int(11) NOT NULL,
+--   `ad_id` int(11) NOT NULL,
+--   `create_time` datetime NOT NULL,
+--   `adw_return_time` datetime DEFAULT NULL,
+--   `confirm_time` datetime DEFAULT NULL,
+--   `happen_time` datetime DEFAULT NULL,
+--   `incentive_type` int(1) DEFAULT NULL,
+--   `incentive` int(11) DEFAULT NULL,
+--   `incentive_rate` int(6) DEFAULT NULL,
+--   `comm` float DEFAULT NULL,
+--   `ocd` varchar(100) DEFAULT NULL,
+--   `order_price` int(11) DEFAULT NULL,
+--   `order_status` int(2) NOT NULL DEFAULT '0',
+--   `delete_flag` int(1) NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+-- 
+-- CREATE TABLE `offerwow_website` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `website_id` int(11) NOT NULL COMMENT ' offerwow 网站信息的websiteid ',
+--   `advertiserment_id` int(11) NOT NULL COMMENT '广告表主键',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='检查websiteid是否存在。';
+-- 
+-- CREATE TABLE `offerwow_api_return` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `create_time` datetime NOT NULL,
+--   `content` text NOT NULL,
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8;
+-- 
+-- ALTER TABLE `advertiserment` ADD `ad_owner_id` INT( 11 ) NULL AFTER `title` ;
+-- 
+-- ALTER TABLE `task_history00`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history01`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history02`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history03`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history04`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history05`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history06`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history07`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history08`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history09`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
 
 -------------
 Revert:
 -------------
 
+-- 
+-- ALTER TABLE `task_history00` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history01` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history02` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history03` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history04` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history05` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history06` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history07` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history08` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history09` DROP `ad_owner_id`;
+-- 
+-- ALTER TABLE `advertiserment` DROP `ad_owner_id`;
 
-ALTER TABLE `task_history00` DROP `ad_owner_id`;
-ALTER TABLE `task_history01` DROP `ad_owner_id`;
-ALTER TABLE `task_history02` DROP `ad_owner_id`;
-ALTER TABLE `task_history03` DROP `ad_owner_id`;
-ALTER TABLE `task_history04` DROP `ad_owner_id`;
-ALTER TABLE `task_history05` DROP `ad_owner_id`;
-ALTER TABLE `task_history06` DROP `ad_owner_id`;
-ALTER TABLE `task_history07` DROP `ad_owner_id`;
-ALTER TABLE `task_history08` DROP `ad_owner_id`;
-ALTER TABLE `task_history09` DROP `ad_owner_id`;
+-- DROP TABLE `offerwow_api_return`;
+-- DROP TABLE `offerwow_website`;
+-- DROP TABLE `offerwow_order`;
+-- DROP TABLE `ad_owner`;
 
-ALTER TABLE `advertiserment` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history00`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history01`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history02`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history03`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history04`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history05`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history06`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history07`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history08`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history09`  ADD `ocd_created_date` datetime NULL AFTER `point`
 
-DROP TABLE `offerwow_api_return`;
-DROP TABLE `offerwow_website`;
-DROP TABLE `offerwow_order`;
-DROP TABLE `ad_owner`;
-
+-- --------------------------------------
+--  update sql before deploy
+-- ---------------------------------------
 
 CREATE TABLE `offerwow_api_return` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
