@@ -36,10 +36,13 @@
 	
 }
 .shopList ul.shopRecommend li p.about {
-	line-height: 18px;
-    margin: 0;
-    margin-top: -20px;
+	bottom: 0;
+    line-height: 18px;
     padding: 0;
+	left:0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
 }
 .shopList ul.shopRecommend li p.about span.store {
 	background-color: #f5602a;
@@ -124,7 +127,11 @@
 	float: left;
 }
 .shopList .shopRebate .s_box p.store {
-	color: #5d5d5d;
+	color: #5D5D5D;
+    height: 20px;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 120px;
 }
 .shopList .shopRebate .s_box p.rebate {
 	color: #999999;

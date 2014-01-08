@@ -13,4 +13,6 @@
 /config/
 *.swp
 /web/images/actionPic/*
+/web/images/activity
+/web/images/banner
 

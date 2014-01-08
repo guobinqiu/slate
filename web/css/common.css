@@ -29,18 +29,18 @@ div#rule{
 }
 
 .game_start a{
-	position:absolute;
-	right:5px;
-	_right:9px;
-	top:2px;
-	width:100%;
-	height:311px;
-	display:inline-block;
-	font-size:0;
-	background:url(../images/game_start_btn.jpg) no-repeat scroll 650px 200px transparent;
+	background-image: url("../images/game_start_btn.jpg");
+	background-position: 0 0;
+    bottom: 28px;
+    display: inline-block;
+    font-size: 0;
+    height: 86px;
+    position: absolute;
+    right: 34px;
+    width: 277px;
 }
 .game_start a:hover{
-	background:url(../images/game_start_btn_h.jpg) no-repeat scroll 650px 200px transparent;
+	background-position: 0 -96px;
 }
 /* ++++++++++++++++++++++++++++++++++++++++++++
 　■ポイント

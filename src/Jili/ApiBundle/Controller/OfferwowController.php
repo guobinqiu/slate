@@ -34,9 +34,9 @@ class OfferwowController extends Controller
         $api_logger = $this->get('offerwow_api.init_log');
         $api_logger->log($request->getRequestUri());
 
-        $request_validator = $this->get('offer_wow_request.validation');
+        $request_validator = $this->get('offerwow_request.validation');
 
-        $config = $this->container->getParameter('offer_wow_com');
+        $config = $this->container->getParameter('offerwow_com');
         $validate_return = $request_validator->validate($request, $config);
 
         $result = array(
@@ -61,7 +61,7 @@ class OfferwowController extends Controller
         }
 
 
-        $offerwow_service = $this->get('offer_wow_request.processor');
+        $offerwow_service = $this->get('offerwow_request.processor');
         $code_processed = $offerwow_service->process( $request, $config);
 
         $result['status'] = 'success';

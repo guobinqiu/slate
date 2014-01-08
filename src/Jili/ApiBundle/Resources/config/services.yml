@@ -6,8 +6,8 @@ parameters:
 
 
     offerwow_api_return.logger.class: Jili\ApiBundle\EventListener\OfferwowApiLogger
-    offer_wow_request.validation.class: Jili\ApiBundle\EventListener\OfferwowRequestValidation
-    offer_wow_request.processor.class:  Jili\ApiBundle\EventListener\OfferwowRequestProcessor
+    offerwow_request.validation.class: Jili\ApiBundle\EventListener\OfferwowRequestValidation
+    offerwow_request.processor.class:  Jili\ApiBundle\EventListener\OfferwowRequestProcessor
 
 services:
     login.listener:
@@ -28,12 +28,12 @@ services:
         class: %offerwow_api_return.logger.class%
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
-    offer_wow_request.validation:
-        class: %offer_wow_request.validation.class%
+    offerwow_request.validation:
+        class: %offerwow_request.validation.class%
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
-    offer_wow_request.processor:
-        class: %offer_wow_request.processor.class%
+    offerwow_request.processor:
+        class: %offerwow_request.processor.class%
         calls:
             - [setContainer, ["@service_container"] ] 
             - [setTaskLogger, ["@general_api.task_history"] ]

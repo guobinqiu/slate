@@ -1,6 +1,6 @@
 
 parameters:
-    offer_wow_com: 
+    offerwow_com: 
         validations:
             1: { errorno: "offerwow-01", message: "出现空参数"}
             2: { errorno: "offerwow-02", message: "网站id不存在" }
@@ -11,16 +11,16 @@ parameters:
             sign: { errorno: "signature error", message: "签名验证出错" }
 
         #sign=md5(memberId+point+eventId+websiteId+immediate+key)
-        key: "91jili2offerwow"
-        websiteid: 1162  
-        name: "offer-wow"
-        category_type: 17 # in ad_category table where cateogry_name ='offerwow' ??
-        task_type: 5
+
+        key: "%offerwow_com.key%"
+        websiteid: %offerwow_com.websiteid%  
+        name: "%offerwow_com.name%"
+        category_type: %offerwow_com.category_type% # in ad_category table where cateogry_name ='offerwow' ??
+        task_type: %offerwow_com.task_type% 
+
         immediate_status:
            HANGUP_SUSPEND: 0 # ：非即时返利活动,处于待审核状态；
            INSTANT_PASSED: 1 #：即时返利活动，需发放奖励给会员；
            HANGUP_PASSED: 2 #：非即时返利活动，审核通过，重新回传，发放奖励给会员；
            HANGUP_REFUSED: 3 #：非即时返利活动，审核不通过，重新回传，不发放奖励；
-
-       # todo: 
 

@@ -107,6 +107,7 @@
 }
 
 .index section .frame #marketActivity ul li .more {
+	background-color: rgb(0,0,0);
 	background-color: rgba(0, 0, 0, 0.5);
 	bottom: -30px;
 	height: 30px;
@@ -177,7 +178,7 @@
 }
 
 .index section .frame #timeLine ul li dt span {
-	clear: both;
+	
 	font-size: 10px;
 	color: #999999;
 }
@@ -366,11 +367,12 @@
 .index aside #task .mask {
 	overflow: hidden;
 	width: 207px;
+	position:relative;
 	margin: 0 15px;
 }
 
 .index aside #task .all {
-	position: relative;
+	
 }
 
 .index aside #task h3 {
@@ -445,7 +447,9 @@
 	color: #ea4c11;
 	margin-right: 3px;
 }
-
+.index aside #task ul li a:hover{
+	text-decoration:none;
+}
 .index aside #task h3 span {
 	background-color: #CF4E1F;
 	border-radius: 4px;
@@ -494,7 +498,8 @@
 .index aside .frame #news .mask {
 	overflow: hidden;
 	height:90px;
-	width: 100%;
+	width: 207px;
+	position:relative;
 }
 .index aside .frame #news .all{
 	height:90px;
@@ -561,7 +566,7 @@
 .index aside .frame #hotMarket ul li {
 	float: left;
 	position: relative;
-	width: 50%;
+	width: 49.9%;
 	text-align: center;
 	margin-bottom: 10px;
 }
@@ -585,7 +590,6 @@
 }
 
 .index aside .frame #aboutJili ul li {
-	float: left;
 	position: relative;
 	list-style: disc outside none;
 	margin-left: 15px;
@@ -601,7 +605,9 @@
 .index aside #userInformation p {
 	margin: 0px 0 12px 0;
 }
-
+.index aside #userInformation p.error {
+	color: #F00;
+}
 .index aside #userInformation a.reg {
 	background-image: url(../images/regBtn.jpg);
 	width: 185px;
@@ -818,7 +824,9 @@
 	padding: 5px 0;
 	position: relative;
 }
-
+#signInFrame li a:hover{
+	text-decoration: none;
+}
 #signInFrame li.rbn {
 	border-right: none;
 }
@@ -839,6 +847,7 @@
 #signInFrame li .gray {
 	background-color: #000;
 	opacity: .5;
+	Filter:alpha(opacity=50);
 	position: absolute;
 	top: 0;
 	left: 0;

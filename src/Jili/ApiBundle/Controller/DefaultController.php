@@ -148,7 +148,7 @@ class DefaultController extends Controller {
 	public function checkinList(){
 		$arrList = array();
 		$date = date('Y-m-d H:i:s');
-		$cal_count = 6;
+		$cal_count = "";
 		$campaign_multiple = $this->container->getParameter('campaign_multiple');
 		$request = $this->get('request');
 		$uid = $request->getSession()->get('uid');
@@ -156,19 +156,20 @@ class DefaultController extends Controller {
 		$user = $em->getRepository('JiliApiBundle:User')->find($uid);
         $reward_multiple = $user->getRewardMultiple();
 		$cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
-        if (count($cal) > 2) {
-            if (count($cal) > 6) {
-                $calNow = array_rand($cal, 6); //随机取数组中6个键值
-            } else {
-                $cal_count = count($cal);
-                $calNow = array_rand($cal, $cal_count);
+        if (count($cal) > 6) {
+            $cal_count = 6;
+            $calNow = array_rand($cal, 6); //随机取数组中6个键值
+        } else {
+            $cal_count = count($cal);
+            for ($i = 0; $i < count($cal); $i++) {
+                $calNow[$i] = $i;
             }
-            for ($i = 0; $i < $cal_count; $i++) {
-                $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
-                $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
-                $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate'] / 10000, 2);
-                $arrList[] = $cal[$calNow[$i]];
-            }
+        }
+        for ($i = 0; $i < $cal_count; $i++) {
+            $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
+            $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
+            $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate'] / 10000, 2);
+            $arrList[] = $cal[$calNow[$i]];
         }
 		return $arrList;
 
@@ -797,7 +798,8 @@ class DefaultController extends Controller {
 		'咨询内容<br/>' .
 		$content . '<br/><br/>' .
 		'联系方式<br/>' .
-		$email . '<br/>' .
+		$email . '<br/><br/>' .
+		'浏览器<br/>'.$_SERVER['HTTP_USER_AGENT'] . '<br/>' .
 		'</body>' .
 		'</html>', 'text/html');
 		$flag = $mailer->send($message);

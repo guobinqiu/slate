@@ -49,6 +49,7 @@ header section{
 	height:70px;
 	margin:auto;
 	position:relative;
+	z-index:7998;
 }
 header #logo {
 	width: 164px;
@@ -94,7 +95,6 @@ header nav#menu ul li a{
 	font-size:16px;
 	padding:0 25px;
 	display:inline;
-	border-right:1px dotted #f5a588;
 }
 header nav#menu ul li a:hover{
 	text-decoration:none;
@@ -107,18 +107,18 @@ header nav#user {
     position: absolute;
     right: 0;
     top: 0;
+	z-index:7999;
 }
 header nav#user a{
 	color:#FFF;
 	display:inline-block;
 	background-repeat:no-repeat;
-	text-indent:15px;
 }
 header nav#user a.newms{
 	background-image: url("../images/newMs.gif");
     background-position: 0 4px;
     background-repeat: no-repeat;
-    padding-left: 5px;
+    padding-left: 20px;
 }
 header nav#user a span#countMessage{
 	color: #FFE75E;
@@ -128,10 +128,12 @@ header nav#user a span#countMessage{
 header nav#user a.log{
 	background-image:url(../images/log_ico.gif);
 	background-position:0px 4px;
+	text-indent:15px;
 }
 header nav#user a.reg{
 	background-image:url(../images/sign_ico.gif);
 	background-position:0px 3px;
+	text-indent:15px;
 }
 header nav#user span.division{
 	background-image: url("../images/division.jpg");
@@ -185,7 +187,8 @@ header #userFrame ul.menu li{
 header #userFrame ul.menu li a{
 	color:#666;
 	width:100%;
-	display:inline-block;
+	display:block;
+	text-indent:15px;
 }
 header #userFrame ul.menu li a:hover{
 	background-color:#f0f0f0;
@@ -271,20 +274,21 @@ footer section a:hover{
     line-height: 220%;
     padding-left: 20px;
 	font-weight:normal;
-	position:relative;
 }
 #loginFrame h2 a.close{
 	color: #FFFFFF;
     font-family: Verdana;
     position: absolute;
     right: 15px;
+	top:0;
 }
 #loginFrame .loginForm{
-	margin: 20px 40px;
+	margin: 20px 30px;
 }
 #loginFrame .loginForm li{
 	list-style:none;
-	margin: 25px 0 0;
+	margin: 20px 0 0;
+	display:inline-block;
 }
 #loginFrame .loginForm li dd{
 	float:left;
@@ -293,7 +297,7 @@ footer section a:hover{
 	font-size: 14px;
 }
 #loginFrame .loginForm li dt{
-	
+	float:left;
 }
 #loginFrame .loginForm li dt input.name,#loginFrame .loginForm li dt input.password{
 	border: 1px solid #DDDDDD;
@@ -312,6 +316,7 @@ footer section a:hover{
     margin: 0 10px 0 0;
     padding: 5px 14px;
     text-align: center;
+	vertical-align:middle;
 }
 #loginFrame .loginForm li dt a.forget{
 	color:#54b9e8;

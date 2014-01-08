@@ -16,11 +16,10 @@
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
-
 <div class="webArticle adList">
   <article>
-    <h2><img src="images/adTitle.jpg" width="149" height="19"></h2>
-    <iframe src='http://www.offer-wow.com/affiliate/wall/open.do?websiteid=1162&styleIndex=1&memberid={{  app.session.get('uid') }}' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
+  <h2><img src="{{ asset('images/adTitle.jpg') }}" width="149" height="19"></h2>
+    <iframe src='http://www.offer-wow.com/affiliate/wall/open.do?websiteid={{  offerwow_com.websiteid }}&styleIndex=1&memberid={{  app.session.get('uid') }}' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
   </article>
   <aside>
     <div class="cpaMain">

@@ -30,7 +30,9 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
-
+    globals:
+        offerwow_com:
+            websiteid: %offerwow_com.websiteid%  
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
