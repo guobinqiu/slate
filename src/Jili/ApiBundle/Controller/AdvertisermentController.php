@@ -79,7 +79,14 @@ class AdvertisermentController extends Controller
 	 * @Route("/list", name="_advertiserment_list")
 	 */
 	public function listAction(){
-        return $this->render('JiliApiBundle:Advertiserment:server.html.twig');
+        $white_ip_list  = array(
+            $this->container->getParameter('admin_ele_ip') ,
+            $this->container->getParameter('admin_un_ip')
+        );
+
+        if(! in_array($this->get('request')->getClientIp(), $white_ip_list ) ) {
+            return $this->render('JiliApiBundle:Advertiserment:server.html.twig');
+        }
 
         $uid = $this->get('request')->getSession()->get('uid');
         if(!$uid){
