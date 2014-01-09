@@ -79,10 +79,10 @@ class AdvertisermentController extends Controller
 	 * @Route("/list", name="_advertiserment_list")
 	 */
 	public function listAction(){
+        return $this->render('JiliApiBundle:Advertiserment:server.html.twig');
+
         $uid = $this->get('request')->getSession()->get('uid');
         if(!$uid){
-
-#		$goToUrl = $request->headers->get('referer');
            $response =  $this->forward('JiliApiBundle:User:login' );
            $response->headers->set('referer', $this->generateUrl('_advertiserment_list') );
            return $response;

@@ -2,12 +2,16 @@
 namespace Jili\ApiBundle\Controller;
 use Jili\ApiBundle\Repository\AdwOrderRepository;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller,
+    Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpFoundation\Response;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 use Jili\ApiBundle\Entity\AdwApiReturn;
 use Jili\ApiBundle\Entity\AdwOrder;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\GameLog;
@@ -575,6 +579,28 @@ class ApiController extends Controller
     }
 
     
+    /**
+     * @Route("/check/email", name="_api_check_email",requirements={"_scheme"="https"})
+     * @Method({"POST"});
+     */
+    public function isEmailDuplicated() {
+        $result = '0';
+        #$logger=$this->get('logger');
+        $email = $this->get('request')->get('email','');
+        #$logger->debug('{jarod}'.__FILE__.'@'.__LINE__. ':'.var_export($email , true) );
+
+        if( strlen($email) > 0) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+            if($user) {
+                $result = '1';
+
+            }
+        }
+        $resp = new Response($result);
+        $resp->headers->set('Content-Type', 'text/plain');
+        return $resp;
+    }
     
 
 }
