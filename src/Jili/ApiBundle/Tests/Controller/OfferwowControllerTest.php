@@ -33,6 +33,30 @@ class OfferwowControllerTest extends WebTestCase
         $this->em->close();
     }
 
+//  memberid  true  您的网站用户的唯一编号，与“步骤3”memberid的对应
+//  point true 奖励用户的虚拟货币数量
+//  eventid true 回传数据的唯一流水号，合作客户需要记录并且验证唯一性，主要用于结算和对账
+//  websiteid true 网站ID 
+//  immediate true 0：非即时返利活动,处于待审核状态；
+//  1：即时返利活动，需发放奖励给会员；
+//  2：非即时返利活动，审核通过，重新回传，发放奖励给会员；
+//  3：非即时返利活动，审核不通过，重新回传，不发放奖励；
+//  
+//  programname false 活动名称 
+//  sign  false 网站主与我方约定受权的key，key生成规则由双方讨论决定，网站主或我方对受权的key进行校验，用受权的key对回传参数进行校验；
+//  
+//  key：为双方约好的key值；
+//  加密格式：
+//  sign=strtoupper(md5(memberId+point+eventId+websiteId+immediate+key)
+//  
+//  加密为32位全大写格式
+//  注：
+//  1、什么情况下重新发送回传数据：
+//  （1）HTTP状态非200； ???
+//  （2）immediate=0的情况下，才允许接收相同eventid的推送记录，返利 
+//       （immediate=2），或不返利（immediate=3）。
+//  2、请在给用户发放奖励的位置，通过eventid进行排重处理，即已经给会员发放奖励的eventid不能重复发放，以免因为重复提交请求导致多次发放。 
+ 
     // validateion test
     public function testGetApwInfo()
     {
@@ -42,39 +66,14 @@ class OfferwowControllerTest extends WebTestCase
 
         $em  = $contianer->get('doctrine.orm.default_entity_manager');
         $logger = $contianer->get('logger');
-
         $offer_order = $contianer->get('doctrine')->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
-
         if( $offer_order ) {
+
+#            $this->em->getRepository('JiliApiBundle:TaskHistory'. ( $u) )->
             $em->remove($offer_order);
             $em->flush();
         }
 
-/*
-memberid  true  您的网站用户的唯一编号，与“步骤3”memberid的对应
-point true 奖励用户的虚拟货币数量
-eventid true 回传数据的唯一流水号，合作客户需要记录并且验证唯一性，主要用于结算和对账
-websiteid true 网站ID 
-immediate true 0：非即时返利活动,处于待审核状态；
-1：即时返利活动，需发放奖励给会员；
-2：非即时返利活动，审核通过，重新回传，发放奖励给会员；
-3：非即时返利活动，审核不通过，重新回传，不发放奖励；
-
-programname false 活动名称 
-sign  false 网站主与我方约定受权的key，key生成规则由双方讨论决定，网站主或我方对受权的key进行校验，用受权的key对回传参数进行校验；
-
-key：为双方约好的key值；
-加密格式：
-sign=strtoupper(md5(memberId+point+eventId+websiteId+immediate+key)
-
-加密为32位全大写格式
-注：
-1、什么情况下重新发送回传数据：
-（1）HTTP状态非200； ???
-（2）immediate=0的情况下，才允许接收相同eventid的推送记录，返利 
-     （immediate=2），或不返利（immediate=3）。
-2、请在给用户发放奖励的位置，通过eventid进行排重处理，即已经给会员发放奖励的eventid不能重复发放，以免因为重复提交请求导致多次发放。 
- */
         $params_1 = array('memberid'=>null,'point'=>null,'eventid'=>null,'websiteid'=>null , 'immediate'=>null  );
         $params_2 = array('memberid'=>null,'point'=>null,'eventid'=>null,'websiteid'=>null , 'immediate'=>null ,'programname'=>null );
         $params_3 = array('memberid'=>null,'point'=>null,'eventid'=>null,'websiteid'=>null , 'immediate'=>null ,'programname'=>null , 'sign'=>null);
