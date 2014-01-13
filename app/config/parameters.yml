@@ -13,9 +13,4 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
-
-    offerwow_com.websiteid: 1162  
-    offerwow_com.key: "91jili2offerwow"
-    offerwow_com.name: "offer-wow"
-    offerwow_com.category_type: 17 # in ad_category table where cateogry_name ='offerwow' ??
-    offerwow_com.task_type: 5
+    
