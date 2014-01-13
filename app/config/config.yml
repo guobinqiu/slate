@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: custome_parameters.yml }
     - { resource: security.yml }
 framework:
     #esi:             ~

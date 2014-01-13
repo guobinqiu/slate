@@ -12,7 +12,7 @@
 <link href="{{ asset('css/adListNew.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
-<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/adListNew.js')}}" type="text/javascript"></script>
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
@@ -20,6 +20,15 @@
   <article>
   <h2><img src="{{ asset('images/adTitle.jpg') }}" width="149" height="19"></h2>
     <iframe src='http://www.offer-wow.com/affiliate/wall/open.do?websiteid={{  offerwow_com.websiteid }}&styleIndex=1&memberid={{  app.session.get('uid') }}' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
+    <div class="explain"><a href="#" class="explainBtn">活动说明</a>
+        <div class="explainMore">
+            <p>1、点击【马上参加】，仔细阅读【任务步骤】，按要求一步步完成即可。</p>
+            <p>2、即时返利做完立刻奖励，非即时返利审核通过后奖励。</p>
+            <p>3、如对活动有问题，点击【我的任务历史】下的【在线咨询】即可！</p>
+            <p style="border-bottom:none;">4、活动不断更新，敬请多多关注！</p>
+        </div>
+    </div>
+
   </article>
   <aside>
     <div class="cpaMain">

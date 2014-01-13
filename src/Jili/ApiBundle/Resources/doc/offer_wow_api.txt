@@ -184,3 +184,5 @@ CREATE TABLE `offerwow_order` (
 
 INSERT INTO `jili_db`.`ad_category` (`id`, `display_name`) VALUES (17, 'offer-wow');
 
+--  Mon Jan 13 11:17:20 CST 2014
+UPDATE ad_category SET display_name ="体验广告" WHERE id = 17 limit 1;

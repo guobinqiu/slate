@@ -406,9 +406,28 @@
 }
 
 .index aside #task ul li.signs {
-	background-position: 3px -26px;
+	background-color: #58B5E1;
+    background-position: 57px -27px;
+    border-bottom: medium none;
+    height: 34px;
+    width: 205px;
+	padding:0;
+	font-size:14px;
+    margin-top:5px;
 }
-
+.index aside #task ul li.signs a{
+	display: inline-block;
+    height: 30px;
+    padding-top: 4px;
+    width: 205px;
+}
+.index aside #task ul li.signs a dd{
+	color: #FFFFFF;
+	margin-left:80px;
+}
+.index aside #task ul li.signs dt{
+	display:none;
+}
 .index aside #task ul li.vote {
 	background-position: 3px -65px;
 }
@@ -427,6 +446,9 @@
 
 .index aside #task ul li:hover {
 	background-color: #f4f4f4;
+}
+.index aside #task ul li.signs:hover{
+	background-color: #79c4e7;
 }
 .index aside #task ul li:hover a,.index aside #task ul li:hover dd,.index aside #task ul li:hover dt{
 	color:#ea4c11;

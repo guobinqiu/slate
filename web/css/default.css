@@ -293,6 +293,10 @@ footer section a:hover{
 	margin: 20px 0 0;
 	display:inline-block;
 }
+#loginFrame .loginForm li.error {
+    width: 100%;
+    color: red;
+}
 #loginFrame .loginForm li dd{
 	float:left;
 	width:60px;

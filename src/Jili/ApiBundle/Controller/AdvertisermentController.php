@@ -90,9 +90,12 @@ class AdvertisermentController extends Controller
 
         $uid = $this->get('request')->getSession()->get('uid');
         if(!$uid){
-           $response =  $this->forward('JiliApiBundle:User:login' );
-           $response->headers->set('referer', $this->generateUrl('_advertiserment_list') );
-           return $response;
+          # $response =  $this->redirect('JiliApiBundle:User:login' );
+          # $response->headers->set('referer', $this->generateUrl('_advertiserment_list') );
+            $r = $this->redirect($this->generateUrl('_user_login'));
+            $r->headers->set('referer', $this->generateUrl('_advertiserment_list') );
+            return $r;
+          # return $response;
         }
 
 		$em = $this->getDoctrine()->getManager();
@@ -102,8 +105,8 @@ class AdvertisermentController extends Controller
 
         $arr['ads'] = array_merge($adverRecommand,$advertise );
 
-        $logger= $this->get('logger');
-        $logger->debug('{jaord}'.__FILE__.'@'.__LINE__.':'. var_export( count( $arr['ads']), true));
+        #$logger= $this->get('logger');
+        #$logger->debug('{jaord}'.__FILE__.'@'.__LINE__.':'. var_export( count( $arr['ads']), true));
 
 		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
 	}
