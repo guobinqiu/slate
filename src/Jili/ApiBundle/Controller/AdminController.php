@@ -72,8 +72,7 @@ class AdminController extends Controller
         if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
             $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
             $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
-            $_SERVER['REMOTE_ADDR'] == '192.168.1.236' ||
-            $_SERVER['REMOTE_ADDR'] == '192.168.1.235' ||
+           substr( $_SERVER['REMOTE_ADDR'],0,)  == '192.168.1.' ||
             $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_vpn_ip'))
             return false;
         else
