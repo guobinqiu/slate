@@ -361,4 +361,31 @@ class OfferwowControllerTest extends WebTestCase
         $this->assertEquals($e, $i);
 
     }
+    // instant success immediate = 1
+    public function testGetApwInfo5() {
+        $client = static::createClient();
+        $contianer = $client->getContainer();
+        $em  = $contianer->get('doctrine.orm.default_entity_manager');
+
+        $offer_order = $contianer->get('doctrine')->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
+        if( $offer_order ) {
+            $em->remove($offer_order);
+            $em->flush();
+        }
+
+
+        // immediate = 1
+        $req = array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'1');
+        $key = '91jili2offerwow';
+        $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
+
+        $u = '/api/offerwow/getInfo?'. http_build_query($req);
+        echo __LINE__,"\t",$u,PHP_EOL;
+        $req['status'] = 'success';
+        $e = json_encode($req);
+        $crawler = $client->request('GET', $u);
+        $i = $client->getResponse()->getContent() ;
+        $this->assertEquals($e, $i);
+
+    }
 }    
