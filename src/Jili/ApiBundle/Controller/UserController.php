@@ -1400,6 +1400,19 @@ class UserController extends Controller
         							$em->persist($setPasswordCode);
         							$em->flush();
 //         							return $this->redirect($this->generateUrl('_user_regSuccess'));
+
+                                    //设置密码之后，注册成功，发邮件2014-01-10
+                                    $soapMailLister = $this->get('soap.mail.listener');
+                                    $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
+                                    $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
+                                    $recipient_arr = array (
+                                            array (
+                                                'name' => 'email',
+                                                'value' => $user->getEmail()
+                                            )
+                                        );
+                                    $soapMailLister->sendMailBySoap($recipient_arr);
+
         							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
         						}else{
         							$code_que_pwd = $this->container->getParameter('forget_unsame_pwd');
