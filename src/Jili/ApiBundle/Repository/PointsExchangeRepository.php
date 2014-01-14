@@ -190,15 +190,16 @@ class PointsExchangeRepository extends EntityRepository
 
         if(isset($wheres['end_date']) && strlen($wheres['end_date']) > 0 ) {
             $qb = $qb->andWhere('p.exchangeDate<=:end_at');
-            $qb = $qb->setParameter('end_at',$wheres['end_date'] .' 00:00:00');
+            $qb = $qb->setParameter('end_at',$wheres['end_date'] .' 23:59:59');
         }
+
 
 		if(isset($wheres['type']) && $wheres['type'] > 0 ){
 			$qb = $qb->andWhere('p.type = :type');
-			$qb = $qb->setParameter('type',$wheres['type']);
+			$qb = $qb->setParameter('type', $wheres['type']);
 		}
 
-        $query = $qb->getQuery() ;//getEntityManager()->createQuery();
+        $query = $qb->getQuery() ;
         $count = $query->getSingleScalarResult();
         return (int) $count; 
     }
@@ -230,7 +231,7 @@ class PointsExchangeRepository extends EntityRepository
 
         if(isset($wheres['end_date']) && strlen($wheres['end_date']) > 0 ) {
             $qb = $qb->andWhere('p.exchangeDate<=:end_at');
-            $qb = $qb->setParameter('end_at',$wheres['end_date'] .' 00:00:00');
+            $qb = $qb->setParameter('end_at',$wheres['end_date'] .' 23:59:59');
         }
 
 		if(isset($wheres['type']) && $wheres['type'] > 0 ){
