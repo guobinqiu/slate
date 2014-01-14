@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: custome_parameters.yml }
     - { resource: security.yml }
 framework:
     #esi:             ~
@@ -30,7 +31,9 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
-
+    globals:
+        offerwow_com:
+            websiteid: %offerwow_com.websiteid%  
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
@@ -179,7 +182,7 @@ parameters:
     exchange_ing_alipay_tilte: 支付宝充值兑换申请
     exchange_ing_mobile_tilte: 手机费兑换申请
     exchange_ing_amazon_content: 亲爱的<br/><br/>我们已经收到您的“亚马逊礼品卡”兑换申请，兑换会在三个工作日内完成（遇周末及节假日顺延）。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/2/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
-    exchange_ing_alipay_content: 亲爱的<br/><br/>您好！我们已经收到了您的支付宝充值申请，我们将在10个工作日内完成支付宝充值手续。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/3/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
+    exchange_ing_alipay_content: 亲爱的<br/><br/>您好！我们已经收到了您的支付宝充值申请，我们将在十个工作日内完成支付宝充值手续。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/3/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
     exchange_ing_mobile_content: 亲爱的<br/><br/>我们已经收到您的手机费兑换申请，兑换会在三个工作日内完成（遇周末及节假日顺延）。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/4/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
     exchange_finish_amazon_tilte: “亚马逊礼品卡”兑换成功
     exchange_finish_alipay_tilte: 支付宝充值兑换成功

@@ -1,0 +1,188 @@
+步骤4: 数据回传
+用户完成广告活动后，平台会把奖励数据以http get的方式回传到你的网站，参数如下：
+传入参数 是否必传 说明
+memberid  true  您的网站用户的唯一编号，与“步骤3”memberid的对应
+point true 奖励用户的虚拟货币数量
+eventid true 回传数据的唯一流水号，合作客户需要记录并且验证唯一性，主要用于结算和对账
+websiteid true 网站ID 
+immediate true 
+0：非即时返利活动,处于待审核状态；
+
+1：即时返利活动，需发放奖励给会员；
+
+2：非即时返利活动，审核通过，重新回传，发放奖励给会员；
+3：非即时返利活动，审核不通过，重新回传，不发放奖励；
+
+programname false 活动名称 
+sign  false 网站主与我方约定受权的key，key生成规则由双方讨论决定，网站主或我方对受权的key进行校验，用受权的key对回传参数进行校验；
+
+key：为双方约好的key值；
+加密格式：
+sign=md5(memberId+point+eventId+websiteId+immediate+key)
+
+加密为32位全大写格式
+注：
+1、什么情况下重新发送回传数据：
+（1）HTTP状态非200；
+（2）immediate=0的情况下，才允许接收相同eventid的推送记录，返利 （immediate=2），或不返利（immediate=3）。
+
+2、请在给用户发放奖励的位置，通过eventid进行排重处理，即已经给会员发放奖励的eventid不能重复发放，以免因为重复提交请求导致多次发放。 
+
+
+步骤5: 状态返回
+渠道客户通过回传接口接收到OfferWOW的请求之后，对数据进行处理并返回相应的状态值。规定返回过去的数据为json格式，将传入的参数及操作后的状态按下面格式返回：
+成功回值
+{"memberid":"1001","point":"20","websiteid":"1096","eventid":"asd45sd57s45d45s4d55g45k65ed89rf","immediate":"0","status":"success"}
+失败返回值
+{"memberid":"1001","point":"20","websiteid":"1096","eventid":"asd45sd57s45d45s4d55g45k65ed89rf","immediate":"0","status":"failure","errno":"offerwow-03"}
+
+
+接口返回参数规范说明表
+
+参数的验证顺序|验证顺序 返回状态值（errno） 说明
+1 offerwow-01 出现空参数 
+
+2 offerwow-02 网站id不存在
+3 offerwow-03 uid会员不存在
+7. 
+4 offerwow-04 已发放奖励的Eventid重复
+5 offerwow-05 immediate=0
+6 offerwow-06 immediate=3
+
+config.yml
+
+offer_wow_com:
+  validation:
+    1: { code: '', 'message':  }
+  fields:
+    memberid  true  您的网站用户的唯一编号，与“步骤3”memberid的对应
+    point true 奖励用户的虚拟货币数量
+    eventid true 回传数据的唯一流水号，合作客户需要记录并且验证唯一性，主要用于结算和对账
+    websiteid true 网站ID 
+    immediate true 0：非即时返利活动,处于待审核状态；
+1：即时返利活动，需发放奖励给会员；
+2：非即时返利活动，审核通过，重新回传，发放奖励给会员；
+3：非即时返利活动，审核不通过，重新回传，不发放奖励；
+
+    programname false 活动名称 
+    sign  false 网站主与我方约定受权的key，key生成规则由双方讨论决定，网站主或我方对受权的key进行校验，用受权的key对回传参数进行校验；
+    key：为双方约好的key值；
+
+加密格式：
+
+-- CREATE TABLE `ad_owner` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `name` varchar(255) CHARACTER SET utf8 NOT NULL,
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+-- 
+-- 
+-- CREATE TABLE `offerwow_order` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `user_id` int(11) NOT NULL,
+--   `ad_id` int(11) NOT NULL,
+--   `create_time` datetime NOT NULL,
+--   `adw_return_time` datetime DEFAULT NULL,
+--   `confirm_time` datetime DEFAULT NULL,
+--   `happen_time` datetime DEFAULT NULL,
+--   `incentive_type` int(1) DEFAULT NULL,
+--   `incentive` int(11) DEFAULT NULL,
+--   `incentive_rate` int(6) DEFAULT NULL,
+--   `comm` float DEFAULT NULL,
+--   `ocd` varchar(100) DEFAULT NULL,
+--   `order_price` int(11) DEFAULT NULL,
+--   `order_status` int(2) NOT NULL DEFAULT '0',
+--   `delete_flag` int(1) NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+-- 
+-- CREATE TABLE `offerwow_website` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `website_id` int(11) NOT NULL COMMENT ' offerwow 网站信息的websiteid ',
+--   `advertiserment_id` int(11) NOT NULL COMMENT '广告表主键',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='检查websiteid是否存在。';
+-- 
+-- CREATE TABLE `offerwow_api_return` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `create_time` datetime NOT NULL,
+--   `content` text NOT NULL,
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8;
+-- 
+-- ALTER TABLE `advertiserment` ADD `ad_owner_id` INT( 11 ) NULL AFTER `title` ;
+-- 
+-- ALTER TABLE `task_history00`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history01`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history02`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history03`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history04`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history05`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history06`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history07`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history08`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+-- ALTER TABLE `task_history09`  ADD `ad_owner_id` INT(11) NULL AFTER `order_id`;
+
+-------------
+Revert:
+-------------
+
+-- 
+-- ALTER TABLE `task_history00` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history01` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history02` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history03` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history04` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history05` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history06` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history07` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history08` DROP `ad_owner_id`;
+-- ALTER TABLE `task_history09` DROP `ad_owner_id`;
+-- 
+-- ALTER TABLE `advertiserment` DROP `ad_owner_id`;
+
+-- DROP TABLE `offerwow_api_return`;
+-- DROP TABLE `offerwow_website`;
+-- DROP TABLE `offerwow_order`;
+-- DROP TABLE `ad_owner`;
+
+-- ALTER TABLE `task_history00`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history01`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history02`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history03`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history04`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history05`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history06`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history07`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history08`  ADD `ocd_created_date` datetime NULL AFTER `point`
+-- ALTER TABLE `task_history09`  ADD `ocd_created_date` datetime NULL AFTER `point`
+
+-- --------------------------------------
+--  update sql before deploy
+-- ---------------------------------------
+
+CREATE TABLE `offerwow_api_return` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `content` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `offerwow_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `returned_at` datetime DEFAULT NULL,
+  `confirmed_at` datetime DEFAULT NULL,
+  `happened_at` datetime DEFAULT NULL,
+  `eventid` varchar(100) DEFAULT NULL,
+  `status` int(2) NOT NULL DEFAULT '0',
+  `delete_flag` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `jili_db`.`ad_category` (`id`, `display_name`) VALUES (17, 'offer-wow');
+
+--  Mon Jan 13 11:17:20 CST 2014
+UPDATE ad_category SET display_name ="体验广告" WHERE id = 17 limit 1;

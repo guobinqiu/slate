@@ -2,6 +2,13 @@ parameters:
     login.listener.class: Jili\ApiBundle\EventListener\LoginListener
     soap.mail.listener.class: Jili\ApiBundle\EventListener\SoapMailListener
 
+    general_api.task_history.class: Jili\ApiBundle\EventListener\TaskHistory
+    general_api.point_history.class: Jili\ApiBundle\EventListener\PointHistory
+
+    offerwow_api_return.logger.class: Jili\ApiBundle\EventListener\OfferwowApiLogger
+    offerwow_request.validation.class: Jili\ApiBundle\EventListener\OfferwowRequestValidation
+    offerwow_request.processor.class:  Jili\ApiBundle\EventListener\OfferwowRequestProcessor
+
 services:
     login.listener:
         class: %login.listener.class%
@@ -10,3 +17,27 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
     soap.mail.listener:
         class: %soap.mail.listener.class%
+
+    general_api.task_history:
+        class: %general_api.task_history.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    general_api.point_history:
+        class: %general_api.point_history.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    offerwow_api.init_log:
+        class: %offerwow_api_return.logger.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    offerwow_request.validation:
+        class: %offerwow_request.validation.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    offerwow_request.processor:
+        class: %offerwow_request.processor.class%
+        calls:
+            - [setContainer, ["@service_container"] ] 
+            - [setTaskLogger, ["@general_api.task_history"] ]
+            - [setPointLogger, ["@general_api.point_history"] ]
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]

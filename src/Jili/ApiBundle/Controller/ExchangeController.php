@@ -751,15 +751,15 @@ class  ExchangeController extends Controller
             }
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
             $this->exchange_send_message($type,$id);
-            if($type='amazon'){
+            if($type =='amazon'){
                 $this->get('request')->getSession()->remove('amazonToken');
                 $this->get('request')->getSession()->remove('amazon');
             }
-            if($type='alipay'){
+            if($type =='alipay'){
                 $this->get('request')->getSession()->remove('alipayToken');
                 $this->get('request')->getSession()->remove('alipay');
             }
-            if($type='mobile'){
+            if($type =='mobile'){
                 $this->get('request')->getSession()->remove('mobileToken');
                 $this->get('request')->getSession()->remove('mobile');
             }

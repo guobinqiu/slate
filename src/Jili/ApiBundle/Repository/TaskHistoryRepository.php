@@ -71,7 +71,7 @@ class TaskHistoryRepository extends EntityRepository
 		$query = $query->getQuery();
 		return $query->getResult();
 
-	}
 
+	}
 
 }

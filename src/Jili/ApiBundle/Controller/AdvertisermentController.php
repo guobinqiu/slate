@@ -79,19 +79,35 @@ class AdvertisermentController extends Controller
 	 * @Route("/list", name="_advertiserment_list")
 	 */
 	public function listAction(){
+        #$white_ip_list  = array(
+        #    $this->container->getParameter('admin_ele_ip') ,
+        #    $this->container->getParameter('admin_un_ip')
+        #);
+
+        #if(! in_array($this->get('request')->getClientIp(), $white_ip_list ) ) {
+        #    return $this->render('JiliApiBundle:Advertiserment:server.html.twig');
+        #}
+
+        $uid = $this->get('request')->getSession()->get('uid');
+        if(!$uid){
+          # $response =  $this->redirect('JiliApiBundle:User:login' );
+          # $response->headers->set('referer', $this->generateUrl('_advertiserment_list') );
+            $r = $this->redirect($this->generateUrl('_user_login'));
+            $r->headers->set('referer', $this->generateUrl('_advertiserment_list') );
+            return $r;
+          # return $response;
+        }
+
 		$em = $this->getDoctrine()->getManager();
 		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
 		$advertise = $repository->getAdvertiserAreaList($this->container->getParameter('init_three'));
 		$adverRecommand = $repository->getAdvertiserAreaList($this->container->getParameter('init_two'));
-		$arr['adverRecommand'] = $adverRecommand;
-		$arr['advertiserment'] = $advertise;
-		$paginator  = $this->get('knp_paginator');
-		$arr['pagination'] = $paginator->paginate(
-				$advertise,
-				$this->get('request')->query->get('page', 1),
-				 $this->container->getParameter('page_num')
-		);
-		$arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+
+        $arr['ads'] = array_merge($adverRecommand,$advertise );
+
+        #$logger= $this->get('logger');
+        #$logger->debug('{jaord}'.__FILE__.'@'.__LINE__.':'. var_export( count( $arr['ads']), true));
+
 		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
 	}
 	/**

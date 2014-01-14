@@ -84,7 +84,7 @@ header nav#menu ul li.last a{
 }
 header nav#menu ul li span.new{
 	background-image: url("../other/newIcon.gif");
-	height: 9px;
+	height: 12px;
     position: absolute;
     right: 17px;
     top: -2px;
@@ -163,10 +163,13 @@ header #userFrame{
 	display:none;
 	display:none;
 }
-header nav#user .helpBtn{
-	position: absolute;
-	left: -75px;
-	top: 3px;
+header nav#user .helpBtn {
+    background-image: url("../images/QPoint.gif");
+    background-position: 0 3px;
+    left: -75px;
+    position: absolute;
+    text-indent: 15px;
+    top: 3px;
 }
 header #userFrame .userInfo{
 	background-image: url("../images/newUserIco.jpg");
@@ -289,6 +292,10 @@ footer section a:hover{
 	list-style:none;
 	margin: 20px 0 0;
 	display:inline-block;
+}
+#loginFrame .loginForm li.error {
+    width: 100%;
+    color: red;
 }
 #loginFrame .loginForm li dd{
 	float:left;

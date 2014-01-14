@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\Advertiserment;
@@ -70,6 +71,8 @@ class AdminController extends Controller
     private function getAdminIp(){
         if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
             $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
+            $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
+           substr( $_SERVER['REMOTE_ADDR'],0,10)  == '192.168.1.' ||
             $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_vpn_ip'))
             return false;
         else
@@ -1821,6 +1824,156 @@ class AdminController extends Controller
 
     }
 
+    /**
+     * @Route("/exchange/list", name="_admin_exchange_list")
+     * @Template
+     */
+    public function exchangeListAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+
+        $arr= array();
+        #$logger= $this->get('logger');
+        $request=$this->get('request');
+        $em = $this->getDoctrine()->getManager();
+
+        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $request->getMethod() , true) );
+
+        // get the exchange type 
+        $exchangeType = $em->getRepository('JiliApiBundle:PointsExchangeType')->findAll();
+        if ($request->getMethod() == 'GET') {
+            $start_date = $request->query->get('start'); //date('Y-m-d', 0));
+            $end_date = $request->query->get('end'); // date('Y-m-d'));
+            $exType = $request->query->get('exType');
+
+            $rows_per_page = 20;
+            $page = $request->query->get('page',1);
+
+            $wheres = array( 'start_date'=> $start_date, 'end_date'=> $end_date, 'type'=> (int) $exType );
+
+        } else if ($request->getMethod() == 'POST') {
+
+            $start_time = $request->request->get('start_time');
+            $end_time = $request->request->get('end_time');
+            $exType = $request->request->get('exchangeType');
+
+            if($request->request->get('add')){
+                $response = new Response();   
+                $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time,$exType);
+
+                foreach ($exchange as $key => $value) {
+                    $exchangeDanger = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeId($value['id']);
+                    $exchange[$key]['mobile']='';
+                    $exchange[$key]['ident'] = '';
+                    $exchange[$key]['ip'] = '';
+                    $exchange[$key]['pwd'] = '';
+                    if(!empty($exchangeDanger)){	
+                        foreach ($exchangeDanger as $key1 => $value1) {
+                            if($value1->getDangerType() == $this->container->getParameter('init_one'))
+                                $exchange[$key]['mobile'] = $this->container->getParameter('init_one');                 
+                            if($value1->getDangerType() == $this->container->getParameter('init_two'))
+                                $exchange[$key]['ip'] = $this->container->getParameter('init_one');                
+                            if($value1->getDangerType() == $this->container->getParameter('init_three'))
+                                $exchange[$key]['ident'] = $this->container->getParameter('init_one');
+                            if($value1->getDangerType() == $this->container->getParameter('init_four'))
+                                $exchange[$key]['pwd'] = $this->container->getParameter('init_one');
+                        }
+                    }
+                }
+
+                $arr['exchange'] = $exchange;
+                if($exType == 1)
+                    $response =  $this->render('JiliApiBundle:Admin:exchangeCsv.html.twig',$arr);
+                if($exType == 2)
+                    $response =  $this->render('JiliApiBundle:Admin:exchangeAmazonCsv.html.twig',$arr);
+                if($exType == 3)
+                    $response =  $this->render('JiliApiBundle:Admin:exchangeAlipayCsv.html.twig',$arr);
+                if($exType == 4)
+                    $response =  $this->render('JiliApiBundle:Admin:exchangeMobileCsv.html.twig',$arr);
+                $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+                $filename = "export".date("YmdHis").".csv";
+                $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
+                return $response;     
+            } 
+
+
+            //////////////////////////////////////
+            //     $start_date = $request->request->get('start_time'); //date('Y-m-d', 0));
+            //     $end_date = $request->request->get('end_time'); // date('Y-m-d'));
+            //     $exType = $request->request->get('exchangeType');
+            //     //update the conditions 
+            //     $wheres = array();
+        }
+
+        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $start_date , true) );
+        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $end_date , true) );
+        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $exType , true) );
+        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export(  $wheres, true) );
+
+        $pointExchangeRepository = $em->getRepository('JiliApiBundle:PointsExchange');
+
+        $count = $pointExchangeRepository->getCount($wheres );
+        
+        $params = array( 'page'=> $page, 
+            'count'=>$rows_per_page );
+
+        $exchange = $pointExchangeRepository->getCurrent($params , $wheres);
+
+        $user_ids = array();
+        $exchange_ids = array();
+        foreach ($exchange as $key => $value) {
+            $user_ids[] = $value['userId'];
+            $exchange_ids[] = $value['id'];
+        }
+
+        $exchangeDangers = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeIds($exchange_ids);
+
+        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $user_ids, true) );
+        $emails = $em->getRepository('JiliApiBundle:User')->findEmailById($user_ids );
+
+        foreach($exchange as $key => $value) {
+            $eid = $value['id']; 
+            $uid = $value['userId']; 
+
+           $exchange[$key]['email']= isset( $emails[$uid] ) ? $emails[ $uid ] : '';
+           $exchange[$key]['mobile']='';
+           $exchange[$key]['ident'] = '';
+           $exchange[$key]['ip'] = '';
+           $exchange[$key]['pwd'] = '';
+
+           $exchangeDanger = isset( $exchangeDangers [$eid] )  ? $exchangeDangers [$eid]   : array() ;
+
+           if(!empty($exchangeDanger)){
+              foreach ($exchangeDanger as $key1 => $value1) {
+                 if($value1->getDangerType() == $this->container->getParameter('init_one'))
+                    $exchange[$key]['mobile'] = $this->container->getParameter('init_one');                 
+                 if($value1->getDangerType() == $this->container->getParameter('init_two'))
+                    $exchange[$key]['ip'] = $this->container->getParameter('init_one');                
+                 if($value1->getDangerType() == $this->container->getParameter('init_three'))
+                    $exchange[$key]['ident'] = $this->container->getParameter('init_one');
+                 if($value1->getDangerType() == $this->container->getParameter('init_four'))
+                    $exchange[$key]['pwd'] = $this->container->getParameter('init_one');
+              }
+           }
+        }
+#
+        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $emails , true) );
+        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $count, true) );
+#        $logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $cm , true) );
+
+
+        $arr['pages'] = ceil( $count /$rows_per_page );
+        $arr['page'] = $page;
+
+        $arr['pagination'] = $exchange;
+        $arr['start'] = $start_date;
+        $arr['end'] = $end_date;
+        $arr['exType'] = $exType;
+        $arr['exchangeType'] = $exchangeType;
+
+        return $arr;
+    }
 
     /**
      * @Route("/exchangeInfo", name="_admin_exchangeInfo")
@@ -1834,11 +1987,13 @@ class AdminController extends Controller
         $end_time = '';
         $exType = $this->container->getParameter('init');
         $request = $this->get('request');
+
         $start_time = $request->query->get('start');
         $end_time = $request->query->get('end');
         $exType = $request->query->get('exType');
         $em = $this->getDoctrine()->getManager();
         $exchangeType = $em->getRepository('JiliApiBundle:PointsExchangeType')->findAll();
+
         $arr['exchangeType'] = $exchangeType;
         $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time,$exType);
         foreach ($exchange as $key => $value) {
@@ -1871,9 +2026,11 @@ class AdminController extends Controller
             $start_time = $request->request->get('start_time');
             $end_time = $request->request->get('end_time');
             $exType = $request->request->get('exchangeType');
+
             if($request->request->get('add')){
                 $response = new Response();   
                 $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time,$exType);
+
                 foreach ($exchange as $key => $value) {
                     $exchangeDanger = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeId($value['id']);
                     $exchange[$key]['mobile']='';
@@ -1893,6 +2050,7 @@ class AdminController extends Controller
                         }
                     }
                 }
+
                 $arr['exchange'] = $exchange;
                 if($exType == 1)
                   $response =  $this->render('JiliApiBundle:Admin:exchangeCsv.html.twig',$arr);

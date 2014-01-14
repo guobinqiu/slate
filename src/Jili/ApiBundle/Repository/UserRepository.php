@@ -291,4 +291,24 @@ class UserRepository extends EntityRepository {
                 ";
 		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 	}
+
+    /**
+     *
+     */
+    public function findEmailById(array $ids) {
+
+        $r = array();
+        if( count($ids) > 0) {
+            $qb= $this->createQueryBuilder('u');
+            $qb= $qb->select('u.id as id , u.email as email');
+            $qb = $qb->Where($qb->expr()->in('u.id', $ids ));
+            $qb = $qb->getQuery( );
+
+            $emails = $qb->getResult(Query::HYDRATE_OBJECT);
+            foreach ($emails as $e) {
+                $r [$e['id']] = $e['email'];//['email'];
+            }
+        }
+        return $r;
+    }
 }

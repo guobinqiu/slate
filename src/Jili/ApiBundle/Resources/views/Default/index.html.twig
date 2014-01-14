@@ -239,7 +239,7 @@ function goto(cid,aid,points){
             <div class="all">
             <ul>
                 {% if task.checkin==1 %}
-                <li class="signs"><div class="signInExplain">打开<span id="m_remain">3</span>个商城就可获得<span>{{ checkinPoint }}</span>个积分！</div><a id="sign" onclick="signs();" onMouseOver="popIn();" onMouseOut="popOut();"><dd>签到</dd><dt><span>{{task.checkinPoint}}</span>米粒</dt></a></li>
+                <li class="signs"><div class="signInExplain">打开<span id="m_remain">3</span>个商城可获得<span>{{ checkinPoint }}</span>米粒</div><a id="sign" onclick="signs();" onMouseOver="popIn();" onMouseOut="popOut();"><dd>签到领米粒</dd><dt><span>{{task.checkinPoint}}</span>米粒</dt></a></li>
                 {% endif %}
                 {% if task.wen==1 %}
                 <li class="vote"><a target="_bank" href="http://www.91wenwen.net/vote/#active"><dd>91问问快速问答</dd></a></li>
