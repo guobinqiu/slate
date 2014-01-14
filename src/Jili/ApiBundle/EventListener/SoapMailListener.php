@@ -32,7 +32,7 @@ class SoapMailListener {
 		$client = $this->init_client();
 		try {
 			$group = $client->addGroup($login, $this->campaignId, array (
-				'name' => 'test',
+				'name' => '积粒网',
 				'is_test' => 'false'
 			));
 
@@ -50,7 +50,7 @@ class SoapMailListener {
 				return $rs;
 			}
 
-			$sendMailing_result = $client->sendMailing($login, $this->campaignId, $this->mailingId, true, "yang@voyagegroup.com.cn", array (
+			$sendMailing_result = $client->sendMailing($login, $this->campaignId, $this->mailingId, false, "yang@voyagegroup.com.cn", array (
 				$group->id
 			), "", "", "", "");
 
