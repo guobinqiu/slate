@@ -551,7 +551,7 @@ class DefaultController extends Controller {
 												$id = $user->getId();
 											}
 
-/*                                            //设置密码之后，注册成功，发邮件2014-01-10
+                                            //设置密码之后，注册成功，发邮件2014-01-10
                                             $soapMailLister = $this->get('soap.mail.listener');
                                             $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
                                             $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
@@ -562,7 +562,7 @@ class DefaultController extends Controller {
                                                     )
                                                 );
                                             $soapMailLister->sendMailBySoap($recipient_arr);
-*/
+
 											$request->getSession()->remove('token');
 											$request->getSession()->set('uid', $id);
 											$request->getSession()->set('nick', $nick);
@@ -623,7 +623,7 @@ class DefaultController extends Controller {
 											$em->flush();
 											$id = $user->getId();
 										}
-/*
+
                                         //设置密码之后，注册成功，发邮件2014-01-10
                                         $soapMailLister = $this->get('soap.mail.listener');
                                         $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
@@ -635,7 +635,7 @@ class DefaultController extends Controller {
                                                 )
                                             );
                                         $soapMailLister->sendMailBySoap($recipient_arr);
-*/
+
 										$request->getSession()->remove('token');
 										$request->getSession()->set('uid', $id);
 										$request->getSession()->set('nick', $nick);
