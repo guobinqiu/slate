@@ -50,11 +50,9 @@ class SoapMailListener {
 				return $rs;
 			}
 
-			$sendMailing_result = $client->sendMailing($login, $this->campaignId, $this->mailingId, false, "yang@voyagegroup.com.cn", array (
-				$group->id
-			), "", "", "", "");
+			$sendMailing_result = $client->sendSingleMailing($login, $this->campaignId, $this->mailingId, $addRecipient_result->id);
 
-			if ($sendMailing_result->status != "ERROR") {
+			if ($sendMailing_result) {
 				$rs = 'Email send success';
 			} else {
 				$rs = 'Email send fail';
