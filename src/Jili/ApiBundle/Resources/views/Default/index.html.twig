@@ -159,9 +159,10 @@ function goto(cid,aid,points){
         <div class="frame">
             <div id="indexBanner">
                 <a class="indexBanner1" href="{{ asset(path('_game_index'),'cdn1')}}"><img src="{{ asset('images/indexBanner1.jpg') }}"></a>
-                <a class="indexBanner2" href="{{ asset(path('_advertiserment_list'),'cdn1')}}"><img src="{{ asset('images/indexBanner2.jpg') }}"></a>
-                <a class="indexBanner3" href="{{ asset(path('_marketActivity_index'),'cdn1')}}"><img src="{{ asset('images/indexBanner3.jpg') }}"></a>
-                <a class="indexBanner4" href="{{ asset(path('_shopping_list'),'cdn1')}}"><img src="{{ asset('images/indexBanner4.jpg') }}"></a>
+                <a class="indexBanner2" href="{{ asset(path('_marketActivity_index'),'cdn1')}}"><img src="{{ asset('images/indexBanner2.jpg') }}"></a>
+                <a class="indexBanner3" href="http://www.91wenwen.net/vote/#active" target="_blank"><img src="{{ asset('images/indexBanner3.jpg') }}"></a>
+                <a class="indexBanner4" href="{{ asset(path('_advertiserment_list'),'cdn1')}}"><img src="{{ asset('images/indexBanner4.jpg') }}"></a>
+                <a class="indexBanner5" href="{{ asset(path('_shopping_list'),'cdn1')}}"><img src="{{ asset('images/indexBanner5.jpg') }}"></a>
             </div>
         </div>
         <div class="frame">
@@ -246,6 +247,9 @@ function goto(cid,aid,points){
                 {% endif %}
                 {% if task.game==1 %}
                 <li class="game"><a href="{{ asset(path('_game_index'),'cdn1')  }}"><dd>小鸡找米</dd><dt>最高<span>5888</span>米粒</dt></a></li>
+                {% endif %}
+                {% if task.ad==1 %}
+                <li class="advertiserment"><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}"><dd>广告任务墙</dd></a></li>
                 {% endif %}
                 <li class="cps"><a href="{{ asset(path('_shopping_list'),'cdn1') }}"><dd>去购物</dd></a></li>
                 {% for item in task.cpa %}

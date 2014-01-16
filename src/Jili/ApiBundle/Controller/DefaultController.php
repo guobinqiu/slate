@@ -337,6 +337,14 @@ class DefaultController extends Controller {
 				$arr['task']['game'] = $this->container->getParameter('init');
 			}
 
+			//广告任务墙
+			$visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
+			if (empty ($visit)) {
+				$arr['task']['ad'] = $this->container->getParameter('init_one');
+			} else {
+				$arr['task']['ad'] = $this->container->getParameter('init');
+			}
+
 			//91wenwen
 			$visit = $em->getRepository('JiliApiBundle:UserWenwenVisit')->getWenwenVisit($id, $day);
 			if (empty ($visit)) {

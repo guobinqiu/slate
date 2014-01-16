@@ -29,6 +29,7 @@
 
 .index section .frame #indexBanner a {
 	position: absolute;
+	border:none;
 }
 
 .index section .frame #indexBanner a.indexBanner1 {
@@ -37,16 +38,21 @@
 }
 
 .index section .frame #indexBanner a.indexBanner2 {
-	left: 0;
+	left: 267px;
 	top: 118px;
 }
 
 .index section .frame #indexBanner a.indexBanner3 {
 	top: 0px;
-	right: 203px;
+	right: 185px;
 }
 
 .index section .frame #indexBanner a.indexBanner4 {
+	left: 0;
+	top: 118px;
+}
+
+.index section .frame #indexBanner a.indexBanner5 {
 	top: 0px;
 	right: 0px;
 }
@@ -793,7 +799,7 @@
 	padding-top: 5px;
 	position: absolute;
 	text-align: center;
-	top: 31px;
+	top: 38px;
 	width: 193px;
 	z-index: 9997;
 }

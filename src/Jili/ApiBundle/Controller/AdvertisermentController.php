@@ -18,6 +18,7 @@ use Jili\ApiBundle\Entity\TaskHistory06;
 use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
+use Jili\ApiBundle\Entity\UserAdvertisermentVisit;
 
 class AdvertisermentController extends Controller
 {
@@ -107,6 +108,20 @@ class AdvertisermentController extends Controller
 
         #$logger= $this->get('logger');
         #$logger->debug('{jaord}'.__FILE__.'@'.__LINE__.':'. var_export( count( $arr['ads']), true));
+
+        //UserAdvertisermentVisit
+        $day = date('Ymd');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->getSession()->get('uid');
+        $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
+        if (empty ($visit)) {
+            $gameVisit = new UserAdvertisermentVisit();
+            $gameVisit->setUserId($id);
+            $gameVisit->setVisitDate($day);
+            $em->persist($gameVisit);
+            $em->flush();
+        }
 
 		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
 	}
