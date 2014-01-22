@@ -5,3 +5,6 @@ parameters:
     offerwow_com.name: "体验广告"
     offerwow_com.category_type: 17 # in ad_category table where cateogry_name ='offerwow' ??
     offerwow_com.task_type: 5
+
+
+    cpa.category_type:  1 # in table ad_category where category_name='CPA'

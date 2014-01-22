@@ -21,7 +21,7 @@ class TaskHistoryRepository extends EntityRepository
 		$query = $query->select('to.userId,to.orderId,to.date as createTime,to.taskType as type,to.status as orderStatus,to.categoryType as incentiveType,to.point as incentive,to.taskName as title,adc.displayName');
 		$query = $query->innerJoin('JiliApiBundle:AdCategory', 'adc', 'WITH', 'to.categoryType = adc.id');
 		$query = $query->Where('to.userId = :id');
-		if($option['status']){
+		if(isset($option['status']) && $option['status']){
 			switch($option['status']){
 			    case 0:
 			    	break;	
@@ -38,7 +38,7 @@ class TaskHistoryRepository extends EntityRepository
 		}
 	 	$query = $query->setParameter('id',$id);
 		$query = $query->orderBy('to.date', 'DESC');
-		if($option['offset'] && $option['limit']){
+		if(isset($option['offset']) && $option['offset'] && isset($option['limit']) && $option['limit']){
 			$query = $query->setFirstResult(0);
 			$query = $query->setMaxResults(10);
 		}

@@ -75,27 +75,14 @@ class AdvertisermentController extends Controller
         $arr['advertiserment'] = $advertiserment[0];
 		return $this->render('JiliApiBundle:Advertiserment:info.html.twig',$arr);
 	}
+
 	/**
 	 * @Route("/list", name="_advertiserment_list")
 	 */
 	public function listAction(){
-        #$white_ip_list  = array(
-        #    $this->container->getParameter('admin_ele_ip') ,
-        #    $this->container->getParameter('admin_un_ip')
-        #);
-
-        #if(! in_array($this->get('request')->getClientIp(), $white_ip_list ) ) {
-        #    return $this->render('JiliApiBundle:Advertiserment:server.html.twig');
-        #}
-
-        $uid = $this->get('request')->getSession()->get('uid');
-        if(!$uid){
-          # $response =  $this->redirect('JiliApiBundle:User:login' );
-          # $response->headers->set('referer', $this->generateUrl('_advertiserment_list') );
-            $r = $this->redirect($this->generateUrl('_user_login'));
-            $r->headers->set('referer', $this->generateUrl('_advertiserment_list') );
-            return $r;
-          # return $response;
+        if(!  $this->get('request')->getSession()->get('uid') ) {
+            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('_advertiserment_list') );
+            return  $this->redirect($this->generateUrl('_user_login'));
         }
 
 		$em = $this->getDoctrine()->getManager();
@@ -104,10 +91,6 @@ class AdvertisermentController extends Controller
 		$adverRecommand = $repository->getAdvertiserAreaList($this->container->getParameter('init_two'));
 
         $arr['ads'] = array_merge($adverRecommand,$advertise );
-
-        #$logger= $this->get('logger');
-        #$logger->debug('{jaord}'.__FILE__.'@'.__LINE__.':'. var_export( count( $arr['ads']), true));
-
 		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
 	}
 	/**
@@ -131,21 +114,25 @@ class AdvertisermentController extends Controller
 			$em->flush();
 			$order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($this->get('request')->getSession()->get('uid'),$id);
 			if(empty($order)){
+                $point = $this->get('rebate_point.caculator')->calcPointByCategory($advertiserment[0]['incentive'],$advertiserment[0]['incentiveType']);
 				$adwOrder = new AdwOrder();
 				$adwOrder->setUserId($this->get('request')->getSession()->get('uid'));
 				$adwOrder->setAdId($id);
 				$adwOrder->setCreateTime(date_create(date('Y-m-d H:i:s')));
 				$adwOrder->setIncentiveType($advertiserment[0]['incentiveType']);
+
 				if($advertiserment[0]['incentiveType']==1){
-					$adwOrder->setIncentive($advertiserment[0]['incentive']);
-				}
-				if($advertiserment[0]['incentiveType']==2){
+					#$adwOrder->setIncentive($advertiserment[0]['incentive']);
+					$adwOrder->setIncentive($point);
+				} else if($advertiserment[0]['incentiveType']==2){
 					$adwOrder->setIncentiveRate($advertiserment[0]['incentiveRate']);
 				}
+
 				$adwOrder->setOrderStatus($this->container->getParameter('init_one'));
 				$adwOrder->setDeleteFlag($this->container->getParameter('init'));
 				$em->persist($adwOrder);
 				$em->flush();
+
                 if($adwOrder->getIncentiveType()==1){
                 	$parms = array(
 	                  'orderId' => $adwOrder->getId(),
@@ -153,7 +140,7 @@ class AdvertisermentController extends Controller
 	                  'task_type' => $this->container->getParameter('init_one'),
 	                  'categoryId' => $this->container->getParameter('init_one'),
 	                  'taskName' => $advertiserment[0]['title'],
-	                  'point' => $advertiserment[0]['incentive'],
+	                  'point' => $point , 
 	                  'date' => date('Y-m-d H:i:s'),
 	                  'status' => $adwOrder->getOrderStatus()
 	                );
@@ -221,6 +208,8 @@ class AdvertisermentController extends Controller
                   $po = new TaskHistory09();
                   break;
       }
+
+
       $em = $this->getDoctrine()->getManager();
       $po->setOrderId($orderId);
       $po->setUserId($userid);

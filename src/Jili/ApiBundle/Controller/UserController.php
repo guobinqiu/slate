@@ -892,16 +892,24 @@ class UserController extends Controller
 	 */
 	public function loginAction(){
 		//$session = new Session();
-        $session = $this->get('session');
-		$session->start();
-		if($this->get('request')->getSession()->get('uid')){
+		$request = $this->get('request');
+        $session = $request->getSession();
+        $logger = $this->get('logger');
+
+
+		$goToUrl =  $session->get('referer');
+
+		if(substr($goToUrl, -10) != 'user/login' && strlen($goToUrl)>0 ){
+			$session->set('goToUrl', $goToUrl);
+            $session->remove('referer');
+		}
+
+		//$session->start();
+        if($session->get('uid')){
+            $logger->debug('{jarod}'. __FILE__.':'.__LINE__.':'.var_export( $this->generateUrl('_default_index'), true) );
             return $this->redirect($this->generateUrl('_default_index'));
         }
-		$request = $this->get('request');
-		$goToUrl = $request->headers->get('referer');
-		if(substr($goToUrl, -10) != 'user/login'){
-			$session->set('goToUrl', $goToUrl);
-		}
+
 		$code = '';
 		$email = $request->request->get('email');
 		$pwd = $request->request->get('pwd');
@@ -910,11 +918,12 @@ class UserController extends Controller
         $loginLister = $this->get('login.listener');
         $code = $loginLister->login($request,$email,$pwd);
         if($code == "ok"){
-            $current_url = $request->getSession()->get('goToUrl');
-            $request->getSession()->remove('goToUrl');
+            $current_url = $session->get('goToUrl');
+            $session->remove('goToUrl');
             return $this->redirect($current_url);
         }
 
+		 
 		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
 	}
 	
@@ -1332,6 +1341,11 @@ class UserController extends Controller
 	 */
 	public function adtasteAction($type){
 		$id = $this->get('request')->getSession()->get('uid');
+
+        if(!$id){
+           return $this->redirect($this->generateUrl('_user_login'));
+        } 
+
 		$em = $this->getDoctrine()->getManager();
 		$option = array('status' => $type ,'offset'=>'','limit'=>'');
 		$adtaste = $this->selTaskHistory($id,$option);
@@ -1622,45 +1636,8 @@ class UserController extends Controller
 	private function updateSendMs($userid,$sendid){
 		$isRead = '';
 		$code = array();
-		if(strlen($userid)>1){
-			$uid = substr($userid,-1,1);
-		}else{
-			$uid = $userid;
-		}
 		$em = $this->getDoctrine()->getManager();
-		switch($uid){
-		case 0:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage00');
-		      break;
-		case 1:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage01');
-		      break;
-		case 2:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage02');
-		      break;
-		case 3:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage03');
-		      break;
-		case 4:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage04');
-		      break;
-		case 5:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage05');
-		      break;
-		case 6:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage06');
-		      break;
-		case 7:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage07');
-		      break;
-		case 8:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage08');
-		      break;
-		case 9:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage09');
-		      break;
-		}
-
+        $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ($userid % 10) );
 		$updateSm = $sm->find($sendid);
 		if($updateSm->getReadFlag() == 0){
 			$updateSm->setReadFlag($this->container->getParameter('init_one'));
@@ -1674,149 +1651,36 @@ class UserController extends Controller
 
 
     private function countSendMs($userid){
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
       $em = $this->getDoctrine()->getManager();
-      switch($uid){
-            case 0:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
-                  break;
-            case 1:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
-                  break;
-            case 2:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
-                  break;
-            case 3:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
-                  break;
-            case 4:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
-                  break;
-            case 5:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
-                  break;
-            case 6:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
-                  break;
-            case 7:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
-                  break;
-            case 8:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
-                  break;
-            case 9:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
-                  break;
-      }
+      $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ($userid % 10));
  	  $countMs = $sm->CountSendMs($userid);
  	  return $countMs; 
     }
 
 
 	private function selectSendMs($userid){
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
-      $em = $this->getDoctrine()->getManager();
-      switch($uid){
-            case 0:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
-                  break;
-            case 1:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
-                  break;
-            case 2:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
-                  break;
-            case 3:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
-                  break;
-            case 4:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
-                  break;
-            case 5:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
-                  break;
-            case 6:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
-                  break;
-            case 7:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
-                  break;
-            case 8:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
-                  break;
-            case 9:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
-                  break;
-      }
- 	  $showMs = $sm->getSendMsById($userid);
- 	  return $showMs;
-     
+      return  $this->getDoctrine()->getManager()->getRepository('JiliApiBundle:SendMessage0'. ($userid % 10) )->getSendMsById($userid);
     }
 
 
-	private function selTaskHistory($userid,$option){
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
+	private function selTaskHistory($userid, $option){
       $em = $this->getDoctrine()->getManager();
-      switch($uid){
-            case 0:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory00'); 
-                  break;
-            case 1:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');  
-                  break;
-            case 2:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');  
-                  break;
-            case 3:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory03'); 
-                  break;
-            case 4:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory04'); 
-                  break;
-            case 5:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory05'); 
-                  break;
-            case 6:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory06'); 
-                  break;
-            case 7:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory07'); 
-                  break;
-            case 8:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory08'); 
-                  break;
-            case 9:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
-                  break;
-      }
-      //$option = array('daytype' => '' ,'offset'=>'','limit'=>'');
-      $po = $task->getUseradtaste($userid,$option);
+      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) ); 
+      $po = $task->getUseradtaste($userid);
 
       foreach ($po as $key => $value) {
 			if($value['type']==1 ) {
-
 				$adUrl = $task->getUserAdwId($value['orderId']);
-
-				$po[$key]['adid'] = $adUrl[0]['adid'];
-
+                if( is_array($adUrl) && count($adUrl) > 0) {
+                    $po[$key]['adid'] = $adUrl[0]['adid'];
+                } else {
+                    $po[$key]['adid'] = '';
+                }
 			}else{
 				$po[$key]['adid'] = '';
 			}
 		}
 		return $po;
-
     }
 	
 }

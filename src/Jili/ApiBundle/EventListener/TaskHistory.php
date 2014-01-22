@@ -15,6 +15,7 @@ use Jili\ApiBundle\Entity\TaskHistory00,
     Jili\ApiBundle\Entity\TaskHistory08,
     Jili\ApiBundle\Entity\TaskHistory09;
 
+
 /**
  * 
  **/
@@ -23,7 +24,6 @@ class TaskHistory
     
     private $em;
     private $logger;
-    private $container_; 
 
     public function __construct(LoggerInterface $logger, EntityManager $em/*, ParameterBagInterface $parameterBag*/ )
     {
@@ -62,11 +62,18 @@ class TaskHistory
             $po = $task->findOneById($task_order->getId() );
             $po->setOcdCreatedDate($date);
             $po->setDate($date);
-            $po->setPoint($point);
+
+            if(isset($point)) {
+                $po->setPoint( $point );
+            }
+
             $po->setStatus($status);
             $em->persist($po);
             $em->flush();
+        } else {
+            $po = null;
         }
+        return $po;
 
     }
 
@@ -83,7 +90,7 @@ class TaskHistory
         $po->setTaskType($taskType);
         $po->setTaskName($task_name);
         $po->setDate($date);
-        $po->setPoint($point);
+        $po->setPoint( $point);
         $po->setStatus($status);
         $em->persist($po);
         $em->flush();
@@ -106,6 +113,7 @@ class TaskHistory
             ->getTaskPercent($order_id);
         return $task_order[0];
     }
+
 }
 
 

@@ -25,6 +25,7 @@ class OfferwowRequestProcessor
 
     private $task_logger;
     private $point_logger;
+    private $rebate_point_caculator;
 
     public function __construct(LoggerInterface $logger, EntityManager $em/*, ParameterBagInterface $parameterBag*/ )
     {
@@ -47,20 +48,29 @@ class OfferwowRequestProcessor
         $task_name = $config['name'];
         $task_type = $config['task_type'];
 
+        $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.var_export( $request->query, true)  );
+
         $eventid = $request->query->get('eventid');
         $uid = $request->query->get('memberid');
-        $point  = (int) $request->query->get('point', 0);
 
 
         $immediate_request = (int) $request->query->get('immediate');
-        $happen_time = date_create();
+        if ($immediate_status['HANGUP_SUSPEND'] ===  $immediate_request ||  $immediate_status['INSTANT_PASSED'] === $immediate_request ) {
+            $point = (int) $request->query->get('point', 0);
+            $point = $this->rebate_point_caculator->calcPointByCategory( $point, $category_type);
+        $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.var_export( $point, true)  );
+        }
 
+
+
+        $happen_time = date_create();
 
         $em = $this->em;
 
         // init log.
         if ($immediate_status['HANGUP_SUSPEND'] ===  $immediate_request ) {
 
+            $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':HANGUP_SUSPEND' );
             // todo: init logs.... 
             $order = $em->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid($eventid );
             $is_new = false;
@@ -102,6 +112,7 @@ class OfferwowRequestProcessor
             }
 
         } elseif( $immediate_status['INSTANT_PASSED'] === $immediate_request ) {
+            $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':INSTANT_PASSED' );
             // init offerorder & task history 
             $order = new OfferwowOrder();
             // update offerorder 
@@ -132,7 +143,7 @@ class OfferwowRequestProcessor
             $this->initTaskHistory($params);             
              
             $user = $em->getRepository('JiliApiBundle:User')->find($uid);
-            $user->setPoints(intval($user->getPoints()) +$point);
+            $user->setPoints(intval($user->getPoints()) + intval($point));
             $em->persist($user);
             $em->flush();
             // updte point_history
@@ -140,6 +151,7 @@ class OfferwowRequestProcessor
             
         } elseif ($immediate_status['HANGUP_REFUSED'] === $immediate_request ) {
 
+            $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':HANGUP_REFUSED' );
             $order = $em->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid($eventid );
 
             $order->setConfirmedAt(date_create(date('Y-m-d H:i:s')));
@@ -152,13 +164,13 @@ class OfferwowRequestProcessor
               'orderId' => $order->getId(),
               'taskType' => $task_type,
               'categoryType' => $category_type,
-              'point' => $point,
               'date' => date_create(),
               'status' => $order->getStatus()
             );
-            $this->updateTaskHistory($params);  
+            $taskHistory = $this->updateTaskHistory($params);  
 
-        } elseif ( $immediate_status['HANGUP_PASSED'] ===   $immediate_request ) {
+        } elseif ( $immediate_status['HANGUP_PASSED'] ===  $immediate_request ) {
+            $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':HANGUP_PASSED' );
 
             $order = $em->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid($eventid );
             $order->setConfirmedAt(date_create(date('Y-m-d H:i:s')));
@@ -171,12 +183,13 @@ class OfferwowRequestProcessor
               'orderId' => $order->getId(),
               'taskType' => $task_type,
               'categoryType' => $category_type,
-              'point' => $point,
               'date' => date_create(),
               'status' => $order->getStatus()
             );
 
-            $this->updateTaskHistory($params);  
+            $taskHistory = $this->updateTaskHistory($params);  
+
+            $point = $taskHistory->getPoint();
 
             $user = $em->getRepository('JiliApiBundle:User')->find($uid);
             $user->setPoints(intval($user->getPoints()) +$point);
@@ -188,23 +201,24 @@ class OfferwowRequestProcessor
 
         } else {
 
+            $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':UNDEFINED' );
         }
     }
    
 
     private function updateTaskHistory($params=array()){
         extract($params);
-        $this->task_logger->update($params);
+        return $this->task_logger->update($params);
     }
 
     private function initTaskHistory($params=array()){
         extract($params);
-        $this->task_logger->init($params);
+        return $this->task_logger->init($params);
     }
 
     private function TaskHistory($params=array()){
         extract($params);
-        $this->task_logger->update($params);
+        return $this->task_logger->update($params);
     }
 
     public function selectTaskPercent($userid,$orderId){
@@ -229,6 +243,10 @@ class OfferwowRequestProcessor
 
     public function setPointLogger(PointHistory $point_logger) {
         $this->point_logger = $point_logger; 
+    }
+
+    public function setRebatePointCaculator( RebateActivity $calc ) {
+        $this->rebate_point_caculator = $calc;
     }
 }
 

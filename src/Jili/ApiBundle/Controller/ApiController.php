@@ -56,6 +56,7 @@ class ApiController extends Controller
 	 */
 	public function getAdwInfoAction()
 	{
+        $logger = $this->get('logger');
 		$em = $this->getDoctrine()->getManager();
 		$request = $this->get('request');
 		$adwapi = new AdwApiReturn();
@@ -73,25 +74,39 @@ class ApiController extends Controller
 		$type = $request->query->get('type');
 		$ocd = $request->query->get('ocd');
 		$totalPrice = $request->query->get('totalPrice');
+
 		$order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid);
+
 		if($order){
             if($type==1){
             	$issetStauts = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid,$this->container->getParameter('init_two'));
             	if($issetStauts){
             		$code = 5;
             	}else{
+ 
+                    $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+                    $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->getAdwAdverList($advertiserment->getIncentiveType(),$adid);
+                    $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $advertiserment, true) );
+                    //
+                    $at = \Datetime::createFromFormat( 'YmdHis', $date.$time);
+                    $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $at, true) );
+                    $point = $this->get('rebate_point.caculator')->calcPointByCategory($advertiserment[0]['incentive'], $advertiserment[0]['incentiveType'], $at);
+                    $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $point, true) );
+
             		$issetOrder = $em->getRepository('JiliApiBundle:AdwOrder')->find($order[0]['id']);
             		$issetOrder->setComm($comm);
+            		$issetOrder->setIncentive($point);
             		$issetOrder->setHappenTime(date_create($happenTime));
             		$issetOrder->setOrderStatus($this->container->getParameter('init_two'));
             		$issetOrder->setAdwReturnTime(date_create(date('Y-m-d H:i:s')));
             		$em->flush();
+
                 $parms = array(
                       'userid' => $uid,
                       'orderId' => $issetOrder->getId(),
                       'taskType' => $this->container->getParameter('init_one'),
                       'reward_percent' => 0,
-                      'point' => $issetOrder->getIncentive(),
+                      'point' => $point,
                       'ocd_date' => date('Y-m-d H:i:s'),
                       'date' => $happenTime,
                       'status' => $issetOrder->getOrderStatus()
@@ -426,94 +441,24 @@ class ApiController extends Controller
 
 
     private function getPoint($userid,$point,$type){
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
-      switch($uid){
-            case 0:
-                  $po = new PointHistory00();
-                  break;
-            case 1:
-                  $po = new PointHistory01();
-                  break;
-            case 2:
-                  $po = new PointHistory02();
-                  break;
-            case 3:
-                  $po = new PointHistory03();
-                  break;
-            case 4:
-                  $po = new PointHistory04();
-                  break;
-            case 5:
-                  $po = new PointHistory05();
-                  break;
-            case 6:
-                  $po = new PointHistory06();
-                  break;
-            case 7:
-                  $po = new PointHistory07();
-                  break;
-            case 8:
-                  $po = new PointHistory08();
-                  break;
-            case 9:
-                  $po = new PointHistory09();
-                  break;
-      }
-      $em = $this->getDoctrine()->getManager();
-      $po->setUserId($userid);
-      $po->setPointChangeNum($point);
-      $po->setReason($type);
-      $em->persist($po);
-      $em->flush();
+        $point_history_class = 'PointHistory0'. ( $userid % 10) ;
+        $po = new $point_history_class ;
+        $em = $this->getDoctrine()->getManager();
+        $po->setUserId($userid);
+        $po->setPointChangeNum($point);
+        $po->setReason($type);
+        $em->persist($po);
+        $em->flush();
     }
  
 
     public function updateTaskHistory($parms=array()){
       extract($parms);
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
       $em = $this->getDoctrine()->getManager();
-      switch($uid){
-            case 0:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory00'); 
-                  break;
-            case 1:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');  
-                  break;
-            case 2:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');  
-                  break;
-            case 3:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory03'); 
-                  break;
-            case 4:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory04'); 
-                  break;
-            case 5:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory05'); 
-                  break;
-            case 6:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory06'); 
-                  break;
-            case 7:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory07'); 
-                  break;
-            case 8:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory08'); 
-                  break;
-            case 9:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
-                  break;
-      }
+      $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10 ) );
       $task_order = $task->getFindOrderId($orderId,$taskType);
       $po = $task->findById($task_order[0]['id']);
+
       $po[0]->setOcdCreatedDate(date_create($ocd_date));
       $po[0]->setDate(date_create($date));
       $po[0]->setRewardPercent($reward_percent);
@@ -525,57 +470,24 @@ class ApiController extends Controller
 
 
     public function getTaskHistory($parms=array()){
-    extract($parms);
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
-      switch($uid){
-            case 0:
-                  $po = new TaskHistory00();
-                  break;
-            case 1:
-                  $po = new TaskHistory01();
-                  break;
-            case 2:
-                  $po = new TaskHistory02();
-                  break;
-            case 3:
-                  $po = new TaskHistory03();
-                  break;
-            case 4:
-                  $po = new TaskHistory04();
-                  break;
-            case 5:
-                  $po = new TaskHistory05();
-                  break;
-            case 6:
-                  $po = new TaskHistory06();
-                  break;
-            case 7:
-                  $po = new TaskHistory07();
-                  break;
-            case 8:
-                  $po = new TaskHistory08();
-                  break;
-            case 9:
-                  $po = new TaskHistory09();
-                  break;
-      }
-      $em = $this->getDoctrine()->getManager();
-      $po->setOrderId($orderId);
-      $po->setUserId($userid);
-      $po->setTaskType($task_type);
-      $po->setCategoryType($categoryId);
-      $po->setTaskName($taskName);
-      $po->setRewardPercent($reward_percent);
-      $po->setPoint($point);
-      $po->setOcdCreatedDate(date_create($ocd_date));
-      $po->setDate(date_create($date));
-      $po->setStatus($status);
-      $em->persist($po);
-      $em->flush();
+        extract($parms);
+
+        $task_history_class = 'TaskHistory0'. ( $userid % 10);
+        $po = new $task_history_class;
+
+        $em = $this->getDoctrine()->getManager();
+        $po->setOrderId($orderId);
+        $po->setUserId($userid);
+        $po->setTaskType($task_type);
+        $po->setCategoryType($categoryId);
+        $po->setTaskName($taskName);
+        $po->setRewardPercent($reward_percent);
+        $po->setPoint($point);
+        $po->setOcdCreatedDate(date_create($ocd_date));
+        $po->setDate(date_create($date));
+        $po->setStatus($status);
+        $em->persist($po);
+        $em->flush();
     }
 
     
@@ -584,8 +496,6 @@ class ApiController extends Controller
      * @Method({"POST"});
      */
     public function isEmailDuplicated() {
-
-
         $white_ip_list  = array(
             $this->container->getParameter('admin_ele_ip') ,
             $this->container->getParameter('admin_un_ip')
@@ -604,13 +514,10 @@ class ApiController extends Controller
             $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
             if($user) {
                 $result = '1';
-
             }
         }
         $resp = new Response($result);
         $resp->headers->set('Content-Type', 'text/plain');
         return $resp;
     }
-    
-
 }

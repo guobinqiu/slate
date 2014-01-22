@@ -30,26 +30,31 @@
        <td>{{ row.percentage * 100  }}%</td>
        <td>
 
-       <a href="{{ path('_admin_adActivity_edit', {'id': row.id })  }}">修改</a>&nbsp;|
+       <a href="{{ path('rebate_activity_admin_edit', {'id': row.id })  }}">修改</a>&nbsp;|
 
 {#
-       <a href="{{ path('_admin_adActivity_remove', {'id': row.id} )  }}" onClick="if (confirm('确定要删除吗?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'post'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', 'form[id]'); m.setAttribute('value', '{{ row.id  }}'); f.appendChild(m);var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', 'form[_token]'); m.setAttribute('value', '{{  form._token.token }}'); f.appendChild(m);f.submit(); };return false;">删除1</a>
+       <a href="{{ path('rebate_activity_admin_remove', {'id': row.id} )  }}" onClick="if (confirm('确定要删除吗?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'post'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', 'form[id]'); m.setAttribute('value', '{{ row.id  }}'); f.appendChild(m);var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', 'form[_token]'); m.setAttribute('value', '{{  form._token.token }}'); f.appendChild(m);f.submit(); };return false;">删除1</a>
 
  {{ csrf_token('authenticate')  }}
 #}
  
-  {{ render(controller('JiliApiBundle:AdminAdActivity:remove', {
+  {{ render(controller('JiliBackendBundle:RebateActivity:remove', {
         'id':row.id 
     })) }}
 
        </td>
     </tr>
+    {% else %}
+
+  <tr>
+      <td colspan="5" align="center">没有找到数据</td>
+  <tr>
     {% endfor %}
 </table>
 {% endif %}
 
 <div>
-<a href="{{ path('_admin_adActivity_new') }}">Add</a>
+<a href="{{ path('rebate_activity_admin_new') }}">Add</a>
 </div>
 
 {% endblock %}

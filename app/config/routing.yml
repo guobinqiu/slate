@@ -1,3 +1,7 @@
+jili_backend:
+    resource: "@JiliBackendBundle/Resources/config/routing.yml"
+    prefix:   /backend
+
 jili_api:
     resource: "@JiliApiBundle/Resources/config/routing.yml"
 gregwar_captcha_routing:

@@ -59,8 +59,4 @@ api-offerwow:
     type:     annotation
     prefix:   /
 
-admin-adActivity:
-    resource: "@JiliApiBundle/Controller/AdminAdActivityController.php"
-    prefix:   /admin/adv/activity
-    type:     annotation
 

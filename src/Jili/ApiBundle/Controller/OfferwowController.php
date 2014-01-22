@@ -20,13 +20,14 @@ class OfferwowController extends Controller
 {
 
     /**
-     * @Route("/getInfo", name="_api_offerwow_getInfo");
+     * @Route("/getInfo", name="_api_offerwow_getinfo");
      * @Method({"GET"});
      */
     public function getInfoAction()
     {
         $logger = $this->get('logger');
 
+        $logger->info('{jarod}'. implode(':', array(__FILE__,__LINE__,__CLASS__,__FUNCTION__) ));
         // add request to adw_api_return?? or another table.
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');

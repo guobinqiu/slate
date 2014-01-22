@@ -217,12 +217,13 @@ class AdminController extends Controller
                 $em->flush();
                 $this->getPointHistory($userId,$adworder->getIncentive(),$adworder->getIncentiveType());
                 $user = $em->getRepository('JiliApiBundle:User')->find($userId);
-                $user->setPoints(intval($user->getPoints()+$adworder->getIncentive()));
+                $user->setPoints(intval($user->getPoints() + $adworder->getIncentive())); // point caculated when setInsentive()
                 $em->persist($user);
                 $em->flush();
         
             }else{
                 $rateAd = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adid);
+                //todo: deprecated
                 $raters = new RateAdResult();
                 $raters->setAccessHistoryId($adworder->getId());
                 $raters->setUserId($userId);
@@ -231,9 +232,10 @@ class AdminController extends Controller
                 $raters->setResultIncentive($adworder->getIncentive());
                 $em->persist($raters);
                 $em->flush();
+
                 $this->getPointHistory($userId,$adworder->getIncentive(),$adworder->getIncentiveType());
                 $user = $em->getRepository('JiliApiBundle:User')->find($userId);
-                $user->setPoints(intval($user->getPoints()+$raters->getResultIncentive()));
+                $user->setPoints(intval($user->getPoints() + $raters->getResultIncentive()));
                 $em->persist($user);
                 $em->flush();
                 
@@ -1399,7 +1401,7 @@ class AdminController extends Controller
         if(!$exchanges->getStatus()){
             $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
             $user = $em->getRepository('JiliApiBundle:User')->find($userInfo[0]->getId());
-            $user->setPoints(intval($user->getPoints()+$points));
+            $user->setPoints(intval($user->getPoints() + $points));
             $em->persist($user);
             $em->flush();
             $exchanges->setStatus($this->container->getParameter('init_two'));
@@ -1586,7 +1588,7 @@ class AdminController extends Controller
         $em->persist($po);
         $em->flush();
         $user = $em->getRepository('JiliApiBundle:User')->find($userInfo[0]->getId());
-        $user->setPoints(intval($user->getPoints()+$points));
+        $user->setPoints(intval($user->getPoints() + $points));
         return true;
     }
 
@@ -3073,7 +3075,7 @@ class AdminController extends Controller
         $this->getPointHistory($uid,$point,$this->container->getParameter('init_fourteen'));
         $this->insertCardTask($uid,$point);
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
-        $user->setPoints(intval($user->getPoints()+$point));
+        $user->setPoints(intval($user->getPoints() + $point));
         $em->persist($user);
         $em->flush();
         $crm->setIsProvideFlag($this->container->getParameter('init_one'));
@@ -3378,7 +3380,9 @@ class AdminController extends Controller
       $po->setCategoryType($categoryId);
       $po->setTaskName($taskName);
       $po->setRewardPercent($reward_percent);
+
       $po->setPoint($point);
+
       $po->setDate(date_create($date));
       $po->setStatus($status);
       $em->persist($po);

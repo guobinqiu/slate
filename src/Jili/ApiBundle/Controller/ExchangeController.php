@@ -96,7 +96,7 @@ class  ExchangeController extends Controller
                                         if($alipay == $re_alipay){
                                             if($real_name){
                                                 // if(!eregi("[^\x80-\xff]",$real_name)){
-                                                    $user->setPoints($points-intval($change_point));
+                                                    $user->setPoints($points - intval($change_point));
                                                     $em->persist($user);
                                                     $em->flush();
                                                     $pointschange->setUserId($id);
@@ -141,7 +141,7 @@ class  ExchangeController extends Controller
 
                                 }
                             }else{
-                                $user->setPoints($points-intval($change_point));
+                                $user->setPoints($points - intval($change_point));
                                 $em->persist($user);
                                 $em->flush();
                                 $pointschange->setUserId($id);
@@ -248,7 +248,7 @@ class  ExchangeController extends Controller
                                                     $itemNumber = 10;
                                                     break;
                                             }
-                                            $user->setPoints($points-intval($change_point));
+                                            $user->setPoints($points - intval($change_point));
                                             $em->persist($user);
                                             $em->flush();
                                             $pointschange->setUserId($id);
@@ -298,7 +298,7 @@ class  ExchangeController extends Controller
                                     $itemNumber = 10;
                                     break;
                             }
-                            $user->setPoints($points-intval($change_point));
+                            $user->setPoints($points - intval($change_point));
                             $em->persist($user);
                             $em->flush();
                             $pointschange->setUserId($id);
@@ -423,7 +423,7 @@ class  ExchangeController extends Controller
                                 $code = $this->container->getParameter('exchange_wr_point');
                                 $arr['code'] = $code;
                             }else{
-                                $user->setPoints($points-intval($change_point*1000));
+                                $user->setPoints($points - intval($change_point * 1000));
                                 $em->persist($user);
                                 $em->flush();
                                 $pointschange->setUserId($id);
@@ -651,7 +651,7 @@ class  ExchangeController extends Controller
                             $arr['code'] = $code;
                         }else{
                             if($user->getWenwenUser()){
-                                $user->setPoints($points-intval($change_point*500));
+                                $user->setPoints($points - intval($change_point * 500));
                                 $em->persist($user);
                                 $em->flush();
                                 $pointschange->setUserId($id);
@@ -674,7 +674,7 @@ class  ExchangeController extends Controller
                                             $arr['code'] = $code;
                                         }else{
                                             $user->setWenwenUser($wenwen);
-                                            $user->setPoints($points-intval($change_point*500));
+                                            $user->setPoints($points - intval($change_point * 500));
                                             $em->persist($user);
                                             $em->flush();
                                             $pointschange->setUserId($id);

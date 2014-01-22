@@ -1,13 +1,14 @@
 <?php
-namespace Jili\ApiBundle\Controller;
+
+namespace Jili\BackendBundle\Controller;
+
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use Symfony\Component\HttpFoundation\Request;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 use Jili\ApiBundle\Form\AdActivityType;
 use Jili\ApiBundle\Entity\AdActivity;
 
@@ -15,12 +16,54 @@ use Jili\ApiBundle\Entity\AdActivity;
  * @abstract
  * @author: jiangtao@voyagegroup.com
  *
+ * @Route("/rebate/activity")
  */
-class AdminAdActivityController extends Controller
+class RebateActivityController extends Controller  implements  IpAuthenticatedController
 {
+    /**
+     * @Route("/caculator")
+     * @Template
+     */
+    public function caculatorAction()
+    {
+        $request = $this->get('request');
+        $logger= $this->get('logger');
+        $em=$this->getDoctrine()->getManager();
+
+        $f = $this->createFormBuilder( array( 'point'=> 7, 'at'=> new \Datetime('now')) )
+            ->add('point', 'integer')
+            ->add('at', 'datetime' , array('input'=> 'datetime' ) )     
+            ->getForm();
+
+        $data_return = array();
+        if( 'POST'== $request->getMethod()) {
+            $f->bind($request);
+            $form_data   =  $f->getData() ;
+            $at =  $form_data['at'] ;
+
+            #    $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $request->request->all(), true) );
+            $data_return['point_caculated'] = $this->get('rebate_point.caculator')->calcPointByCategory($form_data['point'],
+                $this->container->getParameter('offerwow_com.category_type'), 
+                $at );
+
+        } else {
+            $at = new \Datetime('now');
+        }
+
+        $rebate = $em->getRepository('JiliApiBundle:AdActivity')->findOfMaxPercentage( $at ) ;
+
+        if( $rebate && ! is_null($rebate['id']) ) {
+            $data_return['rebate_notice'] = 'max rabate rate is <a href="'.$this->generateUrl('rebate_activity_admin_edit', array('id'=>$rebate['id'] ) ) .'">'.$rebate[1].'</a> at ' .  $at->format( 'Y-m-d H:i:s') ;
+        } else {
+            $data_return['rebate_notice']='There is no rabate now. <a href="'.$this->generateUrl( 'rebate_activity_admin_new')  .'">add one </a> at '. $at->format( 'Y-m-d H:i:s'); 
+        }
+
+        $data_return['form'] = $f->createView();
+        return $data_return;
+    }
     
     /**
-     * @Route("/list", name="_admin_adActivity_retrieve")
+     * @Route("/list", name="rebate_activity_admin_retrieve")
      * @Template
      * @abstract
      */
@@ -33,14 +76,13 @@ class AdminAdActivityController extends Controller
     }
 
     /**
-     * @Route("/new", name="_admin_adActivity_new")
+     * @Route("/new", name="rebate_activity_admin_new")
      * @Template
      */
     public function createAction(){
         $request = $this->get('request');
         $logger = $this->get('logger');
         $form =  $this->createForm(new AdActivityType(), new AdActivity() );
-        $logger->debug('{jarod}'. __FILE__.':'.__LINE__. var_export( $request->getMethod(), true));
         if($request->getMethod() == 'POST') {
             $form->bind($request);
             if ($form->isValid()) {
@@ -48,14 +90,16 @@ class AdminAdActivityController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($activity);
                 $em->flush();
-                return $this->redirect($this->generateUrl('_admin_adActivity_retrieve') );
+                return $this->redirect($this->generateUrl('rebate_activity_admin_retrieve') );
             }
+        } else {
+            $logger->debug('{jarod}'. __FILE__.':'.__LINE__. var_export( $request->getMethod(), true));
         }
         return array( 'form'=> $form->createView() );
     }
 
     /**
-     * @Route("/edit/{id}", name="_admin_adActivity_edit")
+     * @Route("/edit/{id}", name="rebate_activity_admin_edit")
      * @Template
      */
     public function editAction($id){
@@ -66,11 +110,6 @@ class AdminAdActivityController extends Controller
             $form =  $this->createForm(new AdActivityType());
             $form->bind($request);
             if ($form->isValid()) {
-
-                $logger->debug('{jarod}'. __FILE__.':'.__LINE__. var_export( $request->request->all(), true));
-                $logger->debug('{jarod}'. __FILE__.':'.__LINE__. var_export( $form->getData(), true));
-
-
                 $post = $form->getData(); 
                 $em = $this->getDoctrine()->getManager();
                 $activity = $em->getRepository('JiliApiBundle:AdActivity')->findOneById( $post->getId() );
@@ -79,7 +118,7 @@ class AdminAdActivityController extends Controller
                 $activity->setPercentage($post->getPercentage());
                 $em->persist($activity);
                 $em->flush();
-                return $this->redirect($this->generateUrl('_admin_adActivity_retrieve') );
+                return $this->redirect($this->generateUrl('rebate_activity_admin_retrieve') );
             } else {
                 $logger->debug('{jarod}'. __FILE__.':'.__LINE__.' invalid form post') ;
             }
@@ -92,17 +131,17 @@ class AdminAdActivityController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="_admin_adActivity_remove")
+     * @Route("/delete/{id}", name="rebate_activity_admin_remove")
      * @Method({"POST","GET"});
      * @Template
      */
     public function removeAction($id) {
         $deleteForm = $this->createDeleteForm($id);
-        return $this->render('JiliApiBundle:AdminAdActivity:removeForm.html.twig', array('delete_form'=>$deleteForm->createView() ));
+        return $this->render('JiliBackendBundle:RebateActivity:removeForm.html.twig', array('delete_form'=>$deleteForm->createView() ));
     }
 
     /**
-     * @Route("/update/{id}", name="_admin_adActivity_update")
+     * @Route("/update/{id}", name="rebate_activity_admin_update")
      * @Method({"POST"});
      * @Template
      */
@@ -120,14 +159,12 @@ class AdminAdActivityController extends Controller
     /**
      * Deletes a AdActivity entity.
      *
-     * @Route("/{id}", name="activity_admin_delete")
+     * @Route("/{id}", name="rebate_activity_admin_delete")
      * @Method("DELETE")
      *
      */
     public function deleteAction(Request $request, $id)
     {
-
-
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -139,19 +176,14 @@ class AdminAdActivityController extends Controller
                 throw $this->createNotFoundException('Unable to find AdActivity entity.');
             }
 
-#$repository = $em->getRepository('JiliApiBundle:AdActivity' );
-#$cn = get_class($repository);
-#$cm = get_class_methods($cn);
-#$logger = $this->get('logger');
-#$logger->debug('{jarod}'. __FILE__.':'.__LINE__. var_export($cm, true) );
-
             $entity->setIsDeleted( 1 );
             $em->persist($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('_admin_adActivity_retrieve'));
+        return $this->redirect($this->generateUrl('rebate_activity_admin_retrieve'));
     }
+
     /**
      * Creates a form to delete a AdActivity entity by id.
      *
@@ -169,4 +201,3 @@ class AdminAdActivityController extends Controller
 
 
 }
-?>

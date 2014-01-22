@@ -9,6 +9,8 @@ parameters:
     offerwow_request.validation.class: Jili\ApiBundle\EventListener\OfferwowRequestValidation
     offerwow_request.processor.class:  Jili\ApiBundle\EventListener\OfferwowRequestProcessor
 
+    rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
+
 services:
     login.listener:
         class: %login.listener.class%
@@ -17,6 +19,13 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
     soap.mail.listener:
         class: %soap.mail.listener.class%
+
+    # rebate_activity.point_caculator
+    rebate_point.caculator:
+        class: %rebate_activity.caculator.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+        calls:
+            - [setContainer, ["@service_container"] ] 
 
     general_api.task_history:
         class: %general_api.task_history.class%
@@ -40,4 +49,10 @@ services:
             - [setContainer, ["@service_container"] ] 
             - [setTaskLogger, ["@general_api.task_history"] ]
             - [setPointLogger, ["@general_api.point_history"] ]
+            - [setRebatePointCaculator, ["@rebate_point.caculator"] ]
+
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+
+
+

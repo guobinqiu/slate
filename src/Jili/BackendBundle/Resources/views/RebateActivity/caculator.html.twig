@@ -1,0 +1,45 @@
+{% extends '::adminBase.html.twig' %}
+
+
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{% block body%}
+    <table align="center" width="402">
+
+    <tr><td colspan="2">&nbsp;</td></tr>
+    <tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+    <td colSpan='2'>
+        {{ rebate_notice|raw }}
+    </td>
+</tr>
+
+    <tr><td colspan="2">&nbsp;</td></tr>
+
+    <form  method="POST" action="{{ path('jili_backend_rebateactivity_caculator')}}">
+        <tr>
+            <td>{{ form_label( form.point) }}</td>
+            <td>{{ form_widget(form.point) }}</td>
+        </tr>
+
+        <tr>
+            <td>{{ form_label( form.at) }}</td>
+            <td>{{ form_widget(form.at)  }}</td>
+        </tr>
+            {{ form_rest( form)  }}
+
+{% if point_caculated is defined %}
+        <tr>
+            <td>Result: </td>
+            <td>{{ point_caculated }}</td>
+        </tr>
+{% endif %}
+
+    </table>
+    <tr><td>&nbsp;</td><td><input type="submit" value='Caculate' /></td></tr>
+</form>
+{% endblock %}

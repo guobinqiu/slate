@@ -27,4 +27,30 @@ class AdActivityRepository extends EntityRepository
         return $rows;
     }
 
+    /**
+     *  @return max percentage where is in a valid duration and  not deleted
+     */
+    public function findMaxPercentage( \Datetime $at = null) {
+        $o = $this->findOfMaxPercentage( $at);
+        $percent = 1.0 ;
+        if( $o && ! is_null( $o[1])  ) {
+            $percent = $o[1];
+        }
+        return $percent;
+    }
+
+    /**
+     *
+     */
+    public function findOfMaxPercentage( \Datetime $at = null) {
+        $qb = $this->createQueryBuilder('q'); 
+        $qb->select(array('q.id',$qb->expr()->max('q.percentage') ));
+        $qb->where( $qb->expr()->eq('q.isDeleted', self::$IS_DELETED_FALSE  ))  ;
+        $qb->andWhere( $qb->expr()->lte('q.startedAt', ':p1')  );
+        $qb->andWhere( $qb->expr()->gt( 'q.finishedAt' , ':p1')  );
+        $qb->setParameter('p1', is_null($at)  ?  new \Datetime('now'): $at  ) ;
+        $q = $qb->getQuery();
+        return $q->getOneOrNullResult();
+    }
+
 }

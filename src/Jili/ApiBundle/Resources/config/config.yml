@@ -24,3 +24,7 @@ parameters:
            HANGUP_PASSED: 2 #：非即时返利活动，审核通过，重新回传，发放奖励给会员；
            HANGUP_REFUSED: 3 #：非即时返利活动，审核不通过，重新回传，不发放奖励；
 
+    # cpa & offerwow 活动返利有效的活动分类，对应ad_category表中的记录。
+    rebate_activity_category:
+        - %cpa.category_type%
+        - %offerwow_com.category_type%

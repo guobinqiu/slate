@@ -1,7 +1,0 @@
-<!-- -->
-<form action="{{ path('activity_admin_delete', {'id': app.request.get('id') } ) }}" method="post" {{ form_enctype(delete_form) }} style="display:inline">
-    <input type="hidden" name="_method" value="DELETE" />
-    {{ form_widget(delete_form.id) }}
-    {{ form_rest(delete_form) }}
-       <a href="#" onClick="if (confirm('确定要删除吗?')) { var f =  this.parentNode; f.submit();};return false;">删除2</a>
-</form>

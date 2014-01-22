@@ -1,0 +1,32 @@
+PointMedia github issue #282
+
+-- 
+
+CREATE TABLE `ad_activity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(127) CHARACTER SET utf8 DEFAULT NULL COMMENT '活动标题',
+  `description` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '活动内容描述',
+  `started_at` datetime NOT NULL COMMENT '活动开始时间',
+  `finished_at` datetime NOT NULL COMMENT '结束时间',
+  `percentage` float(7,2) NOT NULL DEFAULT '1.00' COMMENT '比例。default: 100%',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1: 失效; 0: 有效',
+  `is_hidden` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: 显示; 1: 隐藏',
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+ALTER TABLE `adw_api_return` CHANGE `content` `content` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+
+返利活动修改积分的 业务流程
+1. 设有活动积分修改为1.5%，　有效时间是1/31 ~ 2/6.
+
+2.1. 当user在1/30点击CPA，写入task_history, _order表数据，此时将显示基本积分(积分没有变化)。
+2.2. 当user在1/31 ~ 2/6　完成, 并有API Callback，修改task_history, _order表数据，此时将显示修改后积分。
+
+3.1. 当user在1/31 ~ 2/6 点击CPA，写入task_history, _order表数据，此时将显示修改后积分。
+3.2. 当user在2/6之后中　完成, 并有API Callback，修改task_history, _order表数据，显示基本积分(积分没有变化)。
+
+4.其它非即时返利活动的积分变化参考上面2 , 3.
+
+
+

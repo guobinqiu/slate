@@ -1,0 +1,25 @@
+parameters:
+     authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
+
+#    jili_api.api.class: Jili\ApiBundle\Controller\ApiController
+#    jili_api.offerwow.class: Jili\ApiBundle\Controller\OfferwowController
+#
+services:
+     authentication_ip.action_listener:
+        class: %authentication_ip.action_listener.class%
+        arguments: [ [%admin_home_ip%,  %admin_vpn_ip%,    %admin_ele_ip%,    %admin_un_ip% , 127.0.0.1 , 192.168.1.47] ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+#    jili_api.api:
+#        class: %jili_api.api.class%
+#
+#    jili_api.offerwow.controller:
+#        class:  %jili_api.offerwow.class%
+#
+##        arguments: [@service_id, "plain_value", %parameter%]
+#
+#  demo.tokens.action_listener:
+#        class: Acme\DemoBundle\EventListener\TokenListener
+#        arguments: ["%tokens%"]
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

@@ -254,7 +254,7 @@
         <TR height=22>
           <TD style="PADDING-LEFT: 30px" background="{{ asset('images/admin/menu_bt.jpg')}}"><A 
             class=menuParent onclick=expand(8) 
-            href="javascript:void(0);">adw广告api测试</A></TD></TR>
+            href="javascript:void(0);">广告api测试</A></TD></TR>
         <TR height=4>
           <TD></TD></TR></TABLE>
       <TABLE id=child8 style="DISPLAY: none" cellSpacing=0 cellPadding=0 
@@ -264,7 +264,19 @@
             src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
           <TD><A class=menuChild 
             href="{{ path('_admin_adwAd') }}" 
-            target=main>广告测试</A></TD></TR>
+            target=main>ADW-CPS广告</A></TD></TR>
+        <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('jili_backend_analogchanet_cpa') }}" 
+            target=main>ADW-CPA广告</A></TD></TR>
+        <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('jili_backend_analogofferwow_api') }}" 
+            target=main>Offer-Wow广告</A></TD></TR>
        </TABLE>
 
        <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
@@ -415,8 +427,17 @@
           <TD align=middle width=30><IMG height=9 
             src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
           <TD><A class=menuChild 
-            href="{{ path('_admin_adActivity_retrieve') }}" 
+            href="{{ path('rebate_activity_admin_retrieve') }}" 
             target=main>查看全部活动</A></TD></TR>
+
+
+           <TR height=20>
+          <TD align=middle width=30><IMG height=9 
+            src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+          <TD><A class=menuChild 
+            href="{{ path('jili_backend_rebateactivity_caculator') }}" 
+            target=main>积分计算器</A></TD></TR>
+
     </TABLE>
 
        <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
