@@ -58,4 +58,8 @@ api-offerwow:
     resource: "@JiliApiBundle/Controller/OfferwowController.php"
     type:     annotation
     prefix:   /
+remind:
+    resource: "@JiliApiBundle/Controller/RemindController.php"
+    type:     annotation
+    prefix:   /
 
