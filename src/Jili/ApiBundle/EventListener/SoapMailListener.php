@@ -11,6 +11,7 @@ class SoapMailListener {
 	private $password = 'Nvpiyjh1-';
 	private $campaignId;
 	private $mailingId;
+	private $group;
 
 	public function __construct() {
 	}
@@ -23,18 +24,32 @@ class SoapMailListener {
 		$this->mailingId = $mailingId;
 	}
 
-	public function sendMailBySoap($recipient_arr) {
+	public function setGroup($group) {
+		$this->group = $group;
+	}
 
+	private function init_client() {
+		ini_set('soap.wsdl_cache_enabled', '0');
+		$client = new \ SoapClient($this->soap, array (
+			'encoding' => 'utf-8',
+			'features' => SOAP_SINGLE_ELEMENT_ARRAYS
+		));
+		return $client;
+	}
+
+	private function login_info() {
 		$login = array (
 			'username' => $this->username,
 			'password' => $this->password
 		);
+		return $login;
+	}
+
+	public function sendSingleMailing($recipient_arr) {
+		$login = $this->login_info();
 		$client = $this->init_client();
 		try {
-			$group = $client->addGroup($login, $this->campaignId, array (
-				'name' => '积粒网',
-				'is_test' => 'false'
-			));
+			$group = $client->addGroup($login, $this->campaignId, $this->group);
 
 			if ($group->status == "ERROR") {
 				$rs = 'Cannot add group:' . $group->statusMsg;
@@ -63,13 +78,31 @@ class SoapMailListener {
 		}
 	}
 
-	public function init_client() {
-		ini_set('soap.wsdl_cache_enabled', '0');
-		$client = new \ SoapClient($this->soap, array (
-			'encoding' => 'utf-8',
-			'features' => SOAP_SINGLE_ELEMENT_ARRAYS
-		));
-		return $client;
+	public function addRecipientsSendMailing($recipient_arr) {
+		$login = $this->login_info();
+		$client = $this->init_client();
+		try {
+			$group = $client->addGroup($login, $this->campaignId, $this->group);
+
+			if ($group->status == "ERROR") {
+				$rs = 'Cannot add group:' . $group->statusMsg;
+				return $rs;
+			}
+
+			$result = $client->addRecipientsSendMailing($login, $this->campaignId, $this->mailingId, array (
+				$group->id
+			), $recipient_arr, true, true);
+
+			if ($result->status != "ERROR") {
+				$rs = 'Email send success';
+			} else {
+				$rs = 'Email send fail';
+			}
+
+			return $rs;
+		} catch (SoapFault $exception) {
+			echo $exception;
+		}
 	}
 
 }

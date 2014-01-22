@@ -205,3 +205,6 @@ parameters:
     file_path_ranking_year: /data/91jili/topcron_rankingyear.log
     register_success_campaign_id: 7
     register_success_mailing_id: 58
+    remind_login_campaign_id: 9
+    remind_login_mailing_id: 63
+

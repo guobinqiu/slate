@@ -311,4 +311,106 @@ class UserRepository extends EntityRepository {
         }
         return $r;
     }
+
+    public function getUserListForRemindLogin($day) {
+        $daydate = date("Y-m-d", strtotime(' -' . $day . ' day'));
+        $sql = "SELECT user.id, user.email, user.nick
+                FROM user
+                WHERE register_date LIKE '".$daydate."%'
+                AND (
+                delete_flag IS NULL
+                OR delete_flag =0
+                )
+                AND (
+                last_login_date IS NULL
+                OR last_login_date LIKE '".$daydate."%'
+                )";
+        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+
+    }
+
+    public function totalUserAndCount() {
+        $sql = "SELECT count( * ) total_user , sum( `points` ) total_points FROM user";
+        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetch();
+
+    }
+
+    /* public function getUserListForRemindPoint($day) {
+        $daydate = date("Y-m-d", strtotime(' -' . $day . ' day'));
+        $sql = "select
+                  a.nick,
+                  a.email,
+                  b.create_time,
+                  b.reason,
+                  b.point_change_num,
+                  c.display_name
+                from
+                  user a
+                  left join (
+                    select
+                      user_id,
+                      create_time ,
+                      point_change_num,reason
+                    from
+                      point_history00
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history01
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history02
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history03
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history04
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history05
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history06
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history07
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history08
+                    union
+                    select
+                      user_id,
+                      create_time ,point_change_num,reason
+                    from
+                      point_history09
+                  ) b on a.id = b.user_id
+                left join ad_category c on b.reason = c.id
+            where create_time like '".$daydate."%' and reason in (1,2,3,17)";
+            //1,2,3,17 广告体验,购物返利,游戏广告,offer-wow
+        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+    } */
 }

@@ -337,6 +337,14 @@ class DefaultController extends Controller {
 				$arr['task']['game'] = $this->container->getParameter('init');
 			}
 
+			//广告任务墙
+			$visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
+			if (empty ($visit)) {
+				$arr['task']['ad'] = $this->container->getParameter('init_one');
+			} else {
+				$arr['task']['ad'] = $this->container->getParameter('init');
+			}
+
 			//91wenwen
 			$visit = $em->getRepository('JiliApiBundle:UserWenwenVisit')->getWenwenVisit($id, $day);
 			if (empty ($visit)) {
@@ -555,13 +563,14 @@ class DefaultController extends Controller {
                                             $soapMailLister = $this->get('soap.mail.listener');
                                             $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
                                             $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
+                                            $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
                                             $recipient_arr = array (
                                                     array (
                                                         'name' => 'email',
                                                         'value' => $email
                                                     )
                                                 );
-                                            $soapMailLister->sendMailBySoap($recipient_arr);
+                                            $soapMailLister->sendSingleMailing($recipient_arr);
 
 											$request->getSession()->remove('token');
 											$request->getSession()->set('uid', $id);
@@ -628,13 +637,14 @@ class DefaultController extends Controller {
                                         $soapMailLister = $this->get('soap.mail.listener');
                                         $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
                                         $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
+                                        $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
                                         $recipient_arr = array (
                                                 array (
                                                     'name' => 'email',
                                                     'value' => $email
                                                 )
                                             );
-                                        $soapMailLister->sendMailBySoap($recipient_arr);
+                                        $soapMailLister->sendSingleMailing($recipient_arr);
 
 										$request->getSession()->remove('token');
 										$request->getSession()->set('uid', $id);
