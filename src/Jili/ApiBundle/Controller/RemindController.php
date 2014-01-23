@@ -38,7 +38,7 @@ class RemindController extends Controller {
 		$soapMailLister = $this->get('soap.mail.listener');
 		$soapMailLister->setCampaignId($this->container->getParameter('remind_login_campaign_id')); //活动id
 		$soapMailLister->setMailingId($this->container->getParameter('remind_login_mailing_id')); //邮件id
-		$soapMailLister->setGroup(array ('name' => 'remindLogin', 'is_test' => 'true'));
+		$soapMailLister->setGroup(array ('name' => 'remindLogin', 'is_test' => 'false'));
 		$return = $soapMailLister->addRecipientsSendMailing($recipient_arr);
 
 		return new Response($return);
@@ -79,7 +79,7 @@ class RemindController extends Controller {
 		$soapMailLister = $this->get('soap.mail.listener');
 		$soapMailLister->setCampaignId($this->container->getParameter('remind_point_campaign_id')); //活动id
 		$soapMailLister->setMailingId($this->container->getParameter('remind_point_mailing_id')); //邮件id
-		$soapMailLister->setGroup(array ('name' => 'remindPoint', 'is_test' => 'true'));
+		$soapMailLister->setGroup(array ('name' => 'remindPoint', 'is_test' => 'false'));
 		$return = $soapMailLister->addRecipientsSendMailing($recipient_arr);
 
 		return new Response($return);
