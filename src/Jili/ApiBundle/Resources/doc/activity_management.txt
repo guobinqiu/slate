@@ -2,10 +2,11 @@ PointMedia github issue #282
 
 -- 
 
+
 CREATE TABLE `ad_activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(127) CHARACTER SET utf8 DEFAULT NULL COMMENT '活动标题',
-  `description` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '活动内容描述',
+  `title` varchar(127) DEFAULT NULL COMMENT '活动标题',
+  `description` varchar(255) DEFAULT NULL COMMENT '活动内容描述',
   `started_at` datetime NOT NULL COMMENT '活动开始时间',
   `finished_at` datetime NOT NULL COMMENT '结束时间',
   `percentage` float(7,2) NOT NULL DEFAULT '1.00' COMMENT '比例。default: 100%',
@@ -13,7 +14,7 @@ CREATE TABLE `ad_activity` (
   `is_hidden` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: 显示; 1: 隐藏',
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8   
 
 ALTER TABLE `adw_api_return` CHANGE `content` `content` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
 
