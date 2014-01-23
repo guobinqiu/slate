@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 class IpListener {
 
     private $white_ips;
+    private $container_;
 
     public function __construct(  array $ips )
     {
@@ -34,13 +35,15 @@ class IpListener {
 
             $ip = $event->getRequest()->getClientIp() ;
 
-            $i = $event->getRequest() ;
-            if (!in_array($ip, $this->white_ips )/* || ! in_array( $event->getKernel()->getEnvironment() , array('dev', 'test'))*/) {
+            if (!in_array($ip, $this->white_ips ) &&  ! in_array( $this->container_->get('kernel')->getEnvironment() , array('dev', 'test')) ) {
                 throw new AccessDeniedHttpException('Access denined to ' . $ip);
             }
         }
     }
 
+    public function setContainer( $c) {
+        $this->container_ = $c;
+    }
     #private function getAdminIp(){
     #    if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
     #        $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
