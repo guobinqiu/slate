@@ -441,7 +441,7 @@ class ApiController extends Controller
 
 
     private function getPoint($userid,$point,$type){
-        $point_history_class = 'PointHistory0'. ( $userid % 10) ;
+        $point_history_class = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userid % 10) ;
         $po = new $point_history_class ;
         $em = $this->getDoctrine()->getManager();
         $po->setUserId($userid);
@@ -472,7 +472,7 @@ class ApiController extends Controller
     public function getTaskHistory($parms=array()){
         extract($parms);
 
-        $task_history_class = 'TaskHistory0'. ( $userid % 10);
+        $task_history_class = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $userid % 10);
         $po = new $task_history_class;
 
         $em = $this->getDoctrine()->getManager();
