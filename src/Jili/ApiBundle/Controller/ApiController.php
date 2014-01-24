@@ -206,8 +206,8 @@ class ApiController extends Controller
             return new Response('deined'. ' to '.$_SERVER['REMOTE_ADDR']);
         }
         //        19218~19339
-          for($i= 19218; $i<= 19339; $i++) 
-  //      for($i= 15055; $i<= 15254; $i++) {
+          for($i= 19218; $i<= 19339; $i++) {
+  //      for($i= 15055; $i<= 15254; $i++) 
             $em = $this->getDoctrine()->getManager();
             $rs = $em->getRepository('JiliApiBundle:GameLog')->findOneById($i);
             if(! empty($rs)) {
