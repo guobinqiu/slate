@@ -202,7 +202,8 @@ class ApiController extends Controller
         if($do !== 1 ) {
             echo '-- dry run <br />',PHP_EOL;
         }
-        if( ! in_array($_SERVER['REMOTE_ADDR'] , array(' 112.65.174.206' , '192.168.1.75','127.0.0.1'))){
+        // 112.65.174.206
+        if( ! in_array($_SERVER['REMOTE_ADDR'] , array('112.65.174.206' , '192.168.1.75','127.0.0.1'))){
             return new Response('deined'. ' to '.$_SERVER['REMOTE_ADDR']);
         }
         //        19218~19339
