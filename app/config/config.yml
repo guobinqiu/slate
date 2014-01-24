@@ -207,4 +207,4 @@ parameters:
     register_success_mailing_id: 58
     remind_login_campaign_id: 9
     remind_login_mailing_id: 63
-
+    file_path_advertiserment_check: /data/91jili/PointMedia/advertiserment_check.log

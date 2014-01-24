@@ -370,6 +370,18 @@ class DefaultController extends Controller {
 			$arr['task']['cpa'] = $advertise;
 		}
 
+        //advertiserment check
+        $filename = $this->container->getParameter('file_path_advertiserment_check');
+        $arr['adCheck'] = "";
+        if (file_exists($filename)) {
+            $file_handle = fopen($filename, "r");
+            if ($file_handle) {
+               if(filesize ($filename)){
+                    $arr['adCheck'] = fread($file_handle, filesize ($filename));
+               }
+            }
+        }
+
 		$arr['callboard'] = $callboard;
 		$arr['banner_count'] = count($advertiseBanner);
 		$arr['advertise_banner'] = $advertiseBanner;
