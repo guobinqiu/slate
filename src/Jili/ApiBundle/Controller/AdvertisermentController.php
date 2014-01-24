@@ -132,6 +132,11 @@ class AdvertisermentController extends Controller
 			$em->persist($adwAccessHistory);
 			$em->flush();
 			$order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($this->get('request')->getSession()->get('uid'),$id);
+
+            if($advertiserment[0]['incentiveType']==1){
+                $point = $this->get('rebate_point.caculator')->calcPointByCategory($incentive, $advertiserment[0]['incentiveType']);
+            }
+
 			if(empty($order)){
 
 				$adwOrder = new AdwOrder();
@@ -153,7 +158,6 @@ class AdvertisermentController extends Controller
 				$em->flush();
 
                 if($adwOrder->getIncentiveType()==1){
-                    $point = $this->get('rebate_point.caculator')->calcPointByCategory($incentive, $advertiserment[0]['incentiveType']);
                 	$parms = array(
 	                  'orderId' => $adwOrder->getId(),
 	                  'userid' => $this->get('request')->getSession()->get('uid'),
