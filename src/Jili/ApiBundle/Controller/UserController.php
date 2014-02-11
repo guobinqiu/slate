@@ -1667,7 +1667,7 @@ class UserController extends Controller
 	private function selTaskHistory($userid, $option){
       $em = $this->getDoctrine()->getManager();
       $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) ); 
-      $po = $task->getUseradtaste($userid);
+      $po = $task->getUseradtaste($userid, $option);
 
       foreach ($po as $key => $value) {
 			if($value['type']==1 ) {
