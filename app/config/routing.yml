@@ -1,3 +1,7 @@
+jili_emar:
+    resource: "@JiliEmarBundle/Resources/config/routing.yml"
+    prefix:   /emar
+
 jili_backend:
     resource: "@JiliBackendBundle/Resources/config/routing.yml"
     prefix:   /backend

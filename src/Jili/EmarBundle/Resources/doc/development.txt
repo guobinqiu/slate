@@ -1,0 +1,51 @@
+
+Advertiserment links
+
+会员id=网站主id
+
+1、 是站点id   如：www.ttfanli.com
+2、 站点id   如：www.51fanli.com
+3、 站点id   如：www.AAfanli.com
+4、 站点id   如：www.fanhuan.com等
+
+注册亿起发的帐号就会有一个会员id（网站主id）
+添加一个网站（站点），这个网站就会有一个相应的站点id
+一个网站主可以添加多个网站(站点)
+在接口中wid=站点id
+
+接口数据返回分两次返回
+1、第一次：发送时时数据--即未确认数据
+2、第二次：等（第二个月或是第三个月初）数据确认了，发送确认数据，根据相同订单号，状态改变（其它数据不变），确认的数据由“未确认”变更为“有效”或是“无效”
+
+push接口：亿起发自动 发送时时数据到接口地址
+get  接口：你们自己到亿起发的接口取数据，7天内取一次，数据保存7天，取不了7天前的数据
+                     
+http://p.yiqifa.com/c?s=dc1b1d07&w=55880&c=5010&i=10282&l=0&e=c&t=http://www.bookuu.com
+整个链接分两部分
+1、http://p.yiqifa.com/c?s=dc1b1d07&w=55880&c=5010&i=10282&l=0&这部分不可变
+2、e=c&t=http://www.bookuu.com 
+t=商家的目标链接
+e=反馈标签  区分哪个会员下单
+s=加密字符串
+w=站点id（网站id）  
+c=广告主id( 即商家id,广告主id,也称活动id)
+i=商家链接标示
+l=0  自定义链接标示
+整个链接部分只有e=反馈标签  t=目标链接可变，其它都不能变
+
+
+亿起发跟到数据通过接口发送给站长，时时数据是未确认状态
+等到第二个月底或是第三个月初广告主确认数据时，亿起发会按照订单号相同、商品编号相同 确认的数据覆盖掉未确认的状态 
+
+时时数据，亿起发会在5分钟给你们push一次
+第一次成功了，就停止push，如果不成功，就再push  2次，三次后还不成功就停止push（停止后站长就接收不到订单，我们该如何处理）
+
+调试接口链接
+http://fanlio.com/getdata/yiqifa
+http://fanlio.com/getdata/yiqifa?unique_id=25474435&create_date=2010-10-27+17%3A01%3A59&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=36231&wid=161189&order_no=27463290&order_time=2010-10-27+17%3A00%3A41&prod_id=&prod_name=&prod_count=1&prod_money=6999.0&feed_back=8&status=R&comm_type=basic&commision=25.0&chkcode=2069642738cdfe86e3175c7fb7ad9bdf&prod_type=&exchange_rate=0.0
+
+http://www.dieke.cn/yiqifa_interface.php
+http://www.dieke.cn/yiqifa_interface.php?unique_id=24653428&create_date=2010-10-18+14%3A32%3A55&action_id=247&action_name=%B5%B1%B5%B1%CD%F8CPS&sid=55380&wid=162702&order_no=3149020315&order_time=2010-10-18+14%3A31%3A44&prod_id=&prod_name=&prod_count=1&prod_money=158.0&feed_back=54321&status=R&comm_type=%B0%D9%BB%F5&commision=2.0&chkcode=16e6911677c57e9a2dceeee93a087336&prod_type=%B0%D9%BB%F5&exchange_rate=0.0
+
+
+

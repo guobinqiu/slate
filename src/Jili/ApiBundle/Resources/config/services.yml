@@ -11,6 +11,9 @@ parameters:
 
     rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
 
+    cps_access_history.logger.class: Jili\ApiBundle\EventListener\CpsAccessHistoryFactory
+    cps_order.factory.class: Jili\ApiBundle\EventListener\CpsOrderFactory
+
 services:
     login.listener:
         class: %login.listener.class%
@@ -53,6 +56,17 @@ services:
 
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
+    cps_access_history.logger:
+        class: %cps_access_history.logger.class%
+        calls:
+            - [setLogger, ["@logger"] ]
+            - [setEntityManager, ["@doctrine.orm.entity_manager"] ] 
 
+    cps_order.factory:
+        class: %cps_order.factory.class%
+        calls:
+            - [setLogger, ["@logger"] ]
+            - [setEntityManager, ["@doctrine.orm.entity_manager"] ] 
+            - [setContainer, ["@service_container"] ] 
 
 

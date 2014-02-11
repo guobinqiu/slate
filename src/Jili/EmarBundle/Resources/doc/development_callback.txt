@@ -1,0 +1,148 @@
+iqifa/Emar
+
+       亿起发平台向网站主传输数据通过两个接口完成，分别为PUSH接口和GET接口，网站主可通过这两个接口中的任何一个获取数据。
+
+ PUSH接口是亿起发平台主动向网站主发送数据的接口，接口开发完成后网站主需要将自己网站的接口地址和获取数据的私钥(data secret)告诉亿起发的媒介经理，由媒介经理在亿起发平台进行设置。
+
+1. 亿起发订单状态：
+状态 描述
+R未确认，未经过广告主和亿起发确认的订单。
+A有效订单，广告主和亿起发确认有效的订单。
+F无效订单，广告主或亿起发确认无效的订单。
+
+
+order_status:
+ORD_ST_HUP R
+ORD_ST_VAL A
+ORD_ST_INV F
+
+unique_id=24653428
+create_date=2010-10-18+14%3A32%3A55
+action_id=247
+action_name=%B5%B1%B5%B1%CD%F8CPS
+sid=55380
+wid=162702
+order_no=3149020315
+order_time=2010-10-18+14%3A31%3A44
+prod_id=
+prod_name=
+prod_count=1
+prod_money=158.0
+feed_back=54321
+status=R
+comm_type=%B0%D9%BB%F5
+commision=2.0
+chkcode=16e6911677c57e9a2dceeee93a087336
+prod_type=%B0%D9%BB%F5
+exchange_rate=0.0
+
+
+接口参数如下表：！接口参数用GBK字符集进行URLEncode
+编号      参数               长度   必填？     描述
+1*      unique_id            20      是       记录唯一编号。可根据些值来确定是不是一条记录。
+2*      create_date          20      否       订单到亿起发的时间
+3*      action_id            20      是       活动ID
+4*      action_name          50      否       活动名称
+5*      sid                  20      是       网站主ID, 注册帐号id 
+6*      wid                  20      是       站点ID, 我的网站id
+7*      order_no             50      是       
+8*      order_time           20      是       下单时间
+9*      prod_id              500     否       商品编号    
+10*     prod_name            1000    否       商品名称
+11*     prod_count           10      是       商品数量
+12*     prod_money           10      是       商品单价
+13*     comm_type            20      是       佣金类型
+14*     commision            10      是       佣金
+15*     feed_back            20      否       反馈标签
+16*     status               10      是       亿起发订单状态，见亿起发订单状态。
+17*     prod_type            50      否       商品分类
+18?     am                   10      是       确认金额
+19*     chkcode              32      是       校验码，见校验码  生成规则。
+20      shop_order_status    50      否       商家提供给亿起发的订单状态
+21      payment              50      否       商家提供给亿起发的支付方式
+22      payment_status       50      否       商家提供给亿起发的支付状态   
+23      status_update_time   20      否       订单更新时间
+
+exchange_rate??
+
+
+
+2. PUSH接口返回值说明：
+       注意：接口要返回正确的值，否则会重复发送数据，给网站主网站造成不必要的资源消耗。
+
+返回值     描述
+-1      网站主接收失败，亿起发将尝试重发二次，如果其中一次发送成功将停止发送；如果重发二次还不能接收成功也将停止发送。
+0       重复订单，表示网站主已经接收到这个订单，亿起发将不再发送。 ?? 
+1       成功，表示网站主成功接收订单，亿起发将不再重复发送。
+2       网站主接口异常，亿起发将尝试重发二次，如果其中一次发送成功将停止发送；如果重发二次还不能接收成功也将停止发送。
+
+responses:
+RET_FAL: -1 
+RET_DUP: 0
+RET_FIN: 1
+RET_EXC: 2
+
+/// ------------ 
+if( exists ) {
+  if( order_completed ) {
+    return  RET_FIN
+  }  else {
+    if( ORD_ST_HUP ) {
+         return RET_DUP; 
+    } else {
+       
+    }
+
+  }
+}
+1. R未确认, order.row存在
+2. order.row is completed
+3. required fields is empty   
+4. 
+3times request
+R
+RR
+RRR
+AAA
+FFF
+
+
+/// ---------check request.status--- 
+if( ORD_ST_HUP ) {
+   if( exists) {
+      return RET_DUP
+   }
+} else {
+
+}
+
+if( status_completed) {
+   return RET_FIN
+}
+
+try {
+   process
+} catch( ProcessException) {
+   return RET_EXEC
+}
+
+
+接口示例：
+ http://domain/getyiqifa?unique_id=68383916&action_id=5820&prod_type=yhq&create_date=2011-09-19+18%3A21%3A18&action_name=DangdangCPS
+&sid=622&wid=368482&order_no=A19182109822_1&order_time=2011-09-19+18%3A21%3A09&prod_id=21000043&prod_name=abc&prod_count=1&prod_money=126.0&feed_back=1253&status=R&comm_type=yhq&commision=5.04&am=123&chkcode=c1beb34c3ba2735250894f7314bcc642
+
+3. 校验码生成规则：
+
+生成校验码用到的参数：
+
+参数名     描述
+action_id       活动ID
+order_no        订单编号
+prod_money      商品单价
+order_time      下单时间
+Data Secret
+
+生成方式：
+MD5(action_id+order_no+prod_money+order_time+DataSecret)
+注意：各参数的值为做urlencode前的值，将生成的32位字符串转换为小写后使用。
+

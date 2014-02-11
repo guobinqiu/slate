@@ -8,3 +8,12 @@ parameters:
 
 
     cpa.category_type:  1 # in table ad_category where category_name='CPA'
+    cps.category_type:  2 # in table ad_category where category_name='CPA'
+
+    emar_com.accountid: 458631 # sid uSer id
+    emar_com.91jili_com.websiteid: 708089 # wid Website id
+    emar_com.91jili_com.key: "91jiLi2emAr3242"
+    emar_com.name: "亿玛返利"
+    emar_com.cps.category_type: 18 # in ad_category table where cateogry_name ='emar' ??
+    emar_com.cps.task_type: 6
+

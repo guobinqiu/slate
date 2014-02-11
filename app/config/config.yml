@@ -34,6 +34,9 @@ twig:
     globals:
         offerwow_com:
             websiteid: %offerwow_com.websiteid%  
+        emar_cps:
+            category_id: %emar_com.cps.category_type%
+
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%

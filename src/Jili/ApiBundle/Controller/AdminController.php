@@ -835,6 +835,7 @@ class AdminController extends Controller
         $url = $request->request->get('url');
         $category = $request->request->get('category');
         $score = $request->request->get('score');
+        $action_id = $request->request->get('actionId');
         $intReward = $request->request->get('intReward');
         $rewardRate = $request->request->get('rewardRate');
         $rule = $request->request->get('rule');
@@ -843,7 +844,7 @@ class AdminController extends Controller
         $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
         if ($request->getMethod() == 'POST') {
             if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){ 
-                if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate)){
+                if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate) ||($category ==  $this->container->getParameter('emar_com.cps.category_type') && $action_id && $intReward && $rewardRate) ){
                     $form->bind($request);
                     $type = implode(",",$type);
                     $path =  $this->container->getParameter('upload_adver_dir');
@@ -857,7 +858,10 @@ class AdminController extends Controller
                     $adver->setCategory($category);
                     if($category==1){
                         $adver->setIncentive($score);
-                    }else{
+                    }else {
+                        if( $category == $this->container->getParameter('emar_com.cps.category_type')){
+                            $adver->setActionId($action_id);
+                        }
                         $adver->setIncentiveRate($intReward);
                         $adver->setRewardRate($rewardRate);
                     }
@@ -990,6 +994,7 @@ class AdminController extends Controller
         $url = $request->request->get('url');
         $category = $request->request->get('category');
         $score = $request->request->get('score');
+        $action_id = $request->request->get('actionId');
         $intReward = $request->request->get('intReward');
         $rewardRate = $request->request->get('rewardRate');
         $rule = $request->request->get('rule');
@@ -997,7 +1002,7 @@ class AdminController extends Controller
         $form  = $this->createForm(new AddAdverType(),$adver);
         if ($request->getMethod() == 'POST') {
             if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){
-                if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate)){
+                if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate) ||($category ==  $this->container->getParameter('emar_com.cps.category_type') && $action_id && $intReward && $rewardRate) ){
                     $form->bind($request);
                     $path =  $this->container->getParameter('upload_adver_dir');
                     $type = implode(",",$type);
@@ -1012,6 +1017,9 @@ class AdminController extends Controller
                     if($category==1){
                         $adver->setIncentive($score);
                     }else{
+                        if( $category == $this->container->getParameter('emar_com.cps.category_type')){
+                            $adver->setActionId($action_id);
+                        }
                         $adver->setIncentiveRate($intReward);
                         $adver->setRewardRate($rewardRate);
                     }
@@ -2372,6 +2380,7 @@ class AdminController extends Controller
      */
     public function addActivityCategoryAction()
     {
+        //todo: add asp fields
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');

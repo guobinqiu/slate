@@ -13,13 +13,15 @@ $(document).ready(function(){
     var type = "{{ adver.incentiveType }}";
     $(".cpaReward").hide();
     $(".cpsReward").hide();
+    $(".cpsEmar").hide();
+
     if(type == 1){
         $(".cpaReward").show();
-        $(".cpsReward").hide();
-    }
-    if(type == 2){
+    } else if(type == 2){
         $(".cpsReward").show();
-        $(".cpaReward").hide();
+    } else if(type == {{ emar_cps.category_id }}){
+        $(".cpsReward").show();
+        $(".cpsEmar").show();
     }
 });
 
@@ -34,8 +36,13 @@ function ck(){
     if(cate==1){
         $(".cpaReward").show();
         $(".cpsReward").hide();
-    }
-    if(cate==2){
+        $(".cpsEmar").hide();
+    } else if(cate==2){
+        $(".cpsReward").show();
+        $(".cpaReward").hide();
+        $(".cpsEmar").hide();
+    } else if(cate== {{ emar_cps.category_id }}){
+        $(".cpsEmar").show();
         $(".cpsReward").show();
         $(".cpaReward").hide();
     }
@@ -64,10 +71,12 @@ function ck(){
 <tr><td>广告说明:</td><td><textarea id="info" cols="120" rows="10" name="info" style="width:700px;height:300px;">{% if info %} {{ info }} {% else %} {{ adver.content }} {% endif %}</textarea></td></tr>
 <tr><td>广告链接:</td><td><input type="text" name="url" size='60' value="{% if url %} {{ url }} {% else %} {{ adver.imageurl }} {% endif %}"/></td></tr>
 <tr><td>广告类型:</td><td><input type="radio" name="category" value="1" onchange="ck();" {% if adver.incentiveType==1 %} checked="checked" {% endif %}/>CPA
-<input type="radio" name="category" value="2" onchange="ck();" {% if adver.incentiveType==2 %} checked="checked" {% endif %}/>CPS</td></tr>
+<input type="radio" name="category" value="2" onchange="ck();" {% if adver.incentiveType==2 %} checked="checked" {% endif %}/>CPS
+<input type="radio" name="category" value="{{ emar_cps.category_id }}" onchange="ck();" {% if adver.incentiveType  == emar_cps.category_id %} checked="checked" {% endif %}/>Emar CPS</td></tr>
 
 <tr class="cpaReward"><td>广告积分:</td><td><input type="text" name="score" size='10' onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" value="{{ adver.incentive }}"/></td></tr>
 
+<tr class="cpsEmar"><td>活动Id:</td><td><input type="text" name="actionId" size='10' value="{{ adver.actionId }}"/></td></tr>
 <tr class="cpsReward"><td>佣金:</td><td><input type="text" name="intReward" size='10' value="{{ adver.incentiveRate }}"/>%</td></tr>
 <tr class="cpsReward"><td>返利:</td><td><input type="text" name="rewardRate" size='10' value="{{ adver.rewardRate }}"/>%</td></tr>
 <tr class="cpsReward"><td>广告分类名:</td><td>

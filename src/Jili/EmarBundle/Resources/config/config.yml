@@ -1,0 +1,39 @@
+parameters:
+    emar:
+        callback_return_code:
+            failure: -1 #网站主接收失败，亿起发将尝试重发二次，如果其中一次发送成功将停止发送；如果重发二次还不能接收成功也将停止发送。
+            duplicated: 0 #重复订单，表示网站主已经接收到这个订单，亿起发将不再发送。
+            finished: 1 #成功，表示网站主成功接收订单，亿起发将不再重复发送。
+            exception: 2 #网站主接口异常，亿起发将尝试重发二次，如果其中一次发送成功将停止发送；如果重发二次还不能接收成功也将停止发送。
+
+
+#RET_FAL: -1 #网站主接收失败，亿起发将尝试重发二次，如果其中一次发送成功将停止发送；如果重发二次还不能接收成功也将停止发送。
+#RET_DUP: 0 #重复订单，表示网站主已经接收到这个订单，亿起发将不再发送。
+#RET_FIN: 1 #成功，表示网站主成功接收订单，亿起发将不再重复发送。
+#RET_EXC: 2 #网站主接口异常，亿起发将尝试重发二次，如果其中一次发送成功将停止发送；如果重发二次还不能接收成功也将停止发送。
+
+        order_status:
+            hangup: R #未确认，未经过广告主和亿起发确认的订单。
+            valid: A #有效订单，广告主和亿起发确认有效的订单。
+            invalid: F #无效订单，广告主或亿起发确认无效的订单。
+
+#ORD_ST_HUP: R #未确认，未经过广告主和亿起发确认的订单。
+#ORD_ST_VAL: A #有效订单，广告主和亿起发确认有效的订单。
+#ORD_ST_INV: F #无效订单，广告主或亿起发确认无效的订单。
+        DataSecret:  %emar_com.91jili_com.key% 
+        # CPS:
+        category_type: %emar_com.cps.category_type%
+        task_type: %emar_com.cps.task_type%
+
+        sid: %emar_com.accountid% #: 458631 # sid uSer id
+        wid.91jili_com: %emar_com.91jili_com.websiteid% #708089 # wid Website id
+
+#li  emar_com.key: "91jili2emar3242"
+#    emar_com.name: "亿玛返利"
+#    emar_com.category_type: 18 # in ad_category table where cateogry_name ='emar' ??
+#    emar_com.task_type: 6
+
+#    yiqifa_com.key: "91jili2yiqifa3242"
+#    yiqifa_com.name: "亿玛返利"
+#    yiqifa_com.category_type: 18 # in ad_category table where cateogry_name ='yiqifa' ??
+#    yiqifa_com.task_type: 6

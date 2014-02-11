@@ -1,0 +1,47 @@
+
+CREATE TABLE `emar_api_return` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `content` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `emar_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `ad_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `returned_at` datetime DEFAULT NULL,
+  `confirmed_at` datetime DEFAULT NULL,
+  `happened_at` datetime DEFAULT NULL,
+  `comm` float DEFAULT NULL,
+  `ocd` varchar(100) DEFAULT NULL,
+  `status` int(2) NOT NULL DEFAULT '0',
+  `delete_flag` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `adid_ocd_uniq` (`ad_id`,`ocd`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 
+
+
+CREATE TABLE `emar_access_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `ad_id` int(11) NOT NULL,
+  `access_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_emar_access_record_user1` (`user_id`),
+  KEY `fk_emar_access_record_advertiserment1` (`ad_id`),
+  CONSTRAINT `fk_emar_access_record_advertiserment1` FOREIGN KEY (`ad_id`) REFERENCES `advertiserment` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `ad_category`  ADD `asp` VARCHAR(64) NULL COMMENT '平台供应商' AFTER `category_name`;
+
+
+INSERT INTO `ad_category` ( `id` , `category_name` , `asp` , `display_name` )
+VALUES (18 , 'cps', 'emar', '亿玛返利'),( 19, 'cpa', 'emar', '亿玛活动');
+
+ALTER TABLE `advertiserment`  ADD `action_id` int(11) NULL COMMENT 'emar  action_id' AFTER `title`;
+
+-- http://112.65.174.206:8083

@@ -5,7 +5,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\ApiBundle\Entity\Advertiserment;
 use Jili\ApiBundle\Entity\ActivityMall;

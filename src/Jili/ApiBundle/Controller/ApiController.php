@@ -12,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
 
 use Jili\ApiBundle\Entity\AdwApiReturn;
 use Jili\ApiBundle\Entity\AdwOrder;
-use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\GameLog;
 use Jili\ApiBundle\Entity\PagOrder;
@@ -171,6 +170,7 @@ class ApiController extends Controller
             		$cpsOrder->setOrderStatus($this->container->getParameter('init_two'));
             		$cpsOrder->setAdwReturnTime(date_create(date('Y-m-d H:i:s')));
             		$em->flush();
+
                 $parms = array(
                       'userid' => $uid,
                       'orderId' => $order[0]['id'],

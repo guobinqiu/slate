@@ -53,18 +53,21 @@ class TaskHistory
         extract($params);
 
         $flag =  $userid % 10;
-        $task = $em->getRepository('JiliApiBundle:TaskHistory0'. $flag); 
+        $taskRepository = $em->getRepository('JiliApiBundle:TaskHistory0'. $flag); 
 
         //TODO: update more simplicity.
-        $task_order = $task->findOneBy(array( 'orderId'=> $orderId,'taskType'=> $taskType) );
+        $taskHistory= $taskRepository->findOneBy(array( 'orderId'=> $orderId,'taskType'=> $taskType) );
 
-        if($task_order) {
-            $po = $task->findOneById($task_order->getId() );
+        if($taskHistory) {
+            $po = $taskRepository->findOneById($taskHistory->getId() );
             $po->setOcdCreatedDate($date);
             $po->setDate($date);
 
             if(isset($point)) {
                 $po->setPoint( $point );
+            }
+            if(isset($reward_percent)) {
+                $po->setRewardPercent( $reward_percent );
             }
 
             $po->setStatus($status);
@@ -78,8 +81,8 @@ class TaskHistory
     }
 
     public function init( array $params=array()){
-        $em = $this->em;
         extract($params);
+        $em = $this->em;
         $flag =  $userid % 10;
         $task_history = 'Jili\ApiBundle\Entity\TaskHistory0'. $flag;
         $po = new $task_history();
@@ -88,10 +91,15 @@ class TaskHistory
         $po->setOcdCreatedDate($date);
         $po->setCategoryType($categoryType);
         $po->setTaskType($taskType);
-        $po->setTaskName($task_name);
+        $po->setTaskName(trim($task_name));
         $po->setDate($date);
         $po->setPoint( $point);
         $po->setStatus($status);
+
+        if(isset($reward_percent)) {
+            $po->setRewardPercent( $reward_percent );
+        }
+
         $em->persist($po);
         $em->flush();
     }

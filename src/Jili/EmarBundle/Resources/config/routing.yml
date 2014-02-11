@@ -1,0 +1,11 @@
+emar-api:
+    resource: "@JiliEmarBundle/Controller/ApiController.php"
+    type:     annotation
+
+emar-backend:
+    resource: "@JiliEmarBundle/Controller/BackendController.php"
+    type:     annotation
+
+#emar-analog:
+#    resource: "@JiliBackendBundle/Controller/AnalogOfferwowController.php"
+#    type:     annotation

@@ -186,4 +186,21 @@ class AdvertisermentRepository extends EntityRepository {
                     AND advertiserment.start_time <= '".$date."'";
 		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 	}
+
+    /**
+     *
+     * @abstract: 查询emar的adid.
+     * @param: $params array('incentive_type'=>, 'action_id'=>)
+     *
+     */
+    public function findOneEmarAdvertisermentByActionId($params) {
+
+        $q = $this->createQueryBuilder('a')
+            ->where('a.incentiveType = :intensive_type')
+            ->andWhere('a.actionId = :action_id')
+            ->setParameters($params)
+            ->getQuery();
+        return $q->getOneOrNullResult();
+
+    }
 }
