@@ -89,7 +89,7 @@ class ApiControllerTest extends WebTestCase
             'commision'=>'5.04', // for 91jili.com website.
             'am'=>'123',
             #            'chkcode'=>'c1beb34c3ba2735250894f7314bcc642',
-            'fead_back'=>'1057639a11'
+            'fead_back'=>$user->getId()
         );
 
         $tmp = $params['sid'] ;
@@ -208,7 +208,7 @@ class ApiControllerTest extends WebTestCase
             'commision'=>'5.04', // for 91jili.com website.
             'am'=>'123',
             #            'chkcode'=>'c1beb34c3ba2735250894f7314bcc642',
-            'fead_back'=>'1057639a11'
+            'fead_back'=>$user->getId() 
         );
 
         echo $url,PHP_EOL;
@@ -220,15 +220,13 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('1', $client->getResponse()->getContent());
 
 
-        echo $url,PHP_EOL;
-        $crawler = $client->request('GET',$url, $params) ;
-
-        // Assert a specific 200 status code
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-        $this->assertEquals('0', $client->getResponse()->getContent());
-
         // db checking...
         //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
+        
+        echo $url,PHP_EOL;
+        $crawler = $client->request('GET',$url, $params) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('0', $client->getResponse()->getContent());
 
         // status validate
         echo $url,PHP_EOL;
@@ -243,6 +241,21 @@ class ApiControllerTest extends WebTestCase
         // db checking...
         //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
 
+        $crawler = $client->request('GET',$url, $params) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('0', $client->getResponse()->getContent());
+
+
+        echo $url,PHP_EOL;
+        $params['chkcode'] = $this->calcSignature($params);
+        $params['status'] = 'R';
+        $crawler = $client->request('GET',$url, $params) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('0', $client->getResponse()->getContent());
+
+        $url_user_adtaste =  $container->get('router')->generate('_user_adtaste' ) ;
+
+        $url_user_info =  $container->get('router')->generate('_user_info' ) ;
 
     }
 

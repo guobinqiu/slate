@@ -73,7 +73,6 @@ class CallbackProcessor
         }
 
         $adid = $advertiserment->getId();
-        $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ). var_export($adid , true ) );
 
         $happenTime = date_create();
 
@@ -123,8 +122,7 @@ class CallbackProcessor
                 }
             }
 
-
-            // update offerorder 
+            // update order 
             $order->setHappenedAt($happenTime);
             $order->setReturnedAt($happenTime);
 
@@ -140,8 +138,6 @@ class CallbackProcessor
 
             $em->persist($order);
             $em->flush();
-
-
 
             $task_logger_params = array(
                 'orderId' => $order->getId(),
@@ -173,6 +169,7 @@ class CallbackProcessor
 
             $order = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneBy( array('userId'=>$uid, 'adId'=> $adid, 'ocd'=>$ocd ));
             $order->setHappenedAt($happenTime);
+            $order->setConfirmedAt($happenTime);
             $order->setStatus($status);
             $order->setReturnedAt(date_create(date('Y-m-d H:i:s')));
             $em->flush();

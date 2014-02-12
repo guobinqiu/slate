@@ -21,7 +21,7 @@ CREATE TABLE `emar_order` (
   `delete_flag` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `adid_ocd_uniq` (`ad_id`,`ocd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 
 CREATE TABLE `emar_access_history` (
