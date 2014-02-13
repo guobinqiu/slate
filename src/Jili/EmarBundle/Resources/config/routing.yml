@@ -1,3 +1,6 @@
+emar-analog:
+    resource: "@JiliEmarBundle/Controller/AnalogController.php"
+    type:     annotation
 emar-api:
     resource: "@JiliEmarBundle/Controller/ApiController.php"
     type:     annotation

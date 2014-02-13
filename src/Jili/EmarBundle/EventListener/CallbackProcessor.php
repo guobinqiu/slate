@@ -46,26 +46,22 @@ class CallbackProcessor
     public function process( Request $request, array $data_of_validation = array()) {
         $logger = $this->logger;
         $em = $this->em;
-        $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ));
+        #$logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ));
 
         $config_of_return_codes = $this->getConfig('callback_return_code'); 
         $config_of_order_status = $this->getConfig('order_status'); 
         $task_type = $this->getConfig('task_type') ;
         $category_id =$this->getConfig('category_type')  ;
-
         $request_status = $request->query->get('status'); 
-
-        $feadback  = $request->query->get('fead_back');
-        $uid = (int) $feadback;
+        $feed_back  = $request->query->get('feed_back');
+        $uid = (int) $feed_back;
         $ocd = $request->query->get('unique_id');
         $comm = $request->query->get('commision');
 
-
         if( isset( $data_of_validation['advertiserment'] )) {
             $advertiserment = $data_of_validation['advertiserment'] ;
-            $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ));
         } else {
-            $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ));
+          #  $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ));
             $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->findOneEmarAdvertisermentByActionId( array(
                 'intensive_type'=> $category_id,
                 'action_id'=> $action_id
@@ -80,6 +76,7 @@ class CallbackProcessor
         $comm = $request->query->get('commision');
         $reward_percent = $advertiserment->getRewardRate();
         $cps_reward = intval($comm * $reward_percent);
+
 
         if( $request_status === $config_of_order_status['hangup'] ) {
 
@@ -153,9 +150,9 @@ class CallbackProcessor
             #$logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).var_export( $task_logger_params, true)  );
 
             if ( $is_new) {
-                $this->taskLogger->update($task_logger_params);
-            } else {
                 $this->taskLogger->init($task_logger_params);
+            } else {
+                $this->taskLogger->update($task_logger_params);
             }
 
         } elseif ($request_status === $config_of_order_status['valid'] || $request_status === $config_of_order_status['invalid'] ) {
@@ -187,6 +184,9 @@ class CallbackProcessor
             $taskHistory = $this->taskLogger->update($params); 
 
             if( $is_order_valid) {
+
+                $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).var_export( $taskHistory, true)  );
+
                 $point = $taskHistory->getPoint();
 
                 $user = $em->getRepository('JiliApiBundle:User')->find($uid);
@@ -234,4 +234,5 @@ class CallbackProcessor
             throw  new ValidationException;
         }
     }
+
 }

@@ -89,7 +89,7 @@ class ApiControllerTest extends WebTestCase
             'commision'=>'5.04', // for 91jili.com website.
             'am'=>'123',
             #            'chkcode'=>'c1beb34c3ba2735250894f7314bcc642',
-            'fead_back'=>$user->getId()
+            'feed_back'=>$user->getId()
         );
 
         $tmp = $params['sid'] ;
@@ -113,7 +113,7 @@ class ApiControllerTest extends WebTestCase
         $params['wid'] = $tmp;
 
 
-        $fields_required = array('unique_id', 'action_id', 'sid', 'wid', 'order_no', 'order_time', 'prod_count', 'prod_money', 'comm_type', 'commision', 'status', 'am', 'chkcode', 'fead_back');
+        $fields_required = array('unique_id', 'action_id', 'sid', 'wid', 'order_no', 'order_time', 'prod_count', 'prod_money', 'comm_type', 'commision', 'status', 'am', 'chkcode', 'feed_back');
         foreach($fields_required as $f) {
             $tmp = $params[$f];
             $params[$f] = '';
@@ -154,7 +154,11 @@ class ApiControllerTest extends WebTestCase
 
     }
 
-    public function testCallback()
+    /*
+     *
+     * callback逻辑测试
+     */
+    public function holdTestCallback()
     {
 
         $client = static::createClient();
@@ -190,25 +194,24 @@ class ApiControllerTest extends WebTestCase
 
         $params = array(
             'unique_id'=>$unique_id,
+            'create_date' =>'2014-02-12+14%3A54%3A57',
             'action_id'=>$action_id,
-            'prod_type'=>'yhq',
-            'create_date'=>'2011-09-19+18%3A21%3A18',
             'action_name'=>'DangdangCPS%BE%A9%B6%ABCPS',
             'sid'=>$sid, //  91jili.com 
             'wid'=>$wid, //  account id on yiqifa.com 
             'order_no'=>'A19182109822_1',
             'order_time'=>'2011-09-19+18%3A21%3A09',
-            'prod_id'=>'21000043',
-            'prod_name'=>'abc',
+            'prod_id'=>'',
+            'prod_name'=>'',
             'prod_count'=>'1',
-            'prod_money'=>'126.0',
-            'feed_back'=>'1253',
+            'prod_money'=>126.0,
+            'feed_back'=>$user->getId(),
             'status'=>'R',
-            'comm_type'=>'yhq',
-            'commision'=>'5.04', // for 91jili.com website.
-            'am'=>'123',
-            #            'chkcode'=>'c1beb34c3ba2735250894f7314bcc642',
-            'fead_back'=>$user->getId() 
+            'comm_type'=>0,
+            'commision'=>0.0, // for 91jili.com website.
+            #'chkcode'=>'c1beb34c3ba2735250894f7314bcc642',
+            'prod_type'=>0,
+            'am'=>0.0,
         );
 
         echo $url,PHP_EOL;
@@ -253,10 +256,166 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals('0', $client->getResponse()->getContent());
 
-        $url_user_adtaste =  $container->get('router')->generate('_user_adtaste' ) ;
+        $url_user_adtaste =  $container->get('router')->generate('_user_adtaste' , array('type'=> 0) ) ;
 
         $url_user_info =  $container->get('router')->generate('_user_info' ) ;
 
+    }
+
+    /**
+     * for debug
+     */
+    public function testCallback()
+    {
+        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449649582&create_date=2014-02-12+16%3A11%3A01&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=708089&order_no=1062604092&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=8888.0&feed_back=1094007&status=R&comm_type=0&commision=26.0&chkcode=9b4aba2c618a12bd6395e6a493041d53&prod_type=0&am=0.0&exchange_rate=0.0';
+
+//        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449649581&create_date=2014-02-12+16%3A11%3A01&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=708089&order_no=1062604080&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=8947.0&feed_back=&status=R&comm_type=0&commision=26.0&chkcode=fe72a333e3956bacbcfc549ed85fe67e&prod_type=0&am=0.0&exchange_rate=0.0';
+
+
+        $b = parse_url($qs);
+        parse_str($b['query']);
+        $params = compact( 'unique_id', 'create_date', 'action_id','action_name', 'sid','wid', 'order_no','order_time','prod_id','prod_name','prod_count','prod_money','feed_back','status','comm_type','commision','chkcode','prod_type','am','exchange_rate');
+
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $logger= $container->get('logger');
+        $em = $this->em;
+
+        $sid = 458631;
+        $wid = 708089;
+        $ad_id = 83;
+        $action_id =  6941;
+        $unique_id = $this->unique_id; 
+
+        // 1.0 login for session checking.
+        $email = 'alice.nima@gmail.com';
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        $session = $container->get('session');
+        $session->set('uid', $user->getId()  );
+        $session->save();
+
+
+        // 1.1 trigger the advertiserment click event.
+        $url = $container->get('router')->generate('_advertiserment_click', array('id'=> $ad_id)  ) ;
+        echo $url,PHP_EOL;
+
+        $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('1', $client->getResponse()->getContent());
+
+        // 1.2 analogue the 1st callback.
+        $url = $container->get('router')->generate('jili_emar_api_callback' ) ;
+        echo $url,PHP_EOL;
+
+        $params['unique_id']=$unique_id;
+        $params['action_id']=$action_id;
+       # $params['sid']=$sid; //  91jili.com 
+       # $params['wid']=$wid; //  account id on yiqifa.com 
+        $params['feed_back']=$user->getId();
+
+        echo $url,PHP_EOL;
+        $params['chkcode'] = $this->calcSignature($params);
+        $crawler = $client->request('GET',$url, $params) ;
+
+        // Assert a specific 200 status code
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('1', $client->getResponse()->getContent());
+
+
+        // db checking...
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
+        
+        echo $url,PHP_EOL;
+        $crawler = $client->request('GET',$url, $params) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('0', $client->getResponse()->getContent());
+
+        // status validate
+        echo $url,PHP_EOL;
+        $params['status'] = 'A';
+        $params['chkcode'] = $this->calcSignature($params);
+        $crawler = $client->request('GET',$url, $params) ;
+
+        // Assert a specific 200 status code
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('1', $client->getResponse()->getContent());
+
+        // db checking...
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
+
+        $crawler = $client->request('GET',$url, $params) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('0', $client->getResponse()->getContent());
+
+
+        echo $url,PHP_EOL;
+        $params['chkcode'] = $this->calcSignature($params);
+        $params['status'] = 'R';
+        $crawler = $client->request('GET',$url, $params) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('0', $client->getResponse()->getContent());
+
+        $url_user_adtaste =  $container->get('router')->generate('_user_adtaste' , array('type'=> 0) ) ;
+
+        $url_user_info =  $container->get('router')->generate('_user_info' ) ;
+       // sub order 
+        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449650613&create_date=2014-02-12+16%3A12%3A23&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=708089&order_no=1062647585&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=59.0&feed_back=1094007&status=R&comm_type=0&commision=0.0&chkcode=c55e0886bab540be1b428718ddd5904a&prod_type=0&am=0.0&exchange_rate=0.0';
+        $b = parse_url($qs);
+        parse_str($b['query']);
+        $params = compact( 'unique_id', 'create_date', 'action_id','action_name', 'sid','wid', 'order_no','order_time','prod_id','prod_name','prod_count','prod_money','feed_back','status','comm_type','commision','chkcode','prod_type','am','exchange_rate');
+        $sid = 458631;
+        $wid = 708089;
+        $ad_id = 83;
+        $action_id =  6941;
+        $unique_id = $this->updateUniqueId() ; 
+
+        $params['unique_id']=$unique_id;
+        $params['action_id']=$action_id;
+       # $params['sid']=$sid; //  91jili.com 
+       # $params['wid']=$wid; //  account id on yiqifa.com 
+        $params['feed_back']=$user->getId();
+
+        echo $url,PHP_EOL;
+        $params['chkcode'] = $this->calcSignature($params);
+        $crawler = $client->request('GET',$url, $params) ;
+
+        // Assert a specific 200 status code
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('1', $client->getResponse()->getContent());
+
+
+        // db checking...
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
+        
+        echo $url,PHP_EOL;
+        $crawler = $client->request('GET',$url, $params) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('0', $client->getResponse()->getContent());
+
+        // status validate
+        echo $url,PHP_EOL;
+        $params['status'] = 'A';
+        $params['chkcode'] = $this->calcSignature($params);
+        $crawler = $client->request('GET',$url, $params) ;
+
+        // Assert a specific 200 status code
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('1', $client->getResponse()->getContent());
+
+        // db checking...
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
+
+        $crawler = $client->request('GET',$url, $params) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('0', $client->getResponse()->getContent());
+
+
+        echo $url,PHP_EOL;
+        $params['chkcode'] = $this->calcSignature($params);
+        $params['status'] = 'R';
+        $crawler = $client->request('GET',$url, $params) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('0', $client->getResponse()->getContent());
     }
 
     private function calcSignature( $params) {
@@ -281,6 +440,7 @@ class ApiControllerTest extends WebTestCase
         }
 
         $this->unique_id = $unique_id;
+        return $unique_id;
     }
 }
 # //http://domain/getyiqifa?
@@ -350,3 +510,26 @@ class ApiControllerTest extends WebTestCase
 #chkcode=16e6911677c57e9a2dceeee93a087336
 #prod_type=%B0%D9%BB%F5
 #exchange_rate=0.0
+
+#192.168.1.1 - - [12/Feb/2014:14:55:28 +0800] "GET /jili-jiang/web/emar/api/callback?unique_id=449623860&create_date=2014-02-12+14%3A54%3A57&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=708089&order_no=1060978034&order_time=2014-02-12+14%3A47%3A33&prod_id=&prod_name=&prod_count=1&prod_money=12.0&feed_back=1094007&status=R&comm_type=0&commision=0.0&chkcode=587e47d2ddabb22663e0d44adbc35854&prod_type=0&am=0.0&exchange_rate=0.0 HTTP/1.1" 200 1 "-" "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) )"
+
+// unique_id=449623860
+// create_date=2014-02-12+14%3A54%3A57
+// action_id=254
+// action_name=%BE%A9%B6%ABCPS
+// sid=458631
+// wid=708089
+// order_no=1060978034
+// order_time=2014-02-12+14%3A47%3A33
+// prod_id=
+// prod_name=
+// prod_count=1
+// prod_money=12.0
+// feed_back=1094007
+// status=R
+// comm_type=0
+// commision=0.0
+// chkcode=587e47d2ddabb22663e0d44adbc35854
+// prod_type=0
+// am=0.0
+// exchange_rate=0.0 

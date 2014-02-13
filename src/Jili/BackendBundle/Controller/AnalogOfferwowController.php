@@ -45,7 +45,6 @@ class AnalogOfferwowController extends Controller implements  IpAuthenticatedCon
 
             //todo: check memberid exits in user table.
 
-
             $sub_request_uri = $this->get('router')->getRouteCollection()->get('_api_offerwow_getinfo')->getPath();
 
             $subRequest =  Request::create($sub_request_uri,'GET', $params );

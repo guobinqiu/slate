@@ -46,17 +46,15 @@ class CallbackValidation
         $data = array();
 
         //required fields
-        $fields_required = array('unique_id', 'action_id', 'sid', 'wid', 'order_no', 'order_time', 'prod_count', 'prod_money', 'comm_type', 'commision', 'status', 'am', 'chkcode', 'fead_back');
+        $fields_required = array('unique_id', 'action_id', 'sid', 'wid', 'order_no', 'order_time', 'prod_count', 'prod_money', 'comm_type', 'commision', 'status', 'am', 'chkcode', 'feed_back');
 
         foreach($fields_required as $field) {
-            if( ! isset( $quries) ||  empty( $quries[$field] ) ) {
+            if( ! isset( $quries) ||  strcmp('', $quries[$field] ) === 0 ) {
                 // false 1
                 $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). $field);
                 return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
             }
         }
-
-
 
         // signature validation.
         // MD5(action_id+order_no+prod_money+order_time+DataSecret)
@@ -67,7 +65,7 @@ class CallbackValidation
 
         $DataSecret = $this->getConfig('DataSecret');
 
-        $chkcode_expect  = md5( $action_id.$order_no.$prod_money.$order_time.$DataSecret );
+        $chkcode_expect  = strtolower(md5( $action_id.$order_no.$prod_money.$order_time.$DataSecret ));
         $chkcode_request = $request->query->get('chkcode');
 
         if( strcmp($chkcode_request, $chkcode_expect ) !== 0) {
@@ -81,13 +79,13 @@ class CallbackValidation
 
         //todo: sid wid validation
         if( $request->query->get('sid')  !== $config_of_sid ) {
-            $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid sid: ' .var_export( $request->query->get('sid'), true) );
+            $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid sid: ' .var_export( $request->query->get('sid'), true). '; expected: ' . var_export( $config_of_sid, true)  );
             return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
         }
 
         #$wid = $request->query->get('wid');
         if($request->query->get('wid') !== $config_of_wid ) {
-            $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid wid: ' .var_export( $request->query->get('wid')  , true) );
+            $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid wid: ' .var_export( $request->query->get('wid')  , true) . '; exception: '. var_export($config_of_wid)  );
             return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
         }
         
