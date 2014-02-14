@@ -160,6 +160,16 @@
 	width:460px;
 	margin: 10px 0;
 }
+.exchange article .wenwen div.form dt.notice{
+	background-color: #FFF2F2;
+    border: 1px solid #FF8888;
+    border-radius: 5px;
+    color: #000000;
+    font-size: 12px;
+    line-height: 170%;
+    padding: 3px 10px;
+    width: 440px;
+}
 .exchange article .wenwen div.form dt span.warn{
 	color:#F00;
 	font-size:12px;

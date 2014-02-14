@@ -11,7 +11,7 @@ function aa(){
 }
 function sendContent(){
     $.ajax({  
-        url: "{{ path('_admin_saveAdCheck') }}?content="+encodeURIComponent($("#content").val()),
+        url: "{{ path('_admin_saveEmergencyAnnouncement') }}?content="+encodeURIComponent($("#content").val()),
         type: "POST",
         success:function(data){
            if(data==1){
@@ -26,9 +26,9 @@ function sendContent(){
 </script>
 </HEAD>
 <BODY>
-<form  method="post" action="{{ path('_admin_advertisermentCheck')}}">
+<form  method="post" action="{{ path('_admin_emergencyAnnouncement')}}">
 <table style="padding:100px;" >
-    <tr><td>体验广告检查&nbsp;&nbsp;</td><td><input id="content" type="text" name="content" value="{{ content }}"//></td></tr>
+    <tr><td>紧急公告内容&nbsp;&nbsp;</td><td><textarea id="content" name="content" cols="50" rows="10">{{ content }}</textarea></td></tr>
 	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 	<tr><td><input type="button" value='清除' onclick="aa()";></td><td><input type="button" value='提交' onclick="sendContent()" ></td></tr>
  </table>

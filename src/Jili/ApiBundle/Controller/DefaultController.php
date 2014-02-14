@@ -382,6 +382,18 @@ class DefaultController extends Controller {
             }
         }
 
+        //EmergencyAnnouncement
+        $filename = $this->container->getParameter('file_path_emergency_announcement');
+        $arr['emergency_announcement'] = "";
+        if (file_exists($filename)) {
+            $file_handle = fopen($filename, "r");
+            if ($file_handle) {
+               if(filesize ($filename)){
+                    $arr['emergency_announcement'] = fread($file_handle, filesize ($filename));
+               }
+            }
+        }
+
 		$arr['callboard'] = $callboard;
 		$arr['banner_count'] = count($advertiseBanner);
 		$arr['advertise_banner'] = $advertiseBanner;
