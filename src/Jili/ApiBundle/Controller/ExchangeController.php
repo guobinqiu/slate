@@ -226,7 +226,7 @@ class  ExchangeController extends Controller
                     if($rechange == 1015 || $rechange == 2010 || $rechange == 2995 || $rechange == 4960){
                         if($existMobile || $arr['existMobile']==''){
                             if($mobile){
-                                    if (!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$mobile)){
+                                    if (!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$mobile)){
                                         $code = $this->container->getParameter('update_wr_mobile');
                                         $arr['code'] = $code;
                                     }else{
