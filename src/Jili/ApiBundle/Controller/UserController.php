@@ -816,7 +816,7 @@ class UserController extends Controller
 		$tel = $request->query->get('tel');
 	    if ($request->getMethod() == 'POST') {
 			if($ck){
-				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0189]{1}[0-9]{8}$|189[0-9]{8}$/",$tel)){
+				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
 					$code = $this->container->getParameter('init_two');
 				}else{
 					$user->setSex($ck);
