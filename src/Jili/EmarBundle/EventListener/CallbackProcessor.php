@@ -168,6 +168,7 @@ class CallbackProcessor
             $order->setHappenedAt($happenTime);
             $order->setConfirmedAt($happenTime);
             $order->setStatus($status);
+            $order->setComm($comm);
             $order->setReturnedAt(date_create(date('Y-m-d H:i:s')));
             $em->flush();
 

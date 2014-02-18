@@ -40,7 +40,7 @@ ALTER TABLE `ad_category`  ADD `asp` VARCHAR(64) NULL COMMENT '平台供应商' 
 
 
 INSERT INTO `ad_category` ( `id` , `category_name` , `asp` , `display_name` )
-VALUES (18 , 'cps', 'emar', '亿玛返利'),( 19, 'cpa', 'emar', '亿玛活动');
+VALUES (18 , 'cps', 'emar', '购物返利'),( 19, 'cpa', 'emar', '亿玛活动');
 
 ALTER TABLE `advertiserment`  ADD `action_id` int(11) NULL COMMENT 'emar  action_id' AFTER `title`;
 
