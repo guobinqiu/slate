@@ -554,7 +554,7 @@ class UserController extends Controller
 			if($hobby)
 				$hobbys  = substr($hobby,0,strlen($hobby)-1); 
 			if($tel){
-				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
 					$codeflag = $this->container->getParameter('update_wr_mobile');
 					$code[] = array("code"=>$this->container->getParameter('init_five'),"msg"=>$codeflag);
 				}else{
@@ -697,7 +697,7 @@ class UserController extends Controller
 					if($hobby)
 						$hobbys = implode(",",$hobby);
 					if($tel){
-						if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+						if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
 							$codeflag = $this->container->getParameter('update_wr_mobile');
 						}else{
 							$user->setSex($sex);
@@ -816,7 +816,7 @@ class UserController extends Controller
 		$tel = $request->query->get('tel');
 	    if ($request->getMethod() == 'POST') {
 			if($ck){
-				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0189]{1}[0-9]{8}$|189[0-9]{8}$/",$tel)){
+				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
 					$code = $this->container->getParameter('init_two');
 				}else{
 					$user->setSex($ck);

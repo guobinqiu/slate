@@ -3474,4 +3474,51 @@ class AdminController extends Controller
         return new Response(1);
     }
 
+
+    /**
+     * @Route("/emergencyAnnouncement", name="_admin_emergencyAnnouncement")
+     */
+    public function emergencyAnnouncementAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+
+        $filename = $this->container->getParameter('file_path_emergency_announcement');
+        $arr['content'] = "";
+        if (file_exists($filename)) {
+            $file_handle = fopen($filename, "r");
+            if ($file_handle) {
+               if(filesize ($filename)){
+                    $arr['content'] = fread($file_handle, filesize ($filename));
+               }
+            }
+        }
+        return $this->render('JiliApiBundle:Admin:emergencyAnnouncement.html.twig', $arr);
+    }
+
+    /**
+     * @Route("/saveEmergencyAnnouncement", name="_admin_saveEmergencyAnnouncement")
+     */
+    public function saveEmergencyAnnouncementAction()
+    {
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $request = $this->get('request');
+        $content = $request->query->get('content');
+        $filename = $this->container->getParameter('file_path_emergency_announcement');
+        //写文件
+        $handle = fopen($filename, "w");
+        if (!$handle) {
+            //die("指定文件不能打开，操作中断!");
+            return new Response(0);
+        }
+        if (fwrite($handle, $content) === FALSE) {
+           return new Response(0);
+        }
+        fclose($handle);
+
+        return new Response(1);
+    }
+
+
 }

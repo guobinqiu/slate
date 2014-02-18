@@ -249,6 +249,24 @@ $(document).ready(function() {
 	//task
 	setTaskNumber();
 	
+	//wam
+	var wamSliderTime = 500
+	var wamNextTime = 2000
+	var wamPPosition = 0
+	
+	var wamNext = function(){
+	if(-wamPPosition >= $(".wam p").height() - 35){
+	   wamPPosition = 0
+	}else{
+	   wamPPosition = wamPPosition - 35 
+	}
+	 $(".wam p").stop(true,false).animate({top:wamPPosition},wamSliderTime)
+	}
+	
+	$(".wam p").hover(function(){clearInterval(wamSetTime)},function(){wamSetTime = setInterval( wamNext , wamNextTime);})
+	
+	var wamSetTime = setInterval( wamNext , wamNextTime);
+	
 });
 
 var setTaskNumber = function(){

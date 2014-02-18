@@ -156,6 +156,7 @@ function goto(cid,aid,points){
 </script>
 <div class="webArticle index">
     <section>
+    	{% if emergency_announcement %}<div class="frame wam"><p>{{ emergency_announcement }}</p></div>{% endif %}
         <div class="frame">
             <div id="indexBanner">
                 <a class="indexBanner1" href="{{ asset(path('_game_index'),'cdn1')}}"><img src="{{ asset('images/indexBanner1.jpg') }}"></a>

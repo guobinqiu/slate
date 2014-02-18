@@ -21,6 +21,24 @@
 	margin-bottom: 16px;
 }
 
+.index .frame.wam {
+	background: url("../images/horn.gif") no-repeat scroll 10px center #FFEDB8;
+    border: 1px solid #EECC95;
+    color: #000000;
+    font-size: 12px;
+    height: 35px;
+    line-height: 35px;
+    overflow: hidden;
+    padding: 0 15px;
+    position: relative;
+}
+.index .frame.wam p {
+	 left: 35px;
+	 padding-right: 10px;
+	 position: absolute;
+	 top: 0px;
+}
+
 .index section .frame #indexBanner {
 	position: relative;
 	height: 236px;

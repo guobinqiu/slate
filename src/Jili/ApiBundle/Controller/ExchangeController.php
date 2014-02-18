@@ -92,7 +92,7 @@ class  ExchangeController extends Controller
                         if($rechange == 3000 || $rechange == 5000){
                             if($existAlipay || $arr['existAlipay']==''){
                                 if($alipay){
-                                    if (preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){          
+                                    if (preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){
                                         if($alipay == $re_alipay){
                                             if($real_name){
                                                 // if(!eregi("[^\x80-\xff]",$real_name)){
@@ -226,7 +226,7 @@ class  ExchangeController extends Controller
                     if($rechange == 1015 || $rechange == 2010 || $rechange == 2995 || $rechange == 4960){
                         if($existMobile || $arr['existMobile']==''){
                             if($mobile){
-                                    if (!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$mobile)){
+                                    if (!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$mobile)){
                                         $code = $this->container->getParameter('update_wr_mobile');
                                         $arr['code'] = $code;
                                     }else{
