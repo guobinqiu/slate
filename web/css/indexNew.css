@@ -110,12 +110,12 @@
 
 .index section .frame #marketActivity a.move.prev {
 	background-position: left top;
-	left: -6px;
+	left: -13px;
 }
 
 .index section .frame #marketActivity a.move.next {
 	background-position: right top;
-	right: -6px;
+	right: -13px;
 }
 
 .index section .frame #marketActivity a.move.prev:hover {
@@ -333,7 +333,7 @@
 	border-top: 1px dashed #DCDCDC;
 	float: left;
 	height: 105px;
-	padding-top: 10px;
+	padding-bottom: 10px;
 	position: relative;
 	text-align: center;
 	width: 135px;
@@ -698,6 +698,7 @@
 }
 .index aside #userInformation input.text:focus, .index aside #userInformation input.password:focus{
 	color:#666;
+	border:1px solid #7FCAF1;
 }
 
 .index aside #userInformation input.text {

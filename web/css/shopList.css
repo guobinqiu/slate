@@ -20,7 +20,7 @@
 }
 .shopList ul.shopRecommend li {
 	float: left;
-	height: auto;
+	height: 65px;
 	padding: 0;
 	text-align: center;
 	width: 107px;
@@ -166,6 +166,8 @@
 	margin: 0px 5px 0px 10px;
 	overflow: hidden;
 	text-align: center;
+	width:60px;
+	height:44px;
 }
 .shopList .shopRebate .s_box div.hover .text {
 	display: block;
