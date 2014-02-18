@@ -12,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
 
 use Jili\ApiBundle\Entity\AdwApiReturn;
 use Jili\ApiBundle\Entity\AdwOrder;
-use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\GameLog;
 use Jili\ApiBundle\Entity\PagOrder;
@@ -517,6 +516,34 @@ class ApiController extends Controller
             }
         }
         $resp = new Response($result);
+        $resp->headers->set('Content-Type', 'text/plain');
+        return $resp;
+    }
+
+    /**
+     * @Route("/getavatar/{uid}", defaults={"uid"=0})
+     * @Template();
+     */
+    public function getAvatarAction($uid) {
+        $result = '';
+
+        if( true || $_SERVER['REMOTE_ADDR']=='101.227.252.89' || $_SERVER['REMOTE_ADDR']=='112.65.174.206' || $_SERVER['REMOTE_ADDR']=='127.0.0.1'  ){
+
+            $request = $this->get('request');
+            $uid = $request->get('uid');
+
+            if( is_numeric($uid) && (int) $uid > 0 ) {
+                $em = $this->getDoctrine()->getManager();
+                $user = $em->getRepository('JiliApiBundle:User')->findOneById($uid);
+                if($user) {
+                    $icon_path = $user->getIconPath();
+                    if( strlen(trim($icon_path)) > 0) {
+                        $result  =$request->getScheme(). '://'.$request->getHost().$request->getBaseUrl() .'/'.$icon_path;
+                    }
+                }
+            }
+        }
+        $resp = new Response($result  );
         $resp->headers->set('Content-Type', 'text/plain');
         return $resp;
     }
