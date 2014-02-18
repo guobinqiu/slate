@@ -335,82 +335,21 @@ class UserRepository extends EntityRepository {
 
     }
 
-    /* public function getUserListForRemindPoint($day) {
+    public function getUserListForRemindPoint($day) {
         $daydate = date("Y-m-d", strtotime(' -' . $day . ' day'));
-        $sql = "select
-                  a.nick,
-                  a.email,
-                  b.create_time,
-                  b.reason,
-                  b.point_change_num,
-                  c.display_name
-                from
-                  user a
-                  left join (
-                    select
-                      user_id,
-                      create_time ,
-                      point_change_num,reason
-                    from
-                      point_history00
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history01
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history02
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history03
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history04
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history05
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history06
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history07
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history08
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history09
-                  ) b on a.id = b.user_id
-                left join ad_category c on b.reason = c.id
-            where create_time like '".$daydate."%' and reason in (1,2,3,17)";
-            //1,2,3,17 广告体验,购物返利,游戏广告,offer-wow
+        $sql = "select a.nick, a.email, b.date, b.point, b.task_name, c.display_name from user a inner join
+                 ( select id, user_id, date, point, category_type, task_name, status from task_history00 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+                union select id, user_id, date, point, category_type, task_name, status from task_history01 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+                union select id, user_id, date, point, category_type, task_name, status from task_history02 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+                union select id, user_id, date, point, category_type, task_name, status from task_history03 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+                union select id, user_id, date, point, category_type, task_name, status from task_history04 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+                union select id, user_id, date, point, category_type, task_name, status from task_history05 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+                union select id, user_id, date, point, category_type, task_name, status from task_history06 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+                union select id, user_id, date, point, category_type, task_name, status from task_history07 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+                union select id, user_id, date, point, category_type, task_name, status from task_history08 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+                union select id, user_id, date, point, category_type, task_name, status from task_history09 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)) b
+                on a.id = b.user_id inner join ad_category c on b.category_type = c.id ";
+        //1,2,3 广告体验,购物返利,游戏广告
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
-    } */
+    }
 }

@@ -24,12 +24,12 @@ class RemindController extends Controller {
 					'value' => $item['email']
 				),
 				array (
-					'name' => 'userCount',
-					'value' => $total['total_user']
+					'name' => 'total_user',
+					'value' => number_format($total['total_user'])
 				),
 				array (
-					'name' => 'totalPoints',
-					'value' => $total['total_points']
+					'name' => 'total_points',
+					'value' => number_format($total['total_points'])
 				)
 			);
 		}
@@ -38,7 +38,10 @@ class RemindController extends Controller {
 		$soapMailLister = $this->get('soap.mail.listener');
 		$soapMailLister->setCampaignId($this->container->getParameter('remind_login_campaign_id')); //活动id
 		$soapMailLister->setMailingId($this->container->getParameter('remind_login_mailing_id')); //邮件id
-		$soapMailLister->setGroup(array ('name' => 'remindLogin', 'is_test' => 'false'));
+		$soapMailLister->setGroup(array (
+			'name' => 'remindLogin',
+			'is_test' => 'false'
+		));
 		$return = $soapMailLister->addRecipientsSendMailing($recipient_arr);
 
 		return new Response($return);
@@ -47,42 +50,48 @@ class RemindController extends Controller {
 	/**
 	 * @Route("/remindPoint", name="_remind_remindPoint")
 	 */
-/*	public function remindPointAction() {
+	public function remindPointAction() {
 
-		//1,2,3,17 广告体验,购物返利,游戏广告,offer-wow 获得积分提醒
+		//1,2,3 广告体验,购物返利,游戏广告,获得积分提醒
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->getUserListForRemindPoint(1);
-
-		$recipient_arr = array ();
-		foreach ($user as $item) {
-			$recipient_arr[] = array (
-				array (
-					'name' => 'email',
-					'value' => $item['email']
-				),
-				array (
-					'name' => 'nick',
-					'value' => $item['nick']
-				),
-				array (
-					'name' => 'point_change_num',
-					'value' => $item['point_change_num']
-				),
-				array (
-					'name' => 'display_name',
-					'value' => $item['display_name']
-				)
-			);
-		}
 
 		//send email by soap
 		$soapMailLister = $this->get('soap.mail.listener');
 		$soapMailLister->setCampaignId($this->container->getParameter('remind_point_campaign_id')); //活动id
 		$soapMailLister->setMailingId($this->container->getParameter('remind_point_mailing_id')); //邮件id
-		$soapMailLister->setGroup(array ('name' => 'remindPoint', 'is_test' => 'false'));
-		$return = $soapMailLister->addRecipientsSendMailing($recipient_arr);
+		$soapMailLister->setGroup(array (
+			'name' => 'remindPoint',
+			'is_test' => 'false'
+		));
+
+		foreach ($user as $item) {
+			$recipient_arr = array (
+				array (
+					'name' => 'email',
+					'value' => $item['email']
+				),
+				array (
+					'name' => 'date',
+					'value' => $item['date']
+				),
+				array (
+					'name' => 'task_name',
+					'value' => trim($item['task_name'])
+				),
+				array (
+					'name' => 'point',
+					'value' => number_format($item['point'])
+				),
+				array (
+					'name' => 'display_name',
+					'value' => trim($item['display_name'])
+				)
+			);
+			$return = $soapMailLister->sendSingleMailing($recipient_arr);
+		}
 
 		return new Response($return);
-	} */
+	}
 
 }
