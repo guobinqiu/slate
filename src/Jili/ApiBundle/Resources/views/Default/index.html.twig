@@ -159,11 +159,11 @@ function goto(cid,aid,points){
     	{% if emergency_announcement %}<div class="frame wam"><p>{{ emergency_announcement }}</p></div>{% endif %}
         <div class="frame">
             <div id="indexBanner">
-                <a class="indexBanner1" href="{{ asset(path('_game_index'),'cdn1')}}"><img src="{{ asset('images/indexBanner1.jpg') }}"></a>
-                <a class="indexBanner2" href="{{ asset(path('_marketActivity_index'),'cdn1')}}"><img src="{{ asset('images/indexBanner2.jpg') }}"></a>
-                <a class="indexBanner3" href="http://www.91wenwen.net/vote/#active" target="_blank"><img src="{{ asset('images/indexBanner3.jpg') }}"></a>
-                <a class="indexBanner4" href="{{ asset(path('_advertiserment_list'),'cdn1')}}"><img src="{{ asset('images/indexBanner4.jpg') }}"><em>{{ adCheck }}</em></a>
-                <a class="indexBanner5" href="{{ asset(path('_shopping_list'),'cdn1')}}"><img src="{{ asset('images/indexBanner5.jpg') }}"></a>
+                <a class="indexBanner1" href="{{ asset(path('_game_index'),'cdn1')}}"><img src="{{ asset('images/indexBanner1.jpg') }}" alt="游戏体验"></a>
+                <a class="indexBanner2" href="{{ asset(path('_marketActivity_index'),'cdn1')}}"><img src="{{ asset('images/indexBanner2.jpg') }}" alt="商家活动"></a>
+                <a class="indexBanner3" href="http://www.91wenwen.net/vote/#active" target="_blank"><img src="{{ asset('images/indexBanner3.jpg') }}" alt="快速问答"></a>
+                <a class="indexBanner4" href="{{ asset(path('_advertiserment_list'),'cdn1')}}"><img src="{{ asset('images/indexBanner4.jpg') }}" alt="体验广告"><em>{{ adCheck }}</em></a>
+                <a class="indexBanner5" href="{{ asset(path('_shopping_list'),'cdn1')}}"><img src="{{ asset('images/indexBanner5.jpg') }}" alt="购物返利"></a>
             </div>
         </div>
         <div class="frame">
@@ -172,7 +172,7 @@ function goto(cid,aid,points){
                 <ul>
                    {% for item in market %}
                     <li>
-                        <a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><img src="{{ asset(item.activityImage) }}" ></a>
+                        <a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName }}" ></a>
                         <div class="more"><h4>{{ item.businessName }}</h4><a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" class="moreBtn">查看详情&gt;&gt;</a></div>
                     </li>
                     {% endfor %}
@@ -183,7 +183,7 @@ function goto(cid,aid,points){
         </div>
         <div class="frame">
             <div id="timeLine">
-                <h3><img src="{{ asset('images/timeLineH3.jpg') }}" /></h3>
+                <h3><img src="{{ asset('images/timeLineH3.jpg') }}" alt="最新动态" /></h3>
                 <div class="mask">
                 <ul>
                      {% for item in recentPoint %}
@@ -211,7 +211,7 @@ function goto(cid,aid,points){
                 <ul>
                     {% for item in adverRecommand %}
                     <li>
-                        <a target="_blank" href="{{ path('_checkin_location') }}?aid={{ item.id }}&type=1"><img src="{{ asset(item.listImage) }}"></a>
+                        <a target="_blank" href="{{ path('_checkin_location') }}?aid={{ item.id }}&type=1"><img src="{{ asset(item.listImage) }}" alt="{{ item.title }}"></a>
                         <p>
                          {% if item.incentiveType==1 %}
                              <span class="rebate">{{ item.incentive }}米粒</span>
@@ -271,13 +271,13 @@ function goto(cid,aid,points){
 			    	{% endif %}
                     <p><input name="email" type="text" class="text" id="email" value="{{ email }}"></p>
                     <p><input name="pwd" type="password" class="password" id="password"></p>
-                    <p><input type="image" src="{{ asset('images/logBtn.jpg') }}" class="image" id="login" name=""><label>
+                    <p><input type="image" src="{{ asset('images/logBtn.jpg') }}" class="image" id="login" value="登录" name="登录" title="登录"><label>
                     <input type="checkbox" id="rem" value="1" name="remember_me">记住我</label> | <a href="{{ asset(path('_user_resetPwd'),'cdn1') }}" class="forget">忘记密码?</a></p> 
                     <p><a href="{{ path('_user_reg') }}" class="reg">免费注册</a></p>
                 </form>
             </div>
             <div id="aboutJili">
-                <h3><img src="{{ asset('images/aboutJili.jpg') }}" /></h3>
+                <h3><img src="{{ asset('images/aboutJili.jpg') }}" alt="在积粒网能做什么？"/></h3>
                 <ul>
                     <li>100米粒=￥1.00元</li>
                     <li>玩游戏，拿返利，答问卷赚积分</li>
@@ -288,7 +288,7 @@ function goto(cid,aid,points){
         {% endif %} 
         <div class="frame">
             <div id="news">
-                <h3><img src="{{ asset('images/newsH3.jpg') }}" /></h3>
+                <h3><img src="{{ asset('images/newsH3.jpg') }}" alt="最新公告"/></h3>
                 <div class="mask">
                 <div class="all">
                 <ul>
@@ -307,7 +307,7 @@ function goto(cid,aid,points){
         </div>
         <div class="frame">
             <div id="ranking">
-                <h3><img src="{{ asset('images/rankingH3.jpg') }}"/></h3>
+                <h3><img src="{{ asset('images/rankingH3.jpg') }}" alt="排行榜"/></h3>
                 <div class="mask">
                 <div class="all">
                     <ul class="month">
@@ -334,7 +334,7 @@ function goto(cid,aid,points){
     <a class="close">关闭</a>
     <ul>
     {% for item in arrList %}
-      <li><a onclick="goto({{ item.cid }},{{ item.id }},{{ checkinPoint }});" class="image{{ item.cid }}"><img src="{{ asset(item.list_image) }}" width="200" height="130"><p>最高返利{{ item.reward_rate }}%</p>
+      <li><a onclick="goto({{ item.cid }},{{ item.id }},{{ checkinPoint }});" class="image{{ item.cid }}"><img src="{{ asset(item.list_image) }}" width="200" height="130" alt="{{ item.title }}"><p>最高返利{{ item.reward_rate }}%</p>
       <div class="gray"></div>
       <div class="goTo {{ item.cid }}">点击前往</div>
       <div class="finish">已打开</div>
