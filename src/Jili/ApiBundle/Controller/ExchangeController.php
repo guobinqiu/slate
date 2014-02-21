@@ -204,6 +204,7 @@ class  ExchangeController extends Controller
             $existMobile = $request->request->get('existMobile');
 
             $tokenKey = $request->request->get('tokenKey');
+            $arr['tokenKey'] = $tokenKey;
             $session = $this->getRequest()->getSession();
             $session->set('mobileToken', $tokenKey);
             if(!$this->get('request')->getSession()->get('mobileToken')){
@@ -218,7 +219,6 @@ class  ExchangeController extends Controller
             }
             if($request->getMethod() == 'POST' && $change_point) {
                 $arr['mobile'] = $mobile;
-                $arr['tokenKey'] = $tokenKey;
                 if($change_point-$points>0){
                     $code = $this->container->getParameter('exchange_wr_point');
                     $arr['code'] = $code;
@@ -403,6 +403,7 @@ class  ExchangeController extends Controller
             $change_point =  $request->request->get('point');
 
             $tokenKey = $request->request->get('tokenKey');
+            $arr['tokenKey'] = $tokenKey;
             $session = $this->getRequest()->getSession();
             $session->set('amazonToken', $tokenKey);
             if(!$this->get('request')->getSession()->get('amazonToken')){
@@ -412,35 +413,29 @@ class  ExchangeController extends Controller
                 return $this->redirect($this->generateUrl('_default_error'));
             }
             if ($request->getMethod() == 'POST' && $change_point) {
-                $arr['tokenKey'] = $tokenKey;
                 if($change_point){
-                    if($change_point > 0 && $change_point <= 5000){
-                        if($change_point-$points>0){
+                    if($change_point > 0 && $change_point*1000 <= 5000){
+                        if($change_point*1000-$points>0){
                             $code = $this->container->getParameter('exchange_wr_point');
                             $arr['code'] = $code;
                         }else{
-                            if($change_point%1000 != 0){
-                                $code = $this->container->getParameter('exchange_wr_point');
-                                $arr['code'] = $code;
-                            }else{
-                                $user->setPoints($points - intval($change_point * 1000));
-                                $em->persist($user);
-                                $em->flush();
-                                $pointschange->setUserId($id);
-                                $pointschange->setType($this->container->getParameter('init_two'));
-                                $pointschange->setSourcePoint($points-intval($change_point*1000));
-                                $pointschange->setTargetPoint(intval($change_point*1000));
-                                $pointschange->setExchangeItemNumber($change_point);
-                                $pointschange->setIp($this->get('request')->getClientIp());
-                                $em->persist($pointschange);
-                                $em->flush();
-                                $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
-                                $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
-                                $token_key = $this->getTokenKey();
-                                $session = $this->getRequest()->getSession();
-                                $session->set('amazon', $token_key);
-                                return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'amazon')));
-                            }
+                            $user->setPoints($points-intval($change_point*1000));
+                            $em->persist($user);
+                            $em->flush();
+                            $pointschange->setUserId($id);
+                            $pointschange->setType($this->container->getParameter('init_two'));
+                            $pointschange->setSourcePoint($points-intval($change_point*1000));
+                            $pointschange->setTargetPoint(intval($change_point*1000));
+                            $pointschange->setExchangeItemNumber($change_point);
+                            $pointschange->setIp($this->get('request')->getClientIp());
+                            $em->persist($pointschange);
+                            $em->flush();
+                            $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
+                            $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
+                            $token_key = $this->getTokenKey();
+                            $session = $this->getRequest()->getSession();
+                            $session->set('amazon', $token_key);
+                            return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'amazon')));
                         }
                     }else{
                         $code = $this->container->getParameter('exchange_wr_point');
@@ -640,7 +635,7 @@ class  ExchangeController extends Controller
             $ck =  $request->request->get('ck');
             $arr['ck'] = $ck;
             $change_point =  $request->request->get('point');
-            if ($request->getMethod() == 'POST') {
+            if ($request->getMethod() == 'POST' && $change_point) {
                 if($change_point > 0 && $change_point <= 5000){
                     if($change_point-$points>0){
                         $code = $this->container->getParameter('exchange_wr_point');
