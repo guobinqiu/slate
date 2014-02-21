@@ -209,6 +209,8 @@ parameters:
     register_success_campaign_id: 7
     register_success_mailing_id: 58
     remind_login_campaign_id: 9
-    remind_login_mailing_id: 63
+    remind_login_mailing_id: 75
+    remind_point_campaign_id: 11
+    remind_point_mailing_id: 72
     file_path_advertiserment_check: /data/91jili/advertiserment_check.log
     file_path_emergency_announcement: /data/91jili/emergency_announcement.log

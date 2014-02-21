@@ -18,7 +18,7 @@
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle adList">
   <article>
-  <h2><img src="{{ asset('images/adTitle.jpg') }}" width="149" height="19"></h2>
+  <h2><img src="{{ asset('images/adTitle.jpg') }}" width="149" height="19" alt="体验广告"></h2>
     <iframe src='http://www.offer-wow.com/affiliate/wall/open.do?websiteid={{  offerwow_com.websiteid }}&styleIndex=1&memberid={{  app.session.get('uid') }}' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
     <div class="explain"><a href="#" class="explainBtn">活动说明</a>
         <div class="explainMore">
@@ -36,7 +36,7 @@
 
      {% for item in ads %}
             <div class="cpa{{ loop.last ? ' last' : '' }}">
-              <dd><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="100px" height="60px" ></a></dd>
+              <dd><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="100px" height="60px" alt="{{item.title}}"></a></dd>
 
                       {% if item.incentiveType==1 %}
                          <dt>+{{ item.incentive }}<br />米粒<br/>

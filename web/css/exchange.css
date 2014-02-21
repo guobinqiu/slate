@@ -205,6 +205,9 @@
 	box-shadow:inset 1px 1px 2px #eee;
 	margin:0 5px 0 0;
 }
+.exchange article .wenwen div.form dt input[type="text"]:focus{
+	border:1px solid #7FCAF1;
+}
 .exchange article .wenwen div.changePoint{
 	border: 2px dotted #EEEEEE;
     display: block;

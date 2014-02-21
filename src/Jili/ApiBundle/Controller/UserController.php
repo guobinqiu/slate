@@ -60,6 +60,12 @@ class UserController extends Controller
 		if(!$request->getSession()->get('flag')){
 			$session = $this->getRequest()->getSession();
             $session->set('flag', 1);
+
+            //update last logindate
+            $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
+            $user->setLastLoginIp($this->get('request')->getClientIp());
+            $em->flush();
+
 			$loginlog = new Loginlog();
 			$loginlog->setUserId($id);
 			$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
