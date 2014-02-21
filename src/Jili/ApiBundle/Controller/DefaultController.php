@@ -892,6 +892,8 @@ class DefaultController extends Controller {
 			}
 		}
 
+		fclose($file_handle);
+
 		return $contents;
 	}
 
