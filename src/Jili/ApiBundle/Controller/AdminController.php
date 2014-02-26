@@ -3496,6 +3496,7 @@ class AdminController extends Controller
                     $arr['content'] = fread($file_handle, filesize ($filename));
                }
             }
+            fclose($file_handle);
         }
         return $this->render('JiliApiBundle:Admin:emergencyAnnouncement.html.twig', $arr);
     }
