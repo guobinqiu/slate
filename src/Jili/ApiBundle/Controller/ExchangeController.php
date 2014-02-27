@@ -89,7 +89,7 @@ class  ExchangeController extends Controller
                         $code = $this->container->getParameter('exchange_wr_point');
                         $arr['code'] = $code;
                     }else{
-                        if($change_point == 3000 || $change_point == 5000){
+                        if($change_point == 3030 || $change_point == 5000){
                             if($existAlipay || $arr['existAlipay']==''){
                                 if($alipay){
                                     if (preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){
