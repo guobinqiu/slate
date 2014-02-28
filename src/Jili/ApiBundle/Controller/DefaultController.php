@@ -380,6 +380,7 @@ class DefaultController extends Controller {
                     $arr['adCheck'] = fread($file_handle, filesize ($filename));
                }
             }
+            fclose($file_handle);
         }
 
         //EmergencyAnnouncement
@@ -392,6 +393,7 @@ class DefaultController extends Controller {
                     $arr['emergency_announcement'] = fread($file_handle, filesize ($filename));
                }
             }
+            fclose($file_handle);
         }
 
 		$arr['callboard'] = $callboard;
@@ -891,6 +893,8 @@ class DefaultController extends Controller {
 				$contents[] = $item;
 			}
 		}
+
+		fclose($file_handle);
 
 		return $contents;
 	}

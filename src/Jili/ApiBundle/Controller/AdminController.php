@@ -1686,6 +1686,7 @@ class AdminController extends Controller
      */
     public function exchangeInWenAction()
     {
+        set_time_limit(1800);
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $success = '';
@@ -3446,7 +3447,19 @@ class AdminController extends Controller
     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-        return $this->render('JiliApiBundle:Admin:advertisermentCheck.html.twig');
+
+        $filename = $this->container->getParameter('file_path_advertiserment_check');
+        $arr['content'] = "";
+        if (file_exists($filename)) {
+            $file_handle = fopen($filename, "r");
+            if ($file_handle) {
+               if(filesize ($filename)){
+                    $arr['content'] = fread($file_handle, filesize ($filename));
+               }
+            }
+            fclose($file_handle);
+        }
+        return $this->render('JiliApiBundle:Admin:advertisermentCheck.html.twig', $arr);
     }
 
 
@@ -3492,6 +3505,7 @@ class AdminController extends Controller
                     $arr['content'] = fread($file_handle, filesize ($filename));
                }
             }
+            fclose($file_handle);
         }
         return $this->render('JiliApiBundle:Admin:emergencyAnnouncement.html.twig', $arr);
     }

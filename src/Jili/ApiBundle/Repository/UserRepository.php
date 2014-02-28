@@ -134,83 +134,19 @@ class UserRepository extends EntityRepository {
 	public function getRecentPoint($yesterday) {
 		$start = $yesterday . " 00:00:00";
 		$end = $yesterday . " 23:59:59";
-		$sql = "select
-                  a.nick,
-                  a.icon_path,
-                  b.create_time,
-                  b.reason,
-                  b.point_change_num,
-                  c.display_name
-                from
-                  user a
-                  left join (
-                    select
-                      user_id,
-                      create_time ,
-                      point_change_num,reason
-                    from
-                      point_history00
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history01
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history02
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history03
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history04
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history05
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history06
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history07
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history08
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num,reason
-                    from
-                      point_history09
-                  ) b on a.id = b.user_id
-                left join ad_category c on b.reason = c.id
-                where create_time >= '" . $start . "'
-                and create_time <= '" . $end . "'
-                order by
-                  abs(point_change_num) desc
-                limit 99";
+		$sql = "select a.nick, a.icon_path, b.create_time, b.reason, b.point_change_num, c.display_name from user a inner join
+                ( select user_id, create_time, point_change_num, reason from point_history00 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
+                union all select user_id, create_time, point_change_num,reason from point_history01 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
+                union all select user_id, create_time, point_change_num, reason from point_history02 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
+                union all select user_id, create_time, point_change_num, reason from point_history03 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
+                union all select user_id, create_time, point_change_num, reason from point_history04 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
+                union all select user_id, create_time, point_change_num, reason from point_history05 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
+                union all select user_id, create_time, point_change_num, reason from point_history06 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
+                union all select user_id, create_time, point_change_num, reason from point_history07 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
+                union all select user_id, create_time, point_change_num, reason from point_history08 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
+                union all select user_id, create_time, point_change_num, reason from point_history09 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "' ) b
+                on a.id = b.user_id inner join ad_category c on b.reason = c.id
+                order by abs(point_change_num) desc limit 99";
 		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 	}
 
