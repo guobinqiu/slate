@@ -9,6 +9,10 @@ emar-backend:
     resource: "@JiliEmarBundle/Controller/BackendController.php"
     type:     annotation
 
+emar-search:
+    resource: "@JiliEmarBundle/Controller/SearchController.php"
+    type:     annotation
+
 #emar-analog:
 #    resource: "@JiliBackendBundle/Controller/AnalogOfferwowController.php"
 #    type:     annotation
