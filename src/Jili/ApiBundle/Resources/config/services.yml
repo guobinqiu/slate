@@ -57,7 +57,6 @@ services:
             - [setRebatePointCaculator, ["@rebate_point.caculator"] ]
 
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-<<<<<<< HEAD
 
     cps_access_history.logger:
         class: %cps_access_history.logger.class%
@@ -72,11 +71,8 @@ services:
             - [setEntityManager, ["@doctrine.orm.entity_manager"] ] 
             - [setContainer, ["@service_container"] ] 
 
-
-=======
     check_in.listener:
         class: %check_in.listener.class%
         calls:
             - [setContainer, ["@service_container"]]
         arguments: ["@doctrine.orm.entity_manager"]
->>>>>>> master
