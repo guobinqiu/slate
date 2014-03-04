@@ -14,6 +14,8 @@ parameters:
     cps_access_history.logger.class: Jili\ApiBundle\EventListener\CpsAccessHistoryFactory
     cps_order.factory.class: Jili\ApiBundle\EventListener\CpsOrderFactory
 
+    check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
+
 services:
     login.listener:
         class: %login.listener.class%
@@ -55,6 +57,7 @@ services:
             - [setRebatePointCaculator, ["@rebate_point.caculator"] ]
 
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+<<<<<<< HEAD
 
     cps_access_history.logger:
         class: %cps_access_history.logger.class%
@@ -70,3 +73,10 @@ services:
             - [setContainer, ["@service_container"] ] 
 
 
+=======
+    check_in.listener:
+        class: %check_in.listener.class%
+        calls:
+            - [setContainer, ["@service_container"]]
+        arguments: ["@doctrine.orm.entity_manager"]
+>>>>>>> master

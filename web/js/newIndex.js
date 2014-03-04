@@ -267,6 +267,23 @@ $(document).ready(function() {
 	
 	var wamSetTime = setInterval( wamNext , wamNextTime);
 	
+	//glideAd
+	var glideAdShowTime = 2000
+	var glideAdHideTime = 5000
+	var glideAdShow = function(){
+		$("#glideAd").slideDown("normal")
+		clearInterval(glideAdShowSetTime)
+		glideAdHideSetTime = setInterval( glideAdHide , glideAdHideTime);
+	}
+	var glideAdHide = function(){
+		$("#glideAd").slideUp("normal")
+		clearInterval(glideAdHideSetTime)
+	}
+	$("#glideAd .close").click(function(){
+		glideAdHide();
+	})
+	var glideAdShowSetTime = setInterval( glideAdShow , glideAdShowTime);
+	
 });
 
 var setTaskNumber = function(){

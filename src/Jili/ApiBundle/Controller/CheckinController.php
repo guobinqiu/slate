@@ -97,11 +97,9 @@ class CheckinController extends Controller
 		if($click){
 			$clickStatus = $em->getRepository('JiliApiBundle:CheckinClickList')->find($click[0]['id']);
 			if($clickStatus->getOpenShopTimes() == 3){
-				$pointTimes = $em->getRepository('JiliApiBundle:CheckinPointTimes')->getCheckinTimes();
-				if(!empty($pointTimes))
-					$nowPoint = $pointTimes[0]['pointTimes'] ? $pointTimes[0]['pointTimes'] : $clickTimes;
-				else
-					$nowPoint = $clickTimes;
+                //获取签到积分
+                $checkInLister = $this->get('check_in.listener');
+                $nowPoint = $checkInLister->getCheckinPoint($this->get('request'));
 				if($this->issetPoints($uid))
 					$this->updatePoint($uid,$nowPoint);
 				$code = $this->container->getParameter('init_one');

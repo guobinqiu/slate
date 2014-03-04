@@ -124,6 +124,7 @@
 	float:left;
 	line-height:35px;
 	font-size:12px;
+	position: relative;
 }
 
 .regStep article ul.form li dt input.password{
@@ -216,6 +217,22 @@
 	padding:10px 20px;
 	width:300px;
 	height:auto;
+}
+.regStep article ul.form li dt .regPrompt{
+	height: 40px;
+	position: absolute;
+	right: -195px;
+	top: 13px;
+	line-height: 40px;
+	padding-left: 25px;
+	width: 160px;
+	background-image:url("../images/regPrompt.jpg");
+}
+.regStep article ul.form li dt .regPrompt em{
+	color: #EA4B11;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
 }
 .regStep article .regFrame{
 	text-align:center;

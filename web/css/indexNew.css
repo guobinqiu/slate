@@ -942,3 +942,21 @@
 #signInFrame li.finish .gray,#signInFrame li.finish .finish {
 	display: block;
 }
+
+#glideAd{
+	display: none;
+    height: 215px;
+    margin-top: 20px;
+    width: 960px;
+	position:relative;
+}
+#glideAd .close{
+	position:absolute;
+	right:10px;
+	top:10px;
+	background-image:url(../images/glideCloseBtn.png);
+	width:23px;
+	height:23px;
+	display:inline-block;
+	font-size:0;
+}

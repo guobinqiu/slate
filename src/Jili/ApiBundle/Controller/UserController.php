@@ -1175,6 +1175,10 @@ class UserController extends Controller
 		$form = $this->createForm(new CaptchaType(), array());
 		$email = $request->request->get('email');
 		$nick = $request->request->get('nick');
+        //获取签到积分
+        $checkInLister = $this->get('check_in.listener');
+        $checkInPoint = $checkInLister->getCheckinPointForReg($this->get('request'));
+
 		if ($request->getMethod() == 'POST'){
 			    if($this->get('request')->getSession()->get('phrase') != $request->request->get('captcha')){
 			    	$this->get('request')->getSession()->remove('phrase');
@@ -1256,7 +1260,8 @@ class UserController extends Controller
 				'code_email'=>$code_email,
 				'code_re'=>$code_re,
 				'email'=>$email,
-				'nick' =>$nick
+				'nick' =>$nick,
+                'checkInPoint' =>$checkInPoint
 				));
 	}
 	

@@ -47,6 +47,13 @@ class CheckinPointTimes
     private $endTime;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="checkin_type", type="integer")
+     */
+    private $checkinType;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="create_time", type="datetime")
@@ -132,6 +139,29 @@ class CheckinPointTimes
     public function getEndTime()
     {
         return $this->endTime;
+    }
+
+    /**
+     * Set checkinType
+     *
+     * @param integer $checkinType
+     * @return CheckinPointTimes
+     */
+    public function setCheckinType($checkinType)
+    {
+        $this->checkinType = $checkinType;
+
+        return $this;
+    }
+
+    /**
+     * Get checkinType
+     *
+     * @return integer
+     */
+    public function getCheckinType()
+    {
+        return $this->checkinType;
     }
 
     /**

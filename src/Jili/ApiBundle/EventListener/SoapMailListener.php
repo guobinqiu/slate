@@ -105,5 +105,43 @@ class SoapMailListener {
 		}
 	}
 
+	public function sendMailing($recipient_arr) {
+		$login = $this->login_info();
+		$client = $this->init_client();
+		try {
+			$group = $client->addGroup($login, $this->campaignId, $this->group);
+
+			if ($group->status == "ERROR") {
+				$rs = 'Cannot add group:' . $group->statusMsg;
+				return $rs;
+			}
+
+			$addRecipient_result = $client->addRecipient($login, $this->campaignId, array (
+				$group->id
+			), $recipient_arr, true, true);
+
+			if ($addRecipient_result->status == "ERROR") {
+				$re = "addRecipient error';";
+				return $rs;
+			}
+
+			$resultsEmail = 'zhangmm@voyagegroup.com.cn';
+
+			$result = $client->sendMailing($login, $this->campaignId, $this->mailingId, true, $resultsEmail, array (
+				$group->id
+			), "", "", "", "");
+
+			if ($result->status != "ERROR") {
+				$rs = 'Email send success';
+			} else {
+				$rs = 'Email send fail';
+			}
+
+			return $rs;
+		} catch (SoapFault $exception) {
+			echo $exception;
+		}
+	}
+
 }
 ?>

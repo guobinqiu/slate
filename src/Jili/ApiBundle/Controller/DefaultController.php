@@ -134,16 +134,6 @@ class DefaultController extends Controller {
 
 	}
 
-	//获取签到积分
-	public function getCheckinPoint(){
-		$clickTimes = $this->container->getParameter('init_one');
-		$em = $this->getDoctrine()->getManager();
-		$pointTimes = $em->getRepository('JiliApiBundle:CheckinPointTimes')->getCheckinTimes();
-		if(!empty($pointTimes))
-			$clickTimes = $pointTimes[0]['pointTimes'] ? $pointTimes[0]['pointTimes'] : $clickTimes;
-		return $clickTimes;
-	}
-
 	//签到列表
 	public function checkinList(){
 		$arrList = array();
@@ -210,8 +200,16 @@ class DefaultController extends Controller {
 		$reward_multiple = '';
 		//截取nick
 		$limitNick = '';
+        $glideAd = false;//是否显示签到活动广告
+        $glideAd_reg = false;//是否为当天注册
 		if ($id) {
 			$user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $reg_date = $user->getRegisterDate()->format('Y-m-d');
+            //判断是否为当天注册
+            if(date('Y-m-d') == $reg_date){
+            	$glideAd_reg = true;
+            }
+
 			if ($this->countStrs($user->getNick()) > 15) {
 				if ($this->isUnion($user->getNick())){
 					$limitNick = $this->my_substr($user->getNick(), 0, 18) . '...';
@@ -227,8 +225,12 @@ class DefaultController extends Controller {
 			$arr['user'] = $user;
 			$arr['limitNick'] = $limitNick;
 			$arr['arrList'] = $this->checkinList();
-			$arr['checkinPoint'] = $this->getCheckinPoint();
+            //获取签到积分
+            $checkInLister = $this->get('check_in.listener');
+			$arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));;
 			$arr['clickDayCount'] = $this->clickDayCount();
+		}else{
+			$glideAd = true;//未登录，显示签到活动广告
 		}
 		$info = '';
 		$couponOd = '';
@@ -359,8 +361,13 @@ class DefaultController extends Controller {
 			if (!empty ($checkin)) {
 				$arr['task']['checkin'] = $this->container->getParameter('init');
 			} else {
-				$arr['task']['checkinPoint'] = $this->getCheckinPoint();
+				//获取签到积分
+                $checkInLister = $this->get('check_in.listener');
+                $arr['task']['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));;
 				$arr['task']['checkin'] = $this->container->getParameter('init_one');
+                if($glideAd_reg){
+                	$glideAd = true;//显示签到活动广告
+                }
 			}
 
 			//cpa
@@ -405,6 +412,7 @@ class DefaultController extends Controller {
 		$arr['adverRecommand'] = $adverRecommand;
 		$arr['rankingMonth'] = $rankingMonth;
 		$arr['rankingYear'] = $rankingYear;
+		$arr['glideAd'] = $glideAd;
 		return $this->render('JiliApiBundle:Default:index.html.twig', $arr);
 	}
 
@@ -514,8 +522,12 @@ class DefaultController extends Controller {
 		if ($this->get('request')->getSession()->get('uid')) {
 			return $this->redirect($this->generateUrl('_default_index'));
 		}
+        $email = '';
 		$is_user = '';
 		$code = '';
+        $err_msg = '';
+        $signature = '';
+        $uniqkey = '';
 		$request = $this->get('request');
 		$token = $request->query->get('secret_token');
 		$nick = $request->request->get('nick');
@@ -533,171 +545,143 @@ class DefaultController extends Controller {
 		$wenuser = $em->getRepository('JiliApiBundle:WenwenUser')->findByToken($u_token);
 		if (!$wenuser) {
 			$params = json_decode(base64_decode(strtr($u_token, '-_', '+/')));
-			$email = '';
-			$signature = '';
-			$uniqkey = '';
 			if ($params) {
 				$email = $params->email;
 				$signature = $params->signature;
 				if (isset ($params->uniqkey))
 					$uniqkey = $params->uniqkey;
 			}
-			if ($this->getToken($email) == $signature) {
-				$is_email = $em->getRepository('JiliApiBundle:User')->getWenwenUser($email);
-				if ($is_email) {
-					$is_user = $this->container->getParameter('init_one');
-				} else {
-					if ($request->getMethod() == 'POST') {
-						if ($nick && $pwd && $newPwd) {
-							if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u", $nick)) {
-								$code = $this->container->getParameter('init_one');
-							} else {
-								$user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email, $nick);
-								if ($user_nick)
-									$code = $this->container->getParameter('init_two');
-								else {
-									if (!preg_match("/^[0-9A-Za-z_]{6,20}$/", $pwd)) {
-										$code = $this->container->getParameter('init_three');
-									} else {
-										if ($pwd == $newPwd) {
-											$isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-											if ($isset_email) {
-												$isset_email[0]->setNick($nick);
-												$isset_email[0]->setPwd($pwd);
-												$isset_email[0]->setIsFromWenwen($this->container->getParameter('init_one'));
-												$isset_email[0]->setRewardMultiple($this->container->getParameter('init_one'));
-												$isset_email[0]->setUniqkey($uniqkey);
-												$em->persist($isset_email[0]);
-												$em->flush();
-												$id = $isset_email[0]->getId();
-											} else {
-												$user = new User();
-												$user->setNick($nick);
-												$user->setPwd($pwd);
-												$user->setEmail($email);
-												$user->setIsFromWenwen($this->container->getParameter('init_one'));
-												$user->setPoints($this->container->getParameter('init'));
-												$user->setRewardMultiple($this->container->getParameter('init_one'));
-												$user->setIsInfoSet($this->container->getParameter('init'));
-												$user->setUniqkey($uniqkey);
-												$em->persist($user);
-												$em->flush();
-												$id = $user->getId();
-											}
-
-                                            //设置密码之后，注册成功，发邮件2014-01-10
-                                            $soapMailLister = $this->get('soap.mail.listener');
-                                            $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
-                                            $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
-                                            $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
-                                            $recipient_arr = array (
-                                                    array (
-                                                        'name' => 'email',
-                                                        'value' => $email
-                                                    )
-                                                );
-                                            $soapMailLister->sendSingleMailing($recipient_arr);
-
-											$request->getSession()->remove('token');
-											$request->getSession()->set('uid', $id);
-											$request->getSession()->set('nick', $nick);
-											return $this->redirect($this->generateUrl('_default_index'));
-										} else {
-											$code = $this->container->getParameter('init_four');
-										}
-									}
-								}
-							}
-						} else {
-							$code = $this->container->getParameter('init_five');
-						}
-
-					}
-				}
-			} else {
-				return $this->redirect($this->generateUrl('_user_reg'));
-			}
+			if ($this->getToken($email) != $signature) {
+                return $this->redirect($this->generateUrl('_user_reg'));
+            }
 		} else {
 			$email = $wenuser[0]->getEmail();
-			$is_email = $em->getRepository('JiliApiBundle:User')->getWenwenUser($email);
-			if ($is_email) {
-				$is_user = $this->container->getParameter('init_one');
-			} else {
-				if ($request->getMethod() == 'POST') {
-					if ($nick && $pwd && $newPwd) {
-						if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u", $nick)) {
-							$code = $this->container->getParameter('init_one');
-						} else {
-							$user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email, $nick);
-							if ($user_nick)
-								$code = $this->container->getParameter('init_two');
-							else {
-								if (!preg_match("/^[0-9A-Za-z_]{6,20}$/", $pwd)) {
-									$code = $this->container->getParameter('init_three');
-								} else {
-									if ($pwd == $newPwd) {
-										$isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-										if ($isset_email) {
-											$isset_email[0]->setNick($nick);
-											$isset_email[0]->setPwd($pwd);
-											$isset_email[0]->setIsFromWenwen($this->container->getParameter('init_one'));
-											$isset_email[0]->setRewardMultiple($this->container->getParameter('init_one'));
-											$em->persist($isset_email[0]);
-											$em->flush();
-											$id = $isset_email[0]->getId();
-										} else {
-											$user = new User();
-											$user->setNick($nick);
-											$user->setPwd($pwd);
-											$user->setEmail($email);
-											$user->setIsFromWenwen($this->container->getParameter('init_one'));
-											$user->setPoints($this->container->getParameter('init'));
-											$user->setRewardMultiple($this->container->getParameter('init_one'));
-											$user->setIsInfoSet($this->container->getParameter('init'));
-											$em->persist($user);
-											$em->flush();
-											$id = $user->getId();
-										}
-
-                                        //设置密码之后，注册成功，发邮件2014-01-10
-                                        $soapMailLister = $this->get('soap.mail.listener');
-                                        $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
-                                        $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
-                                        $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
-                                        $recipient_arr = array (
-                                                array (
-                                                    'name' => 'email',
-                                                    'value' => $email
-                                                )
-                                            );
-                                        $soapMailLister->sendSingleMailing($recipient_arr);
-
-										$request->getSession()->remove('token');
-										$request->getSession()->set('uid', $id);
-										$request->getSession()->set('nick', $nick);
-										return $this->redirect($this->generateUrl('_default_index'));
-									} else {
-										$code = $this->container->getParameter('init_four');
-									}
-								}
-							}
-						}
-					} else {
-						$code = $this->container->getParameter('init_five');
-					}
-
-				}
-			}
-
 		}
+        $is_email = $em->getRepository('JiliApiBundle:User')->getWenwenUser($email);
+        if ($is_email) {
+            $is_user = $this->container->getParameter('init_one');
+        } else {
+            if ($request->getMethod() == 'POST') {
+                $err_msg = $this->checkLanding($email, $nick, $pwd, $newPwd);
+                if(!$err_msg){
+                    $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+                    if ($isset_email) {
+                        $isset_email[0]->setNick($nick);
+                        $isset_email[0]->setPwd($pwd);
+                        $isset_email[0]->setIsFromWenwen($this->container->getParameter('init_one'));
+                        $isset_email[0]->setRewardMultiple($this->container->getParameter('init_one'));
+                        if($uniqkey){
+                            $isset_email[0]->setUniqkey($uniqkey);
+                        }
+                        $em->persist($isset_email[0]);
+                        $em->flush();
+                        $id = $isset_email[0]->getId();
+                    } else {
+                        $user = new User();
+                        $user->setNick($nick);
+                        $user->setPwd($pwd);
+                        $user->setEmail($email);
+                        $user->setIsFromWenwen($this->container->getParameter('init_one'));
+                        $user->setPoints($this->container->getParameter('init'));
+                        $user->setRewardMultiple($this->container->getParameter('init_one'));
+                        $user->setIsInfoSet($this->container->getParameter('init'));
+                        if($uniqkey){
+                            $user->setUniqkey($uniqkey);
+                        }
+                        $em->persist($user);
+                        $em->flush();
+                        $id = $user->getId();
+                    }
+
+                    //设置密码之后，注册成功，发邮件2014-01-10
+                    $soapMailLister = $this->get('soap.mail.listener');
+                    $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
+                    $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
+                    $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
+                    $recipient_arr = array (
+                            array (
+                                'name' => 'email',
+                                'value' => $email
+                            )
+                        );
+                    $soapMailLister->sendSingleMailing($recipient_arr);
+
+                    $request->getSession()->remove('token');
+                    $request->getSession()->set('uid', $id);
+                    $request->getSession()->set('nick', $nick);
+                    return $this->redirect($this->generateUrl('_default_index'));
+                }
+            }
+        }
+
+        //最新动态
+        $filename = $this->container->getParameter('file_path_recent_point');
+        $recentPoint = $this->readFileContent($filename);
+        foreach ($recentPoint as $key => $item){
+        	if($key > 9){
+        		break;
+        	}
+            if($item[2] > 0) {
+                $recent[]['title'] = $item[0]."通过".$item[3]."获得".$item[2]."积分";
+            }else{
+                $recent[]['title'] = $item[0]."将".(-$item[2])."积分兑换成亚马逊礼品卡";
+            }
+        }
+
 		return $this->render('JiliApiBundle:Default:landing.html.twig', array (
 			'code' => $code,
 			'is_user' => $is_user,
 			'nick' => $nick,
-			'email' => $email
+			'email' => $email,
+            'err_msg'=> $err_msg,
+            'recent'=>  $recent,
 		));
 
 	}
+
+    private function checkLanding($email, $nick, $pwd, $newPwd){
+        $err_msg = '';
+        $em = $this->getDoctrine()->getManager();
+        if(!$nick || $nick == "输入昵称"){
+            $err_msg = "请输入昵称";
+            return $err_msg;
+        }
+        if(!$pwd || $pwd == "输入密码"){
+            $err_msg = "请输入密码和确认密码";
+            return $err_msg;
+        }
+        if(!$newPwd || $newPwd == "确认密码"){
+            $err_msg = "请输入密码和确认密码";
+            return $err_msg;
+        }
+//        if(!$nick || !$pwd || !$newPwd){
+//            //$code = $this->container->getParameter('init_five');
+//            $err_msg = "都为必填项";
+//            return $err_msg;
+//        }
+        if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u", $nick)) {
+            //$code = $this->container->getParameter('init_one');
+            $err_msg = "昵称为2-20个字符";
+            return $err_msg;
+        }
+        $user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email, $nick);
+        if ($user_nick){
+            //$code = $this->container->getParameter('init_two');
+            $err_msg = "昵称已经注册";
+            return $err_msg;
+        }
+        if (!preg_match("/^[0-9A-Za-z_]{6,20}$/", $pwd)) {
+            //$code = $this->container->getParameter('init_three');
+            $err_msg = "密码为6-20个字符，不能含特殊符号";
+            return $err_msg;
+        }
+        if ($pwd != $newPwd) {
+            //$code = $this->container->getParameter('init_four');
+            $err_msg = "2次密码不相同";
+            return $err_msg;
+        }
+        return $err_msg;
+    }
 
 	/**
 	 * @Route("/isExistVist", name="_default_isExistVist")
