@@ -27,6 +27,7 @@ $(document).ready(function(){
             <th>开始时间</th>
             <th>结束时间</th>
             <th>积分倍数</th>
+            <th>签到类型</th>
             <th>创建时间</th>
             <th>操作</th>
         </tr>
@@ -36,6 +37,7 @@ $(document).ready(function(){
           <td align="center">{{ item.startTime.date | date('Y-m-d H:i:s') }}</td>
           <td align="center">{{ item.endTime.date | date('Y-m-d H:i:s') }}</td>
           <td align="center">{{ item.pointTimes }}</td>
+          <td align="center">{{ item.checkinType }}</td>
           <td align="center">{{ item.createTime.date | date('Y-m-d H:i:s') }}</td>
           <td align="center"><a href="{{ path('_admin_editCheckinPointTimes',{'id':item.id}) }}">编辑</a>&nbsp;&nbsp;
           <a href="{{ path('_admin_delCheckinPointTimes',{'id':item.id}) }}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a>

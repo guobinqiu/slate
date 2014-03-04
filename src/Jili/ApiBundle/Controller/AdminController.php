@@ -2636,15 +2636,19 @@ class AdminController extends Controller
         $start_time = $request->request->get('start_time');
         $end_time = $request->request->get('end_time');
         $times = $request->request->get('times');
+        $checkInType = $request->request->get('checkInType');
+        //type,1 普通， 2 注册当天签到活动
+        $checkInTypes = array(1,2);
         $cpt = new CheckinPointTimes();
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST') {
             if($start_time && $end_time && $times){
-                $isDate = $em->getRepository('JiliApiBundle:CheckinPointTimes')->checkDate($start_time,$end_time);
+                $isDate = $em->getRepository('JiliApiBundle:CheckinPointTimes')->checkDate($start_time,$end_time,$checkInType);
                 if(empty($isDate)){
                   $cpt->setStartTime(date_create($start_time));
                   $cpt->setEndTime(date_create($end_time));
                   $cpt->setPointTimes($times);
+                  $cpt->setCheckinType($checkInType);
                   $em->persist($cpt);
                   $em->flush();
                   return $this->redirect($this->generateUrl('_admin_infoCheckinPointTimes'));
@@ -2657,7 +2661,7 @@ class AdminController extends Controller
 
         }
         return $this->render('JiliApiBundle:Admin:addCheckinPointTimes.html.twig',
-                        array('code'=>$code,'start'=>$start_time,'end'=>$end_time ));
+                        array('code'=>$code,'start'=>$start_time,'end'=>$end_time,'checkInType'=>$checkInType,'checkInTypes'=>$checkInTypes ));
 
     }
 

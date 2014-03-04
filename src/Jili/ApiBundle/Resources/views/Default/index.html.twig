@@ -155,6 +155,7 @@ function goto(cid,aid,points){
 }
 </script>
 <div class="webArticle index">
+	{% if glideAd %}<div id="glideAd"><img width="960" height="215" src="{{ asset('images/glideAd.jpg') }}"><a class="close">X</a></div>{% endif %}
     <section>
     	{% if emergency_announcement %}<div class="frame wam"><p>{{ emergency_announcement }}</p></div>{% endif %}
         <div class="frame">

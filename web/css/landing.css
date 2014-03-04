@@ -1,0 +1,175 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+	margin: 0;
+	padding: 0;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+fieldset, img {
+	border: 0 none;
+}
+address, caption, cite, code, dfn, em, strong, th, var {
+	font-style: normal;
+	font-weight: normal;
+}
+ol, ul {
+	list-style: none outside none;
+}
+caption, th {
+	text-align: left;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+	font-weight: normal;
+}
+q:before, q:after {
+	content: "";
+}
+abbr, acronym {
+	border: 0 none;
+}
+.clearfix:after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+body {
+	background-image: url(../images/landing2/bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-color: #196E93;
+}
+#landing {
+	width: 929px;
+	margin: 30px auto 0;
+}
+#landingTop {
+	line-height: 50px;
+	height: 50px;
+	margin-bottom: 20px;
+}
+#landingMain {
+	width: 100%;
+}
+#landingMain .register {
+	float: left;
+	width: 305px;
+}
+#landingMain .function {
+	float: right;
+	list-style: none;
+	width: 590px;
+	height: 435px;
+	position: relative;
+}
+#landingMain .function li {
+	position: absolute;
+}
+#landingMain .function li.shopping {
+	top: 0;
+	left: 0;
+}
+#landingMain .function li.game {
+	top: 0;
+	right: 0;
+}
+#landingMain .function li.marketActivity {
+	bottom: 0;
+	left: 0;
+}
+#landingMain .function li.advertiserment {
+	bottom: 0;
+	right: 0;
+}
+.register h1{
+	margin-top:20px;
+	margin-bottom:10px;
+}
+.register .error{
+	height:35px;
+	line-height:35px;
+	color:#F00;
+}
+.register #registerFrom{
+	margin-top: 0px;
+}
+.register #loginFrom{
+	margin-top: 85px;
+}
+.register #loginFrom li.yellow{
+	color:yellow;
+}
+.register #loginFrom li a{
+	text-decoration: none;
+}
+.register #registerFrom li, .register #loginFrom li{
+	margin:15px 0;
+	position:relative;
+}
+.register #registerFrom li .otherMail, .register #loginFrom li .otherMail{
+	color: #196E93;
+    font-size: 12px;
+    position: absolute;
+    right: 10px;
+    top: 13px;
+}
+.register #registerFrom input, .register #loginFrom input{
+	border: 0 none;
+    border-radius: 5px;
+    color: #999999;
+    font-size: 14px;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 2%;
+    width: 98%;
+}
+.register #registerFrom input.short{
+	width:46%;
+}
+.register #registerFrom input.short.mr4{
+	margin-right:4%;
+}
+.register #registerFrom input.registerBtn, .register #loginFrom input.loginBtn{
+	text-align:center;
+	background-color:#5dbd22;
+	color:#FFF;
+	height:60px;
+	line-height:60px;
+	font-size:25px;
+	width:100%;
+	cursor: pointer;
+}
+#timeline {
+	background-image: url("../images/landing2/exchangeBg.png");
+	height: 49px;
+	width: 929px;
+	margin: 15px 0;
+	position: relative;
+}
+.exchangeTimeline #demo {
+	position: absolute;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 820px;
+	margin: 18px 0 0 90px;
+	color:#FFF;
+	font-size:12px;
+}
+.exchangeTimeline #indemo {
+	float: left;
+	width: 800%;
+}
+.exchangeTimeline #demo1, .exchangeTimeline #demo2, .exchangeTimeline #demo3 {
+	float: left;
+}
+.exchangeTimeline #indemo a {
+	color: #FFF;
+	margin:0 3px;
+	text-decoration: none;
+}
+#introduce {
+	margin: 30px 0;
+}

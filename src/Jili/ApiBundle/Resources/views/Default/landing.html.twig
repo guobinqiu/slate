@@ -4,124 +4,96 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>91jili landingpage</title>
 {% include 'JiliApiBundle::seo.html.twig' %}
-<link rel="stylesheet" type="text/css" href="{{ asset('css/css.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/landing.css')}}">
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
-
 function fastreg(){
 	$("#form1").submit();
 }
 </script>
 </head>
-<body style="background:#f3f3f3;">
-<div class="main">
-  <div class="main_wrap">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td valign="top" style="background:url({{ asset('images/landing/title_bg11.jpg') }}) no-repeat;"><a href="http://www.91jili.com" target="_blank"><img border="0" src="{{ asset('images/landing/logo.jpg') }}" width="172" height="64" /></a></td>
-          <td><img src="{{ asset('images/landing/title_bg12.jpg') }}" width="488" height="109" /></td>
-          <td><img src="{{ asset('images/landing/title_bg13.jpg') }}" width="274" height="109" /></td>
-        </tr>
-        <tr>
-          <td><img src="{{ asset('images/landing/title_bg21.jpg') }}" width="198" height="125" /></td>
-          <td><img src="{{ asset('images/landing/title_bg22.jpg') }}" width="488" height="125" /></td>
-          <td><img src="{{ asset('images/landing/title_bg23.jpg') }}" width="274" height="125" /></td>
-        </tr>
-        <tr>
-          <td><img src="{{ asset('images/landing/title_bg31.jpg') }}" width="198" height="91" /></td>
-          <td><img src="{{ asset('images/landing/title_bg32.jpg') }}" width="488" height="91" /></td>
-          <td><img src="{{ asset('images/landing/title_bg33.jpg') }}" width="274" height="91" /></td>
-        </tr>
-        <tr>
-          <td><img src="{{ asset('images/landing/title_bg41.jpg') }}" width="198" height="49" /></td>
-          <td><img src="{{ asset('images/landing/title_bg42.jpg') }}" width="488" height="49" /></td>
-          <td><img src="{{ asset('images/landing/title_bg43.jpg') }}" width="274" height="49" /></td>
-        </tr>
-        <tr>
-          <td colspan="3" style=" background:#fffdfa; padding:0 0 30px;"><img style=" float:left; padding:48px 0 0 51px;" src="{{ asset('images/landing/process.gif') }}" />
-          	<div class="login">
-          	  <form action="{{ path('_default_landing') }}" method="post" name="form1" id="form1" >
-            	<table class="login_wrap" cellpadding="0" cellspacing="12" border="0">
-              <tbody>
-                <tr>
-                  <td class="form_l">邮箱地址：</td>
-                  <td><span>{{ email }}</span></td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td><td><a href="{{ path('_user_reg') }}" style="color:#ea5922;">用其它邮箱注册</a></td>
-                </tr>
-                {% if is_user==1 %}
-                     <tr>
-                      <td>&nbsp;</td><td>你已经注册过,请<a href="{{ path('_user_login') }}">登录</a></td>
-                    </tr>
-                {% else %}
-                     <tr>
-                      <td class="form_l">昵称：</td>
-                      <td><input type="text" value="{% if nick %}{{ nick }}{% endif %}" tabindex="1" name="nick" class="frame1"></td>
-                    </tr>
-                    <tr>
-                      <td class="form_l">密码：</td>
-                      <td><input type="password" value="" tabindex="1" name="pwd" class="frame1"></td>
-                    </tr>
-                    <tr>
-                      <td class="form_l">确认密码：</td>
-                      <td><input type="password" value="" tabindex="1" name="newPwd" class="frame1"></td>
-                    </tr>
-                    {% if code == 1 %}
-                        <tr>
-                          <td></td>
-                          <td><font color='red'>昵称为2-20个字符</font></td>
-                        </tr>
-                    {% elseif code == 2 %}
-                     <tr>
-                          <td></td>
-                          <td><font color='red'>昵称已经注册</font></td>
-                        </tr>
-                    {% elseif code == 3 %}
-                    <tr>
-                          <td></td>
-                          <td><font color='red'>密码为6-20个字符，不能含特殊符号</font></td>
-                        </tr>
-                    {% elseif code == 4 %}
-                    <tr>
-                          <td></td>
-                          <td><font color='red'>2次密码不相同</font></td>
-                        </tr>
-                    {% elseif code == 5 %}
-                       <tr>
-                          <td></td>
-                          <td><font color='red'>都为必填项</font></td>
-                        </tr>
-                    {% else %}
-                    {% endif %}
-                    <tr>
-                      <td></td>
-                      <td><a href="javascript:void(0);"><img border="0" src="{{ asset('images/landing/login_btn.gif') }}" width="151" height="42" alt="1秒快速注册" onclick="fastreg()"/></a></td>
-                    </tr>
-                {% endif %}
-               
-                
-              </tbody>
-            </table>
-            </form>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<body>
+<div id="landing">
+  <div id="landingTop">
+    <div id="logo"><a href="{{ path('_default_index') }}"><img src="{{ asset('images/landing2/logo.png') }}" width="142" height="39" alt="积粒网" /></a></div>
+  </div>
+  <div id="landingMain" class="clearfix">
+    <div class="register">
+      <h1><img src="{{ asset('images/landing2/h1.png') }}" width="302" height="131" /></h1>
+      <form action="{{ path('_default_landing') }}" method="post" name="form1" id="form1" >
+      <div class="error">{{err_msg}}</div>
+    {% if is_user==1 %}
+    <ul id="loginFrom">
+      <li class="yellow">您已经注册过了，请直接登录！</li>
+        <li><input type="text" value="{{ email }}" disabled="" name=""></li>
+        <li><a href="{{ path('_user_login') }}"><input type="button" value="直接登录" class="loginBtn" name="直接登录"></a></li>
+     </ul>
+      
+    {% else %}
+      <ul id="registerFrom">
+      	<li><input name="nick" type="text" value="{% if nick %}{{ nick }}{% else %}输入昵称{% endif %}" onfocus="if (value =='输入昵称'){value =''}" onblur="if (value ==''){value='输入昵称'}" /></li>
+        <li><input name="" type="text" value="{{ email }}" onfocus="if (value =='输入邮箱地址'){value =''}" onblur="if (value ==''){value='输入邮箱地址'}" disabled="disabled"/><a class="otherMail" href="{{ path('_user_reg') }}">其他邮箱注册</a></li>
+        <li><input name="pwd" type="text" value="输入密码" class="short mr4" onfocus="if (value =='输入密码'){value ='',type='password'}" onblur="if (value ==''){value='输入密码',type='text'}" /><input name="newPwd" type="text" class="short" value="确认密码" onfocus="if (value =='确认密码'){value ='',type='password'}" onblur="if (value ==''){value='确认密码',type='text'}" /></li>
+        <li><input name="1秒注册积粒网" type="button" class="registerBtn" value="1秒注册积粒网" onclick="fastreg()"/></li>
+      </ul>
+    {% endif %}
+    </div>
+    <ul class="function" class="clearfix">
+    <li class="shopping"><a href="{{ asset(path('_shopping_list'),'cdn1')}}" target="_blank"><img src="{{ asset('images/landing2/shopping.png') }}" width="309" height="260" alt="购物返利" /></a></li>
+    <li class="game"><a href="{{ asset(path('_game_index'),'cdn1')}}" target="_blank"><img src="{{ asset('images/landing2/game.png') }}" width="260" height="220" alt="游戏体验" /></a></li>
+    <li class="marketActivity"><a href="{{ path('_default_index') }}" target="_blank"><img src="{{ asset('images/landing2/marketActivity.png') }}" width="309" height="150" alt="每日签到" /></a></li>
+    <li class="advertiserment"><a href="{{ asset(path('_advertiserment_list'),'cdn1')}}" target="_blank"><img src="{{ asset('images/landing2/advertiserment.png') }}" width="260" height="190" alt="体验广告"/></a></li>
+    </ul>
+  </div>
+  <div id="timeline">
+    <div class="exchangeTimeline">
+      <div id="demo">
+        <div id="indemo">
+          <div id="demo1"> </div>
+          <div id="demo2"> </div>
+          <div id="demo3"> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="introduce"><img src="{{ asset('images/landing2/stepAll.jpg') }}" width="928" height="67" /></div>
+  
 </div>
-<div class="footer">
-<div class="section">
-<p><a href="{{ path('_default_about') }}" target="_blank">关于积粒网</a>|<a
-  href="{{ path('_user_agreement') }}" target="_blank">服务条款</a>|<a
-  href="{{ asset(path('_default_support'),'cdn1')  }}">帮助中心</a><span><a
-  href="http://www.miibeian.gov.cn/" target="_blank">ICP证号：沪ICP备10212377号-2</a></span></p>
-<p><span class="footAbout">关注我们：</span><a class="sina"
-  target="_blank" href="http://www.weibo.com/91jili">新浪微博</a><a
-  class="tencent" target="_blank" href="http://t.qq.com/china91jili">腾讯微博</a><!--<a class="weixin" href="#">微信</a>--></p>
-</div>
-</div>
+<script>
+	{% autoescape false %}
+	var recent = '{{recent|json_encode()}}';
+	{% endautoescape %}
+	
+	var FeedData = eval(recent);
+	
+	var msg = "";
+	var speed=40; //数字越大速度越慢 20
+	var tab=document.getElementById("demo"); 
+	var tab1=document.getElementById("demo1"); 
+	var tab2=document.getElementById("demo2"); 
+	var tab3=document.getElementById("demo3");
+	var MyMar = null;
+	function Marquee(){ 
+		if(tab3.offsetWidth-tab.scrollLeft<=0) {
+			tab.scrollLeft -= tab1.offsetWidth;
+		}else{ 
+			tab.scrollLeft++; 
+		} 
+	}
+	tab.onmouseover=function() {clearInterval(MyMar)}; 
+	tab.onmouseout=function() {MyMar=setInterval(Marquee,speed)}; 
+	if(FeedData != null && FeedData.length > 0) {
+		
+		for(var i = 0; i < FeedData.length; i ++) {
+				   msg += FeedData[i].title + "&nbsp&nbsp;&nbsp;&nbsp;&nbsp;"
+		
+		}
+		MyMar=setInterval(Marquee,speed); 
+	}
+	tab1.innerHTML = msg;
+	tab2.innerHTML = msg;
+	tab3.innerHTML = msg;
+	</script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -132,6 +104,6 @@ function fastreg(){
   ga('send', 'pageview');
 
 </script>
-  </div>
 </body>
+
 </html>
