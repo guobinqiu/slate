@@ -1,0 +1,8 @@
+  
+<p>购划算商品分类</p>
+{% for cat in cats %}
+    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'cat': loop.index})) }}"> {{ cat|e  }} </a> 
+    &nbsp;&nbsp;&nbsp;&nbsp;
+{% endfor %}
+
+

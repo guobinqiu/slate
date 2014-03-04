@@ -3,30 +3,117 @@ parameters:
     emar_api.callback_processor.class: Jili\EmarBundle\EventListener\CallbackProcessor
     emar_api.callback_validation.class:  Jili\EmarBundle\EventListener\CallbackValidation
 
+    emar_request.connection.class: Jili\EmarBundle\EventListener\EmarRequestConnection
+# hot activity
+    hotactivity.category_get.class:  Jili\EmarBundle\EventListener\HotactivityCategoryGetRequest
+    hotactivity.website_get.class:  Jili\EmarBundle\EventListener\HotactivityWebsiteGetRequest
+    hotactivity.list_get.class: Jili\EmarBundle\EventListener\HotactivityListGetRequest
+
+# ghs
+    ghs.category_get.class:  Jili\EmarBundle\EventListener\GhsCategoryGetRequest
+
+
+# product/general
+    general.category_get.class:  Jili\EmarBundle\EventListener\ProductCategoryGetRequest
+#    general.website_get.class:  Jili\EmarBundle\EventListener\DiscountWebsiteGetRequest
+
+# website
+    website.category_get.class:  Jili\EmarBundle\EventListener\WebsiteCategoryGetRequest
+    website.list_get.class:  Jili\EmarBundle\EventListener\WebsiteListGetRequest
+
+#product
+    product.list_get.class: Jili\EmarBundle\EventListener\ProductListGetRequest
+ 
 services:
     emar_api.logger:
         class: %emar_api.logger.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+        arguments: [ @logger, @doctrine.orm.entity_manager ]
 
     emar_api.callback_validation:
         class: %emar_api.callback_validation.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+        arguments: [ @logger,@doctrine.orm.entity_manager ]
         calls:
             - [setConfig, [%emar%] ] 
-            - [setContainer, ["@service_container"] ] 
+            - [setContainer, [@service_container] ] 
 
 #    emar_api.callback_processor:
-#        class: %emar_api.callback_processor.class%
+#    class: %emar_api.callback_processor.class%
 
     emar_api.callback_processor:
         class: %emar_api.callback_processor.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+        arguments: [ @logger,@doctrine.orm.entity_manager ]
         calls:
-            - [setContainer, ["@service_container"] ] 
-            - [setTaskLogger, ["@general_api.task_history"] ]
-            - [setPointLogger, ["@general_api.point_history"] ]
-            - [setRebatePointCaculator, ["@rebate_point.caculator"] ]
+            - [setContainer, [@service_container] ] 
+            - [setTaskLogger, [@general_api.task_history] ]
+            - [setPointLogger, [@general_api.point_history] ]
+            - [setRebatePointCaculator, [@rebate_point.caculator] ]
             - [setConfig, [%emar%] ] 
+
+    emar_request.connection:
+       class: %emar_request.connection.class%
+       arguments: [ %emar_com.app_AppKey%, %emar_com.app_AppSecret% ]
+       calls:
+            - [setLogger, [ @logger ] ] 
+
 #    jili_emar.example:
 #        class: %jili_emar.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+#        arguments: [@service_id, plain_value, %parameter%]
+
+    hotactivity.category_get:
+        class: %hotactivity.category_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+    hotactivity.website_get:
+        class: %hotactivity.website_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+    hotactivity.list_get:
+        class: %hotactivity.list_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+            - [ setPageSize, [ %emar_com.page_size% ] ] 
+
+    ghs.category_get:
+        class: %ghs.category_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+
+    general.category_get:
+        class: %general.category_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+#    general.website_get:
+#        class: %general.website_get.class%
+#        calls:
+#            - [ setConnection,[ @emar_request.connection ] ]
+#            - [ setLogger, [ @logger ] ] 
+#
+    website.category_get:
+        class: %website.category_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+    website.list_get:
+        class: %website.list_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+
+    product.list_get:
+        class: %product.list_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+            - [ setPageSize, [ %emar_com.page_size% ] ] 
+

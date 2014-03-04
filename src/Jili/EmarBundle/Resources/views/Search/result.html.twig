@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div>
+
+{{ include('JiliEmarBundle:Search:form.html.twig', {'form': form}) }}
+</div>    
+
+<div>
+
+
+{% if products is defined %}
+  {{ include('JiliEmarBundle:Product:pagination.html.twig', {'products': products } ) }}
+{% else %}
+   no found !
+{% endif %}
+
+
+{# todo add a paginator #}
+</div>
+
+</body>
+</html>
+

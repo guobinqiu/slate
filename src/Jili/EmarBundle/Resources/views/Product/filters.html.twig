@@ -1,0 +1,26 @@
+
+<p>商品类目</p>
+
+    <a href="{{ path( app.request.attributes.get('_route') , app.request.query.all|merge({'cat': 0})) }}"> 全部 </a> 
+{% for cat in cats %}
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{{ path( app.request.attributes.get('_route') , app.request.query.all|merge({'cat': loop.index})) }}"> {{ cat|e  }} </a> 
+
+{% endfor %}
+
+<p>商家网站的分类</p>
+{% for cat in wcats %}
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{{ path( app.request.attributes.get('_route') , app.request.query.all|merge({'wcat': loop.index})) }}"> {{ cat.name|e  }} ( {{ cat.amount }})  </a> 
+
+{% endfor %}
+
+<p>商家网站</p>
+
+    <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'w': 0})) }}"> 全部   </a> 
+{% for web in webs %}
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'w': loop.index})) }}"> {{ web.name|e  }}   </a> 
+    <a href="{{ web.url|replace( { 'APImemberId': app.session.get('uid')  } )  }}" target="_blank">[+]</a>
+{% endfor %}
+

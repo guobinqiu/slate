@@ -1,0 +1,35 @@
+{% extends 'JiliEmarBundle::base.html.twig' %}
+
+{% block title %}product list{% endblock %}
+
+{% block body %}
+<div>
+List of porduct:
+</div>    
+
+<div>
+{# todo add filters #}
+{{ include('JiliEmarBundle:Product:filters_by_wcat.html.twig', {'webs':webs,'wcats':wcats,'cats':cats}) }}
+
+{# todo add price range #}
+{{ include('JiliEmarBundle:Product:price_range.html.twig' ) }}
+
+</div>
+
+<div>
+
+
+{% if products is defined %}
+  {{ include('JiliEmarBundle:Product:pagination.html.twig', {'products': products , 'total': total } ) }}
+{% else %}
+   Nothing on shelf !
+{% endif %}
+
+
+
+{# todo add a paginator #}
+</div>
+
+{% endblock %}
+
+

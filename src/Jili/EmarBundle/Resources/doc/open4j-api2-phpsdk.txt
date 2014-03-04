@@ -1,0 +1,33 @@
+
+Download from 
+http://open.yiqifa.com/doc/api2/sdkdownload
+
+Modifed the files with namespace support.
+Jili\EmarBundle\Api2\Request
+Jili\EmarBundle\Api2\Utils
+
+
+Configuration 
+
+config.
+
+应用介绍：测试
+反馈标签：
+AppKey：139216929186018017
+AppSecret：e7c5367e1ba7d609865389640007df3e
+创建时间：2014-02-12 09:41:31
+流量调用限制：20次/分钟
+应用状态： 开发测试
+
+parameters.yml
+    emar_com.app_AppKey: '139216929186018017' 
+    emar_com.app_AppSecret: 'e7c5367e1ba7d609865389640007df3e'
+
+config.yml
+    emar: 
+        # other configuration
+        AppKey:    %emar_com.app_AppKey% # '139216929186018017' 
+        AppSecret: %emar_com.app_AppSecret# 'e7c5367e1ba7d609865389640007df3e'
+
+反馈标签的使用
+

@@ -1,0 +1,40 @@
+
+<p>商品类目</p>
+
+<a href="{{ path( app.request.attributes.get('_route') , app.request.query.all|merge({'cat': 0, "p":1, "pr":""})) }}">全部</a> 
+{% for catid,cat in cats %}
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{{ path( app.request.attributes.get('_route') , app.request.query.all|merge({'cat': catid,"p":1, "pr":"" })) }}">{{ cat|e  }}</a> 
+
+{% endfor %}
+
+<p>商家网站按分类</p>
+<a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'w': 0, "p":1, "pr":""})) }}">全部</a> <br />
+
+
+{% for wcatid,cat in wcats %}
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+{{ wcatid }}:<a href="{{ path( app.request.attributes.get('_route') , app.request.query.all|merge({ 'wcat': wcatid })) }}">{{ cat.name|e }}</a>( {{ cat.amount }}) 
+
+{% for webid,web in webs[ wcatid] %}
+
+{% if loop.first %}
+&nbsp;:&nbsp;
+{% endif %}
+
+<a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': webid, "p":1, "pr":"" })) }}">{{ web.name|e }}</a> 
+<a href="{{ web.url|replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank">#</a>
+
+{% if not loop.last %}
+&nbsp;|&nbsp;
+{% endif %}
+
+
+{% endfor %}
+
+<br /> 
+{% endfor %}
+
+

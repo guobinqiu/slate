@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>search demo/emar</title>
+</head>
+<body>
+
+<div>
+{#  todo: #}
+{{ include('JiliEmarBundle:Search:form.html.twig', {'form': form}) }}
+
+{# render(controller('JiliEmarBundle:Product:filters' , {"route": app.request.attributes.get('_route') , "qs": app.request.query.all }) ) #}
+{{ render(controller('JiliEmarBundle:Product:filters')) }}
+
+</div>
+    
+</body>
+</html>

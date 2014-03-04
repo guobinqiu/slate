@@ -1,0 +1,39 @@
+{#
+  "request": "http://openapi.yiqifa.com/api2/open.product.search.json",
+  "response": {
+    "pdt_list": {
+      "pdt": [{
+        "pid": "99187423",
+        "p_name": "【货到付款全国包邮】酷派(Coolpad)8020+ 3G手机(黑色)TD-SCDMA/GSM Android 2.3 3.5英寸电容屏 1GHz CPU!小巧身材 动感外观!全场免运费 线上支付顺丰全国包邮",
+        "web_id": "1102",
+        "web_name": "当当网",
+        "ori_price": "0.0",
+        "cur_price": "219.0",
+        "pic_url": "http://img31.ddimg.cn/40/29/1072874821-1_w_1.jpg",
+        "catid": "101010000",
+        "cname": "手机",
+        "p_o_url": "http://p.yiqifa.com/n?k=2mLErnts1QLErJb7UZjvfSoLR9owU567f9gbY9Uw35ecf96_YpHqWnRS1nR71n2qf9b7Y5qH2mLErn276mLFWEjS1QLLrtP2RsP1kZq_rI6HWJKOMERSWnPH2L--&spm=139216929186018017.1.1.1",
+        "short_intro": "【酷派8020+手机】【货到付款全国包邮】酷派(Coolpad)8020+ 3G手机(黑色)TD-SCDMA/GSM Android 2.3 3.5英寸电容屏 1GHz CPU!小巧身材 动感外观!价格_行情_参数_报价-当当网"
+      },
+      }]
+    },
+    "total": "37558"
+  }
+}
+
+
+#}
+
+{% for row in products %}
+<div>
+<p>{{  row.p_name }}</p>
+<p>{{ row.web_name }} {{ row.cname }}</p>
+<div>origal:  {{ row.ori_price }}RMB;  current: {{ row.cur_price }}</div>
+<div><img src="{{row.pic_url}}" alt="pic url" /></div>
+<div><a href="{{ row.p_o_url }}" target="_blank" rel="nofollow" >详细</a></div>
+</div>
+{% else %}
+<em>Sorry, Nothing on the shelf !</em>
+{% endfor %}
+
+{{ include('JiliEmarBundle:Product:paginate_nav.html.twig' , { 'total': total } ) }}

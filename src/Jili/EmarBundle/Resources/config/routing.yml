@@ -13,6 +13,26 @@ emar-search:
     resource: "@JiliEmarBundle/Controller/SearchController.php"
     type:     annotation
 
+emar-hotactivity:
+    resource: "@JiliEmarBundle/Controller/HotactivityController.php"
+    type:     annotation
+
+emar-ghs:
+    resource: "@JiliEmarBundle/Controller/GhsController.php"
+    type:     annotation
+
+#deprecated 
+#emar-disccount:
+#    resource: "@JiliEmarBundle/Controller/DiscountController.php"
+#    type:     annotation
+
+emar-product:
+    resource: "@JiliEmarBundle/Controller/ProductController.php"
+    type:     annotation
+
+emar-sugguestion:
+    resource: "@JiliEmarBundle/Controller/SugguestionController.php"
+    type:     annotation
 #emar-analog:
 #    resource: "@JiliBackendBundle/Controller/AnalogOfferwowController.php"
 #    type:     annotation
