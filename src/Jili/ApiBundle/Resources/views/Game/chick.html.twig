@@ -19,10 +19,6 @@
 {% else %}
 <div style="margin: 50px auto 0px; padding-bottom:80px; width: 960px; text-align: center;"><iframe src="{{ url | raw }}" width="900" {% if heightFlag %} height="3000" {% else %} height="3650" {% endif %} scrolling="no" marginwidth="0" marginheight="0" frameborder="0" allowTransparency="true"></iframe> </div>
 {% endif %}
-<script>
-var path = '{{ asset("music/music" ~ ( random(4) + 1) ~ ".mp3") }}';
-document.write('<embed src="' + path +'" autostart="true" loop="true" width="0" height="0" >');
-</script>
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
 </html>
