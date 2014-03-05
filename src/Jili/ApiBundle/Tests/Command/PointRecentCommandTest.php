@@ -50,14 +50,13 @@ class PointRecentCommandTest extends WebTestCase
         $commandTester->execute(
             array(
                 'command' => $command->getName(),
-                '--date'    => '2014-03-05',
+                '--date'    => '2014-03-04',
             )
         );
 
         $this->assertEquals('write to /tmp/point_recent.cache'.PHP_EOL, $commandTester->getDisplay());
-
         $this->assertFileExists('/tmp/point_recent.cache' , 'point recent cache file generated not exists');
-        $this->assertStringEqualsFile( '/tmp/point_recent.cache', $string, ' the content of point recent file updated');
+        $this->assertFileEquals(__DIR__.'/../../Resources/data/topcron_recentpoint.log.03042014', '/tmp/point_recent.cache', ' the content of point recent file updated');
     }
 
 
