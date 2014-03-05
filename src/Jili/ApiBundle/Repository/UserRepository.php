@@ -208,7 +208,7 @@ SELECT  id , user_id ,point_change_num,create_time, reason from point_history09 
 ) b 
 inner join user a on  b.user_id = a.id 
 inner join ad_category c on b.reason = c.id  
-ORDER BY abs(b.point_change_num) desc limit 99 
+ORDER BY abs(b.point_change_num) desc , b.create_time asc limit 99 
 EOT;
         $stmt =  $this->getEntityManager()->getConnection()->prepare($s);
         $stmt->execute( compact('start','end') );

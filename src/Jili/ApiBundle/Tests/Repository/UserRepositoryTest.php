@@ -42,8 +42,8 @@ class UserRepositoryTest extends WebTestCase
     {
         $em = $this->em;
         $date_str = '2014-03-04';
-		$result = $em->getRepository('JiliApiBundle:User')->getRecentPoint($date_str);
+        $result = $em->getRepository('JiliApiBundle:User')->getRecentPoint($date_str);
 
-$this->assertEquals(1,'1');
+        $this->assertEquals(1,'1');
     }
 }

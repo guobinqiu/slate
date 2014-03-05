@@ -27,9 +27,7 @@ EOT
         if('prod' === $env) {
             $filename = $this->getContainer()->getParameter('file_path_recent_point');
             $yesterday =  date('Y-m-d', strtotime(' -1 day'));
-
         } else {
-
             $yesterday  = $input->getOption('date');
             $filename = '/tmp/point_recent.cache';
         }
