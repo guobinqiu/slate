@@ -11,6 +11,7 @@ class PointRecentCommand extends ContainerAwareCommand {
     protected function configure() {
         $this->setName('point:recent')
             ->setDescription('update the poinst recent cache file')
+            ->addOption('date',null,InputOption::VALUE_REQUIRED, 'the date string YYYY-mm-dd')
             ->setHelp(  <<<EOT
 For prod usage:
 ./app/console point:recent -e prod
@@ -29,7 +30,7 @@ EOT
 
         } else {
 
-            $yesterday  = '2014-03-05';
+            $yesterday  = $input->getOption('date');
             $filename = '/tmp/point_recent.cache';
         }
 
