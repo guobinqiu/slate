@@ -288,4 +288,20 @@ class UserRepository extends EntityRepository {
         //1,2,3 广告体验,购物返利,游戏广告
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
+
+    public function getUserListForRemindTotalPoint($start, $end) {
+        $sql = "select a.id, a.email, a.points from user a inner join
+                (select distinct user_id from point_history00 where create_time >= '".$start."%' and create_time <= '".$end."%'
+                union all select distinct user_id from point_history01 where create_time >= '".$start."%' and create_time <= '".$end."%'
+                union all select distinct user_id from point_history02 where create_time >= '".$start."%' and create_time <= '".$end."%'
+                union all select distinct user_id from point_history03 where create_time >= '".$start."%' and create_time <= '".$end."%'
+                union all select distinct user_id from point_history04 where create_time >= '".$start."%' and create_time <= '".$end."%'
+                union all select distinct user_id from point_history05 where create_time >= '".$start."%' and create_time <= '".$end."%'
+                union all select distinct user_id from point_history06 where create_time >= '".$start."%' and create_time <= '".$end."%'
+                union all select distinct user_id from point_history07 where create_time >= '".$start."%' and create_time <= '".$end."%'
+                union all select distinct user_id from point_history08 where create_time >= '".$start."%' and create_time <= '".$end."%'
+                union all select distinct user_id from point_history09 where create_time >= '".$start."%' and create_time <= '".$end."%' )b
+                on a.id = b.user_id where a.points > 0";
+        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+    }
 }
