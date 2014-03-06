@@ -30,6 +30,10 @@ emar-product:
     resource: "@JiliEmarBundle/Controller/ProductController.php"
     type:     annotation
 
+emar-websites:
+    resource: "@JiliEmarBundle/Controller/WebsitesController.php"
+    type:     annotation
+
 emar-sugguestion:
     resource: "@JiliEmarBundle/Controller/SugguestionController.php"
     type:     annotation

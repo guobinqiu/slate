@@ -37,6 +37,7 @@ twig:
         emar_cps:
             category_id: %emar_com.cps.category_type%
         emar_page_size: %emar_com.page_size%
+        emar_max_of_total: %emar_com.max_of_total%
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%

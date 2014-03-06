@@ -34,20 +34,28 @@ class EmarRequestConnection{
       && isset($result['errors']['error'] ) 
       && isset($result['errors']['error'][0] ) 
       && isset($result['errors']['error'][0]['msg'] )  ) {
+
         $error_msg = trim($result['errors']['error'][0]['msg'] );
 
         if( 'results is empty' == $error_msg ) {
-          $return= array();
+
+          $return = array();
+
         } else {
           $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'')) . $error_msg);
           throw new \Exception($error_msg);
-//          $return= array(); //todo: throw Exception
 
         }
       } else if( is_null($result) ) {
-        $error_msg = 'json parse error' ;
-        $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'')) .$error_msg );
+
+        $error_msg = 'JSON parsed error' ;
+
+        $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'message','')) .$error_msg );
+        $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_raw','')) . $result_raw );
+        $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_escaped','')) . $result_escaped );
+
         throw new \Exception($error_msg);
+
       } else {
 
         $return= $result['response'];

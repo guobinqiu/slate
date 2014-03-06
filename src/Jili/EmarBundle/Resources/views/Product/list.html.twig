@@ -2,23 +2,26 @@
 
 {% block title %}product list{% endblock %}
 
+{% block stylesheets %}
+<link href="{{ asset('bundles/jiliemar/css/product.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
 {% block body %}
 <div>
 List of porduct:
 </div>    
 
-<div>
-{# todo add filters #}
+<div class="filters">
+{# filters #}
 {{ include('JiliEmarBundle:Product:filters_by_wcat.html.twig', {'webs':webs,'wcats':wcats,'cats':cats}) }}
 
-{# todo add price range #}
+{# price range #}
 {{ include('JiliEmarBundle:Product:price_range.html.twig' ) }}
 
 </div>
 
-<div>
-
-
+<div class="list-prdt">
 {% if products is defined %}
   {{ include('JiliEmarBundle:Product:pagination.html.twig', {'products': products , 'total': total } ) }}
 {% else %}
@@ -27,7 +30,6 @@ List of porduct:
 
 
 
-{# todo add a paginator #}
 </div>
 
 {% endblock %}

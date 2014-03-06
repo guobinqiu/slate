@@ -1,14 +1,15 @@
 
 <div>
     <!-- 
+    {% set total_ = ( total > emar_max_of_total ) ? emar_max_of_total : total  %}
 
-    <p>total:{{ total }}</p>
+    <p>total: {{ total }}; total_:{{ total_ }}</p>
     {% set page_size = emar_page_size %}
     <p>page_size: {{ page_size }}</p>
     {% set cur = app.request.query.get('p',1) %}
     <p>cur: {{ cur }}</p>
     {% set first = 1 %} 
-    {% set last =  (total/page_size) |round(0,'ceil') %} 
+    {% set last =  ( total_/page_size) |round(0,'ceil') %} 
 
 
     <p>last: {{ last }}</p>
@@ -19,10 +20,10 @@
 
     -->
 
-    {% if total <= 1 %} 
-    {% elseif total > 1 and total <= 5 %}
+    {% if total_ <= 1 %} 
+    {% elseif total_ > 1 and total_ <= 5 %}
 
-    {% for i in range(2..total ) %}
+    {% for i in range(1, total_ ) %}
 
     {% if cur != i %} 
       <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': i })) }}">First</a>
@@ -35,27 +36,30 @@
 
     {% else %}
 
+
     {% if cur  != first  %}
     <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': first})) }}">First</a>
+
     {% else %}
     First
     {% endif %}
 
     {% if cur  != prev %}
     <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': prev })) }}">Prev</a>
+...
     {% else %}
     Prev 
     {% endif %}
 
-...
     {{  cur }}
-...
 
     {% if cur  != last  %}
+...
     <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': next })) }}">Next</a>
     {% endif %}
 
     {% if cur  != last  %}
+
     <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': last })) }}">Last</a>
     {% endif %}
 

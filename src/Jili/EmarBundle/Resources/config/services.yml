@@ -15,15 +15,18 @@ parameters:
 
 # product/general
     general.category_get.class:  Jili\EmarBundle\EventListener\ProductCategoryGetRequest
-#    general.website_get.class:  Jili\EmarBundle\EventListener\DiscountWebsiteGetRequest
+# product
+    product.list_get.class: Jili\EmarBundle\EventListener\ProductListGetRequest
+    product.search.class: Jili\EmarBundle\EventListener\ProductSearch
+    product.filters.class: Jili\EmarBundle\EventListener\ProductFilters
 
 # website
     website.category_get.class:  Jili\EmarBundle\EventListener\WebsiteCategoryGetRequest
     website.list_get.class:  Jili\EmarBundle\EventListener\WebsiteListGetRequest
+    website.detail_get.class:  Jili\EmarBundle\EventListener\WebsiteDetailGetRequest
+    website.search.class:  Jili\EmarBundle\EventListener\WebsiteSearch
 
-#product
-    product.list_get.class: Jili\EmarBundle\EventListener\ProductListGetRequest
- 
+
 services:
     emar_api.logger:
         class: %emar_api.logger.class%
@@ -109,6 +112,18 @@ services:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
 
+    website.detail_get:
+        class: %website.detail_get.class%
+        calls:
+            - [ setConnection, [ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+    website.search:
+        class: %website.search.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setListGet , [ @website.list_get ] ]
+            - [ setDetailGet , [ @website.detail_get ] ]
 
     product.list_get:
         class: %product.list_get.class%
@@ -116,4 +131,19 @@ services:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
             - [ setPageSize, [ %emar_com.page_size% ] ] 
+
+    product.search:
+        class: %product.search.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+            - [ setPageSize, [ %emar_com.page_size% ] ] 
+
+    product.filters:
+        class: %product.filters.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setGeneralCategoryGet, [ @general.category_get ] ] 
+            - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
+            - [ setWebsiteListGet, [ @website.list_get ] ] 
 

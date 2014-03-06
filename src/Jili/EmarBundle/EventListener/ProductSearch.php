@@ -2,9 +2,9 @@
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Jili\EmarBundle\Api2\Request\ProductSearchGetRequest as  ProductSearchGetRequest;
 
-
-class ProductListGetRequest  {
+class ProductSearch {
 
   private $logger;
   private $page_size;
@@ -20,15 +20,24 @@ class ProductListGetRequest  {
    */
   public function fetch( $params = array() ) {
 
-    $req=new \Jili\EmarBundle\Api2\Request\ProductListGetRequest;
+    $req=new ProductSearchGetRequest;
 
     $req->setFields('pid,p_name,web_id,web_name,ori_price,cur_price,pic_url,catid,cname,p_o_url,total,short_intro');
 
     extract($params);
 
+    if( isset($keyword) && ! empty($keyword)) {
+        $req->setKeyword(mb_convert_encoding($keyword,'gb2312', 'utf8'));
+
+    } else {
+        return array();
+    }
+
+
     if( isset($catid) && ! empty($catid)) {
       $req->setCatid($catid);
     }
+
     if( isset($webid)  && ! empty($webid) ) {
       $req->setWebid($webid);
     }
@@ -41,21 +50,27 @@ class ProductListGetRequest  {
       $req->setPage_no($page_no);
     }
 
+    if( isset($orderby) && in_array($orderby , range(1,3))) {
+        $req->setOrderBy($orderby);
+    }
+
     if( 0 < $this->page_size ) {
       $req->setPage_size($this->page_size );
     }
 
     $resp =  $this->c->exe( $req );
+
+    #$this->logger->debug('{jarod}' . implode(':', array(__LINE__, __CLASS__,'')). var_export( $resp , true) );
+
+    $result = array();
     if( isset( $resp[ 'pdt_list']) && isset($resp['pdt_list'] ['pdt'] ) ) {
-        $result = $resp['pdt_list']['pdt'];
-        $this->result = $result;
-    } else {
-        $this->result = array(); // 
-        #$this->logger->debug('{jarod}' . implode(':', array( __CLASS__,__LINE__,'')). var_export( $resp , true) );
+      $result = $resp['pdt_list']['pdt'];
     }
 
-    $this->total = isset($resp['total'] ) ? $resp['total']: 0 ;
-    return $this->result;
+    $this->result = $result;
+    $this->total = isset($resp['total'] ) ? $resp['total']: null;
+
+    return $result;
   }
 
   public function getTotal() {

@@ -1,10 +1,21 @@
 {% extends "JiliEmarBundle::base.html.twig" %}
+
 {% block title %}Search demo{% endblock %}
+
 {% block body %}
+
 {#  todo: #}
-{{ include('JiliEmarBundle:Search:form.html.twig', {'form': form}) }}
+<div>
+{{ include('JiliEmarBundle:Product:search_form.html.twig', {'form': form}) }}
+</div>
 
 {# render(controller('JiliEmarBundle:Product:filters' , {"route": app.request.attributes.get('_route') , "qs": app.request.query.all }) ) #}
-{{ render(controller('JiliEmarBundle:Product:filters')) }}
+{# render(controller('JiliEmarBundle:Product:filters')) #}
+
+<div>
+{{ include('JiliEmarBundle:Product:filters_by_wcat.html.twig', filters ) }}
+</div>
+
 
 {% endblock %}
+

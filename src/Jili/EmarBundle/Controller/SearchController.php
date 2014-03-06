@@ -94,53 +94,25 @@ class SearchController extends Controller
         #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $session->all() , true)  );
 
         $keyword = $request->query->get('q', '');
-        $page = $request->query->get('p',1);
+        $page_no = $request->query->get('p', 1);
         $order = $request->query->get('o',1);
         $range_of_price = $request->query->get('pr', '');
-
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $keyword , true)  );
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export(  $page, true)  );
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export(  $order, true)  );
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export(  $range_of_price, true)  );
-
-        #$cn= get_class($session);
-        #$cm = get_class_methods($cn);
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $cn , true)  );
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $cm , true)  );
-        #return new Response('a');
-
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $request->request , true)  );
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $request->query , true)  );
-
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $keyword , true)  );
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $page , true)  );
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $order , true)  );
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $range_of_price , true)  );
+        $page_size = 40;
 
 
-        $q = $keyword;
-        $page_no = $page;
-
-        if(strlen($q) == 0) {
+        if(strlen($keyword) == 0) {
           $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ) );
           return $this->redirect($this->generateUrl('jili_emar_search_index') );
         }
 
-        $form = $this->createForm(new SearchType(), array('keyword'=>$q)  );
+        $form = $this->createForm(new SearchType(), array('keyword'=>$keyword)  );
 
-        $page_no = $request->query->get('p', 1);
-
-        $page_size = 40;
         // 
         $emar_config = $this->container->getParameter('emar');
         $app_key  = $emar_config['AppKey'];
         $app_secret  = $emar_config['AppSecret'];
 
 
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $emar_config , true)  );
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $q , true)  );
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $page_no, true)  );
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $page_size, true)  );
 
         $c = new YiqifaOpen($app_key, $app_secret) ;
         // $c->consumerKey = "1326528120671";
@@ -148,7 +120,7 @@ class SearchController extends Controller
         $c->format="json";
         $req = new ProductSearchGetRequest();
         $req->setFields('pid,p_name,web_id,web_name,ori_price,cur_price,pic_url,catid,cname,p_o_url,total,short_intro');
-        $req->setKeyword(mb_convert_encoding($q,'gb2312', 'utf8'));
+        $req->setKeyword(mb_convert_encoding($keyword,'gb2312', 'utf8'));
         $req->setPage_no($page_no);
         $req->setPage_size($page_size);
 
@@ -176,17 +148,17 @@ class SearchController extends Controller
         $total = 0;
 
         if( isset( $result['response'] )) {
-          $response = $result['response'];
-          if( isset( $response['pdt_list'] )) {
+            $response = $result['response'];
+            if( isset( $response['pdt_list'] )) {
 
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ) );
-            $products = $response['pdt_list']['pdt'];
-          }
-          if( isset( $response['total'] )) {
+                $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ) );
+                $products = $response['pdt_list']['pdt'];
+            }
+            if( isset( $response['total'] )) {
 
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ) );
-            $total = $response['total'];
-          }
+                $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ) );
+                $total = $response['total'];
+            }
         }
 
         
@@ -194,3 +166,23 @@ class SearchController extends Controller
     }
 
 }
+        #$cn= get_class($session);
+        #$cm = get_class_methods($cn);
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $cn , true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $cm , true)  );
+        #return new Response('a');
+
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $request->request , true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $request->query , true)  );
+
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $keyword , true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $page , true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $order , true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $range_of_price , true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $emar_config , true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $page_no, true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $page_size, true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $keyword , true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export(  $page, true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export(  $order, true)  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export(  $range_of_price, true)  );

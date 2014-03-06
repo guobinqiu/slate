@@ -1,0 +1,44 @@
+{% extends "JiliEmarBundle::base.html.twig" %}
+
+
+{% block title %}Search demo{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('bundles/jiliemar/css/product.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block body %}
+
+{#  todo: #}
+<div class="frm-search">
+{{ include('JiliEmarBundle:Product:search_form.html.twig', {'form': form}) }}
+</div>
+
+{# render(controller('JiliEmarBundle:Product:filters' , {"route": app.request.attributes.get('_route') , "qs": app.request.query.all }) ) #}
+{# render(controller('JiliEmarBundle:Product:filters')) #}
+
+<div class="filters">
+{{ include('JiliEmarBundle:Product:filters_by_wcat.html.twig', filters ) }}
+</div>
+
+<div class="price-range">
+{# price range #}
+{{ include('JiliEmarBundle:Product:price_range.html.twig' ) }}
+</div>
+
+<div class="orderby">
+{# price range #}
+{{ include('JiliEmarBundle:Product:orderby.html.twig' ) }}
+</div>
+
+<div class="list-prdt">
+{% if products is defined %}
+  {{ include('JiliEmarBundle:Product:pagination.html.twig', {'products': products , 'total': total } ) }}
+{% else %}
+   Nothing on shelf !
+{% endif %}
+
+</div>
+
+{% endblock %}
+
