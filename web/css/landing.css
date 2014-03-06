@@ -141,6 +141,8 @@ body {
 	font-size:25px;
 	width:100%;
 	cursor: pointer;
+	font-family: '微软雅黑';
+	font-weight: bold;
 }
 #timeline {
 	background-image: url("../images/landing2/exchangeBg.png");
@@ -160,7 +162,7 @@ body {
 }
 .exchangeTimeline #indemo {
 	float: left;
-	width: 800%;
+	width: 1000%;
 }
 .exchangeTimeline #demo1, .exchangeTimeline #demo2, .exchangeTimeline #demo3 {
 	float: left;
