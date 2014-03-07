@@ -90,7 +90,7 @@ function goto(aid){
              </div>
           <p><a class="btnDetail" href="{{ path('_advertiserment_index',{'id':item.id}) }}">返现详情</a>
               <a class="btnShopping" onclick="goto({{ item.id }});" href="javascript:void(0);">直接购物</a></p>
-          <p><em>{{ item.num }}</em>人已参加</p>
+              <p><em>{{ count_of_ad_joined[item.id ] is defined ? count_of_ad_joined[item.id ] : 0 }}</em>人已参加</p>
         </div>
       </div>
      
@@ -102,24 +102,9 @@ function goto(aid){
    {{ knp_pagination_render(pagination) }}
    </div>
   </article>
+
   <aside style="margin-top:0;">
-    <h2><img src="{{ asset('images/recommedBusiness.jpg')}}" alt="推荐商家"></h2>
-      <section>
-            <ul class="shopRecommend">
-             {% for item in adverRecommand %}
-              <li><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="200" height="130" alt="{{item.title}}"></a>
-                <p class="about">
-                 {% if item.incentiveType==1 %}
-                             <span class="rebate">{{ item.incentive }}米粒</span>
-                     {% elseif item.incentiveType==2 %}
-                             <span class="rebate">最高返{{ item.reward_rate }}%</span>
-                     {% else %}
-                 {% endif %}
-                </p>    
-              </li>
-            {% endfor %}
-            </ul>
-      </section>
+  {{  render(controller("JiliApiBundle:Shopping:recommend" ) ) }}
   </aside>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
