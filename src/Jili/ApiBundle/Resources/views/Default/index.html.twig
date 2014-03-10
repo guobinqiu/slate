@@ -58,6 +58,15 @@ $(document).ready(function(){
         }); 
     });
 
+	{% if signRemind %}
+	$(".blackBg").show();
+	{% endif %}
+
+	$("#signRemindClose").click(function(){
+	    $("#signRemind").hide();
+	    $(".blackBg").hide();
+	});
+
 });
 
 function getCenter(){
@@ -78,6 +87,7 @@ function popOut(){
    $(".signInExplain").hide();
 }
 function signs(){
+  $("#signRemind").hide();
   $(".signInExplain").show();
   $("#signInFrame").show();
   $(".blackBg").show();
@@ -156,6 +166,7 @@ function goto(cid,aid,points){
 </script>
 <div class="webArticle index">
 	{% if glideAd %}<div id="glideAd"><img width="960" height="215" src="{{ asset('images/glideAd.jpg') }}"><a class="close">X</a></div>{% endif %}
+	{% if signRemind %}<div id="signRemind" style="display: block;"><img width="703" height="247" src="{{ asset('images/signRemind.png') }}"><a id="signRemindKnow" class="know" onclick="signs();">知道了</a><a id="signRemindClose" class="close">关闭</a><a id="signRemindGo" onclick="signs();">签到领米粒</a></div>{% endif %}
     <section>
     	{% if emergency_announcement %}<div class="frame wam"><p>{{ emergency_announcement }}</p></div>{% endif %}
         <div class="frame">
@@ -329,7 +340,6 @@ function goto(cid,aid,points){
     </aside>  
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
-<div class="signBlackBg"></div>
 <div id="signInFrame" style="display:none;">
   <h5>再打开<span id="remain">3</span>个商城就可以得到<span>{{ checkinPoint }}</span>个米粒</h5>
     <a class="close">关闭</a>
