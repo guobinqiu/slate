@@ -968,26 +968,3 @@
     top: 173px;
     z-index: 10001;
 }
-#signRemind .know, #signRemind .close, #signRemind #signRemindGo{
-    display: inline-block;
-    font-size: 0;
-    position: absolute;
-}
-#signRemind .know {
-    height: 45px;
-    left: 150px;
-    top: 175px;
-    width: 100px;
-}
-#signRemind .close {
-    height: 30px;
-    left: 320px;
-    top: 6px;
-    width: 30px;
-}
-#signRemind #signRemindGo{
-    height: 36px;
-    right: 20px;
-    top: 71px;
-    width: 207px;
-}
