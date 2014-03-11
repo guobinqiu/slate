@@ -15,7 +15,7 @@ function fastreg(){
 <body>
 <div id="landing">
   <div id="landingTop">
-    <div id="logo"><a href="{{ path('_default_index') }}"><img src="{{ asset('images/landing2/logo.png') }}" width="142" height="39" alt="积粒网" /></a></div>
+    <div id="logo"><a href="{{ path('_default_index') }}" target="_blank"><img src="{{ asset('images/landing2/logo.png') }}" width="142" height="39" alt="积粒网" /></a></div>
   </div>
   <div id="landingMain" class="clearfix">
     <div class="register">
@@ -32,17 +32,17 @@ function fastreg(){
     {% else %}
       <ul id="registerFrom">
       	<li><input name="nick" type="text" value="{% if nick %}{{ nick }}{% else %}输入昵称{% endif %}" onfocus="if (value =='输入昵称'){value =''}" onblur="if (value ==''){value='输入昵称'}" /></li>
-        <li><input name="" type="text" value="{{ email }}" onfocus="if (value =='输入邮箱地址'){value =''}" onblur="if (value ==''){value='输入邮箱地址'}" disabled="disabled"/><a class="otherMail" href="{{ path('_user_reg') }}">其他邮箱注册</a></li>
+        <li><input name="" type="text" value="{{ email }}" onfocus="if (value =='输入邮箱地址'){value =''}" onblur="if (value ==''){value='输入邮箱地址'}" disabled="disabled"/><a class="otherMail" href="{{ path('_user_reg') }}" target="_blank">其他邮箱注册</a></li>
         <li><input name="pwd" type="text" value="输入密码" class="short mr4" onfocus="if (value =='输入密码'){value ='',type='password'}" onblur="if (value ==''){value='输入密码',type='text'}" /><input name="newPwd" type="text" class="short" value="确认密码" onfocus="if (value =='确认密码'){value ='',type='password'}" onblur="if (value ==''){value='确认密码',type='text'}" /></li>
         <li><input name="1秒注册积粒网" type="button" class="registerBtn" value="1秒注册积粒网" onclick="fastreg()"/></li>
       </ul>
     {% endif %}
     </div>
     <ul class="function" class="clearfix">
-    <li class="shopping"><a href="{{ asset(path('_shopping_list'),'cdn1')}}" target="_blank"><img src="{{ asset('images/landing2/shopping.png') }}" width="309" height="260" alt="购物返利" /></a></li>
-    <li class="game"><a href="{{ asset(path('_game_index'),'cdn1')}}" target="_blank"><img src="{{ asset('images/landing2/game.png') }}" width="260" height="220" alt="游戏体验" /></a></li>
-    <li class="marketActivity"><a href="{{ path('_default_index') }}" target="_blank"><img src="{{ asset('images/landing2/marketActivity.png') }}" width="309" height="150" alt="每日签到" /></a></li>
-    <li class="advertiserment"><a href="{{ asset(path('_advertiserment_list'),'cdn1')}}" target="_blank"><img src="{{ asset('images/landing2/advertiserment.png') }}" width="260" height="190" alt="体验广告"/></a></li>
+    <li class="shopping"><img src="{{ asset('images/landing2/shopping.png') }}" width="309" height="260" alt="购物返利" /></li>
+    <li class="game"><img src="{{ asset('images/landing2/game.png') }}" width="260" height="220" alt="游戏体验" /></li>
+    <li class="marketActivity"><img src="{{ asset('images/landing2/marketActivity.png') }}" width="309" height="150" alt="每日签到" /></li>
+    <li class="advertiserment"><img src="{{ asset('images/landing2/advertiserment.png') }}" width="260" height="190" alt="体验广告"/></li>
     </ul>
   </div>
   <div id="timeline">
