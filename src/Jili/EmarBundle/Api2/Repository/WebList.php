@@ -21,9 +21,24 @@ class WebList{
   public static function parse( array $rows ) {
     $mapings = array();
     foreach($rows as $row) {
-      if( isset($row['web_id'])  && isset($row['web_name']) )   {
-        $mapings[ (string) $row['web_id'] ] = array( 'name'=>$row['web_name'], 'catid'=> $row['web_catid'] , 'logo'=>$row['logo_url'] , 'url'=> $row['web_o_url']);
-      }
+        if( isset($row['web_id'])  && isset($row['web_name']) )   {
+
+            $tmp  = array( 'name'=>$row['web_name']);
+
+            if(isset($row['web_catid'] )) {
+                $tmp[ 'catid']= $row['web_catid'] ;
+            }
+
+            if(isset($row['logo_url'] )) {
+                $tmp[ 'logo']= $row['logo_url'] ;
+            }
+
+            if( isset($row['web_o_url'])) {
+                $tmp[ 'url']= $row['web_o_url'];
+            }
+
+            $mapings[ (string) $row['web_id'] ] = $tmp;
+        }
     }
     return $mapings;
   }
@@ -47,6 +62,7 @@ class WebList{
       ksort($mapings);
       return $mapings;
   }
+
 
 
 #  /**

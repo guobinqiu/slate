@@ -1,0 +1,95 @@
+.pageNav {
+    display: inline;
+    float: right;
+    margin: 10px 0;
+}
+.pageNav li {
+    color: #666666;
+    display: inline;
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    margin-right: 3px;
+    position: relative;
+}
+.pageNav a {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    color: #0066CC;
+    display: block;
+    height: 23px;
+    line-height: 23px;
+    min-width: 15px;
+    padding: 0 5px;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.pageNav a:hover {
+    border-color: #FF5500;
+    color: #FF0000;
+}
+.pageNav .currPage a {
+    background-color: #FFEEE5;
+    border-color: #FF5500;
+    color: #FF0000;
+    font-weight: bold;
+}
+
+.pageNav .prevPage a {
+	background-position: left top;
+}
+
+.pageNav .nextPage a {
+	background-position: right top;
+}
+.pageNav input {
+    vertical-align: middle;
+}
+.arrowleftOrange {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: rgba(0, 0, 0, 0) #FF6600 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    border-image: none;
+    border-style: solid;
+    border-width: 5px;
+    cursor: pointer;
+    height: 0;
+    left: 5px;
+    margin-right: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 7px;
+    width: 0;
+}
+.arrowRightOrange {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #FF6600;
+    border-image: none;
+    border-style: solid;
+    border-width: 5px;
+    cursor: pointer;
+    height: 0;
+    margin-right: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 6px;
+    top: 8px;
+    width: 0;
+}
+.J_PageNum {
+    border: 1px solid #999999;
+    height: 21px;
+    margin: 0 2px;
+    width: 32px;
+}
+.J_JumpTo {
+    border: 1px solid #999999;
+    height: 25px;
+    margin: 0 2px;
+}

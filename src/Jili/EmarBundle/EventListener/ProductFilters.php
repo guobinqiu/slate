@@ -16,6 +16,22 @@ class ProductFilters  {
     private $websiteListGet;
 
     /**
+     * new ui
+     */
+    public function fetchWebs( ) {
+
+        //webs
+        $webListGet  = $this->websiteListGet;
+        $web_raw  = $webListGet->setFields('web_id,web_name')->fetch( );
+        $webs = WebListRepository::parse( $web_raw);
+        //TODO: sort the webs 
+        
+       #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $webs, true));
+
+        return compact('webs');
+    }
+    /**
+     * demo:
      */
     public function fetch( ) {
 

@@ -1,8 +1,7 @@
-{% extends 'JiliEmarBundle::base.html.twig' %}
 
 {# TODO: add default , valid_range to config #}
-{% set orderby_default = 1 %}
-{% set orderby_valid_range = [ 1, 2, 3 ] %}
+{% set orderby_default = emar_api_orderby_default %}
+{% set orderby_valid_range = emar_api_orderby_range %}
 
 {% set request_orderby  =  app.request.query.getInt('o')  %}
 

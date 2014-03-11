@@ -19,11 +19,15 @@ class WebsiteSearch  {
   public function find( $web_raw , $keyword) {
       $keywords = preg_split("/[\s,]+/", $keyword );
       $matched = array();
+      mb_regex_encoding('UTF-8');
       foreach( $web_raw as $web) {
           foreach( $keywords  as $k) {
-              if(isset($web['web_name'] ) &&  true === mb_ereg_match( '.*?'.trim($k).'.*?', $web['web_name'] ) ) {
+              #$this->logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export(  '^.*?'.trim($k).'.*?$', true)  );
+              if(isset($web['web_name'] ) &&  true === mb_ereg_match( '^.*?'.trim($k).'.*?$', $web['web_name'] ) ) {
                   $matched[] = $web;
                   continue;
+              } else {
+                  #$this->logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $web['web_name'], true)  );
               }
           }
       }

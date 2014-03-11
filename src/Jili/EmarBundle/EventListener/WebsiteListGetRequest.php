@@ -10,11 +10,32 @@ class WebsiteListGetRequest  {
   private $logger;
   private $result;
 
+
+  private $fields; 
+
+  public function __construct()
+  {
+      $this->fields = '';
+      return $this;
+  }
+
+  public function setFields( $fields  = '' ) {
+      $this->fields = (string )  $fields;
+      return $this;
+  }
+
   public function fetch( array $params = array('wtype' => 1, 'catid' => '')) {
+
     extract($params);
     //todo: cached 
     $req = new  \Jili\EmarBundle\Api2\Request\WebsiteListGetRequest;
-    $req->setFields('web_id,web_name,web_catid,logo_url,web_o_url,commission,total');
+
+    if( strlen(trim($this->fields)) > 0) {
+        $req->setFields($this->fields );
+    }  else {
+        $req->setFields('web_id,web_name,web_catid,logo_url,web_o_url,commission,total');
+    }
+
 
     $req->setWtype( $wtype );
 

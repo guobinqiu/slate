@@ -3,7 +3,7 @@ imports:
     - { resource: custome_parameters.yml }
     - { resource: security.yml }
 framework:
-    #esi:             ~
+    esi:             ~
     #translator:      { fallback: %locale% }
     secret:          %secret%
     router:
@@ -38,6 +38,8 @@ twig:
             category_id: %emar_com.cps.category_type%
         emar_page_size: %emar_com.page_size%
         emar_max_of_total: %emar_com.max_of_total%
+        emar_api_orderby_range: %emar_com.api.orderby_range% # [1,2,3] 
+        emar_api_orderby_default: %emar_com.api.orderby_default% # 1 
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%

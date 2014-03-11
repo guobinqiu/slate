@@ -15,6 +15,7 @@ class ProductSearch {
   function __construct() {
     $this->page_size = 0;
   }
+
   /**
    *
    */
@@ -27,6 +28,7 @@ class ProductSearch {
     extract($params);
 
     if( isset($keyword) && ! empty($keyword)) {
+
         $req->setKeyword(mb_convert_encoding($keyword,'gb2312', 'utf8'));
 
     } else {

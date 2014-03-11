@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 #use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\Filesystem\Filesystem;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -36,8 +37,7 @@ class ProductController extends Controller
             if  ( $form->isValid()) {
                 $query_params = $form->getData();
 
-                $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $query_params, true) );
-                $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $request->query->all() , true) );
+              #  $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $request->query->all() , true) );
 
                 $keyword = $query_params['keyword'];
                 #$qs = 0 < count($query_params) ? 
@@ -110,6 +110,45 @@ class ProductController extends Controller
 
         // todo: 
         //  $wcat = $request->request->get('wcat');
+        
+        $cat_id = $request->query->get('cat');
+        $web_id = $request->query->get('w');
+
+        $price_range = $request->query->get('pr');
+        $page_no = $request->query->get('p', 1);
+
+        if ( !empty($cat_id) || !empty($web_id) ) {
+            $params = array( 'webid'=> $web_id, 'catid'=>$cat_id ,'page_no'=>$page_no, 'price_range'=> $price_range);
+            #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
+
+            $productRequest = $this->get('product.list_get');
+            $products = $productRequest->fetch( $params);
+            $total = $productRequest->getTotal();
+
+        } else {
+            $products = array();
+            $total = 0;
+        }
+
+        return array_merge($filters, array('products'=> $products,  'total'=>$total ));
+    }
+    /**
+     * @Route("/retrieve")
+     * @Template();
+     */
+    public function retrieveAction( ) {
+        if(!  $this->get('request')->getSession()->get('uid') ) {
+            return  $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        // cats & sub cats
+        $request = $this->get('request');
+        $logger = $this->get('logger');
+        $prod_categories = $this->get('product.categories')->fetch();
+
+        // websites:
+        $filters_of_webs = $this->get('product.filters')->fetchWebs( );
+        
         $cat_id = $request->query->get('cat');
         $web_id = $request->query->get('w');
 
@@ -123,7 +162,6 @@ class ProductController extends Controller
             $productRequest = $this->get('product.list_get');
 
             $products = $productRequest->fetch( $params);
-
             $total = $productRequest->getTotal();
 
         } else {
@@ -131,69 +169,37 @@ class ProductController extends Controller
             $total = 0;
         }
 
-        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'','produts','')) . var_export( $products , true));
-        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'','total','')) . var_export( $total, true));
-
-        return array_merge($filters, array('products'=> $products,  'total'=>$total ));
+            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $products, true));
+        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $total, true));
+        return array_merge($prod_categories, $filters_of_webs, compact('products', 'total') );
     }
 
     /**
-     * @Route("/filters")
+     * @Route("/category")
      * @Template();
+     *
+     *   $prod_categories = array('cats'=> array() , 'sub_cats'=> array());
      */
-    public function filtersAction(  ) {
-
-       # if( !  $this->get('request')->getSession()->get('uid') ) {
-       #     return  $this->redirect($this->generateUrl('_user_login'));
-       # }
-
-        $request = $this->get('request');
-        $logger= $this->get('logger');
-
-        $cat = $request->request->get('cat');
-        $wcat = $request->request->get('wcat');
-        $w = $request->request->get('w');
-
-        #    $websiteRequest =  $this->get('general.website_get');
-        #    $websites_raw = $websiteRequest->fetch();
-        #    $webs = HotWebRepository::parse( $websites_raw);
-
-        $categories_raw  = $this->get('general.category_get')->fetch( );
-        $cats = ItemCatRepository::parse( $categories_raw);
-
-        // wcats
-        $wcategories_raw  = $this->get('website.category_get')->fetch( );
-        $wcats = WebCatRepository::parse( $wcategories_raw);
-
-        //webs
-        $web_raw  = $this->get('website.list_get')->fetch( );
-        $webs = WebListRepository::parse( $web_raw);
-
-        # $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $web_raw, true));
-
-        $template=$this->get('templating');
-
-        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $route, true));
-        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $qs, true));
-
-        $content = $template->render('JiliEmarBundle:Product:filters.html.twig',  array('cats'=>$cats, 'wcats'=> $wcats,'webs'=> $webs/* ,'route' => $route, 'qs'=>$qs */));
-
-        $response = new Response($content);
-
-        #$cookie = new Cookie('user', 'jarod', 0, '/', null, false, false); //last argument
-        #$response->headers->setCookie( $cookie);
-        return $response;
+    public function categoryAction( ) {
+        $prod_categories = $this->get('product.categories')->fetch();
+        return $prod_categories;
+        #$response = $this->render('JiliEmarBundle:Product:category.html.twig', $prod_categories);
+        #$response->setSharedMaxAge(86400);
+        #return $response;
     }
 
 
-
-
     /**
-     * @Route("/orderby")
+     * @Route("/recommend")
      * @Template();
      */
-    public function orderbyAction(  ) {
-
+    public function recommendAction() {
+        $response = $this->render('JiliEmarBundle:Product:recommend.html.twig');
         return array();
+        #$response->setSharedMaxAge(86400);
+        #return $response;
+
     }
 }
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'','produts','')) . var_export( $products , true));
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'','total','')) . var_export( $total, true));

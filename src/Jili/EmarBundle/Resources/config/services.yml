@@ -12,13 +12,14 @@ parameters:
 # ghs
     ghs.category_get.class:  Jili\EmarBundle\EventListener\GhsCategoryGetRequest
 
-
 # product/general
     general.category_get.class:  Jili\EmarBundle\EventListener\ProductCategoryGetRequest
+
 # product
     product.list_get.class: Jili\EmarBundle\EventListener\ProductListGetRequest
     product.search.class: Jili\EmarBundle\EventListener\ProductSearch
     product.filters.class: Jili\EmarBundle\EventListener\ProductFilters
+    product.categories.class: Jili\EmarBundle\EventListener\ProductCategories
 
 # website
     website.category_get.class:  Jili\EmarBundle\EventListener\WebsiteCategoryGetRequest
@@ -146,4 +147,12 @@ services:
             - [ setGeneralCategoryGet, [ @general.category_get ] ] 
             - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
             - [ setWebsiteListGet, [ @website.list_get ] ] 
+
+
+    product.categories:
+        class: %product.categories.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setGeneralCategoryGet, [ @general.category_get ] ] 
+            - [ setCacheDir, [ %kernel.cache_dir% ] ] 
 

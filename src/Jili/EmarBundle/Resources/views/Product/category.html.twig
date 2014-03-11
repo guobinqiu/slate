@@ -1,0 +1,86 @@
+    <div class="module categorys">
+      <h3>所有商品分类</h3>
+      <ul>
+{% for cid, cat in cats %}
+        <li>{{ cat }}
+          <div class="second">
+    {% for scid, scat in sub_cats[cid] %}
+            <dd><a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></dd>
+    {% endfor %}
+          </div>
+         </li>
+{% endfor %}
+    </div>
+
+
+{#
+        <li>手机数码/图书音像
+          <div class="second">
+            <dd><a href="#">手机通讯</a></dd>
+            <dd><a href="#">数码相机</a></dd>
+            <dd><a href="#">影音设备</a></dd>
+            <dd><a href="#">图书音像</a></dd>
+          </div>
+        </li>
+        <li>电脑办公
+          <div class="second">
+            <dd><a href="#">电脑</a></dd>
+            <dd><a href="#">电脑软件</a></dd>
+            <dd><a href="#">办公用品</a></dd>
+          </div>
+        </li>
+        <li>服饰内衣/珠宝首饰
+          <div class="second">
+            <dd><a href="#">女装</a></dd>
+            <dd><a href="#">男装</a></dd>
+            <dd><a href="#">童装/童鞋/孕妇装</a></dd>
+            <dd><a href="#">内衣</a></dd>
+            <dd><a href="#">其他服装</a></dd>
+            <dd><a href="#">珠宝</a></dd>
+            <dd><a href="#">服装配饰</a></dd>
+            <dd><a href="#">眼睛</a></dd>
+          </div>
+        </li>
+        <li>家用电器/家居
+          <div class="second">
+            <dd><a href="#">大家电</a></dd>
+            <dd><a href="#">生活小家电</a></dd>
+            <dd><a href="#">厨房电器</a></dd>
+            <dd><a href="#">保健护理电器</a></dd>
+            <dd><a href="#">家居</a></dd>
+          </div>
+        </li>
+        <li>鞋靴/箱包/钟表
+          <div class="second">
+            <dd><a href="#">女鞋</a></dd>
+            <dd><a href="#">男鞋</a></dd>
+            <dd><a href="#">运动鞋</a></dd>
+            <dd><a href="#">其他鞋</a></dd>
+            <dd><a href="#">女包/男包/箱包</a></dd>
+            <dd><a href="#">手表</a></dd>
+          </div>
+        </li>
+        <li>汽车/运动健康
+          <div class="second">
+            <dd><a href="#">汽车用品</a></dd>
+            <dd><a href="#">运动户外</a></dd>
+            <dd><a href="#">医药保健</a></dd>
+          </div>
+        </li>
+        <li>个护化妆/母婴/玩具
+          <div class="second">
+            <dd><a href="#">母婴/玩具</a></dd>
+            <dd><a href="#">美容护理</a></dd>
+          </div>
+        </li>
+        <li>食品/其他
+          <div class="second">
+            <dd><a href="#">视频粮油</a></dd>
+            <dd><a href="#">宠物用品</a></dd>
+            <dd><a href="#">成人用品</a></dd>
+            <dd><a href="#">鲜花礼品</a></dd>
+          </div>
+        </li>
+      <ul>
+    </div>
+#}

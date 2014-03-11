@@ -1,0 +1,127 @@
+    <!-- 
+    {% set total_ = ( total > emar_max_of_total ) ? emar_max_of_total : total  %}
+
+    <p>total: {{ total }}; total_:{{ total_ }}</p>
+    {% set page_size = emar_page_size %}
+    <p>page_size: {{ page_size }}</p>
+    {% set page_req = app.request.query.get('p',1) %}
+    {% set cur = page_req == 0 ? 1 : page_req %}
+
+    <p>cur: {{ cur }}</p>
+
+    {% set first = 1 %} 
+    {% set last =  ( total_/page_size) |round(0,'ceil') %} 
+
+
+    <p>last: {{ last }}</p>
+    {% set prev = ( cur > first ) ? cur - 1: first  %}
+    <p>prev: {{ prev }}</p>
+    {% set next = ( cur < last  ) ? cur + 1: last  %}
+    <p>next: {{ next }}</p>
+
+    -->
+        <ul class="pageNav">
+    {% if total_ <= 1 %} 
+    {% elseif total_ > 1 and total_ <= 5 %}
+
+    {% for i in range(1, total_ ) %}
+
+    {% if cur != i %} 
+   <li> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': i})) }}">首页</a></li>
+
+    {% else %}
+       
+    <li class="currPage"> <a href="#">{{ cur }}</a> </li>
+    {% endif %}
+
+    {% endfor %} 
+
+
+    {% else %}
+
+
+    {% if cur  != first  %}
+   <li> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': first})) }}">首页</a></li>
+    {% endif %}
+
+    {% if cur  != prev %}
+   <li class="prevPage"> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': prev })) }}">
+<span class="arrowleftOrange"></span></a></li>
+    {% endif %}
+
+    <li class="currPage"> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': '' })) }}" onclick="javascript:function() {return false;};">{{ cur }}</a> </li>
+
+    {% if cur  != last  %}
+   <li class="prevPage"> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': next })) }}">
+<span class="arrowRightOrange"></span></a></li>
+    {% endif %}
+
+    {% if cur  != last  %}
+
+   <li> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': last })) }}">末页</a></li>
+    {% endif %}
+
+{% endif %}
+
+{% if total_ > 0 %}
+          <li> <span>共{{ last }}页</span> </li>
+{% endif %}
+
+{% if total_ > 2 %}
+
+
+
+          <li> <span>到第
+            <input type="text" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onkeyup="value=value.replace(/[^\d]/g,'')" class="J_PageNum" size="2" id="page" maxlengh="4">
+            <span>页</span>
+
+            <input type="button" id="goto" class="J_JumpTo" value="确定">
+
+            </span> </li>
+        </ul>
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("#goto").click(function() {
+
+		var goto_page = $("#page").val();
+		var first = 1;
+		var last_page = {{ last }};
+		var cur_page = {{ cur  }};
+
+		if (!goto_page || goto_page < first || goto_page > last_page) {
+			alert("请输入有效页码1 ~ " + last);
+		} else if (goto_page == cur_page ) {
+			alert("当前页面已经是第" + cur_page + "页");
+		} else {
+
+			var url = $('li.currPage a').attr('href');
+
+			var href = url.replace(/([&\?])p=.*?(&?.*?)$/, "$1p=" + goto_page);
+
+			window.location.href = href;
+		};
+	});
+
+});
+
+</script>
+
+{% endif %}
+<!-- -->
+{#
+<li class="currPage"> <a href="/shopping/list?page=1">1</a> </li>
+          <li> <a href="/shopping/list?page=2">2</a> </li>
+          <li> <a href="/shopping/list?page=3">3</a> </li>
+
+          <li class="nextPage"> <a href="/shopping/list?page=3"> <span class="arrowRightOrange"></span> </a> </li>
+
+          <li> <span>共{{ total }}页</span> </li>
+
+          <li> <span>到第
+            <input type="text" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onkeyup="value=value.replace(/[^\d]/g,'')" class="J_PageNum" size="2" id="page" maxlengh="4">
+            <span>页</span>
+
+            <input type="button" id="goto" class="J_JumpTo" value="确定">
+            </span> </li>
+#}
