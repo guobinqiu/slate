@@ -960,3 +960,11 @@
 	display:inline-block;
 	font-size:0;
 }
+
+#signRemind {
+    display: none;
+    left: 261px;
+    position: absolute;
+    top: 173px;
+    z-index: 10001;
+}

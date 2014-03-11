@@ -201,13 +201,14 @@ class DefaultController extends Controller {
 		//截取nick
 		$limitNick = '';
         $glideAd = false;//是否显示签到活动广告
-        $glideAd_reg = false;//是否为当天注册
+        $signRemind = false;//是否显示签到活动广告
+        $signRemind_reg = false;//是否为当天注册
 		if ($id) {
 			$user = $em->getRepository('JiliApiBundle:User')->find($id);
             $reg_date = $user->getRegisterDate()->format('Y-m-d');
             //判断是否为当天注册
             if(date('Y-m-d') == $reg_date){
-            	$glideAd_reg = true;
+            	$signRemind_reg = true;
             }
 
 			if ($this->countStrs($user->getNick()) > 15) {
@@ -230,7 +231,8 @@ class DefaultController extends Controller {
 			$arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));;
 			$arr['clickDayCount'] = $this->clickDayCount();
 		}else{
-			$glideAd = true;//未登录，显示签到活动广告
+			$signRemind = false;//未登录，右侧签到活动广告不显示
+            $glideAd = true;//未登录，header签到活动广告显示
 		}
 		$info = '';
 		$couponOd = '';
@@ -365,8 +367,8 @@ class DefaultController extends Controller {
                 $checkInLister = $this->get('check_in.listener');
                 $arr['task']['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));;
 				$arr['task']['checkin'] = $this->container->getParameter('init_one');
-                if($glideAd_reg){
-                	$glideAd = true;//显示签到活动广告
+                if($signRemind_reg){
+                	$signRemind = true;//显示签到活动广告
                 }
 			}
 
@@ -412,6 +414,7 @@ class DefaultController extends Controller {
 		$arr['adverRecommand'] = $adverRecommand;
 		$arr['rankingMonth'] = $rankingMonth;
 		$arr['rankingYear'] = $rankingYear;
+		$arr['signRemind'] = $signRemind;
 		$arr['glideAd'] = $glideAd;
 		return $this->render('JiliApiBundle:Default:index.html.twig', $arr);
 	}

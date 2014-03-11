@@ -58,7 +58,29 @@ $(document).ready(function(){
         }); 
     });
 
+	signRemind();
+
 });
+
+function signRemind(){
+	{% if signRemind %}
+		$(".blackBg").show();
+	
+		var _version=navigator.appVersion;
+		if(_version.indexOf('MSIE 6.0')>0 || _version.indexOf('MSIE 7.0')>0 ){
+			$(".blackBg").hide();
+			$(".webArticle").append($(".blackBg").clone());
+			$(".webArticle .blackBg").css("display","block")
+						.css("position","fixed");
+	    }
+	
+	{% endif %}
+
+	$("#signRemindClose").click(function(){
+	    $("#signRemind").hide();
+	    $(".blackBg").hide();
+	});
+}
 
 function getCenter(){
     var windowWidth = document.documentElement.clientWidth;
@@ -78,6 +100,7 @@ function popOut(){
    $(".signInExplain").hide();
 }
 function signs(){
+  $("#signRemind").hide();
   $(".signInExplain").show();
   $("#signInFrame").show();
   $(".blackBg").show();
@@ -156,6 +179,15 @@ function goto(cid,aid,points){
 </script>
 <div class="webArticle index">
 	{% if glideAd %}<div id="glideAd"><img width="960" height="215" src="{{ asset('images/glideAd.jpg') }}"><a class="close">X</a></div>{% endif %}
+	{% if signRemind %}
+	<div id="signRemind" style="display: block;"><img width="703" height="247" src="{{ asset('images/signRemind.png') }}" usemap="#signRemindBtn">
+	<map name="signRemindBtn">
+        <area id="signRemindKnow" onclick="signs();" shape="rect" coords="150,181,242,218" href="javascript:void(0);">
+        <area id="signRemindClose" shape="circle" coords="334,22,15" href="javascript:void(0);">
+        <area id="signRemindGo" onclick="signs();" shape="rect" coords="477,71,683,106" href="javascript:void(0);">
+        </map>
+	</div>
+	{% endif %}
     <section>
     	{% if emergency_announcement %}<div class="frame wam"><p>{{ emergency_announcement }}</p></div>{% endif %}
         <div class="frame">
@@ -329,7 +361,6 @@ function goto(cid,aid,points){
     </aside>  
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
-<div class="signBlackBg"></div>
 <div id="signInFrame" style="display:none;">
   <h5>再打开<span id="remain">3</span>个商城就可以得到<span>{{ checkinPoint }}</span>个米粒</h5>
     <a class="close">关闭</a>
