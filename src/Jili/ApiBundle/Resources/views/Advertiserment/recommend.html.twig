@@ -1,0 +1,18 @@
+
+    <h2><img src="{{ asset('images/recommedBusiness.jpg')}}" alt="推荐商家"></h2>
+      <section>
+            <ul class="shopRecommend">
+             {% for item in adverRecommand %}
+              <li><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="200" height="130" alt="{{item.title}}"></a>
+                <p class="about">
+                 {% if item.incentiveType==1 %}
+                             <span class="rebate">{{ item.incentive }}米粒</span>
+                     {% elseif item.incentiveType==2 %}
+                             <span class="rebate">最高返{{ item.reward_rate }}%</span>
+                     {% else %}
+                 {% endif %}
+                </p>    
+              </li>
+            {% endfor %}
+            </ul>
+      </section>

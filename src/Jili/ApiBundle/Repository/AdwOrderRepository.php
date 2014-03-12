@@ -33,6 +33,9 @@ class AdwOrderRepository extends EntityRepository
 		
 	}
 	
+    /**
+     * TODO: just select count() is ok!
+     */
 	public function getOrderNum($aid){
 		$query = $this->createQueryBuilder('ao');
 		$query = $query->select('ao.id,ao.adid,ao.orderStatus,ao.confirmTime');
@@ -42,6 +45,25 @@ class AdwOrderRepository extends EntityRepository
 		return count($query->getResult());
 	}
 	
+    public function getCountOfJoinedByCat($ad_ids) {
+
+        $qb = $this->createQueryBuilder('ao');
+        $qb->select('count( ao.adid ) as cnt , ao.adid')
+            ->groupby('ao.adid')
+            ->where( $qb->expr()->in('ao.adid',  $ad_ids ) );
+
+        $query  = $qb->getQuery();
+        $results = $query->getResult();
+
+        $ret= array();
+        if( $results) {
+            foreach ($results as $r) {
+                $ret [ $r['adid'] ] = $r['cnt'] ;
+            }
+        }
+        return $ret;
+    }
+
 	public function getOrderStatus($uid,$aid,$ocd=''){
 		$parameters = array();
 		$query = $this->createQueryBuilder('ao');

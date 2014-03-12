@@ -258,6 +258,8 @@ footer section a:hover{
 	margin: auto;
 	padding:0 0 140px 0;
 	display:table;
+	position: relative;
+	z-index:auto;
 }
 #loginFrame{
 	background-color: #FFF;

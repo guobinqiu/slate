@@ -248,6 +248,7 @@ class UserRepository extends EntityRepository {
         return $r;
     }
 
+    //七天未登陆提醒
     public function getUserListForRemindLogin($day) {
         $daydate = date("Y-m-d", strtotime(' -' . $day . ' day'));
         $sql = "SELECT user.id, user.email, user.nick
@@ -271,6 +272,7 @@ class UserRepository extends EntityRepository {
 
     }
 
+    //1,2,3 广告体验,购物返利,游戏广告,获得积分提醒
     public function getUserListForRemindPoint($day) {
         $daydate = date("Y-m-d", strtotime(' -' . $day . ' day'));
         $sql = "select a.nick, a.email, b.date, b.point, b.task_name, c.display_name from user a inner join
@@ -284,11 +286,12 @@ class UserRepository extends EntityRepository {
                 union select id, user_id, date, point, category_type, task_name, status from task_history07 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
                 union select id, user_id, date, point, category_type, task_name, status from task_history08 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
                 union select id, user_id, date, point, category_type, task_name, status from task_history09 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)) b
-                on a.id = b.user_id inner join ad_category c on b.category_type = c.id ";
+                on a.id = b.user_id inner join ad_category c on b.category_type = c.id WHERE a.delete_flag IS NULL OR a.delete_flag = 0";
         //1,2,3 广告体验,购物返利,游戏广告
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
+    //每个月2号凌晨发一封edm,统计3个月内有历史积分的人
     public function getUserListForRemindTotalPoint($start, $end) {
         $sql = "select a.id, a.email, a.points from user a inner join
                 (select distinct user_id from point_history00 where create_time >= '".$start."%' and create_time <= '".$end."%'
@@ -301,7 +304,7 @@ class UserRepository extends EntityRepository {
                 union all select distinct user_id from point_history07 where create_time >= '".$start."%' and create_time <= '".$end."%'
                 union all select distinct user_id from point_history08 where create_time >= '".$start."%' and create_time <= '".$end."%'
                 union all select distinct user_id from point_history09 where create_time >= '".$start."%' and create_time <= '".$end."%' )b
-                on a.id = b.user_id where a.points > 0";
+                on a.id = b.user_id where a.points > 0 AND (a.delete_flag IS NULL OR a.delete_flag = 0)";
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 }
