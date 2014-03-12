@@ -21,9 +21,13 @@ class WebList{
   public static function parse( array $rows ) {
     $mapings = array();
     foreach($rows as $row) {
-        if( isset($row['web_id'])  && isset($row['web_name']) )   {
+        if( isset($row['web_id'])   )   {
 
-            $tmp  = array( 'name'=>$row['web_name']);
+            if(isset($row['web_name'] )) {
+                $tmp  = array( 'name'=>$row['web_name']);
+            } else {
+                $tmp  = array();
+            }
 
             if(isset($row['web_catid'] )) {
                 $tmp[ 'catid']= $row['web_catid'] ;
@@ -35,6 +39,10 @@ class WebList{
 
             if( isset($row['web_o_url'])) {
                 $tmp[ 'url']= $row['web_o_url'];
+            }
+
+            if( isset($row['commission'])) {
+                $tmp[ 'commission']= $row['commission'];
             }
 
             $mapings[ (string) $row['web_id'] ] = $tmp;

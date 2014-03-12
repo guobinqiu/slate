@@ -1,72 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="keywords" content="积粒,积粒网,91积粒网,返利网,返利,返现,超级返,购物返利,商城返利,淘宝,淘宝返利,京东返利,积分,积分商城,网购返利,91jili.com">
-<meta name="description" content="积粒网，一站式积分媒体！拥有游戏体验，体验广告，购物返利，商家活动几大板块，网站的货币为米粒，在享受众多商城最优惠价格同时还可从积粒网获得不同比率的现金奖励！积粒网让你省得多，赚得也更多！">
-<title>积粒网-首页 一站式积分媒体！</title>
-<link href="{{ asset('css140307/reset.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/common.css') }} " rel="stylesheet" type="text/css">
+{% extends 'JiliEmarBundle::base140307.html.twig' %}
+
+{% block stylesheet %}
 <link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/commodity.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/pageNumber.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/recommend.css') }} " rel="stylesheet" type="text/css">
-<script src="{{ asset('js140307/jquery-1.8.2.js') }}" language="javascript"></script>
-</head>
-<body>
-<div id="header">
-  <div id="topbar">
-    <div class="page clearfix">
-      <ul id="userbar">
-        <li><a class="message">新消息(+2)</a></li>
-        <li class="split">|</li>
-        <li><a class="personal">个人中心</a></li>
-      </ul>
-    </div>
-  </div>
-  <div id="headerContent">
-    <div class="page clearfix">
-      <div id="logo"><a href="#"><img src="{{ asset('images140307/logo.png') }}" width="160" height="46" alt="积粒网" /></a></div>
-      <div id="search">
-        <div class="seacherMenu"> <span>商品</span>
-          <ul style="display: none;">
-            <li lang="commodity">商品</li>
-            <li lang="shop">商城</li>
-          </ul>
-        </div>
-        <div class="form">
-          <input type="text" onkeydown="javascript:if(event.keyCode==13) search('key');" autocomplete="off" id="key" accesskey="s" class="text">
-          <input type="button" clstag="homepage|keycount|home2013|03a" onclick="search('key');return false;" class="button" value="搜索">
-        </div>
-      </div>
-      <div class="otherInlet"><a class="help" href="#">帮助中心</a></div>
-    </div>
-  </div>
-  <div id="nav">
-    <div class="page clearfix">
-      <ul>
-        <li class="task"> <a class="taskBtn" href="#">我的任务列表</a>
-          <ul>
-            <li><a href="#">每日签到<span>1米粒</span></a></li>
-            <li><a href="#">小鸡找米<span>最高588米粒</span></a></li>
-            <li><a href="#">91问问快速问答<span>1米粒</span></a></li>
-          </ul>
-        </li>
-        <li><a href="#">首页</a></li>
-        <li><a href="#">游戏体验</a></li>
-        <li><a href="#">体验广告</a></li>
-        <li><a href="#">购物返利</a></li>
-        <li><a href="#">兑换中心</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
+{% endblock %}
 
+{% block javascript %}
+<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/commodity.js') }}" language="javascript"></script>
+{% endblock %}
+
+{% block page_main %}
 <!-- content start  -->
-<div class="pageMain page clearfix">
   <div class="sidebar w204 fl">
       {% include('JiliEmarBundle:Product:category.html.twig') %}
   </div>
+
 
   <div class="main w930 fr">
 
@@ -74,17 +23,31 @@
 
     </div>
     <div class="commodityList">
-        <h1>宝贝列表{% if total is defined %}<span>共{{ total }}件宝贝</span>{% endif %}</h1>
+        <h1>
+            {{ crumbs_local }}{{  crumbs_local|length > 0 ? '-' : '' }} 宝贝列表{% if total is defined %}<span>共{{ total }}件宝贝</span>{% endif %}</h1>
       <div class="classifyShop clearfix">
 
+   {% set w_q = app.request.query.getInt('w')  %}{# website in  request url #}
         <dt class="fl">商城筛选：</dt>
 
         <dd class="fl"> 
 
-<a class="hover"  href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'w': 0, "p":1, "pr":""})) }}">全部</a> 
+
+        {% if w_q is not defined or w_q == 0 %}
+        <a  class="hover" onclick="javascript: return false;" href ="#" >全部</a> 
+        {% else %}
+        <a  href ="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'w': 0, "p":1, "pr":""})) }}">全部</a> 
+        {% endif %}
 
 {% for webid,web in webs %}
-<a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': webid, "p":1, "pr":"" })) }}">{{ web.name|e }}</a> 
+
+    {% if w_q is defined and w_q == webid %}
+    <a href="#" class="hover" onclick="javascript:return false;" >{{ web.name|e }}</a> 
+    {% else %}
+    <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': webid, "p":1, "pr":"" })) }}">{{ web.name|e }}</a> 
+    {% endif %}
+
+
 {% endfor  %}
 
         {#  <a class="hover" href="#">全部</a> 
@@ -103,10 +66,6 @@
       </div>
     </div>
   </div>
-</div>
-<script src="{{ asset('js140307/common.js') }}" language="javascript"></script>
-<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
-<script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
-<script src="{{ asset('js140307/commodity.js') }}" language="javascript"></script>
-</body>
-</html>
+
+{% endblock %}
+

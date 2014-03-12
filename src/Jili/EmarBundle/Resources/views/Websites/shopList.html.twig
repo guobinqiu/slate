@@ -1,0 +1,30 @@
+{% extends 'JiliEmarBundle::base140307.html.twig' %}
+
+{% block stylesheet %}
+<link href="{{ asset('css140307/shopList.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block javascript %}
+<script src="{{ asset('js140307/shopList.js') }}" language="javascript"></script>
+{% endblock %}
+
+{% block page_main %}
+  <div class="main w834 fl">
+
+      {% include "JiliEmarBundle:Websites:shopList_category.html.twig" %}
+
+      <ul class="module shopListUl clearfix">
+
+      {% include "JiliEmarBundle:Websites:shopList_page.html.twig" %}
+      </ul>
+    </div>
+
+    <div style="display: inline-block; width: 100%;">
+      {% include "JiliEmarBundle:Websites:shopList_page_nav.html.twig"  %}
+    </div>
+  </div>
+  <div class="sidebar w300 fr"> </div>
+{% endblock %}
+
+

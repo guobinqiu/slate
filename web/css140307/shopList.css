@@ -1,0 +1,72 @@
+.shopList{}
+.shopList h1{ font-size:16px; line-height:40px;}
+.shopList h1 span{ font-size:12px; margin-left:10px;}
+.shopList .classify{ margin:10px 0;}
+.shopList .classify dd{ width:794px; padding-right:40px; position:relative; height: 28px; overflow:hidden;}
+.shopList .classify dd a{ display:inline-block; margin-right:10px; padding:3px 10px; color:#000; margin-bottom:5px;}
+.shopList .classify dd a:hover ,.shopList .classify dd a.hover{ background-color:#ea4b11; color:#FFF;}
+.shopList .classify dd a.unfoldBtn{ position:absolute; padding:0; right:0; top:5px; font-size:0; width:14px; height:14px; background: url("../images140307/iconImage.png") repeat scroll 0 -380px; cursor:pointer;}
+.shopList .classifyShop dd a.unfoldBtn.already{ background-position:0 -420px;}
+.shopList ul.shopListUl{ background-color:#FFF; padding:0;}
+.shopList ul.shopListUl li{ width:107.6px; height:103px; float:left; padding:15px; position:relative;border-bottom: 1px solid #DDDDDD; border-right: 1px solid #DDDDDD;}
+.shopList ul.shopListUl li dt{ overflow:hidden; position:relative;}
+.shopList ul.shopListUl li dt a.shop{ background-color: rgba(255, 255, 255, 0.75); bottom: 5px; color: #000000; display: inline-block; left: 5px; padding: 2px 5px; position: absolute; cursor:pointer;}
+.shopList ul.shopListUl li dd{ margin:5px 0 0 0; width:100%; float:left;}
+.shopList ul.shopListUl li dd p.title{ overflow:hidden; color:#666; width:100%; text-align:center;}
+.shopList ul.shopListUl li dd p.title a{ color:#666;}
+.shopList ul.shopListUl li dd p.price{ color:#ea4b11; font-size:15px; font-weight:bold; float:left;}
+.shopList ul.shopListUl li dd p.rebate{ text-align:center; color:#999;}
+.shopList ul.shopListUl li dd p.rebate em{ color:#ea4b11;}
+.shopList ul.shopListUl li div.hover {
+    background-color: #FFFCD9;
+    border: 1px dashed #FB991A;
+    display: none;
+    height: 106px;
+    left: 0;
+    padding: 20px 0 5px;
+    position: absolute;
+    top: 0;
+	width:136.6px;
+}
+.shopList ul.shopListUl li div.hover .tr {
+    display: inline-block;
+    margin: 5px 0;
+    width: 100%;
+}
+.shopList ul.shopListUl li div.hover .img {
+    display: block;
+    float: left;
+    height: 30px;
+    margin: 0 5px 0 10px;
+    overflow: hidden;
+    text-align: center;
+    width: 60px;
+}
+.shopList ul.shopListUl li div.hover .text {
+    overflow: hidden;
+}
+.shopList ul.shopListUl li div.hover .text em, .shopList ul.shopListUl li div.hover p em {
+    color: #EA4B11;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+}
+.shopList ul.shopListUl li div.hover p {
+    margin: 5px 0;
+	text-align:center;
+}
+.shopList ul.shopListUl li div.hover p a.btnDetail {
+    background-color: #F5602A;
+    border-radius: 0 10px 10px;
+    color: #FFFFFF;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 0 5px;
+}
+.shopList ul.shopListUl li div.hover p a.btnShopping {
+    background-color: #46BAF0;
+    border-radius: 0 10px 10px;
+    color: #FFFFFF;
+    display: inline-block;
+    padding: 0 5px;
+}

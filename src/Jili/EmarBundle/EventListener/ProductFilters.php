@@ -16,19 +16,33 @@ class ProductFilters  {
     private $websiteListGet;
 
     /**
-     * new ui
+     * for new ui
+     *
      */
     public function fetchWebs( ) {
 
         //webs
         $webListGet  = $this->websiteListGet;
-        $web_raw  = $webListGet->setFields('web_id,web_name')->fetch( );
+        $web_raw  = $webListGet->setFields('web_id,web_name,web_o_url,commission')->fetch( );
         $webs = WebListRepository::parse( $web_raw);
         //TODO: sort the webs 
-        
        #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $webs, true));
-
         return compact('webs');
+    }
+
+    /**
+     * for new ui
+     *
+     */
+    public function fetchWebsByProducts( $products ) {
+
+        //webs
+        $webListGet  = $this->websiteListGet;
+        $web_raw  = $webListGet->setFields('web_id,web_o_url,commission')->fetch( );
+        $product_webs = WebListRepository::parse( $web_raw);
+        //TODO: sort the webs 
+       $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $product_webs, true));
+        return compact('product_webs');
     }
     /**
      * demo:

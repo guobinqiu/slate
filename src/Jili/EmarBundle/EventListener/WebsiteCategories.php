@@ -9,11 +9,11 @@ use Jili\EmarBundle\Api2\Repository\ItemCat as ItemCatRepository,
   Jili\EmarBundle\Api2\Repository\WebCat as WebCatRepository,
   Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
 
-class ProductCategories {
+class WebsiteCategories {
 
     private $logger;
 
-    private $generalCategoryGet;
+    private $websiteCategoryGet;
 
     /**
      * 1. fetch first level category,
@@ -21,43 +21,21 @@ class ProductCategories {
      * 3. wirte the category to cached file for next fetch.
      */
     public function fetch( ) {
-
-        $cached = $this->cache_dir.DIRECTORY_SEPARATOR.'emar_product_category_'.date('Ym').'.cached';
-
+        $cached = $this->cache_dir.DIRECTORY_SEPARATOR.'emar_website_category_'.date('Ym').'.cached';
         $fs = new Filesystem();
-
         if( $fs->exists($cached) ) {
-            $prod_categories = @unserialize(file_get_contents($cached));
+            $web_categories = @unserialize(file_get_contents($cached));
         }
 
-        if( !isset($prod_categories) || ! is_array($prod_categories) || ! isset($prod_categories['cats']) || ! isset($prod_categories['sub_cats']))  {
+        if( !isset($web_categories) || ! is_array($web_categories) ) {
             // cats
-            $categories_raw  = $this->generalCategoryGet->fetch();
-
-            $cats = ItemCatRepository::parse( $categories_raw);
-
-            #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $cats, true));
-
-            $sub_cats = array();
-
-            foreach( $categories_raw as $cat ) {
-
-                $cid = $cat['catid'];
-
-                $params = array('parent_id' => $cid);
-
-                $sub_cats_raw = $this->generalCategoryGet->fetch($params);
-
-                $sub_cats[ $cid ] =  ItemCatRepository::parse( $sub_cats_raw);
-
-                #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
-            }
-
-            $prod_categories = compact('cats', 'sub_cats');
-
-            @file_put_contents( $cached, serialize($prod_categories) , LOCK_EX);
+            $wcategories_raw  = $this->websiteCategoryGet->fetch( );
+            $wcats = WebCatRepository::parse( $wcategories_raw);
+            #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $wcategories_raw, true));
+            #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $wcats, true));
+            @file_put_contents( $cached, serialize($web_categories) , LOCK_EX);
         }
-        return $prod_categories;
+        return $wcats;
     }
 
     public function setCacheDir($dir) {
@@ -70,8 +48,8 @@ class ProductCategories {
 
 
 
-    public function setGeneralCategoryGet(  $getter ) {
-        $this->generalCategoryGet= $getter ;
+    public function setWebsiteCategoryGet(  $getter ) {
+        $this->websiteCategoryGet= $getter ;
     }
 
 }

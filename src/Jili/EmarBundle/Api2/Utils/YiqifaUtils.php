@@ -28,7 +28,15 @@ class YiqifaUtils{
         $result = curl_exec($ch);
         curl_close($ch);
         
-        return iconv("GBK","UTF-8//IGNORE",$result);
+        try  {
+            return iconv("GBK","UTF-8//IGNORE",$result);
+        } catch(\Exception $e ) {
+            var_dump($e->getMessage());
+            var_dump(urldecode($url));
+            var_dump($result);
+
+            return mb_convert_encoding($result, "UTF-8", "GBK");
+        }
     }   
    static function hmacsha1($key,$data) {
         $blocksize=64;

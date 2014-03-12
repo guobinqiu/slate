@@ -11,9 +11,16 @@ class ProductListGetRequest  {
   private $result;
   private $total;
 
+  private $fields;
+
 
   function __construct() {
     $this->page_size = 0;
+  }
+
+  public function setFields( $fields  = '' ) {
+      $this->fields = (string )  $fields;
+      return $this;
   }
   /**
    *
@@ -22,9 +29,15 @@ class ProductListGetRequest  {
 
     $req=new \Jili\EmarBundle\Api2\Request\ProductListGetRequest;
 
-    $req->setFields('pid,p_name,web_id,web_name,ori_price,cur_price,pic_url,catid,cname,p_o_url,total,short_intro');
 
     extract($params);
+
+    if( strlen(trim($this->fields)) > 0) {
+        $req->setFields($this->fields );
+    }  else {
+        //$req->setFields('pid,p_name,web_id,web_name,ori_price,cur_price,pic_url,catid,cname,p_o_url,total,short_intro');
+        $req->setFields('pid,p_name,web_id,web_name,ori_price,cur_price,pic_url,catid,cname,p_o_url,total');
+    }
 
     if( isset($catid) && ! empty($catid)) {
       $req->setCatid($catid);

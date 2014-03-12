@@ -1,15 +1,18 @@
+
     <div class="module categorys">
       <h3>所有商品分类</h3>
       <ul>
-{% for cid, cat in cats %}
+    {% for cid, cat in cats %}
         <li>{{ cat }}
           <div class="second">
-    {% for scid, scat in sub_cats[cid] %}
-            <dd><a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></dd>
-    {% endfor %}
+        {% for scid, scat in sub_cats[cid] %}
+            <dd>
+
+               <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></dd>
+        {% endfor %}
           </div>
          </li>
-{% endfor %}
+    {% endfor %}
     </div>
 
 

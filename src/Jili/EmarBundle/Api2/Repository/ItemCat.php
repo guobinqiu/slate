@@ -2,8 +2,9 @@
 namespace Jili\EmarBundle\Api2\Repository;
 
 class ItemCat {
+
   /**
-   * 取web_id
+   * 取web ids
    */
   public static function getIds( array $rows ) {
     $ids = array();
@@ -26,6 +27,32 @@ class ItemCat {
       }
     }
     return $mapings;
+  }
+
+  /**
+   * 取cname 
+   * 131010000
+   * 131000000
+   */
+  public static function getCrumbsByScatid( $cats , $cid_2 ) {
+      //$cid_2 = '131010000';
+      $len =  strlen($cid_2);
+      
+      $len_parent = 4;
+
+      $cname = '';
+
+      if( $len > $len_parent) {
+
+          $cid_1 = substr($cid_2, 0,$len_parent).  str_repeat('0', $len- $len_parent);;
+
+          if( isset($cats[$cid_1]) && isset($cats[$cid_1][$cid_2] ) ) {
+
+              $cname = $cats[$cid_1][$cid_2];
+          }
+      }
+
+      return $cname;//array( $cid_1, $cid_2);
   }
 #  /**
 #   * @param $cat_ind [1,...] , $categories_raw 数组。

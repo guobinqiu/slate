@@ -26,6 +26,7 @@ parameters:
     website.list_get.class:  Jili\EmarBundle\EventListener\WebsiteListGetRequest
     website.detail_get.class:  Jili\EmarBundle\EventListener\WebsiteDetailGetRequest
     website.search.class:  Jili\EmarBundle\EventListener\WebsiteSearch
+    website.categories.class:  Jili\EmarBundle\EventListener\WebsiteCategories
 
 
 services:
@@ -125,6 +126,13 @@ services:
             - [ setLogger, [ @logger ] ] 
             - [ setListGet , [ @website.list_get ] ]
             - [ setDetailGet , [ @website.detail_get ] ]
+
+    website.categories:
+        class: %website.categories.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
+            - [ setCacheDir, [ %kernel.cache_dir% ] ] 
 
     product.list_get:
         class: %product.list_get.class%

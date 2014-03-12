@@ -4,6 +4,8 @@ body{ font-family: '微软雅黑','宋体'; font-size:12px; background-color:#F6
 .fl{float:left;}
 .fr{float:right;}
 .w204{ width:204px;}
+.w300{ width:300px;}
+.w834{ width:834px;}
 .w930{ width:930px;}
 .module{ border:1px solid #E0E0E0;}
 #header{ width:100%;}

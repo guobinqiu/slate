@@ -144,24 +144,32 @@ class ProductController extends Controller
         // cats & sub cats
         $request = $this->get('request');
         $logger = $this->get('logger');
+
         $prod_categories = $this->get('product.categories')->fetch();
 
         // websites:
-        $filters_of_webs = $this->get('product.filters')->fetchWebs( );
-        
-        $cat_id = $request->query->get('cat');
-        $web_id = $request->query->get('w');
+        $filters_of_webs = $this->get('product.filters')->fetchWebs();
+
+
+        $cat_id = $request->query->getInt('cat');
+        $web_id = $request->query->getInt('w');
 
         $price_range = $request->query->get('pr');
         $page_no = $request->query->get('p', 1);
 
+        $crumbs_local = ItemCatRepository::getCrumbsByScatid( $prod_categories['sub_cats'], $cat_id);
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $crumbs_local, true));
+
         if ( !empty($cat_id) || !empty($web_id) ) {
             $params = array( 'webid'=> $web_id, 'catid'=>$cat_id ,'page_no'=>$page_no, 'price_range'=> $price_range);
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
 
             $productRequest = $this->get('product.list_get');
 
             $products = $productRequest->fetch( $params);
+
+
+            #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $product_webs, true));
+
             $total = $productRequest->getTotal();
 
         } else {
@@ -169,9 +177,10 @@ class ProductController extends Controller
             $total = 0;
         }
 
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $products, true));
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $total, true));
-        return array_merge($prod_categories, $filters_of_webs, compact('products', 'total') );
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $products, true));
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $total, true));
+
+        return array_merge($prod_categories, $filters_of_webs,  compact('products', 'total','crumbs_local') );
     }
 
     /**
