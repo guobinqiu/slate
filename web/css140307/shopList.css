@@ -2,13 +2,14 @@
 .shopList h1{ font-size:16px; line-height:40px;}
 .shopList h1 span{ font-size:12px; margin-left:10px;}
 .shopList .classify{ margin:10px 0;}
-.shopList .classify dd{ width:794px; padding-right:40px; position:relative; height: 28px; overflow:hidden;}
-.shopList .classify dd a{ display:inline-block; margin-right:10px; padding:3px 10px; color:#000; margin-bottom:5px;}
+.shopList .classify dd{ width:794px; padding-right:40px; position:relative; height: 56px; overflow:hidden;}
+.shopList .classify dd li{ width:105px; float:left; list-style:none; margin-right:4px;margin-bottom:5px;}
+.shopList .classify dd a{ display:inline-block; padding:3px 10px; color:#000; }
 .shopList .classify dd a:hover ,.shopList .classify dd a.hover{ background-color:#ea4b11; color:#FFF;}
-.shopList .classify dd a.unfoldBtn{ position:absolute; padding:0; right:0; top:5px; font-size:0; width:14px; height:14px; background: url("../images140307/iconImage.png") repeat scroll 0 -380px; cursor:pointer;}
+.shopList .classify dd a.unfoldBtn{ position:absolute; padding:0; right:0; top:5px; font-size:0; line-height:0; width:14px; height:14px; background: url("../images140307/iconImage.png") repeat scroll 0 -380px; cursor:pointer;}
 .shopList .classifyShop dd a.unfoldBtn.already{ background-position:0 -420px;}
-.shopList ul.shopListUl{ background-color:#FFF; padding:0;}
-.shopList ul.shopListUl li{ width:107.6px; height:103px; float:left; padding:15px; position:relative;border-bottom: 1px solid #DDDDDD; border-right: 1px solid #DDDDDD;}
+.shopList ul.shopListUl{ padding:0; border-top: 1px solid #DDDDDD; border-left: 1px solid #DDDDDD;}
+.shopList ul.shopListUl li{ background-color:#FFF; width:107.667px; height:103px; float:left; padding:15px; position:relative;border-bottom: 1px solid #DDDDDD; border-right: 1px solid #DDDDDD;}
 .shopList ul.shopListUl li dt{ overflow:hidden; position:relative;}
 .shopList ul.shopListUl li dt a.shop{ background-color: rgba(255, 255, 255, 0.75); bottom: 5px; color: #000000; display: inline-block; left: 5px; padding: 2px 5px; position: absolute; cursor:pointer;}
 .shopList ul.shopListUl li dd{ margin:5px 0 0 0; width:100%; float:left;}

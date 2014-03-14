@@ -9,7 +9,7 @@
 .commodityList .classifyShop dd a.unfoldBtn{ position:absolute; padding:0; right:0; top:5px; font-size:0; width:14px; height:14px; background: url("../images140307/iconImage.png") repeat scroll 0 -380px; cursor:pointer;}
 .commodityList .classifyShop dd a.unfoldBtn.already{ background-position:0 -420px;}
 .commodityList ul.commodityUl{ background-color:#FFF; padding:5px 0 5px 4px;}
-.commodityList ul.commodityUl li{ width:200px; float:left; padding:15px;}
+.commodityList ul.commodityUl li{ width:200px; float:left; padding:15px; padding-right:0;}
 .commodityList ul.commodityUl li:hover{ box-shadow:0 0 3px #CCC;}
 .commodityList ul.commodityUl li dt{ width:200px; height:200px; overflow:hidden; position:relative;}
 .commodityList ul.commodityUl li dt a.shop{ background-color: rgba(255, 255, 255, 0.75); bottom: 5px; color: #000000; display: inline-block; left: 5px; padding: 2px 5px; position: absolute; cursor:pointer;}
@@ -20,3 +20,13 @@
 .commodityList ul.commodityUl li dd p.price{ color:#ea4b11; font-size:15px; font-weight:bold; float:left;}
 .commodityList ul.commodityUl li dd p.rebate{ float:right; color:#999; margin-top:3px;}
 .commodityList ul.commodityUl li dd p.rebate em{ color:#ea4b11;}
+
+.sidebarCommodity h2 {font-size: 16px; line-height: 40px;}
+.sidebarCommodity ul li{ background-color:#FFF; border:1px solid #DDD; margin:0 0 15px 0; padding:15px; padding-right:0; line-height:160%;}
+.sidebarCommodity ul li dt{ float:left; margin-right:10px; width:150px; height:150px;}
+.sidebarCommodity ul li dd{ float:left; width:115px;}
+.sidebarCommodity ul li p.title{ color:#666; height:55px; overflow:hidden; width:100%; margin-bottom:10px;}
+.sidebarCommodity ul li p.price{ font-size:15px; font-weight:bold; color:#ea4b11; margin:5px 0;}
+.sidebarCommodity ul li p.shop{color:#ea4b11;}
+.sidebarCommodity ul li p.rebate{ color:#999;}
+.sidebarCommodity ul li p.rebate em{color:#ea4b11;}
