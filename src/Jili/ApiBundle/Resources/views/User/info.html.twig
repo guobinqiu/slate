@@ -288,7 +288,7 @@ function addClass(id){
           {% endif %}
         </div>
         <form action="{{ path('_user_info') }}" method="post" {{ form_enctype(form) }} id="form1">
-        <p><span>{{ user.nick }}</span>,欢迎您</p><p><img class="mili" src='{{ asset("images/mili.jpg") }}' alt="米粒" />我的米粒数：<span>{{ user.points }}</span>
+        <p><span>{{ user.nick }}</span>,欢迎您</p><p><img class="mili" src='{{ asset("images/mili.jpg") }}' alt="米粒" />我的米粒：<span>{{ user.points }}</span>&nbsp;&nbsp;确认中的米粒：<span>{{ confirmPoints }}</span>
         {% if countMessage %}
           <a href="{{ path('_user_message',{'sid': 2}) }}" class="message" style="margin-left:50px">
         {% else %}
