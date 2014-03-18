@@ -37,6 +37,10 @@ emar-websites:
 emar-sugguestion:
     resource: "@JiliEmarBundle/Controller/SugguestionController.php"
     type:     annotation
+
+emar-admin-websites:
+    resource: "@JiliEmarBundle/Controller/AdminWebsitesController.php"
+    type:     annotation
 #emar-analog:
 #    resource: "@JiliBackendBundle/Controller/AnalogOfferwowController.php"
 #    type:     annotation

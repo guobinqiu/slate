@@ -26,7 +26,7 @@
 
 <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': webid, "p":1, "pr":"" })) }}">{{ web.name|e }}</a> 
 {% if app.session.get('uid') is defined %}
-<a href="{{ web.url|replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank">#</a>
+<a href="{{ web.url|replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank" rel="nofollow">#</a>
 {% endif %}
 
 {% if not loop.last %}

@@ -4,14 +4,14 @@
     {% if total_ <= 1 %} 
     {% elseif total_ > 1 and total_ <= 5 %}
 
-    {% for i in range(1, total_ ) %}
-
+    {% for i in range(1, last ) %}
+    <!-- i: {{ i }} -->
     {% if cur != i %} 
    <li> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': i})) }}">首页</a></li>
 
     {% else %}
        
-    <li class="currPage"> <a href="#">{{ cur }}</a> </li>
+    <li class="currPage"> <a href="#" onclick="javascript: return false;">{{ cur }}</a> </li>
     {% endif %}
 
     {% endfor %} 

@@ -25,7 +25,7 @@ http://p.yiqifa.com/c?s=dc1b1d07&w=55880&c=5010&i=10282&l=0&e=c&t=http://www.boo
 1、http://p.yiqifa.com/c?s=dc1b1d07&w=55880&c=5010&i=10282&l=0&这部分不可变
 2、e=c&t=http://www.bookuu.com 
 t=商家的目标链接
-e=反馈标签  区分哪个会员下单
+e=反馈标签  区分哪个会员下单 只能是字母、数字,最长 20 个字符
 s=加密字符串
 w=站点id（网站id）  
 c=广告主id( 即商家id,广告主id,也称活动id)

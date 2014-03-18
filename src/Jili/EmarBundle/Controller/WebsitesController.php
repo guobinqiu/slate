@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Jili\EmarBundle\Form\Type\SearchType;
 
 use Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
+
 /**
  * @Route("/websites")
  */
@@ -25,16 +26,15 @@ class WebsitesController extends Controller
         $request = $this->get('request');
         $logger= $this->get('logger');
 
+
         $form = $this->createForm(new SearchType() );
         if( $request->isMethod('post')) {
 
             $form->bind($request);
             if  ( $form->isValid()) {
                 $query_params = $form->getData();
-
                 $keyword = $query_params['keyword'];
-
-                $url = $this->generateUrl('jili_emar_websites_result') .'?'. http_build_query( array('q'=> $keyword ) ) ;
+                $url = $this->generateUrl('jili_emar_websites_result') .'?'. http_build_query( array('q'=> $keyword )) ;
                 return $this->redirect( $url );
             }
         }
@@ -52,22 +52,25 @@ class WebsitesController extends Controller
         $logger= $this->get('logger');
 
         $keyword = $request->query->get('q', '');
-        $page_no = $request->query->get('p',1);
+        $page_no = $request->query->getInt('p',1);
+
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $page_no, true) );
 
         $websites = array();
         $web_raw  = $this->get('website.list_get')->fetch( );
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $web_raw, true) );
 
         if( strlen(trim($keyword)) > 0) {
             $websites = $this->get('website.search')->find( $web_raw, $keyword );
         } else {
             $websites = $web_raw;
         }
+
         $total =  count($websites);
 
         $form = $this->createForm(new SearchType(), array('keyword'=>$keyword)  );
         $page_size = $this->container->getParameter('emar_com.page_size');
-        $websites_paged = array_slice($websites, ( $page_no -1 ) * $page_size + 1 , $page_size      );
+        $websites_paged = array_slice($websites, ( $page_no -1 ) * $page_size  , $page_size      );
+
         return  array('form'=> $form->createView(), 'websites'=> $websites_paged, 'total'=> $total);
     }
     /**
@@ -90,6 +93,39 @@ class WebsitesController extends Controller
        return new Response('ok');
        
     }
+    /**
+     * @Route("/shoplist/search")
+     * @Template();
+     */
+    public function shopListSearchAction()
+    {
+        $request = $this->get('request');
+        $logger= $this->get('logger');
+
+        $wcat_id = $request->query->get('wcat' );
+
+        $form = $this->createForm(new SearchType() );
+        if( $request->isMethod('post')) {
+
+            $form->bind($request);
+            if  ( $form->isValid()) {
+                $query_params = $form->getData();
+
+                $keyword = $query_params['keyword'];
+                $parameters = array('q'=> $keyword );
+
+                if( isset($wcat_id ) && is_numeric($wcat_id) && $wcat_id > 0 ) {
+                    $parameters ['wcat']= $wcat_id ;
+                }
+
+                $url = $this->generateUrl('jili_emar_websites_shoplist') .'?'. http_build_query( $parameters ) ;
+                
+                #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $url, true) );
+                return $this->redirect( $url );
+            }
+        }
+        return  array('form'=> $form->createView());
+    }
 
     /**
      * @Route("/shoplist")
@@ -103,44 +139,102 @@ class WebsitesController extends Controller
 
         $request = $this->get('request');
         $logger= $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
 
-        $wcat_id = $request->request->get('wcat' );
-
+        $wcat_id = $request->query->get('wcat' );
         $keyword = $request->query->get('q', '');
-
         $page_no = $request->query->getInt('p',1);
-        $page_no = ($page_no == 0 )?  $page_no : 1;
 
 
-        // wcats
+        // wcats with local file cache
         $wcats = $this->get('website.categories')->fetch() ;
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $wcats, true));
 
         // webs 
         $websites = array();
         $params =array();
-        if( $wcat_id ) {
-            $params = array('wcat_id'=> $wcat_id );
+
+        if( isset($wcat_id ) && is_numeric($wcat_id) && $wcat_id > 0 ) {
+            $params = array('catid'=> $wcat_id );
         }
+
         $web_raw  = $this->get('website.list_get')->fetch( $params );
-        $websites = WebListRepository::parse( $web_raw);
 
-
-        #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $web_raw, true) );
-
-        $total =  count($websites);
-
-        $page_size = $this->container->getParameter('emar_com.page_size_of_shoplist');
-        $websites_paged = array_slice($websites, ( $page_no -1 ) * $page_size + 1 , $page_size );
-
-        foreach($websites_paged as $w ) {
+        // searching 
+        if( strlen(trim($keyword)) > 0) {
+            $web_searched = $this->get('website.search')->find( $web_raw, $keyword );
+            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $web_searched, true) );
+            $websites = WebListRepository::parse( $web_searched);
+        } else {
+            $websites = WebListRepository::parse( $web_raw);
 
         }
 
-        
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $websites_paged , true) );
 
-        return  array('categories'=> $wcats, 'websites'=> $websites_paged, 'total'=> $total);
-        //return array();
+
+        $webids =  array_keys($websites);
+        $params ['wids'] = $webids;
+
+        //todo: use a index of  type  array (  wid=>index  );
+        //todo: add catid into where
+        $websites_configed = $em->getRepository('JiliEmarBundle:EmarWebsites')->getSortedByParams( $params );
+
+        #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $websites, true) );
+
+        /// sorting 
+        $websites_filtered = array();
+        $websites_left  = $websites;
+        foreach($websites_configed as $row ) {
+            if(in_array( $row->getWebId() , $webids )) {
+                $websites_filtered[ $row->getWebId() ] =  $websites_left[ $row->getWebId() ];
+                unset($websites_left[$row->getWebId()]);
+            }
+        }
+
+        $websites_sorted = $websites_filtered + $websites_left; //array_diff($websites, $websites_filtered);
+
+// page_size , page_no 
+        
+        $total =  count($websites);
+        $page_size = $this->container->getParameter('emar_com.page_size_of_shoplist');
+
+        $i = 0;
+
+        $start = ( $page_no -1 ) * $page_size ; 
+        $end =  $start + $page_size;
+
+        $websites_paged = array();
+
+        // todo: use array_slice()
+        // #$websites_paged = array_slice( $websites_sorted, ( $page_no -1 ) * $page_size  , $page_size );
+        foreach($websites_sorted as $k => $v) {
+            if(  $start <= $i ) {
+                if( $i >= $end ) {
+                    break;
+                }
+                $websites_paged[$k]  =$v;
+            } 
+            $i++;
+        }
+        
+        
+// update the commission
+        $websites_configed_wid = array();
+
+        foreach($websites_configed as $row ) {
+            $websites_configed_wid [$row->getWebId() ] = $row; 
+        }
+
+        foreach ($websites_paged as $k => $v) {
+            if( isset( $websites_configed_wid[$k] )) {
+                $row = $websites_configed_wid[$k];
+                if( 0 <  strlen(trim($row->getCommission()))) {
+                    $websites_paged[$k] ['commission'] =  $row -> getCommission() ;
+                }
+            }
+        }
+
+        $form = $this->createForm(new SearchType(), array('keyword'=>$keyword)  );
+
+        return  array('categories'=> $wcats, 'websites'=> $websites_paged, 'total'=> $total,'search_form'=>$form->createView() );
     }
 }

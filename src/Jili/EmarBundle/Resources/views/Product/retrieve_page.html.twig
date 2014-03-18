@@ -20,11 +20,11 @@
 {% for row in products %}
         <li>
 
-        <dt class="image"><img src="{{ row.pic_url }}" width="200" height="200" alt="pic url" /><a class="shop" href="{{ webs[row.web_id].url |replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank" >{{ row.web_name }}</a></dt>
+        <dt class="image"><img src="{{ row.pic_url }}" width="200" height="200" alt="pic url" /><a class="shop" href="{{ webs[row.web_id].url |replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank" rel="nofollow" >{{ row.web_name }}</a></dt>
           <dd class="clearfix">
             <p class="title">
            {% if app.session.get('uid') is defined %}
-           <a href="{{ row.p_o_url|replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank" >
+           <a href="{{ row.p_o_url|replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank"  rel="nofollow" >
            {% else %}
            <a href="#">
            {% endif %}{{ row.p_name }}</a></p>

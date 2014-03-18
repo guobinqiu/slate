@@ -1,0 +1,14 @@
+
+<form action="{{ path('jili_emar_websites_shoplistsearch',app.request.query.all) }}" method="POST">
+    <div>
+        {# form_label(form.keyword) #}
+    
+        {# form_errors(form.keyword) #}
+    
+        关键字:{{ form_widget(form.keyword) }}
+
+    </div>
+    
+    {{ form_rest(form) }}
+    <input type="submit" value="Search" />
+</form>

@@ -18,21 +18,31 @@
         <li>
           <dt class="image"><img src="{{ row.logo }}" width="120" height="60" /></dt>
           <dd class="clearfix">
-            <p class="title"><a class="shop" >{{ row.name }}</a></p>
+          <p class="title">
+        <a class="shop"  href="{{ row.url|replace({'APImemberId': app.session.get('uid')}) }}" target="_blank" rel="nofollow" >{{ row.name }}</a></p>
             <p class="rebate">返利最高：<em>{{ row.commission }}</em></p>
           </dd>
           <div class="hover" style="display: none;">
             <div class="tr">
-              <div class="img"><a href="{{ href_ }}" target="_blank" ><img src="{{ row.logo }}" width="60" height="30" /></a></div>
+              <div class="img"><a href="{{ href_ }}" target="_blank" rel="nofollow" ><img src="{{ row.logo }}" width="60" height="30" /></a></div>
               <div class="text">最高返<br>
                 <em>{{ row.commission }}</em></div>
             </div>
-            <p><a href="#" class="btnDetail">返现详情</a> <a href="javascript:void(0);" class="btnShopping">直接购物</a></p>
+
+            <p>
+{#
+                <a href="#" class="btnDetail">返现详情</a> 
+                <a href="javascript:void(0);" class="btnShopping">直接购物</a>
+#}
+           </p>
+{#
             <p><em>16909</em>人已参加</p>
+#}
           </div>
         </li>
 
 {% endfor %}
+
 {#
         <li>
           <dt class="image"><img src="other140307/image100.jpg" width="120" height="60" /></dt>

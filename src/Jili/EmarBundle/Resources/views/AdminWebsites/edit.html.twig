@@ -1,0 +1,55 @@
+{% extends '::adminBase.html.twig' %}
+
+
+{% block body -%}
+
+{% form_theme edit_form 'form_table_layout.html.twig' %}    
+
+<table align='center'>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td cols="2"><h1>EmarWebsites edit</h1></td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    
+    <form action="{{ path('admin_emar_websites_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        <input type="hidden" name="_method" value="PUT" />
+
+<tr>
+    <td>{{ form_label(edit_form.webId , null ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(edit_form.webId ) }}</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(edit_form.commission , null ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(edit_form.commission ) }}</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(edit_form.position , null ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(edit_form.position ) }}</td>
+</tr>
+
+        {{ form_rest(edit_form) }}
+<tr><td>&nbsp;</td><td><button type="submit">Edit</button></td></tr>
+    </form>
+
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_emar_websites') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('admin_emar_websites_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+
+{% endblock %}

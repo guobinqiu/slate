@@ -23,15 +23,17 @@ class WebsiteSearch  {
       foreach( $web_raw as $web) {
           foreach( $keywords  as $k) {
               #$this->logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export(  '^.*?'.trim($k).'.*?$', true)  );
-              if(isset($web['web_name'] ) &&  true === mb_ereg_match( '^.*?'.trim($k).'.*?$', $web['web_name'] ) ) {
+              $r = '^.*?'.trim($k).'.*?$';
+              if(isset($web['web_name'] ) &&  true === mb_ereg_match( $r , $web['web_name'] ) ) {
                   $matched[] = $web;
                   continue;
               } else {
-                  #$this->logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $web['web_name'], true)  );
+                  #$this->logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $r, true)  );
+                  #$this->logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export(  $web['web_id'].' '.$web['web_name'], true)  );
               }
           }
       }
-      #$this->logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $matched, true)  );
+     $this->logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $matched, true)  );
       return $matched;
   }
 
