@@ -68,6 +68,9 @@ $(document).ready(function(){
       getProince_amazon();
       getIncome();
       getHobby();
+  {% else %}
+	$('.amazon').remove();
+	$("#amazonEmpty").remove();
   {% endif %}
 });
 
