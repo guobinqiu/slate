@@ -32,4 +32,28 @@ $(document).ready(function(){
 	recommendBtnReset();
   })
   recommendBtnReset();
+  
+  $(".miniRecommend ul").width(($(".miniRecommend ul li").length) * $(".miniRecommend ul li").width());
+  var miniRecommendPage = 1
+  var miniRecommendGoPage = function(){
+	  $(".miniRecommend ul").animate({ left: -(miniRecommendPage-1)*$(".miniRecommend ul li").width()}, 500);
+  }
+  $(".miniRecommend .prevBtn").click(function(){
+	if(miniRecommendPage <= 1 ){
+		miniRecommendPage = $(".miniRecommend ul li").length
+	}else{
+		miniRecommendPage = miniRecommendPage - 1
+  	}
+	miniRecommendGoPage();
+  })
+  $(".miniRecommend .nextBtn").click(function(){
+	if(miniRecommendPage >= $(".miniRecommend ul li").length ){
+		miniRecommendPage = 1;
+	}else{
+		miniRecommendPage = miniRecommendPage + 1
+	}
+	miniRecommendGoPage();
+  })
+  
+  
 });

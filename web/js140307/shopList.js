@@ -8,13 +8,12 @@ $(document).ready(function() {
 		$(".classify dd").css("height","auto")
 	}
   })
-
-//	$(".shopListUl li").hover(
-//		function () {
-//			$(this).children(".hover").show();
-//		},
-//		function () {
-//			$(this).children(".hover").hide();
-//		}
-//	);
+	$(".shopListUl li").hover(
+		function () {
+			$(this).children(".hover").show();
+		},
+		function () {
+			$(this).children(".hover").hide();
+		}
+	);
 });
