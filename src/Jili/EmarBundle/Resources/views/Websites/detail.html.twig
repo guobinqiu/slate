@@ -20,44 +20,46 @@
   <div class="main w834 fl">
       <div class="shop-info module clearfix">
 
-{% if website is defined %}
-        {% if app.session.get('uid') is defined %}
-          {% set href_ = website.web_url|replace( { 'APImemberId': app.session.get('uid') } ) %}
-        {% else %}
-          {% set href_ = "#" %}
+        {% if website is defined %}
+                {% if app.session.get('uid') is defined %}
+                  {% set href_ = website.web_url|replace( { 'APImemberId': app.session.get('uid') } ) %}
+                {% else %}
+                  {% set href_ = "#" %}
+                {% endif %}
         {% endif %}
-{% endif %}
 
         <div class="shop-info-l">
           <div class="shop_img"> <a href="{{ href_ }}" target="_blank" rel="nofollow"><img src="{{ website.logo_url }}" width="120" height="60" /></a>
             <p class="shop-rebate">最高返利<em>4.2%</em></p>
           </div>
-          <a href="#" class="goBtn">去购物,赚米粒</a> </div>
+          <a href="{{ href_ }}" class="goBtn" target="_blank" rel="nofollow" >去购物,赚米粒</a> 
+        </div>
         <div class="shop-info-r">
           <h2>{{ website.web_name }}</h2>
           <p class="intro">{{ website.information }}</p>
           <p class="rebate">返利比率：<em>正常商品：7%  团购商品：2%  优惠券、礼品卡商品：4%</em></p>
         </div>
-      </div>
-      </div><!-- eof shop-info -->
-  </div><!-- eof main  -->
+     </div><!-- eof shop-info -->
+
+      <div class="explain module">
+      <h3>返利流程</h3>
+      <img src="{{ asset('images140307/rebateExplain.jpg') }}" /> </div>
+
+    <div class="shopRecommend">
+    {{  include( "JiliEmarBundle:Websites:recommendDetail.html.twig") }}
+    </div>
 
 <!--
-<h1> Under construction </h1>
-
-<div>
 <p>wid: {{ website.web_id }}</p>
 <p>name: <a href="{{ href_ }}" target="_blank" rel="nofollow">{{ website.web_name }}</a></p>
 
 <p> From {{ website.begin_date|date('Y年m月d日') }}  to {{ website.end_date|date('Y年m月d日') }}</p>
 <p> Commission: {{ website.commission  }}</p>
-
 <p>Introduce: {{  website.information }}</p>
-
 <img src="{{ website.logo_url }}" alt="logo" />
-</div>
-
 -->
+
+  </div><!-- eof main  -->
 
   <div class="sidebar w300 fr">
     {{  include( "JiliEmarBundle:Product:suggestionHot.html.twig") }}

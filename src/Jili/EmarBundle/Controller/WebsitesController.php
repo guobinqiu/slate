@@ -384,14 +384,14 @@ class WebsitesController extends Controller
 
         $webids = array_filter(array_unique( array_map( function($v) { if ( isset($v['web_id'])) { return  $v['web_id']; } ; } , $websites_paged)));
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'total','')).var_export( $webids, true) );
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'total','')).var_export( count($websites), true) );
+        #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'total','')).var_export( $webids, true) );
+        #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'total','')).var_export( count($websites), true) );
 
         // fetch the website information from the table emar_webistes_croned .
         
-//      $websites_croned = $em->getRepository()->findBy(array('id'=> array(  )));
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'total','')).var_export( count($websites), true) );
+        $webinfos_croned = $this->getDoctrine()->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchInfosByWebIds( $webids);
 
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'webinfo','')).var_export( $webinfos_croned, true) );
         // add the websites categories
         
         // wcats with local file cache
@@ -402,6 +402,7 @@ class WebsitesController extends Controller
         return array( 'search_form' => $form->createView() , 
             'search_keyword'=> $keyword,
             'websites'=> $websites_paged,
+            'websites_infos'=>$webinfos_croned,
             'categories'=> $wcats,
             'total'=>$total );
 

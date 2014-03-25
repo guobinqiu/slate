@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * EmarWebsitesCroned
  *
  * @ORM\Table(name="emar_websites_croned", uniqueConstraints={@ORM\UniqueConstraint(name="web_id", columns={"web_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\EmarBundle\Repository\EmarWebsitesCronedRepository")
  */
 class EmarWebsitesCroned
 {
