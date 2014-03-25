@@ -1,5 +1,6 @@
 
 {# TODO: add default , valid_range to config #}
+
 {% set orderby_default = emar_api_orderby_default %}
 {% set orderby_valid_range = emar_api_orderby_range %}
 
@@ -41,7 +42,9 @@ var updateOrderby = function() {
 };
 
 $(function() {
+
 	$("input:radio.orderby[value=" + {{ request_orderby }} + "]").attr("checked", true);
+
 	$('#orderby_confirm').click(updateOrderby);
 });
 </script>

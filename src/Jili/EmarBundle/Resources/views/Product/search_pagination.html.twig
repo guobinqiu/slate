@@ -1,0 +1,94 @@
+{#
+  array (
+    'pid' => '69418311',
+    'p_name' => 'ROCK 苹果 iphone5保护壳 皮套 iphone5手机套 iphone5壳子 DPH',
+    'web_id' => '1102',
+    'web_name' => '当当网',
+    'ori_price' => '299.0',
+    'cur_price' => '169.0',
+    'pic_url' => 'http://img32.ddimg.cn/72/32/1062771012-1_w.jpg',
+    'catid' => '101010000',
+    'cname' => '手机',
+    'p_o_url' => 'http://p.yiqifa.com/n?k=2mLErnts1QLErJb7UZjvfSoLR9owU567f9gbY9Uw35ecf96_YpoLR9owU567f9BlRZz0RZ4_MZPEUBoAMn7qWn3S6lRqWntSrI6HPQbhY9Pirn276mLFWEjS1QLLrI6HYmLErnXy693mWEjsrIW-&e=APImemberId&spm=139216929186018017.1.1.1',
+    'short_intro' => 'ROCK 苹果 iphone5保护壳 皮套 iphone5手机套 iphone5壳子 DPH',
+  ),
+
+#}
+{% for row in products %}
+        <li>
+          <dt class="image"><img src="{{ row.pic_url }}" width="200" height="200" /><a class="shop" >{{ row.web_name }}</a></dt>
+          <dd class="clearfix">
+            <p class="title"><a href="{{ row.p_o_url |replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank" rel="nofollow">{{ row.p_name  }}</a></p>
+            <p class="price">￥{{ row.cur_price }}</p>
+{#            <p class="rebate">返利最高：<em>10%</em></p> #}
+          </dd>
+        </li>
+{% endfor %}
+
+
+{#
+        <li>
+          <dt class="image"><img src="other140307/image100.jpg" width="200" height="200" /><a class="shop">京东商城</a></dt>
+          <dd class="clearfix">
+            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
+            <p class="price">￥25</p>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </dd>
+        </li>
+        <li>
+          <dt class="image"><img src="other140307/image100.jpg" width="200" height="200" /><a class="shop">京东商城</a></dt>
+          <dd class="clearfix">
+            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
+            <p class="price">￥25</p>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </dd>
+        </li>
+        <li>
+          <dt class="image"><img src="other140307/image100.jpg" width="200" height="200" /><a class="shop">京东商城</a></dt>
+          <dd class="clearfix">
+            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
+            <p class="price">￥25</p>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </dd>
+        </li>
+        <li>
+          <dt class="image"><img src="other140307/image100.jpg" width="200" height="200" /><a class="shop">京东商城</a></dt>
+          <dd class="clearfix">
+            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
+            <p class="price">￥25</p>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </dd>
+        </li>
+        <li>
+          <dt class="image"><img src="other140307/image100.jpg" width="200" height="200" /><a class="shop">京东商城</a></dt>
+          <dd class="clearfix">
+            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
+            <p class="price">￥25</p>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </dd>
+        </li>
+        <li>
+          <dt class="image"><img src="other140307/image100.jpg" width="200" height="200" /><a class="shop">京东商城</a></dt>
+          <dd class="clearfix">
+            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
+            <p class="price">￥25</p>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </dd>
+        </li>
+        <li>
+          <dt class="image"><img src="other140307/image100.jpg" width="200" height="200" /><a class="shop">京东商城</a></dt>
+          <dd class="clearfix">
+            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
+            <p class="price">￥25</p>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </dd>
+        </li>
+        <li>
+          <dt class="image"><img src="other140307/image100.jpg" width="200" height="200" /><a class="shop">京东商城</a></dt>
+          <dd class="clearfix">
+            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
+            <p class="price">￥25</p>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </dd>
+        </li>
+#}

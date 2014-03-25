@@ -1,21 +1,133 @@
-{% extends "JiliEmarBundle::base.html.twig" %}
 
-{% block title %}Search demo{% endblock %}
+{% extends 'JiliEmarBundle::base140307.html.twig' %}
 
-{% block body %}
-
-{#  todo: #}
-<div>
-{{ include('JiliEmarBundle:Product:search_form.html.twig', {'form': form}) }}
-</div>
-
-{# render(controller('JiliEmarBundle:Product:filters' , {"route": app.request.attributes.get('_route') , "qs": app.request.query.all }) ) #}
-{# render(controller('JiliEmarBundle:Product:filters')) #}
-
-<div>
-{{ include('JiliEmarBundle:Product:filters_by_wcat.html.twig', filters ) }}
-</div>
-
+{% block stylesheet %}
+<link href="{{ asset('css140307/commodity.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/categorysFilter.css') }} " rel="stylesheet" type="text/css">
 
 {% endblock %}
+
+
+{% block javascript %}
+<script src="{{ asset('js140307/commodity.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/categorysFilter.js') }}" language="javascript"></script>
+{% endblock %}
+
+
+{% block search_box %}
+     {% include 'JiliEmarBundle:Product:searchForm.html.twig' with {'form': search_form, 'router': app.request.attributes.get('_route') } %}
+{% endblock %}
+
+{% block page_main %}
+
+  <div class="sidebar w204 fl">
+    <div class="module categorysFilter">
+      {% include('JiliEmarBundle:Product:search_category.html.twig') %}
+    </div>
+
+{#
+#}
+    <!-- --> 
+    <div class="module miniRecommend">
+      <div class="shade">
+        <ul class="clearfix">
+          <li>
+            <div class="img"><a href="#"><img src="other140307/image100.jpg" width="150" height="150" /></a>
+              <p class="title">BERLA 2013新品夏装女童装花童礼服韩版气质甜美网纱公主裙</p>
+            </div>
+            <div class="price clearfix">
+              <dt>京东商城</dt>
+              <dd>¥128.20</dd>
+            </div>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </li>
+          <li>
+            <div class="img"><a href="#"><img src="other140307/image100.jpg" width="150" height="150" /></a>
+              <p class="title">BERLA 2013新品夏装女童装花童礼服韩版气质甜美网纱公主裙</p>
+            </div>
+            <div class="price clearfix">
+              <dt>京东商城</dt>
+              <dd>¥128.20</dd>
+            </div>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </li>
+          <li>
+            <div class="img"><a href="#"><img src="other140307/image100.jpg" width="150" height="150" /></a>
+              <p class="title">BERLA 2013新品夏装女童装花童礼服韩版气质甜美网纱公主裙</p>
+            </div>
+            <div class="price clearfix">
+              <dt>京东商城</dt>
+              <dd>¥128.20</dd>
+            </div>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </li>
+        </ul>
+      </div>
+      <a class="prevBtn">prev</a><a class="nextBtn">next</a> </div>
+  </div>
+  <div>
+<!-- a -->
+  <div class="main w930 fr">
+    <div class="commodityList">
+      <h1>{{ crumbs_local }}{{  crumbs_local|length > 0 ? '-' : '' }} 搜索关键字：{{ app.request.query.get('q')  }}<span>共{{  total }}件宝贝</span></h1>
+      <div class="classifyShop clearfix">
+        {% set w_q = app.request.query.getInt('w')  %}{# website in  request url #}
+        <dt class="fl">商城筛选：</dt>
+        <dd class="fl">
+            {% if w_q is not defined or w_q == 0 %}
+            <a  class="hover" onclick="javascript: return false;" href ="#" >全部</a> 
+            {% else %}
+            <a  href ="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'w': 0, "p":1, "pr":""})) }}">全部</a> 
+            {% endif %}
+
+            {% for webid,web in webs %}
+                {% if w_q is defined and w_q == webid %}
+                <a href="#" class="hover" onclick="javascript:return false;" >{{ web.name|e }}</a> 
+                {% else %}
+                <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': webid, "p":1, "pr":"" })) }}">{{ web.name|e }}</a> 
+                {% endif %}
+            {% endfor  %}
+
+{# <dd class="fl"> <a class="hover" href="#">全部</a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a>  <a class="unfoldBtn">展开</a> </dd> #}
+
+            <a class="unfoldBtn">展开</a> </dd>
+        <dt class="fl">排序：</dt>
+
+        <dd class="fl"> 
+            {{ include('JiliEmarBundle:Product:search_orderby.html.twig' ) }}
+            {{ include('JiliEmarBundle:Product:search_price_range.html.twig' ) }}
+        </dd>
+      </div>
+
+      <ul class="module commodityUl clearfix">
+        {{ include('JiliEmarBundle:Product:search_pagination.html.twig', {'products': products , 'total': total } ) }}
+      </ul>
+
+      <div style="display: inline-block; width: 100%;">
+      {% include "JiliEmarBundle:Product:retrieve_page_nav.html.twig"  %}
+      </div>
+
+{#
+      <div style="display: inline-block; width: 100%;">
+        <ul class="pageNav">
+          <li class="currPage"> <a href="/shopping/list?page=1">1</a> </li>
+          <li> <a href="/shopping/list?page=2">2</a> </li>
+          <li> <a href="/shopping/list?page=3">3</a> </li>
+          <li class="nextPage"> <a href="/shopping/list?page=3"> <span class="arrowRightOrange"></span> </a> </li>
+          <li> <span>共3页</span> </li>
+          <li> <span>到第
+            <input type="text" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onkeyup="value=value.replace(/[^\d]/g,'')" class="J_PageNum" size="2" id="page" maxlengh="4">
+            <span>页</span>
+            <input type="button" id="goto" class="J_JumpTo" value="确定">
+            </span> </li>
+        </ul>
+      </div>
+#}
+    </div>
+  </div>
+<!-- a -->
+
+  </div>
+{% endblock %}
+
 

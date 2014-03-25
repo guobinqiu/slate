@@ -16,15 +16,33 @@ class ProductFilters  {
     private $websiteListGet;
 
     /**
-     * for new ui
+     * for new ui:product/search
      *
      */
-    public function fetchWebs( ) {
+    public function fetchWebsByParams($params = array() ) {
+        if( count($params) == 0 || ! isset($params['wids']) || empty($params['wids']) ){
+            return $this->fetchWebs();
+        }
 
+        //extract($params);
         //webs
         $webListGet  = $this->websiteListGet;
         $web_raw  = $webListGet->setFields('web_id,web_name,web_o_url,commission')->fetch( );
+
+        $webs = WebListRepository::parse( $web_raw, $params);
+        return compact('webs');
+    }
+
+    /**
+     * for new ui , product/retrieve 
+     */
+    public function fetchWebs(  ) {
+        //webs
+        $webListGet  = $this->websiteListGet;
+        $web_raw  = $webListGet->setFields('web_id,web_name,web_o_url,commission')->fetch( );
+
         $webs = WebListRepository::parse( $web_raw);
+
         //TODO: sort the webs 
        #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $webs, true));
         return compact('webs');
@@ -35,13 +53,12 @@ class ProductFilters  {
      *
      */
     public function fetchWebsByProducts( $products ) {
-
         //webs
         $webListGet  = $this->websiteListGet;
         $web_raw  = $webListGet->setFields('web_id,web_o_url,commission')->fetch( );
         $product_webs = WebListRepository::parse( $web_raw);
         //TODO: sort the webs 
-       $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $product_webs, true));
+        $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $product_webs, true));
         return compact('product_webs');
     }
     /**

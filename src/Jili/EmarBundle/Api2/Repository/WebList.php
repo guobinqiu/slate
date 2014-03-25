@@ -15,13 +15,21 @@ class WebList{
 
     return $ids;
   }
+
   /**
+   * @params: 
+   * $rows the raw response from emar website.list.get  api.
+   * $filter = array('wids'=> array());
    * @return: 返回数组，array( id=> name) 
    */
-  public static function parse( array $rows ) {
+  public static function parse( array $rows , array $filter = array() ) {
     $mapings = array();
     foreach($rows as $row) {
-        if( isset($row['web_id'])   )   {
+        if( isset($row['web_id'])  )   {
+            // 如果设置了filter['wids'], 则用其进行过滤。
+            if( isset($filter['wids'] ) && ! in_array( $row['web_id'], $filter['wids'])) {
+                continue;
+            }
 
             if(isset($row['web_name'] )) {
                 $tmp  = array( 'name'=>$row['web_name']);

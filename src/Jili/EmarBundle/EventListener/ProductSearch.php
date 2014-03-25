@@ -40,7 +40,7 @@ class ProductSearch {
       $req->setCatid($catid);
     }
 
-    if( isset($webid)  && ! empty($webid) ) {
+    if( isset($webid)  && ! empty($webid)  && $webid > 0  ) {
       $req->setWebid($webid);
     }
 
@@ -57,7 +57,7 @@ class ProductSearch {
     }
 
     if( 0 < $this->page_size ) {
-      $req->setPage_size($this->page_size );
+      $req->setPage_size( $this->page_size );
     }
 
     $resp =  $this->c->exe( $req );

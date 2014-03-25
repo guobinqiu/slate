@@ -77,7 +77,7 @@ $(document).ready(function() {
 
 			var url = $('li.currPage a').attr('href');
 
-			var href = url.replace(/([&\?])p=.*?(&?.*?)$/, "$1p=" + goto_page);
+			var href = url.replace(/([&\?])p=.*?(&?.*?)$/, "$1p=" + goto_page+"$2");
 
 			window.location.href = href;
 		};

@@ -1,0 +1,51 @@
+{% set price_range = app.request.get('pr', '')|split(',')   %}
+
+  <div class="price mr0"><span class="rmb">¥</span>
+    <input type="number" class="price-input min"  value = "{{ price_range|length == 2 ? price_range[0] : ""  }}" />
+  </div>
+  -
+  <div class="price"><span class="rmb">¥</span>
+    <input type="number" class="price-input max"  value = "{{ price_range|length == 2 ? price_range[1] : ""  }}" />
+  </div>
+  <button type="button" class="price-btn">确定</button>
+
+<a style="display:none" href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'pr': ''})) }}" id="price_range" >确定</a>
+
+{# <a style="display:none" href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'pr': ''})) }}" id="price_range" >不限</a> #}
+
+<script type="text/javascript">
+
+var updatePriceRange = function() {
+	var min = $("input.min.price-input").val();
+	var max = $("input.max.price-input").val();
+
+	if (min.length == 0　|| ! parseInt(min) > 0) {
+		min = "0";
+	}
+	if (max.length == 0 || ! parseInt(max) > 0) {
+		max = "0";
+	}
+
+	if (parseInt(min)  < parseInt(max) && parseInt(max) > 0) {
+		var href = $("#price_range").attr("href");
+		href = href.replace(/([&\?])pr=.*?(&?.*?)$/, "$1pr=" + min + encodeURIComponent(",") + max + "$2");
+        window.location.href =  href;
+	}
+    return false;
+}
+
+
+$(function() {
+	$("input.min.price").change(function() {
+        $(this).attr('value',$(this).val()); 
+        return false;
+	});
+
+	$("input.max.price").change(function() {
+        $(this).attr('value',$(this).val()); 
+        return false;
+	});
+
+    $('button.price-btn').click (updatePriceRange) ;
+});
+</script>

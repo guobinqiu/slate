@@ -1,0 +1,48 @@
+{#
+  array (
+    'web_id' => '1148',
+    'web_name' => '京东商城',
+    'web_catid' => '1',
+    'logo_url' => 'http://image.yiqifa.com/ad_images/reguser/24/31/63/1364886745838.jpg',
+    'web_o_url' => 'http://p.yiqifa.com/n?k=2mLErntOWZLErJb7UZjvfSomUmRdC9Dd3OoVfmLErI6HWEK7rnzSWn2ernXHPnDS3PyCrJoH2mLSMJDe6949MQLE&e=APImemberId&spm=139216929186018017.1.1.1',
+    'commission' => '4-43元/单或1.4%-3.5%',
+  ),
+
+#}
+      <ul class="searchShopUl">
+{% for row in websites %}
+        <li class="clearfix">
+          <div class="dt">
+            <p class="img"><img src="{{ row.logo_url }}" width="120" height="60" /></p>
+            <p class="shop">{{ row.web_name }}</p>
+          </div>
+          <div class="dd">
+            <p class="title">{{ row.web_name }} </p>
+            <p class="shopMore"><a href="{{ path( 'jili_emar_websites_detail', {'wid' : row.web_id })  }}">查看返利详情>></a></p>
+          </div>
+          <div class="dc">
+            <p class="rebate">{{ row.commission }}</p>
+            <p class="btn">
+                <a class="buy" href="{{ row.web_o_url|replace({"APImemberId" : app.session.get('uid') })  }}" target="_blank" rel="nofollow">去购物，赚米粒</a>
+            </p>
+          </div>
+        </li>
+
+{% endfor %}
+{#
+        <li class="clearfix">
+          <div class="dt">
+            <p class="img"><img src="other140307/image100.jpg" width="120" height="60" /></p>
+            <p class="shop">京东商城</p>
+          </div>
+          <div class="dd">
+            <p class="title">全球最大的苹果中文互动媒体威锋网旗下专营Apple配件及创意数码网上商城。产品包括：正品iphone\ipad\ipod\macbook配件、电源、耳机、音响、箱包及周边创意产品等</p>
+            <p class="shopMore"><a href="#">查看返利详情>></a></p>
+          </div>
+          <div class="dc">
+            <p class="rebate">最高返<em>7%</em></p>
+            <p class="btn"><a class="buy" href="#">去购物，赚米粒</a></p>
+          </div>
+        </li>
+#}
+      </ul>

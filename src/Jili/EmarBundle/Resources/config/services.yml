@@ -20,6 +20,7 @@ parameters:
     product.search.class: Jili\EmarBundle\EventListener\ProductSearch
     product.filters.class: Jili\EmarBundle\EventListener\ProductFilters
     product.categories.class: Jili\EmarBundle\EventListener\ProductCategories
+    product.storage.class: Jili\EmarBundle\EventListener\ProductStorage
 
 # website
     website.category_get.class:  Jili\EmarBundle\EventListener\WebsiteCategoryGetRequest
@@ -27,6 +28,7 @@ parameters:
     website.detail_get.class:  Jili\EmarBundle\EventListener\WebsiteDetailGetRequest
     website.search.class:  Jili\EmarBundle\EventListener\WebsiteSearch
     website.categories.class:  Jili\EmarBundle\EventListener\WebsiteCategories
+    website.storage.class: Jili\EmarBundle\EventListener\WebsiteStorage
 
 
 services:
@@ -134,6 +136,12 @@ services:
             - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
             - [ setCacheDir, [ %kernel.cache_dir% ] ] 
 
+    website.storage:
+        class: %website.storage.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+
     product.list_get:
         class: %product.list_get.class%
         calls:
@@ -164,3 +172,8 @@ services:
             - [ setGeneralCategoryGet, [ @general.category_get ] ] 
             - [ setCacheDir, [ %kernel.cache_dir% ] ] 
 
+    product.storage:
+        class: %product.storage.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 

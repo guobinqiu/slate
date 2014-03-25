@@ -17,7 +17,11 @@ class WebsiteDetailGetRequest  {
     $req->setFields('web_id,web_name,web_catid,logo_url,web_url,information,begin_date,end_date,commission');
 
 
-    $req->setWtype( $wtype );
+    if(! isset($wtype)) {
+        $req->setWtype( 1);
+    } else {
+        $req->setWtype( $wtype );
+    }
 
     if( strlen($webid) == 0) {
         return array();
@@ -27,7 +31,7 @@ class WebsiteDetailGetRequest  {
 
     $resp =  $this->c->exe($req);
 
-    $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $resp, true));
+    #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $resp, true));
 
     $result = array();
 

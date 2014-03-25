@@ -10,22 +10,28 @@
 <script src="{{ asset('js140307/shopList.js') }}" language="javascript"></script>
 {% endblock %}
 
+{% block search_box %}
+     {% include 'JiliEmarBundle:Websites:searchForm.html.twig' with {'form': search_form, 'router': 'jili_emar_websites_shopsearch' } %}
+{% endblock %}
+
 {% block page_main %}
   <div class="main w834 fl">
       {{ include( "JiliEmarBundle:Websites:shopList_category.html.twig") }}
 
-      {% include 'JiliEmarBundle:Websites:shoplist_search_form.html.twig' with {'form': search_form } %}
+      {% include 'JiliEmarBundle:Websites:shoplist_search_form.html.twig' with {'form': filter_form } %}
 
       <ul class="module shopListUl clearfix">
-
       {% include "JiliEmarBundle:Websites:shopList_page.html.twig" %}
       </ul>
+
     </div>
 
     <div style="display: inline-block; width: 100%;">
       {% include "JiliEmarBundle:Websites:shopList_page_nav.html.twig"   %}
     </div>
+
   </div>
+
   <div class="sidebar w300 fr"> 
     <div class="sidebarCommodity">
         <h2>别人都在买</h2>
@@ -50,7 +56,7 @@
             </li>
         </ul>
     </div>
-  </div>
+  </div><!-- -->
 
   </div>
 {% endblock %}

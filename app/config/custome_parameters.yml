@@ -17,11 +17,24 @@ parameters:
     emar_com.cps.category_type: 18 # in ad_category table where cateogry_name ='emar' ??
     emar_com.cps.task_type: 1 
 
+# jili
     emar_com.app_AppKey: '139216929186018017' 
     emar_com.app_AppSecret: 'e7c5367e1ba7d609865389640007df3e'
 
+#    $sdk =array('1326528120671', '4090a94e6c98c2a3c3cf1634cdf29730');
+    emar_com.sdk.app_AppKey: '1326528120671'
+    emar_com.sdk.app_AppSecret:  '4090a94e6c98c2a3c3cf1634cdf29730'
+
+#    $demo = array('1331544511075406', '1d4abbec4489880adaf9154d948d9be8');
+    emar_com.demo.app_AppKey: '1331544511075406'
+    emar_com.demo.app_AppSecret: '1d4abbec4489880adaf9154d948d9be8'
+#    $jili = array('139216929186018017','e7c5367e1ba7d609865389640007df3e');
+
+
     emar_com.page_size: 20 
     emar_com.page_size_of_shoplist: 30 
+    emar_com.page_size_of_search: 24 
+
     emar_com.max_of_total: 1800 
 
     emar_com.api.orderby_range: [1,2,3] 

@@ -71,6 +71,7 @@ class ProductListGetRequest  {
     return $this->result;
   }
 
+
   public function getTotal() {
       return $this->total;
   }

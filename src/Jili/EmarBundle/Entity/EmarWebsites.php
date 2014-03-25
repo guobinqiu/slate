@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EmarWebsites
  *
- * @ORM\Table(name="emar_websites")
+ * @ORM\Table(name="emar_websites", indexes={@ORM\Index(name="web_catid", columns={"web_catid"})})
  * @ORM\Entity(repositoryClass="Jili\EmarBundle\Repository\EmarWebsitesRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -19,6 +19,13 @@ class EmarWebsites
      * @ORM\Column(name="web_id", type="integer", nullable=false)
      */
     private $webId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="web_catid", type="integer", nullable=true)
+     */
+    private $webCatid;
 
     /**
      * @var string
@@ -94,6 +101,29 @@ class EmarWebsites
     public function getWebId()
     {
         return $this->webId;
+    }
+
+    /**
+     * Set webCatid
+     *
+     * @param integer $webCatid
+     * @return EmarWebsites
+     */
+    public function setWebCatid($webCatid)
+    {
+        $this->webCatid = $webCatid;
+
+        return $this;
+    }
+
+    /**
+     * Get webCatid
+     *
+     * @return integer 
+     */
+    public function getWebCatid()
+    {
+        return $this->webCatid;
     }
 
     /**

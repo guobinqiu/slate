@@ -40,16 +40,12 @@
     <div class="page clearfix">
       <div id="logo"><a href="#"><img src="{{ asset('images140307/logo.png') }}" width="160" height="46" alt="积粒网" /></a></div>
       <div id="search">
-        <div class="seacherMenu"> <span>商品</span>
-          <ul style="display: none;">
-            <li lang="commodity">商品</li>
-            <li lang="shop">商城</li>
-          </ul>
-        </div>
-        <div class="form">
-          <input type="text" onkeydown="javascript:if(event.keyCode==13) search('key');" autocomplete="off" id="key" accesskey="s" class="text">
-          <input type="button" clstag="homepage|keycount|home2013|03a" onclick="search('key');return false;" class="button" value="搜索">
-        </div>
+          {% block search_box %}
+
+          {% render(controller('JiliEmarBundle:Product:searchForm',  { 'all' :  app.request.query.all  })) %}
+
+          {% endblock%}
+
       </div>
       <div class="otherInlet"><a class="help" href="#">帮助中心</a></div>
     </div>
@@ -76,7 +72,7 @@
 
 <div class="pageMain page clearfix">
       {% block page_main %}{% endblock %}
-</div>
+</div><!-- eof pageMain -->
 
 <script src="{{ asset('js140307/common.js') }}" language="javascript"></script>
 {% block javascript %}{% endblock %}

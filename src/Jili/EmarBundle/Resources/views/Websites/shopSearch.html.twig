@@ -1,0 +1,73 @@
+{% extends 'JiliEmarBundle::base140307.html.twig' %}
+
+
+{% block stylesheet %}
+<link href="{{ asset('css140307/searchShop.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/commodity.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block javascript %}
+<script src="{{ asset('js140307/shopList.js') }}" language="javascript"></script>
+{% endblock %}
+
+{% block search_box %}
+     {% include 'JiliEmarBundle:Websites:searchForm.html.twig' with {'form': search_form, 'router': app.request.attributes.get('_route') } %}
+{% endblock %}
+
+{% block page_main %}
+
+  <div class="main w834 fl">
+
+    <div class="searchShop">
+      {{ include( "JiliEmarBundle:Websites:shopSearch_category.html.twig") }}
+      {{ include( "JiliEmarBundle:Websites:shopSearch_page.html.twig") }}
+      {{ include( "JiliEmarBundle:Websites:recommend.html.twig") }}
+
+
+   </div><!-- eof searchShop -->
+
+    <div style="display: inline-block; width: 100%;">
+      <ul class="pageNav">
+        <li class="currPage"> <a href="/shopping/list?page=1">1</a> </li>
+        <li> <a href="/shopping/list?page=2">2</a> </li>
+        <li> <a href="/shopping/list?page=3">3</a> </li>
+        <li class="nextPage"> <a href="/shopping/list?page=3"> <span class="arrowRightOrange"></span> </a> </li>
+        <li> <span>共3页</span> </li>
+        <li> <span>到第
+          <input type="text" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onkeyup="value=value.replace(/[^\d]/g,'')" class="J_PageNum" size="2" id="page" maxlengh="4">
+          <span>页</span>
+          <input type="button" id="goto" class="J_JumpTo" value="确定">
+          </span> </li>
+      </ul>
+    </div>
+  </div><!-- eof main-->
+
+  <div class="sidebar w300 fr">
+    <div class="sidebarRecommend">
+      <h2>别人都在买</h2>
+      <ul>
+        <li class="clearfix">
+          <dt><img src="other140307/image100.jpg" width="150" height="150" /></dt>
+          <dd>
+            <p class="title">BERLA 2013新品夏装女童装花童礼服韩版气质甜美网纱公主</p>
+            <p class="price">¥128.20</p>
+            <p class="shop">京东商城</p>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </dd>
+        </li>
+        <li class="clearfix">
+          <dt><img src="other140307/image100.jpg" width="150" height="150" /></dt>
+          <dd>
+            <p class="title">BERLA 2013新品夏装女童装花童礼服韩版气质甜美网纱公主</p>
+            <p class="price">¥128.20</p>
+            <p class="shop">京东商城</p>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </dd>
+        </li>
+      </ul>
+    </div>
+  </div><!-- eof sidebar -->
+
+{% endblock %}
+

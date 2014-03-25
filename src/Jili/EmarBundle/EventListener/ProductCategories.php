@@ -19,14 +19,15 @@ class ProductCategories {
      * 1. fetch first level category,
      * 2. fetch second level category based on first level category;
      * 3. wirte the category to cached file for next fetch.
+     * $force always do remote request when is set ture, in another words, if force is false the cache accessing is allowed.
      */
-    public function fetch( ) {
+    public function fetch( $force = false ) {
 
         $cached = $this->cache_dir.DIRECTORY_SEPARATOR.'emar_product_category_'.date('Ym').'.cached';
 
         $fs = new Filesystem();
 
-        if( $fs->exists($cached) ) {
+        if(! $force &&  $fs->exists($cached) ) {
             $prod_categories = @unserialize(file_get_contents($cached));
         }
 

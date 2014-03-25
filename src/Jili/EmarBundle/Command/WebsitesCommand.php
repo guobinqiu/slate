@@ -10,6 +10,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Psr\Log\LoggerInterface;
+use Jili\EmarBundle\Entity\EmarWebsitesCroned;
+use Jili\EmarBundle\Api2\Utils\PerRestrict;
 
 class WebsitesCommand extends ContainerAwareCommand 
 {
@@ -17,29 +19,23 @@ class WebsitesCommand extends ContainerAwareCommand
     {
         $this
             ->setName('emar:websites')
-            ->setDescription('manager emar websites by table advertiserment')
+            ->setDescription('manager emar websites with table advertiserment')
             ->addArgument(
                 'wid',
                 InputArgument::OPTIONAL,
                 'the webiste id'
             )
             ->addOption(
-               'list',
+               'start',
                null,
-               InputOption::VALUE_NONE,
-               'list emar websits in table advertiserment'
+               InputOption::VALUE_OPTIONAL,
+               'start from'
             )
             ->addOption(
                'update',
                null,
                InputOption::VALUE_NONE,
-               'update emar websits in table advertiserment'
-            )
-            ->addOption(
-               'remove',
-               null,
-               InputOption::VALUE_NONE,
-               'set the delte_flag to 1 in table advertiserment, wid required'
+               'list emar websits in table advertiserment'
             );
         
     }
@@ -60,7 +56,38 @@ class WebsitesCommand extends ContainerAwareCommand
         if ($input->getOption('update')) {
 
 
-        } else if ($input->getOption('remove')) {
+            $webListGetter = $this->getContainer()->get('website.list_get');
+            $webListGetter->setFields('web_id');
+            $webs = $webListGetter->fetch();
+
+            $webDetailGetter = $this->getContainer()->get('website.detail_get');
+            $pr = new PerRestrict();
+
+            $start = (int) $input->getOption('start'); // 断点
+            
+            $i = 0;
+            foreach($webs as $web) {
+                $wid= $web['web_id'];
+                $i++;
+
+                if( $i < $start) {
+                    $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'ignored','') ). 'i:'.$i . ' wid:'.$wid);
+                    continue;
+                }
+
+                $pr->add();
+                try {
+                    $web_detail  = $webDetailGetter->fetch(array('webid'=> $wid));
+                    $this->getContainer()->get('website.storage')->save($web_detail );
+                } catch( \Exception $e) {
+
+                    $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). 'i:'.$i . ' wid:'.$wid);
+                    $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). 'i:'.$i . ' wid:'.$wid);
+                    die();
+                }
+            }
+
+           $output->writeln( __LINE__ ); 
 
 
         } else {
