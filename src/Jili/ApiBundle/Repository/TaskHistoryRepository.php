@@ -70,8 +70,18 @@ class TaskHistoryRepository extends EntityRepository
 		$query = $query->setParameters(array('orderId'=>$orderId,'taskType'=>$taskType));
 		$query = $query->getQuery();
 		return $query->getResult();
+	}
 
-
+	public function getConfirmPoints($userid)
+	{
+		$query = $this->createQueryBuilder('to');
+		$query = $query->select('sum(to.point)');
+		$query = $query->Where('to.userId = :userId');
+		$query = $query->andWhere('to.categoryType in (1,2,17)');
+		$query = $query->andWhere('to.status = 2');
+		$query = $query->setParameter('userId',$userid);
+		$query = $query->getQuery();
+		return $query->getSingleScalarResult();
 	}
 
 }

@@ -13,7 +13,15 @@
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
 function change(){
-  $("#form1").submit();
+	var img1=document.getElementById("active");
+	img1.onclick = null;
+	$("#active").attr("src","{{ asset('images/changeEnterBtn_unactive.jpg')}}") ;
+	$("#active").hover(function() {
+		$(this).css({ opacity: 1 });
+		$(this).css({ cursor: "default" });
+	});
+
+	$("#form1").submit();
 }
 </script>
 </head>

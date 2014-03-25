@@ -25,7 +25,8 @@ framework:
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
-    session:         ~
+    session:
+        gc_maxlifetime:   86400
     fragments:       ~
 # Twig Configuration
 twig:
@@ -209,6 +210,7 @@ parameters:
     exchange_fail_mobile_content: 亲爱的<br/><br/>您好！非常抱歉，您的手机费申请兑换失败，积分已自动返还到您的积粒网帐户。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
     card_number_is_null: 请输入您的身份证号码
     card_number_is_error: 身份证号码错误
+    card_number_is_exist: 您已经提交过身份证号码，如需修改请联系客服
     file_path_recent_point: /data/91jili/topcron_recentpoint.log
     file_path_ranking_month: /data/91jili/topcron_rankingmonth.log
     file_path_ranking_year: /data/91jili/topcron_rankingyear.log

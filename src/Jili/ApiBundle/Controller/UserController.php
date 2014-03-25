@@ -767,8 +767,16 @@ class UserController extends Controller
 		}	
 		if($this->notReadCb() == 0 && $this->notReadMs($id)>0){
 			$countMessage = $this->container->getParameter('init_one');
-		}		
-		return $this->render('JiliApiBundle:User:info.html.twig',array( 
+		}
+
+		//确认中的米粒数
+		$task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $id % 10 ) );
+		$confirmPoints = $task->getConfirmPoints($id);
+		if(!$confirmPoints){
+			$confirmPoints = 0;
+		}
+
+		return $this->render('JiliApiBundle:User:info.html.twig',array(
 				'form' => $form->createView(),
 				'form_upload' =>$form->createView(),
 				'user' => $user,
@@ -796,7 +804,8 @@ class UserController extends Controller
 				'provinceId' => $provinceId,
 				'city' => $city,
 				'countMessage'=>$countMessage,
-				'exFrWen'=> $exFrWen
+				'exFrWen'=> $exFrWen,
+				'confirmPoints' => $confirmPoints
 				));
 	}
 	
