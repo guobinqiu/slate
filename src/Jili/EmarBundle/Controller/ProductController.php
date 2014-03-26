@@ -132,6 +132,7 @@ class ProductController extends Controller
 
         return array_merge($filters, array('products'=> $products,  'total'=>$total ));
     }
+
     /**
      * @Route("/retrieve")
      * @Template();
@@ -203,7 +204,32 @@ class ProductController extends Controller
         return array();
         #$response->setSharedMaxAge(86400);
         #return $response;
+    }
 
+    /**
+     * @Route("/recommendByWeb/{wid}")
+     * @Template();
+     */
+    public function recommendByWebAction($wid) {
+
+        $request = $this->get('request');
+        $logger= $this->get('logger');
+        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'')));
+
+        // $response = $this->render('JiliEmarBundle:Product:recommendByWeb.html.twig');
+        $params = array( 'webid'=> $wid,'page_no'=>1);
+        $productRequest = $this->get('product.list_get');
+        $productRequest->setPageSize(12); 
+        $products = $productRequest->fetch( $params);
+        //$total = $productRequest->getTotal();
+
+        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'products','')) . var_export( $products, true));
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total','')) . var_export( $total, true));
+        
+        return compact(/*'total',*/'products');
+
+        #$response->setSharedMaxAge(86400);
+        //return $response;
     }
 
     /**

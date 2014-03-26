@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block search_box %}
-     {# include 'JiliEmarBundle:Websites:searchForm.html.twig' with {'form': search_form, 'router': app.request.attributes.get('_route') } #}
+     {# include 'JiliEmarBundle:Websites:searchForm.html.twig' with {'form': search_form, 'router': 'jili_emar_websites_shopsearch' } #}
 {% endblock %}
 
 
@@ -46,7 +46,7 @@
       <img src="{{ asset('images140307/rebateExplain.jpg') }}" /> </div>
 
     <div class="shopRecommend">
-    {{  include( "JiliEmarBundle:Websites:recommendDetail.html.twig") }}
+      {{  render( controller("JiliEmarBundle:Product:recommendByWeb",  {'wid': website.web_id } ) )  }}
     </div>
 
 <!--
