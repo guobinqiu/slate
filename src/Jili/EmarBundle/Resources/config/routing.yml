@@ -9,9 +9,6 @@ emar-backend:
     resource: "@JiliEmarBundle/Controller/BackendController.php"
     type:     annotation
 
-emar-search:
-    resource: "@JiliEmarBundle/Controller/SearchController.php"
-    type:     annotation
 
 emar-hotactivity:
     resource: "@JiliEmarBundle/Controller/HotactivityController.php"
@@ -21,10 +18,6 @@ emar-ghs:
     resource: "@JiliEmarBundle/Controller/GhsController.php"
     type:     annotation
 
-#deprecated 
-#emar-disccount:
-#    resource: "@JiliEmarBundle/Controller/DiscountController.php"
-#    type:     annotation
 
 emar-product:
     resource: "@JiliEmarBundle/Controller/ProductController.php"
@@ -34,9 +27,6 @@ emar-websites:
     resource: "@JiliEmarBundle/Controller/WebsitesController.php"
     type:     annotation
 
-emar-sugguestion:
-    resource: "@JiliEmarBundle/Controller/SugguestionController.php"
-    type:     annotation
 
 emar-admin-websites:
     resource: "@JiliEmarBundle/Controller/AdminWebsitesController.php"

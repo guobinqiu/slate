@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityRepository;
 class EmarWebsitesRepository extends EntityRepository
 {
     /**
-     *
+     * @param $params array(wids=>)
      */
 	public function getSortedByParams($params){
         
@@ -32,4 +32,20 @@ class EmarWebsitesRepository extends EntityRepository
 
         return $results;
     }
+
+    /**
+     * @abstract: the webs fitlers on product search page and retrieve pages.
+     */
+    public function getFilterWebs()
+    {
+        $qb  = $this->createQueryBuilder('ew');
+        $qb->where($qb->expr()->eq('ew.isDeleted', 'false'));
+        $qb->andWhere($qb->expr()->eq('ew.isHidden', 'false'));
+        $qb->orderBy('ew.position', 'ASC');
+        $query  = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+
+    }
+
 }

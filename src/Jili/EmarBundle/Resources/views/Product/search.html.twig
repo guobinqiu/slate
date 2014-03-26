@@ -2,15 +2,15 @@
 {% extends 'JiliEmarBundle::base140307.html.twig' %}
 
 {% block stylesheet %}
-<link href="{{ asset('css140307/commodity.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/categorysFilter.css') }} " rel="stylesheet" type="text/css">
-
+<link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/commodity930.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 
 {% block javascript %}
-<script src="{{ asset('js140307/commodity.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/categorysFilter.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
 {% endblock %}
 
 
@@ -67,13 +67,13 @@
   </div>
   <div>
 <!-- a -->
+{% set w_q = app.request.query.getInt('w')  %}{# website in  request url #}
+
   <div class="main w930 fr">
-    <div class="commodityList">
       <h1>{{ crumbs_local }}{{  crumbs_local|length > 0 ? '-' : '' }} 搜索关键字：{{ app.request.query.get('q')  }}<span>共{{  total }}件宝贝</span></h1>
-      <div class="classifyShop clearfix">
-        {% set w_q = app.request.query.getInt('w')  %}{# website in  request url #}
+      <div class="screen clearfix">
         <dt class="fl">商城筛选：</dt>
-        <dd class="fl">
+        <dd class="fl w820 h28">
             {% if w_q is not defined or w_q == 0 %}
             <a  class="hover" onclick="javascript: return false;" href ="#" >全部</a> 
             {% else %}
@@ -88,12 +88,9 @@
                 {% endif %}
             {% endfor  %}
 
-{# <dd class="fl"> <a class="hover" href="#">全部</a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a>  <a class="unfoldBtn">展开</a> </dd> #}
-
             <a class="unfoldBtn">展开</a> </dd>
         <dt class="fl">排序：</dt>
-
-        <dd class="fl"> 
+        <dd class="fl w820 h28"> 
             {{ include('JiliEmarBundle:Product:search_orderby.html.twig' ) }}
             {{ include('JiliEmarBundle:Product:search_price_range.html.twig' ) }}
         </dd>
@@ -107,25 +104,7 @@
       {% include "JiliEmarBundle:Product:retrieve_page_nav.html.twig"  %}
       </div>
 
-{#
-      <div style="display: inline-block; width: 100%;">
-        <ul class="pageNav">
-          <li class="currPage"> <a href="/shopping/list?page=1">1</a> </li>
-          <li> <a href="/shopping/list?page=2">2</a> </li>
-          <li> <a href="/shopping/list?page=3">3</a> </li>
-          <li class="nextPage"> <a href="/shopping/list?page=3"> <span class="arrowRightOrange"></span> </a> </li>
-          <li> <span>共3页</span> </li>
-          <li> <span>到第
-            <input type="text" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onkeyup="value=value.replace(/[^\d]/g,'')" class="J_PageNum" size="2" id="page" maxlengh="4">
-            <span>页</span>
-            <input type="button" id="goto" class="J_JumpTo" value="确定">
-            </span> </li>
-        </ul>
-      </div>
-#}
-    </div>
-  </div>
-<!-- a -->
+  </div> <!--eof screen -->
 
   </div>
 {% endblock %}

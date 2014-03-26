@@ -12,11 +12,3 @@
 .explain{ background-color:#FFF; margin-bottom:15px; text-align:center; padding:15px 20px;}
 .explain h3{ text-align:center; width:100%; text-align:left; font-size:16px; margin-bottom:15px;}
 .shopRecommend h3{ background-color: #EA4B11;color: #FFFFFF;font-size: 14px; padding: 7px 0;text-align: center;width: 100px;}
-.shopRecommend ul{ background-color:#FFF; border-top:3px solid #EA4B11; padding:15px 0 15px 15px;}
-.shopRecommend ul li{ border-bottom: 1px solid #DDDDDD; border-right: 1px solid #DDDDDD; float: left; padding: 25px 25px 10px;}
-.shopRecommend ul li.brn{ border-right:none;}
-.shopRecommend ul li.bbn{ border-bottom:none;}
-.shopRecommend ul li dd{font-size:12px; padding:0 10px 10px 10px; color:#999999;}
-.shopRecommend ul li dd p{ line-height:150%;}
-.shopRecommend ul li .price{ font-size:16px; color:#ea4b11;}
-.shopRecommend ul li .rebate em{color:#ea4b11;}

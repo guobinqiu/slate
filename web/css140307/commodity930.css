@@ -1,0 +1,12 @@
+ul.commodityUl{ background-color:#FFF; padding:5px 0 5px 4px;}
+ul.commodityUl li{ width:200px; float:left; padding:15px;}
+ul.commodityUl li:hover{ box-shadow:0 0 3px #CCC;}
+ul.commodityUl li dt{ width:200px; height:200px; overflow:hidden; position:relative;}
+ul.commodityUl li dt a.shop{ background-color: rgba(255, 255, 255, 0.75); bottom: 5px; color: #000000; display: inline-block; left: 5px; padding: 2px 5px; position: absolute; cursor:pointer;}
+ul.commodityUl li dd{ margin:10px 0 0 0; width:100%; float:left;}
+ul.commodityUl li dd p.title{ height:40px; line-height:20px; overflow:hidden; color:#666; margin-bottom:5px; width:100%;}
+ul.commodityUl li dd p.title a{ color:#666;}
+ul.commodityUl li:hover p.title a{ color:#ea4b11;}
+ul.commodityUl li dd p.price{ color:#ea4b11; font-size:15px; font-weight:bold; float:left;}
+ul.commodityUl li dd p.rebate{ float:right; color:#999; margin-top:3px;}
+ul.commodityUl li dd p.rebate em{ color:#ea4b11;}

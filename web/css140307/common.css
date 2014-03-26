@@ -5,8 +5,10 @@ body{ font-family: '微软雅黑','宋体'; font-size:12px; background-color:#F6
 .fr{float:right;}
 .w204{ width:204px;}
 .w300{ width:300px;}
+.w615{ width:615px; margin-left: 15px;}
 .w834{ width:834px;}
 .w930{ width:930px;}
+.h340{ height:340px;}
 .module{ border:1px solid #E0E0E0;}
 #header{ width:100%;}
 #header #topbar{ background-color:#F6F6F6; width:100%; border-bottom:1px solid #E0E0E0; height:30px; line-height:30px; color:#666;}
@@ -41,3 +43,7 @@ body{ font-family: '微软雅黑','宋体'; font-size:12px; background-color:#F6
 #nav li a{ color:#FFF;}
 #nav li.task a.taskBtn{ background: url("../images140307/iconImage.png") no-repeat scroll 15px -157px; padding-left: 40px;}
 #nav li.task em{background-color: #FFFFFF;border-radius: 6px;color: #65B1EE;display: inline-block;font-size: 15px;line-height: 100%;margin: 0 8px;padding: 1px 5px;}
+
+
+.main h1{ font-size:16px; line-height:40px;}
+.main h1 span{ font-size:12px; margin-left:10px;}

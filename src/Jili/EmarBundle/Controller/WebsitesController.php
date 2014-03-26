@@ -309,7 +309,7 @@ class WebsitesController extends Controller
         $request = $this->get('request');
         $logger= $this->get('logger');
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
+        //$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
 
 
         if( $request->isMethod('post')) {
@@ -358,7 +358,7 @@ class WebsitesController extends Controller
         // wcats with local file cache
         $wcats = $this->get('website.categories')->fetch() ;
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $wcats, true) );
+        //$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $wcats, true) );
 
         // webs 
         $websites = array();

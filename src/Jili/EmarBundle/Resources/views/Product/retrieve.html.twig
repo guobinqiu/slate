@@ -2,12 +2,13 @@
 
 {% block stylesheet %}
 <link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/commodity.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/commodity930.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
 <script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
-<script src="{{ asset('js140307/commodity.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
 {% endblock %}
 
 {% block page_main %}
@@ -28,12 +29,12 @@
     <div class="commodityList">
         <h1>
             {{ crumbs_local }}{{  crumbs_local|length > 0 ? '-' : '' }} 宝贝列表{% if total is defined %}<span>共{{ total }}件宝贝</span>{% endif %}</h1>
-      <div class="classifyShop clearfix">
+      <div class="screen clearfix">
 
    {% set w_q = app.request.query.getInt('w')  %}{# website in  request url #}
         <dt class="fl">商城筛选：</dt>
 
-        <dd class="fl"> 
+        <dd class="fl w820 h28"> 
 
 
         {% if w_q is not defined or w_q == 0 %}

@@ -2,12 +2,13 @@
 
 {% block stylesheet %}
 <link href="{{ asset('css140307/shopList.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/commodity.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 
 {% block javascript %}
 <script src="{{ asset('js140307/shopList.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
 {% endblock %}
 
 {% block search_box %}
@@ -20,45 +21,20 @@
 
       {% include 'JiliEmarBundle:Websites:shoplist_search_form.html.twig' with {'form': filter_form } %}
 
-      <ul class="module shopListUl clearfix">
+      <ul class="shopListUl clearfix">
       {% include "JiliEmarBundle:Websites:shopList_page.html.twig" %}
       </ul>
 
-    </div>
 
     <div style="display: inline-block; width: 100%;">
       {% include "JiliEmarBundle:Websites:shopList_page_nav.html.twig"   %}
     </div>
 
-  </div>
+</div><!-- eof main -->
 
-  <div class="sidebar w300 fr"> 
-    <div class="sidebarCommodity">
-        <h2>别人都在买</h2>
-        <ul>
-            <li class="clearfix">
-                <dt><img src="other140307/image100.jpg" width="150" height="150" /></dt>
-                <dd>
-                    <p class="title">BERLA 2013新品夏装女童装花童礼服韩版气质甜美网纱公主</p>
-                    <p class="price">¥128.20</p>
-                    <p class="shop">京东商城</p>
-                    <p class="rebate">返利最高：<em>10%</em></p>
-                </dd>
-            </li>
-            <li class="clearfix">
-                <dt><img src="other140307/image100.jpg" width="150" height="150" /></dt>
-                <dd>
-                    <p class="title">BERLA 2013新品夏装女童装花童礼服韩版气质甜美网纱公主</p>
-                    <p class="price">¥128.20</p>
-                    <p class="shop">京东商城</p>
-                    <p class="rebate">返利最高：<em>10%</em></p>
-                </dd>
-            </li>
-        </ul>
-    </div>
-  </div><!-- -->
-
-  </div>
+  <div class="sidebar w300 fr">
+{% include "JiliEmarBundle:Product:suggestionHot.html.twig" %}
+  </div><!-- sidebar -->
 {% endblock %}
 
 
