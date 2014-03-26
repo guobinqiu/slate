@@ -144,7 +144,7 @@ class AdvertisermentRepository extends EntityRepository {
 		$query = $query->andWhere('ap.position <> 0');
 		$query = $query->orderBy('ap.position');
 		$query = $query->setParameter('area', $area);
-		if (!$limit) {
+		if (!is_null($limit)) {
 			$query = $query->setFirstResult(0);
 			$query = $query->setMaxResults($limit);
 		}
