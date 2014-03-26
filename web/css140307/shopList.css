@@ -61,3 +61,29 @@ ul.shopListUl li div.hover p a.btnShopping {
     display: inline-block;
     padding: 0 5px;
 }
+.shopSearch {
+	width: 200px;
+	display: inline-block;
+*display:inline;
+*zoom:1;
+	vertical-align: -7px;
+}
+.shopSearchInput {
+	width: 130px;
+	border: 1px solid #d1d1d1;
+	padding: 3px;
+	float: left;
+}
+.shopSearchSubmit {
+	background: #d1d1d1;
+	padding: 6px;
+	float: left;
+}
+.shopSearchBtn {
+	width: 12px;
+	height: 12px;
+	font-size: 0;
+	border: none;
+	background: url("../images140307/iconImage.png") no-repeat;
+	background-position: 0 -740px;
+}

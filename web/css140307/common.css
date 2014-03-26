@@ -10,6 +10,7 @@ body{ font-family: '微软雅黑','宋体'; font-size:12px; background-color:#F6
 .w930{ width:930px;}
 .h340{ height:340px;}
 .module{ border:1px solid #E0E0E0;}
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{ color:#666;}
 #header{ width:100%;}
 #header #topbar{ background-color:#F6F6F6; width:100%; border-bottom:1px solid #E0E0E0; height:30px; line-height:30px; color:#666;}
 #userbar{ float:right; position:relative;}
