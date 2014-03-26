@@ -17,7 +17,7 @@
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle adList">
-  <article>
+  <article {% if ads %} {% else %} style="margin-left: 100px;" {% endif %}>
   <h2><img src="{{ asset('images/adTitle.jpg') }}" width="149" height="19" alt="体验广告"></h2>
     <iframe src='http://www.offer-wow.com/affiliate/wall/open.do?websiteid={{  offerwow_com.websiteid }}&styleIndex=1&memberid={{  app.session.get('uid') }}' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
     <div class="explain"><a href="#" class="explainBtn">活动说明</a>
@@ -30,6 +30,7 @@
     </div>
 
   </article>
+  {% if ads %}
   <aside>
     <div class="cpaMain">
         <div class="cpaAll">
@@ -51,6 +52,7 @@
         </div>
     </div>
   </aside>
+  {% endif %}
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
