@@ -64,9 +64,10 @@ ul.shopListUl li div.hover p a.btnShopping {
 .shopSearch {
 	width: 200px;
 	display: inline-block;
-*display:inline;
-*zoom:1;
+	*display:inline;
+    *zoom:1;
 	vertical-align: -7px;
+	margin-bottom:10px;
 }
 .shopSearchInput {
 	width: 130px;
