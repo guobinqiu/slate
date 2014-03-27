@@ -19,6 +19,29 @@ use Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
 class WebsitesController extends Controller
 {
     /**
+     * @Route("/hot")
+     * @Template();
+     */
+    public function hotOnCpsAction()
+    {
+
+        $logger= $this->get('logger');
+
+// wids.
+// fetch the details ? 
+        $em = $this->getDoctrine()->getManager();
+        $hot_webs = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot();
+
+        $webids = array_unique( array_map( function($v) { if ( isset($v['webId'])) { return  $v['webId']; } ; } , $hot_webs ));
+
+        $websites = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
+
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $websites , true) );
+
+        return compact('websites');
+    }
+
+    /**
      * @Route("/search")
      * @Template();
      */
@@ -55,58 +78,6 @@ class WebsitesController extends Controller
     }
 
 
-    /**
-     * @Route("/result")
-     * @Template();
-     */
-    public function resultAction()
-    {
-        $request = $this->get('request');
-        $logger= $this->get('logger');
-
-        $keyword = $request->query->get('q', '');
-        $page_no = $request->query->getInt('p',1);
-
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $page_no, true) );
-
-        $websites = array();
-        $web_raw  = $this->get('website.list_get')->fetch( );
-
-        if( strlen(trim($keyword)) > 0) {
-            $websites = $this->get('website.search')->find( $web_raw, $keyword );
-        } else {
-            $websites = $web_raw;
-        }
-
-        $total =  count($websites);
-
-        $form = $this->createForm(new SearchType(), array('keyword'=>$keyword)  );
-        $page_size = $this->container->getParameter('emar_com.page_size');
-        $websites_paged = array_slice($websites, ( $page_no -1 ) * $page_size  , $page_size      );
-
-        return  array('form'=> $form->createView(), 'websites'=> $websites_paged, 'total'=> $total);
-    }
-
-    /**
-     * @Route("/arrange")
-     * @Template();
-     */
-    public function arrangeAction()
-    {
-
-        $logger = $this->get('logger');
-
-        // find  out the 
-        $category = $this->container->getParameter('emar_com.cps.category_type'); 
-
-        $em = $this->getDoctrine()->getManager();
-
-        $advertiserments = $this->getDoctrine()->getRepository('JiliApiBundle:Advertiserment')
-            ->findBy(array( 'category'=> $category) );
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( count( $advertiserments ), true) );
-        return new Response('ok');
-
-    }
     /**
      * @Route("/shoplist/search")
      * @Template();
@@ -409,5 +380,57 @@ class WebsitesController extends Controller
             'total'=>$total );
 
     }
+
 }
 
+#    /**
+#     * @Route("/result")
+#     * @Template();
+#     */
+#    public function resultAction()
+#    {
+#        $request = $this->get('request');
+#        $logger= $this->get('logger');
+#
+#        $keyword = $request->query->get('q', '');
+#        $page_no = $request->query->getInt('p',1);
+#
+#
+#        $websites = array();
+#        $web_raw  = $this->get('website.list_get')->fetch( );
+#
+#        if( strlen(trim($keyword)) > 0) {
+#            $websites = $this->get('website.search')->find( $web_raw, $keyword );
+#        } else {
+#            $websites = $web_raw;
+#        }
+#
+#        $total =  count($websites);
+#
+#        $form = $this->createForm(new SearchType(), array('keyword'=>$keyword)  );
+#        $page_size = $this->container->getParameter('emar_com.page_size');
+#        $websites_paged = array_slice($websites, ( $page_no -1 ) * $page_size  , $page_size      );
+#
+#        return  array('form'=> $form->createView(), 'websites'=> $websites_paged, 'total'=> $total);
+#    }
+#
+#    /**
+#     * @Route("/arrange")
+#     * @Template();
+#     */
+#    public function arrangeAction()
+#    {
+#
+#        $logger = $this->get('logger');
+#
+#        // find  out the 
+#        $category = $this->container->getParameter('emar_com.cps.category_type'); 
+#
+#        $em = $this->getDoctrine()->getManager();
+#
+#        $advertiserments = $this->getDoctrine()->getRepository('JiliApiBundle:Advertiserment')
+#            ->findBy(array( 'category'=> $category) );
+#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( count( $advertiserments ), true) );
+#        return new Response('ok');
+#
+#    }

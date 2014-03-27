@@ -27,6 +27,9 @@ emar-websites:
     resource: "@JiliEmarBundle/Controller/WebsitesController.php"
     type:     annotation
 
+emar-top:
+    resource: "@JiliEmarBundle/Controller/TopController.php"
+    type:     annotation
 
 emar-admin-websites:
     resource: "@JiliEmarBundle/Controller/AdminWebsitesController.php"

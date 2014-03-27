@@ -9,12 +9,27 @@ use Doctrine\ORM\EntityRepository;
 class EmarWebsitesRepository extends EntityRepository
 {
     /**
+     * todo: statics by user clicked.
+     */
+    public function getHot() {
+        $qb  = $this->createQueryBuilder('ew');
+
+        $qb->select('ew.webId');
+
+        $qb->where($qb->expr()->eq('ew.isDeleted', 'false'));
+        $qb->andWhere($qb->expr()->eq('ew.isHidden', 'false'));
+        $qb->orderBy('ew.position', 'ASC');
+        $query  = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+    }
+    /**
      * @param $params array(wids=>)
      */
-	public function getSortedByParams($params){
-        
+    public function getSortedByParams($params){
+
         extract($params);
-        
+
         $qb  = $this->createQueryBuilder('ew');
         $qb->where($qb->expr()->eq('ew.isDeleted', 'false'));
 
@@ -23,7 +38,7 @@ class EmarWebsitesRepository extends EntityRepository
         }
 
         //todo: add the catid for performance.
-        
+
         $qb->orderBy('ew.position', 'ASC');
 
         $query  = $qb->getQuery();

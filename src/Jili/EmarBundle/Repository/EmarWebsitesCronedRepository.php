@@ -29,4 +29,26 @@ class EmarWebsitesCronedRepository extends EntityRepository
 
     }
 
+    /**
+     * 
+     * return an array of full fields;
+     * */
+    public function fetchByWebIds( $webids ) {
+
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->where( $qb->expr()->in( 'p.webId', $webids) ) ;
+
+        $q =  $qb->getQuery();
+
+        $rows = $q->getResult();
+
+        $result = array();
+
+        foreach($rows as $row) {
+            $result[ $row->getWebId() ] = $row;
+        }
+
+        return $result;
+    }
 }
