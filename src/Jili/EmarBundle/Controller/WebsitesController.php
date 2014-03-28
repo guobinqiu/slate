@@ -32,11 +32,15 @@ class WebsitesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $hot_webs = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot();
 
-        $webids = array_unique( array_map( function($v) { if ( isset($v['webId'])) { return  $v['webId']; } ; } , $hot_webs ));
+        if(! empty($hot_webs)) {
+            $webids = array_unique( array_map( function($v) { if ( isset($v['webId'])) { return  $v['webId']; } ; } , $hot_webs ));
 
-        $websites = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
+            $websites = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $websites , true) );
+        } else {
+            $websites = array();
+        }
+            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $websites , true) );
 
         return compact('websites');
     }
@@ -261,15 +265,9 @@ class WebsitesController extends Controller
      */
     public function searchFormAction()
     {
-
-        $request = $this->get('request');
-        $logger= $this->get('logger');
-
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
         $form = $this->createForm(new SearchWebsiteType() );
         return array( 'form' => $form->createView() );
     }
-
 
     /**
      * @Route("/shopsearch")
@@ -280,22 +278,20 @@ class WebsitesController extends Controller
         $request = $this->get('request');
         $logger= $this->get('logger');
 
-        //$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
-
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
 
         if( $request->isMethod('post')) {
         $form = $this->createForm(new SearchWebsiteType() );
-
             $form->bind($request);
             if ( $form->isValid()) {
                 $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
-
                 $query_params = $form->getData();
 
                 $keyword = $query_params['q'];
 
                 $router = $query_params['rt']; // must eq 1 
                 unset($query_params['rt']);
+
                 //todo: search the result 
                 if( $router == 0 ) {
                     $url = $this->generateUrl('jili_emar_product_search');
@@ -312,7 +308,6 @@ class WebsitesController extends Controller
             $search_web  =  array('rt'=>1,'q'=> $keyword);
             $form = $this->createForm(new SearchWebsiteType(), $search_web);
         } 
-
         // todo: foward to shoplistpage if $keyword is empty.
         if( !isset($keyword ) || 0 >= strlen(trim($keyword))) {
             $url = $this->generateUrl('jili_emar_websites_shoplist') ;
@@ -321,16 +316,11 @@ class WebsitesController extends Controller
             }
             return $this->redirect( $url );
         } 
-
         $wcat_id = $request->query->get('wcat' );
         $page_no = $request->query->getInt('p',1);
-
-
         // wcats with local file cache
         $wcats = $this->get('website.categories')->fetch() ;
-
         //$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $wcats, true) );
-
         // webs 
         $websites = array();
         $params =array();
@@ -339,48 +329,35 @@ class WebsitesController extends Controller
             $params = array('catid'=> $wcat_id );
         }
         $web_raw  = $this->get('website.list_get')->fetch( $params );
-
-
         if( strlen(trim($keyword)) > 0) {
             $websites = $this->get('website.search')->find( $web_raw, $keyword );
         } else {
             $websites = $web_raw;
         }
-
         // pagination
-
         $total =  count($websites);
-
         $page_size = $this->container->getParameter('emar_com.page_size');
-
         $websites_paged = array_slice( $websites, ( $page_no -1 ) * $page_size  , $page_size );
-
         $webids = array_filter(array_unique( array_map( function($v) { if ( isset($v['web_id'])) { return  $v['web_id']; } ; } , $websites_paged)));
-
         #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'total','')).var_export( $webids, true) );
         #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'total','')).var_export( count($websites), true) );
-
         // fetch the website information from the table emar_webistes_croned .
-        
-        $webinfos_croned = $this->getDoctrine()->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchInfosByWebIds( $webids);
-
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'webinfo','')).var_export( $webinfos_croned, true) );
-        // add the websites categories
-        
-        // wcats with local file cache
+        if( count($webids ) > 0 ) {
+            $webinfos_croned = $this->getDoctrine()->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchInfosByWebIds( $webids);
+        } else {
+            $webinfos_croned =  array();
+        }
+        #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'webinfo','')).var_export( $webinfos_croned, true) );
+        // add the websites categories, wcats with local file cache
         $wcats = $this->get('website.categories')->fetch() ;
-
         // todo: resort the websites by our configurations.
-
         return array( 'search_form' => $form->createView() , 
             'search_keyword'=> $keyword,
             'websites'=> $websites_paged,
             'websites_infos'=>$webinfos_croned,
             'categories'=> $wcats,
             'total'=>$total );
-
     }
-
 }
 
 #    /**

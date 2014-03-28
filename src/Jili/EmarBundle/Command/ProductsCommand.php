@@ -110,6 +110,8 @@ class ProductsCommand extends ContainerAwareCommand
 
             #$output->writeln('outer loop, $cats_mixed: '. PHP_EOL.var_export( $cats_mixed, true));
             #$output->writeln('inner loop, $websites : '. PHP_EOL.var_export( $websites, true));
+            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'websites:','') ). var_export(count($websites), true));
+            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$cats_mixed:','') ). var_export(count($cats_mixed), true));
             $output->writeln('total:  '. $loop_counter  . ' = '. count($cats_mixed) .  '*'. count($websites).'( pagination excluded)' );
 
             foreach( $cats_mixed as $key =>  $cat  ) {
@@ -126,37 +128,32 @@ class ProductsCommand extends ContainerAwareCommand
                     try {
                         $webid = $web['web_id'];
                         $params = array('catid'=> $catid, 'webid'=>$webid );
-
                         $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$params:','') ). var_export($params, true) );
-
                         $productListGetter = $this->getContainer()->get('product.list_get');
-
                         $productListGetter->setPageSize($page_size);
+
                         #$productListGetter->setFields('pid,p_name,web_id,web_name,ori_price,cur_price,pic_url,catid,cname,p_o_url,total,short_intro');
                         $productListGetter->setFields('total');
-
                         $last = 1; $page_no = 0;
-                        
                         do {
                             $page_no++;
-
-                            $pr->add();
-                            $output->writeln(' @'.date("Y-m-d H:i:s").' $i:'. $i. ' page_no'. $page_no  );
-
-                            $products = $productListGetter->fetch($params);
-
                             if( $page_no == 1 ) {
+                                $pr->add();
+                                $products = $productListGetter->fetch($params);
                                 $total = $productListGetter->getTotal();
                                 $str = $total.' in raw';
                                 $total = ( 1800 < $total) ? 1800 : $total;
                                 $str .= ', '.$total.' restricted.'.PHP_EOL;
-                                $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'')).$str );
-
                                 if( $total > $page_size) {
                                     $last = (int) ceil( $total / $page_size );
                                 }  
-                                $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$last','') ). var_export($last, true). ' pages.' );
-                                 $request_counter += $last;
+
+
+                                $log = sprintf("cname:%s(%s) ;wname:%s (%s) total: %d , last: %d", $cat , $key , $web['web_name'], $web['web_id'] , $total, $last ); 
+                                $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). $log );
+
+                                $output->writeln(' @'.date("Y-m-d H:i:s").' $i:'. $i. ' '. $page_no . PHP_EOL.$str.PHP_EOL );
+                                $request_counter += $last;
                             } else {
                                 break;
                             }
@@ -166,14 +163,11 @@ class ProductsCommand extends ContainerAwareCommand
                     } catch( \Exception $e)  {
                         $output->writeln('current:'.$i. ' , page '.$page_no.' request!');
                         $output->writeln('catid:'. $catid. '; webid:'. $webid );
-                        //$logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'websites:','') ). var_export(count($websites), true));
                     }
                 }
             }
 
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'websites:','') ). var_export(count($websites), true));
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$cats_mixed:','') ). var_export(count($cats_mixed), true));
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'total','')). $i  );
+            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'total requests:', $request_counter) ) );
 
             $output->writeln($i. ' pair to request!');
 

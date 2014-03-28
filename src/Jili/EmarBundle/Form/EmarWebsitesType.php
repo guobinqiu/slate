@@ -12,6 +12,7 @@ class EmarWebsitesType extends AbstractType
     {
         $builder
             ->add('webId')
+            ->add('webCatid')
             ->add('commission')
             ->add('position')
         ;

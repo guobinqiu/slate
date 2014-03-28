@@ -11,6 +11,7 @@ parameters:
 
 # ghs
     ghs.category_get.class:  Jili\EmarBundle\EventListener\GhsCategoryGetRequest
+    ghs.list_get.class:  Jili\EmarBundle\EventListener\GhsProductListGetRequest
 
 # product/general
     general.category_get.class:  Jili\EmarBundle\EventListener\ProductCategoryGetRequest
@@ -91,6 +92,12 @@ services:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
 
+    ghs.list_get:
+        class: %ghs.list_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+            - [ setPageSize, [ %emar_com.page_size% ] ] 
 
     general.category_get:
         class: %general.category_get.class%
