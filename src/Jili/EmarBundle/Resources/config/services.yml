@@ -59,10 +59,12 @@ services:
 
     emar_request.connection:
        class: %emar_request.connection.class%
-       arguments: [ %emar_com.app_AppKey%, %emar_com.app_AppSecret% ]
+       arguments: [  %emar_com.open_api.app% ]
        calls:
             - [setLogger, [ @logger ] ] 
+            - [setApp, [ 'debug' ] ] 
 
+#       arguments: [ %emar_com.app_AppKey%, %emar_com.app_AppSecret% ]
 #    jili_emar.example:
 #        class: %jili_emar.example.class%
 #        arguments: [@service_id, plain_value, %parameter%]

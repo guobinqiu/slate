@@ -34,13 +34,12 @@ class WebsitesController extends Controller
 
         if(! empty($hot_webs)) {
             $webids = array_unique( array_map( function($v) { if ( isset($v['webId'])) { return  $v['webId']; } ; } , $hot_webs ));
-
             $websites = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
-
         } else {
+            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $hot_webs, true) );
             $websites = array();
         }
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $websites , true) );
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $websites , true) );
 
         return compact('websites');
     }

@@ -8,6 +8,9 @@ class GhsProductListGetRequest  {
   private $logger;
   private $result;
 
+  private $c;
+  private $app_name;
+
   private $fields;
   private $page_size;
   private $total;
@@ -27,7 +30,11 @@ class GhsProductListGetRequest  {
     }  else {
         $req->setFields('pid,web_name,p_name,ghs_o_url,ghs_catid,ghs_cname,weight,ori_price,ghs_price,discount,bought,pic_url,post,begin_time,end_time,total');
     }
-    $resp =  $this->c->exe($req);
+
+ //   $this->c->setApp($this->app_name);
+
+    $resp =  $this->c->setApp($this->app_name)->exe($req);
+    $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->c->getApp(), true)  );
 
     $result = array();
     if( isset( $resp[ 'ghs_list']) && isset($resp['ghs_list'] ['ghs'] ) ) {
@@ -39,10 +46,12 @@ class GhsProductListGetRequest  {
 
   public function setLogger(  LoggerInterface $logger) {
     $this->logger = $logger;
+    return $this;
   }
 
-  public function setConnection( EmarRequestConnection  $c ) {
+  public function setConnection( EmarRequestConnectionInterface  $c ) {
     $this->c = $c;
+    return $this;
   }
 
 
@@ -55,6 +64,12 @@ class GhsProductListGetRequest  {
   }
   public function setPageSize( $count ) {
     $this->page_size = (int)  $count;
+    return $this;
+  }
+
+  public function setApp( $app_name = '' ) {
+    $this->app_name = $app_name;
+    return $this;
   }
 }
 

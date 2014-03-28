@@ -43,15 +43,22 @@ class GhsController extends Controller
         $categoryRequest =  $this->get('ghs.category_get');
         $categories_raw  = $categoryRequest->fetch();
         $cats = GhsCatRepository::parse( $categories_raw);
+        $cat_ids = array_keys( $cats);
 
-        if( empty($catids) ) {
-            $catids = implode(',', array_keys( $cats) );
+        $catids_request = '000000'; // 全部
+        if( ! empty($catids) ) {
+            $catids_ = array_intersect($cat_ids, explode(',' , $catids)); 
+            if( ! empty($catids_) ) {
+                $catids_request = $catids_;
+            }
         }
 
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $catids, true )  );
+        $params =( $catids_request === '000000' ) ? array('category'=> '') : array('category'=> implode(',', $catids_));
+
+// // // //
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $cats, true )  );
         $listRequest = $this->get('ghs.list_get');
-        $params =array('category'=> $catids);
-        $list = $listRequest->fetch( $params );
-        return array('router_'=> 'jili_emar_top_cps', 'catids_request'=>explode(',',$catids), 'cats'=> $catids, 'ghs_pdts'=> $list );
+        $list = $listRequest->setApp('cron')->fetch( $params );
+        return array('router_'=> 'jili_emar_top_cps', 'catids_request'=> $catids_request, 'cats'=> $cats, 'ghs_pdts'=> $list );
     }
 }
