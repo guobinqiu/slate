@@ -3,13 +3,9 @@ namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
-class GhsProductListGetRequest  {
+class GhsProductListGetRequest  extends BaseRequest{
 
-  private $logger;
   private $result;
-
-  private $c;
-  private $app_name;
 
   private $fields;
   private $page_size;
@@ -44,17 +40,6 @@ class GhsProductListGetRequest  {
     return $result;
   }
 
-  public function setLogger(  LoggerInterface $logger) {
-    $this->logger = $logger;
-    return $this;
-  }
-
-  public function setConnection( EmarRequestConnectionInterface  $c ) {
-    $this->c = $c;
-    return $this;
-  }
-
-
   public function setFields( $fields  = '' ) {
       $this->fields = (string )  $fields;
       return $this;
@@ -67,10 +52,6 @@ class GhsProductListGetRequest  {
     return $this;
   }
 
-  public function setApp( $app_name = '' ) {
-    $this->app_name = $app_name;
-    return $this;
-  }
 }
 
 
