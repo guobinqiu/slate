@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\ParameterBagInterface;
 use Doctrine\ORM\EntityManager;
 
 use Jili\ApiBundle\Entity\Offer99Order;
-use Jili\ApiBundle\Component\OrderBase;
 use Jili\ApiBundle\Util\String;
 
 /**
@@ -33,7 +32,6 @@ class Offer99RequestProcessor {
 		$category_type = $config['category_type'];
 		$task_name = $config['name'];
 		$task_type = $config['task_type'];
-		$order_status = OrderBase :: getStatusList();
 
 		$this->logger->debug('{jaord}' . __FILE__ . ':' . __LINE__ . var_export($request->query, true));
 
@@ -70,7 +68,7 @@ class Offer99RequestProcessor {
 			'task_name' => $task_name,
 			'point' => $point,
 			'date' => $happen_time,
-			'status' => $order_status['COMPLETED_SUCCEEDED']
+			'status' => 1
 		);
 
 		// updte task_history

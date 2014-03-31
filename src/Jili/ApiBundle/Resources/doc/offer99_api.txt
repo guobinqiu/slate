@@ -9,7 +9,7 @@ http://www.offer99.com/2013/index.php?m=about&a=pro
 
 
 安全码:
-cMpfXcNd
+91jili2offer99
 
 自动返还虚拟货币链接(带http://):
 手动返还虚拟货币链接(带http://):
@@ -17,10 +17,6 @@ http://www.91jili.com/api/offer99
 
 http://app.offer99.com/index.php?pid=f4b42b65ce528bb151ea6e2eb5a01692&userid=
 还没有投放广告
-
-
-
-
 
 
 CREATE TABLE `offer99_api_return` (
@@ -42,4 +38,3 @@ CREATE TABLE `offer99_order` (
 
 INSERT INTO `jili_db`.`ad_category` (`id`, `display_name`) VALUES (18, '体验广告');
 
-UPDATE ad_category SET display_name ="体验广告xxx" WHERE id = 18 limit 1;

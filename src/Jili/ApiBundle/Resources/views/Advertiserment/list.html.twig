@@ -18,7 +18,15 @@
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle adList">
   <article {% if ads %} {% else %} style="margin-left: 100px;" {% endif %}>
-  <h2><img src="{{ asset('images/adTitle.jpg') }}" width="149" height="19" alt="体验广告"></h2>
+    <!--  subnav  -->
+    <div class="offwowSubnav">
+        <ul class="subnavList">
+            <li class="subnavItem first"><a class="now" href="{{ asset(path('_advertiserment_list')) }}">任务大厅一</a></li>
+            <li class="subnavItem"><a href="{{ asset(path('_advertiserment_offer99')) }}">任务大厅二</a></li>
+        </ul>
+        <div class="navNew"><img src="{{ asset('images/newTag.gif') }}" title="NEW"></div>
+    </div>
+    <!--  subnav  /-->
     <iframe src='http://www.offer-wow.com/affiliate/wall/open.do?websiteid={{  offerwow_com.websiteid }}&styleIndex=1&memberid={{  app.session.get('uid') }}' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
     <div class="explain"><a href="#" class="explainBtn">活动说明</a>
         <div class="explainMore">
@@ -31,7 +39,7 @@
 
   </article>
   {% if ads %}
-  <aside>
+  <aside class="offowAside">
     <div class="cpaMain">
         <div class="cpaAll">
 
