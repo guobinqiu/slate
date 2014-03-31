@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\ApiBundle\Entity\Advertiserment;
 use Jili\ApiBundle\Entity\CheckinAdverList;
@@ -98,11 +97,9 @@ class CheckinController extends Controller
 		if($click){
 			$clickStatus = $em->getRepository('JiliApiBundle:CheckinClickList')->find($click[0]['id']);
 			if($clickStatus->getOpenShopTimes() == 3){
-				$pointTimes = $em->getRepository('JiliApiBundle:CheckinPointTimes')->getCheckinTimes();
-				if(!empty($pointTimes))
-					$nowPoint = $pointTimes[0]['pointTimes'] ? $pointTimes[0]['pointTimes'] : $clickTimes;
-				else
-					$nowPoint = $clickTimes;
+                //获取签到积分
+                $checkInLister = $this->get('check_in.listener');
+                $nowPoint = $checkInLister->getCheckinPoint($this->get('request'));
 				if($this->issetPoints($uid))
 					$this->updatePoint($uid,$nowPoint);
 				$code = $this->container->getParameter('init_one');
@@ -118,7 +115,6 @@ class CheckinController extends Controller
 	 */
 	public function locationAction()
 	{
-		
 		$em = $this->getDoctrine()->getManager();
 		$request = $this->get('request');
 		$uid = $request->getSession()->get('uid');
@@ -145,10 +141,9 @@ class CheckinController extends Controller
 				# code...
 				break;
 		}
-		
-		return $this->render('JiliApiBundle:Checkin:info.html.twig',
-				array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type));
 
+		return $this->render('JiliApiBundle:Checkin:info.html.twig',
+				array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));
 	}
 
 	/**
@@ -164,7 +159,6 @@ class CheckinController extends Controller
 		$url = "http://www.91jili.com/shopping/list/".$uid;
 		return $this->render('JiliApiBundle:Checkin:info.html.twig',
 				array('yixun'=>$yixun,'url'=>$url));
-
 	}
 
 
@@ -416,40 +410,5 @@ class CheckinController extends Controller
       $em->flush();
     }
 
-
-
 	
 }
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

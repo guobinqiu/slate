@@ -60,6 +60,12 @@ class UserController extends Controller
 		if(!$request->getSession()->get('flag')){
 			$session = $this->getRequest()->getSession();
             $session->set('flag', 1);
+
+            //update last logindate
+            $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
+            $user->setLastLoginIp($this->get('request')->getClientIp());
+            $em->flush();
+
 			$loginlog = new Loginlog();
 			$loginlog->setUserId($id);
 			$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
@@ -554,7 +560,7 @@ class UserController extends Controller
 			if($hobby)
 				$hobbys  = substr($hobby,0,strlen($hobby)-1); 
 			if($tel){
-				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
 					$codeflag = $this->container->getParameter('update_wr_mobile');
 					$code[] = array("code"=>$this->container->getParameter('init_five'),"msg"=>$codeflag);
 				}else{
@@ -697,7 +703,7 @@ class UserController extends Controller
 					if($hobby)
 						$hobbys = implode(",",$hobby);
 					if($tel){
-						if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+						if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
 							$codeflag = $this->container->getParameter('update_wr_mobile');
 						}else{
 							$user->setSex($sex);
@@ -761,8 +767,16 @@ class UserController extends Controller
 		}	
 		if($this->notReadCb() == 0 && $this->notReadMs($id)>0){
 			$countMessage = $this->container->getParameter('init_one');
-		}		
-		return $this->render('JiliApiBundle:User:info.html.twig',array( 
+		}
+
+		//确认中的米粒数
+		$task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $id % 10 ) );
+		$confirmPoints = $task->getConfirmPoints($id);
+		if(!$confirmPoints){
+			$confirmPoints = 0;
+		}
+
+		return $this->render('JiliApiBundle:User:info.html.twig',array(
 				'form' => $form->createView(),
 				'form_upload' =>$form->createView(),
 				'user' => $user,
@@ -790,7 +804,8 @@ class UserController extends Controller
 				'provinceId' => $provinceId,
 				'city' => $city,
 				'countMessage'=>$countMessage,
-				'exFrWen'=> $exFrWen
+				'exFrWen'=> $exFrWen,
+				'confirmPoints' => $confirmPoints
 				));
 	}
 	
@@ -816,7 +831,7 @@ class UserController extends Controller
 		$tel = $request->query->get('tel');
 	    if ($request->getMethod() == 'POST') {
 			if($ck){
-				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0189]{1}[0-9]{8}$|189[0-9]{8}$/",$tel)){
+				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
 					$code = $this->container->getParameter('init_two');
 				}else{
 					$user->setSex($ck);
@@ -891,79 +906,39 @@ class UserController extends Controller
 	 * @Route("/login", name="_user_login",requirements={"_scheme"="https"})
 	 */
 	public function loginAction(){
-		$session = new Session();
-		$session->start();
-		if($this->get('request')->getSession()->get('uid')){
+		//$session = new Session();
+		$request = $this->get('request');
+        $session = $request->getSession();
+        $logger = $this->get('logger');
+
+
+		$goToUrl =  $session->get('referer');
+
+		if(substr($goToUrl, -10) != 'user/login' && strlen($goToUrl)>0 ){
+			$session->set('goToUrl', $goToUrl);
+            $session->remove('referer');
+		}
+
+		//$session->start();
+        if($session->get('uid')){
+            $logger->debug('{jarod}'. __FILE__.':'.__LINE__.':'.var_export( $this->generateUrl('_default_index'), true) );
             return $this->redirect($this->generateUrl('_default_index'));
         }
-		$request = $this->get('request');
-		$goToUrl = $request->headers->get('referer');
-		if(substr($goToUrl, -10) != 'user/login'){
-			$session->set('goToUrl', $goToUrl);
-		}
+
 		$code = '';
 		$email = $request->request->get('email');
 		$pwd = $request->request->get('pwd');
-		if ($request->getMethod() == 'POST'){
-			if($email){
-				if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$email)){
-					$code = $this->container->getParameter('login_wr_mail');
-				}else{
-					$em_email = $this->getDoctrine()
-					->getRepository('JiliApiBundle:User')
-					->findByEmail($email);
-					if(!$em_email){
-						$code = $this->container->getParameter('login_wr');
-						// 		    		echo 'email is unexist!';
-					}else{
-						$id = $em_email[0]->getId();
-						$em = $this->getDoctrine()->getEntityManager();
-						$user = $em->getRepository('JiliApiBundle:User')->find($id);
-						if($user->getDeleteFlag() == 1){
-							$code = $this->container->getParameter('login_wr');
-						}elseif($user->pw_encode($pwd) != $user->getPwd()){
-							// 		    			echo 'pwd is error!';
-							$code = $this->container->getParameter('login_wr');
-						}else{
-							
-							if($request->request->get('remember_me')=='1'){
-								setcookie("jili_uid", $id, time() + 3600 * 24 * 365,'/');
-								setcookie("jili_nick",$user->getNick(), time() + 3600 * 24 * 365,'/');
-// 								$response = new Response();
-// 								$response->headers->setCookie(new Cookie('jili_uid', $id,(time() + 3600 * 24 * 365), '/'));
-// 								$response->headers->setCookie(new Cookie('jili_nick', $user->getNick(),(time() + 3600 * 24 * 365), '/'));
-// 								$response->send();
-// 								$request = $this->get('request');
-// 								$cookies = $request->cookies;
-// 								if ($cookies->has('uid'))
-// 								{
-// 									var_dump($cookies->get('uid'));
-// 								}
-							}
-							
-							$session->set('uid', $id);
-							$session->set('nick', $user->getNick());
-							$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-							$user->setLastLoginIp($this->get('request')->getClientIp());
-							$em->flush();
-							$em = $this->getDoctrine()->getManager();
-							$loginlog = new Loginlog();
-							$loginlog->setUserId($id);
-							$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-							$loginlog->setLoginIp($this->get('request')->getClientIp());
-							$em->persist($loginlog);
-							$em->flush();
-							$current_url = $request->getSession()->get('goToUrl');
-							$request->getSession()->remove('goToUrl');
-							return $this->redirect($current_url);
-						}
-					}
-			    }
-			}else{
-			    $code = $this->container->getParameter('login_en_mail');
-		    }
-			
-	    }
+
+        //login
+        $loginLister = $this->get('login.listener');
+        $code = $loginLister->login($request,$email,$pwd);
+        if($code == "ok"){
+            $current_url = $session->get('goToUrl');
+            $session->remove('goToUrl');
+            return $this->redirect($current_url);
+        }
+
+		 
 		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
 	}
 	
@@ -1209,6 +1184,10 @@ class UserController extends Controller
 		$form = $this->createForm(new CaptchaType(), array());
 		$email = $request->request->get('email');
 		$nick = $request->request->get('nick');
+        //获取签到积分
+        $checkInLister = $this->get('check_in.listener');
+        $checkInPoint = $checkInLister->getCheckinPointForReg($this->get('request'));
+
 		if ($request->getMethod() == 'POST'){
 			    if($this->get('request')->getSession()->get('phrase') != $request->request->get('captcha')){
 			    	$this->get('request')->getSession()->remove('phrase');
@@ -1290,7 +1269,8 @@ class UserController extends Controller
 				'code_email'=>$code_email,
 				'code_re'=>$code_re,
 				'email'=>$email,
-				'nick' =>$nick
+				'nick' =>$nick,
+                'checkInPoint' =>$checkInPoint
 				));
 	}
 	
@@ -1381,6 +1361,11 @@ class UserController extends Controller
 	 */
 	public function adtasteAction($type){
 		$id = $this->get('request')->getSession()->get('uid');
+
+        if(!$id){
+           return $this->redirect($this->generateUrl('_user_login'));
+        } 
+
 		$em = $this->getDoctrine()->getManager();
 		$option = array('status' => $type ,'offset'=>'','limit'=>'');
 		$adtaste = $this->selTaskHistory($id,$option);
@@ -1450,6 +1435,20 @@ class UserController extends Controller
         							$em->persist($setPasswordCode);
         							$em->flush();
 //         							return $this->redirect($this->generateUrl('_user_regSuccess'));
+
+                                    //设置密码之后，注册成功，发邮件2014-01-10
+                                    $soapMailLister = $this->get('soap.mail.listener');
+                                    $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
+                                    $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
+                                    $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
+                                    $recipient_arr = array (
+                                            array (
+                                                'name' => 'email',
+                                                'value' => $user->getEmail()
+                                            )
+                                        );
+                                    $soapMailLister->sendSingleMailing($recipient_arr);
+
         							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
         						}else{
         							$code_que_pwd = $this->container->getParameter('forget_unsame_pwd');
@@ -1658,45 +1657,8 @@ class UserController extends Controller
 	private function updateSendMs($userid,$sendid){
 		$isRead = '';
 		$code = array();
-		if(strlen($userid)>1){
-			$uid = substr($userid,-1,1);
-		}else{
-			$uid = $userid;
-		}
 		$em = $this->getDoctrine()->getManager();
-		switch($uid){
-		case 0:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage00');
-		      break;
-		case 1:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage01');
-		      break;
-		case 2:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage02');
-		      break;
-		case 3:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage03');
-		      break;
-		case 4:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage04');
-		      break;
-		case 5:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage05');
-		      break;
-		case 6:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage06');
-		      break;
-		case 7:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage07');
-		      break;
-		case 8:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage08');
-		      break;
-		case 9:
-		      $sm = $em->getRepository('JiliApiBundle:SendMessage09');
-		      break;
-		}
-
+        $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ($userid % 10) );
 		$updateSm = $sm->find($sendid);
 		if($updateSm->getReadFlag() == 0){
 			$updateSm->setReadFlag($this->container->getParameter('init_one'));
@@ -1710,146 +1672,36 @@ class UserController extends Controller
 
 
     private function countSendMs($userid){
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
       $em = $this->getDoctrine()->getManager();
-      switch($uid){
-            case 0:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
-                  break;
-            case 1:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
-                  break;
-            case 2:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
-                  break;
-            case 3:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
-                  break;
-            case 4:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
-                  break;
-            case 5:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
-                  break;
-            case 6:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
-                  break;
-            case 7:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
-                  break;
-            case 8:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
-                  break;
-            case 9:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
-                  break;
-      }
+      $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ($userid % 10));
  	  $countMs = $sm->CountSendMs($userid);
  	  return $countMs; 
     }
 
 
 	private function selectSendMs($userid){
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
-      $em = $this->getDoctrine()->getManager();
-      switch($uid){
-            case 0:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
-                  break;
-            case 1:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
-                  break;
-            case 2:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
-                  break;
-            case 3:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
-                  break;
-            case 4:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
-                  break;
-            case 5:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
-                  break;
-            case 6:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
-                  break;
-            case 7:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
-                  break;
-            case 8:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
-                  break;
-            case 9:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
-                  break;
-      }
- 	  $showMs = $sm->getSendMsById($userid);
- 	  return $showMs;
-     
+      return  $this->getDoctrine()->getManager()->getRepository('JiliApiBundle:SendMessage0'. ($userid % 10) )->getSendMsById($userid);
     }
 
 
-	private function selTaskHistory($userid,$option){
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
+	private function selTaskHistory($userid, $option){
       $em = $this->getDoctrine()->getManager();
-      switch($uid){
-            case 0:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory00'); 
-                  break;
-            case 1:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');  
-                  break;
-            case 2:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');  
-                  break;
-            case 3:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory03'); 
-                  break;
-            case 4:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory04'); 
-                  break;
-            case 5:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory05'); 
-                  break;
-            case 6:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory06'); 
-                  break;
-            case 7:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory07'); 
-                  break;
-            case 8:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory08'); 
-                  break;
-            case 9:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
-                  break;
-      }
-      //$option = array('daytype' => '' ,'offset'=>'','limit'=>'');
-      $po = $task->getUseradtaste($userid,$option);
+      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) ); 
+      $po = $task->getUseradtaste($userid, $option);
 
       foreach ($po as $key => $value) {
-			if($value['type']==1){
+			if($value['type']==1 ) {
 				$adUrl = $task->getUserAdwId($value['orderId']);
-				$po[$key]['adid'] = $adUrl[0]['adid'];
+                if( is_array($adUrl) && count($adUrl) > 0) {
+                    $po[$key]['adid'] = $adUrl[0]['adid'];
+                } else {
+                    $po[$key]['adid'] = '';
+                }
 			}else{
 				$po[$key]['adid'] = '';
 			}
 		}
 		return $po;
-
     }
 	
 }

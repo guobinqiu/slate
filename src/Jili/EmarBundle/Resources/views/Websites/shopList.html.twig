@@ -5,7 +5,6 @@
 <link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
-
 {% block javascript %}
 <script src="{{ asset('js140307/shopList.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
@@ -16,7 +15,7 @@
 {% endblock %}
 
 {% block page_main %}
-  <div class="main w834 fl">
+     <div class="main w834 fl">
       {{ include( "JiliEmarBundle:Websites:shopList_category.html.twig") }}
 
       {% include 'JiliEmarBundle:Websites:shoplist_search_form.html.twig' with {'form': filter_form } %}
@@ -30,11 +29,12 @@
       {% include "JiliEmarBundle:Websites:shopList_page_nav.html.twig"   %}
     </div>
 
-</div><!-- eof main -->
+    </div><!-- eof main -->
 
   <div class="sidebar w300 fr">
-{% include "JiliEmarBundle:Product:suggestionHot.html.twig" %}
-  </div><!-- sidebar -->
+    {% include "JiliEmarBundle:Product:suggestionHot.html.twig" %}
+  </div><!-- eof sidebar -->
+
 {% endblock %}
 
 

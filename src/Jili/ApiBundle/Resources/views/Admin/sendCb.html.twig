@@ -13,9 +13,15 @@
 </script>
 </HEAD>
 <BODY>
+
 <form action="{{ path('_admin_sendCb') }}" method="post" id="form1" >
 <table align='center'>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td><td> {% if codeflag==1 %}
+        <font color='red'>都为必填项</font>
+        {% else %}
+        &nbsp;
+        {% endif %}</td></tr>
 
 <tr><td>公告标题:</td><td><input type="text" name="title" size='60' value="{{ title }}"/></td></tr>
 <tr><td>公告内容:</td><td><textarea id="content" cols="120" rows="10" name="content" style="width:700px;height:300px;">{{ content }}</textarea></td></tr>

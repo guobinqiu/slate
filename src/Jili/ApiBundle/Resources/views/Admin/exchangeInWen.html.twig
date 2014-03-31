@@ -3,14 +3,20 @@
 <HEAD>
 <META http-equiv=Content-Type content="text/html; charset=gb2312">
 <LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
-
+<SCRIPT LANGUAGE="JavaScript">
+function check() {
+	alert("确认提交吗？")
+	document.getElementById("submit").disabled='disabled';
+return false;
+}
+</SCRIPT>
 </HEAD>
 <BODY>
-<form action="{{ path('_admin_exchangeInWen') }}" method="post" id="form1" enctype="multipart/form-data" >
+<form action="{{ path('_admin_exchangeInWen') }}" method="post" id="form1" enctype="multipart/form-data"  name="myForm" onSubmit="check();">
 <table align='center'>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td>csv导入:
-<input type="file" name="csv" /></td><td><input type="submit" name="add" value="提 交"/></td></tr>
+<input type="file" name="csv" /></td><td><input id="submit" type="submit" name="add" value="提 交"/></td></tr>
 {% if code %}
     {% for item in code %}
         <center><font color='red'>{{ item }}</font></center>

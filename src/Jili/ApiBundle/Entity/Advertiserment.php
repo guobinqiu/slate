@@ -43,6 +43,13 @@ class Advertiserment
      * @ORM\Column(name="title", type="string", length=45)
      */
     private $title;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="action_id", type="integer", nullable=true)
+     */
+    private $actionId;
 
     /**
      * @var \DateTime
@@ -271,6 +278,29 @@ class Advertiserment
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set actionId
+     *
+     * @param integer $actionId
+     * @return Advertiserment
+     */
+    public function setActionId($actionId)
+    {
+        $this->actionId = $actionId;
+
+        return $this;
+    }
+
+    /**
+     * Get actionId
+     *
+     * @return integer 
+     */
+    public function getActionId()
+    {
+        return $this->actionId;
     }
 
     /**

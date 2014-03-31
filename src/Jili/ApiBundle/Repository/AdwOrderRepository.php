@@ -33,6 +33,9 @@ class AdwOrderRepository extends EntityRepository
 		
 	}
 	
+    /**
+     * TODO: just select count() is ok!
+     */
 	public function getOrderNum($aid){
 		$query = $this->createQueryBuilder('ao');
 		$query = $query->select('ao.id,ao.adid,ao.orderStatus,ao.confirmTime');
@@ -42,6 +45,25 @@ class AdwOrderRepository extends EntityRepository
 		return count($query->getResult());
 	}
 	
+    public function getCountOfJoinedByCat($ad_ids) {
+
+        $qb = $this->createQueryBuilder('ao');
+        $qb->select('count( ao.adid ) as cnt , ao.adid')
+            ->groupby('ao.adid')
+            ->where( $qb->expr()->in('ao.adid',  $ad_ids ) );
+
+        $query  = $qb->getQuery();
+        $results = $query->getResult();
+
+        $ret= array();
+        if( $results) {
+            foreach ($results as $r) {
+                $ret [ $r['adid'] ] = $r['cnt'] ;
+            }
+        }
+        return $ret;
+    }
+
 	public function getOrderStatus($uid,$aid,$ocd=''){
 		$parameters = array();
 		$query = $this->createQueryBuilder('ao');
@@ -82,6 +104,27 @@ class AdwOrderRepository extends EntityRepository
 		return $query->getResult();
 		
 	}
+    /**
+     * 找出某用户click过的advertiserment，但没有加入过的.
+     */
+	public function findOneCpsOrderInit($params){
+        $parameters = array('user_id'=>$params['user_id'],
+            'ad_id'=>$params['ad_id'],
+            'delete_flag'=> $params['delete_flag'],
+            'status'=> $params['status']);
+
+        $query = $this->createQueryBuilder('ao')
+            ->select('ao')
+            ->where('ao.adid = :ad_id')
+            ->andWhere('ao.ocd IS NULL')
+            ->andWhere('ao.deleteFlag = :delete_flag')
+            ->andWhere('ao.orderStatus= :status')
+            ->andWhere('ao.userid = :user_id')
+            ->setParameters($parameters)
+            ->getQuery();
+
+		return $query->getOneOrNullResult();
+    }
 	
 	/*
 	public function getUseradtaste($id,$option=array())

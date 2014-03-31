@@ -15,33 +15,24 @@ class HotactivityController extends Controller
 {
 
     /**
-     * @Route("/partial-on-cps/{catids}")
+     * @Route("/partial-on-cps/{catids}", defaults={"catids"= "01"} )
      * @Template();
      */
     public function partialOnCpsAction($catids) {
         $request = $this->get('request');
         $logger= $this->get('logger');
-
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export($catids, true)  );
+        if( empty($catids)) {
+            $catids = '01';
+        }
         //todo: added to cache file.
         $categoryRequest =  $this->get('hotactivity.category_get');
         $categories_raw  = $categoryRequest->fetch();
         $cats = HotCatRepository::parse( $categories_raw);
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export($categories_raw, true)  );
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export($cats, true)  );
-
         $listRequest =  $this->get('hotactivity.list_get');
 
         $params =array( 'catid'=> $catids);
-
         $list = $listRequest->fetch( $params );
-
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export($params, true)  );
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export($list, true)  );
-
-         
         return array('router_'=> 'jili_emar_top_cps', 'catids_request'=>explode(',',$catids), 'cats'=> $cats , 'hotactivity'=> $list );
-
     }
   /**
    * @Route("/index")

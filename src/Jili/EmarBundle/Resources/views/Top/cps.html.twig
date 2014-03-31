@@ -24,7 +24,7 @@
   <div class="w204 h340 fl">
     <div class="module categorys">
       <h3>所有商品分类</h3>
-      {% include('JiliEmarBundle:Product:category.html.twig') %}
+      {{ include('JiliEmarBundle:Product:category.html.twig') }}
      </div>
   </div><!-- eof w204 -->
 
@@ -41,14 +41,14 @@
   </div><!-- eof w615  -->
 
   <div class="w300 h340 fr">
-  {% render(controller('JiliEmarBundle:Websites:hotOnCps') ) %}
+  {{ render(controller('JiliEmarBundle:Websites:hotOnCps') ) }}
   </div><!-- eof w300 -->
 
   <div class="main w834 fl">
-      {{ render(controller('JiliEmarBundle:Hotactivity:partialOnCps', {'catids':app.request.query.get('c_h')} ))  }}
+      {{ render(controller('JiliEmarBundle:Ghs:partialOnCps', {'catids': app.request.query.get('c_h') } ))  }}
   </div><!-- main w834 -->
 
   <div class="sidebar w300 fr">
-  {% include "JiliEmarBundle:Product:suggestionHot.html.twig" %}
+  {{ include("JiliEmarBundle:Product:suggestionHot.html.twig") }}
   </div><!-- sidebar -->
 {% endblock %}
