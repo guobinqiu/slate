@@ -14,8 +14,12 @@
 {% endblock %}
 
 
-{% block search_box %}
-    {{ render( controller('JiliEmarBundle:Search:form', { 'qs': app.request.query.all } )) }}
+{% block header %}
+  {% embed "::header.html.twig" %}
+    {% block search_box %}
+        {{ render( controller('JiliEmarBundle:Search:form', { 'qs': app.request.query.all } )) }}
+    {% endblock %}
+  {% endembed %}
 {% endblock %}
 
 {% block page_main %}

@@ -10,10 +10,14 @@
 {{  parent() }}
 {% endblock %}
 
-{% block search_box %}
-     {# include 'JiliEmarBundle:Websites:searchForm.html.twig' with {'form': search_form, 'router': 'jili_emar_websites_shopsearch' } #}
-{% endblock %}
 
+{% block header %}
+  {% embed "::header.html.twig" %}
+    {% block search_box %}
+        {{ render( controller('JiliEmarBundle:Search:form', {  'rt' : 1 } )) }}
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
 
 {% block page_main %}
 

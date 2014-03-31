@@ -10,8 +10,12 @@
 <script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
 {% endblock %}
 
-{% block search_box %}
-    {{ render( controller('JiliEmarBundle:Search:form', { 'rt': 1 })) }}
+{% block header %}
+  {% embed "::header.html.twig" %}
+    {% block search_box %}
+      {{ render( controller('JiliEmarBundle:Search:form', { 'rt': 1 })) }}
+    {% endblock %}
+  {% endembed %}
 {% endblock %}
 
 {% block page_main %}

@@ -22,8 +22,13 @@ class SearchController extends Controller
      * @Template()
      */
     public function formAction( $qs = array(), $rt = 0 ) {
+
         $request = $this->get('request');
         $logger= $this->get('logger');
+
+            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $qs, true));
+            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $rt, true));
+
         if( $request->isMethod('POST')) {
             $form = $this->createForm(new SearchGeneralType());
             $form->bind($request);
@@ -47,11 +52,11 @@ class SearchController extends Controller
             $keyword = $request->query->get('q', '');
             if(empty($keyword)){
                 extract($qs);
-                $keyword = $q;
+                if( isset($q) ) {
+                    $keyword = $q;
+                }
             }
 
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $qs, true));
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $rt, true));
             $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $keyword, true));
             $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $request->query->all()  , true));
 

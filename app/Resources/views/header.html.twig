@@ -20,12 +20,9 @@
     <div class="page clearfix">
       <div id="logo"><a href="{{ path('_default_index') }}"><img src="{{ asset('images140307/logo.png') }}" width="160" height="46" alt="积粒网" /></a></div>
       <div id="search">
-          {% block search_box %}
-
-          {% render(controller('JiliEmarBundle:Product:searchForm',  { 'all' :  app.request.query.all  })) %}
-
-          {% endblock%}
-
+      {% block search_box %}
+          {{ render(controller('JiliEmarBundle:Search:form')) }}
+      {% endblock %}
       </div>
       <div class="otherInlet"><a class="help" href="{{ path('_default_support') }}">帮助中心</a></div>
     </div>
@@ -49,3 +46,4 @@
       </ul>
     </div>
   </div>
+
