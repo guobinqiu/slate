@@ -1,6 +1,6 @@
 {# todo: duplicated to the form JiliEmarBundle:Products:searchForm #}
 
-        <div class="seacherMenu"> <span>商城</span>
+        <div class="seacherMenu"> <span>{% if rt == 1  %}商城{% else %}商品{% endif %}</span>
           <ul style="display: none;">
             <li lang="commodity">商品</li>
             <li lang="shop">商城</li>
@@ -8,18 +8,16 @@
         </div>
         <div class="form">
 
-{% if all is defined %}
-    <form action="{{ path('jili_emar_product_searchform' , all   ) }}" method="POST" >
-{%  else %}
-    {% if router is defined %}
-        <form action="{{ path( router , app.request.query.all   ) }}" method="POST" >
-    {% else %}
-        <form action="{{ path('jili_emar_product_searchform' , app.request.query.all   ) }}" method="POST" >
-    {% endif %}
+{% if qs is defined %}
+    <form action="{{ path('jili_emar_search_form' , qs   ) }}" method="POST" >
+{% else %}
+    <form action="{{ path('jili_emar_search_form' , app.request.query.all ) }}" method="POST" >
 {% endif %}
 
+
           {{ form_widget( form.q , {'attr': { 'type': 'text', 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
-          {{ form_widget( form.rt , {'attr' : { 'value' :  1 }  } ) }}
+
+          {{ form_widget( form.rt ) }}
           <input type="submit" clstag="homepage|keycount|home2013|03a" onclick="search('key');return false;" class="button" value="搜索">
           {{ form_rest(form)  }}
 </form>

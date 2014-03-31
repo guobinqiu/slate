@@ -31,6 +31,10 @@ emar-top:
     resource: "@JiliEmarBundle/Controller/TopController.php"
     type:     annotation
 
+emar-search:
+    resource: "@JiliEmarBundle/Controller/SearchController.php"
+    type:     annotation
+
 emar-admin-websites:
     resource: "@JiliEmarBundle/Controller/AdminWebsitesController.php"
     type:     annotation

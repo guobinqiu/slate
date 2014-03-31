@@ -15,7 +15,7 @@
 
 
 {% block search_box %}
-     {% include 'JiliEmarBundle:Product:searchForm.html.twig' with {'form': search_form, 'router': app.request.attributes.get('_route') } %}
+    {{ render( controller('JiliEmarBundle:Search:form', { 'qs': app.request.query.all } )) }}
 {% endblock %}
 
 {% block page_main %}

@@ -20,13 +20,11 @@
      </div>
   </div>
 
-
   <div class="main w930 fr">
-
       {% render(controller('JiliEmarBundle:Product:recommend')) %}
+  </div>
 
-    </div>
-    <div class="commodityList">
+  <div class="commodityList">
         <h1>
             {{ crumbs_local }}{{  crumbs_local|length > 0 ? '-' : '' }} 宝贝列表{% if total is defined %}<span>共{{ total }}件宝贝</span>{% endif %}</h1>
       <div class="screen clearfix">

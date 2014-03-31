@@ -36,14 +36,14 @@ class GhsController extends Controller
 
         $params =( $catids_request === '000000' ) ? array('category'=> '') : array('category'=> implode(',', $catids_));
 
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $this->container->getParameter('emar_com.page_size_of_topcps'), true )  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $this->container->getParameter('emar_com.page_size_of_topcps'), true )  );
         $listRequest = $this->get('ghs.list_get');
 
         $listRequest->setPageSize( $this->container->getParameter('emar_com.page_size_of_topcps') );
 
         $list = $listRequest->setApp('cron')->fetch( $params );
 
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( count($list) , true )  );
+        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( count($list) , true )  );
         return array('router_'=> 'jili_emar_top_cps', 'catids_request'=> $catids_request, 'cats'=> $cats, 'ghs_pdts'=> $list );
     }
 }

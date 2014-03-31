@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Filesystem\Filesystem;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Jili\EmarBundle\Form\Type\SearchProductType;
@@ -24,7 +25,6 @@ use Jili\EmarBundle\Api2\Repository\ItemCat as ItemCatRepository,
  */
 class ProductController extends Controller
 {
-
     /**
      * @Route("/retrieve")
      * @Template();
@@ -89,7 +89,6 @@ class ProductController extends Controller
     public function recommendByWebAction($wid) {
         $request = $this->get('request');
         $logger= $this->get('logger');
-
         $params = array( 'webid'=> $wid,'page_no'=>1);
         $productRequest = $this->get('product.list_get');
         $productRequest->setPageSize(12); 
@@ -97,59 +96,19 @@ class ProductController extends Controller
         return compact(/*'total',*/'products');
     }
 
-    /**
-     * @Route("/search/form")
-     * @Template();
-     */
-    public function searchFormAction( $all = array()  ) {
-        $request = $this->get('request');
-        $logger= $this->get('logger');
-        $form = $this->createForm(new SearchGeneralType());
-        if( $request->isMethod('POST')) {
-            $form->bind($request);
-            if  ( $form->isValid()) {
-                $query_params = $form->getData();
-                $keyword = ( isset( $query_params['q']) ) ?  $query_params['q'] : null ;
-                $query = array_merge( $request->query->all(), $query_params );
-                $url = $this->generateUrl('jili_emar_product_search') . '?' .http_build_query($query ) ;
-                return $this->redirect($url );
-            }
-        }
-        return   array('form'=> $form->createView() ,'all'=>$all) ;
-    }
 
     /**
      * @Route("/search")
-     * @Template();
+     * @Method("GET")
+     * @Template()
      */
     public function searchAction() {
-        if(!  $this->get('request')->getSession()->get('uid') ) {
+        $request = $this->get('request');
+        if(!  $request->getSession()->get('uid') ) {
             return  $this->redirect($this->generateUrl('_user_login'));
         }
-
-        $request = $this->get('request');
         $logger= $this->get('logger');
-
-
-        if( $request->isMethod('POST')) {
-            $form = $this->createForm(new SearchGeneralType() );
-            $form->bind($request);
-            if  ( $form->isValid()) {
-                $query_params = $form->getData();
-                $keyword = ( isset( $query_params['q']) ) ?  $query_params['q'] : null ;
-            } else {
-                $logger->error('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( 'form invalid', true) );
-            }
-            // try to update the request url query string 
-            $query = array_merge( $request->query->all(), $query_params );
-            //todo:redirect accroding to the rt param. 
-            $url = $this->generateUrl('jili_emar_product_search') . '?' .http_build_query($query ) ;
-            return $this->redirect( $url );
-        } else {
-            $keyword = $request->query->get('q');
-            $form = $this->createForm(new SearchGeneralType(), array('q'=> $keyword, 'rt'=> 0 ) ); 
-        }
-
+        $keyword = $request->query->get('q');
         if( !isset($keyword ) || 0 >= strlen(trim($keyword))) {
             $url = $this->generateUrl('jili_emar_product_retrieve') ;
             if(  $request->query->count() > 0 ) {
@@ -157,7 +116,6 @@ class ProductController extends Controller
             }
             return $this->redirect( $url );
         } 
-        $form = $this->createForm(new SearchGeneralType() , array('q'=> $keyword) );
 
         $cat_id = $request->query->getInt('cat');
         $web_id = $request->query->getInt('w');
@@ -180,13 +138,11 @@ class ProductController extends Controller
         $products = $productSearch->fetch($params );
 
         //分页时，只取有限数量。 
-
         $total = $productSearch->getTotal();
         
         // todo: cache stuff.
         $cache_id = md5(serialize($params));
         $cache_ts = time();
-
 
 // fetch web_ids from products.
         
@@ -203,10 +159,9 @@ class ProductController extends Controller
         $filters_of_webs = $this->get('product.filters')->fetchWebs(  );
 
         $filters_of_webs_d = $this->getDoctrine()->getManager()->getRepository('JiliEmarBundle:EmarWebsites')->getFilterWebs(  );
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs_d, true));
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs_d, true));
 
-
-        return   array_merge( $prod_categories,$filters_of_webs, array('search_form'=> $form->createView(),'products' => $products,'total'=> $total, 'crumbs_local'=> $crumbs_local/* , 'webs' => */));
+        return   array_merge( $prod_categories,$filters_of_webs, array('products' => $products,'total'=> $total, 'crumbs_local'=> $crumbs_local/* , 'webs' => */));
 
     }
 

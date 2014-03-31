@@ -1,4 +1,3 @@
-
 {% extends 'JiliEmarBundle::base140307.html.twig' %}
 
 {% block stylesheet %}
@@ -8,19 +7,13 @@
 <link href="{{ asset('css140307/commodity834.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
-
 {% block javascript %}
 <script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/cps.js') }}" language="javascript"></script>
 {% endblock %}
 
-{% block search_box %}
-    {{ parent() }}
-{% endblock %}
-
 {% block page_main %}
-
   <div class="w204 h340 fl">
     <div class="module categorys">
       <h3>所有商品分类</h3>
