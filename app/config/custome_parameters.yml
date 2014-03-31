@@ -51,6 +51,7 @@ parameters:
     emar_com.page_size: 20 
     emar_com.page_size_of_shoplist: 30 
     emar_com.page_size_of_search: 24 
+    emar_com.page_size_of_topcps:  16 
 
     emar_com.max_of_total: 1800 
 
