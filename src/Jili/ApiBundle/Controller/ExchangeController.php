@@ -83,20 +83,20 @@ class  ExchangeController extends Controller
                  $arr['existAlipay'] = $targetAcc[0]['targetAccount'];
                  $arr['existRealName'] = $targetAcc[0]['realName'];
             }
-            if ($request->getMethod() == 'POST' && $change_point) {
+            if ($request->getMethod() == 'POST') {
                     $arr['alipay'] = $alipay;
-                    if($change_point-$points>0){
+                    if($rechange-$points>0){
                         $code = $this->container->getParameter('exchange_wr_point');
                         $arr['code'] = $code;
                     }else{
-                        if($change_point == 3030 || $change_point == 5000){
+                        if($rechange == 3000 || $rechange == 5000){
                             if($existAlipay || $arr['existAlipay']==''){
                                 if($alipay){
-                                    if (preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){
+                                    if (preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){          
                                         if($alipay == $re_alipay){
                                             if($real_name){
                                                 // if(!eregi("[^\x80-\xff]",$real_name)){
-                                                    $user->setPoints($points - intval($change_point));
+                                                    $user->setPoints($points-intval($change_point));
                                                     $em->persist($user);
                                                     $em->flush();
                                                     $pointschange->setUserId($id);
@@ -141,7 +141,7 @@ class  ExchangeController extends Controller
 
                                 }
                             }else{
-                                $user->setPoints($points - intval($change_point));
+                                $user->setPoints($points-intval($change_point));
                                 $em->persist($user);
                                 $em->flush();
                                 $pointschange->setUserId($id);
@@ -204,7 +204,6 @@ class  ExchangeController extends Controller
             $existMobile = $request->request->get('existMobile');
 
             $tokenKey = $request->request->get('tokenKey');
-            $arr['tokenKey'] = $tokenKey;
             $session = $this->getRequest()->getSession();
             $session->set('mobileToken', $tokenKey);
             if(!$this->get('request')->getSession()->get('mobileToken')){
@@ -217,21 +216,22 @@ class  ExchangeController extends Controller
             if(!empty($targetAcc)){
                  $arr['existMobile'] = $targetAcc[0]['targetAccount'];
             }
-            if($request->getMethod() == 'POST' && $change_point) {
+            if($request->getMethod() == 'POST') {
                 $arr['mobile'] = $mobile;
-                if($change_point-$points>0){
+                $arr['tokenKey'] = $tokenKey;
+                if($rechange-$points>0){
                     $code = $this->container->getParameter('exchange_wr_point');
                     $arr['code'] = $code;
                 }else{
-                    if($change_point == 1015 || $change_point == 2010 || $change_point == 2995 || $change_point == 4960){
+                    if($rechange == 1015 || $rechange == 2010 || $rechange == 2995 || $rechange == 4960){
                         if($existMobile || $arr['existMobile']==''){
                             if($mobile){
-                                    if (!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$mobile)){
+                                    if (!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$mobile)){
                                         $code = $this->container->getParameter('update_wr_mobile');
                                         $arr['code'] = $code;
                                     }else{
                                         if($mobile == $re_mobile){
-                                            switch ($change_point) {
+                                            switch ($rechange) {
                                                  case '1015':
                                                     $itemNumber = 10;
                                                     break;
@@ -248,7 +248,7 @@ class  ExchangeController extends Controller
                                                     $itemNumber = 10;
                                                     break;
                                             }
-                                            $user->setPoints($points - intval($change_point));
+                                            $user->setPoints($points-intval($change_point));
                                             $em->persist($user);
                                             $em->flush();
                                             $pointschange->setUserId($id);
@@ -262,12 +262,10 @@ class  ExchangeController extends Controller
                                             $em->flush();               
                                             $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
                                             $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
-
                                             $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
                                             $token_key = $this->getTokenKey();
                                             $session = $this->getRequest()->getSession();
                                             $session->set('mobile', $token_key);
-
                                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'mobile')));
                                         }else{
                                             $code = $this->container->getParameter('exchange_unsame_mobile');
@@ -281,7 +279,7 @@ class  ExchangeController extends Controller
                                 }
 
                         }else{
-                            switch ($change_point) {
+                            switch ($rechange) {
                                  case '1015':
                                     $itemNumber = 10;
                                     break;
@@ -298,7 +296,7 @@ class  ExchangeController extends Controller
                                     $itemNumber = 10;
                                     break;
                             }
-                            $user->setPoints($points - intval($change_point));
+                            $user->setPoints($points-intval($change_point));
                             $em->persist($user);
                             $em->flush();
                             $pointschange->setUserId($id);
@@ -403,7 +401,6 @@ class  ExchangeController extends Controller
             $change_point =  $request->request->get('point');
 
             $tokenKey = $request->request->get('tokenKey');
-            $arr['tokenKey'] = $tokenKey;
             $session = $this->getRequest()->getSession();
             $session->set('amazonToken', $tokenKey);
             if(!$this->get('request')->getSession()->get('amazonToken')){
@@ -412,30 +409,36 @@ class  ExchangeController extends Controller
             if($tokenKey != $this->get('request')->getSession()->get('amazonToken')){
                 return $this->redirect($this->generateUrl('_default_error'));
             }
-            if ($request->getMethod() == 'POST' && $change_point) {
-                if($change_point){
-                    if($change_point > 0 && $change_point*1000 <= 5000){
-                        if($change_point*1000-$points>0){
+            if ($request->getMethod() == 'POST') {
+                $arr['tokenKey'] = $tokenKey;
+                if($rechange){
+                    if($rechange > 0 && $rechange <= 5000){
+                        if($rechange-$points>0){
                             $code = $this->container->getParameter('exchange_wr_point');
                             $arr['code'] = $code;
                         }else{
-                            $user->setPoints($points-intval($change_point*1000));
-                            $em->persist($user);
-                            $em->flush();
-                            $pointschange->setUserId($id);
-                            $pointschange->setType($this->container->getParameter('init_two'));
-                            $pointschange->setSourcePoint($points-intval($change_point*1000));
-                            $pointschange->setTargetPoint(intval($change_point*1000));
-                            $pointschange->setExchangeItemNumber($change_point);
-                            $pointschange->setIp($this->get('request')->getClientIp());
-                            $em->persist($pointschange);
-                            $em->flush();
-                            $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
-                            $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
-                            $token_key = $this->getTokenKey();
-                            $session = $this->getRequest()->getSession();
-                            $session->set('amazon', $token_key);
-                            return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'amazon')));
+                            if($rechange%1000 != 0){
+                                $code = $this->container->getParameter('exchange_wr_point');
+                                $arr['code'] = $code;
+                            }else{
+                                $user->setPoints($points-intval($change_point*1000));
+                                $em->persist($user);
+                                $em->flush();
+                                $pointschange->setUserId($id);
+                                $pointschange->setType($this->container->getParameter('init_two'));
+                                $pointschange->setSourcePoint($points-intval($change_point*1000));
+                                $pointschange->setTargetPoint(intval($change_point*1000));
+                                $pointschange->setExchangeItemNumber($change_point);
+                                $pointschange->setIp($this->get('request')->getClientIp());
+                                $em->persist($pointschange);
+                                $em->flush();
+                                $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
+                                $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
+                                $token_key = $this->getTokenKey();
+                                $session = $this->getRequest()->getSession();
+                                $session->set('amazon', $token_key);
+                                return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'amazon')));
+                            }
                         }
                     }else{
                         $code = $this->container->getParameter('exchange_wr_point');
@@ -594,18 +597,12 @@ class  ExchangeController extends Controller
                         if(!$this->isValid($identityCard)){
                             $arr['code'] =  $this->container->getParameter('card_number_is_error');
                         }else{
-                            //判断是否已经存在
-                            $identityConfirm = $em->getRepository('JiliApiBundle:IdentityConfirm')->findByUserId($id);
-                            if(!empty($identityConfirm)){
-                                $arr['code'] = $this->container->getParameter('card_number_is_exist');
-                            }else{
-                                $identC = new IdentityConfirm();
-                                $identC->setUserId($id);
-                                $identC->setIdentityCard($identityCard);
-                                $em->persist($identC);
-                                $em->flush();
-                                return $this->gotoComfirmUrl($type,$tokenKey);
-                            }
+                            $identC = new IdentityConfirm();
+                            $identC->setUserId($id);
+                            $identC->setIdentityCard($identityCard);
+                            $em->persist($identC);
+                            $em->flush(); 
+                            return $this->gotoComfirmUrl($type,$tokenKey);
                         }
                     }else{
                         $arr['code'] =  $this->container->getParameter('card_number_is_null');
@@ -641,18 +638,18 @@ class  ExchangeController extends Controller
             $ck =  $request->request->get('ck');
             $arr['ck'] = $ck;
             $change_point =  $request->request->get('point');
-            if ($request->getMethod() == 'POST' && $change_point) {
-                if($change_point > 0 && $change_point <= 5000){
-                    if($change_point-$points>0){
+            if ($request->getMethod() == 'POST') {
+                if($rechange > 0 && $rechange <= 5000){
+                    if($rechange-$points>0){
                         $code = $this->container->getParameter('exchange_wr_point');
                         $arr['code'] = $code;
                     }else{
-                        if($change_point%500 != 0){
+                        if($rechange%500 != 0){
                             $code = $this->container->getParameter('exchange_wr_point');
                             $arr['code'] = $code;
                         }else{
                             if($user->getWenwenUser()){
-                                $user->setPoints($points - intval($change_point * 500));
+                                $user->setPoints($points-intval($change_point*500));
                                 $em->persist($user);
                                 $em->flush();
                                 $pointschange->setUserId($id);
@@ -670,12 +667,12 @@ class  ExchangeController extends Controller
                                 $userExchange = $em->getRepository('JiliApiBundle:PointsExchange')->existUserExchange($id);
                                 if(empty($userExchange)){
                                     if($wenwen){
-                                        if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$wenwen)){
+                                        if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$wenwen)){
                                             $code = $this->container->getParameter('exchange_wr_mail');
                                             $arr['code'] = $code;
                                         }else{
                                             $user->setWenwenUser($wenwen);
-                                            $user->setPoints($points - intval($change_point * 500));
+                                            $user->setPoints($points-intval($change_point*500));
                                             $em->persist($user);
                                             $em->flush();
                                             $pointschange->setUserId($id);
@@ -752,15 +749,15 @@ class  ExchangeController extends Controller
             }
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
             $this->exchange_send_message($type,$id);
-            if($type =='amazon'){
+            if($type='amazon'){
                 $this->get('request')->getSession()->remove('amazonToken');
                 $this->get('request')->getSession()->remove('amazon');
             }
-            if($type =='alipay'){
+            if($type='alipay'){
                 $this->get('request')->getSession()->remove('alipayToken');
                 $this->get('request')->getSession()->remove('alipay');
             }
-            if($type =='mobile'){
+            if($type='mobile'){
                 $this->get('request')->getSession()->remove('mobileToken');
                 $this->get('request')->getSession()->remove('mobile');
             }

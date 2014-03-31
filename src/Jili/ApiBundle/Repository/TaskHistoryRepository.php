@@ -21,7 +21,7 @@ class TaskHistoryRepository extends EntityRepository
 		$query = $query->select('to.userId,to.orderId,to.date as createTime,to.taskType as type,to.status as orderStatus,to.categoryType as incentiveType,to.point as incentive,to.taskName as title,adc.displayName');
 		$query = $query->innerJoin('JiliApiBundle:AdCategory', 'adc', 'WITH', 'to.categoryType = adc.id');
 		$query = $query->Where('to.userId = :id');
-		if(isset($option['status']) && $option['status']){
+		if($option['status']){
 			switch($option['status']){
 			    case 0:
 			    	break;	
@@ -38,7 +38,7 @@ class TaskHistoryRepository extends EntityRepository
 		}
 	 	$query = $query->setParameter('id',$id);
 		$query = $query->orderBy('to.date', 'DESC');
-		if(isset($option['offset']) && $option['offset'] && isset($option['limit']) && $option['limit']){
+		if($option['offset'] && $option['limit']){
 			$query = $query->setFirstResult(0);
 			$query = $query->setMaxResults(10);
 		}
@@ -70,18 +70,8 @@ class TaskHistoryRepository extends EntityRepository
 		$query = $query->setParameters(array('orderId'=>$orderId,'taskType'=>$taskType));
 		$query = $query->getQuery();
 		return $query->getResult();
+
 	}
 
-	public function getConfirmPoints($userid)
-	{
-		$query = $this->createQueryBuilder('to');
-		$query = $query->select('sum(to.point)');
-		$query = $query->Where('to.userId = :userId');
-		$query = $query->andWhere('to.categoryType in (1,2,17)');
-		$query = $query->andWhere('to.status = 2');
-		$query = $query->setParameter('userId',$userid);
-		$query = $query->getQuery();
-		return $query->getSingleScalarResult();
-	}
 
 }

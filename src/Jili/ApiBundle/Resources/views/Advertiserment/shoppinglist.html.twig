@@ -60,7 +60,7 @@ function goto(aid){
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle shopList">
   <article>
-<h2><img src="{{ asset('images/shopTitle.jpg')}}" width="150" height="19" alt="购物返利"></h2>
+<h2><img src="{{ asset('images/shopTitle.jpg')}}" width="150" height="19"></h2>
     <div class="classify-nav">
             <a id="cate" class="hover" href="{{ path('_shopping_list') }}">全部</a>
             {% for item in cate %}
@@ -70,7 +70,7 @@ function goto(aid){
 
     <div class="shopRebate">
      {% for item in pagination %}
-      <div class="s_box"><img src="{{ asset(item.listImage) }}" width="100" height="65" alt="{{item.title}}">
+      <div class="s_box"><img src="{{ asset(item.listImage) }}" width="100" height="65">
         <p class="store">{{ item.title  }}</p>
          {% if item.incentiveType==1 %}
                 <p class="rebate"><em>{{ item.incentive }}米粒</em></p>
@@ -79,7 +79,7 @@ function goto(aid){
           {% else %}
          {% endif %}
         <div class="hover">
-         	<div class="tr"><div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="60" height="39" alt="{{item.title}}"></a></div>
+         	<div class="tr"><div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="60" height="39"></a></div>
          	         {% if item.incentiveType==1 %}
                              <div class="text">{{ item.incentive }}米粒</div>
                         {% elseif item.incentiveType==2 %}
@@ -90,7 +90,7 @@ function goto(aid){
              </div>
           <p><a class="btnDetail" href="{{ path('_advertiserment_index',{'id':item.id}) }}">返现详情</a>
               <a class="btnShopping" onclick="goto({{ item.id }});" href="javascript:void(0);">直接购物</a></p>
-              <p><em>{{ count_of_ad_joined[item.id ] is defined ? count_of_ad_joined[item.id ] : 0 }}</em>人已参加</p>
+          <p><em>{{ item.num }}</em>人已参加</p>
         </div>
       </div>
      
@@ -102,9 +102,24 @@ function goto(aid){
    {{ knp_pagination_render(pagination) }}
    </div>
   </article>
-
   <aside style="margin-top:0;">
-  {{  render(controller("JiliApiBundle:Shopping:recommend" ) ) }}
+    <h2><img src="{{ asset('images/recommedBusiness.jpg')}}"></h2>
+      <section>
+            <ul class="shopRecommend">
+             {% for item in adverRecommand %}
+              <li><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="200" height="130"></a>
+                <p class="about">
+                 {% if item.incentiveType==1 %}
+                             <span class="rebate">{{ item.incentive }}米粒</span>
+                     {% elseif item.incentiveType==2 %}
+                             <span class="rebate">最高返{{ item.reward_rate }}%</span>
+                     {% else %}
+                 {% endif %}
+                </p>    
+              </li>
+            {% endfor %}
+            </ul>
+      </section>
   </aside>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}

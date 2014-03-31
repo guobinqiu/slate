@@ -132,12 +132,11 @@ function addClass(type){
           {% endif %}
             <span class="title"><a onclick="showMs({{ item.id }})">{{ item.title }}</a></span>
             <span class="time">{{ item.createtime.date | date("Y-m-d H:i")}}</span>
-            <span class="from">系统</span>
+            <span class="from">系统</span></li>
             <div class="showContent" id="showContent{{ item.id }}">
               <img src="{{ asset('images/messageMoreCorner.jpg')}}" class="corner">
               <div class="text"></div>
             </div>
-            </li>
         {% endfor %}
         {% else %}
           暂无消息
@@ -158,12 +157,11 @@ function addClass(type){
           {% endif %}
             <span class="title"><a onclick="showCb({{ item.id }})">{{ item.title }}</a></span>
             <span class="time">{{ item.createtime.date | date("Y-m-d H:i")}}</span>
-            <span class="from">系统</span>
+            <span class="from">系统</span></li>
             <div class="showContent" id="showContent{{ item.id }}">
               <img src="{{ asset('images/messageMoreCorner.jpg')}}" class="corner">
               <div class="text"></div>
             </div>
-            </li>
         {% endfor %}
         {% else %}
           暂无公告

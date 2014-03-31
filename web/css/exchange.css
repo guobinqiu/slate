@@ -36,7 +36,7 @@
 	position:absolute;
 }
 .exchange .about a.mobileBtn{
-    left: 186px;
+    left: 281px;
     top: 366px;
 }
 .exchange .about a.close{
@@ -54,11 +54,11 @@
 }
 
 .exchange .about a.alipayBtn{
-    right: 642px;
+    right: 735px;
     top: 618px;
 }
 .exchange .about .amazonBtn{
-	right: 142px;
+	right: 236px;
     top: 484px;
 }
 .exchange .about a.wenwen{

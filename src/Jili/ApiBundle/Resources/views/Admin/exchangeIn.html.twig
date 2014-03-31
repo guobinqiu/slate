@@ -3,17 +3,10 @@
 <HEAD>
 <META http-equiv=Content-Type content="text/html; charset=gb2312">
 <LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
-<SCRIPT LANGUAGE="JavaScript">
-function check() {
-	alert("确认提交吗？")
-	document.getElementById("submit").disabled='disabled';
-return false;
-}
-</SCRIPT>
 
 </HEAD>
 <BODY>
-<form action="{{ path('_admin_exchangeIn') }}" method="post" id="form1" enctype="multipart/form-data" onSubmit="check();">
+<form action="{{ path('_admin_exchangeIn') }}" method="post" id="form1" enctype="multipart/form-data" >
 <table align='center'>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td>csv导入:
@@ -22,11 +15,11 @@ return false;
    <option value="{{ item.id }}" {% if item.id == exType %} selected = "selected" {% endif %}>{{ item.type }}</option>
   {% endfor %}
 </select>
-<input type="file" name="csv" /></td><td><input id="submit" type="submit" name="add" value="提 交"/></td></tr>
+<input type="file" name="csv" /></td><td><input type="submit" name="add" value="提 交"/></td></tr>
 
 {% if success %}
 {% if success == 1 %}
- <center><font color='red'>数据插入成功</font></center>
+ <center><font color='red'>数据插入成功 </font></center>
  {% elseif success == 2 %}
   <center><font color='red'>请上传csv文件</font></center>
   {% elseif success == 3 %}

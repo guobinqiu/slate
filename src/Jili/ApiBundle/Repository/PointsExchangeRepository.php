@@ -90,7 +90,6 @@ class PointsExchangeRepository extends EntityRepository
 		return $query->getResult();
 	}
 
-
 	public function getExDateInfo($start,$end,$type){
 		if($start)
 			$start_time = $start.' 00:00:00';
@@ -172,77 +171,4 @@ class PointsExchangeRepository extends EntityRepository
 		return $query->getResult();
 		
 	}
-    /**
-     *
-     * @return count of rows in JiliApiBundle:PointsExchange
-     */
-    public function getCount(array $wheres )
-    {
-
-        $qb = $this->createQueryBuilder('p');
-        $qb->select( $qb->expr()->count('p.id'));
-
-        $qb->where( '1=1');
-        if(isset($wheres['start_date']) && strlen($wheres['start_date']) > 0) {
-            $qb = $qb->andWhere('p.exchangeDate>=:start_at');
-            $qb = $qb->setParameter('start_at',$wheres['start_date'] .' 00:00:00');
-        }
-
-        if(isset($wheres['end_date']) && strlen($wheres['end_date']) > 0 ) {
-            $qb = $qb->andWhere('p.exchangeDate<=:end_at');
-            $qb = $qb->setParameter('end_at',$wheres['end_date'] .' 23:59:59');
-        }
-
-
-		if(isset($wheres['type']) && $wheres['type'] > 0 ){
-			$qb = $qb->andWhere('p.type = :type');
-			$qb = $qb->setParameter('type', $wheres['type']);
-		}
-
-        $query = $qb->getQuery() ;
-        $count = $query->getSingleScalarResult();
-        return (int) $count; 
-    }
-
-    /**
-     *
-     * @param array $params = array ( 'page' , 'count' )
-     * @param array $wheres = array ( 'page' , 'count' )
-     * @return current page
-     *
-     */
-    public function getCurrent( array $params, $wheres = array() )
-    {
-        extract($params);
-
-        $offset =  ($page -1)* $count ;
-        $limit = $count;
-// u.email,,pt.type
-        $qb = $this->createQueryBuilder('p')
-            ->select('p.id,p.userId,p.targetAccount,p.targetPoint,p.realName,p.type as exType,p.exchangeItemNumber,p.exchangeDate,p.finishDate,p.status')
-            ->setFirstResult( $offset )
-            ->setMaxResults( $limit );
-
-        $qb->where( '1=1');
-        if(isset($wheres['start_date']) && strlen($wheres['start_date']) > 0) {
-            $qb = $qb->andWhere('p.exchangeDate>=:start_at');
-            $qb = $qb->setParameter('start_at',$wheres['start_date'] .' 00:00:00');
-        }
-
-        if(isset($wheres['end_date']) && strlen($wheres['end_date']) > 0 ) {
-            $qb = $qb->andWhere('p.exchangeDate<=:end_at');
-            $qb = $qb->setParameter('end_at',$wheres['end_date'] .' 23:59:59');
-        }
-
-		if(isset($wheres['type']) && $wheres['type'] > 0 ){
-			$qb = $qb->andWhere('p.type = :type');
-			$qb = $qb->setParameter('type',$wheres['type']);
-		}
-
-		$qb = $qb->orderBy('p.exchangeDate', 'DESC');
-
-		$q = $qb->getQuery();
-
-		return $q->getResult();
-    }
 }

@@ -1,0 +1,53 @@
+<div id="header">
+  <div id="topbar">
+    <div class="page clearfix">
+      <ul id="userbar">
+        <li><a class="message">新消息(+2)</a></li>
+        <li class="split">|</li>
+        <li><a class="personal">个人中心</a></li>
+        <div id="userFrame">
+            <div class="userInfo"><p>Uplee</p></div>
+            <ul class="menu">
+                <li><a href="{{ path('_user_info') }}">个人信息</a></li>
+                <li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a></li>
+                <li><a href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}">我的兑换历史</a></li>
+                <li class="logOut"><a href="{{ path('_user_loginOut') }}">退出</a></li>
+            </ul>
+        </div>
+      </ul>
+    </div>
+  </div>
+  <div id="headerContent">
+    <div class="page clearfix">
+      <div id="logo"><a href="{{ path('_default_index') }}"><img src="{{ asset('images140307/logo.png') }}" width="160" height="46" alt="积粒网" /></a></div>
+      <div id="search">
+          {% block search_box %}
+
+          {% render(controller('JiliEmarBundle:Product:searchForm',  { 'all' :  app.request.query.all  })) %}
+
+          {% endblock%}
+
+      </div>
+      <div class="otherInlet"><a class="help" href="{{ path('_default_support') }}">帮助中心</a></div>
+    </div>
+  </div>
+  <div id="nav">
+    <div class="page clearfix">
+      <ul>
+        <li class="task"> <a class="taskBtn" href="#">我的任务列表</a><em>3</em>
+          <ul>
+            <li><a href="#">每日签到<span>1米粒</span></a></li>
+            <li><a href="#">小鸡找米<span>最高588米粒</span></a></li>
+            <li><a href="#">91问问快速问答<span>1米粒</span></a></li>
+          </ul>
+        </li>
+        <li><a href="{{ path('_default_index') }}" >首页</a></li>
+        <li><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
+        <li><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
+        <li><a href="{{ asset(path('_shopping_list'),'cdn1') }}">购物返利</a></li>
+		<li><a href="{{ asset(path('_marketActivity_index'),'cdn1')  }}">商家活动</a></li>
+        <li><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

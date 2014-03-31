@@ -25,12 +25,6 @@
 <tr><td>活动有效期:</td><td><input name="start_time" value="{{ start }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  class="Wdate" style="cursor:pointer"/>
 &nbsp;到&nbsp;<input name="end_time" value="{{ end }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  class="Wdate" style="cursor:pointer"/></td></tr>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td>活动类型:</td><td><select name="checkInType" id="checkInType">
-  {% for item in checkInTypes %}
-   <option value="{{ item }}" {% if item == checkInType %} selected = "selected" {% endif %}>{{ item }}</option>
-  {% endfor %}
-</select>&nbsp;&nbsp;(1:普通 2:注册当天签到)</td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td>积分倍数:</td><td><input type="text" name="times" onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" /></td></tr>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td>&nbsp;</td><td><input type="submit" name="add" value="提 交"/></td></tr>

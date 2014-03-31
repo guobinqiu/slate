@@ -58,9 +58,7 @@ function goto(){
 		{% if advertiserment.incentiveType==1 %}<span>任务奖励：</span>
 		        {{  advertiserment.incentive }}米粒
 		{% elseif advertiserment.incentiveType==2 %}<span>购物返利：</span>
-		       最高获消费额{{ reward_rate }}%的米粒
-		{% elseif advertiserment.incentiveType==18 %}<span>购物返利：</span>
-		       最高获消费额{{ reward_rate }}%的米粒
+		       最高获消费额{{ advertiserment.reward_rate }}%的米粒
 		{% else %}
 		{% endif %}
 		</p>

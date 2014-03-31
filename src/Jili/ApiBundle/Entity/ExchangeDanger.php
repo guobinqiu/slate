@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ExchangeDanger
  *
  * @ORM\Table(name="exchange_danger")
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\ExchangeDangerRepository")
+ * @ORM\Entity
  */
 class ExchangeDanger
 {

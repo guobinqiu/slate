@@ -24,7 +24,7 @@
 {% if user_multiple %}
 <table align='center'>
 {% for item in user_multiple %}
-	 <tr><td>用户名:{{ item.email }}</td><td>昵称:{{ item.nick }}</td><td>返利倍数:<input type="text" name="multiple" value="" size="6"/></td><td><input type="submit" name="edit" value="编 辑"/></td></tr>
+	 <tr><td>用户名:{{ item.email }}</td><td>昵称:{{ item.nick }}</td><td>返利倍数:<input type="text" name="multiple" value="{% if multiple %}{{ multiple }}{% else %}{{ item.rewardMultiple }}{% endif %}" size="6"/></td><td><input type="submit" name="edit" value="编 辑"/></td></tr>
 	 {% endfor %}
 </table>
 {% endif %}

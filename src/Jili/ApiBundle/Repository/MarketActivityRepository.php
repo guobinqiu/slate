@@ -3,8 +3,10 @@ namespace Jili\ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class MarketActivityRepository extends EntityRepository {
-	public function nowMall() {
+
+class MarketActivityRepository extends EntityRepository
+{
+	public function nowMall(){
 		$date = date('Y-m-d H:i:s');
 		$query = $this->createQueryBuilder('ma');
 		$query = $query->select('ma.aid,a.imageurl,a.title');
@@ -13,15 +15,12 @@ class MarketActivityRepository extends EntityRepository {
 		$query = $query->andWhere('ma.startTime <= :startTime');
 		$query = $query->andWhere('ma.endTime >= :endTime');
 		$query = $query->groupBy('ma.aid');
-		$query = $query->setParameters(array (
-			'startTime' => $date,
-			'endTime' => $date
-		));
-		$query = $query->getQuery();
+		$query = $query->setParameters(array('startTime'=>$date,'endTime'=>$date));
+		$query =  $query->getQuery();
 		return $query->getResult();
 	}
 
-	public function existMarket($id) {
+	public function existMarket($id){
 		$date = date('Y-m-d H:i:s');
 		$query = $this->createQueryBuilder('ma');
 		$query = $query->select('ma.aid,ma.activityUrl');
@@ -29,21 +28,17 @@ class MarketActivityRepository extends EntityRepository {
 		$query = $query->andWhere('ma.startTime <= :startTime');
 		$query = $query->andWhere('ma.endTime >= :endTime');
 		$query = $query->andWhere('ma.id = :id');
-		$query = $query->setParameters(array (
-			'startTime' => $date,
-			'endTime' => $date,
-			'id' => $id
-		));
-		$query = $query->getQuery();
+		$query = $query->setParameters(array('startTime'=>$date,'endTime'=>$date,'id'=>$id));
+		$query =  $query->getQuery();
 		return $query->getResult();
 	}
 
-	public function nowCate($mallId = null) {
+	public function nowCate($mallId = null){
 		$date = date('Y-m-d H:i:s');
 		$query = $this->createQueryBuilder('ma');
 		$query = $query->select('ma.categoryId');
 		$query = $query->Where('ma.deleteFlag is null');
-		if ($mallId) {
+		if($mallId){
 			$query = $query->andWhere("ma.aid = :aid");
 			$parameters['aid'] = $mallId;
 		}
@@ -53,56 +48,40 @@ class MarketActivityRepository extends EntityRepository {
 		$parameters['startTime'] = $date;
 		$parameters['endTime'] = $date;
 		$query = $query->setParameters($parameters);
-		$query = $query->getQuery();
+		$query =  $query->getQuery();
 		return $query->getResult();
 	}
 
-	public function getAllBusinessList() {
+
+	public function getAllBusinessList()
+	{
 		$query = $this->createQueryBuilder('ma');
 		$query = $query->select('ma.id,ma.aid,ma.businessName,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime');
 		$query = $query->Where('ma.deleteFlag is null');
-		$query = $query->orderBy('ma.id', 'DESC');
-		$query = $query->getQuery();
+		$query = $query->orderBy('ma.id','DESC');
+		$query =  $query->getQuery();
 		return $query->getResult();
-
+	
 	}
-
-	public function nowActivity($aid = null) {
+	
+	public function nowActivity($aid=null){
 		$date = date('Y-m-d H:i:s');
 		$query = $this->createQueryBuilder('ma');
 		$query = $query->select('ma.id,ma.aid,ma.businessName,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime,a.imageurl,a.title');
 		$query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ma.aid = a.id');
 		$query = $query->Where('ma.deleteFlag is null');
-		if ($aid) {
+		if($aid){
 			$query = $query->andWhere('ma.aid = :aid');
 			$parameters['aid'] = $aid;
 		}
 		$query = $query->andWhere('ma.startTime <= :startTime');
 		$query = $query->andWhere('ma.endTime >= :endTime');
-		$query = $query->orderBy('ma.startTime', 'DESC');
+		$query = $query->orderBy('ma.startTime','DESC');
 		$parameters['startTime'] = $date;
 		$parameters['endTime'] = $date;
 		$query = $query->setParameters($parameters);
-		$query = $query->getQuery();
+		$query =  $query->getQuery();
 		return $query->getResult();
 	}
-
-	public function getActivityList($limit) {
-		$date = date('Y-m-d H:i:s');
-		$query = $this->createQueryBuilder('ma');
-		$query = $query->select('ma.id,ma.aid,ma.businessName,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime,a.imageurl,a.title');
-		$query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ma.aid = a.id');
-		$query = $query->Where('ma.deleteFlag is null');
-		$query = $query->andWhere('ma.startTime <= :startTime');
-		$query = $query->andWhere('ma.endTime >= :endTime');
-		$query = $query->orderBy('ma.startTime', 'DESC');
-		$parameters['startTime'] = $date;
-		$parameters['endTime'] = $date;
-		$query = $query->setParameters($parameters);
-		$query = $query->setFirstResult(0);
-		$query = $query->setMaxResults($limit);
-		$query = $query->getQuery();
-		return $query->getResult();
-	}
-
+	
 }

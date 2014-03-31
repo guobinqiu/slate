@@ -9,50 +9,59 @@
 <!-- [endif] -->
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('css/adListNew.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/adList.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
-<script src="{{ asset('js/adListNew.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle adList">
-  <article {% if ads %} {% else %} style="margin-left: 100px;" {% endif %}>
-  <h2><img src="{{ asset('images/adTitle.jpg') }}" width="149" height="19" alt="体验广告"></h2>
-    <iframe src='http://www.offer-wow.com/affiliate/wall/open.do?websiteid={{  offerwow_com.websiteid }}&styleIndex=1&memberid={{  app.session.get('uid') }}' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
-    <div class="explain"><a href="#" class="explainBtn">活动说明</a>
-        <div class="explainMore">
-            <p>1、点击【马上参加】，仔细阅读【任务步骤】，按要求一步步完成即可。</p>
-            <p>2、即时返利做完立刻奖励，非即时返利审核通过后奖励。</p>
-            <p>3、如对活动有问题，点击【我的任务历史】下的【在线咨询】即可！</p>
-            <p style="border-bottom:none;">4、活动不断更新，敬请多多关注！</p>
-        </div>
+  <article>
+    <h2><img src="{{ asset('images/adTitle.jpg')}}" width="149" height="19"></h2>
+     {% for item in adverRecommand %}
+    <div class="ad top">
+    <div class="topIcon"><img src="{{ asset('images/topIcon.png')}}" width="60" height="60"></div>
+      <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="202" height="132"/></a></div>
+      <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.decription | raw }}</a></div>
+      <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a>
+             {% if item.incentiveType==1 %}
+                     <span class="reward"><font>{{ item.incentive }}</font>米粒</span>
+             {% elseif item.incentiveType==2 %}
+                     <span class="reward">最高获消费额<font>{{ item.incentiveRate/10000 }}%</font></span>
+             {% else %}
+             {% endif %}
     </div>
-
-  </article>
-  {% if ads %}
-  <aside>
-    <div class="cpaMain">
-        <div class="cpaAll">
-
-     {% for item in ads %}
-            <div class="cpa{{ loop.last ? ' last' : '' }}">
-              <dd><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="100px" height="60px" alt="{{item.title}}"></a></dd>
-
+        {% endfor %}
+    
+     {% for item in pagination %}
+               <div class="ad">
+                  <div class="img"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="149" height="19"/></a></div>
+               <div class="txt"><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.decription | raw }}</a></div>
+               <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="advertising">{{ item.title  }}</a>
                       {% if item.incentiveType==1 %}
-                         <dt>+{{ item.incentive }}<br />米粒<br/>
+                         <span class="reward"><font>{{ item.incentive }}</font>米粒</span>
                         {% elseif item.incentiveType==2 %}
-                         <dt>{{ item.incentiveRate/10000 }}%<br />最高获消费额<br/>
+                         <span class="reward">最高获消费额<font>{{ item.incentiveRate/10000 }}%</font></span>
                          {% else %}
                      {% endif %}
-              <a class="joinBtn" href="{{ path('_advertiserment_index',{'id':item.id}) }}">马上参与</a></dt>
-              <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="title">{{ item.title  }}</a>
-            </div>
+              </div>
+
      {% endfor %}
-        </div>
-    </div>
+     
+     <div style="display: inline-block; width: 100%;">
+    {# display navigation #}
+
+   {{ knp_pagination_render(pagination) }}
+   </div>
+  </article>
+  
+  <aside>
+    <section>
+      <h4><img src="{{ asset('images/adFlowTitle.jpg')}}" width="118" height="18"></h4>
+      <div class="flow"><img src="{{ asset('images/adFlow.jpg')}}" width="187" height="229"></div>
+    </section>
   </aside>
-  {% endif %}
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>

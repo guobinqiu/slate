@@ -20,7 +20,7 @@
 	        {% endif %}
 	{% endif %}
 </td></tr>
-<tr><td>广告图片:(237X166)</td><td><img src="{{ asset(banner.iconImage) }}"/>{{ form_widget(form.attachment) }}(不传为原来的图片)</td></tr>
+<tr><td>广告图片:(722X250)</td><td><img src="{{ asset(banner.iconImage) }}"/>{{ form_widget(form.attachment) }}(不传为原来的图片)</td></tr>
 <tr><td>广告url:</td><td><input type="text" name="url" size='60' value=" {{ banner.adUrl }}"/></td></tr>
 
 <tr><td>广告位置:</td><td><input type="text" name="position" size='60' value=" {{ banner.position }}" onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/></td></tr>

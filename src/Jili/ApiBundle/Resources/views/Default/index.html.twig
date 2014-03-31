@@ -8,80 +8,44 @@
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
 <!-- [endif] -->
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('css/indexNew.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/index.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/signIn.js')}}" type="text/javascript"></script>
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <script type="text/javascript">
 $(document).ready(function(){
-	getCenter();
-	$(".signInExplain").hide();
-	$("#signInFrame").hide();
-	$.ajax({
-        url: "{{ path('_checkin_clickCount') }}",
-        post: "GET",
-        success:function(data){
-            if(data<3){
-              var times = parseInt(3-parseInt(data));
-              $("#remain").text(times);
-              $("#m_remain").text(times);
-            }else{
-              $("#remain").text(0);
-              $("#m_remain").text(times);
-              aremove();
-            } 
-        }
-	});
-
-	$("#login").click(function(){
-	       $("#form1").submit();
-    })
-	
-	$(".close").click(function(){
-	    $(".signInExplain").hide();
-	    $(".blackBg").hide();
-	    $("#signInFrame").hide();
-	 });
-
-	$(".vote").click(function(){
-	        $.ajax({
-            url: "{{ path('_default_wenwenVisit') }}",
-            post: "GET",
-            success:function(data){
-                if(data==1){
-                	$(".vote").remove();
-                	setTaskNumber();
-                }
-            }
-        }); 
+   getCenter();
+   $(".signInExplain").hide();
+   $("#signInFrame").hide();
+   $.ajax({
+          url: "{{ path('_checkin_clickCount') }}",
+          post: "GET",
+          success:function(data){
+              if(data<3){
+                var times = parseInt(3-parseInt(data));
+                $("#remain").text(times);
+                $("#m_remain").text(times);
+              }else{
+                $("#remain").text(0);
+                $("#m_remain").text(times);
+                aremove();
+              } 
+          }
     });
 
-	signRemind();
+    $("#login").click(function(){
+       $("#form1").submit();
+    })
 
+    $(".close").click(function(){
+       $(".signInExplain").hide();
+       $(".blackBg").hide();
+       $("#signInFrame").hide();
+    });
 });
-
-function signRemind(){
-	{% if signRemind %}
-		$(".blackBg").show();
-	
-		var _version=navigator.appVersion;
-		if(_version.indexOf('MSIE 6.0')>0 || _version.indexOf('MSIE 7.0')>0 ){
-			$(".blackBg").hide();
-			$(".webArticle").append($(".blackBg").clone());
-			$(".webArticle .blackBg").css("display","block")
-						.css("position","fixed");
-	    }
-	
-	{% endif %}
-
-	$("#signRemindClose").click(function(){
-	    $("#signRemind").hide();
-	    $(".blackBg").hide();
-	});
-}
-
 function getCenter(){
     var windowWidth = document.documentElement.clientWidth;
     var windowHeight = document.documentElement.clientHeight;
@@ -100,7 +64,6 @@ function popOut(){
    $(".signInExplain").hide();
 }
 function signs(){
-  $("#signRemind").hide();
   $(".signInExplain").show();
   $("#signInFrame").show();
   $(".blackBg").show();
@@ -127,8 +90,6 @@ function goto(cid,aid,points){
                           var nowTimes = parseInt(parseInt($("#remain").text())-1);
                           if(nowTimes<=0){
                               $("#signInFrame h5").html("恭喜您签到成功，已获得<font color='#E94C1B'>"+points+"</font>米粒！");
-                              $(".signs").remove();
-                              setTaskNumber();
                               $("#m_remain").text(nowTimes);
                           }else{
                               $("#remain").text(nowTimes);
@@ -143,15 +104,9 @@ function goto(cid,aid,points){
                             post: "GET",
                             success:function(data){ 
                               var points = $("#points").text();
-                              var obj ;
-                              if (typeof(JSON) == 'undefined'){
-                                obj = eval("("+data+")");
-	                          }else{
-	                            obj = JSON.parse(data);
-	                          }
-
+                              var obj = JSON.parse(data);
                               // w.location.href = obj.url;
-                              w.location.href = "{{ path('_checkin_location') }}?aid="+aid+"&type=1";
+                                                            w.location.href = "{{ path('_checkin_checkinInfo') }}?aid="+aid;
                               // w.focus();
                               // window.open(obj.url, "s", "resizable=yes, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, copyhistory=no").blur();
                               // window.focus();
@@ -177,196 +132,116 @@ function goto(cid,aid,points){
       });
 }
 </script>
+
 <div class="webArticle index">
-	{% if glideAd %}<div id="glideAd"><img width="960" height="215" src="{{ asset('images/glideAd.jpg') }}"><a class="close">X</a></div>{% endif %}
-	{% if signRemind %}
-	<div id="signRemind" style="display: block;"><img width="703" height="247" src="{{ asset('images/signRemind.png') }}" usemap="#signRemindBtn">
-	<map name="signRemindBtn">
-        <area id="signRemindKnow" onclick="signs();" shape="rect" coords="150,181,242,218" href="javascript:void(0);">
-        <area id="signRemindClose" shape="circle" coords="334,22,15" href="javascript:void(0);">
-        <area id="signRemindGo" onclick="signs();" shape="rect" coords="477,71,683,106" href="javascript:void(0);">
-        </map>
-	</div>
-	{% endif %}
-    <section>
-    	{% if emergency_announcement %}<div class="frame wam"><p>{{ emergency_announcement }}</p></div>{% endif %}
-        <div class="frame">
-            <div id="indexBanner">
-                <a class="indexBanner1" href="{{ asset(path('_game_index'),'cdn1')}}"><img src="{{ asset('images/indexBanner1.jpg') }}" alt="游戏体验"></a>
-                <a class="indexBanner2" href="{{ asset(path('_marketActivity_index'),'cdn1')}}"><img src="{{ asset('images/indexBanner2.jpg') }}" alt="商家活动"></a>
-                <a class="indexBanner3" href="http://www.91wenwen.net/vote/#active" target="_blank"><img src="{{ asset('images/indexBanner3.jpg') }}" alt="快速问答"></a>
-                <a class="indexBanner4" href="{{ asset(path('_advertiserment_list'),'cdn1')}}"><img src="{{ asset('images/indexBanner4.jpg') }}" alt="体验广告"><em>{{ adCheck }}</em></a>
-                <a class="indexBanner5" href="{{ asset(path('_shopping_list'),'cdn1')}}"><img src="{{ asset('images/indexBanner5.jpg') }}" alt="购物返利"></a>
-            </div>
-        </div>
-        <div class="frame">
-            <div id="marketActivity">
-                <div class="mask">
-                <ul>
-                   {% for item in market %}
-                    <li>
-                        <a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName }}" ></a>
-                        <div class="more"><h4>{{ item.businessName }}</h4><a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" class="moreBtn">查看详情&gt;&gt;</a></div>
-                    </li>
-                    {% endfor %}
-                </ul>
-                </div>
-                <a class="move prev"></a><a class="move next"></a>
-            </div>
-        </div>
-        <div class="frame">
-            <div id="timeLine">
-                <h3><img src="{{ asset('images/timeLineH3.jpg') }}" alt="最新动态" /></h3>
-                <div class="mask">
-                <ul>
-                     {% for item in recentPoint %}
-                    <li>
-                        <dd>
-				          {% if item.1 %}
-				              <img src='{{ asset(item.1) }}' height='30'/>
-				          {% else %}
-				              <img src='{{ asset("other/photo30.jpg") }}' />
-				          {% endif %}
-                        </dd>
-                        <dt>
-                            <h4>{{ item.0 }}</h4>
-                            <span>&nbsp;</span>
-                            <p>{{ item.3 }}{% if item.2 > 0 %}获得{% else %}兑换{% endif %}{{ item.2|abs }}积分</p>
-                        </dt>
-                    </li>
-                    {% endfor %}
-                </ul>
-                </div>
-            </div>
-        </div>
-        <div class="frame">
-            <div id="mainHotMarket">
-                <ul>
-                    {% for item in adverRecommand %}
-                    <li>
-                        <a target="_blank" href="{{ path('_checkin_location') }}?aid={{ item.id }}&type=1"><img src="{{ asset(item.listImage) }}" alt="{{ item.title }}"></a>
-                        <p>
-                         {% if item.incentiveType==1 %}
-                             <span class="rebate">{{ item.incentive }}米粒</span>
-                         {% elseif item.incentiveType==2 %}
-                             <span class="rebate">最高返{{ item.reward_rate }}%</span>
-                         {% endif %}
-                        </p>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </section>
-    <aside>
-        {% if user %}
+	<section class="one">
         <div id="banner">
-                <ul class="bannerImg">
-                     {% for item in advertise_banner %}
-	                 <li><a href="{{ item.adUrl }}"><img src="{{ asset(item.iconImage) }}"/></a></li>
-	                 {% endfor %}
-                </ul>
-                <div class="bannerNumber"></div>
-        </div>
-         <div id="task">
-            <h3>您今天可做任务<span></span></h3>
-            <div class="mask">
-            <div class="all">
-            <ul>
-                {% if task.checkin==1 %}
-                <li class="signs"><div class="signInExplain">打开<span id="m_remain">3</span>个商城可获得<span>{{ checkinPoint }}</span>米粒</div><a id="sign" onclick="signs();" onMouseOver="popIn();" onMouseOut="popOut();"><dd>签到领米粒</dd><dt><span>{{task.checkinPoint}}</span>米粒</dt></a></li>
-                {% endif %}
-                {% if task.wen==1 %}
-                <li class="vote"><a target="_bank" href="http://www.91wenwen.net/vote/#active"><dd>91问问快速问答</dd></a></li>
-                {% endif %}
-                {% if task.game==1 %}
-                <li class="game"><a href="{{ asset(path('_game_index'),'cdn1')  }}"><dd>小鸡找米</dd><dt>最高<span>5888</span>米粒</dt></a></li>
-                {% endif %}
-                {% if task.ad==1 %}
-                <li class="advertiserment"><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}"><dd>广告任务墙</dd><dt>{{ adCheck }}</dt></a></li>
-                {% endif %}
-                <li class="cps"><a href="{{ asset(path('_shopping_list'),'cdn1') }}"><dd>去购物</dd></a></li>
-                {% for item in task.cpa %}
-                <li><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><dd>{{ item.title[:8] }}</dd><dt><span>{{ item.incentive }}</span>米粒</dt></a></li>
-                {% endfor %}
+        	<ul class="bannerImg">
+        	{% for item in advertise_banner %}
+        	<li><a href="{{ item.adUrl }}"><img src="{{ asset(item.iconImage) }}"/></a></li>
+        	{% endfor %}
+            	
             </ul>
+            <div class="bannerNumber"><a href="#" class="hover">1</a>
+            {% for i in 2..banner_count %}
+               <a href="#">{{ i }}</a> 
+            {% endfor %}
             </div>
-            </div>
-            <!-- <div class="pageNumber"><a class="prev"></a><a class="next"></a></div> -->
-            <div class="bottom"></div>
         </div>
-         {% else %}
-        <div class="frame">
-            <div id="userInformation">
-                <form action="{{ path('_default_index') }}" method="post" name="form1" id="form1">
-                    {% if code %}
-			        <p class="error">{{ code }}</p>
-			    	{% endif %}
-                    <p><input name="email" type="text" class="text" id="email" value="{{ email }}"></p>
-                    <p><input name="pwd" type="password" class="password" id="password"></p>
-                    <p><input type="image" src="{{ asset('images/logBtn.jpg') }}" class="image" id="login" value="登录" name="登录" title="登录"><label>
-                    <input type="checkbox" id="rem" value="1" name="remember_me">记住我</label> | <a href="{{ asset(path('_user_resetPwd'),'cdn1') }}" class="forget">忘记密码?</a></p> 
-                    <p><a href="{{ path('_user_reg') }}" class="reg">免费注册</a></p>
-                </form>
+
+        <div id="userInformation">
+        {% if user %}
+    	<div class="after">
+        	<div class="user">
+        	    {% if user.iconPath %}
+            	    <div class="photo"><a href="{{ path('_user_info')}}" ><img src="{{ asset(user.iconPath) }}" width="90" height="90"></a></div>
+            	{% else %}
+            	   <div class="photo"> <a href="{{ path('_user_info')}}" ><img src="{{ asset('images/default_face.jpg') }}" width="90" height="90"/></a></div>
+            	 {% endif %}
+                <p>您好，<a href="{{ path('_user_info')}}" class="hello">
+                {% if limitNick %}{{ limitNick }}{% else %}{{ user.nick }}{% endif %}</a>
+               <!-- <a class="personalBtn" href="{{ path('_user_info')}}"><img src="{{ asset('images/myCenterBtn.png') }}"/></a>--></p>
+                <p class="point">米粒：<span id="points">{{ user.points }}</span></p>
+
+                 <div class="clear"></div>
+                  <a class="signIn" id="sign" onclick="signs();" onMouseOver="popIn();" onMouseOut="popOut();"></a>
+                  <div class="signInExplain">打开<span id="m_remain">3</span>个商城就可获得<span>{{ checkinPoint }}</span>个积分！</div>
+                <!-- <a class="signWait"></a> -->
+                <div class="clear"></div>
             </div>
-            <div id="aboutJili">
-                <h3><img src="{{ asset('images/aboutJili.jpg') }}" alt="在积粒网能做什么？"/></h3>
-                <ul>
-                    <li>100米粒=￥1.00元</li>
-                    <li>玩游戏，拿返利，答问卷赚积分</li>
-                    <li>兑换支付宝，手机费，礼品卡...</li>
+            <ul>
+            	<li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}" >我的任务历史</a></li>
+                <li><a href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}" >我的兑换历史</a></li>
+            </ul>
+        </div> 
+        {% else %}
+       <form action="{{ path('_default_index') }}" method="post" name="form1" id="form1">
+        <div class="before">
+            <p><input name="email" type="text" class="text" id="email" value="{{ email }}"></p>
+            <p><input name="pwd" type="password" class="password" id="password"></p>
+            <p><input name="" id='login' type="image" class="image" src="{{ asset('images/indexLoginBtn.jpg') }}"><label>
+            <input name="remember_me" type="checkbox" value="1" id="rem">记住我</label> | <a class="forget" href="{{ asset(path('_user_resetPwd'),'cdn1') }}">忘记密码?</a></span></p> 
+            <p><a class="reg" href="{{ path('_user_reg') }}">免费注册</a></p>
+        </div>
+        </form>
+        {% endif %}    
+</div>
+        </section>
+    <section class="process"><img src="{{ asset('images/process.jpg')}}" width="960" height="85"></section>
+  <section class="main">
+    	<article>
+        	<h2><img src="{{ asset('images/hotTask.jpg')}}" width="209" height="19" alt="热门任务"><a class="more" href="{{ asset(path('_shopping_list'),'cdn1') }}">更多>></a></h2>
+        	
+        	{% for item in advertise %}
+               <div class="task">
+               <a href="{{ asset(path('_advertiserment_index',{'id':item.id}),'cdn1') }}"><img src='{{ asset(item.listImage) }}' /></a>
+                <h3><a href="{{ asset(path('_advertiserment_index',{'id':item.id}),'cdn1') }}">{{ item.title }}</a></h3>
+                <p>任务奖励：
+                {% if item.incentiveType==1 %}
+                     <span>{{ item.incentive }}</span>米粒
+                     {% elseif item.incentiveType==2 %}
+                     最高获消费额<span>{{ item.reward_rate }}%</span>
+                     {% else %}
+                     {% endif %}
+                  </p>
+                     
+            </div>
+            {% endfor %}
+        	
+    </article>
+    	<aside>
+        	<section style="height:200px;">
+            	<h4>公告<a class="more" href="{{ asset(path('_callboard_index'),'cdn1') }}">更多>></a></h4>
+              <ul class="news">
+              {% for item in callboard %}
+                	<li><a href="{{ asset(path('_callboard_info',{'id':item.id}),'cdn1') }}"><span>【{{ item.categoryName }}】</span>{{ item.title }}</a></li>
+                   
+                {% endfor %}
+                   <!--   <li class="last"><a href="#"><span>【活动】</span>“游戏冲冲冲”第4弹开始啦！</a></li>-->
                 </ul>
-            </div>
-        </div>
-        {% endif %} 
-        <div class="frame">
-            <div id="news">
-                <h3><img src="{{ asset('images/newsH3.jpg') }}" alt="最新公告"/></h3>
-                <div class="mask">
-                <div class="all">
-                <ul>
-                    {% for item in callboard %}
-                    <li><a target="_blank" href="{{ asset(path('_callboard_info',{'id':item.id}),'cdn1') }}"><span>【{{ item.categoryName }}】</span>{{ item.title }}</a></li>
-                    {% if loop.length > 3 and loop.index % 3 == 0 and (not loop.last)%}
-                    </ul>
-                    <ul>
-                    {% endif %}
-                    {% endfor %}
+            </section>
+            
+            
+             <section style="height:400px;">
+            	<h4>最新兑换</h4>
+              <ul class="timeline">
+                {% for item in exchange %}
+                  <li><span class="userNick">{{ item.nick }}</span>兑换了{{ item.type}}<span class="userType">{{ item.targetPoint }}</span>积分</li>
+               {% endfor %}
                 </ul>
-                </div>
-                </div>
-                <div class="pageNumber"><a class="prev"></a><span></span><a class="next"></a></div>
-            </div>
-        </div>
-        <div class="frame">
-            <div id="ranking">
-                <h3><img src="{{ asset('images/rankingH3.jpg') }}" alt="排行榜"/></h3>
-                <div class="mask">
-                <div class="all">
-                    <ul class="month">
-                        {% for item in rankingMonth %}
-                        <li class="rank{{loop.index}}"><dd>{{ item.0[:7] }}</dd><dt><span>{{ item.1 }}</span>累计米粒</dt></li>
-                        {% endfor %}
-                    </ul>
-                    <ul class="year">
-                        {% for item in rankingYear %}
-                        <li class="rank{{loop.index}}"><dd>{{ item.0[:7] }}</dd><dt><span>{{ item.1 }}</span>累计米粒</dt></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                </div>
-                <div class="menu"><a class="month">月度</a><a class="year">年度</a></div>
-            </div>
-        </div>
-    </aside>  
+            </section>
+           
+        </aside>
+  </section>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
-<div id="signInFrame" style="display:none;">
-  <h5>再打开<span id="remain">3</span>个商城就可以得到<span>{{ checkinPoint }}</span>个米粒</h5>
+<div class="signBlackBg"></div>
+<div id="signInFrame">
+  <h5>再打开<span id="remain">3</span>个商城就可以得到<span>{{ checkinPoint }}</span>个米粒啦</h5>
     <a class="close">关闭</a>
     <ul>
     {% for item in arrList %}
-      <li><a onclick="goto({{ item.cid }},{{ item.id }},{{ checkinPoint }});" class="image{{ item.cid }}"><img src="{{ asset(item.list_image) }}" width="200" height="130" alt="{{ item.title }}"><p>最高返利{{ item.reward_rate }}%</p>
+      <li><a onclick="goto({{ item.cid }},{{ item.id }},{{ checkinPoint }});" class="image{{ item.cid }}"><img src="{{ asset(item.list_image) }}" width="200" height="130"><p>最高返利{{ item.reward_rate }}%</p>
       <div class="gray"></div>
       <div class="goTo {{ item.cid }}">点击前往</div>
       <div class="finish">已打开</div>
