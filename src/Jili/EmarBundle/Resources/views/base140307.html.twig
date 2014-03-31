@@ -17,53 +17,7 @@
 </head>
 <body>
 <div id="header">
-  <div id="topbar">
-    <div class="page clearfix">
-      <ul id="userbar">
-        <li><a class="message">新消息(+2)</a></li>
-        <li class="split">|</li>
-        <li><a class="personal">个人中心</a></li>
-        <div id="userFrame">
-            <div class="userInfo"><p>Uplee</p></div>
-            <ul class="menu">
-                <li><a href="/user/info">个人信息</a></li>
-                <li><a href="http://www.91jili.com/user/adtaste/0">我的任务历史</a></li>
-                <li><a href="http://www.91jili.com/user/exchange/0/1">我的兑换历史</a></li>
-                <li class="logOut"><a href="/user/loginOut">退出</a></li>
-            </ul>
-        </div>
-      </ul>
-    </div>
-  </div>
-  <div id="headerContent">
-    <div class="page clearfix">
-      <div id="logo"><a href="#"><img src="{{ asset('images140307/logo.png') }}" width="160" height="46" alt="积粒网" /></a></div>
-      <div id="search">
-          {% block search_box %}
-          {% render(controller('JiliEmarBundle:Search:form',  { 'qs' :  app.request.query.all  })) %}
-          {% endblock%}
-      </div>
-      <div class="otherInlet"><a class="help" href="#">帮助中心</a></div>
-    </div>
-  </div>
-  <div id="nav">
-    <div class="page clearfix">
-      <ul>
-        <li class="task"> <a class="taskBtn" href="#">我的任务列表</a><em>3</em>
-          <ul>
-            <li><a href="#">每日签到<span>1米粒</span></a></li>
-            <li><a href="#">小鸡找米<span>最高588米粒</span></a></li>
-            <li><a href="#">91问问快速问答<span>1米粒</span></a></li>
-          </ul>
-        </li>
-        <li><a href="#">首页</a></li>
-        <li><a href="#">游戏体验</a></li>
-        <li><a href="#">体验广告</a></li>
-        <li><a href="#">购物返利</a></li>
-        <li><a href="#">兑换中心</a></li>
-      </ul>
-    </div>
-  </div>
+{% include '::header.html.twig' %}
 </div>
 
 <div class="pageMain page clearfix">

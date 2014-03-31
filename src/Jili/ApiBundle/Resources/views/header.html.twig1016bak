@@ -1,22 +1,13 @@
 <link href="{{ asset('css/game_prompt.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('css/personal.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/amazon.css')}}" rel="stylesheet" type="text/css" />
-
-<link href="{{ asset('css140307/reset.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/common.css') }} " rel="stylesheet" type="text/css">
-<script src="{{ asset('js140307/common.js') }}" language="javascript"></script>
 <script src="{{ asset('js/bottom.js')}}" type="text/javascript"></script>
 <script>
 $(document).ready(function(){
   $('.amazon').hide();
   $('.blackBg').hide();
   $("#amazonEmpty").hide();
-  {% if app.request.cookies.has('jili_uid') and app.request.cookies.has('jili_nick') %}
-      {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
-      {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
-  {% endif %}
   {% if app.session.get('uid') %}
-      showFlag();
       isVisit();
       isNewMs();
       countMs();
@@ -74,19 +65,6 @@ $(document).ready(function(){
   {% endif %}
 });
 
-function showFlag(){
-    $.ajax({
-        url: "{{ path('_user_createFlag') }}",
-        type: "GET",
-        success:function(data){
-          if(data==1){
-               window.location.href="{{ path('_default_index') }}";
-          }
-          
-        }
-    });
-}
-
 function showInfo(){
      $.ajax({
           url: "{{ path('_user_userInfo') }}",
@@ -117,10 +95,8 @@ function isNewMs(){
           success:function(data){
               if(data){
                    $('.newms').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
-                   $('.myMes').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
               }else{
                   $('.newms').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
-                  $('.myMes').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
               }
           }
         });
@@ -280,7 +256,24 @@ function selectCity_amazon(){
 }
 
 </script>
-{% include '::header.html.twig' %}
+<header>
+  <section>
+    <div id="logo"><a href="{{ path('_default_index') }}"><img src="{{ asset('images/logo.gif')}}"></a></div>
+    <nav id="menu">
+      <ul>
+        <li><a href="{{ path('_default_index') }}">首页</a></li>
+        <li><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a><span id="playGame"></span></li>
+        <li><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
+        <li><a href="{{ asset(path('_shopping_list'),'cdn1') }}">购物返利</a></li>
+        <li><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
+        <li class="last"><a href="{{ asset(path('_businessActivity_index'),'cdn1')  }}">商家活动</a></li>
+      </ul>
+    </nav>
+  
+    {% include 'JiliApiBundle:Default:info.html.twig' %}
+
+  </section>
+</header>
 
 <div class="blackBg"></div>
 <div class="amazon">

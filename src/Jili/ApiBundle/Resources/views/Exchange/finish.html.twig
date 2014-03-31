@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <title>积粒网-{% if type == 'jili' %}兑换91问问积分
-{% elseif type =='amazon' %}兑换亚马逊礼品卡
-{% elseif type=='alipay' %}兑换支付宝
-{% elseif type=='mobile' %}兑换手机充值
-{% else %}
-{% endif %}
+ {% elseif type =='amazon' %}兑换亚马逊礼品卡
+ {% elseif type=='alipay' %}兑换支付宝
+ {% elseif type=='mobile' %}兑换手机充值
+  {% else %}
+    {% endif %}
  </title>
 {% include 'JiliApiBundle::seo.html.twig' %}
 <!-- [if lt IE9] -->

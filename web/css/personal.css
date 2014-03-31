@@ -57,37 +57,36 @@
 	background-color: #dcdcdc;
 	cursor: pointer;
 }
-.personal {
-	margin: auto;
-	width: 960px;
-	padding: 45px 0 140px 0;
+.personalWrap { 
+	margin: 20px auto 140px;
+	width: 1150px;
 	font-size: 14px;
 }
 .infoReset{
 
 }
-.personal section {
+.personalWrap section {
 	background-color: #ffffff;
 	border: 1px solid #e0e0e0;
 	width: 100%;
 	margin-bottom: 2px
 }
-.personal section h3 {
+.personalWrap section h3 {
 	font-size: 18px;
 	color: #666666;
 	padding: 20px;
 	position: relative;
 }
-.personal section .content{	
+.personalWrap section .content{	
 	border-top: 1px #e0e0e0 dashed;
 }
-.personal section.line{ 
+.personalWrap section.line{ 
 	padding:1px 0 0 0;
 }
-.personal section h3.line{ 
+.personalWrap section h3.line{ 
 	border-top: 1px solid #e0e0e0;
 }
-.personal section h3 a.close {
+.personalWrap section h3 a.close {
 	background-image: url(../images/upIcon.jpg);
 	width: 100%;
 	height: 58px;
@@ -99,7 +98,7 @@
 	background-repeat: no-repeat;
 	background-position: 920px center;
 }
-.personal section h3 a.open {
+.personalWrap section h3 a.open {
 	background-image: url(../images/downIcon.jpg);
 	width: 100%;
 	height: 58px;
@@ -184,7 +183,7 @@
 	color:#54b9e8;
 	text-decoration:none;
 }
-.personal .photo a.passwordEdit{
+.personalWrap .photo a.passwordEdit{
 	background-image: url("../images/password.jpg");
 	background-position: 0 3px;
     background-repeat: no-repeat;
@@ -192,7 +191,7 @@
     text-decoration: none;
     margin-right: 50px;
 }
-.personal .photo a.message{
+.personalWrap .photo a.message{
 	background-image: url("../images/message.jpg");
     background-position: 0 3px;
     background-repeat: no-repeat;
@@ -200,7 +199,7 @@
     text-decoration: none;
     margin-right: 50px;
 }
-.personal .photo img.mili{
+.personalWrap .photo img.mili{
 	margin-right: 5px;
 	vertical-align: middle;
 }

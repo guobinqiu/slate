@@ -215,7 +215,7 @@ footer section{
     padding: 20px 40px 10px 40px;
     position: relative;
     text-align: center;
-    width: 960px;
+    width: 1150px;
 }
 footer section p{
 	margin:5px 0;
@@ -254,7 +254,7 @@ footer section a:hover{
 	color:#000;
 }
 .webArticle {
-	width: 960px;
+	width: 1150px;
 	margin: auto;
 	padding:0 0 140px 0;
 	display:table;
