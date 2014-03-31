@@ -1,11 +1,9 @@
 <?php
-
 namespace Jili\EmarBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Jili\EmarBundle\Api2\Repository\GhsCat as GhsCatRepository;
 
 /**
@@ -13,26 +11,9 @@ use Jili\EmarBundle\Api2\Repository\GhsCat as GhsCatRepository;
  */
 class GhsController extends Controller
 {
-
-    /**
-     * @Route("/filters")
-     * @Template();
-     */
-    public function filtersAction() {
-        $request = $this->get('request');
-        $logger= $this->get('logger');
-
-        #$req = new  \Jili\EmarBundle\Api2\Request\GhsCategoryGetRequest;
-
-        $categoryRequest =  $this->get('ghs.category_get');
-        $categories_raw  = $categoryRequest->fetch();
-        $cats = GhsCatRepository::parse( $categories_raw);
-        return array('cats'=> $cats);
-    }
-
     /**
      * @Route("/partial-on-cps/{catids}", defaults={"catids"= ""} )
-     * @Template();
+     * @Template()
      */
     public function partialOnCpsAction($catids) {
 
@@ -55,10 +36,14 @@ class GhsController extends Controller
 
         $params =( $catids_request === '000000' ) ? array('category'=> '') : array('category'=> implode(',', $catids_));
 
-// // // //
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $cats, true )  );
+        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $this->container->getParameter('emar_com.page_size_of_topcps'), true )  );
         $listRequest = $this->get('ghs.list_get');
+
+        $listRequest->setPageSize( $this->container->getParameter('emar_com.page_size_of_topcps') );
+
         $list = $listRequest->setApp('cron')->fetch( $params );
+
+        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( count($list) , true )  );
         return array('router_'=> 'jili_emar_top_cps', 'catids_request'=> $catids_request, 'cats'=> $cats, 'ghs_pdts'=> $list );
     }
 }

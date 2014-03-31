@@ -4,10 +4,6 @@ namespace Jili\EmarBundle\EventListener;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class GhsCategoryGetRequest  extends BaseRequest {
-
-#  private $logger;
-  private $result;
-
   public function fetch() {
     //todo: cached 
     $req = new  \Jili\EmarBundle\Api2\Request\GhsCatGetRequest;
@@ -23,13 +19,4 @@ class GhsCategoryGetRequest  extends BaseRequest {
     $this->result = $result;
     return $result;
   }
-
-  #
-  #public function setLogger(  LoggerInterface $logger) {
-#    $this->logger = $logger;
-#    return $this;
-#  }
-
 }
-
-
