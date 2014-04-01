@@ -1,6 +1,7 @@
 {% extends 'JiliEmarBundle::base140307.html.twig' %}
 
 {% block stylesheet %}
+<link href="{{ asset('css140307/recommend.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/categorys.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/cps.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
@@ -35,7 +36,7 @@
   </div><!-- eof w615  -->
 
   <div class="w300 h340 fr">
-  {{ render(controller('JiliEmarBundle:Websites:hotOnCps') ) }}
+      {{ render(controller('JiliEmarBundle:Websites:hot', { 'tmpl': 'cps', 'max': 9 } ) ) }}
   </div><!-- eof w300 -->
 
   <div class="main w834 fl">
@@ -43,6 +44,6 @@
   </div><!-- main w834 -->
 
   <div class="sidebar w300 fr">
-  {{ include("JiliEmarBundle:Product:suggestionHot.html.twig") }}
+      {{ include("JiliEmarBundle:Product:suggestionHot.html.twig") }}
   </div><!-- sidebar -->
 {% endblock %}

@@ -1,9 +1,11 @@
 <?php
 namespace Jili\EmarBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Jili\EmarBundle\Api2\Repository\GhsCat as GhsCatRepository;
 
 /**
@@ -11,6 +13,32 @@ use Jili\EmarBundle\Api2\Repository\GhsCat as GhsCatRepository;
  */
 class GhsController extends Controller
 {
+    /**
+     * tmpl: the template to embed, max: number of records, p: the page
+     * @Route("/promotion/{tmpl}/{max}/{p}", defaults={"tmpl"="top", "max"=6 ,"p"=1}, requirements={"tmpl"="\w+", "max"="\d+", "p"="\d+"})
+     * @Method("GET")
+     * @Template()
+     */
+    public function promotionAction($tmpl, $max, $p) {
+        $request = $this->get('request');
+        $logger = $this->get('logger');
+
+        $listRequest = $this->get('ghs.list_get');
+        $listRequest->setPageSize($max);
+        $params = array('page_no' => $p);
+
+        $list = $listRequest->setApp('cron')->fetch( $params );
+
+
+        if( $request->isXmlHttpRequest()) {
+
+            $response = new Response(json_encode(array('name' => $name)));
+            $response->headers->set('Content-Type', 'application/json');
+
+        }
+        return array();
+    }
+
     /**
      * @Route("/partial-on-cps/{catids}", defaults={"catids"= ""} )
      * @Template()
@@ -33,17 +61,11 @@ class GhsController extends Controller
                 $catids_request = $catids_;
             }
         }
-
         $params =( $catids_request === '000000' ) ? array('category'=> '') : array('category'=> implode(',', $catids_));
-
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( $this->container->getParameter('emar_com.page_size_of_topcps'), true )  );
         $listRequest = $this->get('ghs.list_get');
-
         $listRequest->setPageSize( $this->container->getParameter('emar_com.page_size_of_topcps') );
-
         $list = $listRequest->setApp('cron')->fetch( $params );
 
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export( count($list) , true )  );
         return array('router_'=> 'jili_emar_top_cps', 'catids_request'=> $catids_request, 'cats'=> $cats, 'ghs_pdts'=> $list );
     }
 }

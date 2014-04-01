@@ -20,7 +20,7 @@
     <div id="vote">
       <h3>快速问答</h3>
       <div class="voteMain clearfix">
-        <dt><img width="90" height="90" src="other140307/image100.jpg"></dt>
+          <dt><img width="90" height="90" src="{{ asset('other140307/image100.jpg') }}"></dt>
         <dd>
           <p>【生活】你对大部分女性选择从事工作怎</p>
           <p><a href="#" class="goVote">去投票</a></p>
@@ -29,23 +29,28 @@
     </div><!-- eof vote -->
     <div id="timeline">
       <h3>最新动态</h3>
-      <ul class="clearfix">
-        <li>
-          <p><span>14896630</span>支付宝兑换<em>5000</em>积分 </p>
-        </li>
-        <li>
-          <p><span>14896630</span>支付宝兑换<em>5000</em>积分 </p>
-        </li>
-        <li>
-          <p><span>14896630</span>支付宝兑换<em>5000</em>积分 </p>
-        </li>
-        <li>
-          <p><span>14896630</span>支付宝兑换<em>5000</em>积分 </p>
-        </li>
-        <li>
-          <p><span>14896630</span>支付宝兑换<em>5000</em>积分 </p>
-        </li>
-      </ul>
+      <div class="mask">
+        <ul class="clearfix">
+          <li>
+            <p><span>14896630</span>支付宝兑换<em>5000</em>积分 </p>
+          </li>
+          <li>
+            <p><span>14896630</span>支付宝兑换<em>5000</em>积分 </p>
+          </li>
+          <li>
+            <p><span>14896630</span>支付宝兑换<em>5000</em>积分 </p>
+          </li>
+          <li>
+            <p><span>14896630</span>支付宝兑换<em>5000</em>积分 </p>
+          </li>
+          <li>
+            <p><span>14896630</span>支付宝兑换<em>5000</em>积分 </p>
+          </li>
+          <li>
+            <p><span>14896630</span>支付宝兑换<em>6000</em>积分 </p>
+          </li>
+        </ul>
+      </div><!-- eof mask -->
     </div><!-- eof timeline -->
   </div><!-- w204 side -->
 
@@ -56,76 +61,103 @@
     {% else %}
     <div id="task">
       <h3>我的任务列表</h3>
-      <div class="menu"><a class="hover">为您推荐的</a><a>确认中</a><a>已完成</a><a>已拒绝</a></div>
-      <ul class="taskList clearfix">
-        <li><a href="#">
-          <dt>小鸡找米</dt>
-          <dd>最高<em>5888</em>米粒</dd>
-          </a></li>
-        <li class="brn"><a href="#">
-          <dt>广告任务墙</dt>
-          <dd><em>3/27</em>更新</dd>
-          </a></li>
-        <li><a href="#">
-          <dt>各校自主招生网络
-            
-          </dt></a><dt><a href="#"><em>800</em>米粒
-            
-          </a></dt></li>
-        <li class="brn"><a href="#">
-          <dt>去购物</dt>
-          </a></li>
-        <li class="bbn"><a href="#">
-          <dt>91问问快速问答</dt>
-          <dd><em>1</em>米粒</dd>
-          </a></li>
-        <li class="bbn brn"><a href="#">
-          <dt>每日签到</dt>
-          <dd><em>1</em>米粒</dd>
-          </a></li>
-      </ul>
-    </div><!-- eof task -->
+      <div class="menu"><a class="recommend hover">为您推荐的</a><a class="affirm">确认中</a><a class="finish">已完成</a></div>
+      <div class="mask">
+        <div class="all clearfix">
+          <ul class="taskList clearfix">
+            <li><a href="#">
+              <dt>小鸡找米</dt>
+              <dd>最高<em>5888</em>米粒</dd>
+              </a></li>
+            <li class="brn"><a href="#">
+              <dt>广告任务墙</dt>
+              <dd><em>3/27</em>更新</dd>
+              </a></li>
+            <li><a href="#">
+              <dt>各校自主招生网络
+                </dd>
+              <dt><em>800</em>米粒
+                </dd>
+              </a></li>
+            <li class="brn"><a href="#">
+              <dt>去购物</dt>
+              </a></li>
+            <li class="bbn"><a href="#">
+              <dt>91问问快速问答</dt>
+              <dd><em>1</em>米粒</dd>
+              </a></li>
+            <li class="bbn brn"><a href="#">
+              <dt>每日签到</dt>
+              <dd><em>1</em>米粒</dd>
+              </a></li>
+          </ul>
+          <ul class="taskList clearfix">
+            <li><a href="#">
+              <dt>小鸡找米</dt>
+              <dd>最高<em>5888</em>米粒</dd>
+              </a></li>
+            <li class="brn"><a href="#">
+              <dt>广告任务墙</dt>
+              <dd><em>3/27</em>更新</dd>
+              </a></li>
+            <li><a href="#">
+              <dt>各校自主招生网络
+                </dd>
+              <dt><em>800</em>米粒
+                </dd>
+              </a></li>
+            <li class="brn"><a href="#">
+              <dt>去购物</dt>
+              </a></li>
+            <li class="bbn"><a href="#">
+              <dt>91问问快速问答</dt>
+              <dd><em>1</em>米粒</dd>
+              </a></li>
+            <li class="bbn brn"><a href="#">
+              <dt>每日签到</dt>
+              <dd><em>1</em>米粒</dd>
+              </a></li>
+          </ul>
+          <ul class="taskList clearfix">
+            <li><a href="#">
+              <dt>小鸡找米</dt>
+              <dd>最高<em>5888</em>米粒</dd>
+              </a></li>
+            <li class="brn"><a href="#">
+              <dt>广告任务墙</dt>
+              <dd><em>3/27</em>更新</dd>
+              </a></li>
+            <li><a href="#">
+              <dt>各校自主招生网络
+                </dd>
+              <dt><em>800</em>米粒
+                </dd>
+              </a></li>
+            <li class="brn"><a href="#">
+              <dt>去购物</dt>
+              </a></li>
+            <li class="bbn"><a href="#">
+              <dt>91问问快速问答</dt>
+              <dd><em>1</em>米粒</dd>
+              </a></li>
+            <li class="bbn brn"><a href="#">
+              <dt>每日签到</dt>
+              <dd><em>1</em>米粒</dd>
+              </a></li>
+          </ul>
+        </div><!-- eof all clearfix -->
+      </div><!-- eof .mask -->
+    </div><!-- eof #task -->
     {% endif %}
 
     <div id="getMallList">
-      <h3>返利商城</h3>
-      <div class="menu"><a href="#" class="hover">热门商城</a> | <a href="#">服装饰品</a> | <a href="#">手机数码家电</a><a class="more" href="#">更多&gt;&gt;</a></div>
-      <ul class="clearfix">
-        <li><a href="tot.html?mid=717&amp;z=2" title="京东商城" target="_blank"><img width="90" height="45" src="http://img01.fanli.com/mall/20131121/1ef7c76726b0bd1be0a3f68e69e194de.gif" alt="京东商城">
-          <p>最高返 <em>5.6%</em></p>
-          </a></li>
-        <li><a href="tot.html?mid=717&amp;z=2" title="京东商城" target="_blank"><img width="90" height="45" src="http://img01.fanli.com/mall/20131121/1ef7c76726b0bd1be0a3f68e69e194de.gif" alt="京东商城">
-          <p>最高返 <em>5.6%</em></p>
-          </a></li>
-        <li><a href="tot.html?mid=717&amp;z=2" title="京东商城" target="_blank"><img width="90" height="45" src="http://img01.fanli.com/mall/20131121/1ef7c76726b0bd1be0a3f68e69e194de.gif" alt="京东商城">
-          <p>最高返 <em>5.6%</em></p>
-          </a></li>
-        <li><a href="tot.html?mid=717&amp;z=2" title="京东商城" target="_blank"><img width="90" height="45" src="http://img01.fanli.com/mall/20131121/1ef7c76726b0bd1be0a3f68e69e194de.gif" alt="京东商城">
-          <p>最高返 <em>5.6%</em></p>
-          </a></li>
-        <li><a href="tot.html?mid=717&amp;z=2" title="京东商城" target="_blank"><img width="90" height="45" src="http://img01.fanli.com/mall/20131121/1ef7c76726b0bd1be0a3f68e69e194de.gif" alt="京东商城">
-          <p>最高返 <em>5.6%</em></p>
-          </a></li>
-        <li><a href="tot.html?mid=717&amp;z=2" title="京东商城" target="_blank"><img width="90" height="45" src="http://img01.fanli.com/mall/20131121/1ef7c76726b0bd1be0a3f68e69e194de.gif" alt="京东商城">
-          <p>最高返 <em>5.6%</em></p>
-          </a></li>
-        <li><a href="tot.html?mid=717&amp;z=2" title="京东商城" target="_blank"><img width="90" height="45" src="http://img01.fanli.com/mall/20131121/1ef7c76726b0bd1be0a3f68e69e194de.gif" alt="京东商城">
-          <p>最高返 <em>5.6%</em></p>
-          </a></li>
-        <li><a href="tot.html?mid=717&amp;z=2" title="京东商城" target="_blank"><img width="90" height="45" src="http://img01.fanli.com/mall/20131121/1ef7c76726b0bd1be0a3f68e69e194de.gif" alt="京东商城">
-          <p>最高返 <em>5.6%</em></p>
-          </a></li>
-        <li><a href="tot.html?mid=717&amp;z=2" title="京东商城" target="_blank"><img width="90" height="45" src="http://img01.fanli.com/mall/20131121/1ef7c76726b0bd1be0a3f68e69e194de.gif" alt="京东商城">
-          <p>最高返 <em>5.6%</em></p>
-          </a></li>
-        <li><a href="tot.html?mid=717&amp;z=2" title="京东商城" target="_blank"><img width="90" height="45" src="http://img01.fanli.com/mall/20131121/1ef7c76726b0bd1be0a3f68e69e194de.gif" alt="京东商城">
-          <p>最高返 <em>5.6%</em></p>
-          </a></li>
-      </ul>
+        {{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 12, 'tmpl': 'top' } ) ) }}
     </div><!-- eof getMallList -->
     
     <div id="indexRecommend">
+
       <h3>超值低价</h3>
+      <div class="menu"><a class="more" href="#">更多&gt;&gt;</a></div>
       <ul class="clearfix">
         <li>
           <p class="image"><a href="#"><img width="200" height="130" src="{{ asset('other140307/image100.jpg') }}"></a></p>
@@ -173,6 +205,22 @@
                 <p class="btn"><a href="#" class="goActivity">去看看</a></p>
               </dd>
             </li>
+            <li>
+              <dt><a href="#"><img src="{{ asset('other140307/image100.jpg') }}" width="494" height="121" /></a></dt>
+              <dd>
+                <p class="title">娇韵的风景的风景特卖4折起</p>
+                <p class="discount">2.1折起</p>
+                <p class="btn"><a class="goActivity" href="#">去看看</a></p>
+              </dd>
+            </li>
+            <li>
+              <dt><a href="#"><img src="{{ asset('other140307/image100.jpg') }}" width="494" height="121" /></a></dt>
+              <dd>
+                <p class="title">娇韵的风景的风景特卖4折起</p>
+                <p class="discount">2.1折起</p>
+                <p class="btn"><a class="goActivity" href="#">去看看</a></p>
+              </dd>
+            </li>
           </div>
         </div>
         <a class="prevBtn">prev</a><a class="nextBtn">next</a>
@@ -192,7 +240,7 @@
             <input type="password" name="pwd" class="password" id="password">
           </p>
           <p>
-            <input type="image" src="images140307/logBtn.jpg" class="image" id="login" value="登录" name="登录" title="登录">
+          <input type="image" src="{{ asset('images140307/logBtn.jpg') }}" class="image" id="login" value="登录" name="登录" title="登录">
             <label>
               <input type="checkbox" id="rem" value="1" name="remember_me">
               记住我</label>
@@ -201,7 +249,7 @@
         </form>
       </div>
       <div id="aboutJili">
-        <h3><img src="images140307/aboutJili.jpg" alt="在积粒网能做什么？"></h3>
+          <h3><img src="{{ asset('images140307/aboutJili.jpg') }}" alt="在积粒网能做什么？"></h3>
         <ul class="clearfix">
           <li>100米粒=￥1.00元</li>
           <li>玩游戏，拿返利，答问卷赚积分</li>
@@ -213,7 +261,7 @@
     <div class="userFrame">
       <div id="userInfo">
         <div class="basic clearfix">
-          <div class="photo"><img width="90" height="90" src="other140307/image100.jpg"></div>
+            <div class="photo"><img width="90" height="90" src="{{ asset('other140307/image100.jpg') }}"></div>
           <p class="name">您好，clauzu</p>
           <p><a class="goUserInfo" href="#">进入个人中心</a></p>
         </div>
@@ -229,11 +277,11 @@
 
     <div id="banner">
       <ul class="bannerImg" style="top: -183px;">
-        <li><a href="http://www.91jili.com/advertiserment/info/88"><img src="other140307/image100.jpg"></a></li>
-        <li><a href="http://www.91jili.com/shopping/list"><img src="other140307/image100.jpg"></a></li>
-        <li><a href="http://www.91jili.com/game/index"><img src="other140307/image100.jpg"></a></li>
+          <li><a href="http://www.91jili.com/advertiserment/info/88"><img src="{{ asset('other140307/image100.jpg') }}"></a></li>
+          <li><a href="http://www.91jili.com/shopping/list"><img src="{{ asset('other140307/image100.jpg') }}"></a></li>
+          <li><a href="http://www.91jili.com/game/index"><img src="{{ asset('other140307/image100.jpg') }}"></a></li>
       </ul>
-      <div class="bannerNumber"><a class="">1</a><a class="hover">2</a><a class="">3</a><a>1</a><a>2</a><a>3</a></div>
+      <div class="bannerNumber"></div>
     </div>   <!-- eof banner -->
     <div id="news">
       <h3>最新公告</h3>

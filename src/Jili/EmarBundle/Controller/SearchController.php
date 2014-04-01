@@ -24,10 +24,10 @@ class SearchController extends Controller
     public function formAction( $qs = array(), $rt = 0 ) {
 
         $request = $this->get('request');
-        $logger= $this->get('logger');
+        #$logger= $this->get('logger');
 
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $qs, true));
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $rt, true));
+            #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $qs, true));
+            #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $rt, true));
 
         if( $request->isMethod('POST')) {
             $form = $this->createForm(new SearchGeneralType());
@@ -57,8 +57,8 @@ class SearchController extends Controller
                 }
             }
 
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $keyword, true));
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $request->query->all()  , true));
+            #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $keyword, true));
+            #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $request->query->all()  , true));
 
             $form = $this->createForm(new SearchGeneralType(), array('q'=> $keyword, 'rt'=> (int) $rt ) ); 
         }

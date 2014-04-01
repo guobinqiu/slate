@@ -9,7 +9,7 @@ class GhsCategoryGetRequest  extends BaseRequest {
     $req = new  \Jili\EmarBundle\Api2\Request\GhsCatGetRequest;
     $req->setFields('ghs_catid,ghs_cname,sort_order');
     $resp =  $this->c->setApp($this->app_name)->exe($req);
-    $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->c->getApp(), true)  );
+    #$this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->c->getApp(), true)  );
     $result = array();
 
     if( isset( $resp[ 'ghs_cats']) && isset($resp['ghs_cats'] ['ghs_cat'] ) ) {

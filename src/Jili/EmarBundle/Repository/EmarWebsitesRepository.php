@@ -11,14 +11,19 @@ class EmarWebsitesRepository extends EntityRepository
     /**
      * todo: statics by user clicked.
      */
-    public function getHot() {
+    public function getHot($params = array() ) {
+        extract($params);
+
         $qb  = $this->createQueryBuilder('ew');
-
-        $qb->select('ew.webId');
-
+        $qb->select('DISTINCT ew.webId');
         $qb->where($qb->expr()->eq('ew.isDeleted', 'false'));
         $qb->andWhere($qb->expr()->eq('ew.isHidden', 'false'));
         $qb->orderBy('ew.position', 'ASC');
+
+        if( isset($limit)) {
+            $qb->setMaxResults($limit);
+        }
+
         $query  = $qb->getQuery();
         $results = $query->getResult();
         return $results;

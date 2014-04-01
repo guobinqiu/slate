@@ -19,24 +19,6 @@ use Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
  */
 class WebsitesController extends Controller
 {
-    /**
-     * @Route("/hot")
-     * @Template()
-     */
-    public function hotOnCpsAction()
-    {
-        $logger= $this->get('logger');
-        // fetch the details ? 
-        $em = $this->getDoctrine()->getManager();
-        $hot_webs = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot();
-        if(! empty($hot_webs)) {
-            $webids = array_unique( array_map( function($v) { if ( isset($v['webId'])) { return  $v['webId']; } ; } , $hot_webs ));
-            $websites = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
-        } else {
-            $websites = array();
-        }
-        return compact('websites');
-    }
 
     /**
      * @Route("/shoplist/search")
@@ -67,7 +49,7 @@ class WebsitesController extends Controller
     }
 
     /**
-     * @abstract: 会将本地配置的商品排列在前面。
+     * @abstract: 会将本地配置的商家排列在前面。
      * @Route("/shoplist")
      * @Template()
      */
@@ -123,6 +105,7 @@ class WebsitesController extends Controller
                 unset($websites_left[$row->getWebId()]);
             }
         }
+
         $websites_sorted = $websites_filtered + $websites_left; //array_diff($websites, $websites_filtered);
 
         // page_size , page_no 
@@ -162,13 +145,52 @@ class WebsitesController extends Controller
                 }
             }
         }
+
         $filter_form = $this->createForm(new WebsiteFilterType(), array('keyword'=>$keyword)  );
         return  array('categories'=> $wcats, 'websites'=> $websites_paged, 'total'=> $total,'filter_form'=>$filter_form->createView() );
     }
 
+
+    /**
+     * 返利商城: 从emar_websits中取数据，
+     * @Route("/hot/{tmpl}/{max}", defaults={"tmpl"="top", "max" = 12 }, requirements={"tmpl"= "\w+",  "max" = "\d+"} )
+     * @Method("GET")
+     * @Template()
+     */
+    public function hotAction($tmpl, $max)
+    {
+        //todo restrice the request ip ?
+        $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+
+        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'')).var_export( $tmpl, true)  );
+        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'')).var_export( $max , true)  );
+
+        $params = array();
+        if(isset($max) && $max > 0 ) {
+            $params['limit'] = $max;
+        }
+
+        // fetch the details ? 
+        $hot_webs = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot( $params);
+
+        if(! empty($hot_webs)) {
+            $webids =  array_map( function($v) { if ( isset($v['webId'])) { return  $v['webId']; } ; } , $hot_webs );
+
+            $websites = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
+        } else {
+            $websites = array();
+        }
+
+        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'')).var_export( $websites, true)  );
+
+        $template ='JiliEmarBundle:Websites:'. 'hot_on_'. $tmpl. '.html.twig';
+
+        return $this->render($template, compact('websites'));
+    }
     /**
      * @Route("/detail/{wid}", requirements={"wid" = "\d+"}, defaults={"wid" = 0})
-     * @Template();
+     * @Template()
      * todo: added pageno for recommend
      */
     public function detailAction($wid )
