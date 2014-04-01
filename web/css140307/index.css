@@ -76,14 +76,28 @@
 	height: 20px;
 	padding: 4px 10px 6px 10px;
 	margin-left: 2px;
+	cursor: pointer;
 }
 #task .menu a:hover, #task .menu a.hover {
 	color: #FFF;
 	background-image: url(../images140307/taskMenuHover);
 	background-position: center center;
 }
+#task .mask {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: 115px;
+}
+#task .mask .all {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
 #task .taskList {
 	background-color: #FFF;
+	float: left;
+	width: 615px;
 }
 #task .taskList li {
 	float: left;
@@ -241,6 +255,7 @@
 	text-align: center;
 	text-decoration: none;
 	width: 46px;
+	cursor: pointer;
 }
 #ranking .menu a.hover, #ranking .menu a:hover {
 	background-image: url("../images140307/rankMenuHover.jpg");
@@ -307,10 +322,18 @@
 #timeline {
 	background-color: #FFF;
 }
-#timeline ul {
-	margin-top: 5px;
+#timeline .mask {
 	position: relative;
 	width: 100%;
+	height: 210px;
+	overflow:hidden;
+}
+#timeline ul {
+	margin-top: 5px;
+	position:absolute;
+	width: 100%;
+	top:0;
+	left:0;
 }
 #timeline ul li {
 	background-position: 0 12px;
@@ -562,11 +585,21 @@
 	position: relative;
 }
 #marketActivity .mask {
+	height: 121px;
 	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+#marketActivity .moveDiv {
+	height: 121px;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 #marketActivity ul li {
 	float: left;
-	width: 100%;
+	width: 595px;
 }
 #marketActivity ul li dt {
 	float: left;
