@@ -13,7 +13,7 @@ class TopController extends Controller
 {
 
     /**
-     * @Route("/")
+     * @Route("/index")
      * @Template();
      */
     public function indexAction()

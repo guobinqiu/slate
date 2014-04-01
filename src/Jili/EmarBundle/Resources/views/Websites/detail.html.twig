@@ -1,6 +1,8 @@
 {% extends 'JiliEmarBundle::base140307.html.twig' %}
 
 {% block stylesheet %}
+<link href="{{ asset('css140307/pageNumber.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/recommend.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/shopMore.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/commodity834.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
@@ -8,6 +10,7 @@
 
 {% block javascript %}
 {{  parent() }}
+<script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
 {% endblock %}
 
 
