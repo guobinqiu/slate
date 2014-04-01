@@ -117,6 +117,33 @@ class AdvertisermentController extends Controller
 		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
 	}
 
+    /**
+     * @Route("/offer99", name="_advertiserment_offer99")
+     */
+    public function offer99Action(){
+        if(!  $this->get('request')->getSession()->get('uid') ) {
+            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('_advertiserment_offer99') );
+            return  $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        //UserAdvertisermentVisit
+        $day = date('Ymd');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->getSession()->get('uid');
+        $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
+        if (empty ($visit)) {
+            $gameVisit = new UserAdvertisermentVisit();
+            $gameVisit->setUserId($id);
+            $gameVisit->setVisitDate($day);
+            $em->persist($gameVisit);
+            $em->flush();
+        }
+
+        return $this->render('JiliApiBundle:Advertiserment:offer99.html.twig');
+    }
+
+
 	/**
 	 * @Route("/click", name="_advertiserment_click")
 	 */

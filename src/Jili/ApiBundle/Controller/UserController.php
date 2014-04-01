@@ -556,45 +556,112 @@ class UserController extends Controller
 				$birthday = $year;
 				if($month)
 					$birthday = $birthday.'-'.$month;
-			}	
-			if($hobby)
-				$hobbys  = substr($hobby,0,strlen($hobby)-1); 
+			}
+			if($hobby){
+				$hobbys  = substr($hobby,0,strlen($hobby)-1);
+			}
 			if($tel){
 				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
 					$codeflag = $this->container->getParameter('update_wr_mobile');
 					$code[] = array("code"=>$this->container->getParameter('init_five'),"msg"=>$codeflag);
-				}else{
-					$user->setSex($sex);
-					$user->setBirthday($birthday);
-					$user->setProvince($provinceId);
-					$user->setCity($city);
-					$user->setTel($tel);
-					$user->setIncome($month_income);
-					$user->setHobby($hobbys);
-					$user->setIsInfoSet($this->container->getParameter('init_one'));
-					$em->flush();
-					$code[] = array("code"=>$this->container->getParameter('init_one'));  
+					return new Response(json_encode($code));
 				}
-			}else{
-				$user->setSex($sex);
-				$user->setBirthday($birthday);
-				$user->setProvince($provinceId);
-				$user->setCity($city);
-				$user->setTel($tel);
-				$user->setIncome($month_income);
-				$user->setHobby($hobbys);
-				$user->setIsInfoSet($this->container->getParameter('init_one'));
-				$em->flush();
-        		$code[] = array("code"=>$this->container->getParameter('init_one')); 
 			}
+
+			$user->setSex($sex);
+			$user->setBirthday($birthday);
+			$user->setProvince($provinceId);
+			$user->setCity($city);
+			$user->setTel($tel);
+			$user->setIncome($month_income);
+			$user->setHobby($hobbys);
+			$user->setIsInfoSet($this->container->getParameter('init_one'));
+			$em->flush();
+
+			//获得分数， user, point_history , task_history
+			$point = $this->getPointsForReward();
+			if($this->issetPoints($id)){
+				$this->updatePoint($id,$point);
+			}
+			$code[] = array("code"=>$this->container->getParameter('init_one'));
 		}else{
 			$codeflag = $this->container->getParameter('reg_mobile');
 			$code[] = array("code"=>$this->container->getParameter('init_four'),"msg"=>$codeflag);
 		}
-	
+
 		return new Response(json_encode($code));
 	}
 
+	//获得分数
+	private function getPointsForReward(){
+		$em = $this->getDoctrine()->getManager();
+		//默认值
+		$maxPoint = 10;//永久为10个，默认情况
+		//判断是否是当天注册
+		$request = $this->get('request');
+		$uid = $request->getSession()->get('uid');
+		if($uid){
+			$user = $em->getRepository('JiliApiBundle:User')->find($uid);
+			$reg_date = $user->getRegisterDate()->format('Y-m-d');
+			//注册当天填写属性
+			if(date('Y-m-d') == $reg_date){
+				// 4月份
+				if(date('Ym') == '201404'){
+					$maxPoint = 30;//4月份当天注册，并填写属性
+				}else{
+					$maxPoint = 20;//4月以后当天注册，并填写属性
+				}
+			}
+		}
+		return $maxPoint;
+	}
+
+	//判断是否获得过分数
+	private function issetPoints($userid){
+		$em = $this->getDoctrine()->getManager();
+		$task = $em->getRepository('JiliApiBundle:PointHistory0'. ( $userid % 10));
+		$task_order = $task->issetInsertReward($userid);
+		if(empty($task_order)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	//更新point: user, point_history , task_history
+	private function updatePoint($userId,$point){
+		$em = $this->getDoctrine()->getManager();
+
+		//更新user表总分数
+		$user = $em->getRepository('JiliApiBundle:User')->find($userId);
+		$oldPoint = $user->getPoints();
+		$user->setPoints(intval($oldPoint+$point));
+		$em->persist($user);
+		$em->flush();
+
+		//更新point_history表分数
+		$params = array (
+					'userid' => $userId,
+					'point' => $point,
+					'type' => 9,//9:完善资料
+				);
+		$pointLister = $this->get('general_api.point_history');
+		$pointLister->get($params);
+
+		//更新task_history表分数
+		$params = array (
+			'userid' => $userId,
+			'orderId' => 0,
+			'taskType' => 4,
+			'categoryType' => 9,//9:完善资料
+			'task_name' => '完善资料获取米粒',
+			'point' => $point,
+			'date' => date_create(date('Y-m-d H:i:s')),
+			'status' => 1
+		);
+		$taskLister = $this->get('general_api.task_history');
+		$taskLister->init($params);
+	}
 
 	private function notReadCb(){
 		$id = $this->get('request')->getSession()->get('uid');

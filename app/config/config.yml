@@ -44,6 +44,8 @@ twig:
         emar_max_of_total: %emar_com.max_of_total%
         emar_api_orderby_range: %emar_com.api.orderby_range% # [1,2,3] 
         emar_api_orderby_default: %emar_com.api.orderby_default% # 1 
+        offer99_com:
+            pid: %offer99_com.pid%  
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%

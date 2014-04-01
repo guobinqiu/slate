@@ -24,6 +24,24 @@ parameters:
            HANGUP_PASSED: 2 #：非即时返利活动，审核通过，重新回传，发放奖励给会员；
            HANGUP_REFUSED: 3 #：非即时返利活动，审核不通过，重新回传，不发放奖励；
 
+    offer99_com: 
+        validations:
+            1: { errorno: "1001", message: "缺少参数(检查参数是否传递,tid是否为32位)"}
+            2: { errorno: "1002", message: "密码验证不通过" }
+            3: { errorno: "1003", message: "tid重复" }
+            4: { errorno: "1004", message: "vcpoints超过最大限额" }
+            5: { errorno: "1005", message: "uid不存在" }
+            6: { errorno: "1006", message: "非法IP" }
+
+        #$pass = md5($uid.$vcpoints.$tid.$key)
+        #合作客户提供密钥key，然后把接收到的uid,vcpoints,tid跟key连接起来后再进行md5加密，如果产生的pass为大写，则需转换为小写。
+
+        key: "%offer99_com.key%"
+        pid: %offer99_com.pid%  
+        name: "%offer99_com.name%"
+        category_type: %offer99_com.category_type%
+        task_type: %offer99_com.task_type% 
+
     # cpa & offerwow 活动返利有效的活动分类，对应ad_category表中的记录。
     rebate_activity_category:
         - %cpa.category_type%

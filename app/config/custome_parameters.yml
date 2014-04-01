@@ -6,6 +6,11 @@ parameters:
     offerwow_com.category_type: 17 # in ad_category table where cateogry_name ='offerwow' ??
     offerwow_com.task_type: 5
 
+    offer99_com.pid: f4b42b65ce528bb151ea6e2eb5a01692
+    offer99_com.key: "91jili2offer99"
+    offer99_com.name: "体验广告"
+    offer99_com.category_type: 18
+    offer99_com.task_type: 5
 
     cpa.category_type:  1 # in table ad_category where category_name='CPA'
     cps.category_type:  1 # in table ad_category where category_name='CPA'

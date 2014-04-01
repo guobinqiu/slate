@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>积粒网-体验广告</title>
+{% include 'JiliApiBundle::seo.html.twig' %}
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/adListNew.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/adListNew.js')}}" type="text/javascript"></script>
+</head>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+<div class="webArticle adList">
+  <article>
+    <!--  subnav  -->
+    <div class="offwowSubnav">
+        <ul class="subnavList">
+            <li class="subnavItem first"><a href="{{ asset(path('_advertiserment_list')) }}">任务大厅一</a></li>
+            <li class="subnavItem"><a class="now" href="{{ asset(path('_advertiserment_offer99')) }}">任务大厅二</a></li>
+        </ul>
+        <div class="navNew"><img src="{{ asset('images/newTag.gif') }}" title="NEW"></div>
+    </div>
+    <!--  subnav  /-->
+    <iframe src='http://app.offer99.com/index.php?pid={{ offer99_com.pid }}&userid={{ app.session.get('uid') }}' style='width:1000px;height:550px;' scrolling='auto' frameborder='no' border='0' allowTransparency='true'></iframe>
+  </article>
+</div>
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>

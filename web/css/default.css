@@ -83,12 +83,12 @@ header nav#menu ul li.last a{
 	border-right:none;
 }
 header nav#menu ul li span.new{
-	background-image: url("../other/newIcon.gif");
-	height: 12px;
-    position: absolute;
-    right: 17px;
-    top: -2px;
-    width: 22px;
+	background-image: url("../images/newTag.gif");
+	height: 18px;
+	position: absolute;
+	right: 6px;
+	top: -9px;
+	width: 29px;
 }
 header nav#menu ul li a{
 	color:#FFF;
