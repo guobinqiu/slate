@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="ActionType.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915386739677" remote="130408137190000000" Dst="0" />
+<file name="AdCategory.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915386749678" remote="130408137190000000" Dst="0" />
+<file name="AdPosition.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915386999692" remote="130408137190000000" Dst="0" />
+<file name="Advertiserment.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387019693" remote="130408137190000000" Dst="0" />
+<file name="AdwAccessHistory.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387039694" remote="130408137190000000" Dst="0" />
+<file name="AdwAccessRecord.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387049695" remote="130408137190000000" Dst="0" />
+<file name="Blackusers.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387059695" remote="130408137190000000" Dst="0" />
+<file name="Callboard.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387069696" remote="130408137190000000" Dst="0" />
+<file name="LimitAd.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387079696" remote="130408137190000000" Dst="0" />
+<file name="LimitAdResult.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387089697" remote="130408137190000000" Dst="0" />
+<file name="LoginLog.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387119699" remote="130408137190000000" Dst="0" />
+<file name="PointHistory00.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387129699" remote="130408137190000000" Dst="0" />
+<file name="PointHistory01.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387139700" remote="130408137190000000" Dst="0" />
+<file name="PointHistory02.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387139700" remote="130408137190000000" Dst="0" />
+<file name="PointHistory03.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387149700" remote="130408137190000000" Dst="0" />
+<file name="PointHistory04.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387149700" remote="130408137190000000" Dst="0" />
+<file name="PointHistory05.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387169702" remote="130408137190000000" Dst="0" />
+<file name="PointHistory06.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387179702" remote="130408137190000000" Dst="0" />
+<file name="PointHistory07.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387189703" remote="130408137200000000" Dst="0" />
+<file name="PointHistory08.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387199703" remote="130408137200000000" Dst="0" />
+<file name="PointHistory09.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387209704" remote="130408137200000000" Dst="0" />
+<file name="PointReason.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387219704" remote="130408137200000000" Dst="0" />
+<file name="PointsExchange.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387229705" remote="130408137200000000" Dst="0" />
+<file name="PointsExchangeType.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387229705" remote="130408137200000000" Dst="0" />
+<file name="RateAd.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387259707" remote="130408137200000000" Dst="0" />
+<file name="RateAdResult.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387269707" remote="130408137200000000" Dst="0" />
+<file name="User.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915387269707" remote="130408137200000000" Dst="0" />
+</dwsync>
