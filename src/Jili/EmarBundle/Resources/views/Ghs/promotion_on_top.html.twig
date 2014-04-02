@@ -1,0 +1,40 @@
+
+      <h3>超值低价</h3>
+      <div class="menu"><a class="more" href="#">刷新</a></div>
+      <ul class="clearfix">
+         {% for row in ghs_pdts %}
+             {% if 0 == loop.index % 3 %}
+             <li class="mr0">
+             {% else %}
+             <li >
+             {% endif %}
+                 <p class="image"><a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><img src="{{ row.pic_url }}" height="130" width="200"></a></p>
+                 <p class="price">¥{{ row.ghs_price }}<em>{{ row.discount }}%折</em></p> 
+                 <p><del>原价￥{{ row.ori_price }}</del> 销量{{ row.bought }}件</p>
+             </li>
+         {% endfor %}
+    </ul>
+
+{#
+[2014-04-01 16:27:56] app.DEBUG: {jarod}34,Jili\EmarBundle\Controller\GhsController,array (
+  0 => 
+  array (
+    'pid' => 'ghs-000100-10354',
+    'web_name' => '阿窝团购划算专用',
+    'p_name' => '春笑炮弹钢厨房套刀',
+    'ghs_o_url' => 'http://www.gouwuke.com/gwJuHeMonitor.do?UCId=17290&type=ghs:open:452294&pid=ghs-000100-10354&mid=452294&e=APIMemberId&t=http://www.awotuan.com/team.php?id=36446',
+    'ghs_catid' => '000100',
+    'ghs_cname' => '家居日用',
+    'weight' => '1712',
+    'ori_price' => '199',
+    'ghs_price' => '49.9',
+    'discount' => '2.5',
+    'bought' => '98725',
+    'pic_url' => 'http://image.yiqifa.com/gwk_images/ghs/ghs_20130905155600_2537.jpg',
+    'post' => '不包邮',
+    'begin_time' => '2013-08-18 00:00:00',
+    'end_time' => '2014-04-30 00:00:01',
+  ),
+
+#}
+

@@ -1,0 +1,19 @@
+      <h3>品牌热卖</h3>
+      <ul class="clearfix">
+        <div class="mask">
+          <div class="moveDiv">
+            {% for row in hotactivity %}
+            {% set href_ = row.hot_o_url|replace({'APIMemberId':app.session.get('uid')}) %}
+            <li>
+              <dt><a href="{{ href_ }}" target="_blank" rel="nofollow"><img width="494" height="121" src="{{ row.pic_url }}"></a></dt>
+              <dd>
+                <p class="title">{{ row.hot_name }}</p>
+                <p class="discount">{{ row.discount  }}</p>
+                <p class="btn"><a href="{{ href_ }}" target="_blank" rel="nofollow" class="goActivity">去看看</a></p>
+              </dd>
+            </li>
+            {% endfor %}
+          </div>
+        </div>
+        <a class="prevBtn">prev</a><a class="nextBtn">next</a>
+      </ul>
