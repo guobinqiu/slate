@@ -4,15 +4,8 @@ namespace Jili\EmarBundle\EventListener;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 
-class HotactivityListGetRequest  {
+class HotactivityListGetRequest  extends BaseListRequest {
 
-  private $logger;
-  private $page_size;
-
-
-  function __construct() {
-    $this->page_size = 0;
-  }
   /**
    *
    */
@@ -23,7 +16,10 @@ class HotactivityListGetRequest  {
 
     if( isset($catid) ) {
       $req->setCatid($catid);
+    } else {
+      $req->setCatid('01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18');
     }
+
     if( isset($webid) ) {
       $req->setWebid($webid);
     }

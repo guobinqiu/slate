@@ -14,7 +14,7 @@ use Jili\EmarBundle\Api2\Repository\GhsCat as GhsCatRepository;
 class GhsController extends Controller
 {
     /**
-     * tmpl: the template to embed, max: number of records, p: the page
+     * @param: tmpl: the template to embed, max: number of records, p: the page
      * @Route("/promotion/{tmpl}/{max}/{p}", defaults={"tmpl"="top", "max"=6 ,"p"=1}, requirements={"tmpl"="\w+", "max"="\d+", "p"="\d+"})
      * @Method("GET")
      * @Template()
@@ -26,17 +26,26 @@ class GhsController extends Controller
         $listRequest = $this->get('ghs.list_get');
         $listRequest->setPageSize($max);
         $params = array('page_no' => $p);
-
+        $uid = $request->getSession()->get('uid');
         $list = $listRequest->setApp('cron')->fetch( $params );
 
+        #$logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')).var_export( $list, true));
 
         if( $request->isXmlHttpRequest()) {
+            $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')));
+            $prds = array();
+            foreach( $list as $v) {
+                $prds[] = array('pic'=> $v['pic_url'], 'href'=> str_replace('APIMemberId', $uid, $v['ghs_o_url']),'pri1'=> $v['ghs_price'],'pri0'=>$v['ori_price'] ,'dis'=>$v['discount'],'buy'=>$v['bought'] ); 
 
-            $response = new Response(json_encode(array('name' => $name)));
+            }
+           // $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')). var_export( json_encode($prds), true) );
+            $response = new Response(json_encode(array('prds' => $prds)));
             $response->headers->set('Content-Type', 'application/json');
-
         }
-        return array();
+
+        $template ='JiliEmarBundle:Ghs:'. 'promotion_on_'. $tmpl. '.html.twig';
+
+        return $this->render($template, array('ghs_pdts'=> $list ));
     }
 
     /**

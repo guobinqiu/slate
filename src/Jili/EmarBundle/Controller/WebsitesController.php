@@ -163,9 +163,6 @@ class WebsitesController extends Controller
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'')).var_export( $tmpl, true)  );
-        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'')).var_export( $max , true)  );
-
         $params = array();
         if(isset($max) && $max > 0 ) {
             $params['limit'] = $max;
@@ -182,7 +179,7 @@ class WebsitesController extends Controller
             $websites = array();
         }
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'')).var_export( $websites, true)  );
+        #$logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'')).var_export( $websites, true)  );
 
         $template ='JiliEmarBundle:Websites:'. 'hot_on_'. $tmpl. '.html.twig';
 
