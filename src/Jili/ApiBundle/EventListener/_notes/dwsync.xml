@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="CheckInListener.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408128238578294" remote="130408137180000000" Dst="0" />
+<file name="CpsAccessHistoryFactory.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129328130613" remote="130408137180000000" Dst="0" />
+<file name="CpsOrderFactory.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129328150614" remote="130408137180000000" Dst="0" />
+<file name="LoginListener.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915379459261" remote="130408137180000000" Dst="0" />
+<file name="Offer99ApiLogger.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129328170615" remote="130408137180000000" Dst="0" />
+<file name="Offer99RequestProcessor.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129328190616" remote="130408137180000000" Dst="0" />
+<file name="Offer99RequestValidation.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129328330624" remote="130408137180000000" Dst="0" />
+<file name="OfferwowApiLogger.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915379489262" remote="130408137180000000" Dst="0" />
+<file name="OfferwowRequestProcessor.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915379509263" remote="130408137180000000" Dst="0" />
+<file name="OfferwowRequestValidation.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915379529265" remote="130408137180000000" Dst="0" />
+<file name="PointHistory.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915379549266" remote="130408137180000000" Dst="0" />
+<file name="RebateActivity.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130402915379559266" remote="130408137180000000" Dst="0" />
+<file name="SoapMailListener.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408128238588295" remote="130408137180000000" Dst="0" />
+<file name="TaskHistory.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129328350626" remote="130408137180000000" Dst="0" />
+</dwsync>
