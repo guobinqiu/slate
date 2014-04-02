@@ -11,23 +11,11 @@
             <a href="{{ path( router_ ,  { 'c_h': wcatid })}}" > {{ cat }}  </a>
     {% endif %}
 {% endfor %}
-
-{#
-        <a class="hover" href="#">服装</a>
-        <a href="#"> 家电 </a>
-        <a href="#"> 视频 </a>
-        <a href="#"> 百货 </a>
-        <a href="#"> 玩具 </a>
-        <a href="#"> 酒店 </a>
-        <a href="#"> 服装 </a>
-        <a href="#"> 箱包 </a>
-        <a href="#"> 图书音像 </a>
-#}
         <a class="unfoldBtn already">展开</a> </dd>
     </div>
 
     <ul class="commodityUl btbn clearfix">
-{% for row in ghs_pdts%}
+{% for row in ghs_pdts %}
       <li>
         <dt><a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><img src="{{ row.pic_url }}" height="150" width="150"></a></dt>
         <dd>
