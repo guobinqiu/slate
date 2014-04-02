@@ -3,7 +3,7 @@ namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
-
+use Jili\EmarBundle\Api2\Request\WebsiteCategoryGetRequest as OpenApiWebsiteCategoryGetRequest;
 
 class WebsiteCategoryGetRequest  {
 
@@ -12,7 +12,7 @@ class WebsiteCategoryGetRequest  {
 
   public function fetch( $wtype = 1) {
     //todo: cached 
-    $req = new  \Jili\EmarBundle\Api2\Request\WebsiteCategoryGetRequest;
+    $req = new  OpenApiWebsiteCategoryGetRequest;
     $req->setFields('web_catid,web_cname,amount,web_type,modified_time');
     $req->setWtype( $wtype );
 

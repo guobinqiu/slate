@@ -3,6 +3,7 @@ namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
+use Jili\EmarBundle\Api2\Request\WebsiteListGetRequest as OpenApiWebsiteListGetRequest;
 
 
 class WebsiteListGetRequest  {
@@ -28,7 +29,7 @@ class WebsiteListGetRequest  {
 
     extract($params);
     //todo: cached 
-    $req = new  \Jili\EmarBundle\Api2\Request\WebsiteListGetRequest;
+    $req = new  OpenApiWebsiteListGetRequest;
 
     if( strlen(trim($this->fields)) > 0) {
         $req->setFields($this->fields );

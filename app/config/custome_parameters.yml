@@ -36,13 +36,13 @@ parameters:
 
 #    $jili = array('139216929186018017','e7c5367e1ba7d609865389640007df3e');
     emar_com.open_api.app:
-        debug:
+        debug: # dev 
             key: '139597428026718017'
             secret: '53a77a65327cdd28bff99da8f9f542cf'
-        search:
+        search: # demo
             key: '139216929186018017'
             secret: 'e7c5367e1ba7d609865389640007df3e'
-        cron:
+        cron: # jili-cron
             key: '139599061334718017'
             secret: '98a77033e7a6e8b8533f70eca181d09f '
 

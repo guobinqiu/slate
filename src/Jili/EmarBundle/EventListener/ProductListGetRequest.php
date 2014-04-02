@@ -2,7 +2,7 @@
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-
+use Jili\EmarBundle\Api2\Request\ProductListGetRequest as OpenApiProductListGetRequest;
 
 class ProductListGetRequest  {
 
@@ -27,7 +27,7 @@ class ProductListGetRequest  {
    */
   public function fetch( $params = array() ) {
 
-    $req=new \Jili\EmarBundle\Api2\Request\ProductListGetRequest;
+    $req = new  OpenApiProductListGetRequest;
 
 
     extract($params);

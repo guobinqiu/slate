@@ -2,8 +2,7 @@
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-
-
+use Jili\EmarBundle\Api2\Request\HotactivityCategoryGetRequest as OpenApiHotactivityCategoryGetRequest;
 
 class HotactivityCategoryGetRequest  {
 
@@ -12,7 +11,7 @@ class HotactivityCategoryGetRequest  {
 
   public function fetch() {
     //todo: cached 
-    $req = new  \Jili\EmarBundle\Api2\Request\HotactivityCategoryGetRequest;
+    $req = new OpenApiHotactivityCategoryGetRequest;
     $req->setFields('hot_catid,hot_cname,modified_time');
     $resp =  $this->c->exe($req);
     $result = array();
