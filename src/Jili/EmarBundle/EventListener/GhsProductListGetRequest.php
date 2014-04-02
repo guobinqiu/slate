@@ -2,12 +2,13 @@
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Jili\EmarBundle\Api2\Request\GhsProductListGetRequest as OpenApiGhsProductListGetRequest;
 
 class GhsProductListGetRequest  extends BaseListRequest {
 
   public function fetch( $param = array()  ) {
     //todo: cached 
-    $req = new  \Jili\EmarBundle\Api2\Request\GhsProductListGetRequest;
+    $req = new  OpenApiGhsProductListGetRequest;
     extract($param);
 
 // category     String[]    N   购划算商品分类，可选值，多个字段用","分隔；值可以通过open.ghs.cat.get获取，默认为空，表示获取全部类目的商品
