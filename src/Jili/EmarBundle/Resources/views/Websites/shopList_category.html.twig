@@ -1,7 +1,7 @@
 
       <h1>商家列表<span>共{{ total }}个商家</span></h1>
       <div class="screen clearfix">
-        <dd class="fl w794 h56" style="height: auto;"> 
+        <dd class="fl w794 h56" > 
 
 {% set wcatid_q = app.request.query.get('wcat','') %}
 <li>
@@ -22,10 +22,7 @@
 
 </li>
 {% endfor %}
-
-{#
 <a class="unfoldBtn">展开</a>
-#}
       </dd>
   </div><!-- eof screen -->
 
