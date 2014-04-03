@@ -2,7 +2,7 @@
 
 {% block body -%}
     
-<h1 align="center" >EmarWebsites list</h1>
+<h1 align="center" >配置 emar商家列表 </h1><!-- EmarWebsites list -->
 
     <table  align="center" >
 
@@ -10,13 +10,14 @@
         <thead>
         {% if entities|length > 0 %}
             <tr>
-                <th>Webid</th>
-                <th>Commission</th>
-                <th>Isdeleted</th>
-                <th>Position</th>
-                <th>Ishidden</th>
-                <th>Updatedat</th>
-                <th>Createdat</th>
+                <th>商家wid</th><!-- Webid -->
+                <th>返利(%)</th>
+                <th>是否注销</th><!--Isdeleted -->
+                <th>排序位置</th><!-- Position -->
+                <th>是否隐藏</th><!-- Ishidden-->
+                <th>是否热卖</th><!-- Ishidden-->
+                <th>更新时间</th><!-- Updatedat-->
+                <th>创建时间</th><!-- Createda-->
                 <th>Id</th>
                 <th>Actions</th>
             </tr>
@@ -30,8 +31,9 @@
                 <td>{{ entity.isDeleted }}</td>
                 <td>{{ entity.position }}</td>
                 <td>{{ entity.isHidden }}</td>
-                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.isHot }}</td>
+                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('m-d H:i') }}{% endif %}</td>
+                <td>{% if entity.createdAt %}{{ entity.createdAt|date('m-d H:i') }}{% endif %}</td>
                 <td>{{ entity.id }}</td>
                 <td>
                 <ul>

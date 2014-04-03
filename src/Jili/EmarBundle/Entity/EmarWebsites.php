@@ -56,6 +56,20 @@ class EmarWebsites
     private $isHidden;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_hot", type="boolean", nullable=false)
+     */
+    private $isHot;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="hot_at", type="datetime", nullable=true)
+     */
+    private $hotAt;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
@@ -219,6 +233,52 @@ class EmarWebsites
     }
 
     /**
+     * Set isHot
+     *
+     * @param boolean $isHot
+     * @return EmarWebsites
+     */
+    public function setIsHot($isHot)
+    {
+        $this->isHot = $isHot;
+
+        return $this;
+    }
+
+    /**
+     * Get isHot
+     *
+     * @return boolean 
+     */
+    public function getIsHot()
+    {
+        return $this->isHot;
+    }
+
+    /**
+     * Set hotAt
+     *
+     * @param \DateTime $hotAt
+     * @return EmarWebsites
+     */
+    public function setHotAt($hotAt)
+    {
+        $this->hotAt = $hotAt;
+
+        return $this;
+    }
+
+    /**
+     * Get hotAt
+     *
+     * @return \DateTime 
+     */
+    public function getHotAt()
+    {
+        return $this->hotAt;
+    }
+
+    /**
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
@@ -286,6 +346,11 @@ class EmarWebsites
         if(is_null( $this->getIsHidden() )) {
             $this->setIsHidden( 1 );
         }
+
+        if(is_null( $this->getIsHot() )) {
+            $this->setIsHidden( 0 );
+        }
+        $this->hotAt= new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
     }
@@ -296,5 +361,8 @@ class EmarWebsites
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime();
+        if( $this->getIsHot() == 1 ) {
+            $this->hotAt= new \DateTime();
+        }
     }
 }

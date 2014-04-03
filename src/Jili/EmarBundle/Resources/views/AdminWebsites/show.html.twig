@@ -2,10 +2,11 @@
 
 
 {% block body -%}
-<table align='center'>
 
+{{ render( controller('JiliEmarBundle:AdminWebsites:detail', { 'wid': entity.webId } ) ) }}
+<table align='center'>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td cols="2"><h1>EmarWebsites</h1></td></tr>
+<tr><td cols="2"><h1>商家详细</h1></td></tr>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 
         <tbody>
