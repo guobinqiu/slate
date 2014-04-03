@@ -90,19 +90,31 @@ class AdminWebsitesController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('JiliEmarBundle:EmarWebsites')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find EmarWebsites entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         );
+    }
+    /**
+     * finds and displays a emarwebsites entity.
+     *
+     * @route("/detail/{wid}", name="admin_emar_websites_detail")
+     * @method("get")
+     * @template()
+     */
+    public function detailAction($wid)
+    {
+        $logger = $this->get('logger');
+        #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')));
+        $detail = $this->get('website.detail_get')->fetch(array('webid'=>$wid) );
+        #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')). var_export( $detail, true) );
+        return compact('detail');
     }
 
     /**

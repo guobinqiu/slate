@@ -30,7 +30,6 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
 #      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')) );
 #      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->config, true)  );
       $app_names = array_keys( $this->config);
-
       if( empty($app_name) || ! in_array( $app_name ,$app_names ) ) {
           $app_name = $app_names[0]  ;
       } 

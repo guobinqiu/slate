@@ -4,10 +4,11 @@ parameters:
     emar_api.callback_validation.class:  Jili\EmarBundle\EventListener\CallbackValidation
 
     emar_request.connection.class: Jili\EmarBundle\EventListener\EmarRequestConnection
-# hot activity
-    hotactivity.category_get.class:  Jili\EmarBundle\EventListener\HotactivityCategoryGetRequest
-    hotactivity.website_get.class:  Jili\EmarBundle\EventListener\HotactivityWebsiteGetRequest
-    hotactivity.list_get.class: Jili\EmarBundle\EventListener\HotactivityListGetRequest
+
+## hot activity
+#    hotactivity.category_get.class:  Jili\EmarBundle\EventListener\HotactivityCategoryGetRequest
+#    hotactivity.website_get.class:  Jili\EmarBundle\EventListener\HotactivityWebsiteGetRequest
+#    hotactivity.list_get.class: Jili\EmarBundle\EventListener\HotactivityListGetRequest
 
 # ghs
     ghs.category_get.class:  Jili\EmarBundle\EventListener\GhsCategoryGetRequest
@@ -62,31 +63,31 @@ services:
        arguments: [  %emar_com.open_api.app% ]
        calls:
             - [setLogger, [ @logger ] ] 
-            - [setApp, [ 'debug' ] ] 
+            - [setApp, [ 'search' ] ] 
 
 #       arguments: [ %emar_com.app_AppKey%, %emar_com.app_AppSecret% ]
 #    jili_emar.example:
 #        class: %jili_emar.example.class%
 #        arguments: [@service_id, plain_value, %parameter%]
 
-    hotactivity.category_get:
-        class: %hotactivity.category_get.class%
-        calls:
-            - [ setConnection,[ @emar_request.connection ] ]
-            - [ setLogger, [ @logger ] ] 
-
-    hotactivity.website_get:
-        class: %hotactivity.website_get.class%
-        calls:
-            - [ setConnection,[ @emar_request.connection ] ]
-            - [ setLogger, [ @logger ] ] 
-
-    hotactivity.list_get:
-        class: %hotactivity.list_get.class%
-        calls:
-            - [ setConnection,[ @emar_request.connection ] ]
-            - [ setLogger, [ @logger ] ] 
-            - [ setPageSize, [ %emar_com.page_size% ] ] 
+#    hotactivity.category_get:
+#        class: %hotactivity.category_get.class%
+#        calls:
+#            - [ setConnection,[ @emar_request.connection ] ]
+#            - [ setLogger, [ @logger ] ] 
+#
+#    hotactivity.website_get:
+#        class: %hotactivity.website_get.class%
+#        calls:
+#            - [ setConnection,[ @emar_request.connection ] ]
+#            - [ setLogger, [ @logger ] ] 
+#
+#    hotactivity.list_get:
+#        class: %hotactivity.list_get.class%
+#        calls:
+#            - [ setConnection,[ @emar_request.connection ] ]
+#            - [ setLogger, [ @logger ] ] 
+#            - [ setPageSize, [ %emar_com.page_size% ] ] 
 
     ghs.category_get:
         class: %ghs.category_get.class%
@@ -130,6 +131,7 @@ services:
         calls:
             - [ setConnection, [ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
+#            - [ setApp, [ 'cron' ] ] 
 
     website.search:
         class: %website.search.class%
