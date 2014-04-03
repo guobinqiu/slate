@@ -6,7 +6,7 @@
 
 <table align='center'>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td cols="2"><h1>EmarWebsites creation</h1></td></tr>
+<tr><td cols="2"><h1>新增emar商家</h1></td></tr> <!-- EmarWebsites creation -->
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 
     
@@ -14,16 +14,33 @@
 {{ form_errors(form) }}
 
 <tr>
-    <td>{{ form_label(form.webId , null ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_label(form.webId , '商家wid' ,{'label_attr': {'class': 'label'}} ) }}</td>
     <td>{{ form_widget(form.webId ) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label(form.webCatid , '商家分类catid' ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.webCatid ) }}</td>
 </tr>
 
 <tr>
-    <td>{{ form_label(form.commission , null ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_label(form.commission , '返利%' ,{'label_attr': {'class': 'label'}} ) }}</td>
     <td>{{ form_widget(form.commission ) }}</td>
 </tr>
 
+<tr>
+    <td>{{ form_label(form.is_hidden , '是否隐藏' ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.is_hidden ) }}</td>
+</tr>
 
+<tr>
+    <td>{{ form_label(form.is_hot , '是否热卖',{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.is_hot ) }}</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.position , '排序先后',{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.position ) }}</td>
+</tr>
 
 <tr style="display:none">
 </tr>

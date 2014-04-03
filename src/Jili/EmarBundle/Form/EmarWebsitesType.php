@@ -10,10 +10,13 @@ class EmarWebsitesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // todo: 
         $builder
             ->add('webId')
             ->add('webCatid')
             ->add('commission')
+            ->add('is_hidden','choice' , array('choices'   => array('0' => '显示', '1' => '隐藏')))
+            ->add('is_hot','choice' , array('choices'   => array('1' => '热卖', '0' => '非热卖')))
             ->add('position')
         ;
     }
