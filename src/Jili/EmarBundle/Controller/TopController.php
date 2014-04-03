@@ -11,16 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class TopController extends Controller
 {
-
-    /**
-     * @Route("/index")
-     * @Template();
-     */
-    public function indexAction()
-    {
-        return array();
-    }
-
     /**
      * @Route("/cps")
      * @Template();
