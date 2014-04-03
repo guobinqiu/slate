@@ -1,12 +1,13 @@
-  <script>
+
+{% if app.session.get('uid') %}
+<script type="text/javascript">
 $(document).ready(function(){
-	{% if app.session.get('uid') %}
 		isNewMessage();
-	{% endif %}
 });
+
   function isNewMessage(){
    $.ajax({
-          url: "{{ path('_user_isNewMs',{'id':app.session.get('uid')}) }}",
+          url: "{{ path('_user_isNewMs',{'id':app.session.get('uid') }) }}",
           type: "GET",
           success:function(data){
               if(data){
@@ -17,7 +18,10 @@ $(document).ready(function(){
           }
         });
 }
-  </script>
+
+</script>
+
+{% endif %}
 
   <div id="topbar">
     <div class="page clearfix">
@@ -25,7 +29,7 @@ $(document).ready(function(){
         {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
         {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
     {% endif %}
-    {% if app.session.get('uid') %}
+    {% if app.session.has('uid') %}
       <ul id="userbar">
         <li><a class="message">新消息(+{{ render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) }})</a></li>
         <li class="split">|</li>
@@ -58,8 +62,10 @@ $(document).ready(function(){
   </div>
   <div id="nav">
     <div class="page clearfix">
+    {% if app.session.has('uid') %}
       <ul>
-        <li class="task"> <a class="taskBtn" href="#">我的任务列表</a><em>3</em>
+        <li class="task"> 
+        <a class="taskBtn" href="#">我的任务列表</a><em>3</em>
           <ul>
             <li><a href="#">每日签到<span>1米粒</span></a></li>
             <li><a href="#">小鸡找米<span>最高588米粒</span></a></li>
@@ -73,6 +79,6 @@ $(document).ready(function(){
 		<li><a href="{{ asset(path('_marketActivity_index'),'cdn1')  }}">商家活动</a></li>
         <li><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
       </ul>
+    {% endif %}
     </div>
   </div>
-

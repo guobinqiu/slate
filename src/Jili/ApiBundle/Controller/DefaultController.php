@@ -179,7 +179,7 @@ class DefaultController extends Controller {
 	}
 
 	/**
-	 * @Route("/", name="_default_index",requirements={"_scheme"="https"})
+	 * @Route("/index", name="_default_index",requirements={"_scheme"="https"})
 	 * 
 	 */
 	public function indexAction() {
