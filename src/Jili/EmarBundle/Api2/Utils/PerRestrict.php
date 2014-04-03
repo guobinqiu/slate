@@ -12,23 +12,24 @@ class PerRestrict
     private $storage;
 
     private $threadhold;// 
-    function __construct()
+
+    function __construct( $cps = 20)
     {
-        $this->storage = array_fill( 0, 20, 0);
+        $this->storage = array_fill( 0, $cps, 0);
 
         //echo implode(',',$a),PHP_EOL;
 
         $this->threadhold = 60; // seconds
-        $this->restrict = 20;// request per min
+        $this->restrict = $cps;// request per min
 
     }
 
     function add(){
         $t = time();
         array_unshift($this->storage, $t);
-        $t_19 = array_pop($this->storage);
+        $t_end = array_pop($this->storage);
         //echo '  storage(after): ', implode(',',$this->storage),':', count($this->storage),PHP_EOL ;
-        $diff =  $this->threadhold - $t + $t_19;;
+        $diff =  $this->threadhold - $t + $t_end;;
         if($diff > 0) {
             echo '//  sleep: ' , $diff , 'seconds',PHP_EOL;
             sleep( $diff );

@@ -49,16 +49,21 @@ parameters:
             secret: 'e7c5367e1ba7d609865389640007df3e'
         cron: # jili-cron
             key: '139599061334718017'
-            secret: '98a77033e7a6e8b8533f70eca181d09f '
-
+            secret: '98a77033e7a6e8b8533f70eca181d09f'
 
     emar_com.page_size: 20 
     emar_com.page_size_of_shoplist: 30 
     emar_com.page_size_of_search: 24 
     emar_com.page_size_of_topcps:  16 
-
     emar_com.max_of_total: 1800 
 
     emar_com.api.orderby_range: [1,2,3] 
     emar_com.api.orderby_default: 1 
-    
+
+    emar_com.rt_of_search_form.name: 
+        'commodity': { value: 0 , label: '商品'} 
+        'shop': { value: 1, label: '商城' }   
+#        'else': { value: 3, label: '其它2' }   
+    emar_com.rt_of_search_form.router: 
+        - 'jili_emar_product_search'
+        - 'jili_emar_websites_shopsearch'  

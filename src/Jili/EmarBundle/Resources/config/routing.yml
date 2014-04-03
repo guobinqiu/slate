@@ -18,7 +18,6 @@ emar-ghs:
     resource: "@JiliEmarBundle/Controller/GhsController.php"
     type:     annotation
 
-
 emar-product:
     resource: "@JiliEmarBundle/Controller/ProductController.php"
     type:     annotation
@@ -38,6 +37,7 @@ emar-search:
 emar-admin-websites:
     resource: "@JiliEmarBundle/Controller/AdminWebsitesController.php"
     type:     annotation
+
 #emar-analog:
 #    resource: "@JiliBackendBundle/Controller/AnalogOfferwowController.php"
 #    type:     annotation

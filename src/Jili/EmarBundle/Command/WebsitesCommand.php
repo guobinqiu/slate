@@ -54,17 +54,16 @@ class WebsitesCommand extends ContainerAwareCommand
         }
 
         if ($input->getOption('update')) {
-
-
             $webListGetter = $this->getContainer()->get('website.list_get');
             $webListGetter->setFields('web_id');
             $webs = $webListGetter->fetch();
-
             $webDetailGetter = $this->getContainer()->get('website.detail_get');
-            $pr = new PerRestrict();
+
+            $webDetailGetter->setApp('search');
+
+            $pr = new PerRestrict( 500 );
 
             $start = (int) $input->getOption('start'); // 断点
-            
             $i = 0;
             foreach($webs as $web) {
                 $wid= $web['web_id'];
