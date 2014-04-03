@@ -3,6 +3,7 @@
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Jili\EmarBundle\Api2\Utils\YiqifaOpen as YiqifaOpen;
 
 class EmarRequestConnection implements EmarRequestConnectionInterface {
 
@@ -53,7 +54,7 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
       $key = $app_config[0]['key'];
       $secret = $app_config[0]['secret'];
 
-      $c = new \Jili\EmarBundle\Api2\Utils\YiqifaOpen( $key, $secret) ;
+      $c = new YiqifaOpen( $key, $secret) ;
       $c->format="json";
 
       $this->c = $c;

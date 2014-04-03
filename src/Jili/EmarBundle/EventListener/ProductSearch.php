@@ -2,7 +2,7 @@
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-use Jili\EmarBundle\Api2\Request\ProductSearchGetRequest as  ProductSearchGetRequest;
+use Jili\EmarBundle\Api2\Request\ProductSearchGetRequest as  OpenApiProductSearch;
 
 class ProductSearch {
 
@@ -10,7 +10,6 @@ class ProductSearch {
   private $page_size;
   private $result;
   private $total;
-
 
   function __construct() {
     $this->page_size = 0;
@@ -21,7 +20,7 @@ class ProductSearch {
    */
   public function fetch( $params = array() ) {
 
-    $req=new ProductSearchGetRequest;
+    $req = new OpenApiProductSearch;
 
     $req->setFields('pid,p_name,web_id,web_name,ori_price,cur_price,pic_url,catid,cname,p_o_url,total,short_intro');
 
