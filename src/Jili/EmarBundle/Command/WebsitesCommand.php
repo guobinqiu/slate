@@ -55,38 +55,70 @@ class WebsitesCommand extends ContainerAwareCommand
 
         if ($input->getOption('update')) {
             $webListGetter = $this->getContainer()->get('website.list_get');
+            $webListGetter->setApp('cron');
             $webListGetter->setFields('web_id');
             $webs = $webListGetter->fetch();
-            $webDetailGetter = $this->getContainer()->get('website.detail_get');
 
-            $webDetailGetter->setApp('search');
+            $logger = $this->getContainer()->get('logger');
+
+            $webDetailGetter = $this->getContainer()->get('website.detail_get');
+            $webDetailGetter->setApp('cron');
 
             $pr = new PerRestrict( 500 );
 
             $start = (int) $input->getOption('start'); // 断点
+
             $i = 0;
-            foreach($webs as $web) {
-                $wid= $web['web_id'];
-                $i++;
+            $webs_failed = array();
 
-                if( $i < $start) {
-                    $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'ignored','') ). 'i:'.$i . ' wid:'.$wid);
-                    continue;
+            $round = 0;
+
+            do{
+                $webs_todo = array_merge($webs_failed, $webs) ;
+                foreach($webs_todo  as $web) {
+                    $wid= $web['web_id'];
+                    $i++;
+
+                    if( $i < $start) {
+                        $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'ignored','') ). 'i:'.$i . ' wid:'.$wid);
+                        continue;
+                    }
+
+                    $pr->add();
+                    // try 3 times when exception happened , with sleep();
+                    for($i = 0; $i <= 3 ; $i++ ) {
+                        try {
+                            $web_detail  = $webDetailGetter->fetch(array('webid'=> $wid));
+                            $this->getContainer()->get('website.storage')->save($web_detail );
+                            break;
+                        } catch( \Exception $e) {
+
+                            if( $i === 3) {
+                                $webs_failed[] = $wid;
+                                $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). 'i:'.$i . ' wid:'.$wid);
+                                $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). 'i:'.$i . ' wid:'.$wid);
+                            } else {
+                                $output->writeln( 'Sleeping.. for wid: '. $wid ); 
+                                sleep($i * $i);
+                                continue;
+                            }
+                        } 
+                    }
                 }
 
-                $pr->add();
-                try {
-                    $web_detail  = $webDetailGetter->fetch(array('webid'=> $wid));
-                    $this->getContainer()->get('website.storage')->save($web_detail );
-                } catch( \Exception $e) {
+            } while( !empty( $webs_failed) && 3 > $round++ );
 
-                    $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). 'i:'.$i . ' wid:'.$wid);
-                    $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). 'i:'.$i . ' wid:'.$wid);
-                    die();
-                }
+            if(!empty( $webs_failed) )  {
+                // output the un completed webids.
+                // email it ? right ??
+                $output->writeln('failed web ids: ' .var_export( $webs_failed,true) );
             }
 
-           $output->writeln( __LINE__ ); 
+            //todo: try the failed webs again
+            //todo: while( the web_failed is empty);
+            //todo: insert all web_id in advanced, then updated the record by web_id.
+            //  leave the error postprone fields ignored in 1st round with websites.list.get api, 
+            //  fetch those fields in 2nd round by websites.get api.
 
 
         } else {

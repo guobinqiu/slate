@@ -59,7 +59,7 @@ DROP TABLE IF EXISTS `emar_products_croned`;
 
 
 -- ALTER TABLE `emar_websites` ADD `is_hot` TINYINT( 1 ) NOT NULL DEFAULT '0' COMMENT '是否为热卖商家' AFTER `is_hidden` 
--- ALTER TABLE `emar_websites` ADD `hot_at` DATETIME NOT NULL AFTER `is_hot` COMMENT '热卖商家 排序'
+-- ALTER TABLE `emar_websites` ADD `hot_at` DATETIME NOT NULL  COMMENT '热卖商家 排序' AFTER `is_hot`
 
 --  -- ( id, web_id, web_name, web_catid, logo_url, web_or_url , commission , is_deleted,deleted_at, is_called(是否被回调过, called_at 上次回调时间, clicked: 0，是否被点过, upated_at ,created_at ) 
 --  CREATE TABLE `emar_websites` (

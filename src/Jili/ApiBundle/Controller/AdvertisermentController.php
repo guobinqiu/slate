@@ -163,7 +163,6 @@ class AdvertisermentController extends Controller
             }
 
             $order = $this->get('cps_order.factory')->get($service_params);
-            #$this->get('logger')->debug('{jarod}'. implode(',', array(__FILE__,__LINE__, '') ). var_export($order, true) );
             if(empty($order)){
                 $order =  $this->get('cps_order.factory')->init($service_params) ;
 
@@ -199,7 +198,6 @@ class AdvertisermentController extends Controller
                         'status' =>$order_status 
                     );
                 }
-                #$this->get('logger')->debug('{jarod}'. implode(',', array(__FILE__,__LINE__, '') ). var_export($params, true) );
                 $this->getTaskHistory($params);
             } else {
                 $service_params['order_id'] =(is_array($order) ) ?  $order[0]['id']: $order->getId() ;

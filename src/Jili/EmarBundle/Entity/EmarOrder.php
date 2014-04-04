@@ -27,6 +27,13 @@ class EmarOrder
     private $adId;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="ad_type", type="string", length=16, nullable=false)
+     */
+    private $adType;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
@@ -137,6 +144,29 @@ class EmarOrder
     public function getAdId()
     {
         return $this->adId;
+    }
+
+    /**
+     * Set adType
+     *
+     * @param string $adType
+     * @return EmarOrder
+     */
+    public function setAdType($adType)
+    {
+        $this->adType = $adType;
+
+        return $this;
+    }
+
+    /**
+     * Get adType
+     *
+     * @return string 
+     */
+    public function getAdType()
+    {
+        return $this->adType;
     }
 
     /**

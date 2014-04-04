@@ -24,6 +24,7 @@ parameters:
         # CPS:
         category_type: %emar_com.cps.category_type%
         task_type: %emar_com.cps.task_type%
+        cps_deafult_rebate: %emar_com.cps.action.default_rebate%
 
         sid: %emar_com.accountid% #: 458631 # sid uSer id
         wid.91jili_com: %emar_com.91jili_com.websiteid% #708089 # wid Website id

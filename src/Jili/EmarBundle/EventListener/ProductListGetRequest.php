@@ -4,24 +4,8 @@ namespace Jili\EmarBundle\EventListener;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\ProductListGetRequest as OpenApiProductListGetRequest;
 
-class ProductListGetRequest  {
+class ProductListGetRequest  extends BaseListRequest {
 
-  private $logger;
-  private $page_size;
-  private $result;
-  private $total;
-
-  private $fields;
-
-
-  function __construct() {
-    $this->page_size = 0;
-  }
-
-  public function setFields( $fields  = '' ) {
-      $this->fields = (string )  $fields;
-      return $this;
-  }
   /**
    *
    */
@@ -71,19 +55,4 @@ class ProductListGetRequest  {
     return $this->result;
   }
 
-
-  public function getTotal() {
-      return $this->total;
-  }
-  public function setLogger(  LoggerInterface $logger) {
-    $this->logger = $logger;
-  }
-
-  public function setConnection( EmarRequestConnection  $c ) {
-    $this->c = $c;
-  }
-
-  public function setPageSize( $count ) {
-    $this->page_size = (int)  $count;
-  }
 }
