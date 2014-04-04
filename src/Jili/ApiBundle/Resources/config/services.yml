@@ -67,6 +67,7 @@ services:
         calls:
             - [setLogger, ["@logger"] ]
             - [setEntityManager, ["@doctrine.orm.entity_manager"] ] 
+            - [setContainer, ["@service_container"] ] 
 
     cps_order.factory:
         class: %cps_order.factory.class%

@@ -6,24 +6,8 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\WebsiteListGetRequest as OpenApiWebsiteListGetRequest;
 
 
-class WebsiteListGetRequest  {
+class WebsiteListGetRequest  extends BaseListRequest {
 
-  private $logger;
-  private $result;
-
-
-  private $fields; 
-
-  public function __construct()
-  {
-      $this->fields = '';
-      return $this;
-  }
-
-  public function setFields( $fields  = '' ) {
-      $this->fields = (string )  $fields;
-      return $this;
-  }
 
   public function fetch( array $params = array('wtype' => 1, 'catid' => '')) {
 
@@ -64,13 +48,6 @@ class WebsiteListGetRequest  {
     return $result;
   }
 
-  public function setLogger(  LoggerInterface $logger) {
-    $this->logger = $logger;
-  }
-
-  public function setConnection( EmarRequestConnection  $c ) {
-    $this->c = $c;
-  }
 }
 
 

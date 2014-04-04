@@ -58,18 +58,12 @@ class OfferwowRequestProcessor
         if ($immediate_status['HANGUP_SUSPEND'] ===  $immediate_request ||  $immediate_status['INSTANT_PASSED'] === $immediate_request ) {
             $point = (int) $request->query->get('point', 0);
             $point = $this->rebate_point_caculator->calcPointByCategory( $point, $category_type);
-        $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.var_export( $point, true)  );
         }
 
-
-
         $happen_time = date_create();
-
         $em = $this->em;
-
         // init log.
         if ($immediate_status['HANGUP_SUSPEND'] ===  $immediate_request ) {
-
             $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':HANGUP_SUSPEND' );
             // todo: init logs.... 
             $order = $em->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid($eventid );

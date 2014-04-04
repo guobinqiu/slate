@@ -54,6 +54,7 @@ class CallbackProcessor
         $category_id =$this->getConfig('category_type')  ;
         $request_status = $request->query->get('status'); 
         $feed_back  = $request->query->get('feed_back');
+        $action_id = $request->query->get('action_id');
         $uid = (int) $feed_back;
         $ocd = $request->query->get('unique_id');
         $comm = $request->query->get('commision');
@@ -66,15 +67,29 @@ class CallbackProcessor
                 'intensive_type'=> $category_id,
                 'action_id'=> $action_id
             ) );
+
         }
 
-        $adid = $advertiserment->getId();
+
+        if( isset($advertiserment)) {
+            $adid = $advertiserment->getid();
+            $reward_percent = $advertiserment->getrewardrate();
+            $ad_type='local';
+            $task_title = $advertiserment->getTitle();
+        } else {
+            $adid = $action_id;
+
+            $task_title= $request->query->get('action_name');
+            $reward_percent = $this->getConfig( 'cps_deafult_rebate');
+            $ad_type='emar';
+        }
 
         $happenTime = date_create();
 
         // insert/update task_historyXX
         $comm = $request->query->get('commision');
-        $reward_percent = $advertiserment->getRewardRate();
+
+
         $cps_reward = intval($comm * $reward_percent);
 
 
@@ -87,6 +102,7 @@ class CallbackProcessor
             } else {
                 $order_params = array('user_id'=>$uid,
                     'ad_id'=>$adid,
+                    'ad_type'=>$ad_type,
                     'status'=> $this->getParameter('init_one') ,
                     'delete_flag'=> $this->getParameter('init') 
                 );
@@ -107,6 +123,7 @@ class CallbackProcessor
                         $order->setDeleteFlag($this->getParameter('init'));
                         $order->setUserId($uid);
                         $order->setAdId($adid);
+                        $order->setAdType($ad_type);
 
                         $is_new = true;
                     } else {
@@ -141,7 +158,7 @@ class CallbackProcessor
                 'userid' => $uid,
                 'taskType' => $task_type,
                 'categoryType' => $category_id,
-                'task_name' => $advertiserment->getTitle(),
+                'task_name' => $task_title,
                 'reward_percent' => $reward_percent,
                 'point' => $cps_reward, 
                 'date' => $happenTime,
@@ -164,7 +181,7 @@ class CallbackProcessor
                 $status = OrderBase::getFailedStatus();
             }
 
-            $order = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneBy( array('userId'=>$uid, 'adId'=> $adid, 'ocd'=>$ocd ));
+            $order = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneBy( array('userId'=>$uid, 'adId'=> $adid, 'adType'=>$ad_type, 'ocd'=>$ocd ));
             $order->setHappenedAt($happenTime);
             $order->setConfirmedAt($happenTime);
             $order->setStatus($status);

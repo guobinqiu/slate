@@ -5,8 +5,8 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\GhsProductListGetRequest as OpenApiGhsProductListGetRequest;
 
 class GhsProductListGetRequest  extends BaseListRequest {
-
   public function fetch( $param = array()  ) {
+
     //todo: cached 
     $req = new  OpenApiGhsProductListGetRequest;
     extract($param);
