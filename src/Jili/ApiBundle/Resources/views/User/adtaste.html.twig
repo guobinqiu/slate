@@ -89,14 +89,15 @@ function addClass(type){
           <td>
          {{ item.displayName }}
           </td>
-          <td>{% if item.adid %}<a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a>
+          <td>{% if item.adid %}
+                  <a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a>
               {% else%}
-                  {% if item.incentiveType == 16  or item.incentiveType == 18 %}
-                    {{ item.title }}
-                  {% elseif item.incentiveType == 17   %}
+                  {% if item.incentiveType == 17 %}
                     <a href="{{ path('_advertiserment_list') }}" target="_blank">{{ item.title }}</a>
+                  {% elseif item.incentiveType == 18 %}
+                    <a href="{{ asset(path('_advertiserment_offer99')) }}" target="_blank">{{ item.title }}</a>
                   {% else %}
-                    <a href="{{ path('_game_index') }}" target="_blank">{{ item.title }}</a>
+                    {{ item.title }}
                   {% endif %}
               {% endif %} 
           </td>
