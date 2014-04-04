@@ -60,7 +60,7 @@ class TaskHistory
 
         if($task_order) {
             $po = $task->findOneById($task_order->getId() );
-            $po->setOcdCreatedDate($date);
+            #$po->setOcdCreatedDate($date);
             $po->setDate($date);
 
             if(isset($point)) {
