@@ -10,7 +10,7 @@
 <file name="GhsCategoryGetRequest.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129331490805" remote="130408136730000000" Dst="0" />
 <file name="GhsProductListGetRequest.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129331500806" remote="130408136730000000" Dst="0" />
 <file name="HotactivityCategoryGetRequest.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129331510806" remote="130408136730000000" Dst="0" />
-<file name="HotactivityListGetRequest.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408884354660042" remote="130408884410000000" Dst="0" />
+<file name="HotactivityListGetRequest.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130413978176172412" remote="130413979430000000" Dst="0" />
 <file name="HotactivityWebsiteGetRequest.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129331530808" remote="130408136730000000" Dst="0" />
 <file name="ListRequestInterface.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129331540808" remote="130408136730000000" Dst="0" />
 <file name="Logger.php" server="192.168.1.235//var/www/html/jili-jiang/" local="130408129331550809" remote="130408136730000000" Dst="0" />
