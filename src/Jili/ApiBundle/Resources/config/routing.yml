@@ -66,5 +66,8 @@ api-offer99:
     resource: "@JiliApiBundle/Controller/Offer99Controller.php"
     type:     annotation
     prefix:   /
-
+top:
+    resource: "@JiliApiBundle/Controller/TopController.php"
+    type:     annotation
+    prefix:   /
 

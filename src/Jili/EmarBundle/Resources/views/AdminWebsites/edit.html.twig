@@ -5,6 +5,8 @@
 
 {% form_theme edit_form 'form_table_layout.html.twig' %}    
 
+{{ render( controller('JiliEmarBundle:AdminWebsites:detail', { 'wid': entity.webId } ) ) }}
+
 <table align='center'>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td cols="2"><h1>EmarWebsites edit</h1></td></tr>

@@ -59,6 +59,7 @@ class TaskHistory
         $taskHistory= $taskRepository->findOneBy(array( 'orderId'=> $orderId,'taskType'=> $taskType) );
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         if($taskHistory) {
             $po = $taskRepository->findOneById($taskHistory->getId() );
             $po->setOcdCreatedDate($date);
@@ -67,6 +68,10 @@ class TaskHistory
             $po = $task->findOneById($task_order->getId() );
             #$po->setOcdCreatedDate($date);
 >>>>>>> origin
+=======
+        if($taskHistory) {
+            $po = $taskRepository->findOneById($taskHistory->getId() );
+>>>>>>> origin/emar-fun-amy
             $po->setDate($date);
 
             if(isset($point)) {

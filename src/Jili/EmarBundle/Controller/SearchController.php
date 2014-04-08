@@ -24,7 +24,11 @@ class SearchController extends Controller
     public function formAction( $qs = array(), $rt = 0 ) {
 
         $request = $this->get('request');
-        #$logger= $this->get('logger');
+        $logger= $this->get('logger');
+
+        #$rt_config_name = $this->container->getParameter('emar_com.rt_of_search_form.name');
+
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $rt_config_name, true));
 
             #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $qs, true));
             #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $rt, true));
@@ -35,14 +39,13 @@ class SearchController extends Controller
             if  ( $form->isValid()) {
                 $query_params = $form->getData();
                 $keyword = ( isset( $query_params['q']) ) ?  $query_params['q'] : null ;
-                $router=$query_params['rt']; 
+
+                $rt = $query_params['rt']; 
                 unset($query_params['rt']);
-                //todo: move this to config
-                if( $router == 0 ) {
-                    $url = $this->generateUrl('jili_emar_product_search');
-                } else if( $router == 1 ) {
-                    $url = $this->generateUrl('jili_emar_websites_shopsearch');
-                }
+                $rt_config_router = $this->container->getParameter('emar_com.rt_of_search_form.router');
+                $rt_key  = array_key_exists( $rt, $rt_config_router ) ? $rt:0 ;
+                $router_ = $rt_config_router[ $rt_key];
+                $url = $this->generateUrl( $router_ );
 
                 $query = array_merge( $request->query->all(), $query_params );
                 return $this->redirect( $url .'?'.http_build_query( $query));

@@ -24,7 +24,7 @@ class CpsAccessHistoryFactory
 
         if($incentive_type === 1  ||  $incentive_type === 2 ) {
             $access_history_class = 'Jili\ApiBundle\Entity\AdwAccessHistory';
-        } else if ($incentive_type  === 18 ) {
+        } else if ($incentive_type  === $this->getParameter('emar_com.cps.category_type') ) {
             $access_history_class = 'Jili\EmarBundle\Entity\EmarAccessHistory';
         }  else {
             $this->logger->crit('{jarod}'. implode(',', array(__FILE__,__LINE__, '') ). var_export($incentive_type , true) );
@@ -39,7 +39,7 @@ class CpsAccessHistoryFactory
 
             if($incentive_type === 1  ||  $incentive_type === 2 ) {
                 $accessHistory->setAdId($advertiserment->getId() );
-            } else if ($incentive_type  === 18 ) {
+            } else if ($incentive_type  === $this->getParameter('emar_com.cps.category_type') ) {
                 $accessHistory->setAd($advertiserment);
             }
 
@@ -51,5 +51,12 @@ class CpsAccessHistoryFactory
             $this->logger->crit(implode(',',array(__FILE__, __LINE__, '')  ) . 'class ' . $access_history_class. ' not defined');
         }
         return $accessHistory;
+    }
+    public function setContainer( $c) {
+        $this->container_ = $c;
+    }
+
+    public function getParameter($key) {
+        return $this->container_->getParameter($key);
     }
 }

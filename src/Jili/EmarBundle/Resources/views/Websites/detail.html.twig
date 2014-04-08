@@ -43,7 +43,7 @@
         </div>
         <div class="shop-info-r">
           <h2>{{ website.web_name }}</h2>
-          <p class="intro">{{ website.information }}</p>
+          <p class="intro">{{ website.information|raw }}</p>
           <p class="rebate">返利比率：<em>正常商品：7%  团购商品：2%  优惠券、礼品卡商品：4%</em></p>
         </div>
      </div><!-- eof shop-info -->
@@ -62,7 +62,7 @@
 
 <p> From {{ website.begin_date|date('Y年m月d日') }}  to {{ website.end_date|date('Y年m月d日') }}</p>
 <p> Commission: {{ website.commission  }}</p>
-<p>Introduce: {{  website.information }}</p>
+<p>Introduce: {{  website.information|raw }}</p>
 <img src="{{ website.logo_url }}" alt="logo" />
 -->
 

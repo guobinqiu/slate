@@ -1,0 +1,48 @@
+
+<table align='center'>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td cols="2"><h1>商家详细接口返回</h1></td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tbody>
+{% if  detail is not empty  %}
+        <tr>
+        <th>web_id</th>
+        <td>{{ detail.web_id }}</td>
+        </tr>
+        <tr>
+        <th>web_catid</th>
+        <td>{{ detail.web_catid }}</td>
+        </tr>
+                <tr>
+                <th>web_name</th>
+                <td>{{ detail.web_name }}</td>
+                </tr>
+                <tr>
+                <th>logo_url</th>
+                <td><img src="{{ detail.logo_url }}" alt="logo" /></td>
+                </tr>
+                <tr>
+                <th>web_url</th>
+                <td><a href="{{ detail.web_url | replace({'APIMemberId': app.session.get('uid')})}}" target="_blank" >goto</a></td>
+                </tr>
+                <tr>
+                <th>information</th>
+                <td width="300px">{{ detail.information|raw }}</td>
+                </tr>
+                <tr>
+                <th>commission</th>
+                <td>{{ detail.commission }}</td>
+                </tr>
+                <tr>
+                <th>duration</th>
+                <td>{{ detail.begin_date }} ~ {{ detail.end_date}}</td>
+                </tr>
+{% else %}
+<tr>
+    <td cols="2">empty! not found by webid {{ app.request.get('wid') }}</td>
+</tr>
+ 
+{% endif %}
+
+        </tbody>
+</table>

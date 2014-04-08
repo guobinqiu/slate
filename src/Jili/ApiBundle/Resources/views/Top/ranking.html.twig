@@ -1,0 +1,18 @@
+<div style="left: 0px;" class="all">
+  <ul class="month clearfix">
+    {% for item in rankingMonth %}
+    <li class="rank{{loop.index}}">
+      <dd>{{ item.0[:12] }}</dd>
+      <dt><span>{{ item.1 }}</span>累计米粒</dt>
+    </li>
+    {% endfor %}
+  </ul>
+  <ul class="year clearfix">
+    {% for item in rankingYear %}
+    <li class="rank{{loop.index}}">
+      <dd>{{ item.0[:12] }}</dd>
+      <dt><span>{{ item.1 }}</span>累计米粒</dt>
+    </li>
+    {% endfor %}
+  </ul>
+</div>

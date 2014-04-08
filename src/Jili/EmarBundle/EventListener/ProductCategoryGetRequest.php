@@ -3,7 +3,7 @@
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-
+use Jili\EmarBundle\Api2\Request\ProductCategoryGetRequest as OpenApiProductCategoryGetRequest;
 
 
 class ProductCategoryGetRequest  {
@@ -14,7 +14,7 @@ class ProductCategoryGetRequest  {
   public function fetch(array $params = array()) {
       extract($params);
     //todo: cached 
-    $req = new  \Jili\EmarBundle\Api2\Request\ProductCategoryGetRequest;
+    $req = new  OpenApiProductCategoryGetRequest;
 
     $req->setFields('catid,cname,parent_id,alias,is_parent,modified_time');
     if( isset($parent_id) && ! empty($parent_id)) {

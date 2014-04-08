@@ -28,7 +28,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 #headerContent{ padding:15px 0; background-color:#FFF;}
 #headerContent #logo{ float:left;}
 #headerContent #search {border: 3px solid #EAEAEA; border-radius: 3px;float: left;height: 36px;margin-left:180px; background-color:#FFF;}
-#headerContent .seacherMenu{background: url("../images140307/iconImage.png") no-repeat scroll 41px -94px;float: left;height: 26px;line-height: 26px;padding: 5px 0px 5px 10px;position: relative; width: 45px;}
+#headerContent .searchMenu{background: url("../images140307/iconImage.png") no-repeat scroll 41px -94px;float: left;height: 26px;line-height: 26px;padding: 5px 0px 5px 10px;position: relative; width: 45px;}
 #headerContent .form{float:left;}
 #headerContent #search .text {background-color: #FFFFFF;background-position: 0 -360px;background-repeat: repeat-x;color: #999999;font-size: 14px;line-height: 30px;padding: 5px;border: none;width: 460px; float:left; height:26px;}
 #headerContent #search .button {background: none repeat scroll 0 0 #FF6B4F;border: medium none;color: #FFFFFF;font-size: 14px;font-weight: 700;height: 36px; width: 92px;margin:0;padding:0; float:left;}
@@ -48,3 +48,15 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 
 .main h1{ font-size:16px; line-height:40px;}
 .main h1 span{ font-size:12px; margin-left:10px;}
+
+.blackBg {
+    background-color: #000000;
+    display: none;
+    height: 100%;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 9998;
+}

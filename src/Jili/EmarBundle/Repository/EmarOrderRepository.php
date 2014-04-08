@@ -16,15 +16,16 @@ class EmarOrderRepository extends EntityRepository
      */
 	public function findOneCpsOrderInit($params){
 
-
         $parameters = array('user_id'=>$params['user_id'],
             'ad_id'=>$params['ad_id'],
+            'ad_type'=> $params['ad_type'],
             'delete_flag'=> $params['delete_flag'],
             'status'=> $params['status']);
 
         $query = $this->createQueryBuilder('ao')
             ->select('ao')
             ->where('ao.adId = :ad_id')
+            ->andWhere('ao.adType = :ad_type')
             ->andWhere('ao.ocd IS NULL')
             ->andWhere('ao.deleteFlag = :delete_flag')
             ->andWhere('ao.status= :status')
@@ -42,6 +43,7 @@ class EmarOrderRepository extends EntityRepository
 	public function findOneCpsOrderJoined($params){
         $parameters = array('user_id'=>$params['user_id'],
             'ad_id'=>$params['ad_id'],
+            'ad_type'=>$params['ad_type'],
             'ocd'=> $params['ocd'],
             'status'=> $params['status'],
             'delete_flag'=> $params['delete_flag']);
@@ -49,6 +51,7 @@ class EmarOrderRepository extends EntityRepository
         $query = $this->createQueryBuilder('ao')
             ->select('ao')
             ->where('ao.adId = :ad_id')
+            ->andWhere('ao.adType = :ad_type')
             ->andWhere('ao.ocd = :ocd')
             ->andWhere('ao.deleteFlag = :delete_flag')
             ->andWhere('ao.userId = :user_id')

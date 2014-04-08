@@ -95,10 +95,14 @@ class CallbackValidation
         ) );
 
         if( empty($advertiserment) ) {
-            $logger->crit(implode(',', array(__CLASS__,__FILE__,__LINE__,'') ).' Unsupport action_id ' . $action_id . ' of category_id '. $category_id);
-            return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
+            $logger->debug(implode(',', array(__CLASS__,__FILE__,__LINE__,'') ).' no advertiserment of action_id ' . $action_id . ' of category_id '. $category_id);
+            $ad_id = $action_id;
+            $ad_type = 'emar';
+        //    return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
         } else {
             $data['advertiserment'] = $advertiserment;
+            $ad_id = $advertiserment->getId();
+            $ad_type = 'local';
         }
 
         // status validation
@@ -110,7 +114,7 @@ class CallbackValidation
         // unique( adid, ocd)
         // unique( user,adid, ocd)
 
-        $emarOrder = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneBy(array('adId'=> $advertiserment->getId()  ,'ocd'=> $request->query->get('unique_id'))); 
+        $emarOrder = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneBy(array('adId'=> $ad_id, 'adType'=> $ad_type,'ocd'=> $request->query->get('unique_id'))); 
         #$this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ).var_export( $emarOrder, true)   );
 
         if( empty($emarOrder) ) {
@@ -120,7 +124,6 @@ class CallbackValidation
             #        'status'=> $this->getParameter('init_one') ,
             #        'delete_flag'=> $this->getParameter('init') 
             #    );
-            #    $emarOrder = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneCpsOrderInit($order_params); 
             // the 2nd callback triggerd directly ?? 
             if ($request_status === $config_of_order_status['valid'] || $request_status === $config_of_order_status['invalid'] ) {
                   return array( 'value' =>false, 'code'=>$config_of_return_codes['exception'], 'data'=>$data ); 

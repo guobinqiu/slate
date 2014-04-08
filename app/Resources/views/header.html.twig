@@ -1,11 +1,41 @@
+
+{% if app.session.get('uid') %}
+<script type="text/javascript">
+$(document).ready(function(){
+		isNewMessage();
+});
+
+  function isNewMessage(){
+   $.ajax({
+          url: "{{ path('_user_isNewMs',{'id':app.session.get('uid') }) }}",
+          type: "GET",
+          success:function(data){
+              if(data){
+                   $('.message').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
+              }else{
+                   $('.message').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
+              }
+          }
+        });
+}
+
+</script>
+
+{% endif %}
+
   <div id="topbar">
     <div class="page clearfix">
+    {% if app.request.cookies.has('jili_uid') and app.request.cookies.has('jili_nick') %}
+        {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
+        {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
+    {% endif %}
+    {% if app.session.has('uid') %}
       <ul id="userbar">
-        <li><a class="message">新消息(+22)</a></li>
+        <li><a class="message">新消息(+{{ render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) }})</a></li>
         <li class="split">|</li>
         <li><a class="personal">个人中心</a></li>
         <div id="userFrame">
-            <div class="userInfo"><p>Uplee</p></div>
+            <div class="userInfo"><p>{{ app.session.get('nick')[:10] }}</p></div>
             <ul class="menu">
                 <li><a href="{{ path('_user_info') }}">个人信息</a></li>
                 <li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a></li>
@@ -14,6 +44,9 @@
             </ul>
         </div>
       </ul>
+      {% else %}
+      <a class="log" href="{{ path('_user_login') }}">登录</a><span class="division"></span><a class="reg" href="{{ path('_user_reg') }}">注册</a>
+      {% endif %}  
     </div>
   </div>
   <div id="headerContent">
@@ -29,21 +62,16 @@
   </div>
   <div id="nav">
     <div class="page clearfix">
+    {% if app.session.has('uid') %}
       <ul>
-        <li class="task"> <a class="taskBtn" href="#">我的任务列表</a><em>3</em>
-          <ul>
-            <li><a href="#">每日签到<span>1米粒</span></a></li>
-            <li><a href="#">小鸡找米<span>最高588米粒</span></a></li>
-            <li><a href="#">91问问快速问答<span>1米粒</span></a></li>
-          </ul>
-        </li>
-        <li><a href="{{ path('_default_index') }}" >首页</a></li>
+        {{ render(controller('JiliApiBundle:Top:task' ) ) }}
+        <li><a href="{{ path('jili_api_top_index') }}" >首页</a></li>
         <li><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
         <li><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
         <li><a href="{{ asset(path('jili_emar_top_cps'),'cdn1') }}">购物返利</a></li>
 		<li><a href="{{ asset(path('_marketActivity_index'),'cdn1')  }}">商家活动</a></li>
         <li><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
       </ul>
+    {% endif %}
     </div>
   </div>
-

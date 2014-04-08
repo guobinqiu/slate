@@ -1,17 +1,19 @@
 {# todo: duplicated to the form JiliEmarBundle:Products:searchForm #}
 
-        <div class="seacherMenu"> <span>{% if rt == 1  %}商城{% else %}商品{% endif %}</span>
+        <div class="searchMenu"> <span>{% if rt == 1  %}商城{% else %}商品{% endif %}</span>
           <ul style="display: none;">
-            <li lang="commodity">商品</li>
-            <li lang="shop">商城</li>
+{% for key,value in rt_of_search_form %}
+            <li lang="{{ key }}">{{ value.label }}</li>
+{% endfor %}
+
           </ul>
         </div>
         <div class="form">
 
 {% if qs is defined %}
-    <form action="{{ path('jili_emar_search_form' , qs   ) }}" method="POST" >
+    <form action="{{ path('jili_emar_search_form' , qs   ) }}" method="POST" id="search_box">
 {% else %}
-    <form action="{{ path('jili_emar_search_form' , app.request.query.all ) }}" method="POST" >
+    <form action="{{ path('jili_emar_search_form' , app.request.query.all ) }}" method="POST" id="search_box">
 {% endif %}
 
 
@@ -22,3 +24,8 @@
           {{ form_rest(form)  }}
 </form>
 </div>
+<script type="text/javascript">
+var search_form_rt_config = search_form_rt_config || {};
+search_form_rt_config = {{ rt_of_search_form|json_encode|raw   }};
+
+</script>

@@ -37,6 +37,7 @@ twig:
             websiteid: %offerwow_com.websiteid%  
         emar_cps:
             category_id: %emar_com.cps.category_type%
+        emar_cps_default_rebate: %emar_com.cps.action.default_rebate%
         emar_page_size: %emar_com.page_size%
         emar_page_size_shoplist: %emar_com.page_size_of_shoplist%
         emar_page_size_search: %emar_com.page_size_of_search% 
@@ -44,6 +45,8 @@ twig:
         emar_max_of_total: %emar_com.max_of_total%
         emar_api_orderby_range: %emar_com.api.orderby_range% # [1,2,3] 
         emar_api_orderby_default: %emar_com.api.orderby_default% # 1 
+        rt_of_search_form: %emar_com.rt_of_search_form.name% # {commodity :0, shop: 1}
+
         offer99_com:
             pid: %offer99_com.pid%  
 # Assetic Configuration
