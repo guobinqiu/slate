@@ -58,9 +58,15 @@ class TaskHistory
         //TODO: update more simplicity.
         $taskHistory= $taskRepository->findOneBy(array( 'orderId'=> $orderId,'taskType'=> $taskType) );
 
+<<<<<<< HEAD
         if($taskHistory) {
             $po = $taskRepository->findOneById($taskHistory->getId() );
             $po->setOcdCreatedDate($date);
+=======
+        if($task_order) {
+            $po = $task->findOneById($task_order->getId() );
+            #$po->setOcdCreatedDate($date);
+>>>>>>> origin
             $po->setDate($date);
 
             if(isset($point)) {
