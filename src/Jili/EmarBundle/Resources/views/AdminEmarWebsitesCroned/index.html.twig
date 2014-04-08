@@ -24,7 +24,7 @@
             <tr>
                 <td>{{ loop.index }}</td>
 <!--                <td><a href="{{ path('admin_emarwebsitescroned_show', { 'id': entity.id }) }}">{{ entity.webId }}</a></td> -->
-                <td>{{ entity.webId }}:{{ entity.webName }}</td>
+                <td>{{ entity.webId }}:<a target="_blank" rel="nofollow" href="{{ entity.webUrl|replace({"APIMemberId":app.session.get('uid')})}}">{{ entity.webName }}</a></td>
 {#                <td>{{ entity.webCatid }}</td> #}
                 <td><img src="{{ entity.logoUrl}}" alt="logo" /></td>
 {# entity.logoUrl #}
