@@ -29,15 +29,15 @@ class ApiController extends Controller
         $config = $this->container->getParameter('emar');
         $config_of_return_codes = $config['callback_return_code']; 
 
-        #$logger->debug( '{jarod}'.implode(':', array(__FILE__,__LINE__,'' )). var_export( $config_of_return_codes, true)   );
+        $logger->debug( '{jarod}'.implode(':', array(__FILE__,__LINE__,'' )). var_export( $config_of_return_codes, true)   );
 
         try {
 
             $logger->debug( '{jarod}'.implode(':', array(__FILE__,__LINE__,'' ))  );
-            // validation        
+            // logger  
             $this->get('emar_api.logger')->log( $request->getRequestUri()  );
+
             // validation
-            $logger->debug( '{jarod}'.implode(':', array(__FILE__,__LINE__,'' ))  );
             $result_of_validation = $this->get('emar_api.callback_validation')->validate($request);
 
             if( $result_of_validation['value'] === true ) {
@@ -50,7 +50,7 @@ class ApiController extends Controller
                 // process
                 $result_of_process =$this->get('emar_api.callback_processor')->process($request , $result_of_validation['data'] );
 
-                #$logger->debug( '{jarod}'.implode(':', array(__FILE__,__LINE__,'' )). var_export($result_of_process, true)  );
+                $logger->debug( '{jarod}'.implode(':', array(__FILE__,__LINE__,'' )). var_export($result_of_process, true)  );
 
                 if( isset($result_of_process['code']) ) {
                     $result_to_return =  $result_of_process['code'];
@@ -59,7 +59,7 @@ class ApiController extends Controller
                 }
             } else {
                 $result_to_return =  $result_of_validation['code'];
-                #$logger->debug( '{jarod}'.implode(':', array(__FILE__,__LINE__,'' )). var_export($result_of_validation, true)  );
+                $logger->debug( '{jarod}'.implode(':', array(__FILE__,__LINE__,'' )). var_export($result_of_validation, true)  );
             }
         } catch ( ValidationException $e) {
             $logger->debug( '{jarod}'.implode(':', array(__FILE__,__LINE__ )));

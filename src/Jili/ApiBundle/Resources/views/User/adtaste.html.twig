@@ -89,18 +89,19 @@ function addClass(type){
           <td>
          {{ item.displayName }}
           </td>
-          <td>{% if item.adid %}<a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a>
+          <td>{% if item.adid %}
+                  <a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a>
               {% else%}
-                  {% if item.incentiveType == 16  or item.incentiveType == 18 %}
-                    {{ item.title }}
-                  {% elseif item.incentiveType == 17   %}
+                  {% if item.incentiveType == 17 %}
                     <a href="{{ path('_advertiserment_list') }}" target="_blank">{{ item.title }}</a>
+                  {% elseif item.incentiveType == 18 %}
+                    <a href="{{ asset(path('_advertiserment_offer99')) }}" target="_blank">{{ item.title }}</a>
                   {% else %}
-                    <a href="{{ path('_game_index') }}" target="_blank">{{ item.title }}</a>
+                    {{ item.title }}
                   {% endif %}
               {% endif %} 
           </td>
-          <td>{% if item.incentiveType==2 or item.incentiveType==18  %}
+          <td>{% if item.incentiveType==2 or item.incentiveType==19  %}
                      {% if item.orderStatus > 1 %}
                         {{ item.incentive }}米粒
                      {% else %}
@@ -109,7 +110,7 @@ function addClass(type){
                      {{ item.incentive }}米粒
               {% endif %}</td>
           <td>{% if item.createTime %}{{ item.createTime.date }}{% endif %}</td>
-          <td>{% if item.incentiveType==1 or item.incentiveType==2 or item.incentiveType==17 or item.incentiveType==18 %}
+          <td>{% if item.incentiveType==1 or item.incentiveType==2 or item.incentiveType==17 or item.incentiveType==19 %}
                   {% if item.orderStatus==1  %} 已参加
                   {% elseif item.orderStatus==2  %} 确认中
                   {% elseif item.orderStatus==3  %} 已完成

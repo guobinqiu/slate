@@ -8,8 +8,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class EmarWebsitesRepository extends EntityRepository
 {
+
     /**
      * todo: statics by user clicked.
+     * @param: array( limit => , )
      */
     public function getHot($params = array() ) {
         extract($params);
@@ -18,7 +20,9 @@ class EmarWebsitesRepository extends EntityRepository
         $qb->select('DISTINCT ew.webId');
         $qb->where($qb->expr()->eq('ew.isDeleted', 'false'));
         $qb->andWhere($qb->expr()->eq('ew.isHidden', 'false'));
-        $qb->orderBy('ew.position', 'ASC');
+        $qb->andWhere($qb->expr()->eq('ew.isHot', 'true'));
+        $qb->orderBy('ew.hotAt', 'DESC');
+        $qb->addOrderBy('ew.position', 'ASC');
 
         if( isset($limit)) {
             $qb->setMaxResults($limit);

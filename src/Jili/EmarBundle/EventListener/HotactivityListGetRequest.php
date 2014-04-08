@@ -2,7 +2,7 @@
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-
+use Jili\EmarBundle\Api2\Request\HotactivityListGetRequest as OpenApiHotactivityListGetRequest;
 
 class HotactivityListGetRequest  extends BaseListRequest {
 
@@ -10,7 +10,7 @@ class HotactivityListGetRequest  extends BaseListRequest {
    *
    */
   public function fetch( $params = array() ) {
-    $req=new \Jili\EmarBundle\Api2\Request\HotactivityListGetRequest;
+    $req=new OpenApiHotactivityListGetRequest;
     $req->setFields('hot_id,web_id,web_name,hot_name,pic_url,hot_o_url,discount,brand_name,hot_catid,begin_date,end_date,modified_time,total');
     extract($params);
 

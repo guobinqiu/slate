@@ -81,7 +81,7 @@ class TaskHistoryRepository extends EntityRepository
 		$query = $query->andWhere('to.status = 2');
 		$query = $query->setParameter('userId',$userid);
 		$query = $query->getQuery();
-		return $query->getSingleScalarResult();
+		return $query->getSingleScalarResult()?$query->getSingleScalarResult():0;
 	}
 
 }

@@ -1,0 +1,19 @@
+<div id="userInfo">
+  <div class="basic clearfix">
+      <div class="photo">
+      {% if user.iconPath %}
+      <img src='{{ asset(user.iconPath) }}' height='90'/>
+      {% else %}
+      <img width="90" height="90" src="{{ asset('other140307/image100.jpg') }}">
+      {% endif %}
+      </div>
+    <p class="name">您好，{{ user.nick }}</p>
+    <p><a class="goUserInfo" href="{{ path('_user_info') }}">进入个人中心</a></p>
+  </div>
+  <div class="point clearfix">
+    <dt>当前米粒数</dt>
+    <dt class="right">确认中米粒数</dt>
+    <dd>{{ user.points }}</dd>
+    <dd class="right">{{ confirmPoints}}</dd>
+  </div>
+</div>

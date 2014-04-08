@@ -2,20 +2,14 @@
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Jili\EmarBundle\Api2\Request\WebsiteGetRequest  as OpenApiWebsiteGetRequest;
 
-
-
-class WebsiteDetailGetRequest  {
-
-  private $logger;
-  private $result;
-
+class WebsiteDetailGetRequest  extends BaseRequest {
   public function fetch( array $params = array('webid' => '')) {
     extract($params);
     //todo: cached 
-    $req = new  \Jili\EmarBundle\Api2\Request\WebsiteGetRequest;
+    $req = new  OpenApiWebsiteGetRequest;
     $req->setFields('web_id,web_name,web_catid,logo_url,web_url,information,begin_date,end_date,commission');
-
 
     if(! isset($wtype)) {
         $req->setWtype( 1);
@@ -29,7 +23,14 @@ class WebsiteDetailGetRequest  {
 
     $req->setWebid($webid);
 
+    if( ! is_null($this->app_name ) ) {
+        $this->c->setApp( $this->app_name );
+    }
     $resp =  $this->c->exe($req);
+
+    #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $this->app_name, true));
+    #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $this->c->getApp(), true));
+    // $resp =  $this->c->exe($req);
 
     #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $resp, true));
 
@@ -41,14 +42,6 @@ class WebsiteDetailGetRequest  {
 
     $this->result = $result;
     return $result;
-  }
-
-  public function setLogger(  LoggerInterface $logger) {
-    $this->logger = $logger;
-  }
-
-  public function setConnection( EmarRequestConnection  $c ) {
-    $this->c = $c;
   }
 }
 

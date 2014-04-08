@@ -134,9 +134,7 @@ $(document).ready(function(){
 		}
 		marketActivityGo();
 	})
-	
-	//task
-	$("#task .all").width($("#task ul").width() * $("#task ul").length)
+
 	var taskPage = 1
 	var taskSliderTime = 500
 	var taskSlider = function(){
@@ -160,9 +158,9 @@ $(document).ready(function(){
 	var timeLineNextTime = 3000
 	var timeLineNext = function(){
 		$("#timeline ul").stop(true,false).animate({top:-40},timeLineSliderTime,function(){
-			$("#timeLine ul li:lt(1)").clone().appendTo($("#timeLine ul"))
-			$("#timeLine ul").css("top",0);
-			$("#timeLine ul li:lt(1)").remove();
+			$("#timeline ul li:first").clone().appendTo($("#timeline ul"))
+			$("#timeline ul").css("top",0);
+			$("#timeline ul li:first").remove();
 		});
 	}
 	var timeLineSetTime = setInterval( timeLineNext , timeLineNextTime); 

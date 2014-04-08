@@ -80,7 +80,7 @@
 }
 #task .menu a:hover, #task .menu a.hover {
 	color: #FFF;
-	background-image: url(../images140307/taskMenuHover);
+	background-image: url(../images140307/taskMenuHover.png);
 	background-position: center center;
 }
 #task .mask {
@@ -93,6 +93,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
+	background-color:#FFF;
 }
 #task .taskList {
 	background-color: #FFF;
