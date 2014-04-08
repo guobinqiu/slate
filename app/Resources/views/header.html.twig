@@ -69,16 +69,7 @@ $(document).ready(function(){
     <div class="page clearfix">
 
       <ul>
-        <li class="task"> 
-        {% if app.session.has('uid') %}
-        <a class="taskBtn" href="#">我的任务列表</a><em>3</em>
-          <ul>
-            <li><a href="#">每日签到<span>1米粒</span></a></li>
-            <li><a href="#">小鸡找米<span>最高588米粒</span></a></li>
-            <li><a href="#">91问问快速问答<span>1米粒</span></a></li>
-          </ul>
-        {% endif %}
-        </li>
+        {{ render(controller('JiliApiBundle:Top:task' ) ) }}
         <li><a href="{{ path('jili_api_top_index') }}" >首页</a></li>
         <li><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
         <li><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>

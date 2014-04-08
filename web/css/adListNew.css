@@ -2,6 +2,7 @@ aside {
     width:225px;
 }
 aside.offowAside{
+	width:380px;
 	margin-top:40px;
 }
 .adList{
@@ -69,32 +70,37 @@ aside.offowAside{
 	background-color:#770316;
 	border-radius:10px 10px 0 0;
 	padding-top:17px;
-	width:225px;
+	width:380x;
 	border-bottom: 3px solid #E6E6E6;
 }
 .cpaMain .cpaAll{
 	background-color:#FFF;
 	border-radius:10px 10px 0 0;
-	padding:0px 12px 4px;
+	padding:0px 20px 4px;
 }
 .cpaMain .cpaAll .cpa{
+	height:111px;
 	border-bottom:1px solid #cccccc;
-	padding: 10px 0 5px;
-	font-size:13px;
+	padding: 11px 0 30px;
+	font-size:15px;
 }
 .cpaMain .cpaAll .cpa.last{
 	border:none;
 }
 .cpaMain .cpaAll .cpa dd{
+	width:200px;
 	float:left;
 	margin-right:10px;
 }
 .cpaMain .cpaAll .cpa dt{
+	width:127px;
 	text-align:center;
 	color:#ee691e;
 	font-weight:bold;
-	padding-top:3px;
+	padding-top:15px;
+	display: inline-block;
 }
+.cpaMain .cpaAll .cpa dt .title{ font-weight:normal; text-align:left;}
 .cpaMain .cpaAll .cpa dt .joinBtn{
 	background-color: #FDCE6F;
     border-radius: 5px;
@@ -102,7 +108,7 @@ aside.offowAside{
     display: inline-block;
     font-size: 13px;
     margin-top: 3px;
-    padding: 2px 15px;
+    padding: 10px 37px;
 }
 .cpaMain .cpaAll .cpa dt .joinBtn:hover{
 	text-decoration:none;

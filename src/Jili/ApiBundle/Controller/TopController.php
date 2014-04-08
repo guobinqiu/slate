@@ -104,7 +104,197 @@ class TopController extends Controller
         return $this->render('JiliApiBundle:Top:userInfo.html.twig', $arr);
     }
 
-    public function readFileContent($filename) {
+    /**
+     * @Route("/task")
+     * @Template();
+     */
+    public function taskAction()
+    {
+        //任务列表
+        $arr = $this->getUndoTaskList();
+        return $this->render('JiliApiBundle:Top:task.html.twig', $arr);
+    }
+
+    /**
+     * @Route("/myTask")
+     * @Template();
+     */
+    public function myTaskAction()
+    {
+        //任务列表
+        $arr['myTask'] = $this->getUndoTaskList();
+
+        //确认中的任务
+        $arr['confirmTask'] = $this->getMyTaskList(1);
+
+        //已完成的任务
+        $arr['finishTask'] = $this->getMyTaskList(2);
+
+        return $this->render('JiliApiBundle:Top:myTask.html.twig', $arr);
+    }
+
+    /**
+     * @Route("/checkIn")
+     * @Template();
+     */
+    public function checkInAction()
+    {
+        //获取签到商家
+        $arr['arrList'] = $this->checkinList();
+        //获取签到积分
+        $checkInLister = $this->get('check_in.listener');
+        $arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));;
+        return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
+    }
+
+    /**
+     * @Route("/topCheckIn")
+     * @Template();
+     */
+    public function topCheckInAction()
+    {
+
+        //return $this->render('JiliApiBundle:Top:myTask.html.twig', $arr);
+    }
+
+    private function getUndoTaskList() {
+        //可以做的任务，签到+游戏+91问问+购物+cpa
+        $day = date('Ymd');
+        $request = $this->get('request');
+        $id = $request->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $glideAd = false;//是否显示签到活动广告
+        $signRemind = false;//是否显示签到活动广告
+        $signRemind_reg = false;//是否为当天注册
+        if ($id) {
+            //游戏
+            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
+            if (empty ($visit)) {
+                $arr['task']['game'] = $this->container->getParameter('init_one');
+            } else {
+                $arr['task']['game'] = $this->container->getParameter('init');
+            }
+
+            //广告任务墙
+            $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
+            if (empty ($visit)) {
+                $arr['task']['ad'] = $this->container->getParameter('init_one');
+            } else {
+                $arr['task']['ad'] = $this->container->getParameter('init');
+            }
+
+            //91wenwen
+            $visit = $em->getRepository('JiliApiBundle:UserWenwenVisit')->getWenwenVisit($id, $day);
+            if (empty ($visit)) {
+                $arr['task']['wen'] = $this->container->getParameter('init_one');
+            } else {
+                $arr['task']['wen'] = $this->container->getParameter('init');
+            }
+
+            //签到
+            $date = date('Y-m-d');
+            $checkin = $em->getRepository('JiliApiBundle:CheckinClickList')->checkStatus($id, $date);
+            if (!empty ($checkin)) {
+                $arr['task']['checkin'] = $this->container->getParameter('init');
+            } else {
+                //获取签到积分
+                $checkInLister = $this->get('check_in.listener');
+                $arr['task']['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));;
+                $arr['task']['checkin'] = $this->container->getParameter('init_one');
+                if($signRemind_reg){
+                    $signRemind = true;//显示签到活动广告
+                }
+            }
+
+            //cpa
+            $repository = $em->getRepository('JiliApiBundle:Advertiserment');
+            $advertise = $repository->getAdvertiserListCPA($id);
+            $arr['advertise'] = $advertise;
+            $arr['task']['cpa'] = $advertise;
+        }
+
+        //advertiserment check
+        $filename = $this->container->getParameter('file_path_advertiserment_check');
+        $arr['adCheck'] = "";
+        if (file_exists($filename)) {
+            $file_handle = fopen($filename, "r");
+            if ($file_handle) {
+               if(filesize ($filename)){
+                    $arr['adCheck'] = fread($file_handle, filesize ($filename));
+               }
+            }
+            fclose($file_handle);
+        }
+
+        return $arr;
+    }
+
+    private function getMyTaskList($type) {
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $id = $request->getSession()->get('uid');
+        $option = array('status' => $type ,'offset'=>'','limit'=>'');
+        $adtaste = $this->selTaskHistory($id,$option);
+        foreach ($adtaste as $key => $value) {
+            if($value['orderStatus'] == 1 && $value['type'] ==1){
+                unset($adtaste[$key]);
+            }
+        }
+        return $adtaste;
+    }
+
+    private function selTaskHistory($userid, $option){
+      $em = $this->getDoctrine()->getManager();
+      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) );
+      $po = $task->getUseradtaste($userid, $option);
+
+      foreach ($po as $key => $value) {
+            if($value['type']==1 ) {
+                $adUrl = $task->getUserAdwId($value['orderId']);
+                if( is_array($adUrl) && count($adUrl) > 0) {
+                    $po[$key]['adid'] = $adUrl[0]['adid'];
+                } else {
+                    $po[$key]['adid'] = '';
+                }
+            }else{
+                $po[$key]['adid'] = '';
+            }
+        }
+        return $po;
+    }
+
+    //签到列表
+    private function checkinList(){
+        $arrList = array();
+        $date = date('Y-m-d H:i:s');
+        $cal_count = "";
+        $campaign_multiple = $this->container->getParameter('campaign_multiple');
+        $request = $this->get('request');
+        $uid = $request->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+        $reward_multiple = $user->getRewardMultiple();
+        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
+        if (count($cal) > 6) {
+            $cal_count = 6;
+            $calNow = array_rand($cal, 6); //随机取数组中6个键值
+        } else {
+            $cal_count = count($cal);
+            for ($i = 0; $i < count($cal); $i++) {
+                $calNow[$i] = $i;
+            }
+        }
+        for ($i = 0; $i < $cal_count; $i++) {
+            $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
+            $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
+            $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate'] / 10000, 2);
+            $arrList[] = $cal[$calNow[$i]];
+        }
+        return $arrList;
+
+    }
+
+    private function readFileContent($filename) {
 
         $contents = null;
         if (!file_exists($filename)) {
