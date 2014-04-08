@@ -19,7 +19,8 @@
   <div class="w204 h340 fl">
     <div class="module categorys">
       <h3>所有商品分类</h3>
-      {{ include('JiliEmarBundle:Product:category.html.twig') }}
+      <h1>{{ app.request.attributes.get('_route')}}</h1>
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': app.request.attributes.get('_route')  })) }}
      </div>
   </div><!-- eof w204 -->
 

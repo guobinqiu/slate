@@ -31,7 +31,12 @@ $(document).ready(function(){
     {% endif %}
     {% if app.session.has('uid') %}
       <ul id="userbar">
+{% set count_new_msgs =  render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}
+{% if  count_new_msgs|length > 0 %}
         <li><a class="message">新消息(+{{ render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) }})</a></li>
+{% else %}
+        <li><a class="message">站内消息</a></li>
+{% endif %}
         <li class="split">|</li>
         <li><a class="personal">个人中心</a></li>
         <div id="userFrame">
@@ -40,7 +45,7 @@ $(document).ready(function(){
                 <li><a href="{{ path('_user_info') }}">个人信息</a></li>
                 <li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a></li>
                 <li><a href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}">我的兑换历史</a></li>
-                <li class="logOut"><a href="{{ path('_user_loginOut') }}">退出</a></li>
+                <li class="logOut"><a href="{{ path('_user_logout') }}">退出</a></li>
             </ul>
         </div>
       </ul>
@@ -51,7 +56,7 @@ $(document).ready(function(){
   </div>
   <div id="headerContent">
     <div class="page clearfix">
-      <div id="logo"><a href="{{ path('_default_index') }}"><img src="{{ asset('images140307/logo.png') }}" width="160" height="46" alt="积粒网" /></a></div>
+      <div id="logo"><a href="{{ path('_homepage') }}"><img src="{{ asset('images140307/logo.png') }}" width="160" height="46" alt="积粒网" /></a></div>
       <div id="search">
       {% block search_box %}
           {{ render(controller('JiliEmarBundle:Search:form')) }}
@@ -62,15 +67,17 @@ $(document).ready(function(){
   </div>
   <div id="nav">
     <div class="page clearfix">
-    {% if app.session.has('uid') %}
+
       <ul>
         <li class="task"> 
+        {% if app.session.has('uid') %}
         <a class="taskBtn" href="#">我的任务列表</a><em>3</em>
           <ul>
             <li><a href="#">每日签到<span>1米粒</span></a></li>
             <li><a href="#">小鸡找米<span>最高588米粒</span></a></li>
             <li><a href="#">91问问快速问答<span>1米粒</span></a></li>
           </ul>
+        {% endif %}
         </li>
         <li><a href="{{ path('jili_api_top_index') }}" >首页</a></li>
         <li><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
@@ -79,6 +86,6 @@ $(document).ready(function(){
 		<li><a href="{{ asset(path('_marketActivity_index'),'cdn1')  }}">商家活动</a></li>
         <li><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
       </ul>
-    {% endif %}
+
     </div>
   </div>

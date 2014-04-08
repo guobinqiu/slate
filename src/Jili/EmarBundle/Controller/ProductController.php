@@ -61,14 +61,13 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/category")
+     * @Route("/category" )
      * @Template();
-     *
      *   $prod_categories = array('cats'=> array() , 'sub_cats'=> array());
      */
-    public function categoryAction( ) {
+    public function categoryAction( $qs = array(), $rt = null ) {
         $prod_categories = $this->get('product.categories')->fetch();
-        return $prod_categories;
+        return array_merge($prod_categories , compact('rt', 'qs' ));
     }
 
 

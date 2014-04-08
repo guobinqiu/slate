@@ -1,0 +1,70 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>EmarWebsitesCroned</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Webid</th>
+                <td>{{ entity.webId }}</td>
+            </tr>
+            <tr>
+                <th>Webname</th>
+                <td>{{ entity.webName }}</td>
+            </tr>
+            <tr>
+                <th>Webcatid</th>
+                <td>{{ entity.webCatid }}</td>
+            </tr>
+            <tr>
+                <th>Logourl</th>
+                <td>{{ entity.logoUrl }}</td>
+            </tr>
+            <tr>
+                <th>Weburl</th>
+                <td>{{ entity.webUrl }}</td>
+            </tr>
+            <tr>
+                <th>Information</th>
+                <td>{{ entity.information }}</td>
+            </tr>
+            <tr>
+                <th>Begindate</th>
+                <td>{{ entity.beginDate }}</td>
+            </tr>
+            <tr>
+                <th>Enddate</th>
+                <td>{{ entity.endDate }}</td>
+            </tr>
+            <tr>
+                <th>Commission</th>
+                <td>{{ entity.commission }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_emarwebsitescroned') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_emarwebsitescroned_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('admin_emarwebsitescroned_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

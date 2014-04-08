@@ -1,13 +1,27 @@
+
+{% if rt is not defined %}
+{% set rt = app.request.attributes.get('_route') %}
+{% endif %}
+
+<!-- {{ rt  }} -->
+
+{% if qs is not defined %}
+{% set qs = app.request.query.all %}
+{% endif %}
+
       <ul>
 {% set i = 8 %}
     {% for cid, cat in cats %}
 {% set i=i-1 %}
+
+
 {% if i >= 0%}
         <li>{{ cat }}
           <div class="second">
         {% for scid, scat in sub_cats[cid] %}
             <dd>
-               <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></dd>
+
+               <a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></dd>
         {% endfor %}
           </div>
          </li>

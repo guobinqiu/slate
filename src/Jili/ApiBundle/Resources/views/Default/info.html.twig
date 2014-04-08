@@ -11,7 +11,7 @@
                 <li><a href="{{ path('_user_info') }}">个人信息</a></li>
                 <li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a></li>
                 <li><a href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}">我的兑换历史</a></li>
-                <li class="logOut"><a href="{{ path('_user_loginOut') }}">退出</a></li>
+                <li class="logOut"><a href="{{ path('_user_logout') }}">退出</a></li>
             </ul>
         </div>
         {% else %}

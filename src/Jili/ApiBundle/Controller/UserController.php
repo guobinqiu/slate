@@ -74,7 +74,6 @@ class UserController extends Controller
 			$em->flush();
 			if($user->getDeleteFlag() == 1){
 				$this->removeSession();
-				// return $this->redirect($this->generateUrl('_default_index'));
 				$code = $this->container->getParameter('init_one');
 			}
 		}
@@ -238,7 +237,7 @@ class UserController extends Controller
 		$request = $this->get('request');
 		$id = $request->getSession()->get('uid');
 		if(!$id){
-            return $this->redirect($this->generateUrl('_default_index'));
+            return $this->redirect($this->generateUrl('_homepage'));
         }
         $em = $this->getDoctrine()->getManager();
        
@@ -400,7 +399,7 @@ class UserController extends Controller
            		$couponElec = $userCoupon[0]->getCouponElec();
 			}
 		}else{
-			return $this->redirect($this->generateUrl('_default_index'));
+			return $this->redirect($this->generateUrl('_homepage'));
 		}
 		return $this->render('JiliApiBundle:User:amazonResult.html.twig',array(
 							'couponOd'=>$couponOd,
@@ -687,6 +686,7 @@ class UserController extends Controller
 		if($this->notReadCb() > 0 && $this->notReadMs($id) == 0){
 			$countMessage = $this->container->getParameter('init_one');
 		}
+        #$this->get('logger')->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $countMessage, true) );
 		return new Response($countMessage);
 	}
 	
@@ -915,9 +915,9 @@ class UserController extends Controller
 	}
 	
 	/**
-	 * @Route("/loginOut", name="_user_loginOut")
+	 * @Route("/logout", name="_user_logout")
 	 */
-	public function loginOutAction(){
+	public function logoutAction(){
 		$this->get('request')->getSession()->remove('uid');
 		$this->get('request')->getSession()->remove('nick');
 		setcookie ("jili_uid", "", time() - 3600,'/');
@@ -931,7 +931,7 @@ class UserController extends Controller
 //         	$response->headers->clearCookie('jili_nick','/');
 //         	$response->send();
 //         }
-		return $this->redirect($this->generateUrl('_default_index'));
+		return $this->redirect($this->generateUrl('_homepage'));
 	}
 	
 	/**
@@ -988,8 +988,7 @@ class UserController extends Controller
 
 		//$session->start();
         if($session->get('uid')){
-            $logger->debug('{jarod}'. __FILE__.':'.__LINE__.':'.var_export( $this->generateUrl('_default_index'), true) );
-            return $this->redirect($this->generateUrl('_default_index'));
+            return $this->redirect($this->generateUrl('_homepage'));
         }
 
 		$code = '';
@@ -1244,7 +1243,7 @@ class UserController extends Controller
 		$code_email = '';
 		$code_re = '';
 		if($this->get('request')->getSession()->get('uid')){
-            return $this->redirect($this->generateUrl('_default_index'));
+            return $this->redirect($this->generateUrl('_homepage'));
         }
 		$request = $this->get('request');
 		$user = new User();

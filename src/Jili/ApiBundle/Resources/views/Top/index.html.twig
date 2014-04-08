@@ -14,7 +14,7 @@
 {% block page_main %}
   <div class="w204 fl">
     <div class="module categorys">
-        {{ render(controller('JiliEmarBundle:Product:category') ) }}
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }}
     </div><!-- eof module categorys -->
 
     <div id="vote">

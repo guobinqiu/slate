@@ -21,7 +21,7 @@ parameters:
     emar_com.name: "亿玛返利"
     emar_com.cps.category_type: 19 # in ad_category table where cateogry_name ='emar' ??
     emar_com.cps.task_type: 1 
-    emar_com.cps.action.default_rebate: 0.70 # used when no related advertiserment to the request action from emar .
+    emar_com.cps.action.default_rebate: 70 # used when no related advertiserment to the request action from emar .
 
 #    emar_com.cpa.name: "亿玛活动"
 #    emar_com.cpa.category_type: 20 # in ad_category table where cateogry_name ='emar' ??
