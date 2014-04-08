@@ -14,7 +14,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 #header{ width:100%;}
 #header #topbar{ background-color:#F6F6F6; width:100%; border-bottom:1px solid #E0E0E0; height:30px; line-height:30px; color:#666;}
 #userbar{ float:right; position:relative;}
-#userbar li{ float:left;}
+#userbar li{ float:left; line-height: 28px;}
 #userbar li.split { background: none repeat scroll 0 0 #CCC; color: #CCC; height: 12px; margin: 9px; width: 1px; overflow:hidden;}
 #userbar li a{ background:url(../images140307/iconImage.png) no-repeat; cursor:pointer;}
 #userbar li a.message{ padding-left: 20px; background-position: left 3px;}

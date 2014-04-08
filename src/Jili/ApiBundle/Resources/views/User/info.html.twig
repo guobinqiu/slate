@@ -277,7 +277,7 @@ function addClass(id){
   <div class="cardNumberArea">
   </div>
 </div>
-<div class="personal">
+<div class="personalWrap">   
   <section class="line">
     <div class="photo">
       <div class="img">
@@ -488,15 +488,10 @@ function addClass(id){
           <td>
             {% if item.adid %}<a href="{{ asset(path('_advertiserment_index',{'id':item.adid}),'cdn1') }}" target="_blank">{{ item.title }}</a>
               {% else%}
-<<<<<<< HEAD
-                  {% if item.incentiveType == 16 or item.incentiveType == 18 %}
-                    {{ item.title }}
-=======
                   {% if item.incentiveType == 17 %}
                     <a href="{{ path('_advertiserment_list') }}" target="_blank">{{ item.title }}</a>
                   {% elseif item.incentiveType == 18 %}
                     <a href="{{ asset(path('_advertiserment_offer99')) }}" target="_blank">{{ item.title }}</a>
->>>>>>> origin
                   {% else %}
                     {{ item.title }}
                   {% endif %}

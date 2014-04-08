@@ -58,9 +58,10 @@
 	cursor: pointer;
 }
 .personalWrap { 
-	margin: 20px auto 140px;
+	margin: 20px auto 0;
 	width: 1150px;
 	font-size: 14px;
+	padding-bottom: 140px;
 }
 .infoReset{
 
@@ -79,6 +80,7 @@
 }
 .personalWrap section .content{	
 	border-top: 1px #e0e0e0 dashed;
+	width: 1038px;
 }
 .personalWrap section.line{ 
 	padding:1px 0 0 0;
