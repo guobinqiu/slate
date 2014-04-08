@@ -101,7 +101,7 @@ function addClass(type){
                   {% endif %}
               {% endif %} 
           </td>
-          <td>{% if item.incentiveType==2 or item.incentiveType==18  %}
+          <td>{% if item.incentiveType==2 or item.incentiveType==19  %}
                      {% if item.orderStatus > 1 %}
                         {{ item.incentive }}米粒
                      {% else %}
@@ -110,7 +110,7 @@ function addClass(type){
                      {{ item.incentive }}米粒
               {% endif %}</td>
           <td>{% if item.createTime %}{{ item.createTime.date }}{% endif %}</td>
-          <td>{% if item.incentiveType==1 or item.incentiveType==2 or item.incentiveType==17 or item.incentiveType==18 %}
+          <td>{% if item.incentiveType==1 or item.incentiveType==2 or item.incentiveType==17 or item.incentiveType==19 %}
                   {% if item.orderStatus==1  %} 已参加
                   {% elseif item.orderStatus==2  %} 确认中
                   {% elseif item.orderStatus==3  %} 已完成

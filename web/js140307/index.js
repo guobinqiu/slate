@@ -134,9 +134,7 @@ $(document).ready(function(){
 		}
 		marketActivityGo();
 	})
-	
-	//task
-	$("#task .all").width($("#task ul").width() * $("#task ul").length)
+
 	var taskPage = 1
 	var taskSliderTime = 500
 	var taskSlider = function(){

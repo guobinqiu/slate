@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	
+	setTaskNumber();
+	
 	var menuState = false;
 	var settingMenu = function(){
 		if(!menuState){
@@ -54,4 +56,52 @@ $(document).ready(function(){
 
         $('div#search>div.searchMenu>span').text( label_ );
     });
+    
+    $("#task .all").width($("#task ul").width() * $("#task ul").length)
+    
+    //task任务列表：推荐
+    setUndoTaskClass();
+
+	//task任务列表：确认中
+	for(i=1; i<=$("#confirmTask li").length; i++){
+		if(i%2 == 0){
+			$("#confirmTask li:eq(" + (i-1) + ")").addClass("brn")
+		}
+	}
+	//task任务列表：已完成
+	for(i=1; i<=$("#finishTask li").length; i++){
+		if(i%2 == 0){
+			$("#finishTask li:eq(" + (i-1) + ")").addClass("brn")
+		}
+	}
+	setTaskNumber();
+	
+	//91问问快速回答
+	$(".vote").click(function(){
+		$.ajax({
+            url: urls.wenwenVisit,
+            post: "GET",
+            success:function(data){
+	        	if(data==1){
+                	$("li.vote").remove();
+                	setTaskNumber();
+                	setUndoTaskClass();
+                }
+            }
+        }); 
+    });
+	
 });
+
+//task任务列表数字
+var setTaskNumber = function(){
+	//nav
+	$("#nav li.task em").html($("#nav li.task li").length);
+}
+var setUndoTaskClass = function(){
+	for(i=1; i<=$("#undoTask li").length; i++){
+		if(i%2 == 0){
+			$("#undoTask li:eq(" + (i-1) + ")").addClass("brn")
+		}
+	}
+}
