@@ -84,51 +84,51 @@ class AdminEmarWebsitesCronedController extends Controller
         );
     }
 
-    /**
-     * Creates a new EmarWebsitesCroned entity.
-     *
-     * @Route("/", name="admin_emarwebsitescroned_create")
-     * @Method("POST")
-     * @Template("JiliEmarBundle:EmarWebsitesCroned:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity  = new EmarWebsitesCroned();
-        $form = $this->createForm(new EmarWebsitesCronedType(), $entity);
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_emarwebsitescroned_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Displays a form to create a new EmarWebsitesCroned entity.
-     *
-     * @Route("/new", name="admin_emarwebsitescroned_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new EmarWebsitesCroned();
-        $form   = $this->createForm(new EmarWebsitesCronedType(), $entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
+//    /**
+//     * Creates a new EmarWebsitesCroned entity.
+//     *
+//     * @Route("/", name="admin_emarwebsitescroned_create")
+//     * @Method("POST")
+//     * @Template("JiliEmarBundle:EmarWebsitesCroned:new.html.twig")
+//     */
+//    public function createAction(Request $request)
+//    {
+//        $entity  = new EmarWebsitesCroned();
+//        $form = $this->createForm(new EmarWebsitesCronedType(), $entity);
+//        $form->bind($request);
+//
+//        if ($form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//            $em->persist($entity);
+//            $em->flush();
+//
+//            return $this->redirect($this->generateUrl('admin_emarwebsitescroned_show', array('id' => $entity->getId())));
+//        }
+//
+//        return array(
+//            'entity' => $entity,
+//            'form'   => $form->createView(),
+//        );
+//    }
+//
+//    /**
+//     * Displays a form to create a new EmarWebsitesCroned entity.
+//     *
+//     * @Route("/new", name="admin_emarwebsitescroned_new")
+//     * @Method("GET")
+//     * @Template()
+//     */
+//    public function newAction()
+//    {
+//        $entity = new EmarWebsitesCroned();
+//        $form   = $this->createForm(new EmarWebsitesCronedType(), $entity);
+//
+//        return array(
+//            'entity' => $entity,
+//            'form'   => $form->createView(),
+//        );
+//    }
+//
     /**
      * Finds and displays a EmarWebsitesCroned entity.
      *
@@ -154,93 +154,93 @@ class AdminEmarWebsitesCronedController extends Controller
         );
     }
 
-    /**
-     * Displays a form to edit an existing EmarWebsitesCroned entity.
-     *
-     * @Route("/{id}/edit", name="admin_emarwebsitescroned_edit")
-     * @Method("GET")
-     * @Template()
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+//    /**
+//     * Displays a form to edit an existing EmarWebsitesCroned entity.
+//     *
+//     * @Route("/{id}/edit", name="admin_emarwebsitescroned_edit")
+//     * @Method("GET")
+//     * @Template()
+//     */
+//    public function editAction($id)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $entity = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->find($id);
+//
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find EmarWebsitesCroned entity.');
+//        }
+//
+//        $editForm = $this->createForm(new EmarWebsitesCronedType(), $entity);
+//        $deleteForm = $this->createDeleteForm($id);
+//
+//        return array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        );
+//    }
 
-        $entity = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->find($id);
+//    /**
+//     * Edits an existing EmarWebsitesCroned entity.
+//     *
+//     * @Route("/{id}", name="admin_emarwebsitescroned_update")
+//     * @Method("PUT")
+//     * @Template("JiliEmarBundle:EmarWebsitesCroned:edit.html.twig")
+//     */
+//    public function updateAction(Request $request, $id)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $entity = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->find($id);
+//
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find EmarWebsitesCroned entity.');
+//        }
+//
+//        $deleteForm = $this->createDeleteForm($id);
+//        $editForm = $this->createForm(new EmarWebsitesCronedType(), $entity);
+//        $editForm->bind($request);
+//
+//        if ($editForm->isValid()) {
+//            $em->persist($entity);
+//            $em->flush();
+//
+//            return $this->redirect($this->generateUrl('admin_emarwebsitescroned_edit', array('id' => $id)));
+//        }
+//
+//        return array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        );
+//    }
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find EmarWebsitesCroned entity.');
-        }
-
-        $editForm = $this->createForm(new EmarWebsitesCronedType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Edits an existing EmarWebsitesCroned entity.
-     *
-     * @Route("/{id}", name="admin_emarwebsitescroned_update")
-     * @Method("PUT")
-     * @Template("JiliEmarBundle:EmarWebsitesCroned:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find EmarWebsitesCroned entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new EmarWebsitesCronedType(), $entity);
-        $editForm->bind($request);
-
-        if ($editForm->isValid()) {
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_emarwebsitescroned_edit', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Deletes a EmarWebsitesCroned entity.
-     *
-     * @Route("/{id}", name="admin_emarwebsitescroned_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find EmarWebsitesCroned entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('admin_emarwebsitescroned'));
-    }
+//    /**
+//     * Deletes a EmarWebsitesCroned entity.
+//     *
+//     * @Route("/{id}", name="admin_emarwebsitescroned_delete")
+//     * @Method("DELETE")
+//     */
+//    public function deleteAction(Request $request, $id)
+//    {
+//        $form = $this->createDeleteForm($id);
+//        $form->bind($request);
+//
+//        if ($form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//            $entity = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->find($id);
+//
+//            if (!$entity) {
+//                throw $this->createNotFoundException('Unable to find EmarWebsitesCroned entity.');
+//            }
+//
+//            $em->remove($entity);
+//            $em->flush();
+//        }
+//
+//        return $this->redirect($this->generateUrl('admin_emarwebsitescroned'));
+//    }
 
     /**
      * Creates a form to delete a EmarWebsitesCroned entity by id.

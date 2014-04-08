@@ -55,16 +55,7 @@
         </a>
     </li>
     <li>
-        <a href="{{ path('admin_emarwebsitescroned_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('admin_emarwebsitescroned_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
+      <a href="{{ path('admin_emarwebsitescroned_import', { 'id': entity.id }) }}">配置</a>
     </li>
 </ul>
 {% endblock %}

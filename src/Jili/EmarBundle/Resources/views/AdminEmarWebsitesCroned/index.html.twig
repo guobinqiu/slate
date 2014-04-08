@@ -29,7 +29,7 @@
                 <td><img src="{{ entity.logoUrl}}" alt="logo" /></td>
 {# entity.logoUrl #}
 <!--                <td>{# entity.webUrl #}</td> -->
-                <td>{{ entity.information }}</td>
+                <td>{{ entity.information|raw }}</td>
                 <td>{{ entity.beginDate|date("Y-m-d") }} ~ {{ entity.endDate|date("Y-m-d") }}</td>
                 <td>{{ entity.commission }}</td>
                 {# entity.id #}
