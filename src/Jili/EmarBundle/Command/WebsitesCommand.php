@@ -73,6 +73,7 @@ class WebsitesCommand extends ContainerAwareCommand
 
             $round = 0;
 
+            $this->getContainer()->get('cron.websites')->truncate();
             do{
                 $webs_todo = array_merge($webs_failed, $webs) ;
                 foreach($webs_todo  as $web) {
@@ -89,7 +90,7 @@ class WebsitesCommand extends ContainerAwareCommand
                     for($i = 0; $i <= 3 ; $i++ ) {
                         try {
                             $web_detail  = $webDetailGetter->fetch(array('webid'=> $wid));
-                            $this->getContainer()->get('website.storage')->save($web_detail );
+                            $this->getContainer()->get('cron.websites')->save($web_detail );
                             break;
                         } catch( \Exception $e) {
 
@@ -114,6 +115,7 @@ class WebsitesCommand extends ContainerAwareCommand
                 $output->writeln('failed web ids: ' .var_export( $webs_failed,true) );
             }
 
+            $this->getContainer()->get('cron.websites')->duplicateForQuery();
             //todo: try the failed webs again
             //todo: while( the web_failed is empty);
             //todo: insert all web_id in advanced, then updated the record by web_id.

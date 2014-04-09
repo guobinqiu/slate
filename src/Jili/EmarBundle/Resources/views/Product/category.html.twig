@@ -9,14 +9,51 @@
 {% set qs = app.request.query.all %}
 {% endif %}
 
+<ul>
+{% for ind,item in menu_config %}
+    {% if  item.cat_name  is defined %}
+            <li>{{ item.cat_name }}</li>
+                {% for scid,scat   in sub_cats[ item.cat_id] %} 
+                    <p><a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
+                {% endfor %}
+
+    {% else %}
+        {% for key1,item1 in item %}
+
+            {% if key1.cat_name is defined %}
+                <li>{{ key1.cat_name }}</li>
+                {% for scid,scat   in sub_cats[ key1.cat_id] %} 
+                    <p><a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
+                {% endfor %}
+            {% else %}
+              <li>{{ key1 }}</li>
+            {% endif %}
+              
+           {% for ind2,item2 in item1 %}  
+                {% if item2.cat_name is defined %}
+                  <h5>{{ item2.cat_name }}</h5>
+                {% for scid,scat   in sub_cats[ item2.cat_id] %} 
+                    <p><a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
+                {% endfor %}
+
+                {% else %}
+<h5>==!</h5>
+                {% endif %}
+           {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+{% endfor %}
+</ul>
+
+<!--
       <ul>
-{% set i = 8 %}
+
     {% for cid, cat in cats %}
-{% set i=i-1 %}
 
 
-{% if i >= 0%}
         <li>{{ cat }}
+
           <div class="second">
         {% for scid, scat in sub_cats[cid] %}
             <dd>
@@ -25,8 +62,7 @@
         {% endfor %}
           </div>
          </li>
-{% endif %}
     {% endfor %}
     </ul>
 
-
+-->

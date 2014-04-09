@@ -69,7 +69,6 @@ class WebsitesController extends Controller
 
         // wcats with local file cache
         $wcats = $this->get('website.categories')->fetch() ;
-
         // webs 
         $websites = array();
         $params =array();
@@ -77,7 +76,6 @@ class WebsitesController extends Controller
         if( isset($wcat_id ) && is_numeric($wcat_id) && $wcat_id > 0 ) {
             $params = array('catid'=> $wcat_id );
         }
-
         $web_raw  = $this->get('website.list_get')->fetch( $params );
 
         // searching 
@@ -105,7 +103,6 @@ class WebsitesController extends Controller
                 unset($websites_left[$row->getWebId()]);
             }
         }
-
         $websites_sorted = $websites_filtered + $websites_left; //array_diff($websites, $websites_filtered);
 
         // page_size , page_no 
@@ -116,9 +113,7 @@ class WebsitesController extends Controller
 
         $start = ( $page_no -1 ) * $page_size ; 
         $end =  $start + $page_size;
-
         $websites_paged = array();
-
         // todo: use array_slice()
         // #$websites_paged = array_slice( $websites_sorted, ( $page_no -1 ) * $page_size  , $page_size );
         foreach($websites_sorted as $k => $v) {
@@ -131,7 +126,7 @@ class WebsitesController extends Controller
             $i++;
         }
 
-        // update the commission
+        // update the commission by configed in emar_websites 
         $websites_configed_wid = array();
         foreach($websites_configed as $row ) {
             $websites_configed_wid [$row->getWebId() ] = $row; 
@@ -179,12 +174,10 @@ class WebsitesController extends Controller
             $websites = array();
         }
 
-        #$logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'')).var_export( $websites, true)  );
-
         $template ='JiliEmarBundle:Websites:'. 'hot_on_'. $tmpl. '.html.twig';
-
         return $this->render($template, compact('websites'));
     }
+
     /**
      * @Route("/detail/{wid}", requirements={"wid" = "\d+"}, defaults={"wid" = 0})
      * @Template()
@@ -205,6 +198,7 @@ class WebsitesController extends Controller
 
     /**
      * @Route("/shopsearch")
+     * @Method("GET");
      * @Template();
      */
     public function shopSearchAction()
@@ -261,5 +255,41 @@ class WebsitesController extends Controller
             'categories'=> $wcats,
             'total'=>$total );
     }
+
+     /**
+      * @Route("/demo")
+      * @Method("GET");
+      */
+     public function demoAction()
+     {
+         $em = $this->getDoctrine()->getManager();
+         $this->get('cron.website_and_category')->truncate();
+         for($i = 1 ; $i < 10 ; $i++ ){
+             $wid = $i ; 
+             for($j = 11;  $j< 21; $j++ ) {
+                 $catid = $j;
+                 $this->get('cron.website_and_category')->add($wid, $catid);
+             }
+         }
+
+         for($i = 1 ; $i < 5 ; $i++ ){
+             $wid = $i ; 
+             for($j = 15;  $j< 21; $j++ ) {
+                 $catid = $j;
+                 $this->get('cron.website_and_category')->add($wid, $catid);
+             }
+         }
+
+         for($i = 2 ; $i < 8 ; $i++ ){
+             $wid = $i ; 
+             for($j = 13;  $j< 18; $j++ ) {
+                 $catid = $j;
+                 $this->get('cron.website_and_category')->add($wid, $catid);
+             }
+         }
+         $this->get('cron.website_and_category')->duplicateForQuery();
+         // code...
+         return new Response('ok');
+     }
 }
 

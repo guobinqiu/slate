@@ -30,7 +30,12 @@ parameters:
     website.detail_get.class:  Jili\EmarBundle\EventListener\WebsiteDetailGetRequest
     website.search.class:  Jili\EmarBundle\EventListener\WebsiteSearch
     website.categories.class:  Jili\EmarBundle\EventListener\WebsiteCategories
-    website.storage.class: Jili\EmarBundle\EventListener\WebsiteStorage
+#    website.storage.class: Jili\EmarBundle\EventListener\WebsiteStorage
+
+#
+    cron.website_and_category.class:  Jili\EmarBundle\EventListener\WebsiteAndCategoryCron
+    cron.products.class:  Jili\EmarBundle\EventListener\ProductsCron
+    cron.websites.class:  Jili\EmarBundle\EventListener\WebsitesCron
 
 
 services:
@@ -147,11 +152,11 @@ services:
             - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
             - [ setCacheDir, [ %kernel.cache_dir% ] ] 
 
-    website.storage:
-        class: %website.storage.class%
-        calls:
-            - [ setLogger, [ @logger ] ] 
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+#    website.storage:
+#        class: %website.storage.class%
+#        calls:
+#            - [ setLogger, [ @logger ] ] 
+#            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
 
     product.list_get:
         class: %product.list_get.class%
@@ -171,6 +176,7 @@ services:
         class: %product.filters.class%
         calls:
             - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
             - [ setGeneralCategoryGet, [ @general.category_get ] ] 
             - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
             - [ setWebsiteListGet, [ @website.list_get ] ] 
@@ -183,8 +189,29 @@ services:
             - [ setGeneralCategoryGet, [ @general.category_get ] ] 
             - [ setCacheDir, [ %kernel.cache_dir% ] ] 
 
-    product.storage:
-        class: %product.storage.class%
+#    product.storage:
+#        class: %product.storage.class%
+#        calls:
+#            - [ setLogger, [ @logger ] ] 
+#            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+#            - [ setWebsiteAndCategory, [ @cron.website_and_category ] ] 
+
+    cron.website_and_category:
+        class: %cron.website_and_category.class%
         calls:
             - [ setLogger, [ @logger ] ] 
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+
+    cron.products:
+        class: %cron.products.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setWebsiteAndCategory, [ @cron.website_and_category ] ] 
+
+    cron.websites:
+        class: %cron.websites.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+

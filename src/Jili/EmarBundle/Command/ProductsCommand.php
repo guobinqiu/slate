@@ -74,16 +74,16 @@ class ProductsCommand extends ContainerAwareCommand
     {
         $logger = $this->getContainer()->get('logger');
 
-            $wid = $input->getArgument('wid');
-            $catid = $input->getArgument('catid');
+        $wid = $input->getArgument('wid');
+        $catid = $input->getArgument('catid');
 
-            $output->writeln('wid:'. var_export($wid, true).'; catid:'.var_export( $catid, true) );
+        $output->writeln('wid:'. var_export($wid, true).'; catid:'.var_export( $catid, true) );
+        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ).'wid:'.var_export($wid,true).';catid:'.var_export($catid,true));
 
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). 'wid:'. var_export($wid, true).'; catid:'.var_export( $catid, true)  );
 
-
-            // evaluate how long it will takes to fetch rows.
+        // evaluate how long it will takes to fetch rows.
         if ($input->getOption('update-all-count')) {
+
             $em  = $this->getContainer()->get('doctrine')->getManager( );
 
             $websites = $this->getContainer()->get('website.list_get')->fetch();
@@ -98,7 +98,7 @@ class ProductsCommand extends ContainerAwareCommand
                 }
             }
 
-            $pr = new PerRestrict();
+            $pr = new PerRestrict(500);
 
             $start = (int) $input->getOption('start'); // 断点
 
@@ -114,6 +114,8 @@ class ProductsCommand extends ContainerAwareCommand
             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$cats_mixed:','') ). var_export(count($cats_mixed), true));
             $output->writeln('total:  '. $loop_counter  . ' = '. count($cats_mixed) .  '*'. count($websites).'( pagination excluded)' );
 
+
+            
             foreach( $cats_mixed as $key =>  $cat  ) {
                 $catid = $key;
                 foreach($websites as $web ) {
@@ -172,12 +174,11 @@ class ProductsCommand extends ContainerAwareCommand
             $output->writeln($i. ' pair to request!');
 
         } else if ($input->getOption('update-all')) {
-            $em  = $this->getContainer()->get('doctrine')->getManager( );
 
+            $em  = $this->getContainer()->get('doctrine')->getManager( );
             $websites = $this->getContainer()->get('website.list_get')->fetch();
 
             $product_categories = $this->getContainer()->get('product.categories')->fetch();
-
             $cats_mixed = array();
             foreach( $product_categories['cats'] as $k => $v ) {
                 $cats_mixed[$k] = $v;
@@ -186,10 +187,14 @@ class ProductsCommand extends ContainerAwareCommand
                 }
             }
 
-            $pr = new PerRestrict();
+            $pr = new PerRestrict( 500 );
             $start = (int) $input->getOption('start'); // 断点
             $i = 0;
             $page_size = 100;
+
+            $this->getContainer()->get('cron.website_and_category')->truncate();
+            $this->getContainer()->get('cron.products')->truncate();
+
             foreach( $cats_mixed as $key =>  $cat  ) {
                 $catid = $key;
                 foreach($websites as $web ) {
@@ -213,10 +218,17 @@ class ProductsCommand extends ContainerAwareCommand
                         do {
                             $page_no++;
                             $pr->add();
-                            $output->writeln(' @'.date("Y-m-d H:i:s").' $i:'. $i. ' page_no'. $page_no  );
+                            $output->writeln(' @'.date("Y-m-d H:i:s").' $i:'. $i. ' page_no:'. $page_no  );
 
                             $products = $productListGetter->fetch($params);
-                            $this->getContainer()->get('product.storage')->save($products);
+
+                            // including insert/update the table emar_websites_category_cron
+                            $this->getContainer()->get('cron.products')->save($products);
+                            #if(0 < count($products)) {
+                            #    $output->writeln('demo , line:'. __LINE__ );
+                            #    break 3; 
+                            #}
+
                             #$logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). var_export($products, true) );
                             if( $page_no == 1 ) {
                                 $total = $productListGetter->getTotal();
@@ -237,6 +249,9 @@ class ProductsCommand extends ContainerAwareCommand
                 }
             }
 
+            $this->getContainer()->get('cron.website_and_category')->duplicateForQuery();
+            $this->getContainer()->get('cron.products')->duplicateForQuery();
+
             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'websites:','') ). var_export(count($websites), true));
             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$cats_mixed:','') ). var_export(count($cats_mixed), true));
             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'total','')). $i  );
@@ -244,16 +259,16 @@ class ProductsCommand extends ContainerAwareCommand
 
 
             // whether continue?
-            
+
             // break point ( $i, $j )
-            
+
             // get category $i
             // get websites.list $j
-            
             //  loop the category 
 
 
         } else if ($input->getOption('update')) {
+
 
             $em  = $this->getContainer()->get('doctrine')->getManager( );
             $params = array('catid'=> $catid, 'webid'=>$wid );
@@ -265,11 +280,11 @@ class ProductsCommand extends ContainerAwareCommand
             $total = $productListGetter->getTotal();
             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'total','') ). var_export($total, true) );
 
-            $this->getContainer()->get('product.storage')->save($products);
+            $this->getContainer()->get('cron.products')->save($products);
 
             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). var_export($products, true) );
         } else if ($input->getOption('remove')) {
-            $numDeleted = $this->getContainer()->get('product.storage')->remove();
+            $numDeleted = $this->getContainer()->get('cron.products')->truncate();
             $output->writeln($numDeleted. ' lines deleted!');
             // user input.
             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ) );

@@ -1,6 +1,7 @@
+{% if products|length > 0 %}
       <h3>为您推荐</h3>
       <ul class="commodityUl clearfix">
-{% for row in  products %}
+    {% for row in  products %}
         <li>
           <dt>
             <a href="{{ row.p_o_url|replace({'APImemberId': app.session.get('uid')}) }}" target="_blank" rel="nofollow">
@@ -9,12 +10,9 @@
           </dt>
           <dd>
             <p class="price">¥{{ row.cur_price }}</p>
-            <p class="shop">
-                {{ row.web_name }}
-            </p>
+            <p class="shop">{{ row.web_name }}</p>
           </dd>
         </li>
-{% endfor %}
-
+    {% endfor %}
       </ul>
-
+{% endif %}

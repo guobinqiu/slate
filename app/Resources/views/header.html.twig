@@ -69,7 +69,9 @@ $(document).ready(function(){
     <div class="page clearfix">
 
       <ul>
+        {% if app.session.has('uid') %}
         {{ render(controller('JiliApiBundle:Top:task' ) ) }}
+        {% endif %}
         <li><a href="{{ path('jili_api_top_index') }}" >首页</a></li>
         <li><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
         <li><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
