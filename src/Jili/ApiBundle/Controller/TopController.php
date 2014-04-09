@@ -3,6 +3,8 @@
 namespace Jili\ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -143,8 +145,21 @@ class TopController extends Controller
         $arr['arrList'] = $this->checkinList();
         //获取签到积分
         $checkInLister = $this->get('check_in.listener');
-        $arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));;
+        $arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));
         return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
+    }
+
+    /**
+     * @Route("/advertiseBanner")
+     * @Template();
+     */
+    public function advertiseBannerAction()
+    {
+        //banner,右一
+        $em = $this->getDoctrine()->getManager();
+        $advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoBanner();
+        $arr['advertise_banner'] = $advertiseBanner;
+        return $this->render('JiliApiBundle:Top:adBanner.html.twig', $arr);
     }
 
     /**
@@ -214,19 +229,36 @@ class TopController extends Controller
         }
 
         //advertiserment check
+        $arr['adCheck'] = $this->getAdCheckInfo();
+
+        return $arr;
+    }
+
+    /**
+     * @Route("/adCheck")
+     * @Template();
+     */
+    public function adCheckAction()
+    {
+        //advertiserment check
+        $adCheck = $this->getAdCheckInfo();
+        return new Response($adCheck);
+    }
+
+    private function getAdCheckInfo(){
+    	//advertiserment check
+        $adCheck = "";
         $filename = $this->container->getParameter('file_path_advertiserment_check');
-        $arr['adCheck'] = "";
         if (file_exists($filename)) {
             $file_handle = fopen($filename, "r");
             if ($file_handle) {
                if(filesize ($filename)){
-                    $arr['adCheck'] = fread($file_handle, filesize ($filename));
+                    $adCheck = fread($file_handle, filesize ($filename));
                }
             }
             fclose($file_handle);
         }
-
-        return $arr;
+        return $adCheck;
     }
 
     private function getMyTaskList($type) {
