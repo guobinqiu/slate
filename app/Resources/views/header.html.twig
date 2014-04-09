@@ -3,6 +3,21 @@
 <script type="text/javascript">
 $(document).ready(function(){
 		isNewMessage();
+
+		//91问问快速回答
+		$(".vote").click(function(){
+			$.ajax({
+	            url: "{{ path('_default_wenwenVisit') }}",
+	            post: "GET",
+	            success:function(data){
+		        	if(data==1){
+		        		$("li.vote").remove();
+	                	setTaskNumber();
+	                	setUndoTaskClass();
+	                }
+	            }
+	        }); 
+	    });
 });
 
   function isNewMessage(){

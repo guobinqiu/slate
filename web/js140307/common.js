@@ -75,22 +75,6 @@ $(document).ready(function(){
 		}
 	}
 	setTaskNumber();
-	
-	//91问问快速回答
-	$(".vote").click(function(){
-		$.ajax({
-            url: urls.wenwenVisit,
-            post: "GET",
-            success:function(data){
-	        	if(data==1){
-                	$("li.vote").remove();
-                	setTaskNumber();
-                	setUndoTaskClass();
-                }
-            }
-        }); 
-    });
-	
 });
 
 //task任务列表数字
