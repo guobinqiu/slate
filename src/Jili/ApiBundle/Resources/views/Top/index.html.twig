@@ -14,6 +14,7 @@
 {% block page_main %}
   <div class="w204 fl">
     <div class="module categorys">
+		<h3>所有商品分类</h3>
         {{ render(controller('JiliEmarBundle:Product:category') ) }}
     </div><!-- eof module categorys -->
 
@@ -41,7 +42,7 @@
     <!-- eof indexBanner -->
     {% else %}
     <div id="task">
-      <h3>我的任务列表</h3>
+      <h3><strong>我的任务列表</strong></h3>
       <div class="menu"><a class="recommend hover">为您推荐的</a><a class="affirm">确认中</a><a class="finish">已完成</a></div>
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:myTask' ) ) }}

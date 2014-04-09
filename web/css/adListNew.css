@@ -108,7 +108,7 @@ aside.offowAside{
     display: inline-block;
     font-size: 13px;
     margin-top: 3px;
-    padding: 10px 37px;
+    padding: 10px 36px;
 }
 .cpaMain .cpaAll .cpa dt .joinBtn:hover{
 	text-decoration:none;
@@ -126,4 +126,4 @@ aside.offowAside{
 .offwowSubnav .subnavList .first a{ border-right:1px solid #ccc; padding-right:30px;}
 .offwowSubnav .subnavList a{ color:#333;}
 .offwowSubnav .subnavList a:hover,.offwowSubnav .subnavList a.now{ color:#ea4b11;}
-.navNew{ position:absolute; top: -5px; left: 173px; z-index: 99999;}
+.navNew{ position:absolute; top: -5px; left: 173px; z-index: 9;}

@@ -60,11 +60,12 @@
 	position: relative;
 }
 #task h3 {
-	background: url("../images140307/iconImage.png") no-repeat scroll 0 -768px;
+	background: url("../images140307/iconImage.png") no-repeat scroll 0 -848px;
 	font-size: 15px;
 	line-height: 35px;
 	padding-left: 25px;
 	margin-bottom: 10px;
+	color:#525252;
 }
 #task .menu {
 	position: absolute;
@@ -75,7 +76,7 @@
 	display: inline-block;
 	height: 20px;
 	padding: 4px 10px 6px 10px;
-	margin-left: 2px;
+	margin-left: 10px;
 	cursor: pointer;
 }
 #task .menu a:hover, #task .menu a.hover {
@@ -103,13 +104,14 @@
 #task .taskList li {
 	float: left;
 	width: 257px;
-	height: 36px;
-	line-height: 36px;
+	height: 38px;
+	line-height: 38px;
 	padding: 0 25px;
-	color: #000;
-	border-bottom: 1px dotted #EEE;
-	border-right: 1px dotted #EEE;
+	color: #666;
+	border-bottom: 1px dotted #e5e5e5;
+	border-right: 1px dotted #e5e5e5;
 }
+#task .taskList li a:hover,#task .taskList li dt:hover{ color:#FF4300; text-decoration:underline;}
 #task .taskList li.brn {
 	border-right: none;
 }
@@ -117,17 +119,19 @@
 	border-bottom: none;
 }
 #task .taskList li a {
-	color: #000;
+	color: #666;
 }
 #task .taskList li dt {
 	float: left;
+	cursor:pointer;
 }
 #task .taskList li dd {
 	float: right;
 }
 #task .taskList li em {
-	color: #FF6B4F;
+	color: #FF4300;
 }
+#task .taskList span.noTask{ padding: 46px 0px 0px 203px; display: inline-block;}
 .loginFrame, .userFrame {
 	background-color: #FFF;
 	padding: 15px;
@@ -443,8 +447,8 @@
 #userInfo .point dt {
 	float: left;
 	width: 134px;
-	border-right: 1px dotted #EEE;
-	border-bottom: 1px dotted #EEE;
+	border-right: 1px dotted #e5e5e5;
+	border-bottom: 1px dotted #e5e5e5;
 	line-height: 40px;
 }
 #userInfo .point dd {
@@ -479,8 +483,8 @@
 	padding-top: 20px;
 }
 #userInfo .basic a.goUserInfo {
-	background-color: #F9F9F9;
-	border: 1px solid #EEEEEE;
+	background-color: #F5F5F5;
+	border: 1px solid #E1E1E1;
 	border-radius: 3px;
 	color: #666666;
 	display: inline-block;
@@ -527,8 +531,7 @@
 	border-radius: 3px;
 }
 #getMallList .menu a:hover, #getMallList .menu a.hover {
-	background-color: #ffa695;
-	color: #FFF;
+	color: #ff6b4f;
 }
 #getMallList .menu a.more {
 	float: right;
@@ -537,10 +540,10 @@
 	float: left;
 	width: 123px;
 	text-align: center;
-	border-top: 1px dotted #EEE;
-	margin-top: 15px;
-	padding-top: 15px;
-	color: #666
+	border-top: 1px dotted #e5e5e5;
+	margin-top: 10px;
+	padding:16px 0 12px;
+	color: #666;
 }
 #getMallList li a {
 	color: #666
@@ -548,6 +551,7 @@
 #getMallList li em {
 	color: #FF6B4F;
 }
+#indexRecommend{ position:relative;}
 #indexRecommend ul li {
 	background-color: #FFFFFF;
 	float: left;
@@ -580,6 +584,9 @@
 	text-decoration: line-through;
 	margin-right: 5px;
 }
+#indexRecommend .menu{ position:absolute; right:0; top:0;}
+#indexRecommend .menu a.more{background: url("../images140307/iconImage.png") no-repeat scroll 0 -897px; padding-left:20px; color:#666;}
+#indexRecommend .menu a.more:hover{background: url("../images140307/iconImage.png") no-repeat scroll 0 -937px; color:#ff6b4f;}
 #marketActivity ul {
 	padding: 10px;
 	background-color: #FFF;

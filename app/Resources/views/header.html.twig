@@ -31,7 +31,7 @@ $(document).ready(function(){
     {% endif %}
     {% if app.session.has('uid') %}
       <ul id="userbar">
-        <li><a class="message">新消息(+{{ render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) }})</a></li>
+        <li><a class="message">新消息(<span class="corLightRed">+{{ render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) }}</span>)</a></li>
         <li class="split">|</li>
         <li><a class="personal">个人中心</a></li>
         <div id="userFrame">
@@ -51,7 +51,7 @@ $(document).ready(function(){
   </div>
   <div id="headerContent">
     <div class="page clearfix">
-      <div id="logo"><a href="{{ path('_default_index') }}"><img src="{{ asset('images140307/logo.png') }}" width="160" height="46" alt="积粒网" /></a></div>
+      <div id="logo"><a href="{{ path('jili_api_top_index') }}"><img src="{{ asset('images140307/logo.png') }}" width="160" height="46" alt="积粒网" /></a></div>
       <div id="search">
       {% block search_box %}
           {{ render(controller('JiliEmarBundle:Search:form')) }}
@@ -62,9 +62,11 @@ $(document).ready(function(){
   </div>
   <div id="nav">
     <div class="page clearfix">
-    {% if app.session.has('uid') %}
+    
       <ul>
+	    {% if app.session.has('uid') %}
         {{ render(controller('JiliApiBundle:Top:task' ) ) }}
+		{% endif %}
         <li><a href="{{ path('jili_api_top_index') }}" >首页</a></li>
         <li><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
         <li><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
@@ -72,6 +74,6 @@ $(document).ready(function(){
 		<li><a href="{{ asset(path('_marketActivity_index'),'cdn1')  }}">商家活动</a></li>
         <li><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
       </ul>
-    {% endif %}
+    
     </div>
   </div>

@@ -158,6 +158,7 @@
 .exchange article .wenwen div.form dt{
 	width:500px;
 	margin: 10px 0;
+	float:left;
 }
 .exchange article .wenwen div.form dt.notice{
 	background-color: #FFF2F2;

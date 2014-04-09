@@ -1,7 +1,7 @@
-.categorys h3{ height:40px; background-color:#F6F6F6; line-height:40px; padding-left:20px; font-size:16px;}
-.categorys ul li{ height:34px; line-height:34px; font-size:12px; color:#636363; border-top:1px dotted #D5E3E9; padding-left:20px; background: url("../images140307/iconImage.png") no-repeat scroll 185px -247px #FFF; position:relative; z-index:502;}
-.categorys ul li:hover{ background-color:#F6F6F6;}
-.categorys .second{ left: 204px; position: absolute; top: 0; width: 170px; background-color:#FFF; box-shadow:0 0 5px #e0e0e0; padding:15px; z-index:503px; white-space: nowrap; text-overflow: ellipsis; display:none;}
+.categorys h3{ color:#ff4824; font-weight:bold; height:40px; background: url("../images140307/iconImage.png") no-repeat 14px -804px #FFEFEF; line-height:40px; padding-left:30px; font-size:16px;}
+.categorys ul li{ height:34px; line-height:34px; font-size:12px; color:#333; border-top:1px dotted #ffbeb3; padding-left:20px; background: url("../images140307/iconImage.png") no-repeat scroll 185px -247px #ffefef; position:relative; z-index:502;}
+.categorys ul li:hover{ color:#fff; background: url("../images140307/iconImage.png") no-repeat scroll 185px -767px #ff6b4f; border-top:1px solid #ff6b4f; }
+.categorys .second{ left: 201px; position: absolute; top: 0; width: 170px; background-color:#FFF; border:1px solid #e3e3e3; -moz-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;-webkit-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;box-shadow: 1px 1px 6px #ddd,1px -1px 6px #ddd; padding:5px 10px; z-index:503px; white-space: nowrap; text-overflow: ellipsis; display:none;}
 .categorys .second dd{ display:inline-block; float:left; margin:0 15px;}
 .categorys .second dd a{ color:#636363;}
-.categorys .second dd a:hover{ color:#FF4300;}
+.categorys .second dd a:hover{ color:#FF4300; text-decoration:underline;}
