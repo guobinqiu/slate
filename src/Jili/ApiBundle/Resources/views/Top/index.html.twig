@@ -37,7 +37,11 @@
 
   <div class="w615 fl">
     {% if not app.session.has('uid') %}
-    <div id="indexBanner"> <a style="opacity: 1;" class="game" href="http://www.91jili.com/game/index">游戏体验</a> <a style="opacity: 1;" class="marketActivity" href="http://www.91jili.com/marketActivity/index">商家活动</a> <a style="opacity: 1;" class="vote" href="http://www.91wenwen.net/vote/#active" target="_blank">快速问答</a> <a style="opacity: 1;" class="advertiserment" href="http://www.91jili.com/advertiserment/list">体验广告<em>3/27更新</em></a> <a style="opacity: 1;" class="shopping" href="http://www.91jili.com/shopping/list">购物返利</a> </div>
+    <div id="indexBanner"> <a style="opacity: 1;" class="game" href="{{ asset(path('_game_index'),'cdn1')}}">游戏体验</a> 
+    <a style="opacity: 1;" class="marketActivity" href="{{ asset(path('_marketActivity_index'),'cdn1')}}">商家活动</a> 
+    <a style="opacity: 1;" class="vote" href="http://www.91wenwen.net/vote/#active" target="_blank">快速问答</a> 
+    <a style="opacity: 1;" class="advertiserment" href="{{ asset(path('_advertiserment_list'),'cdn1')}}">体验广告<em>{{ render(controller('JiliApiBundle:Top:adCheck'))}}更新</em></a> 
+    <a style="opacity: 1;" class="shopping" href="{{ asset(path('_shopping_list'),'cdn1')}}">购物返利</a> </div>
     <!-- eof indexBanner -->
     {% else %}
     <div id="task">
@@ -101,11 +105,7 @@
     {% endif %}
 
     <div id="banner">
-      <ul class="bannerImg" style="top: -183px;">
-          <li><a href="http://www.91jili.com/advertiserment/info/88"><img src="{{ asset('other140307/image100.jpg') }}"></a></li>
-          <li><a href="http://www.91jili.com/shopping/list"><img src="{{ asset('other140307/image100.jpg') }}"></a></li>
-          <li><a href="http://www.91jili.com/game/index"><img src="{{ asset('other140307/image100.jpg') }}"></a></li>
-      </ul>
+      {{ render(controller('JiliApiBundle:Top:advertiseBanner' ) ) }}
       <div class="bannerNumber"></div>
     </div>   <!-- eof banner -->
     <div id="news">
