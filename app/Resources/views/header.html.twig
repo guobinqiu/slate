@@ -45,7 +45,7 @@ $(document).ready(function(){
         </div>
       </ul>
       {% else %}
-      <a class="log" href="{{ path('_user_login') }}">登录</a><span class="division"></span><a class="reg" href="{{ path('_user_reg') }}">注册</a>
+      <a class="log corGlobGray" href="{{ path('_user_login') }}">登录</a><span class="division">|</span><a class="reg corGlobGray" href="{{ path('_user_reg') }}">注册</a>
       {% endif %}  
     </div>
   </div>
@@ -57,7 +57,7 @@ $(document).ready(function(){
           {{ render(controller('JiliEmarBundle:Search:form')) }}
       {% endblock %}
       </div>
-      <div class="otherInlet"><a class="help" href="{{ path('_default_support') }}">帮助中心</a></div>
+      <div class="otherInlet"><a class="help curPt" href="{{ path('_default_support') }}">帮助中心</a></div>
     </div>
   </div>
   <div id="nav">

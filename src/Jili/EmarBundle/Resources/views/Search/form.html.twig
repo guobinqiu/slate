@@ -1,9 +1,9 @@
 {# todo: duplicated to the form JiliEmarBundle:Products:searchForm #}
 
-        <div class="searchMenu"> <span>{% if rt == 1  %}商城{% else %}商品{% endif %}</span>
-          <ul style="display: none;">
+        <div class="searchMenu"> <span class="curPt">{% if rt == 1  %}商城{% else %}商品{% endif %}</span>
+          <ul class="dropWrap" style="display: none;">
 {% for key,value in rt_of_search_form %}
-            <li lang="{{ key }}">{{ value.label }}</li>
+            <li class="curPt" lang="{{ key }}">{{ value.label }}</li>
 {% endfor %}
 
           </ul>
@@ -20,7 +20,7 @@
           {{ form_widget( form.q , {'attr': { 'type': 'text', 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
 
           {{ form_widget( form.rt ) }}
-          <input type="submit" clstag="homepage|keycount|home2013|03a" onclick="search('key');return false;" class="button" value="搜索">
+          <input type="submit" clstag="homepage|keycount|home2013|03a" onclick="search('key');return false;" class="button curPt" value="搜索">
           {{ form_rest(form)  }}
 </form>
 </div>
