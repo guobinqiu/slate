@@ -131,7 +131,7 @@
 #task .taskList li em {
 	color: #FF4300;
 }
-#task .taskList span.noTask{ padding: 46px 0px 0px 203px; display: inline-block;}
+#task .taskList span.noTask{ padding: 46px 0px 0px 220px; display: inline-block;}
 .loginFrame, .userFrame {
 	background-color: #FFF;
 	padding: 15px;
