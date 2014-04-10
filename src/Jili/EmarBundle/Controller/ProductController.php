@@ -43,8 +43,13 @@ class ProductController extends Controller
         $page_no = $request->query->get('p', 1);
 
         $prod_categories = $this->get('product.categories')->fetch();
+
         // websites:
-        $filters_of_webs = $this->get('product.filters')->fetchWebs();
+        $webs = $this->get('product.filters')->fetchWebs();
+        $filters_of_webs = $this->get('product.filters')->fetchWebsConfigged();
+
+        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs, true));
+
         $crumbs_local = ItemCatRepository::getCrumbsByScatid( $prod_categories['sub_cats'], $cat_id);
 
         if ( !empty($cat_id) || !empty($web_id) ) {
@@ -57,18 +62,44 @@ class ProductController extends Controller
             $total = 0;
         }
 
-        return array_merge($prod_categories, $filters_of_webs,  compact('products', 'total','crumbs_local') );
+        return array_merge($prod_categories, $webs, array('webs_filter'=> $filters_of_webs['webs'] ) , compact('products', 'total','crumbs_local') );
     }
 
     /**
-     * @Route("/category")
+     * @Route("/category" )
      * @Template();
-     *
      *   $prod_categories = array('cats'=> array() , 'sub_cats'=> array());
      */
-    public function categoryAction( ) {
+    public function categoryAction( $qs = array(), $rt = null ) {
+        $logger= $this->get('logger');
         $prod_categories = $this->get('product.categories')->fetch();
-        return $prod_categories;
+
+        $menu_config = $this->container->getParameter('emar_com.pdt_cat.menu');
+
+        $logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
+        $cats_fliped = array_flip($prod_categories['cats']);
+
+//support 2-level only
+        foreach( $menu_config as $index => $item) {
+            if( is_array( $item) ) {
+                foreach( $item as $key1 => $item1) {
+                    foreach($item1 as $index2 => $item2) { // $item1 is always is array
+                        if(is_string( $item2 ) &&  array_key_exists($item2, $cats_fliped ))  {
+                            $menu_config[$index][$key1][$index2] = array('cat_name'=> $item2, 'cat_id'=> $cats_fliped[$item2]); 
+                        }
+                    }
+                }
+            } else if(is_string( $item ) &&  array_key_exists($item, $cats_fliped ))  {
+               $menu_config[$index] = array( 'cat_name'=> $item, 'cat_id'=> $cats_fliped[$item ]); 
+
+            }
+        }
+
+
+        $logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
+        $logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($prod_categories, true) );
+
+        return array_merge($prod_categories , compact('rt', 'qs' ,'menu_config'));
     }
 
 
@@ -153,14 +184,14 @@ class ProductController extends Controller
 
         $products_webids = array_filter(array_unique( array_map( function($v) { if ( isset($v['web_id'])) { return  $v['web_id']; } ; } , $products )));
 //todo: parse the webs
-        $filters_of_webs = $this->get('product.filters')->fetchWebsByParams( array( 'wids'=> $products_webids)  );
 
-        $filters_of_webs = $this->get('product.filters')->fetchWebs(  );
+        $webs = $this->get('product.filters')->fetchWebs();
+        $filters_of_webs = $this->get('product.filters')->fetchWebsConfigged();
 
-        $filters_of_webs_d = $this->getDoctrine()->getManager()->getRepository('JiliEmarBundle:EmarWebsites')->getFilterWebs(  );
-        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs_d, true));
+        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs, true));
+        //$filters_of_webs_d = $this->getDoctrine()->getManager()->getRepository('JiliEmarBundle:EmarWebsites')->getFilterWebs(  );
 
-        return   array_merge( $prod_categories,$filters_of_webs, array('products' => $products,'total'=> $total, 'crumbs_local'=> $crumbs_local/* , 'webs' => */));
+        return   array_merge( $prod_categories, $webs ,  array('products' => $products,'total'=> $total, 'crumbs_local'=> $crumbs_local/* , 'webs' => */, 'webs_filter'=>$filters_of_webs));
 
     }
 

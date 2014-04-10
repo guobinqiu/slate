@@ -21,7 +21,7 @@ parameters:
     emar_com.name: "亿玛返利"
     emar_com.cps.category_type: 19 # in ad_category table where cateogry_name ='emar' ??
     emar_com.cps.task_type: 1 
-    emar_com.cps.action.default_rebate: 0.70 # used when no related advertiserment to the request action from emar .
+    emar_com.cps.action.default_rebate: 70 # used when no related advertiserment to the request action from emar .
 
 #    emar_com.cpa.name: "亿玛活动"
 #    emar_com.cpa.category_type: 20 # in ad_category table where cateogry_name ='emar' ??
@@ -71,3 +71,48 @@ parameters:
     emar_com.rt_of_search_form.router: 
         - 'jili_emar_product_search'
         - 'jili_emar_websites_shopsearch'  
+    emar_com.pdt_cat.menu:
+        - '图书、影音':
+            - '图书音像'
+            - '影音设备'
+        - '家用电器':
+            - '大家电'
+            - '生活小电器'
+            - '厨房电器'
+            - '保健护理电器'
+        - '手机、数码':
+            - '手机通讯'
+            - '数码相机'
+        - '电脑、办公':
+            - '电脑'
+            - '电脑软件'
+            - '办公用品'
+        - '家居'
+        - '服饰内衣、珠宝首饰':
+            - '女装'
+            - '男装'
+            - '童装/童鞋/孕妇装'
+            - '内衣'
+            - '服装配饰'
+            - '其他服装'
+            - '珠宝'
+            - '眼镜'
+        - '鞋靴、箱包、钟表、奢侈品':
+            - '女鞋'
+            - '男鞋'
+            - '运动鞋'
+            - '其他鞋'
+            - '女包/男包/箱包'
+            - '手表'
+        - '运动户外'
+        - '汽车用品'
+        - '母婴/玩具'
+        - '个护化妆':
+            - '美容护理'
+        - '食品、保健':
+            - '食品粮油'
+            - '医药保健'
+            - '宠物用品'
+            - '成人用品'
+            - '鲜花礼品'
+

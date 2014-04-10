@@ -38,6 +38,9 @@ emar-admin-websites:
     resource: "@JiliEmarBundle/Controller/AdminWebsitesController.php"
     type:     annotation
 
+emar-admin-emarwebsitescroned:
+    resource: "@JiliEmarBundle/Controller/AdminEmarWebsitesCronedController.php"
+    type:     annotation
 #emar-analog:
 #    resource: "@JiliBackendBundle/Controller/AnalogOfferwowController.php"
 #    type:     annotation

@@ -3,6 +3,8 @@ namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
+use Doctrine\ORM\EntityManager;
+
 use Jili\EmarBundle\Api2\Repository\ItemCat as ItemCatRepository,
   Jili\EmarBundle\Api2\Repository\WebCat as WebCatRepository,
   Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
@@ -10,14 +12,27 @@ use Jili\EmarBundle\Api2\Repository\ItemCat as ItemCatRepository,
 class ProductFilters  {
 
     private $logger;
+    private $em;
 
     private $generalCategoryGet;
     private $websiteCateogryGet;
     private $websiteListGet;
 
+    public function fetchWebsConfigged() {
+        $em =$this->em;
+        $webs_config = $em->getRepository('JiliEmarBundle:EmarWebsites')->getFilterWebs();
+        $wids = array();
+        foreach($webs_config as $web) {
+            $wids [] = $web->getWebId();
+        }
+
+        $webs = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $wids);
+        return compact('webs');
+    }
+
     /**
      * for new ui:product/search
-     *
+     * #$filters_of_webs = $this->get('product.filters')->fetchWebsByParams( array( 'wids'=> $products_webids)  );
      */
     public function fetchWebsByParams($params = array() ) {
         if( count($params) == 0 || ! isset($params['wids']) || empty($params['wids']) ){
@@ -61,8 +76,9 @@ class ProductFilters  {
         $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $product_webs, true));
         return compact('product_webs');
     }
+
     /**
-     * demo:
+     * demo return all websites lists:
      */
     public function fetch( ) {
 
@@ -105,6 +121,10 @@ class ProductFilters  {
 
     public function setWebsiteListGet(  $getter) {
         $this->websiteListGet = $getter;
+    }
+
+    public function setEntityManager( EntityManager $em) {
+        $this->em= $em;
     }
 }
 /*

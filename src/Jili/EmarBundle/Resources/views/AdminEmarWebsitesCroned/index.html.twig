@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>EmarWebsitesCroned list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>index</th>
+{#                <th>Webid</th> #}
+                <th>Webid:Webname</th>
+{#                <th>Webcatid</th> #}
+                <th>Logourl</th>
+{#                <th>Weburl</th> #}
+                <th>Information</th>
+                <th>有效期</th>
+                <th>返利</th>
+{#                <th>Id</th>  #}
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ loop.index }}</td>
+<!--                <td><a href="{{ path('admin_emarwebsitescroned_show', { 'id': entity.id }) }}">{{ entity.webId }}</a></td> -->
+                <td>{{ entity.webId }}:<a target="_blank" rel="nofollow" href="{{ entity.webUrl|replace({"APIMemberId":app.session.get('uid')})}}">{{ entity.webName }}</a></td>
+{#                <td>{{ entity.webCatid }}</td> #}
+                <td><img src="{{ entity.logoUrl}}" alt="logo" /></td>
+{# entity.logoUrl #}
+<!--                <td>{# entity.webUrl #}</td> -->
+                <td>{{ entity.information|raw }}</td>
+                <td>{{ entity.beginDate|date("Y-m-d") }} ~ {{ entity.endDate|date("Y-m-d") }}</td>
+                <td>{{ entity.commission }}</td>
+                {# entity.id #}
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('admin_emarwebsitescroned_import', { 'id': entity.id }) }}">导入配置</a>
+                    </li>
+{#
+                    <li>
+                        <a href="{{ path('admin_emarwebsitescroned_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_emarwebsitescroned_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+#}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{#
+        <ul>
+        <li>
+            <a href="{{ path('admin_emarwebsitescroned_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+#}
+    {% endblock %}

@@ -5,6 +5,7 @@ use Doctrine\ORM\EntityRepository;
 
 
 /**
+ * for query
  */
 class EmarWebsitesCronedRepository extends EntityRepository
 {
@@ -34,8 +35,6 @@ class EmarWebsitesCronedRepository extends EntityRepository
      * return an array of full fields;
      * */
     public function fetchByWebIds( $webids = array()) {
-
-
 
         $qb = $this->createQueryBuilder('p');
 

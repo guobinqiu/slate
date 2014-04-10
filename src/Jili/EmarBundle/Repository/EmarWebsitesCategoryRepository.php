@@ -5,9 +5,10 @@ use Doctrine\ORM\EntityRepository;
 
 
 /**
- * for query
- */
-class EmarProductsCronedRepository  extends EntityRepository
+ *
+ **/
+class EmarWebsitesCategoryRepository extends EntityRepository
 {
+
 
 }
