@@ -113,15 +113,8 @@ class HotactivityController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $hot_webs = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot( array('limit'=>$max ));
-
         $webids =  array_map( function($v) { if ( isset($v['webId'])) { return  $v['webId']; } ; } , $hot_webs );
-
-        // $list = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
-
-        #$logger->debug('{jarod}'.implode(',', array(__LINE__, __CLASS__, '') ) .  var_export($list, true));
-
         $template ='JiliEmarBundle:Hotactivity:'. 'hot_on_'. $tmpl. '.html.twig';
-
         return $this->render($template, array('hotactivity'=> $list ));
     }
 

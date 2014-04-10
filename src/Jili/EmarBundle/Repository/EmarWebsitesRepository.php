@@ -17,7 +17,7 @@ class EmarWebsitesRepository extends EntityRepository
         extract($params);
 
         $qb  = $this->createQueryBuilder('ew');
-        $qb->select('DISTINCT ew.webId');
+        $qb->select('ew.webId,ew.commission');
         $qb->where($qb->expr()->eq('ew.isDeleted', 'false'));
         $qb->andWhere($qb->expr()->eq('ew.isHidden', 'false'));
         $qb->andWhere($qb->expr()->eq('ew.isHot', 'true'));

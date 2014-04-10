@@ -26,10 +26,12 @@ class GhsController extends Controller
         $listRequest = $this->get('ghs.list_get');
         $listRequest->setPageSize($max);
         $params = array('page_no' => $p);
-        $uid = $request->getSession()->get('uid');
-        $list = $listRequest->setApp('cron')->fetch( $params );
 
-        #$logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')).var_export( $list, true));
+        $uid = $request->getSession()->get('uid');
+
+        $list = $listRequest->setApp('search')->fetch( $params );
+
+        $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')).var_export( $list, true));
 
         if( $request->isXmlHttpRequest()) {
             $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')));

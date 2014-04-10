@@ -35,9 +35,8 @@
                 {% for scid,scat   in sub_cats[ item2.cat_id] %} 
                     <p><a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
                 {% endfor %}
-
                 {% else %}
-<h5>==!</h5>
+                <!-- ==! -->
                 {% endif %}
            {% endfor %}
         {% endfor %}

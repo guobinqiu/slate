@@ -15,4 +15,5 @@ class EmarWebsitesCronRepository extends EntityRepository
             ->getSingleScalarResult();
     }
 
+
 }

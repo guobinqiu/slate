@@ -27,7 +27,7 @@
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('admin_emar_websites_show', { 'id': entity.id }) }}">{{ entity.webId }}</a></td>
-                <td>{{ entity.commission }}</td>
+                <td>{%if entity.commission is null %}n/a{% else  %}{{ entity.commission }}%{% endif %}</td>
                 <td>{{ entity.isDeleted }}</td>
                 <td>{{ entity.position }}</td>
                 <td>{{ entity.isHidden }}</td>
