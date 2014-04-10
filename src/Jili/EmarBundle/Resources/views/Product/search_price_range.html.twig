@@ -7,7 +7,7 @@
   <div class="price"><span class="rmb">¥</span>
     <input type="number" class="price-input max"  value = "{{ price_range|length == 2 ? price_range[1] : ""  }}" />
   </div>
-  <button type="button" class="price-btn">确定</button>
+  <button type="button" class="price-btn curPt">确定</button>
 
 <a style="display:none" href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'pr': ''})) }}" id="price_range" >确定</a>
 

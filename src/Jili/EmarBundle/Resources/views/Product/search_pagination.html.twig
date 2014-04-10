@@ -12,15 +12,18 @@
     'p_o_url' => 'http://p.yiqifa.com/n?k=2mLErnts1QLErJb7UZjvfSoLR9owU567f9gbY9Uw35ecf96_YpoLR9owU567f9BlRZz0RZ4_MZPEUBoAMn7qWn3S6lRqWntSrI6HPQbhY9Pirn276mLFWEjS1QLLrI6HYmLErnXy693mWEjsrIW-&e=APImemberId&spm=139216929186018017.1.1.1',
     'short_intro' => 'ROCK 苹果 iphone5保护壳 皮套 iphone5手机套 iphone5壳子 DPH',
   ),
-
+ 
 #}
 {% for row in products %}
         <li>
-          <dt class="image"><img src="{{ row.pic_url }}" width="200" height="200" /><a class="shop" >{{ row.web_name }}</a></dt>
+          <dt class="image curPt"><a href="{{ row.p_o_url |replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank" rel="nofollow"><img src="{{ row.pic_url }}" width="200" height="200" /></a></dt>
           <dd class="clearfix">
-            <p class="title"><a href="{{ row.p_o_url |replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank" rel="nofollow">{{ row.p_name  }}</a></p>
-            <p class="price">￥{{ row.cur_price }}</p>
-{#            <p class="rebate">返利最高：<em>10%</em></p> #}
+            <div class="title"><a href="{{ row.p_o_url |replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank" rel="nofollow">{{ row.p_name  }}</a></div>
+            <div class="detail">
+				<span class="fl price">￥<strong>{{ row.cur_price }}</strong></span>
+				<span class="tr fr fontNormal"><a class="shop corGlobRed" >{{ row.web_name }}</a><br/><p class="corLightGray">返利最高：<em class="corGlobRed">10%</em></p></span>
+			</div>
+{#            <p class="rebate ">返利最高：<em>10%</em></p> #}
           </dd>
         </li>
 

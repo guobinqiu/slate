@@ -20,7 +20,6 @@ a {
 	text-decoration: none;
 }
 a:hover {
-	text-decoration:underline;
 }
 ul {
 	list-style: none outside none;
@@ -207,7 +206,7 @@ footer{
 	color:#666;
 	margin:0;
 	width: 100%;
-	position:absolute;
+	/*position:absolute;*/
 	bottom: 0;
 }
 footer section{
