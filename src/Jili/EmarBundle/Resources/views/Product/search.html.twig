@@ -87,11 +87,12 @@
             <a  href ="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'w': 0, "p":1, "pr":""})) }}">全部</a> 
             {% endif %}
 
-            {% for webid,row in webs_filter %}
-            {% if w_q is defined and w_q == row.web_id %}
-                <a href="#" class="hover" onclick="javascript:return false;" >{{ row.web_name|e }}</a> 
+            {% for webid,row in webs_filter.webs %}
+
+            {% if w_q is defined and w_q == webid %}
+                <a href="#" class="hover" onclick="javascript:return false;" >{{ row.webName|e }}</a> 
                 {% else %}
-                <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': row.web_id, "p":1, "pr":"" })) }}">{{ row.web_name|e }}</a> 
+                <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': webid, "p":1, "pr":"" })) }}">{{ row.webName|e }}</a> 
                 {% endif %}
             {% endfor  %}
 
