@@ -1,7 +1,42 @@
-
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".loading").hide();
+    //刷新
+    $(".more").click(function(){
+        $.ajax({
+            url: "{{ path('jili_emar_ghs_promotion') }}?tmpl=top&max=6&p=1",
+            post: "GET",
+            beforeSend:function(){$(".loading").show();},
+            success:function(data){
+                if(data.prds != null && data.prds.length > 0) {
+                    msg = "";
+                    $("#prds1").remove();
+                    for(var i = 0; i < data.prds.length; i++) {
+                        data2 = data.prds[i];
+                        if (0 == (i+1) % 3 ){
+                            msg += '<li class="mr0">';
+                        }else{
+                            msg += "<li>";
+                        }
+                        msg += '<p class="image"><a href="'+data2.href+'" target="_blank" rel="nofollow"><img src="'+data2.pic+'" height="130" width="200"></a></p>'+
+                              '<p class="price">¥'+data2.pri1+'<em>'+data2.dis+'%折</em></p> '+
+                              '<p><del>原价￥'+data2.pri0+'</del> 销量'+data2.buy+'件</p>'+
+                          '</li>';
+                    }
+                    var tab=document.getElementById("prds2"); 
+                    tab.innerHTML = msg;
+                }
+                $(".loading").hide();
+            }
+        });
+    });
+});
+</script>
       <h3>超值低价</h3>
-      <div class="menu"><a class="more" href="#">刷新</a></div>
+      <div class="menu"><a class="more" href="javascript:void(0);">刷新</a></div>
+      <div class="loading"><img src="{{ asset('other/loading.gif') }}" width="48" height="48"></div>
       <ul class="clearfix">
+        <span id="prds1">
          {% for row in ghs_pdts %}
              {% if 0 == loop.index % 3 %}
              <li class="mr0">
@@ -13,6 +48,8 @@
                  <p><del>原价￥{{ row.ori_price }}</del> 销量{{ row.bought }}件</p>
              </li>
          {% endfor %}
+         </span>
+         <span id="prds2"></span>
     </ul>
 
 {#
