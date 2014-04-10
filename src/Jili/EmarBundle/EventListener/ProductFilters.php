@@ -25,8 +25,12 @@ class ProductFilters  {
         foreach($webs_config as $web) {
             $wids [] = $web->getWebId();
         }
+        $result  = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $wids);
 
-        $webs = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $wids);
+        $webs=array();
+        foreach($result as $row) {
+            $webs[ $row->getWebId() ] = $row;
+        }
         return compact('webs');
     }
 

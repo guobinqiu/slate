@@ -13,13 +13,22 @@
 <script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/cps.js') }}" language="javascript"></script>
+<script type="text/javascript">
+	  $(function (){
+		for(i=3; i<16; i+=4){
+		  $("ul.commodityUl li").eq(i).css("border-right", "none");
+		  }
+		for(i=12;i<16;i++){
+		  $("ul.commodityUl li").eq(i).css("border-bottom", "none");
+		}
+	  });
+</script>
 {% endblock %}
 
 {% block page_main %}
   <div class="w204 h340 fl">
     <div class="module categorys">
       <h3>所有商品分类</h3>
-      <h1>{{ app.request.attributes.get('_route')}}</h1>
       {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': app.request.attributes.get('_route')  })) }}
      </div>
   </div><!-- eof w204 -->
@@ -40,11 +49,16 @@
       {{ render(controller('JiliEmarBundle:Websites:hot', { 'tmpl': 'cps', 'max': 9 } ) ) }}
   </div><!-- eof w300 -->
 
-  <div class="main w834 fl">
+  <div class="main w930 fr">
       {{ render(controller('JiliEmarBundle:Ghs:partialOnCps', {'catids': app.request.query.get('c_h') } ))  }}
   </div><!-- main w834 -->
-
-  <div class="sidebar w300 fr">
+  
+  <div style="display: inline-block; width: 100%;">
+      {% include "JiliEmarBundle:Websites:shopList_page_nav.html.twig"   %}
+  </div>
+  
+  <!--<div class="sidebar w300 fr">
       {{ include("JiliEmarBundle:Product:suggestionHot.html.twig") }}
-  </div><!-- sidebar -->
+  </div>--><!-- sidebar -->
 {% endblock %}
+

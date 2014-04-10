@@ -5,11 +5,6 @@ parameters:
 
     emar_request.connection.class: Jili\EmarBundle\EventListener\EmarRequestConnection
 
-## hot activity
-#    hotactivity.category_get.class:  Jili\EmarBundle\EventListener\HotactivityCategoryGetRequest
-#    hotactivity.website_get.class:  Jili\EmarBundle\EventListener\HotactivityWebsiteGetRequest
-#    hotactivity.list_get.class: Jili\EmarBundle\EventListener\HotactivityListGetRequest
-
 # ghs
     ghs.category_get.class:  Jili\EmarBundle\EventListener\GhsCategoryGetRequest
     ghs.list_get.class:  Jili\EmarBundle\EventListener\GhsProductListGetRequest
@@ -30,9 +25,8 @@ parameters:
     website.detail_get.class:  Jili\EmarBundle\EventListener\WebsiteDetailGetRequest
     website.search.class:  Jili\EmarBundle\EventListener\WebsiteSearch
     website.categories.class:  Jili\EmarBundle\EventListener\WebsiteCategories
-#    website.storage.class: Jili\EmarBundle\EventListener\WebsiteStorage
 
-#
+# cron
     cron.website_and_category.class:  Jili\EmarBundle\EventListener\WebsiteAndCategoryCron
     cron.products.class:  Jili\EmarBundle\EventListener\ProductsCron
     cron.websites.class:  Jili\EmarBundle\EventListener\WebsitesCron
@@ -49,9 +43,6 @@ services:
         calls:
             - [setConfig, [%emar%] ] 
             - [setContainer, [@service_container] ] 
-
-#    emar_api.callback_processor:
-#    class: %emar_api.callback_processor.class%
 
     emar_api.callback_processor:
         class: %emar_api.callback_processor.class%
@@ -70,29 +61,6 @@ services:
             - [setLogger, [ @logger ] ] 
             - [setApp, [ 'search' ] ] 
 
-#       arguments: [ %emar_com.app_AppKey%, %emar_com.app_AppSecret% ]
-#    jili_emar.example:
-#        class: %jili_emar.example.class%
-#        arguments: [@service_id, plain_value, %parameter%]
-
-#    hotactivity.category_get:
-#        class: %hotactivity.category_get.class%
-#        calls:
-#            - [ setConnection,[ @emar_request.connection ] ]
-#            - [ setLogger, [ @logger ] ] 
-#
-#    hotactivity.website_get:
-#        class: %hotactivity.website_get.class%
-#        calls:
-#            - [ setConnection,[ @emar_request.connection ] ]
-#            - [ setLogger, [ @logger ] ] 
-#
-#    hotactivity.list_get:
-#        class: %hotactivity.list_get.class%
-#        calls:
-#            - [ setConnection,[ @emar_request.connection ] ]
-#            - [ setLogger, [ @logger ] ] 
-#            - [ setPageSize, [ %emar_com.page_size% ] ] 
 
     ghs.category_get:
         class: %ghs.category_get.class%
@@ -113,12 +81,7 @@ services:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
 
-#    general.website_get:
-#        class: %general.website_get.class%
-#        calls:
-#            - [ setConnection,[ @emar_request.connection ] ]
-#            - [ setLogger, [ @logger ] ] 
-#
+
     website.category_get:
         class: %website.category_get.class%
         calls:
@@ -136,7 +99,6 @@ services:
         calls:
             - [ setConnection, [ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
-#            - [ setApp, [ 'cron' ] ] 
 
     website.search:
         class: %website.search.class%
@@ -151,12 +113,6 @@ services:
             - [ setLogger, [ @logger ] ] 
             - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
             - [ setCacheDir, [ %kernel.cache_dir% ] ] 
-
-#    website.storage:
-#        class: %website.storage.class%
-#        calls:
-#            - [ setLogger, [ @logger ] ] 
-#            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
 
     product.list_get:
         class: %product.list_get.class%
@@ -181,20 +137,12 @@ services:
             - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
             - [ setWebsiteListGet, [ @website.list_get ] ] 
 
-
     product.categories:
         class: %product.categories.class%
         calls:
             - [ setLogger, [ @logger ] ] 
             - [ setGeneralCategoryGet, [ @general.category_get ] ] 
             - [ setCacheDir, [ %kernel.cache_dir% ] ] 
-
-#    product.storage:
-#        class: %product.storage.class%
-#        calls:
-#            - [ setLogger, [ @logger ] ] 
-#            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
-#            - [ setWebsiteAndCategory, [ @cron.website_and_category ] ] 
 
     cron.website_and_category:
         class: %cron.website_and_category.class%

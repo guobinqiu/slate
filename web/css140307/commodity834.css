@@ -1,6 +1,6 @@
 ul.commodityUl{ background-color:#FFF; border-top:3px solid #EA4B11; padding:15px 0 15px 15px;}
 ul.commodityUl.btbn{ border-top:none;}
-ul.commodityUl li{ border-bottom: 1px solid #EEE; border-right: 1px solid #EEE; float: left; padding: 25px 25px 10px;}
+ul.commodityUl li{ border-bottom: 1px solid #EEE; border-right: 1px solid #EEE; float: left; padding: 25px 38px 10px;}
 ul.commodityUl li.brn{ border-right:none;}
 ul.commodityUl li.bbn{ border-bottom:none;}
 ul.commodityUl li dd{font-size:12px; padding:0 10px 10px 10px; color:#999999;}

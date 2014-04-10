@@ -16,7 +16,7 @@
             </tr>
             <tr>
                 <th>Commission</th>
-                <td>{{ entity.commission }}</td>
+                <td>{%if entity.commission is null %}n/a{% else  %}{{ entity.commission }}%{% endif %}</td>
             </tr>
             <tr>
                 <th>Isdeleted</th>

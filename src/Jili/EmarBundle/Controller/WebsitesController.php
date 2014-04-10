@@ -22,7 +22,8 @@ class WebsitesController extends Controller
 
     /**
      * @Route("/shoplist/search")
-     * @Template();
+     * @Method("GET")
+     * @Template()
      */
     public function shopListSearchAction()
     {
@@ -51,6 +52,7 @@ class WebsitesController extends Controller
     /**
      * @abstract: 会将本地配置的商家排列在前面。
      * @Route("/shoplist")
+     * @Method("GET")
      * @Template()
      */
     public function shopListAction()
@@ -81,7 +83,6 @@ class WebsitesController extends Controller
         // searching 
         if( strlen(trim($keyword)) > 0) {
             $web_searched = $this->get('website.search')->find( $web_raw, $keyword );
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $web_searched, true) );
             $websites = WebListRepository::parse( $web_searched);
         } else {
             $websites = WebListRepository::parse( $web_raw);
@@ -103,17 +104,17 @@ class WebsitesController extends Controller
                 unset($websites_left[$row->getWebId()]);
             }
         }
-        $websites_sorted = $websites_filtered + $websites_left; //array_diff($websites, $websites_filtered);
 
+        $websites_sorted = $websites_filtered + $websites_left; //array_diff($websites, $websites_filtered);
         // page_size , page_no 
         $total =  count($websites);
         $page_size = $this->container->getParameter('emar_com.page_size_of_shoplist');
 
         $i = 0;
-
         $start = ( $page_no -1 ) * $page_size ; 
         $end =  $start + $page_size;
         $websites_paged = array();
+
         // todo: use array_slice()
         // #$websites_paged = array_slice( $websites_sorted, ( $page_no -1 ) * $page_size  , $page_size );
         foreach($websites_sorted as $k => $v) {
@@ -133,12 +134,22 @@ class WebsitesController extends Controller
         }
 
         foreach ($websites_paged as $k => $v) {
+            $comm = 0;
             if( isset( $websites_configed_wid[$k] )) {
                 $row = $websites_configed_wid[$k];
                 if( 0 <  strlen(trim($row->getCommission()))) {
-                    $websites_paged[$k] ['commission'] =  $row -> getCommission() ;
+                    $comm = $row->getCommission();
                 }
+            } 
+            if($comm === ''|| $comm === 0 || is_null($comm)) {
+                $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($websites_paged[$k] ['commission'] );
             }
+
+            if($comm === '' || $comm === 0 || is_null($comm)) {
+                $comm = $this->container->getParameter('emar_com.cps.action.default_rebate');
+            }
+
+            $websites_paged[$k] ['commission'] = $comm;
         }
 
         $filter_form = $this->createForm(new WebsiteFilterType(), array('keyword'=>$keyword)  );
@@ -164,16 +175,44 @@ class WebsitesController extends Controller
         }
 
         // fetch the details ? 
-        $hot_webs = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot( $params);
+        $hot_webs_configed = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot( $params);
+        $websites = array();
 
-        if(! empty($hot_webs)) {
-            $webids =  array_map( function($v) { if ( isset($v['webId'])) { return  $v['webId']; } ; } , $hot_webs );
+        if(! empty($hot_webs_configed)) {
+            $webids= array();
+            $commissions = array();
+            foreach($hot_webs_configed as $row) {
+                $webids[] = $row[ 'webId']; 
+                $commissions[ $row['webId'] ] = $row['commission'];
+            }
 
-            $websites = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
-        } else {
-            $websites = array();
+
+            $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
+
+            # input commissions_of_configed , $commission_of_api, $commission_of_default;
+            foreach( $result as $row) {
+                $web_id = $row->getWebId();
+                $comm = 0;
+                if( array_key_exists( $web_id,  $commissions) ){
+                    $comm = $commissions[$web_id];
+                } 
+
+                if( $comm === '' || $comm === 0 || is_null( $comm) ) {
+                    $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($row->getCommission() );
+                } 
+
+                if( $comm === '' || $comm === 0 || is_null( $comm) ) {
+                    $comm = $this->container->getParameter('emar_com.cps.action.default_rebate');
+                }
+
+                $row->setCommission($comm);
+                $websites[$row->getWebId() ] = $row; 
+            }
         }
+        
 
+        // update the commission if exists
+        
         $template ='JiliEmarBundle:Websites:'. 'hot_on_'. $tmpl. '.html.twig';
         return $this->render($template, compact('websites'));
     }
@@ -206,7 +245,6 @@ class WebsitesController extends Controller
         $request = $this->get('request');
         $logger= $this->get('logger');
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
 
             $keyword = $request->query->get('q');
             $search_web  =  array('rt'=>1,'q'=> $keyword);
