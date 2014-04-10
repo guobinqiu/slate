@@ -6,7 +6,7 @@ ul.shopListUl li dd{ margin:5px 0 0 0; width:100%; float:left;}
 ul.shopListUl li dd p.title{ overflow:hidden; color:#666; width:100%; text-align:center;}
 ul.shopListUl li dd p.title a{ color:#666;}
 ul.shopListUl li dd p.price{ color:#ea4b11; font-size:15px; font-weight:bold; float:left;}
-ul.shopListUl li dd p.rebate{ text-align:center; color:#999;}
+ul.shopListUl li dd p.rebate{ text-align:center; color:#999; white-space: nowrap;}
 ul.shopListUl li dd p.rebate em{ color:#ea4b11;}
 ul.shopListUl li div.hover {
     background-color: #FFFCD9;

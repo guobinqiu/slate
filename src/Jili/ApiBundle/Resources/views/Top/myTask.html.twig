@@ -29,10 +29,8 @@
       {% endif %}
       {% for item in myTask.task.cpa %}
     <li><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">
-      <dt>{{ item.title[:8] }}
-        </dd>
-      <dt><em>{{ item.incentive }}</em>米粒
-        </dd>
+      <dt>{{ item.title[:8] }}</dt>
+      <dd><em>{{ item.incentive }}</em>米粒</dd>
       </a></li>
       {% endfor %}
   </ul>
@@ -60,9 +58,9 @@
               {% endif %}</em>米粒</dd>
       </a></li>
       {% endfor %}
-      {% else %}
-      您现在还没有确认中的任务
-      {% endif %}
+  {% else %}
+     <span class="noTask">您现在还没有确认中的任务！</span>
+  {% endif %}
   </ul>
   <ul id="finishTask" class="taskList clearfix">
     {% if finishTask %}
@@ -88,8 +86,8 @@
               {% endif %}</em>米粒</dd>
       </a></li>
       {% endfor %}
-      {% else %}
-      您现在还没有已完成的任务
-      {% endif %}
+  {% else %}
+      <span class="noTask">您现在还没有已完成的任务！</span>
+  {% endif %}
   </ul>
 </div><!-- eof all clearfix -->

@@ -2,18 +2,18 @@
 {% block title %}{{ parent()  }} top页面{% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/index.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
-<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/index.js') }}" language="javascript"></script>
 {% endblock %}
-
+ 
 {% block page_main %}
   <div class="w204 fl">
     <div class="module categorys">
+		<h3>所有商品分类</h3>
       {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }}
     </div><!-- eof module categorys -->
 
@@ -45,7 +45,7 @@
     <!-- eof indexBanner -->
     {% else %}
     <div id="task">
-      <h3>我的任务列表</h3>
+      <h3><strong>我的任务列表</strong></h3>
       <div class="menu"><a class="recommend hover">为您推荐的</a><a class="affirm">确认中</a><a class="finish">已完成</a></div>
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:myTask' ) ) }}
@@ -113,7 +113,7 @@
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
       </div>
-      <div class="pageNumber"><a class="prev"></a><span>1/2</span><a class="next"></a></div>
+      <div class="pageNumber"><a class="prev curPt"></a><span>1/2</span><a class="next curPt"></a></div>
     </div>    <!-- eof news -->
     <div id="ranking">
       <h3>排行榜</h3>

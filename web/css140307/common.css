@@ -1,4 +1,5 @@
-body{ font-family: '微软雅黑','宋体'; font-size:12px; background-color:#F6F6F6;}
+/*body{ font-family: '微软雅黑','宋体'; }*/
+body{font: 12px/1.5 tahoma,'Hiragino Sans GB','microsoft yahei',sans-serif; font-size:12px; color:#666; background-color:#f4f4f4;}
 .page{ width:1150px; margin:auto;}
 .pageMain{ padding:15px 0;}
 .fl{float:left;}
@@ -6,18 +7,26 @@ body{ font-family: '微软雅黑','宋体'; font-size:12px; background-color:#F6
 .w204{ width:204px;}
 .w300{ width:300px;}
 .w615{ width:615px; margin-left: 15px;}
+.w748{ width:748px;}
 .w834{ width:834px;}
 .w930{ width:930px;}
 .h340{ height:340px;}
-.module{ border:1px solid #E0E0E0;}
+h5{font-size: 1.17em;font-weight: bold;}
+strong, b{font-weight: bold;}
+.corLightRed{ color:#ff6b4f;}
+.corGlobGray{ color:#666;}
+.division{ margin:0 10px; color:#ccc;}
+.module{ border:2px solid #ff6b4f;}
+.curPt{ cursor:pointer;}
+.boxShadowGlobal{-moz-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;-webkit-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;box-shadow: 1px 1px 6px #ddd,1px -1px 6px #ddd;}
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{ color:#666;}
 #header{ width:100%;}
-#header #topbar{ background-color:#F6F6F6; width:100%; border-bottom:1px solid #E0E0E0; height:30px; line-height:30px; color:#666;}
+#topbar{ background-color:#F6F6F6; width:100%; /*border-bottom:1px solid #E0E0E0;*/ height:30px; line-height:30px; color:#666;}
 #userbar{ float:right; position:relative;}
-#userbar li{ float:left;}
+#userbar li{ float:left; line-height: 28px;}	
 #userbar li.split { background: none repeat scroll 0 0 #CCC; color: #CCC; height: 12px; margin: 9px; width: 1px; overflow:hidden;}
 #userbar li a{ background:url(../images140307/iconImage.png) no-repeat; cursor:pointer;}
-#userbar li a.message{ padding-left: 20px; background-position: left 3px;}
+#userbar li a.message{ padding-left: 20px; background-position: left 3px; color:#666;}
 #userbar li a.personal{ background-position: 53px -23px; padding-right: 10px;}
 #userbar  #userFrame {background-color: #FFFFFF;border: 1px solid #e0e0e0; display: none;left: 0;position: absolute;top: 30px; width: 100%; z-index: 8000;}
 #userbar  #userFrame .userInfo { background:url("../images140307/iconImage.png") no-repeat scroll 10px -447px; border-bottom: 1px solid #EEEEEE; margin-bottom: 5px; padding: 5px 0 5px 33px;}
@@ -27,23 +36,34 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 #userbar  #userFrame ul.menu li.logOut { border-top: 1px solid #EEEEEE; line-height: 250%; margin-top: 5px;}
 #headerContent{ padding:15px 0; background-color:#FFF;}
 #headerContent #logo{ float:left;}
-#headerContent #search {border: 3px solid #EAEAEA; border-radius: 3px;float: left;height: 36px;margin-left:180px; background-color:#FFF;}
-#headerContent .searchMenu{background: url("../images140307/iconImage.png") no-repeat scroll 41px -94px;float: left;height: 26px;line-height: 26px;padding: 5px 0px 5px 10px;position: relative; width: 45px;}
+
+/* top search */
+#headerContent #search {border: 4px solid #ff6b4f; border-radius: 3px;float: left;height: 36px;margin-left:180px; background-color:#FFF;}
+#headerContent .searchMenu{background: url("../images140307/iconImage.png") no-repeat scroll 53px -94px #f7f7f7;float: left; width: 63px; height: 26px;line-height: 26px;padding: 5px 0 5px 16px; position: relative;  border-right:1px solid #f1f1f1;}
 #headerContent .form{float:left;}
 #headerContent #search .text {background-color: #FFFFFF;background-position: 0 -360px;background-repeat: repeat-x;color: #999999;font-size: 14px;line-height: 30px;padding: 5px;border: none;width: 460px; float:left; height:26px;}
-#headerContent #search .button {background: none repeat scroll 0 0 #FF6B4F;border: medium none;color: #FFFFFF;font-size: 14px;font-weight: 700;height: 36px; width: 92px;margin:0;padding:0; float:left;}
+#headerContent #search .button {background: none repeat scroll 0 0 #FF6B4F;  letter-spacing: 5px; padding-left:8px; border: medium none;color: #FFFFFF;font-size: 16px;font-weight: 700;height: 36px; width: 68px;margin:0;float:left;}
+#headerContent .searchMenu .dropWrap{ background:#f7f7f7;left: 0; position: absolute; top: 34px; width: 77px; z-index: 9999; border:1px solid #e7e7e7;}
+#headerContent .searchMenu .dropWrap li{ padding-left: 15px;}
+#headerContent .searchMenu .dropWrap li:first-child{ border-bottom:1px solid #e7e7e7;}
+#headerContent .searchMenu .dropWrap li:hover{ color:#FF4300; text-decoration:underline;}
+/* top search/ */
+
 #headerContent .otherInlet{ float:right; margin-top:10px; margin-right:70px;}
 #headerContent .otherInlet .help{ font-size:16px; background:url("../images140307/iconImage.png") no-repeat scroll 0 -58px; padding-left:25px; color:#666;}
 #nav{width:100%; height:40px; line-height:40px; background-color:#FF6B4F;}
-#nav li{ float:left; font-size:16px; margin:0 20px; position:relative;}
+#nav li{ float:left; font-size:16px; margin:0 22px; position:relative;}
 #nav li.task{ width:204px; margin-left:0; background:url("../images140307/iconImage.png") no-repeat scroll 175px -193px #65B1EE; z-index:504;}
-#nav li.task ul{ background-color:#F1F7FB; border:2px solid #65B1EE; border-top:none; position:absolute; top:40px; left:0; z-index:505; display:none;}
+#nav li.task ul{ background-color:#F1F7FB; border:2px solid #65B1EE; border-top:none; position:absolute; top:40px; left:0; z-index:9999; display:none;}
 #nav li.task ul li{font-size:12px; border-top:1px #D5E3E9 dotted; width:100%; margin:0;}
 #nav li.task ul li a{font-size:12px; color:#666; padding-left: 15px; width: 185px; display:inline-block; position:relative;}
+#nav li.task ul li:hover{ background:#fff;}
+#nav li.task ul li a:hover{ color:#65b1ee; font-weight:bold;}
 #nav li.task ul li span{ right:0; margin-right:15px; position:absolute; top:0;}
 #nav li a{ color:#FFF;}
 #nav li.task a.taskBtn{ background: url("../images140307/iconImage.png") no-repeat scroll 15px -157px; padding-left: 40px;}
-#nav li.task em{background-color: #FFFFFF;border-radius: 6px;color: #65B1EE;display: inline-block;font-size: 15px;line-height: 100%;margin: 0 8px;padding: 1px 5px;}
+#nav li.task em{background-color: #FFFFFF; -moz-border-radius: 12px; -webkit-border-radius: 12px; border-radius: 12px; color: #65B1EE; display: inline-block; font-size: 13px; font-weight:bold;line-height: 100%; margin: 0 8px; padding:2px 4px 4px;}
+#nav li.navSelectedBg{ background:#de4528; padding:0 30px;}
 
 
 .main h1{ font-size:16px; line-height:40px;}

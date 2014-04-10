@@ -48,7 +48,7 @@ $(document).ready(function(){
       <ul id="userbar">
 {% set count_new_msgs =  render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}
 {% if  count_new_msgs|length > 0 %}
-        <li><a class="message">新消息(+{{ render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) }})</a></li>
+        <li><a class="message">新消息(<span class="corLightRed">+{{ render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) }}</span>)</a></li>
 {% else %}
         <li><a class="message">站内消息</a></li>
 {% endif %}
@@ -60,12 +60,13 @@ $(document).ready(function(){
                 <li><a href="{{ path('_user_info') }}">个人信息</a></li>
                 <li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a></li>
                 <li><a href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}">我的兑换历史</a></li>
-                <li class="logOut"><a href="{{ path('_user_logout') }}">退出</a></li>
+                
+				<li class="logOut"><a href="{# path('_user_logout') #}">退出</a></li>
             </ul>
         </div>
       </ul>
       {% else %}
-      <a class="log" href="{{ path('_user_login') }}">登录</a><span class="division"></span><a class="reg" href="{{ path('_user_reg') }}">注册</a>
+      <a class="log corGlobGray" href="{{ path('_user_login') }}">登录</a><span class="division">|</span><a class="reg corGlobGray" href="{{ path('_user_reg') }}">注册</a>
       {% endif %}  
     </div>
   </div>
@@ -77,27 +78,23 @@ $(document).ready(function(){
           {{ render(controller('JiliEmarBundle:Search:form')) }}
       {% endblock %}
       </div>
-      <div class="otherInlet"><a class="help" href="{{ path('_default_support') }}">帮助中心</a></div>
+      <div class="otherInlet"><a class="help curPt" href="{{ path('_default_support') }}">帮助中心</a></div>
     </div>
   </div>
   <div id="nav">
     <div class="page clearfix">
-
       <ul>
         {% if app.session.has('uid') %}
         {{ render(controller('JiliApiBundle:Top:task' ) ) }}
         {% endif %}
 {% set router_current = app.request.attributes.get('_route') %}
         <!-- current query path is {{  router_current }} -->
-
         <li {{ router_current == '_homepage' ? 'class="navSelectedBg"':'' }}><a href="{{ path('_homepage') }}" >首页</a></li>
         <li {{ router_current == '_game_index' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
         <li {{ router_current == '_advertiserment_list' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
-        <li {{ router_current == 'jili_emar_websites_shoplist' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('jili_emar_websites_shoplist'),'cdn1') }}">返利商城</a></li>
+        <li {{ router_current == 'jili_emar_top_cps' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('jili_emar_top_cps'),'cdn1') }}">购物返利</a></li>
 		<li {{ router_current == '_marketActivity_index' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('_marketActivity_index'),'cdn1')  }}">商家活动</a></li>
         <li {{ router_current == '_exchange_index' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
-
       </ul>
-
-    </div>
-  </div>
+	  </div>
+	</div>
