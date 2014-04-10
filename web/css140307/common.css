@@ -4,6 +4,8 @@ body{font: 12px/1.5 tahoma,'Hiragino Sans GB','microsoft yahei',sans-serif; font
 .pageMain{ padding:15px 0;}
 .fl{float:left;}
 .fr{float:right;}
+.tl{ text-align:left;}
+.tr{ text-align:right;}
 .w204{ width:204px;}
 .w300{ width:300px;}
 .w615{ width:615px; margin-left: 15px;}
@@ -11,10 +13,14 @@ body{font: 12px/1.5 tahoma,'Hiragino Sans GB','microsoft yahei',sans-serif; font
 .w834{ width:834px;}
 .w930{ width:930px;}
 .h340{ height:340px;}
+.fontNormal{ font-weight:normal; font-size:12px;}
 h5{font-size: 1.17em;font-weight: bold;}
 strong, b{font-weight: bold;}
 .corLightRed{ color:#ff6b4f;}
+.corLightGray{ color:#999;}
+.corDarkGray{ color:#333;}
 .corGlobGray{ color:#666;}
+.corGlobRed{ color:#ff4400;}
 .division{ margin:0 10px; color:#ccc;}
 .module{ border:2px solid #ff6b4f;}
 .curPt{ cursor:pointer;}

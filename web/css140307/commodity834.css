@@ -4,6 +4,7 @@ ul.commodityUl li{ border-bottom: 1px solid #EEE; border-right: 1px solid #EEE; 
 ul.commodityUl li.brn{ border-right:none;}
 ul.commodityUl li.bbn{ border-bottom:none;}
 ul.commodityUl li dd{font-size:12px; padding:0 10px 10px 10px; color:#999999;}
-ul.commodityUl li dd p{ line-height:150%;}
-ul.commodityUl li .price{ font-size:16px; color:#ea4b11;}
+ul.commodityUl li dd p{ line-height:170%;}
+ul.commodityUl li .price{ font-size:16px; font-weight: bold; color:#ea4b11;}
 ul.commodityUl li .rebate em{color:#ea4b11;}
+ul.commodityUl li dt a img:hover{opacity:0.8;filter:alpha(opacity=80)}
