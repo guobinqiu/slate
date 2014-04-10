@@ -10,6 +10,7 @@ body{font: 12px/1.5 tahoma,'Hiragino Sans GB','microsoft yahei',sans-serif; font
 .w834{ width:834px;}
 .w930{ width:930px;}
 .h340{ height:340px;}
+h5{font-size: 1.17em;font-weight: bold;}
 strong, b{font-weight: bold;}
 .corLightRed{ color:#ff6b4f;}
 .corGlobGray{ color:#666;}

@@ -1,4 +1,7 @@
-
+{% block javascript %}
+<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
+{% endblock %}
+ 
 {% if rt is not defined %}
 {% set rt = app.request.attributes.get('_route') %}
 {% endif %}
@@ -12,34 +15,47 @@
 <ul>
 {% for ind,item in menu_config %}
     {% if  item.cat_name  is defined %}
-            <li>{{ item.cat_name }}</li>
-                {% for scid,scat   in sub_cats[ item.cat_id] %} 
-                    <p><a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
-                {% endfor %}
+            <li>{{ item.cat_name }}
+                <div class="second" style=" display:none;">
+					<div class="third">
+					{% for scid,scat   in sub_cats[ item.cat_id] %} 
+						<p><a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
+					{% endfor %}
+					</div>
+				</div>
+			</li>
 
     {% else %}
         {% for key1,item1 in item %}
-
             {% if key1.cat_name is defined %}
-                <li>{{ key1.cat_name }}</li>
-                {% for scid,scat   in sub_cats[ key1.cat_id] %} 
-                    <p><a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
-                {% endfor %}
+            <li class="20">{{ key1.cat_name }}
+				<div class="second" style=" display:none;">
+					{% for scid,scat   in sub_cats[ key1.cat_id] %} 
+					<div class="third">
+						<p><a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
+					</div>
+					{% endfor %}
+				</div>
+			</li>
             {% else %}
-              <li>{{ key1 }}</li>
-            {% endif %}
-              
-           {% for ind2,item2 in item1 %}  
-                {% if item2.cat_name is defined %}
-                  <h5>{{ item2.cat_name }}</h5>
-                {% for scid,scat   in sub_cats[ item2.cat_id] %} 
-                    <p><a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
-                {% endfor %}
-
-                {% else %}
-<h5>==!</h5>
-                {% endif %}
-           {% endfor %}
+            <li class="21">{{ key1 }}
+              <div class="second" style=" display:none;">
+				   {% for ind2,item2 in item1 %}  
+						{% if item2.cat_name is defined %}
+						<div class="third">
+						  <h5>{{ item2.cat_name }}</h5>
+						{% for scid,scat   in sub_cats[ item2.cat_id] %} 
+							<p><a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
+						{% endfor %}
+						</div>
+						{% else %}
+							<h5>==!</h5>
+						{% endif %}
+				   {% endfor %}
+		       
+		     </div>
+		   </li>
+		{% endif %}
         {% endfor %}
     {% endif %}
 
@@ -54,9 +70,9 @@
 
           <div class="second">
         {% for scid, scat in sub_cats[cid] %}
-            <dd>
+            <p>
 
-               <a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></dd>
+               <a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
         {% endfor %}
           </div>
          </li>

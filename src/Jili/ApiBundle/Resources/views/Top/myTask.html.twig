@@ -35,11 +35,7 @@
       {% endfor %}
   </ul>
   <ul id="confirmTask" class="taskList clearfix">
-<<<<<<< HEAD
-  {% if confirmTask %}
-=======
     {% if confirmTask %}
->>>>>>> origin/emar-fun-amy
     {% for item in confirmTask %}
     <li><a href="#">
       <dt>{% if item.adid %}<a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a>
@@ -62,21 +58,12 @@
               {% endif %}</em>米粒</dd>
       </a></li>
       {% endfor %}
-<<<<<<< HEAD
   {% else %}
      <span class="noTask">您现在还没有确认中的任务！</span>
   {% endif %}
   </ul>
   <ul id="finishTask" class="taskList clearfix">
-  {% if finishTask %}
-=======
-      {% else %}
-      您现在还没有确认中的任务
-      {% endif %}
-  </ul>
-  <ul id="finishTask" class="taskList clearfix">
     {% if finishTask %}
->>>>>>> origin/emar-fun-amy
     {% for item in finishTask %}
     <li><a href="#">
       <dt>{% if item.adid %}<a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a>
@@ -99,14 +86,8 @@
               {% endif %}</em>米粒</dd>
       </a></li>
       {% endfor %}
-<<<<<<< HEAD
   {% else %}
       <span class="noTask">您现在还没有已完成的任务！</span>
   {% endif %}
-=======
-      {% else %}
-      您现在还没有已完成的任务
-      {% endif %}
->>>>>>> origin/emar-fun-amy
   </ul>
 </div><!-- eof all clearfix -->

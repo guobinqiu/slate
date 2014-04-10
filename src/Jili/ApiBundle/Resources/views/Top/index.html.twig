@@ -2,15 +2,15 @@
 {% block title %}{{ parent()  }} top页面{% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/index.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
-<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/index.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
 {% endblock %}
-
+ 
 {% block page_main %}
   <div class="w204 fl">
     <div class="module categorys">
@@ -114,7 +114,7 @@
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
       </div>
-      <div class="pageNumber"><a class="prev"></a><span>1/2</span><a class="next"></a></div>
+      <div class="pageNumber"><a class="prev curPt"></a><span>1/2</span><a class="next curPt"></a></div>
     </div>    <!-- eof news -->
     <div id="ranking">
       <h3>排行榜</h3>
