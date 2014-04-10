@@ -29,11 +29,10 @@
 
   <div class="sidebar w204 fl">
     <div class="module categorysFilter">
-      {% include('JiliEmarBundle:Product:search_category.html.twig') %}
+      <h3>所有商品分类</h3>
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_search' })) }}
     </div>
 
-{#
-#}
     <!-- --> 
     <div class="module miniRecommend">
       <div class="shade">

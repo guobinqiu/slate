@@ -35,6 +35,7 @@ class GhsController extends Controller
 
         if( $request->isXmlHttpRequest()) {
             $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')));
+
             $prds = array();
             foreach( $list as $v) {
                 $prds[] = array('pic'=> $v['pic_url'], 'href'=> str_replace('APIMemberId', $uid, $v['ghs_o_url']),'pri1'=> $v['ghs_price'],'pri0'=>$v['ori_price'] ,'dis'=>$v['discount'],'buy'=>$v['bought'] ); 
