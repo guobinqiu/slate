@@ -87,12 +87,16 @@ $(document).ready(function(){
         {% if app.session.has('uid') %}
         {{ render(controller('JiliApiBundle:Top:task' ) ) }}
         {% endif %}
-        <li><a href="{{ path('jili_api_top_index') }}" >首页</a></li>
-        <li><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
-        <li><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
-        <li><a href="{{ asset(path('jili_emar_top_cps'),'cdn1') }}">购物返利</a></li>
-		<li><a href="{{ asset(path('_marketActivity_index'),'cdn1')  }}">商家活动</a></li>
-        <li><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
+{% set router_current = app.request.attributes.get('_route') %}
+        <!-- current query path is {{  router_current }} -->
+
+        <li {{ router_current == '_homepage' ? 'class="navSelectedBg"':'' }}><a href="{{ path('_homepage') }}" >首页</a></li>
+        <li {{ router_current == '_game_index' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
+        <li {{ router_current == '_advertiserment_list' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
+        <li {{ router_current == 'jili_emar_websites_shoplist' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('jili_emar_websites_shoplist'),'cdn1') }}">返利商城</a></li>
+		<li {{ router_current == '_marketActivity_index' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('_marketActivity_index'),'cdn1')  }}">商家活动</a></li>
+        <li {{ router_current == '_exchange_index' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('_exchange_index'),'cdn1')  }}">兑换中心</a></li>
+
       </ul>
 /div>
   </div>

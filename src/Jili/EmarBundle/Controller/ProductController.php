@@ -76,10 +76,10 @@ class ProductController extends Controller
 
         $menu_config = $this->container->getParameter('emar_com.pdt_cat.menu');
 
-        $logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
+        #$logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
         $cats_fliped = array_flip($prod_categories['cats']);
 
-//support 2-level only
+        // support 2-level only
         foreach( $menu_config as $index => $item) {
             if( is_array( $item) ) {
                 foreach( $item as $key1 => $item1) {
@@ -91,13 +91,11 @@ class ProductController extends Controller
                 }
             } else if(is_string( $item ) &&  array_key_exists($item, $cats_fliped ))  {
                $menu_config[$index] = array( 'cat_name'=> $item, 'cat_id'=> $cats_fliped[$item ]); 
-
             }
         }
 
-
-        $logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
-        $logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($prod_categories, true) );
+        #$logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
+        #$logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($prod_categories, true) );
 
         return array_merge($prod_categories , compact('rt', 'qs' ,'menu_config'));
     }

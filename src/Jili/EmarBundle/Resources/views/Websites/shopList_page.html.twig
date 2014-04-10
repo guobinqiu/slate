@@ -1,32 +1,23 @@
-{#
-  0 => 
-  array (
-    'name' => '恬愉CPS',
-    'catid' => '11',
-    'logo' => 'http://image.yiqifa.com/ad_images/reguser/24/41/9/1376380064010.jpg',
-    'url' => 'http://p.yiqifa.com/n?k=2mLErnWe6n27rI6HCZg7Rnu_fmgA35eeUQ6uCQXAY8e7Y5BxYIeEYOsH2mq!pNUmNKeHWNRl6l6H1n2LWEyHWZLErJoH2mq939g8MERm3QLE&e=APImemberId&spm=139216929186018017.1.1.1',
-    'commission' => '8.4%',
-  ),
 
-#}
 {% for wid,row in websites%}
 {% if app.session.get('uid') is defined %}
   {% set href_ = row.url|replace( { 'APImemberId': app.session.get('uid') } ) %}
 {% else %}
   {% set href_ = "#" %}
 {% endif %}
+
         <li>
           <dt class="image"><img src="{{ row.logo }}" width="120" height="60" /></dt>
           <dd class="clearfix">
           <p class="title">
         <a class="shop"  href="{{ href_ }}" target="_blank" rel="nofollow" >{{ row.name }}</a></p>
-            <p class="rebate">返利最高：<em>{{ row.commission }}</em></p>
+            <p class="rebate">返利最高：<em>{{ row.commission }}%</em></p>
           </dd>
           <div class="hover" style="display: none;">
             <div class="tr">
               <div class="img"><a href="{{ href_ }}" target="_blank" rel="nofollow" ><img src="{{ row.logo }}" width="60" height="30" /></a></div>
               <div class="text">最高返<br>
-                <em>{{ row.commission }}</em></div>
+                <em>{{ row.commission }}%</em></div>
             </div>
 
             <p>

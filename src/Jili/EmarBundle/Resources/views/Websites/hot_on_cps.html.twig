@@ -1,22 +1,25 @@
 
     <div class="hotShop">
-      <h3>热门商家<a href="{{ path('jili_emar_websites_shoplist') }}" class="more">更多&gt;&gt;</a></h3>
-      <ul class="clearfix">
-
-{% for row in websites %}
-
-        <li>
-          <p class="img">
- {% if app.session.has('uid') %}
- <a href="{{  row.webUrl| replace( {'APIMemberId': app.session.get('uid') } ) }}" rel="nofollow" target="_blank"><img width="75" height="37" src="{{ row.logoUrl }}"></a>
-{% else %}
-    <a href="#"  onclick="javascript: return false;"><img width="75" height="37" src="{{ row.logoUrl }}"></a>
-{% endif %}
-          </p>
-
-          <p class="rebate">最高返<em>2.5%</em></p>
-
-        </li>
-{% endfor %}
-      </ul>
+    {% if websites|length > 0 %}
+          <h3>热门商家<a href="{{ path('jili_emar_websites_shoplist') }}" class="more">更多&gt;&gt;</a></h3>
+          <ul class="clearfix">
+    
+            {% for row in websites %}
+    
+            <li>
+              <p class="img">
+                 {% if app.session.has('uid') %}
+                 <a href="{{  row.webUrl| replace( {'APIMemberId': app.session.get('uid') } ) }}" rel="nofollow" target="_blank"><img width="75" height="37" src="{{ row.logoUrl }}"></a>
+                {% else %}
+                    <a href="#"  onclick="javascript: return false;"><img width="75" height="37" src="{{ row.logoUrl }}"></a>
+                {% endif %}
+              </p>
+              <p class="rebate">最高返<em>{{  row.commission }}%</em></p>
+    
+            </li>
+            {% endfor %}
+          </ul>
+    {% else %}
+    <!-- no hot shop yet. -->
+    {% endif %}
     </div>

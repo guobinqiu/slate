@@ -194,7 +194,7 @@ class ProductsCommand extends ContainerAwareCommand
 
             $this->getContainer()->get('cron.website_and_category')->truncate();
             $this->getContainer()->get('cron.products')->truncate();
-
+// 500
             foreach( $cats_mixed as $key =>  $cat  ) {
                 $catid = $key;
                 foreach($websites as $web ) {
@@ -211,7 +211,7 @@ class ProductsCommand extends ContainerAwareCommand
                         $params = array('catid'=> $catid, 'webid'=>$webid );
                         $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$params:','') ). var_export($params, true) );
                         $productListGetter = $this->getContainer()->get('product.list_get');
-
+                        $productListGetter->setApp('cron');
                         $productListGetter->setPageSize($page_size);
                         $productListGetter->setFields('pid,p_name,web_id,web_name,ori_price,cur_price,pic_url,catid,cname,p_o_url,total,short_intro');
                         $last = 1; $page_no = 0;
