@@ -21,8 +21,7 @@ $(document).ready(function() {
 			})
 	})
 	var goToHelp = function(i) {
-		//$("#helpMain").load("help/help" + (i + 1) + ".html", {
-			$("#helpMain").load("https://192.168.1.235/jili-amy/web/help/help" + (i + 1) + ".html", { 
+		$("#helpMain").load("help/help" + (i + 1) + ".html", {
 			limit : 25
 		}, function() {
 			$("#helpMain ul").fadeIn("normal");
