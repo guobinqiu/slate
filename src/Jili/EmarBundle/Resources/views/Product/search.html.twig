@@ -4,7 +4,7 @@
 {% block stylesheet %}
 <link href="{{ asset('css140307/pageNumber.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/recommend.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/categorysFilter.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/commodity930.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
@@ -12,7 +12,7 @@
 
 {% block javascript %}
 <script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
-<script src="{{ asset('js140307/categorysFilter.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
 <script type="text/javascript">
 	  $(function (){
@@ -20,29 +20,6 @@
 		  $("ul.commodityUl li").eq(i).css("margin-right", "0");
 		}
 	  });
-</script>
-<script type="text/javascript">
-  $(function (){
-			
-		$(".miniRecommend ul li .img").hover(function() {
-		  var elm = 	$(this).children("p");
-		  //elm.animate({bottom:0},200);
-		  //elm.animate({bottom:-30},200);
-		  //elm.fadeIn("fast");
-		  //elm.fadeOut("fast");
-		  //elm.animate({bottom:0},200);
-		  //elm.animate({bottom:-60},200);
-		  //elm.hide();
-        });
-  });
-  
-  //$(this).children(".more").animate({bottom:0},200);
-//  $(this).children(".more").animate({bottom:-30},200);
-//  $(this).children(".more").fadeIn("fast");
-//  $(this).children(".more").fadeOut("fast");
-//  $(this).children(".more").animate({bottom:0},200);
-//  $(this).children(".more").animate({bottom:-60},200);
-
 </script>
 {% endblock %}
 
@@ -56,15 +33,22 @@
 {% endblock %}
 
 {% block page_main %}
-  <div class="sidebar w204 fl">
-	<div class="module categorysFilter">
+  <div class="w204 fl">
+	<div class="module categorys" style="margin-bottom: 20px;">
       <h3>所有商品分类</h3>
       {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_search' })) }}
     </div>
+	<div style="fl">
+	<script type="text/javascript">
+/*200*200，创建于2014-4-11*/
+var cpro_id = "u1519087";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+	</div>
 {#
 #}
-    <!-- --> 
-    <div class="miniRecommend">
+    
+    <!--<div class="miniRecommend">
       <div class="shade">
         <ul class="clearfix">
           <li>
@@ -100,8 +84,9 @@
         </ul>
       </div>
       <a class="prevBtn">prev</a><a class="nextBtn">next</a> </div>
-  </div>
-  <div>
+  -->
+</div>
+<div>
 <!-- a -->
 {% set w_q = app.request.query.getInt('w')  %}{# website in  request url #}
 

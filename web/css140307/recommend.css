@@ -28,8 +28,8 @@
 .miniRecommend .shade{ width:150px; margin:20px auto; height:200px; overflow:hidden; position:relative;}
 .miniRecommend ul{ width:100%; position:absolute; left:0; top:0;}
 .miniRecommend ul li{ float:left; height:200px;}
-.miniRecommend ul li .img{ position:relative; margin: 0 0 10px 0;}
-.miniRecommend ul li .title{ position:absolute; left:0; bottom:0; color:#FFF; padding:5px; overflow:hidden; padding: 7px 10px; line-height:18px; background-color:rgba(0,0,0,.5);}
+.miniRecommend ul li .img{ position:relative; margin: 0 0 10px 0; overflow:hidden;}
+.miniRecommend ul li .title{ position:absolute; left:0; bottom:0; display:block; color:#FFF; padding:5px; overflow:hidden; padding: 7px 10px; line-height:18px; background-color:rgba(0,0,0,.5);}
 .miniRecommend ul li dt{ float:left;}
 .miniRecommend ul li dd{font-size:15px; font-weight:bold; color:#ea4b11; float:right;}
 .miniRecommend ul li .rebate em{color:#ea4b11;}

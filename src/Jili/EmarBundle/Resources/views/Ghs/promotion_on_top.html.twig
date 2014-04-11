@@ -32,9 +32,19 @@ $(document).ready(function(){
     });
 });
 </script>
+<script type="text/javascript">
+  $(document).ready(function() {
+	$("#indexRecommend ul li").hover(function() {
+		$(this).children(".model").css("display","block");
+		$(this).children(".model").animate({bottom:0},200);
+	},function() {
+		$(this).children(".model").animate({bottom:-90},200);
+ 	});
+  })
+</script>
       <h3>超值低价</h3>
       <div class="menu"><a class="more" href="javascript:void(0);">换一批</a></div>
-      <div class="loading"><img src="{{ asset('other/loading.gif') }}" width="48" height="48"></div>
+      <div class="loading"><img src="{{ asset('other/loading.gif') }}" width="32" height="32"></div>
       <ul class="clearfix">
         <span id="prds1">
          {% for row in ghs_pdts %}
@@ -44,8 +54,11 @@ $(document).ready(function(){
              <li >
              {% endif %}
                  <p class="image"><a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><img src="{{ row.pic_url }}" height="130" width="200"></a></p>
-                 <p class="price">¥{{ row.ghs_price }}<em>{{ row.discount }}%折</em></p> 
-                 <p><del>原价￥{{ row.ori_price }}</del> 销量{{ row.bought }}件</p>
+                 <p class="price"><span class="price1">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray">原价￥{{ row.ori_price }}</del><span class="discount">{{ row.discount }}%折</span></p> 
+                 <p> 销量{{ row.bought }}件</p>
+			 <div class="model hoverView curPt">
+			  <a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>
+			</div>
              </li>
          {% endfor %}
          </span>
