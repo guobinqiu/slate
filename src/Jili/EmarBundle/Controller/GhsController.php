@@ -15,7 +15,7 @@ class GhsController extends Controller
 {
     /**
      * @param: tmpl: the template to embed, max: number of records, p: the page
-     * @Route("/promotion/{tmpl}/{max}/{p}", defaults={"tmpl"="top", "max"=6 ,"p"=1}, requirements={"tmpl"="\w+", "max"="\d+", "p"="\d+"})
+     * @Route("/promotion/{tmpl}/{max}/{p}", defaults={"tmpl"="top", "max"=6 ,"p"=1}, requirements={"tmpl"="search|top", "max"="\d+", "p"="\d+"})
      * @Method("GET")
      * @Template()
      */
@@ -25,24 +25,19 @@ class GhsController extends Controller
         $listRequest = $this->get('ghs.list_get');
         // multiple by 2 to filter the unecessary links. 
         // NOTICE: always fetch the first page ?
-        $listRequest->setPageSize($max * 2);
+        $listRequest->setPageSize($max );
 
         $params = array('page_no' => $p);
+
+        if( $request->query->has('c_h') ) {
+
+        }
+
         $uid = $request->getSession()->get('uid');
 
-        $result = $listRequest->setApp('search')->fetch( $params );
+        $list = $listRequest->setApp('search')->fetchDistinct( $params );
         $total = $listRequest->getTotal();
 
-        //todo: escape the m. prefixed ghs_o_url.
-        $list  = array();
-        foreach($result as $index => $row) {
-            if( $index % 2 === 0 ) {
-                $list [] = $row;
-            }
-            if( count($list) === $max) {
-                break;
-            }
-        }
         
         if( $request->isXmlHttpRequest()) {
             $prds = array();
@@ -64,13 +59,15 @@ class GhsController extends Controller
     }
 
     /**
-     * @Route("/partial-on-cps/{catids}", defaults={"catids"= ""} )
+     * @abstract: only 1 page.
+     * @Route("/partial/{tmpl}/{catids}", defaults={"tmpl"="cps", "catids"= ""}, requirements={"tmpl"="cps" } )
      * @Template()
      */
-    public function partialOnCpsAction($catids) {
+    public function partialAction($tmpl,$catids) {
 
         $request = $this->get('request');
         $logger= $this->get('logger');
+
 
         //todo: added to cache file.
         $categoryRequest =  $this->get('ghs.category_get');
@@ -86,10 +83,16 @@ class GhsController extends Controller
             }
         }
         $params =( $catids_request === '000000' ) ? array('category'=> '') : array('category'=> implode(',', $catids_));
-        $listRequest = $this->get('ghs.list_get');
-        $listRequest->setPageSize( $this->container->getParameter('emar_com.page_size_of_topcps') );
-        $list = $listRequest->setApp('cron')->fetch( $params );
 
-        return array('router_'=> 'jili_emar_top_cps', 'catids_request'=> $catids_request, 'cats'=> $cats, 'ghs_pdts'=> $list );
+        $listRequest = $this->get('ghs.list_get');
+        $listRequest->setPageSize(  $this->container->getParameter('emar_com.page_size_of_topcps') );
+
+        $list = $listRequest->setApp('cron')->fetchDistinct( $params );
+
+
+        $return =  array('router_'=> 'jili_emar_top_cps', 'catids_request'=> $catids_request, 'cats'=> $cats, 'ghs_pdts'=> $list );
+
+        $template ='JiliEmarBundle:Ghs:partial_on_'. $tmpl. '.html.twig';
+        return $this->render($template, $return );
     }
 }

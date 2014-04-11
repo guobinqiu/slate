@@ -55,7 +55,7 @@ $(document).ready(function(){
                  {% endif %}
                  <img src="{{ row.pic_url }}" height="130" width="200"></a></p>
 
-                 <p class="price">¥{{ row.ghs_price }}<em>{{ row.discount }}%折</em></p> 
+                 <p class="price">¥{{ row.ghs_price }}<em>{{ row.discount }}折</em></p> 
                  <p><del>原价￥{{ row.ori_price }}</del> 销量{{ row.bought }}件</p>
              </li>
          {% endfor %}

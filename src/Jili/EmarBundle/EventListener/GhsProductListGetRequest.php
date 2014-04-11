@@ -5,6 +5,32 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\GhsProductListGetRequest as OpenApiGhsProductListGetRequest;
 
 class GhsProductListGetRequest  extends BaseListRequest {
+
+    /**
+     * @abstract: wrapper for the fetch() function, for duplicated pid in the fetch result.
+     *  Because the  ghs_o_url prefixed with "m." in raw response will redirect to error page.
+     */
+    public function fetchDistinct( $param = array() ) {
+        $page_size = $this->page_size;
+        $this->setPageSize ( 2 * $page_size);
+
+        $result = $this->fetch($param);
+
+        $list  = array();
+        foreach($result as $index => $row) {
+            if( $index % 2 === 0 ) {
+                $list [] = $row;
+            }
+            if( count($list) === $page_size) {
+                break;
+            }
+        }
+        return $list;
+    }
+
+    /**
+     *
+     */
   public function fetch( $param = array()  ) {
 
     //todo: cached 
