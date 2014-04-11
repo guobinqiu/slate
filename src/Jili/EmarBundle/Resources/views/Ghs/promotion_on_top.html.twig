@@ -76,7 +76,6 @@ $(document).ready(function(){
                     <a href="{{ path('_user_login')  }}">
                  {% endif %}
                  <img src="{{ row.pic_url }}" height="130" width="200"></a></p>
-<<<<<<< HEAD
                  <p class="price"><span class="price1">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray">原价￥{{ row.ori_price }}</del><span class="discount">{{ row.discount }}%折</span></p> 
                  <p class="corGlobGray">销量{{ row.bought }}件</p>
 				 <div class="model hoverView curPt">
@@ -86,11 +85,6 @@ $(document).ready(function(){
 				 <a href="{{ path('_user_login')  }}"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>
 				 {% endif %}
 				 </div>
-=======
-
-                 <p class="price">¥{{ row.ghs_price }}<em>{{ row.discount }}折</em></p> 
-                 <p><del>原价￥{{ row.ori_price }}</del> 销量{{ row.bought }}件</p>
->>>>>>> a09bae52b2b7dd675d629ee957dccc01e29e38df
              </li>
          {% endfor %}
          </span>

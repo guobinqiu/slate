@@ -1,7 +1,7 @@
 
       <ul class="searchRecommend clearfix">
     {% for row in ghs_pdts %}
-        <li>
+        <li class="curPt">
           {% spaceless %}
           <dt>
             {% if app.session.has('uid')  %}
