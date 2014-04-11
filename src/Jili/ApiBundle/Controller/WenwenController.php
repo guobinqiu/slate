@@ -60,10 +60,10 @@ class WenwenController extends Controller {
 		$em->flush();
 		$str = 'jilifirstregister';
 		$code = md5($user->getId() . str_shuffle($str));
-		$url = $this->generateUrl('_user_forgetPass', array (
-			'code' => $code,
-			'id' => $user->getId()
-		), true);
+
+		//TODO  user/forgetPass  建立新的页面后，需要修改
+		$wenwen_api_url = $this->container->getParameter('91wenwen_api_url');
+		$url = $wenwen_api_url . '/user/forgetPass/' . $code . '/' . $user->getId();
 
 		//发送激活邮件
 		if ($this->sendMail($url, $user->getEmail())) {
@@ -149,7 +149,6 @@ class WenwenController extends Controller {
 		} else {
 			return false;
 		}
-
 	}
 
 }
