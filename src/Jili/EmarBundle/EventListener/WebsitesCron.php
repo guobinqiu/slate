@@ -20,7 +20,7 @@ class WebsitesCron extends BaseCron {
                 $emarWebsite = new EmarWebsitesCron;
                 $emarWebsite->setWebId($website['web_id']);
             } else {
-                $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). var_export($emarWebsite, true) );
+#                 $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). var_export($emarWebsite, true) );
             }
 
             $emarWebsite->setWebName($website['web_name']);

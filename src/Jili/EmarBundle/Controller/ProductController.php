@@ -51,14 +51,14 @@ class ProductController extends Controller
         // filter 1:
         $filters_of_webs = $this->get('product.filters')->fetchWebsConfigged();
 
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs, true));
+#         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs, true));
         
         // filter 2:
 
         if(isset($cat_id) && is_numeric($cat_id)) {
 
             $params=  array( 'categoryId'=>$cat_id);
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
+#             $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
 
             $webs_by_cat = $em->getRepository('JiliEmarBundle:EmarWebsitesCategory')->findBy($params );
             $wids_by_cat =  array();
@@ -177,7 +177,7 @@ class ProductController extends Controller
         
         // search
         $params = array('keyword'=>$keyword, 'catid'=> $cat_id, 'webid'=> $web_id, 'page_no'=>$page_no, 'price_range'=> $price_range,'orderby'=>$order);
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
+#         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
         $productSearch = $this->get('product.search');
 
         $page_size = $this->container->getParameter('emar_com.page_size_of_search') ;
@@ -206,7 +206,7 @@ class ProductController extends Controller
 
         $filters_of_webs = $this->get('product.filters')->fetchWebsConfigged();
 
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs, true));
+#         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs, true));
 
         //$filters_of_webs_d = $this->getDoctrine()->getManager()->getRepository('JiliEmarBundle:EmarWebsites')->getFilterWebs(  );
 

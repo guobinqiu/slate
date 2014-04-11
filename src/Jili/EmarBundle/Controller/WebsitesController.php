@@ -312,40 +312,42 @@ class WebsitesController extends Controller
             'total'=>$total );
     }
 
-     /**
-      * @Route("/demo")
-      * @Method("GET");
-      */
-     public function demoAction()
-     {
-         $em = $this->getDoctrine()->getManager();
-         $this->get('cron.website_and_category')->truncate();
-         for($i = 1 ; $i < 10 ; $i++ ){
-             $wid = $i ; 
-             for($j = 11;  $j< 21; $j++ ) {
-                 $catid = $j;
-                 $this->get('cron.website_and_category')->add($wid, $catid);
-             }
-         }
-
-         for($i = 1 ; $i < 5 ; $i++ ){
-             $wid = $i ; 
-             for($j = 15;  $j< 21; $j++ ) {
-                 $catid = $j;
-                 $this->get('cron.website_and_category')->add($wid, $catid);
-             }
-         }
-
-         for($i = 2 ; $i < 8 ; $i++ ){
-             $wid = $i ; 
-             for($j = 13;  $j< 18; $j++ ) {
-                 $catid = $j;
-                 $this->get('cron.website_and_category')->add($wid, $catid);
-             }
-         }
-         $this->get('cron.website_and_category')->duplicateForQuery();
-         // code...
-         return new Response('ok');
-     }
+#     /**
+#      * @Route("/demo")
+#      * @Method("GET");
+#      */
+#     public function demoAction()
+#     {
+#         $em = $this->getDoctrine()->getManager();
+#         $logger = $this->get('logger');
+#         $this->get('cron.website_and_category')->truncate();
+#         for($i = 1 ; $i < 10 ; $i++ ){
+#             $wid = $i ; 
+#             for($j = 11;  $j< 21; $j++ ) {
+#                 $catid = $j;
+#                 $this->get('cron.website_and_category')->add($wid, $catid);
+#             }
+#         }
+#
+#         for($i = 1 ; $i < 5 ; $i++ ){
+#             $wid = $i ; 
+#             for($j = 15;  $j< 21; $j++ ) {
+#                 $catid = $j;
+#                 $this->get('cron.website_and_category')->add($wid, $catid);
+#             }
+#         }
+#
+#         for($i = 2 ; $i < 8 ; $i++ ){
+#             $wid = $i ; 
+#             for($j = 13;  $j< 18; $j++ ) {
+#                 $catid = $j;
+#                 $this->get('cron.website_and_category')->add($wid, $catid);
+#             }
+#         }
+#         $this->get('cron.website_and_category')->duplicateForQuery();
+#         // code...
+#         return new Response('ok, level:');
+#
+#     }
 }
 

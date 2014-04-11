@@ -39,7 +39,7 @@ class AdminEmarWebsitesCronedController extends Controller
         }
 
         $web =  $em->getRepository('JiliEmarBundle:EmarWebsites')->findOneByWebId( $entity->getWebId() );
-        $logger->debug('{jarod}'. implode(',',array(__CLASS__, __LINE__, '') ).var_export( $web,  true) );
+#         $logger->debug('{jarod}'. implode(',',array(__CLASS__, __LINE__, '') ).var_export( $web,  true) );
 /**
  *        id: 9
  *            web_id: 2308

@@ -50,11 +50,11 @@
   </div><!-- eof w300 -->
 
   <div class="main w930 fr">
-      {{ render(controller('JiliEmarBundle:Ghs:partialOnCps', {'catids': app.request.query.get('c_h') } ))  }}
+      {{ render(controller('JiliEmarBundle:Ghs:partial', {'tmpl':'cps', 'catids': app.request.query.get('c_h') } ))  }}
   </div><!-- main w834 -->
   
   <!--<div class="sidebar w300 fr">
-      {{ include("JiliEmarBundle:Product:suggestionHot.html.twig") }}
+      {# include("JiliEmarBundle:Product:suggestionHot.html.twig") #}
   </div>--><!-- sidebar -->
 {% endblock %}
 

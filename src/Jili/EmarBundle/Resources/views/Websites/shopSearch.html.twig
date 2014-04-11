@@ -27,11 +27,14 @@
 
   <div class="main w834 fl">
 
-      {{ include( "JiliEmarBundle:Websites:shopSearch_category.html.twig") }}
+      {# include( "JiliEmarBundle:Websites:shopSearch_category.html.twig") #}
 
       {{ include( "JiliEmarBundle:Websites:shopSearch_page.html.twig") }}
 
-      {{ include( "JiliEmarBundle:Websites:recommend.html.twig") }}
+
+      {{ render(controller('JiliEmarBundle:Ghs:promotion', {'tmpl':'search','max': 5, 'p':1} ))  }}
+
+      {#
     <div style="display: inline-block; width: 100%;">
       <ul class="pageNav">
         <li class="currPage"> <a href="/shopping/list?page=1">1</a> </li>
@@ -46,6 +49,7 @@
           </span> </li>
       </ul>
     </div>
+    #}
   </div><!-- eof main-->
 
   <div class="sidebar w300 fr">

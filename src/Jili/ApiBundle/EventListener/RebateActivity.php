@@ -32,10 +32,10 @@ class RebateActivity
 
         $logger = $this->logger;
         $percentage = (float) $em->getRepository('JiliApiBundle:AdActivity')->findMaxPercentage( $at );
-        $logger->debug('{jarod}'. __FILE__.':'. __LINE__. ':'.var_export( $percentage, true) );
+#         $logger->debug('{jarod}'. __FILE__.':'. __LINE__. ':'.var_export( $percentage, true) );
         
         $white_category = $this->getParameter('rebate_activity_category');
-        $logger->debug('{jarod}'. __FILE__.':'. __LINE__. ':'.var_export( $white_category, true) );
+#         $logger->debug('{jarod}'. __FILE__.':'. __LINE__. ':'.var_export( $white_category, true) );
 
         if(is_array($white_category) && count($white_category) > 0 &&  in_array( $category, $white_category) ) {
             $new_point = round( $point * $percentage, 0);
@@ -43,7 +43,7 @@ class RebateActivity
             $new_point = $point;
         }
 
-        $logger->debug('{jarod}'. __FILE__.':'. __LINE__.':' .var_export($point, true). '->'.var_export( $new_point, true) );
+#         $logger->debug('{jarod}'. __FILE__.':'. __LINE__.':' .var_export($point, true). '->'.var_export( $new_point, true) );
         return $new_point;
     }
 
