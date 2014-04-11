@@ -16,18 +16,23 @@ class EmarWebsitesCronedRepository extends EntityRepository
      * return an array of (information, web_id);
      */
     public function fetchInfosByWebIds( $webids ) {
-        $qb = $this->createQueryBuilder('p');
 
-        $qb->select('p.webId,p.information');
+        if( is_array($webids) && count($webids) > 0) {
 
-        $qb->where( $qb->expr()->in( 'p.webId', $webids) ) ;
 
-        $q =  $qb->getQuery();
 
-        $rows = $q->getResult();
-        $result = array();
-        foreach($rows as $row) {
-            $result[ $row['webId'] ] = $row['information'];
+            $qb = $this->createQueryBuilder('p');
+            $qb->select('p.webId,p.information');
+            $qb->where( $qb->expr()->in( 'p.webId', $webids) ) ;
+            $q =  $qb->getQuery();
+
+            $rows = $q->getResult();
+            $result = array();
+            foreach($rows as $row) {
+                $result[ $row['webId'] ] = $row['information'];
+            }
+        } else {
+            $result = array();
         }
         return $result;
 
@@ -38,6 +43,10 @@ class EmarWebsitesCronedRepository extends EntityRepository
      * return an array of full fields;
      * */
     public function fetchByWebIds( $webids = array()) {
+        if( count($webids) == 0 ) {
+            return array();
+        }
+
         $qb = $this->createQueryBuilder('p');
         $qb->where( $qb->expr()->in( 'p.webId', $webids) ) ;
         $q =  $qb->getQuery();
