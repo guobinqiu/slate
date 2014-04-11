@@ -24,17 +24,39 @@ class GhsController extends Controller
         $logger = $this->get('logger');
 
         $listRequest = $this->get('ghs.list_get');
-        $listRequest->setPageSize($max);
+
+        $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')).var_export( $tmpl, true));
+        $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')).var_export( $max, true));
+        $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')).var_export( $p, true));
+        // multiple by 2 to filter the unecessary links. 
+        // NOTICE: always fetch the first page ?
+        $listRequest->setPageSize($max * 2);
+
         $params = array('page_no' => $p);
 
         $uid = $request->getSession()->get('uid');
 
-        $list = $listRequest->setApp('search')->fetch( $params );
+        $result = $listRequest->setApp('search')->fetch( $params );
+        $total = $listRequest->getTotal();
 
-        $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')).var_export( $list, true));
+        $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')).var_export( $result[0], true));
+        $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'total','')).var_export( $total, true));
+        
+
+        //todo: escape the m. prefixed ghs_o_url.
+        $list  = array();
+        foreach($result as $index => $row) {
+            if( $index % 2 === 0 ) {
+                $list [] = $row;
+            }
+            if( count($list) === $max) {
+                break;
+            }
+        }
+        
 
         if( $request->isXmlHttpRequest()) {
-            $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')));
+            $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'ajax','')));
 
             $prds = array();
             foreach( $list as $v) {
@@ -44,6 +66,7 @@ class GhsController extends Controller
            // $logger->debug('{jarod}'. implode(',', array(__LINE__, __CLASS__,'')). var_export( json_encode($prds), true) );
             $response = new Response(json_encode(array('prds' => $prds)));
             $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
 
         $template ='JiliEmarBundle:Ghs:'. 'promotion_on_'. $tmpl. '.html.twig';
