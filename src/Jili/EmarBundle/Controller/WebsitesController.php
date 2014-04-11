@@ -65,7 +65,7 @@ class WebsitesController extends Controller
         $logger= $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        $wcat_id = $request->query->get('wcat' );
+        $wcat_id = (int) $request->query->get('wcat', 0 );
         $keyword = $request->query->get('q', '');
         $page_no = $request->query->getInt('p',1);
 
@@ -74,18 +74,31 @@ class WebsitesController extends Controller
         // webs 
         $websites = array();
         $params =array();
-
         if( isset($wcat_id ) && is_numeric($wcat_id) && $wcat_id > 0 ) {
             $params = array('catid'=> $wcat_id );
-        }
+        } 
+
         $web_raw  = $this->get('website.list_get')->fetch( $params );
+
+        $fitlers = array();
+        // for wcat_id = 0, the hot websites only.
+        if( $wcat_id === 0 ) {
+            $web_hot = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot( array('select'=> '*') );
+            $web_hot_ids = array();
+            foreach($web_hot as  $row) {
+                $web_hot_ids[] = $row->getWebId();
+            }
+            if(count($web_hot_ids) > 0 ) {
+                $fitlers['wids'] = $web_hot_ids;
+            }
+        } 
 
         // searching 
         if( strlen(trim($keyword)) > 0) {
             $web_searched = $this->get('website.search')->find( $web_raw, $keyword );
-            $websites = WebListRepository::parse( $web_searched);
+            $websites = WebListRepository::parse( $web_searched, $fitlers);
         } else {
-            $websites = WebListRepository::parse( $web_raw);
+            $websites = WebListRepository::parse( $web_raw, $fitlers);
         }
 
         $webids =  array_keys($websites);
@@ -93,7 +106,11 @@ class WebsitesController extends Controller
 
         //todo: use a index of  type  array (  wid=>index  );
         //todo: add catid into where
-        $websites_configed = $em->getRepository('JiliEmarBundle:EmarWebsites')->getSortedByParams( $params );
+        if( $wcat_id === 0 ) {
+            $websites_configed = $web_hot; 
+        } else {
+            $websites_configed = $em->getRepository('JiliEmarBundle:EmarWebsites')->getSortedByParams( $params );
+        }
 
         /// sorting 
         $websites_filtered = array();
@@ -106,6 +123,7 @@ class WebsitesController extends Controller
         }
 
         $websites_sorted = $websites_filtered + $websites_left; //array_diff($websites, $websites_filtered);
+
         // page_size , page_no 
         $total =  count($websites);
         $page_size = $this->container->getParameter('emar_com.page_size_of_shoplist');

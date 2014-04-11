@@ -42,7 +42,8 @@ class ProductListGetRequest  extends BaseListRequest {
       $req->setPage_size($this->page_size );
     }
 
-    $resp =  $this->c->exe( $req );
+    #$resp =  $this->c->exe( $req );
+    $resp =  $this->c->setApp($this->app_name)->exe($req);
     if( isset( $resp[ 'pdt_list']) && isset($resp['pdt_list'] ['pdt'] ) ) {
         $result = $resp['pdt_list']['pdt'];
         $this->result = $result;

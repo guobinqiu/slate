@@ -19,7 +19,7 @@
   <div class="sidebar w204 fl">
     <div class="module categorys">
       <h3>所有商品分类</h3>
-      {% include('JiliEmarBundle:Product:category.html.twig') %}
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }}
      </div>
   </div>
 
@@ -44,17 +44,15 @@
         <a  href ="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'w': 0, "p":1, "pr":""})) }}">全部</a> 
         {% endif %}
 
-{% for webid,web in webs_filter %}
+        {% for webid,web in webs_filter %}
+            {% if w_q is defined and w_q == webid %}
+            <a href="#" class="hover" onclick="javascript:return false;" >{{ web.webName|e }}</a> 
+            {% else %}
+            <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': webid, "p":1, "pr":"" })) }}">{{ web.webName|e }}</a> 
+            {% endif %}
+        {% endfor  %}
 
-    {% if w_q is defined and w_q == webid %}
-    <a href="#" class="hover" onclick="javascript:return false;" >{{ web.webName|e }}</a> 
-    {% else %}
-    <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': webid, "p":1, "pr":"" })) }}">{{ web.webName|e }}</a> 
-    {% endif %}
-
-
-{% endfor  %}
-
+        
         {#  <a class="hover" href="#">全部</a> 
         <a href="#"> 携程旅行网 </a>
         <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> #} 

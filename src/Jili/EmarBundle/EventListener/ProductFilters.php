@@ -42,7 +42,6 @@ class ProductFilters  {
         if( count($params) == 0 || ! isset($params['wids']) || empty($params['wids']) ){
             return $this->fetchWebs();
         }
-
         //extract($params);
         //webs
         $webListGet  = $this->websiteListGet;
@@ -53,30 +52,24 @@ class ProductFilters  {
     }
 
     /**
-     * for new ui , product/retrieve 
+     *  product/retrieve 
+     * return array('webs'=> );
      */
-    public function fetchWebs(  ) {
-        //webs
+    public function fetchWebs( ) {
         $webListGet  = $this->websiteListGet;
         $web_raw  = $webListGet->setFields('web_id,web_name,web_o_url,commission')->fetch( );
-
         $webs = WebListRepository::parse( $web_raw);
-
-        //TODO: sort the webs 
        #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $webs, true));
         return compact('webs');
     }
 
     /**
-     * for new ui
-     *
+     * return array('product_webs'=> );
      */
     public function fetchWebsByProducts( $products ) {
-        //webs
         $webListGet  = $this->websiteListGet;
         $web_raw  = $webListGet->setFields('web_id,web_o_url,commission')->fetch( );
         $product_webs = WebListRepository::parse( $web_raw);
-        //TODO: sort the webs 
         $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $product_webs, true));
         return compact('product_webs');
     }
@@ -85,35 +78,25 @@ class ProductFilters  {
      * demo return all websites lists:
      */
     public function fetch( ) {
-
-        // cats
+        //pdt cats
         $categories_raw  = $this->generalCategoryGet->fetch();
         $cats = ItemCatRepository::parse( $categories_raw);
-
-        #        $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $cats, true));
-
-
-        // wcats
+        $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $cats, true));
+        // web cats
         $wcategories_raw  = $this->websiteCategoryGet->fetch( );
         $wcats = WebCatRepository::parse( $wcategories_raw);
-        #        $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $wcats, true));
-        //webs
+        $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $wcats, true));
+        // webs
         $web_raw  = $this->websiteListGet->fetch( );
-
-        #$webs = WebListRepository::parse( $web_raw);
         $webs = WebListRepository::parseByCat( $web_raw);
-        #        $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $webs, true));
-
+        #$webs = WebListRepository::parse( $web_raw);
+        # $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $webs, true));
         return compact('cats','wcats','webs');
     }
 
     public function setLogger(  LoggerInterface $logger) {
         $this->logger = $logger;
     }
-
-    //            - [ setGeneralCategoryGet, [ @general.category_get ] ] 
-    //            - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
-    //            - [ setWebsiteListGet, [ @website.list_get ] ] 
 
     public function setGeneralCategoryGet(  $getter ) {
         $this->generalCategoryGet= $getter ;

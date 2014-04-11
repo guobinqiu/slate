@@ -27,7 +27,7 @@ class WebList{
     foreach($rows as $row) {
         if( isset($row['web_id'])  )   {
             // 如果设置了filter['wids'], 则用其进行过滤。
-            if( isset($filter['wids'] ) && ! in_array( $row['web_id'], $filter['wids'])) {
+            if( isset($filter['wids'] )  && ! in_array( $row['web_id'], $filter['wids'])) {
                 continue;
             }
 

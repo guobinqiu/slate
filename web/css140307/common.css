@@ -25,6 +25,7 @@ strong, b{font-weight: bold;}
 .division{ margin:0 10px; color:#ccc;}
 .module{ border:2px solid #ff6b4f;}
 .curPt{ cursor:pointer;}
+.borderGlob{border:1px solid #e8e8e8;}
 .boxShadowGlobal{-moz-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;-webkit-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;box-shadow: 1px 1px 6px #ddd,1px -1px 6px #ddd;}
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{ color:#666;}
 #header{ width:100%;}

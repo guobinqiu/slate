@@ -1,6 +1,6 @@
 .shop-info{ background-color:#FFF; margin-bottom:15px; padding:15px; line-height:200%;}
-.shop-info-l{ float:left; width:240px; text-align:center; border-right:1px solid #DDD;}
-.shop-info-l .shop_img{ width:180px; padding:10px 0 0 0; border:1px solid #DDD; line-height:300%; margin:0 auto 15px auto;}
+.shop-info-l{ float:left; width:240px; text-align:center; border-right:1px solid #e8e8e8;}
+.shop-info-l .shop_img{ width:180px; padding:10px 0 0 0; border:1px solid #e8e8e8; line-height:300%; margin:0 auto 15px auto;}
 .shop-info-l .shop-rebate{}
 .shop-info-l .shop-rebate em{ color:#EA4B11;}
 .shop-info-l .goBtn{ width:180px; background-color:#ff6b4f; color:#FFF; display:inline-block; padding:5px 0; font-size:14px;}

@@ -1,32 +1,47 @@
 <script type="text/javascript">
+    var next = function() {
+    var i = 2;
+    return function(){
+    return i++;
+    }
+    }();
 $(document).ready(function(){
     $(".loading").hide();
+
     //刷新
     $(".more").click(function(){
         $.ajax({
-            url: "{{ path('jili_emar_ghs_promotion') }}?tmpl=top&max=6&p=1",
+            url: "{{ path('jili_emar_ghs_promotion') }}/top/6/"+next(),
             post: "GET",
             beforeSend:function(){$(".loading").show();},
             success:function(data){
-                if(data.prds != null && data.prds.length > 0) {
-                    msg = "";
-                    $("#prds1").remove();
+
+			if(data.prds != null && data.prds.length > 0) {
+                    var msg = "";
                     for(var i = 0; i < data.prds.length; i++) {
-                        data2 = data.prds[i];
+                       var  data2 = data.prds[i];
                         if (0 == (i+1) % 3 ){
                             msg += '<li class="mr0">';
-                        }else{
-                            msg += "<li>";
+                        }else{  
+							msg += "<li>";
                         }
-                        msg += '<p class="image"><a href="'+data2.href+'" target="_blank" rel="nofollow"><img src="'+data2.pic+'" height="130" width="200"></a></p>'+
-                              '<p class="price">¥'+data2.pri1+'<em>'+data2.dis+'%折</em></p> '+
-                              '<p><del>原价￥'+data2.pri0+'</del> 销量'+data2.buy+'件</p>'+
-                          '</li>';
-                    }
-                    var tab=document.getElementById("prds2"); 
-                    tab.innerHTML = msg;
-                }
+						if ( data2.href == "{{ path('_user_login')  }}" ){
+						  msg += '<p class="image"><a href="'+data2.href+'" ><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">原价￥'+data2.pri0+'</del><span class="discount">'+data2.dis+'折</span></p>'+'<p class="corGlobGray">销量'+data2.buy+'件</p>';
+							  msg += '<div class="model hoverView curPt">';
+							  msg += '<a href="'+ data2.href+'" ><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>';
+ 				
+						} else {
+						      msg += '<p class="image"><a href="'+data2.href+'" target="_blank" rel="nofollow"><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">原价￥'+data2.pri0+'</del><span class="discount">'+data2.dis+'折</span></p><p class="corGlobGray">销量'+data2.buy+'件</p>';
+							  msg += '<div class="model hoverView curPt">';
+							  msg += '<a href="'+ data2.href+'" target="_blank" rel="nofollow"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>';
+ 						}					
+						 msg += '</div></li>';
+           			  }
+                    $("#prds1").html(msg);
+					slideUp();
+    			 }
                 $(".loading").hide();
+                return false;
             }
         });
     });
@@ -34,37 +49,47 @@ $(document).ready(function(){
 </script>
 <script type="text/javascript">
   $(document).ready(function() {
-	$("#indexRecommend ul li").hover(function() {
+	slideUp();
+  })
+  
+  function slideUp(){
+  	$("#indexRecommend ul li").hover(function() {
 		$(this).children(".model").css("display","block");
 		$(this).children(".model").animate({bottom:0},200);
 	},function() {
 		$(this).children(".model").animate({bottom:-90},200);
  	});
-  })
+  }
 </script>
+{% spaceless %}
       <h3>超值低价</h3>
       <div class="menu"><a class="more" href="javascript:void(0);">换一批</a></div>
       <div class="loading"><img src="{{ asset('other/loading.gif') }}" width="32" height="32"></div>
       <ul class="clearfix">
         <span id="prds1">
          {% for row in ghs_pdts %}
-             {% if 0 == loop.index % 3 %}
-             <li class="mr0">
-             {% else %}
-             <li >
-             {% endif %}
-                 <p class="image"><a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><img src="{{ row.pic_url }}" height="130" width="200"></a></p>
+            <li{{ 0 == loop.index % 3? ' class="mr0" ':'' }}>
+                 <p class="image">
+                 {% if app.session.has('uid')  %}
+                    <a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow">
+                {% else %}
+                    <a href="{{ path('_user_login')  }}">
+                 {% endif %}
+                 <img src="{{ row.pic_url }}" height="130" width="200"></a></p>
                  <p class="price"><span class="price1">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray">原价￥{{ row.ori_price }}</del><span class="discount">{{ row.discount }}%折</span></p> 
-                 <p> 销量{{ row.bought }}件</p>
-			 <div class="model hoverView curPt">
-			  <a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>
-			</div>
+                 <p class="corGlobGray">销量{{ row.bought }}件</p>
+				 <div class="model hoverView curPt">
+				 {% if app.session.has('uid')  %}
+				    <a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>
+				 {% else %}
+				 <a href="{{ path('_user_login')  }}"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>
+				 {% endif %}
+				 </div>
              </li>
          {% endfor %}
          </span>
-         <span id="prds2"></span>
     </ul>
-
+{% endspaceless %}
 {#
 [2014-04-01 16:27:56] app.DEBUG: {jarod}34,Jili\EmarBundle\Controller\GhsController,array (
   0 => 
@@ -87,4 +112,3 @@ $(document).ready(function(){
   ),
 
 #}
-

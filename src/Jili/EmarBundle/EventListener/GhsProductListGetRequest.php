@@ -38,6 +38,10 @@ class GhsProductListGetRequest  extends BaseListRequest {
         $result = $resp['ghs_list']['ghs'];
     }
     $this->result = $result;
+
+    $this->total = isset($resp['total'] ) ? $resp['total']: 0 ;
+
     return $result;
   }
+
 }

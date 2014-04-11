@@ -15,15 +15,23 @@ class EmarWebsitesRepository extends EntityRepository
      */
     public function getHot($params = array() ) {
         extract($params);
-
         $qb  = $this->createQueryBuilder('ew');
-        $qb->select('ew.webId,ew.commission');
+
+        if( isset($select) && $select === '*' ) {
+        } else {
+            $qb->select('ew.webId,ew.commission');
+        }
+
+
         $qb->where($qb->expr()->eq('ew.isDeleted', 'false'));
         $qb->andWhere($qb->expr()->eq('ew.isHidden', 'false'));
         $qb->andWhere($qb->expr()->eq('ew.isHot', 'true'));
+
+        if( isset( $wids) && is_array($wids)  && count( $wids) > 0) {
+            $qb->andWhere($qb->expr()->in('ew.webId',  $wids ));
+        }
         $qb->orderBy('ew.hotAt', 'DESC');
         $qb->addOrderBy('ew.position', 'ASC');
-
         if( isset($limit)) {
             $qb->setMaxResults($limit);
         }
@@ -36,24 +44,16 @@ class EmarWebsitesRepository extends EntityRepository
      * @param $params array(wids=>)
      */
     public function getSortedByParams($params){
-
         extract($params);
-
         $qb  = $this->createQueryBuilder('ew');
         $qb->where($qb->expr()->eq('ew.isDeleted', 'false'));
-
         if( isset( $wids) && is_array($wids)  && count( $wids) > 0) {
             $qb->andWhere($qb->expr()->in('ew.webId',  $wids ));
         }
-
         //todo: add the catid for performance.
-
         $qb->orderBy('ew.position', 'ASC');
-
         $query  = $qb->getQuery();
         $results = $query->getResult();
-
-
         return $results;
     }
 

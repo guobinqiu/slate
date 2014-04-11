@@ -17,7 +17,9 @@ class EmarWebsitesCronedRepository extends EntityRepository
      */
     public function fetchInfosByWebIds( $webids ) {
         $qb = $this->createQueryBuilder('p');
+
         $qb->select('p.webId,p.information');
+
         $qb->where( $qb->expr()->in( 'p.webId', $webids) ) ;
 
         $q =  $qb->getQuery();

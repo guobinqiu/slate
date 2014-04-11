@@ -5,10 +5,10 @@
 
 {% set wcatid_q = app.request.query.get('wcat','') %}
 <li>
-    {% if wcatid_q is not defined or wcatid_q|length == 0 %}
+    {% if wcatid_q is not defined or wcatid_q|length == 0 or wcatid_q == 0 %}
         <a class="hover" href="#" onclick="javascript:return false;">热门商家</a> 
     {% else %}
-        <a  href="#" onclick="javascript:return false;">热门商家</a> 
+        <a  href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'wcat':0,"q":"", "p":1 })) }}" >热门商家</a> 
     {% endif %}
 
 </li>
