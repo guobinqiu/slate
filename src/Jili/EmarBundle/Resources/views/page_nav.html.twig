@@ -35,13 +35,15 @@
 
         <li class="currPage"> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': '' })) }}" onclick="javascript:function() {return false;};">{{ cur }}</a> </li>
 
-        {% if cur + 1 < total %}
+        {% if cur + 1 < last %}
             <li> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur+1 })) }}">{{ cur+1 }}</a> </li>
         {% endif %}
-        {% if cur + 2 < total %}
+
+        {% if cur + 2 < last  %}
             <li> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur+2 })) }}">{{ cur+2 }}</a> </li>
         {% endif %}
-        {% if cur + 3 < total %}
+
+        {% if cur + 3 < last  %}
             <li> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur+3 })) }}">{{ cur+3 }}</a> </li>
         {% endif %}
 

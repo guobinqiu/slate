@@ -35,6 +35,7 @@ class ProductController extends Controller
         // cats & sub cats
         $request = $this->get('request');
         $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
 
 
         $cat_id = $request->query->getInt('cat');
@@ -46,12 +47,37 @@ class ProductController extends Controller
 
         // websites:
         $webs = $this->get('product.filters')->fetchWebs();
+
+        // filter 1:
         $filters_of_webs = $this->get('product.filters')->fetchWebsConfigged();
 
         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs, true));
+        
+        // filter 2:
+
+        if(isset($cat_id) && is_numeric($cat_id)) {
+
+            $params=  array( 'categoryId'=>$cat_id);
+            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
+
+            $webs_by_cat = $em->getRepository('JiliEmarBundle:EmarWebsitesCategory')->findBy($params );
+            $wids_by_cat =  array();
+
+            foreach($webs_by_cat as $row ) {
+                $wid = $row->getWebId();
+                if( ! array_key_exists( $wid, $filters_of_webs['webs'] )) {
+                    $wids_by_cat[] = $wid ;
+                }
+            }
+            #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $wids_by_cat, true));
+            $filters_of_webs_by_cat = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds($wids_by_cat );
+            foreach($filters_of_webs_by_cat as $row) {
+                $filters_of_webs['webs'][ $row->getWebId() ] =  $row;
+            }
+            #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs_by_cat, true));
+        }
 
         $crumbs_local = ItemCatRepository::getCrumbsByScatid( $prod_categories['sub_cats'], $cat_id);
-
         if ( !empty($cat_id) || !empty($web_id) ) {
             $params = array( 'webid'=> $web_id, 'catid'=>$cat_id ,'page_no'=>$page_no, 'price_range'=> $price_range);
             $productRequest = $this->get('product.list_get');
@@ -61,8 +87,7 @@ class ProductController extends Controller
             $products = array();
             $total = 0;
         }
-
-        return array_merge($prod_categories, $webs, array('webs_filter'=> $filters_of_webs['webs'] ) , compact('products', 'total','crumbs_local') );
+        return array_merge($prod_categories, $webs, array('webs_filter'=> $filters_of_webs['webs'] ),compact('products', 'total','crumbs_local') );
     }
 
     /**
@@ -73,9 +98,7 @@ class ProductController extends Controller
     public function categoryAction( $qs = array(), $rt = null ) {
         $logger= $this->get('logger');
         $prod_categories = $this->get('product.categories')->fetch();
-
         $menu_config = $this->container->getParameter('emar_com.pdt_cat.menu');
-
         #$logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
         $cats_fliped = array_flip($prod_categories['cats']);
 
@@ -93,10 +116,6 @@ class ProductController extends Controller
                $menu_config[$index] = array( 'cat_name'=> $item, 'cat_id'=> $cats_fliped[$item ]); 
             }
         }
-
-        #$logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
-        #$logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($prod_categories, true) );
-
         return array_merge($prod_categories , compact('rt', 'qs' ,'menu_config'));
     }
 
@@ -184,9 +203,11 @@ class ProductController extends Controller
 //todo: parse the webs
 
         $webs = $this->get('product.filters')->fetchWebs();
+
         $filters_of_webs = $this->get('product.filters')->fetchWebsConfigged();
 
         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs, true));
+
         //$filters_of_webs_d = $this->getDoctrine()->getManager()->getRepository('JiliEmarBundle:EmarWebsites')->getFilterWebs(  );
 
         return   array_merge( $prod_categories, $webs ,  array('products' => $products,'total'=> $total, 'crumbs_local'=> $crumbs_local/* , 'webs' => */, 'webs_filter'=>$filters_of_webs));

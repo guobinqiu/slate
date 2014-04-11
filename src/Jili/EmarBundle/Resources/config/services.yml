@@ -59,7 +59,7 @@ services:
        arguments: [  %emar_com.open_api.app% ]
        calls:
             - [setLogger, [ @logger ] ] 
-            - [setApp, [ 'search' ] ] 
+            - [setApp, [ 'cron' ] ] 
 
 
     ghs.category_get:
