@@ -117,7 +117,7 @@ class CallbackProcessor
                     $order = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneCpsOrderJoined( $order_params ); 
 
                     if( empty($order)) {
-                        $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).' new ' );
+#                         $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).' new ' );
                         $order = new EmarOrder();
                         $order->setCreatedAt($happenTime);
                         $order->setDeleteFlag($this->getParameter('init'));
@@ -128,11 +128,11 @@ class CallbackProcessor
                         $is_new = true;
                     } else {
                         // init by callback  
-                        $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).' init by callback' );
+#                         $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).' init by callback' );
                     } 
                 } else {
                     // init by click 
-                    $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).' init by click' );
+#                     $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).' init by click' );
                 }
             }
 
@@ -203,7 +203,7 @@ class CallbackProcessor
 
             if( $is_order_valid) {
 
-                $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).var_export( $taskHistory, true)  );
+#                 $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).var_export( $taskHistory, true)  );
 
                 $point = $taskHistory->getPoint();
 

@@ -78,7 +78,7 @@ class ProductsCommand extends ContainerAwareCommand
         $catid = $input->getArgument('catid');
 
         $output->writeln('wid:'. var_export($wid, true).'; catid:'.var_export( $catid, true) );
-        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ).'wid:'.var_export($wid,true).';catid:'.var_export($catid,true));
+#         $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ).'wid:'.var_export($wid,true).';catid:'.var_export($catid,true));
 
 
         // evaluate how long it will takes to fetch rows.
@@ -110,8 +110,8 @@ class ProductsCommand extends ContainerAwareCommand
 
             #$output->writeln('outer loop, $cats_mixed: '. PHP_EOL.var_export( $cats_mixed, true));
             #$output->writeln('inner loop, $websites : '. PHP_EOL.var_export( $websites, true));
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'websites:','') ). var_export(count($websites), true));
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$cats_mixed:','') ). var_export(count($cats_mixed), true));
+#             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'websites:','') ). var_export(count($websites), true));
+#             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$cats_mixed:','') ). var_export(count($cats_mixed), true));
             $output->writeln('total:  '. $loop_counter  . ' = '. count($cats_mixed) .  '*'. count($websites).'( pagination excluded)' );
 
 
@@ -121,7 +121,7 @@ class ProductsCommand extends ContainerAwareCommand
                 foreach($websites as $web ) {
                     $i++;
                     if( $start > $i ) {
-                        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'continue','')).$i  );
+#                         $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'continue','')).$i  );
                         continue;
                     }
 
@@ -130,7 +130,7 @@ class ProductsCommand extends ContainerAwareCommand
                     try {
                         $webid = $web['web_id'];
                         $params = array('catid'=> $catid, 'webid'=>$webid );
-                        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$params:','') ). var_export($params, true) );
+#                         $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$params:','') ). var_export($params, true) );
                         $productListGetter = $this->getContainer()->get('product.list_get');
                         $productListGetter->setPageSize($page_size);
 
@@ -152,7 +152,7 @@ class ProductsCommand extends ContainerAwareCommand
 
 
                                 $log = sprintf("cname:%s(%s) ;wname:%s (%s) total: %d , last: %d", $cat , $key , $web['web_name'], $web['web_id'] , $total, $last ); 
-                                $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). $log );
+#                                 $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). $log );
 
                                 $output->writeln(' @'.date("Y-m-d H:i:s").' $i:'. $i. ' '. $page_no . PHP_EOL.$str.PHP_EOL );
                                 $request_counter += $last;
@@ -169,7 +169,7 @@ class ProductsCommand extends ContainerAwareCommand
                 }
             }
 
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'total requests:', $request_counter) ) );
+#             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'total requests:', $request_counter) ) );
 
             $output->writeln($i. ' pair to request!');
 
@@ -200,7 +200,7 @@ class ProductsCommand extends ContainerAwareCommand
                 foreach($websites as $web ) {
                     $i++;
                     if( $start > $i ) {
-                        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'continue','')).$i  );
+#                         $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'continue','')).$i  );
                         continue;
                     }
 
@@ -209,7 +209,7 @@ class ProductsCommand extends ContainerAwareCommand
                     try {
                         $webid = $web['web_id'];
                         $params = array('catid'=> $catid, 'webid'=>$webid );
-                        $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$params:','') ). var_export($params, true) );
+#                         $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$params:','') ). var_export($params, true) );
                         $productListGetter = $this->getContainer()->get('product.list_get');
                         $productListGetter->setApp('cron');
                         $productListGetter->setPageSize($page_size);
@@ -233,10 +233,10 @@ class ProductsCommand extends ContainerAwareCommand
                             if( $page_no == 1 ) {
                                 $total = $productListGetter->getTotal();
                                 $total = ( 1800 < $total) ? 1800 : $total;
-                                $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$total','') ). var_export($total, true) );
+#                                 $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$total','') ). var_export($total, true) );
                                 if( $total > $page_size) {
                                     $last = (int) ceil( $total / $page_size );
-                                    $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$last','') ). var_export($last, true) );
+#                                     $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$last','') ). var_export($last, true) );
                                 }
                             }
                         } while( $page_no < $last ); 
@@ -244,7 +244,7 @@ class ProductsCommand extends ContainerAwareCommand
                     } catch( \Exception $e)  {
                         $output->writeln('current:'.$i. ' , page '.$page_no.' request!');
                         $output->writeln('catid:'. $catid. '; webid:'. $webid );
-                        //$logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'websites:','') ). var_export(count($websites), true));
+#                         //$logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'websites:','') ). var_export(count($websites), true));
                     }
                 }
             }
@@ -252,9 +252,9 @@ class ProductsCommand extends ContainerAwareCommand
             $this->getContainer()->get('cron.website_and_category')->duplicateForQuery();
             $this->getContainer()->get('cron.products')->duplicateForQuery();
 
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'websites:','') ). var_export(count($websites), true));
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$cats_mixed:','') ). var_export(count($cats_mixed), true));
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'total','')). $i  );
+#             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'websites:','') ). var_export(count($websites), true));
+#             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'$cats_mixed:','') ). var_export(count($cats_mixed), true));
+#             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'total','')). $i  );
             $output->writeln($i. ' pair to request!');
 
 
@@ -278,18 +278,18 @@ class ProductsCommand extends ContainerAwareCommand
             $products = $productListGetter->fetch($params);
 
             $total = $productListGetter->getTotal();
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'total','') ). var_export($total, true) );
+#             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'total','') ). var_export($total, true) );
 
             $this->getContainer()->get('cron.products')->save($products);
 
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). var_export($products, true) );
+#             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). var_export($products, true) );
         } else if ($input->getOption('remove')) {
             $numDeleted = $this->getContainer()->get('cron.products')->truncate();
             $output->writeln($numDeleted. ' lines deleted!');
             // user input.
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ) );
+#             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ) );
         } else {
-            $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ) );
+#             $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ) );
         }
         $output->writeln('ok');
     }
@@ -315,7 +315,7 @@ class ProductsCommand extends ContainerAwareCommand
             //                $emarProduct->setPid($pdt['pid']);
             //
             //            }else {
-            //                $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). var_export($emarProduct, true) );
+#             //                $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). var_export($emarProduct, true) );
             //            }
             //
             //            $emarProduct->setPName($pdt['p_name']);

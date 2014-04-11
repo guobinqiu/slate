@@ -103,7 +103,7 @@ class HotactivityController extends Controller
         $request = $this->get('request');
         $logger= $this->get('logger');
 
-        $logger->debug('{jarod}'.implode(',', array(__LINE__, __CLASS__, '') ) );
+#         $logger->debug('{jarod}'.implode(',', array(__LINE__, __CLASS__, '') ) );
 
         #        $categoryRequest =  $this->get('hotactivity.category_get');
         #        $categories_raw  = $categoryRequest->fetch();

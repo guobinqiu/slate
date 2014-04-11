@@ -33,7 +33,7 @@ class WebsiteSearch  {
               }
           }
       }
-     $this->logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $matched, true)  );
+#      $this->logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export( $matched, true)  );
       return $matched;
   }
 

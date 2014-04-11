@@ -168,14 +168,14 @@ class AdminWebsitesController extends Controller
 
         if ($editForm->isValid()) {
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
+#         $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
             $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_emar_websites_edit', array('id' => $id)));
         } else {
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
+#         $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
         }
 
         return array(
