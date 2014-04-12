@@ -25,7 +25,7 @@
 {% block page_main %}
 
   <div class="main w834 fl">
-      <div class="shop-info module clearfix">
+      <div class="shop-info module clearfix borderGlob">
 
         {% if website is defined %}
                 {% if app.session.get('uid') is defined %}
@@ -48,7 +48,7 @@
         </div>
      </div><!-- eof shop-info -->
 
-      <div class="explain module">
+      <div class="explain module borderGlob">
       <h3>返利流程</h3>
       <img src="{{ asset('images140307/rebateExplain.jpg') }}" /> </div>
 
@@ -69,7 +69,17 @@
   </div><!-- eof main  -->
 
   <div class="sidebar w300 fr">
-    {{  include( "JiliEmarBundle:Product:suggestionHot.html.twig") }}
+      <script type="text/javascript">
+      /*300*250，创建于2014-4-11*/
+      var cpro_id = "u1519416";
+      </script>
+      <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+	  
+	  <script type="text/javascript">
+	  /*300*250，创建于2014-4-11*/
+	  var cpro_id = "u1519420";
+      </script>
+	  <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
   </div>
 
 {% endblock %}

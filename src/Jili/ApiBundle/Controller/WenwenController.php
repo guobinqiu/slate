@@ -24,21 +24,11 @@ class WenwenController extends Controller {
 	 */
 	public function registerAction() {
 		$em = $this->getDoctrine()->getManager();
-		$token = $this->get('request')->get('secret_token');
+		$email = $this->get('request')->get('email');
+		$signature = $this->get('request')->get('signature');
+		$uniqkey = $this->get('request')->get('uniqkey');
 
-		$email = "";
-		$signature = "";
-		$uniqkey = "";
-		$params = json_decode(base64_decode(strtr($token, '-_', '+/')));
-		if ($params) {
-			$email = $params->email;
-			$signature = $params->signature;
-			if (isset ($params->uniqkey)) {
-				$uniqkey = $params->uniqkey;
-			}
-		}
-
-		$result = $this->check($email, $signature);
+		$result = $this->check($email, $signature, $uniqkey);
 		if ($result['status'] != 1) {
 			$resp = new Response(json_encode($result));
 			$resp->headers->set('Content-Type', 'text/plain');
@@ -47,23 +37,20 @@ class WenwenController extends Controller {
 
 		//存db
 		$user = new User();
-		//$user->setNick();
 		$user->setEmail($email);
 		$user->setPoints(0);
 		$user->setIsInfoSet(0);
 		$user->setRewardMultiple(1);
 		$user->setIsFromWenwen(2); //和91问问同时注册
-		if ($uniqkey) {
-			$user->setUniqkey($uniqkey);
-		}
+		$user->setUniqkey($uniqkey);
 		$em->persist($user);
 		$em->flush();
 		$str = 'jilifirstregister';
 		$code = md5($user->getId() . str_shuffle($str));
-		$url = $this->generateUrl('_user_forgetPass', array (
-			'code' => $code,
-			'id' => $user->getId()
-		), true);
+
+		//TODO  user/forgetPass  建立新的页面后，需要修改
+		$wenwen_api_url = $this->container->getParameter('91wenwen_api_url');
+		$url = $wenwen_api_url . '/user/forgetPass/' . $code . '/' . $user->getId();
 
 		//发送激活邮件
 		if ($this->sendMail($url, $user->getEmail())) {
@@ -83,23 +70,41 @@ class WenwenController extends Controller {
 
 		$logger = $this->get('logger');
 		$logger->info('{WenwenController:registerAction}' . json_encode($result));
+
 		$resp = new Response(json_encode($result));
 		$resp->headers->set('Content-Type', 'text/plain');
 		return $resp;
 
 	}
 
-	private function check($email, $signature) {
+	private function check($email, $signature, $uniqkey) {
 		$result['status'] = 1;
-		if (!$email || !$signature) {
+
+		//email is null
+		if (!$email) {
 			$result['status'] = '0';
-			$result['message'] = 'secret token error';
+			$result['message'] = 'missing email';
 			return $result;
 		}
 
+		//signature is null
+		if (!$signature) {
+			$result['status'] = '0';
+			$result['message'] = 'missing signature';
+			return $result;
+		}
+
+		//uniqkey is null
+		if (!$uniqkey) {
+			$result['status'] = '0';
+			$result['message'] = 'missing uniqkey';
+			return $result;
+		}
+
+		//signature error
 		if ($this->getToken($email) != $signature) {
 			$result['status'] = '0';
-			$result['message'] = 'secret token error';
+			$result['message'] = 'access error ';
 			return $result;
 		}
 
@@ -149,7 +154,6 @@ class WenwenController extends Controller {
 		} else {
 			return false;
 		}
-
 	}
 
 }

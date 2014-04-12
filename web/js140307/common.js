@@ -42,6 +42,10 @@ $(document).ready(function(){
        $(this).children("ul").toggle(); 
 	});
 
+	$("div#search>div.searchMenu").mouseleave(function(){
+       $(this).children("ul").hide(); 
+    });
+
     $("div#search>div.searchMenu>ul>li").click(function(){
         var el = $(this);
 

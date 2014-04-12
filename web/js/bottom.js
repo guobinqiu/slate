@@ -3,12 +3,12 @@ $(document).ready(function(){
         resizeFooter()
     });
 	var resizeFooter =function(){
-		//if($(window).height() > $("body").height()){
-//			$("footer").css("position","fixed");
-//		}
-//		else{
-//			$("footer").css("position","absolute");
-//		}
+		if($(window).height() > $("body").height()){
+			$("footer").css("position","fixed");
+		}
+		else{
+			$("footer").css("position","none");
+		}
 	//$("footer").css("position","fixed");
 	}
 	resizeFooter();

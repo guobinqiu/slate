@@ -42,9 +42,12 @@ parameters:
         search: # demo
             key: '139216929186018017'
             secret: 'e7c5367e1ba7d609865389640007df3e'
-        cron: # jili-cron
-            key: '139599061334718017'
-            secret: '98a77033e7a6e8b8533f70eca181d09f'
+        cron: # demo
+            key: '139216929186018017'
+            secret: 'e7c5367e1ba7d609865389640007df3e'
+#        cron: # jili-cron
+#            key: '139599061334718017'
+#            secret: '98a77033e7a6e8b8533f70eca181d09f'
 
 # emar default 分页大小
     emar_com.page_size: 20 

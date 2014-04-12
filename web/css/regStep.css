@@ -3,7 +3,8 @@
 }
 .regStep article{
 	width: 955px;
-	display: inline-block;
+	/*display: inline-block;*/
+	margin:0 auto;
 }
 .regStep article .step{
 	margin:0 auto 30px auto;
@@ -277,11 +278,11 @@
 	margin:10px 0;
 }
 .regStep article .regFrame .notMail .dustbin{
-	border-right: 1px dotted #EEEEEE;
+	/*border-right: 1px dotted #EEEEEE;*/
     float: left;
     margin: 0 50px 0 0;
     padding: 0 40px 0 0;
-    width: 300px;
+    width: 700px;
 }
 .regStep article .regFrame .notMail .change{
 	float:left;

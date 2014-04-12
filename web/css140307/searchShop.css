@@ -5,8 +5,8 @@
 .searchShopUl .dd .title{ height: 50px; margin-bottom: 15px; overflow: hidden;}
 .searchShopUl .dd .shopMore{ text-align:right;}
 .searchShopUl .dd .shopMore a{ color:#000;}
-.searchShopUl .dc{ border-left:1px solid #DDD; padding: 0 0 0 20px;}
-.searchShopUl .rebate{ margin-top:5px;}
+.searchShopUl .dc{ border-left:1px solid #e8e8e8; padding: 0 0 0 20px;}
+.searchShopUl .rebate{width: 130px; margin-top:5px; color:#F74A28; line-height: 18px;}
 .searchShopUl .rebate em{ font-size:24px; color:#ff4400; margin:0 3px;}
 .searchShopUl p.btn{ margin-top:10px;}
 .searchShopUl a.buy{ background-color: #63B8F0;border-radius: 5px;color: #FFFFFF;display: inline-block;font-size: 14px;padding: 3px 10px;}

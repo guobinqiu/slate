@@ -1,9 +1,9 @@
 ul.shopListUl{ padding:0; border-top: 1px solid #DDDDDD; border-left: 1px solid #DDDDDD;}
-ul.shopListUl li{ background-color:#FFF; width:107.667px; height:103px; float:left; padding:15px; position:relative;border-bottom: 1px solid #DDDDDD; border-right: 1px solid #DDDDDD;}
-ul.shopListUl li dt{ overflow:hidden; position:relative;}
+ul.shopListUl li{ background-color:#FFF; width:107.667px; height:103px; float:left; padding:15px 21px 15px 9px; position:relative;border-bottom: 1px solid #DDDDDD; border-right: 1px solid #DDDDDD;}
+ul.shopListUl li dt{ width:120px; overflow:hidden; position:relative;}
 ul.shopListUl li dt a.shop{ background-color: rgba(255, 255, 255, 0.75); bottom: 5px; color: #000000; display: inline-block; left: 5px; padding: 2px 5px; position: absolute; cursor:pointer;}
 ul.shopListUl li dd{ margin:5px 0 0 0; width:100%; float:left;}
-ul.shopListUl li dd p.title{ overflow:hidden; color:#666; width:100%; text-align:center;}
+ul.shopListUl li dd p.title{ overflow:hidden; color:#666; width:100%; height:20px; text-align:center;}
 ul.shopListUl li dd p.title a{ color:#666;}
 ul.shopListUl li dd p.price{ color:#ea4b11; font-size:15px; font-weight:bold; float:left;}
 ul.shopListUl li dd p.rebate{ text-align:center; color:#999; white-space: nowrap;}
@@ -35,6 +35,8 @@ ul.shopListUl li div.hover .img {
 }
 ul.shopListUl li div.hover .text {
     overflow: hidden;
+	float:left;
+	text-align:left;
 }
 ul.shopListUl li div.hover .text em, ul.shopListUl li div.hover p em {
     color: #EA4B11;

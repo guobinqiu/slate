@@ -12,6 +12,7 @@
 {% set qs = app.request.query.all %}
 {% endif %}
 
+{% spaceless %}
 <ul>
 {% for ind,item in menu_config %}
     {% if  item.cat_name  is defined %}
@@ -49,7 +50,7 @@
 						{% endfor %}
 						</div>
 						{% else %}
-							<h5>==!</h5>
+							<!-- = -->
 						{% endif %}
 				   {% endfor %}
 		       
@@ -61,22 +62,4 @@
 
 {% endfor %}
 </ul>
-
-<!--
-      <ul>
-    {% for cid, cat in cats %}
-
-        <li>{{ cat }}
-
-          <div class="second">
-        {% for scid, scat in sub_cats[cid] %}
-            <p>
-
-               <a href="{{ path( rt, qs |merge({'q': '', 'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a></p>
-        {% endfor %}
-          </div>
-         </li>
-    {% endfor %}
-    </ul>
-
--->
+{% endspaceless %}

@@ -93,7 +93,7 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
                 return $this->redirect($this->generateUrl('rebate_activity_admin_retrieve') );
             }
         } else {
-            $logger->debug('{jarod}'. __FILE__.':'.__LINE__. var_export( $request->getMethod(), true));
+#             $logger->debug('{jarod}'. __FILE__.':'.__LINE__. var_export( $request->getMethod(), true));
         }
         return array( 'form'=> $form->createView() );
     }
@@ -120,7 +120,7 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
                 $em->flush();
                 return $this->redirect($this->generateUrl('rebate_activity_admin_retrieve') );
             } else {
-                $logger->debug('{jarod}'. __FILE__.':'.__LINE__.' invalid form post') ;
+#                 $logger->debug('{jarod}'. __FILE__.':'.__LINE__.' invalid form post') ;
             }
         } else {
             $em = $this->getDoctrine()->getManager();

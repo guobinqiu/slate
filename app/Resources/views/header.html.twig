@@ -50,7 +50,7 @@ $(document).ready(function(){
 {% if  count_new_msgs|length > 0 %}
         <li><a class="message">新消息(<span class="corLightRed">+{{ render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) }}</span>)</a></li>
 {% else %}
-        <li><a class="message">站内消息</a></li>
+        <li><a class="message">新消息</a></li>
 {% endif %}
         <li class="split">|</li>
         <li><a class="personal">个人中心</a></li>
@@ -60,8 +60,7 @@ $(document).ready(function(){
                 <li><a href="{{ path('_user_info') }}">个人信息</a></li>
                 <li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a></li>
                 <li><a href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}">我的兑换历史</a></li>
-                
-				<li class="logOut"><a href="{# path('_user_logout') #}">退出</a></li>
+				<li class="logOut"><a href="{{ path('_user_logout') }}">退出</a></li>
             </ul>
         </div>
       </ul>
@@ -89,7 +88,7 @@ $(document).ready(function(){
         {% endif %}
 {% set router_current = app.request.attributes.get('_route') %}
         <!-- current query path is {{  router_current }} -->
-        <li {{ router_current == '_homepage' ? 'class="navSelectedBg"':'' }}><a href="{{ path('_homepage') }}" >首页</a></li>
+        <li {{ router_current == '_homepage' ? 'class="second navSelectedBg"':'' }}><a href="{{ path('_homepage') }}" >首页</a></li>
         <li {{ router_current == '_game_index' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('_game_index'),'cdn1')  }}">游戏体验</a></li>
         <li {{ router_current == '_advertiserment_list' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">体验广告</a></li>
         <li {{ router_current == 'jili_emar_top_cps' ? 'class="navSelectedBg"':'' }}><a href="{{ asset(path('jili_emar_top_cps'),'cdn1') }}">购物返利</a></li>

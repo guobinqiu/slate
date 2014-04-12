@@ -51,7 +51,7 @@ class CallbackValidation
         foreach($fields_required as $field) {
             if( ! isset( $quries) ||  strcmp('', $quries[$field] ) === 0 ) {
                 // false 1
-                $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). $field);
+#                 $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). $field);
                 return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
             }
         }
@@ -79,13 +79,13 @@ class CallbackValidation
 
         //todo: sid wid validation
         if( $request->query->get('sid')  !== $config_of_sid ) {
-            $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid sid: ' .var_export( $request->query->get('sid'), true). '; expected: ' . var_export( $config_of_sid, true)  );
+#             $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid sid: ' .var_export( $request->query->get('sid'), true). '; expected: ' . var_export( $config_of_sid, true)  );
             return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
         }
 
         #$wid = $request->query->get('wid');
         if($request->query->get('wid') !== $config_of_wid ) {
-            $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid wid: ' .var_export( $request->query->get('wid')  , true) . '; exception: '. var_export($config_of_wid)  );
+#             $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid wid: ' .var_export( $request->query->get('wid')  , true) . '; exception: '. var_export($config_of_wid)  );
             return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
         }
         
@@ -107,7 +107,7 @@ class CallbackValidation
 
         // status validation
         $request_status = $request->query->get('status'); 
-        $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' request status '.$request_status);
+#         $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' request status '.$request_status);
 
         // order status check
         // duplicated??

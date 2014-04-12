@@ -30,7 +30,7 @@ class CpsOrderFactory
         $em = $this->em;
         $logger = $this->logger;
 
-        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ) );
+#         $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ) );
         $incentive_type = (int) $advertiserment->getIncentiveType();
 
         if($incentive_type === 2 ||  $incentive_type === 1 ) {
@@ -109,7 +109,7 @@ class CpsOrderFactory
 
 
         $order = $em->getRepository($order_repository)->findOneById($order_id);
-        $this->logger->debug('{jarod}'. implode(',', array(__FILE__,__LINE__, '') ). var_export($order_id , true) );
+#         $this->logger->debug('{jarod}'. implode(',', array(__FILE__,__LINE__, '') ). var_export($order_id , true) );
 
 #        if($incentive_type === 2 ||  $incentive_type === 1 ) {
 #            $order->setCreateTime(date_create(date('Y-m-d H:i:s')));
@@ -161,7 +161,7 @@ class CpsOrderFactory
                 'delete_flag'=> $this->getParameter('init') 
             ) );
         }  else {
-            $this->logger->debug('{jarod}'. implode(',', array(__FILE__,__LINE__, '') ). var_export(get_class( $advertiserment) , true) );
+#             $this->logger->debug('{jarod}'. implode(',', array(__FILE__,__LINE__, '') ). var_export(get_class( $advertiserment) , true) );
             throw new \Exception(' incentive type of '. $incentive_type. 'not support!');
         } 
         return $order;
