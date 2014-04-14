@@ -42,27 +42,29 @@ class AdminEmarWebsitesCronedController extends Controller
 #         $logger->debug('{jarod}'. implode(',',array(__CLASS__, __LINE__, '') ).var_export( $web,  true) );
 /**
  *        id: 9
- *            web_id: 2308
- *             web_catid: NULL
- *             commission: NULL
- *             is_deleted: 0
- *               position: 30
- *                is_hidden: 0
- *                    is_hot: 1
- *                        hot_at: 2014-04-03 11:56:37
- *                        updated_at: 2014-04-03 11:56:37
- *                        created_at: 2014-03-18 09:51:57
+ *       web_id: 2308
+ *       web_catid: NULL
+ *       commission: NULL
+ *       is_deleted: 0
+ *       position: 30
+ *       is_hidden: 0
+ *       is_hot: 1
+ *       hot_at: 2014-04-03 11:56:37
+ *       updated_at: 2014-04-03 11:56:37
+ *       created_at: 2014-03-18 09:51:57
  *
  */
         if ( ! $web) {
             $web = new EmarWebsites;
             $web->setWebId($entity->getWebId());
             $web->setWebCatid($entity->getWebCatid());
+            $web->setPosition(0);
+            $web->setIsHot(0);
             $web->setCommission($this->container->getParameter('emar_com.cps.action.default_rebate') );
             $em->persist($web);
             $em->flush();
         }
-        //return $this->redirect($this->generateUrl('admin_emar_websites_show', array('id' => $entity->getId())));
+
         // insert into emar_websites & redirect to website edit page.
         return $this->redirect($this->generateUrl('admin_emar_websites_show', array('id' => $web->getId())));
     }
