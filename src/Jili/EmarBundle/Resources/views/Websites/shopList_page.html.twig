@@ -1,0 +1,35 @@
+
+{% for wid,row in websites%}
+{% if app.session.get('uid') is defined %}
+  {% set href_ = row.url|replace( { 'APImemberId': app.session.get('uid') } ) %}
+{% else %}
+  {% set href_ = "#" %}
+{% endif %}
+
+        <li>
+          <dt class="image"><img src="{{ row.logo }}" width="120" height="60" /></dt>
+          <dd class="clearfix">
+          <p class="title">
+        <a class="shop"  href="{{ href_ }}" target="_blank" rel="nofollow" >{{ row.name }}</a></p>
+            <p class="rebate">返利最高：<em>{{ row.commission }}%</em></p>
+          </dd>
+          <div class="hover" style="display: none;">
+            <div class="tr">
+              <div class="img"><a href="{{ href_ }}" target="_blank" rel="nofollow" ><img src="{{ row.logo }}" width="60" height="30" /></a></div>
+              <div class="text">最高返<br>
+                <em>{{ row.commission }}%</em></div>
+            </div>
+
+            <p>
+                <a href="{{  path('jili_emar_websites_detail', {'wid': wid }) }}" class="btnDetail">返现详情</a> 
+                <a href="{{ href_ }}" class="btnShopping" target="_blank" rel="nofollow" >直接购物</a>
+{# href="javascript:void(0);" #}
+           </p>
+{#
+            <p><em>16909</em>人已参加</p>
+#}
+          </div>
+        </li>
+
+{% endfor %}
+

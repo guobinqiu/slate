@@ -1,0 +1,128 @@
+{% extends 'JiliEmarBundle::base140307.html.twig' %}
+{% block title %}{{ parent()  }} top页面{% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css140307/index.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js140307/index.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
+{% endblock %}
+ 
+{% block page_main %}
+  <div class="w204 fl">
+    <div class="module categorys">
+		<h3>所有商品分类</h3>
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }}
+    </div><!-- eof module categorys -->
+
+    <div id="vote">
+      <h3>快速问答</h3>
+      <div class="voteMain clearfix">
+          <dt><img width="90" height="90" src="{{ asset('other140307/image100.jpg') }}"></dt>
+        <dd>
+          <p>【生活】你对大部分女性选择从事工作怎</p>
+          <p><a href="#" class="goVote">去投票</a></p>
+        </dd>
+      </div>
+    </div><!-- eof vote -->
+    <div id="timeline">
+      <h3>最新动态</h3>
+      <div class="mask">
+        {{ render(controller('JiliApiBundle:Top:event') ) }}
+      </div><!-- eof mask -->
+    </div><!-- eof timeline -->
+  </div><!-- w204 side -->
+
+  <div class="w615 fl">
+    {% if not app.session.has('uid') %}
+    <div id="indexBanner"> <a style="opacity: 1;" class="game" href="{{ asset(path('_game_index'),'cdn1')}}">游戏体验</a> 
+    <a style="opacity: 1;" class="marketActivity" href="{{ asset(path('_marketActivity_index'),'cdn1')}}">商家活动</a> 
+    <a style="opacity: 1;" class="vote" href="http://www.91wenwen.net/vote/#active" target="_blank">快速问答</a> 
+    <a style="opacity: 1;" class="advertiserment" href="{{ asset(path('_advertiserment_list'),'cdn1')}}">体验广告<em>{{ render(controller('JiliApiBundle:Top:adCheck'))}}更新</em></a> 
+    <a style="opacity: 1;" class="shopping" href="{{ asset(path('_shopping_list'),'cdn1')}}">购物返利</a> </div>
+    <!-- eof indexBanner -->
+    {% else %}
+    <div id="task">
+      <h3><strong>我的任务列表</strong></h3>
+      <div class="menu"><a class="recommend hover">为您推荐的</a><a class="affirm">确认中</a><a class="finish">已完成</a></div>
+      <div class="mask">
+        {{ render(controller('JiliApiBundle:Top:myTask' ) ) }}
+      </div><!-- eof .mask -->
+    </div><!-- eof #task -->
+    {% endif %}
+
+    <div id="getMallList">
+        {{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 12, 'tmpl': 'top' } ) ) }}
+    </div><!-- eof getMallList -->
+    
+    <div id="indexRecommend">
+        {{ render(controller('JiliEmarBundle:Ghs:promotion', {'max': 6, 'tmpl': 'top', 'p': 1 }) ) }} 
+    </div><!-- eof indexRecommend -->
+
+    <div id="marketActivity">
+        {# render(controller('JiliEmarBundle:Hotactivity:hot', {'max': 3, 'tmpl': 'top' } )) #}
+    </div><!-- eof marketActivity -->
+  </div><!-- w615 side -->
+ 
+  <div class="w300 fr">
+    {% if not app.session.has('uid') %}
+    <div style="display:block;" class="loginFrame">
+      <div id="userLogin">
+        <form action="{{ path('jili_api_top_index') }}" method="post" name="form1" id="form1">
+          {% if code %}
+          <p class="error">{{ code }}</p>
+          {% endif %}
+          <p>
+            <input type="text" name="email" class="text" id="email" value="{{ email }}">
+          </p>
+          <p>
+            <input type="password" name="pwd" class="password" id="password">
+          </p>
+          <p>
+          <input type="image" src="{{ asset('images140307/logBtn.jpg') }}" class="image" id="login" value="登录" name="登录" title="登录">
+            <label>
+              <input type="checkbox" id="rem" value="1" name="remember_me">
+              记住我</label>
+            | <a href="{{ asset(path('_user_resetPwd'),'cdn1') }}" class="forget">忘记密码?</a></p>
+          <p><a href="{{ path('_user_reg') }}" class="reg">免费注册</a></p>
+        </form>
+      </div>
+      <div id="aboutJili">
+          <h3><img src="{{ asset('images140307/aboutJili.jpg') }}" alt="在积粒网能做什么？"></h3>
+        <ul class="clearfix">
+          <li>100米粒=￥1.00元</li>
+          <li>玩游戏，拿返利，答问卷赚积分</li>
+          <li>兑换支付宝，手机费，礼品卡...</li>
+        </ul>
+      </div>
+    </div> <!-- eof login Frame -->
+    {% else %}
+    <div class="userFrame">
+      {{ render(controller('JiliApiBundle:Top:userInfo' ) ) }}
+    </div>    <!-- eof user Frame -->
+    {% endif %}
+
+    <div id="banner">
+      {{ render(controller('JiliApiBundle:Top:advertiseBanner' ) ) }}
+      <div class="bannerNumber"></div>
+    </div>   <!-- eof banner -->
+    <div id="news">
+      <h3>最新公告</h3>
+      <div class="mask">
+        {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
+      </div>
+      <div class="pageNumber"><a class="prev curPt"></a><span>1/2</span><a class="next curPt"></a></div>
+    </div>    <!-- eof news -->
+    <div id="ranking">
+      <h3>排行榜</h3>
+      <div class="mask">
+        {{ render(controller('JiliApiBundle:Top:ranking' ) ) }}
+      </div>
+      <div class="menu"><a class="month hover">月度</a><a class="year">年度</a></div>
+    </div>    <!-- eof ranking   -->
+  </div><!-- w300 side -->
+
+{% endblock %}

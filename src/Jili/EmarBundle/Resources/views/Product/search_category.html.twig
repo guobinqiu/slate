@@ -1,0 +1,50 @@
+
+      <ul>
+    {% for cid, cat in cats %}
+        <li>
+            <h4>{{ cat }}</h4>
+
+        {% for scid, scat in sub_cats[cid] %}
+            <p><a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'cat':scid, "p":1, "pr":"" })) }}">{{ scat }}</a>
+{# <span>23</span> #}
+</p>
+        {% endfor %}
+         </li>
+    {% endfor %}
+    </ul>
+
+
+{#
+      <ul>
+        <li class="first open">
+          <h4>手机数码/图书音像</h4>
+          <p><a href="#">图书音像</a><span>23</span></p>
+          <p><a href="#">图书音像</a><span>23</span></p>
+          <p><a href="#">图书音像</a><span>23</span></p>
+        </li>
+        <li>
+          <h4>手机数码/图书音像</h4>
+          <p><a href="#">图书音像</a><span>23</span></p>
+          <p><a href="#">图书音像</a><span>23</span></p>
+          <p><a href="#">图书音像</a><span>23</span></p>
+        </li>
+        <li>
+          <h4>手机数码/图书音像</h4>
+          <p><a href="#">图书音像</a><span>23</span></p>
+          <p><a href="#">图书音像</a><span>23</span></p>
+          <p><a href="#">图书音像</a><span>23</span></p>
+        </li>
+        <li>
+          <h4>手机数码/图书音像</h4>
+          <p><a href="#">图书音像</a><span>23</span></p>
+          <p><a href="#">图书音像</a><span>23</span></p>
+          <p><a href="#">图书音像</a><span>23</span></p>
+        </li>
+        <li>
+          <h4>手机数码/图书音像</h4>
+          <p><a href="#">图书音像</a><span>23</span></p>
+          <p><a href="#">图书音像</a><span>23</span></p>
+          <p><a href="#">图书音像</a><span>23</span></p>
+        </li>
+      </ul>
+#}

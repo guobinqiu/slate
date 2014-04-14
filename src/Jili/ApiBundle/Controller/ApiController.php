@@ -85,12 +85,12 @@ class ApiController extends Controller
  
                     $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
                     $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->getAdwAdverList($advertiserment->getIncentiveType(),$adid);
-                    $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $advertiserment, true) );
+#                     $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $advertiserment, true) );
                     //
                     $at = \Datetime::createFromFormat( 'YmdHis', $date.$time);
-                    $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $at, true) );
+#                     $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $at, true) );
                     $point = $this->get('rebate_point.caculator')->calcPointByCategory($advertiserment[0]['incentive'], $advertiserment[0]['incentiveType'], $at);
-                    $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $point, true) );
+#                     $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $point, true) );
 
             		$issetOrder = $em->getRepository('JiliApiBundle:AdwOrder')->find($order[0]['id']);
             		$issetOrder->setComm($comm);
@@ -170,6 +170,7 @@ class ApiController extends Controller
             		$cpsOrder->setOrderStatus($this->container->getParameter('init_two'));
             		$cpsOrder->setAdwReturnTime(date_create(date('Y-m-d H:i:s')));
             		$em->flush();
+
                 $parms = array(
                       'userid' => $uid,
                       'orderId' => $order[0]['id'],

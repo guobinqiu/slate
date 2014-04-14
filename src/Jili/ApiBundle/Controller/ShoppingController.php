@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\ApiBundle\Entity\Advertiserment;
 
@@ -18,7 +17,7 @@ class ShoppingController extends Controller
 	public function listAction($id=0)
 	{
         $logger = $this->get('logger');
-        $logger->debug('{jarod}'.implode(':', array( __CLASS__, __LINE__, '')  ));
+#         $logger->debug('{jarod}'.implode(':', array( __CLASS__, __LINE__, '')  ));
 		$reward_multiple = '';
 		$str = '';
 		$uid = '';
@@ -62,7 +61,7 @@ class ShoppingController extends Controller
 
         if(count($ad_ids) > 0) {
             $ad_ids_slice = array_slice( $ad_ids, ($page_no -1 ) * $page_size , $page_size    );
-            $logger->debug('{jarod}'.implode(':', array( __CLASS__, __LINE__, '')  ).var_export( implode(',',$ad_ids_slice), true) );
+#             $logger->debug('{jarod}'.implode(':', array( __CLASS__, __LINE__, '')  ).var_export( implode(',',$ad_ids_slice), true) );
 
             $count_of_ad_joined = $em->getRepository('JiliApiBundle:AdwOrder')
                 ->getCountOfJoinedByCat( $ad_ids_slice );

@@ -1,0 +1,48 @@
+
+    <div class="screen clearfix">
+      <dt class="fl w90 em">热门商品</dt>
+      <dd style="height: auto;" class="fl w704 h28">
+
+{% for wcatid,cat in cats %}
+
+    {% if wcatid in catids_request %}
+        <a href="{{  path(router_ ) }}" class="hover" onclick="javascript:return false;" >{{ cat }}</a>
+    {% else %}
+            <a href="{{ path( router_ ,  { 'c_h': wcatid })}}" > {{ cat }}  </a>
+    {% endif %}
+{% endfor %}
+
+        <a class="unfoldBtn already">展开</a> </dd>
+    </div>
+
+    <ul class="commodityUl btbn clearfix">
+{% for row in hotactivity %}
+      <li>
+        <dt><img src="{{ row.pic_url }}" height="150" width="150"></dt>
+        <dd>
+        {# <p class="price">¥128.20</p> #}
+          <p class="shop">{{ row.web_name }}</p>
+          <p class="rebate">返利最高：<em>{{ row.discount }}</em></p>
+        </dd>
+      </li>
+
+{% endfor %}
+
+    </ul>
+  
+{#
+
+3839     'hot_id' => '166916',
+3840     'web_id' => '3501',
+3841     'web_name' => '天品网',
+3842     'hot_name' => '姿彦丽儿女士内衣专场',
+3843     'pic_url' => 'http://p2.tianping.com/uploads/201402/18/4338678.jpg',
+3844     'hot_o_url' => 'http://p.yiqifa.com/n?k=2mLErn2lWNzSrI6HCZg7Rnu_fmUmUSe7C5BdRJydf96_Ypo8R9BdMIHSWnjOWEzefNjVWnjLfNj_rI6HDcglMBycrn3m1nyH1n2LWE     yHWZLErJoH2mLL1nBEWEU91ZLE&e=APImemberId&spm=139216929186018017.1.1.1',
+3845     'discount' => '1.0折起',
+3846     'brand_name' => '姿彦丽儿女士内衣专场',
+3847     'hot_catid' => '01',
+3848     'begin_date' => '02月19日',
+3849     'end_date' => '02月28日',
+3850     'modified_time' => '2014-02-27 10:10:03',
+
+#}

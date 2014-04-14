@@ -5,8 +5,8 @@
 　■container
 ++++++++++++++++++++++++++++++++++++++++++++ */
 div#container{
-    margin: 50px auto 0;
-    width: 956px;
+    margin: 20px auto 0;
+    width: 1150px;
     font-size: 100%;
     color: #555;
     padding-bottom: 120px;
@@ -31,12 +31,12 @@ div#rule{
 .game_start a{
 	background-image: url("../images/game_start_btn.jpg");
 	background-position: 0 0;
-    bottom: 28px;
+    bottom: 25px;
     display: inline-block;
     font-size: 0;
     height: 86px;
     position: absolute;
-    right: 34px;
+    right: 143px;
     width: 277px;
 }
 .game_start a:hover{
@@ -100,7 +100,7 @@ div#rule{
         width: 100%;
         margin: 15px auto;
     }
-    .step dd table td{width: 48%; padding: 5px;}
+    .step dd table td{width: 28%; padding: 5px;}
     .step dd table td img{ margin-right: 7px;}
 
 

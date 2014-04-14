@@ -31,6 +31,13 @@ class AdCategory
     /**
      * @var string
      *
+     * @ORM\Column(name="asp", type="string", length=64, nullable=true)
+     */
+    private $asp;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="display_name", type="string", length=100, nullable=true)
      */
     private $displayName;
@@ -69,7 +76,30 @@ class AdCategory
     {
         return $this->categoryName;
     }
-    
+
+    /**
+     * Set asp
+     *
+     * @param string $asp
+     * @return AdCategory
+     */
+    public function setAsp($asp)
+    {
+        $this->asp = $asp;
+
+        return $this;
+    }
+
+    /**
+     * Get asp
+     *
+     * @return string 
+     */
+    public function getAsp()
+    {
+        return $this->asp;
+    }
+
     /**
      * Set displayName
      *

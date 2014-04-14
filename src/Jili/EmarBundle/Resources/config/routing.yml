@@ -1,0 +1,46 @@
+emar-analog:
+    resource: "@JiliEmarBundle/Controller/AnalogController.php"
+    type:     annotation
+emar-api:
+    resource: "@JiliEmarBundle/Controller/ApiController.php"
+    type:     annotation
+
+emar-backend:
+    resource: "@JiliEmarBundle/Controller/BackendController.php"
+    type:     annotation
+
+
+emar-hotactivity:
+    resource: "@JiliEmarBundle/Controller/HotactivityController.php"
+    type:     annotation
+
+emar-ghs:
+    resource: "@JiliEmarBundle/Controller/GhsController.php"
+    type:     annotation
+
+emar-product:
+    resource: "@JiliEmarBundle/Controller/ProductController.php"
+    type:     annotation
+
+emar-websites:
+    resource: "@JiliEmarBundle/Controller/WebsitesController.php"
+    type:     annotation
+
+emar-top:
+    resource: "@JiliEmarBundle/Controller/TopController.php"
+    type:     annotation
+
+emar-search:
+    resource: "@JiliEmarBundle/Controller/SearchController.php"
+    type:     annotation
+
+emar-admin-websites:
+    resource: "@JiliEmarBundle/Controller/AdminWebsitesController.php"
+    type:     annotation
+
+emar-admin-emarwebsitescroned:
+    resource: "@JiliEmarBundle/Controller/AdminEmarWebsitesCronedController.php"
+    type:     annotation
+#emar-analog:
+#    resource: "@JiliBackendBundle/Controller/AnalogOfferwowController.php"
+#    type:     annotation

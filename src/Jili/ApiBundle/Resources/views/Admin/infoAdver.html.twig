@@ -27,8 +27,12 @@
            <td align="center">
          {% if item.incentiveType==1 %}
          CPA
-         {% else %}
+         {% elseif item.incentiveType==2 %}
          CPS
+         {% elseif item.incentiveType== emar_cps.category_id %}
+         EmarCPS
+         {% else %}
+         N/A
          {% endif %}
           </td>
           <td align="center"><a href="{{ path('_admin_editAdver',{'id':item.id}) }}">编辑</a>&nbsp;&nbsp;

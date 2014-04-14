@@ -1,0 +1,7 @@
+<form action="{{ path('jili_emar_websites_shoplistsearch',app.request.query.all) }}" method="POST" class="shopSearch" >
+   {{ form_widget(form.keyword, { 'attr': { 'class': 'shopSearchInput', 'palceholder': '该条件下查找'}}) }}
+   {{ form_rest(form) }}
+    <div class="shopSearchSubmit" >
+    <input type="submit" class="shopSearchBtn"  />
+    </div>
+</form>

@@ -68,7 +68,7 @@ function addClass(type){
   </aside>
   <article>
   	<div class="screen">
-    <p class="prompt">*&nbsp;商家审核需要8周，判定有效后立即到账（退货无返利）</p>
+    <p class="prompt">*&nbsp;商家审核需要8周左右（根据各商城具体情况而定），判定后立即到账（退货无返利）</p>
     <a href="javascript:void(0);" class="hover"  onclick="addClass(0);return false;">全部</a>
   	<a href="javascript:void(0);" onclick="addClass(1);return false;">确认中</a>
   	<a href="javascript:void(0);" onclick="addClass(2);return false;">已完成</a>
@@ -89,18 +89,19 @@ function addClass(type){
           <td>
          {{ item.displayName }}
           </td>
-          <td>{% if item.adid %}<a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a>
+          <td>{% if item.adid %}
+                  <a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">{{ item.title }}</a>
               {% else%}
-                  {% if item.incentiveType == 16 %}
-                    {{ item.title }}
-                  {% elseif item.incentiveType == 17  %}
+                  {% if item.incentiveType == 17 %}
                     <a href="{{ path('_advertiserment_list') }}" target="_blank">{{ item.title }}</a>
+                  {% elseif item.incentiveType == 18 %}
+                    <a href="{{ asset(path('_advertiserment_offer99')) }}" target="_blank">{{ item.title }}</a>
                   {% else %}
-                    <a href="{{ path('_game_index') }}" target="_blank">{{ item.title }}</a>
+                    {{ item.title }}
                   {% endif %}
               {% endif %} 
           </td>
-          <td>{% if item.incentiveType==2 %}
+          <td>{% if item.incentiveType==2 or item.incentiveType==19  %}
                      {% if item.orderStatus > 1 %}
                         {{ item.incentive }}米粒
                      {% else %}
@@ -109,7 +110,7 @@ function addClass(type){
                      {{ item.incentive }}米粒
               {% endif %}</td>
           <td>{% if item.createTime %}{{ item.createTime.date }}{% endif %}</td>
-          <td>{% if item.incentiveType==1 or item.incentiveType==2 or item.incentiveType==17 %}
+          <td>{% if item.incentiveType==1 or item.incentiveType==2 or item.incentiveType==17 or item.incentiveType==19 %}
                   {% if item.orderStatus==1  %} 已参加
                   {% elseif item.orderStatus==2  %} 确认中
                   {% elseif item.orderStatus==3  %} 已完成

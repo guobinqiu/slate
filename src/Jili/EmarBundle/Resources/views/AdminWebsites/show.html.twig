@@ -1,0 +1,63 @@
+{% extends '::adminBase.html.twig' %}
+
+
+{% block body -%}
+
+{{ render( controller('JiliEmarBundle:AdminWebsites:detail', { 'wid': entity.webId } ) ) }}
+<table align='center'>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td cols="2"><h1>商家详细</h1></td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+        <tbody>
+            <tr>
+                <th>Webid</th>
+                <td>{{ entity.webId }}</td>
+            </tr>
+            <tr>
+                <th>Commission</th>
+                <td>{%if entity.commission is null %}n/a{% else  %}{{ entity.commission }}%{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Isdeleted</th>
+                <td>{{ entity.isDeleted == 1 ? '删除' : '未删除' }}</td>
+            </tr>
+            <tr>
+                <th>Position</th>
+                <td>{{ entity.position }}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_emar_websites') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_emar_websites_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('admin_emar_websites_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

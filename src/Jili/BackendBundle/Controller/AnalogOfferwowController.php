@@ -26,7 +26,7 @@ class AnalogOfferwowController extends Controller implements  IpAuthenticatedCon
         $logger= $this->get('logger');
 
         if( 'POST'== $request->getMethod()){
-            $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $request->request->all(), true) );
+#             $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $request->request->all(), true) );
             $params = array(
                 'memberid'=> $request->request->get('memberid'),
                 'point'=> $request->request->get('point'),
@@ -44,7 +44,6 @@ class AnalogOfferwowController extends Controller implements  IpAuthenticatedCon
             $params['sign'] =strtoupper(md5($params['memberid'] . $params['point'] .$params['eventid'] .$params['websiteid'] .$params['immediate'] .  $key  )  );
 
             //todo: check memberid exits in user table.
-
 
             $sub_request_uri = $this->get('router')->getRouteCollection()->get('_api_offerwow_getinfo')->getPath();
 

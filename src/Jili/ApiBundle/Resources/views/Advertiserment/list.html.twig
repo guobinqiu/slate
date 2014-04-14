@@ -18,7 +18,15 @@
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle adList">
   <article {% if ads %} {% else %} style="margin-left: 100px;" {% endif %}>
-  <h2><img src="{{ asset('images/adTitle.jpg') }}" width="149" height="19" alt="体验广告"></h2>
+    <!--  subnav  -->
+    <div class="offwowSubnav">
+        <ul class="subnavList">
+            <li class="subnavItem first"><a class="now" href="{{ asset(path('_advertiserment_list')) }}">任务大厅一</a></li>
+            <li class="subnavItem"><a href="{{ asset(path('_advertiserment_offer99')) }}">任务大厅二</a></li>
+        </ul>
+        <div class="navNew"><img src="{{ asset('images/newTag.gif') }}" title="NEW"></div>
+    </div>
+    <!--  subnav  /-->
     <iframe src='http://www.offer-wow.com/affiliate/wall/open.do?websiteid={{  offerwow_com.websiteid }}&styleIndex=1&memberid={{  app.session.get('uid') }}' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
     <div class="explain"><a href="#" class="explainBtn">活动说明</a>
         <div class="explainMore">
@@ -31,22 +39,22 @@
 
   </article>
   {% if ads %}
-  <aside>
+  <aside class="offowAside">
     <div class="cpaMain">
         <div class="cpaAll">
 
      {% for item in ads %}
             <div class="cpa{{ loop.last ? ' last' : '' }}">
-              <dd><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="100px" height="60px" alt="{{item.title}}"></a></dd>
+              <dd><a href="{{ path('_advertiserment_index',{'id':item.id}) }}"><img src="{{ asset(item.listImage) }}" width="200px" height="130px" alt="{{item.title}}"></a></dd>
 
                       {% if item.incentiveType==1 %}
-                         <dt>+{{ item.incentive }}<br />米粒<br/>
+                         <dt>+{{ item.incentive }}米粒<br/>
                         {% elseif item.incentiveType==2 %}
                          <dt>{{ item.incentiveRate/10000 }}%<br />最高获消费额<br/>
                          {% else %}
                      {% endif %}
-              <a class="joinBtn" href="{{ path('_advertiserment_index',{'id':item.id}) }}">马上参与</a></dt>
-              <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="title">{{ item.title  }}</a>
+              <a class="joinBtn" href="{{ path('_advertiserment_index',{'id':item.id}) }}">马上参与</a>
+              <a href="{{ path('_advertiserment_index',{'id':item.id}) }}" class="title">{{ item.title  }}</a></dt>
             </div>
      {% endfor %}
         </div>

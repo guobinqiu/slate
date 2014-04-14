@@ -179,8 +179,7 @@ class DefaultController extends Controller {
 	}
 
 	/**
-	 * @Route("/", name="_default_index",requirements={"_scheme"="https"})
-	 * 
+	 * @Route("/index", name="_default_index",requirements={"_scheme"="https"})
 	 */
 	public function indexAction() {
 		if ($_SERVER['HTTP_HOST'] == '91jili.com')
@@ -285,7 +284,7 @@ class DefaultController extends Controller {
         $loginLister = $this->get('login.listener');
         $code = $loginLister->login($this->get('request'),$email,$pwd);
         if($code == "ok"){
-        	return $this->redirect($this->generateUrl('_default_index'));
+        	return $this->redirect($this->generateUrl('_homepage'));
         }
 
 		$arr['code'] = $code;
@@ -501,7 +500,6 @@ class DefaultController extends Controller {
 				$loginlog->setLoginIp($this->get('request')->getClientIp());
 				$em->persist($loginlog);
 				$em->flush();
-				//                  return $this->redirect($this->generateUrl('_default_index'));
 			}
 		}
 		//      }
@@ -523,7 +521,7 @@ class DefaultController extends Controller {
 	*/
 	public function landingAction() {
 		if ($this->get('request')->getSession()->get('uid')) {
-			return $this->redirect($this->generateUrl('_default_index'));
+			return $this->redirect($this->generateUrl('_homepage'));
 		}
         $email = '';
 		$is_user = '';
@@ -612,7 +610,7 @@ class DefaultController extends Controller {
                     $request->getSession()->remove('token');
                     $request->getSession()->set('uid', $id);
                     $request->getSession()->set('nick', $nick);
-                    return $this->redirect($this->generateUrl('_default_index'));
+                    return $this->redirect($this->generateUrl('_homepage'));
                 }
             }
         }

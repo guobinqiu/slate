@@ -1,0 +1,134 @@
+
+{% extends 'JiliEmarBundle::base140307.html.twig' %}
+
+{% block stylesheet %}
+<link href="{{ asset('css140307/pageNumber.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/recommend.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/commodity930.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block javascript %}
+<script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
+<script type="text/javascript">
+	  $(function (){
+		for(i=3; i<900; i+=4){
+		  $("ul.commodityUl li").eq(i).css("margin-right", "0");
+		}
+	  });
+</script>
+{% endblock %}
+
+
+{% block header %}
+  {% embed "::header.html.twig" %}
+    {% block search_box %}
+        {{ render( controller('JiliEmarBundle:Search:form', { 'qs': app.request.query.all } )) }}
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block page_main %}
+  <div class="w204 fl">
+	<div class="module categorys" style="margin-bottom: 20px;">
+      <h3>所有商品分类</h3>
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_search' })) }}
+    </div>
+	<div style="fl">
+	<script type="text/javascript">
+/*200*200，创建于2014-4-11*/
+var cpro_id = "u1519087";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+	</div>
+{#
+#}
+    
+    <!--<div class="miniRecommend">
+      <div class="shade">
+        <ul class="clearfix">
+          <li>
+            <div class="img"><a href="#"><img src="other140307/image100.jpg" width="150" height="150" /></a>
+              <p class="title" style="display:none;">BERLA 2013新品夏装女童装花童礼服韩版气质甜美网纱公主裙</p>
+            </div>
+            <div class="price clearfix">
+              <dt>京东商城</dt>
+              <dd>¥128.20</dd>
+            </div>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </li>
+          <li>
+            <div class="img"><a href="#"><img src="other140307/image100.jpg" width="150" height="150" /></a>
+              <p class="title">BERLA 2013新品夏装女童装花童礼服韩版气质甜美网纱公主裙</p>
+            </div>
+            <div class="price clearfix">
+              <dt>京东商城</dt>
+              <dd>¥128.20</dd>
+            </div>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </li>
+          <li>
+            <div class="img"><a href="#"><img src="other140307/image100.jpg" width="150" height="150" /></a>
+              <p class="title">BERLA 2013新品夏装女童装花童礼服韩版气质甜美网纱公主裙</p>
+            </div>
+            <div class="price clearfix">
+              <dt>京东商城</dt>
+              <dd>¥128.20</dd>
+            </div>
+            <p class="rebate">返利最高：<em>10%</em></p>
+          </li>
+        </ul>
+      </div>
+      <a class="prevBtn">prev</a><a class="nextBtn">next</a> </div>
+  -->
+</div>
+<div>
+<!-- a -->
+{% set w_q = app.request.query.getInt('w')  %}{# website in  request url #}
+
+  <div class="main w930 fr">
+      <h1 class="corDarkGray">{{ crumbs_local }}{{  crumbs_local|length > 0 ? '-' : '' }} 搜索关键字：{{ app.request.query.get('q')  }}<span>共{{  total }}件宝贝</span></h1>
+      <div class="screen corDarkGray clearfix">
+        <dt class="fl">商城筛选：</dt>
+        <dd class="fl w820 h28">
+            {% if w_q is not defined or w_q == 0 %}
+            <a  class="hover" onclick="javascript: return false;" href ="#" >全部</a> 
+            {% else %}
+            <a  href ="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'w': 0, "p":1, "pr":""})) }}">全部</a> 
+            {% endif %}
+
+            {% for webid,row in webs_filter.webs %}
+
+            {% if w_q is defined and w_q == webid %}
+                <a href="#" class="hover" onclick="javascript:return false;" >{{ row.webName|e }}</a> 
+                {% else %}
+                <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': webid, "p":1, "pr":"" })) }}">{{ row.webName|e }}</a> 
+                {% endif %}
+            {% endfor  %}
+
+            <a class="unfoldBtn">展开</a> </dd>
+        <dt class="fl">排序：</dt>
+        <dd class="fl w820 h28"> 
+            {{ include('JiliEmarBundle:Product:search_orderby.html.twig' ) }}
+            {{ include('JiliEmarBundle:Product:search_price_range.html.twig' ) }}
+        </dd>
+      </div>
+
+      <ul class="commodityUl clearfix">
+        {{ include('JiliEmarBundle:Product:search_pagination.html.twig', {'products': products , 'total': total } ) }}
+      </ul>
+
+      <div style="display: inline-block; width: 100%;">
+      {% include "JiliEmarBundle:Product:retrieve_page_nav.html.twig"  %}
+      </div>
+
+  </div> <!--eof screen -->
+
+  </div>
+{% endblock %}
+
+

@@ -1,10 +1,22 @@
+_homepage:
+    path: /
+    defaults: { _controller: JiliApiBundle:Top:index }
+
+jili_api:
+    resource: "@JiliApiBundle/Resources/config/routing.yml"
+
+jili_emar:
+    resource: "@JiliEmarBundle/Resources/config/routing.yml"
+    prefix:   /emar
+
 jili_backend:
     resource: "@JiliBackendBundle/Resources/config/routing.yml"
     prefix:   /backend
 
-jili_api:
-    resource: "@JiliApiBundle/Resources/config/routing.yml"
 gregwar_captcha_routing:
     resource: "@GregwarCaptchaBundle/Resources/config/routing/routing.yml"
     prefix: /_gcb
 
+#_internal:
+#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#    prefix: /_internal

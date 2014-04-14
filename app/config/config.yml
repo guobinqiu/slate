@@ -3,7 +3,7 @@ imports:
     - { resource: custome_parameters.yml }
     - { resource: security.yml }
 framework:
-    #esi:             ~
+    esi:             ~
     #translator:      { fallback: %locale% }
     secret:          %secret%
     router:
@@ -35,6 +35,20 @@ twig:
     globals:
         offerwow_com:
             websiteid: %offerwow_com.websiteid%  
+        emar_cps:
+            category_id: %emar_com.cps.category_type%
+        emar_cps_default_rebate: %emar_com.cps.action.default_rebate%
+        emar_page_size: %emar_com.page_size%
+        emar_page_size_shoplist: %emar_com.page_size_of_shoplist%
+        emar_page_size_search: %emar_com.page_size_of_search% 
+
+        emar_max_of_total: %emar_com.max_of_total%
+        emar_api_orderby_range: %emar_com.api.orderby_range% # [1,2,3] 
+        emar_api_orderby_default: %emar_com.api.orderby_default% # 1 
+        rt_of_search_form: %emar_com.rt_of_search_form.name% # {commodity :0, shop: 1}
+
+        offer99_com:
+            pid: %offer99_com.pid%  
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
@@ -215,3 +229,4 @@ parameters:
     remind_total_point_mailing_id: 80
     file_path_advertiserment_check: /data/91jili/advertiserment_check.log
     file_path_emergency_announcement: /data/91jili/emergency_announcement.log
+    91wenwen_api_url: http://www.91jili.com

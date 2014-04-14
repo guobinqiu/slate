@@ -1,0 +1,26 @@
+    <!-- 
+    {% set total_ = ( total > emar_max_of_total ) ? emar_max_of_total : total  %}
+
+    <p>total: {{ total }}; total_:{{ total_ }}</p>
+    {% set page_size = emar_page_size_search %}
+
+    <p>page_size: {{ page_size }}</p>
+
+    {% set page_req = app.request.query.get('p',1) %}
+
+    {% set cur = ( page_req == 0 ) ? 1 : page_req %}
+
+    <p>cur: {{ cur }}</p>
+
+    {% set first = 1 %} 
+    {% set last =  ( total_ / page_size) |round(0,'ceil') %} 
+
+
+    <p>last: {{ last }}</p>
+    {% set prev = ( cur > first ) ? cur - 1: first  %}
+    <p>prev: {{ prev }}</p>
+    {% set next = ( cur < last  ) ? cur + 1: last  %}
+    <p>next: {{ next }}</p>
+
+    -->
+{% include "JiliEmarBundle::page_nav.html.twig" %}

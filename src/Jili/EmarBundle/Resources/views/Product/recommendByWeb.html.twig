@@ -1,0 +1,18 @@
+{% if products|length > 0 %}
+      <h3>为您推荐</h3>
+      <ul class="commodityUl clearfix">
+    {% for row in  products %}
+        <li>
+          <dt>
+            <a href="{{ row.p_o_url|replace({'APImemberId': app.session.get('uid')}) }}" target="_blank" rel="nofollow">
+            <img src="{{ row.pic_url }}" width="150" height="150" />
+            </a>
+          </dt>
+          <dd>
+            <p class="price">¥{{ row.cur_price }}</p>
+            <p class="shop">{{ row.web_name }}</p>
+          </dd>
+        </li>
+    {% endfor %}
+      </ul>
+{% endif %}

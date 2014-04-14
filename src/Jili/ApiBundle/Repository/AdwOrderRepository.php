@@ -104,6 +104,27 @@ class AdwOrderRepository extends EntityRepository
 		return $query->getResult();
 		
 	}
+    /**
+     * 找出某用户click过的advertiserment，但没有加入过的.
+     */
+	public function findOneCpsOrderInit($params){
+        $parameters = array('user_id'=>$params['user_id'],
+            'ad_id'=>$params['ad_id'],
+            'delete_flag'=> $params['delete_flag'],
+            'status'=> $params['status']);
+
+        $query = $this->createQueryBuilder('ao')
+            ->select('ao')
+            ->where('ao.adid = :ad_id')
+            ->andWhere('ao.ocd IS NULL')
+            ->andWhere('ao.deleteFlag = :delete_flag')
+            ->andWhere('ao.orderStatus= :status')
+            ->andWhere('ao.userid = :user_id')
+            ->setParameters($parameters)
+            ->getQuery();
+
+		return $query->getOneOrNullResult();
+    }
 	
 	/*
 	public function getUseradtaste($id,$option=array())

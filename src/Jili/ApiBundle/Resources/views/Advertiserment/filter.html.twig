@@ -1,0 +1,21 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>积粒网-体验广告</title>
+<script>
+
+function onloadfinish(){
+	window.location.href='{{ yixun | raw }}';
+	//alert("111")
+}
+</script>
+</head>
+<body>
+
+<iframe src="{{ url | raw }}" onload="onloadfinish()" name="iframe"></iframe>
+
+
+</body>
+</html>

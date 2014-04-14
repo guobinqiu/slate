@@ -1,0 +1,74 @@
+{% extends 'JiliEmarBundle::base140307.html.twig' %}
+
+{% block stylesheet %}
+<link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/pageNumber.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/recommend.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/commodity930.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
+{% endblock %}
+
+{% block page_main %}
+<!-- content start  -->
+  <div class="sidebar w204 fl">
+    <div class="module categorys">
+      <h3>所有商品分类</h3>
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }}
+     </div>
+  </div>
+
+  <div class="main w930 fr">
+      {% render(controller('JiliEmarBundle:Product:recommend')) %}
+  </div>
+
+  <div class="commodityList">
+        <h1>
+            {{ crumbs_local }}{{  crumbs_local|length > 0 ? '-' : '' }} 宝贝列表{% if total is defined %}<span>共{{ total }}件宝贝</span>{% endif %}</h1>
+      <div class="screen clearfix">
+
+   {% set w_q = app.request.query.getInt('w')  %}{# website in  request url #}
+        <dt class="fl">商城筛选：</dt>
+
+        <dd class="fl w820 h28"> 
+
+
+        {% if w_q is not defined or w_q == 0 %}
+        <a  class="hover" onclick="javascript: return false;" href ="#" >全部</a> 
+        {% else %}
+        <a  href ="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'w': 0, "p":1, "pr":""})) }}">全部</a> 
+        {% endif %}
+
+        {% for webid,web in webs_filter %}
+            {% if w_q is defined and w_q == webid %}
+            <a href="#" class="hover" onclick="javascript:return false;" >{{ web.webName|e }}</a> 
+            {% else %}
+            <a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'w': webid, "p":1, "pr":"" })) }}">{{ web.webName|e }}</a> 
+            {% endif %}
+        {% endfor  %}
+
+        
+        {#  <a class="hover" href="#">全部</a> 
+        <a href="#"> 携程旅行网 </a>
+        <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> <a href="#"> 携程旅行网 </a> <a href="#"> 京东商城 </a> <a href="#"> 易迅网 </a> <a href="#"> 唯品会 </a> #} 
+        <a class="unfoldBtn">展开</a> </dd>
+
+      </div>
+
+      <ul class="module commodityUl clearfix">
+      {% include "JiliEmarBundle:Product:retrieve_page.html.twig"  %}
+      </ul>
+
+      <div style="display: inline-block; width: 100%;">
+      {% include "JiliEmarBundle:Product:retrieve_page_nav.html.twig"  %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+

@@ -1,0 +1,11 @@
+<p>特卖活动的类目</p>
+{% for cat in cats %}
+    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'c': loop.index})) }}"> {{ cat|e  }} </a> 
+   &nbsp;&nbsp;&nbsp;&nbsp; 
+{% endfor %}
+
+<p>特卖活动的商家网站</p>
+{% for web in webs %}
+    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'w': loop.index})) }}"> {{ web|e  }} </a> 
+   &nbsp;&nbsp;&nbsp;&nbsp; 
+{% endfor %}

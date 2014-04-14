@@ -62,5 +62,17 @@ remind:
     resource: "@JiliApiBundle/Controller/RemindController.php"
     type:     annotation
     prefix:   /
+api-offer99:
+    resource: "@JiliApiBundle/Controller/Offer99Controller.php"
+    type:     annotation
+    prefix:   /
+top:
+    resource: "@JiliApiBundle/Controller/TopController.php"
+    type:     annotation
+    prefix:   /
+api-91wenwen:
+    resource: "@JiliApiBundle/Controller/WenwenController.php"
+    type:     annotation
+    prefix:   /
 
 

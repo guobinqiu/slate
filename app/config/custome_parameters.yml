@@ -1,4 +1,3 @@
-
 parameters:
     offerwow_com.websiteid: 1162  
     offerwow_com.key: "91jili2offerwow"
@@ -6,5 +5,116 @@ parameters:
     offerwow_com.category_type: 17 # in ad_category table where cateogry_name ='offerwow' ??
     offerwow_com.task_type: 5
 
+    offer99_com.pid: f4b42b65ce528bb151ea6e2eb5a01692
+    offer99_com.key: "91jili2offer99"
+    offer99_com.name: "体验广告"
+    offer99_com.category_type: 18
+    offer99_com.task_type: 5
 
     cpa.category_type:  1 # in table ad_category where category_name='CPA'
+    cps.category_type:  1 # in table ad_category where category_name='CPS'
+                    
+    emar_com.accountid: '458631' # sid uSer id
+    emar_com.91jili_com.websiteid: '708089' # wid Website id
+    emar_com.91jili_com.key: "91jiLi2emAr3242"
+    emar_com.name: "亿玛返利"
+    emar_com.cps.category_type: 19 # in ad_category table where cateogry_name ='emar' ??
+    emar_com.cps.task_type: 1 
+    emar_com.cps.action.default_rebate: 70 # used when no related advertiserment to the request action from emar .
+
+#    emar_com.cpa.name: "亿玛活动"
+#    emar_com.cpa.category_type: 20 # in ad_category table where cateogry_name ='emar' ??
+
+# jili
+    emar_com.app_AppKey: '139597428026718017' 
+    emar_com.app_AppSecret: '53a77a65327cdd28bff99da8f9f542cf'
+
+    emar_com.sdk.app_AppKey: '1326528120671'
+    emar_com.sdk.app_AppSecret:  '4090a94e6c98c2a3c3cf1634cdf29730'
+    
+    emar_com.demo.app_AppKey: '1331544511075406'
+    emar_com.demo.app_AppSecret: '1d4abbec4489880adaf9154d948d9be8'
+
+    emar_com.open_api.app:
+        debug: # dev 
+            key: '139597428026718017'
+            secret: '53a77a65327cdd28bff99da8f9f542cf'
+        search: # demo
+            key: '139216929186018017'
+            secret: 'e7c5367e1ba7d609865389640007df3e'
+        cron: # demo
+            key: '139216929186018017'
+            secret: 'e7c5367e1ba7d609865389640007df3e'
+#        cron: # jili-cron
+#            key: '139599061334718017'
+#            secret: '98a77033e7a6e8b8533f70eca181d09f'
+
+# emar default 分页大小
+    emar_com.page_size: 20 
+# shop list 页面上的分页大小
+    emar_com.page_size_of_shoplist: 30 
+# product search页面上的分页大小
+    emar_com.page_size_of_search: 24 
+# topcps页面上的分页大小
+    emar_com.page_size_of_topcps:  16 
+# emar的open.api读取记录数上限
+    emar_com.max_of_total: 1800 
+# open.product.search->orderby fields
+    emar_com.api.orderby_range: [1,2,3] 
+    emar_com.api.orderby_default: 1 
+
+# the router for search input box
+    emar_com.rt_of_search_form.name: 
+        'commodity': { value: 0 , label: '商品'} 
+        'shop': { value: 1, label: '商城' }   
+#        'else': { value: 3, label: '其它2' }   
+
+    emar_com.rt_of_search_form.router: 
+        - 'jili_emar_product_search'
+        - 'jili_emar_websites_shopsearch'  
+# 
+    emar_com.pdt_cat.menu:
+        - '图书、影音':
+            - '图书音像'
+            - '影音设备'
+        - '家用电器':
+            - '大家电'
+            - '生活小电器'
+            - '厨房电器'
+            - '保健护理电器'
+        - '手机、数码':
+            - '手机通讯'
+            - '数码相机'
+        - '电脑、办公':
+            - '电脑'
+            - '电脑软件'
+            - '办公用品'
+        - '家居'
+        - '服饰内衣、珠宝首饰':
+            - '女装'
+            - '男装'
+            - '童装/童鞋/孕妇装'
+            - '内衣'
+            - '服装配饰'
+            - '其他服装'
+            - '珠宝'
+            - '眼镜'
+        - '鞋靴、箱包、钟表、奢侈品':
+            - '女鞋'
+            - '男鞋'
+            - '运动鞋'
+            - '其他鞋'
+            - '女包/男包/箱包'
+            - '手表'
+        - '运动户外'
+        - '汽车用品'
+        - '母婴/玩具'
+        - '个护化妆':
+            - '美容护理'
+        - '食品、保健':
+            - '食品粮油'
+            - '医药保健'
+            - '宠物用品'
+            - '成人用品'
+            - '鲜花礼品'
+

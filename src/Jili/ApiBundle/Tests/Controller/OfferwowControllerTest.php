@@ -362,7 +362,7 @@ class OfferwowControllerTest extends WebTestCase
 
     }
     // instant success immediate = 1
-    public function testGetApwInfo5() {
+    public function testGetApwInfo6() {
         $client = static::createClient();
         $contianer = $client->getContainer();
         $em  = $contianer->get('doctrine.orm.default_entity_manager');

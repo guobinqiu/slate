@@ -1,0 +1,41 @@
+
+{# TODO: add default , valid_range to config #}
+
+{% set orderby_default = emar_api_orderby_default %}
+{% set orderby_valid_range = emar_api_orderby_range %}
+
+{% set request_orderby  =  app.request.query.getInt('o')  %}
+
+{% set request_orderby = request_orderby not in orderby_valid_range  ?  orderby_default : request_orderby  %}
+
+{% block body %}
+
+
+          <a id="orderby_related" href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'o': '1','p':1})) }}" class="sort  {{ 1==request_orderby ? 'active':''  }}">相关度排序</a> 
+
+          <a id="orderby_price_asc"  href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'o': '2','p':1})) }}" class="sort arrowUp {{ 2==request_orderby ? 'active':''  }} price asc">价格从低到高</a>
+
+          <a id="orderby_price_desc"  href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'o': '3','p':1})) }}" class="sort arrowDown {{ 3==request_orderby ? 'active':''  }} price desc"  >价格从高到低</a>
+
+
+<!-- radio box -->
+{#
+排序标识1为按相关度排序，2为价格从低到高排序，3为价格从高到低排序,默认值为1.
+#}
+<script type="text/javascript">
+
+var urlOrderbyRegex = new RegExp('([&\?])o={{ request_orderby }}(&?.*?)$');
+
+$(function() {
+	$("a.sort").each(function(i) {
+		$(this).click(function() {
+			var href = $(this).attr('href');
+			return (urlOrderbyRegex.test(href)) ? false: true;
+		});
+	});
+
+});
+
+</script>
+
+{% endblock %}

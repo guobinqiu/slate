@@ -1,0 +1,40 @@
+    <!-- 
+    {# set total = ( total > emar_max_of_total ) ? emar_max_of_total : total  #}
+    {% set total_  = total %}
+
+    <p>total: {{ total }}; total:{{ total }}</p>
+    {% set page_size = emar_page_size_shoplist %}
+    <p>page_size: {{ page_size }}</p>
+
+    {% set page_req = app.request.query.get('p',1) %}
+
+    {% set cur = ( page_req == 0 ) ? 1 : page_req %}
+
+    <p>cur: {{ cur }}</p>
+
+    {% set first = 1 %} 
+    {% set last =  ( total / page_size) |round(0,'ceil') %} 
+
+
+    <p>last: {{ last }}</p>
+    {% set prev = ( cur > first ) ? cur - 1: first  %}
+    <p>prev: {{ prev }}</p>
+    {% set next = ( cur < last  ) ? cur + 1: last  %}
+    <p>next: {{ next }}</p>
+
+    -->
+{% include "JiliEmarBundle::page_nav.html.twig" %}
+{#
+      <ul class="pageNav">
+        <li class="currPage"> <a href="/shopping/list?page=1">1</a> </li>
+        <li> <a href="/shopping/list?page=2">2</a> </li>
+        <li> <a href="/shopping/list?page=3">3</a> </li>
+        <li class="nextPage"> <a href="/shopping/list?page=3"> <span class="arrowRightOrange"></span> </a> </li>
+        <li> <span>共3页</span> </li>
+        <li> <span>到第
+          <input type="text" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onkeyup="value=value.replace(/[^\d]/g,'')" class="J_PageNum" size="2" id="page" maxlengh="4">
+          <span>页</span>
+          <input type="button" id="goto" class="J_JumpTo" value="确定">
+          </span> </li>
+      </ul>
+#}

@@ -36,7 +36,7 @@
 	position:absolute;
 }
 .exchange .about a.mobileBtn{
-    left: 186px;
+    left: 281px;
     top: 366px;
 }
 .exchange .about a.close{
@@ -54,11 +54,11 @@
 }
 
 .exchange .about a.alipayBtn{
-    right: 642px;
+    right: 735px;
     top: 618px;
 }
 .exchange .about .amazonBtn{
-	right: 142px;
+	right: 236px;
     top: 484px;
 }
 .exchange .about a.wenwen{
@@ -82,7 +82,6 @@
 .exchange h2 span{
 	color:#ff7114;
 	border-bottom:3px solid #ff7114;
-	padding:5px 0;
 }
 .exchange article{
 	background-color: #FFFFFF;
@@ -90,7 +89,7 @@
     float: right;
     margin: 20px 0 0;
     padding: 10px;
-    width: 710px;
+    width: 912px;
 	font-size:14px;
 	text-align:center;
 }
@@ -154,11 +153,12 @@
     padding-right: 20px;
     text-align: right;
     width: 120px;
+	clear:both;
 }
 .exchange article .wenwen div.form dt{
-	float:left;
-	width:460px;
+	width:500px;
 	margin: 10px 0;
+	float:left;
 }
 .exchange article .wenwen div.form dt.notice{
 	background-color: #FFF2F2;

@@ -33,11 +33,11 @@ class AdvertisermentController extends Controller
 		$campaign_multiple = $this->container->getParameter('campaign_multiple');
 		$code = $this->container->getParameter('init');
 		$arr['code'] = $code;
-		$em = $this->getDoctrine()->getManager();
-		if($uid){
-			$user = $em->getRepository('JiliApiBundle:User')->find($uid);
-        	$reward_multiple = $user->getRewardMultiple();
-		}
+        $em = $this->getDoctrine()->getManager();
+        if($uid){
+            $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+            $reward_multiple = $user->getRewardMultiple();
+        }
 		$arr['uid'] = $uid;
 		$arr['orderStatus'] = '';
 		$adw = $em->getRepository('JiliApiBundle:AdwOrder');
@@ -45,35 +45,39 @@ class AdvertisermentController extends Controller
 		if($adw_status){
 		    $orderStatus = $adw_status[0]['orderStatus'];
             $arr['orderStatus'] = $orderStatus;
-		}
+        }
+
 		$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-		if($advertiserment){
-			$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->getAdwAdverList($advertiserment->getIncentiveType(),$id);
-			if($reward_multiple){
-				if($advertiserment[0]['incentiveType']==2){
-                    $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
-                    $advertiserment[0]['reward_rate'] = $advertiserment[0]['incentiveRate'] * $advertiserment[0]['rewardRate'] * $cps_rate;
-                    $advertiserment[0]['reward_rate']= round($advertiserment[0]['reward_rate']/10000,2);
-                }
-			}else{
-				if($advertiserment[0]['incentiveType']==2){
-                    $advertiserment[0]['reward_rate'] = $advertiserment[0]['incentiveRate'] * $advertiserment[0]['rewardRate'] * $campaign_multiple;
-                    $advertiserment[0]['reward_rate']= round($advertiserment[0]['reward_rate']/10000,2);
-                }
-			}
-		}else
+
+		if( empty( $advertiserment) ){
 			return $this->redirect($this->generateUrl('_default_error'));
-		$time =  $advertiserment[0]['endTime']->format('Y-m-d H:i:s');
-		if(time()-strtotime($time)>=0){
+        }
+
+		$time =  $advertiserment->getEndTime()->getTimestamp() ;
+		if(time() >= $time ) {
 			$code = $this->container->getParameter('init_one');
 			$arr['code'] = $code;
 		}
-        $adw_info = $advertiserment[0]['imageurl'];
-        $adw_info = explode("u=",$adw_info);
-        $new_url = trim($adw_info[0])."u=".$uid.trim($adw_info[1]).$id;
+
+       if( $advertiserment->getIncentiveType() == 18 ) { // emar
+           $image_url = $advertiserment->getImageurl();
+           $arr['adwurl'] = str_replace('{member_id}', $uid, $image_url); 
+       }  else {
+           $adw_info = $advertiserment->getImageurl();
+           $adw_info = explode('u=', $adw_info);
+           $new_url = trim($adw_info[0]).'u='.$uid.trim($adw_info[1]).$id;
+           $arr['adwurl'] = $new_url; 	
+       }
+
         $arr['id'] = $id;
-        $arr['adwurl'] = $new_url; 	
-        $arr['advertiserment'] = $advertiserment[0];
+
+        if(  $advertiserment->getIncentiveType() != 1 ) { // not cpa
+            $reward_rate = round( $advertiserment->getIncentiveRate() * $advertiserment->getRewardRate()/10000, 2 ) ;
+            $arr['reward_rate'] = $reward_rate;
+        }
+
+        $arr['advertiserment'] = $advertiserment;
+
 		return $this->render('JiliApiBundle:Advertiserment:info.html.twig',$arr);
 	}
 
@@ -112,174 +116,102 @@ class AdvertisermentController extends Controller
 
 		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
 	}
+
+    /**
+     * @Route("/offer99", name="_advertiserment_offer99")
+     */
+    public function offer99Action(){
+        if(!  $this->get('request')->getSession()->get('uid') ) {
+            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('_advertiserment_offer99') );
+            return  $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        //UserAdvertisermentVisit
+        $day = date('Ymd');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->getSession()->get('uid');
+        $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
+        if (empty ($visit)) {
+            $gameVisit = new UserAdvertisermentVisit();
+            $gameVisit->setUserId($id);
+            $gameVisit->setVisitDate($day);
+            $em->persist($gameVisit);
+            $em->flush();
+        }
+
+        return $this->render('JiliApiBundle:Advertiserment:offer99.html.twig');
+    }
+
+
 	/**
 	 * @Route("/click", name="_advertiserment_click")
 	 */
-	public function clickAction(){
-		if(!$this->get('request')->getSession()->get('uid')){
-			$code = $this->container->getParameter('init');
-		}else{
-			$request = $this->get('request');
-			$id = $request->query->get('id');
-			$em = $this->getDoctrine()->getManager();
-			$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-		    $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->getAdwAdverList($advertiserment->getIncentiveType(),$id);
-		    
-			$adwAccessHistory = new AdwAccessHistory();
-			$adwAccessHistory->setUserId($this->get('request')->getSession()->get('uid'));
-			$adwAccessHistory->setAdId($id);
-			$adwAccessHistory->setAccessTime(date_create(date('Y-m-d H:i:s')));
-			$em->persist($adwAccessHistory);
-			$em->flush();
-			$order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($this->get('request')->getSession()->get('uid'),$id);
+    public function clickAction(){
+        if(!$this->get('request')->getSession()->get('uid')){
+            $code = $this->container->getParameter('init');
+        }else{
+            $request = $this->get('request');
+            $id = $request->query->get('id');
+            $em = $this->getDoctrine()->getManager();
+            $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
 
-            if($advertiserment[0]['incentiveType']==1){
-                $point = $this->get('rebate_point.caculator')->calcPointByCategory($incentive, $advertiserment[0]['incentiveType']);
+            $service_params = array( 'advertiserment'=> $advertiserment , 'request'=> $request );
+            $accessHistory = $this->get('cps_access_history.logger')->log($service_params) ;
+            if($advertiserment->getIncentiveType() ==1 ) {
+                $point = $this->get('rebate_point.caculator')->calcPointByCategory($advertiserment->getIncentive() , $advertiserment->getIncentiveType() );
             }
 
-			if(empty($order)){
+            $order = $this->get('cps_order.factory')->get($service_params);
+            if(empty($order)){
+                $order =  $this->get('cps_order.factory')->init($service_params) ;
 
-				$adwOrder = new AdwOrder();
-				$adwOrder->setUserId($this->get('request')->getSession()->get('uid'));
-				$adwOrder->setAdId($id);
-				$adwOrder->setCreateTime(date_create(date('Y-m-d H:i:s')));
-				$adwOrder->setIncentiveType($advertiserment[0]['incentiveType']);
-
-				if($advertiserment[0]['incentiveType']==1){
-					#$adwOrder->setIncentive($advertiserment[0]['incentive']);
-					$adwOrder->setIncentive($point);
-				} else if($advertiserment[0]['incentiveType']==2){
-					$adwOrder->setIncentiveRate($advertiserment[0]['incentiveRate']);
-				}
-
-				$adwOrder->setOrderStatus($this->container->getParameter('init_one'));
-				$adwOrder->setDeleteFlag($this->container->getParameter('init'));
-				$em->persist($adwOrder);
-				$em->flush();
-
-                if($adwOrder->getIncentiveType()==1){
-                	$parms = array(
-	                  'orderId' => $adwOrder->getId(),
-	                  'userid' => $this->get('request')->getSession()->get('uid'),
-	                  'task_type' => $this->container->getParameter('init_one'),
-	                  'categoryId' => $this->container->getParameter('init_one'),
-	                  'taskName' => $advertiserment[0]['title'],
-	                  'point' => $point , 
-	                  'date' => date('Y-m-d H:i:s'),
-	                  'status' => $adwOrder->getOrderStatus()
-	                );
+                if( $order instanceof AdwOrder &&   $order->getIncentiveType() == 1 ){
+                // only adw order cpa has incentive_type field.
+                    $params = array(
+                        'orderId' => $order->getId(),
+                        'userid' => $this->get('request')->getSession()->get('uid'),
+                        'taskType' => $this->container->getParameter('init_one'),
+                        'categoryType' => $this->container->getParameter('init_one'),
+                        'task_name' => $advertiserment->getTitle() ,
+                        'point' => $point , 
+                        'date' => date_create() ,
+                        'status' => $order->getOrderStatus()
+                    );
                 }else{
-                	$parms = array(
-	                  'orderId' => $adwOrder->getId(),
-	                  'userid' => $this->get('request')->getSession()->get('uid'),
-	                  'task_type' => $this->container->getParameter('init_one'),
-	                  'categoryId' => $this->container->getParameter('init_two'),
-	                  'taskName' => $advertiserment[0]['title'],
-	                  'point' => 0,
-	                  'date' => date('Y-m-d H:i:s'),
-	                  'status' => $adwOrder->getOrderStatus()
-	                );
+                    if($order instanceof \Jili\EmarBundle\Entity\EmarOrder ) {
+                        $order_status  = $order->getStatus();
+                        $task_type = $this->container->getParameter('emar_com.cps.task_type') ;
+                    } else{
+                        $order_status  = $order->getOrderStatus();
+                        $task_type = $this->container->getParameter('init_one');
+                    } 
 
+                    $params = array(
+                        'orderId' => $order->getId(),
+                        'userid' => $this->get('request')->getSession()->get('uid'),
+                        'taskType' => $task_type ,
+                        'categoryType' =>$advertiserment->getIncentiveType() ,  #$this->container->getParameter('init_two'),
+                        'task_name' => $advertiserment->getTitle() ,
+                        'point' => 0,
+                        'date' => date_create() ,
+                        'status' =>$order_status 
+                    );
                 }
-                $this->getTaskHistory($parms);
-
-			}else{
-				$issetOrder = $em->getRepository('JiliApiBundle:AdwOrder')->find($order[0]['id']);
-				$issetOrder->setCreateTime(date_create(date('Y-m-d H:i:s')));
-				$em->flush();
-			}
-			$code = $this->container->getParameter('init_one');
-		}
-		return new Response($code);
-	}
-
-	private function getTaskHistory($parms=array()){
-	  extract($parms);
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
-      switch($uid){
-            case 0:
-                  $po = new TaskHistory00();
-                  break;
-            case 1:
-                  $po = new TaskHistory01();
-                  break;
-            case 2:
-                  $po = new TaskHistory02();
-                  break;
-            case 3:
-                  $po = new TaskHistory03();
-                  break;
-            case 4:
-                  $po = new TaskHistory04();
-                  break;
-            case 5:
-                  $po = new TaskHistory05();
-                  break;
-            case 6:
-                  $po = new TaskHistory06();
-                  break;
-            case 7:
-                  $po = new TaskHistory07();
-                  break;
-            case 8:
-                  $po = new TaskHistory08();
-                  break;
-            case 9:
-                  $po = new TaskHistory09();
-                  break;
-      }
-
-
-      $em = $this->getDoctrine()->getManager();
-      $po->setOrderId($orderId);
-      $po->setUserId($userid);
-      $po->setTaskType($task_type);
-      $po->setCategoryType($categoryId);
-      $po->setTaskName($taskName);
-      $po->setPoint($point);
-      $po->setDate(date_create($date));
-      $po->setStatus($status);
-      $em->persist($po);
-      $em->flush();
+                $this->getTaskHistory($params);
+            } else {
+                $service_params['order_id'] =(is_array($order) ) ?  $order[0]['id']: $order->getId() ;
+                $order = $this->get('cps_order.factory')->update($service_params);
+            }
+            $code = $this->container->getParameter('init_one');
+        }
+        return new Response($code);
     }
 
-	
+
+	private function getTaskHistory($params=array()){
+        return $this->get('general_api.task_history')->init($params);
+    }
 	
 }
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	

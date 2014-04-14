@@ -1,0 +1,70 @@
+{% extends 'JiliEmarBundle::base140307.html.twig' %}
+
+
+{% block stylesheet %}
+<link href="{{ asset('css140307/pageNumber.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/recommend.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/searchShop.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block javascript %}
+<script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/shopList.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
+{% endblock %}
+
+{% block header %}
+  {% embed "::header.html.twig" %}
+    {% block search_box %}
+        {{ render( controller('JiliEmarBundle:Search:form', { 'qs': app.request.query.all, 'rt' : 1 } )) }}
+    {% endblock %}
+  {% endembed %}
+{% endblock %}
+
+{% block page_main %}
+
+  <div class="main w834 fl">
+
+      {# include( "JiliEmarBundle:Websites:shopSearch_category.html.twig") #}
+
+      {{ include( "JiliEmarBundle:Websites:shopSearch_page.html.twig") }}
+
+
+      {{ render(controller('JiliEmarBundle:Ghs:promotion', {'tmpl':'search','max': 5, 'p':1} ))  }}
+
+      {#
+    <div style="display: inline-block; width: 100%;">
+      <ul class="pageNav">
+        <li class="currPage"> <a href="/shopping/list?page=1">1</a> </li>
+        <li> <a href="/shopping/list?page=2">2</a> </li>
+        <li> <a href="/shopping/list?page=3">3</a> </li>
+        <li class="nextPage"> <a href="/shopping/list?page=3"> <span class="arrowRightOrange"></span> </a> </li>
+        <li> <span>共3页</span> </li>
+        <li> <span>到第
+          <input type="text" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onkeyup="value=value.replace(/[^\d]/g,'')" class="J_PageNum" size="2" id="page" maxlengh="4">
+          <span>页</span>
+          <input type="button" id="goto" class="J_JumpTo" value="确定">
+          </span> </li>
+      </ul>
+    </div>
+    #}
+  </div><!-- eof main-->
+
+  <div class="sidebar w300 fr">
+	<script type="text/javascript">
+	/*300*250，创建于2014-4-11*/
+	var cpro_id = "u1519416";
+	</script>
+	<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+	
+	<script type="text/javascript">
+	/*300*250，创建于2014-4-11*/
+	var cpro_id = "u1519420";
+	</script>
+	<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+  </div><!-- eof sidebar -->
+
+{% endblock %}
+

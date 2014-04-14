@@ -9,7 +9,14 @@ parameters:
     offerwow_request.validation.class: Jili\ApiBundle\EventListener\OfferwowRequestValidation
     offerwow_request.processor.class:  Jili\ApiBundle\EventListener\OfferwowRequestProcessor
 
+    offer99_api_return.logger.class: Jili\ApiBundle\EventListener\Offer99ApiLogger
+    offer99_request.validation.class: Jili\ApiBundle\EventListener\Offer99RequestValidation
+    offer99_request.processor.class:  Jili\ApiBundle\EventListener\Offer99RequestProcessor
+
     rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
+
+    cps_access_history.logger.class: Jili\ApiBundle\EventListener\CpsAccessHistoryFactory
+    cps_order.factory.class: Jili\ApiBundle\EventListener\CpsOrderFactory
 
     check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
 
@@ -52,6 +59,37 @@ services:
             - [setTaskLogger, ["@general_api.task_history"] ]
             - [setPointLogger, ["@general_api.point_history"] ]
             - [setRebatePointCaculator, ["@rebate_point.caculator"] ]
+
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    cps_access_history.logger:
+        class: %cps_access_history.logger.class%
+        calls:
+            - [setLogger, ["@logger"] ]
+            - [setEntityManager, ["@doctrine.orm.entity_manager"] ] 
+            - [setContainer, ["@service_container"] ] 
+
+    cps_order.factory:
+        class: %cps_order.factory.class%
+        calls:
+            - [setLogger, ["@logger"] ]
+            - [setEntityManager, ["@doctrine.orm.entity_manager"] ] 
+            - [setContainer, ["@service_container"] ] 
+
+    offer99_api.init_log:
+        class: %offer99_api_return.logger.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    offer99_request.validation:
+        class: %offer99_request.validation.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    offer99_request.processor:
+        class: %offer99_request.processor.class%
+        calls:
+            - [setContainer, ["@service_container"] ] 
+            - [setTaskLogger, ["@general_api.task_history"] ]
+            - [setPointLogger, ["@general_api.point_history"] ]
 
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
     check_in.listener:

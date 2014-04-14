@@ -1,0 +1,175 @@
+parameters:
+    emar_api.logger.class: Jili\EmarBundle\EventListener\Logger
+    emar_api.callback_processor.class: Jili\EmarBundle\EventListener\CallbackProcessor
+    emar_api.callback_validation.class:  Jili\EmarBundle\EventListener\CallbackValidation
+
+    emar_request.connection.class: Jili\EmarBundle\EventListener\EmarRequestConnection
+
+# ghs
+    ghs.category_get.class:  Jili\EmarBundle\EventListener\GhsCategoryGetRequest
+    ghs.list_get.class:  Jili\EmarBundle\EventListener\GhsProductListGetRequest
+
+# product/general
+    general.category_get.class:  Jili\EmarBundle\EventListener\ProductCategoryGetRequest
+
+# product
+    product.list_get.class: Jili\EmarBundle\EventListener\ProductListGetRequest
+    product.search.class: Jili\EmarBundle\EventListener\ProductSearch
+    product.filters.class: Jili\EmarBundle\EventListener\ProductFilters
+    product.categories.class: Jili\EmarBundle\EventListener\ProductCategories
+    product.storage.class: Jili\EmarBundle\EventListener\ProductStorage
+
+# website
+    website.category_get.class:  Jili\EmarBundle\EventListener\WebsiteCategoryGetRequest
+    website.list_get.class:  Jili\EmarBundle\EventListener\WebsiteListGetRequest
+    website.detail_get.class:  Jili\EmarBundle\EventListener\WebsiteDetailGetRequest
+    website.search.class:  Jili\EmarBundle\EventListener\WebsiteSearch
+    website.categories.class:  Jili\EmarBundle\EventListener\WebsiteCategories
+
+# cron
+    cron.website_and_category.class:  Jili\EmarBundle\EventListener\WebsiteAndCategoryCron
+    cron.products.class:  Jili\EmarBundle\EventListener\ProductsCron
+    cron.websites.class:  Jili\EmarBundle\EventListener\WebsitesCron
+# ip authentication
+    authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
+
+services:
+    emar_api.logger:
+        class: %emar_api.logger.class%
+        arguments: [ @logger, @doctrine.orm.entity_manager ]
+
+    emar_api.callback_validation:
+        class: %emar_api.callback_validation.class%
+        arguments: [ @logger,@doctrine.orm.entity_manager ]
+        calls:
+            - [setConfig, [%emar%] ] 
+            - [setContainer, [@service_container] ] 
+
+    emar_api.callback_processor:
+        class: %emar_api.callback_processor.class%
+        arguments: [ @logger,@doctrine.orm.entity_manager ]
+        calls:
+            - [setContainer, [@service_container] ] 
+            - [setTaskLogger, [@general_api.task_history] ]
+            - [setPointLogger, [@general_api.point_history] ]
+            - [setRebatePointCaculator, [@rebate_point.caculator] ]
+            - [setConfig, [%emar%] ] 
+
+    emar_request.connection:
+       class: %emar_request.connection.class%
+       arguments: [  %emar_com.open_api.app% ]
+       calls:
+            - [setLogger, [ @logger ] ] 
+            - [setApp, [ 'cron' ] ] 
+
+
+    ghs.category_get:
+        class: %ghs.category_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+    ghs.list_get:
+        class: %ghs.list_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+            - [ setPageSize, [ %emar_com.page_size% ] ] 
+
+    general.category_get:
+        class: %general.category_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+
+    website.category_get:
+        class: %website.category_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+    website.list_get:
+        class: %website.list_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+    website.detail_get:
+        class: %website.detail_get.class%
+        calls:
+            - [ setConnection, [ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+
+    website.search:
+        class: %website.search.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setListGet , [ @website.list_get ] ]
+            - [ setDetailGet , [ @website.detail_get ] ]
+
+    website.categories:
+        class: %website.categories.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
+            - [ setCacheDir, [ %kernel.cache_dir% ] ] 
+
+    product.list_get:
+        class: %product.list_get.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+            - [ setPageSize, [ %emar_com.page_size% ] ] 
+
+    product.search:
+        class: %product.search.class%
+        calls:
+            - [ setConnection,[ @emar_request.connection ] ]
+            - [ setLogger, [ @logger ] ] 
+            - [ setPageSize, [ %emar_com.page_size% ] ] 
+
+    product.filters:
+        class: %product.filters.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setGeneralCategoryGet, [ @general.category_get ] ] 
+            - [ setWebsiteCategoryGet, [ @website.category_get ] ] 
+            - [ setWebsiteListGet, [ @website.list_get ] ] 
+
+    product.categories:
+        class: %product.categories.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setGeneralCategoryGet, [ @general.category_get ] ] 
+            - [ setCacheDir, [ %kernel.cache_dir% ] ] 
+
+    cron.website_and_category:
+        class: %cron.website_and_category.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+
+    cron.products:
+        class: %cron.products.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setWebsiteAndCategory, [ @cron.website_and_category ] ] 
+
+    cron.websites:
+        class: %cron.websites.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+
+# ip authentication
+    authentication_ip.action_listener:
+       class: %authentication_ip.action_listener.class%
+       calls:
+           - [setContainer, ["@service_container"] ] 
+       arguments: [ [%admin_home_ip%,  %admin_vpn_ip%,    %admin_ele_ip%,    %admin_un_ip% , 127.0.0.1] ]
+       tags:
+           - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+

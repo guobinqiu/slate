@@ -1,0 +1,70 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block body %}
+
+{% form_theme form 'form_table_layout.html.twig' %}    
+
+<table align='center'>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td cols="2"><h1>新增emar商家</h1></td></tr> <!-- EmarWebsites creation -->
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+    
+    <form action="{{ path('admin_emar_websites_create') }}" method="post" {{ form_enctype(form) }}>
+{{ form_errors(form) }}
+
+<tr>
+    <td>{{ form_label(form.webId , '商家wid' ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.webId ) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label(form.webCatid , '商家分类catid' ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.webCatid ) }}</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.commission , '返利%' ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.commission ) }}%</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.is_hidden , '是否隐藏' ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.is_hidden ) }}</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.is_hot , '是否热卖',{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.is_hot ) }}</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.position , '排序先后',{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.position ) }}</td>
+</tr>
+
+<tr style="display:none">
+</tr>
+
+
+
+{{ form_rest(form) }}
+
+
+<tr><td>&nbsp;</td><td><input type="submit" name="update" value="Create"/></td></tr>
+
+
+</form>
+
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_emar_websites') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

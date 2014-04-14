@@ -7,8 +7,9 @@ $(document).ready(function(){
 			$("footer").css("position","fixed");
 		}
 		else{
-			$("footer").css("position","absolute");
+			$("footer").css("position","none");
 		}
+	//$("footer").css("position","fixed");
 	}
 	resizeFooter();
 });

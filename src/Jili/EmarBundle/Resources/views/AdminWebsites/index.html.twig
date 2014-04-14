@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    
+<h1 align="center" >配置 emar商家列表 </h1><!-- EmarWebsites list -->
+
+    <table  align="center" >
+
+
+        <thead>
+        {% if entities|length > 0 %}
+            <tr>
+                <th>商家wid</th><!-- Webid -->
+                <th>返利(%)</th>
+                <th>是否注销</th><!--Isdeleted -->
+                <th>排序位置</th><!-- Position -->
+                <th>是否隐藏</th><!-- Ishidden-->
+                <th>是否热卖</th><!-- Ishidden-->
+                <th>更新时间</th><!-- Updatedat-->
+                <th>创建时间</th><!-- Createda-->
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        {% endif %}
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('admin_emar_websites_show', { 'id': entity.id }) }}">{{ entity.webId }}</a></td>
+                <td>{%if entity.commission is null %}n/a{% else  %}{{ entity.commission }}%{% endif %}</td>
+                <td>{{ entity.isDeleted }}</td>
+                <td>{{ entity.position }}</td>
+                <td>{{ entity.isHidden }}</td>
+                <td>{{ entity.isHot }}</td>
+                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('m-d H:i') }}{% endif %}</td>
+                <td>{% if entity.createdAt %}{{ entity.createdAt|date('m-d H:i') }}{% endif %}</td>
+                <td>{{ entity.id }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('admin_emar_websites_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_emar_websites_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('admin_emar_websites_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

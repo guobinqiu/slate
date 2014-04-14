@@ -15,12 +15,11 @@ h1, h2, h3, h4, h5, h6, small, sub, sup {
 	font-size: 100%;
 }
 a {
-	color: #333;
+	color: #666;
 	cursor: pointer;
 	text-decoration: none;
 }
 a:hover {
-	text-decoration:underline;
 }
 ul {
 	list-style: none outside none;
@@ -83,12 +82,12 @@ header nav#menu ul li.last a{
 	border-right:none;
 }
 header nav#menu ul li span.new{
-	background-image: url("../other/newIcon.gif");
-	height: 12px;
-    position: absolute;
-    right: 17px;
-    top: -2px;
-    width: 22px;
+	background-image: url("../images/newTag.gif");
+	height: 18px;
+	position: absolute;
+	right: 6px;
+	top: -9px;
+	width: 29px;
 }
 header nav#menu ul li a{
 	color:#FFF;
@@ -207,7 +206,7 @@ footer{
 	color:#666;
 	margin:0;
 	width: 100%;
-	position:absolute;
+	/*position:absolute;*/
 	bottom: 0;
 }
 footer section{
@@ -215,7 +214,7 @@ footer section{
     padding: 20px 40px 10px 40px;
     position: relative;
     text-align: center;
-    width: 960px;
+    width: 1150px;
 }
 footer section p{
 	margin:5px 0;
@@ -254,7 +253,7 @@ footer section a:hover{
 	color:#000;
 }
 .webArticle {
-	width: 960px;
+	width: 1150px;
 	margin: auto;
 	padding:0 0 140px 0;
 	display:table;

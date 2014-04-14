@@ -1,0 +1,37 @@
+{#
+  1 =>
+  array (
+    'web_id' => '2806',
+    'web_name' => '东方cj购物',
+    'web_catid' => '18',
+    'logo_url' => 'http://image.yiqifa.com/ad_images/reguser/24/12/52/1257422990496.jpg',
+    'web_o_url' => 'http://p.yiqifa.com/n?k=2mLErnzl1n4H2mquUZgL18H_UmUmf9oEC8eEYO7d3OeH2mL7Nl6KY5AHWl3LrnzSWn2ernXH2mq_rI6H693LWNtLMJMH2L--&e=AP
+ImemberId&spm=139216929186018017.1.1.1',
+    'commission' => '1.5%-3%',
+  ),
+  2 =>
+#}
+
+{% for row in websites %}  
+<div>
+    {{ loop.index }}:<p>{{ row.web_name }} , commision: {{ row.commission }}</p>
+    <img src="{{ row.logo_url }}" alt="logo" />
+
+    {% if app.session.get('uid') is defined  %}
+    <a href="{{ row.web_o_url|replace({'APImemberId': app.session.get('uid')}) }}" target="_blank" rel="nofollow" >goto</a>
+    <a href="#{{ row.web_id }}">detail</a>
+    {% else %}
+    Login 
+    {% endif %}
+
+</div>
+
+{% else %}
+<em>no websites related to keyword: {{  app.request.get('q') }}</em>
+
+{% endfor %}
+
+<div>
+{# page nav #}
+{{ include('JiliEmarBundle:Product:paginate_nav.html.twig' , { 'total': total } ) }}
+</div>

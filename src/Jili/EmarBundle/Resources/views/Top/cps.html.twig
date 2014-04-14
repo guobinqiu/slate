@@ -1,0 +1,68 @@
+{% extends 'JiliEmarBundle::base140307.html.twig' %}
+
+{% block stylesheet %}
+<link href="{{ asset('css140307/recommend.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/categorys.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/cps.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/commodity834.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
+<script src="{{ asset('js140307/cps.js') }}" language="javascript"></script>
+<script type="text/javascript">
+	  $(function (){
+		for(i=3; i<16; i+=4){
+		  $("ul.commodityUl li").eq(i).css("border-right", "none");
+		  }
+		for(i=12;i<16;i++){
+		  $("ul.commodityUl li").eq(i).css("border-bottom", "none");
+		}
+	  });
+</script>
+{% endblock %}
+
+{% block page_main %}
+  <div class="w204 h340 fl">
+    <div class="module categorys">
+      <h3>所有商品分类</h3>
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': app.request.attributes.get('_route')  })) }}
+     </div>
+  </div><!-- eof w204 -->
+
+  <div class="w615 h340 fl">
+     <ul class="cpsBanner">
+      <div class="moveDiv" style="width: 2460px; left: -1230px;">
+          <li><img width="615" height="320" src="{{ asset('other140307/image100.jpg') }}"></li>
+          <li><img width="615" height="320" src="{{ asset('other140307/image100.jpg') }}"></li>
+          <li><img width="615" height="320" src="{{ asset('other140307/image100.jpg') }}"></li>
+          <li><img width="615" height="320" src="{{ asset('other140307/image100.jpg') }}"></li>
+      </div>
+      <a class="prevBtn">prev</a><a class="nextBtn">next</a>
+    </ul>
+  </div><!-- eof w615  -->
+
+  <div class="w300 h340 fr">
+      {{ render(controller('JiliEmarBundle:Websites:hot', { 'tmpl': 'cps', 'max': 9 } ) ) }}
+  </div><!-- eof w300 -->
+
+  <div class="w204 h340 fl" style=" margin-top:140px;">
+    <script type="text/javascript">
+	/*200*200，创建于2014-4-11*/
+	var cpro_id = "u1519095";
+	</script>
+	<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+  </div>
+  
+  <div class="main w930 fr">
+      {{ render(controller('JiliEmarBundle:Ghs:partial', {'tmpl':'cps', 'catids': app.request.query.get('c_h') } ))  }}
+  </div><!-- main w834 -->
+  
+  <!--<div class="sidebar w300 fr">
+      {# include("JiliEmarBundle:Product:suggestionHot.html.twig") #}
+  </div>--><!-- sidebar -->
+{% endblock %}
+
