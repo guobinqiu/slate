@@ -204,9 +204,7 @@ class WebsitesController extends Controller
                 $commissions[ $row['webId'] ] = $row['commission'];
             }
 
-
             $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
-
             # input commissions_of_configed , $commission_of_api, $commission_of_default;
             foreach( $result as $row) {
                 $web_id = $row->getWebId();
@@ -222,7 +220,6 @@ class WebsitesController extends Controller
                 if( $comm === '' || $comm === 0 || is_null( $comm) ) {
                     $comm = $this->container->getParameter('emar_com.cps.action.default_rebate');
                 }
-
                 $row->setCommission($comm);
                 $websites[$row->getWebId() ] = $row; 
             }
