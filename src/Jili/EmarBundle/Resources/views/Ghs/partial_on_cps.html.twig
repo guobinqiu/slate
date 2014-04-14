@@ -20,9 +20,9 @@
         <dt><a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><img src="{{ row.pic_url }}" height="auto" width="269"></a></dt>
         <dd>
          <span class="price fl">¥{{ row.ghs_price }}</span>
-		 <span class="tr fr fontNormal"> 
-           <p>{{ row.web_name }}</p>
-           <p>返利最高：<em>{{ row.discount }}%</em></p>
+		 <span class="detail tr fr fontNormal"> 
+           <p><span class="shop">{{ row.web_name }}</span></p>
+		   <p>返利最高：<em>{{ row.discount }}%</em></p>
 		 </span>
         </dd>
       </li>

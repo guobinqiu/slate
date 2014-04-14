@@ -18,7 +18,7 @@
 		for(i=2; i<19; i+=3){
 		  $("ul.commodityUl li").eq(i).css("border-right", "none");
 		  }
-		for(i=12;i<19;i++){
+		for(i=15;i<19;i++){
 		  $("ul.commodityUl li").eq(i).css("border-bottom", "none");
 		}
 	  });
@@ -35,12 +35,24 @@
 
   <div class="w615 h340 fl">
      <ul class="cpsBanner">
-      <div class="moveDiv" style="width: 2460px; left: -1230px;">
-          <li><a href="http://sale.jd.com/act/hyXLWdTDmkGVOa12.html?erpad_source=erpad"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner1.jpg') }}"></a></li>
-          <li><a href="http://3pm.yixun.com/?YTAG=1.100010005&cp-ptss=1810-36-34932-t&DAP=2364320739748453151:563798767808022290:33554432:13800877"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner2.jpg') }}"></a></li>
-          <li><a href="http://cms.yhd.com/cmsPage/show.do?pageId=70920&ref=gl.1.1.1.[6310_11000481_1].0.LGyEAn"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner3.jpg') }}"></a></li>
-          <li><a href="http://cms.yhd.com/cmsPage/show.do?pageId=71095&ref=gl.1.1.1.[6304_10869061_1].0.LGyEAn"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner4.jpg') }}"></a></li>
-      </div>
+      <div class="moveDiv" style="width: 2460px; left: -1230px;">         
+		{% if app.session.get('uid') is defined %}
+		  {% set href_ = 'http://p.yiqifa.com/n?k=2mLErntOWZLErJb7UZjvfSomUmRdC9Dd3OoVfmLErJyI1NKlYmLS6NgH1n2LWEyHWZLErJoH2mLSMJDe6949MQLE&e=1057639&spm=139216929186018017.1.1.1'|replace( { 'APIMemberId': app.session.get('uid') } ) %}
+		  <li><a href="{{ href_ }}" rel="nofollow" target="_blank"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner1.jpg') }}"></a></li>
+		  {% set href_ = 'http://p.yiqifa.com/n?k=2mLErnDe1ngH2mquUZgL18H_UmUmfcyAkZPdf96_YQLErI6H6nWlWZLFWEjS1QLLrZDqRwVw6Zq_rI6H6NWe3NDmMJBH2L--&e=APIMemberId&spm=139216929186018017.1.1.1'|replace( { 'APIMemberId': app.session.get('uid') } ) %}
+          <li><a href="{{ href_ }}"  rel="nofollow" target="_blank"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner2.jpg') }}"></a></li>
+		  {% set href_ = 'http://p.yiqifa.com/n?k=2mLErnzLWcLErJb7UZjvfSomUmRdk5bwf96_YpoH2mLErntl1QLFWEjS1QLLrI6HYmLErJ2eM5ts1N4brB6ykQBvRmL-&e=APIMemberId&spm=139216929186018017.1.1.1'|replace( { 'APIMemberId': app.session.get('uid') } ) %}
+          <li><a href="{{ href_ }}"  rel="nofollow" target="_blank"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner3.jpg') }}"></a></li>
+          <li><a href="{{ href_ }}"  rel="nofollow" target="_blank"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner4.jpg') }}"></a></li>
+		  {% else %}
+		  {% set href_ = path('_user_login')  %}
+          <li><a href="{{ href_ }}"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner1.jpg') }}"></a></li>
+          <li><a href="{{ href_ }}"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner2.jpg') }}"></a></li>
+          <li><a href="{{ href_ }}"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner3.jpg') }}"></a></li>
+          <li><a href="{{ href_ }}"><img width="615" height="320" src="{{ asset('images140307/cpsBanner/cpsBanner4.jpg') }}"></a></li>
+		{% endif %}
+	 
+	  </div>
       <a class="prevBtn">prev</a><a class="nextBtn">next</a>
     </ul>
   </div><!-- eof w615  -->
