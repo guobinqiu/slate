@@ -29,7 +29,7 @@
   <div class="w204 h340 fl">
     <div class="module categorys">
       <h3>所有商品分类</h3>
-      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': app.request.attributes.get('_route')  })) }}
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve'  })) }}
      </div>
   </div><!-- eof w204 -->
 
