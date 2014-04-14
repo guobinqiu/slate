@@ -1,7 +1,11 @@
 <?php
 namespace Jili\BackendBundle\Controller;
 #Component/IpAuthenticatedController.php
- interface IpAuthenticatedController {
+
+/*
+ * the interface to restrict the access on admin pages.
+ */
+interface IpAuthenticatedController {
   // ...
 }
 
