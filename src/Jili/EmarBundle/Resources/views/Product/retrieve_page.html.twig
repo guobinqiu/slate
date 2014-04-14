@@ -1,96 +1,19 @@
-{#
-  0 => 
-  array (
-    'pid' => '88592764',
-    'p_name' => 'E人E本 T7增强版 32G 商务手写平板电脑 双核 安卓4.2 兼容双3G 原笔迹书写T7S 年终盛典特惠价 原装正品还有豪礼赠送',
-    'web_id' => '1102',
-    'web_name' => '当当网',
-    'ori_price' => '3999.0',
-    'cur_price' => '3880.0',
-    'pic_url' => 'http://img32.ddimg.cn/40/0/1121247112-1_w_1.jpg',
-    'catid' => '101010000',
-    'cname' => '手机',
-    'p_o_url' => 'http://p.yiqifa.com/n?k=3EPwU74lrI6HWNKerI6HCZg7Rnu_fmXSYOgs3mDdMJBdMOgbY9Rd3OoVfltqWEtS6nRqWN2dCZgVYZLErI6HWEDmrnzSWn2ernXH2mq_rI6HWJKOMERSWnPH2L--&e=APImemberId&spm=139216929186018017.1.1.1',
-    'short_intro' => '【E人E本T7s增强版手机】E人E本 T7增强版 32G 商务手写平板电脑 双核 安卓4.2 兼容双3G 原笔迹书写价格_行情_参数_报价-当当网',
-  ),
-  1 => 
-
-#}
-
 {% for row in products %}
         <li>
         <dt class="image curPt"><img src="{{ row.pic_url }}" width="200" height="200" alt="pic url" /></dt>
           <dd class="clearfix">
             <div class="title">
 			   {% if app.session.get('uid') is defined %}
-			   <a href="{{ row.p_o_url|replace( { 'APImemberId': app.session.get('uid') } ) }}" target="_blank"  rel="nofollow" ></a>
+			   <a href="{{ row.p_o_url|replace( { 'APIMemberId': app.session.get('uid') } ) }}" target="_blank"  rel="nofollow" ></a>
 			   {% else %}
 			   <a href="#">{% endif %}{{ row.p_name }}</a>
 		   </div>
            <div class="detail">
             <span class="fl price">￥<strong>{{ row.cur_price }}</strong></span>
-            <span class="tr fr fontNormal"><a class="shop corGlobRed" >{{ row.web_name }}</a><br/><p class="corLightGray">返利最高：<em class="corGlobRed"><!--{{ webs[row.web_id].commission }}%--></em></p></span>
+            <span class="tr fr fontNormal"><a class="shop corGlobRed" >{{ row.web_name }}</a><br/><p class="corLightGray">返利最高：<em class="corGlobRed">{{ web_commissions[row.web_id] }}%</em></p></span>
            </div>
 		 </dd>
         </li>
 {% else %}
 <em>很抱歉，没有找到相关的商品。</em>
 {% endfor %}
-{#
-        <li>
-          <dt class="image"><img src="{{ asset('other140307/image100.jpg') }}" width="200" height="200" /><a class="shop">京东商城</a></dt>
-          <dd class="clearfix">
-            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
-            <p class="price">￥25</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-        <li>
-          <dt class="image"><img src="{{ asset('other140307/image100.jpg') }}" width="200" height="200" /><a class="shop">京东商城</a></dt>
-          <dd class="clearfix">
-            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
-            <p class="price">￥25</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-        <li>
-          <dt class="image"><img src="{{ asset('other140307/image100.jpg') }}" width="200" height="200" /><a class="shop">京东商城</a></dt>
-          <dd class="clearfix">
-            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
-            <p class="price">￥25</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-        <li>
-          <dt class="image"><img src="{{ asset('other140307/image100.jpg') }}" width="200" height="200" /><a class="shop">京东商城</a></dt>
-          <dd class="clearfix">
-            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
-            <p class="price">￥25</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-        <li>
-          <dt class="image"><img src="{{ asset('other140307/image100.jpg') }}" width="200" height="200" /><a class="shop">京东商城</a></dt>
-          <dd class="clearfix">
-            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
-            <p class="price">￥25</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-        <li>
-          <dt class="image"><img src="{{ asset('other140307/image100.jpg') }}" width="200" height="200" /><a class="shop">京东商城</a></dt>
-          <dd class="clearfix">
-            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
-            <p class="price">￥25</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-        <li>
-          <dt class="image"><img src="{{ asset('other140307/image100.jpg') }}" width="200" height="200" /><a class="shop">京东商城</a></dt>
-          <dd class="clearfix">
-            <p class="title"><a href="#">【货到付款全国包邮】酷(Coolpad)8020+ 3G手机酷派 (Coolpach)手机酷炫</a></p>
-            <p class="price">￥25</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-#}
