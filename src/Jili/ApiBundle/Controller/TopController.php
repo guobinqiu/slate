@@ -253,6 +253,19 @@ $logger = $this->get('logger');
         return new Response($adCheck);
     }
 
+    /**
+     * @Route("/market")
+     * @Template();
+     */
+    public function marketAction()
+    {
+        //中间最下面，商家活动
+        $em = $this->getDoctrine()->getManager();
+        $market = $em->getRepository('JiliApiBundle:MarketActivity')->getActivityList($this->container->getParameter('init_eight'));
+        $arr['market'] = $market;
+        return $this->render('JiliApiBundle:Top:market.html.twig', $arr);
+    }
+
     private function getAdCheckInfo(){
     	//advertiserment check
         $adCheck = "";
