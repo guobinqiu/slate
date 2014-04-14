@@ -9,7 +9,9 @@ CREATE TABLE `emar_websites_category_cron` (
   UNIQUE KEY `web_id` (`web_id`,`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='emar开放接口商品的商家与类型的对应关系,用于cron' ;
 
+
 --  用于查询
+
 DROP TABLE IF EXISTS `emar_websites_category`;
 CREATE TABLE `emar_websites_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -20,8 +22,10 @@ CREATE TABLE `emar_websites_category` (
   UNIQUE KEY `web_id` (`web_id`,`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='emar开放接口商品的商家与类型的对应关系,用于查询';
 
+
 -- 'web_id,web_name,web_catid,logo_url,web_url,information,begin_date,end_date,commission';
---- 用于查询
+-- 用于查询
+
 DROP TABLE IF EXISTS `emar_websites_croned`;
 CREATE TABLE `emar_websites_croned` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -38,9 +42,10 @@ CREATE TABLE `emar_websites_croned` (
       UNIQUE KEY `web_id` (`web_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用于查询';
 
---- 用于下载
+
+-- 用于下载
 DROP TABLE IF EXISTS `emar_websites_cron`;
-CREATE TABLE `emar_websites_croned` (
+CREATE TABLE `emar_websites_cron` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
       `web_id` int(11) NOT NULL COMMENT '商家网站的站点ID',
       `web_name` varchar(128) DEFAULT '' COMMENT '商家网站的中文名称',
@@ -54,6 +59,7 @@ CREATE TABLE `emar_websites_croned` (
       PRIMARY KEY (`id`),
       UNIQUE KEY `web_id` (`web_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用于下载';
+
 
 -- TABLE emar_products_croned
 -- $req->setFields('pid,p_name,web_id,web_name,ori_price,cur_price,pic_url,catid,cname,p_o_url,total,short_intro');
@@ -77,11 +83,12 @@ DROP TABLE IF EXISTS `emar_products_croned`;
   PRIMARY KEY (`id`),
   UNIQUE KEY `pid` (`pid`),
   KEY `wid_catid` (`web_id`,`catid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT='用于查询'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT='用于查询';
 
---用于下载
-DROP TABLE IF EXISTS `emar_products_croned`;
- CREATE TABLE `emar_products_croned` (
+
+-- 用于下载
+DROP TABLE IF EXISTS `emar_products_cron`;
+ CREATE TABLE `emar_products_cron` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL COMMENT '商品id',
   `p_name` varchar(128) DEFAULT '' COMMENT '商品名称',
@@ -98,8 +105,11 @@ DROP TABLE IF EXISTS `emar_products_croned`;
   UNIQUE KEY `pid` (`pid`),
   KEY `wid_catid` (`web_id`,`catid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT='用于下载';
+
+
 -- ( id, web_id, web_name, web_catid, logo_url, web_or_url , commission , is_deleted,deleted_at, is_called(是否被回调过, called_at 上次回调时间, clicked: 0，是否被点过, upated_at ,created_at ) 
 
+DROP TABLE IF EXISTS `emar_websites`;
 CREATE TABLE `emar_websites` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `web_id` int(11) NOT NULL COMMENT '商家网站的站点ID',

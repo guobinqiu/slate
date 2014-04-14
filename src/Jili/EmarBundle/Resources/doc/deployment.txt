@@ -7,6 +7,7 @@ CREATE TABLE `emar_api_return` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
+
 CREATE TABLE `emar_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -24,6 +25,8 @@ CREATE TABLE `emar_order` (
   UNIQUE KEY `adid_ocd_uniq` (`ad_id`,`ocd`),
   KEY `ad_id_ref` (`ad_id`,`ad_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
+
+
 
 -- ad_type　表示ad_id对应, local: advertiserment, emar: open.yiqifa.ad.get
 -- ALTER TABLE  `emar_order` ADD  `ad_type` VARCHAR( 16 ) NOT NULL DEFAULT  'emar' COMMENT  '表示ad_id对应, local: advertiserment, emar: open.yiqifa.ad.get' AFTER `ad_id`;
@@ -43,7 +46,9 @@ CREATE TABLE `emar_access_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+
 ALTER TABLE `ad_category`  ADD `asp` VARCHAR(64) NULL COMMENT '平台供应商' AFTER `category_name`;
+
 
 
 -- update ad_category set  id = 20 where id  =19 limit 1;
@@ -53,6 +58,8 @@ ALTER TABLE `ad_category`  ADD `asp` VARCHAR(64) NULL COMMENT '平台供应商' 
 
 INSERT INTO `ad_category` ( `id` , `category_name` , `asp` , `display_name` )
 VALUES (19 , 'cps', 'emar', '购物返利'),( 20, 'cpa', 'emar', '亿玛活动');
+
+
 
 ALTER TABLE `advertiserment`  ADD `action_id` int(11) NULL COMMENT 'emar  action_id' AFTER `title`;
 
