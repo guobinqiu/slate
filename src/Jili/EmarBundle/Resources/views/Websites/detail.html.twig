@@ -28,13 +28,12 @@
       <div class="shop-info module clearfix borderGlob">
 
         {% if website is defined %}
-                {% if app.session.get('uid') is defined %}
-                  {% set href_ = website.web_url|replace( { 'APImemberId': app.session.get('uid') } ) %}
+                {% if app.session.has('uid') %}
+                  {% set href_ = website.web_url|replace( { 'APIMemberId': app.session.get('uid') } ) %}
                 {% else %}
-                  {% set href_ = "#" %}
+                  {% set href_ = path('_user_login')  %}
                 {% endif %}
         {% endif %}
-
         <div class="shop-info-l">
           <div class="shop_img"> <a href="{{ href_ }}" target="_blank" rel="nofollow"><img src="{{ website.logo_url }}" width="120" height="60" /></a>
             <p class="shop-rebate">最高返利<em>4.2%</em></p>
@@ -55,16 +54,6 @@
     <div class="shopRecommend">
       {{  render( controller("JiliEmarBundle:Product:recommendByWeb",  {'wid': website.web_id } ) )  }}
     </div>
-
-<!--
-<p>wid: {{ website.web_id }}</p>
-<p>name: <a href="{{ href_ }}" target="_blank" rel="nofollow">{{ website.web_name }}</a></p>
-
-<p> From {{ website.begin_date|date('Y年m月d日') }}  to {{ website.end_date|date('Y年m月d日') }}</p>
-<p> Commission: {{ website.commission  }}</p>
-<p>Introduce: {{  website.information|raw }}</p>
-<img src="{{ website.logo_url }}" alt="logo" />
--->
 
   </div><!-- eof main  -->
 

@@ -47,7 +47,6 @@ class WebsitesController extends Controller
             }
         }
         return $this->render('JiliEmarBundle:Websites:shoplist_search_form.html.twig', array( 'form'=> $form->createView( ) ) );
-        #return  array('form'=> $form->createView());
     }
 
     /**
