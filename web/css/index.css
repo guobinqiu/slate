@@ -327,8 +327,8 @@
 	border-bottom: none;
 }
 #signInFrame{
-	background-image: url("../images/signInFrame.jpg");
-    height: 264px;
+	background: url("../images/signInFrame.jpg") bottom;
+    height: 352px;
     left: 0;
     position: fixed;
     top: 0;

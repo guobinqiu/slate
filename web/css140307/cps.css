@@ -1,11 +1,10 @@
 .cpsBanner{ position:relative; overflow:hidden; width:100%; height:320px;}
 .cpsBanner .moveDiv{ position:absolute; left:0; top:0;}
 .cpsBanner li{ float:left; height:320px;}
-.cpsBanner a.prevBtn, .cpsBanner a.nextBtn{ font-size:0; line-height:0; display:inline-block; position:absolute; width:45px; height:45px; background-image:url(../images140307/iconImage2.png); cursor:pointer;}
+.cpsBanner a.prevBtn, .cpsBanner a.nextBtn{ font-size:0; line-height:0; display:inline-block; position:absolute; width:45px; height:45px; background:url(../images140307/iconImage2.png) #000; background-color: rgba(0,0,0,.3); cursor:pointer;}
 .cpsBanner a.prevBtn{ left:0; top:50%; margin-top:-22px;}
 .cpsBanner a.nextBtn{ right:0; top:50%; margin-top:-22px; background-position:0 -90px;}
-.cpsBanner a.prevBtn:hover{ background-position:0 -45px;}
-.cpsBanner a.nextBtn:hover{ background-position:0 -135px;}
+.cpsBanner a.prevBtn:hover,.cpsBanner a.nextBtn:hover{ background-color: rgba(0,0,0,.6);}
 
 .hotShop{background-color:#FFF;height:300px;padding:10px 20px;}
 .hotShop h3{ font-size:15px; line-height:250%; position:relative;}

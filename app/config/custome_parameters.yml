@@ -56,7 +56,7 @@ parameters:
 # product search页面上的分页大小
     emar_com.page_size_of_search: 24 
 # topcps页面上的分页大小
-    emar_com.page_size_of_topcps:  16 
+    emar_com.page_size_of_topcps:  18 
 # emar的open.api读取记录数上限
     emar_com.max_of_total: 1800 
 # open.product.search->orderby fields

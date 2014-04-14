@@ -1,10 +1,12 @@
-ul.commodityUl{ background-color:#FFF; border-top:3px solid #EA4B11; padding:15px 0 15px 15px;}
+ul.commodityUl{ background-color:#FFF; border-top:3px solid #EA4B11; padding:0px 0 15px 0px;}
 ul.commodityUl.btbn{ border-top:none;}
-ul.commodityUl li{ border-bottom: 1px solid #EEE; border-right: 1px solid #EEE; float: left; padding: 25px 38px 10px;}
+ul.commodityUl li{width:269px; border-bottom: 1px solid #EEE; border-right: 1px solid #EEE; float: left; padding: 20px 20px 10px;}
 ul.commodityUl li.brn{ border-right:none;}
 ul.commodityUl li.bbn{ border-bottom:none;}
-ul.commodityUl li dd{font-size:12px; padding:0 10px 10px 10px; color:#999999;}
-ul.commodityUl li dd p{ line-height:170%;}
-ul.commodityUl li .price{ font-size:16px; font-weight: bold; color:#ea4b11;}
-ul.commodityUl li .rebate em{color:#ea4b11;}
+ul.commodityUl li dd{font-size:12px; padding:0 0 10px 0; color:#999999;}
+ul.commodityUl li dd p{ line-height:150%;}
+ul.commodityUl li dd p.shop{ color: #f74a28;}
+ul.commodityUl li .price{ color: #f74a28; font-size: 18px; font-weight: bold;}
+ul.commodityUl li dd p em{color:#ea4b11;}
+ul.commodityUl li dt a img{ width:269px; height:auto;}
 ul.commodityUl li dt a img:hover{opacity:0.8;filter:alpha(opacity=80)}

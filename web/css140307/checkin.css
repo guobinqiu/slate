@@ -1,6 +1,6 @@
 #signInFrame {
-    background-image: url("../images/signInFrame.jpg");
-    height: 264px;
+    background: url("../images/signInFrame.jpg") bottom;
+    height: 352px;
     left: 0;
     #padding: 20px 30px;
     padding: 10px 15px;

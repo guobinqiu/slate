@@ -12,6 +12,13 @@
 <script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
+<script type="text/javascript">
+	  $(function (){
+		for(i=3; i<900; i+=4){
+		  $("ul.commodityUl li").eq(i).css("margin-right", "0");
+		}
+	  });
+</script>
 {% endblock %}
 
 {% block page_main %}
@@ -23,12 +30,12 @@
      </div>
   </div>
 
-  <div class="main w930 fr">
+  <!--<div class="main w930 fr">
       {% render(controller('JiliEmarBundle:Product:recommend')) %}
-  </div>
+  </div>-->
 
-  <div class="commodityList">
-        <h1>
+  <div class="commodityList w930 fr">
+        <h1 class="corDarkGray">
             {{ crumbs_local }}{{  crumbs_local|length > 0 ? '-' : '' }} 宝贝列表{% if total is defined %}<span>共{{ total }}件宝贝</span>{% endif %}</h1>
       <div class="screen clearfix">
 
@@ -60,7 +67,7 @@
 
       </div>
 
-      <ul class="module commodityUl clearfix">
+      <ul class="commodityUl clearfix">
       {% include "JiliEmarBundle:Product:retrieve_page.html.twig"  %}
       </ul>
 
