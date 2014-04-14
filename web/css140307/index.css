@@ -575,13 +575,12 @@
 	position: relative;
 }
 #marketActivity .mask {
-	height: 121px;
+	height: 200px;
 	overflow: hidden;
 	position: relative;
 	width: 100%;
 }
 #marketActivity .moveDiv {
-	height: 121px;
 	overflow: hidden;
 	position: absolute;
 	top: 0;
@@ -593,33 +592,40 @@
 }
 #marketActivity ul li dt {
 	float: left;
-	width: 494px;
+	width: 470px;
 }
+#marketActivity ul li dt a img{ width:470px; height:200px;}
 #marketActivity ul li dd {
 	float: right;
-	width: 90px;
+	width: 105px;
 }
 #marketActivity ul li p {
 	margin: 5px 0;
 }
+#marketActivity ul li p.btn{ position:absolute; bottom:30px;}
 #marketActivity ul li p.title {
-	color: #666;
-	margin-top: 10px;
+	height:70px;
+	overflow:hidden;
+	margin-top: 32px;
+	line-height:22px;
 }
 #marketActivity ul li p.discount {
 	color: #f74a28;
-	font-size: 24px;
+	position:absolute;
+	bottom:64px;
 }
 #marketActivity ul li p.btn .goActivity {
 	color: #FFF;
-	background-color: #e62600;
+	background-color: #FF6B4F;
 	font-size: 14px;
 	display: inline-block;
 	padding: 2px 15px;
 }
+#marketActivity ul li p.btn a:hover{background-color: #e62600;}
 #marketActivity .prevBtn, #marketActivity .nextBtn {
 	display: inline-block;
 	background-image: url(../images140307/iconImage2.png);
+	background-color: rgba(0,0,0,.3);
 	width: 30px;
 	height: 30px;
 	font-size: 0;
@@ -628,14 +634,15 @@
 	cursor: pointer;
 }
 #marketActivity .prevBtn {
-	background-position: 0 -180px;
+	background-position:-6px -184px;
 	top: 50%;
 	margin-top: -15px;
 	left: 0;
 }
 #marketActivity .nextBtn {
-	background-position: 0 -270px;
+	background-position:-6px -224px;
 	top: 50%;
 	margin-top: -15px;
 	right: 0;
 }
+#marketActivity .prevBtn:hover, #marketActivity .nextBtn:hover{background-color: rgba(0,0,0,.6);} 

@@ -4,7 +4,7 @@
     {% for row in  products %}
         <li>
           <dt>
-            <a href="{{ row.p_o_url|replace({'APImemberId': app.session.get('uid')}) }}" target="_blank" rel="nofollow">
+            <a href="{{ row.p_o_url|replace({'APIMemberId': app.session.get('uid')}) }}" target="_blank" rel="nofollow">
             <img src="{{ row.pic_url }}" width="150" height="150" />
             </a>
           </dt>
