@@ -20,6 +20,7 @@ class TopController extends Controller
      */
     public function indexAction()
     {
+
         if ($_SERVER['HTTP_HOST'] == '91jili.com')
             return $this->redirect('https://www.91jili.com');
 $logger = $this->get('logger');

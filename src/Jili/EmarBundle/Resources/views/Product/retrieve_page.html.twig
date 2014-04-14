@@ -4,7 +4,7 @@
           <dd class="clearfix">
             <div class="title">
 			   {% if app.session.get('uid') is defined %}
-			   <a href="{{ row.p_o_url|replace( { 'APIMemeberId': app.session.get('uid') } ) }}" target="_blank"  rel="nofollow" ></a>
+			   <a href="{{ row.p_o_url|replace( { 'APIMemberId': app.session.get('uid') } ) }}" target="_blank"  rel="nofollow" ></a>
 			   {% else %}
 			   <a href="#">{% endif %}{{ row.p_name }}</a>
 		   </div>

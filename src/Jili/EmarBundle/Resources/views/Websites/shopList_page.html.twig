@@ -1,7 +1,7 @@
 
 {% for wid,row in websites%}
 {% if app.session.get('uid') is defined %}
-  {% set href_ = row.url|replace( { 'APIMemeberId': app.session.get('uid') } ) %}
+  {% set href_ = row.url|replace( { 'APIMemberId': app.session.get('uid') } ) %}
 {% else %}
   {% set href_ = "#" %}
 {% endif %}
