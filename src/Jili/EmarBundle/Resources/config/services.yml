@@ -30,7 +30,8 @@ parameters:
     cron.website_and_category.class:  Jili\EmarBundle\EventListener\WebsiteAndCategoryCron
     cron.products.class:  Jili\EmarBundle\EventListener\ProductsCron
     cron.websites.class:  Jili\EmarBundle\EventListener\WebsitesCron
-
+# ip authentication
+    authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
 
 services:
     emar_api.logger:
@@ -162,4 +163,13 @@ services:
         calls:
             - [ setLogger, [ @logger ] ] 
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+
+# ip authentication
+    authentication_ip.action_listener:
+       class: %authentication_ip.action_listener.class%
+       calls:
+           - [setContainer, ["@service_container"] ] 
+       arguments: [ [%admin_home_ip%,  %admin_vpn_ip%,    %admin_ele_ip%,    %admin_un_ip% , 127.0.0.1] ]
+       tags:
+           - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 

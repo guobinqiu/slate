@@ -10,12 +10,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\EmarBundle\Entity\EmarWebsites;
 use Jili\EmarBundle\Form\EmarWebsitesType;
 
+use Jili\BackendBundle\Controller\IpAuthenticatedController;
 /**
  * EmarWebsites controller.
  *
  * @Route("/admin/websites")
  */
-class AdminWebsitesController extends Controller
+class AdminWebsitesController extends Controller implements  IpAuthenticatedController
 {
     /**
      * Lists all EmarWebsites entities.
