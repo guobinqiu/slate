@@ -996,15 +996,23 @@ class UserController extends Controller
 		$pwd = $request->request->get('pwd');
 
         //login
-        $loginLister = $this->get('login.listener');
-        $code = $loginLister->login($request,$email,$pwd);
+        $loginListenr = $this->get('login.listener');
+        $code = $loginListenr->login($request,$email,$pwd);
+
+
         if($code == "ok"){
             $current_url = $session->get('goToUrl');
             $session->remove('goToUrl');
+            if( strlen(trim($current_url)) == 0) {
+                $current_url = $this->generateUrl('_homepage');
+#                $logger->debug('{jarod}'. var_export( $current_url, true) );
+            } else {
+#                $logger->debug('{jarod}'. var_export( $current_url, true) );
+            }
+        
             return $this->redirect($current_url);
         }
 
-		 
 		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
 	}
 	

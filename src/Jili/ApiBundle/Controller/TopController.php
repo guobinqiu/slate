@@ -22,8 +22,12 @@ class TopController extends Controller
     {
         if ($_SERVER['HTTP_HOST'] == '91jili.com')
             return $this->redirect('https://www.91jili.com');
+$logger = $this->get('logger');
+
         $request = $this->get('request');
         $cookies = $request->cookies;
+        $session = $request->getSession();
+
         if ($cookies->has('jili_uid') && $cookies->has('jili_nick')) {
             $this->get('request')->getSession()->set('uid', $cookies->get('jili_uid'));
 //            $this->get('request')->getSession()->set('nick', $cookies->get('jili_nick'));
@@ -34,10 +38,13 @@ class TopController extends Controller
         $email = $request->get('email');
         $pwd = $request->get('pwd');
         $arr['email'] = $email;
-        $loginLister = $this->get('login.listener');
-        $code = $loginLister->login($this->get('request'),$email,$pwd);
+        $code = $this->get('login.listener')->login($this->get('request'),$email,$pwd);
+
+# $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($code , true));
+# $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($session->get('referer'), true));
+
         if($code == "ok"){
-            return $this->redirect($this->generateUrl('jili_api_top_index'));
+            return $this->redirect($this->generateUrl('_homepage'));
         }
         $arr['code'] = $code;
 

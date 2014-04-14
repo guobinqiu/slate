@@ -1,5 +1,5 @@
 
-{% if app.session.get('uid') %}
+{% if app.session.has('uid') %}
 <script type="text/javascript">
 $(document).ready(function(){
 		isNewMessage();
