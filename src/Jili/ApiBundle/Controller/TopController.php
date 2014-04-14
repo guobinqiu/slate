@@ -40,8 +40,8 @@ $logger = $this->get('logger');
         $arr['email'] = $email;
         $code = $this->get('login.listener')->login($this->get('request'),$email,$pwd);
 
-$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($code , true));
-$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($session->get('referer'), true));
+# $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($code , true));
+# $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($session->get('referer'), true));
 
         if($code == "ok"){
             return $this->redirect($this->generateUrl('_homepage'));

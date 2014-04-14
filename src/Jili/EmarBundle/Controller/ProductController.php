@@ -57,7 +57,7 @@ class ProductController extends Controller
         if(isset($cat_id) && is_numeric($cat_id)) {
 
             $params=  array( 'categoryId'=>$cat_id);
-             $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
+#              $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
 
             $webs_by_cat = $em->getRepository('JiliEmarBundle:EmarWebsitesCategory')->findBy($params );
             $wids_by_cat =  array();
@@ -69,7 +69,7 @@ class ProductController extends Controller
                 }
             }
 
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$wids_by_cat','')) . var_export( $wids_by_cat, true));
+#             $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$wids_by_cat','')) . var_export( $wids_by_cat, true));
 
             $filters_of_webs_by_cat = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds($wids_by_cat );
 
@@ -95,7 +95,7 @@ class ProductController extends Controller
             $total = 0;
         }
 
-        //$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$products','')) . var_export( $products, true));
+#         //$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$products','')) . var_export( $products, true));
 
         //update the commissions
         $webids=array();
@@ -105,7 +105,7 @@ class ProductController extends Controller
         }
         array_unique($webids);
 
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$webids','')) . var_export( $webids, true));
+#         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$webids','')) . var_export( $webids, true));
         $webs_configged = $em->getRepository('JiliEmarBundle:EmarWebsites')->getSortedByParams( array('wids'=> $webids ));
 
         $webids_configed = array();
@@ -138,7 +138,7 @@ class ProductController extends Controller
             $web_commissions[$webid  ] = $comm;
         }
 
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'web_commissions','')) . var_export( $web_commissions, true));
+#         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'web_commissions','')) . var_export( $web_commissions, true));
         return array_merge( $prod_categories, $webs, array('webs_filter'=> $filters_of_webs['webs'] ,'web_commissions'=>$web_commissions),compact('products', 'total','crumbs_local') );
     }
 

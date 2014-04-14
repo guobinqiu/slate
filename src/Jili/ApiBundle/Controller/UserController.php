@@ -1005,9 +1005,9 @@ class UserController extends Controller
             $session->remove('goToUrl');
             if( strlen(trim($current_url)) == 0) {
                 $current_url = $this->generateUrl('_homepage');
-               $logger->debug('{jarod}'. var_export( $current_url, true) );
+#                $logger->debug('{jarod}'. var_export( $current_url, true) );
             } else {
-               $logger->debug('{jarod}'. var_export( $current_url, true) );
+#                $logger->debug('{jarod}'. var_export( $current_url, true) );
             }
         
             return $this->redirect($current_url);
