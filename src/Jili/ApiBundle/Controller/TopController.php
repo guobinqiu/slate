@@ -20,6 +20,7 @@ class TopController extends Controller
      */
     public function indexAction()
     {
+
         if ($_SERVER['HTTP_HOST'] == '91jili.com')
             return $this->redirect('https://www.91jili.com');
 $logger = $this->get('logger');
@@ -250,6 +251,19 @@ $logger = $this->get('logger');
         //advertiserment check
         $adCheck = $this->getAdCheckInfo();
         return new Response($adCheck);
+    }
+
+    /**
+     * @Route("/market")
+     * @Template();
+     */
+    public function marketAction()
+    {
+        //中间最下面，商家活动
+        $em = $this->getDoctrine()->getManager();
+        $market = $em->getRepository('JiliApiBundle:MarketActivity')->getActivityList($this->container->getParameter('init_eight'));
+        $arr['market'] = $market;
+        return $this->render('JiliApiBundle:Top:market.html.twig', $arr);
     }
 
     private function getAdCheckInfo(){

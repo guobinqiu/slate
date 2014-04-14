@@ -18,7 +18,7 @@ ImemberId&spm=139216929186018017.1.1.1',
     <img src="{{ row.logo_url }}" alt="logo" />
 
     {% if app.session.get('uid') is defined  %}
-    <a href="{{ row.web_o_url|replace({'APImemberId': app.session.get('uid')}) }}" target="_blank" rel="nofollow" >goto</a>
+    <a href="{{ row.web_o_url|replace({'APIMemberId': app.session.get('uid')}) }}" target="_blank" rel="nofollow" >goto</a>
     <a href="#{{ row.web_id }}">detail</a>
     {% else %}
     Login 

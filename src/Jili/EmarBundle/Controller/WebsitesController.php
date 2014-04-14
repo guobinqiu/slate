@@ -22,7 +22,7 @@ class WebsitesController extends Controller
 
     /**
      * @Route("/shoplist/search")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function shopListSearchAction()
@@ -46,13 +46,13 @@ class WebsitesController extends Controller
                 return $this->redirect( $url );
             }
         }
-        return  array('form'=> $form->createView());
+        return $this->render('JiliEmarBundle:Websites:shoplist_search_form.html.twig', array( 'form'=> $form->createView( ) ) );
     }
 
     /**
      * @abstract: 会将本地配置的商家排列在前面。
      * @Route("/shoplist")
-     * @Method("GET")
+     * @Method( {"GET","POST"})
      * @Template()
      */
     public function shopListAction()
@@ -252,7 +252,7 @@ class WebsitesController extends Controller
 
     /**
      * @Route("/shopsearch")
-     * @Method("GET");
+     * @Method({"GET","POST"});
      * @Template();
      */
     public function shopSearchAction()
