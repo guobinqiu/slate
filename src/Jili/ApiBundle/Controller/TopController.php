@@ -31,7 +31,7 @@ $logger = $this->get('logger');
 
         if ($cookies->has('jili_uid') && $cookies->has('jili_nick')) {
             $this->get('request')->getSession()->set('uid', $cookies->get('jili_uid'));
-//            $this->get('request')->getSession()->set('nick', $cookies->get('jili_nick'));
+            $this->get('request')->getSession()->set('nick', $cookies->get('jili_nick'));
         }
 
         //首页登录

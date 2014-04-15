@@ -1,12 +1,20 @@
 {% for row in products %}
         <li>
-        <dt class="image curPt"><img src="{{ row.pic_url }}" width="200" height="200" alt="pic url" /></dt>
+        <dt class="image curPt">
+	       {% if app.session.has('uid')  %}
+		   <a href="{{ row.p_o_url|replace( { 'APIMemberId': app.session.get('uid') } ) }}" target="_blank"  rel="nofollow" >
+		   {% else %}
+		   <a href="{{ path('_user_login') }}">
+		   {% endif %}
+	        <img src="{{ row.pic_url }}" width="200" height="200" alt="pic url" />
+	        </a>
+        </dt>
           <dd class="clearfix">
             <div class="title">
-			   {% if app.session.get('uid') is defined %}
-			   <a href="{{ row.p_o_url|replace( { 'APIMemberId': app.session.get('uid') } ) }}" target="_blank"  rel="nofollow" ></a>
+			   {% if app.session.has('uid')  %}
+			   <a href="{{ row.p_o_url|replace( { 'APIMemberId': app.session.get('uid') } ) }}" target="_blank"  rel="nofollow" >
 			   {% else %}
-			   <a href="#">{% endif %}{{ row.p_name }}</a>
+			   <a href="{{ path('_user_login') }}">{% endif %}{{ row.p_name }}</a>
 		   </div>
            <div class="detail">
             <span class="fl price">￥<strong>{{ row.cur_price }}</strong></span>

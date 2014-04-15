@@ -66,7 +66,7 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
   public function exe( $req) {
     $result_raw = $this->getConn()->execute($req);
     // 对返回的json 转义为有效的json string.
-    $result_escaped = trim(str_replace(array( "\\","{\n", "}\n", ",\n", "]\n", "\"\n", "\n","\r",) , array('\\\\', '{', '}', ',', ']','"', '\n','') ,trim($result_raw)));
+    $result_escaped = trim(str_replace(array( "\\","{\n", "}\n", ",\n", "]\n", "\"\n", "\n","\r","\t") , array('\\\\', '{', '}', ',', ']','"', '\n','','    ') ,trim($result_raw)));
 
     $result  = json_decode( trim($result_escaped), true);  
 

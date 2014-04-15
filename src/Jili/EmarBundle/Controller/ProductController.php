@@ -138,7 +138,7 @@ class ProductController extends Controller
             $web_commissions[$webid  ] = $comm;
         }
 
-         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'web_commissions','')) . var_export( $web_commissions, true));
+         #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'web_commissions','')) . var_export( $web_commissions, true));
         return array_merge( $prod_categories, $webs, array('webs_filter'=> $filters_of_webs['webs'] ,'web_commissions'=>$web_commissions),compact('products', 'total','crumbs_local') );
     }
 
@@ -206,6 +206,7 @@ class ProductController extends Controller
         if(!  $request->getSession()->get('uid') ) {
             return  $this->redirect($this->generateUrl('_user_login'));
         }
+
         $logger= $this->get('logger');
         $keyword = $request->query->get('q');
         if( !isset($keyword ) || 0 >= strlen(trim($keyword))) {
@@ -229,7 +230,7 @@ class ProductController extends Controller
         
         // search
         $params = array('keyword'=>$keyword, 'catid'=> $cat_id, 'webid'=> $web_id, 'page_no'=>$page_no, 'price_range'=> $price_range,'orderby'=>$order);
-#         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
+         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
         $productSearch = $this->get('product.search');
 
         $page_size = $this->container->getParameter('emar_com.page_size_of_search') ;
