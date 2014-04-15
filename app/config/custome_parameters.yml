@@ -77,7 +77,7 @@ parameters:
         - 'jili_emar_websites_shopsearch'  
 # 
     emar_com.pdt_cat.menu:
-        - '图书、影音':
+        - '影音':
             - '图书音像'
             - '影音设备'
         - '家用电器':

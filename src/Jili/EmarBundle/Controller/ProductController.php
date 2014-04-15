@@ -105,7 +105,7 @@ class ProductController extends Controller
         }
         array_unique($webids);
 
-         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$webids','')) . var_export( $webids, true));
+         #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$webids','')) . var_export( $webids, true));
         $webs_configged = $em->getRepository('JiliEmarBundle:EmarWebsites')->getSortedByParams( array('wids'=> $webids ));
 
         $webids_configed = array();
@@ -151,14 +151,22 @@ class ProductController extends Controller
         $logger= $this->get('logger');
         $prod_categories = $this->get('product.categories')->fetch();
         $menu_config = $this->container->getParameter('emar_com.pdt_cat.menu');
-        #$logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
         $cats_fliped = array_flip($prod_categories['cats']);
 
+        $logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
+        #
         // support 2-level only
         foreach( $menu_config as $index => $item) {
+
             if( is_array( $item) ) {
+
                 foreach( $item as $key1 => $item1) {
+
                     foreach($item1 as $index2 => $item2) { // $item1 is always is array
+
+                        if( $item2 === '图书音像') {
+                            continue;
+                        }
                         if(is_string( $item2 ) &&  array_key_exists($item2, $cats_fliped ))  {
                             $menu_config[$index][$key1][$index2] = array('cat_name'=> $item2, 'cat_id'=> $cats_fliped[$item2]); 
                         }
@@ -168,6 +176,8 @@ class ProductController extends Controller
                $menu_config[$index] = array( 'cat_name'=> $item, 'cat_id'=> $cats_fliped[$item ]); 
             }
         }
+        
+        $logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
         return array_merge($prod_categories , compact('rt', 'qs' ,'menu_config'));
     }
 
