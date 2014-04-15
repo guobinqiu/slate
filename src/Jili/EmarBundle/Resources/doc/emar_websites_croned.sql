@@ -16,29 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `emar_websites_croned`
---
-
-DROP TABLE IF EXISTS `emar_websites_croned`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `emar_websites_croned` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `web_id` int(11) NOT NULL COMMENT '商家网站的站点ID',
-  `web_name` varchar(128) DEFAULT '' COMMENT '商家网站的中文名称',
-  `web_catid` int(11) DEFAULT NULL COMMENT '商家网站所属分类的分类id',
-  `logo_url` varchar(128) DEFAULT '' COMMENT '网站LOGO图片的URL',
-  `web_url` varchar(255) DEFAULT NULL COMMENT '商品的计费链接',
-  `information` text COMMENT '商家网站的描述信息',
-  `begin_date` varchar(128) DEFAULT '' COMMENT '网站推广开始时间',
-  `end_date` varchar(128) DEFAULT '' COMMENT '网站推广结束时间',
-  `commission` text COMMENT '推广佣金比例信息',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `web_id` (`web_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=564 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `emar_websites_croned`
 --
 
@@ -57,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-14 13:17:04
+-- Dump completed on 2014-04-14 16:14:10
