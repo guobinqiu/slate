@@ -21,7 +21,8 @@ strong, b{font-weight: bold;}
 .corLightGray{ color:#999;}
 .corDarkGray{ color:#333;}
 .corGlobGray{ color:#525252;}
-.corGlobRed{ color:#ff4400;}
+.corGlobRed{ color:#f65857;}
+.corGlobBlue{ color:#65b1ee;}
 .corWhite{ color:#fff;}
 .division{ margin:0 10px; color:#ccc;}
 .module{ border:2px solid #ff6b4f;}
@@ -55,7 +56,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 #headerContent .searchMenu .dropWrap{ background:#f7f7f7;left: 0; position: absolute; top: 34px; width: 77px; z-index: 9999; border:1px solid #e7e7e7;}
 #headerContent .searchMenu .dropWrap li{ padding-left: 15px;}
 #headerContent .searchMenu .dropWrap li:first-child{ border-bottom:1px solid #e7e7e7;}
-#headerContent .searchMenu .dropWrap li:hover{ color:#FF4300; text-decoration:underline;}
+#headerContent .searchMenu .dropWrap li:hover{ color:#f65857; text-decoration:underline;}
 /* top search/ */
 
 #headerContent .otherInlet{ float:right; margin-top:10px; margin-right:70px;}
