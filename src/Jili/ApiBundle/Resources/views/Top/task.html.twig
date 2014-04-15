@@ -12,7 +12,7 @@
     {% if task.ad==1 %}
     <li><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}">广告任务墙<span>{{ adCheck }}更新</span></a></li>
     {% endif %}
-    <li><a href="{{ asset(path('_shopping_list'),'cdn1') }}">去购物</a></li>
+    <li><a href="{{ asset(path('jili_emar_top_cps'),'cdn1') }}">去购物</a></li>
     {% for item in task.cpa %}
     <li><a href="{{ path('_advertiserment_index',{'id':item.id}) }}">{{ item.title[:8] }}<span>{{ item.incentive }}米粒</span></a></li>
     {% endfor %}
