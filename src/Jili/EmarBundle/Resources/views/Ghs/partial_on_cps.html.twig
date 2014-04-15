@@ -8,7 +8,12 @@
     {% if wcatid in catids_request %}
         <a href="{{  path(router_ ) }}" class="hover" onclick="javascript:return false;" >{{ cat }}</a>
     {% else %}
+
+        {% if wcatid == '000000' %}
+            <a href="{{ path( router_) }}" > {{ cat }}  </a>
+        {% else %}
             <a href="{{ path( router_ ,  { 'c_h': wcatid })}}" > {{ cat }}  </a>
+        {% endif %}
     {% endif %}
 {% endfor %}
         <!--<a class="unfoldBtn already">展开</a>--> </dd>

@@ -18,7 +18,7 @@
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
-function goto(){
+function gotoad(){
 	if($('#uid').val()==''){
 		window.location.href="{{ path('_user_login') }}";
 	}else{
@@ -81,11 +81,11 @@ function goto(){
            {% endif %}                        
       {% else %}
           {% if advertiserment.incentiveType==2 %}
-              <a class="getBtn" id="getTask" onclick="goto();"><img src="{{ asset('images/buyBtn.jpg')}}" /></a></span>
+              <a class="getBtn" id="getTask" onclick="gotoad();"><img src="{{ asset('images/buyBtn.jpg')}}" /></a></span>
           {% else %}
               {% if orderStatus %}      
                   {% if orderStatus==1 %}
-                  <a href="javascript:void(0);" class="getBtn"  onclick="goto();"><img src="{{ asset('images/continueBtn.jpg')}}" /></a> 
+                  <a href="javascript:void(0);" class="getBtn"  onclick="gotoad();"><img src="{{ asset('images/continueBtn.jpg')}}" /></a> 
                   {% elseif orderStatus==2 %}
                      <span class="getBtn"><img src="{{ asset('images/oncheckBtn.jpg')}}" />
                      </span>  
@@ -98,7 +98,7 @@ function goto(){
                         {% else %}                                                                                               
                      {% endif %}               
                 {% else %}        
-                       <a class="getBtn" id="getTask" onclick="goto();"><img src="{{ asset('images/getBtn.jpg')}}" /></a>
+                       <a class="getBtn" id="getTask" onclick="gotoad();"><img src="{{ asset('images/getBtn.jpg')}}" /></a>
                      </span>
                {% endif %}
           {% endif %}   
