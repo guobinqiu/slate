@@ -76,8 +76,8 @@ $(document).ready(function(){
                     <a href="{{ path('_user_login')  }}">
                  {% endif %}
                  <img src="{{ row.pic_url }}" height="auto" width="200"></a></p>
-                 <p class="price"><span class="price1">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray">原价￥{{ row.ori_price }}</del><span class="discount corGlobGray">返利最高<br/><em class="corGlobRed">{{ row.discount }}%</em></span></p> 
-                 <p class="corGlobGray">销量{{ row.bought }}件</p>
+                 <p class="price"><span class="price1">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray">原价￥{{ row.ori_price }}</del><span class="discount corLightGray">返利最高<br/><strong class="corGlobRed">{{ row.discount }}%</strong></span></p> 
+                 <p class="corLightGray">销量<em class="corGlobBlue">{{ row.bought }}</em>件</p>
 				 <div class="model hoverView curPt">
 				 {% if app.session.has('uid')  %}
 				    <a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>

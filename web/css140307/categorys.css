@@ -6,4 +6,4 @@
 .categorys ul li p a{ color:#5c5c5c; display: inline-block; padding-left: 5px;}
 .categorys .second{left: 201px; position: absolute; top: -2px; width: 470px; background-color:#FFF; border:1px solid #e3e3e3; -moz-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;-webkit-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;box-shadow: 1px 1px 6px #ddd,1px -1px 6px #ddd; padding:5px 10px 15px 20px; z-index:503px; white-space: nowrap; text-overflow: ellipsis; display:none;}
 .categorys .second .third{ width:100%; float:left;}
-.categorys .second p a:hover{ color:#FF4300; text-decoration:underline;}
+.categorys .second p a:hover{ color:#f65857; text-decoration:underline;}

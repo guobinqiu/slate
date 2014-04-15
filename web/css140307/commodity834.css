@@ -13,4 +13,6 @@ ul.commodityUl li dt a img{ width:269px; height:auto;}
 ul.commodityUl li dt a img:hover{opacity:0.8;filter:alpha(opacity=80)}
 
 ul.commodityByWeb li{ width:237px; padding: 20px 20px 10px;}
-ul.commodityByWeb li dt a img{width:236px;}
+ul.commodityByWeb li dt a img{height: 200px; width: auto;}
+ul.commodityByWeb li dt,ul.commodityByWeb li dd{ text-align:center;}
+ul.commodityUl li dd{ margin-top: -8px;}

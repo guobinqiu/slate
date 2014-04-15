@@ -7,8 +7,9 @@ ul.commodityUl li dd{ margin:10px 0 0 0; width:100%; float:left;}
 ul.commodityUl li dd div.title{ height:40px; line-height:20px; overflow:hidden; color:#666; margin-bottom:5px; width:100%;}
 ul.commodityUl li dd div.title a{ color:#666;}
 ul.commodityUl li dd div.title a:hover{ color:#ff4400;}
-ul.commodityUl li dd div.detail{ border-top: 1px dotted #DCDCDC; color: #FF4400; float: left; font-size: 15px; font-weight: bold; margin-bottom: 8px; margin-top: 8px; padding-top: 8px; width: 100%;}
+ul.commodityUl li dd div.detail{ border-top: 1px dotted #DCDCDC; color: #FF4400; position:relative; float: left; font-size: 15px; font-weight: bold; margin-bottom: 8px; margin-top: 8px; padding-top: 8px; width: 100%;}
 ul.commodityUl li dd div.detail .price strong{font-size:20px; font-weight:bold;}
 ul.commodityUl li dd div.detail span.shop{ color:#ff4400;}
 ul.commodityUl li dd div.detail span.rebate em{ color:}
 ul.commodityUl li dt img:hover{opacity:0.8;filter:alpha(opacity=80)}
+ul.commodityUl li dd div.detail span.rebate{position: absolute; white-space: nowrap; top: 0px; right: 0px;}
