@@ -3,4 +3,9 @@
 <file name="routing.yml" server="192.168.1.235//var/www/html/jili-amy/" local="130415221381675856" remote="130416752050000000" Dst="0" />
 <file name="config.yml" server="192.168.1.235//var/www/html/jili-amy/" local="130416746084620127" remote="130416752050000000" Dst="0" />
 <file name="custome_parameters.yml" server="192.168.1.235//var/www/html/jili-amy/" local="130419206302144423" remote="130419205060000000" Dst="0" />
+<file name="config_dev.yml" server="192.168.1.235//var/www/html/jili-amy/" local="130402915375949060" remote="130419518690000000" Dst="0" />
+<file name="config_prod.yml" server="192.168.1.235//var/www/html/jili-amy/" local="130402915375949060" remote="130419518690000000" Dst="0" />
+<file name="config_test.yml" server="192.168.1.235//var/www/html/jili-amy/" local="130402915376279079" remote="130419518690000000" Dst="0" />
+<file name="routing_dev.yml" server="192.168.1.235//var/www/html/jili-amy/" local="130402915376309080" remote="130419518690000000" Dst="0" />
+<file name="security.yml" server="192.168.1.235//var/www/html/jili-amy/" local="130402915376309080" remote="130419518690000000" Dst="0" />
 </dwsync>

@@ -8,4 +8,7 @@
 <file name="recommend.js" server="192.168.1.235//var/www/html/jili-amy/" local="130408129340071296" remote="130415165880000000" Dst="0" />
 <file name="screen.js" server="192.168.1.235//var/www/html/jili-amy/" local="130408129340081297" remote="130415165880000000" Dst="0" />
 <file name="cps.js" server="192.168.1.235//var/www/html/jili-amy/" local="130408129339791280" remote="130415165880000000" Dst="0" />
+<file name="categorysFilter.js" server="192.168.1.235//var/www/html/jili-amy/" local="130419269082575259" remote="130419518840000000" Dst="0" />
+<file name="commodity.js" server="192.168.1.235//var/www/html/jili-amy/" local="130419269082735268" remote="130419518840000000" Dst="0" />
+<file name="shopList.js" server="192.168.1.235//var/www/html/jili-amy/" local="130419269083115290" remote="130419518840000000" Dst="0" />
 </dwsync>

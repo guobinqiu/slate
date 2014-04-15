@@ -5,7 +5,7 @@
 <file name="history.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269076794928" remote="130419295760000000" Dst="0" />
 <file name="personal.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077034942" remote="130419295760000000" Dst="0" />
 <file name="adListNew.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269075934879" remote="130419295760000000" Dst="0" />
-<file name="default.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419354750315173" remote="130419353500000000" Dst="0" />
+<file name="default.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419518979518546" remote="130419539820000000" Dst="0" />
 <file name="adMore.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269076064886" remote="130419295760000000" Dst="0" />
 <file name="newsMore.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269076954937" remote="130419295760000000" Dst="0" />
 <file name="cpsActivity.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269076344902" remote="130419295760000000" Dst="0" />
@@ -14,4 +14,28 @@
 <file name="index.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419295998464760" remote="130419295760000000" Dst="0" />
 <file name="help.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269076664921" remote="130419295760000000" Dst="0" />
 <file name="message.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269076914935" remote="130419295760000000" Dst="0" />
+<file name="about.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915389789851" remote="130419518690000000" Dst="0" />
+<file name="adList.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915389809853" remote="130419518690000000" Dst="0" />
+<file name="admin.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915389919859" remote="130419518690000000" Dst="0" />
+<file name="agreement.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915389929859" remote="130419518690000000" Dst="0" />
+<file name="amazon.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419972178405576" remote="130419970890000000" Dst="0" />
+<file name="amazonBlg.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915389959861" remote="130419518690000000" Dst="0" />
+<file name="aside.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915389969862" remote="130419518690000000" Dst="0" />
+<file name="base.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915389979862" remote="130419518690000000" Dst="0" />
+<file name="calendar.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915389989863" remote="130419518690000000" Dst="0" />
+<file name="comingSoon.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915389999863" remote="130419518690000000" Dst="0" />
+<file name="css.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390049866" remote="130419518690000000" Dst="0" />
+<file name="game_prompt.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390089869" remote="130419518690000000" Dst="0" />
+<file name="import.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390139871" remote="130419518690000000" Dst="0" />
+<file name="Jcrop.gif" server="192.168.1.235//var/www/html/jili-amy/" local="130402915389779851" remote="130419518690000000" Dst="0" />
+<file name="jquery.Jcrop.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390189874" remote="130419518690000000" Dst="0" />
+<file name="jquery.Jcrop.min.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390209875" remote="130419518690000000" Dst="0" />
+<file name="landing.css" server="192.168.1.235//var/www/html/jili-amy/" local="130408128239558350" remote="130419518690000000" Dst="0" />
+<file name="login.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390239877" remote="130419518690000000" Dst="0" />
+<file name="newsList.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390689903" remote="130419518690000000" Dst="0" />
+<file name="pageNav.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390709904" remote="130419518690000000" Dst="0" />
+<file name="password.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390719905" remote="130419518690000000" Dst="0" />
+<file name="personalAside.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390749906" remote="130419518690000000" Dst="0" />
+<file name="service.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390779908" remote="130419518690000000" Dst="0" />
+<file name="shopList.css" server="192.168.1.235//var/www/html/jili-amy/" local="130402915390789909" remote="130419518690000000" Dst="0" />
 </dwsync>

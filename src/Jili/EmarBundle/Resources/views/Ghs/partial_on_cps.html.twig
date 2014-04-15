@@ -1,7 +1,7 @@
 
     <div class="screen clearfix">
       <dt class="fl w90 em">热门商品</dt>
-      <dd style="height: auto;" class="fl w748 h28">
+      <dd style="height: auto; width:840px; padding-right:0;" class="fl w748 h28">
 
 {% for wcatid,cat in cats %}
 
@@ -11,7 +11,7 @@
             <a href="{{ path( router_ ,  { 'c_h': wcatid })}}" > {{ cat }}  </a>
     {% endif %}
 {% endfor %}
-        <a class="unfoldBtn already">展开</a> </dd>
+        <!--<a class="unfoldBtn already">展开</a>--> </dd>
     </div>
 
     <ul class="commodityUl btbn clearfix">

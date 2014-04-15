@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="common.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419352604622447" remote="130419351360000000" Dst="0" />
-<file name="checkin.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419295998514762" remote="130419295760000000" Dst="0" />
-<file name="index.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419356754379799" remote="130419355510000000" Dst="0" />
-<file name="categorys.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419307771168120" remote="130419306520000000" Dst="0" />
-<file name="reset.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077354960" remote="130419295760000000" Dst="0" />
-<file name="pageNumber.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077324958" remote="130419295760000000" Dst="0" />
-<file name="recommend.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419295998644770" remote="130419295760000000" Dst="0" />
-<file name="cps.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419350063337093" remote="130419348820000000" Dst="0" />
-<file name="screen.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077464966" remote="130419295760000000" Dst="0" />
-<file name="commodity834.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419372199013182" remote="130419370950000000" Dst="0" />
-<file name="shopList.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077624976" remote="130419295760000000" Dst="0" />
-<file name="commodity930.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077264955" remote="130419295760000000" Dst="0" />
-<file name="shopMore.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419312679328850" remote="130419311430000000" Dst="0" />
-<file name="searchShop.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077484968" remote="130419295760000000" Dst="0" />
-<file name="categorysFilter.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077214952" remote="130419295760000000" Dst="0" />
+<file name="common.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419550132720408" remote="130419548880000000" Dst="0" />
+<file name="checkin.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419295998514762" remote="130419525470000000" Dst="0" />
+<file name="index.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419973574885450" remote="130419972290000000" Dst="0" />
+<file name="categorys.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419518979578550" remote="130419525380000000" Dst="0" />
+<file name="reset.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077354960" remote="130419525500000000" Dst="0" />
+<file name="pageNumber.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077324958" remote="130419525500000000" Dst="0" />
+<file name="recommend.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419565203752421" remote="130419563950000000" Dst="0" />
+<file name="cps.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419518979628553" remote="130419525490000000" Dst="0" />
+<file name="screen.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077464966" remote="130419525500000000" Dst="0" />
+<file name="commodity834.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419982074241586" remote="130419980790000000" Dst="0" />
+<file name="shopList.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077624976" remote="130419525500000000" Dst="0" />
+<file name="commodity930.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419580476994036" remote="130419579200000000" Dst="0" />
+<file name="shopMore.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419312679328850" remote="130419525500000000" Dst="0" />
+<file name="searchShop.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077484968" remote="130419525500000000" Dst="0" />
+<file name="categorysFilter.css" server="192.168.1.235//var/www/html/jili-amy/" local="130419269077214952" remote="130419525450000000" Dst="0" />
+<file name=".DS_Store" server="192.168.1.235//var/www/html/jili-amy/" local="130419269098736183" remote="130419525250000000" Dst="0" />
 </dwsync>

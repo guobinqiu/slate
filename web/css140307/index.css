@@ -65,7 +65,7 @@
 	line-height: 35px;
 	padding-left: 25px;
 	margin-bottom: 10px;
-	color:#333; 
+	color:#ff6b4f; 
 }
 #task .menu {
 	position: absolute;
@@ -121,6 +121,7 @@
 #task .taskList li dt {
 	float: left;
 	cursor:pointer;
+	font-weight:bold;
 }
 #task .taskList li dd {
 	float: right;
@@ -559,7 +560,7 @@
 #indexRecommend ul li p.price {	color: #f74a28;}
 #indexRecommend ul li p.price .price1{}
 #indexRecommend ul li p.price .price2 {	font-size: 18px; font-weight: bold; margin:0 3px;}
-#indexRecommend ul li p.price .discount{font-size: 12px;float: right; margin: 10px 0 0;} 
+#indexRecommend ul li p.price .discount{ font-size: 12px;float: right; margin: 7px 0 0; text-align:right;} 
 #indexRecommend ul li p del { text-decoration: line-through; margin-right: 5px;}
 #indexRecommend .menu{ position:absolute; right:0; top:0;}
 #indexRecommend .menu a.more{background: url("../images140307/iconImage.png") no-repeat scroll 0 -897px; padding-left:20px; color:#666;}
@@ -603,6 +604,7 @@
 #marketActivity ul li p.title {
 	height:70px;
 	overflow:hidden;
+	font-size: 16px;
 	margin-top: 32px;
 	line-height:22px;
 }
@@ -610,6 +612,7 @@
 	color: #f74a28;
 	position:absolute;
 	bottom:64px;
+	font-size: 14px;
 }
 #marketActivity ul li p.btn .goActivity {
 	color: #FFF;

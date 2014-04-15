@@ -13,6 +13,13 @@
 <script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/shopList.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
+<script type="text/javascript">
+	  $(document).ready(function() {
+		for(i=3; i<9; i+=4){
+		  $(".searchRecommend li").eq(i).css("margin-right", "0");
+		  }
+	  });
+</script>
 {% endblock %}
 
 {% block header %}
@@ -31,7 +38,7 @@
 
       {{ include( "JiliEmarBundle:Websites:shopSearch_page.html.twig") }}
 
-      {{ render(controller('JiliEmarBundle:Ghs:promotion', {'tmpl':'search','max': 5, 'p':1} ))  }}
+      {{ render(controller('JiliEmarBundle:Ghs:promotion', {'tmpl':'search','max': 8, 'p':1} ))  }}
 
   </div><!-- eof main-->
 
