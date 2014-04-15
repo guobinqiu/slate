@@ -1,0 +1,18 @@
+<h3>商家活动</h3>
+<ul class="clearfix">
+  <div class="mask">
+    <div class="moveDiv">
+    {% for item in market %}
+      <li>
+        <dt><a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName }}"/></a></dt>
+        <dd>
+          <p class="title">{{ item.title }}</p>
+          <p class="discount">{{ item.businessName }}</p>
+          <p class="btn"><a class="goActivity" target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2">去看看</a></p>
+        </dd>
+      </li>
+      {% endfor %}
+    </div>
+  </div>
+  <a class="prevBtn">prev</a><a class="nextBtn">next</a>
+</ul>

@@ -38,7 +38,8 @@
 .miniRecommend .nextBtn{ background-position:0 -340px; right:5px;}
 
 .searchRecommend{ margin-bottom:20px;}
-.searchRecommend li{ float:left; margin-right:21px; background-color:#FFF; box-shadow:0px 1px 1px #DDD;}
+.searchRecommend li{ width:192px; float:left; margin-right:21px; margin-bottom:15px; background-color:#FFF; box-shadow:0px 1px 1px #DDD;}
+.searchRecommend li dt img{ width:192px; height:auto;}
 .searchRecommend li:last-child{ margin-right:0!important;}
 .searchRecommend li.end{ margin-right:0;}
 .searchRecommend li dd{font-size:12px; padding:0 10px 10px 10px; color:#999999;}

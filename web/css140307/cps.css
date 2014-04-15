@@ -7,7 +7,7 @@
 .cpsBanner a.prevBtn:hover,.cpsBanner a.nextBtn:hover{ background-color: rgba(0,0,0,.6);}
 
 .hotShop{background-color:#FFF;height:300px;padding:10px 20px;}
-.hotShop h3{ font-size:15px; line-height:250%; position:relative;}
+.hotShop h3{ font-size:15px; line-height:250%; position:relative; color:#333;}
 .hotShop h3 .more{ position:absolute; right:0; top:5px; color:#999; font-size:12px;}
 .hotShop li{float: left; text-align: center;width: 33%;margin:10px 0px;}
 .hotShop p{ line-height:250%;}

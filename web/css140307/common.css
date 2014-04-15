@@ -1,5 +1,5 @@
 /*body{ font-family: '微软雅黑','宋体'; }*/
-body{font: 12px/1.5 tahoma,'Hiragino Sans GB','microsoft yahei',sans-serif; font-size:12px; color:#666; background-color:#f4f4f4;}
+body{font: 12px/1.5 tahoma,'Hiragino Sans GB','microsoft yahei',sans-serif; font-size:12px; color:#525252; background-color:#f4f4f4;}
 .page{ width:1150px; margin:auto;}
 .pageMain{ padding:15px 0;}
 .fl{float:left;}
@@ -16,10 +16,11 @@ body{font: 12px/1.5 tahoma,'Hiragino Sans GB','microsoft yahei',sans-serif; font
 .fontNormal{ font-weight:normal; font-size:12px;}
 h5{font-size: 1.17em;font-weight: bold;}
 strong, b{font-weight: bold;}
+.corBlack{ color:#000;}
 .corLightRed{ color:#ff6b4f;}
 .corLightGray{ color:#999;}
 .corDarkGray{ color:#333;}
-.corGlobGray{ color:#666;}
+.corGlobGray{ color:#525252;}
 .corGlobRed{ color:#ff4400;}
 .corWhite{ color:#fff;}
 .division{ margin:0 10px; color:#ccc;}

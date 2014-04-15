@@ -16,23 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `emar_websites_category`
---
-
-DROP TABLE IF EXISTS `emar_websites_category`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `emar_websites_category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `web_id` int(11) NOT NULL COMMENT '商家网站的id',
-  `category_id` int(11) NOT NULL COMMENT '商品分类',
-  `count` int(11) NOT NULL DEFAULT '0' COMMENT '计数',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `web_id` (`web_id`,`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8 COMMENT='emar开放接口商品的商家与类型的对应关系,用于查询';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `emar_websites_category`
 --
 
@@ -51,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-14 13:17:03
+-- Dump completed on 2014-04-14 16:14:10

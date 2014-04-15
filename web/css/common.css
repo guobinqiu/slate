@@ -35,6 +35,7 @@ div#rule{
     display: inline-block;
     font-size: 0;
     height: 86px;
+	*height: 83px;
     position: absolute;
     right: 143px;
     width: 277px;

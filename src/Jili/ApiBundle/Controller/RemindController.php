@@ -17,6 +17,7 @@ class RemindController extends Controller {
 		$total = $em->getRepository('JiliApiBundle:User')->totalUserAndCount();
 
 		$recipient_arr = array ();
+        $return = false;
 		foreach ($user as $item) {
 			$recipient_arr[] = array (
 				array (
