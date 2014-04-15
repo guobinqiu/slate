@@ -1,3 +1,0 @@
-README.md
-web/i2.php
-web/
