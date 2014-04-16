@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
@@ -14,18 +15,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class TopController extends Controller
 {
 
+
     /**
      * @Route("/index")
-     * @Template();
+     * @Method({ "GET", "POST"})
+     * @Template
      */
     public function indexAction()
     {
-
-        if ($_SERVER['HTTP_HOST'] == '91jili.com')
-            return $this->redirect('https://www.91jili.com');
-$logger = $this->get('logger');
-
         $request = $this->get('request');
+        $logger = $this->get('logger');
+        $cn  = get_class($request);
+        $cm  = get_class_methods($cn);
+
+        if(  $request->getSession()->has('uid') ) {
+            if( $request->isSecure() ) {
+                $uri = str_replace('https:','http:' , $request->getUri());
+                return $this->redirect( $uri );
+            } 
+        } else {
+            if(! $request->isSecure() ) {
+                $uri = str_replace('http:','https:' , $request->getUri());
+                return $this->redirect( $uri );
+            }
+        }
+
         $cookies = $request->cookies;
         $session = $request->getSession();
 

@@ -686,7 +686,6 @@ class UserController extends Controller
 		if($this->notReadCb() > 0 && $this->notReadMs($id) == 0){
 			$countMessage = $this->container->getParameter('init_one');
 		}
-        #$this->get('logger')->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')).var_export( $countMessage, true) );
 		return new Response($countMessage);
 	}
 	
@@ -966,27 +965,19 @@ class UserController extends Controller
 		}
 		return new Response($code);
 	}
-	
-	
 
 	/**
 	 * @Route("/login", name="_user_login",requirements={"_scheme"="https"})
 	 */
 	public function loginAction(){
-		//$session = new Session();
 		$request = $this->get('request');
         $session = $request->getSession();
-        $logger = $this->get('logger');
-
-
 		$goToUrl =  $session->get('referer');
-
 		if(substr($goToUrl, -10) != 'user/login' && strlen($goToUrl)>0 ){
 			$session->set('goToUrl', $goToUrl);
             $session->remove('referer');
 		}
 
-		//$session->start();
         if($session->get('uid')){
             return $this->redirect($this->generateUrl('_homepage'));
         }

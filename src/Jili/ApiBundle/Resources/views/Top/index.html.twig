@@ -34,6 +34,8 @@
         {{ render(controller('JiliApiBundle:Top:event') ) }}
       </div><!-- eof mask -->
     </div><!-- eof timeline -->
+
+{% if not  app.request.isSecure %}
 	<div class="w204 fl" style="margin-top:15px;">
 	<script type="text/javascript">
 	/*200*90，纯文字*/
@@ -46,7 +48,9 @@
 	var cpro_id = "u1522038";
 	</script>
 	<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
-	</div>
+	</div><!-- eof ads -->
+{% endif %}
+
   </div><!-- w204 side -->
 
   <div class="w615 fl">

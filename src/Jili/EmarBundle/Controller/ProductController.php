@@ -143,9 +143,10 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/category" )
-     * @Template();
      *   $prod_categories = array('cats'=> array() , 'sub_cats'=> array());
+     * @Route("/category" )
+     * @Template 
+     *
      */
     public function categoryAction( $qs = array(), $rt = null ) {
         $logger= $this->get('logger');
@@ -153,11 +154,8 @@ class ProductController extends Controller
         $menu_config = $this->container->getParameter('emar_com.pdt_cat.menu');
         $cats_fliped = array_flip($prod_categories['cats']);
 
-        $logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
-        #
         // support 2-level only
         foreach( $menu_config as $index => $item) {
-
             if( is_array( $item) ) {
 
                 foreach( $item as $key1 => $item1) {
@@ -176,8 +174,6 @@ class ProductController extends Controller
                $menu_config[$index] = array( 'cat_name'=> $item, 'cat_id'=> $cats_fliped[$item ]); 
             }
         }
-        
-        $logger->debug( '{jarod}'.implode(':', array(__CLASS__, __LINE__,'')).var_export($menu_config, true) );
         return array_merge($prod_categories , compact('rt', 'qs' ,'menu_config'));
     }
 
@@ -240,7 +236,7 @@ class ProductController extends Controller
         
         // search
         $params = array('keyword'=>$keyword, 'catid'=> $cat_id, 'webid'=> $web_id, 'page_no'=>$page_no, 'price_range'=> $price_range,'orderby'=>$order);
-         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
+#          $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
         $productSearch = $this->get('product.search');
 
         $page_size = $this->container->getParameter('emar_com.page_size_of_search') ;
