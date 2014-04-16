@@ -123,10 +123,11 @@ CREATE TABLE `emar_websites` (
   `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `web_id` (`web_id`),
   KEY `web_catid` (`web_catid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+-- ALTER TABLE `emar_websites` ADD UNIQUE `web_id` ( `web_id` ) ;
 -- 140409 11:22:37    81 Query 
 -- 140409 11:22:51    81 Query 
 -- create table emar_websites_cron like emar_websites_croned;
