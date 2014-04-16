@@ -77,7 +77,7 @@ class TaskHistoryRepository extends EntityRepository
 		$query = $this->createQueryBuilder('to');
 		$query = $query->select('sum(to.point)');
 		$query = $query->Where('to.userId = :userId');
-		$query = $query->andWhere('to.categoryType in (1,2,17)');
+		$query = $query->andWhere('to.categoryType in (1,2,17,19)');
 		$query = $query->andWhere('to.status = 2');
 		$query = $query->setParameter('userId',$userid);
 		$query = $query->getQuery();
