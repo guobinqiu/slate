@@ -86,4 +86,6 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 .noResult span.icon{width:65px; height:65px; background: url("../images140307/roleIcon.png") no-repeat; display:inline-block;}
 .noResult span.text{ vertical-align:28px; margin-left: 10px;}
 
-.blackBg { background-color: #000000; display: none; height: 100%; left: 0; opacity: 0.5; position: absolute; top: 0; width: 100%; z-index: 9998;}
+.blackBg { background-color: #000000; display: none; height: 100%; left: 0; position: absolute; top: 0; width: 100%; z-index: 9998; opacity: .5; filter: alpha(opacity=50);/*IE*/ *zoom: 1;  }
+		
+
