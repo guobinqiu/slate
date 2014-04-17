@@ -80,7 +80,7 @@
 }
 .personalWrap section .content{	
 	border-top: 1px #e0e0e0 dashed;
-	width: 1038px;
+	width: 100%
 }
 .personalWrap section.line{ 
 	padding:1px 0 0 0;

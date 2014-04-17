@@ -47,7 +47,7 @@ class GhsController extends Controller
                 } else {
                     $href = $this->generateUrl('_user_login');
                 }
-                $prds[] = array('pic'=> $v['pic_url'], 'href'=> $href , 'pri1'=> $v['ghs_price'],'pri0'=>$v['ori_price'] ,'dis'=>$v['discount'],'buy'=>$v['bought'] ); 
+                $prds[] = array('pic'=> $v['pic_url'], 'href'=> $href , 'name'=> $v['p_name'], 'pri1'=> $v['ghs_price'],'pri0'=>$v['ori_price'] ,'dis'=>$v['discount'],'buy'=>$v['bought'] ); 
             }
             $response = new Response(json_encode(array('prds' => $prds)));
             $response->headers->set('Content-Type', 'application/json');

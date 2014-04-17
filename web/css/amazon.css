@@ -90,6 +90,8 @@ a.amazonHref{
 }
 .amazon .bottom{
 	height:15px;
+	position: absolute;
+	bottom: -5px;
 }
 .amazon .closeDiv{
 	margin-top: 20px;

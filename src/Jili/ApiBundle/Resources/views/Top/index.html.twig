@@ -35,17 +35,26 @@
       </div><!-- eof mask -->
     </div><!-- eof timeline -->
 	<div class="w204 fl" style="margin-top:15px;">
-	<script type="text/javascript">
-	/*200*90，纯文字*/
-	var cpro_id = "u1522251";
-	</script>
-	<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
-	
-	<script type="text/javascript">
-	/*200*200，纯图片*/
-	var cpro_id = "u1522038";
-	</script>
-	<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+    	<div>
+        	<script type="text/javascript">
+			/*200*90，纯文字*/
+			var cpro_id = "u1522251";
+			</script>
+			<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+			
+			<script type="text/javascript">
+			/*200*90，纯文字*/
+			var cpro_id = "u1522251";
+			</script>
+			<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+        </div>
+	    <div class="marginT15">
+        	<script type="text/javascript">
+			/*200*200，纯图片*/
+			var cpro_id = "u1522038";
+			</script>
+			<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+        </div>
 	</div>
   </div><!-- w204 side -->
 
@@ -61,7 +70,7 @@
     <div id="task">
       <h3><strong>我的任务列表</strong></h3>
       <div class="menu"><a class="recommend hover">为您推荐的</a><a class="affirm">确认中</a><a class="finish">已完成</a></div>
-      <div class="mask">
+      <div class="mask taskWrap">
         {{ render(controller('JiliApiBundle:Top:myTask' ) ) }}
       </div><!-- eof .mask -->
     </div><!-- eof #task -->

@@ -4,7 +4,7 @@ body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, texta
 	padding: 0;
 }
 body {
-	color: #525252;
+	color: #333;
 	background-color:#f6f6f6;
 	font-size: 12px;
 	line-height:150%;
@@ -15,7 +15,7 @@ h1, h2, h3, h4, h5, h6, small, sub, sup {
 	font-size: 100%;
 }
 a {
-	color: #525252;
+	color: #333;
 	cursor: pointer;
 	text-decoration: none;
 }
@@ -206,8 +206,8 @@ footer{
 	color:#666;
 	margin:0;
 	width: 100%;
-	/*position:absolute;*/
 	bottom: 0;
+	display:block;
 }
 footer section{
 	margin: 0 auto;

@@ -1,18 +1,17 @@
-ul.commodityUl{ background-color:#FFF; border-top:3px solid #EA4B11; padding:0px 0 15px 0px;}
+ul.commodityUl,ul.commodityByWeb{ background-color:#FFF; border-top:3px solid #EA4B11; padding:0px 0 15px 0px;}
 ul.commodityUl.btbn{ border-top:none;}
-ul.commodityUl li{width:269px; height:254px; border-bottom: 1px solid #EEE; border-right: 1px solid #EEE; float: left; padding:20px 20px 10px;}
-ul.commodityUl li.brn{ border-right:none;}
-ul.commodityUl li.bbn{ border-bottom:none;}
-ul.commodityUl li dd{font-size:12px; padding:0 0 10px 0; color:#999999;}
-ul.commodityUl li dd p{ line-height:150%;}
-ul.commodityUl li dd span.detail{ margin-top:8px;}
-ul.commodityUl li dd p .shop{ color: #f74a28;}
-ul.commodityUl li .price{ color: #f74a28; font-size: 22px; font-weight: bold; margin-top:8px;}
-ul.commodityUl li dd p em{color:#ea4b11;}
+ul.commodityUl li,ul.commodityByWeb li{width:269px; height: 278px; border: 2px solid #fff; float: left; padding:16px 18px 0;}
+ul.commodityUl li:hover,ul.commodityByWeb li:hover{border: 2px solid #C40000; transition: all 0.3s ease 0s;} 
 ul.commodityUl li dt a img{ width:269px; height:auto;}
-ul.commodityUl li dt a img:hover{opacity:0.8;filter:alpha(opacity=80)}
-
-ul.commodityByWeb li{ width:237px; padding: 20px 20px 10px;}
+ul.commodityUl li dd{font-size:12px; padding:0 0 10px 0; color:#999999; position:relative;}
+ul.commodityUl li dd span{ line-height:150%; width:100%;}
+ul.commodityUl li dd span.detail{ margin-top:8px;}
+ul.commodityUl li dd span.price,ul.commodityByWeb li dd .price{ color: #ff3e17; font-size: 24px; display:block; line-height: 115%;}
+ul.commodityUl li dd span.price em{text-decoration: line-through; margin-left:5px;}
+ul.commodityUl li dd .buyBtn{background-color: #ea4b11; border-radius: 3px; color: #FFFFFF; font-size: 12px; padding: 5px 15px; width: 50px; bottom: -65px; *bottom:48px; display: none; position: absolute; right: 15px;}
+ul.commodityUl li dd .buyBtn a{ color:#fff;}
+ul.commodityByWeb li{ width:237px; padding: 20px 18px 10px;}
 ul.commodityByWeb li dt a img{height: 200px; width: auto;}
-ul.commodityByWeb li dt,ul.commodityByWeb li dd{ text-align:center;}
-ul.commodityUl li dd{ margin-top: -8px;}
+ul.commodityByWeb li dt,ul.co	mmodityByWeb li dd{ text-align:center;}
+ul.commodityByWeb li dd{ text-align:center;}
+ul.commodityByWeb li dd .price em{ text-decoration:line-through; margin-left:5px;}

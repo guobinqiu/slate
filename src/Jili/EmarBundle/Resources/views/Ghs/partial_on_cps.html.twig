@@ -18,17 +18,28 @@
 {% endfor %}
         <!--<a class="unfoldBtn already">展开</a>--> </dd>
     </div>
-
+<script type="text/javascript">
+  $(function (){
+	$("ul.commodityUl li").hover(function(){
+			$(this).find(".buyBtn").fadeIn(100);
+		},function(){
+			$(this).find(".buyBtn").fadeOut(100);
+		}
+	 );
+   });
+</script>
     <ul class="commodityUl btbn clearfix">
 {% for row in ghs_pdts %}
       <li>
         <dt><a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><img src="{{ row.pic_url }}" height="auto" width="269"></a></dt>
         <dd>
-         <span class="price fl">¥{{ row.ghs_price }}</span>
-		 <span class="detail tr fr fontNormal"> 
-           <p><span class="shop">{{ row.web_name }}</span></p>
-		   <p>返利最高：<em>{{ row.discount }}%</em></p>
-		 </span>
+         <span class="fl corGlobGray">¥{{ row.p_name }}</span>
+		 <span class="fl dispalyBlock fontNormal corLightGray">{{ row.web_name }}</span>
+         <span class="price fl">¥{{ row.ghs_price }}<em class="fontNormal corLightGray">¥{{ row.ori_price }}</em></span>
+         <span class="fl fontNormal corLightGray">总销量：<em class="corLightRed">{{ row.bought }}件</em></span>
+         <div class="buyBtn" style="display: none;">
+       	    <a href="#">立即抢购</a>
+         </div>
         </dd>
       </li>
 
