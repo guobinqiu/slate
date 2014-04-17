@@ -14,7 +14,7 @@
             <p class="shopMore"><a href="{{ path( 'jili_emar_websites_detail', {'wid' : row.web_id })  }}">查看返利详情>></a></p>
           </div>
           <div class="dc">
-            <p class="rebate">{{ row.commission }}</p>
+            <p class="rebate">返利{{ row.commission }}</p>
             <p class="btn">
                 {% if app.session.has('uid') %}
                     <a class="buy" href="{{ row.web_o_url|replace({"APIMemberId" : app.session.get('uid') })  }}" target="_blank" rel="nofollow">去购物，赚米粒</a>
@@ -24,8 +24,8 @@
 
             </p>
           </div>
-        </li>
+        </li> 
 {% else %}
-<em>很抱歉，没有找到相关的商家。</em>
+<em class="noResult borderGlob"><span class="icon"></span><span class="text">很抱歉，没有找到相关的商家。<span></em>
 {% endfor %}
 </ul>

@@ -26,17 +26,18 @@ $(document).ready(function(){
 							msg += "<li>";
                         }
 						if ( data2.href == "{{ path('_user_login')  }}" ){
-						  msg += '<p class="image"><a href="'+data2.href+'" ><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">原价￥'+data2.pri0+'</del><span class="discount">'+data2.dis+'</span></p>'+'<p class="corGlobGray">销量'+data2.buy+'件</p>';
+						  msg += '<p class="image"><a href="'+data2.href+'" ><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="name">'+data2.name+'</p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">￥'+data2.pri0+'</del></p>'+'<p class="corGlobGray">销量'+data2.buy+'件</p>';
 							  msg += '<div class="model hoverView curPt">';
 							  msg += '<a href="'+ data2.href+'" ><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>';
  				
 						} else {
-						      msg += '<p class="image"><a href="'+data2.href+'" target="_blank" rel="nofollow"><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">原价￥'+data2.pri0+'</del><span class="discount">'+data2.dis+'</span></p><p class="corGlobGray">销量'+data2.buy+'件</p>';
+						      msg += '<p class="image"><a href="'+data2.href+'" target="_blank" rel="nofollow"><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="name">'+data2.name+'</p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">￥'+data2.pri0+'</del></p><p class="corGlobGray">销量'+data2.buy+'件</p>';
 							  msg += '<div class="model hoverView curPt">';
 							  msg += '<a href="'+ data2.href+'" target="_blank" rel="nofollow"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>'; 
  						}					
 						 msg += '</div></li>';
            			  }
+					  
                     $("#prds1").html(msg);
 					slideUp();
     			 }
@@ -76,6 +77,7 @@ $(document).ready(function(){
                     <a href="{{ path('_user_login')  }}">
                  {% endif %}
                  <img src="{{ row.pic_url }}" height="auto" width="200"></a></p>
+			 <p class="name">{{ row.p_name }}</p>
              <p class="price"><span class="price1">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray">原价￥{{ row.ori_price }}</del>
 
         {% if 0 < row.discount  %}

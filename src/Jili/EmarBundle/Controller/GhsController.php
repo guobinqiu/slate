@@ -45,7 +45,13 @@ class GhsController extends Controller
                 } else {
                     $href = $this->generateUrl('_user_login');
                 }
-                $prds[] = array('pic'=> $v['pic_url'], 'href'=> $href , 'pri1'=> $v['ghs_price'],'pri0'=>$v['ori_price'] ,'dis'=> round( $v['discount'] *  $this->container->getParameter('emar_com.cps.action.default_rebate')/100, 2),'buy'=>$v['bought'] ); 
+                $prds[] = array('pic'=> $v['pic_url'],
+                    'href'=> $href ,
+                    'name'=> $v['p_name'],
+                    'pri1'=> $v['ghs_price'],
+                    'pri0'=>$v['ori_price'] ,
+                    'dis'=> round( $v['discount'] *  $this->container->getParameter('emar_com.cps.action.default_rebate')/100, 2),
+                    'buy'=>$v['bought'] ); 
             }
             $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'prds','')) . var_export( $prds, true));
             $response = new Response(json_encode(array('prds' => $prds)));

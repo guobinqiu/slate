@@ -403,10 +403,6 @@
 	margin: 0 15px;
 }
 
-.index aside #task .all {
-	
-}
-
 .index aside #task h3 {
 	background-image: url("../images/taskFrameTop.jpg");
 	color: #FFFFFF;
@@ -577,7 +573,7 @@
 	line-height: 220%;
 }
 .index aside .frame #news ul li a{
-	color:#525252;
+	color:#333;
 }
 .index aside .frame #news ul li a:hover{
 	text-decoration:none;
