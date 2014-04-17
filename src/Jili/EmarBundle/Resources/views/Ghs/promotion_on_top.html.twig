@@ -76,7 +76,12 @@ $(document).ready(function(){
                     <a href="{{ path('_user_login')  }}">
                  {% endif %}
                  <img src="{{ row.pic_url }}" height="auto" width="200"></a></p>
-                 <p class="price"><span class="price1">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray">原价￥{{ row.ori_price }}</del><span class="discount corLightGray">返利最高<br/><strong class="corGlobRed">{{ row.discount }}%</strong></span></p> 
+             <p class="price"><span class="price1">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray">原价￥{{ row.ori_price }}</del>
+
+        {% if 0 < row.discount  %}
+           <span class="discount corLightGray">返利最高<br/><strong class="corGlobRed">{{ row.discount * emar_cps_default_rebate / 100 |round(2)  }}%</strong></span>
+        {% endif %}
+             </p> 
                  <p class="corLightGray">销量<em class="corGlobBlue">{{ row.bought }}</em>件</p>
 				 <div class="model hoverView curPt">
 				 {% if app.session.has('uid')  %}

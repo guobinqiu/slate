@@ -67,7 +67,6 @@ class CallbackProcessor
                 'intensive_type'=> $category_id,
                 'action_id'=> $action_id
             ) );
-
         }
 
 
@@ -80,7 +79,9 @@ class CallbackProcessor
             $adid = $action_id;
 
             $task_title= $request->query->get('action_name');
+
             $reward_percent = $this->getConfig( 'cps_deafult_rebate');
+
             $ad_type='emar';
         }
 
@@ -90,7 +91,7 @@ class CallbackProcessor
         $comm = $request->query->get('commision');
 
 
-        $cps_reward = intval($comm * $reward_percent);
+        $cps_reward = intval( $comm * $reward_percent );
 
 
         if( $request_status === $config_of_order_status['hangup'] ) {

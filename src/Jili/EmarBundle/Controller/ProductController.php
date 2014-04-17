@@ -50,36 +50,26 @@ class ProductController extends Controller
 
         // filter 1:
         $filters_of_webs = $this->get('product.filters')->fetchWebsConfigged();
-
         #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs, true));
-        
         // filter 2:
         if(isset($cat_id) && is_numeric($cat_id)) {
-
             $params=  array( 'categoryId'=>$cat_id);
-#              $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
-
+#            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
             $webs_by_cat = $em->getRepository('JiliEmarBundle:EmarWebsitesCategory')->findBy($params );
             $wids_by_cat =  array();
-
             foreach($webs_by_cat as $row ) {
                 $wid = $row->getWebId();
                 if( ! array_key_exists( $wid, $filters_of_webs['webs'] )) {
                     $wids_by_cat[] = $wid ;
                 }
             }
-
 #             $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$wids_by_cat','')) . var_export( $wids_by_cat, true));
-
             $filters_of_webs_by_cat = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds($wids_by_cat );
-
             foreach($filters_of_webs_by_cat as $row) {
                 $filters_of_webs['webs'][ $row->getWebId() ] =  $row;
             }
             #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs_by_cat, true));
         }
-
-        $crumbs_local = ItemCatRepository::getCrumbsByScatid( $prod_categories['sub_cats'], $cat_id);
 
         if ( !empty($cat_id) || !empty($web_id) ) {
             $params = array( 'webid'=> $web_id, 'catid'=>$cat_id ,'page_no'=>$page_no, 'price_range'=> $price_range);
@@ -88,8 +78,6 @@ class ProductController extends Controller
             $total = $productRequest->getTotal();
 
 // update the commission:
-
-
         } else {
             $products = array();
             $total = 0;
@@ -100,44 +88,38 @@ class ProductController extends Controller
         //update the commissions
         $webids=array();
         $web_commissions = array();
+
         foreach($products as $index => $product) {
             $webids[] = $products [$index]['web_id'];
         }
         array_unique($webids);
 
-         #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$webids','')) . var_export( $webids, true));
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$webids','')) . var_export( $webids, true));
         $webs_configged = $em->getRepository('JiliEmarBundle:EmarWebsites')->getSortedByParams( array('wids'=> $webids ));
-
         $webids_configed = array();
         foreach( $webs_configged as $index => $row) {
             $web_configed[$row->getWebId()] = $row;
         }
 
-        $webids_by_croned = array_diff( $webids , $webids_configed) ; 
-        $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids_by_croned );
+        $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
         foreach( $result as $row) {
             $web_id = $row->getWebId();
             $web_croned[$web_id  ] = $row; 
         }
 
         foreach($webids as $webid ) {
-            $comm = 0;
+            $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission( $web_croned[$webid ]->getCommission()  );
+            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
             if( isset($web_configed[$webid] ) ) {
-                $comm = $web_configed[$webid]->getCommission();
+                $multiple = $web_configed[$webid]->getCommission();
+            } 
+            if( $multiple  === '' || $multiple === 0 || is_null( $multiple) ) {
+                $multiple= $this->container->getParameter('emar_com.cps.action.default_rebate');
             }
-            if( $comm === '' || $comm === 0 || is_null( $comm) ) {
-                if( isset ( $web_croned[$webid ] ) ) {
-                    $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission( $web_croned[$webid ]->getCommission()  );
-                }
-            }
-
-            if( $comm === '' || $comm === 0 || is_null( $comm) ) {
-                $comm = $this->container->getParameter('emar_com.cps.action.default_rebate');
-            }
-
-            $web_commissions[$webid  ] = $comm;
+            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'multiple','')) . var_export( $multiple, true));
+            $web_commissions[$webid  ] = round( $multiple * $comm/100, 2);
         }
-
+        $crumbs_local = ItemCatRepository::getCrumbsByScatid( $prod_categories['sub_cats'], $cat_id);
          #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'web_commissions','')) . var_export( $web_commissions, true));
         return array_merge( $prod_categories, $webs, array('webs_filter'=> $filters_of_webs['webs'] ,'web_commissions'=>$web_commissions),compact('products', 'total','crumbs_local') );
     }
@@ -201,7 +183,6 @@ class ProductController extends Controller
         return compact(/*'total',*/'products');
     }
 
-
     /**
      * @Route("/search")
      * @Method("GET")
@@ -213,6 +194,7 @@ class ProductController extends Controller
             return  $this->redirect($this->generateUrl('_user_login'));
         }
 
+        $em=$this->getDoctrine()->getManager();
         $logger= $this->get('logger');
         $keyword = $request->query->get('q');
         if( !isset($keyword ) || 0 >= strlen(trim($keyword))) {
@@ -259,18 +241,30 @@ class ProductController extends Controller
         #$products = $productSearch->fetchForWebsiteFilter($params );
 
         $products_webids = array_filter(array_unique( array_map( function($v) { if ( isset($v['web_id'])) { return  $v['web_id']; } ; } , $products )));
+
+        array_unique($products_webids);
+
 //todo: parse the webs
-
         $webs = $this->get('product.filters')->fetchWebs();
-
         $filters_of_webs = $this->get('product.filters')->fetchWebsConfigged();
+        // get commissions
+        $web_commissions = array();
+        $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $products_webids );
+
+        foreach( $result as $row) {
+            $webid = $row->getWebId();
+            $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission( $row->getCommission()  );
+            $multiple= $this->container->getParameter('emar_com.cps.action.default_rebate');
+
+         #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
+         #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'multiple','')) . var_export( $multiple, true));
+            $web_commissions[$webid  ] = round( $multiple * $comm/100, 2);
+        }
+
 
 #         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $filters_of_webs, true));
-
         //$filters_of_webs_d = $this->getDoctrine()->getManager()->getRepository('JiliEmarBundle:EmarWebsites')->getFilterWebs(  );
-
-        return   array_merge( $prod_categories, $webs ,  array('products' => $products,'total'=> $total, 'crumbs_local'=> $crumbs_local/* , 'webs' => */, 'webs_filter'=>$filters_of_webs));
-
+        return   array_merge( $prod_categories, $webs ,  array('products' => $products,'total'=> $total, 'crumbs_local'=> $crumbs_local/* , 'webs' => */, 'webs_filter'=>$filters_of_webs,'web_commissions'=>$web_commissions));
     }
 
     

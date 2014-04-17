@@ -79,7 +79,6 @@ class WebsitesController extends Controller
         } 
 
         $web_raw  = $this->get('website.list_get')->fetch( $params );
-
         $fitlers = array();
         // for wcat_id = 0, the hot websites only.
         if( $wcat_id === 0 ) {
@@ -152,22 +151,20 @@ class WebsitesController extends Controller
         }
 
         foreach ($websites_paged as $k => $v) {
-            $comm = 0;
+            $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($websites_paged[$k] ['commission'] );
+
             if( isset( $websites_configed_wid[$k] )) {
                 $row = $websites_configed_wid[$k];
                 if( 0 <  strlen(trim($row->getCommission()))) {
-                    $comm = $row->getCommission();
+                    $multiple = $row->getCommission();
                 }
             } 
-            if($comm === ''|| $comm === 0 || is_null($comm)) {
-                $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($websites_paged[$k] ['commission'] );
+
+            if( ! isset($multiple) || $multiple === '' || $multiple === 0 || is_null($multiple)) {
+                $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
             }
 
-            if($comm === '' || $comm === 0 || is_null($comm)) {
-                $comm = $this->container->getParameter('emar_com.cps.action.default_rebate');
-            }
-
-            $websites_paged[$k] ['commission'] = $comm;
+            $websites_paged[$k] ['commission'] = round($comm * $multiple /100, 2);
         }
 
         $filter_form = $this->createForm(new WebsiteFilterType(), array('keyword'=>$keyword)  );
@@ -198,6 +195,7 @@ class WebsitesController extends Controller
 
         if(! empty($hot_webs_configed)) {
             $webids= array();
+
             $commissions = array();
             foreach($hot_webs_configed as $row) {
                 $webids[] = $row[ 'webId']; 
@@ -205,22 +203,20 @@ class WebsitesController extends Controller
             }
 
             $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
+
             # input commissions_of_configed , $commission_of_api, $commission_of_default;
             foreach( $result as $row) {
                 $web_id = $row->getWebId();
-                $comm = 0;
+                $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($row->getCommission() );
                 if( array_key_exists( $web_id,  $commissions) ){
-                    $comm = $commissions[$web_id];
-                } 
-
-                if( $comm === '' || $comm === 0 || is_null( $comm) ) {
-                    $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($row->getCommission() );
-                } 
-
-                if( $comm === '' || $comm === 0 || is_null( $comm) ) {
-                    $comm = $this->container->getParameter('emar_com.cps.action.default_rebate');
+                    $multiple = $commissions[$web_id];
                 }
-                $row->setCommission($comm);
+                if(  is_null($multiple) || $multiple == 0   ){
+                    $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
+                } 
+                #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
+                #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'multiple','')) . var_export( $multiple, true));
+                $row->setCommission( round($multiple * $comm /100, 2) );
                 $websites[$row->getWebId() ] = $row; 
             }
         }
@@ -309,42 +305,5 @@ class WebsitesController extends Controller
             'total'=>$total );
     }
 
-#     /**
-#      * @Route("/demo")
-#      * @Method("GET");
-#      */
-#     public function demoAction()
-#     {
-#         $em = $this->getDoctrine()->getManager();
-#         $logger = $this->get('logger');
-#         $this->get('cron.website_and_category')->truncate();
-#         for($i = 1 ; $i < 10 ; $i++ ){
-#             $wid = $i ; 
-#             for($j = 11;  $j< 21; $j++ ) {
-#                 $catid = $j;
-#                 $this->get('cron.website_and_category')->add($wid, $catid);
-#             }
-#         }
-#
-#         for($i = 1 ; $i < 5 ; $i++ ){
-#             $wid = $i ; 
-#             for($j = 15;  $j< 21; $j++ ) {
-#                 $catid = $j;
-#                 $this->get('cron.website_and_category')->add($wid, $catid);
-#             }
-#         }
-#
-#         for($i = 2 ; $i < 8 ; $i++ ){
-#             $wid = $i ; 
-#             for($j = 13;  $j< 18; $j++ ) {
-#                 $catid = $j;
-#                 $this->get('cron.website_and_category')->add($wid, $catid);
-#             }
-#         }
-#         $this->get('cron.website_and_category')->duplicateForQuery();
-#         // code...
-#         return new Response('ok, level:');
-#
-#     }
 }
 

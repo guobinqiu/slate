@@ -29,16 +29,14 @@ class GhsController extends Controller
 
         $params = array('page_no' => $p);
 
-        if( $request->query->has('c_h') ) {
-
-        }
 
         $uid = $request->getSession()->get('uid');
 
         $list = $listRequest->setApp('search')->fetchDistinct( $params );
         $total = $listRequest->getTotal();
 
-        
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'list','')) . var_export( $list, true));
+
         if( $request->isXmlHttpRequest()) {
             $prds = array();
             foreach( $list as $v) {
@@ -47,8 +45,9 @@ class GhsController extends Controller
                 } else {
                     $href = $this->generateUrl('_user_login');
                 }
-                $prds[] = array('pic'=> $v['pic_url'], 'href'=> $href , 'pri1'=> $v['ghs_price'],'pri0'=>$v['ori_price'] ,'dis'=>$v['discount'],'buy'=>$v['bought'] ); 
+                $prds[] = array('pic'=> $v['pic_url'], 'href'=> $href , 'pri1'=> $v['ghs_price'],'pri0'=>$v['ori_price'] ,'dis'=> round( $v['discount'] *  $this->container->getParameter('emar_com.cps.action.default_rebate')/100, 2),'buy'=>$v['bought'] ); 
             }
+            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'prds','')) . var_export( $prds, true));
             $response = new Response(json_encode(array('prds' => $prds)));
             $response->headers->set('Content-Type', 'application/json');
             return $response;

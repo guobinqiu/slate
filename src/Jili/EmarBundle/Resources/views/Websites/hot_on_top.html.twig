@@ -3,7 +3,10 @@
       <ul class="clearfix">
     {% for row in websites %}
         <li><a href="{{ row.webUrl|replace({ 'APIMemberId': app.session.get('uid') } )  }}" title="{{ row.webName }}" target="_blank" rel="nofollow"><img width="90" height="45" src="{{ row.logoUrl }}" alt="{{ row.webName }}">
+
+        {% if row.commission > 0 %}
           <p>最高返 <em class="corGlobRed">{{ row.commission }}%</em></p>
+        {% endif %}
            </a>
         </li>
     {% endfor %}

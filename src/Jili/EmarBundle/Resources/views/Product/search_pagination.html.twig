@@ -21,7 +21,12 @@
             <div class="title"><a href="{{ row.p_o_url |replace( { 'APIMemberId': app.session.get('uid') } ) }}" target="_blank" rel="nofollow">{{ row.p_name  }}</a></div>
             <div class="detail">
 				<span class="fl price">￥<strong>{{ row.cur_price }}</strong></span>
-				<span class="tr fr fontNormal"><a class="shop corGlobRed" >{{ row.web_name }}</a><br/><p class="corLightGray">返利最高：<em class="corGlobRed">10%</em></p></span>
+                <span class="tr fr fontNormal"><a class="shop corGlobRed" >{{ row.web_name }}</a><br/>
+                  {% if web_commissions[row.web_id] > 0 %}
+                    <p class="corLightGray">返利最高：<em class="corGlobRed">{{ web_commissions[row.web_id] }}%</em></p>
+                  {% endif %}
+                </span>
+
 			</div>
 {#            <p class="rebate ">返利最高：<em>10%</em></p> #}
           </dd>
