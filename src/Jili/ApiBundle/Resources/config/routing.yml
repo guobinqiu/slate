@@ -70,9 +70,9 @@ top:
     resource: "@JiliApiBundle/Controller/TopController.php"
     type:     annotation
     prefix:   /
-#api-91wenwen:
-#    resource: "@JiliApiBundle/Controller/WenwenController.php"
-#    type:     annotation
-#    prefix:   /
+api-91wenwen:
+    resource: "@JiliApiBundle/Controller/WenwenController.php"
+    type:     annotation
+    prefix:   /
 
 

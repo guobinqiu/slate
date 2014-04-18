@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>积粒网-账户设定</title>
+{% include 'JiliApiBundle::seo.html.twig' %}
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	if ($("#ck").attr("checked")) 
+	    $("#but").attr("disabled",false);
+    else
+        $("#but").attr("disabled", "disabled");
+	$("#ck").click(function() {
+		  if ($("#ck").attr("checked")) 
+			  $("#but").attr("disabled",false);
+          else
+        	  $("#but").attr("disabled", "disabled");
+	});	
+	$("#but").click(function() {
+		 $("#form1").submit();
+	});	
+});
+</script>
+</head>
+<body>
+{% include 'JiliApiBundle::header.html.twig' %}
+<div class="webArticle regStep">
+  <article>
+  	<div class="step"><img src="{{ asset('images/step3.jpg')}}" width="960" height="86"></div>
+    <div class="regForm">
+    <div class="message"><img src="{{ asset('images/succeed.jpg')}}" width="39" height="44">邮箱验证成功！你的邮箱是：<span>{{ user.email }}</span></div>
+    <div class="remind">HI,欢迎来到积粒网。请完善一下信息创建您的积粒账号</div>
+    <form action="{{ path('_user_setPassFromWenwen',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
+    <ul class="form activate">
+	    <span>
+	   	 {% if error_message %}
+	       	 <font color="red">{{ error_message}}</font>
+	   	 {% endif %}
+	   	</span>
+    	<li><dd>昵称：</dd><dt><input id="nick" name="nick" type="text" class="text" value="{{ nick }}"><br />
+    	<span id="pwdError">2-20个字符</span></dt></li>
+    	<li><dd>密码：</dd><dt><input id="pwd" name="pwd" type="password" class="password"><br />
+    	<span id="pwdError">电子邮件就是您今后登录积粒网的账号	</span></dt></li>
+        <li><dd>确认密码：</dd><dt><input id="que_pwd" name="que_pwd" type="password" class="password"><br />
+        <span id="newError">6-20个字符</span></dt></li>
+        <li><dd></dd><dt><input name="ck" type="checkbox" value="1" id="ck" checked="checked">我已认真阅读并同意接受<a href="{{ path('_user_agreement') }}" target="_blank" class="provision">《积粒网会员协议》</a></dt></li>
+        <li><dd></dd><dt><input type='button' name='but' id='but' value='创建账号' class='regBtn'/></dt></li>
+    </ul>
+    </form>
+    </div>
+  </article>
+</div>
+{% include 'JiliApiBundle::footer.html.twig' %}
+</body>
+</html>
+

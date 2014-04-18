@@ -230,3 +230,4 @@ parameters:
     file_path_advertiserment_check: /data/91jili/advertiserment_check.log
     file_path_emergency_announcement: /data/91jili/emergency_announcement.log
     91wenwen_api_url: http://www.91jili.com
+    is_from_wenwen_register: 2
