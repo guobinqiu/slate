@@ -20,7 +20,7 @@ class WenwenController extends Controller {
 
 	/**
 	 * @Route("/register", name="_api_91wenwen_register");
-	 * @Method({"POST"});
+	 * @Method({"GET"});
 	 */
 	public function registerAction() {
 		$em = $this->getDoctrine()->getManager();
