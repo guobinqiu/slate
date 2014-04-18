@@ -113,7 +113,7 @@ class ProductController extends Controller
             if( isset($web_configed[$webid] ) ) {
                 $multiple = $web_configed[$webid]->getCommission();
             } 
-            if( $multiple  === '' || $multiple === 0 || is_null( $multiple) ) {
+            if(isset($multiple) ||  $multiple  === '' || $multiple === 0 || is_null( $multiple) ) {
                 $multiple= $this->container->getParameter('emar_com.cps.action.default_rebate');
             }
             $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'multiple','')) . var_export( $multiple, true));
