@@ -211,7 +211,7 @@ class WebsitesController extends Controller
                 if( array_key_exists( $web_id,  $commissions) ){
                     $multiple = $commissions[$web_id];
                 }
-                if(  is_null($multiple) || $multiple == 0   ){
+                if( ! isset($multiple) ||   is_null($multiple) || $multiple == 0   ){
                     $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
                 } 
                 #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
