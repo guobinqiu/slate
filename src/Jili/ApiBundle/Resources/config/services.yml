@@ -20,8 +20,6 @@ parameters:
 
     check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
 
-    mail.listener.class: Jili\ApiBundle\EventListener\MailListener
-
 services:
     login.listener:
         class: %login.listener.class%
@@ -96,11 +94,6 @@ services:
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
     check_in.listener:
         class: %check_in.listener.class%
-        calls:
-            - [setContainer, ["@service_container"]]
-        arguments: ["@doctrine.orm.entity_manager"]
-    mail.listener:
-        class: %mail.listener.class%
         calls:
             - [setContainer, ["@service_container"]]
         arguments: ["@doctrine.orm.entity_manager"]

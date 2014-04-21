@@ -38,7 +38,7 @@ $(document).ready(function(){
   	<div class="step"><img src="{{ asset('images/step3.jpg')}}" width="960" height="86"></div>
     <div class="regForm">
     <div class="message"><img src="{{ asset('images/succeed.jpg')}}" width="39" height="44">邮箱验证成功！您的邮箱是：<span>{{ user.email }}</span></div>
-    <div class="remind"><strong>HI,91问问<img class="marginLR5" src="/images/91wwLogoS.png">邀请您加入积粒网。请完善以下信息创建您的积粒账号</strong></div>
+    <div class="remind"><strong>请完善以下信息创建您的积粒网账号</strong></div>
     <form action="{{ path('_user_setPassFromWenwen',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
      {% if error_message %}
      <span class="errorWrap">
@@ -46,7 +46,6 @@ $(document).ready(function(){
      </span>
      {% endif %}
     <ul class="form activate">
-	    
     	<li><dd>昵称：</dd><dt><input id="nick" name="nick" type="text" class="text" value="{{ nick }}"><br />
     	<span id="pwdError">2-20个字符</span></dt></li>
     	<li><dd>密码：</dd><dt><input id="pwd" name="pwd" type="password" class="password"><br />
