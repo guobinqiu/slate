@@ -114,7 +114,7 @@ class ProductController extends Controller
                 $web_commissions[$webid  ] = null;
             } else {
                 $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission( $web_croned[$webid ]->getCommission()  );
-                $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
+#                 $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
                 if( isset($web_configed[$webid] ) ) {
                     $multiple = $web_configed[$webid]->getCommission();
                 } 
