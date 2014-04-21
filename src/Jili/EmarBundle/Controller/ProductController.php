@@ -26,12 +26,10 @@ class ProductController extends Controller
 {
     /**
      * @Route("/retrieve")
-     * @Template();
+     * @Method("GET")
+     * @Template
      */
-    public function retrieveAction( ) {
-        if(!  $this->get('request')->getSession()->get('uid') ) {
-            return  $this->redirect($this->generateUrl('_user_login'));
-        }
+    public function retrieveAction() {
         // cats & sub cats
         $request = $this->get('request');
         $logger = $this->get('logger');
@@ -108,16 +106,22 @@ class ProductController extends Controller
         }
 
         foreach($webids as $webid ) {
-            $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission( $web_croned[$webid ]->getCommission()  );
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
-            if( isset($web_configed[$webid] ) ) {
-                $multiple = $web_configed[$webid]->getCommission();
-            } 
-            if(! isset($multiple) ||  $multiple  === '' || $multiple === 0 || is_null( $multiple) ) {
-                $multiple= $this->container->getParameter('emar_com.cps.action.default_rebate');
+
+            if( !isset( $web_croned[$webid ])){
+                $logger->crit(implode( ':', array(__CLASS__ , __LINE__,'webid','')) .var_export($webid, true). ' not found in emar_website_croned table' );
+                $web_commissions[$webid  ] = null;
+            } else {
+                $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission( $web_croned[$webid ]->getCommission()  );
+                $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
+                if( isset($web_configed[$webid] ) ) {
+                    $multiple = $web_configed[$webid]->getCommission();
+                } 
+                if(! isset($multiple) ||  $multiple  === '' || $multiple === 0 || is_null( $multiple) ) {
+                    $multiple= $this->container->getParameter('emar_com.cps.action.default_rebate');
+                }
+                #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'multiple','')) . var_export( $multiple, true));
+                $web_commissions[$webid  ] = round( $multiple * $comm/100, 2);
             }
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'multiple','')) . var_export( $multiple, true));
-            $web_commissions[$webid  ] = round( $multiple * $comm/100, 2);
         }
         $crumbs_local = ItemCatRepository::getCrumbsByScatid( $prod_categories['sub_cats'], $cat_id);
          #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'web_commissions','')) . var_export( $web_commissions, true));
@@ -190,7 +194,8 @@ class ProductController extends Controller
      */
     public function searchAction() {
         $request = $this->get('request');
-        if(!  $request->getSession()->get('uid') ) {
+
+        if(! $request->getSession()->get('uid') ) {
             return  $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -231,9 +236,7 @@ class ProductController extends Controller
         // todo: cache stuff.
         $cache_id = md5(serialize($params));
         $cache_ts = time();
-
 // fetch web_ids from products.
-        
         // websites:
         // 设成100是为了取出筛选商家。
        // 1800 ?   
@@ -255,9 +258,8 @@ class ProductController extends Controller
             $webid = $row->getWebId();
             $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission( $row->getCommission()  );
             $multiple= $this->container->getParameter('emar_com.cps.action.default_rebate');
-
-         #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
-         #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'multiple','')) . var_export( $multiple, true));
+            #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
+            #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'multiple','')) . var_export( $multiple, true));
             $web_commissions[$webid  ] = round( $multiple * $comm/100, 2);
         }
 
