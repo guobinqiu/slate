@@ -1,5 +1,4 @@
 <?php
-
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
@@ -9,6 +8,7 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
 
   protected $c ;
   protected $logger;
+  protected $counter;
 
   protected $app;
   protected $config;
@@ -64,47 +64,55 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
    * @params: $req 是具体的 emar open.Request类.
    */
   public function exe( $req) {
-    $result_raw = $this->getConn()->execute($req);
-    // 对返回的json 转义为有效的json string.
-    $result_escaped = trim(str_replace(array( "\\","{\n", "}\n", ",\n", "]\n", "\"\n", "\n","\r","\t") , array('\\\\', '{', '}', ',', ']','"', '\n','','    ') ,trim($result_raw)));
+      $tag = date('YmdHi');
 
-    $result  = json_decode( trim($result_escaped), true);  
+      $result_raw = $this->getConn()->execute($req);
+      // 对返回的json 转义为有效的json string.
+      $result_escaped = trim(str_replace(array( "\\","{\n", "}\n", ",\n", "]\n", "\"\n", "\n","\r","\t") , array('\\\\', '{', '}', ',', ']','"', '\n','','    ') ,trim($result_raw)));
 
-    if( isset($result['errors'] )  
-      && isset($result['errors']['error'] ) 
-      && isset($result['errors']['error'][0] ) 
-      && isset($result['errors']['error'][0]['msg'] )  ) {
+      $result  = json_decode( trim($result_escaped), true);  
 
-        $error_msg = trim($result['errors']['error'][0]['msg'] );
+      $this->counter->increase($tag);
 
-        if( 'results is empty' == $error_msg ) {
+      // to counter.
+      if( isset($result['errors'] )  
+          && isset($result['errors']['error'] ) 
+          && isset($result['errors']['error'][0] ) 
+          && isset($result['errors']['error'][0]['msg'] )  ) {
 
-          $return = array();
+              $error_msg = trim($result['errors']['error'][0]['msg'] );
 
-        } else {
-          $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'')) . $error_msg);
-          throw new \Exception($error_msg);
+              if( 'results is empty' == $error_msg ) {
 
-        }
-      } else if( is_null($result) ) {
+                  $return = array();
 
-        $error_msg = 'JSON parsed error' ;
+              } else {
+                  $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'')) . $error_msg);
+                  throw new \Exception($error_msg);
 
-        $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'message','')) .$error_msg );
-        $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_raw','')) . $result_raw );
-        $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_escaped','')) . $result_escaped );
+              }
+          } else if( is_null($result) ) {
 
-        throw new \Exception($error_msg);
+              $error_msg = 'JSON parsed error' ;
 
-      } else {
+              $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'message','')) .$error_msg );
+              $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_raw','')) . $result_raw );
+              $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_escaped','')) . $result_escaped );
 
-        $return= $result['response'];
-      }
+              throw new \Exception($error_msg);
 
-    return $return ;  
+          } else {
+
+              $return= $result['response'];
+          }
+
+      return $return ;  
   }
 
   public function setLogger(  LoggerInterface $logger) {
     $this->logger = $logger;
+  }
+  public function setCounter(   $counter) {
+    $this->counter = $counter;
   }
 }
