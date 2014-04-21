@@ -256,9 +256,8 @@ class WebsitesController extends Controller
         $request = $this->get('request');
         $logger= $this->get('logger');
 
-
-            $keyword = $request->query->get('q');
-            $search_web  =  array('rt'=>1,'q'=> $keyword);
+        $keyword = $request->query->get('q');
+        $search_web  =  array('rt'=>1,'q'=> $keyword);
         // todo: foward to shoplistpage if $keyword is empty.
         if( !isset($keyword ) || 0 >= strlen(trim($keyword))) {
             $url = $this->generateUrl('jili_emar_websites_shoplist') ;

@@ -88,7 +88,9 @@ class ProductController extends Controller
         $web_commissions = array();
 
         foreach($products as $index => $product) {
-            $webids[] = $products [$index]['web_id'];
+            if( !empty(  $products [$index]['web_id'])) {
+                $webids[] = $products [$index]['web_id'];
+            }
         }
         array_unique($webids);
 
