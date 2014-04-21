@@ -20,7 +20,7 @@ class WenwenController extends Controller {
 
 	/**
 	 * @Route("/register", name="_api_91wenwen_register");
-	 * @Method({"GET"});
+	 * @Method({"POST"});
 	 */
 	public function registerAction() {
 		$em = $this->getDoctrine()->getManager();
@@ -51,9 +51,28 @@ class WenwenController extends Controller {
 		//发送激活邮件
 		$wenwen_api_url = $this->container->getParameter('91wenwen_api_url');
 		$url = $wenwen_api_url . '/user/setPassFromWenwen/' . $code . '/' . $user->getId();
-		$mailLister = $this->get('mail.listener');
-		$send_email = $mailLister->sendMailForWenWenRegister($this->get('mailer'), $url,$email);
-		if ($send_email) {
+		$logger = $this->get('logger');
+		$logger->info('{setPassFromWenwen}' . $url);
+		//通过soap发送
+		$soapMailLister = $this->get('soap.mail.listener');
+		$soapMailLister->setCampaignId($this->container->getParameter('register_from_wenwen_campaign_id')); //活动id
+		$soapMailLister->setMailingId($this->container->getParameter('register_from_wenwen_mailing_id')); //邮件id
+		$soapMailLister->setGroup(array (
+			'name' => '从91问问注册积粒网',
+			'is_test' => 'false'
+		)); //group
+		$recipient_arr = array (
+			array (
+				'name' => 'email',
+				'value' => $email
+			),
+			array (
+				'name' => 'url_reg',
+				'value' => $url
+			)
+		);
+		$send_email = $soapMailLister->sendSingleMailing($recipient_arr);
+		if ($send_email == "Email send success") {
 			$setPasswordCode = new setPasswordCode();
 			$setPasswordCode->setUserId($user->getId());
 			$setPasswordCode->setCode($code);

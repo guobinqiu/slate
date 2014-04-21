@@ -1563,6 +1563,7 @@ class UserController extends Controller
         $error_message = $this->checkInputForSetPassFromWenwen($request);
         if($error_message){
         	$arr['error_message'] = $error_message;
+            $arr['nick'] = $request->request->get('nick');
             return $this->render('JiliApiBundle:User:setPassWen.html.twig',$arr);
         }
 
