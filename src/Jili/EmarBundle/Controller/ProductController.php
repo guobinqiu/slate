@@ -197,10 +197,6 @@ class ProductController extends Controller
     public function searchAction() {
         $request = $this->get('request');
 
-        if(! $request->getSession()->get('uid') ) {
-            return  $this->redirect($this->generateUrl('_user_login'));
-        }
-
         $em=$this->getDoctrine()->getManager();
         $logger= $this->get('logger');
         $keyword = $request->query->get('q');
@@ -221,7 +217,6 @@ class ProductController extends Controller
         // catetory 
         $prod_categories = $this->get('product.categories')->fetch();
         $crumbs_local = ItemCatRepository::getCrumbsByScatid( $prod_categories['sub_cats'], $cat_id);
-
         
         // search
         $params = array('keyword'=>$keyword, 'catid'=> $cat_id, 'webid'=> $web_id, 'page_no'=>$page_no, 'price_range'=> $price_range,'orderby'=>$order);

@@ -4,11 +4,7 @@
         <li class="curPt">
           {% spaceless %}
           <dt>
-            {% if app.session.has('uid')  %}
-                    <a href="{{ row.ghs_o_url|replace({ 'APIMemberId': app.session.get('uid') }) }}" target="_blank" rel="nofollow">
-                {% else %}
-                    <a href="{{ path('_user_login')  }}" target="_blank" rel="nofollow">
-                 {% endif %}
+            <a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.ghs_o_url|url_encode }}" target="_blank" rel="nofollow">
             <img src="{{ row.pic_url }}" width="150" height="150" />
 			</a>
             </dt>

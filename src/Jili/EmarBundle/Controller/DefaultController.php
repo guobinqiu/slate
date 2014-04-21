@@ -13,12 +13,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/index")
+     * @Route("/redirect")
      */
-    public function indexAction($name)
+    public function redirectAction()
     {
-//todo: display goods.
-
-        return $this->render('JiliEmarBundle:Default:index.html.twig', array('name' => $name));
+        $request = $this->get('request');
+        $logger = $this->get('logger');
+        $session = $request->getSession();
+        $url = $request->get('m');
+#         $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
+        // check login
+        if($session->has('uid')){
+            str_replace('APIMemberId', $session->get('uid') , $url );
+            return $this->redirect( $url, 302);
+        } else {
+            $session->set('referer', $url);
+            return $this->forward( 'JiliApiBundle:User:login' );
+        }
+        // set session
+        // redirect to login
+        // forward to the pages?
+//        return $this->render('JiliEmarBundle:Default:index.html.twig', array('name' => $name));
     }
 }

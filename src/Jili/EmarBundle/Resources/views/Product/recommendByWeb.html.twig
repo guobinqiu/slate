@@ -4,7 +4,7 @@
     {% for row in  products %}
         <li>
           <dt>
-            <a href="{{ row.p_o_url|replace({'APIMemberId': app.session.get('uid')}) }}" target="_blank" rel="nofollow">
+            <a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.p_o_url|url_encode }}" target="_blank" >
             <img src="{{ row.pic_url }}" width="150" height="150" />
             </a>
           </dt>
