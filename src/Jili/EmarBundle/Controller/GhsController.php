@@ -53,7 +53,7 @@ class GhsController extends Controller
                     'dis'=> round( $v['discount'] *  $this->container->getParameter('emar_com.cps.action.default_rebate')/100, 2),
                     'buy'=>$v['bought'] ); 
             }
-            $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'prds','')) . var_export( $prds, true));
+#             $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'prds','')) . var_export( $prds, true));
             $response = new Response(json_encode(array('prds' => $prds)));
             $response->headers->set('Content-Type', 'application/json');
             return $response;

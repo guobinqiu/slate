@@ -211,7 +211,7 @@ class WebsitesController extends Controller
                 if( array_key_exists( $web_id,  $commissions) ){
                     $multiple = $commissions[$web_id];
                 }
-                if(  is_null($multiple) || $multiple == 0   ){
+                if( ! isset($multiple) ||   is_null($multiple) || $multiple == 0   ){
                     $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
                 } 
                 #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
@@ -236,14 +236,31 @@ class WebsitesController extends Controller
     public function detailAction($wid )
     {
         $request = $this->get('request');
+        $logger = $this->get('logger');
         if(!  $request->getSession()->get('uid') ) {
             return  $this->redirect($this->generateUrl('_user_login'));
         }
         $params = array('webid'=>$wid );
         $website = $this->get('website.detail_get')->fetch($params);
+
+        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $website, true));
+        
+        $em = $this->getDoctrine()->getManager();
+        $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($website ['commission'] );
+        $web_configed=$em->getRepository('JiliEmarBundle:EmarWebsites')->findOneByWebId($wid);
+
+        if( $web_configed) {
+            $multiple= $web_configed->getCommission();
+        } else {
+            $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
+        }
+
+        $web_commision =  round($comm * $multiple /100, 2);
+
+
         //todo: better update the emar_webiste for caching...
         //  if the current_time - row.updated_at  < 1 hour, fetch from the database /
-        return array('website'=> $website );
+        return array('website'=> $website ,'web_commission'=>$web_commision);
     }
 
     /**
@@ -256,9 +273,8 @@ class WebsitesController extends Controller
         $request = $this->get('request');
         $logger= $this->get('logger');
 
-
-            $keyword = $request->query->get('q');
-            $search_web  =  array('rt'=>1,'q'=> $keyword);
+        $keyword = $request->query->get('q');
+        $search_web  =  array('rt'=>1,'q'=> $keyword);
         // todo: foward to shoplistpage if $keyword is empty.
         if( !isset($keyword ) || 0 >= strlen(trim($keyword))) {
             $url = $this->generateUrl('jili_emar_websites_shoplist') ;
