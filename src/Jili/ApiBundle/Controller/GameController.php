@@ -15,6 +15,7 @@ class GameController extends Controller
      * @Route("/index", name="_game_index")
      */
     public function indexAction(){  
+        $this->getRequest()->getSession()->set('referer', $this->generateUrl('_game_index') );
         return $this->render('JiliApiBundle:Game:index.html.twig');
     }
 
