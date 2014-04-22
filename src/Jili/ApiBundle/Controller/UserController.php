@@ -1203,8 +1203,17 @@ class UserController extends Controller
 		$user_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
 		$str = 'jiliactiveregister';
 		$code = md5($user_email[0]->getId().str_shuffle($str));
-		$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
-		if($this->sendMail($url,$email,$user_email[0]->getNick())){
+
+        $send_email = false;
+        if($user_email[0]->getIsFromWenwen() == $this->container->getParameter('is_from_wenwen_register')){
+            $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
+            $mailLister = $this->get('mail.listener');
+            $send_email = $mailLister->sendMailForWenWenRegister($this->get('mailer'), $url,$email);
+        }else{
+        	$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
+            $send_email = $this->sendMail($url,$email,$user_email[0]->getNick());
+        }
+		if($send_email){
 			$setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user_email[0]->getId());
 			$setPasswordCode[0]->setCode($code);
 			$setPasswordCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
@@ -1545,6 +1554,125 @@ class UserController extends Controller
         	}
         }
 	}
+
+    /**
+     * @Route("/setPassFromWenwen/{code}/{id}", name="_user_setPassFromWenwen",requirements={"_scheme"="https"})
+     */
+    public function setPassFromWenwenAction($code,$id){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $arr['user'] = $user;
+        $arr['nick'] = "";
+
+        $setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneByUserId($id);
+        $arr['pwdcode'] = $setPasswordCode;
+
+        $return = $this->checkCodeValid($setPasswordCode, $code);
+        if(!$return){
+            return $this->render('JiliApiBundle::error.html.twig');
+        }
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'GET'){
+            $arr['error_message'] = "";
+            return $this->render('JiliApiBundle:User:setPassWen.html.twig',$arr);
+        }
+
+        $error_message = $this->checkInputForSetPassFromWenwen($request);
+        if($error_message){
+        	$arr['error_message'] = $error_message;
+            $arr['nick'] = $request->request->get('nick');
+            return $this->render('JiliApiBundle:User:setPassWen.html.twig',$arr);
+        }
+
+        //设定密码，自动登录
+        $this->get('request')->getSession()->set('uid',$id);
+        $this->get('request')->getSession()->set('nick',$request->request->get('nick'));
+        $user->setPwd($request->request->get('pwd'));
+        $user->setNick($request->request->get('nick'));
+        $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
+        $em->persist($user);
+        $em->persist($setPasswordCode);
+        $em->flush();
+
+        //设置密码之后，注册成功，发邮件2014-01-10
+        $soapMailLister = $this->get('soap.mail.listener');
+        $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
+        $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
+        $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
+        $recipient_arr = array (
+                array (
+                    'name' => 'email',
+                    'value' => $user->getEmail()
+                )
+            );
+        $soapMailLister->sendSingleMailing($recipient_arr);
+
+        return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
+    }
+
+    private function checkCodeValid ($setPasswordCode, $code) {
+        if($setPasswordCode->getIsAvailable()==0){
+            return false;
+        }
+        $time = $setPasswordCode->getCreateTime();
+        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
+            return false;
+        }
+
+        if($setPasswordCode->getCode() != $code){
+            return false;
+        }
+
+        return true;
+    }
+
+    private function checkInputForSetPassFromWenwen($request){
+
+        $nick = $request->request->get('nick');
+        $pwd = $request->request->get('pwd');
+        $que_pwd = $request->request->get('que_pwd');
+        $error_message = "";
+
+        if($request->request->get('ck')!='1'){
+            $error_message = 'choose agree';
+            return $error_message;
+        }
+
+        if(!$nick){
+            $error_message = $this->container->getParameter('reg_en_nick');
+            return $error_message;
+        }
+
+        if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick) || ((strlen($nick) + mb_strlen($nick,'UTF8')) / 2 > 20)){
+            $error_message = $this->container->getParameter('reg_wr_nick');
+            return $error_message;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
+        if($user_nick){
+            $error_message = $this->container->getParameter('reg_al_nick');
+            return $error_message;
+        }
+
+        if(!$pwd){
+            $error_message = $this->container->getParameter('forget_en_pwd');
+            return $error_message;
+        }
+
+        if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+            $error_message = $this->container->getParameter('forget_wr_pwd');
+            return $error_message;
+        }
+
+        if($pwd != $que_pwd){
+            $error_message = $this->container->getParameter('forget_unsame_pwd');
+            return $error_message;
+        }
+
+        return $error_message;
+    }
 
 	/**
 	 * @Route("/updateIsRead", name="_user_updateIsRead")

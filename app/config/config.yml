@@ -1,4 +1,4 @@
-imports:
+﻿imports:
     - { resource: parameters.yml }
     - { resource: custome_parameters.yml }
     - { resource: security.yml }
@@ -227,6 +227,9 @@ parameters:
     remind_point_mailing_id: 72
     remind_total_point_campaign_id: 12
     remind_total_point_mailing_id: 80
+    register_from_wenwen_campaign_id: 7
+    register_from_wenwen_mailing_id: 86
     file_path_advertiserment_check: /data/91jili/advertiserment_check.log
     file_path_emergency_announcement: /data/91jili/emergency_announcement.log
-    91wenwen_api_url: http://www.91jili.com
+    91wenwen_api_url: https://www.91jili.com
+    is_from_wenwen_register: 2

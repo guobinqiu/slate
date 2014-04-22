@@ -27,7 +27,10 @@ strong, b{font-weight: bold;}
 .division{ margin:0 10px; color:#ccc;}
 .module{ border:2px solid #ff6b4f;}
 .curPt{ cursor:pointer;}
+.postionR{ position:relative;}
+.postionA{ position:absolute;}
 .marginT15{ margin-top:15px;}
+.marginLR5{ margin:0 5px;}
 .borderGlob{border:1px solid #e8e8e8;} 
 .dispalyBlock{ display:block;}
 .boxShadowGlobal{-moz-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;-webkit-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;box-shadow: 1px 1px 6px #ddd,1px -1px 6px #ddd;}
