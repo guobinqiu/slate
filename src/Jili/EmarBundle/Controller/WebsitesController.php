@@ -57,9 +57,6 @@ class WebsitesController extends Controller
      */
     public function shopListAction()
     {
-        if(!  $this->get('request')->getSession()->get('uid') ) {
-            return  $this->redirect($this->generateUrl('_user_login'));
-        }
 
         $request = $this->get('request');
         $logger= $this->get('logger');
@@ -237,27 +234,18 @@ class WebsitesController extends Controller
     {
         $request = $this->get('request');
         $logger = $this->get('logger');
-        if(!  $request->getSession()->get('uid') ) {
-            return  $this->redirect($this->generateUrl('_user_login'));
-        }
         $params = array('webid'=>$wid );
         $website = $this->get('website.detail_get')->fetch($params);
-
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $website, true));
-        
+#         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $website, true));
         $em = $this->getDoctrine()->getManager();
         $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($website ['commission'] );
         $web_configed=$em->getRepository('JiliEmarBundle:EmarWebsites')->findOneByWebId($wid);
-
         if( $web_configed) {
             $multiple= $web_configed->getCommission();
         } else {
             $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
         }
-
         $web_commision =  round($comm * $multiple /100, 2);
-
-
         //todo: better update the emar_webiste for caching...
         //  if the current_time - row.updated_at  < 1 hour, fetch from the database /
         return array('website'=> $website ,'web_commission'=>$web_commision);

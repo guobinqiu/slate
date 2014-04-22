@@ -60,7 +60,7 @@
 	background-color: #FAFAFA;
     border: 1px solid #F0F0F0;
     color: #666666;
-    font-size: 14px;
+    font-size: 15px;
     margin: 20px auto;
     padding: 20px 0;
     text-align: center;
@@ -314,3 +314,4 @@
 .regStep article .regFrame .finish a{
 	color:#54B9E8;
 }
+.regFrom91ww .errorWrap{ display:block; height: 35px; margin: 0 auto 10px; padding-top: 15px; text-align: center; width: 680px;background:#fdf9e7;}

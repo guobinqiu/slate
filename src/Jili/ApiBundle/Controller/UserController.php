@@ -69,935 +69,953 @@ class UserController extends Controller
 			$loginlog = new Loginlog();
 			$loginlog->setUserId($id);
 			$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-			$loginlog->setLoginIp($this->get('request')->getClientIp());
-			$em->persist($loginlog);
-			$em->flush();
-			if($user->getDeleteFlag() == 1){
-				$this->removeSession();
-				$code = $this->container->getParameter('init_one');
-			}
-		}
-		return new Response($code);
+            $loginlog->setLoginIp($this->get('request')->getClientIp());
+            $em->persist($loginlog);
+            $em->flush();
+            if($user->getDeleteFlag() == 1){
+                $this->removeSession();
+                $code = $this->container->getParameter('init_one');
+            }
+        }
+        return new Response($code);
 
-	}
+    }
 
-	public function removeSession(){
-		$this->get('request')->getSession()->remove('uid');
-		$this->get('request')->getSession()->remove('nick');
-		setcookie ("jili_uid", "", time() - 3600,'/');
-		setcookie ("jili_nick", "", time() - 3600,'/');
-	}
+    public function removeSession(){
+        $this->get('request')->getSession()->remove('uid');
+        $this->get('request')->getSession()->remove('nick');
+        setcookie ("jili_uid", "", time() - 3600,'/');
+        setcookie ("jili_nick", "", time() - 3600,'/');
+    }
 
-	/**
-	 * @Route("/checkFlag/{id}", name="_user_checkFlag")
-	 */
-	public function checkFlagAction($id){
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		return new Response($user->getIsInfoSet());
-	}
-	
-	/**
-	 * @Route("/checkPwd", name="_user_checkPwd")
-	 */
-	public function checkPwdAction(){
-		$request = $this->get('request');
-		$pwd = $request->query->get('pwd');
-		$id = $this->get('request')->getSession()->get('uid');
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-	    if($user->pw_encode($pwd) == $user->getPwd())
-			$code = $this->container->getParameter('init');
-		else
-			$code = $this->container->getParameter('init_one');
-		return new Response($code);
-	}
-	
-	/**
-	 * @Route("/updatePwd", name="_user_updatePwd")
-	 */
-	public function updatePwdAction(){
-		return $this->render('JiliApiBundle:User:changePwd.html.twig');
-	}
-	
-	/**
-	 * @Route("/changePwd", name="_user_changePwd")
-	 */
-	public function changePwdAction(){
-		$arr['codeflag'] = '';
-		$arr['code'] = '';
-		$request = $this->get('request');
-		$oldPwd =  $request->request->get('oldPwd');
-		$pwd = $request->request->get('pwd');
-		$newPwd = $request->request->get('newPwd');
-		$id = $this->get('request')->getSession()->get('uid');
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		if ($request->getMethod() == 'POST') {
-			if($oldPwd){
-				if($user->pw_encode($oldPwd) == $user->getPwd()){
-					if($pwd){
-						if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
-							$arr['code'] = $this->container->getParameter('change_wr_pwd');
-							$arr['codeflag'] = $this->container->getParameter('init_three');
-						}else{
-							if($pwd == $newPwd){
-								$user->setPwd($pwd);
-								$em->flush();
-								$arr['codeflag'] = $this->container->getParameter('init_one');
-								$arr['code'] = $this->container->getParameter('forget_su_pwd');
-							}else{
-								$arr['codeflag'] = $this->container->getParameter('init_four');
-								$arr['code'] = $this->container->getParameter('change_unsame_pwd');
-							}
-						}
-					}else{
-						$arr['code'] = $this->container->getParameter('change_en_newpwd');
-						$arr['codeflag'] = $this->container->getParameter('init_five');
-					}
-				}else{
-					$arr['code'] = $this->container->getParameter('change_wr_oldpwd');
-					$arr['codeflag'] = $this->container->getParameter('init_two');
-				}
-			}else{
-				$arr['code'] = $this->container->getParameter('change_en_oldpwd');
-				$arr['codeflag'] = $this->container->getParameter('init_six');
-			}
-    		
-		}
-		return $this->render('JiliApiBundle:User:changePwd.html.twig',$arr);
-	}
-	
+    /**
+     * @Route("/checkFlag/{id}", name="_user_checkFlag")
+     */
+    public function checkFlagAction($id){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        return new Response($user->getIsInfoSet());
+    }
 
-	/**
-	 * @Route("/resUp", name="_user_resUp")
-	 */
-	public function resUp(){
-		$request = $this->get('request');
-		if($request->getSession()->get('uid')){
-			$id = $request->getSession()->get('uid');
-			$em = $this->getDoctrine()->getManager();
-			$user = $em->getRepository('JiliApiBundle:User')->find($id);
-			if ($request->getMethod() == 'POST'){
-				if($request->request->get('resize')){
-					$resizePath = $request->request->get('resizePath');
-					$x = $request->request->get('x');
-					$y = $request->request->get('y');
-					$x1 = $request->request->get('w');
-					$y1 = $request->request->get('h');
-					if(!$x)
-						$x=0;
-					if(!$y)
-						$y=0;
-					if(!$x1)
-						$x1=256;
-					if(!$y1)
-						$y1=256;
-					$user->resizeUpload($resizePath,$x,$y,$x1,$y1);
-					$user->setIconPath($resizePath);
-					$em->flush();
-					
-				}
-				return $this->redirect($this->generateUrl('_user_info'));
+    /**
+     * @Route("/checkPwd", name="_user_checkPwd")
+     */
+    public function checkPwdAction(){
+        $request = $this->get('request');
+        $pwd = $request->query->get('pwd');
+        $id = $this->get('request')->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        if($user->pw_encode($pwd) == $user->getPwd())
+            $code = $this->container->getParameter('init');
+        else
+            $code = $this->container->getParameter('init_one');
+        return new Response($code);
+    }
 
-			}	
-		}
-	}
+    /**
+     * @Route("/updatePwd", name="_user_updatePwd")
+     */
+    public function updatePwdAction(){
+        return $this->render('JiliApiBundle:User:changePwd.html.twig');
+    }
 
-    
+    /**
+     * @Route("/changePwd", name="_user_changePwd")
+     */
+    public function changePwdAction(){
+        $arr['codeflag'] = '';
+        $arr['code'] = '';
+        $request = $this->get('request');
+        $oldPwd =  $request->request->get('oldPwd');
+        $pwd = $request->request->get('pwd');
+        $newPwd = $request->request->get('newPwd');
+        $id = $this->get('request')->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        if ($request->getMethod() == 'POST') {
+            if($oldPwd){
+                if($user->pw_encode($oldPwd) == $user->getPwd()){
+                    if($pwd){
+                        if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+                            $arr['code'] = $this->container->getParameter('change_wr_pwd');
+                            $arr['codeflag'] = $this->container->getParameter('init_three');
+                        }else{
+                            if($pwd == $newPwd){
+                                $user->setPwd($pwd);
+                                $em->flush();
+                                $arr['codeflag'] = $this->container->getParameter('init_one');
+                                $arr['code'] = $this->container->getParameter('forget_su_pwd');
+                            }else{
+                                $arr['codeflag'] = $this->container->getParameter('init_four');
+                                $arr['code'] = $this->container->getParameter('change_unsame_pwd');
+                            }
+                        }
+                    }else{
+                        $arr['code'] = $this->container->getParameter('change_en_newpwd');
+                        $arr['codeflag'] = $this->container->getParameter('init_five');
+                    }
+                }else{
+                    $arr['code'] = $this->container->getParameter('change_wr_oldpwd');
+                    $arr['codeflag'] = $this->container->getParameter('init_two');
+                }
+            }else{
+                $arr['code'] = $this->container->getParameter('change_en_oldpwd');
+                $arr['codeflag'] = $this->container->getParameter('init_six');
+            }
 
-	/**
-	 * @Route("/getCity", name="_user_getCity")
-	 */
-	public function getCityAction()
-	{
-		$array = array();
-		//$arr[] = array('id'=>0,'cityName'=>'请选择地区');
-		$request = $this->get('request');
-		$cid = $request->query->get('cid');
-		$em = $this->getDoctrine()->getManager();
-		$city = $em->getRepository('JiliApiBundle:CityList')->findByProvinceId($cid);
-		if($city){
-			foreach ($city as $key => $value){
-				$arr[] = array('id'=>$value->getId(),'cityName'=>$value->getCityName());
-			}
-			return new Response(json_encode($arr));
-		}else{
-			return new Response('');
-		}
-		
-	}
+        }
+        return $this->render('JiliApiBundle:User:changePwd.html.twig',$arr);
+    }
 
-	/**
-	 * @Route("/getCoupon", name="_user_getCoupon")
-	 */
-	public function getCouponAction(){
-		$code = '';
-		$getCoupon = '';
-		$request = $this->get('request');
-		$id = $request->getSession()->get('uid');
-		if(!$id){
+
+    /**
+     * @Route("/resUp", name="_user_resUp")
+     */
+    public function resUp(){
+        $request = $this->get('request');
+        if($request->getSession()->get('uid')){
+            $id = $request->getSession()->get('uid');
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            if ($request->getMethod() == 'POST'){
+                if($request->request->get('resize')){
+                    $resizePath = $request->request->get('resizePath');
+                    $x = $request->request->get('x');
+                    $y = $request->request->get('y');
+                    $x1 = $request->request->get('w');
+                    $y1 = $request->request->get('h');
+                    if(!$x)
+                        $x=0;
+                    if(!$y)
+                        $y=0;
+                    if(!$x1)
+                        $x1=256;
+                    if(!$y1)
+                        $y1=256;
+                    $user->resizeUpload($resizePath,$x,$y,$x1,$y1);
+                    $user->setIconPath($resizePath);
+                    $em->flush();
+
+                }
+                return $this->redirect($this->generateUrl('_user_info'));
+
+            }	
+        }
+    }
+
+
+
+    /**
+     * @Route("/getCity", name="_user_getCity")
+     */
+    public function getCityAction()
+    {
+        $array = array();
+        //$arr[] = array('id'=>0,'cityName'=>'请选择地区');
+        $request = $this->get('request');
+        $cid = $request->query->get('cid');
+        $em = $this->getDoctrine()->getManager();
+        $city = $em->getRepository('JiliApiBundle:CityList')->findByProvinceId($cid);
+        if($city){
+            foreach ($city as $key => $value){
+                $arr[] = array('id'=>$value->getId(),'cityName'=>$value->getCityName());
+            }
+            return new Response(json_encode($arr));
+        }else{
+            return new Response('');
+        }
+
+    }
+
+    /**
+     * @Route("/getCoupon", name="_user_getCoupon")
+     */
+    public function getCouponAction(){
+        $code = '';
+        $getCoupon = '';
+        $request = $this->get('request');
+        $id = $request->getSession()->get('uid');
+        if(!$id){
             return $this->redirect($this->generateUrl('_homepage'));
         }
         $em = $this->getDoctrine()->getManager();
-       
+
         $userCount = $em->getRepository('JiliApiBundle:AmazonCoupon')->isUserCoupon($id);
         if($userCount > $this->container->getParameter('init')){
-			$code = $this->container->getParameter('init_one');
-			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
-			$getCoupon = $userCoupon[0]->getCoupon();
+            $code = $this->container->getParameter('init_one');
+            $userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+            $getCoupon = $userCoupon[0]->getCoupon();
         }else{
-        	$amazonCount = $em->getRepository('JiliApiBundle:AmazonCoupon')->countCoupon();
-        	if($amazonCount > $this->container->getParameter('init')){
-        		$amazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->getAmcoupon();
-	        	$getCoupon = $amazon['0']['coupon'];
-		        $amazonCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->find($amazon['0']['id']);
-		        $amazonCoupon->setUserId($id);
-		        $em->flush();
-        	}else{
-        		$code = $this->container->getParameter('init_two');
-       		}	
+            $amazonCount = $em->getRepository('JiliApiBundle:AmazonCoupon')->countCoupon();
+            if($amazonCount > $this->container->getParameter('init')){
+                $amazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->getAmcoupon();
+                $getCoupon = $amazon['0']['coupon'];
+                $amazonCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->find($amazon['0']['id']);
+                $amazonCoupon->setUserId($id);
+                $em->flush();
+            }else{
+                $code = $this->container->getParameter('init_two');
+            }	
         }
         return $this->render('JiliApiBundle:User:getCoupon.html.twig',array(
-				'coupon'=>$getCoupon,
-				'code'=>$code
-				));
-       
-	}
+            'coupon'=>$getCoupon,
+            'code'=>$code
+        ));
+
+    }
     //领取亚马逊优惠券
-	private function getCoupons($id){
-		$em = $this->getDoctrine()->getManager();
-		$isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
-		if(empty($isuserAmazon)){
-			$amazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->getAmcoupon();
-			// $getCoupon = $amazon['0']['coupon'];
-	        $amazonCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->find($amazon['0']['id']);
-	        $amazonCoupon->setUserId($id);
-	        $em->flush();
-	        $reward =  new RegisterReward();
-			$reward->setUserId($id);
-			$reward->setType($this->container->getParameter('init_one'));
-			$em->persist($reward);
-			$em->flush();
-	        return true;
-		}else{
-			return false;
-		}
-		
-	}
+    private function getCoupons($id){
+        $em = $this->getDoctrine()->getManager();
+        $isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+        if(empty($isuserAmazon)){
+            $amazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->getAmcoupon();
+            // $getCoupon = $amazon['0']['coupon'];
+            $amazonCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->find($amazon['0']['id']);
+            $amazonCoupon->setUserId($id);
+            $em->flush();
+            $reward =  new RegisterReward();
+            $reward->setUserId($id);
+            $reward->setType($this->container->getParameter('init_one'));
+            $em->persist($reward);
+            $em->flush();
+            return true;
+        }else{
+            return false;
+        }
+
+    }
     // 是否完善资料
-	private function isExistInfo($userid){
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($userid);
-		if($user->getSex() && $user->getBirthday() && $user->getProvince() && $user->getCity() && $user->getIncome() && $user->getHobby())
-			return true;
-		else
-			return false;
-	}
-	//是否给过奖励
-	private function isGetReward($userid,$componType){
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($userid);
-		if($user){
-			if($componType == 'point'){
-				if($user[0]->getType() == $this->container->getParameter('init_one'))
-					return $this->container->getParameter('init_four');//参加其他活动领取的
-				if($user[0]->getType() == $this->container->getParameter('init_two'))
-					return $this->container->getParameter('init_one');
-			}else{
-				if($user[0]->getType() == $this->container->getParameter('init_one')){
-					$isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($userid);
-					if(empty($isuserAmazon)){
-						return $this->container->getParameter('init_three');//获得米粒的
-					}else{
-						return $this->container->getParameter('init_two');//获得优惠券的
-					}
-				}else{
-					return $this->container->getParameter('init_four');//参加其他活动领取的
-				}
-			}
-		}else{
-			return false;
-		}
-		
-	}
+    private function isExistInfo($userid){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($userid);
+        if($user->getSex() && $user->getBirthday() && $user->getProvince() && $user->getCity() && $user->getIncome() && $user->getHobby())
+            return true;
+        else
+            return false;
+    }
+    //是否给过奖励
+    private function isGetReward($userid,$componType){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($userid);
+        if($user){
+            if($componType == 'point'){
+                if($user[0]->getType() == $this->container->getParameter('init_one'))
+                    return $this->container->getParameter('init_four');//参加其他活动领取的
+                if($user[0]->getType() == $this->container->getParameter('init_two'))
+                    return $this->container->getParameter('init_one');
+            }else{
+                if($user[0]->getType() == $this->container->getParameter('init_one')){
+                    $isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($userid);
+                    if(empty($isuserAmazon)){
+                        return $this->container->getParameter('init_three');//获得米粒的
+                    }else{
+                        return $this->container->getParameter('init_two');//获得优惠券的
+                    }
+                }else{
+                    return $this->container->getParameter('init_four');//参加其他活动领取的
+                }
+            }
+        }else{
+            return false;
+        }
 
-	//给米粒奖励
-	private function getPointReward($componType,$userid){
-		$em = $this->getDoctrine()->getManager();
-		$isuserPoint = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($userid);
-		if(empty($isuserPoint)){
-			$reward =  new RegisterReward();
-			$reward->setUserId($userid);
-			if($componType == 'point'){
-				$reward->setType($this->container->getParameter('init_two'));
-				$reward->setRewards($this->container->getParameter('init_fivty'));
-				$em->persist($reward);
-				$em->flush();
-				$this->getPointHistory($userid,$this->container->getParameter('init_fivty'));
-				$user = $em->getRepository('JiliApiBundle:User')->find($userid);
-				$user->setPoints(intval($user->getPoints()+$this->container->getParameter('init_fivty')));
-				$em->persist($user);
-				$em->flush();
-			}else{
-				$reward->setType($this->container->getParameter('init_one'));
-				$reward->setRewards($this->container->getParameter('init'));
-				$em->persist($reward);
-				$em->flush();
-			}
-			return true;
-		}else{
-			return false;
-		}
-			
-	}
+    }
 
-	//完善后领取(积分或优惠券）
+    //给米粒奖励
+    private function getPointReward($componType,$userid){
+        $em = $this->getDoctrine()->getManager();
+        $isuserPoint = $em->getRepository('JiliApiBundle:RegisterReward')->findByUserid($userid);
+        if(empty($isuserPoint)){
+            $reward =  new RegisterReward();
+            $reward->setUserId($userid);
+            if($componType == 'point'){
+                $reward->setType($this->container->getParameter('init_two'));
+                $reward->setRewards($this->container->getParameter('init_fivty'));
+                $em->persist($reward);
+                $em->flush();
+                $this->getPointHistory($userid,$this->container->getParameter('init_fivty'));
+                $user = $em->getRepository('JiliApiBundle:User')->find($userid);
+                $user->setPoints(intval($user->getPoints()+$this->container->getParameter('init_fivty')));
+                $em->persist($user);
+                $em->flush();
+            }else{
+                $reward->setType($this->container->getParameter('init_one'));
+                $reward->setRewards($this->container->getParameter('init'));
+                $em->persist($reward);
+                $em->flush();
+            }
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    //完善后领取(积分或优惠券）
     private function getReward($componType,$id){
-    	$em = $this->getDoctrine()->getManager();
-    	if($componType == 'point'){
-			$this->getPointReward($componType,$id);
-			return $this->container->getParameter('init_one');
-		}else{
-			$amazonCount = $em->getRepository('JiliApiBundle:AmazonCoupon')->countCoupon();
-			if($amazonCount == $this->container->getParameter('init')){
-				$isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
-				if(empty($isuserAmazon)){
-					$this->getPointReward($componType,$id);
-					return $this->container->getParameter('init_three');
-				}else{
-					return false;
-				}
-			}else{
-				if($this->getCoupons($id)){
-					return $this->container->getParameter('init_two');
-				}else{
-					return false;
-				}
-				
-			}
-			
-		}
+        $em = $this->getDoctrine()->getManager();
+        if($componType == 'point'){
+            $this->getPointReward($componType,$id);
+            return $this->container->getParameter('init_one');
+        }else{
+            $amazonCount = $em->getRepository('JiliApiBundle:AmazonCoupon')->countCoupon();
+            if($amazonCount == $this->container->getParameter('init')){
+                $isuserAmazon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+                if(empty($isuserAmazon)){
+                    $this->getPointReward($componType,$id);
+                    return $this->container->getParameter('init_three');
+                }else{
+                    return false;
+                }
+            }else{
+                if($this->getCoupons($id)){
+                    return $this->container->getParameter('init_two');
+                }else{
+                    return false;
+                }
+
+            }
+
+        }
 
     }
 
 
     /**
-	 * @Route("/amazonResult", name="_user_amazonResult")
-	 */
-	public function amazonResultAction(){
-		$em = $this->getDoctrine()->getManager();
-		$request = $this->get('request');
-		$couponOd = '';
+     * @Route("/amazonResult", name="_user_amazonResult")
+     */
+    public function amazonResultAction(){
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $couponOd = '';
         $couponElec = '';
         $uid = '';
-		$uid = $request->getSession()->get('uid');
-		if($uid){
-			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($uid);
-			if(!empty($userCoupon)){
-				$couponOd = $userCoupon[0]->getCouponOd();
-           		$couponElec = $userCoupon[0]->getCouponElec();
-			}
-		}else{
-			return $this->redirect($this->generateUrl('_homepage'));
-		}
-		return $this->render('JiliApiBundle:User:amazonResult.html.twig',array(
-							'couponOd'=>$couponOd,
-							'couponElec'=>$couponElec,
-							'uid'=>$uid
-							)); 
-	}
+        $uid = $request->getSession()->get('uid');
+        if($uid){
+            $userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($uid);
+            if(!empty($userCoupon)){
+                $couponOd = $userCoupon[0]->getCouponOd();
+                $couponElec = $userCoupon[0]->getCouponElec();
+            }
+        }else{
+            return $this->redirect($this->generateUrl('_homepage'));
+        }
+        return $this->render('JiliApiBundle:User:amazonResult.html.twig',array(
+            'couponOd'=>$couponOd,
+            'couponElec'=>$couponElec,
+            'uid'=>$uid
+        )); 
+    }
 
     /**
-	 * @Route("/isExistInfo", name="_user_isExistInfo")
-	 */
-	public function isExistInfoAction(){
-		$code = '';
-		$request = $this->get('request');
-		$id = $request->getSession()->get('uid');
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		if($user->getSex() && $user->getBirthday() && $user->getProvince() && $user->getCity() && $user->getIncome() && $user->getHobby())
-			$code = $this->container->getParameter('init');
-		else
-			$code = $this->container->getParameter('init_one');
-		return new Response($code);
-	}
+     * @Route("/isExistInfo", name="_user_isExistInfo")
+     */
+    public function isExistInfoAction(){
+        $code = '';
+        $request = $this->get('request');
+        $id = $request->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        if($user->getSex() && $user->getBirthday() && $user->getProvince() && $user->getCity() && $user->getIncome() && $user->getHobby())
+            $code = $this->container->getParameter('init');
+        else
+            $code = $this->container->getParameter('init_one');
+        return new Response($code);
+    }
 
-	/**
-	 * @Route("/activty", name="_user_activty")
-	 */
-	public function activtyAction(){
-		$componType = 'activity';
-		return new Response($componType);
-	}
-	
-	/**
-	 * @Route("/province", name="_user_province")
-	 */
-	public function provinceAction(){
-		$arr = array();
-		$em = $this->getDoctrine()->getManager();
-		$province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
-		foreach ($province as $key => $value) {
-			$arr[] = array('id'=>$value->getId(),'provinceName'=>$value->getProvinceName());
-		}
-		return new Response(json_encode($arr));
-	}
+    /**
+     * @Route("/activty", name="_user_activty")
+     */
+    public function activtyAction(){
+        $componType = 'activity';
+        return new Response($componType);
+    }
 
-	/**
-	 * @Route("/hobby", name="_user_hobby")
-	 */
-	public function hobbyAction(){
-		$arr = array();
-		$em = $this->getDoctrine()->getManager();
-		$hobby = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
-		foreach ($hobby as $key => $value) {
-			$arr[] = array('id'=>$value->getId(),'hobby'=>$value->getHobbyName());
-		}
-		return new Response(json_encode($arr));
-	}
+    /**
+     * @Route("/province", name="_user_province")
+     */
+    public function provinceAction(){
+        $arr = array();
+        $em = $this->getDoctrine()->getManager();
+        $province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        foreach ($province as $key => $value) {
+            $arr[] = array('id'=>$value->getId(),'provinceName'=>$value->getProvinceName());
+        }
+        return new Response(json_encode($arr));
+    }
 
-	/**
-	 * @Route("/income", name="_user_income")
-	 */
-	public function incomeAction(){
-		$arr = array();
-		$em = $this->getDoctrine()->getManager();
-		$income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
-		foreach ($income as $key => $value) {
-			$arr[] = array('id'=>$value->getId(),'income'=>$value->getIncome());
-		}
-		return new Response(json_encode($arr));
-	}
-	
-			
-	/**
-	 * @Route("/userInfo", name="_user_userInfo")
-	 */
-	public function userInfoAction(){
-		$arr = array();
-		$mobile = '';
-		$sex = '';
-		$request = $this->get('request');
-		$id = $request->getSession()->get('uid');
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		$mobile = $user->getTel();
-		$sex = $user->getSex();
-		$arr[] = array(
-						'id'=>$user->getId(),
-						'email'=>$user->getEmail(),
-						'nick'=>$user->getNick(),
-						'sex'=>$sex,
-						'mobile'=>$mobile,
-						);
-		return new Response(json_encode($arr));
-	}
+    /**
+     * @Route("/hobby", name="_user_hobby")
+     */
+    public function hobbyAction(){
+        $arr = array();
+        $em = $this->getDoctrine()->getManager();
+        $hobby = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
+        foreach ($hobby as $key => $value) {
+            $arr[] = array('id'=>$value->getId(),'hobby'=>$value->getHobbyName());
+        }
+        return new Response(json_encode($arr));
+    }
 
-	/**
-	 * @Route("/isReward", name="_user_isReward")
-	 */
-	public function isRewardAction(){
-		$componType = 'activity';
-		$id = $request->getSession()->get('uid');
-		$em = $this->getDoctrine()->getManager();
+    /**
+     * @Route("/income", name="_user_income")
+     */
+    public function incomeAction(){
+        $arr = array();
+        $em = $this->getDoctrine()->getManager();
+        $income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
+        foreach ($income as $key => $value) {
+            $arr[] = array('id'=>$value->getId(),'income'=>$value->getIncome());
+        }
+        return new Response(json_encode($arr));
+    }
+
+
+    /**
+     * @Route("/userInfo", name="_user_userInfo")
+     */
+    public function userInfoAction(){
+        $arr = array();
+        $mobile = '';
+        $sex = '';
+        $request = $this->get('request');
+        $id = $request->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $mobile = $user->getTel();
+        $sex = $user->getSex();
+        $arr[] = array(
+            'id'=>$user->getId(),
+            'email'=>$user->getEmail(),
+            'nick'=>$user->getNick(),
+            'sex'=>$sex,
+            'mobile'=>$mobile,
+        );
+        return new Response(json_encode($arr));
+    }
+
+    /**
+     * @Route("/isReward", name="_user_isReward")
+     */
+    public function isRewardAction(){
+        $componType = 'activity';
+        $id = $request->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
         if($this->isExistInfo($id)){
-        	if($this->isGetReward($id,$componType)){
-        		$isgetReward = $this->isGetReward($id,$componType);
-        		if($isgetReward ==  $this->container->getParameter('init_two')){
-        			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
-					$getInfoReward = $userCoupon[0]->getCoupon();
-        		}
-        	}else{
-        		$rsReward = $this->getReward($componType,$id);
-        		if($rsReward == $this->container->getParameter('init_two')){
-        			$userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
-					$getInfoReward = $userCoupon[0]->getCoupon();
-        		}
-        	}
+            if($this->isGetReward($id,$componType)){
+                $isgetReward = $this->isGetReward($id,$componType);
+                if($isgetReward ==  $this->container->getParameter('init_two')){
+                    $userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+                    $getInfoReward = $userCoupon[0]->getCoupon();
+                }
+            }else{
+                $rsReward = $this->getReward($componType,$id);
+                if($rsReward == $this->container->getParameter('init_two')){
+                    $userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($id);
+                    $getInfoReward = $userCoupon[0]->getCoupon();
+                }
+            }
         }else{
 
 
         }
 
 
-	}
+    }
 
 
 
 
-	/**
-	 * @Route("/registerReward", name="_user_registerReward")
-	 */
-	public function registerRewardAction(){
-		$code = array();
-		$codeflag = '';
-		$birthday = '';
-		$city = '';
-		$month_income = '';
-		$request = $this->get('request');
-		$id = $request->getSession()->get('uid');
-		// if(!$id)
-		// 	return $this->redirect($this->generateUrl('_default_index'));
-		$em = $this->getDoctrine()->getManager();
+    /**
+     * @Route("/registerReward", name="_user_registerReward")
+     */
+    public function registerRewardAction(){
+        $code = array();
+        $codeflag = '';
+        $birthday = '';
+        $city = '';
+        $month_income = '';
+        $request = $this->get('request');
+        $id = $request->getSession()->get('uid');
+        // if(!$id)
+        // 	return $this->redirect($this->generateUrl('_default_index'));
+        $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
-		$sex = $request->request->get('sex');
-		$tel = $request->request->get('tel');
-		$year = $request->request->get('year');
-		$month = $request->request->get('month');
-		$provinceId = $request->request->get('province');
-		$city = $request->request->get('city');
-		$month_income = $request->request->get('income');
-		$hobby = $request->request->get('hobby');
-		if($sex && $year && $city && $month_income && $hobby){
-			if($year){
-				$birthday = $year;
-				if($month)
-					$birthday = $birthday.'-'.$month;
-			}
-			if($hobby){
-				$hobbys  = substr($hobby,0,strlen($hobby)-1);
-			}
-			if($tel){
-				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
-					$codeflag = $this->container->getParameter('update_wr_mobile');
-					$code[] = array("code"=>$this->container->getParameter('init_five'),"msg"=>$codeflag);
-					return new Response(json_encode($code));
-				}
-			}
+        $sex = $request->request->get('sex');
+        $tel = $request->request->get('tel');
+        $year = $request->request->get('year');
+        $month = $request->request->get('month');
+        $provinceId = $request->request->get('province');
+        $city = $request->request->get('city');
+        $month_income = $request->request->get('income');
+        $hobby = $request->request->get('hobby');
+        if($sex && $year && $city && $month_income && $hobby){
+            if($year){
+                $birthday = $year;
+                if($month)
+                    $birthday = $birthday.'-'.$month;
+            }
+            if($hobby){
+                $hobbys  = substr($hobby,0,strlen($hobby)-1);
+            }
+            if($tel){
+                if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+                    $codeflag = $this->container->getParameter('update_wr_mobile');
+                    $code[] = array("code"=>$this->container->getParameter('init_five'),"msg"=>$codeflag);
+                    return new Response(json_encode($code));
+                }
+            }
 
-			$user->setSex($sex);
-			$user->setBirthday($birthday);
-			$user->setProvince($provinceId);
-			$user->setCity($city);
-			$user->setTel($tel);
-			$user->setIncome($month_income);
-			$user->setHobby($hobbys);
-			$user->setIsInfoSet($this->container->getParameter('init_one'));
-			$em->flush();
+            $user->setSex($sex);
+            $user->setBirthday($birthday);
+            $user->setProvince($provinceId);
+            $user->setCity($city);
+            $user->setTel($tel);
+            $user->setIncome($month_income);
+            $user->setHobby($hobbys);
+            $user->setIsInfoSet($this->container->getParameter('init_one'));
+            $em->flush();
 
-			//获得分数， user, point_history , task_history
-			$point = $this->getPointsForReward();
-			if($this->issetPoints($id)){
-				$this->updatePoint($id,$point);
-			}
-			$code[] = array("code"=>$this->container->getParameter('init_one'));
-		}else{
-			$codeflag = $this->container->getParameter('reg_mobile');
-			$code[] = array("code"=>$this->container->getParameter('init_four'),"msg"=>$codeflag);
-		}
+            //获得分数， user, point_history , task_history
+            $point = $this->getPointsForReward();
+            if($this->issetPoints($id)){
+                $this->updatePoint($id,$point);
+            }
+            $code[] = array("code"=>$this->container->getParameter('init_one'));
+        }else{
+            $codeflag = $this->container->getParameter('reg_mobile');
+            $code[] = array("code"=>$this->container->getParameter('init_four'),"msg"=>$codeflag);
+        }
 
-		return new Response(json_encode($code));
-	}
+        return new Response(json_encode($code));
+    }
 
-	//获得分数
-	private function getPointsForReward(){
-		$em = $this->getDoctrine()->getManager();
-		//默认值
-		$maxPoint = 10;//永久为10个，默认情况
-		//判断是否是当天注册
-		$request = $this->get('request');
-		$uid = $request->getSession()->get('uid');
-		if($uid){
-			$user = $em->getRepository('JiliApiBundle:User')->find($uid);
-			$reg_date = $user->getRegisterDate()->format('Y-m-d');
-			//注册当天填写属性
-			if(date('Y-m-d') == $reg_date){
-				// 4月份
-				if(date('Ym') == '201404'){
-					$maxPoint = 30;//4月份当天注册，并填写属性
-				}else{
-					$maxPoint = 20;//4月以后当天注册，并填写属性
-				}
-			}
-		}
-		return $maxPoint;
-	}
+    //获得分数
+    private function getPointsForReward(){
+        $em = $this->getDoctrine()->getManager();
+        //默认值
+        $maxPoint = 10;//永久为10个，默认情况
+        //判断是否是当天注册
+        $request = $this->get('request');
+        $uid = $request->getSession()->get('uid');
+        if($uid){
+            $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+            $reg_date = $user->getRegisterDate()->format('Y-m-d');
+            //注册当天填写属性
+            if(date('Y-m-d') == $reg_date){
+                // 4月份
+                if(date('Ym') == '201404'){
+                    $maxPoint = 30;//4月份当天注册，并填写属性
+                }else{
+                    $maxPoint = 20;//4月以后当天注册，并填写属性
+                }
+            }
+        }
+        return $maxPoint;
+    }
 
-	//判断是否获得过分数
-	private function issetPoints($userid){
-		$em = $this->getDoctrine()->getManager();
-		$task = $em->getRepository('JiliApiBundle:PointHistory0'. ( $userid % 10));
-		$task_order = $task->issetInsertReward($userid);
-		if(empty($task_order)){
-			return true;
-		}else{
-			return false;
-		}
-	}
+    //判断是否获得过分数
+    private function issetPoints($userid){
+        $em = $this->getDoctrine()->getManager();
+        $task = $em->getRepository('JiliApiBundle:PointHistory0'. ( $userid % 10));
+        $task_order = $task->issetInsertReward($userid);
+        if(empty($task_order)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
-	//更新point: user, point_history , task_history
-	private function updatePoint($userId,$point){
-		$em = $this->getDoctrine()->getManager();
+    //更新point: user, point_history , task_history
+    private function updatePoint($userId,$point){
+        $em = $this->getDoctrine()->getManager();
 
-		//更新user表总分数
-		$user = $em->getRepository('JiliApiBundle:User')->find($userId);
-		$oldPoint = $user->getPoints();
-		$user->setPoints(intval($oldPoint+$point));
-		$em->persist($user);
-		$em->flush();
+        //更新user表总分数
+        $user = $em->getRepository('JiliApiBundle:User')->find($userId);
+        $oldPoint = $user->getPoints();
+        $user->setPoints(intval($oldPoint+$point));
+        $em->persist($user);
+        $em->flush();
 
-		//更新point_history表分数
-		$params = array (
-					'userid' => $userId,
-					'point' => $point,
-					'type' => 9,//9:完善资料
-				);
-		$pointLister = $this->get('general_api.point_history');
-		$pointLister->get($params);
+        //更新point_history表分数
+        $params = array (
+            'userid' => $userId,
+            'point' => $point,
+            'type' => 9,//9:完善资料
+        );
+        $pointLister = $this->get('general_api.point_history');
+        $pointLister->get($params);
 
-		//更新task_history表分数
-		$params = array (
-			'userid' => $userId,
-			'orderId' => 0,
-			'taskType' => 4,
-			'categoryType' => 9,//9:完善资料
-			'task_name' => '完善资料获取米粒',
-			'point' => $point,
-			'date' => date_create(date('Y-m-d H:i:s')),
-			'status' => 1
-		);
-		$taskLister = $this->get('general_api.task_history');
-		$taskLister->init($params);
-	}
+        //更新task_history表分数
+        $params = array (
+            'userid' => $userId,
+            'orderId' => 0,
+            'taskType' => 4,
+            'categoryType' => 9,//9:完善资料
+            'task_name' => '完善资料获取米粒',
+            'point' => $point,
+            'date' => date_create(date('Y-m-d H:i:s')),
+            'status' => 1
+        );
+        $taskLister = $this->get('general_api.task_history');
+        $taskLister->init($params);
+    }
 
-	private function notReadCb(){
-		$id = $this->get('request')->getSession()->get('uid');
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		$countCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountAllCallboard($user->getRegisterDate()->format('Y-m-d H:i:s'));
-		$countIsCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountIsReadCallboard($id);
-		$countUserCb = intval($countCb[0]['num']) - intval($countIsCb[0]['num']);
-		return $countUserCb;
-	}
+    private function notReadCb(){
+        $id = $this->get('request')->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $countCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountAllCallboard($user->getRegisterDate()->format('Y-m-d H:i:s'));
+        $countIsCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountIsReadCallboard($id);
+        $countUserCb = intval($countCb[0]['num']) - intval($countIsCb[0]['num']);
+        return $countUserCb;
+    }
 
-	private function notReadMs($id){
-		$countUserMs = $this->countSendMs($id);
-		return $countUserMs[0]['num'];
-	}
+    private function notReadMs($id){
+        $countUserMs = $this->countSendMs($id);
+        return $countUserMs[0]['num'];
+    }
 
-	/**
-	 * @Route("/isNewMs/{id}", name="_user_isNewMs")
-	 */
-	public function isNewMsAction($id)
-	{
-		$countMessage = '';
-		if($this->notReadCb() > 0 && $this->notReadMs($id) == 0){
-			$countMessage = $this->container->getParameter('init_one');
-		}
-		return new Response($countMessage);
-	}
-	
+    /**
+     * @Route("/isNewMs/{id}", name="_user_isNewMs")
+     */
+    public function isNewMsAction($id)
+    {
+        $countMessage = '';
+        if($this->notReadCb() > 0 && $this->notReadMs($id) == 0){
+            $countMessage = $this->container->getParameter('init_one');
+        }
+        return new Response($countMessage);
+    }
 
 
-	/**
-	 * @Route("/info", name="_user_info",requirements={"_scheme"="https"})
-	 */
-	public function infoAction()
-	{
-		// $existUserinfo = '';
-		$existUserinfo = $this->container->getParameter('init_one');
-		$countMessage = '';
-		$code = '';
-		$flag = '';
-		$codeflag = '';
-		$birthday = '';
-		$city = '';
-		$month_income = '';
-		$newYear = $this->container->getParameter('init');
-		$newMonth = $this->container->getParameter('init');
-		$newHobby = '';
-		$disarea = '';
-		$usercomes = '';
-		$userProHobby = '';
-		$daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
-		$request = $this->get('request');
-		$id = $request->getSession()->get('uid');
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		if($user->getHobby()){
-			$userProHobby = explode(",",$user->getHobby());
-			foreach ($userProHobby as $key => $value) {
-				$userHobby = $em->getRepository('JiliApiBundle:HobbyList')->find($value);
-				$userHobbyList[] = $userHobby->getHobbyName();
-			}
-			$newHobby = implode(',',$userHobbyList);
-		}
 
-		if($user->getBirthday()){
-			if(strlen($user->getBirthday())>5){
-				$newBirthday = explode("-",$user->getBirthday());
-				$newYear = $newBirthday[0];
-				$newMonth = $newBirthday[1];
-			}else{
-				$newYear = $user->getBirthday();
-			}
-		}
-		$hobbyList = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
-		$province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
-		$income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
-		$option = array('status' => 0 ,'offset'=>'1','limit'=>'10');
-		$option_ex = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
-		$adtaste = $this->selTaskHistory($id,$option);
-		foreach ($adtaste as $key => $value) {
-			if($value['orderStatus'] == 1 && $value['type'] ==1){
-				unset($adtaste[$key]);
-			}
-		}
-		$adtasteNum = count($adtaste);
-		$exchange = $em->getRepository('JiliApiBundle:PointsExchange');
-		$exchange = $exchange->getUserExchange($id,$option_ex);
-		$exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenByIdMaxTen($id);
-		$sex = $request->request->get('sex');
-		$tel = $request->request->get('tel');
-		$year = $request->request->get('year');
-		$month = $request->request->get('month');
-		$provinceId = $request->request->get('province');
-		$city = $request->request->get('city');
-		$month_income = $request->request->get('income');
-		$hobby = $request->request->get('hobby');
-		$form  = $this->createForm(new RegType(), $user);
-		if ($request->getMethod() == 'POST') {
-			if($request->request->get('update')){
-				if($sex && $year && $city && $month_income && $hobby){
-					if($year){
-						$birthday = $year;
-						if($month)
-							$birthday = $birthday.'-'.$month;
-					}	
-					if($hobby)
-						$hobbys = implode(",",$hobby);
-					if($tel){
-						if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
-							$codeflag = $this->container->getParameter('update_wr_mobile');
-						}else{
-							$user->setSex($sex);
-							$user->setBirthday($birthday);
-							$user->setProvince($provinceId);
-							$user->setCity($city);
-							$user->setTel($tel);
-							$user->setIncome($month_income);
-							$user->setHobby($hobbys);
-							$user->setIsInfoSet($this->container->getParameter('init_one'));
-							$em->flush();
-							return $this->redirect($this->generateUrl('_user_info'));
-						}
-					}else{
-						$user->setSex($sex);
-						$user->setBirthday($birthday);
-						$user->setProvince($provinceId);
-						$user->setCity($city);
-						$user->setTel($tel);
-						$user->setIncome($month_income);
-						$user->setHobby($hobbys);
-						$user->setIsInfoSet($this->container->getParameter('init_one'));
-						$em->flush();
-						return $this->redirect($this->generateUrl('_user_info'));
-					}
-				}else{
-					$codeflag = $codeflag = $this->container->getParameter('reg_mobile');
-				}	
-			}else{
-				if($request->request->get('reset')){
-	    			return $this->redirect($this->generateUrl('_user_info'));
-    				
-	    		}else{
-	    			$form->bindRequest($request);
-	    			$path =  $this->container->getParameter('upload_tmp_dir');
-	    			$code = $user->upload($path);
-	    			if($code == $this->container->getParameter('init_one')){
-	    				$code =  $this->container->getParameter('upload_img_type');
-	    			} 
-	    			if($code == $this->container->getParameter('init_two')){
-	    				$code =  $this->container->getParameter('upload_img_size');
-	    			}
-		    		return new Response(json_encode($code));
-	    		}
-			} 
-		}
-		//用户地区
-		if($user->getProvince()){
-			$userProvince = $em->getRepository('JiliApiBundle:ProvinceList')->find($user->getProvince());
-			if($user->getCity()){
-				$userCity = $em->getRepository('JiliApiBundle:CityList')->find($user->getCity());
-				$disarea = $userProvince->getProvinceName()." ".$userCity->getCityName();
-			}else{
-				$disarea = $userProvince->getProvinceName();
-			}
-		}
-		//月收入
-		if($user->getIncome()){
-			$userIncome = $em->getRepository('JiliApiBundle:MonthIncome')->find($user->getIncome());
-			$usercomes = $userIncome->getIncome();
-		}	
-		if($this->notReadCb() == 0 && $this->notReadMs($id)>0){
-			$countMessage = $this->container->getParameter('init_one');
-		}
+    /**
+     * @Route("/info", name="_user_info",requirements={"_scheme"="https"})
+     */
+    public function infoAction()
+    {
+        // $existUserinfo = '';
+        $existUserinfo = $this->container->getParameter('init_one');
+        $countMessage = '';
+        $code = '';
+        $flag = '';
+        $codeflag = '';
+        $birthday = '';
+        $city = '';
+        $month_income = '';
+        $newYear = $this->container->getParameter('init');
+        $newMonth = $this->container->getParameter('init');
+        $newHobby = '';
+        $disarea = '';
+        $usercomes = '';
+        $userProHobby = '';
+        $daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
+        $request = $this->get('request');
+        $id = $request->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        if($user->getHobby()){
+            $userProHobby = explode(",",$user->getHobby());
+            foreach ($userProHobby as $key => $value) {
+                $userHobby = $em->getRepository('JiliApiBundle:HobbyList')->find($value);
+                $userHobbyList[] = $userHobby->getHobbyName();
+            }
+            $newHobby = implode(',',$userHobbyList);
+        }
 
-		//确认中的米粒数
-		$task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $id % 10 ) );
-		$confirmPoints = $task->getConfirmPoints($id);
-		if(!$confirmPoints){
-			$confirmPoints = 0;
-		}
+        if($user->getBirthday()){
+            if(strlen($user->getBirthday())>5){
+                $newBirthday = explode("-",$user->getBirthday());
+                $newYear = $newBirthday[0];
+                $newMonth = $newBirthday[1];
+            }else{
+                $newYear = $user->getBirthday();
+            }
+        }
+        $hobbyList = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
+        $province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        $income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
+        $option = array('status' => 0 ,'offset'=>'1','limit'=>'10');
+        $option_ex = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
+        $adtaste = $this->selTaskHistory($id,$option);
+        foreach ($adtaste as $key => $value) {
+            if($value['orderStatus'] == 1 && $value['type'] ==1){
+                unset($adtaste[$key]);
+            }
+        }
+        $adtasteNum = count($adtaste);
+        $exchange = $em->getRepository('JiliApiBundle:PointsExchange');
+        $exchange = $exchange->getUserExchange($id,$option_ex);
+        $exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenByIdMaxTen($id);
+        $sex = $request->request->get('sex');
+        $tel = $request->request->get('tel');
+        $year = $request->request->get('year');
+        $month = $request->request->get('month');
+        $provinceId = $request->request->get('province');
+        $city = $request->request->get('city');
+        $month_income = $request->request->get('income');
+        $hobby = $request->request->get('hobby');
+        $form  = $this->createForm(new RegType(), $user);
+        if ($request->getMethod() == 'POST') {
+            if($request->request->get('update')){
+                if($sex && $year && $city && $month_income && $hobby){
+                    if($year){
+                        $birthday = $year;
+                        if($month)
+                            $birthday = $birthday.'-'.$month;
+                    }	
+                    if($hobby)
+                        $hobbys = implode(",",$hobby);
+                    if($tel){
+                        if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+                            $codeflag = $this->container->getParameter('update_wr_mobile');
+                        }else{
+                            $user->setSex($sex);
+                            $user->setBirthday($birthday);
+                            $user->setProvince($provinceId);
+                            $user->setCity($city);
+                            $user->setTel($tel);
+                            $user->setIncome($month_income);
+                            $user->setHobby($hobbys);
+                            $user->setIsInfoSet($this->container->getParameter('init_one'));
+                            $em->flush();
+                            return $this->redirect($this->generateUrl('_user_info'));
+                        }
+                    }else{
+                        $user->setSex($sex);
+                        $user->setBirthday($birthday);
+                        $user->setProvince($provinceId);
+                        $user->setCity($city);
+                        $user->setTel($tel);
+                        $user->setIncome($month_income);
+                        $user->setHobby($hobbys);
+                        $user->setIsInfoSet($this->container->getParameter('init_one'));
+                        $em->flush();
+                        return $this->redirect($this->generateUrl('_user_info'));
+                    }
+                }else{
+                    $codeflag = $codeflag = $this->container->getParameter('reg_mobile');
+                }	
+            }else{
+                if($request->request->get('reset')){
+                    return $this->redirect($this->generateUrl('_user_info'));
 
-		return $this->render('JiliApiBundle:User:info.html.twig',array(
-				'form' => $form->createView(),
-				'form_upload' =>$form->createView(),
-				'user' => $user,
-				'adtaste' => $adtaste,
-				'exchange' => $exchange,
-				'code' => $code,
-				'codeflag' => $codeflag,
-				'existUserinfo' => $existUserinfo,
-				'adtasteNum' => $adtasteNum,
-				'hobbyList' => $hobbyList,
-				'province' => $province,
-				'income' => $income,
-				'newHobby' => $userProHobby,
-				'newYear' => $newYear,
-				'newMonth' => $newMonth,
-				'userHobby' =>	$newHobby,
-			 	'disarea' => $disarea,
-				'usercomes'=> $usercomes,
-				'sex' => $sex,
-				'tel' => $tel,
-				'month_income' => $month_income,
-				'hobby' => $hobby,
-				'year' => $year,
-				'month' => $month,
-				'provinceId' => $provinceId,
-				'city' => $city,
-				'countMessage'=>$countMessage,
-				'exFrWen'=> $exFrWen,
-				'confirmPoints' => $confirmPoints
-				));
-	}
-	
-	/**
-	 * @Route("/upload", name="_user_upload")
-	 */
-	public function uploadAction(){
-		return $this->redirect($this->generateUrl('_user_info',array('code'=>$code)));
-	}
-	
-	/**
-	 * @Route("/update", name="_user_update")
-	 */
-	public function updateAction()
-	{
-		$code = $this->container->getParameter('init');
-		$id = $this->get('request')->getSession()->get('uid');
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-// 		$form  = $this->createForm(new RegType(), $user);
-		$request = $this->get('request');
-		$ck = $request->query->get('ck');
-		$tel = $request->query->get('tel');
-	    if ($request->getMethod() == 'POST') {
-			if($ck){
-				if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
-					$code = $this->container->getParameter('init_two');
-				}else{
-					$user->setSex($ck);
-					$user->setTel($tel);
-					// 	    	$em->persist($user);
-					$user->setIsInfoSet($this->container->getParameter('init_one'));
-					$em->flush();
-				}
-			}else{
-				$code = $this->container->getParameter('init_one');
-			}
-		}
-		return $this->redirect($this->generateUrl('_user_info'));
-	}
-	
-	/**
-	 * @Route("/logout", name="_user_logout")
-	 */
-	public function logoutAction(){
-		$this->get('request')->getSession()->remove('uid');
-		$this->get('request')->getSession()->remove('nick');
-		setcookie ("jili_uid", "", time() - 3600,'/');
-		setcookie ("jili_nick", "", time() - 3600,'/');
-//         $request = $this->get('request');
-//         $cookies = $request->cookies;
-//         if ($cookies->has('jili_uid'))
-//         {
-//         	$response = new Response();
-//         	$response->headers->clearCookie('jili_uid','/');
-//         	$response->headers->clearCookie('jili_nick','/');
-//         	$response->send();
-//         }
-		return $this->redirect($this->generateUrl('_homepage'));
-	}
-	
-	/**
-	 * @Route("/resetPwd", name="_user_resetPwd")
-	 */
-	public function resetPwdAction(){
-		return $this->render('JiliApiBundle:User:resetPwd.html.twig');
-		
-	}
-	
-	/**
-	 * @Route("/pwdCheck", name="_user_pwdCheck")
-	 */
-	public function pwdCheckAction(){
-		$request = $this->get('request');
-		$email = $request->query->get('email');
-		$pwd = $request->query->get('pwd');
-		$em_email = $this->getDoctrine()
-		->getRepository('JiliApiBundle:User')
-		->findByEmail($email);
-		if(!$em_email){
-			$code = $this->container->getParameter('init_one');
-		}else{
-			$id = $em_email[0]->getId();
-			$em = $this->getDoctrine()->getEntityManager();
-			$user = $em->getRepository('JiliApiBundle:User')->find($id);
-			if($user->pw_encode($pwd) != $user->getPwd()){
-				$code = $this->container->getParameter('init_one');
-			}else{
-				$code = $this->container->getParameter('init');
-			}
-		}
-		return new Response($code);
-	}
+                }else{
+                    $form->bindRequest($request);
+                    $path =  $this->container->getParameter('upload_tmp_dir');
+                    $code = $user->upload($path);
+                    if($code == $this->container->getParameter('init_one')){
+                        $code =  $this->container->getParameter('upload_img_type');
+                    } 
+                    if($code == $this->container->getParameter('init_two')){
+                        $code =  $this->container->getParameter('upload_img_size');
+                    }
+                    return new Response(json_encode($code));
+                }
+            } 
+        }
+        //用户地区
+        if($user->getProvince()){
+            $userProvince = $em->getRepository('JiliApiBundle:ProvinceList')->find($user->getProvince());
+            if($user->getCity()){
+                $userCity = $em->getRepository('JiliApiBundle:CityList')->find($user->getCity());
+                $disarea = $userProvince->getProvinceName()." ".$userCity->getCityName();
+            }else{
+                $disarea = $userProvince->getProvinceName();
+            }
+        }
+        //月收入
+        if($user->getIncome()){
+            $userIncome = $em->getRepository('JiliApiBundle:MonthIncome')->find($user->getIncome());
+            $usercomes = $userIncome->getIncome();
+        }	
+        if($this->notReadCb() == 0 && $this->notReadMs($id)>0){
+            $countMessage = $this->container->getParameter('init_one');
+        }
 
-	/**
-	 * @Route("/login", name="_user_login",requirements={"_scheme"="https"})
-	 */
-	public function loginAction(){
-		$request = $this->get('request');
+        //确认中的米粒数
+        $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $id % 10 ) );
+        $confirmPoints = $task->getConfirmPoints($id);
+        if(!$confirmPoints){
+            $confirmPoints = 0;
+        }
+
+        return $this->render('JiliApiBundle:User:info.html.twig',array(
+            'form' => $form->createView(),
+            'form_upload' =>$form->createView(),
+            'user' => $user,
+            'adtaste' => $adtaste,
+            'exchange' => $exchange,
+            'code' => $code,
+            'codeflag' => $codeflag,
+            'existUserinfo' => $existUserinfo,
+            'adtasteNum' => $adtasteNum,
+            'hobbyList' => $hobbyList,
+            'province' => $province,
+            'income' => $income,
+            'newHobby' => $userProHobby,
+            'newYear' => $newYear,
+            'newMonth' => $newMonth,
+            'userHobby' =>	$newHobby,
+            'disarea' => $disarea,
+            'usercomes'=> $usercomes,
+            'sex' => $sex,
+            'tel' => $tel,
+            'month_income' => $month_income,
+            'hobby' => $hobby,
+            'year' => $year,
+            'month' => $month,
+            'provinceId' => $provinceId,
+            'city' => $city,
+            'countMessage'=>$countMessage,
+            'exFrWen'=> $exFrWen,
+            'confirmPoints' => $confirmPoints
+        ));
+    }
+
+    /**
+     * @Route("/upload", name="_user_upload")
+     */
+    public function uploadAction(){
+        return $this->redirect($this->generateUrl('_user_info',array('code'=>$code)));
+    }
+
+    /**
+     * @Route("/update", name="_user_update")
+     */
+    public function updateAction()
+    {
+        $code = $this->container->getParameter('init');
+        $id = $this->get('request')->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        // 		$form  = $this->createForm(new RegType(), $user);
+        $request = $this->get('request');
+        $ck = $request->query->get('ck');
+        $tel = $request->query->get('tel');
+        if ($request->getMethod() == 'POST') {
+            if($ck){
+                if(!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+                    $code = $this->container->getParameter('init_two');
+                }else{
+                    $user->setSex($ck);
+                    $user->setTel($tel);
+                    // 	    	$em->persist($user);
+                    $user->setIsInfoSet($this->container->getParameter('init_one'));
+                    $em->flush();
+                }
+            }else{
+                $code = $this->container->getParameter('init_one');
+            }
+        }
+        return $this->redirect($this->generateUrl('_user_info'));
+    }
+
+    /**
+     * @Route("/logout", name="_user_logout")
+     */
+    public function logoutAction(){
+        $this->get('request')->getSession()->remove('uid');
+        $this->get('request')->getSession()->remove('nick');
+        setcookie ("jili_uid", "", time() - 3600,'/');
+        setcookie ("jili_nick", "", time() - 3600,'/');
+        //         $request = $this->get('request');
+        //         $cookies = $request->cookies;
+        //         if ($cookies->has('jili_uid'))
+        //         {
+        //         	$response = new Response();
+        //         	$response->headers->clearCookie('jili_uid','/');
+        //         	$response->headers->clearCookie('jili_nick','/');
+        //         	$response->send();
+        //         }
+        return $this->redirect($this->generateUrl('_homepage'));
+    }
+
+    /**
+     * @Route("/resetPwd", name="_user_resetPwd")
+     */
+    public function resetPwdAction(){
+        return $this->render('JiliApiBundle:User:resetPwd.html.twig');
+
+    }
+
+    /**
+     * @Route("/pwdCheck", name="_user_pwdCheck")
+     */
+    public function pwdCheckAction(){
+        $request = $this->get('request');
+        $email = $request->query->get('email');
+        $pwd = $request->query->get('pwd');
+        $em_email = $this->getDoctrine()
+            ->getRepository('JiliApiBundle:User')
+            ->findByEmail($email);
+        if(!$em_email){
+            $code = $this->container->getParameter('init_one');
+        }else{
+            $id = $em_email[0]->getId();
+            $em = $this->getDoctrine()->getEntityManager();
+            $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            if($user->pw_encode($pwd) != $user->getPwd()){
+                $code = $this->container->getParameter('init_one');
+            }else{
+                $code = $this->container->getParameter('init');
+            }
+        }
+        return new Response($code);
+    }
+
+    /**
+     * @Route("/login", name="_user_login",requirements={"_scheme"="https"})
+     */
+    public function loginAction(){
+        $request = $this->get('request');
         $session = $request->getSession();
-		$goToUrl =  $session->get('referer');
-		if(substr($goToUrl, -10) != 'user/login' && strlen($goToUrl)>0 ){
-			$session->set('goToUrl', $goToUrl);
+        $goToUrl =  $session->get('referer');
+        if(substr($goToUrl, -10) != 'user/login' && strlen($goToUrl)>0 ){
+            $session->set('goToUrl', $goToUrl);
             $session->remove('referer');
-		}
+        }
 
         if($session->get('uid')){
             return $this->redirect($this->generateUrl('_homepage'));
         }
 
-		$code = '';
-		$email = $request->request->get('email');
-		$pwd = $request->request->get('pwd');
+        $code = '';
+        $email = $request->request->get('email');
+        $pwd = $request->request->get('pwd');
 
         //login
         $loginListenr = $this->get('login.listener');
         $code = $loginListenr->login($request,$email,$pwd);
 
 
-        if($code == "ok"){
-            $current_url = $session->get('goToUrl');
-            $session->remove('goToUrl');
+        if($code == "ok")
+        {
+            $code_redirect = '301';
+            if($request->request->has('referer') ) {
+                $current_url = $request->request->get('referer');
+            } 
+
+            if( strlen(trim($current_url)) == 0  && $session->has('goToUrl') ) {
+                $current_url = $session->get('goToUrl');
+                $session->remove('goToUrl');
+            }
+
+
             if( strlen(trim($current_url)) == 0) {
                 $current_url = $this->generateUrl('_homepage');
+            } else {
+                if( strpos( $current_url,'APIMemberId') !== false) {
+                    str_replace('APIMemberId', $session->get('uid'), $current_url);
+                    $code_redirect = '302';
+                }
             }
-            return $this->redirect($current_url);
+            $logger=$this->get('logger');
+#             $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($current_url, true));
+            
+            return $this->redirect($current_url,$code_redirect);
         }
 		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
 	}
@@ -1185,8 +1203,17 @@ class UserController extends Controller
 		$user_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
 		$str = 'jiliactiveregister';
 		$code = md5($user_email[0]->getId().str_shuffle($str));
-		$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
-		if($this->sendMail($url,$email,$user_email[0]->getNick())){
+
+        $send_email = false;
+        if($user_email[0]->getIsFromWenwen() == $this->container->getParameter('is_from_wenwen_register')){
+            $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
+            $mailLister = $this->get('mail.listener');
+            $send_email = $mailLister->sendMailForWenWenRegister($this->get('mailer'), $url,$email);
+        }else{
+        	$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
+            $send_email = $this->sendMail($url,$email,$user_email[0]->getNick());
+        }
+		if($send_email){
 			$setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user_email[0]->getId());
 			$setPasswordCode[0]->setCode($code);
 			$setPasswordCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
@@ -1527,6 +1554,125 @@ class UserController extends Controller
         	}
         }
 	}
+
+    /**
+     * @Route("/setPassFromWenwen/{code}/{id}", name="_user_setPassFromWenwen",requirements={"_scheme"="https"})
+     */
+    public function setPassFromWenwenAction($code,$id){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $arr['user'] = $user;
+        $arr['nick'] = "";
+
+        $setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneByUserId($id);
+        $arr['pwdcode'] = $setPasswordCode;
+
+        $return = $this->checkCodeValid($setPasswordCode, $code);
+        if(!$return){
+            return $this->render('JiliApiBundle::error.html.twig');
+        }
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'GET'){
+            $arr['error_message'] = "";
+            return $this->render('JiliApiBundle:User:setPassWen.html.twig',$arr);
+        }
+
+        $error_message = $this->checkInputForSetPassFromWenwen($request);
+        if($error_message){
+        	$arr['error_message'] = $error_message;
+            $arr['nick'] = $request->request->get('nick');
+            return $this->render('JiliApiBundle:User:setPassWen.html.twig',$arr);
+        }
+
+        //设定密码，自动登录
+        $this->get('request')->getSession()->set('uid',$id);
+        $this->get('request')->getSession()->set('nick',$request->request->get('nick'));
+        $user->setPwd($request->request->get('pwd'));
+        $user->setNick($request->request->get('nick'));
+        $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
+        $em->persist($user);
+        $em->persist($setPasswordCode);
+        $em->flush();
+
+        //设置密码之后，注册成功，发邮件2014-01-10
+        $soapMailLister = $this->get('soap.mail.listener');
+        $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
+        $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
+        $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
+        $recipient_arr = array (
+                array (
+                    'name' => 'email',
+                    'value' => $user->getEmail()
+                )
+            );
+        $soapMailLister->sendSingleMailing($recipient_arr);
+
+        return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
+    }
+
+    private function checkCodeValid ($setPasswordCode, $code) {
+        if($setPasswordCode->getIsAvailable()==0){
+            return false;
+        }
+        $time = $setPasswordCode->getCreateTime();
+        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
+            return false;
+        }
+
+        if($setPasswordCode->getCode() != $code){
+            return false;
+        }
+
+        return true;
+    }
+
+    private function checkInputForSetPassFromWenwen($request){
+
+        $nick = $request->request->get('nick');
+        $pwd = $request->request->get('pwd');
+        $que_pwd = $request->request->get('que_pwd');
+        $error_message = "";
+
+        if($request->request->get('ck')!='1'){
+            $error_message = 'choose agree';
+            return $error_message;
+        }
+
+        if(!$nick){
+            $error_message = $this->container->getParameter('reg_en_nick');
+            return $error_message;
+        }
+
+        if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick) || ((strlen($nick) + mb_strlen($nick,'UTF8')) / 2 > 20)){
+            $error_message = $this->container->getParameter('reg_wr_nick');
+            return $error_message;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
+        if($user_nick){
+            $error_message = $this->container->getParameter('reg_al_nick');
+            return $error_message;
+        }
+
+        if(!$pwd){
+            $error_message = $this->container->getParameter('forget_en_pwd');
+            return $error_message;
+        }
+
+        if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+            $error_message = $this->container->getParameter('forget_wr_pwd');
+            return $error_message;
+        }
+
+        if($pwd != $que_pwd){
+            $error_message = $this->container->getParameter('forget_unsame_pwd');
+            return $error_message;
+        }
+
+        return $error_message;
+    }
 
 	/**
 	 * @Route("/updateIsRead", name="_user_updateIsRead")

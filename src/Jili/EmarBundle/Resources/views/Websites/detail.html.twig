@@ -26,14 +26,7 @@
 
   <div class="main w834 fl">
       <div class="shop-info module clearfix borderGlob">
-
-        {% if website is defined %}
-                {% if app.session.has('uid') %}
-                  {% set href_ = website.web_url|replace( { 'APIMemberId': app.session.get('uid') } ) %}
-                {% else %}
-                  {% set href_ = path('_user_login')  %}
-                {% endif %}
-        {% endif %}
+        {% set href_ = path('jili_emar_default_redirect') ~ '?m=' ~ website.web_url|url_encode %}
         <div class="shop-info-l">
           <div class="shop_img"> <a href="{{ href_ }}" target="_blank" rel="nofollow"><img src="{{ website.logo_url }}" width="120" height="60" /></a>
 

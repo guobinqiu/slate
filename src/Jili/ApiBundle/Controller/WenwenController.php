@@ -41,19 +41,38 @@ class WenwenController extends Controller {
 		$user->setPoints(0);
 		$user->setIsInfoSet(0);
 		$user->setRewardMultiple(1);
-		$user->setIsFromWenwen(2); //和91问问同时注册
+		$user->setIsFromWenwen($this->container->getParameter('is_from_wenwen_register')); //和91问问同时注册 2
 		$user->setUniqkey($uniqkey);
 		$em->persist($user);
 		$em->flush();
 		$str = 'jilifirstregister';
 		$code = md5($user->getId() . str_shuffle($str));
 
-		//TODO  user/forgetPass  建立新的页面后，需要修改
-		$wenwen_api_url = $this->container->getParameter('91wenwen_api_url');
-		$url = $wenwen_api_url . '/user/forgetPass/' . $code . '/' . $user->getId();
-
 		//发送激活邮件
-		if ($this->sendMail($url, $user->getEmail())) {
+		$wenwen_api_url = $this->container->getParameter('91wenwen_api_url');
+		$url = $wenwen_api_url . '/user/setPassFromWenwen/' . $code . '/' . $user->getId();
+		$logger = $this->get('logger');
+		$logger->info('{setPassFromWenwen}' . $url);
+		//通过soap发送
+		$soapMailLister = $this->get('soap.mail.listener');
+		$soapMailLister->setCampaignId($this->container->getParameter('register_from_wenwen_campaign_id')); //活动id
+		$soapMailLister->setMailingId($this->container->getParameter('register_from_wenwen_mailing_id')); //邮件id
+		$soapMailLister->setGroup(array (
+			'name' => '从91问问注册积粒网',
+			'is_test' => 'false'
+		)); //group
+		$recipient_arr = array (
+			array (
+				'name' => 'email',
+				'value' => $email
+			),
+			array (
+				'name' => 'url_reg',
+				'value' => $url
+			)
+		);
+		$send_email = $soapMailLister->sendSingleMailing($recipient_arr);
+		if ($send_email == "Email send success") {
 			$setPasswordCode = new setPasswordCode();
 			$setPasswordCode->setUserId($user->getId());
 			$setPasswordCode->setCode($code);
@@ -135,25 +154,4 @@ class WenwenController extends Controller {
 		}
 		return $hash;
 	}
-
-	private function sendMail($url, $email) {
-		$message = \ Swift_Message :: newInstance()->setSubject('积粒网-注册激活邮件-从91问问网站注册')->setFrom(array (
-			'account@91jili.com' => '积粒网'
-		))->setTo($email)->setBody('<html>' .
-		' <head></head>' .
-		' <body>' .
-		'亲爱的' . $email . '<br/>' .
-		'<br/>' .
-		'  感谢您注册91问问网站的同时注册“积粒网”！<br/>请点击<a href=' . $url . ' target="_blank">这里</a>，立即激活您的帐户！<br/><br/>' .
-		'  积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
-		' </body>' .
-		'</html>', 'text/html');
-		$flag = $this->get('mailer')->send($message);
-		if ($flag === 1) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 }
