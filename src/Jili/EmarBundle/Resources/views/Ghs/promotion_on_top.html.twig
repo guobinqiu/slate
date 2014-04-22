@@ -80,11 +80,7 @@ $(document).ready(function(){
          {% for row in ghs_pdts %}
             <li{{ 0 == loop.index % 3? ' class="mr0" ':'' }}>
                  <p class="image">
-                 {% if app.session.has('uid')  %}
-                    <a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow">
-                {% else %}
-                    <a href="{{ path('_user_login')  }}">
-                 {% endif %}
+                  <a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.ghs_o_url|url_encode }}" target="_blank" rel="nofollow">
                  <img src="{{ row.pic_url }}" height="auto" width="200"></a></p>
 			 <p class="name">{{ row.p_name }}</p>
              <p class="price"><span class="price1">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray">原价￥{{ row.ori_price }}</del>
@@ -95,36 +91,11 @@ $(document).ready(function(){
              </p> 
                  <p class="corLightGray">销量<em class="corGlobBlue">{{ row.bought }}</em>件</p>
 				 <div class="model hoverView curPt">
-				 {% if app.session.has('uid')  %}
-				    <a href="{{ row.ghs_o_url|replace({ 'APIMemberId':app.session.get('uid') }) }}" target="_blank" rel="nofollow"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>
-				 {% else %}
-				 <a href="{{ path('_user_login')  }}"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>
-				 {% endif %}
+				  <a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.ghs_o_url|url_encode }}" target="_blank" rel="nofollow"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>
 				 </div>
              </li>
          {% endfor %}
          </span>
     </ul>
 {% endspaceless %}
-{#
-[2014-04-01 16:27:56] app.DEBUG: {jarod}34,Jili\EmarBundle\Controller\GhsController,array (
-  0 => 
-  array (
-    'pid' => 'ghs-000100-10354',
-    'web_name' => '阿窝团购划算专用',
-    'p_name' => '春笑炮弹钢厨房套刀',
-    'ghs_o_url' => 'http://www.gouwuke.com/gwJuHeMonitor.do?UCId=17290&type=ghs:open:452294&pid=ghs-000100-10354&mid=452294&e=APIMemberId&t=http://www.awotuan.com/team.php?id=36446',
-    'ghs_catid' => '000100',
-    'ghs_cname' => '家居日用',
-    'weight' => '1712',
-    'ori_price' => '199',
-    'ghs_price' => '49.9',
-    'discount' => '2.5',
-    'bought' => '98725',
-    'pic_url' => 'http://image.yiqifa.com/gwk_images/ghs/ghs_20130905155600_2537.jpg',
-    'post' => '不包邮',
-    'begin_time' => '2013-08-18 00:00:00',
-    'end_time' => '2014-04-30 00:00:01',
-  ),
 
-#}

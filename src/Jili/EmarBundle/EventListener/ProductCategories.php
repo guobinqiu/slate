@@ -76,15 +76,3 @@ class ProductCategories {
     }
 
 }
-/*
-        "web_list": {
-            "web": [{
-                "web_id": "3659",
-                "web_name": "雅昌影像",
-                "web_catid": "24",
-                "logo_url": "http://image.yiqifa.com/ad_images/reguser/24/4/60/1376643810386.jpg",
-                "web_o_url": "http://p.yiqifa.com/n?k=2mLErnWe6nDOrI6HCZg7Rnu_fmUmUSebRcgsRIeEYOsH2mLErntmWl2mrnzSWn2ernXH2mq_rI6H6E4b3NRFMEPH5toARcMJrj--&e=APImemberId&spm=139216929186018017.1.1.1",
-                "commission": "10.5%"
-            },
-
-*/
