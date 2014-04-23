@@ -20,7 +20,7 @@ use Jili\EmarBundle\Api2\Repository\ItemCat as ItemCatRepository,
   Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
 
 /**
- * @Route("/product")
+ * @Route("/product", requirements={"_scheme": "http"})
  */
 class ProductController extends Controller
 {

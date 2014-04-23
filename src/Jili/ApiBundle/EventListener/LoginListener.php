@@ -27,10 +27,9 @@ class LoginListener {
 	public function login(Request $request, $email, $password) {
 		$em = $this->em;
 		$code = '';
-		$em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
 		if ($request->getMethod() != 'POST') {
 			return $code;
-		}
+		} 
 
 		if (!$email) {
 			$code = $this->getParameter('login_en_mail');
@@ -47,6 +46,13 @@ class LoginListener {
 			return $code;
 		}
 
+        if($em_email[0]->getRegisterDate() == $em_email[0]->getLastLoginDate() ) {
+            $request->getSession()->set('is_newbie', true);
+            $request->getSession()->set('is_newbie_passed', false);
+        } else {
+            $request->getSession()->set('is_newbie', false);
+        }
+
 		$id = $em_email[0]->getId();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		if ($user->getDeleteFlag() == 1) {
@@ -55,7 +61,6 @@ class LoginListener {
 		}
 
 		if ($user->pw_encode($password) != $user->getPwd()) {
-			//                      echo 'pwd is error!';
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
@@ -63,33 +68,34 @@ class LoginListener {
 		if ($request->get('remember_me') == '1') {
 			setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
 			setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
-//          $response = new Response();
-//          $response->headers->setCookie(new Cookie('jili_uid', $id,(time() + 3600 * 24 * 365), '/'));
-//          $response->headers->setCookie(new Cookie('jili_nick', $user->getNick(),(time() + 3600 * 24 * 365), '/'));
-//          $response->send();
-//          $request = $this->get('request');
-//          $cookies = $request->cookies;
-//          if ($cookies->has('uid'))
-//          {
-//              var_dump($cookies->get('uid'));
-//          }
 		}
+
+        $cur_dt = date_create(date('Y-m-d H:i:s'));
 
 		$request->getSession()->set('uid', $id);
 		$request->getSession()->set('nick', $user->getNick());
 		$request->getSession()->set('points', $user->getPoints());
-		$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
+		$user->setLastLoginDate($cur_dt);
 		$user->setLastLoginIp($request->getClientIp());
 		$em->flush();
+
 		$loginlog = new Loginlog();
 		$loginlog->setUserId($id);
-		$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
+		$loginlog->setLoginDate($cur_dt);
 		$loginlog->setLoginIp($request->getClientIp());
 		$em->persist($loginlog);
 		$em->flush();
-		$code = "ok";
+
+		$code = 'ok';
 		return $code;
 	}
+
+    public function isNewbie() {
+
+        $request = $this->container_->get('request');
+        $is_newbie = $request->getSession()->get('is_newbie', false);
+        return $is_newbie;
+    }
 
     public function getParameter($key) {
         return $this->container_->getParameter($key);

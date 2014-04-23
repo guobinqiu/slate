@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\EmarBundle\Api2\Repository\HotCat as HotCatRepository;
 use Jili\EmarBundle\Api2\Repository\HotWeb as HotWebRepository;
 /**
- * @Route("/hotactivity")
+ * @Route("/hotactivity", requirements={"_scheme": "http"})
  */
 class HotactivityController extends Controller
 {

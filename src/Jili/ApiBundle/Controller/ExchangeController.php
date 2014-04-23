@@ -19,6 +19,9 @@ use Jili\ApiBundle\Entity\SendMessage09;
 use Jili\ApiBundle\Entity\IdentityConfirm;
 use Jili\ApiBundle\Entity\ExchangeDanger;
 
+/**
+ * @Route( requirements={"_scheme": "http"})
+ */
 class  ExchangeController extends Controller
 {
     /**

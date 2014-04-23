@@ -22,6 +22,9 @@ use Jili\ApiBundle\Entity\CheckinClickList;
 use Jili\ApiBundle\Entity\CheckinPointTimes;
 use Jili\ApiBundle\Entity\UserWenwenVisit;
 
+/**
+ * @Route( requirements={"_scheme": "http"})
+ */
 class DefaultController extends Controller {
 	// 是否完善资料
 	private function isExistInfo($userid) {
@@ -183,7 +186,7 @@ class DefaultController extends Controller {
 	 */
 	public function indexAction() {
 		if ($_SERVER['HTTP_HOST'] == '91jili.com')
-			return $this->redirect('https://www.91jili.com');
+			return $this->redirect('http://www.91jili.com');
 		$request = $this->get('request');
 		$cookies = $request->cookies;
 		if ($cookies->has('jili_uid') && $cookies->has('jili_nick')) {

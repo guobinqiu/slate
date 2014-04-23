@@ -1,14 +1,18 @@
 {% extends 'JiliEmarBundle::base140307.html.twig' %}
-{% block title %}{{ parent()  }} top页面{% endblock %}
+{% block title %}{{ parent()  }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css140307/index.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/categorys.css') }} " rel="stylesheet" type="text/css">
+
+<link href="{{ asset('css/newbie.css')  }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block javascript %}
 <script src="{{ asset('js140307/index.js') }}" language="javascript"></script>
 <script src="{{ asset('js140307/categorys.js') }}" language="javascript"></script>
+
+<script src="{{ asset('js/jl.ui.layer-v4.js') }}" language="javascript"></script>
 {% endblock %}
  
 {% block page_main %}
@@ -144,3 +148,12 @@
   </div><!-- w300 side -->
 
 {% endblock %}
+
+
+{% block body_bottom %}
+{% if is_newbie_passed is defined  and is_newbie_passed == false  %}
+{% include "JiliApiBundle:Top:newbie_partial.html.twig" %}
+{% endif %}
+{% endblock %}
+
+

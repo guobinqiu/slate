@@ -14,7 +14,7 @@ use Jili\BackendBundle\Controller\IpAuthenticatedController;
 /**
  * EmarWebsites controller.
  *
- * @Route("/admin/websites")
+ * @Route("/admin/websites", requirements={"_scheme": "https"})
  */
 class AdminWebsitesController extends Controller implements  IpAuthenticatedController
 {

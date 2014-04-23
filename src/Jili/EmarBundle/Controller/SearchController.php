@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\EmarBundle\Form\Type\SearchGeneralType;
 
 /**
- * @Route("/search")
+ * @Route("/search", requirements={"_scheme": "http"})
  * @Method({"GET", "POST"})
  * @Template()
  */
