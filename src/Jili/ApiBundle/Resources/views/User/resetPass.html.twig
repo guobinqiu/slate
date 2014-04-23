@@ -9,6 +9,7 @@
 <!-- [endif] -->
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/password.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
 </head>
@@ -24,6 +25,7 @@ function check(){
 
 </script>
 <body>
+{% include 'JiliApiBundle::userHead.html.twig' %}
 <div class="webArticle password">
   <article>
      <form action="{{ path('_user_resetPass',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
@@ -72,6 +74,7 @@ function check(){
     </div></form>
   </article>
 </div>
+{% include 'JiliApiBundle::userFoot.html.twig' %}
 </body>
 </html>
 

@@ -12,9 +12,9 @@
 <link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
-
 </head>
 <body>
+{% include 'JiliApiBundle::userHead.html.twig' %}
 <div class="webArticle regStep">
   <article>
     <div class="regForm" style="padding-top:100px;">
@@ -62,10 +62,11 @@
     </div>
   </article>
 </div>
+{% include 'JiliApiBundle::userFoot.html.twig' %}
 </body>
 <script type="text/javascript">
 function refresh(){
-	 document.getElementById("verificationImg").src='{{  path('_user_captcha') }}?r='+100000*Math.random();
+	document.getElementById("verificationImg").src='{{  path('_user_captcha') }}?r='+100000*Math.random();
 }
 $(document).ready(function(){
 	$("#reg").click(function(){

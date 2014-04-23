@@ -456,14 +456,14 @@
 }
 #userInfo .point dt {
 	float: left;
-	width: 134px;
+	width: 115px;
 	border-right: 1px dotted #e5e5e5;
 	border-bottom: 1px dotted #e5e5e5;
 	line-height: 40px;
 }
 #userInfo .point dd {
 	float: left;
-	width: 134px;
+	width: 115px;
 	border-right: 1px dotted #EEE;
 	color: #FF3E17;
 	font-size: 22px;
