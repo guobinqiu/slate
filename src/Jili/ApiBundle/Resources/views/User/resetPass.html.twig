@@ -24,7 +24,6 @@ function check(){
 
 </script>
 <body>
-{% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle password">
   <article>
      <form action="{{ path('_user_resetPass',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
@@ -73,7 +72,6 @@ function check(){
     </div></form>
   </article>
 </div>
-{% include 'JiliApiBundle::footer.html.twig' %}
 </body>
 </html>
 

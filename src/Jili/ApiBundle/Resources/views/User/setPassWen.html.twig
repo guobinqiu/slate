@@ -32,10 +32,8 @@ $(document).ready(function(){
 
 </head>
 <body>
-{% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle regStep regFrom91ww postionR">
   <article>
-  	<div class="step"><img src="{{ asset('images/step3.jpg')}}" width="960" height="86"></div>
     <div class="regForm">
     <div class="message"><img src="{{ asset('images/succeed.jpg')}}" width="39" height="44">邮箱验证成功！您的邮箱是：<span>{{ user.email }}</span></div>
     <div class="remind"><strong>请完善以下信息创建您的积粒网账号</strong></div>
@@ -59,7 +57,6 @@ $(document).ready(function(){
     </div>
   </article>
 </div>
-{% include 'JiliApiBundle::footer.html.twig' %}
 </body>
 </html>
 
