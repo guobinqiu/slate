@@ -524,7 +524,9 @@ class DefaultController extends Controller {
 	* @Route("/landing", name="_default_landing",requirements={"_scheme"="https"})
 	*/
 	public function landingAction() {
-		if ($this->get('request')->getSession()->get('uid')) {
+		$request = $this->get('request');
+        $session = $request->getSession();
+		if ($session->get('uid')) {
 			return $this->redirect($this->generateUrl('_homepage'));
 		}
         $email = '';
@@ -533,19 +535,20 @@ class DefaultController extends Controller {
         $err_msg = '';
         $signature = '';
         $uniqkey = '';
-		$request = $this->get('request');
 		$token = $request->query->get('secret_token');
 		$nick = $request->request->get('nick');
 		$pwd = $request->request->get('pwd');
 		$newPwd = $request->request->get('newPwd');
+
 		if ($token) {
-			$request->getSession()->remove('token');
-			$request->getSession()->set('token', $token);
+			$session->remove('token');
+			$session->set('token', $token);
 		}
-		$u_token = $request->getSession()->get('token');
+		$u_token = $session->get('token');
 		if (!$u_token) {
 			return $this->redirect($this->generateUrl('_user_reg'));
 		}
+
 		$em = $this->getDoctrine()->getManager();
 		$wenuser = $em->getRepository('JiliApiBundle:WenwenUser')->findByToken($u_token);
 		if (!$wenuser) {
@@ -570,6 +573,8 @@ class DefaultController extends Controller {
                 $err_msg = $this->checkLanding($email, $nick, $pwd, $newPwd);
                 if(!$err_msg){
                     $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+                    $this->get('login.listener')->checkNewbie( $isset_email[0] );
+
                     if ($isset_email) {
                         $isset_email[0]->setNick($nick);
                         $isset_email[0]->setPwd($pwd);
@@ -611,10 +616,9 @@ class DefaultController extends Controller {
                         );
                     $soapMailLister->sendSingleMailing($recipient_arr);
 
-                    $request->getSession()->remove('token');
-                    $request->getSession()->set('uid', $id);
-                    $request->getSession()->set('nick', $nick);
-                    $this->get('login.listener')->setNewbie();
+                    $session->remove('token');
+                    $session->set('uid', $id);
+                    $session->set('nick', $nick);
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
             }
@@ -642,7 +646,6 @@ class DefaultController extends Controller {
             'err_msg'=> $err_msg,
             'recent'=>  $recent,
 		));
-
 	}
 
     private function checkLanding($email, $nick, $pwd, $newPwd){

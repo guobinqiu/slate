@@ -1493,6 +1493,8 @@ class UserController extends Controller
 		$arr['code_que_pwd']  = $code_que_pwd;
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+       // The user was insert when regAction 
+        $this->get('login.listener')->checkNewbie($user );
 // 		$province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
 // 		$arr['province'] = $province;
 		$arr['user'] = $user;
@@ -1519,7 +1521,8 @@ class UserController extends Controller
         						if($pwd == $que_pwd){
         							$this->get('request')->getSession()->set('uid',$id);
         							$this->get('request')->getSession()->set('nick',$user->getNick());
-                                    $this->get('login.listener')->setNewbie();
+//                                    $this->get('login.listener')->setNewbie();
+
         							$user->setPwd($request->request->get('pwd'));
         							$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
         							$em->persist($user);
@@ -1561,12 +1564,20 @@ class UserController extends Controller
 
     /**
      * @Route("/setPassFromWenwen/{code}/{id}", name="_user_setPassFromWenwen",requirements={"_scheme"="https"})
+     * @params: $id is the user.id
      */
     public function setPassFromWenwenAction($code,$id){
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
+
+        if( ! $user) {
+            //todo:
+        }
+
+        $this->get('login.listener')->checkNewbie($user);
+
         $arr['user'] = $user;
-        $arr['nick'] = "";
+        $arr['nick'] = '';
 
         $setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneByUserId($id);
         $arr['pwdcode'] = $setPasswordCode;
@@ -1592,7 +1603,7 @@ class UserController extends Controller
         //设定密码，自动登录
         $this->get('request')->getSession()->set('uid',$id);
         $this->get('request')->getSession()->set('nick',$request->request->get('nick'));
-        $this->get('login.listener')->setNewbie();
+
         $user->setPwd($request->request->get('pwd'));
         $user->setNick($request->request->get('nick'));
         $setPasswordCode->setIsAvailable($this->container->getParameter('init'));

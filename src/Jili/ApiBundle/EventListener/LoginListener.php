@@ -40,21 +40,16 @@ class LoginListener {
 			return $code;
 		}
 
-		$em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-		if (!$em_email) {
+		$user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+		if (!$user) {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
-        if($em_email[0]->getRegisterDate() == $em_email[0]->getLastLoginDate() ) {
-            $request->getSession()->set('is_newbie', true);
-            $request->getSession()->set('is_newbie_passed', false);
-        } else {
-            $request->getSession()->set('is_newbie', false);
-        }
-
-		$id = $em_email[0]->getId();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		// $id = $em_email[0]->getId();
+		// $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        // $user= $em_email[0];
+        $this->checkNewbie($user);
 		if ($user->getDeleteFlag() == 1) {
 			$code = $this->getParameter('login_wr');
 			return $code;
@@ -66,21 +61,22 @@ class LoginListener {
 		}
 
 		if ($request->get('remember_me') == '1') {
-			setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
+			setcookie("jili_uid", $user->getId(), time() + 3600 * 24 * 365, '/');
 			setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
 		}
 
         $cur_dt = date_create(date('Y-m-d H:i:s'));
 
-		$request->getSession()->set('uid', $id);
+		$request->getSession()->set('uid', $user->getId() );
 		$request->getSession()->set('nick', $user->getNick());
 		$request->getSession()->set('points', $user->getPoints());
+
 		$user->setLastLoginDate($cur_dt);
 		$user->setLastLoginIp($request->getClientIp());
 		$em->flush();
 
 		$loginlog = new Loginlog();
-		$loginlog->setUserId($id);
+		$loginlog->setUserId($user->getId() );
 		$loginlog->setLoginDate($cur_dt);
 		$loginlog->setLoginIp($request->getClientIp());
 		$em->persist($loginlog);
@@ -90,16 +86,24 @@ class LoginListener {
 		return $code;
 	}
 
-    public function setNewbie() {
+    /**
+     * update is_newbie in session
+     * $user the Entity User Instance
+     */
+    public function checkNewbie( User  $user ) {
         $request = $this->container_->get('request');
-        return   $request->getSession()->set('is_newbie', true);
+        if($user->getRegisterDate() == $user->getLastLoginDate() ) {
+            $request->getSession()->set('is_newbie', true);
+            $request->getSession()->set('is_newbie_passed', false);
+        } else {
+            $request->getSession()->set('is_newbie', false);
+        }
+
+        return   ;
     }
 
     public function isNewbie() {
-
-        $request = $this->container_->get('request');
-        $is_newbie = $request->getSession()->get('is_newbie', false);
-        return $is_newbie;
+        return  $this->container_->get('request')->getSession()->get('is_newbie', false);
     }
 
     public function getParameter($key) {

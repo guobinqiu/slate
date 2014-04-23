@@ -17,8 +17,9 @@ class User
 	public $attachment;
 	
 	public function __construct() {
+
 		$this->registerDate = new \DateTime();
-		$this->lastLoginDate = new \DateTime();
+		$this->lastLoginDate = $this->registerDate ;
 	}
 	
     /**
