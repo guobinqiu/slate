@@ -269,3 +269,7 @@
 .exchange article .finish a{
 	color:#146096;
 }
+
+.exchange .about .amazonBtn{
+    background-image: url("../images/exchange_mobile_closed_btn.gif")!important;
+}

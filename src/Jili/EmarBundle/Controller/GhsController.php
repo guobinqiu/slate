@@ -29,26 +29,26 @@ class GhsController extends Controller
 
         $params = array('page_no' => $p);
 
-        if( $request->query->has('c_h') ) {
-
-        }
 
         $uid = $request->getSession()->get('uid');
 
         $list = $listRequest->setApp('search')->fetchDistinct( $params );
         $total = $listRequest->getTotal();
 
-        
+        #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'list','')) . var_export( $list, true));
+
         if( $request->isXmlHttpRequest()) {
             $prds = array();
             foreach( $list as $v) {
-                if(isset($uid)) {
-                    $href= str_replace('APIMemberId', $uid, $v['ghs_o_url']);
-                } else {
-                    $href = $this->generateUrl('_user_login');
-                }
-                $prds[] = array('pic'=> $v['pic_url'], 'href'=> $href , 'name'=> $v['p_name'], 'pri1'=> $v['ghs_price'],'pri0'=>$v['ori_price'] ,'dis'=>$v['discount'],'buy'=>$v['bought'] ); 
+                $prds[] = array('pic'=> $v['pic_url'],
+                    'href'=> $this->generateUrl('jili_emar_default_redirect').'?m='. urlencode( $v['ghs_o_url']) ,
+                    'name'=> $v['p_name'],
+                    'pri1'=> $v['ghs_price'],
+                    'pri0'=>$v['ori_price'] ,
+                    'dis'=> round( $v['discount'] *  $this->container->getParameter('emar_com.cps.action.default_rebate')/100, 2),
+                    'buy'=>$v['bought'] ); 
             }
+#             $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'prds','')) . var_export( $prds, true));
             $response = new Response(json_encode(array('prds' => $prds)));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
@@ -67,7 +67,6 @@ class GhsController extends Controller
 
         $request = $this->get('request');
         $logger= $this->get('logger');
-
 
         //todo: added to cache file.
         $categoryRequest =  $this->get('ghs.category_get');
@@ -88,7 +87,6 @@ class GhsController extends Controller
         $listRequest->setPageSize(  $this->container->getParameter('emar_com.page_size_of_topcps') );
 
         $list = $listRequest->setApp('cron')->fetchDistinct( $params );
-
 
         $return =  array('router_'=> 'jili_emar_top_cps', 'catids_request'=> $catids_request, 'cats'=> $cats, 'ghs_pdts'=> $list );
 

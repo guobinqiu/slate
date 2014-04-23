@@ -3,7 +3,7 @@
         <div class="mask">
           <div class="moveDiv">
             {% for row in hotactivity %}
-            {% set href_ = row.hot_o_url|replace({'APIMemberId':app.session.get('uid')}) %}
+            {% set href_ = path('jili_emar_default_redirect') ~ '?m=' ~ row.hot_o_url|url_encode %}
             <li>
               <dt><a href="{{ href_ }}" target="_blank" rel="nofollow"><img width="494" height="121" src="{{ row.pic_url }}"></a></dt>
               <dd>

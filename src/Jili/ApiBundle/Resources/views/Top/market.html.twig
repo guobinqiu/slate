@@ -6,8 +6,8 @@
       <li>
         <dt><a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName }}"/></a></dt>
         <dd>
-		  <p class="discount">{{ item.businessName }}</p>
-          <p class="title">{{ item.title }}</p>
+		  <p class="discount">{{ item.title }}</p>
+          <p class="title">{{ item.businessName}}</p>
           <p class="btn"><a class="goActivity" target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2">去看看</a></p>
         </dd>
       </li>

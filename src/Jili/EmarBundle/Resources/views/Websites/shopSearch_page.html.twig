@@ -16,12 +16,7 @@
           <div class="dc">
             <p class="rebate">返利{{ row.commission }}</p>
             <p class="btn">
-                {% if app.session.has('uid') %}
-                    <a class="buy" href="{{ row.web_o_url|replace({"APIMemberId" : app.session.get('uid') })  }}" target="_blank" rel="nofollow">去购物，赚米粒</a>
-                {% else %}
-                    <a class="buy" href="{{ path('_user_login')   }}" target="_blank" rel="nofollow">去购物，赚米粒</a>
-                {% endif %}
-
+            <a class="buy" href="{{ path('jili_emar_default_redirect') ~ '?m=' ~  row.web_o_url|url_encode  }}" target="_blank" >去购物，赚米粒</a>
             </p>
           </div>
         </li> 

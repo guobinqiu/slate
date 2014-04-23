@@ -15,6 +15,7 @@
 $(document).ready(function(){
 	// $("div .btnArea a").attr("disabled", "disabled");
 	$("#amazonBtn").click(function(){
+        return false;
 		$('#exchangeForm').attr("action", "{{ path('_exchange_amazonInfo') }}"); 
 		$("#exchangeForm").submit();
 	});

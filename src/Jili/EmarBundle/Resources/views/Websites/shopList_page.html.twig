@@ -1,28 +1,28 @@
 
 {% for wid,row in websites%}
-{% if app.session.get('uid') is defined %}
-  {% set href_ = row.url|replace( { 'APIMemberId': app.session.get('uid') } ) %}
-{% else %}
-  {% set href_ = "#" %}
-{% endif %}
+  {% set href_ = path('jili_emar_default_redirect') ~ '?m=' ~ row.url|url_encode %}
 
         <li>
           <dt class="image"><img src="{{ row.logo }}" width="120" height="60" /></dt>
           <dd class="clearfix">
           <p class="title">
-        <a class="shop"  href="{{ href_ }}" target="_blank" rel="nofollow" >{{ row.name }}</a></p>
+        <a class="shop"  href="{{ href_ }}" target="_blank" >{{ row.name }}</a></p>
+          {% if row.commission > 0 %}
             <p class="rebate">返利最高：<em>{{ row.commission }}%</em></p>
+          {% endif %}
           </dd>
           <div class="hover" style="display: none;">
             <div class="tr">
-              <div class="img"><a href="{{ href_ }}" target="_blank" rel="nofollow" ><img src="{{ row.logo }}" width="60" height="30" /></a></div>
+              <div class="img"><a href="{{ href_ }}" target="_blank" ><img src="{{ row.logo }}" width="60" height="30" /></a></div>
+          {% if row.commission > 0 %}
               <div class="text">最高返<br>
                 <em>{{ row.commission }}%</em></div>
             </div>
+          {% endif %}
 
             <p>
                 <a href="{{  path('jili_emar_websites_detail', {'wid': wid }) }}" class="btnDetail">返现详情</a> 
-                <a href="{{ href_ }}" class="btnShopping" target="_blank" rel="nofollow" >直接购物</a>
+                <a href="{{ href_ }}" class="btnShopping" target="_blank" >直接购物</a>
 {# href="javascript:void(0);" #}
            </p>
 {#

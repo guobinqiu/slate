@@ -4,11 +4,7 @@
         <li class="curPt">
           {% spaceless %}
           <dt>
-            {% if app.session.has('uid')  %}
-                    <a href="{{ row.ghs_o_url|replace({ 'APIMemberId': app.session.get('uid') }) }}" target="_blank" rel="nofollow">
-                {% else %}
-                    <a href="{{ path('_user_login')  }}" target="_blank" rel="nofollow">
-                 {% endif %}
+            <a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.ghs_o_url|url_encode }}" target="_blank" rel="nofollow">
             <img src="{{ row.pic_url }}" width="150" height="150" />
 			</a>
             </dt>
@@ -17,53 +13,12 @@
           <dd>
            <p class="price">¥{{ row.ghs_price }}</p> 
            <p class="shop">{{ row.web_name }}</p>
-           <p class="rebate">返利最高：<em>{{ row.discount }}%</em></p>
+        {% if 0 < row.discount  %}
+           <p class="rebate">返利最高：<em>{{ row.discount * emar_cps_default_rebate / 100 |round(2)  }}%</em></p>
+        {% endif %}
+
           </dd>
         </li>
     {% endfor %}
       </ul> <!-- websites recommend on search page-->
 
-{#
-      <ul class="searchRecommend clearfix">
-        <li>
-          <dt><img src="other140307/image100.jpg" width="150" height="150" /></dt>
-          <dd>
-            <p class="price">¥128.20</p>
-            <p class="shop">京东商城</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-        <li>
-          <dt><img src="other140307/image100.jpg" width="150" height="150" /></dt>
-          <dd>
-            <p class="price">¥128.20</p>
-            <p class="shop">京东商城</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-        <li>
-          <dt><img src="other140307/image100.jpg" width="150" height="150" /></dt>
-          <dd>
-            <p class="price">¥128.20</p>
-            <p class="shop">京东商城</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-        <li>
-          <dt><img src="other140307/image100.jpg" width="150" height="150" /></dt>
-          <dd>
-            <p class="price">¥128.20</p>
-            <p class="shop">京东商城</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-        <li class="end">
-          <dt><img src="other140307/image100.jpg" width="150" height="150" /></dt>
-          <dd>
-            <p class="price">¥128.20</p>
-            <p class="shop">京东商城</p>
-            <p class="rebate">返利最高：<em>10%</em></p>
-          </dd>
-        </li>
-      </ul> <!-- websites recommend on search page-->
-#}
