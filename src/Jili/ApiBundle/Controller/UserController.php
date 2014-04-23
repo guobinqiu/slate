@@ -1519,6 +1519,7 @@ class UserController extends Controller
         						if($pwd == $que_pwd){
         							$this->get('request')->getSession()->set('uid',$id);
         							$this->get('request')->getSession()->set('nick',$user->getNick());
+                                    $this->get('login.listener')->setNewbie();
         							$user->setPwd($request->request->get('pwd'));
         							$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
         							$em->persist($user);
@@ -1591,6 +1592,7 @@ class UserController extends Controller
         //设定密码，自动登录
         $this->get('request')->getSession()->set('uid',$id);
         $this->get('request')->getSession()->set('nick',$request->request->get('nick'));
+        $this->get('login.listener')->setNewbie();
         $user->setPwd($request->request->get('pwd'));
         $user->setNick($request->request->get('nick'));
         $setPasswordCode->setIsAvailable($this->container->getParameter('init'));

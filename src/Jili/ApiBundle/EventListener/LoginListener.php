@@ -90,6 +90,11 @@ class LoginListener {
 		return $code;
 	}
 
+    public function setNewbie() {
+        $request = $this->container_->get('request');
+        return   $request->getSession()->set('is_newbie', true);
+    }
+
     public function isNewbie() {
 
         $request = $this->container_->get('request');

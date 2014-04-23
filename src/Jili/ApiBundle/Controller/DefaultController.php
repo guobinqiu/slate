@@ -491,6 +491,7 @@ class DefaultController extends Controller {
 					setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
 					setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
 				}
+
 				$session->set('uid', $id);
 				$session->set('nick', $user->getNick());
 				$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
@@ -613,6 +614,7 @@ class DefaultController extends Controller {
                     $request->getSession()->remove('token');
                     $request->getSession()->set('uid', $id);
                     $request->getSession()->set('nick', $nick);
+                    $this->get('login.listener')->setNewbie();
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
             }
