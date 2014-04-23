@@ -10,9 +10,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/top")
+ * @Route("/top",requirements={"_scheme"="http"})
  */
-class TopController extends Controller
+ class TopController extends Controller
 {
 
 
@@ -25,21 +25,7 @@ class TopController extends Controller
     {
         $request = $this->get('request');
         $logger = $this->get('logger');
-        $cn  = get_class($request);
-        $cm  = get_class_methods($cn);
-
-        if(  $request->getSession()->has('uid') ) {
-            if( $request->isSecure() ) {
-                $uri = str_replace('https:','http:' , $request->getUri());
-                return $this->redirect( $uri );
-            } 
-        } else {
-            if(! $request->isSecure() ) {
-                $uri = str_replace('http:','https:' , $request->getUri());
-                return $this->redirect( $uri );
-            }
-        }
-
+       
         $cookies = $request->cookies;
         $session = $request->getSession();
 
