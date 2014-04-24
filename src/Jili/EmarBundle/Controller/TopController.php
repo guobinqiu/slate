@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/top", requirements={"_scheme": "http"})
+ * @Route("/top")
  */
 class TopController extends Controller
 {

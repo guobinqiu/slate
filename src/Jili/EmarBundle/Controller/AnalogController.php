@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Jili\BackendBundle\Controller\IpAuthenticatedController;
 
 /**
- * @Route("/analog", requirements={"_scheme": "https"})
+ * @Route("/analog")
  */
 class AnalogController extends Controller implements  IpAuthenticatedController
 {

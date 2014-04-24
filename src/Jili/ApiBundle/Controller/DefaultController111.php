@@ -15,9 +15,6 @@ use Jili\ApiBundle\Entity\WenwenUser;
 use Jili\ApiBundle\Entity\CallBoard;
 use Jili\ApiBundle\Entity\UserGameVisit;
 
-/**
- * @Route( requirements={"_scheme": "http"})
- */
 class DefaultController extends Controller
 {
 	

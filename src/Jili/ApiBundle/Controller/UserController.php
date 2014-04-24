@@ -42,9 +42,6 @@ use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 
-/**
- * @Route( requirements={"_scheme"="http"})
- */
 class UserController extends Controller
 {
 	/**
@@ -1210,8 +1207,33 @@ class UserController extends Controller
         $send_email = false;
         if($user_email[0]->getIsFromWenwen() == $this->container->getParameter('is_from_wenwen_register')){
             $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
-            $mailLister = $this->get('mail.listener');
-            $send_email = $mailLister->sendMailForWenWenRegister($this->get('mailer'), $url,$email);
+
+            //发送激活邮件
+            $wenwen_api_url = $this->container->getParameter('91wenwen_api_url');
+            $logger = $this->get('logger');
+            $logger->info('{activeEmail}' . $url);
+            //通过soap发送
+            $soapMailLister = $this->get('soap.mail.listener');
+            $soapMailLister->setCampaignId($this->container->getParameter('register_from_wenwen_campaign_id')); //活动id
+            $soapMailLister->setMailingId($this->container->getParameter('register_from_wenwen_mailing_id')); //邮件id
+            $soapMailLister->setGroup(array (
+                'name' => '从91问问注册积粒网',
+                'is_test' => 'false'
+            )); //group
+            $recipient_arr = array (
+                array (
+                    'name' => 'email',
+                    'value' => $email
+                ),
+                array (
+                    'name' => 'url_reg',
+                    'value' => $url
+                )
+            );
+            $send_email = $soapMailLister->sendSingleMailing($recipient_arr);
+            if ($send_email == "Email send success") {
+               $send_email = true;
+            }
         }else{
         	$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
             $send_email = $this->sendMail($url,$email,$user_email[0]->getNick());
@@ -1505,81 +1527,72 @@ class UserController extends Controller
         if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
         	return $this->render('JiliApiBundle::error.html.twig');
         }else{
-        	if($setPasswordCode->getCode() == $code){
-        		$request = $this->get('request');
-        		$pwd = $request->request->get('pwd');
-        		$que_pwd = $request->request->get('que_pwd');
-
-        		if ($request->getMethod() == 'POST'){
-        			if($request->request->get('ck')=='1'){
-        				if($pwd){
-        					if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
-        						$code_pwd = $this->container->getParameter('forget_wr_pwd');
-        						$arr['code_pwd']  = $code_pwd;
-        					}else{
-        						if($pwd == $que_pwd){
-        							$this->get('request')->getSession()->set('uid',$id);
-        							$this->get('request')->getSession()->set('nick',$user->getNick());
-
-        							$user->setPwd($request->request->get('pwd'));
-        							$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
-        							$em->persist($user);
-        							$em->persist($setPasswordCode);
-        							$em->flush();
+            if($setPasswordCode->getCode() != $code){
+                return $this->render('JiliApiBundle::error.html.twig');
+            }
+    		$request = $this->get('request');
+    		$pwd = $request->request->get('pwd');
+    		$que_pwd = $request->request->get('que_pwd');
+    		if ($request->getMethod() == 'POST'){
+    			if($request->request->get('ck')=='1'){
+    				if($pwd){
+    					if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+    						$code_pwd = $this->container->getParameter('forget_wr_pwd');
+    						$arr['code_pwd']  = $code_pwd;
+    					}else{
+    						if($pwd == $que_pwd){
+    							$this->get('request')->getSession()->set('uid',$id);
+    							$this->get('request')->getSession()->set('nick',$user->getNick());
+    							$user->setPwd($request->request->get('pwd'));
+    							$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
+    							$em->persist($user);
+    							$em->persist($setPasswordCode);
+    							$em->flush();
 //         							return $this->redirect($this->generateUrl('_user_regSuccess'));
 
-                                    //设置密码之后，注册成功，发邮件2014-01-10
-                                    $soapMailLister = $this->get('soap.mail.listener');
-                                    $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
-                                    $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
-                                    $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
-                                    $recipient_arr = array (
-                                            array (
-                                                'name' => 'email',
-                                                'value' => $user->getEmail()
-                                            )
-                                        );
-                                    $soapMailLister->sendSingleMailing($recipient_arr);
+                                //设置密码之后，注册成功，发邮件2014-01-10
+                                $soapMailLister = $this->get('soap.mail.listener');
+                                $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
+                                $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
+                                $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
+                                $recipient_arr = array (
+                                        array (
+                                            'name' => 'email',
+                                            'value' => $user->getEmail()
+                                        )
+                                    );
+                                $soapMailLister->sendSingleMailing($recipient_arr);
 
-                                    // The user was insert when regAction 
-                                    $this->get('login.listener')->checkNewbie($user);
-                                    $this->get('login.listener')->log($user);
+                                // The user was insert when regAction 
+                                $this->get('login.listener')->checkNewbie($user);
+                                $this->get('login.listener')->log($user);
 
-        							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
-        						}else{
-        							$code_que_pwd = $this->container->getParameter('forget_unsame_pwd');
-        							$arr['code_que_pwd']  = $code_que_pwd;
-        						}
-        					}
-        				}else{
-        					$code_pwd = $this->container->getParameter('forget_en_pwd');
-        					$arr['code_pwd']  = $code_pwd;
-        				}
-        			}else{
-        				echo 'choose agree';
-        			}
-        		}
-        		return $this->render('JiliApiBundle:User:forgetPass.html.twig',$arr);
-        	}
+    							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
+    						}else{
+    							$code_que_pwd = $this->container->getParameter('forget_unsame_pwd');
+    							$arr['code_que_pwd']  = $code_que_pwd;
+    						}
+    					}
+    				}else{
+    					$code_pwd = $this->container->getParameter('forget_en_pwd');
+    					$arr['code_pwd']  = $code_pwd;
+    				}
+    			}else{
+    				echo 'choose agree';
+    			}
+    		}
+    		return $this->render('JiliApiBundle:User:forgetPass.html.twig',$arr);
         }
 	}
 
     /**
-     * @param $id is the user.id
-     * @param $code 
      * @Route("/setPassFromWenwen/{code}/{id}", name="_user_setPassFromWenwen",requirements={"_scheme"="https"})
      */
     public function setPassFromWenwenAction($code,$id){
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
-
-        if( ! $user) {
-            //todo:
-        }
-
-
         $arr['user'] = $user;
-        $arr['nick'] = '';
+        $arr['nick'] = "";
 
         $setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneByUserId($id);
         $arr['pwdcode'] = $setPasswordCode;
@@ -1605,7 +1618,6 @@ class UserController extends Controller
         //设定密码，自动登录
         $this->get('request')->getSession()->set('uid',$id);
         $this->get('request')->getSession()->set('nick',$request->request->get('nick'));
-
         $user->setPwd($request->request->get('pwd'));
         $user->setNick($request->request->get('nick'));
         $setPasswordCode->setIsAvailable($this->container->getParameter('init'));

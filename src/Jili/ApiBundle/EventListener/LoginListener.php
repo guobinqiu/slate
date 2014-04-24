@@ -27,9 +27,10 @@ class LoginListener {
 	public function login(Request $request, $email, $password) {
 		$em = $this->em;
 		$code = '';
+		$em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
 		if ($request->getMethod() != 'POST') {
 			return $code;
-		} 
+		}
 
 		if (!$email) {
 			$code = $this->getParameter('login_en_mail');
@@ -40,29 +41,38 @@ class LoginListener {
 			return $code;
 		}
 
-		$user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
-		if (!$user) {
+		$em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+		if (!$em_email) {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
-		// $id = $em_email[0]->getId();
-		// $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        // $user= $em_email[0];
-        $this->checkNewbie($user);
+		$id = $em_email[0]->getId();
+		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		if ($user->getDeleteFlag() == 1) {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
 		if ($user->pw_encode($password) != $user->getPwd()) {
+			//                      echo 'pwd is error!';
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
 		if ($request->get('remember_me') == '1') {
-			setcookie("jili_uid", $user->getId(), time() + 3600 * 24 * 365, '/');
+			setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
 			setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
+//          $response = new Response();
+//          $response->headers->setCookie(new Cookie('jili_uid', $id,(time() + 3600 * 24 * 365), '/'));
+//          $response->headers->setCookie(new Cookie('jili_nick', $user->getNick(),(time() + 3600 * 24 * 365), '/'));
+//          $response->send();
+//          $request = $this->get('request');
+//          $cookies = $request->cookies;
+//          if ($cookies->has('uid'))
+//          {
+//              var_dump($cookies->get('uid'));
+//          }
 		}
 
 		$request->getSession()->set('uid', $user->getId() );

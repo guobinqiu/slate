@@ -14,7 +14,7 @@ use Jili\EmarBundle\Form\EmarWebsitesCronedType;
 /**
  * EmarWebsitesCroned controller.
  *
- * @Route("/admin/emarwebsitescroned", requirements={"_scheme": "https"})
+ * @Route("/admin/emarwebsitescroned")
  */
 class AdminEmarWebsitesCronedController extends Controller
 {

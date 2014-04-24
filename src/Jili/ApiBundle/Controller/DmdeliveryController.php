@@ -17,9 +17,6 @@ use Jili\ApiBundle\Entity\PointHistory07;
 use Jili\ApiBundle\Entity\PointHistory08;
 use Jili\ApiBundle\Entity\PointHistory09;
 
-/**
- * @Route( requirements={"_scheme": "http"})
- */
 class DmdeliveryController extends Controller
 {
 	private $soap = 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php';

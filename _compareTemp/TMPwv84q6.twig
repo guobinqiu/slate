@@ -19,7 +19,7 @@ function check(){
 
 </script>
 <body>
-{% include 'JiliApiBundle::header.html.twig' %}
+{% include 'JiliApiBundle::userHead.html.twig' %}
 <div class="webArticle password">
   <article>
     <form action="{{ path('_user_changePwd') }}" method="post" name="form1" id="form1" >
@@ -88,6 +88,12 @@ function check(){
     </form>
   </article>
 </div>
-{% include 'JiliApiBundle::footer.html.twig' %}
+{% include 'JiliApiBundle::userFoot.html.twig' %}
 </body>
 </html>
+
+
+
+
+
+ 

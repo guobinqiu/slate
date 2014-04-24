@@ -10,10 +10,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/top", requirements={"_scheme"="http"})
+ * @Route("/top",requirements={"_scheme"="http"})
  */
-class TopController extends Controller
+ class TopController extends Controller
 {
+
+
     /**
      * @Route("/index")
      * @Method({ "GET", "POST"})
@@ -23,10 +25,7 @@ class TopController extends Controller
     {
         $request = $this->get('request');
         $logger = $this->get('logger');
-        $cn  = get_class($request);
-        $cm  = get_class_methods($cn);
-
-
+       
         $cookies = $request->cookies;
         $session = $request->getSession();
 
@@ -43,25 +42,19 @@ class TopController extends Controller
         $code = $this->get('login.listener')->login($this->get('request'),$email,$pwd);
 
 # $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($code , true));
+# $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($session->get('referer'), true));
 
         if($code == "ok"){
             return $this->redirect($this->generateUrl('_homepage'));
         }
-
-        //newbie page
-        if( $this->get('login.listener')->isNewbie() )  {
-            if( $session->get('is_newbie_passed', false) === false ) {
-                $arr['is_newbie_passed'] = false;
-                $session->set('is_newbie_passed', true) ;
-            }
-        }
         $arr['code'] = $code;
+
         return $arr;
     }
 
     /**
      * @Route("/event")
-     * @Template
+     * @Template();
      */
     public function eventAction()
     {
@@ -74,7 +67,7 @@ class TopController extends Controller
 
     /**
      * @Route("/ranking")
-     * @Template
+     * @Template();
      */
     public function rankingAction()
     {
@@ -90,7 +83,7 @@ class TopController extends Controller
 
     /**
      * @Route("/callboard")
-     * @Template
+     * @Template();
      */
     public function callboardAction()
     {
@@ -103,7 +96,7 @@ class TopController extends Controller
 
     /**
      * @Route("/userInfo")
-     * @Template
+     * @Template();
      */
     public function userInfoAction()
     {
@@ -123,7 +116,7 @@ class TopController extends Controller
 
     /**
      * @Route("/task")
-     * @Template
+     * @Template();
      */
     public function taskAction()
     {
@@ -134,7 +127,7 @@ class TopController extends Controller
 
     /**
      * @Route("/myTask")
-     * @Template
+     * @Template();
      */
     public function myTaskAction()
     {
@@ -152,7 +145,7 @@ class TopController extends Controller
 
     /**
      * @Route("/checkIn")
-     * @Template
+     * @Template();
      */
     public function checkInAction()
     {
@@ -166,7 +159,7 @@ class TopController extends Controller
 
     /**
      * @Route("/advertiseBanner")
-     * @Template
+     * @Template();
      */
     public function advertiseBannerAction()
     {
@@ -179,7 +172,7 @@ class TopController extends Controller
 
     /**
      * @Route("/topCheckIn")
-     * @Template
+     * @Template();
      */
     public function topCheckInAction()
     {
@@ -251,7 +244,7 @@ class TopController extends Controller
 
     /**
      * @Route("/adCheck")
-     * @Template
+     * @Template();
      */
     public function adCheckAction()
     {
@@ -262,7 +255,7 @@ class TopController extends Controller
 
     /**
      * @Route("/market")
-     * @Template
+     * @Template();
      */
     public function marketAction()
     {

@@ -14,7 +14,7 @@ use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\setPasswordCode;
 
 /**
- * @Route("/api/91wenwen", requirements={"_scheme": "http"})
+ * @Route("/api/91wenwen")
  */
 class WenwenController extends Controller {
 

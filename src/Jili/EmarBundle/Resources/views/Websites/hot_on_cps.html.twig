@@ -8,7 +8,7 @@
     
             <li>
               <p class="img">
-                 <a href="{{  path('jili_emar_default_redirect') ~ '?m=' ~ row.webUrl|url_encode }}"  target="_blank"><img width="75" height="37" src="{{ row.logoUrl }}"></a>
+                 <a href="{{  path('jili_emar_default_redirect') ~ '?m=' ~ row.webUrl|url_encode }}" rel="nofollow" target="_blank"><img width="75" height="37" src="{{ row.logoUrl }}"></a>
               </p>
               {% if row.commission > 0 %}
                   <p class="rebate">最高返<em>{{  row.commission }}%</em></p>
