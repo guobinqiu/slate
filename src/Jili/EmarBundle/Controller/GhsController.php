@@ -26,17 +26,11 @@ class GhsController extends Controller
         // multiple by 2 to filter the unecessary links. 
         // NOTICE: always fetch the first page ?
         $listRequest->setPageSize($max );
-
         $params = array('page_no' => $p);
-
-
         $uid = $request->getSession()->get('uid');
-
         $list = $listRequest->setApp('search')->fetchDistinct( $params );
         $total = $listRequest->getTotal();
-
         #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'list','')) . var_export( $list, true));
-
         if( $request->isXmlHttpRequest()) {
             $prds = array();
             foreach( $list as $v) {
