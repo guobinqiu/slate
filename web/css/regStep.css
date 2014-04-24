@@ -316,7 +316,7 @@
 .regFrom91ww .errorWrap{ display:block; height: 35px; margin: 0 auto 10px; padding-top: 15px; text-align: center; width: 680px;background:#fdf9e7;}
 
 /* reg globe header and footer */
-.userHead{ background: none repeat scroll 0 0 #f0f0f0;border-bottom: 1px solid #e3e3e3;height: 75px;padding-top: 25px; margin-bottom: 65px;}
+.userHead{ background: none repeat scroll 0 0 #f0f0f0;border-bottom: 1px solid #e3e3e3;height: 75px;padding-top: 25px; margin-bottom: 40px;}
 .userHead .logo{margin: 0 auto;width: 950px;}
 .userFoot{ margin:45px auto; text-align: center;}
 .userFoot .links{ display: inline-block;}

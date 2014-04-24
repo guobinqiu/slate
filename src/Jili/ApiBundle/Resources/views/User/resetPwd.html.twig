@@ -59,7 +59,9 @@ function check(){
   <article>
     <div class="form">
       <h2>输入邮箱地址 > <span>重置密码</span></h2>
-      <div class="message" style="display:none;"><img src="{{ asset('images/succeed.jpg')}}" width="39" height="44">密码修改成功！</div>
+      <div class="message" style="display:none;">
+      <img src="{{ asset('images/succeed.jpg')}}" width="39" height="44">密码修改成功！
+      </div>
       <p>请输入您注册时填写的邮箱</p>
       <p><input name="email" type="text" class="text" id="email"></p>
       <p><a id="sendEmail" onclick='check();'>下一步</a></p>
