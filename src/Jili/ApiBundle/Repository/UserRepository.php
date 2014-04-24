@@ -56,6 +56,9 @@ class UserRepository extends EntityRepository {
 
 	}
 
+    /**
+     * The user of $email is registered already for the pwd is NOT null anymore.
+     */
 	public function getWenwenUser($email) {
 		$query = $this->createQueryBuilder('u');
 		$query = $query->select('u.id');
