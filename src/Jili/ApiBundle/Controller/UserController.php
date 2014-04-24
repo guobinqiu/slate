@@ -1013,7 +1013,6 @@ class UserController extends Controller
                 }
             }
             $logger=$this->get('logger');
-#             $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($current_url, true));
             
             return $this->redirect($current_url,$code_redirect);
         }
@@ -1638,8 +1637,12 @@ class UserController extends Controller
             );
         $soapMailLister->sendSingleMailing($recipient_arr);
 
+        $logger = $this->get('logger');
+
+
+        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($user, true));
+
         $this->get('login.listener')->checkNewbie($user);
-        // insert login log
         $this->get('login.listener')->log($user);
 
         return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);

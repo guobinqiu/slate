@@ -605,11 +605,11 @@ class DefaultController extends Controller {
                     $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
                     $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
                     $recipient_arr = array (
-                            array (
-                                'name' => 'email',
-                                'value' => $email
-                            )
-                        );
+                        array (
+                            'name' => 'email',
+                            'value' => $email
+                        )
+                    );
                     $soapMailLister->sendSingleMailing($recipient_arr);
                     $session = $request->getSession();
                     $session->remove('token');
@@ -617,8 +617,8 @@ class DefaultController extends Controller {
                     $session->set('nick', $nick);
 
                     $this->get('login.listener')->checkNewbie( $user );
-                    $this->get('login.listener')->log( $user );
 
+                    $this->get('login.listener')->log( $user );
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
 
