@@ -1,6 +1,7 @@
 _login:
     path: /login
     defaults: { _controller: JiliApiBundle:User:login}
+    schemes:  [https]
 
 _logout:
     path: /logout
@@ -9,6 +10,7 @@ _logout:
 _homepage:
     path: /
     defaults: { _controller: JiliApiBundle:Top:index }
+    schemes:  [http]
 
 jili_api:
     resource: "@JiliApiBundle/Resources/config/routing.yml"
