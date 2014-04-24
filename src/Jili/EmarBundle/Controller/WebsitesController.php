@@ -15,7 +15,7 @@ use Jili\EmarBundle\Form\Type\SearchWebsiteType;
 use Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
 
 /**
- * @Route("/websites", requirements={"_scheme": "http"} )
+ * @Route("/websites")
  */
 class WebsitesController extends Controller
 {

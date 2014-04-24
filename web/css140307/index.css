@@ -133,7 +133,7 @@
 #task .taskList span.noTask{ display: inline-block; line-height: 40px;}
 .loginFrame, .userFrame {
 	background-color: #FFF;
-	padding: 15px;
+	padding: 20px 25px;
 }
 #vote, #ranking, #banner, #news, #timeline, #indexRecommend{
 	margin-top: 15px;
@@ -383,20 +383,31 @@
 	width: 100%;
 }
 #userLogin {
-	position: relative;
+	margin-bottom:10px;
 }
-#userLogin p {
-	margin: 0 0 12px;
+#userLogin a.reg{ 
+	font-size:20px; 
+	color:#fff; 
+	display: inline-block; 
+	-moz-border-radius: 3px; 
+	-webkit-border-radius: 3px; 
+	border-radius: 3px;
 }
-#userLogin p.error {
-	color: #FF0000;
+.logontxtbg {
+	height: 14px;
+	border-bottom: 1px solid #ececec;
+	margin: 0 20px;
+}
+.logontxt {
+	height: 22px;
+	width: 128px;
+	background: #fff;
+	margin: -14px auto 10px;
 }
 #userLogin a.reg {
-	background-image: url("../images140307/regBtn.jpg");
-	display: block;
-	height: 53px;
-	text-indent: -9999px;
-	width: 185px;
+	padding:12px 85px;
+	background:#4da4eb;
+	
 }
 #userLogin a.reg:hover {
 	opacity: 0.8;
@@ -445,14 +456,14 @@
 }
 #userInfo .point dt {
 	float: left;
-	width: 134px;
+	width: 115px;
 	border-right: 1px dotted #e5e5e5;
 	border-bottom: 1px dotted #e5e5e5;
 	line-height: 40px;
 }
 #userInfo .point dd {
 	float: left;
-	width: 134px;
+	width: 115px;
 	border-right: 1px dotted #EEE;
 	color: #FF3E17;
 	font-size: 22px;
@@ -490,9 +501,6 @@
 	padding: 0 10px;
 }
 #aboutJili {
-	border-top: 1px dashed #DCDCDC;
-	margin-top: 15px;
-	padding-top: 10px;
 	position: relative;
 }
 #aboutJili ul {

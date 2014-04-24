@@ -11,9 +11,6 @@ use Jili\ApiBundle\Entity\ActivityMall;
 use Jili\ApiBundle\Entity\ActivityCategory;
 use Jili\ApiBundle\Entity\MarketActivity;
 
-/**
- * @Route( requirements={"_scheme": "http"})
- */
 class MarketActivityController extends Controller
 {
 	/**

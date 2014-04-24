@@ -278,7 +278,6 @@
 	margin:10px 0;
 }
 .regStep article .regFrame .notMail .dustbin{
-	/*border-right: 1px dotted #EEEEEE;*/
     float: left;
     margin: 0 50px 0 0;
     padding: 0 40px 0 0;
@@ -315,3 +314,13 @@
 	color:#54B9E8;
 }
 .regFrom91ww .errorWrap{ display:block; height: 35px; margin: 0 auto 10px; padding-top: 15px; text-align: center; width: 680px;background:#fdf9e7;}
+
+/* reg globe header and footer */
+.userHead{ background: none repeat scroll 0 0 #f0f0f0;border-bottom: 1px solid #e3e3e3;height: 75px;padding-top: 25px; margin-bottom: 40px;}
+.userHead .logo{margin: 0 auto;width: 950px;}
+.userFoot{ margin:45px auto; text-align: center;}
+.userFoot .links{ display: inline-block;}
+.userFoot .links li{ float:left; margin-right: 15px;}
+.userFoot .links li,.userFoot .links li a{ color:#999;}
+.userFoot .links li a:hover{ color:#333;}
+/* reg globe header and footer/ */

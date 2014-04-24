@@ -33,9 +33,6 @@ use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 
-/**
- * @Route( requirements={"_scheme": "http"})
- */
 class CheckinController extends Controller
 {
 	/**

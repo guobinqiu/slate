@@ -13,6 +13,7 @@ body{font: 12px/1.5 tahoma,'Hiragino Sans GB','microsoft yahei',sans-serif; font
 .w930{ width:930px;}
 .h340{ height:340px;}
 .fontNormal{ font-weight:normal; font-size:12px;}
+.font16{ font-size:16px;}
 h5{font-size: 1.17em;font-weight: bold;}
 strong, b{font-weight: bold;}
 .corBlack{ color:#000;}
@@ -23,6 +24,7 @@ strong, b{font-weight: bold;}
 .corGlobRed{ color:#FF3E17;}
 .corGlobBlue{ color:#65b1ee;}
 .corDarkBlue{ color:#1588e5;}
+.corBrightBlue{ color: #32A5F5;}
 .corWhite{ color:#fff;}
 .division{ margin:0 10px; color:#ccc;}
 .module{ border:2px solid #ff6b4f;}

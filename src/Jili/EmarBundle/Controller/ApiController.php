@@ -12,7 +12,7 @@ use Jili\EmarBundle\EventListener\ValidationException,
     Jili\EmarBundle\EventListener\ProcessException;
 
 /**
- * @Route("/api", requirements={"_scheme": "http"})
+ * @Route("/api")
  */
 class ApiController extends Controller
 {

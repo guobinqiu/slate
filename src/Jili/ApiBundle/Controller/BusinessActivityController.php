@@ -12,9 +12,6 @@ use Jili\ApiBundle\Entity\ActivityMall;
 use Jili\ApiBundle\Entity\ActivityCategory;
 use Jili\ApiBundle\Entity\BusinessActivity;
 
-/**
- * @Route( requirements={"_scheme": "http"})
- */
 class BusinessActivityController extends Controller
 {
 	/**

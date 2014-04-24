@@ -54,10 +54,9 @@ function SetRemainTime() {
 </script>
 </head>
 <body>
-{% include 'JiliApiBundle::header.html.twig' %}
+{% include 'JiliApiBundle::userHead.html.twig' %}
 <div class="webArticle regStep">
   <article>
-  	<div class="step"><img src="{{ asset('images/step2.jpg')}}" width="960" height="86"></div>
     <div class="regFrame">
     	<div class="goToMail">
    	    <div class="img"><img src="{{ asset('images/emailImage.jpg')}}" width="123" height="115"></div>
@@ -80,6 +79,6 @@ function SetRemainTime() {
     </div>
   </article>
 </div>
-{% include 'JiliApiBundle::footer.html.twig' %}
+{% include 'JiliApiBundle::userFoot.html.twig' %}
 </body>
 </html>

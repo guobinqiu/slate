@@ -17,9 +17,6 @@
 <script src="{{ asset('js/bottom.js') }}" language="javascript"></script> 
 </head>
 <body>
-
-{% block body_top %}{% endblock %}
-
 <div id="header">
     {% block header %}
        {% include "::header.html.twig" %}
@@ -31,9 +28,6 @@
 </div><!-- eof pageMain -->
 
 {% include 'JiliApiBundle::footer.html.twig' %}
-
-
-{% block body_bottom %}{% endblock %}
 
 </body>
 </html>

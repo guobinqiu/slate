@@ -2,6 +2,7 @@
       <div class="menu">{#<a href="#" class="hover">热门商城</a> | <a href="#">服装饰品</a> | <a href="#">手机数码家电</a>#}<a class="more" href="{{ path('jili_emar_websites_shoplist',{wcat:1,p:1}) }}">更多&gt;&gt;</a></div>
       <ul class="clearfix">
     {% for row in websites %}
+        
         <li><a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.webUrl|url_encode  }}" title="{{ row.webName }}" target="_blank"><img width="90" height="45" src="{{ row.logoUrl }}" alt="{{ row.webName }}">
 
         {% if row.commission > 0 %}
