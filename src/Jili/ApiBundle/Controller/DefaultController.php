@@ -498,7 +498,7 @@ class DefaultController extends Controller {
 				$user->setLastLoginIp($this->get('request')->getClientIp());
 				$em->flush();
 				$em = $this->getDoctrine()->getManager();
-				$loginlog = new Loginlog();
+				$loginlog = new LoginLog();
 				$loginlog->setUserId($id);
 				$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
 				$loginlog->setLoginIp($this->get('request')->getClientIp());
@@ -565,17 +565,15 @@ class DefaultController extends Controller {
 		} else {
 			$email = $wenuser[0]->getEmail();
 		}
+
         $is_email = $em->getRepository('JiliApiBundle:User')->getWenwenUser($email);
         if ($is_email) {
             $is_user = $this->container->getParameter('init_one');
-            $this->get('login.listener')->checkNewbie( $is_email[0] );
         } else {
             if ($request->getMethod() == 'POST') {
                 $err_msg = $this->checkLanding($email, $nick, $pwd, $newPwd);
                 if(!$err_msg){
                     $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-
-
                     if ($isset_email) {
                         $this->get('login.listener')->checkNewbie( $isset_email[0] );
                         $isset_email[0]->setNick($nick);
@@ -590,6 +588,9 @@ class DefaultController extends Controller {
                         $id = $isset_email[0]->getId();
                     } else {
                         $user = new User();
+
+                        $this->get('login.listener')->checkNewbie( $user );
+
                         $user->setNick($nick);
                         $user->setPwd($pwd);
                         $user->setEmail($email);
@@ -597,13 +598,13 @@ class DefaultController extends Controller {
                         $user->setPoints($this->container->getParameter('init'));
                         $user->setRewardMultiple($this->container->getParameter('init_one'));
                         $user->setIsInfoSet($this->container->getParameter('init'));
+
                         if($uniqkey){
                             $user->setUniqkey($uniqkey);
                         }
                         $em->persist($user);
                         $em->flush();
                         $id = $user->getId();
-                        $this->get('login.listener')->checkNewbie( $user );
                     }
 
 
@@ -623,9 +624,19 @@ class DefaultController extends Controller {
                     $session->remove('token');
                     $session->set('uid', $id);
                     $session->set('nick', $nick);
+
+                    $loginlog = new LoginLog();
+                    $loginlog->setUserId($id );
+                    $loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
+                    $loginlog->setLoginIp($request->getClientIp());
+                    $em->persist($loginlog);
+                    $em->flush();
+
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
+
             }
+
         }
 
         //最新动态

@@ -92,11 +92,26 @@ class LoginListener {
      */
     public function checkNewbie( User  $user ) {
         $request = $this->container_->get('request');
-        if($user->getRegisterDate() == $user->getLastLoginDate() ) {
+        // 从wenwen来的用户已经在landingAction登录过，并且registerDate与lastLogDate是一样的。 
+        $is_newbie = false;
+        if($user->getRegisterDate()->getTimestamp() === $user->getLastLoginDate()->getTimestamp() ) {
+            if( $user->getIsFromWenwen() === $this->getParameter('init_one')  ) {
+                // check the the login log 
+                $em = $this->em;
+                $loginLog = $em->getRepository('JiliApiBundle:LoginLog')->findOneByUserId($user->getId());
+                if( ! $loginLog) {
+                    $is_newbie = true ;
+                }
+            } else {
+                $is_newbie = true;
+            }
+        }
+
+        if( $is_newbie === false ) {
+            $request->getSession()->set('is_newbie', false);
+        } else {
             $request->getSession()->set('is_newbie', true);
             $request->getSession()->set('is_newbie_passed', false);
-        } else {
-            $request->getSession()->set('is_newbie', false);
         }
 
         return   ;
