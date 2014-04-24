@@ -20,6 +20,9 @@ use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 use Jili\ApiBundle\Entity\UserAdvertisermentVisit;
 
+/**
+ * @Route( requirements={"_scheme" = "http"})
+ */
 class AdvertisermentController extends Controller
 {
 	/**

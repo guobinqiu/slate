@@ -24,7 +24,7 @@ class DefaultController extends Controller
 #         $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
         // check login
         if($session->has('uid')){
-            str_replace('APIMemberId', $session->get('uid') , $url );
+           $url= str_replace('APIMemberId', $session->get('uid') , $url );
             return $this->redirect( $url, 302);
         } else {
             $session->set('referer', $url);
