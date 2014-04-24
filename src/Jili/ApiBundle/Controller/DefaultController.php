@@ -575,7 +575,7 @@ class DefaultController extends Controller {
                 if(!$err_msg){
                     $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
                     if ($isset_email) {
-                        $this->get('login.listener')->checkNewbie( $isset_email[0] );
+
                         $isset_email[0]->setNick($nick);
                         $isset_email[0]->setPwd($pwd);
                         $isset_email[0]->setIsFromWenwen($this->container->getParameter('init_one'));
@@ -586,10 +586,10 @@ class DefaultController extends Controller {
                         $em->persist($isset_email[0]);
                         $em->flush();
                         $id = $isset_email[0]->getId();
+                        $user = $isset_email[0];
                     } else {
                         $user = new User();
 
-                        $this->get('login.listener')->checkNewbie( $user );
 
                         $user->setNick($nick);
                         $user->setPwd($pwd);
@@ -625,12 +625,8 @@ class DefaultController extends Controller {
                     $session->set('uid', $id);
                     $session->set('nick', $nick);
 
-                    $loginlog = new LoginLog();
-                    $loginlog->setUserId($id );
-                    $loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-                    $loginlog->setLoginIp($request->getClientIp());
-                    $em->persist($loginlog);
-                    $em->flush();
+                    $this->get('login.listener')->checkNewbie( $user );
+                    $this->get('login.listener')->log( $user );
 
                     return $this->redirect($this->generateUrl('_homepage'));
                 }

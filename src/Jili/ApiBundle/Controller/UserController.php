@@ -1493,8 +1493,6 @@ class UserController extends Controller
 		$arr['code_que_pwd']  = $code_que_pwd;
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-       // The user was insert when regAction 
-        $this->get('login.listener')->checkNewbie($user );
 // 		$province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
 // 		$arr['province'] = $province;
 		$arr['user'] = $user;
@@ -1511,6 +1509,7 @@ class UserController extends Controller
         		$request = $this->get('request');
         		$pwd = $request->request->get('pwd');
         		$que_pwd = $request->request->get('que_pwd');
+
         		if ($request->getMethod() == 'POST'){
         			if($request->request->get('ck')=='1'){
         				if($pwd){
@@ -1521,7 +1520,6 @@ class UserController extends Controller
         						if($pwd == $que_pwd){
         							$this->get('request')->getSession()->set('uid',$id);
         							$this->get('request')->getSession()->set('nick',$user->getNick());
-//                                    $this->get('login.listener')->setNewbie();
 
         							$user->setPwd($request->request->get('pwd'));
         							$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
@@ -1542,6 +1540,10 @@ class UserController extends Controller
                                             )
                                         );
                                     $soapMailLister->sendSingleMailing($recipient_arr);
+
+                                    // The user was insert when regAction 
+                                    $this->get('login.listener')->checkNewbie($user);
+                                    $this->get('login.listener')->log($user);
 
         							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
         						}else{
@@ -1575,7 +1577,6 @@ class UserController extends Controller
             //todo:
         }
 
-        $this->get('login.listener')->checkNewbie($user);
 
         $arr['user'] = $user;
         $arr['nick'] = '';
@@ -1624,6 +1625,10 @@ class UserController extends Controller
                 )
             );
         $soapMailLister->sendSingleMailing($recipient_arr);
+
+        $this->get('login.listener')->checkNewbie($user);
+        // insert login log
+        $this->get('login.listener')->log($user);
 
         return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
     }
