@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Jili\EmarBundle\Api2\Repository\GhsCat as GhsCatRepository;
 
 /**
- * @Route("/ghs")
+ * @Route("/ghs", requirements={"_scheme" = "http"})
  */
 class GhsController extends Controller
 {

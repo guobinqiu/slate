@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Jili\ApiBundle\Entity\AdwApiReturn;
 
 /**
- * @Route("/api/offerwow")
+ * @Route("/api/offerwow",requirements={"_scheme"="http"})
  */
 class OfferwowController extends Controller
 {

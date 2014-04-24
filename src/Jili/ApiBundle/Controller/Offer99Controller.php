@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * @Route("/api/offer99")
+ * @Route("/api/offer99",requirements={"_scheme"="http"})
  */
 class Offer99Controller extends Controller
 {

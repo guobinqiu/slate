@@ -66,6 +66,9 @@ use Jili\ApiBundle\Entity\SendMessage07;
 use Jili\ApiBundle\Entity\SendMessage08;
 use Jili\ApiBundle\Entity\SendMessage09;
 
+/**
+ * @Route( requirements={"_scheme" = "https"})
+ */
 class AdminController extends Controller
 {
     private function getAdminIp(){

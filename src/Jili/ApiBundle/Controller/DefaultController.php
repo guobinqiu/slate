@@ -22,6 +22,9 @@ use Jili\ApiBundle\Entity\CheckinClickList;
 use Jili\ApiBundle\Entity\CheckinPointTimes;
 use Jili\ApiBundle\Entity\UserWenwenVisit;
 
+/**
+ * @Route( requirements={"_scheme" = "http"})
+ */
 class DefaultController extends Controller {
 	// 是否完善资料
 	private function isExistInfo($userid) {
