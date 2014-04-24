@@ -14,8 +14,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class TopController extends Controller
 {
-
-
     /**
      * @Route("/index")
      * @Method({ "GET", "POST"})
@@ -28,17 +26,6 @@ class TopController extends Controller
         $cn  = get_class($request);
         $cm  = get_class_methods($cn);
 
-        if(  $request->getSession()->has('uid') ) {
-            if( $request->isSecure() ) {
-                $uri = str_replace('https:','http:' , $request->getUri());
-                return $this->redirect( $uri );
-            } 
-        } else {
-            if(! $request->isSecure() ) {
-                $uri = str_replace('http:','https:' , $request->getUri());
-                return $this->redirect( $uri );
-            }
-        }
 
         $cookies = $request->cookies;
         $session = $request->getSession();
@@ -56,13 +43,19 @@ class TopController extends Controller
         $code = $this->get('login.listener')->login($this->get('request'),$email,$pwd);
 
 # $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($code , true));
-# $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($session->get('referer'), true));
 
         if($code == "ok"){
             return $this->redirect($this->generateUrl('_homepage'));
         }
-        $arr['code'] = $code;
 
+        //newbie page
+        if( $this->get('login.listener')->isNewbie() )  {
+            if( $session->get('is_newbie_passed', false) === false ) {
+                $arr['is_newbie_passed'] = false;
+                $session->set('is_newbie_passed', true) ;
+            }
+        }
+        $arr['code'] = $code;
         return $arr;
     }
 

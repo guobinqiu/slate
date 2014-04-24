@@ -22,6 +22,9 @@ use Jili\ApiBundle\Entity\CheckinClickList;
 use Jili\ApiBundle\Entity\CheckinPointTimes;
 use Jili\ApiBundle\Entity\UserWenwenVisit;
 
+/**
+ * @Route( requirements={"_scheme": "http"})
+ */
 class DefaultController extends Controller {
 	// 是否完善资料
 	private function isExistInfo($userid) {
@@ -183,7 +186,7 @@ class DefaultController extends Controller {
 	 */
 	public function indexAction() {
 		if ($_SERVER['HTTP_HOST'] == '91jili.com')
-			return $this->redirect('https://www.91jili.com');
+			return $this->redirect('http://www.91jili.com');
 		$request = $this->get('request');
 		$cookies = $request->cookies;
 		if ($cookies->has('jili_uid') && $cookies->has('jili_nick')) {
@@ -488,6 +491,7 @@ class DefaultController extends Controller {
 					setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
 					setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
 				}
+
 				$session->set('uid', $id);
 				$session->set('nick', $user->getNick());
 				$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
@@ -520,7 +524,9 @@ class DefaultController extends Controller {
 	* @Route("/landing", name="_default_landing",requirements={"_scheme"="https"})
 	*/
 	public function landingAction() {
-		if ($this->get('request')->getSession()->get('uid')) {
+		$request = $this->get('request');
+        $session = $request->getSession();
+		if ($session->get('uid')) {
 			return $this->redirect($this->generateUrl('_homepage'));
 		}
         $email = '';
@@ -529,19 +535,20 @@ class DefaultController extends Controller {
         $err_msg = '';
         $signature = '';
         $uniqkey = '';
-		$request = $this->get('request');
 		$token = $request->query->get('secret_token');
 		$nick = $request->request->get('nick');
 		$pwd = $request->request->get('pwd');
 		$newPwd = $request->request->get('newPwd');
+
 		if ($token) {
-			$request->getSession()->remove('token');
-			$request->getSession()->set('token', $token);
+			$session->remove('token');
+			$session->set('token', $token);
 		}
-		$u_token = $request->getSession()->get('token');
+		$u_token = $session->get('token');
 		if (!$u_token) {
 			return $this->redirect($this->generateUrl('_user_reg'));
 		}
+
 		$em = $this->getDoctrine()->getManager();
 		$wenuser = $em->getRepository('JiliApiBundle:WenwenUser')->findByToken($u_token);
 		if (!$wenuser) {
@@ -566,6 +573,8 @@ class DefaultController extends Controller {
                 $err_msg = $this->checkLanding($email, $nick, $pwd, $newPwd);
                 if(!$err_msg){
                     $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+                    $this->get('login.listener')->checkNewbie( $isset_email[0] );
+
                     if ($isset_email) {
                         $isset_email[0]->setNick($nick);
                         $isset_email[0]->setPwd($pwd);
@@ -607,9 +616,9 @@ class DefaultController extends Controller {
                         );
                     $soapMailLister->sendSingleMailing($recipient_arr);
 
-                    $request->getSession()->remove('token');
-                    $request->getSession()->set('uid', $id);
-                    $request->getSession()->set('nick', $nick);
+                    $session->remove('token');
+                    $session->set('uid', $id);
+                    $session->set('nick', $nick);
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
             }
@@ -637,7 +646,6 @@ class DefaultController extends Controller {
             'err_msg'=> $err_msg,
             'recent'=>  $recent,
 		));
-
 	}
 
     private function checkLanding($email, $nick, $pwd, $newPwd){
