@@ -12,10 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * @Route("/top",requirements={"_scheme"="http"})
  */
- class TopController extends Controller
+class TopController extends Controller
 {
-
-
     /**
      * @Route("/index")
      * @Method({ "GET", "POST"})
@@ -47,14 +45,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
         if($code == "ok"){
             return $this->redirect($this->generateUrl('_homepage'));
         }
-        $arr['code'] = $code;
 
+        //newbie page
+        if( $this->get('login.listener')->isNewbie() )  {
+            if( $session->get('is_newbie_passed', false) === false ) {
+                $arr['is_newbie_passed'] = false;
+                $session->set('is_newbie_passed', true) ;
+            }
+        }
+        $arr['code'] = $code;
         return $arr;
     }
 
     /**
      * @Route("/event")
-     * @Template();
+     * @Template
      */
     public function eventAction()
     {
@@ -67,7 +72,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
     /**
      * @Route("/ranking")
-     * @Template();
+     * @Template
      */
     public function rankingAction()
     {
@@ -83,7 +88,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
     /**
      * @Route("/callboard")
-     * @Template();
+     * @Template
      */
     public function callboardAction()
     {
@@ -96,7 +101,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
     /**
      * @Route("/userInfo")
-     * @Template();
+     * @Template
      */
     public function userInfoAction()
     {
@@ -116,7 +121,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
     /**
      * @Route("/task")
-     * @Template();
+     * @Template
      */
     public function taskAction()
     {
@@ -127,7 +132,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
     /**
      * @Route("/myTask")
-     * @Template();
+     * @Template
      */
     public function myTaskAction()
     {
@@ -145,7 +150,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
     /**
      * @Route("/checkIn")
-     * @Template();
+     * @Template
      */
     public function checkInAction()
     {
@@ -159,7 +164,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
     /**
      * @Route("/advertiseBanner")
-     * @Template();
+     * @Template
      */
     public function advertiseBannerAction()
     {
@@ -172,7 +177,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
     /**
      * @Route("/topCheckIn")
-     * @Template();
+     * @Template
      */
     public function topCheckInAction()
     {
@@ -244,7 +249,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
     /**
      * @Route("/adCheck")
-     * @Template();
+     * @Template
      */
     public function adCheckAction()
     {
@@ -255,7 +260,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
     /**
      * @Route("/market")
-     * @Template();
+     * @Template
      */
     public function marketAction()
     {

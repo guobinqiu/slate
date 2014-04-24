@@ -75,19 +75,16 @@ class LoginListener {
 //          }
 		}
 
-		$request->getSession()->set('uid', $id);
+		$request->getSession()->set('uid', $user->getId() );
 		$request->getSession()->set('nick', $user->getNick());
 		$request->getSession()->set('points', $user->getPoints());
+
 		$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
 		$user->setLastLoginIp($request->getClientIp());
 		$em->flush();
-		$loginlog = new Loginlog();
-		$loginlog->setUserId($id);
-		$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-		$loginlog->setLoginIp($request->getClientIp());
-		$em->persist($loginlog);
-		$em->flush();
-		$code = "ok";
+
+        $this->log( $user);
+		$code = 'ok';
 		return $code;
 	}
 
@@ -100,15 +97,14 @@ class LoginListener {
         // 从wenwen来的用户已经在landingAction登录过，并且registerDate与lastLogDate是一样的。 
         $is_newbie = false;
         if($user->getRegisterDate()->getTimestamp() === $user->getLastLoginDate()->getTimestamp() ) {
-            if( $user->getIsFromWenwen() === $this->getParameter('init_one')  ) {
-                // check the the login log 
+            if( is_null( $user->getIsFromWenwen() ) || $this->getParameter('init')  === $user->getIsFromWenwen()   ) {
+                $is_newbie = true;
+            } else { // check the the login log 
                 $em = $this->em;
                 $loginLog = $em->getRepository('JiliApiBundle:LoginLog')->findOneByUserId($user->getId());
                 if( ! $loginLog) {
                     $is_newbie = true ;
                 }
-            } else {
-                $is_newbie = true;
             }
         }
 
@@ -118,12 +114,23 @@ class LoginListener {
             $request->getSession()->set('is_newbie', true);
             $request->getSession()->set('is_newbie_passed', false);
         }
-
-        return   ;
+        return  true;
     }
 
     public function isNewbie() {
         return  $this->container_->get('request')->getSession()->get('is_newbie', false);
+    }
+
+    public function log($user) {
+        $em = $this->em;
+        $request = $this->container_->get('request');
+
+        $loginlog = new LoginLog();
+        $loginlog->setUserId($user->getId()  );
+        $loginlog->setLoginDate($user->getLastLoginDate() );
+        $loginlog->setLoginIp($request->getClientIp());
+        $em->persist($loginlog);
+        return $em->flush();
     }
 
     public function getParameter($key) {

@@ -17,6 +17,9 @@
 <script src="{{ asset('js/bottom.js') }}" language="javascript"></script> 
 </head>
 <body>
+
+{% block body_top %}{% endblock %}
+
 <div id="header">
     {% block header %}
        {% include "::header.html.twig" %}
@@ -32,5 +35,8 @@
 {% if app.session.has('uid') %}
 	{{ render(controller('JiliApiBundle:Top:checkIn' ) ) }}
 {% endif %}
+
+{% block body_bottom %}{% endblock %}
+
 </body>
 </html>

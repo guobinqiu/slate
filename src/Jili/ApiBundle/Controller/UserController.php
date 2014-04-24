@@ -994,9 +994,10 @@ class UserController extends Controller
         if($code == "ok")
         {
             $code_redirect = '301';
-            if($request->request->has('referer') ) {
+            $current_url = '';
+            if( $request->request->has('referer') ) {
                 $current_url = $request->request->get('referer');
-            } 
+            }
 
             if( strlen(trim($current_url)) == 0  && $session->has('goToUrl') ) {
                 $current_url = $session->get('goToUrl');
@@ -1013,7 +1014,6 @@ class UserController extends Controller
                 }
             }
             $logger=$this->get('logger');
-#             $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($current_url, true));
             
             return $this->redirect($current_url,$code_redirect);
         }
@@ -1563,6 +1563,10 @@ class UserController extends Controller
                                     );
                                 $soapMailLister->sendSingleMailing($recipient_arr);
 
+                                // The user was insert when regAction 
+                                $this->get('login.listener')->checkNewbie($user);
+                                $this->get('login.listener')->log($user);
+
     							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
     						}else{
     							$code_que_pwd = $this->container->getParameter('forget_unsame_pwd');
@@ -1633,6 +1637,14 @@ class UserController extends Controller
                 )
             );
         $soapMailLister->sendSingleMailing($recipient_arr);
+
+        $logger = $this->get('logger');
+
+
+        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($user, true));
+
+        $this->get('login.listener')->checkNewbie($user);
+        $this->get('login.listener')->log($user);
 
         return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
     }

@@ -578,10 +578,10 @@ class DefaultController extends Controller {
                         $em->persist($isset_email[0]);
                         $em->flush();
                         $id = $isset_email[0]->getId();
+                        $user = $isset_email[0];
                     } else {
                         $user = new User();
 
-                        $this->get('login.listener')->checkNewbie( $user );
 
                         $user->setNick($nick);
                         $user->setPwd($pwd);
@@ -605,23 +605,20 @@ class DefaultController extends Controller {
                     $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
                     $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
                     $recipient_arr = array (
-                            array (
-                                'name' => 'email',
-                                'value' => $email
-                            )
-                        );
+                        array (
+                            'name' => 'email',
+                            'value' => $email
+                        )
+                    );
                     $soapMailLister->sendSingleMailing($recipient_arr);
                     $session = $request->getSession();
                     $session->remove('token');
                     $session->set('uid', $id);
                     $session->set('nick', $nick);
 
-                    $loginlog = new LoginLog();
-                    $loginlog->setUserId($id );
-                    $loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-                    $loginlog->setLoginIp($request->getClientIp());
-                    $em->persist($loginlog);
-                    $em->flush();
+                    $this->get('login.listener')->checkNewbie( $user );
+
+                    $this->get('login.listener')->log( $user );
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
 
