@@ -12,7 +12,7 @@ class GameController extends Controller
 {
     
     /**
-     * @Route("/index", name="_game_index")
+     * @Route("/index", name="_game_index", requirements={"_scheme"="http"})
      */
     public function indexAction(){  
         $this->getRequest()->getSession()->set('referer', $this->generateUrl('_game_index') );

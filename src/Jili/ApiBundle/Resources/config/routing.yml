@@ -14,6 +14,7 @@ advertiserment:
     resource: "@JiliApiBundle/Controller/AdvertisermentController.php"
     prefix:   /advertiserment
     type:     annotation
+
 callboard:
     resource: "@JiliApiBundle/Controller/CallboardController.php"
     prefix:   /callboard

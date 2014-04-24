@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/top")
+ * @Route("/top", requirements={"_scheme"="http"})
  */
 class TopController extends Controller
 {
@@ -68,7 +68,7 @@ class TopController extends Controller
 
     /**
      * @Route("/event")
-     * @Template();
+     * @Template
      */
     public function eventAction()
     {
@@ -81,7 +81,7 @@ class TopController extends Controller
 
     /**
      * @Route("/ranking")
-     * @Template();
+     * @Template
      */
     public function rankingAction()
     {
@@ -97,7 +97,7 @@ class TopController extends Controller
 
     /**
      * @Route("/callboard")
-     * @Template();
+     * @Template
      */
     public function callboardAction()
     {
@@ -110,7 +110,7 @@ class TopController extends Controller
 
     /**
      * @Route("/userInfo")
-     * @Template();
+     * @Template
      */
     public function userInfoAction()
     {
@@ -130,7 +130,7 @@ class TopController extends Controller
 
     /**
      * @Route("/task")
-     * @Template();
+     * @Template
      */
     public function taskAction()
     {
@@ -141,7 +141,7 @@ class TopController extends Controller
 
     /**
      * @Route("/myTask")
-     * @Template();
+     * @Template
      */
     public function myTaskAction()
     {
@@ -159,7 +159,7 @@ class TopController extends Controller
 
     /**
      * @Route("/checkIn")
-     * @Template();
+     * @Template
      */
     public function checkInAction()
     {
@@ -173,7 +173,7 @@ class TopController extends Controller
 
     /**
      * @Route("/advertiseBanner")
-     * @Template();
+     * @Template
      */
     public function advertiseBannerAction()
     {
@@ -186,7 +186,7 @@ class TopController extends Controller
 
     /**
      * @Route("/topCheckIn")
-     * @Template();
+     * @Template
      */
     public function topCheckInAction()
     {
@@ -258,7 +258,7 @@ class TopController extends Controller
 
     /**
      * @Route("/adCheck")
-     * @Template();
+     * @Template
      */
     public function adCheckAction()
     {
@@ -269,7 +269,7 @@ class TopController extends Controller
 
     /**
      * @Route("/market")
-     * @Template();
+     * @Template
      */
     public function marketAction()
     {
