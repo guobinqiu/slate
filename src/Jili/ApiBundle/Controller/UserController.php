@@ -994,9 +994,10 @@ class UserController extends Controller
         if($code == "ok")
         {
             $code_redirect = '301';
-            if($request->request->has('referer') ) {
+            $current_url = '';
+            if( $request->request->has('referer') ) {
                 $current_url = $request->request->get('referer');
-            } 
+            }
 
             if( strlen(trim($current_url)) == 0  && $session->has('goToUrl') ) {
                 $current_url = $session->get('goToUrl');
