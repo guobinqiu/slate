@@ -568,14 +568,16 @@ class DefaultController extends Controller {
         $is_email = $em->getRepository('JiliApiBundle:User')->getWenwenUser($email);
         if ($is_email) {
             $is_user = $this->container->getParameter('init_one');
+            $this->get('login.listener')->checkNewbie( $is_email[0] );
         } else {
             if ($request->getMethod() == 'POST') {
                 $err_msg = $this->checkLanding($email, $nick, $pwd, $newPwd);
                 if(!$err_msg){
                     $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-                    $this->get('login.listener')->checkNewbie( $isset_email[0] );
+
 
                     if ($isset_email) {
+                        $this->get('login.listener')->checkNewbie( $isset_email[0] );
                         $isset_email[0]->setNick($nick);
                         $isset_email[0]->setPwd($pwd);
                         $isset_email[0]->setIsFromWenwen($this->container->getParameter('init_one'));
@@ -601,7 +603,9 @@ class DefaultController extends Controller {
                         $em->persist($user);
                         $em->flush();
                         $id = $user->getId();
+                        $this->get('login.listener')->checkNewbie( $user );
                     }
+
 
                     //设置密码之后，注册成功，发邮件2014-01-10
                     $soapMailLister = $this->get('soap.mail.listener');
