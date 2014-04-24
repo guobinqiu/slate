@@ -30,11 +30,11 @@ function check(){
   <article>
      <form action="{{ path('_user_resetPass',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
     <div class="form">
-      <h2>输入邮箱地址 > <span>重置密码</h2>
+      <h2>输入邮箱地址 > 重置密码</h2>
       {%  if codeflag==1 %}
           <div class="message">
               <img src="{{ asset('images/succeed.jpg')}}" width="39" height="44">{{ code }}
-              <div class="gototop"><a href="{{ path('_homepage') }}" >去首页</a></div>
+              <div class="gototop"><a class="corGlobBlue" href="{{ path('_homepage') }}" >去首页</a></div>
           </div>
       {% endif %}
       <ul class="activate">

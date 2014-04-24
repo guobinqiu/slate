@@ -574,7 +574,7 @@
 #indexRecommend .menu{ position:absolute; right:0; top:0;}
 #indexRecommend .menu a.more{background: url("../images140307/iconImage.png") no-repeat scroll 0 -897px; padding-left:20px;}
 #indexRecommend .menu a.more:hover{background: url("../images140307/iconImage.png") no-repeat scroll 0 -937px; color:#ff6b4f;}
-#indexRecommend ul li .model{background: #ff6b4f;width: 175px;height: 32px;color: #fff;text-align: center;position: absolute;left: 0;bottom: 0;opacity: .85;filter: alpha(opacity=85);display:none;padding:27px 21px 24px 12px;}
+#indexRecommend ul li .model{background: #ff6b4f;width: 175px;height: 33px;color: #fff;text-align: center;position: absolute;left: 0;bottom: 0;opacity: .85;filter: alpha(opacity=85);display:none;padding:27px 21px 24px 12px;}
 #indexRecommend ul li .model strong{font-size: 16px; margin-left: 10px; vertical-align: 5px;}
 #marketActivity ul {
 	padding: 10px;

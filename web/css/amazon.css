@@ -119,7 +119,6 @@ a.amazonHref{
 }
 .amazon .info{
 	background-image: url("../images/userInfoBg.png");
-	top: 1px;
 }
 .amazon .info ul li dt input.infoFinish{
 	border: 0;

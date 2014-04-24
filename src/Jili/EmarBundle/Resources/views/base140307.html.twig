@@ -29,5 +29,8 @@
 
 {% include 'JiliApiBundle::footer.html.twig' %}
 
+{% if app.session.has('uid') %}
+	{{ render(controller('JiliApiBundle:Top:checkIn' ) ) }}
+{% endif %}
 </body>
 </html>
