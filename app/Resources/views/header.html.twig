@@ -97,3 +97,7 @@ $(document).ready(function(){
       </ul>
 	  </div>
 	</div>
+{% if app.session.has('uid') %}
+	{{ render(controller('JiliApiBundle:Top:checkIn' ) ) }}
+{% endif %}
+<div class="blackBg"></div>
