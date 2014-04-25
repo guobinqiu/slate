@@ -6,6 +6,7 @@ _login:
 _logout:
     path: /logout
     defaults: { _controller: JiliApiBundle:User:logout}
+    schemes:  [http]
 
 _homepage:
     path: /
