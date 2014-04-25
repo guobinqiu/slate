@@ -33,9 +33,6 @@ use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 
-/**
- * @Route(requirements={"_scheme"="http"})
- */
 class CheckinController extends Controller
 {
 	/**
@@ -114,7 +111,7 @@ class CheckinController extends Controller
 	}
 
 	/**
-	 * @Route("/location",name="_checkin_location",requirements={"_scheme"="http"})
+	 * @Route("/location",name="_checkin_location")
 	 */
 	public function locationAction()
 	{
@@ -150,7 +147,7 @@ class CheckinController extends Controller
 	}
 
 	/**
-	 * @Route("/checkinInfo",name="_checkin_checkinInfo",requirements={"_scheme"="http"})
+	 * @Route("/checkinInfo",name="_checkin_checkinInfo")
 	 */
 	public function checkinInfoAction()
 	{

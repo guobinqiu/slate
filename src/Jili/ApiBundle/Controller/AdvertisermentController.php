@@ -20,13 +20,10 @@ use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 use Jili\ApiBundle\Entity\UserAdvertisermentVisit;
 
-/**
- * @Route( requirements={"_scheme" = "http"})
- */
 class AdvertisermentController extends Controller
 {
 	/**
-	 * @Route("/info/{id}", requirements={"id" = "\d+"},name="_advertiserment_index")
+	 * @Route("/info/{id}", requirements={"id" = "\d+"},name="_advertiserment_index", requirements={"_scheme"="https"})
 	 */
 	public function infoAction($id)
 	{
@@ -85,7 +82,7 @@ class AdvertisermentController extends Controller
 	}
 
 	/**
-	 * @Route("/list", name="_advertiserment_list")
+	 * @Route("/list", name="_advertiserment_list", requirements={"_scheme"="http"})
 	 */
 	public function listAction(){
         if(!  $this->get('request')->getSession()->get('uid') ) {
@@ -121,7 +118,7 @@ class AdvertisermentController extends Controller
 	}
 
     /**
-     * @Route("/offer99", name="_advertiserment_offer99")
+     * @Route("/offer99", name="_advertiserment_offer99", requirements={"_scheme"="http"})
      */
     public function offer99Action(){
         if(!  $this->get('request')->getSession()->get('uid') ) {
@@ -148,7 +145,7 @@ class AdvertisermentController extends Controller
 
 
 	/**
-	 * @Route("/click", name="_advertiserment_click")
+     * @Route("/click", name="_advertiserment_click")
 	 */
     public function clickAction(){
         if(!$this->get('request')->getSession()->get('uid')){
