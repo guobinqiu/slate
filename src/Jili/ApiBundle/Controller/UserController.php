@@ -1544,15 +1544,14 @@ class UserController extends Controller
     						$arr['code_pwd']  = $code_pwd;
     					}else{
     						if($pwd == $que_pwd){
-    							$this->get('request')->getSession()->set('uid',$id);
-    							$this->get('request')->getSession()->set('nick',$user->getNick());
+                                $this->get('login.listener')->checkNewbie($user);
     							$user->setPwd($request->request->get('pwd'));
+                                $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
+                                $user->setLastLoginIp($request->getClientIp());
     							$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
     							$em->persist($user);
     							$em->persist($setPasswordCode);
     							$em->flush();
-//         							return $this->redirect($this->generateUrl('_user_regSuccess'));
-
                                 //设置密码之后，注册成功，发邮件2014-01-10
                                 $soapMailLister = $this->get('soap.mail.listener');
                                 $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
@@ -1566,8 +1565,9 @@ class UserController extends Controller
                                     );
                                 $soapMailLister->sendSingleMailing($recipient_arr);
 
+    							$request->getSession()->set('uid',$id);
+    							$request->getSession()->set('nick',$user->getNick());
                                 // The user was insert when regAction 
-                                $this->get('login.listener')->checkNewbie($user);
                                 $this->get('login.listener')->log($user);
 
     							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
