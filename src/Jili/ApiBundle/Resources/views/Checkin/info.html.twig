@@ -84,6 +84,9 @@ var type = "{{ type }}";
 	var u = "";
 {% endif %}
 $(document).ready(function(){
+    if (location.protocol == 'https:') {
+      location.href = location.href.replace(/^https:/, 'http:');
+    }
 	init(u,type);
 	changeWindow();
 	$(window).resize(function() {
