@@ -73,16 +73,16 @@
     {% endif %}
 
     <div id="getMallList">
-        {{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 12, 'tmpl': 'top' } ) ) }}
+        {{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 12, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
     </div><!-- eof getMallList -->
     
     <div id="indexRecommend">
-        {{ render(controller('JiliEmarBundle:Ghs:promotion', {'max': 6, 'tmpl': 'top', 'p': 1 }) ) }} 
+        {{ render(controller('JiliEmarBundle:Ghs:promotion', {'max': 6, 'tmpl': 'top', 'p': 0 }) ) }}{# 超值低价 #}
     </div><!-- eof indexRecommend -->
 
     <div id="marketActivity">
         {# render(controller('JiliEmarBundle:Hotactivity:hot', {'max': 3, 'tmpl': 'top' } )) #}
-        {{ render(controller('JiliApiBundle:Top:market' ) ) }}
+        {{ render(controller('JiliApiBundle:Top:market' ) ) }}{# 商家活动 #}
     </div><!-- eof marketActivity -->
   </div><!-- w615 side -->
  
