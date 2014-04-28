@@ -23,7 +23,7 @@ use Jili\ApiBundle\Entity\UserAdvertisermentVisit;
 class AdvertisermentController extends Controller
 {
 	/**
-	 * @Route("/info/{id}", requirements={"id" = "\d+"},name="_advertiserment_index", requirements={"_scheme"="https"})
+	 * @Route("/info/{id}", requirements={"id" = "\d+"},name="_advertiserment_index", requirements={"_scheme"="http"})
 	 */
 	public function infoAction($id)
 	{
