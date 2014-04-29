@@ -1187,7 +1187,7 @@ class AdminController extends Controller
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
-        $callboard = new Callboard();
+        $callboard = new CallBoard();
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         $title = $request->request->get('title');
