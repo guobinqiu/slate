@@ -322,22 +322,26 @@ class UserRepository extends EntityRepository {
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
-    public function addPointHistorySearch($start, $end , $category_type="" ) {
+    public function addPointHistorySearch($start, $end, $category_type) {
         $sql0 = "";
         $sql1 = "";
         $sql2 = "";
         if($category_type){
             $sql0 = " category_type = ".$category_type;
         }else{
-            $sql0 = " (category_type = 90 or category_type = 21)"; //90:手动返还积分  21：活动送积分
+            $sql0 = " 1=1"; //90:手动返还积分  21：活动送积分
         }
         if($start){
-        	$start = $start." 00:00:00";
+            $start = $start." 00:00:00";
             $sql1 = " and date >= '".$start."'";
+        }else{
+            $sql1 = " and date >= '".date('Y-m-d')." 00:00:00'";
         }
         if($end){
-        	$end = $end." 23:59:59";
+            $end = $end." 23:59:59";
             $sql2 = " and date <= '".$end."'";
+        }else{
+            $sql2 = " and date <= '".date('Y-m-d')." 23:59:59'";
         }
 
         $sql = "select a.id, a.email,b.point,b.category_type,b.task_name,b.date from user a inner join
