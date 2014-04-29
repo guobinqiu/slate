@@ -15,13 +15,22 @@ class SchemeTest extends WebTestCase
             200,
             $client->getResponse()->getStatusCode()
         );
+        $this->assertFalse($client->getRequest()->isSecure() );
 
-var_dump($client->getRequest()->isSecure());
-die();
-        $cn  = get_class($client->getRequest());
-        $cm = get_class_methods($cn);
-        var_dump($cn);
-        print_r($cm);
+        // http://{hostname}/login will redirect to https://{hostname}/login
+        $crawler = $client->request('GET', '/login');
+        $this->assertEquals(
+            301,
+            $client->getResponse()->getStatusCode()
+        );
+        $this->assertFalse($client->getRequest()->isSecure() );
+        $client->followRedirect();
+        $this->assertEquals(
+            200,
+            $client->getResponse()->getStatusCode()
+        );
+        $this->assertTrue($client->getRequest()->isSecure() );
+
         //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
     }
 }

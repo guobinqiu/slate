@@ -11,6 +11,7 @@ use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Form\CaptchaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\TaskOrder;
 use Jili\ApiBundle\Entity\PointsExchange;
@@ -42,13 +43,11 @@ use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 
-/**
- * @Route( requirements={"_scheme" = "http"})
- */
 class UserController extends Controller
 {
 	/**
 	* @Route("/createFlag", name="_user_createFlag")
+    * @Method("POST")
 	*/
 	public function createFlagAction(){	
 		$code = '';
@@ -211,6 +210,7 @@ class UserController extends Controller
 
     /**
      * @Route("/getCity", name="_user_getCity")
+     * @Method("POST")
      */
     public function getCityAction()
     {
@@ -413,6 +413,7 @@ class UserController extends Controller
 
     /**
      * @Route("/isExistInfo", name="_user_isExistInfo")
+     * @Method("POST")
      */
     public function isExistInfoAction(){
         $code = '';
@@ -437,6 +438,7 @@ class UserController extends Controller
 
     /**
      * @Route("/province", name="_user_province")
+     * @Method("POST")
      */
     public function provinceAction(){
         $arr = array();
@@ -450,6 +452,7 @@ class UserController extends Controller
 
     /**
      * @Route("/hobby", name="_user_hobby")
+     * @Method("POST")
      */
     public function hobbyAction(){
         $arr = array();
@@ -463,6 +466,7 @@ class UserController extends Controller
 
     /**
      * @Route("/income", name="_user_income")
+     * @Method("POST")
      */
     public function incomeAction(){
         $arr = array();
@@ -477,6 +481,7 @@ class UserController extends Controller
 
     /**
      * @Route("/userInfo", name="_user_userInfo")
+     * @Method("POST")
      */
     public function userInfoAction(){
         $arr = array();
@@ -532,6 +537,7 @@ class UserController extends Controller
 
     /**
      * @Route("/registerReward", name="_user_registerReward")
+     * @Method("POST")
      */
     public function registerRewardAction(){
         $code = array();
@@ -682,6 +688,7 @@ class UserController extends Controller
 
     /**
      * @Route("/isNewMs/{id}", name="_user_isNewMs")
+     * @Method({ "GET", "POST"})
      */
     public function isNewMsAction($id)
     {
@@ -1249,6 +1256,8 @@ class UserController extends Controller
 			$em->flush();
 			// 					echo 'success';
 			return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user_email[0]->getId()),true));
+		}else{
+			return $this->render('JiliApiBundle::error.html.twig');
 		}
 	}
 	
@@ -1644,7 +1653,7 @@ class UserController extends Controller
         $logger = $this->get('logger');
 
 
-        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($user, true));
+#        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($user, true));
 
         $this->get('login.listener')->checkNewbie($user);
         $this->get('login.listener')->log($user);
@@ -1807,6 +1816,7 @@ class UserController extends Controller
 
 	/**
 	* @Route("/countMs", name="_user_countMs")
+    * @Method("POST")
 	*/
 	public function countMsAction(){
 		$notRead = $this->container->getParameter('init');

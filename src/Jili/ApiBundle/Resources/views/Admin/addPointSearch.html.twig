@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META http-equiv=Content-Type content="text/html; charset=utf8">
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<SCRIPT src="{{ asset('js/load.js')}}" type=text/javascript></SCRIPT>
+<script src="{{ asset('js/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#select").click(function (){
+      window.location.href="{{ path('_admin_addPointSearch') }}?start="+$('#start').val()+"&end="+$('#end').val()+"&category_id="+$('#category_id').val();
+  })
+});
+</script>
+</HEAD>
+<BODY>
+<form action="{{ path('_admin_exchangeCsvWen')}}" method="post" id="form1"}} >
+<table align="center" width="1024">
+<tr><td colspan="7">&nbsp;</td></tr>
+<tr><td colspan="7">&nbsp;</td></tr>
+<tr><td colspan="7" align="center">
+手动增加积分类型:
+<select id="category_id" name="category_id">
+<option value="0">请选择</option>
+<option value="90" {% if category_id == 90 %} selected = "selected" {% endif %}>手动返还积分</option>
+<option value="21" {% if category_id == 21 %} selected = "selected" {% endif %}>活动送积分</option>
+</select>&nbsp;&nbsp;
+开始时间:<input id="start" name="start_time" value="{% if start %}{{ start }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
+&nbsp;结束时间:<input name="end_time" id="end" value="{% if end %}{{ end }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>&nbsp;
+<input type="button" id="select" name="select" value="查 询"/>&nbsp;</td></tr>
+<tr><td colspan="7">&nbsp;</td></tr>
+    	<tr>
+        	<th>user id</th>
+            <th>email</th>
+            <th>point</th>
+            <th>category type</th>
+            <th>task name</th>
+            <th>time</th>
+        </tr>
+        {% if pagination %}
+         {% for item in pagination %}
+        <tr>
+          <td align="center">{{ item.id }}</td>
+          <td align="center">{{ item.email }}</td>
+          <td align="center">{{ item.point }}</td>
+          <td align="center">{{ item.category_type }}</td>
+          <td align="center">{{ item.task_name }}</td>
+          <td align="center">{{ item.date }}</td>
+        </tr>
+         {% endfor %}
+         {%  endif %}
+    </table></form>
+    {{ knp_pagination_render(pagination) }}
+
+</BODY></HTML>
