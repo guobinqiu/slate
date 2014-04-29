@@ -60,8 +60,8 @@ class GhsController extends Controller
    //     }
 
 #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total','')) . var_export( $total, true));
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'last_page','')) . var_export( $last_page, true));
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'page','')) . var_export( $page, true));
+#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'last_page','')) . var_export( $last_page, true));
+#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'page','')) . var_export( $page, true));
 
         // multiple by 2 to filter the unecessary links. 
         // NOTICE: always fetch the first page ?
@@ -69,8 +69,8 @@ class GhsController extends Controller
         $listRequest->setPageSize($max );
         $params = array('page_no' => $page);
 
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'params','')) . var_export( $params, true));
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total2','')) . var_export( $listRequest->getTotal() , true));
+#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'params','')) . var_export( $params, true));
+#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total2','')) . var_export( $listRequest->getTotal() , true));
         $uid = $request->getSession()->get('uid');
         $list = $listRequest->setApp('search')->fetchDistinct( $params );
 

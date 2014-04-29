@@ -21,18 +21,11 @@ class DefaultController extends Controller
         $logger = $this->get('logger');
         $session = $request->getSession();
         $url = $request->get('m');
-#         $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
+#        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
+
         // check login
         if($session->has('uid')){
-            if( false !== strpos($url, 'APIMemberId') ) {
-                $url = str_replace('APIMemberId', $session->get('uid') , $url );
-#         $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
-            }  else if( 1===preg_match("/&e=(\d+)/i", $url,$m) && count($m) === 2 && $m[1] !== $session->get('uid') ) {
-                $url = str_replace($m[0], '&e='.$session->get('uid') , $url );
-#         $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
-            } else {
-                return $this->redirect($this->generateUrl('_homepage') );
-            }
+           $url= str_replace('APIMemberId', $session->get('uid') , $url );
             return $this->redirect( $url, 302);
         } else {
             $session->set('referer', $url);
