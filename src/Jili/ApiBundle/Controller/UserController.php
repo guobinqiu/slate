@@ -1256,6 +1256,8 @@ class UserController extends Controller
 			$em->flush();
 			// 					echo 'success';
 			return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user_email[0]->getId()),true));
+		}else{
+			return $this->render('JiliApiBundle::error.html.twig');
 		}
 	}
 	
