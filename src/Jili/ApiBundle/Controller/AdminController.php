@@ -3695,7 +3695,7 @@ class AdminController extends Controller
         if($request->query->get('category_id')){
             $category_id = $request->query->get('category_id');
         };
-        $result = $em->getRepository('JiliApiBundle:user')->addPointHistorySearch($start_time,$end_time,$category_id);
+        $result = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id);
         $paginator  = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate(
                   $result,
