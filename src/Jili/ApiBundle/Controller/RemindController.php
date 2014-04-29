@@ -69,6 +69,7 @@ class RemindController extends Controller {
 			'is_test' => 'false'
 		));
 
+        $return = false;
 		foreach ($user as $item) {
 			$recipient_arr = array (
 				array (
