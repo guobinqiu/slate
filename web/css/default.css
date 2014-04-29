@@ -1,12 +1,8 @@
 /* CSS Document */
-html, body {
-    height: 100%;
-}
 * {
     border: 0 none;
     margin: 0;
     padding: 0;
-    vertical-align: baseline;
 }
 body {
 	background-color:#f6f6f6;
