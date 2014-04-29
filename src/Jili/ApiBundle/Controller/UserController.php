@@ -547,8 +547,6 @@ class UserController extends Controller
         $month_income = '';
         $request = $this->get('request');
         $id = $request->getSession()->get('uid');
-        // if(!$id)
-        // 	return $this->redirect($this->generateUrl('_default_index'));
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
         $sex = $request->request->get('sex');
@@ -1256,6 +1254,8 @@ class UserController extends Controller
 			$em->flush();
 			// 					echo 'success';
 			return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user_email[0]->getId()),true));
+		}else{
+			return $this->render('JiliApiBundle::error.html.twig');
 		}
 	}
 	

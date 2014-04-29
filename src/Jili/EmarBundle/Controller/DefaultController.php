@@ -21,7 +21,8 @@ class DefaultController extends Controller
         $logger = $this->get('logger');
         $session = $request->getSession();
         $url = $request->get('m');
-#         $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
+#        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
+
         // check login
         if($session->has('uid')){
            $url= str_replace('APIMemberId', $session->get('uid') , $url );

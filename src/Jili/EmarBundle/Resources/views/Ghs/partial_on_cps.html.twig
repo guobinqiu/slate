@@ -38,7 +38,7 @@
          <span class="price fl">¥{{ row.ghs_price }}<em class="fontNormal corLightGray">¥{{ row.ori_price }}</em></span>
          <span class="fl fontNormal corLightGray">总销量：<em class="corLightRed">{{ row.bought }}件</em></span>
          <div class="buyBtn" style="display: none;">
-       	    <a href="{{ path('jili_emar_default_redirect')  ~ '?m=' ~ row.ghs_o_url  }}" target="_blank">立即抢购</a>
+       	    <a href="{{ path('jili_emar_default_redirect')  ~ '?m=' ~ row.ghs_o_url|url_encode  }}" target="_blank">立即抢购</a>
          </div>
         </dd>
       </li>

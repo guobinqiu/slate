@@ -165,15 +165,11 @@ function isExistInfo(){
             url: "{{ path('_user_isExistInfo') }}",
             type: "POST",
             success:function(data){
-                console.log("data1");
-                console.log(data);
                 if(data==1){
                   $.ajax({
                         url: "{{ path('_default_infoVisit') }}",
                         type: "POST",
                         success:function(data){
-                            console.log("data2");
-                            console.log(data);
                             if(data==1){
                                  amazonReward();
                             }
