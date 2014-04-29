@@ -3588,9 +3588,6 @@ class AdminController extends Controller
             return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
         }
 
-        //90:手动返回积分  21:活动送积分
-        $categoryId = $request->get('categoryId');
-
         //打开上传的文件
         $handle = fopen($path,'r');
         if (!$handle) {
@@ -3606,26 +3603,27 @@ class AdminController extends Controller
             $arr['code'][] = "指定日志文件不能打开，操作中断!";
             return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
         }
-        while ($data = fgetcsv($handle)){
-            $user_list[] = $data;
 
-            if( $data ){
-                //$email,$point,$task_name
-                $return = $this->updatePoint($data[0],$data[1],$data[2],$categoryId);
+        $i=0;
+        fwrite($log_handle, "email,point,task_name,category_type,task_type\n");
+        while ($data = fgetcsv($handle)){
+            if( $i!=0 && $data ){
+                //email,point,task_name,category_type,task_type
+                $return = $this->updatePoint($data);
                 if($return){
-                    $code[] = $return;
-                    fwrite($log_handle, $data[0].",".$data[1].",".$data[2].","."用户不存在\n");
+                    $code[] = $data['0']." ".$return;
+                    fwrite($log_handle, implode(",", $data).",".$return."\n");
                 }else{
-                    fwrite($log_handle, $data[0].",".$data[1].",".$data[2].","."积分导入成功\n");
+                    fwrite($log_handle, implode(",", $data).","."积分导入成功\n");
                 }
             }
+            $i++;
         }
         fclose($handle);
         fclose($log_handle);
 
         if ($code) {
             $code[] = "以上用户积分导入失败";
-            $arr['success'] = "积分导入失败";
         }else{
             $arr['success'] = "积分导入成功";
         }
@@ -3634,8 +3632,21 @@ class AdminController extends Controller
     }
 
     //更新point: user, point_history , task_history
-    private function updatePoint($email, $point, $task_name, $categoryId){
+    private function updatePoint($data){
+        //email,point,task_name,category_type,task_type
+        $email = $data[0];
+        $point = $data[1];
+        $task_name = $data[2];
+        $category_type = $data[3];
+        $task_type = $data[4];
+
         $message = "";
+
+        if(!($email && $point && $task_name && $category_type && $task_type)){
+            $message = "缺少必须项目";
+            return $message;
+        }
+
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->getUserByEmail($email);
         if($user){
@@ -3650,7 +3661,7 @@ class AdminController extends Controller
             $params = array (
                 'userid' => $userId,
                 'point' => $point,
-                'type' => $categoryId,//90:手动返回积分  21:活动送积分
+                'type' => $category_type,//90:手动返回积分  21:活动送积分 ...
             );
             $pointLister = $this->get('general_api.point_history');
             $pointLister->get($params);
@@ -3659,8 +3670,8 @@ class AdminController extends Controller
             $params = array (
                 'userid' => $userId,
                 'orderId' => 0,
-                'taskType' => 4,
-                'categoryType' => $categoryId,//90:手动返回积分  21:活动送积分
+                'taskType' => $task_type,
+                'categoryType' => $category_type,//90:手动返回积分  21:活动送积分...
                 'task_name' => $task_name,
                 'point' => $point,
                 'date' => date_create(date('Y-m-d H:i:s')),
@@ -3669,7 +3680,7 @@ class AdminController extends Controller
             $taskLister = $this->get('general_api.task_history');
             $taskLister->init($params);
         }else{
-            $message = $email;
+            $message = "账号不存在";
         }
 
         return $message;
@@ -3695,6 +3706,10 @@ class AdminController extends Controller
         if($request->query->get('category_id')){
             $category_id = $request->query->get('category_id');
         };
+
+        //所有类型
+        $categoryList = $em->getRepository('JiliApiBundle:AdCategory')->getCategoryList();
+
         $result = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id);
         $paginator  = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate(
@@ -3706,6 +3721,7 @@ class AdminController extends Controller
         $arr['start'] = $start_time;
         $arr['end'] = $end_time;
         $arr['category_id'] = $category_id;
+        $arr['categoryList'] = $categoryList;
         return $this->render('JiliApiBundle:Admin:addPointSearch.html.twig',$arr);
 
     }

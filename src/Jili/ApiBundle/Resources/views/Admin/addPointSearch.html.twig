@@ -18,15 +18,16 @@ $(document).ready(function(){
 </HEAD>
 <BODY>
 <form action="{{ path('_admin_exchangeCsvWen')}}" method="post" id="form1"}} >
+<p>注：时间不选择，默认为取今天的数据</p>
 <table align="center" width="1024">
-<tr><td colspan="7">&nbsp;</td></tr>
 <tr><td colspan="7">&nbsp;</td></tr>
 <tr><td colspan="7" align="center">
 手动增加积分类型:
 <select id="category_id" name="category_id">
 <option value="0">请选择</option>
-<option value="90" {% if category_id == 90 %} selected = "selected" {% endif %}>手动返还积分</option>
-<option value="21" {% if category_id == 21 %} selected = "selected" {% endif %}>活动送积分</option>
+{% for item in categoryList %}
+   <option value="{{ item.id }}" {% if item.id == category_id %} selected = "selected" {% endif %}>{{ item.displayName }}</option>
+{% endfor %}
 </select>&nbsp;&nbsp;
 开始时间:<input id="start" name="start_time" value="{% if start %}{{ start }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
 &nbsp;结束时间:<input name="end_time" id="end" value="{% if end %}{{ end }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>&nbsp;
@@ -54,5 +55,4 @@ $(document).ready(function(){
          {%  endif %}
     </table></form>
     {{ knp_pagination_render(pagination) }}
-
 </BODY></HTML>
