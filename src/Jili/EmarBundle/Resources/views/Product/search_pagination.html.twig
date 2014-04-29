@@ -1,6 +1,6 @@
 {% for row in products %}
         <li>
-          <dt class="image curPt"><a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.p_o_url  }}" target="_blank" ><img src="{{ row.pic_url }}" width="200" height="200" /></a></dt>
+          <dt class="image curPt"><a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.p_o_url  }}" target="_blank" ><img src="{{ row.pic_url }}" /></a></dt>
           <dd class="clearfix">
           <div class="title"><a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.p_o_url  }}" target="_blank" >{{ row.p_name  }}</a></div>
             <div class="detail">

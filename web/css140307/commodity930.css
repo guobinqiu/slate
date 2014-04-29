@@ -1,7 +1,9 @@
 ul.commodityUl{ padding:5px 0 5px 0;}
-ul.commodityUl li{background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #E8E8E8; float: left; margin-bottom: 16px; margin-right: 16px; padding: 9px; width: 200px;}
+ul.commodityUl li{background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #E8E8E8; float: left; margin-bottom: 16px; margin-right: 16px; padding: 9px; width: 200px; height: 310px;}
 ul.commodityUl li:hover{ box-shadow:0 0 3px #CCC;}
-ul.commodityUl li dt{ width:200px; height:200px; overflow:hidden; position:relative;}
+ul.commodityUl li dt{ width: 200px;height: 200px;overflow: hidden;position: relative;line-height: 200px;}
+ul.commodityUl li dt a{display: table-cell;text-align: center;width: 200px;vertical-align: middle;height: 200px;}
+ul.commodityUl li dt a img{ max-width:200px; max-height:200px;}
 ul.commodityUl li dt a.shop{ background-color: rgba(255, 255, 255, 0.75); bottom: 5px; color: #000000; display: inline-block; left: 5px; padding: 2px 5px; position: absolute; cursor:pointer;}
 ul.commodityUl li dd{ margin:10px 0 0 0; width:100%; float:left;}
 ul.commodityUl li dd div.title{ height:40px; line-height:20px; overflow:hidden; color:#666; margin-bottom:5px; width:100%;}
@@ -12,4 +14,5 @@ ul.commodityUl li dd div.detail .price strong{font-size:20px; font-weight:bold;}
 ul.commodityUl li dd div.detail span.shop{ color:#ff4400;}
 ul.commodityUl li dd div.detail span.rebate em{ color:}
 ul.commodityUl li dt img:hover{opacity:0.8;filter:alpha(opacity=80)}
+
 ul.commodityUl li dd div.detail span.rebate{position: absolute; white-space: nowrap; top: 0px; right: 0px;}
