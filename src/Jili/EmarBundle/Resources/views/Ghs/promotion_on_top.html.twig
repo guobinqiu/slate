@@ -63,23 +63,11 @@ $(document).ready(function(){
 							msg += "<li>";
                         }
 						if ( data2.href == "{{ path('_user_login')  }}" ){
-                        msg += '<p class="image"><a href="'+data2.href+'" ><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="name">'+data2.name+'</p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">￥'+data2.pri0+'</del>';
-                        if( data2.dis > 0 ) {
-                          msg += '<span class="discount corLightGray">返利最高<br/><span class="corGlobRed">'+data2.dis+'%</span></span>';
-                        }
+                        msg += '<p class="image"><a href="'+data2.href+'" ><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="name">'+data2.name+'</p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">¥'+data2.pri0+'</del>';
                         msg += '</p>'+'<p class="corLightGray">销量'+data2.buy+'件</p>';
-						msg += '<div class="model hoverView curPt">';
-					    msg += '<a href="'+ data2.href+'" ><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>';
- 				
 						} else {
-                            msg += '<p class="image"><a href="'+data2.href+'" target="_blank" rel="nofollow"><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="name">'+data2.name+'</p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">￥'+data2.pri0+'</del>';
-                        if( data2.dis > 0 ) {
-                          msg += '<span class="discount corLightGray">返利最高<br/><span class="corGlobRed">'+data2.dis+'%</span></span>';
-                        }
-
+                            msg += '<p class="image"><a href="'+data2.href+'" target="_blank" rel="nofollow"><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="name">'+data2.name+'</p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">¥'+data2.pri0+'</del>';
                             msg +='</p><p class="corLightGray">销量'+data2.buy+'件</p>';
-							  msg += '<div class="model hoverView curPt">';
-							  msg += '<a href="'+ data2.href+'" target="_blank" rel="nofollow"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>'; 
  						}					
 						 msg += '</div></li>';
            			  }
@@ -120,16 +108,9 @@ $(document).ready(function(){
                   <a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.ghs_o_url|url_encode }}" target="_blank" rel="nofollow">
                  <img src="{{ row.pic_url }}" height="auto" width="200"></a></p>
 			 <p class="name">{{ row.p_name }}</p>
-             <p class="price"><span class="price1">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray">原价￥{{ row.ori_price }}</del>
-
-        {% if  row.discount > 0 %}
-           <span class="discount corLightGray">返利最高<br/><span class="corGlobRed">{{ row.discount * emar_cps_default_rebate / 100 |round(2)  }}%</span></span>
-        {% endif %}
+             <p class="price"><span class="price1 fontOrig">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray font14 fontOrig">¥{{ row.ori_price }}</del>
              </p> 
                  <p class="corLightGray">销量{{ row.bought }}件</p>
-				 <div class="model hoverView curPt">
-				  <a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.ghs_o_url|url_encode }}" target="_blank" rel="nofollow"><span><img src="{{ asset('images140307/iconGlass.png') }}" width="23" height="23"></span><strong class="corWhite">去看看</strong></a>
-				 </div>
              </li>
          {% endfor %}
          </span>
