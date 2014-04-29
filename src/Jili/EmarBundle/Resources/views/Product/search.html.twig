@@ -27,7 +27,7 @@
 {% block header %}
   {% embed "::header.html.twig" %}
     {% block search_box %}
-        {{ render( controller('JiliEmarBundle:Search:form', { 'qs': app.request.query.all } )) }}
+    {{ render( controller('JiliEmarBundle:Search:form', { 'qs': app.request.query.all  } )) }}
     {% endblock %}
   {% endembed %}
 {% endblock %}
