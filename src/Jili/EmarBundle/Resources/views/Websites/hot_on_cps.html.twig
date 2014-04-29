@@ -12,6 +12,8 @@
               </p>
               {% if row.commission > 0 %}
                   <p class="rebate">最高返<em>{{  row.commission }}%</em></p>
+              {% else %}
+              	  <p class="rebate">&nbsp;</p>
               {% endif %}
     
             </li>
