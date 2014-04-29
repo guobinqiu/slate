@@ -3605,7 +3605,7 @@ class AdminController extends Controller
         }
 
         $i=0;
-        fwrite($log_handle, "email,point,task_name,category_type,task_type\n");
+        fwrite($log_handle, "user_id,email,point,task_name,category_type,task_type\n");
         while ($data = fgetcsv($handle)){
             if( $i!=0 && $data ){
                 //user_id,email,point,task_name,category_type,task_type
