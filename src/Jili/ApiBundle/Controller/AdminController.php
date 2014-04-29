@@ -3573,7 +3573,6 @@ class AdminController extends Controller
         //判断是否是csv文件
         $format = explode(".", $file['name']);
         if($format[1] != "csv"){
-            $arr['success'] = 2;
             $arr['code'][] = "请上传csv格式，文件编码为utf-8的文件";
             return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
         }
@@ -3585,8 +3584,7 @@ class AdminController extends Controller
         $log_path = $log_dir."/"."point_import_".$fileName."_log.csv";
 
         if(!move_uploaded_file($file['tmp_name'],$path)){
-            $arr['success'] = 2;
-            $code[] = "上传文件失败";
+            $arr['code'][] = "上传文件失败";
             return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
         }
 
@@ -3597,8 +3595,7 @@ class AdminController extends Controller
         $handle = fopen($path,'r');
         if (!$handle) {
             //die("指定文件不能打开，操作中断!");
-            $arr['success'] = 2;
-            $code[] = "指定文件不能打开，操作中断!";
+            $arr['code'][] = "指定文件不能打开，操作中断!";
             return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
         }
 
@@ -3606,8 +3603,7 @@ class AdminController extends Controller
         $log_handle = fopen($log_path,'w');
         if (!$log_handle) {
             //die("指定文件不能打开，操作中断!");
-            $arr['success'] = 2;
-            $code[] = "指定日志文件不能打开，操作中断!";
+            $arr['code'][] = "指定日志文件不能打开，操作中断!";
             return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
         }
         while ($data = fgetcsv($handle)){
@@ -3630,9 +3626,9 @@ class AdminController extends Controller
         if ($code) {
             $code[] = "以上用户积分导入失败";
             $arr['success'] = "积分导入失败";
+        }else{
+            $arr['success'] = "积分导入成功";
         }
-
-        $arr['success'] = "积分导入成功";
         $arr['code'] = $code;
         return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
     }
