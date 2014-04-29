@@ -27,3 +27,8 @@ monolog:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
+
+parameters:
+# NOTICE: product config use demo one. 
+    emar_com.app_AppKey: %emar_com.demo.AppKey% 
+    emar_com.app_AppSecret: %emar_com.demo.AppSecret%

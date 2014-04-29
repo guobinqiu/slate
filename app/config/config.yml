@@ -123,6 +123,8 @@ gregwar_captcha:
         as_url: true
 
 parameters:
+    emar_com.app_AppKey: %emar_com.cron.AppKey% 
+    emar_com.app_AppSecret: %emar_com.cron.AppSecret%
     campaign_multiple: 1
     admin_home_ip: 192.168.1.198
     admin_vpn_ip: 210.175.54.14
