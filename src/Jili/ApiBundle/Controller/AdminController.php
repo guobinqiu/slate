@@ -3608,10 +3608,10 @@ class AdminController extends Controller
         fwrite($log_handle, "email,point,task_name,category_type,task_type\n");
         while ($data = fgetcsv($handle)){
             if( $i!=0 && $data ){
-                //email,point,task_name,category_type,task_type
+                //user_id,email,point,task_name,category_type,task_type
                 $return = $this->updatePoint($data);
                 if($return){
-                    $code[] = $data['0']." ".$return;
+                    $code[] = $data['0'].$data['1']." ".$return;
                     fwrite($log_handle, implode(",", $data).",".$return."\n");
                 }else{
                     fwrite($log_handle, implode(",", $data).","."积分导入成功\n");
@@ -3633,55 +3633,62 @@ class AdminController extends Controller
 
     //更新point: user, point_history , task_history
     private function updatePoint($data){
-        //email,point,task_name,category_type,task_type
-        $email = $data[0];
-        $point = $data[1];
-        $task_name = $data[2];
-        $category_type = $data[3];
-        $task_type = $data[4];
+        //user_id,email,point,task_name,category_type,task_type
+        $user_id = $data[0];
+        $email = $data[1];
+        $point = $data[2];
+        $task_name = $data[3];
+        $category_type = $data[4];
+        $task_type = $data[5];
 
         $message = "";
 
-        if(!($email && $point && $task_name && $category_type && $task_type)){
+        if(!(($user_id || $email) && $point && $task_name && $category_type && $task_type)){
             $message = "缺少必须项目";
             return $message;
         }
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->getUserByEmail($email);
-        if($user){
-            //更新user表总分数
-            $userId = $user->getId();
-            $oldPoint = $user->getPoints();
-            $user->setPoints(intval($oldPoint+$point));
-            $em->persist($user);
-            $em->flush();
-
-            //更新point_history表分数
-            $params = array (
-                'userid' => $userId,
-                'point' => $point,
-                'type' => $category_type,//90:手动返回积分  21:活动送积分 ...
-            );
-            $pointLister = $this->get('general_api.point_history');
-            $pointLister->get($params);
-
-            //更新task_history表分数
-            $params = array (
-                'userid' => $userId,
-                'orderId' => 0,
-                'taskType' => $task_type,
-                'categoryType' => $category_type,//90:手动返回积分  21:活动送积分...
-                'task_name' => $task_name,
-                'point' => $point,
-                'date' => date_create(date('Y-m-d H:i:s')),
-                'status' => 1
-            );
-            $taskLister = $this->get('general_api.task_history');
-            $taskLister->init($params);
+        $user = "";
+        if($user_id){
+            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         }else{
-            $message = "账号不存在";
+            $user = $em->getRepository('JiliApiBundle:User')->getUserByEmail($email);
         }
+        if(!$user){
+            $message = "账号不存在";
+            return $message;
+        }
+
+        //更新user表总分数
+        $userId = $user->getId();
+        $oldPoint = $user->getPoints();
+        $user->setPoints(intval($oldPoint+$point));
+        $em->persist($user);
+        $em->flush();
+
+        //更新point_history表分数
+        $params = array (
+            'userid' => $userId,
+            'point' => $point,
+            'type' => $category_type,//90:手动返回积分  21:活动送积分 ...
+        );
+        $pointLister = $this->get('general_api.point_history');
+        $pointLister->get($params);
+
+        //更新task_history表分数
+        $params = array (
+            'userid' => $userId,
+            'orderId' => 0,
+            'taskType' => $task_type,
+            'categoryType' => $category_type,//90:手动返回积分  21:活动送积分...
+            'task_name' => $task_name,
+            'point' => $point,
+            'date' => date_create(date('Y-m-d H:i:s')),
+            'status' => 1
+        );
+        $taskLister = $this->get('general_api.task_history');
+        $taskLister->init($params);
 
         return $message;
     }
