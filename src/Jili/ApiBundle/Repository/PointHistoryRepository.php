@@ -21,6 +21,16 @@ class PointHistoryRepository extends EntityRepository
 		$query =  $query->getQuery();
 		return $query->getResult();
 	}
-	
-	
+
+	public function issetInsertReward($uid)
+	{
+		$query = $this->createQueryBuilder('ph');
+		$query = $query->select('ph.id');
+		$query = $query->Where('ph.userId = :uid');
+		$query = $query->andWhere('ph.reason = 9');
+		$query = $query->setParameters(array('uid'=>$uid));
+		$query =  $query->getQuery();
+		return $query->getResult();
+	}
+
 }
