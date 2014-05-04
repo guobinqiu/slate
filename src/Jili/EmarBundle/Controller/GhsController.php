@@ -28,23 +28,23 @@ class GhsController extends Controller
 
         // store the max in session ? 
         $session = $request->getSession() ;
+        $last_page_session_key = 'ghs.list_get.'.$tmpl.'.fetched';
 
-//        $session_key = 'ghs.list_get.'.$tmpl.'.fetched';
-
-//       if( $session->has('ghs.list_get.total')) {
-//          $total = 
-//        } else {
+        if( $session->has($last_page_session_key)) {
+            $last_page =  $session->get($last_page_session_key);
+        } else {
+            $listRequest->setPageSize(1);
+            $params = array('page_no' => 1);
+            $listRequest->setApp('search')->fetchDistinct( $params );
+            $total = $listRequest->getTotal();
+            $last_page =ceil( $total/2/$max);
+            $session->set($last_page_session_key, $last_page);
+#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'','session reload'))) ;
+        }
         
-#        $listRequest->setPageSize(1);
-#        $params = array('page_no' => 1);
-#        $listRequest->setApp('search')->fetchDistinct( $params );
-#        $total = $listRequest->getTotal();
 
-
-#        $last_page =ceil( $total/$max);
-        
-        // share the data in cache file.
-        $last_page = 58;
+#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total1','')) . var_export( $total, true));
+#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'last_page1','')) . var_export( $last_page, true));
 
         if( $p > $last_page) {
             $page = $p % $last_page;
@@ -53,15 +53,12 @@ class GhsController extends Controller
                 $page  = $p;
             } else {
                 $page = mt_rand(1, $last_page);
-                // how to escape the duplicate ones ?? 
             }
         }
 
-   //     }
-
-#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total','')) . var_export( $total, true));
+#
 #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'last_page','')) . var_export( $last_page, true));
-#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'page','')) . var_export( $page, true));
+#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'max','')) . var_export( $max, true));
 
         // multiple by 2 to filter the unecessary links. 
         // NOTICE: always fetch the first page ?
@@ -70,9 +67,11 @@ class GhsController extends Controller
         $params = array('page_no' => $page);
 
 #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'params','')) . var_export( $params, true));
-#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total2','')) . var_export( $listRequest->getTotal() , true));
+
         $uid = $request->getSession()->get('uid');
         $list = $listRequest->setApp('search')->fetchDistinct( $params );
+
+#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total2','')) . var_export( $listRequest->getTotal() , true));
 
         if( $request->isXmlHttpRequest()) {
             $prds = array();
