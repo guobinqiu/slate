@@ -48,19 +48,35 @@ function alipayClick(){
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle exchange">
 <form method="post" name="exchangeForm" id="exchangeForm">
-
 	<div class="about">
-	<a class="historyExchange" href="{{  asset(path('_user_exchange',{'type': 0,'exchangeType':1}),'cdn1') }}"></a>
-	<!-- <a class="close wenwen">停止兑换</a> -->
-	<!-- <a class="await mobiel">即将开放</a> -->
-	<a class="exchangeBtn amazonBtn" id="amazonBtn">立即兑换</a>
-	<a class="exchangeBtn alipayBtn" id="alipayBtn">立即兑换</a>
-	<a class="exchangeBtn mobileBtn" id="mobileBtn">立即兑换</a>
-	<img src="{{ asset('images/exchangeContent.jpg')}}" width="813" height="270"><img src="{{ asset('images/exchangeFuture.jpg')}}">
-	<input type="hidden" value="btn" name="btn" />
+    	<div class="historyView">
+        	<p>你可以将“米粒”兑换成<span class="corLightRed">91问问调查网的积分</span>，也可以<br/>直接兑换积粒网为您开放的兑换方式，如<span class="corLightRed">手机充值</span>……</p>
+            <a class="historyExchange" href="http://www.91jili.com/user/exchange/0/1"><strong>查看我的兑换历史</strong></a>
+        </div>
+		<div class="exchangeWay">
+        	<div class="mobileWay">
+            	<h4 class="corLightRed font22">手机充值</h4>
+                <p>用积分为手机充值，<strong class="corLightRed">1015</strong>米粒起兑</p>
+                <a class="exchangeBtn" id="mobileBtn">立即兑换</a>
+            </div>
+            <div class="amazonWay">
+            	<h4 class="corLightRed font22">兑换亚马逊礼品卡</h4>
+                <p>用积分兑换亚马逊礼品卡，<strong class="corLightRed">1000</strong>米粒起兑</p>
+                <a class="exchangeBtn amazonBtn" id="amazonBtn">暂时关闭</a>
+            </div>
+            <div class="alipayWay">
+            	<h4 class="corLightRed font22">支付宝兑换现金</h4>
+                <p>用积分通过支付宝直接兑换成现金，<br/><strong class="corLightRed">3030</strong>米粒起兑</p>
+                <a class="exchangeBtn" id="alipayBtn">立即兑换</a>
+            </div>
+            <div class="morePrizes">
+            	<h4>更多奖品，敬请期待</h4>
+                <p>给到的，一定超乎想象……</p>
+            </div>
+        </div>
+	<input type="hidden" value="btn" name="btn">
 	<input type="hidden" value="{{ key }}" name="tokenKey" />
 	</div>
-	
 </form>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}

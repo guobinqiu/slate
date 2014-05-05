@@ -1,6 +1,5 @@
 /* CSS Document */
 * {
-    border: 0 none;
     margin: 0;
     padding: 0;
 }
@@ -360,3 +359,4 @@ footer section a:hover{
 	position:absolute;
 	z-index:10009;
 }
+.crumbTit{padding-bottom: 10px;height: 20px;display: inline-block; font-weight:normal;}
