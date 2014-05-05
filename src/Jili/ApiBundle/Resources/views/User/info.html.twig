@@ -109,7 +109,7 @@ $(document).ready(function(){
       {% if provinceId %}
       $.ajax({
             url: "{{ path('_user_getCity') }}?cid={{ provinceId }}",
-            post: "GET",
+            type: "POST",
             success:function(data){
               var obj = eval(data);
               for(var i=0;i<obj.length;i++){ 
@@ -139,7 +139,7 @@ $(document).ready(function(){
           {% if user.province %}
             $.ajax({
                   url: "{{ path('_user_getCity') }}?cid={{ user.province }}",
-                  post: "GET",
+                  type: "POST",
                   success:function(data){
                     var obj = eval(data);
                     for(var i=0;i<obj.length;i++){ 
@@ -203,7 +203,7 @@ function selectCity(){
   if($("#provinceInfo").val()!=0){
      $.ajax({
               url: "{{ path('_user_getCity') }}?cid="+$('#provinceInfo').val(),
-              post: "GET",
+              type: "POST",
               success:function(data){
                 var obj = eval(data);
                 for(var i=0;i<obj.length;i++){ 
