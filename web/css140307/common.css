@@ -16,6 +16,13 @@
 .fontNormal{ font-weight:normal; font-size:12px;}
 .font14{ font-size:14px;}
 .font16{ font-size:16px;}
+.font18{ font-size:18px;}
+.font20{ font-size:20px;}
+.font22{ font-size:22px;}
+.lh22{ line-height:22px;}
+.lh22{ line-height:22px;}
+.lh24{ line-height:24px;}
+.lh28{ line-height:28px;}
 h5{font-size: 1.17em;font-weight: bold;}
 strong, b{font-weight: bold;}
 .corBlack{ color:#000;}
@@ -27,6 +34,7 @@ strong, b{font-weight: bold;}
 .corGlobBlue{ color:#65b1ee;}
 .corDarkBlue{ color:#1588e5;}
 .corBrightBlue{ color: #32A5F5;}
+.corGreen{ color: #5BA603;}
 .corWhite{ color:#fff;}
 .division{ margin:0 10px; color:#ccc;}
 .module{ border:2px solid #ff6b4f;}
@@ -35,6 +43,7 @@ strong, b{font-weight: bold;}
 .postionA{ position:absolute;}
 .marginT15{ margin-top:15px;}
 .marginLR5{ margin:0 5px;}
+.marginBM5{ margin:5px 0;}
 .borderGlob{border:1px solid #e8e8e8;} 
 .dispalyBlock{ display:block;}
 .boxShadowGlobal{-moz-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;-webkit-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;box-shadow: 1px 1px 6px #ddd,1px -1px 6px #ddd;}
