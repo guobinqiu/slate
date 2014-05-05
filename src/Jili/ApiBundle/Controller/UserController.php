@@ -537,7 +537,7 @@ class UserController extends Controller
 
     /**
      * @Route("/registerReward", name="_user_registerReward")
-     * @Method("POST")
+     * @Method({"GET","POST"})
      */
     public function registerRewardAction(){
         $code = array();
