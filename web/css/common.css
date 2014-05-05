@@ -43,6 +43,36 @@ div#rule{
 .game_start a:hover{
 	background-position: 0 -96px;
 }
+.game_start_banner {
+    background: url("../images/banner-1.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    padding-bottom: 30px;
+    padding-left: 70px;
+    padding-top: 155px;
+}
+.game_start_banner p {
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 26px; 
+    padding: 25px 30px;
+    width: 360px;
+}
+.rule {
+    background: url("../images/rank.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    font-size: 14px;
+    padding-bottom: 30px;
+    padding-left: 660px;
+    padding-top: 115px;
+}
+.rule ul.ruleDetails {
+    margin-bottom: 50px;
+}
+.rule ul li {
+    line-height: 24px;
+}
+.rule span {
+    color: #A36905;
+    margin-right: 10px;
+}
 /* ++++++++++++++++++++++++++++++++++++++++++++
 　■ポイント
 ++++++++++++++++++++++++++++++++++++++++++++ */

@@ -60,12 +60,10 @@
 	font-size:18px;
 	font-weight:bold;
 	border-bottom:3px solid #eaeaea;
-	padding:5px 0;
 }
 .message h2 span{
 	color:#ff7114;
 	border-bottom:3px solid #ff7114;
-	padding:5px 0;
 }
 .message article {
     background-color: #FFFFFF;
