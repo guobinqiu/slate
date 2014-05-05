@@ -11,34 +11,38 @@
 <script type="text/javascript">
 $(document).ready(function(){
   $("#select").click(function (){
-      window.location.href="{{ path('_admin_addPointSearch') }}?start="+$('#start').val()+"&end="+$('#end').val()+"&category_id="+$('#category_id').val();
+      window.location.href="{{ path('_admin_addPointSearch') }}?start="+$('#start').val()+"&end="+$('#end').val()+"&category_id="+$('#category_id').val()+"&email="+$('#email').val()+"&user_id="+$('#user_id').val();
   })
 });
 </script>
 </HEAD>
 <BODY>
-<form action="{{ path('_admin_exchangeCsvWen')}}" method="post" id="form1"}} >
-<p>注：时间不选择，默认为取今天的数据</p>
-<table align="center" width="1024">
-<tr><td colspan="7">&nbsp;</td></tr>
+<p>注：不选择时间，默认取今天的数据</p>
+<table align="center" width="">
+<form action="{{ path('_admin_addPointSearch')}}" method="post" id="form1"}} >
+<tr><td colspan="7" align="center">&nbsp;</td></tr>
 <tr><td colspan="7" align="center">
 手动增加积分类型:
 <select id="category_id" name="category_id">
 <option value="0">请选择</option>
 {% for item in categoryList %}
-   <option value="{{ item.id }}" {% if item.id == category_id %} selected = "selected" {% endif %}>{{ item.displayName }}</option>
+   <option value="{{ item.id }}" {% if item.id == category_id %} selected = "selected" {% endif %}>{{ item.id }}-{{ item.categoryName }}{{ item.asp }}{{ item.displayName }}</option>
 {% endfor %}
 </select>&nbsp;&nbsp;
+user id:<input type="text" id="user_id" name="user_id" value="{% if user_id %}{{ user_id }}{% endif %}" size="10" />
+email:<input type="text" id="email" name="email" value="{% if email %}{{ email }}{% endif %}" size="30" />
 开始时间:<input id="start" name="start_time" value="{% if start %}{{ start }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
 &nbsp;结束时间:<input name="end_time" id="end" value="{% if end %}{{ end }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>&nbsp;
 <input type="button" id="select" name="select" value="查 询"/>&nbsp;</td></tr>
+</form>
 <tr><td colspan="7">&nbsp;</td></tr>
     	<tr>
         	<th>user id</th>
             <th>email</th>
             <th>point</th>
-            <th>category type</th>
             <th>task name</th>
+            <th>category type</th>
+            <th>task type</th>
             <th>time</th>
         </tr>
         {% if pagination %}
@@ -47,12 +51,13 @@ $(document).ready(function(){
           <td align="center">{{ item.id }}</td>
           <td align="center">{{ item.email }}</td>
           <td align="center">{{ item.point }}</td>
-          <td align="center">{{ item.category_type }}</td>
           <td align="center">{{ item.task_name }}</td>
+          <td align="center">{{ item.category_type }}</td>
+          <td align="center">{{ item.task_type }}</td>
           <td align="center">{{ item.date }}</td>
         </tr>
          {% endfor %}
          {%  endif %}
-    </table></form>
+    </table>
     {{ knp_pagination_render(pagination) }}
 </BODY></HTML>

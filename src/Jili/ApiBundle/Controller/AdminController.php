@@ -3705,19 +3705,29 @@ class AdminController extends Controller
 
         $start_time = "";
         $end_time = "";
+        $email = "";
+        $user_id = "";
         $category_id = "";
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
-        $start_time = $request->query->get('start');
-        $end_time = $request->query->get('end');
-        if($request->query->get('category_id')){
-            $category_id = $request->query->get('category_id');
+        $start_time = $request->get('start');
+        $end_time = $request->get('end');
+        $email = $request->get('email');
+        $user_id = $request->get('user_id');
+        if($request->get('category_id')){
+            $category_id = $request->get('category_id');
         };
-
         //所有类型
         $categoryList = $em->getRepository('JiliApiBundle:AdCategory')->getCategoryList();
+        // 去除不需要的类型: 8:91问问积分 10:亚马逊礼品卡 11:支付宝 12:手机费  14:名片录力 15:积分失效
+        $del = array(8,10,11,12,14,15);
+        foreach($categoryList as $key=>$value){
+            if(in_array($value['id'],$del)){
+               unset($categoryList[$key]);
+            }
+        }
 
-        $result = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id);
+        $result = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id,$email,$user_id);
         $paginator  = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate(
                   $result,
@@ -3727,6 +3737,8 @@ class AdminController extends Controller
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         $arr['start'] = $start_time;
         $arr['end'] = $end_time;
+        $arr['email'] = $email;
+        $arr['user_id'] = $user_id;
         $arr['category_id'] = $category_id;
         $arr['categoryList'] = $categoryList;
         return $this->render('JiliApiBundle:Admin:addPointSearch.html.twig',$arr);
