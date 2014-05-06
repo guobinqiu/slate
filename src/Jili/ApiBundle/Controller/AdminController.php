@@ -3550,15 +3550,12 @@ class AdminController extends Controller
         set_time_limit(1800);
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-        $success = '';
-        $code = array();
-        $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
 
         //第一次进入这个页面，还没有提交
         if ($request->getMethod('post') != 'POST') {
-            $arr['success'] = $success;
-            $arr['code'] = $code;
+            $arr['success'] = "";
+            $arr['code'] = array();
             return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
         }
 
@@ -3582,117 +3579,16 @@ class AdminController extends Controller
         $fileName= date("YmdHis");
         $path = $log_dir."/"."point_import_".$fileName.".csv";
         $log_path = $log_dir."/"."point_import_".$fileName."_log.csv";
-
         if(!move_uploaded_file($file['tmp_name'],$path)){
             $arr['code'][] = "上传文件失败";
             return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
         }
 
-        //打开上传的文件
-        $handle = fopen($path,'r');
-        if (!$handle) {
-            //die("指定文件不能打开，操作中断!");
-            $arr['code'][] = "指定文件不能打开，操作中断!";
-            return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
-        }
+        $point_manage_service = $this->get('point_manage.processor');
+        $arr = $point_manage_service->process( $path, $log_path);
 
-        //打开要写日志的文件
-        $log_handle = fopen($log_path,'w');
-        if (!$log_handle) {
-            //die("指定文件不能打开，操作中断!");
-            $arr['code'][] = "指定日志文件不能打开，操作中断!";
-            return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
-        }
-
-        $i=0;
-        fwrite($log_handle, "user_id,email,point,task_name,category_type,task_type\n");
-        while ($data = fgetcsv($handle)){
-            if( $i!=0 && $data ){
-                //user_id,email,point,task_name,category_type,task_type
-                $return = $this->updatePoint($data);
-                if($return){
-                    $code[] = $data['0'].$data['1']." ".$return;
-                    fwrite($log_handle, implode(",", $data).",".$return."\n");
-                }else{
-                    fwrite($log_handle, implode(",", $data).","."积分导入成功\n");
-                }
-            }
-            $i++;
-        }
-        fclose($handle);
-        fclose($log_handle);
-
-        if ($code) {
-            $code[] = "以上用户积分导入失败";
-        }else{
-            $arr['success'] = "积分导入成功";
-        }
-        $arr['code'] = $code;
         return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
     }
-
-    //更新point: user, point_history , task_history
-    private function updatePoint($data){
-        //user_id,email,point,task_name,category_type,task_type
-        $user_id = $data[0];
-        $email = $data[1];
-        $point = $data[2];
-        $task_name = $data[3];
-        $category_type = $data[4];
-        $task_type = $data[5];
-
-        $message = "";
-
-        if(!(($user_id || $email) && $point && $task_name && $category_type && $task_type)){
-            $message = "缺少必须项目";
-            return $message;
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $user = "";
-        if($user_id){
-            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        }else{
-            $user = $em->getRepository('JiliApiBundle:User')->getUserByEmail($email);
-        }
-        if(!$user){
-            $message = "账号不存在";
-            return $message;
-        }
-
-        //更新user表总分数
-        $userId = $user->getId();
-        $oldPoint = $user->getPoints();
-        $user->setPoints(intval($oldPoint+$point));
-        $em->persist($user);
-        $em->flush();
-
-        //更新point_history表分数
-        $params = array (
-            'userid' => $userId,
-            'point' => $point,
-            'type' => $category_type,//90:手动返回积分  21:活动送积分 ...
-        );
-        $pointLister = $this->get('general_api.point_history');
-        $pointLister->get($params);
-
-        //更新task_history表分数
-        $params = array (
-            'userid' => $userId,
-            'orderId' => 0,
-            'taskType' => $task_type,
-            'categoryType' => $category_type,//90:手动返回积分  21:活动送积分...
-            'task_name' => $task_name,
-            'point' => $point,
-            'date' => date_create(date('Y-m-d H:i:s')),
-            'status' => 1
-        );
-        $taskLister = $this->get('general_api.task_history');
-        $taskLister->init($params);
-
-        return $message;
-    }
-
 
     /**
      * @Route("/addPointSearch", name="_admin_addPointSearch")
