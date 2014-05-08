@@ -64,9 +64,13 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
    * @params: $req 是具体的 emar open.Request类.
    */
   public function exe( $req) {
+
       $tag = date('YmdHi');
 
+      $this->counter->start();
       $result_raw = $this->getConn()->execute($req);
+      $this->counter->complete();
+
       // 对返回的json 转义为有效的json string.
       $result_escaped = trim(str_replace(array( "\\","{\n", "}\n", ",\n", "]\n", "\"\n", "\n","\r","\t") , array('\\\\', '{', '}', ',', ']','"', '\n','','    ') ,trim($result_raw)));
 

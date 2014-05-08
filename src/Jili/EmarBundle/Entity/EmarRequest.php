@@ -27,6 +27,13 @@ class EmarRequest
     private $count;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="time_consumed_total", type="decimal", precision=10, scale=4, nullable=false)
+     */
+    private $timeConsumedTotal;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -81,6 +88,29 @@ class EmarRequest
     public function getCount()
     {
         return $this->count;
+    }
+
+    /**
+     * Set timeConsumedTotal
+     *
+     * @param string $timeConsumedTotal
+     * @return EmarRequest
+     */
+    public function setTimeConsumedTotal($timeConsumedTotal)
+    {
+        $this->timeConsumedTotal = $timeConsumedTotal;
+
+        return $this;
+    }
+
+    /**
+     * Get timeConsumedTotal
+     *
+     * @return string 
+     */
+    public function getTimeConsumedTotal()
+    {
+        return $this->timeConsumedTotal;
     }
 
     /**

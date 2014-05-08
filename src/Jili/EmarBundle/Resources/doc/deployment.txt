@@ -1,3 +1,13 @@
+ CREATE TABLE `emar_request` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tag` varchar(16) CHARACTER SET utf8 NOT NULL COMMENT '时间标签，YmdHi',
+  `count` int(11) NOT NULL DEFAULT '0' COMMENT '对emar api请求的次数',
+  `time_consumed_total` decimal(10,4) NOT NULL DEFAULT '0.0000' COMMENT '使用时间之和',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tag` (`tag`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- ALTER TABLE  `emar_request` ADD  `time_consumed_total` DECIMAL( 10,4 ) NOT NULL DEFAULT  0.0 COMMENT  '使用时间之和' AFTER `count`;
 
 CREATE TABLE `emar_api_return` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -1,4 +1,5 @@
 parameters:
+    emar_api_request_counter_mode: 1  
     emar:
         callback_return_code:
             failure: -1 #网站主接收失败，亿起发将尝试重发二次，如果其中一次发送成功将停止发送；如果重发二次还不能接收成功也将停止发送。

@@ -69,6 +69,7 @@ services:
        calls:
             - [setLogger, [ @logger ] ] 
             - [setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [setMode, [ %emar_api_request_counter_mode% ] ] 
 
 
     ghs.category_get:
