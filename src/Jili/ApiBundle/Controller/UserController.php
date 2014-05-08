@@ -1534,7 +1534,7 @@ class UserController extends Controller
 		}
 		$arr['pwdcode'] = $setPasswordCode;
 		$time = $setPasswordCode->getCreateTime();
-        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
+        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24*14){
         	return $this->render('JiliApiBundle::error.html.twig');
         }else{
             if($setPasswordCode->getCode() != $code){
@@ -1664,7 +1664,7 @@ class UserController extends Controller
             return false;
         }
         $time = $setPasswordCode->getCreateTime();
-        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
+        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24*14){
             return false;
         }
 
@@ -1893,7 +1893,9 @@ class UserController extends Controller
 						' <body>' .
 				        '亲爱的'.$nick.'<br/>'.
 				        '<br/>'.
-						'  感谢您注册成为“积粒网”会员！请点击<a href='.$url.' target="_blank">这里</a>，立即激活您的帐户！<br/><br/>' .
+						'  感谢您注册成为“积粒网”会员！请点击<a href='.$url.' target="_blank">这里</a>，立即激活您的帐户！<br/><br/><br/>' .
+						'  注：激活邮件有效期是14天，如果过期后不能激活，请到网站首页重新注册激活。<br/><br/>' .
+						'  ++++++++++++++++++++++++++++++++++<br/>' .
 						'  积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
 						' </body>' .
 						'</html>',
