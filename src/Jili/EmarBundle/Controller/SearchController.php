@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\EmarBundle\Form\Type\SearchGeneralType;
 
 /**
- * @Route("/search")
+ * @Route("/search", requirements={"_scheme" = "http"})
  * @Method({"GET", "POST"})
  * @Template()
  */
@@ -47,8 +47,9 @@ class SearchController extends Controller
                 $router_ = $rt_config_router[ $rt_key];
                 $url = $this->generateUrl( $router_ );
 
-                $query = array_merge( $request->query->all(), $query_params );
-                return $this->redirect( $url .'?'.http_build_query( $query));
+               // $query = array_merge( $request->query->all(), $query_params );
+
+                return $this->redirect( $url .'?'.http_build_query( $query_params));
             }
         } else {
             //notice: the keyword must not be empty !

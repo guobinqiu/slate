@@ -84,6 +84,9 @@ var type = "{{ type }}";
 	var u = "";
 {% endif %}
 $(document).ready(function(){
+    if (location.protocol == 'https:') {
+      location.href = location.href.replace(/^https:/, 'http:');
+    }
 	init(u,type);
 	changeWindow();
 	$(window).resize(function() {
@@ -159,7 +162,7 @@ function sendLoginInfo(){
     </div>
 </div>
 <div id="loginFrame">
-<form action="{{ path('_default_index') }}" method="post" name="form1" id="form1">
+<form action="{{ path('_homepage') }}" method="post" name="form1" id="form1">
 	<h2>登录</h2>
 	<div class="loginForm">
         <li class="error"></li>

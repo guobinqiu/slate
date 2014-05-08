@@ -17,10 +17,10 @@
 {% endif %}
 
 
-          {{ form_widget( form.q , {'attr': { 'type': 'text', 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
+          {{ form_widget( form.q , {'attr': { 'type': 'text', 'onkeydown': "javascript:if(event.keyCode==13){ search();}", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
 
           {{ form_widget( form.rt ) }}
-          <input type="submit" clstag="homepage|keycount|home2013|03a" onclick="search('key');return false;" class="button curPt" value="搜索">
+          <input type="submit" clstag="homepage|keycount|home2013|03a" onclick="search();return false;" class="button curPt" value="搜索">
           {{ form_rest(form)  }}
 </form>
 </div>
@@ -28,4 +28,8 @@
 var search_form_rt_config = search_form_rt_config || {};
 search_form_rt_config = {{ rt_of_search_form|json_encode|raw   }};
 
+var search = function() {
+     $('#search_box').submit();
+     return false;
+};
 </script>

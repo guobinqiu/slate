@@ -12,13 +12,11 @@
 <link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
-
 </head>
 <body>
-{% include 'JiliApiBundle::header.html.twig' %}
+{% include 'JiliApiBundle::userHead.html.twig' %}
 <div class="webArticle regStep">
   <article>
-  	<div class="step"><img src="{{ asset('images/step1.jpg')}}" width="960" height="86"></div>
     <div class="regForm" style="padding-top:100px;">
     <h2><img src="{{ asset('images/quickLogin.gif')}}" alt="快速注册"><span>通过邮箱注册，快速加入积粒网，轻轻松松拿米粒、换现金！</span></h2>
     <ul class="form"> 
@@ -64,11 +62,11 @@
     </div>
   </article>
 </div>
-{% include 'JiliApiBundle::footer.html.twig' %}
+{% include 'JiliApiBundle::userFoot.html.twig' %}
 </body>
 <script type="text/javascript">
 function refresh(){
-	 document.getElementById("verificationImg").src='{{  path('_user_captcha') }}?r='+100000*Math.random();
+	document.getElementById("verificationImg").src='{{  path('_user_captcha') }}?r='+100000*Math.random();
 }
 $(document).ready(function(){
 	$("#reg").click(function(){

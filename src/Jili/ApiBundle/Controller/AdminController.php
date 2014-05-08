@@ -66,6 +66,9 @@ use Jili\ApiBundle\Entity\SendMessage07;
 use Jili\ApiBundle\Entity\SendMessage08;
 use Jili\ApiBundle\Entity\SendMessage09;
 
+/**
+ * @Route( requirements={"_scheme" = "https"})
+ */
 class AdminController extends Controller
 {
     private function getAdminIp(){
@@ -1184,7 +1187,7 @@ class AdminController extends Controller
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
-        $callboard = new Callboard();
+        $callboard = new CallBoard();
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         $title = $request->request->get('title');
@@ -3539,5 +3542,102 @@ class AdminController extends Controller
         return new Response(1);
     }
 
+    /**
+     * @Route("/pointManage", name="_admin_addPointManage")
+     */
+    public function addPointManage()
+    {
+        set_time_limit(1800);
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+        $request = $this->get('request');
 
+        //第一次进入这个页面，还没有提交
+        if ($request->getMethod('post') != 'POST') {
+            $arr['success'] = "";
+            $arr['code'] = array();
+            return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
+        }
+
+        $file = $_FILES['csv'];
+
+         //选择文件后，提交处理
+        if (!$file['name']) {
+            $arr['code'][] = "请选择文件";
+            return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
+         }
+
+        //判断是否是csv文件
+        $format = explode(".", $file['name']);
+        if($format[1] != "csv"){
+            $arr['code'][] = "请上传csv格式，文件编码为utf-8的文件";
+            return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
+        }
+
+         //上传文件
+        $log_dir = $this->container->getParameter('file_path_admin_point_manage');
+        $fileName= date("YmdHis");
+        $path = $log_dir."/"."point_import_".$fileName.".csv";
+        $log_path = $log_dir."/"."point_import_".$fileName."_log.csv";
+        if(!move_uploaded_file($file['tmp_name'],$path)){
+            $arr['code'][] = "上传文件失败";
+            return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
+        }
+
+        $point_manage_service = $this->get('point_manage.processor');
+        $arr = $point_manage_service->process( $path, $log_path);
+
+        return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
+    }
+
+    /**
+     * @Route("/addPointSearch", name="_admin_addPointSearch")
+     */
+    public function addPointSearch()
+    {
+        set_time_limit(1800);
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+
+        $start_time = "";
+        $end_time = "";
+        $email = "";
+        $user_id = "";
+        $category_id = "";
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $start_time = $request->get('start');
+        $end_time = $request->get('end');
+        $email = $request->get('email');
+        $user_id = $request->get('user_id');
+        if($request->get('category_id')){
+            $category_id = $request->get('category_id');
+        };
+        //所有类型
+        $categoryList = $em->getRepository('JiliApiBundle:AdCategory')->getCategoryList();
+        // 去除不需要的类型: 8:91问问积分 10:亚马逊礼品卡 11:支付宝 12:手机费  14:名片录力 15:积分失效
+        $del = array(8,10,11,12,14,15);
+        foreach($categoryList as $key=>$value){
+            if(in_array($value['id'],$del)){
+               unset($categoryList[$key]);
+            }
+        }
+
+        $result = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id,$email,$user_id);
+        $paginator  = $this->get('knp_paginator');
+        $arr['pagination'] = $paginator->paginate(
+                  $result,
+                  $this->get('request')->query->get('page', 1),
+                  20
+        );
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        $arr['start'] = $start_time;
+        $arr['end'] = $end_time;
+        $arr['email'] = $email;
+        $arr['user_id'] = $user_id;
+        $arr['category_id'] = $category_id;
+        $arr['categoryList'] = $categoryList;
+        return $this->render('JiliApiBundle:Admin:addPointSearch.html.twig',$arr);
+
+    }
 }

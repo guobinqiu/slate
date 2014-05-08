@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layer</title>
+    <link href="newbie.css" rel="stylesheet"/>
+    <script type="text/javascript" src="jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="jl.ui.layer-v4.js"></script>
+</head>
+<body>
+<div class="container">
+    <div></div>
+</div>
+<div class="bgMask none"><div></div></div>
+<div class="newGuide none">
+    <div class="stepOne">
+        <div class="text">
+            <p><em>欢迎来到积粒网！</em><br/>小编教您玩转积粒网<br/>赚取更多米粒！</p>
+            <div><span class="nextBtn">下一步</span></div>
+        </div>
+    </div>
+    <div class="stepTwo none">
+        <div class="text">
+            <p>查看“<em>我的任务列表</em>”，领取任务，赚米粒。</p>
+            <div class="progressWrapper clearfix"><span class="progressIcon"></span><span class="nextBtn">下一步</span></div>
+        </div>
+    </div>
+    <div class="stepThree none">
+        <div class="text">
+            <p><em>游戏体验</em>：每周玩游戏就有机会获得<em>5888</em>米粒哦！<br/><em>体验广告</em>：大量任务，动动手指头，米粒就到手。</p>
+            <div class="progressWrapper clearfix"><span class="progressIcon"></span><span class="nextBtn">下一步</span></div>
+        </div>
+    </div>
+    <div class="stepFour none">
+        <div class="text">
+            <p><em>购物返利</em>：买东西，拿返利。<br/>通过分类或搜索找到您要的商品，下单即可。</p>
+            <div  class="progressWrapper clearfix"><span class="progressIcon"></span><span class="nextBtn">知道了</span></div>
+        </div>
+    </div>
+    <span class="closeBtn"></span>
+</div>
+<script>
+    $(function(){
+        $('.newGuide').xrLayer({
+            guide: '.newGuide>div',
+            guideBtn: '.nextBtn',
+            bgMask: '.bgMask',
+            newGuide: '.newGuide',
+            closeBtn: '.closeBtn',
+            isClick: 'click'
+        });
+    });
+</script>
+</body>
+</html>

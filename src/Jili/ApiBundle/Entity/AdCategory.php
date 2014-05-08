@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AdCategory
  *
  * @ORM\Table(name="ad_category")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\AdCategoryRepository")
  */
 class AdCategory
 {

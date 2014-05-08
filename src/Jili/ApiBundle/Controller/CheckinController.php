@@ -111,7 +111,7 @@ class CheckinController extends Controller
 	}
 
 	/**
-	 * @Route("/location",name="_checkin_location",requirements={"_scheme"="http"})
+	 * @Route("/location",name="_checkin_location")
 	 */
 	public function locationAction()
 	{
@@ -147,7 +147,7 @@ class CheckinController extends Controller
 	}
 
 	/**
-	 * @Route("/checkinInfo",name="_checkin_checkinInfo",requirements={"_scheme"="http"})
+	 * @Route("/checkinInfo",name="_checkin_checkinInfo")
 	 */
 	public function checkinInfoAction()
 	{

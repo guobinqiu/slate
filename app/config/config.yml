@@ -123,6 +123,8 @@ gregwar_captcha:
         as_url: true
 
 parameters:
+    emar_com.app_AppKey: %emar_com.cron.AppKey% 
+    emar_com.app_AppSecret: %emar_com.cron.AppSecret%
     campaign_multiple: 1
     admin_home_ip: 192.168.1.198
     admin_vpn_ip: 210.175.54.14
@@ -234,3 +236,4 @@ parameters:
     file_path_emergency_announcement: /data/91jili/emergency_announcement.log
     91wenwen_api_url: https://www.91jili.com
     is_from_wenwen_register: 2
+    file_path_admin_point_manage: /data/91jili/logs/admin/pointManage

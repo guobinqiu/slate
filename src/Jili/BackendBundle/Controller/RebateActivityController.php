@@ -16,7 +16,7 @@ use Jili\ApiBundle\Entity\AdActivity;
  * @abstract
  * @author: jiangtao@voyagegroup.com
  *
- * @Route("/rebate/activity")
+ * @Route("/rebate/activity",requirements={"_scheme"="https"})
  */
 class RebateActivityController extends Controller  implements  IpAuthenticatedController
 {

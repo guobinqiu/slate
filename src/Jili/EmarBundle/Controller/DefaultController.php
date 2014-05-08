@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
- * @Route("/default")
+ * @Route("/default", requirements={"_scheme"="http"})
  */
 class DefaultController extends Controller
 {
@@ -21,10 +21,11 @@ class DefaultController extends Controller
         $logger = $this->get('logger');
         $session = $request->getSession();
         $url = $request->get('m');
-#         $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
+#        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
+
         // check login
         if($session->has('uid')){
-            str_replace('APIMemberId', $session->get('uid') , $url );
+           $url= str_replace('APIMemberId', $session->get('uid') , $url );
             return $this->redirect( $url, 302);
         } else {
             $session->set('referer', $url);

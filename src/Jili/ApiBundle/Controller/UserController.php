@@ -11,6 +11,7 @@ use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Form\CaptchaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\TaskOrder;
 use Jili\ApiBundle\Entity\PointsExchange;
@@ -46,6 +47,7 @@ class UserController extends Controller
 {
 	/**
 	* @Route("/createFlag", name="_user_createFlag")
+    * @Method("POST")
 	*/
 	public function createFlagAction(){	
 		$code = '';
@@ -208,6 +210,7 @@ class UserController extends Controller
 
     /**
      * @Route("/getCity", name="_user_getCity")
+     * @Method("POST")
      */
     public function getCityAction()
     {
@@ -410,6 +413,7 @@ class UserController extends Controller
 
     /**
      * @Route("/isExistInfo", name="_user_isExistInfo")
+     * @Method("POST")
      */
     public function isExistInfoAction(){
         $code = '';
@@ -434,6 +438,7 @@ class UserController extends Controller
 
     /**
      * @Route("/province", name="_user_province")
+     * @Method("POST")
      */
     public function provinceAction(){
         $arr = array();
@@ -447,6 +452,7 @@ class UserController extends Controller
 
     /**
      * @Route("/hobby", name="_user_hobby")
+     * @Method("POST")
      */
     public function hobbyAction(){
         $arr = array();
@@ -460,6 +466,7 @@ class UserController extends Controller
 
     /**
      * @Route("/income", name="_user_income")
+     * @Method("POST")
      */
     public function incomeAction(){
         $arr = array();
@@ -474,6 +481,7 @@ class UserController extends Controller
 
     /**
      * @Route("/userInfo", name="_user_userInfo")
+     * @Method("POST")
      */
     public function userInfoAction(){
         $arr = array();
@@ -529,6 +537,7 @@ class UserController extends Controller
 
     /**
      * @Route("/registerReward", name="_user_registerReward")
+     * @Method({"GET","POST"})
      */
     public function registerRewardAction(){
         $code = array();
@@ -538,8 +547,6 @@ class UserController extends Controller
         $month_income = '';
         $request = $this->get('request');
         $id = $request->getSession()->get('uid');
-        // if(!$id)
-        // 	return $this->redirect($this->generateUrl('_default_index'));
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
         $sex = $request->request->get('sex');
@@ -679,6 +686,7 @@ class UserController extends Controller
 
     /**
      * @Route("/isNewMs/{id}", name="_user_isNewMs")
+     * @Method({ "GET", "POST"})
      */
     public function isNewMsAction($id)
     {
@@ -994,9 +1002,10 @@ class UserController extends Controller
         if($code == "ok")
         {
             $code_redirect = '301';
-            if($request->request->has('referer') ) {
+            $current_url = '';
+            if( $request->request->has('referer') ) {
                 $current_url = $request->request->get('referer');
-            } 
+            }
 
             if( strlen(trim($current_url)) == 0  && $session->has('goToUrl') ) {
                 $current_url = $session->get('goToUrl');
@@ -1013,7 +1022,6 @@ class UserController extends Controller
                 }
             }
             $logger=$this->get('logger');
-#             $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($current_url, true));
             
             return $this->redirect($current_url,$code_redirect);
         }
@@ -1207,8 +1215,33 @@ class UserController extends Controller
         $send_email = false;
         if($user_email[0]->getIsFromWenwen() == $this->container->getParameter('is_from_wenwen_register')){
             $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
-            $mailLister = $this->get('mail.listener');
-            $send_email = $mailLister->sendMailForWenWenRegister($this->get('mailer'), $url,$email);
+
+            //发送激活邮件
+            $wenwen_api_url = $this->container->getParameter('91wenwen_api_url');
+            $logger = $this->get('logger');
+            $logger->info('{activeEmail}' . $url);
+            //通过soap发送
+            $soapMailLister = $this->get('soap.mail.listener');
+            $soapMailLister->setCampaignId($this->container->getParameter('register_from_wenwen_campaign_id')); //活动id
+            $soapMailLister->setMailingId($this->container->getParameter('register_from_wenwen_mailing_id')); //邮件id
+            $soapMailLister->setGroup(array (
+                'name' => '从91问问注册积粒网',
+                'is_test' => 'false'
+            )); //group
+            $recipient_arr = array (
+                array (
+                    'name' => 'email',
+                    'value' => $email
+                ),
+                array (
+                    'name' => 'url_reg',
+                    'value' => $url
+                )
+            );
+            $send_email = $soapMailLister->sendSingleMailing($recipient_arr);
+            if ($send_email == "Email send success") {
+               $send_email = true;
+            }
         }else{
         	$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
             $send_email = $this->sendMail($url,$email,$user_email[0]->getNick());
@@ -1221,6 +1254,8 @@ class UserController extends Controller
 			$em->flush();
 			// 					echo 'success';
 			return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user_email[0]->getId()),true));
+		}else{
+			return $this->render('JiliApiBundle::error.html.twig');
 		}
 	}
 	
@@ -1502,56 +1537,61 @@ class UserController extends Controller
         if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
         	return $this->render('JiliApiBundle::error.html.twig');
         }else{
-        	if($setPasswordCode->getCode() == $code){
-        		$request = $this->get('request');
-        		$pwd = $request->request->get('pwd');
-        		$que_pwd = $request->request->get('que_pwd');
-        		if ($request->getMethod() == 'POST'){
-        			if($request->request->get('ck')=='1'){
-        				if($pwd){
-        					if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
-        						$code_pwd = $this->container->getParameter('forget_wr_pwd');
-        						$arr['code_pwd']  = $code_pwd;
-        					}else{
-        						if($pwd == $que_pwd){
-        							$this->get('request')->getSession()->set('uid',$id);
-        							$this->get('request')->getSession()->set('nick',$user->getNick());
-        							$user->setPwd($request->request->get('pwd'));
-        							$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
-        							$em->persist($user);
-        							$em->persist($setPasswordCode);
-        							$em->flush();
-//         							return $this->redirect($this->generateUrl('_user_regSuccess'));
+            if($setPasswordCode->getCode() != $code){
+                return $this->render('JiliApiBundle::error.html.twig');
+            }
+    		$request = $this->get('request');
+    		$pwd = $request->request->get('pwd');
+    		$que_pwd = $request->request->get('que_pwd');
+    		if ($request->getMethod() == 'POST'){
+    			if($request->request->get('ck')=='1'){
+    				if($pwd){
+    					if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+    						$code_pwd = $this->container->getParameter('forget_wr_pwd');
+    						$arr['code_pwd']  = $code_pwd;
+    					}else{
+    						if($pwd == $que_pwd){
+                                $this->get('login.listener')->checkNewbie($user);
+    							$user->setPwd($request->request->get('pwd'));
+                                $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
+                                $user->setLastLoginIp($request->getClientIp());
+    							$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
+    							$em->persist($user);
+    							$em->persist($setPasswordCode);
+    							$em->flush();
+                                //设置密码之后，注册成功，发邮件2014-01-10
+                                $soapMailLister = $this->get('soap.mail.listener');
+                                $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
+                                $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
+                                $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
+                                $recipient_arr = array (
+                                        array (
+                                            'name' => 'email',
+                                            'value' => $user->getEmail()
+                                        )
+                                    );
+                                $soapMailLister->sendSingleMailing($recipient_arr);
 
-                                    //设置密码之后，注册成功，发邮件2014-01-10
-                                    $soapMailLister = $this->get('soap.mail.listener');
-                                    $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
-                                    $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
-                                    $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
-                                    $recipient_arr = array (
-                                            array (
-                                                'name' => 'email',
-                                                'value' => $user->getEmail()
-                                            )
-                                        );
-                                    $soapMailLister->sendSingleMailing($recipient_arr);
+    							$request->getSession()->set('uid',$id);
+    							$request->getSession()->set('nick',$user->getNick());
+                                // The user was insert when regAction 
+                                $this->get('login.listener')->log($user);
 
-        							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
-        						}else{
-        							$code_que_pwd = $this->container->getParameter('forget_unsame_pwd');
-        							$arr['code_que_pwd']  = $code_que_pwd;
-        						}
-        					}
-        				}else{
-        					$code_pwd = $this->container->getParameter('forget_en_pwd');
-        					$arr['code_pwd']  = $code_pwd;
-        				}
-        			}else{
-        				echo 'choose agree';
-        			}
-        		}
-        		return $this->render('JiliApiBundle:User:forgetPass.html.twig',$arr);
-        	}
+    							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
+    						}else{
+    							$code_que_pwd = $this->container->getParameter('forget_unsame_pwd');
+    							$arr['code_que_pwd']  = $code_que_pwd;
+    						}
+    					}
+    				}else{
+    					$code_pwd = $this->container->getParameter('forget_en_pwd');
+    					$arr['code_pwd']  = $code_pwd;
+    				}
+    			}else{
+    				echo 'choose agree';
+    			}
+    		}
+    		return $this->render('JiliApiBundle:User:forgetPass.html.twig',$arr);
         }
 	}
 
@@ -1607,6 +1647,14 @@ class UserController extends Controller
                 )
             );
         $soapMailLister->sendSingleMailing($recipient_arr);
+
+        $logger = $this->get('logger');
+
+
+#        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($user, true));
+
+        $this->get('login.listener')->checkNewbie($user);
+        $this->get('login.listener')->log($user);
 
         return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
     }
@@ -1766,6 +1814,7 @@ class UserController extends Controller
 
 	/**
 	* @Route("/countMs", name="_user_countMs")
+    * @Method("POST")
 	*/
 	public function countMsAction(){
 		$notRead = $this->container->getParameter('init');

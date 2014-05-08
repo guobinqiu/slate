@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
- * @Route("/analog/chanet")
+ * @Route("/analog/chanet",requirements={"_scheme"="https"})
  */
 class AnalogChanetController extends Controller implements  IpAuthenticatedController
 {

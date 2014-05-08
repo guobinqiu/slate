@@ -57,18 +57,13 @@
 
   <div class="sidebar w300 fr">
   	<div>
-		<script type="text/javascript">
-        /*300*250，纯文字*/
-        var cpro_id = "u1522260";
-        </script>
-        <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+        {# 300*250，纯文字 #} 
+        {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1522260" } %}
+	</div>
+    <div class="marginT15">	
+        {# 300*250，纯图片 #} 
+        {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1519420" } %}
     </div>
-	<div class="marginT15">	
-		<script type="text/javascript">
-        /*300*250，纯图片*/
-        var cpro_id = "u1519420";
-        </script>
-        <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
     </div>
   </div>
 

@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @Route( requirements={"_scheme" = "http"})
+ */
 class GameController extends Controller
 {
     
@@ -15,6 +18,7 @@ class GameController extends Controller
      * @Route("/index", name="_game_index")
      */
     public function indexAction(){  
+        $this->getRequest()->getSession()->set('referer', $this->generateUrl('_game_index') );
         return $this->render('JiliApiBundle:Game:index.html.twig');
     }
 

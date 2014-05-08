@@ -4,6 +4,9 @@ use Symfony \ Bundle \ FrameworkBundle \ Controller \ Controller;
 use Sensio \ Bundle \ FrameworkExtraBundle \ Configuration \ Route;
 use Symfony \ Component \ HttpFoundation \ Response;
 
+/**
+ * @Route(requirements={"_scheme"="http"})
+ */
 class RemindController extends Controller {
 
 	/**
@@ -17,7 +20,7 @@ class RemindController extends Controller {
 		$total = $em->getRepository('JiliApiBundle:User')->totalUserAndCount();
 
 		$recipient_arr = array ();
-        $return = false;
+		$return = false;
 		foreach ($user as $item) {
 			$recipient_arr[] = array (
 				array (
@@ -66,6 +69,7 @@ class RemindController extends Controller {
 			'is_test' => 'false'
 		));
 
+		$return = false;
 		foreach ($user as $item) {
 			$recipient_arr = array (
 				array (

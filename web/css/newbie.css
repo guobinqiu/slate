@@ -1,0 +1,144 @@
+em{
+    font-style: normal;
+}
+.none{
+    display: none;
+}
+.clearfix:after{
+    clear: both;
+    content: '.';
+    overflow: hidden;
+    height: 0;
+    display: block;
+}
+.bgMask, .newGuide{
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    text-align: left;
+}
+.bgMask{
+    background-color: rgb(0, 0, 0);
+    opacity: .6;
+    filter: alpha(opacity=60);
+    z-index: 9998;
+}
+.newGuide{
+    width: 1150px;
+    margin: 0 auto;
+    z-index: 9999;
+}
+.nextBtn, .closeBtn{
+    cursor: pointer;
+}
+.progressWrapper{
+    padding-left: 205px;
+}
+.closeBtn, .progressIcon, .nextBtn{
+    height: 30px;
+    line-height: 30px;
+}
+.progressIcon, .nextBtn{
+    float: left;
+}
+.progressWrapper, .closeBtn{
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+.closeBtn{
+    position: absolute;
+    right: 0;
+    top: 110px;
+    width: 30px;
+    background: url(../images/close.png) no-repeat;
+}
+.progressIcon{
+    background: url(../images/progressicon.png) no-repeat;
+    width: 48px;
+    margin-right: 20px;
+    overflow: hidden;
+}
+.nextBtn{
+    color: #fff;
+    background-color: #FF6B4F;
+    width: 80px;
+    text-align: center;
+    font-size: 14px;
+}
+.text{
+    background: url(../images/txtbg.png) no-repeat;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 28px;
+    word-spacing: 1px;
+    padding: 45px 60px 35px 45px;
+}
+.text p{
+    padding-bottom: 30px;
+    width: 380px;
+}
+.text em{
+    color: #FF6B4F;
+}
+.stepOne, .stepTwo, .stepThree, .stepFour{
+    position: absolute;
+    top: 104px;
+    left: 0;
+}
+.stepOne{
+    background: url(../images/welcomebg.png) no-repeat 160px 180px;
+    padding: 165px 350px 180px 400px;
+}
+.stepOne .text{
+    background: url(../images/welcometxtbg.png) no-repeat;
+    font-size: 20px;
+    padding: 30px 140px 60px 70px;
+}
+.stepOne .text p{
+    width: 195px;
+}
+.stepOne em{
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 32px;
+}
+.stepOne span{
+    margin-left: 75px;
+    margin-top: -5px;
+}
+.stepTwo{
+    background: url(../images/newguide01.png) no-repeat;
+    padding: 235px 375px 35px 30px;
+}
+.stepTwo p{
+    background: url(../images/txticon01.png) no-repeat 0 10px;
+    padding-left: 50px;
+    padding-top: 15px;
+}
+.stepTwo .progressIcon{
+    background-position: -22px 8px;
+}
+.stepThree{
+    background: url(../images/newguide02.png) no-repeat 315px 0;
+    padding: 105px 60px 35px 200px;
+}
+.stepThree p{
+    padding-bottom: 20px;
+}
+.stepThree .progressIcon{
+    background-position: -10px 8px;
+}
+.stepFour{
+    background: url(../images/newguide03.png) no-repeat -4px 0;
+    padding: 105px 60px 225px 290px;
+}
+.stepFour p{
+    background: url(../images/txticon03.png) no-repeat;
+    padding-left: 40px;
+}
+.stepFour .progressIcon{
+    background-position: 2px 8px;
+}

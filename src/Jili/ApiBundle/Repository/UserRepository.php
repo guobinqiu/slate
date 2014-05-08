@@ -56,6 +56,9 @@ class UserRepository extends EntityRepository {
 
 	}
 
+    /**
+     * The user of $email is registered already for the pwd is NOT null anymore.
+     */
 	public function getWenwenUser($email) {
 		$query = $this->createQueryBuilder('u');
 		$query = $query->select('u.id');
@@ -109,6 +112,17 @@ class UserRepository extends EntityRepository {
 		$query = $query->setParameter('email', $email);
 		$query = $query->getQuery();
 		return $query->getResult();
+	}
+
+	public function getUserByEmail($email) {
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('u');
+		$query = $query->Where('u.email = :email');
+		$query = $query->andWhere('u.pwd is not null');
+		$query = $query->andWhere('u.deleteFlag IS NULL OR u.deleteFlag = 0');
+		$query = $query->setParameter('email', $email);
+		$query = $query->getQuery();
+		return $query->getOneOrNullResult();
 	}
 
 	public function getMultiple($times) {
@@ -294,17 +308,58 @@ class UserRepository extends EntityRepository {
     //每个月2号凌晨发一封edm,统计3个月内有历史积分的人
     public function getUserListForRemindTotalPoint($start, $end) {
         $sql = "select a.id, a.email, a.points from user a inner join
-                (select distinct user_id from point_history00 where create_time >= '".$start."%' and create_time <= '".$end."%'
-                union all select distinct user_id from point_history01 where create_time >= '".$start."%' and create_time <= '".$end."%'
-                union all select distinct user_id from point_history02 where create_time >= '".$start."%' and create_time <= '".$end."%'
-                union all select distinct user_id from point_history03 where create_time >= '".$start."%' and create_time <= '".$end."%'
-                union all select distinct user_id from point_history04 where create_time >= '".$start."%' and create_time <= '".$end."%'
-                union all select distinct user_id from point_history05 where create_time >= '".$start."%' and create_time <= '".$end."%'
-                union all select distinct user_id from point_history06 where create_time >= '".$start."%' and create_time <= '".$end."%'
-                union all select distinct user_id from point_history07 where create_time >= '".$start."%' and create_time <= '".$end."%'
-                union all select distinct user_id from point_history08 where create_time >= '".$start."%' and create_time <= '".$end."%'
-                union all select distinct user_id from point_history09 where create_time >= '".$start."%' and create_time <= '".$end."%' )b
+                (select distinct user_id from point_history00 where create_time >= '".$start."' and create_time <= '".$end."'
+                union all select distinct user_id from point_history01 where create_time >= '".$start."' and create_time <= '".$end."'
+                union all select distinct user_id from point_history02 where create_time >= '".$start."' and create_time <= '".$end."'
+                union all select distinct user_id from point_history03 where create_time >= '".$start."' and create_time <= '".$end."'
+                union all select distinct user_id from point_history04 where create_time >= '".$start."' and create_time <= '".$end."'
+                union all select distinct user_id from point_history05 where create_time >= '".$start."' and create_time <= '".$end."'
+                union all select distinct user_id from point_history06 where create_time >= '".$start."' and create_time <= '".$end."'
+                union all select distinct user_id from point_history07 where create_time >= '".$start."' and create_time <= '".$end."'
+                union all select distinct user_id from point_history08 where create_time >= '".$start."' and create_time <= '".$end."'
+                union all select distinct user_id from point_history09 where create_time >= '".$start."' and create_time <= '".$end."' )b
                 on a.id = b.user_id where a.points > 0 AND (a.delete_flag IS NULL OR a.delete_flag = 0)";
+        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+    }
+
+    public function addPointHistorySearch($start, $end, $category_type, $email, $user_id) {
+        $sql1 = "1=1";
+        $sql2 = "";
+        if($category_type){
+            $sql1 .= " and category_type = ".$category_type;
+        }
+        if($start){
+            $start = $start." 00:00:00";
+            $sql1 .= " and date >= '".$start."'";
+        }else{
+            $sql1 .= " and date >= '".date('Y-m-d')." 00:00:00'";
+        }
+        if($end){
+            $end = $end." 23:59:59";
+            $sql1 .= " and date <= '".$end."'";
+        }else{
+            $sql1 .= " and date <= '".date('Y-m-d')." 23:59:59'";
+        }
+        if($user_id){
+            $sql2 .= " and a.id = ".$user_id;
+        }
+        if($email){
+            $sql2 .= " and a.email = '".$email."'";
+        }
+
+        $sql = "select a.id, a.email,b.point,b.category_type,b.task_type,b.task_name,b.date from user a inner join
+                (select user_id,point,category_type,task_type,task_name,date from task_history00 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date from task_history01 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date from task_history02 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date from task_history03 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date from task_history04 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date from task_history05 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date from task_history06 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date from task_history07 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date from task_history08 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date from task_history09 where ".$sql1." )b
+                on a.id = b.user_id where a.delete_flag IS NULL OR a.delete_flag = 0 ".$sql2." order by b.date desc";
+                //echo $sql;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 }

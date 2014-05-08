@@ -55,7 +55,6 @@ class LoginListener {
 		}
 
 		if ($user->pw_encode($password) != $user->getPwd()) {
-			//                      echo 'pwd is error!';
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
@@ -63,33 +62,69 @@ class LoginListener {
 		if ($request->get('remember_me') == '1') {
 			setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
 			setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
-//          $response = new Response();
-//          $response->headers->setCookie(new Cookie('jili_uid', $id,(time() + 3600 * 24 * 365), '/'));
-//          $response->headers->setCookie(new Cookie('jili_nick', $user->getNick(),(time() + 3600 * 24 * 365), '/'));
-//          $response->send();
-//          $request = $this->get('request');
-//          $cookies = $request->cookies;
-//          if ($cookies->has('uid'))
-//          {
-//              var_dump($cookies->get('uid'));
-//          }
 		}
 
-		$request->getSession()->set('uid', $id);
+		$request->getSession()->set('uid', $user->getId() );
 		$request->getSession()->set('nick', $user->getNick());
 		$request->getSession()->set('points', $user->getPoints());
+
+        $this->checkNewbie( $user);
+        
 		$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
 		$user->setLastLoginIp($request->getClientIp());
 		$em->flush();
-		$loginlog = new Loginlog();
-		$loginlog->setUserId($id);
-		$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-		$loginlog->setLoginIp($request->getClientIp());
-		$em->persist($loginlog);
-		$em->flush();
-		$code = "ok";
+
+        $this->log( $user);
+		$code = 'ok';
 		return $code;
 	}
+
+    /**
+     * update is_newbie in session
+     * $user the Entity User Instance
+     */
+    public function checkNewbie( User  $user ) {
+        $request = $this->container_->get('request');
+        // 从wenwen来的用户已经在landingAction登录过，并且registerDate与lastLogDate是一样的。 
+        $is_newbie = false;
+        if($user->getRegisterDate()->getTimestamp() === $user->getLastLoginDate()->getTimestamp() ) {
+            if( $user->getIsFromWenwen() === $this->getParameter('init_one')  ) {
+                // check the the login log 
+                $em = $this->em;
+                $loginLog = $em->getRepository('JiliApiBundle:LoginLog')->findOneByUserId($user->getId());
+                if( ! $loginLog) {
+                    $is_newbie = true ;
+                }
+            } else {
+                $is_newbie = true;
+            }
+        }
+
+        if( $is_newbie === false ) {
+            $request->getSession()->set('is_newbie', false);
+        } else {
+            $request->getSession()->set('is_newbie', true);
+            $request->getSession()->set('is_newbie_passed', false);
+        }
+
+        return  true;
+    }
+
+    public function isNewbie() {
+        return  $this->container_->get('request')->getSession()->get('is_newbie', false);
+    }
+
+    public function log($user) {
+        $em = $this->em;
+        $request = $this->container_->get('request');
+
+        $loginlog = new LoginLog();
+        $loginlog->setUserId($user->getId()  );
+        $loginlog->setLoginDate($user->getLastLoginDate() );
+        $loginlog->setLoginIp($request->getClientIp());
+        $em->persist($loginlog);
+        return $em->flush();
+    }
 
     public function getParameter($key) {
         return $this->container_->getParameter($key);

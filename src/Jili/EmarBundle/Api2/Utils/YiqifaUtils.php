@@ -28,15 +28,20 @@ class YiqifaUtils{
         $result = curl_exec($ch);
         curl_close($ch);
         
-        try  {
-            return iconv("GBK","UTF-8//IGNORE",$result);
-        } catch(\Exception $e ) {
-            var_dump($e->getMessage());
-            var_dump(urldecode($url));
-            var_dump($result);
-
-            return mb_convert_encoding($result, "UTF-8", "GBK");
+        try {
+            @$r = iconv("GBK","UTF-8//IGNORE",$result);
+            if(false === $r){
+                throw new  \Exception('iconv pasred error');
+            }
+             //mb_convert_encoding($result, "UTF-8", "GBK");
+        } catch(\Exception $e) {
+             @$r=mb_convert_encoding($result, "UTF-8", "GBK");
+             if( false === $r && null === $r) {
+                 throw new \Exception($e->getMessage() .'& mb_convert_encoding parsed error');
+             }
         }
+        return $r;
+
     }   
    static function hmacsha1($key,$data) {
         $blocksize=64;

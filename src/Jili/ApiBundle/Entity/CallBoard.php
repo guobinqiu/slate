@@ -1,5 +1,4 @@
 <?php
-
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,8 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="callboard")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\CallBoardRepository")
  */
-class CallBoard
-{
+class CallBoard {
 	public function __construct() {
 		$this->createTime = new \DateTime();
 		//$this->updateTime = new \DateTime();
@@ -108,7 +106,7 @@ class CallBoard
      * Set title
      *
      * @param string $title
-     * @return Callboard
+     * @return CallBoard
      */
     public function setTitle($title)
     {
@@ -131,7 +129,7 @@ class CallBoard
      * Set author
      *
      * @param string $author
-     * @return Callboard
+     * @return CallBoard
      */
     public function setAuthor($author)
     {
@@ -155,7 +153,7 @@ class CallBoard
      * Set content
      *
      * @param string $content
-     * @return Callboard
+     * @return CallBoard
      */
     public function setContent($content)
     {
@@ -178,7 +176,7 @@ class CallBoard
      * Set createTime
      *
      * @param \DateTime $createTime
-     * @return Callboard
+     * @return CallBoard
      */
     public function setCreateTime($createTime)
     {
@@ -201,7 +199,7 @@ class CallBoard
      * Set updateTime
      *
      * @param \DateTime $updateTime
-     * @return Callboard
+     * @return CallBoard
      */
     public function setUpdateTime($updateTime)
     {
@@ -224,7 +222,7 @@ class CallBoard
      * Set startTime
      *
      * @param \DateTime $startTime
-     * @return Callboard
+     * @return CallBoard
      */
     public function setStartTime($startTime)
     {
@@ -247,7 +245,7 @@ class CallBoard
      * Set endTime
      *
      * @param \DateTime $endTime
-     * @return Callboard
+     * @return CallBoard
      */
     public function setEndTime($endTime)
     {
@@ -271,7 +269,7 @@ class CallBoard
      * Set cbType
      *
      * @param integer $cbType
-     * @return Callboard
+     * @return CallBoard
      */
     public function setCbType($cbType)
     {
@@ -294,7 +292,7 @@ class CallBoard
      * Set url
      *
      * @param string $url
-     * @return Callboard
+     * @return CallBoard
      */
     public function setUrl($url)
     {

@@ -15,6 +15,10 @@ class TaskHistoryRepository extends EntityRepository
 		$query = $query->getQuery();
 		return $query->getResult();
 	}
+    /**
+     *@param $id the userId
+     *@param $option = array('status'=> 0|1|2|3 , 'offset'=> true|false, 'limit'=>true|false)
+     */
 	public function getUseradtaste($id,$option=array())
 	{
 		$query = $this->createQueryBuilder('to');

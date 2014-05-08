@@ -2,17 +2,22 @@
     margin-top: 30px;
 }
 .exchange .about{
-	text-align:center;
-	position:relative;
+	background-color: #F6F6F6;
+    color: #666666;
+    text-align: left;
 }
 .exchange .about .historyExchange{
 	background-image: url("../images/goExchangeHistory.gif");
     display: inline-block;
+	width: 153px;
     height: 40px;
     position: absolute;
-    right: 100px;
-    top: 165px;
-    width: 169px;
+    color: #666666;
+    font-size: 14px;
+    line-height: 40px;
+    padding-left: 15px;
+    right: -60px; 
+    top: 160px;
 }
 .exchange .about a.exchangeBtn{
 	background-image: url("../images/exchange_91ww_btn.gif");
@@ -20,8 +25,12 @@
     display: inline-block;
     height: 36px;
     width: 112px;
-	font-size: 0;
-	position:absolute;
+	color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 36px;
+    position: static;
+    text-align: center;
 }
 .exchange .about a.exchangeBtn:hover{
 	background-position:0px 36px;
@@ -77,7 +86,6 @@
 	font-size:18px;
 	font-weight:bold;
 	border-bottom:3px solid #eaeaea;
-	padding:5px 0;
 }
 .exchange h2 span{
 	color:#ff7114;
@@ -237,7 +245,6 @@
 .exchange article .wenwen div.mt50{
 	margin-top:50px;
 }
-
 .exchange article .finish{
 	font-size:14px;
 	line-height:200%;
@@ -269,7 +276,43 @@
 .exchange article .finish a{
 	color:#146096;
 }
-
 .exchange .about .amazonBtn{
-    background-image: url("../images/exchange_mobile_unavailable_btn.gif")!important;
+    background-image: url("../images/exchange_mobile_closed_btn.gif")!important;
+}
+.exchange .historyView{
+	background: url("../images/exchangeContent.jpg") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    font-size: 16px;
+    margin: 0 auto;
+    padding-bottom: 105px;
+    padding-top: 120px;
+    position: relative;
+    width: 885px;
+}
+.exchange .historyView p {
+    line-height: 24px;
+}
+.exchangeWay {
+    background: url("../images/exchangeFuture.jpg") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    margin: 0 auto;
+    padding-bottom: 125px;
+    width: 885px;
+}
+.exchangeWay p {
+    line-height: 28px;
+}
+.mobileWay {
+    padding-left: 130px;
+    padding-top: 35px;
+}
+.amazonWay {
+    padding-left: 660px;
+    padding-top: 15px;
+}
+.alipayWay {
+    padding-left: 165px;
+    padding-top: 15px;
+}
+.morePrizes {
+    padding-left: 650px;
+    padding-top: 15px;
 }

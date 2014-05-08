@@ -1,15 +1,20 @@
 /* CSS Document */
-body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, textarea, p, blockquote, th, td {
-	margin: 0;
-	padding: 0;
+* {
+    margin: 0;
+    padding: 0;
 }
 body {
-	color: #333;
 	background-color:#f6f6f6;
-	font-size: 12px;
 	line-height:150%;
-	font-family: 'Hiragino Sans GB','Microsoft YaHei','SimSun',sans-serif;
 	position:relative;
+}
+body, input, button, select, textarea, table {
+    font: 12px/1.5 tahoma,'Hiragino Sans GB','microsoft yahei',sans-serif; 
+	font-size:12px; 
+	color:#333; 
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
 }
 h1, h2, h3, h4, h5, h6, small, sub, sup {
 	font-size: 100%;
@@ -354,3 +359,4 @@ footer section a:hover{
 	position:absolute;
 	z-index:10009;
 }
+.crumbTit{padding-bottom: 10px;height: 20px;display: inline-block; font-weight:normal;}

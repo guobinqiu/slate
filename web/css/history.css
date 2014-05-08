@@ -108,18 +108,17 @@
 	padding:10px 2px;
 	text-align:center;
 }
-.history .screen .prompt {
-    /*background: url("../images/adv_prompt_icon.png") no-repeat scroll left center transparent;*/
+.history .prompt{
     color: #EE472C;
     display: block;
     font-weight: normal;
     font-size:12px;
-    /*line-height: 30px;*/
-    position: absolute;
 	left:12px;
-    /*top: 5px;*/
-    /*left: 10px;*/
+	float: left;
+	text-align: left;
+	margin-top: 5px;
 }
+.history .prompt p{ line-height:22px;}
 .history .screen .lookMore{
 	background-color: #EA4B11;
     background-image: url("../images/moreBtn.jpg");

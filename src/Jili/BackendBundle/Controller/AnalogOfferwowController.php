@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
- * @Route("/analog/offerwow")
+ * @Route("/analog/offerwow",requirements={"_scheme"="https"})
  */
 class AnalogOfferwowController extends Controller implements  IpAuthenticatedController
 {

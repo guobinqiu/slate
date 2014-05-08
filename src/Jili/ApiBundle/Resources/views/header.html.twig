@@ -77,10 +77,10 @@ $(document).ready(function(){
 function showFlag(){
     $.ajax({
         url: "{{ path('_user_createFlag') }}",
-        type: "GET",
+        type: "POST",
         success:function(data){
           if(data==1){
-               window.location.href="{{ path('_default_index') }}";
+               window.location.href="{{ path('_homepage') }}";
           }
           
         }
@@ -90,7 +90,7 @@ function showFlag(){
 function showInfo(){
      $.ajax({
           url: "{{ path('_user_userInfo') }}",
-          type: "GET",
+          type: "POST",
           success:function(data){
              var obj = eval(data);
              $('.login').html(obj[0]['email']);
@@ -113,7 +113,7 @@ function isNewMs(){
    {% if app.session.get('uid') %}
    $.ajax({
           url: "{{ path('_user_isNewMs',{'id':app.session.get('uid')}) }}",
-          type: "GET",
+          type: "POST",
           success:function(data){
               if(data){
                    $('.newms').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
@@ -129,7 +129,7 @@ function isNewMs(){
 function countMs(){
     $.ajax({
           url: "{{ path('_user_countMs') }}",
-          type: "GET",
+          type: "POST",
           success:function(data){
               $("#countMessage").html(data);
           }
@@ -139,7 +139,7 @@ function countMs(){
 function isVisit(){
    $.ajax({
           url: "{{ path('_default_isExistVist') }}",
-          type: "GET",
+          type: "POST",
           success:function(data){
               if(data==1){
                 $("#playGame").addClass("gameset");
@@ -163,12 +163,12 @@ function amazonReward(){
 function isExistInfo(){
   $.ajax({
             url: "{{ path('_user_isExistInfo') }}",
-            type: "GET",
+            type: "POST",
             success:function(data){
                 if(data==1){
                   $.ajax({
                         url: "{{ path('_default_infoVisit') }}",
-                        type: "GET",
+                        type: "POST",
                         success:function(data){
                             if(data==1){
                                  amazonReward();
@@ -183,7 +183,7 @@ function isExistInfo(){
 function getIncome(){
   $.ajax({
       url: "{{ path('_user_income') }}",
-      type: "GET",
+      type: "POST",
       success:function(data){
         var obj = eval(data);
         var html = '';
@@ -197,7 +197,7 @@ function getIncome(){
 function getHobby(){
   $.ajax({
       url: "{{ path('_user_hobby') }}",
-      type: "GET",
+      type: "POST",
       success:function(data){
         var obj = eval(data);
         var html = '';
@@ -212,7 +212,7 @@ function getHobby(){
 function getProince_amazon(){
   $.ajax({
       url: "{{ path('_user_province') }}",
-      type: "GET",
+      type: "POST",
       success:function(data){
         var obj = eval(data);
         var html = "<option value='0'>请选择省</option>";
@@ -264,7 +264,7 @@ function selectCity_amazon(){
   if($("#province").val()!=0){
      $.ajax({
               url: "{{ path('_user_getCity') }}?cid="+$('#province').val(),
-              type: "GET",
+              type: "POST",
               success:function(data){
                 var obj = eval(data);
                 for(var i=0;i<obj.length;i++){ 
@@ -283,7 +283,6 @@ function selectCity_amazon(){
 
 {% include '::header.html.twig' %}
 
-<div class="blackBg"></div>
 <div class="amazon">
 <div class="banner"><img src="{{ asset('images/userInfo.png') }}"></div>
 <a class="closeBtn"><img src="{{ asset('images/closeBtn.jpg') }}"></a>

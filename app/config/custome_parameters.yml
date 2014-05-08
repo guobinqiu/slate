@@ -27,19 +27,13 @@ parameters:
 
 #    emar_com.cpa.name: "亿玛活动"
 #    emar_com.cpa.category_type: 20 # in ad_category table where cateogry_name ='emar' ??
+#cron: for develop
+    emar_com.cron.AppKey: '139599061334718017'
+    emar_com.cron.AppSecret: '98a77033e7a6e8b8533f70eca181d09f'
 
-# cron 
-# key: '139599061334718017'
-# secret: '98a77033e7a6e8b8533f70eca181d09f'
-
-# demo  
-#     '139597428026718017' 
-#     'e7c5367e1ba7d609865389640007df3e'
-
-# NOTICE: product config use demo one. 
-    emar_com.app_AppKey: '139597428026718017' 
-    emar_com.app_AppSecret: 'e7c5367e1ba7d609865389640007df3e'
-
+# demo: from production  
+    emar_com.demo.AppKey: '139597428026718017'
+    emar_com.demo.AppSecret: 'e7c5367e1ba7d609865389640007df3e'
 
     emar_com.open_api.app:
         debug: # dev 

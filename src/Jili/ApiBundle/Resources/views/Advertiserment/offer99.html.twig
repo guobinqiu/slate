@@ -27,7 +27,7 @@
         <div class="navNew"><img src="{{ asset('images/newTag.gif') }}" title="NEW"></div>
     </div>
     <!--  subnav  /-->
-    <iframe src='http://app.offer99.com/index.php?pid={{ offer99_com.pid }}&userid={{ app.session.get('uid') }}' style='width:1150px;height:710px;' scrolling='auto' frameborder='no' border='0' allowTransparency='true'></iframe>
+    <iframe src='http://mini.offer99.com/index.php?action=offerlist&pid={{ offer99_com.pid }}&userid={{ app.session.get("uid") }}&alloffers=1&type=-1' style='width:928px;height:728px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
   </article>
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
