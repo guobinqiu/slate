@@ -83,7 +83,14 @@ class LoginListener {
         $session = $this->container_->get('session');
         $session->set('uid', $user->getId() );
         $session->set('nick', $user->getNick());
-        $session->set('icon_path', $user->getIconPath());
+        $icon_path = $user->getIconPath() ;
+        if( ! empty($icon_path) ) {
+            $session->set('icon_path', $icon_path);
+        } else {
+            if( $session->has('icon_path')) {
+                $session->remove('icon_path');
+            }
+        }
         $session->set('points', $user->getPoints());
     }
 

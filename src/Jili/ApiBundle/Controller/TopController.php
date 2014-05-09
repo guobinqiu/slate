@@ -106,16 +106,8 @@ class TopController extends Controller
     public function userInfoAction()
     {
         //个人中心
-        $request = $this->get('request');
-        $id = $request->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        $arr['user'] = $user;
-
         //确认中的米粒数
-        $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $id % 10 ) );
-        $arr['confirmPoints'] = $task->getConfirmPoints($id);
-
+        $arr['confirmPoints'] = $this->get('session.points')->getConfirm();
         return $this->render('JiliApiBundle:Top:userInfo.html.twig', $arr);
     }
 
@@ -191,7 +183,7 @@ class TopController extends Controller
     private function getUndoTaskList() {
         //可以做的任务，签到+游戏+91问问+购物+cpa
         if( $this->get('session')->has('uid')) {
-            $taskList = $this->get('task_list');
+            $taskList = $this->get('session.task_list');
             $taskList->setRequest($this->get('request'));
             $arr = $taskList->compose();
         }
@@ -250,7 +242,7 @@ class TopController extends Controller
 
         $logger = $this->get('logger');
 #        $adtaste = $this->selTaskHistory($id,$option);
-        $adtaste = $this->get('my_task_list')->selTaskHistory($option);
+        $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
 
 #        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')). var_export($adtaste, true));
 #        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')). var_export($adtaste0, true));

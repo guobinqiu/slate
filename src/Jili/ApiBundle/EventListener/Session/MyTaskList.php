@@ -1,5 +1,5 @@
 <?php
-namespace Jili\ApiBundle\EventListener;
+namespace Jili\ApiBundle\EventListener\Session;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;
@@ -21,7 +21,7 @@ class MyTaskList
         'alive'=>'my_task_list.alive',
         'list'=>'my_task_list.task_history'
     );  /* add to config */
-    private $duration=40;
+    private $duration=60;
 
     /**
      * @param: $option = array('status' => $type ,'offset'=>'','limit'=>'');

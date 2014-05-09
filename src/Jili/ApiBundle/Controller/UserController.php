@@ -748,7 +748,7 @@ class UserController extends Controller
         $option = array('status' => 0 ,'offset'=>'1','limit'=>'10');
         $option_ex = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 #       $adtaste = $this->selTaskHistory($id,$option);
-        $adtaste = $this->get('my_task_list')->selTaskHistory($option);
+        $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
         foreach ($adtaste as $key => $value) {
             if($value['orderStatus'] == 1 && $value['type'] ==1){
                 unset($adtaste[$key]);
@@ -851,9 +851,10 @@ class UserController extends Controller
             $confirmPoints = 0;
         }
 
-        return $this->render('JiliApiBundle:User:info.html.twig',array(
-            'form' => $form->createView(),
-            'form_upload' =>$form->createView(),
+        $from_view = $form->createView();
+        return $this->render('JiliApiBundle:User:info.html.twig', array(
+            'form' => $form_view,
+            'form_upload' =>$form_view,
             'user' => $user,
             'adtaste' => $adtaste,
             'exchange' => $exchange,
@@ -1485,7 +1486,7 @@ class UserController extends Controller
 	 * @Route("/adtaste/{type}", name="_user_adtaste")
 	 */
 	public function adtasteAction($type){
-		$id = $this->get('request')->getSession()->get('uid');
+		$id = $this->get('session.request')->getSession()->get('uid');
 
         if(!$id){
            return $this->redirect($this->generateUrl('_user_login'));

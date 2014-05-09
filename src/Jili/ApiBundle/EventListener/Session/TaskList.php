@@ -1,5 +1,5 @@
 <?php
-namespace Jili\ApiBundle\EventListener;
+namespace Jili\ApiBundle\EventListener\Session;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;
@@ -27,7 +27,7 @@ class TaskList
         'checkin_point'=>'task_list.checkin_point',
         'cpa_ads'=>'task_list.cpa_ads',
     );  /* add to config */
-    private $duration  = 20;
+    private $duration  = 60;
     /**
      *
      */

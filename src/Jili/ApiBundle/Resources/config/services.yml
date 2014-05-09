@@ -21,9 +21,10 @@ parameters:
     check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
 
     point_manage.processor.class:  Jili\ApiBundle\EventListener\PointManageProcessor
-# task list 
-    task_list.class: Jili\ApiBundle\EventListener\TaskList
-    my_task_list.class: Jili\ApiBundle\EventListener\MyTaskList
+# session 
+    session.task_list.class: Jili\ApiBundle\EventListener\Session\TaskList
+    session.my_task_list.class: Jili\ApiBundle\EventListener\Session\MyTaskList
+    session.points.class: Jili\ApiBundle\EventListener\Session\Points
 
 services:
     login.listener:
@@ -110,8 +111,8 @@ services:
             - [setPointLogger, ["@general_api.point_history"] ]
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
-    task_list:
-        class: %task_list.class%
+    session.task_list:
+        class: %session.task_list.class%
         calls:
             - [ setContainer, [ @service_container ] ] 
             - [ setLogger, [ @logger ] ] 
@@ -119,10 +120,17 @@ services:
             - [ setSession, [ @session ] ] 
             - [ setCheckInListener , [ @check_in.listener ] ]
 
-    my_task_list:
-        class: %my_task_list.class%
+    session.my_task_list:
+        class: %session.my_task_list.class%
         calls:
             - [ setContainer, [ @service_container ] ] 
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setSession, [ @session ] ] 
+
+    session.points:
+        class: %session.points.class%
+        calls:
             - [ setLogger, [ @logger ] ] 
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
             - [ setSession, [ @session ] ] 
