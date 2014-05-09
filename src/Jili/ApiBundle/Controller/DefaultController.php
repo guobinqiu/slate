@@ -249,18 +249,21 @@ class DefaultController extends Controller {
 					setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
 					setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
 				}
-				$session->set('uid', $id);
-				$session->set('nick', $user->getNick());
+
+                $this->get('login.listener')->initSession($user);
+
 				$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
 				$user->setLastLoginIp($this->get('request')->getClientIp());
 				$em->flush();
-				$em = $this->getDoctrine()->getManager();
-				$loginlog = new LoginLog();
-				$loginlog->setUserId($id);
-				$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-				$loginlog->setLoginIp($this->get('request')->getClientIp());
-				$em->persist($loginlog);
-				$em->flush();
+
+                $this->get('login.listener')->log($user);
+#				$em = $this->getDoctrine()->getManager();
+#				$loginlog = new LoginLog();
+#				$loginlog->setUserId($id);
+#				$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
+#				$loginlog->setLoginIp($this->get('request')->getClientIp());
+#				$em->persist($loginlog);
+#				$em->flush();
 			}
 		}
 		//      }
@@ -374,9 +377,9 @@ class DefaultController extends Controller {
                     $soapMailLister->sendSingleMailing($recipient_arr);
                     $session = $request->getSession();
                     $session->remove('token');
-                    $session->set('uid', $id);
-                    $session->set('nick', $nick);
-
+#                    $session->set('uid', $id);
+#                    $session->set('nick', $nick);
+                    $this->get('login.listener')->initSession( $user );
                     $this->get('login.listener')->checkNewbie( $user );
 
                     $this->get('login.listener')->log( $user );

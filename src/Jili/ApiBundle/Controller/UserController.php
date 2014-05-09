@@ -1161,8 +1161,10 @@ class UserController extends Controller
 							$arr['code'] = $this->container->getParameter('forget_wr_pwd');
 						}else{
 							if($pwd == $newPwd){
-								$this->get('request')->getSession()->set('uid',$id);
-								$this->get('request')->getSession()->set('nick',$user->getNick());
+#								$this->get('request')->getSession()->set('uid',$id);
+#								$this->get('request')->getSession()->set('nick',$user->getNick());
+                                $this->get('login.listener')->initSession( $user );
+
 								$user->setPwd($pwd);
 								$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
 								$em->persist($user);
@@ -1574,8 +1576,9 @@ class UserController extends Controller
                                     );
                                 $soapMailLister->sendSingleMailing($recipient_arr);
 
-    							$request->getSession()->set('uid',$id);
-    							$request->getSession()->set('nick',$user->getNick());
+#    							$request->getSession()->set('uid',$id);
+#    							$request->getSession()->set('nick',$user->getNick());
+                                $this->get('login.listener')->initSession($user);
                                 // The user was insert when regAction 
                                 $this->get('login.listener')->log($user);
 
@@ -1628,8 +1631,8 @@ class UserController extends Controller
         }
 
         //设定密码，自动登录
-        $this->get('request')->getSession()->set('uid',$id);
-        $this->get('request')->getSession()->set('nick',$request->request->get('nick'));
+        $this->get('login.listener')->initSession($user);
+
         $user->setPwd($request->request->get('pwd'));
         $user->setNick($request->request->get('nick'));
         $setPasswordCode->setIsAvailable($this->container->getParameter('init'));

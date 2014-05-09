@@ -64,10 +64,7 @@ class LoginListener {
 			setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
 		}
 
-		$request->getSession()->set('uid', $user->getId() );
-		$request->getSession()->set('nick', $user->getNick());
-		$request->getSession()->set('points', $user->getPoints());
-
+        $this->initSession($user);
         $this->checkNewbie( $user);
         
 		$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
@@ -78,6 +75,17 @@ class LoginListener {
 		$code = 'ok';
 		return $code;
 	}
+    /**
+     *
+     */
+    public function initSession( User  $user)
+    {
+        $session = $this->container_->get('session');
+        $session->set('uid', $user->getId() );
+        $session->set('nick', $user->getNick());
+        $session->set('icon_path', $user->getIconPath());
+        $session->set('points', $user->getPoints());
+    }
 
     /**
      * update is_newbie in session
