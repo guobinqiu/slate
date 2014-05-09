@@ -28,6 +28,7 @@ framework:
     trusted_proxies: ~
     session:
         gc_maxlifetime:   86400
+        save_path: "%kernel.root_dir%/sessions/%kernel.environment%"
     fragments:       ~
 # Twig Configuration
 twig:

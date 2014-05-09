@@ -747,7 +747,8 @@ class UserController extends Controller
         $income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
         $option = array('status' => 0 ,'offset'=>'1','limit'=>'10');
         $option_ex = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
-        $adtaste = $this->selTaskHistory($id,$option);
+#       $adtaste = $this->selTaskHistory($id,$option);
+        $adtaste = $this->get('my_task_list')->selTaskHistory($option);
         foreach ($adtaste as $key => $value) {
             if($value['orderStatus'] == 1 && $value['type'] ==1){
                 unset($adtaste[$key]);
@@ -1490,7 +1491,8 @@ class UserController extends Controller
 
 		$em = $this->getDoctrine()->getManager();
 		$option = array('status' => $type ,'offset'=>'','limit'=>'');
-		$adtaste = $this->selTaskHistory($id,$option);
+#		$adtaste = $this->selTaskHistory($id,$option);
+        $adtaste = $this->get('my_task_list')->selTaskHistory($option);
 		foreach ($adtaste as $key => $value) {
 			if($value['orderStatus'] == 1 && $value['type'] ==1){
 				unset($adtaste[$key]);
@@ -1939,24 +1941,24 @@ class UserController extends Controller
     }
 
 
-	private function selTaskHistory($userid, $option){
-      $em = $this->getDoctrine()->getManager();
-      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) ); 
-      $po = $task->getUseradtaste($userid, $option);
-
-      foreach ($po as $key => $value) {
-			if($value['type']==1 ) {
-				$adUrl = $task->getUserAdwId($value['orderId']);
-                if( is_array($adUrl) && count($adUrl) > 0) {
-                    $po[$key]['adid'] = $adUrl[0]['adid'];
-                } else {
-                    $po[$key]['adid'] = '';
-                }
-			}else{
-				$po[$key]['adid'] = '';
-			}
-		}
-		return $po;
-    }
+#	private function selTaskHistory($userid, $option){
+#      $em = $this->getDoctrine()->getManager();
+#      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) ); 
+#      $po = $task->getUseradtaste($userid, $option);
+#
+#      foreach ($po as $key => $value) {
+#			if($value['type']==1 ) {
+#				$adUrl = $task->getUserAdwId($value['orderId']);
+#                if( is_array($adUrl) && count($adUrl) > 0) {
+#                    $po[$key]['adid'] = $adUrl[0]['adid'];
+#                } else {
+#                    $po[$key]['adid'] = '';
+#                }
+#			}else{
+#				$po[$key]['adid'] = '';
+#			}
+#		}
+#		return $po;
+#    }
 	
 }

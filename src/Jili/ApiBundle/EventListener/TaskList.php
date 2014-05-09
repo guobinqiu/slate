@@ -27,6 +27,7 @@ class TaskList
         'checkin_point'=>'task_list.checkin_point',
         'cpa_ads'=>'task_list.cpa_ads',
     );  /* add to config */
+    private $duration  = 20;
     /**
      *
      */
@@ -44,18 +45,18 @@ class TaskList
         // session life 
         $key_alive = $this->keys['alive'];
 
-        $duration_alive = 20; /* todo: add to config */
+        $duration_alive = $this->duration; /* todo: add to config */
         $is_alive = false ;
         if( $session->has($key_alive)) {
             if(  time() < $duration_alive + $session->get($key_alive ) ) {
                 $is_alive = true;
-                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list  session alive')));
+#                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list  session alive')));
             } else {
-                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list  session out of date')));
+#                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list  session out of date')));
                 $this->reset();
             }
         } else {
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list session init')));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list session init')));
             $this->reset();
         }
 
@@ -63,11 +64,11 @@ class TaskList
         $key_game =$this->keys[ 'game_visit'];
         if( $is_alive && $session->has($key_game)) {
             $visit  =  $session->get($key_game);
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_game,'from sess','') ).var_export($visit, true));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_game,'from sess','') ).var_export($visit, true));
         } else {
             $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
             $session->set($key_game, $visit);
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_game,'init sess','') ).var_export($visit, true));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_game,'init sess','') ).var_export($visit, true));
         }
 
         $arr['task']['game'] =(empty ($visit))? $this->getParameter('init_one'):$arr['task']['game'] = $this->getParameter('init');
@@ -76,11 +77,11 @@ class TaskList
         $key_adv = $this->keys['adv_visit'];
         if( $is_alive && $session->has($key_adv)) {
             $visit  =  $session->get($key_adv);
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_adv,'from sess','') ).var_export($visit, true));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_adv,'from sess','') ).var_export($visit, true));
         } else {
             $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
             $session->set($key_adv, $visit);
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_adv,'init sess','') ).var_export($visit, true));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_adv,'init sess','') ).var_export($visit, true));
         }
 
         $arr['task']['ad'] =(empty ($visit))? $this->getParameter('init_one'):$arr['task']['ad'] = $this->getParameter('init');
@@ -89,11 +90,11 @@ class TaskList
         $key_91ww = $this->keys['91ww_visit'];
         if( $is_alive && $session->has($key_91ww)) {
             $visit  =  $session->get($key_91ww);
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_91ww,'from sess','') ).var_export($visit, true));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_91ww,'from sess','') ).var_export($visit, true));
         } else {
             $visit = $em->getRepository('JiliApiBundle:UserWenwenVisit')->getWenwenVisit($id, $day);
             $session->set($key_91ww, $visit);
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_91ww,'init sess','') ).var_export($visit, true));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_91ww,'init sess','') ).var_export($visit, true));
         }
 
         $arr['task']['wen'] =(empty ($visit))? $this->getParameter('init_one'):$arr['task']['wen'] = $this->getParameter('init');
@@ -102,11 +103,11 @@ class TaskList
         $key_checkin = $this->keys['checkin_visit'];
         if( $is_alive && $session->has($key_checkin)) {
             $visit =  $session->get($key_checkin);
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_checkin,'from sess','') ).var_export($visit, true));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_checkin,'from sess','') ).var_export($visit, true));
         } else {
             $visit = $em->getRepository('JiliApiBundle:CheckinClickList')->checkStatus($id, $day);
             $session->set($key_checkin, $visit);
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_checkin,'init sess','') ).var_export($visit, true));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_checkin,'init sess','') ).var_export($visit, true));
         }
 
         $arr['task']['checkin'] = (!empty ($visit)) ? $this->getParameter('init'): $this->getParameter('init_one');
@@ -116,25 +117,25 @@ class TaskList
             $key_checkin_point = $this->keys['checkin_point'];
             if( $is_alive && $session->has($key_checkin_point)) {
                 $arr['task']['checkinPoint'] =$session->get($key_checkin_point);
-                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_checkin_point,'from sess','') ).var_export($arr['task']['checkinPoint'], true));
+#                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_checkin_point,'from sess','') ).var_export($arr['task']['checkinPoint'], true));
             } else {
                 $arr['task']['checkinPoint'] = $this->check_in_listener->getCheckinPoint( $this->request );
                 $session->set($key_checkin_point, $arr['task']['checkinPoint'] );
-                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_checkin_point,'init sess','') ).var_export($arr['task']['checkinPoint'] , true));
+#                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_checkin_point,'init sess','') ).var_export($arr['task']['checkinPoint'] , true));
             }
         } else {
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_checkin_point,'not required','') ));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_checkin_point,'not required','') ));
         }
         //cpa
         $key_cpa_visit = $this->keys['cpa_ads'];
         if( $is_alive && $session->has($key_cpa_visit) ) {
             $advertise = $session->get($key_cpa_visit);
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_cpa_visit,'from sess','') ).var_export($advertise, true));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_cpa_visit,'from sess','') ).var_export($advertise, true));
         } else {
             $repository = $em->getRepository('JiliApiBundle:Advertiserment');
             $advertise = $repository->getAdvertiserListCPA($id);
             $session->set($key_cpa_visit, $advertise);
-            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_cpa_visit,'init sess','') ).var_export($advertise, true));
+#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,$key_cpa_visit,'init sess','') ).var_export($advertise, true));
         }
         $arr['advertise'] = $advertise;
         $arr['task']['cpa'] = $arr['advertise'];

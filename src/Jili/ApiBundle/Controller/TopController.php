@@ -243,13 +243,23 @@ class TopController extends Controller
     }
 
     private function getMyTaskList($type) {
-        $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         $id = $request->getSession()->get('uid');
 
         $option = array('status' => $type ,'offset'=>'','limit'=>'');
 
-        $adtaste = $this->selTaskHistory($id,$option);
+        $logger = $this->get('logger');
+#        $adtaste = $this->selTaskHistory($id,$option);
+        $adtaste = $this->get('my_task_list')->selTaskHistory($option);
+
+#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')). var_export($adtaste, true));
+#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')). var_export($adtaste0, true));
+#        if( json_encode($adtaste) === json_encode($adtaste0)) {
+#            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$adtaste0','$adtaste','==')));
+#        } else {
+#            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$adtaste0','$adtaste','!=')));
+#        }
+#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'diff2','')). var_export(array_diff($adtaste,$adtaste0), true));
 
         foreach ($adtaste as $key => $value) {
             if($value['orderStatus'] == 1 && $value['type'] ==1){
@@ -260,28 +270,28 @@ class TopController extends Controller
         return $adtaste;
     }
 
-    private function selTaskHistory($userid, $option){
-      $em = $this->getDoctrine()->getManager();
-
-      $logger  = $this->get('logger');
-
-      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) );
-      $po = $task->getUseradtaste($userid, $option);
-
-      foreach ($po as $key => $value) {
-            if($value['type']==1 ) {
-                $adUrl = $task->getUserAdwId($value['orderId']);
-                if( is_array($adUrl) && count($adUrl) > 0) {
-                    $po[$key]['adid'] = $adUrl[0]['adid'];
-                } else {
-                    $po[$key]['adid'] = '';
-                }
-            }else{
-                $po[$key]['adid'] = '';
-            }
-        }
-        return $po;
-    }
+#    private function selTaskHistory($userid, $option){
+#      $em = $this->getDoctrine()->getManager();
+#
+#      $logger  = $this->get('logger');
+#
+#      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) );
+#      $po = $task->getUseradtaste($userid, $option);
+#
+#      foreach ($po as $key => $value) {
+#            if($value['type']==1 ) {
+#                $adUrl = $task->getUserAdwId($value['orderId']);
+#                if( is_array($adUrl) && count($adUrl) > 0) {
+#                    $po[$key]['adid'] = $adUrl[0]['adid'];
+#                } else {
+#                    $po[$key]['adid'] = '';
+#                }
+#            }else{
+#                $po[$key]['adid'] = '';
+#            }
+#        }
+#        return $po;
+#    }
 
     //签到列表
     private function checkinList(){
