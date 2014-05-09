@@ -136,6 +136,9 @@ class TopController extends Controller
      */
     public function myTaskAction()
     {
+        $logger =  $this->get('logger');
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')));
+
         //任务列表
         $arr['myTask'] = $this->getUndoTaskList();
 
@@ -187,58 +190,10 @@ class TopController extends Controller
 
     private function getUndoTaskList() {
         //可以做的任务，签到+游戏+91问问+购物+cpa
-        $day = date('Ymd');
-        $request = $this->get('request');
-        $id = $request->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $glideAd = false;//是否显示签到活动广告
-        $signRemind = false;//是否显示签到活动广告
-        $signRemind_reg = false;//是否为当天注册
-        if ($id) {
-            //游戏
-            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
-            if (empty ($visit)) {
-                $arr['task']['game'] = $this->container->getParameter('init_one');
-            } else {
-                $arr['task']['game'] = $this->container->getParameter('init');
-            }
-
-            //广告任务墙
-            $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
-            if (empty ($visit)) {
-                $arr['task']['ad'] = $this->container->getParameter('init_one');
-            } else {
-                $arr['task']['ad'] = $this->container->getParameter('init');
-            }
-
-            //91wenwen
-            $visit = $em->getRepository('JiliApiBundle:UserWenwenVisit')->getWenwenVisit($id, $day);
-            if (empty ($visit)) {
-                $arr['task']['wen'] = $this->container->getParameter('init_one');
-            } else {
-                $arr['task']['wen'] = $this->container->getParameter('init');
-            }
-
-            //签到
-            $date = date('Y-m-d');
-            $checkin = $em->getRepository('JiliApiBundle:CheckinClickList')->checkStatus($id, $date);
-            if (!empty ($checkin)) {
-                $arr['task']['checkin'] = $this->container->getParameter('init');
-            } else {
-                //获取签到积分
-                $checkInLister = $this->get('check_in.listener');
-                $arr['task']['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));;
-                $arr['task']['checkin'] = $this->container->getParameter('init_one');
-                if($signRemind_reg){
-                    $signRemind = true;//显示签到活动广告
-                }
-            }
-
-            //cpa
-            $repository = $em->getRepository('JiliApiBundle:Advertiserment');
-            $advertise = $repository->getAdvertiserListCPA($id);
-            $arr['advertise'] = $advertise;
-            $arr['task']['cpa'] = $advertise;
+        if( $this->get('session')->has('uid')) {
+            $taskList = $this->get('task_list');
+            $taskList->setRequest($this->get('request'));
+            $arr = $taskList->compose();
         }
 
         //advertiserment check
@@ -291,18 +246,25 @@ class TopController extends Controller
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         $id = $request->getSession()->get('uid');
+
         $option = array('status' => $type ,'offset'=>'','limit'=>'');
+
         $adtaste = $this->selTaskHistory($id,$option);
+
         foreach ($adtaste as $key => $value) {
             if($value['orderStatus'] == 1 && $value['type'] ==1){
                 unset($adtaste[$key]);
             }
         }
+
         return $adtaste;
     }
 
     private function selTaskHistory($userid, $option){
       $em = $this->getDoctrine()->getManager();
+
+      $logger  = $this->get('logger');
+
       $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) );
       $po = $task->getUseradtaste($userid, $option);
 

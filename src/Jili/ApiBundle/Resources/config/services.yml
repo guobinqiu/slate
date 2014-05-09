@@ -21,6 +21,8 @@ parameters:
     check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
 
     point_manage.processor.class:  Jili\ApiBundle\EventListener\PointManageProcessor
+# task list 
+    task_list.class: Jili\ApiBundle\EventListener\TaskList
 
 services:
     login.listener:
@@ -106,3 +108,13 @@ services:
             - [setTaskLogger, ["@general_api.task_history"] ]
             - [setPointLogger, ["@general_api.point_history"] ]
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    task_list:
+        class: %task_list.class%
+        calls:
+            - [ setContainer, [ @service_container ] ] 
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setSession, [ @session ] ] 
+            - [ setCheckInListener , [ @check_in.listener ] ]
+
