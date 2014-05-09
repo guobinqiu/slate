@@ -21,7 +21,7 @@ class OfferwowController extends Controller
 
     /**
      * @Route("/getInfo", name="_api_offerwow_getinfo");
-     * @Method({"GET"});
+     * @Method({"GET","POST"});
      */
     public function getInfoAction()
     {
