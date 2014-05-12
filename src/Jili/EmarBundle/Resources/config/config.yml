@@ -1,3 +1,6 @@
+imports:
+    - { resource: cache.yml }
+
 parameters:
     emar:
         callback_return_code:
@@ -40,3 +43,4 @@ parameters:
 #    yiqifa_com.name: "亿玛返利"
 #    yiqifa_com.category_type: 18 # in ad_category table where cateogry_name ='yiqifa' ??
 #    yiqifa_com.task_type: 6
+

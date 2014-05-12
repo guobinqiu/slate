@@ -32,6 +32,10 @@ parameters:
     cron.websites.class:  Jili\EmarBundle\EventListener\WebsitesCron
 # ip authentication
     authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
+#cache
+    cache.file_handler.class: Jili\ApiBundle\EventListener\Cache\FileHandler
+    cache.emar_response.class: Jili\EmarBundle\EventListener\Cache\EmarResponse
+
 
 services:
     emar_api.logger:
@@ -75,6 +79,7 @@ services:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
             - [ setPageSize, [ %emar_com.page_size% ] ] 
+            - [ setCacheProxy, [ @cache.emar_response ] ] 
 
     general.category_get:
         class: %general.category_get.class%
@@ -140,10 +145,12 @@ services:
 
     product.categories:
         class: %product.categories.class%
+        arguments: [  %cache_config.emar.product_categories.key%,  %cache_config.emar.product_categories.duration% ]
         calls:
             - [ setLogger, [ @logger ] ] 
             - [ setGeneralCategoryGet, [ @general.category_get ] ] 
             - [ setCacheDir, [ %kernel.cache_dir% ] ] 
+            - [ setCacheFileHandler, [ @cache.file_handler ] ] 
 
     cron.website_and_category:
         class: %cron.website_and_category.class%
@@ -172,4 +179,18 @@ services:
        arguments: [ [%admin_home_ip%,  %admin_vpn_ip%,    %admin_ele_ip%,    %admin_un_ip% , 127.0.0.1] ]
        tags:
            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+#cache 
+    cache.file_handler: 
+        class: %cache.file_handler.class%
+        arguments: [ %cache_data_path% ]
+        calls:
+            - [setLogger, [ @logger ] ]
+
+    cache.emar_response:
+        class: %cache.emar_response.class%
+        arguments: [ %cache_config.emar_api% ]
+        calls:
+            - [ setLogger, [ @logger ] ]
+            - [ setCacheHandler, [ @cache.file_handler ] ]
 

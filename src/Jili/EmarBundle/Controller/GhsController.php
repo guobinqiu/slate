@@ -24,11 +24,24 @@ class GhsController extends Controller
     public function promotionAction($tmpl, $max, $p) {
         $request = $this->get('request');
         $logger = $this->get('logger');
-        $listRequest = $this->get('ghs.list_get');
+
+        $api_name = 'ghs.list_get';
+        $listRequest = $this->get($api_name);
+
+
+#        $cache_key = 'ghs.protomiton_on_' .$tmpl .'_max_'.$max ;
+#        $cache_service = $this->get('');
+#        $cache_service->setApi($api_name)->setParams(array(''))->setRequest();
+#        $duration = $cache_service->getDuration($api_name); // for alive validation
+#        $cache_key = $cache_service->getKey( array('tmpl'=>$tmpl, 'page_size'=> $max, 'page_no'=> $p , 'by'=> ) );// for key
+#        if( $cache_service->isValid( $cache_key, $duration) ) {
+#            $list = $cache_service->get($cache_key );
+#        } else {
+
 
         // store the max in session ? 
         $session = $request->getSession() ;
-        $last_page_session_key = 'ghs.list_get.'.$tmpl.'.fetched';
+        $last_page_session_key = $api_name.$tmpl.'.fetched';
 
         if( $session->has($last_page_session_key)) {
             $last_page =  $session->get($last_page_session_key);
@@ -39,13 +52,10 @@ class GhsController extends Controller
             $total = $listRequest->getTotal();
             $last_page =ceil( $total/2/$max);
             $session->set($last_page_session_key, $last_page);
-#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'','session reload'))) ;
+            #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'','session reload'))) ;
         }
-        
-
-#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total1','')) . var_export( $total, true));
-#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'last_page1','')) . var_export( $last_page, true));
-
+        #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total1','')) . var_export( $total, true));
+        #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'last_page1','')) . var_export( $last_page, true));
         if( $p > $last_page) {
             $page = $p % $last_page;
         } else {
@@ -56,20 +66,23 @@ class GhsController extends Controller
             }
         }
 
-#
-#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'last_page','')) . var_export( $last_page, true));
-#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'max','')) . var_export( $max, true));
-
+        #
+        #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'last_page','')) . var_export( $last_page, true));
+        #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'max','')) . var_export( $max, true));
         // multiple by 2 to filter the unecessary links. 
         // NOTICE: always fetch the first page ?
-
         $listRequest->setPageSize($max );
         $params = array('page_no' => $page);
 
 #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'params','')) . var_export( $params, true));
-
         $uid = $request->getSession()->get('uid');
         $list = $listRequest->setApp('search')->fetchDistinct( $params );
+
+#            $cache_service->remove($cache_key);
+#            $cache_service->get($cache_key, $list );
+#        }
+
+        
 
 #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'total2','')) . var_export( $listRequest->getTotal() , true));
 

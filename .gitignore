@@ -1,7 +1,8 @@
 /web/bundles/
 /app/bootstrap*
 /app/cache/*
-/app/sessions
+/app/sessions/*
+/app/cache_data/*
 /app/logs/*
 /vendor/
 /app/config/parameters.ini

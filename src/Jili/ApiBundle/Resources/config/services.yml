@@ -26,6 +26,7 @@ parameters:
     session.my_task_list.class: Jili\ApiBundle\EventListener\Session\MyTaskList
     session.points.class: Jili\ApiBundle\EventListener\Session\Points
 
+
 services:
     login.listener:
         class: %login.listener.class%
@@ -137,3 +138,4 @@ services:
             - [ setLogger, [ @logger ] ] 
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
             - [ setSession, [ @session ] ] 
+

@@ -115,3 +115,4 @@ parameters:
             - '成人用品'
             - '鲜花礼品'
 
+    cache_data_path: "%kernel.root_dir%/cache_data/%kernel.environment%"
