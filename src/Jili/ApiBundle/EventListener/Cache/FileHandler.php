@@ -51,7 +51,7 @@ class FileHandler
             }
         }
 
-        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, 'validate','') ).var_export( $result , true)  );
+#        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, 'validate','') ).var_export( $result , true)  );
         return $result ;
     }
     /**
@@ -60,11 +60,11 @@ class FileHandler
      */
     public function set($key ,$value)
     {
-        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, '') ).var_export( $key, true)  );
+#        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, '') ).var_export( $key, true)  );
         #$this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, '') ).var_export( $value, true)  );
         // save the $value,into $key, overwrite.
         $cached = $this->getFileName($key);
-        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, '') ).var_export( $cached, true)  );
+#        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, '') ).var_export( $cached, true)  );
 
 
         $fs = new Filesystem();
