@@ -17,11 +17,16 @@ class MyTaskList
     private $container;
     private $request;
 
-    private $keys = array(
-        'alive'=>'my_task_list.alive',
-        'list'=>'my_task_list.task_history'
-    );  /* add to config */
-    private $duration=60;
+    private $keys ;//= array(
+//        'alive'=>'my_task_list.alive',
+//        'list'=>'my_task_list.task_history'
+//    );  /* add to config */
+    private $duration;//=60;
+    public function __construct( $keys, $duration)
+    {
+        $this->keys = $keys;
+        $this->duration = $duration;
+    }
 
     /**
      * @param: $option = array('status' => $type ,'offset'=>'','limit'=>'');
@@ -30,6 +35,9 @@ class MyTaskList
      * @param: $option['limit']
      */
 	public function selTaskHistory($option){
+
+        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'')). var_export( $this->keys, true) );
+        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'')). var_export( $this->duration, true) );
         $session = $this->session;
         $logger = $this->logger;
         $data = array();
@@ -65,7 +73,6 @@ class MyTaskList
             $session->set($key_list, $data);
         }
 
-        // array (   0 =>    array (           'userId' => 1057644,     'orderId' => 110,     'createTime' =>      DateTime::__set_state(array(        'date' => '      2014-04-23 17:45:44',        'timezone_type' => 3,        'timezone' => 'Asia/Shanghai',     )),     'type' => 1,           'orderStatus' => 2,     'incentiveType' => 19,     'incentive' => 280,     'title' => '京东CPS',     'displayNam      e' => '亿玛返利',     'adid' => '',   ),  
         if(isset($option['status'])) {
             $status = (int) $option['status'];
             if( $status === 1 ) {

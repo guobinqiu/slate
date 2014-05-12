@@ -1,3 +1,5 @@
+imports:
+    - { resource: cache.yml }
 
 parameters:
     offerwow_com: 

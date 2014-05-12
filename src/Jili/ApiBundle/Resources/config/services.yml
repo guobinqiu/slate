@@ -113,6 +113,7 @@ services:
 
     session.task_list:
         class: %session.task_list.class%
+        arguments: [ %cache_config.session.task_list.keys%,%cache_config.session.task_list.duration%  ]
         calls:
             - [ setContainer, [ @service_container ] ] 
             - [ setLogger, [ @logger ] ] 
@@ -122,6 +123,7 @@ services:
 
     session.my_task_list:
         class: %session.my_task_list.class%
+        arguments: [ %cache_config.session.my_task_list.keys%,%cache_config.session.my_task_list.duration%  ]
         calls:
             - [ setContainer, [ @service_container ] ] 
             - [ setLogger, [ @logger ] ] 
@@ -130,6 +132,7 @@ services:
 
     session.points:
         class: %session.points.class%
+        arguments: [ %cache_config.session.points.keys%,%cache_config.session.points.duration%  ]
         calls:
             - [ setLogger, [ @logger ] ] 
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 

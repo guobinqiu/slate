@@ -13,14 +13,15 @@ class Points
     private $em;
     private $logger;
 
-    private $keys = array(
-        'alive'=> '',
-        'confirmming'=> 'user.points.confirmming'
-    ) ;
-    private $duration = 20;
+    private $keys;
+    private $duration;
+    public function __construct( $keys, $duration)
+    {
+        $this->keys = $keys;
+        $this->duration = $duration;
+    }
     public function getConfirm()
     {
-
         $session = $this->session;
 
         $day=date('Ymd');
@@ -31,13 +32,10 @@ class Points
         if( $session->has($key_alive)) {
             if(  time() < $duration_alive + $session->get($key_alive ) ) {
                 $is_alive = true;
-#                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list  session alive')));
             } else {
-#                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list  session out of date')));
                 $this->reset();
             }
         } else {
-#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list session init')));
             $this->reset();
         }
 
