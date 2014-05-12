@@ -11,7 +11,7 @@ dwsync.xml
 .DS_Store
 .gitignore 
 
-config/
+/config/
 makefile
 web/images/actionPic/1391840458_3367.jpeg
 web/images/actionPic/1391840458_5171.jpeg
