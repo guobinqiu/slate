@@ -32,6 +32,8 @@ parameters:
     cron.websites.class:  Jili\EmarBundle\EventListener\WebsitesCron
 # ip authentication
     authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
+#cache
+    cache.file_handler.class: Jili\ApiBundle\EventListener\Cache\FileHandler
 
 services:
     emar_api.logger:
@@ -144,6 +146,7 @@ services:
             - [ setLogger, [ @logger ] ] 
             - [ setGeneralCategoryGet, [ @general.category_get ] ] 
             - [ setCacheDir, [ %kernel.cache_dir% ] ] 
+            - [ setCacheFileHandler, [ @cache.file_handler ] ] 
 
     cron.website_and_category:
         class: %cron.website_and_category.class%
@@ -173,3 +176,9 @@ services:
        tags:
            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
+#cache 
+    cache.file_handler: 
+        class: %cache.file_handler.class%
+        arguments: [ %cache_data_path% ]
+        calls:
+            - [setLogger, [ @logger ] ]

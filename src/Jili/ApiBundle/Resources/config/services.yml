@@ -22,6 +22,7 @@ parameters:
 
     point_manage.processor.class:  Jili\ApiBundle\EventListener\PointManageProcessor
 
+
 services:
     login.listener:
         class: %login.listener.class%
@@ -106,3 +107,6 @@ services:
             - [setTaskLogger, ["@general_api.task_history"] ]
             - [setPointLogger, ["@general_api.point_history"] ]
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+
+#
