@@ -34,6 +34,8 @@ parameters:
     authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
 #cache
     cache.file_handler.class: Jili\ApiBundle\EventListener\Cache\FileHandler
+    cache.emar_response.class: Jili\EmarBundle\EventListener\Cache\EmarResponse
+
 
 services:
     emar_api.logger:
@@ -77,6 +79,7 @@ services:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
             - [ setPageSize, [ %emar_com.page_size% ] ] 
+            - [ setCacheProxy, [ @cache.emar_response ] ] 
 
     general.category_get:
         class: %general.category_get.class%
@@ -182,3 +185,11 @@ services:
         arguments: [ %cache_data_path% ]
         calls:
             - [setLogger, [ @logger ] ]
+
+    cache.emar_response:
+        class: %cache.emar_response.class%
+        arguments: [ %emar_cache% ]
+        calls:
+            - [ setLogger, [ @logger ] ]
+            - [ setCacheHandler, [ @cache.file_handler ] ]
+
