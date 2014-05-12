@@ -13,15 +13,15 @@ class RegType extends AbstractType
 
     }
     
-#    public function getDefaultOptions(array $options){
-#        return array(
-#           'data_class' => 'Jili\ApiBundle\Entity\User',
-#           'csrf_protection' => true,
-#           'csrf_field_name' => '_token',
-#           // 一个唯一的键值来保证生成令牌
-#           'intention' => 'task_item',
-#        );
-#    }
+#   public function getDefaultOptions(array $options){
+#       return array(
+#          'data_class' => 'Jili\ApiBundle\Entity\User',
+#          'csrf_protection' => true,
+#          'csrf_field_name' => '_token',
+#          // 一个唯一的键值来保证生成令牌
+#          'intention' => 'task_item',
+#       );
+#   }
 #
 
      public function setDefaultOptions(OptionsResolverInterface $resolver)

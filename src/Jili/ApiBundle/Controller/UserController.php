@@ -851,7 +851,7 @@ class UserController extends Controller
             $confirmPoints = 0;
         }
 
-        $from_view = $form->createView();
+        $form_view = $form->createView();
         return $this->render('JiliApiBundle:User:info.html.twig', array(
             'form' => $form_view,
             'form_upload' =>$form_view,
