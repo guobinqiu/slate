@@ -74,7 +74,7 @@ class GhsController extends Controller
         $listRequest->setPageSize($max );
         $params = array('page_no' => $page);
 
-        #        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'params','')) . var_export( $params, true));
+#        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'params','')) . var_export( $params, true));
         $uid = $request->getSession()->get('uid');
         $list = $listRequest->setApp('search')->fetchDistinct( $params );
 

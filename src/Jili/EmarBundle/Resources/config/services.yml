@@ -145,6 +145,7 @@ services:
 
     product.categories:
         class: %product.categories.class%
+        arguments: [  %cache_config.emar.product_categories.key%,  %cache_config.emar.product_categories.duration% ]
         calls:
             - [ setLogger, [ @logger ] ] 
             - [ setGeneralCategoryGet, [ @general.category_get ] ] 
@@ -188,7 +189,7 @@ services:
 
     cache.emar_response:
         class: %cache.emar_response.class%
-        arguments: [ %emar_cache% ]
+        arguments: [ %cache_config.emar_api% ]
         calls:
             - [ setLogger, [ @logger ] ]
             - [ setCacheHandler, [ @cache.file_handler ] ]

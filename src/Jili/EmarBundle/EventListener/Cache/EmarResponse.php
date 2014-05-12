@@ -23,13 +23,6 @@ class EmarResponse
      */
     public function getKey(){
         $req = $this->emar_request;
-#        $cn =get_class( $req);
-#        $cm = get_class_methods($cn);
-
-#        $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($cn, true)  );
-#        $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($cm, true)  );
-#        $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($req->getApiMethodName(), true)  );
-#        $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($req->getApiParams(), true)  );
         return md5( $req->getApiMethodName(). json_encode( $req->getApiParams() ) );
     }
 
@@ -38,25 +31,22 @@ class EmarResponse
      */
     public function getDuration() {
         $req = $this->emar_request;
-#        $cn =get_class( $req);
-#        $cm = get_class_methods($cn);
-#        $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($cn, true)  );
-#        $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($cm, true)  );
         $duration = 0;
         $api_name = $req->getApiMethodName() ;
         $api_params = $req->getApiParams();
         $config = $this->cache_config;
-
         if(  array_key_exists( $api_name , $config)) {
             foreach( $config[$api_name ] as  $key => $value ) {
-                if( array_key_exists( $key, $api_params) ) {
+                if( isset( $api_params[$key]) && isset($value[ $api_params[$key]])   ) {
                     $duration = $value[ $api_params[ $key] ];
+                    break;
                 }
             }
             if( 0 ===  $duration ) {
                 $duration = $config[ $api_name ]['default'];
             }
         }
+
         return $duration;
     }
 
@@ -64,7 +54,6 @@ class EmarResponse
     public function setEmarRequest($emar_request)
     {
        $this->emar_request  = $emar_request; 
-       
        return $this;
     }
     

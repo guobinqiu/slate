@@ -10,8 +10,16 @@ use Jili\EmarBundle\Api2\Repository\ItemCat as ItemCatRepository,
 class ProductCategories {
     private $logger;
     private $generalCategoryGet;
-    private $cache_fn = 'emar.product_categories';
-    private $duration = 90;
+
+    private $cache_fn; // = 'emar.product_categories';
+    private $duration; //= 90;
+
+
+    public function __construct( $key, $duration)
+    {
+        $this->cache_fn = $key;
+        $this->duration = $duration;
+    }
     /**
      * 1. fetch first level category,
      * 2. fetch second level category based on first level category;
@@ -20,38 +28,29 @@ class ProductCategories {
      */
     public function fetch( $force = false ) {
         $prod_categories = null ;
+#        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__, '')). var_export( $this->cache_fn, true) );
+#        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__, '')). var_export( $this->duration, true) );
         if($this->cache_file_handler->isValid($this->cache_fn , $this->duration) ) {
             $prod_categories = $this->cache_file_handler->get($this->cache_fn);
-#           $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $cats, true));
         } 
 
         if( !isset($prod_categories) || ! is_array($prod_categories) || ! isset($prod_categories['cats']) || ! isset($prod_categories['sub_cats']))  {
 
-#            $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $prod_categories, true));
             // cats
             $categories_raw  = $this->generalCategoryGet->fetch();
             $cats = ItemCatRepository::parse( $categories_raw);
-            #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $cats, true));
             $sub_cats = array();
             foreach( $categories_raw as $cat ) {
                 $cid = $cat['catid'];
                 $params = array('parent_id' => $cid);
                 $sub_cats_raw = $this->generalCategoryGet->fetch($params);
                 $sub_cats[ $cid ] =  ItemCatRepository::parse( $sub_cats_raw);
-                #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $params, true));
             }
 
             $prod_categories = compact('cats', 'sub_cats');
-#             $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $this->cache_fn , true));
             
             $this->cache_file_handler->remove($this->cache_fn );
             $this->cache_file_handler->set($this->cache_fn , $prod_categories);
-            //@file_put_contents( $cached, serialize($prod_categories) , LOCK_EX);
-            //
-#             $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,' cache not used')) );
-        } else {
-#             $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,' cache used')) );
-
         }
         return $prod_categories;
     }
@@ -63,8 +62,6 @@ class ProductCategories {
     public function setLogger(  LoggerInterface $logger) {
         $this->logger = $logger;
     }
-
-
 
     public function setGeneralCategoryGet(  $getter ) {
         $this->generalCategoryGet= $getter ;
