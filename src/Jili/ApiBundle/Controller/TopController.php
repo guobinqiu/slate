@@ -181,9 +181,19 @@ class TopController extends Controller
      */
     public function advertiseBannerAction()
     {
-        //banner,右一
-        $em = $this->getDoctrine()->getManager();
-        $advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoBanner();
+        $cache_fn= $this->container->getParameter('cache_config.api.top_adbanner.key');
+        $cache_duration = $this->container->getParameter('cache_config.api.top_adbanner.duration');
+        $cache_proxy = $this->get('cache.file_handler');
+
+        if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
+            $advertiseBanner= $cache_proxy->get($cache_fn);
+        }  else {
+            $cache_proxy->remove( $cache_fn);
+            //banner,右一
+            $em = $this->getDoctrine()->getManager();
+            $advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoBanner();
+            $cache_proxy->set( $cache_fn, $advertiseBanner);
+        }
         $arr['advertise_banner'] = $advertiseBanner;
         return $this->render('JiliApiBundle:Top:adBanner.html.twig', $arr);
     }

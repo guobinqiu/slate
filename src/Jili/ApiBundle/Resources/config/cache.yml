@@ -1,4 +1,7 @@
 parameters: 
+# advertiseBanner 
+    cache_config.api.top_adbanner.key: 'api.top_adbanner'
+    cache_config.api.top_adbanner.duration: 3600 #unit seconds
 # market 
     cache_config.api.top_market.key: 'api.top_market'
     cache_config.api.top_market.duration: 3600 #unit seconds
