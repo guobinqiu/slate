@@ -41,7 +41,7 @@ class GhsController extends Controller
 
         // store the max in session ? 
         $session = $request->getSession() ;
-        $last_page_session_key = $api_name.$tmpl.'.fetched';
+        $last_page_session_key = $api_name.'.'.$tmpl.'.fetched';
 
         if( $session->has($last_page_session_key)) {
             $last_page =  $session->get($last_page_session_key);

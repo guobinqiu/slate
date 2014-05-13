@@ -8,17 +8,17 @@ parameters:
         'checkin_visit': 'task_list.checkin_visit'
         'checkin_point': 'task_list.checkin_point'
         'cpa_ads': 'task_list.cpa_ads'
-    cache_config.session.task_list.duration:  3607 # seconds 
+    cache_config.session.task_list.duration:  -1 # seconds 
 
 # points
     cache_config.session.points.keys:  
         'alive':  'user.points.alive'
         'confirmming':  'user.points.confirmming'
 
-    cache_config.session.points.duration:  3613 # seconds 
+    cache_config.session.points.duration:  0  # seconds 
 
 # my_task_list
     cache_config.session.my_task_list.keys: 
         'alive': 'my_task_list.alive'
         'list': 'my_task_list.task_history'
-    cache_config.session.my_task_list.duration:  3617 # seconds 
+    cache_config.session.my_task_list.duration:  -1 # seconds 

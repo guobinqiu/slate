@@ -32,7 +32,11 @@ services:
         class: %login.listener.class%
         calls:
             - [setContainer, ["@service_container"]]
+            - [setTaskList, [ @session.task_list ]]
+            - [setMyTaskList, [ @session.my_task_list ]]
+
         arguments: ["@doctrine.orm.entity_manager"]
+
     soap.mail.listener:
         class: %soap.mail.listener.class%
 

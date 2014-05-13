@@ -519,18 +519,24 @@ class DefaultController extends Controller {
 	 * @Route("/gameVisit", name="_default_gameVisit")
 	 */
 	public function gameVisitAction() {
-		$day = date('Ymd');
 		$request = $this->get('request');
 		$em = $this->getDoctrine()->getManager();
 		$id = $request->getSession()->get('uid');
 		if ($id) {
+            $day = date('Ymd');
+
+            // TODO: use the session value instead of the db query.
 			$visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
-			if (empty ($visit)) {
+			if ( empty ($visit) ) {
 				$gameVisit = new UserGameVisit();
 				$gameVisit->setUserId($id);
 				$gameVisit->setVisitDate($day);
 				$em->persist($gameVisit);
 				$em->flush();
+
+                // remove from session cache.
+                $taskList = $this->get('session.task_list');
+                $taskList->remove(array( 'game_visit'));
 			}
 			$code = $this->container->getParameter('init_one');
 		} else {
@@ -682,6 +688,10 @@ class DefaultController extends Controller {
 				$wenVisit->setVisitDate($day);
 				$em->persist($wenVisit);
 				$em->flush();
+
+                $taskList = $this->get('session.task_list');
+                // remove from session cache.
+                $taskList->remove(array( '91ww_visit'));
 			}
 			$code = $this->container->getParameter('init_one');
 		} else {

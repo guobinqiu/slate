@@ -36,8 +36,8 @@ class MyTaskList
      */
 	public function selTaskHistory($option){
 
-        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'')). var_export( $this->keys, true) );
-        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'')). var_export( $this->duration, true) );
+#        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'')). var_export( $this->keys, true) );
+#        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'')). var_export( $this->duration, true) );
         $session = $this->session;
         $logger = $this->logger;
         $data = array();
@@ -47,14 +47,12 @@ class MyTaskList
         $duration_alive = $this->duration; /* todo: add to config */
         $is_alive = false ;
         if( $session->has($key_alive)) {
-            if(  time() < $duration_alive + $session->get($key_alive ) ) {
+            if($duration_alive === -1 ||  time() < $duration_alive + $session->get($key_alive ) ) {
                 $is_alive = true;
             } else {
-#                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list  session out of date')));
                 $this->reset();
             }
         } else {
-#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'task list session init')));
             $this->reset();
         }
         $key_list = $this->keys['list'];
@@ -132,6 +130,20 @@ class MyTaskList
         $session = $this->session;
         $session->set($this->keys['alive'], time());
         $session->set($this->keys['list'], time());
+    }
+    /**
+     * 清除某个key.
+     */
+    public function remove($keys_to_remove = array() ) {
+        $keys = $this->keys;
+        $session = $this->session;
+        foreach($keys_to_remove as $key) {
+            if( isset($keys[$key])) {
+                if( $session->has( $keys[$key] )) {
+                    $session->remove( $keys[$key] );
+                }
+            }
+        }
     }
 
     private function getParameter($key) {

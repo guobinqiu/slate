@@ -13,6 +13,8 @@ use Jili\ApiBundle\Entity\LoginLog;
  **/
 class LoginListener {
 	private $em;
+	private $task_list;
+	private $my_task_list;
 
 	public function __construct(EntityManager $em ) {
 		$this->em = $em;
@@ -92,6 +94,10 @@ class LoginListener {
             }
         }
         $session->set('points', $user->getPoints());
+
+        // init the task_list & my_task_list. some session will be kept when logout, but not this.
+        $this->task_list->remove(array('alive'));
+        $this->my_task_list->remove(array('alive'));
     }
 
     /**
@@ -147,6 +153,18 @@ class LoginListener {
 
     public function setContainer( $c) {
         $this->container_ = $c;
+    }
+    /**
+     * @param: $tl the task_list service 
+     */
+    public function setTaskList( $tl) {
+        $this->task_list= $tl;
+    }
+    /**
+     * @param: $mtl the my_task_list service 
+     */
+    public function setMyTaskList( $mtl) {
+        $this->my_task_list = $mtl;
     }
 
 }

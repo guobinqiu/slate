@@ -29,8 +29,8 @@ class Points
         $key_alive = $this->keys['alive'];
         $duration_alive = $this->duration; /* todo: add to config */
         $is_alive = false ;
-        if( $session->has($key_alive)) {
-            if(  time() < $duration_alive + $session->get($key_alive ) ) {
+        if($duration_alive === -1 || $session->has($key_alive)) {
+            if($duration_alive === -1 ||  time() < $duration_alive + $session->get($key_alive ) ) {
                 $is_alive = true;
             } else {
                 $this->reset();

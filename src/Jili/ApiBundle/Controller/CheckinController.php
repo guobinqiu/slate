@@ -104,7 +104,13 @@ class CheckinController extends Controller
 					$this->updatePoint($uid,$nowPoint);
 				$code = $this->container->getParameter('init_one');
 				$point = $nowPoint;
-			}
+
+                // remove from session cache.
+                $taskList = $this->get('session.task_list');
+                $keys = array('checkin_visit','checkin_point');
+                $taskList->remove($keys);
+            }else {
+            }
 		}	
 		$url = $this->advInfo($uid,$aid);
 		return new Response(json_encode(array('code'=>$code,'url'=>$url,'point'=>$point)));

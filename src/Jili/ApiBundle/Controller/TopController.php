@@ -129,7 +129,6 @@ class TopController extends Controller
     public function myTaskAction()
     {
         $logger =  $this->get('logger');
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')));
 
         //任务列表
         $arr['myTask'] = $this->getUndoTaskList();
@@ -176,12 +175,11 @@ class TopController extends Controller
      */
     public function topCheckInAction()
     {
-
         //return $this->render('JiliApiBundle:Top:myTask.html.twig', $arr);
     }
 
     private function getUndoTaskList() {
-        //可以做的任务，签到+游戏+91问问+购物+cpa
+        //可以做的任务，签到+游戏+91问问+购物 -cpa
         if( $this->get('session')->has('uid')) {
             $taskList = $this->get('session.task_list');
             $taskList->setRequest($this->get('request'));
