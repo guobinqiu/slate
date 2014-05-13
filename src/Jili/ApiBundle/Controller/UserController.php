@@ -988,6 +988,7 @@ class UserController extends Controller
             $session->remove('referer');
         }
 
+
         if($session->get('uid')){
             return $this->redirect($this->generateUrl('_homepage'));
         }
@@ -995,10 +996,8 @@ class UserController extends Controller
         $code = '';
         $email = $request->request->get('email');
         $pwd = $request->request->get('pwd');
-
         //login
-        $loginListenr = $this->get('login.listener');
-        $code = $loginListenr->login($request,$email,$pwd);
+        $code = $this->get('login.listener')->login($request);
 
 
         if($code == "ok")

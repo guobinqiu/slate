@@ -21,20 +21,17 @@ class LoginListener {
 	}
 
 	/**
-	 *
-	 * @param  $email
-	 * @param  $password
-	 *
+	 * @param  $request
 	 */
-	public function login(Request $request, $email, $password) {
-		$em = $this->em;
+	public function login(Request $request) {
+
 		$code = '';
-		$em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
 		if ($request->getMethod() != 'POST') {
 			return $code;
 		}
 
-		if (!$email) {
+        $email = $request->request->get('email');
+		if (!$email ) {
 			$code = $this->getParameter('login_en_mail');
 			return $code;
 		}
@@ -43,25 +40,27 @@ class LoginListener {
 			return $code;
 		}
 
+		$em = $this->em;
 		$em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
 		if (!$em_email) {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
-		$id = $em_email[0]->getId();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		$user = $em_email[0];//->getRepository('JiliApiBundle:User')->find($id);
+		$id = $user->getId();
 		if ($user->getDeleteFlag() == 1) {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
+        $password = $request->request->get('pwd');
 		if ($user->pw_encode($password) != $user->getPwd()) {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
-		if ($request->get('remember_me') == '1') {
+		if ($request->request->get('remember_me') == '1') {
 			setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
 			setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
 		}

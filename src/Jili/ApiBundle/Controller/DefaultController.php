@@ -709,8 +709,8 @@ class DefaultController extends Controller {
         $request = $this->get('request');
         $email = $request->query->get('email');
         $pwd = $request->query->get('pwd');
-        $loginLister = $this->get('login.listener');
-        $code = $loginLister->login($this->get('request'),$email,$pwd);
+#        $loginLister = $this->get('login.listener');
+        $code =$this->get('login.listener')->login($this->get('request'));
 		return new Response($code);
 	}
 }
