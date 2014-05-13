@@ -1,4 +1,8 @@
 parameters: 
+# market 
+    cache_config.api.top_market.key: 'api.top_market'
+    cache_config.api.top_market.duration: 3600 #unit seconds
+# callboard
     cache_config.api.top_callboard.key: 'api.top_callboard'
     cache_config.api.top_callboard.duration: 3600 #unit seconds
 # task_lists

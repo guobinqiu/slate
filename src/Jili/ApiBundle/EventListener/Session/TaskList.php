@@ -164,10 +164,10 @@ class TaskList
 
         $keys = $this->keys;
 
-#        if( isset($keys['alive'])) {
-#            $session->set($keys['alive'], time());
-#            unset($keys['alive']);
-#        }
+        if( isset($keys['alive'])) {
+            $session->set($keys['alive'], time());
+            unset($keys['alive']);
+        }
         foreach(array_keys($keys) as $key ) {
             $session->remove( $key);
         }

@@ -221,8 +221,19 @@ class TopController extends Controller
     public function marketAction()
     {
         //中间最下面，商家活动
-        $em = $this->getDoctrine()->getManager();
-        $market = $em->getRepository('JiliApiBundle:MarketActivity')->getActivityList($this->container->getParameter('init_eight'));
+        $cache_fn= $this->container->getParameter('cache_config.api.top_market.key');
+        $cache_duration = $this->container->getParameter('cache_config.api.top_market.duration');
+        $cache_proxy = $this->get('cache.file_handler');
+
+        if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
+            $market = $cache_proxy->get($cache_fn);
+        }  else {
+            $cache_proxy->remove( $cache_fn);
+            $em = $this->getDoctrine()->getManager();
+            $market = $em->getRepository('JiliApiBundle:MarketActivity')->getActivityList($this->container->getParameter('init_eight'));
+            $cache_proxy->set( $cache_fn, $market);
+        }
+
         $arr['market'] = $market;
         return $this->render('JiliApiBundle:Top:market.html.twig', $arr);
     }

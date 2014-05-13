@@ -94,8 +94,8 @@ class LoginListener {
             }
         }
         $session->set('points', $user->getPoints());
-
-        // init the task_list & my_task_list. some session will be kept when logout, but not this.
+        // init the task_list & my_task_list when first login. 
+        // some session will be kept when logout, but not this.
         $this->task_list->remove(array('alive'));
         $this->my_task_list->remove(array('alive'));
     }
