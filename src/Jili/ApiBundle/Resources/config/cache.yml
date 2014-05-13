@@ -1,4 +1,6 @@
 parameters: 
+    cache_config.api.top_callboard.key: 'api.top_callboard'
+    cache_config.api.top_callboard.duration: 3600 #unit seconds
 # task_lists
     cache_config.session.task_list.keys: 
         'alive': 'task_list.alive'

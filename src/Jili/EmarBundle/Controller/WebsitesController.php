@@ -179,49 +179,63 @@ class WebsitesController extends Controller
     {
         //todo restrice the request ip ?
         $logger = $this->get('logger');
-        $em = $this->getDoctrine()->getManager();
 
-        $params = array();
-        if(isset($max) && $max > 0 ) {
-            $params['limit'] = $max;
-        }
 
-        // fetch the details ? 
-        $hot_webs_configed = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot( $params);
-        $websites = array();
+        $cache_key = $this->container->getParameter('cache_config.emar.websites_hot.key');
+        $cache_fn = $cache_key. '_tmpl.'.$tmpl.'_max.'. $max;
+        $cache_duration = $this->container->getParameter('cache_config.emar.websites_hot.duration');
 
-        if(! empty($hot_webs_configed)) {
-            $webids= array();
+        $cache_proxy = $this->get('cache.file_handler');
 
-            $commissions = array();
-            foreach($hot_webs_configed as $row) {
-                $webids[] = $row[ 'webId']; 
-                $commissions[ $row['webId'] ] = $row['commission'];
+        if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
+            $websites = $cache_proxy->get($cache_fn);
+        }  else {
+            $cache_proxy->remove( $cache_fn);
+
+            $em = $this->getDoctrine()->getManager();
+            $params = array();
+            if(isset($max) && $max > 0 ) {
+                $params['limit'] = $max;
             }
 
-            $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
+            // fetch the details ? 
+            $hot_webs_configed = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot( $params);
+            $websites = array();
 
-            # input commissions_of_configed , $commission_of_api, $commission_of_default;
-            foreach( $result as $row) {
-                $web_id = $row->getWebId();
-                $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($row->getCommission() );
-                if( array_key_exists( $web_id,  $commissions) ){
-                    $multiple = $commissions[$web_id];
+            if(! empty($hot_webs_configed)) {
+                $webids= array();
+
+                $commissions = array();
+                foreach($hot_webs_configed as $row) {
+                    $webids[] = $row[ 'webId']; 
+                    $commissions[ $row['webId'] ] = $row['commission'];
                 }
-                if( ! isset($multiple) ||   is_null($multiple) || $multiple == 0   ){
-                    $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
-                } 
-                #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $comm, true));
-                #$logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'multiple','')) . var_export( $multiple, true));
-                $row->setCommission( round($multiple * $comm /100, 2) );
-                $websites[$row->getWebId() ] = $row; 
-            }
-        }
-        
 
-        // update the commission if exists
+                $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
+
+                # input commissions_of_configed , $commission_of_api, $commission_of_default;
+                foreach( $result as $row) {
+                    $web_id = $row->getWebId();
+                    $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($row->getCommission() );
+                    if( array_key_exists( $web_id,  $commissions) ){
+                        $multiple = $commissions[$web_id];
+                    }
+                    if( ! isset($multiple) ||   is_null($multiple) || $multiple == 0   ){
+                        $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
+                    } 
+                    $row->setCommission( round($multiple * $comm /100, 2) );
+                    $websites[$row->getWebId() ] = $row; 
+                }
+            }
+
+
+            $cache_proxy->set( $cache_fn, $websites );
+        }
+
+
         
         $template ='JiliEmarBundle:Websites:'. 'hot_on_'. $tmpl. '.html.twig';
+
         return $this->render($template, compact('websites'));
     }
 

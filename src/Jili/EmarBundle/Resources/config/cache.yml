@@ -1,4 +1,7 @@
 parameters:
+# homepage websites hot 
+    cache_config.emar.websites_hot.key: 'emar.product_categories'
+    cache_config.emar.websites_hot.duration:  3623
 # homepage product categories 
     cache_config.emar.product_categories.key: 'emar.product_categories'
     cache_config.emar.product_categories.duration:  3623
