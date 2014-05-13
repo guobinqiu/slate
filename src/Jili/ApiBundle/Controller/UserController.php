@@ -1217,7 +1217,6 @@ class UserController extends Controller
             $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
 
             //发送激活邮件
-            $wenwen_api_url = $this->container->getParameter('91wenwen_api_url');
             $logger = $this->get('logger');
             $logger->info('{activeEmail}' . $url);
             //通过soap发送

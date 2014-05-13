@@ -47,7 +47,7 @@ class PointManageProcessor {
                 //user_id,email,point,task_name,category_type,task_type
                 $return = $this->updatePoint($data);
                 if ($return) {
-                    $code[] = $data['0'] . $data['1'] . " " . $return;
+                    $code[] = "[ ".$data['0'] ." ". $data['1'] . " ] " . $return;
                     fwrite($log_handle, implode(",", $data) . "," . $return . "\n");
                 } else {
                     fwrite($log_handle, implode(",", $data) . "," . "point import success\n");
@@ -59,7 +59,7 @@ class PointManageProcessor {
         fclose($log_handle);
 
         if ($code) {
-            $code[] = "These user point import fail";
+            $code[] = "These users point import fail";
         } else {
             $arr['success'] = "point import success";
         }

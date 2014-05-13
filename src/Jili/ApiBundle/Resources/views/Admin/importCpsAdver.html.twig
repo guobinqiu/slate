@@ -11,9 +11,13 @@
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td><h3>导入cps数据:</h3></td><td>&nbsp;</td></tr>
 <tr><td>csv文件:<input type="file" name="csv" /></td><td><input type="submit" name="add" value="提 交"/></td></tr>
-
-
 </table>
+<p>&nbsp;</p>
+<p>cps-csv文件内容参考：</p>
+<p>&nbsp;</p>
+<p>"广告活动","网站","订单日期","'订单号'","订单金额","佣金","订单状态","'反馈标签1'","'反馈标签2'","认证日期","订单IP"</p>
+<p>"携程旅行网","积粒网","2013-09-22 13:35:54","'130729K5EB8E'","200","15","已认证","'25'","'91'","2013-09-27 00:00:00","124.160.224.22"</p>
+<p>&nbsp;</p>
 {% if code %}
     {% for item in code %}
         <center><font color='red'>{{ item }}</font></center>
@@ -25,5 +29,3 @@
 {% endif %}
 </form>
 </BODY></HTML>
-
-

@@ -446,12 +446,12 @@ class AdminController extends Controller
                     if($this->getStatus($userId[1],$adid[1],$ocd[1])){
                         if($status == $this->container->getParameter('nothrough')){
                             if(!$this->noCertified($userId[1],$adid[1],$ocd[1])){
-                                $code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                                $code[] = '[ '.$name.', '.$userId[1].', '.$adid[1].', '.$ocd[1].' ] 插入数据失败';
                             }
                         }
                         if($status == $this->container->getParameter('certified')){
                             if(!$this->hasCertified($userId[1],$adid[1],$ocd[1],$v[5])){
-                                $code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                                $code[] = '[ '.$name.', '.$userId[1].', '.$adid[1].', '.$ocd[1].' ] 插入数据失败';
                             }
                         }
                     }
@@ -497,12 +497,12 @@ class AdminController extends Controller
                     if($this->getStatus($userId[1],$adid[1],$ocd)){
                         if($status == $this->container->getParameter('nothrough')){
                             if(!$this->noCertified($userId[1],$adid[1],$ocd)){
-                                $code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                                $code[] = '[ '.$name.', '.$userId[1].', '.$adid[1].' ] 插入数据失败';
                             }
                         }
                         if($status == $this->container->getParameter('certified')){
                             if(!$this->hasCertified($userId[1],$adid[1],$ocd,$v[4])){
-                                $code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                                $code[] =  '[ '.$name.', '.$userId[1].', '.$adid[1].' ] 插入数据失败';
                             }
                         }
                     }
