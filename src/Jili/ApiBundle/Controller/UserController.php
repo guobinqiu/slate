@@ -748,6 +748,7 @@ class UserController extends Controller
         $option = array('status' => 0 ,'offset'=>'1','limit'=>'10');
         $option_ex = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 #       $adtaste = $this->selTaskHistory($id,$option);
+        $this->get('session.my_task_list')->remove(array('alive'));
         $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
         foreach ($adtaste as $key => $value) {
             if($value['orderStatus'] == 1 && $value['type'] ==1){
@@ -998,7 +999,6 @@ class UserController extends Controller
         $pwd = $request->request->get('pwd');
         //login
         $code = $this->get('login.listener')->login($request);
-
 
         if($code == "ok")
         {
@@ -1485,23 +1485,22 @@ class UserController extends Controller
 	 * @Route("/adtaste/{type}", name="_user_adtaste")
 	 */
 	public function adtasteAction($type){
-		$id = $this->get('session.request')->getSession()->get('uid');
-
-        if(!$id){
+        if(!$this->get('session')->has('uid')){
            return $this->redirect($this->generateUrl('_user_login'));
         } 
 
 		$em = $this->getDoctrine()->getManager();
 		$option = array('status' => $type ,'offset'=>'','limit'=>'');
 #		$adtaste = $this->selTaskHistory($id,$option);
-        $adtaste = $this->get('my_task_list')->selTaskHistory($option);
+        $this->get('session.my_task_list')->remove(array('alive'));
+        $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
 		foreach ($adtaste as $key => $value) {
 			if($value['orderStatus'] == 1 && $value['type'] ==1){
 				unset($adtaste[$key]);
 			}
 		}
 		$arr['adtaste'] = $adtaste;
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		$user = $em->getRepository('JiliApiBundle:User')->find($this->get('session')->get('uid'));
 		$arr['user'] = $user;
 		$paginator = $this->get('knp_paginator');
 		$arr['pagination'] = $paginator
