@@ -1091,46 +1091,44 @@ class UserController extends Controller
 	/**
 	 * @Route("/reset", name="_user_reset")
 	 */
-	public function resetAction(){
-		$code = '';
-		$request = $this->get('request');
-		$email = $request->query->get('email');
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-		if(empty($user)){
-			$code = $this->container->getParameter('chnage_no_email');
-		}else{
-			$nick = $user[0]->getNick();
-			$id = $user[0]->getId();
-			$passCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($id);
-			if(empty($passCode)){
-				$str = 'jiliforgetpassword';
-				$code = md5($id.str_shuffle($str));
-				$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
-				if($this->sendMail_reset($url, $email,$nick)){
-					$setPasswordCode = new setPasswordCode();
-					$setPasswordCode->setUserId($id);
-					$setPasswordCode->setCode($code);
-					$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
-					$em->persist($setPasswordCode);
-					$em->flush();
-					$code = $this->container->getParameter('init_one');
-				}
-			}else{
-				$url = $this->generateUrl('_user_resetPass',array('code'=>$passCode[0]->getCode(),'id'=>$id),true);
-				$em = $this->getDoctrine()->getManager();
-				$user = $em->getRepository('JiliApiBundle:User')->find($id);
-				if($this->sendMail_reset($url, $email,$nick)){
-					$passCode[0]->setIsAvailable($this->container->getParameter('init_one'));
-					$passCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
-					$em->flush();
-					$code = $this->container->getParameter('init_one');
-				}
-			}
-			
-		}
-		return new Response($code);
-	}
+    public function resetAction(){
+        $code = '';
+        $request = $this->get('request');
+        $email = $request->query->get('email');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+        $logger = $this->get('logger');
+        if(empty($user)){
+            $code = $this->container->getParameter('chnage_no_email');
+        }else{
+            $nick = $user[0]->getNick();
+            $id = $user[0]->getId();
+            $passCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($id);
+            if(empty($passCode)){
+                $str = 'jiliforgetpassword';
+                $code = md5($id.str_shuffle($str));
+                $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+                if($this->sendMail_reset($url, $email,$nick)){
+                    $setPasswordCode = new setPasswordCode();
+                    $setPasswordCode->setUserId($id);
+                    $setPasswordCode->setCode($code);
+                    $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
+                    $em->persist($setPasswordCode);
+                    $em->flush();
+                    $code = $this->container->getParameter('init_one');
+                }
+            }else{
+                $url = $this->generateUrl('_user_resetPass',array('code'=>$passCode[0]->getCode(),'id'=>$id),true);
+                if($this->sendMail_reset($url, $email,$nick)){
+                    $passCode[0]->setIsAvailable($this->container->getParameter('init_one'));
+                    $passCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                    $em->flush();
+                    $code = $this->container->getParameter('init_one');
+                }
+            }
+        }
+        return new Response($code);
+    }
 	
 	
 	/**
@@ -1653,10 +1651,6 @@ class UserController extends Controller
         $soapMailLister->sendSingleMailing($recipient_arr);
 
         $logger = $this->get('logger');
-
-
-#        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($user, true));
-
         $this->get('login.listener')->checkNewbie($user);
         $this->get('login.listener')->log($user);
 

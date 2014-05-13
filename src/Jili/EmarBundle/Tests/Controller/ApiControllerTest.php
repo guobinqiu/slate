@@ -22,7 +22,7 @@ class ApiControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
-        $this->em  = $em;
+        $this->em = $em;
         $this->updateUniqueId();
     }
 
@@ -32,7 +32,7 @@ class ApiControllerTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        $this->em->close();
+//        $this->em->close();
     }
 
     public function HoldTestCallbackValidation() 

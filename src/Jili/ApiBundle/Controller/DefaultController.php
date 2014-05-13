@@ -221,55 +221,6 @@ class DefaultController extends Controller {
 		}
 		return $i;
 	}
-	/**
-	 * @Route("/fastLogin", name="_default_fastLogin")
-	 */
-	function fastLoginAction() {
-		$code = $this->container->getParameter('init');
-		$arr['userInfo'] = array ();
-		$request = $this->get('request');
-		$email = $request->query->get('email');
-		$pwd = $request->query->get('pwd');
-		$em_email = $this->getDoctrine()->getRepository('JiliApiBundle:User')->findByEmail($email);
-		//      if ($request->getMethod() == 'POST'){
-		if (!$em_email) {
-			//echo 'email is unexist!';
-			$code = $this->container->getParameter('init_one');
-		} else {
-			$id = $em_email[0]->getId();
-			$em = $this->getDoctrine()->getEntityManager();
-			$user = $em->getRepository('JiliApiBundle:User')->find($id);
-			if ($user->pw_encode($pwd) != $user->getPwd()) {
-				//                  echo 'pwd is error!';
-				$code = $this->container->getParameter('init_two');
-			} else {
-				$session = new Session();
-				$session->start();
-				if ($request->query->get('remember_me') == '1') {
-					setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
-					setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
-				}
-
-                $this->get('login.listener')->initSession($user);
-
-				$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-				$user->setLastLoginIp($this->get('request')->getClientIp());
-				$em->flush();
-
-                $this->get('login.listener')->log($user);
-#				$em = $this->getDoctrine()->getManager();
-#				$loginlog = new LoginLog();
-#				$loginlog->setUserId($id);
-#				$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-#				$loginlog->setLoginIp($this->get('request')->getClientIp());
-#				$em->persist($loginlog);
-#				$em->flush();
-			}
-		}
-		//      }
-		return new Response($code);
-
-	}
 
 	public function getToken($email) {
 		$seed = "ADF93768CF";

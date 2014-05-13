@@ -14,3 +14,6 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+    spool:
+        type: file
+        path: %kernel.root_dir%/cache/%kernel.environment%/swiftmailer.emails
