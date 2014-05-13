@@ -159,12 +159,20 @@ class TopController extends Controller
      */
     public function checkInAction()
     {
-        //获取签到商家
-        $arr['arrList'] = $this->checkinList();
-        //获取签到积分
-        $checkInLister = $this->get('check_in.listener');
-        $arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));
-        return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
+        $taskList = $this->get('session.task_list');
+        $arr = array();
+        if( $this->container->getParameter('init_one') ===  $taskList->get('checkin_visit') ) {
+            //获取签到积分
+            $checkInLister = $this->get('check_in.listener');
+            $arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));
+
+            //获取签到商家
+            $arr['arrList'] = $this->checkinList();
+
+            return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
+        } else {
+            return new Response('<!-- already checked in -->');
+        }
     }
 
     /**

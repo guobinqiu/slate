@@ -183,7 +183,6 @@ class CheckinController extends Controller
 			$arrList[] = $cal[$calNow[$i]];
 		}
 		return $this->render('JiliApiBundle:Checkin:checkinList.html.twig',array('arrList'=>$arrList));
-
 	}
 
 	public function advInfo($uid,$aid){

@@ -110,54 +110,54 @@ class TaskList
         unset($visit);
         unset($visit_value);
 
-            //签到
-            unset($checkin_value);
-            $key_checkin = $this->keys['checkin_visit'];
-            if( $is_alive ) {
-                if( $session->has($key_checkin)) {
-                    $checkin_value =  $session->get($key_checkin);
-                } 
-            } else {
-                $date = date('Y-m-d');
-                $checkin = $em->getRepository('JiliApiBundle:CheckinClickList')->checkStatus($id, $date);
-                $checkin_value = (!empty ($checkin)) ? $this->getParameter('init'): $this->getParameter('init_one');
-                $session->set($key_checkin, $checkin_value);
-            }
+        //签到
+        unset($checkin_value);
+        $key_checkin = $this->keys['checkin_visit'];
+        if( $is_alive ) {
+            if( $session->has($key_checkin)) {
+                $checkin_value =  $session->get($key_checkin);
+            } 
+        } else {
+            $date = date('Y-m-d');
+            $checkin = $em->getRepository('JiliApiBundle:CheckinClickList')->checkStatus($id, $date);
+            $checkin_value = (!empty ($checkin)) ? $this->getParameter('init'): $this->getParameter('init_one');
+            $session->set($key_checkin, $checkin_value);
+        }
 
-            if( isset($checkin_value)) {
-                $arr['task']['checkin'] =  $checkin_value;
-            }
+        if( isset($checkin_value)) {
+            $arr['task']['checkin'] =  $checkin_value;
+        }
 
-            //获取签到积分
-            $key_checkin_point = $this->keys['checkin_point'];
-            if( $is_alive) {
-                if( $session->has($key_checkin_point)) {
-                    $arr['task']['checkinPoint'] =$session->get($key_checkin_point);
-                } 
-            } else {
-                if(isset($checkin) &&  empty ($checkin)) {
-                    $key_checkin_point = $this->keys['checkin_point'];
-                    if( ! $session->has($key_checkin_point)) {
-                        $arr['task']['checkinPoint'] = $this->check_in_listener->getCheckinPoint( $this->request );
-                        $session->set($key_checkin_point, $arr['task']['checkinPoint'] );
-                    }
+        //获取签到积分
+        $key_checkin_point = $this->keys['checkin_point'];
+        if( $is_alive) {
+            if( $session->has($key_checkin_point)) {
+                $arr['task']['checkinPoint'] =$session->get($key_checkin_point);
+            } 
+        } else {
+            if(isset($checkin) &&  empty ($checkin)) {
+                $key_checkin_point = $this->keys['checkin_point'];
+                if( ! $session->has($key_checkin_point)) {
+                    $arr['task']['checkinPoint'] = $this->check_in_listener->getCheckinPoint( $this->request );
+                    $session->set($key_checkin_point, $arr['task']['checkinPoint'] );
                 }
             }
-
-            //cpa
-            #        $key_cpa_visit = $this->keys['cpa_ads'];
-            #        if( $is_alive && $session->has($key_cpa_visit) ) {
-            #            $advertise = $session->get($key_cpa_visit);
-            #        } else {
-            #            $repository = $em->getRepository('JiliApiBundle:Advertiserment');
-            #            $advertise = $repository->getAdvertiserListCPA($id);
-            #            $session->set($key_cpa_visit, $advertise);
-            #        }
-            #        $arr['advertise'] = $advertise;
-            #        $arr['task']['cpa'] = $arr['advertise'];
-
-            return $arr;
         }
+
+        //cpa
+        #        $key_cpa_visit = $this->keys['cpa_ads'];
+        #        if( $is_alive && $session->has($key_cpa_visit) ) {
+        #            $advertise = $session->get($key_cpa_visit);
+        #        } else {
+        #            $repository = $em->getRepository('JiliApiBundle:Advertiserment');
+        #            $advertise = $repository->getAdvertiserListCPA($id);
+        #            $session->set($key_cpa_visit, $advertise);
+        #        }
+        #        $arr['advertise'] = $advertise;
+        #        $arr['task']['cpa'] = $arr['advertise'];
+
+        return $arr;
+    }
 
     public function reset( ) {
         $session = $this->session;
@@ -171,6 +171,20 @@ class TaskList
         foreach(array_keys($keys) as $key ) {
             $session->remove( $key);
         }
+    }
+    /**
+     *    取得key对应的value
+     */
+    public function get($key ) {
+        $keys = $this->keys;
+        $session = $this->session;
+        $value = null;
+        if( isset($keys[$key])) {
+            if( $session->has( $keys[$key] )) {
+                $value = $session->get( $keys[$key] );
+            }
+        }
+        return $value;
     }
 
     /**
