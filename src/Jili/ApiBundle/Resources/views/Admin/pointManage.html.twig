@@ -15,21 +15,44 @@ return false;
 <form action="{{ path('_admin_addPointManage') }}" method="post" id="form1" enctype="multipart/form-data"  name="myForm" onSubmit="check();">
 <table align='center'>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td>csv导入:
-<input type="file" name="csv" /></td><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td><input id="submit" type="submit" name="add" value="提 交"/></td><td>&nbsp;</td></tr>
-<tr><td></td><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td><h3>手动增加积分csv导入:</h3></td><td>&nbsp;</td></tr>
+<tr><td><input type="file" name="csv" /></td><td><input id="submit" type="submit" name="add" value="提 交"/></td></tr>
 </table>
 </form>
+<p>&nbsp;</p>
 <p>注：请上传csv格式，文件编码为utf-8的文件</p>
 <p>&nbsp;</p>
-<p>csv文件内容参考(user_id,email,point,category_type,task_name,task_type)：</p>
+<p>csv文件内容参考：</p>
+<p>(user_id,email必须要有一个，其中以user_id优先)</p>
 <p>&nbsp;</p>
 <p>user_id,email,point,task_name,category_type,task_type</p>
-<p>1057685,test@test.com.cn,50,活动送积分,90,4</p>
-<p>1057685,test2@test.com.cn,60,购物返利送积分,21,4</p>
+<p>1057685,test2@test.com.cn,50,活动送积分,90,4</p>
+<p>&nbsp;</p>
+<p>category_type:</p>
+<p>1-CPA广告体验&nbsp;&nbsp;&nbsp;
+2-CPS购物返利&nbsp;&nbsp;&nbsp;
+3-游戏广告&nbsp;&nbsp;&nbsp;
+4-游戏积分码&nbsp;&nbsp;&nbsp;
+5-游戏通关&nbsp;&nbsp;&nbsp;
+6-游戏排名&nbsp;&nbsp;&nbsp;
+7-游戏全勤&nbsp;&nbsp;&nbsp;
+9-完善资料&nbsp;&nbsp;&nbsp;
+13-91问问兑换米粒</p>
+<p>16-每天签到&nbsp;&nbsp;&nbsp;
+17-OfferWow体验广告&nbsp;&nbsp;&nbsp;
+18-Offer99体验广告&nbsp;&nbsp;&nbsp;
+19-cpsemar购物返利&nbsp;&nbsp;&nbsp;
+20-cpaemar亿玛活动&nbsp;&nbsp;&nbsp;
+21-活动送积分&nbsp;&nbsp;&nbsp;
+90-手动返还积分</p>
+<p>&nbsp;</p>
+<p>task_type====> category_type</p>
+<p>1====> 1,2,19</p>
+<p>2====> 3,</p>
+<p>3====> 4,5,6</p>
+<p>4====> 9,16,21,90</p>
+<p>5====> 17,18</p>
+<p>&nbsp;</p>
 {% if code %}
     {% for item in code %}
         <center><font color='red'>{{ item }}</font></center>

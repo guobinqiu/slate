@@ -70,6 +70,16 @@ class UserRepository extends EntityRepository {
 
 	}
 
+	public function getNotActiveUserByEmail($email) {
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('u');
+		$query = $query->Where('u.email = :email');
+		$query = $query->andWhere('u.isFromWenwen = 2');
+		$query = $query->setParameter('email', $email);
+		$query = $query->getQuery();
+		return $query->getOneOrNullResult();
+	}
+
 	public function getUserList($id) {
 		$query = $this->createQueryBuilder('u');
 
@@ -380,5 +390,20 @@ class UserRepository extends EntityRepository {
                 on a.id = b.user_id where a.delete_flag IS NULL OR a.delete_flag = 0 ".$sql2." order by b.date desc";
                 //echo $sql;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+    }
+
+    public function findWenWenUsersForRemmindRegister($start_time, $end_time){
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id,u.email');
+        $query = $query->Where('u.isFromWenwen = 2');
+        $query = $query->andWhere('u.pwd is null');
+        $query = $query->andWhere('u.registerDate >= :start_time');
+        $query = $query->andWhere('u.registerDate <= :end_time');
+        $query = $query->setParameters(array (
+             'start_time' => $start_time,
+             'end_time' => $end_time
+         ));
+        $query = $query->getQuery();
+        return $query->getResult();
     }
 }
