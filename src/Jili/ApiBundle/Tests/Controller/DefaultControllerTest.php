@@ -32,7 +32,28 @@ class DefaultControllerTest extends WebTestCase
         parent::tearDown();
        $this->em->close();
     }
+    public function testAdLoginAction() {
 
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $logger= $container->get('logger');
+        $router = $container->get('router');
+
+        $query = array('email'=> 'alice.nima@gmail.com');
+        $em = $this->em;
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+        $this->assertEquals(1, count($user));
+
+        $url = $router->generate('_default_ad_login', array( 'email'=>$query['email'] , 'pwd'=> 'dddddd'));
+        echo $url, PHP_EOL;
+        $crawler = $client->request('POST', $url, array( 'email'=>$query['email'] , 'pwd'=> 'dddddd') ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'ad login in '  );
+
+        $this->assertEquals('ok', $client->getResponse()->getContent());
+
+
+
+    }
     /**
      * landingAction with not exists: wenwen code exists email 
      */

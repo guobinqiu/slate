@@ -657,8 +657,10 @@ class DefaultController extends Controller {
 	public function adLoginAction() {
 
         $request = $this->get('request');
-        $email = $request->query->get('email');
-        $pwd = $request->query->get('pwd');
+#        $email = $request->query->get('email');
+#        $pwd = $request->query->get('pwd');
+#        $this->get('logger')->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'email', '' )). var_export($email, true));
+#        $this->get('logger')->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'pwd', '' )). var_export($pwd, true));
 #        $loginLister = $this->get('login.listener');
         $code =$this->get('login.listener')->login($this->get('request'));
 		return new Response($code);
