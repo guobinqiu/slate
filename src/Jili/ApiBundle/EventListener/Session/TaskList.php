@@ -137,10 +137,9 @@ class TaskList
         } else {
             if(isset($checkin) &&  empty ($checkin)) {
                 $key_checkin_point = $this->keys['checkin_point'];
-                if( ! $session->has($key_checkin_point)) {
-                    $arr['task']['checkinPoint'] = $this->check_in_listener->getCheckinPoint( $this->request );
-                    $session->set($key_checkin_point, $arr['task']['checkinPoint'] );
-                }
+                $arr['task']['checkinPoint'] = $this->check_in_listener->getCheckinPoint( $this->request );
+                $session->set($key_checkin_point, $arr['task']['checkinPoint'] );
+
             }
         }
 

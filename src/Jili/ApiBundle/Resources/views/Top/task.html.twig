@@ -2,7 +2,7 @@
   <ul>
 
     {% if task.checkin is defined and task.checkin == 1 %}
-    <li class="signs"><a id="sign" onclick="signs();">每日签到<span>{{task.checkinPoint}}米粒</span></a></li>
+    <li class="signs"><a id="sign" onclick="signs();">每日签到<span>{{ task.checkinPoint }}米粒</span></a></li>
     {% endif %}
 
     {% if task.game is defined and task.game == 1 %}

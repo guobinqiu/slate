@@ -55,33 +55,33 @@ class UserControllerTest extends WebTestCase
         }
 
 // render password reset page
+        print 'Render password reset page'.PHP_EOL;
         $passwordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneBy(array('userId'=>$user->getId(), 'isAvailable'=>1));
 
         if(! $passwordCode) {
-            echo ' code not found!',PHP_EOL;
+            print ' code not found!',PHP_EOL;
             return false;
         }
 
         $code= $passwordCode->getCode();
-
         $url = $container->get('router')->generate('_user_forgetPass',array('code'=>$code,'id'=>$user->getId() ),true);
 
-        echo $url, PHP_EOL;
-
+        print $url. PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
         $form = $crawler->selectButton('but')->form();
 
         // set some values
+        print 'Set some values'.PHP_EOL;
         $form['pwd'] = 'cccccc';
         $form['que_pwd'] = 'cccccc';
 
         // submit the form
+        print 'Submit the form'.PHP_EOL;
         $crawler = $client->submit($form);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-
     }
 #    public function testFastLoginAction()
 #    {
