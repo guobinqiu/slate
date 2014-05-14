@@ -70,6 +70,16 @@ class UserRepository extends EntityRepository {
 
 	}
 
+	public function getNotActiveUserByEmail($email) {
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('u');
+		$query = $query->Where('u.email = :email');
+		$query = $query->andWhere('u.isFromWenwen = 2');
+		$query = $query->setParameter('email', $email);
+		$query = $query->getQuery();
+		return $query->getOneOrNullResult();
+	}
+
 	public function getUserList($id) {
 		$query = $this->createQueryBuilder('u');
 
@@ -379,6 +389,12 @@ class UserRepository extends EntityRepository {
                 union all select user_id,point,category_type,task_type,task_name,date from task_history09 where ".$sql1." )b
                 on a.id = b.user_id where a.delete_flag IS NULL OR a.delete_flag = 0 ".$sql2." order by b.date desc";
                 //echo $sql;
+        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+    }
+
+    public function findWenWenUsersForRemmindRegister($start, $end){
+        $sql = "select id, email from user where is_from_wenwen = 2 and pwd IS NULL and register_date >= '$start' and register_date <= '$end'";
+        //echo $sql;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 }

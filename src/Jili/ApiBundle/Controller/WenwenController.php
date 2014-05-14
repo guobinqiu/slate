@@ -36,12 +36,16 @@ class WenwenController extends Controller {
 		}
 
 		//存db
-		$user = new User();
-		$user->setEmail($email);
-		$user->setPoints(0);
-		$user->setIsInfoSet(0);
-		$user->setRewardMultiple(1);
-		$user->setIsFromWenwen($this->container->getParameter('is_from_wenwen_register')); //和91问问同时注册 2
+		$user = $em->getRepository('JiliApiBundle:User')->getNotActiveUserByEmail($email);
+		if (empty($user)) {
+			$user = new User();
+			$user->setEmail($email);
+			$user->setPoints(0);
+			$user->setIsInfoSet(0);
+			$user->setRewardMultiple(1);
+			$user->setIsFromWenwen($this->container->getParameter('is_from_wenwen_register')); //和91问问同时注册 2
+		}
+		$user->setRegisterDate(date_create(date('Y-m-d H:i:s')));
 		$user->setUniqkey($uniqkey);
 		$em->persist($user);
 		$em->flush();
