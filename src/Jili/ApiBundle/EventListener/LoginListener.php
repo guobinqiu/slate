@@ -76,14 +76,10 @@ class LoginListener {
 		$code = 'ok';
 		return $code;
 	}
-    /**
-     *
-     */
-    public function initSession( User  $user)
-    {
+    public function updateInfoSession(User $user ) {
         $session = $this->container_->get('session');
-        $session->set('uid', $user->getId() );
-        $session->set('nick', $user->getNick());
+
+
         $icon_path = $user->getIconPath() ;
         if( ! empty($icon_path) ) {
             $session->set('icon_path', $icon_path);
@@ -93,6 +89,17 @@ class LoginListener {
             }
         }
         $session->set('points', $user->getPoints());
+    }
+    /**
+     *
+     */
+    public function initSession( User  $user)
+    {
+        $session = $this->container_->get('session');
+        $session->set('uid', $user->getId() );
+        $session->set('nick', $user->getNick());
+
+        $this->updateInfoSession($user);
         // init the task_list & my_task_list when first login. 
         // some session will be kept when logout, but not this.
         $this->task_list->remove(array('alive'));

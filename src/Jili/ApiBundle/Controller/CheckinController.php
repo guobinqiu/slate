@@ -109,7 +109,6 @@ class CheckinController extends Controller
                 $taskList = $this->get('session.task_list');
                 $keys = array('checkin_visit','checkin_point');
                 $taskList->remove($keys);
-            }else {
             }
 		}	
 		$url = $this->advInfo($uid,$aid);

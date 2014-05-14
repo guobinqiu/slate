@@ -791,6 +791,8 @@ class UserController extends Controller
                             $user->setHobby($hobbys);
                             $user->setIsInfoSet($this->container->getParameter('init_one'));
                             $em->flush();
+
+                            $this->get('login.listener')->updateInfoSession($user);
                             return $this->redirect($this->generateUrl('_user_info'));
                         }
                     }else{
@@ -803,6 +805,8 @@ class UserController extends Controller
                         $user->setHobby($hobbys);
                         $user->setIsInfoSet($this->container->getParameter('init_one'));
                         $em->flush();
+
+                        $this->get('login.listener')->updateInfoSession($user);
                         return $this->redirect($this->generateUrl('_user_info'));
                     }
                 }else{
@@ -810,8 +814,8 @@ class UserController extends Controller
                 }	
             }else{
                 if($request->request->get('reset')){
+                    $this->get('login.listener')->updateInfoSession($user);
                     return $this->redirect($this->generateUrl('_user_info'));
-
                 }else{
                     $form->bindRequest($request);
                     $path =  $this->container->getParameter('upload_tmp_dir');
@@ -822,6 +826,8 @@ class UserController extends Controller
                     if($code == $this->container->getParameter('init_two')){
                         $code =  $this->container->getParameter('upload_img_size');
                     }
+
+                    $this->get('login.listener')->updateInfoSession($user);
                     return new Response(json_encode($code));
                 }
             } 

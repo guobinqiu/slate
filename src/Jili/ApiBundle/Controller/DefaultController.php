@@ -296,8 +296,6 @@ class DefaultController extends Controller {
                         $user = $isset_email[0];
                     } else {
                         $user = new User();
-
-
                         $user->setNick($nick);
                         $user->setPwd($pwd);
                         $user->setEmail($email);
@@ -336,22 +334,23 @@ class DefaultController extends Controller {
                     $this->get('login.listener')->log( $user );
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
-
             }
-
         }
 
         //最新动态
         $filename = $this->container->getParameter('file_path_recent_point');
         $recentPoint = $this->readFileContent($filename);
-        foreach ($recentPoint as $key => $item){
-        	if($key > 9){
-        		break;
-        	}
-            if($item[2] > 0) {
-                $recent[]['title'] = $item[0]."通过".$item[3]."获得".$item[2]."积分";
-            }else{
-                $recent[]['title'] = $item[0]."将".(-$item[2])."积分兑换成亚马逊礼品卡";
+        $recent = array();
+        if( is_array($recentPoint)) {
+            foreach ($recentPoint as $key => $item){
+                if($key > 9){
+                    break;
+                }
+                if($item[2] > 0) {
+                    $recent[]['title'] = $item[0]."通过".$item[3]."获得".$item[2]."积分";
+                }else{
+                    $recent[]['title'] = $item[0]."将".(-$item[2])."积分兑换成亚马逊礼品卡";
+                }
             }
         }
 
