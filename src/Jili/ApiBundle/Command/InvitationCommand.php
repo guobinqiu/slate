@@ -24,7 +24,9 @@ class InvitationCommand extends ContainerAwareCommand {
         $users = $em->getRepository('JiliApiBundle:User')->findWenWenUsersForRemmindRegister($start, $end);
         $str = 'jiliactiveregister';
         foreach ($users as $user) {
-            $code = md5($user['email'] . str_shuffle($str));
+            $setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user['id']);
+            $code = $setPasswordCode[0]->getCode();
+
             $wenwen_api_url = $this->getContainer()->getParameter('91wenwen_api_url');
             $url = $wenwen_api_url . '/user/setPassFromWenwen/' . $code . '/' . $user['id'];
 
@@ -48,12 +50,6 @@ class InvitationCommand extends ContainerAwareCommand {
             );
             $send_email = $soapMailLister->sendSingleMailing($recipient_arr);
             if ($send_email == "Email send success") {
-                $setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user['id']);
-                $setPasswordCode[0]->setCode($code);
-                $setPasswordCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
-                $em->persist($setPasswordCode[0]);
-                $em->flush();
-
                 $output->writeln('Email send success');
             } else {
                 $output->writeln('Email send fail');

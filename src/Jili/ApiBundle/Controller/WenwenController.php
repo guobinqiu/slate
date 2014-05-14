@@ -77,8 +77,14 @@ class WenwenController extends Controller {
 		);
 		$send_email = $soapMailLister->sendSingleMailing($recipient_arr);
 		if ($send_email == "Email send success") {
-			$setPasswordCode = new setPasswordCode();
-			$setPasswordCode->setUserId($user->getId());
+			$setPasswordCodeList = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user->getId());
+			if (empty ($setPasswordCodeList)) {
+				$setPasswordCode = new setPasswordCode();
+				$setPasswordCode->setUserId($user->getId());
+			} else {
+				$setPasswordCode = $setPasswordCodeList[0];
+				$setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
+			}
 			$setPasswordCode->setCode($code);
 			$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
 			$em->persist($setPasswordCode);
