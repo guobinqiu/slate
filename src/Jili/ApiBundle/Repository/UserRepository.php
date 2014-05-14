@@ -392,9 +392,18 @@ class UserRepository extends EntityRepository {
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
-    public function findWenWenUsersForRemmindRegister($start, $end){
-        $sql = "select id, email from user where is_from_wenwen = 2 and pwd IS NULL and register_date >= '$start' and register_date <= '$end'";
-        //echo $sql;
-        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+    public function findWenWenUsersForRemmindRegister($start_time, $end_time){
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id,u.email');
+        $query = $query->Where('u.isFromWenwen = 2');
+        $query = $query->andWhere('u.pwd is null');
+        $query = $query->andWhere('u.registerDate >= :start_time');
+        $query = $query->andWhere('u.registerDate <= :end_time');
+        $query = $query->setParameters(array (
+             'start_time' => $start_time,
+             'end_time' => $end_time
+         ));
+        $query = $query->getQuery();
+        return $query->getResult();
     }
 }
