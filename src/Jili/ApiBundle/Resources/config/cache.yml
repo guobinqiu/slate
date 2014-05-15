@@ -30,4 +30,4 @@ parameters:
     cache_config.session.my_task_list.keys: 
         'alive': 'my_task_list.alive'
         'list': 'my_task_list.task_history'
-    cache_config.session.my_task_list.duration:  -1 # seconds 
+    cache_config.session.my_task_list.duration:  0 # seconds 
