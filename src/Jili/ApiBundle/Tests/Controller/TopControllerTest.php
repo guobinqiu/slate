@@ -34,11 +34,151 @@ class TopControllerTest extends WebTestCase
         parent::tearDown();
        $this->em->close();
     }
+    /**
+     * @group session 
+     */
+    public function testUserInfoAction() {
+        echo 'top.userInfo testing',PHP_EOL;
+
+        $client = static::createClient();
+        $container = $client->getContainer();
+       
+        $logger= $container->get('logger');
+        $router = $container->get('router');
+        $em = $this->em;
+
+
+        // request 
+        $url = $router->generate('jili_api_top_userinfo');
+        echo $url, PHP_EOL;
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        // check the partial
+        $this->assertEquals('/other140307/defaultFace.jpg',       $crawler->filter('img')->attr('src'));
+
+        var_dump($crawler->filter('dd')->eq(0)->text());
+        echo  $crawler->filter('dd')->eq(1)->text(),PHP_EOL;
+
+        $query = array('email'=> 'alice.nima@gmail.com');
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+        if(! $user) {
+            echo 'bad email:',$query['email'], PHP_EOL;
+            return false;
+        }
+
+        // post to login , for sessions:
+        $url = $container->get('router')->generate('_login');
+##$url = 'http://localhost/login';
+        echo $url, PHP_EOL;
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+
+        $form = $crawler->selectButton('loginSubmit')->form();
+        $form['email'] = $query['email'];
+        $form['pwd'] = 'cccccc';
+        $client->submit($form);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $session = $container->get('session');
+        $this->assertTrue( $session->has('uid'));
+
+        // set session for login
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'uid')). var_export($session->get( 'uid' ), true));
+//        $session->set('uid', $user->getId());
+//        $session->save();
+
+#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')). var_export($session->getName(), true));
+#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'blahblah')). var_export($session->get('blahblah'), true));
+#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'abc')). var_export($session->get('abc'), true));
+#
+#        $keys = $container->getParameter('cache_config.session.points.keys');
+#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'abc')). var_export($session->get( $keys['alive'] ), true));
+#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'abc')). var_export($session->get( $keys['confirmming'] ), true));
+
+        // request 
+        $url = $router->generate('jili_api_top_userinfo');
+        echo $url, PHP_EOL;
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        // check the partial
+        $this->assertEquals('/other140307/defaultFace.jpg', $crawler->filter('img')->attr('src'));
+
+        var_dump($crawler->filter('dd')->eq(0)->text());
+        echo $crawler->filter('dd')->eq(1)->text(),PHP_EOL;
+        die();
+    }
+    /**
+     * @group cache
+     */
+    public function testCallboardAction() {
+
+        echo 'callboard partial ',PHP_EOL;
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $logger= $container->get('logger');
+        $router = $container->get('router');
+        $em = $this->em;
+        $cache_fn= $container->getParameter('cache_config.api.top_callboard.key');
+        // remove the cache file
+        $cache_data_path = $container->getParameter('cache_data_path'); 
+        $fn = $cache_data_path.DIRECTORY_SEPARATOR.$cache_fn.'.cached';
+
+        exec('rm ' .$fn);
+        $this->assertFileNotExists($fn);
+
+        // request 
+        $url = $router->generate('jili_api_top_callboard');
+        echo $url, PHP_EOL;
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+
+        $this->assertFileExists($fn);
+        
+        // the count 
+        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(6);
+        
+        $exp_total = count($callboard);
+        if( $exp_total >= 3 ) {
+            $exp_ul1_count = 3;
+            $exp_ul2_count = $exp_total -  3;
+        } else {
+            $exp_ul1_count = $exp_total;
+            $exp_ul1_count = 0;
+        }
+
+        $ul1 = $crawler->filter('ul')->eq(0)->children('li');
+        $ul2 = $crawler->filter('ul')->eq(1)->children('li');
+        $this->assertEquals( $exp_ul1_count, $ul1->count() );
+        if( $exp_ul2_count > 0 ) {
+            $this->assertEquals( $exp_ul2_count, $ul2->count() );
+        }
+
+        if( $exp_total > 0 ) {
+            $hrefs =array();
+            foreach ($callboard as $key) {
+                $exp_links[] = array('name'=> '【'.$key['categoryName'].'】'. mb_substr($key['title'] ,0,17,'utf8'),
+                    'href'=> $router->generate('_callboard_info', array('id'=> $key['id']) )
+                );
+            }
+            $li = $crawler->filter('li');
+            $this->assertEquals( $exp_total, $li->count() );
+            for($i = 0; $i < $exp_total; $i++ ) {
+                $this->assertEquals($exp_links[$i]['name'] , $li->eq($i)->text());
+                $this->assertStringEndsWith($exp_links[$i]['href'], $li->eq($i)->children('a')->eq(0)->attr('href'));
+            }
+        }
+        // check the cache contents.
+        $this->assertFileExists($fn);
+        $this->assertStringEqualsFile($fn, serialize($callboard) ,' the content in file ' .$fn);
+        exec('rm ' .$fn);
+    }
         //user_91ww_visit              |
         //| user_advertiserment_visit    |
         //| user_game_visit              |
-     /**
+    /**
      * checkin visit 
+     * @group session
+     * @group task_list 
      **/
     public function testTaskListCheckinAction()
     {    
@@ -144,6 +284,8 @@ class TopControllerTest extends WebTestCase
 
      /**
      * 91ww visit 
+     * @group session
+     * @group task_list 
      **/
     public function testTaskList91wwAction()
     {    
@@ -207,13 +349,15 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals(0, count($link));
         // adv visit: check db status
 
-        $records =  $em->getRepository('JiliApiBundle:UserGameVisit')->findBy(array('userid'=>$user->getId()  ,'visitDate'=> $day));
+        $records =  $em->getRepository('JiliApiBundle:UserWenwenVisit')->findBy(array('userid'=>$user->getId()  ,'visitDate'=> $day));
         $this->assertEquals(1, count($records));
         //todo:  adv visit: check session  status? how to .
     }   //| user_info_visit    
 
-     /**
+    /**
      * game visit 
+     * @group session
+     * @group task_list 
      **/
     public function testTaskListGameAction()
     {    
@@ -286,6 +430,8 @@ class TopControllerTest extends WebTestCase
 
     /**
      * adv visit , on click  ad offer99.
+     * @group session
+     * @group task_list 
      **/
     public function testTaskListAdvOffer99Action()
     {    
@@ -362,10 +508,11 @@ class TopControllerTest extends WebTestCase
 
     /**
      * adv visit , on click  ad list.
+     * @group session
+     * @group task_list 
      **/
     public function testTaskListAdvListAction()
     {
-        $this->markTestIncomplete('Ignored for dev');
         echo 'adv visit in task list',PHP_EOL;
         $client = static::createClient();
         $container = $client->getContainer();

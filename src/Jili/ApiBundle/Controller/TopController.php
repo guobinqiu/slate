@@ -279,17 +279,7 @@ class TopController extends Controller
         $option = array('status' => $type ,'offset'=>'','limit'=>'');
 
         $logger = $this->get('logger');
-#        $adtaste = $this->selTaskHistory($id,$option);
         $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
-
-#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')). var_export($adtaste, true));
-#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')). var_export($adtaste0, true));
-#        if( json_encode($adtaste) === json_encode($adtaste0)) {
-#            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$adtaste0','$adtaste','==')));
-#        } else {
-#            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$adtaste0','$adtaste','!=')));
-#        }
-#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'diff2','')). var_export(array_diff($adtaste,$adtaste0), true));
 
         foreach ($adtaste as $key => $value) {
             if($value['orderStatus'] == 1 && $value['type'] ==1){

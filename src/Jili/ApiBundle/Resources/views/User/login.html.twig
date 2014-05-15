@@ -43,7 +43,7 @@ function clear(){
       {% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
       <input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
       {% endif %}
-      <li class="loginBtn"><input name="" type="submit" class="submit" value="&nbsp;"><a class="forget" href="{{ asset(path('_user_resetPwd'),'cdn1') }}" target="_blank">忘记密码</a></li>
+      <li class="loginBtn"><input id="loginSubmit" name="login" type="submit" class="submit" value="&nbsp;"><a class="forget" href="{{ asset(path('_user_resetPwd'),'cdn1') }}" target="_blank">忘记密码</a></li>
       <!--  <li class="otherLogin">使用合作网站登录<a class="weibo" href="#"></a><a class="qq" href="#"></a></li>-->
     </ul>
     <div class="regArea"><a href="{{ path('_user_reg') }}" target="_blank" class="reg"></a></div>
