@@ -65,13 +65,13 @@ class MyTaskList
         } else{
             // 取出全部做写到cache中。
             // todo: 不能总保存在session中!
-            $option_all= array( 'status' => 0 );
+#//            $option_all= array( 'status' => 0 );
 #            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'option_all:')). var_export($option_all, true));
-            $data = $this->selTaskHistoryRaw($option_all);
-            $session->set($key_list, $data);
+            $data = $this->selTaskHistoryRaw($option);
+#            $session->set($key_list, $data);
         }
 
-        if(isset($option['status'])) {
+        if(false && isset($option['status'])) {
             $status = (int) $option['status'];
             if( $status === 1 ) {
                 foreach( $data as $key => $value){
@@ -100,7 +100,7 @@ class MyTaskList
         }
 
         // filter by the query??
-		if(isset($option['offset']) && $option['offset'] && isset($option['limit']) && $option['limit']){
+		if(false && isset($option['offset']) && $option['offset'] && isset($option['limit']) && $option['limit']){
             $data = array_slice($data, 0, 10);
         }
         return $data; 
