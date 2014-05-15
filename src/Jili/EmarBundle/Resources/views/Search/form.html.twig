@@ -17,12 +17,12 @@
 {% endif %}
 
 
-          {{ form_widget( form.q , {'attr': { 'type': 'text', 'onkeydown': "javascript:if(event.keyCode==13){ search();}", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
+          {{ form_widget( form.q , {'attr': { 'type': 'text', 'placeholder': "输入任意商品名、商家名等开始购物！", 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
 
           {{ form_widget( form.rt ) }}
           <input type="submit" clstag="homepage|keycount|home2013|03a" onclick="search();return false;" class="button curPt" value="搜索">
           {{ form_rest(form)  }}
-</form>
+</form> 
 </div>
 <script type="text/javascript">
 var search_form_rt_config = search_form_rt_config || {};
