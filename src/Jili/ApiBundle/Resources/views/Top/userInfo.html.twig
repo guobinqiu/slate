@@ -7,9 +7,9 @@
     <p><a class="goUserInfo" href="{{ path('_user_info') }}">进入个人中心</a></p>
   </div>
   <div class="point clearfix">
-    <dt>当前米粒数</dt>
-    <dt class="right">确认中米粒数</dt>
-    <dd>{{ app.session.get('points') }}</dd>
-    <dd class="right">{{ confirmPoints }}</dd>
+    <dt><strong class="corGlobRed font16">{{ app.session.get('points') }}</strong><br />当前米粒数</dt>
+    <dt class="right"><strong class="corGlobRed font16">{{ confirmPoints }}</strong><br />确认中米粒数</dt>
+    <dd><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a></dd>
+    <dd class="right"><a href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}">我的兑换历史</a></dd>
   </div>
 </div>

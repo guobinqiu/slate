@@ -61,56 +61,48 @@ $(document).ready(function() {
   {% endif %}
 });
 </script>
-</head>
-<body>
-<div id="header">
-	{% include 'JiliApiBundle::header.html.twig' %}
-</div>
+</head><body>
+<div id="header"> {% include 'JiliApiBundle::header.html.twig' %} </div>
 <div class="webArticle cpsActivity">
   <div class="topBtn"><a href="#"><img src="{{ asset('other/topBtn.jpg') }}" width="34" height="32"></a></div>
   <div class="classify">
-      <h3>分类筛选</h3>
-        <div class="classify-nav"><h4>商城：</h4><span class="tags">
-      <a href="{{ path('_marketActivity_index',{'aid': 0 ,'cateId' : cateId }) }}" class="hover" id="mall">全部</a>
-      {% for item in nowMall %}
-          <a href="{{ path('_marketActivity_index',{'aid': item.aid ,'cateId' : cateId }) }}" id="mall{{ item.aid }}">{{ item.title }}</a>
+    <h3>分类筛选</h3>
+    <div class="classify-nav">
+      <h4>商城：</h4>
+      <span class="tags"> <a href="{{ path('_marketActivity_index',{'aid': 0 ,'cateId' : cateId }) }}" class="hover" id="mall">全部</a> {% for item in nowMall %} <a href="{{ path('_marketActivity_index',{'aid': item.aid ,'cateId' : cateId }) }}" id="mall{{ item.aid }}">{{ item.title }}</a> {% endfor %} <a class="unfoldBtn" style="display:none;">展开</a> </span></div>
+    <div class="classify-nav">
+      <h4>类别：</h4>
+      <span class="btags"> <a href="{{ path('_marketActivity_index',{'aid': aid ,'cateId' : 0 }) }}" class="hover" id="cate">全部</a> {% for item in cate %} <a href="{{ path('_marketActivity_index',{'aid': aid ,'cateId' : item.id }) }}" id="cate{{ item.id }}">{{ item.category }}</a> {% endfor %} <a class="bunfoldBtn" style="display:none;">展开</a> </span></div>
+  </div>
+  <div class="activityOverflow">
+    <ul class="activityAll">
+      {% if busi %}
+      {% for item in pagin %}
+      <li><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank"> <img src="{{ asset(item.activityImage) }}" width="470" height="200" alt="{{item.businessName}}"></a>
+        <div class="more">
+          <h4>{{ item.businessName }}</h4>
+          <a class="moreBtn" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank">查看详情>></a></div>
+      </li>
       {% endfor %}
-        <a class="unfoldBtn" style="display:none;">展开</a> 
-</span></div><div class="classify-nav"><h4>类别：</h4><span class="btags">
-        <a href="{{ path('_marketActivity_index',{'aid': aid ,'cateId' : 0 }) }}" class="hover" id="cate">全部</a>
-      {% for item in cate %}
-          <a href="{{ path('_marketActivity_index',{'aid': aid ,'cateId' : item.id }) }}" id="cate{{ item.id }}">{{ item.category }}</a>
-      {% endfor %}
-      <a class="bunfoldBtn" style="display:none;">展开</a> 
-</span></div>
-    </div>
-    <div class="activityOverflow">
+      {% else %}
+      <p class="noInfo" align="center">暂无此类商家活动</p>
+      {% endif%}
+    </ul>
+    <div style="width: 100%; display: inline-block;">{{ knp_pagination_render(pagin) }}</div>
     
-        <ul class="activityAll">
-        {% if busi %}
-            {% for item in pagin %}
-                     <li><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank">
-                     <img src="{{ asset(item.activityImage) }}" width="470" height="200" alt="{{item.businessName}}"></a>
-                     <div class="more"><h4>{{ item.businessName }}</h4>
-                     <a class="moreBtn" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank">查看详情>></a></div></li>
-             {% endfor %}
-          {% else %}
-              <p class="noInfo" align="center">暂无此类商家活动</p>
-          {% endif%}
-          </ul>
-          <div style="width: 100%; display: inline-block;">{{ knp_pagination_render(pagin) }}</div>
-   
-        <!--<div class="loading"><img src="{{ asset('other/loading.gif') }}" width="48" height="48"></div>-->
+    <!--<div class="loading"><img src="{{ asset('other/loading.gif') }}" width="48" height="48"></div>--> 
+  </div>
+  <div style="width: 160px; top: 30px; right: 0; position: absolute; height: 600px;">
+    <div> 
+    <!-- 商家活动右侧一（160*90，纯文字） -->
+    {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1553022" } %}
     </div>
-	<div style="width: 160px; top: 30px; right: 0; position: absolute; height: 600px;">
-        {# 160*90，创建于2014-4-14 #} 
-        {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1522223" } %}
-
-        {# 160*600，创建于2014-4-2 #} 
-        {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1510122" } %}
-	</div>
+    <div class="marginT15"> 
+    <!-- 商家活动右侧二（160*600） -->
+    {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1553032" } %}
+    </div>
+  </div>
 </div>
-
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
 </html>
