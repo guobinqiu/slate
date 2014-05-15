@@ -59,7 +59,7 @@ class UserControllerTest extends WebTestCase
         $passwordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneBy(array('userId'=>$user->getId(), 'isAvailable'=>1));
 
         if(! $passwordCode) {
-            print ' code not found!',PHP_EOL;
+            echo  ' code not found!',PHP_EOL;
             return false;
         }
 
