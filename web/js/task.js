@@ -8,6 +8,6 @@ $(function () {
 		tabcons: ".all ul",
 		isClick: 'click',
 		conHeight: '0',
-		maxHeight: '115'
+		maxHeight: '118'
 	});
 });

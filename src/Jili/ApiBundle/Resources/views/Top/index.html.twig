@@ -20,8 +20,8 @@
       {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }}
     </div><!-- eof module categorys -->
 
-    <div id="timeline">
-      <h3>最新动态</h3>
+    <div id="timeline" class="borderGlob">
+      <h3 class="font15"><strong>最新动态</strong></h3>
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:event') ) }}
       </div><!-- eof mask -->
@@ -30,31 +30,19 @@
 
 	<div class="w204 fl" style="margin-top:15px;">
     	<div>
-        	<script type="text/javascript">
-			/*200*90，纯文字*/
-			var cpro_id = "u1522251";
-			</script>
-			<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
-			
-			<script type="text/javascript">
-			/*200*90，纯文字*/
-			var cpro_id = "u1522251";
-			</script>
-			<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+        	<!-- 首页左侧一（200*90，纯文字）-->
+            {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552971" } %}
         </div>
 	    <div class="marginT15">
-        	<script type="text/javascript">
-			/*200*200，纯图片*/
-			var cpro_id = "u1522038";
-			</script>
-			<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+        	<!-- 首页左侧二（200*200，图片）-->
+            {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552985" } %}
         </div>
 	</div>
 	<!-- eof ads -->
 
   </div><!-- w204 side -->
 
-  <div class="w615 fl">
+  <div class="w638 fl">
     {% if not app.session.has('uid') %}
     <div id="indexBanner"> <a style="opacity: 1;" class="game" href="{{ asset(path('_game_index'),'cdn1')}}">游戏体验</a> 
     <a style="opacity: 1;" class="marketActivity" href="{{ asset(path('_marketActivity_index'),'cdn1')}}">商家活动</a> 
@@ -63,21 +51,14 @@
     <a style="opacity: 1;" class="shopping" href="{{ asset(path('jili_emar_top_cps'),'cdn1') }}">购物返利</a> </div>
     <!-- eof indexBanner -->
     {% else %}
-    <div id="task">
-      <h3><strong>我的任务列表</strong></h3>
-      <div class="menu"><a class="recommend hover">为您推荐的</a><a class="affirm">确认中</a><a class="finish">已完成</a></div>
-      <div class="mask taskWrap">
-        {{ render(controller('JiliApiBundle:Top:myTask' ) ) }}
-      </div><!-- eof .mask -->
-    </div><!-- eof #task -->
     {% endif %}
 
-    <div id="getMallList">
+    <div id="getMallList" class="borderGlob">
         {{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 12, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
     </div><!-- eof getMallList -->
     
     <div id="indexRecommend">
-        {{ render(controller('JiliEmarBundle:Ghs:promotion', {'max': 6, 'tmpl': 'top', 'p': 0 }) ) }}{# 超值低价 #}
+        {{ render(controller('JiliEmarBundle:Ghs:promotion', {'max': 9, 'tmpl': 'top', 'p': 0 }) ) }}{# 超值低价 #}
     </div><!-- eof indexRecommend -->
 
     <div id="marketActivity">
@@ -86,10 +67,10 @@
     </div><!-- eof marketActivity -->
   </div><!-- w615 side -->
  
-  <div class="w300 fr">
+  <div class="w280 fr">
     {% if not app.session.has('uid') %}
     
-    <div class="loginFrame">
+    <div class="loginFrame borderGlob">
       <div id="userLogin"><a class="reg" href="{{ path('_user_reg') }}">免费注册</a></div>
       <div class="logontxtbg"></div>
       <div class="f12 c_999 logontxt">
@@ -104,7 +85,7 @@
       </div>
     </div> <!-- eof login Frame -->
     {% else %}
-    <div class="userFrame">
+    <div class="userFrame borderGlob">
       {{ render(controller('JiliApiBundle:Top:userInfo' ) ) }}
     </div>    <!-- eof user Frame -->
     {% endif %}
@@ -114,13 +95,13 @@
       <div class="bannerNumber"></div>
     </div>   <!-- eof banner -->
     <div id="news">
-      <h3>最新公告</h3>
+      <h3 class="corBlack">最新公告</h3>
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
       </div>
       <div class="pageNumber"><a class="prev curPt"></a><span>1/2</span><a class="next curPt"></a></div>
     </div>    <!-- eof news -->
-    <div id="ranking">
+    <div id="ranking" class="borderGlob">
       <h3>排行榜</h3>
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:ranking' ) ) }}
@@ -128,11 +109,8 @@
       <div class="menu"><a class="month hover">月度</a><a class="year">年度</a></div>
     </div>    <!-- eof ranking   -->
     <div class="fr" style="margin-top:15px;">
-    	<script type="text/javascript">
-		/*300*250，纯文字*/
-		var cpro_id = "u1522260";
-		</script>
-		<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+        <!-- 首页右侧一（300*250，纯文字）-->
+        {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552990" } %}
     </div>
   </div><!-- w300 side -->
 
