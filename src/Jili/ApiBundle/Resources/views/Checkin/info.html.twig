@@ -134,7 +134,8 @@ function hasLogin(){
 }
 function sendLoginInfo(){
     $.ajax({  
-        url: "{{ path('_default_ad_login') }}?pwd="+$("#pwd").val()+"&email="+$("#email").val(),
+        url: "{{ path('_default_ad_login') }}",
+        data: { email: $("#email").val(), pwd: $("#pwd").val() }, 
         type: "POST",
         success:function(data){
            if(data=='ok'){

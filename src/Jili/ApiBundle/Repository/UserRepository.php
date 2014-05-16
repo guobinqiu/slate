@@ -70,6 +70,16 @@ class UserRepository extends EntityRepository {
 
 	}
 
+	public function getNotActiveUserByEmail($email) {
+		$query = $this->createQueryBuilder('u');
+		$query = $query->select('u');
+		$query = $query->Where('u.email = :email');
+		$query = $query->andWhere('u.isFromWenwen = 2');
+		$query = $query->setParameter('email', $email);
+		$query = $query->getQuery();
+		return $query->getOneOrNullResult();
+	}
+
 	public function getUserList($id) {
 		$query = $this->createQueryBuilder('u');
 
@@ -136,11 +146,30 @@ class UserRepository extends EntityRepository {
 
 	public function pointFail($type) {
 		$daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
-		$sqlpoint = "(select b.user_id from (select user_id,reason,create_time from point_history00 union select user_id,reason,create_time from point_history01  union select user_id,reason,create_time from point_history02 union select user_id,reason,create_time from point_history03  union select user_id,reason,create_time from point_history04  union select user_id,reason,create_time from point_history05  union select user_id,reason,create_time from point_history06  union select user_id,reason,create_time from point_history07  union select user_id,reason,create_time from point_history08  union select user_id,reason,create_time from point_history09) b where create_time > '" . $daydate . "')";
+		$sqlpoint = " (select distinct user_id from point_history00 where create_time > '" . $daydate . "' " .
+                "union select distinct user_id from point_history01 where create_time > '" . $daydate . "' " .
+                "union select distinct user_id from point_history02 where create_time > '" . $daydate . "' " .
+                "union select distinct user_id from point_history03 where create_time > '" . $daydate . "' " .
+                "union select distinct user_id from point_history04 where create_time > '" . $daydate . "' " .
+                "union select distinct user_id from point_history05 where create_time > '" . $daydate . "' " .
+                "union select distinct user_id from point_history06 where create_time > '" . $daydate . "' " .
+                "union select distinct user_id from point_history07 where create_time > '" . $daydate . "' " .
+                "union select distinct user_id from point_history08 where create_time > '" . $daydate . "' " .
+                "union select distinct user_id from point_history09 where create_time > '" . $daydate . "') ";
 
-		$sqltask = "(select c.user_id from (select user_id,status,date from task_history00 union select user_id,status,date from task_history01 union select user_id,status,date from task_history02 union select user_id,status,date from task_history03 union select user_id,status,date from task_history04 union select user_id,status,date from task_history05 union select user_id,status,date from task_history06 union select user_id,status,date from task_history07 union select user_id,status,date from task_history08 union select user_id,status,date from task_history09) c where status=2 and date > '" . $daydate . "')";
+		$sqltask = " (select distinct user_id from task_history00 where status=2 and date > '" . $daydate . "' " .
+                "union select distinct user_id from task_history01 where status=2 and date > '" . $daydate . "' " .
+                "union select distinct user_id from task_history02 where status=2 and date > '" . $daydate . "' " .
+                "union select distinct user_id from task_history03 where status=2 and date > '" . $daydate . "' " .
+                "union select distinct user_id from task_history04 where status=2 and date > '" . $daydate . "' " .
+                "union select distinct user_id from task_history05 where status=2 and date > '" . $daydate . "' " .
+                "union select distinct user_id from task_history06 where status=2 and date > '" . $daydate . "' " .
+                "union select distinct user_id from task_history07 where status=2 and date > '" . $daydate . "' " .
+                "union select distinct user_id from task_history08 where status=2 and date > '" . $daydate . "' " .
+                "union select distinct user_id from task_history09 where status=2 and date > '" . $daydate . "')  ";
 
-		$sql = "select e.id,e.email,e.nick,e.register_date,e.delete_flag from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate . "' and e.id not in " . $sqlpoint . " and e.id not in " . $sqltask;
+		$sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate . "' and e.id not in " . $sqlpoint . " and e.id not in " . $sqltask;
+
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 
 	}
@@ -361,5 +390,20 @@ class UserRepository extends EntityRepository {
                 on a.id = b.user_id where a.delete_flag IS NULL OR a.delete_flag = 0 ".$sql2." order by b.date desc";
                 //echo $sql;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+    }
+
+    public function findWenWenUsersForRemmindRegister($start_time, $end_time){
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id,u.email');
+        $query = $query->Where('u.isFromWenwen = 2');
+        $query = $query->andWhere('u.pwd is null');
+        $query = $query->andWhere('u.registerDate >= :start_time');
+        $query = $query->andWhere('u.registerDate <= :end_time');
+        $query = $query->setParameters(array (
+             'start_time' => $start_time,
+             'end_time' => $end_time
+         ));
+        $query = $query->getQuery();
+        return $query->getResult();
     }
 }

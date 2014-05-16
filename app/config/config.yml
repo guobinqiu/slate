@@ -28,6 +28,7 @@ framework:
     trusted_proxies: ~
     session:
         gc_maxlifetime:   86400
+        save_path: "%kernel.root_dir%/sessions/%kernel.environment%"
     fragments:       ~
 # Twig Configuration
 twig:
@@ -231,7 +232,8 @@ parameters:
     remind_total_point_campaign_id: 12
     remind_total_point_mailing_id: 80
     register_from_wenwen_campaign_id: 7
-    register_from_wenwen_mailing_id: 86
+    register_from_wenwen_mailing_id: 90
+    register_from_wenwen_mailing_id_again: 91
     file_path_advertiserment_check: /data/91jili/advertiserment_check.log
     file_path_emergency_announcement: /data/91jili/emergency_announcement.log
     91wenwen_api_url: https://www.91jili.com

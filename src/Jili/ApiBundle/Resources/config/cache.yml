@@ -1,0 +1,33 @@
+parameters: 
+# advertiseBanner 
+    cache_config.api.top_adbanner.key: 'api.top_adbanner'
+    cache_config.api.top_adbanner.duration: 3600 #unit seconds
+# market 
+    cache_config.api.top_market.key: 'api.top_market'
+    cache_config.api.top_market.duration: 3600 #unit seconds
+# callboard
+    cache_config.api.top_callboard.key: 'api.top_callboard'
+    cache_config.api.top_callboard.duration: 3600 #unit seconds
+# task_lists
+    cache_config.session.task_list.keys: 
+        'alive': 'task_list.alive'
+        'game_visit': 'task_list.game_visit'
+        'adv_visit': 'task_list.adv_visit'
+        '91ww_visit': 'task_list.91ww_visit'
+        'checkin_visit': 'task_list.checkin_visit'
+        'checkin_point': 'task_list.checkin_point'
+        'cpa_ads': 'task_list.cpa_ads'
+    cache_config.session.task_list.duration:  -1 # seconds 
+
+# points
+    cache_config.session.points.keys:  
+        'alive':  'user.points.alive'
+        'confirmming':  'user.points.confirmming'
+
+    cache_config.session.points.duration:  0  # seconds 
+
+# my_task_list
+    cache_config.session.my_task_list.keys: 
+        'alive': 'my_task_list.alive'
+        'list': 'my_task_list.task_history'
+    cache_config.session.my_task_list.duration:  0 # seconds 

@@ -48,7 +48,7 @@ $(document).ready(function(){
     //刷新
     $(".more").click(function(){
         $.ajax({
-            url: "{{ path('jili_emar_ghs_promotion') }}/top/6/"+next.getNext(),
+            url: "{{ path('jili_emar_ghs_promotion') }}/top/9/"+next.getNext(),
             post: "POST",
             beforeSend:function(){$(".loading").show();},
             success:function(data){
@@ -57,17 +57,21 @@ $(document).ready(function(){
                     var msg = "";
                     for(var i = 0; i < data.prds.length; i++) {
                        var  data2 = data.prds[i];
-                        if (0 == (i+1) % 3 ){
-                            msg += '<li class="mr0">';
-                        }else{  
-							msg += "<li>";
-                        }
+                        msg += "<li>";
 						if ( data2.href == "{{ path('_user_login')  }}" ){
-                        msg += '<p class="image"><a href="'+data2.href+'" ><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="name">'+data2.name+'</p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">¥'+data2.pri0+'</del>';
-                        msg += '</p>'+'<p class="corLightGray">销量'+data2.buy+'件</p>';
+						msg += '<div class="prds1-item">';	
+                        msg += '<p class="image"><a href="'+data2.href+'" ><img src="'+data2.pic+'" height="auto" width="200"></a></p>';
+						msg += '<p class="itemBgMask"></p>';
+                 		msg += '<p class="name">'+data2.name+'</p>';
+						msg += '</div>';
+						msg += '<p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">¥'+data2.pri0+'</del>';
 						} else {
-                            msg += '<p class="image"><a href="'+data2.href+'" target="_blank" rel="nofollow"><img src="'+data2.pic+'" height="130" width="200"></a></p><p class="name">'+data2.name+'</p><p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">¥'+data2.pri0+'</del>';
-                            msg +='</p><p class="corLightGray">销量'+data2.buy+'件</p>';
+							msg += '<div class="prds1-item">';	
+							msg += '<p class="image"><a href="'+data2.href+'" target="_blank" rel="nofollow"><img src="'+data2.pic+'" height="auto" width="200"></a></p>';
+							msg += '<p class="itemBgMask"></p>';
+							msg += '<p class="name">'+data2.name+'</p>';
+							msg += '</div>';
+							msg += '<p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">¥'+data2.pri0+'</del>';
  						}					
 						 msg += '</div></li>';
            			  }
@@ -88,32 +92,40 @@ $(document).ready(function(){
   })
   
   function slideUp(){
-  	$("#indexRecommend ul li").hover(function() {
-		$(this).children(".model").css("display","block");
-		$(this).children(".model").animate({bottom:0},200);
-	},function() {
-		$(this).children(".model").animate({bottom:-90},200);
- 	});
+	var imgBox = $('.prds1-item');
+	var itemBgMask = $('.itemBgMask');
+	var text = $('.name');
+	imgBox.hover(function(){
+				var index = imgBox.index(this);
+				itemBgMask.eq(index).slideDown(200);
+				text.eq(index).slideDown(200);
+			},
+			function(){
+				var index = imgBox.index(this);
+				itemBgMask.eq(index).slideUp(200);
+				text.eq(index).slideUp(200);
+			});
   }
 </script>
-{% spaceless %}
-      <h3>超值低价</h3>
-      <div class="menu"><a class="more" href="javascript:void(0);">换一批</a></div>
-      <div class="loading"><img src="{{ asset('other/loading.gif') }}" width="32" height="32"></div>
-      <ul class="clearfix">
-        <span id="prds1">
-         {% for row in ghs_pdts %}
-            <li{{ 0 == loop.index % 3? ' class="mr0" ':'' }}>
-                 <p class="image">
-                  <a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.ghs_o_url|url_encode }}" target="_blank" rel="nofollow">
-                 <img src="{{ row.pic_url }}" height="auto" width="200"></a></p>
-			 <p class="name">{{ row.p_name }}</p>
-             <p class="price"><span class="price1 fontOrig">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="corLightGray font14 fontOrig">¥{{ row.ori_price }}</del>
-             </p> 
-                 <p class="corLightGray">销量{{ row.bought }}件</p>
-             </li>
-         {% endfor %}
-         </span>
-    </ul>
-{% endspaceless %}
 
+{% spaceless %}
+<div class="iRhWrap marginBM5"> <strong class="font18 corLightRed">超值低价</strong>
+  <div class="menu"><a class="more" href="javascript:void(0);">换一组</a></div>
+</div>
+<div class="iRcWrap borderGlob">
+  <div class="loading"><img src="{{ asset('other/loading.gif') }}" width="32" height="32"></div>
+  <ul class="clearfix">
+    <span id="prds1"> 
+    {% for row in ghs_pdts %} 
+    <li>
+        <div class="prds1-item">
+          <p class="image"> <a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.ghs_o_url|url_encode }}" target="_blank" rel="nofollow"> <img src="{{ row.pic_url }}" height="auto" width="200"></a></p>
+          <p class="itemBgMask"></p>
+          <p class="name">{{ row.p_name }}</p>
+        </div>
+        <p class="price"><span class="price1 fontOrig">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="font14 fontOrig">¥{{ row.ori_price }}</del></p>
+    </li>
+    {% endfor %} </span>
+  </ul>
+</div>
+{% endspaceless %} 

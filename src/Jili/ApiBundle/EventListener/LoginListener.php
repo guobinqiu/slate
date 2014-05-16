@@ -13,26 +13,25 @@ use Jili\ApiBundle\Entity\LoginLog;
  **/
 class LoginListener {
 	private $em;
+	private $task_list;
+	private $my_task_list;
 
 	public function __construct(EntityManager $em ) {
 		$this->em = $em;
 	}
 
 	/**
-	 *
-	 * @param  $email
-	 * @param  $password
-	 *
+	 * @param  $request
 	 */
-	public function login(Request $request, $email, $password) {
-		$em = $this->em;
+	public function login(Request $request) {
+
 		$code = '';
-		$em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
 		if ($request->getMethod() != 'POST') {
 			return $code;
 		}
 
-		if (!$email) {
+        $email = $request->request->get('email');
+		if (!$email ) {
 			$code = $this->getParameter('login_en_mail');
 			return $code;
 		}
@@ -41,33 +40,32 @@ class LoginListener {
 			return $code;
 		}
 
+		$em = $this->em;
 		$em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
 		if (!$em_email) {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
-		$id = $em_email[0]->getId();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		$user = $em_email[0];//->getRepository('JiliApiBundle:User')->find($id);
+		$id = $user->getId();
 		if ($user->getDeleteFlag() == 1) {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
+        $password = $request->request->get('pwd');
 		if ($user->pw_encode($password) != $user->getPwd()) {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
-		if ($request->get('remember_me') == '1') {
+		if ($request->request->get('remember_me') == '1') {
 			setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
 			setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
 		}
 
-		$request->getSession()->set('uid', $user->getId() );
-		$request->getSession()->set('nick', $user->getNick());
-		$request->getSession()->set('points', $user->getPoints());
-
+        $this->initSession($user);
         $this->checkNewbie( $user);
         
 		$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
@@ -78,6 +76,35 @@ class LoginListener {
 		$code = 'ok';
 		return $code;
 	}
+    public function updateInfoSession(User $user ) {
+        $session = $this->container_->get('session');
+
+
+        $icon_path = $user->getIconPath() ;
+        if( ! empty($icon_path) ) {
+            $session->set('icon_path', $icon_path);
+        } else {
+            if( $session->has('icon_path')) {
+                $session->remove('icon_path');
+            }
+        }
+        $session->set('points', $user->getPoints());
+    }
+    /**
+     *
+     */
+    public function initSession( User  $user)
+    {
+        $session = $this->container_->get('session');
+        $session->set('uid', $user->getId() );
+        $session->set('nick', $user->getNick());
+
+        $this->updateInfoSession($user);
+        // init the task_list & my_task_list when first login. 
+        // some session will be kept when logout, but not this.
+        $this->task_list->remove(array('alive'));
+        $this->my_task_list->remove(array('alive'));
+    }
 
     /**
      * update is_newbie in session
@@ -132,6 +159,18 @@ class LoginListener {
 
     public function setContainer( $c) {
         $this->container_ = $c;
+    }
+    /**
+     * @param: $tl the task_list service 
+     */
+    public function setTaskList( $tl) {
+        $this->task_list= $tl;
+    }
+    /**
+     * @param: $mtl the my_task_list service 
+     */
+    public function setMyTaskList( $mtl) {
+        $this->my_task_list = $mtl;
     }
 
 }

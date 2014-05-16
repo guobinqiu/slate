@@ -97,9 +97,6 @@ class AdvertisermentController extends Controller
 
         $arr['ads'] = array_merge($adverRecommand,$advertise );
 
-        #$logger= $this->get('logger');
-        #$logger->debug('{jaord}'.__FILE__.'@'.__LINE__.':'. var_export( count( $arr['ads']), true));
-
         //UserAdvertisermentVisit
         $day = date('Ymd');
         $request = $this->get('request');
@@ -112,6 +109,9 @@ class AdvertisermentController extends Controller
             $gameVisit->setVisitDate($day);
             $em->persist($gameVisit);
             $em->flush();
+            // remove from session cache.
+            $taskList = $this->get('session.task_list');
+            $taskList->remove(array( 'adv_visit'));
         }
 
 		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
@@ -138,6 +138,10 @@ class AdvertisermentController extends Controller
             $gameVisit->setVisitDate($day);
             $em->persist($gameVisit);
             $em->flush();
+
+            // remove from session cache.
+            $taskList = $this->get('session.task_list');
+            $taskList->remove(array( 'adv_visit'));
         }
 
         return $this->render('JiliApiBundle:Advertiserment:offer99.html.twig');

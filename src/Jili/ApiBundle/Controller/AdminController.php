@@ -160,8 +160,8 @@ class AdminController extends Controller
               'date' => date('Y-m-d H:i:s'),
               'status' => $this->container->getParameter('init_four')
             );
-            $this->updateTaskHistory($parms);  
-            return true;
+            $return = $this->updateTaskHistory($parms);
+            return $return;
 
         }
     }
@@ -207,8 +207,12 @@ class AdminController extends Controller
                 'status' => $this->container->getParameter('init_three')
               );
             }
-           
-            $this->updateTaskHistory($parms);  
+
+            $return = $this->updateTaskHistory($parms);
+            if(!$return){
+                return false;
+            }
+
             if($adworder->getIncentiveType()==1){
                 $limitAd = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adid);
                 $limitrs = new LimitAdResult();
@@ -333,12 +337,21 @@ class AdminController extends Controller
                   break;
       }
       $task_order = $task->getFindOrderId($orderId,$taskType);
+      if(empty($task_order)){
+          return false;
+      }
+
       $po = $task->findById($task_order[0]['id']);
+      if(empty($po)){
+          return false;
+      }
+
       $po[0]->setDate(date_create($date));
       $po[0]->setPoint($point);
       $po[0]->setStatus($status);
       $em->persist($po[0]);
       $em->flush();
+      return true;
     }
     
     private function getPointHistory($userid,$point,$type){
@@ -433,12 +446,12 @@ class AdminController extends Controller
                     if($this->getStatus($userId[1],$adid[1],$ocd[1])){
                         if($status == $this->container->getParameter('nothrough')){
                             if(!$this->noCertified($userId[1],$adid[1],$ocd[1])){
-                                $code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                                $code[] = '[ '.$name.', '.$userId[1].', '.$adid[1].', '.$ocd[1].' ] 插入数据失败';
                             }
                         }
                         if($status == $this->container->getParameter('certified')){
                             if(!$this->hasCertified($userId[1],$adid[1],$ocd[1],$v[5])){
-                                $code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                                $code[] = '[ '.$name.', '.$userId[1].', '.$adid[1].', '.$ocd[1].' ] 插入数据失败';
                             }
                         }
                     }
@@ -484,12 +497,12 @@ class AdminController extends Controller
                     if($this->getStatus($userId[1],$adid[1],$ocd)){
                         if($status == $this->container->getParameter('nothrough')){
                             if(!$this->noCertified($userId[1],$adid[1],$ocd)){
-                                $code[] = $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                                $code[] = '[ '.$name.', '.$userId[1].', '.$adid[1].' ] 插入数据失败';
                             }
                         }
                         if($status == $this->container->getParameter('certified')){
                             if(!$this->hasCertified($userId[1],$adid[1],$ocd,$v[4])){
-                                $code[] =  $name.'-'.$userId[1].'-'.$adid[1].'插入数据失败';
+                                $code[] =  '[ '.$name.', '.$userId[1].', '.$adid[1].' ] 插入数据失败';
                             }
                         }
                     }

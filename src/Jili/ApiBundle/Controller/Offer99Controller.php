@@ -24,7 +24,7 @@ class Offer99Controller extends Controller
     public function getInfoAction()
     {
         $logger = $this->get('logger');
-        $logger->info('{jarod}'. implode(':', array(__FILE__,__LINE__,__CLASS__,__FUNCTION__) ));
+#        $logger->info('{jarod}'. implode(':', array(__FILE__,__LINE__,__CLASS__,__FUNCTION__) ));
         // add request to adw_api_return?? or another table.
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');

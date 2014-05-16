@@ -6,11 +6,14 @@ use Jili\EmarBundle\Api2\Request\GhsProductListGetRequest as OpenApiGhsProductLi
 
 class GhsProductListGetRequest  extends BaseListRequest {
 
+    protected $cache_proxy;
     /**
      * @abstract: wrapper for the fetch() function, for duplicated pid in the fetch result.
      *  Because the  ghs_o_url prefixed with "m." in raw response will redirect to error page.
      */
     public function fetchDistinct( $param = array() ) {
+
+
         $page_size = $this->page_size;
         $this->setPageSize ( 2 * $page_size);
 
@@ -56,18 +59,41 @@ class GhsProductListGetRequest  extends BaseListRequest {
       $req->setPage_size($this->page_size );
     }
 
-    $resp =  $this->c->setApp($this->app_name)->exe($req);
-    #$this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->c->getApp(), true)  );
+    $cache = $this->cache_proxy;
+    $cache->setEmarRequest( $req );
+    $cache_key = $this->cache_proxy->getKey();
+    $cache_duration = $this->cache_proxy->getDuration();
+#    $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'cache_key','')). var_export($cache_key, true)  );
+#    $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'cache_duration','')). var_export($cache_duration, true)  );
+
+    if( $cache->isValid($cache_key, $cache_duration)) {
+#        $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'use cache','')));
+        $resp = $cache->get($cache_key); 
+    } else {
+#        $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'not use cache','')));
+        $resp =  $this->c->setApp($this->app_name)->exe($req);
+#    $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->c->getApp(), true)  );
+        $cache->remove($cache_key); 
+        $cache->set($cache_key, $resp); 
+    }
 
     $result = array();
     if( isset( $resp[ 'ghs_list']) && isset($resp['ghs_list'] ['ghs'] ) ) {
         $result = $resp['ghs_list']['ghs'];
+    } else {
+//        $cache->remove($cache_key); 
     }
-    $this->result = $result;
 
+    $this->result = $result;
     $this->total = isset($resp['total'] ) ? $resp['total']: 0 ;
 
     return $result;
   }
+    /**
+     */
+   public function setCacheProxy( $proxy)
+   {
+      $this->cache_proxy = $proxy; 
+   }
 
 }

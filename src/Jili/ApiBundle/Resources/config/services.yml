@@ -21,13 +21,22 @@ parameters:
     check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
 
     point_manage.processor.class:  Jili\ApiBundle\EventListener\PointManageProcessor
+# session 
+    session.task_list.class: Jili\ApiBundle\EventListener\Session\TaskList
+    session.my_task_list.class: Jili\ApiBundle\EventListener\Session\MyTaskList
+    session.points.class: Jili\ApiBundle\EventListener\Session\Points
+
 
 services:
     login.listener:
         class: %login.listener.class%
         calls:
             - [setContainer, ["@service_container"]]
+            - [setTaskList, [ @session.task_list ]]
+            - [setMyTaskList, [ @session.my_task_list ]]
+
         arguments: ["@doctrine.orm.entity_manager"]
+
     soap.mail.listener:
         class: %soap.mail.listener.class%
 
@@ -106,3 +115,31 @@ services:
             - [setTaskLogger, ["@general_api.task_history"] ]
             - [setPointLogger, ["@general_api.point_history"] ]
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    session.task_list:
+        class: %session.task_list.class%
+        arguments: [ %cache_config.session.task_list.keys%,%cache_config.session.task_list.duration%  ]
+        calls:
+            - [ setContainer, [ @service_container ] ] 
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setSession, [ @session ] ] 
+            - [ setCheckInListener , [ @check_in.listener ] ]
+
+    session.my_task_list:
+        class: %session.my_task_list.class%
+        arguments: [ %cache_config.session.my_task_list.keys%,%cache_config.session.my_task_list.duration%  ]
+        calls:
+            - [ setContainer, [ @service_container ] ] 
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setSession, [ @session ] ] 
+
+    session.points:
+        class: %session.points.class%
+        arguments: [ %cache_config.session.points.keys%,%cache_config.session.points.duration%  ]
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setSession, [ @session ] ] 
+

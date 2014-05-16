@@ -221,52 +221,6 @@ class DefaultController extends Controller {
 		}
 		return $i;
 	}
-	/**
-	 * @Route("/fastLogin", name="_default_fastLogin")
-	 */
-	function fastLoginAction() {
-		$code = $this->container->getParameter('init');
-		$arr['userInfo'] = array ();
-		$request = $this->get('request');
-		$email = $request->query->get('email');
-		$pwd = $request->query->get('pwd');
-		$em_email = $this->getDoctrine()->getRepository('JiliApiBundle:User')->findByEmail($email);
-		//      if ($request->getMethod() == 'POST'){
-		if (!$em_email) {
-			//echo 'email is unexist!';
-			$code = $this->container->getParameter('init_one');
-		} else {
-			$id = $em_email[0]->getId();
-			$em = $this->getDoctrine()->getEntityManager();
-			$user = $em->getRepository('JiliApiBundle:User')->find($id);
-			if ($user->pw_encode($pwd) != $user->getPwd()) {
-				//                  echo 'pwd is error!';
-				$code = $this->container->getParameter('init_two');
-			} else {
-				$session = new Session();
-				$session->start();
-				if ($request->query->get('remember_me') == '1') {
-					setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
-					setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
-				}
-				$session->set('uid', $id);
-				$session->set('nick', $user->getNick());
-				$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-				$user->setLastLoginIp($this->get('request')->getClientIp());
-				$em->flush();
-				$em = $this->getDoctrine()->getManager();
-				$loginlog = new LoginLog();
-				$loginlog->setUserId($id);
-				$loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-				$loginlog->setLoginIp($this->get('request')->getClientIp());
-				$em->persist($loginlog);
-				$em->flush();
-			}
-		}
-		//      }
-		return new Response($code);
-
-	}
 
 	public function getToken($email) {
 		$seed = "ADF93768CF";
@@ -342,8 +296,6 @@ class DefaultController extends Controller {
                         $user = $isset_email[0];
                     } else {
                         $user = new User();
-
-
                         $user->setNick($nick);
                         $user->setPwd($pwd);
                         $user->setEmail($email);
@@ -374,30 +326,31 @@ class DefaultController extends Controller {
                     $soapMailLister->sendSingleMailing($recipient_arr);
                     $session = $request->getSession();
                     $session->remove('token');
-                    $session->set('uid', $id);
-                    $session->set('nick', $nick);
-
+#                    $session->set('uid', $id);
+#                    $session->set('nick', $nick);
+                    $this->get('login.listener')->initSession( $user );
                     $this->get('login.listener')->checkNewbie( $user );
 
                     $this->get('login.listener')->log( $user );
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
-
             }
-
         }
 
         //最新动态
         $filename = $this->container->getParameter('file_path_recent_point');
         $recentPoint = $this->readFileContent($filename);
-        foreach ($recentPoint as $key => $item){
-        	if($key > 9){
-        		break;
-        	}
-            if($item[2] > 0) {
-                $recent[]['title'] = $item[0]."通过".$item[3]."获得".$item[2]."积分";
-            }else{
-                $recent[]['title'] = $item[0]."将".(-$item[2])."积分兑换成亚马逊礼品卡";
+        $recent = array();
+        if( is_array($recentPoint)) {
+            foreach ($recentPoint as $key => $item){
+                if($key > 9){
+                    break;
+                }
+                if($item[2] > 0) {
+                    $recent[]['title'] = $item[0]."通过".$item[3]."获得".$item[2]."积分";
+                }else{
+                    $recent[]['title'] = $item[0]."将".(-$item[2])."积分兑换成亚马逊礼品卡";
+                }
             }
         }
 
@@ -516,18 +469,24 @@ class DefaultController extends Controller {
 	 * @Route("/gameVisit", name="_default_gameVisit")
 	 */
 	public function gameVisitAction() {
-		$day = date('Ymd');
 		$request = $this->get('request');
 		$em = $this->getDoctrine()->getManager();
 		$id = $request->getSession()->get('uid');
 		if ($id) {
+            $day = date('Ymd');
+
+            // TODO: use the session value instead of the db query.
 			$visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
-			if (empty ($visit)) {
+			if ( empty ($visit) ) {
 				$gameVisit = new UserGameVisit();
 				$gameVisit->setUserId($id);
 				$gameVisit->setVisitDate($day);
 				$em->persist($gameVisit);
 				$em->flush();
+
+                // remove from session cache.
+                $taskList = $this->get('session.task_list');
+                $taskList->remove(array( 'game_visit'));
 			}
 			$code = $this->container->getParameter('init_one');
 		} else {
@@ -679,6 +638,10 @@ class DefaultController extends Controller {
 				$wenVisit->setVisitDate($day);
 				$em->persist($wenVisit);
 				$em->flush();
+
+                $taskList = $this->get('session.task_list');
+                // remove from session cache.
+                $taskList->remove(array( '91ww_visit'));
 			}
 			$code = $this->container->getParameter('init_one');
 		} else {
@@ -694,10 +657,12 @@ class DefaultController extends Controller {
 	public function adLoginAction() {
 
         $request = $this->get('request');
-        $email = $request->query->get('email');
-        $pwd = $request->query->get('pwd');
-        $loginLister = $this->get('login.listener');
-        $code = $loginLister->login($this->get('request'),$email,$pwd);
+#        $email = $request->query->get('email');
+#        $pwd = $request->query->get('pwd');
+#        $this->get('logger')->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'email', '' )). var_export($email, true));
+#        $this->get('logger')->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'pwd', '' )). var_export($pwd, true));
+#        $loginLister = $this->get('login.listener');
+        $code =$this->get('login.listener')->login($this->get('request'));
 		return new Response($code);
 	}
 }

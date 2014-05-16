@@ -747,7 +747,9 @@ class UserController extends Controller
         $income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
         $option = array('status' => 0 ,'offset'=>'1','limit'=>'10');
         $option_ex = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
-        $adtaste = $this->selTaskHistory($id,$option);
+#       $adtaste = $this->selTaskHistory($id,$option);
+        $this->get('session.my_task_list')->remove(array('alive'));
+        $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
         foreach ($adtaste as $key => $value) {
             if($value['orderStatus'] == 1 && $value['type'] ==1){
                 unset($adtaste[$key]);
@@ -789,6 +791,8 @@ class UserController extends Controller
                             $user->setHobby($hobbys);
                             $user->setIsInfoSet($this->container->getParameter('init_one'));
                             $em->flush();
+
+                            $this->get('login.listener')->updateInfoSession($user);
                             return $this->redirect($this->generateUrl('_user_info'));
                         }
                     }else{
@@ -801,6 +805,8 @@ class UserController extends Controller
                         $user->setHobby($hobbys);
                         $user->setIsInfoSet($this->container->getParameter('init_one'));
                         $em->flush();
+
+                        $this->get('login.listener')->updateInfoSession($user);
                         return $this->redirect($this->generateUrl('_user_info'));
                     }
                 }else{
@@ -808,8 +814,8 @@ class UserController extends Controller
                 }	
             }else{
                 if($request->request->get('reset')){
+                    $this->get('login.listener')->updateInfoSession($user);
                     return $this->redirect($this->generateUrl('_user_info'));
-
                 }else{
                     $form->bindRequest($request);
                     $path =  $this->container->getParameter('upload_tmp_dir');
@@ -820,6 +826,8 @@ class UserController extends Controller
                     if($code == $this->container->getParameter('init_two')){
                         $code =  $this->container->getParameter('upload_img_size');
                     }
+
+                    $this->get('login.listener')->updateInfoSession($user);
                     return new Response(json_encode($code));
                 }
             } 
@@ -850,9 +858,10 @@ class UserController extends Controller
             $confirmPoints = 0;
         }
 
-        return $this->render('JiliApiBundle:User:info.html.twig',array(
-            'form' => $form->createView(),
-            'form_upload' =>$form->createView(),
+        $form_view = $form->createView();
+        return $this->render('JiliApiBundle:User:info.html.twig', array(
+            'form' => $form_view,
+            'form_upload' =>$form_view,
             'user' => $user,
             'adtaste' => $adtaste,
             'exchange' => $exchange,
@@ -986,6 +995,7 @@ class UserController extends Controller
             $session->remove('referer');
         }
 
+
         if($session->get('uid')){
             return $this->redirect($this->generateUrl('_homepage'));
         }
@@ -993,11 +1003,8 @@ class UserController extends Controller
         $code = '';
         $email = $request->request->get('email');
         $pwd = $request->request->get('pwd');
-
         //login
-        $loginListenr = $this->get('login.listener');
-        $code = $loginListenr->login($request,$email,$pwd);
-
+        $code = $this->get('login.listener')->login($request);
 
         if($code == "ok")
         {
@@ -1090,46 +1097,44 @@ class UserController extends Controller
 	/**
 	 * @Route("/reset", name="_user_reset")
 	 */
-	public function resetAction(){
-		$code = '';
-		$request = $this->get('request');
-		$email = $request->query->get('email');
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-		if(empty($user)){
-			$code = $this->container->getParameter('chnage_no_email');
-		}else{
-			$nick = $user[0]->getNick();
-			$id = $user[0]->getId();
-			$passCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($id);
-			if(empty($passCode)){
-				$str = 'jiliforgetpassword';
-				$code = md5($id.str_shuffle($str));
-				$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
-				if($this->sendMail_reset($url, $email,$nick)){
-					$setPasswordCode = new setPasswordCode();
-					$setPasswordCode->setUserId($id);
-					$setPasswordCode->setCode($code);
-					$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
-					$em->persist($setPasswordCode);
-					$em->flush();
-					$code = $this->container->getParameter('init_one');
-				}
-			}else{
-				$url = $this->generateUrl('_user_resetPass',array('code'=>$passCode[0]->getCode(),'id'=>$id),true);
-				$em = $this->getDoctrine()->getManager();
-				$user = $em->getRepository('JiliApiBundle:User')->find($id);
-				if($this->sendMail_reset($url, $email,$nick)){
-					$passCode[0]->setIsAvailable($this->container->getParameter('init_one'));
-					$passCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
-					$em->flush();
-					$code = $this->container->getParameter('init_one');
-				}
-			}
-			
-		}
-		return new Response($code);
-	}
+    public function resetAction(){
+        $code = '';
+        $request = $this->get('request');
+        $email = $request->query->get('email');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+        $logger = $this->get('logger');
+        if(empty($user)){
+            $code = $this->container->getParameter('chnage_no_email');
+        }else{
+            $nick = $user[0]->getNick();
+            $id = $user[0]->getId();
+            $passCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($id);
+            if(empty($passCode)){
+                $str = 'jiliforgetpassword';
+                $code = md5($id.str_shuffle($str));
+                $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+                if($this->sendMail_reset($url, $email,$nick)){
+                    $setPasswordCode = new setPasswordCode();
+                    $setPasswordCode->setUserId($id);
+                    $setPasswordCode->setCode($code);
+                    $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
+                    $em->persist($setPasswordCode);
+                    $em->flush();
+                    $code = $this->container->getParameter('init_one');
+                }
+            }else{
+                $url = $this->generateUrl('_user_resetPass',array('code'=>$passCode[0]->getCode(),'id'=>$id),true);
+                if($this->sendMail_reset($url, $email,$nick)){
+                    $passCode[0]->setIsAvailable($this->container->getParameter('init_one'));
+                    $passCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                    $em->flush();
+                    $code = $this->container->getParameter('init_one');
+                }
+            }
+        }
+        return new Response($code);
+    }
 	
 	
 	/**
@@ -1160,8 +1165,10 @@ class UserController extends Controller
 							$arr['code'] = $this->container->getParameter('forget_wr_pwd');
 						}else{
 							if($pwd == $newPwd){
-								$this->get('request')->getSession()->set('uid',$id);
-								$this->get('request')->getSession()->set('nick',$user->getNick());
+#								$this->get('request')->getSession()->set('uid',$id);
+#								$this->get('request')->getSession()->set('nick',$user->getNick());
+                                $this->get('login.listener')->initSession( $user );
+
 								$user->setPwd($pwd);
 								$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
 								$em->persist($user);
@@ -1217,7 +1224,6 @@ class UserController extends Controller
             $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user_email[0]->getId()),true);
 
             //发送激活邮件
-            $wenwen_api_url = $this->container->getParameter('91wenwen_api_url');
             $logger = $this->get('logger');
             $logger->info('{activeEmail}' . $url);
             //通过soap发送
@@ -1482,22 +1488,22 @@ class UserController extends Controller
 	 * @Route("/adtaste/{type}", name="_user_adtaste")
 	 */
 	public function adtasteAction($type){
-		$id = $this->get('request')->getSession()->get('uid');
-
-        if(!$id){
+        if(!$this->get('session')->has('uid')){
            return $this->redirect($this->generateUrl('_user_login'));
         } 
 
 		$em = $this->getDoctrine()->getManager();
 		$option = array('status' => $type ,'offset'=>'','limit'=>'');
-		$adtaste = $this->selTaskHistory($id,$option);
+#		$adtaste = $this->selTaskHistory($id,$option);
+        $this->get('session.my_task_list')->remove(array('alive'));
+        $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
 		foreach ($adtaste as $key => $value) {
 			if($value['orderStatus'] == 1 && $value['type'] ==1){
 				unset($adtaste[$key]);
 			}
 		}
 		$arr['adtaste'] = $adtaste;
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
+		$user = $em->getRepository('JiliApiBundle:User')->find($this->get('session')->get('uid'));
 		$arr['user'] = $user;
 		$paginator = $this->get('knp_paginator');
 		$arr['pagination'] = $paginator
@@ -1534,7 +1540,7 @@ class UserController extends Controller
 		}
 		$arr['pwdcode'] = $setPasswordCode;
 		$time = $setPasswordCode->getCreateTime();
-        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
+        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24*14){
         	return $this->render('JiliApiBundle::error.html.twig');
         }else{
             if($setPasswordCode->getCode() != $code){
@@ -1572,8 +1578,9 @@ class UserController extends Controller
                                     );
                                 $soapMailLister->sendSingleMailing($recipient_arr);
 
-    							$request->getSession()->set('uid',$id);
-    							$request->getSession()->set('nick',$user->getNick());
+#    							$request->getSession()->set('uid',$id);
+#    							$request->getSession()->set('nick',$user->getNick());
+                                $this->get('login.listener')->initSession($user);
                                 // The user was insert when regAction 
                                 $this->get('login.listener')->log($user);
 
@@ -1626,8 +1633,8 @@ class UserController extends Controller
         }
 
         //设定密码，自动登录
-        $this->get('request')->getSession()->set('uid',$id);
-        $this->get('request')->getSession()->set('nick',$request->request->get('nick'));
+        $this->get('login.listener')->initSession($user);
+
         $user->setPwd($request->request->get('pwd'));
         $user->setNick($request->request->get('nick'));
         $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
@@ -1649,10 +1656,6 @@ class UserController extends Controller
         $soapMailLister->sendSingleMailing($recipient_arr);
 
         $logger = $this->get('logger');
-
-
-#        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'current_url', '' )). var_export($user, true));
-
         $this->get('login.listener')->checkNewbie($user);
         $this->get('login.listener')->log($user);
 
@@ -1664,7 +1667,7 @@ class UserController extends Controller
             return false;
         }
         $time = $setPasswordCode->getCreateTime();
-        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
+        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24*14){
             return false;
         }
 
@@ -1893,7 +1896,9 @@ class UserController extends Controller
 						' <body>' .
 				        '亲爱的'.$nick.'<br/>'.
 				        '<br/>'.
-						'  感谢您注册成为“积粒网”会员！请点击<a href='.$url.' target="_blank">这里</a>，立即激活您的帐户！<br/><br/>' .
+						'  感谢您注册成为“积粒网”会员！请点击<a href='.$url.' target="_blank">这里</a>，立即激活您的帐户！<br/><br/><br/>' .
+						'  注：激活邮件有效期是14天，如果过期后不能激活，请到网站首页重新注册激活。<br/><br/>' .
+						'  ++++++++++++++++++++++++++++++++++<br/>' .
 						'  积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
 						' </body>' .
 						'</html>',
@@ -1939,24 +1944,24 @@ class UserController extends Controller
     }
 
 
-	private function selTaskHistory($userid, $option){
-      $em = $this->getDoctrine()->getManager();
-      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) ); 
-      $po = $task->getUseradtaste($userid, $option);
-
-      foreach ($po as $key => $value) {
-			if($value['type']==1 ) {
-				$adUrl = $task->getUserAdwId($value['orderId']);
-                if( is_array($adUrl) && count($adUrl) > 0) {
-                    $po[$key]['adid'] = $adUrl[0]['adid'];
-                } else {
-                    $po[$key]['adid'] = '';
-                }
-			}else{
-				$po[$key]['adid'] = '';
-			}
-		}
-		return $po;
-    }
+#	private function selTaskHistory($userid, $option){
+#      $em = $this->getDoctrine()->getManager();
+#      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) ); 
+#      $po = $task->getUseradtaste($userid, $option);
+#
+#      foreach ($po as $key => $value) {
+#			if($value['type']==1 ) {
+#				$adUrl = $task->getUserAdwId($value['orderId']);
+#                if( is_array($adUrl) && count($adUrl) > 0) {
+#                    $po[$key]['adid'] = $adUrl[0]['adid'];
+#                } else {
+#                    $po[$key]['adid'] = '';
+#                }
+#			}else{
+#				$po[$key]['adid'] = '';
+#			}
+#		}
+#		return $po;
+#    }
 	
 }

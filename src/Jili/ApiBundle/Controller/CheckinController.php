@@ -104,7 +104,12 @@ class CheckinController extends Controller
 					$this->updatePoint($uid,$nowPoint);
 				$code = $this->container->getParameter('init_one');
 				$point = $nowPoint;
-			}
+
+                // remove from session cache.
+                $taskList = $this->get('session.task_list');
+                $keys = array('checkin_visit','checkin_point');
+                $taskList->remove($keys);
+            }
 		}	
 		$url = $this->advInfo($uid,$aid);
 		return new Response(json_encode(array('code'=>$code,'url'=>$url,'point'=>$point)));
@@ -177,7 +182,6 @@ class CheckinController extends Controller
 			$arrList[] = $cal[$calNow[$i]];
 		}
 		return $this->render('JiliApiBundle:Checkin:checkinList.html.twig',array('arrList'=>$arrList));
-
 	}
 
 	public function advInfo($uid,$aid){

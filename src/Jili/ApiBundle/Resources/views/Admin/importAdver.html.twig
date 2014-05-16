@@ -11,9 +11,14 @@
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td><h3>导入cpa数据:</h3></td><td>&nbsp;</td></tr>
 <tr><td>csv文件:<input type="file" name="csv" /></td><td><input type="submit" name="add" value="提 交"/></td></tr>
-
-
 </table>
+<p>&nbsp;</p>
+<p>cpa-csv文件内容参考：</p>
+<p>&nbsp;</p>
+<p>广告活动,网站,发生日期,原稿名称,CPA佣金,认证状态,认证日期,'反馈标签1','反馈标签2'</p>
+<p>一号店,积粒网,2013-07-27 14:00:30,300*250,50,已认证,2013/7/27 15:05,'49','131'</p>
+<p>注册申领白银投资宝典,积粒网,2013-07-26 11:20:34,300*250,40,已认证,2013/7/24 15:05,'21','93'</p>
+<p>&nbsp;</p>
 {% if code %}
     {% for item in code %}
         <center><font color='red'>{{ item }}</font></center>
@@ -24,6 +29,6 @@
     {% endif %}
 {% endif %}
 </form>
-</BODY></HTML>
 
+</BODY></HTML>
 

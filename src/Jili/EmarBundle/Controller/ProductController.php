@@ -131,13 +131,13 @@ class ProductController extends Controller
     }
 
     /**
-     *   $prod_categories = array('cats'=> array() , 'sub_cats'=> array());
+     * @param:  $prod_categories = array('cats'=> array() , 'sub_cats'=> array());
      * @Route("/category" )
      * @Template 
-     *
      */
     public function categoryAction( $qs = array(), $rt = null ) {
         $logger= $this->get('logger');
+
         $prod_categories = $this->get('product.categories')->fetch();
         $menu_config = $this->container->getParameter('emar_com.pdt_cat.menu');
         $cats_fliped = array_flip($prod_categories['cats']);

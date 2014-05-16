@@ -113,37 +113,31 @@ class DmdeliveryController extends Controller
 	}
 
 	public function handleSendPointFail($failTime,$companyId,$mailingId){
-		$recipient_arr = array();
+		$rs = "";
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->pointFail($failTime);
+		//$logger = $this->get('logger');
 		if(!empty($user)){
 			$group = $this->addgroup($companyId);
 			if($group->status != "ERROR"){
 				foreach ($user as $key => $value) {
 					$failId = $this->issetFailRecord($value['id'],$failTime);
 					if(!$failId){
+						$recipient_arr = array();
 						$recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
 												 array('name'=>'nick','value'=>$value['nick']));
-					}else{
-						unset($user[$key]);
-					}
-				}
-
-				if(!empty($recipient_arr)){
-					$send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
-					if($send->status != "ERROR"){
-						foreach ($user as $key => $value){
+						$send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
+						//$logger->info('{DmdeliveryController}'. "email:".$value['email'].",stauts:".$send->status);
+						if($send->status != "ERROR"){
 							$this->insertSendPointFail($value['id'],$failTime);
 							if($failTime == 180){
 								$this->updatePointZero($value['id']);
 							}
+							$rs = 'Send email successfully';
+						}else{
+							$rs = 'Cannot send email:'.$send->statusMsg;
 						}
-						$rs = 'Send email successfully';
-					}else{
-						$rs = 'Cannot send email:'.$send->statusMsg;
 					}
-				}else{
-					$rs = 'Email list is empty';
 				}
 			}else{
 				$rs = 'Cannot add group:'.$group->statusMsg;

@@ -92,10 +92,21 @@ class TopController extends Controller
      */
     public function callboardAction()
     {
-        //最新公告，取6条
-        $em = $this->getDoctrine()->getManager();
-        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(6);
+        $cache_fn= $this->container->getParameter('cache_config.api.top_callboard.key');
+        $cache_duration = $this->container->getParameter('cache_config.api.top_callboard.duration');
+        $cache_proxy = $this->get('cache.file_handler');
+
+        if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
+            $callboard= $cache_proxy->get($cache_fn);
+        }  else {
+            $cache_proxy->remove( $cache_fn);
+            //最新公告，取6条
+            $em = $this->getDoctrine()->getManager();
+            $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(6);
+            $cache_proxy->set( $cache_fn, $callboard);
+        }
         $arr['callboard'] = $callboard;
+
         return $this->render('JiliApiBundle:Top:callboard.html.twig', $arr);
     }
 
@@ -106,16 +117,8 @@ class TopController extends Controller
     public function userInfoAction()
     {
         //个人中心
-        $request = $this->get('request');
-        $id = $request->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        $arr['user'] = $user;
-
         //确认中的米粒数
-        $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $id % 10 ) );
-        $arr['confirmPoints'] = $task->getConfirmPoints($id);
-
+        $arr['confirmPoints'] = $this->get('session.points')->getConfirm();
         return $this->render('JiliApiBundle:Top:userInfo.html.twig', $arr);
     }
 
@@ -136,6 +139,8 @@ class TopController extends Controller
      */
     public function myTaskAction()
     {
+        $logger =  $this->get('logger');
+
         //任务列表
         $arr['myTask'] = $this->getUndoTaskList();
 
@@ -154,12 +159,20 @@ class TopController extends Controller
      */
     public function checkInAction()
     {
-        //获取签到商家
-        $arr['arrList'] = $this->checkinList();
-        //获取签到积分
-        $checkInLister = $this->get('check_in.listener');
-        $arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));
-        return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
+        $taskList = $this->get('session.task_list');
+        $arr = array();
+        if( $this->container->getParameter('init_one') ===  $taskList->get('checkin_visit') ) {
+            //获取签到积分
+            $checkInLister = $this->get('check_in.listener');
+            $arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));
+
+            //获取签到商家
+            $arr['arrList'] = $this->checkinList();
+
+            return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
+        } else {
+            return new Response('<!-- already checked in -->');
+        }
     }
 
     /**
@@ -168,9 +181,19 @@ class TopController extends Controller
      */
     public function advertiseBannerAction()
     {
-        //banner,右一
-        $em = $this->getDoctrine()->getManager();
-        $advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoBanner();
+        $cache_fn= $this->container->getParameter('cache_config.api.top_adbanner.key');
+        $cache_duration = $this->container->getParameter('cache_config.api.top_adbanner.duration');
+        $cache_proxy = $this->get('cache.file_handler');
+
+        if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
+            $advertiseBanner= $cache_proxy->get($cache_fn);
+        }  else {
+            $cache_proxy->remove( $cache_fn);
+            //banner,右一
+            $em = $this->getDoctrine()->getManager();
+            $advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoBanner();
+            $cache_proxy->set( $cache_fn, $advertiseBanner);
+        }
         $arr['advertise_banner'] = $advertiseBanner;
         return $this->render('JiliApiBundle:Top:adBanner.html.twig', $arr);
     }
@@ -181,64 +204,15 @@ class TopController extends Controller
      */
     public function topCheckInAction()
     {
-
         //return $this->render('JiliApiBundle:Top:myTask.html.twig', $arr);
     }
 
     private function getUndoTaskList() {
-        //可以做的任务，签到+游戏+91问问+购物+cpa
-        $day = date('Ymd');
-        $request = $this->get('request');
-        $id = $request->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $glideAd = false;//是否显示签到活动广告
-        $signRemind = false;//是否显示签到活动广告
-        $signRemind_reg = false;//是否为当天注册
-        if ($id) {
-            //游戏
-            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
-            if (empty ($visit)) {
-                $arr['task']['game'] = $this->container->getParameter('init_one');
-            } else {
-                $arr['task']['game'] = $this->container->getParameter('init');
-            }
-
-            //广告任务墙
-            $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
-            if (empty ($visit)) {
-                $arr['task']['ad'] = $this->container->getParameter('init_one');
-            } else {
-                $arr['task']['ad'] = $this->container->getParameter('init');
-            }
-
-            //91wenwen
-            $visit = $em->getRepository('JiliApiBundle:UserWenwenVisit')->getWenwenVisit($id, $day);
-            if (empty ($visit)) {
-                $arr['task']['wen'] = $this->container->getParameter('init_one');
-            } else {
-                $arr['task']['wen'] = $this->container->getParameter('init');
-            }
-
-            //签到
-            $date = date('Y-m-d');
-            $checkin = $em->getRepository('JiliApiBundle:CheckinClickList')->checkStatus($id, $date);
-            if (!empty ($checkin)) {
-                $arr['task']['checkin'] = $this->container->getParameter('init');
-            } else {
-                //获取签到积分
-                $checkInLister = $this->get('check_in.listener');
-                $arr['task']['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));;
-                $arr['task']['checkin'] = $this->container->getParameter('init_one');
-                if($signRemind_reg){
-                    $signRemind = true;//显示签到活动广告
-                }
-            }
-
-            //cpa
-            $repository = $em->getRepository('JiliApiBundle:Advertiserment');
-            $advertise = $repository->getAdvertiserListCPA($id);
-            $arr['advertise'] = $advertise;
-            $arr['task']['cpa'] = $advertise;
+        //可以做的任务，签到+游戏+91问问+购物 -cpa
+        if( $this->get('session')->has('uid')) {
+            $taskList = $this->get('session.task_list');
+            $taskList->setRequest($this->get('request'));
+            $arr = $taskList->compose();
         }
 
         //advertiserment check
@@ -265,8 +239,19 @@ class TopController extends Controller
     public function marketAction()
     {
         //中间最下面，商家活动
-        $em = $this->getDoctrine()->getManager();
-        $market = $em->getRepository('JiliApiBundle:MarketActivity')->getActivityList($this->container->getParameter('init_eight'));
+        $cache_fn= $this->container->getParameter('cache_config.api.top_market.key');
+        $cache_duration = $this->container->getParameter('cache_config.api.top_market.duration');
+        $cache_proxy = $this->get('cache.file_handler');
+
+        if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
+            $market = $cache_proxy->get($cache_fn);
+        }  else {
+            $cache_proxy->remove( $cache_fn);
+            $em = $this->getDoctrine()->getManager();
+            $market = $em->getRepository('JiliApiBundle:MarketActivity')->getActivityList($this->container->getParameter('init_eight'));
+            $cache_proxy->set( $cache_fn, $market);
+        }
+
         $arr['market'] = $market;
         return $this->render('JiliApiBundle:Top:market.html.twig', $arr);
     }
@@ -288,38 +273,45 @@ class TopController extends Controller
     }
 
     private function getMyTaskList($type) {
-        $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         $id = $request->getSession()->get('uid');
+
         $option = array('status' => $type ,'offset'=>'','limit'=>'');
-        $adtaste = $this->selTaskHistory($id,$option);
+
+        $logger = $this->get('logger');
+        $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
+
         foreach ($adtaste as $key => $value) {
             if($value['orderStatus'] == 1 && $value['type'] ==1){
                 unset($adtaste[$key]);
             }
         }
+
         return $adtaste;
     }
 
-    private function selTaskHistory($userid, $option){
-      $em = $this->getDoctrine()->getManager();
-      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) );
-      $po = $task->getUseradtaste($userid, $option);
-
-      foreach ($po as $key => $value) {
-            if($value['type']==1 ) {
-                $adUrl = $task->getUserAdwId($value['orderId']);
-                if( is_array($adUrl) && count($adUrl) > 0) {
-                    $po[$key]['adid'] = $adUrl[0]['adid'];
-                } else {
-                    $po[$key]['adid'] = '';
-                }
-            }else{
-                $po[$key]['adid'] = '';
-            }
-        }
-        return $po;
-    }
+#    private function selTaskHistory($userid, $option){
+#      $em = $this->getDoctrine()->getManager();
+#
+#      $logger  = $this->get('logger');
+#
+#      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) );
+#      $po = $task->getUseradtaste($userid, $option);
+#
+#      foreach ($po as $key => $value) {
+#            if($value['type']==1 ) {
+#                $adUrl = $task->getUserAdwId($value['orderId']);
+#                if( is_array($adUrl) && count($adUrl) > 0) {
+#                    $po[$key]['adid'] = $adUrl[0]['adid'];
+#                } else {
+#                    $po[$key]['adid'] = '';
+#                }
+#            }else{
+#                $po[$key]['adid'] = '';
+#            }
+#        }
+#        return $po;
+#    }
 
     //签到列表
     private function checkinList(){
