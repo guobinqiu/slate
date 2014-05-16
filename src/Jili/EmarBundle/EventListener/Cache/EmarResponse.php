@@ -12,24 +12,36 @@ class EmarResponse
     private $emar_request;
     private $cache_config;
 
+
+    private $key;
+    private $cache;
+
     public function __construct( $cache_config)
     {
          $this->cache_config = $cache_config;
     }
    
-
     /***
      * the cache key is based on request api & params
      */
     public function getKey(){
+        return  $this->key;
+    }
+
+    private function setKey(){
         $req = $this->emar_request;
-        return md5( $req->getApiMethodName(). json_encode( $req->getApiParams() ) );
+        $this->key = md5( $req->getApiMethodName(). json_encode( $req->getApiParams() ) );
+        return $this;
     }
 
     /***
      * @return: the life time of cache
      */
     public function getDuration() {
+            return  $this->duration;
+    }
+
+    private function setDuration() {
         $req = $this->emar_request;
         $duration = 0;
         $api_name = $req->getApiMethodName() ;
@@ -47,28 +59,30 @@ class EmarResponse
             }
         }
 
-        return $duration;
+        $this->duration = $duration;
+        return $this;
     }
-
 
     public function setEmarRequest($emar_request)
     {
-       $this->emar_request  = $emar_request; 
-       return $this;
+        $this->emar_request  = $emar_request; 
+        $this->setDuration();
+        $this->setKey();
+        return $this;
     }
     
-    public function isValid($key , $duration) {
-        return $this->file_handler->isValid($key, $duration);
+    public function isValid() {
+        return $this->file_handler->isValid($this->getKey(), $this->getDuration());
     }
-    public function set($key, $data){
-        return $this->file_handler->set($key, $data);
+    public function set( $data){
+        return $this->file_handler->set($this->getKey(), $data);
     }
-    public function get($key) {
-        return $this->file_handler->get( $key);
+    public function get() {
+        return $this->file_handler->get( $this->getKey());
     }
 
-    public function remove($key) {
-        return $this->file_handler->remove( $key);
+    public function remove() {
+        return $this->file_handler->remove( $this->getKey() );
     }
 
     /**
