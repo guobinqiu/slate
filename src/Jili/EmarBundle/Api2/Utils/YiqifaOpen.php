@@ -24,6 +24,9 @@ class YiqifaOpen{
 	/**SDK版本号**/
 	protected $sdkVersion = "eop-sdk4php";
     
+    /*get curl info for monitor */
+    private $curl_info=array();
+
 	/**把账户和密码组装在构造方法中**/
 	function __construct($key/*=YQF_C_KEY*/, $secret/*=YQF_C_SECRET*/) {        
        $this->consumerKey = $key;
@@ -33,10 +36,20 @@ class YiqifaOpen{
 	/**发送请求**/
 	public function curl($url,$consumerKey,$consumerSecret)
 	{
-		
 		$result = YiqifaUtils::sendRequest($url,$consumerKey,$consumerSecret);
+        $this->curl_info = YiqifaUtils::$curl_info;
         return $result;
 	}
+
+    public function getCurlInfo()
+    {
+        return $this->curl_info;
+    }
+
+    public function setDebugMode($mode) 
+    {
+        YiqifaUtils::$debug_mode = $mode;
+    }
 	
 	public function execute($request)
 	{

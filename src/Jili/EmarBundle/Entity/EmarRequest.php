@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EmarRequest
  *
- * @ORM\Table(name="emar_request")
+ * @ORM\Table(name="emar_request", uniqueConstraints={@ORM\UniqueConstraint(name="tag", columns={"tag"})})
  * @ORM\Entity(repositoryClass="Jili\EmarBundle\Repository\EmarRequestRepository")
  */
 class EmarRequest
@@ -25,6 +25,20 @@ class EmarRequest
      * @ORM\Column(name="count", type="integer", nullable=false)
      */
     private $count;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="size_up", type="integer", nullable=false)
+     */
+    private $sizeUp;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="size_down", type="integer", nullable=false)
+     */
+    private $sizeDown;
 
     /**
      * @var string
@@ -88,6 +102,52 @@ class EmarRequest
     public function getCount()
     {
         return $this->count;
+    }
+
+    /**
+     * Set sizeUp
+     *
+     * @param integer $sizeUp
+     * @return EmarRequest
+     */
+    public function setSizeUp($sizeUp)
+    {
+        $this->sizeUp = $sizeUp;
+
+        return $this;
+    }
+
+    /**
+     * Get sizeUp
+     *
+     * @return integer 
+     */
+    public function getSizeUp()
+    {
+        return $this->sizeUp;
+    }
+
+    /**
+     * Set sizeDown
+     *
+     * @param integer $sizeDown
+     * @return EmarRequest
+     */
+    public function setSizeDown($sizeDown)
+    {
+        $this->sizeDown = $sizeDown;
+
+        return $this;
+    }
+
+    /**
+     * Get sizeDown
+     *
+     * @return integer 
+     */
+    public function getSizeDown()
+    {
+        return $this->sizeDown;
     }
 
     /**
