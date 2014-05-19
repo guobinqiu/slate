@@ -14,7 +14,7 @@ use Jili\ApiBundle\Entity\LoginLog;
 class LoginListener {
 	private $em;
 	private $task_list;
-	private $my_task_list;
+//#	private $session_points;
 
 	public function __construct(EntityManager $em ) {
 		$this->em = $em;
@@ -23,63 +23,90 @@ class LoginListener {
 	/**
 	 * @param  $request
 	 */
-	public function login(Request $request) {
+    public function login(Request $request) {
 
-		$code = '';
-		if ($request->getMethod() != 'POST') {
-			return $code;
-		}
+        $code = '';
+        if ($request->getMethod() != 'POST') {
+            return $code;
+        }
 
         $email = $request->request->get('email');
-		if (!$email ) {
-			$code = $this->getParameter('login_en_mail');
-			return $code;
-		}
-		if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/", $email)) {
-			$code = $this->getParameter('login_wr_mail');
-			return $code;
-		}
 
-		$em = $this->em;
-		$em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-		if (!$em_email) {
-			$code = $this->getParameter('login_wr');
-			return $code;
-		}
+        if (!$email ) {
+            $code = $this->getParameter('login_en_mail');
+            return $code;
+        }
+        if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/", $email)) {
+            $code = $this->getParameter('login_wr_mail');
+            return $code;
+        }
 
-		$user = $em_email[0];//->getRepository('JiliApiBundle:User')->find($id);
-		$id = $user->getId();
-		if ($user->getDeleteFlag() == 1) {
-			$code = $this->getParameter('login_wr');
-			return $code;
-		}
+        $em = $this->em;
+        $em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+        if (!$em_email) {
+            $code = $this->getParameter('login_wr');
+            return $code;
+        }
+
+        $user = $em_email[0];//->getRepository('JiliApiBundle:User')->find($id);
+        $id = $user->getId();
+        if ($user->getDeleteFlag() == 1) {
+            $code = $this->getParameter('login_wr');
+            return $code;
+        }
 
         $password = $request->request->get('pwd');
-		if ($user->pw_encode($password) != $user->getPwd()) {
-			$code = $this->getParameter('login_wr');
-			return $code;
-		}
+        if ($user->pw_encode($password) != $user->getPwd()) {
+            $code = $this->getParameter('login_wr');
+            return $code;
+        }
 
-		if ($request->request->get('remember_me') == '1') {
-			setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
-			setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
-		}
+        if ($request->request->get('remember_me') == '1') {
+            setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
+            setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
+        }
 
-        $this->initSession($user);
-        $this->checkNewbie( $user);
-        
-		$user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-		$user->setLastLoginIp($request->getClientIp());
-		$em->flush();
+        if( true === $this->afterLogin()) {
+            $code ='ok';
+        }
 
-        $this->log( $user);
-		$code = 'ok';
-		return $code;
-	}
+        return $code;
+    }
+
+    /**
+     * @param: $user 
+     */
+    public function afterLogin(User $user)
+    {
+        if( $user) {
+            $this->initSession($user);
+            $this->checkNewbie( $user);
+            $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
+            $user->setLastLoginIp($request->getClientIp());
+            $em->flush();
+
+            $this->log( $user);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     */
+    public function updateSession()
+    {
+        $session = $this->container_->get('session');
+        if( $session->has('uid')){
+            $em = $this->em;
+            $user = $em->getRepository('JiliApiBundle:User')->find($session->get('uid'));
+            $this->initSession($user);
+#        $this->resetTasksSession();
+        }
+    }
+
     public function updateInfoSession(User $user ) {
         $session = $this->container_->get('session');
-
-
         $icon_path = $user->getIconPath() ;
         if( ! empty($icon_path) ) {
             $session->set('icon_path', $icon_path);
@@ -89,21 +116,27 @@ class LoginListener {
             }
         }
         $session->set('points', $user->getPoints());
+        //#todo: update the confirmPoinsts
     }
-    /**
-     *
-     */
+
     public function initSession( User  $user)
     {
         $session = $this->container_->get('session');
         $session->set('uid', $user->getId() );
         $session->set('nick', $user->getNick());
-
         $this->updateInfoSession($user);
+        #        $this->resetTasksSession();
+    }
+
+    /**
+     *
+     */
+    public function resetTasksSession( )
+    {
         // init the task_list & my_task_list when first login. 
         // some session will be kept when logout, but not this.
         $this->task_list->remove(array('alive'));
-        $this->my_task_list->remove(array('alive'));
+#        $this->my_task_list->remove(array('alive'));
     }
 
     /**
@@ -166,11 +199,11 @@ class LoginListener {
     public function setTaskList( $tl) {
         $this->task_list= $tl;
     }
-    /**
-     * @param: $mtl the my_task_list service 
-     */
-    public function setMyTaskList( $mtl) {
-        $this->my_task_list = $mtl;
-    }
+//    /**
+//     * @param: $service the session.points service 
+//     */
+//    public function setSessionPoints( $service ) {
+//        $this->session_points = $service;
+//    }
 
 }

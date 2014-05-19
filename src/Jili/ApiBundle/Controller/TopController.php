@@ -26,10 +26,14 @@ class TopController extends Controller
        
         $cookies = $request->cookies;
         $session = $request->getSession();
-
+    
         if ($cookies->has('jili_uid') && $cookies->has('jili_nick')) {
             $this->get('request')->getSession()->set('uid', $cookies->get('jili_uid'));
             $this->get('request')->getSession()->set('nick', $cookies->get('jili_nick'));
+
+            $this->get('session.points')->reset()->getConfirm();
+            $this->get('login.listener')->updateSession();
+            //todo:log the login event. 
         }
 
         //首页登录
@@ -53,6 +57,7 @@ class TopController extends Controller
                 $session->set('is_newbie_passed', true) ;
             }
         }
+
         $arr['code'] = $code;
         return $arr;
     }
