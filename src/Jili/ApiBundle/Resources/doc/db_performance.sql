@@ -22,5 +22,5 @@ CREATE TABLE `kpi_daily_RR` (
   `RR` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `kpi_YMD` (`kpi_YMD`,`RR_day`)
-) ENGINE=InnoDB AUTO_INCREMENT=1188 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
