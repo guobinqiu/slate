@@ -47,6 +47,8 @@ class UserRepository extends EntityRepository {
 		$query = $query->select('u.id');
 		$query = $query->Where('u.nick = :nick');
 		$query = $query->andWhere('u.email <> :email');
+		//$query = $query->andWhere('u.pwd is not null');
+		//$query = $query->andWhere('u.deleteFlag IS NULL OR u.deleteFlag = 0');
 		$query = $query->setParameters(array (
 			'email' => $email,
 			'nick' => $nick
@@ -387,7 +389,7 @@ class UserRepository extends EntityRepository {
                 union all select user_id,point,category_type,task_type,task_name,date from task_history07 where ".$sql1."
                 union all select user_id,point,category_type,task_type,task_name,date from task_history08 where ".$sql1."
                 union all select user_id,point,category_type,task_type,task_name,date from task_history09 where ".$sql1." )b
-                on a.id = b.user_id where a.delete_flag IS NULL OR a.delete_flag = 0 ".$sql2." order by b.date desc";
+                on a.id = b.user_id where (a.delete_flag IS NULL OR a.delete_flag = 0) ".$sql2." order by b.date desc";
                 //echo $sql;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
@@ -405,5 +407,27 @@ class UserRepository extends EntityRepository {
          ));
         $query = $query->getQuery();
         return $query->getResult();
+    }
+
+    public function memberSearch($user_id, $email, $nick){
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u');
+        $query = $query->Where('1 = 1');
+        $param = array();
+        if($user_id){
+            $query = $query->andWhere('u.id = :user_id');
+            $param['user_id'] = trim($user_id);
+        }
+        if($email){
+            $query = $query->andWhere('u.email = :email');
+            $param['email'] = trim($email);
+        }
+        if($nick){
+            $query = $query->andWhere('u.nick = :nick');
+            $param['nick'] = trim($nick);
+        }
+        $query = $query->setParameters($param);
+        $query = $query->getQuery();
+        return $query->getOneOrNullResult();
     }
 }

@@ -3558,7 +3558,7 @@ class AdminController extends Controller
     /**
      * @Route("/pointManage", name="_admin_addPointManage")
      */
-    public function addPointManage()
+    public function addPointManageAction()
     {
         set_time_limit(1800);
         if($this->getAdminIp())
@@ -3606,7 +3606,7 @@ class AdminController extends Controller
     /**
      * @Route("/addPointSearch", name="_admin_addPointSearch")
      */
-    public function addPointSearch()
+    public function addPointSearchAction()
     {
         set_time_limit(1800);
         if($this->getAdminIp())
@@ -3653,4 +3653,145 @@ class AdminController extends Controller
         return $this->render('JiliApiBundle:Admin:addPointSearch.html.twig',$arr);
 
     }
+
+    /**
+     * @Route("/kpiDailyRR", name="_admin_kpiDailyRR")
+     */
+    public function kpiDailyRRAction()
+    {
+        set_time_limit(1800);
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+
+        $kpiYMD = date("Y-m-d",strtotime("-1 day"));
+        $request = $this->get('request');
+        if($request->get('kpiYMD')){
+            $kpiYMD = $request->get('kpiYMD');
+        }
+
+        $kpi = array();
+        if($kpiYMD){
+            $em = $this->getDoctrine()->getManager();
+            $result = $em->getRepository('JiliApiBundle:KpiDailyRR')->findByKpiYMD($kpiYMD);
+            foreach ($result as $value){
+                $kpi['id'][] = $value->getId();
+                $kpi['kpiYMD'][] = $value->getKpiYMD();
+                $kpi['registerYMD'][] = $value->getRegisterYMD();
+                $kpi['rrday'][] = $value->getRRday();
+                $kpi['registerUser'][] = $value->getRegisterUser();
+                $kpi['activeUser'][] = $value->getActiveUser();
+                $kpi['rr'][] = $value->getRR();
+            }
+        }
+
+        $arr['kpi'] = $kpi;
+        $arr['kpiYMD'] = $kpiYMD;
+        return $this->render('JiliApiBundle:Admin:kpiDailyRR.html.twig',$arr);
+    }
+
+    /**
+     * @Route("/member", name="_admin_member")
+     */
+    public function memberAction()
+    {
+        set_time_limit(1800);
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+
+        $user_id = $request->get('user_id');
+        $email = $request->get('email');
+        $nick = $request->get('nick');
+
+        $member = array();
+        if($user_id || $email || $nick){
+            $member = $em->getRepository('JiliApiBundle:User')->memberSearch($user_id, $email, $nick);
+        }else{
+            $user_id = $this->get('request')->getSession()->get('member_id');
+            if($user_id){
+                $member = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
+            }
+        }
+
+        if($member){
+            $member->setDeleteFlag($member->getDeleteFlag()?"已注销":"会员");
+        }
+
+        $arr['user_id'] = $user_id;
+        $arr['email'] = $email;
+        $arr['nick'] = $nick;
+        $arr['member'] = $member;
+        return $this->render('JiliApiBundle:Admin:member.html.twig',$arr);
+    }
+
+    /**
+     * @Route("/memberEdit", name="_admin_member_edit")
+     */
+    public function memberEditAction()
+    {
+        set_time_limit(1800);
+        if($this->getAdminIp())
+            return $this->redirect($this->generateUrl('_default_error'));
+
+        $request = $this->get('request');
+        $user_id = $request->get('user_id');
+        $em = $this->getDoctrine()->getManager();
+        $member = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
+        $arr['member'] = $member;
+        $this->get('request')->getSession()->set( 'member_id', $user_id);
+
+        if ($request->getMethod() == 'POST') {
+
+            $nick = $request->get('nick');
+            $tel = $request->get('tel');
+            $delete_flag = $request->get('delete_flag');
+
+            $errorMessage = $this->memberCheck($member->getEmail(),$nick, $tel, $delete_flag);
+            if(!$errorMessage){
+                $member->setNick($nick);//验证是否存在 ，是否排除已删除的用户
+                $member->setTel($tel);//用户自己也可以修改
+                $member->setDeleteFlag($delete_flag);
+
+                $em->persist($member);
+                $em->flush();
+                return $this->redirect($this->generateUrl('_admin_member'));
+            }else{
+                $arr['nick'] = $nick;
+                $arr['tel'] = $tel;
+                $arr['delete_flag'] = $delete_flag;
+                $arr['errorMessage'] = $errorMessage;
+                return $this->render('JiliApiBundle:Admin:memberEdit.html.twig',$arr);
+            }
+
+        }else{
+            $arr['nick'] = $member->getNick();;
+            $arr['tel'] = $member->getTel();
+            $arr['delete_flag'] = $member->getDeleteFlag();
+            $arr['errorMessage'] = array();
+            return $this->render('JiliApiBundle:Admin:memberEdit.html.twig',$arr);
+        }
+    }
+
+    private function memberCheck($email, $nick, $tel, $delete_flag){
+        $errorMessage = array();
+        if(!$nick){
+            $errorMessage[] = "请输入昵称";
+        }elseif (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u", $nick)) {
+            $errorMessage[] = "昵称为2-20个字符";
+        }elseif($delete_flag !=1 ){
+            $em = $this->getDoctrine()->getManager();
+            $user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email, $nick);
+            if ($user_nick){
+                $errorMessage[] = "昵称已经注册";
+            }
+        }
+
+        if($tel && !preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+            $errorMessage[] = "输入的手机格式不正确";
+        }
+        return $errorMessage;
+    }
+
 }
