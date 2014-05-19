@@ -58,6 +58,9 @@ class OfferwowControllerTest extends WebTestCase
 //  2、请在给用户发放奖励的位置，通过eventid进行排重处理，即已经给会员发放奖励的eventid不能重复发放，以免因为重复提交请求导致多次发放。 
  
     // validateion test
+    /**
+     * @group offwer-wow
+     */
     public function testGetApwInfo()
     {
 
@@ -157,6 +160,9 @@ class OfferwowControllerTest extends WebTestCase
     }
 
     // instant success
+    /**
+     * @group offwer-wow
+     */
     public function testGetApwInfo2() {
         $client = static::createClient();
         $contianer = $client->getContainer();
@@ -193,6 +199,9 @@ class OfferwowControllerTest extends WebTestCase
     }
 
     // pending  success
+    /**
+     * @group offwer-wow
+     */
     public function testGetApwInfo3() {
         $client = static::createClient();
         $contianer = $client->getContainer();
@@ -243,6 +252,9 @@ class OfferwowControllerTest extends WebTestCase
     }
  
     // pending failure
+    /**
+     * @group offwer-wow
+     */
     public function testGetApwInfo4() {
         $client = static::createClient();
         $contianer = $client->getContainer();
@@ -303,6 +315,9 @@ class OfferwowControllerTest extends WebTestCase
     }
 
     // instant success immediate = 1
+    /**
+     * @group offwer-wow
+     */
     public function testGetApwInfo5() {
         $client = static::createClient();
         $contianer = $client->getContainer();
@@ -362,6 +377,9 @@ class OfferwowControllerTest extends WebTestCase
 
     }
     // instant success immediate = 1
+    /**
+     * @group offwer-wow
+     */
     public function testGetApwInfo6() {
         $client = static::createClient();
         $contianer = $client->getContainer();

@@ -6,6 +6,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class WenwenControllerTest extends WebTestCase {
 
+    /**
+     * @group user
+     */
     public function test91wenwenRegister() {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register');
@@ -13,6 +16,9 @@ class WenwenControllerTest extends WebTestCase {
         echo $client->getResponse()->getContent(), PHP_EOL;
     }
 
+    /**
+     * @group user
+     */
     public function test91wenwenRegister1() {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register', array (
@@ -24,6 +30,9 @@ class WenwenControllerTest extends WebTestCase {
         echo $client->getResponse()->getContent(), PHP_EOL;
     }
 
+    /**
+     * @group user
+     */
     public function test91wenwenRegister2() {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register', array (
@@ -35,6 +44,9 @@ class WenwenControllerTest extends WebTestCase {
         echo $client->getResponse()->getContent(), PHP_EOL;
     }
 
+    /**
+     * @group user
+     */
     public function test91wenwenRegister3() {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register', array (
@@ -46,6 +58,9 @@ class WenwenControllerTest extends WebTestCase {
         echo $client->getResponse()->getContent(), PHP_EOL;
     }
 
+    /**
+     * @group user
+     */
     public function test91wenwenRegister4() {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register', array (
@@ -57,6 +72,9 @@ class WenwenControllerTest extends WebTestCase {
         echo $client->getResponse()->getContent(), PHP_EOL;
     }
 
+    /**
+     * @group user
+     */
     public function test91wenwenRegister5() {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register', array (

@@ -32,6 +32,9 @@ class DefaultControllerTest extends WebTestCase
         parent::tearDown();
        $this->em->close();
     }
+    /**
+     * @group user
+     */
     public function testAdLoginAction() {
 
         $client = static::createClient();

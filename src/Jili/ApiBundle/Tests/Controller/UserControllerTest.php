@@ -33,6 +33,9 @@ class UserControllerTest extends WebTestCase
        $this->em->close();
     }
 
+    /**
+     * @group user 
+     */
     public function testResetPasswordAction()
     {
         $client = static::createClient();
