@@ -59,11 +59,10 @@ class LoginListener {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
+        $logger = $this->container_ ->get('logger');
+         $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'remember_me','')).
+            var_export($request->request->get('remember_me'), true) );
 
-		if ($request->request->get('remember_me') == '1') {
-			setcookie("jili_uid", $id, time() + 3600 * 24 * 365, '/');
-			setcookie("jili_nick", $user->getNick(), time() + 3600 * 24 * 365, '/');
-		}
 
         $this->initSession($user);
         $this->checkNewbie( $user);

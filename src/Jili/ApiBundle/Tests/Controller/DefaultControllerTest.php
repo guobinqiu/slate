@@ -47,15 +47,12 @@ class DefaultControllerTest extends WebTestCase
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
         $this->assertEquals(1, count($user));
 
-        $url = $router->generate('_default_ad_login', array( 'email'=>$query['email'] , 'pwd'=> 'dddddd'));
+        $url = $router->generate('_default_ad_login', array( 'email'=>$query['email'] , 'pwd'=> 'cccccc'));
         echo $url, PHP_EOL;
-        $crawler = $client->request('POST', $url, array( 'email'=>$query['email'] , 'pwd'=> 'dddddd') ) ;
+        $crawler = $client->request('POST', $url, array( 'email'=>$query['email'] , 'pwd'=> 'cccccc') ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'ad login in '  );
 
         $this->assertEquals('ok', $client->getResponse()->getContent());
-
-
-
     }
     /**
      * landingAction with not exists: wenwen code exists email 

@@ -7,6 +7,7 @@ use Jili\ApiBundle\Form\FirstRegType;
 use Jili\ApiBundle\Form\forgetPassType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Form\CaptchaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -995,19 +996,20 @@ class UserController extends Controller
             $session->remove('referer');
         }
 
-
-        if($session->get('uid')){
+        if($session->has('uid')){
             return $this->redirect($this->generateUrl('_homepage'));
         }
 
         $code = '';
         $email = $request->request->get('email');
         $pwd = $request->request->get('pwd');
+
         //login
         $code = $this->get('login.listener')->login($request);
 
         if($code == "ok")
         {
+
             $code_redirect = '301';
             $current_url = '';
             if( $request->request->has('referer') ) {
@@ -1029,8 +1031,23 @@ class UserController extends Controller
                 }
             }
             $logger=$this->get('logger');
-            
-            return $this->redirect($current_url,$code_redirect);
+
+            $response = new RedirectResponse($current_url, $code_redirect);
+
+            // set cookie based according the the remember_me.
+            if ($request->request->get('remember_me') === '1') {
+                $response->setCookie(new Cookie("jili_uid", $session->get('uid'), time() + 3600 * 24 * 365, '/') );
+                $response->setCookie(new Cookie("jili_nick", $session->get('nick'), time() + 3600 * 24 * 365, '/') );
+#                setcookie("jili_uid", $session->get('uid'), time() + 3600 * 24 * 365, '/');
+#                setcookie("jili_nick", $session->get('nick'), time() + 3600 * 24 * 365, '/');
+                $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')));
+            } else {
+                $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')));
+            }
+
+
+            return $response;
+#            return $this->redirect($current_url,$code_redirect);
         }
 		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
 	}

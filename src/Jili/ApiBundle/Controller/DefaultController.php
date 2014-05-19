@@ -655,7 +655,6 @@ class DefaultController extends Controller {
 	* @Route("/adLogin", name="_default_ad_login")
 	*/
 	public function adLoginAction() {
-
         $request = $this->get('request');
 #        $email = $request->query->get('email');
 #        $pwd = $request->query->get('pwd');
