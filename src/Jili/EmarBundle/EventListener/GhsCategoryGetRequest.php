@@ -14,7 +14,13 @@ class GhsCategoryGetRequest  extends BaseRequest {
     if( ! is_null($this->app_name)) {
         $this->c->setApp($this->app_name);
     }
-    $resp =  $this->c->exe($req);
+
+    $resp = $this->getCached($req);
+
+    if( empty($resp)) {
+        $resp =  $this->c->exe($req);
+        $this->updateCached($req, $resp);
+    }
 
     #$this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->c->getApp(), true)  );
     $result = array();

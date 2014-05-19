@@ -28,8 +28,6 @@ class ProductCategories {
      */
     public function fetch( $force = false ) {
         $prod_categories = null ;
-#        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__, '')). var_export( $this->cache_fn, true) );
-#        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__, '')). var_export( $this->duration, true) );
         if($this->cache_file_handler->isValid($this->cache_fn , $this->duration) ) {
             $prod_categories = $this->cache_file_handler->get($this->cache_fn);
         } 

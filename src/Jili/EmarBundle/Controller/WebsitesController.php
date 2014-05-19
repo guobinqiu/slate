@@ -180,9 +180,8 @@ class WebsitesController extends Controller
         //todo restrice the request ip ?
         $logger = $this->get('logger');
 
-
         $cache_key = $this->container->getParameter('cache_config.emar.websites_hot.key');
-        $cache_fn = $cache_key. '_tmpl.'.$tmpl.'_max.'. $max;
+        $cache_fn = $cache_key. '_max.'. $max;
         $cache_duration = $this->container->getParameter('cache_config.emar.websites_hot.duration');
 
         $cache_proxy = $this->get('cache.file_handler');

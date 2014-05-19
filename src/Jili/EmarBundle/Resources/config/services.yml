@@ -72,6 +72,7 @@ services:
         calls:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
+            - [ setCacheProxy, [ @cache.emar_response ] ] 
 
     ghs.list_get:
         class: %ghs.list_get.class%
@@ -99,6 +100,7 @@ services:
         calls:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
+            - [ setCacheProxy, [ @cache.emar_response ] ] 
 
     website.detail_get:
         class: %website.detail_get.class%

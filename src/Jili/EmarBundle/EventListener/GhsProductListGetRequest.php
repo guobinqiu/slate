@@ -11,8 +11,6 @@ class GhsProductListGetRequest  extends BaseListRequest {
      *  Because the  ghs_o_url prefixed with "m." in raw response will redirect to error page.
      */
     public function fetchDistinct( $param = array() ) {
-
-
         $page_size = $this->page_size;
         $this->setPageSize ( 2 * $page_size);
 
@@ -58,10 +56,11 @@ class GhsProductListGetRequest  extends BaseListRequest {
       $req->setPage_size($this->page_size );
     }
 
-    $result = $this->getCached($req);
-  
-    if( empty($result)) {
+    $resp = $this->getCached($req);
+
+    if( empty($resp)) {
         $resp =  $this->c->setApp($this->app_name)->exe($req);
+        $this->logger->debug('{jarod}' . implode(':', array(__CLASS__, __LINE__, ' updated cache') ));
         $this->updateCached($req, $resp);
     }
 

@@ -57,9 +57,13 @@ class ProductFilters  {
      */
     public function fetchWebs( ) {
         $webListGet  = $this->websiteListGet;
+
         $web_raw  = $webListGet->setFields('web_id,web_name,web_o_url,commission')->fetch( );
+
         $webs = WebListRepository::parse( $web_raw);
+
        #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $webs, true));
+        
         return compact('webs');
     }
 

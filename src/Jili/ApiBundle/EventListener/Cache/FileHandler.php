@@ -47,11 +47,13 @@ class FileHandler
             $now = time();
 
             if(  $now > $last_time  + $duration) {
+
+                $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, 'now','') ).var_export( $now, true)  );
+                $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, 'expected','') ).var_export( $last_time + $duration, true)  );
                 $result = false;
             }
         }
 
-#        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, 'validate','') ).var_export( $result , true)  );
         return $result ;
     }
     /**

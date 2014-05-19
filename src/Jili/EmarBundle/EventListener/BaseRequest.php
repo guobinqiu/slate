@@ -50,11 +50,17 @@ class BaseRequest {
   {
       $result= array();
       if( isset($this->cache_proxy)) {
+
           $cache = $this->cache_proxy;
           $cache->setEmarRequest( $req );
 
-          if( $cache->isValid()) {
-              $resp = $cache->get(); 
+          
+          $is_valid = $cache->isValid();
+
+        $this->logger->info('{jarod} is valid:'. var_export($is_valid, true));
+          if( true ===$is_valid ) {
+
+              $result = $cache->get(); 
           } 
 
       }
