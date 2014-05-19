@@ -1,5 +1,4 @@
 <?php
-
 namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
@@ -7,8 +6,9 @@ use Jili\EmarBundle\Api2\Utils\YiqifaOpen as YiqifaOpen;
 
 class EmarRequestConnection implements EmarRequestConnectionInterface {
 
-  protected $c ;
+  protected $c = null;
   protected $logger;
+  protected $counter;
 
   protected $app;
   protected $config;
@@ -41,11 +41,14 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
 
   public function getConn()
   {
-#      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')) );
-#      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->app, true)  );
+      if(isset( $this->c) ){
+          return $this->c;
+      }
+      #      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')) );
+      #      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->app, true)  );
       $app_config = array_values( $this->app) ;
 
-#      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($app_config, true)  );
+      #      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($app_config, true)  );
 
       if(  !isset($app_config[0]) || ! isset($app_config[0]['key']) || ! isset($app_config[0]['secret'])) {
           throw new  \Exception('not config emar app key/secret') ;
@@ -64,47 +67,62 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
    * @params: $req 是具体的 emar open.Request类.
    */
   public function exe( $req) {
-    $result_raw = $this->getConn()->execute($req);
-    // 对返回的json 转义为有效的json string.
-    $result_escaped = trim(str_replace(array( "\\","{\n", "}\n", ",\n", "]\n", "\"\n", "\n","\r","\t") , array('\\\\', '{', '}', ',', ']','"', '\n','','    ') ,trim($result_raw)));
 
-    $result  = json_decode( trim($result_escaped), true);  
+      $tag = date('YmdHi');
 
-    if( isset($result['errors'] )  
-      && isset($result['errors']['error'] ) 
-      && isset($result['errors']['error'][0] ) 
-      && isset($result['errors']['error'][0]['msg'] )  ) {
+#      $this->counter->start();
+      $this->getConn()->setDebugMode( $this->counter->getMode() );
 
-        $error_msg = trim($result['errors']['error'][0]['msg'] );
+      $result_raw = $this->getConn()->execute($req);
+#      $this->counter->complete();
 
-        if( 'results is empty' == $error_msg ) {
+      // 对返回的json 转义为有效的json string.
+      $result_escaped = trim(str_replace(array( "\\","{\n", "}\n", ",\n", "]\n", "\"\n", "\n","\r","\t") , array('\\\\', '{', '}', ',', ']','"', '\n','','    ') ,trim($result_raw)));
 
-          $return = array();
+      $result  = json_decode( trim($result_escaped), true);  
 
-        } else {
-          $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'')) . $error_msg);
-          throw new \Exception($error_msg);
+      $curl_info = $this->c->getCurlInfo();
+      $this->counter->increase($tag, $curl_info );
 
-        }
-      } else if( is_null($result) ) {
+      // to counter.
+      if( isset($result['errors'] )  
+          && isset($result['errors']['error'] ) 
+          && isset($result['errors']['error'][0] ) 
+          && isset($result['errors']['error'][0]['msg'] )  ) {
 
-        $error_msg = 'JSON parsed error' ;
+              $error_msg = trim($result['errors']['error'][0]['msg'] );
 
-        $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'message','')) .$error_msg );
-        $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_raw','')) . $result_raw );
-        $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_escaped','')) . $result_escaped );
+              if( 'results is empty' == $error_msg ) {
 
-        throw new \Exception($error_msg);
+                  $return = array();
 
-      } else {
+              } else {
+                  $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'')) . $error_msg);
+                  throw new \Exception($error_msg);
 
-        $return= $result['response'];
-      }
+              }
+          } else if( is_null($result) ) {
 
-    return $return ;  
+              $error_msg = 'JSON parsed error' ;
+
+              $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'message','')) .$error_msg );
+              $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_raw','')) . $result_raw );
+              $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_escaped','')) . $result_escaped );
+
+              throw new \Exception($error_msg);
+
+          } else {
+
+              $return= $result['response'];
+          }
+
+      return $return ;  
   }
 
   public function setLogger(  LoggerInterface $logger) {
     $this->logger = $logger;
+  }
+  public function setCounter(   $counter) {
+    $this->counter = $counter;
   }
 }

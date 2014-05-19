@@ -7,6 +7,8 @@ namespace Jili\EmarBundle\Api2\Utils;
 class YiqifaUtils{
    
     const BASE_URL = "http://openapi.yiqifa.com/api2";
+    public static $curl_info;
+    public static $debug_mode = 0; // 0 : producttion ; 1: debug 
     
     static function getBaseUrl(){
         return YQF_OPEN_URL;
@@ -26,8 +28,16 @@ class YiqifaUtils{
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         
         $result = curl_exec($ch);
+
+        if( self::$debug_mode === 1 ) {
+            if(!curl_errno($ch))
+            {
+                self::$curl_info =  curl_getinfo($ch);
+            }
+        }
+
         curl_close($ch);
-        
+
         try {
             @$r = iconv("GBK","UTF-8//IGNORE",$result);
             if(false === $r){
@@ -40,8 +50,8 @@ class YiqifaUtils{
                  throw new \Exception($e->getMessage() .'& mb_convert_encoding parsed error');
              }
         }
-        return $r;
 
+        return $r;
     }   
    static function hmacsha1($key,$data) {
         $blocksize=64;

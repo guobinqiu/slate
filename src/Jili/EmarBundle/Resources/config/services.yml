@@ -4,6 +4,7 @@ parameters:
     emar_api.callback_validation.class:  Jili\EmarBundle\EventListener\CallbackValidation
 
     emar_request.connection.class: Jili\EmarBundle\EventListener\EmarRequestConnection
+    emar_request.counter.class: Jili\EmarBundle\EventListener\EmarRequestCounter
 
 # ghs
     ghs.category_get.class:  Jili\EmarBundle\EventListener\GhsCategoryGetRequest
@@ -64,7 +65,15 @@ services:
        arguments: [  %emar_com.open_api.app% ]
        calls:
             - [setLogger, [ @logger ] ] 
+            - [setCounter, [ @emar_request.counter] ] 
             - [setApp, [ 'cron' ] ] 
+
+    emar_request.counter:
+       class: %emar_request.counter.class%
+       calls:
+            - [setLogger, [ @logger ] ] 
+            - [setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [setMode, [ %emar_api_request_counter_mode% ] ] 
 
 
     ghs.category_get:
