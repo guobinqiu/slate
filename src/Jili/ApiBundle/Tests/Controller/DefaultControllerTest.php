@@ -47,12 +47,28 @@ class DefaultControllerTest extends WebTestCase
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
         $this->assertEquals(1, count($user));
 
-        $url = $router->generate('_default_ad_login', array( 'email'=>$query['email'] , 'pwd'=> 'cccccc'));
+        $url = $router->generate('_default_ad_login',array(), true);
+        $post =  array( 'email'=>$query['email'] , 'pwd'=> 'cccccc') ;
         echo $url, PHP_EOL;
-        $crawler = $client->request('POST', $url, array( 'email'=>$query['email'] , 'pwd'=> 'cccccc') ) ;
+        $crawler = $client->request('POST', $url, $post) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'ad login in '  );
-
         $this->assertEquals('ok', $client->getResponse()->getContent());
+        $session = $container->get('session');
+        $this->assertTrue( $session->has('uid'));
+        $this->assertEquals($user->getId(), $session->get('uid'));
+        //
+        echo $url, PHP_EOL;
+        $post['remember_me'] ='1'; 
+        $crawler = $client->request('POST', $url,$post);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'ad login in '  );
+        $this->assertEquals('ok', $client->getResponse()->getContent());
+        $session = $container->get('session');
+        $this->assertTrue( $session->has('uid'));
+        $this->assertEquals($user->getId(), $session->get('uid'));
+
+        $cookies  = $client->getCookieJar() ;
+        $this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
+        $this->assertEquals( $user->getNick(), $cookies->get('jili_nick' ,'/')->getRawValue());
     }
     /**
      * landingAction with not exists: wenwen code exists email 
@@ -60,6 +76,7 @@ class DefaultControllerTest extends WebTestCase
 
     /**
      * landingAction with not exists: fresh email 
+     * @group user
      */
     public function testLandingActionFresh() {
         $client = static::createClient();

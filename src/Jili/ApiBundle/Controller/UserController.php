@@ -932,24 +932,19 @@ class UserController extends Controller
         return $this->redirect($this->generateUrl('_user_info'));
     }
 
+
     /**
      * @Route("/logout", name="_user_logout")
      */
-    public function logoutAction(){
+    public function logoutAction() {
         $this->get('request')->getSession()->remove('uid');
         $this->get('request')->getSession()->remove('nick');
-        setcookie ("jili_uid", "", time() - 3600,'/');
-        setcookie ("jili_nick", "", time() - 3600,'/');
-        //         $request = $this->get('request');
-        //         $cookies = $request->cookies;
-        //         if ($cookies->has('jili_uid'))
-        //         {
-        //         	$response = new Response();
-        //         	$response->headers->clearCookie('jili_uid','/');
-        //         	$response->headers->clearCookie('jili_nick','/');
-        //         	$response->send();
-        //         }
-        return $this->redirect($this->generateUrl('_homepage'));
+        $url_homepage = $this->generateUrl('_homepage');
+        $response = new RedirectResponse($url_homepage);
+        // set cookie based according the the remember_me.
+        $response->headers->setCookie(new Cookie("jili_uid", '', time() - 3600 , '/') );
+        $response->headers->setCookie(new Cookie("jili_nick", '', time() - 3600, '/') );
+        return $response;
     }
 
     /**
@@ -957,7 +952,6 @@ class UserController extends Controller
      */
     public function resetPwdAction(){
         return $this->render('JiliApiBundle:User:resetPwd.html.twig');
-
     }
 
     /**
@@ -997,7 +991,7 @@ class UserController extends Controller
             $session->remove('referer');
         }
 
-        if($session->has('uid')){
+        if($session->has('uid')) {
             return $this->redirect($this->generateUrl('_homepage'));
         }
 
@@ -1007,10 +1001,11 @@ class UserController extends Controller
 
         //login
         $code = $this->get('login.listener')->login($request);
+        $logger = $this->get('logger');
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$code','')). var_export($code, true));
 
         if($code == "ok")
         {
-
             $code_redirect = '301';
             $current_url = '';
             if( $request->request->has('referer') ) {
@@ -1022,7 +1017,6 @@ class UserController extends Controller
                 $session->remove('goToUrl');
             }
 
-
             if( strlen(trim($current_url)) == 0) {
                 $current_url = $this->generateUrl('_homepage');
             } else {
@@ -1031,26 +1025,14 @@ class UserController extends Controller
                     $code_redirect = '302';
                 }
             }
-            $logger=$this->get('logger');
 
             $response = new RedirectResponse($current_url, $code_redirect);
 
-         $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'remember_me','')).
-            var_export($request->request->get('remember_me'), true) );
             // set cookie based according the the remember_me.
             if ($request->request->has('remember_me')  &&  $request->request->get('remember_me') === '1') {
-
                 $response->headers->setCookie(new Cookie("jili_uid", $session->get('uid'), time() + 3600 * 24 * 365, '/') );
                 $response->headers->setCookie(new Cookie("jili_nick", $session->get('nick'), time() + 3600 * 24 * 365, '/') );
-#                setcookie("jili_uid", $session->get('uid'), time() + 31536000, '/'); # 3600 * 24 * 365
-#                setcookie("jili_nick", $session->get('nick'), time() + 31536000, '/'); #3600 * 24 * 365
-                $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')));
-            } else {
-                $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')));
             }
-
-
-#            return $this->redirect($current_url,$code_redirect);
             return $response;
         }
 		return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));

@@ -35,15 +35,47 @@ class UserControllerTest extends WebTestCase
        $this->em->close();
     }
     /**
-     * @group debug
+     * @group user 
+     * @group login 
+     */
+    public function testLogoutAction()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $router = $container->get('router');
+        $logger= $container->get('logger');
+        $url_logout = $router->generate('_user_logout' , array(), true);
+        
+        echo $url_logout,PHP_EOL;
+
+        $crawler = $client->request('GET', $url_logout ) ;
+
+
+        $em = $this->em;
+        $query = array('email'=> 'chiangtor@gmail.com');
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+        if(! $user) {
+            echo 'bad email:',$query['email'], PHP_EOL;
+            return false;
+        }
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
+        $session = $container->get('session');
+        $this->assertFalse( $session->has('uid'));
+        $this->assertFalse( $session->has('nick'));
+
+        $cookies  = $client->getCookieJar() ;
+        $this->assertEmpty(  $cookies->get('jili_uid' ,'/'));
+        $this->assertEmpty(  $cookies->get('jili_nick' ,'/'));
+
+    }
+    /**
      * @group user 
      * @group login 
      */
     public function testLoginRemeberMeAction()
     {
         //todo assert the session config. reduce the configuration on gc_lifetime.
-        //
-
         $client = static::createClient();
         $container = $client->getContainer();
         $router = $container->get('router');
@@ -52,7 +84,6 @@ class UserControllerTest extends WebTestCase
             'gc_maxlifetime'=>  ini_get('session.gc_maxlifetime')
         );
 
-#        headers_list();
         $em = $this->em;
         $query = array('email'=> 'chiangtor@gmail.com');
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
@@ -72,20 +103,15 @@ class UserControllerTest extends WebTestCase
         $form['remember_me']->tick();
 
         $client->submit($form);
-        $session = $container->get('session');
-        $cookies  = $client->getCookieJar()->all() ;
-#
-        var_dump( $cookies);
-        var_dump( $session->all() );
-#        $cn = get_class($client->getResponse());
-#        $cm = get_class_methods($cn);
-#
-#        echo $cn ,PHP_EOL;
-#        print_r( $cm);
+
         $this->assertEquals(301, $client->getResponse()->getStatusCode() );
+        $session = $container->get('session');
         $this->assertTrue( $session->has('uid'));
+        $this->assertEquals($user->getId(), $session->get('uid'));
 
-
+        $cookies  = $client->getCookieJar() ;
+        $this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
+        $this->assertEquals( $user->getNick(), $cookies->get('jili_nick' ,'/')->getRawValue());
     }
 
     /**

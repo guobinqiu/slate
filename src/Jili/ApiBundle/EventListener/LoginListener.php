@@ -36,6 +36,7 @@ class LoginListener {
             $code = $this->getParameter('login_en_mail');
             return $code;
         }
+
         if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/", $email)) {
             $code = $this->getParameter('login_wr_mail');
             return $code;
@@ -56,27 +57,24 @@ class LoginListener {
         }
 
         $password = $request->request->get('pwd');
-<<<<<<< HEAD
 		if ($user->pw_encode($password) != $user->getPwd()) {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
 
-        if( true === $this->afterLogin()) {
-            $code ='ok';
-        }
-
+        $this->afterLogin($user, $request);
+        $code ='ok';
         return $code;
     }
 
     /**
      * @param: $user 
      */
-    public function afterLogin(User $user)
+    public function afterLogin(User $user, $request)
     {
         if( $user) {
-            $this->initSession($user);
-            $this->checkNewbie( $user);
+            $em = $this->em;
+            $this->initSession( $user);
             $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
             $user->setLastLoginIp($request->getClientIp());
             $em->flush();
@@ -97,7 +95,7 @@ class LoginListener {
             $em = $this->em;
             $user = $em->getRepository('JiliApiBundle:User')->find($session->get('uid'));
             $this->initSession($user);
-#        $this->resetTasksSession();
+            $this->updateInfoSession($user);
         }
     }
 
@@ -111,6 +109,7 @@ class LoginListener {
                 $session->remove('icon_path');
             }
         }
+
         $session->set('points', $user->getPoints());
         //#todo: update the confirmPoinsts
     }
@@ -120,8 +119,7 @@ class LoginListener {
         $session = $this->container_->get('session');
         $session->set('uid', $user->getId() );
         $session->set('nick', $user->getNick());
-        $this->updateInfoSession($user);
-        #        $this->resetTasksSession();
+        return true;
     }
 
     /**

@@ -16,7 +16,7 @@ class TopController extends Controller
 {
     /**
      * @Route("/index")
-     * @Method({ "GET", "POST"})
+     * @Method({ "GET"})
      * @Template
      */
     public function indexAction()
@@ -27,29 +27,32 @@ class TopController extends Controller
         $cookies = $request->cookies;
         $session = $request->getSession();
     
-        if ($cookies->has('jili_uid') && $cookies->has('jili_nick')) {
-            $this->get('request')->getSession()->set('uid', $cookies->get('jili_uid'));
-            $this->get('request')->getSession()->set('nick', $cookies->get('jili_nick'));
+        if ($cookies->has('jili_uid') && !  $session->has('uid')  ) {
+                $session->set('uid', $cookies->get('jili_uid'));
+        }
 
+        if( $session->has('uid') ) {
             $this->get('session.points')->reset()->getConfirm();
             $this->get('login.listener')->updateSession();
-            //todo:log the login event. 
         }
 
-        //首页登录
-        $code = '';
-        $email = $request->get('email');
-        $pwd = $request->get('pwd');
-        $arr['email'] = $email;
-        $code = $this->get('login.listener')->login($this->get('request'),$email,$pwd);
+        if(  $cookies->has('jili_nick') &&  !  $session->has('nick') ) {
+            $session->set('nick', $cookies->get('jili_nick'));
+        }
 
-# $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($code , true));
+#        //首页登录
+#        $code = '';
+#        $email = $request->get('email');
+#        $pwd = $request->get('pwd');
+#        $arr['email'] = $email;
+#        $code = $this->get('login.listener')->login($this->get('request'),$email,$pwd);
+
+#        if($code == "ok"){
+#            return $this->redirect($this->generateUrl('_homepage'));
+#        }
+
+
 # $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($session->get('referer'), true));
-
-        if($code == "ok"){
-            return $this->redirect($this->generateUrl('_homepage'));
-        }
-
         //newbie page
         if( $this->get('login.listener')->isNewbie() )  {
             if( $session->get('is_newbie_passed', false) === false ) {
@@ -58,8 +61,8 @@ class TopController extends Controller
             }
         }
 
-        $arr['code'] = $code;
-        return $arr;
+#        $arr['code'] = $code;
+        return array();
     }
 
     /**

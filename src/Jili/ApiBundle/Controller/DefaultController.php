@@ -454,11 +454,9 @@ class DefaultController extends Controller {
 				$em->flush();
 				$code = $this->container->getParameter('init_one');
             } else {
-#                $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'visit', '' )). var_export($visit, true));
                 $code = $this->container->getParameter('init');
             }
 		} else {
-#        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'id', '' )). var_export($id, true));
 			$code = $this->container->getParameter('init');
 		}
 		return new Response($code);
@@ -654,16 +652,23 @@ class DefaultController extends Controller {
 	/**
 	* @Route("/adLogin", name="_default_ad_login")
 	*/
-	public function adLoginAction() {
+    public function adLoginAction() {
         $request = $this->get('request');
-#        $email = $request->query->get('email');
-#        $pwd = $request->query->get('pwd');
-#        $this->get('logger')->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'email', '' )). var_export($email, true));
-#        $this->get('logger')->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'pwd', '' )). var_export($pwd, true));
-#        $loginLister = $this->get('login.listener');
+
+        $session = $this->get('session');
         $code =$this->get('login.listener')->login($this->get('request'));
-		return new Response($code);
-	}
+        $response = new Response($code);
+
+        if ($request->request->has('remember_me')  &&  $request->request->get('remember_me') === '1') {
+            if($session->has('uid')) {
+                $response->headers->setCookie(new Cookie("jili_uid", $session->get('uid'), time() + 3600 * 24 * 365, '/') );
+            }
+            if($session->has('nick')) {
+                $response->headers->setCookie(new Cookie("jili_nick", $session->get('nick'), time() + 3600 * 24 * 365, '/') );
+            }
+        }
+        return $response;
+    }
 }
 #	/**
 #	 * @Route("/index", name="_default_index",requirements={"_scheme"="https"})

@@ -4,6 +4,8 @@ namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\BrowserKit\Cookie;
+
 
 
 class TopControllerTest extends WebTestCase
@@ -33,6 +35,69 @@ class TopControllerTest extends WebTestCase
     {
         parent::tearDown();
        $this->em->close();
+    }
+    /**
+     * @group user
+     * @group cookie 
+     * @group login 
+     */
+    public function testCookieLoginHomepage()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $router = $container->get('router');
+        $logger= $container->get('logger');
+
+        $em = $this->em;
+        $query = array('email'=> 'chiangtor@gmail.com');
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+        if(! $user) {
+            echo 'bad email:',$query['email'], PHP_EOL;
+            return false;
+        }
+
+        $url_homepage= $router->generate('_homepage' , array(), true);
+        echo $url_homepage ,PHP_EOL;
+
+        $cookie = new Cookie('jili_uid', $user->getId(), time() + 3600 * 24 * 365, '/', null, false, false);
+        $client->getCookieJar()->set($cookie);
+
+        $cookie = new Cookie('jili_nick', $user->getNick(), time() + 3600 * 24 * 365, '/', null, false, false);
+        $client->getCookieJar()->set($cookie);
+
+        $crawler = $client->request('GET', $url_homepage);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+
+        $session = $container->get('session');
+        $this->assertTrue( $session->has('uid'));
+        $this->assertEquals( $user->getId() , $session->get('uid'));
+        $this->assertTrue( $session->has('nick'));
+        $this->assertEquals( $user->getNick() , $session->get('nick'));
+
+        $this->assertTrue( $session->has('points'));
+        $this->assertEquals( $user->getPoints() , $session->get('points'));
+
+        $url = $router->generate('jili_api_top_userinfo');
+        echo $url, PHP_EOL;
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        // check the partial
+        if( $user->getIconPath()) {
+            $this->assertEquals('/uploads/user/38/1388737850_5011.jpeg', $crawler->filter('img')->attr('src'));
+        } else {
+            $this->assertEquals('/other140307/defaultFace.jpg', $crawler->filter('img')->attr('src'));
+        }
+
+        $this->assertEquals($user->getPoints() .'当前米粒数',$crawler->filter('dt')->eq(0)->text() );
+
+        $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $user->getId() % 10 ) );
+        $confirmPoints = $task->getConfirmPoints($user->getId());
+        if(!$confirmPoints){
+            $confirmPoints = 0;
+        }
+
+        $this->assertEquals($confirmPoints .'确认中米粒数',$crawler->filter('dt')->eq(1)->text() );
     }
     /**
      * @group session 
@@ -78,7 +143,6 @@ class TopControllerTest extends WebTestCase
         $form['pwd'] = 'cccccc';
         $client->submit($form);
 
-        $this->markTestIncomplete('Ignored for dev');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $session = $container->get('session');
