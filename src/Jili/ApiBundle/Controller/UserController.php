@@ -1342,7 +1342,8 @@ class UserController extends Controller
                     	    	}	
                     	    }else{
         						if($nick){
-        							$user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
+        							//$user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
+        							$user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email, $nick);
         							if($user_nick)
         								$code_nick = $this->container->getParameter('reg_al_nick');
         							else{
