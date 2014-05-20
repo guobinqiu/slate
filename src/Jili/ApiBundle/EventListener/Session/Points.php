@@ -15,11 +15,14 @@ class Points
 
     private $keys;
     private $duration;
+
     public function __construct( $keys, $duration)
     {
         $this->keys = $keys;
         $this->duration = $duration;
     }
+
+
     public function getConfirm()
     {
         $session = $this->session;
@@ -41,8 +44,8 @@ class Points
 
         $key_points_confirming = $this->keys['confirmming'];
 
-        if($is_alive &&  $session->has($key_points_confirming)) {
-            $confirmPoints=$session->get($key_points_confirming);
+        if( $is_alive &&  $session->has($key_points_confirming)) {
+            $confirmPoints = $session->get($key_points_confirming);
         } else {
             $id = $session->get('uid');
             $task =  $this->em->getRepository('JiliApiBundle:TaskHistory0'. ( $id % 10 ) );
@@ -52,7 +55,6 @@ class Points
             }
             $session->set($key_points_confirming,$confirmPoints);
         }
-
         return $confirmPoints;
     }
 
@@ -60,6 +62,7 @@ class Points
         $session = $this->session;
         $session->set($this->keys['alive'], time());
         $session->remove( $this->keys['confirmming']);
+        return $this;
     }
 
     public function setLogger(LoggerInterface $logger) {

@@ -37,6 +37,7 @@ class TaskList
 
         $id = $session->get('uid');
         $day=date('Ymd');
+
         // session life 
         $key_alive = $this->keys['alive'];
 
@@ -57,10 +58,8 @@ class TaskList
 
         //游戏
         $key_game =$this->keys[ 'game_visit'];
-        if( $is_alive ){
-            if( $session->has($key_game)) {
-                $visit_value =  $session->get($key_game);
-            }
+        if( $is_alive &&$session->has($key_game) ){
+            $visit_value =  $session->get($key_game);
         } else {
             $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
             $visit_value = (empty ($visit))? $this->getParameter('init_one'):$arr['task']['game'] = $this->getParameter('init');
@@ -75,10 +74,8 @@ class TaskList
         unset($visit_value);
         //广告任务墙
         $key_adv = $this->keys['adv_visit'];
-        if( $is_alive ) {
-            if ($session->has($key_adv)) {
+        if( $is_alive && $session->has($key_adv)) {
                 $visit_value  =  $session->get($key_adv);
-            }
         } else {
             $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
             $visit_value = (empty ($visit))? $this->getParameter('init_one'):$arr['task']['ad'] = $this->getParameter('init');
@@ -93,10 +90,8 @@ class TaskList
         unset($visit_value);
         //91wenwen
         $key_91ww = $this->keys['91ww_visit'];
-        if( $is_alive ) {
-            if( $session->has($key_91ww)) {
-                $visit_value  =  $session->get($key_91ww);
-            }
+        if( $is_alive&& $session->has($key_91ww) ) {
+            $visit_value  =  $session->get($key_91ww);
         } else {
             $visit = $em->getRepository('JiliApiBundle:UserWenwenVisit')->getWenwenVisit($id, $day);
             $visit_value =(empty ($visit))? $this->getParameter('init_one'):$arr['task']['wen'] = $this->getParameter('init');
@@ -113,10 +108,8 @@ class TaskList
         //签到
         unset($checkin_value);
         $key_checkin = $this->keys['checkin_visit'];
-        if( $is_alive ) {
-            if( $session->has($key_checkin)) {
-                $checkin_value =  $session->get($key_checkin);
-            } 
+        if( $is_alive&&  $session->has($key_checkin) ) {
+            $checkin_value =  $session->get($key_checkin);
         } else {
             $date = date('Y-m-d');
             $checkin = $em->getRepository('JiliApiBundle:CheckinClickList')->checkStatus($id, $date);
@@ -130,16 +123,13 @@ class TaskList
 
         //获取签到积分
         $key_checkin_point = $this->keys['checkin_point'];
-        if( $is_alive) {
-            if( $session->has($key_checkin_point)) {
-                $arr['task']['checkinPoint'] =$session->get($key_checkin_point);
-            } 
+        if( $is_alive && $session->has($key_checkin_point)) {
+            $arr['task']['checkinPoint'] =$session->get($key_checkin_point);
         } else {
             if(isset($checkin) &&  empty ($checkin)) {
                 $key_checkin_point = $this->keys['checkin_point'];
                 $arr['task']['checkinPoint'] = $this->check_in_listener->getCheckinPoint( $this->request );
                 $session->set($key_checkin_point, $arr['task']['checkinPoint'] );
-
             }
         }
 
@@ -158,15 +148,16 @@ class TaskList
         return $arr;
     }
 
-    public function reset( ) {
+    public function reset() {
         $session = $this->session;
-
         $keys = $this->keys;
 
         if( isset($keys['alive'])) {
-            $session->set($keys['alive'], time());
+            $now =time();
+            $session->set($keys['alive'], $now - $now % $this->duration );
             unset($keys['alive']);
         }
+
         foreach(array_keys($keys) as $key ) {
             $session->remove( $key);
         }

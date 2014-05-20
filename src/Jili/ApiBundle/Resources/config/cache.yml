@@ -17,7 +17,7 @@ parameters:
         'checkin_visit': 'task_list.checkin_visit'
         'checkin_point': 'task_list.checkin_point'
         'cpa_ads': 'task_list.cpa_ads'
-    cache_config.session.task_list.duration:  -1 # seconds 
+    cache_config.session.task_list.duration:  86400 # seconds , fresh everyday.
 
 # points
     cache_config.session.points.keys:  

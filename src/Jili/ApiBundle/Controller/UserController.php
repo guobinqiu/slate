@@ -853,13 +853,14 @@ class UserController extends Controller
         }
 
         //确认中的米粒数
-        $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $id % 10 ) );
-        $confirmPoints = $task->getConfirmPoints($id);
-        if(!$confirmPoints){
-            $confirmPoints = 0;
-        }
+        $confirmPoints = $this->get('session.points')
+            ->reset()
+            ->getConfirm();
 
         $form_view = $form->createView();
+
+        $this->get('login.listener')->updateInfoSession($user);
+
         return $this->render('JiliApiBundle:User:info.html.twig', array(
             'form' => $form_view,
             'form_upload' =>$form_view,
