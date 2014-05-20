@@ -59,9 +59,9 @@ class LoginListener {
 			$code = $this->getParameter('login_wr');
 			return $code;
 		}
-        $logger = $this->container_ ->get('logger');
-         $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'remember_me','')).
-            var_export($request->request->get('remember_me'), true) );
+#        $logger = $this->container_ ->get('logger');
+#         $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'remember_me','')).
+#            var_export($request->request->get('remember_me'), true) );
 
 
         $this->initSession($user);

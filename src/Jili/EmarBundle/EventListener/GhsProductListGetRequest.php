@@ -60,7 +60,7 @@ class GhsProductListGetRequest  extends BaseListRequest {
 
     if( empty($resp)) {
         $resp =  $this->c->setApp($this->app_name)->exe($req);
-        $this->logger->debug('{jarod}' . implode(':', array(__CLASS__, __LINE__, ' updated cache') ));
+#        $this->logger->debug('{jarod}' . implode(':', array(__CLASS__, __LINE__, ' updated cache') ));
         $this->updateCached($req, $resp);
     }
 

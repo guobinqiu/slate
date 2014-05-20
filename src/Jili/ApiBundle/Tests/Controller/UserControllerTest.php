@@ -34,6 +34,59 @@ class UserControllerTest extends WebTestCase
         parent::tearDown();
        $this->em->close();
     }
+    /**
+     * @group debug
+     * @group user 
+     * @group login 
+     */
+    public function testLoginRemeberMeAction()
+    {
+        //todo assert the session config. reduce the configuration on gc_lifetime.
+        //
+
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $router = $container->get('router');
+        $logger= $container->get('logger');
+        $session = array(
+            'gc_maxlifetime'=>  ini_get('session.gc_maxlifetime')
+        );
+
+#        headers_list();
+        $em = $this->em;
+        $query = array('email'=> 'chiangtor@gmail.com');
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+        if(! $user) {
+            echo 'bad email:',$query['email'], PHP_EOL;
+            return false;
+        }
+
+        $url = $container->get('router')->generate('_login', array(), true);
+        echo $url, PHP_EOL;
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+
+        $form = $crawler->selectButton('loginSubmit')->form();
+        $form['email'] = $query['email'];
+        $form['pwd'] = 'cccccc';
+        $form['remember_me']->tick();
+
+        $client->submit($form);
+        $session = $container->get('session');
+        $cookies  = $client->getCookieJar()->all() ;
+#
+        var_dump( $cookies);
+        var_dump( $session->all() );
+#        $cn = get_class($client->getResponse());
+#        $cm = get_class_methods($cn);
+#
+#        echo $cn ,PHP_EOL;
+#        print_r( $cm);
+        $this->assertEquals(301, $client->getResponse()->getStatusCode() );
+        $this->assertTrue( $session->has('uid'));
+
+
+    }
 
     /**
      * @group user 
@@ -87,54 +140,6 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-    }
-    /**
-     * @group debug
-     * @group user 
-     * @group login 
-     */
-    public function testLoginRemeberMeAction()
-    {
-
-        $client = static::createClient();
-        $container = $client->getContainer();
-        $router = $container->get('router');
-        $logger= $container->get('logger');
-
-#        headers_list();
-        $em = $this->em;
-        $query = array('email'=> 'chiangtor@gmail.com');
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-        if(! $user) {
-            echo 'bad email:',$query['email'], PHP_EOL;
-            return false;
-        }
-
-        $url = $container->get('router')->generate('_login', array(), true);
-        echo $url, PHP_EOL;
-        $crawler = $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-
-        $form = $crawler->selectButton('loginSubmit')->form();
-        $form['email'] = $query['email'];
-        $form['pwd'] = 'cccccc';
-        $form['remember_me']->tick();
-
-        $client->submit($form);
-        $session = $container->get('session');
-#        $cookies  = $client->getCookieJar()->all() ;
-#
-#        var_dump( $cookies);
-#        var_dump( $session->all() );
-#        $cn = get_class($client->getResponse());
-#        $cm = get_class_methods($cn);
-#
-#        echo $cn ,PHP_EOL;
-#        print_r( $cm);
-        $this->assertEquals(301, $client->getResponse()->getStatusCode() );
-        $this->assertTrue( $session->has('uid'));
-
-
     }
 #    public function testFastLoginAction()
 #    {
