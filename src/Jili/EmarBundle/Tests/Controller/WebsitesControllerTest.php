@@ -32,10 +32,70 @@ class WebsitesControllerTest extends WebTestCase
         parent::tearDown();
        $this->em->close();
     }
+
+    /**
+     * @group debug
+     */
+    public function testHotAction()
+    {
+    }
+    /**
+     * @group debug 
+     */
+    public function testDetailAction()
+    {
+
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $logger= $container->get('logger');
+        $router = $container->get('router');
+        $em = $this->em;
+        // clear cache dir
+        $cache_dir =$container->getParameter('cache_data_path');
+        echo $cache_dir , PHP_EOL;
+        exec('rm -rf '. $cache_dir);
+
+        // clear cache dir
+        $cache_dir =$container->getParameter('cache_data_path');
+        echo $cache_dir , PHP_EOL;
+        exec('rm -rf '. $cache_dir);
+
+        $wid = '1148'; //jd.com
+        $params = array('webid'=>$wid );
+
+        $website_detail_service  = $container->get('website.detail_get');
+        $website_detail_service->fetch( $params );
+
+        $cache = $website_detail_service->getCacheProxy();
+
+        $key = $cache->getKey();
+        
+        echo 'key:',$key,PHP_EOL;
+        $cache_fn =$cache_dir .DIRECTORY_SEPARATOR . $key.'.cached';
+        $this->assertFileExists( $cache_fn);
+
+        $data = $cache->get();
+        //   clear again
+        exec('rm -rf '. $cache_fn);
+        $this->assertFileNotExists( $cache_fn);
+
+// request
+        $queries  = array('wid'=> $params['webid']);
+        $url = $router->generate('jili_emar_websites_detail' , $queries , true) ;
+        echo $url,PHP_EOL;
+        $crawler = $client->request('GET', $url  );
+        $this->assertEquals('200', $client->getResponse()->getStatusCode());
+        $this->assertFileExists( $cache_fn);
+        $this->assertStringEqualsFile( $cache_fn, serialize($data) );
+
+// todo: check cached used with duration
+
+        
+    }
+
     /**
      * @group cache
      * @group website 
-     * @group debug 
      */
     public function testCatCache() 
     {
@@ -79,7 +139,6 @@ class WebsitesControllerTest extends WebTestCase
     /**
      * @group cache
      * @group website 
-     * @group debug 
      */
     public function testShopListCache() 
     {

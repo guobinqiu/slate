@@ -26,13 +26,12 @@ class WebsiteDetailGetRequest  extends BaseRequest {
     if( ! is_null($this->app_name ) ) {
         $this->c->setApp( $this->app_name );
     }
-    $resp =  $this->c->exe($req);
 
-    #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $this->app_name, true));
-    #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $this->c->getApp(), true));
-    // $resp =  $this->c->exe($req);
-
-    #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $resp, true));
+    $resp = $this->getCached($req);
+    if( empty($resp)) {
+        $resp =  $this->c->exe($req);
+        $this->updateCached($req, $resp);
+    }
 
     $result = array();
 

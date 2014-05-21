@@ -74,7 +74,6 @@ class WebsitesController extends Controller
             $params = array('catid'=> $wcat_id );
         } 
 
-        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'params','')) . var_export( $params, true));
         $web_raw  = $this->get('website.list_get')->fetch( $params );
 
         $fitlers = array();
@@ -250,7 +249,6 @@ class WebsitesController extends Controller
         $logger = $this->get('logger');
         $params = array('webid'=>$wid );
         $website = $this->get('website.detail_get')->fetch($params);
-#         $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'comm','')) . var_export( $website, true));
         $em = $this->getDoctrine()->getManager();
         $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($website ['commission'] );
         $web_configed=$em->getRepository('JiliEmarBundle:EmarWebsites')->findOneByWebId($wid);
