@@ -27,28 +27,29 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
 
   public function setApp( $app_name = '' ) 
   {
-#      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')) );
-#      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->config, true)  );
       $app_names = array_keys( $this->config);
       if( empty($app_name) || ! in_array( $app_name ,$app_names ) ) {
           $app_name = $app_names[0]  ;
       } 
 
       $this->app =  array( $app_name => $this->config[$app_name]);
-#      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($app_name, true)  );
       return $this;
   } 
 
   public function getConn()
   {
       if(isset( $this->c) ){
+#          $this->logger->debug (implode(':', array( '{jarod}', __CLASS__, __LINE__, 'connection already set')) );
+#          $this->logger->debug (implode(':', array( '{jarod}', __CLASS__, __LINE__, 'consumerKey','')).var_export($this->c->consumerKey, true ) );
+#          $this->logger->debug (implode(':', array( '{jarod}', __CLASS__, __LINE__, 'consumerSecret','')).var_export($this->c->consumerSecret, true ) );
+
           return $this->c;
       }
-      #      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')) );
-      #      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->app, true)  );
+
+#      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->app, true)  );
       $app_config = array_values( $this->app) ;
 
-      #      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($app_config, true)  );
+#      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($app_config, true)  );
 
       if(  !isset($app_config[0]) || ! isset($app_config[0]['key']) || ! isset($app_config[0]['secret'])) {
           throw new  \Exception('not config emar app key/secret') ;

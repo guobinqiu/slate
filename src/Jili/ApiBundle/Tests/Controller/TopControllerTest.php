@@ -189,7 +189,7 @@ class TopControllerTest extends WebTestCase
         $cache_data_path = $container->getParameter('cache_data_path'); 
         $fn = $cache_data_path.DIRECTORY_SEPARATOR.$cache_fn.'.cached';
 
-        exec('rm ' .$fn);
+        exec('rm -f ' .$fn);
         $this->assertFileNotExists($fn);
 
         // request 

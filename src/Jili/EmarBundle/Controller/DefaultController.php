@@ -28,6 +28,7 @@ class DefaultController extends Controller
            $url= str_replace('APIMemberId', $session->get('uid') , $url );
             return $this->redirect( $url, 302);
         } else {
+
             $session->set('referer', $url);
             return $this->forward( 'JiliApiBundle:User:login' );
         }

@@ -25,6 +25,7 @@ class BaseRequest {
     return $this;
   }
   public function setApp( $app_name = '' ) {
+#   $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$app_name','')) . var_export( $app_name, true));
     $this->app_name = $app_name;
     return $this;
   }
@@ -43,6 +44,10 @@ class BaseRequest {
       $this->cache_proxy = $proxy; 
   }
 
+  public function getCacheProxy() {
+      return $this->cache_proxy;
+  }
+
   /**
    * @param: $req the EmarRequest instance 
    */
@@ -50,16 +55,11 @@ class BaseRequest {
   {
       $result= array();
       if( isset($this->cache_proxy)) {
-
           $cache = $this->cache_proxy;
           $cache->setEmarRequest( $req );
-
-          
           $is_valid = $cache->isValid();
-
-        $this->logger->info('{jarod} is valid:'. var_export($is_valid, true));
+#        $this->logger->info('{jarod} is valid:'. var_export($is_valid, true));
           if( true ===$is_valid ) {
-
               $result = $cache->get(); 
           } 
 

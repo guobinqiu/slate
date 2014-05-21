@@ -7,6 +7,8 @@ parameters:
     cache_config.emar.product_categories.duration:  3623
 # the api response cache:
     cache_config.emar_api:
+        open.website.category.get:
+            default: 3557
         open.website.list.get:
             default: 3643 
         open.ghs.cat.get:

@@ -57,7 +57,6 @@ class WebsitesController extends Controller
      */
     public function shopListAction()
     {
-
         $request = $this->get('request');
         $logger= $this->get('logger');
         $em = $this->getDoctrine()->getManager();
@@ -75,7 +74,9 @@ class WebsitesController extends Controller
             $params = array('catid'=> $wcat_id );
         } 
 
+        $logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'params','')) . var_export( $params, true));
         $web_raw  = $this->get('website.list_get')->fetch( $params );
+
         $fitlers = array();
         // for wcat_id = 0, the hot websites only.
         if( $wcat_id === 0 ) {

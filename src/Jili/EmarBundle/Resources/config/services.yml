@@ -75,7 +75,6 @@ services:
             - [setEntityManager, [ @doctrine.orm.entity_manager ] ] 
             - [setMode, [ %emar_api_request_counter_mode% ] ] 
 
-
     ghs.category_get:
         class: %ghs.category_get.class%
         calls:
@@ -103,6 +102,7 @@ services:
         calls:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
+            - [ setCacheProxy, [ @cache.emar_response ] ] 
 
     website.list_get:
         class: %website.list_get.class%
