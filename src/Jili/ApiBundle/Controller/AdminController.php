@@ -2114,13 +2114,44 @@ class AdminController extends Controller
         $request = $this->get('request');
         $start_time = $request->request->get('start_time');
         $end_time = $request->request->get('end_time');
-        $userCount = $em->getRepository('JiliApiBundle:User')->userCount();
-        $count_user = $userCount[0]['num'];
-        if ($request->getMethod() == 'POST'){
-            $select_user = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time); 
-            $count_user = $select_user[0]['num'];
-        }
-        return $this->render('JiliApiBundle:Admin:selectUser.html.twig',array('code'=>$code,'count_user'=>$count_user,'start_time'=>$start_time,'end_time'=>$end_time));
+
+        //getUserCount($start = false, $end = false, $pwd = false, $is_from_wenwen= false, $delete_flag = false)
+
+        $count1 = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time,true,1);
+        $count1 = $count1['num'];
+
+        $count2 = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time,true,2);
+        $count2 = $count2['num'];
+
+        $count3 = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time,true);
+        $count3 = $count3['num'];
+
+        $count4 = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time,false,1);
+        $count4 = $count4['num'];
+
+        $count5 = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time,false,2);
+        $count5 = $count5['num'];
+
+        $count6 = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time);
+        $count6 = $count6['num'];
+
+        $count7 = $em->getRepository('JiliApiBundle:User')->getUserCount($start_time,$end_time,false,false,true);
+        $count7 = $count7['num'];
+
+        $arr['code'] = $code;
+
+        $arr['start_time'] = $start_time;
+        $arr['end_time'] = $end_time;
+
+        $arr['count1'] = $count1;
+        $arr['count2'] = $count2;
+        $arr['count3'] = $count3;
+        $arr['count4'] = $count4;
+        $arr['count5'] = $count5;
+        $arr['count6'] = $count6;
+        $arr['count7'] = $count7;
+
+        return $this->render('JiliApiBundle:Admin:selectUser.html.twig',$arr);
     }
 
 

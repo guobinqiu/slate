@@ -6,40 +6,36 @@ use Doctrine\ORM\Query;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class UserRepository extends EntityRepository {
-	public function userCount() {
+	public function getUserCount($start = false, $end = false, $pwd = false, $is_from_wenwen= false, $delete_flag = false) {
 		$query = $this->createQueryBuilder('u');
 		$query = $query->select('count(u.id) as num');
+		$query = $query->Where('1 = 1');
+		$param = array();
+        if ($start){
+            $start_time = $start . ' 00:00:00';
+            $query = $query->andWhere('u.registerDate>=:start_time');
+            $param['start_time'] = $start_time;
+        }
+        if ($end){
+            $end_time = $end . ' 23:59:59';
+            $query = $query->andWhere('u.registerDate<=:end_time');
+            $param['end_time'] = $end_time;
+        }
+        if($pwd){
+            $query = $query->andWhere('u.pwd IS NOT NULL');
+        }
+        if($is_from_wenwen){
+            $query = $query->andWhere('u.isFromWenwen = :isFromWenwen');
+            $param['isFromWenwen'] = $is_from_wenwen;
+        }
+        if($delete_flag){
+            $query = $query->andWhere('u.deleteFlag = :deleteFlag');
+            $param['deleteFlag'] = 1;//已删除用户
+        }
+		$query = $query->setParameters($param);
 		$query = $query->getQuery();
-		return $query->getResult();
-	}
-
-	public function getUserCount($start, $end) {
-		if ($start)
-			$start_time = $start . ' 00:00:00';
-		if ($end)
-			$end_time = $end . ' 23:59:59';
-		$query = $this->createQueryBuilder('u');
-		$query = $query->select('count(u.id) as num');
-		if ($start && $end) {
-			$query = $query->Where('u.registerDate>=:start_time');
-			$query = $query->andWhere('u.registerDate<=:end_time');
-			$query = $query->setParameters(array (
-				'start_time' => $start_time,
-				'end_time' => $end_time
-			));
-		} else {
-			if ($start) {
-				$query = $query->Where('u.registerDate>=:start_time');
-				$query = $query->setParameter('start_time', $start_time);
-			} else {
-				if ($end) {
-					$query = $query->Where('u.registerDate<=:end_time');
-					$query = $query->setParameter('end_time', $end_time);
-				}
-			}
-		}
-		$query = $query->getQuery();
-		return $query->getResult();
+		//echo $query->getSQL(); echo "<br>";
+		return $query->getOneOrNullResult();
 	}
 
 	public function findNick($email, $nick) {
