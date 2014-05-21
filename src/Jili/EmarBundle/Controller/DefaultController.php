@@ -21,17 +21,33 @@ class DefaultController extends Controller
         $logger = $this->get('logger');
         $session = $request->getSession();
         $url = $request->get('m');
-#        $logger->debug('{jarod}'.implode(':', array(__FILE__,__LINE__,'url', '' )). var_export($url, true));
 
-        // check login
-        if($session->has('uid')){
-           $url= str_replace('APIMemberId', $session->get('uid') , $url );
+        //
+        if( $session->has('uid') ){
+            if( false !== strpos( $url,'APIMemberId')){
+                $url = str_replace('APIMemberId', $session->get('uid') , $url );
+            } else {
+                $url = $this->get('router')->generate( '_homepage',array(),true) ;
+            }
             return $this->redirect( $url, 302);
-        } else {
+        } else if( false === strpos($url,'APIMemberId' )  && 1 ===  preg_match('/e=(\d+)/', $url, $m)  ) {
+            if( count($m) === 2 && is_numeric($m[1]) ) {
+                $uid = $m[1];
+                $em = $this->getDoctrine()->getManager();
+                $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+                if($user) {
+                    return $this->redirect( $url, 302);
+                }
+            }
+        }     
 
+        if( false !== strpos( $url,'APIMemberId')){
             $session->set('referer', $url);
             return $this->forward( 'JiliApiBundle:User:login' );
+        } else {
+            return $this->forward( 'JiliApiBundle:Top:index' );
         }
+
         // set session
         // redirect to login
         // forward to the pages?

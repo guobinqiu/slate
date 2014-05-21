@@ -11,15 +11,59 @@
 <script type="text/javascript">
   
 </script>
+ <STYLE TYPE="text/css" MEDIA=screen>
+<!--
+  table { margin: 30px;}
+  table th { text-align:left; width:300px;}
+  table td { text-align:left;}
+-->
+</STYLE>
 </HEAD>
 <BODY>
 <form action="{{ path('_admin_selectUser') }}" method="post" id="form1"}} >
 <table align='center'>
-<tr><td>{{ count_user }}</td></tr>
+<tr><td>&nbsp;</td></tr>
 <tr><td>注册开始时间:<input name="start_time" value="{{ start_time }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
 &nbsp;注册结束时间:<input name="end_time" value="{{ end_time }}" size="26" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>&nbsp;<input type="submit" name="add" value="提 交"/></td></tr>
 </table>
+
+<table border="1px" cellspacing="0px" class="member_table"> 
+    <tr>
+        <td width="20px;">1</td>
+        <th>Registered from ww</th>
+        <td width="100px;">{{ count1 }}</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <th>Registered same time with ww</th>
+        <td>{{ count2 }}</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <th>Registered</th>
+        <td>{{ count3 }}</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <th>Send Registere mail from ww</th>
+        <td>{{ count4 }}</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <th>Send Registere mail same time with 91ww</th>
+        <td>{{ count5 }}</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <th>Send Registere mail</th>
+        <td>{{ count6 }}</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <th>delete user count</th>
+        <td>{{ count7 }}</td>
+    </tr>
+</table>
+
 </form>
 </BODY></HTML>
-
-
