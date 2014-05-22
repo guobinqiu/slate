@@ -60,6 +60,8 @@ class WenwenController extends Controller {
 			$user->setIsInfoSet(0);
 			$user->setRewardMultiple(1);
 			$user->setIsFromWenwen($this->container->getParameter('is_from_wenwen_register')); //和91问问同时注册 2
+		} else {
+			$user = $user[0];
 		}
 		$user->setRegisterDate(date_create(date('Y-m-d H:i:s')));
 		$user->setUniqkey($uniqkey);

@@ -75,7 +75,7 @@ class UserRepository extends EntityRepository {
 		$query = $query->andWhere('u.isFromWenwen = 2');
 		$query = $query->setParameter('email', $email);
 		$query = $query->getQuery();
-		return $query->getOneOrNullResult();
+		return $query->getResult();
 	}
 
 	public function getUserList($id) {
