@@ -3,6 +3,7 @@
 	width: 100%;
 	height: 214px;
 	position: relative;
+	margin-bottom:15px;
 }
 #indexBanner a {
 	border: medium none;
@@ -111,7 +112,7 @@
 	border-bottom: 1px dotted #ffc4ba;
 	border-right: 1px dotted #ffc4ba;
 }
-#task .taskList li a:hover,#task .taskList li dt:hover{ color:#FF3E17; text-decoration:underline;}
+#task .taskList li a:hover,#task .taskList li dt:hover{ color:#e94d41; text-decoration:underline;}
 #task .taskList li.brn {
 	border-right: none;
 }
@@ -128,7 +129,7 @@
 	float: right;
 }
 #task .taskList li em {
-	color: #FF3E17;
+	color: #e94d41;
 }
 #task .taskList span.noTask{ display: inline-block; line-height: 40px;}
 .loginFrame, .userFrame {
@@ -138,12 +139,8 @@
 #vote, #ranking, #banner, #news, #timeline{
 	margin-top: 15px;
 }
-#indexRecommend .loading{left: 298px; top: 276px; position: absolute;z-index: 9999;}
-#indexRecommend .loading img{opacity:0.8;filter:alpha(opacity=80)}
-#vote h3, #ranking h3, #news h3, #getMallList h3, #marketActivity h3 {
-	color: #ff6b4f;
-	font-weight: bold;
-	font-size: 15px;
+#vote h3, #news h3, #getMallList h3, #marketActivity h3,#timeline h3,#ranking h3 {
+	font-size: 16px;
 	padding-bottom: 5px;
 }
 #ranking h3, #timeline h3 {
@@ -290,28 +287,29 @@
 	width: 270;
 	padding: 0 15px;
 }
+#ranking ul li.rank1,#ranking ul li.rank2,#ranking ul li.rank3,#ranking ul li.rank4,#ranking ul li.rank5{
+	height: 30px;
+	margin-top: 10px;
+	margin-left: 15px;
+	line-height: 38px;}
 #ranking ul li.rank1 {
-	background-image: url("../images140307/rank_1.jpg");
-	background-position: 12px 8px;
-	border-top: medium none;
-	height: 50px;
-	line-height: 50px;
+	background:url(../images140307/iconImage2.png) no-repeat 0 -317px;
 }
 #ranking ul li.rank2 {
-	background-image: url("../images140307/rank_2.jpg");
+	background:url(../images140307/iconImage2.png) no-repeat 0 -360px;
 }
 #ranking ul li.rank3 {
-	background-image: url("../images140307/rank_3.jpg");
+	background:url(../images140307/iconImage2.png) no-repeat 0 -397px;
 }
 #ranking ul li.rank4 {
-	background-image: url("../images140307/rank_4.jpg");
+	background:url(../images140307/iconImage2.png) no-repeat 0 -436px;
 }
 #ranking ul li.rank5 {
-	background-image: url("../images140307/rank_5.jpg");
+	background:url(../images140307/iconImage2.png) no-repeat 0 -478px;
 }
 #ranking ul li dd {
 	float: left;
-	margin-left: 30px;
+	margin-left: 15px;
 	color:#333;
 }
 #ranking ul li dt {
@@ -350,6 +348,7 @@
 }
 #timeline ul li span {
 	margin-right: 3px;
+	color: #3598db;
 }
 #timeline ul li em {
 	margin: 0 3px;
@@ -388,7 +387,7 @@
 	-webkit-border-radius: 3px; 
 	border-radius: 3px;
 	padding:12px 77px;
-	background:#4da4eb;
+	background:#3598db;
 }
 #userLogin a.reg:hover {
 	opacity: 0.8;
@@ -506,12 +505,14 @@
 }
 #getMallList {
 	background-color: #FFF;
-	padding: 15px 0;
+	padding: 10px 0 15px;
 	position: relative;
 }
 #getMallList ul{padding-left: 6px;}
 #getMallList h3 {
+	font-weight:bold;
 	padding: 0 0 0 15px;
+	color:#e94d41;
 }
 #getMallList .menu {
 	position: absolute;
@@ -539,28 +540,26 @@
 	border-top: 1px dotted #e5e5e5;
 	margin-top: 10px;
 	padding:14px 0 13px;
-	color: #666;
     height: 50px;
 }
-#getMallList li a {
-	color: #666
-}
-#getMallList li a p{ color:#bbb; margin-top:5px;}
+#getMallList li a p{ margin-top:5px;}
 #indexRecommend{ position:relative; margin:7px 0 10px;}
-
+#indexRecommend .loading{left: 298px; top: 276px; position: absolute;z-index: 9999;}
+#indexRecommend .loading img{opacity:0.8;filter:alpha(opacity=80)}
+#indexRecommend .iRhWrap strong{border-bottom: 3px solid #e94d41; padding-bottom: 7px;}
 #indexRecommend .iRhWrap .menu{margin-left: 10px;display: inline;}
 #indexRecommend .iRhWrap .menu a.more{background: url("../images140307/iconImage.png") no-repeat scroll 0 -897px; padding-left:20px;}
-#indexRecommend .iRcWrap{ border-top:3px solid #ff6b4f; background:#fff; padding-bottom: 10px; padding-left: 5px;}
-#indexRecommend .iRcWrap ul li { background-color: #FFFFFF; float: left; padding:10px 5px 0px 4px; width: 200px; overflow: hidden; position:relative;}
+#indexRecommend .iRcWrap{ border-top:3px solid #e0e2e6; background:#fff; padding-bottom: 10px; padding-left: 5px;}
+#indexRecommend .iRcWrap ul li { background-color: #FFFFFF; float: left; padding:15px 5px 0px 4px; width: 200px; overflow: hidden; position:relative;}
 #indexRecommend .iRcWrap ul li.mr0 { margin-right: 0;}
 #indexRecommend .iRcWrap ul li p.image a img{ width:200px; height:auto;}
 #indexRecommend .iRcWrap ul li p.image a img:hover{opacity:.8;filter:alpha(opacity = 80);-moz-opacity:.8}
 #indexRecommend .iRcWrap ul li p.name{ height:30px; overflow:hidden; margin-left: 5px;}
-#indexRecommend .iRcWrap ul li p.price { color: #FF3E17; line-height: 180%; position:relative; margin-top:5px;}
-#indexRecommend .iRcWrap ul li p.price .price1{font-size: 15px; font-weight: bold;}
-#indexRecommend .iRcWrap ul li p.price .price2 { margin:0 5px 0 0; font-size: 20px;font-weight: 700;}
+#indexRecommend .iRcWrap ul li p.price { height:27px; color: #fff; line-height: 180%; position:relative; background:#e94d41; border-bottom:2px solid #c63128;}
+/*#indexRecommend .iRcWrap ul li p.price .price1{font-size: 15px; font-weight: bold;}*/
+#indexRecommend .iRcWrap ul li p.price .price2 { margin:6px 10px 0 0; line-height: 16px; padding-left: 19px; font-size: 18px;font-weight: 700; float:right; background:url(../images140307/iconImage2.png) no-repeat 0 -300px;}
 #indexRecommend .iRcWrap ul li p.price .discount{ font-size: 12px;float: right; margin: 7px 0 0; text-align:right; line-height: 19px;} 
-#indexRecommend .iRcWrap ul li p del { text-decoration: line-through; color:#bbb; position:absolute; right:0;}
+#indexRecommend .iRcWrap ul li p del {margin-top: 4px; text-decoration: line-through; color:#fff; position:absolute; left:10px;}
 #indexRecommend .iRcWrap ul li .model{background: #ff6b4f;width: 175px;height: 31px;color: #fff;text-align: center;position: absolute;left: 0;bottom: 0;opacity: .85;filter: alpha(opacity=85);display:none;padding:27px 21px 24px 12px;}
 #indexRecommend .iRcWrap ul li .model strong{font-size: 16px; margin-left: 10px; vertical-align: 5px;}
 #indexRecommend ul li .prds1-item{
@@ -636,19 +635,19 @@
 	line-height:22px;
 }
 #marketActivity ul li p.discount {
-	color: #f74a28;
+	color: #e94d41;
 	position:absolute;
 	bottom:64px;
 	font-size: 14px;
 }
 #marketActivity ul li p.btn .goActivity {
 	color: #FFF;
-	background-color: #FF6B4F;
+	background-color: #e94d41;
 	font-size: 14px;
 	display: inline-block;
 	padding: 6px 26px;
 }
-#marketActivity ul li p.btn a:hover{background-color: #e62600;}
+#marketActivity ul li p.btn a:hover{background-color: #c63128;}
 #marketActivity .prevBtn, #marketActivity .nextBtn {
 	display: inline-block;
 	background-image: url(../images140307/iconImage2.png);
