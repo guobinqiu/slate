@@ -21,7 +21,7 @@
     </div><!-- eof module categorys -->
 
     <div id="timeline" class="borderGlob">
-      <h3 class="font15"><strong>最新动态</strong></h3>
+      <h3 class="font15">最新动态</h3>
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:event') ) }}
       </div><!-- eof mask -->
@@ -53,7 +53,7 @@
     {% else %}
     {% endif %}
 
-    <div id="getMallList" class="borderGlob marginT15">
+    <div id="getMallList" class="borderGlob">
         {{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 12, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
     </div><!-- eof getMallList -->
     

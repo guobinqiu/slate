@@ -64,14 +64,14 @@ $(document).ready(function(){
 						msg += '<p class="itemBgMask"></p>';
                  		msg += '<p class="name">'+data2.name+'</p>';
 						msg += '</div>';
-						msg += '<p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">¥'+data2.pri0+'</del>';
+						msg += '<p class="price"><span class="price2">'+data2.pri1+'</span><del class="corLightGray">¥'+data2.pri0+'</del>';
 						} else {
 							msg += '<div class="prds1-item">';	
 							msg += '<p class="image"><a href="'+data2.href+'" target="_blank" rel="nofollow"><img src="'+data2.pic+'" height="auto" width="200"></a></p>';
 							msg += '<p class="itemBgMask"></p>';
 							msg += '<p class="name">'+data2.name+'</p>';
 							msg += '</div>';
-							msg += '<p class="price"><span class="price1">¥</span><span class="price2">'+data2.pri1+'</span><del class="corLightGray">¥'+data2.pri0+'</del>';
+							msg += '<p class="price"><span class="price2">'+data2.pri1+'</span><del class="corLightGray">¥'+data2.pri0+'</del>';
  						}					
 						 msg += '</div></li>';
            			  }
@@ -109,7 +109,7 @@ $(document).ready(function(){
 </script>
 
 {% spaceless %}
-<div class="iRhWrap marginBM5"> <strong class="font18 corLightRed">超值低价</strong>
+<div class="iRhWrap marginBM5"> <strong class="font18 corGlobRed">超值低价</strong>
   <div class="menu"><a class="more" href="javascript:void(0);">换一组</a></div>
 </div>
 <div class="iRcWrap borderGlob">
@@ -123,7 +123,7 @@ $(document).ready(function(){
           <p class="itemBgMask"></p>
           <p class="name">{{ row.p_name }}</p>
         </div>
-        <p class="price"><span class="price1 fontOrig">¥</span><span class="price2">{{ row.ghs_price }}</span><del class="font14 fontOrig">¥{{ row.ori_price }}</del></p>
+        <p class="price"><span class="price2">{{ row.ghs_price }}</span><del class="font14 fontOrig">¥{{ row.ori_price }}</del></p>
     </li>
     {% endfor %} </span>
   </ul>

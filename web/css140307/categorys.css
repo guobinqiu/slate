@@ -1,9 +1,9 @@
-.categorys h3{ color:#ff4824; font-weight:bold; height:40px; background: url("../images140307/iconImage.png") no-repeat 14px -804px #FFEFEF; line-height:40px; padding-left:30px; font-size:16px;}
-.categorys ul li{ height:34px; line-height:34px; font-size:12px; color:#333; border-top:1px dotted #ffbeb3; padding-left:20px; background: url("../images140307/iconImage.png") no-repeat scroll 185px -247px #ffefef; position:relative; z-index:502;}
-.categorys ul li:hover{ color:#fff; background: url("../images140307/iconImage.png") no-repeat scroll 185px -767px #ff6b4f; border-top:1px solid #ff6b4f; }
-.categorys ul li h5{color: #FF6B4F; font-size: 14px; height: 24px; line-height: 24px; margin-top: 10px;}
+.categorys h3{ color:#e94d41; font-weight:bold; height:40px; background: url("../images140307/iconImage.png") no-repeat 14px -804px #ffecea; line-height:40px; padding-left:30px; font-size:16px;}
+.categorys ul li{ height:34px; line-height:34px; font-size:12px; color:#333; border-top:1px dotted #f8c5c1; padding-left:20px; background: url("../images140307/iconImage.png") no-repeat scroll 185px -247px #ffefef; position:relative; z-index:502;}
+.categorys ul li:hover{ color:#fff; background: url("../images140307/iconImage.png") no-repeat scroll 185px -767px #e94d41; border-top:1px solid #ff6b4f; }
+.categorys ul li h5{color: #e94d41; font-size: 14px; height: 24px; line-height: 24px; margin-top: 10px;}
 .categorys ul li p{border-left: 1px solid #CCCCCC; float: left; height: 14px; line-height: 14px; margin: 7px 10px 5px 0;}
 .categorys ul li p a{ color:#5c5c5c; display: inline-block; padding-left: 5px;}
 .categorys .second{left: 201px; position: absolute; top: -2px; width: 470px; background-color:#FFF; border:1px solid #e3e3e3; -moz-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;-webkit-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;box-shadow: 1px 1px 6px #ddd,1px -1px 6px #ddd; padding:5px 10px 15px 20px; z-index:503px; white-space: nowrap; text-overflow: ellipsis; display:none;}
 .categorys .second .third{ width:100%; float:left;}
-.categorys .second p a:hover{ color:#FF3E17; text-decoration:underline;}
+.categorys .second p a:hover{ color:#e94d41; text-decoration:underline;}
