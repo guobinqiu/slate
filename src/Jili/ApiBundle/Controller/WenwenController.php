@@ -23,6 +23,22 @@ class WenwenController extends Controller {
 	 * @Method({"POST"});
 	 */
 	public function registerAction() {
+		if (!($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip')
+            || $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip')
+            || $_SERVER['REMOTE_ADDR'] == '127.0.0.1'
+            || $_SERVER['REMOTE_ADDR'] == '::1'
+            || substr($_SERVER['REMOTE_ADDR'], 0, 10) == '192.168.1.'
+            || $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('wenwen_dev_ip')
+            || $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('wenwen_prod_ip')
+            )) {
+
+            $result['status'] = '0';
+            $result['message'] = 'Illegal ip access';
+
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'text/plain');
+            return $resp;
+        }
 		$em = $this->getDoctrine()->getManager();
 		$email = $this->get('request')->get('email');
 		$signature = $this->get('request')->get('signature');
@@ -92,6 +108,7 @@ class WenwenController extends Controller {
 
 			$result['status'] = '1';
 			$result['message'] = 'success';
+			$result['activation_url'] = $url;
 		} else {
 			$result['status'] = '0';
 			$result['message'] = 'send mail fail';

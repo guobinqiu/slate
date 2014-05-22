@@ -1620,7 +1620,8 @@ class UserController extends Controller
 
         $return = $this->checkCodeValid($setPasswordCode, $code);
         if(!$return){
-            return $this->render('JiliApiBundle::error.html.twig');
+            $arr['errorMessage'] = "该链接已经失效，您可能已经激活过。";
+            return $this->render('JiliApiBundle::error.html.twig', $arr);
         }
 
         $request = $this->get('request');
