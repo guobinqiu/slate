@@ -167,7 +167,7 @@
 	text-decoration: none;
 }
 
-.index section .frame #timeLine .mask {
+/*.index section .frame #timeLine .mask {
 	height: 155px;
 	margin-top: 10px;
 	overflow: hidden;
@@ -212,8 +212,8 @@
 .index section .frame #timeLine ul li dt span {
 	
 	font-size: 10px;
-	color: #999999;
-}
+	
+}*/
 
 .index section .frame #recommended {
 	position: relative;
@@ -721,7 +721,7 @@
 	color: #54b9e8;
 }
 
-.index aside .frame #ranking {
+/*.index aside .frame #ranking {
 	position: relative;
 }
 
@@ -779,27 +779,26 @@
 }
 
 .index aside .frame #ranking ul li.rank1 {
-	background-image: url("../images/rank_1.jpg");
+	background-image: url("../images140307/iconImage2.png") 0 -330px;
 	height: 50px;
-	background-position: 0 8px;
 	border-top: none;
 	line-height: 50px;
 }
 
 .index aside .frame #ranking ul li.rank2 {
-	background-image: url("../images/rank_2.jpg");
+	background-image: url("../images140307/iconImage2.png") 0 -360px;
 }
 
 .index aside .frame #ranking ul li.rank3 {
-	background-image: url("../images/rank_3.jpg");
+	background-image: url("../images140307/iconImage2.png") 0 -390px;
 }
 
 .index aside .frame #ranking ul li.rank4 {
-	background-image: url("../images/rank_4.jpg");
+	background-image: url("../images140307/iconImage2.png") 0 -420px;
 }
 
 .index aside .frame #ranking ul li.rank5 {
-	background-image: url("../images/rank_5.jpg");
+	background-image: url("../images140307/iconImage2.png") 0 -450px;
 }
 
 .index aside .frame #ranking ul li dd {
@@ -815,7 +814,7 @@
 	margin: 0 3px;
 	color: #E0542D;
 }
-
+*/
 .index aside #task ul li .signInExplain {
 	background-image: url("../images/signInExplain.gif");
 	height: 40px;
