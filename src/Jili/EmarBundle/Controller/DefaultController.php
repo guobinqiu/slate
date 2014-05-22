@@ -26,7 +26,7 @@ class DefaultController extends Controller
         if( $session->has('uid') ){
             if( false !== strpos( $url,'APIMemberId')){
                 $url = str_replace('APIMemberId', $session->get('uid') , $url );
-            } else {
+            } else if( 1 !==  preg_match('/e=(\d+)/', $url, $m) ) {
                 $url = $this->get('router')->generate( '_homepage',array(),true) ;
             }
             return $this->redirect( $url, 302);
