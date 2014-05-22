@@ -16,9 +16,17 @@
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
 <div class="webArticle error404">
-  <article>
-  	<a href="{{ path('_homepage') }}">去首页</a>
-  </article>
+{% if errorMessage is defined and errorMessage is not empty %}
+    <div class="error">
+        <div class="errorMessage">{{ errorMessage }}</div>
+        <div class=""><a href="{{ path('_homepage') }}">去首页</a></div>
+    </div>
+{% else %}
+    <article>
+    <a href="{{ path('_homepage') }}">去首页</a>
+    </article>
+{% endif %}
+  
 </div>
 {% include 'JiliApiBundle::footer.html.twig' %}
 </body>
