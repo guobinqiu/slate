@@ -68,6 +68,8 @@ class ProductController extends Controller
 
         if ( !empty($cat_id) || !empty($web_id) ) {
             $params = array( 'webid'=> $web_id, 'catid'=>$cat_id ,'page_no'=>$page_no, 'price_range'=> $price_range);
+            $logger = $this->get('logger');
+            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __CLASS__,'params','') ).var_export($params, true) );
             $productRequest = $this->get('product.list_get');
             $products = $productRequest->fetch( $params);
             $total = $productRequest->getTotal();
