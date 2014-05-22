@@ -214,6 +214,7 @@ class WebsitesController extends Controller
 
                 # input commissions_of_configed , $commission_of_api, $commission_of_default;
                 foreach( $result as $row) {
+                    $em->detach($row);
                     $web_id = $row->getWebId();
                     $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($row->getCommission() );
                     if( array_key_exists( $web_id,  $commissions) ){
