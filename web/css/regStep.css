@@ -230,7 +230,7 @@
 	background-image:url("../images/regPrompt.jpg");
 }
 .regStep article ul.form li dt .regPrompt em{
-	color: #EA4B11;
+	color: #e94d41;
     font-size: 14px;
     font-style: normal;
     font-weight: bold;
@@ -272,7 +272,7 @@
     width: 680px;
 }
 .regStep article .regFrame .notMail h6{
-	color:#ea4b11;
+	color:#e94d41;
 	font-size:14px;
 	font-weight:bold;
 	margin:10px 0;

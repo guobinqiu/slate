@@ -58,7 +58,7 @@
     line-height: 18px;
 }
 .shopList ul.shopRecommend li:hover p.about span.rebate{
-	color: #EA4B11;
+	color: #e94d41;
 }
 .shopList .classify-nav{
 	border: 1px solid #EEEEEE;
@@ -86,13 +86,13 @@
     background-image: url(../images/hotcatg-bg.png);
 }
 .shopList .classify-nav a:hover{
-	background-color:#ea4b11;
+	background-color:#e94d41;
 	color:#FFF;
 	background-image: none;
 	border-style: solid;
 }
 .shopList .classify-nav a.hover{
-	background-color:#ea4b11;
+	background-color:#e94d41;
 	color:#FFF;
 	background-image: none;
 	border-style: solid;
@@ -137,7 +137,7 @@
 	color: #999999;
 }
 .shopList .shopRebate .s_box p.rebate em {
-	color: #ea4b11;
+	color: #e94d41;
 	font-style: normal;
 }
 .shopList .shopRebate .s_box div.hover {
@@ -175,7 +175,7 @@
 	overflow: hidden;
 }
 .shopList .shopRebate .s_box div.hover .text em, .shopList .shopRebate .s_box div.hover p em {
-	color: #ea4b11;
+	color: #e94d41;
 	font-size: 14px;
 	font-weight: bold;
 	font-style: normal;

@@ -127,6 +127,10 @@ class TopController extends Controller
         //个人中心
         //确认中的米粒数
         $arr['confirmPoints'] = $this->get('session.points')->getConfirm();
+		$taskList = $this->get('session.task_list');
+        if( $this->container->getParameter('init_one') === $taskList->get('checkin_visit') ) {
+            $arr['userCheckin'] = $this->container->getParameter('init_one');
+        }
         return $this->render('JiliApiBundle:Top:userInfo.html.twig', $arr);
     }
 
