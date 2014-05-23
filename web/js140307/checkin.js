@@ -63,6 +63,10 @@ function goto(cid,aid,points){
                           if(nowTimes<=0){
                               $("#signInFrame h5").html("恭喜您签到成功，已获得<font color='#E94C1B'>"+points+"</font>米粒！");
                               $(".signs").remove();
+							  $("#sign").removeClass("goUserInfo");
+                              $("#sign").addClass("hascheckin");
+							  $("#sign").text("已签到");
+							  $("#sign").unbind("click",signs);
                               setTaskNumber();
                           }else{
                               $("#remain").text(nowTimes);

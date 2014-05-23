@@ -4,7 +4,11 @@
       <img src='{{ asset(app.session.get('icon_path','other140307/defaultFace.jpg' ) ) }}' height='90'/>
       </div>
     <p class="name">您好，{{ app.session.get('nick') }}</p>
-    <p><a class="goUserInfo" href="{{ path('_user_info') }}">进入个人中心</a></p>
+    {% if userCheckin is defined and userCheckin == 1 %}
+        <p><a class="goUserInfo" id="sign" onclick="signs();">签到领米粒</a></p>
+    {% else %}
+        <p><a class="hascheckin">已签到</a></p>
+    {% endif %}
   </div>
   <div class="point clearfix">
     <dt><strong class="corGlobRed font18 fon700">{{ app.session.get('points') }}</strong><br />当前米粒数</dt>
@@ -13,3 +17,5 @@
     <dd class="right"><a href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}">我的兑换历史</a></dd>
   </div>
 </div>
+
+ 

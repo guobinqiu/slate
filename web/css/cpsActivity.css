@@ -42,14 +42,13 @@
 	text-decoration:none;
 }
 .cpsActivity .classify .classify-nav span a:hover{
-	color:#ea4b11;
+	color:#e94d41;
 }
 .cpsActivity .classify .classify-nav span a.hover{
-	background-color:#ea4b11;
+	background-color:#e94d41;
 	color:#FFF;
 	border-radius:3px;
 	padding-right:5px;
-	/*background-image:url(../other/close_tag.gif);*/
 	background-repeat:no-repeat;
 	background-position: 48px 8px;
 }
@@ -107,7 +106,7 @@
 	font-weight:normal;
 }
 .cpsActivity .activityOverflow ul.activityAll li .more a.moreBtn{
-	background-color: #EA4B11;
+	background-color: #e94d41;
     border-radius: 3px 3px 3px 3px;
     color: #FFFFFF;
     display: inline-block;
