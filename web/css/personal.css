@@ -21,7 +21,7 @@
     left: 87px;
 }
 .score .screen a:hover , .score .screen a.hover{
-	background-color: #EA4B11;
+	background-color: #e94d41;
     border: 1px solid #FFFFFF;
     color: #FFFFFF;
     font-weight: bold;
@@ -155,7 +155,7 @@
 }
 
 .lookMore{
-	background-color: #EA4B11;
+	background-color: #e94d41;
     background-image: url("../images/moreBtn.jpg");
     background-repeat: no-repeat;
     color: #FFFFFF;
@@ -301,7 +301,7 @@
 
 .web_click_bg{
 	background-color: #FFFFFF;
-    border: 3px solid #EA4B11;
+    border: 3px solid #e94d41;
     border-radius: 3px 3px 3px 3px;
     left: 650px;
     position: fixed;
@@ -310,7 +310,7 @@
     z-index: 1000;
 }
 .web_click_bg h3{
-	background-color: #EA4B11;
+	background-color: #e94d41;
 	background-image: -moz-linear-gradient(top, #FD7B19, #EC4E11); /* Firefox */
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FD7B19), color-stop(1, #EC4E11)); /* Saf4+, Chrome */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FD7B19', endColorstr='#EC4E11', GradientType='0'); /* IE*/
@@ -340,7 +340,7 @@
 
 }
 .web_click_bg .cardNumberArea .copy{
-	background-color: #EA4B11;
+	background-color: #e94d41;
     color: #FFFFFF;
     display: inline-block;
     font-size: 12px;
