@@ -30,7 +30,7 @@ class EmarResponse
 
     private function setKey(){
         $req = $this->emar_request;
-        $this->key = md5( $req->getApiMethodName(). json_encode( $req->getApiParams() ) );
+        $this->key = $req->getApiMethodName().'.'. md5($req->getApiMethodName() . json_encode( $req->getApiParams() ) );
         return $this;
     }
 

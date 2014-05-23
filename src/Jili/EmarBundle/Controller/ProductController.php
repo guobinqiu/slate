@@ -36,10 +36,10 @@ class ProductController extends Controller
         $em = $this->getDoctrine()->getManager();
 
 
-        $cat_id = $request->query->getInt('cat');
-        $web_id = $request->query->getInt('w');
+        $cat_id =  $request->query->getInt('cat');
+        $web_id =  $request->query->getInt('w');
         $price_range = $request->query->get('pr');
-        $page_no = $request->query->get('p', 1);
+        $page_no = $request->query->getInt('p', 1);
 
         $prod_categories = $this->get('product.categories')->fetch();
 
@@ -66,14 +66,17 @@ class ProductController extends Controller
             }
         }
 
-        if ( !empty($cat_id) || !empty($web_id) ) {
-            $params = array( 'webid'=> $web_id, 'catid'=>$cat_id ,'page_no'=>$page_no, 'price_range'=> $price_range);
             $logger = $this->get('logger');
+
+        if ( !empty($cat_id) || !empty($web_id) ) {
+            $params = array( 'webid'=> $web_id, 'catid'=> $cat_id ,'page_no'=>$page_no, 'price_range'=> $price_range);
             $logger->debug('{jarod}'. implode( ':', array(__LINE__, __CLASS__,'params','') ).var_export($params, true) );
             $productRequest = $this->get('product.list_get');
             $products = $productRequest->fetch( $params);
             $total = $productRequest->getTotal();
         } else {
+            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __CLASS__,'cat_id','') ).var_export($cat_id, true) );
+            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __CLASS__,'web_id','') ).var_export($web_id, true) );
             $products = array();
             $total = 0;
         }

@@ -6,10 +6,8 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\ProductCategoryGetRequest as OpenApiProductCategoryGetRequest;
 
 
-class ProductCategoryGetRequest  {
+class ProductCategoryGetRequest  extends BaseRequest  {
 
-  private $logger;
-  private $result;
 
   public function fetch(array $params = array()) {
       extract($params);
@@ -21,7 +19,12 @@ class ProductCategoryGetRequest  {
       $req->setParent_id($parent_id);
     }
 
-    $resp =  $this->c->exe($req);
+    $resp = $this->getCached($req);
+
+    if( empty($resp)) {
+        $resp =  $this->c->exe($req);
+        $this->updateCached($req, $resp);
+    }
     $result = array();
 
     if( isset( $resp[ 'item_cats']) && isset($resp['item_cats'] ['item_cat'] ) ) {
@@ -32,14 +35,6 @@ class ProductCategoryGetRequest  {
     return $result;
   }
 
-
-  public function setLogger(  LoggerInterface $logger) {
-    $this->logger = $logger;
-  }
-
-  public function setConnection( EmarRequestConnection  $c ) {
-    $this->c = $c;
-  }
 }
 
 

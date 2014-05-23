@@ -7,6 +7,9 @@ parameters:
     cache_config.emar.product_categories.duration:  3623
 # the api response cache:
     cache_config.emar_api:
+
+        open.category.get:
+            default: 3571
         open.website.get:
             default: 3559
         open.website.category.get:
@@ -19,3 +22,19 @@ parameters:
             page_size: { 12: 3631 } 
             default: 3637 # seconds
 
+# 3541 is prime.
+# 3547 is prime.
+# 3557 is prime.
+# 3559 is prime.
+# 3571 is prime.
+# 3581 is prime.
+# 3583 is prime.
+# 3593 is prime.
+# 3607 is prime.
+# 3613 is prime.
+# 3617 is prime.
+# 3623 is prime.
+# 3631 is prime.
+# 3637 is prime.
+# 3643 is prime.
+# 3659 is prime.

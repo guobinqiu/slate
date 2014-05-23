@@ -42,14 +42,22 @@ class ProductListGetRequest  extends BaseListRequest {
       $req->setPage_size($this->page_size );
     }
 
-    #$resp =  $this->c->exe( $req );
-    $resp =  $this->c->setApp($this->app_name)->exe($req);
+    $resp = $this->getCached($req);
+
+    if( empty($resp)) {
+        $resp =  $this->c->setApp($this->app_name)->exe($req);
+        $this->updateCached($req, $resp);
+    }
+
+    $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$app_name','')) . var_export( $this->c->getApp(), true));
+        $this->logger->debug('{jarod}' . implode(':', array( __CLASS__,__LINE__,'')). var_export( $req->getApiParams() , true) );
+        $this->logger->debug('{jarod}' . implode(':', array( __CLASS__,__LINE__,'')). var_export( $req->getApiMethodName() , true) );
+
     if( isset( $resp[ 'pdt_list']) && isset($resp['pdt_list'] ['pdt'] ) ) {
         $result = $resp['pdt_list']['pdt'];
         $this->result = $result;
     } else {
         $this->result = array(); // 
-        #$this->logger->debug('{jarod}' . implode(':', array( __CLASS__,__LINE__,'')). var_export( $resp , true) );
     }
 
     $this->total = isset($resp['total'] ) ? $resp['total']: 0 ;

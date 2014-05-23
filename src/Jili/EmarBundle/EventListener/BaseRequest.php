@@ -25,7 +25,6 @@ class BaseRequest {
     return $this;
   }
   public function setApp( $app_name = '' ) {
-#   $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$app_name','')) . var_export( $app_name, true));
     $this->app_name = $app_name;
     return $this;
   }
