@@ -48,7 +48,7 @@
 .help article .tabs-nav {
 	border: 1px solid #EEEEEE;
 	background-color: #FFF;
-	border-bottom: 2px solid #EA4B11;
+	border-bottom: 2px solid #e94d41;
 }
 .help article .tabs-nav li {
 	float: left;
@@ -67,7 +67,7 @@
 	text-decoration: none;
 }
 .help article .tabs-nav li.hover a {
-	background-color: #EA4B11;
+	background-color: #e94d41;
 	color: #FFF;
 }
 .help #helpMain {
@@ -127,7 +127,7 @@
 	display:none;
 }
 .help .qaFrame h4 {
-	color: #EA4B11;
+	color: #e94d41;
 	font-size: 15px;
 	font-weight: normal;
 	padding: 10px;

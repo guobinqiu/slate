@@ -7,9 +7,9 @@
 .recommend li dt{ width:100px; margin-right:10px;}
 .recommend li dd{ width:130px;}
 .recommend li dd p.title{ height:40px; overflow:hidden;}
-.recommend li dd p.price{color:#FF3E17; font-size:18px; line-height:200%;}
+.recommend li dd p.price{color:#e94d41; font-size:18px; line-height:200%;}
 .recommend li dd p.link a{ background-color:#ffa695; color:#FFF; display: inline-block; padding: 3px 10px;}
-.recommend li dd p.link a:hover{ background-color:#ea4b11;}
+.recommend li dd p.link a:hover{ background-color:#e94d41;}
 .recommend .prevBtn, .recommend .nextBtn{ display:inline-block; position:absolute; background-image:url(../images140307/iconImage.png); width:15px; height:23px; top:85px; cursor:pointer;}
 .recommend .prevBtn{ background-position:0 -300px; left:20px;}
 .recommend .nextBtn{ background-position:0 -340px; right:20px;}
@@ -19,10 +19,10 @@
 .sidebarRecommend ul li dt{ float:left; margin-right:10px; width:150px; height:150px;}
 .sidebarRecommend ul li dd{ float:left; width:115px;}
 .sidebarRecommend ul li p.title{ color:#666; height:55px; overflow:hidden; width:100%; margin-bottom:10px;}
-.sidebarRecommend ul li p.price{ font-size:15px; font-weight:bold; color:#ea4b11; margin:5px 0;}
-.sidebarRecommend ul li p.shop{color:#ea4b11;}
+.sidebarRecommend ul li p.price{ font-size:15px; font-weight:bold; color:#e94d41; margin:5px 0;}
+.sidebarRecommend ul li p.shop{color:#e94d41;}
 .sidebarRecommend ul li p.rebate{ color:#999;}
-.sidebarRecommend ul li p.rebate em{color:#ea4b11;}
+.sidebarRecommend ul li p.rebate em{color:#e94d41;}
 
 .miniRecommend{ background-color:#FFF; color:#999999; position:relative; padding: 5px 0;}
 .miniRecommend .shade{ width:150px; margin:20px auto; height:200px; overflow:hidden; position:relative;}
@@ -31,8 +31,8 @@
 .miniRecommend ul li .img{ position:relative; margin: 0 0 10px 0; overflow:hidden;}
 .miniRecommend ul li .title{ position:absolute; left:0; bottom:0; display:block; color:#FFF; padding:5px; overflow:hidden; padding: 7px 10px; line-height:18px; background-color:rgba(0,0,0,.5);}
 .miniRecommend ul li dt{ float:left;}
-.miniRecommend ul li dd{font-size:15px; font-weight:bold; color:#ea4b11; float:right;}
-.miniRecommend ul li .rebate em{color:#ea4b11;}
+.miniRecommend ul li dd{font-size:15px; font-weight:bold; color:#e94d41; float:right;}
+.miniRecommend ul li .rebate em{color:#e94d41;}
 .miniRecommend .prevBtn, .miniRecommend .nextBtn{ display:inline-block; position:absolute; font-size:0; background-image:url(../images140307/iconImage.png); width:15px; height:23px; top:85px; cursor:pointer;}
 .miniRecommend .prevBtn{ background-position:0 -300px; left:5px;}
 .miniRecommend .nextBtn{ background-position:0 -340px; right:5px;}
@@ -45,4 +45,4 @@
 .searchRecommend li dd{font-size:12px; padding:0 10px 10px 10px; color:#999999;}
 .searchRecommend li dd p{ line-height:150%;}
 .searchRecommend li .price{ font-size:14px; font-weight:bold; color:#F74A28;}
-.searchRecommend li .rebate em{color:#ea4b11;}
+.searchRecommend li .rebate em{color:#e94d41;}

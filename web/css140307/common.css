@@ -16,6 +16,7 @@
 .h340{ height:340px;}
 .fontOrig{font-family: Arial, Helvetica, sans-serif;}
 .fontNormal{ font-weight:normal; font-size:12px;}
+.fon700{ font-weight:700;}
 .font14{ font-size:14px;}
 .font15{ font-size:15px;}
 .font16{ font-size:16px;}
@@ -32,28 +33,28 @@ strong, b{font-weight: bold;}
 .corLightRed{ color:#ff6b4f;}
 .corLightGray{ color:#999;}
 .corLightGray2{ color:#bbb;}
-.corDarkGray{ color:#333;}
+.corDarkGray{ color:#666;}
 .corGlobGray{ color:#333;}
-.corGlobRed{ color:#FF3E17;}
-.corGlobBlue{ color:#65b1ee;}
+.corGlobRed{ color:#e94d41;}
+.corGlobBlue{ color:#3598db;}
 .corDarkBlue{ color:#1588e5;}
 .corBrightBlue{ color: #32A5F5;}
 .corGreen{ color: #5BA603;}
 .corWhite{ color:#fff;}
 .division{ margin:0 10px; color:#ccc;}
-.module{ border:2px solid #ff6b4f;}
+.module{ border:2px solid #e94d41;}
 .curPt{ cursor:pointer;}
 .postionR{ position:relative;}
 .postionA{ position:absolute;}
 .marginT15{ margin-top:15px;}
 .marginLR5{ margin:0 5px;}
 .marginBM5{ margin:5px 0;}
-.borderGlob{border:1px solid #ececec;} 
+.borderGlob{border:1px solid #edeef0;} 
 .dispalyBlock{ display:block;}
 .boxShadowGlobal{-moz-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;-webkit-box-shadow:1px 1px 6px #ddd,1px -1px 6px #ddd;box-shadow: 1px 1px 6px #ddd,1px -1px 6px #ddd;}
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{ color:#666;}
 #header{ width:100%;}
-#topbar{ background-color:#f6f6f6; width:100%; height:30px; line-height:30px; color:#666; border-bottom: 1px solid #ececec;}
+#topbar{ background-color:#f5f5f5; width:100%; height:30px; line-height:30px; color:#666; border-bottom: 1px solid #ececec;}
 #userbar{ float:right; position:relative;}
 #userbar li{ float:left; line-height: 28px;}	
 #userbar li.split { background: none repeat scroll 0 0 #CCC; color: #CCC; height: 12px; margin: 9px; width: 1px; overflow:hidden;}
@@ -70,34 +71,34 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 #headerContent #logo{ float:left;}
 
 /* top search */
-#headerContent #search {border: 3px solid #FF6B4F; float: left;height: 34px;margin-left:180px; margin-top:4px; background-color:#FFF;}
+#headerContent #search {border: 3px solid #e94d41; float: left;height: 34px;margin-left:180px; margin-top:4px; background-color:#FFF;}
 #headerContent .searchMenu{background: url("../images140307/iconImage.png") no-repeat scroll 53px -94px #f7f7f7; font-size: 15px; float: left; width: 63px; height: 24px;line-height: 24px;padding: 5px 0 5px 16px; position: relative;  border-right:1px solid #f1f1f1;}
 #headerContent .form{float:left;}
 #headerContent #search .text {background-color: #FFFFFF;background-position: 0 -360px;background-repeat: repeat-x;color: #b3b3b3; font-weight:normal;font-size: 14px;line-height: 30px;padding: 5px;border: none;width: 460px; float:left; height:24px;}
-#headerContent #search .button {background: none repeat scroll 0 0 #FF6B4F;  letter-spacing: 5px; padding-left:8px; border: medium none;color: #FFFFFF;font-size: 16px; height: 36px; width: 68px;margin:0;float:left;}
+#headerContent #search .button {background: none repeat scroll 0 0 #e94d41;  letter-spacing: 5px; padding-left:8px; border: medium none;color: #FFFFFF;font-size: 16px; height: 36px; width: 68px;margin:0;float:left;}
 #headerContent .searchMenu .dropWrap{ background:#f7f7f7;left: 0; position: absolute; top: 34px; width: 77px; z-index: 9999; border:1px solid #e7e7e7;}
 #headerContent .searchMenu .dropWrap li{ padding-left: 15px;}
 #headerContent .searchMenu .dropWrap li:first-child{ border-bottom:1px solid #e7e7e7;}
-#headerContent .searchMenu .dropWrap li:hover{ color:#FF3E17; text-decoration:underline;}
+#headerContent .searchMenu .dropWrap li:hover{ color:#e94d41; text-decoration:underline;}
 /* top search/ */
 
 #headerContent .otherInlet{ float:right; margin-top:10px; margin-right:70px;}
 #headerContent .otherInlet .help{ font-size:16px; background:url("../images140307/iconImage.png") no-repeat scroll 0 -58px; padding-left:25px; color:#666;}
-#nav{width:100%; height:45px; line-height:45px; background-color:#ff5c40;}
-#nav li{ float:left; font-size:16px; margin:0 22px; position:relative;}
+#nav{width:100%; height:45px; line-height:45px; background-color:#e94d41;}
+#nav li{ float:left; font-size:16px; margin:0 22px; position:relative; font-family:"Microsoft Yahei",SimHei,Tahoma;}
 #nav li.first{ margin-right:0;}
 #nav li.second{ margin-left:0;}
-#nav li.task{ width:204px; margin-left:0; background:url("../images140307/iconImage.png") no-repeat scroll 175px -193px #59a7e5; z-index:504; position:relative;}
-#nav li.task ul{ background-color:#F1F7FB; border:2px solid #59a7e5; border-top:none; position:absolute; top:40px; left:0; z-index:9999; display:none;}
+#nav li.task{ width:204px; margin-left:0; background:url("../images140307/iconImage.png") no-repeat scroll 175px -193px #3598db; z-index:504; position:relative;}
+#nav li.task ul{ background-color:#F1F7FB; border:2px solid #3598db; border-top:none; position:absolute; top:40px; left:0; z-index:9999; display:none;}
 #nav li.task ul li{font-size:12px; border-top:1px #D5E3E9 dotted; width:100%; margin:0;}
 #nav li.task ul li a{font-size:12px; color:#666; padding-left: 15px; width: 185px; display:inline-block; position:relative;}
 #nav li.task ul li:hover{ background:#fff;}
-#nav li.task ul li a:hover{ color:#59a7e5; font-weight:bold;}
+#nav li.task ul li a:hover{ color:#3598db; font-weight:bold;}
 #nav li.task ul li span{ right:0; margin-right:15px; position:absolute; top:0;}
 #nav li a{ color:#FFF;}
 #nav li.task a.taskBtn{ background: url("../images140307/iconImage.png") no-repeat scroll 15px -157px; padding-left: 40px;}
-#nav li.task em{position:absolute; right: 36px; bottom: 31px; background: url("../images140307/iconImage2.png") no-repeat scroll 0 -257px; height: 24px; line-height: 24px; width: 30px; color: #fff; text-align:center; display: inline-block; font-size: 13px; font-weight:bold;}
-#nav li.navSelectedBg{ background:#d8351b; padding:0 30px;}
+#nav li.task em{position:absolute; right: 36px; bottom: 31px; background: url("../images140307/iconImage2.png") no-repeat scroll 0 -257px; height: 24px; line-height: 24px; width: 26px; color: #fff; text-align:center; display: inline-block; font-size: 13px; font-weight:bold;}
+#nav li.navSelectedBg{ background:#c63128; padding:0 30px;}
 
 .main h1,.commodityList h1{ font-size:16px; line-height:40px;}
 .main h1 span,.commodityList h1 span{ font-size:12px; margin-left:10px;}

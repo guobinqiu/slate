@@ -104,7 +104,7 @@ aside.offowAside{
 .cpaMain .cpaAll .cpa dt .joinBtn{
 	background-color: #FDCE6F;
     border-radius: 5px;
-    color: #EA4B11;
+    color: #e94d41;
     display: inline-block;
     font-size: 13px;
     margin-top: 3px;
@@ -125,5 +125,5 @@ aside.offowAside{
 .offwowSubnav .subnavList .subnavItem{ float:left; padding:0 30px 0 0;}
 .offwowSubnav .subnavList .first a{ border-right:1px solid #ccc; padding-right:30px;}
 .offwowSubnav .subnavList a{ color:#333;}
-.offwowSubnav .subnavList a:hover,.offwowSubnav .subnavList a.now{ color:#ea4b11;}
+.offwowSubnav .subnavList a:hover,.offwowSubnav .subnavList a.now{ color:#e94d41;}
 .navNew{ position:absolute; top: -5px; left: 173px; z-index: 9;}

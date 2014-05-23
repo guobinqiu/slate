@@ -74,6 +74,8 @@ class LoginListener {
     {
         if( $user) {
             $em = $this->em;
+            $this->resetTasksSession();
+
             $this->initSession( $user);
             $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
             $user->setLastLoginIp($request->getClientIp());

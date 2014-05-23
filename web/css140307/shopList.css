@@ -5,9 +5,9 @@ ul.shopListUl li dt a.shop{ background-color: rgba(255, 255, 255, 0.75); bottom:
 ul.shopListUl li dd{ margin:5px 0 0 0; width:100%; float:left;}
 ul.shopListUl li dd p.title{ overflow:hidden; color:#666; width:100%; height:20px; text-align:center;}
 ul.shopListUl li dd p.title a{ color:#666;}
-ul.shopListUl li dd p.price{ color:#ea4b11; font-size:15px; font-weight:bold; float:left;}
+ul.shopListUl li dd p.price{ color:#e94d41; font-size:15px; font-weight:bold; float:left;}
 ul.shopListUl li dd p.rebate{ text-align:center; color:#999; white-space: nowrap;}
-ul.shopListUl li dd p.rebate em{ color:#ea4b11;}
+ul.shopListUl li dd p.rebate em{ color:#e94d41;}
 ul.shopListUl li div.hover {
     background-color: #FFFCD9;
     border: 1px dashed #FB991A;
@@ -39,7 +39,7 @@ ul.shopListUl li div.hover .text {
 	text-align:left;
 }
 ul.shopListUl li div.hover .text em, ul.shopListUl li div.hover p em {
-    color: #EA4B11;
+    color: #e94d41;
     font-size: 14px;
     font-style: normal;
     font-weight: bold;

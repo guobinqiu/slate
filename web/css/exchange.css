@@ -90,6 +90,8 @@
 .exchange h2 span{
 	color:#ff7114;
 	border-bottom:3px solid #ff7114;
+	font-family:"Microsoft Yahei",SimHei,Tahoma;
+	font-weight:bold;
 }
 .exchange article{
 	background-color: #FFFFFF;
@@ -201,7 +203,7 @@
 }
 .exchange article .wenwen div.form dt a.otherUser{
 	font-size: 12px;
-	color: #EA4B11;
+	color: #e94d41;
 }
 .exchange article .wenwen div.form dt img, .exchange article div.wenwen div dt input{
 	vertical-align:middle;
@@ -316,3 +318,4 @@
     padding-left: 650px;
     padding-top: 15px;
 }
+.mobileWay h4,.amazonWay h4,.alipayWay h4{font-family:"Microsoft Yahei",SimHei,Tahoma;}
