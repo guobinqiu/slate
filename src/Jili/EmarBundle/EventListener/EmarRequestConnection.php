@@ -39,17 +39,12 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
   public function getConn()
   {
       if(isset( $this->c) ){
-#          $this->logger->debug (implode(':', array( '{jarod}', __CLASS__, __LINE__, 'connection already set')) );
-#          $this->logger->debug (implode(':', array( '{jarod}', __CLASS__, __LINE__, 'consumerKey','')).var_export($this->c->consumerKey, true ) );
-#          $this->logger->debug (implode(':', array( '{jarod}', __CLASS__, __LINE__, 'consumerSecret','')).var_export($this->c->consumerSecret, true ) );
 
           return $this->c;
       }
 
-#      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->app, true)  );
       $app_config = array_values( $this->app) ;
 
-#      $this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($app_config, true)  );
 
       if(  !isset($app_config[0]) || ! isset($app_config[0]['key']) || ! isset($app_config[0]['secret'])) {
           throw new  \Exception('not config emar app key/secret') ;

@@ -80,11 +80,34 @@ class ProductControllerTest extends WebTestCase
 
         // to check the caching works, request agian, get the file created time.
         $this->assertFileExists($cache_fn0);
-        $this->assertStringEqualsFile($cache_fn0, serialize($value0));
-        unset($cache_fn0);
+
+        $actual = file_get_contents($cache_fn0);
+        $actual =  preg_replace('/\?k=.*?&/', '?k=&', $actual);
+        $expected = preg_replace('/\?k=.*?&/', '?k=&', serialize($value0));
+
+        $this->assertEquals($expected,$actual);
+
+#        unset($cache_fn0);
         unset($raw0);
 
+        $cached = $cache_fn0;
+        $mtime = filemtime($cached);
+        $ctime = filectime($cached);
+        $last_time = ($mtime < $ctime) ? $ctime: $mtime;
+        $a1 = $mtime.','. $ctime.','. $last_time;
+        // check the again.
+        echo $url, PHP_EOL;
+        $client->request('GET', $url );
+        $this->assertEquals('200', $client->getResponse()->getStatusCode());
+        // to check the caching works, request agian, get the file created time.
+        $this->assertFileExists($cache_fn0);
         //check the cache file : value
+        $mtime = filemtime($cached);
+        $ctime = filectime($cached);
+        $last_time = ($mtime < $ctime) ? $ctime: $mtime;
+
+        $a2 = $mtime.','. $ctime.','. $last_time;
+        echo $a1, PHP_EOL, $a2;
 
     }
 
@@ -158,6 +181,9 @@ class ProductControllerTest extends WebTestCase
         }
         unset($category_sub);
         $this->assertFileExists($cache_fn0);
+
+        $actual = file_get_contents($cache_fn0);
+
         $this->assertStringEqualsFile($cache_fn0, serialize($category0));
         unset($cache_fn0);
         unset($category0);
