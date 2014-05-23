@@ -142,6 +142,7 @@
 #vote h3, #news h3, #getMallList h3, #marketActivity h3,#timeline h3,#ranking h3 {
 	font-size: 16px;
 	padding-bottom: 5px;
+	font-family:"Microsoft Yahei",SimHei,Tahoma;
 }
 #ranking h3, #timeline h3 {
 	padding: 10px 0 5px 15px;
@@ -247,7 +248,7 @@
 	background-position: center center;
 	background-repeat: no-repeat;
 	display: inline-block;
-	height: 23px;
+	height: 26px;
 	margin: 0 1px;
 	padding-top: 3px;
 	text-align: center;
@@ -388,6 +389,7 @@
 	border-radius: 3px;
 	padding:12px 77px;
 	background:#3598db;
+	font-family:"Microsoft Yahei",SimHei,Tahoma;
 }
 #userLogin a.reg:hover {
 	opacity: 0.8;
@@ -482,13 +484,17 @@
 	padding-top: 20px;
 }
 #userInfo .basic a.goUserInfo {
-	background-color: #F5F5F5;
-	border: 1px solid #E1E1E1;
+	background-color: #3598db;
 	border-radius: 3px;
-	color: #666666;
+	color: #fff;
 	display: inline-block;
-	padding: 0 10px;
+	padding: 0 15px;
 }
+#userInfo .basic a.hascheckin{background-color: #f2f2f2;
+	border-radius: 3px;
+	color: #999;
+	display: inline-block;
+	padding: 0 15px;}
 #aboutJili {
 	position: relative;
 }
@@ -505,7 +511,7 @@
 }
 #getMallList {
 	background-color: #FFF;
-	padding: 10px 0 15px;
+	padding: 9px 0 15px;
 	position: relative;
 }
 #getMallList ul{padding-left: 6px;}
@@ -517,18 +523,16 @@
 #getMallList .menu {
 	position: absolute;
 	right: 15px;
-	top: 16px;
+	top: 11px;
 	width: 500px;
 	color: #999999;
 }
 #getMallList .menu a {
 	display: inline-block;
-	padding: 2px 0;
-	margin: 0 2px;
 	border-radius: 3px;
 }
 #getMallList .menu a:hover, #getMallList .menu a.hover {
-	color: #ff6b4f;
+	color: #e94d41;
 }
 #getMallList .menu a.more {
 	float: right;
@@ -538,7 +542,7 @@
 	width: 104px;
 	text-align: center;
 	border-top: 1px dotted #e5e5e5;
-	margin-top: 10px;
+	margin-top: 8px;
 	padding:14px 0 13px;
     height: 50px;
 }
@@ -546,13 +550,13 @@
 #indexRecommend{ position:relative; margin:7px 0 10px;}
 #indexRecommend .loading{left: 298px; top: 276px; position: absolute;z-index: 9999;}
 #indexRecommend .loading img{opacity:0.8;filter:alpha(opacity=80)}
-#indexRecommend .iRhWrap strong{border-bottom: 3px solid #e94d41; padding-bottom: 7px;}
+#indexRecommend .iRhWrap strong{border-bottom: 3px solid #e94d41; padding-bottom: 6px; font-family:"Microsoft Yahei",SimHei,Tahoma;}
 #indexRecommend .iRhWrap .menu{margin-left: 10px;display: inline;}
 #indexRecommend .iRhWrap .menu a.more{background: url("../images140307/iconImage.png") no-repeat scroll 0 -897px; padding-left:20px;}
-#indexRecommend .iRcWrap{ border-top:3px solid #e0e2e6; background:#fff; padding-bottom: 10px; padding-left: 5px;}
-#indexRecommend .iRcWrap ul li { background-color: #FFFFFF; float: left; padding:15px 5px 0px 4px; width: 200px; overflow: hidden; position:relative;}
+#indexRecommend .iRcWrap{ border-top:3px solid #e0e2e6; background:#fff; padding-bottom: 10px; padding-left: 3px;}
+#indexRecommend .iRcWrap ul li { background-color: #FFFFFF; float: left; padding:15px 4px 0px 13px; width: 190px; overflow: hidden; position:relative;}
 #indexRecommend .iRcWrap ul li.mr0 { margin-right: 0;}
-#indexRecommend .iRcWrap ul li p.image a img{ width:200px; height:auto;}
+#indexRecommend .iRcWrap ul li p.image a img{ width:188px; height:auto;}
 #indexRecommend .iRcWrap ul li p.image a img:hover{opacity:.8;filter:alpha(opacity = 80);-moz-opacity:.8}
 #indexRecommend .iRcWrap ul li p.name{ height:30px; overflow:hidden; margin-left: 5px;}
 #indexRecommend .iRcWrap ul li p.price { height:27px; color: #fff; line-height: 180%; position:relative; background:#e94d41; border-bottom:2px solid #c63128;}
@@ -565,6 +569,8 @@
 #indexRecommend ul li .prds1-item{
                 position: relative;
                 z-index: 1;
+				border:1px solid #edeef0;
+				border-bottom:none;
             }
             #indexRecommend ul li p.itemBgMask{
                 background-color: rgb(0, 0, 0);
@@ -590,7 +596,6 @@
             }
 #marketActivity ul {
 	position: relative;
-	margin-top: 7px;
 }
 #marketActivity .mask {
 	height: 200px;

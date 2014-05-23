@@ -9,7 +9,7 @@
     width: 317px;
 }
 .comingSoon article a{
-	color:#EA4B11;
+	color:#e94d41;
 }
 .error404 article{
 	background-image: url("../images/404.jpg");
@@ -19,6 +19,6 @@
     width: 186px;
 }
 .error404 article a{
-	color:#EA4B11;
+	color:#e94d41;
 	margin:0 10px;
 }
