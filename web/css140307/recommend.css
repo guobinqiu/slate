@@ -7,7 +7,7 @@
 .recommend li dt{ width:100px; margin-right:10px;}
 .recommend li dd{ width:130px;}
 .recommend li dd p.title{ height:40px; overflow:hidden;}
-.recommend li dd p.price{color:#FF3E17; font-size:18px; line-height:200%;}
+.recommend li dd p.price{color:#e94d41; font-size:18px; line-height:200%;}
 .recommend li dd p.link a{ background-color:#ffa695; color:#FFF; display: inline-block; padding: 3px 10px;}
 .recommend li dd p.link a:hover{ background-color:#ea4b11;}
 .recommend .prevBtn, .recommend .nextBtn{ display:inline-block; position:absolute; background-image:url(../images140307/iconImage.png); width:15px; height:23px; top:85px; cursor:pointer;}
