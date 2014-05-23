@@ -70,13 +70,10 @@ class ProductController extends Controller
 
         if ( !empty($cat_id) || !empty($web_id) ) {
             $params = array( 'webid'=> $web_id, 'catid'=> $cat_id ,'page_no'=>$page_no, 'price_range'=> $price_range);
-            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __CLASS__,'params','') ).var_export($params, true) );
             $productRequest = $this->get('product.list_get');
             $products = $productRequest->fetch( $params);
             $total = $productRequest->getTotal();
         } else {
-            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __CLASS__,'cat_id','') ).var_export($cat_id, true) );
-            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __CLASS__,'web_id','') ).var_export($web_id, true) );
             $products = array();
             $total = 0;
         }
@@ -105,7 +102,6 @@ class ProductController extends Controller
         }
 
         foreach($webids as $webid ) {
-
             if( !isset( $web_croned[$webid ])){
                 $logger->crit(implode( ':', array(__CLASS__ , __LINE__,'webid','')) .var_export($webid, true). ' not found in emar_website_croned table' );
                 $web_commissions[$webid  ] = null;
@@ -121,7 +117,6 @@ class ProductController extends Controller
             }
         }
         $crumbs_local = ItemCatRepository::getCrumbsByScatid( $prod_categories['sub_cats'], $cat_id);
-
         return array_merge( $prod_categories, $webs, array('webs_filter'=> $filters_of_webs['webs'] ,'web_commissions'=>$web_commissions),compact('products', 'total','crumbs_local') );
     }
 

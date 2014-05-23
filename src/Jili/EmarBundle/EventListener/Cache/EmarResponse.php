@@ -69,9 +69,6 @@ class EmarResponse
         $this->emar_request  = $emar_request; 
         $this->setKey();
         $this->setDuration();
-        $this->logger->info('{emar_api.cache} api name:'. $emar_request->getApiMethodName() );
-        $this->logger->info('{emar_api.cache} api params:'.var_export( $emar_request->getApiParams(), true) );
-        $this->logger->info('{emar_api.cache} duration :'. var_export($this->getDuration() , true));
         return $this;
     }
     

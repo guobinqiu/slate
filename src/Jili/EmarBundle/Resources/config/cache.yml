@@ -7,34 +7,51 @@ parameters:
     cache_config.emar.product_categories.duration:  3623
 # the api response cache:
     cache_config.emar_api:
-
-        open.category.get:
-            default: 3571
-        open.website.get:
-            default: 3559
-        open.website.category.get:
-            default: 3557
-        open.website.list.get:
-            default: 3643 
-        open.ghs.cat.get:
-            default: 3541  
-        open.ghs.product.list.get:
+        open.product.list.get: 
+            default: 86341 #  23:59:1
+        open.category.get: # a month?
+            default:   2591969 #29 23:59:29
+        open.website.get: # a day?
+            default:  86351 #23:59:11
+        open.website.category.get: # a month? 
+            default:  2591971 #29 23:59:31
+        open.website.list.get: # a day?
+            default:  86353 # 23:59:13
+        open.ghs.cat.get: # a month?
+            default:  2591987 #29 23:59:47
+        open.ghs.product.list.get: # 1 hour 
             page_size: { 12: 3631 } 
             default: 3637 # seconds
 
-# 3541 is prime.
-# 3547 is prime.
-# 3557 is prime.
-# 3559 is prime.
-# 3571 is prime.
-# 3581 is prime.
-# 3583 is prime.
-# 3593 is prime.
-# 3607 is prime.
-# 3613 is prime.
-# 3617 is prime.
-# 3623 is prime.
-# 3631 is prime.
-# 3637 is prime.
-# 3643 is prime.
-# 3659 is prime.
+# more interval prime seconds for cahe config. 
+# hour
+#  3541 0-0 0:59:1
+#  3547 0-0 0:59:7
+#  3557 0-0 0:59:17
+#  3559 0-0 0:59:19
+#  3571 0-0 0:59:31
+#  3581 0-0 0:59:41
+#  3583 0-0 0:59:43
+#  3593 0-0 0:59:53
+#  3607 0-0 1:0:7
+#  3613 0-0 1:0:13
+#  3617 0-0 1:0:17
+#  3623 0-0 1:0:23
+#  3631 0-0 1:0:31
+#  3637 0-0 1:0:37
+#  3643 0-0 1:0:43
+#  3659 0-0 1:0:59
+# day
+# 86357 0-0 23:59:17
+# 86369 0-0 23:59:29
+# 86371 0-0 23:59:31
+# 86381 0-0 23:59:41
+# 86389 0-0 23:59:49
+# 86399 0-0 23:59:59
+# 86413 0-1 0:0:13
+# 86423 0-1 0:0:23
+# 86441 0-1 0:0:41
+# 86453 0-1 0:0:53
+# hour
+# 2592043 0-30 0:0:43
+# 2592053 0-30 0:0:53
