@@ -42,7 +42,6 @@ class ProductFilters  {
         if( count($params) == 0 || ! isset($params['wids']) || empty($params['wids']) ){
             return $this->fetchWebs();
         }
-        //extract($params);
         //webs
         $webListGet  = $this->websiteListGet;
         $web_raw  = $webListGet->setFields('web_id,web_name,web_o_url,commission')->fetch( );

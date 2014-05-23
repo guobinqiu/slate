@@ -26,7 +26,7 @@ class FileHandler
     {
 
         $result = true;
-            #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $cats, true));
+#       $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $cats, true));
         $cached = $this->getFileName( $key);
 #        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, '') ).var_export( $cached, true)  );
 #        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, '') ).var_export( get_class_methods($fs), true)  );
@@ -47,9 +47,8 @@ class FileHandler
             $now = time();
 
             if(  $now > $last_time  + $duration) {
-
-                $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, 'now','') ).var_export( $now, true)  );
-                $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, 'expected','') ).var_export( $last_time + $duration, true)  );
+#                $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, 'now','') ).var_export( $now, true)  );
+#                $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, 'expected','') ).var_export( $last_time + $duration, true)  );
                 $result = false;
             }
         }

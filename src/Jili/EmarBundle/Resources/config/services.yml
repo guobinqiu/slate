@@ -95,6 +95,7 @@ services:
         calls:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
+            - [ setCacheProxy, [ @cache.emar_response ] ] 
 
 
     website.category_get:
@@ -137,6 +138,7 @@ services:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
             - [ setPageSize, [ %emar_com.page_size% ] ] 
+            - [ setCacheProxy, [ @cache.emar_response ] ] 
 
     product.search:
         class: %product.search.class%
