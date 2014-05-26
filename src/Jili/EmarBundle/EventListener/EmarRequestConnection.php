@@ -66,12 +66,13 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
 
       $tag = date('YmdHi');
 
+      try{
+
 #      $this->counter->start();
       $this->getConn()->setDebugMode( $this->counter->getMode() );
 
       $result_raw = $this->getConn()->execute($req);
 #      $this->counter->complete();
-
       // 对返回的json 转义为有效的json string.
       $result_escaped = trim(str_replace(array( "\\","{\n", "}\n", ",\n", "]\n", "\"\n", "\n","\r","\t") , array('\\\\', '{', '}', ',', ']','"', '\n','','    ') ,trim($result_raw)));
 
@@ -91,27 +92,30 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
               if( 'results is empty' == $error_msg ) {
 
                   $return = array();
-
               } else {
                   $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'')) . $error_msg);
                   throw new \Exception($error_msg);
-
               }
-          } else if( is_null($result) ) {
-
+          } else if( is_null($result)  ) {
               $error_msg = 'JSON parsed error' ;
-
               $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'message','')) .$error_msg );
               $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_raw','')) . $result_raw );
               $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'result_escaped','')) . $result_escaped );
-
               throw new \Exception($error_msg);
+
+          } else if( empty($result )) {
+
+              throw new \Exception('empty string response from emar api');
 
           } else {
 
               $return= $result['response'];
           }
 
+      } catch( \Exception $e ) {
+          $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'message','')) .$e->getMessage() );
+          $return = array();
+      }
       return $return ;  
   }
 
