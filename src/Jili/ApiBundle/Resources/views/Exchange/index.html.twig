@@ -15,6 +15,7 @@
 $(document).ready(function(){
 	// $("div .btnArea a").attr("disabled", "disabled");
 	$("#amazonBtn").click(function(){
+        return false;
 		$('#exchangeForm').attr("action", "{{ path('_exchange_amazonInfo') }}"); 
 		$("#exchangeForm").submit();
 	});
@@ -60,8 +61,8 @@ function alipayClick(){
             </div>
             <div class="amazonWay">
             	<h4 class="corLightRed font22">兑换亚马逊礼品卡</h4>
-                <p>用积分兑换亚马逊礼品卡，<strong class="corLightRed">2000</strong>米粒起兑</p>
-                <a class="exchangeBtn" id="amazonBtn">立即兑换</a>
+                <p>用积分兑换亚马逊礼品卡，<strong class="corLightRed">1000</strong>米粒起兑</p>
+                <a class="exchangeBtn amazonBtn" id="amazonBtn">暂时关闭</a>
             </div>
             <div class="alipayWay">
             	<h4 class="corLightRed font22">支付宝兑换现金</h4>
