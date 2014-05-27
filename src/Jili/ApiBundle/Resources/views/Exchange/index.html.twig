@@ -15,7 +15,6 @@
 $(document).ready(function(){
 	// $("div .btnArea a").attr("disabled", "disabled");
 	$("#amazonBtn").click(function(){
-        return false;
 		$('#exchangeForm').attr("action", "{{ path('_exchange_amazonInfo') }}"); 
 		$("#exchangeForm").submit();
 	});
@@ -50,23 +49,23 @@ function alipayClick(){
 <form method="post" name="exchangeForm" id="exchangeForm">
 	<div class="about">
     	<div class="historyView">
-        	<p>你可以将“米粒”兑换成<span class="corLightRed">91问问调查网的积分</span>，也可以<br/>直接兑换积粒网为您开放的兑换方式，如<span class="corLightRed">手机充值</span>……</p>
+         <p>你可以将“米粒”兑换成<span class="corLightRed">手机费、支付宝现金、亚马逊礼品卡.....</span></p>
             <a class="historyExchange" href="http://www.91jili.com/user/exchange/0/1"><strong>查看我的兑换历史</strong></a>
         </div>
 		<div class="exchangeWay">
         	<div class="mobileWay">
             	<h4 class="corLightRed font22">手机充值</h4>
-                <p>用积分为手机充值，<strong class="corLightRed">1015</strong>米粒起兑</p>
+                <p>用积分为手机充值，<strong class="corLightRed">2010</strong>米粒起兑</p>
                 <a class="exchangeBtn" id="mobileBtn">立即兑换</a>
             </div>
             <div class="amazonWay">
             	<h4 class="corLightRed font22">兑换亚马逊礼品卡</h4>
-                <p>用积分兑换亚马逊礼品卡，<strong class="corLightRed">1000</strong>米粒起兑</p>
-                <a class="exchangeBtn amazonBtn" id="amazonBtn">暂时关闭</a>
+                <p>用积分兑换亚马逊礼品卡，<strong class="corLightRed">2000</strong>米粒起兑</p>
+                <a class="exchangeBtn" id="amazonBtn">立即兑换</a>
             </div>
             <div class="alipayWay">
             	<h4 class="corLightRed font22">支付宝兑换现金</h4>
-                <p>用积分通过支付宝直接兑换成现金，<br/><strong class="corLightRed">3030</strong>米粒起兑</p>
+                <p>用积分通过支付宝直接兑换成现金，<br/><strong class="corLightRed">2050</strong>米粒起兑</p>
                 <a class="exchangeBtn" id="alipayBtn">立即兑换</a>
             </div>
             <div class="morePrizes">

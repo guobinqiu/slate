@@ -93,17 +93,16 @@ function changePoint(){
         <dt><input type="text" id="re_mobile" name="re_mobile" /></dt>
         <dd>选择兑换金额：</dd>
         <dt><select id="point" name="point"  onchange="changePoint();">
-            <option value='1015'>10元</option>
             <option value='2010'>20元</option>
             <option value='2995'>30元</option>
             <option value='4960'>50元</option>
           </select>
-         = <span  class="rechange">1015</span> 米粒</dt>
+         = <span  class="rechange">2010</span> 米粒</dt>
       </div>
       <input type="hidden" name="existMobile" id="existMobile"/>
       <input type="hidden" name="rechange" id="changes"/>
-      <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">1015</span></div>
-      <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-1015 }}</span></div>
+      <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">2010</span></div>
+      <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-2010 }}</span></div>
       <div><span id='error' style="color:red">{{code}}</span></div>
       <div class="btnArea mt50"><img id="active" onclick="change();" src="{{ asset('images/changeEnterBtn.jpg')}}" width="175" height="60">
       <img id="unactive" src="{{ asset('images/changeEnterBtn_unactive.jpg')}}" width="175" height="60"></div>

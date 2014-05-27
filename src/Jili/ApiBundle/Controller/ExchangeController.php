@@ -86,13 +86,15 @@ class  ExchangeController extends Controller
                  $arr['existAlipay'] = $targetAcc[0]['targetAccount'];
                  $arr['existRealName'] = $targetAcc[0]['realName'];
             }
+
+            $exchangeItemNumber = array("2050"=>20,"3030"=>30,"5000"=>50);
             if ($request->getMethod() == 'POST' && $change_point) {
                     $arr['alipay'] = $alipay;
                     if($change_point-$points>0){
                         $code = $this->container->getParameter('exchange_wr_point');
                         $arr['code'] = $code;
                     }else{
-                        if($change_point == 3030 || $change_point == 5000){
+                        if($change_point == 2050 || $change_point == 3030 || $change_point == 5000){
                             if($existAlipay || $arr['existAlipay']==''){
                                 if($alipay){
                                     if (preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){
@@ -108,7 +110,7 @@ class  ExchangeController extends Controller
                                                     $pointschange->setTargetPoint(intval($change_point));
                                                     $pointschange->setTargetAccount($alipay);
                                                     $pointschange->setRealName($real_name);
-                                                    $pointschange->setExchangeItemNumber($change_point/100);
+                                                    $pointschange->setExchangeItemNumber($exchangeItemNumber[$change_point]);
                                                     $pointschange->setIp($this->get('request')->getClientIp());
                                                     $em->persist($pointschange);
                                                     $em->flush();
@@ -153,7 +155,7 @@ class  ExchangeController extends Controller
                                 $pointschange->setTargetPoint(intval($change_point));
                                 $pointschange->setTargetAccount($arr['existAlipay']);
                                 $pointschange->setRealName($arr['existRealName']);
-                                $pointschange->setExchangeItemNumber($change_point/100);
+                                $pointschange->setExchangeItemNumber($exchangeItemNumber[$change_point]);
                                 $pointschange->setIp($this->get('request')->getClientIp());
                                 $em->persist($pointschange);
                                 $em->flush();
@@ -226,7 +228,7 @@ class  ExchangeController extends Controller
                     $code = $this->container->getParameter('exchange_wr_point');
                     $arr['code'] = $code;
                 }else{
-                    if($change_point == 1015 || $change_point == 2010 || $change_point == 2995 || $change_point == 4960){
+                    if($change_point == 2010 || $change_point == 2995 || $change_point == 4960){
                         if($existMobile || $arr['existMobile']==''){
                             if($mobile){
                                     if (!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$mobile)){
@@ -235,9 +237,6 @@ class  ExchangeController extends Controller
                                     }else{
                                         if($mobile == $re_mobile){
                                             switch ($change_point) {
-                                                 case '1015':
-                                                    $itemNumber = 10;
-                                                    break;
                                                  case '2010':
                                                     $itemNumber = 20;
                                                     break;
@@ -285,9 +284,6 @@ class  ExchangeController extends Controller
 
                         }else{
                             switch ($change_point) {
-                                 case '1015':
-                                    $itemNumber = 10;
-                                    break;
                                  case '2010':
                                     $itemNumber = 20;
                                     break;

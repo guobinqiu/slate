@@ -112,18 +112,21 @@ function changePoint(){
         <dd>&nbsp;</dd><dt style="color: #EA4B11;">请填写真实姓名与支付宝匹配，否则有可能兑换失败</dt>
         <dd>选择兑换金额：</dd>
         <dt><select id="point" name="point"  onchange="changePoint();">
+            <option value='2050'>20元</option>
             <option value='3030'>30元</option>
             <option value='5000'>50元</option>
           </select>
-         = <span  class="rechange">3030</span> 米粒</dt>
-         <dd></dd><dt class="notice">支付宝每笔兑换会收取1元的手续费，截止2014-02-28，积粒网都会承担支付所有的手续费。 2014-03-01日起，对于3000米粒兑换30元支付宝余额的每笔兑换，积粒网将向用户收取0.3元的手续费(余下0.7元仍由积粒网支付)。 而5000米粒兑换50元支付宝余额的兑换，积粒网将会全额支付手续费。</dt>
-
+         = <span  class="rechange">2050</span> 米粒</dt>
+         <dd></dd><dt class="notice">由于支付宝每笔兑换会收取1元的手续费。
+         2014-05-27日起，对于2000米粒兑换20元支付宝现金的每笔兑换，手续费为0.5元/次(余下0.5元由积粒网承担)；
+         对于3000米粒兑换30元支付宝现金的每笔兑换，手续费为0.3元/次(余下0.7元由积粒网承担)。
+          而5000米粒兑换50元支付宝现金的兑换，积粒网将会全额承担兑换手续费。</dt>
       </div>
        <input type="hidden" name="existAlipay" id="existAlipay"/>
        <input type="hidden" name="existRealName" id="existRealName"/>
       <input type="hidden" name="rechange" id="changes"/>
-      <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">3030</span></div>
-      <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-3030 }}</span></div>
+      <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">2050</span></div>
+      <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-2050 }}</span></div>
       <div><span id='error' style="color:red">{{code}}</span></div>
       <div class="btnArea mt50"><img id="active" onclick="change();" src="{{ asset('images/changeEnterBtn.jpg')}}" width="175" height="60">
       <img id="unactive" src="{{ asset('images/changeEnterBtn_unactive.jpg')}}" width="175" height="60"></div>
