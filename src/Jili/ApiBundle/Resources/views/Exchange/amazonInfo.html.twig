@@ -58,17 +58,16 @@ function changePoint(){
         <dd>选择兑换张数：</dd>
         <dt><img width="138" height="113" src="{{ asset('images/amazon_card.gif')}}"> *
           <select id="point" name="point"  onchange="changePoint();">
-            <option>1</option>
             <option>2</option>
             <option>3</option>
             <option>4</option>
             <option>5</option>
           </select>
-          = <span  class="rechange">1</span> 张亚马逊礼品卡</dt>
+          = <span  class="rechange">2</span> 张亚马逊礼品卡</dt>
       </div>
       <input type="hidden" name="rechange" id="changes"/>
-      <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">1000</span></div>
-      <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-1000 }}</span></div>
+      <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">2000</span></div>
+      <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-2000 }}</span></div>
       <div><span>
       {% if code %}
           <font color='red'>{{ code }}</font>
