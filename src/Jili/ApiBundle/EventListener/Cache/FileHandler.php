@@ -89,8 +89,9 @@ class FileHandler
     public function get($key)
     {
         $cached =  $this->getFileName($key);
+        $fs = new Filesystem();
 
-        if( ! file_exists( $cached) ){
+        if(!  $fs->exists( $cached) ){
             return array();
         }
 
