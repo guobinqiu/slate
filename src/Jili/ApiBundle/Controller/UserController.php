@@ -473,6 +473,10 @@ class UserController extends Controller
         $arr = array();
         $em = $this->getDoctrine()->getManager();
         $income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
+        unset($income[0]);
+        unset($income[1]);
+        unset($income[2]);
+        unset($income[3]);
         foreach ($income as $key => $value) {
             $arr[] = array('id'=>$value->getId(),'income'=>$value->getIncome());
         }
@@ -746,6 +750,10 @@ class UserController extends Controller
         $hobbyList = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
         $province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
         $income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
+        unset($income[0]);
+        unset($income[1]);
+        unset($income[2]);
+        unset($income[3]);
         $option = array('status' => 0 ,'offset'=>'1','limit'=>'10');
         $option_ex = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
 #       $adtaste = $this->selTaskHistory($id,$option);

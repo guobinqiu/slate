@@ -219,9 +219,12 @@ function selectCity(){
          <li>
           <dd><font style="color:#EE472C;"> * </font>月收入：</dd>
           <dt>
+           <select id="income" name="income">
+           <option value="0">请选择收入</option>
            {% for item in income %}
-            <input name="income" type="radio" value="{{ item.id }}" {% if month_income %}{% if month_income==item.id %} checked='checked' {% endif %}{% endif %}{% if user.income == item.id %} checked = "checked" {% endif %}>{{ item.income }}
+            <option value="{{ item.id }}" {% if month_income %} {% if month_income == item.id %} selected = "selected" {% endif %} {% endif %}{% if user.income == item.id %} selected = "selected" {% endif %}>{{ item.income }}</option>
             {% endfor %}
+            </select>
           </dt>
         </li>
 

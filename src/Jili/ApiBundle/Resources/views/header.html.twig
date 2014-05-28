@@ -35,7 +35,7 @@ $(document).ready(function(){
           var province = $("#province").val();
           var city = $("#city").val();
           var tel = $("#tel").val();
-          var income = $("input[name='income']:checked").val();
+          var income = $("#income").val();
           var hobbys = document.getElementsByName("hobby");
           var chestr="";
           for(var i=0;i<hobbys.length;i++){
@@ -186,13 +186,15 @@ function getIncome(){
       type: "POST",
       success:function(data){
         var obj = eval(data);
-        var html = '';
+        var html = '<select id="income" name="income">';
+        html += '<option value="0">请选择收入</option>';
         for(var i=0;i<obj.length;i++){ 
-      html += "<input name='income' type='radio' value='"+obj[i]['id']+"' >"+obj[i]['income'];  
+            html += '<option value="'+obj[i]['id']+'" >'+obj[i]["income"]+'</option>';
         }
+        html += '</select>';
         $(".income").html(html); 
       }
-        });
+    });
 }
 function getHobby(){
   $.ajax({
