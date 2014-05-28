@@ -56,9 +56,12 @@ class FileHandler
      */
     public function set($key ,$value)
     {
+        if(  empty($value)) {
+            return false;
+        } 
+
         // save the $value,into $key, overwrite.
         $cached = $this->getFileName($key);
-
 
         $fs = new Filesystem();
         $dir = dirname($cached);
@@ -86,6 +89,11 @@ class FileHandler
     public function get($key)
     {
         $cached =  $this->getFileName($key);
+
+        if( ! file_exists( $cached) ){
+            return array();
+        }
+
         $prod_categories = @unserialize(file_get_contents($cached));
 
         return $prod_categories;
