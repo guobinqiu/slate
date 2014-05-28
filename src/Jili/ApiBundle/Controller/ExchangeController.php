@@ -52,10 +52,11 @@ class  ExchangeController extends Controller
             $request = $this->get('request');
             $getToken = $request->query->get('token');
             $tokenKey = $request->request->get('tokenKey');
-            $arr['tokenKey'] = $tokenKey;
+            $arr['tokenKey'] = $getToken;
             if(!$getToken){
                 $session = $this->getRequest()->getSession();
                 $session->set('alipayToken', $tokenKey);
+                $arr['tokenKey'] = $tokenKey;
             }
             if(!$this->get('request')->getSession()->get('alipayToken')){
                 return $this->redirect($this->generateUrl('_default_error'));
@@ -359,7 +360,7 @@ class  ExchangeController extends Controller
             $tokenKey = $request->request->get('tokenKey');
             $session = $this->getRequest()->getSession();
             $session->set('alipayToken', $tokenKey);
-            return $this->redirect($this->generateUrl('_exchange_identityCardComfirm',array('type'=>'alipay')));
+            return $this->redirect($this->generateUrl('_exchange_identityCardComfirm',array('type'=>'alipay','tokenKey'=>$tokenKey)));
         }
 
     }
