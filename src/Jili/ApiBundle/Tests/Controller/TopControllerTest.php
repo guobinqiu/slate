@@ -59,11 +59,17 @@ class TopControllerTest extends WebTestCase
         $url_homepage= $router->generate('_homepage' , array(), true);
         echo $url_homepage ,PHP_EOL;
 
-        $cookie = new Cookie('jili_uid', $user->getId(), time() + 3600 * 24 * 365, '/', null, false, false);
+        $secret =  $container->getParameter('secret');
+
+        $token = $this->buildToken(array('email'=> $query['email'], 'pwd'=> 'cccccc') , $secret );
+        $cookie = new Cookie('jili_rememberme', $token, time() + 3600 * 24 * 365, '/', null, false, false);
         $client->getCookieJar()->set($cookie);
 
-        $cookie = new Cookie('jili_nick', $user->getNick(), time() + 3600 * 24 * 365, '/', null, false, false);
-        $client->getCookieJar()->set($cookie);
+        //$cookie = new Cookie('jili_rememberme', $user->getId(), time() + 3600 * 24 * 365, '/', null, false, false);
+       // $client->getCookieJar()->set($cookie);
+
+       // $cookie = new Cookie('jili_nick', $user->getNick(), time() + 3600 * 24 * 365, '/', null, false, false);
+       // $client->getCookieJar()->set($cookie);
 
         $crawler = $client->request('GET', $url_homepage);
 
@@ -649,6 +655,13 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals(0, count($link));
 
     }
+    private function buildToken( $user , $secret) {
+        $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
+        $token = hash('sha256', $token);
+        $token = substr( $token, 0 ,32);
+        return $token;
+    }
+}
 #        $this->assertEquals('1', $client->getResponse()->getContent());
 #        $this->assertEquals('1', $client->getResponse()->getContent());
 #    public function testFastLoginAction()
@@ -669,7 +682,6 @@ class TopControllerTest extends WebTestCase
 #        $this->assertEquals('0', '0');
 #        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
 #    }
-}
 #        $info = $crawler->filter('li')->extract(array('_text', 'href'));;
 #        var_dump($info);
 

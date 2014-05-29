@@ -67,6 +67,7 @@ class UserControllerTest extends WebTestCase
         $cookies  = $client->getCookieJar() ;
         $this->assertEmpty(  $cookies->get('jili_uid' ,'/'));
         $this->assertEmpty(  $cookies->get('jili_nick' ,'/'));
+        $this->assertEmpty(  $cookies->get('jili_rememberme' ,'/'));
 
     }
     /**
@@ -105,13 +106,29 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
 
         $this->assertEquals(301, $client->getResponse()->getStatusCode() );
+
         $session = $container->get('session');
         $this->assertTrue( $session->has('uid'));
         $this->assertEquals($user->getId(), $session->get('uid'));
 
         $cookies  = $client->getCookieJar() ;
-        $this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
-        $this->assertEquals( $user->getNick(), $cookies->get('jili_nick' ,'/')->getRawValue());
+
+        //$this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
+        
+        $secret = $container->getParameter('secret');
+        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'cccccc'), $secret);
+
+        $this->assertEquals( $token, $cookies->get('jili_rememberme' ,'/')->getRawValue());
+
+        $this->assertEmpty(  $cookies->get('jili_uid' ,'/'));
+        $this->assertEmpty(  $cookies->get('jili_nick' ,'/'));
+    }
+
+    private function buildToken( $user , $secret) {
+        $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
+        $token = hash('sha256', $token);
+        $token = substr( $token, 0 ,32);
+        return $token;
     }
 
     /**

@@ -426,4 +426,22 @@ class UserRepository extends EntityRepository {
         $query = $query->getQuery();
         return $query->getOneOrNullResult();
     }
+
+    /**
+     *
+     */
+    public function findByValidateToken($token) {
+
+        $date = new \DateTime();
+        $date->sub(new \DateInterval('P7D'));
+        $at = $date->format('Y-m-d H:i:s');
+
+		$query = $this->createQueryBuilder('u');
+
+		$query = $query->Where('u.token = :token');
+		$query = $query->AndWhere('u.tokenCreatedAt >= :at');
+		$query = $query->setParameters(array( 'token'=> $token, 'at'=> $at)  );
+		$query = $query->getQuery();
+		return $query->getResult();
+    }
 }

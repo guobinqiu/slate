@@ -1010,7 +1010,6 @@ class UserController extends Controller
         //login
         $code = $this->get('login.listener')->login($request);
         $logger = $this->get('logger');
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$code','')). var_export($code, true));
 
         if($code == "ok")
         {
@@ -1038,8 +1037,16 @@ class UserController extends Controller
 
             // set cookie based according the the remember_me.
             if ($request->request->has('remember_me')  &&  $request->request->get('remember_me') === '1') {
-                $response->headers->setCookie(new Cookie("jili_uid", $session->get('uid'), time() + 3600 * 24 * 365, '/') );
-                $response->headers->setCookie(new Cookie("jili_nick", $session->get('nick'), time() + 3600 * 24 * 365, '/') );
+
+                $token = $this->get('login.listener')->buildToken( array( 'email'=> $email, 'pwd'=> $pwd) );
+                if( $token) {
+                    $response->headers->setCookie(new Cookie("jili_rememberme", $token, time() + 3153600, '/'));
+                } else {
+                    // todo: set the error flash
+                }
+
+//                $response->headers->setCookie(new Cookie("jili_uid", $session->get('uid'), time() + 3600 * 24 * 365, '/') );
+ //               $response->headers->setCookie(new Cookie("jili_nick", $session->get('nick'), time() + 3600 * 24 * 365, '/') );
             }
             return $response;
         }

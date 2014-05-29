@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Jili\ApiBundle\Entity\User;
 
 /**
  * @Route("/top",requirements={"_scheme"="http"})
@@ -27,8 +28,17 @@ class TopController extends Controller
         $cookies = $request->cookies;
         $session = $request->getSession();
     
+        if ($cookies->has('jili_rememberme') && !  $session->has('uid')  ) {
+            $token = $cookies->get('jili_rememberme');
+            $result = $this->get('login.listener')->byToken( $token);
+            if( $result !== false && is_object($result) && $result instanceof User ) {
+                $session->set('uid', $result->getId() );
+                $session->set('nick', $result-> getNick());
+            }
+        }
+
         if ($cookies->has('jili_uid') && !  $session->has('uid')  ) {
-                $session->set('uid', $cookies->get('jili_uid'));
+//      todo: redirec to login page      return $this->logi
         }
 
         if( $session->has('uid') ) {
