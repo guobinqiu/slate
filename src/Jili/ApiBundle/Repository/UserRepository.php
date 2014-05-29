@@ -444,4 +444,17 @@ class UserRepository extends EntityRepository {
 		$query = $query->getQuery();
 		return $query->getResult();
     }
+
+    public function cleanToken($uid)
+    {
+        $entity  = $this->find($uid);
+        if($entity) {
+
+            $entity->setToken('');
+
+            $this->getEntityManager()->flush();
+
+        } 
+        return true;
+    }
 }

@@ -945,13 +945,21 @@ class UserController extends Controller
      * @Route("/logout", name="_user_logout")
      */
     public function logoutAction() {
+        $session = $this->get('request')->getSession();
+        if($session->has('uid')) {
+            $uid = $session->get('uid');
+            $this->getDoctrine()->getManager()->getRepository('JiliApiBundle:User')->cleanToken($uid);
+        }
+
         $this->get('request')->getSession()->remove('uid');
         $this->get('request')->getSession()->remove('nick');
         $url_homepage = $this->generateUrl('_homepage');
         $response = new RedirectResponse($url_homepage);
         // set cookie based according the the remember_me.
         $response->headers->setCookie(new Cookie("jili_uid", '', time() - 3600 , '/') );
+        $response->headers->setCookie(new Cookie("jili_rememberme", '', time() - 3600 , '/') );
         $response->headers->setCookie(new Cookie("jili_nick", '', time() - 3600, '/') );
+
         return $response;
     }
 

@@ -35,7 +35,7 @@ class ProductControllerTest extends WebTestCase
     /**
      * check the product retrieve {(x,y)|x in catid , y in web id }
      * @group cache
-     * @group debug
+     * @group emar 
      */
     public function testRetrievePdtListAction()
     {
