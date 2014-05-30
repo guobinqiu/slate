@@ -44,7 +44,7 @@
 
   <div class="w638 fl">
     {% if not app.session.has('uid') %}
-    <div id="indexBanner"> <a style="opacity: 1;" class="game" href="{{ asset(path('_game_index'),'cdn1')}}">游戏体验</a> 
+    <div id="indexBanner"> <a style="opacity: 1;" class="game" href="{{ asset(path('_game_chick'),'cdn1')}}">游戏体验</a> 
     <a style="opacity: 1;" class="marketActivity" href="{{ asset(path('_marketActivity_index'),'cdn1')}}">商家活动</a> 
     <a style="opacity: 1;" class="vote" href="http://www.91wenwen.net/vote/#active" target="_blank">快速问答</a> 
     <a style="opacity: 1;" class="advertiserment" href="{{ asset(path('_advertiserment_list'),'cdn1')}}">体验广告<em>{{ render(controller('JiliApiBundle:Top:adCheck'))}}更新</em></a> 

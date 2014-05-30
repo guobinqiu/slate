@@ -477,7 +477,7 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals($link_name,$link->text());
         $href= $link->attr('href');
         $href_parsed = parse_url($href);
-        $url_adv_list = $container->get('router')->generate('_game_index');
+        $url_adv_list = $container->get('router')->generate('_game_chick');
         $this->assertEquals($href_parsed['path'],$url_adv_list);
  
         // adv visit: analouge the event

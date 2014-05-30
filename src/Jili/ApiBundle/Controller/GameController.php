@@ -15,12 +15,12 @@ class GameController extends Controller
 {
     
     /**
-     * @Route("/index", name="_game_index")
+     * @Route("/index", name="_game_chick")
      */
-    public function indexAction(){  
-        $this->getRequest()->getSession()->set('referer', $this->generateUrl('_game_index') );
-        return $this->render('JiliApiBundle:Game:index.html.twig');
-    }
+    //public function indexAction(){  
+//        //return $this->render('JiliApiBundle:Game:chick.html.twig');
+//		return $this->redirect($this->generateUrl('_game_chick'));
+//    }
 
     /**
      * @Route("/chick", name="_game_chick")
@@ -37,12 +37,13 @@ class GameController extends Controller
         $uid = '';
         $uid = $this->get('request')->getSession()->get('uid');
         if(!$uid){
+		   $this->getRequest()->getSession()->set('referer', $this->generateUrl('_game_chick') );
            return $this->redirect($this->generateUrl('_user_login'));
         }
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
 
         $key = sha1(date("Ymd")."ADF93768CF".$uid);
-        $url = "http://sugoroku01.cn.pag-asia.com/index.php?point_uid=".$uid."&nickname=".$user->getNick()."&key=".$key;
+        $url = "http://sugoroku01.ap.point-ad-game.com/index.php?point_uid=".$uid."&nickname=".$user->getNick()."&key=".$key;
         $arr['url'] = $url;
         if($this->getInfo($url)){
            $arr['heightFlag'] = $this->container->getParameter('init_one');

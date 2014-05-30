@@ -7,8 +7,8 @@ ul.commodityUl li dt a img{ width:269px; height:auto;}
 ul.commodityUl li dd{font-size:12px; padding:0 0 10px 0; color:#999999; position:relative;}
 ul.commodityUl li dd span{ line-height:150%; width:100%; text-align:left;}
 ul.commodityUl li dd span.detail{ margin-top:8px;}
-ul.commodityUl li dd span.price,ul.commodityByWeb li dd .price{ color: #ff3e17; font-size: 24px; display:block; line-height: 115%;}
-ul.commodityUl li dd span.price em{text-decoration: line-through; margin-left:5px;}
+ul.commodityUl li dd span.price,ul.commodityByWeb li dd .price{ color: #e94d41; font-size: 24px;font-weight: 700; display:block; line-height: 115%;}
+ul.commodityUl li dd span.price em{text-decoration: line-through; vertical-align: 8px; margin-left:5px;}
 ul.commodityUl li dd .buyBtn{background-color: #e94d41; border-radius: 3px; color: #FFFFFF; font-size: 12px; padding: 5px 15px; width: 50px; bottom: -65px; *bottom:48px; display: none; position: absolute; right: 0;}
 ul.commodityUl li dd .buyBtn a{ color:#fff;}
 ul.commodityByWeb li{ width:237px; padding: 20px 18px 10px;}
