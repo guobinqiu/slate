@@ -9,15 +9,23 @@
 <!-- [endif] -->
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
-<style>
-body { margin: 0px; }
-iframe {border: 0px;}
-</style>
 <script type="text/javascript">
-function resize(){
-	document.getElementById('frame3d').style.height = document.documentElement.clientHeight+"px";
-}
-window.onresize = resize;
+	//MDN PolyFil for IE8 (This is not needed if you use the jQuery version)
+	if (!Array.prototype.forEach){
+		Array.prototype.forEach = function(fun /*, thisArg */){
+		"use strict";
+		if (this === void 0 || this === null || typeof fun !== "function") throw new TypeError();
+		
+		var
+		t = Object(this),
+		len = t.length >>> 0,
+		thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+
+		for (var i = 0; i < len; i++)
+		if (i in t)
+			fun.call(thisArg, t[i], i, t);
+		};
+	}
 </script>
 </head>
 <body>
@@ -28,9 +36,16 @@ window.onresize = resize;
 </div>
 {% else %}
 <div style="margin: 20px auto 20px; text-align:center;">
-<iframe id="frame3d" name="frame3d" frameborder="0" width="1000" scrolling="auto"
-	style=""  onload="this.style.height=document.documentElement.clientHeight+'px'"
-	height="600" src="{{ url | raw }}"></iframe> 
+<iframe frameborder="0" width="1000" height="3500" scrolling="no" src="{{ url | raw }}"></iframe> 
+<script type="text/javascript" src="/js/iframeResizer.min.js"></script> 
+<script type="text/javascript">
+	iFrameResize({
+		log                     : true,                  // Enable console logging
+		enablePublicMethods     : true,                  // Enable methods within iframe hosted page 
+		resizedCallback         : function(messageData){ // Callback fn when message is received
+		}
+	});
+</script>
 </div>
 {% endif %}
 {% include 'JiliApiBundle::footer.html.twig' %}
