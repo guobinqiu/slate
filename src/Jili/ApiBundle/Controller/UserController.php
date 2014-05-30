@@ -87,8 +87,6 @@ class UserController extends Controller
     public function removeSession(){
         $this->get('request')->getSession()->remove('uid');
         $this->get('request')->getSession()->remove('nick');
-        setcookie ("jili_uid", "", time() - 3600,'/');
-        setcookie ("jili_nick", "", time() - 3600,'/');
     }
 
     /**
@@ -956,9 +954,7 @@ class UserController extends Controller
         $url_homepage = $this->generateUrl('_homepage');
         $response = new RedirectResponse($url_homepage);
         // set cookie based according the the remember_me.
-        $response->headers->setCookie(new Cookie("jili_uid", '', time() - 3600 , '/') );
         $response->headers->setCookie(new Cookie("jili_rememberme", '', time() - 3600 , '/') );
-        $response->headers->setCookie(new Cookie("jili_nick", '', time() - 3600, '/') );
 
         return $response;
     }
@@ -1053,8 +1049,6 @@ class UserController extends Controller
                     // todo: set the error flash
                 }
 
-//                $response->headers->setCookie(new Cookie("jili_uid", $session->get('uid'), time() + 3600 * 24 * 365, '/') );
- //               $response->headers->setCookie(new Cookie("jili_nick", $session->get('nick'), time() + 3600 * 24 * 365, '/') );
             }
             return $response;
         }

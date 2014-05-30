@@ -49,6 +49,7 @@ class DefaultControllerTest extends WebTestCase
 
         $url = $router->generate('_default_ad_login',array(), true);
         $post =  array( 'email'=>$query['email'] , 'pwd'=> 'cccccc') ;
+
         echo $url, PHP_EOL;
         $crawler = $client->request('POST', $url, $post) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'ad login in '  );
@@ -67,8 +68,14 @@ class DefaultControllerTest extends WebTestCase
         $this->assertEquals($user->getId(), $session->get('uid'));
 
         $cookies  = $client->getCookieJar() ;
-        $this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
-        $this->assertEquals( $user->getNick(), $cookies->get('jili_nick' ,'/')->getRawValue());
+
+        $secret = $container->getParameter('secret');
+        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'cccccc'), $secret);
+
+        $this->assertEquals( $token, $cookies->get('jili_rememberme' ,'/')->getRawValue());
+
+        #$this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
+        #$this->assertEquals( $user->getNick(), $cookies->get('jili_nick' ,'/')->getRawValue());
     }
     /**
      * landingAction with not exists: wenwen code exists email 
@@ -142,6 +149,12 @@ class DefaultControllerTest extends WebTestCase
 		}
 		return $hash;
 	}
+    private function buildToken( $user , $secret) {
+        $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
+        $token = hash('sha256', $token);
+        $token = substr( $token, 0 ,32);
+        return $token;
+    }
 }
 #    public function testFastLoginAction()
 #    {

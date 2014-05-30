@@ -37,9 +37,6 @@ class TopController extends Controller
             }
         }
 
-        if ($cookies->has('jili_uid') && !  $session->has('uid')  ) {
-//      todo: redirec to login page      return $this->logi
-        }
 
         if( $session->has('uid') ) {
             $this->get('session.points')->reset()->getConfirm();
