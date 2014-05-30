@@ -9,6 +9,16 @@
 <!-- [endif] -->
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<style>
+body { margin: 0px; }
+iframe {border: 0px;}
+</style>
+<script type="text/javascript">
+function resize(){
+	document.getElementById('frame3d').style.height = document.documentElement.clientHeight+"px";
+}
+window.onresize = resize;
+</script>
 </head>
 <body>
 {% include 'JiliApiBundle::header.html.twig' %}
@@ -17,8 +27,24 @@
 <img src="{{ asset('images/error_support.gif')}}">
 </div>
 {% else %}
-<div style="margin: 30px auto 0px; padding-bottom:80px; width: 960px; text-align: center;"><iframe src="{{ url | raw }}" width="900" {% if heightFlag %} height="3000" {% else %} height="3650" {% endif %} scrolling="no" marginwidth="0" marginheight="0" frameborder="0" allowTransparency="true"></iframe> </div>
+<div style="margin: 20px auto 20px; text-align:center;">
+<iframe id="frame3d" name="frame3d" frameborder="0" width="1000" scrolling="auto"
+	style=""  onload="this.style.height=document.documentElement.clientHeight+'px'"
+	height="600" src="{{ url | raw }}"></iframe> 
+</div>
 {% endif %}
 {% include 'JiliApiBundle::footer.html.twig' %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$(window).resize(function() {
+        resizeFooter()
+    });
+	var resizeFooter =function(){
+		$("footer").css("position","static");
+	} 	
+	resizeFooter();
+});
+
+</script>
 </body>
 </html>
