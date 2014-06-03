@@ -49,9 +49,6 @@ class ProductListGetRequest  extends BaseListRequest {
         $this->updateCached($req, $resp);
     }
 
-    $this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'$app_name','')) . var_export( $this->c->getApp(), true));
-        $this->logger->debug('{jarod}' . implode(':', array( __CLASS__,__LINE__,'')). var_export( $req->getApiParams() , true) );
-        $this->logger->debug('{jarod}' . implode(':', array( __CLASS__,__LINE__,'')). var_export( $req->getApiMethodName() , true) );
 
     if( isset( $resp[ 'pdt_list']) && isset($resp['pdt_list'] ['pdt'] ) ) {
         $result = $resp['pdt_list']['pdt'];
