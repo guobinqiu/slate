@@ -2,7 +2,6 @@
     margin-top: 30px;
 }
 .exchange .about{
-	background-color: #F6F6F6;
     color: #666666;
     text-align: left;
 }
@@ -282,7 +281,7 @@
     background-image: url("../images/exchange_mobile_closed_btn.gif")!important;
 }
 .exchange .historyView{
-	background: url("../images/exchangeContent.jpg") no-repeat scroll 0 0;
+	background: url("../images/exchangeContent.png") no-repeat scroll 0 0;
     font-size: 16px;
     margin: 0 auto;
     padding-bottom: 122px;
@@ -294,28 +293,24 @@
     line-height: 24px;
 }
 .exchangeWay {
-    background: url("../images/exchangeFuture.jpg") no-repeat scroll 0 0;
+    background: url("../images/exchangeFuture.png") no-repeat scroll 0 0;
     margin: 0 auto;
     padding-bottom: 125px;
-    width: 885px;
+    width: 905px;
 }
 .exchangeWay p {
     line-height: 28px;
 }
 .mobileWay {
-    padding-left: 130px;
+    padding-left: 165px;
     padding-top: 35px;
 }
-.amazonWay {
-    padding-left: 660px;
+.amazonWay,.morePrizes {
+    padding-left: 680px;
     padding-top: 15px;
 }
 .alipayWay {
     padding-left: 165px;
-    padding-top: 15px;
-}
-.morePrizes {
-    padding-left: 650px;
     padding-top: 15px;
 }
 .mobileWay h4,.amazonWay h4,.alipayWay h4{font-family:"Microsoft Yahei",SimHei,Tahoma;}
