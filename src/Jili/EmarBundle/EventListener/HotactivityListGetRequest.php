@@ -38,7 +38,6 @@ class HotactivityListGetRequest  extends BaseListRequest {
 
     $resp =  $this->c->exe( $req );
 
-    #$this->logger->debug('{jarod}' . implode(':', array(__LINE__, __CLASS__,'')). var_export( $resp , true) );
 
     $result = array();
     if( isset( $resp[ 'hot_list']) && isset($resp['hot_list'] ['hot'] ) ) {

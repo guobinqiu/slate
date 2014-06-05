@@ -59,7 +59,7 @@ class OfferwowControllerTest extends WebTestCase
  
     // validateion test
     /**
-     * @group offwer-wow
+     * @group offer-wow
      */
     public function testGetApwInfo()
     {
@@ -161,7 +161,7 @@ class OfferwowControllerTest extends WebTestCase
 
     // instant success
     /**
-     * @group offwer-wow
+     * @group offer-wow
      */
     public function testGetApwInfo2() {
         $client = static::createClient();
@@ -200,7 +200,7 @@ class OfferwowControllerTest extends WebTestCase
 
     // pending  success
     /**
-     * @group offwer-wow
+     * @group offer-wow
      */
     public function testGetApwInfo3() {
         $client = static::createClient();
@@ -253,7 +253,7 @@ class OfferwowControllerTest extends WebTestCase
  
     // pending failure
     /**
-     * @group offwer-wow
+     * @group offer-wow
      */
     public function testGetApwInfo4() {
         $client = static::createClient();
@@ -316,7 +316,7 @@ class OfferwowControllerTest extends WebTestCase
 
     // instant success immediate = 1
     /**
-     * @group offwer-wow
+     * @group offer-wow
      */
     public function testGetApwInfo5() {
         $client = static::createClient();
@@ -378,7 +378,7 @@ class OfferwowControllerTest extends WebTestCase
     }
     // instant success immediate = 1
     /**
-     * @group offwer-wow
+     * @group offer-wow
      */
     public function testGetApwInfo6() {
         $client = static::createClient();

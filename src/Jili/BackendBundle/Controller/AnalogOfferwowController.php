@@ -26,7 +26,6 @@ class AnalogOfferwowController extends Controller implements  IpAuthenticatedCon
         $logger= $this->get('logger');
 
         if( 'POST'== $request->getMethod()){
-#             $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $request->request->all(), true) );
             $params = array(
                 'memberid'=> $request->request->get('memberid'),
                 'point'=> $request->request->get('point'),

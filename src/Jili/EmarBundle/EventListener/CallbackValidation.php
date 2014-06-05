@@ -40,7 +40,6 @@ class CallbackValidation
         $config_of_sid = $this->getConfig('sid') ;//: %emar_com.accountid% #: 458631 # sid uSer id
         $config_of_wid = $this->getConfig('wid.91jili_com'); //wid.91jili_com: %emar_com.91jili_com.websiteid% 708089 # wid Website id
 
-        #$logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ));
 
         // data to return
         $data = array();
@@ -51,7 +50,6 @@ class CallbackValidation
         foreach($fields_required as $field) {
             if( ! isset( $quries) ||  strcmp('', $quries[$field] ) === 0 ) {
                 // false 1
-#                 $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). $field);
                 return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
             }
         }
@@ -70,7 +68,7 @@ class CallbackValidation
 
         if( strcmp($chkcode_request, $chkcode_expect ) !== 0) {
             $str = $action_id.$order_no.$prod_money.$order_time.$DataSecret;
-            $this->logger->crit('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid signature. expected: '.$chkcode_expect. '; request:'.$chkcode_request .PHP_EOL. $str );
+            $this->logger->crit('{EmarBundle:CallbackValidation}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid signature. expected: '.$chkcode_expect. '; request:'.$chkcode_request .PHP_EOL. $str );
             return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
         }
 
@@ -79,13 +77,11 @@ class CallbackValidation
 
         //todo: sid wid validation
         if( $request->query->get('sid')  !== $config_of_sid ) {
-#             $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid sid: ' .var_export( $request->query->get('sid'), true). '; expected: ' . var_export( $config_of_sid, true)  );
             return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
         }
 
         #$wid = $request->query->get('wid');
         if($request->query->get('wid') !== $config_of_wid ) {
-#             $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' invalid wid: ' .var_export( $request->query->get('wid')  , true) . '; exception: '. var_export($config_of_wid)  );
             return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
         }
         
@@ -107,7 +103,6 @@ class CallbackValidation
 
         // status validation
         $request_status = $request->query->get('status'); 
-#         $this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ). ' request status '.$request_status);
 
         // order status check
         // duplicated??
@@ -115,7 +110,6 @@ class CallbackValidation
         // unique( user,adid, ocd)
 
         $emarOrder = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneBy(array('adId'=> $ad_id, 'adType'=> $ad_type,'ocd'=> $request->query->get('unique_id'))); 
-        #$this->logger->debug('{jarod}'. implode(',', array(__CLASS__,__FILE__,__LINE__,'') ).var_export( $emarOrder, true)   );
 
         if( empty($emarOrder) ) {
 

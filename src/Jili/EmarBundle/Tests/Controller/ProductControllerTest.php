@@ -57,7 +57,6 @@ class ProductControllerTest extends WebTestCase
 
         $params = $this->buildParamFromQuery($queries); 
         $productRequest = $container->get('product.list_get');
-        $logger->debug('{jarod}'. implode( ':', array(__LINE__, __CLASS__,'params','') ).var_export($params, true) );
         $productRequest->fetch( $params);
 
         $total = $productRequest->getTotal();

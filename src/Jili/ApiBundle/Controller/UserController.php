@@ -1010,12 +1010,12 @@ class UserController extends Controller
         $code = '';
         $email = $request->request->get('email');
         $pwd = $request->request->get('pwd');
+        $logger = $this->get('logger');
 
         //login
         $code = $this->get('login.listener')->login($request);
-        $logger = $this->get('logger');
 
-        if($code == "ok")
+        if($code == 'ok')
         {
             $code_redirect = '301';
             $current_url = '';

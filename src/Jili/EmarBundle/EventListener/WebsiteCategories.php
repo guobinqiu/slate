@@ -33,8 +33,6 @@ class WebsiteCategories {
             // cats
             $wcategories_raw  = $this->websiteCategoryGet->fetch( );
             $wcats = WebCatRepository::parse( $wcategories_raw);
-            #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $wcategories_raw, true));
-            #$this->logger->debug('{jarod}'.implode( ':', array(__CLASS__ , __LINE__,'')) . var_export( $wcats, true));
     #        @file_put_contents( $cached, serialize($web_categories) , LOCK_EX);
     #    }
         return $wcats;

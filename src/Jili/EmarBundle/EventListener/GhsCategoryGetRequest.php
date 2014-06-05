@@ -22,7 +22,6 @@ class GhsCategoryGetRequest  extends BaseRequest {
         $this->updateCached($req, $resp);
     }
 
-    #$this->logger->debug (implode(':', array( '{jarod}',__CLASS__, __LINE__,'')). var_export($this->c->getApp(), true)  );
     $result = array();
 
     if( isset( $resp[ 'ghs_cats']) && isset($resp['ghs_cats'] ['ghs_cat'] ) ) {
