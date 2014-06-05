@@ -34,10 +34,10 @@ class UserControllerTest extends WebTestCase
         parent::tearDown();
        $this->em->close();
     }
+
     /**
      * @group user 
      * @group login 
-     * @group debug 
      */
     public function testLogoutWithTokenAction()
     {
@@ -70,14 +70,14 @@ class UserControllerTest extends WebTestCase
         //login
         $form = $crawler->selectButton('loginSubmit')->form();
         $form['email'] = $query['email'];
-        $form['pwd'] = 'cccccc';
+        $form['pwd'] = 'aaaaaa';
         $form['remember_me']->tick();
 
         $client->submit($form);
 
         
         $secret = $container->getParameter('secret');
-        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'cccccc'), $secret);
+        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'aaaaaa'), $secret);
         $user =$container->get('doctrine')->getEntityManager()->getRepository('JiliApiBundle:User')->find($uid);
         $this->assertEquals($token, $user->getToken());
         unset($user);
@@ -157,7 +157,7 @@ class UserControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('loginSubmit')->form();
         $form['email'] = $query['email'];
-        $form['pwd'] = 'cccccc';
+        $form['pwd'] = 'aaaaaa';
         $form['remember_me']->tick();
 
         $client->submit($form);
@@ -165,6 +165,7 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(301, $client->getResponse()->getStatusCode() );
 
         $session = $container->get('session');
+
         $this->assertTrue( $session->has('uid'));
         $this->assertEquals($user->getId(), $session->get('uid'));
 
@@ -173,14 +174,12 @@ class UserControllerTest extends WebTestCase
         //$this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
         
         $secret = $container->getParameter('secret');
-        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'cccccc'), $secret);
+        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'aaaaaa'), $secret);
 
         $this->assertEquals( $token, $cookies->get('jili_rememberme' ,'/')->getRawValue());
 
         $this->assertEmpty(  $cookies->get('jili_uid' ,'/'));
         $this->assertEmpty(  $cookies->get('jili_nick' ,'/'));
-
-
     }
 
     private function buildToken( $user , $secret) {
@@ -234,8 +233,8 @@ class UserControllerTest extends WebTestCase
 
         // set some values
         print 'Set some values'.PHP_EOL;
-        $form['pwd'] = 'cccccc';
-        $form['que_pwd'] = 'cccccc';
+        $form['pwd'] = 'aaaaaa';
+        $form['que_pwd'] = 'aaaaaa';
 
         // submit the form
         print 'Submit the form'.PHP_EOL;
@@ -243,6 +242,7 @@ class UserControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
     }
+
 #    public function testFastLoginAction()
 #    {
 #        $client = static::createClient();

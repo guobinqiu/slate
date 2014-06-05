@@ -22,10 +22,7 @@ class HotactivityController extends Controller
     #        $request = $this->get('request');
     #        $logger= $this->get('logger');
     #
-    #        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ) );
-    #        #$logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export($request->request, true) ); //POST
     #
-    #        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ).var_export($request->query, true) ); //GET
     #
     #        $websiteRequest =  $this->get('hotactivity.website_get');
     #        $websites_raw = $websiteRequest->fetch();
@@ -47,8 +44,6 @@ class HotactivityController extends Controller
     #        $params =array('webid'=> implode(',',$webids), 'catid'=> implode(',', $catids));
     #        $list = $listRequest->fetch( $params );
     #
-    #        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export($params, true)  );
-    #        $logger->debug('{jarod}'. implode(',', array(__CLASS__, __LINE__, '') ). var_export($list, true)  );
     #
     #        return array( 'webids'=> $webids, 'cats'=> $cats , 'form'=>$form->createView(), 'hotactivity'=> $list );
     #    }
@@ -103,7 +98,6 @@ class HotactivityController extends Controller
         $request = $this->get('request');
         $logger= $this->get('logger');
 
-#         $logger->debug('{jarod}'.implode(',', array(__LINE__, __CLASS__, '') ) );
 
         #        $categoryRequest =  $this->get('hotactivity.category_get');
         #        $categories_raw  = $categoryRequest->fetch();

@@ -232,7 +232,6 @@ class LoginListener {
 
                                 if( $try-- > 0 ) {
                                     $logger = $this->container_->get('logger');
-                                    $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'') ) .' remember error '); 
                                     continue;
                                 }
                             }
@@ -249,7 +248,7 @@ class LoginListener {
     }
 
     /**
-     * @param: $user = array( 'emaril'=> '', '');
+     * @param: $user = array( 'email'=> '', 'pwd'=>);
      */
     private function generateToken($user) {
         // gen token of 32 chars

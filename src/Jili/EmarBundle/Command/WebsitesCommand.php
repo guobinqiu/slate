@@ -81,7 +81,6 @@ class WebsitesCommand extends ContainerAwareCommand
                     $i++;
 
                     if( $i < $start) {
-                        $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'ignored','') ). 'i:'.$i . ' wid:'.$wid);
                         continue;
                     }
 
@@ -96,8 +95,6 @@ class WebsitesCommand extends ContainerAwareCommand
 
                             if( $i === 3) {
                                 $webs_failed[] = $wid;
-                                $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). 'i:'.$i . ' wid:'.$wid);
-                                $logger->error('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). 'i:'.$i . ' wid:'.$wid);
                             } else {
                                 $output->writeln( 'Sleeping.. for wid: '. $wid ); 
                                 sleep($i * $i);

@@ -48,7 +48,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertEquals(1, count($user));
 
         $url = $router->generate('_default_ad_login',array(), true);
-        $post =  array( 'email'=>$query['email'] , 'pwd'=> 'cccccc') ;
+        $post =  array( 'email'=>$query['email'] , 'pwd'=> 'aaaaaa') ;
 
         echo $url, PHP_EOL;
         $crawler = $client->request('POST', $url, $post) ;
@@ -70,7 +70,7 @@ class DefaultControllerTest extends WebTestCase
         $cookies  = $client->getCookieJar() ;
 
         $secret = $container->getParameter('secret');
-        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'cccccc'), $secret);
+        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'aaaaaa'), $secret);
 
         $this->assertEquals( $token, $cookies->get('jili_rememberme' ,'/')->getRawValue());
 
@@ -94,7 +94,8 @@ class DefaultControllerTest extends WebTestCase
         $em = $this->em;
         // set session for login
         $query = array('email'=> 'alice.nima@gmail.com');
-        $user_wenwen = $em->getRepository('JiliApiBundle:WenWenUser')->findOneByEmail($query['email']);
+        // JiliApiBundle:WenwenUser' or JiliApiBundle:WenWenUser'
+        $user_wenwen = $em->getRepository('JiliApiBundle:WenwenUser')->findOneByEmail($query['email']);
 
         if( $user_wenwen) {
             $em->remove($user_wenwen);

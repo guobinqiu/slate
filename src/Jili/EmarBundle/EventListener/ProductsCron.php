@@ -28,7 +28,6 @@ class ProductsCron extends BaseCron {
                 $emarProduct->setPid($pdt['pid']);
 
             }else {
-#                 $logger->debug('{jarod}'. implode(':', array(__LINE__,__CLASS__,'') ). var_export($emarProduct, true) );
             }
 
             $emarProduct->setPName($pdt['p_name']);

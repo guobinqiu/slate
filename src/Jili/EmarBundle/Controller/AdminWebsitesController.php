@@ -112,9 +112,7 @@ class AdminWebsitesController extends Controller implements  IpAuthenticatedCont
     public function detailAction($wid)
     {
         $logger = $this->get('logger');
-        #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')));
         $detail = $this->get('website.detail_get')->fetch(array('webid'=>$wid) );
-        #$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')). var_export( $detail, true) );
         return compact('detail');
     }
 
@@ -169,14 +167,12 @@ class AdminWebsitesController extends Controller implements  IpAuthenticatedCont
 
         if ($editForm->isValid()) {
 
-#         $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
             $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_emar_websites_edit', array('id' => $id)));
         } else {
 
-#         $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
         }
 
         return array(

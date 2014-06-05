@@ -1866,7 +1866,6 @@ class AdminController extends Controller
         $request=$this->get('request');
         $em = $this->getDoctrine()->getManager();
 
-        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $request->getMethod() , true) );
 
         // get the exchange type 
         $exchangeType = $em->getRepository('JiliApiBundle:PointsExchangeType')->findAll();
@@ -1934,10 +1933,6 @@ class AdminController extends Controller
             //     $wheres = array();
         }
 
-        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $start_date , true) );
-        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $end_date , true) );
-        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $exType , true) );
-        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export(  $wheres, true) );
 
         $pointExchangeRepository = $em->getRepository('JiliApiBundle:PointsExchange');
 
@@ -1957,7 +1952,6 @@ class AdminController extends Controller
 
         $exchangeDangers = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeIds($exchange_ids);
 
-        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $user_ids, true) );
         $emails = $em->getRepository('JiliApiBundle:User')->findEmailById($user_ids );
 
         foreach($exchange as $key => $value) {
@@ -1986,9 +1980,6 @@ class AdminController extends Controller
            }
         }
 #
-        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $emails , true) );
-        #$logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $count, true) );
-#        $logger->debug( '{jarod}'.__FILE__.':'.__LINE__. ':'. var_export( $cm , true) );
 
 
         $arr['pages'] = ceil( $count /$rows_per_page );

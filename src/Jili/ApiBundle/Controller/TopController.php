@@ -59,7 +59,6 @@ class TopController extends Controller
 #        }
 
 
-# $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')), var_export($session->get('referer'), true));
         //newbie page
         if( $this->get('login.listener')->isNewbie() )  {
             if( $session->get('is_newbie_passed', false) === false ) {
