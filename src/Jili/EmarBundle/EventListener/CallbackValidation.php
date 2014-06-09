@@ -39,6 +39,7 @@ class CallbackValidation
 
         $config_of_sid = $this->getConfig('sid') ;//: %emar_com.accountid% #: 458631 # sid uSer id
         $config_of_wid = $this->getConfig('wid.91jili_com'); //wid.91jili_com: %emar_com.91jili_com.websiteid% 708089 # wid Website id
+        $config_of_wid_gouwuke = $this->getConfig('wid.91jili_gouwuke_com'); 
 
 
         // data to return
@@ -76,12 +77,12 @@ class CallbackValidation
         // list( $uid, $adid) = String::explodeUidAdid($request->query->get('fead_back')  );
 
         //todo: sid wid validation
-        if( $request->query->get('sid')  !== $config_of_sid ) {
+        if($request->query->get('sid') !== $config_of_sid ) {
             return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
         }
 
         #$wid = $request->query->get('wid');
-        if($request->query->get('wid') !== $config_of_wid ) {
+        if( ! in_array($request->query->get('wid') , array( $config_of_wid, $config_of_wid_gouwuke)  )) {
             return array( 'value' =>false, 'code'=>$config_of_return_codes['exception']); 
         }
         
