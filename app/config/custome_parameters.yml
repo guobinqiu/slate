@@ -14,11 +14,14 @@ parameters:
     cpa.category_type:  1 # in table ad_category where category_name='CPA'
     cps.category_type:  1 # in table ad_category where category_name='CPS'
                     
-#    emar_com.91jili_com.websiteid: '708089' # wid Website id
-#    emar_com.91jili_com.key: "91jiLi2emAr3242"
     emar_com.accountid: '458631' # sid uSer id
-    emar_com.91jili_com.websiteid: '732204' # gouwuke.com , the push wid Website id
-    emar_com.91jili_com.key: "139216929186018017" # gouwuke.com the push key
+    emar_com.91jili_com.websiteid: '732204' # wid Website id
+    emar_com.91jili_com.key: "139216929186018017"
+
+#    emar_com.91jili_com.key: "91jiLi2emAr3242"
+
+    emar_com.91jili_gouwuke_com.websiteid: '708089' # gouwuke.com , the push wid Website id
+    emar_com.91jili_gouwuke_com.key: "139216929186018017" # gouwuke.com the push key
 
     emar_com.name: "亿玛返利"
     emar_com.cps.category_type: 19 # in ad_category table where cateogry_name ='emar' ??

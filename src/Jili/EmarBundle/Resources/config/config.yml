@@ -32,9 +32,11 @@ parameters:
 
         sid: %emar_com.accountid% #: 458631 # sid uSer id
         wid.91jili_com: %emar_com.91jili_com.websiteid% #708089 # wid Website id
+        wid.91jili_gouwuke_com: %emar_com.91jili_gouwuke_com.websiteid% # 732204   
 
         AppKey:    %emar_com.app_AppKey% # '139216929186018017' 
         AppSecret: %emar_com.app_AppSecret% # 'e7c5367e1ba7d609865389640007df3e'
+
 #li  emar_com.key: "91jili2emar3242"
 #    emar_com.name: "亿玛返利"
 #    emar_com.category_type: 18 # in ad_category table where cateogry_name ='emar' ??
