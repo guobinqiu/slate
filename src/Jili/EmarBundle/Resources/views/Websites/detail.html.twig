@@ -33,8 +33,6 @@
 {% if web_commission is defined and web_commission > 0 %}
             <p class="shop-rebate corLightGray">最高返利<em>{{ web_commission }}%</em></p>
 {% endif %}
-
-
           </div>
           <a href="{{ href_ }}" class="goBtn" target="_blank" rel="nofollow" >去购物,赚米粒</a> 
         </div>
@@ -45,9 +43,55 @@
         </div>
      </div><!-- eof shop-info -->
 
-      <div class="explain module borderGlob">
-      <h3>返利流程</h3>
-      <img src="{{ asset('images140307/rebateExplain.jpg') }}" /> </div>
+      <div class="rebateDetail">
+      	<h3>返利详情</h3>
+        <div class="conWrap clearfix">
+        	<table>
+            	<thead>
+                    <tr>
+                    	<th>类目</th>
+                   	    <th>返利</th>
+                    </tr>
+             	</thead>
+                <tbody>
+                    <tr>
+                       <td>自有品牌</td>
+                       <td>返8.5%</td>
+                    </tr>
+                    <tr>
+                       <td>代理品牌</td>
+                       <td>返3.5%</td>
+                    </tr>
+                    <tr>
+                       <td>特例品、店中店</td>
+                       <td>返0.7%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+            	<thead>
+                    <tr>
+                    	<th>类目</th>
+                   	    <th>返利</th>
+                    </tr>
+             	</thead>
+                <tbody>
+                    <tr>
+                       <td>自有品牌</td>
+                       <td>返8.5%</td>
+                    </tr>
+                    <tr>
+                       <td>消费满<br />8000.01-10000</td>
+                       <td>返3.5%</td>
+                    </tr>
+                    <tr>
+                       <td>消费满<br />8000.01-10000</td>
+                       <td>返0.7%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
 
     <div class="shopRecommend">
       {{  render( controller("JiliEmarBundle:Product:recommendByWeb",  {'wid': website.web_id } ) )  }}
@@ -56,7 +100,11 @@
   </div><!-- eof main  -->
 
   <div class="sidebar w300 fr">
-  	<div>
+  	<div class="rebateProcess borderGlob">
+    	<h3>返利流程</h3>	
+        <img src="{{ asset('images140307/rebateExplain.jpg') }}" />
+    </div>
+  	<div class="marginT15">
 		 <!--商城检索结果页右侧一（纯文字）--> 
          {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1554161" } %}
     </div>
