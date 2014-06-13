@@ -3,7 +3,7 @@
 .shop-info-l .shop_img{ width:180px; padding:10px 0 0 0; border:1px solid #e8e8e8; line-height:300%; margin:0 auto 15px auto;}
 .shop-info-l .shop-rebate{}
 .shop-info-l .shop-rebate em{ color:#e94d41;}
-.shop-info-l .goBtn{ width:180px; background-color:#ff6b4f; color:#FFF; display:inline-block; padding:5px 0; font-size:14px;}
+.shop-info-l .goBtn{ width:180px; background-color:#3598db; color:#FFF; display:inline-block; padding:5px 0; font-size:14px;}
 .shop-info-r{ float:left; width:500px; margin-left:40px;}
 .shop-info-r h2{ font-size:18px; line-height:200%;}
 .shop-info-r .intro{ color:#999999;}
@@ -11,4 +11,8 @@
 .shop-info-r .rebate em{ color:#e94d41;}
 .explain{ background-color:#FFF; margin-bottom:15px; text-align:center; padding:15px 20px;}
 .explain h3{ text-align:center; width:100%; text-align:left; font-size:16px; margin-bottom:15px;}
-.shopRecommend h3{ background-color: #e94d41;color: #FFFFFF;font-size: 14px; padding: 7px 0;text-align: center;width: 100px;}
+.rebateDetail h3,.shopRecommend h3{ background-color: #e94d41;color: #FFFFFF;font-size: 14px; padding: 5px 0;text-align: center;width: 82px; border:1px solid #cd2a20; border-bottom:none;}
+.rebateDetail .conWrap{background-color: #FFF; border-top: 3px solid #e94d41; padding: 29px 25px 15px; margin-bottom:15px;}
+.rebateDetail .conWrap table{ width:360px;  margin: 0 15px 15px; float:left;}
+.rebateDetail .conWrap table th{ background:#f3f3f3;}
+.rebateDetail .conWrap table th,.rebateDetail .conWrap table td{border: 1px solid #dcdcdc; border-collapse: collapse; padding: 6px 12px;}
