@@ -46,7 +46,6 @@ class CallbackProcessor
     public function process( Request $request, array $data_of_validation = array()) {
         $logger = $this->logger;
         $em = $this->em;
-        #$logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ));
 
         $config_of_return_codes = $this->getConfig('callback_return_code'); 
         $config_of_order_status = $this->getConfig('order_status'); 
@@ -62,7 +61,6 @@ class CallbackProcessor
         if( isset( $data_of_validation['advertiserment'] )) {
             $advertiserment = $data_of_validation['advertiserment'] ;
         } else {
-          #  $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ));
             $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->findOneEmarAdvertisermentByActionId( array(
                 'intensive_type'=> $category_id,
                 'action_id'=> $action_id
@@ -118,7 +116,6 @@ class CallbackProcessor
                     $order = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneCpsOrderJoined( $order_params ); 
 
                     if( empty($order)) {
-#                         $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).' new ' );
                         $order = new EmarOrder();
                         $order->setCreatedAt($happenTime);
                         $order->setDeleteFlag($this->getParameter('init'));
@@ -129,11 +126,9 @@ class CallbackProcessor
                         $is_new = true;
                     } else {
                         // init by callback  
-#                         $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).' init by callback' );
                     } 
                 } else {
                     // init by click 
-#                     $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).' init by click' );
                 }
             }
 
@@ -165,7 +160,6 @@ class CallbackProcessor
                 'date' => $happenTime,
                 'status' => $order->getStatus()
             );
-            #$logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).var_export( $task_logger_params, true)  );
 
             if ( $is_new) {
                 $this->taskLogger->init($task_logger_params);
@@ -204,7 +198,6 @@ class CallbackProcessor
 
             if( $is_order_valid) {
 
-#                 $logger->debug('{jarod}'.implode(',', array( __FILE__,__LINE__,'') ).var_export( $taskHistory, true)  );
 
                 $point = $taskHistory->getPoint();
 

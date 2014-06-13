@@ -4,15 +4,12 @@ $(document).ready(function(){
     });
 	var resizeFooter =function(){
 		if($(window).height() > $("body").height()){
-			//alert("a");
 			$("footer").css("position","fixed");
 		}
 		else{
-			//alert("b");
-			$("footer").css("position","none");
+			$("footer").css("position","static");
 			
-		}
-	//$("footer").css("position","fixed");
+		} 	
 	}
 	resizeFooter();
 });

@@ -44,7 +44,7 @@ class ApiControllerTest extends WebTestCase
         $em = $this->em;
 
         $sid = 458631;
-        $wid = 708089;
+        $wid = 732204;
         $ad_id = 83;
         $action_id =  6941;
         $unique_id = $this->unique_id; 
@@ -167,8 +167,8 @@ class ApiControllerTest extends WebTestCase
         $em = $this->em;
 
         $sid = 458631;
-        $wid = 708089;
-        $ad_id = 83;
+        $wid = 732204;
+        $ad_id = 83; // emar cps id/
         $action_id =  6941;
         $unique_id = $this->unique_id; 
 
@@ -267,9 +267,9 @@ class ApiControllerTest extends WebTestCase
      */
     public function testCallback()
     {
-        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449649582&create_date=2014-02-12+16%3A11%3A01&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=708089&order_no=1062604092&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=8888.0&feed_back=1094007&status=R&comm_type=0&commision=26.0&chkcode=9b4aba2c618a12bd6395e6a493041d53&prod_type=0&am=0.0&exchange_rate=0.0';
+        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449649582&create_date=2014-02-12+16%3A11%3A01&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=1062604092&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=8888.0&feed_back=1094007&status=R&comm_type=0&commision=26.0&chkcode=9b4aba2c618a12bd6395e6a493041d53&prod_type=0&am=0.0&exchange_rate=0.0';
 
-//        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449649581&create_date=2014-02-12+16%3A11%3A01&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=708089&order_no=1062604080&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=8947.0&feed_back=&status=R&comm_type=0&commision=26.0&chkcode=fe72a333e3956bacbcfc549ed85fe67e&prod_type=0&am=0.0&exchange_rate=0.0';
+//        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449649581&create_date=2014-02-12+16%3A11%3A01&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=1062604080&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=8947.0&feed_back=&status=R&comm_type=0&commision=26.0&chkcode=fe72a333e3956bacbcfc549ed85fe67e&prod_type=0&am=0.0&exchange_rate=0.0';
 
 
         $b = parse_url($qs);
@@ -282,7 +282,7 @@ class ApiControllerTest extends WebTestCase
         $em = $this->em;
 
         $sid = 458631;
-        $wid = 708089;
+        $wid = 732204;
         $ad_id = 83;
         $action_id =  6941;
         $unique_id = $this->unique_id; 
@@ -360,12 +360,12 @@ class ApiControllerTest extends WebTestCase
 
 
        // sub order 
-        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449650613&create_date=2014-02-12+16%3A12%3A23&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=708089&order_no=1062647585&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=59.0&feed_back=1094007&status=R&comm_type=0&commision=0.0&chkcode=c55e0886bab540be1b428718ddd5904a&prod_type=0&am=0.0&exchange_rate=0.0';
+        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449650613&create_date=2014-02-12+16%3A12%3A23&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=1062647585&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=59.0&feed_back=1094007&status=R&comm_type=0&commision=0.0&chkcode=c55e0886bab540be1b428718ddd5904a&prod_type=0&am=0.0&exchange_rate=0.0';
         $b = parse_url($qs);
         parse_str($b['query']);
         $params = compact( 'unique_id', 'create_date', 'action_id','action_name', 'sid','wid', 'order_no','order_time','prod_id','prod_name','prod_count','prod_money','feed_back','status','comm_type','commision','chkcode','prod_type','am','exchange_rate');
         $sid = 458631;
-        $wid = 708089;
+        $wid = 732204;
         $ad_id = 83;
         $action_id =  6941;
         $unique_id = $this->updateUniqueId() ; 
@@ -428,14 +428,14 @@ class ApiControllerTest extends WebTestCase
         $em = $this->em;
 
        // no in advertiserment. 
-        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449650613&create_date=2014-02-12+16%3A12%3A23&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=708089&order_no=1062647585&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=59.0&feed_back=1094007&status=R&comm_type=0&commision=0.0&chkcode=c55e0886bab540be1b428718ddd5904a&prod_type=0&am=0.0&exchange_rate=0.0';
+        $qs = '/jili-jiang/web/emar/api/callback?unique_id=449650613&create_date=2014-02-12+16%3A12%3A23&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=1062647585&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=59.0&feed_back=1094007&status=R&comm_type=0&commision=0.0&chkcode=c55e0886bab540be1b428718ddd5904a&prod_type=0&am=0.0&exchange_rate=0.0';
         $b = parse_url($qs);
         parse_str($b['query']);
         $params = compact( 'unique_id', 'create_date', 'action_id','action_name', 'sid','wid', 'order_no','order_time','prod_id','prod_name','prod_count','prod_money','feed_back','status','comm_type','commision','chkcode','prod_type','am','exchange_rate');
 
 
         $sid = 458631;
-        $wid = 708089;
+        $wid = 732204;
         $action_id =  4330;
 
         $unique_id = $this->updateUniqueId() ; 
@@ -505,6 +505,9 @@ class ApiControllerTest extends WebTestCase
     }
 
 
+    /**
+     * to generterate emar unique_id
+     */
     private function updateUniqueId() {
         $em = $this->em;
         $i = 0;
@@ -591,14 +594,14 @@ class ApiControllerTest extends WebTestCase
 #prod_type=%B0%D9%BB%F5
 #exchange_rate=0.0
 
-#192.168.1.1 - - [12/Feb/2014:14:55:28 +0800] "GET /jili-jiang/web/emar/api/callback?unique_id=449623860&create_date=2014-02-12+14%3A54%3A57&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=708089&order_no=1060978034&order_time=2014-02-12+14%3A47%3A33&prod_id=&prod_name=&prod_count=1&prod_money=12.0&feed_back=1094007&status=R&comm_type=0&commision=0.0&chkcode=587e47d2ddabb22663e0d44adbc35854&prod_type=0&am=0.0&exchange_rate=0.0 HTTP/1.1" 200 1 "-" "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) )"
+#192.168.1.1 - - [12/Feb/2014:14:55:28 +0800] "GET /jili-jiang/web/emar/api/callback?unique_id=449623860&create_date=2014-02-12+14%3A54%3A57&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=1060978034&order_time=2014-02-12+14%3A47%3A33&prod_id=&prod_name=&prod_count=1&prod_money=12.0&feed_back=1094007&status=R&comm_type=0&commision=0.0&chkcode=587e47d2ddabb22663e0d44adbc35854&prod_type=0&am=0.0&exchange_rate=0.0 HTTP/1.1" 200 1 "-" "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) )"
 
 // unique_id=449623860
 // create_date=2014-02-12+14%3A54%3A57
 // action_id=254
 // action_name=%BE%A9%B6%ABCPS
 // sid=458631
-// wid=708089
+// wid=732204
 // order_no=1060978034
 // order_time=2014-02-12+14%3A47%3A33
 // prod_id=

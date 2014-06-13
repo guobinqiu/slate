@@ -1,3 +1,7 @@
+
+ALTER TABLE  `user` ADD  `token` VARCHAR( 32 ) NOT NULL DEFAULT  '' COMMENT  'remember me cookie token ' AFTER `wenwen_user`;
+ALTER TABLE  `user` ADD  `token_created_at` datetime  DEFAULT  NULL  COMMENT  'remember me cookie token created at';
+
  CREATE TABLE `emar_request` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tag` varchar(16) CHARACTER SET utf8 NOT NULL COMMENT '时间标签，YmdHi',

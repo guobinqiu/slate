@@ -59,11 +59,17 @@ class TopControllerTest extends WebTestCase
         $url_homepage= $router->generate('_homepage' , array(), true);
         echo $url_homepage ,PHP_EOL;
 
-        $cookie = new Cookie('jili_uid', $user->getId(), time() + 3600 * 24 * 365, '/', null, false, false);
+        $secret =  $container->getParameter('secret');
+
+        $token = $this->buildToken(array('email'=> $query['email'], 'pwd'=> 'aaaaaa') , $secret );
+        $cookie = new Cookie('jili_rememberme', $token, time() + 3600 * 24 * 365, '/', null, false, false);
         $client->getCookieJar()->set($cookie);
 
-        $cookie = new Cookie('jili_nick', $user->getNick(), time() + 3600 * 24 * 365, '/', null, false, false);
-        $client->getCookieJar()->set($cookie);
+        //$cookie = new Cookie('jili_rememberme', $user->getId(), time() + 3600 * 24 * 365, '/', null, false, false);
+       // $client->getCookieJar()->set($cookie);
+
+       // $cookie = new Cookie('jili_nick', $user->getNick(), time() + 3600 * 24 * 365, '/', null, false, false);
+       // $client->getCookieJar()->set($cookie);
 
         $crawler = $client->request('GET', $url_homepage);
 
@@ -132,46 +138,45 @@ class TopControllerTest extends WebTestCase
         }
 
         // post to login , for sessions:
-        $url = $container->get('router')->generate('_login');
+        $url = $container->get('router')->generate('_login', array(), true);
 ##$url = 'http://localhost/login';
-        echo $url, PHP_EOL;
+        echo __LINE__,' ',$url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
         $form = $crawler->selectButton('loginSubmit')->form();
+
         $form['email'] = $query['email'];
-        $form['pwd'] = 'cccccc';
+        $form['pwd'] = 'aaaaaa';
         $client->submit($form);
 
+        $this->assertEquals(301, $client->getResponse()->getStatusCode() );
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $session = $container->get('session');
         $this->assertTrue( $session->has('uid'));
 
         // set session for login
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'uid')). var_export($session->get( 'uid' ), true));
 //        $session->set('uid', $user->getId());
 //        $session->save();
 
-#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')). var_export($session->getName(), true));
-#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'blahblah')). var_export($session->get('blahblah'), true));
-#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'abc')). var_export($session->get('abc'), true));
 #
 #        $keys = $container->getParameter('cache_config.session.points.keys');
-#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'abc')). var_export($session->get( $keys['alive'] ), true));
-#        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'abc')). var_export($session->get( $keys['confirmming'] ), true));
 
         // request 
         $url = $router->generate('jili_api_top_userinfo');
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals(301, $client->getResponse()->getStatusCode() );
+
+         $crawler=$client->followRedirect();
+//        echo $client->getResponse()->getContent(),PHP_EOL;
+
         // check the partial
+        // /other140307/defaultFace.jpg
         $this->assertEquals('/other140307/defaultFace.jpg', $crawler->filter('img')->attr('src'));
 
         var_dump($crawler->filter('dd')->eq(0)->text());
         echo $crawler->filter('dd')->eq(1)->text(),PHP_EOL;
-        die();
     }
     /**
      * @group cache
@@ -471,7 +476,7 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals($link_name,$link->text());
         $href= $link->attr('href');
         $href_parsed = parse_url($href);
-        $url_adv_list = $container->get('router')->generate('_game_index');
+        $url_adv_list = $container->get('router')->generate('_game_chick');
         $this->assertEquals($href_parsed['path'],$url_adv_list);
  
         // adv visit: analouge the event
@@ -649,6 +654,13 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals(0, count($link));
 
     }
+    private function buildToken( $user , $secret) {
+        $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
+        $token = hash('sha256', $token);
+        $token = substr( $token, 0 ,32);
+        return $token;
+    }
+}
 #        $this->assertEquals('1', $client->getResponse()->getContent());
 #        $this->assertEquals('1', $client->getResponse()->getContent());
 #    public function testFastLoginAction()
@@ -669,7 +681,6 @@ class TopControllerTest extends WebTestCase
 #        $this->assertEquals('0', '0');
 #        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
 #    }
-}
 #        $info = $crawler->filter('li')->extract(array('_text', 'href'));;
 #        var_dump($info);
 

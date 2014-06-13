@@ -48,8 +48,6 @@ class OfferwowRequestProcessor
         $task_name = $config['name'];
         $task_type = $config['task_type'];
 
-        $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.var_export( $request->query, true)  );
-
         $eventid = $request->query->get('eventid');
         $uid = $request->query->get('memberid');
 
@@ -64,7 +62,6 @@ class OfferwowRequestProcessor
         $em = $this->em;
         // init log.
         if ($immediate_status['HANGUP_SUSPEND'] ===  $immediate_request ) {
-            $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':HANGUP_SUSPEND' );
             // todo: init logs.... 
             $order = $em->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid($eventid );
             $is_new = false;

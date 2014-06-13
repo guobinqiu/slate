@@ -6,7 +6,9 @@
         <li><a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.webUrl|url_encode  }}" title="{{ row.webName }}" target="_blank"><img width="80" height="40" src="{{ row.logoUrl }}" alt="{{ row.webName }}">
 
         {% if row.commission > 0 %}
-          <p>最高返<em class="corGlobRed">{{ row.commission }}%</em></p>
+        <p class="corDarkGray">最高返{{ row.commission }}%</p>
+        {% else %}
+        <p class="corDarkGray">视情况而定</p>
         {% endif %}
            </a>
         </li>

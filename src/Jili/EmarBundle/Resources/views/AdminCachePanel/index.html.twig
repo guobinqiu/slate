@@ -1,0 +1,67 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+<script src="{{ asset('js140307/jquery-1.8.2.js') }}" language="javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$(".chk-toggle").click(function() {
+		$(":input").filter(".files").each(function() {
+			$(this).prop("checked", ! $(this).prop("checked"));
+		})
+	});
+	$(".chk-all").click(function() {
+
+		$(":input").filter(".files").each(function() {
+			$(this).prop("checked", true);
+		})
+	});
+
+	$('form#remove').submit(function() {
+		var files = [];
+		$("input.files:checked").each(function() {
+			files.push($(this).val());
+		});
+		$(':input#form_filenames').val(JSON.stringify(files));
+	});
+});
+</script>
+{% endblock %}
+
+{% block body -%}
+    <h1>cached data list</h1>
+
+{% if files|length > 0 %}
+<div>
+
+<a href="#" class="chk-all">check all</a> | <a href="#" class="chk-toggle">toggle</a><br />
+
+</div>
+<!-- flash -->
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="flash-notice">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+<ul>
+{% for filename,file in files  %}
+<li>
+<input class="files" type="checkbox" value="{{ filename }}"  />
+{{ filename }}@{{  file.ATime|date("m/d-H:i")}} {{ file.size }} Bytes  
+</li>
+
+{% endfor %}
+
+<form id="remove" action="{{ path('jili_emar_admincachepanel_doremove') }}" method="post">
+{{ form_row(form.filenames) }}
+{{ form_rest(form) }}
+<input type="hidden" name="_method" value="DELETE" id="_method"> 
+<input type="submit" value="delete" />
+</form>
+</ul>
+
+{% else %}
+<h1>no cache data yet!</h1>
+{% endif %}
+
+    {% endblock %}

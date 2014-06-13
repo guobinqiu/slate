@@ -146,3 +146,5 @@ Data Secret
 MD5(action_id+order_no+prod_money+order_time+DataSecret)
 注意：各参数的值为做urlencode前的值，将生成的32位字符串转换为小写后使用。
 
+commision 是给我们的全部内容。
+

@@ -85,12 +85,9 @@ class ApiController extends Controller
  
                     $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
                     $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->getAdwAdverList($advertiserment->getIncentiveType(),$adid);
-#                     $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $advertiserment, true) );
                     //
                     $at = \Datetime::createFromFormat( 'YmdHis', $date.$time);
-#                     $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $at, true) );
                     $point = $this->get('rebate_point.caculator')->calcPointByCategory($advertiserment[0]['incentive'], $advertiserment[0]['incentiveType'], $at);
-#                     $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $point, true) );
 
             		$issetOrder = $em->getRepository('JiliApiBundle:AdwOrder')->find($order[0]['id']);
             		$issetOrder->setComm($comm);
@@ -507,7 +504,6 @@ class ApiController extends Controller
         $result = '0';
         #$logger=$this->get('logger');
         $email = $this->get('request')->get('email','');
-        #$logger->debug('{jarod}'.__FILE__.'@'.__LINE__. ':'.var_export($email , true) );
 
         if( strlen($email) > 0) {
             $em = $this->getDoctrine()->getManager();

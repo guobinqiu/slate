@@ -30,7 +30,6 @@ class AnalogController extends Controller implements  IpAuthenticatedController
 
             $params = $request->request->all();
 
-#             $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $params, true) );
 
             if( !isset($params['unique_id']) || $params['unique_id'] === 'null') {
                 $params['unique_id'] = $this->updateUniqueId();
@@ -63,11 +62,9 @@ class AnalogController extends Controller implements  IpAuthenticatedController
             $key =$this->container->getParameter('emar_com.91jili_com.key');
             $params['chkcode'] = strtolower(md5($params['action_id'].$params['order_no'].$params['prod_money'].$params['order_time'].$key) ) ;
             
-#             $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $params, true) );
 
             $sub_querystring = urldecode(http_build_query($params));
 
-#             $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $sub_querystring, true) );
 
             $sub_request_uri = $this->get('router')->getRouteCollection()->get('jili_emar_api_callback')->getPath();
 

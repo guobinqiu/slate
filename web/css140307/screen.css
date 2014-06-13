@@ -1,7 +1,7 @@
 /*.screen{ margin:10px 0;}*/
 .screen dt{ width:70px; line-height:23px; margin-bottom:10px;}
 .screen dd{ padding-right:40px; position:relative; overflow:hidden; margin-bottom:5px;}
-.screen dt.em{ font-size:18px; color:#ff6b4f;}
+.screen dt.em{ font-size:18px; color:#e94d41;}
 .screen dt.w90{ width:90px;}
 .screen dd.w794{ width:794px;}
 .screen dd.w704{ width:704px;}

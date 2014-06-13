@@ -36,8 +36,6 @@ class MyTaskList
      */
 	public function selTaskHistory($option){
 
-#        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'')). var_export( $this->keys, true) );
-#        $this->logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'')). var_export( $this->duration, true) );
         $session = $this->session;
         $logger = $this->logger;
         $data = array();
@@ -57,8 +55,6 @@ class MyTaskList
         }
         $key_list = $this->keys['list'];
 
-#        $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'key:',$key_list)));
-#        $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'option:')). var_export($option, true));
 
         if( $is_alive && $session->has($key_list) ) {
             $data = $session->get($key_list);
@@ -66,7 +62,6 @@ class MyTaskList
             // 取出全部做写到cache中。
             // todo: 不能总保存在session中!
 #//            $option_all= array( 'status' => 0 );
-#            $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,'option_all:')). var_export($option_all, true));
             $data = $this->selTaskHistoryRaw($option);
 #            $session->set($key_list, $data);
         }
@@ -95,7 +90,6 @@ class MyTaskList
                     unset($data[$key]);
                 }
             }  else {
-#                $logger->debug('{jarod}'. implode(':', array(__CLASS__,__LINE__,3,'')).var_export( $option['status'], true) );
             }
         }
 

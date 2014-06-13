@@ -195,6 +195,86 @@ class LoginListener {
     public function setTaskList( $tl) {
         $this->task_list= $tl;
     }
+
+    /**
+     * for remember me function.
+     * @param: $user = array( 'emaril'=> '', '');
+     */
+    public function buildToken($user) {
+
+        $try = 5;
+        $token = '';
+
+            // insert token
+            // read uid from session.
+            $session = $this->container_->get('session');
+            if( $session->has('uid') ) {
+                $uid = $session->get('uid');
+                if( ! empty( $uid ) ) {
+                    $em = $this->em;
+                    // get signned in user 
+                    $entity = $em->getRepository('JiliApiBundle:User')->findOneById($uid);
+                    if( $entity) {
+                        do {
+                            $token = $this->generateToken($user);
+                            // check the token is unique.
+                            $exists = $em->getRepository('JiliApiBundle:User')->findByValidateToken($token);
+                            if ( $exists   ) {
+                                
+                                if( count($exists) == 1  ) {
+                                    $exist = $exists[0];
+                                    if(  $exist->getId() == $uid ) {
+                                        $entity->setTokenCreatedAt( new \Datetime('now') );
+                                        $em->flush();
+                                        break;
+                                    }
+                                }
+
+                                if( $try-- > 0 ) {
+                                    $logger = $this->container_->get('logger');
+                                    continue;
+                                }
+                            }
+                            $entity->setToken($token);
+                            $entity->setTokenCreatedAt( new \Datetime('now') );
+                            $em->flush();
+                            break;
+                        } while ($try-- > 0);
+                    }
+                }
+            }
+        
+        return $token;
+    }
+
+    /**
+     * @param: $user = array( 'email'=> '', 'pwd'=>);
+     */
+    private function generateToken($user) {
+        // gen token of 32 chars
+        $token = implode('|',$user).$this->getParameter('secret') ;
+        $token = hash('sha256', $token);
+        $token = substr( $token, 0 ,32);
+        return $token;
+    }
+
+    /**
+     * find the token from database.
+     */
+    public function byToken($token) {
+
+        if( empty($token) ) {
+            return false;
+        }
+        $em  = $this->em;
+        $exists = $em->getRepository('JiliApiBundle:User')->findByValidateToken($token);
+
+        if( $exists && count($exists) === 1 ) {
+            $entity = $exists [0];
+            return  $entity;
+        }
+        return false;
+    }
 //    /**
 //     * @param: $service the session.points service 
 //     */

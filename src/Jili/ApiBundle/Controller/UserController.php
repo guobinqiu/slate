@@ -87,8 +87,6 @@ class UserController extends Controller
     public function removeSession(){
         $this->get('request')->getSession()->remove('uid');
         $this->get('request')->getSession()->remove('nick');
-        setcookie ("jili_uid", "", time() - 3600,'/');
-        setcookie ("jili_nick", "", time() - 3600,'/');
     }
 
     /**
@@ -945,13 +943,19 @@ class UserController extends Controller
      * @Route("/logout", name="_user_logout")
      */
     public function logoutAction() {
+        $session = $this->get('request')->getSession();
+        if($session->has('uid')) {
+            $uid = $session->get('uid');
+            $this->getDoctrine()->getManager()->getRepository('JiliApiBundle:User')->cleanToken($uid);
+        }
+
         $this->get('request')->getSession()->remove('uid');
         $this->get('request')->getSession()->remove('nick');
         $url_homepage = $this->generateUrl('_homepage');
         $response = new RedirectResponse($url_homepage);
         // set cookie based according the the remember_me.
-        $response->headers->setCookie(new Cookie("jili_uid", '', time() - 3600 , '/') );
-        $response->headers->setCookie(new Cookie("jili_nick", '', time() - 3600, '/') );
+        $response->headers->setCookie(new Cookie("jili_rememberme", '', time() - 3600 , '/') );
+
         return $response;
     }
 
@@ -1006,13 +1010,12 @@ class UserController extends Controller
         $code = '';
         $email = $request->request->get('email');
         $pwd = $request->request->get('pwd');
+        $logger = $this->get('logger');
 
         //login
         $code = $this->get('login.listener')->login($request);
-        $logger = $this->get('logger');
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$code','')). var_export($code, true));
 
-        if($code == "ok")
+        if($code == 'ok')
         {
             $code_redirect = '301';
             $current_url = '';
@@ -1038,8 +1041,14 @@ class UserController extends Controller
 
             // set cookie based according the the remember_me.
             if ($request->request->has('remember_me')  &&  $request->request->get('remember_me') === '1') {
-                $response->headers->setCookie(new Cookie("jili_uid", $session->get('uid'), time() + 3600 * 24 * 365, '/') );
-                $response->headers->setCookie(new Cookie("jili_nick", $session->get('nick'), time() + 3600 * 24 * 365, '/') );
+
+                $token = $this->get('login.listener')->buildToken( array( 'email'=> $email, 'pwd'=> $pwd) );
+                if( $token) {
+                    $response->headers->setCookie(new Cookie("jili_rememberme", $token, time() + 3153600, '/'));
+                } else {
+                    // todo: set the error flash
+                }
+
             }
             return $response;
         }

@@ -45,7 +45,6 @@ class AnalogChanetController extends Controller implements  IpAuthenticatedContr
             $sub_response_content =  $subResponse->getContent();
 
 
-#             $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'.$sub_response_content );
 
             $this->get('session')->getFlashBag()->add(
                 'notice',

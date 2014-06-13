@@ -35,7 +35,7 @@ class ProductControllerTest extends WebTestCase
     /**
      * check the product retrieve {(x,y)|x in catid , y in web id }
      * @group cache
-     * @group debug
+     * @group emar 
      */
     public function testRetrievePdtListAction()
     {
@@ -57,7 +57,6 @@ class ProductControllerTest extends WebTestCase
 
         $params = $this->buildParamFromQuery($queries); 
         $productRequest = $container->get('product.list_get');
-        $logger->debug('{jarod}'. implode( ':', array(__LINE__, __CLASS__,'params','') ).var_export($params, true) );
         $productRequest->fetch( $params);
 
         $total = $productRequest->getTotal();

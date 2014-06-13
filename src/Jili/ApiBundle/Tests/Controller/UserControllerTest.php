@@ -34,6 +34,63 @@ class UserControllerTest extends WebTestCase
         parent::tearDown();
        $this->em->close();
     }
+
+    /**
+     * @group user 
+     * @group login 
+     */
+    public function testLogoutWithTokenAction()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $router = $container->get('router');
+        $logger= $container->get('logger');
+        // login 
+        $url = $container->get('router')->generate('_login', array(), true);
+        echo $url, PHP_EOL;
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+
+        $query = array('email'=> 'chiangtor@gmail.com');
+        $em = $this->em;
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+        if(! $user) {
+            echo 'bad email:',$query['email'], PHP_EOL;
+            return false;
+        }
+        $uid = $user->getId();
+        unset($user);
+        // clean token
+        $em->getRepository('JiliApiBundle:User')->cleanToken($uid);
+        $user = $em->getRepository('JiliApiBundle:User')->find($uid);//$query['email']);
+
+        $this->assertEmpty($user->getToken());
+        unset($user);
+
+        //login
+        $form = $crawler->selectButton('loginSubmit')->form();
+        $form['email'] = $query['email'];
+        $form['pwd'] = 'aaaaaa';
+        $form['remember_me']->tick();
+
+        $client->submit($form);
+
+        
+        $secret = $container->getParameter('secret');
+        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'aaaaaa'), $secret);
+        $user =$container->get('doctrine')->getEntityManager()->getRepository('JiliApiBundle:User')->find($uid);
+        $this->assertEquals($token, $user->getToken());
+        unset($user);
+
+        //logout 
+        $url_logout = $router->generate('_user_logout' , array(), true);
+        echo $url_logout,PHP_EOL;
+        $crawler = $client->request('GET', $url_logout ) ;
+
+        $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+        $this->assertEmpty($user->getToken());
+        unset($user);
+    }
     /**
      * @group user 
      * @group login 
@@ -44,12 +101,10 @@ class UserControllerTest extends WebTestCase
         $container = $client->getContainer();
         $router = $container->get('router');
         $logger= $container->get('logger');
+        // logout
         $url_logout = $router->generate('_user_logout' , array(), true);
-        
         echo $url_logout,PHP_EOL;
-
         $crawler = $client->request('GET', $url_logout ) ;
-
 
         $em = $this->em;
         $query = array('email'=> 'chiangtor@gmail.com');
@@ -67,6 +122,9 @@ class UserControllerTest extends WebTestCase
         $cookies  = $client->getCookieJar() ;
         $this->assertEmpty(  $cookies->get('jili_uid' ,'/'));
         $this->assertEmpty(  $cookies->get('jili_nick' ,'/'));
+        $this->assertEmpty(  $cookies->get('jili_rememberme' ,'/'));
+
+
 
     }
     /**
@@ -99,19 +157,36 @@ class UserControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('loginSubmit')->form();
         $form['email'] = $query['email'];
-        $form['pwd'] = 'cccccc';
+        $form['pwd'] = 'aaaaaa';
         $form['remember_me']->tick();
 
         $client->submit($form);
 
         $this->assertEquals(301, $client->getResponse()->getStatusCode() );
+
         $session = $container->get('session');
+
         $this->assertTrue( $session->has('uid'));
         $this->assertEquals($user->getId(), $session->get('uid'));
 
         $cookies  = $client->getCookieJar() ;
-        $this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
-        $this->assertEquals( $user->getNick(), $cookies->get('jili_nick' ,'/')->getRawValue());
+
+        //$this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
+        
+        $secret = $container->getParameter('secret');
+        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'aaaaaa'), $secret);
+
+        $this->assertEquals( $token, $cookies->get('jili_rememberme' ,'/')->getRawValue());
+
+        $this->assertEmpty(  $cookies->get('jili_uid' ,'/'));
+        $this->assertEmpty(  $cookies->get('jili_nick' ,'/'));
+    }
+
+    private function buildToken( $user , $secret) {
+        $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
+        $token = hash('sha256', $token);
+        $token = substr( $token, 0 ,32);
+        return $token;
     }
 
     /**
@@ -158,8 +233,8 @@ class UserControllerTest extends WebTestCase
 
         // set some values
         print 'Set some values'.PHP_EOL;
-        $form['pwd'] = 'cccccc';
-        $form['que_pwd'] = 'cccccc';
+        $form['pwd'] = 'aaaaaa';
+        $form['que_pwd'] = 'aaaaaa';
 
         // submit the form
         print 'Submit the form'.PHP_EOL;
@@ -167,6 +242,7 @@ class UserControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
     }
+
 #    public function testFastLoginAction()
 #    {
 #        $client = static::createClient();

@@ -27,7 +27,7 @@ class CpsAccessHistoryFactory
         } else if ($incentive_type  === $this->getParameter('emar_com.cps.category_type') ) {
             $access_history_class = 'Jili\EmarBundle\Entity\EmarAccessHistory';
         }  else {
-            $this->logger->crit('{jarod}'. implode(',', array(__FILE__,__LINE__, '') ). var_export($incentive_type , true) );
+            $this->logger->crit('{ApiBundle:CpsAccessHistory}'. implode(',', array(__FILE__,__LINE__, '') ). var_export($incentive_type , true) );
         } 
 
         $uid = $request->getSession()->get('uid');

@@ -16,6 +16,7 @@
 .h340{ height:340px;}
 .fontOrig{font-family: Arial, Helvetica, sans-serif;}
 .fontNormal{ font-weight:normal; font-size:12px;}
+.fontYH{ font-family:'Microsoft YaHei',sans-serif;}
 .fon700{ font-weight:700;}
 .font14{ font-size:14px;}
 .font15{ font-size:15px;}
@@ -83,8 +84,8 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 /* top search/ */
 
 #headerContent .otherInlet{ float:right; margin-top:10px; margin-right:70px;}
-#headerContent .otherInlet .help{ font-size:16px; background:url("../images140307/iconImage.png") no-repeat scroll 0 -58px; padding-left:25px; color:#666;}
-#nav{width:100%; height:45px; line-height:45px; background-color:#e94d41;}
+#headerContent .otherInlet .help{ font-size:16px; background:url("../images140307/iconImage.png") no-repeat scroll 0 -60px; padding-left:25px; color:#666;}
+#nav{width:100%; height:44px; line-height:45px; background-color:#e94d41; border-bottom:1px solid #d43a30; -moz-box-shadow:0 2px 4px #d9d9d9; -webkit-box-shadow:0 2px 4px #d9d9d9; box-shadow:0 2px 4px #d9d9d9;}
 #nav li{ float:left; font-size:16px; margin:0 22px; position:relative; font-family:"Microsoft Yahei",SimHei,Tahoma;}
 #nav li.first{ margin-right:0;}
 #nav li.second{ margin-left:0;}

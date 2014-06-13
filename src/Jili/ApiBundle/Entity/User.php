@@ -19,6 +19,7 @@ class User
 	public function __construct() {
 		$this->registerDate = new \DateTime();
 		$this->lastLoginDate = new \DateTime();
+        $this->token = '';
 	}
 	
     /**
@@ -44,6 +45,12 @@ class User
      */
     private $wenwenUser;
     
+    /**
+     * @var string
+     * @ORM\Column(name="token", type="string",length=32, nullable=false)
+     */
+    private $token;
+
     /**
      * @var string
      *
@@ -218,6 +225,12 @@ class User
      * @ORM\Column(name="uniqkey", type="string",length=250, nullable=true)
      */
     private $uniqkey;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="token_created_at", type="datetime", nullable=true)
+     */
+    private $tokenCreatedAt;
         
     /**
      * upload resizeimage to temp dir
@@ -421,6 +434,28 @@ class User
     	$this->wenwenUser = $wenwenUser;
     }
     
+    /**
+     * Set token
+     *
+     * @param string $token
+     * @return User
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Get token
+     *
+     * @return string 
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
     
 
     /**
@@ -1031,6 +1066,29 @@ class User
     public function getUniqkey()
     {
         return $this->uniqkey;
+    }
+
+    /**
+     * Set tokenCreatedAt
+     *
+     * @param \DateTime $tokenCreatedAt
+     * @return User
+     */
+    public function setTokenCreatedAt($tokenCreatedAt)
+    {
+        $this->tokenCreatedAt = $tokenCreatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get tokenCreatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getTokenCreatedAt()
+    {
+        return $this->tokenCreatedAt;
     }
     
 }

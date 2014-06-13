@@ -41,7 +41,6 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
             $form_data   =  $f->getData() ;
             $at =  $form_data['at'] ;
 
-            #    $logger->debug('{jarod}'.__FILE__.':'.__LINE__.':'. var_export( $request->request->all(), true) );
             $data_return['point_caculated'] = $this->get('rebate_point.caculator')->calcPointByCategory($form_data['point'],
                 $this->container->getParameter('offerwow_com.category_type'), 
                 $at );
@@ -93,7 +92,6 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
                 return $this->redirect($this->generateUrl('rebate_activity_admin_retrieve') );
             }
         } else {
-#             $logger->debug('{jarod}'. __FILE__.':'.__LINE__. var_export( $request->getMethod(), true));
         }
         return array( 'form'=> $form->createView() );
     }
@@ -120,7 +118,6 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
                 $em->flush();
                 return $this->redirect($this->generateUrl('rebate_activity_admin_retrieve') );
             } else {
-#                 $logger->debug('{jarod}'. __FILE__.':'.__LINE__.' invalid form post') ;
             }
         } else {
             $em = $this->getDoctrine()->getManager();
