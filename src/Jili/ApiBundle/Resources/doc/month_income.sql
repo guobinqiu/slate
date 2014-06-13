@@ -9,7 +9,7 @@ INSERT INTO `month_income` (`id`, `income`) VALUES
 (107, '7000元-8000元'),
 (108, '8000元-9000元'),
 (109, '9000元-10000元'),
-(110, '10010元以上');
+(110, '10000元以上');
 
 
 UPDATE user SET income = '100' WHERE  income ='1';
