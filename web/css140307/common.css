@@ -107,7 +107,10 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 .noResult{ width:100%; background:#fff; display:block; padding:25px 0; margin-bottom:20px; text-align:center;}
 .noResult span.icon{width:65px; height:65px; background: url("../images140307/roleIcon.png") no-repeat; display:inline-block;}
 .noResult span.text{ vertical-align:28px; margin-left: 10px;}
-
 .blackBg { background-color: #000000; display: none; height: 100%; left: 0; position: absolute; top: 0; width: 100%; z-index: 9998; opacity: .5; filter: alpha(opacity=50);/*IE*/ *zoom: 1;  }
-		
 
+/* sidebar process */		
+.sidebar .rebateProcess{ width:100%; padding:10px; background:#fff;}
+.sidebar .rebateProcess h3{ margin: 3px 0 0 10px; font-size:16px;}
+.sidebar .rebateProcess img{ padding: 22px 0 15px 36px;}
+/* sidebar process / */
