@@ -31,5 +31,9 @@ class EmarActivityCommissionRepositoryFunctionalTest extends WebTestCase {
         $mallName = "京东";
         $commissionList = $this->em->getRepository('JiliEmarBundle:EmarActivityCommission')->getCommissionListByMallName($mallName);
         $this->assertEquals(27, count($commissionList));
+
+        $mallName = "京东XX";
+        $commissionList = $this->em->getRepository('JiliEmarBundle:EmarActivityCommission')->getCommissionListByMallName($mallName);
+        $this->assertEquals(0, count($commissionList));
     }
 }
