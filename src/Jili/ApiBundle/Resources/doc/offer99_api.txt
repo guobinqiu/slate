@@ -1,3 +1,7 @@
+https://www.chanet.com.cn
+ id: voyage
+pw:jilijili
+
 http://www.offer99.com/2013/index.php?m=about&a=pro
 http://www.offer99.com/2013/index.php?m=login
 账号：91jili
@@ -5,7 +9,7 @@ http://www.offer99.com/2013/index.php?m=login
 
 虚拟货币名称:米粒
 
-汇率:50
+汇率:60
 那个汇率那里填 的是给用户的  给用户5成就填50  给用户7成 就填70
 
 
