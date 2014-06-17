@@ -42,7 +42,7 @@
           <p class="rebate">返利比率：<em>正常商品：7%  团购商品：2%  优惠券、礼品卡商品：4%</em></p>
         </div>
      </div><!-- eof shop-info -->
-
+      {% if commission_list %}
       <div class="rebateDetail">
       	<h3>返利详情</h3>
         <div class="conWrap clearfix">
@@ -53,45 +53,28 @@
                    	    <th>返利</th>
                     </tr>
              	</thead>
+                {% for row in commission_list %}
                 <tbody>
                     <tr>
-                       <td>自有品牌</td>
-                       <td>返8.5%</td>
-                    </tr>
-                    <tr>
-                       <td>代理品牌</td>
-                       <td>返3.5%</td>
-                    </tr>
-                    <tr>
-                       <td>特例品、店中店</td>
-                       <td>返0.7%</td>
+                       <td>{{row.commissionName}}</td>
+                       <td>{{row.rebate_desc}}</td>
                     </tr>
                 </tbody>
-            </table>
+                {% if (loop.index == (loop.length/2)|round) and (loop.index != loop.last )%}
+                </table>
             <table>
-            	<thead>
+                <thead>
                     <tr>
-                    	<th>类目</th>
-                   	    <th>返利</th>
+                        <th>类目</th>
+                        <th>返利</th>
                     </tr>
-             	</thead>
-                <tbody>
-                    <tr>
-                       <td>自有品牌</td>
-                       <td>返8.5%</td>
-                    </tr>
-                    <tr>
-                       <td>消费满<br />8000.01-10000</td>
-                       <td>返3.5%</td>
-                    </tr>
-                    <tr>
-                       <td>消费满<br />8000.01-10000</td>
-                       <td>返0.7%</td>
-                    </tr>
-                </tbody>
+                </thead>
+                {% endif %}
+                {% endfor %}
             </table>
         </div>
       </div>
+      {% endif %}
 
     <div class="shopRecommend">
       {{  render( controller("JiliEmarBundle:Product:recommendByWeb",  {'wid': website.web_id } ) )  }}
