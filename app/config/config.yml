@@ -241,3 +241,4 @@ parameters:
     91wenwen_api_url: https://www.91jili.com
     is_from_wenwen_register: 2
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
+    cps_default_rebate: 70

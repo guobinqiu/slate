@@ -44,6 +44,23 @@ class RebateActivity
         return $new_point;
     }
 
+    /**
+     *
+     * @return rebate
+     */
+    public function getRebate($category) {
+        $rebate = "";
+        switch ( $category ) {
+            case "emar":
+                $rebate = $this->getParameter('emar_com.cps.action.default_rebate');
+                break;
+            default:
+                $rebate = $this->getParameter('cps_default_rebate');
+                break;
+        }
+        return $rebate;
+    }
+
     public function getParameter($key) {
         return $this->container_->getParameter($key);
     }
