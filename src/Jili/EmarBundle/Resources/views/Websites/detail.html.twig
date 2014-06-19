@@ -57,7 +57,15 @@
                 <tbody>
                     <tr>
                        <td>{{row.commissionName}}</td>
-                       <td>{{row.rebate_desc}}</td>
+                       <td>
+                       {% if row.rebateType == cps_rebate_type.sale %}
+                       销售额的{{row.user_rebate}}%
+                       {% elseif row.rebateType == cps_rebate_type.order %}
+                       每个订单{{row.user_rebate}}米粒
+                       {% elseif row.rebateType == cps_rebate_type.point %}
+                       {{row.user_rebate}}米粒
+                       {% endif %}
+                       </td>
                     </tr>
                 </tbody>
                 {% if (loop.index == (loop.length/2)|round) and (loop.index != loop.last )%}

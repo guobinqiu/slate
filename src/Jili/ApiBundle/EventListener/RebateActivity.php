@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * @abstract 返利活动,　提高返还的积分
  */
-class RebateActivity 
+class RebateActivity
 {
 
     private $em;
@@ -32,7 +32,7 @@ class RebateActivity
 
         $logger = $this->logger;
         $percentage = (float) $em->getRepository('JiliApiBundle:AdActivity')->findMaxPercentage( $at );
-        
+
         $white_category = $this->getParameter('rebate_activity_category');
 
         if(is_array($white_category) && count($white_category) > 0 &&  in_array( $category, $white_category) ) {
@@ -48,17 +48,11 @@ class RebateActivity
      *
      * @return rebate
      */
-    public function getRebate($category) {
-        $rebate = "";
-        switch ( $category ) {
-            case "emar":
-                $rebate = $this->getParameter('emar_com.cps.action.default_rebate');
-                break;
-            default:
-                $rebate = $this->getParameter('cps_default_rebate');
-                break;
+    public function getRebate($category = null) {
+        if ($category === 'emar') {
+            return $this->getParameter('emar_com.cps.action.default_rebate');
         }
-        return $rebate;
+        return $this->getParameter('cps_default_rebate');
     }
 
     public function getParameter($key) {

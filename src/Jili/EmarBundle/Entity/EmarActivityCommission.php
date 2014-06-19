@@ -34,9 +34,9 @@ class EmarActivityCommission
     private $activityCategory;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="commission_id", type="boolean", nullable=false)
+     * @ORM\Column(name="commission_id", type="integer", nullable=false)
      */
     private $commissionId;
 
@@ -90,9 +90,9 @@ class EmarActivityCommission
     private $mallName;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="rebate_type", type="boolean", nullable=true)
+     * @ORM\Column(name="rebate_type", type="integer", nullable=true)
      */
     private $rebateType;
 
@@ -186,7 +186,7 @@ class EmarActivityCommission
     /**
      * Set commissionId
      *
-     * @param boolean $commissionId
+     * @param integer $commissionId
      * @return EmarActivityCommission
      */
     public function setCommissionId($commissionId)
@@ -199,7 +199,7 @@ class EmarActivityCommission
     /**
      * Get commissionId
      *
-     * @return boolean
+     * @return integer
      */
     public function getCommissionId()
     {
@@ -370,7 +370,7 @@ class EmarActivityCommission
     /**
      * Set rebateType
      *
-     * @param boolean $rebateType
+     * @param integer $rebateType
      * @return EmarActivityCommission
      */
     public function setRebateType($rebateType)
@@ -383,7 +383,7 @@ class EmarActivityCommission
     /**
      * Get rebateType
      *
-     * @return boolean
+     * @return integer
      */
     public function getRebateType()
     {

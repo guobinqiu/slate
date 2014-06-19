@@ -118,3 +118,9 @@ parameters:
             - '鲜花礼品'
 
     cache_data_path: "%kernel.root_dir%/cache_data/%kernel.environment%"
+    cps_default_rebate: 70  #返利给用户百分比
+    cps_rebate_type:
+        'point': 1  #XX元
+        'order': 2 #每个订单XX元
+        'sale': 3 #销售额的XX%
+
