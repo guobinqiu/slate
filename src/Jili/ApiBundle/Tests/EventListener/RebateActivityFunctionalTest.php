@@ -35,7 +35,7 @@ class RebateActivityFunctionalTest extends WebTestCase {
         $emar_rebate = $rebate_point_service->getRebate("emar");
         $this->assertEquals(70, $emar_rebate);
 
-        $emar_rebate = $rebate_point_service->getRebate("");
+        $emar_rebate = $rebate_point_service->getRebate();
         $this->assertEquals(70, $emar_rebate);
     }
 }

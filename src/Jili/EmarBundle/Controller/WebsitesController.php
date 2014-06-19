@@ -15,6 +15,7 @@ use Jili\EmarBundle\Form\Type\SearchWebsiteType;
 use Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
 
 use Jili\EmarBundle\Entity\EmarActivityCommission;
+use Jili\ApiBundle\Utility\RebateUtil;
 
 /**
  * @Route("/websites", requirements={"_scheme" = "http"})
@@ -269,19 +270,14 @@ class WebsitesController extends Controller
         //todo: 1.get activityId 2. get commission list by activityId
         $commission_list = $em->getRepository('JiliEmarBundle:EmarActivityCommission')->getCommissionListByMallName($website['web_name']);
         $rebate_point = $this->get('rebate_point.caculator')->getRebate('emar');
-
-        //整理数据，显示到页面上
+        $cps_rebate_type = $this->container->getParameter('cps_rebate_type');
+        //整理数据
         if($commission_list){
             foreach ($commission_list as $key=>$value){
-                if($value['rebateType'] == 1){
-                    $commission_list[$key]['rebate_desc'] = "销售额的".$value['rebate']*($rebate_point/100)."%";
-                }elseif($value['rebateType'] == 2){
-                    $commission_list[$key]['rebate_desc'] = "每个订单".$value['rebate']*($rebate_point/100)."元";
-                }elseif($value['rebateType'] == 3){
-                    $commission_list[$key]['rebate_desc'] = ($value['rebate']*100*($rebate_point/100))."分";
-                }
+                $commission_list[$key]['user_rebate'] = RebateUtil :: calculateRebateAmount($value, $cps_rebate_type, $rebate_point);
             }
         }
+
         return array('website'=> $website ,'web_commission'=>$web_commision,'commission_list'=>$commission_list);
     }
 
