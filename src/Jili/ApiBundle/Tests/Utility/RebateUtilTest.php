@@ -15,20 +15,38 @@ class RebateUtilTest extends \ PHPUnit_Framework_TestCase {
 
         $value = array ();
         $value['rebateType'] = 1;
-        $value['rebate'] = 0.1;
+        $value['rebate'] = 10;
+        $user_rebate = RebateUtil :: calculateRebateAmount($value, $cps_rebate_type, $rebate_point);
+        $this->assertEquals(700, $user_rebate);
+
+        $value = array ();
+        $value['rebateType'] = 2;
+        $value['rebate'] = 10;
+        $user_rebate = RebateUtil :: calculateRebateAmount($value, $cps_rebate_type, $rebate_point);
+        $this->assertEquals(700, $user_rebate);
+
+        $value = array ();
+        $value['rebateType'] = 3;
+        $value['rebate'] = 10;
         $user_rebate = RebateUtil :: calculateRebateAmount($value, $cps_rebate_type, $rebate_point);
         $this->assertEquals(7, $user_rebate);
 
         $value = array ();
-        $value['rebateType'] = 2;
-        $value['rebate'] = 0.2;
+        $value['rebateType'] = 3;
+        $value['rebate'] = 0;
         $user_rebate = RebateUtil :: calculateRebateAmount($value, $cps_rebate_type, $rebate_point);
-        $this->assertEquals(14, $user_rebate);
+        $this->assertEquals(0, $user_rebate);
 
         $value = array ();
         $value['rebateType'] = 3;
-        $value['rebate'] = 30;
+        $value['rebate'] = -1;
         $user_rebate = RebateUtil :: calculateRebateAmount($value, $cps_rebate_type, $rebate_point);
-        $this->assertEquals(21, $user_rebate);
+        $this->assertEquals(0, $user_rebate);
+
+        $value = array ();
+        $value['rebateType'] = 3;
+        $value['rebate'] = "re";
+        $user_rebate = RebateUtil :: calculateRebateAmount($value, $cps_rebate_type, $rebate_point);
+        $this->assertEquals("0", $user_rebate);
     }
 }

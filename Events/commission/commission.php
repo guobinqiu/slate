@@ -36,9 +36,7 @@ while ($row = mysql_fetch_assoc($result)) {
 
     $csv['web_name'] = $website['web_name'];
     $csv['mall_name'] = implode(",", $mall);
-
-    $content = joinCsv($csv);
-    fwrite($handle, $content . "\n");
+    fputcsv($handle, $csv);
 
 }
 mysql_free_result($result);
@@ -62,15 +60,5 @@ function mbStrSplit($string, $len = 1) {
         $strlen = mb_strlen($string);
     }
     return $array;
-}
-
-function joinCsv($row) {
-    $csvline = '';
-    $csv_array = array ();
-    foreach ($row as $column) {
-        $csv_array[] = (preg_match('/[\"]/', $column)) ? '"' . preg_replace('/\"/', '""', $column) . '"' : '"' . $column . '"';
-    }
-    $csvline .= implode(',', $csv_array);
-    return $csvline;
 }
 ?>
