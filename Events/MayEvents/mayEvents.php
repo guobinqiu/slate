@@ -13,15 +13,16 @@ $handle = fopen($output_filename, 'a');
 $csvline = array ();
 
 //csv file title
-$title = joinCsv(array (
+$title = array (
     'user_id',
     'email',
     'point',
     'task_name',
     'category_type',
     'task_type'
-));
-fwrite($handle, $title . "\n");
+);
+fputcsv($handle, $title);
+
 
 //category_type 17-OfferWow体验广告    18-Offer99体验广告
 for ($i = 0; $i < 10; $i++) {
@@ -41,22 +42,11 @@ for ($i = 0; $i < 10; $i++) {
         $user['category_type'] = "21";
         $user['task_type'] = "4";
 
-        $content = joinCsv($user);
-        fwrite($handle, $content . "\n");
+        fputcsv($handle, $user);
     }
     mysql_free_result($result);
 }
 fclose($handle);
 mysql_close($link);
 echo "ok";
-
-function joinCsv($row) {
-    $csvline = '';
-    $csv_array = array ();
-    foreach ($row as $column) {
-        $csv_array[] = (preg_match('/[\"]/', $column)) ? '"' . preg_replace('/\"/', '""', $column) . '"' : '"' . $column . '"';
-    }
-    $csvline .= implode(',', $csv_array);
-    return $csvline;
-}
 ?>
