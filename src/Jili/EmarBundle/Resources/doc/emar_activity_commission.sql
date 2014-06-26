@@ -2283,3 +2283,9 @@ update emar_activity_commission set mall_name = '住哪儿' where mall_name = '�
 update emar_activity_commission set mall_name = '走秀网' where mall_name = '走秀';
 update emar_activity_commission set mall_name = '中国足彩网' where mall_name = '足彩CPS';
 update emar_activity_commission set mall_name = '佐卡伊' where mall_name = '佐卡伊珠宝';
+
+update emar_activity_commission set commission = '销售额的0.8%' where id = 815;
+update emar_activity_commission set rebate = '0.8%' where id = 815;
+
+update emar_activity_commission set commission = '销售额的0.35%' where id = 1205;
+update emar_activity_commission set rebate = '0.35%' where id = 1205;

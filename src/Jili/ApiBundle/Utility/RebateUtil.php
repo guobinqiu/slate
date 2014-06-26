@@ -13,7 +13,7 @@ class RebateUtil {
      * @return: user rebate
      */
     static public function calculateRebateAmount($value, $cps_rebate_type, $rebate_point) {
-        if (is_string($value['rebate']) || ($value['rebate'] <= 0)) {
+        if ($value['rebate'] <= 0) {
             return 0;
         }
         if ($value['rebateType'] == $cps_rebate_type['sale']) {

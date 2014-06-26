@@ -19,3 +19,4 @@ web/images/banner/1397133290_7671.jpeg
 
 *.swp
 .gitignore
+*~
