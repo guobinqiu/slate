@@ -5,6 +5,11 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+
+
+
 class UserRepository extends EntityRepository {
 	public function getUserCount($start = false, $end = false, $pwd = false, $is_from_wenwen= false, $delete_flag = false) {
 		$query = $this->createQueryBuilder('u');
@@ -172,23 +177,43 @@ class UserRepository extends EntityRepository {
 
 	}
 
-	public function getRecentPoint($yesterday) {
-		$start = $yesterday . " 00:00:00";
-		$end = $yesterday . " 23:59:59";
-		$sql = "select a.nick, a.icon_path, b.create_time, b.reason, b.point_change_num, c.display_name from user a inner join
-                ( select user_id, create_time, point_change_num, reason from point_history00 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
-                union all select user_id, create_time, point_change_num,reason from point_history01 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
-                union all select user_id, create_time, point_change_num, reason from point_history02 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
-                union all select user_id, create_time, point_change_num, reason from point_history03 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
-                union all select user_id, create_time, point_change_num, reason from point_history04 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
-                union all select user_id, create_time, point_change_num, reason from point_history05 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
-                union all select user_id, create_time, point_change_num, reason from point_history06 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
-                union all select user_id, create_time, point_change_num, reason from point_history07 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
-                union all select user_id, create_time, point_change_num, reason from point_history08 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "'
-                union all select user_id, create_time, point_change_num, reason from point_history09 where reason != 13 and point_change_num != 0 and create_time >= '" . $start . "' and create_time <= '" . $end . "' ) b
-                on a.id = b.user_id inner join ad_category c on b.reason = c.id
-                order by abs(point_change_num) desc limit 99";
-		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+    /**
+     * @param $date_str date("Y-m-d")
+     */
+	public function getRecentPoint($date_str) {
+		$start = $date_str . ' 00:00:00';
+		$end = $date_str . ' 23:59:59';
+
+        $s =<<<EOT
+select b.id,  a.nick, a.icon_path, b.create_time, b.reason, b.point_change_num, c.display_name from  (
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history00 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
+union all
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history01 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+union all
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history02 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+union all
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history03 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+union all
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history04 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+union all
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history05 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+union all
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history06 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+union all
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history07 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+union all
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history08 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+union all
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history09 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+) b 
+inner join user a on  b.user_id = a.id 
+inner join ad_category c on b.reason = c.id  
+ORDER BY abs(b.point_change_num) desc limit 99 
+EOT;
+        $stmt =  $this->getEntityManager()->getConnection()->prepare($s);
+        $stmt->execute( compact('start','end') );
+        $return = $stmt->fetchAll();
+        return $return;
 	}
 
 	public function getRanking($start, $end) {
