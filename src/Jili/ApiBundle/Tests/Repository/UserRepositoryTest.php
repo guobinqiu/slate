@@ -1,10 +1,10 @@
 <?php
 namespace Jili\ApiBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 
-class UserRepositoryTest extends WebTestCase
+class UserRepositoryTest extends KernelTestCase
 {
 
     /**
@@ -43,7 +43,8 @@ class UserRepositoryTest extends WebTestCase
         $em = $this->em;
         $date_str = '2014-03-04';
         $result = $em->getRepository('JiliApiBundle:User')->getRecentPoint($date_str);
-
-        $this->assertEquals(1,'1');
+     
+        $this->assertCount(99, $result);
+        $this->assertEquals('565a2bc39cd6621d84173f7ee11ee991',md5(serialize($result)));
     }
 }
