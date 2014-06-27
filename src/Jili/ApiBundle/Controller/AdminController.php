@@ -1743,12 +1743,16 @@ class AdminController extends Controller
     {
       if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
-      $start_time = '';
-      $end_time = '';
+      $start_time = date('Y-m-d');
+      $end_time = date('Y-m-d');
       $em = $this->getDoctrine()->getManager();
       $request = $this->get('request');
-      $start_time = $request->query->get('start');
-      $end_time = $request->query->get('end');
+      if($request->query->get('start')){
+          $start_time = $request->query->get('start');
+      }
+      if($request->query->get('end')){
+          $end_time = $request->query->get('end');
+      }
       $exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->exFromWen($start_time,$end_time);
       $paginator  = $this->get('knp_paginator');
       $arr['pagination'] = $paginator->paginate(
