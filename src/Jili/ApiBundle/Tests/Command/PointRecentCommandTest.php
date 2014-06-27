@@ -3,9 +3,9 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Jili\ApiBundle\Command\PointRecentCommand;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class PointRecentCommandTest extends WebTestCase
+class PointRecentCommandTest extends KernelTestCase
 {
     /**
      * @var \Doctrine\ORM\EntityManager
