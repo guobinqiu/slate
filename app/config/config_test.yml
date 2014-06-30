@@ -1,6 +1,11 @@
 imports:
     - { resource: config_dev.yml }
 
+parameters:
+    database_host:     192.168.1.235
+    database_name:     jili_zhang
+    database_password: ecnavi 
+
 framework:
     test: ~
     session:
@@ -17,3 +22,4 @@ swiftmailer:
     spool:
         type: file
         path: %kernel.root_dir%/cache/%kernel.environment%/swiftmailer.emails
+

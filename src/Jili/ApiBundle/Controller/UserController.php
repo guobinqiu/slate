@@ -1605,7 +1605,7 @@ class UserController extends Controller
                                 // The user was insert when regAction 
                                 $this->get('login.listener')->log($user);
 
-    							return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
+    							return $this->render('JiliApiBundle:User:resetSuccess.html.twig',$arr);
     						}else{
     							$code_que_pwd = $this->container->getParameter('forget_unsame_pwd');
     							$arr['code_que_pwd']  = $code_que_pwd;
