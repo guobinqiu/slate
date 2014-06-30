@@ -60,17 +60,6 @@ class PointRecentCommandTest extends KernelTestCase
     }
 
 
-    protected function getBundle()
-    {
-        $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
-        $bundle
-            ->expects($this->any())
-            ->method('getPath')
-            ->will($this->returnValue(sys_get_temp_dir()))
-        ;
-
-        return $bundle;
-    }
 
 } 
 
