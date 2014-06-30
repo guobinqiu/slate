@@ -35,7 +35,6 @@ class DefaultControllerTest extends WebTestCase
     }
 
     /**
-     * @group debug
      * @group edm-redirect 
      * @dataProvider urlsProvider 
      */
