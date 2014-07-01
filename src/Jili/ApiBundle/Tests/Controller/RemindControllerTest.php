@@ -5,9 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class RemindControllerTest extends WebTestCase {
-    /**
-     * todo: testing required update the schema & method to http post
-     */
+
     public function testremindTotalPointAction() {
         $client = static :: createClient();
         $container = $client->getContainer();

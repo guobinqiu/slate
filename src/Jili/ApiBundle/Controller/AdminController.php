@@ -1669,31 +1669,33 @@ class AdminController extends Controller
                       );
                  $this->insertFailExWenwen($array);
                  $code[] = $wenwenExId.'兑换失败';
-              }elseif(!$userInfo[0]->getPwd()){
-                $array = array(
-                          'wenwenExId' => $wenwenExId,
-                          'email' => $email,
-                          'points' => $points,
-                          'reason' => '账号没有激活'
-                      );
-                 $this->insertFailExWenwen($array);
-                 $code[] = $wenwenExId.'兑换失败';
               }else{
-                $array = array(
-                          'wenwenExId' => $wenwenExId,
-                          'userId' => $userInfo[0]->getId(),
-                          'email' => $email,
-                          'points' => $points,
-                          'status' => $this->container->getParameter('init_one')
-                      );
-                 $this->insertExWenwen($array);
-                 $this->exchangeOKWen($email,$points);
-                 $parms = array(
-                      'userid' => $userInfo[0]->getId(),
-                      'title' => $title,
-                      'content' => $content
-                    );
-                  $this->insertSendMs($parms);
+                  if(!$userInfo[0]->getPwd()){
+                    $array = array(
+                              'wenwenExId' => $wenwenExId,
+                              'email' => $email,
+                              'points' => $points,
+                              'reason' => '账号没有激活'
+                          );
+                     $this->insertFailExWenwen($array);
+                     $code[] = $wenwenExId.'兑换失败';
+                  }else{
+                    $array = array(
+                              'wenwenExId' => $wenwenExId,
+                              'userId' => $userInfo[0]->getId(),
+                              'email' => $email,
+                              'points' => $points,
+                              'status' => $this->container->getParameter('init_one')
+                          );
+                     $this->insertExWenwen($array);
+                     $this->exchangeOKWen($email,$points);
+                     $parms = array(
+                          'userid' => $userInfo[0]->getId(),
+                          'title' => $title,
+                          'content' => $content
+                        );
+                      $this->insertSendMs($parms);
+                  }
               }
             }else{
               $code[] = $wenwenExId.'已发放';
