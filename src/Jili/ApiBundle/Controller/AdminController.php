@@ -1657,15 +1657,24 @@ class AdminController extends Controller
           $email = iconv('gb2312','UTF-8//IGNORE',$v[1]);
           $wenwenExId = $v[0];
           $points = $v[3];
-          $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
           $wenwenEx = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
           if(empty($wenwenEx)){
+              $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
               if(empty($userInfo)){
                  $array = array(
                           'wenwenExId' => $wenwenExId,
                           'email' => $email,
-                          'points' => $points, 
+                          'points' => $points,
                           'reason' => 'account not exists'
+                      );
+                 $this->insertFailExWenwen($array);
+                 $code[] = $wenwenExId.'兑换失败';
+              }elseif(!$userInfo[0]->getPwd()){
+                $array = array(
+                          'wenwenExId' => $wenwenExId,
+                          'email' => $email,
+                          'points' => $points,
+                          'reason' => '账号没有激活'
                       );
                  $this->insertFailExWenwen($array);
                  $code[] = $wenwenExId.'兑换失败';
