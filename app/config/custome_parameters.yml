@@ -123,4 +123,4 @@ parameters:
         'point': 1  #XX元
         'order': 2 #每个订单XX元
         'sale': 3 #销售额的XX%
-
+    point_exchange_upper_limit: 2000 #积分兑换上限
