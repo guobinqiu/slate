@@ -20,7 +20,7 @@ class RemindController extends Controller {
 		$total = $em->getRepository('JiliApiBundle:User')->totalUserAndCount();
 
 		$recipient_arr = array ();
-		$return = false;
+		$return = '';
 		foreach ($user as $item) {
 			$recipient_arr[] = array (
 				array (
@@ -69,7 +69,7 @@ class RemindController extends Controller {
 			'is_test' => 'false'
 		));
 
-		$return = false;
+		$return = '';
 		foreach ($user as $item) {
 			$recipient_arr = array (
 				array (
@@ -119,9 +119,11 @@ class RemindController extends Controller {
 			'name' => 'remindTotalPoint',
 			'is_test' => 'false'
 		));
+		$upper_limit = $this->container->getParameter('point_exchange_upper_limit');
+		$return = '';
 		foreach ($user as $item) {
-			if ($item['points'] < 1000) {
-				$content = '您还需要' . (1000 - $item['points']) . '个米粒就可以兑换奖品了哦！';
+			if ($item['points'] < $upper_limit) {
+				$content = '您还需要' . ($upper_limit - $item['points']) . '个米粒就可以兑换奖品了哦！';
 			} else {
 				$content = '您现在的积分可以去兑换奖品了哦，赶快去兑换中心看看吧！';
 			}
