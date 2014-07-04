@@ -261,4 +261,23 @@ class UserControllerTest extends WebTestCase
 #        $this->assertEquals('0', '0');
 #        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
 #    }
+
+    /**
+     * @group user_reg
+     */
+    public function testReSend()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $client->request('GET', '/user/reset', array (
+                'id'=>"1057699",
+                'code'=>'testcode100',
+                'nick'=>'',
+                'email'=>'zhangmm@voyagegroup.com.cn'
+        ));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('1', $client->getResponse()->getContent());
+    }
+
 }

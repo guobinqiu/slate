@@ -61,7 +61,7 @@ class SoapMailListener {
 			), $recipient_arr, true, true);
 
 			if ($addRecipient_result->status == "ERROR") {
-				$re = "addRecipient error';";
+				$rs = "addRecipient error";
 				return $rs;
 			}
 
