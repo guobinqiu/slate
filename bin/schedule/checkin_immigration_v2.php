@@ -27,8 +27,8 @@ class CheckinImmigration {
             $this->dbh->commit();
             // check result
             foreach( $this->stmts as $ind =>  $stmt)  {
-                if( $stmt['insert']->rowCount() != $stmt['insert']->rowCount() ) {
-                    throw new \Exception( ' insert not mached when immigrate table ' . $tables[$ind]  );
+                if( $stmt['insert']->rowCount() != $stmt['delete']->rowCount() ) {
+                    throw new \Exception( ' insert and delete not mached when immigrate table ' . $tables[$ind]  );
                 }
             }
         } catch(\Exception $e ) {
