@@ -20,7 +20,6 @@ use Jili\ApiBundle\Entity\UserInfoVisit;
 use Jili\ApiBundle\Entity\CheckinAdverList;
 use Jili\ApiBundle\Entity\CheckinUserList;
 use Jili\ApiBundle\Entity\CheckinClickList;
-use Jili\ApiBundle\Entity\CheckinPointTimes;
 use Jili\ApiBundle\Entity\UserWenwenVisit;
 
 class DefaultController extends Controller {

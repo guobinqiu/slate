@@ -11,7 +11,6 @@ use Jili\ApiBundle\Entity\Advertiserment;
 use Jili\ApiBundle\Entity\CheckinAdverList;
 use Jili\ApiBundle\Entity\CheckinUserList;
 use Jili\ApiBundle\Entity\CheckinClickList;
-use Jili\ApiBundle\Entity\CheckinPointTimes;
 use Jili\ApiBundle\Entity\PointHistory00;
 use Jili\ApiBundle\Entity\PointHistory01;
 use Jili\ApiBundle\Entity\PointHistory02;
