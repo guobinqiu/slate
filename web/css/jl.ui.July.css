@@ -87,7 +87,7 @@ a{
 	margin-top:10px;
 	width:173px;
 	background:url(../images/july/newestBg.png) no-repeat;
-	padding:20px;
+	padding:10px 20px 7px;
 	color:#ff1919;
 	font-family:'微软雅黑';
 	text-align:center;
@@ -98,6 +98,8 @@ a{
 	color:#ff7474;
 }
 .mlNum{
-	font-size:48px;
-	font-weight:bold;	
+	font-size:42px;
+	font-weight:bold;
+	padding-bottom: 5px;
+	line-height: 50px;	
 }
