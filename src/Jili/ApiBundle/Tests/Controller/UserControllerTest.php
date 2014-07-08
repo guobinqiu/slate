@@ -215,7 +215,7 @@ class UserControllerTest extends WebTestCase
 
 // render password reset page
         print 'Render password reset page'.PHP_EOL;
-        $passwordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneBy(array('userId'=>$user->getId(), 'isAvailable'=>1));
+        $passwordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneBy(array('userId'=>$user->getId(), 'isAvailable'=>1));
 
         if(! $passwordCode) {
             echo  ' code not found!',PHP_EOL;

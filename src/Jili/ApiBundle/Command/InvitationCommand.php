@@ -24,7 +24,7 @@ class InvitationCommand extends ContainerAwareCommand {
         $users = $em->getRepository('JiliApiBundle:User')->findWenWenUsersForRemmindRegister($start, $end);
         $str = 'jiliactiveregister';
         foreach ($users as $user) {
-            $setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user['id']);
+            $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($user['id']);
             $code = $setPasswordCode[0]->getCode();
 
             $wenwen_api_url = $this->getContainer()->getParameter('91wenwen_api_url');

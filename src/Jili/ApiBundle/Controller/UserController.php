@@ -18,7 +18,7 @@ use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\TaskOrder;
 use Jili\ApiBundle\Entity\PointsExchange;
 use Jili\ApiBundle\Entity\LoginLog;
-use Jili\ApiBundle\Entity\setPasswordCode;
+use Jili\ApiBundle\Entity\SetPasswordCode;
 use Jili\ApiBundle\Entity\AmazonCoupon;
 use Jili\ApiBundle\Entity\RegisterReward;
 use Gregwar\Captcha\CaptchaBuilder;
@@ -1130,13 +1130,13 @@ class UserController extends Controller
         }else{
             $nick = $user[0]->getNick();
             $id = $user[0]->getId();
-            $passCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($id);
+            $passCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($id);
             if(empty($passCode)){
                 $str = 'jiliforgetpassword';
                 $code = md5($id.str_shuffle($str));
                 $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
                 if($this->sendMail_reset($url, $email,$nick)){
-                    $setPasswordCode = new setPasswordCode();
+                    $setPasswordCode = new SetPasswordCode();
                     $setPasswordCode->setUserId($id);
                     $setPasswordCode->setCode($code);
                     $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
@@ -1166,7 +1166,7 @@ class UserController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		$arr['user'] = $user;
-		$setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneByUserId($id);
+		$setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByUserId($id);
 		if($setPasswordCode->getIsAvailable()==0){
 			return $this->render('JiliApiBundle::error.html.twig');
 		}
@@ -1274,7 +1274,7 @@ class UserController extends Controller
             $send_email = $this->sendMail($url,$email,$user_email[0]->getNick());
         }
 		if($send_email){
-			$setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user_email[0]->getId());
+			$setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($user_email[0]->getId());
 			$setPasswordCode[0]->setCode($code);
 			$setPasswordCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
 			$em->persist($setPasswordCode[0]);
@@ -1386,7 +1386,7 @@ class UserController extends Controller
 	        									$code = md5($user->getId().str_shuffle($str));
 	        									$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
 	        									if($this->sendMail($url, $user->getEmail(),$user->getNick())){
-	        										$setPasswordCode = new setPasswordCode();
+	        										$setPasswordCode = new SetPasswordCode();
 	        										$setPasswordCode->setUserId($user->getId());
 	        										$setPasswordCode->setCode($code);
 	        										$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
@@ -1568,7 +1568,7 @@ class UserController extends Controller
         }
 
         // check the token
-        $passwordToken = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneValidateSignUpToken(array('user_id'=> $uid, 'token' => $token )  );
+        $passwordToken = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken(array('user_id'=> $uid, 'token' => $token )  );
 
         if( !$passwordToken  ) {
 			return $this->render('JiliApiBundle::error.html.twig');
@@ -1612,7 +1612,7 @@ class UserController extends Controller
 
 		$arr['user'] = $user;
 
-		$setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneByUserId($id);
+		$setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByUserId($id);
 		if($setPasswordCode->getIsAvailable() == 0 ) {
 			return $this->render('JiliApiBundle::error.html.twig');
 		}
@@ -1693,7 +1693,7 @@ class UserController extends Controller
         $arr['user'] = $user;
         $arr['nick'] = "";
 
-        $setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneByUserId($id);
+        $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByUserId($id);
         $arr['pwdcode'] = $setPasswordCode;
 
         $return = $this->checkCodeValid($setPasswordCode, $code);
@@ -1928,7 +1928,7 @@ class UserController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		if($this->sendMail($url, $email,$nick)){
-			$setPasswordCode = new setPasswordCode();
+			$setPasswordCode = new SetPasswordCode();
 			$setPasswordCode->setUserId($user->getId());
 			$setPasswordCode->setCode($code);
 			$em->persist($setPasswordCode);

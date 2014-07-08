@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\setPasswordCode;
+use Jili\ApiBundle\Entity\SetPasswordCode;
 
 /**
  * @Route("/api/91wenwen")
@@ -95,9 +95,9 @@ class WenwenController extends Controller {
 		);
 		$send_email = $soapMailLister->sendSingleMailing($recipient_arr);
 		if ($send_email == "Email send success") {
-			$setPasswordCodeList = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user->getId());
+			$setPasswordCodeList = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($user->getId());
 			if (empty ($setPasswordCodeList)) {
-				$setPasswordCode = new setPasswordCode();
+				$setPasswordCode = new SetPasswordCode();
 				$setPasswordCode->setUserId($user->getId());
 			} else {
 				$setPasswordCode = $setPasswordCodeList[0];
