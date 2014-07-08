@@ -5,7 +5,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class MonthActivityController extends Controller {
 
     /**
@@ -31,15 +30,21 @@ class MonthActivityController extends Controller {
         if ($user_id) {
             $em = $this->getDoctrine()->getManager();
             $myInfo = $em->getRepository('JiliApiBundle:User')->getSingleUserPointForJulyActivity($start, $end, $user_id);
-            if($myInfo){
+            if ($myInfo) {
                 $my_point = $myInfo[0]['points'];
             }
         }
 
-        $users = array_chunk($users,50);
+        $users = array_chunk($users, 50);
+
+        $users_right[] = $users[0][49]; //第50名
+        $users_right[] = $users[1][49]; //第100名
+        $users_right = array_merge($users_right, $users[2]);
+        $users[2] = $users_right;
 
         return $this->render('JiliApiBundle:MonthActivity:julyActivity.html.twig', array (
-            'users' => $users,'my_point' => $my_point
+            'users' => $users,
+            'my_point' => $my_point
         ));
     }
 }
