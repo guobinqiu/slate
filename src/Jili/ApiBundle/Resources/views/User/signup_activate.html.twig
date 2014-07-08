@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>积粒网-账户设定</title>
+{% include 'JiliApiBundle::seo.html.twig' %}
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
+
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    if ($("#agreement").attr("checked")) {
+    	$("#but").attr("disabled", false);
+    } else {
+    	$("#but").attr("disabled", "disabled");
+    }
+
+    $("#agreement").click(function() {
+    	if ($("#agreement").attr("checked")) {
+    		$("#but").attr("disabled", false);
+    	} else {
+    		$("#but").attr("disabled", "disabled");
+    	}
+    });
+    
+    $("#but").click(function() {
+    	$("#form1").submit();
+    });
+    
+});
+</script>
+</head>
+<body>
+{% include 'JiliApiBundle::userHead.html.twig' %}
+<div class="webArticle regStep">
+  <article>
+    <div class="regForm">
+    <div class="message"><img src="{{ asset('images/succeed.jpg')}}" width="39" height="44">邮箱验证成功！你的邮箱是：<span>{{ user.email }}</span></div>
+    <div class="remind">HI,{{ user.nick }},欢迎来到积粒网。请完善一下信息创建您的积粒账号</div>
+    <form action="{{ path('_user_signup_activate', {'token': token, 'uid': uid }) }}" method="post" name="form1" id="form1" >
+    <ul class="form activate">
+        <li>
+        <dd>{{ form_label(form.password1) }}</dd>
+        <dt>
+        {{ form_widget(form.password1 , {'attr': {'id': 'pwd', 'class': 'password' }  }  )  }}
+        <br />
+    	<span id="pwdError">
+         {{ form_errors(form.password1) }}
+    	 {% if code_pwd is defined  %}
+        	 <font color="red">{{ code_pwd }}</font>
+         {% else %}
+             电子邮件就是您今后登录积粒网的账号
+    	 {% endif %}
+    	</span></dt></li>
+
+
+        <li>
+        <dd>{{ form_label(form.password2) }}</dd>
+        <dt>
+        {{ form_widget(form.password2 , {'attr': {'id': 'que_pwd', 'class': 'password' }  }  )  }}
+        <br />
+        <span id="newError">
+        {{ form_errors(form.password2) }}
+        {% if code_que_pwd is defined  %}
+            <font color="red">{{ code_que_pwd }}</font>
+    	 {% else %}
+            6-20个字符
+    	 {%  endif %}
+        </span></dt></li>
+
+        <li><dd></dd><dt>
+        {{  form_widget( form.agreement, {'attr': {'id': 'ck', 'value': 1 } } ) }} {{ form_label( form.agreement , '我已认真阅读并同意接受.', {'label_attr': { 'class':'' } } ) }}<a href="{{ path('_user_agreement') }}" target="_blank" class="provision">《积粒网会员协议》</a></dt></li>
+
+        {{ form_rest(form) }}
+        <li><dd></dd><dt><input type='button' name='but' id='but' value='创建账号' class='regBtn'/></dt></li>
+
+    </ul>
+    </form>
+    </div>
+  </article>
+</div>
+{% include 'JiliApiBundle::userFoot.html.twig' %}
+</body>
+</html>
+

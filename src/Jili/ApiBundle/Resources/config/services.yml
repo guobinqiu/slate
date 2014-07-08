@@ -26,6 +26,8 @@ parameters:
     session.my_task_list.class: Jili\ApiBundle\EventListener\Session\MyTaskList
     session.points.class: Jili\ApiBundle\EventListener\Session\Points
 
+# form_handler:
+    signup_activate.form_handler.class: Jili\ApiBundle\Form\Handler\SignupActivateHandler
 
 services:
     login.listener:
@@ -140,4 +142,15 @@ services:
             - [ setLogger, [ @logger ] ] 
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
             - [ setSession, [ @session ] ] 
+
+    signup_activate.form_handler:
+        class: %signup_activate.form_handler.class%
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setSession, [ @session ] ] 
+            - [ setContainer, [ @service_container ] ] 
+            - [ setSoapMailListener, [ "@soap.mail.listener" ] ]
+            - [ setLoginListener, [ "@login.listener" ] ]
+                
 

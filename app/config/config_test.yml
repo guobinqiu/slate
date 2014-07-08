@@ -2,9 +2,9 @@ imports:
     - { resource: config_dev.yml }
 
 parameters:
-    database_host:     192.168.1.235
-    database_name:     jili_zhang
-    database_password: ecnavi 
+    database_host:     192.168.1.15
+    database_name:     jili_0707
+    database_password:  MyNewPassword 
 
 framework:
     test: ~

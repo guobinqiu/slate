@@ -261,4 +261,31 @@ class UserControllerTest extends WebTestCase
 #        $this->assertEquals('0', '0');
 #        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
 #    }
+    /**
+     * @group user-password
+     * @group debug
+     */
+    public function testPasswordAction() {
+
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+        $logger= $container->get('logger');
+
+//        $query = array('email'=> 'alice.nima@gmail.com');
+        $uid = 1120386 ;
+        $code = '71b1b99cfbbb75c363300f051f5c57af';
+
+        $query = array( 'token'=> $code, 'uid'=> $uid );
+        $url = $container->get('router')->generate('_user_signup_activate', $query ) ;
+
+
+        $this->assertEquals('/user/activate/71b1b99cfbbb75c363300f051f5c57af/1120386', $url);
+
+        
+#
+#        $client->request('GET', $url ) ;
+#        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+#        $this->assertEquals('1', $client->getResponse()->getContent());
+    }
 }

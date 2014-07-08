@@ -1417,7 +1417,7 @@ class AdminController extends Controller
         return true;
     }
 
-    public function exchangeNG($exchange_id,$email,$status,$points,$finish_time){
+    public function exchangeNg($exchange_id,$email,$status,$points,$finish_time){
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();

@@ -35,7 +35,6 @@ class UserRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @group debug 
      * @group point_recent
      */
     public function testGetRecentPoint() 

@@ -4,11 +4,12 @@ use Gregwar\CaptchaBundle\GregwarCaptchaBundle;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
 use Jili\ApiBundle\Form\FirstRegType;
-use Jili\ApiBundle\Form\forgetPassType;
+use Jili\ApiBundle\Form\ForgetPasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\Form\RegType;
+use Jili\ApiBundle\Form\Type\SignupActivateType;
 use Jili\ApiBundle\Form\CaptchaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -1541,42 +1542,102 @@ class UserController extends Controller
 		return $this->render('JiliApiBundle:User:regSuccess.html.twig');
 	}
 	
+
+//    /**
+//     * @Route("/user/forgetPass/{code}/{id}", name="_user_forgetPass")
+//     */
+//    public function forgetPassAction($code,$id){
+//        return $this->forward('JiliApiBundle:User:signupActivate', array( 'token'=> $code, 'uid'=> $id));
+//    }
 	
 	/**
-	 * @Route("/forgetPass/{code}/{id}", name="_user_forgetPass")
+	 * @Route("/activate/{token}/{uid}", name="_user_signup_activate", requirements={"uid"="\d+"})
+     * @Method({"GET", "POST"})
 	 */
-	public function forgetPassAction($code,$id){
+    public function signupActivateAction($token, $uid){
+        $logger = $this->get('logger');
+		$em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $vars = array('token'=> $token, 'uid'=> $uid);
+        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ). var_export( $vars, true) );
+
+        // check the uid
+		$user = $em->getRepository('JiliApiBundle:User')->find($uid);
+        if( ! $user ) {
+			return $this->render('JiliApiBundle::error.html.twig');
+        }
+
+        // check the token
+        $passwordToken = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneValidateSignUpToken(array('user_id'=> $uid, 'token' => $token )  );
+
+        if( !$passwordToken  ) {
+			return $this->render('JiliApiBundle::error.html.twig');
+        }
+        
+        $form  = $this->createForm(new SignupActivateType() );
+        if ($request->getMethod() === 'POST') {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                // the validation passed, do something with the $author object
+                $result = $this->get('signup_activate.form_handler')->setForm($form)->process( array( 'user'=>$user, 'passwordToken'=>  $passwordToken ) );
+
+                $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__,'')).var_export($result,true));
+
+                // return $this->redirect($this->generateUrl(...));
+            } else {
+                $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ).' form invalid'  );
+            }
+        }
+
+        $vars['form'] = $form->createView();
+		$vars['pwdcode'] = $passwordToken;
+        $vars['user'] = $user;
+
+        return $this->render('JiliApiBundle:User:signup_activate.html.twig',$vars);
+    }
+
+    /**
+     * @Route("forgetPass/{code}/{id}", name="_user_forgetPass")
+     */
+    public function forgetPassAction( $code, $id) {
 		$code_pwd = '';
-		$arr['code_pwd']  = $code_pwd;
 		$code_que_pwd = '';
+
+		$arr['code_pwd']  = $code_pwd;
 		$arr['code_que_pwd']  = $code_que_pwd;
+
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-// 		$province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
-// 		$arr['province'] = $province;
+
 		$arr['user'] = $user;
+
 		$setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findOneByUserId($id);
-		if($setPasswordCode->getIsAvailable()==0){
+		if($setPasswordCode->getIsAvailable() == 0 ) {
 			return $this->render('JiliApiBundle::error.html.twig');
 		}
+
 		$arr['pwdcode'] = $setPasswordCode;
 		$time = $setPasswordCode->getCreateTime();
-        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24*14){
+
+        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24*14 ){
         	return $this->render('JiliApiBundle::error.html.twig');
         }else{
             if($setPasswordCode->getCode() != $code){
                 return $this->render('JiliApiBundle::error.html.twig');
             }
+
     		$request = $this->get('request');
     		$pwd = $request->request->get('pwd');
     		$que_pwd = $request->request->get('que_pwd');
+
     		if ($request->getMethod() == 'POST'){
     			if($request->request->get('ck')=='1'){
     				if($pwd){
     					if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
     						$code_pwd = $this->container->getParameter('forget_wr_pwd');
     						$arr['code_pwd']  = $code_pwd;
-    					}else{
+    					} else {
     						if($pwd == $que_pwd){
                                 $this->get('login.listener')->checkNewbie($user);
     							$user->setPwd($request->request->get('pwd'));

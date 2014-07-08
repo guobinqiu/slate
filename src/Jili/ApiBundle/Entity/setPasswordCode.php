@@ -8,10 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
  * setPasswordCode
  *
  * @ORM\Table(name="set_password_code")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\SetPasswordCodeRepository")
  */
 class setPasswordCode
 {
+
+    public static  $VALIDATION_OF_SIGNUP_ACTIVATE = 1209600 ; # 3600*24*14 
+
 	public function __construct() {
 		$this->createTime = new \DateTime();
 	}
