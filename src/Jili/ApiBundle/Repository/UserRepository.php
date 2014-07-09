@@ -489,9 +489,7 @@ EOT;
      * @param $limit
      * @param $offset
      */
-    public function getUserPointForJulyActivity($start,$end,$limit,$offset) {
-        $start = $start . ' 00:00:00';
-        $end = $end . ' 23:59:59';
+    public function getTotalCPAPointsByTime($start,$end,$limit,$offset) {
 
         $s =<<<EOT
 select a.id,a.email,a.nick,b.points from user a inner join
@@ -536,9 +534,7 @@ EOT;
      * @param $user_id
      * @param $table_name
      */
-    public function getSingleUserPointForJulyActivity($start,$end,$user_id) {
-        $start = $start . ' 00:00:00';
-        $end = $end . ' 23:59:59';
+    public function getUserCPAPointsByTime($start,$end,$user_id) {
         $suffix = substr($user_id, -1, 1);
         $table_name = sprintf('task_history%02d', $suffix);
 

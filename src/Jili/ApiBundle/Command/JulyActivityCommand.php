@@ -22,8 +22,8 @@ class JulyActivityCommand extends ContainerAwareCommand {
         //写文件
         $handle = fopen($filename, "w");
 
-        $start = "2014-07-01";
-        $end = "2014-07-31";
+        $start = "2014-07-01 00:00:00";
+        $end = "2014-07-31 23:59:59";
 
         //前100名
         $limit = 100;
@@ -69,7 +69,7 @@ class JulyActivityCommand extends ContainerAwareCommand {
 
     protected function getUsers($start, $end, $limit, $offset) {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $users = $em->getRepository('JiliApiBundle:User')->getUserPointForJulyActivity($start, $end, $limit, $offset);
+        $users = $em->getRepository('JiliApiBundle:User')->getTotalCPAPointsByTime($start, $end, $limit, $offset);
         return $users;
     }
 }

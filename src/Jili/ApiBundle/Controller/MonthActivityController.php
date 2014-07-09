@@ -22,14 +22,14 @@ class MonthActivityController extends Controller {
             }
         }
         fclose($handle);
-        $start = "2014-07-01";
-        $end = "2014-07-31";
+        $start = "2014-07-01 00:00:00";
+        $end = "2014-07-31 23:59:59";
         $request = $this->get('request');
         $user_id = $request->getSession()->get('uid');
         $my_point = 0;
         if ($user_id) {
             $em = $this->getDoctrine()->getManager();
-            $myInfo = $em->getRepository('JiliApiBundle:User')->getSingleUserPointForJulyActivity($start, $end, $user_id);
+            $myInfo = $em->getRepository('JiliApiBundle:User')->getUserCPAPointsByTime($start, $end, $user_id);
             if ($myInfo) {
                 $my_point = $myInfo[0]['points'];
             }

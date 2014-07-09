@@ -27,22 +27,22 @@ class UserRepositoryFunctionalTest extends WebTestCase {
         $this->em->close();
     }
 
-    public function testGetSingleUserPointForJulyActivity() {
-        $start = "2014-07-01";
-        $end = "2014-07-31";
-        $user_id = 1057704;
-        $myInfo = $this->em->getRepository('JiliApiBundle:User')->getSingleUserPointForJulyActivity($start, $end, $user_id);
-        $this->assertEquals(80, $myInfo[0]['points']);
+    public function testGetUserCPAPointsByTime() {
+        $start = "2014-07-01 00:00:00";
+        $end = "2014-07-31 23:59:59";
+        $user_id = 1173775;
+        $myInfo = $this->em->getRepository('JiliApiBundle:User')->getUserCPAPointsByTime($start, $end, $user_id);
+        $this->assertEquals(1000, $myInfo[0]['points']);
     }
 
-    public function testGetUserPointForJulyActivity() {
-        $start = "2014-07-01";
-        $end = "2014-07-31";
+    public function testGetTotalCPAPointsByTime() {
+        $start = "2014-07-01 00:00:00";
+        $end = "2014-07-31 23:59:59";
 
         //前100名
         $limit = 100;
         $offset = 0;
-        $users = $this->em->getRepository('JiliApiBundle:User')->getUserPointForJulyActivity($start, $end, $limit, $offset);
+        $users = $this->em->getRepository('JiliApiBundle:User')->getTotalCPAPointsByTime($start, $end, $limit, $offset);
         $this->assertEquals(100, count($users));
     }
 }
