@@ -22,8 +22,8 @@ class JulyActivityCommand extends ContainerAwareCommand {
         //写文件
         $handle = fopen($filename, "w");
 
-        $start = "2014-05-01";
-        $end = "2014-05-31";
+        $start = "2014-07-01";
+        $end = "2014-07-31";
 
         //前100名
         $limit = 100;

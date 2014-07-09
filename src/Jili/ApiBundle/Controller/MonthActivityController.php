@@ -22,8 +22,8 @@ class MonthActivityController extends Controller {
             }
         }
         fclose($handle);
-        $start = "2014-05-01";
-        $end = "2014-05-31";
+        $start = "2014-07-01";
+        $end = "2014-07-31";
         $request = $this->get('request');
         $user_id = $request->getSession()->get('uid');
         $my_point = 0;
