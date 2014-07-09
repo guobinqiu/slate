@@ -23,7 +23,7 @@ img{ border:0; vertical-align:bottom;}
 body{
 	font-size:12px;
 	color: #333;
-	background:#051240 url(../images/july/topBg.jpg) repeat-x top;
+	background:#b2b6ba url(../images/july/topBg.jpg) repeat-x top;
 	font-family:'宋体', Arial, Helvetica, sans-serif;
 }
 a{
@@ -31,13 +31,13 @@ a{
 	color:#68d4fe;
 }
 .red{
-	color:#ff1919;
+	color:#ff6600;
 }
 .containerActivity{
 	width:960px;
 	margin:0 auto;
-	padding-top:60px;
-	padding-bottom:60px;
+	padding-top:45px;
+	padding-bottom:20px;
 }
 .activityCon{
 	width:1171px;
@@ -46,7 +46,7 @@ a{
 .activityRank h3{
 	padding-top:10px;
 	background:url(../images/july/rankTitleBg.png) repeat-x;
-	height:46px;
+	height:44px;
 	text-align:center;
 	vertical-align:middle;
 }
@@ -77,7 +77,7 @@ a{
 	padding:0 20px 0 50px;
 }
 .rankReferWrapper{
-	border-left: 1px dashed #c4e1f1;
+	border-left: 1px dashed #dadcdf;
 	padding-left:50px;
 }
 .rankReferBox table{
@@ -88,14 +88,12 @@ a{
 	width:173px;
 	background:url(../images/july/newestBg.png) no-repeat;
 	padding:10px 20px 7px;
-	color:#ff1919;
 	font-family:'微软雅黑';
 	text-align:center;
 }
 .immediateMsg p{
 	font-size:16px;
 	line-height:30px;
-	color:#ff7474;
 }
 .mlNum{
 	font-size:42px;
