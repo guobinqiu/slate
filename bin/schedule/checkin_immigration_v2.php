@@ -24,13 +24,14 @@ class CheckinImmigration {
             foreach( $tables as $table ) {
                 $this->sub_routine( $table);
             }
-            $this->dbh->commit();
             // check result
             foreach( $this->stmts as $ind =>  $stmt)  {
                 if( $stmt['insert']->rowCount() != $stmt['delete']->rowCount() ) {
                     throw new \Exception( ' insert and delete not mached when immigrate table ' . $tables[$ind]  );
                 }
             }
+
+            $this->dbh->commit();
         } catch(\Exception $e ) {
             $this->dbh->rollBack();
             echo "Failed: " . $e->getMessage();
