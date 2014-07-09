@@ -1583,8 +1583,11 @@ class UserController extends Controller
                 $result = $this->get('signup_activate.form_handler')->setForm($form)->process( array( 'user'=>$user, 'passwordToken'=>  $passwordToken ) );
 
                 $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__,'')).var_export($result,true));
-
+                if( isset($result['errors'] ) && count( $result['errors']) > 0 ) {
+                    $vars['errors'] = $result['errors'];
+                }else {
                 // return $this->redirect($this->generateUrl(...));
+                }
             } else {
                 $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ).' form invalid'  );
             }
