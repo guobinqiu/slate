@@ -482,4 +482,77 @@ EOT;
         } 
         return true;
     }
+
+    /**
+     * @param $start date("Y-m-d")
+     * @param $end date("Y-m-d")
+     * @param $limit
+     * @param $offset
+     */
+    public function getTotalCPAPointsByTime($start,$end,$limit,$offset) {
+
+        $s =<<<EOT
+select a.id,a.email,a.nick,b.points from user a inner join
+(
+select user_id, sum(point) as points from task_history00 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history01 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history02 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history03 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history04 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history05 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history06 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history07 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history08 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history09 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+ ) b
+ on b.user_id = a.id order by b.points desc LIMIT :offset, :limit
+EOT;
+        $stmt =  $this->getEntityManager()->getConnection()->prepare($s);
+
+        $stmt->bindParam(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
+        $stmt->bindParam(':start', $start);
+        $stmt->bindParam(':end', $end);
+
+        $stmt->execute();
+        $return = $stmt->fetchAll();
+        return $return;
+    }
+
+    /**
+     * @param $start date("Y-m-d")
+     * @param $end date("Y-m-d")
+     * @param $user_id
+     * @param $table_name
+     */
+    public function getUserCPAPointsByTime($start,$end,$user_id) {
+        $suffix = substr($user_id, -1, 1);
+        $table_name = sprintf('task_history%02d', $suffix);
+
+        $s =<<<EOT
+select a.id,a.email,a.nick,b.points from user a inner join
+(
+select user_id, sum(point) as points from $table_name t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end and t.user_id = :user_id group by user_id
+ ) b
+ on b.user_id = a.id
+EOT;
+        $stmt =  $this->getEntityManager()->getConnection()->prepare($s);
+
+        $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
+        $stmt->bindParam(':start', $start);
+        $stmt->bindParam(':end', $end);
+
+        $stmt->execute();
+        $return = $stmt->fetchAll();
+        return $return;
+    }
 }
