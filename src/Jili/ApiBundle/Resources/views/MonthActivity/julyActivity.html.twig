@@ -26,7 +26,7 @@
     </div>
 <div class="containerActivity"> 
         <div class="activityRank" id="rank">
-            <h3><img src="{{ asset('images/july/rankTitle.jpg') }}" width="171" height="29" alt="7月任务大厅排名" title="7月任务大厅排名"/></h3>
+            <h3><img src="{{ asset('images/july/rankTitle.jpg') }}" width="171" height="29" alt="7月任务大厅排名" title="7月任务大厅排名"/><span style="color:#1e4200;vertical-align: bottom;">(每天早上6:00更新排行榜)</span></h3>
             <div class="rankCon clearfix">
                 <div class="rankList fl clearfix">
                     <div class="fl">
@@ -74,7 +74,7 @@
                     {% if app.session.get('uid') %}
                     <div class="immediateMsg">
                         <p>您在{{ 'now'|date('H') }}时{{ 'now'|date('i') }}分的米粒数</p>
-                        <div class="mlNum">{{my_point}}</div>
+                        <div class="mlNum red">{{my_point}}</div>
                     </div>
                     {% endif %}
                     </div>
