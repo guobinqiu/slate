@@ -37,12 +37,11 @@ class SignupActivateHandler
 #        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ). var_export( $cm, true) );
 #        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ). var_export( $cn, true) );
 
-        $errors = array();
         $data = $form->getData();
+        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ). var_export( $data, true) );
         if($data['agreement']) {
-            if( $data['password2'] === $data['password1'] ) {
                 $this->login_listener->checkNewbie($user);
-                $user->setPwd($data['password1']);
+                $user->setPwd($data['password']);
                 $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
 
                 $user->setLastLoginIp($this->container->get('request')->getClientIp());
@@ -54,11 +53,13 @@ class SignupActivateHandler
                 $em->persist($user);
                 $em->persist($passwordToken);
                 $em->flush();
+
                 //设置密码之后，注册成功，发邮件2014-01-10
                 $soapMailLister = $this->soap_mail_listener;
                 $soapMailLister->setCampaignId($this->getParameter('register_success_campaign_id')); //活动id
                 $soapMailLister->setMailingId($this->getParameter('register_success_mailing_id')); //邮件id
                 $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
+
                 $recipient_arr = array (
                     array (
                         'name' => 'email',
@@ -70,15 +71,13 @@ class SignupActivateHandler
                 $this->login_listener->initSession($user);
                 // The user was insert when regAction 
                 $this->login_listener->log($user);
-            } else {
-                $errors['password2'] = $this->getParameter('forget_unsame_pwd');
 
-            }
+            
         } else {
             // check the agreement
         }
         $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ).  var_export( $data, true) );
-        return array('errors'=> $errors);
+        return true;
     }
 
     public function setLogger( LoggerInterface $logger ) {

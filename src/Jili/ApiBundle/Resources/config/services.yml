@@ -39,6 +39,8 @@ services:
 
     soap.mail.listener:
         class: %soap.mail.listener.class%
+        calls:
+            - [setLogger, ["@logger"]]
 
     # rebate_activity.point_caculator
     rebate_point.caculator:

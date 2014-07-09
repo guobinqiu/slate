@@ -51,15 +51,13 @@ $(document).ready(function(){
         
     <ul class="form activate">
         <li>
-        <dd>{{ form_label(form.password1) }}</dd>
+        <dd>{{ form_label(form.password.first) }}</dd>
         <dt>
-        {{ form_widget(form.password1 , {'attr': { 'class': 'password' }  }  )  }}
+        {{ form_widget(form.password.first   )  }}
         <br />
     	<span id="pwdError">
-           {% if form.password1.vars.errors|length %}
-        	 {{ form_errors(form.password1) }}
-           {% elseif errors is defined and errors.password1 is defined %}
-        	 <font color="red">{{ errors.password1 }}</font>
+           {% if form.password.first.vars.errors|length %}
+        	 {{ form_errors(form.password.first) }}
            {% else %}
              电子邮件就是您今后登录积粒网的账号
            {% endif %}
@@ -67,23 +65,29 @@ $(document).ready(function(){
 
 
         <li>
-        <dd>{{ form_label(form.password2) }}</dd>
+        <dd>{{ form_label(form.password.second) }}</dd>
         <dt>
-        {{ form_widget(form.password2 , {'attr': {'class': 'password' }  }  )  }}
+        {{ form_widget(form.password.second) }}
         <br />
         <span id="newError">
-
-           {% if form.password2.vars.errors|length %}
-        	 {{ form_errors(form.password2) }}
-         {% elseif errors is defined and errors.password2 is defined %}
-            <font color="red">{{ errors.password2 }}</font>
+         {% if form.password.second.vars.errors|length %}
+        	 {{ form_errors(form.password.second) }}
     	 {% else %}
             6-20个字符
     	 {%  endif %}
         </span></dt></li>
 
         <li><dd></dd><dt>
-        {{  form_widget( form.agreement ) }} {{ form_label( form.agreement , '我已认真阅读并同意接受.', {'label_attr': { 'class':'' } } ) }}<a href="{{ path('_user_agreement') }}" target="_blank" class="provision">《积粒网会员协议》</a></dt></li>
+        {{  form_widget( form.agreement ) }} {{ form_label( form.agreement , '我已认真阅读并同意接受.', {'label_attr': { 'class':'' } } ) }}<a href="{{ path('_user_agreement') }}" target="_blank" class="provision">《积粒网会员协议》</a>
+
+         {% if form.agreement.vars.errors|length %}
+         <span id="newError">
+        	 {{ form_errors(form.agreement) }}
+         </span>
+         {% endif %}
+         </dt>
+
+        </li>
 
         {{ form_rest(form) }}
         <li><dd></dd><dt><input type='button' name='but' id='but' value='创建账号' class='regBtn'/></dt></li>

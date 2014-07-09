@@ -1577,17 +1577,16 @@ class UserController extends Controller
         $form  = $this->createForm(new SignupActivateType() );
         if ($request->getMethod() === 'POST') {
             $form->bind($request);
-
             if ($form->isValid()) {
                 // the validation passed, do something with the $author object
-                $result = $this->get('signup_activate.form_handler')->setForm($form)->process( array( 'user'=>$user, 'passwordToken'=>  $passwordToken ) );
+                $this->get('signup_activate.form_handler')->setForm($form)->process( array( 'user'=>$user, 'passwordToken'=>  $passwordToken ) );
+                // set flash
 
-                $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__,'')).var_export($result,true));
-                if( isset($result['errors'] ) && count( $result['errors']) > 0 ) {
-                    $vars['errors'] = $result['errors'];
-                }else {
-                // return $this->redirect($this->generateUrl(...));
-                }
+                $this->get('session')->getFlashBag()->add(
+                    'notice',
+                    '恭喜，密码设置成功！'
+                );
+                return $this->redirect($this->generateUrl('_user_regSuccess'));
             } else {
                 $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ).' form invalid'  );
             }
