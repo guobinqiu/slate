@@ -35,16 +35,21 @@ class MonthActivityController extends Controller {
             }
         }
 
-        $users = array_chunk($users, 50);
-
-        $users_right[] = $users[0][49]; //第50名
-        $users_right[] = $users[1][49]; //第100名
-        $users_right = array_merge($users_right, $users[2]);
-        $users[2] = $users_right;
+        //divide users into groups for display on page
+        $users = $this->divideIntoGroups($users);
 
         return $this->render('JiliApiBundle:MonthActivity:julyActivity.html.twig', array (
             'users' => $users,
             'my_point' => $my_point
         ));
+    }
+
+    public function divideIntoGroups($users) {
+        $users = array_chunk($users, 50);
+        $users_right[] = $users[0][49]; //第50名
+        $users_right[] = $users[1][49]; //第100名
+        $users_right = array_merge($users_right, $users[2]);
+        $users[2] = $users_right;
+        return $users;
     }
 }
