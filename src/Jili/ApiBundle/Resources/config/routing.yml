@@ -74,5 +74,9 @@ api-91wenwen:
     resource: "@JiliApiBundle/Controller/WenwenController.php"
     type:     annotation
     prefix:   /
+monthActivity:
+    resource: "@JiliApiBundle/Controller/MonthActivityController.php"
+    prefix:   /monthActivity
+    type:     annotation
 
 
