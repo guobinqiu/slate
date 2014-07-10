@@ -1,8 +1,9 @@
 <?php
 namespace Jili\ApiBundle\Tests\Utility;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Jili\ApiBundle\Controller\AdminController;
 
-class HandleExchangeWenTest extends \ PHPUnit_Framework_TestCase {
+class HandleExchangeWenTest extends WebTestCase {
 
     public function testHandleExchangeWen() {
         $client = static :: createClient();
@@ -10,6 +11,7 @@ class HandleExchangeWenTest extends \ PHPUnit_Framework_TestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
+        //测试有关表user,exchange_from_wenwen
         $file[1][0] = "91jili-201402-2624-927390";
         $file[1][1] = "zhangmm@voyagegroup.com.cn";
         $file[1][2] = "30";
