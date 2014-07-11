@@ -253,89 +253,17 @@ class AdminController extends Controller
     }
 
     public function selectTaskPercent($userid,$orderId){
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
       $em = $this->getDoctrine()->getManager();
-      switch($uid){
-            case 0:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory00'); 
-                  break;
-            case 1:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');  
-                  break;
-            case 2:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');  
-                  break;
-            case 3:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory03'); 
-                  break;
-            case 4:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory04'); 
-                  break;
-            case 5:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory05'); 
-                  break;
-            case 6:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory06'); 
-                  break;
-            case 7:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory07'); 
-                  break;
-            case 8:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory08'); 
-                  break;
-            case 9:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
-                  break;
-      }
+      $task = $em->getRepository('JiliApiBundle:TaskHistory0'.( $userid % 10));
       $task_order = $task->getTaskPercent($orderId);
       return $task_order[0];
     }
 
 
-    private function updateTaskHistory($parms=array()){
+    public function updateTaskHistory($parms=array()){
       extract($parms);
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
       $em = $this->getDoctrine()->getManager();
-      switch($uid){
-            case 0:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory00'); 
-                  break;
-            case 1:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');  
-                  break;
-            case 2:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');  
-                  break;
-            case 3:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory03'); 
-                  break;
-            case 4:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory04'); 
-                  break;
-            case 5:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory05'); 
-                  break;
-            case 6:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory06'); 
-                  break;
-            case 7:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory07'); 
-                  break;
-            case 8:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory08'); 
-                  break;
-            case 9:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
-                  break;
-      }
+      $task = $em->getRepository('JiliApiBundle:TaskHistory0'.( $userid % 10));
       $task_order = $task->getFindOrderId($orderId,$taskType);
       if(empty($task_order)){
           return false;
@@ -353,46 +281,11 @@ class AdminController extends Controller
       $em->flush();
       return true;
     }
-    
-    private function getPointHistory($userid,$point,$type){
-        if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-        }else{
-            $uid = $userid;
-        }
-        switch($uid){
-            case 0:
-                $po = new PointHistory00();
-                break;
-            case 1:
-                $po = new PointHistory01();
-                break;
-            case 2:
-                $po = new PointHistory02();
-                break;
-            case 3:
-                $po = new PointHistory03();
-                break;
-            case 4:
-                $po = new PointHistory04();
-                break;
-            case 5:
-                $po = new PointHistory05();
-                break;
-            case 6:
-                $po = new PointHistory06();
-                break;
-            case 7:
-                $po = new PointHistory07();
-                break;
-            case 8:
-                $po = new PointHistory08();
-                break;
-            case 9:
-                $po = new PointHistory09();
-                break;
-        }
+
+    public function getPointHistory($userid,$point,$type){
         $em = $this->getDoctrine()->getManager();
+        $pointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userid % 10);
+        $po = new $pointHistory();
         $po->setUserId($userid);
         $po->setPointChangeNum($point);
         $po->setReason($type);
@@ -1360,43 +1253,8 @@ class AdminController extends Controller
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         if(!$exchanges->getStatus()){
             $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-            if(strlen($userInfo[0]->getId())>1){
-                $uid = substr($userInfo[0]->getId(),-1,1);
-            }else{
-                $uid = $userInfo[0]->getId();
-            }
-            switch($uid){
-                case 0:
-                    $po = new PointHistory00();
-                    break;
-                case 1:
-                    $po = new PointHistory01();
-                    break;
-                case 2:
-                    $po = new PointHistory02();
-                    break;
-                case 3:
-                    $po = new PointHistory03();
-                    break;
-                case 4:
-                    $po = new PointHistory04();
-                    break;
-                case 5:
-                    $po = new PointHistory05();
-                    break;
-                case 6:
-                    $po = new PointHistory06();
-                    break;
-                case 7:
-                    $po = new PointHistory07();
-                    break;
-                case 8:
-                    $po = new PointHistory08();
-                    break;
-                case 9:
-                    $po = new PointHistory09();
-                    break;
-            }
+            $pointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userInfo[0]->getId() % 10);
+            $po = new $pointHistory();
             $po->setUserId($userInfo[0]->getId());
             $po->setPointChangeNum('-'.$points);
             if($type == 1)
@@ -1569,43 +1427,8 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        if(strlen($userInfo[0]->getId())>1){
-            $uid = substr($userInfo[0]->getId(),-1,1);
-        }else{
-            $uid = $userInfo[0]->getId();
-        }
-        switch($uid){
-            case 0:
-                $po = new PointHistory00();
-                break;
-            case 1:
-                $po = new PointHistory01();
-                break;
-            case 2:
-                $po = new PointHistory02();
-                break;
-            case 3:
-                $po = new PointHistory03();
-                break;
-            case 4:
-                $po = new PointHistory04();
-                break;
-            case 5:
-                $po = new PointHistory05();
-                break;
-            case 6:
-                $po = new PointHistory06();
-                break;
-            case 7:
-                $po = new PointHistory07();
-                break;
-            case 8:
-                $po = new PointHistory08();
-                break;
-            case 9:
-                $po = new PointHistory09();
-                break;
-        }
+        $pointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userInfo[0]->getId() % 10);
+        $po = new $pointHistory();
         $po->setUserId($userInfo[0]->getId());
         $po->setPointChangeNum('+'.$points);
         $po->setReason($this->container->getParameter('init_thirteen'));
@@ -3171,98 +2994,26 @@ class AdminController extends Controller
 
     }
 
-
-
-     private function insertSendMs($parms=array()){
-      extract($parms);
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
-      switch($uid){
-            case 0:
-                  $sm = new SendMessage00();
-                  break;
-            case 1:
-                  $sm = new SendMessage01();
-                  break;
-            case 2:
-                  $sm = new SendMessage02();
-                  break;
-            case 3:
-                  $sm = new SendMessage03();
-                  break;
-            case 4:
-                  $sm = new SendMessage04();
-                  break;
-            case 5:
-                  $sm = new SendMessage05();
-                  break;
-            case 6:
-                  $sm = new SendMessage06();
-                  break;
-            case 7:
-                  $sm = new SendMessage07();
-                  break;
-            case 8:
-                  $sm = new SendMessage08();
-                  break;
-            case 9:
-                  $sm = new SendMessage09();
-                  break;
-      }
-      $em = $this->getDoctrine()->getManager();
-      $sm->setSendFrom($this->container->getParameter('init'));
-      $sm->setSendTo($userid);
-      $sm->setTitle($title);
-      $sm->setContent($content);
-      $sm->setReadFlag($this->container->getParameter('init'));
-      $sm->setDeleteFlag($this->container->getParameter('init'));
-      $em->persist($sm);
-      $em->flush();
+    public function insertSendMs($parms=array()){
+        extract($parms);
+        $em = $this->getDoctrine()->getManager();
+        $sendMessage = 'Jili\ApiBundle\Entity\SendMessage0'. ( $userid % 10);
+        $sm = new $sendMessage();
+        $sm->setSendFrom($this->container->getParameter('init'));
+        $sm->setSendTo($userid);
+        $sm->setTitle($title);
+        $sm->setContent($content);
+        $sm->setReadFlag($this->container->getParameter('init'));
+        $sm->setDeleteFlag($this->container->getParameter('init'));
+        $em->persist($sm);
+        $em->flush();
     }
 
 
     private function delSendMs($userid,$sendid){
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
       $em = $this->getDoctrine()->getManager();
-      switch($uid){
-             case 0:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
-                  break;
-            case 1:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
-                  break;
-            case 2:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
-                  break;
-            case 3:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
-                  break;
-            case 4:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
-                  break;
-            case 5:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
-                  break;
-            case 6:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
-                  break;
-            case 7:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
-                  break;
-            case 8:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
-                  break;
-            case 9:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
-                  break;
-      }
+      $sendMessage = 'Jili\ApiBundle\Entity\SendMessage0'. ( $sendid % 10);
+      $sm = new $sendMessage();
       $delSm = $sm->find($sendid);
       $delSm->setDeleteFlag($this->container->getParameter('init_one'));
       $em->persist($delSm);
@@ -3271,44 +3022,9 @@ class AdminController extends Controller
 
     private function updateSendMs($parms=array()){
       extract($parms);
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
       $em = $this->getDoctrine()->getManager();
-      switch($uid){
-             case 0:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
-                  break;
-            case 1:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
-                  break;
-            case 2:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
-                  break;
-            case 3:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
-                  break;
-            case 4:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
-                  break;
-            case 5:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
-                  break;
-            case 6:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
-                  break;
-            case 7:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
-                  break;
-            case 8:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
-                  break;
-            case 9:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
-                  break;
-      }
+      $sendMessage = 'Jili\ApiBundle\Entity\SendMessage0'. ( $uid % 10);
+      $sm = new $sendMessage();
       $updateSm = $sm->find($sendid);
       $updateSm->setSendTo($userid);
       $updateSm->setTitle($title);
@@ -3318,44 +3034,9 @@ class AdminController extends Controller
     }
 
     private function selectSendMsById($userid,$sendid){
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
       $em = $this->getDoctrine()->getManager();
-      switch($uid){
-            case 0:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
-                  break;
-            case 1:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
-                  break;
-            case 2:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
-                  break;
-            case 3:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
-                  break;
-            case 4:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
-                  break;
-            case 5:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
-                  break;
-            case 6:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
-                  break;
-            case 7:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
-                  break;
-            case 8:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
-                  break;
-            case 9:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
-                  break;
-      }
+      $sendMessage = 'Jili\ApiBundle\Entity\SendMessage0'. ( $sendid % 10);
+      $sm = new $sendMessage();
       $showMsById = $sm->getUserSendMs($sendid);
       return $showMsById[0];
 
@@ -3364,38 +3045,8 @@ class AdminController extends Controller
 
     private function selectSendMs($id){
       $em = $this->getDoctrine()->getManager();
-      switch($id){
-            case 0:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage00');
-                  break;
-            case 1:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage01');
-                  break;
-            case 2:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage02');
-                  break;
-            case 3:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage03');
-                  break;
-            case 4:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage04');
-                  break;
-            case 5:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage05');
-                  break;
-            case 6:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage06');
-                  break;
-            case 7:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage07');
-                  break;
-            case 8:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage08');
-                  break;
-            case 9:
-                  $sm = $em->getRepository('JiliApiBundle:SendMessage09');
-                  break;
-      }
+      $sendMessage = 'Jili\ApiBundle\Entity\SendMessage0'. ( $id % 10);
+      $sm = new $sendMessage();
       $showMs = $sm->getSendMs();
       return $showMs;
      
@@ -3403,58 +3054,21 @@ class AdminController extends Controller
 
 
     public function getTaskHistory($parms=array()){
-    extract($parms);
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
-      switch($uid){
-            case 0:
-                  $po = new TaskHistory00();
-                  break;
-            case 1:
-                  $po = new TaskHistory01();
-                  break;
-            case 2:
-                  $po = new TaskHistory02();
-                  break;
-            case 3:
-                  $po = new TaskHistory03();
-                  break;
-            case 4:
-                  $po = new TaskHistory04();
-                  break;
-            case 5:
-                  $po = new TaskHistory05();
-                  break;
-            case 6:
-                  $po = new TaskHistory06();
-                  break;
-            case 7:
-                  $po = new TaskHistory07();
-                  break;
-            case 8:
-                  $po = new TaskHistory08();
-                  break;
-            case 9:
-                  $po = new TaskHistory09();
-                  break;
-      }
-      $em = $this->getDoctrine()->getManager();
-      $po->setOrderId($orderId);
-      $po->setUserId($userid);
-      $po->setTaskType($task_type);
-      $po->setCategoryType($categoryId);
-      $po->setTaskName($taskName);
-      $po->setRewardPercent($reward_percent);
-
-      $po->setPoint($point);
-
-      $po->setDate(date_create($date));
-      $po->setStatus($status);
-      $em->persist($po);
-      $em->flush();
+        extract($parms);
+        $em = $this->getDoctrine()->getManager();
+        $taskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $userid % 10);
+        $po = new $taskHistory();
+        $po->setOrderId($orderId);
+        $po->setUserId($userid);
+        $po->setTaskType($task_type);
+        $po->setCategoryType($categoryId);
+        $po->setTaskName($taskName);
+        $po->setRewardPercent($reward_percent);
+        $po->setPoint($point);
+        $po->setDate(date_create($date));
+        $po->setStatus($status);
+        $em->persist($po);
+        $em->flush();
     }
     
     /**
