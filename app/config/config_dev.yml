@@ -29,3 +29,9 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+doctrine:
+    dbal:
+        host:     127.0.0.1 
+        dbname:   jili_0129
+        password:  MyNewPassword
+

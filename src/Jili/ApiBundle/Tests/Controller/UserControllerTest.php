@@ -23,6 +23,7 @@ class UserControllerTest extends WebTestCase
             ->getManager();
 
         $this->em  = $em;
+
 #        ob_start();
     }
     /**
@@ -263,7 +264,7 @@ class UserControllerTest extends WebTestCase
 #    }
     /**
      * @group user-password
-     * @group debug
+     * @group issue_381 
      */
     public function testPasswordAction() {
 

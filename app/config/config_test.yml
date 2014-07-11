@@ -1,10 +1,6 @@
 imports:
     - { resource: config_dev.yml }
 
-parameters:
-    database_host:     192.168.1.15
-    database_name:     jili_0707
-    database_password:  MyNewPassword 
 
 framework:
     test: ~
@@ -22,4 +18,10 @@ swiftmailer:
     spool:
         type: file
         path: %kernel.root_dir%/cache/%kernel.environment%/swiftmailer.emails
+
+doctrine:
+    dbal:
+        host:     192.168.1.15 
+        dbname:   jili_test_0710 
+        password:  MyNewPassword
 

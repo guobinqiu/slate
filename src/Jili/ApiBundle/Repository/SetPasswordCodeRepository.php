@@ -4,7 +4,7 @@ namespace Jili\ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
-use Jili\ApiBundle\Entity\setPasswordCode;
+use Jili\ApiBundle\Entity\SetPasswordCode;
 class SetPasswordCodeRepository extends EntityRepository
 {
     /**
@@ -23,7 +23,7 @@ class SetPasswordCodeRepository extends EntityRepository
         ->setParameters( array( 
             'userId'=> $user_id, 
             'code'=> $token,
-            'min_created_at'=> date('Y-m-d H:i:s', time() - setPasswordCode::$VALIDATION_OF_SIGNUP_ACTIVATE  ) )
+            'min_created_at'=> date('Y-m-d H:i:s', time() - SetPasswordCode::$VALIDATION_OF_SIGNUP_ACTIVATE  ) )
         );
 
         $q = $qb->getQuery();
