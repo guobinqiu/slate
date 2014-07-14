@@ -58,6 +58,14 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $b['uid']);
         $this->assertArrayHasKey('adid', $b);
         $this->assertEquals(0, $b['adid']);
+    }
 
+    /**
+     * @group getEntityName
+     */
+    public function testgetEntityName()
+    {
+        $className = String::getEntityName('SendMessage',1094121);
+        $this->assertEquals('Jili\ApiBundle\Entity\SendMessage01', $className);
     }
 }

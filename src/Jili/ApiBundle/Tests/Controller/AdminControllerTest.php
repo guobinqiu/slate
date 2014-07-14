@@ -77,6 +77,67 @@ class AdminControllerTest extends WebTestCase {
     }
 
     /**
+     * @group delSendMs
+     */
+    public function testdelSendMs() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $userid = 1057704;
+        $sendid = 8;
+        $controller->delSendMs($userid,$sendid);
+    }
+
+    /**
+     * @group updateSendMs
+     */
+    public function testupdateSendMs() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $params = array(
+                      'sendid'=> 8,
+                      'userid' => 1057704,
+                      'title' => "test title",
+                      'content' => "test content"
+                    );
+        $controller->updateSendMs($params);
+    }
+
+    /**
+     * @group selectSendMsById
+     */
+    public function testselectSendMsById() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $userid = 1057704;
+        $sendid = 7;
+        $return = $controller->selectSendMsById($userid,$sendid);
+        $this->assertEquals('zhangmm@voyagegroup.com.cn', $return['email']);
+    }
+
+    /**
+     * @group selectSendMs
+     */
+    public function testselectSendMs() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $userid = 1057704;
+        $return = $controller->selectSendMs($userid);
+        $this->assertEquals(7, count($return));
+    }
+
+    /**
      * @group SelectTaskPercent
      */
     public function testSelectTaskPercent() {
@@ -114,6 +175,29 @@ class AdminControllerTest extends WebTestCase {
     }
 
     /**
+     * @group getTaskHistory
+     */
+    public function testgetTaskHistory() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $params = array(
+          'orderId' => 0,
+          'userid' => 1057704,
+          'task_type' => 4,
+          'categoryId' => 14,
+          'taskName' => '名片入力',
+          'reward_percent' => 0,
+          'point' => 100,
+          'date' => date('Y-m-d H:i:s'),
+          'status' => 1
+        );
+        $controller->getTaskHistory($params);
+    }
+
+    /**
      * @group GetPointHistory
      */
     public function testGetPointHistory() {
@@ -126,5 +210,20 @@ class AdminControllerTest extends WebTestCase {
         $point = 120;
         $type = 4;
         $controller->getPointHistory($userid,$point,$type);
+    }
+
+    /**
+     * @group ExchangeOKWen
+     */
+    public function testExchangeOKWen() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $email = 'zhangmm@voyagegroup.com.cn';
+        $points = 120;
+        $return = $controller->exchangeOKWen($email,$points);
+        $this->assertTrue($return);
     }
 }

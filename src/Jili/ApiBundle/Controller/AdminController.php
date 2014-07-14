@@ -284,7 +284,7 @@ class AdminController extends Controller
 
     public function getPointHistory($userid,$point,$type){
         $em = $this->getDoctrine()->getManager();
-        $pointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userid % 10);
+        $pointHistory = String::getEntityName('PointHistory', $userid);
         $po = new $pointHistory();
         $po->setUserId($userid);
         $po->setPointChangeNum($point);
@@ -1427,7 +1427,7 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        $pointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userInfo[0]->getId() % 10);
+        $pointHistory = String::getEntityName('PointHistory', $userInfo[0]->getId());
         $po = new $pointHistory();
         $po->setUserId($userInfo[0]->getId());
         $po->setPointChangeNum('+'.$points);
@@ -1436,6 +1436,8 @@ class AdminController extends Controller
         $em->flush();
         $user = $em->getRepository('JiliApiBundle:User')->find($userInfo[0]->getId());
         $user->setPoints(intval($user->getPoints() + $points));
+        $em->persist($user);
+        $em->flush();
         return true;
     }
 
@@ -2997,7 +2999,7 @@ class AdminController extends Controller
     public function insertSendMs($parms=array()){
         extract($parms);
         $em = $this->getDoctrine()->getManager();
-        $sendMessage = 'Jili\ApiBundle\Entity\SendMessage0'. ( $userid % 10);
+        $sendMessage = String::getEntityName('SendMessage', $userid);
         $sm = new $sendMessage();
         $sm->setSendFrom($this->container->getParameter('init'));
         $sm->setSendTo($userid);
@@ -3010,21 +3012,19 @@ class AdminController extends Controller
     }
 
 
-    private function delSendMs($userid,$sendid){
+    public function delSendMs($userid,$sendid){
       $em = $this->getDoctrine()->getManager();
-      $sendMessage = 'Jili\ApiBundle\Entity\SendMessage0'. ( $sendid % 10);
-      $sm = new $sendMessage();
+      $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ( $userid % 10));
       $delSm = $sm->find($sendid);
       $delSm->setDeleteFlag($this->container->getParameter('init_one'));
       $em->persist($delSm);
       $em->flush();
     }
 
-    private function updateSendMs($parms=array()){
+    public function updateSendMs($parms=array()){
       extract($parms);
       $em = $this->getDoctrine()->getManager();
-      $sendMessage = 'Jili\ApiBundle\Entity\SendMessage0'. ( $uid % 10);
-      $sm = new $sendMessage();
+      $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ( $userid % 10));
       $updateSm = $sm->find($sendid);
       $updateSm->setSendTo($userid);
       $updateSm->setTitle($title);
@@ -3033,20 +3033,16 @@ class AdminController extends Controller
       $em->flush();
     }
 
-    private function selectSendMsById($userid,$sendid){
+    public function selectSendMsById($userid,$sendid){
       $em = $this->getDoctrine()->getManager();
-      $sendMessage = 'Jili\ApiBundle\Entity\SendMessage0'. ( $sendid % 10);
-      $sm = new $sendMessage();
+      $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ( $userid % 10));
       $showMsById = $sm->getUserSendMs($sendid);
       return $showMsById[0];
-
     }
 
-
-    private function selectSendMs($id){
+    public function selectSendMs($id){
       $em = $this->getDoctrine()->getManager();
-      $sendMessage = 'Jili\ApiBundle\Entity\SendMessage0'. ( $id % 10);
-      $sm = new $sendMessage();
+      $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ( $id % 10));
       $showMs = $sm->getSendMs();
       return $showMs;
      
@@ -3056,7 +3052,7 @@ class AdminController extends Controller
     public function getTaskHistory($parms=array()){
         extract($parms);
         $em = $this->getDoctrine()->getManager();
-        $taskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $userid % 10);
+        $taskHistory = String::getEntityName('TaskHistory', $userid);;
         $po = new $taskHistory();
         $po->setOrderId($orderId);
         $po->setUserId($userid);

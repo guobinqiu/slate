@@ -4,7 +4,7 @@ namespace Jili\ApiBundle\Utility;
 /**
  *
  */
-class String 
+class String
 {
 
     /**
@@ -17,8 +17,8 @@ class String
         if( strlen($string) > 0)  {
             if(false !== strpos($string,'a')) {
                 list( $x, $y) =explode('a',$string);
-                $r ['uid'] = (int ) $x;       
-                $r ['adid'] = (int ) $y;      
+                $r ['uid'] = (int ) $x;
+                $r ['adid'] = (int ) $y;
             };
         }
         return $r;
@@ -30,5 +30,10 @@ class String
         $adid= intval($adid);
         $r = $uid. 'a'. $adid ;
         return $r;
+    }
+
+    public static function getEntityName($name, $userid) {
+        $suffix = substr($userid,-1,1);
+        return "Jili\ApiBundle\Entity\\".sprintf($name.'%02d', $suffix);
     }
 }
