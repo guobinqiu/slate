@@ -3,6 +3,11 @@ namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserSetPasswordCodeData;
 
 class SetPasswordCodeRepositoryTest extends KernelTestCase
 {
@@ -22,7 +27,24 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+        $container = static::$kernel->getContainer();
+
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        // load fixtures
+        $fixture = new LoadUserSetPasswordCodeData();
+        $fixture->setContainer($container);
+
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+
+        $executor->execute($loader->getFixtures());
+
         $this->em  = $em;
+        $this->container  = $container;
     }
     /**
      * {@inheritDoc}
@@ -30,7 +52,7 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
     protected function tearDown()
     {
         parent::tearDown();
-       $this->em->close();
+        $this->em->close();
     }
 
     /**
@@ -43,11 +65,13 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
 
         // a validate test
         $params = array(
-            'user_id'=> 1120386, 
-            'token'=>  '71b1b99cfbbb75c363300f051f5c57af',
+            'user_id'=> LoadUserSetPasswordCodeData::$USER[0]->getId(), 
+            'token'=>  LoadUserSetPasswordCodeData::$SET_PASSWORD_CODE[0]->getCode(),
         );
+
         $result = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken($params);
-        $this->assertEquals( 16631 , $result->getId());
+        $this->assertNotNull( $result);
+        $this->assertEquals(LoadUserSetPasswordCodeData::$SET_PASSWORD_CODE[0]->getId() ,  $result->getId() ) ;
 
 
         $params = array(
@@ -73,16 +97,35 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
 
         $result = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken($params);
         $this->assertNull(  $result);
-
     }
 
     /**
      * @group debug 
+     * @group set_password_code_repository 
+     * @group issue_381 
+     */
+    public function testIsAvailableFindOneValidateSignUpToken() 
+    {
+        // invalid is_available 
+        $params = array(
+            'user_id'=> LoadUserSetPasswordCodeData::$USER[2]->getId(), 
+            'token'=>  LoadUserSetPasswordCodeData::$SET_PASSWORD_CODE[2]->getCode(),
+        );
+        $result = $this->em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken($params);
+        $this->assertNull(  $result);
+    }
+    /**
+     * @group set_password_code_repository 
+     * @group issue_381 
      **/
     public function testCreateTimeFindOneValidateSignUpToken() 
     {
-        $em = $this->em;
-
-        $this->assertEquals(1,'1');
+        // invalid create_time
+        $params = array(
+            'user_id'=> LoadUserSetPasswordCodeData::$USER[1]->getId(), 
+            'token'=>  LoadUserSetPasswordCodeData::$SET_PASSWORD_CODE[1]->getCode(),
+        );
+        $result = $this->em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken($params);
+        $this->assertNull(  $result);
     }
 }

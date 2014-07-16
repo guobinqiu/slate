@@ -1542,13 +1542,6 @@ class UserController extends Controller
 		return $this->render('JiliApiBundle:User:regSuccess.html.twig');
 	}
 	
-
-//    /**
-//     * @Route("/user/forgetPass/{code}/{id}", name="_user_forgetPass")
-//     */
-//    public function forgetPassAction($code,$id){
-//        return $this->forward('JiliApiBundle:User:signupActivate', array( 'token'=> $code, 'uid'=> $id));
-//    }
 	
 	/**
 	 * @Route("/activate/{token}/{uid}", name="_user_signup_activate", requirements={"uid"="\d+"})

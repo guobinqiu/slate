@@ -24,7 +24,7 @@ class TopController extends Controller
     {
         $request = $this->get('request');
         $logger = $this->get('logger');
-       
+
         $cookies = $request->cookies;
         $session = $request->getSession();
     
