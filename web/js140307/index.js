@@ -17,6 +17,7 @@ $(document).ready(function(){
 		$(".bannerNumber").append("<a>"+ i +"</a>");
 	}
 	$(".bannerNumber a").eq(bannerPage-1).addClass("hover");
+	$(".bannerImg").css('top', '0px');
 	var slider = function(){
 		$(".bannerImg").stop(true,false).animate({top:-$(".bannerImg li").height()*(bannerPage-1)},sliderTime);
 	}
@@ -27,11 +28,11 @@ $(document).ready(function(){
 		if(bannerPage >= $(".bannerImg li").length){
 		bannerPage = 1;
 	}
-	else{
+	else{ 
 		bannerPage ++;
 	}
-	slider();
-	number();
+	//slider(); 
+	//number();
 	}
 	$(".bannerNumber a").hover(function() {
 		bannerPage = $(this).text();
@@ -41,7 +42,8 @@ $(document).ready(function(){
 	},function() {
 		SetTime = setInterval( next , nextTime);
 	})
-	var SetTime = setInterval( next , nextTime); 
+	var SetTime;
+	// = setInterval( next , nextTime); 
 	
 	//news
 	$("#news .all").width($("#news ul").length * $("#news ul").width())
