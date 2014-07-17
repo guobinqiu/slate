@@ -280,21 +280,4 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals('1', $client->getResponse()->getContent());
     }
-
-    /**
-     * @group SendMailBySoap
-     */
-    public function testSendMailBySoap() {
-        $client = static :: createClient();
-        $container = $client->getContainer();
-        $controller = new UserController();
-        $controller->setContainer($container);
-
-        $email = "zhangmm@voyagegroup.com.cn";
-        $code = "testcode111";
-        $user = $this->em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        $return = $controller->sendMailBySoap($user[0],$code);
-        $this->assertTrue($return);
-    }
-
 }

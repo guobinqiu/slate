@@ -284,7 +284,8 @@ class AdminController extends Controller
 
     public function getPointHistory($userid,$point,$type){
         $em = $this->getDoctrine()->getManager();
-        $pointHistory = String::getEntityName('PointHistory', $userid);
+        $classNameFactory = ClassNameFactory :: create('PointHistory', $userid);
+        $pointHistory = "Jili\ApiBundle\Entity\\".$classNameFactory->getClassName();
         $po = new $pointHistory();
         $po->setUserId($userid);
         $po->setPointChangeNum($point);
@@ -1427,7 +1428,8 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        $pointHistory = String::getEntityName('PointHistory', $userInfo[0]->getId());
+        $classNameFactory = ClassNameFactory :: create('PointHistory', $userInfo[0]->getId());
+        $pointHistory = "Jili\ApiBundle\Entity\\".$classNameFactory->getClassName();
         $po = new $pointHistory();
         $po->setUserId($userInfo[0]->getId());
         $po->setPointChangeNum('+'.$points);
@@ -2999,7 +3001,8 @@ class AdminController extends Controller
     public function insertSendMs($parms=array()){
         extract($parms);
         $em = $this->getDoctrine()->getManager();
-        $sendMessage = String::getEntityName('SendMessage', $userid);
+        $classNameFactory = ClassNameFactory :: create('SendMessage', $userid);
+        $sendMessage = "Jili\ApiBundle\Entity\\".$classNameFactory->getClassName();
         $sm = new $sendMessage();
         $sm->setSendFrom($this->container->getParameter('init'));
         $sm->setSendTo($userid);
@@ -3052,7 +3055,8 @@ class AdminController extends Controller
     public function getTaskHistory($parms=array()){
         extract($parms);
         $em = $this->getDoctrine()->getManager();
-        $taskHistory = String::getEntityName('TaskHistory', $userid);;
+        $classNameFactory = ClassNameFactory :: create('TaskHistory', $userid);
+        $taskHistory = "Jili\ApiBundle\Entity\\".$classNameFactory->getClassName();
         $po = new $taskHistory();
         $po->setOrderId($orderId);
         $po->setUserId($userid);

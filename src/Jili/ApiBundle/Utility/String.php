@@ -31,9 +31,4 @@ class String
         $r = $uid. 'a'. $adid ;
         return $r;
     }
-
-    public static function getEntityName($name, $userid) {
-        $suffix = substr($userid,-1,1);
-        return "Jili\ApiBundle\Entity\\".sprintf($name.'%02d', $suffix);
-    }
 }

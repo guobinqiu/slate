@@ -76,25 +76,8 @@ class WenwenController extends Controller {
 		$logger = $this->get('logger');
 		$logger->info('{setPassFromWenwen}' . $url);
 		//通过soap发送
-		$soapMailLister = $this->get('soap.mail.listener');
-		$soapMailLister->setCampaignId($this->container->getParameter('register_from_wenwen_campaign_id')); //活动id
-		$soapMailLister->setMailingId($this->container->getParameter('register_from_wenwen_mailing_id')); //邮件id
-		$soapMailLister->setGroup(array (
-			'name' => '从91问问注册积粒网',
-			'is_test' => 'false'
-		)); //group
-		$recipient_arr = array (
-			array (
-				'name' => 'email',
-				'value' => $email
-			),
-			array (
-				'name' => 'url_reg',
-				'value' => $url
-			)
-		);
-		$send_email = $soapMailLister->sendSingleMailing($recipient_arr);
-		if ($send_email == "Email send success") {
+		$send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
+		if ($send_email) {
 			$setPasswordCodeList = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user->getId());
 			if (empty ($setPasswordCodeList)) {
 				$setPasswordCode = new setPasswordCode();
