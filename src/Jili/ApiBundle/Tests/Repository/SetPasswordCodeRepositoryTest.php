@@ -94,13 +94,11 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
             'token'=>  '',
         );
 
-
         $result = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken($params);
         $this->assertNull(  $result);
     }
 
     /**
-     * @group debug 
      * @group set_password_code_repository 
      * @group issue_381 
      */

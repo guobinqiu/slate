@@ -13,6 +13,9 @@ use Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension;
 
 class SignupActivateTypeTest extends TypeTestCase
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -36,6 +39,7 @@ class SignupActivateTypeTest extends TypeTestCase
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->builder = new FormBuilder(null, null, $this->dispatcher, $this->factory);
     }
+
     /**
      * @group issue_381 
      **/

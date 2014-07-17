@@ -4,6 +4,11 @@ namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserSetPasswordCodeData;
+
 class UserControllerTest extends WebTestCase
 {
     /**
@@ -265,6 +270,51 @@ class UserControllerTest extends WebTestCase
     /**
      * @group user-password
      * @group issue_381 
+     * @group debug 
+     */
+    public function testForgetPassAction() {
+
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+        $logger= $container->get('logger');
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        // load fixtures
+        $fixture = new LoadUserSetPasswordCodeData();
+        $fixture->setContainer($container);
+
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+
+        $executor->execute($loader->getFixtures());
+
+        $uid = LoadUserSetPasswordCodeData::$USER[0]->getId();
+        $code =  LoadUserSetPasswordCodeData::$SET_PASSWORD_CODE[0]->getCode();
+
+        $query = array( 'code'=> $code, 'id'=> $uid );
+
+        $url = $container->get('router')->generate('_user_forgetPass', $query ) ;
+
+        $url_expected = '/user/forgetPass/'. $code. '/'. $uid;
+        $this->assertEquals($url_expected, $url);
+
+        $crawler =$client->request('GET', $url ) ;
+        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
+
+        $crawler = $client->followRedirect();
+
+        //  check the redirected url. 
+        $url_expected = '/user/activate/'. $code. '/'. $uid;
+        $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
+
+    }
+    /**
+     * @group user-password
+     * @group issue_381 
      */
     public function testPasswordAction() {
 
@@ -273,20 +323,47 @@ class UserControllerTest extends WebTestCase
         $em = $this->em;
         $logger= $container->get('logger');
 
-//        $query = array('email'=> 'alice.nima@gmail.com');
-        $uid = 1120386 ;
-        $code = '71b1b99cfbbb75c363300f051f5c57af';
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        // load fixtures
+        $fixture = new LoadUserSetPasswordCodeData();
+        $fixture->setContainer($container);
+
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+
+        $executor->execute($loader->getFixtures());
+
+        $uid = LoadUserSetPasswordCodeData::$USER[0]->getId();
+        $code =  LoadUserSetPasswordCodeData::$SET_PASSWORD_CODE[0]->getCode();
 
         $query = array( 'token'=> $code, 'uid'=> $uid );
+
         $url = $container->get('router')->generate('_user_signup_activate', $query ) ;
+        $url_expected = '/user/activate/'. $code. '/'. $uid;
+        $this->assertEquals($url_expected, $url);
 
+        $crawler =$client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $this->assertEquals('/user/activate/71b1b99cfbbb75c363300f051f5c57af/1120386', $url);
+        $form = $crawler->selectButton('创建账号')->form();
+        $form['password[first]'] ->setValue( 'qwe123');
+        $form['password[second]'] ->setValue( 'qwe123');
+        $form['agreement']->tick() ;
+        unset($form['but']); //NOTICE, this is an extra field. 
 
-        
-#
-#        $client->request('GET', $url ) ;
-#        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-#        $this->assertEquals('1', $client->getResponse()->getContent());
+        $client->submit($form );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
+        $crawler = $client->followRedirect();
+
+        //  check the redirected url. 
+        $url_expected = $container->get('router')->generate('_user_regSuccess') ;
+        $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
+
+        //  check session messages 
+        $this->assertEquals('恭喜，密码设置成功！', $crawler->filter('h2')->text());
     }
 }

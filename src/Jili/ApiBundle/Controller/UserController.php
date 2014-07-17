@@ -1559,10 +1559,8 @@ class UserController extends Controller
         if( ! $user ) {
 			return $this->render('JiliApiBundle::error.html.twig');
         }
-
         // check the token
         $passwordToken = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken(array('user_id'=> $uid, 'token' => $token )  );
-
         if( !$passwordToken  ) {
 			return $this->render('JiliApiBundle::error.html.twig');
         }
@@ -1573,15 +1571,12 @@ class UserController extends Controller
             if ($form->isValid()) {
                 // the validation passed, do something with the $author object
                 $this->get('signup_activate.form_handler')->setForm($form)->process( array( 'user'=>$user, 'passwordToken'=>  $passwordToken ) );
-                // set flash
-
+                // set sucessful message flash
                 $this->get('session')->getFlashBag()->add(
                     'notice',
                     '恭喜，密码设置成功！'
                 );
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
-            } else {
-                $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ).' form invalid'  );
             }
         }
 
@@ -1593,90 +1588,11 @@ class UserController extends Controller
     }
 
     /**
+     * To compatiable upwards, forward to _user_signup_activate . 
      * @Route("forgetPass/{code}/{id}", name="_user_forgetPass")
      */
     public function forgetPassAction( $code, $id) {
-		$code_pwd = '';
-		$code_que_pwd = '';
-
-		$arr['code_pwd']  = $code_pwd;
-		$arr['code_que_pwd']  = $code_que_pwd;
-
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-
-		$arr['user'] = $user;
-
-		$setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByUserId($id);
-		if($setPasswordCode->getIsAvailable() == 0 ) {
-			return $this->render('JiliApiBundle::error.html.twig');
-		}
-
-		$arr['pwdcode'] = $setPasswordCode;
-		$time = $setPasswordCode->getCreateTime();
-
-        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24*14 ){
-        	return $this->render('JiliApiBundle::error.html.twig');
-        }else{
-            if($setPasswordCode->getCode() != $code){
-                return $this->render('JiliApiBundle::error.html.twig');
-            }
-
-    		$request = $this->get('request');
-    		$pwd = $request->request->get('pwd');
-    		$que_pwd = $request->request->get('que_pwd');
-
-    		if ($request->getMethod() == 'POST'){
-    			if($request->request->get('ck')=='1'){
-    				if($pwd){
-    					if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
-    						$code_pwd = $this->container->getParameter('forget_wr_pwd');
-    						$arr['code_pwd']  = $code_pwd;
-    					} else {
-    						if($pwd == $que_pwd){
-                                $this->get('login.listener')->checkNewbie($user);
-    							$user->setPwd($request->request->get('pwd'));
-                                $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-                                $user->setLastLoginIp($request->getClientIp());
-    							$setPasswordCode->setIsAvailable($this->container->getParameter('init'));
-    							$em->persist($user);
-    							$em->persist($setPasswordCode);
-    							$em->flush();
-                                //设置密码之后，注册成功，发邮件2014-01-10
-                                $soapMailLister = $this->get('soap.mail.listener');
-                                $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
-                                $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
-                                $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
-                                $recipient_arr = array (
-                                        array (
-                                            'name' => 'email',
-                                            'value' => $user->getEmail()
-                                        )
-                                    );
-                                $soapMailLister->sendSingleMailing($recipient_arr);
-
-#    							$request->getSession()->set('uid',$id);
-#    							$request->getSession()->set('nick',$user->getNick());
-                                $this->get('login.listener')->initSession($user);
-                                // The user was insert when regAction 
-                                $this->get('login.listener')->log($user);
-
-    							return $this->render('JiliApiBundle:User:resetSuccess.html.twig',$arr);
-    						}else{
-    							$code_que_pwd = $this->container->getParameter('forget_unsame_pwd');
-    							$arr['code_que_pwd']  = $code_que_pwd;
-    						}
-    					}
-    				}else{
-    					$code_pwd = $this->container->getParameter('forget_en_pwd');
-    					$arr['code_pwd']  = $code_pwd;
-    				}
-    			}else{
-    				echo 'choose agree';
-    			}
-    		}
-    		return $this->render('JiliApiBundle:User:forgetPass.html.twig',$arr);
-        }
+        return $this->redirect($this->generateUrl('_user_signup_activate', array('token'=>$code, 'uid'=>$id)));
 	}
 
     /**
