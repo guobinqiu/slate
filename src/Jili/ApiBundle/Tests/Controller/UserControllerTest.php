@@ -280,6 +280,7 @@ class UserControllerTest extends WebTestCase
         $logger= $container->get('logger');
         // purge tables;
         $purger = new ORMPurger($em);
+
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
 
@@ -350,6 +351,7 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
         $form = $crawler->selectButton('创建账号')->form();
+
         $form['password[first]'] ->setValue( 'qwe123');
         $form['password[second]'] ->setValue( 'qwe123');
         $form['agreement']->tick() ;
@@ -357,6 +359,7 @@ class UserControllerTest extends WebTestCase
 
         $client->submit($form );
         $this->assertEquals(302, $client->getResponse()->getStatusCode() );
+
         $crawler = $client->followRedirect();
 
         //  check the redirected url. 

@@ -11,14 +11,18 @@ use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\SetPasswordCode;
 class LoadUserSetPasswordCodeData  extends AbstractFixture implements ContainerAwareInterface,  FixtureInterface, OrderedFixtureInterface
 {
-    static public $USER = array();
-    static public $SET_PASSWORD_CODE = array();
+    static public $USER ;
+    static public $SET_PASSWORD_CODE ;
 
     /**
      * @var ContainerInterface
      */
     private $container;
 
+    public function __construct() {
+        self::$USER = array();
+        self::$SET_PASSWORD_CODE = array();
+    }
     /**
      * {@inheritDoc}
      */
