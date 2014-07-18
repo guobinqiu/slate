@@ -1,17 +1,16 @@
 <?php
 namespace Jili\ApiBundle\Tests\Utility;
 
-use Jili\ApiBundle\Utility\ClassNameFactory;
+use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 
 class ClassNameTest extends \ PHPUnit_Framework_TestCase {
 
     /**
     * @group getClassName
     */
-    public function testCreate() {
-        $classNameFactory = ClassNameFactory :: create('SendMessage', 1094121);
-        $className = $classNameFactory->getClassName();
-        $this->assertEquals('SendMessage01', $className);
+    public function testgetClassName() {
+        $sendMessage = SequenseEntityClassFactory :: getClassName('SendMessage', 1094121);
+        $this->assertEquals('Jili\ApiBundle\Entity\SendMessage01', get_class($sendMessage));
     }
 }
 ?>

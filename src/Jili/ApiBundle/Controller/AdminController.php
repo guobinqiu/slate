@@ -66,6 +66,7 @@ use Jili\ApiBundle\Entity\SendMessage07;
 use Jili\ApiBundle\Entity\SendMessage08;
 use Jili\ApiBundle\Entity\SendMessage09;
 
+use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 /**
  * @Route( requirements={"_scheme" = "https"})
  */
@@ -284,9 +285,7 @@ class AdminController extends Controller
 
     public function getPointHistory($userid,$point,$type){
         $em = $this->getDoctrine()->getManager();
-        $classNameFactory = ClassNameFactory :: create('PointHistory', $userid);
-        $pointHistory = "Jili\ApiBundle\Entity\\".$classNameFactory->getClassName();
-        $po = new $pointHistory();
+        $po = SequenseEntityClassFactory :: getClassName('PointHistory', $userid);
         $po->setUserId($userid);
         $po->setPointChangeNum($point);
         $po->setReason($type);
@@ -1428,9 +1427,7 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        $classNameFactory = ClassNameFactory :: create('PointHistory', $userInfo[0]->getId());
-        $pointHistory = "Jili\ApiBundle\Entity\\".$classNameFactory->getClassName();
-        $po = new $pointHistory();
+        $po = SequenseEntityClassFactory :: getClassName('PointHistory', $userInfo[0]->getId());
         $po->setUserId($userInfo[0]->getId());
         $po->setPointChangeNum('+'.$points);
         $po->setReason($this->container->getParameter('init_thirteen'));
@@ -3001,9 +2998,7 @@ class AdminController extends Controller
     public function insertSendMs($parms=array()){
         extract($parms);
         $em = $this->getDoctrine()->getManager();
-        $classNameFactory = ClassNameFactory :: create('SendMessage', $userid);
-        $sendMessage = "Jili\ApiBundle\Entity\\".$classNameFactory->getClassName();
-        $sm = new $sendMessage();
+        $sm = SequenseEntityClassFactory :: getClassName('SendMessage', $userid);
         $sm->setSendFrom($this->container->getParameter('init'));
         $sm->setSendTo($userid);
         $sm->setTitle($title);
@@ -3055,9 +3050,7 @@ class AdminController extends Controller
     public function getTaskHistory($parms=array()){
         extract($parms);
         $em = $this->getDoctrine()->getManager();
-        $classNameFactory = ClassNameFactory :: create('TaskHistory', $userid);
-        $taskHistory = "Jili\ApiBundle\Entity\\".$classNameFactory->getClassName();
-        $po = new $taskHistory();
+        $po = SequenseEntityClassFactory :: getClassName('TaskHistory', $userid);
         $po->setOrderId($orderId);
         $po->setUserId($userid);
         $po->setTaskType($task_type);
