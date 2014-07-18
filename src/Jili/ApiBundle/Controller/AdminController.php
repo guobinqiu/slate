@@ -285,7 +285,7 @@ class AdminController extends Controller
 
     public function getPointHistory($userid,$point,$type){
         $em = $this->getDoctrine()->getManager();
-        $po = SequenseEntityClassFactory :: getClassName('PointHistory', $userid);
+        $po = SequenseEntityClassFactory :: createInstance('PointHistory', $userid);
         $po->setUserId($userid);
         $po->setPointChangeNum($point);
         $po->setReason($type);
@@ -1427,7 +1427,7 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        $po = SequenseEntityClassFactory :: getClassName('PointHistory', $userInfo[0]->getId());
+        $po = SequenseEntityClassFactory :: createInstance('PointHistory', $userInfo[0]->getId());
         $po->setUserId($userInfo[0]->getId());
         $po->setPointChangeNum('+'.$points);
         $po->setReason($this->container->getParameter('init_thirteen'));
@@ -2998,7 +2998,7 @@ class AdminController extends Controller
     public function insertSendMs($parms=array()){
         extract($parms);
         $em = $this->getDoctrine()->getManager();
-        $sm = SequenseEntityClassFactory :: getClassName('SendMessage', $userid);
+        $sm = SequenseEntityClassFactory :: createInstance('SendMessage', $userid);
         $sm->setSendFrom($this->container->getParameter('init'));
         $sm->setSendTo($userid);
         $sm->setTitle($title);
@@ -3050,7 +3050,7 @@ class AdminController extends Controller
     public function getTaskHistory($parms=array()){
         extract($parms);
         $em = $this->getDoctrine()->getManager();
-        $po = SequenseEntityClassFactory :: getClassName('TaskHistory', $userid);
+        $po = SequenseEntityClassFactory :: createInstance('TaskHistory', $userid);
         $po->setOrderId($orderId);
         $po->setUserId($userid);
         $po->setTaskType($task_type);
