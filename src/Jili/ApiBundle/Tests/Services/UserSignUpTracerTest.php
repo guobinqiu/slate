@@ -52,7 +52,7 @@ class UserSignUpTracerTest extends KernelTestCase
         $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__, '') ). $cn ) ;
         $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__, '') ). var_export($cm, true) ) ;
 
-        $cookie = new Cookie('jili_rememberme', $token, time() + 3600 * 24 * 365, '/', null, false, false);
+        // $cookie = new Cookie('jili_rememberme', $token, time() + 3600 * 24 * 365, '/', null, false, false);
         // $client->getCookieJar()->set($cookie);
         // how to set cookie in to 
 
