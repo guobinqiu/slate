@@ -40,12 +40,12 @@ class OfferwowController extends Controller
         $validate_return = $request_validator->validate($request, $config);
 
         $result = array(
-            'memberid' => $request->query->get('memberid', ''), 
+            'memberid' => $request->query->get('memberid', ''),
             'point'=> $request->query->get('point', ''),
             'websiteid'=> $request->query->get('websiteid', ''),
             'eventid'=> $request->query->get('eventid', ''),
             'immediate'=> $request->query->get('immediate', '')
-        ); 
+        );
 
         if( $request->query->has('sign')) {
             $result[ 'sign'] = $request->query->get('sign');
@@ -72,4 +72,3 @@ class OfferwowController extends Controller
     }
 
 }
-

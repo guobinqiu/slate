@@ -4,12 +4,13 @@ namespace Jili\ApiBundle\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class WenwenControllerTest extends WebTestCase {
-
+class WenwenControllerTest extends WebTestCase
+{
     /**
      * @group user
      */
-    public function test91wenwenRegister() {
+    public function test91wenwenRegister()
+    {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register');
         echo $client->getResponse()->getStatusCode(), PHP_EOL;
@@ -19,7 +20,8 @@ class WenwenControllerTest extends WebTestCase {
     /**
      * @group user
      */
-    public function test91wenwenRegister1() {
+    public function test91wenwenRegister1()
+    {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register', array (
             'email' => '',
@@ -33,7 +35,8 @@ class WenwenControllerTest extends WebTestCase {
     /**
      * @group user
      */
-    public function test91wenwenRegister2() {
+    public function test91wenwenRegister2()
+    {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register', array (
             'email' => 'zhangmm@voyagegroup.com.cn',
@@ -47,7 +50,8 @@ class WenwenControllerTest extends WebTestCase {
     /**
      * @group user
      */
-    public function test91wenwenRegister3() {
+    public function test91wenwenRegister3()
+    {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register', array (
             'email' => 'zhangmm@voyagegroup.com.cn',
@@ -61,7 +65,8 @@ class WenwenControllerTest extends WebTestCase {
     /**
      * @group user
      */
-    public function test91wenwenRegister4() {
+    public function test91wenwenRegister4()
+    {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register', array (
             'email' => 'zhangmm@voyagegroup.com.cn',
@@ -75,7 +80,8 @@ class WenwenControllerTest extends WebTestCase {
     /**
      * @group user
      */
-    public function test91wenwenRegister5() {
+    public function test91wenwenRegister5()
+    {
         $client = static :: createClient();
         $crawler = $client->request('POST', '/api/91wenwen/register', array (
             'email' => 'zhangmm@voyagegroup.com.cn',

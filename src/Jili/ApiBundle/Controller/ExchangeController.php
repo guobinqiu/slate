@@ -36,7 +36,8 @@ class  ExchangeController extends Controller
     /**
      * @Route("/alipayInfo", name="_exchange_alipayInfo")
      */
-    public function alipayInfoAction(){
+    public function alipayInfoAction()
+    {
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
@@ -81,7 +82,7 @@ class  ExchangeController extends Controller
             $re_alipay = $request->request->get('re_alipay');
             $real_name = $request->request->get('real_name');
             $existAlipay = $request->request->get('existAlipay');
-            $existRealName = $request->request->get('existRealName'); 
+            $existRealName = $request->request->get('existRealName');
             $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($id,$this->container->getParameter('init_three'));
             if(!empty($targetAcc)){
                  $arr['existAlipay'] = $targetAcc[0]['targetAccount'];
@@ -123,10 +124,10 @@ class  ExchangeController extends Controller
                                                     $session = $this->getRequest()->getSession();
                                                     $session->set('alipay', $token_key);
                                                     return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'alipay')));
-                                                        
+
                                                 // }else{
                                                 //     $code = $this->container->getParameter('exchange_right_name');
-                                                //     $arr['code'] = $code;        
+                                                //     $arr['code'] = $code;
                                                 // }
                                             }else{
                                                 $code = $this->container->getParameter('exchange_real_name');
@@ -138,8 +139,8 @@ class  ExchangeController extends Controller
                                         }
                                     }else{
                                         $code = $this->container->getParameter('exchange_wr_alipay');
-                                        $arr['code'] = $code;   
-                                        
+                                        $arr['code'] = $code;
+
                                     }
                                 }else{
                                     $code = $this->container->getParameter('exchange_en_alipay');
@@ -168,15 +169,15 @@ class  ExchangeController extends Controller
                                 $session = $this->getRequest()->getSession();
                                 $session->set('alipay', $token_key);
                                 return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'alipay')));
-                            }          
-                                
+                            }
+
                         }else{
                             $code = $this->container->getParameter('exchange_wr_point');
-                            $arr['code'] = $code;   
-                            
+                            $arr['code'] = $code;
+
                         }
                     }
-                } 
+                }
 
         }
         $this->get('request')->getSession()->remove('alipayToken');
@@ -186,7 +187,8 @@ class  ExchangeController extends Controller
     /**
      * @Route("/mobileInfo", name="_exchange_mobileInfo")
      */
-    public function mobileInfoAction(){
+    public function mobileInfoAction()
+    {
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
@@ -262,7 +264,7 @@ class  ExchangeController extends Controller
                                             $pointschange->setExchangeItemNumber($itemNumber);
                                             $pointschange->setIp($this->get('request')->getClientIp());
                                             $em->persist($pointschange);
-                                            $em->flush();               
+                                            $em->flush();
                                             $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
                                             $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
 
@@ -276,7 +278,7 @@ class  ExchangeController extends Controller
                                             $code = $this->container->getParameter('exchange_unsame_mobile');
                                             $arr['code'] = $code;
                                         }
-                                        
+
                                     }
                                 }else{
                                     $code = $this->container->getParameter('exchange_en_mobile');
@@ -320,14 +322,14 @@ class  ExchangeController extends Controller
                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'mobile')));
 
                         }
-  
+
                     }else{
                         $code = $this->container->getParameter('exchange_wr_point');
-                        $arr['code'] = $code;   
-                        
+                        $arr['code'] = $code;
+
                     }
-                }        
-                
+                }
+
             }
         }
         return $this->render('JiliApiBundle:Exchange:mobileInfo.html.twig',$arr);
@@ -336,7 +338,8 @@ class  ExchangeController extends Controller
     /**
      * @Route("/amazonCheck", name="_exchange_amazonCheck")
      */
-    public function amazonCheckAction(){
+    public function amazonCheckAction()
+    {
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
@@ -352,7 +355,8 @@ class  ExchangeController extends Controller
     /**
      * @Route("/alipayCheck", name="_exchange_alipayCheck")
      */
-    public function alipayCheckAction(){
+    public function alipayCheckAction()
+    {
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
@@ -368,7 +372,8 @@ class  ExchangeController extends Controller
     /**
      * @Route("/mobileCheck", name="_exchange_mobileCheck")
      */
-    public function mobileCheckAction(){
+    public function mobileCheckAction()
+    {
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
@@ -384,7 +389,8 @@ class  ExchangeController extends Controller
      /**
      * @Route("/amazonInfo", name="_exchange_amazonInfo")
      */
-    public function amazonInfoAction(){
+    public function amazonInfoAction()
+    {
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
@@ -440,17 +446,18 @@ class  ExchangeController extends Controller
                     }else{
                         $code = $this->container->getParameter('exchange_wr_point');
                         $arr['code'] = $code;
-                    }    
-                }         
-                
-  
+                    }
+                }
+
+
             }
         }
         return $this->render('JiliApiBundle:Exchange:amazonInfo.html.twig',$arr);
 
     }
 
-    public function insertDanger($uid,$exid,$type,$dgcontent){
+    public function insertDanger($uid,$exid,$type,$dgcontent)
+    {
         $em = $this->getDoctrine()->getManager();
         $ExchangeDanger = new ExchangeDanger();
         $ExchangeDanger->setUserId($uid);
@@ -458,11 +465,12 @@ class  ExchangeController extends Controller
         $ExchangeDanger->setDangerType($type);
         $ExchangeDanger->setDangerContent($dgcontent);
         $em->persist($ExchangeDanger);
-        $em->flush(); 
+        $em->flush();
     }
 
     //判断身份证危险
-    public function identDanger($type,$exchange_id,$uid){
+    public function identDanger($type,$exchange_id,$uid)
+    {
         $em = $this->getDoctrine()->getManager();
         $identityCard = $em->getRepository('JiliApiBundle:IdentityConfirm')->findByUserId($uid);
         $existIdent = $em->getRepository('JiliApiBundle:IdentityConfirm')->issetIndentity($identityCard[0]->getIdentityCard(),$uid);
@@ -476,46 +484,49 @@ class  ExchangeController extends Controller
                     }
                     $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_three'),$identityCard[0]->getIdentityCard());
 
-                 }          
+                 }
 
             }
-           
+
         }
 
     }
 
     //判断手机,支付宝危险
-    public function mobileAlipayDanger($targetAcc,$exchange_id,$uid){
+    public function mobileAlipayDanger($targetAcc,$exchange_id,$uid)
+    {
         $em = $this->getDoctrine()->getManager();
         $existTar = $em->getRepository('JiliApiBundle:PointsExchange')->existTargetAcc($targetAcc,$uid);
         if(!empty($existTar)){
             foreach ($existTar as $key => $value) {
                 $this->insertDanger($value['userId'],$value['id'],$this->container->getParameter('init_one'),$targetAcc);
             }
-            $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_one'),$targetAcc);  
+            $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_one'),$targetAcc);
         }
-     
+
     }
 
     //判断ip危险
-    public function ipDanger($ip,$exchange_id,$uid){
+    public function ipDanger($ip,$exchange_id,$uid)
+    {
         $em = $this->getDoctrine()->getManager();
         $existIp = $em->getRepository('JiliApiBundle:PointsExchange')->existIp($ip,$uid);
         if(!empty($existIp)){
             foreach ($existIp as $key => $value) {
-                $this->insertDanger($value['userId'],$value['id'],$this->container->getParameter('init_two'),$ip);  
-            } 
-            $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_two'),$ip);  
+                $this->insertDanger($value['userId'],$value['id'],$this->container->getParameter('init_two'),$ip);
+            }
+            $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_two'),$ip);
         }
 
     }
 
     //判断密码危险
-    public function pwdDanger($pwd,$exchange_id,$uid){
+    public function pwdDanger($pwd,$exchange_id,$uid)
+    {
         $em = $this->getDoctrine()->getManager();
         $existPwd = $em->getRepository('JiliApiBundle:PointsExchange')->existPwd($pwd,$uid);
         if(!empty($existPwd)){
-            foreach ($existPwd as $key => $value) { 
+            foreach ($existPwd as $key => $value) {
                 $this->insertDanger($value['userId'],$value['id'],$this->container->getParameter('init_four'),$pwd);
             }
             $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_four'),$pwd);
@@ -523,7 +534,8 @@ class  ExchangeController extends Controller
 
     }
 
-    public function gotoComfirmUrl($type,$token){
+    public function gotoComfirmUrl($type,$token)
+    {
         switch ($type) {
             case 'amazon':
                 return $this->redirect($this->generateUrl('_exchange_amazonInfo'));
@@ -545,7 +557,8 @@ class  ExchangeController extends Controller
     /**
      * @Route("/issetIdent", name="_exchange_issetIdent")
      */
-    public function issetIdentAction(){
+    public function issetIdentAction()
+    {
         $code = '';
         $id = $this->get('request')->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
@@ -559,7 +572,8 @@ class  ExchangeController extends Controller
     /**
      * @Route("/info/{type}", name="_exchange_identityCardComfirm")
      */
-    public function IdentityCardComfirmAction($type){
+    public function IdentityCardComfirmAction($type)
+    {
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
@@ -612,16 +626,17 @@ class  ExchangeController extends Controller
                     }
                 }
             }
-            
+
         }
         return $this->render('JiliApiBundle:Exchange:indentityConfirm.html.twig',$arr);
 
     }
-    
+
     /**
      * @Route("/info", name="_exchange_info")
      */
-    public function infoAction(){
+    public function infoAction()
+    {
         exit('不支持该兑换');
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
@@ -705,14 +720,15 @@ class  ExchangeController extends Controller
                 }else{
                     $code = $this->container->getParameter('exchange_wr_point');
                     $arr['code'] = $code;
-                }             
-                
+                }
+
             }
         }
         return $this->render('JiliApiBundle:Exchange:info.html.twig',$arr);
     }
 
-    public function checkFinish($type){
+    public function checkFinish($type)
+    {
         $code = '';
         switch ($type) {
             case 'amazon':
@@ -736,11 +752,12 @@ class  ExchangeController extends Controller
         return $code;
 
     }
-    
+
     /**
      * @Route("/finish/{type}", name="_exchange_finish")
      */
-    public function finishAction($type){
+    public function finishAction($type)
+    {
         if(!$this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_user_login'));
         }else{
@@ -768,11 +785,12 @@ class  ExchangeController extends Controller
             $arr['type'] = $type;
             return $this->render('JiliApiBundle:Exchange:finish.html.twig',$arr);
         }
-        
+
     }
 
 
-    public function exchange_send_message($type,$uid){
+    public function exchange_send_message($type,$uid)
+    {
       $title = '';
       $content = '';
       switch ($type) {
@@ -801,10 +819,11 @@ class  ExchangeController extends Controller
           // $result = $mycontrollerInstance->insertSendMs($parms);
           $this->insertSendMs($parms);
       }
-      
+
     }
 
-    private function insertSendMs($parms=array()){
+    private function insertSendMs($parms=array())
+    {
       extract($parms);
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
@@ -854,17 +873,18 @@ class  ExchangeController extends Controller
       $em->flush();
     }
 
-    
 
-    
+
+
     /**
      * @Route("/success", name="_exchange_success")
      */
-    public function successAction(){
-        
+    public function successAction()
+    {
     }
 
-    public function getTokenKey(){
+    public function getTokenKey()
+    {
         $key = '';
         $date = date("YmdHis");
         $request = $this->get('request');
@@ -888,8 +908,9 @@ class  ExchangeController extends Controller
         91 => "国外",
     );
     public static $check_digits = '10X98765432';
-    
-    public function isValid($identityCard) {
+
+    public function isValid($identityCard)
+    {
         if(!self::lengthIsValid($identityCard)) {
             return false;
         }
@@ -909,7 +930,8 @@ class  ExchangeController extends Controller
         return true;
     }
 
-    public static function lengthIsValid($identityCard) {
+    public static function lengthIsValid($identityCard)
+    {
         if (strlen($identityCard) === 15) {
             return true;
         }
@@ -921,22 +943,26 @@ class  ExchangeController extends Controller
         return false;
     }
 
-    public static function regionIsValid($identityCard) {
+    public static function regionIsValid($identityCard)
+    {
         $region_id = self::getRegion($identityCard);
 
         return array_key_exists($region_id, self::$areas);
     }
 
-    public static function birthdayIsValid($identityCard) {
+    public static function birthdayIsValid($identityCard)
+    {
         $birthday = self::getBirthDay($identityCard);
         return checkdate($birthday['month'], $birthday['day'], $birthday['year']);
     }
 
-    public static function getRegion($identityCard) {
+    public static function getRegion($identityCard)
+    {
         return (int) mb_substr($identityCard, 0, 2);
     }
 
-    public static function checkDigitIsValid($identityCard) {
+    public static function checkDigitIsValid($identityCard)
+    {
         # check digit doesn't exists
         if(strlen($identityCard) !== 18) {
             return true;
@@ -950,7 +976,8 @@ class  ExchangeController extends Controller
     /**
      * only for length = 18
      */
-    public static function calcCheckDigit($identityCard) {
+    public static function calcCheckDigit($identityCard)
+    {
         if(strlen($identityCard) !== 18) {
             return null;
         }
@@ -980,7 +1007,8 @@ class  ExchangeController extends Controller
      * @param int $id 身份证号
      * @return string
      */
-    private static function getBirthDay($identityCard) {
+    private static function getBirthDay($identityCard)
+    {
         switch (strlen ( $identityCard )) {
         case 15 :
             $year = "19" . substr ( $identityCard , 6, 2 );
@@ -996,7 +1024,7 @@ class  ExchangeController extends Controller
         $birthday = array ('year' => $year, 'month' => $month, 'day' => $day );
         return $birthday;
     }
-     
-   
-    
+
+
+
 }

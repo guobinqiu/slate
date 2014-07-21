@@ -41,7 +41,7 @@ class PagOrder
      * @ORM\Column(name="point_pid", type="string", length=50)
      */
     private $pointPid;
-    
+
     /**
      * @var string
      *
@@ -88,7 +88,7 @@ class PagOrder
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -105,10 +105,10 @@ class PagOrder
     public function setSessionId($sessionId)
     {
         $this->sessionId = $sessionId;
-    
+
         return $this;
     }
-    
+
     /**
      * Get sessionId
      *
@@ -129,10 +129,10 @@ class PagOrder
     public function setPointUid($pointUid)
     {
         $this->pointUid = $pointUid;
-    
+
         return $this;
     }
-    
+
     /**
      * Get pointUid
      *
@@ -153,10 +153,10 @@ class PagOrder
     public function setPointPid($pointPid)
     {
         $this->pointPid = $pointPid;
-    
+
         return $this;
     }
-    
+
     /**
      * Get pointPid
      *
@@ -176,10 +176,10 @@ class PagOrder
     public function setDate($date)
     {
         $this->date = $date;
-    
+
         return $this;
     }
-    
+
     /**
      * Get date
      *
@@ -200,10 +200,10 @@ class PagOrder
     public function setDate2($date2)
     {
         $this->date2 = $date2;
-    
+
         return $this;
     }
-    
+
     /**
      * Get date2
      *
@@ -213,8 +213,8 @@ class PagOrder
     {
         return $this->date2;
     }
-    
-    
+
+
     /**
      * Set price
      *
@@ -223,11 +223,11 @@ class PagOrder
      */
     public function setPrice($price)
     {
-    	$this->price = $price;
-    
-    	return $this;
+        $this->price = $price;
+
+        return $this;
     }
-    
+
     /**
      * Get price
      *
@@ -235,7 +235,7 @@ class PagOrder
      */
     public function getPrice()
     {
-    	return $this->price;
+        return $this->price;
     }
 
 
@@ -248,10 +248,10 @@ class PagOrder
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
-    
+
     /**
      * Get status
      *
@@ -272,10 +272,10 @@ class PagOrder
     public function setAmounts($amounts)
     {
         $this->amounts = $amounts;
-    
+
         return $this;
     }
-    
+
     /**
      * Get amounts
      *
@@ -296,10 +296,10 @@ class PagOrder
     public function setPoint($point)
     {
         $this->point = $point;
-    
+
         return $this;
     }
-    
+
     /**
      * Get point
      *
@@ -309,8 +309,8 @@ class PagOrder
     {
         return $this->point;
     }
-      
-    
-    
-    
+
+
+
+
 }

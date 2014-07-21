@@ -117,7 +117,7 @@ class EmarProductsCroned
     /**
      * Get pid
      *
-     * @return integer 
+     * @return integer
      */
     public function getPid()
     {
@@ -140,7 +140,7 @@ class EmarProductsCroned
     /**
      * Get pName
      *
-     * @return string 
+     * @return string
      */
     public function getPName()
     {
@@ -163,7 +163,7 @@ class EmarProductsCroned
     /**
      * Get webId
      *
-     * @return integer 
+     * @return integer
      */
     public function getWebId()
     {
@@ -186,7 +186,7 @@ class EmarProductsCroned
     /**
      * Get webName
      *
-     * @return string 
+     * @return string
      */
     public function getWebName()
     {
@@ -209,7 +209,7 @@ class EmarProductsCroned
     /**
      * Get oriPrice
      *
-     * @return string 
+     * @return string
      */
     public function getOriPrice()
     {
@@ -232,7 +232,7 @@ class EmarProductsCroned
     /**
      * Get curPrice
      *
-     * @return string 
+     * @return string
      */
     public function getCurPrice()
     {
@@ -255,7 +255,7 @@ class EmarProductsCroned
     /**
      * Get picUrl
      *
-     * @return string 
+     * @return string
      */
     public function getPicUrl()
     {
@@ -278,7 +278,7 @@ class EmarProductsCroned
     /**
      * Get catid
      *
-     * @return integer 
+     * @return integer
      */
     public function getCatid()
     {
@@ -301,7 +301,7 @@ class EmarProductsCroned
     /**
      * Get cname
      *
-     * @return string 
+     * @return string
      */
     public function getCname()
     {
@@ -324,7 +324,7 @@ class EmarProductsCroned
     /**
      * Get pOUrl
      *
-     * @return string 
+     * @return string
      */
     public function getPOUrl()
     {
@@ -347,7 +347,7 @@ class EmarProductsCroned
     /**
      * Get shortIntro
      *
-     * @return string 
+     * @return string
      */
     public function getShortIntro()
     {
@@ -357,11 +357,10 @@ class EmarProductsCroned
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 }
-

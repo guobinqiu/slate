@@ -12,11 +12,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CanserUser
 {
-	public function __construct() {
-		$this->registerDate = new \DateTime();
-		$this->lastLoginDate = new \DateTime();
-	}
-	
+    public function __construct()
+    {
+        $this->registerDate = new \DateTime();
+        $this->lastLoginDate = new \DateTime();
+    }
+
     /**
      * @var integer
      *
@@ -32,21 +33,21 @@ class CanserUser
      * @ORM\Column(name="user_id",  type="integer", nullable=false)
      */
     private $userId;
-        
+
     /**
      * @var integer
      *
      * @ORM\Column(name="is_from_wenwen",  type="integer", nullable=true)
      */
     private $isFromWenwen;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="wenwen_user", type="string", length=100, nullable=true)
      */
     private $wenwenUser;
-    
+
     /**
      * @var string
      *
@@ -116,14 +117,14 @@ class CanserUser
      * @ORM\Column(name="city", type="integer", nullable=true)
      */
     private $city;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="education", type="integer", nullable=true)
      */
     private $education;
-    
+
     /**
      * @var integer
      *
@@ -137,14 +138,14 @@ class CanserUser
      * @ORM\Column(name="income", type="integer", nullable=true)
      */
     private $income;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="hobby", type="string", length=250, nullable=true)
      */
     private $hobby;
-   
+
     /**
      * @var text
      *
@@ -207,21 +208,21 @@ class CanserUser
      * @ORM\Column(name="is_info_set", type="integer")
      */
     private $isInfoSet;
-    
+
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="icon_path", type="string",length=255, nullable=true)
      */
     private $iconPath;
-    
+
      /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="uniqkey", type="string",length=250, nullable=true)
      */
     private $uniqkey;
-        
+
     /**
      * Get iconPath
      *
@@ -229,10 +230,10 @@ class CanserUser
      */
     public function getIconPath()
     {
-    	return $this->iconPath;
+        return $this->iconPath;
     }
-    
-    
+
+
      /**
      * Set iconPath
      *
@@ -241,15 +242,15 @@ class CanserUser
      */
     public function setIconPath($iconPath)
     {
-    	$this->iconPath = $iconPath;
+        $this->iconPath = $iconPath;
     }
-   
-    
-    
+
+
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -265,12 +266,12 @@ class CanserUser
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get userId
      *
@@ -280,7 +281,7 @@ class CanserUser
     {
         return $this->userId;
     }
-    
+
     /**
      * Get wenwenUser
      *
@@ -288,10 +289,10 @@ class CanserUser
      */
     public function getWenwenUser()
     {
-    	return $this->wenwenUser;
+        return $this->wenwenUser;
     }
-    
-    
+
+
     /**
      * Set wenwenUser
      *
@@ -300,10 +301,10 @@ class CanserUser
      */
     public function setWenwenUser($wenwenUser)
     {
-    	$this->wenwenUser = $wenwenUser;
+        $this->wenwenUser = $wenwenUser;
     }
-    
-    
+
+
 
     /**
      * Set isFromWenwen
@@ -313,13 +314,13 @@ class CanserUser
      */
     public function setIsFromWenwen($isFromWenwen)
     {
-    	$this->isFromWenwen = $isFromWenwen;
-    
-    	return $this;
+        $this->isFromWenwen = $isFromWenwen;
+
+        return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get isFromWenwen
      *
@@ -327,11 +328,11 @@ class CanserUser
      */
     public function getIsFromWenwen()
     {
-    	return $this->isFromWenwen;
+        return $this->isFromWenwen;
     }
-    
-    
-    
+
+
+
     /**
      * Set nick
      *
@@ -341,14 +342,14 @@ class CanserUser
     public function setNick($nick)
     {
         $this->nick = $nick;
-    
+
         return $this;
     }
 
     /**
      * Get nick
      *
-     * @return string 
+     * @return string
      */
     public function getNick()
     {
@@ -364,20 +365,20 @@ class CanserUser
     public function setPwd($pwd)
     {
         $this->pwd = $this->pw_encode($pwd);
-    
+
         return $this;
     }
 
     /**
      * Get pwd
      *
-     * @return string 
+     * @return string
      */
     public function getPwd()
     {
         return $this->pwd;
     }
-    
+
     /**
      * sha1 pwd
      *
@@ -385,16 +386,16 @@ class CanserUser
      */
     public function pw_encode($pwd)
     {
-    	$seed = '';
-    	for ($i = 1; $i <= 9; $i++)
-    		$seed .= sha1($pwd.'0123456789abcdef');
-    		for ($i = 1; $i <= 11; $i++)
-    		$seed .= sha1($seed);
-    		return sha1($seed);
+        $seed = '';
+        for ($i = 1; $i <= 9; $i++)
+            $seed .= sha1($pwd.'0123456789abcdef');
+            for ($i = 1; $i <= 11; $i++)
+            $seed .= sha1($seed);
+            return sha1($seed);
     }
-    
-    
-   
+
+
+
 
     /**
      * Set sex
@@ -405,16 +406,16 @@ class CanserUser
     public function setSex($sex)
     {
         $this->sex = $sex;
-    
+
         return $this;
     }
-    
-    
+
+
 
     /**
      * Get sex
      *
-     * @return integer 
+     * @return integer
      */
     public function getSex()
     {
@@ -430,14 +431,14 @@ class CanserUser
     public function setBirthday($birthday)
     {
         $this->birthday = $birthday;
-    
+
         return $this;
     }
 
     /**
      * Get birthday
      *
-     * @return string 
+     * @return string
      */
     public function getBirthday()
     {
@@ -453,14 +454,14 @@ class CanserUser
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -476,14 +477,14 @@ class CanserUser
     public function setIsEmailConfirmed($isEmailConfirmed)
     {
         $this->isEmailConfirmed = $isEmailConfirmed;
-    
+
         return $this;
     }
 
     /**
      * Get isEmailConfirmed
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsEmailConfirmed()
     {
@@ -499,14 +500,14 @@ class CanserUser
     public function setTel($tel)
     {
         $this->tel = $tel;
-    
+
         return $this;
     }
 
     /**
      * Get tel
      *
-     * @return string 
+     * @return string
      */
     public function getTel()
     {
@@ -522,14 +523,14 @@ class CanserUser
     public function setIsTelConfirmed($isTelConfirmed)
     {
         $this->isTelConfirmed = $isTelConfirmed;
-    
+
         return $this;
     }
 
     /**
      * Get isTelConfirmed
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsTelConfirmed()
     {
@@ -545,10 +546,10 @@ class CanserUser
     public function setProvince($province)
     {
         $this->province = $province;
-    
+
         return $this;
     }
-    
+
     /**
      * Get province
      *
@@ -567,11 +568,11 @@ class CanserUser
      */
     public function setCity($city)
     {
-    	$this->city = $city;
-    
-    	return $this;
+        $this->city = $city;
+
+        return $this;
     }
-    
+
     /**
      * Get city
      *
@@ -579,10 +580,10 @@ class CanserUser
      */
     public function getCity()
     {
-    	return $this->city;
+        return $this->city;
     }
-    
-    
+
+
     /**
      * Set education
      *
@@ -591,11 +592,11 @@ class CanserUser
      */
     public function setEducation($education)
     {
-    	$this->education = $education;
-    
-    	return $this;
+        $this->education = $education;
+
+        return $this;
     }
-    
+
     /**
      * Get education
      *
@@ -603,10 +604,10 @@ class CanserUser
      */
     public function getEducation()
     {
-    	return $this->education;
+        return $this->education;
     }
-    
-    
+
+
     /**
      * Set profession
      *
@@ -615,11 +616,11 @@ class CanserUser
      */
     public function setProfession($profession)
     {
-    	$this->profession = $profession;
-    
-    	return $this;
+        $this->profession = $profession;
+
+        return $this;
     }
-    
+
     /**
      * Get profession
      *
@@ -627,7 +628,7 @@ class CanserUser
      */
     public function getProfession()
     {
-    	return $this->profession;
+        return $this->profession;
     }
 
 
@@ -640,12 +641,12 @@ class CanserUser
     public function setIncome($income)
     {
         $this->income = $income;
-    
+
         return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get income
      *
@@ -655,9 +656,9 @@ class CanserUser
     {
         return $this->income;
     }
-    
-    
-    
+
+
+
     /**
      * Set hobby
      *
@@ -666,11 +667,11 @@ class CanserUser
      */
     public function setHobby($hobby)
     {
-    	$this->hobby = $hobby;
-    
-    	return $this;
+        $this->hobby = $hobby;
+
+        return $this;
     }
-    
+
     /**
      * Get hobby
      *
@@ -678,10 +679,10 @@ class CanserUser
      */
     public function getHobby()
     {
-    	return $this->hobby;
+        return $this->hobby;
     }
-    
-    
+
+
     /**
      * Set personalDes
      *
@@ -690,11 +691,11 @@ class CanserUser
      */
     public function setPersonalDes($personalDes)
     {
-    	$this->personalDes = $personalDes;
-    
-    	return $this;
+        $this->personalDes = $personalDes;
+
+        return $this;
     }
-    
+
     /**
      * Get personalDes
      *
@@ -702,10 +703,10 @@ class CanserUser
      */
     public function getPersonalDes()
     {
-    	return $this->personalDes;
+        return $this->personalDes;
     }
-    
-    
+
+
 
     /**
      * Set identityNum
@@ -716,14 +717,14 @@ class CanserUser
     public function setIdentityNum($identityNum)
     {
         $this->identityNum = $identityNum;
-    
+
         return $this;
     }
 
     /**
      * Get identityNum
      *
-     * @return string 
+     * @return string
      */
     public function getIdentityNum()
     {
@@ -739,14 +740,14 @@ class CanserUser
     public function setRewardMultiple($rewardMultiple)
     {
         $this->rewardMultiple = $rewardMultiple;
-    
+
         return $this;
     }
 
     /**
      * Get rewardMultiple
      *
-     * @return float 
+     * @return float
      */
     public function getRewardMultiple()
     {
@@ -762,14 +763,14 @@ class CanserUser
     public function setRegisterDate($registerDate)
     {
         $this->registerDate = $registerDate;
-    
+
         return $this;
     }
 
     /**
      * Get registerDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getRegisterDate()
     {
@@ -785,14 +786,14 @@ class CanserUser
     public function setLastLoginDate($lastLoginDate)
     {
         $this->lastLoginDate = $lastLoginDate;
-    
+
         return $this;
     }
 
     /**
      * Get lastLoginDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastLoginDate()
     {
@@ -808,14 +809,14 @@ class CanserUser
     public function setLastLoginIp($lastLoginIp)
     {
         $this->lastLoginIp = $lastLoginIp;
-    
+
         return $this;
     }
 
     /**
      * Get lastLoginIp
      *
-     * @return string 
+     * @return string
      */
     public function getLastLoginIp()
     {
@@ -831,14 +832,14 @@ class CanserUser
     public function setPoints($points)
     {
         $this->points = $points;
-    
+
         return $this;
     }
 
     /**
      * Get points
      *
-     * @return integer 
+     * @return integer
      */
     public function getPoints()
     {
@@ -854,21 +855,21 @@ class CanserUser
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-        
+
         return $this;
     }
 
     /**
      * Get deleteFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getDeleteFlag()
     {
         return $this->deleteFlag;
     }
-    
-    
+
+
     /**
      * Set isInfoSet
      *
@@ -877,11 +878,11 @@ class CanserUser
      */
     public function setIsInfoSet($isInfoSet)
     {
-    	$this->isInfoSet = $isInfoSet;
-    
-    	return $this;
+        $this->isInfoSet = $isInfoSet;
+
+        return $this;
     }
-    
+
     /**
      * Get isInfoSet
      *
@@ -889,7 +890,7 @@ class CanserUser
      */
     public function getIsInfoSet()
     {
-    	return $this->isInfoSet;
+        return $this->isInfoSet;
     }
 
      /**
@@ -901,18 +902,18 @@ class CanserUser
     public function setUniqkey($uniqkey)
     {
         $this->uniqkey = $uniqkey;
-    
+
         return $this;
     }
 
     /**
      * Get uniqkey
      *
-     * @return string 
+     * @return string
      */
     public function getUniqkey()
     {
         return $this->uniqkey;
     }
-    
+
 }

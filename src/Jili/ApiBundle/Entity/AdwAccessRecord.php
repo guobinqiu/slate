@@ -11,9 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AdwAccessRecord
 {
-	public function __construct() {
-		$this->time = new \DateTime();
-	}
+    public function __construct()
+    {
+        $this->time = new \DateTime();
+    }
      /**
      * @var integer
      *
@@ -23,7 +24,7 @@ class AdwAccessRecord
      */
     private $id;
 
-  
+
     /**
      * @var integer
      *
@@ -58,7 +59,7 @@ class AdwAccessRecord
      */
     private $adkey;
 
-    
+
     /**
      * @var int
      *
@@ -69,7 +70,7 @@ class AdwAccessRecord
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -85,14 +86,14 @@ class AdwAccessRecord
     public function setUserid($userid)
     {
         $this->userid = $userid;
-    
+
         return $this;
     }
 
     /**
      * Get userid
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserid()
     {
@@ -108,14 +109,14 @@ class AdwAccessRecord
     public function setAdid($adid)
     {
         $this->adid = $adid;
-    
+
         return $this;
     }
 
     /**
      * Get adid
      *
-     * @return integer 
+     * @return integer
      */
     public function getAdid()
     {
@@ -131,14 +132,14 @@ class AdwAccessRecord
     public function setAction($action)
     {
         $this->action = $action;
-    
+
         return $this;
     }
 
     /**
      * Get action
      *
-     * @return string 
+     * @return string
      */
     public function getAction()
     {
@@ -154,20 +155,20 @@ class AdwAccessRecord
     public function setAdTime($adtime)
     {
         $this->adtime = $adtime;
-    
+
         return $this;
     }
 
     /**
      * Get time
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getAdTime()
     {
         return $this->adtime;
     }
-    
+
 
     /**
      * Set adkey
@@ -178,21 +179,21 @@ class AdwAccessRecord
     public function setAdKey($adkey)
     {
         $this->adkey = $adkey;
-    
+
         return $this;
     }
 
     /**
      * Get adkey
      *
-     * @return string 
+     * @return string
      */
     public function getAdKey()
     {
         return $this->adkey;
     }
-    
-    
+
+
     /**
      * Set flag
      *
@@ -201,11 +202,11 @@ class AdwAccessRecord
      */
     public function setFlag($flag)
     {
-    	$this->flag = $flag;
-    
-    	return $this;
+        $this->flag = $flag;
+
+        return $this;
     }
-    
+
     /**
      * Get flag
      *
@@ -213,6 +214,6 @@ class AdwAccessRecord
      */
     public function getFlag()
     {
-    	return $this->flag;
+        return $this->flag;
     }
 }

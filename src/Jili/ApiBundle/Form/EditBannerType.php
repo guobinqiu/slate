@@ -9,10 +9,10 @@ class EditBannerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	$builder->add('attachment','file',array(
-            			'required'=>false, 
-            			'error_bubbling'=>true,
-            			));
+        $builder->add('attachment','file',array(
+                        'required'=>false,
+                        'error_bubbling'=>true,
+                        ));
     }
     public function getName()
     {

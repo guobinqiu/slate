@@ -22,245 +22,250 @@ use Jili\ApiBundle\Entity\PointHistory09;
  */
 class DmdeliveryController extends Controller
 {
-	private $soap = 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php';
-	private $username = 'admin';
-	private $password = 'Nvpiyjh1-';
-	/**
+    private $soap = 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php';
+    private $username = 'admin';
+    private $password = 'Nvpiyjh1-';
+    /**
 	 * @Route("/pointFailure", name="_dmdelivery_pointFailure")
 	 */
-	public function pointFailureAction()
-	{	
+    public function pointFailureAction()
+    {
 
-		set_time_limit(0);
-		$failTime = 180;
-		$companyId = 4;
-		$mailingId = 28;
-		$rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
-		return new Response($rs);
+        set_time_limit(0);
+        $failTime = 180;
+        $companyId = 4;
+        $mailingId = 28;
+        $rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
+        return new Response($rs);
 
-	}
+    }
 
-	/**
+    /**
 	 * @Route("/pointFailureForWeek", name="_dmdelivery_pointFailureForWeek")
 	 */
-	public function pointFailureForWeekAction()
-	{
-		set_time_limit(0);
-		$failTime = 173;
-		$companyId = 4;
-		$mailingId = 31;
-		$rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
-		return new Response($rs);
+    public function pointFailureForWeekAction()
+    {
+        set_time_limit(0);
+        $failTime = 173;
+        $companyId = 4;
+        $mailingId = 31;
+        $rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
+        return new Response($rs);
 
-	}
+    }
 
-	/**
+    /**
 	 * @Route("/pointFailureForMonth", name="_dmdelivery_pointFailureForMonth")
 	 */
-	public function pointFailureForMonthAction()
-	{
-		set_time_limit(0);
-		$failTime = 150;
-		$companyId = 4;
-		$mailingId = 30;
-		$rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
-		return new Response($rs);
+    public function pointFailureForMonthAction()
+    {
+        set_time_limit(0);
+        $failTime = 150;
+        $companyId = 4;
+        $mailingId = 30;
+        $rs = $this->handleSendPointFail($failTime,$companyId,$mailingId);
+        return new Response($rs);
 
-	}
+    }
 
-	public function issetFailRecord($user_id,$failTime){
-		$em = $this->getDoctrine()->getManager();
-		switch ($failTime)
-		{
-		case 150:
-			  $failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,180);
-			  if(empty($failRecord)){
-					$failRecordWeek = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,173);
-					if(empty($failRecordWeek)){
-						$failRecordMonth = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,150);
-						if(empty($failRecordMonth)){
-							return '';
-						}else{
-							return $failRecordMonth[0]['userId'];
-						}
-					}else
-						return $failRecordWeek[0]['userId'];
-			  }else
-				return $failRecord[0]['userId'];
-		  break;
-		case 173:
-		    $failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,180);
-			if(empty($failRecord)){
-				$failRecordWeek = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,173);
-				if(empty($failRecordWeek)){
-					return '';
-				}else
-					return $failRecordWeek[0]['userId'];
-			}else
-				return $failRecord[0]['userId'];
-		  break;
-		case 180:
-			$failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,180);
-			if(empty($failRecord))
-				return '';
-			else
-				return $failRecord[0]['userId'];
-		  break;
-		default:
-		 	 return '';
-		}
-		
-	}
+    public function issetFailRecord($user_id,$failTime)
+    {
+        $em = $this->getDoctrine()->getManager();
+        switch ($failTime) {
+        case 150:
+              $failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,180);
+              if(empty($failRecord)){
+                    $failRecordWeek = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,173);
+                    if(empty($failRecordWeek)){
+                        $failRecordMonth = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,150);
+                        if(empty($failRecordMonth)){
+                            return '';
+                        }else{
+                            return $failRecordMonth[0]['userId'];
+                        }
+                    }else
+                        return $failRecordWeek[0]['userId'];
+              }else
+                return $failRecord[0]['userId'];
+          break;
+        case 173:
+            $failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,180);
+            if(empty($failRecord)){
+                $failRecordWeek = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,173);
+                if(empty($failRecordWeek)){
+                    return '';
+                }else
+                    return $failRecordWeek[0]['userId'];
+            }else
+                return $failRecord[0]['userId'];
+          break;
+        case 180:
+            $failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,180);
+            if(empty($failRecord))
+                return '';
+            else
+                return $failRecord[0]['userId'];
+          break;
+        default:
+             return '';
+        }
 
-	public function handleSendPointFail($failTime,$companyId,$mailingId){
-		$rs = "";
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->pointFail($failTime);
-		//$logger = $this->get('logger');
-		if(!empty($user)){
-			$group = $this->addgroup($companyId);
-			if($group->status != "ERROR"){
-				foreach ($user as $key => $value) {
-					$failId = $this->issetFailRecord($value['id'],$failTime);
-					if(!$failId){
-						$recipient_arr = array();
-						$recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
-												 array('name'=>'nick','value'=>$value['nick']));
-						$send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
-						//$logger->info('{DmdeliveryController}'. "email:".$value['email'].",stauts:".$send->status);
-						if($send->status != "ERROR"){
-							$this->insertSendPointFail($value['id'],$failTime);
-							if($failTime == 180){
-								$this->updatePointZero($value['id']);
-							}
-							$rs = 'Send email successfully';
-						}else{
-							$rs = 'Cannot send email:'.$send->statusMsg;
-						}
-					}
-				}
-			}else{
-				$rs = 'Cannot add group:'.$group->statusMsg;
-			}
-		}else{
-			$rs = 'Email list is empty';
-		}
-		return $rs;
-	}
+    }
 
-	public function updatePointZero($userId){
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($userId);
-		$oldPoint = $user->getPoints();
-		$user->setPoints($this->container->getParameter('init'));
-		$em->persist($user);
-		$em->flush();
-		$this->getPoint($userId,'-'.$oldPoint,$this->container->getParameter('init_fifteen'));
-	}
+    public function handleSendPointFail($failTime,$companyId,$mailingId)
+    {
+        $rs = "";
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->pointFail($failTime);
+        //$logger = $this->get('logger');
+        if(!empty($user)){
+            $group = $this->addgroup($companyId);
+            if($group->status != "ERROR"){
+                foreach ($user as $key => $value) {
+                    $failId = $this->issetFailRecord($value['id'],$failTime);
+                    if(!$failId){
+                        $recipient_arr = array();
+                        $recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
+                                                 array('name'=>'nick','value'=>$value['nick']));
+                        $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
+                        //$logger->info('{DmdeliveryController}'. "email:".$value['email'].",stauts:".$send->status);
+                        if($send->status != "ERROR"){
+                            $this->insertSendPointFail($value['id'],$failTime);
+                            if($failTime == 180){
+                                $this->updatePointZero($value['id']);
+                            }
+                            $rs = 'Send email successfully';
+                        }else{
+                            $rs = 'Cannot send email:'.$send->statusMsg;
+                        }
+                    }
+                }
+            }else{
+                $rs = 'Cannot add group:'.$group->statusMsg;
+            }
+        }else{
+            $rs = 'Email list is empty';
+        }
+        return $rs;
+    }
 
-	public function insertSendPointFail($userId,$type){
-		$em = $this->getDoctrine()->getManager();
-		$sendPoint = new SendPointFail();
-		$sendPoint->setUserId($userId);
-		$sendPoint->setSendType($type);
-		$em->persist($sendPoint);
-		$em->flush();
+    public function updatePointZero($userId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($userId);
+        $oldPoint = $user->getPoints();
+        $user->setPoints($this->container->getParameter('init'));
+        $em->persist($user);
+        $em->flush();
+        $this->getPoint($userId,'-'.$oldPoint,$this->container->getParameter('init_fifteen'));
+    }
 
-	}
+    public function insertSendPointFail($userId,$type)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sendPoint = new SendPointFail();
+        $sendPoint->setUserId($userId);
+        $sendPoint->setSendType($type);
+        $em->persist($sendPoint);
+        $em->flush();
 
-	public function init_client(){
-		ini_set('soap.wsdl_cache_enabled','0');
-		$client = new \SoapClient($this->soap,array('encoding'=>'utf-8', 'features'=>SOAP_SINGLE_ELEMENT_ARRAYS));
-		return $client;
-	}
+    }
+
+    public function init_client()
+    {
+        ini_set('soap.wsdl_cache_enabled','0');
+        $client = new \SoapClient($this->soap,array('encoding'=>'utf-8', 'features'=>SOAP_SINGLE_ELEMENT_ARRAYS));
+        return $client;
+    }
 
 
-	public function addRecipientsSendMailing($companyId,$mailingId,$groupId,$recipient_arr){
-		$login = array('username' => $this->username, 'password' => $this->password);
-		$client = $this->init_client();
-		try {
-		    $result = $client->addRecipientsSendMailing(
-		        $login,
-				$companyId,
-		        $mailingId,
-		        array($groupId),
-				$recipient_arr,
-				true,
-        		true
-	       		);
-		    return $result;
-		}         
-		catch (SoapFault $exception) { 
-		    echo $exception;
-		}
+    public function addRecipientsSendMailing($companyId,$mailingId,$groupId,$recipient_arr)
+    {
+        $login = array('username' => $this->username, 'password' => $this->password);
+        $client = $this->init_client();
+        try {
+            $result = $client->addRecipientsSendMailing(
+                $login,
+                $companyId,
+                $mailingId,
+                array($groupId),
+                $recipient_arr,
+                true,
+                true
+                   );
+            return $result;
+        } catch (SoapFault $exception) {
+            echo $exception;
+        }
 
-	}
+    }
 
-	public function sendmailing($companyId,$mailingId,$groupId){
-		$login = array('username' => $this->username, 'password' => $this->password);
-		$client = $this->init_client();
-		try {
-		    $result = $client->sendMailing(
-		        $login,
-				$companyId,
-		        $mailingId,
-				true,
-				"yang@voyagegroup.com.cn",
-		        array($groupId),
-				"",
-				"",
-				"",
-				""
-	       		);
-		    return $result;
-		}         
-		catch (SoapFault $exception) { 
-		    echo $exception;
-		}
+    public function sendmailing($companyId,$mailingId,$groupId)
+    {
+        $login = array('username' => $this->username, 'password' => $this->password);
+        $client = $this->init_client();
+        try {
+            $result = $client->sendMailing(
+                $login,
+                $companyId,
+                $mailingId,
+                true,
+                "yang@voyagegroup.com.cn",
+                array($groupId),
+                "",
+                "",
+                "",
+                ""
+                   );
+            return $result;
+        } catch (SoapFault $exception) {
+            echo $exception;
+        }
 
-	}
+    }
 
-	public function addRecipient($companyId,$recipient_arr,$groupId){
-		$login = array('username' => $this->username, 'password' => $this->password );
-		$client = $this->init_client();
-		try {
-		    $result = $client->addRecipients(
-		        $login,
-				$companyId,
-		        array($groupId), // GroupID		
-				// array('name'=>'email','value'=>'278583642@qq.com')
-				$recipient_arr,
-		        true,
-		        true
-		    );
-		    return $result;
-		}         
-		catch (SoapFault $exception) { 
-		    echo $exception;
-		}
-	}
+    public function addRecipient($companyId,$recipient_arr,$groupId)
+    {
+        $login = array('username' => $this->username, 'password' => $this->password );
+        $client = $this->init_client();
+        try {
+            $result = $client->addRecipients(
+                $login,
+                $companyId,
+                array($groupId), // GroupID
+                // array('name'=>'email','value'=>'278583642@qq.com')
+                $recipient_arr,
+                true,
+                true
+            );
+            return $result;
+        } catch (SoapFault $exception) {
+            echo $exception;
+        }
+    }
 
-	public function addgroup($companyId){
-		$login = array('username' => $this->username, 'password' => $this->password );
-		$client = $this->init_client();
-		try {
-	        $result = $client->addGroup(
-		        $login,
-				$companyId,
-		        array('name'=>'test',
-					'is_test'=>'true',
-				)
-	   		);
- 			return $result;
-		}catch (SoapFault $exception) {  
-		    echo $exception;
-		}
-	}
+    public function addgroup($companyId)
+    {
+        $login = array('username' => $this->username, 'password' => $this->password );
+        $client = $this->init_client();
+        try {
+            $result = $client->addGroup(
+                $login,
+                $companyId,
+                array('name'=>'test',
+                    'is_test'=>'true',
+                )
+            );
+            return $result;
+        }catch (SoapFault $exception) {
+            echo $exception;
+        }
+    }
 
     public function setSoap($soap)
     {
         $this->soap = $soap;
-    
+
         return $this;
     }
 
@@ -272,7 +277,7 @@ class DmdeliveryController extends Controller
     public function setUsername($username)
     {
         $this->username= $username;
-    
+
         return $this;
     }
 
@@ -284,7 +289,7 @@ class DmdeliveryController extends Controller
     public function setPassword($password)
     {
         $this->password= $password;
-    
+
         return $this;
     }
 
@@ -293,7 +298,8 @@ class DmdeliveryController extends Controller
         return $this->password;
     }
 
-    private function getPoint($userid,$point,$type){
+    private function getPoint($userid,$point,$type)
+    {
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
       }else{
@@ -338,8 +344,7 @@ class DmdeliveryController extends Controller
       $em->persist($po);
       $em->flush();
     }
- 
+
 
 
 }
-?>

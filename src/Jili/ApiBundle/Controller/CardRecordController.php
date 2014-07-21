@@ -9,10 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class  CardRecordController extends Controller
 {
-	/**
+    /**
      * @Route("/index", name="_cardRecord_index")
      */
-    public function indexAction(){ 
+    public function indexAction()
+    {
         exit;
         /*
     	$iframeurl = 'https://entry.eightbiz.net/login';

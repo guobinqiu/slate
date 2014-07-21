@@ -74,7 +74,7 @@ class EmarRequest
     /**
      * Get tag
      *
-     * @return string 
+     * @return string
      */
     public function getTag()
     {
@@ -97,7 +97,7 @@ class EmarRequest
     /**
      * Get count
      *
-     * @return integer 
+     * @return integer
      */
     public function getCount()
     {
@@ -120,7 +120,7 @@ class EmarRequest
     /**
      * Get sizeUp
      *
-     * @return integer 
+     * @return integer
      */
     public function getSizeUp()
     {
@@ -143,7 +143,7 @@ class EmarRequest
     /**
      * Get sizeDown
      *
-     * @return integer 
+     * @return integer
      */
     public function getSizeDown()
     {
@@ -166,7 +166,7 @@ class EmarRequest
     /**
      * Get timeConsumedTotal
      *
-     * @return string 
+     * @return string
      */
     public function getTimeConsumedTotal()
     {
@@ -176,7 +176,7 @@ class EmarRequest
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

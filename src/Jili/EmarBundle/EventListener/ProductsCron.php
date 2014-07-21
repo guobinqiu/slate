@@ -3,11 +3,12 @@ namespace Jili\EmarBundle\EventListener;
 
 use Jili\EmarBundle\Entity\EmarProductsCron;
 
-class ProductsCron extends BaseCron {
-
+class ProductsCron extends BaseCron
+{
     private $web_and_cat_service;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->class_name_croned = 'JiliEmarBundle:EmarProductsCroned';
         $this->class_name_cron = 'JiliEmarBundle:EmarProductsCron';
     }
@@ -15,8 +16,8 @@ class ProductsCron extends BaseCron {
     /**
      * insert new data
      */
-    function save($products) {
-
+    public function save($products)
+    {
         foreach($products as $pdt) {
             $em = $this->em;
             $logger = $this->logger;
@@ -50,7 +51,8 @@ class ProductsCron extends BaseCron {
         }
     }
 
-    public function setWebsiteAndCategory( $web_and_cat_service ) {
+    public function setWebsiteAndCategory($web_and_cat_service)
+    {
         $this->web_and_cat_service = $web_and_cat_service ;
     }
 }

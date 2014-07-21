@@ -10,16 +10,16 @@ class LoginType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nick', 'text',array(
-				'required' => false,
-	        	'error_bubbling'=>true
+                'required' => false,
+                'error_bubbling'=>true
                     ))
                 ->add('pwd', 'password' ,array(
-                    	'required' => false,
-        	        	'error_bubbling'=>true
+                        'required' => false,
+                        'error_bubbling'=>true
                     ));
     }
-    
-//     public function getDefaultOptions(array $options){
+
+//     public function getDefaultOptions(array $options) {
 //     	return array(
 //     			'validation_groups' => array('search'),
 

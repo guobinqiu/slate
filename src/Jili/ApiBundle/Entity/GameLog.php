@@ -34,8 +34,8 @@ class GameLog
      * @ORM\Column(name="game_point", type="integer")
      */
     private $gamePoint;
-    
-    
+
+
     /**
      * @var string
      *
@@ -96,7 +96,7 @@ class GameLog
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -112,10 +112,10 @@ class GameLog
     public function setPointUid($pointUid)
     {
         $this->pointUid = $pointUid;
-    
+
         return $this;
     }
-    
+
     /**
      * Get pointUid
      *
@@ -135,11 +135,11 @@ class GameLog
      */
     public function setGamePoint($gamePoint)
     {
-    	$this->gamePoint = $gamePoint;
-    
-    	return $this;
+        $this->gamePoint = $gamePoint;
+
+        return $this;
     }
-    
+
     /**
      * Get gamePoint
      *
@@ -147,10 +147,10 @@ class GameLog
      */
     public function getGamePoint()
     {
-    	return $this->gamePoint;
+        return $this->gamePoint;
     }
-    
-    
+
+
     /**
      * Set gameDate
      *
@@ -159,11 +159,11 @@ class GameLog
      */
     public function setGameDate($gameDate)
     {
-    	$this->gameDate = $gameDate;
-    
-    	return $this;
+        $this->gameDate = $gameDate;
+
+        return $this;
     }
-    
+
     /**
      * Get gameDate
      *
@@ -171,9 +171,9 @@ class GameLog
      */
     public function getGameDate()
     {
-    	return $this->gameDate;
+        return $this->gameDate;
     }
-    
+
    /**
      * Set gameTime
      *
@@ -183,10 +183,10 @@ class GameLog
     public function setGameTime($gameTime)
     {
         $this->gameTime = $gameTime;
-    
+
         return $this;
     }
-    
+
     /**
      * Get gameTime
      *
@@ -207,10 +207,10 @@ class GameLog
     public function setGameScore($gameScore)
     {
         $this->gameScore = $gameScore;
-    
+
         return $this;
     }
-    
+
     /**
      * Get gameScore
      *
@@ -231,10 +231,10 @@ class GameLog
     public function setGameType($gameType)
     {
         $this->gameType = $gameType;
-    
+
         return $this;
     }
-    
+
     /**
      * Get gameType
      *
@@ -255,10 +255,10 @@ class GameLog
     public function setMassPoint($massPoint)
     {
         $this->massPoint = $massPoint;
-    
+
         return $this;
     }
-    
+
     /**
      * Get massPoint
      *
@@ -278,10 +278,10 @@ class GameLog
     public function setGoalPoint($goalPoint)
     {
         $this->goalPoint = $goalPoint;
-    
+
         return $this;
     }
-    
+
     /**
      * Get goalPoint
      *
@@ -303,10 +303,10 @@ class GameLog
     public function setRankingPoint($rankingPoint)
     {
         $this->rankingPoint = $rankingPoint;
-    
+
         return $this;
     }
-    
+
     /**
      * Get rankingPoint
      *
@@ -326,10 +326,10 @@ class GameLog
     public function setAttendancePoint($attendancePoint)
     {
         $this->attendancePoint = $attendancePoint;
-    
+
         return $this;
     }
-    
+
     /**
      * Get attendancePoint
      *
@@ -339,10 +339,10 @@ class GameLog
     {
         return $this->attendancePoint;
     }
-    
 
-    
-    
-    
-    
+
+
+
+
+
 }

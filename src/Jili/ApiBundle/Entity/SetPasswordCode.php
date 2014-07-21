@@ -13,13 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
 class SetPasswordCode
 {
 
-    public static  $VALIDATION_OF_SIGNUP_ACTIVATE = 1209600 ; # 3600*24*14 
+    public static $VALIDATION_OF_SIGNUP_ACTIVATE = 1209600 ; # 3600*24*14
 
-	public function __construct() {
-		$this->createTime = new \DateTime();
-	}
-	
-	
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+    }
+
+
     /**
      * @var integer
      *
@@ -61,7 +62,7 @@ class SetPasswordCode
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -84,7 +85,7 @@ class SetPasswordCode
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -107,7 +108,7 @@ class SetPasswordCode
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -130,7 +131,7 @@ class SetPasswordCode
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
@@ -153,7 +154,7 @@ class SetPasswordCode
     /**
      * Get isAvailable
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsAvailable()
     {

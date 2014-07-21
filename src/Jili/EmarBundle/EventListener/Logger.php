@@ -7,14 +7,14 @@ use Doctrine\ORM\EntityManager;
 use Jili\EmarBundle\Entity\EmarApiReturn;
 
 /**
- * 
+ *
  **/
 class Logger
 {
     private $em;
 
     private $logger;
-    public function __construct(LoggerInterface $logger , EntityManager $em )
+    public function __construct(LoggerInterface $logger , EntityManager $em)
     {
         $this->logger = $logger;
         $this->em = $em;
@@ -22,10 +22,11 @@ class Logger
 
     /**
      *
-     * @param  $content the request uri of Emar 
+     * @param  $content the request uri of Emar
      *
      */
-    public function log($content) {
+    public function log($content)
+    {
         $logger = new EmarApiReturn();
         $logger->setContent( $content);
         $logger->setCreatedAt( date_create() );
@@ -34,5 +35,3 @@ class Logger
     }
 
 }
-
-

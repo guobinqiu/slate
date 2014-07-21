@@ -39,7 +39,7 @@ class UserInfoVisit
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -55,14 +55,14 @@ class UserInfoVisit
     public function setUserid($userid)
     {
         $this->userid = $userid;
-    
+
         return $this;
     }
 
     /**
      * Get userid
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserid()
     {
@@ -79,20 +79,20 @@ class UserInfoVisit
     public function setVisitDate($visitDate)
     {
         $this->visitDate = $visitDate;
-    
+
         return $this;
     }
 
     /**
      * Get visitDate
      *
-     * @return string 
+     * @return string
      */
     public function getVisitDate()
     {
         return $this->visitDate;
     }
 
-    
-    
+
+
 }

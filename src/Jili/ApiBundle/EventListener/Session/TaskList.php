@@ -5,7 +5,7 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;
 
 /**
- * 
+ *
  **/
 class TaskList
 {
@@ -19,7 +19,7 @@ class TaskList
     private $check_in_listener;
     private $keys;
     private $duration ;
-    public function __construct( $keys, $duration)
+    public function __construct($keys, $duration)
     {
         $this->keys = $keys;
         $this->duration = $duration;
@@ -38,7 +38,7 @@ class TaskList
         $id = $session->get('uid');
         $day=date('Ymd');
 
-        // session life 
+        // session life
         $key_alive = $this->keys['alive'];
 
         $duration_alive = $this->duration; /* todo: add to config */
@@ -84,7 +84,7 @@ class TaskList
 
         if( isset( $visit_value)) {
             $arr['task']['ad'] =$visit_value ;
-        }    
+        }
 
         unset($visit);
         unset($visit_value);
@@ -148,7 +148,8 @@ class TaskList
         return $arr;
     }
 
-    public function reset() {
+    public function reset()
+    {
         $session = $this->session;
         $keys = $this->keys;
 
@@ -165,7 +166,8 @@ class TaskList
     /**
      *    取得key对应的value
      */
-    public function get($key ) {
+    public function get($key)
+    {
         $keys = $this->keys;
         $session = $this->session;
         $value = null;
@@ -180,7 +182,8 @@ class TaskList
     /**
      * 清除某个key.
      */
-    public function remove($keys_to_remove = array() ) {
+    public function remove($keys_to_remove = array() )
+    {
         $keys = $this->keys;
         $session = $this->session;
         foreach($keys_to_remove as $key) {
@@ -192,33 +195,39 @@ class TaskList
         }
     }
 
-    private function getParameter($key) {
+    private function getParameter($key)
+    {
         return $this->container->getParameter($key);
     }
-    public function setSession(  $session) {
+    public function setSession($session)
+    {
         $this->session = $session;
         return $this;
     }
-    public function setLogger(  LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
         return $this;
     }
 
-    public function setEntityManager( EntityManager $em) {
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em= $em;
     }
 
-    public function setContainer( $container ) {
+    public function setContainer($container)
+    {
         $this->container = $container;
         return $this;
     }
-    public function setCheckInListener( $checkInListener)
+    public function setCheckInListener($checkInListener)
     {
         $this->check_in_listener = $checkInListener;
         return $this;
     }
 
-    public function setRequest( $request ) {
+    public function setRequest($request)
+    {
         $this->request = $request;
         return $this;
     }

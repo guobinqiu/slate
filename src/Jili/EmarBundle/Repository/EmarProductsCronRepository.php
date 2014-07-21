@@ -10,7 +10,8 @@ use Doctrine\ORM\EntityRepository;
 class EmarProductsCronRepository  extends EntityRepository
 {
 
-    public function count() {
+    public function count()
+    {
         return $this->getEntityManager()
             ->createQuery('SELECT COUNT(p) FROM JiliEmarBundle:EmarProductsCron p')
             ->getSingleScalarResult();

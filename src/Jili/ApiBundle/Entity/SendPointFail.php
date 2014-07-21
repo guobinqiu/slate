@@ -12,7 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SendPointFail
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->createtime = new \DateTime();
     }
     /**
@@ -30,7 +31,7 @@ class SendPointFail
      * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
-    
+
     /**
      * @var integer
      *
@@ -48,7 +49,7 @@ class SendPointFail
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -64,14 +65,14 @@ class SendPointFail
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -88,20 +89,20 @@ class SendPointFail
     public function setSendType($sendType)
     {
         $this->sendType = $sendType;
-    
+
         return $this;
     }
 
     /**
      * Get sendType
      *
-     * @return integer 
+     * @return integer
      */
     public function getSendType()
     {
         return $this->sendType;
     }
-   
+
      /**
      * Set createtime
      *
@@ -111,19 +112,19 @@ class SendPointFail
     public function setCreatetime($createtime)
     {
         $this->createtime = $createtime;
-    
+
         return $this;
     }
 
     /**
      * Get createtime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatetime()
     {
         return $this->createtime;
     }
 
-   
+
 }

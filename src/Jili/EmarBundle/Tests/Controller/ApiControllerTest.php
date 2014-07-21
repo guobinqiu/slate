@@ -35,7 +35,7 @@ class ApiControllerTest extends WebTestCase
 //        $this->em->close();
     }
 
-    public function HoldTestCallbackValidation() 
+    public function HoldTestCallbackValidation()
     {
 
         $client = static::createClient();
@@ -47,7 +47,7 @@ class ApiControllerTest extends WebTestCase
         $wid = 732204;
         $ad_id = 83;
         $action_id =  6941;
-        $unique_id = $this->unique_id; 
+        $unique_id = $this->unique_id;
 
         // 1.0 login for session checking.
         $email = 'alice.nima@gmail.com';
@@ -75,8 +75,8 @@ class ApiControllerTest extends WebTestCase
             'prod_type'=>'yhq',
             'create_date'=>'2011-09-19+18%3A21%3A18',
             'action_name'=>'DangdangCPS%BE%A9%B6%ABCPS',
-            'sid'=>$sid, //$sid, //  91jili.com 
-            'wid'=>$wid, //  account id on yiqifa.com 
+            'sid'=>$sid, //$sid, //  91jili.com
+            'wid'=>$wid, //  account id on yiqifa.com
             'order_no'=>'A19182109822_1',
             'order_time'=>'2011-09-19+18%3A21%3A09',
             'prod_id'=>'21000043',
@@ -140,7 +140,7 @@ class ApiControllerTest extends WebTestCase
             $params[$f] = $tmp;
         }
 
-        // error action id 
+        // error action id
         $f = 'action_id';
         $tmp = $params[$f];
         $params[$f] = '23';
@@ -170,7 +170,7 @@ class ApiControllerTest extends WebTestCase
         $wid = 732204;
         $ad_id = 83; // emar cps id/
         $action_id =  6941;
-        $unique_id = $this->unique_id; 
+        $unique_id = $this->unique_id;
 
         // 1.0 login for session checking.
         $email = 'alice.nima@gmail.com';
@@ -197,8 +197,8 @@ class ApiControllerTest extends WebTestCase
             'create_date' =>'2014-02-12+14%3A54%3A57',
             'action_id'=>$action_id,
             'action_name'=>'DangdangCPS%BE%A9%B6%ABCPS',
-            'sid'=>$sid, //  91jili.com 
-            'wid'=>$wid, //  account id on yiqifa.com 
+            'sid'=>$sid, //  91jili.com
+            'wid'=>$wid, //  account id on yiqifa.com
             'order_no'=>'A19182109822_1',
             'order_time'=>'2011-09-19+18%3A21%3A09',
             'prod_id'=>'',
@@ -224,8 +224,8 @@ class ApiControllerTest extends WebTestCase
 
 
         // db checking...
-        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
-        
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy();
+
         echo $url,PHP_EOL;
         $crawler = $client->request('GET',$url, $params) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
@@ -242,7 +242,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('1', $client->getResponse()->getContent());
 
         // db checking...
-        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy();
 
         $crawler = $client->request('GET',$url, $params) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
@@ -285,7 +285,7 @@ class ApiControllerTest extends WebTestCase
         $wid = 732204;
         $ad_id = 83;
         $action_id =  6941;
-        $unique_id = $this->unique_id; 
+        $unique_id = $this->unique_id;
 
         // 1.0 login for session checking.
         $email = 'alice.nima@gmail.com';
@@ -309,8 +309,8 @@ class ApiControllerTest extends WebTestCase
 
         $params['unique_id']=$unique_id;
         $params['action_id']=$action_id;
-       # $params['sid']=$sid; //  91jili.com 
-       # $params['wid']=$wid; //  account id on yiqifa.com 
+       # $params['sid']=$sid; //  91jili.com
+       # $params['wid']=$wid; //  account id on yiqifa.com
         $params['feed_back']=$user->getId();
 
         echo $url,PHP_EOL;
@@ -323,8 +323,8 @@ class ApiControllerTest extends WebTestCase
 
 
         // db checking...
-        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
-        
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy();
+
         echo $url,PHP_EOL;
         $crawler = $client->request('GET',$url, $params) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
@@ -341,7 +341,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('1', $client->getResponse()->getContent());
 
         // db checking...
-        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy();
 
         $crawler = $client->request('GET',$url, $params) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
@@ -359,7 +359,7 @@ class ApiControllerTest extends WebTestCase
         $url_user_info =  $container->get('router')->generate('_user_info' ) ;
 
 
-       // sub order 
+       // sub order
         $qs = '/jili-jiang/web/emar/api/callback?unique_id=449650613&create_date=2014-02-12+16%3A12%3A23&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=1062647585&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=59.0&feed_back=1094007&status=R&comm_type=0&commision=0.0&chkcode=c55e0886bab540be1b428718ddd5904a&prod_type=0&am=0.0&exchange_rate=0.0';
         $b = parse_url($qs);
         parse_str($b['query']);
@@ -368,12 +368,12 @@ class ApiControllerTest extends WebTestCase
         $wid = 732204;
         $ad_id = 83;
         $action_id =  6941;
-        $unique_id = $this->updateUniqueId() ; 
+        $unique_id = $this->updateUniqueId() ;
 
         $params['unique_id']=$unique_id;
         $params['action_id']=$action_id;
-       # $params['sid']=$sid; //  91jili.com 
-       # $params['wid']=$wid; //  account id on yiqifa.com 
+       # $params['sid']=$sid; //  91jili.com
+       # $params['wid']=$wid; //  account id on yiqifa.com
         $params['feed_back']=$user->getId();
 
         echo $url,PHP_EOL;
@@ -386,8 +386,8 @@ class ApiControllerTest extends WebTestCase
 
 
         // db checking...
-        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
-        
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy();
+
         echo $url,PHP_EOL;
         $crawler = $client->request('GET',$url, $params) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
@@ -404,7 +404,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('1', $client->getResponse()->getContent());
 
         // db checking...
-        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy();
 
         $crawler = $client->request('GET',$url, $params) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
@@ -427,7 +427,7 @@ class ApiControllerTest extends WebTestCase
         $logger= $container->get('logger');
         $em = $this->em;
 
-       // no in advertiserment. 
+       // no in advertiserment.
         $qs = '/jili-jiang/web/emar/api/callback?unique_id=449650613&create_date=2014-02-12+16%3A12%3A23&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=1062647585&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=59.0&feed_back=1094007&status=R&comm_type=0&commision=0.0&chkcode=c55e0886bab540be1b428718ddd5904a&prod_type=0&am=0.0&exchange_rate=0.0';
         $b = parse_url($qs);
         parse_str($b['query']);
@@ -438,7 +438,7 @@ class ApiControllerTest extends WebTestCase
         $wid = 732204;
         $action_id =  4330;
 
-        $unique_id = $this->updateUniqueId() ; 
+        $unique_id = $this->updateUniqueId() ;
         // 1.0 login for session checking.
         $email = 'alice.nima@gmail.com';
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
@@ -448,8 +448,8 @@ class ApiControllerTest extends WebTestCase
 
         $params['unique_id']=$unique_id;
         $params['action_id']=$action_id;
-       # $params['sid']=$sid; //  91jili.com 
-       # $params['wid']=$wid; //  account id on yiqifa.com 
+       # $params['sid']=$sid; //  91jili.com
+       # $params['wid']=$wid; //  account id on yiqifa.com
         $params['feed_back']=$user->getId();
 
         $url = $container->get('router')->generate('jili_emar_api_callback' ) ;
@@ -463,8 +463,8 @@ class ApiControllerTest extends WebTestCase
 
 
         // db checking...
-        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
-        
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy();
+
         echo $url,PHP_EOL;
         $crawler = $client->request('GET',$url, $params) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
@@ -481,7 +481,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('1', $client->getResponse()->getContent());
 
         // db checking...
-        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy(); 
+        //todo: $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment') -> findOneBy();
 
         $crawler = $client->request('GET',$url, $params) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
@@ -496,9 +496,10 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('0', $client->getResponse()->getContent());
 
     }
-    
 
-    private function calcSignature( $params) {
+
+    private function calcSignature($params)
+    {
         $DataSecret = static::$kernel->getContainer()->getParameter('emar_com.91jili_com.key');
         $str = $params['action_id'].$params['order_no'].$params['prod_money'].$params['order_time'].$DataSecret ;
         return  md5( $str);
@@ -508,7 +509,8 @@ class ApiControllerTest extends WebTestCase
     /**
      * to generterate emar unique_id
      */
-    private function updateUniqueId() {
+    private function updateUniqueId()
+    {
         $em = $this->em;
         $i = 0;
         do{
@@ -615,4 +617,4 @@ class ApiControllerTest extends WebTestCase
 // chkcode=587e47d2ddabb22663e0d44adbc35854
 // prod_type=0
 // am=0.0
-// exchange_rate=0.0 
+// exchange_rate=0.0

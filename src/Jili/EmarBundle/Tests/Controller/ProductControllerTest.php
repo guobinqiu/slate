@@ -35,7 +35,7 @@ class ProductControllerTest extends WebTestCase
     /**
      * check the product retrieve {(x,y)|x in catid , y in web id }
      * @group cache
-     * @group emar 
+     * @group emar
      */
     public function testRetrievePdtListAction()
     {
@@ -49,13 +49,13 @@ class ProductControllerTest extends WebTestCase
         $cache_dir =$container->getParameter('cache_data_path');
         echo $cache_dir , PHP_EOL;
         exec('rm -rf '. $cache_dir);
-        
+
         // It is waste time to test everything //
         $url =  'http://jili0129.vgc.net/app_dev.php/emar/product/retrieve?q=&cat=101010000&p=1&pr=&w=1148';
         parse_str( parse_url($url, PHP_URL_QUERY), $queries);
         //get cache file: value
 
-        $params = $this->buildParamFromQuery($queries); 
+        $params = $this->buildParamFromQuery($queries);
         $productRequest = $container->get('product.list_get');
         $productRequest->fetch( $params);
 
@@ -66,11 +66,11 @@ class ProductControllerTest extends WebTestCase
 
         echo 'key:',$key,PHP_EOL;
         $cache_fn0 =$cache_dir .DIRECTORY_SEPARATOR . $key.'.cached';
-        
+
         $this->assertFileExists($cache_fn0);
         exec('rm -rf '. $cache_fn0);
         $this->assertFileNotExists($cache_fn0);
-        // request 
+        // request
         $url = $router->generate('jili_emar_product_retrieve', $queries, true);
 
         echo $url, PHP_EOL;
@@ -112,7 +112,7 @@ class ProductControllerTest extends WebTestCase
 
     /**
      * check the open.category
-     * @group cache 
+     * @group cache
      */
     public function testRetrieveCategoryAction()
     {
@@ -126,14 +126,14 @@ class ProductControllerTest extends WebTestCase
         echo $cache_dir , PHP_EOL;
         exec('rm -rf '. $cache_dir);
 
-// [product.categories] keys & values 
+// [product.categories] keys & values
         $generalCategoryGetService = $container->get('general.category_get');
         $category = $generalCategoryGetService->fetch();
         $cache = $generalCategoryGetService->getCacheProxy();
 
         $category0 = $cache->get();
         $key = $cache->getKey();
-        
+
         echo 'key',$key,PHP_EOL;
         $cache_fn0 =$cache_dir .DIRECTORY_SEPARATOR . $key.'.cached';
         $this->assertFileExists($cache_fn0);
@@ -165,7 +165,7 @@ class ProductControllerTest extends WebTestCase
         //$web_id = $request->query->getInt('w');
         //$price_range = $request->query->get('pr');
         //$page_no = $request->query->get('p', 1);
-        
+
 // request
         $url  = $router->generate('jili_emar_product_retrieve', array(), true);
         echo $url,PHP_EOL;
@@ -187,7 +187,8 @@ class ProductControllerTest extends WebTestCase
         unset($cache_fn0);
         unset($category0);
     }
- private function buildParamFromQuery($queries) {
+ private function buildParamFromQuery($queries)
+ {
         $params = array();
         if( isset($queries['w'])) {
             $params['webid'] =(int) $queries['w'];

@@ -4,13 +4,13 @@ namespace Jili\EmarBundle\EventListener;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\ProductListGetRequest as OpenApiProductListGetRequest;
 
-class ProductListGetRequest  extends BaseListRequest {
-
+class ProductListGetRequest  extends BaseListRequest
+{
   /**
    *
    */
-  public function fetch( $params = array() ) {
-
+  public function fetch( $params = array() )
+  {
     $req = new  OpenApiProductListGetRequest;
 
 
@@ -54,7 +54,7 @@ class ProductListGetRequest  extends BaseListRequest {
         $result = $resp['pdt_list']['pdt'];
         $this->result = $result;
     } else {
-        $this->result = array(); // 
+        $this->result = array(); //
     }
 
     $this->total = isset($resp['total'] ) ? $resp['total']: 0 ;

@@ -8,24 +8,26 @@ use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\EntityManager;
 
 /**
- * 
+ *
  **/
 class SignupActivateHandler
 {
-    
+
     private $em;
     private $logger;
     private $session;
 
     private $form;
 
-    public function setForm(FormInterface $form) {
+    public function setForm(FormInterface $form)
+    {
         $this->form = $form;
         return $this;
     }
     /**
      */
-    public function process( $params ) {
+    public function process($params)
+    {
         extract($params);
 
         $form = $this->form;
@@ -69,10 +71,10 @@ class SignupActivateHandler
                 $soapMailLister->sendSingleMailing($recipient_arr);
 
                 $this->login_listener->initSession($user);
-                // The user was insert when regAction 
+                // The user was insert when regAction
                 $this->login_listener->log($user);
 
-            
+
         } else {
             // check the agreement
         }
@@ -80,32 +82,38 @@ class SignupActivateHandler
         return true;
     }
 
-    public function setLogger( LoggerInterface $logger ) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 
-    public function setEntityManager(EntityManager $em ) {
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em = $em;
     }
 
-    public function setSession(Session $sess ) {
+    public function setSession(Session $sess)
+    {
         $this->session  = $sess;
     }
 
-    public function setLoginListener( $login_listener ) {
+    public function setLoginListener($login_listener)
+    {
         $this->login_listener = $login_listener;
     }
 
-    public function setSoapMailListener( $soap_mail_listener ) {
+    public function setSoapMailListener($soap_mail_listener)
+    {
         $this->soap_mail_listener = $soap_mail_listener;
     }
 
-    public function setContainer($container) {
+    public function setContainer($container)
+    {
         $this->container = $container;
     }
 
-    private function getParameter($key) {
+    private function getParameter($key)
+    {
         return $this->container->getParameter($key);
     }
 }
-

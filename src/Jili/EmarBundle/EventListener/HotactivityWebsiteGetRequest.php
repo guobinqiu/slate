@@ -4,13 +4,13 @@ namespace Jili\EmarBundle\EventListener;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\HotactivityWebsiteGetRequest as OpenApiHotactivityWebsiteGetRequest;
 
-class HotactivityWebsiteGetRequest  {
-
+class HotactivityWebsiteGetRequest
+{
   private $logger;
   private $result ;
 
-  public function fetch() {
-
+  public function fetch()
+  {
     $req = new  OpenApiHotactivityWebsiteGetRequest;
     $req->setFields('web_id,web_name,web_o_url,modified_time');
     $resp =  $this->c->exe( $req );
@@ -25,12 +25,12 @@ class HotactivityWebsiteGetRequest  {
   }
 
 
-  public function setLogger(  LoggerInterface $logger) {
+  public function setLogger(LoggerInterface $logger)
+  {
     $this->logger = $logger;
   }
-  public function setConnection( EmarRequestConnection  $c ) {
+  public function setConnection(EmarRequestConnection  $c)
+  {
     $this->c = $c;
   }
 }
-
-

@@ -4,10 +4,12 @@ namespace Jili\EmarBundle\EventListener;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\WebsiteGetRequest  as OpenApiWebsiteGetRequest;
 
-class WebsiteDetailGetRequest  extends BaseRequest {
-  public function fetch( array $params = array('webid' => '')) {
+class WebsiteDetailGetRequest  extends BaseRequest
+{
+  public function fetch( array $params = array('webid' => ''))
+  {
     extract($params);
-    //todo: cached 
+    //todo: cached
     $req = new  OpenApiWebsiteGetRequest;
     $req->setFields('web_id,web_name,web_catid,logo_url,web_url,information,begin_date,end_date,commission');
 
@@ -43,5 +45,3 @@ class WebsiteDetailGetRequest  extends BaseRequest {
     return $result;
   }
 }
-
-

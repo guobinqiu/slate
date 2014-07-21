@@ -9,13 +9,15 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="callboard")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\CallBoardRepository")
  */
-class CallBoard {
-	public function __construct() {
-		$this->createTime = new \DateTime();
-		//$this->updateTime = new \DateTime();
-		$this->startTime = new \DateTime();
-		$this->endTime = new \DateTime();
-	}
+class CallBoard
+{
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+        //$this->updateTime = new \DateTime();
+        $this->startTime = new \DateTime();
+        $this->endTime = new \DateTime();
+    }
     /**
      * @var integer
      *
@@ -31,8 +33,8 @@ class CallBoard {
      * @ORM\Column(name="title", type="string", length=250, nullable=true)
      */
     private $title;
-    
-    
+
+
     /**
      * @var string
      *
@@ -46,22 +48,22 @@ class CallBoard {
      * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
-    
-    
+
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="create_time", type="datetime", nullable=true)
      */
     private $createTime;
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="update_time", type="datetime", nullable=true)
      */
     private $updateTime;
-    
+
     /**
      * @var \DateTime
      *
@@ -95,7 +97,7 @@ class CallBoard {
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -111,20 +113,20 @@ class CallBoard {
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
         return $this->title;
     }
-    
+
     /**
      * Set author
      *
@@ -133,11 +135,11 @@ class CallBoard {
      */
     public function setAuthor($author)
     {
-    	$this->author = $author;
-    
-    	return $this;
+        $this->author = $author;
+
+        return $this;
     }
-    
+
     /**
      * Get author
      *
@@ -145,9 +147,9 @@ class CallBoard {
      */
     public function getAuthor()
     {
-    	return $this->author;
+        return $this->author;
     }
-    
+
 
     /**
      * Set content
@@ -158,20 +160,20 @@ class CallBoard {
     public function setContent($content)
     {
         $this->content = $content;
-    
+
         return $this;
     }
 
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
         return $this->content;
     }
-    
+
     /**
      * Set createTime
      *
@@ -180,10 +182,10 @@ class CallBoard {
      */
     public function setCreateTime($createTime)
     {
-    	$this->createTime = $createTime;
-    	return $this;
+        $this->createTime = $createTime;
+        return $this;
     }
-    
+
     /**
      * Get createTime
      *
@@ -191,10 +193,10 @@ class CallBoard {
      */
     public function getCreateTime()
     {
-    	return $this->createTime;
+        return $this->createTime;
     }
-    
-    
+
+
     /**
      * Set updateTime
      *
@@ -203,10 +205,10 @@ class CallBoard {
      */
     public function setUpdateTime($updateTime)
     {
-    	$this->updateTime = $updateTime;
-    	return $this;
+        $this->updateTime = $updateTime;
+        return $this;
     }
-    
+
     /**
      * Get updateTime
      *
@@ -214,9 +216,9 @@ class CallBoard {
      */
     public function getUpdateTime()
     {
-    	return $this->updateTime;
+        return $this->updateTime;
     }
-    
+
 
     /**
      * Set startTime
@@ -227,14 +229,14 @@ class CallBoard {
     public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
-    
+
         return $this;
     }
 
     /**
      * Get startTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartTime()
     {
@@ -250,14 +252,14 @@ class CallBoard {
     public function setEndTime($endTime)
     {
         $this->endTime = $endTime;
-    
+
         return $this;
     }
 
     /**
      * Get endTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndTime()
     {
@@ -274,14 +276,14 @@ class CallBoard {
     public function setCbType($cbType)
     {
         $this->cbType = $cbType;
-    
+
         return $this;
     }
 
     /**
      * Get cbType
      *
-     * @return integer 
+     * @return integer
      */
     public function getCbType()
     {
@@ -297,14 +299,14 @@ class CallBoard {
     public function setUrl($url)
     {
         $this->url = $url;
-    
+
         return $this;
     }
 
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {

@@ -41,7 +41,7 @@ class SignupActivateTypeTest extends TypeTestCase
     }
 
     /**
-     * @group issue_381 
+     * @group issue_381
      **/
     public function testBindValidData()
     {
@@ -58,7 +58,7 @@ class SignupActivateTypeTest extends TypeTestCase
         );
 
         $data = array(
-            'password' =>'123qwe', 
+            'password' =>'123qwe',
             'agreement'=> true,
 
         );

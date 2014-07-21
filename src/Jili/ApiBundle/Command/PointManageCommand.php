@@ -7,15 +7,17 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class PointManageCommand extends ContainerAwareCommand {
-    protected function configure() {
+class PointManageCommand extends ContainerAwareCommand
+{
+    protected function configure()
+    {
         $this->setName('api:pointmanage')
         ->setDescription('add point in manual control')
         ->addArgument('name', InputArgument :: REQUIRED, 'upload file name');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         /** @var $logger LoggerInterface */
         $logger = $this->getContainer()->get('logger');
 
@@ -50,4 +52,3 @@ class PointManageCommand extends ContainerAwareCommand {
         }
     }
 }
-?>

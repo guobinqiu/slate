@@ -42,8 +42,8 @@ class UserControllerTest extends WebTestCase
     }
 
     /**
-     * @group user 
-     * @group login 
+     * @group user
+     * @group login
      */
     public function testLogoutWithTokenAction()
     {
@@ -51,7 +51,7 @@ class UserControllerTest extends WebTestCase
         $container = $client->getContainer();
         $router = $container->get('router');
         $logger= $container->get('logger');
-        // login 
+        // login
         $url = $container->get('router')->generate('_login', array(), true);
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
@@ -81,14 +81,14 @@ class UserControllerTest extends WebTestCase
 
         $client->submit($form);
 
-        
+
         $secret = $container->getParameter('secret');
         $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'aaaaaa'), $secret);
         $user =$container->get('doctrine')->getEntityManager()->getRepository('JiliApiBundle:User')->find($uid);
         $this->assertEquals($token, $user->getToken());
         unset($user);
 
-        //logout 
+        //logout
         $url_logout = $router->generate('_user_logout' , array(), true);
         echo $url_logout,PHP_EOL;
         $crawler = $client->request('GET', $url_logout ) ;
@@ -98,8 +98,8 @@ class UserControllerTest extends WebTestCase
         unset($user);
     }
     /**
-     * @group user 
-     * @group login 
+     * @group user
+     * @group login
      */
     public function testLogoutAction()
     {
@@ -134,8 +134,8 @@ class UserControllerTest extends WebTestCase
 
     }
     /**
-     * @group user 
-     * @group login 
+     * @group user
+     * @group login
      */
     public function testLoginRemeberMeAction()
     {
@@ -178,7 +178,7 @@ class UserControllerTest extends WebTestCase
         $cookies  = $client->getCookieJar() ;
 
         //$this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
-        
+
         $secret = $container->getParameter('secret');
         $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'aaaaaa'), $secret);
 
@@ -188,7 +188,8 @@ class UserControllerTest extends WebTestCase
         $this->assertEmpty(  $cookies->get('jili_nick' ,'/'));
     }
 
-    private function buildToken( $user , $secret) {
+    private function buildToken($user , $secret)
+    {
         $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
         $token = hash('sha256', $token);
         $token = substr( $token, 0 ,32);
@@ -196,7 +197,7 @@ class UserControllerTest extends WebTestCase
     }
 
     /**
-     * @group user 
+     * @group user
      */
     public function testResetPasswordAction()
     {
@@ -205,7 +206,7 @@ class UserControllerTest extends WebTestCase
         $em = $this->em;
         $logger= $container->get('logger');
 
-// reset email 
+// reset email
         $query = array('email'=> 'alice.nima@gmail.com');
         $url = $container->get('router')->generate('_user_reset', $query ) ;
         $client->request('GET', $url ) ;
@@ -269,11 +270,11 @@ class UserControllerTest extends WebTestCase
 #    }
     /**
      * @group user-password
-     * @group issue_381 
-     * @group debug 
+     * @group issue_381
+     * @group debug
      */
-    public function testForgetPassAction() {
-
+    public function testForgetPassAction()
+    {
         $client = static::createClient();
         $container = $client->getContainer();
         $em = $this->em;
@@ -308,17 +309,17 @@ class UserControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
 
-        //  check the redirected url. 
+        //  check the redirected url.
         $url_expected = '/user/activate/'. $code. '/'. $uid;
         $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
 
     }
     /**
      * @group user-password
-     * @group issue_381 
+     * @group issue_381
      */
-    public function testPasswordAction() {
-
+    public function testPasswordAction()
+    {
         $client = static::createClient();
         $container = $client->getContainer();
         $em = $this->em;
@@ -355,18 +356,18 @@ class UserControllerTest extends WebTestCase
         $form['password[first]'] ->setValue( 'qwe123');
         $form['password[second]'] ->setValue( 'qwe123');
         $form['agreement']->tick() ;
-        unset($form['but']); //NOTICE, this is an extra field. 
+        unset($form['but']); //NOTICE, this is an extra field.
 
         $client->submit($form );
         $this->assertEquals(302, $client->getResponse()->getStatusCode() );
 
         $crawler = $client->followRedirect();
 
-        //  check the redirected url. 
+        //  check the redirected url.
         $url_expected = $container->get('router')->generate('_user_regSuccess') ;
         $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
 
-        //  check session messages 
+        //  check session messages
         $this->assertEquals('恭喜，密码设置成功！', $crawler->filter('h2')->text());
     }
 }

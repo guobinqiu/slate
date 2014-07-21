@@ -12,9 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ExchangeFromWenwen
 {
-	public function __construct() {
-		$this->createTime = new \DateTime();
-	}
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+    }
     /**
      * @var integer
      *
@@ -59,14 +60,14 @@ class ExchangeFromWenwen
      */
     private $status;
 
-   
+
     /**
      * @var string
      *
      * @ORM\Column(name="reason", type="string", length=50)
      */
     private $reason;
-    
+
 
      /**
      * @var \DateTime
@@ -76,11 +77,11 @@ class ExchangeFromWenwen
     private $createTime;
 
 
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -96,11 +97,11 @@ class ExchangeFromWenwen
      */
     public function setReason($reason)
     {
-    	$this->reason = $reason;
-    
-    	return $this;
+        $this->reason = $reason;
+
+        return $this;
     }
-    
+
     /**
      * Get reason
      *
@@ -108,9 +109,9 @@ class ExchangeFromWenwen
      */
     public function getReason()
     {
-    	return $this->reason;
+        return $this->reason;
     }
-    
+
 
     /**
      * Set wenwenExchangeId
@@ -121,14 +122,14 @@ class ExchangeFromWenwen
     public function setWenwenExchangeId($wenwenExchangeId)
     {
         $this->wenwenExchangeId = $wenwenExchangeId;
-    
+
         return $this;
     }
 
     /**
      * Get wenwenExchangeId
      *
-     * @return string 
+     * @return string
      */
     public function getWenwenExchangeId()
     {
@@ -145,14 +146,14 @@ class ExchangeFromWenwen
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -168,14 +169,14 @@ class ExchangeFromWenwen
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -192,14 +193,14 @@ class ExchangeFromWenwen
     public function setPaymentPoint($paymentPoint)
     {
         $this->paymentPoint = $paymentPoint;
-    
+
         return $this;
     }
 
     /**
      * Get paymentPoint
      *
-     * @return integer 
+     * @return integer
      */
     public function getPaymentPoint()
     {
@@ -215,21 +216,21 @@ class ExchangeFromWenwen
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
         return $this->email;
     }
 
-    
+
     /**
      * Set createTime
      *
@@ -238,11 +239,11 @@ class ExchangeFromWenwen
      */
     public function setCreateTime($createTime)
     {
-    	$this->createTime = $createTime;
-    
-    	return $this;
+        $this->createTime = $createTime;
+
+        return $this;
     }
-    
+
     /**
      * Get createTime
      *
@@ -250,7 +251,7 @@ class ExchangeFromWenwen
      */
     public function getCreateTime()
     {
-    	return $this->createTime;
+        return $this->createTime;
     }
-    
+
 }

@@ -4,13 +4,14 @@ namespace Jili\EmarBundle\EventListener;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\HotactivityCategoryGetRequest as OpenApiHotactivityCategoryGetRequest;
 
-class HotactivityCategoryGetRequest  {
-
+class HotactivityCategoryGetRequest
+{
   private $logger;
   private $result;
 
-  public function fetch() {
-    //todo: cached 
+  public function fetch()
+  {
+    //todo: cached
     $req = new OpenApiHotactivityCategoryGetRequest;
     $req->setFields('hot_catid,hot_cname,modified_time');
     $resp =  $this->c->exe($req);
@@ -24,13 +25,13 @@ class HotactivityCategoryGetRequest  {
     return $result;
   }
 
-  public function setLogger(  LoggerInterface $logger) {
+  public function setLogger(LoggerInterface $logger)
+  {
     $this->logger = $logger;
   }
 
-  public function setConnection( EmarRequestConnection  $c ) {
+  public function setConnection(EmarRequestConnection  $c)
+  {
     $this->c = $c;
   }
 }
-
-

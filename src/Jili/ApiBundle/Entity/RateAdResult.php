@@ -27,7 +27,7 @@ class RateAdResult
      * @ORM\Column(name="adw_order_id", type="integer", nullable=false)
      */
     private $accessHistoryId;
-    
+
     /**
      * @var integer
      *
@@ -41,7 +41,7 @@ class RateAdResult
      * @ORM\Column(name="rate_ad_id", type="integer", nullable=false)
      */
     private $rateAdId;
-    
+
     /**
      * @var integer
      *
@@ -61,14 +61,14 @@ class RateAdResult
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
-    
+
+
 
     /**
      * Set accessHistoryId
@@ -78,11 +78,11 @@ class RateAdResult
      */
     public function setAccessHistoryId($accessHistoryId)
     {
-    	$this->accessHistoryId = $accessHistoryId;
-    
-    	return $this;
+        $this->accessHistoryId = $accessHistoryId;
+
+        return $this;
     }
-    
+
     /**
      * Get accessHistoryId
      *
@@ -90,9 +90,9 @@ class RateAdResult
      */
     public function getAccessHistoryId()
     {
-    	return $this->accessHistoryId;
+        return $this->accessHistoryId;
     }
-    
+
 
     /**
      * Set userId
@@ -103,14 +103,14 @@ class RateAdResult
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -126,21 +126,21 @@ class RateAdResult
     public function setRateAdId($rateAdId)
     {
         $this->rateAdId = $rateAdId;
-    
+
         return $this;
     }
 
     /**
      * Get rateAdId
      *
-     * @return integer 
+     * @return integer
      */
     public function getRateAdId()
     {
         return $this->rateAdId;
     }
-    
-    
+
+
     /**
      * Set resultPrice
      *
@@ -149,11 +149,11 @@ class RateAdResult
      */
     public function setResultPrice($resultPrice)
     {
-    	$this->resultPrice = $resultPrice;
-    
-    	return $this;
+        $this->resultPrice = $resultPrice;
+
+        return $this;
     }
-    
+
     /**
      * Get resultPrice
      *
@@ -161,7 +161,7 @@ class RateAdResult
      */
     public function getResultPrice()
     {
-    	return $this->resultPrice;
+        return $this->resultPrice;
     }
 
     /**
@@ -173,14 +173,14 @@ class RateAdResult
     public function setResultIncentive($resultIncentive)
     {
         $this->resultIncentive = $resultIncentive;
-    
+
         return $this;
     }
 
     /**
      * Get resultIncentive
      *
-     * @return integer 
+     * @return integer
      */
     public function getResultIncentive()
     {

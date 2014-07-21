@@ -60,7 +60,7 @@ class EmarWebsitesCategory
     /**
      * Get webId
      *
-     * @return integer 
+     * @return integer
      */
     public function getWebId()
     {
@@ -83,7 +83,7 @@ class EmarWebsitesCategory
     /**
      * Get categoryId
      *
-     * @return integer 
+     * @return integer
      */
     public function getCategoryId()
     {
@@ -106,7 +106,7 @@ class EmarWebsitesCategory
     /**
      * Get count
      *
-     * @return integer 
+     * @return integer
      */
     public function getCount()
     {
@@ -116,7 +116,7 @@ class EmarWebsitesCategory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

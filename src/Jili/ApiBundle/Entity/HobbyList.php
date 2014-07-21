@@ -33,7 +33,7 @@ class HobbyList
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -49,18 +49,18 @@ class HobbyList
     public function setHobbyName($hobbyName)
     {
         $this->hobbyName = $hobbyName;
-    
+
         return $this;
     }
 
     /**
      * Get hobbyName
      *
-     * @return string 
+     * @return string
      */
     public function getHobbyName()
     {
         return $this->hobbyName;
     }
-    
+
 }

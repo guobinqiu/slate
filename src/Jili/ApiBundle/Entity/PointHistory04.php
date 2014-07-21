@@ -12,9 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PointHistory04
 {
-	public function __construct() {
-		$this->createTime = new \DateTime();
-	}
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+    }
     /**
      * @var integer
      *
@@ -56,7 +57,7 @@ class PointHistory04
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -72,14 +73,14 @@ class PointHistory04
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -95,14 +96,14 @@ class PointHistory04
     public function setPointChangeNum($pointChangeNum)
     {
         $this->pointChangeNum = $pointChangeNum;
-    
+
         return $this;
     }
 
     /**
      * Get pointChangeNum
      *
-     * @return string 
+     * @return string
      */
     public function getPointChangeNum()
     {
@@ -118,20 +119,20 @@ class PointHistory04
     public function setReason($reason)
     {
         $this->reason = $reason;
-    
+
         return $this;
     }
 
     /**
      * Get reason
      *
-     * @return integer 
+     * @return integer
      */
     public function getReason()
     {
         return $this->reason;
     }
-    
+
     /**
      * Set createTime
      *
@@ -140,11 +141,11 @@ class PointHistory04
      */
     public function setCreateTime($createTime)
     {
-    	$this->createTime = $createTime;
-    
-    	return $this;
+        $this->createTime = $createTime;
+
+        return $this;
     }
-    
+
     /**
      * Get createTime
      *
@@ -152,8 +153,8 @@ class PointHistory04
      */
     public function getCreateTime()
     {
-    	return $this->createTime;
+        return $this->createTime;
     }
-    
-    
+
+
 }

@@ -71,8 +71,9 @@ use Jili\ApiBundle\Entity\SendMessage09;
  */
 class AdminController extends Controller
 {
-    private function getAdminIp(){
-        if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
+    private function getAdminIp()
+    {
+        if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') ||
             $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
             $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
            substr( $_SERVER['REMOTE_ADDR'],0,10)  == '192.168.1.' ||
@@ -80,7 +81,7 @@ class AdminController extends Controller
             return false;
         else
             return true;
-          
+
     }
     /**
      * @Route("/login", name="_admin_login")
@@ -106,22 +107,24 @@ class AdminController extends Controller
         }
         return $this->render('JiliApiBundle:Admin:login.html.twig',array('code'=>$code));
 
-      
+
     }
 
     /**
      * @Route("/gameAd", name="_admin_gameAd")
      */
-    public function GameAdAction(){
+    public function GameAdAction()
+    {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:gameAd.html.twig');
     }
-    
+
     /**
      * @Route("/game", name="_admin_game")
      */
-    public function GameAction(){
+    public function GameAction()
+    {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:game.html.twig');
@@ -130,14 +133,16 @@ class AdminController extends Controller
     /**
      * @Route("/adwAd", name="_admin_adwAd")
      */
-    public function AdwAdAction(){
+    public function AdwAdAction()
+    {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:adwAd.html.twig');
     }
-    
+
     //没有通过认证
-    private function noCertified($userId,$adid,$ocd){
+    private function noCertified($userId,$adid,$ocd)
+    {
         $em = $this->getDoctrine()->getManager();
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
         if($advertiserment->getIncentiveType()==1)
@@ -166,7 +171,8 @@ class AdminController extends Controller
         }
     }
     //已经认证
-    private function hasCertified($userId,$adid,$ocd,$comm){
+    private function hasCertified($userId,$adid,$ocd,$comm)
+    {
         $em = $this->getDoctrine()->getManager();
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
         if($advertiserment->getIncentiveType()==1){
@@ -227,7 +233,7 @@ class AdminController extends Controller
                 $user->setPoints(intval($user->getPoints() + $adworder->getIncentive())); // point caculated when setInsentive()
                 $em->persist($user);
                 $em->flush();
-        
+
             }else{
                 $rateAd = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adid);
                 //todo: deprecated
@@ -245,14 +251,15 @@ class AdminController extends Controller
                 $user->setPoints(intval($user->getPoints() + $raters->getResultIncentive()));
                 $em->persist($user);
                 $em->flush();
-                
+
             }
             return true;
         }
-        
+
     }
 
-    public function selectTaskPercent($userid,$orderId){
+    public function selectTaskPercent($userid,$orderId)
+    {
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
       }else{
@@ -261,34 +268,34 @@ class AdminController extends Controller
       $em = $this->getDoctrine()->getManager();
       switch($uid){
             case 0:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory00'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory00');
                   break;
             case 1:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');  
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');
                   break;
             case 2:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');  
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');
                   break;
             case 3:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory03'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory03');
                   break;
             case 4:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory04'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory04');
                   break;
             case 5:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory05'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory05');
                   break;
             case 6:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory06'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory06');
                   break;
             case 7:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory07'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory07');
                   break;
             case 8:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory08'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory08');
                   break;
             case 9:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory09');
                   break;
       }
       $task_order = $task->getTaskPercent($orderId);
@@ -296,7 +303,8 @@ class AdminController extends Controller
     }
 
 
-    private function updateTaskHistory($parms=array()){
+    private function updateTaskHistory($parms=array())
+    {
       extract($parms);
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
@@ -306,34 +314,34 @@ class AdminController extends Controller
       $em = $this->getDoctrine()->getManager();
       switch($uid){
             case 0:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory00'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory00');
                   break;
             case 1:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');  
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory01');
                   break;
             case 2:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');  
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory02');
                   break;
             case 3:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory03'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory03');
                   break;
             case 4:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory04'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory04');
                   break;
             case 5:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory05'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory05');
                   break;
             case 6:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory06'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory06');
                   break;
             case 7:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory07'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory07');
                   break;
             case 8:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory08'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory08');
                   break;
             case 9:
-                  $task = $em->getRepository('JiliApiBundle:TaskHistory09'); 
+                  $task = $em->getRepository('JiliApiBundle:TaskHistory09');
                   break;
       }
       $task_order = $task->getFindOrderId($orderId,$taskType);
@@ -353,8 +361,9 @@ class AdminController extends Controller
       $em->flush();
       return true;
     }
-    
-    private function getPointHistory($userid,$point,$type){
+
+    private function getPointHistory($userid,$point,$type)
+    {
         if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
         }else{
@@ -399,8 +408,9 @@ class AdminController extends Controller
         $em->persist($po);
         $em->flush();
     }
-    
-    private function getStatus($uid,$aid,$ocd){
+
+    private function getStatus($uid,$aid,$ocd)
+    {
         $em = $this->getDoctrine()->getManager();
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
         if($advertiserment->getIncentiveType()==1){
@@ -431,9 +441,9 @@ class AdminController extends Controller
         if ($request->getMethod('post') == 'POST') {
             $success = $this->container->getParameter('init_one');
             if (isset($_FILES['csv'])) {
-                $file = $_FILES['csv']['tmp_name']; 
-                $handle = fopen($file,'r'); 
-                while ($data = fgetcsv($handle)){ 
+                $file = $_FILES['csv']['tmp_name'];
+                $handle = fopen($file,'r');
+                while ($data = fgetcsv($handle)){
                    $goods_list[] = $data;
                    unset($goods_list[0]);
                 }
@@ -455,7 +465,7 @@ class AdminController extends Controller
                             }
                         }
                     }
-                    
+
                 }
                 fclose($handle);
             }
@@ -465,8 +475,8 @@ class AdminController extends Controller
         return $this->render('JiliApiBundle:Admin:importCpsAdver.html.twig',$arr);
 
     }
-    
-    
+
+
     /**
      * @Route("/importAdver", name="_admin_importAdver")
      */
@@ -482,9 +492,9 @@ class AdminController extends Controller
         if ($request->getMethod('post') == 'POST') {
             $success = $this->container->getParameter('init_one');
             if (isset($_FILES['csv'])) {
-                $file = $_FILES['csv']['tmp_name']; 
-                $handle = fopen($file,'r'); 
-                while ($data = fgetcsv($handle)){ 
+                $file = $_FILES['csv']['tmp_name'];
+                $handle = fopen($file,'r');
+                while ($data = fgetcsv($handle)){
                    $goods_list[] = $data;
                    unset($goods_list[0]);
                 }
@@ -506,7 +516,7 @@ class AdminController extends Controller
                             }
                         }
                     }
-                    
+
                 }
                 fclose($handle);
             }
@@ -515,7 +525,7 @@ class AdminController extends Controller
         $arr['code'] = $code;
         return $this->render('JiliApiBundle:Admin:importAdver.html.twig',$arr);
     }
-    
+
     /**
      * @Route("/delBanner/{id}", name="_admin_delBanner")
      */
@@ -529,7 +539,7 @@ class AdminController extends Controller
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoBanner'));
     }
-    
+
 
     /**
      * @Route("/addBanner", name="_admin_addBanner")
@@ -565,17 +575,17 @@ class AdminController extends Controller
                         return $this->redirect($this->generateUrl('_admin_infoBanner'));
                     }
                 }
-                
+
             }else{
                 $codeflag = $this->container->getParameter('init_one');
 
             }
-            
+
         }
         return $this->render('JiliApiBundle:Admin:addBanner.html.twig',
                 array('url'=>$bannerUrl,'position'=>$position,'form' => $form->createView(),'code'=>$code,'codeflag'=>$codeflag));
     }
-    
+
     /**
      * @Route("/infoBanner", name="_admin_infoBanner")
      */
@@ -592,9 +602,9 @@ class AdminController extends Controller
                 $request->query->get('page', 1), $this->container->getParameter('page_num'));
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         return $this->render('JiliApiBundle:Admin:infoBanner.html.twig',$arr);
-    
+
     }
-    
+
     /**
      * @Route("/editBanner/{id}", name="_admin_editBanner")
      */
@@ -634,14 +644,14 @@ class AdminController extends Controller
              }else{
                 $codeflag = $this->container->getParameter('init_one');
              }
-            
+
         }
         return $this->render('JiliApiBundle:Admin:editBanner.html.twig',
                 array('banner'=>$adbanner,'form' => $form->createView(),'code'=>$code,'codeflag'=>$codeflag));
-    
+
     }
-    
-    
+
+
     /**
      * @Route("/addPostion", name="_admin_addPostion")
      */
@@ -701,7 +711,7 @@ class AdminController extends Controller
                             $em->flush();
                             return $this->redirect($this->generateUrl('_admin_infoPostion'));
                         }
-                        
+
                     }else{
                         $adverment = $em->getRepository('JiliApiBundle:Advertiserment')->findByTitle($title);
                         if(empty($adverment)){
@@ -723,7 +733,7 @@ class AdminController extends Controller
                             }
                         }
                     }
-                    
+
                 }else{
                     $codeflag = $this->container->getParameter('init_one');
                 }
@@ -734,7 +744,7 @@ class AdminController extends Controller
                       'title'=>$title,'ad_title'=>$ad_title,'position'=>$position,'number'=>$number,
                         'adposition'=>$adposition,'advermentTitle'=>$advermentTitle));
     }
-    
+
     /**
      * @Route("/searchPosition", name="_admin_searchPosition")
      */
@@ -755,10 +765,10 @@ class AdminController extends Controller
             }
         }
         return $this->render('JiliApiBundle:Admin:searchPosition.html.twig',array('adposition'=>$adposition,'ad_code'=>$ad_code));
-        
+
     }
-    
-    
+
+
     /**
      * @Route("/delAdPosition/{id}", name="_admin_delAdPosition")
      */
@@ -773,7 +783,7 @@ class AdminController extends Controller
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoPostion'));
     }
-    
+
     /**
      * @Route("/editPostion/{id}", name="_admin_editPostion")
      */
@@ -809,7 +819,7 @@ class AdminController extends Controller
         }
         return $this->render('JiliApiBundle:Admin:editPostion.html.twig',array('adver'=>$adver[0],'codeflag'=>$codeflag));
     }
-    
+
     /**
      * @Route("/infoPostion", name="_admin_infoPostion")
      */
@@ -826,11 +836,11 @@ class AdminController extends Controller
                 $request->query->get('page', 1), $this->container->getParameter('page_num'));
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         return $this->render('JiliApiBundle:Admin:infoPostion.html.twig',$arr);
-        
-        
+
+
     }
-    
-    
+
+
     /**
      * @Route("/addAdver", name="_admin_addAdver")
      */
@@ -859,7 +869,7 @@ class AdminController extends Controller
         $form  = $this->createForm(new AddAdverType(),$adver);
         $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
         if ($request->getMethod() == 'POST') {
-            if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){ 
+            if($title && $start_time && $end_time && $info && $comment && $rule && $url && $category){
                 if(($category == 1 && $score) || ($category == 2 && $intReward && $rewardRate) ||($category ==  $this->container->getParameter('emar_com.cps.category_type') && $action_id && $intReward && $rewardRate) ){
                     $form->bind($request);
                     $type = implode(",",$type);
@@ -901,7 +911,7 @@ class AdminController extends Controller
                             $rate->setIncentiveRate($adver->getIncentiveRate());
                             $em->persist($rate);
                             $em->flush();
-                            
+
                         }
                         return $this->redirect($this->generateUrl('_admin_infoAdver'));
                     }
@@ -930,7 +940,7 @@ class AdminController extends Controller
                                 'actCategory'=>$actCategory
                                 ));
     }
-    
+
     /**
      * @Route("/infoAdver", name="_admin_infoAdver")
      */
@@ -954,9 +964,9 @@ class AdminController extends Controller
                 $request->query->get('page', 1), $this->container->getParameter('page_num'));
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         return $this->render('JiliApiBundle:Admin:infoAdver.html.twig',$arr);
-         
+
     }
-    
+
     /**
      * @Route("/stopAdver/{id}", name="_admin_stopAdver")
      */
@@ -972,7 +982,7 @@ class AdminController extends Controller
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoAdver'));
     }
-    
+
     /**
      * @Route("/delAdver/{id}", name="_admin_delAdver")
      */
@@ -987,7 +997,7 @@ class AdminController extends Controller
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoAdver'));
     }
-    
+
     /**
      * @Route("/editAdver/{id}", name="_admin_editAdver")
      */
@@ -1082,7 +1092,7 @@ class AdminController extends Controller
                                 $em->persist($rate[0]);
                                 $em->flush();
                             }
-                            
+
                         }
                         return $this->redirect($this->generateUrl('_admin_infoAdver'));
                     }
@@ -1111,9 +1121,9 @@ class AdminController extends Controller
                     'actCategory'=>$actCategory,
                     'newType'=>$newType
                     ));
-    
+
     }
-    
+
     /**
      * @Route("/editCallboard/{id}", name="_admin_editCallboard")
      */
@@ -1156,7 +1166,7 @@ class AdminController extends Controller
                     'author'=>  $author,
                     ));
     }
-    
+
     /**
      * @Route("/delCallboard/{id}", name="_admin_delCallboard")
      */
@@ -1170,9 +1180,9 @@ class AdminController extends Controller
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoCallboard'));
     }
-    
-    
-    
+
+
+
     /**
      * @Route("/infoCallboard", name="_admin_infoCallboard")
      */
@@ -1190,8 +1200,8 @@ class AdminController extends Controller
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         return $this->render('JiliApiBundle:Admin:infoCallboard.html.twig',$arr);
     }
-    
-    
+
+
     /**
      * @Route("/addCallboard", name="_admin_addCallboard")
      */
@@ -1232,7 +1242,7 @@ class AdminController extends Controller
                     'author'=>$author,
                     'cb_category'=> $cb_category
                     ));
-        
+
     }
 
     /**
@@ -1248,7 +1258,7 @@ class AdminController extends Controller
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoCbType'));
     }
-    
+
 
      /**
      * @Route("/editCbType/{id}", name="_admin_editCbType")
@@ -1276,7 +1286,7 @@ class AdminController extends Controller
                     'cbcategory'=>$cbcategory,
                     'codeflag'=>$codeflag
                     ));
-    
+
     }
 
     /**
@@ -1294,7 +1304,7 @@ class AdminController extends Controller
         ->paginate($cbType,
                 $request->query->get('page', 1), $this->container->getParameter('page_num'));
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
-        return $this->render('JiliApiBundle:Admin:infoCbType.html.twig',$arr);              
+        return $this->render('JiliApiBundle:Admin:infoCbType.html.twig',$arr);
 
     }
 
@@ -1321,10 +1331,10 @@ class AdminController extends Controller
             }
         }
         return $this->render('JiliApiBundle:Admin:addCbType.html.twig',array('codeflag'=>$codeflag));
-                    
+
 
     }
-    
+
     /**
      * @Route("/exchangeCsv", name="_admin_exchangeCsv")
      */
@@ -1350,10 +1360,11 @@ class AdminController extends Controller
 //         $response->headers->set("Expires","0");
 //         $response->headers->set("Pragma","no-cache");
         return $response;
-        
+
     }
 
-    public function exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type){
+    public function exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type)
+    {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
@@ -1401,11 +1412,11 @@ class AdminController extends Controller
             $po->setPointChangeNum('-'.$points);
             if($type == 1)
               $po->setReason($this->container->getParameter('init_eight'));
-            if($type == 2)  
+            if($type == 2)
               $po->setReason($this->container->getParameter('page_num'));
-            if($type == 3)  
+            if($type == 3)
               $po->setReason($this->container->getParameter('init_eleven'));
-            if($type == 4)  
+            if($type == 4)
               $po->setReason($this->container->getParameter('init_twelve'));
             $em->persist($po);
             $em->flush();
@@ -1417,7 +1428,8 @@ class AdminController extends Controller
         return true;
     }
 
-    public function exchangeNg($exchange_id,$email,$status,$points,$finish_time){
+    public function exchangeNg($exchange_id,$email,$status,$points,$finish_time)
+    {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
@@ -1432,11 +1444,12 @@ class AdminController extends Controller
             $exchanges->setFinishDate(date_create($finish_time));
             $em->persist($exchanges);
             $em->flush();
-        }   
+        }
         return true;
     }
 
-    public function handleExchange($file,$type){
+    public function handleExchange($file,$type)
+    {
        $em = $this->getDoctrine()->getManager();
        if($type == 1 || $type == 3 || $type == 4){
           foreach ($file as $k=>$v){
@@ -1446,7 +1459,7 @@ class AdminController extends Controller
                   $status = $v[6];
                   $finish_time = $v[7];
                   $points = $v[4];
-              } 
+              }
               if($type == 3){
                   $status = $v[8];
                   $finish_time = $v[9];
@@ -1462,8 +1475,8 @@ class AdminController extends Controller
                   $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type);
                   $this->exchangeSendMs($type,$ear->getUserId());
               }else{
-                  $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time); 
-                  $this->exchangeSendMsFail($type,$ear->getUserId());           
+                  $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);
+                  $this->exchangeSendMsFail($type,$ear->getUserId());
               }
           }
        }
@@ -1494,18 +1507,19 @@ class AdminController extends Controller
                       $em->persist($exchangeAmazon);
                       $em->flush();
                       $this->exchangeSendMs($type,$ear->getUserId());
-                    } 
+                    }
                 }else{
-                    $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);  
-                    $this->exchangeSendMsFail($type,$ear->getUserId());     
+                    $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);
+                    $this->exchangeSendMsFail($type,$ear->getUserId());
                 }
             }
        }
-       return true;       
+       return true;
 
     }
 
-    public function exchangeSendMsFail($type,$uid){
+    public function exchangeSendMsFail($type,$uid)
+    {
         $title = '';
         $content = '';
         switch ($type) {
@@ -1534,7 +1548,8 @@ class AdminController extends Controller
         }
     }
 
-    public function exchangeSendMs($type,$uid){
+    public function exchangeSendMs($type,$uid)
+    {
         $title = '';
         $content = '';
         switch ($type) {
@@ -1564,7 +1579,8 @@ class AdminController extends Controller
     }
 
 
-    public function exchangeOKWen($email,$points){
+    public function exchangeOKWen($email,$points)
+    {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
@@ -1617,7 +1633,8 @@ class AdminController extends Controller
     }
 
     //成功发放
-    public function insertExWenwen($parms=array()){
+    public function insertExWenwen($parms=array())
+    {
       extract($parms);
       $em = $this->getDoctrine()->getManager();
       $exFromWen = new ExchangeFromWenwen();
@@ -1632,7 +1649,8 @@ class AdminController extends Controller
     }
 
      //失败发放
-    public function insertFailExWenwen($parms=array()){
+    public function insertFailExWenwen($parms=array())
+    {
       extract($parms);
       $em = $this->getDoctrine()->getManager();
       $exFromWen = new ExchangeFromWenwen();
@@ -1648,7 +1666,8 @@ class AdminController extends Controller
 
 
     //91wenwen兑换列表
-    public function handleExchangeWen($file){
+    public function handleExchangeWen($file)
+    {
       $code = array();
       $title = $this->container->getParameter('exchange_finish_wenwen_title');
       $content = $this->container->getParameter('ecchange_finish_wenwen_content');
@@ -1699,10 +1718,10 @@ class AdminController extends Controller
               $code[] = $wenwenExId.'已发放';
 
           }
-          
+
       }
       return $code;
-       
+
     }
 
 
@@ -1720,10 +1739,10 @@ class AdminController extends Controller
         $request = $this->get('request');
         if ($request->getMethod('post') == 'POST') {
             if (isset($_FILES['csv'])) {
-                $file = $_FILES['csv']['tmp_name']; 
+                $file = $_FILES['csv']['tmp_name'];
                 if($file){
-                  $handle = fopen($file,'r'); 
-                  while ($data = fgetcsv($handle)){ 
+                  $handle = fopen($file,'r');
+                  while ($data = fgetcsv($handle)){
                      $goods_list[] = $data;
                   }
                   unset($goods_list[0]);
@@ -1769,19 +1788,19 @@ class AdminController extends Controller
               $this->get('request')->query->get('page', 1),
               20
       );
-      $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig'); 
+      $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
       if ($request->getMethod('post') == 'POST') {
           $start_time = $request->request->get('start_time');
           $end_time = $request->request->get('end_time');
           if($request->request->get('add')){
-                $response = new Response();   
+                $response = new Response();
                 $exchange = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->exFromWen($start_time,$end_time);
                 $arr['exchange'] = $exchange;
                 $response =  $this->render('JiliApiBundle:Admin:exchangeFromWenWenCsv.html.twig',$arr);
                 $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
                 $filename = "export".date("YmdHis").".csv";
                 $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
-                return $response;     
+                return $response;
           }
       }
       $arr['start'] = $start_time;
@@ -1807,10 +1826,10 @@ class AdminController extends Controller
         if ($request->getMethod('post') == 'POST') {
             $exType = $request->request->get('exchangeType');
             if (isset($_FILES['csv'])) {
-                $file = $_FILES['csv']['tmp_name']; 
+                $file = $_FILES['csv']['tmp_name'];
                 if($file){
-                  $handle = fopen($file,'r'); 
-                  while ($data = fgetcsv($handle)){ 
+                  $handle = fopen($file,'r');
+                  while ($data = fgetcsv($handle)){
                      $goods_list[] = $data;
                   }
                    if($exType == 1){
@@ -1880,7 +1899,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
 
 
-        // get the exchange type 
+        // get the exchange type
         $exchangeType = $em->getRepository('JiliApiBundle:PointsExchangeType')->findAll();
         if ($request->getMethod() == 'GET') {
             $start_date = $request->query->get('start'); //date('Y-m-d', 0));
@@ -1892,14 +1911,14 @@ class AdminController extends Controller
 
             $wheres = array( 'start_date'=> $start_date, 'end_date'=> $end_date, 'type'=> (int) $exType );
 
-        } else if ($request->getMethod() == 'POST') {
+        } elseif ($request->getMethod() == 'POST') {
 
             $start_time = $request->request->get('start_time');
             $end_time = $request->request->get('end_time');
             $exType = $request->request->get('exchangeType');
 
             if($request->request->get('add')){
-                $response = new Response();   
+                $response = new Response();
                 $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time,$exType);
 
                 foreach ($exchange as $key => $value) {
@@ -1908,12 +1927,12 @@ class AdminController extends Controller
                     $exchange[$key]['ident'] = '';
                     $exchange[$key]['ip'] = '';
                     $exchange[$key]['pwd'] = '';
-                    if(!empty($exchangeDanger)){	
+                    if(!empty($exchangeDanger)){
                         foreach ($exchangeDanger as $key1 => $value1) {
                             if($value1->getDangerType() == $this->container->getParameter('init_one'))
-                                $exchange[$key]['mobile'] = $this->container->getParameter('init_one');                 
+                                $exchange[$key]['mobile'] = $this->container->getParameter('init_one');
                             if($value1->getDangerType() == $this->container->getParameter('init_two'))
-                                $exchange[$key]['ip'] = $this->container->getParameter('init_one');                
+                                $exchange[$key]['ip'] = $this->container->getParameter('init_one');
                             if($value1->getDangerType() == $this->container->getParameter('init_three'))
                                 $exchange[$key]['ident'] = $this->container->getParameter('init_one');
                             if($value1->getDangerType() == $this->container->getParameter('init_four'))
@@ -1934,15 +1953,15 @@ class AdminController extends Controller
                 $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
                 $filename = "export".date("YmdHis").".csv";
                 $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
-                return $response;     
-            } 
+                return $response;
+            }
 
 
             //////////////////////////////////////
             //     $start_date = $request->request->get('start_time'); //date('Y-m-d', 0));
             //     $end_date = $request->request->get('end_time'); // date('Y-m-d'));
             //     $exType = $request->request->get('exchangeType');
-            //     //update the conditions 
+            //     //update the conditions
             //     $wheres = array();
         }
 
@@ -1950,8 +1969,8 @@ class AdminController extends Controller
         $pointExchangeRepository = $em->getRepository('JiliApiBundle:PointsExchange');
 
         $count = $pointExchangeRepository->getCount($wheres );
-        
-        $params = array( 'page'=> $page, 
+
+        $params = array( 'page'=> $page,
             'count'=>$rows_per_page );
 
         $exchange = $pointExchangeRepository->getCurrent($params , $wheres);
@@ -1968,8 +1987,8 @@ class AdminController extends Controller
         $emails = $em->getRepository('JiliApiBundle:User')->findEmailById($user_ids );
 
         foreach($exchange as $key => $value) {
-            $eid = $value['id']; 
-            $uid = $value['userId']; 
+            $eid = $value['id'];
+            $uid = $value['userId'];
 
            $exchange[$key]['email']= isset( $emails[$uid] ) ? $emails[ $uid ] : '';
            $exchange[$key]['mobile']='';
@@ -1982,9 +2001,9 @@ class AdminController extends Controller
            if(!empty($exchangeDanger)){
               foreach ($exchangeDanger as $key1 => $value1) {
                  if($value1->getDangerType() == $this->container->getParameter('init_one'))
-                    $exchange[$key]['mobile'] = $this->container->getParameter('init_one');                 
+                    $exchange[$key]['mobile'] = $this->container->getParameter('init_one');
                  if($value1->getDangerType() == $this->container->getParameter('init_two'))
-                    $exchange[$key]['ip'] = $this->container->getParameter('init_one');                
+                    $exchange[$key]['ip'] = $this->container->getParameter('init_one');
                  if($value1->getDangerType() == $this->container->getParameter('init_three'))
                     $exchange[$key]['ident'] = $this->container->getParameter('init_one');
                  if($value1->getDangerType() == $this->container->getParameter('init_four'))
@@ -2037,9 +2056,9 @@ class AdminController extends Controller
            if(!empty($exchangeDanger)){
               foreach ($exchangeDanger as $key1 => $value1) {
                  if($value1->getDangerType() == $this->container->getParameter('init_one'))
-                    $exchange[$key]['mobile'] = $this->container->getParameter('init_one');                 
+                    $exchange[$key]['mobile'] = $this->container->getParameter('init_one');
                  if($value1->getDangerType() == $this->container->getParameter('init_two'))
-                    $exchange[$key]['ip'] = $this->container->getParameter('init_one');                
+                    $exchange[$key]['ip'] = $this->container->getParameter('init_one');
                  if($value1->getDangerType() == $this->container->getParameter('init_three'))
                     $exchange[$key]['ident'] = $this->container->getParameter('init_one');
                  if($value1->getDangerType() == $this->container->getParameter('init_four'))
@@ -2053,32 +2072,32 @@ class AdminController extends Controller
                 $this->get('request')->query->get('page', 1),
                 20
         );
-        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');              
+        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         if ($request->getMethod() == 'POST'){
             $start_time = $request->request->get('start_time');
             $end_time = $request->request->get('end_time');
             $exType = $request->request->get('exchangeType');
 
             if($request->request->get('add')){
-                $response = new Response();   
+                $response = new Response();
                 $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getExDateInfo($start_time,$end_time,$exType);
 
                 foreach ($exchange as $key => $value) {
                     $exchangeDanger = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeId($value['id']);
                     $exchange[$key]['mobile']='';
-					$exchange[$key]['ident'] = '';
-					$exchange[$key]['ip'] = '';
-					$exchange[$key]['pwd'] = '';
-                    if(!empty($exchangeDanger)){	
+                    $exchange[$key]['ident'] = '';
+                    $exchange[$key]['ip'] = '';
+                    $exchange[$key]['pwd'] = '';
+                    if(!empty($exchangeDanger)){
                         foreach ($exchangeDanger as $key1 => $value1) {
                             if($value1->getDangerType() == $this->container->getParameter('init_one'))
-								$exchange[$key]['mobile'] = $this->container->getParameter('init_one');                 
-							if($value1->getDangerType() == $this->container->getParameter('init_two'))
-								$exchange[$key]['ip'] = $this->container->getParameter('init_one');                
-							if($value1->getDangerType() == $this->container->getParameter('init_three'))
-								$exchange[$key]['ident'] = $this->container->getParameter('init_one');
-							if($value1->getDangerType() == $this->container->getParameter('init_four'))
-								$exchange[$key]['pwd'] = $this->container->getParameter('init_one');
+                                $exchange[$key]['mobile'] = $this->container->getParameter('init_one');
+                            if($value1->getDangerType() == $this->container->getParameter('init_two'))
+                                $exchange[$key]['ip'] = $this->container->getParameter('init_one');
+                            if($value1->getDangerType() == $this->container->getParameter('init_three'))
+                                $exchange[$key]['ident'] = $this->container->getParameter('init_one');
+                            if($value1->getDangerType() == $this->container->getParameter('init_four'))
+                                $exchange[$key]['pwd'] = $this->container->getParameter('init_one');
                         }
                     }
                 }
@@ -2095,21 +2114,22 @@ class AdminController extends Controller
                 $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
                 $filename = "export".date("YmdHis").".csv";
                 $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
-                return $response;     
-            } 
-           
+                return $response;
+            }
+
         }
         $arr['start'] = $start_time;
         $arr['end'] = $end_time;
         $arr['exType'] = $exType;
-        
+
         return $this->render('JiliApiBundle:Admin:exchangeInfo.html.twig',$arr);
     }
 
     /**
      * @Route("/selectUser", name="_admin_selectUser")
      */
-    public function selectUserAction(){
+    public function selectUserAction()
+    {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
@@ -2162,9 +2182,10 @@ class AdminController extends Controller
     /**
      * @Route("/rewardRate", name="_admin_rewardRate")
      */
-     public function rewardRateAction(){
+     public function rewardRateAction()
+     {
         if($this->getAdminIp())
-              return $this->redirect($this->generateUrl('_default_error'));  
+              return $this->redirect($this->generateUrl('_default_error'));
         $search = array();
         $user_multiple = '';
         $email = '';
@@ -2195,11 +2216,11 @@ class AdminController extends Controller
                         $em->flush();
                         $code  = $this->container->getParameter('init_one');
                     }
-                }         
+                }
             }
-             
+
         }
-        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email,'code'=>$code,'multiple'=>$multiple,'user_multiple'=>$user_multiple));  
+        return $this->render('JiliApiBundle:Admin:rewardRate.html.twig',array('search'=>$search,'email'=>$email,'code'=>$code,'multiple'=>$multiple,'user_multiple'=>$user_multiple));
     }
 
 
@@ -2207,7 +2228,8 @@ class AdminController extends Controller
     /**
      * @Route("/sendCb", name="_admin_sendCb")
      */
-     public function sendCbAction(){
+     public function sendCbAction()
+     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
@@ -2243,7 +2265,8 @@ class AdminController extends Controller
      /**
      * @Route("/delCb/{id}", name="_admin_delCb")
      */
-     public function delCbAction($id){
+     public function delCbAction($id)
+     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
@@ -2252,13 +2275,14 @@ class AdminController extends Controller
         $em->persist($sendCallboard);
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoCb'));
-      
+
      }
 
      /**
      * @Route("/editCb/{id}", name="_admin_editCb")
      */
-     public function editCbAction($id){
+     public function editCbAction($id)
+     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
@@ -2288,7 +2312,8 @@ class AdminController extends Controller
      /**
      * @Route("/infoCb", name="_admin_infoCb")
      */
-     public function infoCbAction(){
+     public function infoCbAction()
+     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
@@ -2300,25 +2325,27 @@ class AdminController extends Controller
                 $request->query->get('page', 1), $this->container->getParameter('page_num'));
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         return $this->render('JiliApiBundle:Admin:infoCb.html.twig',$arr);
-        
+
      }
 
      /**
      * @Route("/delMs/{id}/{sendid}", name="_admin_delMs")
      */
-     public function delMsAction($id,$sendid){
+     public function delMsAction($id,$sendid)
+     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $this->delSendMs($id,$sendid);
         return $this->redirect($this->generateUrl('_admin_infoMs',array('id'=>$id)));
-      
+
      }
 
 
       /**
      * @Route("/editMs/{id}/{sendid}", name="_admin_editMs")
      */
-     public function editMsAction($id,$sendid){
+     public function editMsAction($id,$sendid)
+     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
@@ -2344,7 +2371,7 @@ class AdminController extends Controller
                 }else{
                     $codeflag = $this->container->getParameter('init_two');
                 }
-                
+
             }else{
                 $codeflag = $this->container->getParameter('init_one');
             }
@@ -2365,7 +2392,8 @@ class AdminController extends Controller
       /**
      * @Route("/infoMs/{id}", name="_admin_infoMs")
      */
-     public function infoMsAction($id){
+     public function infoMsAction($id)
+     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
@@ -2378,7 +2406,7 @@ class AdminController extends Controller
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         $arr['id'] = $id;
         return $this->render('JiliApiBundle:Admin:infoMs.html.twig',$arr);
-        
+
      }
 
 
@@ -2386,7 +2414,8 @@ class AdminController extends Controller
       /**
      * @Route("/sendMs", name="_admin_sendMs")
      */
-     public function sendMsAction(){
+     public function sendMsAction()
+     {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
@@ -2415,7 +2444,7 @@ class AdminController extends Controller
                 }else{
                     $codeflag = $this->container->getParameter('init_two');
                 }
-                
+
             }else{
                 $codeflag = $this->container->getParameter('init_one');
             }
@@ -2451,7 +2480,7 @@ class AdminController extends Controller
                 $codeflag = $this->container->getParameter('init_one');
             }
         }
-        return $this->render('JiliApiBundle:Admin:addActivityCategory.html.twig',array('codeflag'=>$codeflag));           
+        return $this->render('JiliApiBundle:Admin:addActivityCategory.html.twig',array('codeflag'=>$codeflag));
 
     }
 
@@ -2481,7 +2510,7 @@ class AdminController extends Controller
                     'actCategory'=>$actCategory,
                     'codeflag'=>$codeflag
                     ));
-    
+
     }
 
      /**
@@ -2499,7 +2528,7 @@ class AdminController extends Controller
         ->paginate($actCategory,
                 $request->query->get('page', 1), $this->container->getParameter('page_num'));
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
-        return $this->render('JiliApiBundle:Admin:infoActivityCategory.html.twig',$arr);              
+        return $this->render('JiliApiBundle:Admin:infoActivityCategory.html.twig',$arr);
 
     }
 
@@ -2534,10 +2563,10 @@ class AdminController extends Controller
       }else{
           return new Response('');
       }
-      
+
     }
 
-    
+
     /**
     * @Route("/delCheckinShop/{id}", name="_admin_delCheckinShop")
     */
@@ -2556,7 +2585,8 @@ class AdminController extends Controller
    /**
      * @Route("/editCheckinShop/{id}", name="_admin_editCheckinShop")
      */
-    public function editCheckinShopAction($id){
+    public function editCheckinShopAction($id)
+    {
        if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
@@ -2589,7 +2619,8 @@ class AdminController extends Controller
     /**
      * @Route("/addCheckinShop", name="_admin_addCheckinShop")
      */
-    public function addCheckinShopAction(){
+    public function addCheckinShopAction()
+    {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
@@ -2632,7 +2663,7 @@ class AdminController extends Controller
                 $request->query->get('page', 1), 20);
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         return $this->render('JiliApiBundle:Admin:infoCheckinShop.html.twig',$arr);
-         
+
     }
 
     /**
@@ -2674,7 +2705,7 @@ class AdminController extends Controller
                   return $this->redirect($this->generateUrl('_admin_infoCheckinPointTimes'));
                 }else{
                   $code = $this->container->getParameter('init_two');
-                }     
+                }
             }else{
                 $code = $this->container->getParameter('init_one');
             }
@@ -2715,7 +2746,7 @@ class AdminController extends Controller
                   return $this->redirect($this->generateUrl('_admin_infoCheckinPointTimes'));
                 }else{
                   $code = $this->container->getParameter('init_two');
-                }     
+                }
             }else{
                 $code = $this->container->getParameter('init_one');
             }
@@ -2767,7 +2798,7 @@ class AdminController extends Controller
         $endTime = $request->request->get('end_time');
         $url = $request->request->get('url');
         if ($request->getMethod() == 'POST') {
-             if($actId && $startTime && $endTime && $businessName && $url && $category){ 
+             if($actId && $startTime && $endTime && $businessName && $url && $category){
                 $form->bind($request);
                 $category = implode(",",$category);
                 $path =  $this->container->getParameter('upload_activity_dir');
@@ -2782,7 +2813,7 @@ class AdminController extends Controller
                 if(!$code){
                     $em->flush();
                     return $this->redirect($this->generateUrl('_admin_infoBusinessActivity'));
-                }  
+                }
             }else{
                 $codeflag = $this->container->getParameter('init_one');
             }
@@ -2796,7 +2827,7 @@ class AdminController extends Controller
                           'businessName'=>$businessName,
                           'url'=>$url,
                           'start_time'=>$startTime,
-                          'end_time'=>$endTime));           
+                          'end_time'=>$endTime));
 
     }
 
@@ -2817,7 +2848,7 @@ class AdminController extends Controller
                 $request->query->get('page', 1), $this->container->getParameter('page_num'));
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         return $this->render('JiliApiBundle:Admin:infoBusinessActivity.html.twig',$arr);
-         
+
     }
 
      /**
@@ -2843,7 +2874,7 @@ class AdminController extends Controller
         $endTime = $request->request->get('end_time');
         $url = $request->request->get('url');
         if ($request->getMethod() == 'POST') {
-             if($actId && $startTime && $endTime && $businessName && $url && $category){ 
+             if($actId && $startTime && $endTime && $businessName && $url && $category){
                 $form->bind($request);
                 $path =  $this->container->getParameter('upload_activity_dir');
                 $category = implode(",",$category);
@@ -2858,7 +2889,7 @@ class AdminController extends Controller
                 if(!$code){
                     $em->flush();
                     return $this->redirect($this->generateUrl('_admin_infoBusinessActivity'));
-                }  
+                }
             }else{
                 $codeflag = $this->container->getParameter('init_one');
             }
@@ -2877,7 +2908,7 @@ class AdminController extends Controller
                           'businessName'=>$businessName,
                           'url'=>$url,
                           'start_time'=>$startTime,
-                          'end_time'=>$endTime));           
+                          'end_time'=>$endTime));
 
     }
 
@@ -2899,7 +2930,8 @@ class AdminController extends Controller
      /**
      * @Route("/cardInfo", name="_admin_cardInfo")
      */
-    public function cardInfoAction(){
+    public function cardInfoAction()
+    {
         if($this->getAdminIp())
           return $this->redirect($this->generateUrl('_default_error'));
         $arr['code'] = '';
@@ -2932,18 +2964,19 @@ class AdminController extends Controller
               }
            }else{
               $arr['code'] = $this->container->getParameter('init_one');
-           } 
-           $arr['userFlag'] = $userFlag;  
+           }
+           $arr['userFlag'] = $userFlag;
 
         }
-        
+
         return $this->render('JiliApiBundle:Admin:cardInfo.html.twig',$arr);
     }
 
     /**
      * @Route("/giveCardPoint", name="_admin_giveCardPoint")
      */
-    public function giveCardPointAction(){
+    public function giveCardPointAction()
+    {
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
@@ -2957,7 +2990,7 @@ class AdminController extends Controller
                 foreach ($mc as $key => $value){
                   $this->handleCReward($value);
                 }
-             }   
+             }
         }
         $crm = $em->getRepository('JiliApiBundle:CardRecordedMatch')->cardByTime();
         $paginator = $this->get('knp_paginator');
@@ -2973,7 +3006,8 @@ class AdminController extends Controller
      /**
      * @Route("/downCardList", name="_admin_downCardList")
      */
-    public function downCardListAction(){
+    public function downCardListAction()
+    {
         // $baseUrl = $this->getRequest()->getBasePath();
         return $this->render('JiliApiBundle:Admin:downCardList.html.twig');
 
@@ -2982,7 +3016,8 @@ class AdminController extends Controller
     /**
      * @Route("/awsCsvList", name="_admin_awsCsvList")
      */
-    public function awsCsvListAction(){
+    public function awsCsvListAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         $file_name = $em->getRepository('JiliApiBundle:IsReadFile')->fileByTime();
@@ -2995,7 +3030,7 @@ class AdminController extends Controller
 
     }
 
-    
+
      /**
      * @Route("/awsDayCsc", name="_admin_awsDayCsc")
      */
@@ -3004,12 +3039,12 @@ class AdminController extends Controller
         if($this->getAdminIp())
             return $this->redirect($this->generateUrl('_default_error'));
         $success = '';
-        $check_date = date("Y-m-d",strtotime('-2 day')); 
+        $check_date = date("Y-m-d",strtotime('-2 day'));
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         if ($request->getMethod('post') == 'POST') {
             if (isset($_FILES['csv'])) {
-                $file = $_FILES['csv']['tmp_name']; 
+                $file = $_FILES['csv']['tmp_name'];
                 $now_file = $_FILES['csv']['name'];
                 $now_date = explode('.',$now_file);
                 if($file){
@@ -3018,8 +3053,8 @@ class AdminController extends Controller
                       if(strtotime($now_date[0])>strtotime($check_date)){
                           $success = $this->container->getParameter('init_five');
                       }else{
-                          $handle = fopen($file,'r'); 
-                          while ($data = fgetcsv($handle)){ 
+                          $handle = fopen($file,'r');
+                          while ($data = fgetcsv($handle)){
                              $goods_list[] = $data;
                           }
                           $handlStr = explode("\t",$goods_list[0][0]);
@@ -3043,10 +3078,11 @@ class AdminController extends Controller
         }
         $arr['success'] = $success;
         return $this->render('JiliApiBundle:Admin:awsDayCsc.html.twig',$arr);
-        
+
     }
 
-    private function handleCard($file){
+    private function handleCard($file)
+    {
         $em = $this->getDoctrine()->getManager();
         foreach ($file as $k=>$v){
             $handlStr = explode("\t",$v[0]);
@@ -3056,7 +3092,8 @@ class AdminController extends Controller
         }
 
     }
-    private function insertIsReadFile($filename){
+    private function insertIsReadFile($filename)
+    {
         $em = $this->getDoctrine()->getManager();
         $irf = new IsReadFile();
         $irf->setCsvFileName($filename);
@@ -3064,7 +3101,8 @@ class AdminController extends Controller
         $em->flush();
     }
 
-    private function insertCardMatch($uid,$count){
+    private function insertCardMatch($uid,$count)
+    {
         $em = $this->getDoctrine()->getManager();
         $crm = new CardRecordedMatch();
         $crm->setUserId($uid);
@@ -3073,7 +3111,8 @@ class AdminController extends Controller
         $em->flush();
     }
 
-    private function insertCardRemain($uid,$count){
+    private function insertCardRemain($uid,$count)
+    {
         $em = $this->getDoctrine()->getManager();
         $crr = new CardRecordedRemain();
         $crr->setUserId($uid);
@@ -3082,7 +3121,8 @@ class AdminController extends Controller
         $em->flush();
     }
 
-    private function insertCardReward($mid,$uid,$count,$point){
+    private function insertCardReward($mid,$uid,$count,$point)
+    {
         $em = $this->getDoctrine()->getManager();
         $crr = new CardRecordedReward();
         $crr->setMatchId($mid);
@@ -3093,7 +3133,8 @@ class AdminController extends Controller
         $em->flush();
     }
 
-    private function insertCardTask($uid,$point){
+    private function insertCardTask($uid,$point)
+    {
         $parms = array(
           'orderId' => $this->container->getParameter('init'),
           'userid' => $uid,
@@ -3108,7 +3149,8 @@ class AdminController extends Controller
         $this->getTaskHistory($parms);
     }
 
-    private function handleCReward($id){
+    private function handleCReward($id)
+    {
         $is_crr_flag = '';
         $em = $this->getDoctrine()->getManager();
         $crm = $em->getRepository('JiliApiBundle:CardRecordedMatch')->find($id);
@@ -3148,13 +3190,14 @@ class AdminController extends Controller
         $em->persist($crm);
         $em->flush();
 
-    } 
+    }
 
 
     /**
      * @Route("/insertCardReward",name="_admin_insertCardReward")
      */
-    public function insertCardRewardAction(){
+    public function insertCardRewardAction()
+    {
         $request = $this->get('request');
         $id = $request->query->get('id');
         $this->handleCReward($id);
@@ -3165,13 +3208,14 @@ class AdminController extends Controller
      /**
      * @Route("/",name="")
      */
-    public function Action(){
-
+    public function Action()
+    {
     }
 
 
 
-     private function insertSendMs($parms=array()){
+     private function insertSendMs($parms=array())
+     {
       extract($parms);
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
@@ -3222,7 +3266,8 @@ class AdminController extends Controller
     }
 
 
-    private function delSendMs($userid,$sendid){
+    private function delSendMs($userid,$sendid)
+    {
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
       }else{
@@ -3267,7 +3312,8 @@ class AdminController extends Controller
       $em->flush();
     }
 
-    private function updateSendMs($parms=array()){
+    private function updateSendMs($parms=array())
+    {
       extract($parms);
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
@@ -3315,7 +3361,8 @@ class AdminController extends Controller
       $em->flush();
     }
 
-    private function selectSendMsById($userid,$sendid){
+    private function selectSendMsById($userid,$sendid)
+    {
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
       }else{
@@ -3360,7 +3407,8 @@ class AdminController extends Controller
     }
 
 
-    private function selectSendMs($id){
+    private function selectSendMs($id)
+    {
       $em = $this->getDoctrine()->getManager();
       switch($id){
             case 0:
@@ -3396,11 +3444,12 @@ class AdminController extends Controller
       }
       $showMs = $sm->getSendMs();
       return $showMs;
-     
+
     }
 
 
-    public function getTaskHistory($parms=array()){
+    public function getTaskHistory($parms=array())
+    {
     extract($parms);
       if(strlen($userid)>1){
             $uid = substr($userid,-1,1);
@@ -3454,17 +3503,17 @@ class AdminController extends Controller
       $em->persist($po);
       $em->flush();
     }
-    
+
     /**
      * @Route("/index", name="_admin_index")
-     */ 
+     */
     public function indexAction()
     {
         if($this->getAdminIp())
               return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:index.html.twig');
     }
-    
+
     /**
      * @Route("/main", name="_admin_main")
      */
@@ -3474,7 +3523,7 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('_default_error'));
            return $this->render('JiliApiBundle:Admin:main.html.twig');
     }
-    
+
     /**
      * @Route("/menu", name="_admin_menu")
      */
@@ -3484,7 +3533,7 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:menu.html.twig');
     }
-    
+
     /**
      * @Route("/header", name="_admin_header")
      */
@@ -3809,7 +3858,8 @@ class AdminController extends Controller
         }
     }
 
-    private function memberCheck($email, $nick, $tel, $delete_flag){
+    private function memberCheck($email, $nick, $tel, $delete_flag)
+    {
         $errorMessage = array();
         if(!$nick){
             $errorMessage[] = "请输入昵称";

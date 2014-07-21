@@ -9,13 +9,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InvitationCommand extends ContainerAwareCommand {
-    protected function configure() {
+class InvitationCommand extends ContainerAwareCommand
+{
+    protected function configure()
+    {
         $this->setName('jili:invitation')->setDescription('Send the invitation letters to certain users.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $output->writeln('start...');
         $em = $this->getContainer()->get('doctrine')->getManager();
 

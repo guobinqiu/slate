@@ -2,8 +2,8 @@
 namespace Jili\EmarBundle\Tests\Entity;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class EmarActivityCommissionRepositoryFunctionalTest extends WebTestCase {
-
+class EmarActivityCommissionRepositoryFunctionalTest extends WebTestCase
+{
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -12,7 +12,8 @@ class EmarActivityCommissionRepositoryFunctionalTest extends WebTestCase {
     /**
      * {@inheritDoc}
      */
-    public function setUp() {
+    public function setUp()
+    {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
@@ -22,12 +23,14 @@ class EmarActivityCommissionRepositoryFunctionalTest extends WebTestCase {
     /**
      * {@inheritDoc}
      */
-    protected function tearDown() {
+    protected function tearDown()
+    {
         parent :: tearDown();
         $this->em->close();
     }
 
-    public function testgetCommissionListByMallName() {
+    public function testgetCommissionListByMallName()
+    {
         $mallName = "京东";
         $commissionList = $this->em->getRepository('JiliEmarBundle:EmarActivityCommission')->getCommissionListByMallName($mallName);
         $this->assertEquals(27, count($commissionList));

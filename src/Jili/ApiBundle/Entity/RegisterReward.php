@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RegisterReward
 {
-	
-	 /**
+
+     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
@@ -48,13 +48,13 @@ class RegisterReward
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
      * Set userid
      *
@@ -64,14 +64,14 @@ class RegisterReward
     public function setUserid($userid)
     {
         $this->userid = $userid;
-    
+
         return $this;
     }
 
     /**
      * Get userid
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserid()
     {
@@ -87,14 +87,14 @@ class RegisterReward
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
     public function getType()
     {
@@ -110,19 +110,19 @@ class RegisterReward
     public function setRewards($rewards)
     {
         $this->rewards = $rewards;
-    
+
         return $this;
     }
 
     /**
      * Get rewards
      *
-     * @return integer 
+     * @return integer
      */
     public function getRewards()
     {
         return $this->rewards;
     }
 
-    
+
 }

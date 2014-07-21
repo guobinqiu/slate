@@ -8,7 +8,7 @@ use Symfony\Component\Validator\ConstraintValidator;;
 /**
  * @Annotation
  */
-class PasswordRegexValidator extends ConstraintValidator 
+class PasswordRegexValidator extends ConstraintValidator
 {
 
     public function validate($value, Constraint $constraint)

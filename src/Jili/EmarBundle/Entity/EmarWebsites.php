@@ -110,7 +110,7 @@ class EmarWebsites
     /**
      * Get webId
      *
-     * @return integer 
+     * @return integer
      */
     public function getWebId()
     {
@@ -133,7 +133,7 @@ class EmarWebsites
     /**
      * Get webCatid
      *
-     * @return integer 
+     * @return integer
      */
     public function getWebCatid()
     {
@@ -156,7 +156,7 @@ class EmarWebsites
     /**
      * Get commission
      *
-     * @return string 
+     * @return string
      */
     public function getCommission()
     {
@@ -179,7 +179,7 @@ class EmarWebsites
     /**
      * Get isDeleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDeleted()
     {
@@ -202,7 +202,7 @@ class EmarWebsites
     /**
      * Get position
      *
-     * @return integer 
+     * @return integer
      */
     public function getPosition()
     {
@@ -225,7 +225,7 @@ class EmarWebsites
     /**
      * Get isHidden
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsHidden()
     {
@@ -248,7 +248,7 @@ class EmarWebsites
     /**
      * Get isHot
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsHot()
     {
@@ -271,7 +271,7 @@ class EmarWebsites
     /**
      * Get hotAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getHotAt()
     {
@@ -294,7 +294,7 @@ class EmarWebsites
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -317,7 +317,7 @@ class EmarWebsites
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -327,7 +327,7 @@ class EmarWebsites
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

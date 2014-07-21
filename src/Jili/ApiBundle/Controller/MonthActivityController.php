@@ -5,13 +5,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-class MonthActivityController extends Controller {
-
+class MonthActivityController extends Controller
+{
     /**
      * @Route("/july", name="_monthActivity_julyActivity")
      */
-    public function julyActivityAction() {
-
+    public function julyActivityAction()
+    {
         $filename = $this->container->getParameter('file_path_july_activity');
         //写文件
         $handle = fopen($filename, "r");
@@ -44,7 +44,8 @@ class MonthActivityController extends Controller {
         ));
     }
 
-    public function divideIntoGroups($users) {
+    public function divideIntoGroups($users)
+    {
         $users = array_chunk($users, 50);
         $users_right[] = $users[0][49]; //第50名
         $users_right[] = $users[1][49]; //第100名

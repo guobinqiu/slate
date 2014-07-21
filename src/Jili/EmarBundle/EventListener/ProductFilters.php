@@ -9,8 +9,8 @@ use Jili\EmarBundle\Api2\Repository\ItemCat as ItemCatRepository,
   Jili\EmarBundle\Api2\Repository\WebCat as WebCatRepository,
   Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
 
-class ProductFilters  {
-
+class ProductFilters
+{
     private $logger;
     private $em;
 
@@ -18,7 +18,8 @@ class ProductFilters  {
     private $websiteCateogryGet;
     private $websiteListGet;
 
-    public function fetchWebsConfigged() {
+    public function fetchWebsConfigged()
+    {
         $em =$this->em;
         $webs_config = $em->getRepository('JiliEmarBundle:EmarWebsites')->getFilterWebs();
         $wids = array();
@@ -38,7 +39,8 @@ class ProductFilters  {
      * for new ui:product/search
      * #$filters_of_webs = $this->get('product.filters')->fetchWebsByParams( array( 'wids'=> $products_webids)  );
      */
-    public function fetchWebsByParams($params = array() ) {
+    public function fetchWebsByParams($params = array() )
+    {
         if( count($params) == 0 || ! isset($params['wids']) || empty($params['wids']) ){
             return $this->fetchWebs();
         }
@@ -51,24 +53,26 @@ class ProductFilters  {
     }
 
     /**
-     *  product/retrieve 
+     *  product/retrieve
      * return array('webs'=> );
      */
-    public function fetchWebs( ) {
+    public function fetchWebs()
+    {
         $webListGet  = $this->websiteListGet;
 
         $web_raw  = $webListGet->setFields('web_id,web_name,web_o_url,commission')->fetch( );
 
         $webs = WebListRepository::parse( $web_raw);
 
-        
+
         return compact('webs');
     }
 
     /**
      * return array('product_webs'=> );
      */
-    public function fetchWebsByProducts( $products ) {
+    public function fetchWebsByProducts($products)
+    {
         $webListGet  = $this->websiteListGet;
         $web_raw  = $webListGet->setFields('web_id,web_o_url,commission')->fetch( );
         $product_webs = WebListRepository::parse( $web_raw);
@@ -78,7 +82,8 @@ class ProductFilters  {
     /**
      * demo return all websites lists:
      */
-    public function fetch( ) {
+    public function fetch()
+    {
         //pdt cats
         $categories_raw  = $this->generalCategoryGet->fetch();
         $cats = ItemCatRepository::parse( $categories_raw);
@@ -92,23 +97,28 @@ class ProductFilters  {
         return compact('cats','wcats','webs');
     }
 
-    public function setLogger(  LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 
-    public function setGeneralCategoryGet(  $getter ) {
+    public function setGeneralCategoryGet($getter)
+    {
         $this->generalCategoryGet= $getter ;
     }
 
-    public function setWebsiteCategoryGet(  $getter) {
+    public function setWebsiteCategoryGet($getter)
+    {
         $this->websiteCategoryGet = $getter;
     }
 
-    public function setWebsiteListGet(  $getter) {
+    public function setWebsiteListGet($getter)
+    {
         $this->websiteListGet = $getter;
     }
 
-    public function setEntityManager( EntityManager $em) {
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em= $em;
     }
 }
