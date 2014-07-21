@@ -2,9 +2,6 @@
 
         <div class="searchMenu"> <span class="curPt">{% if rt == 1  %}商城{% else %}商品{% endif %}</span>
           <ul class="dropWrap" style="display: none;">
-{% for key,value in rt_of_search_form %}
-            <li class="curPt" lang="{{ key }}">{{ value.label }}</li>
-{% endfor %}
 
           </ul>
         </div>
@@ -17,7 +14,7 @@
 {% endif %}
 
 
-          {{ form_widget( form.q , {'attr': { 'type': 'text', 'placeholder': "输入任意商品名、商家名等开始购物！", 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
+          {{ form_widget( form.q , {'attr': { 'type': 'text', 'placeholder': "输入任意商家名等开始购物！", 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
 
           {{ form_widget( form.rt ) }}
           <input type="submit" clstag="homepage|keycount|home2013|03a" onclick="search();return false;" class="button curPt" value="搜索">
