@@ -1,6 +1,8 @@
 parameters:
+# user related
     login.listener.class: Jili\ApiBundle\EventListener\LoginListener
     soap.mail.listener.class: Jili\ApiBundle\EventListener\SoapMailListener
+    user_sign_up_route.class: Jili\ApiBundle\Services\UserSignUpTracer
 
     general_api.task_history.class: Jili\ApiBundle\EventListener\TaskHistory
     general_api.point_history.class: Jili\ApiBundle\EventListener\PointHistory
@@ -37,6 +39,14 @@ services:
 
     soap.mail.listener:
         class: %soap.mail.listener.class%
+
+    user_sign_up_route.listener:
+        class: %user_sign_up_route.class%
+        arguments: []
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setSession, [ @session ] ] 
 
     # rebate_activity.point_caculator
     rebate_point.caculator:

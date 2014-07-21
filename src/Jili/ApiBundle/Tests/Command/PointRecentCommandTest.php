@@ -34,7 +34,6 @@ class PointRecentCommandTest extends KernelTestCase
        $this->em->close();
     }
     /**
-     * @group debug 
      * @group point_recent
      */
     public function testExecute()
