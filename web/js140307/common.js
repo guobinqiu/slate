@@ -32,11 +32,8 @@ $(document).ready(function(){
 		}
 	}) 
 	
-	$("#nav .task").hover(function(){
-	  $(this).children("ul").show();
-	},function(){
-	  $(this).children("ul").hide();
-	})
+	// task list show
+	taskListShow();
 
 	$("div#search>div.searchMenu").click(function(){
        $(this).children("ul").toggle(); 
@@ -92,4 +89,18 @@ var setUndoTaskClass = function(){
 			$("#undoTask li:eq(" + (i-1) + ")").addClass("brn")
 		}
 	}
+}
+var taskListShow = function(){
+    var last;
+    var pathname = document.location.pathname;
+    last = pathname.substr(-1);
+    if(last == "\/"){
+        $("#nav .task").children("ul").show();
+    }else{
+        $("#nav .task").hover(function(){
+            $(this).children("ul").show();
+        },function(){
+          $(this).children("ul").hide();
+        })
+    }
 }
