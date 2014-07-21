@@ -2761,6 +2761,7 @@ class AdminController extends Controller
         $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
         $request = $this->get('request');
         $actId = $request->request->get('actId');
+        $actDescription = $request->request->get('actDescription');
         $category = $request->request->get('category');
         $businessName = $request->request->get('businessname');
         $startTime = $request->request->get('start_time');
@@ -2773,6 +2774,7 @@ class AdminController extends Controller
                 $path =  $this->container->getParameter('upload_activity_dir');
                 $business->setAid($actId);
                 $business->setBusinessName($businessName);
+                $business->setActivityDescription($actDescription);
                 $business->setCategoryId($category);
                 $business->setActivityUrl($url);
                 $business->setStartTime(date_create($startTime));
@@ -2794,6 +2796,7 @@ class AdminController extends Controller
                           'actCategory'=>$actCategory,
                           'form' => $form->createView(),
                           'businessName'=>$businessName,
+                          'actDescription'=>$actDescription,
                           'url'=>$url,
                           'start_time'=>$startTime,
                           'end_time'=>$endTime));           
@@ -2839,6 +2842,7 @@ class AdminController extends Controller
         $actId = $request->request->get('actId');
         $category = $request->request->get('category');
         $businessName = $request->request->get('businessname');
+        $actDescription = $request->request->get('actDescription');
         $startTime = $request->request->get('start_time');
         $endTime = $request->request->get('end_time');
         $url = $request->request->get('url');
@@ -2849,6 +2853,7 @@ class AdminController extends Controller
                 $category = implode(",",$category);
                 $business->setAid($actId);
                 $business->setBusinessName($businessName);
+                $business->setActivityDescription($actDescription);
                 $business->setCategoryId($category);
                 $business->setActivityUrl($url);
                 $business->setStartTime(date_create($startTime));
@@ -2875,6 +2880,7 @@ class AdminController extends Controller
                           'newCategory'=>$newCategory,
                           'form' => $form->createView(),
                           'businessName'=>$businessName,
+                          'actDescription'=>$actDescription,
                           'url'=>$url,
                           'start_time'=>$startTime,
                           'end_time'=>$endTime));           

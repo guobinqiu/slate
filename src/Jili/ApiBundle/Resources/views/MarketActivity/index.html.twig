@@ -80,7 +80,7 @@ $(document).ready(function() {
       {% for item in pagin %}
       <li><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank"> <img src="{{ asset(item.activityImage) }}" width="470" height="200" alt="{{item.businessName}}"></a>
         <div class="more">
-          <h4>{{ item.businessName }}</h4>
+          <h4>{{ item.businessName }}:{{ item.activityDescription }}</h4>
           <a class="moreBtn" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank">查看详情>></a></div>
       </li>
       {% endfor %}
