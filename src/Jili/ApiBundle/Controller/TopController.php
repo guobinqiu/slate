@@ -269,7 +269,6 @@ class TopController extends Controller
             $market = $em->getRepository('JiliApiBundle:MarketActivity')->getActivityList($this->container->getParameter('init_eight'));
             $cache_proxy->set( $cache_fn, $market);
         }
-
         $arr['market'] = $market;
         return $this->render('JiliApiBundle:Top:market.html.twig', $arr);
     }
