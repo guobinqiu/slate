@@ -71,7 +71,7 @@ var setUndoTaskClass = function(){
 var taskListShow = function(){
     var last;
     var pathname = document.location.pathname;
-    last = pathname.substr(-1);
+	last = pathname.charAt(pathname.length-1);
     if(last == "\/"){
         $("#nav .task").children("ul").show();
     }else{
