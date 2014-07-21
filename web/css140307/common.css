@@ -28,6 +28,7 @@
 .lh22{ line-height:22px;}
 .lh24{ line-height:24px;}
 .lh28{ line-height:28px;}
+.lh32{ line-height:32px;}
 h5{font-size: 1.17em;font-weight: bold;}
 strong, b{font-weight: bold;}
 .corBlack{ color:#000!important;}
@@ -72,8 +73,8 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 #headerContent #logo{ float:left;}
 
 /* top search */
-#headerContent #search {border: 3px solid #e94d41; float: left;height: 34px;margin-left:180px; margin-top:4px; background-color:#FFF;}
-#headerContent .searchMenu{background: url("../images140307/iconImage.png") no-repeat scroll 53px -94px #f7f7f7; font-size: 15px; float: left; width: 63px; height: 24px;line-height: 24px;padding: 5px 0 5px 16px; position: relative;  border-right:1px solid #f1f1f1;}
+#headerContent #search {border: 3px solid #e94d41; float: left;height: 34px;margin-left:240px; margin-top:4px; background-color:#FFF;}
+#headerContent .searchMenu{/*background: url("../images140307/iconImage.png") no-repeat scroll 53px -94px #f7f7f7;*/ background:#f7f7f7; font-size: 14px; float: left; width: 50px; height: 24px;line-height: 24px;padding: 5px 0 5px 16px; position: relative;  border-right:1px solid #f1f1f1;}
 #headerContent .form{float:left;}
 #headerContent #search .text {background-color: #FFFFFF;background-position: 0 -360px;background-repeat: repeat-x;color: #b3b3b3; font-weight:normal;font-size: 14px;line-height: 30px;padding: 5px;border: none;width: 460px; float:left; height:24px;}
 #headerContent #search .button {background: none repeat scroll 0 0 #e94d41;  letter-spacing: 5px; padding-left:8px; border: medium none;color: #FFFFFF;font-size: 16px; height: 36px; width: 68px;margin:0;float:left;}

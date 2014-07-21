@@ -15,12 +15,14 @@
  
 {% block page_main %}
   <div class="w204 fl">
-    <div class="module categorys">
+    {# <div class="module categorys">
 		<h3>所有商品分类</h3>
-      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }}
-    </div><!-- eof module categorys -->
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }} 
+    </div> #}<!-- eof module categorys -->
+    
 
-    <div id="timeline" class="borderGlob">
+
+    <div id="timeline" class="borderGlob" {% if not app.session.has('uid') %} style="margin-top:0;" {% else %} style="margin-top:226px;" {% endif %}>
       <h3 class="font15">最新动态</h3>
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:event') ) }}
@@ -33,9 +35,13 @@
         	<!-- 首页左侧一（200*90，纯文字）-->
             {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552971" } %}
         </div>
-	    <div class="marginT15">
+        <div class="marginT15">
         	<!-- 首页左侧二（200*200，图片）-->
             {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552985" } %}
+        </div>
+        <div class="marginT15">
+        	<!-- 首页左侧三（200*90，纯文字）-->
+            {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1627802" } %}
         </div>
 	</div>
 	<!-- eof ads -->
@@ -58,8 +64,8 @@
     </div><!-- eof getMallList -->
     
     <div id="indexRecommend">
-        {{ render(controller('JiliEmarBundle:Ghs:promotion', {'max': 9, 'tmpl': 'top', 'p': 0 }) ) }}{# 超值低价 #}
-    </div><!-- eof indexRecommend -->
+        {# {{ render(controller('JiliEmarBundle:Ghs:promotion', {'max': 9, 'tmpl': 'top', 'p': 0 }) ) }}#}{# 超值低价 #}
+    </div><!-- eof indexRecommend --> 
 
     <div id="marketActivity">
         {# render(controller('JiliEmarBundle:Hotactivity:hot', {'max': 3, 'tmpl': 'top' } )) #}
