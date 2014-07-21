@@ -92,7 +92,7 @@ class MarketActivityRepository extends EntityRepository {
 		$query = $this->createQueryBuilder('ma');
 		$query = $query->select('ma.id,ma.aid,ma.businessName,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime,a.imageurl,a.title');
 		$query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ma.aid = a.id');
-		$query = $query->Where('ma.deleteFlag is null');
+		$query = $query->Where('ma.deleteFlag != 1');
 		$query = $query->andWhere('ma.startTime <= :startTime');
 		$query = $query->andWhere('ma.endTime >= :endTime');
 		$query = $query->orderBy('ma.startTime', 'DESC');
