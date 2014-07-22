@@ -49,13 +49,20 @@ class UserSignUpTracerTest extends KernelTestCase
         $cn = get_class($request);
 
         $cm = get_class_methods($cn);
-        $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__, '') ). $cn ) ;
-        $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__, '') ). var_export($cm, true) ) ;
+#        $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__, '') ). $cn ) ;
+#        $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__, '') ). var_export($cm, true) ) ;
 
         // $cookie = new Cookie('jili_rememberme', $token, time() + 3600 * 24 * 365, '/', null, false, false);
         // $client->getCookieJar()->set($cookie);
         // how to set cookie in to 
+        $cookies = new \Symfony\Component\HttpFoundation\ParameterBag();
+        $cookies->set('source_route', 'baidu_partnera');
+        $time = time();
+        $cookies->set('pv', hash( 'ripemd160','baidu_partnera'. $time));
+        $cookies->set('pv_unique', hash('md5','baidu_partnera'. $time));
+        $request->cookies = $cookies;
 
+        $signUpTracer->log($request);
         $this->assertEquals(1,'1');
 
     }
