@@ -95,7 +95,7 @@ class OfferwowOrder
     /**
      * Get userid
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -118,7 +118,7 @@ class OfferwowOrder
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -141,7 +141,7 @@ class OfferwowOrder
     /**
      * Get returnedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getReturnedAt()
     {
@@ -164,7 +164,7 @@ class OfferwowOrder
     /**
      * Get confirmedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getConfirmedAt()
     {
@@ -187,7 +187,7 @@ class OfferwowOrder
     /**
      * Get happenedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getHappenedAt()
     {
@@ -210,7 +210,7 @@ class OfferwowOrder
     /**
      * Get eventid
      *
-     * @return string 
+     * @return string
      */
     public function getEventid()
     {
@@ -233,7 +233,7 @@ class OfferwowOrder
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -256,7 +256,7 @@ class OfferwowOrder
     /**
      * Get deleteFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getDeleteFlag()
     {
@@ -266,7 +266,7 @@ class OfferwowOrder
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

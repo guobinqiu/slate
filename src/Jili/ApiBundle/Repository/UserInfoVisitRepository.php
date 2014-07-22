@@ -7,16 +7,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class UserInfoVisitRepository extends EntityRepository
 {
-	public function getInfoVisit($userid,$date)
-	{
-		$query = $this->createQueryBuilder('ui');
-		$query = $query->select('ui.id,ui.visitDate');
-		$query = $query->Where('ui.userid = :userid');
-		$query = $query->andWhere('ui.visitDate = :date');
-		$query = $query->setParameters(array('userid'=>$userid,'date'=>$date));
-		$query =  $query->getQuery();
-		return $query->getResult();
-	}
-	
-	
+    public function getInfoVisit($userid,$date)
+    {
+        $query = $this->createQueryBuilder('ui');
+        $query = $query->select('ui.id,ui.visitDate');
+        $query = $query->Where('ui.userid = :userid');
+        $query = $query->andWhere('ui.visitDate = :date');
+        $query = $query->setParameters(array('userid'=>$userid,'date'=>$date));
+        $query =  $query->getQuery();
+        return $query->getResult();
+    }
+
+
 }

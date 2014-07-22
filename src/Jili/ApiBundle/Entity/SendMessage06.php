@@ -12,7 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SendMessage06
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->createtime = new \DateTime();
     }
     /**
@@ -30,7 +31,7 @@ class SendMessage06
      * @ORM\Column(name="sendFrom", type="integer", nullable=true)
      */
     private $sendFrom;
-    
+
     /**
      * @var integer
      *
@@ -76,7 +77,7 @@ class SendMessage06
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -93,14 +94,14 @@ class SendMessage06
     public function setSendFrom($sendFrom)
     {
         $this->sendFrom = $sendFrom;
-    
+
         return $this;
     }
 
     /**
      * Get sendFrom
      *
-     * @return integer 
+     * @return integer
      */
     public function getSendFrom()
     {
@@ -117,14 +118,14 @@ class SendMessage06
     public function setSendTo($sendTo)
     {
         $this->sendTo = $sendTo;
-    
+
         return $this;
     }
 
     /**
      * Get sendTo
      *
-     * @return integer 
+     * @return integer
      */
     public function getSendTo()
     {
@@ -143,14 +144,14 @@ class SendMessage06
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -167,14 +168,14 @@ class SendMessage06
     public function setContent($content)
     {
         $this->content = $content;
-    
+
         return $this;
     }
 
     /**
      * Get content
      *
-     * @return text 
+     * @return text
      */
     public function getContent()
     {
@@ -190,14 +191,14 @@ class SendMessage06
     public function setCreatetime($createtime)
     {
         $this->createtime = $createtime;
-    
+
         return $this;
     }
 
     /**
      * Get createtime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatetime()
     {
@@ -214,14 +215,14 @@ class SendMessage06
     public function setReadFlag($readFlag)
     {
         $this->readFlag = $readFlag;
-    
+
         return $this;
     }
 
     /**
      * Get readFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getReadFlag()
     {
@@ -238,14 +239,14 @@ class SendMessage06
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-    
+
         return $this;
     }
 
     /**
      * Get deleteFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getDeleteFlag()
     {
@@ -254,5 +255,5 @@ class SendMessage06
 
 
 
-   
+
 }

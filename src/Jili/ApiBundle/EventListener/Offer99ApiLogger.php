@@ -15,7 +15,7 @@ class Offer99ApiLogger
     private $em;
 
     private $logger;
-    public function __construct(Logger $logger , $em )
+    public function __construct(Logger $logger , $em)
     {
         $this->logger = $logger;
         $this->em = $em;
@@ -26,7 +26,8 @@ class Offer99ApiLogger
      * @param  $content the request uri of Adw
      *
      */
-    public function log($content) {
+    public function log($content)
+    {
         $api = new Offer99ApiReturn();
         $api->setContent( $content);
         $api->setCreatedAt( date_create() );

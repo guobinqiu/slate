@@ -52,8 +52,8 @@ class DefaultController extends Controller
                         return $this->redirect( $url, 302);
                     }
 
-                } 
-            }     
+                }
+            }
 
         }
 

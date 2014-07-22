@@ -11,15 +11,18 @@ use Jili\ApiBundle\Entity\CheckinPointTimes;
 /**
  *
  **/
-class CheckInListener {
-	private $em;
+class CheckInListener
+{
+    private $em;
 
-	public function __construct(EntityManager $em ) {
-		$this->em = $em;
-	}
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
 
-	//获取签到积分
-    public function getCheckinPoint(Request $request) {
+    //获取签到积分
+    public function getCheckinPoint(Request $request)
+    {
         $em = $this->em;
         //判断日期，和是否是当天注册,判断后台分数，默认值
         //默认值
@@ -46,7 +49,8 @@ class CheckInListener {
     }
 
     //获取签到积分
-    public function getCheckinPointForReg(Request $request) {
+    public function getCheckinPointForReg(Request $request)
+    {
         $em = $this->em;
         //判断日期，和是否是当天注册,判断后台分数，默认值
         //默认值
@@ -64,11 +68,13 @@ class CheckInListener {
         return $maxPoints;
     }
 
-    public function getParameter($key) {
+    public function getParameter($key)
+    {
         return $this->container_->getParameter($key);
     }
 
-    public function setContainer($c) {
+    public function setContainer($c)
+    {
         $this->container_ = $c;
     }
 

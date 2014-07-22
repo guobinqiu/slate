@@ -9,7 +9,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class EmarWebsitesCronRepository extends EntityRepository
 {
-    public function count() {
+    public function count()
+    {
         return $this->getEntityManager()
             ->createQuery('SELECT COUNT(p) FROM JiliEmarBundle:EmarWebsitesCron p')
             ->getSingleScalarResult();

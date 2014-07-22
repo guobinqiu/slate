@@ -5,6 +5,7 @@
 /app/cache_data/*
 /app/logs/*
 /vendor/
+/bin/
 /app/config/parameters.ini
 web\uploads/
 dwsync.xml

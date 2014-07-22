@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CityList
 {
-	
+
     /**
      * @var integer
      *
@@ -29,8 +29,8 @@ class CityList
      * @ORM\Column(name="cityName", type="string", length=50)
      */
     private $cityName;
-    
-    
+
+
     /**
      * @var integer
      *
@@ -42,7 +42,7 @@ class CityList
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -58,11 +58,11 @@ class CityList
      */
     public function setCityName($cityName)
     {
-    	$this->cityName = $cityName;
-    
-    	return $this;
+        $this->cityName = $cityName;
+
+        return $this;
     }
-    
+
     /**
      * Get cityName
      *
@@ -70,10 +70,10 @@ class CityList
      */
     public function getCityName()
     {
-    	return $this->cityName;
+        return $this->cityName;
     }
-    
-    
+
+
     /**
      * Set provinceId
      *
@@ -82,11 +82,11 @@ class CityList
      */
     public function setProvinceId($provinceId)
     {
-    	$this->provinceId = $provinceId;
-    
-    	return $this;
+        $this->provinceId = $provinceId;
+
+        return $this;
     }
-    
+
     /**
      * Get provinceId
      *
@@ -94,7 +94,7 @@ class CityList
      */
     public function getProvinceId()
     {
-    	return $this->provinceId;
+        return $this->provinceId;
     }
-    
+
 }

@@ -47,7 +47,7 @@ class AdPosition
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -63,14 +63,14 @@ class AdPosition
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -86,14 +86,14 @@ class AdPosition
     public function setPosition($position)
     {
         $this->position = $position;
-    
+
         return $this;
     }
 
     /**
      * Get position
      *
-     * @return integer 
+     * @return integer
      */
     public function getPosition()
     {
@@ -109,14 +109,14 @@ class AdPosition
     public function setAdId($adId)
     {
         $this->adId = $adId;
-    
+
         return $this;
     }
 
     /**
      * Get adId
      *
-     * @return integer 
+     * @return integer
      */
     public function getAdId()
     {

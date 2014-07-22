@@ -12,7 +12,7 @@ use Jili\ApiBundle\Entity\User,
     
 
 /**
- * 页面上的的的任务列表中数据的生成。 
+ * 页面上的的的任务列表中数据的生成。
  **/
 class MyTaskList
 {
@@ -29,7 +29,7 @@ class MyTaskList
 //        'list'=>'my_task_list.task_history'
 //    );  /* add to config */
     private $duration;//=60;
-    public function __construct( $keys, $duration)
+    public function __construct($keys, $duration)
     {
         $this->keys = $keys;
         $this->duration = $duration;
@@ -37,17 +37,17 @@ class MyTaskList
 
     /**
      * @param: $option = array('status' => $type ,'offset'=>'','limit'=>'');
-     * @param: $option['status'] 
+     * @param: $option['status']
      * @param: $option['offset']
      * @param: $option['limit']
      */
-	public function selTaskHistory($option){
-
+    public function selTaskHistory($option)
+    {
         $session = $this->session;
         $logger = $this->logger;
         $data = array();
         $day=date('Ymd');
-        // session life 
+        // session life
         $key_alive = $this->keys['alive'];
         $duration_alive = $this->duration; /* todo: add to config */
         $is_alive = false ;
@@ -101,33 +101,35 @@ class MyTaskList
         }
 
         // filter by the query??
-		if(false && isset($option['offset']) && $option['offset'] && isset($option['limit']) && $option['limit']){
+        if(false && isset($option['offset']) && $option['offset'] && isset($option['limit']) && $option['limit']){
             $data = array_slice($data, 0, 10);
         }
-        return $data; 
+        return $data;
     }
 
-	private  function selTaskHistoryRaw($option){
+    private function selTaskHistoryRaw($option)
+    {
       $userid = $this->session->get('uid');
-      $task = $this->em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) ); 
+      $task = $this->em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) );
       $po = $task->getUseradtaste($userid, $option);
 
       foreach ($po as $key => $value) {
-			if($value['type']==1 ) {
-				$adUrl = $task->getUserAdwId($value['orderId']);
+            if($value['type']==1 ) {
+                $adUrl = $task->getUserAdwId($value['orderId']);
                 if( is_array($adUrl) && count($adUrl) > 0) {
                     $po[$key]['adid'] = $adUrl[0]['adid'];
                 } else {
                     $po[$key]['adid'] = '';
                 }
-			}else{
-				$po[$key]['adid'] = '';
-			}
-		}
-		return $po;
+            }else{
+                $po[$key]['adid'] = '';
+            }
+        }
+        return $po;
     }
 
-    public function reset() {
+    public function reset()
+    {
         $session = $this->session;
         $session->set($this->keys['alive'], time());
         $session->set($this->keys['list'], time());
@@ -135,7 +137,8 @@ class MyTaskList
     /**
      * 清除某个key.
      */
-    public function remove($keys_to_remove = array() ) {
+    public function remove($keys_to_remove = array() )
+    {
         $keys = $this->keys;
         $session = $this->session;
         foreach($keys_to_remove as $key) {
@@ -147,28 +150,34 @@ class MyTaskList
         }
     }
 
-    private function getParameter($key) {
+    private function getParameter($key)
+    {
         return $this->container->getParameter($key);
     }
-    public function setSession(  $session) {
+    public function setSession($session)
+    {
         $this->session = $session;
         return $this;
     }
-    public function setLogger(  LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
         return $this;
     }
 
-    public function setEntityManager( EntityManager $em) {
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em= $em;
     }
 
-    public function setContainer( $container ) {
+    public function setContainer($container)
+    {
         $this->container = $container;
         return $this;
     }
 
-    public function setRequest( $request ) {
+    public function setRequest($request)
+    {
         $this->request = $request;
         return $this;
     }

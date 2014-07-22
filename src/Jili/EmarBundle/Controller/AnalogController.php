@@ -61,7 +61,7 @@ class AnalogController extends Controller implements  IpAuthenticatedController
 
             $key =$this->container->getParameter('emar_com.91jili_com.key');
             $params['chkcode'] = strtolower(md5($params['action_id'].$params['order_no'].$params['prod_money'].$params['order_time'].$key) ) ;
-            
+
 
             $sub_querystring = urldecode(http_build_query($params));
 
@@ -79,7 +79,7 @@ class AnalogController extends Controller implements  IpAuthenticatedController
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'request: '. $sub_querystring. ' <br />'.
-                'response: '. $sub_response_content 
+                'response: '. $sub_response_content
             );
 
         }
@@ -88,7 +88,8 @@ class AnalogController extends Controller implements  IpAuthenticatedController
     }
 
 
-    private function updateUniqueId() {
+    private function updateUniqueId()
+    {
         $em = $this->get('doctrine')->getManager();
         $i = 0;
         do{

@@ -2,8 +2,8 @@
 namespace Jili\ApiBundle\Tests\EventListener;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class RebateActivityFunctionalTest extends WebTestCase {
-
+class RebateActivityFunctionalTest extends WebTestCase
+{
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -12,7 +12,8 @@ class RebateActivityFunctionalTest extends WebTestCase {
     /**
      * {@inheritDoc}
      */
-    public function setUp() {
+    public function setUp()
+    {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
@@ -22,12 +23,14 @@ class RebateActivityFunctionalTest extends WebTestCase {
     /**
      * {@inheritDoc}
      */
-    protected function tearDown() {
+    protected function tearDown()
+    {
         parent :: tearDown();
         $this->em->close();
     }
 
-    public function testgetRebate() {
+    public function testgetRebate()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $rebate_point_service = $container->get('rebate_point.caculator');

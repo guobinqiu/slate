@@ -9,13 +9,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InvitationCommand extends ContainerAwareCommand {
-    protected function configure() {
+class InvitationCommand extends ContainerAwareCommand
+{
+    protected function configure()
+    {
         $this->setName('jili:invitation')->setDescription('Send the invitation letters to certain users.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $output->writeln('start...');
         $em = $this->getContainer()->get('doctrine')->getManager();
 
@@ -24,7 +26,7 @@ class InvitationCommand extends ContainerAwareCommand {
         $users = $em->getRepository('JiliApiBundle:User')->findWenWenUsersForRemmindRegister($start, $end);
         $str = 'jiliactiveregister';
         foreach ($users as $user) {
-            $setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user['id']);
+            $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($user['id']);
             $code = $setPasswordCode[0]->getCode();
 
             $wenwen_api_url = $this->getContainer()->getParameter('91wenwen_api_url');

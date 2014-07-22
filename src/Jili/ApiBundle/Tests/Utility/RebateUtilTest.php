@@ -3,9 +3,10 @@ namespace Jili\ApiBundle\Tests\Utility;
 
 use Jili\ApiBundle\Utility\RebateUtil;
 
-class RebateUtilTest extends \ PHPUnit_Framework_TestCase {
-
-    public function testcalculateRebateAmount() {
+class RebateUtilTest extends \ PHPUnit_Framework_TestCase
+{
+    public function testcalculateRebateAmount()
+    {
         $cps_rebate_type = array (
             'point' => 1,
             'order' => 2,

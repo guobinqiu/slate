@@ -12,10 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CardRecordedReward
 {
-	public function __construct() {
-		$this->createTime = new \DateTime();
-	}
-	
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+    }
+
     /**
      * @var integer
      *
@@ -38,7 +39,7 @@ class CardRecordedReward
      * @ORM\Column(name="user_id",  type="integer", nullable=false)
      */
     private $userId;
-        
+
     /**
      * @var integer
      *
@@ -52,9 +53,9 @@ class CardRecordedReward
      * @ORM\Column(name="reward_point",  type="integer")
      */
     private $rewardPoint;
-    
-    
- 	/**
+
+
+    /**
      * @var datetime $createTime
      *
      * @ORM\Column(name="create_time", type="datetime")
@@ -65,7 +66,7 @@ class CardRecordedReward
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -81,12 +82,12 @@ class CardRecordedReward
     public function setMatchId($matchId)
     {
         $this->matchId = $matchId;
-    
+
         return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get matchId
      *
@@ -106,12 +107,12 @@ class CardRecordedReward
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get userId
      *
@@ -130,13 +131,13 @@ class CardRecordedReward
      */
     public function setRewardCount($rewardCount)
     {
-    	$this->rewardCount = $rewardCount;
-    
-    	return $this;
+        $this->rewardCount = $rewardCount;
+
+        return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get rewardCount
      *
@@ -144,7 +145,7 @@ class CardRecordedReward
      */
     public function getRewardCount()
     {
-    	return $this->rewardCount;
+        return $this->rewardCount;
     }
 
     /**
@@ -156,12 +157,12 @@ class CardRecordedReward
     public function setRewardPoint($rewardPoint)
     {
         $this->rewardPoint = $rewardPoint;
-    
+
         return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get rewardPoint
      *
@@ -181,19 +182,19 @@ class CardRecordedReward
     public function setCreateTime($createTime)
     {
         $this->createTime = $createTime;
-    
+
         return $this;
     }
 
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
         return $this->createTime;
     }
-    
+
 
 }

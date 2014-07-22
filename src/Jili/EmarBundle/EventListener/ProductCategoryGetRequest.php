@@ -6,12 +6,12 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\ProductCategoryGetRequest as OpenApiProductCategoryGetRequest;
 
 
-class ProductCategoryGetRequest  extends BaseRequest  {
-
-
-  public function fetch(array $params = array()) {
+class ProductCategoryGetRequest  extends BaseRequest
+{
+  public function fetch(array $params = array())
+  {
       extract($params);
-    //todo: cached 
+    //todo: cached
     $req = new  OpenApiProductCategoryGetRequest;
 
     $req->setFields('catid,cname,parent_id,alias,is_parent,modified_time');
@@ -36,5 +36,3 @@ class ProductCategoryGetRequest  extends BaseRequest  {
   }
 
 }
-
-

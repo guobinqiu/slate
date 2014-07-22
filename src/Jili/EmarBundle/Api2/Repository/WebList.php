@@ -1,11 +1,13 @@
 <?php
 namespace Jili\EmarBundle\Api2\Repository;
 
-class WebList{
+class WebList
+{
   /**
    * 取web_id
    */
-  public static function getIds( array $rows ) {
+  public static function getIds(array $rows)
+  {
     $ids = array();
     foreach($rows as $row) {
       if( isset( $row['web_id'] )) {
@@ -17,12 +19,13 @@ class WebList{
   }
 
   /**
-   * @params: 
+   * @params:
    * $rows the raw response from emar website.list.get  api.
    * $filter = array('wids'=> array());
-   * @return: 返回数组，array( id=> name) 
+   * @return: 返回数组，array( id=> name)
    */
-  public static function parse( array $rows , array $filter = array() ) {
+  public static function parse( array $rows , array $filter = array() )
+  {
     $mapings = array();
     foreach($rows as $row) {
         if( isset($row['web_id'])  )   {
@@ -60,9 +63,10 @@ class WebList{
   }
 
   /**
-   * @return: 返回数组，array( id=> name) 
+   * @return: 返回数组，array( id=> name)
    */
-  public static function parseByCat( array $rows ) {
+  public static function parseByCat(array $rows)
+  {
       $mapings = array();
 
       foreach($rows as $ind => $row) {
@@ -84,7 +88,7 @@ class WebList{
 #  /**
 #   * @param $cat_ind [1,...] , $categories_raw 数组。
 #   */
-#  public static function fetchIdByIndex( $web_ind, $web_raw) {
+#  public static function fetchIdByIndex($web_ind, $web_raw) {
 #        $web = (isset( $web_raw[ $web_ind - 1 ] )) ? $web_raw[ $web_ind - 1] : null;
 #        $web_id = $web['web_id'];
 #        return $web_id;

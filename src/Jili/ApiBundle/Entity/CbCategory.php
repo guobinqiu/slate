@@ -32,7 +32,7 @@ class CbCategory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -48,19 +48,19 @@ class CbCategory
     public function setCategoryName($categoryName)
     {
         $this->categoryName = $categoryName;
-    
+
         return $this;
     }
 
     /**
      * Get categoryName
      *
-     * @return string 
+     * @return string
      */
     public function getCategoryName()
     {
         return $this->categoryName;
     }
-    
-    
+
+
 }

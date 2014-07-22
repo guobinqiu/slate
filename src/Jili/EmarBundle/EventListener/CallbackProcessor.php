@@ -16,14 +16,14 @@ use Jili\ApiBundle\Utility\String,
     Jili\ApiBundle\Component\OrderBase;
 
 /**
- * 
+ *
  **/
 class CallbackProcessor
 {
     private $em;
     private $logger;
 
-    private $container; 
+    private $container;
 
     private $taskLogger;
     private $pointLogger;
@@ -32,26 +32,27 @@ class CallbackProcessor
 
 
 
-    public function __construct(LoggerInterface $logger, EntityManager $em )
+    public function __construct(LoggerInterface $logger, EntityManager $em)
     {
         $this->logger = $logger;
         $this->em = $em;
     }
 
     /**
-     * 
-     * @param: $data_of_validation : array('advertiserment'=> ) 
+     *
+     * @param: $data_of_validation : array('advertiserment'=> )
      *
      **/
-    public function process( Request $request, array $data_of_validation = array()) {
+    public function process( Request $request, array $data_of_validation = array())
+    {
         $logger = $this->logger;
         $em = $this->em;
 
-        $config_of_return_codes = $this->getConfig('callback_return_code'); 
-        $config_of_order_status = $this->getConfig('order_status'); 
+        $config_of_return_codes = $this->getConfig('callback_return_code');
+        $config_of_order_status = $this->getConfig('order_status');
         $task_type = $this->getConfig('task_type') ;
         $category_id =$this->getConfig('category_type')  ;
-        $request_status = $request->query->get('status'); 
+        $request_status = $request->query->get('status');
         $feed_back  = $request->query->get('feed_back');
         $action_id = $request->query->get('action_id');
         $uid = (int) $feed_back;
@@ -103,9 +104,9 @@ class CallbackProcessor
                     'ad_id'=>$adid,
                     'ad_type'=>$ad_type,
                     'status'=> $this->getParameter('init_one') ,
-                    'delete_flag'=> $this->getParameter('init') 
+                    'delete_flag'=> $this->getParameter('init')
                 );
-                $order = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneCpsOrderInit($order_params); 
+                $order = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneCpsOrderInit($order_params);
                 // is order init by clicked?
                 // is order init by callback?
                 if( empty($order)) {
@@ -113,7 +114,7 @@ class CallbackProcessor
                     $order_params['ocd'] = $ocd;
                     $order_params ['status'] = $this->getParameter('init_two');
 
-                    $order = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneCpsOrderJoined( $order_params ); 
+                    $order = $em->getRepository('JiliEmarBundle:EmarOrder')->findOneCpsOrderJoined( $order_params );
 
                     if( empty($order)) {
                         $order = new EmarOrder();
@@ -125,14 +126,14 @@ class CallbackProcessor
 
                         $is_new = true;
                     } else {
-                        // init by callback  
-                    } 
+                        // init by callback
+                    }
                 } else {
-                    // init by click 
+                    // init by click
                 }
             }
 
-            // update order 
+            // update order
             $order->setHappenedAt($happenTime);
             $order->setReturnedAt($happenTime);
 
@@ -156,7 +157,7 @@ class CallbackProcessor
                 'categoryType' => $category_id,
                 'task_name' => $task_title,
                 'reward_percent' => $reward_percent,
-                'point' => $cps_reward, 
+                'point' => $cps_reward,
                 'date' => $happenTime,
                 'status' => $order->getStatus()
             );
@@ -194,7 +195,7 @@ class CallbackProcessor
                 'status' => $status
             );
 
-            $taskHistory = $this->taskLogger->update($params); 
+            $taskHistory = $this->taskLogger->update($params);
 
             if( $is_order_valid) {
 
@@ -214,32 +215,38 @@ class CallbackProcessor
         return $return;
     }
 
-    public function getParameter($key) {
+    public function getParameter($key)
+    {
         return $this->container_->getParameter($key);
     }
 
-    public function setContainer( $c) {
+    public function setContainer($c)
+    {
         $this->container_ = $c;
     }
 
-    public function setTaskLogger(TaskHistory $taskLogger) {
-        $this->taskLogger = $taskLogger; 
+    public function setTaskLogger(TaskHistory $taskLogger)
+    {
+        $this->taskLogger = $taskLogger;
     }
 
-    public function setPointLogger(PointHistory $pointLogger) {
-        $this->pointLogger = $pointLogger; 
+    public function setPointLogger(PointHistory $pointLogger)
+    {
+        $this->pointLogger = $pointLogger;
     }
 
-    public function setRebatePointCaculator( RebateActivity $calc ) {
+    public function setRebatePointCaculator(RebateActivity $calc)
+    {
         $this->rebatePointCaculator = $calc;
     }
 
-    public function setConfig( array $config)
+    public function setConfig(array $config)
     {
         $this->config = $config;
     }
 
-    private function getConfig($field ) {
+    private function getConfig($field)
+    {
         if ( isset( $this->config[$field] ) ) {
             return $this->config[$field];
         } else {

@@ -102,7 +102,7 @@ class EmarWebsitesCron
     /**
      * Get webId
      *
-     * @return integer 
+     * @return integer
      */
     public function getWebId()
     {
@@ -125,7 +125,7 @@ class EmarWebsitesCron
     /**
      * Get webName
      *
-     * @return string 
+     * @return string
      */
     public function getWebName()
     {
@@ -148,7 +148,7 @@ class EmarWebsitesCron
     /**
      * Get webCatid
      *
-     * @return integer 
+     * @return integer
      */
     public function getWebCatid()
     {
@@ -171,7 +171,7 @@ class EmarWebsitesCron
     /**
      * Get logoUrl
      *
-     * @return string 
+     * @return string
      */
     public function getLogoUrl()
     {
@@ -194,7 +194,7 @@ class EmarWebsitesCron
     /**
      * Get webUrl
      *
-     * @return string 
+     * @return string
      */
     public function getWebUrl()
     {
@@ -217,7 +217,7 @@ class EmarWebsitesCron
     /**
      * Get information
      *
-     * @return string 
+     * @return string
      */
     public function getInformation()
     {
@@ -240,7 +240,7 @@ class EmarWebsitesCron
     /**
      * Get beginDate
      *
-     * @return string 
+     * @return string
      */
     public function getBeginDate()
     {
@@ -263,7 +263,7 @@ class EmarWebsitesCron
     /**
      * Get endDate
      *
-     * @return string 
+     * @return string
      */
     public function getEndDate()
     {
@@ -286,7 +286,7 @@ class EmarWebsitesCron
     /**
      * Get commission
      *
-     * @return string 
+     * @return string
      */
     public function getCommission()
     {
@@ -296,7 +296,7 @@ class EmarWebsitesCron
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

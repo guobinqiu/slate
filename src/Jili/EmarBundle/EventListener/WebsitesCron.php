@@ -3,14 +3,16 @@ namespace Jili\EmarBundle\EventListener;
 
 use Jili\EmarBundle\Entity\EmarWebsitesCron;
 
-class WebsitesCron extends BaseCron {
-    public function __construct() {
+class WebsitesCron extends BaseCron
+{
+    public function __construct()
+    {
         $this->class_name_croned = 'JiliEmarBundle:EmarWebsitesCroned';
         $this->class_name_cron = 'JiliEmarBundle:EmarWebsitesCron';
     }
 
-    function save($website) {
-
+    public function save($website)
+    {
             $em = $this->em;
             $logger = $this->logger;
 

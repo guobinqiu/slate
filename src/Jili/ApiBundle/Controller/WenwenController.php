@@ -11,18 +11,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\setPasswordCode;
+use Jili\ApiBundle\Entity\SetPasswordCode;
 
 /**
  * @Route("/api/91wenwen")
  */
-class WenwenController extends Controller {
-
-	/**
+class WenwenController extends Controller
+{
+    /**
 	 * @Route("/register", name="_api_91wenwen_register");
 	 * @Method({"POST"});
 	 */
-	public function registerAction() {
+    public function registerAction()
+    {
         if ( isset($_SERVER['REMOTE_ADDR'] ) && !($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip')
             || $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip')
             || $_SERVER['REMOTE_ADDR'] == '127.0.0.1'
@@ -76,25 +77,8 @@ class WenwenController extends Controller {
 		$logger = $this->get('logger');
 		$logger->info('{setPassFromWenwen}' . $url);
 		//通过soap发送
-		$soapMailLister = $this->get('soap.mail.listener');
-		$soapMailLister->setCampaignId($this->container->getParameter('register_from_wenwen_campaign_id')); //活动id
-		$soapMailLister->setMailingId($this->container->getParameter('register_from_wenwen_mailing_id')); //邮件id
-		$soapMailLister->setGroup(array (
-			'name' => '从91问问注册积粒网',
-			'is_test' => 'false'
-		)); //group
-		$recipient_arr = array (
-			array (
-				'name' => 'email',
-				'value' => $email
-			),
-			array (
-				'name' => 'url_reg',
-				'value' => $url
-			)
-		);
-		$send_email = $soapMailLister->sendSingleMailing($recipient_arr);
-		if ($send_email == "Email send success") {
+		$send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
+		if ($send_email) {
 			$setPasswordCodeList = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user->getId());
 			if (empty ($setPasswordCodeList)) {
 				$setPasswordCode = new setPasswordCode();

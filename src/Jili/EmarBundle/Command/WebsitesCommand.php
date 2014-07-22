@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 use Jili\EmarBundle\Entity\EmarWebsitesCroned;
 use Jili\EmarBundle\Api2\Utils\PerRestrict;
 
-class WebsitesCommand extends ContainerAwareCommand 
+class WebsitesCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -37,7 +37,7 @@ class WebsitesCommand extends ContainerAwareCommand
                InputOption::VALUE_NONE,
                'list emar websits in table advertiserment'
             );
-        
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -96,11 +96,11 @@ class WebsitesCommand extends ContainerAwareCommand
                             if( $i === 3) {
                                 $webs_failed[] = $wid;
                             } else {
-                                $output->writeln( 'Sleeping.. for wid: '. $wid ); 
+                                $output->writeln( 'Sleeping.. for wid: '. $wid );
                                 sleep($i * $i);
                                 continue;
                             }
-                        } 
+                        }
                     }
                 }
 
@@ -116,7 +116,7 @@ class WebsitesCommand extends ContainerAwareCommand
             //todo: try the failed webs again
             //todo: while( the web_failed is empty);
             //todo: insert all web_id in advanced, then updated the record by web_id.
-            //  leave the error postprone fields ignored in 1st round with websites.list.get api, 
+            //  leave the error postprone fields ignored in 1st round with websites.list.get api,
             //  fetch those fields in 2nd round by websites.get api.
 
 

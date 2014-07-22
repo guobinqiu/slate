@@ -12,7 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class IsReadFile
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->createTime = new \DateTime();
     }
     /**
@@ -23,7 +24,7 @@ class IsReadFile
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @var integer
      *
@@ -43,7 +44,7 @@ class IsReadFile
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -59,14 +60,14 @@ class IsReadFile
     public function setCsvFileName($csvFileName)
     {
         $this->csvFileName = $csvFileName;
-    
+
         return $this;
     }
 
     /**
      * Get csvFileName
      *
-     * @return string 
+     * @return string
      */
     public function getCsvFileName()
     {
@@ -83,20 +84,20 @@ class IsReadFile
     public function setCreateTime($createTime)
     {
         $this->createTime = $createTime;
-    
+
         return $this;
     }
 
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
         return $this->createTime;
     }
 
-    
-    
+
+
 }

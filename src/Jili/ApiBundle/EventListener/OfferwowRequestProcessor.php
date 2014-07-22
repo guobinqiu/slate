@@ -14,20 +14,20 @@ use Jili\ApiBundle\Component\OrderBase;
 use Jili\ApiBundle\Util\String;
 
 /**
- * 
+ *
  **/
 class OfferwowRequestProcessor
 {
     private $em;
     private $logger;
     private $parameterBag;
-    private $container_; 
+    private $container_;
 
     private $task_logger;
     private $point_logger;
     private $rebate_point_caculator;
 
-    public function __construct(LoggerInterface $logger, EntityManager $em/*, ParameterBagInterface $parameterBag*/ )
+    public function __construct(LoggerInterface $logger, EntityManager $em/*, ParameterBagInterface $parameterBag*/)
     {
         $this->logger = $logger;
         $this->em = $em;
@@ -40,8 +40,8 @@ class OfferwowRequestProcessor
      *         HANGUP_PASSED: 2 #：非即时返利活动，审核通过，重新回传，发放奖励给会员；
      *         HANGUP_REFUSED: 3 #：非即时返利活动，审核不通过，重新回传，不发放奖励；
      **/
-    public function process(  Request $request, array $config) {
-
+    public function process(Request $request, array $config)
+    {
         $immediate_status = $config['immediate_status'];
         $order_status= OrderBase::getStatusList();
         $category_type = $config['category_type'];
@@ -62,17 +62,17 @@ class OfferwowRequestProcessor
         $em = $this->em;
         // init log.
         if ($immediate_status['HANGUP_SUSPEND'] ===  $immediate_request ) {
-            // todo: init logs.... 
+            // todo: init logs....
             $order = $em->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid($eventid );
             $is_new = false;
 
             if( is_null( $order) && ! OrderBase::isCompleted($order)) {
                 $is_new = true;
-                // init offerorder & task history 
+                // init offerorder & task history
                 $order = new OfferwowOrder();
-                // update offerorder 
-                $order->setUserid($uid); // order 
-                $order->setEventid($eventid); // order 
+                // update offerorder
+                $order->setUserid($uid); // order
+                $order->setEventid($eventid); // order
                 $order->setStatus($this->getParameter('init_two')); //clicked
                 $order->setHappenedAt( $happen_time );
                 $order->setCreatedAt(date_create(date('Y-m-d H:i:s')));
@@ -96,19 +96,19 @@ class OfferwowRequestProcessor
             );
 
             if($is_new) {
-                $this->initTaskHistory($params);             
-            } else { 
+                $this->initTaskHistory($params);
+            } else {
                 //repeat request allowd on immeidate==0 & offerwow_order.status==2
-                $this->updateTaskHistory($params);             
+                $this->updateTaskHistory($params);
             }
 
         } elseif( $immediate_status['INSTANT_PASSED'] === $immediate_request ) {
             $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':INSTANT_PASSED' );
-            // init offerorder & task history 
+            // init offerorder & task history
             $order = new OfferwowOrder();
-            // update offerorder 
-            $order->setUserid($uid); // order 
-            $order->setEventid($eventid); // order 
+            // update offerorder
+            $order->setUserid($uid); // order
+            $order->setEventid($eventid); // order
             $order->setHappenedAt( $happen_time );
             $order->setStatus($this->getParameter('init_three')); //clicked
             $order->setReturnedAt($happen_time);
@@ -118,7 +118,7 @@ class OfferwowRequestProcessor
             //TODO: rallback required.
             $em->flush();
 
-            // update user point & point history 
+            // update user point & point history
 
             $params = array(
                 'userid' => $uid,
@@ -131,15 +131,15 @@ class OfferwowRequestProcessor
                 'date' => $happen_time,
                 'status' => $order->getStatus()
             );
-            $this->initTaskHistory($params);             
-             
+            $this->initTaskHistory($params);
+
             $user = $em->getRepository('JiliApiBundle:User')->find($uid);
             $user->setPoints(intval($user->getPoints()) + intval($point));
             $em->persist($user);
             $em->flush();
             // updte point_history
             $this->getPointHistory($user->getId(), $point, $category_type );
-            
+
         } elseif ($immediate_status['HANGUP_REFUSED'] === $immediate_request ) {
 
             $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':HANGUP_REFUSED' );
@@ -158,7 +158,7 @@ class OfferwowRequestProcessor
               'date' => date_create(),
               'status' => $order->getStatus()
             );
-            $taskHistory = $this->updateTaskHistory($params);  
+            $taskHistory = $this->updateTaskHistory($params);
 
         } elseif ( $immediate_status['HANGUP_PASSED'] ===  $immediate_request ) {
             $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':HANGUP_PASSED' );
@@ -178,7 +178,7 @@ class OfferwowRequestProcessor
               'status' => $order->getStatus()
             );
 
-            $taskHistory = $this->updateTaskHistory($params);  
+            $taskHistory = $this->updateTaskHistory($params);
 
             $point = $taskHistory->getPoint();
 
@@ -195,50 +195,58 @@ class OfferwowRequestProcessor
             $this->logger->debug('{jaord}'.__FILE__.':'.__LINE__.':UNDEFINED' );
         }
     }
-   
 
-    private function updateTaskHistory($params=array()){
+
+    private function updateTaskHistory($params=array())
+    {
         extract($params);
         return $this->task_logger->update($params);
     }
 
-    private function initTaskHistory($params=array()){
+    private function initTaskHistory($params=array())
+    {
         extract($params);
         return $this->task_logger->init($params);
     }
 
-    private function TaskHistory($params=array()){
+    private function TaskHistory($params=array())
+    {
         extract($params);
         return $this->task_logger->update($params);
     }
 
-    public function selectTaskPercent($userid,$orderId){
+    public function selectTaskPercent($userid,$orderId)
+    {
        return $this->task_logger->selectPercent( array('user_id'=>$userid,'order_id'=>$orderId) );
     }
 
-    private function getPointHistory($userid,$point,$type){
+    private function getPointHistory($userid,$point,$type)
+    {
         $this->point_logger->get( compact( 'userid', 'point', 'type' ));
     }
 
-    public function getParameter($key) {
+    public function getParameter($key)
+    {
         return $this->container_->getParameter($key);
     }
 
-    public function setContainer( $c) {
+    public function setContainer($c)
+    {
         $this->container_ = $c;
     }
 
-    public function setTaskLogger(TaskHistory $task_logger) {
-        $this->task_logger = $task_logger; 
+    public function setTaskLogger(TaskHistory $task_logger)
+    {
+        $this->task_logger = $task_logger;
     }
 
-    public function setPointLogger(PointHistory $point_logger) {
-        $this->point_logger = $point_logger; 
+    public function setPointLogger(PointHistory $point_logger)
+    {
+        $this->point_logger = $point_logger;
     }
 
-    public function setRebatePointCaculator( RebateActivity $calc ) {
+    public function setRebatePointCaculator(RebateActivity $calc)
+    {
         $this->rebate_point_caculator = $calc;
     }
 }
-
-

@@ -28,13 +28,13 @@ class AdminCachePanelController extends Controller implements  IpAuthenticatedCo
     public function indexAction()
     {
         // sort by size desc /asc , access time
-        // limit 
+        // limit
 
         $cache_dir = $this->container->getParameter('cache_data_path');
 
         // list some cache info
 
-        // all cache size not support by php 
+        // all cache size not support by php
 
         $finder = new Finder();
 
@@ -54,7 +54,7 @@ class AdminCachePanelController extends Controller implements  IpAuthenticatedCo
         $regex = "/\.[0-9a-f]{32}\.(cached)$/";
 
         foreach($iterator as $file ) {
-            $f = preg_replace( $regex, '.*.$1' , $file->getFilename() ); 
+            $f = preg_replace( $regex, '.*.$1' , $file->getFilename() );
             if( isset($files[$f])) {
 
                 $files[$f] ['size']  += $file->getSize();
@@ -73,7 +73,7 @@ class AdminCachePanelController extends Controller implements  IpAuthenticatedCo
         }
         $total = count($iterator);
         $form= $this->createDeleteForm();
-        return array( 'total'=> $total, 'files'=> $files, 'form'=> $form->createView() ); 
+        return array( 'total'=> $total, 'files'=> $files, 'form'=> $form->createView() );
 
     }
 
@@ -82,7 +82,7 @@ class AdminCachePanelController extends Controller implements  IpAuthenticatedCo
      * @Method("DELETE")
      * @Template
      */
-    public function doRemoveAction($filenames) 
+    public function doRemoveAction($filenames)
     {
         // batch remove
         $request = $this->getRequest();
@@ -123,12 +123,12 @@ class AdminCachePanelController extends Controller implements  IpAuthenticatedCo
     }
 
     /**
-     * @param mixed $filename The entity $filename 
+     * @param mixed $filename The entity $filename
      * @return Symfony\Component\Form\Form The form
      */
     private function createDeleteForm($filename='')
     {
-//<input type="hidden" name="_method" value="DELETE" id="_method"> 
+//<input type="hidden" name="_method" value="DELETE" id="_method">
         return $this->createFormBuilder(array('filename' => $filename))
             ->add('filenames', 'hidden')
             ->getForm()

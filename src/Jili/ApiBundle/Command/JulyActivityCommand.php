@@ -9,13 +9,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class JulyActivityCommand extends ContainerAwareCommand {
-    protected function configure() {
+class JulyActivityCommand extends ContainerAwareCommand
+{
+    protected function configure()
+    {
         $this->setName('jili:julyactivity')->setDescription('july activity.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $output->writeln('start...');
 
         $filename = $this->getContainer()->getParameter('file_path_july_activity');
@@ -67,7 +69,8 @@ class JulyActivityCommand extends ContainerAwareCommand {
         $output->writeln('successfully');
     }
 
-    protected function getUsers($start, $end, $limit, $offset) {
+    protected function getUsers($start, $end, $limit, $offset)
+    {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $users = $em->getRepository('JiliApiBundle:User')->getTotalCPAPointsByTime($start, $end, $limit, $offset);
         return $users;

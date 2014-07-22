@@ -5,12 +5,12 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 use Jili\EmarBundle\Api2\Request\WebsiteCategoryGetRequest as OpenApiWebsiteCategoryGetRequest;
 
-class WebsiteCategoryGetRequest extends BaseRequest {
-
-
-  public function fetch( array $params  = array('wtype' => 1)) {
+class WebsiteCategoryGetRequest extends BaseRequest
+{
+  public function fetch( array $params  = array('wtype' => 1))
+  {
       extract($params);
-    //todo: cached 
+    //todo: cached
     $req = new  OpenApiWebsiteCategoryGetRequest;
     $req->setFields('web_catid,web_cname,amount,web_type,modified_time');
     $req->setWtype( $wtype );
@@ -31,5 +31,3 @@ class WebsiteCategoryGetRequest extends BaseRequest {
   }
 
 }
-
-

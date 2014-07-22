@@ -14,14 +14,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User
 {
-	public $attachment;
-	
-	public function __construct() {
-		$this->registerDate = new \DateTime();
-		$this->lastLoginDate = new \DateTime();
+    public $attachment;
+
+    public function __construct()
+    {
+        $this->registerDate = new \DateTime();
+        $this->lastLoginDate = new \DateTime();
         $this->token = '';
-	}
-	
+    }
+
     /**
      * @var integer
      *
@@ -30,21 +31,21 @@ class User
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-        
+
     /**
      * @var integer
      *
      * @ORM\Column(name="is_from_wenwen",  type="integer", nullable=true)
      */
     private $isFromWenwen;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="wenwen_user", type="string", length=100, nullable=true)
      */
     private $wenwenUser;
-    
+
     /**
      * @var string
      * @ORM\Column(name="token", type="string",length=32, nullable=false)
@@ -120,14 +121,14 @@ class User
      * @ORM\Column(name="city", type="integer", nullable=true)
      */
     private $city;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="education", type="integer", nullable=true)
      */
     private $education;
-    
+
     /**
      * @var integer
      *
@@ -141,14 +142,14 @@ class User
      * @ORM\Column(name="income", type="integer", nullable=true)
      */
     private $income;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="hobby", type="string", length=250, nullable=true)
      */
     private $hobby;
-   
+
     /**
      * @var text
      *
@@ -211,17 +212,17 @@ class User
      * @ORM\Column(name="is_info_set", type="integer")
      */
     private $isInfoSet;
-    
+
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="icon_path", type="string",length=255, nullable=true)
      */
     private $iconPath;
-    
+
      /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="uniqkey", type="string",length=250, nullable=true)
      */
     private $uniqkey;
@@ -231,11 +232,12 @@ class User
      * @ORM\Column(name="token_created_at", type="datetime", nullable=true)
      */
     private $tokenCreatedAt;
-        
+
     /**
      * upload resizeimage to temp dir
      */
-    public function resizeUpload($path,$x,$y,$x1,$y1){
+    public function resizeUpload($path,$x,$y,$x1,$y1)
+    {
         $size = getimagesize($path);
         // $width = $size[0];
         // $height = $size[1];
@@ -265,34 +267,34 @@ class User
         $types = array('jpg','jpeg');
         $upload_dir .= $this->getId()%100;
         if(!is_dir($upload_dir)){
-        	mkdir($upload_dir,0777);
+            mkdir($upload_dir,0777);
         }
         $upload_dir.='/';
         foreach ($fileNames as $key=>$fileName){
-        	$filename_upload = '';
-        	if (null === $this->$fileName) {
-	            unset($fileNames[$key]);
-	            continue ;
-	        }
-	        $field = 'iconPath';
-	        switch ($fileName){
-	        	case 'attachment':$field = 'iconPath';break;
-	        }  
-	        if($this->$fileName->getError()==1){
-	        	return  '1';//'文件类型为jpg或png';
-	        }else{
-	        	if(!in_array($this->$fileName->guessExtension(),$types)){
-	        		return  '1';//'文件类型为jpg或png';
-	        	}else{
-	        		if($this->$fileName->getClientSize() > 2048000){
-	        			return  '2';//'图片大小为2M以内';
-	        		}else{
-	        			$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+            $filename_upload = '';
+            if (null === $this->$fileName) {
+                unset($fileNames[$key]);
+                continue ;
+            }
+            $field = 'iconPath';
+            switch ($fileName){
+                case 'attachment':$field = 'iconPath';break;
+            }
+            if($this->$fileName->getError()==1){
+                return  '1';//'文件类型为jpg或png';
+            }else{
+                if(!in_array($this->$fileName->guessExtension(),$types)){
+                    return  '1';//'文件类型为jpg或png';
+                }else{
+                    if($this->$fileName->getClientSize() > 2048000){
+                        return  '2';//'图片大小为2M以内';
+                    }else{
+                        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
                         //$this->$fileName->move($upload_dir, $filename_upload);
-	        			$size = getimagesize($this->$fileName);
-	        			$width = $size[0];
-	        			$height = $size[1];
-                        
+                        $size = getimagesize($this->$fileName);
+                        $width = $size[0];
+                        $height = $size[1];
+
                         $max = 512;
                         $width = $max;
                         $height = $height * ($max/$size[0]);
@@ -307,62 +309,63 @@ class User
                         $this->$field = $upload_dir.$filename_upload;
                         $this->$fileName = null;
     //                      return '';
-                        return  $this->$field;       
-                        
-	        		}
-	        	}
-	        }
-	        
+                        return  $this->$field;
+
+                    }
+                }
+            }
+
         }
     }
-    
+
     /**
-     * go to email url 
+     * go to email url
      */
-    function gotomail($mail){
-    	$t=explode('@',$mail);
-    	$t=strtolower($t[1]);
-    	if($t=='163.com'){
-    		return 'mail.163.com';
-    	}else if($t=='vip.163.com'){
-    		return 'vip.163.com';
-    	}else if($t=='126.com'){
-    		return 'mail.126.com';
-    	}else if($t=='qq.com'||$t=='vip.qq.com'||$t=='foxmail.com'){
-    		return 'mail.qq.com';
-    	}else if($t=='gmail.com'){
-    		return 'mail.google.com';
-    	}else if($t=='me.com' || $t=='icloud.com' || $t=='mac.com'){
+    public function gotomail($mail)
+    {
+        $t=explode('@',$mail);
+        $t=strtolower($t[1]);
+        if($t=='163.com'){
+            return 'mail.163.com';
+        }else if($t=='vip.163.com'){
+            return 'vip.163.com';
+        }else if($t=='126.com'){
+            return 'mail.126.com';
+        }else if($t=='qq.com'||$t=='vip.qq.com'||$t=='foxmail.com'){
+            return 'mail.qq.com';
+        }else if($t=='gmail.com'){
+            return 'mail.google.com';
+        }else if($t=='me.com' || $t=='icloud.com' || $t=='mac.com'){
             return 'www.icloud.com';
         }else if($t=='263.com' || $t=='263.net' || $t=='263.net.cn' || $t=='x263.net'){
             return 'mail.263.net';
         }else if($t=='sohu.com'){
-    		return 'mail.sohu.com';
-    	}else if($t=='vip.sina.com'){
-    		return 'vip.sina.com';
-    	}else if($t=='sina.com.cn'||$t=='sina.com'||$t=='sina.cn'){
-    		return 'mail.sina.com.cn';
-    	}else if($t=='tom.com'){
-    		return 'mail.tom.com';
-    	}else if($t=='aliyun.com'){
+            return 'mail.sohu.com';
+        }else if($t=='vip.sina.com'){
+            return 'vip.sina.com';
+        }else if($t=='sina.com.cn'||$t=='sina.com'||$t=='sina.cn'){
+            return 'mail.sina.com.cn';
+        }else if($t=='tom.com'){
+            return 'mail.tom.com';
+        }else if($t=='aliyun.com'){
             return 'mail.aliyun.com';
         }else if($t=='yahoo.com.cn'||$t=='yahoo.cn'){
-    		return 'mail.cn.yahoo.com';
-    	}else if($t=='hotmail.com' || $t=='outlook.com' || $t=='live.cn' ||  $t=='live.com' || $t=='msn.com'){
+            return 'mail.cn.yahoo.com';
+        }else if($t=='hotmail.com' || $t=='outlook.com' || $t=='live.cn' ||  $t=='live.com' || $t=='msn.com'){
             return 'www.hotmail.com';
         }else if($t=='yeah.net'){
-    		return 'www.yeah.net';
-    	}else if($t=='21cn.com'){
-    		return 'mail.21cn.com';
-    	}else if($t=='sogou.com'){
-    		return 'mail.sogou.com';
-    	}else if($t=='189.cn'){
-    		return 'webmail15.189.cn/webmail';
-    	}else if($t=='wo.com.cn'){
-    		return 'mail.wo.com.cn/smsmail';
-    	}else if($t=='139.com'){
-    		return 'mail.10086.cn';
-    	}else if($t=='188.com'){
+            return 'www.yeah.net';
+        }else if($t=='21cn.com'){
+            return 'mail.21cn.com';
+        }else if($t=='sogou.com'){
+            return 'mail.sogou.com';
+        }else if($t=='189.cn'){
+            return 'webmail15.189.cn/webmail';
+        }else if($t=='wo.com.cn'){
+            return 'mail.wo.com.cn/smsmail';
+        }else if($t=='139.com'){
+            return 'mail.10086.cn';
+        }else if($t=='188.com'){
             return 'www.188.com';
         }else if($t=='xinhuanet.com'){
             return 'mail.xinhuanet.com';
@@ -371,12 +374,12 @@ class User
         }else if($t=='chinaren.com'){
             return 'mail.chinaren.com';
         }else {
-    		return '';
-    	}
-    	
+            return '';
+        }
+
     }
-    
-    
+
+
 
     /**
      * Get iconPath
@@ -385,10 +388,10 @@ class User
      */
     public function getIconPath()
     {
-    	return $this->iconPath;
+        return $this->iconPath;
     }
-    
-    
+
+
      /**
      * Set iconPath
      *
@@ -397,21 +400,21 @@ class User
      */
     public function setIconPath($iconPath)
     {
-    	$this->iconPath = $iconPath;
+        $this->iconPath = $iconPath;
     }
-   
-    
-    
+
+
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
      * Get wenwenUser
      *
@@ -419,10 +422,10 @@ class User
      */
     public function getWenwenUser()
     {
-    	return $this->wenwenUser;
+        return $this->wenwenUser;
     }
-    
-    
+
+
     /**
      * Set wenwenUser
      *
@@ -431,9 +434,9 @@ class User
      */
     public function setWenwenUser($wenwenUser)
     {
-    	$this->wenwenUser = $wenwenUser;
+        $this->wenwenUser = $wenwenUser;
     }
-    
+
     /**
      * Set token
      *
@@ -450,13 +453,13 @@ class User
     /**
      * Get token
      *
-     * @return string 
+     * @return string
      */
     public function getToken()
     {
         return $this->token;
     }
-    
+
 
     /**
      * Set isFromWenwen
@@ -466,13 +469,13 @@ class User
      */
     public function setIsFromWenwen($isFromWenwen)
     {
-    	$this->isFromWenwen = $isFromWenwen;
-    
-    	return $this;
+        $this->isFromWenwen = $isFromWenwen;
+
+        return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get isFromWenwen
      *
@@ -480,11 +483,11 @@ class User
      */
     public function getIsFromWenwen()
     {
-    	return $this->isFromWenwen;
+        return $this->isFromWenwen;
     }
-    
-    
-    
+
+
+
     /**
      * Set nick
      *
@@ -494,14 +497,14 @@ class User
     public function setNick($nick)
     {
         $this->nick = $nick;
-    
+
         return $this;
     }
 
     /**
      * Get nick
      *
-     * @return string 
+     * @return string
      */
     public function getNick()
     {
@@ -517,20 +520,20 @@ class User
     public function setPwd($pwd)
     {
         $this->pwd = $this->pw_encode($pwd);
-    
+
         return $this;
     }
 
     /**
      * Get pwd
      *
-     * @return string 
+     * @return string
      */
     public function getPwd()
     {
         return $this->pwd;
     }
-    
+
     /**
      * sha1 pwd
      *
@@ -538,16 +541,16 @@ class User
      */
     public function pw_encode($pwd)
     {
-    	$seed = '';
-    	for ($i = 1; $i <= 9; $i++)
-    		$seed .= sha1($pwd.'0123456789abcdef');
-    		for ($i = 1; $i <= 11; $i++)
-    		$seed .= sha1($seed);
-    		return sha1($seed);
+        $seed = '';
+        for ($i = 1; $i <= 9; $i++)
+            $seed .= sha1($pwd.'0123456789abcdef');
+            for ($i = 1; $i <= 11; $i++)
+            $seed .= sha1($seed);
+            return sha1($seed);
     }
-    
-    
-   
+
+
+
 
     /**
      * Set sex
@@ -558,16 +561,16 @@ class User
     public function setSex($sex)
     {
         $this->sex = $sex;
-    
+
         return $this;
     }
-    
-    
+
+
 
     /**
      * Get sex
      *
-     * @return integer 
+     * @return integer
      */
     public function getSex()
     {
@@ -583,14 +586,14 @@ class User
     public function setBirthday($birthday)
     {
         $this->birthday = $birthday;
-    
+
         return $this;
     }
 
     /**
      * Get birthday
      *
-     * @return string 
+     * @return string
      */
     public function getBirthday()
     {
@@ -606,14 +609,14 @@ class User
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -629,14 +632,14 @@ class User
     public function setIsEmailConfirmed($isEmailConfirmed)
     {
         $this->isEmailConfirmed = $isEmailConfirmed;
-    
+
         return $this;
     }
 
     /**
      * Get isEmailConfirmed
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsEmailConfirmed()
     {
@@ -652,14 +655,14 @@ class User
     public function setTel($tel)
     {
         $this->tel = $tel;
-    
+
         return $this;
     }
 
     /**
      * Get tel
      *
-     * @return string 
+     * @return string
      */
     public function getTel()
     {
@@ -675,14 +678,14 @@ class User
     public function setIsTelConfirmed($isTelConfirmed)
     {
         $this->isTelConfirmed = $isTelConfirmed;
-    
+
         return $this;
     }
 
     /**
      * Get isTelConfirmed
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsTelConfirmed()
     {
@@ -698,10 +701,10 @@ class User
     public function setProvince($province)
     {
         $this->province = $province;
-    
+
         return $this;
     }
-    
+
     /**
      * Get province
      *
@@ -720,11 +723,11 @@ class User
      */
     public function setCity($city)
     {
-    	$this->city = $city;
-    
-    	return $this;
+        $this->city = $city;
+
+        return $this;
     }
-    
+
     /**
      * Get city
      *
@@ -732,10 +735,10 @@ class User
      */
     public function getCity()
     {
-    	return $this->city;
+        return $this->city;
     }
-    
-    
+
+
     /**
      * Set education
      *
@@ -744,11 +747,11 @@ class User
      */
     public function setEducation($education)
     {
-    	$this->education = $education;
-    
-    	return $this;
+        $this->education = $education;
+
+        return $this;
     }
-    
+
     /**
      * Get education
      *
@@ -756,10 +759,10 @@ class User
      */
     public function getEducation()
     {
-    	return $this->education;
+        return $this->education;
     }
-    
-    
+
+
     /**
      * Set profession
      *
@@ -768,11 +771,11 @@ class User
      */
     public function setProfession($profession)
     {
-    	$this->profession = $profession;
-    
-    	return $this;
+        $this->profession = $profession;
+
+        return $this;
     }
-    
+
     /**
      * Get profession
      *
@@ -780,7 +783,7 @@ class User
      */
     public function getProfession()
     {
-    	return $this->profession;
+        return $this->profession;
     }
 
 
@@ -793,12 +796,12 @@ class User
     public function setIncome($income)
     {
         $this->income = $income;
-    
+
         return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get income
      *
@@ -808,9 +811,9 @@ class User
     {
         return $this->income;
     }
-    
-    
-    
+
+
+
     /**
      * Set hobby
      *
@@ -819,11 +822,11 @@ class User
      */
     public function setHobby($hobby)
     {
-    	$this->hobby = $hobby;
-    
-    	return $this;
+        $this->hobby = $hobby;
+
+        return $this;
     }
-    
+
     /**
      * Get hobby
      *
@@ -831,10 +834,10 @@ class User
      */
     public function getHobby()
     {
-    	return $this->hobby;
+        return $this->hobby;
     }
-    
-    
+
+
     /**
      * Set personalDes
      *
@@ -843,11 +846,11 @@ class User
      */
     public function setPersonalDes($personalDes)
     {
-    	$this->personalDes = $personalDes;
-    
-    	return $this;
+        $this->personalDes = $personalDes;
+
+        return $this;
     }
-    
+
     /**
      * Get personalDes
      *
@@ -855,10 +858,10 @@ class User
      */
     public function getPersonalDes()
     {
-    	return $this->personalDes;
+        return $this->personalDes;
     }
-    
-    
+
+
 
     /**
      * Set identityNum
@@ -869,14 +872,14 @@ class User
     public function setIdentityNum($identityNum)
     {
         $this->identityNum = $identityNum;
-    
+
         return $this;
     }
 
     /**
      * Get identityNum
      *
-     * @return string 
+     * @return string
      */
     public function getIdentityNum()
     {
@@ -892,14 +895,14 @@ class User
     public function setRewardMultiple($rewardMultiple)
     {
         $this->rewardMultiple = $rewardMultiple;
-    
+
         return $this;
     }
 
     /**
      * Get rewardMultiple
      *
-     * @return float 
+     * @return float
      */
     public function getRewardMultiple()
     {
@@ -915,14 +918,14 @@ class User
     public function setRegisterDate($registerDate)
     {
         $this->registerDate = $registerDate;
-    
+
         return $this;
     }
 
     /**
      * Get registerDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getRegisterDate()
     {
@@ -938,14 +941,14 @@ class User
     public function setLastLoginDate($lastLoginDate)
     {
         $this->lastLoginDate = $lastLoginDate;
-    
+
         return $this;
     }
 
     /**
      * Get lastLoginDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastLoginDate()
     {
@@ -961,14 +964,14 @@ class User
     public function setLastLoginIp($lastLoginIp)
     {
         $this->lastLoginIp = $lastLoginIp;
-    
+
         return $this;
     }
 
     /**
      * Get lastLoginIp
      *
-     * @return string 
+     * @return string
      */
     public function getLastLoginIp()
     {
@@ -984,14 +987,14 @@ class User
     public function setPoints($points)
     {
         $this->points = $points;
-    
+
         return $this;
     }
 
     /**
      * Get points
      *
-     * @return integer 
+     * @return integer
      */
     public function getPoints()
     {
@@ -1007,21 +1010,21 @@ class User
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-        
+
         return $this;
     }
 
     /**
      * Get deleteFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getDeleteFlag()
     {
         return $this->deleteFlag;
     }
-    
-    
+
+
     /**
      * Set isInfoSet
      *
@@ -1030,11 +1033,11 @@ class User
      */
     public function setIsInfoSet($isInfoSet)
     {
-    	$this->isInfoSet = $isInfoSet;
-    
-    	return $this;
+        $this->isInfoSet = $isInfoSet;
+
+        return $this;
     }
-    
+
     /**
      * Get isInfoSet
      *
@@ -1042,7 +1045,7 @@ class User
      */
     public function getIsInfoSet()
     {
-    	return $this->isInfoSet;
+        return $this->isInfoSet;
     }
 
      /**
@@ -1054,14 +1057,14 @@ class User
     public function setUniqkey($uniqkey)
     {
         $this->uniqkey = $uniqkey;
-    
+
         return $this;
     }
 
     /**
      * Get uniqkey
      *
-     * @return string 
+     * @return string
      */
     public function getUniqkey()
     {
@@ -1084,11 +1087,11 @@ class User
     /**
      * Get tokenCreatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getTokenCreatedAt()
     {
         return $this->tokenCreatedAt;
     }
-    
+
 }

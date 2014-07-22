@@ -40,14 +40,33 @@
             {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552985" } %}
         </div>
         <div class="marginT15">
-        	<!-- 首页左侧三（200*90，纯文字）-->
+        	<!-- 首页左侧三（200*200，纯文字）-->
             {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1627802" } %}
         </div>
 	</div>
 	<!-- eof ads -->
 
   </div><!-- w204 side -->
+  
+<script type="text/javascript">
+    (function($){
+        var taskNum = $('#nav .task li');
+        var taskLen = taskNum.length;
+        var timeLine = $('#timeline');
+        function setHeight(num){
+            timeLine.css('margin-top', num*45 +'px');
+        }
+        switch(taskLen){
+            case 1: setHeight(1); break;
+            case 2: setHeight(2); break;
+            case 3: setHeight(3); break;
+            case 4: setHeight(4); break;
+            case 5: setHeight(5); break;
+            default: timeLine.css('margin-top', '0px'); break;
+        }
+    })(jQuery);
 
+</script>
   <div class="w638 fl">
     {% if not app.session.has('uid') %}
     <div id="indexBanner"> <a style="opacity: 1;" class="game" href="{{ asset(path('_game_chick'),'cdn1')}}">游戏体验</a> 
@@ -121,7 +140,6 @@
   </div><!-- w300 side -->
 
 {% endblock %}
-
 
 {% block body_bottom %}
 {% if is_newbie_passed is defined  and is_newbie_passed == false  %}

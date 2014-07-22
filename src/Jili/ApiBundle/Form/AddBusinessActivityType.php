@@ -9,10 +9,10 @@ class AddBusinessActivityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	$builder->add('actImage','file',array(
-            			'required'=>false, 
-            			'error_bubbling'=>true,
-            			));
+        $builder->add('actImage','file',array(
+                        'required'=>false,
+                        'error_bubbling'=>true,
+                        ));
     }
     public function getName()
     {

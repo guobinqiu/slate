@@ -6,15 +6,16 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 use Jili\EmarBundle\Entity\EmarProductsCron as EmarProductsCron ;
 
-abstract class BaseCron {
-
+abstract class BaseCron
+{
     protected $logger;
     protected $em;
 
     protected $class_name_cron;
     protected $class_name_croned;
 
-    public function duplicateForQuery() {
+    public function duplicateForQuery()
+    {
         $em = $this->em;
         $logger  = $this->logger;
 
@@ -45,7 +46,8 @@ abstract class BaseCron {
         #$this->truncate();
     }
 
-    public function truncate() {
+    public function truncate()
+    {
         $em = $this->em;
         $logger  = $this->logger;
 
@@ -66,10 +68,12 @@ abstract class BaseCron {
         }
     }
 
-    public function setLogger(  LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
-    public function setEntityManager( EntityManager $em) {
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em= $em;
     }
 

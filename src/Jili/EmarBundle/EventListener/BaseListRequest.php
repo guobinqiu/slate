@@ -3,16 +3,18 @@ namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
-class BaseListRequest extends BaseRequest implements  ListRequestInterface {
-
+class BaseListRequest extends BaseRequest implements  ListRequestInterface
+{
   protected $page_size;
   protected $total;
 
-  public function getTotal() {
+  public function getTotal()
+  {
       return $this->total;
   }
 
-  public function setPageSize( $count ) {
+  public function setPageSize($count)
+  {
     $this->page_size = (int)  $count;
     return $this;
   }

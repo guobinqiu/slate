@@ -69,7 +69,7 @@ class WebsitesControllerTest extends WebTestCase
         $cache = $website_detail_service->getCacheProxy();
 
         $key = $cache->getKey();
-        
+
         echo 'key:',$key,PHP_EOL;
         $cache_fn =$cache_dir .DIRECTORY_SEPARATOR . $key.'.cached';
         $this->assertFileExists( $cache_fn);
@@ -96,9 +96,9 @@ class WebsitesControllerTest extends WebTestCase
 
     /**
      * @group cache
-     * @group website 
+     * @group website
      */
-    public function testCatCache() 
+    public function testCatCache()
     {
         $client = static::createClient();
         $container = $client->getContainer();
@@ -117,7 +117,7 @@ class WebsitesControllerTest extends WebTestCase
         $cache = $website_cat_service->getCacheProxy();
 
         $key = $cache->getKey();
-        
+
         echo 'key:',$key,PHP_EOL;
         $cache_fn =$cache_dir .DIRECTORY_SEPARATOR . $key.'.cached';
         $this->assertFileExists( $cache_fn);
@@ -140,13 +140,13 @@ class WebsitesControllerTest extends WebTestCase
 
     /**
      * @group cache
-     * @group website 
+     * @group website
      */
-    public function testShopListCache() 
+    public function testShopListCache()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-       
+
         $logger= $container->get('logger');
         $router = $container->get('router');
         $em = $this->em;
@@ -163,7 +163,7 @@ class WebsitesControllerTest extends WebTestCase
         $cache = $website_list_service->getCacheProxy();
 
         $key = $cache->getKey();
-        
+
         echo 'key:',$key,PHP_EOL;
         $cache_fn =$cache_dir .DIRECTORY_SEPARATOR . $key.'.cached';
         $this->assertFileExists( $cache_fn);
@@ -181,7 +181,7 @@ class WebsitesControllerTest extends WebTestCase
         $cache1 = $website_list_service1->getCacheProxy();
 
         $key1 = $cache1->getKey();
-        
+
         echo 'key1:',$key1,PHP_EOL;
         $cache_fn1 =$cache_dir .DIRECTORY_SEPARATOR . $key1.'.cached';
         $this->assertFileExists( $cache_fn1);
@@ -210,7 +210,7 @@ echo serialize($data1),PHP_EOL;
         $this->assertStringEqualsFile(  $cache_fn, serialize($data) );
 
 
-    } 
+    }
 
     /**
      *

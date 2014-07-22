@@ -10,12 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AdwOrder
 {
-	public function __construct() {
-		$this->createTime = new \DateTime();
-		//$this->adwReturnTime = new \DateTime();
-		//$this->confirmTime = new \DateTime();
-	}
-	
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+        //$this->adwReturnTime = new \DateTime();
+        //$this->confirmTime = new \DateTime();
+    }
+
      /**
      * @var integer
      *
@@ -25,7 +26,7 @@ class AdwOrder
      */
     private $id;
 
-  
+
     /**
      * @var integer
      *
@@ -40,21 +41,21 @@ class AdwOrder
      */
     private $adid;
 
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="create_time", type="datetime")
      */
     private $createTime;
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="happen_time", type="datetime")
      */
     private $happenTime;
-    
+
 
     /**
      * @var \DateTime
@@ -62,7 +63,7 @@ class AdwOrder
      * @ORM\Column(name="adw_return_time", type="datetime")
      */
     private $adwReturnTime;
-    
+
 
     /**
      * @var \DateTime
@@ -71,71 +72,71 @@ class AdwOrder
      */
     private $confirmTime;
 
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="incentive_type", type="integer")
      */
     private $incentiveType;
-    
-    
+
+
     /**
      * @var integer
      *
      * @ORM\Column(name="incentive", type="integer")
      */
     private $incentive;
-    
-    
+
+
     /**
      * @var integer
      *
      * @ORM\Column(name="incentive_rate", type="integer")
      */
     private $incentiveRate;
-    
+
     /**
      * @var float
      *
      * @ORM\Column(name="comm", type="float")
      */
     private $comm;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="ocd", type="string", length=100, nullable=true)
      */
     private $ocd;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="order_price", type="integer")
      */
     private $orderPrice;
-    
-    
+
+
     /**
      * @var integer
      *
      * @ORM\Column(name="order_status", type="integer")
      */
     private $orderStatus;
-    
-    
+
+
     /**
      * @var integer
      *
      * @ORM\Column(name="delete_flag", type="integer")
      */
     private $deleteFlag;
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -151,14 +152,14 @@ class AdwOrder
     public function setUserid($userid)
     {
         $this->userid = $userid;
-    
+
         return $this;
     }
 
     /**
      * Get userid
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserid()
     {
@@ -174,14 +175,14 @@ class AdwOrder
     public function setAdid($adid)
     {
         $this->adid = $adid;
-    
+
         return $this;
     }
 
     /**
      * Get adid
      *
-     * @return integer 
+     * @return integer
      */
     public function getAdid()
     {
@@ -198,21 +199,21 @@ class AdwOrder
     public function setCreateTime($createTime)
     {
         $this->createTime = $createTime;
-    
+
         return $this;
     }
 
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
         return $this->createTime;
     }
-    
-    
+
+
     /**
      * Set happenTime
      *
@@ -221,11 +222,11 @@ class AdwOrder
      */
     public function setHappenTime($happenTime)
     {
-    	$this->happenTime = $happenTime;
-    
-    	return $this;
+        $this->happenTime = $happenTime;
+
+        return $this;
     }
-    
+
     /**
      * Get happenTime
      *
@@ -233,12 +234,12 @@ class AdwOrder
      */
     public function getHappenTime()
     {
-    	return $this->happenTime;
+        return $this->happenTime;
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * Set adwReturnTime
      *
@@ -247,11 +248,11 @@ class AdwOrder
      */
     public function setAdwReturnTime($adwReturnTime)
     {
-    	$this->adwReturnTime = $adwReturnTime;
-    
-    	return $this;
+        $this->adwReturnTime = $adwReturnTime;
+
+        return $this;
     }
-    
+
     /**
      * Get adwReturnTime
      *
@@ -259,11 +260,11 @@ class AdwOrder
      */
     public function getAdwReturnTime()
     {
-    	return $this->adwReturnTime;
+        return $this->adwReturnTime;
     }
-    
-    
-    
+
+
+
     /**
      * Set confirmTime
      *
@@ -272,11 +273,11 @@ class AdwOrder
      */
     public function setConfirmTime($confirmTime)
     {
-    	$this->confirmTime = $confirmTime;
-    
-    	return $this;
+        $this->confirmTime = $confirmTime;
+
+        return $this;
     }
-    
+
     /**
      * Get confirmTime
      *
@@ -284,11 +285,11 @@ class AdwOrder
      */
     public function getConfirmTime()
     {
-    	return $this->confirmTime;
+        return $this->confirmTime;
     }
-    
 
-    
+
+
     /**
      * Set incentiveType
      *
@@ -297,11 +298,11 @@ class AdwOrder
      */
     public function setIncentiveType($incentiveType)
     {
-    	$this->incentiveType = $incentiveType;
-    
-    	return $this;
+        $this->incentiveType = $incentiveType;
+
+        return $this;
     }
-    
+
     /**
      * Get incentiveType
      *
@@ -309,9 +310,9 @@ class AdwOrder
      */
     public function getIncentiveType()
     {
-    	return $this->incentiveType;
+        return $this->incentiveType;
     }
-    
+
     /**
      * Set incentive
      *
@@ -320,11 +321,11 @@ class AdwOrder
      */
     public function setIncentive($incentive)
     {
-    	$this->incentive = $incentive;
-    
-    	return $this;
+        $this->incentive = $incentive;
+
+        return $this;
     }
-    
+
     /**
      * Get incentive
      *
@@ -332,24 +333,24 @@ class AdwOrder
      */
     public function getIncentive()
     {
-    	return $this->incentive;
+        return $this->incentive;
     }
 
-    
-    
+
+
     /**
-     * Set incentiveRate 	
+     * Set incentiveRate
      *
      * @param integer $incentiveRate
      * @return AdwOrder
      */
     public function setIncentiveRate($incentiveRate)
     {
-    	$this->incentiveRate = $incentiveRate;
-    
-    	return $this;
+        $this->incentiveRate = $incentiveRate;
+
+        return $this;
     }
-    
+
     /**
      * Get comm
      *
@@ -357,9 +358,9 @@ class AdwOrder
      */
     public function getComm()
     {
-    	return $this->comm;
+        return $this->comm;
     }
-    
+
     /**
      * Set comm
      *
@@ -368,12 +369,12 @@ class AdwOrder
      */
     public function setComm($comm)
     {
-    	$this->comm = $comm;
-    
-    	return $this;
+        $this->comm = $comm;
+
+        return $this;
     }
-    
-    
+
+
     /**
      * Set ocd
      *
@@ -382,11 +383,11 @@ class AdwOrder
      */
     public function setOcd($ocd)
     {
-    	$this->ocd = $ocd;
-    
-    	return $this;
+        $this->ocd = $ocd;
+
+        return $this;
     }
-    
+
     /**
      * Get ocd
      *
@@ -394,11 +395,11 @@ class AdwOrder
      */
     public function getOcd()
     {
-    	return $this->ocd;
+        return $this->ocd;
     }
-    
-    
-    
+
+
+
     /**
      * Get incentiveRate
      *
@@ -406,12 +407,12 @@ class AdwOrder
      */
     public function getIncentiveRate()
     {
-    	return $this->incentiveRate;
+        return $this->incentiveRate;
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * Set orderPrice
      *
@@ -420,11 +421,11 @@ class AdwOrder
      */
     public function setOrderPrice($orderPrice)
     {
-    	$this->orderPrice = $orderPrice;
-    
-    	return $this;
+        $this->orderPrice = $orderPrice;
+
+        return $this;
     }
-    
+
     /**
      * Get orderPrice
      *
@@ -432,10 +433,10 @@ class AdwOrder
      */
     public function getOrderPrice()
     {
-    	return $this->orderPrice;
+        return $this->orderPrice;
     }
-    
-    
+
+
 
     /**
      * Set orderStatus
@@ -445,11 +446,11 @@ class AdwOrder
      */
     public function setOrderStatus($orderStatus)
     {
-    	$this->orderStatus = $orderStatus;
-    
-    	return $this;
+        $this->orderStatus = $orderStatus;
+
+        return $this;
     }
-    
+
     /**
      * Get orderStatus
      *
@@ -457,11 +458,11 @@ class AdwOrder
      */
     public function getOrderStatus()
     {
-    	return $this->orderStatus;
+        return $this->orderStatus;
     }
-    
-    
-    
+
+
+
 
     /**
      * Set deleteFlag
@@ -471,11 +472,11 @@ class AdwOrder
      */
     public function setDeleteFlag($deleteFlag)
     {
-    	$this->deleteFlag = $deleteFlag;
-    
-    	return $this;
+        $this->deleteFlag = $deleteFlag;
+
+        return $this;
     }
-    
+
     /**
      * Get deleteFlag
      *
@@ -483,8 +484,8 @@ class AdwOrder
      */
     public function getDeleteFlag()
     {
-    	return $this->deleteFlag;
+        return $this->deleteFlag;
     }
-    
+
 
 }
