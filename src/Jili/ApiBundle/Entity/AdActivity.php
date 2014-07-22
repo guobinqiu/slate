@@ -101,7 +101,7 @@ class AdActivity
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -124,7 +124,7 @@ class AdActivity
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -147,7 +147,7 @@ class AdActivity
     /**
      * Get startedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartedAt()
     {
@@ -170,7 +170,7 @@ class AdActivity
     /**
      * Get finishedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFinishedAt()
     {
@@ -193,7 +193,7 @@ class AdActivity
     /**
      * Get percentage
      *
-     * @return float 
+     * @return float
      */
     public function getPercentage()
     {
@@ -216,7 +216,7 @@ class AdActivity
     /**
      * Get isDeleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDeleted()
     {
@@ -239,7 +239,7 @@ class AdActivity
     /**
      * Get isHidden
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsHidden()
     {
@@ -262,7 +262,7 @@ class AdActivity
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -272,7 +272,7 @@ class AdActivity
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

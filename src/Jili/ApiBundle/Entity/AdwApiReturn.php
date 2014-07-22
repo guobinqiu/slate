@@ -12,9 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AdwApiReturn
 {
-	public function __construct() {
-		$this->createTime = new \DateTime();
-	}
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+    }
     /**
      * @var integer
      *
@@ -23,33 +24,33 @@ class AdwApiReturn
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="create_time", type="datetime")
      */
     private $createTime;
-    
+
     /**
      * @var text
      *
      * @ORM\Column(name="content", type="text")
      */
     private $content;
-    
-    
+
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
-    
+
+
     /**
      * Set createTime
      *
@@ -59,21 +60,21 @@ class AdwApiReturn
     public function setCreateTime($createTime)
     {
         $this->createTime = $createTime;
-    
+
         return $this;
     }
 
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
         return $this->createTime;
     }
-    
-    
+
+
     /**
      * Set content
      *
@@ -82,11 +83,11 @@ class AdwApiReturn
      */
     public function setContent($content)
     {
-    	$this->content = $content;
-    
-    	return $this;
+        $this->content = $content;
+
+        return $this;
     }
-    
+
     /**
      * Get content
      *
@@ -94,11 +95,11 @@ class AdwApiReturn
      */
     public function getContent()
     {
-    	return $this->content;
+        return $this->content;
     }
-    
-    
-    
-    
-   
+
+
+
+
+
 }

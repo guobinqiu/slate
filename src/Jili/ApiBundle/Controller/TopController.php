@@ -24,10 +24,10 @@ class TopController extends Controller
     {
         $request = $this->get('request');
         $logger = $this->get('logger');
-       
+
         $cookies = $request->cookies;
         $session = $request->getSession();
-    
+
         if ($cookies->has('jili_rememberme') && !  $session->has('uid')  ) {
             $token = $cookies->get('jili_rememberme');
             $result = $this->get('login.listener')->byToken( $token);
@@ -133,7 +133,7 @@ class TopController extends Controller
         //个人中心
         //确认中的米粒数
         $arr['confirmPoints'] = $this->get('session.points')->getConfirm();
-		$taskList = $this->get('session.task_list');
+        $taskList = $this->get('session.task_list');
         if( $this->container->getParameter('init_one') === $taskList->get('checkin_visit') ) {
             $arr['userCheckin'] = $this->container->getParameter('init_one');
         }
@@ -225,7 +225,8 @@ class TopController extends Controller
         //return $this->render('JiliApiBundle:Top:myTask.html.twig', $arr);
     }
 
-    private function getUndoTaskList() {
+    private function getUndoTaskList()
+    {
         //可以做的任务，签到+游戏+91问问+购物 -cpa
         if( $this->get('session')->has('uid')) {
             $taskList = $this->get('session.task_list');
@@ -273,8 +274,9 @@ class TopController extends Controller
         return $this->render('JiliApiBundle:Top:market.html.twig', $arr);
     }
 
-    private function getAdCheckInfo(){
-    	//advertiserment check
+    private function getAdCheckInfo()
+    {
+        //advertiserment check
         $adCheck = "";
         $filename = $this->container->getParameter('file_path_advertiserment_check');
         if (file_exists($filename)) {
@@ -289,7 +291,8 @@ class TopController extends Controller
         return $adCheck;
     }
 
-    private function getMyTaskList($type) {
+    private function getMyTaskList($type)
+    {
         $request = $this->get('request');
         $id = $request->getSession()->get('uid');
 
@@ -307,7 +310,7 @@ class TopController extends Controller
         return $adtaste;
     }
 
-#    private function selTaskHistory($userid, $option){
+#    private function selTaskHistory($userid, $option) {
 #      $em = $this->getDoctrine()->getManager();
 #
 #      $logger  = $this->get('logger');
@@ -331,7 +334,8 @@ class TopController extends Controller
 #    }
 
     //签到列表
-    private function checkinList(){
+    private function checkinList()
+    {
         $arrList = array();
         $date = date('Y-m-d H:i:s');
         $cal_count = "";
@@ -361,8 +365,8 @@ class TopController extends Controller
 
     }
 
-    private function readFileContent($filename) {
-
+    private function readFileContent($filename)
+    {
         $contents = null;
         if (!file_exists($filename)) {
             //die("指定文件不存在，操作中断!");

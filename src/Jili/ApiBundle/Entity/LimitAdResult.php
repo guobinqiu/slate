@@ -27,14 +27,14 @@ class LimitAdResult
      * @ORM\Column(name="adw_order_id", type="integer")
      */
     private $accessHistoryId;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
-    
+
     /**
      * @var integer
      *
@@ -53,14 +53,14 @@ class LimitAdResult
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
-    
+
+
     /**
      * Set accessHistoryId
      *
@@ -69,11 +69,11 @@ class LimitAdResult
      */
     public function setAccessHistoryId($accessHistoryId)
     {
-    	$this->accessHistoryId = $accessHistoryId;
-    
-    	return $this;
+        $this->accessHistoryId = $accessHistoryId;
+
+        return $this;
     }
-    
+
     /**
      * Get accessHistoryId
      *
@@ -81,10 +81,10 @@ class LimitAdResult
      */
     public function getAccessHistoryId()
     {
-    	return $this->accessHistoryId;
+        return $this->accessHistoryId;
     }
-    
-    
+
+
     /**
      * Set limitAdId
      *
@@ -93,11 +93,11 @@ class LimitAdResult
      */
     public function setLimitAdId($limitAdId)
     {
-    	$this->limitAdId = $limitAdId;
-    
-    	return $this;
+        $this->limitAdId = $limitAdId;
+
+        return $this;
     }
-    
+
     /**
      * Get limitAdId
      *
@@ -105,7 +105,7 @@ class LimitAdResult
      */
     public function getLimitAdId()
     {
-    	return $this->limitAdId;
+        return $this->limitAdId;
     }
 
     /**
@@ -117,13 +117,13 @@ class LimitAdResult
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -139,14 +139,14 @@ class LimitAdResult
     public function setResultIncentive($resultIncentive)
     {
         $this->resultIncentive = $resultIncentive;
-    
+
         return $this;
     }
 
     /**
      * Get resultIncentive
      *
-     * @return integer 
+     * @return integer
      */
     public function getResultIncentive()
     {

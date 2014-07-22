@@ -32,7 +32,7 @@ class ActivityMall
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -49,20 +49,20 @@ class ActivityMall
     public function setMallName($mallName)
     {
         $this->mallName = $mallName;
-    
+
         return $this;
     }
 
     /**
      * Get mallName
      *
-     * @return string 
+     * @return string
      */
     public function getMallName()
     {
         return $this->mallName;
     }
 
-    
-    
+
+
 }

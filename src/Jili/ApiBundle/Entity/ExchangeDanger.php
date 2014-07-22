@@ -20,7 +20,7 @@ class ExchangeDanger
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @var integer
      *
@@ -52,7 +52,7 @@ class ExchangeDanger
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -68,14 +68,14 @@ class ExchangeDanger
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -92,14 +92,14 @@ class ExchangeDanger
     public function setExchangeId($exchangeId)
     {
         $this->exchangeId = $exchangeId;
-    
+
         return $this;
     }
 
     /**
      * Get exchangeId
      *
-     * @return integer 
+     * @return integer
      */
     public function getExchangeId()
     {
@@ -115,14 +115,14 @@ class ExchangeDanger
     public function setDangerType($dangerType)
     {
         $this->dangerType = $dangerType;
-    
+
         return $this;
     }
 
     /**
      * Get dangerType
      *
-     * @return integer 
+     * @return integer
      */
     public function getDangerType()
     {
@@ -138,11 +138,11 @@ class ExchangeDanger
      */
     public function setDangerContent($dangerContent)
     {
-    	$this->dangerContent = $dangerContent;
-    
-    	return $this;
+        $this->dangerContent = $dangerContent;
+
+        return $this;
     }
-    
+
     /**
      * Get dangerContent
      *
@@ -150,9 +150,9 @@ class ExchangeDanger
      */
     public function getDangerContent()
     {
-    	return $this->dangerContent;
+        return $this->dangerContent;
     }
 
-    
-    
+
+
 }

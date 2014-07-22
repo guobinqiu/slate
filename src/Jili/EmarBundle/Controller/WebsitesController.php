@@ -70,12 +70,12 @@ class WebsitesController extends Controller
 
         // wcats with local file cache
         $wcats = $this->get('website.categories')->fetch() ;
-        // webs 
+        // webs
         $websites = array();
         $params =array();
         if( isset($wcat_id ) && is_numeric($wcat_id) && $wcat_id > 0 ) {
             $params = array('catid'=> $wcat_id );
-        } 
+        }
 
         $web_raw  = $this->get('website.list_get')->fetch( $params );
 
@@ -90,9 +90,9 @@ class WebsitesController extends Controller
             if(count($web_hot_ids) > 0 ) {
                 $fitlers['wids'] = $web_hot_ids;
             }
-        } 
+        }
 
-        // searching 
+        // searching
         if( strlen(trim($keyword)) > 0) {
             $web_searched = $this->get('website.search')->find( $web_raw, $keyword );
             $websites = WebListRepository::parse( $web_searched, $fitlers);
@@ -106,12 +106,12 @@ class WebsitesController extends Controller
         //todo: use a index of  type  array (  wid=>index  );
         //todo: add catid into where
         if( $wcat_id === 0 ) {
-            $websites_configed = $web_hot; 
+            $websites_configed = $web_hot;
         } else {
             $websites_configed = $em->getRepository('JiliEmarBundle:EmarWebsites')->getSortedByParams( $params );
         }
 
-        /// sorting 
+        /// sorting
         $websites_filtered = array();
         $websites_left  = $websites;
         foreach($websites_configed as $row ) {
@@ -123,12 +123,12 @@ class WebsitesController extends Controller
 
         $websites_sorted = $websites_filtered + $websites_left; //array_diff($websites, $websites_filtered);
 
-        // page_size , page_no 
+        // page_size , page_no
         $total =  count($websites);
         $page_size = $this->container->getParameter('emar_com.page_size_of_shoplist');
 
         $i = 0;
-        $start = ( $page_no -1 ) * $page_size ; 
+        $start = ( $page_no -1 ) * $page_size ;
         $end =  $start + $page_size;
         $websites_paged = array();
 
@@ -140,14 +140,14 @@ class WebsitesController extends Controller
                     break;
                 }
                 $websites_paged[$k]  =$v;
-            } 
+            }
             $i++;
         }
 
-        // update the commission by configed in emar_websites 
+        // update the commission by configed in emar_websites
         $websites_configed_wid = array();
         foreach($websites_configed as $row ) {
-            $websites_configed_wid [$row->getWebId() ] = $row; 
+            $websites_configed_wid [$row->getWebId() ] = $row;
         }
 
         foreach ($websites_paged as $k => $v) {
@@ -158,7 +158,7 @@ class WebsitesController extends Controller
                 if( 0 <  strlen(trim($row->getCommission()))) {
                     $multiple = $row->getCommission();
                 }
-            } 
+            }
 
             if( ! isset($multiple) || $multiple === '' || $multiple === 0 || is_null($multiple)) {
                 $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
@@ -200,7 +200,7 @@ class WebsitesController extends Controller
                 $params['limit'] = $max;
             }
 
-            // fetch the details ? 
+            // fetch the details ?
             $hot_webs_configed = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot( $params);
             $websites = array();
 
@@ -209,7 +209,7 @@ class WebsitesController extends Controller
 
                 $commissions = array();
                 foreach($hot_webs_configed as $row) {
-                    $webids[] = $row[ 'webId']; 
+                    $webids[] = $row[ 'webId'];
                     $commissions[ $row['webId'] ] = $row['commission'];
                 }
 
@@ -225,9 +225,9 @@ class WebsitesController extends Controller
                     }
                     if( ! isset($multiple) ||   is_null($multiple) || $multiple == 0   ){
                         $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
-                    } 
+                    }
                     $row->setCommission( round($multiple * $comm /100, 2) );
-                    $websites[$row->getWebId() ] = $row; 
+                    $websites[$row->getWebId() ] = $row;
                 }
             }
 
@@ -236,7 +236,7 @@ class WebsitesController extends Controller
         }
 
 
-        
+
         $template ='JiliEmarBundle:Websites:'. 'hot_on_'. $tmpl. '.html.twig';
 
         return $this->render($template, compact('websites'));
@@ -247,7 +247,7 @@ class WebsitesController extends Controller
      * @Template()
      * todo: added pageno for recommend
      */
-    public function detailAction($wid )
+    public function detailAction($wid)
     {
         $request = $this->get('request');
         $logger = $this->get('logger');
@@ -300,12 +300,12 @@ class WebsitesController extends Controller
                 $url .= '?'.http_build_query($request->query->all() );
             }
             return $this->redirect( $url );
-        } 
+        }
         $wcat_id = $request->query->get('wcat' );
         $page_no = $request->query->getInt('p',1);
         // wcats with local file cache
         $wcats = $this->get('website.categories')->fetch() ;
-        // webs 
+        // webs
         $websites = array();
         $params =array();
 
@@ -322,7 +322,7 @@ class WebsitesController extends Controller
         $total =  count($websites);
         $page_size = $this->container->getParameter('emar_com.page_size');
         $websites_paged = array_slice( $websites, ( $page_no -1 ) * $page_size  , $page_size );
-        $webids = array_filter(array_unique( array_map( function($v) { if ( isset($v['web_id'])) { return  $v['web_id']; } ; } , $websites_paged)));
+        $webids = array_filter(array_unique( array_map( function ($v) { if ( isset($v['web_id'])) { return  $v['web_id']; } ; } , $websites_paged)));
         // fetch the website information from the table emar_webistes_croned .
         if( count($webids ) > 0 ) {
             $webinfos_croned = $this->getDoctrine()->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchInfosByWebIds( $webids);
@@ -340,4 +340,3 @@ class WebsitesController extends Controller
     }
 
 }
-

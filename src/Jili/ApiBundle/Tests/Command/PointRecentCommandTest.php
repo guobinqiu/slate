@@ -1,4 +1,6 @@
 <?php
+namespace Jili\ApiBundle\Tests\Command;
+
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Jili\ApiBundle\Command\PointRecentCommand;
@@ -34,7 +36,6 @@ class PointRecentCommandTest extends KernelTestCase
        $this->em->close();
     }
     /**
-     * @group debug 
      * @group point_recent
      */
     public function testExecute()
@@ -61,5 +62,4 @@ class PointRecentCommandTest extends KernelTestCase
 
 
 
-} 
-
+}

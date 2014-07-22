@@ -10,9 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AdwAccessHistory
 {
-	public function __construct() {
-		$this->accessTime = new \DateTime();
-	}
+    public function __construct()
+    {
+        $this->accessTime = new \DateTime();
+    }
      /**
      * @var integer
      *
@@ -22,7 +23,7 @@ class AdwAccessHistory
      */
     private $id;
 
-  
+
     /**
      * @var integer
      *
@@ -37,7 +38,7 @@ class AdwAccessHistory
      */
     private $adid;
 
-    
+
     /**
      * @var \DateTime
      *
@@ -45,11 +46,11 @@ class AdwAccessHistory
      */
     private $accessTime;
 
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -65,14 +66,14 @@ class AdwAccessHistory
     public function setUserid($userid)
     {
         $this->userid = $userid;
-    
+
         return $this;
     }
 
     /**
      * Get userid
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserid()
     {
@@ -88,14 +89,14 @@ class AdwAccessHistory
     public function setAdid($adid)
     {
         $this->adid = $adid;
-    
+
         return $this;
     }
 
     /**
      * Get adid
      *
-     * @return integer 
+     * @return integer
      */
     public function getAdid()
     {
@@ -112,19 +113,19 @@ class AdwAccessHistory
     public function setAccessTime($accessTime)
     {
         $this->accessTime = $accessTime;
-    
+
         return $this;
     }
 
     /**
      * Get accessTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getAccessTime()
     {
         return $this->accessTime;
     }
-    
-    
+
+
 }

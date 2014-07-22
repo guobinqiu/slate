@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class MonthIncome
 {
-	
+
     /**
      * @var integer
      *
@@ -29,13 +29,13 @@ class MonthIncome
      * @ORM\Column(name="income", type="string", length=30)
      */
     private $income;
-    
+
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -51,11 +51,11 @@ class MonthIncome
      */
     public function setIncome($income)
     {
-    	$this->income = $income;
-    
-    	return $this;
+        $this->income = $income;
+
+        return $this;
     }
-    
+
     /**
      * Get income
      *
@@ -63,8 +63,8 @@ class MonthIncome
      */
     public function getIncome()
     {
-    	return $this->income;
+        return $this->income;
     }
-    
-    
+
+
 }

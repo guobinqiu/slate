@@ -13,7 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class CheckinPointTimes
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->createTime = new \DateTime();
     }
     /**
@@ -64,7 +65,7 @@ class CheckinPointTimes
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -81,14 +82,14 @@ class CheckinPointTimes
     public function setPointTimes($pointTimes)
     {
         $this->pointTimes = $pointTimes;
-    
+
         return $this;
     }
 
     /**
      * Get pointTimes
      *
-     * @return integer 
+     * @return integer
      */
     public function getPointTimes()
     {
@@ -104,14 +105,14 @@ class CheckinPointTimes
     public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
-    
+
         return $this;
     }
 
     /**
      * Get startTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartTime()
     {
@@ -127,14 +128,14 @@ class CheckinPointTimes
     public function setEndTime($endTime)
     {
         $this->endTime = $endTime;
-    
+
         return $this;
     }
 
     /**
      * Get endTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndTime()
     {
@@ -173,22 +174,22 @@ class CheckinPointTimes
     public function setCreateTime($createTime)
     {
         $this->createTime = $createTime;
-    
+
         return $this;
     }
 
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
         return $this->createTime;
     }
-    
-    
 
-    
-    
+
+
+
+
 }

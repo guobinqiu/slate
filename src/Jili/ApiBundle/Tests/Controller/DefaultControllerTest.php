@@ -35,8 +35,8 @@ class DefaultControllerTest extends WebTestCase
     /**
      * @group user
      */
-    public function testAdLoginAction() {
-
+    public function testAdLoginAction()
+    {
         $client = static::createClient();
         $container = $client->getContainer();
         $logger= $container->get('logger');
@@ -59,7 +59,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertEquals($user->getId(), $session->get('uid'));
         //
         echo $url, PHP_EOL;
-        $post['remember_me'] ='1'; 
+        $post['remember_me'] ='1';
         $crawler = $client->request('POST', $url,$post);
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'ad login in '  );
         $this->assertEquals('ok', $client->getResponse()->getContent());
@@ -78,14 +78,15 @@ class DefaultControllerTest extends WebTestCase
         #$this->assertEquals( $user->getNick(), $cookies->get('jili_nick' ,'/')->getRawValue());
     }
     /**
-     * landingAction with not exists: wenwen code exists email 
+     * landingAction with not exists: wenwen code exists email
      */
 
     /**
-     * landingAction with not exists: fresh email 
+     * landingAction with not exists: fresh email
      * @group user
      */
-    public function testLandingActionFresh() {
+    public function testLandingActionFresh()
+    {
         $client = static::createClient();
         $container = $client->getContainer();
         $logger= $container->get('logger');
@@ -130,27 +131,30 @@ class DefaultControllerTest extends WebTestCase
         echo 'email:',$user->getEmail(),PHP_EOL;
         echo 'pwd:','dddddd',PHP_EOL;
 
-//        restore 
+//        restore
     }
     /**
      *@param $plain => array( email, uniqkey )
      */
-    private function genSecretToken($plain) {
+    private function genSecretToken($plain)
+    {
         $plain['signature'] = $this->getToken($plain['email']);
         return  strtr(base64_encode(json_encode($plain)), '+/', '-_');
     }
     /**
      * copied from wenwenController.php to gen the signature
      */
-	private function getToken($email) {
-		$seed = "ADF93768CF";
-		$hash = sha1($email . $seed);
-		for ($i = 0; $i < 5; $i++) {
-			$hash = sha1($hash);
-		}
-		return $hash;
-	}
-    private function buildToken( $user , $secret) {
+    private function getToken($email)
+    {
+        $seed = "ADF93768CF";
+        $hash = sha1($email . $seed);
+        for ($i = 0; $i < 5; $i++) {
+            $hash = sha1($hash);
+        }
+        return $hash;
+    }
+    private function buildToken($user , $secret)
+    {
         $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
         $token = hash('sha256', $token);
         $token = substr( $token, 0 ,32);

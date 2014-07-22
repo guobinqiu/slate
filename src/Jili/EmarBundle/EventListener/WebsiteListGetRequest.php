@@ -6,13 +6,12 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\WebsiteListGetRequest as OpenApiWebsiteListGetRequest;
 
 
-class WebsiteListGetRequest  extends BaseListRequest {
-
-
-  public function fetch( array $params = array('wtype' => 1, 'catid' => '')) {
-
+class WebsiteListGetRequest  extends BaseListRequest
+{
+  public function fetch( array $params = array('wtype' => 1, 'catid' => ''))
+  {
     extract($params);
-    //todo: cached 
+    //todo: cached
     $req = new  OpenApiWebsiteListGetRequest;
 
     if( strlen(trim($this->fields)) > 0) {
@@ -52,5 +51,3 @@ class WebsiteListGetRequest  extends BaseListRequest {
   }
 
 }
-
-

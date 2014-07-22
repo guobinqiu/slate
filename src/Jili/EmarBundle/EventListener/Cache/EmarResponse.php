@@ -4,9 +4,9 @@ namespace Jili\EmarBundle\EventListener\Cache;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 /**
- * 
+ *
  **/
-class EmarResponse 
+class EmarResponse
 {
 
     private $emar_request;
@@ -16,19 +16,21 @@ class EmarResponse
     private $key;
     private $cache;
 
-    public function __construct( $cache_config)
+    public function __construct($cache_config)
     {
          $this->cache_config = $cache_config;
     }
-   
+
     /***
      * the cache key is based on request api & params
      */
-    public function getKey(){
+    public function getKey()
+    {
         return  $this->key;
     }
 
-    private function setKey(){
+    private function setKey()
+    {
         $req = $this->emar_request;
         $this->key = $req->getApiMethodName().'.'. md5($req->getApiMethodName() . json_encode( $req->getApiParams() ) );
         return $this;
@@ -37,11 +39,13 @@ class EmarResponse
     /***
      * @return: the life time of cache
      */
-    public function getDuration() {
+    public function getDuration()
+    {
             return  $this->duration;
     }
 
-    private function setDuration() {
+    private function setDuration()
+    {
         $req = $this->emar_request;
         $duration = 0;
         $api_name = $req->getApiMethodName() ;
@@ -66,35 +70,40 @@ class EmarResponse
 
     public function setEmarRequest($emar_request)
     {
-        $this->emar_request  = $emar_request; 
+        $this->emar_request  = $emar_request;
         $this->setKey();
         $this->setDuration();
         return $this;
     }
-    
-    public function isValid() {
+
+    public function isValid()
+    {
         return $this->file_handler->isValid($this->getKey(), $this->getDuration());
     }
-    public function set( $data){
+    public function set($data)
+    {
         return $this->file_handler->set($this->getKey(), $data);
     }
-    public function get() {
+    public function get()
+    {
         return $this->file_handler->get( $this->getKey());
     }
 
-    public function remove() {
+    public function remove()
+    {
         return $this->file_handler->remove( $this->getKey() );
     }
 
     /**
      * use the file to cache data
      */
-    public function setCacheHandler($file_hanlder) {
+    public function setCacheHandler($file_hanlder)
+    {
         $this->file_handler = $file_hanlder;
     }
 
-    public function setLogger(  LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 }
-

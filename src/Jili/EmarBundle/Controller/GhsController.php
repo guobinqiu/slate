@@ -14,14 +14,15 @@ use Jili\EmarBundle\Api2\Repository\GhsCat as GhsCatRepository;
 class GhsController extends Controller
 {
     /**
-     * @param: tmpl: the template to embed, 
+     * @param: tmpl: the template to embed,
      * @param: max: number of records per page,
      * @param:  p: the page number
      * @Route("/promotion/{tmpl}/{max}/{p}", defaults={"tmpl"="top", "max"=6 ,"p"=1}, requirements={"tmpl"="search|top", "max"="\d+", "p"="\d+"})
      * @Method({ "GET", "POST"})
      * @Template
      */
-    public function promotionAction($tmpl, $max, $p) {
+    public function promotionAction($tmpl, $max, $p)
+    {
         $request = $this->get('request');
         $logger = $this->get('logger');
 
@@ -51,7 +52,7 @@ class GhsController extends Controller
                 $page = mt_rand(1, $last_page);
             }
         }
-        // multiple by 2 to filter the unecessary links. 
+        // multiple by 2 to filter the unecessary links.
         // NOTICE: always fetch the first page ?
         $listRequest->setPageSize($max );
         $params = array('page_no' => $page);
@@ -66,7 +67,7 @@ class GhsController extends Controller
                     'pri1'=> $v['ghs_price'],
                     'pri0'=>$v['ori_price'] ,
                     'dis'=> round( $v['discount'] *  $this->container->getParameter('emar_com.cps.action.default_rebate')/100, 2),
-                    'buy'=>$v['bought'] ); 
+                    'buy'=>$v['bought'] );
             }
 
             $response = new Response(json_encode(array('prds' => $prds)));
@@ -83,8 +84,8 @@ class GhsController extends Controller
      * @Route("/partial/{tmpl}/{catids}", defaults={"tmpl"="cps", "catids"= ""}, requirements={"tmpl"="cps" } )
      * @Template()
      */
-    public function partialAction($tmpl,$catids) {
-
+    public function partialAction($tmpl,$catids)
+    {
         $request = $this->get('request');
         $logger= $this->get('logger');
 
@@ -96,7 +97,7 @@ class GhsController extends Controller
 
         $catids_request = '000000'; // 全部
         if( ! empty($catids) ) {
-            $catids_ = array_intersect($cat_ids, explode(',' , $catids)); 
+            $catids_ = array_intersect($cat_ids, explode(',' , $catids));
             if( ! empty($catids_) ) {
                 $catids_request = $catids_;
             }

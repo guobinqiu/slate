@@ -53,7 +53,7 @@ class HotactivityController extends Controller
     #     * @Route("/filters")
     #     * @Template();
     #     */
-    #    public function filtersAction(){
+    #    public function filtersAction() {
     #        $req = new  \Jili\EmarBundle\Api2\Request\HotactivityCategoryGetRequest;
     #        $websiteRequest =  $this->get('hotactivity.website_get');
     #        $websites_raw = $websiteRequest->fetch();
@@ -69,7 +69,8 @@ class HotactivityController extends Controller
      * @Route("/partial-on-cps/{catids}", defaults={"catids"= "01"} )
      * @Template();
      */
-    public function partialOnCpsAction($catids) {
+    public function partialOnCpsAction($catids)
+    {
         $request = $this->get('request');
         $logger= $this->get('logger');
         if( empty($catids)) {
@@ -94,7 +95,8 @@ class HotactivityController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function hotAction($tmpl, $max ){
+    public function hotAction($tmpl, $max)
+    {
         $request = $this->get('request');
         $logger= $this->get('logger');
 
@@ -107,7 +109,7 @@ class HotactivityController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $hot_webs = $em->getRepository('JiliEmarBundle:EmarWebsites')->getHot( array('limit'=>$max ));
-        $webids =  array_map( function($v) { if ( isset($v['webId'])) { return  $v['webId']; } ; } , $hot_webs );
+        $webids =  array_map( function ($v) { if ( isset($v['webId'])) { return  $v['webId']; } ; } , $hot_webs );
         $template ='JiliEmarBundle:Hotactivity:'. 'hot_on_'. $tmpl. '.html.twig';
         return $this->render($template, array('hotactivity'=> $list ));
     }

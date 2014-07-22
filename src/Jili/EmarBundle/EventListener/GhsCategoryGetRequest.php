@@ -3,14 +3,16 @@ namespace Jili\EmarBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\GhsCatGetRequest as OpenApiGhsCatGetRequest;
-class GhsCategoryGetRequest  extends BaseRequest {
-  public function fetch() {
-    //todo: cached 
+class GhsCategoryGetRequest  extends BaseRequest
+{
+  public function fetch()
+  {
+    //todo: cached
     $req = new  OpenApiGhsCatGetRequest;
 
     $req->setFields('ghs_catid,ghs_cname,sort_order');
    // $resp =  $this->c->setApp($this->app_name)->exe($req);
-    
+
     if( ! is_null($this->app_name)) {
         $this->c->setApp($this->app_name);
     }

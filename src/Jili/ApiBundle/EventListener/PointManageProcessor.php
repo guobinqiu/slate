@@ -9,7 +9,8 @@ use Doctrine\ORM\EntityManager;
 /**
  *
  **/
-class PointManageProcessor {
+class PointManageProcessor
+{
     private $em;
     private $logger;
     private $container_;
@@ -17,12 +18,14 @@ class PointManageProcessor {
     private $task_logger;
     private $point_logger;
 
-    public function __construct(LoggerInterface $logger, EntityManager $em) {
+    public function __construct(LoggerInterface $logger, EntityManager $em)
+    {
         $this->logger = $logger;
         $this->em = $em;
     }
 
-    public function process($path, $log_path) {
+    public function process($path, $log_path)
+    {
         $code = array ();
         //打开上传的文件
         $handle = fopen($path, 'r');
@@ -68,7 +71,8 @@ class PointManageProcessor {
     }
 
     //更新point: user, point_history , task_history
-    private function updatePoint($data) {
+    private function updatePoint($data)
+    {
         //user_id,email,point,task_name,category_type,task_type
         $user_id = $data[0];
         $email = $data[1];
@@ -127,28 +131,34 @@ class PointManageProcessor {
         return $message;
     }
 
-    private function initTaskHistory($params = array ()) {
+    private function initTaskHistory($params = array ())
+    {
         extract($params);
         return $this->task_logger->init($params);
     }
 
-    private function getPointHistory($params = array ()) {
+    private function getPointHistory($params = array ())
+    {
         $this->point_logger->get($params);
     }
 
-    public function getParameter($key) {
+    public function getParameter($key)
+    {
         return $this->container_->getParameter($key);
     }
 
-    public function setContainer($c) {
+    public function setContainer($c)
+    {
         $this->container_ = $c;
     }
 
-    public function setTaskLogger(TaskHistory $task_logger) {
+    public function setTaskLogger(TaskHistory $task_logger)
+    {
         $this->task_logger = $task_logger;
     }
 
-    public function setPointLogger(PointHistory $point_logger) {
+    public function setPointLogger(PointHistory $point_logger)
+    {
         $this->point_logger = $point_logger;
     }
 }

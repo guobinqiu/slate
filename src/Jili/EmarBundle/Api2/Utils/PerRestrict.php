@@ -4,16 +4,16 @@ namespace Jili\EmarBundle\Api2\Utils;
 /**
  * 流量调用限制：20次/分钟
  * 应用状态： 开发测试
- * 
+ *
  **/
 class PerRestrict
 {
-    
+
     private $storage;
 
-    private $threadhold;// 
+    private $threadhold;//
 
-    function __construct( $cps = 20)
+    public function __construct($cps = 20)
     {
         $this->storage = array_fill( 0, $cps, 0);
 
@@ -24,7 +24,8 @@ class PerRestrict
 
     }
 
-    function add(){
+    public function add()
+    {
         $t = time();
         array_unshift($this->storage, $t);
         $t_end = array_pop($this->storage);
@@ -37,7 +38,8 @@ class PerRestrict
         return $diff;
     }
 
-    function getStorage() {
+    public function getStorage()
+    {
         return $this->storage;
     }
 }

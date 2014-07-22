@@ -12,11 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class LoginLog
 {
-	
-	public function __construct() {
-		$this->loginDate = new \DateTime();
-	}
-	
+
+    public function __construct()
+    {
+        $this->loginDate = new \DateTime();
+    }
+
     /**
      * @var integer
      *
@@ -52,7 +53,7 @@ class LoginLog
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -68,14 +69,14 @@ class LoginLog
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -91,14 +92,14 @@ class LoginLog
     public function setLoginDate($loginDate)
     {
         $this->loginDate = $loginDate;
-    
+
         return $this;
     }
 
     /**
      * Get loginDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLoginDate()
     {
@@ -114,14 +115,14 @@ class LoginLog
     public function setLoginIp($loginIp)
     {
         $this->loginIp = $loginIp;
-    
+
         return $this;
     }
 
     /**
      * Get loginIp
      *
-     * @return string 
+     * @return string
      */
     public function getLoginIp()
     {

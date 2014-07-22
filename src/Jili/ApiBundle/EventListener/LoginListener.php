@@ -11,20 +11,22 @@ use Jili\ApiBundle\Entity\LoginLog;
 /**
  *
  **/
-class LoginListener {
-	private $em;
-	private $task_list;
+class LoginListener
+{
+    private $em;
+    private $task_list;
 //#	private $session_points;
 
-	public function __construct(EntityManager $em ) {
-		$this->em = $em;
-	}
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
 
-	/**
+    /**
 	 * @param  $request
 	 */
-    public function login(Request $request) {
-
+    public function login(Request $request)
+    {
         $code = '';
         if ($request->getMethod() != 'POST') {
             return $code;
@@ -57,10 +59,10 @@ class LoginListener {
         }
 
         $password = $request->request->get('pwd');
-		if ($user->pw_encode($password) != $user->getPwd()) {
-			$code = $this->getParameter('login_wr');
-			return $code;
-		}
+        if ($user->pw_encode($password) != $user->getPwd()) {
+            $code = $this->getParameter('login_wr');
+            return $code;
+        }
 
         $this->afterLogin($user, $request);
         $code ='ok';
@@ -68,7 +70,7 @@ class LoginListener {
     }
 
     /**
-     * @param: $user 
+     * @param: $user
      */
     public function afterLogin(User $user, $request)
     {
@@ -101,7 +103,8 @@ class LoginListener {
         }
     }
 
-    public function updateInfoSession(User $user ) {
+    public function updateInfoSession(User $user)
+    {
         $session = $this->container_->get('session');
         $icon_path = $user->getIconPath() ;
         if( ! empty($icon_path) ) {
@@ -116,7 +119,7 @@ class LoginListener {
         //#todo: update the confirmPoinsts
     }
 
-    public function initSession( User  $user)
+    public function initSession(User  $user)
     {
         $session = $this->container_->get('session');
         $session->set('uid', $user->getId() );
@@ -127,9 +130,9 @@ class LoginListener {
     /**
      *
      */
-    public function resetTasksSession( )
+    public function resetTasksSession()
     {
-        // init the task_list & my_task_list when first login. 
+        // init the task_list & my_task_list when first login.
         // some session will be kept when logout, but not this.
         $this->task_list->remove(array('alive'));
 #        $this->my_task_list->remove(array('alive'));
@@ -139,13 +142,14 @@ class LoginListener {
      * update is_newbie in session
      * $user the Entity User Instance
      */
-    public function checkNewbie( User  $user ) {
+    public function checkNewbie(User  $user)
+    {
         $request = $this->container_->get('request');
-        // 从wenwen来的用户已经在landingAction登录过，并且registerDate与lastLogDate是一样的。 
+        // 从wenwen来的用户已经在landingAction登录过，并且registerDate与lastLogDate是一样的。
         $is_newbie = false;
         if($user->getRegisterDate()->getTimestamp() === $user->getLastLoginDate()->getTimestamp() ) {
             if( $user->getIsFromWenwen() === $this->getParameter('init_one')  ) {
-                // check the the login log 
+                // check the the login log
                 $em = $this->em;
                 $loginLog = $em->getRepository('JiliApiBundle:LoginLog')->findOneByUserId($user->getId());
                 if( ! $loginLog) {
@@ -166,11 +170,13 @@ class LoginListener {
         return  true;
     }
 
-    public function isNewbie() {
+    public function isNewbie()
+    {
         return  $this->container_->get('request')->getSession()->get('is_newbie', false);
     }
 
-    public function log($user) {
+    public function log($user)
+    {
         $em = $this->em;
         $request = $this->container_->get('request');
 
@@ -182,17 +188,20 @@ class LoginListener {
         return $em->flush();
     }
 
-    public function getParameter($key) {
+    public function getParameter($key)
+    {
         return $this->container_->getParameter($key);
     }
 
-    public function setContainer( $c) {
+    public function setContainer($c)
+    {
         $this->container_ = $c;
     }
     /**
-     * @param: $tl the task_list service 
+     * @param: $tl the task_list service
      */
-    public function setTaskList( $tl) {
+    public function setTaskList($tl)
+    {
         $this->task_list= $tl;
     }
 
@@ -200,8 +209,8 @@ class LoginListener {
      * for remember me function.
      * @param: $user = array( 'emaril'=> '', '');
      */
-    public function buildToken($user) {
-
+    public function buildToken($user)
+    {
         $try = 5;
         $token = '';
 
@@ -212,7 +221,7 @@ class LoginListener {
                 $uid = $session->get('uid');
                 if( ! empty( $uid ) ) {
                     $em = $this->em;
-                    // get signned in user 
+                    // get signned in user
                     $entity = $em->getRepository('JiliApiBundle:User')->findOneById($uid);
                     if( $entity) {
                         do {
@@ -220,7 +229,7 @@ class LoginListener {
                             // check the token is unique.
                             $exists = $em->getRepository('JiliApiBundle:User')->findByValidateToken($token);
                             if ( $exists   ) {
-                                
+
                                 if( count($exists) == 1  ) {
                                     $exist = $exists[0];
                                     if(  $exist->getId() == $uid ) {
@@ -243,14 +252,15 @@ class LoginListener {
                     }
                 }
             }
-        
+
         return $token;
     }
 
     /**
      * @param: $user = array( 'email'=> '', 'pwd'=>);
      */
-    private function generateToken($user) {
+    private function generateToken($user)
+    {
         // gen token of 32 chars
         $token = implode('|',$user).$this->getParameter('secret') ;
         $token = hash('sha256', $token);
@@ -261,8 +271,8 @@ class LoginListener {
     /**
      * find the token from database.
      */
-    public function byToken($token) {
-
+    public function byToken($token)
+    {
         if( empty($token) ) {
             return false;
         }
@@ -276,9 +286,9 @@ class LoginListener {
         return false;
     }
 //    /**
-//     * @param: $service the session.points service 
+//     * @param: $service the session.points service
 //     */
-//    public function setSessionPoints( $service ) {
+//    public function setSessionPoints($service) {
 //        $this->session_points = $service;
 //    }
 

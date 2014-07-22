@@ -20,7 +20,7 @@ class IsReadCallboard
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @var integer
      *
@@ -40,7 +40,7 @@ class IsReadCallboard
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -56,14 +56,14 @@ class IsReadCallboard
     public function setSendCbId($sendCbId)
     {
         $this->sendCbId = $sendCbId;
-    
+
         return $this;
     }
 
     /**
      * Get sendCbId
      *
-     * @return integer 
+     * @return integer
      */
     public function getSendCbId()
     {
@@ -80,20 +80,20 @@ class IsReadCallboard
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
         return $this->userId;
     }
 
-    
-    
+
+
 }

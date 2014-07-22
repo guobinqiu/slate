@@ -4,15 +4,16 @@ namespace Jili\ApiBundle\Utility;
 /**
  *
  */
-class RebateUtil {
-
+class RebateUtil
+{
     /**
      * @params: $value
      * @params: $cps_rebate_type
      * @params: $rebate_point
      * @return: user rebate
      */
-    static public function calculateRebateAmount($value, $cps_rebate_type, $rebate_point) {
+    public static function calculateRebateAmount($value, $cps_rebate_type, $rebate_point)
+    {
         if ($value['rebate'] <= 0) {
             return 0;
         }

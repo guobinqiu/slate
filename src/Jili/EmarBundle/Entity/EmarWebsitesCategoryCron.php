@@ -60,7 +60,7 @@ class EmarWebsitesCategoryCron
     /**
      * Get webId
      *
-     * @return integer 
+     * @return integer
      */
     public function getWebId()
     {
@@ -83,7 +83,7 @@ class EmarWebsitesCategoryCron
     /**
      * Get categoryId
      *
-     * @return integer 
+     * @return integer
      */
     public function getCategoryId()
     {
@@ -106,7 +106,7 @@ class EmarWebsitesCategoryCron
     /**
      * Get count
      *
-     * @return integer 
+     * @return integer
      */
     public function getCount()
     {
@@ -116,7 +116,7 @@ class EmarWebsitesCategoryCron
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

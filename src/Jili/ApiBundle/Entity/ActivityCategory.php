@@ -32,7 +32,7 @@ class ActivityCategory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -49,20 +49,20 @@ class ActivityCategory
     public function setCategory($category)
     {
         $this->category = $category;
-    
+
         return $this;
     }
 
     /**
      * Get category
      *
-     * @return string 
+     * @return string
      */
     public function getCategory()
     {
         return $this->category;
     }
 
-    
-    
+
+
 }

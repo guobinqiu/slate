@@ -5,7 +5,7 @@ namespace Jili\BackendBundle\Controller;
 /*
  * the interface to restrict the access on admin pages.
  */
-interface IpAuthenticatedController {
+interface IpAuthenticatedController
+{
   // ...
 }
-

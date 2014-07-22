@@ -29,7 +29,8 @@ class ProductController extends Controller
      * @Method("GET")
      * @Template
      */
-    public function retrieveAction() {
+    public function retrieveAction()
+    {
         // cats & sub cats
         $request = $this->get('request');
         $logger = $this->get('logger');
@@ -98,7 +99,7 @@ class ProductController extends Controller
         $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
         foreach( $result as $row) {
             $web_id = $row->getWebId();
-            $web_croned[$web_id  ] = $row; 
+            $web_croned[$web_id  ] = $row;
         }
 
         foreach($webids as $webid ) {
@@ -109,7 +110,7 @@ class ProductController extends Controller
                 $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission( $web_croned[$webid ]->getCommission()  );
                 if( isset($web_configed[$webid] ) ) {
                     $multiple = $web_configed[$webid]->getCommission();
-                } 
+                }
                 if(! isset($multiple) ||  $multiple  === '' || $multiple === 0 || is_null( $multiple) ) {
                     $multiple= $this->container->getParameter('emar_com.cps.action.default_rebate');
                 }
@@ -123,9 +124,10 @@ class ProductController extends Controller
     /**
      * @param:  $prod_categories = array('cats'=> array() , 'sub_cats'=> array());
      * @Route("/category" )
-     * @Template 
+     * @Template
      */
-    public function categoryAction( $qs = array(), $rt = null ) {
+    public function categoryAction( $qs = array(), $rt = null )
+    {
         $logger= $this->get('logger');
 
         $prod_categories = $this->get('product.categories')->fetch();
@@ -144,12 +146,12 @@ class ProductController extends Controller
                             continue;
                         }
                         if(is_string( $item2 ) &&  array_key_exists($item2, $cats_fliped ))  {
-                            $menu_config[$index][$key1][$index2] = array('cat_name'=> $item2, 'cat_id'=> $cats_fliped[$item2]); 
+                            $menu_config[$index][$key1][$index2] = array('cat_name'=> $item2, 'cat_id'=> $cats_fliped[$item2]);
                         }
                     }
                 }
             } else if(is_string( $item ) &&  array_key_exists($item, $cats_fliped ))  {
-               $menu_config[$index] = array( 'cat_name'=> $item, 'cat_id'=> $cats_fliped[$item ]); 
+               $menu_config[$index] = array( 'cat_name'=> $item, 'cat_id'=> $cats_fliped[$item ]);
             }
         }
         return array_merge($prod_categories , compact('rt', 'qs' ,'menu_config'));
@@ -160,7 +162,8 @@ class ProductController extends Controller
      * @Route("/recommend")
      * @Template();
      */
-    public function recommendAction() {
+    public function recommendAction()
+    {
         $response = $this->render('JiliEmarBundle:Product:recommend.html.twig');
         return array();
     }
@@ -169,12 +172,13 @@ class ProductController extends Controller
      * @Route("/recommendByWeb/{wid}")
      * @Template();
      */
-    public function recommendByWebAction($wid) {
+    public function recommendByWebAction($wid)
+    {
         $request = $this->get('request');
         $logger= $this->get('logger');
         $params = array( 'webid'=> $wid,'page_no'=>1);
         $productRequest = $this->get('product.list_get');
-        $productRequest->setPageSize(12); 
+        $productRequest->setPageSize(12);
         $products = $productRequest->fetch( $params);
         return compact(/*'total',*/'products');
     }
@@ -184,7 +188,8 @@ class ProductController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function searchAction() {
+    public function searchAction()
+    {
         $request = $this->get('request');
 
         $em=$this->getDoctrine()->getManager();
@@ -196,7 +201,7 @@ class ProductController extends Controller
                 $url .= '?'.http_build_query($request->query->all() );
             }
             return $this->redirect( $url );
-        } 
+        }
 
         $cat_id = $request->query->getInt('cat');
         $web_id = $request->query->getInt('w');
@@ -204,10 +209,10 @@ class ProductController extends Controller
         $order = $request->query->get('o',1);
         $page_no = $request->query->get('p', 1);
 
-        // catetory 
+        // catetory
         $prod_categories = $this->get('product.categories')->fetch();
         $crumbs_local = ItemCatRepository::getCrumbsByScatid( $prod_categories['sub_cats'], $cat_id);
-        
+
         // search
         $params = array('keyword'=>$keyword, 'catid'=> $cat_id, 'webid'=> $web_id, 'page_no'=>$page_no, 'price_range'=> $price_range,'orderby'=>$order);
         $productSearch = $this->get('product.search');
@@ -216,15 +221,15 @@ class ProductController extends Controller
         $productSearch->setPageSize( $page_size);
         $products = $productSearch->fetch($params );
 
-        //分页时，只取有限数量。 
+        //分页时，只取有限数量。
         $total = $productSearch->getTotal();
-        
+
         // fetch web_ids from products.
         // websites:
         // 设成100是为了取出筛选商家。
-       // 1800 ?   
+       // 1800 ?
 
-        $products_webids = array_filter(array_unique( array_map( function($v) { if ( isset($v['web_id'])) { return  $v['web_id']; } ; } , $products )));
+        $products_webids = array_filter(array_unique( array_map( function ($v) { if ( isset($v['web_id'])) { return  $v['web_id']; } ; } , $products )));
 
         array_unique($products_webids);
 
@@ -247,5 +252,5 @@ class ProductController extends Controller
         return   array_merge( $prod_categories, $webs ,  array('products' => $products,'total'=> $total, 'crumbs_local'=> $crumbs_local/* , 'webs' => */, 'webs_filter'=>$filters_of_webs,'web_commissions'=>$web_commissions));
     }
 
-    
+
 }

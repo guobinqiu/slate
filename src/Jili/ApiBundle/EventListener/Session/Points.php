@@ -4,11 +4,11 @@ namespace Jili\ApiBundle\EventListener\Session;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;
 /**
- * 
+ *
  **/
 class Points
 {
-    
+
     private $session;
     private $em;
     private $logger;
@@ -16,7 +16,7 @@ class Points
     private $keys;
     private $duration;
 
-    public function __construct( $keys, $duration)
+    public function __construct($keys, $duration)
     {
         $this->keys = $keys;
         $this->duration = $duration;
@@ -28,7 +28,7 @@ class Points
         $session = $this->session;
 
         $day=date('Ymd');
-        // session life 
+        // session life
         $key_alive = $this->keys['alive'];
         $duration_alive = $this->duration; /* todo: add to config */
         $is_alive = false ;
@@ -58,26 +58,28 @@ class Points
         return $confirmPoints;
     }
 
-    public function reset() {
+    public function reset()
+    {
         $session = $this->session;
         $session->set($this->keys['alive'], time());
         $session->remove( $this->keys['confirmming']);
         return $this;
     }
 
-    public function setLogger(LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
         return $this;
     }
 
-    public function setSession( $session){
+    public function setSession($session)
+    {
         $this->session = $session;
         return $this;
     }
-    public function setEntityManager( EntityManager $em){
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em = $em;
         return $this;
     }
 }
-
-

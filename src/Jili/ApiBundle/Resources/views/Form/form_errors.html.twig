@@ -1,0 +1,10 @@
+{# form_errors.html.twig #}
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+              <font color="red">{{ error.message  }}</font>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}

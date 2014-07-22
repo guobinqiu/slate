@@ -11,18 +11,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\setPasswordCode;
+use Jili\ApiBundle\Entity\SetPasswordCode;
 
 /**
  * @Route("/api/91wenwen")
  */
-class WenwenController extends Controller {
-
-	/**
+class WenwenController extends Controller
+{
+    /**
 	 * @Route("/register", name="_api_91wenwen_register");
 	 * @Method({"POST"});
 	 */
-	public function registerAction() {
+    public function registerAction()
+    {
         if ( isset($_SERVER['REMOTE_ADDR'] ) && !($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip')
             || $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip')
             || $_SERVER['REMOTE_ADDR'] == '127.0.0.1'

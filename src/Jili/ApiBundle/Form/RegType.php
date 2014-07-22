@@ -12,8 +12,8 @@ class RegType extends AbstractType
         $builder->add('attachment','file',array('required'=>false, 'error_bubbling'=>true));
 
     }
-    
-#   public function getDefaultOptions(array $options){
+
+#   public function getDefaultOptions(array $options) {
 #       return array(
 #          'data_class' => 'Jili\ApiBundle\Entity\User',
 #          'csrf_protection' => true,

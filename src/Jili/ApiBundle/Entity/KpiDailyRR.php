@@ -9,7 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="kpi_daily_RR")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\KpiDailyRR")
  */
-class KpiDailyRR {
+class KpiDailyRR
+{
     /**
      * @var integer
      *
@@ -66,7 +67,8 @@ class KpiDailyRR {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -76,7 +78,8 @@ class KpiDailyRR {
      * @param string $kpiYMD
      * @return KpiDailyRR
      */
-    public function setKpiYMD($kpiYMD) {
+    public function setKpiYMD($kpiYMD)
+    {
         $this->kpiYMD = $kpiYMD;
 
         return $this;
@@ -87,7 +90,8 @@ class KpiDailyRR {
      *
      * @return string
      */
-    public function getKpiYMD() {
+    public function getKpiYMD()
+    {
         return $this->kpiYMD;
     }
 
@@ -97,7 +101,8 @@ class KpiDailyRR {
      * @param string $registerYMD
      * @return KpiDailyRR
      */
-    public function setRegisterYMD($registerYMD) {
+    public function setRegisterYMD($registerYMD)
+    {
         $this->registerYMD = $registerYMD;
 
         return $this;
@@ -108,7 +113,8 @@ class KpiDailyRR {
      *
      * @return string
      */
-    public function getRegisterYMD() {
+    public function getRegisterYMD()
+    {
         return $this->registerYMD;
     }
 
@@ -118,7 +124,8 @@ class KpiDailyRR {
      * @param string $rrday
      * @return KpiDailyRR
      */
-    public function setRRday($rrday) {
+    public function setRRday($rrday)
+    {
         $this->rrday = $rrday;
 
         return $this;
@@ -129,7 +136,8 @@ class KpiDailyRR {
      *
      * @return string
      */
-    public function getRRday() {
+    public function getRRday()
+    {
         return $this->rrday;
     }
 
@@ -139,7 +147,8 @@ class KpiDailyRR {
      * @param string $registerUser
      * @return KpiDailyRR
      */
-    public function setRegisterUser($registerUser) {
+    public function setRegisterUser($registerUser)
+    {
         $this->registerUser = $registerUser;
 
         return $this;
@@ -150,7 +159,8 @@ class KpiDailyRR {
      *
      * @return string
      */
-    public function getRegisterUser() {
+    public function getRegisterUser()
+    {
         return $this->registerUser;
     }
 
@@ -160,7 +170,8 @@ class KpiDailyRR {
      * @param string $activeUser
      * @return KpiDailyRR
      */
-    public function setActiveUser($activeUser) {
+    public function setActiveUser($activeUser)
+    {
         $this->activeUser = $activeUser;
 
         return $this;
@@ -171,7 +182,8 @@ class KpiDailyRR {
      *
      * @return string
      */
-    public function getActiveUser() {
+    public function getActiveUser()
+    {
         return $this->activeUser;
     }
 
@@ -181,7 +193,8 @@ class KpiDailyRR {
      * @param string $rr
      * @return KpiDailyRR
      */
-    public function setRR($rr) {
+    public function setRR($rr)
+    {
         $this->rr = $rr;
 
         return $this;
@@ -192,7 +205,8 @@ class KpiDailyRR {
      *
      * @return string
      */
-    public function getRR() {
+    public function getRR()
+    {
         return $this->rr;
     }
 }

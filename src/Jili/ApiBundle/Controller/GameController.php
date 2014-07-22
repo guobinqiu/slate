@@ -13,11 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class GameController extends Controller
 {
-    
+
     /**
      * @Route("/index", name="_game_chick")
      */
-    //public function indexAction(){  
+    //public function indexAction() {
 //        //return $this->render('JiliApiBundle:Game:chick.html.twig');
 //		return $this->redirect($this->generateUrl('_game_chick'));
 //    }
@@ -25,7 +25,8 @@ class GameController extends Controller
     /**
      * @Route("/chick", name="_game_chick")
      */
-    public function chickAction(){
+    public function chickAction()
+    {
         // return $this->render('JiliApiBundle:Game:server.html.twig');
         $code = '';
         $arr['heightFlag'] = '';
@@ -37,7 +38,7 @@ class GameController extends Controller
         $uid = '';
         $uid = $this->get('request')->getSession()->get('uid');
         if(!$uid){
-		   $this->getRequest()->getSession()->set('referer', $this->generateUrl('_game_chick') );
+           $this->getRequest()->getSession()->set('referer', $this->generateUrl('_game_chick') );
            return $this->redirect($this->generateUrl('_user_login'));
         }
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
@@ -52,17 +53,19 @@ class GameController extends Controller
         return $this->render('JiliApiBundle:Game:chick.html.twig',$arr);
     }
 
-      
-    private function checkMobile(){
-        $agent = strtolower($_SERVER['HTTP_USER_AGENT']);   
+
+    private function checkMobile()
+    {
+        $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
         $is_iphone = (strpos($agent, 'iphone')) ? true : false;
-        $is_ipad = (strpos($agent, 'ipad')) ? true : false;   
-        $is_android = (strpos($agent, 'android')) ? true : false; 
+        $is_ipad = (strpos($agent, 'ipad')) ? true : false;
+        $is_android = (strpos($agent, 'android')) ? true : false;
         if($is_iphone || $is_ipad || $is_android)
             return 'noaceess';
     }
 
-    public function getInfo($url){
+    public function getInfo($url)
+    {
         $contents = file_get_contents($url,'r');//得到文件的内容赋给字符串的变量
         $str = strstr($contents,"今日游戏数据已保存");
         if($str){
@@ -89,7 +92,7 @@ class GameController extends Controller
         // curl_close($curl);
 
         // // 显示获得的数据
-        // return $data; 
+        // return $data;
     }
-    
+
 }

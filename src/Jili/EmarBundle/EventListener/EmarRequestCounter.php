@@ -20,10 +20,10 @@ class EmarRequestCounter
 
     /**
      * @param: $tag time tag 'YmdHi'
-     * @param: $curl_info 
+     * @param: $curl_info
      **/
-    public function increase( $tag , $curl_info =array()) {
-
+    public function increase( $tag , $curl_info =array())
+    {
         if( $this->mode === 0 ) {
             return false;
         }
@@ -66,7 +66,7 @@ class EmarRequestCounter
             }
             $row->setSizeUp($size_up);
             $row->setSizeDown($size_down);
-            
+
 
             $em->persist($row);
         } else {
@@ -83,15 +83,15 @@ class EmarRequestCounter
             }
         }
         $em->flush();
-    } 
+    }
 
-#    public function start(){
+#    public function start() {
 #        if( $this->mode === 0 ) {
 #            return false;
 #        }
 #        $this->starttime = $this->getMicrtime();
 #    }
-#    public function complete(){
+#    public function complete() {
 #
 #        if( $this->mode === 0 ) {
 #            return false;
@@ -99,24 +99,27 @@ class EmarRequestCounter
 #        $this->endtime = $this->getMicrtime();
 #    }
 #
-#    private function getMicrtime(){
-#        $mtime = microtime(); 
-#        $mtime = explode(" ",$mtime); 
-#        return  $mtime[1] + $mtime[0]; 
+#    private function getMicrtime() {
+#        $mtime = microtime();
+#        $mtime = explode(" ",$mtime);
+#        return  $mtime[1] + $mtime[0];
 #    }
 
-    public function setEntityManager(  EntityManager $em) {
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em= $em;
     }
 
-    public function setLogger(  LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 
     /**
      * @param: $mode 表示是否打开计数功能： 0表示关闭， 1或其它数字表示打开。
      **/
-    public function setMode( $mode) {
+    public function setMode($mode)
+    {
         if( is_numeric($mode)  ) {
             $this->mode = $mode ;
         } else {
@@ -124,9 +127,9 @@ class EmarRequestCounter
         }
     }
 
-    public function getMode() {
+    public function getMode()
+    {
         return $this->mode;
     }
 
 }
-

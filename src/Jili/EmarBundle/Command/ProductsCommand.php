@@ -14,7 +14,7 @@ use Jili\EmarBundle\Entity\EmarProductsCroned;
 use Jili\EmarBundle\Api2\Utils\PerRestrict;
 
 
-class ProductsCommand extends ContainerAwareCommand 
+class ProductsCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -67,7 +67,7 @@ class ProductsCommand extends ContainerAwareCommand
                InputOption::VALUE_NONE,
                'remove rows 1 day created 1 day ago'
             );
-        
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -112,7 +112,7 @@ class ProductsCommand extends ContainerAwareCommand
             $output->writeln('total:  '. $loop_counter  . ' = '. count($cats_mixed) .  '*'. count($websites).'( pagination excluded)' );
 
 
-            
+
             foreach( $cats_mixed as $key =>  $cat  ) {
                 $catid = $key;
                 foreach($websites as $web ) {
@@ -143,10 +143,10 @@ class ProductsCommand extends ContainerAwareCommand
                                 $str .= ', '.$total.' restricted.'.PHP_EOL;
                                 if( $total > $page_size) {
                                     $last = (int) ceil( $total / $page_size );
-                                }  
+                                }
 
 
-                                $log = sprintf("cname:%s(%s) ;wname:%s (%s) total: %d , last: %d", $cat , $key , $web['web_name'], $web['web_id'] , $total, $last ); 
+                                $log = sprintf("cname:%s(%s) ;wname:%s (%s) total: %d , last: %d", $cat , $key , $web['web_name'], $web['web_id'] , $total, $last );
 
                                 $output->writeln(' @'.date("Y-m-d H:i:s").' $i:'. $i. ' '. $page_no . PHP_EOL.$str.PHP_EOL );
                                 $request_counter += $last;
@@ -154,7 +154,7 @@ class ProductsCommand extends ContainerAwareCommand
                                 break;
                             }
 
-                        } while( $page_no < $last ); 
+                        } while( $page_no < $last );
 
                     } catch( \Exception $e)  {
                         $output->writeln('current:'.$i. ' , page '.$page_no.' request!');
@@ -166,7 +166,7 @@ class ProductsCommand extends ContainerAwareCommand
 
             $output->writeln($i. ' pair to request!');
 
-        } else if ($input->getOption('update-all')) {
+        } elseif ($input->getOption('update-all')) {
 
             $em  = $this->getContainer()->get('doctrine')->getManager( );
             $websites = $this->getContainer()->get('website.list_get')->fetch();
@@ -217,7 +217,7 @@ class ProductsCommand extends ContainerAwareCommand
                             $this->getContainer()->get('cron.products')->save($products);
                             #if(0 < count($products)) {
                             #    $output->writeln('demo , line:'. __LINE__ );
-                            #    break 3; 
+                            #    break 3;
                             #}
 
                             if( $page_no == 1 ) {
@@ -227,7 +227,7 @@ class ProductsCommand extends ContainerAwareCommand
                                     $last = (int) ceil( $total / $page_size );
                                 }
                             }
-                        } while( $page_no < $last ); 
+                        } while( $page_no < $last );
 
                     } catch( \Exception $e)  {
                         $output->writeln('current:'.$i. ' , page '.$page_no.' request!');
@@ -248,10 +248,10 @@ class ProductsCommand extends ContainerAwareCommand
 
             // get category $i
             // get websites.list $j
-            //  loop the category 
+            //  loop the category
 
 
-        } else if ($input->getOption('update')) {
+        } elseif ($input->getOption('update')) {
 
 
             $em  = $this->getContainer()->get('doctrine')->getManager( );
@@ -265,7 +265,7 @@ class ProductsCommand extends ContainerAwareCommand
 
             $this->getContainer()->get('cron.products')->save($products);
 
-        } else if ($input->getOption('remove')) {
+        } elseif ($input->getOption('remove')) {
             $numDeleted = $this->getContainer()->get('cron.products')->truncate();
             $output->writeln($numDeleted. ' lines deleted!');
             // user input.

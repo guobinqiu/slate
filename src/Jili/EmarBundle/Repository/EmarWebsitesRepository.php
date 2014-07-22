@@ -13,7 +13,8 @@ class EmarWebsitesRepository extends EntityRepository
      * todo: statics by user clicked.
      * @param: array( limit => , )
      */
-    public function getHot($params = array() ) {
+    public function getHot($params = array() )
+    {
         extract($params);
         $qb  = $this->createQueryBuilder('ew');
 
@@ -43,7 +44,8 @@ class EmarWebsitesRepository extends EntityRepository
     /**
      * @param $params array(wids=>)
      */
-    public function getSortedByParams($params){
+    public function getSortedByParams($params)
+    {
         extract($params);
         $qb  = $this->createQueryBuilder('ew');
         $qb->where($qb->expr()->eq('ew.isDeleted', 'false'));

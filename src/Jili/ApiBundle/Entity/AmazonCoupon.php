@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AmazonCoupon
 {
-	
-	 /**
+
+     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
@@ -47,13 +47,13 @@ class AmazonCoupon
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
      * Set userid
      *
@@ -63,14 +63,14 @@ class AmazonCoupon
     public function setUserid($userid)
     {
         $this->userid = $userid;
-    
+
         return $this;
     }
 
     /**
      * Get userid
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserid()
     {
@@ -86,14 +86,14 @@ class AmazonCoupon
     public function setCouponOd($couponOd)
     {
         $this->couponOd = $couponOd;
-    
+
         return $this;
     }
 
     /**
      * Get couponOd
      *
-     * @return string 
+     * @return string
      */
     public function getCouponOd()
     {
@@ -109,18 +109,18 @@ class AmazonCoupon
     public function setCouponElec($couponElec)
     {
         $this->couponElec = $couponElec;
-    
+
         return $this;
     }
 
     /**
      * Get couponElec
      *
-     * @return string 
+     * @return string
      */
     public function getCouponElec()
     {
         return $this->couponElec;
     }
-    
+
 }

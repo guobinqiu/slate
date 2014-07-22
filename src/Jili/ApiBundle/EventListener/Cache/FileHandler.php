@@ -8,13 +8,13 @@ use Symfony\Component\Finder\Finder\SplFileInfo;
 /**
  * Store the api fetched data into cache data
  **/
-class FileHandler 
+class FileHandler
 {
-    
+
     private $logger ;
     protected $data_path;
 
-    function __construct($data_path)
+    public function __construct($data_path)
     {
         $this->data_path = $data_path;
     }
@@ -22,7 +22,7 @@ class FileHandler
     /**
      * check the file attribute with validate duration config
      */
-    public function isValid( $key, $duration = 3600 )
+    public function isValid($key, $duration = 3600)
     {
 
         $result = true;
@@ -58,7 +58,7 @@ class FileHandler
     {
         if(  empty($value)) {
             return false;
-        } 
+        }
 
         // save the $value,into $key, overwrite.
         $cached = $this->getFileName($key);
@@ -100,12 +100,13 @@ class FileHandler
         return $prod_categories;
     }
 
-    public function setLogger(LoggerInterface $logger ) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger  = $logger;
     }
 
-    private  function getFileName($key) {
+    private function getFileName($key)
+    {
         return  $this->data_path . '/'. $key. '.cached';
     }
 }
-

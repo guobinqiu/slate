@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class IdentityConfirmRepository extends EntityRepository
 {
-	public function issetIndentity($identityCard,$userId)
+    public function issetIndentity($identityCard,$userId)
     {
         $query = $this->createQueryBuilder('ic');
         $query = $query->select('ic.id,ic.userId');
@@ -17,9 +17,9 @@ class IdentityConfirmRepository extends EntityRepository
         $query =  $query->getQuery();
         return $query->getResult();
     }
-      
 
-	
 
-	
+
+
+
 }

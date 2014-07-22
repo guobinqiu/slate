@@ -27,7 +27,7 @@ class WenwenUser
      * @ORM\Column(name="email", type="string", length=250)
      */
     private $email;
-    
+
     /**
      * @var string
      *
@@ -40,7 +40,7 @@ class WenwenUser
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -56,20 +56,20 @@ class WenwenUser
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
         return $this->email;
     }
-    
+
     /**
      * Set token
      *
@@ -78,11 +78,11 @@ class WenwenUser
      */
     public function setToken($token)
     {
-    	$this->token = $token;
-    
-    	return $this;
+        $this->token = $token;
+
+        return $this;
     }
-    
+
     /**
      * Get token
      *
@@ -90,6 +90,6 @@ class WenwenUser
      */
     public function getToken()
     {
-    	return $this->token;
+        return $this->token;
     }
 }

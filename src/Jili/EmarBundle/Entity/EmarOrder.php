@@ -116,7 +116,7 @@ class EmarOrder
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -139,7 +139,7 @@ class EmarOrder
     /**
      * Get adId
      *
-     * @return integer 
+     * @return integer
      */
     public function getAdId()
     {
@@ -162,7 +162,7 @@ class EmarOrder
     /**
      * Get adType
      *
-     * @return string 
+     * @return string
      */
     public function getAdType()
     {
@@ -185,7 +185,7 @@ class EmarOrder
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -208,7 +208,7 @@ class EmarOrder
     /**
      * Get returnedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getReturnedAt()
     {
@@ -231,7 +231,7 @@ class EmarOrder
     /**
      * Get confirmedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getConfirmedAt()
     {
@@ -254,7 +254,7 @@ class EmarOrder
     /**
      * Get happenedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getHappenedAt()
     {
@@ -277,7 +277,7 @@ class EmarOrder
     /**
      * Get comm
      *
-     * @return float 
+     * @return float
      */
     public function getComm()
     {
@@ -300,7 +300,7 @@ class EmarOrder
     /**
      * Get ocd
      *
-     * @return string 
+     * @return string
      */
     public function getOcd()
     {
@@ -323,7 +323,7 @@ class EmarOrder
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -346,7 +346,7 @@ class EmarOrder
     /**
      * Get deleteFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getDeleteFlag()
     {
@@ -356,7 +356,7 @@ class EmarOrder
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

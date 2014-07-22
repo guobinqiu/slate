@@ -32,7 +32,7 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
 
         $f = $this->createFormBuilder( array( 'point'=> 7, 'at'=> new \Datetime('now')) )
             ->add('point', 'integer')
-            ->add('at', 'datetime' , array('input'=> 'datetime' ) )     
+            ->add('at', 'datetime' , array('input'=> 'datetime' ) )
             ->getForm();
 
         $data_return = array();
@@ -42,7 +42,7 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
             $at =  $form_data['at'] ;
 
             $data_return['point_caculated'] = $this->get('rebate_point.caculator')->calcPointByCategory($form_data['point'],
-                $this->container->getParameter('offerwow_com.category_type'), 
+                $this->container->getParameter('offerwow_com.category_type'),
                 $at );
 
         } else {
@@ -54,19 +54,20 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
         if( $rebate && ! is_null($rebate['id']) ) {
             $data_return['rebate_notice'] = 'max rabate rate is <a href="'.$this->generateUrl('rebate_activity_admin_edit', array('id'=>$rebate['id'] ) ) .'">'.$rebate[1].'</a> at ' .  $at->format( 'Y-m-d H:i:s') ;
         } else {
-            $data_return['rebate_notice']='There is no rabate now. <a href="'.$this->generateUrl( 'rebate_activity_admin_new')  .'">add one </a> at '. $at->format( 'Y-m-d H:i:s'); 
+            $data_return['rebate_notice']='There is no rabate now. <a href="'.$this->generateUrl( 'rebate_activity_admin_new')  .'">add one </a> at '. $at->format( 'Y-m-d H:i:s');
         }
 
         $data_return['form'] = $f->createView();
         return $data_return;
     }
-    
+
     /**
      * @Route("/list", name="rebate_activity_admin_retrieve")
      * @Template
      * @abstract
      */
-    public function retrieveAction(){
+    public function retrieveAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $activities= $em->getRepository('JiliApiBundle:AdActivity')
             ->findActivities();
@@ -78,7 +79,8 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
      * @Route("/new", name="rebate_activity_admin_new")
      * @Template
      */
-    public function createAction(){
+    public function createAction()
+    {
         $request = $this->get('request');
         $logger = $this->get('logger');
         $form =  $this->createForm(new AdActivityType(), new AdActivity() );
@@ -100,15 +102,16 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
      * @Route("/edit/{id}", name="rebate_activity_admin_edit")
      * @Template
      */
-    public function editAction($id){
+    public function editAction($id)
+    {
         $request = $this->get('request');
         $logger = $this->get('logger');
 
-        if($request->isMethod('POST')) { 
+        if($request->isMethod('POST')) {
             $form =  $this->createForm(new AdActivityType());
             $form->bind($request);
             if ($form->isValid()) {
-                $post = $form->getData(); 
+                $post = $form->getData();
                 $em = $this->getDoctrine()->getManager();
                 $activity = $em->getRepository('JiliApiBundle:AdActivity')->findOneById( $post->getId() );
                 $activity->setStartedAt($post->getStartedAt() );
@@ -132,7 +135,8 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
      * @Method({"POST","GET"});
      * @Template
      */
-    public function removeAction($id) {
+    public function removeAction($id)
+    {
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('JiliBackendBundle:RebateActivity:removeForm.html.twig', array('delete_form'=>$deleteForm->createView() ));
     }
@@ -142,7 +146,8 @@ class RebateActivityController extends Controller  implements  IpAuthenticatedCo
      * @Method({"POST"});
      * @Template
      */
-    public function updateAction($id){
+    public function updateAction($id)
+    {
         $request = $this->get('request');
         if($request->getMethod() == 'POST') {
             $id = $request->request->get('id',1);

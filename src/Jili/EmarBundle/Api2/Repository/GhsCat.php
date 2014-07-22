@@ -1,11 +1,13 @@
 <?php
 namespace Jili\EmarBundle\Api2\Repository;
 
-class GhsCat {
+class GhsCat
+{
   /**
-   * @return: 返回数组，array( id=> name) 
+   * @return: 返回数组，array( id=> name)
    */
-  public static function parse( array $rows ) {
+  public static function parse(array $rows)
+  {
     $mapings = array();
     foreach($rows as $row) {
       if(isset($row['ghs_catid']) && isset($row['ghs_cname'])  ) {

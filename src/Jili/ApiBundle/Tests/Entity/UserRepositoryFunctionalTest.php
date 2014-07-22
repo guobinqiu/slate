@@ -2,8 +2,8 @@
 namespace Jili\ApiBundle\Tests\Entity;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UserRepositoryFunctionalTest extends WebTestCase {
-
+class UserRepositoryFunctionalTest extends WebTestCase
+{
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -12,7 +12,8 @@ class UserRepositoryFunctionalTest extends WebTestCase {
     /**
      * {@inheritDoc}
      */
-    public function setUp() {
+    public function setUp()
+    {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
@@ -22,12 +23,14 @@ class UserRepositoryFunctionalTest extends WebTestCase {
     /**
      * {@inheritDoc}
      */
-    protected function tearDown() {
+    protected function tearDown()
+    {
         parent :: tearDown();
         $this->em->close();
     }
 
-    public function testGetUserCPAPointsByTime() {
+    public function testGetUserCPAPointsByTime()
+    {
         $start = "2014-07-01 00:00:00";
         $end = "2014-07-31 23:59:59";
         $user_id = 1173775;
@@ -35,7 +38,8 @@ class UserRepositoryFunctionalTest extends WebTestCase {
         $this->assertEquals(1000, $myInfo[0]['points']);
     }
 
-    public function testGetTotalCPAPointsByTime() {
+    public function testGetTotalCPAPointsByTime()
+    {
         $start = "2014-07-01 00:00:00";
         $end = "2014-07-31 23:59:59";
 

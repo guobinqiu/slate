@@ -10,9 +10,9 @@ use Jili\ApiBundle\Entity\OfferwowOrder,
 
 
 /**
- * 
+ *
  **/
-class OfferWowRequestValidation
+class OfferwowRequestValidation
 {
     private $logger;
     private $em;
@@ -35,10 +35,10 @@ class OfferWowRequestValidation
 //        memberid  true  您的网站用户的唯一编号，与“步骤3”memberid的对应
 //        point true 奖励用户的虚拟货币数量
 //        eventid true 回传数据的唯一流水号，合作客户需要记录并且验证唯一性，主要用于结算和对账
-//        websiteid true 网站ID 
+//        websiteid true 网站ID
 //        immediate true 0：非即时返利活动,处于待审核状态；
         //0.
-        
+
             //1.
             foreach( array( 'memberid', 'point', 'eventid', 'websiteid', 'immediate') as $field) {
                 if( '' ===  (string) $request->query->get($field, '') ) {
@@ -52,12 +52,12 @@ class OfferWowRequestValidation
         // sign auth:  sign=md5(memberId+point+eventId+websiteId+immediate+key)
         if( '' !==  (string) $request->query->get('sign', '') ) {
 
-            $hash = array( 
-                $request->query->get('memberid'), 
-                $request->query->get('point'), 
-                $request->query->get('eventid'), 
-                $request->query->get('websiteid'), 
-                $request->query->get('immediate'), 
+            $hash = array(
+                $request->query->get('memberid'),
+                $request->query->get('point'),
+                $request->query->get('eventid'),
+                $request->query->get('websiteid'),
+                $request->query->get('immediate'),
                 $config['key']);
 
             if( strtoupper(md5(implode($hash) )) !==  $request->query->get('sign') ) {
@@ -88,7 +88,7 @@ class OfferWowRequestValidation
             return $ret;
         }
 
-        
+
         // 3 offerwow-03 uid会员不存在
         $is_valid_uid= false;
         $uid =  (int) $request->query->get('memberid');
@@ -98,7 +98,7 @@ class OfferWowRequestValidation
                 $is_valid_uid = true;
             }
         }
-         
+
 
         if(false === $is_valid_uid) {
             $ret [0] = false;
@@ -127,7 +127,7 @@ class OfferWowRequestValidation
                 return $ret;
             }
 
-            $immeidate_request = (int ) $request->query->get('immediate'); 
+            $immeidate_request = (int ) $request->query->get('immediate');
 
             if( $immeidate_request === 1 ) {
                 $ret [0] = false;
@@ -136,7 +136,7 @@ class OfferWowRequestValidation
                 return $ret;
             }
 
-        } 
+        }
 
 // 5 offerwow-05 immediate=0
 
@@ -146,4 +146,3 @@ class OfferWowRequestValidation
         return $ret;
     }
 }
-

@@ -48,7 +48,7 @@ class TaskHistory02
      * @ORM\Column(name="category_type", type="integer")
      */
     private $categoryType;
-    
+
     /**
      * @var string
      *
@@ -95,7 +95,7 @@ class TaskHistory02
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -112,10 +112,10 @@ class TaskHistory02
     public function setOrderId($orderId)
     {
         $this->orderId = $orderId;
-    
+
         return $this;
     }
-    
+
     /**
      * Get orderId
      *
@@ -135,10 +135,10 @@ class TaskHistory02
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
-    
+
     /**
      * Get userId
      *
@@ -158,11 +158,11 @@ class TaskHistory02
      */
     public function setTaskType($taskType)
     {
-    	$this->taskType = $taskType;
-    
-    	return $this;
+        $this->taskType = $taskType;
+
+        return $this;
     }
-    
+
     /**
      * Get taskType
      *
@@ -170,9 +170,9 @@ class TaskHistory02
      */
     public function getTaskType()
     {
-    	return $this->taskType;
+        return $this->taskType;
     }
-        
+
 
      /**
      * Set categoryType
@@ -183,10 +183,10 @@ class TaskHistory02
     public function setCategoryType($categoryType)
     {
         $this->categoryType = $categoryType;
-    
+
         return $this;
     }
-    
+
     /**
      * Get categoryType
      *
@@ -196,7 +196,7 @@ class TaskHistory02
     {
         return $this->categoryType;
     }
-    
+
     /**
      * Set taskName
      *
@@ -205,11 +205,11 @@ class TaskHistory02
      */
     public function setTaskName($taskName)
     {
-    	$this->taskName = $taskName;
-    
-    	return $this;
+        $this->taskName = $taskName;
+
+        return $this;
     }
-    
+
     /**
      * Get taskName
      *
@@ -217,7 +217,7 @@ class TaskHistory02
      */
     public function getTaskName()
     {
-    	return $this->taskName;
+        return $this->taskName;
     }
 
     /**
@@ -229,10 +229,10 @@ class TaskHistory02
     public function setRewardPercent($rewardPercent)
     {
         $this->rewardPercent = $rewardPercent;
-    
+
         return $this;
     }
-    
+
     /**
      * Get rewardPercent
      *
@@ -252,10 +252,10 @@ class TaskHistory02
     public function setPoint($point)
     {
         $this->point = $point;
-    
+
         return $this;
     }
-    
+
     /**
      * Get point
      *
@@ -275,10 +275,10 @@ class TaskHistory02
     public function setOcdCreatedDate($ocdCreatedDate)
     {
         $this->ocdCreatedDate = $ocdCreatedDate;
-    
+
         return $this;
     }
-    
+
     /**
      * Get ocdCreatedDate
      *
@@ -300,10 +300,10 @@ class TaskHistory02
     public function setDate($date)
     {
         $this->date = $date;
-    
+
         return $this;
     }
-    
+
     /**
      * Get date
      *
@@ -323,10 +323,10 @@ class TaskHistory02
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
-    
+
     /**
      * Get status
      *
@@ -336,10 +336,10 @@ class TaskHistory02
     {
         return $this->status;
     }
-    
 
-    
-    
-    
-    
+
+
+
+
+
 }
