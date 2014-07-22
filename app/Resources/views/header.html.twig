@@ -74,7 +74,7 @@ $(document).ready(function(){
       <div id="logo"><a href="{{ path('_homepage') }}"><img src="{{ asset('images140307/logo.png') }}" width="160" height="46" alt="积粒网" /></a></div>
       <div id="search">
       {% block search_box %}
-          {{ render(controller('JiliEmarBundle:Search:form')) }}
+      {{ render(controller('JiliEmarBundle:Search:form', {'rt' : 1 } )) }}
       {% endblock %}
       </div>
       <div class="otherInlet"><a class="help curPt" href="{{ path('_default_support') }}">帮助中心</a></div>
