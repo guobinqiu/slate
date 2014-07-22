@@ -18,37 +18,32 @@ class SignupActivateHandler
     private $session;
 
     private $form;
+    private $params;
 
     public function setForm(FormInterface $form)
     {
         $this->form = $form;
         return $this;
     }
+    public function setParams($params ) 
+    {
+        $this->params = $params;
+        return $this;
+    }
     /**
      */
-    public function process($params)
+    public function process()
     {
-        extract($params);
+        extract($this->params);
 
         $form = $this->form;
         $logger = $this->logger;
-
-        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ). var_export( $params, true) );
-#        $cn = get_class($form);
-#        $cm = get_class_methods($cn);
-#        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ). var_export( $cm, true) );
-#        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ). var_export( $cn, true) );
-
         $data = $form->getData();
-        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ). var_export( $data, true) );
         if($data['agreement']) {
                 $this->login_listener->checkNewbie($user);
                 $user->setPwd($data['password']);
                 $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-
                 $user->setLastLoginIp($this->container->get('request')->getClientIp());
-
-                $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ). var_export( $passwordToken, true) );
                 $passwordToken->setIsAvailable($this->getParameter('init'));
 
                 $em=$this->em;

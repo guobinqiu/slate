@@ -1618,7 +1618,7 @@ class UserController extends Controller
             $form->bind($request);
             if ($form->isValid()) {
                 // the validation passed, do something with the $author object
-                $this->get('signup_activate.form_handler')->setForm($form)->process( array( 'user'=>$user, 'passwordToken'=>  $passwordToken ) );
+                $this->get('signup_activate.form_handler')->setForm($form)->setParams(array( 'user'=>$user, 'passwordToken'=>  $passwordToken ) )->process( );
                 // set sucessful message flash
                 $this->get('session')->getFlashBag()->add(
                     'notice',
