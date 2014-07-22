@@ -21,7 +21,7 @@
   <div class="box">
     <div class="img"> <a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName }}"/></a> </div>
     <div class="info">
-      <h4 class="font18 fontYH lh32"><a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><span class="corGlobRed">{{ item.title }}</span>{{ item.businessName}}</a></h4>
+      <h4 class="font16 fontYH lh28"><a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><strong class="corGlobRed">{{ item.title }}</strong>{{ item.businessName}}</a></h4>
       <div class="btns"> <a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank" class="btn btn-warning">去看看<span></span></a> </div>
     </div>
   </div>

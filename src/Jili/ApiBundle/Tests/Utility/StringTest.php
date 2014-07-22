@@ -58,6 +58,5 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $b['uid']);
         $this->assertArrayHasKey('adid', $b);
         $this->assertEquals(0, $b['adid']);
-
     }
 }

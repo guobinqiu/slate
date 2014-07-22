@@ -615,7 +615,7 @@
 #marketActivity .con .box .img {float: left;width: 393px;margin-right: 15px;}
 #marketActivity .con .box .img a img{ width:393px; height:167px;}
 #marketActivity .con .box .info {float: left;width: 198px;height: 167px;border-bottom:1px solid #edeef0;position:relative;}
-#marketActivity .con .box .info h4{ height:65px; overflow:hidden;}
+#marketActivity .con .box .info h4{ height:86px; overflow:hidden;}
 #marketActivity .con .box .info .btns {position: absolute;right: 0;bottom:25px;}
 #marketActivity .con .box .info .btns a{ color:#fff; padding:10px 20px; background:#3598db; display: block;}
 #marketActivity .con .box .info .btns a span{width:10px; height:10px; background:url(../images140307/iconImage2.png) no-repeat; background-position:0 -530px; display: inline-block; margin-left: 7px;}

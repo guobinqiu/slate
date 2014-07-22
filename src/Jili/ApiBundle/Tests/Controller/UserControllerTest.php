@@ -3,6 +3,7 @@
 namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jili\ApiBundle\Controller\UserController;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -369,5 +370,23 @@ class UserControllerTest extends WebTestCase
 
         //  check session messages
         $this->assertEquals('恭喜，密码设置成功！', $crawler->filter('h2')->text());
+
+    }
+    /**
+     * @group user_reg
+     */
+    public function testReSend()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $client->request('GET', '/user/reset', array (
+                'id'=>"1057699",
+                'code'=>'testcode100',
+                'nick'=>'',
+                'email'=>'zhangmm@voyagegroup.com.cn'
+        ));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals('1', $client->getResponse()->getContent());
     }
 }
