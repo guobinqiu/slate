@@ -21,6 +21,8 @@ parameters:
     check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
 
     point_manage.processor.class:  Jili\ApiBundle\EventListener\PointManageProcessor
+
+    send_mail.class:  Jili\ApiBundle\Service\SendMail
 # session 
     session.task_list.class: Jili\ApiBundle\EventListener\Session\TaskList
     session.my_task_list.class: Jili\ApiBundle\EventListener\Session\MyTaskList
@@ -141,3 +143,9 @@ services:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
             - [ setSession, [ @session ] ] 
 
+    send_mail:
+        class: %send_mail.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+        calls:
+            - [setContainer, ["@service_container"] ]
+            - [setSoapMail, ["@soap.mail.listener"] ]
