@@ -267,7 +267,7 @@ class AdminController extends Controller
     }
 
 
-    private function updateTaskHistory($parms=array())
+    public function updateTaskHistory($parms=array())
     {
       extract($parms);
       $em = $this->getDoctrine()->getManager();
@@ -3060,7 +3060,7 @@ class AdminController extends Controller
       $em->flush();
     }
 
-    private function updateSendMs($parms=array())
+    public function updateSendMs($parms=array())
     {
       extract($parms);
       $em = $this->getDoctrine()->getManager();
@@ -3081,10 +3081,10 @@ class AdminController extends Controller
     }
 
 
-    private function selectSendMs($id)
+    public function selectSendMs($id)
     {
       $em = $this->getDoctrine()->getManager();
-      $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ( $id % 10));
+      $sm = $em->getRepository('JiliApiBundle:SendMessage0'.$id);
       $showMs = $sm->getSendMs();
       return $showMs;
 
