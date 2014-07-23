@@ -100,8 +100,8 @@ class AdminControllerTest extends WebTestCase {
         $controller->setContainer($container);
 
         $params = array(
-                      'sendid'=> 8,
-                      'userid' => 1057704,
+                      'sendid'=> 1,
+                      'userid' => 1057705,
                       'title' => "test title",
                       'content' => "test content"
                     );
@@ -132,9 +132,9 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $userid = 1057704;
-        $return = $controller->selectSendMs($userid);
-        $this->assertEquals(7, count($return));
+        $id = 5;
+        $return = $controller->selectSendMs($id);
+        $this->assertEquals(3, count($return));
     }
 
     /**
