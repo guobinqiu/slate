@@ -5,7 +5,7 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ActivityCategory
+ * UserSignUpRoute
  *
  * @ORM\Table(name="user_sign_up_route", indexes={ @ORM\Index(name="ind_user_sign_up_route_user_id1_source_route1", columns={"user_id", "source_route" })})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserSignUpRouteRepository")
@@ -44,7 +44,7 @@ class UserSignUpRoute
     private $createdAt; 
 
     public function __construct() {
-        $this->createTime = new \DateTime();
+        $this->createdAt = new \DateTime();
     }
 
 

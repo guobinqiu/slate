@@ -4,7 +4,8 @@ namespace Jili\ApiBundle\Services;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
-use Jili\ApiBundle\Services\Logger\UserSourceLogger;
+use Jili\ApiBundle\Entity\UserSignUpRoute;
+use Jili\ApiBundle\Entity\User;
 
 /**
  * 
@@ -40,7 +41,15 @@ class UserSignUpTracer
     {
         $logger = $this->logger;
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__) ) );
+
         // new a log table
+        $userSignUpRoute = new UserSignUpRoute();
+        $userSignUpRoute->setUserId($user->getId());
+        $userSignUpRoute->setSourceRoute($request->cookies->get('source_route'));
+        $em = $this->em;
+        $em->persist($userSignUpRoute);
+        $em->flush();
+        return $this;
     }
 
     public function setSession(  $session) {
@@ -53,7 +62,6 @@ class UserSignUpTracer
         return $this;
     }
 
-//    public function setUserSourceLogger(  UserSourceLogger $logger) {
     public function setUserSourceLogger(  LoggerInterface $logger) {
         $this->user_source_logger = $logger;
         return $this;

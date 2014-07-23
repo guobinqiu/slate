@@ -41,23 +41,20 @@ class UserSignUpTracerTest extends KernelTestCase
     }
 
     /**
-     * @group debug
-     * @group issue396  
+     * @group debug 
+     * @group issue_396  
      * @group signup_trace 
      */
     public function testLog() {
-
         $container  = static::$kernel->getContainer();
         $signUpTracer = $container->get('user_sign_up_route.listener') ;
 
         $logger  = $container->get('logger');
-        $request = new Request();
 
         // the ssession is for unique token id. 
         $session = $container->get('session');
         $session->set('id', '1234567890');
         $session->save();
-
 
         // how to set cookie in to 
         $cookies = new \Symfony\Component\HttpFoundation\ParameterBag();
@@ -65,6 +62,8 @@ class UserSignUpTracerTest extends KernelTestCase
         $time = time();
         $cookies->set('pv', hash( 'ripemd160','baidu_partnera'. $time));
         $cookies->set('pv_unique', hash('md5','baidu_partnera'. $time));
+
+        $request = new Request();
         $request->cookies = $cookies;
 
         $signUpTracer->log($request);
@@ -102,17 +101,17 @@ class UserSignUpTracerTest extends KernelTestCase
         $this->assertEquals( $cookies->get('pv')  ,$arr[5], 'check the content of log file');
         $this->assertEquals( $cookies->get('pv_unique')  ,$arr[6], 'check the content of log file');
 
-        // test with wild cookies for security
-
+        // todo: test with wild cookies value for security
     }
     /**
      * @group debug  
-     * @group issue396  
+     * @group issue_396  
      * @group signup_trace 
      */
     public function testSigned() {
-        $this->markTestIncomplete('This test has not been implemented yet.'); 
-        $container = $client->getContainer();
+        $container  = static::$kernel->getContainer();
+        $signUpTracer = $container->get('user_sign_up_route.listener') ;
+
         $em = $this->em;
         $logger= $container->get('logger');
 
@@ -122,7 +121,7 @@ class UserSignUpTracerTest extends KernelTestCase
         $executor->purge();
 
         // load fixtures
-        $fixture = new LoadUserSetPasswordCodeData();
+        $fixture = new LoadLandingTracerCodeData();
         $fixture->setContainer($container);
 
         $loader = new Loader();
@@ -130,8 +129,31 @@ class UserSignUpTracerTest extends KernelTestCase
 
         $executor->execute($loader->getFixtures());
 
-        $uid = LoadUserSetPasswordCodeData::$USER[0]->getId();
-        $code =  LoadUserSetPasswordCodeData::$SET_PASSWORD_CODE[0]->getCode();
-        $url = $container->get('router')->generate('_user_signup_activate', $query ) ;
+        $user = LoadLandingTracerCodeData::$USER[0];
+        // the ssession is for unique token id. 
+        $session = $container->get('session');
+        $session->set('id', '1234567890');
+        $session->save();
+
+        // how to set cookie in to 
+        $cookies = new \Symfony\Component\HttpFoundation\ParameterBag();
+        $cookies->set('source_route', 'baidu_partnera');
+        $time = time();
+        $cookies->set('pv', hash( 'ripemd160','baidu_partnera'. $time));
+        $cookies->set('pv_unique', hash('md5','baidu_partnera'. $time));
+
+        $request = new Request();
+        $request->cookies = $cookies;
+
+        $signUpTracer->signed($request, $user);
+
+        // order by id desc  
+        $records = $em->getRepository('JiliApiBundle:UserSignUpRoute')->findAll();
+
+        $this->assertCount( 1,$records, 'check the user_source_logger table');
+
+        $this->assertEquals( $user->getId() ,$records[0]->getUserId(), 'check the user_source_logger table');
+        $this->assertEquals( $cookies->get('source_route') ,$records[0]->getSourceRoute(), 'check the user_source_logger table');
+        //todo: ?
     }
 }

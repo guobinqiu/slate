@@ -272,7 +272,6 @@ class UserControllerTest extends WebTestCase
     /**
      * @group user-password
      * @group issue_381
-     * @group debug
      */
     public function testForgetPassAction()
     {

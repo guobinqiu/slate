@@ -12,7 +12,4 @@ class UserSourceLogger
         $this->logger = $logger;
     }
 
-    public function getLogger() {
-        return $this->logger;
-    }
 }

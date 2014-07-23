@@ -8,9 +8,5 @@ use Doctrine\ORM\EntityRepository;
 class UserSignUpRouteRepository extends EntityRepository
 {
     
-    function __construct()
-    {
-        
-    }
 }
 ?>

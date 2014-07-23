@@ -79,6 +79,41 @@ class DefaultControllerTest extends WebTestCase
     }
     /**
      * landingAction with not exists: wenwen code exists email
+     * @group debug
+     * @group issue_396  
+     * @group signup_trace 
+     */
+    public function testLandingWithSignUpTrace()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+        $logger= $container->get('logger');
+        
+        
+        // add session
+        $session = $container->get('session');
+        $session->set('id', '1234567890');
+
+
+        // add cookie
+        $cookies  = $client->getCookieJar() ;
+        
+//        $cookie = new Cookie('source_route', $token, time() + 3600 * 24 * 365, '/', null, false, false);
+        $client->getCookieJar()->set($cookie);
+
+        // build query with add spm
+        
+        // build the url
+        //
+        $this->assertEquals(1,1, ' check the access log exsits');
+        $this->assertEquals(1,1, ' check the content of last line in log file');
+        $this->assertEquals(1,1, ' check the signed success log , the last record in table user_sign_up_route ');
+
+    }
+
+    /**
+     * landingAction with not exists: wenwen code exists email
      */
 
     /**
