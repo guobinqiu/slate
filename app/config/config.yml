@@ -124,7 +124,6 @@ monolog:
         main:
             type: fingers_crossed
             action_level: error
-            handler: nested
             channels: [!user_source]
             
         user_source:
@@ -134,16 +133,11 @@ monolog:
             formatter: monolog.formatter.session_request
             channels: [user_source]
      
-        nested:
-            type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: debug
-
 gregwar_captcha:
-        width: 100
-        height: 35
-        length: 4
-        as_url: true
+    width: 100
+    height: 35
+    length: 4
+    as_url: true
     
 
 

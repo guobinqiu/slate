@@ -55,7 +55,7 @@ services:
             - [ setLogger, [ @logger ] ] 
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
             - [ setSession, [ @session ] ] 
-            - [ setUserSourceLogger, [ @user_source.logger ] ] 
+            - [ setUserSourceLogger, [ @monolog.logger.user_source ] ] 
 
     user_source.logger:
         class: %user_source.logger.class%
@@ -63,17 +63,17 @@ services:
         tags: 
             - { name: monolog.logger, channel: user_source }
 
-    monolog.processor.session_request:
-        class: %monolog.processor.session_request.class% 
-        arguments:  ["@session"]
-        tags:
-            - { name: monolog.processor, method: processRecord }
 
     monolog.formatter.session_request:
         class: Monolog\Formatter\LineFormatter
         arguments:
             - "%%datetime%%\t%%extra.token%%\t%%channel%%\t%%level_name%%\t%%message%%\n"
 
+    monolog.processor.session_request:
+        class: %monolog.processor.session_request.class% 
+        arguments:  ["@session"]
+        tags:
+            - { name: monolog.processor, method: processRecord }
 
     # rebate_activity.point_caculator
     rebate_point.caculator:
