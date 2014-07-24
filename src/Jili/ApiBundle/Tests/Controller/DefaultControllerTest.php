@@ -3,6 +3,12 @@
 namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\BrowserKit\Cookie;
+
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Jili\ApiBundle\DataFixtures\ORM\LoadLandingWenwenCodeData;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -90,21 +96,51 @@ class DefaultControllerTest extends WebTestCase
         $em = $this->em;
         $logger= $container->get('logger');
         
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        // load fixtures
+        $fixture = new LoadLandingWenwenCodeData();
+        $fixture->setContainer($container);
+
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+
+        $executor->execute($loader->getFixtures());
+
+        $user = LoadLandingWenwenCodeData::$USER[0];
+        $wenwenUserToken = LoadLandingWenwenCodeData::$WENWEN_USER_TOKEN[0];
         
         // add session
         $session = $container->get('session');
         $session->set('id', '1234567890');
 
-
         // add cookie
-        $cookies  = $client->getCookieJar() ;
-        
-//        $cookie = new Cookie('source_route', $token, time() + 3600 * 24 * 365, '/', null, false, false);
+        $time =time();
+        $cookie = new Cookie('source_route', 'baidu_parntera', time() + 60, '/', null, false, false);
         $client->getCookieJar()->set($cookie);
 
-        // build query with add spm
-        
-        // build the url
+        $cookie = new Cookie('pv', hash( 'ripemd160','baidu_partnera'. $time), time() + 60, '/', null, false, false);
+        $client->getCookieJar()->set($cookie);
+
+        $cookie = new Cookie('pv_unique', hash('md5','baidu_partnera'. $time), time() + 60, '/', null, false, false);
+        $client->getCookieJar()->set($cookie);
+
+        // build query with add spm without token;
+        $spm = 'baidu_partnera'; 
+//        $secret_token= $wenwenUserToken->getToken(); 
+//        $url = $container->get('router')->generate('_default_landing', array('secret_token'=>$secret_token, 'spm'=> $spm));
+        $url = $container->get('router')->generate('_default_landing', array( 'spm'=> $spm));
+
+        // follow to the redirect
+        $client->request('GET', $url );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'visit landing page with spm , but no secret_token'  );
+        // post reg form 
+
+        echo $url, PHP_EOL;
+
         //
         $this->assertEquals(1,1, ' check the access log exsits');
         $this->assertEquals(1,1, ' check the content of last line in log file');

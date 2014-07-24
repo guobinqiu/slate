@@ -24,12 +24,16 @@ class UserSignUpTracer
     function log(Request $request){
         $logger = $this->logger;
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__) ). var_export( $request->cookies , true) );
+
         $cookies = $request->cookies->all();
+
         $messages = array();
-        $messages[] = isset($cookies['source_route']) ? $cookies['source_route']: 'source_route' ;
+        $messages[] =$request->cookies->get('source_route', 'source_route');
         $messages[] = isset($cookies['pv']) ? $cookies['pv']: 'pv' ;
         $messages[] = isset($cookies['pv_unique']) ? $cookies['pv_unique']: 'pv_unique' ;
+
         $message_tsv = implode("\t" , $messages);
+
         $this->user_source_logger->info($message_tsv);
         return $this;
     }           

@@ -291,7 +291,10 @@ class DefaultController extends Controller
         if ($is_email) {
             $is_user = $this->container->getParameter('init_one');
         } else {
-            if ($request->getMethod() == 'POST') {
+            if ($request->getMethod() === 'GET') {
+
+                $this->get('user_sign_up_route.listener')->log($request);
+            } elseif ($request->getMethod() == 'POST') {
                 $err_msg = $this->checkLanding($email, $nick, $pwd, $newPwd);
                 if(!$err_msg){
                     $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
@@ -345,6 +348,8 @@ class DefaultController extends Controller
                     $this->get('login.listener')->checkNewbie( $user );
 
                     $this->get('login.listener')->log( $user );
+
+                    $this->get('user_sign_up_route.listener')->signed($request, $user);
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
             }
