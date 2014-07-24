@@ -292,8 +292,6 @@ class DefaultController extends Controller
             $is_user = $this->container->getParameter('init_one');
         } else {
             if ($request->getMethod() === 'GET') {
-
-                $this->get('user_sign_up_route.listener')->log($request);
             } elseif ($request->getMethod() == 'POST') {
                 $err_msg = $this->checkLanding($email, $nick, $pwd, $newPwd);
                 if(!$err_msg){
@@ -349,7 +347,7 @@ class DefaultController extends Controller
 
                     $this->get('login.listener')->log( $user );
 
-                    $this->get('user_sign_up_route.listener')->signed($request, $user);
+                    $this->get('user_sign_up_route.listener')->signed($request, $user); 
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
             }

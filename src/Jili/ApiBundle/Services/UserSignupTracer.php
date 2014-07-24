@@ -28,7 +28,7 @@ class UserSignUpTracer
         $cookies = $request->cookies->all();
 
         $messages = array();
-        $messages[] =$request->cookies->get('source_route', 'source_route');
+        $messages[] = $request->cookies->get('source_route', 'source_route');
         $messages[] = isset($cookies['pv']) ? $cookies['pv']: 'pv' ;
         $messages[] = isset($cookies['pv_unique']) ? $cookies['pv_unique']: 'pv_unique' ;
 
@@ -44,7 +44,7 @@ class UserSignUpTracer
     function signed(Request  $request,  User $user) 
     {
         $logger = $this->logger;
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__) ) );
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'') ) );
 
         // new a log table
         $userSignUpRoute = new UserSignUpRoute();
@@ -53,6 +53,8 @@ class UserSignUpTracer
         $em = $this->em;
         $em->persist($userSignUpRoute);
         $em->flush();
+
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'') ) );
         return $this;
     }
 

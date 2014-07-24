@@ -1312,6 +1312,7 @@ class UserController extends Controller
 			$setPasswordCode[0]->setIsAvailable($this->container->getParameter('init_one'));
 			$em->persist($setPasswordCode[0]);
 			$em->flush();
+
 			return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user[0]->getId()),true));
 		}else{
 			return $this->render('JiliApiBundle::error.html.twig');
@@ -1351,7 +1352,7 @@ class UserController extends Controller
         $checkInPoint = $checkInLister->getCheckinPointForReg($this->get('request'));
 
 		if ($request->getMethod() == 'POST'){
-			    if($this->get('request')->getSession()->get('phrase') != $request->request->get('captcha')){
+            if($this->get('request')->getSession()->get('phrase') != $request->request->get('captcha')){
 			    	$this->get('request')->getSession()->remove('phrase');
 			    	// $code_cha = $this->container->getParameter('init_one');
 			    	$code_cha = $this->container->getParameter('reg_wr_captcha');
@@ -1388,6 +1389,8 @@ class UserController extends Controller
         									if($count > 20)
         										$code_nick = $this->container->getParameter('reg_wr_nick');
         									else{
+                                                $logger = $this->get('logger');
+                                                $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__,'') ));
         										$user->setNick($request->request->get('nick'));
 	        									$user->setEmail($request->request->get('email'));
 	        									$user->setPoints($this->container->getParameter('init'));
@@ -1399,6 +1402,7 @@ class UserController extends Controller
 	        									$code = md5($user->getId().str_shuffle($str));
 	        									$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
 	        									if($this->sendMail($url, $user->getEmail(),$user->getNick())){
+                                                $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__,'') ));
 	        										$setPasswordCode = new setPasswordCode();
 	        										$setPasswordCode->setUserId($user->getId());
 	        										$setPasswordCode->setCode($code);
@@ -1406,8 +1410,9 @@ class UserController extends Controller
 	        										$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
 	        										$em->persist($setPasswordCode);
 	        										$em->flush();
-	        										// 					echo 'success';
-	        										
+
+                                                    $this->get('user_sign_up_route.listener')->signed($request, $user);
+
 	        									    return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
 	        									}
 
@@ -1425,7 +1430,9 @@ class UserController extends Controller
 			    		$code_email = $this->container->getParameter('reg_en_mail');
 			    	}
 			    }
-		}
+        } elseif( $request->getMethod()==='GET') {
+            $this->get('user_sign_up_route.listener')->log($request, $user); 
+        }
 		return $this->render('JiliApiBundle:User:reg.html.twig',array(
 				'form' => $form->createView(),
 				'code_nick'=>$code_nick,

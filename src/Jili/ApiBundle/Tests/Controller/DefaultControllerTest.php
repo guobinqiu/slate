@@ -100,7 +100,7 @@ class DefaultControllerTest extends WebTestCase
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
-
+/*
         // load fixtures
         $fixture = new LoadLandingWenwenCodeData();
         $fixture->setContainer($container);
@@ -112,40 +112,93 @@ class DefaultControllerTest extends WebTestCase
 
         $user = LoadLandingWenwenCodeData::$USER[0];
         $wenwenUserToken = LoadLandingWenwenCodeData::$WENWEN_USER_TOKEN[0];
-        
+ */       
         // add session
         $session = $container->get('session');
         $session->set('id', '1234567890');
+        $session->set('captcha', '');
+        $session->save();
+
+        $time =time();
+        $spm = 'baidu_partnera'; 
 
         // add cookie
-        $time =time();
-        $cookie = new Cookie('source_route', 'baidu_parntera', time() + 60, '/', null, false, false);
-        $client->getCookieJar()->set($cookie);
-
-        $cookie = new Cookie('pv', hash( 'ripemd160','baidu_partnera'. $time), time() + 60, '/', null, false, false);
-        $client->getCookieJar()->set($cookie);
-
-        $cookie = new Cookie('pv_unique', hash('md5','baidu_partnera'. $time), time() + 60, '/', null, false, false);
-        $client->getCookieJar()->set($cookie);
+        $cookies_array = array(
+            'source_route' => $spm,
+            'pv' => hash( 'ripemd160',$spm. $time),
+            'pv_unique' =>hash('md5',$spm.$time),
+        );
+        $client->getCookieJar()->clear();
+        foreach( $cookies_array as $k => $v ) {
+            $client->getCookieJar()->set( new Cookie($k , $v, time() + 60, '/', null, false, false));
+        }
 
         // build query with add spm without token;
-        $spm = 'baidu_partnera'; 
-//        $secret_token= $wenwenUserToken->getToken(); 
-//        $url = $container->get('router')->generate('_default_landing', array('secret_token'=>$secret_token, 'spm'=> $spm));
         $url = $container->get('router')->generate('_default_landing', array( 'spm'=> $spm));
-
+        echo $url, PHP_EOL;
         // follow to the redirect
         $client->request('GET', $url );
-        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'visit landing page with spm , but no secret_token'  );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'visit landing page with spm , but no secret_token' );
+        $crawler=$client->followRedirect();
+
+        $url_expected = $container->get('router')->generate('_user_reg') ;
+        $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
         // post reg form 
+        
+        $email = 'alice.nima@gmail.com';
 
-        echo $url, PHP_EOL;
+        $form = $crawler->selectButton('快速注册')->form();
+        $form['email'] ->setValue( $email );
+        $form['nick'] ->setValue( 'alice32');
+        $form['captcha'] ->setValue( '');
 
-        //
-        $this->assertEquals(1,1, ' check the access log exsits');
-        $this->assertEquals(1,1, ' check the content of last line in log file');
-        $this->assertEquals(1,1, ' check the signed success log , the last record in table user_sign_up_route ');
+        $client->submit($form );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
 
+        $crawler = $client->followRedirect();
+
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email );
+
+        //  check the redirected url.
+        $url_expected = $container->get('router')->generate('_user_checkReg', array('id' => $user->getId() ) ) ;
+        $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
+
+        // checkings after register.
+        $cookies = $client->getCookieJar();
+        $records = $em->getRepository('JiliApiBundle:UserSignUpRoute')->findBy(
+            array('userId'=> $user->getId()),
+            array('createdAt'=>'desc')
+        );
+
+        $this->assertCount( 1, $records, 'check the user_source_logger table');
+
+        // check log file
+        $log_path = $container->getParameter('kernel.logs_dir');
+        $log_path .= '/'.$container->getParameter('kernel.environment');
+        $log_path .= '.user_source.log';
+
+        $this->assertFileExists($log_path, 'check log file exits');
+
+        // fetch the last line of the file.
+        $fp = fopen($log_path, 'r');
+        fseek($fp, -2, SEEK_END); 
+        $pos = ftell($fp);
+        fseek($fp, $pos--);
+
+        $last_row ='';
+        // Loop backword util "\n" is found.
+        while((($c = fgetc($fp)) != "\n") && ($pos > 0)) {
+            $last_row= $c.$last_row;
+            fseek($fp, $pos--);
+        }
+        fclose($fp);
+
+        $arr = explode("\t", $last_row);
+        $this->assertCount(7,$arr, 'check the content of log file');
+        $this->assertEquals( 'user_source',$arr[2], 'check the content of log file');
+        $this->assertEquals( $cookies->get('source_route')->getValue(), $arr[4], 'check the content of log file');
+        $this->assertEquals( $cookies->get('pv')->getValue(), $arr[5], 'check the content of log file');
+        $this->assertEquals( $cookies->get('pv_unique')->getValue(), $arr[6], 'check the content of log file');
     }
 
     /**

@@ -67,6 +67,10 @@ class UserSignUpTracerTest extends KernelTestCase
 
         $signUpTracer->log($request);
 
+
+        // 2014-07-23 13:01:50	0ea59ced-1be687d5	user_source	INFO	baidu_partnera	97f484631f9142218eac41dddde0aa22a5036ce6	bc98e0284dbf6f1c6518fd4e070ba9a4
+        // 2014-07-23 13:08:51	97428563-3634a26a	user_source	INFO	baidu_partnera	e93ec06cfa7cfcec737b489212ad658a50a6755b	fd0abd9555a7bff708786a67f9f97094
+
         // %kernel.logs_dir%/%kernel.environment%.user_source.log
         $log_path = $container->getParameter('kernel.logs_dir');
         $log_path .= '/'.$container->getParameter('kernel.environment');
@@ -74,11 +78,7 @@ class UserSignUpTracerTest extends KernelTestCase
 
         $this->assertFileExists($log_path, 'check log file exits');
 
-        // 2014-07-23 13:01:50	0ea59ced-1be687d5	user_source	INFO	baidu_partnera	97f484631f9142218eac41dddde0aa22a5036ce6	bc98e0284dbf6f1c6518fd4e070ba9a4
-        // 2014-07-23 13:08:51	97428563-3634a26a	user_source	INFO	baidu_partnera	e93ec06cfa7cfcec737b489212ad658a50a6755b	fd0abd9555a7bff708786a67f9f97094
-
         // fetch the last line of the file.
-
         $fp = fopen($log_path, 'r');
         fseek($fp, -2, SEEK_END); 
         $pos = ftell($fp);
