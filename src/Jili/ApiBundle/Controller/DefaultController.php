@@ -262,13 +262,18 @@ class DefaultController extends Controller
         $nick = $request->request->get('nick');
         $pwd = $request->request->get('pwd');
         $newPwd = $request->request->get('newPwd');
+        // pass the query param when redirect; 
+        $query  = array();
+        if( $request->query->has('spm') ) {
+            $query['spm'] =  $request->query->get('spm');
+        }
         if ($token) {
             $request->getSession()->remove('token');
             $request->getSession()->set('token', $token);
         }
         $u_token = $request->getSession()->get('token');
         if (!$u_token) {
-            return $this->redirect($this->generateUrl('_user_reg'));
+            return $this->redirect($this->generateUrl('_user_reg', $query ));
         }
         $em = $this->getDoctrine()->getManager();
         $wenuser = $em->getRepository('JiliApiBundle:WenwenUser')->findByToken($u_token);
@@ -281,7 +286,7 @@ class DefaultController extends Controller
                     $uniqkey = $params->uniqkey;
             }
             if ($this->getToken($email) != $signature) {
-                return $this->redirect($this->generateUrl('_user_reg'));
+                return $this->redirect($this->generateUrl('_user_reg', $query ));
             }
         } else {
             $email = $wenuser[0]->getEmail();

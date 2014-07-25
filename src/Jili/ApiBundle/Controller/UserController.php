@@ -1335,6 +1335,9 @@ class UserController extends Controller
 	 */
     public function regAction()
     {
+
+$this->get('logger')->debug('{jarod}'. var_export( $this->get('request')->cookies->all(), true) );
+
         $code_nick = '';
         $code_cha = '';
         $code_email = '';
