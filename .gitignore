@@ -1,5 +1,5 @@
 /web/bundles/
-/app/bootstrap*
+#/app/bootstrap*
 /app/cache/*
 /app/sessions/*
 /app/cache_data/*
