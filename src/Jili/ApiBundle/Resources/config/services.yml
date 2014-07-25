@@ -53,6 +53,7 @@ services:
         arguments: []
         calls:
             - [ setLogger, [ @logger ] ] 
+            - [ setRouter, [ @router] ] 
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
             - [ setSession, [ @session ] ] 
             - [ setUserSourceLogger, [ @monolog.logger.user_source ] ] 

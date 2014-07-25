@@ -141,7 +141,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'visit landing page with spm , but no secret_token' );
         $crawler=$client->followRedirect();
 
-        $url_expected = $container->get('router')->generate('_user_reg') ;
+        $url_expected = $container->get('router')->generate('_user_reg', array('spm'=> $spm) ) ;
         $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
         // post reg form 
         

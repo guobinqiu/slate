@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\Mailer;
 use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Entity\LoginLog;
@@ -273,7 +274,11 @@ class DefaultController extends Controller
         }
         $u_token = $request->getSession()->get('token');
         if (!$u_token) {
-            return $this->redirect($this->generateUrl('_user_reg', $query ));
+
+#            return $this->redirect($this->generateUrl('_user_reg', $query ));
+                $response = new RedirectResponse($this->generateUrl('_user_reg', $query ));
+                $this->get('user_sign_up_route.listener')->initCookies($request, $response); 
+                return $response;
         }
         $em = $this->getDoctrine()->getManager();
         $wenuser = $em->getRepository('JiliApiBundle:WenwenUser')->findByToken($u_token);
@@ -286,7 +291,12 @@ class DefaultController extends Controller
                     $uniqkey = $params->uniqkey;
             }
             if ($this->getToken($email) != $signature) {
-                return $this->redirect($this->generateUrl('_user_reg', $query ));
+
+#                return $this->redirect($this->generateUrl('_user_reg', $query ));
+                $response = new RedirectResponse($this->generateUrl('_user_reg', $query ));
+                $this->get('user_sign_up_route.listener')->initCookies($request, $response); 
+                return $response;
+            //    $response->headers->setCookie(new Cookie('varName', 'value', time() +(3600 * 48)));
             }
         } else {
             $email = $wenuser[0]->getEmail();
