@@ -1171,7 +1171,7 @@ class UserController extends Controller
 
         $nick = $user[0]->getNick();
         $id = $user[0]->getId();
-        $passCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($id);
+        $passCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($id);
         if(empty($passCode)){
             $str = 'jiliforgetpassword';
             $code = md5($id.str_shuffle($str));
@@ -1306,7 +1306,7 @@ class UserController extends Controller
 			$send_email = $this->sendMail($url,$email,$user[0]->getNick());
 		}
 		if($send_email){
-			$setPasswordCode = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user[0]->getId());
+			$setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($user[0]->getId());
 			$setPasswordCode[0]->setCode($code);
 			$setPasswordCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
 			$setPasswordCode[0]->setIsAvailable($this->container->getParameter('init_one'));

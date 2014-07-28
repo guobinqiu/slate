@@ -79,7 +79,7 @@ class WenwenController extends Controller
 		//通过soap发送
 		$send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
 		if ($send_email) {
-			$setPasswordCodeList = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user->getId());
+			$setPasswordCodeList = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($user->getId());
 			if (empty ($setPasswordCodeList)) {
 				$setPasswordCode = new SetPasswordCode();
 				$setPasswordCode->setUserId($user->getId());
