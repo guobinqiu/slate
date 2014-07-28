@@ -1411,7 +1411,7 @@ class UserController extends Controller
 	        										$em->persist($setPasswordCode);
 	        										$em->flush();
 
-                                                    $this->get('user_sign_up_route.listener')->signed($request, $user);
+                                                    $this->get('user_sign_up_route.listener')->signed(array('user_id'=> $user->getId() ) );
 
 	        									    return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
 	        									}
@@ -1431,7 +1431,7 @@ class UserController extends Controller
 			    	}
 			    }
         } elseif( $request->getMethod()==='GET') {
-            $this->get('user_sign_up_route.listener')->log($request, $user); 
+            $this->get('user_sign_up_route.listener')->log( ); 
         }
 		return $this->render('JiliApiBundle:User:reg.html.twig',array(
 				'form' => $form->createView(),

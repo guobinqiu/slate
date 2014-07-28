@@ -274,11 +274,9 @@ class DefaultController extends Controller
         }
         $u_token = $request->getSession()->get('token');
         if (!$u_token) {
-
-#            return $this->redirect($this->generateUrl('_user_reg', $query ));
-                $response = new RedirectResponse($this->generateUrl('_user_reg', $query ));
-                $this->get('user_sign_up_route.listener')->initCookies($request, $response); 
-                return $response;
+            
+            $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) ); 
+            return $this->redirect($this->generateUrl('_user_reg' ));
         }
         $em = $this->getDoctrine()->getManager();
         $wenuser = $em->getRepository('JiliApiBundle:WenwenUser')->findByToken($u_token);
@@ -291,12 +289,8 @@ class DefaultController extends Controller
                     $uniqkey = $params->uniqkey;
             }
             if ($this->getToken($email) != $signature) {
-
-#                return $this->redirect($this->generateUrl('_user_reg', $query ));
-                $response = new RedirectResponse($this->generateUrl('_user_reg', $query ));
-                $this->get('user_sign_up_route.listener')->initCookies($request, $response); 
-                return $response;
-            //    $response->headers->setCookie(new Cookie('varName', 'value', time() +(3600 * 48)));
+                $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) ); 
+                return $this->redirect($this->generateUrl('_user_reg' ));
             }
         } else {
             $email = $wenuser[0]->getEmail();
@@ -362,7 +356,7 @@ class DefaultController extends Controller
 
                     $this->get('login.listener')->log( $user );
 
-                    $this->get('user_sign_up_route.listener')->signed($request, $user); 
+                    $this->get('user_sign_up_route.listener')->signed( array('user_id'=> $user->getId() ) ); 
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
             }

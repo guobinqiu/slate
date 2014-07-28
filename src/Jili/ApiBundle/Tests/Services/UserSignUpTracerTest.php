@@ -44,33 +44,57 @@ class UserSignUpTracerTest extends KernelTestCase
      * @group issue_396  
      * @group signup_trace 
      */
-    public function testLog() {
+    public function testLogWhenEmtpySession() {
         $container  = static::$kernel->getContainer();
+
+
+        $log_path = $container->getParameter('kernel.logs_dir');
+        $log_path .= '/'.$container->getParameter('kernel.environment');
+        $log_path .= '.user_source.log';
+
+        if( file_exists( $log_path)) {
+            @unlink( $log_path);
+        }
+
         $signUpTracer = $container->get('user_sign_up_route.listener') ;
 
         $logger  = $container->get('logger');
+        $spm  = '';
 
         // the ssession is for unique token id. 
         $session = $container->get('session');
         $session->set('id', '1234567890');
         $session->save();
 
-        // how to set cookie in to 
-        $cookies = new \Symfony\Component\HttpFoundation\ParameterBag();
-        $cookies->set('source_route', 'baidu_partnera');
-        $time = time();
-        $cookies->set('pv', hash( 'ripemd160','baidu_partnera'. $time));
-        $cookies->set('pv_unique', hash('md5','baidu_partnera'. $time));
+        $signUpTracer->log( );
 
-        $request = new Request();
-        $request->cookies = $cookies;
+// 2014-07-28 09:41:47	1793cf06-a5bd1aa1	user_source	INFO	baidu_partnerc
+        // %kernel.logs_dir%/%kernel.environment%.user_source.log
 
-        $signUpTracer->log($request);
+        $this->assertFileNotExists($log_path, 'check log file exits');
 
+    }
+    /**
+     * @group debug 
+     * @group issue_396  
+     * @group signup_trace 
+     */
+    public function testLog() {
+        $container  = static::$kernel->getContainer();
+        $signUpTracer = $container->get('user_sign_up_route.listener') ;
 
-        // 2014-07-23 13:01:50	0ea59ced-1be687d5	user_source	INFO	baidu_partnera	97f484631f9142218eac41dddde0aa22a5036ce6	bc98e0284dbf6f1c6518fd4e070ba9a4
-        // 2014-07-23 13:08:51	97428563-3634a26a	user_source	INFO	baidu_partnera	e93ec06cfa7cfcec737b489212ad658a50a6755b	fd0abd9555a7bff708786a67f9f97094
+        $logger  = $container->get('logger');
+        $spm  = '';
 
+        // the ssession is for unique token id. 
+        $session = $container->get('session');
+        $session->set('id', '1234567890');
+        $session->set('source_route', 'baidu_partnerc');
+        $session->save();
+
+        $signUpTracer->log( );
+
+// 2014-07-28 09:41:47	1793cf06-a5bd1aa1	user_source	INFO	baidu_partnerc
         // %kernel.logs_dir%/%kernel.environment%.user_source.log
         $log_path = $container->getParameter('kernel.logs_dir');
         $log_path .= '/'.$container->getParameter('kernel.environment');
@@ -94,23 +118,22 @@ class UserSignUpTracerTest extends KernelTestCase
 
         $arr = explode("\t", $last_row);
 
-        $this->assertCount(7,$arr, 'check the content of log file');
+        $this->assertCount(5,$arr, 'check the content of log file');
         $this->assertEquals( 'user_source',$arr[2], 'check the content of log file');
-        $this->assertEquals( $cookies->get('source_route')  ,$arr[4], 'check the content of log file');
-        $this->assertEquals( $cookies->get('pv')  ,$arr[5], 'check the content of log file');
-        $this->assertEquals( $cookies->get('pv_unique')  ,$arr[6], 'check the content of log file');
+        $this->assertEquals( $session->get('source_route')  ,$arr[4], 'check the content of log file');
 
         // todo: test with wild cookies value for security
     }
+
     /**
+     * There is no sign row in table when not key of 'source_route' in sessions
      * @group debug  
      * @group issue_396  
      * @group signup_trace 
      */
-    public function testSigned() {
+    public function testSignedWithSessionEmpty() {
         $container  = static::$kernel->getContainer();
         $signUpTracer = $container->get('user_sign_up_route.listener') ;
-
         $em = $this->em;
         $logger= $container->get('logger');
 
@@ -134,25 +157,100 @@ class UserSignUpTracerTest extends KernelTestCase
         $session->set('id', '1234567890');
         $session->save();
 
-        // how to set cookie in to 
-        $cookies = new \Symfony\Component\HttpFoundation\ParameterBag();
-        $cookies->set('source_route', 'baidu_partnera');
-        $time = time();
-        $cookies->set('pv', hash( 'ripemd160','baidu_partnera'. $time));
-        $cookies->set('pv_unique', hash('md5','baidu_partnera'. $time));
+        $signUpTracer->signed(array( 'user_id'=> $user->getId()) );
+        // order by id desc  
+        $records = $em->getRepository('JiliApiBundle:UserSignUpRoute')->findAll();
+        $this->assertCount( 0,$records, 'check the user_source_logger table');
+    }
 
-        $request = new Request();
-        $request->cookies = $cookies;
+    /**
+     * @group debug  
+     * @group issue_396  
+     * @group signup_trace 
+     */
+    public function testSigned() {
+        $container  = static::$kernel->getContainer();
+        $signUpTracer = $container->get('user_sign_up_route.listener') ;
+        $em = $this->em;
+        $logger= $container->get('logger');
 
-        $signUpTracer->signed($request, $user);
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
 
+        // load fixtures
+        $fixture = new LoadLandingTracerCodeData();
+        $fixture->setContainer($container);
+
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+
+        $executor->execute($loader->getFixtures());
+
+        $user = LoadLandingTracerCodeData::$USER[0];
+        // the ssession is for unique token id. 
+        $session = $container->get('session');
+        $session->set('id', '1234567890');
+        $session->set('source_route', 'baidu_partnerd');
+        $session->save();
+
+        $signUpTracer->signed(array( 'user_id'=> $user->getId()) );
         // order by id desc  
         $records = $em->getRepository('JiliApiBundle:UserSignUpRoute')->findAll();
 
         $this->assertCount( 1,$records, 'check the user_source_logger table');
 
         $this->assertEquals( $user->getId() ,$records[0]->getUserId(), 'check the user_source_logger table');
-        $this->assertEquals( $cookies->get('source_route') ,$records[0]->getSourceRoute(), 'check the user_source_logger table');
-        //todo: ?
+        $this->assertEquals( $session->get('source_route') ,$records[0]->getSourceRoute(), 'check the user_source_logger table');
+
+        
     }
+    /**
+     * @group debug  
+     * @group issue_396  
+     * @group signup_trace 
+     */
+    public function testRefreshRouteSession() 
+    {
+        $container  = static::$kernel->getContainer();
+        $signUpTracer = $container->get('user_sign_up_route.listener') ;
+
+        $session=$container->get('session');
+        $session->clear();
+
+        $session->set('id', '1234567890');
+        $session->save();
+
+        $signUpTracer->refreshRouteSession(array());
+        $session =  $container->get('session');
+        $this->assertEmpty( $session->get('source_route'));
+
+        $signUpTracer->refreshRouteSession(array('spm'=>'baidu_partnere'));
+        $session =  $container->get('session');
+        $this->assertEquals( 'baidu_partnere',$session->get('source_route'));
+    }
+
+    /**
+     * @group debug  
+     * @group issue_396  
+     * @group signup_trace 
+     */
+    public function testGetRouteSession() {
+
+        $container  = static::$kernel->getContainer();
+        $signUpTracer = $container->get('user_sign_up_route.listener') ;
+
+        $session=$container->get('session');
+        $session->clear();
+
+        $this->assertEmpty( $signUpTracer->getRouteSession());
+
+        $session->set('id', '1234567890');
+        $session->set('source_route', 'baidu_partnerf');
+        $session->save();
+
+        $this->assertEquals('baidu_partnerf', $signUpTracer->getRouteSession());
+    }
+
 }

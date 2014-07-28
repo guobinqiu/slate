@@ -122,27 +122,23 @@ class DefaultControllerTest extends WebTestCase
         $time =time();
         $spm = 'baidu_partnera'; 
 
-        // add cookie
-        $cookies_array = array(
-            'source_route' => $spm,
-            'pv' => hash( 'ripemd160',$spm. $time),
-            'pv_unique' =>hash('md5',$spm.$time),
-        );
-        $client->getCookieJar()->clear();
-        foreach( $cookies_array as $k => $v ) {
-            $client->getCookieJar()->set( new Cookie($k , $v, time() + 60, '/', null, false, false));
-        }
+
+        $this->assertEmpty( $session->get('source_route'));
 
         // build query with add spm without token;
         $url = $container->get('router')->generate('_default_landing', array( 'spm'=> $spm));
         echo $url, PHP_EOL;
+
         // follow to the redirect
         $client->request('GET', $url );
         $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'visit landing page with spm , but no secret_token' );
         $crawler=$client->followRedirect();
 
-        $url_expected = $container->get('router')->generate('_user_reg', array('spm'=> $spm) ) ;
+        $url_expected = $container->get('router')->generate('_user_reg' ) ;
         $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
+        $session= $container->get('session');
+        $this->assertEquals($spm, $session->get('source_route'));
+
         // post reg form 
         
         $email = 'alice.nima@gmail.com';
@@ -164,7 +160,6 @@ class DefaultControllerTest extends WebTestCase
         $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
 
         // checkings after register.
-        $cookies = $client->getCookieJar();
         $records = $em->getRepository('JiliApiBundle:UserSignUpRoute')->findBy(
             array('userId'=> $user->getId()),
             array('createdAt'=>'desc')
@@ -194,11 +189,9 @@ class DefaultControllerTest extends WebTestCase
         fclose($fp);
 
         $arr = explode("\t", $last_row);
-        $this->assertCount(7,$arr, 'check the content of log file');
+        $this->assertCount(5,$arr, 'check the content of log file');
         $this->assertEquals( 'user_source',$arr[2], 'check the content of log file');
-        $this->assertEquals( $cookies->get('source_route')->getValue(), $arr[4], 'check the content of log file');
-        $this->assertEquals( $cookies->get('pv')->getValue(), $arr[5], 'check the content of log file');
-        $this->assertEquals( $cookies->get('pv_unique')->getValue(), $arr[6], 'check the content of log file');
+        $this->assertEquals( $session->get('source_route'), $arr[4], 'check the content of log file');
     }
 
     /**
