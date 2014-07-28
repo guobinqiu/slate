@@ -81,7 +81,7 @@ class WenwenController extends Controller
 		if ($send_email) {
 			$setPasswordCodeList = $em->getRepository('JiliApiBundle:setPasswordCode')->findByUserId($user->getId());
 			if (empty ($setPasswordCodeList)) {
-				$setPasswordCode = new setPasswordCode();
+				$setPasswordCode = new SetPasswordCode();
 				$setPasswordCode->setUserId($user->getId());
 			} else {
 				$setPasswordCode = $setPasswordCodeList[0];

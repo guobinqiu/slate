@@ -1177,7 +1177,7 @@ class UserController extends Controller
             $code = md5($id.str_shuffle($str));
             $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
             if($this->sendMail_reset($url, $email,$nick)){
-                $setPasswordCode = new setPasswordCode();
+                $setPasswordCode = new SetPasswordCode();
                 $setPasswordCode->setUserId($id);
                 $setPasswordCode->setCode($code);
                 $setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
@@ -1399,7 +1399,7 @@ class UserController extends Controller
 	        									$code = md5($user->getId().str_shuffle($str));
 	        									$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
 	        									if($this->sendMail($url, $user->getEmail(),$user->getNick())){
-	        										$setPasswordCode = new setPasswordCode();
+	        										$setPasswordCode = new SetPasswordCode();
 	        										$setPasswordCode->setUserId($user->getId());
 	        										$setPasswordCode->setCode($code);
 	        										$setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
@@ -1868,7 +1868,7 @@ class UserController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('JiliApiBundle:User')->find($id);
 		if($this->sendMail($url, $email,$nick)){
-			$setPasswordCode = new setPasswordCode();
+			$setPasswordCode = new SetPasswordCode();
 			$setPasswordCode->setUserId($user->getId());
 			$setPasswordCode->setCode($code);
 			$setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
