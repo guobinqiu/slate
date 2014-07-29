@@ -7,13 +7,13 @@ class WenwenTokenTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @group issue_396
-     * @group landing 
+     * @group landing
      */
     public function testGetEmailToken()
     {
 
         $email = 'aaa@bbb.com';
-        WenwenToken::getEmailToken($email);       
+        WenwenToken::getEmailToken($email);
 
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
@@ -22,4 +22,3 @@ class WenwenTokenTest extends \PHPUnit_Framework_TestCase
 
     }
 }
-

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user_sign_up_route", indexes={ @ORM\Index(name="ind_user_sign_up_route_user_id1_source_route1", columns={"user_id", "source_route" })})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserSignUpRouteRepository")
  */
-class UserSignUpRoute 
+class UserSignUpRoute
 {
 
     /**
@@ -41,9 +41,10 @@ class UserSignUpRoute
      *
      * @ORM\Column(name="created_time", type="datetime")
      */
-    private $createdAt; 
+    private $createdAt;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->createdAt = new \DateTime();
     }
 
@@ -51,7 +52,7 @@ class UserSignUpRoute
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -74,7 +75,7 @@ class UserSignUpRoute
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -97,7 +98,7 @@ class UserSignUpRoute
     /**
      * Get sourceRoute
      *
-     * @return string 
+     * @return string
      */
     public function getSourceRoute()
     {
@@ -120,7 +121,7 @@ class UserSignUpRoute
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {

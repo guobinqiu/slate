@@ -86,8 +86,8 @@ class DefaultControllerTest extends WebTestCase
     /**
      * landingAction with not exists: wenwen code exists email
      * @group debug
-     * @group issue_396  
-     * @group signup_trace 
+     * @group issue_396
+     * @group signup_trace
      */
     public function testLandingWithSignUpTrace()
     {
@@ -95,7 +95,7 @@ class DefaultControllerTest extends WebTestCase
         $container = $client->getContainer();
         $em = $this->em;
         $logger= $container->get('logger');
-        
+
         // purge tables;
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
@@ -112,7 +112,7 @@ class DefaultControllerTest extends WebTestCase
 
         $user = LoadLandingWenwenCodeData::$USER[0];
         $wenwenUserToken = LoadLandingWenwenCodeData::$WENWEN_USER_TOKEN[0];
- */       
+ */
         // add session
         $session = $container->get('session');
         $session->set('id', '1234567890');
@@ -120,7 +120,7 @@ class DefaultControllerTest extends WebTestCase
         $session->save();
 
         $time =time();
-        $spm = 'baidu_partnera'; 
+        $spm = 'baidu_partnera';
 
 
         $this->assertEmpty( $session->get('source_route'));
@@ -139,8 +139,8 @@ class DefaultControllerTest extends WebTestCase
         $session= $container->get('session');
         $this->assertEquals($spm, $session->get('source_route'));
 
-        // post reg form 
-        
+        // post reg form
+
         $email = 'alice.nima@gmail.com';
 
         $form = $crawler->selectButton('快速注册')->form();
@@ -176,7 +176,7 @@ class DefaultControllerTest extends WebTestCase
 
         // fetch the last line of the file.
         $fp = fopen($log_path, 'r');
-        fseek($fp, -2, SEEK_END); 
+        fseek($fp, -2, SEEK_END);
         $pos = ftell($fp);
         fseek($fp, $pos--);
 

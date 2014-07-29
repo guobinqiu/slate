@@ -16,6 +16,7 @@ class UserSignUpTracerTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+    private $log_path ;
 
     /**
      * {@inheritDoc}
@@ -29,6 +30,17 @@ class UserSignUpTracerTest extends KernelTestCase
             ->getManager();
 
         $this->em  = $em;
+
+        $container  = static::$kernel->getContainer();
+        $log_path = $container->getParameter('kernel.logs_dir');
+        $log_path .= '/'.$container->getParameter('kernel.environment');
+        $log_path .= '.user_source.log';
+
+        if( file_exists( $log_path)) {
+            @unlink( $log_path);
+        }
+        $this->log_path = $log_path;
+        echo __FUNCTION__,PHP_EOL;
     }
     /**
      * {@inheritDoc}
@@ -40,28 +52,21 @@ class UserSignUpTracerTest extends KernelTestCase
     }
 
     /**
-     * @group debug 
-     * @group issue_396  
-     * @group signup_trace 
+     * @group debug
+     * @group issue_396
+     * @group signup_trace
      */
-    public function testLogWhenEmtpySession() {
+    public function testLogWhenRouteEmpty()
+    {
         $container  = static::$kernel->getContainer();
 
-
-        $log_path = $container->getParameter('kernel.logs_dir');
-        $log_path .= '/'.$container->getParameter('kernel.environment');
-        $log_path .= '.user_source.log';
-
-        if( file_exists( $log_path)) {
-            @unlink( $log_path);
-        }
 
         $signUpTracer = $container->get('user_sign_up_route.listener') ;
 
         $logger  = $container->get('logger');
         $spm  = '';
 
-        // the ssession is for unique token id. 
+        // the ssession is for unique token id.
         $session = $container->get('session');
         $session->set('id', '1234567890');
         $session->save();
@@ -71,22 +76,23 @@ class UserSignUpTracerTest extends KernelTestCase
 // 2014-07-28 09:41:47	1793cf06-a5bd1aa1	user_source	INFO	baidu_partnerc
         // %kernel.logs_dir%/%kernel.environment%.user_source.log
 
-        $this->assertFileNotExists($log_path, 'check log file exits');
+        $this->assertFileNotExists($this->log_path, 'check log file exits');
 
     }
     /**
-     * @group debug 
-     * @group issue_396  
-     * @group signup_trace 
+     * @group debug
+     * @group issue_396
+     * @group signup_trace
      */
-    public function testLog() {
+    public function testLog()
+    {
         $container  = static::$kernel->getContainer();
         $signUpTracer = $container->get('user_sign_up_route.listener') ;
 
         $logger  = $container->get('logger');
         $spm  = '';
 
-        // the ssession is for unique token id. 
+        // the ssession is for unique token id.
         $session = $container->get('session');
         $session->set('id', '1234567890');
         $session->set('source_route', 'baidu_partnerc');
@@ -95,28 +101,9 @@ class UserSignUpTracerTest extends KernelTestCase
         $signUpTracer->log( );
 
 // 2014-07-28 09:41:47	1793cf06-a5bd1aa1	user_source	INFO	baidu_partnerc
-        // %kernel.logs_dir%/%kernel.environment%.user_source.log
-        $log_path = $container->getParameter('kernel.logs_dir');
-        $log_path .= '/'.$container->getParameter('kernel.environment');
-        $log_path .= '.user_source.log';
+        $this->assertFileExists($this->log_path, 'check log file exits');
 
-        $this->assertFileExists($log_path, 'check log file exits');
-
-        // fetch the last line of the file.
-        $fp = fopen($log_path, 'r');
-        fseek($fp, -2, SEEK_END); 
-        $pos = ftell($fp);
-        fseek($fp, $pos--);
-
-        $last_row ='';
-        // Loop backword util "\n" is found.
-        while((($c = fgetc($fp)) != "\n") && ($pos > 0)) {
-            $last_row= $c.$last_row;
-            fseek($fp, $pos--);
-        }
-        fclose($fp);
-
-        $arr = explode("\t", $last_row);
+        $arr = explode("\t", trim(file_get_contents($this->log_path)));
 
         $this->assertCount(5,$arr, 'check the content of log file');
         $this->assertEquals( 'user_source',$arr[2], 'check the content of log file');
@@ -127,11 +114,12 @@ class UserSignUpTracerTest extends KernelTestCase
 
     /**
      * There is no sign row in table when not key of 'source_route' in sessions
-     * @group debug  
-     * @group issue_396  
-     * @group signup_trace 
+     * @group debug
+     * @group issue_396
+     * @group signup_trace
      */
-    public function testSignedWithSessionEmpty() {
+    public function testSignedWithRouteEmpty()
+    {
         $container  = static::$kernel->getContainer();
         $signUpTracer = $container->get('user_sign_up_route.listener') ;
         $em = $this->em;
@@ -152,23 +140,24 @@ class UserSignUpTracerTest extends KernelTestCase
         $executor->execute($loader->getFixtures());
 
         $user = LoadLandingTracerCodeData::$USER[0];
-        // the ssession is for unique token id. 
+        // the ssession is for unique token id.
         $session = $container->get('session');
         $session->set('id', '1234567890');
         $session->save();
 
         $signUpTracer->signed(array( 'user_id'=> $user->getId()) );
-        // order by id desc  
+        // order by id desc
         $records = $em->getRepository('JiliApiBundle:UserSignUpRoute')->findAll();
         $this->assertCount( 0,$records, 'check the user_source_logger table');
     }
 
     /**
-     * @group debug  
-     * @group issue_396  
-     * @group signup_trace 
+     * @group debug
+     * @group issue_396
+     * @group signup_trace
      */
-    public function testSigned() {
+    public function testSigned()
+    {
         $container  = static::$kernel->getContainer();
         $signUpTracer = $container->get('user_sign_up_route.listener') ;
         $em = $this->em;
@@ -189,14 +178,14 @@ class UserSignUpTracerTest extends KernelTestCase
         $executor->execute($loader->getFixtures());
 
         $user = LoadLandingTracerCodeData::$USER[0];
-        // the ssession is for unique token id. 
+        // the ssession is for unique token id.
         $session = $container->get('session');
         $session->set('id', '1234567890');
         $session->set('source_route', 'baidu_partnerd');
         $session->save();
 
         $signUpTracer->signed(array( 'user_id'=> $user->getId()) );
-        // order by id desc  
+        // order by id desc
         $records = $em->getRepository('JiliApiBundle:UserSignUpRoute')->findAll();
 
         $this->assertCount( 1,$records, 'check the user_source_logger table');
@@ -204,14 +193,13 @@ class UserSignUpTracerTest extends KernelTestCase
         $this->assertEquals( $user->getId() ,$records[0]->getUserId(), 'check the user_source_logger table');
         $this->assertEquals( $session->get('source_route') ,$records[0]->getSourceRoute(), 'check the user_source_logger table');
 
-        
     }
     /**
-     * @group debug  
-     * @group issue_396  
-     * @group signup_trace 
+     * @group debug
+     * @group issue_396
+     * @group signup_trace
      */
-    public function testRefreshRouteSession() 
+    public function testRefreshRouteSession()
     {
         $container  = static::$kernel->getContainer();
         $signUpTracer = $container->get('user_sign_up_route.listener') ;
@@ -232,12 +220,12 @@ class UserSignUpTracerTest extends KernelTestCase
     }
 
     /**
-     * @group debug  
-     * @group issue_396  
-     * @group signup_trace 
+     * @group debug
+     * @group issue_396
+     * @group signup_trace
      */
-    public function testGetRouteSession() {
-
+    public function testGetRouteSession()
+    {
         $container  = static::$kernel->getContainer();
         $signUpTracer = $container->get('user_sign_up_route.listener') ;
 

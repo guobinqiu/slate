@@ -2,14 +2,14 @@
 namespace Jili\ApiBundle\Utility;
 
 /**
- * 
+ *
  **/
 class WenwenToken
 {
     /**
      *
      */
-    static public function getEmailToken($email)
+    public static function getEmailToken($email)
     {
         $seed = 'ADF93768CF';
         $hash = sha1($email . $seed);
@@ -18,6 +18,5 @@ class WenwenToken
         }
         return $hash;
     }
-    
+
 }
-?>

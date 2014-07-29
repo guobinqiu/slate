@@ -1,7 +1,6 @@
 parameters:
 # user related
     login.listener.class: Jili\ApiBundle\EventListener\LoginListener
-    user_manager.class: Jili\ApiBundle\Services\User\UserManager
     soap.mail.listener.class: Jili\ApiBundle\EventListener\SoapMailListener
     user_sign_up_route.class: Jili\ApiBundle\Services\UserSignUpTracer
     user_source.logger.class: Jili\ApiBundle\Services\Logger\UserSourceLogger
@@ -43,11 +42,6 @@ services:
         calls:
             - [setContainer, ["@service_container"]]
             - [setTaskList, [ @session.task_list ]]
-    user_manager:
-        class: %user_manager.class%
-        calls:
-            - [ setLogger, [ @logger ] ] 
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
 
     soap.mail.listener:
         class: %soap.mail.listener.class%
@@ -61,7 +55,7 @@ services:
             - [ setLogger, [ @logger ] ] 
             - [ setSession, [ @session ] ] 
             - [ setUserSourceLogger, [ @monolog.logger.user_source ] ] 
-            - [ setUserManager, [ @user_manager ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
 
     user_source.logger:
         class: %user_source.logger.class%

@@ -4,7 +4,7 @@ namespace Jili\ApiBundle\Services\Logger;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
-class UserSourceLogger 
+class UserSourceLogger
 {
     private $logger;
     public function __construct(LoggerInterface $logger)

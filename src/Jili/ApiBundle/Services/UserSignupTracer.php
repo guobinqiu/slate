@@ -3,13 +3,14 @@ namespace Jili\ApiBundle\Services;
 
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Doctrine\ORM\EntityManager;
 
 /**
- * 
+ *
  **/
-class UserSignUpTracer
+class UserSignupTracer
 {
-    private $user_manager;
+    private $em;
     private $logger;
     private $session;
     private $user_source_logger;
@@ -19,7 +20,8 @@ class UserSignUpTracer
      * TODO: check  a cookie validation for security.
      * @param $params array( '
      */
-    function log(){
+    public function log()
+    {
         $logger = $this->logger;
 
         $sessions = $this->session;
@@ -30,19 +32,20 @@ class UserSignUpTracer
             $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__) ). var_export( $sessions , true) );
         }
         return $this;
-    }           
+    }
 
     /**
      * 写user_signup_route
-     * @params $params array(  'user_id'=> ) 
+     * @params $params array(  'user_id'=> )
      */
-    function signed(array $params ) 
+    public function signed(array $params)
     {
         $logger = $this->logger;
         if ($this->session->has('source_route') && isset($params ['user_id'] ) ) {
             $params ['source_route'] =  $this->session->get('source_route');
-            $this->user_manager->setRegistrationRoute($params);
-        } 
+            $this->em->getRepository('JiliApiBundle:UserSignUpRoute')
+                ->insert($params);
+        }
         return $this;
     }
 
@@ -50,7 +53,7 @@ class UserSignUpTracer
      * refresh the session of  key 'source_route' on each request .
      * @param: array $params  array('spm'=>)
      **/
-    public function refreshRouteSession( array $params ) 
+    public function refreshRouteSession(array $params)
     {
         if( isset($params['spm']) && ! empty( $params['spm'])) {
             $this->session->set('source_route', $params['spm']);
@@ -59,10 +62,11 @@ class UserSignUpTracer
     }
     /**
      *
-     * @param  
+     * @param
      * @return the sessoin['source_route'], or an empty string otherwise.
      */
-    public function getRouteSession() {
+    public function getRouteSession()
+    {
         $session = $this->session;
         if( $session->has(('source_route') )) {
             return  $session->get('source_route');
@@ -71,26 +75,29 @@ class UserSignUpTracer
     }
 
 
-    public function setSession($session) {
+    public function setSession($session)
+    {
         $this->session = $session;
         return $this;
     }
 
 
-    public function setLogger(  LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
         return $this;
     }
 
-    public function setUserSourceLogger(  LoggerInterface $logger) {
+    public function setUserSourceLogger(LoggerInterface $logger)
+    {
         $this->user_source_logger = $logger;
         return $this;
     }
 
 
-    public function setUserManager( $user_manager) {
-        $this->user_manager = $user_manager;
+    public function setEntityManager(EntityManager $em)
+    {
+        $this->em= $em;
     }
 
 }
-?>

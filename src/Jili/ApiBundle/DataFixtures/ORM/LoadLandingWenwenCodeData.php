@@ -56,7 +56,7 @@ class LoadLandingWenwenCodeData extends AbstractFixture implements ContainerAwar
 
         $params = array(
             'email'=> $user->getEmail(),
-            'uniqkey'=>md5(uniqid()) 
+            'uniqkey'=>md5(uniqid())
         );
 
         $token = $this->genSecretToken($params);
