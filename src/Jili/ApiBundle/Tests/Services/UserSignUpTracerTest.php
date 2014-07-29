@@ -40,7 +40,6 @@ class UserSignUpTracerTest extends KernelTestCase
             @unlink( $log_path);
         }
         $this->log_path = $log_path;
-        echo __FUNCTION__,PHP_EOL;
     }
     /**
      * {@inheritDoc}
