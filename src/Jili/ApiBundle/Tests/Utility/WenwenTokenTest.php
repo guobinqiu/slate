@@ -11,14 +11,8 @@ class WenwenTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEmailToken()
     {
-
         $email = 'aaa@bbb.com';
-        WenwenToken::getEmailToken($email);
-
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-        $this->assertEquals(1,1, 'todo: wenwen token generate');
-
+        $token = WenwenToken::getEmailToken($email);
+        $this->assertEquals('1aa50a441324d893b235bde884afe805de9d8938',$token, ' wenwen token generate');
     }
 }

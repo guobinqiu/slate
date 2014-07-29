@@ -52,7 +52,6 @@ class UserSignUpTracerTest extends KernelTestCase
     }
 
     /**
-     * @group debug
      * @group issue_396
      * @group signup_trace
      */
@@ -80,7 +79,6 @@ class UserSignUpTracerTest extends KernelTestCase
 
     }
     /**
-     * @group debug
      * @group issue_396
      * @group signup_trace
      */
@@ -114,7 +112,6 @@ class UserSignUpTracerTest extends KernelTestCase
 
     /**
      * There is no sign row in table when not key of 'source_route' in sessions
-     * @group debug
      * @group issue_396
      * @group signup_trace
      */
@@ -152,7 +149,6 @@ class UserSignUpTracerTest extends KernelTestCase
     }
 
     /**
-     * @group debug
      * @group issue_396
      * @group signup_trace
      */
@@ -195,7 +191,6 @@ class UserSignUpTracerTest extends KernelTestCase
 
     }
     /**
-     * @group debug
      * @group issue_396
      * @group signup_trace
      */
@@ -220,7 +215,6 @@ class UserSignUpTracerTest extends KernelTestCase
     }
 
     /**
-     * @group debug
      * @group issue_396
      * @group signup_trace
      */

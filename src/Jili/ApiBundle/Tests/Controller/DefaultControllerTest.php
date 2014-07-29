@@ -85,7 +85,6 @@ class DefaultControllerTest extends WebTestCase
     }
     /**
      * landingAction with not exists: wenwen code exists email
-     * @group debug
      * @group issue_396
      * @group signup_trace
      */

@@ -31,7 +31,6 @@ class UserSignUpRouteRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @group debug
      * @group issue_396
      * @group signup_trace
      */
