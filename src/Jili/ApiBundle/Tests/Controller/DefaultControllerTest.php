@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadLandingWenwenCodeData;
+use Jili\ApiBundle\Utility\WenwenToken;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -254,20 +255,8 @@ class DefaultControllerTest extends WebTestCase
      */
     private function genSecretToken($plain)
     {
-        $plain['signature'] = $this->getToken($plain['email']);
+        $plain['signature'] =WenwenToken::getEmailToken($plain['email']);
         return  strtr(base64_encode(json_encode($plain)), '+/', '-_');
-    }
-    /**
-     * copied from wenwenController.php to gen the signature
-     */
-    private function getToken($email)
-    {
-        $seed = "ADF93768CF";
-        $hash = sha1($email . $seed);
-        for ($i = 0; $i < 5; $i++) {
-            $hash = sha1($hash);
-        }
-        return $hash;
     }
     private function buildToken($user , $secret)
     {

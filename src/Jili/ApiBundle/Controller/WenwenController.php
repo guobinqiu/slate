@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\SetPasswordCode;
+use Jili\ApiBundle\Utility\WenwenToken;
 
 /**
  * @Route("/api/91wenwen")
@@ -135,7 +136,7 @@ class WenwenController extends Controller
         }
 
         //signature error
-        if ($this->getToken($email) != $signature) {
+        if ($signature !== WenwenToken::getEmailToken($email) ) {
             $result['status'] = '0';
             $result['message'] = 'access error ';
             return $result;
@@ -160,13 +161,4 @@ class WenwenController extends Controller
         return $result;
     }
 
-    private function getToken($email)
-    {
-        $seed = "ADF93768CF";
-        $hash = sha1($email . $seed);
-        for ($i = 0; $i < 5; $i++) {
-            $hash = sha1($hash);
-        }
-        return $hash;
-    }
 }

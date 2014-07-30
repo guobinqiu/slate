@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\SetPasswordCode;
+use Jili\ApiBundle\Utility\WenwenToken;
 
 class LoadLandingWenwenCodeData extends AbstractFixture implements ContainerAwareInterface,  FixtureInterface, OrderedFixtureInterface
 {
@@ -82,19 +83,7 @@ class LoadLandingWenwenCodeData extends AbstractFixture implements ContainerAwar
      */
     private function genSecretToken($plain)
     {
-        $plain['signature'] = $this->getToken($plain['email']);
+        $plain['signature'] =WenwenToken::getEmailToken($plain['email']);
         return  strtr(base64_encode(json_encode($plain)), '+/', '-_');
-    }
-    /**
-     * copied from wenwenController.php to gen the signature
-     */
-    private function getToken($email)
-    {
-        $seed = "ADF93768CF";
-        $hash = sha1($email . $seed);
-        for ($i = 0; $i < 5; $i++) {
-            $hash = sha1($hash);
-        }
-        return $hash;
     }
 }
