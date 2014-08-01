@@ -1,11 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+{% include 'JiliApiBundle::seo.html.twig' %}
+<title>{% block title %}积粒网-首页 轻松积米粒，快乐换奖励！{% endblock %}</title>
+{% block stylesheet %}{% endblock %}
 <link href="{{ asset('css/game_prompt.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('css/personal.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/amazon.css')}}" rel="stylesheet" type="text/css" />
 
 <link href="{{ asset('css140307/reset.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/common.css') }} " rel="stylesheet" type="text/css">
+
+<link href="{{ asset('css1408/jl.ui.reset.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css1408/jl.ui.common.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css1408/jl.ui.home.css') }} " rel="stylesheet" type="text/css">
+
+
+{% block javascript %}{% endblock %}
 <script src="{{ asset('js140307/common.js') }}" language="javascript"></script>
 <script src="{{ asset('js/bottom.js')}}" type="text/javascript"></script>
+
+<script src="{{ asset('js1408/checkin.js') }}" language="javascript"></script>
+<script src="{{ asset('js/signIn.js')}}" type="text/javascript"></script>
+
 <script>
 $(document).ready(function(){
   $('.amazon').hide();
@@ -283,7 +301,7 @@ function selectCity_amazon(){
 
 </script>
 
-{% include '::header.html.twig' %}
+{% include '::menu.html.twig' %}
 
 <div class="amazon">
 <div class="banner"><img src="{{ asset('images/userInfo.png') }}"></div>
@@ -364,3 +382,5 @@ function selectCity_amazon(){
 </section>
   <div class="bottom"><img src="{{ asset('images/userInfoBottom.png') }}"></div>
   </div>
+
+{% block body %}{% endblock %}

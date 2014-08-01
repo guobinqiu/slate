@@ -1,3 +1,20 @@
+{% if app.request.attributes.get('_route') != '_homepage' %}
+<script type="text/javascript">
+    $(function (){   
+        $("ul.dailyList").css('display','none');
+      $(".dailyQuest h3").hover(function(){
+      $(this).parent().find("ul.dailyList").slideDown('fast').show();  //drop down on hover
+      
+      $(this).parent().hover(function(){
+      },function(){
+      $(this).parent().find("ul.dailyList").slideUp('slow'); //when the mouse hovers out, move it back up
+      });
+        });
+    });
+</script>
+{% endif %}
+
+
 {% if app.session.has('uid') %}
 <script type="text/javascript">
 $(document).ready(function(){
