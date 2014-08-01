@@ -1,29 +1,12 @@
-<h3 class="font18 corGlobRed"><strong>商家活动</strong></h3>
-{#
-<ul class="clearfix">
-  <div class="mask">
-    <div class="moveDiv"> {% for item in market %}
-      <li>
-        <dt><a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName }}"/></a></dt>
-        <dd>
-          <p class="discount">{{ item.title }}</p>
-          <p class="title">{{ item.businessName}}</p>
-          <p class="btn"><a class="goActivity" target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2">去看看</a></p>
-        </dd>
-      </li>
-      {% endfor %} </div>
-  </div>
-  <a class="prevBtn">prev</a><a class="nextBtn">next</a>
-</ul>
-#}
-<div class="con borderGlob">
- {% for item in market %}
-  <div class="box">
-    <div class="img"> <a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName }}"/></a> </div>
-    <div class="info">
-      <h4 class="font16 fontYH lh28"><a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><strong class="corGlobRed">{{ item.title }}</strong>{{ item.businessName}}</a></h4>
-      <div class="btns"> <a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank" class="btn btn-warning">去看看<span></span></a> </div>
+<div class="shopActList">
+    {% for item in market %}
+    <div class="shopActItem">
+        <div class="shopActImg"><img src="{{ asset(item.activityImage) }}" width="420" height="168" alt="{{ item.businessName }}" title="{{ item.businessName }}"/></div>
+        <div class="shopActInfo">
+            <p><strong>{{ item.title }}</strong>{{ item.businessName}}</p>
+            <div class="publicAttention"><strong>12840</strong>人关注</div>
+            <div class="linkBtn"><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank" title="去看看">去看看<span class="arrow"></span></a></div>
+        </div>
     </div>
-  </div>
- {% endfor %}
+    {% endfor %}
 </div>

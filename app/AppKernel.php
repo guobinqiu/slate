@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Jili\ApiBundle\JiliApiBundle(),
             new Jili\BackendBundle\JiliBackendBundle(),
             new Jili\EmarBundle\JiliEmarBundle(),
+            new Jili\FrontendBundle\JiliFrontendBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

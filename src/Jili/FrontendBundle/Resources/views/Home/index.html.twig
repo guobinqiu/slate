@@ -1,0 +1,101 @@
+{% extends 'JiliFrontendBundle::header.html.twig' %}
+{% block title %}{{ parent()  }} {% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+ 
+{% block page_main %}
+<div class="main w1000 mt10 clearfix">
+    <div class="mainCon fnLeft ">
+        <div class="focusPic">
+            <div class="loginBefore fnHide"><a href="#" target="_blank"><img src="{{ asset('images1408/loginBefore.jpg') }}" width="518" height="191" alt="积粒积分图" title="积粒积分图"/></a></div>
+            <div class="slider ">
+                <div class="sliderMask">
+                    <ul class="sliderImg clearfix">
+                        <li><a href="#" target="_blank"><img src="{{ asset('images1408/img01.jpg') }}" width="518" height="191" alt="图片展示" title="图片展示"/></a></li>
+                        <li><a href="#" target="_blank"><img src="{{ asset('images1408/img01.jpg') }}" width="518" height="191" alt="图片展示" title="图片展示"/></a></li>
+                        <li><a href="#" target="_blank"><img src="{{ asset('images1408/img01.jpg') }}" width="518" height="191" alt="图片展示" title="图片展示"/></a></li>
+                        <li><a href="#" target="_blank"><img src="{{ asset('images1408/img01.jpg') }}" width="518" height="191" alt="图片展示" title="图片展示"/></a></li>
+                        <li><a href="#" target="_blank"><img src="{{ asset('images1408/img01.jpg') }}" width="518" height="191" alt="图片展示" title="图片展示"/></a></li>
+                    </ul>
+                </div>
+                <div class="sliderBtns"><b class="active"></b><b></b><b></b><b></b><b></b></div>
+            </div>
+        </div>
+        <div class="adTop">
+            <ul>
+                <li class="ad1">
+                    <a href="#"><img src="{{ asset('images1408/ad101.jpg') }}" width="116" height="78" alt="" title=""></a>
+                    <a class="pointNum" href="#"><strong class="globRed">54214</strong><span class="lightGray">米粒</span></a>
+                </li>
+                <li class="ad1">
+                    <a href="#"><img src="{{ asset('images1408/ad101.jpg') }}" width="116" height="78" alt="" title=""></a>
+                    <a class="pointNum" href="#"><strong class="globRed">54214</strong><span class="lightGray">米粒</span></a>
+                </li>
+                <li class="ad1">
+                    <a href="#"><img src="{{ asset('images1408/ad101.jpg') }}" width="116" height="78" alt="" title=""></a>
+                    <a class="pointNum" href="#"><strong class="globRed">54214</strong><span class="lightGray">米粒</span></a>
+                </li>
+                <li class="ad2">
+                    <a href="#"><img src="{{ asset('images1408/ad201.jpg') }}" width="94" height="78" alt="" title=""></a>
+                    <a class="pointNum" href="#"><strong class="globRed">54214</strong><span class="lightGray">米粒</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="hotShops mt10">
+            {{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 12, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
+        </div>
+        <div class="shopAct">
+            <div class="clearfix"><h2 class="fnLeft">热门商家活动</h2><a href="{{ path('_marketActivity_index')}}" class="more fnRight">更多>></a></div>
+            {{ render(controller('JiliApiBundle:Top:market' ) ) }}{# 商家活动 #}
+        </div>
+    </div>
+    <div class="rightSider fnRight">
+        {% if not app.session.has('uid') %}
+        <div class="loginArea">
+            <a href="{{ path('_user_reg') }}" title="免费注册" class="register">免费注册</a>
+            <p><span>---------------</span>已有账号，<a href="{{ path('_user_login') }}" title="直接登录">直接登录</a><span>-------------</span></p>
+        </div>
+        {% else %}
+            {{ render(controller('JiliApiBundle:Top:userInfo' ) ) }}
+        {% endif %}
+        <div class="quickQ">
+            <h2>快速问答</h2>
+            <div class="quickQCon clearfix">
+                <div class="fnLeft"><img src="{{ asset('images1408/qsPic.jpg') }}" width="90" height="90" alt="快速问答图片" title="快速问答图片"/></div>
+                <div class="quickQInfo fnRight">
+                    <p><span class="quotesL"></span><a href="#" target="_blank">【生活】你对大部分女性选择从事工作怎么看</a><span class="quotesR"></span></p>
+                    <div class="countDownArea"><!--<div class="countDown">还剩<span>10</span><strong>：</strong><span>10</span><strong>：</strong><span>10</span></div>--></div>
+                </div>
+            </div>
+        </div>
+        <div style="background: none; padding: 10px 0 0;"><img src="{{ asset('images1408/baidu270.jpg') }}"></div>
+        <div class="notice mt10">
+            <h2>最新公告</h2>
+            {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
+            <div class="pageNumber"><a class="prev curPt"></a><span></span><a class="next curPt"></a></div>
+        </div>
+        <div class="timeline mt10">
+            <h2>最新动态</h2>
+            {{ render(controller('JiliApiBundle:Top:event') ) }}
+        </div>
+        <div class="rank mt10">
+        <h2>排行榜</h2>
+        {{ render(controller('JiliApiBundle:Top:ranking' ) ) }}
+        <div class="menu"><span class="month active">月度</span><span class="year">年度</span></div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block body_bottom %}
+{% if is_newbie_passed is defined  and is_newbie_passed == false  %}
+{% include "JiliApiBundle:Top:newbie_partial.html.twig" %}
+{% endif %}
+{% endblock %}
+
+

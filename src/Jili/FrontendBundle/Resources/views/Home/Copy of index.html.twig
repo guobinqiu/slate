@@ -1,0 +1,150 @@
+{% extends 'JiliFrontendBundle::header.html.twig' %}
+{% block title %}{{ parent()  }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css1408/jl.ui.reset.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css1408/jl.ui.common.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css1408/jl.ui.home.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js1408/jquery-1.10.2.js') }}" language="javascript"></script>
+<script src="{{ asset('js1408/jl.ui.countdown.js') }}" language="javascript"></script>
+<script src="{{ asset('js1408/jl.ui.home.js') }}" language="javascript"></script>
+{% endblock %}
+ 
+{% block page_main %}
+  <div class="w204 fl">
+    {# <div class="module categorys">
+		<h3>所有商品分类</h3>
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }} 
+    </div> #}<!-- eof module categorys -->
+    
+
+
+    <div id="timeline" class="borderGlob" {% if not app.session.has('uid') %} style="margin-top:0;" {% else %} style="margin-top:226px;" {% endif %}>
+      <h3 class="font15">最新动态</h3>
+      <div class="mask">
+        {{ render(controller('JiliApiBundle:Top:event') ) }}
+      </div><!-- eof mask -->
+    </div><!-- eof timeline -->
+
+
+	<div class="w204 fl" style="margin-top:15px;">
+    	<div>
+        	<!-- 首页左侧一（200*90，纯文字）-->
+            {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552971" } %}
+        </div>
+        <div class="marginT15">
+        	<!-- 首页左侧二（200*200，图片）-->
+            {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552985" } %}
+        </div>
+        <div class="marginT15">
+        	<!-- 首页左侧三（200*200，纯文字）-->
+            {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1627802" } %}
+        </div>
+	</div>
+	<!-- eof ads -->
+
+  </div><!-- w204 side -->
+  
+<script type="text/javascript">
+    (function($){
+        var taskNum = $('#nav .task li');
+        var taskLen = taskNum.length;
+        var timeLine = $('#timeline');
+        function setHeight(num){
+            timeLine.css('margin-top', num*45 +'px');
+        }
+        switch(taskLen){
+            case 1: setHeight(1); break;
+            case 2: setHeight(2); break;
+            case 3: setHeight(3); break;
+            case 4: setHeight(4); break;
+            case 5: setHeight(5); break;
+            default: timeLine.css('margin-top', '0px'); break;
+        }
+    })(jQuery);
+
+</script>
+  <div class="w638 fl">
+    {% if not app.session.has('uid') %}
+    <div id="indexBanner"> <a style="opacity: 1;" class="game" href="{{ asset(path('_game_chick'),'cdn1')}}">游戏体验</a> 
+    <a style="opacity: 1;" class="marketActivity" href="{{ asset(path('_marketActivity_index'),'cdn1')}}">商家活动</a> 
+    <a style="opacity: 1;" class="vote" href="http://www.91wenwen.net/vote/#active" target="_blank">快速问答</a> 
+    <a style="opacity: 1;" class="advertiserment" href="{{ asset(path('_advertiserment_list'),'cdn1')}}">体验广告<em>{{ render(controller('JiliApiBundle:Top:adCheck'))}}更新</em></a> 
+    <a style="opacity: 1;" class="shopping" href="{{ asset(path('jili_emar_top_cps'),'cdn1') }}">购物返利</a> </div>
+    <!-- eof indexBanner -->
+    {% else %}
+    {% endif %}
+
+    <div id="getMallList" class="borderGlob">
+        {{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 12, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
+    </div><!-- eof getMallList -->
+    
+    <div id="indexRecommend">
+        {# {{ render(controller('JiliEmarBundle:Ghs:promotion', {'max': 9, 'tmpl': 'top', 'p': 0 }) ) }}#}{# 超值低价 #}
+    </div><!-- eof indexRecommend --> 
+
+    <div id="marketActivity">
+        {# render(controller('JiliEmarBundle:Hotactivity:hot', {'max': 3, 'tmpl': 'top' } )) #}
+        {{ render(controller('JiliApiBundle:Top:market' ) ) }}{# 商家活动 #}
+    </div><!-- eof marketActivity -->
+  </div><!-- w615 side -->
+ 
+  <div class="w280 fr">
+    {% if not app.session.has('uid') %}
+    
+    <div class="loginFrame borderGlob">
+      <div id="userLogin"><a class="reg" href="{{ path('_user_reg') }}">免费注册</a></div>
+      <div class="logontxtbg"></div>
+      <div class="f12 c_999 logontxt">
+        已有账号，<a class="corBrightBlue font16" href="{{ path('_user_login') }}">直接登录</a>
+      </div>
+      <div id="aboutJili">
+        <ul class="clearfix">
+          <li>100米粒=￥1.00元</li>
+          <li>玩游戏，拿返利，答问卷赚积分</li>
+          <li>兑换支付宝，手机费，礼品卡...</li>
+        </ul>
+      </div>
+    </div> <!-- eof login Frame -->
+    {% else %}
+    <div class="userFrame borderGlob">
+      {{ render(controller('JiliApiBundle:Top:userInfo' ) ) }}
+    </div>    <!-- eof user Frame -->
+    {% endif %}
+
+    <div id="banner">
+      {{ render(controller('JiliApiBundle:Top:advertiseBanner' ) ) }}
+      <div class="bannerNumber"></div>
+    </div>   <!-- eof banner -->
+    <div id="news">
+      <h3 class="corBlack">最新公告</h3>
+      <div class="mask">
+        {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
+      </div>
+      <div class="pageNumber"><a class="prev curPt"></a><span>1/2</span><a class="next curPt"></a></div>
+    </div>    <!-- eof news -->
+    <div id="ranking" class="borderGlob">
+      <h3>排行榜</h3>
+      <div class="mask">
+        {{ render(controller('JiliApiBundle:Top:ranking' ) ) }}
+      </div>
+      <div class="menu"><a class="month hover">月度</a><a class="year">年度</a></div>
+    </div>    <!-- eof ranking   -->
+    <div class="fr" style="margin-top:15px;">
+        <!-- 首页右侧一（300*250，纯文字）-->
+        {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552990" } %}
+    </div>
+  </div><!-- w300 side -->
+
+{% endblock %}
+
+{% block body_bottom %}
+{% if is_newbie_passed is defined  and is_newbie_passed == false  %}
+{% include "JiliApiBundle:Top:newbie_partial.html.twig" %}
+{% endif %}
+{% endblock %}
+
+

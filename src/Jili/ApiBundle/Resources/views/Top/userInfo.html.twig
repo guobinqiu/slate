@@ -1,21 +1,15 @@
-<div id="userInfo">
-  <div class="basic clearfix">
-      <div class="photo">
-      <img src='{{ asset(app.session.get('icon_path','other140307/defaultFace.jpg' ) ) }}' height='90'/>
-      </div>
-    <p class="name">您好，{{ app.session.get('nick') }}</p>
-    {% if userCheckin is defined and userCheckin == 1 %}
-        <p><a class="goUserInfo" id="sign" onclick="signs();">签到领米粒</a></p>
-    {% else %}
-        <p><a class="hascheckin">已签到</a></p>
-    {% endif %}
-  </div>
-  <div class="point clearfix">
-    <dt class="corDarkGray"><strong class="corGlobRed font18 fon700">{{ app.session.get('points') }}</strong><br />当前米粒数</dt>
-    <dt class="right corDarkGray"><strong class="corGlobRed font18 fon700">{{ confirmPoints }}</strong><br />确认中米粒数</dt>
-    <dd><a class="corDarkGray" href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a></dd>
-    <dd class="right"><a class="corDarkGray" href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}">我的兑换历史</a></dd>
-  </div>
+<div class="personInfo ">
+    <div class="signArea clearfix">
+        <div class="headPort"><img src='{{ asset(app.session.get('icon_path','images1408/headPortBg.jpg' ) ) }}' height='46'/></div>
+        <div class="welcome">欢迎您，<div class="userName">{{ app.session.get('nick') }}</div></div>
+        {% if userCheckin is defined and userCheckin == 1 %}
+        <div class="signBtn" id="mysign" onclick="signs();"><span class="signIcon"></span><span id="homesign">签到</span></div>
+        {% else %}
+        <div class="signBtn"><span class="signIcon"></span><span id="homesign">已签到</span></div>
+        {% endif %}
+    </div>
+    <ul class="userExtra mt10">
+        <li class="first"><span>{{ app.session.get('points') }}</span>当前米粒数</li>
+        <li><span>{{ confirmPoints }}</span>确认中米粒数</li>
+    </ul>
 </div>
-
- 

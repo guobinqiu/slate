@@ -1,0 +1,454 @@
+/* CSS Document */
+.mainCon{
+	width: 720px;
+	padding-bottom: 30px;
+}
+.main h2{
+	font-size: 14px;
+	font-weight: bold;
+    height: 40px;
+	line-height: 40px;
+}
+a.more{
+	color: #4d4d4d;
+	font-size: 12px;
+	font-weight: normal;
+    line-height: 40px;
+}
+.focusPic{
+	padding-left: 200px;
+}
+.adTop{ width:516px; height:112px; border:1px solid #e6e6e6; background:#fff; margin-left: 200px; margin-top: 5px;}
+.adTop ul li{ float:left; margin: 10px 4px 0 12px;}
+.adTop ul li.ad1{width:116px;}
+.adTop ul li.ad2{ width:94px;}
+.adTop ul li .pointNum{height: 24px;line-height: 24px;}
+.slider{
+    position: relative;
+    z-index: 1;
+}
+.sliderBtns{
+    position: absolute;
+    z-index: 100;
+    right: 20px;
+    bottom: 10px;
+}
+.sliderBtns b{
+    height: 8px;
+    width: 25px;
+    margin-left: 3px;
+    background-color: rgb(0, 0, 0);
+    opacity: .5;
+    filter: alpha(opacity = 50);
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+.sliderBtns b.active{
+    background-color: #f75232;
+    opacity: .9;
+    filter: alpha(opacity = 90);
+}
+.sliderMask{
+    width: 518px;
+    height: 191px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+.sliderMask ul{
+    width: 1000%;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+}
+.sliderMask li{
+    float: left;
+}
+.hotShops{
+	padding: 10px;
+	border: 1px solid #eaeae8;
+	background-color: #fff;
+}
+.shopSlider{
+	position: relative;
+	z-index: 1;
+}
+.shopSlider bdo{
+	width: 14px;
+	height: 24px;
+	position: absolute;
+	z-index: 100;
+	top: 50%;
+	margin-top: -12px;
+    cursor: pointer;
+}
+.shopSlider bdo.preGroup{
+	left: 15px;
+	background:url(../images1408/icons.png) no-repeat 0 -40px;
+}
+.shopSlider bdo.nextGroup{
+	right: 15px;
+	background:url(../images1408/icons.png) no-repeat -19px -40px;
+}
+.shopSlider li{
+	float: left;
+	width: 125px;
+	text-align: center;
+	border-right: 1px solid #eaeae8;
+	position: relative;
+	z-index: 1;
+}
+.shopSliderMask{
+	margin: 0 auto;
+	width: 624px;
+	height: 70px;
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+}
+.shopSliderMask ul{
+	width: 1000%;
+	position: absolute;
+	z-index: 100;
+}
+.shopSlider .shopLogo{
+	width: 125px;
+	height: 42px;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+.shopSlider p{
+	color: #999;
+	line-height:28px;
+}
+.shopActive{
+	display:none;
+	position: absolute;
+	z-index: 100;
+	left: 0;
+	top: 0;
+}
+.shopActive .shopMask{
+	width: 125px;
+	height: 70px;
+	background-color: rgb(255, 255, 255);
+    opacity: .8;
+    filter: alpha(opacity = 80);
+}
+.shopActive .shopBtns{
+	width: 100%;
+	height: 28px;
+	overflow: hidden;
+	position: absolute;
+	z-index: 200;
+	bottom: 0;
+}
+.shopActive .shopBtns a, .shopActInfo .linkBtn a, span.arrow, a.register{
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+.shopActive .shopBtns a{
+	width: 60px;
+	text-align: center;
+	line-height: 22px;
+	color: #fff;
+	background-color: #f75232;
+}
+.shopSlider li.active .shopActive{
+	display: block;
+}
+.shopActList{
+	padding: 20px;
+	background-color: #fff;
+}
+.shopAct h2{
+	padding-left: 20px;
+}
+.shopActItem{
+	height: 168px;
+	margin-bottom: 10px;
+}
+.shopActImg{
+	float: left;
+	margin-right: 10px;
+}
+.shopActInfo{
+	float: right;
+	width: 250px;
+	height: 167px;
+	border-bottom: 1px solid #eaeae8;
+}
+.shopActInfo strong{
+	color: #f75232;
+	font-weight: bold;
+}
+.shopActInfo p{
+	height: 72px;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 24px;
+}
+.shopActInfo .publicAttention{
+	color: #4d4d4d;
+	text-align: right;
+}
+.shopActInfo .publicAttention strong{
+	font-size: 24px;
+	font-weight: normal;
+}
+.shopActInfo .linkBtn{
+	text-align: right;
+	margin-top: 15px;
+}
+.shopActInfo .linkBtn a{
+	width: 90px;
+	height: 28px;
+	line-height: 28px;
+	font-size: 14px;
+	text-align: center;
+	color: #fff;
+	background-color: #4a8ef3;	
+}
+span.arrow{
+	width: 20px;
+	height: 10px;
+	background: url(../images1408/icons.png) no-repeat 10px -102px;
+    *margin-bottom: 3px;
+}
+.rightSider{
+	width:270px;
+}
+.rightSider>div{
+	padding: 0 13px;
+	background-color: #fff;
+}
+div.loginArea{
+	padding-top: 24px;
+	padding-bottom: 13px;
+	height: 120px;
+}
+.loginArea p{
+	color: #999;
+	line-height: 40px;
+}
+.loginArea p span{
+	color: #f2f2f2;
+}
+.loginArea p a{
+	font-size: 14px;
+	color: #4a8ef3;	
+}
+a.register{
+	width: 240px;
+	height: 55px;
+	line-height: 55px;
+	font-family: "微软雅黑";
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	color: #fff;
+	background-color: #4a8ef3;	
+}
+div.personInfo{
+	padding: 13px;
+	padding-bottom: 25px;
+}
+.userExtra{ padding:10px; margin-top: 14px; background:#f7f7f7; border-radius: 2px 2px; border:1px solid #e3e3e3;}
+.headPort{
+    float: left;
+	width: 46px;
+	height: 46px;
+	margin-right: 10px;
+	background: url(../images1408/headPortBg.jpg) no-repeat;
+}
+.welcome{
+    float: left;
+	line-height: 23px;
+}
+.signBtn{
+    float: right;
+	width: 89px;
+	height: 46px;
+	line-height: 46px;
+	text-align: center;
+	color: #fff;
+	font-size: 14px;
+	background-color:#4a8ef3;
+	border-radius: 2px 2px;
+	cursor: pointer;
+}
+span.signIcon, .quickQInfo p span, .countDown span{
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+span.signIcon{
+	width: 26px;
+	height: 16px;
+	background: url(../images1408/icons.png) no-repeat 0 -134px;
+	vertical-align: middle;
+}
+.personInfo li{
+	width:48%;
+	background-color: #f7f7f7;
+	text-align:center;
+	display: inline-block;
+	color:#999;
+}
+.personInfo li.first{border-right:1px solid #dedede;}
+.personInfo li span{
+	color: #6b6b6b;
+	font-family: "微软雅黑";
+	font-size: 16px;
+	font-weight: bold;
+	padding-right: 15px;
+	display:block;
+}
+div.quickQ{
+	margin-top: 3px;
+	padding-bottom:20px;
+}
+.quickQInfo{
+	width: 140px;
+}
+.quickQInfo p span{
+	width: 15px;
+	height: 12px;
+}
+.quickQInfo p span.quotesL{
+	background: url(../images1408/icons.png) no-repeat 0 -179px;
+}
+.quickQInfo p span.quotesR{
+	background: url(../images1408/icons.png) no-repeat -13px -179px;
+}
+.countDown{
+	margin-top: 15px;
+	color: #999;
+}
+.countDown strong, .countDown span{
+	color: #333;
+	font-weight: bold;
+}
+.countDown span{
+	width: 29px;
+	height: 27px;
+	line-height: 27px;
+	text-align: center;
+	background: url(../images1408/timeBg.jpg) no-repeat center;
+}
+.timeline{padding-bottom: 10px;}
+.timeline li{
+	border-top: 1px dotted #e0e0e0;
+    height: 35px;
+	line-height: 35px;
+}
+
+.timeline li span{
+	padding-right: 8px;
+}
+.timeline li em{
+	padding-left: 8px;
+	color:#f75232;
+}
+.timeline .mask{
+	height: 215px;
+	overflow: hidden;
+}
+.timeline .mask ul{ padding:0 10px;}
+.mask{
+    position: relative;
+    z-index: 1;
+    width: 244px;
+    overflow: hidden;
+}
+.all{
+    width: 1000%;
+    position: absolute;
+    z-index: 100;
+    left: 0;
+}
+.all ul{
+    float: left;
+    width: 244px;
+    overflow: hidden;
+}
+div.notice, div.rank{
+	position: relative;
+	z-index: 1;
+	padding-bottom: 13px;
+}
+.notice .mask{
+    height: 72px;
+}
+.notice li{
+	line-height: 24px;
+	list-style: disc outside none;
+	margin-left: 15px;
+    width: 244px;
+}
+.notice li a:hover{
+    color: #ea4c11;
+    text-decoration: none;
+}
+.notice .pageNumber, .menu{
+	position: absolute;
+	z-index: 50;
+	top: 10px;
+	right: 13px;
+}
+.notice .pageNumber span{
+	padding: 0 5px;
+}
+.notice .pageNumber a{
+	width: 4px;
+	height: 8px;
+	background: url(../images1408/icons.png) no-repeat 0 -155px;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+    cursor: pointer;
+}
+.notice .pageNumber a.next{
+	background: url(../images1408/icons.png) no-repeat -4px -155px;
+}
+.rank .mask{
+	height: 179px;
+}
+.rank li{
+	height: 35px;
+	line-height: 35px;
+	border-bottom: 1px dotted #e0e0e0;
+    *margin-top: -2px;
+}
+.rank li em, .rank li dd{
+	float: left;
+}
+.rank li dt{
+	float: right;
+}
+.rank li dt span{ color:#f75232;}
+.rank li em{
+	color: #fff;
+	font-size: 12px;
+	width: 12px;
+	height: 15px;
+	line-height: 12px;
+	text-align: center;
+	margin: 10px;
+	background: url(../images1408/icons.png) no-repeat 0 -20px;
+}
+.rank li em.redBg{
+	background: url(../images1408/icons.png) no-repeat 0 0;
+}
+.menu span{
+	padding: 0 10px 7px;
+    cursor: pointer;
+}
+.menu span.active{
+	color: #fff;
+    background: url(../images1408/rankBg.png) no-repeat;
+}
