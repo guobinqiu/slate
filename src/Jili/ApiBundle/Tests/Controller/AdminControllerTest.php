@@ -5,8 +5,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Controller\AdminController;
 
-class AdminControllerTest extends WebTestCase {
-
+class AdminControllerTest extends WebTestCase
+{
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -15,7 +15,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * {@inheritDoc}
      */
-    public function setUp() {
+    public function setUp()
+    {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
@@ -25,7 +26,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * {@inheritDoc}
      */
-    protected function tearDown() {
+    protected function tearDown()
+    {
         parent :: tearDown();
         $this->em->close();
     }
@@ -33,7 +35,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group HandleExchangeWen
      */
-    public function testHandleExchangeWen() {
+    public function testHandleExchangeWen()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -62,7 +65,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group InsertSendMs
      */
-    public function testInsertSendMs() {
+    public function testInsertSendMs()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -79,7 +83,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group delSendMs
      */
-    public function testdelSendMs() {
+    public function testdelSendMs()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -93,7 +98,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group updateSendMs
      */
-    public function testupdateSendMs() {
+    public function testupdateSendMs()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -111,7 +117,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group selectSendMsById
      */
-    public function testselectSendMsById() {
+    public function testselectSendMsById()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -126,7 +133,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group selectSendMs
      */
-    public function testselectSendMs() {
+    public function testselectSendMs()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -140,7 +148,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group SelectTaskPercent
      */
-    public function testSelectTaskPercent() {
+    public function testSelectTaskPercent()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -155,7 +164,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group UpdateTaskHistory
      */
-    public function testUpdateTaskHistory() {
+    public function testUpdateTaskHistory()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -177,7 +187,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group getTaskHistory
      */
-    public function testgetTaskHistory() {
+    public function testgetTaskHistory()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -200,7 +211,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group GetPointHistory
      */
-    public function testGetPointHistory() {
+    public function testGetPointHistory()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -215,7 +227,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group ExchangeOKWen
      */
-    public function testExchangeOKWen() {
+    public function testExchangeOKWen()
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();

@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\Mailer;
 use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Entity\LoginLog;
@@ -262,13 +263,20 @@ class DefaultController extends Controller
         $nick = $request->request->get('nick');
         $pwd = $request->request->get('pwd');
         $newPwd = $request->request->get('newPwd');
+        // pass the query param when redirect;
+        $query  = array();
+        if( $request->query->has('spm') ) {
+            $query['spm'] =  $request->query->get('spm');
+        }
         if ($token) {
             $request->getSession()->remove('token');
             $request->getSession()->set('token', $token);
         }
         $u_token = $request->getSession()->get('token');
         if (!$u_token) {
-            return $this->redirect($this->generateUrl('_user_reg'));
+
+            $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
+            return $this->redirect($this->generateUrl('_user_reg' ));
         }
         $em = $this->getDoctrine()->getManager();
         $wenuser = $em->getRepository('JiliApiBundle:WenwenUser')->findByToken($u_token);
@@ -281,7 +289,8 @@ class DefaultController extends Controller
                     $uniqkey = $params->uniqkey;
             }
             if ($this->getToken($email) != $signature) {
-                return $this->redirect($this->generateUrl('_user_reg'));
+                $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
+                return $this->redirect($this->generateUrl('_user_reg' ));
             }
         } else {
             $email = $wenuser[0]->getEmail();
@@ -291,7 +300,8 @@ class DefaultController extends Controller
         if ($is_email) {
             $is_user = $this->container->getParameter('init_one');
         } else {
-            if ($request->getMethod() == 'POST') {
+            if ($request->getMethod() === 'GET') {
+            } elseif ($request->getMethod() == 'POST') {
                 $err_msg = $this->checkLanding($email, $nick, $pwd, $newPwd);
                 if(!$err_msg){
                     $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
@@ -345,6 +355,8 @@ class DefaultController extends Controller
                     $this->get('login.listener')->checkNewbie( $user );
 
                     $this->get('login.listener')->log( $user );
+
+                    $this->get('user_sign_up_route.listener')->signed( array('user_id'=> $user->getId() ) );
                     return $this->redirect($this->generateUrl('_homepage'));
                 }
             }

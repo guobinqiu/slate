@@ -27,6 +27,15 @@ monolog:
 assetic:
     use_controller: true
 
+doctrine:
+    dbal:
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   jili_0129
+        user:     %database_user%
+        password:  MyNewPassword
+        charset:  UTF8
+
 #swiftmailer:
 #    delivery_address: me@example.com
 doctrine:

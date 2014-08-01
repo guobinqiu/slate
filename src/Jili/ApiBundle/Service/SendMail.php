@@ -8,17 +8,18 @@ use Symfony\Component\DependencyInjection\ParameterBagInterface;
 /**
  *
  **/
-class SendMail {
-
+class SendMail
+{
     private $logger;
     private $soap_mail;
 
-    public function __construct(LoggerInterface $logger) {
+    public function __construct(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 
-    public function sendMailForRegisterFromWenwen($email, $url) {
-
+    public function sendMailForRegisterFromWenwen($email, $url)
+    {
         //通过soap发送
         $this->soap_mail->setCampaignId($this->getParameter('register_from_wenwen_campaign_id')); //活动id
         $this->soap_mail->setMailingId($this->getParameter('register_from_wenwen_mailing_id')); //邮件id
@@ -44,15 +45,18 @@ class SendMail {
         }
     }
 
-    public function getParameter($key) {
+    public function getParameter($key)
+    {
         return $this->container_->getParameter($key);
     }
 
-    public function setContainer($c) {
+    public function setContainer($c)
+    {
         $this->container_ = $c;
     }
 
-    public function setSoapMail($soap_mail) {
+    public function setSoapMail($soap_mail)
+    {
         $this->soap_mail = $soap_mail;
     }
 }

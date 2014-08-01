@@ -1258,78 +1258,82 @@ class UserController extends Controller
     /**
 	 * @Route("/reSend", name="_user_reSend")
 	 */
-	public function reSend(){
-		$request = $this->get('request');
-		$id = $request->query->get('id');
-		$code = $request->query->get('code');
-		$nick = $request->query->get('nick');
-		$email = $request->query->get('email');
+    public function reSend()
+    {
+        $request = $this->get('request');
+        $id = $request->query->get('id');
+        $code = $request->query->get('code');
+        $nick = $request->query->get('nick');
+        $email = $request->query->get('email');
 
-		$send_email = false;
+        $send_email = false;
 
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-		if($user[0]->getIsFromWenwen() == $this->container->getParameter('is_from_wenwen_register')){
-		$email = $user[0]->getEmail();
-		$url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user[0]->getId()),true);
-		$send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
-		}else{
-			$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
-			$send_email = $this->sendMail($url, $email,$nick);
-		}
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+        if($user[0]->getIsFromWenwen() == $this->container->getParameter('is_from_wenwen_register')){
+        $email = $user[0]->getEmail();
+        $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user[0]->getId()),true);
+        $send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
+        }else{
+            $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+            $send_email = $this->sendMail($url, $email,$nick);
+        }
 
-		if($send_email){
-			$code = $this->container->getParameter('init_one');
-		}else{
-			$code = $this->container->getParameter('init');
-		}
-		return new Response($code);
-		
-	}
-	/**
+        if($send_email){
+            $code = $this->container->getParameter('init_one');
+        }else{
+            $code = $this->container->getParameter('init');
+        }
+        return new Response($code);
+
+    }
+    /**
 	 * @Route("/activeEmail/{email}", name="_user_activeEmail")
 	 */
-	public function activeEmail($email){
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-		$str = 'jiliactiveregister';
-		$code = md5($user[0]->getId().str_shuffle($str));
+    public function activeEmail($email)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+        $str = 'jiliactiveregister';
+        $code = md5($user[0]->getId().str_shuffle($str));
 
-		$send_email = false;
+        $send_email = false;
 
-		if($user[0]->getIsFromWenwen() == $this->container->getParameter('is_from_wenwen_register')){
-		$email = $user[0]->getEmail();
-		$url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user[0]->getId()),true);
-		$send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
-		}else{
-			$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user[0]->getId()),true);
-			$send_email = $this->sendMail($url,$email,$user[0]->getNick());
-		}
-		if($send_email){
-			$setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($user[0]->getId());
-			$setPasswordCode[0]->setCode($code);
-			$setPasswordCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
-			$setPasswordCode[0]->setIsAvailable($this->container->getParameter('init_one'));
-			$em->persist($setPasswordCode[0]);
-			$em->flush();
-			return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user[0]->getId()),true));
-		}else{
-			return $this->render('JiliApiBundle::error.html.twig');
-		}
-	}
+        if($user[0]->getIsFromWenwen() == $this->container->getParameter('is_from_wenwen_register')){
+        $email = $user[0]->getEmail();
+        $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user[0]->getId()),true);
+        $send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
+        }else{
+            $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user[0]->getId()),true);
+            $send_email = $this->sendMail($url,$email,$user[0]->getNick());
+        }
+        if($send_email){
+            $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($user[0]->getId());
+            $setPasswordCode[0]->setCode($code);
+            $setPasswordCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
+            $setPasswordCode[0]->setIsAvailable($this->container->getParameter('init_one'));
+            $em->persist($setPasswordCode[0]);
+            $em->flush();
 
-	public function issetReg($email){
-		$em = $this->getDoctrine()->getManager();
-		$is_pwd = $em->getRepository('JiliApiBundle:User')->isPwd($email);
-		if($is_pwd){
-			$code = $this->container->getParameter('init_one');//用户已注册
-		}else{
-			$code = $this->container->getParameter('init_two');//用户未注册	
-		}
-		return $code;
-	}
+            return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user[0]->getId()),true));
+        }else{
+            return $this->render('JiliApiBundle::error.html.twig');
+        }
+    }
 
-	/**
+    public function issetReg($email)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $is_pwd = $em->getRepository('JiliApiBundle:User')->isPwd($email);
+        if($is_pwd){
+            $code = $this->container->getParameter('init_one');//用户已注册
+        }else{
+            $code = $this->container->getParameter('init_two');//用户未注册
+        }
+        return $code;
+    }
+
+    /**
 	 * @Route("/reg", name="_user_reg",requirements={"_scheme"="https"})
 	 */
     public function regAction()
@@ -1350,90 +1354,95 @@ class UserController extends Controller
         $checkInLister = $this->get('check_in.listener');
         $checkInPoint = $checkInLister->getCheckinPointForReg($this->get('request'));
 
-		if ($request->getMethod() == 'POST'){
-			    if($this->get('request')->getSession()->get('phrase') != $request->request->get('captcha')){
-			    	$this->get('request')->getSession()->remove('phrase');
-			    	// $code_cha = $this->container->getParameter('init_one');
-			    	$code_cha = $this->container->getParameter('reg_wr_captcha');
-			    }else{
-			    	$this->get('request')->getSession()->remove('phrase');
-			    	if($email){
-			    		if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$email)){
-        					// $code_email = $this->container->getParameter('init_two');
-        					$code_email = $this->container->getParameter('reg_wr_mail');
-        				}else{
-        					$em = $this->getDoctrine()->getManager();
-        					$user_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-                    	    if($user_email){
-                    	    	$wenwen = $this->issetReg($email);
-                    	    	if($wenwen==$this->container->getParameter('init_one')){
-                    	    		$code_email = $this->container->getParameter('reg_al_mail');               	
-                    	    	}
-                    	    	if($wenwen==$this->container->getParameter('init_two')){
-                    	    		$code_re = $this->container->getParameter('init_one');
-                    	    		$code_email = $this->container->getParameter('reg_noal_mail');
-                    	    	}	
-                    	    }else{
-        						if($nick){
-        							//$user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
-        							$user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email, $nick);
-        							if($user_nick)
-        								$code_nick = $this->container->getParameter('reg_al_nick');
-        							else{
-        								if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick)){
-        										// $code_nick = $this->container->getParameter('init_three');
-        									$code_nick = $this->container->getParameter('reg_wr_nick');
-        								}else{
-        									$count = (strlen($nick) + mb_strlen($nick,'UTF8')) / 2;
-        									if($count > 20)
-        										$code_nick = $this->container->getParameter('reg_wr_nick');
-        									else{
-        										$user->setNick($request->request->get('nick'));
-	        									$user->setEmail($request->request->get('email'));
-	        									$user->setPoints($this->container->getParameter('init'));
-	        									$user->setIsInfoSet($this->container->getParameter('init'));
-	        									$user->setRewardMultiple($this->container->getParameter('init_one'));
-	        									$em->persist($user);
-	        									$em->flush();
-	        									$str = 'jilifirstregister';
-	        									$code = md5($user->getId().str_shuffle($str));
-	        									$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
-	        									if($this->sendMail($url, $user->getEmail(),$user->getNick())){
-	        										$setPasswordCode = new SetPasswordCode();
-	        										$setPasswordCode->setUserId($user->getId());
-	        										$setPasswordCode->setCode($code);
-	        										$setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
-	        										$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
-	        										$em->persist($setPasswordCode);
-	        										$em->flush();
-	        										// 					echo 'success';
-	        										
-	        									    return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
-	        									}
+        if ($request->getMethod() == 'POST'){
+            if($this->get('request')->getSession()->get('phrase') != $request->request->get('captcha')){
+                    $this->get('request')->getSession()->remove('phrase');
+                    // $code_cha = $this->container->getParameter('init_one');
+                    $code_cha = $this->container->getParameter('reg_wr_captcha');
+                }else{
+                    $this->get('request')->getSession()->remove('phrase');
+                    if($email){
+                        if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$email)){
+                            // $code_email = $this->container->getParameter('init_two');
+                            $code_email = $this->container->getParameter('reg_wr_mail');
+                        }else{
+                            $em = $this->getDoctrine()->getManager();
+                            $user_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+                            if($user_email){
+                                $wenwen = $this->issetReg($email);
+                                if($wenwen==$this->container->getParameter('init_one')){
+                                    $code_email = $this->container->getParameter('reg_al_mail');
+                                }
+                                if($wenwen==$this->container->getParameter('init_two')){
+                                    $code_re = $this->container->getParameter('init_one');
+                                    $code_email = $this->container->getParameter('reg_noal_mail');
+                                }
+                            }else{
+                                if($nick){
+                                    //$user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
+                                    $user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email, $nick);
+                                    if($user_nick)
+                                        $code_nick = $this->container->getParameter('reg_al_nick');
+                                    else{
+                                        if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick)){
+                                                // $code_nick = $this->container->getParameter('init_three');
+                                            $code_nick = $this->container->getParameter('reg_wr_nick');
+                                        }else{
+                                            $count = (strlen($nick) + mb_strlen($nick,'UTF8')) / 2;
+                                            if($count > 20)
+                                                $code_nick = $this->container->getParameter('reg_wr_nick');
+                                            else{
+                                                $logger = $this->get('logger');
+                                                $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__,'') ));
+                                                $user->setNick($request->request->get('nick'));
+                                                $user->setEmail($request->request->get('email'));
+                                                $user->setPoints($this->container->getParameter('init'));
+                                                $user->setIsInfoSet($this->container->getParameter('init'));
+                                                $user->setRewardMultiple($this->container->getParameter('init_one'));
+                                                $em->persist($user);
+                                                $em->flush();
+                                                $str = 'jilifirstregister';
+                                                $code = md5($user->getId().str_shuffle($str));
+                                                $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
+                                                if($this->sendMail($url, $user->getEmail(),$user->getNick())){
+                                                    $setPasswordCode = new SetPasswordCode();
+                                                    $setPasswordCode->setUserId($user->getId());
+                                                    $setPasswordCode->setCode($code);
+                                                    $setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                                                    $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
+                                                    $em->persist($setPasswordCode);
+                                                    $em->flush();
 
-        									}
-        									
-        								}
-        							}
-        						}else{
-        							$code_nick = $this->container->getParameter('reg_en_nick');
-        						}
-        						
-        					}
-        				}
-			    	}else{
-			    		$code_email = $this->container->getParameter('reg_en_mail');
-			    	}
-			    }
-		}
-		return $this->render('JiliApiBundle:User:reg.html.twig',array(
-				'form' => $form->createView(),
-				'code_nick'=>$code_nick,
-				'code_cha'=>$code_cha,
-				'code_email'=>$code_email,
-				'code_re'=>$code_re,
-				'email'=>$email,
-				'nick' =>$nick,
+                                                    $this->get('user_sign_up_route.listener')->signed(array('user_id'=> $user->getId() ) );
+
+                                                    return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
+                                                }
+
+                                            }
+
+                                        }
+                                    }
+                                }else{
+                                    $code_nick = $this->container->getParameter('reg_en_nick');
+                                }
+
+                            }
+                        }
+                    }else{
+                        $code_email = $this->container->getParameter('reg_en_mail');
+                    }
+                }
+        } elseif( $request->getMethod()==='GET') {
+            $this->get('user_sign_up_route.listener')->log( );
+        }
+        return $this->render('JiliApiBundle:User:reg.html.twig',array(
+                'form' => $form->createView(),
+                'code_nick'=>$code_nick,
+                'code_cha'=>$code_cha,
+                'code_email'=>$code_email,
+                'code_re'=>$code_re,
+                'email'=>$email,
+                'nick' =>$nick,
                 'checkInPoint' =>$checkInPoint
                 ));
     }
@@ -1862,87 +1871,90 @@ class UserController extends Controller
         $str = 'jiliforgetpassword';
         $code = md5($id.str_shuffle($str));
 // 		$request = $this->get('request');
-		$email = '278583642@qq.com';
-		$nick = '';
-		$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
-		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('JiliApiBundle:User')->find($id);
-		if($this->sendMail($url, $email,$nick)){
-			$setPasswordCode = new SetPasswordCode();
-			$setPasswordCode->setUserId($user->getId());
-			$setPasswordCode->setCode($code);
-			$setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
-			$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
-			$em->persist($setPasswordCode);
-		    $em->flush();
-			echo 'success';
-		}
+        $email = '278583642@qq.com';
+        $nick = '';
+        $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        if($this->sendMail($url, $email,$nick)){
+            $setPasswordCode = new SetPasswordCode();
+            $setPasswordCode->setUserId($user->getId());
+            $setPasswordCode->setCode($code);
+            $setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
+            $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
+            $em->persist($setPasswordCode);
+            $em->flush();
+            echo 'success';
+        }
 
-    	return $this->render('JiliApiBundle:User:mission.html.twig');
-	}
-	
-	//reset pwd send mail
-	public function sendMail_reset($url,$email,$nick){
-		$message = \Swift_Message::newInstance()
-		->setSubject('积粒网-帐号密码重置')
-		->setFrom(array('account@91jili.com'=>'积粒网'))
-		->setTo($email)
-		->setBody(
-				'<html>' .
-				' <head></head>' .
-				' <body>' .
-				'亲爱的'.$nick.'<br/>'.
-				'<br/>'.
-				'  我们收到您因为忘记密码，要求重置积粒网帐号密码的申请，请点击<a href='.$url.' target="_blank">这里</a>重置您的密码。<br/><br/>' .
-				'  如果您并未提交重置密码的申请，请忽略本邮件，并关注您的账号安全，因为可能有其他人试图登录您的账户。<br/><br/>积粒网运营中心' .
-				' </body>' .
-				'</html>',
-				'text/html'
-		);
-		$flag = $this->get('mailer')->send($message);
-		if($flag===1){
-			return true;
-		}else{
-			return false;
-		}
-	
-	}
-	
-	
+        return $this->render('JiliApiBundle:User:mission.html.twig');
+    }
 
-	public function sendMail($url,$email,$nick){
-		$message = \Swift_Message::newInstance()
-		->setSubject('积粒网-注册激活邮件')
-		->setFrom(array('account@91jili.com'=>'积粒网'))
-		->setTo($email)
-		->setBody(
-				        '<html>' .
-						' <head></head>' .
-						' <body>' .
-				        '亲爱的'.$nick.'<br/>'.
-				        '<br/>'.
-						'  感谢您注册成为“积粒网”会员！请点击<a href='.$url.' target="_blank">这里</a>，立即激活您的帐户！<br/><br/><br/>' .
-						'  注：激活邮件有效期是14天，如果过期后不能激活，请到网站首页重新注册激活。<br/><br/>' .
-						'  ++++++++++++++++++++++++++++++++++<br/>' .
-						'  积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
-						' </body>' .
-						'</html>',
-						'text/html'
-		);
-		$flag = $this->get('mailer')->send($message);
-		if($flag===1){
-			return true;
-		}else{
-			return false;
-		}
-	
-	}
+    //reset pwd send mail
+    public function sendMail_reset($url,$email,$nick)
+    {
+        $message = \Swift_Message::newInstance()
+        ->setSubject('积粒网-帐号密码重置')
+        ->setFrom(array('account@91jili.com'=>'积粒网'))
+        ->setTo($email)
+        ->setBody(
+                '<html>' .
+                ' <head></head>' .
+                ' <body>' .
+                '亲爱的'.$nick.'<br/>'.
+                '<br/>'.
+                '  我们收到您因为忘记密码，要求重置积粒网帐号密码的申请，请点击<a href='.$url.' target="_blank">这里</a>重置您的密码。<br/><br/>' .
+                '  如果您并未提交重置密码的申请，请忽略本邮件，并关注您的账号安全，因为可能有其他人试图登录您的账户。<br/><br/>积粒网运营中心' .
+                ' </body>' .
+                '</html>',
+                'text/html'
+        );
+        $flag = $this->get('mailer')->send($message);
+        if($flag===1){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 
 
-	private function updateSendMs($userid,$sendid){
-		$isRead = '';
-		$code = array();
-		$em = $this->getDoctrine()->getManager();
+
+    public function sendMail($url,$email,$nick)
+    {
+        $message = \Swift_Message::newInstance()
+        ->setSubject('积粒网-注册激活邮件')
+        ->setFrom(array('account@91jili.com'=>'积粒网'))
+        ->setTo($email)
+        ->setBody(
+                        '<html>' .
+                        ' <head></head>' .
+                        ' <body>' .
+                        '亲爱的'.$nick.'<br/>'.
+                        '<br/>'.
+                        '  感谢您注册成为“积粒网”会员！请点击<a href='.$url.' target="_blank">这里</a>，立即激活您的帐户！<br/><br/><br/>' .
+                        '  注：激活邮件有效期是14天，如果过期后不能激活，请到网站首页重新注册激活。<br/><br/>' .
+                        '  ++++++++++++++++++++++++++++++++++<br/>' .
+                        '  积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
+                        ' </body>' .
+                        '</html>',
+                        'text/html'
+        );
+        $flag = $this->get('mailer')->send($message);
+        if($flag===1){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+
+    private function updateSendMs($userid,$sendid)
+    {
+        $isRead = '';
+        $code = array();
+        $em = $this->getDoctrine()->getManager();
         $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ($userid % 10) );
         $updateSm = $sm->find($sendid);
         if($updateSm->getReadFlag() == 0){

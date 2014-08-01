@@ -119,11 +119,27 @@ services:
         class: Knp\Component\Pager\Event\Subscriber\Sortable\SortableSubscriber
         tags:
             - { name: knp_paginator.subscriber }
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            channels: [!user_source]
+            
+        user_source:
+            type: stream
+            path: %kernel.logs_dir%/%kernel.environment%.user_source.log
+            level: info 
+            formatter: monolog.formatter.session_request
+            channels: [user_source]
+     
 gregwar_captcha:
-        width: 100
-        height: 35
-        length: 4
-        as_url: true
+    width: 100
+    height: 35
+    length: 4
+    as_url: true
+    
+
 
 parameters:
     emar_com.app_AppKey: %emar_com.cron.AppKey% 

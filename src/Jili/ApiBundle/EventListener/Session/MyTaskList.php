@@ -4,6 +4,13 @@ namespace Jili\ApiBundle\EventListener\Session;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;
 
+use Symfony\Component\HttpFoundation\Request;
+
+use Jili\ApiBundle\Entity\User,
+    Jili\ApiBundle\Entity\UserSignUpRoute;
+
+
+
 /**
  * 页面上的的的任务列表中数据的生成。
  **/
