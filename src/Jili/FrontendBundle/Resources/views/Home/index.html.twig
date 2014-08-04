@@ -1,4 +1,4 @@
-{% extends 'JiliFrontendBundle::header.html.twig' %}
+{% extends 'JiliFrontendBundle::base.html.twig' %}
 {% block title %}{{ parent()  }} {% endblock %}
 
 {% block stylesheet %}
@@ -11,19 +11,7 @@
 <div class="main w1000 mt10 clearfix">
     <div class="mainCon fnLeft ">
         <div class="focusPic">
-            <div class="loginBefore fnHide"><a href="#" target="_blank"><img src="{{ asset('images1408/loginBefore.jpg') }}" width="518" height="191" alt="积粒积分图" title="积粒积分图"/></a></div>
-            <div class="slider ">
-                <div class="sliderMask">
-                    <ul class="sliderImg clearfix">
-                        <li><a href="#" target="_blank"><img src="{{ asset('images1408/img01.jpg') }}" width="518" height="191" alt="图片展示" title="图片展示"/></a></li>
-                        <li><a href="#" target="_blank"><img src="{{ asset('images1408/img01.jpg') }}" width="518" height="191" alt="图片展示" title="图片展示"/></a></li>
-                        <li><a href="#" target="_blank"><img src="{{ asset('images1408/img01.jpg') }}" width="518" height="191" alt="图片展示" title="图片展示"/></a></li>
-                        <li><a href="#" target="_blank"><img src="{{ asset('images1408/img01.jpg') }}" width="518" height="191" alt="图片展示" title="图片展示"/></a></li>
-                        <li><a href="#" target="_blank"><img src="{{ asset('images1408/img01.jpg') }}" width="518" height="191" alt="图片展示" title="图片展示"/></a></li>
-                    </ul>
-                </div>
-                <div class="sliderBtns"><b class="active"></b><b></b><b></b><b></b><b></b></div>
-            </div>
+            {{ render(controller('JiliApiBundle:Top:advertiseBanner' ) ) }}
         </div>
         <div class="adTop">
             <ul>

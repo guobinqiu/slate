@@ -324,10 +324,10 @@ footer section a:hover{
 	vertical-align:middle;
 }
 #loginFrame .loginForm li dt a.forget{
-	color:#54b9e8;
+	color:#4a8ef3;
 }
 #loginFrame .loginForm li dt a.regBtn{
-	color:#54b9e8;
+	color:#4a8ef3;
 	font-weight:bold;
 	margin:0 10px;
 }
@@ -338,7 +338,7 @@ footer section a:hover{
     padding: 0 0 0 100px;
 }
 #loginFrame .directGo a.directGoBtn{
-	color:#54b9e8;
+	color:#4a8ef3;
 	margin:0 10px;
 }
 .blackLayer{
@@ -351,5 +351,5 @@ footer section a:hover{
 	position:absolute;
 	z-index:10009;
 }
-.crumbTit{padding-bottom: 10px;height: 20px;display: inline-block; font-weight:normal;}
+.crumbTit{padding-bottom: 10px;height: 20px;display: inline-block;}
 

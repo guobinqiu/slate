@@ -89,18 +89,11 @@ $(document).ready(function() {
       {% endif%}
     </ul>
     <div style="width: 100%; display: inline-block;">{{ knp_pagination_render(pagin) }}</div>
-    
     <!--<div class="loading"><img src="{{ asset('other/loading.gif') }}" width="48" height="48"></div>--> 
   </div>
-  <div style="width: 132px; top: 20px; right: 0; position: absolute; height: 600px; background:#ccc;">
-    <div> 
-    <!-- 商家活动右侧一（160*90，纯文字） -->
-    {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1553022" } %}
-    </div>
-    <div class="marginT15"> 
-    <!-- 商家活动右侧二（160*600） -->
-    {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1553032" } %}
-    </div>
+  <div>
+    <!-- 商家活动 右侧一 纯文字（改） -->
+    {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1644029" } %}
   </div>
 </div>
 {% endblock %}

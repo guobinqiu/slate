@@ -278,7 +278,9 @@ div.personInfo{
 	color: #fff;
 	font-size: 14px;
 	background-color:#4a8ef3;
-	border-radius: 2px 2px;
+	-moz-border-radius: 2px; 
+    -webkit-border-radius: 2px; 
+    border-radius: 2px;
 	cursor: pointer;
 }
 span.signIcon, .quickQInfo p span, .countDown span{
@@ -305,7 +307,6 @@ span.signIcon{
 	font-family: "微软雅黑";
 	font-size: 16px;
 	font-weight: bold;
-	padding-right: 15px;
 	display:block;
 }
 div.quickQ{

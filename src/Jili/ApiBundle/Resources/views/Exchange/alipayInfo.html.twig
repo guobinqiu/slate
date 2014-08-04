@@ -125,8 +125,10 @@ function changePoint(){
       <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">2050</span></div>
       <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-2050 }}</span></div>
       <div><span id='error' style="color:red">{{code}}</span></div>
-      <div class="btnArea mt50"><img id="active" onclick="change();" src="{{ asset('images/changeEnterBtn.jpg')}}" width="175" height="60">
-      <img id="unactive" src="{{ asset('images/changeEnterBtn_unactive.jpg')}}" width="175" height="60"></div>
+      <div class="btnArea mt50">
+          <a class="fontYH font18" id="active" onclick="change();">提交</a>
+          <a class="fontYH font18" id="unactive" onclick="change();">提交</a>
+     </div>
     </div>
   </article>
   <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />

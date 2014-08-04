@@ -7,7 +7,7 @@ $(document).ready(function(){
 			$("footer").css("position","fixed");
 		}
 		else{
-			$("footer").css("position","static");
+			$("footer").css("position","");
 			
 		} 	
 	}

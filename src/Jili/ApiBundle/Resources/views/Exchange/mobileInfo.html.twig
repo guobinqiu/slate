@@ -84,7 +84,7 @@ function changePoint(){
     <div class="wenwen">
       <div class="form">
         <dd>手机号码：</dd>
-        <dt>{{ existMobile }} <a class="otherUser">使用其他账号</a></dt>
+        <dt>{{ existMobile }} <a class="otherUser">使用其他号码</a></dt>
         <dt><input type="text" id="mobile" name="mobile" value="{{ mobile }}" /></dt>
         <dd>再次输入号码：</dd>
         <dt><input type="text" id="re_mobile" name="re_mobile" /></dt>
@@ -101,8 +101,11 @@ function changePoint(){
       <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">2010</span></div>
       <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-2010 }}</span></div>
       <div><span id='error' style="color:red">{{code}}</span></div>
-      <div class="btnArea mt50"><img id="active" onclick="change();" src="{{ asset('images/changeEnterBtn.jpg')}}" width="175" height="60">
-      <img id="unactive" src="{{ asset('images/changeEnterBtn_unactive.jpg')}}" width="175" height="60"></div>
+      <div class="btnArea mt50">
+      <a class="fontYH font18" id="active" onclick="change();">提交</a>
+      <a class="fontYH font18" id="unactive">提交</a>
+      <!--<img id="active" onclick="change();" src="{{ asset('images/changeEnterBtn.jpg')}}" width="175" height="60">
+      <img id="unactive" src="{{ asset('images/changeEnterBtn_unactive.jpg')}}" width="175" height="60"></div>-->
     </div>
   </article>
   <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />

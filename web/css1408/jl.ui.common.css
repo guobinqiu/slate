@@ -108,6 +108,9 @@ span.searchBtn:hover, a.helpBtn:hover{
 	line-height:40px;
 	padding: 0 20px;
 }
+.mainNavs li.active a{
+	color:#c84126;
+}
 .mainNavs a{
 	color: #000;
 	font-size: 14px;

@@ -46,7 +46,7 @@
 	width:100px;
 	padding:5px 0;
 	color: #FFF;
-	background-color: #54b9e8;
+	background-color: #4a8ef3;
 	cursor: pointer;
 }
 .cancerBut{
@@ -182,7 +182,7 @@
 	position:absolute;
 	right:60px;
 	top:20px;
-	color:#54b9e8;
+	color:#4a8ef3;
 	text-decoration:none;
 }
 .personalWrap .photo a.passwordEdit{
@@ -238,7 +238,7 @@
 	width: 360px;
 }
 .info ul li dt input.infoFinish {
-	background-color: #54B9E8;
+	background-color: #4a8ef3;
     color: #FFFFFF;
     cursor: pointer;
     padding: 5px 0;
@@ -259,7 +259,7 @@
 	padding-left:20px;
 }
 .ad .selectTable a{
-	color:#54b9e8;
+	color:#4a8ef3;
 	display:inline-block;
 	margin: 10px;
     padding: 3px 20px;
