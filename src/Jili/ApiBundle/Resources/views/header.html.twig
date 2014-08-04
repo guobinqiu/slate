@@ -8,6 +8,7 @@
 <link href="{{ asset('css/game_prompt.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('css/personal.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/amazon.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
 
 <link href="{{ asset('css140307/reset.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/common.css') }} " rel="stylesheet" type="text/css">
@@ -18,11 +19,15 @@
 
 
 {% block javascript %}{% endblock %}
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js140307/common.js') }}" language="javascript"></script>
 <script src="{{ asset('js/bottom.js')}}" type="text/javascript"></script>
 
 <script src="{{ asset('js1408/checkin.js') }}" language="javascript"></script>
 <script src="{{ asset('js/signIn.js')}}" type="text/javascript"></script>
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
 
 <script>
 $(document).ready(function(){
@@ -384,3 +389,16 @@ function selectCity_amazon(){
   </div>
 
 {% block body %}{% endblock %}
+{% include 'JiliApiBundle::footer.html.twig' %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$(window).resize(function() {
+        resizeFooter()
+    });
+	var resizeFooter =function(){
+		$("footer").css("position","static");
+	} 	
+	resizeFooter();
+});
+
+</script>

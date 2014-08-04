@@ -85,6 +85,7 @@
 	font-size:18px;
 	font-weight:bold;
 	border-bottom:3px solid #eaeaea;
+	text-align:left;
 }
 .exchange h2 span{
 	color:#ff7114;
@@ -98,7 +99,7 @@
     float: right;
     margin: 20px 0 0;
     padding: 10px;
-    width: 912px;
+    width: 765px;
 	font-size:14px;
 	text-align:center;
 }

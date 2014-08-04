@@ -48,6 +48,7 @@
 	font-size:18px;
 	font-weight:bold;
 	border-bottom:3px solid #eaeaea;
+	text-align:left;
 }
 .history h2 span{
 	color:#ff7114;
@@ -63,7 +64,7 @@
     margin: 20px 0 0;
     padding: 10px;
     text-align: center;
-    width: 912px;
+    width: 765px;
     position: relative;
 }
 .history article .screen{

@@ -395,10 +395,10 @@ div.notice, div.rank{
     text-decoration: none;
 }
 .notice .pageNumber, .menu{
-	position: absolute;
+	/*position: absolute;
 	z-index: 50;
 	top: 10px;
-	right: 13px;
+	right: 13px;*/
 }
 .notice .pageNumber span{
 	padding: 0 5px;

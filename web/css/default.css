@@ -7,7 +7,6 @@ body {
 	background-color:#f5f5f5;
 	line-height:150%;
 	position:relative;
-	 background:url("../images140307/bgxy.png") repeat;
 }
 body, input, button, select, textarea, table {
     font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
@@ -258,14 +257,6 @@ footer section a:hover{
 	text-decoration:none;
 	color:#000;
 }
-.webArticle {
-	width: 1150px;
-	margin: auto;
-	padding:0 0 140px 0;
-	display:table;
-	position: relative;
-	z-index:auto;
-}
 #loginFrame{
 	background-color: #FFF;
     border-radius: 5px;
@@ -362,12 +353,3 @@ footer section a:hover{
 }
 .crumbTit{padding-bottom: 10px;height: 20px;display: inline-block; font-weight:normal;}
 
-.webArticle .errorMessage{
-    color: #FF0000;
-    padding-bottom: 50px
-}
-.webArticle .error{
-    font-size: 16px;
-    padding-top: 100px;
-    text-align: center;
-}

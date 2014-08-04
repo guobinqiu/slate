@@ -43,6 +43,7 @@ strong,b{ font-weight:bold;}
 /*header&footer*/
 .topNavs{
 	text-align:right;
+	height:30px;
 	line-height:30px;
 }
 span.division{
@@ -226,3 +227,21 @@ a.tencent{
 	background: url(../images1408/txweiboIcon.jpg) no-repeat left center;
 	padding-left: 20px;
 }	
+
+.webArticle {
+	width: 1000px;
+	margin: auto;
+	padding:20px 0 140px 0;
+	display:table;
+	position: relative;
+	z-index:auto;
+}
+.webArticle .errorMessage{
+    color: #FF0000;
+    padding-bottom: 50px
+}
+.webArticle .error{
+    font-size: 16px;
+    padding-top: 100px;
+    text-align: center;
+}

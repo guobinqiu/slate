@@ -4,7 +4,7 @@ html{
 	-webkit-text-size-adjust: 100%;  
     -ms-text-size-adjust: 100%;  
 }
-html, body, div, ul, ol, li, dl, dt, dd, p, h1, h2, h3, h4, h5, h6, pre, form, fieldset, iframe, table, caption, thead, tbody, tfoot, th, tr, td a, span, img, em, strong, bdo, b, input, select, option, textarea, button, label, del, br, hr, article, aside, details, figcaption, figure, hgroup, menu, nav, header, footer, section{
+html, body, div, ul, ol, li, dl, dt, dd, p, h1, h2, h3, h4, h5, h6, pre, form, fieldset, iframe, table, caption, thead, tbody, tfoot, th, tr, td a, span, img, em, strong, bdo, b, input, select, option, textarea, button, label, del, br, hr, article, details, figcaption, figure, hgroup, menu, nav, header, footer, section{
 	margin: 0; padding: 0;
 }
 body, button, input, select, textarea{
@@ -27,7 +27,7 @@ img{
 	vertical-align:top;
 }
 iframe{
-	display:block;
+	/*display:block;*/
 }
 abbr,acronym{  
 	border:0;
@@ -53,11 +53,8 @@ caption, em, strong, b, bdo{
 input, select, textarea, button{
 	vertical-align:middle;
 }
-a{
+a,a:hover{
 	text-decoration:none;
-}
-a:hover{
-	text-decoration:underline;
 }
 /*html5标签*/
 article, aside, details, figcaption, figure, hgroup, menu, nav, header, footer, section{
