@@ -85,8 +85,6 @@ class AdBanner
                 if(!in_array($this->$fileName->guessExtension(),$types)){
                     return  '文件类型为jpg或png或gif';//类型不对
                 }else{
-                    $size = getimagesize($this->$fileName);
-                    if($size[0]=='300' && $size[1]=='180'){
                         $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
 
                         $this->$fileName->move($upload_dir, $filename_upload);
@@ -94,9 +92,6 @@ class AdBanner
                         $this->$field = $upload_dir.$filename_upload;
 
                         $this->$fileName = null;
-                    } else{
-                        return   '图片像素为300X180';
-                    }
                 }
             }
 
@@ -133,8 +128,6 @@ class AdBanner
                 if(!in_array($this->$fileName->guessExtension(),$types)){
                     return  '文件类型为jpg或png或gif';//类型不对
                 }else{
-                    $size = getimagesize($this->$fileName);
-                    if($size[0]=='300' && $size[1]=='180'){
                         $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
 
                         $this->$fileName->move($upload_dir, $filename_upload);
@@ -142,9 +135,6 @@ class AdBanner
                         $this->$field = $upload_dir.$filename_upload;
 
                         $this->$fileName = null;
-                    } else{
-                        return   '图片像素为300X180';
-                    }
                 }
             }
 
