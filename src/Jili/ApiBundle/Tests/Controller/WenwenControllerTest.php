@@ -35,7 +35,7 @@ class WenwenControllerTest extends WebTestCase
     /**
      * @group user
      * @group wenwenuser
-     * @group signup 
+     * @group signup
      */
     public function test91wenwenRegister()
     {
@@ -49,7 +49,7 @@ class WenwenControllerTest extends WebTestCase
     /**
      * @group user
      * @group wenwenuser
-     * @group signup 
+     * @group signup
      */
     public function test91wenwenRegister1()
     {
@@ -68,7 +68,7 @@ class WenwenControllerTest extends WebTestCase
     /**
      * @group user
      * @group wenwenuser
-     * @group signup 
+     * @group signup
      */
     public function test91wenwenRegister2()
     {
@@ -88,7 +88,7 @@ class WenwenControllerTest extends WebTestCase
     /**
      * @group user
      * @group wenwenuser
-     * @group signup 
+     * @group signup
      */
     public function test91wenwenRegister3()
     {
@@ -106,7 +106,7 @@ class WenwenControllerTest extends WebTestCase
     /**
      * @group user
      * @group wenwenuser
-     * @group signup 
+     * @group signup
      */
     public function test91wenwenRegister4()
     {
@@ -124,7 +124,7 @@ class WenwenControllerTest extends WebTestCase
     /**
      * @group user
      * @group wenwenuser
-     * @group signup 
+     * @group signup
      */
     public function test91wenwenRegister5()
     {
@@ -149,5 +149,5 @@ class WenwenControllerTest extends WebTestCase
 
         $this->assertEquals($expected,$client->getResponse()->getContent() );
 
-    } 
+    }
 }
