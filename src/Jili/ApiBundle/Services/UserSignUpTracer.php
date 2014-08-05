@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 /**
  *
  **/
-class UserSignupTracer
+class UserSignUpTracer
 {
     private $em;
     private $logger;
