@@ -146,6 +146,13 @@ class CheckinController extends Controller
                 break;
         }
 
+        //用户点击保存
+        $ma_click = new MarketActivityClickList();
+        $ma_click->setUserId($uid);
+        $ma_click->setMarketActivityId($markId);
+        $ma_click->setCreateTime(date_create(date('Y-m-d H:i:s')));
+        $em->persist($ma_click);
+        $em->flush();
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));
     }
