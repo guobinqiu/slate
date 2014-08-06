@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Utility\FileUtil;
 
 /**
  * @Route("/top",requirements={"_scheme"="http"})
@@ -79,7 +80,7 @@ class TopController extends Controller
     {
         //最新动态 :从文件中读取
         $filename = $this->container->getParameter('file_path_recent_point');
-        $recentPoint = $this->readFileContent($filename);
+        $recentPoint = FileUtil::readFileContent($filename);
         $arr['recentPoint'] = $recentPoint;
         return $this->render('JiliApiBundle:Top:event.html.twig', $arr);
     }
@@ -92,9 +93,9 @@ class TopController extends Controller
     {
         //排行榜 :从文件中读取
         $filename = $this->container->getParameter('file_path_ranking_month');
-        $rankingMonth = $this->readFileContent($filename);
+        $rankingMonth = FileUtil::readFileContent($filename);
         $filename = $this->container->getParameter('file_path_ranking_year');
-        $rankingYear = $this->readFileContent($filename);
+        $rankingYear = FileUtil::readFileContent($filename);
         $arr['rankingMonth'] = $rankingMonth;
         $arr['rankingYear'] = $rankingYear;
         return $this->render('JiliApiBundle:Top:ranking.html.twig', $arr);
@@ -368,34 +369,6 @@ class TopController extends Controller
         }
         return $arrList;
 
-    }
-
-    private function readFileContent($filename)
-    {
-        $contents = null;
-        if (!file_exists($filename)) {
-            //die("指定文件不存在，操作中断!");
-            return $contents;
-        }
-
-        //读文件内容
-        $file_handle = fopen($filename, "r");
-        if (!$file_handle) {
-            //die("指定文件不能打开，操作中断!");
-            return $contents;
-        }
-
-        while (!feof($file_handle)) {
-            $line = fgets($file_handle);
-            if ($line) {
-                $item = explode(",", trim($line));
-                $contents[] = $item;
-            }
-        }
-
-        fclose($file_handle);
-
-        return $contents;
     }
 
 }

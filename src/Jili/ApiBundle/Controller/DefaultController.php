@@ -21,6 +21,7 @@ use Jili\ApiBundle\Entity\CheckinAdverList;
 use Jili\ApiBundle\Entity\CheckinUserList;
 use Jili\ApiBundle\Entity\CheckinClickList;
 use Jili\ApiBundle\Entity\UserWenwenVisit;
+use Jili\ApiBundle\Utility\FileUtil;
 
 class DefaultController extends Controller
 {
@@ -352,7 +353,7 @@ class DefaultController extends Controller
 
         //最新动态
         $filename = $this->container->getParameter('file_path_recent_point');
-        $recentPoint = $this->readFileContent($filename);
+        $recentPoint = FileUtil::readFileContent($filename);
         $recent = array();
         if( is_array($recentPoint)) {
             foreach ($recentPoint as $key => $item){
@@ -614,34 +615,6 @@ class DefaultController extends Controller
             $code = 4;
         }
         return $code;
-    }
-
-    public function readFileContent($filename)
-    {
-        $contents = null;
-        if (!file_exists($filename)) {
-            //die("指定文件不存在，操作中断!");
-            return $contents;
-        }
-
-        //读文件内容
-        $file_handle = fopen($filename, "r");
-        if (!$file_handle) {
-            //die("指定文件不能打开，操作中断!");
-            return $contents;
-        }
-
-        while (!feof($file_handle)) {
-            $line = fgets($file_handle);
-            if ($line) {
-                $item = explode(",", trim($line));
-                $contents[] = $item;
-            }
-        }
-
-        fclose($file_handle);
-
-        return $contents;
     }
 
     /**
