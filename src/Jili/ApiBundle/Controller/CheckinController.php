@@ -32,6 +32,7 @@ use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 
+use Jili\FrontendBundle\Entity\MarketActivityClickList;
 class CheckinController extends Controller
 {
     /**
