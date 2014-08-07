@@ -189,7 +189,7 @@
 	text-indent:20px;
 }
 .regStep article ul.form li dt a.provision{
-	color:#54b9e8;
+	color:#4a8ef3;
 }
 .regStep article ul.form li dt .regBtn{
 	cursor: pointer;
@@ -259,7 +259,7 @@
 	Filter:alpha(opacity=80);
 }
 .regStep article .regFrame .goToMail a.again{
-	color:#54B9E8;
+	color:#4a8ef3;
 }
 .regStep article .regFrame .notMail{
 	border-top: 1px dotted #EEEEEE;
@@ -287,7 +287,7 @@
 	float:left;
 }
 .regStep article .regFrame .notMail .change a{
-	color:#54B9E8;
+	color:#4a8ef3;
 }
 
 .regStep article .regFrame .finish{
@@ -311,7 +311,7 @@
 	font-weight:bold;
 }
 .regStep article .regFrame .finish a{
-	color:#54B9E8;
+	color:#4a8ef3;
 }
 .regFrom91ww .errorWrap{ display:block; height: 35px; margin: 0 auto 10px; padding-top: 15px; text-align: center; width: 680px;background:#fdf9e7;}
 

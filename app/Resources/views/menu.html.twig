@@ -1,8 +1,7 @@
 {% if app.request.attributes.get('_route') != '_homepage' %}
 <script type="text/javascript">
     $(function (){   
-        $("ul.dailyList").css('display','none');
-      $(".dailyQuest h3").hover(function(){
+      $(".dailyQuest h3").click(function(){
       $(this).parent().find("ul.dailyList").slideDown('fast').show();  //drop down on hover
       
       $(this).parent().hover(function(){
@@ -11,7 +10,11 @@
       });
         });
     });
-</script>
+	</script>
+{% else %}
+<script type="text/javascript">
+	$(function (){ $("ul.dailyList").css('display','block');});
+</script>	
 {% endif %}
 
 
@@ -56,7 +59,6 @@ $(document).ready(function(){
     {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
     {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
 {% endif %}
-<div class="header">
     <div class="topNavs w1000">
     {% if app.session.has('uid') %}
       <ul id="userbar">
@@ -81,8 +83,7 @@ $(document).ready(function(){
       {% else %}
     <a href="{{ path('_user_login') }}" title="登录">登录</a><span class="division">|</span><a href="{{ path('_user_reg') }}" title="注册">注册</a>
     {% endif %}  
-    </div>
-    <div class="headerConWrapper">
+    </div><div class="headerConWrapper">
         <div class="headerCon w1000">
             <div class="headerConUp clearfix">
                 <a href="{{ path('_homepage') }}" title="91积粒logo" class="logo fnLeft"><img src="{{ asset('images1408/logo.png') }}" width="160" height="46" alt="91积粒logo" title="91积粒logo"/></a>
@@ -101,10 +102,88 @@ $(document).ready(function(){
             </ul>
             <div class="dailyQuest">
                 {{ render(controller('JiliFrontendBundle:Home:task' ) ) }}{# 任务列表 #}
+                
             </div>
-            {% if app.session.has('uid') %}
-                {{ render(controller('JiliApiBundle:Top:checkIn' ) ) }}{# 签到 #}
-            {% endif %}
         </div>
     </div>
-</div>
+    
+    <!--<div class="amazon">
+  <div class="banner"><img src="{{ asset('images/userInfo.png') }}"></div>
+  <a class="closeBtn"><img src="{{ asset('images/closeBtn.jpg') }}"></a>
+  <div id="amazonEmpty"><img src="{{ asset('images/finishInfo.jpg') }}">
+    <div class="closeDiv"><a class="close"><img src="{{ asset('images/userInfoClose.jpg') }}"></a></div>
+  </div>
+  <section id= "update">
+    <form method="post" id="actForm">
+      <div class="content info">
+        <ul>
+          <li>
+            <dd>登录账号：</dd>
+            <dt class='login'></dt>
+          </li>
+          <li style="width:40%;">
+            <dd>昵  称：</dd>
+            <dt class='nick'></dt>
+          </li>
+          <li style="width:60%;">
+            <dd><font style="color:#EE472C;"> * </font>性  别：</dd>
+            <dt>
+              <input name="sex" type="radio" value="1" id="man">
+              男
+              <input name="sex" type="radio" value="2" id="feman">
+              女</dt>
+          </li>
+          <li style="width:40%;">
+            <dd><font style="color:#EE472C;"> * </font>出生年月：</dd>
+            <dt>
+              <select id="year" name="year" onchange="selectYear_amazon()">
+              </select>
+              &nbsp;
+              <select id="month" name="month">
+              </select>
+            </dt>
+          </li>
+          <li style="width:60%;">
+            <dd><font style="color:#EE472C;"> * </font>地区：</dd>
+            <dt>
+              <select id="province" name="province" onchange="selectCity_amazon()">
+                <option value="0">请选择省</option>
+              </select>
+              <select id="city" name="city">
+                <option value='0'>请选择地区</option>
+              </select>
+            </dt>
+          </li>
+          <li>
+            <dd>手机号码：</dd>
+            <dt>
+              <input name="tel" type="text" value="" id="tel">
+            </dt>
+          </li>
+          <li>
+            <dd><font style="color:#EE472C;"> * </font>个人月收入：</dd>
+            <dt class="income"> </dt>
+          </li>
+          <li>
+            <dd><font style="color:#EE472C;"> * </font>兴趣爱好：</dd>
+            <dt class="hobby"> </dt>
+          </li>
+          <li>
+            <dd>&nbsp;</dd>
+            <dt class="error"> </dt>
+          </li>
+          <li>
+            <dd>&nbsp;</dd>
+            <dt class="submitDt">
+              <input name='update' type='button' value='保存' class='infoFinish'>
+            </dt>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </section>
+  <div class="bottom"><img src="{{ asset('images/userInfoBottom.png') }}"></div>
+</div>-->
+    {% if app.session.has('uid') %}
+    	{{ render(controller('JiliApiBundle:Top:checkIn' ) ) }}{# 签到 #}
+	{% endif %}

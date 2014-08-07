@@ -1,6 +1,3 @@
-.history {
-    margin-top: 30px;
-}
 .web_click_bg .cardNumberArea .copy{
 	background-color: #e94d41;
     color: #FFFFFF;
@@ -48,10 +45,11 @@
 	font-size:18px;
 	font-weight:bold;
 	border-bottom:3px solid #eaeaea;
+	text-align:left;
 }
 .history h2 span{
-	color:#ff7114;
-	border-bottom:3px solid #ff7114;
+	color:#f75232;
+	border-bottom:3px solid #f75232;
 	font-family:"Microsoft Yahei",SimHei,Tahoma;
 	font-weight:bold;
 }
@@ -63,7 +61,7 @@
     margin: 20px 0 0;
     padding: 10px;
     text-align: center;
-    width: 912px;
+    width: 765px;
     position: relative;
 }
 .history article .screen{
@@ -82,11 +80,11 @@
 }
 .history article .screen a:hover{
 	text-decoration:none;
-	color:#54b9e8;
+	color:#4a8ef3;
 }
 .history article .screen a.hover{
 	color:#FFF;
-	background-color:#54b9e8;
+	background-color:#4a8ef3;
 }
 .history article table{
 	width:100%;
@@ -118,7 +116,7 @@
 	left:12px;
 	float: left;
 	text-align: left;
-	margin-top: 5px;
+	margin:10px 0;
 }
 .history .prompt p{ line-height:22px;}
 .history .screen .lookMore{

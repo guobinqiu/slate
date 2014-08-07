@@ -5,6 +5,7 @@ $(document).ready(function() {
 	}else{
 		$(".unfoldBtn").hide();
 	}
+	console.log($(".btags").height());
 	if($(".btags").height()>32){
 		$(".btags").height(32);
 		$(".bunfoldBtn").show();
@@ -25,7 +26,7 @@ $(document).ready(function() {
 		$(this).text("展开")
 		$(this).parent().css("height","28px")
  	})
-
+console.log('-----'+$(".btags").height());
  	$("div.classify-nav a.bunfoldBtn").toggle(function() {
 		$(this).text("收缩")
 		$(this).parent().css("height","auto")

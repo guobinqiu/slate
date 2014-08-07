@@ -23,3 +23,14 @@
     <bdo class="preGroup"></bdo>
     <bdo class="nextGroup"></bdo>
 </div>
+ <script type="text/javascript">
+	$(function(){
+            $('.shopSlider li').hover(function(){
+                var index = $('.shopSlider li').index(this);
+                $('.shopActive').eq(index).slideDown('fast');
+            },function(){
+				var index = $('.shopSlider li').index(this);
+                $('.shopActive').eq(index).slideUp('fast');
+            });
+	});
+</script>

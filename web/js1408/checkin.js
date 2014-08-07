@@ -66,8 +66,12 @@ function goto(cid,aid,points){
                               $("#sign").addClass("hascheckin");
 							  $("#sign").text("已签到");
 							  $("#sign").unbind("click",signs);
+							  $(".dailyQuest li").css("background","#ccc");
+							  
 							  $("#homesign").text("已签到");
+							  $("#mysign").css("background","#ccc");
 							  $("#mysign").unbind("click",signs);
+							  
                               //setTaskNumber();
                           }else{
                               $("#remain").text(nowTimes);

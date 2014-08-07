@@ -1,5 +1,5 @@
 .about {
-	padding: 50px 50px 140px 50px;
+	padding: 20px 0 140px 0;
 	font-size: 14px;
 	color: #666;
 }
@@ -11,6 +11,7 @@
 }
 .about div.line {
 	display: inline-block;
+	text-align:left;
 }
 .about div.hr{
 	background-image:url(../images/aboutWire.jpg);

@@ -1,17 +1,11 @@
-{% extends 'JiliApiBundle::header.html.twig' %}
+{% extends 'JiliFrontendBundle::base.html.twig' %}
 {% block title %}积粒网-商家活动 {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/cpsActivity.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
- <!-- [if lt IE9] -->
-<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
-<!-- [endif] -->
-
-<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/cpsActivity.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/analytics.js')}}" type="text/javascript"></script>
 
@@ -84,7 +78,7 @@ $(document).ready(function() {
     <ul class="activityAll">
       {% if busi %}
       {% for item in pagin %}
-      <li><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank"> <img src="{{ asset(item.activityImage) }}" width="470" height="200" alt="{{item.businessName}}"></a>
+      <li><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank"> <img src="{{ asset(item.activityImage) }}" width="420" height="168" alt="{{item.businessName}}"></a>
         <div class="more">
           <h4>{{ item.businessName }}</h4>
           <a class="moreBtn" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank">查看详情>></a></div>
@@ -95,18 +89,11 @@ $(document).ready(function() {
       {% endif%}
     </ul>
     <div style="width: 100%; display: inline-block;">{{ knp_pagination_render(pagin) }}</div>
-    
     <!--<div class="loading"><img src="{{ asset('other/loading.gif') }}" width="48" height="48"></div>--> 
   </div>
-  <div style="width: 160px; top: 30px; right: 0; position: absolute; height: 600px;">
-    <div> 
-    <!-- 商家活动右侧一（160*90，纯文字） -->
-    {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1553022" } %}
-    </div>
-    <div class="marginT15"> 
-    <!-- 商家活动右侧二（160*600） -->
-    {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1553032" } %}
-    </div>
+  <div>
+    <!-- 商家活动 右侧一 纯文字（改） -->
+    {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1644029" } %}
   </div>
 </div>
 {% endblock %}

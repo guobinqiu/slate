@@ -43,6 +43,7 @@ strong,b{ font-weight:bold;}
 /*header&footer*/
 .topNavs{
 	text-align:right;
+	height:30px;
 	line-height:30px;
 }
 span.division{
@@ -83,7 +84,7 @@ span.division{
 	top: 10px;
 	width: 38px;
 	height: 38px;
-	background-color: #f75232;
+	background-color: #eb411f;
 	display: inline-block;
 	*display: inline;
 	*zoom: 1;
@@ -96,7 +97,7 @@ span.division{
 	left: 482px;
 }
 span.searchBtn:hover, a.helpBtn:hover{
-    background-color: #c84126;
+    background-color: #d43a1b;
 }
 .mainNavs{
 	padding-left: 220px;
@@ -106,6 +107,9 @@ span.searchBtn:hover, a.helpBtn:hover{
 	height: 40px;
 	line-height:40px;
 	padding: 0 20px;
+}
+.mainNavs li.active a{
+	color:#c84126;
 }
 .mainNavs a{
 	color: #000;
@@ -134,7 +138,8 @@ span.searchBtn:hover, a.helpBtn:hover{
 	height: 40px;
 	line-height: 40px;
 	padding-left:20px;
-	background-color: #d43a1b;
+	background-color: #eb411f;
+	cursor:pointer;
 }
 .dailyQuest span, .dailyQuest em{
 	display: inline-block;
@@ -157,7 +162,8 @@ span.expandIcon{
 	z-index: 1;
 	border-bottom:1px solid #f86545;
 }
-.dailyQuest li.active{
+.dailyQuest li.done{ background:#f86447; border-bottom:1px solid #f9765a;}
+.dailyQuest li:hover, .dailyQuest li.active{
 	background-color: #d43a1b;
 	cursor:pointer;
 }
@@ -184,7 +190,7 @@ em.chickenIcon{
 .dailyQuest li span{
 	padding-left: 15px;
 }
-.dailyQuest span.mark{
+.dailyQuest span.mark,.dailyQuest span.hasMark{
 	width: 35px;
 	height: 28px;
 	padding: 0;
@@ -194,13 +200,17 @@ em.chickenIcon{
 	top: 0;
 	right: 0;
 }
+.dailyQuest span.hasMark{
+	background:url(../images1408/icons.png) no-repeat 0 -200px;
+	right: -7px;
+}
 .dailyQuest li.shopping{
 	height: 32px;
 	padding: 16px 20px;
 }
 .dailyQuest li.shopping span{
-	height: 32px;
-	line-height: 32px;
+	height: 28px;
+	line-height: 28px;
 	vertical-align: top;
 	overflow: hidden;
 }
@@ -226,3 +236,21 @@ a.tencent{
 	background: url(../images1408/txweiboIcon.jpg) no-repeat left center;
 	padding-left: 20px;
 }	
+
+.webArticle {
+	width: 1000px;
+	margin: auto;
+	padding:0 0 140px 0;
+	display:table;
+	position: relative;
+	z-index:auto;
+}
+.webArticle .errorMessage{
+    color: #FF0000;
+    padding-bottom: 50px
+}
+.webArticle .error{
+    font-size: 16px;
+    padding-top: 100px;
+    text-align: center;
+}
