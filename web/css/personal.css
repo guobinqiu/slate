@@ -58,13 +58,11 @@
 	cursor: pointer;
 }
 .personalWrap { 
-	margin: 20px auto 0;
-	width: 1150px;
+	margin: 0 auto;
+	width: 1000px;
 	font-size: 14px;
 	padding-bottom: 140px;
-}
-.infoReset{
-
+	text-align:left;
 }
 .personalWrap section {
 	background-color: #ffffff;
@@ -80,7 +78,7 @@
 }
 .personalWrap section .content{	
 	border-top: 1px #e0e0e0 dashed;
-	width: 1040px;
+	width: 887px;
 }
 .personalWrap section.line{ 
 	padding:1px 0 0 0;
@@ -181,7 +179,7 @@
 .info a.edit, .ad a.more, .score a.more{
 	position:absolute;
 	right:60px;
-	top:20px;
+	top:8px;
 	color:#4a8ef3;
 	text-decoration:none;
 }

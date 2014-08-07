@@ -5,9 +5,6 @@ aside.offowAside{
 	width:267px;
 	margin-top:40px;
 }
-.adList{
-	margin-top:15px;
-}
 .adList article{
 	width: 723px;
 	_margin-right: -15px;
@@ -130,4 +127,4 @@ aside.offowAside{
 .offwowSubnav .subnavList .first a{ border-right:1px solid #ccc; padding-right:30px;}
 .offwowSubnav .subnavList a{ color:#333;}
 .offwowSubnav .subnavList a:hover,.offwowSubnav .subnavList a.now{ color:#e94d41;}
-.navNew{ position:absolute; top: -5px; left: 173px; z-index: 9;}
+.navNew{ position:absolute; top: -5px; left: 173px; z-index: -1;}

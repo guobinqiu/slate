@@ -1,4 +1,4 @@
-{% extends 'JiliApiBundle::header.html.twig' %}
+{% extends 'JiliFrontendBundle::base.html.twig' %}
 {% block title %}积粒网-小鸡找米{% endblock %}
 
 {% block stylesheet %}
@@ -32,7 +32,7 @@
 <img src="{{ asset('images/error_support.gif')}}">
 </div>
 {% else %}
-<div style="margin: 20px auto 20px; text-align:center;">
+<div style="margin: 0 auto 20px; text-align:center;">
 <iframe frameborder="0" width="1000" height="3500" scrolling="no" src="{{ url | raw }}"></iframe> 
 <script type="text/javascript" src="/js/iframeResizer.min.js"></script> 
 <script type="text/javascript">

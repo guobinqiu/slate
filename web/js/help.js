@@ -60,5 +60,9 @@ $(document).ready(function() {
 		$(this).removeClass("hover")
 		$(".qaFrame").hide();
 	});
+	$(".qaBtn").focusout(function() {
+		$(this).removeClass("hover")
+		$(".qaFrame").hide();
+	});
 
 });

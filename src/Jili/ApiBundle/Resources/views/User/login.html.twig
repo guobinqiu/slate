@@ -1,5 +1,5 @@
 {% extends 'JiliFrontendBundle::header.html.twig' %}
-{% block title %}{{ parent()  }} {% endblock %}
+{% block title %}积粒网-登录{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/default.css') }} " rel="stylesheet" type="text/css">
@@ -16,10 +16,10 @@
 		$(".error").html('&nbsp;');
 	}
 </script>
+<script src="{{ asset('js/bottom.js') }}" language="javascript"></script>
 {% endblock %}
 
 {% block page_main %}
-{% include 'JiliApiBundle::seo.html.twig' %}
 <div class="webArticle login">
   <div class="img"><img src="{{ asset('images/loginImage.png') }}" width="436" height="423"></div>
   <form action="{{ path('_user_login') }}" method="post" name="form1" id="form1">
@@ -49,7 +49,5 @@
 </div>
 {% endblock %}
 
-{% block body_bottom %}
-{% endblock %}
 
 

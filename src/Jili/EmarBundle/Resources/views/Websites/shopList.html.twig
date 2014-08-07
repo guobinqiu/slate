@@ -1,4 +1,4 @@
-{% extends 'JiliApiBundle::header.html.twig' %}
+{% extends 'JiliFrontendBundle::base.html.twig' %}
 {% block title %}商家列表{% endblock %}
 
 {% block stylesheet %}
@@ -16,33 +16,124 @@
 
 
 {% block body %}
-     <div class="main w834 fl">
-      {{ include( "JiliEmarBundle:Websites:shopList_category.html.twig") }}
-
-      {% include 'JiliEmarBundle:Websites:shoplist_search_form.html.twig' with {'form': filter_form } %}
-
-      <ul class="shopListUl clearfix">
-      {% include "JiliEmarBundle:Websites:shopList_page.html.twig" %}
-      </ul>
-
-
-    <div style="display: inline-block; width: 100%;">
-      {% include "JiliEmarBundle:Websites:shopList_page_nav.html.twig"   %}
+<div class="main clearfix">
+	<div class="shopL fl w192">
+    	<form action="/emar/websites/shoplist/search?wcat=1&amp;p=1" method="POST" class="shopSearch" _lpchecked="1">
+           <input type="text" id="website_filter_keyword" name="website_filter[keyword]" required class="shopSearchInput lightGray" placeholder="该条件下查找">
+           <input type="hidden" id="website_filter__token" name="website_filter[_token]" value="cbb2e15b6a5e9afd1ca061aee1fecbda1bb1276f">
+            <div class="shopSearchSubmit">
+            <input type="submit" class="shopSearchBtn curPt">
+            </div>
+        </form>
+        <ul class="tabnav">
+        	<li class="active"><a href="#">热门商家</a></li>
+            <li><a href="#">综合商城</a></li>
+            <li><a href="#">服装服饰</a></li>
+            <li><a href="#">手机/数码/家电</a></li>
+            <li><a href="#">美容化妆</a></li>
+            <li><a href="#">家居家饰</a></li>
+            <li><a href="#">女性/内衣</a></li>
+            <li><a href="#">母婴/儿童用品</a></li>
+            <li><a href="#">图书音像</a></li>
+            <li><a href="#">鲜花礼品</a></li>
+            <li><a href="#">珠宝首饰</a></li>
+            <li><a href="#">食品/茶叶/酒水</a></li>
+            <li><a href="#">医药健康</a></li>
+            <li><a href="#">成人保健</a></li>
+            <li><a href="#">汽车用品</a></li>
+            <li><a href="#">运动户外</a></li>
+            <li><a href="#">箱包/眼镜/鞋类</a></li>
+            <li><a href="#">团购</a></li>
+            <li><a href="#">电视购物</a></li>
+            <li><a href="#">教育培训</a></li>
+            <li><a href="#">票务旅游</a></li>
+            <li><a href="#">金融理财</a></li>
+            <li><a href="#">网络游戏</a></li>
+            <li><a href="#">娱乐交友</a></li>
+            <li><a href="#">网络服务/其他</a></li>
+            <li><a href="#">名品特卖</a></li>
+            <li><a href="#">奢侈品</a></li>
+<!--       热门商家 综合商城 服装服饰 手机/数码/家电 美容化妆 家居家饰 女性/内衣 母婴/儿童用品 图书音像 鲜花礼品 珠宝首饰 食品/茶叶/酒水 医药健康 成人保健 汽车用品 运动户外 箱包/眼镜/鞋类 团购 电视购物 教育培训 票务旅游 金融理财 网络游戏 娱乐交友 网络服务/其他 名品特卖 奢侈品
+-->        </ul>
     </div>
-
-    </div><!-- eof main -->
-
-  <div class="sidebar w300 fr">
-  	<div>
-        <!-- 商家列表右侧一（300*250，纯文字）-->
-        {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1553008" } %}
+    <div class="shopR globBorder fr">
+    	<div class="tit">
+        	<span class="globGray">按拼音首字母查找：</span>
+            <a class="current" href="#">全部</a><a href="#">0~9</a><a href="#">A</a><a href="#">B</a><a href="#">C</a><a href="#">D</a><a href="#">E</a><a href="#">F</a><a href="#">G</a><a href="#">H</a><a href="#">I</a><a href="#">J</a><a href="#">K</a><a href="#">L</a><a href="#">M</a><a href="#">N</a><a href="#">O</a><a href="#">P</a><a href="#">Q</a><a href="#">R</a><a href="#">S</a><a href="#">S</a><a href="#">T</a><a href="#">U</a><a href="#">V</a><a href="#">W</a><a href="#">X</a><a href="#">Y</a><a href="#">Z</a>
+        	<script type="application/javascript">
+            	$(function(){
+					var tita = $(".shopR .tit a")
+					tita.click(function(){
+						$(this).addClass("current").siblings().removeClass("current");
+					});
+				});
+            </script>
+        </div>
+        <div class="center">
+        	<ul class="clearfix" style="display:block;">
+            	<li>
+                	<a class="logoImg" target="_blank" title="京东商城" href="#"><img src="http://bbs.manmanbuy.com/attachment/Mon_1304/34_52_44aaa2785b218e5.jpg?20" alt="京东商城" width="120" height="60"></a>
+                    <div class="logoWord lightGray">最高返1.68%</div>
+                    <div class="logoMore">
+                    	<a target="_blank" href="#" class="toBuy"><i class="shopIcon"></i>去购物</a>
+                        <a target="_blank" href="#" class="toMore"><i class="detailIcon"></i>看详情</a>
+                    </div>
+                </li>
+                <li>
+                	<a class="logoImg" target="_blank" title="京东商城" href="#"><img src="http://bbs.manmanbuy.com/attachment/Mon_1304/34_52_44aaa2785b218e5.jpg?20" alt="京东商城" width="120" height="60"></a>
+                    <div class="logoWord lightGray">最高返1.68%</div>
+                    <div class="logoMore">
+                    	<a target="_blank" href="#" class="toBuy"><i class="shopIcon"></i>去购物</a>
+                        <a target="_blank" href="#" class="toMore"><i class="detailIcon"></i>看详情</a>
+                    </div>
+                </li>
+                <li>
+                	<a class="logoImg" target="_blank" title="京东商城" href="#"><img src="http://bbs.manmanbuy.com/attachment/Mon_1304/34_52_44aaa2785b218e5.jpg?20" alt="京东商城" width="120" height="60"></a>
+                    <div class="logoWord lightGray">最高返1.68%</div>
+                    <div class="logoMore">
+                    	<a target="_blank" href="#" class="toBuy"><i class="shopIcon"></i>去购物</a>
+                        <a target="_blank" href="#" class="toMore"><i class="detailIcon"></i>看详情</a>
+                    </div>
+                </li>
+                <li>
+                	<a class="logoImg" target="_blank" title="京东商城" href="#"><img src="http://bbs.manmanbuy.com/attachment/Mon_1304/34_52_44aaa2785b218e5.jpg?20" alt="京东商城" width="120" height="60"></a>
+                    <div class="logoWord lightGray">最高返1.68%</div>
+                    <div class="logoMore">
+                    	<a target="_blank" href="#" class="toBuy"><i class="shopIcon"></i>去购物</a>
+                        <a target="_blank" href="#" class="toMore"><i class="detailIcon"></i>看详情</a>
+                    </div>
+                </li>
+                <li>
+                	<a class="logoImg" target="_blank" title="京东商城" href="#"><img src="http://bbs.manmanbuy.com/attachment/Mon_1304/34_52_44aaa2785b218e5.jpg?20" alt="京东商城" width="120" height="60"></a>
+                    <div class="logoWord lightGray">最高返1.68%</div>
+                    <div class="logoMore">
+                    	<a target="_blank" href="#" class="toBuy"><i class="shopIcon"></i>去购物</a>
+                        <a target="_blank" href="#" class="toMore"><i class="detailIcon"></i>看详情</a>
+                    </div>
+                </li>
+                <li>
+                	<a class="logoImg" target="_blank" title="京东商城" href="#"><img src="http://bbs.manmanbuy.com/attachment/Mon_1304/34_52_44aaa2785b218e5.jpg?20" alt="京东商城" width="120" height="60"></a>
+                    <div class="logoWord lightGray">最高返1.68%</div>
+                    <div class="logoMore">
+                    	<a target="_blank" href="#" class="toBuy"><i class="shopIcon"></i>去购物</a>
+                        <a target="_blank" href="#" class="toMore"><i class="detailIcon"></i>看详情</a>
+                    </div>
+                </li>
+            </ul>
+            <script type="text/javascript">
+            	$(function(){
+					$('.shopL .tabnav li').switchBg({switchMethod: 'click', switchClass: 'active'});
+					
+					//for(i=0;i<30;i++){
+//						if(i % 5 == 0){
+//							$(".shopR .center ul li").css("border-right","none");
+//						}
+//					}
+				});
+            </script>
+        </div>
     </div>
-    <div class="marginT15">	
-        <!-- 商家列表右侧二（300*250，图片）-->
-        {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1553010" } %}
-    </div>
-  </div><!-- eof sidebar -->
-
+</div>
 {% endblock %}
 
 

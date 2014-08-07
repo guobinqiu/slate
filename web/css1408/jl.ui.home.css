@@ -30,8 +30,8 @@ a.more{
 .sliderBtns{
     position: absolute;
     z-index: 100;
-    right: 20px;
-    bottom: 10px;
+    right: 10px;
+    bottom: 7px;
 }
 .sliderBtns b{
     height: 8px;
@@ -67,6 +67,7 @@ a.more{
     float: left;
 }
 .hotShops{
+	width: 978px;
 	padding: 10px;
 	border: 1px solid #eaeae8;
 	background-color: #fff;
@@ -85,16 +86,16 @@ a.more{
     cursor: pointer;
 }
 .shopSlider bdo.preGroup{
-	left: 15px;
+	left: -40px;
 	background:url(../images1408/icons.png) no-repeat 0 -40px;
 }
 .shopSlider bdo.nextGroup{
-	right: 15px;
+	right: -40px;
 	background:url(../images1408/icons.png) no-repeat -19px -40px;
 }
 .shopSlider li{
 	float: left;
-	width: 125px;
+	width: 121px;
 	text-align: center;
 	border-right: 1px solid #eaeae8;
 	position: relative;
@@ -102,8 +103,8 @@ a.more{
 }
 .shopSliderMask{
 	margin: 0 auto;
-	width: 624px;
-	height: 70px;
+	width: 994x;
+	height: 80px;
 	overflow: hidden;
 	position: relative;
 	z-index: 1;
@@ -129,22 +130,22 @@ a.more{
 	position: absolute;
 	z-index: 100;
 	left: 0;
-	top: 0;
+	bottom: 0;
 }
 .shopActive .shopMask{
-	width: 125px;
+	width: 120px;
 	height: 70px;
-	background-color: rgb(255, 255, 255);
+	/*background-color: rgb(255, 255, 255);*/
     opacity: .8;
     filter: alpha(opacity = 80);
+	border:1px solid #fab627;
+	position: absolute;
+	top: -47px;
 }
 .shopActive .shopBtns{
 	width: 100%;
-	height: 28px;
+	height: 22px;
 	overflow: hidden;
-	position: absolute;
-	z-index: 200;
-	bottom: 0;
 }
 .shopActive .shopBtns a, .shopActInfo .linkBtn a, span.arrow, a.register{
     display: inline-block;
@@ -152,22 +153,22 @@ a.more{
     *zoom: 1;
 }
 .shopActive .shopBtns a{
-	width: 60px;
+	width: 58px;
 	text-align: center;
 	line-height: 22px;
 	color: #fff;
-	background-color: #f75232;
+	background-color: #fab627;
 }
 .shopSlider li.active .shopActive{
 	display: block;
 }
-.shopActList{
-	padding: 20px;
+.shopAct{
+	padding: 0 20px;
 	background-color: #fff;
+	margin-top:10px;
 }
-.shopAct h2{
-	padding-left: 20px;
-}
+.shopActList{ margin-top:5px;}
+.shopActList a.more{ color:#999;}
 .shopActItem{
 	height: 168px;
 	margin-bottom: 10px;
@@ -178,7 +179,7 @@ a.more{
 }
 .shopActInfo{
 	float: right;
-	width: 250px;
+	width: 245px;
 	height: 167px;
 	border-bottom: 1px solid #eaeae8;
 }
@@ -197,6 +198,7 @@ a.more{
 	text-align: right;
 }
 .shopActInfo .publicAttention strong{
+	font-family: Georgia, Microsoft Yahei;
 	font-size: 24px;
 	font-weight: normal;
 }
@@ -256,6 +258,7 @@ a.register{
 div.personInfo{
 	padding: 13px;
 	padding-bottom: 25px;
+	border-right:1px solid #e6e6e6;
 }
 .userExtra{ padding:10px; margin-top: 14px; background:#f7f7f7; border-radius: 2px 2px; border:1px solid #e3e3e3;}
 .headPort{
@@ -269,7 +272,7 @@ div.personInfo{
     float: left;
 	line-height: 23px;
 }
-.signBtn{
+.signBtn,.btnHascheckin{
     float: right;
 	width: 89px;
 	height: 46px;
@@ -294,6 +297,7 @@ span.signIcon{
 	background: url(../images1408/icons.png) no-repeat 0 -134px;
 	vertical-align: middle;
 }
+.btnHascheckin{ background:#ccc; color:#fff;}
 .personInfo li{
 	width:48%;
 	background-color: #f7f7f7;
@@ -311,7 +315,7 @@ span.signIcon{
 }
 div.quickQ{
 	margin-top: 3px;
-	padding-bottom:20px;
+	padding-bottom:15px;
 }
 .quickQInfo{
 	width: 140px;
@@ -395,11 +399,11 @@ div.notice, div.rank{
     color: #ea4c11;
     text-decoration: none;
 }
-.notice .pageNumber, .menu{
-	/*position: absolute;
+.notice .pageNumber, div.rank .menu{
+	position: absolute;
 	z-index: 50;
 	top: 10px;
-	right: 13px;*/
+	right: 13px;
 }
 .notice .pageNumber span{
 	padding: 0 5px;

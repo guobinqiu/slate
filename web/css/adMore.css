@@ -2,11 +2,10 @@
 	margin-top:30px;
 }
 .adMore article{
-	/*width: 1150px;*/
 	display: inline-block;
 	background-image:url(../images/adMoreBg_repeat.jpg);
 }
-.adInfo article{ width:1150px;}
+.adInfo article{ width:1000px;}
 .adMore article .top{
 	background-image: url("../images/adMoreBg_top.jpg");
     background-repeat: no-repeat;
@@ -23,7 +22,6 @@
 .adMore article div.actionTitle{
 	width:80%;
 	margin:0px auto 20px;
-	/*height:100px;*/
 	position:relative;
 }
 .adMore article div.rule, .adMore article div.explain{

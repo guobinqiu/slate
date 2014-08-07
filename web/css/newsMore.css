@@ -1,6 +1,3 @@
-.newsMore {
-    margin-top: 30px;
-}
 .newsMore article {
     display: inline-block;
     float: left;
@@ -29,6 +26,7 @@
 	padding:20px;
 	font-size:14px;
 	line-height:200%;
+	text-align:left;
 }
 .newsMore article .content p{
 	margin:10px 0;

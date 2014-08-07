@@ -2,42 +2,6 @@
  * Created by wangliting on 14-7-26.
  */
 (function($){
-    $.fn.expandList = function(){
-        var expandIcon = $(this);
-        var dailyList = $('.dailyList');
-        expandIcon.css('cursor', 'pointer');
-        expandIcon.on('click', function(){
-            dailyList.toggleClass("fnHide");
-        });
-    }
-})(jQuery);
-(function($){
-    $.fn.switchBg = function(options){
-        var switchEle = $(this),
-            switchMethod = options.switchMethod,
-            switchClass = options.switchClass;
-
-        function switchFocus(){
-            switchEle.focusin(function(){ $(this).val("");});
-            switchEle.focusout(function(){ $(this).val("请输入您要搜索的商家名称");});
-        }
-        function switchHover(){
-            switchEle.hover(function(){
-                var index = switchEle.index(this);
-                switchEle.removeClass(switchClass).eq(index).addClass(switchClass);
-            },function(){
-                $(this).removeClass(switchClass);
-            });
-        }
-
-        switch(switchMethod){
-            case 'focus': switchFocus(); break;
-            case 'hover': switchHover(); break;
-            default : break;
-        }
-    }
-})(jQuery);
-(function($){
     $.fn.focusPic = function(options){
         var $this = $(this),
             sliderImg = $(options.sliderImg),
@@ -168,12 +132,15 @@
 })(jQuery);
 (function($){
     $(function(){
-        $(".expandIcon").expandList();
-        $('.search input').switchBg({switchMethod: 'focus', switchClass: ''});
-        $('.dailyList li').switchBg({switchMethod: 'hover', switchClass: 'active'});
-        $('.hotShops li').switchBg({switchMethod: 'hover', switchClass: 'active'});
+        //$('.hotShops li').switchBg({switchMethod: 'hover', switchClass: 'active'});
         $('.slider').focusPic({ sliderImg: '.sliderImg', sliderBtns: '.sliderBtns b'});
-        $('.shopSlider').sliderC({preMenu: '.preGroup', nextMenu: '.nextGroup', sliderEle: '.shopSliderMask ul'});
+        $('.shopSlider').sliderC({preMenu: '.preGroup', nextMenu: '.nextGroup', sliderEle: '.shopSliderMask ul'},config = {
+                stepNum: 3,
+                stepWid : 994,
+                index : 0,
+                timer : 2000,
+                animateTimer : 1000
+            });
         //$('.rank').tabEle({ tabMenus: '.rank .menu span', tabCon: '.rank .all ul'});
         $('.notice').pageTurn({ nextBtn: '.pageNumber .next', prevBtn: '.pageNumber .prev', noticeCon: '.notice .all', pageNumber: '.pageNumber span'});
         var monthBtn = $('.rank .menu .month'),
