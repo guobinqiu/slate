@@ -64,7 +64,8 @@ class WebsitesController extends Controller
         $logger= $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        $wcat_id = (int) $request->query->get('wcat', 0 );
+        //$wcat_id = (int) $request->query->get('wcat', 0 );
+        $wcat_id = $request->query->get('wcat', '' );
         $keyword = $request->query->get('q', '');
         $page_no = $request->query->getInt('p',1);
 
@@ -78,6 +79,36 @@ class WebsitesController extends Controller
         }
 
         $web_raw  = $this->get('website.list_get')->fetch( $params );
+        //新增加机能start
+        $dic_key = $request->query->get('t','');
+        $web_site_dic = array();
+        $web_site_dic_ids = array();
+        if($dic_key){
+            if($dic_key == '1'){
+                //全部
+            }elseif($dic_key == '2'){
+                //按数据索引
+                $web_site_dic = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->serchByDigit();
+            }else{
+                //按字母索引
+                $web_site_dic = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->serchByLetter($dic_key);
+            }
+            if($web_site_dic){
+                foreach($web_site_dic as $value){
+                    $web_site_dic_ids[] = $value['web_id'];
+                }
+                foreach($web_raw as $key=>$value){
+                    if(in_array( $value['web_id'] , $web_site_dic_ids )) {
+                        continue;
+                    }else{
+                        unset($web_raw[$key]);
+                    }
+                }
+            }
+        }else{
+            // 原搜索
+        }
+        //end
 
         $fitlers = array();
         // for wcat_id = 0, the hot websites only.
@@ -168,7 +199,8 @@ class WebsitesController extends Controller
         }
 
         $filter_form = $this->createForm(new WebsiteFilterType(), array('keyword'=>$keyword)  );
-        return  array('categories'=> $wcats, 'websites'=> $websites_paged, 'total'=> $total,'filter_form'=>$filter_form->createView() );
+        $letters = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'W', 'X', 'Y', 'Z' );
+        return  array('categories'=> $wcats, 'websites'=> $websites_paged, 'total'=> $total,'filter_form'=>$filter_form->createView(),'letters'=>$letters);
     }
 
 

@@ -1,29 +1,16 @@
-
-      <h1>商家列表<span>共{{ total }}个商家</span></h1>
-      <div class="screen clearfix">
-        <dd class="fl w794 h56"> 
-
 {% set wcatid_q = app.request.query.get('wcat','') %}
-<li>
-    {% if wcatid_q is not defined or wcatid_q|length == 0 or wcatid_q == 0 %}
-        <a class="hover" href="#" onclick="javascript:return false;">热门商家</a> 
-    {% else %}
-        <a  href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'wcat':0,"q":"", "p":1 })) }}" >热门商家</a> 
-    {% endif %}
+<ul class="tabnav">
+            
+    <li {% if wcatid_q is defined and wcatid_q is same as("0") %} class="active" {% endif %}><a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'wcat':0,"q":"", "p":1,"t":"" })) }}">热门商家</a></li>
 
-</li>
 {% for wcatid,cat in categories %}
-<li>
-    {% if wcatid_q is defined and wcatid_q == wcatid  %}
-        <a class="hover" href="#" onclick="javascript:return false;" >{{ cat.name}}</a>
-    {% else %}
-        <a  href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'wcat':wcatid,"q":"", "p":1 })) }}">{{ cat.name}}</a>
-    {% endif  %}
 
-</li>
+{% if wcatid_q is defined and wcatid_q == wcatid  %}
+    <li class="active"><a href="#" onclick="javascript:return false;">{{ cat.name}}</a></li>
+{% else %}
+    <li><a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'wcat':wcatid,"q":"", "p":1 ,"t":""})) }}">{{ cat.name}}</a></li>
+{% endif %}
+
 {% endfor %}
-<a class="unfoldBtn">展开</a>
-      </dd>
-  </div><!-- eof screen -->
 
-
+</ul>
