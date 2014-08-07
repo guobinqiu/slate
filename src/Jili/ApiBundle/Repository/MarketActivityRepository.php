@@ -70,7 +70,7 @@ class MarketActivityRepository extends EntityRepository {
 	public function nowActivity($aid = null) {
 		$date = date('Y-m-d H:i:s');
 		$query = $this->createQueryBuilder('ma');
-		$query = $query->select('ma.id,ma.aid,ma.businessName,ma.activityDescription,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime,a.imageurl,a.title');
+		$query = $query->select('ma.id,ma.aid,ma.businessName,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime,a.imageurl,a.title');
 		$query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ma.aid = a.id');
 		$query = $query->Where('ma.deleteFlag is null');
 		if ($aid) {
@@ -90,7 +90,7 @@ class MarketActivityRepository extends EntityRepository {
 	public function getActivityList($limit) {
 		$date = date('Y-m-d H:i:s');
 		$query = $this->createQueryBuilder('ma');
-		$query = $query->select('ma.id,ma.aid,ma.businessName,ma.activityDescription,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime,a.imageurl,a.title');
+		$query = $query->select('ma.id,ma.aid,ma.businessName,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime,a.imageurl,a.title');
 		$query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ma.aid = a.id');
 		$query = $query->Where('ma.deleteFlag is null');
 		$query = $query->andWhere('ma.startTime <= :startTime');

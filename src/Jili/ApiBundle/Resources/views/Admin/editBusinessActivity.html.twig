@@ -53,7 +53,6 @@ $(document).ready(function(){
     {% endif %}
 </td></tr>
 <tr><td>活动标题:</td><td><input type="text" name="businessname" size='50' value="{{ business.businessName  }}"/></td></tr>
-<tr><td>活动说明:</td><td><textarea name="actDescription">{{ business.activityDescription }}</textarea></td></tr>
 <tr><td>活动商家名:</td><td>
 <select name="actId" id="actId">
   {% for item in adver %}
