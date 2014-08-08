@@ -1,7 +1,7 @@
 <div class="shopActList">
     {% for item in market %}
     <div class="shopActItem">
-        <div class="shopActImg"><img src="{{ asset(item.activityImage) }}" width="420" height="168" alt="{{ item.businessName }}" title="{{ item.businessName }}"/></div>
+        <div class="shopActImg"><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank"><img src="{{ asset(item.activityImage) }}" width="420" height="168" alt="{{ item.businessName }}" title="{{ item.businessName }}"/></a></div>
         <div class="shopActInfo">
             <p><strong>{{ item.title }}</strong>{{ item.businessName}}</p>
             <div class="publicAttention"><strong>{{ item.click}}</strong>人关注</div>

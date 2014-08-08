@@ -97,14 +97,14 @@ a.more{
 	float: left;
 	width: 121px;
 	text-align: center;
-	border-right: 1px solid #eaeae8;
+	border-right: 1px solid #f2f2f2;
 	position: relative;
 	z-index: 1;
 }
 .shopSliderMask{
 	margin: 0 auto;
 	width: 994x;
-	height: 80px;
+	height: 74px;
 	overflow: hidden;
 	position: relative;
 	z-index: 1;
@@ -146,6 +146,7 @@ a.more{
 	width: 100%;
 	height: 22px;
 	overflow: hidden;
+	margin-left: 1px;
 }
 .shopActive .shopBtns a, .shopActInfo .linkBtn a, span.arrow, a.register{
     display: inline-block;
@@ -153,11 +154,14 @@ a.more{
     *zoom: 1;
 }
 .shopActive .shopBtns a{
-	width: 58px;
+	width: 57px;
 	text-align: center;
 	line-height: 22px;
 	color: #fff;
 	background-color: #fab627;
+	cursor:pointer;
+	position:relative;
+	z-index:9999;
 }
 .shopSlider li.active .shopActive{
 	display: block;
@@ -231,7 +235,7 @@ span.arrow{
 div.loginArea{
 	padding-top: 24px;
 	padding-bottom: 13px;
-	height: 120px;
+	height: 124px;
 }
 .loginArea p{
 	color: #999;
@@ -260,7 +264,7 @@ div.personInfo{
 	padding-bottom: 25px;
 	border-right:1px solid #e6e6e6;
 }
-.userExtra{ padding:10px; margin-top: 14px; background:#f7f7f7; border-radius: 2px 2px; border:1px solid #e3e3e3;}
+.userExtra{ padding:10px; margin-top: 14px; background:#fafafa; border-radius: 2px 2px; border:1px solid #ececec;}
 .headPort{
     float: left;
 	width: 46px;
@@ -305,7 +309,7 @@ span.signIcon{
 	display: inline-block;
 	color:#999;
 }
-.personInfo li.first{border-right:1px solid #dedede;}
+.personInfo li.first{border-right:1px solid #e8e8e8;}
 .personInfo li span{
 	color: #6b6b6b;
 	font-family: "微软雅黑";
@@ -403,7 +407,7 @@ div.notice, div.rank{
 	position: absolute;
 	z-index: 50;
 	top: 10px;
-	right: 13px;
+	right: 9px;
 }
 .notice .pageNumber span{
 	padding: 0 5px;

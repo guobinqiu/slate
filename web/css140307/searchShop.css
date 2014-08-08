@@ -1,12 +1,85 @@
-.searchShopUl li{ border:1px solid #DDD; background-color:#FFF; margin-bottom:15px; padding:20px 0px; line-height:200%;}
-.searchShopUl .dt,.searchShopUl .dd,.searchShopUl .dc{ float:left; height:85px; color:#999;}
-.searchShopUl .dt{ width:140px; text-align:center; padding: 0 15px;}
-.searchShopUl .dd{ width:480px; padding: 0 20px 0 0;}
-.searchShopUl .dd .title{ height: 50px; margin-bottom: 15px; overflow: hidden;}
-.searchShopUl .dd .shopMore{ text-align:right;}
-.searchShopUl .dd .shopMore a{ color:#000;}
-.searchShopUl .dc{ border-left:1px solid #e8e8e8; padding: 0 0 0 20px;}
-.searchShopUl .rebate{width: 130px; margin-top:5px; color:#F74A28; line-height: 18px;}
-.searchShopUl .rebate em{ font-size:24px; color:#ff4400; margin:0 3px;}
-.searchShopUl p.btn{ margin-top:10px;}
-.searchShopUl a.buy{ background-color: #63B8F0;border-radius: 5px;color: #FFFFFF;display: inline-block;font-size: 14px;padding: 3px 10px;}
+.searchShopUl li {
+	border: 1px solid #e6e6e6;
+	background-color: #FFF;
+	margin-bottom: 15px;
+	padding: 20px 0px;
+	line-height: 200%;
+}
+.searchShopUl .dt, .searchShopUl .dd, .searchShopUl .dc {
+	float: left;
+	height: 85px;
+	color: #999;
+}
+.searchShopUl .dt {
+	width: 140px;
+	text-align: center;
+	padding: 0 15px;
+}
+.searchShopUl .dd {
+	width: 480px;
+	padding: 0 20px 0 0;
+}
+.searchShopUl .dd .title {
+	height: 50px;
+	margin-bottom: 15px;
+	overflow: hidden;
+}
+.searchShopUl .dd .shopMore {
+	text-align: right;
+}
+.searchShopUl .dd .shopMore a {
+	color: #000;
+}
+.searchShopUl .dc {
+	border-left: 1px solid #e8e8e8;
+	padding: 0 0 0 20px;
+}
+.searchShopUl .rebate {
+	width: 130px;
+	margin-top: 5px;
+	color: #F74A28;
+	line-height: 18px;
+}
+.searchShopUl .rebate em {
+	font-size: 24px;
+	color: #ff4400;
+	margin: 0 3px;
+}
+.searchShopUl p.btn {
+	margin-top: 10px;
+}
+.searchShopUl a.buy {
+	background-color: #63B8F0;
+	border-radius: 5px;
+	color: #FFFFFF;
+	display: inline-block;
+	font-size: 14px;
+	padding: 3px 10px;
+}
+/* similar mall */
+.busiSec .busiSecTit {
+	height: 40px;
+	line-height: 40px;
+	border: 1px solid #e6e6e6;
+	padding-left: 15px;
+	font-size: 14px;
+	color: #000;
+	text-align:left;
+	font-weight:bold;
+}
+.busiSec .busiSecBd {
+	padding: 5px 15px;
+	background: #fff;
+	border: solid #e6e6e6;
+	border-width: 0 1px 1px;
+}
+.busiSec .busiSecBd li {
+	height: 78px;
+	padding:10px 0;
+	text-align: center;
+	border-bottom:1px dashed #e6e6e6;
+}
+.busiSec .busiSecBd li .itemTxt {
+	display: block;
+}
+/* similar mall /*/

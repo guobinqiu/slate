@@ -76,7 +76,7 @@ span.division{
 	line-height: 22px;
 	padding: 5px 10px;
 	border: 3px solid #eaeae8;
-	color: #ccc;
+	color: #999;
 }
 .search .searchBtn, .search .helpBtn{
 	position: absolute; 
@@ -103,10 +103,11 @@ span.searchBtn:hover, a.helpBtn:hover{
 	padding-left: 220px;
 }
 .mainNavs li{
+	width:60px;
 	float: left;
 	height: 40px;
 	line-height:40px;
-	padding: 0 20px;
+	padding: 0 19px;
 }
 .mainNavs li.active a{
 	color:#c84126;
@@ -132,6 +133,7 @@ span.searchBtn:hover, a.helpBtn:hover{
 .dailyQuest a{
 	color: #fff;
 }
+.dailyQuest a:hover{ text-decoration:underline!important;}
 .dailyQuest h3{
 	font-size: 14px;
 	font-weight: bold;
