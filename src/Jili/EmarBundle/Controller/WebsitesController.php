@@ -64,8 +64,8 @@ class WebsitesController extends Controller
         $logger= $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        //$wcat_id = (int) $request->query->get('wcat', 0 );
-        $wcat_id = $request->query->get('wcat', '' );
+        $wcat_id = (int) $request->query->get('wcat', 0 );
+
         $keyword = $request->query->get('q', '');
         $page_no = $request->query->getInt('p',1);
 
@@ -88,9 +88,11 @@ class WebsitesController extends Controller
                 //全部
             }elseif($dic_key == '2'){
                 //按数据索引
+                $page_no = 1;
                 $web_site_dic = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->serchByDigit();
             }else{
                 //按字母索引
+                $page_no = 1;
                 $web_site_dic = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->serchByLetter($dic_key);
             }
             if($web_site_dic){

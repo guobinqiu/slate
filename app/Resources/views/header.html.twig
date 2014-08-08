@@ -84,7 +84,7 @@ $(document).ready(function(){
     <div class="page clearfix">
       <ul>
         {% if app.session.has('uid') %}
-        {{ render(controller('JiliApiBundle:Top:task' ) ) }}
+        {{ render(controller('JiliFrontendBundle:Home:task' ) ) }}{# 任务列表 #}
         {% endif %}
 {% set router_current = app.request.attributes.get('_route') %}
         <!-- current query path is {{  router_current }} -->
