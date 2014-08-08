@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 /**
  * @Route("/home",requirements={"_scheme"="http"})
  */
@@ -98,6 +99,29 @@ class HomeController extends Controller
         } else {
             return new Response('<!-- already checked in -->');
         }
+    }
+
+    /**
+     * @Route("/adExperience")
+     * @Template
+     */
+    public function adExperienceAction()
+    {
+        $cache_fn = $this->container->getParameter('cache_config.api.top_adExperience.key');
+        $cache_duration = $this->container->getParameter('cache_config.api.top_adExperience.duration');
+        $cache_proxy = $this->get('cache.file_handler');
+
+        if ($cache_proxy->isValid($cache_fn, $cache_duration)) {
+            $adExperience = $cache_proxy->get($cache_fn);
+        } else {
+            $cache_proxy->remove($cache_fn);
+            $em = $this->getDoctrine()->getManager();
+            $adExperience = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisement();
+            $cache_proxy->set($cache_fn, $adExperience);
+        }
+
+        $arr['ad_experience'] = $adExperience;
+        return $this->render('JiliFrontendBundle:Home:adExperience.html.twig', $arr);
     }
 
 }
