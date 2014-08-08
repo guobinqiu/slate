@@ -10,7 +10,7 @@
 	line-height: 40px;
 }
 a.more{
-	color: #4d4d4d;
+	color: #999;
 	font-size: 12px;
 	font-weight: normal;
     line-height: 40px;
@@ -190,12 +190,13 @@ a.more{
 .shopActInfo strong{
 	color: #f75232;
 	font-weight: bold;
+	margin-right:5px;
 }
 .shopActInfo p{
-	height: 72px;
-	font-size: 14px;
+	height: 62px;
+	overflow: hidden;
 	font-weight: bold;
-	line-height: 24px;
+	font: 16px/30px 'microsoft yahei',simhei;
 }
 .shopActInfo .publicAttention{
 	color: #4d4d4d;
@@ -261,7 +262,7 @@ a.register{
 }
 div.personInfo{
 	padding: 13px;
-	padding-bottom: 25px;
+	padding-bottom: 24px;
 	border-right:1px solid #e6e6e6;
 }
 .userExtra{ padding:10px; margin-top: 14px; background:#fafafa; border-radius: 2px 2px; border:1px solid #ececec;}
@@ -308,6 +309,8 @@ span.signIcon{
 	text-align:center;
 	display: inline-block;
 	color:#999;
+	*display:inline;
+	*zoom:1;
 }
 .personInfo li.first{border-right:1px solid #e8e8e8;}
 .personInfo li span{

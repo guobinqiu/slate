@@ -5,11 +5,25 @@
         <a class="logoImg" target="_blank" title="{{ row.name }}" href="{{ href_ }}"><img src="{{ row.logo }}" alt="{{ row.name }}" width="120" height="60"></a>
         {% if row.commission > 0 %}<div class="logoWord lightGray">最高返{{ row.commission }}%</div>{% endif %}
         <div class="logoMore">
-            <a target="_blank" href="{{ href_ }}" class="toBuy"><i class="shopIcon"></i>去购物</a>
-            <a target="_blank" href="{{  path('jili_emar_websites_detail', {'wid': wid }) }}" class="toMore"><i class="detailIcon"></i>看详情</a>
+        	<div class="logoMask"></div>
+            <div class="logoBtn">
+            	<a href="{{  path('jili_emar_websites_detail', {'wid': wid }) }}" class="toMore"><i class="detailIcon"></i>返利详情</a>
+            	<a target="_blank" href="{{ href_ }}" class="toBuy"><i class="shopIcon"></i>直接购物</a>
+            </div>
         </div>
     </li>
     {% else %}
     <em>很抱歉，没有找到相关的商家。</em> 
     {% endfor %}
 </ul>
+<script type="text/javascript">
+	$(function(){
+            $('.shopR .center ul li').hover(function(){
+                var index = $('.shopR .center ul li').index(this);
+                $('.logoMore').eq(index).stop(true,true).delay(400).show();
+            },function(){
+				var index = $('.shopR .center ul li').index(this);
+                $('.logoMore').eq(index).stop(true,true).hide();
+            });
+	});
+</script>

@@ -213,6 +213,7 @@ footer{
 	width: 100%;
 	bottom: 0;
 	display:block;
+	*left:0;
 }
 footer section{
 	margin: 0 auto;

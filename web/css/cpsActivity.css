@@ -12,6 +12,7 @@
 	background-color: #FFFFFF;
     border: 3px solid #DDDDDD;
 	padding:15px 15px 10px 15px;
+	float:left;
 }
 .cpsActivity .classify h3{
 	margin:0 0 5px 0;
@@ -46,7 +47,7 @@
 	color:#e94d41;
 }
 .cpsActivity .classify .classify-nav span a.hover{
-	background-color:#e94d41;
+	background-color:#eb411f;
 	color:#FFF;
 	border-radius:3px;
 	padding-right:5px;
@@ -70,6 +71,7 @@
 .cpsActivity .activityOverflow{
 	overflow:hidden;
 	width:860px;
+	float:left;
 }
 .cpsActivity .activityOverflow ul.activityAll{
 	margin: 20px 0;
@@ -112,7 +114,7 @@
 	text-align:left;
 }
 .cpsActivity .activityOverflow ul.activityAll li .more a.moreBtn{
-	background-color: #e94d41;
+	background-color: #4a8ef3;
     border-radius: 3px 3px 3px 3px;
     color: #FFFFFF;
     display: inline-block;

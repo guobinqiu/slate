@@ -256,3 +256,7 @@ a.tencent{
     padding-top: 100px;
     text-align: center;
 }
+
+/* top notice */
+.topNotice{ height:22px; line-height:22px; text-align:center; color:#4d4d4d; background:#fffbe2; border-bottom:1px solid #f4e8ca;}
+/* top notice / */

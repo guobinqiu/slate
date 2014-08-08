@@ -12,7 +12,7 @@
 .explain h3{ color:#333; width:100%; text-align:left; font-size:16px; margin-bottom:15px;}
 .shopRecommend{ background:#fff; padding: 10px 20px;}
 .rebateDetail{ margin-bottom:15px;}
-.rebateDetail h3,.shopRecommend h3{ font-size: 14px; font-weight:bold; padding: 5px 0;text-align: left;width: 82px; border-bottom:2px solid #d4d4d4; position:relative; bottom:-2px;}
+.rebateDetail h3,.shopRecommend h3{ font-size: 14px; *float:left; font-weight:bold; padding: 5px 0;text-align: left;width: 82px; *width:100%; border-bottom:2px solid #d4d4d4; position:relative; bottom:-2px;}
 .rebateDetail .conWrap{background-color: #FFF; border-top: 2px solid #ededed; padding: 29px 0 15px; margin-bottom:15px;}
 .rebateDetail .conWrap table{ width:360px;  margin: 0 15px 15px; float:left;}
 .rebateDetail .conWrap table th{ background:#f3f3f3;}
