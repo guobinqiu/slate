@@ -95,7 +95,7 @@ $(document).ready(function(){
                 {% set router_current = app.request.attributes.get('_route') %}
                 <li {{ router_current == '_homepage' ? 'class="active"':'' }}><a href="{{ path('_homepage') }}" title="首页">首页</a></li>
                 <li {{ router_current == '_game_chick' ? 'class="active"':'' }}><a href="{{ path('_game_chick') }}" title="游戏体验">游戏体验</a></li>
-                <li {{ (router_current == '_advertiserment_list' or router_current == '_advertiserment_offer99')  ? 'class="active"':'' }}><a href="{{ asset(path('_advertiserment_list'),'cdn1')  }}" title="体验广告">体验广告</a></li>
+                <li {{ (router_current == '_advertiserment_list' or router_current == '_advertiserment_offer99')  ? 'class="active"':'' }}><a href="{{path('_advertiserment_list')}}" title="体验广告">体验广告</a></li>
                 <li {{ router_current == 'jili_emar_websites_shoplist' ? 'class="active"':'' }}><a href="{{ path('jili_emar_websites_shoplist') }}" title="商家列表">商家列表</a></li>
                 <li {{ router_current == '_marketActivity_index' ? 'class="active"':'' }}><a href="{{ path('_marketActivity_index') }}" title="商家活动">商家活动</a></li>
                 <li {{ router_current == '_exchange_index' ? 'class="active"':'' }}><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
