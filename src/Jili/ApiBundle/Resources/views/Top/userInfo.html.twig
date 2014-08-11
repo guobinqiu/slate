@@ -3,9 +3,9 @@
         <div class="headPort"><img src='{{ asset(app.session.get('icon_path','images1408/headPortBg.jpg' ) ) }}' height='46'/></div>
         <div class="welcome">欢迎您，<div class="userName">{{ app.session.get('nick') }}</div></div>
         {% if userCheckin is defined and userCheckin == 1 %}
-        <div class="signBtn" id="mysign" onclick="signs();"><span class="signIcon"></span><span id="homesign">签到</span></div>
+        <div class="signBtn" id="mysign" onclick="signs();"><span class="signIcon"></span><span id="sign">签到</span></div>
         {% else %}
-        <div class="btnHascheckin" id="mysign"><span class="signIcon"></span><span id="homesign">已签到</span></div>
+        <div class="btnHascheckin" id="mysign"><span class="signIcon"></span><span id="sign">已签到</span></div>
         {% endif %}
     </div>
     <ul class="userExtra mt10">

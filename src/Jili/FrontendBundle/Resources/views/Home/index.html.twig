@@ -52,22 +52,13 @@
         {% else %}
             {{ render(controller('JiliApiBundle:Top:userInfo' ) ) }}
         {% endif %}
-        <div class="quickQ shadowGlob">
-            <h2>快速问答</h2>
-            <div class="quickQCon clearfix">
-                <div class="fnLeft"><img src="{{ asset('images1408/qsPic.jpg') }}" width="90" height="90" alt="快速问答图片" title="快速问答图片"/></div>
-                <div class="quickQInfo fnRight">
-                    <p><span class="quotesL"></span><a href="#" target="_blank">【生活】你对大部分女性选择从事工作怎么看</a><span class="quotesR"></span></p>
-                    <div class="countDownArea"><!--<div class="countDown">还剩<span>10</span><strong>：</strong><span>10</span><strong>：</strong><span>10</span></div>--></div>
-                </div>
-            </div>
-        </div>
-        <div style="background: none; padding: 116px 0 0;"><img src="{{ asset('images1408/baidu270.jpg') }}"></div>
-        <div class="notice mt10 shadowGlob">
+        <div class="notice shadowGlob">
             <h2>最新公告</h2>
             {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
             <div class="pageNumber"><a class="prev curPt"></a><span></span><a class="next curPt"></a></div>
         </div>
+        <div style="background: none; padding: 116px 0 0;"><img src="{{ asset('images1408/baidu270.jpg') }}"></div>
+        
         <div class="timeline mt10 shadowGlob">
             <h2>最新动态</h2>
             {{ render(controller('JiliApiBundle:Top:event') ) }}

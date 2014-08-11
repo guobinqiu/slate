@@ -5,6 +5,7 @@
 .shop-info-l .shop-rebate em{ color:#e94d41;}
 .shop-info-l .goBtn{ width:180px; background-color:#4a8ef3; color:#FFF; display:inline-block; padding:9px 0; font-size:14px;}
 .shop-info-r{ float:left; width:500px; margin-left:40px; text-align:left;}
+.shop-info-r p span{ font-size:12px!important; color:#4d4d4d;}
 .shop-info-r h2{ font-size:24px; color:#333; font-weight:normal; margin-bottom:10px;}
 .shop-info-r .intro,.shop-info-r .rebate{ color:#4d4d4d;}
 .shop-info-r .rebate{ margin-top:12px; padding-top:12px; border-top:1px solid #f2f2f2;}
@@ -16,4 +17,4 @@
 .rebateDetail .conWrap{background-color: #FFF; border-top: 2px solid #ededed; padding: 29px 0 15px; margin-bottom:15px;}
 .rebateDetail .conWrap table{ width:360px;  margin: 0 15px 15px; float:left;}
 .rebateDetail .conWrap table th{ background:#f3f3f3;}
-.rebateDetail .conWrap table th,.rebateDetail .conWrap table td{border: 1px solid #dcdcdc; border-collapse: collapse; padding: 6px 12px;}
+.rebateDetail .conWrap table th,.rebateDetail .conWrap table td{border: 1px solid #dcdcdc; border-collapse: collapse; padding: 6px 12px; text-align:left;}

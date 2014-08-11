@@ -19,7 +19,11 @@
 
         function switchFocus(){
             switchEle.focusin(function(){ $(this).val("");});
-            switchEle.focusout(function(){ $(this).val("请输入您要搜索的商家名称");});
+			switchEle.focusout(function(){ 
+				if($(this).val()==""){
+					$(this).val("请输入您要搜索的商家名称");
+				}
+			});
         }
         function switchHover(){
             switchEle.hover(function(){
@@ -29,16 +33,17 @@
                 $(this).removeClass(switchClass);
             });
         }
-		function switchClick(){
+        function switchClick(){
             switchEle.on('click', function(){
                 var index = switchEle.index(this);
                 switchEle.removeClass(switchClass).eq(index).addClass(switchClass);
             });
         }
+
         switch(switchMethod){
             case 'focus': switchFocus(); break;
             case 'hover': switchHover(); break;
-			case 'click': switchClick(); break;
+            case 'click': switchClick(); break;
             default : break;
         }
     }
