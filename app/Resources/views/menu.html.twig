@@ -24,7 +24,7 @@ $(document).ready(function(){
         isNewMessage();
 
         //91问问快速回答
-        $(".vote").click(function(){
+        $("#wen_vote").click(function(){
             $.ajax({
                 url: "{{ path('_default_wenwenVisit') }}",
                 post: "GET",
@@ -32,6 +32,8 @@ $(document).ready(function(){
                     if(data==1){
                         setTaskNumber();
                         setUndoTaskClass();
+                        $("li #task_wen_mark").removeClass("mark");
+                        $("li #task_wen_mark").addClass("hasMark");
                     }
                 }
             }); 

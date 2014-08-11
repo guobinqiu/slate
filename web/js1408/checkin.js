@@ -61,19 +61,14 @@ function goto(cid,aid,points){
 						
                       if(data == 1){
                           var nowTimes = parseInt(parseInt($("#remain").text())-1);
-						  if(nowTimes<=0){
+                          if(nowTimes<=0){
                               $("#signInFrame h5").html("恭喜您签到成功，已获得<font color='#E94C1B'>"+points+"</font>米粒！");
-                              $(".signs").remove();
-							  $("#sign").removeClass("goUserInfo");
-                              $("#sign").addClass("hascheckin");
-							  $("#mysign").text("已签到");
-							  //$("#sign").unbind("click",signs);
-							  //$(".dailyQuest li").css("background","#ccc");
-							  
-							  //$("#homesign").text("已签到");
-							  $("#mysign").css("background","#ccc");
-							  $("#mysign").unbind("click",signs);
-							  
+                              $("li #task_checkin_mark").removeClass("mark");
+                              $("li #task_checkin_mark").addClass("hasMark");
+                              $("#mysign").text("已签到");
+                              $("#mysign").css("background","#ccc");
+                              $("#mysign").unbind("click",signs);
+
                               //setTaskNumber();
                           }else{
                               $("#remain").text(nowTimes);
