@@ -27,9 +27,9 @@ class SignupActivateHandler
     }
 
     /**
-     * @param:  $params = array('user'=> User Entity, 'passwordToken'=> passwordToken Entity ) 
+     * @param:  $params = array('user'=> User Entity, 'passwordToken'=> passwordToken Entity )
      */
-    public function setParams($params ) 
+    public function setParams($params)
     {
         $this->params = $params;
         return $this;

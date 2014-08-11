@@ -259,7 +259,8 @@ class AdminController extends Controller
 
     }
 
-    public function selectTaskPercent($userid,$orderId){
+    public function selectTaskPercent($userid,$orderId)
+    {
       $em = $this->getDoctrine()->getManager();
       $task = $em->getRepository('JiliApiBundle:TaskHistory0'.( $userid % 10));
       $task_order = $task->getTaskPercent($orderId);
@@ -290,7 +291,8 @@ class AdminController extends Controller
       return true;
     }
 
-    public function getPointHistory($userid,$point,$type){
+    public function getPointHistory($userid,$point,$type)
+    {
         $em = $this->getDoctrine()->getManager();
         $po = SequenseEntityClassFactory :: createInstance('PointHistory', $userid);
         $po->setUserId($userid);
@@ -3036,7 +3038,8 @@ class AdminController extends Controller
     {
     }
 
-    public function insertSendMs($parms=array()){
+    public function insertSendMs($parms=array())
+    {
         extract($parms);
         $em = $this->getDoctrine()->getManager();
         $sm = SequenseEntityClassFactory :: createInstance('SendMessage', $userid);
@@ -3051,7 +3054,8 @@ class AdminController extends Controller
     }
 
 
-    public function delSendMs($userid,$sendid){
+    public function delSendMs($userid,$sendid)
+    {
       $em = $this->getDoctrine()->getManager();
       $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ( $userid % 10));
       $delSm = $sm->find($sendid);
@@ -3073,7 +3077,8 @@ class AdminController extends Controller
       $em->flush();
     }
 
-    public function selectSendMsById($userid,$sendid){
+    public function selectSendMsById($userid,$sendid)
+    {
       $em = $this->getDoctrine()->getManager();
       $sm = $em->getRepository('JiliApiBundle:SendMessage0'. ( $userid % 10));
       $showMsById = $sm->getUserSendMs($sendid);
@@ -3091,7 +3096,8 @@ class AdminController extends Controller
     }
 
 
-    public function getTaskHistory($parms=array()){
+    public function getTaskHistory($parms=array())
+    {
         extract($parms);
         $em = $this->getDoctrine()->getManager();
         $po = SequenseEntityClassFactory :: createInstance('TaskHistory', $userid);

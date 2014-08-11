@@ -1,6 +1,10 @@
 parameters:
+# user related
     login.listener.class: Jili\ApiBundle\EventListener\LoginListener
     soap.mail.listener.class: Jili\ApiBundle\EventListener\SoapMailListener
+    user_sign_up_route.class: Jili\ApiBundle\Services\UserSignUpTracer
+    user_source.logger.class: Jili\ApiBundle\Services\Logger\UserSourceLogger
+    monolog.processor.session_request.class: Jili\ApiBundle\Services\Session\SessionRequestProcessor
 
     general_api.task_history.class: Jili\ApiBundle\EventListener\TaskHistory
     general_api.point_history.class: Jili\ApiBundle\EventListener\PointHistory
@@ -43,6 +47,33 @@ services:
         class: %soap.mail.listener.class%
         calls:
             - [setLogger, ["@logger"]]
+
+    user_sign_up_route.listener:
+        class: %user_sign_up_route.class%
+        arguments: []
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setSession, [ @session ] ] 
+            - [ setUserSourceLogger, [ @monolog.logger.user_source ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+
+    user_source.logger:
+        class: %user_source.logger.class%
+        arguments: ["@logger"]
+        tags: 
+            - { name: monolog.logger, channel: user_source }
+
+
+    monolog.formatter.session_request:
+        class: Monolog\Formatter\LineFormatter
+        arguments:
+            - "%%datetime%%\t%%extra.token%%\t%%channel%%\t%%level_name%%\t%%message%%\n"
+
+    monolog.processor.session_request:
+        class: %monolog.processor.session_request.class% 
+        arguments:  ["@session"]
+        tags:
+            - { name: monolog.processor, method: processRecord }
 
     # rebate_activity.point_caculator
     rebate_point.caculator:
