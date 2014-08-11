@@ -5,6 +5,7 @@
 .shop-info-l .shop-rebate em{ color:#e94d41;}
 .shop-info-l .goBtn{ width:180px; background-color:#4a8ef3; color:#FFF; display:inline-block; padding:9px 0; font-size:14px;}
 .shop-info-r{ float:left; width:500px; margin-left:40px; text-align:left;}
+.shop-info-r p span{ font-size:12px!important; color:#4d4d4d;}
 .shop-info-r h2{ font-size:24px; color:#333; font-weight:normal; margin-bottom:10px;}
 .shop-info-r .intro,.shop-info-r .rebate{ color:#4d4d4d;}
 .shop-info-r .rebate{ margin-top:12px; padding-top:12px; border-top:1px solid #f2f2f2;}
@@ -12,8 +13,8 @@
 .explain h3{ color:#333; width:100%; text-align:left; font-size:16px; margin-bottom:15px;}
 .shopRecommend{ background:#fff; padding: 10px 20px;}
 .rebateDetail{ margin-bottom:15px;}
-.rebateDetail h3,.shopRecommend h3{ font-size: 14px; font-weight:bold; padding: 5px 0;text-align: left;width: 82px; border-bottom:2px solid #d4d4d4; position:relative; bottom:-2px;}
+.rebateDetail h3,.shopRecommend h3{ font-size: 14px; *float:left; font-weight:bold; padding: 5px 0;text-align: left;width: 82px; *width:100%; border-bottom:2px solid #d4d4d4; position:relative; bottom:-2px;}
 .rebateDetail .conWrap{background-color: #FFF; border-top: 2px solid #ededed; padding: 29px 0 15px; margin-bottom:15px;}
 .rebateDetail .conWrap table{ width:360px;  margin: 0 15px 15px; float:left;}
 .rebateDetail .conWrap table th{ background:#f3f3f3;}
-.rebateDetail .conWrap table th,.rebateDetail .conWrap table td{border: 1px solid #dcdcdc; border-collapse: collapse; padding: 6px 12px;}
+.rebateDetail .conWrap table th,.rebateDetail .conWrap table td{border: 1px solid #dcdcdc; border-collapse: collapse; padding: 6px 12px; text-align:left;}

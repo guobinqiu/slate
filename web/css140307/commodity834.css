@@ -2,7 +2,7 @@ ul.commodityUl,ul.commodityByWeb{ background-color:#FFF; border-top:2px solid #e
 ul.commodityUl.btbn{ border-top:none;}
 ul.commodityUl li,ul.commodityByWeb li{width:269px; height: 278px; border: 2px solid #fff; float: left; padding:16px 18px 0;}
 ul.commodityUl li{height: 250px; padding: 10px 18px 0;}
-ul.commodityUl li:hover,ul.commodityByWeb li:hover{border: 2px solid #C40000; transition: all 0.3s ease 0s;} 
+ul.commodityUl li:hover,ul.commodityByWeb li:hover{border: 2px solid #eb411f; transition: all 0.3s ease 0s;} 
 ul.commodityUl li dt a img{ width:269px; height:auto;}
 ul.commodityUl li dd{font-size:12px; padding:8px 0 10px 0; color:#999999; position:relative;}
 ul.commodityUl li dd span{ line-height:150%; width:100%; text-align:left;}
