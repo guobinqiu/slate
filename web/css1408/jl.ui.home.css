@@ -20,8 +20,8 @@ a.more{
 	padding-left: 200px;
 }
 .adTop{ width:516px; height:112px; border:1px solid #e6e6e6; background:#fff; margin-left: 200px; margin-top: 5px;}
-.adTop ul li{ float:left; margin: 10px 4px 0 12px;}
-.adTop ul li.ad1{width:116px;}
+.adTop ul li{ float:left; margin: 10px 4px 0 10px;}
+.adTop ul li.ad1{width:113px;}
 .adTop ul li.ad2{ width:94px;}
 .adTop ul li .pointNum{height: 24px;line-height: 24px;}
 .slider{

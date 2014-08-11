@@ -40,7 +40,10 @@
             {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
             <div class="pageNumber"><a class="prev curPt"></a><span></span><a class="next curPt"></a></div>
         </div>
-        <div style="background: none; padding: 116px 0 0;"><img src="{{ asset('images1408/baidu270.jpg') }}"></div>
+        <div style="background: none; padding: 116px 0 0;">
+        	<!-- 首页 右侧一 标签云（改） -->
+        	{% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1650575" } %}
+        </div>
         
         <div class="timeline mt10 shadowGlob">
             <h2>最新动态</h2>

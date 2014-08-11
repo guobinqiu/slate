@@ -27,7 +27,11 @@
   {{ include( "JiliEmarBundle:Websites:shopSearch_page.html.twig") }} </div>
 <!-- eof main-->
 
-<div class="sidebar fr" style=" width: 155px;">
+<div class="sidebar fr" style=" width: 155px; height:210px;">
+<!-- 商城检索结果页右侧 (改) -->
+{% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1653801" } %}
+</div>
+<!--<div class="sidebar fr" style=" width: 155px;">
   <div class="busiSec">
     <h3 class="busiSecTit">同类商城推荐</h3>
     <div class="busiSecBd">
@@ -38,7 +42,7 @@
 	  </ul>
     </div>
   </div>
-</div>
+</div>-->
 <!-- eof sidebar --> 
 
 {% endblock %} 
