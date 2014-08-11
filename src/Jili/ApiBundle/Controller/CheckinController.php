@@ -141,23 +141,24 @@ class CheckinController extends Controller
                 }
                 $firstUrl = $this->advInfo($uid,$busiAct[0]['aid']);
                 $lastUrl = $busiAct[0]['activityUrl'];
+
+                //用户点击保存 用户关注数
+                $amcn = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->findByMarketActivityId($markId);
+                if($amcn){
+                    $amcn[0]->setClickNumber($amcn[0]->getClickNumber() + 1);
+                }else{
+                    $amcn[0] = new MarketActivityClickNumber();
+                    $amcn[0]->setMarketActivityId($markId);
+                    $amcn[0]->setClickNumber(1);
+                }
+                $em->persist($amcn[0]);
+                $em->flush();
+
                 break;
             default:
                 # code...
                 break;
         }
-
-        //用户点击保存 用户关注数
-        $amcn = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->findByMarketActivityId($markId);
-        if($amcn){
-            $amcn[0]->setClickNumber($amcn[0]->getClickNumber() + 1);
-        }else{
-            $amcn[0] = new MarketActivityClickNumber();
-            $amcn[0]->setMarketActivityId($markId);
-            $amcn[0]->setClickNumber(1);
-        }
-        $em->persist($amcn[0]);
-        $em->flush();
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));
     }
