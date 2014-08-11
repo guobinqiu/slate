@@ -3,7 +3,7 @@ namespace Jili\FrontendBundle\Tests\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class MarketActivityClickListRepository extends KernelTestCase {
+class MarketActivityClickNumberRepositoryTest extends KernelTestCase {
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -29,14 +29,10 @@ class MarketActivityClickListRepository extends KernelTestCase {
         $this->em->close();
     }
 
-    /**
-     * @group point_recent
-     */
-    public function testGetRecentPoint() {
+    public function testGetClickNumber() {
         $em = $this->em;
         $marketActivityId = 9;
-        $result = $em->getRepository('JiliFrontendBundle:MarketActivityClickList')->clickCount($marketActivityId);
-
-        $this->assertEquals(1, $result['num']);
+        $result = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->getClickNumber($marketActivityId);
+        $this->assertEquals(3, $result['clickNumber']);
     }
 }

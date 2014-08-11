@@ -32,7 +32,7 @@ use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 
-use Jili\FrontendBundle\Entity\MarketActivityClickList;
+use Jili\FrontendBundle\Entity\MarketActivityClickNumber;
 class CheckinController extends Controller
 {
     /**
@@ -147,12 +147,16 @@ class CheckinController extends Controller
                 break;
         }
 
-        //用户点击保存
-        $ma_click = new MarketActivityClickList();
-        $ma_click->setUserId($uid);
-        $ma_click->setMarketActivityId($markId);
-        $ma_click->setCreateTime(date_create(date('Y-m-d H:i:s')));
-        $em->persist($ma_click);
+        //用户点击保存 用户关注数
+        $amcn = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->findByMarketActivityId($markId);
+        if($amcn){
+            $amcn[0]->setClickNumber($amcn[0]->getClickNumber() + 1);
+        }else{
+            $amcn[0] = new MarketActivityClickNumber();
+            $amcn[0]->setMarketActivityId($markId);
+            $amcn[0]->setClickNumber(1);
+        }
+        $em->persist($amcn[0]);
         $em->flush();
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));

@@ -2,11 +2,11 @@
 namespace   Jili\FrontendBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
-class MarketActivityClickListRepository extends EntityRepository {
+class MarketActivityClickNumberRepository extends EntityRepository {
 
-    public function clickCount($marketActivityId) {
+    public function getClickNumber($marketActivityId) {
         $query = $this->createQueryBuilder('macl');
-        $query = $query->select('count(macl.id) as num');
+        $query = $query->select('macl.clickNumber');
         $query = $query->Where('macl.marketActivityId = :marketActivityId');
         $query = $query->setParameter('marketActivityId', $marketActivityId);
         $query = $query->getQuery();

@@ -124,3 +124,4 @@ parameters:
         'order': 2 #每个订单XX元
         'sale': 3 #销售额的XX%
     point_exchange_upper_limit: 2000 #积分兑换上限
+    business_activity_focus_on_number: 1000 # 商家活动关注数
