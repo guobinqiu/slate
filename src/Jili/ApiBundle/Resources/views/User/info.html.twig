@@ -503,7 +503,7 @@ function addClass(id){
               {% else %}
                      {{ item.incentive }}米粒
               {% endif %}</td>
-          <td>{{ item.createTime.date }}</td>
+          <td>{{ item.createTime.date | date('Y-m-d')}}</td>
           <td>{% if item.incentiveType==1 or item.incentiveType==2 or item.incentiveType==17 or item.incentiveType == 19 %}
                   {% if item.orderStatus==1  %} 已参加
                   {% elseif item.orderStatus==2  %} 确认中
