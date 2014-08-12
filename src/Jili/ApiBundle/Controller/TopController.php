@@ -148,10 +148,9 @@ class TopController extends Controller
             $em = $this->getDoctrine()->getManager();
             $market = $em->getRepository('JiliApiBundle:MarketActivity')->getActivityList($this->container->getParameter('init_eight'));
             //用户关注数
-            $base_number = $this->container->getParameter('business_activity_focus_on_number');
             foreach($market as $key=>$ma){
                 $resulut = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->getClickNumber($ma['id']);
-                $market[$key]['click'] = $resulut['clickNumber'] + $base_number;
+                $market[$key]['click'] = $resulut['clickNumber'];
             }
             $cache_proxy->set( $cache_fn, $market);
         }
