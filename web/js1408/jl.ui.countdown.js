@@ -13,23 +13,19 @@
 
     //判断输入值
     function isLegal(options){
-        console.log('staDate:' + options.staDate + ', endDate:' + options.endDate);
         if(options.staDate == ''|| options.staDate == undefined|| options.endDate == '' || options.endDate == undefined){
-            console.log('日期为空或未定义！');
             return false;
         }else{
             //未做日期格式化，现固定日期格式为：yyyy/mm/dd hh:mm:ss
             options.staDate = new Date(options.staDate);
             options.endDate = new Date(options.endDate);
             if(options.staDate == 'Invalid Date' || options.endDate == 'Invalid Date'){
-                console.log('您输入的日期格式不对！');
                 return false;
             }
         }
         options.curDate = new Date();
         options.endDiff = (options.endDate).getTime() - options.curDate.getTime();
         if(options.endDiff <= 0 ){
-            console.log('结束时间小于当前时间，请重新输入！');
             return false;
         }
         return true;
@@ -68,7 +64,6 @@
         if(startDiff <= 0){
             $('.' + layerCss.countdownShow).html(str);
         }else{
-            //console.log($('.' + layerCss.countdownShow).html());
             $('.' + layerCss.countdownShow).html('即将开始');
         }
     }

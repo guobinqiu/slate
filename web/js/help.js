@@ -32,7 +32,6 @@ $(document).ready(function() {
 	goToHelp(0)
 
 	$(window).scroll(function() {
-		// console.log($(window).scrollTop())
 			if ($(window).scrollTop() > 100) {
 				$(".topBtn").css("opacity", "1")
 			} else {
