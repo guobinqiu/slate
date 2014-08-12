@@ -9,7 +9,7 @@ class FileUtil {
      * @params: $filename
      * @return: $contents
      */
-    public static function readFileContent($filename) {
+    public static function readCsvContent($filename) {
         $contents = null;
         if (!file_exists($filename)) {
             //die("指定文件不存在，操作中断!");

@@ -27,7 +27,7 @@ class FileUtilTest extends\PHPUnit_Framework_TestCase {
         }
         fclose($fp);
 
-        $content = FileUtil :: readFileContent($file_name);
+        $content = FileUtil :: readCsvContent($file_name);
         $this->assertEquals('789', $content[1][2]);
         $this->assertEquals('2', count($content));
 

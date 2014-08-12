@@ -24,7 +24,7 @@ class TopController extends Controller
     {
         //最新动态 :从文件中读取
         $filename = $this->container->getParameter('file_path_recent_point');
-        $recentPoint = FileUtil::readFileContent($filename);
+        $recentPoint = FileUtil::readCsvContent($filename);
         $arr['recentPoint'] = $recentPoint;
         return $this->render('JiliApiBundle:Top:event.html.twig', $arr);
     }
@@ -37,9 +37,9 @@ class TopController extends Controller
     {
         //排行榜 :从文件中读取
         $filename = $this->container->getParameter('file_path_ranking_month');
-        $rankingMonth = FileUtil::readFileContent($filename);
+        $rankingMonth = FileUtil::readCsvContent($filename);
         $filename = $this->container->getParameter('file_path_ranking_year');
-        $rankingYear = FileUtil::readFileContent($filename);
+        $rankingYear = FileUtil::readCsvContent($filename);
         $arr['rankingMonth'] = $rankingMonth;
         $arr['rankingYear'] = $rankingYear;
         return $this->render('JiliApiBundle:Top:ranking.html.twig', $arr);
