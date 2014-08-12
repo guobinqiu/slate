@@ -1,0 +1,15 @@
+<ul>
+    {% for item in ad_experience %}
+
+    {% if item.missionHall == 1 %}
+    {% set link = path('_advertiserment_list') %}
+    {% else %}
+    {% set link = path('_advertiserment_offer99') %}
+    {% endif %}
+
+    <li class="ad1">
+        <a href="{{link}}"><img src="{{ item.missionImgUrl }}" width="116" height="78" alt="{{ item.missionTitle }}" title="{{ item.missionTitle }}"></a>
+        <a class="pointNum" href="{{link}}"><span class="globRed">{{ item.point }}</span><span class="lightGray">米粒</span></a>
+    </li>
+    {% endfor %}
+</ul>

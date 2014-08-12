@@ -1,0 +1,335 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="积粒,积粒网,91积粒网,返利网,返利,返现,超级返,购物返利,商城返利,淘宝,淘宝返利,京东返利,积分,积分商城,网购返利,91jili.com">
+<meta name="description" content="积粒网，轻松积米粒，快乐换奖励！拥有游戏体验，体验广告，购物返利，商家活动几大板块，网站的货币为米粒，在享受众多商城最优惠价格同时还可从积粒网获得不同比率的现金奖励！积粒网让你省得多，赚得也更多！">
+<title>{% block title %}积粒网-首页 轻松积米粒，快乐换奖励！{% endblock %}</title>
+<link href="{{ asset('css140307/common.css') }} " rel="stylesheet" type="text/css">
+
+<link href="{{ asset('css1408/jl.ui.reset.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css1408/jl.ui.common.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css1408/jl.ui.home.css') }} " rel="stylesheet" type="text/css">
+
+<!--<link href="{{ asset('css/game_prompt.css')}}" rel="stylesheet" type="text/css"/>-->
+<link href="{{ asset('css/personal.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/amazon.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<!--<link href="{{ asset('css140307/reset.css') }} " rel="stylesheet" type="text/css">-->
+{% block stylesheet %}{% endblock %}
+<!-- [if lt IE9] --> 
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script> 
+<!-- [endif] --> 
+<script src="{{ asset('js/jquery-1.7.js') }}" language="javascript"></script>
+<script src="{{ asset('js/help.js')}}" type="text/javascript"></script> 
+<script src="{{ asset('js140307/common.js') }}" language="javascript"></script>
+<script src="{{ asset('js1408/jl.ui.header.js') }}" language="javascript"></script>
+
+<script src="{{ asset('js/analytics.js')}}" type="text/javascript"></script>
+<!--<script src="{{ asset('js/signIn.js')}}" type="text/javascript"></script>-->
+<script src="{{ asset('js1408/checkin.js') }}" language="javascript"></script>
+<script src="{{ asset('js/bottom.js')}}" type="text/javascript"></script> 
+
+
+<script>
+var urls={
+        advertiserment_click:"{{ path('_advertiserment_click') }}",
+        checkin_issetClick:"{{ path('_checkin_issetClick') }}",
+        checkin_clickInsert:"{{ path('_checkin_clickInsert') }}",
+        checkin_location:"{{ path('_checkin_location') }}",
+        checkin_clickCount:"{{ path('_checkin_clickCount') }}",
+        user_login:"{{ path('_user_login') }}"
+} ;
+</script>
+<script>
+$(document).ready(function(){
+  $('.amazon').hide();
+  $('.blackBg').hide();
+  $("#amazonEmpty").hide();
+  {% if app.request.cookies.has('jili_uid') and app.request.cookies.has('jili_nick') %}
+      {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
+      {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
+  {% endif %}
+  {% if app.session.get('uid') %}
+      showFlag();
+      isVisit();
+      isNewMs();
+      countMs();
+      $(".closeBtn").click(function(){
+          $('.amazon').hide();
+          $('.blackBg').hide();
+      });
+      $(".close").click(function(){
+          $('.amazon').hide();
+          $('.blackBg').hide();
+      });
+      $(".infoFinish").click(function(){
+          var  sex =  $("input[name='sex']:checked").val();
+          var  year = $("#year").val();
+          var  month = $("#month").val();
+          var province = $("#province").val();
+          var city = $("#city").val();
+          var tel = $("#tel").val();
+          var income = $("#income").val();
+          var hobbys = document.getElementsByName("hobby");
+          var chestr="";
+          for(var i=0;i<hobbys.length;i++){
+             if(hobbys[i].checked==true){
+                  chestr += hobbys[i].value+",";
+              }
+          }
+          $.ajax({  
+            url: "{{ path('_user_registerReward') }}",
+            type: "POST",
+            data: "sex="+sex+"&year="+year+"&month="+month+"&province="+province+"&city="+city+"&tel="+tel+"&income="+income+"&hobby="+chestr,
+            success:function(data){
+                var obj = eval(data);
+                if(obj[0]['code']==1){
+                   $("#update").hide();
+                   $("#amazonEmpty").show();
+                }
+                if(obj[0]['code']==4){
+                    $(".error").html("<font class='codeflag'>除手机外都为必填</font>");
+
+                }
+                if(obj[0]['code']==5){
+                    $(".error").html("<font class='codeflag'>手机格式错误</font>");
+
+                }
+            }
+          });
+ 
+      });
+      isExistInfo();
+      showInfo();
+      getYear_amazon(); 
+      getProince_amazon();
+      getIncome();
+      getHobby();
+  {% endif %}
+});
+
+function showFlag(){
+    $.ajax({
+        url: "{{ path('_user_createFlag') }}",
+        type: "POST",
+        success:function(data){
+          if(data==1){
+               window.location.href="{{ path('_homepage') }}";
+          }
+          
+        }
+    });
+}
+
+function showInfo(){
+     $.ajax({
+          url: "{{ path('_user_userInfo') }}",
+          type: "POST",
+          success:function(data){
+             var obj = eval(data);
+             $('.login').html(obj[0]['email']);
+             $('.nick').html(obj[0]['nick']);
+             if(obj[0]['sex']==1){
+                document.getElementById("man").checked=true;
+             }
+             if(obj[0]['sex']==2){
+                document.getElementById("feman").checked=true;
+             }
+             if(obj[0]['mobile']){
+                $("#tel").val(obj[0]['mobile']);
+             }
+   
+          }
+      });
+}
+
+function isNewMs(){
+   {% if app.session.get('uid') %}
+   $.ajax({
+          url: "{{ path('_user_isNewMs',{'id':app.session.get('uid')}) }}",
+          type: "POST",
+          success:function(data){
+              if(data){
+                   $('.newms').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
+                   $('.myMes').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
+              }else{
+                  $('.newms').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
+                  $('.myMes').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
+              }
+          }
+        });
+  {% endif %}
+}
+function countMs(){
+    $.ajax({
+          url: "{{ path('_user_countMs') }}",
+          type: "POST",
+          success:function(data){
+              $("#countMessage").html(data);
+          }
+        });
+}
+
+function isVisit(){
+   $.ajax({
+          url: "{{ path('_default_isExistVist') }}",
+          type: "POST",
+          success:function(data){
+              if(data==1){
+                $("#playGame").addClass("gameset");
+              }
+          }
+        });
+}
+
+function amazonReward(){
+   $('.blackBg').show();
+   $('.amazon').show();
+   $("#update").show();
+   $('.amazon').css("left",($('body').width()-$('.amazon').width())/2);
+   if($('body').height() < $('.amazon').height() + 240){
+      $('.blackBg').height($('.amazon').height() + 400)
+   }else{
+      $('.blackBg').height($('body').height())
+   }
+}
+
+function isExistInfo(){
+  $.ajax({
+            url: "{{ path('_user_isExistInfo') }}",
+            type: "POST",
+            success:function(data){
+                if(data==1){
+                  $.ajax({
+                        url: "{{ path('_default_infoVisit') }}",
+                        type: "POST",
+                        success:function(data){
+                            if(data==1){
+                                 amazonReward();
+                            }
+                        }
+                  });    
+                }
+            }
+          });
+}
+
+function getIncome(){
+  $.ajax({
+      url: "{{ path('_user_income') }}",
+      type: "POST",
+      success:function(data){
+        var obj = eval(data);
+        var html = '<select id="income" name="income">';
+        html += '<option value="0">请选择收入</option>';
+        for(var i=0;i<obj.length;i++){ 
+            html += '<option value="'+obj[i]['id']+'" >'+obj[i]["income"]+'</option>';
+        }
+        html += '</select>';
+        $(".income").html(html); 
+      }
+    });
+}
+function getHobby(){
+  $.ajax({
+      url: "{{ path('_user_hobby') }}",
+      type: "POST",
+      success:function(data){
+        var obj = eval(data);
+        var html = '';
+        for(var i=0;i<obj.length;i++){ 
+      html += "<input name='hobby' type='checkbox' value='"+obj[i]['id']+"' >"+obj[i]['hobby'];  
+        }
+        $(".hobby").html(html); 
+      }
+        });
+}
+
+function getProince_amazon(){
+  $.ajax({
+      url: "{{ path('_user_province') }}",
+      type: "POST",
+      success:function(data){
+        var obj = eval(data);
+        var html = "<option value='0'>请选择省</option>";
+        for(var i=0;i<obj.length;i++){ 
+      html += "<option value='"+obj[i]['id']+"' >"+obj[i]['provinceName']+"</option>";  
+        }
+        $("#province").html(html); 
+      }
+        });
+}
+
+function getYear_amazon(){
+      var year = $("#year");  
+      var month = $("#month");  
+    
+      var yearhtml = '';
+      var monthhtml = '';
+      var date = new Date();  
+      var y = date.getFullYear();  
+      yearhtml += "<option value='0'>请选择年</option>";   
+      for (var i = 1940; i <= y ; i++) {  
+ 
+         yearhtml += "<option value='"+i+ "' >"+i+"</option>";
+      } 
+      year.html(yearhtml);
+      monthhtml += "<option value='0'>请选择月</option>";   
+      for (var i = 1; i < 13; i++) {  
+    
+          monthhtml += "<option value='"+i+ "' >"+i+"</option>"; 
+      }
+      month.html(monthhtml);
+}
+function selectYear_amazon(){
+  var month = $("#month"); 
+  if($("#year").val()=='0'){
+    month.get(0).options.length = 0; 
+    month.get(0).options.add(new Option("请选择月", "0"));  
+  }else{
+    month.get(0).options.length = 0; 
+    month.get(0).options.add(new Option("请选择月", "0"));  
+    for (var i = 1; i < 13; i++) {  
+            month.get(0).options.add(new Option(i, i));  
+    }
+  }
+}
+
+function selectCity_amazon(){
+  var html = ''; 
+  if($("#province").val()!=0){
+     $.ajax({
+              url: "{{ path('_user_getCity') }}?cid="+$('#province').val(),
+              type: "POST",
+              success:function(data){
+                var obj = eval(data);
+                for(var i=0;i<obj.length;i++){ 
+                    html += "<option value='"+obj[i]['id']+"'>"+obj[i]['cityName']+"</option>";                 
+                }
+                $("#city").html(html); 
+              }
+          });
+  }else{
+      html += "<option value='0'>请选择地区</option>";   
+      $("#city").html(html);
+  }
+}
+
+</script>
+{% block javascript %}
+{% endblock %}
+
+</head>
+<body>
+<div id="header">
+       {% include "::menu.html.twig" %}
+</div>
+<div class="pageMain page clearfix">
+{% block body %}{% endblock %}
+</div>	
+{% include 'JiliApiBundle::footer.html.twig' %} 
+{% include '::userinfo.html.twig' %}
+<div class="blackBg" style="display: none;"></div>
+</body>
+</html>

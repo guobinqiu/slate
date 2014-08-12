@@ -12,6 +12,7 @@
 #signInFrame h5 {
     font-size: 14px;
     font-weight: normal;
+	text-align:left;
 }
 #signInFrame h5 span {
     color: #E94C1B;

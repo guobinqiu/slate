@@ -1,11 +1,13 @@
-<div class="all">
-  <ul class="clearfix">
-    {% for item in callboard %}
-    <li><a target="_blank" href="{{ asset(path('_callboard_info',{'id':item.id}),'cdn1') }}"><span>【{{ item.categoryName }}】</span>{{ item.title[:17] }}</a></li>
-    {% if loop.length > 3 and loop.index % 3 == 0 and (not loop.last)%}
-    </ul>
-    <ul>
-    {% endif %}
-    {% endfor %}
-  </ul>
+<div class="mask">
+    <div class="all clearfix">
+        <ul>
+            {% for item in callboard %}
+            <li><a target="_blank" href="{{ asset(path('_callboard_info',{'id':item.id}),'cdn1') }}"><span>【{{ item.categoryName }}】</span>{{ item.title[:17] }}</a></li>
+            {% if loop.length > 3 and loop.index % 3 == 0 and (not loop.last)%}
+        </ul>
+        <ul>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
 </div>
