@@ -49,7 +49,7 @@
             sliderEle = $(options.sliderEle),
             config = {
                 stepNum: 3,
-                stepWid : 630,
+                stepWid : 975,
                 index : 0,
                 timer : 2000,
                 animateTimer : 1000
