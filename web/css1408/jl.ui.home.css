@@ -105,7 +105,7 @@ a.more{
 }
 .shopSliderMask{
 	margin: 0 auto;
-	width: 994x;
+	width: 975px;
 	height: 74px;
 	overflow: hidden;
 	position: relative;
@@ -192,7 +192,7 @@ a.more{
 	float: right;
 	width: 245px;
 	height: 167px;
-	border-bottom: 1px solid #eaeae8;
+	border-bottom: 1px solid #f2f2f2;
 }
 .shopActInfo strong{
 	color: #f75232;
@@ -237,7 +237,7 @@ span.arrow{
 	width:270px;
 }
 .rightSider>div{
-	padding: 0 13px;
+	padding: 0 13px 10px;
 	background-color: #fff;
 }
 div.loginArea{
@@ -361,9 +361,9 @@ div.quickQ{
 }
 .timeline{padding-bottom: 10px;}
 .timeline li{
-	border-top: 1px dotted #e0e0e0;
-    height: 35px;
-	line-height: 35px;
+	border-top: 1px solid #f2f2f2;
+    height: 36px;
+	line-height: 36px;
 }
 
 .timeline li span{
@@ -371,10 +371,9 @@ div.quickQ{
 }
 .timeline li em{
 	padding-left: 8px;
-	color:#f75232;
 }
 .timeline .mask{
-	height: 215px;
+	height: 220px;
 	overflow: hidden;
 }
 .timeline .mask ul{ padding:0 10px;}
@@ -409,9 +408,10 @@ div.notice{
 }
 .notice li{
 	line-height: 24px;
-	list-style: disc outside none;
-	margin-left: 15px;
-    width: 244px;
+	height: 24px;
+	overflow: hidden;
+	list-style: disc inside;
+    width: 232px;
 }
 .notice li a:hover{
     color: #ea4c11;
@@ -457,7 +457,6 @@ div.notice{
 .rank li dt{
 	float: right;
 }
-.rank li dt span{ color:#f75232;}
 .rank li em{
 	color: #fff;
 	font-size: 12px;
