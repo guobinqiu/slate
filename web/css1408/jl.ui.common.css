@@ -45,9 +45,7 @@ strong,b{ font-weight:bold;}
 	text-align:right;
 	height:30px;
 	line-height:30px;
-}
-span.division{
-	margin: auto 20px;
+	*+position:relative;
 }
 .headerConWrapper{
 	background-color:#fff;
