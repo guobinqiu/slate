@@ -18,13 +18,13 @@ aside section p.name{
 }
 aside section p.point{
 	color:#999;
-	font-size:14px;
-	line-height:200%;
+	line-height:256%;
 }
 aside section p.point span{
-	color:#FF7114;
+	color:#f75232;
 	font-weight:bold;
 	font-size:36px;
+	word-wrap: break-word;
 }
 aside section.menu{
 	padding:5px 0;

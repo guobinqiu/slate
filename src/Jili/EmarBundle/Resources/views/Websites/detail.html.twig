@@ -1,4 +1,5 @@
-{% extends 'JiliEmarBundle::base140307.html.twig' %}
+{% extends 'JiliFrontendBundle::base.html.twig' %}
+{% block title %}商家列表{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css140307/pageNumber.css') }} " rel="stylesheet" type="text/css">
@@ -7,23 +8,12 @@
 <link href="{{ asset('css140307/commodity834.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
-
 {% block javascript %}
-{{  parent() }}
 <script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
 {% endblock %}
 
 
-{% block header %}
-  {% embed "::header.html.twig" %}
-    {% block search_box %}
-        {{ render( controller('JiliEmarBundle:Search:form', {  'rt' : 1 } )) }}
-    {% endblock %}
-  {% endembed %}
-{% endblock %}
-
-{% block page_main %}
-
+{% block body %}
   <div class="main w834 fl">
       <div class="shop-info module clearfix borderGlob">
         {% set href_ = path('jili_emar_default_redirect') ~ '?m=' ~ website.web_url|url_encode %}
@@ -37,13 +27,13 @@
           <a href="{{ href_ }}" class="goBtn" target="_blank" rel="nofollow" >去购物,赚米粒</a> 
         </div>
         <div class="shop-info-r">
-          <h2 class="corBlack">{{ website.web_name }}</h2>
+          <h2 class="fontYH">{{ website.web_name }}</h2>
           <p class="intro">{{ website.information|raw }}</p>
           <p class="rebate">返利比率：<em>正常商品：7%  团购商品：2%  优惠券、礼品卡商品：4%</em></p>
         </div>
      </div><!-- eof shop-info -->
       {% if commission_list %}
-      <div class="rebateDetail">
+      <div class="shopRecommend rebateDetail">
       	<h3>返利详情</h3>
         <div class="conWrap clearfix">
         	<table>
@@ -90,18 +80,10 @@
 
   </div><!-- eof main  -->
 
-  <div class="sidebar w300 fr">
+  <div class="sidebar w154 fr">
   	<div class="rebateProcess borderGlob">
     	<h3>返利流程</h3>	
         <img src="{{ asset('images140307/rebateExplain.jpg') }}" />
-    </div>
-  	<div class="marginT15">
-		 <!--商城检索结果页右侧一（纯文字）--> 
-         {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1554161" } %}
-    </div>
-	<div class="marginT15">	
-		 <!-- 商城检索结果页右侧二（图片）--> 
-         {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1554166" } %}
     </div>
   </div>
 

@@ -2,7 +2,7 @@
 
 }
 .userNick{
-	color:#54B9E8;
+	color:#4a8ef3;
 }
 .userType{
 	color:#ec4920;
@@ -111,7 +111,7 @@
 	Filter:alpha(opacity=80);
 }
 .index section.one #userInformation .before a.forget{
-	color:#54b9e8;
+	color:#4a8ef3;
 }
 .index section.one #userInformation .after{
 	margin:10px 0;
@@ -144,7 +144,7 @@
 	color:#CCC;
 }
 .index section.one #userInformation .after .user p.point span{
-	color:#FF7114;
+	color:#f75232;
 	font-weight:bold;
 }
 .index section.one #userInformation .after .user a.signIn{
@@ -180,7 +180,7 @@
     z-index: 9997;
 }
 .index section.one #userInformation .after .user .signInExplain span{
-	color:#ff7114;
+	color:#f75232;
 }
 .index section.one #userInformation .after .user p a.hello{
 	display: inline-block;
@@ -314,7 +314,7 @@
 	margin-right: 5px;
 }
 .index section.main aside section ul.timeline font {
-	color: #54b9e8;
+	color: #4a8ef3;
 	margin: 0 5px;
 }
 .index section.main aside section li {

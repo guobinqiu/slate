@@ -1,5 +1,5 @@
-{% extends 'JiliEmarBundle::base140307.html.twig' %}
-
+{% extends 'JiliFrontendBundle::base.html.twig' %}
+{% block title %}{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css140307/pageNumber.css') }} " rel="stylesheet" type="text/css">
@@ -8,50 +8,41 @@
 <link href="{{ asset('css140307/screen.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
-
-{% block javascript %}
-<script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
-<script src="{{ asset('js140307/shopList.js') }}" language="javascript"></script>
-<script src="{{ asset('js140307/screen.js') }}" language="javascript"></script>
+{% block javascript %} 
+<script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script> 
+<script src="{{ asset('js140307/shopList.js') }}" language="javascript"></script> 
+<script src="{{ asset('js140307/screen.js') }}" language="javascript"></script> 
 <script type="text/javascript">
 	  $(document).ready(function() {
 		for(i=3; i<9; i+=4){
 		  $(".searchRecommend li").eq(i).css("margin-right", "0");
 		  }
 	  });
-</script>
+</script> 
 {% endblock %}
 
-{% block header %}
-  {% embed "::header.html.twig" %}
-    {% block search_box %}
-        {{ render( controller('JiliEmarBundle:Search:form', { 'qs': app.request.query.all, 'rt' : 1 } )) }}
-    {% endblock %}
-  {% endembed %}
-{% endblock %}
+{% block body %}
+<div class="main w834 fl"> {# include( "JiliEmarBundle:Websites:shopSearch_category.html.twig") #}
+  
+  {{ include( "JiliEmarBundle:Websites:shopSearch_page.html.twig") }} </div>
+<!-- eof main-->
 
-{% block page_main %}
-
-  <div class="main w834 fl">
-
-      {# include( "JiliEmarBundle:Websites:shopSearch_category.html.twig") #}
-
-      {{ include( "JiliEmarBundle:Websites:shopSearch_page.html.twig") }}
-
-      {{ render(controller('JiliEmarBundle:Ghs:promotion', {'tmpl':'search','max': 8, 'p':1} ))  }}
-
-  </div><!-- eof main-->
-
-  <div class="sidebar w300 fr">
-  	<div>
-		<!--返利详情右侧一（纯文字）--> 
-        {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1554152" } %}
-	</div>
-    <div class="marginT15">	
-		<!-- 返利详情右侧二（图片）--> 
-        {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1554155" } %}
+<div class="sidebar fr" style=" width: 155px; height:210px;">
+<!-- 商城检索结果页右侧 (改) -->
+{% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1653801" } %}
+</div>
+<!--<div class="sidebar fr" style=" width: 155px;">
+  <div class="busiSec">
+    <h3 class="busiSecTit">同类商城推荐</h3>
+    <div class="busiSecBd">
+      <ul id="mallsRecommend">
+        <li><a href="#" target="_blank"><img src="http://img0.egou.com/shop/201312/11/6374807b8cedd9dc6e2e0afb6e3949b5.gif" width="120" height="60" alt=""><span class="itemTxt">最高返<strong class="corGlobRed"> 4%</strong></span></a></li>
+        <li><a href="#" target="_blank"><img src="http://img0.egou.com/shop/201312/03/e16f77e4eeb0b16b969ba587d63d481c.gif" width="120" height="60" alt=""><span class="itemTxt">最高返<strong class="corGlobRed"> 4%</strong></span></a></li>
+        <li><a href="#" target="_blank"><img src="http://img0.egou.com/shop/201312/03/3df93618a3d8ae634d347de7b2e28ac1.gif" width="120" height="60" alt=""><span class="itemTxt">最高返<strong class="corGlobRed"> 4%</strong></span></a></li>
+	  </ul>
     </div>
-  </div><!-- eof sidebar -->
+  </div>
+</div>-->
+<!-- eof sidebar --> 
 
-{% endblock %}
-
+{% endblock %} 

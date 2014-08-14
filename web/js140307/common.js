@@ -62,11 +62,11 @@ var setTaskNumber = function(){
 	$("#nav li.task em").html($("#nav li.task li").length);
 }
 var setUndoTaskClass = function(){
-	for(i=1; i<=$("#undoTask li").length; i++){
+	/*for(i=1; i<=$("#undoTask li").length; i++){
 		if(i%2 == 0){
 			$("#undoTask li:eq(" + (i-1) + ")").addClass("brn")
 		}
-	}
+	}*/
 }
 var taskListShow = function(){
     var last;

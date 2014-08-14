@@ -1,0 +1,68 @@
+{% extends 'JiliFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent()  }} {% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js1408/jl.ui.home.js') }}" language="javascript"></script>
+<script src="{{ asset('js1408/jl.ui.countdown.js') }}" language="javascript"></script>
+{% endblock %}
+ 
+{% block body %}
+<div class="main w1000 clearfix" style="margin-top: -10px;">
+    <div class="mainCon fnLeft ">
+        <div class="focusPic">
+            {{ render(controller('JiliApiBundle:Top:advertiseBanner' ) ) }}
+        </div>
+        <div class="adTop">
+            {{ render(controller('JiliFrontendBundle:Home:adExperience' ) ) }}
+        </div>
+        <div class="hotShops mt10">
+            {{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 12, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
+        </div>
+        <div class="shopAct shadowGlob">
+            <div class="clearfix"><h2 class="fnLeft">热门商家活动</h2><a href="{{ path('_marketActivity_index')}}" class="more fnRight">更多>></a></div>
+            {{ render(controller('JiliApiBundle:Top:market' ) ) }}{# 商家活动 #}
+        </div>
+    </div>
+    <div class="rightSider fnRight">
+        {% if not app.session.has('uid') %}
+        <div class="loginArea">
+            <a href="{{ path('_user_reg') }}" title="免费注册" class="register">免费注册</a>
+            <p><span>---------------</span>已有账号，<a href="{{ path('_user_login') }}" title="直接登录">直接登录</a><span>-------------</span></p>
+        </div>
+        {% else %}
+            {{ render(controller('JiliApiBundle:Top:userInfo' ) ) }}
+        {% endif %}
+        <div class="notice shadowGlob">
+            <h2>最新公告</h2>
+            {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
+            <div class="pageNumber"><a class="prev curPt"></a><span></span><a class="next curPt"></a></div>
+        </div>
+        <div style="background: none; padding: 116px 0 0;">
+        	<!-- 首页 右侧一 标签云（改） -->
+        	{% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1650575" } %}
+        </div>
+        
+        <div class="timeline mt10 shadowGlob">
+            <h2>最新动态</h2>
+            {{ render(controller('JiliApiBundle:Top:event') ) }}
+        </div>
+        <div class="rank mt10 shadowGlob">
+        <h2>排行榜</h2>
+        {{ render(controller('JiliApiBundle:Top:ranking' ) ) }}
+        <div class="menu"><span class="month active">月度</span><span class="year">年度</span></div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block body_bottom %}
+{% if is_newbie_passed is defined  and is_newbie_passed == false  %}
+{% include "JiliApiBundle:Top:newbie_partial.html.twig" %}
+{% endif %}
+{% endblock %}
+
+

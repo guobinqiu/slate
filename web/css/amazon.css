@@ -96,7 +96,7 @@ a.amazonHref{
 .amazon .closeDiv{
 	margin-top: 20px;
 }
-.blackBg{
+/*.blackBg{
 	display: none;
 	position: absolute;
 	width: 100%;
@@ -107,7 +107,7 @@ a.amazonHref{
 	opacity: .5;
 	Filter:alpha(opacity=50);
 	z-index: 9998;
-}
+}*/
 .amazon #update{
     position: relative;
     display: none;

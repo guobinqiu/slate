@@ -32,6 +32,7 @@ use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 
+use Jili\FrontendBundle\Entity\MarketActivityClickNumber;
 class CheckinController extends Controller
 {
     /**
@@ -140,12 +141,24 @@ class CheckinController extends Controller
                 }
                 $firstUrl = $this->advInfo($uid,$busiAct[0]['aid']);
                 $lastUrl = $busiAct[0]['activityUrl'];
+
+                //用户点击保存 用户关注数
+                $amcn = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->findByMarketActivityId($markId);
+                if($amcn){
+                    $amcn[0]->setClickNumber($amcn[0]->getClickNumber() + 1);
+                }else{
+                    $amcn[0] = new MarketActivityClickNumber();
+                    $amcn[0]->setMarketActivityId($markId);
+                    $amcn[0]->setClickNumber(1);
+                }
+                $em->persist($amcn[0]);
+                $em->flush();
+
                 break;
             default:
                 # code...
                 break;
         }
-
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));
     }
@@ -163,25 +176,6 @@ class CheckinController extends Controller
         $url = "http://www.91jili.com/shopping/list/".$uid;
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('yixun'=>$yixun,'url'=>$url));
-    }
-
-
-    /**
-	* @Route("/checkinList",name="_checkin_checkinList")
-	*/
-    public function checkinListAction()
-    {
-        $arrList = array();
-        $date = date('Y-m-d H:i:s');
-        $request = $this->get('request');
-        $uid = $request->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
-        $calNow = array_rand($cal, 2);//随机取数组中6个键值
-        for ($i=0; $i < 2; $i++) {
-            $arrList[] = $cal[$calNow[$i]];
-        }
-        return $this->render('JiliApiBundle:Checkin:checkinList.html.twig',array('arrList'=>$arrList));
     }
 
     public function advInfo($uid,$aid)

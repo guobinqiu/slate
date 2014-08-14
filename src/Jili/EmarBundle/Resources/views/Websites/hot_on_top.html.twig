@@ -1,16 +1,36 @@
-      <h3>返利商城</h3>
-      <div class="menu">{#<a href="#" class="hover">热门商城</a> | <a href="#">服装饰品</a> | <a href="#">手机数码家电</a>#}<a class="more" href="{{ path('jili_emar_websites_shoplist',{wcat:1,p:1}) }}">更多&gt;&gt;</a></div>
-      <ul class="clearfix">
-    {% for row in websites %}
-        
-        <li><a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.webUrl|url_encode  }}" title="{{ row.webName }}" target="_blank"><img width="80" height="40" src="{{ row.logoUrl }}" alt="{{ row.webName }}">
-
-        {% if row.commission > 0 %}
-        <p class="corDarkGray">最高返{{ row.commission }}%</p>
-        {% else %}
-        <p class="corDarkGray">视情况而定</p>
-        {% endif %}
-           </a>
-        </li>
-    {% endfor %}
-      </ul>
+<div class="shopSlider">
+    <div class="shopSliderMask">
+        <ul class="clearfix">
+            {% for row in websites %}
+            <li>
+                <div class="shopLogo"><img src="{{ row.logoUrl }}" width="76" height="40" alt="{{ row.webName }}"/></div>
+                {% if row.commission > 0 %}
+                <p>最高返{{ row.commission }}%</p>
+                {% else %}
+                <p>视情况而定</p>
+                {% endif %}
+                <div class="shopActive">
+                    <div class="shopMask"></div>
+                    <div class="shopBtns">
+                        <a class="toMore" href="{{  path('jili_emar_websites_detail', {'wid': row.webId }) }}" title="返利详情">返利详情</a>
+                        <a class="toBuy" href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.webUrl|url_encode  }}" target="_blank" title="直接购物">直接购物</a>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <bdo class="preGroup"></bdo>
+    <bdo class="nextGroup"></bdo>
+</div>
+ <script type="text/javascript">
+	$(function(){
+            $('.shopSlider li').hover(function(){
+                var index = $('.shopSlider li').index(this);
+                $('.shopActive').eq(index).stop(true,true).delay(400).slideDown(20);
+            },function(){
+				var index = $('.shopSlider li').index(this);
+                $('.shopActive').eq(index).stop(true,true).slideUp(20);
+            });
+	});
+</script>

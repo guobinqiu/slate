@@ -126,11 +126,11 @@ class TaskList
         if( $is_alive && $session->has($key_checkin_point)) {
             $arr['task']['checkinPoint'] =$session->get($key_checkin_point);
         } else {
-            if(isset($checkin) &&  empty ($checkin)) {
+//            if(isset($checkin) &&  empty ($checkin)) {
                 $key_checkin_point = $this->keys['checkin_point'];
                 $arr['task']['checkinPoint'] = $this->check_in_listener->getCheckinPoint( $this->request );
                 $session->set($key_checkin_point, $arr['task']['checkinPoint'] );
-            }
+//            }
         }
 
         //cpa

@@ -50,11 +50,11 @@
 	background-repeat:no-repeat;
 }
 .login article .loginForm li input.text{
-	background-image: url("../images/inputUserIcon.jpg");
+	background-image: url("../images/inputUserIcon.jpg")!important;
     background-position: 8px center;
 }
 .login article .loginForm li input.password{
-	background-image: url("../images/inputPasswordIcon.jpg");
+	background-image: url("../images/inputPasswordIcon.jpg")!important;
     background-position: 10px center;
 }
 .login article .loginForm li input.text:hover, .login article .loginForm li input.text:focus, .login article .loginForm li input.password:hover, .login article .loginForm li input.password:focus{
@@ -75,7 +75,7 @@
 	margin-top:10px;
 }
 .login article .loginForm li.forget a{
-	color:#54b9e8;
+	color:#4a8ef3;
 }
 .login article .loginForm li.loginBtn input.submit{
 	color:#FFF;
