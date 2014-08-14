@@ -62,9 +62,9 @@ $(document).ready(function(){
     {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
 {% endif %}
 {% if app.request.attributes.get('_route') == '_homepage' %}
-	<div class="topNotice">
+	<!--<div class="topNotice">
     	温馨提示：积粒网已经全新改版，为保证您的正常浏览，请使用快捷键<em class="corGlobRed">Ctrl+F5</em>清除缓存。 
-    </div>
+    </div>-->
 {% endif %}
     <div class="topNavs w1000">
     {% if app.session.has('uid') %}
