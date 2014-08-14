@@ -38,7 +38,7 @@
         <div class="notice shadowGlob">
             <h2>最新公告</h2>
             {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
-            <div class="pageNumber"><a class="prev curPt"></a><span></span><a class="next curPt"></a></div>
+            <div class="pageNumber"><a class="prevBtn curPt"></a><span></span><a class="nextBtn curPt"></a></div>
         </div>
         <div style="background: none; padding: 116px 0 0;">
         	<!-- 首页 右侧一 标签云（改） -->
@@ -52,7 +52,7 @@
         <div class="rank mt10 shadowGlob">
         <h2>排行榜</h2>
         {{ render(controller('JiliApiBundle:Top:ranking' ) ) }}
-        <div class="menu"><span class="month active">月度</span><span class="year">年度</span></div>
+        <div class="menu"><span class="month prevBtn active">月度</span><span class="year nextBtn">年度</span></div>
       </div>
     </div>
 </div>
