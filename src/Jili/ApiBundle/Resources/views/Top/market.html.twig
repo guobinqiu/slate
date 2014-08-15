@@ -3,9 +3,12 @@
     <div class="shopActItem">
         <div class="shopActImg"><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank"><img src="{{ asset(item.activityImage) }}" width="420" height="168" alt="{{ item.businessName }}" title="{{ item.businessName }}"/></a></div>
         <div class="shopActInfo">
-            <p><strong>{{ item.title }}</strong>{{ item.businessName}}</p>
-            <div class="publicAttention"><strong>{{ item.click}}</strong>人关注</div>
-            <div class="linkBtn"><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank" title="去看看">去看看<span class="arrow"></span></a></div>
+            <p class="tit"><strong>{{ item.title }}</strong>{{ item.businessName}}</p>
+            <p class="dis">‘这里放描述’苏宁5周年 切蛋糕赢5、10、20元红包，活动时间至8月22日止，活动规则，切蛋糕拿积分（跟切水果游戏一样）</p>
+            <div class="link">
+            	<p class="publicAttention"><strong>{{ item.click}}</strong>人关注</p>
+            	<p class="linkBtn"><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank" title="去看看">去看看<span class="arrow"></span></a></p>
+        	</div>
         </div>
     </div>
     {% endfor %}
