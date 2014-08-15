@@ -66,6 +66,7 @@ class HomeController extends Controller
     {
         //任务列表
         $arr = $this->getTaskList();
+        $arr['wenwen_vote_url'] = $this->container->getParameter('wenwen_vote_url');
         return $this->render('JiliFrontendBundle:Home:task.html.twig', $arr);
     }
 
