@@ -40,20 +40,6 @@ class ExperienceAdvertisement
     private $missionTitle;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mission_description", type="text", nullable=true)
-     */
-    private $missionDescription;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="persons", type="integer", nullable=true)
-     */
-    private $persons;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="delete_flag", type="integer", nullable=true)
@@ -160,7 +146,7 @@ class ExperienceAdvertisement
      * @param string $missionTitle
      * @return ExperienceAdvertisement
      */
-    public function setMissionUrl($missionTitle)
+    public function setMissionTitle($missionTitle)
     {
         $this->missionTitle = $missionTitle;
 

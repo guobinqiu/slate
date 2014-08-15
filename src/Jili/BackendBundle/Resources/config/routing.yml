@@ -9,3 +9,7 @@ analog-chinanet:
 rebate-activity:
     resource: "@JiliBackendBundle/Controller/RebateActivityController.php"
     type:     annotation
+
+rebate-activity:
+    resource: "@JiliBackendBundle/Controller/ExperienceAdvertisementController.php"
+    type:     annotation

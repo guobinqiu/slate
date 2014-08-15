@@ -14,4 +14,17 @@ class ExperienceAdvertisementRepository extends EntityRepository {
         $query = $query->getQuery();
         return $query->getResult();
     }
+    
+    public function getAdvertisementList($limit = null) {
+        $query = $this->createQueryBuilder('ea');
+        $query = $query->select('ea');
+        $query = $query->Where('ea.deleteFlag = 0');
+        if (!is_null($limit)) {
+            $query = $query->setFirstResult(0);
+            $query = $query->setMaxResults($limit);
+        }
+        $query = $query->getQuery();
+        return $query->getResult();
+    }
+    
 }
