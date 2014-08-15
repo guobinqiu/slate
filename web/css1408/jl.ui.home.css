@@ -87,11 +87,11 @@ a.more{
 	margin-top: -12px;
     cursor: pointer;
 }
-.shopSlider bdo.preGroup{
+.shopSlider bdo.prevBtn{
 	left: -40px;
 	background:url(../images1408/icons.png) no-repeat 0 -40px;
 }
-.shopSlider bdo.nextGroup{
+.shopSlider bdo.nextBtn{
 	right: -40px;
 	background:url(../images1408/icons.png) no-repeat -19px -40px;
 }
@@ -439,7 +439,7 @@ div.notice{
 	*zoom: 1;
     cursor: pointer;
 }
-.notice .pageNumber a.next{
+.notice .pageNumber a.nextBtn{
 	background: url(../images1408/icons.png) no-repeat -4px -155px;
 }
 .rank .mask{
