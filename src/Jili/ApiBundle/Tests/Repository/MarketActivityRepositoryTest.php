@@ -69,7 +69,6 @@ class MarketActivityRepositoryTest extends KernelTestCase
 
     /**
      * @group issue_403
-     * @group debug 
      */
     public function testNowActivity()
     {
@@ -92,7 +91,6 @@ class MarketActivityRepositoryTest extends KernelTestCase
 
     /**
      * @group issue_403
-     * @group debug 
      */
     public function testGetActivityList()
     {
