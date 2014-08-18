@@ -1,12 +1,13 @@
 <?php
 namespace Jili\EmarBundle\Api2\Repository;
 
-class ItemCat {
-
+class ItemCat
+{
   /**
    * 取web ids
    */
-  public static function getIds( array $rows ) {
+  public static function getIds(array $rows)
+  {
     $ids = array();
     foreach($rows as $row) {
       if( isset( $row['catid'] )) {
@@ -17,9 +18,10 @@ class ItemCat {
     return $ids;
   }
   /**
-   * @return: 返回数组，array( id=> name) 
+   * @return: 返回数组，array( id=> name)
    */
-  public static function parse( array $rows ) {
+  public static function parse(array $rows)
+  {
     $mapings = array();
     foreach($rows as $row) {
       if(isset($row['catid']) && isset($row['cname'])  ) {
@@ -30,14 +32,15 @@ class ItemCat {
   }
 
   /**
-   * 取cname 
+   * 取cname
    * 131010000
    * 131000000
    */
-  public static function getCrumbsByScatid( $cats , $cid_2 ) {
+  public static function getCrumbsByScatid($cats , $cid_2)
+  {
       //$cid_2 = '131010000';
       $len =  strlen($cid_2);
-      
+
       $len_parent = 4;
 
       $cname = '';
@@ -57,7 +60,7 @@ class ItemCat {
 #  /**
 #   * @param $cat_ind [1,...] , $categories_raw 数组。
 #   */
-#  public static function fetchIdByIndex( $cat_ind, $categories_raw) {
+#  public static function fetchIdByIndex($cat_ind, $categories_raw) {
 #
 #      $cat= ( isset($categories_raw[ $cat_ind - 1 ]) ) ? $categories_raw[ $cat_ind - 1] : null;
 #

@@ -27,15 +27,15 @@ class LimitAd
      * @ORM\Column(name="ad_id", type="integer")
      */
     private $adId;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="income", type="integer")
      */
     private $income;
-    
-    
+
+
     /**
      * @var integer
      *
@@ -48,13 +48,13 @@ class LimitAd
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
      * Set adId
      *
@@ -63,11 +63,11 @@ class LimitAd
      */
     public function setAdId($adId)
     {
-    	$this->adId = $adId;
-    
-    	return $this;
+        $this->adId = $adId;
+
+        return $this;
     }
-    
+
     /**
      * Get adId
      *
@@ -75,9 +75,9 @@ class LimitAd
      */
     public function getAdId()
     {
-    	return $this->adId;
+        return $this->adId;
     }
-    
+
     /**
      * Set income
      *
@@ -86,11 +86,11 @@ class LimitAd
      */
     public function setIncome($income)
     {
-    	$this->income = $income;
-    
-    	return $this;
+        $this->income = $income;
+
+        return $this;
     }
-    
+
     /**
      * Get income
      *
@@ -98,7 +98,7 @@ class LimitAd
      */
     public function getIncome()
     {
-    	return $this->income;
+        return $this->income;
     }
 
     /**
@@ -110,20 +110,20 @@ class LimitAd
     public function setIncentive($incentive)
     {
         $this->incentive = $incentive;
-    
+
         return $this;
     }
 
     /**
      * Get incentive
      *
-     * @return integer 
+     * @return integer
      */
     public function getIncentive()
     {
         return $this->incentive;
     }
-    
-    
-   
+
+
+
 }

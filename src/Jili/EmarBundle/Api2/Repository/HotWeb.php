@@ -1,11 +1,13 @@
 <?php
 namespace Jili\EmarBundle\Api2\Repository;
 
-class HotWeb {
+class HotWeb
+{
   /**
    * @return: 取web_id
    */
-  public static function getIds( array $rows ) {
+  public static function getIds(array $rows)
+  {
     $ids = array();
     foreach($rows as $row) {
       if( isset( $row['web_id'] )) {
@@ -17,9 +19,10 @@ class HotWeb {
   }
 
   /**
-   * @return: 返回数组，array( id=> name) 
+   * @return: 返回数组，array( id=> name)
    */
-  public static function parse( array $rows ) {
+  public static function parse(array $rows)
+  {
     $mapings = array();
     foreach($rows as $row) {
       if(isset($row['web_id']) && isset($row['web_name'])  ) {

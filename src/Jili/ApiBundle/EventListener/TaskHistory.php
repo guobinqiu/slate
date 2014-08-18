@@ -17,28 +17,28 @@ use Jili\ApiBundle\Entity\TaskHistory00,
 
 
 /**
- * 
+ *
  **/
-class TaskHistory 
+class TaskHistory
 {
-    
+
     private $em;
     private $logger;
 
-    public function __construct(LoggerInterface $logger, EntityManager $em/*, ParameterBagInterface $parameterBag*/ )
+    public function __construct(LoggerInterface $logger, EntityManager $em/*, ParameterBagInterface $parameterBag*/)
     {
         $this->logger = $logger;
         $this->em = $em;
     }
 
     /**
-     *  dwprivate function updateTaskHistory($params=array()){
+     *  dwprivate function updateTaskHistory($params=array()) {
      *  @param: $params   'userid' => 1057622,
      *                     'orderId' => 2,
      *                     'taskType' => 1,
      *                     'reward_percent' => '',
      *                     'point' => 17,
-     *                     'date' => 
+     *                     'date' =>
      *                     DateTime::__set_state(array(
      *                        'date' => '2014-01-03 13:46:23',
      *                        'timezone_type' => 3,
@@ -47,13 +47,13 @@ class TaskHistory
      *                     'status' => 4,
      * @return null
      */
-    public function update( array $params=array()){
-
+    public function update( array $params=array())
+    {
         $em = $this->em;
         extract($params);
 
         $flag =  $userid % 10;
-        $taskRepository = $em->getRepository('JiliApiBundle:TaskHistory0'. $flag); 
+        $taskRepository = $em->getRepository('JiliApiBundle:TaskHistory0'. $flag);
 
         //TODO: update more simplicity.
         $taskHistory= $taskRepository->findOneBy(array( 'orderId'=> $orderId,'taskType'=> $taskType) );
@@ -79,7 +79,8 @@ class TaskHistory
 
     }
 
-    public function init( array $params=array()){
+    public function init( array $params=array())
+    {
         extract($params);
         $em = $this->em;
         $flag =  $userid % 10;
@@ -110,7 +111,8 @@ class TaskHistory
      *   )
      * @return an TaskHistory{xx} instance.
      */
-    public function selectPercent( array $params ){
+    public function selectPercent(array $params)
+    {
         $em = $this->em;
         extract($params);
         $user_id = (int) $user_id;
@@ -121,7 +123,5 @@ class TaskHistory
         return $task_order[0];
     }
 
-    
+
 }
-
-

@@ -53,7 +53,7 @@ class OfferwowApiReturn
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -76,7 +76,7 @@ class OfferwowApiReturn
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -86,7 +86,7 @@ class OfferwowApiReturn
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

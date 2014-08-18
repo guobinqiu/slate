@@ -1,5 +1,14 @@
-<ul class="bannerImg" style="top: -183px;">
-    {% for item in advertise_banner %}
-    <li><a href="{{ item.adUrl }}"><img src="{{ asset(item.iconImage) }}"></a></li>
-    {% endfor %}
-</ul>
+{% if app.session.has('uid') %}
+<div class="slider ">
+    <div class="sliderMask">
+        <ul class="sliderImg clearfix">
+            {% for item in advertise_banner %}
+            <li><a href="{{ item.adUrl }}" target="_blank"><img src="{{ asset(item.iconImage) }}" width="518" height="191" /></a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="sliderBtns"><b class="active"></b><b></b><b></b><b></b><b></b></div>
+</div>
+{% else %}
+<div class="loginBefore"><a href="#"><img src="{{ asset('images1408/loginBefore.jpg') }}" width="518" height="191" /></a></div>
+{% endif %}

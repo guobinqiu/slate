@@ -54,7 +54,7 @@ class AnalogOfferwowController extends Controller implements  IpAuthenticatedCon
 
             $this->get('session')->getFlashBag()->add(
                 'notice',
-                $sub_response_content 
+                $sub_response_content
             );
 
         }

@@ -13,7 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class MarketActivity
 {
     public $actImage;
-    public function __construct() {
+    public function __construct()
+    {
         $this->createTime = new \DateTime();
         $this->startTime = new \DateTime();
         $this->endTime = new \DateTime();
@@ -103,11 +104,11 @@ class MarketActivity
      */
     public function editupload($upload_dir)
     {
-         
+
         $fileNames = array('actImage');
-         
+
         $types = array('jpg','jpeg','png','gif');
-        
+
         if(!is_dir($upload_dir)){
             mkdir($upload_dir,0777);
         }
@@ -121,7 +122,7 @@ class MarketActivity
             switch ($fileName){
                 case 'actImage':$field = 'activityImage';break;
             }
-             
+
             if($this->$fileName->getError()==1){
                 return  '文件类型为jpg或png或gif';//类型不对
             }else{
@@ -131,19 +132,18 @@ class MarketActivity
                     $size = getimagesize($this->$fileName);
                     if($size[0]=='470' && $size[1]=='200'){
                         $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-                            
+
                         $this->$fileName->move($upload_dir, $filename_upload);
-                            
+
                         $this->$field = $upload_dir.$filename_upload;
-                            
+
                         $this->$fileName = null;
-                    }
-                    else{
+                    } else{
                         return   '图片像素为470X200';
                     }
                 }
             }
-             
+
         }
     }
 
@@ -153,11 +153,11 @@ class MarketActivity
      */
     public function upload($upload_dir)
     {
-         
+
         $fileNames = array('actImage');
-         
+
         $types = array('jpg','jpeg','png','gif');
-        
+
         if(!is_dir($upload_dir)){
             mkdir($upload_dir,0777);
         }
@@ -171,7 +171,7 @@ class MarketActivity
             switch ($fileName){
                 case 'actImage':$field = 'activityImage';break;
             }
-             
+
             if($this->$fileName->getError()==1){
                 return  '文件类型为jpg或png或gif';//类型不对
             }else{
@@ -181,26 +181,25 @@ class MarketActivity
                     $size = getimagesize($this->$fileName);
                     if($size[0]=='470' && $size[1]=='200'){
                         $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-                            
+
                         $this->$fileName->move($upload_dir, $filename_upload);
-                            
+
                         $this->$field = $upload_dir.$filename_upload;
-                            
+
                         $this->$fileName = null;
-                    }
-                    else{
+                    } else{
                         return   '图片像素为470X200';
                     }
                 }
             }
-             
+
         }
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -216,14 +215,14 @@ class MarketActivity
     public function setAid($aid)
     {
         $this->aid = $aid;
-    
+
         return $this;
     }
 
     /**
      * Get aid
      *
-     * @return integer 
+     * @return integer
      */
     public function getAid()
     {
@@ -239,14 +238,14 @@ class MarketActivity
     public function setBusinessName($businessName)
     {
         $this->businessName = $businessName;
-    
+
         return $this;
     }
 
     /**
      * Get businessName
      *
-     * @return string 
+     * @return string
      */
     public function getBusinessName()
     {
@@ -262,14 +261,14 @@ class MarketActivity
     public function setCategoryId($categoryId)
     {
         $this->categoryId = $categoryId;
-    
+
         return $this;
     }
 
     /**
      * Get categoryId
      *
-     * @return string 
+     * @return string
      */
     public function getCategoryId()
     {
@@ -286,14 +285,14 @@ class MarketActivity
     public function setActivityUrl($activityUrl)
     {
         $this->activityUrl = $activityUrl;
-    
+
         return $this;
     }
 
     /**
      * Get activityUrl
      *
-     * @return string 
+     * @return string
      */
     public function getActivityUrl()
     {
@@ -310,14 +309,14 @@ class MarketActivity
     public function setActivityImage($activityImage)
     {
         $this->activityImage = $activityImage;
-    
+
         return $this;
     }
 
     /**
      * Get activityImage
      *
-     * @return string 
+     * @return string
      */
     public function getActivityImage()
     {
@@ -357,14 +356,14 @@ class MarketActivity
     public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
-    
+
         return $this;
     }
 
     /**
      * Get startTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartTime()
     {
@@ -380,14 +379,14 @@ class MarketActivity
     public function setEndTime($endTime)
     {
         $this->endTime = $endTime;
-    
+
         return $this;
     }
 
     /**
      * Get endTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndTime()
     {
@@ -403,14 +402,14 @@ class MarketActivity
     public function setCreateTime($createTime)
     {
         $this->createTime = $createTime;
-    
+
         return $this;
     }
 
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
@@ -426,19 +425,19 @@ class MarketActivity
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-    
+
         return $this;
     }
 
     /**
      * Get deleteFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getDeleteFlag()
     {
         return $this->deleteFlag;
     }
 
-   
+
 }

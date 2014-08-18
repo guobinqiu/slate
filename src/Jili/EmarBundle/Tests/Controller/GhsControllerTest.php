@@ -34,12 +34,13 @@ class GhsControllerTest extends WebTestCase
     }
     /**
      * @group ghs
-     * @group cache 
+     * @group cache
      */
-    public function testPromotionAction() {
+    public function testPromotionAction()
+    {
         $client = static::createClient();
         $container = $client->getContainer();
-       
+
         $logger= $container->get('logger');
         $router = $container->get('router');
         $session=$container->get('session');
@@ -54,7 +55,7 @@ class GhsControllerTest extends WebTestCase
         $queries = array('tmpl'=> 'top','max'=> '9','p'=>'3' ); # must be number in string type
 
 
-        /// check the cached file. 
+        /// check the cached file.
         $listRequest = $container->get($api_name);
         $listRequest->setPageSize($queries['max'] );
         $params = array('page_no' =>  $queries['p']);
@@ -63,7 +64,7 @@ class GhsControllerTest extends WebTestCase
         $cache = $listRequest->getCacheProxy();
 
         $key = $cache->getKey();
-        
+
         echo 'key:',$key,PHP_EOL;
         $cache_fn =$cache_dir .DIRECTORY_SEPARATOR . $key.'.cached';
 
@@ -74,7 +75,7 @@ class GhsControllerTest extends WebTestCase
         exec('rm -rf '. $cache_fn);
         $this->assertFileNotExists($cache_fn);
 
-        // request 
+        // request
         $url = $router->generate('jili_emar_ghs_promotion',$queries , true);
         echo $url, PHP_EOL;
 

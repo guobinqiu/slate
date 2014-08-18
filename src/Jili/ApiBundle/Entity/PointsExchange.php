@@ -12,10 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PointsExchange
 {
-	
-	public function __construct() {
-		$this->exchangeDate = new \DateTime();
-	}
+
+    public function __construct()
+    {
+        $this->exchangeDate = new \DateTime();
+    }
     /**
      * @var integer
      *
@@ -32,14 +33,14 @@ class PointsExchange
      */
     private $userId;
 
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="exchange_date", type="datetime")
      */
     private $exchangeDate;
-    
+
     /**
      * @var \DateTime
      *
@@ -60,7 +61,7 @@ class PointsExchange
      * @ORM\Column(name="target_account", type="string", length=45)
      */
     private $targetAccount;
-        
+
     /**
      * @var string
      *
@@ -107,7 +108,7 @@ class PointsExchange
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -123,21 +124,21 @@ class PointsExchange
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
         return $this->userId;
     }
-    
-    
+
+
     /**
      * Set exchangeDate
      *
@@ -147,20 +148,20 @@ class PointsExchange
     public function setExchangeDate($exchangeDate)
     {
         $this->exchangeDate = $exchangeDate;
-    
+
         return $this;
     }
 
     /**
      * Get exchangeDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getExchangeDate()
     {
         return $this->exchangeDate;
     }
-    
+
     /**
      * Set finishDate
      *
@@ -169,11 +170,11 @@ class PointsExchange
      */
     public function setFinishDate($finishDate)
     {
-    	$this->finishDate = $finishDate;
-    
-    	return $this;
+        $this->finishDate = $finishDate;
+
+        return $this;
     }
-    
+
     /**
      * Get finishDate
      *
@@ -181,10 +182,10 @@ class PointsExchange
      */
     public function getFinishDate()
     {
-    	return $this->finishDate;
+        return $this->finishDate;
     }
-    
-    
+
+
 
     /**
      * Set type
@@ -195,14 +196,14 @@ class PointsExchange
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
     public function getType()
     {
@@ -218,14 +219,14 @@ class PointsExchange
     public function setTargetAccount($targetAccount)
     {
         $this->targetAccount = $targetAccount;
-    
+
         return $this;
     }
 
     /**
      * Get targetAccount
      *
-     * @return string 
+     * @return string
      */
     public function getTargetAccount()
     {
@@ -242,14 +243,14 @@ class PointsExchange
     public function setRealName($realName)
     {
         $this->realName = $realName;
-    
+
         return $this;
     }
 
     /**
      * Get realName
      *
-     * @return string 
+     * @return string
      */
     public function getRealName()
     {
@@ -265,14 +266,14 @@ class PointsExchange
     public function setSourcePoint($sourcePoint)
     {
         $this->sourcePoint = $sourcePoint;
-    
+
         return $this;
     }
 
     /**
      * Get sourcePoint
      *
-     * @return integer 
+     * @return integer
      */
     public function getSourcePoint()
     {
@@ -288,21 +289,21 @@ class PointsExchange
     public function setTargetPoint($targetPoint)
     {
         $this->targetPoint = $targetPoint;
-    
+
         return $this;
     }
 
     /**
      * Get targetPoint
      *
-     * @return integer 
+     * @return integer
      */
     public function getTargetPoint()
     {
         return $this->targetPoint;
     }
 
-    
+
      /**
      * Set exchangeItemNumber
      *
@@ -312,14 +313,14 @@ class PointsExchange
     public function setExchangeItemNumber($exchangeItemNumber)
     {
         $this->exchangeItemNumber = $exchangeItemNumber;
-    
+
         return $this;
     }
 
     /**
      * Get exchangeItemNumber
      *
-     * @return integer 
+     * @return integer
      */
     public function getExchangeItemNumber()
     {
@@ -335,14 +336,14 @@ class PointsExchange
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -358,14 +359,14 @@ class PointsExchange
     public function setIp($ip)
     {
         $this->ip = $ip;
-    
+
         return $this;
     }
 
     /**
      * Get ip
      *
-     * @return string 
+     * @return string
      */
     public function getIp()
     {

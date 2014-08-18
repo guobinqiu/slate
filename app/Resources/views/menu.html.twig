@@ -1,0 +1,120 @@
+{% if app.request.attributes.get('_route') != '_homepage' %}
+<script type="text/javascript">
+    $(function (){   
+      $(".dailyQuest h3").click(function(){
+      $(this).parent().find("ul.dailyList").slideDown('fast').show();  //drop down on hover
+      
+      $(this).parent().hover(function(){
+      },function(){
+      $(this).parent().find("ul.dailyList").slideUp('slow'); //when the mouse hovers out, move it back up
+      });
+        });
+    });
+	</script>
+{% else %}
+<script type="text/javascript">
+	$(function (){ $("ul.dailyList").css('display','block');});
+</script>	
+{% endif %}
+
+
+{% if app.session.has('uid') %}
+<script type="text/javascript">
+$(document).ready(function(){
+        isNewMessage();
+
+        //91问问快速回答
+        $("#wen_vote").click(function(){
+            $.ajax({
+                url: "{{ path('_default_wenwenVisit') }}",
+                post: "GET",
+                success:function(data){
+                    if(data==1){
+                        setTaskNumber();
+                        setUndoTaskClass();
+                        $("li #task_wen_mark").removeClass("mark");
+                        $("li #task_wen_mark").addClass("hasMark");
+                    }
+                }
+            }); 
+        });
+});
+
+  function isNewMessage(){
+   $.ajax({
+          url: "{{ path('_user_isNewMs',{'id':app.session.get('uid') }) }}",
+          type: "GET",
+          success:function(data){
+              if(data){
+                   $('.message').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
+              }else{
+                   $('.message').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
+              }
+          }
+        });
+}
+
+</script>
+
+{% endif %}
+{% if app.request.cookies.has('jili_uid') and app.request.cookies.has('jili_nick') %}
+    {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
+    {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
+{% endif %}
+{% if app.request.attributes.get('_route') == '_homepage' %}
+	<!--<div class="topNotice">
+    	温馨提示：积粒网已经全新改版，为保证您的正常浏览，请使用快捷键<em class="corGlobRed">Ctrl+F5</em>清除缓存。 
+    </div>-->
+{% endif %}
+    <div class="topNavs w1000">
+    {% if app.session.has('uid') %}
+      <ul id="userbar">
+{% set count_new_msgs =  render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}
+{% if  count_new_msgs|length > 0 %}
+        <li><a class="message">新消息(<span class="corLightRed">+{{ render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) }}</span>)</a></li>
+{% else %}
+        <li><a class="message">新消息</a></li>
+{% endif %}
+        <li class="division">|</li>
+        <li><a class="personal">个人中心</a></li>
+        <div id="userFrame">
+            <div class="userInfo"><p>{{ app.session.get('nick')[:10] }}</p></div>
+            <ul class="menu">
+                <li><a href="{{ path('_user_info') }}">个人信息</a></li>
+                <li><a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a></li>
+                <li><a href="{{ asset(path('_user_exchange',{'type':0,'exchangeType':1}),'cdn1') }}">我的兑换历史</a></li>
+                <li class="logOut"><a href="{{ path('_user_logout') }}">退出</a></li>
+            </ul>
+        </div>
+      </ul>
+      {% else %}
+    <a href="{{ path('_user_login') }}" title="登录">登录</a><span class="division">|</span><a href="{{ path('_user_reg') }}" title="注册">注册</a>
+    {% endif %}  
+    </div><div class="headerConWrapper">
+        <div class="headerCon w1000">
+            <div class="headerConUp clearfix">
+                <a href="{{ path('_homepage') }}" title="91积粒logo" class="logo fnLeft"><img src="{{ asset('images1408/logo.png') }}" width="160" height="46" alt="91积粒logo" title="91积粒logo"/></a>
+                {% block search_box %}
+                {{ render(controller('JiliEmarBundle:Search:form', {'rt' : 1 } )) }}{# 商城检索 #}
+                {% endblock %}
+            </div>
+            <ul class="mainNavs clearfix">
+                {% set router_current = app.request.attributes.get('_route') %}
+                <li {{ router_current == '_homepage' ? 'class="active"':'' }}><a href="{{ path('_homepage') }}" title="首页">首页</a></li>
+                <li {{ router_current == '_game_chick' ? 'class="active"':'' }}><a href="{{ path('_game_chick') }}" title="游戏体验">游戏体验</a></li>
+                <li {{ (router_current == '_advertiserment_list' or router_current == '_advertiserment_offer99')  ? 'class="active"':'' }}><a href="{{path('_advertiserment_list')}}" title="体验广告">体验广告</a></li>
+                <li {{ router_current == 'jili_emar_websites_shoplist' ? 'class="active"':'' }}><a href="{{ path('jili_emar_websites_shoplist') }}" title="商家列表">商家列表</a></li>
+                <li {{ router_current == '_marketActivity_index' ? 'class="active"':'' }}><a href="{{ path('_marketActivity_index') }}" title="商家活动">商家活动</a></li>
+                <li {{ router_current == '_exchange_index' ? 'class="active"':'' }}><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
+            </ul>
+            <div class="dailyQuest">
+                {{ render(controller('JiliFrontendBundle:Home:task' ) ) }}{# 任务列表 #}
+                
+            </div>
+        </div>
+    </div>
+    
+    {% if app.session.has('uid') %}
+    	{{ render(controller('JiliApiBundle:Top:checkIn' ) ) }}{# 签到 #}
+	{% endif %}
+ 

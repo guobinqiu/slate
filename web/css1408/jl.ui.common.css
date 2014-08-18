@@ -1,0 +1,259 @@
+/* CSS Document */
+body{
+    font:12px/150% Arial,Verdana,"宋体";
+	color: #333;
+	background-color: #f4f4f4;
+	text-align:center;
+}
+a{ color: #333;}
+strong,b{ font-weight:bold;}
+.globRed{ color:#f75232;}
+.lightGray{ color:#999;}
+.clearfix:after{
+	clear:both;
+	visibility:hidden;
+	display:block;
+	font-size:0;
+	content:'.';
+	height:0;
+}
+.clearfix{
+	zoom: 1;
+}
+.fnHide{
+	display:none;
+}
+.fnLeft, .fnRight{
+	display:inline;
+}
+.fnLeft{
+	float:left;
+}
+.fnRight{
+	float:right;
+}
+.w1000{
+	width: 1000px;
+	margin: 0 auto;
+	text-align: left;
+}
+.mt10{
+	margin-top: 10px;
+}
+/*header&footer*/
+.topNavs{
+	text-align:right;
+	height:30px;
+	line-height:30px;
+	*+position:relative;
+}
+.headerConWrapper{
+	background-color:#fff;
+	height:115px;
+	border-top: 1px #eaeae8 solid;
+	border-bottom: 1px #eaeae8 solid;
+	box-shadow: 1px 1px 1px rgb(234, 234, 232);
+}
+.headerCon{
+	position: relative;
+	z-index: 1;
+}
+.headerConUp{
+	height: 45px;
+	padding: 15px 0;
+}
+.search{
+	position: relative;
+	z-index: 1;
+	width: 521px;
+	padding: 10px 0;
+}
+.search input{
+	width: 420px;
+	height: 22px;
+	line-height: 22px;
+	padding: 5px 10px;
+	border: 3px solid #eaeae8;
+	color: #999;
+}
+.search .searchBtn, .search .helpBtn{
+	position: absolute; 
+	z-index: 20;
+	top: 10px;
+	width: 38px;
+	height: 38px;
+	background-color: #eb411f;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+.search .searchBtn{
+	left: 443px;
+	cursor: pointer;
+}
+.search .helpBtn{
+	left: 482px;
+}
+span.searchBtn:hover, a.helpBtn:hover{
+    background-color: #d43a1b;
+}
+.mainNavs{
+	padding-left: 220px;
+}
+.mainNavs li{
+	float: left;
+	height: 40px;
+	line-height:40px;
+	padding: 0 19px;
+}
+.mainNavs li.active a{
+	color:#c84126;
+}
+.mainNavs a{
+	color: #000;
+	font-size: 14px;
+	font-weight: bold;
+}
+.mainNavs a:hover{
+	color: #c84126;
+    text-decoration: none;
+}
+.dailyQuest{
+	position: absolute;
+	z-index:1000;
+	left: 0;
+	top: 75px;
+	width: 190px;
+	color: #fff;
+	background-color: #f75232;
+}
+.dailyQuest a{
+	color: #fff;
+}
+.dailyQuest a:hover{ text-decoration:underline!important;}
+.dailyQuest h3{
+	font-size: 14px;
+	font-weight: bold;
+	height: 40px;
+	line-height: 40px;
+	padding-left:20px;
+	background-color: #eb411f;
+	cursor:pointer;
+}
+.dailyQuest span, .dailyQuest em{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+span.expandIcon{
+	margin-left: 60px;
+	width: 11px;
+	height: 11px;
+	overflow: hidden;
+	background: url(../images1408/icons.png) no-repeat 0 -165px;
+}
+.dailyQuest li{
+	height: 43px;
+	padding: 10px 20px;
+	line-height: 22px;
+	overflow: hidden; 
+	position: relative;
+	z-index: 1;
+	border-bottom:1px solid #f86545;
+}
+.dailyQuest li.done{ background:#f86447; border-bottom:1px solid #f9765a;}
+.dailyQuest li:hover, .dailyQuest li.active{
+	background-color: #d43a1b;
+	cursor:pointer;
+}
+.dailyQuest em{
+	width: 31px;
+	height: 31px;
+	overflow: hidden;
+}
+em.signIcon{
+	background: url(../images1408/taskIcons.png) no-repeat 0 0;
+}
+em.taskHallIcon{
+	background: url(../images1408/taskIcons.png) no-repeat 0 -35px;
+}
+em.shoppingIcon{
+	background: url(../images1408/taskIcons.png) no-repeat 0 -70px;
+}
+em.quickQIcon{
+	background: url(../images1408/taskIcons.png) no-repeat 0 -105px;
+}
+em.chickenIcon{
+	background: url(../images1408/taskIcons.png) no-repeat 0 -140px;
+}
+.dailyQuest li span{
+	padding-left: 15px;
+}
+.dailyQuest span.mark,.dailyQuest span.hasMark{
+	width: 35px;
+	height: 28px;
+	padding: 0;
+	background:url(../images1408/icons.png) no-repeat 0 -69px;
+	position: absolute;
+	z-index: 50;
+	top: 0;
+	right: 0;
+}
+.dailyQuest span.hasMark{
+	background:url(../images1408/icons.png) no-repeat 0 -200px;
+	right: -7px;
+}
+.dailyQuest li.shopping{
+	height: 32px;
+	padding: 16px 20px;
+}
+.dailyQuest li.shopping span{
+	height: 28px;
+	line-height: 28px;
+	vertical-align: top;
+	overflow: hidden;
+}
+.footer{
+	padding: 20px 0 60px;
+	background-color: #ededed;
+}
+.footer p{
+	line-height: 30px;
+}
+span.recordInfo{
+	padding-left: 20px;
+}
+span.aboutUs{
+	padding-right: 20px;
+}
+a.sina{
+	background: url(../images1408/sinaIcon.jpg) no-repeat left center;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+a.tencent{
+	background: url(../images1408/txweiboIcon.jpg) no-repeat left center;
+	padding-left: 20px;
+}	
+
+.webArticle {
+	width: 1000px;
+	margin: auto;
+	padding:0 0 140px 0;
+	display:table;
+	position: relative;
+	z-index:auto;
+}
+.webArticle .errorMessage{
+    color: #FF0000;
+    padding-bottom: 50px
+}
+.webArticle .error{
+    font-size: 16px;
+    padding-top: 100px;
+    text-align: center;
+}
+
+/* top notice */
+.topNotice{ height:22px; line-height:22px; text-align:center; color:#4d4d4d; background:#fffbe2; border-bottom:1px solid #f4e8ca;}
+/* top notice / */

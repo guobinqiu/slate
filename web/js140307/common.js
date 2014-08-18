@@ -32,34 +32,9 @@ $(document).ready(function(){
 		}
 	}) 
 	
-	$("#nav .task").hover(function(){
-	  $(this).children("ul").show();
-	},function(){
-	  $(this).children("ul").hide();
-	})
+	// task list show
+	taskListShow();
 
-	$("div#search>div.searchMenu").click(function(){
-       $(this).children("ul").toggle(); 
-	});
-
-	$("div#search>div.searchMenu").mouseleave(function(){
-       $(this).children("ul").hide(); 
-    });
-
-    $("div#search>div.searchMenu>ul>li").click(function(){
-        var el = $(this);
-
-        var rt = search_form_rt_config.commodity.value; // default
-        var label_ =search_form_rt_config.commodity.label;
-
-        if( true === search_form_rt_config.hasOwnProperty( el.attr('lang') )) {
-           rt = search_form_rt_config[ el.attr('lang') ].value;
-           label_ = search_form_rt_config[ el.attr('lang') ].label;
-        } 
-        $('form#search_box :input#search_rt').val(rt);
-
-        $('div#search>div.searchMenu>span').text( label_ );
-    });
     
     $("#task .all").width($("#task ul").width() * $("#task ul").length)
     
@@ -87,9 +62,23 @@ var setTaskNumber = function(){
 	$("#nav li.task em").html($("#nav li.task li").length);
 }
 var setUndoTaskClass = function(){
-	for(i=1; i<=$("#undoTask li").length; i++){
+	/*for(i=1; i<=$("#undoTask li").length; i++){
 		if(i%2 == 0){
 			$("#undoTask li:eq(" + (i-1) + ")").addClass("brn")
 		}
-	}
+	}*/
+}
+var taskListShow = function(){
+    var last;
+    var pathname = document.location.pathname;
+	last = pathname.charAt(pathname.length-1);
+    if(last == "\/"){
+        $("#nav .task").children("ul").show();
+    }else{
+        $("#nav .task").hover(function(){
+            $(this).children("ul").show();
+        },function(){
+          $(this).children("ul").hide();
+        })
+    }
 }

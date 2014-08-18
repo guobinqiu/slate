@@ -15,12 +15,14 @@
  
 {% block page_main %}
   <div class="w204 fl">
-    <div class="module categorys">
+    {# <div class="module categorys">
 		<h3>所有商品分类</h3>
-      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }}
-    </div><!-- eof module categorys -->
+      {{ render(controller('JiliEmarBundle:Product:category', { 'qs': app.request.query.all, 'rt': 'jili_emar_product_retrieve' })) }} 
+    </div> #}<!-- eof module categorys -->
+    
 
-    <div id="timeline" class="borderGlob">
+
+    <div id="timeline" class="borderGlob" {% if not app.session.has('uid') %} style="margin-top:0;" {% else %} style="margin-top:226px;" {% endif %}>
       <h3 class="font15">最新动态</h3>
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:event') ) }}
@@ -33,15 +35,38 @@
         	<!-- 首页左侧一（200*90，纯文字）-->
             {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552971" } %}
         </div>
-	    <div class="marginT15">
+        <div class="marginT15">
         	<!-- 首页左侧二（200*200，图片）-->
             {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1552985" } %}
+        </div>
+        <div class="marginT15">
+        	<!-- 首页左侧三（200*200，纯文字）-->
+            {% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1627802" } %}
         </div>
 	</div>
 	<!-- eof ads -->
 
   </div><!-- w204 side -->
+  
+<script type="text/javascript">
+    (function($){
+        var taskNum = $('#nav .task li');
+        var taskLen = taskNum.length;
+        var timeLine = $('#timeline');
+        function setHeight(num){
+            timeLine.css('margin-top', num*45 +'px');
+        }
+        switch(taskLen){
+            case 1: setHeight(1); break;
+            case 2: setHeight(2); break;
+            case 3: setHeight(3); break;
+            case 4: setHeight(4); break;
+            case 5: setHeight(5); break;
+            default: timeLine.css('margin-top', '0px'); break;
+        }
+    })(jQuery);
 
+</script>
   <div class="w638 fl">
     {% if not app.session.has('uid') %}
     <div id="indexBanner"> <a style="opacity: 1;" class="game" href="{{ asset(path('_game_chick'),'cdn1')}}">游戏体验</a> 
@@ -58,8 +83,8 @@
     </div><!-- eof getMallList -->
     
     <div id="indexRecommend">
-        {{ render(controller('JiliEmarBundle:Ghs:promotion', {'max': 9, 'tmpl': 'top', 'p': 0 }) ) }}{# 超值低价 #}
-    </div><!-- eof indexRecommend -->
+        {# {{ render(controller('JiliEmarBundle:Ghs:promotion', {'max': 9, 'tmpl': 'top', 'p': 0 }) ) }}#}{# 超值低价 #}
+    </div><!-- eof indexRecommend --> 
 
     <div id="marketActivity">
         {# render(controller('JiliEmarBundle:Hotactivity:hot', {'max': 3, 'tmpl': 'top' } )) #}
@@ -106,7 +131,7 @@
       <div class="mask">
         {{ render(controller('JiliApiBundle:Top:ranking' ) ) }}
       </div>
-      <div class="menu"><a class="month hover">月度</a><a class="year">年度</a></div>
+      <div class="menu"><a class="month prevBtn hover">月度</a><a class="year nextBtn">年度</a></div>
     </div>    <!-- eof ranking   -->
     <div class="fr" style="margin-top:15px;">
         <!-- 首页右侧一（300*250，纯文字）-->
@@ -115,7 +140,6 @@
   </div><!-- w300 side -->
 
 {% endblock %}
-
 
 {% block body_bottom %}
 {% if is_newbie_passed is defined  and is_newbie_passed == false  %}

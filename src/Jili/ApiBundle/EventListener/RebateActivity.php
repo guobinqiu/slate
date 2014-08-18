@@ -26,8 +26,8 @@ class RebateActivity
      * @params $category advertiserment category
      * @return $point * max( activity.percentage)
      */
-    public function calcPointByCategory( $point , $category , \Datetime $at = null ) {
-
+    public function calcPointByCategory($point , $category , \Datetime $at = null)
+    {
         $em = $this->em;
 
         $logger = $this->logger;
@@ -48,18 +48,21 @@ class RebateActivity
      *
      * @return rebate
      */
-    public function getRebate($category = null) {
+    public function getRebate($category = null)
+    {
         if ($category === 'emar') {
             return $this->getParameter('emar_com.cps.action.default_rebate');
         }
         return $this->getParameter('cps_default_rebate');
     }
 
-    public function getParameter($key) {
+    public function getParameter($key)
+    {
         return $this->container_->getParameter($key);
     }
 
-    public function setContainer( $c) {
+    public function setContainer($c)
+    {
         $this->container_ = $c;
     }
 }

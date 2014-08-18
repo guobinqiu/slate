@@ -12,10 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CardRecordedMatch
 {
-	public function __construct() {
-		$this->createTime = new \DateTime();
-	}
-	
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+    }
+
     /**
      * @var integer
      *
@@ -31,16 +32,16 @@ class CardRecordedMatch
      * @ORM\Column(name="user_id",  type="integer", nullable=false)
      */
     private $userId;
-        
+
     /**
      * @var integer
      *
      * @ORM\Column(name="match_count",  type="integer")
      */
     private $matchCount;
-    
-    
- 	/**
+
+
+    /**
      * @var datetime $createTime
      *
      * @ORM\Column(name="create_time", type="datetime")
@@ -58,7 +59,7 @@ class CardRecordedMatch
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -74,12 +75,12 @@ class CardRecordedMatch
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get userId
      *
@@ -98,11 +99,11 @@ class CardRecordedMatch
      */
     public function setMatchCount($matchCount)
     {
-    	$this->matchCount = $matchCount;
-    
-    	return $this;
+        $this->matchCount = $matchCount;
+
+        return $this;
     }
-    
+
     /**
      * Get matchCount
      *
@@ -110,7 +111,7 @@ class CardRecordedMatch
      */
     public function getMatchCount()
     {
-    	return $this->matchCount;
+        return $this->matchCount;
     }
 
      /**
@@ -122,14 +123,14 @@ class CardRecordedMatch
     public function setCreateTime($createTime)
     {
         $this->createTime = $createTime;
-    
+
         return $this;
     }
 
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
@@ -145,10 +146,10 @@ class CardRecordedMatch
     public function setIsProvideFlag($isProvideFlag)
     {
         $this->isProvideFlag = $isProvideFlag;
-    
+
         return $this;
     }
-    
+
     /**
      * Get isProvideFlag
      *
@@ -158,6 +159,6 @@ class CardRecordedMatch
     {
         return $this->isProvideFlag;
     }
-    
+
 
 }

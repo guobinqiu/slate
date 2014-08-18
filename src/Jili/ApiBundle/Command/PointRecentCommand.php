@@ -7,8 +7,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class PointRecentCommand extends ContainerAwareCommand {
-    protected function configure() {
+class PointRecentCommand extends ContainerAwareCommand
+{
+    protected function configure()
+    {
         $this->setName('point:recent')
             ->setDescription('update the poinst recent cache file')
             ->addOption('date',null,InputOption::VALUE_REQUIRED, 'the date string YYYY-mm-dd')
@@ -19,7 +21,8 @@ EOT
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $env =  $this->getApplication()->getKernel() ->getEnvironment();
 
@@ -41,8 +44,8 @@ EOT
         }
 
         foreach ($newActivity as $activity) {
-            $row = array( 
-                $activity['nick'], 
+            $row = array(
+                $activity['nick'],
                 $activity['icon_path'],
                 $activity['point_change_num'],
                 $activity['display_name'] );
@@ -56,4 +59,3 @@ EOT
         return 1 ;
     }
 }
-

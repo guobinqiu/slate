@@ -12,10 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CardRecordedRemain
 {
-	public function __construct() {
-		$this->createTime = new \DateTime();
-	}
-	
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+    }
+
     /**
      * @var integer
      *
@@ -31,16 +32,16 @@ class CardRecordedRemain
      * @ORM\Column(name="user_id",  type="integer", nullable=false)
      */
     private $userId;
-        
+
     /**
      * @var integer
      *
      * @ORM\Column(name="remain_count",  type="integer")
      */
     private $remainCount;
-    
-    
- 	/**
+
+
+    /**
      * @var datetime $createTime
      *
      * @ORM\Column(name="create_time", type="datetime")
@@ -51,7 +52,7 @@ class CardRecordedRemain
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,12 +68,12 @@ class CardRecordedRemain
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get userId
      *
@@ -91,13 +92,13 @@ class CardRecordedRemain
      */
     public function setRemainCount($remainCount)
     {
-    	$this->remainCount = $remainCount;
-    
-    	return $this;
+        $this->remainCount = $remainCount;
+
+        return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Get remainCount
      *
@@ -105,7 +106,7 @@ class CardRecordedRemain
      */
     public function getRemainCount()
     {
-    	return $this->remainCount;
+        return $this->remainCount;
     }
 
      /**
@@ -117,19 +118,19 @@ class CardRecordedRemain
     public function setCreateTime($createTime)
     {
         $this->createTime = $createTime;
-    
+
         return $this;
     }
 
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
         return $this->createTime;
     }
-    
+
 
 }

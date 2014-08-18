@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ApiControllerTest extends WebTestCase
 {
     /**
-     * todo: testing required update the schema & method to http post 
+     * todo: testing required update the schema & method to http post
      */
     public function testIsEmailDuplicated()
     {

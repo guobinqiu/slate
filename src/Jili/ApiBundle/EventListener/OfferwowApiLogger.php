@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\OfferwowApiReturn;
 
 /**
- * 
+ *
  **/
 class OfferwowApiLogger
 {
@@ -15,7 +15,7 @@ class OfferwowApiLogger
     private $em;
 
     private $logger;
-    public function __construct(Logger $logger , $em )
+    public function __construct(Logger $logger , $em)
     {
 
         $this->logger = $logger;
@@ -29,7 +29,8 @@ class OfferwowApiLogger
      * @param  $content the request uri of Adw
      *
      */
-    public function log($content) {
+    public function log($content)
+    {
         $adwapi = new OfferwowApiReturn();
         $adwapi->setContent( $content);
         $adwapi->setCreatedAt( date_create() );
@@ -38,6 +39,3 @@ class OfferwowApiLogger
     }
 
 }
-
-
-

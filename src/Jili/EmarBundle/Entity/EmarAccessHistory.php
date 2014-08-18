@@ -63,7 +63,7 @@ class EmarAccessHistory
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -86,7 +86,7 @@ class EmarAccessHistory
     /**
      * Get accessTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getAccessTime()
     {
@@ -96,7 +96,7 @@ class EmarAccessHistory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -119,7 +119,7 @@ class EmarAccessHistory
     /**
      * Get ad
      *
-     * @return \Jili\ApiBundle\Entity\Advertiserment 
+     * @return \Jili\ApiBundle\Entity\Advertiserment
      */
     public function getAd()
     {

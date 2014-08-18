@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="black_users")
  * @ORM\Entity
  */
-class BlackUsers
+class Blackusers
 {
     /**
      * @var integer
@@ -47,7 +47,7 @@ class BlackUsers
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -63,14 +63,14 @@ class BlackUsers
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -86,14 +86,14 @@ class BlackUsers
     public function setBlackedDate($blackedDate)
     {
         $this->blackedDate = $blackedDate;
-    
+
         return $this;
     }
 
     /**
      * Get blackedDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getBlackedDate()
     {
@@ -109,14 +109,14 @@ class BlackUsers
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {

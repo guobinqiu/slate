@@ -27,7 +27,7 @@ class AdCategory
      * @ORM\Column(name="category_name", type="string", length=45, nullable=true)
      */
     private $categoryName;
-    
+
     /**
      * @var string
      *
@@ -47,7 +47,7 @@ class AdCategory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -63,14 +63,14 @@ class AdCategory
     public function setCategoryName($categoryName)
     {
         $this->categoryName = $categoryName;
-    
+
         return $this;
     }
 
     /**
      * Get categoryName
      *
-     * @return string 
+     * @return string
      */
     public function getCategoryName()
     {
@@ -93,7 +93,7 @@ class AdCategory
     /**
      * Get asp
      *
-     * @return string 
+     * @return string
      */
     public function getAsp()
     {
@@ -108,11 +108,11 @@ class AdCategory
      */
     public function setDisplayName($displayName)
     {
-    	$this->displayName = $displayName;
-    
-    	return $this;
+        $this->displayName = $displayName;
+
+        return $this;
     }
-    
+
     /**
      * Get displayName
      *
@@ -120,6 +120,6 @@ class AdCategory
      */
     public function getDisplayName()
     {
-    	return $this->displayName;
+        return $this->displayName;
     }
 }

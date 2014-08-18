@@ -62,4 +62,3 @@ class Offer99Controller extends Controller
     }
 
 }
-

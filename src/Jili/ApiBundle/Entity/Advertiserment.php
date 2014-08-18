@@ -12,14 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Advertiserment
 {
-	public $large;
-	public $small;
-	public function __construct() {
-		$this->createdTime = new \DateTime();
-		$this->updateTime = new \DateTime();
-		$this->startTime = new \DateTime();
-		$this->endTime = new \DateTime();
-	}
+    public $large;
+    public $small;
+    public function __construct()
+    {
+        $this->createdTime = new \DateTime();
+        $this->updateTime = new \DateTime();
+        $this->startTime = new \DateTime();
+        $this->endTime = new \DateTime();
+    }
     /**
      * @var integer
      *
@@ -43,7 +44,7 @@ class Advertiserment
      * @ORM\Column(name="title", type="string", length=45)
      */
     private $title;
-    
+
     /**
      * @var integer
      *
@@ -78,14 +79,14 @@ class Advertiserment
      * @ORM\Column(name="update_time", type="datetime")
      */
     private $updateTime;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="decription", type="string", length=1000)
      */
     private $decription;
-    
+
     /**
      * @var text
      *
@@ -99,15 +100,15 @@ class Advertiserment
      * @ORM\Column(name="imageurl", type="string", length=250)
      */
     private $imageurl;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="icon_image", type="string", length=250)
      */
     private $iconImage;
-    
-    
+
+
     /**
      * @var string
      *
@@ -121,29 +122,29 @@ class Advertiserment
      * @ORM\Column(name="incentive_type", type="integer")
      */
     private $incentiveType;
-    
-    
+
+
     /**
      * @var integer
      *
      * @ORM\Column(name="incentive_rate", type="integer")
      */
     private $incentiveRate;
-    
+
     /**
      * @var float
      *
      * @ORM\Column(name="reward_rate", type="float")
      */
     private $rewardRate;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="incentive", type="integer")
      */
     private $incentive;
-    
+
 
     /**
      * @var text
@@ -166,68 +167,68 @@ class Advertiserment
      */
     private $deleteFlag;
 
-    
+
     /**
      * upload image to temp dir
      */
     public function upload($upload_dir)
     {
-    	
-    	$fileNames = array('large','small');
-    	$types = array('jpg','jpeg','png','gif');
-    	if(!is_dir($upload_dir)){
-    		mkdir($upload_dir,0777);
-    	}
-    	foreach ($fileNames as $key=>$fileName){
-    		$filename_upload = '';
-    		if (null === $this->$fileName) {
+
+        $fileNames = array('large','small');
+        $types = array('jpg','jpeg','png','gif');
+        if(!is_dir($upload_dir)){
+            mkdir($upload_dir,0777);
+        }
+        foreach ($fileNames as $key=>$fileName){
+            $filename_upload = '';
+            if (null === $this->$fileName) {
 //     			unset($fileNames[$key]);
-    			echo  '图片为必填项';
-    			continue ;
-    		}
+                echo  '图片为必填项';
+                continue ;
+            }
 //     		else{
-    			$field = 'iconImage';
-    			switch ($fileName){
-    			    case 'large':$field = 'iconImage';break;
-    			    case 'small':$field = 'listImage';break;
-    			}
-    			
-    			if($this->$fileName->getError()==1){
-    				return  '文件类型为jpg或png或gif';//类型不对
-    			}else{
-    				if(!in_array($this->$fileName->guessExtension(),$types)){
-    					return  '文件类型为jpg或png或gif';//类型不对
-    				}else{
-    					$size = getimagesize($this->$fileName);
-    					if($fileName=='large'){
-    						if($size[0]!='300' && $size[1]!='250')
-    							return   '图片像素为300X250';
-    					}
-    					if($fileName=='small'){
-    						if($size[0]!='200' && $size[1]!='130')
-    							return   '图片像素为200X130';
-    					}
-    					$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-    			
-    					$this->$fileName->move($upload_dir, $filename_upload);
-    			
-    					$this->$field = $upload_dir.$filename_upload;
-    			
-    					$this->$fileName = null;
-    			
-    					// 	        		return '';
-    			
-    				}
-    			}
+                $field = 'iconImage';
+                switch ($fileName){
+                    case 'large':$field = 'iconImage';break;
+                    case 'small':$field = 'listImage';break;
+                }
+
+                if($this->$fileName->getError()==1){
+                    return  '文件类型为jpg或png或gif';//类型不对
+                }else{
+                    if(!in_array($this->$fileName->guessExtension(),$types)){
+                        return  '文件类型为jpg或png或gif';//类型不对
+                    }else{
+                        $size = getimagesize($this->$fileName);
+                        if($fileName=='large'){
+                            if($size[0]!='300' && $size[1]!='250')
+                                return   '图片像素为300X250';
+                        }
+                        if($fileName=='small'){
+                            if($size[0]!='200' && $size[1]!='130')
+                                return   '图片像素为200X130';
+                        }
+                        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+
+                        $this->$fileName->move($upload_dir, $filename_upload);
+
+                        $this->$field = $upload_dir.$filename_upload;
+
+                        $this->$fileName = null;
+
+                        // 	        		return '';
+
+                    }
+                }
 //     		}
-    		 
-    	}
+
+        }
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -243,14 +244,14 @@ class Advertiserment
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
     public function getType()
     {
@@ -266,14 +267,14 @@ class Advertiserment
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -296,7 +297,7 @@ class Advertiserment
     /**
      * Get actionId
      *
-     * @return integer 
+     * @return integer
      */
     public function getActionId()
     {
@@ -312,14 +313,14 @@ class Advertiserment
     public function setCreatedTime($createdTime)
     {
         $this->createdTime = $createdTime;
-    
+
         return $this;
     }
 
     /**
      * Get createdTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedTime()
     {
@@ -335,14 +336,14 @@ class Advertiserment
     public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
-    
+
         return $this;
     }
 
     /**
      * Get startTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartTime()
     {
@@ -358,14 +359,14 @@ class Advertiserment
     public function setEndTime($endTime)
     {
         $this->endTime = $endTime;
-    
+
         return $this;
     }
 
     /**
      * Get endTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndTime()
     {
@@ -381,20 +382,20 @@ class Advertiserment
     public function setUpdateTime($updateTime)
     {
         $this->updateTime = $updateTime;
-    
+
         return $this;
     }
 
     /**
      * Get updateTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdateTime()
     {
         return $this->updateTime;
     }
-    
+
     /**
      * Set decription
      *
@@ -403,11 +404,11 @@ class Advertiserment
      */
     public function setDecription($decription)
     {
-    	$this->decription = $decription;
-    
-    	return $this;
+        $this->decription = $decription;
+
+        return $this;
     }
-    
+
     /**
      * Get decription
      *
@@ -415,7 +416,7 @@ class Advertiserment
      */
     public function getDecription()
     {
-    	return $this->decription;
+        return $this->decription;
     }
 
     /**
@@ -427,14 +428,14 @@ class Advertiserment
     public function setContent($content)
     {
         $this->content = $content;
-    
+
         return $this;
     }
 
     /**
      * Get content
      *
-     * @return text 
+     * @return text
      */
     public function getContent()
     {
@@ -450,14 +451,14 @@ class Advertiserment
     public function setImageurl($imageurl)
     {
         $this->imageurl = $imageurl;
-    
+
         return $this;
     }
 
     /**
      * Get imageurl
      *
-     * @return string 
+     * @return string
      */
     public function getImageurl()
     {
@@ -472,11 +473,11 @@ class Advertiserment
      */
     public function setIconImage($iconImage)
     {
-    	$this->iconImage = $iconImage;
-    
-    	return $this;
+        $this->iconImage = $iconImage;
+
+        return $this;
     }
-    
+
     /**
      * Get iconImage
      *
@@ -484,10 +485,10 @@ class Advertiserment
      */
     public function getIconImage()
     {
-    	return $this->iconImage;
+        return $this->iconImage;
     }
-    
-    
+
+
     /**
      * Set listImage
      *
@@ -496,11 +497,11 @@ class Advertiserment
      */
     public function setListImage($listImage)
     {
-    	$this->listImage = $listImage;
-    
-    	return $this;
+        $this->listImage = $listImage;
+
+        return $this;
     }
-    
+
     /**
      * Get listImage
      *
@@ -508,10 +509,10 @@ class Advertiserment
      */
     public function getListImage()
     {
-    	return $this->listImage;
+        return $this->listImage;
     }
-    
-    
+
+
     /**
      * Set incentiveType
      *
@@ -520,11 +521,11 @@ class Advertiserment
      */
     public function setIncentiveType($incentiveType)
     {
-    	$this->incentiveType = $incentiveType;
-    
-    	return $this;
+        $this->incentiveType = $incentiveType;
+
+        return $this;
     }
-    
+
     /**
      * Get incentiveType
      *
@@ -532,10 +533,10 @@ class Advertiserment
      */
     public function getIncentiveType()
     {
-    	return $this->incentiveType;
+        return $this->incentiveType;
     }
-    
-    
+
+
     /**
      * Set incentiveRate
      *
@@ -544,11 +545,11 @@ class Advertiserment
      */
     public function setIncentiveRate($incentiveRate)
     {
-    	$this->incentiveRate = $incentiveRate;
-    
-    	return $this;
+        $this->incentiveRate = $incentiveRate;
+
+        return $this;
     }
-    
+
     /**
      * Get incentiveRate
      *
@@ -556,7 +557,7 @@ class Advertiserment
      */
     public function getIncentiveRate()
     {
-    	return $this->incentiveRate;
+        return $this->incentiveRate;
     }
 
      /**
@@ -568,10 +569,10 @@ class Advertiserment
     public function setRewardRate($rewardRate)
     {
         $this->rewardRate = $rewardRate;
-    
+
         return $this;
     }
-    
+
     /**
      * Get rewardRate
      *
@@ -581,9 +582,9 @@ class Advertiserment
     {
         return $this->rewardRate;
     }
-    
-    
-    
+
+
+
     /**
      * Set incentive
      *
@@ -592,11 +593,11 @@ class Advertiserment
      */
     public function setIncentive($incentive)
     {
-    	$this->incentive = $incentive;
-    
-    	return $this;
+        $this->incentive = $incentive;
+
+        return $this;
     }
-    
+
     /**
      * Get incentive
      *
@@ -604,10 +605,10 @@ class Advertiserment
      */
     public function getIncentive()
     {
-    	return $this->incentive;
+        return $this->incentive;
     }
-    
-    
+
+
 
     /**
      * Set info
@@ -618,14 +619,14 @@ class Advertiserment
     public function setInfo($info)
     {
         $this->info = $info;
-    
+
         return $this;
     }
 
     /**
      * Get info
      *
-     * @return text 
+     * @return text
      */
     public function getInfo()
     {
@@ -641,14 +642,14 @@ class Advertiserment
     public function setCategory($category)
     {
         $this->category = $category;
-    
+
         return $this;
     }
 
     /**
      * Get category
      *
-     * @return integer 
+     * @return integer
      */
     public function getCategory()
     {
@@ -664,14 +665,14 @@ class Advertiserment
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-    
+
         return $this;
     }
 
     /**
      * Get deleteFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getDeleteFlag()
     {

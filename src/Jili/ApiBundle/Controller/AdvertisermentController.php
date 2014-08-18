@@ -22,51 +22,51 @@ use Jili\ApiBundle\Entity\UserAdvertisermentVisit;
 
 class AdvertisermentController extends Controller
 {
-	/**
+    /**
 	 * @Route("/info/{id}", requirements={"id" = "\d+"},name="_advertiserment_index", requirements={"_scheme"="http"})
 	 */
-	public function infoAction($id)
-	{
-		$uid='';
-		$reward_multiple = '';
-		$uid = $this->get('request')->getSession()->get('uid');
-		$campaign_multiple = $this->container->getParameter('campaign_multiple');
-		$code = $this->container->getParameter('init');
-		$arr['code'] = $code;
+    public function infoAction($id)
+    {
+        $uid='';
+        $reward_multiple = '';
+        $uid = $this->get('request')->getSession()->get('uid');
+        $campaign_multiple = $this->container->getParameter('campaign_multiple');
+        $code = $this->container->getParameter('init');
+        $arr['code'] = $code;
         $em = $this->getDoctrine()->getManager();
         if($uid){
             $user = $em->getRepository('JiliApiBundle:User')->find($uid);
             $reward_multiple = $user->getRewardMultiple();
         }
-		$arr['uid'] = $uid;
-		$arr['orderStatus'] = '';
-		$adw = $em->getRepository('JiliApiBundle:AdwOrder');
-		$adw_status = $adw->getOrderInfo($uid,$id);
-		if($adw_status){
-		    $orderStatus = $adw_status[0]['orderStatus'];
+        $arr['uid'] = $uid;
+        $arr['orderStatus'] = '';
+        $adw = $em->getRepository('JiliApiBundle:AdwOrder');
+        $adw_status = $adw->getOrderInfo($uid,$id);
+        if($adw_status){
+            $orderStatus = $adw_status[0]['orderStatus'];
             $arr['orderStatus'] = $orderStatus;
         }
 
-		$advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
+        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
 
-		if( empty( $advertiserment) ){
-			return $this->redirect($this->generateUrl('_default_error'));
+        if( empty( $advertiserment) ){
+            return $this->redirect($this->generateUrl('_default_error'));
         }
 
-		$time =  $advertiserment->getEndTime()->getTimestamp() ;
-		if(time() >= $time ) {
-			$code = $this->container->getParameter('init_one');
-			$arr['code'] = $code;
-		}
+        $time =  $advertiserment->getEndTime()->getTimestamp() ;
+        if(time() >= $time ) {
+            $code = $this->container->getParameter('init_one');
+            $arr['code'] = $code;
+        }
 
        if( $advertiserment->getIncentiveType() == 18 ) { // emar
            $image_url = $advertiserment->getImageurl();
-           $arr['adwurl'] = str_replace('{member_id}', $uid, $image_url); 
+           $arr['adwurl'] = str_replace('{member_id}', $uid, $image_url);
        }  else {
            $adw_info = $advertiserment->getImageurl();
            $adw_info = explode('u=', $adw_info);
            $new_url = trim($adw_info[0]).'u='.$uid.trim($adw_info[1]).$id;
-           $arr['adwurl'] = $new_url; 	
+           $arr['adwurl'] = $new_url;
        }
 
         $arr['id'] = $id;
@@ -78,22 +78,23 @@ class AdvertisermentController extends Controller
 
         $arr['advertiserment'] = $advertiserment;
 
-		return $this->render('JiliApiBundle:Advertiserment:info.html.twig',$arr);
-	}
+        return $this->render('JiliApiBundle:Advertiserment:info.html.twig',$arr);
+    }
 
-	/**
+    /**
 	 * @Route("/list", name="_advertiserment_list", requirements={"_scheme"="http"})
 	 */
-	public function listAction(){
+    public function listAction()
+    {
         if(!  $this->get('request')->getSession()->get('uid') ) {
             $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('_advertiserment_list') );
             return  $this->redirect($this->generateUrl('_user_login'));
         }
 
-		$em = $this->getDoctrine()->getManager();
-		$repository = $em->getRepository('JiliApiBundle:Advertiserment');
-		$advertise = $repository->getAdvertiserAreaList($this->container->getParameter('init_three'));
-		$adverRecommand = $repository->getAdvertiserAreaList($this->container->getParameter('init_two'));
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('JiliApiBundle:Advertiserment');
+        $advertise = $repository->getAdvertiserAreaList($this->container->getParameter('init_three'));
+        $adverRecommand = $repository->getAdvertiserAreaList($this->container->getParameter('init_two'));
 
         $arr['ads'] = array_merge($adverRecommand,$advertise );
 
@@ -114,13 +115,14 @@ class AdvertisermentController extends Controller
             $taskList->remove(array( 'adv_visit'));
         }
 
-		return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
-	}
+        return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
+    }
 
     /**
      * @Route("/offer99", name="_advertiserment_offer99", requirements={"_scheme"="http"})
      */
-    public function offer99Action(){
+    public function offer99Action()
+    {
         if(!  $this->get('request')->getSession()->get('uid') ) {
             $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('_advertiserment_offer99') );
             return  $this->redirect($this->generateUrl('_user_login'));
@@ -148,10 +150,11 @@ class AdvertisermentController extends Controller
     }
 
 
-	/**
+    /**
      * @Route("/click", name="_advertiserment_click")
 	 */
-    public function clickAction(){
+    public function clickAction()
+    {
         if(!$this->get('request')->getSession()->get('uid')){
             $code = $this->container->getParameter('init');
         }else{
@@ -178,7 +181,7 @@ class AdvertisermentController extends Controller
                         'taskType' => $this->container->getParameter('init_one'),
                         'categoryType' => $this->container->getParameter('init_one'),
                         'task_name' => $advertiserment->getTitle() ,
-                        'point' => $point , 
+                        'point' => $point ,
                         'date' => date_create() ,
                         'status' => $order->getOrderStatus()
                     );
@@ -189,7 +192,7 @@ class AdvertisermentController extends Controller
                     } else{
                         $order_status  = $order->getOrderStatus();
                         $task_type = $this->container->getParameter('init_one');
-                    } 
+                    }
 
                     $params = array(
                         'orderId' => $order->getId(),
@@ -199,7 +202,7 @@ class AdvertisermentController extends Controller
                         'task_name' => $advertiserment->getTitle() ,
                         'point' => 0,
                         'date' => date_create() ,
-                        'status' =>$order_status 
+                        'status' =>$order_status
                     );
                 }
                 $this->getTaskHistory($params);
@@ -213,9 +216,9 @@ class AdvertisermentController extends Controller
     }
 
 
-	private function getTaskHistory($params=array()){
+    private function getTaskHistory($params=array())
+    {
         return $this->get('general_api.task_history')->init($params);
     }
-	
+
 }
-	

@@ -12,7 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class IdentityConfirm
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->identityValidateTime = new \DateTime();
     }
     /**
@@ -49,7 +50,7 @@ class IdentityConfirm
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -65,14 +66,14 @@ class IdentityConfirm
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -89,10 +90,10 @@ class IdentityConfirm
     public function setIdentityCard($identityCard)
     {
         $this->identityCard = $identityCard;
-    
+
         return $this;
     }
-    
+
     /**
      * Get identityCard
      *
@@ -113,10 +114,10 @@ class IdentityConfirm
     public function setIdentityValidateTime($identityValidateTime)
     {
         $this->identityValidateTime = $identityValidateTime;
-    
+
         return $this;
     }
-    
+
     /**
      * Get identityValidateTime
      *
@@ -139,8 +140,9 @@ class IdentityConfirm
         91 => "国外",
     );
     public static $check_digits = '10X98765432';
-    
-    public function isValid($identityCard) {
+
+    public function isValid($identityCard)
+    {
         if(!self::lengthIsValid($identityCard)) {
             return false;
         }
@@ -160,7 +162,8 @@ class IdentityConfirm
         return true;
     }
 
-    public static function lengthIsValid($identityCard) {
+    public static function lengthIsValid($identityCard)
+    {
         if (strlen($identityCard) === 15) {
             return true;
         }
@@ -172,22 +175,26 @@ class IdentityConfirm
         return false;
     }
 
-    public static function regionIsValid($identityCard) {
+    public static function regionIsValid($identityCard)
+    {
         $region_id = self::getRegion($identityCard);
 
         return array_key_exists($region_id, self::$areas);
     }
 
-    public static function birthdayIsValid($identityCard) {
+    public static function birthdayIsValid($identityCard)
+    {
         $birthday = self::getBirthDay($identityCard);
         return checkdate($birthday['month'], $birthday['day'], $birthday['year']);
     }
 
-    public static function getRegion($identityCard) {
+    public static function getRegion($identityCard)
+    {
         return (int) mb_substr($identityCard, 0, 2);
     }
 
-    public static function checkDigitIsValid($identityCard) {
+    public static function checkDigitIsValid($identityCard)
+    {
         # check digit doesn't exists
         if(strlen($identityCard) !== 18) {
             return true;
@@ -201,7 +208,8 @@ class IdentityConfirm
     /**
      * only for length = 18
      */
-    public static function calcCheckDigit($identityCard) {
+    public static function calcCheckDigit($identityCard)
+    {
         if(strlen($identityCard) !== 18) {
             return null;
         }
@@ -231,7 +239,8 @@ class IdentityConfirm
      * @param int $id 身份证号
      * @return string
      */
-    private static function getBirthDay($identityCard) {
+    private static function getBirthDay($identityCard)
+    {
         switch (strlen ( $identityCard )) {
         case 15 :
             $year = "19" . substr ( $identityCard , 6, 2 );
@@ -248,6 +257,6 @@ class IdentityConfirm
         return $birthday;
     }
 
- 
-    
+
+
 }

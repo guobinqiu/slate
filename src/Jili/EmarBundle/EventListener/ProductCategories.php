@@ -7,7 +7,8 @@ use Jili\EmarBundle\Api2\Repository\ItemCat as ItemCatRepository,
   Jili\EmarBundle\Api2\Repository\WebCat as WebCatRepository,
   Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
 
-class ProductCategories {
+class ProductCategories
+{
     private $logger;
     private $generalCategoryGet;
 
@@ -15,7 +16,7 @@ class ProductCategories {
     private $duration; //= 90;
 
 
-    public function __construct( $key, $duration)
+    public function __construct($key, $duration)
     {
         $this->cache_fn = $key;
         $this->duration = $duration;
@@ -26,11 +27,12 @@ class ProductCategories {
      * 3. wirte the category to cached file for next fetch.
      * $force always do remote request when is set ture, in another words, if force is false the cache accessing is allowed.
      */
-    public function fetch( $force = false ) {
+    public function fetch($force = false)
+    {
         $prod_categories = null ;
         if($this->cache_file_handler->isValid($this->cache_fn , $this->duration) ) {
             $prod_categories = $this->cache_file_handler->get($this->cache_fn);
-        } 
+        }
 
         if( !isset($prod_categories) || ! is_array($prod_categories) || ! isset($prod_categories['cats']) || ! isset($prod_categories['sub_cats']))  {
 
@@ -46,25 +48,28 @@ class ProductCategories {
             }
 
             $prod_categories = compact('cats', 'sub_cats');
-            
+
             $this->cache_file_handler->remove($this->cache_fn );
             $this->cache_file_handler->set($this->cache_fn , $prod_categories);
         }
         return $prod_categories;
     }
 
-    public function setCacheDir($dir) {
+    public function setCacheDir($dir)
+    {
         $this->cache_dir= $dir ;
     }
 
-    public function setLogger(  LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 
-    public function setGeneralCategoryGet(  $getter ) {
+    public function setGeneralCategoryGet($getter)
+    {
         $this->generalCategoryGet= $getter ;
     }
-    public function setCacheFileHandler( $handler)
+    public function setCacheFileHandler($handler)
     {
         $this->cache_file_handler = $handler;
     }

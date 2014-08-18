@@ -7,17 +7,18 @@ namespace Jili\ApiBundle\Component;
 class OrderBase
 {
     private static $CONFIG = array(
-        'INIT'=>  1 , 
+        'INIT'=>  1 ,
         'PENDING'=> 2,
         'COMPLETED_SUCCEEDED'=> 3,
         'COMPLETED_FAILED'=> 4
     );
 
     /**
-     * @param: $order 
+     * @param: $order
      * @return:
      */
-    static public function isCompleted($order) {
+    public static function isCompleted($order)
+    {
         $ret = false;
         if( method_exists($order,'getStatus') ) {
             //$logger->debug( $order, true );
@@ -38,17 +39,18 @@ class OrderBase
         return $ret;
     }
 
-    static public function getStatusList() {
+    public static function getStatusList()
+    {
         return self::$CONFIG;
     }
 
-    static public function getFailedStatus() {
+    public static function getFailedStatus()
+    {
         return self::$CONFIG['COMPLETED_FAILED'];
     }
 
-    static public function getSuccessStatus() {
+    public static function getSuccessStatus()
+    {
         return self::$CONFIG['COMPLETED_SUCCEEDED'];
     }
 }
-
-

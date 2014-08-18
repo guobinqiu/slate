@@ -38,8 +38,8 @@ class TopControllerTest extends WebTestCase
     }
     /**
      * @group user
-     * @group cookie 
-     * @group login 
+     * @group cookie
+     * @group login
      */
     public function testCookieLoginHomepage()
     {
@@ -106,20 +106,21 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals($confirmPoints .'确认中米粒数',$crawler->filter('dt')->eq(1)->text() );
     }
     /**
-     * @group session 
+     * @group session
      */
-    public function testUserInfoAction() {
+    public function testUserInfoAction()
+    {
         echo 'top.userInfo testing',PHP_EOL;
 
         $client = static::createClient();
         $container = $client->getContainer();
-       
+
         $logger= $container->get('logger');
         $router = $container->get('router');
         $em = $this->em;
 
 
-        // request 
+        // request
         $url = $router->generate('jili_api_top_userinfo');
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
@@ -162,7 +163,7 @@ class TopControllerTest extends WebTestCase
 #
 #        $keys = $container->getParameter('cache_config.session.points.keys');
 
-        // request 
+        // request
         $url = $router->generate('jili_api_top_userinfo');
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
@@ -181,8 +182,8 @@ class TopControllerTest extends WebTestCase
     /**
      * @group cache
      */
-    public function testCallboardAction() {
-
+    public function testCallboardAction()
+    {
         echo 'callboard partial ',PHP_EOL;
         $client = static::createClient();
         $container = $client->getContainer();
@@ -191,23 +192,23 @@ class TopControllerTest extends WebTestCase
         $em = $this->em;
         $cache_fn= $container->getParameter('cache_config.api.top_callboard.key');
         // remove the cache file
-        $cache_data_path = $container->getParameter('cache_data_path'); 
+        $cache_data_path = $container->getParameter('cache_data_path');
         $fn = $cache_data_path.DIRECTORY_SEPARATOR.$cache_fn.'.cached';
 
         exec('rm -f ' .$fn);
         $this->assertFileNotExists($fn);
 
-        // request 
+        // request
         $url = $router->generate('jili_api_top_callboard');
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
         $this->assertFileExists($fn);
-        
-        // the count 
+
+        // the count
         $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(6);
-        
+
         $exp_total = count($callboard);
         if( $exp_total >= 3 ) {
             $exp_ul1_count = 3;
@@ -247,12 +248,12 @@ class TopControllerTest extends WebTestCase
         //| user_advertiserment_visit    |
         //| user_game_visit              |
     /**
-     * checkin visit 
+     * checkin visit
      * @group session
-     * @group task_list 
+     * @group task_list
      **/
     public function testTaskListCheckinAction()
-    {    
+    {
         echo 'checkin  visit in task list',PHP_EOL;
         $client = static::createClient();
         $container = $client->getContainer();
@@ -336,7 +337,7 @@ class TopControllerTest extends WebTestCase
             echo '     checkins redirect to:', $client->getResponse()->getContent(),PHP_EOL;
         }
 
-        // checkin visit: check the result html  
+        // checkin visit: check the result html
         $url = $url_task;
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
@@ -354,12 +355,12 @@ class TopControllerTest extends WebTestCase
     }
 
      /**
-     * 91ww visit 
+     * 91ww visit
      * @group session
-     * @group task_list 
+     * @group task_list
      **/
     public function testTaskList91wwAction()
-    {    
+    {
         echo '91ww  visit in task list',PHP_EOL;
         $client = static::createClient();
         $container = $client->getContainer();
@@ -404,14 +405,14 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals($link_name,$link->text());
         $href= $link->attr('href');
         $this->assertEquals('http://www.91wenwen.net/vote/#active',$href);
- 
+
         // adv visit: analouge the event
         $url = $router->generate('_default_wenwenVisit');
         $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), ' clicked '. $url  );
 
 
-        // adv visit: check the result html  
+        // adv visit: check the result html
         $url = $url_task;
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
@@ -423,15 +424,15 @@ class TopControllerTest extends WebTestCase
         $records =  $em->getRepository('JiliApiBundle:UserWenwenVisit')->findBy(array('userid'=>$user->getId()  ,'visitDate'=> $day));
         $this->assertEquals(1, count($records));
         //todo:  adv visit: check session  status? how to .
-    }   //| user_info_visit    
+    }   //| user_info_visit
 
     /**
-     * game visit 
+     * game visit
      * @group session
-     * @group task_list 
+     * @group task_list
      **/
     public function testTaskListGameAction()
-    {    
+    {
         echo 'game  visit in task list',PHP_EOL;
         $client = static::createClient();
         $container = $client->getContainer();
@@ -478,14 +479,14 @@ class TopControllerTest extends WebTestCase
         $href_parsed = parse_url($href);
         $url_adv_list = $container->get('router')->generate('_game_chick');
         $this->assertEquals($href_parsed['path'],$url_adv_list);
- 
+
         // adv visit: analouge the event
         $url = $router->generate('_default_gameVisit');
         $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), ' clicked '. $url  );
 
 
-        // adv visit: check the result html  
+        // adv visit: check the result html
         $url = $url_task;
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
@@ -497,15 +498,15 @@ class TopControllerTest extends WebTestCase
         $records =  $em->getRepository('JiliApiBundle:UserGameVisit')->findBy(array('userid'=>$user->getId()  ,'visitDate'=> $day));
         $this->assertEquals(1, count($records));
         //todo:  adv visit: check session  status? how to .
-    }   //| user_info_visit    
+    }   //| user_info_visit
 
     /**
      * adv visit , on click  ad offer99.
      * @group session
-     * @group task_list 
+     * @group task_list
      **/
     public function testTaskListAdvOffer99Action()
-    {    
+    {
         echo 'adv visit(advertiserment/list) in task list',PHP_EOL;
         $client = static::createClient();
         $container = $client->getContainer();
@@ -551,14 +552,14 @@ class TopControllerTest extends WebTestCase
         $href_parsed = parse_url($href);
         $url_adv_list = $container->get('router')->generate('_advertiserment_list');
         $this->assertEquals($href_parsed['path'],$url_adv_list);
- 
+
         // adv visit: analouge the event
         $url = $url_adv_list;
         $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), ' clicked '. $url  );
 
 
-        // adv visit: check the result html  
+        // adv visit: check the result html
         $url = $url_task;
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
@@ -580,7 +581,7 @@ class TopControllerTest extends WebTestCase
     /**
      * adv visit , on click  ad list.
      * @group session
-     * @group task_list 
+     * @group task_list
      **/
     public function testTaskListAdvListAction()
     {
@@ -593,7 +594,7 @@ class TopControllerTest extends WebTestCase
         //user_91ww_visit              |
         //| user_advertiserment_visit    |
         //| user_game_visit              |
-        //| user_info_visit    
+        //| user_info_visit
 
         // set session for login
         $query = array('email'=> 'alice.nima@gmail.com');
@@ -634,12 +635,12 @@ class TopControllerTest extends WebTestCase
         $href_parsed = parse_url($href);
         $url_adv_list = $container->get('router')->generate('_advertiserment_list');
         $this->assertEquals($href_parsed['path'],$url_adv_list);
- 
+
         // adv visit: analouge the event
-        // adv visit: check the result html  
+        // adv visit: check the result html
         // adv visit: check db status
         // adv visit: check session  status? how to .
-          
+
         $url = $container->get('router')->generate('_advertiserment_offer99');
         echo $url , PHP_EOL;
         $client->request('GET', $url ) ;
@@ -654,7 +655,8 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals(0, count($link));
 
     }
-    private function buildToken( $user , $secret) {
+    private function buildToken($user , $secret)
+    {
         $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
         $token = hash('sha256', $token);
         $token = substr( $token, 0 ,32);

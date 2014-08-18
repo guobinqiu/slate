@@ -1,4 +1,4 @@
-ul.shopListUl{ padding:0; border-top: 1px solid #DDDDDD; border-left: 1px solid #DDDDDD;}
+/*ul.shopListUl{ padding:0; border-top: 1px solid #DDDDDD; border-left: 1px solid #DDDDDD;}
 ul.shopListUl li{ background-color:#FFF; width:107.667px; height:103px; float:left; padding:15px 21px 15px 9px; position:relative;border-bottom: 1px solid #DDDDDD; border-right: 1px solid #DDDDDD;}
 ul.shopListUl li dt{ width:120px; overflow:hidden; position:relative;}
 ul.shopListUl li dt a.shop{ background-color: rgba(255, 255, 255, 0.75); bottom: 5px; color: #000000; display: inline-block; left: 5px; padding: 2px 5px; position: absolute; cursor:pointer;}
@@ -89,4 +89,146 @@ ul.shopListUl li div.hover p a.btnShopping {
 	border: none;
 	background: url("../images140307/iconImage.png") no-repeat;
 	background-position: 0 -740px;
+}*/
+
+/* shop list */
+.shopL {
+	background: #eee;
 }
+.shopL .shopSearch {
+	width: 158px;
+	display: inline-block;
+	vertical-align: -7px;
+	margin: 15px 15px 0 15px;
+	border: 1px solid #f75232;
+	height: 32px;
+	background: #fff;
+	*display:inline;
+	*zoom:1;
+}
+.shopL .shopSearchInput {
+	width: 114px;
+	padding: 0 7px;
+	float: left;
+	border: none;
+	height: 32px;
+	line-height:32px;
+}
+.shopL .shopSearchSubmit {
+	padding: 6px;
+	float: left;
+}
+.shopL .shopSearchBtn {
+	width: 14px;
+	height: 14px;
+	font-size: 0;
+	border: none;
+	background: url(../images1408/icons.png) no-repeat 0 -228px;
+}
+.shopL .tabnav {
+	width:160px;
+	padding: 15px;
+	height: 546px;
+	overflow-y: scroll;
+}
+.shopL .tabnav li {
+	color: #333;
+	cursor: pointer;
+	height: 34px;
+	line-height: 34px;
+	text-align: left;
+	padding-left: 23px;
+	font-size: 12px;
+	margin-top: 1px;
+}
+.shopL .tabnav li:hover {
+	background: #f75232;
+}
+.shopL .tabnav li:hover a {
+	color: #fff;
+}
+.shopL .tabnav li.active {
+	background: #f75232;
+}
+.shopL .tabnav li.active a {
+	color: #fff;
+}
+.shopR {
+	width: 810px;
+	background: #fff;
+	min-height: 624px;
+}
+.shopR .tit {
+	border-bottom: 1px solid #f2f2f2;
+	font-size: 12px;
+	height: 46px;
+	line-height: 46px;
+	text-align: left;
+	padding-left: 20px;
+}
+.shopR .tit a {
+	font-size: 14px;
+	color: #c7c7c5;
+	padding: 15px 6px;
+}
+.shopR .tit a:hover, .shopR .tit a.current {
+	font-size: 14px;
+	background: #ffefeb;
+	border-bottom: 1px solid #f75232;
+	color: #f75232;
+	padding: 15px 6px;
+}
+.shopR .center {
+	margin: 20px 0 20px 11px;
+}
+.shopR .center ul li {
+	width: 157px;
+	height: 102px;
+	padding-top: 20px;
+	float: left;
+	border: 1px solid #f2f2f2;
+	margin-right: -1px;
+	margin-bottom: -1px;
+	position: relative;
+	overflow: hidden;
+}
+.logoImg {
+	display: block;
+	text-align: center;
+}
+.logoWord {
+	text-align: center;
+	margin-top: 6px;
+	font-family: "宋体";
+}
+.logoMore {
+	position: absolute;
+	display:none;
+	bottom: 0;
+	height: 120px;
+	width: 157px;
+	z-index:9999;
+	*left:0;
+}
+.logoMore .logoMask {
+	width: 99%;
+	height: 99%;
+	border: 1px solid #f9b036;
+}
+.logoMore .logoBtn {
+	position: absolute;
+	bottom: 1px;
+	*left:0;
+}
+.logoMore .logoBtn a {
+	width: 78px;
+	height: 33px;
+	text-align: center;
+	line-height: 33px;
+	float:left;
+	color: #fff; 
+	cursor: pointer;
+}
+.logoMore .logoBtn a.toBuy{background:#f9b036;}
+.logoMore .logoBtn a.toMore{ background:#9ccc3d;}
+/* shop list / */

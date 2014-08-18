@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route(requirements={"_scheme"="http"})
  */
-class TopCronController extends Controller {
-
+class TopCronController extends Controller
+{
     /**
      * @Route("/recentPoint", name="_topcron_recentPoint")
      */

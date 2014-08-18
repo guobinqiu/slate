@@ -12,7 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CheckinClickList
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->createTime = new \DateTime();
     }
 
@@ -64,7 +65,7 @@ class CheckinClickList
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -81,14 +82,14 @@ class CheckinClickList
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -104,14 +105,14 @@ class CheckinClickList
     public function setClickDate($clickDate)
     {
         $this->clickDate = $clickDate;
-    
+
         return $this;
     }
 
     /**
      * Get clickDate
      *
-     * @return string 
+     * @return string
      */
     public function getClickDate()
     {
@@ -128,14 +129,14 @@ class CheckinClickList
     public function setOpenShopTimes($openShopTimes)
     {
         $this->openShopTimes = $openShopTimes;
-    
+
         return $this;
     }
 
     /**
      * Get openShopTimes
      *
-     * @return integer 
+     * @return integer
      */
     public function getOpenShopTimes()
     {
@@ -151,14 +152,14 @@ class CheckinClickList
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -174,20 +175,20 @@ class CheckinClickList
     public function setCreateTime($createTime)
     {
         $this->createTime = $createTime;
-    
+
         return $this;
     }
 
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
         return $this->createTime;
     }
 
-    
-    
+
+
 }

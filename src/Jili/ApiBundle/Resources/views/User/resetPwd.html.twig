@@ -43,6 +43,13 @@ function check(){
 				$("#sendEmail").addClass('disabled');
 				$("#sendEmail").html('重新发送');
 				$("#sendEmail").attr("onclick",""); 
+			}else if(data==2){
+				var email = $("#email").val();
+				var url = "{{ path('_user_activeEmail',{'email': "email" }) }}";
+				url = url.replace('email',encodeURIComponent( email));
+				var html = "邮箱地址未激活，请重新<a href='"+url+"'>激活</a>";
+				$(".message").html(html);
+				$(".message").show();
 			}else{
 				alert(data);
 				$("#email").val('');

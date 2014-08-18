@@ -69,13 +69,13 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   %database_driver%
-        host:     %database_host%
-        port:     %database_port%
-        dbname:   %database_name%
-        user:     %database_user%
-        password: %database_password%
-        charset:  UTF8
+       driver:   %database_driver%
+       host:     %database_host%
+       port:     %database_port%
+       dbname:   %database_name%
+       user:     %database_user%
+       password: %database_password%
+       charset:  UTF8
         # if using pdo_sqlite as your database driver, add the path in parameters.yml
         # e.g. database_path: %kernel.root_dir%/data/data.db3
         # path:     %database_path%
@@ -119,11 +119,27 @@ services:
         class: Knp\Component\Pager\Event\Subscriber\Sortable\SortableSubscriber
         tags:
             - { name: knp_paginator.subscriber }
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            channels: [!user_source]
+            
+        user_source:
+            type: stream
+            path: %kernel.logs_dir%/%kernel.environment%.user_source.log
+            level: info 
+            formatter: monolog.formatter.session_request
+            channels: [user_source]
+     
 gregwar_captcha:
-        width: 100
-        height: 35
-        length: 4
-        as_url: true
+    width: 100
+    height: 35
+    length: 4
+    as_url: true
+    
+
 
 parameters:
     emar_com.app_AppKey: %emar_com.cron.AppKey% 
@@ -243,3 +259,4 @@ parameters:
     91wenwen_api_url: https://www.91jili.com
     is_from_wenwen_register: 2
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
+    file_path_july_activity: /data/91jili/logs/activity/july.csv

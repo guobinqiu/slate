@@ -4,36 +4,30 @@
 	right: 20px;
 	z-index: 100;
 }
-.help {
-	margin-top: 30px;
-}
 .help article {
 	display: inline-block;
 	float: left;
-	width: 1150px;
+	width: 1000px;
 	position: relative;
+	text-align:left;
 }
 .help article h2 {
-	height: 30px;
-	line-height: 30px;
-	position: relative;
+	height: 31px;
+	line-height:31px;
+	right: 0;
+	position: absolute;
 }
 .help article h2 .qaBtn {
 	background-color: #FF8C4A;
 	color: #FFFFFF;
-	display: inline-block;
 	font-size: 14px;
 	font-weight: normal;
-	line-height: 100%;
 	padding: 7px 20px 7px 15px;
-	position: absolute;
-	right: 1px;
 	text-decoration: none;
-	top: -5px;
 	opacity: .8;
 	Filter: alpha(opacity=80);
-	background-image:url(../images/upDownArrow.gif);
-	background-repeat:no-repeat;
+	background-image: url(../images/upDownArrow.gif);
+	background-repeat: no-repeat;
 	background-position: 76px 11px;
 }
 .help article h2 .qaBtn:hover {
@@ -46,19 +40,19 @@
 	background-position: 76px -11px;
 }
 .help article .tabs-nav {
-	border: 1px solid #EEEEEE;
-	background-color: #FFF;
-	border-bottom: 2px solid #e94d41;
+	border-bottom: 3px solid #e4e4e2;
+	*+display:inline-block;
 }
 .help article .tabs-nav li {
 	float: left;
-	width: 20%;
-	width: 19.9%\9;
-	width: 20%\0;
-	_width: 19.9%;
+	width: 16%;
+	width: 15.9%\9;
+	width: 16%\0;
+	_width: 15.9%;
+	height: 41px;
 }
 .help article .tabs-nav li a {
-	font-size: 16px;
+	font-size: 14px;
 	padding: 12px 0 8px 0;
 	text-align: center;
 	color: #999;
@@ -67,8 +61,9 @@
 	text-decoration: none;
 }
 .help article .tabs-nav li.hover a {
-	background-color: #e94d41;
-	color: #FFF;
+	color: #ff8c4a;
+	font-weight:bold;
+	border-bottom: 3px solid #ff8c4a;
 }
 .help #helpMain {
 	background-color: #FFF;
@@ -118,7 +113,8 @@
 	border-top: 2px solid #ff8c4a;
 	position: absolute;
 	right: 1px;
-	top: 23px;
+	top: 31px;
+	top: 30px\0;
 	width: 480px;
 	box-shadow: 0 3px 3px #999999;
 	z-index: 999;

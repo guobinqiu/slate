@@ -7,12 +7,12 @@ use Jili\BackendBundle\Controller\IpAuthenticatedController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
-class IpListener {
-
+class IpListener
+{
     private $white_ips;
     private $container_;
 
-    public function __construct(  array $ips )
+    public function __construct(array $ips)
     {
         $this->white_ips = $ips;
     }
@@ -41,11 +41,12 @@ class IpListener {
         }
     }
 
-    public function setContainer( $c) {
+    public function setContainer($c)
+    {
         $this->container_ = $c;
     }
-    #private function getAdminIp(){
-    #    if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
+    #private function getAdminIp() {
+    #    if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') ||
     #        $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
     #        $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
     #        substr( $_SERVER['REMOTE_ADDR'],0,10)  == '192.168.1.' ||

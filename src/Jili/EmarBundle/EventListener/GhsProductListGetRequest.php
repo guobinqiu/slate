@@ -4,13 +4,14 @@ namespace Jili\EmarBundle\EventListener;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Request\GhsProductListGetRequest as OpenApiGhsProductListGetRequest;
 
-class GhsProductListGetRequest  extends BaseListRequest {
-
+class GhsProductListGetRequest  extends BaseListRequest
+{
     /**
      * @abstract: wrapper for the fetch() function, for duplicated pid in the fetch result.
      *  Because the  ghs_o_url prefixed with "m." in raw response will redirect to error page.
      */
-    public function fetchDistinct( $param = array() ) {
+    public function fetchDistinct( $param = array() )
+    {
         $page_size = $this->page_size;
         $this->setPageSize ( 2 * $page_size);
 
@@ -31,9 +32,9 @@ class GhsProductListGetRequest  extends BaseListRequest {
     /**
      *
      */
-  public function fetch( $param = array()  ) {
-
-    //todo: cached 
+  public function fetch( $param = array()  )
+  {
+    //todo: cached
     $req = new  OpenApiGhsProductListGetRequest;
     extract($param);
 
@@ -66,7 +67,7 @@ class GhsProductListGetRequest  extends BaseListRequest {
     if( isset( $resp[ 'ghs_list']) && isset($resp['ghs_list'] ['ghs'] ) ) {
         $result = $resp['ghs_list']['ghs'];
     } else {
-//        $cache->remove($cache_key); 
+//        $cache->remove($cache_key);
     }
 
     $this->result = $result;

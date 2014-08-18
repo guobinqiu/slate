@@ -116,7 +116,7 @@ class EmarProductsCron
     /**
      * Get pid
      *
-     * @return integer 
+     * @return integer
      */
     public function getPid()
     {
@@ -139,7 +139,7 @@ class EmarProductsCron
     /**
      * Get pName
      *
-     * @return string 
+     * @return string
      */
     public function getPName()
     {
@@ -162,7 +162,7 @@ class EmarProductsCron
     /**
      * Get webId
      *
-     * @return integer 
+     * @return integer
      */
     public function getWebId()
     {
@@ -185,7 +185,7 @@ class EmarProductsCron
     /**
      * Get webName
      *
-     * @return string 
+     * @return string
      */
     public function getWebName()
     {
@@ -208,7 +208,7 @@ class EmarProductsCron
     /**
      * Get oriPrice
      *
-     * @return string 
+     * @return string
      */
     public function getOriPrice()
     {
@@ -231,7 +231,7 @@ class EmarProductsCron
     /**
      * Get curPrice
      *
-     * @return string 
+     * @return string
      */
     public function getCurPrice()
     {
@@ -254,7 +254,7 @@ class EmarProductsCron
     /**
      * Get picUrl
      *
-     * @return string 
+     * @return string
      */
     public function getPicUrl()
     {
@@ -277,7 +277,7 @@ class EmarProductsCron
     /**
      * Get catid
      *
-     * @return integer 
+     * @return integer
      */
     public function getCatid()
     {
@@ -300,7 +300,7 @@ class EmarProductsCron
     /**
      * Get cname
      *
-     * @return string 
+     * @return string
      */
     public function getCname()
     {
@@ -323,7 +323,7 @@ class EmarProductsCron
     /**
      * Get pOUrl
      *
-     * @return string 
+     * @return string
      */
     public function getPOUrl()
     {
@@ -346,7 +346,7 @@ class EmarProductsCron
     /**
      * Get shortIntro
      *
-     * @return string 
+     * @return string
      */
     public function getShortIntro()
     {
@@ -356,7 +356,7 @@ class EmarProductsCron
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

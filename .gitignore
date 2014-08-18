@@ -1,10 +1,11 @@
 /web/bundles/
-/app/bootstrap*
+#/app/bootstrap*
 /app/cache/*
 /app/sessions/*
 /app/cache_data/*
 /app/logs/*
 /vendor/
+/bin/
 /app/config/parameters.ini
 web\uploads/
 dwsync.xml
@@ -22,3 +23,4 @@ web/images/banner/1397133290_7671.jpeg
 *~
 +/nbproject/project.xml
 +/nbproject/project.properties
+_compareTemp

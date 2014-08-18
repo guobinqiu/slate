@@ -1,15 +1,3 @@
-{# todo: duplicated to the form JiliEmarBundle:Products:searchForm #}
-
-        <div class="searchMenu"> <span class="curPt">{% if rt == 1  %}商城{% else %}商品{% endif %}</span>
-          <ul class="dropWrap" style="display: none;">
-{% for key,value in rt_of_search_form %}
-            <li class="curPt" lang="{{ key }}">{{ value.label }}</li>
-{% endfor %}
-
-          </ul>
-        </div>
-        <div class="form">
-
 {% if qs is defined %}
     <form action="{{ path('jili_emar_search_form' , qs   ) }}" method="POST" id="search_box">
 {% else %}
@@ -17,13 +5,16 @@
 {% endif %}
 
 
-          {{ form_widget( form.q , {'attr': { 'type': 'text', 'placeholder': "输入任意商品名、商家名等开始购物！", 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
+<div class="search fnRight">
+    
+    {{ form_widget( form.q , {'attr': { 'type': 'text', 'placeholder': "请输入您要搜索的商家名称", 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
 
-          {{ form_widget( form.rt ) }}
-          <input type="submit" clstag="homepage|keycount|home2013|03a" onclick="search();return false;" class="button curPt" value="搜索">
-          {{ form_rest(form)  }}
-</form> 
+    {{ form_widget( form.rt ) }}
+    <span class="searchBtn"><img clstag="homepage|keycount|home2013|03a"  src="{{ asset('images1408/search.png') }}" width="38" height="38" alt="搜索" title="搜索" onclick="search();return false;"/></span>
+    {{ form_rest(form)  }}
+    <a href="{{ path('_default_support') }}" class="helpBtn"><img src="{{ asset('images1408/help.png') }}" width="38" height="38" alt="帮助" title="帮助"/></a>
 </div>
+</form> 
 <script type="text/javascript">
 var search_form_rt_config = search_form_rt_config || {};
 search_form_rt_config = {{ rt_of_search_form|json_encode|raw   }};

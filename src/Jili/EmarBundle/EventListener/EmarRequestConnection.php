@@ -4,8 +4,8 @@ namespace Jili\EmarBundle\EventListener;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\EmarBundle\Api2\Utils\YiqifaOpen as YiqifaOpen;
 
-class EmarRequestConnection implements EmarRequestConnectionInterface {
-
+class EmarRequestConnection implements EmarRequestConnectionInterface
+{
   protected $c = null;
   protected $logger;
   protected $counter;
@@ -14,27 +14,28 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
   protected $config;
   /**
    * @params: $key  在yiqifa注册的应用时提供的 key
-   * @params: $secret 在yiqifa注册的应用时提供的 secret 
+   * @params: $secret 在yiqifa注册的应用时提供的 secret
    */
-  public function __construct($config ) {
+  public function __construct($config)
+  {
       $this->config = $config;
   }
 
-  public function getApp() 
+  public function getApp()
   {
       return $this->app;
   }
 
-  public function setApp( $app_name = '' ) 
+  public function setApp($app_name = '')
   {
       $app_names = array_keys( $this->config);
       if( empty($app_name) || ! in_array( $app_name ,$app_names ) ) {
           $app_name = $app_names[0]  ;
-      } 
+      }
 
       $this->app =  array( $app_name => $this->config[$app_name]);
       return $this;
-  } 
+  }
 
   public function getConn()
   {
@@ -48,7 +49,7 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
 
       if(  !isset($app_config[0]) || ! isset($app_config[0]['key']) || ! isset($app_config[0]['secret'])) {
           throw new  \Exception('not config emar app key/secret') ;
-      } 
+      }
       $key = $app_config[0]['key'];
       $secret = $app_config[0]['secret'];
 
@@ -62,8 +63,8 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
   /**
    * @params: $req 是具体的 emar open.Request类.
    */
-  public function exe( $req) {
-
+  public function exe($req)
+  {
       $tag = date('YmdHi');
 
       try{
@@ -76,15 +77,15 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
       // 对返回的json 转义为有效的json string.
       $result_escaped = trim(str_replace(array( "\\","{\n", "}\n", ",\n", "]\n", "\"\n", "\n","\r","\t") , array('\\\\', '{', '}', ',', ']','"', '\n','','    ') ,trim($result_raw)));
 
-      $result  = json_decode( trim($result_escaped), true);  
+      $result  = json_decode( trim($result_escaped), true);
 
       $curl_info = $this->c->getCurlInfo();
       $this->counter->increase($tag, $curl_info );
 
       // to counter.
-      if( isset($result['errors'] )  
-          && isset($result['errors']['error'] ) 
-          && isset($result['errors']['error'][0] ) 
+      if( isset($result['errors'] )
+          && isset($result['errors']['error'] )
+          && isset($result['errors']['error'][0] )
           && isset($result['errors']['error'][0]['msg'] )  ) {
 
               $error_msg = trim($result['errors']['error'][0]['msg'] );
@@ -116,13 +117,15 @@ class EmarRequestConnection implements EmarRequestConnectionInterface {
           $this->logger->crit(implode(':', array( __CLASS__, __LINE__,'message','')) .$e->getMessage() );
           $return = array();
       }
-      return $return ;  
+      return $return ;
   }
 
-  public function setLogger(  LoggerInterface $logger) {
+  public function setLogger(LoggerInterface $logger)
+  {
     $this->logger = $logger;
   }
-  public function setCounter(   $counter) {
+  public function setCounter($counter)
+  {
     $this->counter = $counter;
   }
 }

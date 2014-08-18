@@ -1,0 +1,9 @@
+<h3>每日任务列表<span class="expandIcon"></span></h3>
+   <!-- {% set router_current = app.request.attributes.get('_route') %}-->
+<ul class="dailyList" style="display:none;">
+    <li><em class="signIcon"></em><span><a {% if app.session.has('uid') %} href="javascript:void(0)" {% else %} href="{{ path('_user_login') }}" {% endif %} id="sign"  onclick="signs();" title="每日签到">每日签到</a><p>{{ task.checkinPoint }}米粒</p></span>{% if app.session.has('uid') %}{% if task.checkin is defined and task.checkin == 1 %}<span id="task_checkin_mark" class="mark"></span>{% else %}<span class="hasMark"></span>{% endif %}{% endif %}</li>
+    <li><em class="taskHallIcon"></em><span><a href="{{ path('_advertiserment_list') }}" title="任务大厅一">任务大厅一</a><br/><a href="{{ path('_advertiserment_offer99') }}" title="任务大厅二">任务大厅二</a></span>{% if app.session.has('uid') %}{% if task.ad is defined and task.ad ==1 %}<span class="mark"></span>{% else %}<span class="hasMark"></span>{% endif %}{% endif %}</li>
+    <li class="shopping"><em class="shoppingIcon"></em><span><a href="{{ path('_marketActivity_index')}}" title="商家活动">商家活动</a></span>{% if app.session.has('uid') %}<span class="mark"></span>{% endif %}</li>
+    <li><em class="quickQIcon"></em><span><a id="wen_vote" href="{{wenwen_vote_url}}" title="91问问快速问答" target="_blank">91问问快速问答</a><p>每日1米粒</p></span>{% if app.session.has('uid') %}{% if task.wen is defined and task.wen == 1 %}<span id="task_wen_mark" class="mark"></span>{% else %}<span class="hasMark"></span>{% endif %}{% endif %}</li>
+    <li><em class="chickenIcon"></em><span><a href="{{ path('_game_chick') }}" title="小鸡找米">小鸡找米</a><p>最高5888米粒</p></span>{% if app.session.has('uid') %}{% if task.game is defined and task.game == 1 %}<span class="mark"></span>{% else %}<span class="hasMark"></span>{% endif %}{% endif %}</li>
+</ul>

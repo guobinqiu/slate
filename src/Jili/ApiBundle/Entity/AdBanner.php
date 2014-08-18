@@ -12,10 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AdBanner
 {
-	public $attachment;
-	public function __construct() {
-		$this->createTime = new \DateTime();
-	}
+    public $attachment;
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+    }
     /**
      * @var integer
      *
@@ -39,7 +40,7 @@ class AdBanner
      * @ORM\Column(name="icon_image", type="string", length=250)
      */
     private $iconImage;
-    
+
     /**
      * @var integer
      *
@@ -59,11 +60,11 @@ class AdBanner
      */
     public function editupload($upload_dir)
     {
-         
+
         $fileNames = array('attachment');
-         
+
         $types = array('jpg','jpeg','png','gif');
-        
+
         if(!is_dir($upload_dir)){
             mkdir($upload_dir,0777);
         }
@@ -77,85 +78,73 @@ class AdBanner
             switch ($fileName){
                 case 'attachment':$field = 'iconImage';break;
             }
-             
+
             if($this->$fileName->getError()==1){
                 return  '文件类型为jpg或png或gif';//类型不对
             }else{
                 if(!in_array($this->$fileName->guessExtension(),$types)){
                     return  '文件类型为jpg或png或gif';//类型不对
                 }else{
-                    $size = getimagesize($this->$fileName);
-                    if($size[0]=='300' && $size[1]=='180'){
                         $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-                            
+
                         $this->$fileName->move($upload_dir, $filename_upload);
-                            
+
                         $this->$field = $upload_dir.$filename_upload;
-                            
+
                         $this->$fileName = null;
-                    }
-                    else{
-                        return   '图片像素为300X180';
-                    }
                 }
             }
-             
+
         }
     }
-    
+
     /**
      * upload image to temp dir
      */
     public function upload($upload_dir)
     {
-    	 
-    	$fileNames = array('attachment');
-    	 
-    	$types = array('jpg','jpeg','png','gif');
-    	
-    	if(!is_dir($upload_dir)){
-    		mkdir($upload_dir,0777);
-    	}
-    	foreach ($fileNames as $key=>$fileName){
-    		$filename_upload = '';
-    		if (null === $this->$fileName) {
-    			return  '图片为必填项';
+
+        $fileNames = array('attachment');
+
+        $types = array('jpg','jpeg','png','gif');
+
+        if(!is_dir($upload_dir)){
+            mkdir($upload_dir,0777);
+        }
+        foreach ($fileNames as $key=>$fileName){
+            $filename_upload = '';
+            if (null === $this->$fileName) {
+                return  '图片为必填项';
                 break ;
-    		}
-    		$field = 'iconImage';
-    		switch ($fileName){
-    		    case 'attachment':$field = 'iconImage';break;
-    		}
-    		 
-    		if($this->$fileName->getError()==1){
-    			return  '文件类型为jpg或png或gif';//类型不对
-    		}else{
-    			if(!in_array($this->$fileName->guessExtension(),$types)){
-    				return  '文件类型为jpg或png或gif';//类型不对
-    			}else{
-    				$size = getimagesize($this->$fileName);
-    				if($size[0]=='300' && $size[1]=='180'){
-    					$filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-    						
-    					$this->$fileName->move($upload_dir, $filename_upload);
-    						
-    					$this->$field = $upload_dir.$filename_upload;
-    						
-    					$this->$fileName = null;
-    				}
-    				else{
-    					return   '图片像素为300X180';
-    				}
-    			}
-    		}
-    		 
-    	}
+            }
+            $field = 'iconImage';
+            switch ($fileName){
+                case 'attachment':$field = 'iconImage';break;
+            }
+
+            if($this->$fileName->getError()==1){
+                return  '文件类型为jpg或png或gif';//类型不对
+            }else{
+                if(!in_array($this->$fileName->guessExtension(),$types)){
+                    return  '文件类型为jpg或png或gif';//类型不对
+                }else{
+                        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+
+                        $this->$fileName->move($upload_dir, $filename_upload);
+
+                        $this->$field = $upload_dir.$filename_upload;
+
+                        $this->$fileName = null;
+                }
+            }
+
+        }
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -171,11 +160,11 @@ class AdBanner
      */
     public function setIconImage($iconImage)
     {
-    	$this->iconImage = $iconImage;
-    
-    	return $this;
+        $this->iconImage = $iconImage;
+
+        return $this;
     }
-    
+
     /**
      * Get iconImage
      *
@@ -183,10 +172,10 @@ class AdBanner
      */
     public function getIconImage()
     {
-    	return $this->iconImage;
+        return $this->iconImage;
     }
-    
-    
+
+
     /**
      * Set adUrl
      *
@@ -195,11 +184,11 @@ class AdBanner
      */
     public function setAdUrl($adUrl)
     {
-    	$this->adUrl = $adUrl;
-    
-    	return $this;
+        $this->adUrl = $adUrl;
+
+        return $this;
     }
-    
+
     /**
      * Get adUrl
      *
@@ -207,7 +196,7 @@ class AdBanner
      */
     public function getAdUrl()
     {
-    	return $this->adUrl;
+        return $this->adUrl;
     }
 
     /**
@@ -219,21 +208,21 @@ class AdBanner
     public function setPosition($position)
     {
         $this->position = $position;
-    
+
         return $this;
     }
 
     /**
      * Get position
      *
-     * @return integer 
+     * @return integer
      */
     public function getPosition()
     {
         return $this->position;
     }
 
-    
+
     /**
      * Set createTime
      *
@@ -242,11 +231,11 @@ class AdBanner
      */
     public function setCreateTime($createTime)
     {
-    	$this->createTime = $createTime;
-    
-    	return $this;
+        $this->createTime = $createTime;
+
+        return $this;
     }
-    
+
     /**
      * Get createTime
      *
@@ -254,7 +243,7 @@ class AdBanner
      */
     public function getCreateTime()
     {
-    	return $this->createTime;
+        return $this->createTime;
     }
-    
+
 }

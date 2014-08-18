@@ -9,8 +9,8 @@ use Jili\EmarBundle\Api2\Repository\ItemCat as ItemCatRepository,
   Jili\EmarBundle\Api2\Repository\WebCat as WebCatRepository,
   Jili\EmarBundle\Api2\Repository\WebList as WebListRepository;
 
-class WebsiteCategories {
-
+class WebsiteCategories
+{
     private $logger;
 
     private $websiteCategoryGet;
@@ -20,8 +20,8 @@ class WebsiteCategories {
      * 2. fetch second level category based on first level category;
      * 3. wirte the category to cached file for next fetch.
      */
-    public function fetch( ) {
-
+    public function fetch()
+    {
     #    $cached = $this->cache_dir.DIRECTORY_SEPARATOR.'emar_website_category_'.date('Ym').'.cached';
     #    $fs = new Filesystem();
 
@@ -42,11 +42,13 @@ class WebsiteCategories {
 #        $this->cache_dir= $dir ;
 #    }
 
-    public function setLogger(  LoggerInterface $logger) {
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 
-    public function setWebsiteCategoryGet(  $getter ) {
+    public function setWebsiteCategoryGet($getter)
+    {
         $this->websiteCategoryGet= $getter ;
     }
 

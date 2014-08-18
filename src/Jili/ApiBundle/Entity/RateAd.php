@@ -20,21 +20,21 @@ class RateAd
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="ad_id", type="integer", nullable=false)
      */
     private $adId;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="income_rate", type="integer", nullable=false)
      */
     private $incomeRate;
-    
+
     /**
      * @var integer
      *
@@ -47,14 +47,14 @@ class RateAd
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
-    
+
+
     /**
      * Set adId
      *
@@ -63,11 +63,11 @@ class RateAd
      */
     public function setAdId($adId)
     {
-    	$this->adId = $adId;
-    
-    	return $this;
+        $this->adId = $adId;
+
+        return $this;
     }
-    
+
     /**
      * Get adId
      *
@@ -75,9 +75,9 @@ class RateAd
      */
     public function getAdId()
     {
-    	return $this->adId;
+        return $this->adId;
     }
-    
+
     /**
      * Set incomeRate
      *
@@ -86,11 +86,11 @@ class RateAd
      */
     public function setIncomeRate($incomeRate)
     {
-    	$this->incomeRate = $incomeRate;
-    
-    	return $this;
+        $this->incomeRate = $incomeRate;
+
+        return $this;
     }
-    
+
     /**
      * Get incomeRate
      *
@@ -98,9 +98,9 @@ class RateAd
      */
     public function getIncomeRate()
     {
-    	return $this->incomeRate;
+        return $this->incomeRate;
     }
-    
+
 
     /**
      * Set incentiveRate
@@ -111,14 +111,14 @@ class RateAd
     public function setIncentiveRate($incentiveRate)
     {
         $this->incentiveRate = $incentiveRate;
-    
+
         return $this;
     }
 
     /**
      * Get incentiveRate
      *
-     * @return integer 
+     * @return integer
      */
     public function getIncentiveRate()
     {

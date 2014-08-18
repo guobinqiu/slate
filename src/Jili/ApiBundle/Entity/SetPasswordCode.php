@@ -5,18 +5,22 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * setPasswordCode
+ * SetPasswordCode
  *
  * @ORM\Table(name="set_password_code")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\SetPasswordCodeRepository")
  */
-class setPasswordCode
+class SetPasswordCode
 {
-	public function __construct() {
-		$this->createTime = new \DateTime();
-	}
-	
-	
+
+    public static $VALIDATION_OF_SIGNUP_ACTIVATE = 1209600 ; # 3600*24*14
+
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+    }
+
+
     /**
      * @var integer
      *
@@ -58,7 +62,7 @@ class setPasswordCode
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -69,7 +73,7 @@ class setPasswordCode
      * Set userId
      *
      * @param integer $userId
-     * @return setPasswordCode
+     * @return SetPasswordCode
      */
     public function setUserId($userId)
     {
@@ -81,7 +85,7 @@ class setPasswordCode
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -92,7 +96,7 @@ class setPasswordCode
      * Set code
      *
      * @param string $code
-     * @return setPasswordCode
+     * @return SetPasswordCode
      */
     public function setCode($code)
     {
@@ -104,7 +108,7 @@ class setPasswordCode
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -115,7 +119,7 @@ class setPasswordCode
      * Set createTime
      *
      * @param \DateTime $createTime
-     * @return setPasswordCode
+     * @return SetPasswordCode
      */
     public function setCreateTime($createTime)
     {
@@ -127,7 +131,7 @@ class setPasswordCode
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
@@ -138,7 +142,7 @@ class setPasswordCode
      * Set isAvailable
      *
      * @param integer $isAvailable
-     * @return setPasswordCode
+     * @return SetPasswordCode
      */
     public function setIsAvailable($isAvailable)
     {
@@ -150,7 +154,7 @@ class setPasswordCode
     /**
      * Get isAvailable
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsAvailable()
     {

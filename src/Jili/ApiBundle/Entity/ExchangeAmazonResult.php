@@ -12,9 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ExchangeAmazonResult
 {
-	public function __construct() {
-		$this->createtime = new \DateTime();
-	}
+    public function __construct()
+    {
+        $this->createtime = new \DateTime();
+    }
     /**
      * @var integer
      *
@@ -76,7 +77,7 @@ class ExchangeAmazonResult
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -92,14 +93,14 @@ class ExchangeAmazonResult
     public function setExchangeId($exchangeId)
     {
         $this->exchangeId = $exchangeId;
-    
+
         return $this;
     }
 
     /**
      * Get exchangeId
      *
-     * @return integer 
+     * @return integer
      */
     public function getExchangeId()
     {
@@ -115,14 +116,14 @@ class ExchangeAmazonResult
     public function setAmazonCardOne($amazonCardOne)
     {
         $this->amazonCardOne = $amazonCardOne;
-    
+
         return $this;
     }
 
     /**
      * Get amazonCardOne
      *
-     * @return string 
+     * @return string
      */
     public function getAmazonCardOne()
     {
@@ -138,14 +139,14 @@ class ExchangeAmazonResult
     public function setAmazonCardTwo($amazonCardTwo)
     {
         $this->amazonCardTwo = $amazonCardTwo;
-    
+
         return $this;
     }
 
     /**
      * Get amazonCardTwo
      *
-     * @return string 
+     * @return string
      */
     public function getAmazonCardTwo()
     {
@@ -161,14 +162,14 @@ class ExchangeAmazonResult
     public function setAmazonCardThree($amazonCardThree)
     {
         $this->amazonCardThree = $amazonCardThree;
-    
+
         return $this;
     }
 
     /**
      * Get amazonCardThree
      *
-     * @return string 
+     * @return string
      */
     public function getAmazonCardThree()
     {
@@ -184,14 +185,14 @@ class ExchangeAmazonResult
     public function setAmazonCardFour($amazonCardFour)
     {
         $this->amazonCardFour = $amazonCardFour;
-    
+
         return $this;
     }
 
     /**
      * Get amazonCardFour
      *
-     * @return string 
+     * @return string
      */
     public function getAmazonCardFour()
     {
@@ -207,14 +208,14 @@ class ExchangeAmazonResult
     public function setAmazonCardFive($amazonCardFive)
     {
         $this->amazonCardFive = $amazonCardFive;
-    
+
         return $this;
     }
 
     /**
      * Get amazonCardFive
      *
-     * @return string 
+     * @return string
      */
     public function getAmazonCardFive()
     {
@@ -230,14 +231,14 @@ class ExchangeAmazonResult
     public function setCreatetime($createtime)
     {
         $this->createtime = $createtime;
-    
+
         return $this;
     }
 
     /**
      * Get createtime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatetime()
     {

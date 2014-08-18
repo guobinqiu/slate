@@ -17,7 +17,7 @@ use Jili\ApiBundle\Entity\PointHistory00,
     Jili\ApiBundle\Entity\PointHistory09;
 
 /**
- * 
+ *
  **/
 class PointHistory
 {
@@ -36,10 +36,10 @@ class PointHistory
      *                    'userid' => 1057622,
      *                    'point' => 17,
      *                    'type' => 1,
-     *                  ) 
+     *                  )
      */
-    public function get(array $params = array() ){
-
+    public function get(array $params = array() )
+    {
         extract($params);
 
         $point_history = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userid % 10);
@@ -55,4 +55,3 @@ class PointHistory
 
     }
 }
-

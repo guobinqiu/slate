@@ -33,7 +33,7 @@ class PointReason
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -49,14 +49,14 @@ class PointReason
     public function setReason($reason)
     {
         $this->reason = $reason;
-    
+
         return $this;
     }
 
     /**
      * Get reason
      *
-     * @return string 
+     * @return string
      */
     public function getReason()
     {

@@ -12,7 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CheckinAdverList
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->createTime = new \DateTime();
     }
 
@@ -50,7 +51,7 @@ class CheckinAdverList
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,14 +68,14 @@ class CheckinAdverList
     public function setAdId($adId)
     {
         $this->adId = $adId;
-    
+
         return $this;
     }
 
     /**
      * Get adId
      *
-     * @return integer 
+     * @return integer
      */
     public function getAdId()
     {
@@ -90,14 +91,14 @@ class CheckinAdverList
     public function setInterSpace($interSpace)
     {
         $this->interSpace = $interSpace;
-    
+
         return $this;
     }
 
     /**
      * Get interSpace
      *
-     * @return integer 
+     * @return integer
      */
     public function getInterSpace()
     {
@@ -113,20 +114,20 @@ class CheckinAdverList
     public function setCreateTime($createTime)
     {
         $this->createTime = $createTime;
-    
+
         return $this;
     }
 
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
         return $this->createTime;
     }
 
-    
-    
+
+
 }

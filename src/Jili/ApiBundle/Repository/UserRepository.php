@@ -10,12 +10,14 @@ use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 
 
-class UserRepository extends EntityRepository {
-	public function getUserCount($start = false, $end = false, $pwd = false, $is_from_wenwen= false, $delete_flag = false) {
-		$query = $this->createQueryBuilder('u');
-		$query = $query->select('count(u.id) as num');
-		$query = $query->Where('1 = 1');
-		$param = array();
+class UserRepository extends EntityRepository
+{
+    public function getUserCount($start = false, $end = false, $pwd = false, $is_from_wenwen= false, $delete_flag = false)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('count(u.id) as num');
+        $query = $query->Where('1 = 1');
+        $param = array();
         if ($start){
             $start_time = $start . ' 00:00:00';
             $query = $query->andWhere('u.registerDate>=:start_time');
@@ -37,119 +39,129 @@ class UserRepository extends EntityRepository {
             $query = $query->andWhere('u.deleteFlag = :deleteFlag');
             $param['deleteFlag'] = 1;//已删除用户
         }
-		$query = $query->setParameters($param);
-		$query = $query->getQuery();
-		//echo $query->getSQL(); echo "<br>";
-		return $query->getOneOrNullResult();
-	}
+        $query = $query->setParameters($param);
+        $query = $query->getQuery();
+        //echo $query->getSQL(); echo "<br>";
+        return $query->getOneOrNullResult();
+    }
 
-	public function findNick($email, $nick) {
-		$query = $this->createQueryBuilder('u');
-		$query = $query->select('u.id');
-		$query = $query->Where('u.nick = :nick');
-		$query = $query->andWhere('u.email <> :email');
-		//$query = $query->andWhere('u.pwd is not null');
-		//$query = $query->andWhere('u.deleteFlag IS NULL OR u.deleteFlag = 0');
-		$query = $query->setParameters(array (
-			'email' => $email,
-			'nick' => $nick
-		));
-		$query = $query->getQuery();
-		return $query->getResult();
+    public function findNick($email, $nick)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id');
+        $query = $query->Where('u.nick = :nick');
+        $query = $query->andWhere('u.email <> :email');
+        //$query = $query->andWhere('u.pwd is not null');
+        //$query = $query->andWhere('u.deleteFlag IS NULL OR u.deleteFlag = 0');
+        $query = $query->setParameters(array (
+            'email' => $email,
+            'nick' => $nick
+        ));
+        $query = $query->getQuery();
+        return $query->getResult();
 
-	}
+    }
 
     /**
      * The user of $email is registered already for the pwd is NOT null anymore.
      */
-	public function getWenwenUser($email) {
-		$query = $this->createQueryBuilder('u');
-		$query = $query->select('u.id');
-		$query = $query->Where('u.email = :email');
-		$query = $query->andWhere('u.pwd is not null');
-		$query = $query->setParameter('email', $email);
-		$query = $query->getQuery();
-		return $query->getResult();
+    public function getWenwenUser($email)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id');
+        $query = $query->Where('u.email = :email');
+        $query = $query->andWhere('u.pwd is not null');
+        $query = $query->setParameter('email', $email);
+        $query = $query->getQuery();
+        return $query->getResult();
 
-	}
+    }
 
-	public function getNotActiveUserByEmail($email) {
-		$query = $this->createQueryBuilder('u');
-		$query = $query->select('u');
-		$query = $query->Where('u.email = :email');
-		$query = $query->andWhere('u.isFromWenwen = 2');
-		$query = $query->setParameter('email', $email);
-		$query = $query->getQuery();
-		return $query->getResult();
-	}
+    public function getNotActiveUserByEmail($email)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u');
+        $query = $query->Where('u.email = :email');
+        $query = $query->andWhere('u.isFromWenwen = 2');
+        $query = $query->setParameter('email', $email);
+        $query = $query->getQuery();
+        return $query->getResult();
+    }
 
-	public function getUserList($id) {
-		$query = $this->createQueryBuilder('u');
+    public function getUserList($id)
+    {
+        $query = $this->createQueryBuilder('u');
 
-		$query = $query->select('u.id,u.nick,u.email,sp.code');
-		$query = $query->innerJoin('JiliApiBundle:setPasswordCode', 'sp', 'WITH', 'u.id = sp.userId');
+        $query = $query->select('u.id,u.nick,u.email,sp.code');
+        $query = $query->innerJoin('JiliApiBundle:SetPasswordCode', 'sp', 'WITH', 'u.id = sp.userId');
 
-		$query = $query->Where('u.id = :id');
-		$query = $query->setParameter('id', $id);
-		$query = $query->getQuery();
-		return $query->getResult();
+        $query = $query->Where('u.id = :id');
+        $query = $query->setParameter('id', $id);
+        $query = $query->getQuery();
+        return $query->getResult();
 
-	}
+    }
 
-	public function isFromWenwen($email) {
-		$query = $this->createQueryBuilder('u');
-		$query = $query->select('u.id,u.nick,u.email');
-		$query = $query->Where('u.email = :email');
-		$query = $query->andWhere('u.isFromWenwen = 1');
-		$query = $query->setParameter('email', $email);
-		$query = $query->getQuery();
-		return $query->getResult();
+    public function isFromWenwen($email)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id,u.nick,u.email');
+        $query = $query->Where('u.email = :email');
+        $query = $query->andWhere('u.isFromWenwen = 1');
+        $query = $query->setParameter('email', $email);
+        $query = $query->getQuery();
+        return $query->getResult();
 
-	}
+    }
 
-	public function isPwd($email) {
-		$query = $this->createQueryBuilder('u');
-		$query = $query->select('u.pwd');
-		$query = $query->Where('u.email = :email');
-		$query = $query->setParameter('email', $email);
-		$query = $query->getQuery();
-		$result = $query->getResult();
-		return $result[0]['pwd'];
+    public function isPwd($email)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.pwd');
+        $query = $query->Where('u.email = :email');
+        $query = $query->setParameter('email', $email);
+        $query = $query->getQuery();
+        $result = $query->getResult();
+        return $result[0]['pwd'];
 
-	}
+    }
 
-	public function getSearch($email) {
-		$query = $this->createQueryBuilder('u');
-		$query = $query->select('u.id,u.nick,u.email,u.rewardMultiple');
-		$query = $query->Where('u.email = :email');
-		$query = $query->setParameter('email', $email);
-		$query = $query->getQuery();
-		return $query->getResult();
-	}
+    public function getSearch($email)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id,u.nick,u.email,u.rewardMultiple');
+        $query = $query->Where('u.email = :email');
+        $query = $query->setParameter('email', $email);
+        $query = $query->getQuery();
+        return $query->getResult();
+    }
 
-	public function getUserByEmail($email) {
-		$query = $this->createQueryBuilder('u');
-		$query = $query->select('u');
-		$query = $query->Where('u.email = :email');
-		$query = $query->andWhere('u.pwd is not null');
-		$query = $query->andWhere('u.deleteFlag IS NULL OR u.deleteFlag = 0');
-		$query = $query->setParameter('email', $email);
-		$query = $query->getQuery();
-		return $query->getOneOrNullResult();
-	}
+    public function getUserByEmail($email)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u');
+        $query = $query->Where('u.email = :email');
+        $query = $query->andWhere('u.pwd is not null');
+        $query = $query->andWhere('u.deleteFlag IS NULL OR u.deleteFlag = 0');
+        $query = $query->setParameter('email', $email);
+        $query = $query->getQuery();
+        return $query->getOneOrNullResult();
+    }
 
-	public function getMultiple($times) {
-		$query = $this->createQueryBuilder('u');
-		$query = $query->select('u.id,u.nick,u.email,u.rewardMultiple');
-		$query = $query->Where('u.rewardMultiple > :times');
-		$query = $query->setParameter('times', $times);
-		$query = $query->getQuery();
-		return $query->getResult();
-	}
+    public function getMultiple($times)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id,u.nick,u.email,u.rewardMultiple');
+        $query = $query->Where('u.rewardMultiple > :times');
+        $query = $query->setParameter('times', $times);
+        $query = $query->getQuery();
+        return $query->getResult();
+    }
 
-	public function pointFail($type) {
-		$daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
-		$sqlpoint = " (select distinct user_id from point_history00 where create_time > '" . $daydate . "' " .
+    public function pointFail($type)
+    {
+        $daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
+        $sqlpoint = " (select distinct user_id from point_history00 where create_time > '" . $daydate . "' " .
                 "union select distinct user_id from point_history01 where create_time > '" . $daydate . "' " .
                 "union select distinct user_id from point_history02 where create_time > '" . $daydate . "' " .
                 "union select distinct user_id from point_history03 where create_time > '" . $daydate . "' " .
@@ -160,7 +172,7 @@ class UserRepository extends EntityRepository {
                 "union select distinct user_id from point_history08 where create_time > '" . $daydate . "' " .
                 "union select distinct user_id from point_history09 where create_time > '" . $daydate . "') ";
 
-		$sqltask = " (select distinct user_id from task_history00 where status=2 and date > '" . $daydate . "' " .
+        $sqltask = " (select distinct user_id from task_history00 where status=2 and date > '" . $daydate . "' " .
                 "union select distinct user_id from task_history01 where status=2 and date > '" . $daydate . "' " .
                 "union select distinct user_id from task_history02 where status=2 and date > '" . $daydate . "' " .
                 "union select distinct user_id from task_history03 where status=2 and date > '" . $daydate . "' " .
@@ -171,53 +183,55 @@ class UserRepository extends EntityRepository {
                 "union select distinct user_id from task_history08 where status=2 and date > '" . $daydate . "' " .
                 "union select distinct user_id from task_history09 where status=2 and date > '" . $daydate . "')  ";
 
-		$sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate . "' and e.id not in " . $sqlpoint . " and e.id not in " . $sqltask;
+        $sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate . "' and e.id not in " . $sqlpoint . " and e.id not in " . $sqltask;
 
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 
-	}
+    }
 
     /**
      * @param $date_str date("Y-m-d")
      */
-	public function getRecentPoint($date_str) {
-		$start = $date_str . ' 00:00:00';
-		$end = $date_str . ' 23:59:59';
+    public function getRecentPoint($date_str)
+    {
+        $start = $date_str . ' 00:00:00';
+        $end = $date_str . ' 23:59:59';
 
         $s =<<<EOT
 select b.id,  a.nick, a.icon_path, b.create_time, b.reason, b.point_change_num, c.display_name from  (
 SELECT  id , user_id ,point_change_num,create_time, reason from point_history00 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
 union all
-SELECT  id , user_id ,point_change_num,create_time, reason from point_history01 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history01 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
 union all
-SELECT  id , user_id ,point_change_num,create_time, reason from point_history02 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history02 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
 union all
-SELECT  id , user_id ,point_change_num,create_time, reason from point_history03 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history03 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
 union all
-SELECT  id , user_id ,point_change_num,create_time, reason from point_history04 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history04 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
 union all
-SELECT  id , user_id ,point_change_num,create_time, reason from point_history05 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history05 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
 union all
-SELECT  id , user_id ,point_change_num,create_time, reason from point_history06 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history06 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
 union all
-SELECT  id , user_id ,point_change_num,create_time, reason from point_history07 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history07 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
 union all
-SELECT  id , user_id ,point_change_num,create_time, reason from point_history08 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history08 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
 union all
-SELECT  id , user_id ,point_change_num,create_time, reason from point_history09 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end  
-) b 
-inner join user a on  b.user_id = a.id 
-inner join ad_category c on b.reason = c.id  
-ORDER BY abs(b.point_change_num) desc , b.create_time asc limit 99 
+SELECT  id , user_id ,point_change_num,create_time, reason from point_history09 where reason != 13 and  reason != 15 and point_change_num != 0 and create_time >= :start and create_time <= :end
+) b
+inner join user a on  b.user_id = a.id
+inner join ad_category c on b.reason = c.id
+ORDER BY abs(b.point_change_num) desc , b.create_time asc limit 99
 EOT;
         $stmt =  $this->getEntityManager()->getConnection()->prepare($s);
         $stmt->execute( compact('start','end') );
         $return = $stmt->fetchAll();
         return $return;
-	}
+    }
 
-	public function getRanking($start, $end) {
-		$sql = "select
+    public function getRanking($start, $end)
+    {
+        $sql = "select
                   a.nick,
                   sum(b.point_change_num) total
                 from
@@ -291,14 +305,14 @@ EOT;
                 order by total desc
                 limit 5
                 ";
-		return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
-	}
+        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+    }
 
     /**
      *
      */
-    public function findEmailById(array $ids) {
-
+    public function findEmailById(array $ids)
+    {
         $r = array();
         if( count($ids) > 0) {
             $qb= $this->createQueryBuilder('u');
@@ -315,7 +329,8 @@ EOT;
     }
 
     //七天未登陆提醒
-    public function getUserListForRemindLogin($day) {
+    public function getUserListForRemindLogin($day)
+    {
         $daydate = date("Y-m-d", strtotime(' -' . $day . ' day'));
         $sql = "SELECT user.id, user.email, user.nick
                 FROM user
@@ -332,14 +347,16 @@ EOT;
 
     }
 
-    public function totalUserAndCount() {
+    public function totalUserAndCount()
+    {
         $sql = "SELECT count( * ) total_user , sum( `points` ) total_points FROM user";
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetch();
 
     }
 
     //1,2,3 广告体验,购物返利,游戏广告,获得积分提醒
-    public function getUserListForRemindPoint($day) {
+    public function getUserListForRemindPoint($day)
+    {
         $daydate = date("Y-m-d", strtotime(' -' . $day . ' day'));
         $sql = "select a.nick, a.email, b.date, b.point, b.task_name, c.display_name from user a inner join
                  ( select id, user_id, date, point, category_type, task_name, status from task_history00 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
@@ -358,7 +375,8 @@ EOT;
     }
 
     //每个月2号凌晨发一封edm,统计3个月内有历史积分的人
-    public function getUserListForRemindTotalPoint($start, $end) {
+    public function getUserListForRemindTotalPoint($start, $end)
+    {
         $sql = "select a.id, a.email, a.points from user a inner join
                 (select distinct user_id from point_history00 where create_time >= '".$start."' and create_time <= '".$end."'
                 union all select distinct user_id from point_history01 where create_time >= '".$start."' and create_time <= '".$end."'
@@ -374,7 +392,8 @@ EOT;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
-    public function addPointHistorySearch($start, $end, $category_type, $email, $user_id) {
+    public function addPointHistorySearch($start, $end, $category_type, $email, $user_id)
+    {
         $sql1 = "1=1";
         $sql2 = "";
         if($category_type){
@@ -415,7 +434,8 @@ EOT;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
-    public function findWenWenUsersForRemmindRegister($start_time, $end_time){
+    public function findWenWenUsersForRemmindRegister($start_time, $end_time)
+    {
         $query = $this->createQueryBuilder('u');
         $query = $query->select('u.id,u.email');
         $query = $query->Where('u.isFromWenwen = 2');
@@ -430,7 +450,8 @@ EOT;
         return $query->getResult();
     }
 
-    public function memberSearch($user_id, $email, $nick){
+    public function memberSearch($user_id, $email, $nick)
+    {
         $query = $this->createQueryBuilder('u');
         $query = $query->select('u');
         $query = $query->Where('1 = 1');
@@ -455,19 +476,19 @@ EOT;
     /**
      *
      */
-    public function findByValidateToken($token) {
-
+    public function findByValidateToken($token)
+    {
         $date = new \DateTime();
         $date->sub(new \DateInterval('P7D'));
         $at = $date->format('Y-m-d H:i:s');
 
-		$query = $this->createQueryBuilder('u');
+        $query = $this->createQueryBuilder('u');
 
-		$query = $query->Where('u.token = :token');
-		$query = $query->AndWhere('u.tokenCreatedAt >= :at');
-		$query = $query->setParameters(array( 'token'=> $token, 'at'=> $at)  );
-		$query = $query->getQuery();
-		return $query->getResult();
+        $query = $query->Where('u.token = :token');
+        $query = $query->AndWhere('u.tokenCreatedAt >= :at');
+        $query = $query->setParameters(array( 'token'=> $token, 'at'=> $at)  );
+        $query = $query->getQuery();
+        return $query->getResult();
     }
 
     public function cleanToken($uid)
@@ -479,7 +500,81 @@ EOT;
 
             $this->getEntityManager()->flush();
 
-        } 
+        }
         return true;
+    }
+
+    /**
+     * @param $start date("Y-m-d")
+     * @param $end date("Y-m-d")
+     * @param $limit
+     * @param $offset
+     */
+    public function getTotalCPAPointsByTime($start,$end,$limit,$offset)
+    {
+        $s =<<<EOT
+select a.id,a.email,a.nick,b.points from user a inner join
+(
+select user_id, sum(point) as points from task_history00 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history01 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history02 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history03 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history04 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history05 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history06 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history07 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history08 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+union all
+select user_id, sum(point) as points from task_history09 t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end group by user_id
+ ) b
+ on b.user_id = a.id order by b.points desc LIMIT :offset, :limit
+EOT;
+        $stmt =  $this->getEntityManager()->getConnection()->prepare($s);
+
+        $stmt->bindParam(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
+        $stmt->bindParam(':start', $start);
+        $stmt->bindParam(':end', $end);
+
+        $stmt->execute();
+        $return = $stmt->fetchAll();
+        return $return;
+    }
+
+    /**
+     * @param $start date("Y-m-d")
+     * @param $end date("Y-m-d")
+     * @param $user_id
+     * @param $table_name
+     */
+    public function getUserCPAPointsByTime($start,$end,$user_id)
+    {
+        $suffix = substr($user_id, -1, 1);
+        $table_name = sprintf('task_history%02d', $suffix);
+
+        $s =<<<EOT
+select a.id,a.email,a.nick,b.points from user a inner join
+(
+select user_id, sum(point) as points from $table_name t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end and t.user_id = :user_id group by user_id
+ ) b
+ on b.user_id = a.id
+EOT;
+        $stmt =  $this->getEntityManager()->getConnection()->prepare($s);
+
+        $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
+        $stmt->bindParam(':start', $start);
+        $stmt->bindParam(':end', $end);
+
+        $stmt->execute();
+        $return = $stmt->fetchAll();
+        return $return;
     }
 }

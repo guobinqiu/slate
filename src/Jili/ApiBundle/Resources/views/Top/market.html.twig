@@ -1,18 +1,12 @@
-<h3 class="font18 corGlobRed"><strong>商家活动</strong></h3>
-<ul class="clearfix">
-  <div class="mask">
-    <div class="moveDiv">
+<div class="shopActList">
     {% for item in market %}
-      <li>
-        <dt><a target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName }}"/></a></dt>
-        <dd>
-		  <p class="discount">{{ item.title }}</p>
-          <p class="title">{{ item.businessName}}</p>
-          <p class="btn"><a class="goActivity" target="_blank" href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2">去看看</a></p>
-        </dd>
-      </li>
-      {% endfor %}
+    <div class="shopActItem">
+        <div class="shopActImg"><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank"><img src="{{ asset(item.activityImage) }}" width="420" height="168" alt="{{ item.businessName }}" title="{{ item.businessName }}"/></a></div>
+        <div class="shopActInfo">
+            <p><strong>{{ item.title }}</strong>{{ item.businessName}}</p>
+            <div class="publicAttention"><strong>{{ item.click}}</strong>人关注</div>
+            <div class="linkBtn"><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank" title="去看看">去看看<span class="arrow"></span></a></div>
+        </div>
     </div>
-  </div>
-  <a class="prevBtn">prev</a><a class="nextBtn">next</a>
-</ul>
+    {% endfor %}
+</div>
