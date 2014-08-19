@@ -365,7 +365,7 @@ class DefaultController extends Controller
 
         //最新动态
         $filename = $this->container->getParameter('file_path_recent_point');
-        $recentPoint = FileUtil::readFileContent($filename);
+        $recentPoint = FileUtil::readCsvContent($filename);
         $recent = array();
         if( is_array($recentPoint)) {
             foreach ($recentPoint as $key => $item){
