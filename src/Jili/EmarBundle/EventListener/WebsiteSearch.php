@@ -34,7 +34,7 @@ class WebsiteSearch
       return $matched;
   }
 
-  public function find_same_cat_websites( $web_raw , $catid, $web_id)
+  public function findSameCatWebsites( $web_raw , $catid, $web_id)
   {
       //$keywords = preg_split("/[\s,]+/", $keyword );
       $matched = array();
