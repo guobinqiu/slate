@@ -662,46 +662,16 @@ class TopControllerTest extends WebTestCase
         $token = substr( $token, 0 ,32);
         return $token;
     }
-}
-#        $this->assertEquals('1', $client->getResponse()->getContent());
-#        $this->assertEquals('1', $client->getResponse()->getContent());
-#    public function testFastLoginAction()
-#    {
-#        $client = static::createClient();
-#        $container = $client->getContainer();
-#        $logger= $container->get('logger');
-#
-#        $query = array('email'=> 'alice.nima@gmail.com', 'pwd'=>'aaaaaa' );
-#        $url = $container->get('router')->generate('_default_fastLogin', $query ) ;
-#        // $crawler = $client->request('GET', '/hello/Fabien');
-#        echo $url, PHP_EOL;
-#
-#        $client->request('POST', $url ) ;
-#        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-#        $this->assertEquals('1', $client->getResponse()->getContent());
-#
-#        $this->assertEquals('0', '0');
-#        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
-#    }
-#        $info = $crawler->filter('li')->extract(array('_text', 'href'));;
-#        var_dump($info);
 
-#        $data = $crawler->each(function ($node, $i) {
-#            return $node->attr('href');
-#        });
-#        var_dump($data);
-// login post
-#        $url = $container->get('router')->generate('_login');
-##$url = 'http://localhost/login';
-#        $client->request('GET', $url ) ;
-#        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-#        $html = $client->getResponse()->getContent();
-#        $crawler = new Crawler($html, $url);
-##
-##echo $url, PHP_EOL;
-#        $this->markTestIncomplete('Ignored for dev');
-#        $form = $crawler->selectButton('form1')->form();
-#        $form['email'] = $query['email'];
-#        $form['pwd'] = 'cccccc';
-#        $client->submit($form);
-#        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+    /**
+     * @group market
+     **/
+    public function testMarketAction()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/top/market');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertGreaterThan(0,$crawler->filter('html:contains("活动说明")')->count());
+    }
+
+}
