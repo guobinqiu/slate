@@ -249,6 +249,8 @@ class WebsitesController extends Controller
 
                 $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
 
+                $websites = array_fill_keys( $webids, null);
+
                 # input commissions_of_configed , $commission_of_api, $commission_of_default;
                 foreach( $result as $row) {
                     $em->detach($row);
