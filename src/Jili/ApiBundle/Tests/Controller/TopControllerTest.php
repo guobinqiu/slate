@@ -6,6 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\BrowserKit\Cookie;
 
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Jili\ApiBundle\DataFixtures\ORM\LoadAdvertisermentMarketActivityData;
 
 
 class TopControllerTest extends WebTestCase
@@ -669,9 +673,25 @@ class TopControllerTest extends WebTestCase
     public function testMarketAction()
     {
         $client = static::createClient();
+        $em = $this->em;
+
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        // load fixtures
+        $fixture = new LoadAdvertisermentMarketActivityData();
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $executor->execute($loader->getFixtures());
+
+        //测试数据中，商家活动说明
+        $desc =  LoadAdvertisermentMarketActivityData::$MARKET_ACTIVITY->getActivityDescription();
+
         $crawler = $client->request('GET', '/top/market');
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-        $this->assertGreaterThan(0,$crawler->filter('html:contains("活动说明")')->count());
+        $this->assertTrue($crawler->filter('html:contains("'.$desc.'")')->count() > 0);
     }
 
 }
