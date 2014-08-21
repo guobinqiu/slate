@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
+use Jili\ApiBundle\Utility\FileUtil;
 /**
  * @Route("/home",requirements={"_scheme"="http"})
  */
@@ -125,4 +126,19 @@ class HomeController extends Controller
         return $this->render('JiliFrontendBundle:Home:adExperience.html.twig', $arr);
     }
 
+    /**
+     * @Route("/vote")
+     * @Template
+     */
+    public function voteAction()
+    {
+        //快速问答:从文件中读取
+        $filename = $this->container->getParameter('file_path_wenwen_vote');
+        $vote = FileUtil::readCsvContent($filename);
+        $arr['image_url'] = $vote[0][0];
+        $arr['title'] = $vote[0][1];
+        $arr['vote_url'] = $vote[0][2];
+        //$arr['start_time'] = $vote[0][3];
+        return $this->render('JiliFrontendBundle:Home:vote.html.twig', $arr);
+    }
 }

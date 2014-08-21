@@ -35,6 +35,9 @@
         {% else %}
             {{ render(controller('JiliApiBundle:Top:userInfo' ) ) }}
         {% endif %}
+        <div class="quickQ">
+            {{ render(controller('JiliFrontendBundle:Home:vote' ) ) }}{# 快速问答#}
+        </div>
         <div class="notice shadowGlob">
             <h2>最新公告</h2>
             {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
