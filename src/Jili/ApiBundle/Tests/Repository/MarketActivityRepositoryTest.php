@@ -36,25 +36,12 @@ class MarketActivityRepositoryTest extends KernelTestCase
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
- // load a Fixtures in src/Jili/FrontendBundle/DataFixtures/ORM/AutoCheckIn 
+        // load a Fixtures in src/Jili/FrontendBundle/DataFixtures/ORM/AutoCheckIn 
         $directory = $container->get('kernel')->getBundle('JiliApiBundle')->getPath(); 
         $directory .= '/DataFixtures/ORM/MarketActivity';
         $loader = new DataFixtureLoader($container);
         $loader->loadFromDirectory($directory);
-
-#        $loader = new Loader();
-#
-#        ###        // load fixtures
-#        $fixture = new LoadAdvertisermentCodeData();
-#        $fixture->setContainer($container);
-#        $loader->addFixture($fixture);
-#
-#        $fixture1 = new LoadMarketyActivityCodeData();
-#        $fixture1->setContainer($container);
-#        $loader->addFixture($fixture1);
-
         $executor->execute($loader->getFixtures());
-
         $this->em  = $em;
         $this->container  = $container;
     }
