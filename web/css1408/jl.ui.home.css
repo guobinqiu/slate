@@ -19,7 +19,7 @@ a.more{
 .focusPic{
 	padding-left: 200px;
 }
-.adTop{ width:516px; height:112px; border:1px solid #e6e6e6; background:#fff; margin-left: 200px; margin-top: 5px;}
+.adTop{ width:516px; height:112px; border:1px solid #e6e6e6; background:#fff; margin-left: 200px; margin-top: 5px; overflow:hidden;}
 .adTop ul li{ float:left; margin: 10px 4px 0 10px;}
 .adTop ul li.ad1{width:113px;}
 .adTop ul li.ad2{ width:94px;}
