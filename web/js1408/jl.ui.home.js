@@ -127,7 +127,7 @@
             isLoop: true
         }});
         $('.shopSlider').slider({ sliderCon: '.shopSliderMask ul', sliderBtn: '.shopSlider bdo', config: {
-            stepWid : 975,
+            stepWid : 976,
             animateTimer : 1000,
             isLoop: true
         }});
