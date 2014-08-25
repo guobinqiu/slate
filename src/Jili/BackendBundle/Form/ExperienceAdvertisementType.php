@@ -11,7 +11,7 @@ class ExperienceAdvertisementType extends AbstractType
     {
         $builder
                 ->add('id', 'hidden',array(
-                    'required' => true,
+                    'required' => false,
                     'error_bubbling'=>true
                     ))
                 ->add('missionTitle', 'text',array(
@@ -32,11 +32,12 @@ class ExperienceAdvertisementType extends AbstractType
                     'error_bubbling'=>true,
                     'label'=>"米粒数"
                     ))
-                ->add('missionImgUrl', 'text',array(
-                    'required' => true,
+                ->add('missionImgUrl', 'file',array(
+                    'required' => false,
                     'error_bubbling'=>true,
                     'label'=>"任务图片"
-                    ));
+                    ))
+                ->getForm();
     }
     public function getName()
     {

@@ -1,6 +1,6 @@
 <?php
 namespace Jili\FrontendBundle\Entity;
-
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,7 +31,7 @@ class ExperienceAdvertisement
      * @ORM\Column(name="mission_img_url", type="string", length=250, nullable=true)
      */
     private $missionImgUrl;
-
+    
     /**
      * @var string
      *
@@ -126,7 +126,6 @@ class ExperienceAdvertisement
     public function setMissionImgUrl($missionImgUrl)
     {
         $this->missionImgUrl = $missionImgUrl;
-
         return $this;
     }
 
@@ -137,9 +136,11 @@ class ExperienceAdvertisement
      */
     public function getMissionImgUrl()
     {
-        return $this->missionImgUrl;
+        if ($this->missionImgUrl)
+        return new File($this->missionImgUrl);
     }
 
+    
     /**
      * Set missionTitle
      *
@@ -241,4 +242,43 @@ class ExperienceAdvertisement
     {
         return $this->id;
     }
+    
+
+    /**
+     * upload image to temp dir
+     */
+    public function upload($upload_dir,$missionHall)
+    {
+        $fileNames = array('missionImgUrl');
+        $types = array('jpg','jpeg','png','gif');
+        if(!is_dir($upload_dir)){
+            mkdir($upload_dir,0777);
+        }
+        foreach ($fileNames as $key=>$fileName){
+            $filename_upload = '';
+            //var_dump($this->$fileName);exit;
+            if (null === $this->$fileName) {
+                return  '图片为必填项';
+            }
+            if($this->$fileName->getError()==1){
+                return  '文件类型为jpg或png或gif';//类型不对
+            }else{
+                if(!in_array($this->$fileName->guessExtension(),$types)){
+                    return  '文件类型为jpg或png或gif';//类型不对
+                }else{
+                    $size = getimagesize($this->$fileName);
+                    //exit;
+                    if(($missionHall==1 && $size[0]=='94' && $size[1]=='78') || ($missionHall==2 && $size[0]=='116' && $size[1]=='78')){
+                        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+                        $this->$fileName->move($upload_dir, $filename_upload);
+                        $this->$fileName = $upload_dir.$filename_upload;
+                    } else{
+                        return   '图片像素不正确';
+                    }
+                }
+            }
+
+        }
+    }
+
 }

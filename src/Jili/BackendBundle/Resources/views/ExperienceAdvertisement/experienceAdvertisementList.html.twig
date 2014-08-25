@@ -34,7 +34,7 @@
           <td align="center"> <img src="{{ asset(item.missionImgUrl) }}"/> </td>
           <td align="center">{{ item.point }}</td>
           <td align="center">{{ item.updateTime.date | date("Y-m-d hh:M:S") }}</td>
-          <td align="center"><a href="{{ path('_bankend_toEditExperienceAdvertisement',{'id':item.id}) }}">编辑</a>&nbsp;&nbsp;
+          <td align="center"><a href="{{ path('_bankend_editExperienceAdvertisement',{'id':item.id}) }}">编辑</a>&nbsp;&nbsp;
           <a href="{{ path('_backend_delExperienceAdvertisement',{'id':item.id}) }}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a>
         </td>
         </tr>
