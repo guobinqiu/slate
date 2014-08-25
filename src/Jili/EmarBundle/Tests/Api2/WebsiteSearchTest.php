@@ -1,5 +1,5 @@
 <?php
-namespace Jili\EmarBundle\Tests\EventListener;
+namespace Jili\EmarBundle\Tests\Api2;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class WebsiteSearchTest extends KernelTestCase {
