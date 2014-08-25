@@ -132,13 +132,16 @@ class HomeController extends Controller
      */
     public function voteAction()
     {
+        //get vote mark
+        $wenwen_vote_mark = $this->container->getParameter('wenwen_vote_mark');
+
         //快速问答:从文件中读取
         $filename = $this->container->getParameter('file_path_wenwen_vote');
         $vote = FileUtil::readCsvContent($filename);
-        $arr['image_url'] = $vote[0][0];
+        $arr['image_url'] = $vote[0][5];
         $arr['title'] = $vote[0][1];
-        $arr['vote_url'] = $vote[0][2];
-        //$arr['start_time'] = $vote[0][3];
+        $arr['vote_url'] = $vote[0][4]."?".$wenwen_vote_mark;
+
         return $this->render('JiliFrontendBundle:Home:vote.html.twig', $arr);
     }
 }

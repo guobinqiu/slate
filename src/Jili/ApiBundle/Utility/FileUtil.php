@@ -28,6 +28,7 @@ class FileUtil {
                 $contents[] = $data;
             }
         }
+        fclose($file_handle);
 
         return $contents;
     }
