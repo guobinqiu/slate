@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
-use Jili\ApiBundle\Form\Type\SignupActivateType;
+use Jili\FrontendBundle\Form\Type\SignupType;
 
 /**
  * @Route("/",requirements={"_scheme"="http"})
@@ -25,13 +25,13 @@ class LandingController extends Controller
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        $form  = $this->createForm(new SignupActivateType() );
+        $form  = $this->createForm(new SignupType() );
         if ($request->getMethod() == 'POST'){
 
             $form->bind($request);
             if ($form->isValid()) {
                 // the validation passed, do something with the $author object
-                $this->get('signup_activate.form_handler')->setForm($form)->setParams(array( 'user'=>$user, 'passwordToken'=>  $passwordToken ) )->process( );
+//                $this->get('signup_activate.form_handler')->setForm($form)->setParams(array( 'user'=>$user, 'passwordToken'=>  $passwordToken ) )->process( );
                 // set sucessful message flash
                 $this->get('session')->getFlashBag()->add(
                     'notice',
@@ -40,8 +40,9 @@ class LandingController extends Controller
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
             }
         }
-        $vars['form'] = $form->createView();
-        return $this->render(  'JiliFrontendBundle:Landing:external_landing.html.twig', $vars );
+        return $this->render(  'JiliFrontendBundle:Landing:external_landing.html.twig', array(
+            'form'=> $form->createView()
+        ));
     }
 
 }

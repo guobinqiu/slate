@@ -27,7 +27,9 @@
         </div>
         <div class="loginArea">
             <div class="loginBox">
-                <form action="/user/login" method="post" name="form1" id="form1">
+    {% form_theme form with 'JiliApiBundle:Form:form_errors.html.twig' %}
+    <form action="{{ path('_landing_external') }}" method="post" name="form1" id="form1" {{ form_enctype(form) }} >
+
                     <div class="msgShow">
                         <span>***当前已积累米粒</span>
                         <div class="digits">
@@ -38,7 +40,9 @@
                             <div class="digit"><span></span></div>
                         </div>
                     </div>
+
                     <div class="registerBtn"><a href="">免费注册</a></div>
+                    {#
                     <ul class="loginForm">
                         <!--<li class="error">您输入的密码或用户名有误</li>-->
                         <li><span class="defaultTxt">邮箱</span>
@@ -52,7 +56,25 @@
                             <input id="remember_me" name="remember_me" class="loginTips" type="checkbox" value="1" checked/>
                             <label>&nbsp;记住我&nbsp;|&nbsp;</label><a class="forget" href="{{ path('_user_resetPwd')}}" target="_blank">忘记密码？</a>
                         </li>
+                    </ul> #}
+
+        
+                    <ul class="loginForm">
+                        <!--<li class="error">您输入的密码或用户名有误</li>-->
+                        <li><span class="defaultTxt">{{  form.email.vars.label  }}</span>
+                        {{ form_widget( form.email, {'attr' : { 'class':'text clearTxt', 'onFocus':'$(".error").html("&nbsp;");' }}) }}
+                        </li>
+                        <!-- nickname -->
+                        <li><span class="defaultTxt">{{  form.nickname.vars.label  }}</span>
+                        {{ form_widget( form.nickname, {'attr' : { 'class':'text clearTxt', 'onFocus':'$(".error").html("&nbsp;");' }}) }}
+                        </li>
+                        <!-- captcha -->
+                        <li><span class="defaultTxt">{{  form.captcha.vars.label  }}</span>
+                        {{ form_widget( form.captcha ) }}
+                        </li>
+
                     </ul>
+
                 </form>
             </div>
         </div>
