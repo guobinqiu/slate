@@ -19,7 +19,7 @@ a.more{
 .focusPic{
 	padding-left: 200px;
 }
-.adTop{ width:516px; height:112px; border:1px solid #e6e6e6; background:#fff; margin-left: 200px; margin-top: 5px;}
+.adTop{ width:516px; height:112px; border:1px solid #e6e6e6; background:#fff; margin-left: 200px; margin-top: 5px; overflow:hidden;}
 .adTop ul li{ float:left; margin: 10px 4px 0 10px;}
 .adTop ul li.ad1{width:113px;}
 .adTop ul li.ad2{ width:94px;}
@@ -193,21 +193,42 @@ a.more{
 	width: 245px;
 	height: 167px;
 	border-bottom: 1px solid #f2f2f2;
+	position:relative;
 }
 .shopActInfo strong{
 	color: #f75232;
 	font-weight: bold;
 	margin-right:5px;
 }
-.shopActInfo p{
-	height: 62px;
+.shopActInfo p.tit{
+	max-height: 46px;
+	height:auto;
 	overflow: hidden;
 	font-weight: bold;
-	font: 16px/30px 'microsoft yahei',simhei;
+	font: 16px/22px 'microsoft yahei',simhei;
+}
+.shopActInfo p.dis{
+	font-size: 12px;
+	color: #999;
+	max-height: 62px;
+	height:auto;
+	line-height: 20px;
+	overflow:hidden;
+	margin-top:5px;
+}
+.shopActInfo div.link{
+	display: inline-block;
+	margin-top: 35px;
+	float: right;
+	position:absolute;
+	right: 0;
+	bottom: 15px;
 }
 .shopActInfo .publicAttention{
-	color: #4d4d4d;
+	color: #999;
 	text-align: right;
+	display:inline;
+	margin-right: 5px;
 }
 .shopActInfo .publicAttention strong{
 	font-family: Georgia, Microsoft Yahei;
@@ -217,6 +238,7 @@ a.more{
 .shopActInfo .linkBtn{
 	text-align: right;
 	margin-top: 15px;
+	display:inline;
 }
 .shopActInfo .linkBtn a{
 	width: 90px;

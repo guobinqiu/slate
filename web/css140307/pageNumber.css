@@ -1,7 +1,7 @@
 .pageNav {
     display: inline;
     float: right;
-    margin: 10px 0;
+    margin: 0px 5px 10px 0;
 }
 .pageNav li {
     color: #666666;
