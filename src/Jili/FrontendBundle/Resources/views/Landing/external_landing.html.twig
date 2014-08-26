@@ -72,7 +72,11 @@
                         <li><span class="defaultTxt">{{  form.captcha.vars.label  }}</span>
                         {{ form_widget( form.captcha ) }}
                         </li>
+                        {{ form_rest(form)}}
 
+                        <li class="clearfix">
+                            <input id="loginSubmit" name="login" type="submit" class="submit" value="Sign Up" autocomplete="off"/>
+                            </li>
                     </ul>
 
                 </form>

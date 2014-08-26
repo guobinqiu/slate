@@ -20,6 +20,7 @@ class SignupType extends AbstractType
             'required' => true,
             'error_bubbling'=>false
         ))->add('captcha','captcha', array(
+            'reload'=> true,
             'label'=>'验证码',
             'invalid_message' => '验证码无效',
             'required' => true,
