@@ -1,0 +1,263 @@
+footer{
+    display: block;
+}
+header,  .recentNews, .loginArea{
+    display:block;
+    width: 960px;
+    margin: 0 auto;
+    text-align: left;
+}
+header{
+    padding-top: 30px;
+    padding-bottom: 20px;
+    position: relative;
+}
+header .tips{
+    position: absolute;
+    top: 56px;
+    right: 0;
+}
+header .tips a{
+    color: #63afed;
+}
+.loginNewBox{
+    position: relative;
+    z-index: 100;
+}
+.loginMask1, .loginMask2, .loginMask3, .slider, .sliderMask{
+    width: 100%;
+    height: 452px;
+}
+.sliderMask img{ position:absolute; right: 470px; top:80px;}
+.loginMask1{
+    background-color: #f0f2f6;
+}
+.loginMask2{
+    background-color: #fff2df;
+}
+.loginMask3{
+    background-color: #ffedf1;
+}
+.sliderMask{
+	width:960px;
+	margin:0 auto;
+    position: relative;
+    overflow: hidden;
+    z-index: 105;
+}
+.sliderMask img{
+    display: none;
+}
+.slider{
+    overflow: hidden;
+    position: absolute;
+    z-index: 103;
+    top:0;
+    left: 0;
+}
+.slider .menus{
+    position: relative;
+    bottom: 50px;
+    z-index: 105;
+}
+.slider .menus span{
+    padding-right: 470px;
+}
+.slider .menus b{
+    cursor: pointer;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+    background: url(../images/icon.png) no-repeat;
+}
+.slider .menus b.active{
+    background-position: -45px 0;
+}
+.loginArea{
+    position: relative;
+    top: -410px;
+    z-index: 120;
+}
+.loginBox{
+    background-color: #fff;
+    padding: 20px 30px 30px;
+    width: 290px;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    z-index: 130;
+}
+.loginBox .msgShow{
+    line-height: 45px;
+    font-size: 14px;
+    position: relative;
+}
+.loginBox .digits{
+    top: 6px;
+    left: 120px;
+    position: absolute;
+}
+.loginBox span{
+    display: inline-block;
+}
+.loginBox .digit{
+    float: left;
+    font-size: 20px;
+    font-family: "微软雅黑";
+    color: #6c6c6c;
+    font-weight: bold;
+    width: 22px;
+    height: 32px;
+    overflow: hidden;
+    line-height: 30px;
+    text-align: center;
+    margin-left: 2px;
+    display: inline;
+    background: url('../images/numBg.png') no-repeat;
+    position: relative;
+}
+.loginBox .digit span{
+    width: 22px;
+    height: 300px;
+    line-height: 30px;
+    background: url('../images/num.png') no-repeat 1px 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.loginBox .registerBtn a{
+    font-size: 24px;
+    font-family: "微软雅黑";
+    letter-spacing: 3px;
+    text-align: center;
+    color: #fff;
+    background-color: #ed7167;
+    border-radius: 3px;
+    display: block;
+    width: 274px;
+    height: 50px;
+    line-height: 50px;
+}
+.registerBtn{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.loginForm li{
+    padding-top:8px;
+    padding-bottom: 8px;
+    position: relative;
+}
+.loginForm li span{
+    position: absolute;
+    color: #a6a6a6;
+    left: 40px;
+    top: 18px;
+}
+.loginForm li.error{
+    color: #E94D41;
+}
+.loginForm input.text, .loginForm input.password{
+    font-size: 14px;
+    width: 227px;
+    line-height: 24px;
+    border: 1px solid #dce0e6;
+    padding: 5px 5px 5px 40px;
+    margin: 1px;
+}
+.loginForm input.active{
+    border:2px solid #7FCAF1;
+    margin: 0;
+}
+.loginForm input.text{
+    background: url('../images/userIcon.png') no-repeat 10px;
+}
+.loginForm input.password{
+    background: url('../images/pwdIcon.png') no-repeat 10px;
+}
+.loginForm input.submit{
+    border: none;
+    margin-right: 20px;
+    color: #fff;
+    width: 65px;
+    height: 32px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #63afed;
+    border-radius: 3px;
+    cursor: pointer;
+    float: left;
+    z-index: 300;
+}
+.loginForm .loginTips{
+    float: left;
+    margin-top: 8px;
+    height:14px;
+    width: 13px;
+    overflow: hidden;
+    padding: 0;
+}
+.loginForm label{
+    float: left;
+    margin-top: 8px;
+}
+.loginForm .forget{
+    float: left;
+    margin-top: 8px;
+}
+.recentNews{
+    padding: 20px 0;
+}
+.recentNews span{
+    padding-left: 10px;
+    margin-right: 20px;
+    font-size: 18px;
+    font-family: '微软雅黑';
+    color: #000;
+    border-left: 6px solid #dfdfdf;
+}
+.recentNews ul, .recentNews span, .recentNews .newsList{
+    display: inline-block;
+    *display: inline;
+    *zoom:1;
+}
+.recentNews li{
+    float: left;
+    margin-right: 30px;
+}
+.newsList{
+    width: 845px;
+    height: 14px;
+    overflow: hidden;
+    position: relative;
+}
+.newsList ul{
+    position: absolute;
+    top: 0;
+    width: 1000%;
+    cursor: pointer;
+}
+footer section{
+    display: inline-block;
+    width: 960px;
+    padding: 20px 0;
+    text-align: center;
+    border-top:1px solid #ededed;
+}
+footer section p{
+    line-height: 28px;
+}
+footer section p a{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+footer section p a.sina,footer section p a.tencent{
+	display: inline-block;
+    padding-left: 25px;
+}
+footer section p a.sina{
+    background: url('../images/sinaIcon.jpg') no-repeat 0 8px;
+}
+footer section p a.tencent{
+    background: url('../images/txweiboIcon.jpg') no-repeat 0 6px;
+}
