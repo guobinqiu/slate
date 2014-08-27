@@ -219,12 +219,5 @@ echo serialize($data1),PHP_EOL;
     {
 
     }
-    
-    /**
-     *
-     */
-    public function testDetailAction()
-    {
 
-    }
 }

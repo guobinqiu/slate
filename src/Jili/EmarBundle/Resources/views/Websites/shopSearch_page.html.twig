@@ -19,10 +19,6 @@
             <a class="buy" href="{{ path('jili_emar_default_redirect') ~ '?m=' ~  row.web_o_url|url_encode  }}" target="_blank" >去购物，赚米粒</a>
             </p>
           </div>
-            同类商家：
-            {% for row_cat in same_cat_websites[row.web_id] %}
-                <a href="{{row_cat.web_o_url}}" target="_blank" >{{  row_cat.web_name }}</a>
-            {% endfor %}
         </li> 
 {% else %}
 <em class="noResult borderGlob"><span class="icon"></span><span class="text">很抱歉，没有找到相关的商家。<span></em>
