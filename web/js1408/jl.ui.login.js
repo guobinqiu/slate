@@ -188,10 +188,10 @@
             timer: 4000,
             direction: 'left'});
         //米粒数字
-        $('.digits span').numScroll({
-            digitH : 30,
-            num: 59898,
-            animateTimer: 2000
-        });
+        //$('.digits span').numScroll({
+//            digitH : 30,
+//            num: 59898,
+//            animateTimer: 2000
+//        });
     });
 })(jQuery);
