@@ -39,8 +39,9 @@ class LandingControllerTest extends WebTestCase
      */
     public function testExternal()
     {
-        
         $client = static::createClient();
+        $client->enableProfiler();
+
         $container = $client->getContainer();
 
         $url = $container->get('router')->generate('_landing_external' );
@@ -56,21 +57,28 @@ class LandingControllerTest extends WebTestCase
         $captcha = $session->get('gcb_captcha');
         $phrase = $captcha ['phrase'] ;
         
+        $form = $crawler->filter('form[name=form1]')->form();
 
-        $form = $crawler->selectButton('Sign Up')->form();
         $form['signup[email]'] ->setValue( 'alice_nima@gmail.com');
         $form['signup[nickname]'] ->setValue( 'alice32');
         $form['signup[captcha]']->setValue($phrase) ;
 
         $client->submit($form );
+
+
+        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
+
+        // Check that an e-mail was sent
+        $this->assertEquals(1, $mailCollector->getMessageCount());
+
+        $collectedMessages = $mailCollector->getMessages();
+        $message = $collectedMessages[0];
+
         $this->assertEquals(302, $client->getResponse()->getStatusCode() );
 
         $crawler = $client->followRedirect();
-        // check the form
-        // post the form
-       // 
-        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
         
+
         // post invalid data
     }
 

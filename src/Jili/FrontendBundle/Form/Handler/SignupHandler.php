@@ -65,7 +65,7 @@ class SignupHandler
         ));
 
         // sent signup activate email
-        $this->mailer->sendSignupActivate( $user->getEmail(),$user->getNick(), $user->getId(), $setPasswordCode->getCode() );
+        $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode() );
 
         return array( 'user'=> $user, 'setPasswordCode'=> $setPasswordCode);
     }

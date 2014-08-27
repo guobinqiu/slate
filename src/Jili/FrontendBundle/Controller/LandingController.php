@@ -28,7 +28,7 @@ class LandingController extends Controller
         $form = $this->createForm(new SignupType() );
 
         $templ_vars = array();
-        if ($request->getMethod() == 'POST'){
+        if ($request->getMethod() === 'POST') {
 
             #$session=$this->get('session');
             #$capcha_keys = $session->get('captcha_whitelist_key');
@@ -66,8 +66,10 @@ class LandingController extends Controller
                 $errors = $form->getErrors();
                 $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $errors, true) );
             }
-        }
+        } else {
+            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $request->getMethod() , true) );
+}
         $templ_vars['form'] =  $form->createView();
-        return $this->render(  'JiliFrontendBundle:Landing:external_landing_ii.html.twig',$templ_vars);
+        return $this->render(  'JiliFrontendBundle:Landing:external_landing.html.twig',$templ_vars);
     }
 }

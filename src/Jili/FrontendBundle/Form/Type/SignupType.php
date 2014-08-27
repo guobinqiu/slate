@@ -19,8 +19,11 @@ class SignupType extends AbstractType
             'required' => true,
             'error_bubbling'=>false,
             'constraints'=> array(
-                new NotBlank(),
-                new Email()
+                new NotBlank( ),
+                new Email(array(
+                    'message' => '邮箱"{{ value }}"是无效的.',
+                    'checkMX' => true,
+                ))
             )
         ))->add('nickname', 'text', array(
             'label'=>'昵称',

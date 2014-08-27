@@ -48,10 +48,6 @@ class SignupActivateTypeTest extends TypeTestCase
     public function testBindValidData()
     {
 
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-
         $type = new SignupType();
         $form = $this->factory->create($type);
         $formData = array (   'signup' =>    array (     'email' => 'alice_nima@gmail.com',     'nickname' => 'alice32',     'captcha' => 'x4x3'/*,     '_token' => 'ce18bf4f139a6821ef48e331579da3284be1cc8e',*/   ),   'login' => 'Sign Up', );

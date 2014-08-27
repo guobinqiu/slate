@@ -52,10 +52,16 @@ class UserRepositoryTest extends KernelTestCase
      */
     public function testCreateOnSignup() {
 
-        // Stop here and mark this test as incomplete.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
 
+        $em = $this->em;
+        $param = array('email'=>'chiangtor@gmail.com', 'nick'=> 'chiangtor');
+        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
+        $this->assertNull($r);
+        $em->getRepository('JiliApiBundle:User')->createOnSignup($param);
+        $param [ 'points']=  1;
+        $param [ 'isInfoSet']=  1;
+        $param [ 'rewardMultiple']=  1;
+        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
+        $this->assertNotNull($r);
     }
 }

@@ -14,7 +14,7 @@
 </head>
 <body>
     <header>
-        <a href="http://www.91jili.com/"><img src="{{ asset('images1408/lp/logo.png') }}" width="160" height="46" alt="91积粒网" title="91积粒网"/></a>
+        <a href="{{ path('_homepage') }}"><img src="{{ asset('images1408/lp/logo.png') }}" width="160" height="46" alt="91积粒网" title="91积粒网"/></a>
         <span class="tips">已有积粒网账号，<a href="{{ path('_user_reg') }}">直接登录</a></span>
     </header>
     <div class="loginNewBox">
@@ -42,23 +42,6 @@
                         </div>
                     </div> #}
 					
-                    {#
-                    <ul class="loginForm">
-                        <!--<li class="error">您输入的密码或用户名有误</li>-->
-                        <li><span class="defaultTxt">邮箱</span>
-                            <input name="email" id="email" type="text" class="text clearTxt" onFocus="$('.error').html('&nbsp;');" value="">
-                        </li>
-                        <li><span class="defaultTxt">密码</span>
-                            <input name="pwd" id="pwd" type="password" class="password clearTxt"  onFocus="clear();">
-                        </li>
-                        <li class="clearfix">
-                            <input id="loginSubmit" name="login" type="submit" class="submit" value="登录" autocomplete="off"/>
-                            <input id="remember_me" name="remember_me" class="loginTips" type="checkbox" value="1" checked/>
-                            <label>&nbsp;记住我&nbsp;|&nbsp;</label><a class="forget" href="{{ path('_user_resetPwd')}}" target="_blank">忘记密码？</a>
-                        </li>
-                    </ul> #}
-
-        
                     <ul class="loginForm">
                         <!--<li class="error">您输入的密码或用户名有误</li>-->
                         <li><span class="defaultTxt">{{  form.email.vars.label  }}</span>
@@ -75,7 +58,8 @@
                         {{ form_rest(form)}}
 
                         <li class="clearfix">
-                            <div class="registerBtn"><a href="">快速注册</a></div><!--<input id="loginSubmit" name="login" type="submit" class="submit" value="登录" autocomplete="off"/>-->
+                        <div class="registerBtn"><a href="">快速注册</a></div>
+<!--                        <input id="loginSubmit" name="" type="submit" class="" value="" autocomplete="off" style="display:none"/> -->
                            <div class="reward corLightGray">注册当天完善资料送<em class="corLightRed">20米粒</em>，当天签到送<em class="corLightRed">5米粒</em></div>
                             </li>
                     </ul>
