@@ -36,9 +36,7 @@ class WebsiteSearch
 
   public function findSameCatWebsites( $web_raw , $catid, $web_id)
   {
-      //$keywords = preg_split("/[\s,]+/", $keyword );
       $matched = array();
-      mb_regex_encoding('UTF-8');
       foreach( $web_raw as $web) {
           if ($web['web_catid']==$catid && $web['web_id']!=$web_id){
               $matched[] = $web;
