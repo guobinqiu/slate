@@ -80,13 +80,13 @@ class ExperienceAdvertisementController extends Controller
             if ($form->isValid()) {
                 $formdata = $form->getData();
                 $ea = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findOneById( $formdata['id'] );
-                $ea->setMissionHall($formdata['missionHall']);
                 $ea->setPoint($formdata['point']);
-                if($formdata['missionImgUrl']){
+                if($formdata['missionImgUrl'] || $formdata['missionHall']!=$ea->getMissionHall()){
                     $path = $this->container->getParameter('upload_experience_advertisement_dir');
                     $ea->setMissionImgUrl($formdata['missionImgUrl']);
-                    $code = $ea->upload($path,$ea->getMissionHall());
+                    $code = $ea->upload($path,$formdata['missionHall']);
                 }
+                $ea->setMissionHall($formdata['missionHall']);
                 $ea->setMissionTitle($formdata['missionTitle']);
                 $ea->setUpdateTime(new \Datetime(date('Y-m-d H:i:s',time())));
                 $em->persist($ea);

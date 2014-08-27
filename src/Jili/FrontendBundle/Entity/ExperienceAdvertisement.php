@@ -245,7 +245,7 @@ class ExperienceAdvertisement
     
 
     /**
-     * upload image to temp dir
+     * upload image
      */
     public function upload($upload_dir,$missionHall)
     {
@@ -256,28 +256,23 @@ class ExperienceAdvertisement
         }
         foreach ($fileNames as $key=>$fileName){
             $filename_upload = '';
-            //var_dump($this->$fileName);exit;
             if (null === $this->$fileName) {
                 return  '图片为必填项';
             }
             if($this->$fileName->getError()==1){
                 return  '文件类型为jpg或png或gif';//类型不对
-            }else{
-                if(!in_array($this->$fileName->guessExtension(),$types)){
-                    return  '文件类型为jpg或png或gif';//类型不对
-                }else{
-                    $size = getimagesize($this->$fileName);
-                    //exit;
-                    if(($missionHall==1 && $size[0]=='94' && $size[1]=='78') || ($missionHall==2 && $size[0]=='116' && $size[1]=='78')){
-                        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-                        $this->$fileName->move($upload_dir, $filename_upload);
-                        $this->$fileName = $upload_dir.$filename_upload;
-                    } else{
-                        return   '图片像素不正确';
-                    }
-                }
             }
-
+            if(!in_array($this->$fileName->guessExtension(),$types)){
+                return  '文件类型为jpg或png或gif';//类型不对
+            }
+            $size = getimagesize($this->$fileName);
+            if(($missionHall==1 && $size[0]=='94' && $size[1]=='78') || ($missionHall==2 && $size[0]=='116' && $size[1]=='78')){
+                $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
+                $this->$fileName->move($upload_dir, $filename_upload);
+                $this->$fileName = $upload_dir.$filename_upload;
+            } else{
+                return   '图片像素不正确';
+            }
         }
     }
 
