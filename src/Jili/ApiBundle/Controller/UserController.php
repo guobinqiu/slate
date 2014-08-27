@@ -1393,7 +1393,6 @@ class UserController extends Controller
                                                 $code_nick = $this->container->getParameter('reg_wr_nick');
                                             else{
                                                 $logger = $this->get('logger');
-                                                $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__,'') ));
                                                 $user->setNick($request->request->get('nick'));
                                                 $user->setEmail($request->request->get('email'));
                                                 $user->setPoints($this->container->getParameter('init'));

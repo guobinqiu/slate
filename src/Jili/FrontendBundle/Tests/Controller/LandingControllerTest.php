@@ -50,11 +50,28 @@ class LandingControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'simple GET Request'  );
 
+
+        // post valid data
+        $session = $container->get('session'); 
+        $captcha = $session->get('gcb_captcha');
+        $phrase = $captcha ['phrase'] ;
+        
+
+        $form = $crawler->selectButton('Sign Up')->form();
+        $form['signup[email]'] ->setValue( 'alice_nima@gmail.com');
+        $form['signup[nickname]'] ->setValue( 'alice32');
+        $form['signup[captcha]']->setValue($phrase) ;
+
+        $client->submit($form );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
+
+        $crawler = $client->followRedirect();
         // check the form
         // post the form
        // 
-        //$client = static::createClient();
-        //$crawler = $client->request('GET', '/hello/Fabien');
         //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+        
+        // post invalid data
     }
+
 }

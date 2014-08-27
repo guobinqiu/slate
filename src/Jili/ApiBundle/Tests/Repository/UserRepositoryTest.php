@@ -46,4 +46,16 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertCount(99, $result);
         $this->assertEquals('565a2bc39cd6621d84173f7ee11ee991',md5(serialize($result)));
     }
+    /**
+     * @group debug
+     * @group issue_448
+     */
+    public function testCreateOnSignup() {
+
+        // Stop here and mark this test as incomplete.
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+
+    }
 }
