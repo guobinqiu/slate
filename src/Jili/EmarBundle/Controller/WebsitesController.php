@@ -352,12 +352,8 @@ class WebsitesController extends Controller
             $params = array('catid'=> $wcat_id );
         }
         $web_raw  = $this->get('website.list_get')->fetch( $params );
-        $same_cat_websites = array();
         if( strlen(trim($keyword)) > 0) {
             $websites = $this->get('website.search')->find( $web_raw, $keyword );
-            foreach($websites as $web){
-                $same_cat_websites[$web['web_id']] = $this->get('website.search')->find_same_cat_websites( $web_raw, $web['web_catid'] ,$web['web_id']);
-            }
         } else {
             $websites = $web_raw;
         }
@@ -379,8 +375,7 @@ class WebsitesController extends Controller
             'websites'=> $websites_paged,
             'websites_infos'=>$webinfos_croned,
             'categories'=> $wcats,
-            'total'=>$total,
-            'same_cat_websites'=>$same_cat_websites);
+            'total'=>$total);
     }
 
 }
