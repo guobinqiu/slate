@@ -9,6 +9,7 @@ class WebsiteSearch
   private $logger;
   private $listGet;
   private $detailGet;
+  const SAME_CATEGORY_LIMIT = 3;
 
   /**
    * @param $web_raw  the response from the emar open api.
@@ -41,7 +42,7 @@ class WebsiteSearch
           if ($web['web_catid']==$catid && $web['web_id']!=$web_id){
               $matched[] = $web;
           }
-          if(count($matched)>=3){
+          if(count($matched)>= self::SAME_CATEGORY_LIMIT) {
               break;
           }
       }
