@@ -8,7 +8,6 @@ class VoteApiTest extends \PHPUnit_Framework_TestCase
 {
     
     /**
-     * @group debug
      * @group issue_437 
      */
     public function testRun()
