@@ -1321,6 +1321,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * todo: refactor the issetReg() 
+     */
     public function issetReg($email)
     {
         $em = $this->getDoctrine()->getManager();

@@ -34,11 +34,26 @@ class SignupHandler
      */
     public function validate()
     {
+        $logger = $this->logger;
+        $em = $this->em;
+        $data = $this->form->getData();
+        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ).  var_export( $data, true) );
         $errors = array();
         // check exsits email
-
+        $userByEmail = $em->getRepository('JiliApiBundle:User')->findOneByEmail($data['email']);
+        if(  $userByEmail ) {
+            $password = $userByEmail->getPwd();
+            if( empty($password)){
+                $errors['email'] = $this->getParameter('reg_noal_mail'); // not activated
+            } else {
+                $errors['email'] = $this->getParameter('reg_al_mail'); // has been taken
+            }
+        }
         // check exsits nick 
-
+        $userByNick = $em->getRepository('JiliApiBundle:User')->findNick($data['email'], $data['nickname']);
+        if($userByNick) {
+            $errors['nickname']= $this->container->getParameter('reg_al_nick');
+        }
         return $errors;
     }
     /**
@@ -46,14 +61,9 @@ class SignupHandler
      */
     public function process()
     {
-
-        $form = $this->form;
         $logger = $this->logger;
-        $data = $form->getData();
-        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ).  var_export( $data, true) );
-
+        $data = $this->form->getData();
         $em = $this->em;
-
         // create user
         $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array( 
             'nick'=> $data['nickname'],
@@ -66,6 +76,7 @@ class SignupHandler
 
         // sent signup activate email
         $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode() );
+
 
         return array( 'user'=> $user, 'setPasswordCode'=> $setPasswordCode);
     }

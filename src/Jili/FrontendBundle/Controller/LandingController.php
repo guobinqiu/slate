@@ -20,21 +20,16 @@ class LandingController extends Controller
      */
     public function externalAction()
     {
-
         $request = $this->get('request');
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
-
         $form = $this->createForm(new SignupType() );
-
         $templ_vars = array();
         if ($request->getMethod() === 'POST') {
-
             #$session=$this->get('session');
             #$capcha_keys = $session->get('captcha_whitelist_key');
             #$capcha_expected = $session->get($capcha_keys[0]);
             #$logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $capcha_expected, true) );
-
             $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $request->request->all(), true) );
             $form->bind($request);
 #            $cn = get_class($form);
@@ -47,26 +42,28 @@ class LandingController extends Controller
                 $form_handler = $this->get('signup.form_handler');
                 $form_handler->setForm($form);
                 $errors =  $form_handler->validate();
-
                 if( empty( $errors) ) {
-                    $result =  $form_handler->process( );
+                    $result =  $form_handler->process();
                     $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'$result','') ). var_export( $result , true) );
                     $user = $result['user'];
                     $passwordCode = $result['setPasswordCode'];
-
+                    $this->get('user_sign_up_route.listener')->signed(array('user_id'=> $user->getId() ) );
                     // set sucessful message flash
-                    $this->get('session')->getFlashBag()->add(
-                        'notice',
-                        '恭喜，注册成功！'
-                    );
+                    $this->get('session')->getFlashBag()->add('notice','恭喜，注册成功！');
                     return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
                 }
-                $templ_vars ['error'] = $errors ;
+                $templ_vars ['errors'] = $errors ;
             }
-        } else {
+        } else if ($request->getMethod() === 'GET' ) {
+
+            if( $request->query->has('spm') ) {
+                $query['spm'] =  $request->query->get('spm');
+                $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
+            }
+            $this->get('user_sign_up_route.listener')->log();
             $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $request->getMethod() , true) );
-}
+        }
         $templ_vars['form'] =  $form->createView();
-        return $this->render(  'JiliFrontendBundle:Landing:external_landing.html.twig',$templ_vars);
+        return $this->render( 'JiliFrontendBundle:Landing:external_landing.html.twig', $templ_vars);
     }
 }

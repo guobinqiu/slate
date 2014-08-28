@@ -1,5 +1,4 @@
 parameters:
-# form_handler:
     signup.form_handler.class: Jili\FrontendBundle\Form\Handler\SignupHandler
 
 services:
@@ -11,6 +10,3 @@ services:
             - [ setSession, [ @session ] ] 
             - [ setContainer, [ @service_container ] ] 
             - [ setMailer, [ "@jili_frontend.mailer" ] ]
-
-#            - [ setSoapMailListener, [ "@soap.mail.listener" ] ]
-#            - [ setLoginListener, [ "@login.listener" ] ]

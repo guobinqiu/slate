@@ -60,6 +60,9 @@
                      {% if form.email.vars.errors|length %}
                         <li class="error">{{ form_errors(form.email) }}</li>
                      {% endif %}
+                     {% if errors is defined and  errors.email is defined  %}
+                        <li class="error">{{ errors.email }}</li>
+                     {% endif %}
                         <li><span class="defaultTxt">{{  form.email.vars.label  }}</span>
                         {{ form_widget( form.email, {'attr' : { 'class':'text email clearTxt', 'onFocus':'$(".error").html("&nbsp;");' }}) }}
                         </li>
@@ -67,6 +70,10 @@
                      {% if form.nickname.vars.errors|length %}
                         <li class="error">{{ form_errors(form.nickname ) }}</li>
         	         {% endif %}
+                     {% if errors is defined and  errors.nickname is defined  %}
+                        <li class="error">{{ errors.nickname  }}</li>
+        	         {% endif %}
+
                         <li><span class="defaultTxt">{{  form.nickname.vars.label  }}</span>
                         {{ form_widget( form.nickname, {'attr' : { 'class':'text nick clearTxt', 'onFocus':'$(".error").html("&nbsp;");' }}) }}
                         </li>

@@ -29,7 +29,10 @@ class SignupType extends AbstractType
             'required' => true,
             'error_bubbling'=>false,
             'constraints'=> array(
-                new Length(array('min'=> 2, 'max'=> 20) )
+                new Length(array('min'=> 2,
+                'max'=> 20,
+                'minMessage'=> '最少2个字符',
+                'maxMessage'=> '最多20个字符') )
             )
         ))->add('captcha','captcha', array(
             'reload'=> true,
