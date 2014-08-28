@@ -83,7 +83,7 @@ class LoadLandingWenwenCodeData extends AbstractFixture implements ContainerAwar
      */
     private function genSecretToken($plain)
     {
-        $plain['signature'] =WenwenToken::getEmailToken($plain['email']);
+        $plain['signature'] = WenwenToken::getUniqueToken($plain['email']);
         return  strtr(base64_encode(json_encode($plain)), '+/', '-_');
     }
 }

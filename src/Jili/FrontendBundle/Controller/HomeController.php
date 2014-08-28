@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 use Jili\ApiBundle\Utility\FileUtil;
+use Jili\ApiBundle\Utility\WenwenToken;
 /**
  * @Route("/home",requirements={"_scheme"="http"})
  */
@@ -135,12 +136,18 @@ class HomeController extends Controller
         //get vote mark
         $wenwen_vote_mark = $this->container->getParameter('wenwen_vote_mark');
 
+        //get user unique token
+        $token = "";
+        if($this->get('request')->getSession()->get('uid')) {
+            $token = "?t=".WenwenToken::getUniqueToken($this->get('request')->getSession()->get('uid'));
+        }
+
         //快速问答:从文件中读取
         $filename = $this->container->getParameter('file_path_wenwen_vote');
         $vote = FileUtil::readCsvContent($filename);
         $arr['image_url'] = $vote[0][5];
         $arr['title'] = $vote[0][1];
-        $arr['vote_url'] = $vote[0][4]."?".$wenwen_vote_mark;
+        $arr['vote_url'] = $vote[0][4]."?".$wenwen_vote_mark.$token;
 
         return $this->render('JiliFrontendBundle:Home:vote.html.twig', $arr);
     }

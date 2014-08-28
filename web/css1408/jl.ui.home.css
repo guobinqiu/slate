@@ -354,16 +354,21 @@ div.quickQ{
 	padding-bottom:15px;
 }
 .quickQInfo{
-	width: 140px;
+	width: 141px;
 }
-.quickQInfo p span{
+.quickQInfo div.textTit{line-height: 21px;}
+.quickQInfo .quickWrap{ float:left;margin-bottom: 10px;}
+.quickQInfo .quickWrap span{
 	width: 15px;
-	height: 12px;
+	height: 17px;
 }
-.quickQInfo p span.quotesL{
-	background: url(../images1408/icons.png) no-repeat 0 -179px;
+.quickQInfo .quickWrap span.quotesR{float: right;
+margin-top: -17px;}
+.quickQInfo div span.quotesL{
+	background: url(../images1408/icons.png) no-repeat 0 -174px;
+	float:left;
 }
-.quickQInfo p span.quotesR{
+.quickQInfo div span.quotesR{
 	background: url(../images1408/icons.png) no-repeat -13px -179px;
 }
 .countDown{
@@ -422,7 +427,7 @@ div.notice, div.rank{
 	padding-bottom: 13px;
 }
 div.notice{ 
-	margin-top: 3px;
+	margin-top: 117px;
 	padding: 5px 0 28px 15px;
 }
 .notice .mask{

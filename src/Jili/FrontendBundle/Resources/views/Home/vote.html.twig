@@ -18,7 +18,7 @@ function showCountDown(year,month,day,divname){
     var minute=Math.floor((leftsecond-day1*24*60*60-hour*3600)/60); 
     var second=Math.floor(leftsecond-day1*24*60*60-hour*3600-minute*60); 
     var cc = document.getElementById(divname); 
-    cc.innerHTML = "还剩<span>"+appendzero(hour)+"</span><strong>：</strong><span>"+appendzero(minute)+"</span><strong>：</strong><span>"+appendzero(second)+"</span>"; 
+    cc.innerHTML = "还剩&nbsp;<span>"+appendzero(hour)+"</span><strong>：</strong><span>"+appendzero(minute)+"</span><strong>：</strong><span>"+appendzero(second)+"</span>"; 
 }
 var interval = 1000; 
 var now11 = new Date(); 
@@ -26,13 +26,15 @@ window.setInterval(function(){showCountDown(now11.getFullYear(),now11.getMonth()
 </script>
 <h2>快速问答</h2>
 <div class="quickQCon clearfix">
-<div class="fnLeft"><img src="{{image_url}}" width="90"
-    height="90" alt="{{title}}" title="{{title}}" /></div>
-<div class="quickQInfo fnRight">
-<p><span class="quotesL"></span><a href="{{vote_url}}"
-    target="_blank">{{title}}</a><span class="quotesR"></span></p>
-<div class="countDownArea">
-<div id="divdown1" class="countDown"></div>
-</div>
-</div>
+    <div class="fnLeft"><img src="{{image_url}}" width="90" height="90" alt="{{title}}" title="{{title}}" /></div>
+    <div class="quickQInfo fnRight">
+        <div class="quickWrap">
+        	<span class="quotesL"></span>
+            <div class="textTit" limit="19"><a href="{{vote_url}}" target="_blank">{{title}}</a></div>
+            <span class="quotesR"></span> 
+        </div>
+        <div class="countDownArea">
+        	<div id="divdown1" class="countDown"></div>
+    	</div>
+	</div>
 </div>

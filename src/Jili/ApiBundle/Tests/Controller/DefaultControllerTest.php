@@ -255,7 +255,7 @@ class DefaultControllerTest extends WebTestCase
      */
     private function genSecretToken($plain)
     {
-        $plain['signature'] =WenwenToken::getEmailToken($plain['email']);
+        $plain['signature'] = WenwenToken::getUniqueToken($plain['email']);
         return  strtr(base64_encode(json_encode($plain)), '+/', '-_');
     }
     private function buildToken($user , $secret)
