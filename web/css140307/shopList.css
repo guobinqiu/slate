@@ -141,6 +141,7 @@ ul.shopListUl li div.hover p a.btnShopping {
 	font-size: 12px;
 	margin-top: 1px;
 }
+.shopL .tabnav li a{ display:block;}
 .shopL .tabnav li:hover {
 	background: #f75232;
 }

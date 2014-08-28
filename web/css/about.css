@@ -12,6 +12,7 @@
 .about div.line {
 	display: inline-block;
 	text-align:left;
+	width:100%;
 }
 .about div.hr{
 	background-image:url(../images/aboutWire.jpg);
@@ -42,6 +43,10 @@
 .about .ddThree {
 	margin: 0 50px 0 100px;
 }
+.about .ddFour {
+	margin: 0 25px 0 170px;
+}
+.about .dtFour{margin: -19px 0 0 150px; display: inline-block;}
 .about .dtOne {
 	margin: 10px 0 0 50px;
 }
