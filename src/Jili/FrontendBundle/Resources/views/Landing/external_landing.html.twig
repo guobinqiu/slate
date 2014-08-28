@@ -11,6 +11,16 @@
     <script src="{{ asset('js/jquery-1.7.js') }}" language="javascript"></script>
 	<script src="{{ asset('js/html5.js') }}" type="text/javascript"></script> 
     <script src="{{ asset('js1408/jl.ui.login.js') }}" language="javascript"></script>
+    <script type="text/javascript">
+        (function($) {
+        	$(function() {
+        		$('div.registerBtn>a:eq(0)').click(function() {
+        			$("#form1").submit();
+        			return false;
+        		});
+        	});
+        })(jQuery);
+    </script>
 </head>
 <body>
     <header>
@@ -29,6 +39,7 @@
         <div class="loginArea">
             <div class="loginBox">
     {% form_theme form with 'JiliApiBundle:Form:form_errors.html.twig' %}
+
     <form action="{{ path('_landing_external') }}" method="post" name="form1" id="form1" {{ form_enctype(form) }} >
 					{#
                     <div class="msgShow">
@@ -42,24 +53,34 @@
                         </div>
                     </div> #}
 					
+
+
                     <ul class="loginForm">
                         <!--<li class="error">您输入的密码或用户名有误</li>-->
+                     {% if form.email.vars.errors|length %}
+                        <li class="error">{{ form_errors(form.email) }}</li>
+                     {% endif %}
                         <li><span class="defaultTxt">{{  form.email.vars.label  }}</span>
                         {{ form_widget( form.email, {'attr' : { 'class':'text email clearTxt', 'onFocus':'$(".error").html("&nbsp;");' }}) }}
                         </li>
                         <!-- nickname -->
+                     {% if form.nickname.vars.errors|length %}
+                        <li class="error">{{ form_errors(form.nickname ) }}</li>
+        	         {% endif %}
                         <li><span class="defaultTxt">{{  form.nickname.vars.label  }}</span>
                         {{ form_widget( form.nickname, {'attr' : { 'class':'text nick clearTxt', 'onFocus':'$(".error").html("&nbsp;");' }}) }}
                         </li>
                         <!-- captcha -->
+                     {% if form.captcha.vars.errors|length %}
+                         <li class="error">{{ form_errors(form.captcha) }}</li>
+                     {% endif %}
                         <li>
                         {{ form_widget( form.captcha ) }}<span class="defaultTxt captcha"></span>
                         </li>
                         {{ form_rest(form)}}
 
                         <li class="clearfix">
-                        <div class="registerBtn"><a href="">快速注册</a></div>
-<!--                        <input id="loginSubmit" name="" type="submit" class="" value="" autocomplete="off" style="display:none"/> -->
+                        <div class="registerBtn"><a href="#">快速注册</a></div>
                            <div class="reward corLightGray">注册当天完善资料送<em class="corLightRed">20米粒</em>，当天签到送<em class="corLightRed">5米粒</em></div>
                             </li>
                     </ul>

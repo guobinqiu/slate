@@ -62,9 +62,6 @@ class LandingController extends Controller
                     return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
                 }
                 $templ_vars ['error'] = $errors ;
-            } else {
-                $errors = $form->getErrors();
-                $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $errors, true) );
             }
         } else {
             $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $request->getMethod() , true) );

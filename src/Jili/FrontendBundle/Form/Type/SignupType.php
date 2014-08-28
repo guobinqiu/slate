@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SignupType extends AbstractType
 {
@@ -15,11 +14,10 @@ class SignupType extends AbstractType
     {
         $builder->add('email', 'email',array(
             'label'=>'邮件地址',
-#            'invalid_message' => '邮件地址不正确',
+            'invalid_message' => '邮件地址不正确',
             'required' => true,
             'error_bubbling'=>false,
             'constraints'=> array(
-                new NotBlank( ),
                 new Email(array(
                     'message' => '邮箱"{{ value }}"是无效的.',
                     'checkMX' => true,
@@ -27,11 +25,10 @@ class SignupType extends AbstractType
             )
         ))->add('nickname', 'text', array(
             'label'=>'昵称',
-#            'invalid_message' => '只允许2-20个字符',
+            'invalid_message' => '只允许2-20个字符',
             'required' => true,
             'error_bubbling'=>false,
             'constraints'=> array(
-                new NotBlank(),
                 new Length(array('min'=> 2, 'max'=> 20) )
             )
         ))->add('captcha','captcha', array(
