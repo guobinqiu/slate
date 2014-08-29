@@ -39,6 +39,7 @@ class FileUtilTest extends\PHPUnit_Framework_TestCase {
 
     /**
     * @group ReadJosnFile
+    * @group issue_437
     */
     public function testReadJosnFile() {
         $file_name = dirname(__FILE__) . '\filetext.txt';

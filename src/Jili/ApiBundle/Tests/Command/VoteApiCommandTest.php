@@ -37,6 +37,7 @@ class VoteApiCommandTest extends KernelTestCase
     }
     /**
      * @group point_recent
+     * @group issue_437
      */
     public function testExecute() {
         $container = static :: $kernel->getContainer();
