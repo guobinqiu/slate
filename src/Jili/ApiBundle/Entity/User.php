@@ -23,12 +23,12 @@ class User
     const DEFAULT_REWARD_MULTIPE=1;
     public function __construct()
     {
-        $this->registerDate = new \DateTime();
-        $this->lastLoginDate = new \DateTime();
-        $this->setPoints( self::SIGNUP_POINT);
-        $this->setIsInfoSet( self::INFO_IS_SET);
-        $user->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE);
-        $this->token = '';
+        $this->setRegisterDate ( new \DateTime())
+            ->setLastLoginDate ( new \DateTime())
+            ->setPoints( self::SIGNUP_POINT)
+            ->setIsInfoSet( self::INFO_IS_SET)
+            ->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE)
+            ->setToken( '');
     }
 
     /**
