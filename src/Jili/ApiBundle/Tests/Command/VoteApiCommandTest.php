@@ -61,9 +61,8 @@ class VoteApiCommandTest extends KernelTestCase
         // build the expected content with fputcsv()
         $content = file_get_contents($wenwen_vote_api);
         $rows = json_decode($content, true);
-        $last_item = array_pop($rows['data']);
         $fh = fopen('php://memory', 'r+');
-        fputcsv($fh, $last_item);
+        fwrite($fh, json_encode($rows['data']));
         rewind($fh);
         $expected = fread($fh, 8096);
         fclose($fh);

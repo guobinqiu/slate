@@ -35,12 +35,10 @@ class VoteApiCommand extends ContainerAwareCommand
 
         if ($data['meta'] && $data['meta']['code'] == 200) {
 
-            $votes = $data['data'];
-
             //保存接口数据
             $handle = fopen($output_filename, 'w');
             if ($handle) {
-                fputcsv($handle, $votes[count($votes) - 1]);
+                fwrite($handle, json_encode($data['data']));
             }
             fclose($handle);
 

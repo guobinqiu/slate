@@ -138,17 +138,17 @@ class HomeController extends Controller
 
         //get user unique token
         $token = "";
-        if($this->get('request')->getSession()->get('uid')) {
-            $token = "?t=".WenwenToken::getUniqueToken($this->get('request')->getSession()->get('uid'));
+        $user_id = $this->get('request')->getSession()->get('uid');
+        if($user_id) {
+            $token = "?t=".WenwenToken::getUniqueToken($user_id);
         }
 
         //快速问答:从文件中读取
         $filename = $this->container->getParameter('file_path_wenwen_vote');
-        $vote = FileUtil::readCsvContent($filename);
-        $arr['image_url'] = $vote[0][5];
-        $arr['title'] = $vote[0][1];
-        $arr['vote_url'] = $vote[0][4]."?".$wenwen_vote_mark.$token;
+        $votes = FileUtil :: readJosnFile($filename);
+        $vote  = array_pop($votes);
+        $vote['vote_url'] = $vote['vote_url']."?".$wenwen_vote_mark.$token;
 
-        return $this->render('JiliFrontendBundle:Home:vote.html.twig', $arr);
+        return $this->render('JiliFrontendBundle:Home:vote.html.twig', $vote);
     }
 }
