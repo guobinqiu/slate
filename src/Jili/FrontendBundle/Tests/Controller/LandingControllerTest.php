@@ -114,7 +114,6 @@ class LandingControllerTest extends WebTestCase
     /**
      * externalAction with not exists: wenwen code exists email
      * @group issue_448
-     * @group debug 
      */
     public function testExternalActionWithSignUpTrace()
     {
