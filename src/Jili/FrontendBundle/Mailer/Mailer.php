@@ -14,6 +14,15 @@ class Mailer
         $this->router = $router;
     }
 
+    /**
+     * todo: move the email body to template
+     * @abstract send an email to the new reg user a forgetPassword link to set the email
+     * @param string $email User.email
+     * @param string $nick User.nick
+     * @param integer $user_id User.id
+     * @param string $code SetPasswordCode.code of $user_id
+     * @return boolean true for email is sent, false for not sent.
+     */
     public function sendSignupActivate($email,$nick, $user_id,$code  )
     {
         $url = $this->router->generate('_user_forgetPass',array('code'=>$code, 'id'=>$user_id),true);

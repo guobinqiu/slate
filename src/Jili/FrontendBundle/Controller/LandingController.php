@@ -46,7 +46,7 @@ class LandingController extends Controller
                     $result =  $form_handler->process();
                     $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'$result','') ). var_export( $result , true) );
                     $user = $result['user'];
-                    $passwordCode = $result['setPasswordCode'];
+//                    $passwordCode = $result['setPasswordCode'];
                     $this->get('user_sign_up_route.listener')->signed(array('user_id'=> $user->getId() ) );
                     // set sucessful message flash
                     $this->get('session')->getFlashBag()->add('notice','恭喜，注册成功！');
