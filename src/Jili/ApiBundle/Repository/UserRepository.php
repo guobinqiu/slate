@@ -588,9 +588,6 @@ EOT;
         $user =  new User;
         $user->setNick($param['nick']);
         $user->setEmail($param['email']);
-        $user->setPoints(1);
-        $user->setIsInfoSet(1);
-        $user->setRewardMultiple(1);
 
         $em = $this->getEntityManager();
         $em->persist($user);

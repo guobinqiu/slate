@@ -20,12 +20,14 @@ class User
     const INFO_IS_SET=1;
     const INFO_NOT_SET=0;
 
+    const DEFAULT_REWARD_MULTIPE=1;
     public function __construct()
     {
         $this->registerDate = new \DateTime();
         $this->lastLoginDate = new \DateTime();
         $this->setPoints( self::SIGNUP_POINT);
         $this->setIsInfoSet( self::INFO_IS_SET);
+        $user->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE);
         $this->token = '';
     }
 
