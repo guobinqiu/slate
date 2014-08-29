@@ -134,7 +134,6 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
 
     /**
      * @group issue_448
-     * @group debug
      **/
     public function testCreate() 
     {

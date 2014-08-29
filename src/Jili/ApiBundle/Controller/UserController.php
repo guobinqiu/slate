@@ -1434,8 +1434,8 @@ class UserController extends Controller
                         $code_email = $this->container->getParameter('reg_en_mail');
                     }
                 }
-        } elseif( $request->getMethod()==='GET') {
-            $this->get('user_sign_up_route.listener')->log( );
+//        } elseif( $request->getMethod()==='GET') {
+//             $this->get('user_sign_up_route.listener')->log( );
         }
         return $this->render('JiliApiBundle:User:reg.html.twig',array(
                 'form' => $form->createView(),

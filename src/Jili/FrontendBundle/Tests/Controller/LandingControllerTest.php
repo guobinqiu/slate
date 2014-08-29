@@ -4,6 +4,10 @@ namespace Jili\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+
 class LandingControllerTest extends WebTestCase
 {
     /**
@@ -38,12 +42,11 @@ class LandingControllerTest extends WebTestCase
        $this->em->close();
     }
     /**
-     * @group debug
      * @group issue_448 
      */
     public function testExternal()
     {
-$em = $this->em;
+        $em = $this->em;
         $client = static::createClient();
         $container = $client->getContainer();
 
@@ -106,6 +109,102 @@ $em = $this->em;
 
         // post invalid data
 
+    }
+
+    /**
+     * externalAction with not exists: wenwen code exists email
+     * @group issue_448
+     * @group debug 
+     */
+    public function testExternalActionWithSignUpTrace()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+        $logger= $container->get('logger');
+
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+        // add session
+        $session = $container->get('session');
+        $session->set('id', '1234567890');
+        $session->save();
+
+
+        $time =time();
+        $spm = 'baidu_partnera';
+
+        $this->assertEmpty( $session->get('source_route'));
+
+        // build query with add spm without token;
+        $url = $container->get('router')->generate('_landing_external', array('spm'=>$spm) , false);
+        $this->assertEquals('https://localhost/external-landing?spm=baidu_partnera', $url);
+
+        // follow to the redirect
+        $crawler = $client->request('GET', $url );
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'visit landing page with spm ');
+
+        $session= $container->get('session');
+        $this->assertEquals($spm, $session->get('source_route'));
+
+        $session = $container->get('session'); 
+        $captcha = $session->get('gcb_captcha');
+        $phrase = $captcha ['phrase'] ;
+        // post reg form
+
+        $email = 'alice.nima@gmail.com';
+
+        $form = $crawler->filter('form[name=form1]')->form();
+        $form['signup[email]'] ->setValue( $email );
+        $form['signup[nickname]'] ->setValue( 'alice32');
+        $form['signup[captcha]'] ->setValue( $phrase );
+
+        $client->submit($form );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
+
+        $crawler = $client->followRedirect();
+
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email );
+
+        //  check the redirected url.
+        $url_expected = $container->get('router')->generate('_user_checkReg', array('id' => $user->getId() ) ) ;
+        $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
+
+        // checkings after register.
+        $records = $em->getRepository('JiliApiBundle:UserSignUpRoute')->findBy(
+            array('userId'=> $user->getId()),
+            array('createdAt'=>'desc')
+        );
+
+        $this->assertCount( 1, $records, 'check the user_source_logger table');
+
+        // check log file
+        $log_path = $container->getParameter('kernel.logs_dir');
+        $log_path .= '/../logs_data/'.$container->getParameter('kernel.environment');
+        $log_path .= '.user_source.log';
+
+        $this->assertFileExists($log_path, 'check log file exits');
+
+        // fetch the last line of the file.
+        $fp = fopen($log_path, 'r');
+        fseek($fp, -2, SEEK_END);
+        $pos = ftell($fp);
+        fseek($fp, $pos--);
+
+        $last_row ='';
+        // Loop backword util "\n" is found.
+        while((($c = fgetc($fp)) != "\n") && ($pos > 0)) {
+            $last_row= $c.$last_row;
+            fseek($fp, $pos--);
+        }
+        fclose($fp);
+
+        $arr = explode("\t", $last_row);
+        $this->assertCount(5,$arr, 'check the content of log file');
+        $this->assertEquals( 'user_source',$arr[2], 'check the content of log file');
+        $this->assertEquals( $session->get('source_route'), $arr[4], 'check the content of log file');
     }
 
 }

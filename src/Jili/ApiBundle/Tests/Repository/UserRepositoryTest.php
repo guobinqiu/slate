@@ -47,7 +47,6 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertEquals('565a2bc39cd6621d84173f7ee11ee991',md5(serialize($result)));
     }
     /**
-     * @group debug
      * @group issue_448
      */
     public function testCreateOnSignup() {

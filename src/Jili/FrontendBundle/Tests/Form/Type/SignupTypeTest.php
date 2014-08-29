@@ -61,7 +61,6 @@ class SignupActivateTypeTest extends TypeTestCase
     /**
      * The captcha type not found!!
      * @group issue_448
-     * @group debug 
      **/
     public function testBindValidData()
     {

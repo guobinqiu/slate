@@ -128,7 +128,7 @@ monolog:
             
         user_source:
             type: stream
-            path: %kernel.logs_dir%/%kernel.environment%.user_source.log
+            path: %kernel.logs_dir%/../logs_data/%kernel.environment%.user_source.log
             level: info 
             formatter: monolog.formatter.session_request
             channels: [user_source]
