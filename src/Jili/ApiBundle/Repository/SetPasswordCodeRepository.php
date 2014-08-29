@@ -43,7 +43,6 @@ class SetPasswordCodeRepository extends EntityRepository
         $setPasswordCode->setUserId($user_id);
         $setPasswordCode->setCode($code);
         $setPasswordCode->setCreateTime( new \Datetime());
-        $setPasswordCode->setIsAvailable(1);
         $em = $this->getEntityManager();
         $em->persist($setPasswordCode);
         $em->flush();

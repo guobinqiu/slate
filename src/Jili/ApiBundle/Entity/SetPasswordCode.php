@@ -14,10 +14,13 @@ class SetPasswordCode
 {
 
     public static $VALIDATION_OF_SIGNUP_ACTIVATE = 1209600 ; # 3600*24*14
+    const AVAILABLE = 1; # 
+    const UNAVAILABLE = 0; # 
 
     public function __construct()
     {
         $this->createTime = new \DateTime();
+        $this->setIsAvailable(self::AVAILABLE);
     }
 
 
