@@ -29,7 +29,7 @@ class CpaRankingActivityCommand extends ContainerAwareCommand
 
         //开始时间和结束时间
         $start_time = $input->getArgument('start_time');
-        $start_time = $input->getArgument('end_time');
+        $end_time = $input->getArgument('end_time');
         $output->writeln('start_time:' . $start_time);
         $output->writeln('end_time:' . $end_time);
 
