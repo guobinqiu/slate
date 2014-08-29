@@ -96,20 +96,8 @@
             </div>
         </div>
     </div>
-    <div class="recentNews">
-        <span>最新动态</span>
-        <div class="newsList">
-            <ul class="clearfix">
-                <li>start***将2000积分兑换为亚马逊礼品卡</li>
-                <li>***将2000积分兑换为亚马逊礼品卡</li>
-                <li>***将2000积分兑换为亚马逊礼品卡</li>
-                <li>***将2000积分兑换为亚马逊礼品卡</li>
-                <li>***将2000积分兑换为亚马逊礼品卡</li>
-                <li>***将2000积分兑换为亚马逊礼品卡</li>
-                <li>end***将2000积分兑换为亚马逊礼品卡</li>
-            </ul>
-        </div>
-    </div>
+    {{ render(controller('JiliApiBundle:Top:event', { 'tmpl_prefix':'signup'}))  }}
+            
 {% include 'JiliApiBundle::footer.html.twig' %} 
 </body>
 </html>
