@@ -1,5 +1,4 @@
 <?php
-
 namespace Jili\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\WenwenToken;
+
 /**
  * @Route("/home",requirements={"_scheme"="http"})
  */
@@ -29,35 +29,35 @@ class HomeController extends Controller
         $session = $request->getSession();
 
         //记住我
-        if ($cookies->has('jili_rememberme') && !  $session->has('uid')  ) {
+        if ($cookies->has('jili_rememberme') && !$session->has('uid')) {
             $token = $cookies->get('jili_rememberme');
-            $result = $this->get('login.listener')->byToken( $token);
-            if( $result !== false && is_object($result) && $result instanceof User ) {
-                $session->set('uid', $result->getId() );
-                $session->set('nick', $result-> getNick());
+            $result = $this->get('login.listener')->byToken($token);
+            if ($result !== false && is_object($result) && $result instanceof User) {
+                $session->set('uid', $result->getId());
+                $session->set('nick', $result->getNick());
             }
         }
 
         //取得分数，以及更新登录状态
-        if( $session->has('uid') ) {
+        if ($session->has('uid')) {
             $this->get('session.points')->reset()->getConfirm();
             $this->get('login.listener')->updateSession();
         }
 
         //取得nick
-        if(  $cookies->has('jili_nick') &&  !  $session->has('nick') ) {
+        if ($cookies->has('jili_nick') && !$session->has('nick')) {
             $session->set('nick', $cookies->get('jili_nick'));
         }
 
         //newbie page
-        if( $this->get('login.listener')->isNewbie() )  {
-            if( $session->get('is_newbie_passed', false) === false ) {
+        if ($this->get('login.listener')->isNewbie()) {
+            if ($session->get('is_newbie_passed', false) === false) {
                 $arr['is_newbie_passed'] = false;
-                $session->set('is_newbie_passed', true) ;
+                $session->set('is_newbie_passed', true);
             }
         }
 
-        return array();
+        return array ();
     }
 
     /**
@@ -72,7 +72,7 @@ class HomeController extends Controller
         return $this->render('JiliFrontendBundle:Home:task.html.twig', $arr);
     }
 
-     public function getTaskList()
+    public function getTaskList()
     {
         //可以做的任务，签到+游戏+91问问+购物 -cpa
         $taskList = $this->get('session.task_list');
@@ -89,8 +89,8 @@ class HomeController extends Controller
     public function checkInAction()
     {
         $taskList = $this->get('session.task_list');
-        $arr = array();
-        if( $this->container->getParameter('init_one') ===  $taskList->get('checkin_visit') ) {
+        $arr = array ();
+        if ($this->container->getParameter('init_one') === $taskList->get('checkin_visit')) {
             //获取签到积分
             $checkInLister = $this->get('check_in.listener');
             $arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));
@@ -136,18 +136,11 @@ class HomeController extends Controller
         //get vote mark
         $wenwen_vote_mark = $this->container->getParameter('wenwen_vote_mark');
 
-        //get user unique token
-        $token = "";
-        $user_id = $this->get('request')->getSession()->get('uid');
-        if($user_id) {
-            $token = "?t=".WenwenToken::getUniqueToken($user_id);
-        }
-
         //快速问答:从文件中读取
         $filename = $this->container->getParameter('file_path_wenwen_vote');
         $votes = FileUtil :: readJosnFile($filename);
-        $vote  = array_pop($votes);
-        $vote['vote_url'] = $vote['vote_url']."?".$wenwen_vote_mark.$token;
+        $vote = array_pop($votes);
+        $vote['vote_url'] = $vote['vote_url'] . "?" . $wenwen_vote_mark;
 
         return $this->render('JiliFrontendBundle:Home:vote.html.twig', $vote);
     }
