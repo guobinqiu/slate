@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 {% include 'JiliApiBundle::seo.html.twig' %}
 <title>积粒网—中秋献，【抢排名，赢现金】第二波疯狂来袭</title>
+<link href="{{ asset('css140307/common.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/jl.ui.Sep.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 </head>
@@ -16,8 +17,8 @@
   <div class="titT2"></div>
   <div class="titT3">
     <div class="btnWrap">
-        <div class="btn1 f18 fontYH"><a class="strong" href="{{ asset(path('_advertiserment_list')) }}">任务大厅一</a></div>
-        <div class="btn2 f18 fontYH"><a class="strong" href="{{ asset(path('_advertiserment_offer99')) }}">任务大厅二</a></div>
+        <div class="btn1 font18 fontYH"><a class="strong" href="{{ asset(path('_advertiserment_list')) }}">任务大厅一</a></div>
+        <div class="btn2 font18 fontYH"><a class="strong" href="{{ asset(path('_advertiserment_offer99')) }}">任务大厅二</a></div>
     </div>
     
   </div>
@@ -33,9 +34,9 @@
               <tbody>
                 {% for user in users.0 %}
                 <tr {%if user.4 in [1, 3, 10, 50] %} class="yellow" {% endif %}>{# 1,3,10,50 is ranking number#}
-                  <td width="30%">第{{ user.4}}名</td>
+                  <td width="25%">第{{ user.4}}名</td>
                   <td width="35%">{{ user.2[:3] }}**</td>
-                  <td width="35%">获得{{ user.3 }}米粒</td>
+                  <td width="40%">获得{{ user.3 }}米粒</td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -46,9 +47,9 @@
               <tbody>
                 {% for user in users.1 %}
                 <tr {%if user.4 == 100 %} class="yellow" {% endif %}> {# 100 is ranking number#}
-                  <td width="30%">第{{ user.4}}名</td>
+                  <td width="25%">第{{ user.4}}名</td>
                   <td width="35%">{{ user.2[:3] }}**</td>
-                  <td width="35%">获得{{ user.3 }}米粒</td>
+                  <td width="40%">获得{{ user.3 }}米粒</td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -62,9 +63,9 @@
                 <tbody>
                   {% for user in users.2 %}
                   <tr class="yellow">
-                    <td width="30%">第{{ user.4}}名</td>
-                    <td width="35%">{{ user.2[:3] }}**</td>
-                    <td width="35%">获得{{ user.3 }}米粒</td>
+                    <td width="28%">第{{ user.4}}名</td>
+                    <td width="30%">{{ user.2[:3] }}**</td>
+                    <td width="42%">获得{{ user.3 }}米粒</td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -83,18 +84,18 @@
   <div class="rankRule">
     <div class="rTit"> <span class="mt fontYH strong">排名规则</span> </div>
     <div class="rCon">
-      <div class="f15 strong">活动期间，凡在积粒网【任务大厅】做任务的用户，我们将累计的米粒数【已确认】进行排名，按以下规则发放奖励。</div>
-      <div class="rList f15">
+      <div class="font15 strong">活动期间，凡在积粒网【任务大厅】做任务的用户，我们将累计的米粒数【已确认】进行排名，按以下规则发放奖励。</div>
+      <div class="rList font15">
         <ul>
-          <li class="l1"><span class="i1"></span><span class="rp">第1名</span><span><strong class="point fontYH f22 yellow">5000</strong>米粒</span></li>
-          <li><span class="i5"></span><span class="rp">第200名★幸运奖★</span><span><strong class="point fontYH f16 darkGreen">500</strong>米粒</span></li>
-          <li class="l1"><span class="i2"></span><span class="rp">第2、3名</span><span><strong class="point fontYH f22 yellow">2000</strong>米粒</span></li>
-          <li><span class="i5"></span><span class="rp">第300名★幸运奖★</span><span><strong class="point fontYH f16 darkGreen">500</strong>米粒</span></li>
-          <li class="l1"><span class="i3"></span><span class="rp">第4~10名</span><span><strong class="point fontYH f22 yellow">1000</strong>米粒</span></li>
-          <li><span class="i5"></span><span class="rp">第400名★幸运奖★</span><span><strong class="point fontYH f16 darkGreen">500</strong>米粒</span></li>
-          <li class="l1"><span class="i4"></span><span class="rp">第11~50名</span><span><strong class="point fontYH f16 darkGreen">500</strong>米粒</span></li>
-          <li><span class="i5"></span><span class="rp">第500名★幸运奖★</span><span><strong class="point fontYH f16 darkGreen">500</strong>米粒</span></li>
-          <li><span class="i5"></span><span class="rp">第51~100名</span><span><strong class="point fontYH f16 darkGreen">200</strong>米粒</span></li>
+          <li class="l1"><span class="i1"></span><span class="rp">第1名</span><span><strong class="point fontYH font22 yellow">5000</strong>米粒</span></li>
+          <li><span class="i5"></span><span class="rp">第200名★幸运奖★</span><span><strong class="point fontYH font16 darkGreen">500</strong>米粒</span></li>
+          <li class="l1"><span class="i2"></span><span class="rp">第2、3名</span><span><strong class="point fontYH font22 yellow">2000</strong>米粒</span></li>
+          <li><span class="i5"></span><span class="rp">第300名★幸运奖★</span><span><strong class="point fontYH font16 darkGreen">500</strong>米粒</span></li>
+          <li class="l1"><span class="i3"></span><span class="rp">第4~10名</span><span><strong class="point fontYH font22 yellow">1000</strong>米粒</span></li>
+          <li><span class="i5"></span><span class="rp">第400名★幸运奖★</span><span><strong class="point fontYH font16 darkGreen">500</strong>米粒</span></li>
+          <li class="l1"><span class="i4"></span><span class="rp">第11~50名</span><span><strong class="point fontYH font16 darkGreen">500</strong>米粒</span></li>
+          <li><span class="i5"></span><span class="rp">第500名★幸运奖★</span><span><strong class="point fontYH font16 darkGreen">500</strong>米粒</span></li>
+          <li><span class="i5"></span><span class="rp">第51~100名</span><span><strong class="point fontYH font16 darkGreen">200</strong>米粒</span></li>
         </ul>
       </div>
     </div>

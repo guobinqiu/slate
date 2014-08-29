@@ -16,12 +16,6 @@ img {
 	border: 0;
 	vertical-align: bottom;
 }
-.fontYH {
-	font-family: "\5FAE\8F6F\96C5\9ED1", "\5B8B\4F53", sans-serif;
-}
-strong, .strong {
-	font-weight: bold;
-}
 .clearfix:after {
 	clear: both;
 	content: '.';
@@ -31,24 +25,6 @@ strong, .strong {
 }
 .clearfix {
  *zoom:1;
-}
-.fl {
-	float: left;
-}
-.fr {
-	float: right;
-}
-.f15 {
-	font-size: 16px;
-}
-.f16 {
-	font-size: 16px;
-}
-.f18 {
-	font-size: 18px;
-}
-.f22 {
-	font-size: 22px;
 }
 a {
 	text-decoration: none;
@@ -73,14 +49,14 @@ a {
 	position: absolute;
 	right: 480px;
 	top: 12px;
-	padding: 6px 15px;
-	background: #25003f;
 }
 .activityTit .titT1 .toHome a {
+	padding: 6px 15px;
 	color: #753bb8;
+	background: #25003f;
 }
 .activityTit .titT2 {
-	height: 146px;
+	height: 145px;
 	background: url(../images/september/picT2.jpg) no-repeat center #320059;
 }
 .activityTit .titT3 {
@@ -107,8 +83,14 @@ a {
 	background: #fe7f00;
 	margin-right: 5px;
 }
+.activityTit .titT3 .btnWrap div.btn1 a:hover {
+	background: #ff8812;
+}
 .activityTit .titT3 .btnWrap div.btn2 a {
 	background: #00d7c2;
+}
+.activityTit .titT3 .btnWrap div.btn2 a:hover {
+	background: #00e3cc;
 }
 .activityDetail {
 	width: 960px;
@@ -148,6 +130,7 @@ a {
 }
 .activityDetail .rankWrap .rankCon table tr td {
 	font-size: 13px;
+	
 }
 .activityDetail .rankWrap .rankList {
 	width: 62%;
@@ -159,9 +142,10 @@ a {
  *width:48%;
 }
 .activityDetail .rankWrap .rankReferBox {
-	padding: 0 20px 0 50px;
+	padding: 0 20px 0 40px;
 }
 .activityDetail .rankWrap .rankReferWrapper {
+	width:247px;
 	padding-left: 38px;
 }
 .activityDetail .rankWrap .rankReferBox table {
@@ -173,19 +157,19 @@ a {
 	text-align: center;
 	border: 1px solid #d9d9d8;
 	background: #fff;
-	padding-bottom: 13px;
 }
 .immediateMsg .text {
 	background: url(../images/september/medal.gif) no-repeat right #f6f6f4;
-	background-position: 193px 18px;
-	padding: 10px 40px;
+	background-position: 193px 9px;
 	font-size: 14px;
 	line-height: 30px;
 	color: #929291;
 }
 .immediateMsg .mlNum {
-	font-size: 48px;
+	font-size: 44px;
 	color: #434343;
+	height: 67px;
+	line-height: 67px;
 }
 .activityDetail .rankRule {
 	width: 960px;
