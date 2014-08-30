@@ -1329,10 +1329,10 @@ class AdminController extends Controller
                   $points = $v[4];
               }
               $ear = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
-              if($status == 'ok'){
+              if(strtolower(trim($status)) == 'ok'){
                   $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type);
                   $this->exchangeSendMs($type,$ear->getUserId());
-              }else{
+              }elseif(strtolower(trim($status)) == 'ng'){
                   $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);
                   $this->exchangeSendMsFail($type,$ear->getUserId());
               }
@@ -1351,7 +1351,7 @@ class AdminController extends Controller
                 $amazonCard4 = $v[11];
                 $amazonCard5 = $v[12];
                 $ear = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
-                if($status == 'ok'){
+                if(strtolower(trim($status)) == 'ok'){
                     $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type);
                     $ex = $em->getRepository('JiliApiBundle:ExchangeAmazonResult')->findByExchangeId($exchange_id);
                     if(empty($ex)){
@@ -1366,7 +1366,7 @@ class AdminController extends Controller
                       $em->flush();
                       $this->exchangeSendMs($type,$ear->getUserId());
                     }
-                }else{
+                }elseif(strtolower(trim($status)) == 'ng'){
                     $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);
                     $this->exchangeSendMsFail($type,$ear->getUserId());
                 }
