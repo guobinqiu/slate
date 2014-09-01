@@ -1,5 +1,5 @@
 <?php
-namespace Jili\EmarBundle\EventListener;
+namespace Jili\EmarBundle\Api2\Utils;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
@@ -9,6 +9,7 @@ class WebsiteSearch
   private $logger;
   private $listGet;
   private $detailGet;
+  const SAME_CATEGORY_LIMIT = 3;
 
   /**
    * @param $web_raw  the response from the emar open api.
@@ -34,6 +35,19 @@ class WebsiteSearch
       return $matched;
   }
 
+  public function findSameCatWebsites( $web_raw , $catid, $web_id)
+  {
+      $matched = array();
+      foreach( $web_raw as $web) {
+          if ($web['web_catid']==$catid && $web['web_id']!=$web_id){
+              $matched[] = $web;
+          }
+          if(count($matched)>= self::SAME_CATEGORY_LIMIT) {
+              break;
+          }
+      }
+      return $matched;
+  }
   public function setLogger(LoggerInterface $logger)
   {
     $this->logger = $logger;

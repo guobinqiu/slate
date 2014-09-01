@@ -7,7 +7,7 @@ framework:
     session:
         storage_id: session.storage.mock_file
     profiler:
-        enabled: false 
+        enabled: true 
 
 web_profiler:
     toolbar: false
@@ -23,5 +23,5 @@ swiftmailer:
 #    dbal:
 #       password:  MyNewPassword
 #       charset:  UTF8
-#       host:     192.168.1.15
+#       host:     192.168.1.75
 #       dbname:   jili_test_0721 

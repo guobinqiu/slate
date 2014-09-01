@@ -1321,6 +1321,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * todo: refactor the issetReg() 
+     */
     public function issetReg($email)
     {
         $em = $this->getDoctrine()->getManager();
@@ -1393,7 +1396,6 @@ class UserController extends Controller
                                                 $code_nick = $this->container->getParameter('reg_wr_nick');
                                             else{
                                                 $logger = $this->get('logger');
-                                                $logger->debug('{jarod}'. implode(':', array(__CLASS__, __LINE__,'') ));
                                                 $user->setNick($request->request->get('nick'));
                                                 $user->setEmail($request->request->get('email'));
                                                 $user->setPoints($this->container->getParameter('init'));
@@ -1432,8 +1434,8 @@ class UserController extends Controller
                         $code_email = $this->container->getParameter('reg_en_mail');
                     }
                 }
-        } elseif( $request->getMethod()==='GET') {
-            $this->get('user_sign_up_route.listener')->log( );
+//        } elseif( $request->getMethod()==='GET') {
+//             $this->get('user_sign_up_route.listener')->log( );
         }
         return $this->render('JiliApiBundle:User:reg.html.twig',array(
                 'form' => $form->createView(),

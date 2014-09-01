@@ -9,10 +9,10 @@ class WenwenToken
     /**
      *
      */
-    public static function getEmailToken($email)
+    public static function getUniqueToken($value)
     {
         $seed = 'ADF93768CF';
-        $hash = sha1($email . $seed);
+        $hash = sha1($value . $seed);
         for ($i = 0; $i < 5; $i++) {
             $hash = sha1($hash);
         }
