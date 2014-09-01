@@ -46,4 +46,21 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertCount(99, $result);
         $this->assertEquals('565a2bc39cd6621d84173f7ee11ee991',md5(serialize($result)));
     }
+    /**
+     * @group issue_448
+     */
+    public function testCreateOnSignup() {
+
+
+        $em = $this->em;
+        $param = array('email'=>'chiangtor@gmail.com', 'nick'=> 'chiangtor');
+        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
+        $this->assertNull($r);
+        $em->getRepository('JiliApiBundle:User')->createOnSignup($param);
+        $param [ 'points']=  1;
+        $param [ 'isInfoSet']=  1;
+        $param [ 'rewardMultiple']=  1;
+        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
+        $this->assertNotNull($r);
+    }
 }

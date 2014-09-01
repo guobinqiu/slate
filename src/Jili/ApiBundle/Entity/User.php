@@ -15,12 +15,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User
 {
     public $attachment;
+    const SIGNUP_POINT=1;
 
+    const INFO_IS_SET=1;
+    const INFO_NOT_SET=0;
+
+    const DEFAULT_REWARD_MULTIPE=1;
     public function __construct()
     {
-        $this->registerDate = new \DateTime();
-        $this->lastLoginDate = new \DateTime();
-        $this->token = '';
+        $this->setRegisterDate ( new \DateTime())
+            ->setLastLoginDate ( new \DateTime())
+            ->setPoints( self::SIGNUP_POINT)
+            ->setIsInfoSet( self::INFO_IS_SET)
+            ->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE)
+            ->setToken( '');
     }
 
     /**

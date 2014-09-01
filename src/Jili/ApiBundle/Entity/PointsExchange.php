@@ -44,7 +44,7 @@ class PointsExchange
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="finish_date", type="datetime")
+     * @ORM\Column(name="finish_date", type="datetime", nullable=true)
      */
     private $finishDate;
 
@@ -65,7 +65,7 @@ class PointsExchange
     /**
      * @var string
      *
-     * @ORM\Column(name="real_name", type="string", length=45)
+     * @ORM\Column(name="real_name", type="string", length=45, nullable=true)
      */
     private $realName;
 
@@ -92,7 +92,7 @@ class PointsExchange
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer")
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 

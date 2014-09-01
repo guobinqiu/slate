@@ -1,0 +1,14 @@
+{% if recentPoint|length > 0  %}
+       <div class="recentNews">
+        <span>最新动态</span>
+        <div class="newsList">
+            <ul class="clearfix">
+            {% for item in recentPoint %}
+            <li>
+                {{ item.0 }}{{ item.3 }}{% if item.2 > 0 %}获得{% else %}兑换{% endif %}{{ item.2|abs }}积分
+            </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}

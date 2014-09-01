@@ -1,0 +1,249 @@
+parameters:
+    offerwow_com.websiteid: 1162  
+    offerwow_com.key: "91jili2offerwow"
+    offerwow_com.name: "体验广告"
+    offerwow_com.category_type: 17 # in ad_category table where cateogry_name ='offerwow' ??
+    offerwow_com.task_type: 5
+
+    offer99_com.pid: f4b42b65ce528bb151ea6e2eb5a01692
+    offer99_com.key: "91jili2offer99"
+    offer99_com.name: "体验广告"
+    offer99_com.category_type: 18
+    offer99_com.task_type: 5
+
+    cpa.category_type:  1 # in table ad_category where category_name='CPA'
+    cps.category_type:  1 # in table ad_category where category_name='CPS'
+                    
+
+    emar_com.accountid: '458631' # sid uSer id
+    emar_com.91jili_com.websiteid: '732204' # wid Website id
+    emar_com.91jili_com.key: "139216929186018017"
+
+    emar_com.91jili_gouwuke_com.websiteid: '708089' # gouwuke.com , the push wid Website id
+    emar_com.91jili_gouwuke_com.key: "139216929186018017" # gouwuke.com the push key
+
+    emar_com.name: "亿玛返利"
+    emar_com.cps.category_type: 19 # in ad_category table where cateogry_name ='emar' ??
+    emar_com.cps.task_type: 1 
+    emar_com.cps.action.default_rebate: 70 # used when no related advertiserment to the request action from emar .
+
+#    emar_com.cpa.name: "亿玛活动"
+#    emar_com.cpa.category_type: 20 # in ad_category table where cateogry_name ='emar' ??
+#cron: for develop
+    emar_com.cron.AppKey: '139599061334718017'
+    emar_com.cron.AppSecret: '98a77033e7a6e8b8533f70eca181d09f'
+
+# demo: from production  
+    emar_com.demo.AppKey: '139597428026718017'
+    emar_com.demo.AppSecret: 'e7c5367e1ba7d609865389640007df3e'
+
+    emar_com.open_api.app:
+        debug: # dev 
+            key: %emar_com.app_AppKey%
+            secret: %emar_com.app_AppSecret%
+        search: # demo
+            key: %emar_com.app_AppKey%
+            secret: %emar_com.app_AppSecret%
+        cron: # demo
+            key: %emar_com.app_AppKey%
+            secret: %emar_com.app_AppSecret%
+
+# emar default 分页大小
+    emar_com.page_size: 20 
+# shop list 页面上的分页大小
+    emar_com.page_size_of_shoplist: 30 
+# product search页面上的分页大小
+    emar_com.page_size_of_search: 24 
+# topcps页面上的分页大小
+    emar_com.page_size_of_topcps:  18 
+# emar的open.api读取记录数上限
+    emar_com.max_of_total: 1800 
+# open.product.search->orderby fields
+    emar_com.api.orderby_range: [1,2,3] 
+    emar_com.api.orderby_default: 1 
+
+# the router for search input box
+    emar_com.rt_of_search_form.name: 
+        'commodity': { value: 0 , label: '商品'} 
+        'shop': { value: 1, label: '商城' }   
+#        'else': { value: 3, label: '其它2' }   
+
+    emar_com.rt_of_search_form.router: 
+        - 'jili_emar_product_search'
+        - 'jili_emar_websites_shopsearch'  
+# 
+    emar_com.pdt_cat.menu:
+        - '影音':
+            - '图书音像'
+            - '影音设备'
+        - '家用电器':
+            - '大家电'
+            - '生活小电器'
+            - '厨房电器'
+            - '保健护理电器'
+        - '手机、数码':
+            - '手机通讯'
+            - '数码相机'
+        - '电脑、办公':
+            - '电脑'
+            - '电脑软件'
+            - '办公用品'
+        - '家居'
+        - '服饰内衣、珠宝首饰':
+            - '女装'
+            - '男装'
+            - '童装/童鞋/孕妇装'
+            - '内衣'
+            - '服装配饰'
+            - '其他服装'
+            - '珠宝'
+            - '眼镜'
+        - '鞋靴、箱包、钟表、奢侈品':
+            - '女鞋'
+            - '男鞋'
+            - '运动鞋'
+            - '其他鞋'
+            - '女包/男包/箱包'
+            - '手表'
+        - '运动户外'
+        - '汽车用品'
+        - '母婴/玩具'
+        - '个护化妆':
+            - '美容护理'
+        - '食品、保健':
+            - '食品粮油'
+            - '医药保健'
+            - '宠物用品'
+            - '成人用品'
+            - '鲜花礼品'
+
+    cache_data_path: "%kernel.root_dir%/cache_data/%kernel.environment%"
+    cps_default_rebate: 70  #返利给用户百分比
+    cps_rebate_type:
+        'point': 1  #XX元
+        'order': 2 #每个订单XX元
+        'sale': 3 #销售额的XX%
+    point_exchange_upper_limit: 2000 #积分兑换上限
+    wenwen_vote_url: http://www.91wenwen.net/vote/?c=91jili#active
+    wenwen_vote_api: http://www.91wenwen.net/index.php/vote/activeList
+    wenwen_vote_mark: c=91jili
+
+    emar_com.app_AppKey: %emar_com.cron.AppKey% 
+    emar_com.app_AppSecret: %emar_com.cron.AppSecret%
+    campaign_multiple: 1
+    admin_home_ip: 192.168.1.198
+    admin_vpn_ip: 210.175.54.14
+    admin_ele_ip: 112.65.174.206
+    admin_un_ip: 180.169.71.34
+    wenwen_dev_ip: 54.251.246.14
+    wenwen_prod_ip: 54.254.98.246
+    upload_banner_dir: images/banner/
+    upload_adver_dir: images/actionPic/
+    upload_tmp_dir: uploads/user/
+    upload_activity_dir: images/activity/
+    page_num: 10
+    init: 0
+    init_one: 1
+    init_two: 2
+    init_three: 3
+    init_four: 4
+    init_five: 5
+    init_six: 6
+    init_seven: 7
+    init_eight: 8
+    init_nine: 9
+    init_eleven: 11
+    init_twelve: 12
+    init_thirteen: 13
+    init_fourteen: 14
+    init_fifteen: 15
+    init_fivty: 50
+    reg_mobile: 除手机号码外都为必填项
+    game_type: 小鸡找米
+    game_ad: 游戏广告
+    game_pag: 游戏积分码
+    game_goal: 游戏通关
+    game_rank: 游戏排名
+    game_attend: 游戏全勤
+    game_attend: 游戏全勤
+    card_record: 名片录力
+    certified: 已认证
+    nothrough: 已拒绝
+    reg_en_mail: 请输入邮箱地址
+    reg_wr_mail: 邮箱地址格式不正确
+    reg_noal_mail: 邮箱地址未激活，请重新
+    reg_al_mail: 邮箱地址已经注册
+    reg_en_nick: 请输入用户昵称
+    reg_al_nick: 用户昵称已经注册
+    reg_wr_nick: 用户昵称为2-20个字符
+    reg_wr_captcha: 请输入正确的验证码
+    login_wr: 邮箱地址或密码输入错误
+    login_wr_mail: 邮箱地址格式不正确
+    login_en_mail: 请输入邮箱地址
+    upload_img_type: 上传的图片类型只能为JPG格式
+    upload_img_size: 图片大小请控制在2M以内
+    update_se_sex: 请选择性别
+    update_wr_mobile: 输入的手机格式不正确
+    exchange_en_wen: 请输入您的91问问账号
+    exchange_en_alipay: 请输入您的支付宝账号
+    exchange_en_mobile: 请输入您的手机号码
+    exchange_wr_mail: 91问问账号应是邮件格式
+    exchange_wr_alipay: 支付宝账号应是邮件格式
+    exchange_su_bind: 已成功兑换，等待账号绑定
+    exchange_wr_point: 兑换失败，积分错误
+    exchange_unsame_mobile: 2次输入的手机号码不相同
+    exchange_unsame_alipay: 2次输入的支付宝账号不相同
+    forget_en_pwd: 请输入用户密码
+    forget_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
+    forget_unsame_pwd: 2次输入的用户密码不相同
+    forget_su_pwd: 密码修改成功 
+    change_wr_oldpwd: 旧密码不正确
+    change_en_oldpwd: 请输入旧的用户密码
+    change_en_newpwd: 请输入新的用户密码
+    change_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
+    change_unsame_pwd: 2次输入的用户密码不相同
+    chnage_no_email: 邮箱地址未注册
+    exchange_ing_amazon_tilte: “亚马逊礼品卡”兑换申请
+    exchange_ing_alipay_tilte: 支付宝充值兑换申请
+    exchange_ing_mobile_tilte: 手机费兑换申请
+    exchange_ing_amazon_content: 亲爱的<br/><br/>我们已经收到您的“亚马逊礼品卡”兑换申请，兑换会在三个工作日内完成（遇周末及节假日顺延）。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/2/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
+    exchange_ing_alipay_content: 亲爱的<br/><br/>您好！我们已经收到了您的支付宝充值申请，我们将在十个工作日内完成支付宝充值手续。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/3/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
+    exchange_ing_mobile_content: 亲爱的<br/><br/>我们已经收到您的手机费兑换申请，兑换会在三个工作日内完成（遇周末及节假日顺延）。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/4/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
+    exchange_finish_amazon_tilte: “亚马逊礼品卡”兑换成功
+    exchange_finish_alipay_tilte: 支付宝充值兑换成功
+    exchange_finish_mobile_tilte: 手机费兑换成功
+    exchange_finish_amazon_content: 亲爱的<br/><br/>您好！您的“亚马逊礼品卡”兑换申请已经处理成功，<br/>请在<a href="http://www.91jili.com/user/exchange/2/1"  target="_blank">兑换历史</a>中查看您的“亚马逊礼品卡”卡号。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/"  target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
+    exchange_finish_alipay_content: 亲爱的<br/><br/>您好！您的支付宝充值申请已经处理成功，请及时查看您的支付宝余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
+    exchange_finish_mobile_content: 亲爱的<br/><br/>您好！您的手机费兑换申请已经处理成功，请及时查看您的手机余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
+    exchange_finish_wenwen_title: 91问问积分兑换成功
+    ecchange_finish_wenwen_content: 亲爱的<br/><br/>您好！您从91问问网站上申请的兑换已经处理成功，米粒已经发放至您的积粒网账户，请及时查看您的米粒余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
+    exchange_fail_amazon_tilte: “亚马逊礼品卡”兑换失败
+    exchange_fail_alipay_tilte: 支付宝充值兑换失败
+    exchange_fail_mobile_tilte: 手机费兑换失败
+    exchange_fail_amazon_content: 亲爱的<br/><br/>您好！非常抱歉，您的“亚马逊礼品卡”申请兑换失败，积分已自动返还到您的积粒网帐户。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
+    exchange_fail_alipay_content: 亲爱的<br/><br/>您好！非常抱歉，您的支付宝充值申请兑换失败，积分已自动返还到您的积粒网帐户。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
+    exchange_fail_mobile_content: 亲爱的<br/><br/>您好！非常抱歉，您的手机费申请兑换失败，积分已自动返还到您的积粒网帐户。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
+    card_number_is_null: 请输入您的身份证号码
+    card_number_is_error: 身份证号码错误
+    card_number_is_exist: 您已经提交过身份证号码，如需修改请联系客服
+    file_path_recent_point: /data/91jili/topcron_recentpoint.log
+    file_path_ranking_month: /data/91jili/topcron_rankingmonth.log
+    file_path_ranking_year: /data/91jili/topcron_rankingyear.log
+    register_success_campaign_id: 7
+    register_success_mailing_id: 58
+    remind_login_campaign_id: 9
+    remind_login_mailing_id: 75
+    remind_point_campaign_id: 11
+    remind_point_mailing_id: 72
+    remind_total_point_campaign_id: 12
+    remind_total_point_mailing_id: 103
+    register_from_wenwen_campaign_id: 7
+    register_from_wenwen_mailing_id: 101
+    register_from_wenwen_mailing_id_again: 100
+    file_path_advertiserment_check: /data/91jili/advertiserment_check.log
+    file_path_emergency_announcement: /data/91jili/emergency_announcement.log
+    91wenwen_api_url: https://www.91jili.com
+    is_from_wenwen_register: 2
+    file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
+    file_path_july_activity: /data/91jili/logs/activity/july.csv
+    file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json

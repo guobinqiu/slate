@@ -24,7 +24,7 @@ parameters:
     website.category_get.class:  Jili\EmarBundle\EventListener\WebsiteCategoryGetRequest
     website.list_get.class:  Jili\EmarBundle\EventListener\WebsiteListGetRequest
     website.detail_get.class:  Jili\EmarBundle\EventListener\WebsiteDetailGetRequest
-    website.search.class:  Jili\EmarBundle\EventListener\WebsiteSearch
+    website.search.class:  Jili\EmarBundle\Api2\Utils\WebsiteSearch
     website.categories.class:  Jili\EmarBundle\EventListener\WebsiteCategories
 
 # cron

@@ -33,7 +33,7 @@ class UserSignUpTracerTest extends KernelTestCase
 
         $container  = static::$kernel->getContainer();
         $log_path = $container->getParameter('kernel.logs_dir');
-        $log_path .= '/'.$container->getParameter('kernel.environment');
+        $log_path .= '/../logs_data/'.$container->getParameter('kernel.environment');
         $log_path .= '.user_source.log';
 
         if( file_exists( $log_path)) {

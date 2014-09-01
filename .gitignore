@@ -4,6 +4,7 @@
 /app/sessions/*
 /app/cache_data/*
 /app/logs/*
+/app/logs_data/*
 /vendor/
 /bin/
 /app/config/parameters.ini
