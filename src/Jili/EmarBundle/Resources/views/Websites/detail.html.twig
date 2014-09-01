@@ -87,9 +87,15 @@
     <h3 class="busiSecTit">同类商家推荐</h3>
     <div class="busiSecBd">
       <ul id="mallsRecommend">
-        <li><a href="#" target="_blank"><img src="http://img0.egou.com/shop/201312/11/6374807b8cedd9dc6e2e0afb6e3949b5.gif" width="120" height="60" alt=""><span class="itemTxt">最高返<strong class="corGlobRed"> 4%</strong></span></a></li>
-        <li><a href="#" target="_blank"><img src="http://img0.egou.com/shop/201312/03/e16f77e4eeb0b16b969ba587d63d481c.gif" width="120" height="60" alt=""><span class="itemTxt">最高返<strong class="corGlobRed"> 4%</strong></span></a></li>
-        <li><a href="#" target="_blank"><img src="http://img0.egou.com/shop/201312/03/3df93618a3d8ae634d347de7b2e28ac1.gif" width="120" height="60" alt=""><span class="itemTxt">最高返<strong class="corGlobRed"> 4%</strong></span></a></li>
+        {% for row in same_cat_websites %}
+        <li><a href="{{path('jili_emar_websites_detail', {'wid': row.web_id })}}" target="_blank">
+            <img src="{{row.logo_url}}" width="120" height="60" alt="">
+            {%if row.max_commission%}
+            <span class="itemTxt">最高返<strong class="corGlobRed">{{row.max_commission}}%</strong></span>
+            {%endif%}
+            </a>
+        </li>
+        {% endfor %}
 	  </ul>
     </div>
   </div>-->
