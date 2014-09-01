@@ -1,0 +1,40 @@
+<script language="javascript" type="text/javascript"> 
+function appendzero(obj) {
+    if (obj < 10){
+        return "0" +""+ obj;;
+    }
+    else{
+        return obj;
+    }
+}
+function showCountDown(year,month,day,divname){ 
+    var now = new Date(); 
+    var endDate = new Date(year, month, day+1); 
+    var leftTime=endDate.getTime()-now.getTime(); 
+    var leftsecond = parseInt(leftTime/1000); 
+    //var day1=parseInt(leftsecond/(24*60*60*6)); 
+    var day1=Math.floor(leftsecond/(60*60*24)); 
+    var hour=Math.floor((leftsecond-day1*24*60*60)/3600); 
+    var minute=Math.floor((leftsecond-day1*24*60*60-hour*3600)/60); 
+    var second=Math.floor(leftsecond-day1*24*60*60-hour*3600-minute*60); 
+    var cc = document.getElementById(divname); 
+    cc.innerHTML = "还剩&nbsp;<span>"+appendzero(hour)+"</span><strong>：</strong><span>"+appendzero(minute)+"</span><strong>：</strong><span>"+appendzero(second)+"</span>"; 
+}
+var interval = 1000; 
+var now11 = new Date(); 
+window.setInterval(function(){showCountDown(now11.getFullYear(),now11.getMonth(),now11.getDate(),'divdown1');}, interval); 
+</script>
+<h2>快速问答</h2>
+<div class="quickQCon clearfix">
+    <div class="fnLeft"><img src="{{image_url}}" width="90" height="90" alt="{{title}}" title="{{title}}" /></div>
+    <div class="quickQInfo fnRight">
+        <div class="quickWrap">
+        	<span class="quotesL"></span>
+            <div class="textTit" limit="19"><a href="{{vote_url}}" target="_blank">{{title}}</a></div>
+            <span class="quotesR"></span> 
+        </div>
+        <div class="countDownArea">
+        	<div id="divdown1" class="countDown"></div>
+    	</div>
+	</div>
+</div>

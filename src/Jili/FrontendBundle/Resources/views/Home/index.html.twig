@@ -35,12 +35,15 @@
         {% else %}
             {{ render(controller('JiliApiBundle:Top:userInfo' ) ) }}
         {% endif %}
+        <div class="quickQ">
+            {{ render(controller('JiliFrontendBundle:Home:vote' ) ) }}{# 快速问答#}
+        </div>
         <div class="notice shadowGlob">
             <h2>最新公告</h2>
             {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
             <div class="pageNumber"><a class="prevBtn curPt"></a><span></span><a class="nextBtn curPt"></a></div>
         </div>
-        <div style="background: none; padding: 116px 0 0;">
+        <div class="mt10" style="background: none;">
         	<!-- 首页 右侧一 标签云（改） -->
         	{% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1650575" } %}
         </div>

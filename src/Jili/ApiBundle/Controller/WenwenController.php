@@ -136,7 +136,7 @@ class WenwenController extends Controller
         }
 
         //signature error
-        if ($signature !== WenwenToken::getEmailToken($email) ) {
+        if ($signature !== WenwenToken::getUniqueToken($email) ) {
             $result['status'] = '0';
             $result['message'] = 'access error ';
             return $result;

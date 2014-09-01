@@ -125,6 +125,7 @@ parameters:
         'sale': 3 #销售额的XX%
     point_exchange_upper_limit: 2000 #积分兑换上限
     wenwen_vote_url: http://www.91wenwen.net/vote/?c=91jili#active
+    wenwen_vote_mark: c=91jili
 
     emar_com.app_AppKey: %emar_com.cron.AppKey% 
     emar_com.app_AppSecret: %emar_com.cron.AppSecret%
@@ -244,3 +245,4 @@ parameters:
     is_from_wenwen_register: 2
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_july_activity: /data/91jili/logs/activity/july.csv
+    file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
