@@ -260,3 +260,4 @@ parameters:
     is_from_wenwen_register: 2
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_july_activity: /data/91jili/logs/activity/july.csv
+    file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
