@@ -275,8 +275,6 @@ class DefaultController extends Controller
         }
         $u_token = $request->getSession()->get('token');
         if (!$u_token) {
-
-            $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
             return $this->redirect($this->generateUrl('_user_reg' ));
         }
         $em = $this->getDoctrine()->getManager();
@@ -290,7 +288,6 @@ class DefaultController extends Controller
                     $uniqkey = $params->uniqkey;
             }
             if ($this->getToken($email) != $signature) {
-                $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
                 return $this->redirect($this->generateUrl('_user_reg' ));
             }
         } else {
@@ -301,8 +298,7 @@ class DefaultController extends Controller
         if ($is_email) {
             $is_user = $this->container->getParameter('init_one');
         } else {
-            if ($request->getMethod() === 'GET') {
-            } elseif ($request->getMethod() == 'POST') {
+            if ($request->getMethod() === 'POST') {
                 $err_msg = $this->checkLanding($email, $nick, $pwd, $newPwd);
                 if(!$err_msg){
                     $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);

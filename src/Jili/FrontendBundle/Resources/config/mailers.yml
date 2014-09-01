@@ -1,0 +1,8 @@
+parameters:
+# form_handler:
+    jili_frontend.mailer.class: Jili\FrontendBundle\Mailer\Mailer
+
+services:
+    jili_frontend.mailer:
+        class: %jili_frontend.mailer.class%
+        arguments: [ @mailer, @router ] 
