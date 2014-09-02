@@ -53,7 +53,8 @@ class MonthActivityController extends Controller
         ));
     }
 
-    public function divideIntoGroups($users) {
+    public function divideIntoGroups($users)
+    {
         $users = array_chunk($users, 50);
         $users_right = array ();
         if (isset ($users[0][49])) {
@@ -64,8 +65,8 @@ class MonthActivityController extends Controller
         }
         if ($users_right && isset ($users[2])) {
             $users_right = array_merge($users_right, $users[2]);
-            $users[2] = $users_right;
         }
+        $users[2] = $users_right;
         return $users;
     }
 }
