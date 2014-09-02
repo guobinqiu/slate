@@ -33,7 +33,7 @@
             <table border="0" cellpadding="0" cellspacing="0">
               <tbody>
                 {% for user in users.0 %}
-                <tr {%if user.4 in [1, 3, 10, 50] %} class="yellow" {% endif %}>{# 1,3,10,50 is ranking number#}
+                <tr {%if user.4 is defined and user.4 in [1, 3, 10, 50] %} class="yellow" {% endif %}>{# 1,3,10,50 is ranking number#}
                   <td width="25%">第{{ user.4}}名</td>
                   <td width="35%">{{ user.2[:3] }}**</td>
                   <td width="40%">获得{{ user.3 }}米粒</td>
@@ -46,7 +46,7 @@
             <table border="0" cellpadding="0" cellspacing="0">
               <tbody>
                 {% for user in users.1 %}
-                <tr {%if user.4 == 100 %} class="yellow" {% endif %}> {# 100 is ranking number#}
+                <tr {%if user.4 is defined and user.4 == 100 %} class="yellow" {% endif %}> {# 100 is ranking number#}
                   <td width="25%">第{{ user.4}}名</td>
                   <td width="35%">{{ user.2[:3] }}**</td>
                   <td width="40%">获得{{ user.3 }}米粒</td>
@@ -61,6 +61,7 @@
             <div class="rankRefer">
               <table border="0" cellpadding="0" cellspacing="0">
                 <tbody>
+                  {%if users.2 is defined %}
                   {% for user in users.2 %}
                   <tr class="yellow">
                     <td width="28%">第{{ user.4}}名</td>
@@ -68,6 +69,7 @@
                     <td width="42%">获得{{ user.3 }}米粒</td>
                   </tr>
                   {% endfor %}
+                  {% endif %}
                 </tbody>
               </table>
             </div>

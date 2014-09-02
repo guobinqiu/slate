@@ -14,7 +14,9 @@ class MonthActivityController extends Controller
      */
     public function julyActivityAction()
     {
-        return $this->redirect($this->generateUrl('_monthActivity_cparanking',array('month'=>7)));
+        return $this->redirect($this->generateUrl('_monthActivity_cparanking', array (
+            'month' => 7
+        )));
     }
 
     /**
@@ -22,12 +24,14 @@ class MonthActivityController extends Controller
      */
     public function cpaRankingActivityAction($month)
     {
-        $filename = $this->container->getParameter('file_path_cpa_ranking_activity');
-        $users = FileUtil :: readCsvContent($filename);
-
         $date = DateUtil :: getTimeByMonth($month);
         $start = $date['start_time'];
         $end = $date['end_time'];
+
+        //读文件
+        $file_path = $this->container->getParameter('file_path_cpa_ranking_activity');
+        $filename = $file_path . date('Ym', strtotime($start)) . '.csv';
+        $users = FileUtil :: readCsvContent($filename);
 
         $request = $this->get('request');
         $user_id = $request->getSession()->get('uid');
@@ -51,10 +55,17 @@ class MonthActivityController extends Controller
 
     public function divideIntoGroups($users) {
         $users = array_chunk($users, 50);
-        $users_right[] = $users[0][49]; //第50名
-        $users_right[] = $users[1][49]; //第100名
-        $users_right = array_merge($users_right, $users[2]);
-        $users[2] = $users_right;
+        $users_right = array ();
+        if (isset ($users[0][49])) {
+            $users_right[] = $users[0][49]; //第50名
+        }
+        if (isset ($users[1][49])) {
+            $users_right[] = $users[1][49]; //第100名
+        }
+        if ($users_right && isset ($users[2])) {
+            $users_right = array_merge($users_right, $users[2]);
+            $users[2] = $users_right;
+        }
         return $users;
     }
 }

@@ -23,15 +23,16 @@ class CpaRankingActivityCommand extends ContainerAwareCommand
     {
         $output->writeln('start...');
 
-        $filename = $this->getContainer()->getParameter('file_path_cpa_ranking_activity');
-        //写文件
-        $handle = fopen($filename, "w");
-
         //开始时间和结束时间
         $start_time = $input->getArgument('start_time');
         $end_time = $input->getArgument('end_time');
         $output->writeln('start_time:' . $start_time);
         $output->writeln('end_time:' . $end_time);
+
+        //写文件
+        $file_path = $this->getContainer()->getParameter('file_path_cpa_ranking_activity');
+        $filename = $file_path . date('Ym', strtotime($start_time)) . '.csv';
+        $handle = fopen($filename, "w");
 
         //前100名
         $limit = 100;
@@ -46,37 +47,44 @@ class CpaRankingActivityCommand extends ContainerAwareCommand
         $limit = 1;
         $offset = 199;
         $users = $this->getUsers($start_time, $end_time, $limit, $offset);
-        $users[0]['no'] = 200;
-        fputcsv($handle, $users[0]);
+        if ($users) {
+            $users[0]['no'] = 200;
+            fputcsv($handle, $users[0]);
+        }
 
         //第300名
         $limit = 1;
         $offset = 299;
         $users = $this->getUsers($start_time, $end_time, $limit, $offset);
-        $users[0]['no'] = 300;
-        fputcsv($handle, $users[0]);
+        if ($users) {
+            $users[0]['no'] = 300;
+            fputcsv($handle, $users[0]);
+        }
 
         //第400名
         $limit = 1;
         $offset = 399;
         $users = $this->getUsers($start_time, $end_time, $limit, $offset);
-        $users[0]['no'] = 400;
-        fputcsv($handle, $users[0]);
+        if ($users) {
+            $users[0]['no'] = 400;
+            fputcsv($handle, $users[0]);
+        }
 
         //第500名
         $limit = 1;
         $offset = 499;
         $users = $this->getUsers($start_time, $end_time, $limit, $offset);
-        $users[0]['no'] = 500;
-        fputcsv($handle, $users[0]);
+        if ($users) {
+            $users[0]['no'] = 500;
+            fputcsv($handle, $users[0]);
+        }
 
         fclose($handle);
 
         $output->writeln('successfully');
     }
 
-    protected function getUsers($start_time, $end_time, $limit, $offset)
-    {
+    protected function getUsers($start_time, $end_time, $limit, $offset) {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $users = $em->getRepository('JiliApiBundle:User')->getTotalCPAPointsByTime($start_time, $end_time, $limit, $offset);
         return $users;
