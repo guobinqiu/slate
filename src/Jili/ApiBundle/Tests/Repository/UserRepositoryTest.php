@@ -54,13 +54,16 @@ class UserRepositoryTest extends KernelTestCase
     }
     /**
      * @group issue_448
+     * @group issue_453 
      */
     public function testCreateOnSignup() {
         $em = $this->em;
         $param = array('email'=>'chiangtor@gmail.com', 'nick'=> 'chiangtor');
         $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
         $this->assertNull($r);
-        $em->getRepository('JiliApiBundle:User')->createOnSignup($param);
+        $user = $em->getRepository('JiliApiBundle:User')->createOnSignup($param);
+        $this->assertEquals($param['email'], $user->getEmail() );
+        $this->assertEquals($param['nick'], $user->getNick() );
         $param [ 'points']=  1;
         $param [ 'isInfoSet']=  1;
         $param [ 'rewardMultiple']=  1;
@@ -68,8 +71,7 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertNotNull($r);
     }
     /**
-     * @group debug 
-     * @group 453 
+     * @group issue_453 
      */
     public function testCreateOnLanding() 
     {
@@ -81,7 +83,8 @@ class UserRepositoryTest extends KernelTestCase
         // call the create() 
         $param['pwd']='123123';
         $user=$em->getRepository('JiliApiBundle:User')->createOnLanding($param);
-
+        $this->assertEquals($param['email'], $user->getEmail() );
+        $this->assertEquals($param['nick'], $user->getNick() );
         $this->assertEmpty($user->getUniqkey());
 
         // check the create user
@@ -92,7 +95,6 @@ class UserRepositoryTest extends KernelTestCase
         $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
         $this->assertNotNull($r);
 
-
         // case 2
         $param = array('email'=>'alice.nima@gmail.com', 'nick'=> 'alice32');
         $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
@@ -102,6 +104,9 @@ class UserRepositoryTest extends KernelTestCase
         $param ['uniqkey' ] = '0ce9189316c563fcc9f42047c2a2cf46a0144051';
         $param [ 'isFromWenwen']=  1;
         $user = $em->getRepository('JiliApiBundle:User')->createOnLanding($param);
+        $this->assertEquals($param['email'], $user->getEmail() );
+        $this->assertEquals($param['nick'], $user->getNick() );
+        $this->assertEquals($param['uniqkey'], $user->getUniqkey() );
 
         // the the result 
         $param [ 'points']=  1;
@@ -110,7 +115,28 @@ class UserRepositoryTest extends KernelTestCase
         unset($param['pwd']);
         $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
         $this->assertNotNull($r);
-        
+    }
+    /**
+     * @group issue_453 
+     * @group debug 
+     */
+    public function testCreateOnWenwen()
+    {
+        $em = $this->em;
+        $param = array('uniqkey'  => '0ce9189316c563fcc9f42047c2a2cf46a0144051', 'email'=>'chiangtor@gmail.com');
+        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
+        $this->assertNull($r);
 
+        $user = $em->getRepository('JiliApiBundle:User')->createOnWenwen($param);
+
+        $this->assertEquals(0, $user->getPoints());
+        $this->assertEquals(0, $user->getIsInfoSet());
+        $this->assertEquals(1, $user->getRewardMultiple());
+        $this->assertEquals(2, $user->getIsFromWenwen());
+        $this->assertEmpty($user->getPwd());
+        $this->assertEmpty($user->getNick());
+
+        $this->assertEquals($param['email'], $user->getEmail());
+        $this->assertEquals($param['uniqkey'], $user->getUniqkey());
     }
 }
