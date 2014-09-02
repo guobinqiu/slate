@@ -40,14 +40,13 @@ class LoadSeptemberActivityData extends AbstractFixture implements ContainerAwar
         //load data for testing .
         $root_dir = $this->container->get('kernel')->getRootDir();
         $fixture_dir = $root_dir . DIRECTORY_SEPARATOR . 'fixtures';
-        echo $fixture_dir . DIRECTORY_SEPARATOR . 'user.sql';die;
         $sql = file_get_contents($fixture_dir . DIRECTORY_SEPARATOR . 'user.sql');
         $r = $manager->getConnection()->query($sql);
         $r->closeCursor();
-//        for ($i = 0; $i < 10; $i++) {
-//            $sql = file_get_contents($fixture_dir . DIRECTORY_SEPARATOR . 'task_history0' . $i . '.sql');
-//            $r = $manager->getConnection()->query($sql);
-//            $r->closeCursor();
-//        }
+        for ($i = 0; $i < 10; $i++) {
+            $sql = file_get_contents($fixture_dir . DIRECTORY_SEPARATOR . 'task_history0' . $i . '.sql');
+            $r = $manager->getConnection()->query($sql);
+            $r->closeCursor();
+        }
     }
 }

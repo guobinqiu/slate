@@ -57,6 +57,7 @@ class CpaRankingActivityCommandTest extends KernelTestCase {
 
         // load fixtures
         $fixture = new LoadSeptemberActivityData();
+        $fixture->setContainer($container);
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
@@ -79,9 +80,10 @@ class CpaRankingActivityCommandTest extends KernelTestCase {
         ));
 
         $this->assertFileExists($output_filename, 'generate cpa ranking file');
-        $users = FileUtil :: readCsvContent($filename);
+        $users = FileUtil :: readCsvContent($output_filename);
 
-        //$this->assertEquals($expected, $actual, 'compare the output file content');
+        $this->assertEquals("38", count($users), 'compare the output file lines');
+        $this->assertEquals("1208683", $users[0][0], 'compare the output file content');
     }
 
 }
