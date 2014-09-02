@@ -201,11 +201,11 @@ a.more{
 	margin-right:5px;
 }
 .shopActInfo p.tit{
-	max-height: 46px;
+	max-height: 50px;
 	height:auto;
 	overflow: hidden;
 	font-weight: bold;
-	font: 16px/22px 'microsoft yahei',simhei;
+	font: 17px/26px 'microsoft yahei',simhei;
 }
 .shopActInfo p.dis{
 	font-size: 12px;
@@ -222,7 +222,7 @@ a.more{
 	float: right;
 	position:absolute;
 	right: 0;
-	bottom: 15px;
+	bottom: 10px;
 }
 .shopActInfo .publicAttention{
 	color: #999;
@@ -266,6 +266,7 @@ div.loginArea{
 	padding-top: 24px;
 	padding-bottom: 13px;
 	height: 124px;
+	border-right:1px solid #e6e6e6;
 }
 .loginArea p{
 	color: #999;
@@ -353,31 +354,35 @@ div.quickQ{
 	margin-top: 3px;
 	padding-bottom:15px;
 }
+div.quickQ .quickQCon .fnLeft{ border: 1px solid #f0f0f0;}
 .quickQInfo{
 	width: 141px;
 }
 .quickQInfo div.textTit{line-height: 21px;}
-.quickQInfo .quickWrap{ float:left;margin-bottom: 10px;}
+.quickQInfo .quickWrap{ float:left;margin-bottom: 10px; line-height: 22px; width: 141px; min-height: 42px;}
 .quickQInfo .quickWrap span{
 	width: 15px;
-	height: 17px;
+	height: 21px;
 }
-.quickQInfo .quickWrap span.quotesR{float: right;
+.quickQInfo .quickWrap span.quotesR{ display:inline-block;
 margin-top: -17px;}
 .quickQInfo div span.quotesL{
 	background: url(../images1408/icons.png) no-repeat 0 -174px;
 	float:left;
+	margin-right: 3px;
 }
 .quickQInfo div span.quotesR{
-	background: url(../images1408/icons.png) no-repeat -13px -179px;
+	background: url(../images1408/icons.png) no-repeat -13px -169px;
 }
 .countDown{
 	margin-top: 15px;
 	color: #999;
 }
+.countDown strong{width:6px; margin-right:5px; display:inline-block;}
 .countDown strong, .countDown span{
 	color: #333;
 	font-weight: bold;
+	font-family:'Microsoft YaHei',sans-serif;
 }
 .countDown span{
 	width: 29px;
@@ -456,6 +461,7 @@ div.notice{
 }
 .notice .pageNumber span{
 	padding: 0 5px;
+	color:#999;
 }
 .notice .pageNumber a{
 	width: 4px;
