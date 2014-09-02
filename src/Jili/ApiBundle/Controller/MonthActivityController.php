@@ -14,36 +14,7 @@ class MonthActivityController extends Controller
      */
     public function julyActivityAction()
     {
-        $filename = $this->container->getParameter('file_path_july_activity');
-        //写文件
-        $handle = fopen($filename, "r");
-        $users = array ();
-        if ($handle !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                $users[] = $data;
-            }
-        }
-        fclose($handle);
-        $start = "2014-07-01 00:00:00";
-        $end = "2014-07-31 23:59:59";
-        $request = $this->get('request');
-        $user_id = $request->getSession()->get('uid');
-        $my_point = 0;
-        if ($user_id) {
-            $em = $this->getDoctrine()->getManager();
-            $myInfo = $em->getRepository('JiliApiBundle:User')->getUserCPAPointsByTime($start, $end, $user_id);
-            if ($myInfo) {
-                $my_point = $myInfo[0]['points'];
-            }
-        }
-
-        //divide users into groups for display on page
-        $users = $this->divideIntoGroups($users);
-
-        return $this->render('JiliApiBundle:MonthActivity:julyActivity.html.twig', array (
-            'users' => $users,
-            'my_point' => $my_point
-        ));
+        return $this->redirect($this->generateUrl('_monthActivity_cparanking',array('month'=>7)));
     }
 
     /**
