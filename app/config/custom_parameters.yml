@@ -247,3 +247,4 @@ parameters:
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_july_activity: /data/91jili/logs/activity/july.csv
     file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
+    file_path_cpa_ranking_activity: /data/91jili/logs/activity/cpa_ranking_activity.csv
