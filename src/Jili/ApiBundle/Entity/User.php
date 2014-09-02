@@ -21,6 +21,10 @@ class User
     const INFO_NOT_SET=0;
 
     const DEFAULT_REWARD_MULTIPE=1;
+
+    const IS_FROM_WENWEN = 1;
+    const IS_NOT_FROM_WENWEN = 0;
+
     public function __construct()
     {
         $this->setRegisterDate ( new \DateTime())

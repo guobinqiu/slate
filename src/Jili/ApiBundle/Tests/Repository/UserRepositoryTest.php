@@ -4,6 +4,9 @@ namespace Jili\ApiBundle\Tests\Repository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+
 class UserRepositoryTest extends KernelTestCase
 {
 
@@ -23,6 +26,9 @@ class UserRepositoryTest extends KernelTestCase
             ->get('doctrine')
             ->getManager();
 
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
         $this->em  = $em;
     }
     /**
@@ -50,8 +56,6 @@ class UserRepositoryTest extends KernelTestCase
      * @group issue_448
      */
     public function testCreateOnSignup() {
-
-
         $em = $this->em;
         $param = array('email'=>'chiangtor@gmail.com', 'nick'=> 'chiangtor');
         $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
@@ -62,5 +66,51 @@ class UserRepositoryTest extends KernelTestCase
         $param [ 'rewardMultiple']=  1;
         $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
         $this->assertNotNull($r);
+    }
+    /**
+     * @group debug 
+     * @group 453 
+     */
+    public function testCreateOnLanding() 
+    {
+        $em = $this->em;
+        $param = array('email'=>'chiangtor@gmail.com', 'nick'=> 'chiangtor');
+        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
+        $this->assertNull($r);
+
+        // call the create() 
+        $param['pwd']='123123';
+        $user=$em->getRepository('JiliApiBundle:User')->createOnLanding($param);
+
+        $this->assertEmpty($user->getUniqkey());
+
+        // check the create user
+        $param [ 'points']=  1;
+        $param [ 'isInfoSet']=  1;
+        $param [ 'rewardMultiple']=  1;
+        unset($param['pwd']);
+        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
+        $this->assertNotNull($r);
+
+
+        // case 2
+        $param = array('email'=>'alice.nima@gmail.com', 'nick'=> 'alice32');
+        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
+        $this->assertNull($r);
+
+        $param['pwd']='123123';
+        $param ['uniqkey' ] = '0ce9189316c563fcc9f42047c2a2cf46a0144051';
+        $param [ 'isFromWenwen']=  1;
+        $user = $em->getRepository('JiliApiBundle:User')->createOnLanding($param);
+
+        // the the result 
+        $param [ 'points']=  1;
+        $param [ 'isInfoSet']=  1;
+        $param [ 'rewardMultiple']=  1;
+        unset($param['pwd']);
+        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
+        $this->assertNotNull($r);
+        
+
     }
 }

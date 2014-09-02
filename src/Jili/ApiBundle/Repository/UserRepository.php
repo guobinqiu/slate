@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
-use Jili\ApiBundle\Entity\User;
+Use Jili\ApiBundle\Entity\User;
 
 class UserRepository extends EntityRepository
 {
@@ -589,6 +589,34 @@ EOT;
         $user->setNick($param['nick']);
         $user->setEmail($param['email']);
 
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $user;
+    }
+
+    /**
+     * create the user when sign up
+     * @param  array('nick'=> , 'email'=>, 'pwd'=> ,'');
+     * @return the User
+     */
+    public function createOnLanding($param)
+    {
+        $user = new User();
+        $user->setNick($param['nick']);
+        $user->setEmail($param['email']);
+
+        $user->setPwd($param['pwd']);
+        $user->setIsFromWenwen(User::IS_FROM_WENWEN );
+
+        //   $user->setPoints($this->container->getParameter('init'));
+        //   $user->setRewardMultiple($this->container->getParameter('init_one'));
+        //   $user->setIsInfoSet($this->container->getParameter('init'));
+
+        if( isset($param['uniqkey'])){
+            $user->setUniqkey($param['uniqkey']);
+        }
         $em = $this->getEntityManager();
         $em->persist($user);
         $em->flush();
