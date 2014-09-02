@@ -56,7 +56,7 @@ class WenwenController extends Controller
         //存db
         $user = $em->getRepository('JiliApiBundle:User')->getNotActiveUserByEmail($email);
         if (empty($user)) {
-            $user = $this->getRepository('JiliApiBundle:User')->createOnWenwen(array('email'=>$email, 'uniqkey'=>$uniqkey));
+            $user = $em->getRepository('JiliApiBundle:User')->createOnWenwen(array('email'=>$email, 'uniqkey'=>$uniqkey));
         } else {
             $user = $user[0];
             $user->setRegisterDate(date_create(date('Y-m-d H:i:s')));

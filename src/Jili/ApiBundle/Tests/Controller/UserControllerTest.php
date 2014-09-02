@@ -234,15 +234,19 @@ class UserControllerTest extends WebTestCase
         $url = $container->get('router')->generate('_user_forgetPass',array('code'=>$code,'id'=>$user->getId() ),true);
 
         print $url. PHP_EOL;
-        $crawler = $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $client->request('GET', $url ) ;
+        $this->assertEquals(302, $client->getResponse()->getStatusCode() , 'GET forget pass url status check' );
+        $crawler = $client->followRedirect();
 
         $form = $crawler->selectButton('but')->form();
 
         // set some values
         print 'Set some values'.PHP_EOL;
-        $form['pwd'] = 'aaaaaa';
-        $form['que_pwd'] = 'aaaaaa';
+        #$form['pwd'] = 'aaaaaa';
+        #$form['que_pwd'] = 'aaaaaa';
+        $form['password[first]'] ->setValue( 'aaaaaa');
+        $form['password[second]'] ->setValue( 'aaaaaa');
+        $form['agreement']->tick() ;
 
         // submit the form
         print 'Submit the form'.PHP_EOL;

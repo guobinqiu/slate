@@ -8,7 +8,7 @@ use Symfony\Component\BrowserKit\Cookie;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Jili\ApiBundle\DataFixtures\ORM\LoadLandingWenwenCodeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserLandingWenwenCodeData;
 use Jili\ApiBundle\Utility\WenwenToken;
 
 class DefaultControllerTest extends WebTestCase
@@ -28,6 +28,23 @@ class DefaultControllerTest extends WebTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $container = static::$kernel->getContainer();
+
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        $test_name = $this->getName();
+
+        if( in_array($test_name , array('testAdLoginAction') )) {
+
+            $fixture = new LoadUserLandingWenwenCodeData();
+            $fixture->setContainer( $container);
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
+        }
 
         $this->em  = $em;
     }
@@ -49,7 +66,10 @@ class DefaultControllerTest extends WebTestCase
         $logger= $container->get('logger');
         $router = $container->get('router');
 
-        $query = array('email'=> 'alice.nima@gmail.com');
+        $user = LoadUserLandingWenwenCodeData::$ROWS[0];
+
+        $query = array('email'=> $user->getEmail() );
+
         $em = $this->em;
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
         $this->assertEquals(1, count($user));
@@ -103,21 +123,22 @@ class DefaultControllerTest extends WebTestCase
         $em = $this->em;
         // set session for login
         $query = array('email'=> 'alice.nima@gmail.com');
-        // JiliApiBundle:WenwenUser' or JiliApiBundle:WenWenUser'
-        $user_wenwen = $em->getRepository('JiliApiBundle:WenwenUser')->findOneByEmail($query['email']);
-
-        if( $user_wenwen) {
-            $em->remove($user_wenwen);
-            $em->flush();
-            $em->clear();
-        }
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-        if( $user) {
-            $em->remove($user);
-            $em->flush();
-            $em->clear();
-        }
-
+//        // JiliApiBundle:WenwenUser' or JiliApiBundle:WenWenUser'
+//        $user_wenwen = $em->getRepository('JiliApiBundle:WenwenUser')->findOneByEmail($query['email']);
+//
+//        if( $user_wenwen) {
+//            $em->remove($user_wenwen);
+//            $em->flush();
+//            $em->clear();
+//        }
+//
+//        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+//        if( $user) {
+//            $em->remove($user);
+//            $em->flush();
+//            $em->clear();
+//        }
+//
         $secret_token= $this->genSecretToken($query);
         $url = $router->generate('_default_landing', array('secret_token'=>$secret_token));
         echo $url, PHP_EOL;
@@ -150,6 +171,7 @@ class DefaultControllerTest extends WebTestCase
         $plain['signature'] = WenwenToken::getUniqueToken($plain['email']);
         return  strtr(base64_encode(json_encode($plain)), '+/', '-_');
     }
+
     private function buildToken($user , $secret)
     {
         $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;

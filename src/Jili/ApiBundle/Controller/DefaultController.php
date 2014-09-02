@@ -320,7 +320,7 @@ class DefaultController extends Controller
                         if($uniqkey){
                             $param['uniqkey']= $uniqkey;
                         }
-                        $user = $this->getRepository('JiliApiBundle:User')->createOnLanding($param);
+                        $user = $em->getRepository('JiliApiBundle:User')->createOnLanding($param);
                         $id = $user->getId();
                     }
 
