@@ -94,11 +94,11 @@ $(document).ready(function(){
 {% if app.request.attributes.get('_route') == '_homepage' %}
     <div class="indexTopbannerWrap">
     	<div id="banner" class="indexTopbanner" style="display:none;">
-            <a href="#"><img src="{{ asset('images1408/sepUnFoldBanner.jpg') }}" width="1000" height="300" /></a>
+            <a href="{{ path('_monthActivity_september') }}"><img src="{{ asset('images1408/sepUnFoldBanner.jpg') }}" width="1000" height="300" /></a>
             <span class="indexTopbannerFold">展开<s></s></span>
         </div>
         <div id="top" class="indexTopbanner">
-            <a href="#"><img src="{{ asset('images1408/sepFoldBanner.jpg') }}" width="1000" height="60" /></a>
+            <a href="{{ path('_monthActivity_september') }}"><img src="{{ asset('images1408/sepFoldBanner.jpg') }}" width="1000" height="60" /></a>
             <!--<span class="indexTopbannerFold">展开<s></s></span>-->
         </div>
     </div>
