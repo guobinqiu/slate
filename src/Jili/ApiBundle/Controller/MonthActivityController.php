@@ -7,23 +7,35 @@ use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\DateUtil;
 
-class MonthActivityController extends Controller
-{
+class MonthActivityController extends Controller {
+
     /**
-     * @Route("/july", name="_monthActivity_julyActivity")
+     * @Route("/july", name="_monthActivity_july")
      */
-    public function julyActivityAction()
-    {
-        return $this->redirect($this->generateUrl('_monthActivity_cparanking', array (
-            'month' => 7
-        )));
+    public function julyActivityAction() {
+        $month = 7; //7月
+        $cpaRankingData = $this->getCpaRankingData($month);
+        return $this->render('JiliApiBundle:MonthActivity:julyActivity.html.twig', array (
+            'users' => $cpaRankingData['users'],
+            'my_point' => $cpaRankingData['my_point']
+        ));
     }
 
     /**
-     * @Route("/cparanking/{month}", name="_monthActivity_cparanking")
+     * @Route("/september", name="_monthActivity_september")
      */
-    public function cpaRankingActivityAction($month)
-    {
+    public function septemberActivityAction() {
+        $month = 9; //9月
+        $cpaRankingData = $this->getCpaRankingData($month);
+        return $this->render('JiliApiBundle:MonthActivity:septemberActivity.html.twig', array (
+            'users' => $cpaRankingData['users'],
+            'my_point' => $cpaRankingData['my_point']
+        ));
+    }
+
+    public function getCpaRankingData($month) {
+        $cpaRankingData = array ();
+
         $date = DateUtil :: getTimeByMonth($month);
         $start = $date['start_time'];
         $end = $date['end_time'];
@@ -47,14 +59,13 @@ class MonthActivityController extends Controller
         //divide users into groups for display on page
         $users = $this->divideIntoGroups($users);
 
-        return $this->render('JiliApiBundle:MonthActivity:cpaRankingActivity.html.twig', array (
-            'users' => $users,
-            'my_point' => $my_point
-        ));
+        $cpaRankingData['my_point'] = $my_point;
+        $cpaRankingData['users'] = $users;
+
+        return $cpaRankingData;
     }
 
-    public function divideIntoGroups($users)
-    {
+    public function divideIntoGroups($users) {
         $users = array_chunk($users, 50);
         $users_right = array ();
         if (isset ($users[0][49])) {
@@ -69,4 +80,5 @@ class MonthActivityController extends Controller
         $users[2] = $users_right;
         return $users;
     }
+
 }
