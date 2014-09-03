@@ -50,7 +50,6 @@ strong,b{ font-weight:bold;}
 .headerConWrapper{
 	background-color:#fff;
 	height:115px;
-	border-top: 1px #eaeae8 solid;
 	border-bottom: 1px #eaeae8 solid;
 	box-shadow: 1px 1px 1px rgb(234, 234, 232);
 }
@@ -255,5 +254,65 @@ a.tencent{
 }
 
 /* top notice */
-.topNotice{ height:22px; line-height:22px; text-align:center; color:#4d4d4d; background:#fffbe2; border-bottom:1px solid #f4e8ca;}
+.topNotice{ 
+	height:22px; 
+	line-height:22px; 
+	text-align:center; 
+	color:#4d4d4d; 
+	background:#fffbe2; 
+	border-bottom:1px solid #f4e8ca;
+}
 /* top notice / */
+
+/* top banner */
+.indexTopbannerWrap{
+	background: #fff; 
+	border-top: 1px solid #eaeae8;
+}
+.indexTopbanner{
+	width:1000px;
+	margin:0 auto;
+	position:relative;
+}
+.indexTopbannerFold,.indexTopbannerUnfold {
+	width: 17px;
+	height: 38px;
+	line-height: 16px;
+	overflow: hidden;
+	padding-top: 2px;
+	color: #FFF;
+	position: absolute;
+	right: 21px;
+	cursor: pointer;
+	top: 0;
+	display: block;
+	text-align: center;
+	background: #666;
+}
+.indexTopbannerFold s {
+	width: 0;
+	height: 0;
+	font-size: 0;
+	line-height: 0;
+	overflow: hidden;
+	position: absolute;
+	border-style: solid dashed dashed dashed;
+	border-color: #FFF transparent transparent transparent;
+	border-width: 4px;
+	left: 4px;
+	bottom: -2px;
+}
+.indexTopbannerUnfold s {
+	width: 0;
+	height: 0;
+	font-size: 0;
+	line-height: 0;
+	overflow: hidden;
+	position: absolute;
+	border-width: 4px;
+	left: 4px;
+	border-style: dashed dashed solid dashed;
+	border-color: transparent transparent #FFF transparent;
+	bottom: 2px;
+}
+/* top banner /*/
