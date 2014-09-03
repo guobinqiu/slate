@@ -26,15 +26,15 @@ window.setInterval(function(){showCountDown(now11.getFullYear(),now11.getMonth()
 </script>
 <h2>快速问答</h2>
 <div class="quickQCon clearfix">
-    <div class="fnLeft"><img src="{{image_url}}" width="90" height="90" alt="{{title}}" title="{{title}}" /></div>
+    <div class="fnLeft"><a href="{{vote_url}}" target="_blank"><img src="{{image_url}}" width="90" height="90" alt="{{title}}" title="{{title}}" /></a></div>
     <div class="quickQInfo fnRight">
         <div class="quickWrap">
         	<span class="quotesL"></span>
-            <div class="textTit" limit="19"><a href="{{vote_url}}" target="_blank">{{title}}</a></div>
+            <span class="textTit" limit="19"><a href="{{vote_url}}" target="_blank">{{title}}</a></span>
             <span class="quotesR"></span> 
         </div>
         <div class="countDownArea">
-        	<div id="divdown1" class="countDown"></div>
+        	<div id="divdown1" class="countDown font13"></div>
     	</div>
 	</div>
 </div>
