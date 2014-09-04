@@ -145,7 +145,7 @@ class WenwenControllerTest extends WebTestCase
         $record =  $em->getRepository('JiliApiBundle:SeTPasswordCode')->findBy( array('userId'=> $user->getId()) );
         $this->assertCount(1, $record,' checkin point setPassword code');
 
-        $expected = '{"status":"1","message":"success","activation_url":"https:\/\/www.91jili.com\/user\/setPassFromWenwen\/'.$record[0]->getCode() .'\/1"}';
+        $expected = '{"status":"1","message":"success","activation_url":"https:\/\/www.91jili.com\/user\/setPassFromWenwen\/'.$record[0]->getCode() .'\/'.$user->getId() .'"}';
 
         $this->assertEquals($expected,$client->getResponse()->getContent() );
 

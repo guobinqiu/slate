@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
-use Jili\ApiBundle\Entity\User;
+Use Jili\ApiBundle\Entity\User;
 
 class UserRepository extends EntityRepository
 {
@@ -593,6 +593,45 @@ EOT;
         $em->persist($user);
         $em->flush();
 
+        return $user;
+    }
+
+    /**
+     * create the user on landing page
+     * @param  array('nick'=> , 'email'=>, 'pwd'=> ,'');
+     * @return the User
+     */
+    public function createOnLanding($param)
+    {
+        $user = new User();
+        $user->setNick($param['nick']);
+        $user->setEmail($param['email']);
+        $user->setPwd($param['pwd']);
+        $user->setIsFromWenwen(User::IS_NOT_FROM_WENWEN );
+        if( isset($param['uniqkey'])){
+            $user->setUniqkey($param['uniqkey']);
+        }
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+        return $user;
+    }
+    /**
+     * create the user on wenwen  
+     * @param  array( 'email'=>, 'uniqkey'=> ,'');
+     * @return the User
+     */
+    public function createOnWenwen($param)
+    {
+        $user = new User();
+        $user->setEmail($param['email']);
+        $user->setUniqkey($param['uniqkey']);
+        $user->setPoints(User::POINT_EMPTY);
+        $user->setIsInfoSet(User::INFO_NOT_SET);
+        $user->setIsFromWenwen(User::IS_FROM_WENWEN); //和91问问同时注册 2
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
         return $user;
     }
 }

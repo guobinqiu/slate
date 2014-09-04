@@ -259,6 +259,7 @@ class DefaultController extends Controller
         $err_msg = '';
         $signature = '';
         $uniqkey = '';
+
         $request = $this->get('request');
         $token = $request->query->get('secret_token');
         $nick = $request->request->get('nick');
@@ -315,20 +316,11 @@ class DefaultController extends Controller
                         $id = $isset_email[0]->getId();
                         $user = $isset_email[0];
                     } else {
-                        $user = new User();
-                        $user->setNick($nick);
-                        $user->setPwd($pwd);
-                        $user->setEmail($email);
-                        $user->setIsFromWenwen($this->container->getParameter('init_one'));
-                        $user->setPoints($this->container->getParameter('init'));
-                        $user->setRewardMultiple($this->container->getParameter('init_one'));
-                        $user->setIsInfoSet($this->container->getParameter('init'));
-
+                        $param = array( 'nick'=>$nick, 'pwd'=>$pwd, 'email'=>$email );
                         if($uniqkey){
-                            $user->setUniqkey($uniqkey);
+                            $param['uniqkey']= $uniqkey;
                         }
-                        $em->persist($user);
-                        $em->flush();
+                        $user = $em->getRepository('JiliApiBundle:User')->createOnLanding($param);
                         $id = $user->getId();
                     }
 
@@ -359,7 +351,8 @@ class DefaultController extends Controller
             }
         }
 
-        //最新动态
+        // TODO: refactor this.
+        //最新动态 
         $filename = $this->container->getParameter('file_path_recent_point');
         $recentPoint = FileUtil::readCsvContent($filename);
         $recent = array();

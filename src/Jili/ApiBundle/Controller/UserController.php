@@ -1043,7 +1043,6 @@ class UserController extends Controller
         $code = '';
         $email = $request->request->get('email');
         $pwd = $request->request->get('pwd');
-        $logger = $this->get('logger');
 
         //login
         $code = $this->get('login.listener')->login($request);
@@ -1160,7 +1159,6 @@ class UserController extends Controller
         $email = $request->query->get('email');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        $logger = $this->get('logger');
         if(empty($user)){
             $code = $this->container->getParameter('chnage_no_email');
             return new Response($code);
@@ -1349,7 +1347,6 @@ class UserController extends Controller
             return $this->redirect($this->generateUrl('_homepage'));
         }
         $request = $this->get('request');
-        $user = new User();
         $form = $this->createForm(new CaptchaType(), array());
         $email = $request->request->get('email');
         $nick = $request->request->get('nick');
@@ -1392,17 +1389,11 @@ class UserController extends Controller
                                             $code_nick = $this->container->getParameter('reg_wr_nick');
                                         }else{
                                             $count = (strlen($nick) + mb_strlen($nick,'UTF8')) / 2;
-                                            if($count > 20)
+                                            if($count > 20) {
                                                 $code_nick = $this->container->getParameter('reg_wr_nick');
-                                            else{
-                                                $logger = $this->get('logger');
-                                                $user->setNick($request->request->get('nick'));
-                                                $user->setEmail($request->request->get('email'));
-                                                $user->setPoints($this->container->getParameter('init'));
-                                                $user->setIsInfoSet($this->container->getParameter('init'));
-                                                $user->setRewardMultiple($this->container->getParameter('init_one'));
-                                                $em->persist($user);
-                                                $em->flush();
+                                            } else {
+                                                $user = $this->getRepository('JiliApiBundle:User')->createOnSignup( array('nick'=> $nick, 'email'=>$email ));
+
                                                 $str = 'jilifirstregister';
                                                 $code = md5($user->getId().str_shuffle($str));
                                                 $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
@@ -1580,11 +1571,9 @@ class UserController extends Controller
 	 */
     public function signupActivateAction($token, $uid)
     {
-        $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $vars = array('token'=> $token, 'uid'=> $uid);
-        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ). var_export( $vars, true) );
 
         // check the uid
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
@@ -1683,7 +1672,6 @@ class UserController extends Controller
             );
         $soapMailLister->sendSingleMailing($recipient_arr);
 
-        $logger = $this->get('logger');
         $this->get('login.listener')->checkNewbie($user);
         $this->get('login.listener')->log($user);
 
