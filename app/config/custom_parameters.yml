@@ -226,6 +226,7 @@ parameters:
     card_number_is_null: 请输入您的身份证号码
     card_number_is_error: 身份证号码错误
     card_number_is_exist: 您已经提交过身份证号码，如需修改请联系客服
+    user_edm_unsubscribe_is_exist: 该用户已经退订
     file_path_recent_point: /data/91jili/topcron_recentpoint.log
     file_path_ranking_month: /data/91jili/topcron_rankingmonth.log
     file_path_ranking_year: /data/91jili/topcron_rankingyear.log
