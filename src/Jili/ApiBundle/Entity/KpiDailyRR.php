@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * KpiDailyRR
  *
  * @ORM\Table(name="kpi_daily_RR")
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\KpiDailyRR")
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\KpiDailyRRRepository")
  */
 class KpiDailyRR
 {

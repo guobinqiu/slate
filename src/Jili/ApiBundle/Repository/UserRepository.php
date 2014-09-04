@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
-Use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\User;
 
 class UserRepository extends EntityRepository
 {
