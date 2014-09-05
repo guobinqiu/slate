@@ -22,21 +22,16 @@ class LandingController extends Controller
     {
         $request = $this->get('request');
         $logger = $this->get('logger');
+        $session = $this->get('session');
+        if($session->has('uid')) {
+            return $this->redirect( $this->generateUrl('_homepage'));
+        }
+
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new SignupType() );
         $templ_vars = array();
         if ($request->getMethod() === 'POST') {
-            #$session=$this->get('session');
-            #$capcha_keys = $session->get('captcha_whitelist_key');
-            #$capcha_expected = $session->get($capcha_keys[0]);
-            #$logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $capcha_expected, true) );
-            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $request->request->all(), true) );
             $form->bind($request);
-#            $cn = get_class($form);
-#            $cm = get_class_methods($cn);
-#            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $cm, true) );
-#            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $cn, true) );
-#            $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'') ). var_export( $form->getData() , true) );
             if ($form->isValid()) {
                 // the validation passed, do something with the $author object
                 $form_handler = $this->get('signup.form_handler');
@@ -44,9 +39,7 @@ class LandingController extends Controller
                 $errors =  $form_handler->validate();
                 if( empty( $errors) ) {
                     $result =  $form_handler->process();
-                    $logger->debug('{jarod}'. implode( ':', array(__LINE__, __FILE__,'$result','') ). var_export( $result , true) );
                     $user = $result['user'];
-//                    $passwordCode = $result['setPasswordCode'];
                     $this->get('user_sign_up_route.listener')->signed(array('user_id'=> $user->getId() ) );
                     // set sucessful message flash
                     $this->get('session')->getFlashBag()->add('notice','恭喜，注册成功！');
