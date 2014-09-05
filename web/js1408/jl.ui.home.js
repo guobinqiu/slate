@@ -120,7 +120,7 @@
         $('.hotShops li').switchBg({switchMethod: 'hover', switchClass: 'active'});
         $('.slider').slider({ sliderCon: '.sliderImg', sliderMenus: '.sliderBtns b', config: {
             stepWid : 518,
-            timer : 2000,
+            timer : 5000,
             animateTimer : 1000,
             stepNum: $('.sliderBtns b').length,
             autoSwitch: true,
@@ -147,7 +147,7 @@
 (function($){
 	//截取字符串长度
 		jQuery.fn.limit=function(){ 
-			var self = $("div[limit]"); 
+			var self = $("span[limit]"); 
 			self.each(function(){ 
 				var objString = $(this).text(); 
 				var objLength = $(this).text().length; 

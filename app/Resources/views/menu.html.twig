@@ -90,7 +90,21 @@ $(document).ready(function(){
       {% else %}
     <a href="{{ path('_user_login') }}" title="登录">登录</a><span class="division">|</span><a href="{{ path('_user_reg') }}" title="注册">注册</a>
     {% endif %}  
-    </div><div class="headerConWrapper">
+    </div>
+{% if app.request.attributes.get('_route') == '_homepage' %}
+    <div class="indexTopbannerWrap">
+    	<div id="banner" class="indexTopbanner" style="display:none;">
+            <a href="{{ path('_monthActivity_september') }}"><img src="{{ asset('images1408/sepUnFoldBanner.jpg') }}" width="1000" height="300" /></a>
+            <span class="indexTopbannerFold">展开<s></s></span>
+        </div>
+        <div id="top" class="indexTopbanner">
+            <a href="{{ path('_monthActivity_september') }}"><img src="{{ asset('images1408/sepFoldBanner.jpg') }}" width="1000" height="60" /></a>
+            <!--<span class="indexTopbannerFold">展开<s></s></span>-->
+        </div>
+    </div>
+{% else %}
+{% endif %}
+    <div class="headerConWrapper">
         <div class="headerCon w1000">
             <div class="headerConUp clearfix">
                 <a href="{{ path('_homepage') }}" title="91积粒logo" class="logo fnLeft"><img src="{{ asset('images1408/logo.png') }}" width="160" height="46" alt="91积粒logo" title="91积粒logo"/></a>
