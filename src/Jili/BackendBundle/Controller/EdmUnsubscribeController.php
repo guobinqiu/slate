@@ -69,17 +69,17 @@ class EdmUnsubscribeController extends Controller {
         $request = $this->get('request');
         $email = $request->request->get('email');
 
-        $error_message = $this->checkForAdd($email);
-        if ($error_message) {
+        $return = $this->checkForAdd($email);
+        if ($return['message']) {
             return $this->render('JiliBackendBundle:EdmUnsubscribe:add.html.twig', array (
                 'email' => $email,
-                'error_message' => $error_message
+                'error_message' => $return['message']
             ));
         }
 
         //add UserEdmUnsubscribe
         $userEdmUnsubscribe = new UserEdmUnsubscribe();
-        $userEdmUnsubscribe->setUserId($user[0]->getId());
+        $userEdmUnsubscribe->setUserId($return['user_id']);
         $userEdmUnsubscribe->setCreatedTime(date_create());
         $em->persist($userEdmUnsubscribe);
         $em->flush();
@@ -88,23 +88,35 @@ class EdmUnsubscribeController extends Controller {
     }
 
     public function checkForAdd($email) {
+        $em = $this->getDoctrine()->getManager();
+        $return = array ();
+
         //check email input
         if (!$email) {
-            return $this->container->getParameter('reg_en_mail');
+            return array (
+                'message' => $this->container->getParameter('reg_en_mail')
+            );
         }
 
         //check email exist
         $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
         if (!$user) {
-            return $this->container->getParameter('chnage_no_email');
+            return array (
+                'message' => $this->container->getParameter('chnage_no_email')
+            );
         }
 
         //check UserEdmUnsubscribe exist
         $edm = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByUserId($user[0]->getId());
         if ($edm) {
-            return $this->container->getParameter('user_edm_unsubscribe_is_exist');
+            return array (
+                'message' => $this->container->getParameter('user_edm_unsubscribe_is_exist')
+            );
         }
 
-        return null;
+        return array (
+            'message' => '',
+            'user_id' => $user[0]->getId()
+        );
     }
 }
