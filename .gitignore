@@ -13,6 +13,9 @@ dwsync.xml
 .DS_Store
 .gitignore 
 
+src/Jili/*/Resources/config/doctrine/*.orm.xml
+src/Jili/*/Resources/config/doctrine/metadata/orm/*.orm.xml
+
 /config/
 makefile
 web/images/actionPic/1391840458_3367.jpeg

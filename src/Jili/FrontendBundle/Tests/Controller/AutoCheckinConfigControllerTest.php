@@ -26,16 +26,16 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
-                $container = static::$kernel->getContainer();
+        $container = static::$kernel->getContainer();
 
 
         // purge tables;
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
-        $tn = $this->getName();
 
-        if( in_array($tn, array()) ) {
+        $tn = $this->getName();
+        if( in_array($tn, array('testDeleteAction','testUpdateAction', 'testGetAction')) ) {
 
         // $executor->execute($loader->getFixtures());
         }
@@ -60,6 +60,29 @@ class AutoCheckinConfigControllerTest extends WebTestCase
     {
         $this->asserts('1', 1);
     }
+
+    /**
+     * @group debug
+     */
+    public function testDeleteAction()
+    {
+        $this->asserts('1', 1);
+    }
+    /**
+     * @group debug
+     */
+    public function testUpdateAction()
+    {
+        $this->asserts('1', 1);
+    }
+    /**
+     * @group debug
+     */
+    public function testGetAction()
+    {
+        $this->asserts('1', 1);
+    }
+
 
 } 
 

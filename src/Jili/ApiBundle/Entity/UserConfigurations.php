@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\FrontendBundle\Entity;
+namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -50,9 +50,9 @@ class UserConfigurations
     private $id;
 
     /**
-     * @var \Jili\FrontendBundle\Entity\User
+     * @var \Jili\ApiBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="Jili\FrontendBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
@@ -166,10 +166,10 @@ class UserConfigurations
     /**
      * Set user
      *
-     * @param \Jili\FrontendBundle\Entity\User $user
+     * @param \Jili\ApiBundle\Entity\User $user
      * @return UserConfigurations
      */
-    public function setUser(\Jili\FrontendBundle\Entity\User $user = null)
+    public function setUser(\Jili\ApiBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -179,7 +179,7 @@ class UserConfigurations
     /**
      * Get user
      *
-     * @return \Jili\FrontendBundle\Entity\User 
+     * @return \Jili\ApiBundle\Entity\User 
      */
     public function getUser()
     {
