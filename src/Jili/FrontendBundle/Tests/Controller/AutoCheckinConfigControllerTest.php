@@ -56,31 +56,45 @@ class AutoCheckinConfigControllerTest extends WebTestCase
     /**
      * @group debug
      */
-    public function testCreateAction()
+    public function testCreate()
     {
+        $client = static::createClient();
+$container = $this->container;
+ 
+
+        $url =  $container->get('router')->generate('jili_frontend_autocheckinconfig_create');
+        $crawler = $client->request('PUT', $url);
+// check request status code 
+// ajax call 
+// check response  
+// checkin insert data. 
+
         $this->assertEquals('1', 1);
     }
 
     /**
      * @group debug
      */
-    public function testDeleteAction()
+    public function testDelete()
     {
+// jili_frontend_autocheckinconfig_delete
         $this->assertEquals('1', 1);
     }
     /**
      * @group debug
      */
-    public function testUpdateAction()
+    public function testUpdate()
     {
 
+// jili_frontend_autocheckinconfig_update
         $this->assertEquals('1', 1);
     }
     /**
      * @group debug
      */
-    public function testGetAction()
+    public function testGet()
     {
+// jili_frontend_autocheckinconfig_get
         $this->assertEquals('1', 1);
     }
 
