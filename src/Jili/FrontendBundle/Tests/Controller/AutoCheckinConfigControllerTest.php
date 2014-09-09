@@ -58,7 +58,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
      */
     public function testCreateAction()
     {
-        $this->asserts('1', 1);
+        $this->assertEquals('1', 1);
     }
 
     /**
@@ -66,21 +66,22 @@ class AutoCheckinConfigControllerTest extends WebTestCase
      */
     public function testDeleteAction()
     {
-        $this->asserts('1', 1);
+        $this->assertEquals('1', 1);
     }
     /**
      * @group debug
      */
     public function testUpdateAction()
     {
-        $this->asserts('1', 1);
+
+        $this->assertEquals('1', 1);
     }
     /**
      * @group debug
      */
     public function testGetAction()
     {
-        $this->asserts('1', 1);
+        $this->assertEquals('1', 1);
     }
 
 
