@@ -53,7 +53,9 @@ class CheckinController extends Controller
     /**
 	 * @Route("/issetClick",name="_checkin_issetClick")
 	 */
-    public function issetClickAction() {//判断是否点击checkin_user_list记录返回
+    public function issetClickAction() 
+    {
+        //判断是否点击checkin_user_list记录返回
         $code = '';
         $date = date("Y-m-d");
         $request = $this->get('request');
@@ -116,6 +118,7 @@ class CheckinController extends Controller
     }
 
     /**
+     * 返回商家的URL. type =1 , 直接查Advertiserment表; type=2查商家活动表market_activity。 
 	 * @Route("/location",name="_checkin_location")
 	 */
     public function locationAction()
@@ -164,6 +167,7 @@ class CheckinController extends Controller
     }
 
     /**
+     *  返回商城的URL. aid 为advertiserment表的id.
 	 * @Route("/checkinInfo",name="_checkin_checkinInfo")
 	 */
     public function checkinInfoAction()
@@ -178,6 +182,9 @@ class CheckinController extends Controller
                 array('yixun'=>$yixun,'url'=>$url));
     }
 
+    /**
+     * todo move this function to Advertiserment Entity.
+     */
     public function advInfo($uid,$aid)
     {
         $em = $this->getDoctrine()->getManager();
@@ -188,6 +195,9 @@ class CheckinController extends Controller
         return trim($new_url);
     }
 
+    /**
+     * 记录用户点击过的商家。
+     */
     public function insertUserList($uid,$date,$clickAdid)
     {
         $em = $this->getDoctrine()->getManager();
@@ -199,7 +209,9 @@ class CheckinController extends Controller
         $em->flush();
     }
 
-    //判断是否有checkin_user_list记录
+    /**
+     * 判断是否有checkin_user_list记录
+     */
     public function issetClickShop($uid,$date,$clickAdid)
     {
         $em = $this->getDoctrine()->getManager();
@@ -211,6 +223,9 @@ class CheckinController extends Controller
         }
     }
 
+    /**
+     * 记录用户点击数
+     */
     public function insertClickList($uid,$date)
     {
         $em = $this->getDoctrine()->getManager();
@@ -417,6 +432,5 @@ class CheckinController extends Controller
       $em->persist($po);
       $em->flush();
     }
-
 
 }
