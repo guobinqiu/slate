@@ -17,26 +17,10 @@ use Jili\ApiBundle\Entity\UserEdmUnsubscribe;
  */
 class EdmUnsubscribeController extends Controller {
 
-    private function getAdminIp() {
-        //  if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') ||
-        //            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
-        //            $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
-        //           substr( $_SERVER['REMOTE_ADDR'],0,10)  == '192.168.1.' ||
-        //            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_vpn_ip'))
-        //            return false;
-        //        else
-        //            return true;
-        return false;
-    }
-
     /**
     * @Route("/list", name="_edm_unsubscribe_list")
     */
     public function listAction() {
-        if ($this->getAdminIp()) {
-            return $this->redirect($this->generateUrl('_default_error'));
-        }
-
         $email = $this->get('request')->query->get('email', '');
 
         $em = $this->getDoctrine()->getManager();
@@ -49,10 +33,6 @@ class EdmUnsubscribeController extends Controller {
     * @Route("/add", name="_edm_unsubscribe_add_index")
     */
     public function addIndexAction() {
-        if ($this->getAdminIp()) {
-            return $this->redirect($this->generateUrl('_default_error'));
-        }
-
         //default page
         return $this->render('JiliBackendBundle:EdmUnsubscribe:add.html.twig');
 
@@ -61,10 +41,6 @@ class EdmUnsubscribeController extends Controller {
     * @Route("/addConfirm", name="_edm_unsubscribe_add_confirm")
     */
     public function addConfirmAction() {
-        if ($this->getAdminIp()) {
-            return $this->redirect($this->generateUrl('_default_error'));
-        }
-
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         $email = $request->request->get('email');
