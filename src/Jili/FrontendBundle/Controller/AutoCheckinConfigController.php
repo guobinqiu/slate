@@ -24,13 +24,14 @@ class AutoCheckinConfigController extends Controller {
 
         //check login
         if (!$session->has('uid')) {
-            $return['code'] = 401;
-            $return['message'] = "需要登录";
-
-            $response = new Response(json_encode($result));
-            $response->headers->set('Content-Type', 'application/json');
+            $response = new JsonResponse();
+            $response->setData(array(
+                    'code' => 401 
+                    'message'=> '需要登录',
+                ));
             return $response;
         }
+
         $user_id = $session->get('uid');
 
         //check mothod
