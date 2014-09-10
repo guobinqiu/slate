@@ -21,12 +21,13 @@ class AutoCheckinConfigController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $session = $this->get('session');
+        $request = $this->getRequest();
 
         //check login
         if (!$session->has('uid')) {
             $response = new JsonResponse();
             $response->setData(array(
-                    'code' => 401 
+                    'code' => 401,
                     'message'=> '需要登录',
                 ));
             return $response;
