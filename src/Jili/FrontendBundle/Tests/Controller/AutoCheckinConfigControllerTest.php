@@ -180,8 +180,8 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         // 3. with session uid of no user_configurations 
         $client->request('DELETE', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
-        #$this->assertEquals($expected, $client->getResponse()->getContent(),'记录不存在');
-        echo  $client->getResponse()->getContent(),PHP_EOL;
+        $expected = '{"code":404,"message":"\u8bb0\u5f55\u4e0d\u5b58\u5728"}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'记录不存在');
         
         // 4. with session uid having  user_configurations 
         $session = static::$kernel->getContainer()->get('session');
@@ -189,12 +189,11 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->save();
         $client->request('DELETE', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
-        #$this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
-        echo  $client->getResponse()->getContent(),PHP_EOL;
+        $expected = '{"code":200,"data":{"countOfRemoved":1},"message":"\u5b8c\u6210"}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
         // 4.1 checking the remove result!!
-        $r= $em->getRepository('JiliApiBundle:UserConfigurations')->findBy(array('flagName'=> 'auto_checkin', 'userId'=> $users[1]->getId()));
-        $this->assertNull($r);
-
+        $r= $em->getRepository('JiliApiBundle:UserConfigurations')->findBy(array('flagName'=> 'auto_checkin', 'userId'=> $users[1]->getId(), 'flagData' => 0 ));
+        $this->assertNotNull($r);
     }
 
     /**
@@ -206,9 +205,72 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $container = $this->container;
         $em = $this->em;
         $url =  $container->get('router')->generate('jili_frontend_autocheckinconfig_update');
+        // 1. no session uid
+        // 1.1. only POST 
+        $client->request('POST', $url );
+        $response =  $client->getResponse();
+        $expected = '{"code":401,"message":"\u9700\u8981\u767b\u5f55"}'; //需要登录
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+        // 1.2. only AJAX 
+        $client->request('GET', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest') );
+        $response =  $client->getResponse();
+        $expected = '{"code":401,"message":"\u9700\u8981\u767b\u5f55"}'; //需要登录
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+        // 1.3. Ajax and POST;
+        $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest') );
+        $response =  $client->getResponse();
+        $expected = '{"code":401,"message":"\u9700\u8981\u767b\u5f55"}'; //需要登录
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+        
+        $users = LoadUserCodeData::$USERS;
+        // 2. with session uid 
+        $session = static::$kernel->getContainer()->get('session');
+        $session->set('uid', $users[2]->getId());
+        $session->save();
+        // 2.1 only POST 
+        $client->request('POST', $url );
+        $expected = '{"code":400,"message":"\u8bf7\u6c42\u65b9\u6cd5\u4e0d\u5bf9"}'; //请求方法不对
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
+        
+        // 2.2 only Ajax 
+        $client->request('PUT', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
+        // 2.3. Ajax and  POST;
+        //
+        // 3. with session uid of no user_configurations 
+        $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $expected = '{"code":404,"message":"\u8bb0\u5f55\u4e0d\u5b58\u5728"}';
 
-        $this->assertEquals('1', 1);
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'记录不存在');
+
+        // 4. with session uid having  user_configurations, false
+        $session = static::$kernel->getContainer()->get('session');
+        $session->set('uid', $users[1]->getId());
+        $session->save();
+        $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $expected = '{"code":200,"data":{"countOfUpdated":1},"message":"\u5b8c\u6210"}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
+        $r = $em->getRepository('JiliApiBundle:UserConfigurations')->findBy( array('userId'=>$users[1]->getId(), 'flagName'=> 'auto_checkin', 'flagData'=>1 ));;
+        $this->assertNotNull($r);
+
+        // 5. with session uid having  user_configurations, true
+        $session = static::$kernel->getContainer()->get('session');
+        $session->set('uid', $users[0]->getId());
+        $session->save();
+        $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
+        $r = $em->getRepository('JiliApiBundle:UserConfigurations')->findBy( array('userId'=>$users[0]->getId(), 'flagName'=> 'auto_checkin', 'flagData'=>1 ));;
+        $this->assertNotNull($r);
     }
+
     /**
      * @group debug
      */
@@ -221,9 +283,63 @@ class AutoCheckinConfigControllerTest extends WebTestCase
 
         $url =  $container->get('router')->generate('jili_frontend_autocheckinconfig_get');
 // jili_frontend_autocheckinconfig_get
-        $this->assertEquals('1', 1);
-    }
+        // 1. no session uid
+        // 1.1. only GET 
+        $client->request('GET', $url );
+        $response =  $client->getResponse();
+        $expected = '{"code":401,"message":"\u9700\u8981\u767b\u5f55"}'; //需要登录
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+        // 1.2. only AJAX 
+        $client->request('POST', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+        // 1.3. Ajax and GET;
+        $client->request('GET', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+        
+        $users = LoadUserCodeData::$USERS;
+        // 2. with session uid 
+        // 
+        $session = static::$kernel->getContainer()->get('session');
+        $session->set('uid', $users[2]->getId());
+        $session->save();
+        // 2.1 only GET 
+        $client->request('GET', $url );
+        $expected = '{"code":400,"message":"\u8bf7\u6c42\u65b9\u6cd5\u4e0d\u5bf9"}'; //请求方法不对
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
+        // 2.2 only Ajax 
+        $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
+        // 2.3. Ajax and  GET;
+        
+        // 3. with session uid of no user_configurations 
+        $client->request('GET', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $expected = '{"code":404,"message":"\u8bb0\u5f55\u4e0d\u5b58\u5728"}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'记录不存在');
 
+        // 4. with session uid having  user_configurations, false
+        $session = static::$kernel->getContainer()->get('session');
+        $session->set('uid', $users[1]->getId());
+        $session->save();
+        $client->request('GET', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $expected = '{"code":200,"data":{"flag_data":false}}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
+
+        // 5. with session uid having  user_configurations, true
+        $session = static::$kernel->getContainer()->get('session');
+        $session->set('uid', $users[0]->getId());
+        $session->save();
+        $client->request('GET', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $expected = '{"code":200,"data":{"flag_data":true}}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
+    }
 
 } 
 

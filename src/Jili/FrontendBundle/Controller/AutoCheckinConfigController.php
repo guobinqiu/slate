@@ -80,7 +80,7 @@ class AutoCheckinConfigController extends Controller {
         //check login
         if (!$session->has('uid')) {
             $return['code'] = 401;
-            $return['message'] = "需要登录";
+            $return['message'] = '需要登录';
 
             $response = new JsonResponse();
             $response->setData($return);
@@ -91,7 +91,7 @@ class AutoCheckinConfigController extends Controller {
         //check mothod
         if ($request->getMethod() != 'DELETE' || !$request->isXmlHttpRequest()) {
             $return['code'] = 400;
-            $return['message'] = "请求方法不对";
+            $return['message'] = '请求方法不对';
             $response = new JsonResponse();
             $response->setData($return);
             return $response;
@@ -102,7 +102,7 @@ class AutoCheckinConfigController extends Controller {
         $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user_id);
         if (!$userConfiguration) {
             $return['code'] = 404;
-            $return['message'] = "记录不存在";
+            $return['message'] = '记录不存在';
             $response = new JsonResponse();
             $response->setData($return);
             return $response;
@@ -153,7 +153,7 @@ class AutoCheckinConfigController extends Controller {
         $user_id = $session->get('uid');
 
         //check mothod
-        if ($request->getMethod() != 'GET' || !$request->isXmlHttpRequest()) {
+        if ($request->getMethod() != 'POST' || !$request->isXmlHttpRequest()) {
             $return['code'] = 400;
             $return['message'] = "请求方法不对";
             $response = new JsonResponse();
