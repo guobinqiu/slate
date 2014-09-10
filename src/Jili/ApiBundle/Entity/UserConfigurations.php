@@ -1,5 +1,4 @@
 <?php
-
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -50,15 +49,11 @@ class UserConfigurations
     private $id;
 
     /**
-     * @var \Jili\ApiBundle\Entity\User
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
-    private $user;
-
+    private $userId;
 
     public function __construct() {
         $this->setCreatedAt( new \Datetime() );
@@ -81,7 +76,7 @@ class UserConfigurations
     /**
      * Get flagName
      *
-     * @return string 
+     * @return string
      */
     public function getFlagName()
     {
@@ -104,7 +99,7 @@ class UserConfigurations
     /**
      * Get flagData
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getFlagData()
     {
@@ -127,7 +122,7 @@ class UserConfigurations
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -150,7 +145,7 @@ class UserConfigurations
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -160,7 +155,7 @@ class UserConfigurations
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -168,25 +163,25 @@ class UserConfigurations
     }
 
     /**
-     * Set user
+     * Set userId
      *
-     * @param \Jili\ApiBundle\Entity\User $user
+     * @param integer $userId
      * @return UserConfigurations
      */
-    public function setUser(\Jili\ApiBundle\Entity\User $user = null)
+    public function setUserId($userId)
     {
-        $this->user = $user;
+        $this->userId = $userId;
 
         return $this;
     }
 
     /**
-     * Get user
+     * Get userId
      *
-     * @return \Jili\ApiBundle\Entity\User 
+     * @return integer
      */
-    public function getUser()
+    public function getUserId()
     {
-        return $this->user;
+        return $this->userId;
     }
 }

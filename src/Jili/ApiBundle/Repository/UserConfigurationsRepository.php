@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class UserConfigurationsRepository extends EntityRepository {
 
-    public function searchUserConfiguration($flagName = null, $user = null) {
+    public function searchUserConfiguration($flagName = null, $userId = null) {
         $query = $this->createQueryBuilder('uc');
         $query = $query->select('uc');
         $query = $query->Where('1 = 1');
@@ -16,9 +16,9 @@ class UserConfigurationsRepository extends EntityRepository {
             $query = $query->andWhere('uc.flagName = :flagName');
             $param['flagName'] = $flagName;
         }
-        if ($user) {
-            $query = $query->andWhere('uc.user = :user');
-            $param['user'] = $user;
+        if ($userId) {
+            $query = $query->andWhere('uc.userId = :userId');
+            $param['userId'] = $userId;
         }
         if ($param) {
             $query = $query->setParameters($param);

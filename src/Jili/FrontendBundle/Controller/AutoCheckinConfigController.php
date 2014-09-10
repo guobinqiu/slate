@@ -17,7 +17,7 @@ use Jili\ApiBundle\Entity\UserConfigurations;
 class AutoCheckinConfigController extends Controller {
 
     /**
-     * @Route("/create", name="_autoCheckin_create")
+     * @Route("/create")
      */
     public function createAction() {
         $em = $this->getDoctrine()->getManager();
@@ -45,7 +45,7 @@ class AutoCheckinConfigController extends Controller {
 
         //check user config auto_checkin exist
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user);
+        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user_id);
         if ($userConfiguration) {
             $return['code'] = 201;
             $return['message'] = '已经存在';
@@ -56,7 +56,7 @@ class AutoCheckinConfigController extends Controller {
 
         //insert db
         $userConfiguration = new UserConfigurations();
-        $userConfiguration->setUser($user);
+        $userConfiguration->setUserId($user_id);
         $userConfiguration->setFlagName("auto_checkin");
         $userConfiguration->setFlagData(1);
         $em->persist($userConfiguration);
@@ -67,11 +67,10 @@ class AutoCheckinConfigController extends Controller {
         $response = new JsonResponse();
         $response->setData($return);
         return $response;
-
     }
 
     /**
-     * @Route("/delete", name="_autoCheckin_delete")
+     * @Route("/delete")
      */
     public function deleteAction() {
         $em = $this->getDoctrine()->getManager();
@@ -100,7 +99,7 @@ class AutoCheckinConfigController extends Controller {
 
         //check user config auto_checkin exist
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user);
+        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user_id);
         if (!$userConfiguration) {
             $return['code'] = 404;
             $return['message'] = "记录不存在";
@@ -134,7 +133,7 @@ class AutoCheckinConfigController extends Controller {
     }
 
     /**
-     * @Route("/update", name="_autoCheckin_update")
+     * @Route("/update")
      * @Template()
      */
     public function updateAction() {
@@ -164,7 +163,7 @@ class AutoCheckinConfigController extends Controller {
 
         //check user config auto_checkin exist
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user);
+        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user_id);
         if (!$userConfiguration) {
             $return['code'] = 404;
             $return['message'] = "记录不存在";
@@ -197,7 +196,7 @@ class AutoCheckinConfigController extends Controller {
     }
 
     /**
-     * @Route("/get", name="_autoCheckin_get")
+     * @Route("/get")
      */
     public function getAction() {
         $em = $this->getDoctrine()->getManager();
@@ -226,7 +225,7 @@ class AutoCheckinConfigController extends Controller {
 
         //get user config auto_checkin
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user);
+        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user_id);
         if (!$userConfiguration) {
             $return['code'] = 404;
             $return['message'] = "记录不存在";
