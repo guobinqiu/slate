@@ -65,7 +65,6 @@ class EdmUnsubscribeController extends Controller {
 
     public function checkForAdd($email) {
         $em = $this->getDoctrine()->getManager();
-        $return = array ();
 
         //check email input
         if (!$email) {
