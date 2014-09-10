@@ -14,14 +14,15 @@ class AutoCheckinConfigController extends Controller {
     public function createAction() {
 
         $em = $this->getDoctrine()->getManager();
-        $user_id = $request->getSession()->get('uid');
+        $session = $this->get('session');
 
         //check login
-        if (!$user_id) {
+        if (!$session->has('uid')) {
             $return['code'] = 401;
             $return['message'] = "需要登录";
             return json_encode($return);
         }
+        $user_id = $session->get('uid');
 
         //check mothod
         if ($request->getMethod() != 'PUT' || !$request->isXmlHttpRequest()) {
@@ -41,13 +42,13 @@ class AutoCheckinConfigController extends Controller {
         $userConfiguration = new UserConfigurations();
         $userConfiguration->setUser($user);
         $userConfiguration->setFlagName("auto_checkin");
-        $userConfiguration->setCreatedAt(date_create(date('Y-m-d H:i:s')));
         $userConfiguration->setFlagData(1);
         $em->persist($userConfiguration);
         $em->flush();
 
         $return['code'] = 200;
-        $return['message'] = "成功" return json_encode($return);
+        $return['message'] = '成功' ;
+        return json_encode($return);
 
     }
 

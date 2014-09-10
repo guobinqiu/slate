@@ -60,6 +60,10 @@ class UserConfigurations
     private $user;
 
 
+    public function __construct() {
+        $this->setCreatedAt( new \Datetime() );
+        $this->setUpdatedAt( new \Datetime() );
+    }
 
     /**
      * Set flagName
