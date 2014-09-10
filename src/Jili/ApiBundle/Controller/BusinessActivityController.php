@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\AdwAccessHistory;
 use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\ApiBundle\Entity\Advertiserment;
-use Jili\ApiBundle\Entity\ActivityMall;
 use Jili\ApiBundle\Entity\ActivityCategory;
 use Jili\ApiBundle\Entity\BusinessActivity;
 
