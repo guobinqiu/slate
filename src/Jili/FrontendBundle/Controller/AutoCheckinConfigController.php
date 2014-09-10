@@ -31,6 +31,7 @@ class AutoCheckinConfigController extends Controller {
             return json_encode($return);
         }
 
+        //check user exist
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         if (!$user) {
             $return['code'] = 402;
@@ -38,6 +39,13 @@ class AutoCheckinConfigController extends Controller {
             return json_encode($return);
         }
 
+        //check user config auto_checkin exist
+        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->findByUserId($user_id);
+        if ($userConfiguration) {
+            $return['code'] = 201;
+            $return['message'] = "已经存在";
+            return json_encode($return);
+        }
         //insert db
         $userConfiguration = new UserConfigurations();
         $userConfiguration->setUser($user);
