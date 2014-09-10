@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * UserConfigurations
  *
  * @ORM\Table(name="user_configurations", uniqueConstraints={@ORM\UniqueConstraint(name="uniq_user_id1_flag_name1", columns={"user_id", "flag_name"})}, indexes={@ORM\Index(name="IDX_6899B580A76ED395", columns={"user_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserConfigurationsRepository")
  */
 class UserConfigurations
 {
