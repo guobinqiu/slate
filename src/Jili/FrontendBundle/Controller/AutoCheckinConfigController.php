@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use Jili\ApiBundle\Entity\UserConfigurations;
+
 /**
  * @Route("/autoCheckIn")
  */
@@ -21,24 +23,24 @@ class AutoCheckinConfigController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $session = $this->get('session');
+        $request = $this->get('request');
 
         //check login
         if (!$session->has('uid')) {
-            $response = new JsonResponse();
-            $response->setData(array(
-                    'code' => 401 
-                    'message'=> '需要登录',
-                ));
+            $return['code'] = 401;
+            $return['message'] = "需要登录";
+
+            $response = new Response(json_encode($return));
+            $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
-
         $user_id = $session->get('uid');
 
         //check mothod
         if ($request->getMethod() != 'PUT' || !$request->isXmlHttpRequest()) {
             $return['code'] = 400;
             $return['message'] = "请求方法不对";
-            $response = new Response(json_encode($result));
+            $response = new Response(json_encode($return));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
@@ -48,17 +50,17 @@ class AutoCheckinConfigController extends Controller {
         if (!$user) {
             $return['code'] = 402;
             $return['message'] = "该用户不存在";
-            $response = new Response(json_encode($result));
+            $response = new Response(json_encode($return));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
 
         //check user config auto_checkin exist
-        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->findByUserId($user_id);
+        $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->findByUser($user);
         if ($userConfiguration) {
             $return['code'] = 201;
             $return['message'] = "已经存在";
-            $response = new Response(json_encode($result));
+            $response = new Response(json_encode($return));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
@@ -73,7 +75,7 @@ class AutoCheckinConfigController extends Controller {
 
         $return['code'] = 200;
         $return['message'] = '成功';
-        $response = new Response(json_encode($result));
+        $response = new Response(json_encode($return));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
 
