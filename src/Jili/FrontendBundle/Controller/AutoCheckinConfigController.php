@@ -5,11 +5,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+/**
+ * @Route("/autoCheckIn")
+ */
 class AutoCheckinConfigController extends Controller {
 
     /**
      * @Route("/create")
-     * @Template()
      */
     public function createAction() {
 
@@ -20,7 +26,10 @@ class AutoCheckinConfigController extends Controller {
         if (!$session->has('uid')) {
             $return['code'] = 401;
             $return['message'] = "需要登录";
-            return json_encode($return);
+
+            $response = new Response(json_encode($result));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
         $user_id = $session->get('uid');
 
@@ -28,7 +37,9 @@ class AutoCheckinConfigController extends Controller {
         if ($request->getMethod() != 'PUT' || !$request->isXmlHttpRequest()) {
             $return['code'] = 400;
             $return['message'] = "请求方法不对";
-            return json_encode($return);
+            $response = new Response(json_encode($result));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
 
         //check user exist
@@ -36,7 +47,9 @@ class AutoCheckinConfigController extends Controller {
         if (!$user) {
             $return['code'] = 402;
             $return['message'] = "该用户不存在";
-            return json_encode($return);
+            $response = new Response(json_encode($result));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
 
         //check user config auto_checkin exist
@@ -44,8 +57,11 @@ class AutoCheckinConfigController extends Controller {
         if ($userConfiguration) {
             $return['code'] = 201;
             $return['message'] = "已经存在";
-            return json_encode($return);
+            $response = new Response(json_encode($result));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
+
         //insert db
         $userConfiguration = new UserConfigurations();
         $userConfiguration->setUser($user);
@@ -55,8 +71,10 @@ class AutoCheckinConfigController extends Controller {
         $em->flush();
 
         $return['code'] = 200;
-        $return['message'] = '成功' ;
-        return json_encode($return);
+        $return['message'] = '成功';
+        $response = new Response(json_encode($result));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
 
     }
 
