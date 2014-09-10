@@ -30,8 +30,8 @@ class AutoCheckinConfigController extends Controller {
             $return['code'] = 401;
             $return['message'] = "需要登录";
 
-            $response = new Response(json_encode($return));
-            $response->headers->set('Content-Type', 'application/json');
+            $response = new JsonResponse();
+            $response->setData($return);
             return $response;
         }
         $user_id = $session->get('uid');
@@ -40,8 +40,8 @@ class AutoCheckinConfigController extends Controller {
         if ($request->getMethod() != 'PUT' || !$request->isXmlHttpRequest()) {
             $return['code'] = 400;
             $return['message'] = "请求方法不对";
-            $response = new Response(json_encode($return));
-            $response->headers->set('Content-Type', 'application/json');
+            $response = new JsonResponse();
+            $response->setData($return);
             return $response;
         }
 
@@ -50,8 +50,8 @@ class AutoCheckinConfigController extends Controller {
         if (!$user) {
             $return['code'] = 402;
             $return['message'] = "该用户不存在";
-            $response = new Response(json_encode($return));
-            $response->headers->set('Content-Type', 'application/json');
+            $response = new JsonResponse();
+            $response->setData($return);
             return $response;
         }
 
@@ -60,8 +60,8 @@ class AutoCheckinConfigController extends Controller {
         if ($userConfiguration) {
             $return['code'] = 201;
             $return['message'] = "已经存在";
-            $response = new Response(json_encode($return));
-            $response->headers->set('Content-Type', 'application/json');
+            $response = new JsonResponse();
+            $response->setData($return);
             return $response;
         }
 
@@ -75,8 +75,8 @@ class AutoCheckinConfigController extends Controller {
 
         $return['code'] = 200;
         $return['message'] = '成功';
-        $response = new Response(json_encode($return));
-        $response->headers->set('Content-Type', 'application/json');
+        $response = new JsonResponse();
+        $response->setData($return);
         return $response;
 
     }
