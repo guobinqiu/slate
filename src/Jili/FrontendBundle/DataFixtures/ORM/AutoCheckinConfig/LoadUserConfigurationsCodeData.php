@@ -39,7 +39,7 @@ class LoadUserConfigurationsCodeData extends AbstractFixture implements Containe
         $user0 =  $this->getReference('user0');
 
         $a = new UserConfigurations();
-        $a->setUser($user0);
+        $a->setUserId($user0->getId());
         $a->setFlagName('auto_checkin');
         $a->setFlagData(1);
 
@@ -51,7 +51,7 @@ class LoadUserConfigurationsCodeData extends AbstractFixture implements Containe
         unset($a);
 
         $b = new UserConfigurations();
-        $b->setUser($user1);
+        $b->setUserId($user1->getId());
         $b->setFlagName('auto_checkin');
         $b->setFlagData(0);
 
