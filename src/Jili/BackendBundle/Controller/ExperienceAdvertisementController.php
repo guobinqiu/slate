@@ -11,18 +11,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ExperienceAdvertisementController extends Controller 
 {
-    private function getAdminIp(){
-        if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') || 
-            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
-            $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
-           substr( $_SERVER['REMOTE_ADDR'],0,10)  == '192.168.1.' ||
-            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_vpn_ip'))
-            return false;
-        else
-            return true;
-          
-    }
-    
     /**
      * @Route("/ExperienceAdvertisementList", name="experience_ad_list")
      * @Template
@@ -31,7 +19,7 @@ class ExperienceAdvertisementController extends Controller
     public function experienceAdvertisementListAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $lists= $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisementList(50);
+        $lists= $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisementList();
         return array('lists'=>$lists);
     }
     
@@ -46,23 +34,26 @@ class ExperienceAdvertisementController extends Controller
         $ea = new ExperienceAdvertisement();
         $em = $this->getDoctrine()->getManager();
         $form  = $this->createForm(new ExperienceAdvertisementType(),$ea);
+        if ($request->getMethod() == 'GET') {
+            return array( 'form'=> $form->createView(),'code'=>$code);
+        }
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
             if ($form->isValid()) {
                 $ea = $form->getData();
                 $path =  $this->container->getParameter('upload_experience_advertisement_dir');
                 $ea->setDeleteFlag(0);
-                $ea->setCreateTime(new \Datetime(date('Y-m-d H:i:s',time())));
-                $ea->setUpdateTime(new \Datetime(date('Y-m-d H:i:s',time())));
+                $ea->setCreateTime(new \Datetime());
+                $ea->setUpdateTime(new \Datetime());
                 $em->persist($ea);
-                $code = $ea->upload($path,$ea->getMissionHall());
+                $code= $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->upload($path,$ea);
                 if(!$code){
                     $em->flush();
                     return $this->redirect($this->generateUrl('experience_ad_list') );
                 }
             }
+            return array( 'form'=> $form->createView(),'code'=>$code );
         }
-        return array( 'form'=> $form->createView(),'code'=>$code );
     }
     
     /**
@@ -74,19 +65,26 @@ class ExperienceAdvertisementController extends Controller
         $request = $this->get('request');
         $code = "";
         $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'GET') {
+            $detail = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findOneById($id);
+            $form =  $this->createForm(new ExperienceAdvertisementType(), $detail);
+            return array( 'form'=> $form->createView(),'code'=>$code);
+        }
         if ($request->getMethod() == 'POST') {
             $form  = $this->createForm(new ExperienceAdvertisementType());
             $form->bind($request);
             if ($form->isValid()) {
                 $formdata = $form->getData();
                 $ea = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findOneById( $formdata['id'] );
+                $old_img = $ea->getMissionImgUrl();
                 $ea->setPoint($formdata['point']);
+                $ea->setMissionHall($formdata['missionHall']);
                 if($formdata['missionImgUrl'] || $formdata['missionHall']!=$ea->getMissionHall()){
                     $path = $this->container->getParameter('upload_experience_advertisement_dir');
+                    $remain_path = $this->container->getParameter('upload_experience_advertisement_dir_old');
                     $ea->setMissionImgUrl($formdata['missionImgUrl']);
-                    $code = $ea->upload($path,$formdata['missionHall']);
+                    $code= $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->upload($path,$ea,$remain_path,$old_img);
                 }
-                $ea->setMissionHall($formdata['missionHall']);
                 $ea->setMissionTitle($formdata['missionTitle']);
                 $ea->setUpdateTime(new \Datetime(date('Y-m-d H:i:s',time())));
                 $em->persist($ea);
@@ -95,11 +93,8 @@ class ExperienceAdvertisementController extends Controller
                     return $this->redirect($this->generateUrl('experience_ad_list') );
                 }
             }
-        } else {
-            $detail = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findOneById($id);
-            $form =  $this->createForm(new ExperienceAdvertisementType(), $detail);
-        }
-        return array( 'form'=> $form->createView(),'code'=>$code);
+            return array( 'form'=> $form->createView(),'code'=>$code);
+        } 
     }
     
     /**
@@ -109,7 +104,7 @@ class ExperienceAdvertisementController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $ea = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findOneById($id);
-        $ea->setDeleteFlag(1);
+        $ea->setDeleteFlag($this->container->getParameter('delete_flag_true'));
         $em->persist($ea);
         $em->flush();
         return $this->redirect($this->generateUrl('experience_ad_list'));

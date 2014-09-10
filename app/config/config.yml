@@ -156,6 +156,9 @@ parameters:
     upload_tmp_dir: uploads/user/
     upload_activity_dir: images/activity/
     upload_experience_advertisement_dir: images/experience_advertisement/
+    upload_experience_advertisement_dir_old: images/experience_advertisement/old/
+    delete_flag_true: 1
+    delete_flag_false: 0
     page_num: 10
     init: 0
     init_one: 1

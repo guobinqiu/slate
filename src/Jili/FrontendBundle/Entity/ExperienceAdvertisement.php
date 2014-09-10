@@ -30,7 +30,7 @@ class ExperienceAdvertisement
      *
      * @ORM\Column(name="mission_img_url", type="string", length=250, nullable=true)
      */
-    private $missionImgUrl;
+    public $missionImgUrl;
     
     /**
      * @var string
@@ -242,38 +242,4 @@ class ExperienceAdvertisement
     {
         return $this->id;
     }
-    
-
-    /**
-     * upload image
-     */
-    public function upload($upload_dir,$missionHall)
-    {
-        $fileNames = array('missionImgUrl');
-        $types = array('jpg','jpeg','png','gif');
-        if(!is_dir($upload_dir)){
-            mkdir($upload_dir,0777);
-        }
-        foreach ($fileNames as $key=>$fileName){
-            $filename_upload = '';
-            if (null === $this->$fileName) {
-                return  '图片为必填项';
-            }
-            if($this->$fileName->getError()==1){
-                return  '文件类型为jpg或png或gif';//类型不对
-            }
-            if(!in_array($this->$fileName->guessExtension(),$types)){
-                return  '文件类型为jpg或png或gif';//类型不对
-            }
-            $size = getimagesize($this->$fileName);
-            if(($missionHall==1 && $size[0]=='94' && $size[1]=='78') || ($missionHall==2 && $size[0]=='116' && $size[1]=='78')){
-                $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-                $this->$fileName->move($upload_dir, $filename_upload);
-                $this->$fileName = $upload_dir.$filename_upload;
-            } else{
-                return   '图片像素不正确';
-            }
-        }
-    }
-
 }

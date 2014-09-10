@@ -80,5 +80,54 @@ class WenwenControllerTest extends WebTestCase
         $record = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findAll();
         $this->assertCount(2, $record,'record count');
     }
+    
+    /**
+     * @group experience_advertisement
+     */
+    public function testexperienceAdvertisementListAction()
+    {
+        $ea = new ExperienceAdvertisement();
+        $em = $this->em;
+        $client = static :: createClient();
+        $path =  $this->container->getParameter('upload_experience_advertisement_dir');
+        $ea->setMissionTitle('test');
+        $ea->setMissionHall(1);
+        $ea->setPoint(30);
+        $ea->setDeleteFlag(0);
+        $ea->setCreateTime(new \Datetime());
+        $ea->setUpdateTime(new \Datetime());
+        $em->persist($ea);
+        $code = $ea->upload($path,$ea->getMissionHall());
+        if(!$code){
+            $em->flush();
+        }
+
+        $ea->setMissionTitle('test2');
+        $ea->setMissionHall(2);
+        $ea->setPoint(300);
+        $ea->setDeleteFlag(0);
+        $ea->setCreateTime(new \Datetime());
+        $ea->setUpdateTime(new \Datetime());
+        $em->persist($ea);
+        $code = $ea->upload($path,$ea->getMissionHall());
+        if(!$code){
+            $em->flush();
+        }
+        
+        $ea->setMissionTitle('test3');
+        $ea->setMissionHall(3);
+        $ea->setPoint(3100);
+        $ea->setDeleteFlag(1);
+        $ea->setCreateTime(new \Datetime());
+        $ea->setUpdateTime(new \Datetime());
+        $em->persist($ea);
+        $code = $ea->upload($path,$ea->getMissionHall());
+        if(!$code){
+            $em->flush();
+        }
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
+        $record = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findAll();
+        $this->assertCount(2, $record,'record count');
+    }
 
 }
