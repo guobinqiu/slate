@@ -63,30 +63,19 @@ use Jili\ApiBundle\Entity\SendMessage08;
 use Jili\ApiBundle\Entity\SendMessage09;
 
 use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
+
+use Jili\BackendBundle\Controller\IpAuthenticatedController;
+
 /**
  * @Route( requirements={"_scheme" = "https"})
  */
-class AdminController extends Controller
+class AdminController extends Controller implements IpAuthenticatedController
 {
-    private function getAdminIp()
-    {
-        if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') ||
-            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
-            $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
-           substr( $_SERVER['REMOTE_ADDR'],0,10)  == '192.168.1.' ||
-            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_vpn_ip'))
-            return false;
-        else
-            return true;
-
-    }
     /**
      * @Route("/login", name="_admin_login")
      */
     public function loginAction()
     {
-        if($this->getAdminIp())
-              return $this->redirect($this->generateUrl('_default_error'));
         $code = $this->container->getParameter('init');
         $request = $this->get('request');
         $username = $request->request->get('username');
@@ -112,8 +101,6 @@ class AdminController extends Controller
      */
     public function GameAdAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:gameAd.html.twig');
     }
 
@@ -122,8 +109,6 @@ class AdminController extends Controller
      */
     public function GameAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:game.html.twig');
     }
 
@@ -132,8 +117,6 @@ class AdminController extends Controller
      */
     public function AdwAdAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:adwAd.html.twig');
     }
 
@@ -320,8 +303,6 @@ class AdminController extends Controller
      */
     public function importCpsAdverAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code = array();
         $request = $this->get('request');
         $success = '';
@@ -371,8 +352,6 @@ class AdminController extends Controller
      */
     public function importAdverAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code = array();
         $request = $this->get('request');
         $success = '';
@@ -420,8 +399,6 @@ class AdminController extends Controller
      */
     public function delBannerAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $banner = $em->getRepository('JiliApiBundle:AdBanner')->find($id);
         $em->remove($banner);
@@ -435,8 +412,6 @@ class AdminController extends Controller
      */
     public function addBannerAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code ='';
         $codeflag = '';
         $banner = new adBanner();
@@ -480,8 +455,6 @@ class AdminController extends Controller
      */
     public function infoBannerAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $adbanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoAdminBanner();
@@ -499,8 +472,6 @@ class AdminController extends Controller
      */
     public function editBannerAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code ='';
         $codeflag = '';
         $request = $this->get('request');
@@ -546,8 +517,6 @@ class AdminController extends Controller
      */
     public function addPostionAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $advermentTitle = '';
         $adposition = '';
         $code = '';
@@ -639,8 +608,6 @@ class AdminController extends Controller
      */
     public function searchPositionAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $ad_code = '';
         $request = $this->get('request');
         $title = $request->request->get('title');
@@ -663,8 +630,6 @@ class AdminController extends Controller
      */
     public function delAdPositionAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $adposition = $em->getRepository('JiliApiBundle:AdPosition')->find($id);
         $adposition->setPosition($this->container->getParameter('init'));
@@ -678,8 +643,6 @@ class AdminController extends Controller
      */
     public function editPostionAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
@@ -714,8 +677,6 @@ class AdminController extends Controller
      */
     public function infoPostionAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAdvertiserment();
@@ -735,8 +696,6 @@ class AdminController extends Controller
      */
     public function addAdverAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
         $codeflag = $this->container->getParameter('init');
         $adver = new Advertiserment();
@@ -835,8 +794,6 @@ class AdminController extends Controller
      */
     public function infoAdverAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $arr['title'] = '';
         $em = $this->getDoctrine()->getManager();
@@ -861,8 +818,6 @@ class AdminController extends Controller
      */
     public function stopAdverAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
         $stopTime = date("Y-m-d",strtotime("-1 day"));
@@ -877,8 +832,6 @@ class AdminController extends Controller
      */
     public function delAdverAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
         $adver->setDeleteFlag($this->container->getParameter('init_one'));
@@ -892,8 +845,6 @@ class AdminController extends Controller
      */
     public function editAdverAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
         $codeflag = $this->container->getParameter('init');
         $em = $this->getDoctrine()->getManager();
@@ -1018,8 +969,6 @@ class AdminController extends Controller
      */
     public function editCallboardAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
@@ -1061,8 +1010,6 @@ class AdminController extends Controller
      */
     public function delCallboardAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $callboard = $em->getRepository('JiliApiBundle:CallBoard')->find($id);
         $em->remove($callboard);
@@ -1077,8 +1024,6 @@ class AdminController extends Controller
      */
     public function infoCallboardAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboard();
@@ -1096,8 +1041,6 @@ class AdminController extends Controller
      */
     public function addCallboardAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $callboard = new CallBoard();
         $em = $this->getDoctrine()->getManager();
@@ -1139,8 +1082,6 @@ class AdminController extends Controller
      */
     public function delCbTypeAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $cbcategory = $em->getRepository('JiliApiBundle:CbCategory')->find($id);
         $em->remove($cbcategory);
@@ -1154,8 +1095,6 @@ class AdminController extends Controller
      */
     public function editCbTypeAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
@@ -1183,8 +1122,6 @@ class AdminController extends Controller
      */
     public function infoCbTypeAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $cbType = $em->getRepository('JiliApiBundle:CbCategory')->findAll();
@@ -1202,8 +1139,6 @@ class AdminController extends Controller
      */
     public function addCbTypeAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $cbcategory = new CbCategory();
         $em = $this->getDoctrine()->getManager();
@@ -1229,8 +1164,6 @@ class AdminController extends Controller
      */
     public function exchangeCsvAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $response = new Response();
 
         $request = $this->get('request');
@@ -1254,8 +1187,6 @@ class AdminController extends Controller
 
     public function exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         if(!$exchanges->getStatus()){
@@ -1284,8 +1215,6 @@ class AdminController extends Controller
 
     public function exchangeNg($exchange_id,$email,$status,$points,$finish_time)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         if(!$exchanges->getStatus()){
@@ -1435,8 +1364,6 @@ class AdminController extends Controller
 
     public function exchangeOKWen($email,$points)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
         $po = SequenseEntityClassFactory :: createInstance('PointHistory', $userInfo[0]->getId());
@@ -1553,8 +1480,6 @@ class AdminController extends Controller
     public function exchangeInWenAction()
     {
         set_time_limit(1800);
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $success = '';
         $code = array();
         $em = $this->getDoctrine()->getManager();
@@ -1591,8 +1516,6 @@ class AdminController extends Controller
      */
     public function exchangeCsvWenAction()
     {
-      if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
       $start_time = date('Y-m-d');
       $end_time = date('Y-m-d');
       $em = $this->getDoctrine()->getManager();
@@ -1637,8 +1560,6 @@ class AdminController extends Controller
     public function exchangeInAction()
     {
         set_time_limit(1800);
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $success = '';
         $exType = '';
         $em = $this->getDoctrine()->getManager();
@@ -1712,8 +1633,6 @@ class AdminController extends Controller
      */
     public function exchangeListAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
 
         $arr= array();
         #$logger= $this->get('logger');
@@ -1854,8 +1773,6 @@ class AdminController extends Controller
     public function exchangeInfoAction()
     {
 
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $start_time = '';
         $end_time = '';
         $exType = $this->container->getParameter('init');
@@ -1952,8 +1869,6 @@ class AdminController extends Controller
      */
     public function selectUserAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
         $count_user = '';
         $em = $this->getDoctrine()->getManager();
@@ -2006,8 +1921,6 @@ class AdminController extends Controller
      */
      public function rewardRateAction()
      {
-        if($this->getAdminIp())
-              return $this->redirect($this->generateUrl('_default_error'));
         $search = array();
         $user_multiple = '';
         $email = '';
@@ -2052,8 +1965,6 @@ class AdminController extends Controller
      */
      public function sendCbAction()
      {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
@@ -2089,8 +2000,6 @@ class AdminController extends Controller
      */
      public function delCbAction($id)
      {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $sendCallboard = $em->getRepository('JiliApiBundle:SendCallboard')->find($id);
         $sendCallboard->setDeleteFlag($this->container->getParameter('init_one'));
@@ -2105,8 +2014,6 @@ class AdminController extends Controller
      */
      public function editCbAction($id)
      {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
@@ -2136,8 +2043,6 @@ class AdminController extends Controller
      */
      public function infoCbAction()
      {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $sendCb = $em->getRepository('JiliApiBundle:SendCallboard')->getSendCb();
@@ -2155,8 +2060,6 @@ class AdminController extends Controller
      */
      public function delMsAction($id,$sendid)
      {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $this->delSendMs($id,$sendid);
         return $this->redirect($this->generateUrl('_admin_infoMs',array('id'=>$id)));
 
@@ -2168,8 +2071,6 @@ class AdminController extends Controller
      */
      public function editMsAction($id,$sendid)
      {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
@@ -2216,8 +2117,6 @@ class AdminController extends Controller
      */
      public function infoMsAction($id)
      {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $sendMs = $this->selectSendMs($id);
@@ -2238,8 +2137,6 @@ class AdminController extends Controller
      */
      public function sendMsAction()
      {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
@@ -2285,8 +2182,6 @@ class AdminController extends Controller
     public function addActivityCategoryAction()
     {
         //todo: add asp fields
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $actCategory = new ActivityCategory();
         $em = $this->getDoctrine()->getManager();
@@ -2311,8 +2206,6 @@ class AdminController extends Controller
      */
     public function editActivityCategoryAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $codeflag = $this->container->getParameter('init');
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
@@ -2340,8 +2233,6 @@ class AdminController extends Controller
      */
     public function infoActivityCategoryAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
@@ -2359,8 +2250,6 @@ class AdminController extends Controller
      */
     public function delActivityCategoryAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $activityCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->find($id);
         $em->remove($activityCategory);
@@ -2394,8 +2283,6 @@ class AdminController extends Controller
     */
     public function delCheckinShopAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $checkinOne = $em->getRepository('JiliApiBundle:CheckinAdverList')->find($id);
         $em->remove($checkinOne);
@@ -2409,8 +2296,6 @@ class AdminController extends Controller
      */
     public function editCheckinShopAction($id)
     {
-       if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
         $request = $this->get('request');
         $actId = $request->request->get('actId');
@@ -2443,8 +2328,6 @@ class AdminController extends Controller
      */
     public function addCheckinShopAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
         $request = $this->get('request');
         $actId = $request->request->get('actId');
@@ -2474,8 +2357,6 @@ class AdminController extends Controller
      */
     public function infoCheckinShopAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $business = $em->getRepository('JiliApiBundle:CheckinAdverList')->getAllCheckinList();
@@ -2493,8 +2374,6 @@ class AdminController extends Controller
     */
     public function delCheckinPointTimesAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $checkinPoint = $em->getRepository('JiliApiBundle:CheckinPointTimes')->find($id);
         $em->remove($checkinPoint);
@@ -2507,8 +2386,6 @@ class AdminController extends Controller
      */
     public function editCheckinPointTimesAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
         $request = $this->get('request');
         $start_time = $request->request->get('start_time');
@@ -2543,8 +2420,6 @@ class AdminController extends Controller
      */
     public function addCheckinPointTimesAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code = '';
         $request = $this->get('request');
         $start_time = $request->request->get('start_time');
@@ -2584,8 +2459,6 @@ class AdminController extends Controller
      */
     public function infoCheckinPointTimesAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $cpt = $em->getRepository('JiliApiBundle:CheckinPointTimes')->getAllCheckinPoint();
@@ -2603,8 +2476,6 @@ class AdminController extends Controller
      */
     public function addBusinessActivityAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code ='';
         $codeflag = $this->container->getParameter('init');
         $business = new MarketActivity();
@@ -2662,8 +2533,6 @@ class AdminController extends Controller
      */
     public function infoBusinessActivityAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $business = $em->getRepository('JiliApiBundle:MarketActivity')->getAllBusinessList();
@@ -2681,8 +2550,6 @@ class AdminController extends Controller
      */
     public function editBusinessActivityAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $code ='';
         $codeflag = $this->container->getParameter('init');
         $em = $this->getDoctrine()->getManager();
@@ -2745,8 +2612,6 @@ class AdminController extends Controller
     */
     public function delBusinessActivityAction($id)
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $em = $this->getDoctrine()->getManager();
         $business = $em->getRepository('JiliApiBundle:MarketActivity')->find($id);
         $business->setDeleteFlag($this->container->getParameter('init_one'));
@@ -2837,8 +2702,6 @@ class AdminController extends Controller
      */
     public function indexAction()
     {
-        if($this->getAdminIp())
-              return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:index.html.twig');
     }
 
@@ -2847,8 +2710,6 @@ class AdminController extends Controller
      */
     public function mainAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
            return $this->render('JiliApiBundle:Admin:main.html.twig');
     }
 
@@ -2857,8 +2718,6 @@ class AdminController extends Controller
      */
     public function menuAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:menu.html.twig');
     }
 
@@ -2867,8 +2726,6 @@ class AdminController extends Controller
      */
     public function headerAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         return $this->render('JiliApiBundle:Admin:header.html.twig');
     }
 
@@ -2878,8 +2735,6 @@ class AdminController extends Controller
      */
     public function advertisermentCheckAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
 
         $filename = $this->container->getParameter('file_path_advertiserment_check');
         $arr['content'] = "";
@@ -2901,8 +2756,6 @@ class AdminController extends Controller
      */
     public function saveAdCheckAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $content = $request->query->get('content');
         $filename = $this->container->getParameter('file_path_advertiserment_check');
@@ -2926,8 +2779,6 @@ class AdminController extends Controller
      */
     public function emergencyAnnouncementAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
 
         $filename = $this->container->getParameter('file_path_emergency_announcement');
         $arr['content'] = "";
@@ -2948,8 +2799,6 @@ class AdminController extends Controller
      */
     public function saveEmergencyAnnouncementAction()
     {
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
         $content = $request->query->get('content');
         $filename = $this->container->getParameter('file_path_emergency_announcement');
@@ -2973,8 +2822,6 @@ class AdminController extends Controller
     public function addPointManageAction()
     {
         set_time_limit(1800);
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
         $request = $this->get('request');
 
         //第一次进入这个页面，还没有提交
@@ -3021,8 +2868,6 @@ class AdminController extends Controller
     public function addPointSearchAction()
     {
         set_time_limit(1800);
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
 
         $start_time = "";
         $end_time = "";
@@ -3072,8 +2917,6 @@ class AdminController extends Controller
     public function kpiDailyRRAction()
     {
         set_time_limit(1800);
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
 
         $kpiYMD = date("Y-m-d",strtotime("-1 day"));
         $request = $this->get('request');
@@ -3107,8 +2950,6 @@ class AdminController extends Controller
     public function memberAction()
     {
         set_time_limit(1800);
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
 
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
@@ -3144,8 +2985,6 @@ class AdminController extends Controller
     public function memberEditAction()
     {
         set_time_limit(1800);
-        if($this->getAdminIp())
-            return $this->redirect($this->generateUrl('_default_error'));
 
         $request = $this->get('request');
         $user_id = $request->get('user_id');

@@ -24,6 +24,25 @@ class AdminControllerTest extends WebTestCase
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
 
+        $container=static::$kernel->getContainer();
+
+        $tn = $this->getName();
+        if (in_array( $tn, array('testExchangeOKWen','testHandleExchange') ) ) {
+
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
+
+            // load fixtures
+            $fixture = new LoadExchangeData();
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
+        }
+
+        $this->container = $container;
+
         $this->em = $em;
     }
     /**
@@ -255,16 +274,6 @@ class AdminControllerTest extends WebTestCase
         $client = static :: createClient();
         $em = $this->em;
 
-        // purge tables;
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
-
-        // load fixtures
-        $fixture = new LoadExchangeData();
-        $loader = new Loader();
-        $loader->addFixture($fixture);
-        $executor->execute($loader->getFixtures());
 
         for ($i = 0; $i < 3; $i++) {
             $exchange_id = LoadExchangeData :: $POINTS_EXCHANGES[$i]->getId();
