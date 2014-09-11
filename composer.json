@@ -22,7 +22,8 @@
      	"knplabs/knp-paginator-bundle": "dev-master",
         "gregwar/captcha-bundle": "dev-master",
         "raulfraile/ladybug-bundle": "~1.0",
-        "fabpot/php-cs-fixer": "0.5.4"
+        "fabpot/php-cs-fixer": "0.5.4",
+         "pdepend/pdepend" : "1.1.0"
     },
     "scripts": {
         "post-install-cmd": [

@@ -9,3 +9,7 @@ analog-chinanet:
 rebate-activity:
     resource: "@JiliBackendBundle/Controller/RebateActivityController.php"
     type:     annotation
+
+edm-unsubscribe:
+    resource: "@JiliBackendBundle/Controller/EdmUnsubscribeController.php"
+    type:     annotation
