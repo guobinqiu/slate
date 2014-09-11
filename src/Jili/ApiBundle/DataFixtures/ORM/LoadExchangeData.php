@@ -17,12 +17,6 @@ class LoadExchangeData extends AbstractFixture implements ContainerAwareInterfac
     public function __construct() {
         self :: $POINTS_EXCHANGES = array ();
     }
-    /**
-     * {@inheritDoc}
-     */
-    public function setContainer(ContainerInterface $container = null) {
-        $this->container = $container;
-    }
 
     /**
      * {@inheritDoc}

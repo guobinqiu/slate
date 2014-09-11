@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserEdmUnsubscribe;
 
-class UserEdmUnsubscribeData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface, OrderedFixtureInterface {
+class LoadUserEdmUnsubscribeData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface, OrderedFixtureInterface {
 
     /**
     * @var ContainerInterface
