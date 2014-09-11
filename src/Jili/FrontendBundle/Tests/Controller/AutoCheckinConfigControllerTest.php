@@ -56,7 +56,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
     }
 
     /**
-     * @group debug
+     * @group issue_469
      */
     public function testCreate()
     {
@@ -134,7 +134,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
     }
 
     /**
-     * @group debug
+     * @group issue_469
      */
     public function testDelete()
     {
@@ -197,7 +197,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
     }
 
     /**
-     * @group debug
+     * @group issue_469
      */
     public function testUpdate()
     {
@@ -272,7 +272,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
     }
 
     /**
-     * @group debug
+     * @group issue_469
      */
     public function testGet()
     {
