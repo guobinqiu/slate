@@ -113,7 +113,7 @@ class AutoCheckinConfigController extends Controller {
         $em->persist($userConfiguration[0]);
         $em->flush();
         $return['code'] = 200;
-        $return['data']['countOfRemoved'] = "完成";
+        $return['data']['countOfRemoved'] = 1;
         $return['message'] = "完成";
         $response = new JsonResponse();
         $response->setData($return);
@@ -177,7 +177,7 @@ class AutoCheckinConfigController extends Controller {
         $em->persist($userConfiguration[0]);
         $em->flush();
         $return['code'] = 200;
-        $return['data']['countOfUpdated'] = "完成";
+        $return['data']['countOfUpdated'] = 1;
         $return['message'] = "完成";
         $response = new JsonResponse();
         $response->setData($return);
