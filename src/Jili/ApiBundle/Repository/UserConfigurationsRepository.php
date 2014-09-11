@@ -26,4 +26,17 @@ class UserConfigurationsRepository extends EntityRepository {
         $query = $query->getQuery();
         return $query->getResult();
     }
+
+    /**
+     * @param  integer $user_id 
+     * return boolean true is autocheckin; false not autocheckin; null the record is exist set yet.
+     */
+    public function isAutoCheckin($user_id) 
+    {
+        $r = $this->findOneBy(array('flagName'=> 'auto_checkin','userId'=>$user_id));
+        if( $r === null) {
+            return null;
+        }
+        return (boolean) $r->getFlagData();
+    }
 }

@@ -20,10 +20,10 @@ class CheckinAdverListRepository extends EntityRepository
     public function showCheckinList($uid)
     {
         $dateNow = date('Y-m-d');
-        $sqlD = "select d.id from checkin_user_list c inner join checkin_adver_list d on c.open_shop_id = d.id where user_id = ".$uid." and inter_space > 1 and DATEDIFF('".$dateNow."',c.click_date) < d.inter_space group by c.open_shop_id order by c.click_date desc ";
-        $sqlU = "select e.id from checkin_adver_list e inner join checkin_user_list u on e.id = u.open_shop_id where user_id = ".$uid." and click_date = '".$dateNow."'";
-        $sql = "SELECT a.id as cid,a.inter_space,b.*
-			FROM checkin_adver_list a left join advertiserment b on a.ad_id = b.id
+        $sqlD = "SELECT d.id FROM checkin_user_list c INNER JOIN checkin_adver_list d ON c.open_shop_id = d.id WHERE user_id = ".$uid." AND inter_space > 1 AND DATEDIFF('".$dateNow."',c.click_date) < d.inter_space GROUP BY c.open_shop_id ORDER BY c.click_date desc ";
+        $sqlU = "SELECT e.id FROM checkin_adver_list e INNER JOIN checkin_user_list u ON e.id = u.open_shop_id WHERE user_id = ".$uid." AND click_date = '".$dateNow."'";
+        $sql = "SELECT a.id as cid,a.inter_space,b.id,b.title,b.list_image,b.reward_rate,b.incentive_rate
+			FROM checkin_adver_list a LEFT JOIN advertiserment b on a.ad_id = b.id
 			WHERE a.id not in ($sqlU)  and a.id not in ($sqlD)
 			ORDER BY a.id desc";
         $rs = $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();

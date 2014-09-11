@@ -105,6 +105,12 @@ class TopController extends Controller
             //获取签到商家
             $arr['arrList'] = $this->checkinList();
 
+            // 是否为自动签到
+            $user_id = $this->get('session')->get('uid');
+            $arr['is_auto_checkin'] = $this->get('doctrine')->getManager()->getRepository('JiliApiBundle:UserConfigurations')->isAutoCheckin( $user_id);
+
+        $logger = $this->get('logger');
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$arrList','')) .var_export($arr['is_auto_checkin'], true));
             return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
         } else {
             return new Response('<!-- already checked in -->');
@@ -190,6 +196,10 @@ class TopController extends Controller
             $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate'] / 10000, 2);
             $arrList[] = $cal[$calNow[$i]];
         }
+
+        $logger = $this->get('logger');
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$arrList','')) .var_export($arrList, true));
+
         return $arrList;
 
     }

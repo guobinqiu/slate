@@ -35,8 +35,14 @@ function getCenter(){
 }
 
 function signs(){
-  $("#signInFrame").show();
-  $(".blackBg").show();
+    if( typeof jili_autocheckin =='undefeind' ||  jili_autocheckin.is_set == false) {
+        $("#signInFrame").show();
+        $(".blackBg").show();
+    } else {
+        if(confirm( "Start auto checkin now?")) {
+    
+        };
+    }
 }
 
 function aremove(){
