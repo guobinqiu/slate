@@ -620,6 +620,29 @@
                 <TD colSpan=2></TD>
             </TR>
         </TABLE>
+        <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+            <TR height=22>
+                <TD style="PADDING-LEFT: 30px" background={{asset('images/admin/menu_bt.jpg')}}>
+                    <A class=menuParent onclick=expand(22) href="javascript:void(0);">EDM 退订</A>
+                </TD>
+            </TR>
+            <TR height=4>
+                <TD></TD>
+            </TR>
+        </TABLE>
+        <TABLE id=child22 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
+            <TR height=20>
+                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+                <TD><A class=menuChild href="{{ path('_edm_unsubscribe_list') }}" target=main>EDM退订一览</A></TD>
+            </TR>
+            <TR height=20>
+                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+                <TD><A class=menuChild href="{{ path('_edm_unsubscribe_add_index') }}" target=main>EDM退订添加</A></TD>
+            </TR>
+            <TR height=4>
+                <TD colSpan=2></TD>
+            </TR>
+        </TABLE>
         </TD>
     </TR>
 </TABLE>
