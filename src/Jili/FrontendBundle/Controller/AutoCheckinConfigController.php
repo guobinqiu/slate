@@ -241,4 +241,19 @@ class AutoCheckinConfigController extends Controller {
         return $response;
     }
 
+    /**
+     * @Route("/redirectme")
+     */
+    public function redirectmeAction(){
+        $logger = $this->get('logger');
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
+        $request = $this->get('request');
+        if($request->get('36kr')) {
+            return $this->redirect('http://www.36kr.com/');
+        } elseif ($request->get('z')) {
+            return $this->redirect('http://www.amazon.cn/ref=z_cn?tag=zcn0e-23');
+        }
+        return $this->redirect('http://www.baidu.com');
+
+    }
 }
