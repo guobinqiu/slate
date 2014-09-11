@@ -50,15 +50,35 @@ class LoadExchangeData extends AbstractFixture implements ContainerAwareInterfac
             $pointschange->setType(4);
             $pointschange->setSourcePoint($user->getPoints() - intval($change_point));
             $pointschange->setTargetPoint(intval($change_point));
-            $pointschange->setTargetAccount("13761756201");
+            $pointschange->setTargetAccount('13761756201');
             $pointschange->setExchangeItemNumber(20);
-            $pointschange->setIp("192.168.1.28");
+            $pointschange->setIp('192.168.1.28');
             $manager->persist($pointschange);
             $manager->flush();
 
             self :: $POINTS_EXCHANGES[] = $pointschange;
         }
 
+
+        $user = new User();
+        $user->setNick('bb1');
+        $user->setEmail('zhangmm1@voyagegroup.com.cn');
+        $user->setPoints(5000);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('123qwe');
+        $manager->persist($user);
+        $manager->flush();
+
+        $user = new User();
+        $user->setNick('bb2');
+        $user->setEmail('zhangmm2@voyagegroup.com.cn');
+        $user->setPoints(5000);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('123qwe');
+        $manager->persist($user);
+        $manager->flush();
     }
 
     /**

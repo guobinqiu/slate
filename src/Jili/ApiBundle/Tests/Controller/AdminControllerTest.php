@@ -10,7 +10,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 
 use Jili\ApiBundle\DataFixtures\ORM\LoadExchangeData;
-
+use Jili\ApiBundle\DataFixtures\ORM\LoadAdminSelectTaskPercentCodeData;
 class AdminControllerTest extends WebTestCase
 {
     private $em;
@@ -26,18 +26,30 @@ class AdminControllerTest extends WebTestCase
 
         $container=static::$kernel->getContainer();
 
+
+            $with_fixture = false;
         $tn = $this->getName();
-        if (in_array( $tn, array('testExchangeOKWen','testHandleExchange') ) ) {
-
-            // purge tables;
-            $purger = new ORMPurger($em);
-            $executor = new ORMExecutor($em, $purger);
-            $executor->purge();
-
+        if (in_array( $tn, array('testExchangeOKWen','testHandleExchange','testHandleExchangeWen') ) ) {
+$with_fixture = true;
             // load fixtures
             $fixture = new LoadExchangeData();
             $loader = new Loader();
             $loader->addFixture($fixture);
+        } else if( in_array( $tn , array('testSelectTaskPercent') ) ){
+
+$with_fixture = true;
+
+            $fixture = new LoadAdminSelectTaskPercentCodeData();
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+
+        }
+
+        if( true === $with_fixture ) {
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
             $executor->execute($loader->getFixtures());
         }
 
@@ -65,22 +77,23 @@ class AdminControllerTest extends WebTestCase
         $controller->setContainer($container);
 
         //测试有关表user,exchange_from_wenwen
-        $file[1][0] = "91jili-201402-2624-927390";
-        $file[1][1] = "zhangmm@voyagegroup.com.cn";
-        $file[1][2] = "30";
-        $file[1][3] = "3000";
+        $file[1][0] = '91jili-201402-2624-927390';
+        $file[1][1] = 'zhangmm@voyagegroup.com.cn';
+        $file[1][2] = '30';
+        $file[1][3] = '3000';
 
-        $file[2][0] = "91jili-201402-2625-1036110";
-        $file[2][1] = "zhangmm1@voyagegroup.com.cn";
-        $file[2][2] = "30";
-        $file[2][3] = "3000";
+        $file[2][0] = '91jili-201402-2625-1036110';
+        $file[2][1] = 'zhangmm1@voyagegroup.com.cn';
+        $file[2][2] = '30';
+        $file[2][3] = '3000';
 
-        $file[3][0] = "91jili-201402-2625-1036111";
-        $file[3][1] = "zhangmm2@voyagegroup.com.cn";
-        $file[3][2] = "30";
-        $file[3][3] = "3000";
+        $file[3][0] = '91jili-201402-2625-1036111';
+        $file[3][1] = 'zhangmm2@voyagegroup.com.cn';
+        $file[3][2] = '30';
+        $file[3][3] = '3000';
 
         $return = $controller->handleExchangeWen($file);
+        var_dump($return);
         $this->assertEquals(3, count($return));
     }
 
