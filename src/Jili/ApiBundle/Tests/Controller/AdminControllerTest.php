@@ -55,7 +55,13 @@ class AdminControllerTest extends WebTestCase {
             $loader->addFixture($fixture);
         }
 
-        if ($tn == 'testdelSendMs') {
+        if (in_array($tn, array (
+                'testInsertSendMs',
+                'testupdateSendMs',
+                'testselectSendMs',
+                'testselectSendMsById',
+                'testdelSendMs'
+            ))) {
             $with_fixture = true;
             // load fixtures
             $fixture = new LoadUserSendMessageData();
@@ -180,13 +186,19 @@ class AdminControllerTest extends WebTestCase {
         $container = $client->getContainer();
         $controller = new AdminController();
         $controller->setContainer($container);
+        $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
 
         $parms = array (
-            'userid' => 1057704,
+            'userid' => $sm->getSendTo(),
             'title' => "test",
             'content' => "function test"
         );
+
+        $em = $this->em;
+        $sendMessage1 = $em->getRepository('JiliApiBundle:SendMessage0' . ($sm->getSendTo() % 10))->findBySendTo($sm->getSendTo());
         $controller->insertSendMs($parms);
+        $sendMessage2 = $em->getRepository('JiliApiBundle:SendMessage0' . ($sm->getSendTo() % 10))->findBySendTo($sm->getSendTo());
+        $this->assertEquals(1, count($sendMessage2) - count($sendMessage1));
     }
 
     /**
@@ -201,8 +213,8 @@ class AdminControllerTest extends WebTestCase {
         $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
         $controller->delSendMs($sm->getSendTo(), $sm->getId());
         $em = $this->em;
-        $sm = $em->getRepository('JiliApiBundle:SendMessage0' . ($sm->getSendTo() % 10))->find($sm->getId());
-        $this->assertEquals(1, $sm->getDeleteFlag());
+        $sendMessage = $em->getRepository('JiliApiBundle:SendMessage0' . ($sm->getSendTo() % 10))->find($sm->getId());
+        $this->assertEquals(1, $sendMessage->getDeleteFlag());
     }
 
     /**
@@ -214,13 +226,20 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
+        $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
+        $return = $controller->selectSendMsById($sm->getSendTo(), $sm->getId());
+
         $params = array (
-            'sendid' => 1,
-            'userid' => 1057705,
+            'sendid' => $sm->getId(),
+            'userid' => $sm->getSendTo(),
             'title' => "test title",
             'content' => "test content"
         );
         $controller->updateSendMs($params);
+
+        $em = $this->em;
+        $sendMessage = $em->getRepository('JiliApiBundle:SendMessage0' . ($sm->getSendTo() % 10))->find($sm->getId());
+        $this->assertEquals($params['title'], $sendMessage->getTitle());
     }
 
     /**
@@ -232,10 +251,10 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $userid = 1057704;
-        $sendid = 7;
-        $return = $controller->selectSendMsById($userid, $sendid);
-        $this->assertEquals('zhangmm@voyagegroup.com.cn', $return['email']);
+        $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
+        $user = LoadUserSendMessageData :: $USER;
+        $return = $controller->selectSendMsById($sm->getSendTo(), $sm->getId());
+        $this->assertEquals($user->getEmail(), $return['email']);
     }
 
     /**
@@ -247,9 +266,11 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $id = 5;
-        $return = $controller->selectSendMs($id);
-        $this->assertEquals(3, count($return));
+        $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
+        $user = LoadUserSendMessageData :: $USER;
+
+        $return = $controller->selectSendMs($user->getId());
+        $this->assertEquals($sm->getTitle(), $return[0]['title']);
     }
 
     /**
