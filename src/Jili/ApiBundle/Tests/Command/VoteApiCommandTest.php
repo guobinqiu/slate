@@ -36,7 +36,6 @@ class VoteApiCommandTest extends KernelTestCase
         $this->em->close();
     }
     /**
-     * @group point_recent
      * @group issue_437
      */
     public function testExecute() {
