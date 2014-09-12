@@ -77,11 +77,11 @@ class CpaRankingActivityCommandTest extends KernelTestCase {
         $file_path = $container->getParameter('file_path_cpa_ranking_activity');
         $output_filename = $file_path . date('Ym', strtotime($commandParam['start_time'])) . '.csv';
 
-        //删除旧的
+        //鍒犻櫎鏃х殑
         exec('rm -rf ' . $output_filename);
         $this->assertFileNotExists($output_filename);
 
-        //生成新的
+        //鐢熸垚鏂扮殑
         $commandTester->execute($commandParam);
 
         $this->assertFileExists($output_filename, 'generate cpa ranking file');

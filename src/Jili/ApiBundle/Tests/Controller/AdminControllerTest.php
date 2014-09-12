@@ -13,6 +13,7 @@ use Jili\ApiBundle\DataFixtures\ORM\LoadExchangeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadHandleExchangeWenData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserTaskHistoryData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserSendMessageData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadAdminSelectTaskPercentCodeData;
 
 class AdminControllerTest extends WebTestCase {
@@ -39,7 +40,7 @@ class AdminControllerTest extends WebTestCase {
             $loader = new Loader();
             $loader->addFixture($fixture);
         }
-        if ($tn == 'testUpdateTaskHistory') {
+        if ($tn == 'testUpdateTaskHistory' || $tn == 'testgetTaskHistory') {
             $with_fixture = true;
             // load fixtures
             $fixture = new LoadUserTaskHistoryData();
@@ -51,6 +52,22 @@ class AdminControllerTest extends WebTestCase {
             $with_fixture = true;
             // load fixtures
             $fixture = new LoadExchangeData();
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+        }
+
+        if ($tn == 'testSelectTaskPercent') {
+            $with_fixture = true;
+            // load fixtures
+            $fixture = new LoadAdminSelectTaskPercentCodeData();
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+        }
+
+        if ($tn == 'testExchangeOKWen') {
+            $with_fixture = true;
+            // load fixtures
+            $fixture = new LoadUserData();
             $loader = new Loader();
             $loader->addFixture($fixture);
         }
@@ -281,11 +298,9 @@ class AdminControllerTest extends WebTestCase {
         $container = $client->getContainer();
         $controller = new AdminController();
         $controller->setContainer($container);
-
-        $userid = 1057704;
-        $orderId = 1;
-        $return = $controller->selectTaskPercent($userid, $orderId);
-        $this->assertEquals(1, count($return));
+        $ta = LoadAdminSelectTaskPercentCodeData :: $TASK_HISTORY;
+        $return = $controller->selectTaskPercent($ta->getUserId(), $ta->getOrderId());
+        $this->assertEquals($ta->getRewardPercent(), $return['rewardPercent']);
     }
 
     /**
@@ -348,18 +363,25 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
+        $task_history = LoadUserTaskHistoryData :: $TASK_HISTORY;
+
         $params = array (
-            'orderId' => 0,
-            'userid' => 1057704,
-            'task_type' => 4,
-            'categoryId' => 14,
+            'userid' => $task_history->getUserId(),
+            'orderId' => $task_history->getOrderId() + 1,
+            'task_type' => $task_history->getTaskType() + 1,
+            'categoryId' => 1,
+            'reward_percent' => $task_history->getRewardPercent(),
+            'point' => $task_history->getPoint(),
             'taskName' => '名片入力',
-            'reward_percent' => 0,
-            'point' => 100,
             'date' => date('Y-m-d H:i:s'),
-            'status' => 1
+            'status' => $task_history->getStatus()
         );
+
+        $em = $this->em;
+        $taskHistory1 = $em->getRepository('JiliApiBundle:TaskHistory0' . ($task_history->getUserId() % 10))->findByUserId($task_history->getUserId());
         $controller->getTaskHistory($params);
+        $taskHistory2 = $em->getRepository('JiliApiBundle:TaskHistory0' . ($task_history->getUserId() % 10))->findByUserId($task_history->getUserId());
+        $this->assertEquals(1, count($taskHistory2) - count($taskHistory1));
     }
 
     /**
@@ -374,7 +396,12 @@ class AdminControllerTest extends WebTestCase {
         $userid = 1057704;
         $point = 120;
         $type = 4;
+        $em = $this->em;
+        $pointHistory1 = $em->getRepository('JiliApiBundle:PointHistory0' . ($userid % 10))->findAll();
         $controller->getPointHistory($userid, $point, $type);
+        $pointHistory2 = $em->getRepository('JiliApiBundle:PointHistory0' . ($userid % 10))->findAll();
+        $this->assertEquals(1, count($pointHistory2) - count($pointHistory1));
+
     }
 
     /**
@@ -386,10 +413,21 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $email = 'zhangmm@voyagegroup.com.cn';
+        $user = LoadUserData :: $USERS[0];
+
         $points = 120;
-        $return = $controller->exchangeOKWen($email, $points);
+
+        $em = $this->em;
+        $pointHistory1 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->findAll();
+
+        $return = $controller->exchangeOKWen($user->getEmail(), $points);
         $this->assertTrue($return);
+
+        $pointHistory2 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->findAll();
+        $this->assertEquals(1, count($pointHistory2) - count($pointHistory1));
+
+        $userInfo = $em->getRepository('JiliApiBundle:User')->findById($user->getId());
+        $this->assertEquals($user->getPoints() + 120, $userInfo[0]->getPoints());
     }
 
     /**

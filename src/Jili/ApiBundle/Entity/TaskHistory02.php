@@ -73,7 +73,7 @@ class TaskHistory02
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ocd_created_date", type="datetime")
+     * @ORM\Column(name="ocd_created_date", type="datetime", nullable=true)
      */
     private $ocdCreatedDate;
 
