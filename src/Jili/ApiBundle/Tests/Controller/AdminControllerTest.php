@@ -12,6 +12,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadExchangeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadHandleExchangeWenData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserTaskHistoryData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserSendMessageData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadAdminSelectTaskPercentCodeData;
 
 class AdminControllerTest extends WebTestCase {
@@ -50,6 +51,14 @@ class AdminControllerTest extends WebTestCase {
             $with_fixture = true;
             // load fixtures
             $fixture = new LoadExchangeData();
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+        }
+
+        if ($tn == 'testdelSendMs') {
+            $with_fixture = true;
+            // load fixtures
+            $fixture = new LoadUserSendMessageData();
             $loader = new Loader();
             $loader->addFixture($fixture);
         }
@@ -189,9 +198,11 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $userid = 1057704;
-        $sendid = 8;
-        $controller->delSendMs($userid, $sendid);
+        $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
+        $controller->delSendMs($sm->getSendTo(), $sm->getId());
+        $em = $this->em;
+        $sm = $em->getRepository('JiliApiBundle:SendMessage0' . ($sm->getSendTo() % 10))->find($sm->getId());
+        $this->assertEquals(1, $sm->getDeleteFlag());
     }
 
     /**
@@ -270,7 +281,7 @@ class AdminControllerTest extends WebTestCase {
         $params = array (
             'userid' => $task_history->getUserId(),
             'orderId' => $task_history->getOrderId(),
-            'taskType' => $task_history->getTaskType()+1,
+            'taskType' => $task_history->getTaskType() + 1,
             'reward_percent' => $task_history->getRewardPercent(),
             'point' => $task_history->getPoint(),
             'date' => date('Y-m-d H:i:s'),
@@ -281,7 +292,7 @@ class AdminControllerTest extends WebTestCase {
 
         $params = array (
             'userid' => $task_history->getUserId(),
-            'orderId' => $task_history->getOrderId()+1,
+            'orderId' => $task_history->getOrderId() + 1,
             'taskType' => $task_history->getTaskType(),
             'reward_percent' => $task_history->getRewardPercent(),
             'point' => $task_history->getPoint(),
@@ -296,7 +307,7 @@ class AdminControllerTest extends WebTestCase {
             'orderId' => $task_history->getOrderId(),
             'taskType' => $task_history->getTaskType(),
             'reward_percent' => $task_history->getRewardPercent(),
-            'point' => $task_history->getPoint()+100,
+            'point' => $task_history->getPoint() + 100,
             'date' => date('Y-m-d H:i:s'),
             'status' => $task_history->getStatus()
         );
@@ -304,7 +315,7 @@ class AdminControllerTest extends WebTestCase {
         $this->assertTrue($return);
         $em = $this->em;
         $taskHistory = $em->getRepository('JiliApiBundle:TaskHistory0' . ($task_history->getUserId() % 10))->findByUserId($task_history->getUserId());
-        $this->assertEquals($task_history->getPoint()+100, $taskHistory[0]->getPoint());
+        $this->assertEquals($task_history->getPoint() + 100, $taskHistory[0]->getPoint());
     }
 
     /**
