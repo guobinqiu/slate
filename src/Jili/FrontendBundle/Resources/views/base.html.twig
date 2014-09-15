@@ -32,13 +32,15 @@
 
 
 <script>
-var urls={
+var urls = urls || {};
+urls={
         advertiserment_click:"{{ path('_advertiserment_click') }}",
         checkin_issetClick:"{{ path('_checkin_issetClick') }}",
         checkin_clickInsert:"{{ path('_checkin_clickInsert') }}",
         checkin_location:"{{ path('_checkin_location') }}",
         checkin_clickCount:"{{ path('_checkin_clickCount') }}",
-        user_login:"{{ path('_user_login') }}"
+        user_login:"{{ path('_user_login') }}",
+        auto_checkin_process: "{{ path('jili_frontend_autocheckin_process') }}"
 } ;
 </script>
 <script>

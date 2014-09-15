@@ -1,19 +1,7 @@
 $(function() {
 	autoCheckinConfigDomClick();
-    if(jili_autocheckin.is_set ) {
-        initFrame();
-    }
 });
 
-var initFrame = function() {
-	ifrm = document.createElement('iframe');
-	ifrm.setAttribute('id', 'buffer');
-	ifrm.setAttribute('name', 'buffer');
-	ifrm.setAttribute('frameborder', '0');
-	//      ifrm.setAttribute('style', 'display:none;overflow:hidden;');
-	document.body.appendChild(ifrm);
-    return ifrm;
-}
 // 
 var autoCheckinConfigDomClick = function() {
 

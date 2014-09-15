@@ -151,6 +151,7 @@ class AdvertisermentController extends Controller
 
 
     /**
+     * 签到,记录商家access log
      * @Route("/click", name="_advertiserment_click")
 	 */
     public function clickAction()

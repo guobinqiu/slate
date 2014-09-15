@@ -35,12 +35,20 @@ function getCenter(){
 }
 
 function signs(){
-    if( typeof jili_autocheckin =='undefeind' ||  jili_autocheckin.is_set == false) {
+    if(  typeof jili_autocheckin =='undefeind' ||  jili_autocheckin.is_set == false) {
         $("#signInFrame").show();
         $(".blackBg").show();
     } else {
-        if(confirm( "Start auto checkin now?")) {
-    
+        // redirect to the new page.
+        if(confirm( "将在新打开的页面中进行自动签到, 请确认")) {
+        window.open( urls.auto_checkin_process, "_blank");
+   // open the new windows  
+   // and do the autocheckins.
+   // how to pass the checkin shops ??
+   // by session ?? how to clear
+   // by cache_data ?? how to remove ?
+   // is it shared by every one?
+        //    console.log();
         };
     }
 }
@@ -55,11 +63,14 @@ function aremove(){
 function goto(cid,aid,points){
     var w = window.open("","_blank");
     $.ajax({
+        // 记录商家的access: _advertiserment_click
           url: urls.advertiserment_click+"?id="+aid,
           post: "GET",
           success:function(data){
               if(data==1){
+                  // 是否已经签到过cid
                  $.ajax({
+                     //_checkin_issetClick
                     url: urls.checkin_issetClick+"?cid="+cid,
                     post: "GET",
                     success:function(data){
@@ -83,7 +94,9 @@ function goto(cid,aid,points){
                       }
                       $(".image"+cid).removeAttr("onclick");
                       $(".goTo "+cid).removeAttr("onclick");
+                      // 记录签到商家数，发米粒 .
                       $.ajax({
+                          //_checkin_clickInsert
                             url: urls.checkin_clickInsert+"?cid="+cid+"&aid="+aid,
                             post: "GET",
                             success:function(data){ 
@@ -95,6 +108,7 @@ function goto(cid,aid,points){
 	                            obj = JSON.parse(data);
 	                          }
 
+                              // 打开商家，_checkin_location
                               w.location.href = urls.checkin_location+"?aid="+aid+"&type=1";
                               if(obj.code==1){  
                                   aremove();

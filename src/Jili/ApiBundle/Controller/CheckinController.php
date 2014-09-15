@@ -51,11 +51,11 @@ class CheckinController extends Controller
     }
 
     /**
+     * 防止重复签到,判断是否点击checkin_user_list记录返回
 	 * @Route("/issetClick",name="_checkin_issetClick")
 	 */
     public function issetClickAction() 
     {
-        //判断是否点击checkin_user_list记录返回
         $code = '';
         $date = date("Y-m-d");
         $request = $this->get('request');
@@ -71,6 +71,7 @@ class CheckinController extends Controller
     }
 
     /**
+     * 增加己签到商家计数, 确认并发放签到积分
 	 * @Route("/clickInsert",name="_checkin_clickInsert")
 	 */
     public function clickInsertAction()
