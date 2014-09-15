@@ -59,9 +59,9 @@ class DefaultController extends Controller
 
         if( false !== strpos( $url,'APIMemberId')){
             $session->set('referer', $url);
-            return $this->forward( 'JiliApiBundle:User:login' );
+            return $this->redirect( $this->generateUrl('_login'));
         } else {
-            return $this->forward( 'JiliApiBundle:Home:index' );
+            return $this->redirect($this->generateUrl('_homepage')) ;
         }
 
             // set session

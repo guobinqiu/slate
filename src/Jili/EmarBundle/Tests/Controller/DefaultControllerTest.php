@@ -96,10 +96,14 @@ class DefaultControllerTest extends WebTestCase
         $url = $container->get('router')->generate('jili_emar_default_redirect', array('m'=> $m)  , true) ;
         print 'url1: '.$url.PHP_EOL;
 
+        // set session for login
+        $session = $container->get('session');
+        $session->set('uid', $user->getId());
+        $session->save();
 
 #        print PHP_EOL.'>>>>>>>>>>>>'.PHP_EOL;
         $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), PHP_EOL.$target. PHP_EOL. $url.PHP_EOL );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode(), PHP_EOL.$target. PHP_EOL. $url.PHP_EOL );
         $this->assertEquals('1', '1');
         // request
         // status code
