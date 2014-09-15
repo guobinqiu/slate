@@ -3,7 +3,12 @@
 namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 
+use Doctrine\Common\DataFixtures\Loader;
+
+use Jili\ApiBundle\DataFixtures\ORM\OfferWow\LoadUserData;
 class OfferwowControllerTest extends WebTestCase
 {
    /**
@@ -21,6 +26,21 @@ class OfferwowControllerTest extends WebTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+        $contianer  = static::$kernel->getContainer();
+
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        $fixture = new LoadUserData();
+        $fixture->setContainer($contianer);
+        $loader = new Loader();
+        $loader->addFitures($fixture);
+        $executor->execute($loader->getFixtures());
+
+        $this->container = $contianer;
+        $em = $this->em;
     }
 
 
@@ -125,7 +145,9 @@ class OfferwowControllerTest extends WebTestCase
 // sign=strtoupper(md5(memberId+point+eventId+websiteId+immediate+key)
 
 // a valid memberid is in format of uid_adid
-
+        // userid
+        // OfferwowOrder
+        //
         //4 已发放奖励的Eventid重复 with sign
         $key = '91jili2offerwow';
         $params_1 = array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'0');
