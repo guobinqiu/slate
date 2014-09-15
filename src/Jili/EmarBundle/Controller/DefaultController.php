@@ -61,7 +61,7 @@ class DefaultController extends Controller
             $session->set('referer', $url);
             return $this->forward( 'JiliApiBundle:User:login' );
         } else {
-            return $this->forward( 'JiliApiBundle:Top:index' );
+            return $this->forward( 'JiliApiBundle:Home:index' );
         }
 
             // set session
