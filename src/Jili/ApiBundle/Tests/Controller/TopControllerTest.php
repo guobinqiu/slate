@@ -30,6 +30,7 @@ class TopControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
+
         $this->em  = $em;
     }
     /**
@@ -130,10 +131,11 @@ class TopControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         // check the partial
-        $this->assertEquals('/other140307/defaultFace.jpg',       $crawler->filter('img')->attr('src'));
+        $this->assertEquals('/images1408/headPortBg.jpg', $crawler->filter('img')->attr('src'));
 
-        var_dump($crawler->filter('dd')->eq(0)->text());
-        echo  $crawler->filter('dd')->eq(1)->text(),PHP_EOL;
+        
+       // var_dump($crawler->filter('dd')->eq(0)->text());
+       // echo  $crawler->filter('dd')->eq(1)->text(),PHP_EOL;
 
         $query = array('email'=> 'alice.nima@gmail.com');
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
