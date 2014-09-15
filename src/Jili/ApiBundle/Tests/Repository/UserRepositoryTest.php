@@ -118,7 +118,6 @@ class UserRepositoryTest extends KernelTestCase
     }
     /**
      * @group issue_453 
-     * @group debug 
      */
     public function testCreateOnWenwen()
     {

@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Jili\ApiBundle\Entity\User;
 
-class LoadUserData extends  AbstractFixture implements 
+class LoadUserData extends  AbstractFixture implements   ContainerAwareInterface
 {
    public static  $ROWS;
 
@@ -42,12 +42,11 @@ class LoadUserData extends  AbstractFixture implements
         $user->setPoints($this->container->getParameter('init'));
         $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
-
         $user->setPwd('123qwe');
 
-$manager->persist($user);
-$manager->flush();
-self::$ROWS [] = $user;
+        $manager->persist($user);
+        $manager->flush();
+        self::$ROWS [] = $user;
     }
 }
 ?>
