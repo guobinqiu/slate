@@ -323,7 +323,8 @@ function selectCity_amazon(){
 </head>
 <body>
 <div id="header">
-       {% include "::menu.html.twig" %}
+       {% embed "::menu.html.twig" %}
+       {% endembed %}
 </div>
 <div class="pageMain page clearfix">
 {% block body %}{% endblock %}
