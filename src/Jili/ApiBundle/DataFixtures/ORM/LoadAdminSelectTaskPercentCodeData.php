@@ -2,10 +2,13 @@
 namespace Jili\ApiBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+
 use Doctrine\Common\Persistence\ObjectManager;
 use Jili\ApiBundle\Entity\TaskHistory04;
 
-class LoadAdminSelectTaskPercentCodeData extends AbstractFixture {
+class LoadAdminSelectTaskPercentCodeData extends AbstractFixture implements FixtureInterface 
+{
 
     public static $TASK_HISTORY;
 

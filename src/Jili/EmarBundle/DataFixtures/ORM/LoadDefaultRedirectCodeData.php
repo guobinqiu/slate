@@ -1,6 +1,7 @@
 <?php
 namespace Jili\EmarBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -11,7 +12,7 @@ use Jili\ApiBundle\Entity\User;
 /**
  * 
  **/
-class LoadDefaultRedirectCodeData extends AbstractFixture implements ContainerAwareInterface
+class LoadDefaultRedirectCodeData extends AbstractFixture implements  FixtureInterface, ContainerAwareInterface
 {
     public static $ROWS;
     

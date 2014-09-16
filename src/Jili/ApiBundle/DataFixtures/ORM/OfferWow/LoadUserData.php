@@ -1,6 +1,7 @@
 <?php
 namespace Jili\ApiBundle\DataFixtures\ORM\OfferWow;
 
+use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -8,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Jili\ApiBundle\Entity\User;
 
-class LoadUserData extends  AbstractFixture implements   ContainerAwareInterface
+class LoadUserData extends  AbstractFixture implements   FixtureInterface, ContainerAwareInterface
 {
    public static  $ROWS;
 

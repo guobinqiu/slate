@@ -118,7 +118,6 @@ class AdminControllerTest extends WebTestCase {
         }
 
         $this->container = $container;
-
         $this->em = $em;
     }
     /**
@@ -433,7 +432,8 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @group HandleExchange
      */
-    public function testHandleExchange() {
+    public function testHandleExchange() 
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -486,6 +486,7 @@ class AdminControllerTest extends WebTestCase {
                     break;
             }
         }
+        $em->clear();
     }
 
 }

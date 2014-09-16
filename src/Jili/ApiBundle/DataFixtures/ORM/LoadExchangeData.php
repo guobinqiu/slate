@@ -8,7 +8,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\PointsExchange;
 
-class LoadExchangeData extends AbstractFixture implements  FixtureInterface, OrderedFixtureInterface {
+class LoadExchangeData extends AbstractFixture implements OrderedFixtureInterface , FixtureInterface
+{
 
     public static $POINTS_EXCHANGES;
 

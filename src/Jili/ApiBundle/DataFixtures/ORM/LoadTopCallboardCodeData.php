@@ -1,6 +1,8 @@
 <?php
 namespace Jili\ApiBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\FixtureInterface;
+
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -8,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 
-class LoadTopCallboardCodeData  extends AbstractFixture implements ContainerAwareInterface
+class LoadTopCallboardCodeData  extends AbstractFixture implements ContainerAwareInterface, FixtureInterface
 {
     public static $ROWS;
     /**
