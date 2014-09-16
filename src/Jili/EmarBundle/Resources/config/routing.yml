@@ -14,21 +14,21 @@ emar-hotactivity:
     resource: "@JiliEmarBundle/Controller/HotactivityController.php"
     type:     annotation
 
-emar-ghs:
-    resource: "@JiliEmarBundle/Controller/GhsController.php"
-    type:     annotation
+#emar-ghs:
+#    resource: "@JiliEmarBundle/Controller/GhsController.php"
+#    type:     annotation
 
-emar-product:
-    resource: "@JiliEmarBundle/Controller/ProductController.php"
-    type:     annotation
+#emar-product:
+#    resource: "@JiliEmarBundle/Controller/ProductController.php"
+#    type:     annotation
 
 emar-websites:
     resource: "@JiliEmarBundle/Controller/WebsitesController.php"
     type:     annotation
 
-emar-top:
-    resource: "@JiliEmarBundle/Controller/TopController.php"
-    type:     annotation
+#emar-top:
+#    resource: "@JiliEmarBundle/Controller/TopController.php"
+#    type:     annotation
 
 emar-search:
     resource: "@JiliEmarBundle/Controller/SearchController.php"

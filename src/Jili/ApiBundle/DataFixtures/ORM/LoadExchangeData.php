@@ -5,12 +5,10 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\PointsExchange;
 
-class LoadExchangeData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface, OrderedFixtureInterface {
+class LoadExchangeData extends AbstractFixture implements  FixtureInterface, OrderedFixtureInterface {
 
     public static $POINTS_EXCHANGES;
 

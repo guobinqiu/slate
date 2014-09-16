@@ -11,6 +11,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadAdvertisermentMarketActivityData;
 
+use Jili\ApiBundle\DataFixtures\ORM\LoadTopCallboardCodeData;
 
 class TopControllerTest extends WebTestCase
 {
@@ -29,8 +30,28 @@ class TopControllerTest extends WebTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+        $container =  static::$kernel->getContainer();
 
 
+// --
+        $tn = $this->getName();
+        if (in_array( $tn, array('testCallboardAction'))) {
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
+
+            // load fixtures
+            $fixture = new LoadTopCallboardCodeData();
+            $fixture->setContainer($container);
+            $loader = new Loader();
+
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
+        }
+        // 
+
+        $this->container = $container;
         $this->em  = $em;
     }
     /**
@@ -208,43 +229,37 @@ class TopControllerTest extends WebTestCase
         $url = $router->generate('jili_api_top_callboard');
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertFileExists($fn);
 
         // the count
-        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(6);
+        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(9);
 
-        $exp_total = count($callboard);
-        if( $exp_total >= 3 ) {
-            $exp_ul1_count = 3;
-            $exp_ul2_count = $exp_total -  3;
-        } else {
-            $exp_ul1_count = $exp_total;
-            $exp_ul1_count = 0;
-        }
+        $exp_total = 9 ;//count($callboard);
 
         $ul1 = $crawler->filter('ul')->eq(0)->children('li');
         $ul2 = $crawler->filter('ul')->eq(1)->children('li');
-        $this->assertEquals( $exp_ul1_count, $ul1->count() );
-        if( $exp_ul2_count > 0 ) {
-            $this->assertEquals( $exp_ul2_count, $ul2->count() );
-        }
+        $ul3 = $crawler->filter('ul')->eq(2)->children('li');
 
-        if( $exp_total > 0 ) {
-            $hrefs =array();
-            foreach ($callboard as $key) {
-                $exp_links[] = array('name'=> '【'.$key['categoryName'].'】'. mb_substr($key['title'] ,0,17,'utf8'),
-                    'href'=> $router->generate('_callboard_info', array('id'=> $key['id']) )
-                );
-            }
-            $li = $crawler->filter('li');
-            $this->assertEquals( $exp_total, $li->count() );
-            for($i = 0; $i < $exp_total; $i++ ) {
-                $this->assertEquals($exp_links[$i]['name'] , $li->eq($i)->text());
-                $this->assertStringEndsWith($exp_links[$i]['href'], $li->eq($i)->children('a')->eq(0)->attr('href'));
-            }
+        $this->assertEquals( 3, $ul1->count() );
+        $this->assertEquals( 3, $ul2->count() );
+        $this->assertEquals( 3, $ul3->count() );
+        
+
+        $hrefs =array();
+        foreach ($callboard as $key) {
+            $exp_links[] = array('name'=> '【'.$key['categoryName'].'】'. mb_substr($key['title'] ,0,17,'utf8'),
+                'href'=> $router->generate('_callboard_info', array('id'=> $key['id']) )
+            );
         }
+        $li = $crawler->filter('li');
+        $this->assertEquals( $exp_total, $li->count() );
+        for($i = 0; $i < $exp_total; $i++ ) {
+            $this->assertEquals($exp_links[$i]['name'] , $li->eq($i)->text());
+            $this->assertStringEndsWith($exp_links[$i]['href'], $li->eq($i)->children('a')->eq(0)->attr('href'));
+        }
+        
         // check the cache contents.
         $this->assertFileExists($fn);
         $this->assertStringEqualsFile($fn, serialize($callboard) ,' the content in file ' .$fn);

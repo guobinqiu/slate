@@ -58,7 +58,8 @@ class TopController extends Controller
         $cache_fn= $this->container->getParameter('cache_config.api.top_callboard.key');
         $cache_duration = $this->container->getParameter('cache_config.api.top_callboard.duration');
         $cache_proxy = $this->get('cache.file_handler');
-
+$logger = $this->get('logger');
+$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, '')). var_export($cache_fn , true));
         if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
             $callboard= $cache_proxy->get($cache_fn);
         }  else {
@@ -66,6 +67,7 @@ class TopController extends Controller
             //最新公告，取9条
             $em = $this->getDoctrine()->getManager();
             $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(9);
+$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__, '')). var_export($callboard, true));
             $cache_proxy->set( $cache_fn, $callboard);
         }
         $arr['callboard'] = $callboard;
