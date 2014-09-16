@@ -18,9 +18,9 @@ emar-hotactivity:
 #    resource: "@JiliEmarBundle/Controller/GhsController.php"
 #    type:     annotation
 
-#emar-product:
-#    resource: "@JiliEmarBundle/Controller/ProductController.php"
-#    type:     annotation
+emar-product:
+    resource: "@JiliEmarBundle/Controller/ProductController.php"
+    type:     annotation
 
 emar-websites:
     resource: "@JiliEmarBundle/Controller/WebsitesController.php"

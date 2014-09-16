@@ -1,0 +1,18 @@
+{% if products|length > 0 %}
+      <h3>为您推荐</h3>
+      <ul class="commodityByWeb commodityUl clearfix">
+    {% for row in  products %}
+        <li>
+          <dt>
+            <a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.p_o_url|url_encode }}" target="_blank" >
+            <img src="{{ row.pic_url }}" width="150" height="150" />
+            </a>
+          </dt>
+          <dd>
+            <p class="corGlobGray textLimit">【{{ row.web_name }}】{{ row.p_name}}</p>
+            <p class="price">¥{{ row.cur_price }}<em class="fontNormal corLightGray">{{ row.ori_price }}</em></p>
+          </dd>
+        </li>
+    {% endfor %}
+      </ul>
+{% endif %}
