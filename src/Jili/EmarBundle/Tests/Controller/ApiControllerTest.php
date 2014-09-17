@@ -305,7 +305,7 @@ class ApiControllerTest extends WebTestCase
         $container = $client->getContainer();
         $logger= $container->get('logger');
         $em = $this->em;
-$ad = LoadAdvertisermentData::$ROWS[0];
+        $ad = LoadAdvertisermentData::$ROWS[0];
         $sid = 458631;
         $wid = 732204;
         $ad_id = $ad->getId() ;
@@ -467,7 +467,7 @@ $ad = LoadAdvertisermentData::$ROWS[0];
         $email = 'alice.nima@gmail.com';
 //        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
 
-        $user =LoadApiCallbackCodeData::$ROWS[0]; 
+        $user =LoadUserData::$ROWS[0]; 
         $session = $container->get('session');
         $session->set('uid', $user->getId()  );
         $session->save();

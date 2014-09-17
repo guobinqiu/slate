@@ -155,7 +155,6 @@ class AdvertisermentController extends Controller
 	 */
     public function clickAction()
     {
-$logger = $this->get('logger');
         if(!$this->get('request')->getSession()->get('uid')){
             $code = $this->container->getParameter('init');
         }else{
@@ -163,7 +162,6 @@ $logger = $this->get('logger');
             $id = $request->query->get('id');
             $em = $this->getDoctrine()->getManager();
             $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-$logger->debug('{jarod}'.implode(':', array(__LINE__, __CLASS__,'')). var_export( $advertiserment ,true));
             $service_params = array( 'advertiserment'=> $advertiserment , 'request'=> $request );
             $accessHistory = $this->get('cps_access_history.logger')->log($service_params) ;
             if($advertiserment->getIncentiveType() ==1 ) {
