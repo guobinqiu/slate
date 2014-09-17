@@ -136,8 +136,9 @@ class ExperienceAdvertisement
      */
     public function getMissionImgUrl()
     {
-        if ($this->missionImgUrl)
-        return new File($this->missionImgUrl);
+        if ($this->missionImgUrl) {
+           return new File($this->missionImgUrl);
+        }
     }
 
     

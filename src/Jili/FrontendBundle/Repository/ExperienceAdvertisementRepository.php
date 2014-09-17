@@ -4,8 +4,10 @@ use Doctrine\ORM\EntityRepository;
 use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 use Symfony\Component\Filesystem\Filesystem;
 
-class ExperienceAdvertisementRepository extends EntityRepository {
-
+class ExperienceAdvertisementRepository extends EntityRepository 
+{
+    const FILE_UPLOAD_ERROR_CODE = 1;
+    
     public function getAdvertisement($limit = null) {
         $query = $this->createQueryBuilder('ea');
         $query = $query->select('ea.missionHall,ea.point,ea.missionImgUrl,ea.missionTitle');
@@ -46,7 +48,7 @@ class ExperienceAdvertisementRepository extends EntityRepository {
             if (null === $ea->$fileName) {
                 return  '图片为必填项';
             }
-            if($ea->$fileName->getError()==1){
+            if($ea->$fileName->getError()==self::FILE_UPLOAD_ERROR_CODE){
                 return  '文件类型为jpg或png或gif';//类型不对
             }
             if(!in_array($ea->$fileName->guessExtension(),$types)){

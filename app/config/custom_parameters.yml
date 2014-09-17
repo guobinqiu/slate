@@ -248,3 +248,7 @@ parameters:
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
     file_path_cpa_ranking_activity: /data/91jili/logs/activity/cpa_ranking_activity
+    upload_experience_advertisement_dir: images/experience_advertisement/
+    upload_experience_advertisement_dir_old: images/experience_advertisement/old/
+    delete_flag_true: 1
+    delete_flag_false: 0
