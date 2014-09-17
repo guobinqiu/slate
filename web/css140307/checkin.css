@@ -158,9 +158,12 @@
 	}
 	.signInOptions span.autoSignIn a{
 		right:10px;
-		top: 0;
+		top: 15px;
+		line-height: 15px;
 		position: absolute;
 		z-index: 100;
+		background: url(../images1408/arrow.png) no-repeat right -16px;
+		padding-right: 15px;
 	}
 	.signInConfirmFrame{
 		top: 50%;
