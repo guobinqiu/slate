@@ -1,0 +1,30 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block title %} 
+{{ parent() }} - EDM 退订 添加
+{% endblock %}
+
+{% block body%}
+
+<form action="{{ path('_edm_unsubscribe_add_confirm') }}" method="post" id="form1" >
+    <table align='center'>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>{% if error_message is defined %} <font color='red'>{{ error_message }}</font> {% endif %}</td>
+        </tr>
+        <tr>
+            <td>邮箱:</td>
+            <td><input type="text" id="email" name="email" value="{% if email is defined %}{{ email }}{% endif %}" size="40" /></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value='提交' /></td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}

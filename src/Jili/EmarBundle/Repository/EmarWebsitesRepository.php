@@ -31,7 +31,7 @@ class EmarWebsitesRepository extends EntityRepository
         if( isset( $wids) && is_array($wids)  && count( $wids) > 0) {
             $qb->andWhere($qb->expr()->in('ew.webId',  $wids ));
         }
-        $qb->orderBy('ew.hotAt', 'DESC');
+#        $qb->orderBy('ew.hotAt', 'DESC');
         $qb->addOrderBy('ew.position', 'ASC');
         if( isset($limit)) {
             $qb->setMaxResults($limit);

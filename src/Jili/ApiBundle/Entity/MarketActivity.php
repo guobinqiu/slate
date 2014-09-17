@@ -42,6 +42,13 @@ class MarketActivity
      * @ORM\Column(name="business_name", type="string" ,length=250)
      */
     private $businessName;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="activity_description", type="string" ,length=1000)
+     */
+    private $activityDescription;
 
     /**
      * @var string
@@ -316,6 +323,30 @@ class MarketActivity
         return $this->activityImage;
     }
 
+    /**
+     * Get activityDescription
+     *
+     * @return string 
+     */
+    public function getActivityDescription()
+    {
+        return $this->activityDescription;
+    }
+
+
+    /**
+     * Set activityDescription
+     *
+     * @param string $activityDescription
+     * @return MarketActivity
+     */
+    public function setActivityDescription($activityDescription)
+    {
+        $this->activityDescription = $activityDescription;
+
+        return $this;
+    }
+    
     /**
      * Set startTime
      *

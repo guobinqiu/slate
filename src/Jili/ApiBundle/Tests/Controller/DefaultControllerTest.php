@@ -8,7 +8,7 @@ use Symfony\Component\BrowserKit\Cookie;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Jili\ApiBundle\DataFixtures\ORM\LoadLandingWenwenCodeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserLandingWenwenCodeData;
 use Jili\ApiBundle\Utility\WenwenToken;
 
 class DefaultControllerTest extends WebTestCase
@@ -28,6 +28,23 @@ class DefaultControllerTest extends WebTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $container = static::$kernel->getContainer();
+
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        $test_name = $this->getName();
+
+        if( in_array($test_name , array('testAdLoginAction') )) {
+
+            $fixture = new LoadUserLandingWenwenCodeData();
+            $fixture->setContainer( $container);
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
+        }
 
         $this->em  = $em;
     }
@@ -49,7 +66,10 @@ class DefaultControllerTest extends WebTestCase
         $logger= $container->get('logger');
         $router = $container->get('router');
 
-        $query = array('email'=> 'alice.nima@gmail.com');
+        $user = LoadUserLandingWenwenCodeData::$ROWS[0];
+
+        $query = array('email'=> $user->getEmail() );
+
         $em = $this->em;
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
         $this->assertEquals(1, count($user));
@@ -81,122 +101,8 @@ class DefaultControllerTest extends WebTestCase
 
         $this->assertEquals( $token, $cookies->get('jili_rememberme' ,'/')->getRawValue());
 
-        #$this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
-        #$this->assertEquals( $user->getNick(), $cookies->get('jili_nick' ,'/')->getRawValue());
-    }
-    /**
-     * landingAction with not exists: wenwen code exists email
-     * @group issue_396
-     * @group signup_trace
-     */
-    public function testLandingWithSignUpTrace()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-        $em = $this->em;
-        $logger= $container->get('logger');
-
-        // purge tables;
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
-/*
-        // load fixtures
-        $fixture = new LoadLandingWenwenCodeData();
-        $fixture->setContainer($container);
-
-        $loader = new Loader();
-        $loader->addFixture($fixture);
-
-        $executor->execute($loader->getFixtures());
-
-        $user = LoadLandingWenwenCodeData::$USER[0];
-        $wenwenUserToken = LoadLandingWenwenCodeData::$WENWEN_USER_TOKEN[0];
- */
-        // add session
-        $session = $container->get('session');
-        $session->set('id', '1234567890');
-        $session->set('captcha', '');
-        $session->save();
-
-        $time =time();
-        $spm = 'baidu_partnera';
-
-
-        $this->assertEmpty( $session->get('source_route'));
-
-        // build query with add spm without token;
-        $url = $container->get('router')->generate('_default_landing', array( 'spm'=> $spm));
-        echo $url, PHP_EOL;
-
-        // follow to the redirect
-        $client->request('GET', $url );
-        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'visit landing page with spm , but no secret_token' );
-        $crawler=$client->followRedirect();
-
-        $url_expected = $container->get('router')->generate('_user_reg' ) ;
-        $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
-        $session= $container->get('session');
-        $this->assertEquals($spm, $session->get('source_route'));
-
-        // post reg form
-
-        $email = 'alice.nima@gmail.com';
-
-        $form = $crawler->selectButton('快速注册')->form();
-        $form['email'] ->setValue( $email );
-        $form['nick'] ->setValue( 'alice32');
-        $form['captcha'] ->setValue( '');
-
-        $client->submit($form );
-        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
-
-        $crawler = $client->followRedirect();
-
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email );
-
-        //  check the redirected url.
-        $url_expected = $container->get('router')->generate('_user_checkReg', array('id' => $user->getId() ) ) ;
-        $this->assertEquals( $url_expected, $client->getRequest()->getRequestUri());
-
-        // checkings after register.
-        $records = $em->getRepository('JiliApiBundle:UserSignUpRoute')->findBy(
-            array('userId'=> $user->getId()),
-            array('createdAt'=>'desc')
-        );
-
-        $this->assertCount( 1, $records, 'check the user_source_logger table');
-
-        // check log file
-        $log_path = $container->getParameter('kernel.logs_dir');
-        $log_path .= '/'.$container->getParameter('kernel.environment');
-        $log_path .= '.user_source.log';
-
-        $this->assertFileExists($log_path, 'check log file exits');
-
-        // fetch the last line of the file.
-        $fp = fopen($log_path, 'r');
-        fseek($fp, -2, SEEK_END);
-        $pos = ftell($fp);
-        fseek($fp, $pos--);
-
-        $last_row ='';
-        // Loop backword util "\n" is found.
-        while((($c = fgetc($fp)) != "\n") && ($pos > 0)) {
-            $last_row= $c.$last_row;
-            fseek($fp, $pos--);
-        }
-        fclose($fp);
-
-        $arr = explode("\t", $last_row);
-        $this->assertCount(5,$arr, 'check the content of log file');
-        $this->assertEquals( 'user_source',$arr[2], 'check the content of log file');
-        $this->assertEquals( $session->get('source_route'), $arr[4], 'check the content of log file');
     }
 
-    /**
-     * landingAction with not exists: wenwen code exists email
-     */
 
     /**
      * landingAction with not exists: fresh email
@@ -210,31 +116,16 @@ class DefaultControllerTest extends WebTestCase
         $router = $container->get('router');
 
         $em = $this->em;
-        // set session for login
         $query = array('email'=> 'alice.nima@gmail.com');
-        // JiliApiBundle:WenwenUser' or JiliApiBundle:WenWenUser'
-        $user_wenwen = $em->getRepository('JiliApiBundle:WenwenUser')->findOneByEmail($query['email']);
-
-        if( $user_wenwen) {
-            $em->remove($user_wenwen);
-            $em->flush();
-            $em->clear();
-        }
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-        if( $user) {
-            $em->remove($user);
-            $em->flush();
-            $em->clear();
-        }
-
         $secret_token= $this->genSecretToken($query);
-        $url = $router->generate('_default_landing', array('secret_token'=>$secret_token));
+        $url = $router->generate('_default_landing', array('secret_token'=>$secret_token), true);
         echo $url, PHP_EOL;
+
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'after visit landing page'  );
         $form = $crawler->selectButton('1秒注册积粒网')->form();
 
-        $form['nick'] = 'alice323';//str_replace( '@.', '',$query['email']);
+        $form['nick'] = 'alice323';
         $form['pwd'] = 'dddddd';
         $form['newPwd'] = 'dddddd';
 
@@ -244,20 +135,19 @@ class DefaultControllerTest extends WebTestCase
         ///  check db status
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
         $this->assertEquals(1, count($user));
-        echo 'nick:',$user->getNick(),PHP_EOL;
-        echo 'email:',$user->getEmail(),PHP_EOL;
-        echo 'pwd:','dddddd',PHP_EOL;
-
-//        restore
+        $this->assertEquals('alice323',$user->getNick());
+        $this->assertEquals('alice.nima@gmail.com', $user->getEmail() );
     }
     /**
      *@param $plain => array( email, uniqkey )
+     *@group issue_437
      */
     private function genSecretToken($plain)
     {
-        $plain['signature'] =WenwenToken::getEmailToken($plain['email']);
+        $plain['signature'] = WenwenToken::getUniqueToken($plain['email']);
         return  strtr(base64_encode(json_encode($plain)), '+/', '-_');
     }
+
     private function buildToken($user , $secret)
     {
         $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
@@ -266,21 +156,3 @@ class DefaultControllerTest extends WebTestCase
         return $token;
     }
 }
-#    public function testFastLoginAction()
-#    {
-#        $client = static::createClient();
-#        $container = $client->getContainer();
-#        $logger= $container->get('logger');
-#
-#        $query = array('email'=> 'alice.nima@gmail.com', 'pwd'=>'aaaaaa' );
-#        $url = $container->get('router')->generate('_default_fastLogin', $query ) ;
-#        // $crawler = $client->request('GET', '/hello/Fabien');
-#        echo $url, PHP_EOL;
-#
-#        $client->request('POST', $url ) ;
-#        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-#        $this->assertEquals('1', $client->getResponse()->getContent());
-#
-#        $this->assertEquals('0', '0');
-#        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
-#    }

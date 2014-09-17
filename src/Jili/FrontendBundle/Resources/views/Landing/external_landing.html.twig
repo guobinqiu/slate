@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>积粒网-轻松积米粒,快乐换奖励!</title>
+    <meta content="积粒,积粒网,91积粒网,返利网,返利,返现,超级返,购物返利,商城返利,淘宝,淘宝返利,京东返利,积分,积分商城,网购返利,91jili.com" name="keywords"/>
+    <meta content="积粒网，轻松积米粒，快乐换奖励！拥有游戏体验，体验广告，购物返利，商家活动几大板块，网站的货币为米粒，在享受众多商城最优惠价格同时还可从积粒网获得不同比率的现金奖励！积粒网让你省得多，赚得也更多！" name="description"/>
+    <link href="{{ asset('css140307/common.css') }} " rel="stylesheet" type="text/css">
+    <link href="{{ asset('css140307/reset.css') }} " rel="stylesheet" type="text/css"> 
+    <link href="{{ asset('css1408/jl.ui.login.css') }} " rel="stylesheet" type="text/css">
+    <script src="{{ asset('js/jquery-1.7.js') }}" language="javascript"></script>
+	<script src="{{ asset('js/html5.js') }}" type="text/javascript"></script> 
+    <script src="{{ asset('js1408/jl.ui.login.js') }}" language="javascript"></script>
+    <script type="text/javascript">
+        (function($) {
+        	$(function() {
+        		$('div.registerBtn>a:eq(0)').click(function() {
+        			$("#form1").submit();
+        			return false;
+        		});
+        	});
+        })(jQuery);
+    </script>
+</head>
+<body>
+    <header>
+        <a href="{{ path('_homepage') }}"><img src="{{ asset('images1408/lp/logo.png') }}" width="160" height="46" alt="91积粒网" title="91积粒网"/></a>
+        <span class="tips">已有积粒网账号，<a href="{{ path('_user_login') }}">直接登录</a></span>
+    </header>
+    <div class="loginNewBox">
+        <div class="loginMask"></div>
+        <div class="slider">
+            <div class="sliderMask">
+            <img class="img1" src="{{ asset('images1408/lp/pic01.png') }}" width="388" height="249"/>
+            <img class="img2" src="{{ asset('images1408/lp/pic02.png') }}" width="466" height="249"/>
+            <img class="img3" src="{{ asset('images1408/lp/pic03.png') }}" width="567" height="249"/></div>
+            <div class="menus"><span><b class="active"></b><b></b><b></b></span></div>
+        </div>
+        <div class="loginArea">
+            <div class="loginBox">
+    {% form_theme form with 'JiliApiBundle:Form:form_errors.html.twig' %}
+
+    <form action="{{ path('_landing_external') }}" method="post" name="form1" id="form1" {{ form_enctype(form) }} >
+					{#
+                    <div class="msgShow">
+                        <span>***当前已积累米粒</span>
+                        <div class="digits">
+                            <div class="digit"><span></span></div>
+                            <div class="digit"><span></span></div>
+                            <div class="digit"><span></span></div>
+                            <div class="digit"><span></span></div>
+                            <div class="digit"><span></span></div>
+                        </div>
+                    </div> #}
+					
+
+
+                    <ul class="loginForm">
+                        <!--<li class="error">您输入的密码或用户名有误</li>-->
+                     {% if form.email.vars.errors|length %}
+                        <li class="error">{{ form_errors(form.email) }}</li>
+                     {% endif %}
+                     {% if errors is defined and  errors.email is defined  %}
+                        <li class="error">{{ errors.email }}</li>
+                     {% endif %}
+                        <li><span class="defaultTxt">{{  form.email.vars.label  }}</span>
+                        {{ form_widget( form.email, {'attr' : { 'class':'text email clearTxt', 'onFocus':'$(".error").html("&nbsp;");' }}) }}
+                        </li>
+                        <!-- nickname -->
+                     {% if form.nickname.vars.errors|length %}
+                        <li class="error">{{ form_errors(form.nickname ) }}</li>
+        	         {% endif %}
+                     {% if errors is defined and  errors.nickname is defined  %}
+                        <li class="error">{{ errors.nickname  }}</li>
+        	         {% endif %}
+
+                        <li><span class="defaultTxt">{{  form.nickname.vars.label  }}</span>
+                        {{ form_widget( form.nickname, {'attr' : { 'class':'text nick clearTxt', 'onFocus':'$(".error").html("&nbsp;");' }}) }}
+                        </li>
+                        <!-- captcha -->
+                     {% if form.captcha.vars.errors|length %}
+                         <li class="error">{{ form_errors(form.captcha) }}</li>
+                     {% endif %}
+                        <li>
+                        {{ form_widget( form.captcha ) }}<span class="defaultTxt captcha"></span>
+                        </li>
+                        {{ form_rest(form)}}
+
+                        <li class="clearfix">
+                        <div class="registerBtn"><a href="#">快速注册</a></div>
+                           <div class="reward corLightGray">注册当天完善资料送<em class="corLightRed">20米粒</em>，当天签到送<em class="corLightRed">5米粒</em></div>
+                            </li>
+                    </ul>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    {{ render(controller('JiliApiBundle:Top:event', { 'tmpl_prefix':'signup'}))  }}
+            
+{% include 'JiliApiBundle::footer.html.twig' %} 
+</body>
+</html>

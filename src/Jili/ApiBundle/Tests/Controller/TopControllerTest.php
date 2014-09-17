@@ -6,6 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\BrowserKit\Cookie;
 
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Jili\ApiBundle\DataFixtures\ORM\LoadAdvertisermentMarketActivityData;
 
 
 class TopControllerTest extends WebTestCase
@@ -662,46 +666,32 @@ class TopControllerTest extends WebTestCase
         $token = substr( $token, 0 ,32);
         return $token;
     }
-}
-#        $this->assertEquals('1', $client->getResponse()->getContent());
-#        $this->assertEquals('1', $client->getResponse()->getContent());
-#    public function testFastLoginAction()
-#    {
-#        $client = static::createClient();
-#        $container = $client->getContainer();
-#        $logger= $container->get('logger');
-#
-#        $query = array('email'=> 'alice.nima@gmail.com', 'pwd'=>'aaaaaa' );
-#        $url = $container->get('router')->generate('_default_fastLogin', $query ) ;
-#        // $crawler = $client->request('GET', '/hello/Fabien');
-#        echo $url, PHP_EOL;
-#
-#        $client->request('POST', $url ) ;
-#        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-#        $this->assertEquals('1', $client->getResponse()->getContent());
-#
-#        $this->assertEquals('0', '0');
-#        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
-#    }
-#        $info = $crawler->filter('li')->extract(array('_text', 'href'));;
-#        var_dump($info);
 
-#        $data = $crawler->each(function ($node, $i) {
-#            return $node->attr('href');
-#        });
-#        var_dump($data);
-// login post
-#        $url = $container->get('router')->generate('_login');
-##$url = 'http://localhost/login';
-#        $client->request('GET', $url ) ;
-#        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-#        $html = $client->getResponse()->getContent();
-#        $crawler = new Crawler($html, $url);
-##
-##echo $url, PHP_EOL;
-#        $this->markTestIncomplete('Ignored for dev');
-#        $form = $crawler->selectButton('form1')->form();
-#        $form['email'] = $query['email'];
-#        $form['pwd'] = 'cccccc';
-#        $client->submit($form);
-#        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+    /**
+     * @group market
+     **/
+    public function testMarketAction()
+    {
+        $client = static::createClient();
+        $em = $this->em;
+
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        // load fixtures
+        $fixture = new LoadAdvertisermentMarketActivityData();
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $executor->execute($loader->getFixtures());
+
+        //测试数据中，商家活动说明
+        $desc =  LoadAdvertisermentMarketActivityData::$MARKET_ACTIVITY->getActivityDescription();
+
+        $crawler = $client->request('GET', '/top/market');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertTrue($crawler->filter('html:contains("'.$desc.'")')->count() > 0);
+    }
+
+}

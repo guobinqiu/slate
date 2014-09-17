@@ -6,6 +6,7 @@
 <link href="{{ asset('css140307/recommend.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/shopMore.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css140307/commodity834.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css140307/searchShop.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
@@ -81,7 +82,25 @@
   </div><!-- eof main  -->
 
   <div class="sidebar w154 fr">
-  	<div class="rebateProcess borderGlob">
+
+  <div class="busiSec">
+    <h3 class="busiSecTit">同类商家推荐</h3>
+    <div class="busiSecBd">
+      <ul id="mallsRecommend">
+        {% for row in same_cat_websites %}
+        <li><a href="{{path('jili_emar_websites_detail', {'wid': row.web_id })}}" target="_blank">
+            <img src="{{row.logo_url}}" width="120" height="60" alt="">
+            {%if row.max_commission%}
+            <span class="itemTxt">最高返<strong class="corGlobRed">{{row.max_commission}}%</strong></span>
+            {%endif%}
+            </a>
+        </li>
+        {% endfor %}
+	  </ul>
+    </div>
+  </div>
+
+  <div class="rebateProcess borderGlob">
     	<h3>返利流程</h3>	
         <img src="{{ asset('images140307/rebateExplain.jpg') }}" />
     </div>

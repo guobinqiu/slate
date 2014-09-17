@@ -1329,10 +1329,10 @@ class AdminController extends Controller
                   $points = $v[4];
               }
               $ear = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
-              if($status == 'ok'){
+              if(strtolower(trim($status)) == 'ok'){
                   $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type);
                   $this->exchangeSendMs($type,$ear->getUserId());
-              }else{
+              }elseif(strtolower(trim($status)) == 'ng'){
                   $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);
                   $this->exchangeSendMsFail($type,$ear->getUserId());
               }
@@ -1351,7 +1351,7 @@ class AdminController extends Controller
                 $amazonCard4 = $v[11];
                 $amazonCard5 = $v[12];
                 $ear = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
-                if($status == 'ok'){
+                if(strtolower(trim($status)) == 'ok'){
                     $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type);
                     $ex = $em->getRepository('JiliApiBundle:ExchangeAmazonResult')->findByExchangeId($exchange_id);
                     if(empty($ex)){
@@ -1366,7 +1366,7 @@ class AdminController extends Controller
                       $em->flush();
                       $this->exchangeSendMs($type,$ear->getUserId());
                     }
-                }else{
+                }elseif(strtolower(trim($status)) == 'ng'){
                     $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);
                     $this->exchangeSendMsFail($type,$ear->getUserId());
                 }
@@ -2618,6 +2618,7 @@ class AdminController extends Controller
         $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
         $request = $this->get('request');
         $actId = $request->request->get('actId');
+        $actDescription = $request->request->get('actDescription');
         $category = $request->request->get('category');
         $businessName = $request->request->get('businessname');
         $startTime = $request->request->get('start_time');
@@ -2630,6 +2631,7 @@ class AdminController extends Controller
                 $path =  $this->container->getParameter('upload_activity_dir');
                 $business->setAid($actId);
                 $business->setBusinessName($businessName);
+                $business->setActivityDescription($actDescription);
                 $business->setCategoryId($category);
                 $business->setActivityUrl($url);
                 $business->setStartTime(date_create($startTime));
@@ -2651,6 +2653,7 @@ class AdminController extends Controller
                           'actCategory'=>$actCategory,
                           'form' => $form->createView(),
                           'businessName'=>$businessName,
+                          'actDescription'=>$actDescription,
                           'url'=>$url,
                           'start_time'=>$startTime,
                           'end_time'=>$endTime));
@@ -2696,6 +2699,7 @@ class AdminController extends Controller
         $actId = $request->request->get('actId');
         $category = $request->request->get('category');
         $businessName = $request->request->get('businessname');
+        $actDescription = $request->request->get('actDescription');
         $startTime = $request->request->get('start_time');
         $endTime = $request->request->get('end_time');
         $url = $request->request->get('url');
@@ -2706,6 +2710,7 @@ class AdminController extends Controller
                 $category = implode(",",$category);
                 $business->setAid($actId);
                 $business->setBusinessName($businessName);
+                $business->setActivityDescription($actDescription);
                 $business->setCategoryId($category);
                 $business->setActivityUrl($url);
                 $business->setStartTime(date_create($startTime));
@@ -2732,6 +2737,7 @@ class AdminController extends Controller
                           'newCategory'=>$newCategory,
                           'form' => $form->createView(),
                           'businessName'=>$businessName,
+                          'actDescription'=>$actDescription,
                           'url'=>$url,
                           'start_time'=>$startTime,
                           'end_time'=>$endTime));

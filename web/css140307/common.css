@@ -19,6 +19,7 @@
 .fontNormal{ font-weight:normal; font-size:12px;}
 .fontYH{ font-family:'Microsoft YaHei',sans-serif;}
 .fon700{ font-weight:700;}
+.font13{ font-size:13px;}
 .font14{ font-size:14px;}
 .font15{ font-size:15px;}
 .font16{ font-size:16px;}
@@ -31,7 +32,7 @@
 .lh28{ line-height:28px;}
 .lh32{ line-height:32px;}
 h5{font-size: 1.17em;font-weight: bold;}
-strong, b{font-weight: bold;}
+strong, b, .strong{font-weight: bold;}
 .corBlack{ color:#000!important;}
 .corLightRed{ color:#ff6b4f;}
 .corLightGray{ color:#999;}

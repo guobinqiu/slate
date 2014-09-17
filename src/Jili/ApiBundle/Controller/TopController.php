@@ -17,16 +17,20 @@ use Jili\ApiBundle\Utility\FileUtil;
 class TopController extends Controller
 {
     /**
-     * @Route("/event")
+     * @Route("/event/{tmpl_prefix}",requirements={"tmpl_prefix"="signup"}, defaults={"tmpl_prefix"=""})
      * @Template
      */
-    public function eventAction()
+    public function eventAction($tmpl_prefix='')
     {
         //最新动态 :从文件中读取
         $filename = $this->container->getParameter('file_path_recent_point');
         $recentPoint = FileUtil::readCsvContent($filename);
         $arr['recentPoint'] = $recentPoint;
-        return $this->render('JiliApiBundle:Top:event.html.twig', $arr);
+//        $this->getRequest();
+        if( ! empty($tmpl_prefix)) {
+            $tmpl_prefix =  '_'. $tmpl_prefix;
+        }
+        return $this->render('JiliApiBundle:Top:event'.$tmpl_prefix.'.html.twig', $arr);
     }
 
     /**
@@ -59,9 +63,9 @@ class TopController extends Controller
             $callboard= $cache_proxy->get($cache_fn);
         }  else {
             $cache_proxy->remove( $cache_fn);
-            //最新公告，取6条
+            //最新公告，取9条
             $em = $this->getDoctrine()->getManager();
-            $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(6);
+            $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(9);
             $cache_proxy->set( $cache_fn, $callboard);
         }
         $arr['callboard'] = $callboard;

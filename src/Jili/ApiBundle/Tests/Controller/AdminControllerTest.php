@@ -5,11 +5,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Controller\AdminController;
 
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+
+use Jili\ApiBundle\DataFixtures\ORM\LoadExchangeData;
+
 class AdminControllerTest extends WebTestCase
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
     private $em;
 
     /**
@@ -239,4 +242,74 @@ class AdminControllerTest extends WebTestCase
         $return = $controller->exchangeOKWen($email,$points);
         $this->assertTrue($return);
     }
+
+    /**
+     * @group HandleExchange
+     */
+    public function testHandleExchange() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $client = static :: createClient();
+        $em = $this->em;
+
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        // load fixtures
+        $fixture = new LoadExchangeData();
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $executor->execute($loader->getFixtures());
+
+        for ($i = 0; $i < 3; $i++) {
+            $exchange_id = LoadExchangeData :: $POINTS_EXCHANGES[$i]->getId();
+
+            $file[$i +1][0] = $exchange_id;
+            $file[$i +1][1] = "zhangmm@voyagegroup.com.cn";
+            $file[$i +1][2] = "13761756201";
+            $file[$i +1][3] = date('Y/m/d');
+            $file[$i +1][4] = "2010";
+            $file[$i +1][5] = "20";
+            $file[$i +1][6] = "mobile";
+
+            switch ($i) {
+                case 0 :
+                    $file[$i +1][7] = " OK ";
+                    break;
+                case 1 :
+                    $file[$i +1][7] = " nG ";
+                    break;
+                case 2 :
+                    $file[$i +1][7] = " OKe ";
+                    break;
+            }
+            $file[$i +1][8] = date('Y/m/d');
+            $file[$i +1][9] = "";
+            $file[$i +1][10] = "";
+            $file[$i +1][11] = "";
+            $file[$i +1][12] = "";
+            $type = 4;
+            $controller->handleExchange($file, $type);
+
+            $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
+
+            switch ($i) {
+                case 0 :
+                    $this->assertEquals(1, $exchange->getStatus());
+                    break;
+                case 1 :
+                    $this->assertEquals(2, $exchange->getStatus());
+                    break;
+                case 2 :
+                    $this->assertEquals(null, $exchange->getStatus());
+                    break;
+            }
+        }
+    }
+
 }

@@ -88,11 +88,9 @@ class WebsitesController extends Controller
                 //全部
             }elseif($dic_key == '2'){
                 //按数据索引
-                $page_no = 1;
                 $web_site_dic = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->serchByDigit();
             }else{
                 //按字母索引
-                $page_no = 1;
                 $web_site_dic = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->serchByLetter($dic_key);
             }
             if($web_site_dic){
@@ -249,6 +247,8 @@ class WebsitesController extends Controller
 
                 $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->fetchByWebIds( $webids );
 
+                $websites = array_fill_keys( $webids, null);
+
                 # input commissions_of_configed , $commission_of_api, $commission_of_default;
                 foreach( $result as $row) {
                     $em->detach($row);
@@ -287,6 +287,7 @@ class WebsitesController extends Controller
         $logger = $this->get('logger');
         $params = array('webid'=>$wid );
         $website = $this->get('website.detail_get')->fetch($params);
+        $web_raw  = $this->get('website.list_get')->fetch( $params );
         $em = $this->getDoctrine()->getManager();
         $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($website ['commission'] );
         $web_configed=$em->getRepository('JiliEmarBundle:EmarWebsites')->findOneByWebId($wid);
@@ -305,14 +306,18 @@ class WebsitesController extends Controller
         $commission_list = $em->getRepository('JiliEmarBundle:EmarActivityCommission')->getCommissionListByMallName($website['web_name']);
         $rebate_point = $this->get('rebate_point.caculator')->getRebate('emar');
         $cps_rebate_type = $this->container->getParameter('cps_rebate_type');
+        $same_cat_websites = $this->get('website.search')->findSameCatWebsites( $web_raw, $website['web_catid'] ,$website['web_id']);
+        foreach ($same_cat_websites as $k=>$v){
+            $same_cat_websites[$k]['max_commission'] = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($v['commission'] );
+        }
         //整理数据
         if($commission_list){
             foreach ($commission_list as $key=>$value){
                 $commission_list[$key]['user_rebate'] = RebateUtil :: calculateRebateAmount($value, $cps_rebate_type, $rebate_point);
             }
         }
-
-        return array('website'=> $website ,'web_commission'=>$web_commision,'commission_list'=>$commission_list);
+        
+        return array('website'=> $website ,'web_commission'=>$web_commision,'commission_list'=>$commission_list,'same_cat_websites'=>$same_cat_websites);
     }
 
     /**
@@ -370,7 +375,7 @@ class WebsitesController extends Controller
             'websites'=> $websites_paged,
             'websites_infos'=>$webinfos_croned,
             'categories'=> $wcats,
-            'total'=>$total );
+            'total'=>$total);
     }
 
 }

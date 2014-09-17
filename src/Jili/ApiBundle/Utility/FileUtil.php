@@ -5,6 +5,7 @@ namespace Jili\ApiBundle\Utility;
  *
  */
 class FileUtil {
+
     /**
      * @params: $filename
      * @return: $contents
@@ -28,6 +29,33 @@ class FileUtil {
                 $contents[] = $data;
             }
         }
+        fclose($file_handle);
+
+        return $contents;
+    }
+
+    /**
+     * @params: $filename
+     * @return: $contents
+     */
+    public static function readJosnFile($filename) {
+        $contents = null;
+        if (!file_exists($filename)) {
+            //die("指定文件不存在，操作中断!");
+            return $contents;
+        }
+
+        //读文件内容
+        $file_handle = fopen($filename, "r");
+        if (!$file_handle) {
+            //die("指定文件不能打开，操作中断!");
+            return $contents;
+        }
+
+        if ($file_handle !== FALSE) {
+            $contents = json_decode(file_get_contents($filename), true);
+        }
+        fclose($file_handle);
 
         return $contents;
     }

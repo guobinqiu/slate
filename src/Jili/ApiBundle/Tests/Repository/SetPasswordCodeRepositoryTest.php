@@ -8,6 +8,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserSetPasswordCodeData;
+use Jili\ApiBundle\Entity\SetPasswordCode;
 
 class SetPasswordCodeRepositoryTest extends KernelTestCase
 {
@@ -29,19 +30,23 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
             ->getManager();
         $container = static::$kernel->getContainer();
 
-        // purge tables;
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
+        $tn  = $this->getName();
+        if( in_array($tn, array('testFindOneValidateSignUpToken','testIsAvailableFindOneValidateSignUpToken','testCreateTimeFindOneValidateSignUpToken')) ) {
 
-        // load fixtures
-        $fixture = new LoadUserSetPasswordCodeData();
-        $fixture->setContainer($container);
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
 
-        $loader = new Loader();
-        $loader->addFixture($fixture);
+            // load fixtures
+            $fixture = new LoadUserSetPasswordCodeData();
+            $fixture->setContainer($container);
 
-        $executor->execute($loader->getFixtures());
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+
+            $executor->execute($loader->getFixtures());
+        }
 
         $this->em  = $em;
         $this->container  = $container;
@@ -125,5 +130,26 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
         );
         $result = $this->em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken($params);
         $this->assertNull(  $result);
+    }
+
+    /**
+     * @group issue_448
+     **/
+    public function testCreate() 
+    {
+        $em = $this->em;
+        $user_id = 1;
+        $param = array('user_id'=> $user_id);
+        $em->getRepository('JiliApiBundle:SetPasswordCode')->create($param );
+
+        $query = array(
+            'isAvailable' => 1,
+            'userId'=> $user_id
+        );
+
+        $r = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneBy($query);
+        $this->assertNotNull($r);
+
+
     }
 }

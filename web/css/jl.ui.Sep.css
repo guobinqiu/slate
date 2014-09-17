@@ -1,0 +1,245 @@
+/* CSS Document */
+body, div, h3, ul, li, p, a, img, table, tbody, tr, td {
+	margin: 0;
+	padding: 0;
+	outline: none;
+}
+body {
+	font-size: 12px;
+	color: #5b5b5b;
+	font-family: 12px/1.75 Arial, sans-serif, \5b8b\4f53;
+}
+ul, li {
+	list-style: none;
+}
+img {
+	border: 0;
+	vertical-align: bottom;
+}
+.clearfix:after {
+	clear: both;
+	content: '.';
+	height: 0;
+	display: block;
+	overflow: hidden;
+}
+.clearfix {
+ *zoom:1;
+}
+a {
+	text-decoration: none;
+	color: #68d4fe;
+}
+.yellow {
+	color: #ffa200;
+}
+.darkGreen {
+	color: #7d7a2c;
+}
+.activityTit {
+	width: 100%;
+	margin: 0 auto;
+}
+.activityTit .titT1 {
+	height: 145px;
+	background: url(../images/september/picT1.jpg) no-repeat center #320059;
+	position: relative;
+}
+.activityTit .titT1 .toHome {
+	position: absolute;
+	right: 480px;
+	top: 12px;
+}
+.activityTit .titT1 .toHome a {
+	padding: 6px 15px;
+	color: #753bb8;
+	background: #25003f;
+}
+.activityTit .titT2 {
+	height: 145px;
+	background: url(../images/september/picT2.jpg) no-repeat center #320059;
+}
+.activityTit .titT3 {
+	height: 176px;
+	background: url(../images/september/picT3.jpg) no-repeat center #320059;
+	position: relative;
+}
+.activityTit .titT3 .btnWrap {
+	text-align: center;
+	margin: 0 auto;
+	padding-top: 111px;
+}
+.activityTit .titT3 .btnWrap div {
+	display: inline;
+	color: #fff;
+}
+.activityTit .titT3 .btnWrap div a {
+	padding: 21px 47px;
+	color: #fff;
+ *display: inline-block;
+ *padding: 19px 47px;
+}
+.activityTit .titT3 .btnWrap div.btn1 a {
+	background: #fe7f00;
+	margin-right: 5px;
+}
+.activityTit .titT3 .btnWrap div.btn1 a:hover {
+	background: #ff8812;
+}
+.activityTit .titT3 .btnWrap div.btn2 a {
+	background: #00d7c2;
+}
+.activityTit .titT3 .btnWrap div.btn2 a:hover {
+	background: #00e3cc;
+}
+.activityDetail {
+	width: 960px;
+	margin: 0 auto;
+}
+.activityDetail .rankWrap {
+	width: 960px;
+	margin-top: 22px;
+}
+.activityDetail .rankWrap .rTit {
+	height: 58px;
+	background: url(../images/september/activityArrowRight.png) no-repeat left #624c74;
+	background-position: 32px 15px;
+	padding: 14px 0 0 90px;
+}
+.activityDetail .rankWrap .activityRank {
+	background: #f8f8f8;
+	padding: 15px 10px;
+}
+.mt, .st {
+	color: #fff;
+}
+.mt {
+	font-size: 30px;
+}
+.st {
+	font-size: 14px;
+}
+.activityDetail .rankWrap .rankCon table {
+	width: 80%;
+	margin: 0 auto;
+}
+.activityDetail .rankWrap .rankCon table tr {
+	height: 28px;
+	vertical-align: middle;
+	text-align: left;
+}
+.activityDetail .rankWrap .rankCon table tr td {
+	font-size: 13px;
+	
+}
+.activityDetail .rankWrap .rankList {
+	width: 62%;
+	height: 280px;
+	overflow-y: auto;
+}
+.activityDetail .rankWrap .rankList>div {
+	width: 50%;
+ *width:48%;
+}
+.activityDetail .rankWrap .rankReferBox {
+	padding: 0 20px 0 40px;
+}
+.activityDetail .rankWrap .rankReferWrapper {
+	width:247px;
+	padding-left: 38px;
+}
+.activityDetail .rankWrap .rankReferBox table {
+	width: 100%;
+}
+.immediateMsg {
+	margin-top: 10px;
+	width: 220px;
+	text-align: center;
+	border: 1px solid #d9d9d8;
+	background: #fff;
+}
+.immediateMsg .text {
+	background: url(../images/september/medal.gif) no-repeat right #f6f6f4;
+	background-position: 193px 9px;
+	font-size: 14px;
+	line-height: 30px;
+	color: #929291;
+}
+.immediateMsg .mlNum {
+	font-size: 44px;
+	color: #434343;
+	height: 67px;
+	line-height: 67px;
+}
+.activityDetail .rankRule {
+	width: 960px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.activityDetail .rankRule .rTit {
+	height: 58px;
+	background: url(../images/september/activityArrowRight.png) no-repeat left #68674f;
+	background-position: 32px 15px;
+	padding: 14px 0 0 87px;
+}
+.activityDetail .rankRule .rCon {
+	background: #f8f8f8;
+	padding: 20px 30px 20px;
+}
+.activityDetail .rankRule .rCon .rList {
+	width: 898px;
+	height: 200px;
+	margin-top: 25px;
+}
+.activityDetail .rankRule .rCon .rList ul li {
+	width: 383px;
+	height: 35px;
+	line-height: 35px;
+	float: left;
+	border-bottom: 1px dashed #dadada;
+}
+.activityDetail .rankRule .rCon .rList ul li span.i1 {
+	width: 20px;
+	height: 25px;
+	float: left;
+	background: url(../images/september/medalIcon.png) no-repeat 0 9px;
+}
+.activityDetail .rankRule .rCon .rList ul li span em {
+	font-style: normal;
+}
+.activityDetail .rankRule .rCon .rList ul li span.rp {
+	width: 254px;
+	float: left;
+	margin-left: 15px;
+	text-align: left;
+}
+.activityDetail .rankRule .rCon .rList ul li .point {
+	margin-right: 5px;
+}
+.activityDetail .rankRule .rCon .rList ul li.l1 {
+	margin-right: 131px;
+}
+.activityDetail .rankRule .rCon .rList ul li span.i2 {
+	width: 20px;
+	height: 30px;
+	float: left;
+	background: url(../images/september/medalIcon.png) no-repeat 0 -22px;
+}
+.activityDetail .rankRule .rCon .rList ul li span.i3 {
+	width: 20px;
+	height: 30px;
+	float: left;
+	background: url(../images/september/medalIcon.png) no-repeat 0 -55px;
+}
+.activityDetail .rankRule .rCon .rList ul li span.i4 {
+	width: 20px;
+	height: 30px;
+	float: left;
+	background: url(../images/september/medalIcon.png) no-repeat 0 -85px;
+}
+.activityDetail .rankRule .rCon .rList ul li span.i5 {
+	width: 20px;
+	height: 30px;
+	float: left;
+	background: url(../images/september/medalIcon.png) no-repeat 0 -119px;
+}

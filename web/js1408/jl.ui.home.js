@@ -1,162 +1,138 @@
 /**
- * Created by wangliting on 14-7-26.
+ * Created by wangliting on 14-8-14.
  */
-(function($){
-    $.fn.focusPic = function(options){
-        var $this = $(this),
-            sliderImg = $(options.sliderImg),
-            sliderBtns = $(options.sliderBtns),
-            config = {
-                stepWid : 518,
-                index : 0,
-                timer : 5000,
-                animateTimer : 1000
+(function(window, $){
+    $.fn.slider = function(options){
+        var $document = $(document),
+            sliderCon = $(options.sliderCon),
+            sliderBtn = options.sliderBtn || null,
+            sliderMenus = options.sliderMenus || null,
+            curNumPos = options.curNumPos || null,
+            defaults = {
+                stepWid : 244,
+                index : 0, 
+                animateTimer : 300,
+                stepNum: 3,
+                autoSwitch: false,
+                isLoop: false,
+                direction: 'left',
+				isDebug: false
             };
+        var config = $.extend({}, defaults, options.config);
+        var s;
 
-        function nextPic(){
-            if(config.index >= (sliderBtns.length -1)){
-                sliderBtns.removeClass('active').eq(0).addClass('active');
-                sliderImg.stop().animate({left: '0px'}, config.animateTimer);
-                config.index = 0;
-            }else{
-                sliderBtns.removeClass('active').eq(config.index+1).addClass('active');
-                sliderImg.stop().animate({left: '-='+ config.stepWid +'px'},config.animateTimer);
-                config.index++;
+        sliderCon.width(config.stepNum * config.stepWid);
+        if(curNumPos){
+            $(curNumPos).html((config.index + 1) + '/' + config.stepNum);
+        }
+		function debugMsg() {
+			if(config.isDebug) {
+                return window.console && console.log.call(console, arguments);
             }
         }
-
-        var s = setInterval(nextPic, config.timer);
-        sliderBtns.hover(function(){
-            clearInterval(s);
-            config.index = sliderBtns.index(this);
-            sliderBtns.removeClass('active').eq(config.index).addClass('active');
-            sliderImg.stop().animate({left: '-' +config.index * config.stepWid +'px'}, config.animateTimer);
-        }, function(){
-            s = setInterval(nextPic, config.timer);
-        });
-        sliderImg.hover(function(){
-            clearInterval(s);
-        }, function(){
-            s = setInterval(nextPic, config.timer);
-        });
-    }
-})(jQuery);
-(function($){
-    $.fn.sliderC = function(options){
-        var $this = $(this),
-            preMenu = $(options.preMenu),
-            nextMenu = $(options.nextMenu),
-            sliderEle = $(options.sliderEle),
-            config = {
-                stepNum: 3,
-                stepWid : 630,
-                index : 0,
-                timer : 2000,
-                animateTimer : 1000
-            };
-
-        sliderEle.width(config.stepNum * config.stepWid);
         function next(){
             if(config.index >= (config.stepNum -1)){
-                sliderEle.stop().animate({left: '0px'}, config.animateTimer);
-                config.index = 0;
+				debugMsg('执行到最后一组');
+                if(sliderMenus){
+					debugMsg('有索引按钮的话，需要当前索引的按钮样式改变');
+                    $(sliderMenus).removeClass('active').eq(0).addClass('active');
+                }
+                if(config.isLoop){
+					debugMsg('要循环切换，切换到第一个');
+                    sliderCon.stop().animate({ left: '0px'}, config.animateTimer);
+                    config.index = 0;
+                }else{
+					debugMsg('不要循环切换，要停下来歇息一下');
+                    if(config.autoSwitch){
+						debugMsg('是自动切换哎，有定时器咯，要进行清除哦');
+                        clearInterval(s);
+                    }
+                }
             }else{
-                sliderEle.stop().animate({left: '-='+ config.stepWid +'px'},config.animateTimer);
+				debugMsg('当前索引值：', config.index);
+                if(sliderMenus){
+					debugMsg('给当前按钮变换class');
+                    $(sliderMenus).removeClass('active').eq(config.index+1).addClass('active');
+                }
+                sliderCon.stop().animate({left: '-='+ config.stepWid +'px'},config.animateTimer);
                 config.index++;
             }
+            if(curNumPos){
+				debugMsg('执行插入当前页码');
+                $(curNumPos).html((config.index + 1) + '/' + config.stepNum);
+            }
         }
-        function pre(){
+        function prev(){
             if(config.index <= 0){
-                sliderEle.stop().animate({left: '-' + (config.stepNum -1) * config.stepWid +'px'}, config.animateTimer);
-                config.index = (config.stepNum -1);
+                if(sliderMenus){
+                    $(sliderMenus).removeClass('active').eq(config.stepNum -1).addClass('active');
+                }
+                if(config.isLoop){
+                    sliderCon.stop().animate({left: '-'+(config.stepNum -1)*config.stepWid + 'px'}, config.animateTimer);
+                    config.index = (config.stepNum -1);
+                }else{
+                    if(config.autoSwitch){
+                        clearInterval(s);
+                    }
+                }
             }else{
-                sliderEle.stop().animate({left: '+='+ config.stepWid +'px'},config.animateTimer);
+                if(sliderMenus){
+                    $(sliderMenus).removeClass('active').eq(config.index+1).addClass('active');
+                }
+                sliderCon.stop().animate({ left: '+=' + config.stepWid + 'px'}, config.animateTimer);
                 config.index--;
             }
-        }
-        preMenu.on('click', function(){ pre();});
-        nextMenu.on('click', function(){ next();});
-    }
-})(jQuery);
-(function($){
-    $.fn.pageTurn = function(options){
-        var $this = $(this),
-            nextBtn = $(options.nextBtn),
-            prevBtn = $(options.prevBtn),
-            noticeCon = $(options.noticeCon),
-            pageNumber = $(options.pageNumber),
-            config = {
-                index: 0,
-                pageNum: noticeCon.find('ul').length || 2,
-                stepWid: 244,
-                animateTimer: 300
-            };
-
-        pageNumber.html((config.index + 1) + '/' + config.pageNum);
-        function nextPage(){
-            if(config.index >= (config.pageNum - 1)){
-                config.index = (config.pageNum - 1);
-            }else{
-                noticeCon.stop().animate({ left: '-=' + config.stepWid + 'px'}, config.animateTimer);
-                config.index++;
+            if($(curNumPos)){
+                $(curNumPos).html((config.index + 1) + '/' + config.stepNum);
             }
-            pageNumber.html((config.index + 1) + '/' + config.pageNum);
         }
-        function prevPage(){
-            if(config.index <= 0){
-                config.index = 0;
-            }else{
-                noticeCon.stop().animate({ left: '+=' + config.stepWid + 'px'}, config.animateTimer);
-                config.index--;
-            }
-            pageNumber.html((config.index + 1) + '/' + config.pageNum);
+        if(sliderBtn){
+			debugMsg('有上下翻页按钮');
+            $(sliderBtn).parent().find('.prevBtn').on('click', function(){ prev();});
+            $(sliderBtn).parent().find('.nextBtn').on('click', function(){ next();});
         }
-        prevBtn.on('click', function(){ prevPage()});
-        nextBtn.on('click', function(){ nextPage()});
+        if(sliderMenus){
+			debugMsg('有索引按钮，要跟随改变当前按钮样式哦');
+            $(sliderMenus).hover(function(){
+                config.index = $(sliderMenus).index(this);
+                $(sliderMenus).removeClass('active').eq(config.index).addClass('active');
+                sliderCon.stop().animate({left: '-' +config.index * config.stepWid +'px'}, config.animateTimer);
+            }, function(){});
+        }
+        function autoS($ele){
+            $ele.hover(function(){
+                clearInterval(s);
+            }, function(){
+                s = setInterval(next, config.timer);
+            });
+        }
+        if(config.autoSwitch){
+			debugMsg('可以自动切换喽，要加定时器的');
+            s = setInterval(next, config.timer);
+            autoS(sliderCon);
+            if(sliderBtn){autoS($(sliderBtn));}
+            if(sliderMenus){autoS($(sliderMenus));}
+        }
     }
-})(jQuery);
-(function($){
-    $.fn.tabEle = function(options){
-        var $this = $(this),
-            tabMenus = $(options.tabMenus),
-            tabCon = $(options.tabCon);
-
-        tabMenus.removeClass('active').eq(0).addClass('active');
-        tabMenus.removeClass('active').eq(0).addClass('active');
-        tabMenus.on('mouseover', function(){
-            var index = tabMenus.index(this);
-            tabCon.addClass('fnHide').eq(index).removeClass('fnHide');
-            tabMenus.removeClass('active').eq(index).addClass('active');
-        });
-    }
-})(jQuery);
+})(window, jQuery);
 (function($){
     $(function(){
-        //$('.hotShops li').switchBg({switchMethod: 'hover', switchClass: 'active'});
-        $('.slider').focusPic({ sliderImg: '.sliderImg', sliderBtns: '.sliderBtns b'});
-        $('.shopSlider').sliderC({preMenu: '.preGroup', nextMenu: '.nextGroup', sliderEle: '.shopSliderMask ul'},config = {
-                stepNum: 3,
-                stepWid : 994,
-                index : 0,
-                timer : 2000,
-                animateTimer : 1000
-            });
-        //$('.rank').tabEle({ tabMenus: '.rank .menu span', tabCon: '.rank .all ul'});
-        $('.notice').pageTurn({ nextBtn: '.pageNumber .next', prevBtn: '.pageNumber .prev', noticeCon: '.notice .all', pageNumber: '.pageNumber span'});
-        var monthBtn = $('.rank .menu .month'),
-            yearBtn = $('.rank .menu .year'),
-            rankCon = $('.rank .all'),
-            rankMenus = $('.rank .menu span');
-        monthBtn.on('mouseover', function(){
-            rankMenus.removeClass('active');
-            $(this).addClass('active');
-            rankCon.stop().animate({ left: '0px'}, 500);
-        });
-        yearBtn.on('mouseover', function(){
-            rankMenus.removeClass('active');
-            $(this).addClass('active');
-            rankCon.stop().animate({ left: '-244px'}, 500);
-        });
+        $('.hotShops li').switchBg({switchMethod: 'hover', switchClass: 'active'});
+        $('.slider').slider({ sliderCon: '.sliderImg', sliderMenus: '.sliderBtns b', config: {
+            stepWid : 518,
+            timer : 5000,
+            animateTimer : 1000,
+            stepNum: $('.sliderBtns b').length,
+            autoSwitch: true,
+            isLoop: true
+        }});
+        $('.shopSlider').slider({ sliderCon: '.shopSliderMask ul', sliderBtn: '.shopSlider bdo', config: {
+            stepWid : 976,
+            animateTimer : 1000,
+            isLoop: true
+        }});
+        $('.notice').slider({ sliderCon: '.notice .all', sliderBtn: '.pageNumber a', curNumPos: '.pageNumber span'});
+        $('.rank').slider({ sliderCon: '.rank .all', sliderMenus: '.menu span'});
         var scrollCon = $('.timeline ul');
         function textScroll(){
             scrollCon.stop().animate({ marginTop: '-36px'}, 500, function(){
@@ -168,3 +144,21 @@
     });
 })(jQuery);
 
+(function($){
+	//截取字符串长度
+		jQuery.fn.limit=function(){ 
+			var self = $("span[limit]"); 
+			self.each(function(){ 
+				var objString = $(this).text(); 
+				var objLength = $(this).text().length; 
+				var num = $(this).attr("limit"); 
+				if(objLength > num){ 
+		$(this).attr("title",objString); 
+					objString = $(this).text(objString.substring(0,num) + "..."); 
+				} 
+			}) 
+		} 
+		$(function(){ 
+			$(document.body).limit(); 
+		}) 
+})(jQuery);

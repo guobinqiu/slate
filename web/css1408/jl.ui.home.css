@@ -19,7 +19,7 @@ a.more{
 .focusPic{
 	padding-left: 200px;
 }
-.adTop{ width:516px; height:112px; border:1px solid #e6e6e6; background:#fff; margin-left: 200px; margin-top: 5px;}
+.adTop{ width:516px; height:112px; border:1px solid #e6e6e6; background:#fff; margin-left: 200px; margin-top: 5px; overflow:hidden;}
 .adTop ul li{ float:left; margin: 10px 4px 0 10px;}
 .adTop ul li.ad1{width:113px;}
 .adTop ul li.ad2{ width:94px;}
@@ -87,11 +87,11 @@ a.more{
 	margin-top: -12px;
     cursor: pointer;
 }
-.shopSlider bdo.preGroup{
+.shopSlider bdo.prevBtn{
 	left: -40px;
 	background:url(../images1408/icons.png) no-repeat 0 -40px;
 }
-.shopSlider bdo.nextGroup{
+.shopSlider bdo.nextBtn{
 	right: -40px;
 	background:url(../images1408/icons.png) no-repeat -19px -40px;
 }
@@ -193,21 +193,42 @@ a.more{
 	width: 245px;
 	height: 167px;
 	border-bottom: 1px solid #f2f2f2;
+	position:relative;
 }
 .shopActInfo strong{
 	color: #f75232;
 	font-weight: bold;
 	margin-right:5px;
 }
-.shopActInfo p{
-	height: 62px;
+.shopActInfo p.tit{
+	max-height: 50px;
+	height:auto;
 	overflow: hidden;
 	font-weight: bold;
-	font: 16px/30px 'microsoft yahei',simhei;
+	font: 17px/26px 'microsoft yahei',simhei;
+}
+.shopActInfo p.dis{
+	font-size: 12px;
+	color: #999;
+	max-height: 62px;
+	height:auto;
+	line-height: 20px;
+	overflow:hidden;
+	margin-top:5px;
+}
+.shopActInfo div.link{
+	display: inline-block;
+	margin-top: 35px;
+	float: right;
+	position:absolute;
+	right: 0;
+	bottom: 10px;
 }
 .shopActInfo .publicAttention{
-	color: #4d4d4d;
+	color: #999;
 	text-align: right;
+	display:inline;
+	margin-right: 5px;
 }
 .shopActInfo .publicAttention strong{
 	font-family: Georgia, Microsoft Yahei;
@@ -217,6 +238,7 @@ a.more{
 .shopActInfo .linkBtn{
 	text-align: right;
 	margin-top: 15px;
+	display:inline;
 }
 .shopActInfo .linkBtn a{
 	width: 90px;
@@ -244,6 +266,7 @@ div.loginArea{
 	padding-top: 24px;
 	padding-bottom: 13px;
 	height: 124px;
+	border-right:1px solid #e6e6e6;
 }
 .loginArea p{
 	color: #999;
@@ -331,26 +354,35 @@ div.quickQ{
 	margin-top: 3px;
 	padding-bottom:15px;
 }
+div.quickQ .quickQCon .fnLeft{ border: 1px solid #f0f0f0;}
 .quickQInfo{
-	width: 140px;
+	width: 141px;
 }
-.quickQInfo p span{
+.quickQInfo div.textTit{line-height: 21px;}
+.quickQInfo .quickWrap{ float:left;margin-bottom: 10px; line-height: 22px; width: 141px; min-height: 42px;}
+.quickQInfo .quickWrap span{
 	width: 15px;
-	height: 12px;
+	height: 21px;
 }
-.quickQInfo p span.quotesL{
-	background: url(../images1408/icons.png) no-repeat 0 -179px;
+.quickQInfo .quickWrap span.quotesR{ display:inline-block;
+margin-top: -17px;}
+.quickQInfo div span.quotesL{
+	background: url(../images1408/icons.png) no-repeat 0 -174px;
+	float:left;
+	margin-right: 3px;
 }
-.quickQInfo p span.quotesR{
-	background: url(../images1408/icons.png) no-repeat -13px -179px;
+.quickQInfo div span.quotesR{
+	background: url(../images1408/icons.png) no-repeat -13px -169px;
 }
 .countDown{
 	margin-top: 15px;
 	color: #999;
 }
+.countDown strong{width:6px; margin-right:5px; display:inline-block;}
 .countDown strong, .countDown span{
 	color: #333;
 	font-weight: bold;
+	font-family:'Microsoft YaHei',sans-serif;
 }
 .countDown span{
 	width: 29px;
@@ -400,7 +432,7 @@ div.notice, div.rank{
 	padding-bottom: 13px;
 }
 div.notice{ 
-	margin-top: 3px;
+	margin-top: 117px;
 	padding: 5px 0 28px 15px;
 }
 .notice .mask{
@@ -429,6 +461,7 @@ div.notice{
 }
 .notice .pageNumber span{
 	padding: 0 5px;
+	color:#999;
 }
 .notice .pageNumber a{
 	width: 4px;
@@ -439,7 +472,7 @@ div.notice{
 	*zoom: 1;
     cursor: pointer;
 }
-.notice .pageNumber a.next{
+.notice .pageNumber a.nextBtn{
 	background: url(../images1408/icons.png) no-repeat -4px -155px;
 }
 .rank .mask{

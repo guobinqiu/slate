@@ -259,6 +259,7 @@ class DefaultController extends Controller
         $err_msg = '';
         $signature = '';
         $uniqkey = '';
+
         $request = $this->get('request');
         $token = $request->query->get('secret_token');
         $nick = $request->request->get('nick');
@@ -275,8 +276,6 @@ class DefaultController extends Controller
         }
         $u_token = $request->getSession()->get('token');
         if (!$u_token) {
-
-            $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
             return $this->redirect($this->generateUrl('_user_reg' ));
         }
         $em = $this->getDoctrine()->getManager();
@@ -290,7 +289,6 @@ class DefaultController extends Controller
                     $uniqkey = $params->uniqkey;
             }
             if ($this->getToken($email) != $signature) {
-                $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
                 return $this->redirect($this->generateUrl('_user_reg' ));
             }
         } else {
@@ -301,8 +299,7 @@ class DefaultController extends Controller
         if ($is_email) {
             $is_user = $this->container->getParameter('init_one');
         } else {
-            if ($request->getMethod() === 'GET') {
-            } elseif ($request->getMethod() == 'POST') {
+            if ($request->getMethod() === 'POST') {
                 $err_msg = $this->checkLanding($email, $nick, $pwd, $newPwd);
                 if(!$err_msg){
                     $isset_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
@@ -319,20 +316,11 @@ class DefaultController extends Controller
                         $id = $isset_email[0]->getId();
                         $user = $isset_email[0];
                     } else {
-                        $user = new User();
-                        $user->setNick($nick);
-                        $user->setPwd($pwd);
-                        $user->setEmail($email);
-                        $user->setIsFromWenwen($this->container->getParameter('init_one'));
-                        $user->setPoints($this->container->getParameter('init'));
-                        $user->setRewardMultiple($this->container->getParameter('init_one'));
-                        $user->setIsInfoSet($this->container->getParameter('init'));
-
+                        $param = array( 'nick'=>$nick, 'pwd'=>$pwd, 'email'=>$email );
                         if($uniqkey){
-                            $user->setUniqkey($uniqkey);
+                            $param['uniqkey']= $uniqkey;
                         }
-                        $em->persist($user);
-                        $em->flush();
+                        $user = $em->getRepository('JiliApiBundle:User')->createOnLanding($param);
                         $id = $user->getId();
                     }
 
@@ -363,9 +351,10 @@ class DefaultController extends Controller
             }
         }
 
-        //最新动态
+        // TODO: refactor this.
+        //最新动态 
         $filename = $this->container->getParameter('file_path_recent_point');
-        $recentPoint = FileUtil::readFileContent($filename);
+        $recentPoint = FileUtil::readCsvContent($filename);
         $recent = array();
         if( is_array($recentPoint)) {
             foreach ($recentPoint as $key => $item){
