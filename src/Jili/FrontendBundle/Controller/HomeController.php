@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
 
 use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 use Jili\ApiBundle\Utility\FileUtil;
@@ -138,10 +139,13 @@ class HomeController extends Controller
 
         //快速问答:从文件中读取
         $filename = $this->container->getParameter('file_path_wenwen_vote');
+        
         $votes = FileUtil :: readJosnFile($filename);
+        if(! $votes || empty($votes)) {
+            return new Response('<!-- 快速问答 -->');
+        }
         $vote = array_pop($votes);
         $vote['vote_url'] = $vote['vote_url'] . "?" . $wenwen_vote_mark;
-
         return $this->render('JiliFrontendBundle:Home:vote.html.twig', $vote);
     }
 }
