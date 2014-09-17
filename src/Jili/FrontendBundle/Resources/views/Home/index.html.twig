@@ -38,16 +38,20 @@
         <div class="quickQ shadowGlob">
             {{ render(controller('JiliFrontendBundle:Home:vote' ) ) }}{# 快速问答#}
         </div>
+        
+        
         <div class="notice shadowGlob">
             <h2>最新公告</h2>
             {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
             <div class="pageNumber"><a class="prevBtn curPt"></a><span></span><a class="nextBtn curPt"></a></div>
         </div>
+        <div class="mt10">
+            <a data-type="3" data-tmpl="265x240" data-tmplid="182" data-rd="2" data-style="2" data-border="1" href="#"></a>
+        </div>
         <div class="mt10" style="background: none; padding-left: 0; padding-bottom: 0;">
         	<!-- 首页 右侧一 标签云（改） -->
         	{% include "JiliApiBundle:Ads:cpro_baidu.html.twig" with { cpro_id:"u1650575" } %}
         </div>
-        
         <div class="timeline mt10 shadowGlob">
             <h2>最新动态</h2>
             {{ render(controller('JiliApiBundle:Top:event') ) }}
