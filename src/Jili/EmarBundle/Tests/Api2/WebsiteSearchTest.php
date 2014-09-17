@@ -31,7 +31,6 @@ class WebsiteSearchTest extends KernelTestCase {
 
     /**
      * @group sameCatWeb
-     * @group  debug
      */
     public function testFindSameCatWebsites() {
         $em = $this->em;

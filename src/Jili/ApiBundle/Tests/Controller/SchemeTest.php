@@ -7,7 +7,6 @@ class SchemeTest extends WebTestCase
 {
     /**
      * @group login
-     * @group debug 
      */
     public function testIndex()
     {

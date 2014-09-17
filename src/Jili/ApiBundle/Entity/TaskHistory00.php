@@ -59,7 +59,7 @@ class TaskHistory00
     /**
      * @var float
      *
-     * @ORM\Column(name="reward_percent", type="float")
+     * @ORM\Column(name="reward_percent", type="float",nullable=true)
      */
     private $rewardPercent;
 

@@ -3,6 +3,12 @@
 namespace Jili\EmarBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixtureLoader;
+
+use Jili\EmarBundle\DataFixtures\ORM\ApiCallback\LoadUserData;
+use Jili\EmarBundle\DataFixtures\ORM\ApiCallback\LoadAdvertisermentData;
 
 class ApiControllerTest extends WebTestCase
 {
@@ -21,6 +27,24 @@ class ApiControllerTest extends WebTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+        $container  = static::$kernel->getContainer();
+
+        $tn = $this->getName();
+
+        if (in_array($tn, array('testCallback'))) {
+            // load a Fixtures in src/Jili/FrontendBundle/DataFixtures/ORM/AutoCheckIn 
+            $directory = $container->get('kernel')->getBundle('JiliEmarBundle')->getPath(); 
+            $directory .= '/DataFixtures/ORM/ApiCallback';
+            $loader = new DataFixtureLoader($container);
+            $loader->loadFromDirectory($directory);
+
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
+            $executor->execute($loader->getFixtures());
+        }
+        $this->container = $container;
 
         $this->em = $em;
         $this->updateUniqueId();
@@ -263,7 +287,8 @@ class ApiControllerTest extends WebTestCase
     }
 
     /**
-     * for debug
+     * @group emar_api
+     * @group debug 
      */
     public function testCallback()
     {
@@ -280,10 +305,10 @@ class ApiControllerTest extends WebTestCase
         $container = $client->getContainer();
         $logger= $container->get('logger');
         $em = $this->em;
-
+$ad = LoadAdvertisermentData::$ROWS[0];
         $sid = 458631;
         $wid = 732204;
-        $ad_id = 83;
+        $ad_id = $ad->getId() ;
         $action_id =  6941;
         $unique_id = $this->unique_id;
 
@@ -293,7 +318,6 @@ class ApiControllerTest extends WebTestCase
         $session = $container->get('session');
         $session->set('uid', $user->getId()  );
         $session->save();
-
 
         // 1.1 trigger the advertiserment click event.
         $url = $container->get('router')->generate('_advertiserment_click', array('id'=> $ad_id)  ) ;
@@ -366,7 +390,7 @@ class ApiControllerTest extends WebTestCase
         $params = compact( 'unique_id', 'create_date', 'action_id','action_name', 'sid','wid', 'order_no','order_time','prod_id','prod_name','prod_count','prod_money','feed_back','status','comm_type','commision','chkcode','prod_type','am','exchange_rate');
         $sid = 458631;
         $wid = 732204;
-        $ad_id = 83;
+        $ad_id = $ad->getId();
         $action_id =  6941;
         $unique_id = $this->updateUniqueId() ;
 
@@ -441,7 +465,9 @@ class ApiControllerTest extends WebTestCase
         $unique_id = $this->updateUniqueId() ;
         // 1.0 login for session checking.
         $email = 'alice.nima@gmail.com';
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+//        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+
+        $user =LoadApiCallbackCodeData::$ROWS[0]; 
         $session = $container->get('session');
         $session->set('uid', $user->getId()  );
         $session->save();
