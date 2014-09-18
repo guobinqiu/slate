@@ -59,4 +59,13 @@ class LandingController extends Controller
         $templ_vars['form'] =  $form->createView();
         return $this->render( 'JiliFrontendBundle:Landing:external_landing.html.twig', $templ_vars);
     }
+	 /**
+     * @Route("/landingtest")
+     * @Method({ "GET", "POST"})
+     * @Template
+     */
+    public function testAction()
+    {
+		return $this->render( 'JiliFrontendBundle:Landing:test.html.twig');
+	}
 }
