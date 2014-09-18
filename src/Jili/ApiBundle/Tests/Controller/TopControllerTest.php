@@ -12,7 +12,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadAdvertisermentMarketActivityData;
 
 use Jili\ApiBundle\DataFixtures\ORM\LoadTopCallboardCodeData;
-
+use Jili\ApiBundle\DataFixtures\ORM\LoadCookieLoginHomepageCodeData;
 class TopControllerTest extends WebTestCase
 {
     /**
@@ -32,22 +32,32 @@ class TopControllerTest extends WebTestCase
             ->getManager();
         $container =  static::$kernel->getContainer();
 
-
 // --
         $tn = $this->getName();
-        if (in_array( $tn, array('testCallboardAction'))) {
+        if (in_array( $tn, array('testCallboardAction','testCookieLoginHomepage'))) {
             // purge tables;
             $purger = new ORMPurger($em);
             $executor = new ORMExecutor($em, $purger);
             $executor->purge();
 
-            // load fixtures
-            $fixture = new LoadTopCallboardCodeData();
-            $fixture->setContainer($container);
-            $loader = new Loader();
 
-            $loader->addFixture($fixture);
-            $executor->execute($loader->getFixtures());
+            if (in_array( $tn, array('testCallboardAction'))) {
+                // load fixtures
+                $fixture = new LoadTopCallboardCodeData();
+                $fixture->setContainer($container);
+                $loader = new Loader();
+                $loader->addFixture($fixture);
+                $executor->execute($loader->getFixtures());
+            }
+            if (in_array($tn,array('testCookieLoginHomepage'))) {
+                $fixture = new LoadCookieLoginHomepageCodeData();
+                $fixture->setContainer($container);
+                $loader = new Loader();
+                $loader->addFixture($fixture);
+                $executor->execute($loader->getFixtures());
+                
+            }
+
         }
         // 
 
@@ -71,18 +81,19 @@ class TopControllerTest extends WebTestCase
     public function testCookieLoginHomepage()
     {
         $client = static::createClient();
-        $container = $client->getContainer();
+       $container = $client->getContainer();
+//        $container = $this->container;
         $router = $container->get('router');
         $logger= $container->get('logger');
 
         $em = $this->em;
         $query = array('email'=> 'chiangtor@gmail.com');
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-        if(! $user) {
-            echo 'bad email:',$query['email'], PHP_EOL;
-            return false;
-        }
-
+//        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+//        if(! $user) {
+//            echo 'bad email:',$query['email'], PHP_EOL;
+//            return false;
+//        }
+        $user = LoadCookieLoginHomepageCodeData::$ROWS[0];
         $url_homepage= $router->generate('_homepage' , array(), true);
         echo $url_homepage ,PHP_EOL;
 
@@ -119,10 +130,9 @@ class TopControllerTest extends WebTestCase
         if( $user->getIconPath()) {
             $this->assertEquals('/uploads/user/38/1388737850_5011.jpeg', $crawler->filter('img')->attr('src'));
         } else {
-            $this->assertEquals('/other140307/defaultFace.jpg', $crawler->filter('img')->attr('src'));
+            $this->assertEquals('/images1408/headPortBg.jpg', $crawler->filter('img')->attr('src'));
         }
 
-        $this->assertEquals($user->getPoints() .'当前米粒数',$crawler->filter('dt')->eq(0)->text() );
 
         $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $user->getId() % 10 ) );
         $confirmPoints = $task->getConfirmPoints($user->getId());
@@ -130,7 +140,9 @@ class TopControllerTest extends WebTestCase
             $confirmPoints = 0;
         }
 
-        $this->assertEquals($confirmPoints .'确认中米粒数',$crawler->filter('dt')->eq(1)->text() );
+        $this->assertEquals($confirmPoints.'确认中米粒数', $crawler->filter('li')->eq(1)->text() );
+
+        $this->assertEquals($user->getPoints() .'当前米粒数',$crawler->filter('li')->eq(0)->text() , $user->getPoints() .' should be render' );
     }
     /**
      * @group session

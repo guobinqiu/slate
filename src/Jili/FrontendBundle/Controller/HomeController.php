@@ -33,7 +33,7 @@ class HomeController extends Controller
         if ($cookies->has('jili_rememberme') && !$session->has('uid')) {
             $token = $cookies->get('jili_rememberme');
             $result = $this->get('login.listener')->byToken($token);
-            if ($result !== false && is_object($result) && $result instanceof User) {
+            if ($result !== false && is_object($result) && $result instanceof \Jili\ApiBundle\Entity\User) {
                 $session->set('uid', $result->getId());
                 $session->set('nick', $result->getNick());
             }
