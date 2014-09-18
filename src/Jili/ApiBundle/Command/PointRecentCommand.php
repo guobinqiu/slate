@@ -26,19 +26,21 @@ EOT
         $em = $this->getContainer()->get('doctrine')->getManager();
         $env =  $this->getApplication()->getKernel() ->getEnvironment();
 
+
         //最新动态
         if('prod' === $env) {
             $filename = $this->getContainer()->getParameter('file_path_recent_point');
             $yesterday =  date('Y-m-d', strtotime(' -1 day'));
         } else {
             $yesterday  = $input->getOption('date');
-            $filename = '/tmp/point_recent.cache';
+            $filename = $this->getApplication()->getKernel()->getCacheDir().'/point_recent.cache' ;
         }
 
         $newActivity = $em->getRepository('JiliApiBundle:User')->getRecentPoint($yesterday);
 
+
         //写文件
-        $handle = fopen($filename, 'w');
+        $handle = fopen($filename, 'w+');
         if (!$handle) {
             die('指定文件不能打开，操作中断!');
         }
