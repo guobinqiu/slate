@@ -41,7 +41,6 @@ class PointRecentCommandTest extends KernelTestCase
     }
     /**
      * @group point_recent
-     * @group debug 
      */
     public function testExecute()
     {
