@@ -288,7 +288,6 @@ class ApiControllerTest extends WebTestCase
 
     /**
      * @group emar_api
-     * @group debug 
      */
     public function testCallback()
     {
