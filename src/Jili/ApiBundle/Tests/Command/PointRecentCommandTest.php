@@ -19,13 +19,13 @@ class PointRecentCommandTest extends KernelTestCase
      */
     public function setUp()
     {
-        static::$kernel = static::createKernel( array( 'environment'=> 'dev', 'debug'=> false) );
+        static::$kernel = static::createKernel( array( 'environment'=> 'test', 'debug'=> false) );
         static::$kernel->boot();
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
-
         $this->em  = $em;
+        $this->container = static :: $kernel->getContainer();
     }
     /**
      * {@inheritDoc}

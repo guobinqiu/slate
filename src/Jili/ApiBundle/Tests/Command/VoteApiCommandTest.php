@@ -19,12 +19,13 @@ class VoteApiCommandTest extends KernelTestCase
      */
     public function setUp() {
         static :: $kernel = static :: createKernel(array (
-            'environment' => 'dev',
+            'environment' => 'test',
             'debug' => false
         ));
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
 
+        $this->container = static :: $kernel->getContainer();
         $this->em = $em;
     }
 
@@ -39,7 +40,7 @@ class VoteApiCommandTest extends KernelTestCase
      * @group issue_437
      */
     public function testExecute() {
-        $container = static :: $kernel->getContainer();
+        $container = $this->content ;
         $output_filename = $container->getParameter('file_path_wenwen_vote');
         $wenwen_vote_api = $container->getParameter('wenwen_vote_api');
 

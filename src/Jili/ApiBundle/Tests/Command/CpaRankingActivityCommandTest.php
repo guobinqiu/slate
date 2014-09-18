@@ -28,9 +28,12 @@ class CpaRankingActivityCommandTest extends KernelTestCase {
             'environment' => 'test',
             'debug' => false
         ));
+
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
+        $container= static :: $kernel->getContainer();
 
+        $this->container = $container;
         $this->em = $em;
     }
 
@@ -46,8 +49,7 @@ class CpaRankingActivityCommandTest extends KernelTestCase {
      * @group cpaRankingActivityCommand
      */
     public function testExecute() {
-        $container = static :: $kernel->getContainer();
-
+        $container = $this->container;
         $em = $this->em;
 
         // purge tables;
