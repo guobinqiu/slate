@@ -76,7 +76,6 @@ class TopControllerTest extends WebTestCase
      * @group user
      * @group cookie
      * @group login
-     * @group debug 
      */
     public function testCookieLoginHomepage()
     {

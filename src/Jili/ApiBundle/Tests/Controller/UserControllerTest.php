@@ -9,6 +9,9 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserSetPasswordCodeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserResetPasswordCodeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserReSendCodeData;
+
 
 class UserControllerTest extends WebTestCase
 {
@@ -27,10 +30,33 @@ class UserControllerTest extends WebTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+        $container  = static::$kernel->getContainer();
 
+
+        $tn = $this->getName();
+        if (in_array( $tn, array('testResetPasswordAction','testReSend'))) {
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
+
+            // load fixtures
+            if (in_array( $tn, array('testResetPasswordAction'))) {
+                $fixture = new LoadUserResetPasswordCodeData();
+                $fixture->setContainer($container);
+                $loader = new Loader();
+                $loader->addFixture($fixture);
+                $executor->execute($loader->getFixtures());
+            } else if (in_array( $tn, array('testReSend'))) {
+                $fixture = new LoadUserReSendCodeData();
+                $fixture->setContainer($container);
+                $loader = new Loader();
+                $loader->addFixture($fixture);
+                $executor->execute($loader->getFixtures());
+            }
+        }
+        $this->container = $container;
         $this->em  = $em;
-
-#        ob_start();
     }
     /**
      * {@inheritDoc}
@@ -213,23 +239,22 @@ class UserControllerTest extends WebTestCase
         $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals('1', $client->getResponse()->getContent());
-
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-
-        if(! $user) {
-            echo 'bad email:',$query['email'], PHP_EOL;
-            return false;
-        }
+$user = LoadUserResetPasswordCodeData::$ROWS[0];
+//        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+//        if(! $user) {
+//            echo 'bad email:',$query['email'], PHP_EOL;
+//            return false;
+//        }
 
 // render password reset page
         print 'Render password reset page'.PHP_EOL;
-        $passwordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneBy(array('userId'=>$user->getId(), 'isAvailable'=>1));
-
-        if(! $passwordCode) {
-            echo  ' code not found!',PHP_EOL;
-            return false;
-        }
-
+//        $passwordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneBy(array('userId'=>$user->getId(), 'isAvailable'=>1));
+//
+//        if(! $passwordCode) {
+//            echo  ' code not found!',PHP_EOL;
+//            return false;
+//        }
+$passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0]; 
         $code= $passwordCode->getCode();
         $url = $container->get('router')->generate('_user_forgetPass',array('code'=>$code,'id'=>$user->getId() ),true);
 
@@ -379,17 +404,19 @@ class UserControllerTest extends WebTestCase
     }
     /**
      * @group user_reg
+     * @group debug
      */
     public function testReSend()
     {
         $client = static::createClient();
         $container = $client->getContainer();
 
-        $client->request('GET', '/user/reset', array (
-                'id'=>"1057699",
+        $user = LoadUserReSendCodeData::$ROWS[0];
+        $client->request('GET', '/user/reSend', array (
+                'id'=>$user->getId(),
                 'code'=>'testcode100',
                 'nick'=>'',
-                'email'=>'zhangmm@voyagegroup.com.cn'
+                'email'=>$user->getEmail()
         ));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals('1', $client->getResponse()->getContent());
