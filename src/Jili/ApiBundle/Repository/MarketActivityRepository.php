@@ -101,7 +101,7 @@ class MarketActivityRepository extends EntityRepository
 	public function getActivityList($limit) {
 		$date = date('Y-m-d H:i:s');
 		$query = $this->createQueryBuilder('ma');
-        $query = $query->select('ma.id,ma.aid,ma.businessName,ma.activityDescription,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime,a.imageurl,a.title');
+		$query = $query->select('ma.id,ma.aid,ma.businessName,ma.activityDescription,ma.categoryId,ma.activityUrl,ma.activityImage,ma.startTime,ma.endTime,a.imageurl,a.title,a.incentiveType,a.incentiveRate,a.rewardRate');
 		$query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ma.aid = a.id');
 		$query = $query->Where('ma.deleteFlag is null OR ma.deleteFlag = 0 ');
 		$query = $query->andWhere('ma.startTime <= :startTime');
