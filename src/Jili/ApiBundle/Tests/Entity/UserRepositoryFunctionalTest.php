@@ -62,7 +62,6 @@ class UserRepositoryFunctionalTest extends WebTestCase
     }
     /**
      * @group cpa_points
-     * @group debug
      */
     public function testGetUserCPAPointsByTime()
     {
@@ -70,7 +69,7 @@ class UserRepositoryFunctionalTest extends WebTestCase
         $end = '2014-07-31 23:59:59';
         $user_id = 1173775;
         $myInfo = $this->em->getRepository('JiliApiBundle:User')->getUserCPAPointsByTime($start, $end, $user_id);
-        $this->assertEquals(1000, $myInfo[0]['points']);
+        $this->assertEquals(1320, $myInfo[0]['points'], 'the cpa points' );
     }
 
     /**
