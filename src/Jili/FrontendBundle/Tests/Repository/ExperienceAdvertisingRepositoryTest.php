@@ -20,8 +20,8 @@ class ExperienceAdvertisementRepositoryTest extends KernelTestCase {
     public function setUp() {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
-        $container  = static :: $kernel->getContainer();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
+        $container  = static :: $kernel->getContainer();
 
         // purge tables;
         $purger = new ORMPurger($em);
@@ -48,14 +48,13 @@ class ExperienceAdvertisementRepositoryTest extends KernelTestCase {
     }
 
     /**
-     * @group debug
      * @group advertiserment 
      */
     public function testGetAdvertisement() {
 
         $em = $this->em;
         $result = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisement();
-        $this->assertEquals(4, count($result));
+        $this->assertEquals(2, count($result));
 
         $limit = 1;
         $result = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisement($limit);
