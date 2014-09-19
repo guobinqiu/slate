@@ -404,7 +404,6 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
     }
     /**
      * @group user_reg
-     * @group debug
      */
     public function testReSend()
     {
