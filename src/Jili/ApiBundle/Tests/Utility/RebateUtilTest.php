@@ -50,4 +50,23 @@ class RebateUtilTest extends \ PHPUnit_Framework_TestCase
         $user_rebate = RebateUtil :: calculateRebateAmount($value, $cps_rebate_type, $rebate_point);
         $this->assertEquals("0", $user_rebate);
     }
+
+    /**
+     * @group issue_476
+     */
+    public function testcalculateRebate()
+    {
+        $reward_multiple = 3;
+        $campaign_multiple = 2;
+        $value = array('incentiveType'=>2,'incentiveRate'=>30,'rewardRate'=>30);
+        $reward_rate = RebateUtil :: calculateRebate($reward_multiple, $campaign_multiple, $value);
+        $this->assertEquals(0.27, $reward_rate);
+
+        $reward_multiple = "";
+        $campaign_multiple = 2;
+        $value = array('incentiveType'=>2,'incentiveRate'=>30,'rewardRate'=>30);
+        $reward_rate = RebateUtil :: calculateRebate($reward_multiple, $campaign_multiple, $value);
+        $this->assertEquals(0.18, $reward_rate);
+
+    }
 }

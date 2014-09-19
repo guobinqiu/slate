@@ -5,7 +5,13 @@
         <div class="shopActInfo">
             <p class="tit">
             	<span class="tt">{{ item.title }}</span>
-            	<span class="rebate"><span></span>最高返2.94%</span>
+            	<span class="rebate"><span></span>
+                {% if item.incentiveType==1 %}
+                     {{ item.incentive }}米粒
+                {% elseif item.incentiveType==2 %}
+                     最高返{{ item.reward_rate }}%
+                 {% endif %}
+                 </span>
             </p>
             <p class="businessName"><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank" title="{{ item.businessName}}">{{ item.businessName}}</a></p>
             <p class="dis">{{ item.activityDescription}}</p>
