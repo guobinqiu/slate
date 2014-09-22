@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class PointRecentCommand extends ContainerAwareCommand
 {
@@ -38,6 +39,11 @@ EOT
 
         $newActivity = $em->getRepository('JiliApiBundle:User')->getRecentPoint($yesterday);
 
+        $file_path = dirname($filename);
+        $fs = new Filesystem();
+        if( true !==  $fs->exists($file_path) ) {
+            $fs->mkdir($file_path);
+        }
 
         //写文件
         $handle = fopen($filename, 'w+');

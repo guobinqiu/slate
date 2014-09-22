@@ -147,7 +147,6 @@ class WenwenControllerTest extends WebTestCase
      * @group user
      * @group wenwenuser
      * @group signup
-     * @group debug 
      */
     public function test91wenwenRegister5()
     {
