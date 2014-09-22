@@ -122,13 +122,16 @@ $(document).ready(function(){
                 <li {{ router_current == '_exchange_index' ? 'class="active"':'' }}><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
             </ul>
             <div class="dailyQuest">
+                {% block taskList %}
                 {{ render(controller('JiliFrontendBundle:Home:task' ) ) }}{# 任务列表 #}
+                {% endblock %}
                 
             </div>
         </div>
     </div>
-    
+    {% block menuCheckin %} 
     {% if app.session.has('uid') %}
     	{{ render(controller('JiliApiBundle:Top:checkIn' ) ) }}{# 签到 #}
 	{% endif %}
+    {% endblock %}
  
