@@ -1392,7 +1392,7 @@ class UserController extends Controller
                                             if($count > 20) {
                                                 $code_nick = $this->container->getParameter('reg_wr_nick');
                                             } else {
-                                                $user = $this->getRepository('JiliApiBundle:User')->createOnSignup( array('nick'=> $nick, 'email'=>$email ));
+                                                $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array('nick'=> $nick, 'email'=>$email ));
 
                                                 $str = 'jilifirstregister';
                                                 $code = md5($user->getId().str_shuffle($str));
