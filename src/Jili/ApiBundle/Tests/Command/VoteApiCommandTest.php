@@ -40,7 +40,7 @@ class VoteApiCommandTest extends KernelTestCase
      * @group issue_437
      */
     public function testExecute() {
-        $container = $this->content ;
+        $container = $this->container ;
         $output_filename = $container->getParameter('file_path_wenwen_vote');
         $wenwen_vote_api = $container->getParameter('wenwen_vote_api');
 

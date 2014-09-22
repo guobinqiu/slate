@@ -2672,7 +2672,7 @@ class AdminController extends Controller implements IpAuthenticatedController
     public function selectSendMs($id)
     {
       $em = $this->getDoctrine()->getManager();
-      $sm = $em->getRepository('JiliApiBundle:SendMessage0'.$id);
+      $sm = $em->getRepository('JiliApiBundle:SendMessage0'.($id % 10 ));
       $showMs = $sm->getSendMs();
       return $showMs;
 

@@ -8,7 +8,7 @@ class SoapMailListener
 {
     private $soap = 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php';
     private $username = 'admin';
-    private $password = 'Nvpiyjh1-';
+    private $password = 'nUshkwu#9';//'Nvpiyjh1-';
     private $campaignId;
     private $mailingId;
     private $group;
