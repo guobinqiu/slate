@@ -29,14 +29,15 @@ class WenwenControllerTest extends WebTestCase
         $tn = $this->getName(); 
         $container  = static::$kernel->getContainer();
         if (in_array( $tn ,array('test91wenwenRegister5'))) {
-
             // purge tables;
             $purger = new ORMPurger($em);
             $executor = new ORMExecutor($em, $purger);
             $executor->purge();
             $loader = new Loader();
             $fixture  = new LoadWenwenRegister5CodeData();
+
             $fixture->setContainer($container);
+            $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
        // add an user 
         }
@@ -150,10 +151,14 @@ class WenwenControllerTest extends WebTestCase
      */
     public function test91wenwenRegister5()
     {
+        $em = $this->em;
         $client = static :: createClient();
 
         $url ='/api/91wenwen/register';
-        $email = 'zhangmm@voyagegroup.com.cn';
+        $user = LoadWenwenRegister5CodeData::$ROWS[0];
+
+        $email = $user->getEmail();
+
         $crawler = $client->request('POST', $url, array (
             'email' => $email,
             'signature' => '88ed4ef124e926ea1df1ea6cdddf8377771327ab',
@@ -161,10 +166,8 @@ class WenwenControllerTest extends WebTestCase
         ));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
 
-        $em = $this->em;
         //$user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);;
        // $user->getId();
-        $user = LoadWenwenRegister5CodeData::$USER[0];
         $record =  $em->getRepository('JiliApiBundle:SetPasswordCode')->findBy( array('userId'=> $user->getId()) );
         $this->assertCount(1, $record,' checkin point setPassword code');
 

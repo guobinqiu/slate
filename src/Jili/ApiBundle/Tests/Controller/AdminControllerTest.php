@@ -284,9 +284,11 @@ class AdminControllerTest extends WebTestCase {
 
         $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
         $user = LoadUserSendMessageData :: $USER;
+        $user_id = $user->getId();
 
-        $return = $controller->selectSendMs($user->getId());
-        $this->assertEquals($sm->getTitle(), $return[0]['title']);
+        $id = $user_id % 10;
+        $return = $controller->selectSendMs($id);
+        $this->assertEquals($sm->getTitle(), $return[0]['title'], '$id 是后缀数字');
     }
 
     /**

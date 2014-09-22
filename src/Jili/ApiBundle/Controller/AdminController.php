@@ -2669,10 +2669,13 @@ class AdminController extends Controller implements IpAuthenticatedController
     }
 
 
+    /**
+     * @param integer $id the suffix of table 
+     */
     public function selectSendMs($id)
     {
       $em = $this->getDoctrine()->getManager();
-      $sm = $em->getRepository('JiliApiBundle:SendMessage0'.($id % 10 ));
+      $sm = $em->getRepository('JiliApiBundle:SendMessage0'.$id );
       $showMs = $sm->getSendMs();
       return $showMs;
 
