@@ -33,9 +33,27 @@ function getCenter(){
         "left": windowWidth/2-popupWidth/2
     });
 }
+// 取当前的autocheckin 是否有设置。
+var getAutoCheckinConfig = function() {
+    var jili_autocheckin = this.jili_autocheckin || {}; 
+    $.ajax({
+        //_checkin_issetClick
+        url: Routing.generate('autocheckinconfig_get'),
+        post: "GET",
+        success: function(rsp) {
+            if( rsp.code == 200) {
+                jili_autocheckin.is_set = rsp.data.flag_data;
+            } else {
+    //            alert('error report');
+            };
+        }
+    });
+    return false;
+}; 
 
-function signs(){
-    if(  typeof jili_autocheckin =='undefeind' ||  jili_autocheckin.is_set == false) {
+var signs = function(){
+    getAutoCheckinConfig();
+    if( typeof jili_autocheckin == "undefined"|| typeof jili_autocheckin.is_set == "undefined"  ||  jili_autocheckin.is_set == false ) {
         $("#signInFrame").show();
         $(".blackBg").show();
     } else {
@@ -51,7 +69,7 @@ function signs(){
         //    console.log();
         };
     }
-}
+};
 
 function aremove(){
   $("#sign").removeClass('signIn');

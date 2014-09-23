@@ -8,11 +8,11 @@
 <script src="{{ asset('bundles/jilifrontend/js/auto_checkin.js')}}" type="text/javascript"></script>
 
 {% endblock %}
-
+<!-- set-autocheckin create"  id='set_autocheckin -->
 <div id="signInFrame" style="display:none;">
     <a class="close_checkin">关闭</a>
     <div class="signInCon">
-        <div class="signInOptions"><span class="active">手动签到</span><span class="autoSignIn">我想以后自动签到<a href="javascript:void(0)">详情</a></span><p><strong>自动签到</strong>：选择‘自动签到’以后，点击‘签到’按钮，系统将自动随机选择3-6个商家完成签到</p></div>
+        <div class="signInOptions"><span class="active" id="set_manualcheckin">手动签到</span><span id="set_autocheckin" class="autoSignIn" >我想以后自动签到<a href="javascript:void(0)">详情</a></span><p><strong>自动签到</strong>：选择‘自动签到’以后，点击‘签到’按钮，系统将自动随机选择3-6个商家完成签到</p></div>
         <div class="signInManual">
             <p>打开以下<strong>3</strong>个商城就可以得到<strong>1</strong>个米粒！</p>
             <ul class="clearfix">
@@ -37,15 +37,15 @@
         <div class="btns"><a href="javascript: void(0)" class="confirm">确定</a><a href="javascript: void(0)">放弃</a></div>
     </div>
 <div>
-
-{% if is_auto_checkin is not defined  %}
+<!--
+{# if is_auto_checkin is not defined  #}
 <a href="#" class="set-autocheckin create"  id='set_autocheckin'>set Auto-Checkin</a>
-{% elseif is_auto_checkin == false %}
+{# elseif is_auto_checkin == false #}
 <a href="#" class="set-autocheckin update" id='set_autocheckin'>Reset Auto-Checkin</a>
-{% elseif is_auto_checkin == true %}
-
+{# elseif is_auto_checkin == true #}
 <a href="#" class="set-autocheckin delete" id='set_autocheckin'>Quit Auto-Checkin</a>
-{% endif %}
+{# endif #}
+-->
 
 </div>
 
@@ -55,25 +55,22 @@
 var jili_autocheckin = jili_autocheckin || {};
 jili_autocheckin.advertiserments = {{ arrList|json_encode()|raw  }};
 jili_autocheckin.checkin_point = {{ checkinPoint|raw  }};
-var jili_urls = jili_urls || {};
-jili_urls.autocheckinconfig =  {
-"create": "{{ path('jili_frontend_autocheckinconfig_create') }}",
-"update": "{{ path('jili_frontend_autocheckinconfig_update') }}",
-"delete": "{{ path('jili_frontend_autocheckinconfig_delete') }}",
-};
+
+// var jili_urls = jili_urls || {};
+// jili_urls.autocheckinconfig =  {
+// "create": "{{ path('autocheckinconfig_create') }}",
+// "update": "{{ path('autocheckinconfig_update') }}",
+// "delete": "{{ path('autocheckinconfig_delete') }}",
+// };
 
 //$("a.set-autocheckin").onclick = function() {
 //    console.log( "Just For Fun");
 //    return false;
 //}
 
-{% if is_auto_checkin is defined and is_auto_checkin == true %}
-jili_autocheckin.is_set = true;
-{% else  %}
-jili_autocheckin.is_set = false;
-{% endif %}
-
+// {% if is_auto_checkin is defined and is_auto_checkin == true %}
+// jili_autocheckin.is_set = true;
+// {% else  %}
+// jili_autocheckin.is_set = false;
+// {% endif %}
 </script>
-
-
-

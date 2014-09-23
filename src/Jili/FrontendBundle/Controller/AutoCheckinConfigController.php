@@ -3,6 +3,7 @@ namespace Jili\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +18,11 @@ use Jili\ApiBundle\Entity\UserConfigurations;
 class AutoCheckinConfigController extends Controller {
 
     /**
-     * @Route("/create")
+     * @Route("/create", name="autocheckinconfig_create",  options={"expose"=true})
+     * @Method("PUT")
      */
-    public function createAction() {
+    public function createAction() 
+    {
         $em = $this->getDoctrine()->getManager();
         $session = $this->get('session');
         $request = $this->get('request');
@@ -70,9 +73,11 @@ class AutoCheckinConfigController extends Controller {
     }
 
     /**
-     * @Route("/delete")
+     * @Route("/delete", name="autocheckinconfig_delete", options={"expose"=true})
+     * @Method("DELETE")
      */
-    public function deleteAction() {
+    public function deleteAction() 
+    {
         $em = $this->getDoctrine()->getManager();
         $session = $this->get('session');
         $request = $this->get('request');
@@ -133,10 +138,11 @@ class AutoCheckinConfigController extends Controller {
     }
 
     /**
-     * @Route("/update")
-     * @Template()
+     * @Route("/update", name="autocheckinconfig_update", options={"expose"=true})
+     * @Method("POST")
      */
-    public function updateAction() {
+    public function updateAction() 
+    {
         $em = $this->getDoctrine()->getManager();
         $session = $this->get('session');
         $request = $this->get('request');
@@ -196,9 +202,11 @@ class AutoCheckinConfigController extends Controller {
     }
 
     /**
-     * @Route("/get")
+     * @Route("/get", name="autocheckinconfig_get",  options={"expose"=true})
+     * @Method("GET")
      */
-    public function getAction() {
+    public function getAction() 
+    {
         $em = $this->getDoctrine()->getManager();
         $session = $this->get('session');
         $request = $this->get('request');
