@@ -62,7 +62,7 @@ class RebateUtilTest extends \ PHPUnit_Framework_TestCase
         $reward_rate = RebateUtil :: calculateRebate($reward_multiple, $campaign_multiple, $value);
         $this->assertEquals(0.27, $reward_rate);
 
-        $reward_multiple = "";
+        $reward_multiple = 0;
         $campaign_multiple = 2;
         $value = array('incentiveType'=>2,'incentiveRate'=>30,'rewardRate'=>30);
         $reward_rate = RebateUtil :: calculateRebate($reward_multiple, $campaign_multiple, $value);
