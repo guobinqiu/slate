@@ -26,10 +26,6 @@ class SearchController extends Controller
         $request = $this->get('request');
         $logger= $this->get('logger');
 
-        #$rt_config_name = $this->container->getParameter('emar_com.rt_of_search_form.name');
-
-
-
         if( $request->isMethod('POST')) {
             $form = $this->createForm(new SearchGeneralType());
             $form->bind($request);
@@ -43,9 +39,6 @@ class SearchController extends Controller
                 $rt_key  = array_key_exists( $rt, $rt_config_router ) ? $rt:0 ;
                 $router_ = $rt_config_router[ $rt_key];
                 $url = $this->generateUrl( $router_ );
-
-               // $query = array_merge( $request->query->all(), $query_params );
-
                 return $this->redirect( $url .'?'.http_build_query( $query_params));
             }
         } else {
@@ -61,6 +54,6 @@ class SearchController extends Controller
 
             $form = $this->createForm(new SearchGeneralType(), array('q'=> $keyword, 'rt'=> (int) $rt ) );
         }
-        return   array('form'=> $form->createView() ,'qs' => $qs, 'rt'=> $rt ) ;
+        return   array('search_form'=> $form->createView() ,'qs' => $qs, 'rt'=> $rt ) ;
     }
 }

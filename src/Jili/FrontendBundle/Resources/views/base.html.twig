@@ -7,16 +7,13 @@
 <meta property="qc:admins" content="1676306107611214163757" />
 <title>{% block title %}积粒网-首页 轻松积米粒，快乐换奖励！{% endblock %}</title>
 <link href="{{ asset('css140307/common.css') }} " rel="stylesheet" type="text/css">
-
 <link href="{{ asset('css1408/jl.ui.reset.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css1408/jl.ui.common.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css1408/jl.ui.home.css') }} " rel="stylesheet" type="text/css">
 
-<!--<link href="{{ asset('css/game_prompt.css')}}" rel="stylesheet" type="text/css"/>-->
 <link href="{{ asset('css/personal.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/amazon.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
-<!--<link href="{{ asset('css140307/reset.css') }} " rel="stylesheet" type="text/css">-->
 {% block stylesheet %}{% endblock %}
 <!-- [if lt IE9] --> 
 <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script> 
@@ -27,7 +24,6 @@
 <script src="{{ asset('js1408/jl.ui.header.js') }}" language="javascript"></script>
 
 <script src="{{ asset('js/analytics.js')}}" type="text/javascript"></script>
-<!--<script src="{{ asset('js/signIn.js')}}" type="text/javascript"></script>-->
 <script src="{{ asset('js1408/checkin.js') }}" language="javascript"></script>
 <script src="{{ asset('js/bottom.js')}}" type="text/javascript"></script> 
 
@@ -326,8 +322,7 @@ function selectCity_amazon(){
 </head>
 <body>
 <div id="header">
-       {% embed "::menu.html.twig" %}
-       {% endembed %}
+{% include '::menu.html.twig' %}
 </div>
 <div class="pageMain page clearfix">
 {% block body %}{% endblock %}
