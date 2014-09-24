@@ -42,9 +42,11 @@ class WenwenControllerTest extends WebTestCase
     {
         $client = static :: createClient();
         $url = '/backend/editExperienceAdvertisement/1';
+        $root_dir = static::$kernel->getContainer()->get('kernel')->getRootDir();
+        $fixture_dir = $root_dir . DIRECTORY_SEPARATOR . 'fixtures';
         
         $photo1 = array(
-            'tmp_name' => '/tmp/test_photo1.jpg',
+            'tmp_name' => $fixture_dir.'/test_photo1.jpg',
             'name' => 'test_photo.jpg',
             'type' => 'image/jpeg',
             'size' => 123,
@@ -52,7 +54,7 @@ class WenwenControllerTest extends WebTestCase
         );
         
         $photo2 = array(
-            'tmp_name' => '/tmp/test_photo2.jpg',
+            'tmp_name' => $fixture_dir.'/test_photo2.jpg',
             'name' => 'test_photo.jpg',
             'type' => 'image/jpeg',
             'size' => 123,
