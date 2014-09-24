@@ -59,6 +59,7 @@ class CallbackProcessor
         $ocd = $request->query->get('unique_id');
         $comm = $request->query->get('commision');
 
+        // 取验证时生成的查询结果
         if( isset( $data_of_validation['advertiserment'] )) {
             $advertiserment = $data_of_validation['advertiserment'] ;
         } else {
@@ -68,10 +69,10 @@ class CallbackProcessor
             ) );
         }
 
-
+        
         if( isset($advertiserment)) {
             $adid = $advertiserment->getid();
-            $reward_percent = $advertiserment->getrewardrate();
+            $reward_percent = $advertiserment->getRewardRate();
             $ad_type='local';
             $task_title = $advertiserment->getTitle();
         } else {
@@ -89,7 +90,7 @@ class CallbackProcessor
         // insert/update task_historyXX
         $comm = $request->query->get('commision');
 
-
+        // 计算返利积分。
         $cps_reward = intval( $comm * $reward_percent );
 
 
@@ -196,7 +197,7 @@ class CallbackProcessor
             );
 
             $taskHistory = $this->taskLogger->update($params);
-
+            // 修改积分
             if( $is_order_valid) {
 
 

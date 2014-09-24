@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class PointRecentCommand extends ContainerAwareCommand
 {
@@ -26,19 +27,26 @@ EOT
         $em = $this->getContainer()->get('doctrine')->getManager();
         $env =  $this->getApplication()->getKernel() ->getEnvironment();
 
+
         //最新动态
         if('prod' === $env) {
             $filename = $this->getContainer()->getParameter('file_path_recent_point');
             $yesterday =  date('Y-m-d', strtotime(' -1 day'));
         } else {
             $yesterday  = $input->getOption('date');
-            $filename = '/tmp/point_recent.cache';
+            $filename = $this->getApplication()->getKernel()->getCacheDir().'/point_recent.cache' ;
         }
 
         $newActivity = $em->getRepository('JiliApiBundle:User')->getRecentPoint($yesterday);
 
+        $file_path = dirname($filename);
+        $fs = new Filesystem();
+        if( true !==  $fs->exists($file_path) ) {
+            $fs->mkdir($file_path);
+        }
+
         //写文件
-        $handle = fopen($filename, 'w');
+        $handle = fopen($filename, 'w+');
         if (!$handle) {
             die('指定文件不能打开，操作中断!');
         }

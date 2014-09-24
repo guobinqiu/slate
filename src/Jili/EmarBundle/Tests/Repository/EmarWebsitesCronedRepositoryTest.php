@@ -1,6 +1,13 @@
 <?php
 namespace Jili\EmarBundle\Tests\Repository;
+
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+
+use Jili\EmarBundle\DataFixtures\ORM\LoadEmarWebsitesCronedData;
 
 class EmarWebsitesCronedRepositoryTest extends KernelTestCase {
 
@@ -16,6 +23,21 @@ class EmarWebsitesCronedRepositoryTest extends KernelTestCase {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
+        $container = static :: $kernel->getContainer();
+
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        // load fixtures
+        $fixture = new LoadEmarWebsitesCronedData();
+        $fixture->setContainer($container);
+
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+
+        $executor->execute($loader->getFixtures());
 
         $this->em = $em;
     }
@@ -33,15 +55,15 @@ class EmarWebsitesCronedRepositoryTest extends KernelTestCase {
     public function testserchByDigit() {
         $em = $this->em;
         $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->serchByDigit();
-        $this->assertCount(19, $result);
+        $this->assertCount(1, $result);
     }
 
     /**
-     * @group serchByDigit
+     * @group serchByLetter
      */
     public function testserchByLetter() {
         $em = $this->em;
-        $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->serchByLetter('J');
-        $this->assertCount(30, $result);
+        $result = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->serchByLetter('Y');
+        $this->assertCount(1, $result);
     }
 }

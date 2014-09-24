@@ -26,7 +26,7 @@ class TopController extends Controller
         $filename = $this->container->getParameter('file_path_recent_point');
         $recentPoint = FileUtil::readCsvContent($filename);
         $arr['recentPoint'] = $recentPoint;
-//        $this->getRequest();
+
         if( ! empty($tmpl_prefix)) {
             $tmpl_prefix =  '_'. $tmpl_prefix;
         }
@@ -58,7 +58,6 @@ class TopController extends Controller
         $cache_fn= $this->container->getParameter('cache_config.api.top_callboard.key');
         $cache_duration = $this->container->getParameter('cache_config.api.top_callboard.duration');
         $cache_proxy = $this->get('cache.file_handler');
-
         if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
             $callboard= $cache_proxy->get($cache_fn);
         }  else {

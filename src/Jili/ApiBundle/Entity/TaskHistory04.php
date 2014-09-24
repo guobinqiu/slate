@@ -59,7 +59,7 @@ class TaskHistory04
     /**
      * @var float
      *
-     * @ORM\Column(name="reward_percent", type="float")
+     * @ORM\Column(name="reward_percent", type="float", nullable=true)
      */
     private $rewardPercent;
 
@@ -73,7 +73,7 @@ class TaskHistory04
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ocd_created_date", type="datetime")
+     * @ORM\Column(name="ocd_created_date", type="datetime", nullable=true)
      */
     private $ocdCreatedDate;
 
@@ -92,6 +92,10 @@ class TaskHistory04
     private $status;
 
 
+    public function __construct() {
+        $this->setDate(new \DateTime());
+        $this->setOcdCreatedDate(new \DateTime());
+    }
     /**
      * Get id
      *

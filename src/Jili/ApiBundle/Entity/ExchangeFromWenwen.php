@@ -35,7 +35,7 @@ class ExchangeFromWenwen
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(name="user_id", type="integer", nullable=true)
      */
     private $userId;
 
@@ -56,7 +56,7 @@ class ExchangeFromWenwen
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer")
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 
@@ -64,7 +64,7 @@ class ExchangeFromWenwen
     /**
      * @var string
      *
-     * @ORM\Column(name="reason", type="string", length=50)
+     * @ORM\Column(name="reason", type="string", length=50, nullable=true)
      */
     private $reason;
 
