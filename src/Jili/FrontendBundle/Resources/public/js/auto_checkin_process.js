@@ -1,14 +1,16 @@
 $(function() {
-	console.log(jili_autocheckin);
-	if (typeof jili_autocheckin != 'undefined') {
-		auto_checkin.start({
-			advertiserments: jili_autocheckin.advertiserments,
-			checkin_point: jili_autocheckin.checkin_point,
-			urls: urls
-		});
-	} else {
-		console.log('Already checked in today');
-	}
+    //  开始自动签到
+    console.log(jili_autocheckin);
+    if (typeof jili_autocheckin != 'undefined') {
+        auto_checkin.start({
+            advertiserments: jili_autocheckin.advertiserments,
+            checkin_point: jili_autocheckin.checkin_point,
+            urls: urls
+        });
+    } else {
+        console.log('Already checked in today');
+    }
+
 });
 
 var auto_checkin = function() {
