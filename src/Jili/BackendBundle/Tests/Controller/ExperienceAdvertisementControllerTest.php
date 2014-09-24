@@ -5,7 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class WenwenControllerTest extends WebTestCase
+class ExperienceAdvertisementControllerTest extends WebTestCase
 {
     /**
      * @var \Doctrine\ORM\EntityManager
