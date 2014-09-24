@@ -33,7 +33,7 @@ class Advertiserment
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=250)
+     * @ORM\Column(name="type", type="string", length=250,nullable=true)
      */
     private $type;
 

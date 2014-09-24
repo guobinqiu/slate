@@ -52,7 +52,7 @@ class AdwOrder
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="happen_time", type="datetime")
+     * @ORM\Column(name="happen_time", type="datetime",nullable=true)
      */
     private $happenTime;
 
@@ -60,7 +60,7 @@ class AdwOrder
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="adw_return_time", type="datetime")
+     * @ORM\Column(name="adw_return_time", type="datetime",nullable=true)
      */
     private $adwReturnTime;
 
@@ -68,7 +68,7 @@ class AdwOrder
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="confirm_time", type="datetime")
+     * @ORM\Column(name="confirm_time", type="datetime",nullable=true)
      */
     private $confirmTime;
 
@@ -84,7 +84,7 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive", type="integer")
+     * @ORM\Column(name="incentive", type="integer",nullable=true)
      */
     private $incentive;
 
@@ -99,7 +99,7 @@ class AdwOrder
     /**
      * @var float
      *
-     * @ORM\Column(name="comm", type="float")
+     * @ORM\Column(name="comm", type="float",nullable=true)
      */
     private $comm;
 
@@ -113,7 +113,7 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="order_price", type="integer")
+     * @ORM\Column(name="order_price", type="integer",nullable=true)
      */
     private $orderPrice;
 

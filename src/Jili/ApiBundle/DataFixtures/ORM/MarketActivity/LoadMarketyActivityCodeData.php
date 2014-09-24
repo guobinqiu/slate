@@ -59,13 +59,35 @@ class LoadMarketyActivityCodeData extends AbstractFixture implements ContainerAw
         $row->setActivityImage('images/activity/1408084816_1920.jpeg');
         $row->setActivityDescription('Test Activity Description');
         $row->setStartTime(new \DateTime('2014-07-31 14:40:05'));
-        $row->setEndTime(new \DateTime('2014-09-03 14:40:07'));
+
+        $date = new \DateTime();
+        $date->add(new \DateInterval('P4D'));
+
+        $row->setEndTime( $date );
         $row->setCreateTime(new \DateTime('2014-08-15 14:40:16'));
         $row->setDeleteFlag(0);
         $manager->persist($row);
         $manager->flush();
 #        $this->addReference('marketActivity0', $marketActivity);
         self::$ROWS[] = $row;
+
+        $row = new MarketActivity();
+        $row->setAid($ad->getId() );
+        $row->setBusinessName('疯狂满减，根本停不下来2');
+        $row->setCategoryId(5);
+        $row->setActivityUrl('#');
+        $row->setActivityImage('images/activity/1408084816_1921.jpeg');
+        $row->setActivityDescription('Test Activity Description 2');
+        $row->setStartTime(new \DateTime('2014-07-30 14:40:05'));
+
+        $date = new \DateTime();
+        $date->sub(new \DateInterval('P4D'));
+
+        $row->setEndTime( $date );
+        $row->setCreateTime(new \DateTime('2014-07-15 14:40:16'));
+        $row->setDeleteFlag(0);
+        $manager->persist($row);
+        $manager->flush();
     }
 }
 

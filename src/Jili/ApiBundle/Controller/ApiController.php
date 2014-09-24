@@ -501,16 +501,7 @@ class ApiController extends Controller
      */
     public function isEmailDuplicated()
     {
-        $white_ip_list  = array(
-            $this->container->getParameter('admin_ele_ip') ,
-            $this->container->getParameter('admin_un_ip')
-        );
-
-        if( in_array($this->get('request')->getClientIp(), $white_ip_list ) ) {
-        }
-
         $result = '0';
-        #$logger=$this->get('logger');
         $email = $this->get('request')->get('email','');
 
         if( strlen($email) > 0) {

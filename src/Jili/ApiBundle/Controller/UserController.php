@@ -1178,7 +1178,7 @@ class UserController extends Controller
                 $setPasswordCode = new SetPasswordCode();
                 $setPasswordCode->setUserId($id);
                 $setPasswordCode->setCode($code);
-                $setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                $setPasswordCode->setCreateTime(new \DateTime());
                 $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
                 $em->persist($setPasswordCode);
                 $em->flush();
@@ -1188,7 +1188,7 @@ class UserController extends Controller
             $url = $this->generateUrl('_user_resetPass',array('code'=>$passCode[0]->getCode(),'id'=>$id),true);
             if($this->sendMail_reset($url, $email,$nick)){
                 $passCode[0]->setIsAvailable($this->container->getParameter('init_one'));
-                $passCode[0]->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                $passCode[0]->setCreateTime(new \DateTime());
                 $em->flush();
                 $code = $this->container->getParameter('init_one');
             }
@@ -1392,7 +1392,7 @@ class UserController extends Controller
                                             if($count > 20) {
                                                 $code_nick = $this->container->getParameter('reg_wr_nick');
                                             } else {
-                                                $user = $this->getRepository('JiliApiBundle:User')->createOnSignup( array('nick'=> $nick, 'email'=>$email ));
+                                                $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array('nick'=> $nick, 'email'=>$email ));
 
                                                 $str = 'jilifirstregister';
                                                 $code = md5($user->getId().str_shuffle($str));

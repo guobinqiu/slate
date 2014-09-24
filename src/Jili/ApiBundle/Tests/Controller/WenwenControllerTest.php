@@ -3,6 +3,11 @@ namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+
+use Jili\ApiBundle\DataFixtures\ORM\LoadWenwenRegister5CodeData;
 
 class WenwenControllerTest extends WebTestCase
 {
@@ -21,8 +26,25 @@ class WenwenControllerTest extends WebTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+        $tn = $this->getName(); 
+        $container  = static::$kernel->getContainer();
+        if (in_array( $tn ,array('test91wenwenRegister5'))) {
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
+            $loader = new Loader();
+            $fixture  = new LoadWenwenRegister5CodeData();
+
+            $fixture->setContainer($container);
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
+       // add an user 
+        }
+
 
         $this->em  = $em;
+        $this->container  = $container;
     }
     /**
      * {@inheritDoc}
@@ -128,21 +150,24 @@ class WenwenControllerTest extends WebTestCase
      */
     public function test91wenwenRegister5()
     {
+        $em = $this->em;
         $client = static :: createClient();
 
         $url ='/api/91wenwen/register';
-        $email = 'zhangmm@voyagegroup.com.cn';
-        $crawler = $client->request('POST',$url, array (
+        $user = LoadWenwenRegister5CodeData::$ROWS[0];
+
+        $email = $user->getEmail();
+
+        $crawler = $client->request('POST', $url, array (
             'email' => $email,
             'signature' => '88ed4ef124e926ea1df1ea6cdddf8377771327ab',
             'uniqkey' => 'test'
         ));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
 
-        $em = $this->em;
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);;
-        $user->getId();
-        $record =  $em->getRepository('JiliApiBundle:SeTPasswordCode')->findBy( array('userId'=> $user->getId()) );
+        //$user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);;
+       // $user->getId();
+        $record =  $em->getRepository('JiliApiBundle:SetPasswordCode')->findBy( array('userId'=> $user->getId()) );
         $this->assertCount(1, $record,' checkin point setPassword code');
 
         $expected = '{"status":"1","message":"success","activation_url":"https:\/\/www.91jili.com\/user\/setPassFromWenwen\/'.$record[0]->getCode() .'\/'.$user->getId() .'"}';
