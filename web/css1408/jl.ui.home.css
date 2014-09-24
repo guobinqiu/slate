@@ -321,6 +321,9 @@ div.personInfo{
     border-radius: 2px;
 	cursor: pointer;
 }
+.autoCheckinBtn{
+	width: 105px;
+}
 span.signIcon, .quickQInfo p span, .countDown span{
     display: inline-block;
     *display: inline;

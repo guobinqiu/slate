@@ -1,4 +1,4 @@
-#signInFrame {
+#signInFrame , #confirmAutoFrame{
     background: #fff url("../images/signInFrame.jpg") no-repeat bottom;
     left: 0;
     padding: 10px 15px;
@@ -165,7 +165,12 @@
 		background: url(../images1408/arrow.png) no-repeat right -16px;
 		padding-right: 15px;
 	}
-	.signInConfirmFrame{
+	#confirmAutoFrame{
+		width: auto;
+		height: auto;
+		background: #fff none;
+	}
+	#signInFrame .signInConfirmFrame{
 		top: 50%;
 		left: 100px;
 		margin-top: -83px;
@@ -175,6 +180,11 @@
 		padding: 40px 35px;
 		width: 265px;
 		display: none;
+	}
+	#confirmAutoFrame .signInConfirmFrame{
+		background-color: #fff;
+		padding: 40px 35px;
+		width: 265px;
 	}
 	.signInConfirmFrame p{
 		color: #000;

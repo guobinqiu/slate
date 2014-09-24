@@ -18,11 +18,11 @@ $(function() {
 			return false;
 		}
 		if ($el.hasClass('autoSignIn')) {
-			$('#signInFrame .mask').css('display', 'block');
-			$('#signInFrame .signInAutoFrame').css('display', 'block');
+			$('#signInFrame .mask').show();
+			$('#signInFrame .signInAutoFrame').show();
 		} else {
-			$('#signInFrame .mask').css('display', 'block');
-			$('#signInFrame .signInManualFrame').css('display', 'block');
+			$('#signInFrame .mask').show();
+			$('#signInFrame .signInManualFrame').show();
 		}
 	});
 
@@ -33,7 +33,11 @@ $(function() {
 	})();
 	checkinConfirm({
 		container: 'div.signInConfirmFrame[.signInAutoFrame]',
-		callback: setAutoCheckin 
+		callback: setAutoCheckin
+	})();
+	checkinConfirm({
+		container: '#confirmAutoFrame',
+		callback: function(){ window.open( urls.auto_checkin_process, "_blank");}
 	})();
 });
 
@@ -114,13 +118,31 @@ var checkinConfirm = function(arguments) {
 
 		$btns.on('click', function() {
 			var el = $(this);
-			if ($(this).hasClass('confirm')) {
-				$('#signInFrame').css('display', 'none');
-				$('.blackBg').css('display', 'none');
-				callback();
-			} else {
-				$('#signInFrame .mask').css('display', 'none');
-				$('#signInFrame .signInConfirmFrame').css('display', 'none');
+			if($(this).parent().parent().hasClass('confirmAutoFrame')){
+				if ($(this).hasClass('confirm')) {
+					$('#confirmAutoFrame').hide();
+					$('.blackBg').hide();
+					callback();
+				} else{
+					$('#confirmAutoFrame').hide();
+					$('.blackBg').hide();
+				}
+			}else{
+				if ($(this).hasClass('confirm')) {
+					$('#signInFrame').hide();
+					$('.blackBg').hide();
+					if($(this).parent().parent().hasClass('signInAutoFrame')){
+						$('#sign').addClass('autoCheckinBtn');
+						$('#sign').html('自动签到');
+						callback();
+					}else{
+						$('#sign').removeClass('autoCheckinBtn');
+						$('#sign').html('签到');
+					}
+				} else{
+					$('#signInFrame .mask').hide();
+					$('#signInFrame .signInConfirmFrame').hide();
+				}
 			}
 		});
 	};

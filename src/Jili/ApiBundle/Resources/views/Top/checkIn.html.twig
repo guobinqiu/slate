@@ -36,7 +36,8 @@
        	<p>我想以后点击‘签到’按钮自动完成签到？</p>
         <div class="btns"><a href="javascript: void(0)" class="confirm">确定</a><a href="javascript: void(0)">放弃</a></div>
     </div>
-<div>
+</div>
+
 <!--
 {# if is_auto_checkin is not defined  #}
 <a href="#" class="set-autocheckin create"  id='set_autocheckin'>set Auto-Checkin</a>
@@ -47,8 +48,11 @@
 {# endif #}
 -->
 
-</div>
-
+<div id="confirmAutoFrame" style="display: none;">
+	<div class="signInConfirmFrame confirmAutoFrame">
+       	<p>是否在新窗口开始自动签到？</p>
+        <div class="btns"><a href="javascript: void(0)" class="confirm dd">确定</a><a href="javascript: void(0)">放弃</a></div>
+    </div>
 </div>
 
 <script type="text/javascript">

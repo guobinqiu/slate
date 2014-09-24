@@ -1,6 +1,8 @@
 $(document).ready(function(){
-	getCenter();
+	getCenter("#signInFrame");
 	$("#signInFrame").hide();
+	getCenter("#confirmAutoFrame");
+	$("#confirmAutoFrame").hide();
 	$.ajax({
         url: urls.checkin_clickCount,
         post: "GET",
@@ -22,12 +24,12 @@ $(document).ready(function(){
 	 });
 });
 
-function getCenter(){
+function getCenter(ele){
     var windowWidth = document.documentElement.clientWidth;
     var windowHeight = document.documentElement.clientHeight;
-    var popupHeight = $("#signInFrame").height();
-    var popupWidth = $("#signInFrame").width();
-    $("#signInFrame").css({
+    var popupHeight = $(ele).height();
+    var popupWidth = $(ele).width();
+    $(ele).css({
         "position": "absolute",
         "top": windowHeight/2-popupHeight/2,
         "left": windowWidth/2-popupWidth/2
@@ -53,13 +55,16 @@ var getAutoCheckinConfig = function() {
 
 var signs = function(){
     getAutoCheckinConfig();
-    if( typeof jili_autocheckin == "undefined"|| typeof jili_autocheckin.is_set == "undefined"  ||  jili_autocheckin.is_set == false ) {
+	console.log(jili_autocheckin + '----' + jili_autocheckin.is_set);
+    if( typeof jili_autocheckin == "undefined"&&( typeof jili_autocheckin.is_set == "undefined"  ||  jili_autocheckin.is_set == false) ) {
         $("#signInFrame").show();
         $(".blackBg").show();
     } else {
         // redirect to the new page.
-        if(confirm( "将在新打开的页面中进行自动签到, 请确认")) {
-        window.open( urls.auto_checkin_process, "_blank");
+		$("#confirmAutoFrame").show();
+		$(".blackBg").show();
+        //if(confirm( "将在新打开的页面中进行自动签到, 请确认")) {
+        //
    // open the new windows  
    // and do the autocheckins.
    // how to pass the checkin shops ??
@@ -67,7 +72,7 @@ var signs = function(){
    // by cache_data ?? how to remove ?
    // is it shared by every one?
         //    console.log();
-        };
+        //};
     }
 };
 
