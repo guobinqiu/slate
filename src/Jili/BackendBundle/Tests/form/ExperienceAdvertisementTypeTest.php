@@ -2,14 +2,11 @@
 namespace Jili\BackendBundle\Tests\Form\Type;
 
 #use Acme\TestBundle\Model\TestObject;
-use Jili\BackendBundle\Form\Type\SignupActivateType;
-
+use Jili\BackendBundle\Form\ExperienceAdvertisementType;
 use Symfony\Component\Form\Tests\Extension\Core\Type\TypeTestCase;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension;
-
-
 
 class ExperienceAdvertisementTypeTest extends TypeTestCase
 {
