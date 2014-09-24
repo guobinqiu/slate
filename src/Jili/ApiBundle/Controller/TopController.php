@@ -59,7 +59,6 @@ class TopController extends Controller
         $cache_fn= $this->container->getParameter('cache_config.api.top_callboard.key');
         $cache_duration = $this->container->getParameter('cache_config.api.top_callboard.duration');
         $cache_proxy = $this->get('cache.file_handler');
-
         if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
             $callboard= $cache_proxy->get($cache_fn);
         }  else {

@@ -16,7 +16,9 @@ class WebsiteSearchTest extends KernelTestCase {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
+        $container = static :: $kernel->getContainer();
 
+        $this->container = $container;
         $this->em = $em;
     }
     /**
@@ -32,6 +34,8 @@ class WebsiteSearchTest extends KernelTestCase {
      */
     public function testFindSameCatWebsites() {
         $em = $this->em;
+        $container  = $this->container;
+
         $web_raw = array();
         $web_raw[] = array('web_id'=>1,'web_catid'=>1);
         $web_raw[] = array('web_id'=>2,'web_catid'=>2);
@@ -42,16 +46,16 @@ class WebsiteSearchTest extends KernelTestCase {
         $web_raw[] = array('web_id'=>7,'web_catid'=>5);
         $web_raw[] = array('web_id'=>8,'web_catid'=>5);
         
-        $this->get('website.search')->findSameCatWebsites( $web_raw, 5 ,8);
+        $result = $container->get('website.search')->findSameCatWebsites( $web_raw, 5 ,8);
         $this->assertCount(3, $result);
         
-        $this->get('website.search')->findSameCatWebsites( $web_raw, 5 ,1);
-        $this->assertCount(4, $result);
+        $result = $container->get('website.search')->findSameCatWebsites( $web_raw, 5 ,1);
+        $this->assertCount(3, $result);
         
-        $this->get('website.search')->findSameCatWebsites( $web_raw, 1 ,2);
+        $result = $container->get('website.search')->findSameCatWebsites( $web_raw, 1 ,2);
         $this->assertCount(1, $result);
         
-        $this->get('website.search')->findSameCatWebsites( $web_raw, 1 ,1);
+        $result=$container->get('website.search')->findSameCatWebsites( $web_raw, 1 ,1);
         $this->assertCount(0, $result);
     }
 }

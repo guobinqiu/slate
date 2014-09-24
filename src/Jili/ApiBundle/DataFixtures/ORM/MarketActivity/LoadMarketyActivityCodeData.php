@@ -35,7 +35,6 @@ class LoadMarketyActivityCodeData extends AbstractFixture implements FixtureInte
         $ad = $this->getReference('advertiserment0');
 
         for ($i = 0; $i < 10; $i++) {
-
             $row = new MarketActivity();
             $row->setAid($ad->getId());
             $row->setBusinessName('疯狂满减，根本停不下来');

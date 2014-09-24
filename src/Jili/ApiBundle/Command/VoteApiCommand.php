@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class VoteApiCommand extends ContainerAwareCommand
 {
@@ -35,6 +36,11 @@ class VoteApiCommand extends ContainerAwareCommand
 
         if ($data['meta'] && $data['meta']['code'] == 200) {
 
+            $file_path = dirname($output_filename);
+            $fs = new Filesystem();
+            if( true !==  $fs->exists($file_path) ) {
+                $fs->mkdir($file_path);
+            }
             //保存接口数据
             $handle = fopen($output_filename, 'w');
             if ($handle) {
