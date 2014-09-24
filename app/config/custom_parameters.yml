@@ -248,3 +248,8 @@ parameters:
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
     file_path_cpa_ranking_activity: /data/91jili/logs/activity/cpa_ranking_activity
+    
+    qq_appid: 101155200
+    qq_appkey: 8e7855dd98467323249526c607621260
+    callback_url: http://www.91jili.com/qq_callback/
+    scope: get_user_info
