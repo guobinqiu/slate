@@ -36,6 +36,7 @@ class WenwenControllerTest extends WebTestCase
 
     /**
      * @group experience_advertisement
+     * @group issue430
      */
     public function testeditExperienceAdvertisementAction()
     {
@@ -64,7 +65,7 @@ class WenwenControllerTest extends WebTestCase
             'missionTitle' => '测试任务1',
             'missionHall' => 1,
             'point' => 11),
-            array('missionImgUrl'=>$photo)
+            array('missionImgUrl'=>$photo1)
                 );
 
         $client->request('POST', $url, 
@@ -73,7 +74,7 @@ class WenwenControllerTest extends WebTestCase
             'missionTitle' => '测试任务2',
             'missionHall' => 2,
             'point' => 22),
-            array('missionImgUrl'=>$photo)
+            array('missionImgUrl'=>$photo2)
                 );
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
         $em = $this->em;

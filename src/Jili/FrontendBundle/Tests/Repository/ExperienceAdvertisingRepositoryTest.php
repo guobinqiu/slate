@@ -62,10 +62,10 @@ class ExperienceAdvertisementRepositoryTest extends KernelTestCase {
      * @group issue430
      */
     public function testGetAdvertisementList(){
-        //created 3 recodes in table before test , 1 recode's delete_flag is true.
+        //created 4 recodes in table before test , 1 recode's delete_flag is true.
         $em = $this->em;
         $result = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisementList();
-        $this->assertEquals(2, count($result));
+        $this->assertEquals(3, count($result));
 
         $limit = 1;
         $result = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisementList($limit);
