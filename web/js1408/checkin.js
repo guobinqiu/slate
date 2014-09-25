@@ -1,6 +1,5 @@
 $(document).ready(function(){
 	getCenter("#signInFrame");
-	console.log('aaaaaaaaaaaa'+jili_autocheckin.is_request);
 	if(jili_autocheckin.is_request === 1){
 		$("#signInFrame").show();
 		$(".blackBg").show();
@@ -43,44 +42,29 @@ function getCenter(ele){
         "left": windowWidth/2-popupWidth/2
     });
 }
-// 取当前的autocheckin 是否有设置。
-var getAutoCheckinConfig = function() {
-    var jili_autocheckin = this.jili_autocheckin || {}; 
-    $.ajax({
-        //_checkin_issetClick
-        url: Routing.generate('autocheckinconfig_get'),
-        post: "GET",
-        success: function(rsp) {
-            if( rsp.code == 200) {
-                jili_autocheckin.is_set = rsp.data.flag_data;
-            } else {
-    //            alert('error report');
-            };
-        }
-    });
-    return false;
-}; 
 
-var signs = function(){
-    getAutoCheckinConfig();	
-    if( typeof jili_autocheckin == "undefined"&&( typeof jili_autocheckin.is_set == "undefined"  ||  jili_autocheckin.is_set == false) ) {
-        $("#signInFrame").show();
-        $(".blackBg").show();
-    } else {
-			// redirect to the new page.
-			$("#confirmAutoFrame").show();
-			$(".blackBg").show();
-			//if(confirm( "将在新打开的页面中进行自动签到, 请确认")) {
-			//
-	   // open the new windows  
-	   // and do the autocheckins.
-	   // how to pass the checkin shops ??
-	   // by session ?? how to clear
-	   // by cache_data ?? how to remove ?
-	   // is it shared by every one?
-			//    console.log();
-			//};
-	}
+// 点击签到
+var signs = function() {
+	var jili_autocheckin = this.jili_autocheckin || {};
+    // 取当前的autocheckin 是否有设置。
+	$.ajax({
+		url: Routing.generate('autocheckinconfig_get'),
+		post: "GET",
+		success: function(rsp) {
+			if (rsp.code == 200) {
+				jili_autocheckin.is_set = rsp.data.flag_data;
+			};
+			if (typeof jili_autocheckin == "undefined" && (typeof jili_autocheckin.is_set == "undefined" || jili_autocheckin.is_set == false)) {
+				$("#signInFrame").show();
+				$(".blackBg").show();
+			} else {
+				// redirect to the new page.
+				$("#confirmAutoFrame").show();
+				$(".blackBg").show();
+			}
+		}
+	});
+	return false;
 };
 
 function aremove(){

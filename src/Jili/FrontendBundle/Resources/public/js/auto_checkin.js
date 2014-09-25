@@ -28,11 +28,11 @@ $(function() {
 
 	//signInAutoFrame
 	checkinConfirm({
-		container: 'div.signInConfirmFrame[.signInManualFrame]',
+		container: 'div.signInConfirmFrame.signInManualFrame',
 		callback: setManualCheckin
 	})();
 	checkinConfirm({
-		container: 'div.signInConfirmFrame[.signInAutoFrame]',
+		container: 'div.signInConfirmFrame.signInAutoFrame',
 		callback: setAutoCheckin
 	})();
 	checkinConfirm({
@@ -52,6 +52,7 @@ var autoCheckinDomUpdate = function() {
 	$e1.removeClass("active");
 	return false;
 };
+
 //  设置手工签到的Ajax
 var setManualCheckin = function() {
 	var el = $("span#set_manualcheckin");
@@ -64,16 +65,18 @@ var setManualCheckin = function() {
 	$.ajax({
 		url: url,
 		type: method,
-		success: function(data) {
+		success: function(rsp) {
 			if (rsp.code == 200) {
 				jili_autocheckin.is_set = false;
+                autoCheckinDomUpdate(el);
+                console.log("todo: 显示手工签到成功，10秒后退出页面。");
 			}
-			autoCheckinDomUpdate(el);
 			return false;
 		}
 	});
 	return false;
 };
+
 //  设置自动签到的Ajax
 var setAutoCheckin = function() {
 	var el = $("span#set_autocheckin");

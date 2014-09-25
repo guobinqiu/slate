@@ -1,17 +1,45 @@
 $(function() {
     //  开始自动签到
-    console.log(jili_autocheckin);
-    if (typeof jili_autocheckin != 'undefined') {
-        auto_checkin.start({
-            advertiserments: jili_autocheckin.advertiserments,
-            checkin_point: jili_autocheckin.checkin_point,
-            urls: urls
-        });
-    } else {
-        console.log('Already checked in today');
-    }
-
+//    console.log(jili_autocheckin);
+//    if (typeof jili_autocheckin != 'undefined') {
+//        auto_checkin.start({
+//            advertiserments: jili_autocheckin.advertiserments,
+//            checkin_point: jili_autocheckin.checkin_point,
+//            urls: urls
+//        });
+//    } else {
+//        console.log('Already checked in today');
+//    }
 });
+
+// 开始自动签到。 
+ var doAutoCheckin = function() {
+    var jili_autocheckin = this.jili_autocheckin || {};
+    // 取当前的autocheckin 是否有设置。
+	$.ajax({
+		url: Routing.generate('autocheckinconfig_get'),
+		post: "GET",
+		success: function(rsp) {
+			if (rsp.code == 200) {
+				jili_autocheckin.is_set = rsp.data.flag_data;
+                console.log("after ajax get:");
+                console.log(jili_autocheckin);
+			};
+			if (typeof jili_autocheckin != "undefined" && typeof jili_autocheckin.is_set != "undefined" && jili_autocheckin.is_set == true) {
+                console.log('开始自动签到...');
+//        auto_checkin.start({
+//            advertiserments: jili_autocheckin.advertiserments,
+//            checkin_point: jili_autocheckin.checkin_point,
+//            urls: urls
+//        });
+			} else {
+                console.log(jili_autocheckin);
+                console.log('当前配置为手工签到...');
+			}
+            return false;
+		}
+	});
+  };
 
 var auto_checkin = function() {
 	var index = 0;
