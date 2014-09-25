@@ -1,6 +1,14 @@
 $(document).ready(function(){
 	getCenter("#signInFrame");
-	$("#signInFrame").hide();
+	console.log('aaaaaaaaaaaa'+jili_autocheckin.is_request);
+	if(jili_autocheckin.is_request === 1){
+		$("#signInFrame").show();
+		$(".blackBg").show();
+		$("#signInFrame .signInOptions span").removeClass('active');
+		$("#signInFrame .signInOptions span.autoSignIn").addClass('active');
+	}else{
+		$("#signInFrame").hide();
+	}
 	getCenter("#confirmAutoFrame");
 	$("#confirmAutoFrame").hide();
 	$.ajax({
@@ -54,25 +62,25 @@ var getAutoCheckinConfig = function() {
 }; 
 
 var signs = function(){
-    getAutoCheckinConfig();
+    getAutoCheckinConfig();	
     if( typeof jili_autocheckin == "undefined"&&( typeof jili_autocheckin.is_set == "undefined"  ||  jili_autocheckin.is_set == false) ) {
         $("#signInFrame").show();
         $(".blackBg").show();
     } else {
-        // redirect to the new page.
-		$("#confirmAutoFrame").show();
-		$(".blackBg").show();
-        //if(confirm( "将在新打开的页面中进行自动签到, 请确认")) {
-        //
-   // open the new windows  
-   // and do the autocheckins.
-   // how to pass the checkin shops ??
-   // by session ?? how to clear
-   // by cache_data ?? how to remove ?
-   // is it shared by every one?
-        //    console.log();
-        //};
-    }
+			// redirect to the new page.
+			$("#confirmAutoFrame").show();
+			$(".blackBg").show();
+			//if(confirm( "将在新打开的页面中进行自动签到, 请确认")) {
+			//
+	   // open the new windows  
+	   // and do the autocheckins.
+	   // how to pass the checkin shops ??
+	   // by session ?? how to clear
+	   // by cache_data ?? how to remove ?
+	   // is it shared by every one?
+			//    console.log();
+			//};
+	}
 };
 
 function aremove(){

@@ -129,13 +129,16 @@ var checkinConfirm = function(arguments) {
 				if ($(this).hasClass('confirm')) {
 					$('#signInFrame').hide();
 					$('.blackBg').hide();
+					console.log($(this).parent().parent().attr('class'));
 					if ($(this).parent().parent().hasClass('signInAutoFrame')) {
 						$('#sign').addClass('autoCheckinBtn');
 						$('#sign').html('自动签到');
 						callback();
 					} else {
+						console.log('aaaaaaaaaa');
 						$('#sign').removeClass('autoCheckinBtn');
-						$('#sign').html('签到');
+						$('#sign').html('手动签到');
+						callback();
 					}
 				} else {
 					$('#signInFrame .mask').hide();
