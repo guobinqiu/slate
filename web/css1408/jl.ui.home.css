@@ -198,7 +198,7 @@ a.more{
 .shopActInfo .tit .tt{
 	color: #f75232;
 	margin-right:5px;
-	font-size:14px;
+	font-size:18px;
 }
 .shopActInfo .tit{
 	max-height: 50px;
@@ -277,7 +277,7 @@ a.more{
 	background-color: #ebebeb;	
 }
 .shopActInfo .publicAttention{ 
-	float:left; 
+	float:right; 
 	font-size:12px; 
 	color:#999; 
 	font-weight:normal; 
