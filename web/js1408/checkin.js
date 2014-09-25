@@ -1,13 +1,5 @@
 $(document).ready(function(){
 	getCenter("#signInFrame");
-	if(jili_autocheckin.is_request === 1){
-		$("#signInFrame").show();
-		$(".blackBg").show();
-		$("#signInFrame .signInOptions span").removeClass('active');
-		$("#signInFrame .signInOptions span.autoSignIn").addClass('active');
-	}else{
-		$("#signInFrame").hide();
-	}
 	getCenter("#confirmAutoFrame");
 	$("#confirmAutoFrame").hide();
 	$.ajax({

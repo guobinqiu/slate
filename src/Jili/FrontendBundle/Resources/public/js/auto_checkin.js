@@ -31,10 +31,12 @@ $(function() {
 		container: 'div.signInConfirmFrame.signInManualFrame',
 		callback: setManualCheckin
 	})();
+
 	checkinConfirm({
 		container: 'div.signInConfirmFrame.signInAutoFrame',
 		callback: setAutoCheckin
 	})();
+
 	checkinConfirm({
 		container: '#confirmAutoFrame',
 		callback: function() {
