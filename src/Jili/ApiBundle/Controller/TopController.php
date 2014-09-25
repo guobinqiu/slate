@@ -160,7 +160,7 @@ class TopController extends Controller
                 $user = $em->getRepository('JiliApiBundle:User')->find($uid);
                 $reward_multiple = $user->getRewardMultiple();
             } else {
-                $reward_multiple = '';
+                $reward_multiple = 0;
             }
 
             foreach($market as $key=>$ma){

@@ -51,6 +51,5 @@ class LoadMarketyActivityCodeData extends AbstractFixture implements FixtureInte
             #        $this->addReference('marketActivity0', $marketActivity);
             self :: $ROWS[] = $row;
         }
-
     }
 }

@@ -30,11 +30,7 @@ class RebateUtil {
      * @return: reward_rate
      */
     public static function calculateRebate($reward_multiple, $campaign_multiple, $value) {
-        if ($reward_multiple) {
-            $reward_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
-        } else {
-            $reward_rate = $campaign_multiple;
-        }
+        $reward_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
         $reward_rate = $value['incentiveRate'] * $value['rewardRate'] * $reward_rate;
         $reward_rate = round($reward_rate / 10000, 2);
         return $reward_rate;
