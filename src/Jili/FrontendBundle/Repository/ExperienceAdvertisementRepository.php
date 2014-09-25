@@ -22,7 +22,7 @@ class ExperienceAdvertisementRepository extends EntityRepository
     public function getAdvertisementList($limit = null) {
         $query = $this->createQueryBuilder('ea');
         $query = $query->select('ea');
-        $query = $query->Where('ea.deleteFlag = :deleteFlag');
+        $query = $query->Where('ea.deleteFlag IS NULL OR ea.deleteFlag =:deleteFlag');
         if (!is_null($limit)) {
             $query = $query->setFirstResult(0);
             $query = $query->setMaxResults($limit);

@@ -2,8 +2,13 @@
 namespace Jili\BackendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadExperienceAdvertisementCodeData;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 
 class ExperienceAdvertisementControllerTest extends WebTestCase
 {
@@ -22,7 +27,18 @@ class ExperienceAdvertisementControllerTest extends WebTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+        $container  = static :: $kernel->getContainer();
 
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $fixture = new LoadExperienceAdvertisementCodeData();
+        $fixture->setContainer($container);
+
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $executor->purge();
+        $executor->execute($loader->getFixtures());
         $this->em  = $em;
     }
     /**
@@ -81,56 +97,22 @@ class ExperienceAdvertisementControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
         $em = $this->em;
         $record = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findAll();
-        $this->assertCount(2, $record,'record count');
+        $this->assertCount(4, $record,'record count');
     }
     
     /**
-     * @group experience_advertisement
+     * @group issue430
      */
     public function testexperienceAdvertisementListAction()
     {
         $ea = new ExperienceAdvertisement();
         $em = $this->em;
+        $url = 'backend/ExperienceAdvertisementList';
         $client = static :: createClient();
-        $path =  $this->container->getParameter('upload_experience_advertisement_dir');
-        $ea->setMissionTitle('test');
-        $ea->setMissionHall(1);
-        $ea->setPoint(30);
-        $ea->setDeleteFlag(0);
-        $ea->setCreateTime(new \Datetime());
-        $ea->setUpdateTime(new \Datetime());
-        $em->persist($ea);
-        $code = $ea->upload($path,$ea->getMissionHall());
-        if(!$code){
-            $em->flush();
-        }
-
-        $ea->setMissionTitle('test2');
-        $ea->setMissionHall(2);
-        $ea->setPoint(300);
-        $ea->setDeleteFlag(0);
-        $ea->setCreateTime(new \Datetime());
-        $ea->setUpdateTime(new \Datetime());
-        $em->persist($ea);
-        $code = $ea->upload($path,$ea->getMissionHall());
-        if(!$code){
-            $em->flush();
-        }
-        
-        $ea->setMissionTitle('test3');
-        $ea->setMissionHall(3);
-        $ea->setPoint(3100);
-        $ea->setDeleteFlag(1);
-        $ea->setCreateTime(new \Datetime());
-        $ea->setUpdateTime(new \Datetime());
-        $em->persist($ea);
-        $code = $ea->upload($path,$ea->getMissionHall());
-        if(!$code){
-            $em->flush();
-        }
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
+        $client->request('GET',$url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), '' . $url);
         $record = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findAll();
-        $this->assertCount(2, $record,'record count');
+        $this->assertCount(4, $record,'record count');
     }
 
 }
