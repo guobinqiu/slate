@@ -128,6 +128,6 @@ $(document).ready(function(){
         </div>
     </div>
     {% if app.session.has('uid') %}
-    	{{ render(controller('JiliApiBundle:Top:checkIn' ) ) }}{# 签到 #}
+    	{{ render(controller('JiliApiBundle:Top:checkIn' , {auto_checkin: app.request.get('auto_checkin',0)}) ) }}{# 签到 #}
 	{% endif %}
  
