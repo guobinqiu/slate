@@ -55,7 +55,6 @@ var getAutoCheckinConfig = function() {
 
 var signs = function(){
     getAutoCheckinConfig();
-	console.log(jili_autocheckin + '----' + jili_autocheckin.is_set);
     if( typeof jili_autocheckin == "undefined"&&( typeof jili_autocheckin.is_set == "undefined"  ||  jili_autocheckin.is_set == false) ) {
         $("#signInFrame").show();
         $(".blackBg").show();

@@ -37,11 +37,12 @@ $(function() {
 	})();
 	checkinConfirm({
 		container: '#confirmAutoFrame',
-		callback: function(){ window.open( urls.auto_checkin_process, "_blank");}
+		callback: function() {
+            var target_url = Routing.generate("_homepage", {"auto_checkin":1}, true);
+			window.open( target_url, "_blank" );
+		}
 	})();
 });
-
-
 
 // 更换手工自动签到按键的样式 
 var autoCheckinDomUpdate = function() {
@@ -104,9 +105,9 @@ var setAutoCheckin = function() {
 
 // arguments = { container: the class name, callback: the ajax call}
 var checkinConfirm = function(arguments) {
-    console.log(arguments);
-    var container = arguments.container;
-    var callback = arguments.callback;
+	console.log(arguments);
+	var container = arguments.container;
+	var callback = arguments.callback;
 	return function() {
 		var $btns = $(container).find(".btns a");
 		$btns.hover(function() {
@@ -118,28 +119,25 @@ var checkinConfirm = function(arguments) {
 
 		$btns.on('click', function() {
 			var el = $(this);
-			if($(this).parent().parent().hasClass('confirmAutoFrame')){
+			if (el.parent().parent().hasClass('confirmAutoFrame')) {
+				$('#confirmAutoFrame').hide();
+				$('.blackBg').hide();
 				if ($(this).hasClass('confirm')) {
-					$('#confirmAutoFrame').hide();
-					$('.blackBg').hide();
 					callback();
-				} else{
-					$('#confirmAutoFrame').hide();
-					$('.blackBg').hide();
 				}
-			}else{
+			} else {
 				if ($(this).hasClass('confirm')) {
 					$('#signInFrame').hide();
 					$('.blackBg').hide();
-					if($(this).parent().parent().hasClass('signInAutoFrame')){
+					if ($(this).parent().parent().hasClass('signInAutoFrame')) {
 						$('#sign').addClass('autoCheckinBtn');
 						$('#sign').html('自动签到');
 						callback();
-					}else{
+					} else {
 						$('#sign').removeClass('autoCheckinBtn');
 						$('#sign').html('签到');
 					}
-				} else{
+				} else {
 					$('#signInFrame .mask').hide();
 					$('#signInFrame .signInConfirmFrame').hide();
 				}
@@ -147,3 +145,4 @@ var checkinConfirm = function(arguments) {
 		});
 	};
 };
+
