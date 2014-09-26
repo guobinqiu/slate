@@ -46,10 +46,11 @@ var signs = function() {
 			if (rsp.code == 200) {
 				jili_autocheckin.is_set = rsp.data.flag_data;
 			};
-			if (typeof jili_autocheckin == "undefined" && (typeof jili_autocheckin.is_set == "undefined" || jili_autocheckin.is_set == false)) {
+            //如果没有设置手工，则显示手工签到
+			if (typeof jili_autocheckin == "undefined" || typeof jili_autocheckin.is_set == "undefined" || jili_autocheckin.is_set == false) {
 				$("#signInFrame").show();
 				$(".blackBg").show();
-			} else {
+			} else { 
 				// redirect to the new page.
 				$("#confirmAutoFrame").show();
 				$(".blackBg").show();

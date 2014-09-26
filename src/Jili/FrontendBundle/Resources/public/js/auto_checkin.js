@@ -1,10 +1,4 @@
 $(function() {
-	// 签到button
-	// checkinBtnClick();
-	// 自动签到设置button
-	//autoCheckinConfigDomClick();
-	//setAutoCheckinDomClicked();
-	//setManualCheckinDomClicked();
 	// 选择自动、手工签到
 	$('span.autoSignIn a').toggle(function() {
 		$('.signInOptions p').slideDown('fast');
@@ -26,22 +20,26 @@ $(function() {
 		}
 	});
 
-	//signInAutoFrame
+	// 配置为的手工
 	checkinConfirm({
-		container: 'div.signInConfirmFrame.signInManualFrame',
-		callback: setManualCheckin
+		"container": 'div.signInConfirmFrame.signInManualFrame',
+		"callback": setManualCheckin
+	})();
+
+	// 配置为自动
+	checkinConfirm({
+		"container": 'div.signInConfirmFrame.signInAutoFrame',
+		"callback": setAutoCheckin
 	})();
 
 	checkinConfirm({
-		container: 'div.signInConfirmFrame.signInAutoFrame',
-		callback: setAutoCheckin
-	})();
-
-	checkinConfirm({
-		container: '#confirmAutoFrame',
-		callback: function() {
-            var target_url = Routing.generate("_homepage", {"auto_checkin":1}, true);
-			window.open( target_url, "_blank" );
+		"container": '#confirmAutoFrame',
+		"callback": function() {
+			var target_url = Routing.generate("_homepage", {
+				"auto_checkin": 1
+			},
+			true);
+			window.open(target_url, "_blank");
 		}
 	})();
 });
@@ -70,8 +68,8 @@ var setManualCheckin = function() {
 		success: function(rsp) {
 			if (rsp.code == 200) {
 				jili_autocheckin.is_set = false;
-                autoCheckinDomUpdate(el);
-                console.log("todo: 显示手工签到成功，10秒后退出页面。");
+				autoCheckinDomUpdate(el);
+				console.log("todo: 显示手工签到成功，10秒后退出页面。");
 			}
 			return false;
 		}
@@ -86,7 +84,7 @@ var setAutoCheckin = function() {
 	if ("undefined" == typeof jili_autocheckin.is_set) {
 		var method = "PUT";
 		var url = Routing.generate('autocheckinconfig_create');
-	} else if (jili_autocheckin.is_set = false) {
+	} else if (jili_autocheckin.is_set == false) {
 		var method = "POST";
 		var url = Routing.generate('autocheckinconfig_update');
 	} else {
@@ -100,6 +98,8 @@ var setAutoCheckin = function() {
 		success: function(rsp) {
 			if (rsp.code == 200) {
 				jili_autocheckin.is_set = true;
+				autoCheckinDomUpdate(el);
+				console.log("todo: 显示自动签到设置成功，10秒后退出页面/开始自动签到。");
 			}
 			autoCheckinDomUpdate(el);
 			return false;
@@ -110,46 +110,47 @@ var setAutoCheckin = function() {
 
 // arguments = { container: the class name, callback: the ajax call}
 var checkinConfirm = function(arguments) {
-	console.log(arguments);
-	var container = arguments.container;
-	var callback = arguments.callback;
+    var args = arguments;
 	return function() {
-		var $btns = $(container).find(".btns a");
-		$btns.hover(function() {
-			$(this).addClass('active');
-		},
-		function() {
-			$(this).removeClass('active');
-		});
-
+		console.log(args.container);
+		var $btns = $(args.container).find(".btns a");
 		$btns.on('click', function() {
 			var el = $(this);
+            console.log(args);
+
 			if (el.parent().parent().hasClass('confirmAutoFrame')) {
+				// 签到confirm
 				$('#confirmAutoFrame').hide();
 				$('.blackBg').hide();
 				if ($(this).hasClass('confirm')) {
-					callback();
+					args.callback();
 				}
 			} else {
-				if ($(this).hasClass('confirm')) {
+				if (el.hasClass('confirm')) {
 					$('#signInFrame').hide();
 					$('.blackBg').hide();
-					console.log($(this).parent().parent().attr('class'));
-					if ($(this).parent().parent().hasClass('signInAutoFrame')) {
+					if (el.parent().parent().hasClass('signInAutoFrame')) {
 						$('#sign').addClass('autoCheckinBtn');
 						$('#sign').html('自动签到');
-						callback();
+						args.callback();
 					} else {
-						console.log('aaaaaaaaaa');
 						$('#sign').removeClass('autoCheckinBtn');
 						$('#sign').html('手动签到');
-						callback();
+						args.callback();
 					}
 				} else {
 					$('#signInFrame .mask').hide();
 					$('#signInFrame .signInConfirmFrame').hide();
 				}
 			}
+			return false;
+		});
+
+		$btns.hover(function() {
+			$(this).addClass('active');
+		},
+		function() {
+			$(this).removeClass('active');
 		});
 	};
 };
