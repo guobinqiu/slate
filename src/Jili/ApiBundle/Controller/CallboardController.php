@@ -15,7 +15,7 @@ class  CallboardController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboard();
+        $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboard();
         $arr['callboard'] =  $callboard;
         $paginator  = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate(
@@ -33,7 +33,7 @@ class  CallboardController extends Controller
     public function infoAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->find($id);
+        $callboard = $em->getRepository('JiliApiBundle:Callboard')->find($id);
         if($callboard)
             $arr['callboard'] = $callboard;
         else

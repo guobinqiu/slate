@@ -2,6 +2,7 @@
 /web/js/fos_js_routes.js
 /web/images/actionPic/
 #/app/bootstrap*
+web/images/actionPic/
 /app/cache/*
 /app/sessions/*
 /app/cache_data/*

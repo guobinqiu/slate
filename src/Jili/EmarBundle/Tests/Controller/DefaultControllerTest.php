@@ -3,6 +3,12 @@
 namespace Jili\EmarBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+
+
+use Jili\EmarBundle\DataFixtures\ORM\LoadDefaultRedirectCodeData;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -22,7 +28,23 @@ class DefaultControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
-        $this->em = $em;
+        $container = static :: $kernel->getContainer();
+
+
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
+
+            // load fixtures
+            $fixture = new LoadDefaultRedirectCodeData();
+            $fixture->setContainer($container);
+
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+
+            $executor->execute($loader->getFixtures());
+
     }
 
     /**
@@ -45,8 +67,10 @@ class DefaultControllerTest extends WebTestCase
         $logger= $container->get('logger');
         $em = $this->em;
 
-        $email = 'alice.nima@gmail.com';
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        //$email = 'alice.nima@gmail.com';
+        $users = LoadDefaultRedirectCodeData::$ROWS;
+
+        $user = $users[0];//$em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
 
         // urls by 1. open api product; 2. visitor redirect; 3.user redirect; 4. yiqifa api
         //      to 1. amazon.cn 2. generals.
@@ -72,9 +96,14 @@ class DefaultControllerTest extends WebTestCase
         $url = $container->get('router')->generate('jili_emar_default_redirect', array('m'=> $m)  , true) ;
         print 'url1: '.$url.PHP_EOL;
 
+        // set session for login
+        $session = $container->get('session');
+        $session->set('uid', $user->getId());
+        $session->save();
+
 #        print PHP_EOL.'>>>>>>>>>>>>'.PHP_EOL;
         $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), PHP_EOL.$target. PHP_EOL. $url.PHP_EOL );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode(), PHP_EOL.$target. PHP_EOL. $url.PHP_EOL );
         $this->assertEquals('1', '1');
         // request
         // status code
@@ -82,6 +111,8 @@ class DefaultControllerTest extends WebTestCase
 
         // code...
     }
+
+
     public function urlsProvider()
     {
         $urls = array();
