@@ -246,7 +246,7 @@ class TopControllerTest extends WebTestCase
         $this->assertFileExists($fn);
 
         // the count
-        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(9);
+        $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboardLimit(9);
 
         $exp_total = 9 ;//count($callboard);
 
@@ -698,10 +698,12 @@ class TopControllerTest extends WebTestCase
 
     /**
      * @group market
+     * @group issue_476
      **/
     public function testMarketAction()
     {
         $client = static::createClient();
+        $container = static :: $kernel->getContainer();
         $em = $this->em;
 
         // purge tables;
@@ -711,6 +713,7 @@ class TopControllerTest extends WebTestCase
 
         // load fixtures
         $fixture = new LoadAdvertisermentMarketActivityData();
+        $fixture->setContainer($container);
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
@@ -721,6 +724,7 @@ class TopControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/top/market');
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertTrue($crawler->filter('html:contains("'.$desc.'")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("最高返")')->count() > 0);
     }
 
 }

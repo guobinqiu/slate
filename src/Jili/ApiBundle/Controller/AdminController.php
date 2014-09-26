@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\Advertiserment;
 use Jili\ApiBundle\Entity\AdPosition;
 use Jili\ApiBundle\Entity\AdBanner;
-use Jili\ApiBundle\Entity\CallBoard;
+use Jili\ApiBundle\Entity\Callboard;
 use Jili\ApiBundle\Entity\CbCategory;
 use Jili\ApiBundle\Entity\LimitAd;
 use Jili\ApiBundle\Entity\RateAd;
@@ -973,7 +973,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $cb_category = $em->getRepository('JiliApiBundle:CbCategory')->findAll();
-        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->find($id);
+        $callboard = $em->getRepository('JiliApiBundle:Callboard')->find($id);
         $title = $request->request->get('title');
         $author = $request->request->get('author');
         $start_time = $request->request->get('start_time');
@@ -1011,7 +1011,7 @@ class AdminController extends Controller implements IpAuthenticatedController
     public function delCallboardAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->find($id);
+        $callboard = $em->getRepository('JiliApiBundle:Callboard')->find($id);
         $em->remove($callboard);
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoCallboard'));
@@ -1026,7 +1026,7 @@ class AdminController extends Controller implements IpAuthenticatedController
     {
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
-        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboard();
+        $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboard();
         $paginator = $this->get('knp_paginator');
         $arr['pagination'] = $paginator
         ->paginate($callboard,
@@ -1042,7 +1042,7 @@ class AdminController extends Controller implements IpAuthenticatedController
     public function addCallboardAction()
     {
         $codeflag = $this->container->getParameter('init');
-        $callboard = new CallBoard();
+        $callboard = new Callboard();
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         $title = $request->request->get('title');

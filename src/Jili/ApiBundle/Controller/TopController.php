@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Utility\FileUtil;
+use Jili\ApiBundle\Utility\RebateUtil;
 
 /**
  * @Route("/top",requirements={"_scheme"="http"})
@@ -64,7 +65,7 @@ class TopController extends Controller
             $cache_proxy->remove( $cache_fn);
             //最新公告，取9条
             $em = $this->getDoctrine()->getManager();
-            $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(9);
+            $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboardLimit(9);
             $cache_proxy->set( $cache_fn, $callboard);
         }
         $arr['callboard'] = $callboard;
@@ -150,10 +151,28 @@ class TopController extends Controller
             $cache_proxy->remove( $cache_fn);
             $em = $this->getDoctrine()->getManager();
             $market = $em->getRepository('JiliApiBundle:MarketActivity')->getActivityList($this->container->getParameter('init_eight'));
-            //用户关注数
+
+            //取得活动返利倍数
+            $campaign_multiple = $this->container->getParameter('campaign_multiple');
+            //取得用户的返利倍数
+            $uid = $this->get('request')->getSession()->get('uid');
+            if($uid){
+                $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+                $reward_multiple = $user->getRewardMultiple();
+            } else {
+                $reward_multiple = 0;
+            }
+
             foreach($market as $key=>$ma){
+                //用户关注数
                 $resulut = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->getClickNumber($ma['id']);
                 $market[$key]['click'] = $resulut['clickNumber'];
+
+                //最高返利
+                $reward_rate = RebateUtil :: calculateRebate($reward_multiple, $campaign_multiple, $ma);
+                if($ma['incentiveType'] ==2){
+                    $market[$key]['reward_rate'] = $reward_rate;
+                }
             }
             $cache_proxy->set( $cache_fn, $market);
         }

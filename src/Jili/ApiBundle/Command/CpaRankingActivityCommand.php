@@ -32,7 +32,6 @@ class CpaRankingActivityCommand extends ContainerAwareCommand
         $output->writeln('end_time:' . $end_time);
 
         //写文件
-          ;
         $filename = $this->getContainer()->getParameter('file_path_cpa_ranking_activity'). date('Ym', strtotime($start_time)) . '.csv';
         $file_path = dirname($filename);
         $fs = new Filesystem();

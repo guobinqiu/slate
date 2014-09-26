@@ -12,82 +12,44 @@ use Jili\ApiBundle\Entity\Advertiserment;
 use Jili\ApiBundle\Entity\MarketActivity;
 
 /**
- * 
+ *
  **/
-class LoadMarketyActivityCodeData extends AbstractFixture implements ContainerAwareInterface,  FixtureInterface, OrderedFixtureInterface
-{
-   public static  $ROWS;
+class LoadMarketyActivityCodeData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface {
+    public static $ROWS;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    public function __construct()
-    {
-        self::$ROWS= array();
+    public function __construct() {
+        self :: $ROWS = array ();
     }
-    
+
     /**
      * {@inheritDoc}
      */
-    public function getOrder()
-    {
+    public function getOrder() {
         return 2; // the order in which fixtures will be loaded
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function load(ObjectManager $manager)
-    {
+    public function load(ObjectManager $manager) {
         $ad = $this->getReference('advertiserment0');
 
-        $row = new MarketActivity();
-        $row->setAid($ad->getId() );
-        $row->setBusinessName('疯狂满减，根本停不下来');
-        $row->setCategoryId(5);
-        $row->setActivityUrl('#');
-        $row->setActivityImage('images/activity/1408084816_1920.jpeg');
-        $row->setActivityDescription('Test Activity Description');
-        $row->setStartTime(new \DateTime('2014-07-31 14:40:05'));
-
-        $date = new \DateTime();
-        $date->add(new \DateInterval('P4D'));
-
-        $row->setEndTime( $date );
-        $row->setCreateTime(new \DateTime('2014-08-15 14:40:16'));
-        $row->setDeleteFlag(0);
-        $manager->persist($row);
-        $manager->flush();
-#        $this->addReference('marketActivity0', $marketActivity);
-        self::$ROWS[] = $row;
-
-        $row = new MarketActivity();
-        $row->setAid($ad->getId() );
-        $row->setBusinessName('疯狂满减，根本停不下来2');
-        $row->setCategoryId(5);
-        $row->setActivityUrl('#');
-        $row->setActivityImage('images/activity/1408084816_1921.jpeg');
-        $row->setActivityDescription('Test Activity Description 2');
-        $row->setStartTime(new \DateTime('2014-07-30 14:40:05'));
-
-        $date = new \DateTime();
-        $date->sub(new \DateInterval('P4D'));
-
-        $row->setEndTime( $date );
-        $row->setCreateTime(new \DateTime('2014-07-15 14:40:16'));
-        $row->setDeleteFlag(0);
-        $manager->persist($row);
-        $manager->flush();
+        for ($i = 0; $i < 10; $i++) {
+            $row = new MarketActivity();
+            $row->setAid($ad->getId());
+            $row->setBusinessName('疯狂满减，根本停不下来');
+            $row->setCategoryId(5);
+            $row->setActivityUrl('#');
+            $row->setActivityImage('images/activity/1408084816_1920.jpeg');
+            $row->setActivityDescription('Test Activity Description');
+            $row->setStartTime(new \DateTime('2014-07-31 14:40:05'));
+            $row->setEndTime(new \DateTime('2050-09-03 14:40:07'));
+            $row->setCreateTime(new \DateTime('2014-08-15 14:40:16'));
+            $row->setDeleteFlag(0);
+            $manager->persist($row);
+            $manager->flush();
+            #        $this->addReference('marketActivity0', $marketActivity);
+            self :: $ROWS[] = $row;
+        }
     }
 }
-
