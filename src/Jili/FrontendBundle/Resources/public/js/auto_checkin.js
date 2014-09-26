@@ -112,32 +112,30 @@ var setAutoCheckin = function() {
 var checkinConfirm = function(arguments) {
     var args = arguments;
 	return function() {
-		console.log(args.container);
 		var $btns = $(args.container).find(".btns a");
 		$btns.on('click', function() {
 			var el = $(this);
-            console.log(args);
-
 			if (el.parent().parent().hasClass('confirmAutoFrame')) {
 				// 签到confirm
-				$('#confirmAutoFrame').hide();
-				$('.blackBg').hide();
 				if ($(this).hasClass('confirm')) {
 					args.callback();
 				}
+				$('#confirmAutoFrame').hide();
+				$('.blackBg').hide();
 			} else {
+				// 签到设置confirm
 				if (el.hasClass('confirm')) {
-					$('#signInFrame').hide();
-					$('.blackBg').hide();
 					if (el.parent().parent().hasClass('signInAutoFrame')) {
+						args.callback();
 						$('#sign').addClass('autoCheckinBtn');
 						$('#sign').html('自动签到');
-						args.callback();
 					} else {
+						args.callback();
 						$('#sign').removeClass('autoCheckinBtn');
 						$('#sign').html('手动签到');
-						args.callback();
 					}
+					$('#signInFrame').hide();
+					$('.blackBg').hide();
 				} else {
 					$('#signInFrame .mask').hide();
 					$('#signInFrame .signInConfirmFrame').hide();
@@ -146,6 +144,7 @@ var checkinConfirm = function(arguments) {
 			return false;
 		});
 
+        // confirm窗中的button 
 		$btns.hover(function() {
 			$(this).addClass('active');
 		},
