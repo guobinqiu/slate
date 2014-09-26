@@ -1,5 +1,6 @@
 /web/bundles/
 #/app/bootstrap*
+web/images/actionPic/
 /app/cache/*
 /app/sessions/*
 /app/cache_data/*

@@ -246,7 +246,7 @@ class TopControllerTest extends WebTestCase
         $this->assertFileExists($fn);
 
         // the count
-        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(9);
+        $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboardLimit(9);
 
         $exp_total = 9 ;//count($callboard);
 

@@ -65,7 +65,7 @@ class TopController extends Controller
             $cache_proxy->remove( $cache_fn);
             //最新公告，取9条
             $em = $this->getDoctrine()->getManager();
-            $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(9);
+            $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboardLimit(9);
             $cache_proxy->set( $cache_fn, $callboard);
         }
         $arr['callboard'] = $callboard;

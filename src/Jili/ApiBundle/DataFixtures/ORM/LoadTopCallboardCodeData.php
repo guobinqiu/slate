@@ -48,7 +48,7 @@ class LoadTopCallboardCodeData  extends AbstractFixture implements ContainerAwar
         $r =   $manager->getConnection()->query($sql);
         $r->closeCursor();
 
-//        self::$ROWS =  $manager->getRepository('JiliApiBundle:CallBoard')->findAll();
+//        self::$ROWS =  $manager->getRepository('JiliApiBundle:Callboard')->findAll();
 
     }
 }
