@@ -109,44 +109,35 @@ var auto_checkin = function() {
 						success: function(data) {
 							if (data == 1) {
 								// 未签到过cid
-								console.log("未签到过cid 1 " + ads[i].title);
-
+								console.log("未签到过ads["+i+"].title=" + ads[i].title);
 								$.ajax({
 									//_checkin_clickInsert
 									url: urls.checkin_clickInsert + "?cid=" + cid + "&aid=" + aid,
 									post: "GET",
 									success: function(data) {
-
 										if (typeof(JSON) == 'undefined') {
 											obj = eval("(" + data + ")");
 										} else {
 											obj = JSON.parse(data);
 										}
-
 										// 打开商家，_checkin_location
 										var target = urls.checkin_location + "?aid=" + aid + "&type=1";
-
 										buffer.location.href = target;
 
-										console.log(target + ' ' + ads[i].title + ' checked');
+										console.log(target + "\n  " + ads[i].title + ' checked');
 										console.log("obj:");
 										console.log(obj);
 										if (obj.code == 1) {
-											// update the user's pts div
-
-                                            //
-	//        console.log('update the user's pts div');
-        
-
 										}
-        console.log("index:"+index);
-         $("div.signInManual li:eq("+i+") a").find(".gray").show();
-         $("div.signInManual li:eq("+i+")").addClass("finish");
+										// update the user's pts div
+                                        console.log("i:"+i);
+                                        $("div.signInManual li:eq("+i+") a").find(".gray").show();
+                                        $("div.signInManual li:eq("+i+")").addClass("finish");
 									}
 								});
 
 							} else {
-								console.log("己签到过cid 0 " + ads[i].title);
+								console.log("己签到过cid 0 ads["+i+"].title " + ads[i].title);
 								// 己签到过cid
 							}
 						}
