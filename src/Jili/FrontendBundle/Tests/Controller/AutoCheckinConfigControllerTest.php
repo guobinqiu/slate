@@ -33,7 +33,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
             ->getManager();
         $container = static::$kernel->getContainer();
         $directory = $container->get('kernel')->getBundle('JiliFrontendBundle')->getPath(); 
-        $directory .= '/DataFixtures/ORM/AutoCheckInConfig';
+        $directory .= '/DataFixtures/ORM/AutoCheckinConfig';
         $loader = new DataFixtureLoader($container);
         $loader->loadFromDirectory($directory);
 
@@ -63,8 +63,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $client = static::createClient();
         $container = $this->container;
         $em = $this->em;
-
-        $url =  $container->get('router')->generate('jili_frontend_autocheckinconfig_create');
+        $url =  $container->get('router')->generate('autocheckinconfig_create');
         // 1. no session uid
         // 1.1. only PUT
         $client->request('PUT', $url );
@@ -75,8 +74,9 @@ class AutoCheckinConfigControllerTest extends WebTestCase
 
         // 1.2.only Ajax without PUT
         $client->request('POST', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+        $this->assertEquals(405, $client->getResponse()->getStatusCode());
+
+//        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
 
         // 1.3.Ajax and PUT;
         $client->request('PUT', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
@@ -129,8 +129,8 @@ class AutoCheckinConfigControllerTest extends WebTestCase
 
         // 1.2.only Ajax without PUT
         $client->request('POST', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
+        $this->assertEquals(405, $client->getResponse()->getStatusCode());
+ //       $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
     }
 
     /**
@@ -142,7 +142,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $container = $this->container;
         $em = $this->em;
 
-        $url =  $container->get('router')->generate('jili_frontend_autocheckinconfig_delete');
+        $url =  $container->get('router')->generate('autocheckinconfig_delete');
         // 1. no session uid
         // 1.1. only DELETE 
         $client->request('DELETE', $url );
@@ -153,8 +153,8 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         //
         // 1.2. only AJAX 
         $client->request('GET', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+        $this->assertEquals(405, $client->getResponse()->getStatusCode());
+//        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
         // 1.3. Ajax and DELETE ;
         $client->request('DELETE', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -173,8 +173,8 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         
         // 2.2 only Ajax 
         $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
-        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
+        $this->assertEquals(405, $client->getResponse()->getStatusCode(),'check request status code ');
+//        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
         // 2.3. Ajax and DELETE ;
         
         // 3. with session uid of no user_configurations 
@@ -204,7 +204,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $client = static::createClient();
         $container = $this->container;
         $em = $this->em;
-        $url =  $container->get('router')->generate('jili_frontend_autocheckinconfig_update');
+        $url =  $container->get('router')->generate('autocheckinconfig_update');
         // 1. no session uid
         // 1.1. only POST 
         $client->request('POST', $url );
@@ -216,8 +216,8 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $client->request('GET', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest') );
         $response =  $client->getResponse();
         $expected = '{"code":401,"message":"\u9700\u8981\u767b\u5f55"}'; //需要登录
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
-        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+        $this->assertEquals(405, $client->getResponse()->getStatusCode(),'check request status code ');
+       // $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
         // 1.3. Ajax and POST;
         $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest') );
         $response =  $client->getResponse();
@@ -238,8 +238,8 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         
         // 2.2 only Ajax 
         $client->request('PUT', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
-        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
+        $this->assertEquals(405, $client->getResponse()->getStatusCode(),'check request status code ');
+//        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
         // 2.3. Ajax and  POST;
         //
         // 3. with session uid of no user_configurations 
@@ -281,7 +281,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $container = $this->container;
         $em = $this->em;
 
-        $url =  $container->get('router')->generate('jili_frontend_autocheckinconfig_get');
+        $url =  $container->get('router')->generate('autocheckinconfig_get');
 // jili_frontend_autocheckinconfig_get
         // 1. no session uid
         // 1.1. only GET 
@@ -292,8 +292,8 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
         // 1.2. only AJAX 
         $client->request('POST', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+        $this->assertEquals(405, $client->getResponse()->getStatusCode());
+ //       $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
         // 1.3. Ajax and GET;
         $client->request('GET', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -312,8 +312,8 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
         // 2.2 only Ajax 
         $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
-        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
+        $this->assertEquals(405, $client->getResponse()->getStatusCode(),'check request status code ');
+//        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
         // 2.3. Ajax and  GET;
         
         // 3. with session uid of no user_configurations 

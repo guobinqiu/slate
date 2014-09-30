@@ -20,6 +20,11 @@ class Advertiserment
         $this->updateTime = new \DateTime();
         $this->startTime = new \DateTime();
         $this->endTime = new \DateTime();
+        $this->isScriptRedirect = false ;
+        $this->rewardRate = 30;
+        $this->deleteFlag = false;
+        $this->category = 0;
+
     }
     /**
      * @var integer
@@ -41,7 +46,7 @@ class Advertiserment
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=45)
+     * @ORM\Column(name="title", type="string", length=45, nullable=true)
      */
     private $title;
 
@@ -55,56 +60,63 @@ class Advertiserment
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_time", type="datetime")
+     * @ORM\Column(name="created_time", type="datetime", nullable=true)
      */
     private $createdTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start_time", type="datetime")
+     * @ORM\Column(name="start_time", type="datetime", nullable=true)
      */
     private $startTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end_time", type="datetime")
+     * @ORM\Column(name="end_time", type="datetime", nullable=true)
      */
     private $endTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="update_time", type="datetime")
+     * @ORM\Column(name="update_time", type="datetime", nullable=true)
      */
     private $updateTime;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="decription", type="string", length=1000)
+     * @ORM\Column(name="decription", type="string", length=1000, nullable=true)
      */
     private $decription;
 
     /**
-     * @var text
+     * @var string
      *
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="imageurl", type="string", length=250)
+     * @ORM\Column(name="imageurl", type="string", length=250, nullable=true)
      */
     private $imageurl;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_script_redirect", type="boolean", nullable=true)
+     */
+    private $isScriptRedirect;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="icon_image", type="string", length=250)
+     * @ORM\Column(name="icon_image", type="string", length=250, nullable=true)
      */
     private $iconImage;
 
@@ -112,14 +124,14 @@ class Advertiserment
     /**
      * @var string
      *
-     * @ORM\Column(name="list_image", type="string", length=250)
+     * @ORM\Column(name="list_image", type="string", length=250, nullable=true)
      */
     private $listImage;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive_type", type="integer")
+     * @ORM\Column(name="incentive_type", type="integer", nullable=true)
      */
     private $incentiveType;
 
@@ -127,7 +139,7 @@ class Advertiserment
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive_rate", type="integer")
+     * @ORM\Column(name="incentive_rate", type="integer", nullable=true)
      */
     private $incentiveRate;
 
@@ -141,33 +153,39 @@ class Advertiserment
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive", type="integer")
+     * @ORM\Column(name="incentive", type="integer", nullable=true)
      */
     private $incentive;
 
 
     /**
-     * @var text
+     * @var string
      *
-     * @ORM\Column(name="info", type="text")
+     * @ORM\Column(name="info", type="text", nullable=true)
      */
     private $info;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="category", type="integer")
+     * @ORM\Column(name="category", type="integer", nullable=true)
      */
     private $category;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer")
+     * @ORM\Column(name="delete_flag", type="integer", nullable=true)
      */
     private $deleteFlag;
 
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="wenwen_user", type="string", length=100, nullable=true)
+     */
+    private $wenwenUser;
     /**
      * upload image to temp dir
      */
@@ -466,6 +484,29 @@ class Advertiserment
     }
 
     /**
+     * Set isScriptRedirect
+     *
+     * @param boolean $isScriptRedirect
+     * @return Advertiserment
+     */
+    public function setIsScriptRedirect($isScriptRedirect)
+    {
+        $this->isScriptRedirect = $isScriptRedirect;
+
+        return $this;
+    }
+
+    /**
+     * Get isScriptRedirect
+     *
+     * @return boolean 
+     */
+    public function getIsScriptRedirect()
+    {
+        return $this->isScriptRedirect;
+    }
+
+    /**
      * Set iconImage
      *
      * @param string $iconImage
@@ -679,4 +720,26 @@ class Advertiserment
         return $this->deleteFlag;
     }
 
+    /**
+     * Set wenwenUser
+     *
+     * @param string $wenwenUser
+     * @return Advertiserment
+     */
+    public function setWenwenUser($wenwenUser)
+    {
+        $this->wenwenUser = $wenwenUser;
+
+        return $this;
+    }
+
+    /**
+     * Get wenwenUser
+     *
+     * @return string 
+     */
+    public function getWenwenUser()
+    {
+        return $this->wenwenUser;
+    }
 }

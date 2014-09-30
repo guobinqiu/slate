@@ -135,8 +135,22 @@ class CheckinController extends Controller
         $type = $request->query->get('type');
         switch ($type) {
             case '1':
-                $firstUrl = $this->advInfo($uid,$aid);
-                $lastUrl = "";
+                /*
+                /app_dev.php/checkin/location?aid=33&type=1
+                 */  
+                if( $aid == 33 ) {
+                    $firstUrl = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$aid);
+                    
+                    $lastUrl = '';
+                } else {
+                    $firstUrl = $this->advInfo($uid,$aid);
+                }
+                $lastUrl = '';
+        $logger = $this->get('logger');
+        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$type','')).var_export($type , true));
+        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$lastUrl','')).var_export($lastUrl , true));
+        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$firstUrl','')).var_export($firstUrl , true));
+        die();
                 break;
             case '2':
                 $busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->existMarket($markId);
@@ -163,6 +177,7 @@ class CheckinController extends Controller
                 # code...
                 break;
         }
+
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));
     }
@@ -184,7 +199,7 @@ class CheckinController extends Controller
     }
 
     /**
-     * todo move this function to Advertiserment Entity.
+     * todo move this function to AdvertisermentRepository.
      */
     public function advInfo($uid,$aid)
     {

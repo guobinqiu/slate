@@ -10,6 +10,8 @@ use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixtureLoad
 use Doctrine\Common\DataFixtures\Loader;
 
 use Jili\ApiBundle\DataFixtures\ORM\UserEdmUnsubscribeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserConfigurationsRepositoryCodeData;
+
 class UserConfigurationsRepositoryTest  extends KernelTestCase 
 {
     
@@ -30,19 +32,19 @@ class UserConfigurationsRepositoryTest  extends KernelTestCase
         $tn = $this->getName();
         if (in_array($tn, array('testIsAutoCheckin')) ){
 
-        // purge tables;
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
 
-        // load fixtures
-        $fixture = new LoadUserConfigurationsRepositoryCodeData();
-        $fixture->setContainer($container);
+            // load fixtures
+            $fixture = new LoadUserConfigurationsRepositoryCodeData();
+            $fixture->setContainer($container);
 
-        $loader = new Loader();
-        $loader->addFixture($fixture);
+            $loader = new Loader();
+            $loader->addFixture($fixture);
 
-        $executor->execute($loader->getFixtures());
+            $executor->execute($loader->getFixtures());
 
         }
         $this->em = $em;
@@ -58,7 +60,6 @@ class UserConfigurationsRepositoryTest  extends KernelTestCase
     }
     
     /**
-     * @group debug
      */
     function testIsAutoCheckin()
     {

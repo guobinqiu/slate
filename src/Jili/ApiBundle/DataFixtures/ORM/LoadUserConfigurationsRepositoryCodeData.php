@@ -2,13 +2,17 @@
 namespace Jili\ApiBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserConfigurations;
-
-class LoadUserConfigurationsCodeData extends AbstractFixture {
+      
+class LoadUserConfigurationsRepositoryCodeData extends AbstractFixture  implements ContainerAwareInterface, FixtureInterface
+{
     static public $ROWS;
 
     /**
@@ -19,6 +23,13 @@ class LoadUserConfigurationsCodeData extends AbstractFixture {
     public function __construct()
     {
         self::$ROWS = array();
+    }
+
+    /**
+    * {@inheritDoc}
+    */
+    public function setContainer(ContainerInterface $container = null) {
+        $this->container = $container;
     }
     public function  load(ObjectManager $manager) 
     {

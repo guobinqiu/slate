@@ -601,7 +601,7 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals(0, count($link));
         // adv visit: check db status
 
-        $records =  $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->findBy(array('userid'=>$user->getId()  ,'visitDate'=> $day));
+        $records =  $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->findBy(array('userId'=>$user->getId()  ,'visitDate'=> $day));
         $this->assertEquals(1, count($records));
         //todo:  adv visit: check session  status? how to .
     }
@@ -639,7 +639,7 @@ class TopControllerTest extends WebTestCase
 
         // adv visit: remove records
         $day=date('Ymd');
-        $records =  $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->findBy(array('userid'=>$user->getId()  ,'visitDate'=> $day));
+        $records =  $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->findBy(array('userId'=>$user->getId()  ,'visitDate'=> $day));
         foreach( $records as $record) {
             $em->remove($record);
         }
