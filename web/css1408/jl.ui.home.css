@@ -197,12 +197,19 @@ a.more{
 }
 .shopActInfo .tit .tt{
 	color: #f75232;
-	margin-right:5px;
-	font-size:18px;
+	font-size:17px;
+	max-width: 140px;
+	_width:expression(document.body.clientWidth > 140 ? "140px" : "auto"); /*针对ie6*/
+	overflow: hidden;
+	vertical-align: top;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	*padding-right: 5px;
 }
 .shopActInfo .tit{
 	max-height: 50px;
-	height:auto;
+	height: 25px;
 	overflow: hidden;
 }
 .shopActInfo .tit .rebate{ 
@@ -214,7 +221,7 @@ a.more{
 	line-height:15px; 
 	padding-left:5px; 
 	padding-right:5px; 
-	margin-left:3px; 
+	margin-left:8px; 
 	vertical-align: 1px; 
 	display:inline-block;
 	-moz-border-radius: 0 2px 2px 0; /* Firefox */
@@ -229,7 +236,7 @@ a.more{
 	top: 0;
 	*top: 6px;
 	*+top:0;
-	display: inline-block; 
+	display: inline-block;
 	background: url(../images1408/icons.png) no-repeat 0 -244px; 
 }
 .shopActInfo .businessName{ 
@@ -237,11 +244,14 @@ a.more{
 	height: auto;
 	overflow: hidden;
 	margin-top: 4px;
+	width: 245px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .shopActInfo .businessName a{ 
 	color:#101010; 
 	font-weight: bold;
-	font: 18px/26px 'microsoft yahei',simhei;
+	font: 17px/26px 'microsoft yahei',simhei;
 }
 .shopActInfo .businessName a:hover{ 
 	text-decoration:underline;
@@ -277,12 +287,13 @@ a.more{
 	background-color: #ebebeb;	
 }
 .shopActInfo .publicAttention{ 
-	float:right; 
+	float:left; 
 	font-size:12px; 
 	color:#999; 
 	font-weight:normal; 
 	background: url(../images1408/icons.png) no-repeat 0 -263px; 
 	padding-left: 15px;
+	margin-top: 25px;
 }
 .rightSider{
 	width:270px;
