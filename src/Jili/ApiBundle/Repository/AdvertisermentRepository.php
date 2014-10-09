@@ -217,6 +217,15 @@ class AdvertisermentRepository extends EntityRepository
 
     }
 
+    public function findAllByCheckinAdverList()
+    {
+
+        $query = $this->createQueryBuilder('a');
+        $query = $query->select('a');
+        $query = $query->innerJoin('JiliApiBundle:CheckinAdverList', 'cal', 'WITH', 'cal.adId = a.id');
+        $query =  $query->getQuery();
+        return $query->getResult();
+    }
 
     /**
      * @abstract 
@@ -246,4 +255,6 @@ class AdvertisermentRepository extends EntityRepository
         }
         return trim($new_url);
     }
+
+
 }

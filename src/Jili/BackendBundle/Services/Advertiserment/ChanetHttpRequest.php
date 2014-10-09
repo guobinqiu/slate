@@ -51,6 +51,7 @@ class ChanetHttpRequest
         }
     } 
 
+
     /**
      * @abstract 返回原始的请求返回内容。
      */

@@ -114,12 +114,18 @@ class Advertiserment
     private $isScriptRedirect;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_expired", type="boolean", nullable=true)
+     */
+    private $isExpired;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="icon_image", type="string", length=250, nullable=true)
      */
     private $iconImage;
-
 
     /**
      * @var string
@@ -134,7 +140,6 @@ class Advertiserment
      * @ORM\Column(name="incentive_type", type="integer", nullable=true)
      */
     private $incentiveType;
-
 
     /**
      * @var integer
@@ -157,7 +162,6 @@ class Advertiserment
      */
     private $incentive;
 
-
     /**
      * @var string
      *
@@ -178,7 +182,6 @@ class Advertiserment
      * @ORM\Column(name="delete_flag", type="integer", nullable=true)
      */
     private $deleteFlag;
-
 
     /**
      * @var string
@@ -507,6 +510,29 @@ class Advertiserment
     }
 
     /**
+     * Set isExpired
+     *
+     * @param boolean $isExpired
+     * @return Advertiserment
+     */
+    public function setIsExpired($isExpired)
+    {
+        $this->isExpired = $isExpired;
+
+        return $this;
+    }
+
+    /**
+     * Get isExpired
+     *
+     * @return boolean 
+     */
+    public function getIsExpired()
+    {
+        return $this->isExpired;
+    }
+
+    /**
      * Set iconImage
      *
      * @param string $iconImage
@@ -528,7 +554,6 @@ class Advertiserment
     {
         return $this->iconImage;
     }
-
 
     /**
      * Set listImage
@@ -552,7 +577,6 @@ class Advertiserment
     {
         return $this->listImage;
     }
-
 
     /**
      * Set incentiveType
@@ -761,5 +785,19 @@ class Advertiserment
         }
         $new_url = trim($adw_info[0]).'u='.$user_id.trim($adw_info[1]).$this->getId();
         return $new_url;
+    }
+
+    /**
+     * @param string $dest_url parse from the repsone of imageurl
+     * @return Advertiserment
+     */
+    function setIsScriptRedirectByImageurlResp($dest_url)
+    {
+        if(  $dest_url != $this->imageurl){
+            $this->setIsScriptRedirect(1);
+        } else {
+            $this->setIsScriptRedirect(0);
+        }
+        return $this;
     }
 }
