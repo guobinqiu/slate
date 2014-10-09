@@ -742,4 +742,24 @@ class Advertiserment
     {
         return $this->wenwenUser;
     }
+
+    /**
+     * @param interger $user_id the User id
+     * @return string
+     */
+    public function getImageurlParsed($user_id)
+    {
+        $image_url = $this->getImageurl();
+        if(strlen($image_url) <= 0 ){
+            return $image_url;
+        }
+
+        $adw_info = explode('u=',$image_url);
+
+        if( count($adw_info) !== 2) {
+            return $image_url;
+        }
+        $new_url = trim($adw_info[0]).'u='.$user_id.trim($adw_info[1]).$this->getId();
+        return $new_url;
+    }
 }

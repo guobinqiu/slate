@@ -226,12 +226,12 @@ class AdvertisermentRepository extends EntityRepository
      */
     public function advInfo($uid,$aid)
     {
+
         $em = $this->getEntityManager();
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
-        $adw_info = $advertiserment->getImageurl();
-        $adw_info = explode('u=',$adw_info);
-        $new_url = trim($adw_info[0]).'u='.$uid.trim($adw_info[1]).$aid;
+
         if($advertiserment->isScriptRedirect()) {
+
             // The response of curl request must match pattern "^<script>window.location.href='http://%s';</script>$"
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
