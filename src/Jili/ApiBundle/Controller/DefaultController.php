@@ -14,7 +14,7 @@ use Jili\ApiBundle\Mailer;
 use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\WenwenUser;
-use Jili\ApiBundle\Entity\CallBoard;
+use Jili\ApiBundle\Entity\Callboard;
 use Jili\ApiBundle\Entity\UserGameVisit;
 use Jili\ApiBundle\Entity\RegisterReward;
 use Jili\ApiBundle\Entity\UserInfoVisit;

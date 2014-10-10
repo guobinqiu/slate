@@ -162,7 +162,6 @@ class AdvertisermentController extends Controller
             $id = $request->query->get('id');
             $em = $this->getDoctrine()->getManager();
             $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
-
             $service_params = array( 'advertiserment'=> $advertiserment , 'request'=> $request );
             $accessHistory = $this->get('cps_access_history.logger')->log($service_params) ;
             if($advertiserment->getIncentiveType() ==1 ) {

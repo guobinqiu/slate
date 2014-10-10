@@ -140,7 +140,6 @@ class DefaultControllerTest extends WebTestCase
     }
     /**
      *@param $plain => array( email, uniqkey )
-     *@group issue_437
      */
     private function genSecretToken($plain)
     {

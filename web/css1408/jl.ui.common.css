@@ -316,3 +316,8 @@ a.tencent{
 	bottom: 2px;
 }
 /* top banner /*/
+.rightSider div.topTaobao{ 
+	padding: 0;
+	background: none;
+}
+.l834Taobao{ width:834px; height:90px; background:#fff; margin-bottom:10px;}

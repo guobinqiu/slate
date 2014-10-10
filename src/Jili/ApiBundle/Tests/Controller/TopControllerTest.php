@@ -11,7 +11,8 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadAdvertisermentMarketActivityData;
 
-
+use Jili\ApiBundle\DataFixtures\ORM\LoadTopCallboardCodeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadCookieLoginHomepageCodeData;
 class TopControllerTest extends WebTestCase
 {
     /**
@@ -29,7 +30,38 @@ class TopControllerTest extends WebTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+        $container =  static::$kernel->getContainer();
 
+// --
+        $tn = $this->getName();
+        if (in_array( $tn, array('testCallboardAction','testCookieLoginHomepage'))) {
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
+
+
+            if (in_array( $tn, array('testCallboardAction'))) {
+                // load fixtures
+                $fixture = new LoadTopCallboardCodeData();
+                $fixture->setContainer($container);
+                $loader = new Loader();
+                $loader->addFixture($fixture);
+                $executor->execute($loader->getFixtures());
+            }
+            if (in_array($tn,array('testCookieLoginHomepage'))) {
+                $fixture = new LoadCookieLoginHomepageCodeData();
+                $fixture->setContainer($container);
+                $loader = new Loader();
+                $loader->addFixture($fixture);
+                $executor->execute($loader->getFixtures());
+                
+            }
+
+        }
+        // 
+
+        $this->container = $container;
         $this->em  = $em;
     }
     /**
@@ -48,18 +80,19 @@ class TopControllerTest extends WebTestCase
     public function testCookieLoginHomepage()
     {
         $client = static::createClient();
-        $container = $client->getContainer();
+       $container = $client->getContainer();
+//        $container = $this->container;
         $router = $container->get('router');
         $logger= $container->get('logger');
 
         $em = $this->em;
         $query = array('email'=> 'chiangtor@gmail.com');
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-        if(! $user) {
-            echo 'bad email:',$query['email'], PHP_EOL;
-            return false;
-        }
-
+//        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+//        if(! $user) {
+//            echo 'bad email:',$query['email'], PHP_EOL;
+//            return false;
+//        }
+        $user = LoadCookieLoginHomepageCodeData::$ROWS[0];
         $url_homepage= $router->generate('_homepage' , array(), true);
         echo $url_homepage ,PHP_EOL;
 
@@ -96,10 +129,9 @@ class TopControllerTest extends WebTestCase
         if( $user->getIconPath()) {
             $this->assertEquals('/uploads/user/38/1388737850_5011.jpeg', $crawler->filter('img')->attr('src'));
         } else {
-            $this->assertEquals('/other140307/defaultFace.jpg', $crawler->filter('img')->attr('src'));
+            $this->assertEquals('/images1408/headPortBg.jpg', $crawler->filter('img')->attr('src'));
         }
 
-        $this->assertEquals($user->getPoints() .'当前米粒数',$crawler->filter('dt')->eq(0)->text() );
 
         $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $user->getId() % 10 ) );
         $confirmPoints = $task->getConfirmPoints($user->getId());
@@ -107,7 +139,9 @@ class TopControllerTest extends WebTestCase
             $confirmPoints = 0;
         }
 
-        $this->assertEquals($confirmPoints .'确认中米粒数',$crawler->filter('dt')->eq(1)->text() );
+        $this->assertEquals($confirmPoints.'确认中米粒数', $crawler->filter('li')->eq(1)->text() );
+
+        $this->assertEquals($user->getPoints() .'当前米粒数',$crawler->filter('li')->eq(0)->text() , $user->getPoints() .' should be render' );
     }
     /**
      * @group session
@@ -130,10 +164,11 @@ class TopControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         // check the partial
-        $this->assertEquals('/other140307/defaultFace.jpg',       $crawler->filter('img')->attr('src'));
+        $this->assertEquals('/images1408/headPortBg.jpg', $crawler->filter('img')->attr('src'));
 
-        var_dump($crawler->filter('dd')->eq(0)->text());
-        echo  $crawler->filter('dd')->eq(1)->text(),PHP_EOL;
+        
+       // var_dump($crawler->filter('dd')->eq(0)->text());
+       // echo  $crawler->filter('dd')->eq(1)->text(),PHP_EOL;
 
         $query = array('email'=> 'alice.nima@gmail.com');
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
@@ -206,43 +241,37 @@ class TopControllerTest extends WebTestCase
         $url = $router->generate('jili_api_top_callboard');
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertFileExists($fn);
 
         // the count
-        $callboard = $em->getRepository('JiliApiBundle:CallBoard')->getCallboardLimit(6);
+        $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboardLimit(9);
 
-        $exp_total = count($callboard);
-        if( $exp_total >= 3 ) {
-            $exp_ul1_count = 3;
-            $exp_ul2_count = $exp_total -  3;
-        } else {
-            $exp_ul1_count = $exp_total;
-            $exp_ul1_count = 0;
-        }
+        $exp_total = 9 ;//count($callboard);
 
         $ul1 = $crawler->filter('ul')->eq(0)->children('li');
         $ul2 = $crawler->filter('ul')->eq(1)->children('li');
-        $this->assertEquals( $exp_ul1_count, $ul1->count() );
-        if( $exp_ul2_count > 0 ) {
-            $this->assertEquals( $exp_ul2_count, $ul2->count() );
-        }
+        $ul3 = $crawler->filter('ul')->eq(2)->children('li');
 
-        if( $exp_total > 0 ) {
-            $hrefs =array();
-            foreach ($callboard as $key) {
-                $exp_links[] = array('name'=> '【'.$key['categoryName'].'】'. mb_substr($key['title'] ,0,17,'utf8'),
-                    'href'=> $router->generate('_callboard_info', array('id'=> $key['id']) )
-                );
-            }
-            $li = $crawler->filter('li');
-            $this->assertEquals( $exp_total, $li->count() );
-            for($i = 0; $i < $exp_total; $i++ ) {
-                $this->assertEquals($exp_links[$i]['name'] , $li->eq($i)->text());
-                $this->assertStringEndsWith($exp_links[$i]['href'], $li->eq($i)->children('a')->eq(0)->attr('href'));
-            }
+        $this->assertEquals( 3, $ul1->count() );
+        $this->assertEquals( 3, $ul2->count() );
+        $this->assertEquals( 3, $ul3->count() );
+        
+
+        $hrefs =array();
+        foreach ($callboard as $key) {
+            $exp_links[] = array('name'=> '【'.$key['categoryName'].'】'. mb_substr($key['title'] ,0,17,'utf8'),
+                'href'=> $router->generate('_callboard_info', array('id'=> $key['id']) )
+            );
         }
+        $li = $crawler->filter('li');
+        $this->assertEquals( $exp_total, $li->count() );
+        for($i = 0; $i < $exp_total; $i++ ) {
+            $this->assertEquals($exp_links[$i]['name'] , $li->eq($i)->text());
+            $this->assertStringEndsWith($exp_links[$i]['href'], $li->eq($i)->children('a')->eq(0)->attr('href'));
+        }
+        
         // check the cache contents.
         $this->assertFileExists($fn);
         $this->assertStringEqualsFile($fn, serialize($callboard) ,' the content in file ' .$fn);
@@ -669,10 +698,12 @@ class TopControllerTest extends WebTestCase
 
     /**
      * @group market
+     * @group issue_476
      **/
     public function testMarketAction()
     {
         $client = static::createClient();
+        $container = static :: $kernel->getContainer();
         $em = $this->em;
 
         // purge tables;
@@ -682,6 +713,7 @@ class TopControllerTest extends WebTestCase
 
         // load fixtures
         $fixture = new LoadAdvertisermentMarketActivityData();
+        $fixture->setContainer($container);
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
@@ -692,6 +724,7 @@ class TopControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/top/market');
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertTrue($crawler->filter('html:contains("'.$desc.'")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("最高返")')->count() > 0);
     }
 
 }

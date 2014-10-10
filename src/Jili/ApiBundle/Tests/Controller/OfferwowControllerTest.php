@@ -3,7 +3,12 @@
 namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 
+use Doctrine\Common\DataFixtures\Loader;
+
+use Jili\ApiBundle\DataFixtures\ORM\OfferWow\LoadUserData;
 class OfferwowControllerTest extends WebTestCase
 {
    /**
@@ -18,9 +23,25 @@ class OfferwowControllerTest extends WebTestCase
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
-        $this->em = static::$kernel->getContainer()
+        $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+        $contianer  = static::$kernel->getContainer();
+
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        $fixture = new LoadUserData();
+        $fixture->setContainer($contianer);
+
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $executor->execute($loader->getFixtures());
+
+        $this->container = $contianer;
+         $this->em =$em;
     }
 
 
@@ -67,15 +88,16 @@ class OfferwowControllerTest extends WebTestCase
         $client = static::createClient();
         $contianer = $client->getContainer();
 
-        $em  = $contianer->get('doctrine.orm.default_entity_manager');
+        //$em  = $contianer->get('doctrine.orm.default_entity_manager');
+        $em = $this->em;
         $logger = $contianer->get('logger');
-        $offer_order = $contianer->get('doctrine')->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
-        if( $offer_order ) {
-
-#            $this->em->getRepository('JiliApiBundle:TaskHistory'. ( $u) )->
-            $em->remove($offer_order);
-            $em->flush();
-        }
+//        $offer_order = $em->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
+//        if( $offer_order ) {
+//
+//#            $this->em->getRepository('JiliApiBundle:TaskHistory'. ( $u) )->
+//            $em->remove($offer_order);
+//            $em->flush();
+//        }
 
         $params_1 = array('memberid'=>null,'point'=>null,'eventid'=>null,'websiteid'=>null , 'immediate'=>null  );
         $params_2 = array('memberid'=>null,'point'=>null,'eventid'=>null,'websiteid'=>null , 'immediate'=>null ,'programname'=>null );
@@ -95,12 +117,14 @@ class OfferwowControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/api/offerwow/getInfo?'. http_build_query($params_1 )  );
         $i = $client->getResponse()->getContent() ;
         $this->assertEquals( '{"memberid":"","point":"","websiteid":"","eventid":"","immediate":"","status":"failure","errno":"offerwow-01"}',$i);
+        $users= LoadUserData::$ROWS;
+        $user = $users[0];
 
         // 2网站id不存在
-        $params_1 = array('memberid'=>'80','point'=>'20','websiteid'=>'0','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'0');
+        $params_1 = array('memberid'=> (string) $user->getId() ,'point'=>'20','websiteid'=>'0','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'0');
         $u = '/api/offerwow/getInfo?'. http_build_query($params_1 )  ;
-        echo PHP_EOL;
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $crawler = $client->request('GET', $u);
         $i = $client->getResponse()->getContent() ;
         $params_1['status'] = 'failure';
@@ -112,7 +136,7 @@ class OfferwowControllerTest extends WebTestCase
         // 3uid会员不存在"
         $params_1 = array('memberid'=>'0a','point'=>'20','websiteid'=>'1096','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'0');
         $u = '/api/offerwow/getInfo?'. http_build_query($params_1 )  ;
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $params_1['status'] = 'failure';
         $params_1['errno'] = 'offerwow-02';
         $e = json_encode($params_1);
@@ -125,14 +149,16 @@ class OfferwowControllerTest extends WebTestCase
 // sign=strtoupper(md5(memberId+point+eventId+websiteId+immediate+key)
 
 // a valid memberid is in format of uid_adid
-
+        // userid
+        // OfferwowOrder
+        //
         //4 已发放奖励的Eventid重复 with sign
         $key = '91jili2offerwow';
-        $params_1 = array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'0');
+        $params_1 = array('memberid'=> (string) $user->getId() ,'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'0');
         $params_1['sign'] =strtoupper(md5($params_1['memberid'] . $params_1['point'] .$params_1['eventid'] .$params_1['websiteid'] .$params_1['immediate'] .  $key  )  );
 
         $u = '/api/offerwow/getInfo?'. http_build_query($params_1 )  ;
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
 
         $params_1['status'] = 'success';
 #        $params_1['errno'] = 'signature fail';
@@ -144,9 +170,9 @@ class OfferwowControllerTest extends WebTestCase
 
 
         // 4 . duplidated eventid??, no sign
-        $params_1 = array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'0');
+        $params_1 = array('memberid'=> (string) $user->getId(),'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'0');
         $u = '/api/offerwow/getInfo?'. http_build_query($params_1 )  ;
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
 
         $params_1['status'] = 'success';
 
@@ -154,6 +180,7 @@ class OfferwowControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', $u);
         $i = $client->getResponse()->getContent() ;
+
         $this->assertEquals($e, $i);
 
         // signagure false
@@ -167,22 +194,16 @@ class OfferwowControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $contianer = $client->getContainer();
-        $em  = $contianer->get('doctrine.orm.default_entity_manager');
-
-        $offer_order = $contianer->get('doctrine')->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
-        if( $offer_order ) {
-            $em->remove($offer_order);
-            $em->flush();
-        }
-
+        $em  = $this->em; //contianer->get('doctrine.orm.default_entity_manager');
+        $user = LoadUserData::$ROWS[0];
         // immediate = 1
-        $params_1 = array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'1');
+        $params_1 = array('memberid'=>(string)$user->getId() ,'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'1');
 
         $key = '91jili2offerwow';
         $params_1['sign'] =strtoupper(md5($params_1['memberid'].$params_1['point'].$params_1['eventid'].$params_1['websiteid'].$params_1['immediate'].$key));
 
         $u = '/api/offerwow/getInfo?'. http_build_query($params_1);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
 
         #$params_1['status'] = 'failure';
         #$params_1['errno'] = 'offerwow-04';
@@ -207,21 +228,14 @@ class OfferwowControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $contianer = $client->getContainer();
-        $em  = $contianer->get('doctrine.orm.default_entity_manager');
-
-        $offer_order = $contianer->get('doctrine')->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
-        if( $offer_order ) {
-            $em->remove($offer_order);
-            $em->flush();
-        }
-
-
+        $em  = $this->em;//contianer->get('doctrine.orm.default_entity_manager');
+        $user = LoadUserData::$ROWS[0];
         // immediate = 0
         $key = '91jili2offerwow';
-        $req=array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'0');
+        $req=array('memberid'=> (string) $user->getId(),'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'0');
         $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
         $u = '/api/offerwow/getInfo?'. http_build_query($req);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $req['status'] = 'success';
         $e = json_encode($req);
         $crawler = $client->request('GET', $u);
@@ -230,10 +244,10 @@ class OfferwowControllerTest extends WebTestCase
 
 
         // success : immeidate= 2;
-        $req=array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'2');
+        $req=array('memberid'=> (string) $user->getId(),'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'2');
         $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
         $u = '/api/offerwow/getInfo?'. http_build_query($req);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $req['status'] = 'success';
         $e = json_encode($req);
         $crawler = $client->request('GET', $u);
@@ -241,10 +255,10 @@ class OfferwowControllerTest extends WebTestCase
         $this->assertEquals($e, $i);
 
         // again
-        $req=array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'2');
+        $req=array('memberid'=> (string) $user->getId() ,'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'2');
         $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
         $u = '/api/offerwow/getInfo?'. http_build_query($req);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $req['status'] = 'failure';
         $req['errno'] = 'offerwow-04';
         $e = json_encode($req);
@@ -261,53 +275,52 @@ class OfferwowControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $contianer = $client->getContainer();
-        $em  = $contianer->get('doctrine.orm.default_entity_manager');
+        $em  = $this->em;
 
-        $offer_order = $contianer->get('doctrine')->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
-        if( $offer_order ) {
-            $em->remove($offer_order);
-            $em->flush();
-        }
+        $user = LoadUserData::$ROWS[0];
 
         // immediate = 0
-        $req = array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'0');
+        $req = array('memberid'=> (string) $user->getId() ,'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'0');
         $key = '91jili2offerwow';
         $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
 
         $u = '/api/offerwow/getInfo?'. http_build_query($req);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $req['status'] = 'success';
         $e = json_encode($req);
         $crawler = $client->request('GET', $u);
         $i = $client->getResponse()->getContent() ;
         $this->assertEquals($e, $i);
-
 
         $offer_order2 = $em->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
-
-
-        $this->assertEquals(2,(int) $offer_order2->getStatus() );
+        $this->assertEquals(2, (int) $offer_order2->getStatus() );
 
         // pending fail: immeidate= 3;
-        $req=array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'3');
+        $req=array('memberid'=> (string) $user->getId() ,'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'3');
         $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
         $u = '/api/offerwow/getInfo?'. http_build_query($req);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $req['status'] = 'success';
         $e = json_encode($req);
+
         $crawler = $client->request('GET', $u);
         $i = $client->getResponse()->getContent() ;
         $this->assertEquals($e, $i);
 
-        $offer_order3 = $this->em->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
+        $offer_order3_1 = $em->getRepository('JiliApiBundle:OfferwowOrder')->findOneBy(array('eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','status'=> 4));
+
+        $this->assertNotNull($offer_order3_1);
+
+        $em->clear();
+        $offer_order3 = $em->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
 
         $this->assertEquals(4, (int) $offer_order3->getStatus() );
 
         // again
-        $req=array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'3');
+        $req=array('memberid'=>  (string) $user->getId(),'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'3');
         $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
         $u = '/api/offerwow/getInfo?'. http_build_query($req);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $req['status'] = 'failure';
         $req['errno'] = 'offerwow-04';
         $e = json_encode($req);
@@ -325,22 +338,18 @@ class OfferwowControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $contianer = $client->getContainer();
-        $em  = $contianer->get('doctrine.orm.default_entity_manager');
+//        $em  = $contianer->get('doctrine.orm.default_entity_manager');
+$em = $this->em;
 
-        $offer_order = $contianer->get('doctrine')->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
-        if( $offer_order ) {
-            $em->remove($offer_order);
-            $em->flush();
-        }
-
+$user = LoadUserData::$ROWS[0];
 
         // immediate = 1
-        $req = array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'1');
+        $req = array('memberid'=> (string) $user->getId(),'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'1');
         $key = '91jili2offerwow';
         $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
 
         $u = '/api/offerwow/getInfo?'. http_build_query($req);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $req['status'] = 'success';
         $e = json_encode($req);
         $crawler = $client->request('GET', $u);
@@ -352,10 +361,10 @@ class OfferwowControllerTest extends WebTestCase
         $this->assertEquals(3,(int) $offer_order2->getStatus() );
 
         // instant success: immeidate= 1;
-        $req=array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'1');
+        $req=array('memberid'=> (string) $user->getId() ,'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'1');
         $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
         $u = '/api/offerwow/getInfo?'. http_build_query($req);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $req['status'] = 'failure';
         $req['errno'] = 'offerwow-04';
         $e = json_encode($req);
@@ -368,10 +377,10 @@ class OfferwowControllerTest extends WebTestCase
         $this->assertEquals(3, (int) $offer_order3->getStatus() );
 
         // again: duplicated eventid erron
-        $req=array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'3');
+        $req=array('memberid'=> (string) $user->getId(),'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg','immediate'=>'3');
         $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
         $u = '/api/offerwow/getInfo?'. http_build_query($req);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $req['status'] = 'failure';
         $req['errno'] = 'offerwow-04';
         $e = json_encode($req);
@@ -388,22 +397,16 @@ class OfferwowControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $contianer = $client->getContainer();
-        $em  = $contianer->get('doctrine.orm.default_entity_manager');
-
-        $offer_order = $contianer->get('doctrine')->getRepository('JiliApiBundle:OfferwowOrder')->findOneByEventid('asd45sd57s45d45s4d55g45k65ed89rg');
-        if( $offer_order ) {
-            $em->remove($offer_order);
-            $em->flush();
-        }
-
+        $em  = $this->em;//$contianer->get('doctrine.orm.default_entity_manager');
+        $user = LoadUserData::$ROWS[0];
 
         // immediate = 1
-        $req = array('memberid'=>'1057638','point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'1');
+        $req = array('memberid'=> (string) $user->getId() ,'point'=>'20','websiteid'=>'1162','eventid'=>'asd45sd57s45d45s4d55g45k65ed89rg', 'immediate'=>'1');
         $key = '91jili2offerwow';
         $req['sign'] =strtoupper(md5($req['memberid'].$req['point'].$req['eventid'].$req['websiteid'].$req['immediate'].$key));
 
         $u = '/api/offerwow/getInfo?'. http_build_query($req);
-        echo __LINE__,"\t",$u,PHP_EOL;
+//        echo __LINE__,"\t",$u,PHP_EOL;
         $req['status'] = 'success';
         $e = json_encode($req);
         $crawler = $client->request('GET', $u);

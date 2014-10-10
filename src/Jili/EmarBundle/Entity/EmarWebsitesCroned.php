@@ -43,14 +43,14 @@ class EmarWebsitesCroned
     /**
      * @var string
      *
-     * @ORM\Column(name="web_url", type="string", length=128, nullable=true)
+     * @ORM\Column(name="web_url", type="string", length=255, nullable=true)
      */
     private $webUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="information", type="string", length=255, nullable=true)
+     * @ORM\Column(name="information", type="text", nullable=true)
      */
     private $information;
 
@@ -71,7 +71,7 @@ class EmarWebsitesCroned
     /**
      * @var string
      *
-     * @ORM\Column(name="commission", type="string", length=128, nullable=true)
+     * @ORM\Column(name="commission", type="text", nullable=true)
      */
     private $commission;
 

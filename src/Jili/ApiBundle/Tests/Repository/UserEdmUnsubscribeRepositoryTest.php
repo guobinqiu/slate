@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixtureLoader;
 use Doctrine\Common\DataFixtures\Loader;
 
-use Jili\ApiBundle\DataFixtures\ORM\UserEdmUnsubscribeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserEdmUnsubscribeData;
 
 class UserEdmUnsubscribeRepositoryTest extends KernelTestCase {
 
@@ -31,7 +31,7 @@ class UserEdmUnsubscribeRepositoryTest extends KernelTestCase {
         $executor->purge();
 
         // load fixtures
-        $fixture = new UserEdmUnsubscribeData();
+        $fixture = new LoadUserEdmUnsubscribeData();
         $fixture->setContainer($container);
 
         $loader = new Loader();

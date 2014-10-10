@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 
-use Jili\ApiBundle\DataFixtures\ORM\UserEdmUnsubscribeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserEdmUnsubscribeData;
 
 class EdmUnsubscribeControllerTest extends WebTestCase {
 
@@ -31,7 +31,7 @@ class EdmUnsubscribeControllerTest extends WebTestCase {
         $executor->purge();
 
         // load fixtures
-        $fixture = new UserEdmUnsubscribeData();
+        $fixture = new LoadUserEdmUnsubscribeData();
         $fixture->setContainer($container);
 
         $loader = new Loader();

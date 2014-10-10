@@ -36,7 +36,8 @@ class LoadAdvertisermentMarketActivityData extends AbstractFixture implements Co
         $ad->setImageurl("");
         $ad->setIconImage("");
         $ad->setListImage("");
-        $ad->setIncentiveType(1);
+        $ad->setIncentiveType(2);
+        $ad->setIncentive(30);
         $ad->setIncentiveRate(30);
         $ad->setRewardRate(30);
         $ad->setCategory(1);

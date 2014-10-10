@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
+
 
 class CpaRankingActivityCommand extends ContainerAwareCommand
 {
@@ -30,9 +32,13 @@ class CpaRankingActivityCommand extends ContainerAwareCommand
         $output->writeln('end_time:' . $end_time);
 
         //写文件
-        $file_path = $this->getContainer()->getParameter('file_path_cpa_ranking_activity');
-        $filename = $file_path . date('Ym', strtotime($start_time)) . '.csv';
-        $handle = fopen($filename, "w");
+        $filename = $this->getContainer()->getParameter('file_path_cpa_ranking_activity'). date('Ym', strtotime($start_time)) . '.csv';
+        $file_path = dirname($filename);
+        $fs = new Filesystem();
+        if( true !==  $fs->exists($file_path) ) {
+            $fs->mkdir($file_path);
+        }
+        $handle = fopen($filename, 'w');
 
         //前100名
         $limit = 100;
