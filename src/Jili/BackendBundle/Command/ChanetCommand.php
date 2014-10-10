@@ -41,35 +41,22 @@ EOT
 
         foreach($ads as $index => $row) {
             $output->writeln($row->getId(). ' ' . $row->getTitle());
-
             $ad = $row;
-
             $chanet_url = $ad->getImageurlParsed($uid ); 
             $chanetAd = new ChanetHttpRequest($chanet_url);
             $chanetAd->fetch();
-
-        
-            $em->getRepository('JiliApiBundle:Advertiserment')->updateByImageUrlResponse();
-
             $ad->setIsExpired($chanetAd->isExpired());
             if( $chanetAd->isExpired() ) {
                 $ad->setIsScriptRedirect(0);
             }  else {
                 $ad->setIsScriptRedirectByImageurlResp($chanetAd->getDestinationUrl());
             }
-            $em->persist($ad);
-            $em->flush();
-            $em->clear();
 
-            // $ad = $em->getRepository('JiliApiBundle:Advertiserment')->update($ad_id);
+            $em->flush();
             $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$chanet_url','')).var_export($chanet_url, true));
 
         }
 
-        // fetch each row in advertiserment
-        // do the request
-        // make a http request 
-        // check the response 
         $output->writeln('completed');
         return 0;
     }
