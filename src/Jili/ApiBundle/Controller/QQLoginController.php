@@ -47,6 +47,8 @@ class QQLoginController extends Controller{
                 $qq_oid = $qq->get_openid();
                 $openid = $qq_oid['openid']; //获取登录用户open id 
                 // db 没有此openid，说明用户第一次用qq登陆，跳转到绑定账号注册页面，在那个页面注册成功后，生成新账号，跳转到首页
+                // 通过api 得到 qq 昵称
+                // qqFirstLoginAction
             }
 
             //获取登录用户信息
@@ -61,22 +63,24 @@ class QQLoginController extends Controller{
     }
     
     /**
-     * @Route("/qqRegiste", name="qq_api_registe")
+     * @Route("/qqRegiste", name="qq_registe")
      */
     public function qqRegisteAction(){
         
     }
     
     /**
-     * @Route("/qqbind", name="qq_api_bind")
+     * @Route("/qqbind", name="qq_bind")
      */
     public function qqBindAction(){
         
     }
     /**
-     * @Route("/qqFistLoginPageAction", name="qq_api_fist_login_page")
+     * @Route("/qqFistLoginAction", name="qq_fist_login")
      */
-    public function qqFistLoginPageAction(){
-        
+    public function qqFistLoginAction(){
+        $request->getSession()->set('token', $token);
+        $this->get('login.listener')->initSession( $user );
+        return $this->render('JiliApiBundle:user:qqFirstLogin.html.twig',array('code'=>$code));
     }
 }
