@@ -12,11 +12,11 @@
                      最高返{{ item.reward_rate }}%
                  {% endif %}
                  </span>
-                 <span class="publicAttention">{{ item.click}}人关注</span>
             </p>
             <p class="businessName"><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank" title="{{ item.businessName}}">{{ item.businessName}}</a></p>
             <p class="dis">{{ item.activityDescription}}</p>
             <p class="link">
+            	<span class="publicAttention">{{ item.click}}人关注</span>
                 <span class="linkBtn"><a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank" title="去看看">去看看<span class="arrow"></span></a></span>
         	</p>
         </div>
