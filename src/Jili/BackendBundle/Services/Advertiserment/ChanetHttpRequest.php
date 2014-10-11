@@ -1,7 +1,6 @@
 <?php
 namespace Jili\BackendBundle\Services\Advertiserment;
 
-
 class ChanetHttpRequest
 {
     private $return;
@@ -34,23 +33,6 @@ class ChanetHttpRequest
         $this->return = $return;
         return true;
     }
-
-    /**
-     * @return 如果返回的是script，则解析其中的window.location.href； 或返回原始url
-     * The response of curl request must match pattern "^<script>window.location.href='http://%s';</script>$"
-     */
-    public function getDestinationUrl()
-    {
-        $return  = $this->getRawReturn();
-        $url = $this->url;
-        $c = trim($return);
-        if(!empty($c) &&  substr($c, -9 )  === '</script>' && substr($c, 0,30 ) === '<script>window.location.href=\'' ) {
-            return  substr($c, 30, -11); 
-        } else {
-            return $this->url;
-        }
-    } 
-
 
     /**
      * @abstract 返回原始的请求返回内容。

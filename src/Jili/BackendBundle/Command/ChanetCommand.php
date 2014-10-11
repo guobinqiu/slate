@@ -44,19 +44,10 @@ EOT
             $output->writeln($row->getId(). ' ' . $row->getTitle());
             $ad = $row;
             $chanet_url = $ad->getImageurlParsed($uid ); 
-
             $chanetAd = $this->request($chanet_url);
-
             $is_expired = $chanetAd->isExpired();
             $ad->setIsExpired($is_expired);
-            if( $is_expired ) {
-                $ad->setIsScriptRedirect(0);
-            }  else {
-                $ad->setIsScriptRedirectByImageurlResp($chanetAd->getDestinationUrl());
-            }
-
             $em->flush();
-//            $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$chanet_url','')).var_export($chanet_url, true));
 
         }
 

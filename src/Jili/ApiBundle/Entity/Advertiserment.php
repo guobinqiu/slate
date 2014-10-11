@@ -20,9 +20,9 @@ class Advertiserment
         $this->updateTime = new \DateTime();
         $this->startTime = new \DateTime();
         $this->endTime = new \DateTime();
-        $this->isScriptRedirect = false ;
+        $this->isExpired = 0;
         $this->rewardRate = 30;
-        $this->deleteFlag = false;
+        $this->deleteFlag = 0;
         $this->category = 0;
 
     }
@@ -106,12 +106,6 @@ class Advertiserment
      */
     private $imageurl;
 
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_script_redirect", type="boolean", nullable=true)
-     */
-    private $isScriptRedirect;
 
     /**
      * @var boolean
@@ -487,29 +481,6 @@ class Advertiserment
     }
 
     /**
-     * Set isScriptRedirect
-     *
-     * @param boolean $isScriptRedirect
-     * @return Advertiserment
-     */
-    public function setIsScriptRedirect($isScriptRedirect)
-    {
-        $this->isScriptRedirect = $isScriptRedirect;
-
-        return $this;
-    }
-
-    /**
-     * Get isScriptRedirect
-     *
-     * @return boolean 
-     */
-    public function getIsScriptRedirect()
-    {
-        return $this->isScriptRedirect;
-    }
-
-    /**
      * Set isExpired
      *
      * @param boolean $isExpired
@@ -787,17 +758,4 @@ class Advertiserment
         return $new_url;
     }
 
-    /**
-     * @param string $dest_url parse from the repsone of imageurl
-     * @return Advertiserment
-     */
-    function setIsScriptRedirectByImageurlResp($dest_url)
-    {
-        if(  $dest_url != $this->imageurl){
-            $this->setIsScriptRedirect(1);
-        } else {
-            $this->setIsScriptRedirect(0);
-        }
-        return $this;
-    }
 }

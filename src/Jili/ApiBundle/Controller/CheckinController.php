@@ -114,7 +114,7 @@ class CheckinController extends Controller
                 $taskList->remove($keys);
             }
         }
-        $url = $this->advInfo($uid,$aid);
+        $url = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$aid);
         return new Response(json_encode(array('code'=>$code,'url'=>$url,'point'=>$point)));
     }
 
@@ -133,43 +133,35 @@ class CheckinController extends Controller
         $markId = $request->query->get('markid');
         $aid = $request->query->get('aid');
         $type = $request->query->get('type');
-        $logger = $this->get('logger');
-        switch ($type) {
-            case '1':
-                //app_dev.php/checkin/location?aid=33&type=1
-//                if( $aid === '33' ) {
-                    $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$aid','')) .var_export($aid, true));
-                    $firstUrl = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$aid);
-        //            $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$aid','')) .var_export(debug_backtrace(), true));
- //               } else {
-  //                  $firstUrl = $this->advInfo($uid,$aid);
-   //             }
-                $lastUrl = '';
-                break;
-            case '2':
-                $busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->existMarket($markId);
-                if(empty($busiAct)){
-                    return $this->redirect($this->generateUrl('_default_error'));
-                }
-                $firstUrl = $this->advInfo($uid,$busiAct[0]['aid']);
-                $lastUrl = $busiAct[0]['activityUrl'];
+        switch($type) {
+        case '1':
+            $firstUrl = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$aid);
+            $lastUrl = '';
+            break;
+        case '2':
+            $busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->existMarket($markId);
+            if(empty($busiAct)){
+                return $this->redirect($this->generateUrl('_default_error'));
+            }
+            $firstUrl = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$busiAct[0]['aid']);
+            $lastUrl = $busiAct[0]['activityUrl'];
 
-                //用户点击保存 用户关注数
-                $amcn = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->findByMarketActivityId($markId);
-                if($amcn){
-                    $amcn[0]->setClickNumber($amcn[0]->getClickNumber() + 1);
-                }else{
-                    $amcn[0] = new MarketActivityClickNumber();
-                    $amcn[0]->setMarketActivityId($markId);
-                    $amcn[0]->setClickNumber(1);
-                }
-                $em->persist($amcn[0]);
-                $em->flush();
+            //用户点击保存 用户关注数
+            $amcn = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->findByMarketActivityId($markId);
+            if($amcn){
+                $amcn[0]->setClickNumber($amcn[0]->getClickNumber() + 1);
+            }else{
+                $amcn[0] = new MarketActivityClickNumber();
+                $amcn[0]->setMarketActivityId($markId);
+                $amcn[0]->setClickNumber(1);
+            }
+            $em->persist($amcn[0]);
+            $em->flush();
 
-                break;
-            default:
-                # code...
-                break;
+            break;
+        default:
+            # code...
+            break;
         }
 
         $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$type','')).var_export($type , true));
@@ -189,24 +181,12 @@ class CheckinController extends Controller
         $request = $this->get('request');
         $uid = $request->getSession()->get('uid');
         $id = $request->query->get('aid');
-        $yixun = $this->advInfo($uid,$id);
-        $url = "http://www.91jili.com/shopping/list/".$uid;
+        $yixun = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$id);
+        $url = 'http://www.91jili.com/shopping/list/'.$uid;
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('yixun'=>$yixun,'url'=>$url));
     }
 
-    /**
-     * todo move this function to AdvertisermentRepository.
-     */
-    public function advInfo($uid,$aid)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
-        $adw_info = $advertiserment->getImageurl();
-        $adw_info = explode("u=",$adw_info);
-        $new_url = trim($adw_info[0])."u=".$uid.trim($adw_info[1]).$aid;
-        return trim($new_url);
-    }
 
     /**
      * 记录用户点击过的商家。

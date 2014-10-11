@@ -232,41 +232,16 @@ class AdvertisermentRepository extends EntityRepository
     /**
      * @param  integer $uid the user.id 
      * @param integer $aid the advertiserment.id
-     * @return  adversiterment target url
+     * @return  the chanet url that will redirect to the shop 
      */
     public function getRedirect($uid,$aid)
     {
-
         $em = $this->getEntityManager();
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
-        $url = $advertiserment->getImageurlParsed($uid);
-
-
-        if(! $advertiserment->getIsScriptRedirect()) {
-            return $url;
+        if( ! $advertiserment) {
+            return '';
         }
 
-
-        // The response of curl request must match pattern "^<script>window.location.href='http://%s';</script>$"
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-            $return = curl_exec($ch);
-
-        curl_close($ch);
-
-        $c = trim($return);
-
-        if( substr($c, -9 )  === '</script>' && substr($c, 0,30 ) === '<script>window.location.href=\'' ) {
-            $new_url= substr($c, 30, -11); 
-            return trim($new_url);
-        }
-
-        return $url;
+        return $advertiserment->getImageurlParsed($uid);
     }
-
-
 }

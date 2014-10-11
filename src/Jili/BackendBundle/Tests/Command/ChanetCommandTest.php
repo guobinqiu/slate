@@ -48,9 +48,10 @@ class ChanetCommandTest extends KernelTestCase {
 
     /**
      * @group issue_469
-     * @group debug1 
      */
     public function testExecute() {
+        $this->markTestIncomplete('This test has not been implemented yet.');
+
         $container = $this->container;
         $em = $this->em;
 
