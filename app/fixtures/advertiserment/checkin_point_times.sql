@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `checkin_adver_list`
+-- Dumping data for table `checkin_point_times`
 --
 
-LOCK TABLES `checkin_adver_list` WRITE;
-/*!40000 ALTER TABLE `checkin_adver_list` DISABLE KEYS */;
-INSERT INTO `checkin_adver_list` (`id`, `ad_id`, `inter_space`, `create_time`) VALUES (3,49,1,'2013-12-18 10:58:57'),(4,33,1,'2013-12-18 10:59:21'),(5,51,10,'2013-12-18 10:59:31'),(8,53,10,'2013-12-18 11:00:06'),(10,43,10,'2013-12-18 11:01:18'),(12,45,1,'2014-01-06 11:04:35'),(13,48,1,'2014-03-21 11:39:30'),(14,118,10,'2014-05-19 13:45:54'),(15,52,10,'2014-05-19 13:46:29'),(16,88,1,'2014-05-19 13:48:03'),(17,128,1,'2014-08-08 16:54:02');
-/*!40000 ALTER TABLE `checkin_adver_list` ENABLE KEYS */;
+LOCK TABLES `checkin_point_times` WRITE;
+/*!40000 ALTER TABLE `checkin_point_times` DISABLE KEYS */;
+INSERT INTO `checkin_point_times` (`id`, `start_time`, `end_time`, `point_times`, `checkin_type`, `create_time`) VALUES (1,'2014-01-01 00:00:00','2014-01-05 23:59:59',2,1,'2013-12-30 13:56:17'),(2,'2014-03-05 00:00:00','2014-03-31 23:59:59',10,2,'2014-03-04 17:37:09'),(3,'2014-04-01 00:00:00','2030-03-31 00:00:00',5,2,'2014-03-04 17:37:55');
+/*!40000 ALTER TABLE `checkin_point_times` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

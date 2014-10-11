@@ -11,7 +11,15 @@ $(function() {
 	//        console.log('Already checked in today');
 	//    }
 	doAutoCheckin();
+
+//    window.onbeforeunload = function(event){
+//        event = event || window.event;
+//        if(someCondition == someValue){
+//            return event.returnValue = "Are you sure you want to leave?  someCondition does not equal someValue..."
+//        };
+//    };
 });
+
 
 // 开始自动签到。 
 var doAutoCheckin = function() {

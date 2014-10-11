@@ -133,24 +133,18 @@ class CheckinController extends Controller
         $markId = $request->query->get('markid');
         $aid = $request->query->get('aid');
         $type = $request->query->get('type');
+        $logger = $this->get('logger');
         switch ($type) {
             case '1':
-                /*
-                /app_dev.php/checkin/location?aid=33&type=1
-                 */  
-                if( $aid == 33 ) {
+                //app_dev.php/checkin/location?aid=33&type=1
+//                if( $aid === '33' ) {
+                    $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$aid','')) .var_export($aid, true));
                     $firstUrl = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$aid);
-                    
-                    $lastUrl = '';
-                } else {
-                    $firstUrl = $this->advInfo($uid,$aid);
-                }
+        //            $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$aid','')) .var_export(debug_backtrace(), true));
+ //               } else {
+  //                  $firstUrl = $this->advInfo($uid,$aid);
+   //             }
                 $lastUrl = '';
-        $logger = $this->get('logger');
-        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$type','')).var_export($type , true));
-        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$lastUrl','')).var_export($lastUrl , true));
-        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$firstUrl','')).var_export($firstUrl , true));
-        die();
                 break;
             case '2':
                 $busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->existMarket($markId);
@@ -178,6 +172,9 @@ class CheckinController extends Controller
                 break;
         }
 
+        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$type','')).var_export($type , true));
+        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$lastUrl','')).var_export($lastUrl , true));
+        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$firstUrl','')).var_export($firstUrl , true));
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));
     }
