@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\RebateUtil;
+use Jili\ApiBundle\Entity\CheckinAdverList;
 
 /**
  * @Route("/top",requirements={"_scheme"="http"})

@@ -728,6 +728,10 @@ class TopControllerTest extends WebTestCase
         $client = static::createClient();
         $container = static :: $kernel->getContainer();
         $em = $this->em;
+        $url = $container->get('router')->generate('jili_api_top_checkin');
+        echo $url ,PHP_EOL;
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         // preapare the data.
         // 
 $this->assertEquals(1,1);
