@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\ApiBundle\Entity\Advertiserment;
 use Jili\ApiBundle\Entity\AdPosition;
 use Jili\ApiBundle\Entity\AdBanner;
@@ -65,7 +66,6 @@ use Jili\ApiBundle\Entity\SendMessage09;
 use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 
 use Jili\BackendBundle\Controller\IpAuthenticatedController;
-use Jili\ApiBundle\Utility\WenwenToken;
 
 /**
  * @Route( requirements={"_scheme" = "https"})
@@ -1519,7 +1519,8 @@ class AdminController extends Controller implements IpAuthenticatedController
                 }
             }
         } else {
-            $csrf_token = WenwenToken::generateOnetimeToken();
+            $csrfProvider = new DefaultCsrfProvider('SECRET');
+            $csrf_token = $csrfProvider->generateCsrfToken('exchange');
             $session->set('csrf_token', $csrf_token);
         }
         $arr['success'] = $success;
