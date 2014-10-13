@@ -65,6 +65,7 @@ use Jili\ApiBundle\Entity\SendMessage09;
 use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 
 use Jili\BackendBundle\Controller\IpAuthenticatedController;
+use Jili\ApiBundle\Utility\WenwenToken;
 
 /**
  * @Route( requirements={"_scheme" = "https"})
@@ -1491,7 +1492,14 @@ class AdminController extends Controller implements IpAuthenticatedController
         $code = array();
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
+        $session = $request->getSession();
+
         if ($request->getMethod('post') == 'POST') {
+            $csrf_token = $request->request->get('csrf_token');
+            if(!$csrf_token || ($csrf_token != $session->get('csrf_token'))){
+                return $this->redirect($this->generateUrl('_admin_exchangeInWen'));
+            }
+            $session->remove('csrf_token');
             if (isset($_FILES['csv'])) {
                 $file = $_FILES['csv']['tmp_name'];
                 if($file){
@@ -1510,9 +1518,13 @@ class AdminController extends Controller implements IpAuthenticatedController
                   $success = $this->container->getParameter('init_two');
                 }
             }
+        } else {
+            $csrf_token = WenwenToken::generateOnetimeToken();
+            $session->set('csrf_token', $csrf_token);
         }
         $arr['success'] = $success;
         $arr['code'] = $code;
+        $arr['csrf_token'] = $csrf_token;
         return $this->render('JiliApiBundle:Admin:exchangeInWen.html.twig',$arr);
 
     }
