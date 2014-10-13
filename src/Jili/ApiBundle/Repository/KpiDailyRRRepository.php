@@ -5,7 +5,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class KpiDailyRR extends EntityRepository
+class KpiDailyRRRepository extends EntityRepository
 {
     public function findByKpiYMD($kpiYMD)
     {
