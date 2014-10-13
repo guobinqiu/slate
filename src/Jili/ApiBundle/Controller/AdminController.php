@@ -1383,34 +1383,42 @@ class AdminController extends Controller implements IpAuthenticatedController
     public function insertExWenwen($parms=array())
     {
       extract($parms);
-      $em = $this->getDoctrine()->getManager();
-      $exFromWen = new ExchangeFromWenwen();
-      $exFromWen->setWenwenExchangeId($wenwenExId);
-      $exFromWen->setPaymentPoint($points);
-      $exFromWen->setUserId($userId);
-      $exFromWen->setEmail($email);
-      $exFromWen->setStatus($this->container->getParameter('init_one'));
-      $em->persist($exFromWen);
-      $em->flush();
-
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $exFromWen = new ExchangeFromWenwen();
+            $exFromWen->setWenwenExchangeId($wenwenExId);
+            $exFromWen->setPaymentPoint($points);
+            $exFromWen->setUserId($userId);
+            $exFromWen->setEmail($email);
+            $exFromWen->setStatus($this->container->getParameter('init_one'));
+            $em->persist($exFromWen);
+            $em->flush();
+            return true;
+        }
+        catch( \Exception $e ) {
+            return false;
+        }
     }
 
      //失败发放
     public function insertFailExWenwen($parms=array())
     {
       extract($parms);
-      $em = $this->getDoctrine()->getManager();
-      $exFromWen = new ExchangeFromWenwen();
-      $exFromWen->setWenwenExchangeId($wenwenExId);
-      $exFromWen->setPaymentPoint($points);
-      $exFromWen->setEmail($email);
-      $exFromWen->setReason($reason);
-      $em->persist($exFromWen);
-      $em->flush();
-
+      try {
+            $em = $this->getDoctrine()->getManager();
+            $exFromWen = new ExchangeFromWenwen();
+            $exFromWen->setWenwenExchangeId($wenwenExId);
+            $exFromWen->setPaymentPoint($points);
+            $exFromWen->setEmail($email);
+            $exFromWen->setReason($reason);
+            $em->persist($exFromWen);
+            $em->flush();
+            return true;
+        }
+        catch( \Exception $e ) {
+            return false;
+        }
     }
-
-
 
     //91wenwen兑换列表
     public function handleExchangeWen($file)
@@ -1453,7 +1461,8 @@ class AdminController extends Controller implements IpAuthenticatedController
                               'points' => $points,
                               'status' => $this->container->getParameter('init_one')
                           );
-                     $this->insertExWenwen($array);
+                     $return = $this->insertExWenwen($array);
+                     if($return){
                      $this->exchangeOKWen($email,$points);
                      $parms = array(
                           'userid' => $userInfo[0]->getId(),
@@ -1463,14 +1472,12 @@ class AdminController extends Controller implements IpAuthenticatedController
                       $this->insertSendMs($parms);
                   }
               }
+          }
             }else{
               $code[] = $wenwenExId.'已发放';
-
           }
-
       }
       return $code;
-
     }
 
 
