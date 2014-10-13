@@ -277,9 +277,6 @@ class TopControllerTest extends WebTestCase
         $this->assertStringEqualsFile($fn, serialize($callboard) ,' the content in file ' .$fn);
         exec('rm ' .$fn);
     }
-        //user_91ww_visit              |
-        //| user_advertiserment_visit    |
-        //| user_game_visit              |
     /**
      * checkin visit
      * @group session
@@ -456,8 +453,7 @@ class TopControllerTest extends WebTestCase
 
         $records =  $em->getRepository('JiliApiBundle:UserWenwenVisit')->findBy(array('userid'=>$user->getId()  ,'visitDate'=> $day));
         $this->assertEquals(1, count($records));
-        //todo:  adv visit: check session  status? how to .
-    }   //| user_info_visit
+    }  
 
     /**
      * game visit
@@ -530,8 +526,7 @@ class TopControllerTest extends WebTestCase
 
         $records =  $em->getRepository('JiliApiBundle:UserGameVisit')->findBy(array('userid'=>$user->getId()  ,'visitDate'=> $day));
         $this->assertEquals(1, count($records));
-        //todo:  adv visit: check session  status? how to .
-    }   //| user_info_visit
+    }
 
     /**
      * adv visit , on click  ad offer99.
@@ -605,11 +600,6 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals(1, count($records));
         //todo:  adv visit: check session  status? how to .
     }
-#        $session_keys =  $container->getParameter('cache_config.session.task_list.keys');
-#        $session_key = $session_keys['adv_visit'];
-#        $this->assertFalse($session->has($session_key));
-#
-#        echo $session_key, PHP_EOL;
 
     /**
      * adv visit , on click  ad list.
@@ -727,4 +717,19 @@ class TopControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('html:contains("最高返")')->count() > 0);
     }
 
+
+    /**
+     * @group issue_469
+     * @group debug 
+     */
+    public function testCheckInAction()
+    {
+
+        $client = static::createClient();
+        $container = static :: $kernel->getContainer();
+        $em = $this->em;
+        // preapare the data.
+        // 
+$this->assertEquals(1,1);
+    }
 }

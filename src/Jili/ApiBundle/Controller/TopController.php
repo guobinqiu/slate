@@ -105,12 +105,6 @@ class TopController extends Controller
             //获取签到商家
             $arr['arrList'] = $this->checkinList();
 
-            //// 是否为自动签到
-            //$user_id = $this->get('session')->get('uid');
-            //$arr['is_auto_checkin'] = $this->get('doctrine')->getManager()->getRepository('JiliApiBundle:UserConfigurations')->isAutoCheckin( $user_id);
-
-            //$logger = $this->get('logger');
-            //$logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$arrList','')) .var_export($arr['is_auto_checkin'], true));
             return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
         } else {
             return new Response('<!-- already checked in -->');
@@ -194,20 +188,26 @@ class TopController extends Controller
         $cal_count = "";
         $campaign_multiple = $this->container->getParameter('campaign_multiple');
         $request = $this->get('request');
+        $logger = $this->get('logger');
+
+        $logger->debug('{jarod}'.implode(':',array(__FILE__, __LINE__,'')). var_export( $request->get('auto_checkin',0), true));
+
         $uid = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
         $reward_multiple = $user->getRewardMultiple();
-        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
-        if (count($cal) > 6) {
-            $cal_count = 6;
-            $calNow = array_rand($cal, 6); //随机取数组中6个键值
+        $is_auto_checkin =  $request->get('auto_checkin',0);
+        $operation = (! $is_auto_checkin) ? CheckinAdverList::ANY_OP_METHOD : CheckinClickList::AUTO_METHOD; 
+        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid, $operation);
+        $count_for_checkin =  6;
+        $cal_count = count($cal);
+        if ($cal_count > $count_for_checkin) {
+            $calNow = array_rand($cal, $count_for_checkin); //随机取数组中6个键值
+            $cal_count = $count_for_checkin;
         } else {
-            $cal_count = count($cal);
-            for ($i = 0; $i < count($cal); $i++) {
-                $calNow[$i] = $i;
-            }
+            $calNow = range(0, $cal_count - 1);
         }
+
         for ($i = 0; $i < $cal_count; $i++) {
             $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
             $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
@@ -215,11 +215,6 @@ class TopController extends Controller
             $arrList[] = $cal[$calNow[$i]];
         }
 
-        $logger = $this->get('logger');
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'$arrList','')) .var_export($arrList, true));
-
         return $arrList;
-
     }
-
 }

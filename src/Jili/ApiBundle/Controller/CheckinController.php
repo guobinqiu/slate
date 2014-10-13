@@ -164,9 +164,6 @@ class CheckinController extends Controller
             break;
         }
 
-        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$type','')).var_export($type , true));
-        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$lastUrl','')).var_export($lastUrl , true));
-        $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__, '$firstUrl','')).var_export($firstUrl , true));
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));
     }
