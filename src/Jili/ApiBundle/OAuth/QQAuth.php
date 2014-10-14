@@ -2,7 +2,6 @@
 /**
  * QQ API client for PHP
  *
- * @author PiscDong (http://www.piscdong.com/)
  */
 class QQAuth
 {

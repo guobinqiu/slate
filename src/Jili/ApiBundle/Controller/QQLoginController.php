@@ -6,31 +6,35 @@
  * and open the template in the editor.
  */
 namespace Jili\ApiBundle\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\ApiBundle\OAuth\QQAuth;
 
-class QQLoginController extends Controller{
-    
+class QQLoginController extends Controller
+{
     /**
      * @Route("/qqcallback", name="qq_api_callback")
      */
     public function callBackAction()
-    {
+    { 
         $request = $this->get('request');
-        $request->query->get('code');
+        $code = $request->query->get('code');
         $qq_auth = new QQAuth($qq_k, $qq_s, $qq_t);
-        if(isset($request->query->get('code')) && trim($request->query->get('code'))!=''){
+        if(isset($code) && trim($code)!=''){
             $result=$qq_auth->access_token($callback_url, $request->query->get('code'));
         }
         if(isset($result['access_token']) && $result['access_token']!=''){
             // save access_token  todo
-            echo '授权完成，请记录<br/>access token：<input size="50" value="',$result['access_token'],'">';
+            //echo '授权完成，请记录<br/>access token：<input size="50" value="',$result['access_token'],'">';
             //保存登录信息，此示例中使用session保存
             $_SESSION['qq_t'] = $result['access_token']; //access token
         }else{
-            echo '授权失败';
+            //echo '授权失败';
         }
-        echo '<br/><a href="demo.php">返回</a>'; 
+        //echo '<br/><a href="demo.php">返回</a>'; 
         //跳转到 qqlogin action
+        return $this->redirect($this->generateUrl('_admin_infoPostion'));
     }
     
     /**
@@ -65,22 +69,42 @@ class QQLoginController extends Controller{
     /**
      * @Route("/qqRegiste", name="qq_registe")
      */
-    public function qqRegisteAction(){
-        
+    public function qqRegisteAction()
+    {
+        echo "regist";exit;
+        $form  = $this->createForm(new RegType(), $user);
+        // if ($form->isValid()) 
+        // Apibundle/Services/UserRegiste.php(call UserRegiste to registe)
+        // Apibundle/Services/UserLogin.php(call UserLogin to login) or call UserController _user_login
+        return $this->redirect($this->generateUrl('_user_login'));
     }
     
     /**
      * @Route("/qqbind", name="qq_bind")
      */
-    public function qqBindAction(){
-        
+    public function qqBindAction()
+    {
+        echo "bind";
+        $request = $this->get('request');
+        // if (jili id valid()) 
+        $email = $request->request->get('email');
+        $pwd = $request->request->get('pwd');
+        $form  = $this->createForm(new RegType(), $user);
+        echo $email.$pwd;
+        exit;
+        // Apibundle/Ses/UserBind.php(call UserBindtervices/UserBind.php(call UserBindto bind jili's id)
+        // Apibundle/Services/UserLogin.php(call UserLogin to login) or call UserController _user_login
+        return $this->redirect($this->generateUrl('_user_login'));
     }
+    
     /**
-     * @Route("/qqFistLoginAction", name="qq_fist_login")
+     * @Route("/qqFistLogin", name="qq_fist_login")
      */
-    public function qqFistLoginAction(){
-        $request->getSession()->set('token', $token);
-        $this->get('login.listener')->initSession( $user );
-        return $this->render('JiliApiBundle:user:qqFirstLogin.html.twig',array('code'=>$code));
+    public function qqFirstLoginAction()
+    {
+        $request = $this->get('request');
+        $request->getSession()->set('token', 'test_token');
+        //$this->get('login.listener')->initSession( $user );
+        return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',array('email'=>'', 'pwd'=>'','open_id'=>'test id','nickname'=>'test name','sex'=>'test sex'));
     }
 }

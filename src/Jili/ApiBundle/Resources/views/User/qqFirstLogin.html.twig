@@ -20,36 +20,40 @@
                 <div class="regForm" style="padding-top:100px;">
                     <h2><img src="{{ asset('images/quickLogin.gif')}}" alt="快速注册"><span>输入邮箱地址</span></h2>
                     <ul class="form">
-                        {{ if( newregist )}}
+                        {# if( newregist )#}
+                        没有jili账号，输入邮箱注册
                         <form action="{{ path('qq_registe') }}" method="post" name="form1" id="form1" >
+                            <div> 昵称：{{ nickname }}</div>
+                            <div> 性别：{{ sex }}</div>
                             <li><dd>邮件地址：</dd><dt><input name="email" type="text" class="text" id="email" value="{{ email }}"><br />
                             <span id="emailError">
                             </span>
                             </dt></li>
                             <li><dd></dd><dt><!--  <a class="regBtn" href="#">发送验证邮件</a>-->
-                            <input type='button' id='reg' class='regBtn' value='完善资料'/>
+                            <input type='button' id='info' class='regBtn' value='完善资料'/>
                             <input type='button' id='reg' class='regBtn' value='立即登陆'/>
-                            <div class="regPrompt">注册当天签到即送<em>{{checkInPoint}}</em>积分</div>
                             </dt></li>
                         </form>
-                            {{ else bind jili id}}
-                            <form action="{{ path('qq_bind') }}" method="post" name="form1" id="form1" >
-                                <li><dd>邮件地址：</dd><dt><input name="email" type="text" class="text" id="email" value="{{ email }}"><br />
-                                <span id="emailError">
-                                </span>
-                                </dt></li>
-                            <li><dd>密码：</dd><dt><input name="nick" type="text" class="text" id="nick" value="{{ pwd }}"><br />
-                            <span id="nickError">
-                                    {% if code_nick %}
-                                        <font color='red'>{{ code_nick }}</font>
-                                    {% else %}2-20个字符
-                                    {% endif %}
-                                </span>
-                                </dt></li>
-                            </form>
-                            <input type='button' id='reg' class='regBtn' value='完善资料'/>
-                            <input type='button' id='reg' class='regBtn' value='立即登陆'/>
-                            {{endif}}
+                            <br />
+                            已有jili账号，绑定账号
+                            {# else bind jili id#}
+                        <form action="{{ path('qq_bind') }}" method="post" name="form2" id="form2" >
+                            <li><dd>邮件地址：</dd><dt><input name="email" type="text" class="text" id="email" value="{{ email }}"><br />
+                            <span id="emailError">
+                            </span>
+                            </dt></li>
+                        <li><dd>密码：</dd><dt><input name="nick" type="text" class="text" id="nick" value="{{ pwd }}"><br />
+                        <span id="nickError">
+                            {% if 1 %}
+                                {# if code_nick #}
+                                <font color='red'>{# code_nick #}</font>
+                            {% else %}2-20个字符
+                                {% endif %}
+                        </span>
+                        <input type='button' id='bind' class='regBtn' value='立即绑定'/>
+                        </dt></li>
+                        </form>
+                                {#endif#}
                     </ul>
                     <div class="clear"></div>
                 </div>
@@ -64,6 +68,9 @@
         $(document).ready(function () {
             $("#reg").click(function () {
                 $("#form1").submit();
+            });
+            $("#bind").click(function () {
+                $("#form2").submit();
             });
         });
 
