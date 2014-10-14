@@ -190,18 +190,17 @@ class TopController extends Controller
         $campaign_multiple = $this->container->getParameter('campaign_multiple');
         $request = $this->get('request');
         $logger = $this->get('logger');
-
-        $logger->debug('{jarod}'.implode(':',array(__FILE__, __LINE__,'')). var_export( $request->get('auto_checkin',0), true));
-
         $uid = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
         $reward_multiple = $user->getRewardMultiple();
         $is_auto_checkin =  $request->get('auto_checkin',0);
-        $operation = (! $is_auto_checkin) ? CheckinAdverList::ANY_OP_METHOD : CheckinClickList::AUTO_METHOD; 
+        $operation = (! $is_auto_checkin) ? CheckinAdverList::ANY_OP_METHOD : CheckinAdverList::AUTO_OP_METHOD; 
         $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid, $operation);
+
         $count_for_checkin =  6;
         $cal_count = count($cal);
+
         if ($cal_count > $count_for_checkin) {
             $calNow = array_rand($cal, $count_for_checkin); //随机取数组中6个键值
             $cal_count = $count_for_checkin;
