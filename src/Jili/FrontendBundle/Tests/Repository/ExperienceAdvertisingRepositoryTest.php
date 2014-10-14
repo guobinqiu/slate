@@ -31,10 +31,8 @@ class ExperienceAdvertisementRepositoryTest extends KernelTestCase {
 
         $loader = new Loader();
         $loader->addFixture($fixture);
-
         $executor->purge();
         $executor->execute($loader->getFixtures());
-
 
         $this->em = $em;
     }
@@ -58,6 +56,19 @@ class ExperienceAdvertisementRepositoryTest extends KernelTestCase {
 
         $limit = 1;
         $result = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisement($limit);
+        $this->assertEquals(1, count($result));
+    }
+    /**
+     * @group issue430
+     */
+    public function testGetAdvertisementList(){
+        //created 4 recodes in table before test , 1 recode's delete_flag is true.
+        $em = $this->em;
+        $result = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisementList();
+        $this->assertEquals(3, count($result));
+
+        $limit = 1;
+        $result = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisementList($limit);
         $this->assertEquals(1, count($result));
     }
 }

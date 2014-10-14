@@ -10,6 +10,11 @@ rebate-activity:
     resource: "@JiliBackendBundle/Controller/RebateActivityController.php"
     type:     annotation
 
+expericnce-advertisement:
+    resource: "@JiliBackendBundle/Controller/ExperienceAdvertisementController.php"
+    type:     annotation
+
 edm-unsubscribe:
     resource: "@JiliBackendBundle/Controller/EdmUnsubscribeController.php"
     type:     annotation
+
