@@ -21,7 +21,7 @@
 
 LOCK TABLES `experience_advertisement` WRITE;
 /*!40000 ALTER TABLE `experience_advertisement` DISABLE KEYS */;
-INSERT INTO `experience_advertisement` (`id`, `mission_hall`, `point`, `mission_img_url`, `mission_title`, `delete_flag`, `create_time`, `update_time`) VALUES (1,1,140,'http://www.offer-wow.com/image/offerwow/logo/1406516261064.jpg','海富贵金属投资',NULL,'2014-08-08 00:00:00',NULL),(2,2,375,'http://www.offer99.com/app//appimg/1407464716.jpg','[试玩] 仙侠道-5服-侠影仙踪',NULL,'2014-08-08 00:00:00',NULL),(3,2,960,'http://www.offer99.com/app//appimg/1406703018.jpg','[试玩] 独步天下-19服',NULL,'2014-08-11 15:52:49',NULL),(4,1,1738559,'http://www.offer-wow.com/image/offerwow/logo/1404805015274.jpg','富贵乐园大奖第三期',NULL,'2014-08-11 15:52:49',NULL);
+INSERT INTO `experience_advertisement` (`id`, `mission_hall`, `point`, `mission_img_url`, `mission_title`, `delete_flag`, `create_time`, `update_time`) VALUES (1,1,140,'http://www.offer-wow.com/image/offerwow/logo/1406516261064.jpg','海富贵金属投资',NULL,'2014-08-08 00:00:00',NULL),(2,2,375,'http://www.offer99.com/app//appimg/1407464716.jpg','[试玩] 仙侠道-5服-侠影仙踪',NULL,'2014-08-08 00:00:00',NULL),(3,2,960,'http://www.offer99.com/app//appimg/1406703018.jpg','[试玩] 独步天下-19服',NULL,'2014-08-11 15:52:49',NULL),(4,1,1738559,'http://www.offer-wow.com/image/offerwow/logo/1404805015274.jpg','富贵乐园大奖第三期',1,'2014-08-11 15:52:49',NULL);
 /*!40000 ALTER TABLE `experience_advertisement` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

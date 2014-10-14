@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+<LINK href="{{ asset('css/calendar.css')}}" type=text/css rel=stylesheet>
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/load.js')}}" type=text/javascript></script>
+
+</HEAD>
+<BODY>
+<table align="center" width="1024">
+      <tr>
+          <th>任务标题</th>
+            <th>任务大厅</th>
+            <th>任务图片</th>
+            <th>任务米粒数</th>
+            <th>更新时间</th>
+            <th>操作</th>
+        </tr>
+        {% if lists %}
+         {% for item in lists %}
+        <tr>
+          <td align="center">{{ item.missionTitle }} </td>
+          <td align="center">
+              {% if item.missionHall==1 %}
+              大厅一
+              {% elseif  item.missionHall==2 %}
+              大厅二
+              {% endif %}
+          </td>
+          <td align="center"> <img src="{{ asset(item.missionImgUrl) }}"/> </td>
+          <td align="center">{{ item.point }}</td>
+          <td align="center">
+              {% if item.updateTime %}
+                  {{ item.updateTime.date | date("Y-m-d hh:M:S") }}
+              {% endif %}
+          </td>
+          <td align="center"><a href="{{ path('_bankend_editExperienceAdvertisement',{'id':item.id}) }}">编辑</a>&nbsp;&nbsp;
+          <a href="{{ path('_backend_delExperienceAdvertisement',{'id':item.id}) }}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a>
+        </td>
+        </tr>
+         {% endfor %}
+         {%  endif %}
+    </table>
+
+</BODY></HTML>
+
+
