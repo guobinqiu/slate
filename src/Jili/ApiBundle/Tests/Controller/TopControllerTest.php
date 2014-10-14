@@ -720,7 +720,7 @@ class TopControllerTest extends WebTestCase
 
     /**
      * @group issue_469
-     * @group debug 
+     * @group debug
      */
     public function testCheckInAction()
     {
@@ -734,6 +734,6 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         // preapare the data.
         // 
-$this->assertEquals(1,1);
+        $this->assertEquals(1,1);
     }
 }
