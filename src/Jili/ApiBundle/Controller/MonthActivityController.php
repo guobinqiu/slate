@@ -33,6 +33,18 @@ class MonthActivityController extends Controller {
         ));
     }
 
+    /**
+     * @Route("/october", name="_monthActivity_october")
+     */
+    public function septemberActivityAction() {
+        $month = 10; //10月
+        $cpaRankingData = $this->getCpaRankingData($month);
+        return $this->render('JiliApiBundle:MonthActivity:octoberActivity.html.twig', array (
+            'users' => $cpaRankingData['users'],
+            'my_point' => $cpaRankingData['my_point']
+        ));
+    }
+
     public function getCpaRankingData($month) {
         $cpaRankingData = array ();
 
