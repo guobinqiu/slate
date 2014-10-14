@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\ApiBundle\Entity\Advertiserment;
 use Jili\ApiBundle\Entity\AdPosition;
 use Jili\ApiBundle\Entity\AdBanner;
@@ -1383,34 +1384,42 @@ class AdminController extends Controller implements IpAuthenticatedController
     public function insertExWenwen($parms=array())
     {
       extract($parms);
-      $em = $this->getDoctrine()->getManager();
-      $exFromWen = new ExchangeFromWenwen();
-      $exFromWen->setWenwenExchangeId($wenwenExId);
-      $exFromWen->setPaymentPoint($points);
-      $exFromWen->setUserId($userId);
-      $exFromWen->setEmail($email);
-      $exFromWen->setStatus($this->container->getParameter('init_one'));
-      $em->persist($exFromWen);
-      $em->flush();
-
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $exFromWen = new ExchangeFromWenwen();
+            $exFromWen->setWenwenExchangeId($wenwenExId);
+            $exFromWen->setPaymentPoint($points);
+            $exFromWen->setUserId($userId);
+            $exFromWen->setEmail($email);
+            $exFromWen->setStatus($this->container->getParameter('init_one'));
+            $em->persist($exFromWen);
+            $em->flush();
+            return true;
+        }
+        catch( \Exception $e ) {
+            return false;
+        }
     }
 
      //失败发放
     public function insertFailExWenwen($parms=array())
     {
       extract($parms);
-      $em = $this->getDoctrine()->getManager();
-      $exFromWen = new ExchangeFromWenwen();
-      $exFromWen->setWenwenExchangeId($wenwenExId);
-      $exFromWen->setPaymentPoint($points);
-      $exFromWen->setEmail($email);
-      $exFromWen->setReason($reason);
-      $em->persist($exFromWen);
-      $em->flush();
-
+      try {
+            $em = $this->getDoctrine()->getManager();
+            $exFromWen = new ExchangeFromWenwen();
+            $exFromWen->setWenwenExchangeId($wenwenExId);
+            $exFromWen->setPaymentPoint($points);
+            $exFromWen->setEmail($email);
+            $exFromWen->setReason($reason);
+            $em->persist($exFromWen);
+            $em->flush();
+            return true;
+        }
+        catch( \Exception $e ) {
+            return false;
+        }
     }
-
-
 
     //91wenwen兑换列表
     public function handleExchangeWen($file)
@@ -1453,7 +1462,8 @@ class AdminController extends Controller implements IpAuthenticatedController
                               'points' => $points,
                               'status' => $this->container->getParameter('init_one')
                           );
-                     $this->insertExWenwen($array);
+                     $return = $this->insertExWenwen($array);
+                     if($return){
                      $this->exchangeOKWen($email,$points);
                      $parms = array(
                           'userid' => $userInfo[0]->getId(),
@@ -1463,14 +1473,12 @@ class AdminController extends Controller implements IpAuthenticatedController
                       $this->insertSendMs($parms);
                   }
               }
+          }
             }else{
               $code[] = $wenwenExId.'已发放';
-
           }
-
       }
       return $code;
-
     }
 
 
@@ -1484,7 +1492,14 @@ class AdminController extends Controller implements IpAuthenticatedController
         $code = array();
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
+        $session = $request->getSession();
+
         if ($request->getMethod('post') == 'POST') {
+            $csrf_token = $request->request->get('csrf_token');
+            if(!$csrf_token || ($csrf_token != $session->get('csrf_token'))){
+                return $this->redirect($this->generateUrl('_admin_exchangeInWen'));
+            }
+            $session->remove('csrf_token');
             if (isset($_FILES['csv'])) {
                 $file = $_FILES['csv']['tmp_name'];
                 if($file){
@@ -1503,9 +1518,14 @@ class AdminController extends Controller implements IpAuthenticatedController
                   $success = $this->container->getParameter('init_two');
                 }
             }
+        } else {
+            $csrfProvider = new DefaultCsrfProvider('SECRET');
+            $csrf_token = $csrfProvider->generateCsrfToken('exchange');
+            $session->set('csrf_token', $csrf_token);
         }
         $arr['success'] = $success;
         $arr['code'] = $code;
+        $arr['csrf_token'] = $csrf_token;
         return $this->render('JiliApiBundle:Admin:exchangeInWen.html.twig',$arr);
 
     }

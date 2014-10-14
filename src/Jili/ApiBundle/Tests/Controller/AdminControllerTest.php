@@ -64,7 +64,7 @@ class AdminControllerTest extends WebTestCase {
             $loader->addFixture($fixture);
         }
 
-        if ($tn == 'testExchangeOKWen') {
+        if ($tn == 'testExchangeOKWen' || $tn == 'testInsertExWenwen' || $tn == 'testInsertFailExWenwen') {
             $with_fixture = true;
             // load fixtures
             $fixture = new LoadUserData();
@@ -131,6 +131,7 @@ class AdminControllerTest extends WebTestCase {
     /**
      * @author mmzhang
      * @group HandleExchangeWen
+     * @group issue_492
      */
     public function testHandleExchangeWen() {
         $client = static :: createClient();
@@ -491,4 +492,54 @@ class AdminControllerTest extends WebTestCase {
         $em->clear();
     }
 
+    /**
+     * @group insertExWenwen
+     * @group issue_492
+     */
+    public function testInsertExWenwen()
+    {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $user = LoadUserData :: $USERS[0];
+
+        $array = array(
+                      'wenwenExId' => "123456789",
+                      'userId' => $user->getId(),
+                      'email' => $user->getEmail(),
+                      'points' => 100,
+                      'status' => 1
+                  );
+        $return = $controller->insertExWenwen($array);
+        $this->assertTrue($return);
+        $return = $controller->insertExWenwen($array);
+        $this->assertFalse($return);
+    }
+
+    /**
+     * @group insertFailExWenwen
+     * @group issue_492
+     */
+    public function testInsertFailExWenwen()
+    {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $user = LoadUserData :: $USERS[0];
+
+        $array = array(
+                          'wenwenExId' => "987654321",
+                          'email' => $user->getEmail(),
+                          'points' => 100,
+                          'reason' => 'account not exists'
+                      );
+        $return = $controller->insertFailExWenwen($array);
+        $this->assertTrue($return);
+        $return = $controller->insertFailExWenwen($array);
+        $this->assertFalse($return);
+    }
 }
