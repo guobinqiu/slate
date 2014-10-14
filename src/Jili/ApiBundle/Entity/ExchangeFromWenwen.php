@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ExchangeFromWenwen
  *
- * @ORM\Table(name="exchange_from_wenwen")
+ * @ORM\Table(name="exchange_from_wenwen", uniqueConstraints={@ORM\UniqueConstraint(name="wenwen_exchange_id", columns={"wenwen_exchange_id"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\ExchangeFromWenwenRepository")
  */
 class ExchangeFromWenwen
