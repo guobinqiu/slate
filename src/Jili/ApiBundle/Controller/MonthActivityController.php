@@ -36,7 +36,7 @@ class MonthActivityController extends Controller {
     /**
      * @Route("/october", name="_monthActivity_october")
      */
-    public function septemberActivityAction() {
+    public function octoberActivityAction() {
         $month = 10; //10月
         $cpaRankingData = $this->getCpaRankingData($month);
         return $this->render('JiliApiBundle:MonthActivity:octoberActivity.html.twig', array (
