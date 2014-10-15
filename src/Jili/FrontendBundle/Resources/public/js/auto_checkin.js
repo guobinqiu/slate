@@ -127,15 +127,18 @@ var checkinConfirm = function(arguments) {
 				if (el.hasClass('confirm')) {
 					if (el.parent().parent().hasClass('signInAutoFrame')) {
 						args.callback();
-						$('#sign').addClass('autoCheckinBtn');
-						$('#sign').html('自动签到');
+						//$('#sign').addClass('autoCheckinBtn');
+						$('#signTxt').html('自动签到');
 					} else {
 						args.callback();
-						$('#sign').removeClass('autoCheckinBtn');
-						$('#sign').html('手动签到');
+						//$('#sign').removeClass('autoCheckinBtn');
+						$('#signTxt').html('手动签到');
 					}
-					$('#signInFrame').hide();
-					$('.blackBg').hide();
+					$('#signInFrame .signInConfirmFrame').hide();
+					$('#signInFrame .setSuccess').fadeToggle(2000, function(){
+						$('#signInFrame').hide();
+						$('.blackBg').hide();
+					});
 				} else {
 					$('#signInFrame .mask').hide();
 					$('#signInFrame .signInConfirmFrame').hide();
