@@ -3,7 +3,7 @@ $(document).ready(function(){
 	getCenter("#confirmAutoFrame");
 	$("#confirmAutoFrame").hide();
 	$.ajax({
-        url: urls.checkin_clickCount,
+        url: Routing.generate("_checkin_clickCount"), //urls.checkin_clickCount,
         post: "GET",
         success:function(data){
             if(data<3){
@@ -71,29 +71,23 @@ function goto(cid,aid,points){
     var w = window.open("","_blank");
     $.ajax({
         // 记录商家的access: _advertiserment_click
-          url: urls.advertiserment_click+"?id="+aid,
+          //url: urls.advertiserment_click+"?id="+aid,
+          url: Routing.generate("_advertiserment_click", {"id": aid}),
           post: "GET",
           success:function(data){
               if(data==1){
                   // 是否已经签到过cid
                  $.ajax({
                      //_checkin_issetClick
-                    url: urls.checkin_issetClick+"?cid="+cid,
+                    url: Routing.generate("_checkin_issetClick", {"cid": cid}), 
                     post: "GET",
                     success:function(data){
-						
-						
                       if(data == 1){
                           var nowTimes = parseInt(parseInt($("#remain").text())-1);
                           if(nowTimes<=0){
                               $("#signInFrame h5").html("恭喜您签到成功，已获得<font color='#E94C1B'>"+points+"</font>米粒！");
-                              $("li #task_checkin_mark").removeClass("mark");
-                              $("li #task_checkin_mark").addClass("hasMark");
-                              $("#mysign").text("已签到");
-                              $("#mysign").css("background","#ccc");
-                              $("#mysign").unbind("click",signs);
-
-                              //setTaskNumber();
+                              $("li #task_checkin_mark").removeClass("mark").addClass("hasMark");
+                              $("#mysign").text("已签到").css("background","#ccc").unbind("click",signs);
                           }else{
                               $("#remain").text(nowTimes);
                           }
@@ -104,7 +98,8 @@ function goto(cid,aid,points){
                       // 记录签到商家数，发米粒 .
                       $.ajax({
                           //_checkin_clickInsert
-                            url: urls.checkin_clickInsert+"?cid="+cid+"&aid="+aid,
+                          //urls.checkin_clickInsert+"?cid="+cid+"&aid="+aid,
+                            url: Routing.generate("_checkin_clickInsert", {"cid": cid, "aid": aid}),
                             post: "GET",
                             success:function(data){ 
                               var points = $("#points").text();
@@ -116,7 +111,8 @@ function goto(cid,aid,points){
 	                          }
 
                               // 打开商家，_checkin_location
-                              w.location.href = urls.checkin_location+"?aid="+aid+"&type=1";
+                              //urls.checkin_location+"?aid="+aid+"&type=1";
+                              w.location.href =Routing.generate("_checkin_location", {"aid": aid, "type": 1 }); 
                               if(obj.code==1){  
                                   aremove();
                                   $("#points").text(parseInt(obj.point)+parseInt(points));
@@ -126,7 +122,7 @@ function goto(cid,aid,points){
                     }
                  });
               }else if(data==0){
-                  window.location.href=urls.user_login;
+                  window.location.href=Routing.generate("_user_login"); //urls.user_login;
                   w.close();
               }else{
                   w.close();

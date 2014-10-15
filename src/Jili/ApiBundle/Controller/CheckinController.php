@@ -36,7 +36,7 @@ use Jili\FrontendBundle\Entity\MarketActivityClickNumber;
 class CheckinController extends Controller
 {
     /**
-	 * @Route("/clickCount",name="_checkin_clickCount")
+	 * @Route("/clickCount",name="_checkin_clickCount", options={"expose"=true})
 	 */
     public function clickCountAction()
     {
@@ -52,7 +52,7 @@ class CheckinController extends Controller
 
     /**
      * 防止重复签到,判断是否点击checkin_user_list记录返回
-	 * @Route("/issetClick",name="_checkin_issetClick")
+	 * @Route("/issetClick",name="_checkin_issetClick",  options={"expose"=true})
 	 */
     public function issetClickAction() 
     {
@@ -72,7 +72,7 @@ class CheckinController extends Controller
 
     /**
      * 增加己签到商家计数, 确认并发放签到积分
-	 * @Route("/clickInsert",name="_checkin_clickInsert")
+	 * @Route("/clickInsert",name="_checkin_clickInsert", options={"expose"=true})
 	 */
     public function clickInsertAction()
     {
@@ -120,7 +120,7 @@ class CheckinController extends Controller
 
     /**
      * 返回商家的URL. type =1 , 直接查Advertiserment表; type=2查商家活动表market_activity。 
-	 * @Route("/location",name="_checkin_location")
+	 * @Route("/location",name="_checkin_location", options={"expose"=true})
 	 */
     public function locationAction()
     {

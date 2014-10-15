@@ -83,6 +83,8 @@ class TopController extends Controller
         //个人中心
         //确认中的米粒数
         $arr['confirmPoints'] = $this->get('session.points')->getConfirm();
+
+        // 是否已经签到
         $taskList = $this->get('session.task_list');
         if( $this->container->getParameter('init_one') === $taskList->get('checkin_visit') ) {
             $arr['userCheckin'] = $this->container->getParameter('init_one');

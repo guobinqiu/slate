@@ -19,7 +19,10 @@
     <div class="signInCon">
         <div class="signInOptions"><span class="active" id="set_manualcheckin">手动签到</span><span id="set_autocheckin" class="autoSignIn" >我想以后自动签到<a href="javascript:void(0)">详情</a></span><p><strong>自动签到</strong>：选择‘自动签到’以后，点击‘签到’按钮，系统将自动随机选择3-6个商家完成签到</p></div>
         <div class="signInManual">
-            <p>打开以下<strong>3</strong>个商城就可以得到<strong>1</strong>个米粒！</p>
+            {% if app.request.get('auto_checkin', 0 ) ==  0 %}
+            <h5>打开以下<strong id="remain">3</strong>个商城就可以得到<strong>1</strong>个米粒！</h5>
+            {% endif  %}
+
             <ul class="clearfix">
             {% for item in arrList %}
               <li><a onclick="goto({{ item.cid }},{{ item.id }},{{ checkinPoint }});" class="image{{ item.cid }}"><img src="{{ asset(item.list_image) }}" width="200" height="80" alt="{{ item.title }}"><p>最高返利{{ item.reward_rate }}%</p>
@@ -29,7 +32,8 @@
               </a></li>
             {% endfor %}
             </ul>
-            <p>系统帮您自动签到中……，请稍后</p>
+            <p id=checkin_status_tip></p>
+            <!-- 系统帮您自动签到中……，请稍后 -->
         </div>
     </div>
     <div class="mask"></div>
