@@ -186,6 +186,22 @@
 		padding: 40px 35px;
 		width: 265px;
 	}
+	#signInFrame .setSuccess{
+		top: 45%;
+		left: 50%;
+		margin-left: -60px;
+		position: absolute;
+		z-index: 9999;
+		color: #333;
+		background-color: #fff;
+		width: 120px;
+		text-align: center;
+		line-height: 30px;
+		font-size: 14px;
+		font-weight: bold;
+		font-family: "微软雅黑";
+		display: none;
+	}
 	.signInConfirmFrame p{
 		color: #000;
 		line-height: 30px;
