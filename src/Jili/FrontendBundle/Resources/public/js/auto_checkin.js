@@ -135,9 +135,11 @@ var checkinConfirm = function(arguments) {
 						$('#signTxt').html('手动签到');
 					}
 					$('#signInFrame .signInConfirmFrame').hide();
-					$('#signInFrame .setSuccess').fadeToggle(2000, function(){
-						$('#signInFrame').hide();
-						$('.blackBg').hide();
+					$('#signInFrame .setSuccess').fadeIn(1000, function(){
+						$(this).fadeOut(3000, function(){
+							$('#signInFrame').hide();
+							$('.blackBg').hide();
+						});
 					});
 				} else {
 					$('#signInFrame .mask').hide();

@@ -187,16 +187,16 @@
 		width: 265px;
 	}
 	#signInFrame .setSuccess{
-		top: 45%;
+		top: 200px;
 		left: 50%;
-		margin-left: -60px;
+		margin-left: -75px;
 		position: absolute;
 		z-index: 9999;
 		color: #333;
 		background-color: #fff;
-		width: 120px;
+		width: 150px;
 		text-align: center;
-		line-height: 30px;
+		line-height: 35px;
 		font-size: 14px;
 		font-weight: bold;
 		font-family: "微软雅黑";

@@ -36,6 +36,7 @@ var doAutoCheckin = function() {
 			};
 			if (typeof jili_autocheckin != "undefined" && typeof jili_autocheckin.is_set != "undefined" && jili_autocheckin.is_set == true) {
 				console.log('开始自动签到...');
+				$('#signInFrame .close_checkin').hide();
                 $("#signInFrame").show();
                 $(".blackBg").show();
                 $("#signInFrame .signInOptions span").removeClass('active');
