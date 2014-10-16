@@ -247,3 +247,6 @@
 		z-index: 9998;
 		display: none;
 	}
+	#buffer{
+		display: none;
+	}
