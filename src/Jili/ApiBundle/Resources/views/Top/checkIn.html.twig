@@ -19,7 +19,7 @@
     <div class="signInCon">
         <div class="signInOptions">
             <span class="active" id="set_manualcheckin">{{  app.request.get('auto_checkin', 0 ) ==  1 ? '我想以后' : ''}}手动签到</span>
-            <span id="set_autocheckin" class="autoSignIn" >{{  app.request.get('auto_checkin', 0 ) ==  1 ? '' : '我想以后'}}自动签到<a href="javascript:void(0)">详情</a></span><p><strong>自动签到</strong>：选择‘自动签到’以后，点击‘签到’按钮，系统将自动随机选择3-6个商家完成签到</p></div>
+            <span id="set_autocheckin" class="autoSignIn" >{{  app.request.get('auto_checkin', 0 ) ==  1 ? '' : '我想以后'}}自动签到<a href="javascript:void(0)">详情</a></span><p><strong>自动签到</strong>：选择‘自动签到’以后，点击‘签到’按钮，系统将自动随机选择6个商家完成签到</p></div>
         <div class="signInManual">
             {% if app.request.get('auto_checkin', 0 ) ==  0 %}
             <h5>打开以下<strong id="remain">3</strong>个商城就可以得到<strong>1</strong>个米粒！</h5>

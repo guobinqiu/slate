@@ -69,7 +69,9 @@ var setManualCheckin = function() {
 			if (rsp.code == 200) {
 				jili_autocheckin.is_set = false;
 				autoCheckinDomUpdate(el);
-				console.log("todo: 显示手工签到成功，10秒后退出页面。");
+                $("#set_manualcheckin").text("手动签到");
+                $("#set_autocheckin").text("我想以后自动签到");
+
 			}
 			return false;
 		}
@@ -99,7 +101,8 @@ var setAutoCheckin = function() {
 			if (rsp.code == 200) {
 				jili_autocheckin.is_set = true;
 			    autoCheckinDomUpdate(el);
-				console.log("todo: 显示自动签到设置成功，10秒后退出页面/开始自动签到。");
+                $("#set_manualcheckin").text("我想以后手动签到");
+                $("#set_autocheckin").text("自动签到");
 			}
 			return false;
 		}
