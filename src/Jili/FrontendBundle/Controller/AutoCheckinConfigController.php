@@ -185,20 +185,16 @@ class AutoCheckinConfigController extends Controller {
         $return['code'] = 200;
         $return['data']['countOfUpdated'] = 1;
         $return['message'] = "完成";
+
+        $this->get('logger')->debug('{jarod}'. implode(':', array(__LINE__, __FILE__,'')).var_export('', true));
+        //  签到的操作方式更新到session
+        $userConfigs = $this->get('session.user_configs');
+        $userConfigs->updateCheckinOpMethod();
+
         $response = new JsonResponse();
         $response->setData($return);
         return $response;
 
-        //     try {
-        //    transaction start
-        //
-        //    update user_configuration set flag_data= true where  user_id  = uid and flag_name ='auto_checkin'
-        //    transaction commit
-        //    } catch() {
-        //    transaction roll back
-        //    return json:   code: 500, message: 出错了。
-        //    }
-        //    return json code 200, data: countOfUpdated: 1, message: 完成
     }
 
     /**

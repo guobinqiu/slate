@@ -91,7 +91,7 @@ class TopController extends Controller
         }
         //  签到的操作方式
         $userConfigs = $this->get('session.user_configs');
-        $arr['checkinOpMethod'] = $userConfigs->get('checkin_op_method');
+        $arr['checkinOpMethod'] = $userConfigs->getCheckinOpMethod();
 
         return $this->render('JiliApiBundle:Top:userInfo.html.twig', $arr);
     }

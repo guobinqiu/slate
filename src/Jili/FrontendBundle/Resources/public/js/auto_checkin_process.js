@@ -12,14 +12,13 @@ $(function() {
 	//    }
 	doAutoCheckin();
 
-//    window.onbeforeunload = function(event){
-//        event = event || window.event;
-//        if(someCondition == someValue){
-//            return event.returnValue = "Are you sure you want to leave?  someCondition does not equal someValue..."
-//        };
-//    };
+	//    window.onbeforeunload = function(event){
+	//        event = event || window.event;
+	//        if(someCondition == someValue){
+	//            return event.returnValue = "Are you sure you want to leave?  someCondition does not equal someValue..."
+	//        };
+	//    };
 });
-
 
 // 开始自动签到。 
 var doAutoCheckin = function() {
@@ -36,11 +35,14 @@ var doAutoCheckin = function() {
 			};
 			if (typeof jili_autocheckin != "undefined" && typeof jili_autocheckin.is_set != "undefined" && jili_autocheckin.is_set == true) {
 				console.log('开始自动签到...');
+				//<p class="signInAuto"></p>
+				auto_checkin.before_start();
+				//<!-- 系统帮您自动签到中……，请稍后-->
 				$('#signInFrame .close_checkin').hide();
-                $("#signInFrame").show();
-                $(".blackBg").show();
-                $("#signInFrame .signInOptions span").removeClass('active');
-               $("#signInFrame .signInOptions span.autoSignIn").addClass('active');
+				$("#signInFrame").show();
+				$(".blackBg").show();
+				$("#signInFrame .signInOptions span").removeClass('active');
+				$("#signInFrame .signInOptions span.autoSignIn").addClass('active');
 
 				auto_checkin.start({
 					advertiserments: jili_autocheckin.advertiserments,
@@ -50,10 +52,9 @@ var doAutoCheckin = function() {
 			} else {
 				console.log(jili_autocheckin);
 				console.log('当前配置为手工签到...');
-                $("#signInFrame").hide();
+				$("#signInFrame").hide();
 			}
 
-	
 			return false;
 		}
 	});
@@ -82,9 +83,16 @@ var auto_checkin = function() {
 		return false;
 	};
 
+	var after_finished = function() {
+		$("p.signInAuto").text("恭喜您签到成功");
+        $("li #task_checkin_mark").removeClass("mark").addClass("hasMark");
+        $("#mysign").text("已签到").css("background", "#ccc").unbind("click", signs);
+		console.log('finished..!!' + index);
+	};
 	var next = function() {
 
 		if (index >= count_of_ads) {
+			after_finished();
 			return false;
 		}
 		console.log('next..' + index);
@@ -93,19 +101,20 @@ var auto_checkin = function() {
 	};
 
 	var goto = function(i) {
-		console.log("ads["+i+"] " +ads[i]);
-		console.log("ads["+i+"].cid " +ads[i].cid);
-		console.log("ads["+i+"].id " +ads[i].id);
-		console.log("ads["+i+"].inter_space " +ads[i].inter_space);
+		console.log("ads[" + i + "] " + ads[i]);
+		console.log("ads[" + i + "].cid " + ads[i].cid);
+		console.log("ads[" + i + "].id " + ads[i].id);
+		console.log("ads[" + i + "].inter_space " + ads[i].inter_space);
 
 		var cid = ads[i].cid;
 		var aid = ads[i].id;
 		var points = pts;
 
-		//function goto(cid,aid,points){
 		$.ajax({
 			// 记录商家的access: _advertiserment_click
-			url: urls.advertiserment_click + "?id=" + aid,
+			url: Routing.generate("_advertiserment_click", {
+				"id": aid
+			}),
 			post: "GET",
 			success: function(data) {
 				if (data == 1) {
@@ -113,15 +122,20 @@ var auto_checkin = function() {
 
 					$.ajax({
 						//_checkin_issetClick
-						url: urls.checkin_issetClick + "?cid=" + cid,
+						url: Routing.generate("_checkin_issetClick", {
+							"cid": cid
+						}),
 						post: "GET",
 						success: function(data) {
 							if (data == 1) {
 								// 未签到过cid
-								console.log("未签到过ads["+i+"].title=" + ads[i].title);
+								console.log("未签到过ads[" + i + "].title=" + ads[i].title);
 								$.ajax({
 									//_checkin_clickInsert
-									url: urls.checkin_clickInsert + "?cid=" + cid + "&aid=" + aid,
+									url: Routing.generate("_checkin_clickInsert", {
+										"cid": cid,
+										"aid": aid
+									}),
 									post: "GET",
 									success: function(data) {
 										if (typeof(JSON) == 'undefined') {
@@ -136,17 +150,16 @@ var auto_checkin = function() {
 										console.log(target + "\n  " + ads[i].title + ' checked');
 										console.log("obj:");
 										console.log(obj);
-										if (obj.code == 1) {
-										}
+										if (obj.code == 1) {}
 										// update the user's pts div
-                                        console.log("i:"+i);
-                                        $("div.signInManual li:eq("+i+") a").find(".gray").show();
-                                        $("div.signInManual li:eq("+i+")").addClass("finish");
+										console.log("i:" + i);
+										$("div.signInManual li:eq(" + i + ") a").find(".gray").show();
+										$("div.signInManual li:eq(" + i + ")").addClass("finish");
 									}
 								});
 
 							} else {
-								console.log("己签到过cid 0 ads["+i+"].title " + ads[i].title);
+								console.log("己签到过cid 0 ads[" + i + "].title " + ads[i].title);
 								// 己签到过cid
 							}
 						}
@@ -178,24 +191,10 @@ var auto_checkin = function() {
 			} else {
 				//				alert(' already start');
 			}
-		}
+		},
+		before_start: function() {
+			$("p.signInAuto").text("系统帮您自动签到中……，请稍后");
+		},
 	}
 } ();
-
-//
-//	console.log("process the auto checkin now ... ");
-//
-//	if (jili_autocheckin.is_set) {
-//		initFrame();
-//	}
-//
-//	console.log("loop shops for auto check");
-//
-//	// iframe.onload  = function () {
-//	check.start();
-//}
-//// todo  checkNext()
-//// todo iframe onload event
-//// render the current checkin..  EchoCheckinProcess();
-//console.log("loop shops for auto check");
 

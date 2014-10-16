@@ -110,7 +110,7 @@ var setAutoCheckin = function() {
 
 // arguments = { container: the class name, callback: the ajax call}
 var checkinConfirm = function(arguments) {
-    var args = arguments;
+	var args = arguments;
 	return function() {
 		var $btns = $(args.container).find(".btns a");
 		$btns.on('click', function() {
@@ -135,8 +135,8 @@ var checkinConfirm = function(arguments) {
 						$('#signTxt').html('手动签到');
 					}
 					$('#signInFrame .signInConfirmFrame').hide();
-					$('#signInFrame .setSuccess').fadeIn(1000, function(){
-						$(this).fadeOut(3000, function(){
+					$('#signInFrame .setSuccess').fadeIn(1000, function() {
+						$(this).fadeOut(3000, function() {
 							$('#signInFrame').hide();
 							$('.blackBg').hide();
 						});
@@ -149,7 +149,7 @@ var checkinConfirm = function(arguments) {
 			return false;
 		});
 
-        // confirm窗中的button 
+		// confirm窗中的button 
 		$btns.hover(function() {
 			$(this).addClass('active');
 		},

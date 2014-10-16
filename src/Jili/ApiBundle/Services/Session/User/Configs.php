@@ -34,6 +34,8 @@ class Configs
         $value =  $this->em->getRepository('JiliApiBundle:UserConfigurations')
             ->isAutoCheckin($uid);
 
+        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__,'')).var_export($uid, true));
+        $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__,'')).var_export($value, true));
         $session->set($this->keys['checkin_op_method'], (int) $value);
         return $value;
     }
@@ -46,7 +48,9 @@ class Configs
         $session = $this->session;
         $key = $this->keys['checkin_op_method'];
         if( $session->has($key)) {
-            return  $session->get($key);
+            $return = $session->get($key);
+            $this->logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__,'')).var_export($return, true));
+            return $return;
         } 
         return $this->updateCheckinOpMethod();
     }
