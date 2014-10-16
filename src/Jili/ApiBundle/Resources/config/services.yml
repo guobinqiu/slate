@@ -43,6 +43,7 @@ services:
         calls:
             - [setContainer, ["@service_container"]]
             - [setTaskList, [ @session.task_list ]]
+            - [setUserConfig, [ @session.user_configs]]
 
     soap.mail.listener:
         class: %soap.mail.listener.class%

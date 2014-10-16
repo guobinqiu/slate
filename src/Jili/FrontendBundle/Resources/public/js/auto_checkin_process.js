@@ -28,8 +28,6 @@ var doAutoCheckin = function() {
 					urls: urls
 				});
 			} else {
-				console.log(jili_autocheckin);
-				console.log('当前配置为手工签到...');
 				$("#signInFrame").hide();
 			}
 			return false;
@@ -54,7 +52,6 @@ var auto_checkin = function() {
 		ifrm.setAttribute('name', 'buffer');
 		ifrm.setAttribute('frameborder', '0');
 		document.body.appendChild(ifrm);
-		console.log("init iframe");
 		buffer = window.frames.buffer;
 		return false;
 	};

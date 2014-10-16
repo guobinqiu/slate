@@ -15,6 +15,7 @@ class LoginListener
 {
     private $em;
     private $task_list;
+    private $user_config;
 //#	private $session_points;
 
     public function __construct(EntityManager $em)
@@ -77,6 +78,7 @@ class LoginListener
         if( $user) {
             $em = $this->em;
             $this->resetTasksSession();
+            $this->user_config->updateCheckinOpMethod();
 
             $this->initSession( $user);
             $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
@@ -196,6 +198,13 @@ class LoginListener
     public function setContainer($c)
     {
         $this->container_ = $c;
+    }
+    /**
+     * @param: $uc the user_config service
+     */
+    public function setUserConfig($uc)
+    {
+        $this->user_config = $uc;
     }
     /**
      * @param: $tl the task_list service
