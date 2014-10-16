@@ -113,7 +113,7 @@
 		z-index: 1;
 	}
 	.signInOptions span{
-		width: 235px;
+		width: 234px;
 		height: 45px;
 		line-height: 45px;
 		text-align: center;
@@ -125,6 +125,7 @@
 		display: inline-block;
 		*display: inline;
 		*zoom: 1;
+		vertical-align: top;
 	}
 	.signInOptions span.active{
 		color: #fff;
