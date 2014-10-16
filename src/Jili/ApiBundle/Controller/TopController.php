@@ -89,6 +89,10 @@ class TopController extends Controller
         if( $this->container->getParameter('init_one') === $taskList->get('checkin_visit') ) {
             $arr['userCheckin'] = $this->container->getParameter('init_one');
         }
+        //  签到的操作方式
+        $userConfigs = $this->get('session.user_configs');
+        $arr['checkinOpMethod'] = $userConfigs->get('checkin_op_method');
+
         return $this->render('JiliApiBundle:Top:userInfo.html.twig', $arr);
     }
 

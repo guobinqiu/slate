@@ -720,7 +720,6 @@ class TopControllerTest extends WebTestCase
 
     /**
      * @group issue_469
-     * @group debug
      */
     public function testCheckInAction()
     {
@@ -733,7 +732,5 @@ class TopControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         // preapare the data.
-        // 
-        $this->assertEquals(1,1);
     }
 }

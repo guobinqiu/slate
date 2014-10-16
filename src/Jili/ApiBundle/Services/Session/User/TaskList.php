@@ -1,5 +1,5 @@
 <?php
-namespace Jili\ApiBundle\EventListener\Session;
+namespace Jili\ApiBundle\Services\Session\User;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;

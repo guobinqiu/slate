@@ -29,6 +29,11 @@ parameters:
 
     cache_config.session.points.duration:  0  # seconds 
 
+# user_configs 
+    cache_config.session.user_configs.keys:
+        'checkin_op_method':  'user.checkin_op_method.alive'
+
+
 # my_task_list
     cache_config.session.my_task_list.keys: 
         'alive': 'my_task_list.alive'
