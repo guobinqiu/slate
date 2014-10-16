@@ -98,10 +98,9 @@ var setAutoCheckin = function() {
 		success: function(rsp) {
 			if (rsp.code == 200) {
 				jili_autocheckin.is_set = true;
-				autoCheckinDomUpdate(el);
+			    autoCheckinDomUpdate(el);
 				console.log("todo: 显示自动签到设置成功，10秒后退出页面/开始自动签到。");
 			}
-			autoCheckinDomUpdate(el);
 			return false;
 		}
 	});
