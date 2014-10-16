@@ -78,7 +78,6 @@ class LoginListener
         if( $user) {
             $em = $this->em;
             $this->resetTasksSession();
-            $this->user_config->updateCheckinOpMethod();
 
             $this->initSession( $user);
             $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
@@ -102,6 +101,7 @@ class LoginListener
             $user = $em->getRepository('JiliApiBundle:User')->find($session->get('uid'));
             $this->initSession($user);
             $this->updateInfoSession($user);
+            $this->user_config->updateCheckinOpMethod();
         }
     }
 
