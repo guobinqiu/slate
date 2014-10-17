@@ -68,8 +68,6 @@ CheckinModule.setManualCheckin = function() {
 		success: function(rsp) {
 			if (rsp.code == 200) {
 				CheckinModule.jili_autocheckin.is_set.init(false);
-    console.log("CheckinModule.jili_autocheckin");
-    console.log(CheckinModule.jili_autocheckin);
 			    CheckinModule.autoCheckinDomUpdate(el);
                 $("#set_manualcheckin").text("手动签到");
                 $("#set_autocheckin").text("我想以后自动签到");
@@ -84,11 +82,6 @@ CheckinModule.setManualCheckin = function() {
 //  设置自动签到的Ajax
 CheckinModule.setAutoCheckin = function() {
     var jili_autocheckin = CheckinModule.jili_autocheckin;
-    console.log("jili_autocheckin");
-    console.log(jili_autocheckin);
-
-    console.log("CheckinModule.jili_autocheckin");
-    console.log(CheckinModule.jili_autocheckin);
 	var el = $("span#set_autocheckin");
 	// var url = el.attr('href');
 	if ("undefined" == typeof jili_autocheckin.is_set || "undefined" == typeof jili_autocheckin.is_set.get() ) {
