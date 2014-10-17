@@ -36,7 +36,14 @@ function getCenter(ele) {
 }
 var CheckinModule =  CheckinModule || {};
 CheckinModule.jili_autocheckin = CheckinModule.jili_autocheckin || {};
+CheckinModule.afterFinish = function() {
+        $("li #task_checkin_mark").removeClass("mark").addClass("hasMark");
 
+		$("#signTxt").text("已签到");
+        $("#mysign").css("background", "#ccc").unbind("click", signs);
+        $("#mysign").removeAttr("onclick");
+        $("#mysign").attr('onMouseOver', null);
+}
 // 点击签到
 var signs = function() {
 	var jili_autocheckin = CheckinModule.jili_autocheckin;
@@ -91,8 +98,7 @@ function goto(cid, aid, points) {
 							var nowTimes = parseInt(parseInt($("#remain").text()) - 1);
 							if (nowTimes <= 0) {
 								$("#signInFrame h5").html("恭喜您签到成功，已获得<font color='#E94C1B'>" + points + "</font>米粒！");
-								$("li #task_checkin_mark").removeClass("mark").addClass("hasMark");
-								$("#mysign").text("已签到").css("background", "#ccc").unbind("click", signs);
+                                CheckinModule.afterFinish();
 							} else {
 								$("#remain").text(nowTimes);
 							}
