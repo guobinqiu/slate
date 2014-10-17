@@ -9,10 +9,12 @@ web/images/actionPic/
 /vendor/
 /bin/
 /app/config/parameters.ini
+/app/SymfonyRequirements.php
+composer.lock
+
 web\uploads/
 dwsync.xml
 .DS_Store
-.gitignore 
 
 /config/
 makefile
