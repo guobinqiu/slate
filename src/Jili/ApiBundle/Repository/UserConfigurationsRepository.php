@@ -34,8 +34,8 @@ class UserConfigurationsRepository extends EntityRepository {
     public function isAutoCheckin($user_id) 
     {
         $r = $this->findOneBy(array('flagName'=> 'auto_checkin','userId'=>$user_id));
-        if( $r === null) {
-            return null;
+        if( $r === NULL) {
+            return NULL;
         }
         return (boolean) $r->getFlagData();
     }

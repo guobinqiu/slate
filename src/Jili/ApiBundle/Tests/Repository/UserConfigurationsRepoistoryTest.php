@@ -60,14 +60,55 @@ class UserConfigurationsRepositoryTest  extends KernelTestCase
     }
     
     /**
+     * @group issue_469
      */
     function testIsAutoCheckin()
     {
+        $rep =  $this->em->getRepository('JiliApiBundle:UserConfigurations');
+        $user= LoadUserConfigurationsRepositoryCodeData::$USER[0];
+        $this->assertNull(  $rep->isAutoCheckin($user->getId()), 'user without configs');
         // return null
        
-        // return false
-        
         // return true
+        $user= LoadUserConfigurationsRepositoryCodeData::$USER[1];
+        $this->assertTrue( $rep->isAutoCheckin($user->getId()), 'user with configs = 1');
+        
+        // return false
+        $user= LoadUserConfigurationsRepositoryCodeData::$USER[2];
+        $this->assertFalse( $rep->isAutoCheckin($user->getId()), 'user with configs =0');
+    }
 
+    /**
+     * @group issue_469
+     */
+    function testSearchUserConfigurationa()
+    {
+        $rep = $this->em->getRepository('JiliApiBundle:UserConfigurations');
+        $configs  = LoadUserConfigurationsRepositoryCodeData::$CONFIGS;
+        $this->assertCount(3, $rep->searchUserConfiguration() , ' search all' );
+
+        $this->assertCount(0, $rep->searchUserConfiguration('auto') , ' search noexists flagname' );
+        $this->assertEmpty( $rep->searchUserConfiguration('auto') , ' search  noexists flagname' );
+
+        $user = LoadUserConfigurationsRepositoryCodeData::$USER[0];
+        $return = $rep->searchUserConfiguration('auto', $user->getId() );
+        $this->assertCount(0, $return, ' search noexists flagname , exist userId ' );
+        $this->assertEmpty( $return, ' search noexists flagname, exist userId ' );
+        
+        // $return = $rep->searchUserConfiguration('auto_checkin', 1);
+        $return = $rep->searchUserConfiguration('auto_checkin', 9999);
+        $this->assertEmpty( $return, ' search exists flagname, none exist userId ' );
+
+        $return = $rep->searchUserConfiguration('auto_checkin' );
+        $this->assertCount( 2, $return,'query by flagName ' );
+
+        $user = LoadUserConfigurationsRepositoryCodeData::$USER[2];
+        $return = $rep->searchUserConfiguration( null, $user->getId() );
+        $this->assertCount(2, $return, ' query by userId ' );
+
+        $return = $rep->searchUserConfiguration('auto_checkin', $user->getId() );
+        $this->assertCount(1, $return, ' search exists flagname, exist userId ' );
+
+        $this->assertEquals($configs[1]->getId() ,$return[0]->getId() );
     }
 }
