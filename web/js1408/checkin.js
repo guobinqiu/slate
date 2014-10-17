@@ -35,20 +35,22 @@ function getCenter(ele) {
 		"left": windowWidth / 2 - popupWidth / 2
 	});
 }
+var CheckinModule =  CheckinModule || {};
+CheckinModule.jili_autocheckin = CheckinModule.jili_autocheckin || {};
 
 // 点击签到
 var signs = function() {
-	var jili_autocheckin = this.jili_autocheckin || {};
+	var jili_autocheckin = CheckinModule.jili_autocheckin;
 	// 取当前的autocheckin 是否有设置。
 	$.ajax({
 		url: Routing.generate('autocheckinconfig_get'),
 		post: "GET",
 		success: function(rsp) {
 			if (rsp.code == 200) {
-				jili_autocheckin.is_set = rsp.data.flag_data;
+                jili_autocheckin.is_set.init( rsp.data.flag_data);
 			};
 			//如果没有设置手工，则显示手工签到
-			if (typeof jili_autocheckin == "undefined" || typeof jili_autocheckin.is_set == "undefined" || jili_autocheckin.is_set == false) {
+			if (typeof jili_autocheckin == "undefined" || typeof jili_autocheckin.is_set == "undefined" || jili_autocheckin.is_set.get() == false) {
 				$("#signInFrame").show();
 				$(".blackBg").show();
 			} else {

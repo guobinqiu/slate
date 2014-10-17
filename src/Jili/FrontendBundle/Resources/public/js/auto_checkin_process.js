@@ -1,28 +1,31 @@
 $(function() {
-	doAutoCheckin();
+	CheckinModule.doAutoCheckin( );
 });
 
+var CheckinModule = CheckinModule || {};
 // 开始自动签到。 
-var doAutoCheckin = function() {
-	var jili_autocheckin = this.jili_autocheckin || {};
+CheckinModule.doAutoCheckin = function( ) {
+	var jili_autocheckin = CheckinModule.jili_autocheckin; 
+
 	// 取当前的autocheckin 是否有设置。
 	$.ajax({
 		url: Routing.generate('autocheckinconfig_get'),
 		post: "GET",
 		success: function(rsp) {
 			if (rsp.code == 200) {
-				jili_autocheckin.is_set = rsp.data.flag_data;
+				jili_autocheckin.is_set.init(rsp.data.flag_data);
 			};
-			if (typeof jili_autocheckin != "undefined" && typeof jili_autocheckin.is_set != "undefined" && jili_autocheckin.is_set == true) {
+			if (typeof jili_autocheckin != "undefined" && typeof jili_autocheckin.is_set != "undefined" && jili_autocheckin.is_set.get() == true) {
 				// 开始自动签到
-				auto_checkin.before_start();
+				CheckinModule.auto_checkin.before_start();
+
 				$('#signInFrame .close_checkin').hide();
 				$("#signInFrame").show();
 				$(".blackBg").show();
 				$("#signInFrame .signInOptions span").removeClass('active');
 				$("#signInFrame .signInOptions span.autoSignIn").addClass('active');
 
-				auto_checkin.start({
+				CheckinModule.auto_checkin.start({
 					advertiserments: jili_autocheckin.advertiserments,
 					checkin_point: jili_autocheckin.checkin_point,
 					urls: urls
@@ -35,7 +38,7 @@ var doAutoCheckin = function() {
 	});
 };
 
-var auto_checkin = function() {
+CheckinModule.auto_checkin = function() {
 	var index = 0;
 	var ads = {}; // 签到商家 refer to  jili_autocheckin.advertiserments
 	var count_of_ads = 0;

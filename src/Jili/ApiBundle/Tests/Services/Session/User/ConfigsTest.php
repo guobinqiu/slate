@@ -55,7 +55,6 @@ class ConfigsTest extends KernelTestCase
     }
     /**
      * @group issue_469
-     * @group debug 
      */
     public function testGetCheckinOpMethod()
     {

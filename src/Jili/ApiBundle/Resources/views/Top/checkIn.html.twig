@@ -58,8 +58,22 @@
 </div>
 
 <script type="text/javascript">
-var jili_autocheckin = jili_autocheckin || {};
-jili_autocheckin.advertiserments = {{ arrList|json_encode()|raw  }};
-jili_autocheckin.checkin_point = {{ checkinPoint|raw  }};
-jili_autocheckin.is_request = {{   app.request.get('auto_checkin', 0 )  ? 1 : 0  }};
+var CheckinModule = CheckinModule || {};
+    CheckinModule.jili_autocheckin = {
+        advertiserments : {{ arrList|json_encode()|raw  }},
+        checkin_point : {{ checkinPoint|raw  }},
+        is_request : {{   app.request.get('auto_checkin', 0 )  ? 1 : 0  }},
+is_set : function() {
+ var v = undefined;
+  return {
+    get: function() { return v; },
+    init: function(value) { 
+      v =  value;
+    return v;
+  }
+  
+  }
+
+}()
+    };
 </script>
