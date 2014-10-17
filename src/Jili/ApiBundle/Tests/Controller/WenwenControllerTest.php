@@ -7,12 +7,15 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadWenwenRegister5CodeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
+use Jili\ApiBundle\Utility\WenwenToken;
 
 class WenwenControllerTest extends WebTestCase {
     /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+    private $user;
 
     /**
      * {@inheritDoc}
@@ -38,7 +41,7 @@ class WenwenControllerTest extends WebTestCase {
 
             // add an user
         } else
-            if ($tn == 'testAccountBindAction') {
+            if ($tn == 'testAccountBindAction' || $tn == 'testAccountBindConfirmAction') {
                 $with_fixture = true;
                 // load fixtures
                 $fixture = new LoadUserData();
@@ -53,7 +56,7 @@ class WenwenControllerTest extends WebTestCase {
             $executor->purge();
             $executor->execute($loader->getFixtures());
         }
-        if ($tn == 'testAccountBindAction') {
+        if ($tn == 'testAccountBindAction' || $tn == 'testAccountBindConfirmAction') {
             $this->user = LoadUserData :: $USERS[0];
         }
 
@@ -186,47 +189,135 @@ class WenwenControllerTest extends WebTestCase {
      * @group issue_487
      * @group accountBindAction
      */
-    public function testAccountBindAction()
-    {
+    public function testAccountBindAction() {
         $em = $this->em;
-        $container = $this->container;
+        $user = $this->user;
+
         $client = static :: createClient();
+        $container = static :: $kernel->getContainer();
+
         $router = $container->get('router');
 
-        $url = $router->generate('_account_bind', array ('state' => '123'), false);
-        echo $url, PHP_EOL;
-        $this->assertEquals('/wenwen/bind/123', $url);
+        //$url = $router->generate('_account_bind', array ('state' => '123'), false);
+        $url = '/api/91wenwen/bind/123';
 
         //not login
-        $crawler = $client->request('POST',$url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
+        $crawler = $client->request('POST', $url);
+        $this->assertEquals('/api/91wenwen/bind/123', $client->getRequest()->getRequestUri());
 
-        //not login
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        //  check the redirected url.
+        $this->assertEquals('/user/login', $client->getRequest()->getRequestUri());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        // no data in db
+        $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->findOneByUserId($user->getId());
+        $this->assertNull($cross);
+
+        // login
         $session = $container->get('session');
-        $session->set('uid', $this->user->getId());
+
+        $session->set('uid', $user->getId());
         $session->save();
+        $this->assertTrue($session->has('uid'));
+        $this->assertEquals($user->getId(), $session->get('uid'));
 
-        $crawler = $client->request('POST',$url, array (
-            'state' => '123'
-        ));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
+        $crawler = $client->request('POST', $url);
+        $this->assertEquals(301, $client->getResponse()->getStatusCode()); //todo 301
+        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        //bind
-        $crossToken = $em->getRepository('JiliFrontendBundle:UserWenwenCrossToken')->findOneByUserId($this->user->getId());
-        $wenwen_url = "http://www.91wenwen.net?state=123&token=".$crossToken->getToken();
+        // has data in db
+        $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->findOneByUserId($user->getId());
+        $this->assertNotNull($cross);
+        $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->findOneByCrossId($cross->getId());
+        $this->assertNotNull($crossToken);
+
+        //connect_url
+        $wenwen_api_connect_jili = $container->getParameter('91wenwen_api_connect_jili');
+        $connect_url = $wenwen_api_connect_jili . '?state=123&token=' . $crossToken->getToken();
         $link_node = $crawler->filter('a')->eq(0);
         $link = $link_node->link();
-        $this->assertEquals($wenwen_url, $link->getUri(), 'Check wenwen bind page url');
-
-        //already bind
-
+        $this->assertEquals($connect_url, $link->getUri(), 'Check wenwen bind page url');
     }
 
-     /**
-     * @group issue_487
-     * @group accountBindAction
-     */
-    public function testAccountBindAction()
-    {
+    /**
+    * @group issue_487
+    * @group accountBindConfirmAction
+    */
+    public function testAccountBindConfirmAction() {
+        $em = $this->em;
+        $user = $this->user;
+
+        $client = static :: createClient();
+        $container = static :: $kernel->getContainer();
+
+        $router = $container->get('router');
+
+        $url = '/api/91wenwen/bindConfirm';
+        //$url = $router->generate('_account_bind_confirm', $post_data, false);
+
+        $secret_key = 'ADF93768CF';
+
+        // signature invalid
+        $time = time();
+        $token = 'a4d3d591c343d3c6aae70ad8b492171e3bce6aa6232b0858540713906e0d68ff';
+        $params = array (
+            'token' => $token,
+            'time' => $time
+        );
+        $signature = WenwenToken :: createSignature($params, $secret_key);
+        $post_data = array (
+            'token' => $token,
+            'time' => $time,
+            'signature' => $signature . 'invalid'
+        );
+        $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals('/api/91wenwen/bindConfirm', $client->getRequest()->getRequestUri());
+        $this->assertEquals(301, $client->getResponse()->getStatusCode()); //todo 301
+        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"message":"signature invalid"}', $client->getResponse()->getContent());
+
+        // token not exist
+        $token = 'a4d3d591c343d3c6aae70ad8b492171e3bce6aa6232b0858540713906e0d68ff';
+        $params = array (
+            'token' => $token,
+            'time' => $time
+        );
+        $signature = WenwenToken :: createSignature($params, $secret_key);
+        $post_data = array (
+            'token' => $token,
+            'time' => $time,
+            'signature' => $signature
+        );
+        $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals('/api/91wenwen/bindConfirm', $client->getRequest()->getRequestUri());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"message":"token not exist"}', $client->getResponse()->getContent());
+
+        $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->create($user->getId());
+        $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->create($cross->getId());
+        $params = array (
+            'token' => $crossToken->getToken(),
+            'time' => $time
+        );
+        $signature = WenwenToken :: createSignature($params, $secret_key);
+        $post_data = array (
+            'token' => $crossToken->getToken(),
+            'time' => $time,
+            'signature' => $signature
+        );
+        $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals('/api/91wenwen/bindConfirm', $client->getRequest()->getRequestUri());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $params = array (
+            'cross_id' => $cross->getId(),
+            'time' => $time
+        );
+        $signature_send = WenwenToken :: createSignature($params, $secret_key);
+        $this->assertEquals('{"cross_id":' . $cross->getId() . ',"time":' . $time . ',"signature":"' . $signature_send . '"}', $client->getResponse()->getContent());
     }
 }

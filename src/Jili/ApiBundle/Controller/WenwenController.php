@@ -156,16 +156,18 @@ class WenwenController extends Controller
         return $result;
     }
 
-   /**
-     * @Route("/bind/{state}", name="_account_bind", requirements={"_scheme"="https"})
-     * @Method({"GET", "POST"})
-     */
-    public function accountBindAction($state)
-    {
+    /**
+      * @Route("/bind/{state}", name="_account_bind", requirements={"_scheme"="https"})
+      * @Method({"GET", "POST"})
+      */
+    public function accountBindAction($state) {
         // check login
-        if(!  $this->get('request')->getSession()->get('uid') ) {
-            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('_account_bind',array('state'=>$state)) );
-            return  $this->redirect($this->generateUrl('_user_login'));
+        if (!$this->get('request')->getSession()->get('uid')) {
+            $this->get('request')->getSession()->set('referer', $this->generateUrl('_account_bind', array (
+                'state' => $state
+            )));
+
+            return $this->redirect($this->generateUrl('_user_login'));
         }
 
         // generate one time token
@@ -176,9 +178,9 @@ class WenwenController extends Controller
 
         // check already bind
         $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->findOneByUserId($user_id);
-        if($cross){
+        if ($cross) {
             $arr['bind_status'] = 1;
-        }else{
+        } else {
             //save user wenwen cross
             $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->create($user_id);
         }
@@ -187,37 +189,43 @@ class WenwenController extends Controller
 
         // get 91wenwen_api_connect_jili url
         $wenwen_api_connect_jili = $this->container->getParameter('91wenwen_api_connect_jili');
-        $arr['connect_url'] = $wenwen_api_connect_jili.'?state='.$state.'&token='.$crossToken->getToken();
+        $arr['connect_url'] = $wenwen_api_connect_jili . '?state=' . $state . '&token=' . $crossToken->getToken();
 
         return $this->render('JiliApiBundle:Wenwen:bind.html.twig', $arr);
     }
 
     /**
      * @Route("/bindConfirm", name="_account_bind_confirm", requirements={"_scheme"="https"})
-     * @Method({"POST"})
+     * @Method({"GET", "POST"})
      */
-    public function accountBindConfirmAction()
-    {
-        $token = $this->get('request')->get('token','');
-        $time = $this->get('request')->get('time','');
-        $signature = $this->get('request')->get('signature','');
+    public function accountBindConfirmAction() {
+        $token = $this->get('request')->get('token', '');
+        $time = $this->get('request')->get('time', '');
+        $signature = $this->get('request')->get('signature', '');
+        $secret_key = 'ADF93768CF'; //todo
 
         // check signature
-        $params = array('token'=>$token,'time'=>$time);
-        $secret_key = 'ADF93768CF';//todo,问一下seki,是什么
+        $params = array (
+            'token' => $token,
+            'time' => $time
+        );
 
         $signature_check = WenwenToken :: isSignatureValid($signature, $params, $secret_key, $time);
-        if(!$signature_check){
-            $message = "签名不对";
-            return new Response($message);
+        if (!$signature_check) {
+            $response = array (
+                'message' => 'signature invalid'
+            );
+            return new Response(json_encode($response));
         }
 
         // check one_time_token
         $em = $this->getDoctrine()->getManager();
         $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->findOneByToken($token);
-        if($token != $crossToken->getToken()){
-            $message = "token不存在";
-            return new Response($message);
+        if (!$crossToken || ($token != $crossToken->getToken())) {
+            $response = array (
+                'message' => 'token not exist'
+            );
+            return new Response(json_encode($response));
         }
 
         // get cross id from db
@@ -227,16 +235,21 @@ class WenwenController extends Controller
         $delete_token = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->delete($cross_id);
 
         // generate signature(cross_id, time)
-        $time = time();
-        $params = array('cross_id'=>$cross_id,'time'=>$time);
-        $secret_key = 'ADF93768CF';//todo,问一下seki,是什么
+        if (!$time) {
+            $time = time();
+        }
+        $params = array (
+            'cross_id' => $cross_id,
+            'time' => $time
+        );
         $signature_send = WenwenToken :: createSignature($params, $secret_key);
 
-        $response = array('cross_id'=>$cross_id,'time'=>$time,'signature' =>$signature_send);
+        $response = array (
+            'cross_id' => $cross_id,
+            'time' => $time,
+            'signature' => $signature_send
+        );
 
-        $message = "账号关联成功";
-        echo $message;
         return new Response(json_encode($response));
     }
-
 }
