@@ -62,7 +62,8 @@ CheckinModule.auto_checkin = function() {
 	var after_finished = function() {
 		$("p.signInAuto").text("恭喜您签到成功");
         $("li #task_checkin_mark").removeClass("mark").addClass("hasMark");
-        $("#mysign").text("已签到").css("background", "#ccc").unbind("click", signs);
+		$("#signTxt").text("已签到");
+        $("#mysign").css("background", "#ccc").unbind("click", signs);
 	};
 	var next = function() {
 		if (index >= count_of_ads) {
