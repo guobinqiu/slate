@@ -109,7 +109,10 @@ CheckinModule.auto_checkin = function() {
 											obj = JSON.parse(data);
 										}
 										// 打开商家，_checkin_location
-										var target = urls.checkin_location + "?aid=" + aid + "&type=1";
+                                        var target = Routing.generate("_checkin_location", {
+                                             "aid": aid,
+                                             "type": 1
+                                         });
 										buffer.location.href = target;
 										if (obj.code == 1) {}
 										// update the user's pts div

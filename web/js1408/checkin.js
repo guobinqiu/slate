@@ -4,7 +4,6 @@ $(document).ready(function() {
 	$("#confirmAutoFrame").hide();
 	$.ajax({
 		url: Routing.generate("_checkin_clickCount"),
-		//urls.checkin_clickCount,
 		post: "GET",
 		success: function(data) {
 			if (data < 3) {
@@ -74,7 +73,6 @@ function goto(cid, aid, points) {
 	var w = window.open("", "_blank");
 	$.ajax({
 		// 记录商家的access: _advertiserment_click
-		//url: urls.advertiserment_click+"?id="+aid,
 		url: Routing.generate("_advertiserment_click", {
 			"id": aid
 		}),
@@ -105,7 +103,6 @@ function goto(cid, aid, points) {
 						// 记录签到商家数，发米粒 .
 						$.ajax({
 							//_checkin_clickInsert
-							//urls.checkin_clickInsert+"?cid="+cid+"&aid="+aid,
 							url: Routing.generate("_checkin_clickInsert", {
 								"cid": cid,
 								"aid": aid
@@ -121,7 +118,6 @@ function goto(cid, aid, points) {
 								}
 
 								// 打开商家，_checkin_location
-								//urls.checkin_location+"?aid="+aid+"&type=1";
 								w.location.href = Routing.generate("_checkin_location", {
 									"aid": aid,
 									"type": 1
@@ -135,7 +131,7 @@ function goto(cid, aid, points) {
 					}
 				});
 			} else if (data == 0) {
-				window.location.href = Routing.generate("_user_login"); //urls.user_login;
+				window.location.href = Routing.generate("_user_login"); 
 				w.close();
 			} else {
 				w.close();
