@@ -9,6 +9,8 @@ namespace Jili\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\OAuth\QQAuth;
 
 class QQLoginController extends Controller
@@ -49,7 +51,7 @@ class QQLoginController extends Controller
             } else {
                 $qq_auth = new QQAuth($qq_k, $qq_s, $qq_t);
                 $qq_oid = $qq->get_openid();
-                $openid = $qq_oid['openid']; //获取登录用户open id 
+                $openid = $qq_oid['openid']; //获取登 录用户open id 
                 // db 没有此openid，说明用户第一次用qq登陆，跳转到绑定账号注册页面，在那个页面注册成功后，生成新账号，跳转到首页
                 // 通过api 得到 qq 昵称
                 // qqFirstLoginAction
@@ -71,12 +73,26 @@ class QQLoginController extends Controller
      */
     public function qqRegisteAction()
     {
-        echo "regist";exit;
-        $form  = $this->createForm(new RegType(), $user);
+        echo "regist";
+        $request = $this->get('request');
         // if ($form->isValid()) 
         // Apibundle/Services/UserRegiste.php(call UserRegiste to registe)
+        $user_registe = $this->get('user_regist');
+        $param['email'] = $request->request->get('email');
+        $param['nick'] = 'QQ'.'jilitest'; // todo make a rule
+        $param['open_id'] = 'test open id'; // todo get in session
+        $param['pwd'] = 'test pwd'; // todo get in session
+        $arr = $user_registe->qq_user_registe($param);
+        $request->request->set('pwd', $param['pwd']);
+        $code = $this->get('login.listener')->login($request);
+        if($code == 'ok') {
+            $code_redirect = '301';
+            $current_url = '/';
+            $response = new RedirectResponse($current_url, $code_redirect);
+            return $response;
+        }
         // Apibundle/Services/UserLogin.php(call UserLogin to login) or call UserController _user_login
-        return $this->redirect($this->generateUrl('_user_login'));
+        return $this->redirect($this->generateUrl('qq_fist_login'));
     }
     
     /**
@@ -86,11 +102,13 @@ class QQLoginController extends Controller
     {
         echo "bind";
         $request = $this->get('request');
+        $user_bind = $this->get('user_bind');
         // if (jili id valid()) 
-        $email = $request->request->get('email');
-        $pwd = $request->request->get('pwd');
-        $form  = $this->createForm(new RegType(), $user);
-        echo $email.$pwd;
+        $param['email'] = $request->request->get('email');
+        $param['pwd']= $request->request->get('pwd');
+        $param['open_id'] = 'test open id'; // todo get in session
+        $arr = $user_bind->qq_user_bind($param);
+        
         exit;
         // Apibundle/Ses/UserBind.php(call UserBindtervices/UserBind.php(call UserBindto bind jili's id)
         // Apibundle/Services/UserLogin.php(call UserLogin to login) or call UserController _user_login

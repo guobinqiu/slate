@@ -27,6 +27,10 @@ parameters:
     point_manage.processor.class:  Jili\ApiBundle\EventListener\PointManageProcessor
 
     send_mail.class:  Jili\ApiBundle\Service\SendMail
+    
+    user_regist.class: Jili\ApiBundle\Services\UserRegist
+    user_bind.class: Jili\ApiBundle\Services\UserBind
+    
 # session 
     session.task_list.class: Jili\ApiBundle\EventListener\Session\TaskList
     session.my_task_list.class: Jili\ApiBundle\EventListener\Session\MyTaskList
@@ -195,3 +199,15 @@ services:
         calls:
             - [setContainer, ["@service_container"] ]
             - [setSoapMail, ["@soap.mail.listener"] ]
+
+    user_regist:
+        class: %user_regist.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            
+    user_bind:
+        class: %user_bind.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
