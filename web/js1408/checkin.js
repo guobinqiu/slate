@@ -54,9 +54,11 @@ var signs = function() {
 		success: function(rsp) {
 			if (rsp.code == 200) {
                 jili_autocheckin.is_set.init( rsp.data.flag_data);
+            } else if (rsp.code == 404) {
+                jili_autocheckin.is_set.init( undefined );
 			};
 			//如果没有设置手工，则显示手工签到
-			if (typeof jili_autocheckin == "undefined" || typeof jili_autocheckin.is_set == "undefined" || jili_autocheckin.is_set.get() == false) {
+			if (typeof jili_autocheckin == "undefined" || typeof jili_autocheckin.is_set == "undefined" || jili_autocheckin.is_set.get() == false || typeof jili_autocheckin.is_set.get() == "undefined") {
 				$("#signInFrame").show();
 				$(".blackBg").show();
 			} else {

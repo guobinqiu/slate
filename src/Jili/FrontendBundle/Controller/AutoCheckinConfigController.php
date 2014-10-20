@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Jili\ApiBundle\Entity\UserConfigurations;
+use Jili\ApiBundle\Form\Type\CheckinConfigType;
 
 /**
  * @Route("/autoCheckIn")
@@ -41,6 +42,17 @@ class AutoCheckinConfigController extends Controller {
         if ($request->getMethod() != 'PUT' || !$request->isXmlHttpRequest()) {
             $return['code'] = 400;
             $return['message'] = '请求方法不对';
+            $response = new JsonResponse();
+            $response->setData($return);
+            return $response;
+        }
+
+        // csrf valid
+        $form = $this->createForm(new CheckinConfigType()); 
+        $form->bind($request);
+        if(! $form->isValid()) {
+            $return['code'] = 424;
+            $return['message'] = 'CSRF错误';
             $response = new JsonResponse();
             $response->setData($return);
             return $response;
@@ -102,6 +114,17 @@ class AutoCheckinConfigController extends Controller {
             return $response;
         }
 
+        // csrf valid
+        $form = $this->createForm(new CheckinConfigType()); 
+        $form->bind($request);
+        if(! $form->isValid()) {
+            $return['code'] = 424;
+            $return['message'] = 'CSRF错误';
+            $response = new JsonResponse();
+            $response->setData($return);
+            return $response;
+        }
+
         //check user config auto_checkin exist
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user_id);
@@ -123,18 +146,6 @@ class AutoCheckinConfigController extends Controller {
         $response = new JsonResponse();
         $response->setData($return);
         return $response;
-
-        //    try {
-        //    transaction start
-        //    delete from user_configurations where user_id  = uid and flag_name ='auto_checkin'
-        //    or
-        //    update user_configuration set flag_data= false where  user_id  = uid and flag_name ='auto_checkin'
-        //    transaction commit
-        //    } catch() {
-        //    transaction roll back
-        //    return json:   code: 500, message: 出错了。
-        //    }
-        //    return json code 200, data: countOfRemoved: 1, message: 完成
     }
 
     /**
@@ -162,6 +173,17 @@ class AutoCheckinConfigController extends Controller {
         if ($request->getMethod() != 'POST' || !$request->isXmlHttpRequest()) {
             $return['code'] = 400;
             $return['message'] = "请求方法不对";
+            $response = new JsonResponse();
+            $response->setData($return);
+            return $response;
+        }
+
+        // csrf valid
+        $form = $this->createForm(new CheckinConfigType()); 
+        $form->bind($request);
+        if(! $form->isValid()) {
+            $return['code'] = 424;
+            $return['message'] = 'CSRF错误';
             $response = new JsonResponse();
             $response->setData($return);
             return $response;
@@ -232,7 +254,7 @@ class AutoCheckinConfigController extends Controller {
         $userConfiguration = $em->getRepository('JiliApiBundle:UserConfigurations')->searchUserConfiguration("auto_checkin", $user_id);
         if (!$userConfiguration) {
             $return['code'] = 404;
-            $return['message'] = "记录不存在";
+            $return['message'] = '记录不存在';
             $response = new JsonResponse();
             $response->setData($return);
             return $response;

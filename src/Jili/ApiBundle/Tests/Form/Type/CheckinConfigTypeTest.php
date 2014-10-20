@@ -1,14 +1,13 @@
 <?php
 namespace Jili\ApiBundle\Tests\Form\Type;
 
-use Jili\ApiBundle\Form\Type\SignupActivateType;
-
 use Symfony\Component\Form\Tests\Extension\Core\Type\TypeTestCase;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension;
+use Jili\ApiBundle\Form\Type\CheckinConfigType;
 
-class SignupActivateTypeTest extends TypeTestCase
+class CheckinConfigTypeTest extends TypeTestCase
 {
     /**
      * {@inheritDoc}
@@ -38,26 +37,20 @@ class SignupActivateTypeTest extends TypeTestCase
     }
 
     /**
-     * @group issue_381
+     * @group issue_469
      **/
     public function testBindValidData()
     {
 
-        $type = new SignupActivateType();
+        $type = new CheckinConfigType();
         $form = $this->factory->create($type);
 
         $formData = array(
-            'password'=>array(
-                'first'=> '123qwe',
-                'second'=> '123qwe',
-            ),
-            'agreement'=> true,
+            'flag_name'=> 'auto_checkin',
         );
 
         $data = array(
-            'password' =>'123qwe',
-            'agreement'=> true,
-
+            'flag_name'=> 'auto_checkin',
         );
 
         $form->bind($formData);
@@ -70,5 +63,6 @@ class SignupActivateTypeTest extends TypeTestCase
         foreach (array_keys($formData) as $key) {
             $this->assertArrayHasKey($key, $children);
         }
+        $this->assertEquals('checkin_config',$type->getName(), 'form name');;
     }
 }

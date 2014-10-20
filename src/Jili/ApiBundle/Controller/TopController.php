@@ -12,6 +12,7 @@ use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\RebateUtil;
 use Jili\ApiBundle\Entity\CheckinAdverList;
+use Jili\ApiBundle\Form\Type\CheckinConfigType;
 
 /**
  * @Route("/top",requirements={"_scheme"="http"})
@@ -111,6 +112,9 @@ class TopController extends Controller
 
             //获取签到商家
             $arr['arrList'] = $this->checkinList();
+
+            $checkin_form= $this->createForm(new CheckinConfigType(), array('flag_name'=>'auto_checkin'));
+            $arr['checkinConfForm'] = $checkin_form->createView();
 
             return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
         } else {

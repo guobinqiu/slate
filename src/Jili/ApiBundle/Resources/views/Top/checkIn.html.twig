@@ -63,17 +63,23 @@ var CheckinModule = CheckinModule || {};
         advertiserments : {{ arrList|json_encode()|raw  }},
         checkin_point : {{ checkinPoint|raw  }},
         is_request : {{   app.request.get('auto_checkin', 0 )  ? 1 : 0  }},
-is_set : function() {
- var v = undefined;
-  return {
-    get: function() { return v; },
-    init: function(value) { 
-      v =  value;
-    return v;
-  }
-  
-  }
-
-}()
+        is_set: function() {
+        	var v = undefined;
+        	return {
+        		get: function() {
+        			return v;
+        		},
+        		init: function(value) {
+        			v = value;
+        			return v;
+        		}
+        	}
+        }()
     };
 </script>
+
+<form action="#" id="checkin_config_form">
+    {{ form_row(checkinConfForm.flag_name) }}
+    {{ form_rest(checkinConfForm)}}
+
+</form>

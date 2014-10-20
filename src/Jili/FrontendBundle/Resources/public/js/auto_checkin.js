@@ -61,9 +61,9 @@ CheckinModule.setManualCheckin = function() {
 	}
 	var method = "DELETE";
 	var url = Routing.generate('autocheckinconfig_delete');
-	// return false;
 	$.ajax({
 		url: url,
+        data: $("#checkin_config_form").serialize(),
 		type: method,
 		success: function(rsp) {
 			if (rsp.code == 200) {
@@ -94,9 +94,9 @@ CheckinModule.setAutoCheckin = function() {
 		return false;
 	};
 
-	// return false;
 	$.ajax({
 		url: url,
+        data: $("#checkin_config_form").serialize(),
 		type: method,
 		success: function(rsp) {
 			if (rsp.code == 200) {

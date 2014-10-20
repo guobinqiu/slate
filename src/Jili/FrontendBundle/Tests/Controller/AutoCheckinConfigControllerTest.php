@@ -61,7 +61,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
     public function testCreate()
     {
         $client = static::createClient();
-        $container = $this->container;
+        $container = $client->getContainer();;
         $em = $this->em;
         $url =  $container->get('router')->generate('autocheckinconfig_create');
         // 1. no session uid
@@ -76,8 +76,6 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $client->request('POST', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(405, $client->getResponse()->getStatusCode());
 
-//        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
-
         // 1.3.Ajax and PUT;
         $client->request('PUT', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -86,13 +84,37 @@ class AutoCheckinConfigControllerTest extends WebTestCase
 
 
         $users = LoadUserCodeData::$USERS;
-        // 2. session uid of null user_configurations 
+        
+        // 2a.csrf error without form data,  session uid of null user_configurations 
         $session = static::$kernel->getContainer()->get('session');
         $session->set('uid', $users[2]->getId());
         $session->save();
-        $client->request('PUT', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array();
+        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
+        $expected = '{"code":424,"message":"CSRF\u9519\u8bef"}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'csrf invalid');
+        
+        // 2b.csrf error with invalid form field,  session uid of null user_configurations 
+        $session = static::$kernel->getContainer()->get('session');
+        $session->set('uid', $users[2]->getId());
+        $session->save();
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array('checkin_config'=> array('flag_name2'=>'auto_checkin','_token'=>$csrfToken) );
+        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $expected = '{"code":424,"message":"CSRF\u9519\u8bef"}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'csrf invalid');
+        
+        // 2c. session uid of null user_configurations 
+        $session = static::$kernel->getContainer()->get('session');
+        $session->set('uid', $users[2]->getId());
+        $session->save();
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
+        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $expected = '{"code":200,"message":"\u6210\u529f"}';//"成功"
         $this->assertEquals($expected, $client->getResponse()->getContent(),'成功');
         $r = $this->em->getRepository('JiliApiBundle:UserConfigurations')->findBy( array('userId'=> $users[2]->getId() ,'flagName' =>'checkin_flag','flagData'=>1 ) );;
@@ -102,21 +124,25 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session = static::$kernel->getContainer()->get('session');
         $session->set('uid', $users[1]->getId());
         $session->save();
-        $client->request('PUT', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
+        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $expected = '{"code":201,"message":"\u5df2\u7ecf\u5b58\u5728"}';//已经存在
         $this->assertEquals($expected, $client->getResponse()->getContent(),'已经存在');
         // checkin current data. 
 
-        // 4. session uid of true user_configurations 
+        // 4a. session uid of true user_configurations 
         $session = static::$kernel->getContainer()->get('session');
         $session->set('uid', $users[1]->getId());
         $session->save();
-        $client->request('PUT', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
+        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals($expected, $client->getResponse()->getContent(),'已经存在');
 
-        // 4. session uid of true user_configurations 
+        // 4b. session uid of true user_configurations 
         $session = static::$kernel->getContainer()->get('session');
         $session->set('uid', $users[1]->getId());
         $session->save();
@@ -130,7 +156,6 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         // 1.2.only Ajax without PUT
         $client->request('POST', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(405, $client->getResponse()->getStatusCode());
- //       $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
     }
 
     /**
@@ -139,7 +164,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
     public function testDelete()
     {
         $client = static::createClient();
-        $container = $this->container;
+        $container = $client->getContainer();;
         $em = $this->em;
 
         $url =  $container->get('router')->generate('autocheckinconfig_delete');
@@ -154,19 +179,22 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         // 1.2. only AJAX 
         $client->request('GET', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(405, $client->getResponse()->getStatusCode());
-//        $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
+
         // 1.3. Ajax and DELETE ;
         $client->request('DELETE', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
         
         $users = LoadUserCodeData::$USERS;
+        // 2a. without csrf, 
+        
         // 2. with session uid 
         $session = static::$kernel->getContainer()->get('session');
         $session->set('uid', $users[2]->getId());
         $session->save();
-        // 2.1 only DELETE
-        $client->request('DELETE', $url );
+
+        // 2.1   only DELETE
+        $client->request('DELETE', $url);
         $expected = '{"code":400,"message":"\u8bf7\u6c42\u65b9\u6cd5\u4e0d\u5bf9"}'; //请求方法不对
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
@@ -174,11 +202,19 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         // 2.2 only Ajax 
         $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(405, $client->getResponse()->getStatusCode(),'check request status code ');
-//        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
-        // 2.3. Ajax and DELETE ;
         
-        // 3. with session uid of no user_configurations 
-        $client->request('DELETE', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        // 3a no csrf  
+        $form_data =array();
+        $client->request('DELETE', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $expected = '{"code":424,"message":"CSRF\u9519\u8bef"}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'csrf invalid');
+        
+
+        // 3b.with csrf,  with session uid of no user_configurations 
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
+        $client->request('DELETE', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $expected = '{"code":404,"message":"\u8bb0\u5f55\u4e0d\u5b58\u5728"}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'记录不存在');
@@ -187,7 +223,9 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session = static::$kernel->getContainer()->get('session');
         $session->set('uid', $users[1]->getId());
         $session->save();
-        $client->request('DELETE', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
+        $client->request('DELETE', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $expected = '{"code":200,"data":{"countOfRemoved":1},"message":"\u5b8c\u6210"}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
@@ -202,7 +240,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
     public function testUpdate()
     {
         $client = static::createClient();
-        $container = $this->container;
+        $container = $client->getContainer();;
         $em = $this->em;
         $url =  $container->get('router')->generate('autocheckinconfig_update');
         // 1. no session uid
@@ -242,8 +280,16 @@ class AutoCheckinConfigControllerTest extends WebTestCase
 //        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
         // 2.3. Ajax and  POST;
         //
-        // 3. with session uid of no user_configurations 
+        // 3a. with session uid of no user_configurations 
         $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
+        $expected = '{"code":424,"message":"CSRF\u9519\u8bef"}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'记录不存在');
+
+        // 3b. with session uid of no user_configurations 
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
+        $client->request('POST', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $expected = '{"code":404,"message":"\u8bb0\u5f55\u4e0d\u5b58\u5728"}';
 
@@ -253,7 +299,9 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session = static::$kernel->getContainer()->get('session');
         $session->set('uid', $users[1]->getId());
         $session->save();
-        $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
+        $client->request('POST', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $expected = '{"code":200,"data":{"countOfUpdated":1},"message":"\u5b8c\u6210"}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
@@ -264,7 +312,9 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session = static::$kernel->getContainer()->get('session');
         $session->set('uid', $users[0]->getId());
         $session->save();
-        $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
+        $client->request('POST', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
         $r = $em->getRepository('JiliApiBundle:UserConfigurations')->findBy( array('userId'=>$users[0]->getId(), 'flagName'=> 'auto_checkin', 'flagData'=>1 ));;
