@@ -15,7 +15,6 @@ class WenwenControllerTest extends WebTestCase {
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    private $user;
 
     /**
      * {@inheritDoc}
@@ -55,9 +54,6 @@ class WenwenControllerTest extends WebTestCase {
             $executor = new ORMExecutor($em, $purger);
             $executor->purge();
             $executor->execute($loader->getFixtures());
-        }
-        if ($tn == 'testAccountBindAction' || $tn == 'testAccountBindConfirmAction') {
-            $this->user = LoadUserData :: $USERS[0];
         }
 
         $this->em = $em;
@@ -191,41 +187,42 @@ class WenwenControllerTest extends WebTestCase {
      */
     public function testAccountBindAction() {
         $em = $this->em;
-        $user = $this->user;
+        $user = LoadUserData :: $USERS[0];
 
         $client = static :: createClient();
         $container = static :: $kernel->getContainer();
+        $session = $container->get('session');
 
         $router = $container->get('router');
 
         //$url = $router->generate('_account_bind', array ('state' => '123'), false);
         $url = '/api/91wenwen/bind/123';
 
-        //not login
+        // not login
+        $session->remove('uid', '');
+        $session->save();
+        $this->assertFalse($session->has('uid'));
         $crawler = $client->request('POST', $url);
         $this->assertEquals('/api/91wenwen/bind/123', $client->getRequest()->getRequestUri());
 
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
-        //  check the redirected url.
-        $this->assertEquals('/user/login', $client->getRequest()->getRequestUri());
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        // check the redirected url.
+        //$this->assertEquals('/user/login', $client->getRequest()->getRequestUri());
+        $this->assertEquals('/api/91wenwen/bind/123', $client->getRequest()->getRequestUri());
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         // no data in db
         $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->findOneByUserId($user->getId());
         $this->assertNull($cross);
 
         // login
-        $session = $container->get('session');
-
         $session->set('uid', $user->getId());
         $session->save();
         $this->assertTrue($session->has('uid'));
         $this->assertEquals($user->getId(), $session->get('uid'));
 
         $crawler = $client->request('POST', $url);
-        $this->assertEquals(301, $client->getResponse()->getStatusCode()); //todo 301
-        $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         // has data in db
@@ -234,7 +231,7 @@ class WenwenControllerTest extends WebTestCase {
         $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->findOneByCrossId($cross->getId());
         $this->assertNotNull($crossToken);
 
-        //connect_url
+        // connect_url
         $wenwen_api_connect_jili = $container->getParameter('91wenwen_api_connect_jili');
         $connect_url = $wenwen_api_connect_jili . '?state=123&token=' . $crossToken->getToken();
         $link_node = $crawler->filter('a')->eq(0);
@@ -248,7 +245,7 @@ class WenwenControllerTest extends WebTestCase {
     */
     public function testAccountBindConfirmAction() {
         $em = $this->em;
-        $user = $this->user;
+        $user = LoadUserData :: $USERS[0];
 
         $client = static :: createClient();
         $container = static :: $kernel->getContainer();
