@@ -208,7 +208,6 @@ class AutoCheckinConfigController extends Controller {
         $return['data']['countOfUpdated'] = 1;
         $return['message'] = "完成";
 
-        $this->get('logger')->debug('{jarod}'. implode(':', array(__LINE__, __FILE__,'')).var_export('', true));
         //  签到的操作方式更新到session
         $userConfigs = $this->get('session.user_configs');
         $userConfigs->updateCheckinOpMethod();
