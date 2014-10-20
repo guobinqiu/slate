@@ -57,6 +57,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
 
     /**
      * @group issue_469
+     * @group debug
      */
     public function testCreate()
     {
@@ -89,7 +90,6 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session = static::$kernel->getContainer()->get('session');
         $session->set('uid', $users[2]->getId());
         $session->save();
-        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
         $form_data = array();
         $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -107,7 +107,17 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $expected = '{"code":424,"message":"CSRF\u9519\u8bef"}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'csrf invalid');
         
-        // 2c. session uid of null user_configurations 
+        // 2c.csrf error with invalid form field,  session uid of null user_configurations 
+        $session = static::$kernel->getContainer()->get('session');
+        $session->set('uid', $users[2]->getId());
+        $session->save();
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
+        $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken.'x') );
+        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $expected = '{"code":424,"message":"CSRF\u9519\u8bef"}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'csrf invalid');
+        // 2d. session uid of null user_configurations 
         $session = static::$kernel->getContainer()->get('session');
         $session->set('uid', $users[2]->getId());
         $session->save();
