@@ -60,7 +60,7 @@ class WenwenToken {
         if ($req_time > ($time +self :: $SIG_VALID_FOR_SEC)) {
             return false;
         }
-        //echo self :: createSignature($params, $secret_key);
+
         return $sig === self :: createSignature($params, $secret_key);
     }
 

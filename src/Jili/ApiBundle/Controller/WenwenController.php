@@ -202,7 +202,7 @@ class WenwenController extends Controller
         $token = $this->get('request')->get('token', '');
         $time = $this->get('request')->get('time', '');
         $signature = $this->get('request')->get('signature', '');
-        $secret_key = 'ADF93768CF'; //todo
+        $secret_key = $this->container->getParameter('91wewen_bind_secret_key');
 
         // check signature
         $params = array (

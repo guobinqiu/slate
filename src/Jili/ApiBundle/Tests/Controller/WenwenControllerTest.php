@@ -255,7 +255,7 @@ class WenwenControllerTest extends WebTestCase {
         $url = '/api/91wenwen/bindConfirm';
         //$url = $router->generate('_account_bind_confirm', $post_data, false);
 
-        $secret_key = 'ADF93768CF';
+        $secret_key = $container->getParameter('91wewen_bind_secret_key');
 
         // signature invalid
         $time = time();
