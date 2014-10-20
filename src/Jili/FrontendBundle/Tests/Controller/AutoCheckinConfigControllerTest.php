@@ -57,7 +57,6 @@ class AutoCheckinConfigControllerTest extends WebTestCase
 
     /**
      * @group issue_469
-     * @group debug
      */
     public function testCreate()
     {
@@ -67,18 +66,18 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $url =  $container->get('router')->generate('autocheckinconfig_create');
         // 1. no session uid
         // 1.1. only PUT
-        $client->request('PUT', $url );
+        $client->request('POST', $url );
         $response =  $client->getResponse();
         $expected = '{"code":401,"message":"\u9700\u8981\u767b\u5f55"}'; //需要登录
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
 
         // 1.2.only Ajax without PUT
-        $client->request('POST', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('PUT', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(405, $client->getResponse()->getStatusCode());
 
         // 1.3.Ajax and PUT;
-        $client->request('PUT', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('POST', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $expected = '{"code":401,"message":"\u9700\u8981\u767b\u5f55"}'; //
         $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
@@ -91,7 +90,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->set('uid', $users[2]->getId());
         $session->save();
         $form_data = array();
-        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('POST', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $expected = '{"code":424,"message":"CSRF\u9519\u8bef"}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'csrf invalid');
@@ -102,7 +101,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->save();
         $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
         $form_data = array('checkin_config'=> array('flag_name2'=>'auto_checkin','_token'=>$csrfToken) );
-        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('POST', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $expected = '{"code":424,"message":"CSRF\u9519\u8bef"}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'csrf invalid');
@@ -113,7 +112,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->save();
         $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
         $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken.'x') );
-        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('POST', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $expected = '{"code":424,"message":"CSRF\u9519\u8bef"}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'csrf invalid');
@@ -123,7 +122,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->save();
         $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
         $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
-        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('POST', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $expected = '{"code":200,"message":"\u6210\u529f"}';//"成功"
         $this->assertEquals($expected, $client->getResponse()->getContent(),'成功');
@@ -136,7 +135,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->save();
         $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
         $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
-        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('POST', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $expected = '{"code":201,"message":"\u5df2\u7ecf\u5b58\u5728"}';//已经存在
         $this->assertEquals($expected, $client->getResponse()->getContent(),'已经存在');
@@ -148,7 +147,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->save();
         $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
         $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
-        $client->request('PUT', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('POST', $url ,$form_data, array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals($expected, $client->getResponse()->getContent(),'已经存在');
 
@@ -157,14 +156,14 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->set('uid', $users[1]->getId());
         $session->save();
 
-        $client->request('PUT', $url );
+        $client->request('POST', $url );
         $response =  $client->getResponse();
         $expected = '{"code":400,"message":"\u8bf7\u6c42\u65b9\u6cd5\u4e0d\u5bf9"}'; //请求方法不对
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
 
         // 1.2.only Ajax without PUT
-        $client->request('POST', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('PUT', $url , array(), array(),array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(405, $client->getResponse()->getStatusCode());
     }
 
@@ -255,7 +254,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $url =  $container->get('router')->generate('autocheckinconfig_update');
         // 1. no session uid
         // 1.1. only POST 
-        $client->request('POST', $url );
+        $client->request('PUT', $url );
         $response =  $client->getResponse();
         $expected = '{"code":401,"message":"\u9700\u8981\u767b\u5f55"}'; //需要登录
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
@@ -267,7 +266,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $this->assertEquals(405, $client->getResponse()->getStatusCode(),'check request status code ');
        // $this->assertEquals($expected, $client->getResponse()->getContent(),'需要登录');
         // 1.3. Ajax and POST;
-        $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest') );
+        $client->request('PUT', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest') );
         $response =  $client->getResponse();
         $expected = '{"code":401,"message":"\u9700\u8981\u767b\u5f55"}'; //需要登录
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
@@ -279,19 +278,19 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->set('uid', $users[2]->getId());
         $session->save();
         // 2.1 only POST 
-        $client->request('POST', $url );
+        $client->request('PUT', $url );
         $expected = '{"code":400,"message":"\u8bf7\u6c42\u65b9\u6cd5\u4e0d\u5bf9"}'; //请求方法不对
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
         
         // 2.2 only Ajax 
-        $client->request('PUT', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(405, $client->getResponse()->getStatusCode(),'check request status code ');
 //        $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对');
         // 2.3. Ajax and  POST;
         //
         // 3a. with session uid of no user_configurations 
-        $client->request('POST', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('PUT', $url , array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $expected = '{"code":424,"message":"CSRF\u9519\u8bef"}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'记录不存在');
@@ -299,7 +298,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         // 3b. with session uid of no user_configurations 
         $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
         $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
-        $client->request('POST', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('PUT', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $expected = '{"code":404,"message":"\u8bb0\u5f55\u4e0d\u5b58\u5728"}';
 
@@ -311,7 +310,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->save();
         $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
         $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
-        $client->request('POST', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('PUT', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $expected = '{"code":200,"data":{"countOfUpdated":1},"message":"\u5b8c\u6210"}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
@@ -324,7 +323,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
         $session->save();
         $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('checkin_config');
         $form_data = array('checkin_config'=> array('flag_name'=>'auto_checkin','_token'=>$csrfToken) );
-        $client->request('POST', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $client->request('PUT', $url , $form_data, array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $this->assertEquals($expected, $client->getResponse()->getContent(),'完成');
         $r = $em->getRepository('JiliApiBundle:UserConfigurations')->findBy( array('userId'=>$users[0]->getId(), 'flagName'=> 'auto_checkin', 'flagData'=>1 ));;

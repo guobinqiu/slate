@@ -85,10 +85,10 @@ CheckinModule.setAutoCheckin = function() {
 	var el = $("span#set_autocheckin");
 	// var url = el.attr('href');
 	if ("undefined" == typeof jili_autocheckin.is_set || "undefined" == typeof jili_autocheckin.is_set.get() ) {
-		var method = "PUT";
+		var method = "POST";
 		var url = Routing.generate('autocheckinconfig_create');
 	} else if (jili_autocheckin.is_set.get() == false) {
-		var method = "POST";
+		var method = "PUT";
 		var url = Routing.generate('autocheckinconfig_update');
 	} else {
 		return false;

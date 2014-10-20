@@ -20,7 +20,7 @@ class AutoCheckinConfigController extends Controller {
 
     /**
      * @Route("/create", name="autocheckinconfig_create",  options={"expose"=true})
-     * @Method("PUT")
+     * @Method("POST")
      */
     public function createAction() 
     {
@@ -39,7 +39,7 @@ class AutoCheckinConfigController extends Controller {
         $user_id = $session->get('uid');
 
         //check mothod
-        if ($request->getMethod() != 'PUT' || !$request->isXmlHttpRequest()) {
+        if ($request->getMethod() != 'POST' || !$request->isXmlHttpRequest()) {
             $return['code'] = 400;
             $return['message'] = '请求方法不对';
             $response = new JsonResponse();
@@ -150,7 +150,7 @@ class AutoCheckinConfigController extends Controller {
 
     /**
      * @Route("/update", name="autocheckinconfig_update", options={"expose"=true})
-     * @Method("POST")
+     * @Method("PUT")
      */
     public function updateAction() 
     {
@@ -170,7 +170,7 @@ class AutoCheckinConfigController extends Controller {
         $user_id = $session->get('uid');
 
         //check mothod
-        if ($request->getMethod() != 'POST' || !$request->isXmlHttpRequest()) {
+        if ($request->getMethod() != 'PUT' || !$request->isXmlHttpRequest()) {
             $return['code'] = 400;
             $return['message'] = "请求方法不对";
             $response = new JsonResponse();
