@@ -11,6 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\RebateUtil;
+use Jili\ApiBundle\Entity\CheckinAdverList;
+use Jili\ApiBundle\Form\Type\CheckinConfigType;
 
 /**
  * @Route("/top",requirements={"_scheme"="http"})
@@ -82,10 +84,16 @@ class TopController extends Controller
         //个人中心
         //确认中的米粒数
         $arr['confirmPoints'] = $this->get('session.points')->getConfirm();
+
+        // 是否已经签到
         $taskList = $this->get('session.task_list');
         if( $this->container->getParameter('init_one') === $taskList->get('checkin_visit') ) {
             $arr['userCheckin'] = $this->container->getParameter('init_one');
         }
+        //  签到的操作方式
+        $userConfigs = $this->get('session.user_configs');
+        $arr['checkinOpMethod'] = $userConfigs->getCheckinOpMethod();
+
         return $this->render('JiliApiBundle:Top:userInfo.html.twig', $arr);
     }
 
@@ -104,6 +112,9 @@ class TopController extends Controller
 
             //获取签到商家
             $arr['arrList'] = $this->checkinList();
+
+            $checkin_form= $this->createForm(new CheckinConfigType(), array('flag_name'=>'auto_checkin'));
+            $arr['checkinConfForm'] = $checkin_form->createView();
 
             return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
         } else {
@@ -188,28 +199,32 @@ class TopController extends Controller
         $cal_count = "";
         $campaign_multiple = $this->container->getParameter('campaign_multiple');
         $request = $this->get('request');
+        $logger = $this->get('logger');
         $uid = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
         $reward_multiple = $user->getRewardMultiple();
-        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
-        if (count($cal) > 6) {
-            $cal_count = 6;
-            $calNow = array_rand($cal, 6); //随机取数组中6个键值
+        $is_auto_checkin =  $request->get('auto_checkin',0);
+        $operation = (! $is_auto_checkin) ? CheckinAdverList::ANY_OP_METHOD : CheckinAdverList::AUTO_OP_METHOD; 
+        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid, $operation);
+
+        $count_for_checkin =  6;
+        $cal_count = count($cal);
+
+        if ($cal_count > $count_for_checkin) {
+            $calNow = array_rand($cal, $count_for_checkin); //随机取数组中6个键值
+            $cal_count = $count_for_checkin;
         } else {
-            $cal_count = count($cal);
-            for ($i = 0; $i < count($cal); $i++) {
-                $calNow[$i] = $i;
-            }
+            $calNow = range(0, $cal_count - 1);
         }
+
         for ($i = 0; $i < $cal_count; $i++) {
             $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
             $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
             $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate'] / 10000, 2);
             $arrList[] = $cal[$calNow[$i]];
         }
+
         return $arrList;
-
     }
-
 }

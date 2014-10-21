@@ -5,18 +5,81 @@
 {% block javascript %}
 <script src="{{ asset('js1408/checkin.js') }}" language="javascript"></script>
 <script src="{{ asset('js/signIn.js')}}" type="text/javascript"></script>
-{% endblock %}
+<script src="{{ asset('bundles/jilifrontend/js/auto_checkin.js')}}" type="text/javascript"></script>
 
+{# 当请求参数中有 auto_checkin = 1时, ajax取当前的 user_config #}
+{% if app.request.get('auto_checkin', 0 ) ==  1 %}
+<script src="{{ asset('bundles/jilifrontend/js/auto_checkin_process.js')}}" type="text/javascript"></script>
+{% endif %}
+
+{% endblock %}
+<!-- set-autocheckin create"  id='set_autocheckin -->
 <div id="signInFrame" style="display:none;">
-  <h5>再打开<span id="remain">3</span>个商城就可以得到<span>{{ checkinPoint }}</span>个米粒</h5>
     <a class="close_checkin">关闭</a>
-    <ul>
-    {% for item in arrList %}
-      <li><a onclick="goto({{ item.cid }},{{ item.id }},{{ checkinPoint }});" class="image{{ item.cid }}"><img src="{{ asset(item.list_image) }}" width="200" height="130" alt="{{ item.title }}"><p>最高返利{{ item.reward_rate }}%</p>
-      <div class="gray"></div>
-      <div class="goTo {{ item.cid }}">点击前往</div>
-      <div class="finish">已打开</div>
-      </a></li>
-    {% endfor %}
-    </ul>
+    <div class="signInCon">
+        <div class="signInOptions">
+            <span class="active" id="set_manualcheckin">{{  app.request.get('auto_checkin', 0 ) ==  1 ? '我想以后' : ''}}手动签到</span>
+            <span id="set_autocheckin" class="autoSignIn" >{{  app.request.get('auto_checkin', 0 ) ==  1 ? '' : '我想以后'}}自动签到<a href="javascript:void(0)">详情</a></span><p><strong>自动签到</strong>：选择‘自动签到’以后，点击‘签到’按钮，系统将自动随机选择3~6个商家完成签到</p></div>
+        <div class="signInManual">
+            {% if app.request.get('auto_checkin', 0 ) ==  0 %}
+            <h5>打开以下<strong id="remain">3</strong>个商城就可以得到<strong>1</strong>个米粒！</h5>
+            {% endif  %}
+
+            <ul class="clearfix">
+            {% for item in arrList %}
+              <li><a onclick="goto({{ item.cid }},{{ item.id }},{{ checkinPoint }});" class="image{{ item.cid }}"><img src="{{ asset(item.list_image) }}" width="200" height="80" alt="{{ item.title }}"><p>最高返利{{ item.reward_rate }}%</p>
+              <div class="gray"></div>
+              <div class="goTo {{ item.cid }}">点击前往</div>
+              <div class="finish">已打开</div>
+              </a></li>
+            {% endfor %}
+            </ul>
+            <p class="signInAuto"></p>
+            <!-- 系统帮您自动签到中……，请稍后-->
+        </div>
+    </div>
+    <div class="mask"></div>
+    <div class="signInConfirmFrame signInManualFrame">
+       	<p>确认换回手动签到？</p>
+        <div class="btns"><a href="javascript: void(0)" class="confirm">确定</a><a href="javascript: void(0)">放弃</a></div>
+    </div>
+    <div class="signInConfirmFrame signInAutoFrame">
+       	<p>我想以后点击‘签到’按钮自动完成签到？</p>
+        <div class="btns"><a href="javascript: void(0)" class="confirm">确定</a><a href="javascript: void(0)">放弃</a></div>
+    </div>
+    <div class="setSuccess">设置成功</div>
 </div>
+
+<div id="confirmAutoFrame" style="display: none;">
+	<div class="signInConfirmFrame confirmAutoFrame">
+       	<p>是否在新窗口开始自动签到？</p>
+        <div class="btns"><a href="javascript: void(0)" class="confirm dd">确定</a><a href="javascript: void(0)">放弃</a></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+var CheckinModule = CheckinModule || {};
+    CheckinModule.jili_autocheckin = {
+        advertiserments : {{ arrList|json_encode()|raw  }},
+        checkin_point : {{ checkinPoint|raw  }},
+        is_request : {{   app.request.get('auto_checkin', 0 )  ? 1 : 0  }},
+        is_set: function() {
+        	var v = undefined;
+        	return {
+        		get: function() {
+        			return v;
+        		},
+        		init: function(value) {
+        			v = value;
+        			return v;
+        		}
+        	}
+        }()
+    };
+</script>
+
+<form action="#" id="checkin_config_form">
+    {{ form_row(checkinConfForm.flag_name) }}
+    {{ form_rest(checkinConfForm)}}
+
+</form>

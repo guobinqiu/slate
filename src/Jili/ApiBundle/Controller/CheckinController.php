@@ -36,7 +36,7 @@ use Jili\FrontendBundle\Entity\MarketActivityClickNumber;
 class CheckinController extends Controller
 {
     /**
-	 * @Route("/clickCount",name="_checkin_clickCount")
+	 * @Route("/clickCount",name="_checkin_clickCount", options={"expose"=true})
 	 */
     public function clickCountAction()
     {
@@ -51,9 +51,11 @@ class CheckinController extends Controller
     }
 
     /**
-	 * @Route("/issetClick",name="_checkin_issetClick")
+     * 防止重复签到,判断是否点击checkin_user_list记录返回
+	 * @Route("/issetClick",name="_checkin_issetClick",  options={"expose"=true})
 	 */
-    public function issetClickAction() {//判断是否点击checkin_user_list记录返回
+    public function issetClickAction() 
+    {
         $code = '';
         $date = date("Y-m-d");
         $request = $this->get('request');
@@ -69,7 +71,8 @@ class CheckinController extends Controller
     }
 
     /**
-	 * @Route("/clickInsert",name="_checkin_clickInsert")
+     * 增加己签到商家计数, 确认并发放签到积分
+	 * @Route("/clickInsert",name="_checkin_clickInsert", options={"expose"=true})
 	 */
     public function clickInsertAction()
     {
@@ -111,12 +114,13 @@ class CheckinController extends Controller
                 $taskList->remove($keys);
             }
         }
-        $url = $this->advInfo($uid,$aid);
+        $url = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$aid);
         return new Response(json_encode(array('code'=>$code,'url'=>$url,'point'=>$point)));
     }
 
     /**
-	 * @Route("/location",name="_checkin_location")
+     * 返回商家的URL. type =1 , 直接查Advertiserment表; type=2查商家活动表market_activity。 
+	 * @Route("/location",name="_checkin_location", options={"expose"=true})
 	 */
     public function locationAction()
     {
@@ -129,41 +133,43 @@ class CheckinController extends Controller
         $markId = $request->query->get('markid');
         $aid = $request->query->get('aid');
         $type = $request->query->get('type');
-        switch ($type) {
-            case '1':
-                $firstUrl = $this->advInfo($uid,$aid);
-                $lastUrl = "";
-                break;
-            case '2':
-                $busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->existMarket($markId);
-                if(empty($busiAct)){
-                    return $this->redirect($this->generateUrl('_default_error'));
-                }
-                $firstUrl = $this->advInfo($uid,$busiAct[0]['aid']);
-                $lastUrl = $busiAct[0]['activityUrl'];
+        switch($type) {
+        case '1':
+            $firstUrl = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$aid);
+            $lastUrl = '';
+            break;
+        case '2':
+            $busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->existMarket($markId);
+            if(empty($busiAct)){
+                return $this->redirect($this->generateUrl('_default_error'));
+            }
+            $firstUrl = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$busiAct[0]['aid']);
+            $lastUrl = $busiAct[0]['activityUrl'];
 
-                //用户点击保存 用户关注数
-                $amcn = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->findByMarketActivityId($markId);
-                if($amcn){
-                    $amcn[0]->setClickNumber($amcn[0]->getClickNumber() + 1);
-                }else{
-                    $amcn[0] = new MarketActivityClickNumber();
-                    $amcn[0]->setMarketActivityId($markId);
-                    $amcn[0]->setClickNumber(1);
-                }
-                $em->persist($amcn[0]);
-                $em->flush();
+            //用户点击保存 用户关注数
+            $amcn = $em->getRepository('JiliFrontendBundle:MarketActivityClickNumber')->findByMarketActivityId($markId);
+            if($amcn){
+                $amcn[0]->setClickNumber($amcn[0]->getClickNumber() + 1);
+            }else{
+                $amcn[0] = new MarketActivityClickNumber();
+                $amcn[0]->setMarketActivityId($markId);
+                $amcn[0]->setClickNumber(1);
+            }
+            $em->persist($amcn[0]);
+            $em->flush();
 
-                break;
-            default:
-                # code...
-                break;
+            break;
+        default:
+            # code...
+            break;
         }
+
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));
     }
 
     /**
+     *  返回商城的URL. aid 为advertiserment表的id.
 	 * @Route("/checkinInfo",name="_checkin_checkinInfo")
 	 */
     public function checkinInfoAction()
@@ -172,22 +178,16 @@ class CheckinController extends Controller
         $request = $this->get('request');
         $uid = $request->getSession()->get('uid');
         $id = $request->query->get('aid');
-        $yixun = $this->advInfo($uid,$id);
-        $url = "http://www.91jili.com/shopping/list/".$uid;
+        $yixun = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$id);
+        $url = 'http://www.91jili.com/shopping/list/'.$uid;
         return $this->render('JiliApiBundle:Checkin:info.html.twig',
                 array('yixun'=>$yixun,'url'=>$url));
     }
 
-    public function advInfo($uid,$aid)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
-        $adw_info = $advertiserment->getImageurl();
-        $adw_info = explode("u=",$adw_info);
-        $new_url = trim($adw_info[0])."u=".$uid.trim($adw_info[1]).$aid;
-        return trim($new_url);
-    }
 
+    /**
+     * 记录用户点击过的商家。
+     */
     public function insertUserList($uid,$date,$clickAdid)
     {
         $em = $this->getDoctrine()->getManager();
@@ -199,7 +199,9 @@ class CheckinController extends Controller
         $em->flush();
     }
 
-    //判断是否有checkin_user_list记录
+    /**
+     * 判断是否有checkin_user_list记录
+     */
     public function issetClickShop($uid,$date,$clickAdid)
     {
         $em = $this->getDoctrine()->getManager();
@@ -211,6 +213,9 @@ class CheckinController extends Controller
         }
     }
 
+    /**
+     * 记录用户点击数
+     */
     public function insertClickList($uid,$date)
     {
         $em = $this->getDoctrine()->getManager();
@@ -417,6 +422,5 @@ class CheckinController extends Controller
       $em->persist($po);
       $em->flush();
     }
-
 
 }

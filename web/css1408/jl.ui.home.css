@@ -349,7 +349,7 @@ div.personInfo{
 }
 .signBtn,.btnHascheckin{
     float: right;
-	width: 89px;
+	width: 100px;
 	height: 46px;
 	line-height: 46px;
 	text-align: center;
@@ -360,6 +360,9 @@ div.personInfo{
     -webkit-border-radius: 2px; 
     border-radius: 2px;
 	cursor: pointer;
+}
+.autoCheckinBtn{
+	width: 105px;
 }
 span.signIcon, .quickQInfo p span, .countDown span{
     display: inline-block;
