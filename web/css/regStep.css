@@ -324,3 +324,79 @@
 .userFoot .links li,.userFoot .links li a{ color:#999;}
 .userFoot .links li a:hover{ color:#333;}
 /* reg globe header and footer/ */
+/*2014-10-20, by wlt*/
+.regStep article .qqRegForm{
+	padding: 100px 50px;
+}
+.regStep article .qqRegForm h2{
+	width: 812px;
+}
+.qqReg{
+	float: left;
+	width: 385px;
+}
+.qqReg li{
+	line-height: 35px;
+}
+.qqReg input[type='text'], .qqReg input[type='password']{
+	width: 180px;
+	line-height: 24px;
+	padding: 2px 3px;
+	border: 1px solid #ccc;
+}
+.qqReg input[type='text'].qqEmail{
+	width: 120px;
+}
+.qqReg strong{
+	color: #fb2c03;
+	margin-left: 10px;
+}
+.qqReg>span{
+	display: block;
+	font-size: 18px;
+	font-weight: bold;
+	width: 180px;
+	height: 45px;
+	text-align: center;
+	line-height: 45px;
+	margin: 20px 0;
+	cursor: pointer;
+	background-color: #f4f4f4;
+	color: #b4b4b4;
+	border-radius: 3px;
+	border: 1px solid #d5d5d5;
+}
+.qqReg>span.active{
+	color: #eb411f;
+}
+.qqReg ul{
+	display: none;
+}
+.qqReg li span{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	vertical-align: top;
+	margin-right: 20px;
+}
+.qqReg li.qqMsg span{
+	line-height: 24px;
+}
+.qqReg li span.submitBtn{
+	width: 80px;
+	text-align: center;
+	height: 28px;
+	line-height: 28px;
+	color: #fff;
+	font-size: 14px;
+	background-color: #4a8ef3;
+	cursor: pointer;
+}
+.qqMsg{
+	background-color: #fbfbfb;
+	padding: 10px 20px;
+}
+.qqPic{
+	float: right;
+	padding-top: 50px;
+}
