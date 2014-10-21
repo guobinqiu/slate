@@ -1,4 +1,5 @@
 <?php
+namespace Jili\ApiBundle\OAuth;
 /**
  * QQ API client for PHP
  *

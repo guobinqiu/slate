@@ -15,5 +15,13 @@ class QQAutoTest  extends KernelTestCase
 
     }
 
+    /**
+     * @group debug
+     */
+    public function testlogin_url()
+    {
+        $this->assertEquals();
+
+    }
 
 }
