@@ -19,9 +19,9 @@ swiftmailer:
         type: file
         path: %kernel.root_dir%/cache/%kernel.environment%/swiftmailer.emails
 
-doctrine:
-    dbal:
-       password:  MyNewPassword
-       charset:  UTF8
-       host:     192.168.1.29
-       dbname:   jili_test_0721 
+#doctrine:
+#    dbal:
+#       password:  MyNewPassword
+#       charset:  UTF8
+#       host:     192.168.1.29
+#       dbname:   jili_test_0721 
