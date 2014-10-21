@@ -20,6 +20,11 @@ class Advertiserment
         $this->updateTime = new \DateTime();
         $this->startTime = new \DateTime();
         $this->endTime = new \DateTime();
+        $this->isExpired = 0;
+        $this->rewardRate = 30;
+        $this->deleteFlag = 0;
+        $this->category = 0;
+
     }
     /**
      * @var integer
@@ -41,7 +46,7 @@ class Advertiserment
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=45)
+     * @ORM\Column(name="title", type="string", length=45, nullable=true)
      */
     private $title;
 
@@ -55,79 +60,85 @@ class Advertiserment
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_time", type="datetime")
+     * @ORM\Column(name="created_time", type="datetime", nullable=true)
      */
     private $createdTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start_time", type="datetime")
+     * @ORM\Column(name="start_time", type="datetime", nullable=true)
      */
     private $startTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end_time", type="datetime")
+     * @ORM\Column(name="end_time", type="datetime", nullable=true)
      */
     private $endTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="update_time", type="datetime")
+     * @ORM\Column(name="update_time", type="datetime", nullable=true)
      */
     private $updateTime;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="decription", type="string", length=1000)
+     * @ORM\Column(name="decription", type="string", length=1000, nullable=true)
      */
     private $decription;
 
     /**
-     * @var text
+     * @var string
      *
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="imageurl", type="string", length=250)
+     * @ORM\Column(name="imageurl", type="string", length=250, nullable=true)
      */
     private $imageurl;
 
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_expired", type="boolean", nullable=true)
+     */
+    private $isExpired;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="icon_image", type="string", length=250)
+     * @ORM\Column(name="icon_image", type="string", length=250, nullable=true)
      */
     private $iconImage;
 
-
     /**
      * @var string
      *
-     * @ORM\Column(name="list_image", type="string", length=250)
+     * @ORM\Column(name="list_image", type="string", length=250, nullable=true)
      */
     private $listImage;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive_type", type="integer")
+     * @ORM\Column(name="incentive_type", type="integer", nullable=true)
      */
     private $incentiveType;
-
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive_rate", type="integer")
+     * @ORM\Column(name="incentive_rate", type="integer", nullable=true)
      */
     private $incentiveRate;
 
@@ -141,33 +152,37 @@ class Advertiserment
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive", type="integer")
+     * @ORM\Column(name="incentive", type="integer", nullable=true)
      */
     private $incentive;
 
-
     /**
-     * @var text
+     * @var string
      *
-     * @ORM\Column(name="info", type="text")
+     * @ORM\Column(name="info", type="text", nullable=true)
      */
     private $info;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="category", type="integer")
+     * @ORM\Column(name="category", type="integer", nullable=true)
      */
     private $category;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer")
+     * @ORM\Column(name="delete_flag", type="integer", nullable=true)
      */
     private $deleteFlag;
 
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="wenwen_user", type="string", length=100, nullable=true)
+     */
+    private $wenwenUser;
     /**
      * upload image to temp dir
      */
@@ -466,6 +481,29 @@ class Advertiserment
     }
 
     /**
+     * Set isExpired
+     *
+     * @param boolean $isExpired
+     * @return Advertiserment
+     */
+    public function setIsExpired($isExpired)
+    {
+        $this->isExpired = $isExpired;
+
+        return $this;
+    }
+
+    /**
+     * Get isExpired
+     *
+     * @return boolean 
+     */
+    public function getIsExpired()
+    {
+        return $this->isExpired;
+    }
+
+    /**
      * Set iconImage
      *
      * @param string $iconImage
@@ -487,7 +525,6 @@ class Advertiserment
     {
         return $this->iconImage;
     }
-
 
     /**
      * Set listImage
@@ -511,7 +548,6 @@ class Advertiserment
     {
         return $this->listImage;
     }
-
 
     /**
      * Set incentiveType
@@ -677,6 +713,49 @@ class Advertiserment
     public function getDeleteFlag()
     {
         return $this->deleteFlag;
+    }
+
+    /**
+     * Set wenwenUser
+     *
+     * @param string $wenwenUser
+     * @return Advertiserment
+     */
+    public function setWenwenUser($wenwenUser)
+    {
+        $this->wenwenUser = $wenwenUser;
+
+        return $this;
+    }
+
+    /**
+     * Get wenwenUser
+     *
+     * @return string 
+     */
+    public function getWenwenUser()
+    {
+        return $this->wenwenUser;
+    }
+
+    /**
+     * @param interger $user_id the User id
+     * @return string
+     */
+    public function getImageurlParsed($user_id)
+    {
+        $image_url = $this->getImageurl();
+        if(strlen($image_url) <= 0 ){
+            return $image_url;
+        }
+
+        $adw_info = explode('u=',$image_url);
+
+        if( count($adw_info) !== 2) {
+            return $image_url;
+        }
+        $new_url = trim($adw_info[0]).'u='.$user_id.trim($adw_info[1]).$this->getId();
+        return $new_url;
     }
 
 }

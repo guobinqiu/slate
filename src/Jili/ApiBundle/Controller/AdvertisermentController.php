@@ -151,7 +151,8 @@ class AdvertisermentController extends Controller
 
 
     /**
-     * @Route("/click", name="_advertiserment_click")
+     * 签到,记录商家access log
+     * @Route("/click", name="_advertiserment_click", options={"expose"=true})
 	 */
     public function clickAction()
     {

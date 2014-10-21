@@ -1,15 +1,12 @@
 <?php
 namespace Jili\ApiBundle\Tests\Form\Type;
 
-#use Acme\TestBundle\Model\TestObject;
 use Jili\ApiBundle\Form\Type\SignupActivateType;
 
 use Symfony\Component\Form\Tests\Extension\Core\Type\TypeTestCase;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension;
-
-
 
 class SignupActivateTypeTest extends TypeTestCase
 {

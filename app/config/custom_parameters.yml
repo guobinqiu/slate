@@ -253,3 +253,8 @@ parameters:
     qq_appkey: 8e7855dd98467323249526c607621260
     callback_url: http://www.91jili.com/qq_callback/
     scope: get_user_info
+
+    upload_experience_advertisement_dir: images/experience_advertisement/
+    upload_experience_advertisement_dir_old: images/experience_advertisement/old/
+    delete_flag_true: 1
+    delete_flag_false: 0

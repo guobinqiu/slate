@@ -34,10 +34,8 @@ class SignupHandler
      */
     public function validate()
     {
-        $logger = $this->logger;
         $em = $this->em;
         $data = $this->form->getData();
-        $logger->debug('{jarod}'.implode( ':', array(__LINE__, __CLASS__) ).  var_export( $data, true) );
         $errors = array();
         // check exsits email
         $userByEmail = $em->getRepository('JiliApiBundle:User')->findOneByEmail($data['email']);
@@ -75,7 +73,7 @@ class SignupHandler
         ));
 
         // sent signup activate email
-        $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode() );
+        $result = $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode() );
 
 
         return array( 'user'=> $user, 'setPasswordCode'=> $setPasswordCode);

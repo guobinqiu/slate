@@ -26,7 +26,6 @@ class UserSignUpTracer
         $sessions = $this->session;
         if ( $sessions->has('source_route') ) {
             $messages = $sessions->get('source_route');
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__) ). var_export( $messages, true) );
             $this->user_source_logger->info($messages);
         } else {
 #            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__) ). var_export( $sessions , true) );

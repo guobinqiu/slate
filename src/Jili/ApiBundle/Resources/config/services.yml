@@ -32,9 +32,10 @@ parameters:
     user_bind.class: Jili\ApiBundle\Services\UserBind
     
 # session 
-    session.task_list.class: Jili\ApiBundle\EventListener\Session\TaskList
-    session.my_task_list.class: Jili\ApiBundle\EventListener\Session\MyTaskList
-    session.points.class: Jili\ApiBundle\EventListener\Session\Points
+    session.task_list.class: Jili\ApiBundle\Services\Session\User\TaskList
+    session.my_task_list.class: Jili\ApiBundle\Services\Session\User\MyTaskList
+    session.points.class: Jili\ApiBundle\Services\Session\User\Points
+    session.user_configs.class: Jili\ApiBundle\Services\Session\User\Configs
 
 # form_handler:
     signup_activate.form_handler.class: Jili\ApiBundle\Form\Handler\SignupActivateHandler
@@ -46,6 +47,7 @@ services:
         calls:
             - [setContainer, ["@service_container"]]
             - [setTaskList, [ @session.task_list ]]
+            - [setUserConfig, [ @session.user_configs]]
 
     soap.mail.listener:
         class: %soap.mail.listener.class%
@@ -177,6 +179,14 @@ services:
     session.points:
         class: %session.points.class%
         arguments: [ %cache_config.session.points.keys%,%cache_config.session.points.duration%  ]
+        calls:
+            - [ setLogger, [ @logger ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setSession, [ @session ] ] 
+
+    session.user_configs:
+        class: %session.user_configs.class%
+        arguments: [ %cache_config.session.user_configs.keys%  ]
         calls:
             - [ setLogger, [ @logger ] ] 
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 

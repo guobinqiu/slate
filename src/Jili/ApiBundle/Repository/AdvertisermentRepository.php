@@ -216,4 +216,32 @@ class AdvertisermentRepository extends EntityRepository
         return $q->getOneOrNullResult();
 
     }
+
+    /**
+     * @return array  Advertiserment list joins with CheckinAdverList
+     */
+    public function findAllByCheckinAdverList()
+    {
+        $query = $this->createQueryBuilder('a');
+        $query = $query->select('a');
+        $query = $query->innerJoin('JiliApiBundle:CheckinAdverList', 'cal', 'WITH', 'cal.adId = a.id');
+        $query =  $query->getQuery();
+        return $query->getResult();
+    }
+
+    /**
+     * @param  integer $uid the user.id 
+     * @param integer $aid the advertiserment.id
+     * @return  the chanet url that will redirect to the shop 
+     */
+    public function getRedirect($uid,$aid)
+    {
+        $em = $this->getEntityManager();
+        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
+        if( ! $advertiserment) {
+            return '';
+        }
+
+        return $advertiserment->getImageurlParsed($uid);
+    }
 }

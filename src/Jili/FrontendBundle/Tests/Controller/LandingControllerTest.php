@@ -8,6 +8,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 
+
 class LandingControllerTest extends WebTestCase
 {
     /**
@@ -22,14 +23,15 @@ class LandingControllerTest extends WebTestCase
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
+
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
 
-// $test_name = $this->getName();
-// if( in_array( $test_name, array('test'))){
-// }
-
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
 
         $this->em  = $em;
     }
@@ -48,6 +50,8 @@ class LandingControllerTest extends WebTestCase
     {
         $em = $this->em;
         $client = static::createClient();
+        $client->enableProfiler();
+
         $container = $client->getContainer();
 
         $url = $container->get('router')->generate('_landing_external' );
@@ -68,9 +72,9 @@ class LandingControllerTest extends WebTestCase
         $form['signup[nickname]'] ->setValue( $data['nick']);
         $form['signup[captcha]']->setValue($phrase) ;
 
+
         $client->submit($form );
 
-        $client->enableProfiler();
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');
 
         // Check that an e-mail was sent

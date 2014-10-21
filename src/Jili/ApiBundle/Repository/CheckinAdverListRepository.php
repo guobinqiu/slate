@@ -4,6 +4,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 use Doctrine\Common\Collections\ArrayCollection;
+use Jili\ApiBundle\Entity\CheckinAdverList;
 
 class CheckinAdverListRepository extends EntityRepository
 {
@@ -17,19 +18,31 @@ class CheckinAdverListRepository extends EntityRepository
         return $query->getResult();
     }
 
-    public function showCheckinList($uid)
+    /**
+     * @param integer $uid user id 
+     * @param integer $operation manual or auto or both, 0 means undefined 
+     */
+    public function showCheckinList($uid, $operation = 1)
     {
         $dateNow = date('Y-m-d');
-        $sqlD = "select d.id from checkin_user_list c inner join checkin_adver_list d on c.open_shop_id = d.id where user_id = ".$uid." and inter_space > 1 and DATEDIFF('".$dateNow."',c.click_date) < d.inter_space group by c.open_shop_id order by c.click_date desc ";
-        $sqlU = "select e.id from checkin_adver_list e inner join checkin_user_list u on e.id = u.open_shop_id where user_id = ".$uid." and click_date = '".$dateNow."'";
-        $sql = "SELECT a.id as cid,a.inter_space,b.*
-			FROM checkin_adver_list a left join advertiserment b on a.ad_id = b.id
-			WHERE a.id not in ($sqlU)  and a.id not in ($sqlD)
+        $sqlD = 'SELECT d.id FROM checkin_user_list c INNER JOIN checkin_adver_list d ON c.open_shop_id = d.id WHERE c.user_id = :uid AND mod(d.operation_method, :operation)=0 AND inter_space > 1 AND DATEDIFF(:dateNow, c.click_date) < d.inter_space GROUP BY c.open_shop_id '; //ORDER BY c.click_date desc 
+        $sqlU = 'SELECT e.id FROM checkin_adver_list e INNER JOIN checkin_user_list u ON e.id = u.open_shop_id WHERE u.user_id = :uid AND mod(e.operation_method, :operation)=0 AND click_date = :dateNow';
+        $sql = "SELECT a.id as cid,a.inter_space,b.id,b.title,b.list_image,b.reward_rate,b.incentive_rate
+			FROM checkin_adver_list a LEFT JOIN advertiserment b on a.ad_id = b.id
+			WHERE mod(a.operation_method, :operation)=0 AND a.id NOT IN ($sqlU)  AND a.id NOT IN ($sqlD)
 			ORDER BY a.id desc";
-        $rs = $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+
+        if($operation === CheckinAdverList::ANY_OP_METHOD) {
+            $operation  = 1;
+        }
+        $conn = $em = $this->getEntityManager()->getConnection();
+        $sth = $conn->prepare($sql);
+        $sth->bindParam(':uid',$uid, \PDO::PARAM_INT);
+        $sth->bindParam(':operation',$operation, \PDO::PARAM_INT);
+        $sth->bindParam(':dateNow',$dateNow, \PDO::PARAM_STR);
+        $sth->execute();
+        $rs =  $sth->fetchAll();
         return $rs;
-
     }
-
 
 }
