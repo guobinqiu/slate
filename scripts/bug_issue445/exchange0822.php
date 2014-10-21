@@ -1,6 +1,6 @@
 <?php
-$filename = "D:/xampp/htdocs/PointMedia/scripts/bug/import0822.csv";
-$log_file = "D:/xampp/htdocs/PointMedia/scripts/bug/log_file.txt";
+$filename = "scripts/bug/import0822.csv";
+$log_file = "scripts/bug/log_file.txt";
 $file_handle = fopen($filename, "r");
 $log_handle = fopen($log_file, "a+");
 $contents = null;
@@ -11,11 +11,8 @@ if ($file_handle !== FALSE) {
 }
 fclose($file_handle);
 
-//echo "<pre>";
-//print_r($contents);
-
-$link = mysql_connect('localhost', 'root', '') or die('Could not connect: ' . mysql_error());
-mysql_select_db('jili_2014-08-22') or die('Could not select database');
+$link = mysql_connect('localhost', 'user_name', 'password') or die('Could not connect: ' . mysql_error());
+mysql_select_db('db_name') or die('Could not select database');
 mysql_set_charset("UTF8", $link);
 
 mysql_query("BEGIN"); //开始一个事务
@@ -23,14 +20,11 @@ mysql_query("SET AUTOCOMMIT=0"); //设置事务不自动commit
 
 foreach ($contents as $value) {
 
-    //    echo "<pre>";
-    //    print_r($value);
     $query = "SELECT id, email, points FROM user WHERE email = '" . $value[0] . "'";
     fwrite($log_handle, $value[0] . ": " . $query . "\r\n");
     $result = mysql_query($query) or die('Query failed: ' . mysql_error());
     $user = mysql_fetch_assoc($result);
-    echo "<pre>";
-    print_r($user);
+
     if ($user['points'] >= $value[1]) {
 
         //update user
@@ -96,5 +90,6 @@ foreach ($contents as $value) {
 mysql_close($link);
 fwrite($log_handle, "完成了" . "\r\n");
 fclose($log_handle);
-echo "执行完成!";exit;
+echo "执行完成!";
+exit;
 ?>

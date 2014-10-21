@@ -1,6 +1,8 @@
 <?php
-$filename = "D:/xampp/htdocs/PointMedia/scripts/bug_issue502/repeat.csv";
-$log_file = "D:/xampp/htdocs/PointMedia/scripts/bug_issue502/log_file.txt";
+//INSERT INTO `jili_db`.`ad_category` (`id`, `category_name`, `asp`, `display_name`) VALUES ('91', 'system', NULL, '米粒误发修改');
+
+$filename = "scripts/bug_issue502/repeat.csv";
+$log_file = "scripts/bug_issue502/log_file.txt";
 $file_handle = fopen($filename, "r");
 $log_handle = fopen($log_file, "a+");
 $contents = null;
@@ -11,8 +13,8 @@ if ($file_handle !== FALSE) {
 }
 fclose($file_handle);
 
-$link = mysql_connect('localhost', 'root', '') or die('Could not connect: ' . mysql_error());
-mysql_select_db('jili_db') or die('Could not select database');
+$link = mysql_connect('localhost', 'user_name', 'password') or die('Could not connect: ' . mysql_error());
+mysql_select_db('db_name') or die('Could not select database');
 mysql_set_charset("UTF8", $link);
 
 mysql_query("BEGIN"); //开始一个事务
@@ -40,7 +42,6 @@ foreach ($contents as $value) {
             exit;
         }
 
-        //INSERT INTO `jili_db`.`ad_category` (`id`, `category_name`, `asp`, `display_name`) VALUES ('91', 'system', NULL, '米粒误发修改');
         //insert point_history00
         $create_time = date('Y-m-d H:i:s');
 
