@@ -60,7 +60,7 @@ CheckinModule.auto_checkin = function() {
 	};
 
 	var after_finished = function() {
-        $("#points").text(parseInt($("#points").text()) + parseInt(CheckinModule.jili_autocheckin.checkin_point));
+//        $("#points").text(parseInt($("#points").text()) + parseInt(CheckinModule.jili_autocheckin.checkin_point));
 		$("p.signInAuto").text("恭喜您签到成功");
         CheckinModule.afterFinish();
         return false;

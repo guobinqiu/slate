@@ -37,12 +37,17 @@ function getCenter(ele) {
 var CheckinModule =  CheckinModule || {};
 CheckinModule.jili_autocheckin = CheckinModule.jili_autocheckin || {};
 CheckinModule.afterFinish = function() {
+        // update confirmPoint
+        $("#points").text(parseInt($("#points").text()) + parseInt(CheckinModule.jili_autocheckin.checkin_point));
+
         $("li #task_checkin_mark").removeClass("mark").addClass("hasMark");
 
 		$("#signTxt").text("已签到");
         $("#mysign").css("background", "#ccc").unbind("click", signs);
         $("#mysign").removeAttr("onclick");
         $("#mysign").attr('onMouseOver', null);
+
+
 }
 
 CheckinModule.autoCheckinResultChecker = function() {
@@ -62,15 +67,12 @@ CheckinModule.autoCheckinResultChecker = function() {
                         clearInterval(CheckinModule.autoCheckinCheckerId);
                         $("#mysign").removeClass("onprogress"); 
                         CheckinModule.afterFinish();
-// update confirmPoint
-        $("#points").text(parseInt($("#points").text()) + parseInt(CheckinModule.jili_autocheckin.checkin_point));
                     }
 				}
 			}).done(function(){
                 status =0 ;
             });
 		}
-		// status = ( 1 + status ) % 2;
 		return false;
 	}
 } ();
