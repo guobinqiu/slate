@@ -32,9 +32,21 @@ $(function() {
 		"callback": CheckinModule.setAutoCheckin
 	})();
 
+
+    CheckinModule.updateDomOfAutoCheckinOn = function() {
+        // disable the [签到]?
+        $("#mysign").addClass("onprogress");
+        console.log(' disable the [签到] by add a class');
+    };
+
+
 	CheckinModule.checkinConfirm({
 		"container": '#confirmAutoFrame',
 		"callback": function() {
+			// todo: update the status button 
+            CheckinModule.updateDomOfAutoCheckinOn();
+			// add an ajax to get the status of checkin
+            CheckinModule.autoCheckinCheckerId  = setInterval(CheckinModule.autoCheckinResultChecker, 4000);
 			var target_url = Routing.generate("_homepage", {
 				"auto_checkin": 1
 			},
@@ -63,14 +75,14 @@ CheckinModule.setManualCheckin = function() {
 	var url = Routing.generate('autocheckinconfig_delete');
 	$.ajax({
 		url: url,
-        data: $("#checkin_config_form").serialize(),
+		data: $("#checkin_config_form").serialize(),
 		type: method,
 		success: function(rsp) {
 			if (rsp.code == 200) {
 				CheckinModule.jili_autocheckin.is_set.init(false);
-			    CheckinModule.autoCheckinDomUpdate(el);
-                $("#set_manualcheckin").text("手动签到");
-                $("#set_autocheckin").text("我想以后自动签到");
+				CheckinModule.autoCheckinDomUpdate(el);
+				$("#set_manualcheckin").text("手动签到");
+				$("#set_autocheckin").text("我想以后自动签到");
 
 			}
 			return false;
@@ -81,10 +93,10 @@ CheckinModule.setManualCheckin = function() {
 
 //  设置自动签到的Ajax
 CheckinModule.setAutoCheckin = function() {
-    var jili_autocheckin = CheckinModule.jili_autocheckin;
+	var jili_autocheckin = CheckinModule.jili_autocheckin;
 	var el = $("span#set_autocheckin");
 	// var url = el.attr('href');
-	if ("undefined" == typeof jili_autocheckin.is_set || "undefined" == typeof jili_autocheckin.is_set.get() ) {
+	if ("undefined" == typeof jili_autocheckin.is_set || "undefined" == typeof jili_autocheckin.is_set.get()) {
 		var method = "POST";
 		var url = Routing.generate('autocheckinconfig_create');
 	} else if (jili_autocheckin.is_set.get() == false) {
@@ -96,14 +108,14 @@ CheckinModule.setAutoCheckin = function() {
 
 	$.ajax({
 		url: url,
-        data: $("#checkin_config_form").serialize(),
+		data: $("#checkin_config_form").serialize(),
 		type: method,
 		success: function(rsp) {
 			if (rsp.code == 200) {
-				jili_autocheckin.is_set.init( true);
-			    CheckinModule.autoCheckinDomUpdate(el);
-                $("#set_manualcheckin").text("我想以后手动签到");
-                $("#set_autocheckin").text("自动签到");
+				jili_autocheckin.is_set.init(true);
+				CheckinModule.autoCheckinDomUpdate(el);
+				$("#set_manualcheckin").text("我想以后手动签到");
+				$("#set_autocheckin").text("自动签到");
 			}
 			return false;
 		}

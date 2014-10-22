@@ -25,7 +25,7 @@ class CheckinControllerTest extends WebTestCase
         $container = $client->getContainer();
         $session = $container->get('session');
 
-        $url =  $container->get('router')->generate('_checkin_checkIn');
+        $url =  $container->get('router')->generate('_checkin_userCheckIn');
         $this->assertEquals('/checkin/userCheckin',$url);
 
         //  

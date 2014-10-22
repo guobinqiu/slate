@@ -427,7 +427,7 @@ class CheckinController extends Controller
     }
 
     /**
-     * @Route("/userCheckin", name="_checkin_checkIn",  options={"expose"=true})
+     * @Route("/userCheckin", name="_checkin_userCheckIn",  options={"expose"=true})
      * @Method("GET")
      */
     public function userCheckinAction() 
