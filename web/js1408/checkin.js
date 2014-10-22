@@ -49,26 +49,25 @@ CheckinModule.autoCheckinResultChecker = function() {
 	var status = 0;
 	return function() {
 		if (status == 0) {
-			console.log('Get autocheckin result:');
+            status = 1;
+            if(! $("#mysign").hasClass("onprogress")) {
+                $("#mysign").addClass("onprogress"); 
+            } 
 			$.ajax({
 				url: Routing.generate("_checkin_userCheckIn"),
 				type: 'GET'
 			}).success(function(rsp) {
-				if (rsp.code == 200) {
-					console.log(rsp);
-					//CheckinModule.afterFinish();
-					console.log("todo: afterFinish");
-					console.log("todo: clearInterval");
-					if ("undefined" != typeof CheckinModule.autoCheckinCheckerId) {
-						// clearInterval(CheckinModule.autoCheckinCheckerId);
-					}
-				} else {
-					console.log(rsp);
+				if (rsp.statusCode == 200) {
+                    if( rsp.userCheckin == 0 && "undefined" != typeof CheckinModule.autoCheckinCheckerId) {
+                        clearInterval(CheckinModule.autoCheckinCheckerId);
+                        $("#mysign").removeClass("onprogress"); 
+                        CheckinModule.afterFinish();
+// update confirmPoint
+        $("#points").text(parseInt($("#points").text()) + parseInt(CheckinModule.jili_autocheckin.checkin_point));
+                    }
 				}
 			}).done(function(){
-                status = ( status + 1) %2;
-                $("#mysign").removeClass("onprogress"); 
-                console.log(status);
+                status =0 ;
             });
 		}
 		// status = ( 1 + status ) % 2;
@@ -81,7 +80,6 @@ var signs = function() {
 	var jili_autocheckin = CheckinModule.jili_autocheckin;
     // 是否已经签到?
     // 是否正在签到?
-    console.log("todo: 是否正在签到,");
     if($("#mysign").hasClass("onprogress")) {
         if( "undefined" == typeof CheckinModule.autoCheckinCheckerId) {
             CheckinModule.autoCheckinCheckerId  = setInterval(CheckinModule.autoCheckinResultChecker, 4000);

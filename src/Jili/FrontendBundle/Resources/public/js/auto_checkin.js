@@ -36,7 +36,6 @@ $(function() {
     CheckinModule.updateDomOfAutoCheckinOn = function() {
         // disable the [签到]?
         $("#mysign").addClass("onprogress");
-        console.log(' disable the [签到] by add a class');
     };
 
 
@@ -46,7 +45,7 @@ $(function() {
 			// todo: update the status button 
             CheckinModule.updateDomOfAutoCheckinOn();
 			// add an ajax to get the status of checkin
-            CheckinModule.autoCheckinCheckerId  = setInterval(CheckinModule.autoCheckinResultChecker, 4000);
+            CheckinModule.autoCheckinCheckerId  = setInterval(CheckinModule.autoCheckinResultChecker, 1000);
 			var target_url = Routing.generate("_homepage", {
 				"auto_checkin": 1
 			},
