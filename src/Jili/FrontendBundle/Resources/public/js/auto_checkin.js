@@ -142,12 +142,14 @@ CheckinModule.checkinConfirm = function(arguments) {
 				if (el.hasClass('confirm')) {
 					if (el.parent().parent().hasClass('signInAutoFrame')) {
 						args.callback();
-						//$('#sign').addClass('autoCheckinBtn');
-						$('#signTxt').html('自动签到');
+                        if("已签到" != $('#signTxt').text()) {
+    						$('#signTxt').html("自动签到");
+                        }
 					} else {
 						args.callback();
-						//$('#sign').removeClass('autoCheckinBtn');
-						$('#signTxt').html('手动签到');
+                        if("已签到" != $('#signTxt').text()) {
+						    $('#signTxt').html('手动签到');
+                        }
 					}
 					$('#signInFrame .signInConfirmFrame').hide();
 					$('#signInFrame .setSuccess').fadeIn(1000, function() {
