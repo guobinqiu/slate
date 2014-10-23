@@ -451,7 +451,7 @@ class CheckinController extends Controller
         // ajax request only
         //check mothod
         if (!$request->isXmlHttpRequest()) {
-            $return['code'] = 400;
+            $return['statusCode'] = 400;
             $return['message'] = '请求方法不对';
             $response = new JsonResponse();
             $response->setData($return);

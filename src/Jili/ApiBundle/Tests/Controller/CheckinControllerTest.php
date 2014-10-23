@@ -41,7 +41,7 @@ class CheckinControllerTest extends WebTestCase
         $this->assertEquals(405, $client->getResponse()->getStatusCode(),'check request status code ');
 
         $client->request('GET', $url  );
-        $expected = '{"code":400,"message":"\u8bf7\u6c42\u65b9\u6cd5\u4e0d\u5bf9"}'; //请求方法不对
+        $expected = '{"statusCode":400,"message":"\u8bf7\u6c42\u65b9\u6cd5\u4e0d\u5bf9"}'; //请求方法不对
         $this->assertEquals(200, $client->getResponse()->getStatusCode(),'check request status code ');
         $this->assertEquals($expected, $client->getResponse()->getContent(),'请求方法不对, ajax required');
 
