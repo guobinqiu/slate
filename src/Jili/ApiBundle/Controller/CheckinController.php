@@ -4,6 +4,8 @@ namespace Jili\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\AdwOrder;
@@ -33,6 +35,7 @@ use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 
 use Jili\FrontendBundle\Entity\MarketActivityClickNumber;
+
 class CheckinController extends Controller
 {
     /**
@@ -103,8 +106,11 @@ class CheckinController extends Controller
                 //获取签到积分
                 $checkInLister = $this->get('check_in.listener');
                 $nowPoint = $checkInLister->getCheckinPoint($this->get('request'));
-                if($this->issetPoints($uid))
+                if($this->issetPoints($uid)) {
                     $this->updatePoint($uid,$nowPoint);
+                } else {
+                    // todo: add response for points has been sent out.
+                }
                 $code = $this->container->getParameter('init_one');
                 $point = $nowPoint;
 
@@ -423,4 +429,49 @@ class CheckinController extends Controller
       $em->flush();
     }
 
+    /**
+     * @Route("/userCheckin", name="_checkin_userCheckIn",  options={"expose"=true})
+     * @Method("GET")
+     */
+    public function userCheckinAction() 
+    {
+        $session = $this->get('session');
+        $request = $this->get('request');
+        $return = array();
+
+        //check login
+        if (!$session->has('uid')) {
+            $return['statusCode'] = 404;
+            $return['userCheckin'] = NULL;
+            $response = new JsonResponse();
+            $response->setData($return);
+            return $response;
+        }
+
+        // ajax request only
+        //check mothod
+        if (!$request->isXmlHttpRequest()) {
+            $return['statusCode'] = 400;
+            $return['message'] = '请求方法不对';
+            $response = new JsonResponse();
+            $response->setData($return);
+            return $response;
+        }
+       
+        // 是否已经签到
+        $taskList = $this->get('session.task_list');
+
+        if( $this->container->getParameter('init_one') === $taskList->get('checkin_visit') ) {
+            $return['userCheckin'] = $this->container->getParameter('init_one');
+        } else if( is_null( $taskList->get('checkin_visit')) ) {
+            $return['userCheckin'] = 0; //
+            $return['confirmPoints'] = $this->get('session.points')->reset()->getConfirm();
+        } else {
+            $return['userCheckin'] = false;
+        }
+        $return['statusCode'] = 200;
+        $response = new JsonResponse();
+        $response->setData($return);
+        return $response;
+    }
 }
