@@ -37,16 +37,61 @@ function getCenter(ele) {
 var CheckinModule =  CheckinModule || {};
 CheckinModule.jili_autocheckin = CheckinModule.jili_autocheckin || {};
 CheckinModule.afterFinish = function() {
+        // update confirmPoint
+        $("#points").text(parseInt($("#points").text()) + parseInt(CheckinModule.jili_autocheckin.checkin_point));
+
         $("li #task_checkin_mark").removeClass("mark").addClass("hasMark");
 
 		$("#signTxt").text("已签到");
         $("#mysign").css("background", "#ccc").unbind("click", signs);
         $("#mysign").removeAttr("onclick");
         $("#mysign").attr('onMouseOver', null);
+
+
 }
+
+CheckinModule.autoCheckinResultChecker = function() {
+	var status = 0;
+	return function() {
+		if (status == 0) {
+            status = 1;
+            if(! $("#mysign").hasClass("onprogress")) {
+                $("#mysign").addClass("onprogress"); 
+            } 
+			$.ajax({
+				url: Routing.generate("_checkin_userCheckIn"),
+				type: 'GET'
+			}).success(function(rsp) {
+				if (rsp.statusCode == 200) {
+                    if( rsp.userCheckin == 0 && "undefined" != typeof CheckinModule.autoCheckinCheckerId) {
+                        clearInterval(CheckinModule.autoCheckinCheckerId);
+                        $("#mysign").removeClass("onprogress"); 
+                        CheckinModule.afterFinish();
+                    }
+				}
+			}).done(function(){
+                status =0 ;
+            });
+		}
+		return false;
+	}
+} ();
+
 // 点击签到
 var signs = function() {
 	var jili_autocheckin = CheckinModule.jili_autocheckin;
+    // 是否已经签到?
+    // 是否正在签到?
+    if($("#mysign").hasClass("onprogress")) {
+        if( "undefined" == typeof CheckinModule.autoCheckinCheckerId) {
+            CheckinModule.autoCheckinCheckerId  = setInterval(CheckinModule.autoCheckinResultChecker, 4000);
+        } else {
+            clearInterval(CheckinModule.autoCheckinCheckerId);
+            CheckinModule.autoCheckinCheckerId  = setInterval(CheckinModule.autoCheckinResultChecker, 4000);
+        }
+        return false;
+    } 
+    
 	// 取当前的autocheckin 是否有设置。
 	$.ajax({
 		url: Routing.generate('autocheckinconfig_get'),

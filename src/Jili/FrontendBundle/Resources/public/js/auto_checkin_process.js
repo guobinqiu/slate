@@ -60,8 +60,10 @@ CheckinModule.auto_checkin = function() {
 	};
 
 	var after_finished = function() {
+//        $("#points").text(parseInt($("#points").text()) + parseInt(CheckinModule.jili_autocheckin.checkin_point));
 		$("p.signInAuto").text("恭喜您签到成功");
         CheckinModule.afterFinish();
+        return false;
 	};
 	var next = function() {
 		if (index >= count_of_ads) {
@@ -113,10 +115,14 @@ CheckinModule.auto_checkin = function() {
                                              "type": 1
                                          });
 										buffer.location.href = target;
-										if (obj.code == 1) {}
-										// update the user's pts div
 										$("div.signInManual li:eq(" + i + ") a").find(".gray").show();
 										$("div.signInManual li:eq(" + i + ")").addClass("finish");
+
+										// update the user's pts div
+										if (obj.code == 1) {
+//                                            $("#points").text(parseInt(obj.point) + parseInt(points));
+                                        }
+                                        
 									}
 								});
 							} else {

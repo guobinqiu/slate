@@ -199,7 +199,6 @@ class TopController extends Controller
         $cal_count = "";
         $campaign_multiple = $this->container->getParameter('campaign_multiple');
         $request = $this->get('request');
-        $logger = $this->get('logger');
         $uid = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
