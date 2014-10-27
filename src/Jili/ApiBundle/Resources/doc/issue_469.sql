@@ -17,7 +17,7 @@ CREATE TABLE `user_configurations` (
       PRIMARY KEY (`id`),
       UNIQUE KEY `uniq_user_id1_flag_name1` (`user_id`,`flag_name`),
       KEY `IDX_6899B580A76ED395` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Tue Oct 21 16:57:26 CST 2014
 -- update checkin checkin_adver_list 
