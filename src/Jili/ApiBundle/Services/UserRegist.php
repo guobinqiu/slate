@@ -24,8 +24,9 @@ class UserRegist
             $params['pwd'] = $user->pw_encode($params['pwd']);
             $params['user_id'] =  $user->getId();
             $qquser = $this->em->getRepository('JiliApiBundle:QQUser')->qquser_insert($params);
+            var_dump($qquser);
         }
-        return $this;
+        return $qquser;
     }
     
     public function setEntityManager(EntityManager $em)
