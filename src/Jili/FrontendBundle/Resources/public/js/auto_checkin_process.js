@@ -68,7 +68,7 @@ CheckinModule.auto_checkin = function() {
 			after_finished();
 			return false;
 		}
-		goto(index);
+		setTimeout(goto(index), 2000);
 		index++;
 	};
 
@@ -155,7 +155,7 @@ CheckinModule.auto_checkin = function() {
 					next();
 					return false;
 				};
-				goto(index);
+				setTimeout(goto(index), 2000);
 				index++;
 			}
 		},
