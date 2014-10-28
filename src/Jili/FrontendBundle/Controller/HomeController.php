@@ -58,6 +58,12 @@ class HomeController extends Controller
             }
         }
 
+        // trace 
+        if( $request->query->has('spm') ) {
+            $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
+        }
+        $this->get('user_sign_up_route.listener')->log();
+
         return array ();
     }
 

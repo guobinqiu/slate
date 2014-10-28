@@ -1,0 +1,6 @@
+
+test:
+	/usr/local/bin/phpunit -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
+
+assets-rebuild:
+	php ./app/console assets:install web --symlink --relative

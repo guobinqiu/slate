@@ -347,14 +347,13 @@
 .qqReg input[type='text'].qqEmail{
 	width: 120px;
 }
-.qqReg strong{
+.qqReg .errorMsg{
 	color: #fb2c03;
-	margin-left: 10px;
+	margin: 0 0 0 5px;
 }
 .qqReg>span{
 	display: block;
 	font-size: 18px;
-	font-weight: bold;
 	width: 180px;
 	height: 45px;
 	text-align: center;
@@ -362,12 +361,11 @@
 	margin: 20px 0;
 	cursor: pointer;
 	background-color: #f4f4f4;
-	color: #b4b4b4;
 	border-radius: 3px;
 	border: 1px solid #d5d5d5;
 }
 .qqReg>span.active{
-	color: #eb411f;
+	color: #3598db;
 }
 .qqReg ul{
 	display: none;
@@ -383,10 +381,10 @@
 	line-height: 24px;
 }
 .qqReg li span.submitBtn{
-	width: 80px;
+	width: 85px;
 	text-align: center;
-	height: 28px;
-	line-height: 28px;
+	height: 33px;
+    line-height: 33px;
 	color: #fff;
 	font-size: 14px;
 	background-color: #4a8ef3;

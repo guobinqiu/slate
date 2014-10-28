@@ -305,19 +305,32 @@ a.more{
 div.loginArea{
 	padding-top: 24px;
 	padding-bottom: 13px;
-	height: 124px;
+	height: 122px;
 	border-right:1px solid #e6e6e6;
 }
-.loginArea p{
+.loginArea .ttLink{
 	color: #999;
-	line-height: 40px;
+	height:25px;
+	text-align:center;
 }
-.loginArea p span{
+.loginArea .ttLink span{
 	color: #f2f2f2;
 }
-.loginArea p a{
-	font-size: 14px;
+.loginArea .ttLink a{
 	color: #4a8ef3;	
+}
+.loginArea .quickLog{
+	text-align:center;
+}
+.loginArea .logIcon{
+	width:22px; 
+	height:22px;
+	background:url(../images1408/icons.png) no-repeat 0 -289px;
+	display: inline-block;
+	vertical-align: -5px;
+}
+.loginArea .logIcon:hover{
+	background:url(../images1408/icons.png) no-repeat 0 -312px;
 }
 a.register{
 	width: 240px;
@@ -332,7 +345,7 @@ a.register{
 }
 div.personInfo{
 	padding: 13px;
-	padding-bottom: 24px;
+	padding-bottom: 22px;
 	border-right:1px solid #e6e6e6;
 }
 .userExtra{ padding:10px; margin-top: 14px; background:#fafafa; border-radius: 2px 2px; border:1px solid #ececec;}
