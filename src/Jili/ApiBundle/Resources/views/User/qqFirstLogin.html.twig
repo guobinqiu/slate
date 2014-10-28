@@ -8,6 +8,7 @@
         <script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
         <!-- [endif] -->
         <link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('css140307/common.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
         <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
@@ -18,34 +19,34 @@
         <div class="webArticle regStep">
             <article>
                 <div class="regForm qqRegForm" style="padding-top:100px;">
-                    <h2>欢迎来到积粒网！<span>输入邮箱地址</span></h2>
+                    <h2 class="fontYH">欢迎来到积粒网！</h2>
                     <div class="qqReg">
                     {# if( newregist )#}
-                    	<span class="noJl active">没有积粒网账号</span>
+                    	<span class="noJl fontYH">没有积粒网账号</span>
                         <form action="{{ path('qq_registe') }}" method="post" name="form1" id="form1" >
                         <ul class="addAccount">
                         	<li>已创建一个新账号，请您完善个人资料</li>
                             <li class="qqMsg"><span><img height="48" src="/images1408/headPortBg.jpg"></span><span>昵称：{{ nickname }}<br/>性别：{{ sex }}</span></li>
                             <li>为保障您的账号安全，请设置QQ邮箱作为找回账号的方式。</li>
-                            <li><label for="qqEmail">邮箱地址：</label><input id="email" name="qqEmail" class="qqEmail" type="text" value="{{ email }}"/>@qq.com<strong class="errorMsg" id="emailError">输入的错误信息好多啊</strong></li>
+                            <li><label for="qqEmail">邮箱地址：</label><input id="email" name="qqEmail" class="qqEmail" type="text" value="{{ email }}"/>@qq.com<span class="errorMsg" id="emailError">输入的错误信息好多啊</span></li>
                             <li><label for="setPwd">设置密码：</label><input name="setPwd" type="password"/></li>
                             <li><input type="checkbox" checked/>下次自动登录</li>
-                            <li><span class="submitBtn" id='info'>完善资料</span><span id='reg' class="submitBtn">立即登录</span></li>
+                            <li><span class="submitBtn" id='info'>完善资料</span><a class="submitBtn corGlobBlue font14 textUL">下次再说>></a></li>
                         </ul>
                         </form>
                         {# else bind jili id#}
-                        <span class="Jl">已有积粒网账号</span>
+                        <span class="Jl fontYH">已有积粒网账号</span>
                         <form action="{{ path('qq_bind') }}" method="post" name="form2" id="form2" >
                         <ul class="bindAccount">
                             <li>将已有的积粒网账号与QQ账号绑定</li>
-                            <li><label for="kxUser">积粒账号：</label><input name="kxUser" type="text" value="{{ email }}"/><strong class="errorMsg" id="emailError">输入的错误信息好多啊</strong></li>
+                            <li><label for="kxUser">积粒账号：</label><input name="kxUser" type="text" value="{{ email }}"/><span class="errorMsg" id="emailError">输入的错误信息好多啊</span></li>
                             <li><label for="kxPwd">登录密码：</label><input id="pwd" name="kxPwd" type="password"/>{% if 1 %}
                             {# if code_nick #}
                                 <strong class="errorMsg" id="nickError">{# code_nick #}</strong>
                             {% else %}2-20个字符
                                 {% endif %}</li>
                             <li><input type="checkbox" checked/>下次自动登录</li>
-                            <li><span id='bind' class="submitBtn">立即绑定</span><a href="#">忘记密码</a></li>
+                            <li><span id='bind' class="submitBtn">立即绑定</span><a class="corGlobBlue" href="#">忘记密码</a></li>
                         </ul>
                         </form>
                         {#endif#}
@@ -53,42 +54,6 @@
                     <div class="qqPic">
                     	<img src="/images140307/qqPic.jpg" width="343" height="100"/>
                     </div>
-                    <!--<ul class="form">
-                        {# if( newregist )#}
-                        没有jili账号，输入邮箱注册
-                        <form action="{{ path('qq_registe') }}" method="post" name="form1" id="form1" >
-                            <div> 昵称：{{ nickname }}</div>
-                            <div> 性别：{{ sex }}</div>
-                            <li><dd>邮件地址：</dd><dt><input name="email" type="text" class="text" id="email" value="{{ email }}"><br />
-                            <span id="emailError">
-                            </span>
-                            </dt></li>
-                            <li><dd></dd><dt><!--  <a class="regBtn" href="#">发送验证邮件</a>
-                            <input type='button' id='info' class='regBtn' value='完善资料'/>
-                            <input type='button' id='reg' class='regBtn' value='立即登陆'/>
-                            </dt></li>
-                        </form>
-                            <br />
-                            已有jili账号，绑定账号
-                            {# else bind jili id#}
-                        <form action="{{ path('qq_bind') }}" method="post" name="form2" id="form2" >
-                            <li><dd>邮件地址：</dd><dt><input name="email" type="text" class="text" id="email" value="{{ email }}"><br />
-                            <span id="emailError">
-                            </span>
-                            </dt></li>
-                        <li><dd>密码：</dd><dt><input name="pwd" type="password" class="text" id="pwd" value="{{ pwd }}"><br />
-                        <span id="nickError">
-                            {% if 1 %}
-                                {# if code_nick #}
-                                <font color='red'>{# code_nick #}</font>
-                            {% else %}2-20个字符
-                                {% endif %}
-                        </span>
-                        <input type='button' id='bind' class='regBtn' value='立即绑定'/>
-                        </dt></li>
-                        </form>
-                                {#endif#}
-                    </ul>-->
                     <div class="clear"></div>
                 </div>
             </article>
@@ -106,10 +71,13 @@
             $("#bind").click(function () {
                 $("#form2").submit();
             });
+			$('.qqReg>span').addClass('corGlobBlue');
 			$('.qqReg>span').on('click', function(){
 				var $this = $(this);
 				var $bind = $('.bindAccount');
 				var $add = $('.addAccount');
+				$('.qqReg>span').removeClass('corGlobBlue');
+				$('.qqReg>span').addClass("corLightGray");
 				$('.qqReg>span').removeClass('active');
 				$this.addClass('active');
 				if($this.hasClass('noJl')){
