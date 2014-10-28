@@ -19,7 +19,6 @@ CheckinModule.doAutoCheckin = function() {
 				// 开始自动签到
 				CheckinModule.auto_checkin.before_start();
 
-				$('#signInFrame .close_checkin').hide();
 				$("#signInFrame").show();
 				$(".blackBg").show();
 				$("#signInFrame .signInOptions span").removeClass('active');
