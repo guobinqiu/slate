@@ -48,7 +48,7 @@ use Jili\ApiBundle\Entity\TaskHistory09;
 class UserController extends Controller
 {
     /**
-	* @Route("/createFlag", name="_user_createFlag")
+	* @Route("/createFlag", name="_user_createFlag", options={"expose"=true})
     * @Method("POST")
 	*/
     public function createFlagAction()
@@ -216,7 +216,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/getCity", name="_user_getCity")
+     * @Route("/getCity", name="_user_getCity", options={"expose"=true})
      * @Method("POST")
      */
     public function getCityAction()
@@ -426,7 +426,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/isExistInfo", name="_user_isExistInfo")
+     * @Route("/isExistInfo", name="_user_isExistInfo",options={"expose"=true})
      * @Method("POST")
      */
     public function isExistInfoAction()
@@ -453,7 +453,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/province", name="_user_province")
+     * @Route("/province", name="_user_province", options = {"expose"= true})
      * @Method("POST")
      */
     public function provinceAction()
@@ -468,7 +468,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/hobby", name="_user_hobby")
+     * @Route("/hobby", name="_user_hobby", options={"expose"=true})
      * @Method("POST")
      */
     public function hobbyAction()
@@ -483,7 +483,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/income", name="_user_income")
+     * @Route("/income", name="_user_income", options={"expose"=true})
      * @Method("POST")
      */
     public function incomeAction()
@@ -503,7 +503,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/userInfo", name="_user_userInfo")
+     * @Route("/userInfo", name="_user_userInfo", options={"expose"=true})
      * @Method("POST")
      */
     public function userInfoAction()
@@ -1836,7 +1836,7 @@ class UserController extends Controller
 
 
     /**
-	* @Route("/countMs", name="_user_countMs")
+	* @Route("/countMs", name="_user_countMs", options={"expose"= true})
     * @Method("POST")
 	*/
     public function countMsAction()
