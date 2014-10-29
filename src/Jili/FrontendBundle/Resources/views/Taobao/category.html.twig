@@ -1,6 +1,6 @@
 <ul class="ltab">
     {% for item in category %}
-    <li {% if current_id == item.id %}  class="ui-tabs-active" {% endif %}><a href="{{ path('jili_frontend_taobao_category',{'id':item.id}) }}" {% if current_id == item.id %} _hover-ignore="1" {% endif %} >{{item.categoryName}}</a></li>
+    <li {% if current_id == item.id %}  class="ui-tabs-active" {% endif %}><a href="{{ path('jili_frontend_taobao_category',{'id':item.id}) }}">{{item.categoryName}}</a></li>
     {% endfor %}
 </ul>
 
@@ -9,8 +9,7 @@
         {% for item in keywords %}
         <div class="cell">{{item.content}}</div>
         {% endfor %}
-        <img src="{{ asset('images/taobao/items.jpg')}}"/>
+        <!--  <img src="{{ asset('images/taobao/items.jpg')}}"/> -->
     </div>
     <div id="more" class="more"><a href="/taobao/category?id=1&page=2"></a></div>
 </div>
-
