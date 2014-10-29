@@ -1,7 +1,7 @@
 ul,li{ list-style:none; margin:0; padding:0;}
 a{ text-decoration:none;}
 .corBO{ color:#ff340b;}
-.taobaoWrap{ width:1001px; margin:10px auto; text-align: left;}
+.taobaoWrap{ width:1001px; margin:0px auto; text-align: left;}
 .itemL{ width:737px; float:left;}
 .itemL .taobaoSearch,.itemL .tablist,.itemR .discover dd{ border-right:1px solid #e2e2e2; border-bottom:2px solid #e2e2e2;}
 .itemL .taobaoSearch{ height:85px; padding:20px 0 0 34px; background:#fff;}
@@ -12,7 +12,7 @@ a{ text-decoration:none;}
 .itemL .ltab li.ui-tabs-active{ background:#ff4526; border-radius:3px;}
 .itemL .ltab li a{ color:#333; padding: 0px 20px;}
 .itemL .ltab li.ui-tabs-active a{ color:#fff;}
-.itemL .tablist{ float: left; display:  none; margin-bottom: 200px;}
+.itemL .tablist{ float: left; display: none; margin-bottom: 200px; background-color: #fff;}
 .itemL .block{ display: block;}
 .itemL .tablist ul li{ margin-bottom: -1px; width: 730px; background: #fff; padding: 5px 0 0 5px;}
 .itemR{ width:248px; float:right;}

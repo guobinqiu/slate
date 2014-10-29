@@ -1,6 +1,6 @@
 <ul class="ltab">
     {% for item in category %}
-    <li><a href="{{ path('jili_frontend_taobao_category',{'id':item.id}) }}" {% if current_id == item.id %} _hover-ignore="1" {% endif %} >{{item.categoryName}}</a></li>
+    <li {% if current_id == item.id %}  class="ui-tabs-active" {% endif %}><a href="{{ path('jili_frontend_taobao_category',{'id':item.id}) }}" {% if current_id == item.id %} _hover-ignore="1" {% endif %} >{{item.categoryName}}</a></li>
     {% endfor %}
 </ul>
 
