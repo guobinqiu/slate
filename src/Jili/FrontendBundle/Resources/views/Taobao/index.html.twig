@@ -17,7 +17,7 @@
         		<em></em>注意：通过积粒网的淘宝页面购物，每月将有机会参与抽奖，但无返利。
        		</div>
             <div class="taobaoSearch"> {{ render(controller('JiliFrontendBundle:Taobao:searchBox' ) ) }} </div>
-            <div id="tabs"> {{ render(controller('JiliFrontendBundle:Taobao:category' ) ) }} </div>
+            <div id="tabs"> {{ render(controller('JiliFrontendBundle:Taobao:category',{'id':1} ) ) }} </div>
         </div>
         <div class="itemR">
             <div class="rPt"> {{ render(controller('JiliFrontendBundle:Taobao:item' ) ) }} </div>
@@ -35,11 +35,11 @@
             img: "img/progressBar.gif",
             msgText: ""
         },
-        navSelector: '#more',   
-        nextSelector: '#more a',  
-        itemSelector: ".cell",     
-        debug: true,       
-        animate: false,    
+        navSelector: '#more',
+        nextSelector: '#more a',
+        itemSelector: ".cell",
+        debug: true,
+        animate: false,
         extraScrollPx: 50
     })
 </script>

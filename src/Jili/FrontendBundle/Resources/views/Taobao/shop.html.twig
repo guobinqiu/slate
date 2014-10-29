@@ -2,6 +2,10 @@
     <dt class="mt">发现<span class="corBO">好店</span></dt>
     <dd>
         <ul>
+            {% for item in shops %}
+            <li class="listGroup">{{item.content}}</div></li>
+            {% endfor %}
+
             <li class="listGroup">
                 <a href="http://s.click.taobao.com/t?e=m%3D2%26s%3DuxBQSxmhYI8cQipKwQzePDAVflQIoZepK7Vc7tFgwiFRAdhuF14FMcwpGhu9WbVWxq3IhSJN6GSni5lBbADrc3xDqtQcjpsJPsM3HHzvybx284PIvSmbAtEew1By%2BI5k"
                    class="img" target="_blank"><img
