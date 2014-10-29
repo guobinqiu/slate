@@ -716,7 +716,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/isNewMs/{id}", name="_user_isNewMs")
+     * @Route("/isNewMs/{id}", name="_user_isNewMs", options={"expose"=true})
      * @Method({ "GET", "POST"})
      */
     public function isNewMsAction($id)
@@ -1786,7 +1786,7 @@ class UserController extends Controller
 
 
     /**
-	 * @Route("/message/{sid}",requirements={"sid" = "\d+"}, name="_user_message")
+	 * @Route("/message/{sid}",requirements={"sid" = "\d+"}, name="_user_message", options={"expose"=true})
 	 */
     public function messageAction($sid)
     {
