@@ -1,0 +1,15 @@
+<ul class="ltab">
+    {% for item in category %}
+    <li><a href="{{ path('jili_frontend_taobao_category',{'id':item.id}) }}" {% if current_id == item.id %} _hover-ignore="1" {% endif %} >{{item.categoryName}}</a></li>
+    {% endfor %}
+</ul>
+
+<div class="tablist block" id="tabs-1">
+    <div id="waterfall">
+        {% for item in keywords %}
+        <div class="cell">{{item.content}}</div>
+        {% endfor %}
+        <img src="{{ asset('images/taobao/items.jpg')}}"/>
+    </div>
+    
+

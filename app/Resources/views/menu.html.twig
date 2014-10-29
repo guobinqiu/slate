@@ -120,6 +120,7 @@ $(document).ready(function(){
                 <li {{ router_current == 'jili_emar_websites_shoplist' ? 'class="active"':'' }}><a href="{{ path('jili_emar_websites_shoplist') }}" title="商家列表">商家列表</a></li>
                 <li {{ router_current == '_marketActivity_index' ? 'class="active"':'' }}><a href="{{ path('_marketActivity_index') }}" title="商家活动">商家活动</a></li>
                 <li {{ router_current == '_exchange_index' ? 'class="active"':'' }}><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
+                <li {{ router_current == 'jili_frontend_taobao_index' ? 'class="active"':'' }}><a href="{{ path('jili_frontend_taobao_index') }}" title="淘宝">淘宝</a></li>
             </ul>
             <div class="dailyQuest">
                 {{ render(controller('JiliFrontendBundle:Home:task' ) ) }}{# 任务列表 #}

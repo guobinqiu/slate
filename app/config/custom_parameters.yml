@@ -252,3 +252,9 @@ parameters:
     upload_experience_advertisement_dir_old: images/experience_advertisement/old/
     delete_flag_true: 1
     delete_flag_false: 0
+#淘宝组件类别
+    taobao_component:
+        'search_box': 1  #搜索框
+        'keyword': 2 #分类产品,关键字
+        'item': 3 #单品
+        'shop': 4 #店铺
