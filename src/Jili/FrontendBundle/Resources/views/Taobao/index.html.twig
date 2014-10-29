@@ -28,5 +28,32 @@
 {% endblock %}
 
 {% block body_bottom %}
-
+<script type="text/javascript">
+    $('#tabs-1').infinitescroll({
+        loading: {
+            finishedMsg: "<br style='clear:both'/><em>没有更多了。</em>",
+            img: "img/progressBar.gif",
+            msgText: ""
+        },
+        navSelector: '#more',   
+        nextSelector: '#more a',  
+        itemSelector: ".cell",     
+        debug: true,       
+        animate: false,    
+        extraScrollPx: 50
+    })
+</script>
+<script type="text/javascript"> (function (win, doc) {
+    var s = doc.createElement("script"), h = doc.getElementsByTagName("head")[0];
+    if (!win.alimamatk_show) {
+        s.charset = "gbk";
+        s.async = true;
+        s.src = "http://a.alimama.cn/tkapi.js";
+        h.insertBefore(s, h.firstChild);
+    }
+    ;
+    var o = { pid: "mm_49376465_4372428_26502700", /*推广单元ID，用于区分不同的推广渠道*/ appkey: "", /*通过TOP平台申请的appkey，设置后引导成交会关联appkey*/ unid: ""/*自定义统计字段*/ };
+    win.alimamatk_onload = win.alimamatk_onload || [];
+    win.alimamatk_onload.push(o);
+})(window, document);</script>
 {% endblock %}
