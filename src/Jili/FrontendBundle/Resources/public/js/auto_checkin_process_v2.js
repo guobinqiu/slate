@@ -67,6 +67,10 @@ CheckinModule.auto_checkin = function() {
                 window.frames[i].onload = function() {
 //                    console.log("buffer.onload:");
                     completed.push(i);
+		if ( completed.length >= count_of_ads) {
+			after_finished();
+			return false;
+		}
 //                    console.log(completed);
         //removeFrame();
                 }
