@@ -24,15 +24,11 @@
             <div class="rMall"> {{ render(controller('JiliFrontendBundle:Taobao:shop' ) ) }} </div>
         </div>
     </div>
-</div>
-{% endblock %}
-
-{% block body_bottom %}
-<script type="text/javascript">
+    <script type="text/javascript">
     $('#tabs-1').infinitescroll({
         loading: {
             finishedMsg: "<br style='clear:both'/><em>没有更多了。</em>",
-            img: "img/progressBar.gif",
+            img: "{{ asset('images/taobao/progressBar.gif')}}",
             msgText: ""
         },
         navSelector: '#more',
@@ -56,4 +52,9 @@
     win.alimamatk_onload = win.alimamatk_onload || [];
     win.alimamatk_onload.push(o);
 })(window, document);</script>
+</div>
+{% endblock %}
+
+{% block body_bottom %}
+
 {% endblock %}
