@@ -49,30 +49,45 @@ CheckinModule.auto_checkin = function() {
 	var failed = []; // successful checked shop
     var checkin_timeout_id = null;
 
-	var initFrame = function() {
-
-		console.log(">>> initFrmae");
-		if ("object" == typeof window.frames.buffer) {
-			buffer = window.frames.buffer;
+	var initFrame = function(i) {
+		//console.log(">>> initFrmae");
+		if ("object" == typeof window.frames[i]) {
+			buffer = window.frames[i];
+//            console.log('frame exists');
 			return false;
 		}
 
-		var div_id = "buffer" + index;
+		var div_id = "buffer" + i;
 		ifrm = document.createElement("iframe");
 		ifrm.setAttribute("id", div_id);
 		ifrm.setAttribute("name", div_id );
 		ifrm.setAttribute("frameborder", 0);
 		document.body.appendChild(ifrm);
+
+                window.frames[i].onload = function() {
+//                    console.log("buffer.onload:");
+                    completed.push(i);
+//                    console.log(completed);
+        //removeFrame();
+                }
+//
+//                window.frames[j].onerror= function() {
+//                    console.log("buffer.error:");
+//                    failed.push(j);
+//                    console.log(failed);
+//        //removeFrame();
+//                }
 		return false;
 	};
+
     var roundTimeUp =function() {
         removeFrame();
         failed.push(index);
     };
 
 	var removeFrame = function() {
-		console.log(" removeFrame>>>");
-		if ("object" == typeof window.frames.buffer) {
+//		console.log(" removeFrame>>>");
+		if ("object" == typeof window.frames[index]) {
             buffer.close();
 			var ifrm = document.getElementById("buffer" + index);
 			ifrm.parentNode.removeChild(ifrm);
@@ -138,9 +153,9 @@ CheckinModule.auto_checkin = function() {
 
 									if (target.trim().length > 0) {
 										try {
-											buffer.location.href = target;
+                                            buffer = window.frames[i].location.href = target;
 										} catch(e) {
-											//alert(" name:  " + e.name + " \nmessage:  " + e.message + " \nlineNumber:  " + e.lineNumber + " \nfileName:  " + e.fileName + " \nstack:  " + e.stack);
+//											console.log(" name:  " + e.name + " \nmessage:  " + e.message + " \nlineNumber:  " + e.lineNumber + " \nfileName:  " + e.fileName + " \nstack:  " + e.stack);
 										}
 									}
 									$("div.signInManual li:eq(" + i + ") a").find(".gray").show();
@@ -172,46 +187,54 @@ CheckinModule.auto_checkin = function() {
 			pts = params.checkin_point;
 			urls = params.urls;
 
-            for (index = 0; index < count_of_ads; index++) {
-                initFrame();
-                console.log("index:");
-                console.log(index);
-               // buffer = window.frames["buffer"+index];
-                buffer.onload = function() {
-                    completed.push(index);
-                    clearTimeout(checkin_timeout_id);
-                    removeFrame();
-                // ??    next();
-                    index++;
-                    console.log("buffer.onload");
-                }
+            var j = 0;
+            for (j= 0; j< count_of_ads; j++) {
+                initFrame(j);
+//                window.frames[j].onload = function() {
+//                    console.log("buffer.onload:");
+//                    completed.push(j);
+//                    console.log(completed);
+//        //removeFrame();
+//                }
+//
+//                window.frames[j].onerror= function() {
+//                    console.log("buffer.error:");
+//                    failed.push(j);
+//                    console.log(failed);
+//        //removeFrame();
+//                }
 
-                goto(index);
+                goto(j);
 
-                checkin_timeout_id = setTimeout(roundTimeUp, 10000);
+//                checkin_timeout_id = setTimeout(roundTimeUp, 10000);
 
                 // wait round over
-                while( -1 != completed.indexOf(index) 
-                || -1 != failed.indexOf(index) ) {
-                    sleep(2000);
-                }
-
-                console.log(buffer);
+//                while( -1 != completed.indexOf(index) 
+//                || -1 != failed.indexOf(index) ) {
+//                    sleep(2000);
+//                }
+//
+//                console.log("index:");
+//                console.log(index);
+//                console.log("completed:");
+//                console.log(completed);
+//                console.log("failed:");
+//                console.log(failed);
             }
 
             // v3
             // 3000 9000 27000
-            var loop_idx = 0;
-            var loop_count  = 3;
-            while ( completed.length > count_of_ads) {
-                loop_idx++;
-                // how to control the timeout
-                
-                // what if done successfully??
-                // onload ? next() ?
-                // setTimeout( removeFrame(), 4000);
-
-            }
+//            var loop_idx = 0;
+//            var loop_count  = 3;
+//            while ( completed.length > count_of_ads) {
+//                loop_idx++;
+//                // how to control the timeout
+//                
+//                // what if done successfully??
+//                // onload ? next() ?
+//                // setTimeout( removeFrame(), 4000);
+//
+//            }
 		},
 		before_start: function() {
 			$("p.signInAuto").text("系统帮您自动签到中……，请稍后");
