@@ -67,7 +67,6 @@ class TaobaoController extends Controller {
         $search_box = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findByComponentId($taobao_component['search_box']);
         $arr['search_box'] = $search_box[0];
         //        $arr['search_box'] = 1;
-
         return $this->render('JiliFrontendBundle:Taobao:searchBox.html.twig', $arr);
     }
 
