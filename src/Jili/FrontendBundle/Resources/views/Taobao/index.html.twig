@@ -35,8 +35,22 @@
         nextSelector: '#more a',
         itemSelector: ".cell",
         debug: true,
+		dataType: 'json',
+		contentSelector: '#waterfall',
         animate: false,
-        extraScrollPx: 50
+        extraScrollPx: 50,
+		template: function(data) {
+            $boxes = $("<div class = 'container'></div>");
+            $.each(data.keywords, function(key, value)
+            {
+                myString = "<div class = 'cell'>" + value.content + "</div>";
+                $box = $(myString);
+                $boxes.append($box);
+				console.log(value.content);
+            });
+			
+			return $boxes.find('.cell');
+		}
     })
 </script>
 <script type="text/javascript"> (function (win, doc) {

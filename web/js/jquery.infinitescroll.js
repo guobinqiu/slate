@@ -287,6 +287,7 @@
 
                     // if it didn't return anything
                     if (children.length == 0) {
+						this._debug('contentSelector', box)
                         return this._error('end');
                     }
 
@@ -297,7 +298,6 @@
                         frag.appendChild(box[0].firstChild);
                     }
 
-                    this._debug('contentSelector', $(opts.contentSelector)[0])
                     $(opts.contentSelector)[0].appendChild(frag);
                     // previously, we would pass in the new DOM element as context for the callback
                     // however we're now using a documentfragment, which doesnt havent parents or children,
@@ -507,15 +507,52 @@
 	                    case 'json':
 
 	                        instance._debug('Using ' + (method.toUpperCase()) + ' via $.ajax() method');
-	                        $.ajax({
+							$.ajax({
+								dataType: 'json',
+								type: 'GET',
+								url: desturl,
+								success: function(data, textStatus, jqXHR) {
+									condition = (typeof (jqXHR.isResolved) !== 'undefined') ? (jqXHR.isResolved()) : (textStatus === "success" || textStatus === "notmodified");
+									if (opts.appendCallback) {
+										// if appendCallback is true, you must defined template in options.
+										// note that data passed into _loadcallback is already an html (after processed in opts.template(data)).
+										if (opts.template !== undefined) {
+											var theData = opts.template(data);
+											box.append(theData);
+											if (condition) {
+												instance._loadcallback(box, theData);
+											} else {
+												instance._error('end');
+											}
+										} else {
+											instance._debug("template must be defined.");
+											instance._error('end');
+										}
+									} else {
+										// if appendCallback is false, we will pass in the JSON object. you should handle it yourself in your callback.
+										if (condition) {
+											instance._loadcallback(box, data, desturl);
+										} else {
+											instance._error('end');
+										}
+									}
+								},
+								error: function() {
+									instance._debug("JSON ajax request failed.");
+									instance._error('end');
+								}
+							});
+
+	                        /*$.ajax({
 	                            // params
 	                            url: desturl,
 	                            dataType: opts.dataType,
 	                            complete: function infscr_ajax_callback(jqXHR, textStatus) {
+									instance._debug('opts.contentSelector', jqXHR.responseText);
 	                                condition = (typeof (jqXHR.isResolved) !== 'undefined') ? (jqXHR.isResolved()) : (textStatus === "success" || textStatus === "notmodified");
 	                                (condition) ? instance._loadcallback(box, jqXHR.responseText) : instance._error('end');
 	                            }
-	                        });
+	                        });*/
 	
 	                        break;
 	                }
