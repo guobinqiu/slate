@@ -103,6 +103,7 @@ class TaobaoController extends Controller {
     public function categoryApiAction() {
         $request = $this->get('request');
         $id = $request->query->get('id', 1);
+        $page = $request->query->get('page', 1);
 
         // get taobao component id
         $taobao_component = $this->container->getParameter('taobao_component');
