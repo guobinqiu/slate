@@ -98,7 +98,7 @@ class TaobaoController extends Controller {
     }
 
     /**
-     * @Route("/categoryApi")
+     * @Route("/categoryApi", options={"expose"=true})
      */
     public function categoryApiAction() {
         $request = $this->get('request');
@@ -110,15 +110,15 @@ class TaobaoController extends Controller {
         // get taobao component by category id
         $em = $this->getDoctrine()->getManager();
         $keywords = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findByCategory($id, $taobao_component['keyword']);
-
+/*
         foreach($keywords as $key => $value){
             $keyword[$key]['id']=$value['id'];
             $keyword[$key]['componentId']=$value['componentId'];
         }
-
+ */
         $arr['current_id'] = $id;
-        $arr['keywords'] = $keyword;
-
+        $arr['keywords'] = $keywords;
+        $this->get('logger')->debug('{taobao}'. implode(':', array(__LINE__,__CLASS__,'')). var_export( $arr, true));
         return new Response(json_encode($arr));
     }
 
