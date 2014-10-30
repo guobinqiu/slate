@@ -151,7 +151,14 @@ CheckinModule.auto_checkin = function() {
 			urls = params.urls;
 			if (index == 0) {
 				initFrame();
+
 				document.getElementsByTagName("iframe")[0].onload = function() {
+					next();
+					return false;
+				};
+
+				document.getElementsByTagName("iframe")[0].onerror= function() {
+                    //todo: re-push to shop into the end of array. 
 					next();
 					return false;
 				};

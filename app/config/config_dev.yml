@@ -30,3 +30,9 @@ assetic:
 #swiftmailer:
 #    delivery_address: me@example.com
 
+#doctrine:
+#    dbal:
+#       dbname:   jili_0904
+#       password:  MyNewPassword
+#       charset:  UTF8
+#       host:     localhost

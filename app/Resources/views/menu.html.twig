@@ -21,7 +21,7 @@
 {% if app.session.has('uid') %}
 <script type="text/javascript">
 $(document).ready(function(){
-        isNewMessage();
+       // isNewMessage();
 
         //91问问快速回答
         $("#wen_vote").click(function(){
@@ -40,19 +40,19 @@ $(document).ready(function(){
         });
 });
 
-  function isNewMessage(){
-   $.ajax({
-          url: "{{ path('_user_isNewMs',{'id':app.session.get('uid') }) }}",
-          type: "GET",
-          success:function(data){
-              if(data){
-                   $('.message').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
-              }else{
-                   $('.message').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
-              }
-          }
-        });
-}
+//  function isNewMessage(){
+//   $.ajax({
+//          url: "{{ path('_user_isNewMs',{'id':app.session.get('uid') }) }}",
+//          type: "GET",
+//          success:function(data){
+//              if(data){
+//                   $('.message').attr('href',"{{ path('_user_message',{'sid': 2}) }}"); 
+//              }else{
+//                   $('.message').attr('href',"{{ path('_user_message',{'sid': 1}) }}"); 
+//              }
+//          }
+//        });
+//}
 
 </script>
 

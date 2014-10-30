@@ -24,4 +24,4 @@ doctrine:
        dbname:   jili_test
 #       password:  MyNewPassword
 #       charset:  UTF8
-#       host:     192.168.1.34
+#       host:     192.168.1.52
