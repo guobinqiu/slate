@@ -24,12 +24,13 @@
                     <li {% if current_id == item.id %} class="ui-tabs-active" {% endif %}><a href="javascript:void(0);" onclick="jili.taobao.searchBycatgory({{item.id}});">{{item.categoryName}}</a></li>
                     {% endfor %}
                 </ul>
-                <div class="tablist block" id="tabs-1">
+                <div class="taobaoCon"></div>
+                 <!-- <div class="tablist block" id="tabs-1">
                     <div id="waterfall">
-                        <!--  <img src="{{ asset('images/taobao/items.jpg')}}"/> -->
+                        <img src="{{ asset('images/taobao/items.jpg')}}"/>
                     </div>
                     <div id="more" class="more"></div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="itemR">
@@ -56,38 +57,8 @@
 </script>
 
 <script type="text/javascript">
-
 (function (win, doc) {
-    //默认显示分类
-    jili.taobao.searchBycatgory(1);
-
-    $('#tabs-1').infinitescroll({
-        loading: {
-            finishedMsg: "<br style='clear:both'/><em>没有更多了。</em>",
-            img: "{{ asset('images/taobao/progressBar.gif')}}",
-            msgText: ""
-        },
-        navSelector: '#more',
-        nextSelector: '#more a',
-        itemSelector: ".cell",
-        debug: true,
-        dataType: 'json',
-        contentSelector: '#waterfall',
-        animate: false,
-        extraScrollPx: 50,
-        template: function(data) {
-            $boxes = $("<div class = 'container'></div>");
-            $.each(data.keywords, function(key, value)
-            {
-                myString = "<div class = 'cell'>" + value.content + "</div>";
-                $box = $(myString);
-                $boxes.append($box);
-                console.log(value.content);
-            });
-            return $boxes.find('.cell');
-        }
-    })
-
+    jili.taobao.searchBycatgory(1);   
 })(window, document);
 </script>
 

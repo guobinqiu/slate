@@ -111,6 +111,7 @@
 				// get the relative URL - everything past the domain name.
 				relurl = /(.*?\/\/).*?(\/.*)/,
 				path = $(opts.nextSelector).attr('href');
+				this._debug('还是中文好区分'+path);
 
             // contentSelector is 'page fragment' option for .load() / .ajax() calls
             opts.contentSelector = opts.contentSelector || this.element;
@@ -123,6 +124,7 @@
 
             // Set the path to be a relative URL from root.
             opts.path = this._determinepath(path);
+			
             // Define loading.msg
             opts.loading.msg = $('<div id="infscr-loading"><img alt="Loading..." src="' + opts.loading.img + '" /><div>' + opts.loading.msgText + '</div></div>');
 
@@ -182,22 +184,22 @@
 				this['_determinepath_'+opts.behavior].call(this,path);
 				return;
 			}
-
             if (!!opts.pathParse) {
 
                 this._debug('pathParse manual');
                 return opts.pathParse;
 
-            } else if (path.match(/^(.*?)\b2\b(.*?$)/)) {
-                path = path.match(/^(.*?)\b2\b(.*?$)/).slice(1);
+            } else if (path.match(/^(.*?id=2)\b2\b(.*?$)/)) {
+				this._debug('路径不对啊'+path);
+                path = path.match(/^(.*?id=2)\b2\b(.*?$)/).slice(1);
 
                 // if there is any 2 in the url at all.    
             } else if (path.match(/^(.*?)2(.*?$)/)) {
-
+				
                 // page= is used in django:
                 // http://www.infinite-scroll.com/changelog/comment-page-1/#comment-127
-                if (path.match(/^(.*?page=)2(\/.*|$)/)) {
-                    path = path.match(/^(.*?page=)2(\/.*|$)/).slice(1);
+                if (path.match(/^(.*?id=2&page=)2(\/.*|$)/)) {
+                    path = path.match(/^(.*?id=2&page=)2(\/.*|$)/).slice(1);
                     return path;
                 }
 
