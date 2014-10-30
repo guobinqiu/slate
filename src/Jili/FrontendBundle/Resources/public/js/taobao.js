@@ -11,6 +11,7 @@ jili.taobao.searchBycatgory = function(id) {
 		dataType: "json",
 		success: function(obj) {
 			$(window).unbind('.infscr');
+			$(window).scrollTop(0);
 			var items = obj.keywords;
 			var $box = $('<div class="tablist block" id="tabs-1"><div id="waterfall"></div><div id="more" class="more"></div></div>');
 			var html = '';
@@ -35,7 +36,7 @@ jili.taobao.searchBycatgory = function(id) {
 				animate: false,
 				extraScrollPx: 50,
 				template: function(data) {
-					$boxes = $("<div class = 'container'></div>");
+					$boxes = $("<div class='container'></div>");
 					$.each(data.keywords, function(key, value)
 					{
 						myString = "<div class = 'cell'>" + value.content + "</div>";
