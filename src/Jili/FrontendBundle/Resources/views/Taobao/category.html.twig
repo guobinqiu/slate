@@ -1,6 +1,33 @@
+{% block javascript %}
+<script type="text/javascript">
+function searchBycatgory(id){
+    var html='';
+    $.ajax({
+        url: "{{ path('jili_frontend_taobao_categoryapi') }}?id="+id,
+        type: "GET",
+        //contentType: "application/json",
+        success:function(data){
+            var obj = eval(data);
+            alert(obj.current_id);
+            alert(obj.keywords.length);
+            var items = obj.keywords;
+            for(var i=0;i<items.length;i++){ 
+                html += "<div class=\"cell\">"+items[i]['content']+"</div>";
+            }
+            //$("#waterfall").append(html);
+            $("#waterfall").html(html);
+        },
+        error: function(e) {
+            console.log(e.message);
+         }
+      });
+}
+</script>
+{% endblock %}
+
 <ul class="ltab">
     {% for item in category %}
-    <li {% if current_id == item.id %}  class="ui-tabs-active" {% endif %}><a href="{{ path('jili_frontend_taobao_category',{'id':item.id}) }}">{{item.categoryName}}</a></li>
+    <li {% if current_id == item.id %} class="ui-tabs-active" {% endif %}><a href="javascript:void(0);" onclick="searchBycatgory({{item.id}});">{{item.categoryName}}</a></li>
     {% endfor %}
 </ul>
 

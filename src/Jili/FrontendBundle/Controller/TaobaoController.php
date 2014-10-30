@@ -25,8 +25,8 @@ class TaobaoController extends Controller {
      */
     public function indexAction() {
         //check login, if user don't login, redirect login page
-        if(!$this->get('request')->getSession()->get('uid')){
-            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('jili_frontend_taobao_index') );
+        if (!$this->get('request')->getSession()->get('uid')) {
+            $this->get('request')->getSession()->set('referer', $this->generateUrl('jili_frontend_taobao_index'));
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -54,8 +54,8 @@ class TaobaoController extends Controller {
      */
     public function searchBoxAction() {
         //check login, if user don't login, redirect login page
-        if(!$this->get('request')->getSession()->get('uid')){
-            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('jili_frontend_taobao_searchbox') );
+        if (!$this->get('request')->getSession()->get('uid')) {
+            $this->get('request')->getSession()->set('referer', $this->generateUrl('jili_frontend_taobao_searchbox'));
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -66,7 +66,7 @@ class TaobaoController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $search_box = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findByComponentId($taobao_component['search_box']);
         $arr['search_box'] = $search_box[0];
-//        $arr['search_box'] = 1;
+        //        $arr['search_box'] = 1;
 
         return $this->render('JiliFrontendBundle:Taobao:searchBox.html.twig', $arr);
     }
@@ -90,12 +90,36 @@ class TaobaoController extends Controller {
         $category = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findAll();
 
         // get taobao component by category id
-        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findByCategory($id,$taobao_component['keyword']);
-
+        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findByCategory($id, $taobao_component['keyword']);
         $arr['category'] = $category;
         $arr['current_id'] = $id;
         $arr['keywords'] = $keywords;
-        return $this->render('JiliFrontendBundle:Taobao:category.html.twig',$arr);
+        return $this->render('JiliFrontendBundle:Taobao:category.html.twig', $arr);
+    }
+
+    /**
+     * @Route("/categoryApi")
+     */
+    public function categoryApiAction() {
+        $request = $this->get('request');
+        $id = $request->query->get('id', 1);
+
+        // get taobao component id
+        $taobao_component = $this->container->getParameter('taobao_component');
+
+        // get taobao component by category id
+        $em = $this->getDoctrine()->getManager();
+        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findByCategory($id, $taobao_component['keyword']);
+
+        foreach($keywords as $key => $value){
+            $keyword[$key]['id']=$value['id'];
+            $keyword[$key]['componentId']=$value['componentId'];
+        }
+
+        $arr['current_id'] = $id;
+        $arr['keywords'] = $keyword;
+
+        return new Response(json_encode($arr));
     }
 
     /**
@@ -104,8 +128,8 @@ class TaobaoController extends Controller {
      */
     public function itemAction() {
         //check login, if user don't login, redirect login page
-        if(!$this->get('request')->getSession()->get('uid')){
-            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('jili_frontend_taobao_item') );
+        if (!$this->get('request')->getSession()->get('uid')) {
+            $this->get('request')->getSession()->set('referer', $this->generateUrl('jili_frontend_taobao_item'));
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -117,7 +141,7 @@ class TaobaoController extends Controller {
         $items = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findByComponentId($taobao_component['item']);
 
         $arr['items'] = $items;
-        return $this->render('JiliFrontendBundle:Taobao:item.html.twig',$arr);
+        return $this->render('JiliFrontendBundle:Taobao:item.html.twig', $arr);
     }
 
     /**
@@ -126,8 +150,8 @@ class TaobaoController extends Controller {
      */
     public function shopAction() {
         //check login, if user don't login, redirect login page
-        if(!$this->get('request')->getSession()->get('uid')){
-            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('jili_frontend_taobao_shop') );
+        if (!$this->get('request')->getSession()->get('uid')) {
+            $this->get('request')->getSession()->set('referer', $this->generateUrl('jili_frontend_taobao_shop'));
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -139,7 +163,7 @@ class TaobaoController extends Controller {
         $shops = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findByComponentId($taobao_component['shop']);
 
         $arr['shops'] = $shops;
-        return $this->render('JiliFrontendBundle:Taobao:shop.html.twig',$arr);
+        return $this->render('JiliFrontendBundle:Taobao:shop.html.twig', $arr);
     }
 
 }
