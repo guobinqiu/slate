@@ -24,10 +24,11 @@ class UserBind
                 $params['user_id'] =  $user->getId();
                 $qquser = $this->em->getRepository('JiliApiBundle:QQUser')->qquser_insert($params);
             } else {
+                $qquser = null;
                 echo 111;
             }
         }
-        return $this;
+        return $qquser;
     }
     
     public function bind_vaildate(array $params)

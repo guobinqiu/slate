@@ -32,7 +32,7 @@
             <a href="{{ path('_user_reg') }}" title="免费注册" class="register">免费注册</a>
             <div class="ttLink mt20"><span>--------------------</span><a class="fontYH font16" href="{{ path('_user_login') }}" title="直接登录">直接登录</a><span>--------------------</span></div>
             <div class="quickLog lightGray"> 
-            	使用合作网站账号登录：<a class="logIcon" title="用QQ账号登录"></a>
+                使用合作网站账号登录：<a href="{{ path('qq_api_login') }}" class="logIcon" title="用QQ账号登录"></a>
             </div>
         </div>
         {% else %}

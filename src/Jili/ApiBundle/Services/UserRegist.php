@@ -17,7 +17,7 @@ class UserRegist
      * UserRegiste
      * @params $params array()
      */
-    public function qq_user_registe(array $params)
+    public function qq_user_regist(array $params)
     {
         if (isset($params['email']) && isset($params['open_id']) && isset($params['pwd'])) {
             $user = $this->em->getRepository('JiliApiBundle:User')->qquser_quick_insert($params);

@@ -30,6 +30,7 @@ parameters:
     
     user_regist.class: Jili\ApiBundle\Services\UserRegist
     user_bind.class: Jili\ApiBundle\Services\UserBind
+    user_login.class: Jili\ApiBundle\Services\UserLogin
     
 # session 
     session.task_list.class: Jili\ApiBundle\Services\Session\User\TaskList
@@ -218,6 +219,12 @@ services:
             
     user_bind:
         class: %user_bind.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            
+    user_login:
+        class: %user_login.class%
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
