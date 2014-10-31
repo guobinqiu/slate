@@ -21,7 +21,7 @@
             <div id="tabs"> 
                 <ul class="ltab">
                     {% for item in category %}
-                    <li {% if current_id == item.id %} class="ui-tabs-active" {% endif %}><a href="javascript:void(0);" onclick="jili.taobao.searchBycatgory({{item.id}});">{{item.categoryName}}</a></li>
+                    <li id="{{item.id}}"><a href="javascript:void(0);">{{item.categoryName}}</a></li>
                     {% endfor %}
                 </ul>
                 <div class="taobaoCon"></div>
@@ -53,12 +53,6 @@
     win.alimamatk_onload = win.alimamatk_onload || [];
     win.alimamatk_onload.push(o);
 
-})(window, document);
-</script>
-
-<script type="text/javascript">
-(function (win, doc) {
-    jili.taobao.searchBycatgory(1);   
 })(window, document);
 </script>
 
