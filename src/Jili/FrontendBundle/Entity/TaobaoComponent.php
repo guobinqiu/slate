@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TaobaoComponent
 {
+    const TAOBAO_COMPONENT_SEARCH_BOX =1; //搜索框
+    const TAOBAO_COMPONENT_KEYWORD = 2; //分类产品,关键字
+    const TAOBAO_COMPONENT_ITEM = 3; //单品
+    const TAOBAO_COMPONENT_SHOP = 4; //店铺
+
     /**
      * @var integer
      *
@@ -70,7 +75,10 @@ class TaobaoComponent
      */
     private $id;
 
-
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * Set componentId
@@ -88,7 +96,7 @@ class TaobaoComponent
     /**
      * Get componentId
      *
-     * @return integer 
+     * @return integer
      */
     public function getComponentId()
     {
@@ -111,7 +119,7 @@ class TaobaoComponent
     /**
      * Get categoryId
      *
-     * @return integer 
+     * @return integer
      */
     public function getCategoryId()
     {
@@ -134,7 +142,7 @@ class TaobaoComponent
     /**
      * Get keyword
      *
-     * @return string 
+     * @return string
      */
     public function getKeyword()
     {
@@ -157,7 +165,7 @@ class TaobaoComponent
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -180,7 +188,7 @@ class TaobaoComponent
     /**
      * Get sort
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getSort()
     {
@@ -203,7 +211,7 @@ class TaobaoComponent
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -226,7 +234,7 @@ class TaobaoComponent
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -236,7 +244,7 @@ class TaobaoComponent
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

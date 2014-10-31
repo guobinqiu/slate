@@ -20,6 +20,13 @@ class TaobaoCategory
     private $categoryName;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="delete_flag", type="integer", nullable=false)
+     */
+    private $deleteFlag;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
@@ -42,7 +49,10 @@ class TaobaoCategory
      */
     private $id;
 
-
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * Set categoryName
@@ -65,6 +75,29 @@ class TaobaoCategory
     public function getCategoryName()
     {
         return $this->categoryName;
+    }
+
+    /**
+     * Set deleteFlag
+     *
+     * @param integer $deleteFlag
+     * @return TaobaoCategory
+     */
+    public function setDeleteFlag($deleteFlag)
+    {
+        $this->deleteFlag = $deleteFlag;
+
+        return $this;
+    }
+
+    /**
+     * Get deleteFlag
+     *
+     * @return integer
+     */
+    public function getDeleteFlag()
+    {
+        return $this->deleteFlag;
     }
 
     /**

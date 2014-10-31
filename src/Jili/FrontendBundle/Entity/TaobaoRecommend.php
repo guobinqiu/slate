@@ -49,7 +49,10 @@ class TaobaoRecommend
      */
     private $id;
 
-
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * Set componentIds

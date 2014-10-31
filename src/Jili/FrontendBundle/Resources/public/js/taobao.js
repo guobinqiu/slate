@@ -54,7 +54,7 @@
 		});
 	}
 	$(function(){
-    	jili.taobao.searchBycatgory(1); 
+	jili.taobao.searchBycatgory(1); 
 		$('.ltab li:first').addClass('ui-tabs-active');
 		$('.ltab li').on('click', function(){
 			var index = $('.ltab li').index(this);
@@ -62,5 +62,5 @@
 			$('.ltab li').removeClass('ui-tabs-active').eq(index).addClass('ui-tabs-active');
 			jili.taobao.searchBycatgory(categoryId); 
 		});
-    });
+	});
 })(jQuery);
