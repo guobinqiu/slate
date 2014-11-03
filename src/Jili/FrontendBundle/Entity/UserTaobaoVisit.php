@@ -35,8 +35,6 @@ class UserTaobaoVisit
      */
     private $id;
 
-
-
     /**
      * Set userId
      *

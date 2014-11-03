@@ -3,6 +3,7 @@ namespace Jili\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -54,8 +55,8 @@ class TaobaoController extends Controller {
     public function searchBoxAction() {
         // get search box component code
         $em = $this->getDoctrine()->getManager();
-        $search_box = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findByComponentId(TaobaoComponent :: TAOBAO_COMPONENT_SEARCH_BOX);
-        $arr['search_box'] = $search_box[0];
+        $search_box = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneByComponentId(TaobaoComponent :: TAOBAO_COMPONENT_SEARCH_BOX);
+        $arr['search_box'] = $search_box;
 
         return $this->render('JiliFrontendBundle:Taobao:searchBox.html.twig', $arr);
     }
@@ -75,7 +76,10 @@ class TaobaoController extends Controller {
         $arr['current_id'] = $id;
         $arr['keywords'] = $keywords;
         $arr['page'] = $page +1;
-        return new Response(json_encode($arr));
+
+        $response = new JsonResponse();
+        $response->setData($arr);
+        return $response;
     }
 
     /**
