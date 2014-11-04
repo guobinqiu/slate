@@ -23,20 +23,43 @@ class QQLoginController extends Controller
     { 
         $request = $this->get('request');
         $code = $request->query->get('code');
-        $code = "57226E1F71B04CAA6E139F23CAC64166";
-        $qq_access_token = $request->getSession()->get('qq_access_token');
-        $qq_auth = new QQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_access_token);
+        $code = "969DBDCFBCB6AC1094A2CAF0C0711A16";
+        //$qq_access_token = $request->getSession()->get('qq_token');
+        $qq_auth = new QQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),'');
         if(isset($code) && trim($code)!=''){
             $result=$qq_auth->access_token($this->container->getParameter('callback_url'), $code);
         }
         if(isset($result['access_token']) && $result['access_token']!=''){
-            // 授权完成，保存登录信息，此示例中使用session保存
+            // 授权完成，保存登录信息，使用session保存
             $request->getSession()->set('qq_token', $result['access_token']);
-            //$_SESSION['qq_t'] = $result['access_token']; //access token
+            //得到openid
+            $qq_auth = new QQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$result['access_token']);
+            $qq_oid = $qq_auth->get_openid();
+            $em = $this->getDoctrine()->getManager();
+            $qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($qq_oid);
+            //var_dump($qquser);exit;
+            //判断是否已经注册过
+            if( !empty($qquser)){
+                //如果db已有此openid，说明用户已注册过，设成登陆状态，可直接跳转到首页
+                $jiliuser = $em->getRepository('JiliApiBundle:User')->find($qquser->getUserId());
+                if(empty($jiliuser)){
+                    // todo
+                    die('not exist this user');
+                }
+                var_dump($jiliuser);exit;
+                $request->getSession()->set('uid',$jiliuser->getId());
+                $request->getSession()->set('nick',$jiliuser->getNick());
+                $response = new RedirectResponse('/', '301');
+                return $response;
+            } else {
+                //无此用户，说明没有用qq注册过，转去fist_login页面
+                $request->getSession()->set('open_id',$qq_oid);
+            }
         }else{
-            //echo '授权失败';
+            // '授权失败';
+            var_dump($result);
+            exit;
         }
-        //echo '<br/><a href="demo.php">返回</a>'; 
         //跳转到 qqlogin action
         return $this->redirect($this->generateUrl('qq_fist_login'));
     }
@@ -52,28 +75,12 @@ class QQLoginController extends Controller
         $user_login = $this->get('user_login');
         $login_flag = $user_login->checkLoginStatus();
         if($login_flag) {
-            echo "has logined";
-            exit;
-            //if( $qq_oid = getOpenidInDb()){
-                // 如果db已有此openid，说明用户已注册过，设成登陆状态，可直接跳转到首页
-            //} else {
-            //    $qq_auth = new QQAuth($qq_k, $qq_s, $qq_t);
-            //    $qq_oid = $qq->get_openid();
-            //    $openid = $qq_oid['openid']; //获取登 录用户open id 
-                // db 没有此openid，说明用户第一次用qq登陆，跳转到绑定账号注册页面，在那个页面注册成功后，生成新账号，跳转到首页
-                // 通过api 得到 qq 昵称
-                // qqFirstLoginAction
-            //}
 
-            //获取登录用户信息
-            //$result = $qq->get_user_info($openid);
-            //var_dump($result); 
         } else {
             // 首次qq登陆,到授权页面
             $qq = new QQAuth($qq_k, $qq_s);
             $callback_url = "http://91jili.com/";
             $login_url = $qq->login_url($callback_url, $this->container->getParameter('scope'));
-            var_dump($login_url);exit;
             $response = new RedirectResponse($login_url, '301');
             //echo '<a href="',$login_url,'">点击进入授权页面</a>'; 
         }
@@ -164,13 +171,16 @@ class QQLoginController extends Controller
         $request = $this->get('request');
         $qq_token = $request->getSession()->get('qq_token');
         var_dump($qq_token);
-        if(!isset($qq_token)){
-            $qq_token = $request->getSession()->set('qq_token','test token');
-        }
         $qq_auth = new QQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
-        $qq_oid = $qq_auth->get_openid();
-        $openid = $qq_oid['openid']; //获取登录用户open id 
-        $request->getSession()->set('open_id',$openid);
+
+        //获取登录用户open id 
+        $openid = $request->getSession()->get('openid');
+        if(!$openid){
+            $qq_oid = $qq_auth->get_openid();
+            $openid = $qq_oid['openid']; 
+            $request->getSession()->set('open_id',$openid);
+        }
+        
         $result = $qq_auth->get_user_info($openid);
         var_dump($result); 
         $form  = $this->createForm(new QQFirstRegist());
