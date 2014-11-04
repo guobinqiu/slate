@@ -5,7 +5,7 @@ a{ text-decoration:none;}
 .itemL{ width:737px; float:left;}
 .itemL .taobaoSearch,.itemL .tablist,.itemR .discover dd{ border-right:1px solid #e2e2e2; border-bottom:2px solid #e2e2e2;}
 .itemL .taobaoSearch{ height:85px; padding:20px 0 0 34px; background:#fff;}
-.itemL .taobaoNotice{ color:#333; background:#fef7cd; border:1px solid #e6b31c; padding:7px 1px; font-size:12px; margin-bottom:10px;}
+.itemL .taobaoNotice{ color:#333; background:#fef7cd; border:1px solid #e6b31c; padding:7px 15px; font-size:12px; margin-bottom:10px;}
 .itemL .taobaoNotice em{ width:15px; vertical-align: -2px; height: 12px; margin-right: 5px; display: inline-block; background:url(../images/taobao/notice_icon.gif) no-repeat;}
 .itemL .ltab{ float:left; width: 100%; padding:0;margin: 10px 0; }
 .itemL .ltab li{ float: left; height: 26px; margin-top:3px; font-size: 14px; line-height: 25px; cursor:pointer; font-family:Microsoft Yahei,SimHei,Tahoma; }
@@ -24,7 +24,6 @@ a{ text-decoration:none;}
 .itemR .rPt .discover .pl ul li{margin: 5px auto; width: 230px;}
 .itemR .rMall{ margin-top: 15px;}
 .itemR .rMall .discover dd{ padding:20px;}
-.itemR .rMall .discover dd ul li{ height:94px;}
 .itemR .rMall .discover .listGroup .img{ float:left; margin-right: 10px;}
 .itemR .rMall .discover .listGroup .img img{ width:70px; height:70px;}
 .itemR .rMall .discover .listGroup .name{ color:#999; font-size:12px; vertical-align: -10px;}
