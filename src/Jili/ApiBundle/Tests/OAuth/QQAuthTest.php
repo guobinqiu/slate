@@ -6,22 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class QQAutoTest  extends KernelTestCase
 {
 
-    public function setUp() 
-    {
-
-    }
-    public function tearDown()
-    {
-
-    }
-
     /**
-     * @group debug
+     * @group issue_474
      */
     public function testlogin_url()
     {
-        $this->assertEquals();
-
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
-
 }
