@@ -3,7 +3,8 @@
     <dd class="pl">
         <ul>
             {% for item in items %}
-            <li>{{item.content}}</li>
+            <li>{{item.content|raw}}</li>
             {% endfor %}
+        </ul>
     </dd>
 </dl>
