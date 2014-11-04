@@ -1,0 +1,9 @@
+<dl class="discover">
+    <dt class="pt">发现<span class="corBO">好东西</span></dt>
+    <dd class="pl">
+        <ul>
+            {% for item in items %}
+            <li>{{item.content}}</li>
+            {% endfor %}
+    </dd>
+</dl>

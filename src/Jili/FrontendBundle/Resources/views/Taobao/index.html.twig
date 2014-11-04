@@ -1,0 +1,46 @@
+{% extends 'JiliFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent()  }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/taobao.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js/jquery.infinitescroll.js')}}" type="text/javascript"></script>
+<script src="{{ asset('bundles/jilifrontend/js/taobao.js') }}" language="javascript"></script>
+{% endblock %}
+ 
+{% block body %}
+<div class="" style="">
+    <div class="taobaoWrap">
+        <div class="itemL">
+            <div class="taobaoNotice">
+                <em></em>注意：凡通过积粒网登录此页面购物的会员，当月即有机会参与抽奖，最高抽奖金额为5000积分，该页面使用抽奖原则代替返利原则。
+           </div>
+            <div class="taobaoSearch"> {{ render(controller('JiliFrontendBundle:Taobao:searchBox' ) ) }} </div>
+            <div id="tabs"> 
+                <ul class="ltab">
+                    {% for item in categorys %}
+                    <li id="{{item.id}}"><a href="javascript:void(0);">{{item.categoryName}}</a></li>
+                    {% endfor %}
+                </ul>
+                <div class="taobaoCon"></div>
+                <div style="display:none" id="loading_bar">
+                {{ asset('images/taobao/progressBar.gif')}}
+                </div>
+            </div>
+        </div>
+        <div class="itemR">
+            <div class="rPt"> {{ render(controller('JiliFrontendBundle:Taobao:item' ) ) }} </div>
+            <div class="rMall"> {{ render(controller('JiliFrontendBundle:Taobao:shop' ) ) }} </div>
+        </div>
+    </div>
+    
+{% include "JiliFrontendBundle::alimama.html.twig" with { pid:"mm_49376465_4372428_26502700" } %}
+
+</div>
+{% endblock %}
+
+{% block body_bottom %}
+
+{% endblock %}

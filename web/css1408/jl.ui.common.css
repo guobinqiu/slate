@@ -138,6 +138,19 @@ span.searchBtn:hover, a.helpBtn:hover{
 	color: #c84126;
     text-decoration: none;
 }
+.mainNavs li a.navTB{
+	color:#f75232;
+	display: inline-block;
+	width: 100px;
+}
+.mainNavs li .iconTB{
+	width:24px;
+	height:19px;
+	display: inline-block;
+	margin-bottom: -2px;
+	margin-left: 4px;
+	background:url(../images1408/icons.png) no-repeat 0 -290px;
+}
 .dailyQuest{
 	position: absolute;
 	z-index:1000;
