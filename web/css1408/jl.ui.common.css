@@ -140,6 +140,8 @@ span.searchBtn:hover, a.helpBtn:hover{
 }
 .mainNavs li a.navTB{
 	color:#f75232;
+	display: inline-block;
+	width: 100px;
 }
 .mainNavs li .iconTB{
 	width:24px;
