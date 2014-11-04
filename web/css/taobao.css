@@ -16,10 +16,10 @@ a{ text-decoration:none;}
 .itemL .block{ display: block;}
 .itemL .tablist ul li{ margin-bottom: -1px; width: 730px; background: #fff; padding: 5px 0 0 5px;}
 .itemR{ width:248px; float:right;}
-.itemR .discover .pt{ background:url(../images/taobao/lovedx.jpg) no-repeat 0 3px; padding-left: 20px;}
+.itemR .discover .pt{ background:url(../images/taobao/lovedx.jpg) no-repeat 0 4px; padding-left: 20px;}
 .itemR .discover dt{ font-family:Microsoft Yahei,SimHei,Tahoma; font-size: 16px; margin-bottom:10px; color:#333;}
 .itemR .discover dd{ background:#fff; margin:0;}
-.itemR .discover .mt{ background:url(../images/taobao/lovedp.jpg) no-repeat 0 3px; padding-left: 20px;}
+.itemR .discover .mt{ background:url(../images/taobao/lovedp.jpg) no-repeat 0 4px; padding-left: 20px;}
 .itemR .rPt .discover{width:248px; margin-top: 8px;}
 .itemR .rPt .discover .pl ul li{margin: 5px auto; width: 230px;}
 .itemR .rMall{ margin-top: 15px;}
