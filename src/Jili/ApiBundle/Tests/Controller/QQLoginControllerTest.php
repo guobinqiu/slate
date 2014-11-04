@@ -65,5 +65,43 @@ class QQLoginControllerTest extends WebTestCase
         $this->assertEquals('/QQLogin/qqcallback', $url);
 
     }
+    /**
+     * @group issue_474
+     * @group  debug
+     */
+    public function testqqLoginAction()
+    {
+        $url = $this->container->get('router')->generate('qq_api_login');
+        $this->assertEquals('/QQLogin/qqlogin', $url);
+    }
 
+    /**
+     * @group issue_474
+     * @group  debug
+     */
+    public function testqqRegisteAction()
+    {
+        $url = $this->container->get('router')->generate('qq_registe');
+        $this->assertEquals('/QQLogin/qqRegiste', $url);
+    }
+
+    /**
+     * @group issue_474
+     * @group  debug
+     */
+   public function testqqBindAction()
+    {
+        $url = $this->container->get('router')->generate('qq_bind');
+        $this->assertEquals('/QQLogin/qqbind', $url);
+    }
+
+    /**
+     * @group issue_474
+     * @group  debug
+     */
+    public function testqqFirstLoginAction()
+    {
+        $url = $this->container->get('router')->generate('qq_fist_login');
+        $this->assertEquals('/QQLogin/qqFistLogin', $url);
+    }
 }
