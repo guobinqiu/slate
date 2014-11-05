@@ -22,7 +22,7 @@ jili.taobao.searchBycatgory = function(id) {
 			$box.find("#waterfall").html(html);
 			$box.find("#more").html("<a href="+Routing.generate("jili_frontend_taobao_categoryapi", {"id": id,"page":2})+"></a>");
 			$('.taobaoCon').html($box);
-			/*$('#tabs-1').infinitescroll({
+			$('#tabs-1').infinitescroll({
 				loading: {
 					finishedMsg: "<br style='clear:both'/><em>没有更多了。</em>",
 					img: $("#loading_bar").html(),
@@ -45,7 +45,7 @@ jili.taobao.searchBycatgory = function(id) {
 					});
 					return $boxes.find('.cell');
 				}
-			})*/
+			})
 			if($(window).height() > $("body").height()){
 				$("footer").css("position","fixed");
 			}
