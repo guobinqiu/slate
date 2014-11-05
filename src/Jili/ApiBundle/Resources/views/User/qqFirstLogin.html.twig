@@ -32,7 +32,13 @@
                                     <input type="hidden" name="sex" value="{{ sex }}"/>
                                 </li>
                                 <li>为保障您的账号安全，请设置QQ邮箱作为找回账号的方式。</li>
-                                <li><label for="qqEmail">邮箱地址：</label>{{ form_widget(form.email_id, { 'attr': {'class': 'qqEmail'} }) }}@qq.com<strong class="errorMsg" id="emailError">{{ form_errors(form.email_id) }}</strong></li>
+                                <li><label for="qqEmail">邮箱地址：</label>{{ form_widget(form.email_id, { 'attr': {'class': 'qqEmail'} }) }}@qq.com
+                                    <strong class="errorMsg" id="emailError">
+                                        {{ form_errors(form.email_id) }}
+                                        {% if regcode is  defined %}
+                                            {{ regcode }}
+                                        {% endif %}
+                                    </strong></li>
                                 <li><label for="setPwd">设置密码：</label><input name="pwd" type="password" value=""/></li>
                                 <br />
                                 <li><span class="submitBtn" id='info'>完善资料</span><a id="reg" class="submitBtn corGlobBlue font14 textUL">下次再说>></a></li>
@@ -49,7 +55,6 @@
                                     {% if bindcode is  defined %}
                                         {{ bindcode }}
                                     {% endif %}
-
                                 </strong></li>
                             <li><label for="kxPwd">登录密码：</label><input id="pwd" name="jili_pwd" type="password" value=""/>{% if 1 %}
                                 {# if code_nick #}
@@ -82,24 +87,28 @@
             $("#bind").click(function () {
                 $("#form2").submit();
             });
-			$('.qqReg>span').addClass('corGlobBlue');
-			$('.qqReg>span').on('click', function(){
-				var $this = $(this);
-				var $bind = $('.bindAccount');
-				var $add = $('.addAccount');
-				$('.qqReg>span').removeClass('corGlobBlue');
-				$('.qqReg>span').addClass("corLightGray");
-				$('.qqReg>span').removeClass('active');
-				$this.addClass('active');
-				if($this.hasClass('noJl')){
-					$bind.hide();
-					$add.show();
-				}else{
-					$add.hide();
-					$bind.show();
-				}
-			});
+            $('.qqReg>span').addClass('corGlobBlue');
+            $('.qqReg>span').on('click', function(){
+                    var $this = $(this);
+                    var $bind = $('.bindAccount');
+                    var $add = $('.addAccount');
+                    $('.qqReg>span').removeClass('corGlobBlue');
+                    $('.qqReg>span').addClass("corLightGray");
+                    $('.qqReg>span').removeClass('active');
+                    $this.addClass('active');
+                    if($this.hasClass('noJl')){
+                            $bind.hide();
+                            $add.show();
+                    }else{
+                            $add.hide();
+                            $bind.show();
+                    }
+            });
         });
+            {% if bindcode is  defined %}
+            var $bind = $('.bindAccount');
+            $bind.show();
+            {% endif %}
     </script>
 </html>
 
