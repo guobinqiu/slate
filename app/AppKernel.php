@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
         	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         	new Gregwar\CaptchaBundle\GregwarCaptchaBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Jili\ApiBundle\JiliApiBundle(),
             new Jili\BackendBundle\JiliBackendBundle(),
             new Jili\EmarBundle\JiliEmarBundle(),

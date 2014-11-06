@@ -181,8 +181,7 @@ a.more{
 .shopActList a.more{ color:#999;}
 .shopActItem{
 	height: 168px;
-	margin-bottom: 10px;
-	font: 17px/26px 'microsoft yahei',simhei;
+	font: 12px/26px 'microsoft yahei',simhei;
 }
 .shopActImg{
 	float: left;
@@ -198,7 +197,8 @@ a.more{
 .shopActInfo .tit .tt{
 	color: #f75232;
 	font-size:17px;
-	max-width: 140px;
+	max-width: 85px;
+	*+max-width:80px;
 	_width:expression(document.body.clientWidth > 140 ? "140px" : "auto"); /*针对ie6*/
 	overflow: hidden;
 	vertical-align: top;
@@ -206,45 +206,19 @@ a.more{
 	*display: inline;
 	*zoom: 1;
 	*padding-right: 5px;
+	margin-right:5px;
 }
 .shopActInfo .tit{
 	max-height: 50px;
-	height: 25px;
+	height: 30px;
 	overflow: hidden;
 }
-.shopActInfo .tit .rebate{ 
-	background: #ffa491; 
-	color:#fff; 
-	font-size:11px;
-	position: relative;
-	height: 15px; 
-	line-height:15px; 
-	padding-left:5px; 
-	padding-right:5px; 
-	margin-left:8px; 
-	vertical-align: 1px; 
-	display:inline-block;
-	-moz-border-radius: 0 2px 2px 0; /* Firefox */
-	-webkit-border-radius: 0 2px 2px 0; /* Safari 和 Chrome */
-	border-radius: 0 2px 2px 0; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
-}
-.shopActInfo .tit .rebate span{
-	width: 10px;
-	height: 17px;
-	position: absolute;
-	left: -9px;
-	top: 0;
-	*top: 6px;
-	*+top:0;
-	display: inline-block;
-	background: url(../images1408/icons.png) no-repeat 0 -244px; 
-}
+
 .shopActInfo .businessName{ 
 	max-height: 30px;
 	height: auto;
 	overflow: hidden;
-	margin-top: 4px;
-	width: 245px;
+	width: 155px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
@@ -265,16 +239,36 @@ a.more{
 	overflow:hidden;
 	margin-top:1px;
 }
-.shopActInfo .link{
+.shopActInfo .shopActDetail{
 	margin-top: 35px;
 	position:absolute;
 	right: 0;
 	bottom: 10px;
 	width:100%;
 }
+.shopActInfo .shopActDetail .dl{ 
+	display:inline-block;
+	*+display:inline;
+	*+float:left;
+}
+.shopActInfo .shopActDetail .dl .rebate{ 
+	border:1px solid #fd6244; 
+	background:#fd6244; 
+	color:#fff;
+	height: 17px;
+	line-height: 17px;
+}
+.shopActInfo .shopActDetail .dl .rebate .num{ 
+	background:#fff; 
+	display:inline-block;
+	height: 17px;
+	-moz-border-radius: 0 3px 3px 0; 
+	-webkit-border-radius: 0 3px 3px 0; 
+	border-radius: 0 3px 3px 0;
+}
 .shopActInfo .linkBtn{
 	text-align: right;
-	margin-top: 15px;
+	margin-top: 4px;
 	float:right;
 }
 .shopActInfo .linkBtn a{
@@ -283,8 +277,14 @@ a.more{
 	line-height: 38px;
 	font-size: 14px;
 	text-align: center;
-	color: #6b6b6b;
-	background-color: #ebebeb;	
+	color: #fff;
+	background-color: #4c94ff;
+	-webkit-box-shadow: #276fdb 0px 2px 0;
+	-moz-box-shadow: #276fdb 0px 2px 0;
+	box-shadow: #276fdb 0px 2px 0;	
+}
+.shopActInfo .linkBtn a:hover{
+	background:#488bf0;
 }
 .shopActInfo .publicAttention{ 
 	float:left; 
@@ -293,7 +293,6 @@ a.more{
 	font-weight:normal; 
 	background: url(../images1408/icons.png) no-repeat 0 -263px; 
 	padding-left: 15px;
-	margin-top: 25px;
 }
 .rightSider{
 	width:270px;
@@ -349,7 +348,7 @@ div.personInfo{
 }
 .signBtn,.btnHascheckin{
     float: right;
-	width: 89px;
+	width: 100px;
 	height: 46px;
 	line-height: 46px;
 	text-align: center;
@@ -360,6 +359,9 @@ div.personInfo{
     -webkit-border-radius: 2px; 
     border-radius: 2px;
 	cursor: pointer;
+}
+.autoCheckinBtn{
+	width: 105px;
 }
 span.signIcon, .quickQInfo p span, .countDown span{
     display: inline-block;

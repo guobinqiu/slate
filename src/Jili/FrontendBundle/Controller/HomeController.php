@@ -58,6 +58,12 @@ class HomeController extends Controller
             }
         }
 
+        // trace 
+        if( $request->query->has('spm') ) {
+            $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
+        }
+        $this->get('user_sign_up_route.listener')->log();
+
         return array ();
     }
 
@@ -81,28 +87,6 @@ class HomeController extends Controller
         $arr = $taskList->compose();
 
         return $arr;
-    }
-
-    /**
-     * @Route("/checkIn")
-     * @Template
-     */
-    public function checkInAction()
-    {
-        $taskList = $this->get('session.task_list');
-        $arr = array ();
-        if ($this->container->getParameter('init_one') === $taskList->get('checkin_visit')) {
-            //获取签到积分
-            $checkInLister = $this->get('check_in.listener');
-            $arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));
-
-            //获取签到商家
-            $arr['arrList'] = $this->checkinList();
-
-            return $this->render('JiliFrontendBundle:Home:checkIn.html.twig', $arr);
-        } else {
-            return new Response('<!-- already checked in -->');
-        }
     }
 
     /**

@@ -426,7 +426,7 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/isExistVist", name="_default_isExistVist")
+	 * @Route("/isExistVist", name="_default_isExistVist", options={"expose"=true})
      * @Method("POST");
 	 */
     public function isExistVistAction()
@@ -450,7 +450,7 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/infoVisit", name="_default_infoVisit")
+	 * @Route("/infoVisit", name="_default_infoVisit", options={"expose"= true})
      * @Method("POST")
 	 */
     public function infoVisitAction()

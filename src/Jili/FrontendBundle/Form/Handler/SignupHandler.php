@@ -34,7 +34,6 @@ class SignupHandler
      */
     public function validate()
     {
-        $logger = $this->logger;
         $em = $this->em;
         $data = $this->form->getData();
         $errors = array();
@@ -74,7 +73,7 @@ class SignupHandler
         ));
 
         // sent signup activate email
-        $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode() );
+        $result = $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode() );
 
 
         return array( 'user'=> $user, 'setPasswordCode'=> $setPasswordCode);

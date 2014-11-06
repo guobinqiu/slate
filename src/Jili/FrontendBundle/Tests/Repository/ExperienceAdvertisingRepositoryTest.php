@@ -52,7 +52,7 @@ class ExperienceAdvertisementRepositoryTest extends KernelTestCase {
 
         $em = $this->em;
         $result = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisement();
-        $this->assertEquals(4, count($result));
+        $this->assertEquals(3, count($result));
 
         $limit = 1;
         $result = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisement($limit);

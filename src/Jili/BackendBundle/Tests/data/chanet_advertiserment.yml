@@ -1,0 +1,456 @@
+-
+    id: '15'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=16171&u=15&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '16'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=345409&u=16&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '17'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=327037&u=17&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '18'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=324925&u=18&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '19'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=324909&u=19&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '20'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=345744&u=20&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '21'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=345885&u=21&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '22'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=345696&u=22&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '23'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=211662&u=23&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '24'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=344338&u=24&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '25'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=352109&u=25&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '27'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=4985&u=27&e=105'
+    return: '<script>window.location.href=''http://www.99read.com/union/transfer.aspx?from=U2006914102&cid=88613928206&url=http://www.99read.com/'';</script>'
+-
+    id: '28'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=348635&u=28&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '29'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=330015&u=29&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '30'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=349425&u=30&e=105'
+    return: '<script>window.location.href=''http://www.gap.cn/chanet/index/savecps?chanet_id=88613928326&source=chanet&url=http%3A%2F%2Fclick.gridsumdissector.com%2Ftrack.ashx%3Fadid%3DFE563412-07325476'';</script>'
+-
+    id: '31'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=9160&u=31&e=105'
+    return: '<script>window.location.href=''http://www.no5.com.cn/sitejoin/runjoin.asp?uid=join1465&JoinAction=http://www.no5.com.cn&joinpara=sid:88613928376'';</script>'
+-
+    id: '32'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=348547&u=32&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '33'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=9340&u=33&e=105'
+    return: '<script>window.location.href=''http://union.dangdang.com/transfer/transfer.aspx?from=430-88613928476&backurl=http://book.dangdang.com'';</script>'
+-
+    id: '34'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=92385&u=34&e=105'
+    return: '<script>window.location.href=''http://www.ocj.com.cn/admin/se_ads/parseandforward?urlid=382&link_id=88613928516&fwd_url=http://www.ocj.com.cn'';</script>'
+-
+    id: '35'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=331559&u=35&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '36'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=341317&u=36&e=105'
+    return: '<script>window.location.href=''http://www.handu.com/hstyle_cps.php?type=chanet&act=index&id=88613928736&url=http://www.handu.com/topic-986.html'';</script>'
+-
+    id: '37'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=216816&u=37&e=105'
+    return: '<script>window.location.href=''http://union.suning.com/aas/open/vistorAd.action?userId=1026&webSiteId=1022&adInfoId=1001&adBookId=1020&subUserEx=chanet88613928756&vistURL=http%3A%2F%2Fwww.suning.com%2Femall%2Fcuxiao_10052_10051_2159_.html'';</script>'
+-
+    id: '38'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=334522&u=38&e=105'
+    return: '<script>window.location.href=''http://j.koolbao.com/tb/68058050/seasonwind.tmall.com/?kid=ad_002_CG_CPS_88613928806_www.taobao.com_0_0'';</script>'
+-
+    id: '39'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=347809&u=39&e=105'
+    return: '<script>window.location.href=''http://user.360kad.com/WebAPI/TrackChengGuo?source=chanet&id=88613928896&url=http://www.360kad.com/'';</script>'
+-
+    id: '40'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=350899&u=40&e=105'
+    return: '<script>window.location.href=''http://www.menglu.com/r.do?ap=chanet&aparam=88613928916&url=http://www.menglu.com/campaign/1089/20140319kaishan/20140319kaishan.htm'';</script>'
+-
+    id: '41'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=8325&u=41&e=105'
+    return: '<script>window.location.href=''http://www.ofcard.com'';</script>'
+-
+    id: '42'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=350484&u=42&e=105'
+    return: '<script>window.location.href=''http://www.qipaimall.com/ichanet/ichanet/do_index?id=88613929006&source=chanet&url=http://www.qipaimall.com/list_goods/sp?aid=5'';</script>'
+-
+    id: '43'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=337996&u=43&e=105'
+    return: '<script>window.location.href=''http://buy.111.com.cn/interfaces/cps/portal.action?partnercode=2013267&id=88613929056&source=chanet&url=http://www.111.com.cn/cmsPage/2014061801/index.html'';</script>'
+-
+    id: '44'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=350443&u=44&e=105'
+    return: '<script>window.location.href=''http://www.yougou.com/?utm_source=WM_uNpEYauno&wid=88613929086'';</script>'
+-
+    id: '45'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=358559&u=45&e=105'
+    return: '<script>window.location.href=''http://www.amazon.cn/?tag=adwrb4-23&ascsubtag=88613929176'';</script>'
+-
+    id: '46'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=9265&u=46&e=105'
+    return: '<script>window.location.href=''http://www.bookschina.com/union/chanet.asp?tourl=http://www.bookschina.com'';</script>'
+-
+    id: '47'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=72294&u=47&e=105'
+    return: '<script>window.location.href=''http://www.vancl.com/WebSource/WebSource.aspx?Source=chanet&SourceSunInfo=88613929226|480534'';</script>'
+-
+    id: '48'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=22822&u=48&e=105'
+    return: '<script>window.location.href=''http://click.union.jd.com/JdClick/?unionId=20&siteId=88613929266&to=http%3A%2F%2Fwww.jd.com%2F'';</script>'
+-
+    id: '49'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=151668&u=49&e=105'
+    return: '<script>window.location.href=''http://cms.yhd.com/cmsPage/show.do?pageId=103576&tracker_u=1787&uid=88613929286&website_id=480534'';</script>'
+-
+    id: '50'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=350455&u=50&e=105'
+    return: '<script>window.location.href=''http://union.yohobuy.com/go?client_id=1009&channel_code=88613929306&append=&go_url=http://www.yohobuy.com/special_2571_20131025WSJ.html?s_t=desc&gender=1?utm_source=chanet&utm_medium=cps&utm_campaign=202'';</script>'
+-
+    id: '51'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=333073&u=51&e=105'
+    return: '<script>window.location.href=''http://t.dianping.com/redirect?id=88613929366&source=chanet&utm_source=chanet&url=http://t.dianping.com/'';</script>'
+-
+    id: '52'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=351009&u=52&e=105'
+    return: '<script>window.location.href=''http://union.suning.com/aas/open/vistorAd.action?userId=1026&webSiteId=1022&adInfoId=1001&adBookId=1020&subUserEx=chanet88613929396&vistURL=http://www.suning.com'';</script>'
+-
+    id: '53'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=212334&u=53&e=105'
+    return: '<script>window.location.href=''http://www.jumei.com/track_cps.php?src=chanet&sub_src=88613929496&ret=http://www.jumei.com'';</script>'
+-
+    id: '54'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=135950&u=54&e=105'
+    return: '<script>window.location.href=''http://redirect.cps.yixun.com/chanet.html?click_id=88613929596&source=chanet&timestamp=1412945342&token=7f0f141f57ef2ab25035efdae00b6a88&url=http://event.yixun.com/event/20416b264.html'';</script>'
+-
+    id: '55'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=207128&u=55&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '56'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=218318&u=56&e=105'
+    return: '<script>window.location.href=''http://www.fclub.cn/api/in_chengguo.php?click_id=88613929636&source=chanet&url=http://www.fclub.cn/'';</script>'
+-
+    id: '57'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=350955&u=57&e=105'
+    return: '<script>window.location.href=''http://j.koolbao.com/tb/62797966/justbb.tmall.com/?kid=ad_002_CG_CPS_88613929666_www.taobao.com_0_0'';</script>'
+-
+    id: '58'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=350846&u=58&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '59'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=253668&u=59&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '60'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=257757&u=60&e=105'
+    return: '<script>window.location.href=''http://interface.masamaso.com/interface2.php?id=103628&sid=88613929736&from=chengguo&chengguo=2650&url=http://www.masamaso.com'';</script>'
+-
+    id: '61'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=284537&u=61&e=105'
+    return: '<script>window.location.href=''http://www.lizi.com/?c=88613929746&source=chanet&url=http://www.lizi.com/'';</script>'
+-
+    id: '62'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=43456&u=62&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '63'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=330294&u=63&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '64'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=213003&u=64&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '65'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=284082&u=65&e=105'
+    return: '<script>window.location.href=''http://cps.gome.com.cn/home/JoinUnion?sid=62&wid=62&feedback=88613930086&to=http%3A%2F%2Fcps.gome.com.cn%2Fhome%2FJoinUnion%3Fsid%3D62%26wid%3D62%26feedback%3D%5BSID%5D%26to%3Dhttp%3A%2F%2Fprom.gome.com.cn%2Fhtml%2Fprodhtml%2Ftopics%2F201408%2Fdou-asjsda.html'';</script>'
+-
+    id: '66'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=72604&u=66&e=105'
+    return: '<script>window.location.href=''http://union.jjlg.com.cn/tg.php?tid=724||88613930106&url=http://www.jjlg.com.cn/?u=5000240'';</script>'
+-
+    id: '67'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=350719&u=67&e=105'
+    return: '<script>window.location.href=''http://shopping.jxdyf.com/cpa_cps/redirect.aspx?WEBID=2008090814374188&ADID=2008082011414645&PID=chengguo&target=chengguo_redirect.aspx?cid=88613930146^red=http://www.jxdyf.com/special/jxnz5z.html'';</script>'
+-
+    id: '68'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=332930&u=68&e=105'
+    return: '<script>window.location.href=''http://www.jinjianginns.com/Url.aspx?click_id=88613930196&source=300&tn=by&gotoUrl=HuoDong/indexs.html&utm_source=chanet&utm_medium=cps&utm_campaign=baiyuanfang'';</script>'
+-
+    id: '69'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=250817&u=69&e=105'
+    return: '<script>window.location.href=''http://www.kaba365.com/mod/lm.asp?lmid=272&fsid=3170000&adpid=88613930256'';</script>'
+-
+    id: '70'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=152137&u=70&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '71'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=350277&u=71&e=105'
+    return: '<script>window.location.href=''http://www.lamiu.com/affiche.php?ad_id=831&pid=shouye&from=&uri=www.lamiu.com'';</script>'
+-
+    id: '72'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=315993&u=72&e=105'
+    return: '<script>window.location.href=''http://track.lefeng.com/interface/chanet_front.jsp?id=88613930566&t=7496&cid2=480534&cid3=88613930566&url=http://www.lefeng.com/'';</script>'
+-
+    id: '73'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=63543&u=73&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '74'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=45893&u=74&e=105'
+    return: '<script>window.location.href=''http://www.letao.com?source=chanet&subid=88613930686'';</script>'
+-
+    id: '75'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=253917&u=75&e=105'
+    return: '<script>window.location.href=''http://login.lvmama.com/nsso/cps/redirect.do?serviceId=http://www.lvmama.com/zt/lvyou/cxqd/&source=CHANET&chanetId=88613930696'';</script>'
+-
+    id: '76'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=70569&u=76&e=105'
+    return: '<script>window.location.href=''http://bridge.mbaobao.com/cps/chanet/redirect.php?source=88613930746&url=http%3A%2F%2Fmkt.mbaobao.com%2Fa-buyerchoiceleather'';</script>'
+-
+    id: '77'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=83458&u=77&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '78'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=199652&u=78&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '79'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=179129&u=79&e=105'
+    return: '<script>window.location.href=''http://union.moonbasa.com/rd/rd.aspx?e=-999&adtype=0&unionid=chanet&subunionid=88613930956&other=&url=http://www.moonbasa.com/'';</script>'
+-
+    id: '80'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=136787&u=80&e=105'
+    return: '<script>window.location.href=''http://www.s.cn/scps-chengguo-index.html?id=88613930986&aid=480534'';</script>'
+-
+    id: '81'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=229985&u=81&e=105'
+    return: '<script>window.location.href=''http://www.muyingzhijia.com/cooperation/getLinkFrom.aspx?pid=1066&pfrom=chanet&uid=88613931006&tourl=http://www.muyingzhijia.com/Promotion/activities.aspx?action=Milk1015'';</script>'
+-
+    id: '82'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=177822&u=82&e=105'
+    return: '<script>window.location.href=''http://www.m18.com/gmkt.inc/M18/Market/AdwaysFront.aspx?sid=88613931016&url=http://www.m18.com/sp/3988?fit=414609327,414609334,414609295&jaehuid=2025524767&__headeroff=Y'';</script>'
+-
+    id: '83'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=351169&u=83&e=105'
+    return: '<script>window.location.href=''http://union.suning.com/aas/open/vistorAd.action?userId=1026&webSiteId=1022&adInfoId=1001&adBookId=1020&subUserEx=chanet88613931036&vistURL=http%3A%2F%2Fwww.suning.com%2Femall%2Fcuxiao_10052_10051_6843_.html%3Futm_source%3Dpl-00003%26utm_medium%3Dhd8222%26utm_campaign%3Dpphd'';</script>'
+-
+    id: '84'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=106108&u=84&e=105'
+    return: '<script>window.location.href=''http://www.pb89.com/api/cps.php?action=init&cps_name=chanet&id=88613931046&url=http://www.pb89.com/topic/2207.html'';</script>'
+-
+    id: '85'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=330695&u=85&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '86'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=343678&u=86&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '87'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=271855&u=87&e=105'
+    return: '<script>window.location.href=''http://www.venusveil.com/index.php?utm_source=adways&utm=http://www.venusveil.com/article.php?id=236'';</script>'
+-
+    id: '88'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=346379&u=88&e=105'
+    return: '<script>window.location.href=''http://click.union.vip.com/redirect.php?url=eyJ1Y29kZSI6ImEwNmZiNDA5Iiwic2NoZW1lY29kZSI6ImQxMmhkaTVsIn0=&desturl=http://www.vip.com&chan=88613931166'';</script>'
+-
+    id: '89'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=244794&u=89&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '90'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=157547&u=90&e=105'
+    return: '<script>window.location.href=''http://www.newegg.cn/P/wbmv.htm?cm_mmc=afc-_-chengguo-_-88613931246-_-Nokia3230'';</script>'
+-
+    id: '91'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=283118&u=91&e=105'
+    return: '<script>window.location.href=''http://un.koolearn.com/cooperation/chanet/cpsreception.jsp?id=88613931266&url=http://www.koolearn.com/ielts/&koo_aid=ff808081387418ca013874b0d1d00001'';</script>'
+-
+    id: '92'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=92051&u=92&e=105'
+    return: ''
+-
+    id: '93'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=58057&u=93&e=105'
+    return: '<script>window.location.href=''http://www.uiyi.cn?source=chanet&cid=chanet|http://www.uiyi.cn/|88613968136'';</script>'
+-
+    id: '94'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=116376&u=94&e=105'
+    return: '<script>window.location.href=''http://www.cnfse.com/chanet/receive.jsp?source=chanet'';</script>'
+-
+    id: '95'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=333337&u=95&e=105'
+    return: '<script>window.location.href=''http://task.zhubajie.com/adunion/chanet?id=88613968386&source=chanet&url=http%3A%2F%2Fzt.zhubajie.com%2Fgqzt%2Findex'';</script>'
+-
+    id: '96'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=328187&u=96&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '97'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=299682&u=97&e=105'
+    return: '<script>window.location.href=''http://private.avazu.cn/iclk/direct.php?zoneid=179&uid=1055&dv1=88613968486&url=http://www.esprit.cn'';</script>'
+-
+    id: '98'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=262438&u=98&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '99'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=350818&u=99&e=105'
+    return: '<script>window.location.href=''http://altfarm.mediaplex.com/ad/ck/96971?p=480534'';</script>'
+-
+    id: '100'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=357015&u=100&e=105'
+    return: '<script>window.location.href=''http://www.tiantian.com/CooperationInterface.asp?chanetid=88613968626&from=chanet&type=cps&activitykey=chanet10125154927&destpage=http://www.tiantian.com/'';</script>'
+-
+    id: '101'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=357543&u=101&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '102'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=359239&u=102&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '103'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=359134&u=103&e=105'
+    return: '<script>window.location.href=''http://www.tiantian.com/CooperationInterface.asp?chanetid=88613968826&from=chanet&type=cps&activitykey=chanet10125154927&destpage=http://www.tiantian.com/'';</script>'
+-
+    id: '104'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=359430&u=104&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '105'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=359516&u=105&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '106'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=359459&u=106&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '107'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=357553&u=107&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '108'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=358024&u=108&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '109'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=269757&u=109&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '110'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=365053&u=110&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '111'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=361623&u=111&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '112'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=97095&u=112&e=105'
+    return: '<script>window.location.href=''http://www.ocj.com.cn/admin/se_ads/parseandforward?urlid=382&link_id=88613969486&fwd_url=http://www.ocj.com.cn'';</script>'
+-
+    id: '113'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=365796&u=113&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '114'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=231034&u=114&e=105'
+    return: '<script>window.location.href=''http://cps.jiuxian.com/index.htm?id=88613970086&asid=480534&src=chanet&url=http://www.jiuxian.com'';</script>'
+-
+    id: '115'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=368902&u=115&e=105'
+    return: '<script>window.location.href=''http://t.dianping.com/redirect?id=88613970096&source=chanet&utm_source=chanet&url=http://t.dianping.com/'';</script>'
+-
+    id: '116'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=367643&u=116&e=105'
+    return: '<script>window.location.href=''http://www.orbis.com.cn/chanet-mapper_chanet.html?id=88613970126&source=chanet&url=http://www.orbis.com.cn/'';</script>'
+-
+    id: '117'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=273856&u=117&e=105'
+    return: '<script>window.location.href=''http://www.yesmywine.com/regredirect.jsp?keyname=CHANet&keysource=88613970256&rurl=http://www.yesmywine.com/'';</script>'
+-
+    id: '118'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=371059&u=118&e=105'
+    return: '<script>window.location.href=''http://www.feiniu.com/partner_ad/ad/chengguo?id=88613970286&source=chanet&url=http%3A%2F%2Fwww.feiniu.com%2Fedmv4%2F201407C21000013'';</script>'
+-
+    id: '119'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=368649&u=119&e=105&url=http%3A%2F%2Fwww.ule.com%2F%3Fadid%3Dsem_sogou_ppc_002'
+    return: '<script>window.location.href=''http://track.ule.com/union/trackunionad.do?unionID=4226511&id=88613970306&url=http%3A%2F%2Fwww.ule.com%2F%3Fadid%3Dsem_sogou_ppc_002'';</script>'
+-
+    id: '120'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=371202&u=120&e=105'
+    return: '<script>window.location.href=''http://web1.sasa.com/SasaWeb/product_feed/link.jsp?loc=3&lang=23&partner=chanet&chanetid=88613970386&url=http://web1.sasa.com/SasaWeb/cn/sasa/home.jsp'';</script>'
+-
+    id: '121'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=372247&u=121&e=105'
+    return: '<script>window.location.href=''http://www.coolpad.com/cps/cpsAction!CGcpsInit.do?source=chanet&id=88613971176&url=http://www.coolpad.com'';</script>'
+-
+    id: '122'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=373457&u=122&e=105'
+    return: '<script>window.location.href=''http://www.mogujie.com/cps/open/track?uid=12jjqpq&feedback=88613971246&target=http://www.mogujie.com/'';</script>'
+-
+    id: '123'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=350282&u=123&e=105'
+    return: '<script>window.location.href=''http://union.yohobuy.com/go?client_id=1009&channel_code=88613971286&append=&go_url=http://www.yohobuy.com/?utm_source=chanet&utm_medium=cps&utm_campaign=202'';</script>'
+-
+    id: '124'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=284520&u=124&e=105'
+    return: '<script>window.location.href=''http://www.homevv.com/n/fanli/go/chanetRecord.jhtml?id=88613971336&source=chanet&url=http://www.homevv.com/vvshopIndex.jhtml'';</script>'
+-
+    id: '125'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=374421&u=125&e=105'
+    return: '<script>window.location.href=''http://tuan.qunar.com/ext/sact/zaeMfe?ex_track=auto_53a7dbba&ex_sub_track=88613971406'';</script>'
+-
+    id: '126'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=321365&u=126&e=105'
+    return: "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\n<html>\n<head>\n<title>CHANet</title>\n</head>\n<body>\n该广告已经结束。<br>\n请点击查看如下的新广告。<br>\n<div id=\"ad_content\"></div>\n<script language=\"Javascript\">\n\nvar url=window.location.href; \nvar es=/\?a=/; \nes.exec(url); \nvar as_id=RegExp.rightContext; \n\nvar content='<a href=\"http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad\" target=\"_blank\"><IMG SRC=\"http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad\" border=\"0\"></a>';\nvar new_content = '<table><tr valign=\"top\"><td>';\nnew_content += content.replace(/\?a=(.+?)&/,\"?a=\"+as_id+'&');\nnew_content += '</td><tr></table>'\ndocument.getElementById('ad_content').innerHTML = new_content;\n</script>\n</body>\n</html>"
+-
+    id: '127'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=367664&u=127&e=105'
+    return: '<script>window.location.href=''http://www.muyingzhijia.com/cooperation/getLinkFrom.aspx?pid=1066&pfrom=chanet&uid=88613971546&tourl=http://www.muyingzhijia.com/Shopping/LandingPage.aspx?sbjId=1368'';</script>'
+-
+    id: '128'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=370115&u=128&e=105'
+    return: '<script>window.location.href=''http://www.staples.cn/affiliate/chanet?source=chanet&id=88613971626&url=http://www.staples.cn/%3Futm_source%3Daffiliate%26utm_medium%3Dchanet'';</script>'
+-
+    id: '129'
+    url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=375335&u=129&e=105'
+    return: '<script>window.location.href=''http://www.meilishuo.com?frm=NM_s10447_0_88613971686'';</script>'

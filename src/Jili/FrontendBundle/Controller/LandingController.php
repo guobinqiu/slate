@@ -21,7 +21,6 @@ class LandingController extends Controller
     public function externalAction()
     {
         $request = $this->get('request');
-        $logger = $this->get('logger');
         $session = $this->get('session');
         if($session->has('uid')) {
             return $this->redirect( $this->generateUrl('_homepage'));
@@ -48,7 +47,6 @@ class LandingController extends Controller
                 $templ_vars ['errors'] = $errors ;
             }
         } else if ($request->getMethod() === 'GET' ) {
-
             if( $request->query->has('spm') ) {
                 $query['spm'] =  $request->query->get('spm');
                 $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );

@@ -1,0 +1,35 @@
+# the advertiserment.imageurl response.
+map:
+    - 
+        id: 33
+        url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=9340&u=33&e=105'
+        return: |
+                    <script>window.location.href='http://union.dangdang.com/transfer/transfer.aspx?from=430-88571126696&backurl=http://book.dangdang.com';</script>
+    -
+        id: 92
+        url: 'http://count.chanet.com.cn/click.cgi?a=480534&d=92051&u=92&e=105'
+        return: |
+                    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+                    <html>
+                    <head>
+                    <title>CHANet</title>
+                    </head>
+                    <body>
+                    该广告已经结束。<br>
+                    请点击查看如下的新广告。<br>
+                    <div id="ad_content"></div>
+                    <script language="Javascript">
+                    
+                    var url=window.location.href; 
+                    var es=/\?a=/; 
+                    es.exec(url); 
+                    var as_id=RegExp.rightContext; 
+                    
+                    var content='<a href="http://count.chanet.com.cn/click.cgi?a=218&d=365160&u=default_ad" target="_blank"><IMG SRC="http://file.chanet.com.cn/image.cgi?a=218&d=365160&u=default_ad" border="0"></a>';
+                    var new_content = '<table><tr valign="top"><td>';
+                    new_content += content.replace(/\?a=(.+?)&/,"?a="+as_id+'&');
+                    new_content += '</td><tr></table>'
+                    document.getElementById('ad_content').innerHTML = new_content;
+                    </script>
+                    </body>
+                    </html>

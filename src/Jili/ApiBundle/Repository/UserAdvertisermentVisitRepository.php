@@ -11,7 +11,7 @@ class UserAdvertisermentVisitRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('uad');
         $query = $query->select('uad.id,uad.visitDate');
-        $query = $query->Where('uad.userid = :userid');
+        $query = $query->Where('uad.userId = :userid');
         $query = $query->andWhere('uad.visitDate = :date');
         $query = $query->setParameters(array('userid'=>$userid,'date'=>$date));
         $query =  $query->getQuery();

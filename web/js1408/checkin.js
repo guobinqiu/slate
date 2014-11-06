@@ -54,7 +54,7 @@ function goto(cid,aid,points){
           success:function(data){
               if(data==1){
                  $.ajax({
-                    url: urls.checkin_issetClick+"?cid="+cid,
+                     url: Routing.generate("_checkin_issetClick", {"cid":cid}),
                     post: "GET",
                     success:function(data){
 						

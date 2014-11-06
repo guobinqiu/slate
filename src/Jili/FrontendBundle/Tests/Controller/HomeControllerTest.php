@@ -81,4 +81,55 @@ class HomeControllerTest extends WebTestCase
         $this->assertEquals($vote['title'], $link_node->text() , 'check the text');
         $this->assertEquals($vote_url, $link->getUri(), 'Check vote uri' );
     }
+
+    
+    /**
+     * @group issue_505
+     */
+    public function testIndexActionWithoutSpm()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+
+        $router = $container->get('router');
+        $logger= $container->get('logger');
+    
+        $spm = 'baidu_partnerb';
+
+        $url = $router->generate('_homepage');
+
+        $this->assertEquals('/',$url);
+
+        $crawler = $client->request('GET', $url );
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'visit landing page with spm ');
+        
+        $this->assertEmpty(  $container->get('session')->get('source_route'));
+    }
+
+    /**
+     * @group issue_505
+     */
+    public function testIndexActionWithSpm()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+
+        $router = $container->get('router');
+        $logger= $container->get('logger');
+    
+        $spm = 'baidu_partnerb';
+
+        $url = $router->generate('_homepage');
+        $url = $container->get('router')->generate('_homepage', array('spm'=>$spm) , false);
+        $this->assertEquals('/?spm=baidu_partnerb', $url);
+        
+        $crawler = $client->request('GET', $url );
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'visit landing page with spm ');
+
+        $session= $container->get('session');
+        $this->assertEquals($spm, $session->get('source_route'), 'source_route checking');
+    }
 }
+

@@ -4,14 +4,13 @@
     <form action="{{ path('jili_emar_search_form' , app.request.query.all ) }}" method="POST" id="search_box">
 {% endif %}
 
-
 <div class="search fnRight">
     
-    {{ form_widget( form.q , {'attr': { 'type': 'text', 'placeholder': "请输入您要搜索的商家名称", 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
+    {{ form_widget( search_form.q , {'attr': { 'type': 'text', 'placeholder': "请输入您要搜索的商家名称", 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
 
-    {{ form_widget( form.rt ) }}
+    {{ form_widget( search_form.rt ) }}
     <span class="searchBtn"><img clstag="homepage|keycount|home2013|03a"  src="{{ asset('images1408/search.png') }}" width="38" height="38" alt="搜索" title="搜索" onclick="search();return false;"/></span>
-    {{ form_rest(form)  }}
+    {{ form_rest(search_form)  }}
     <a href="{{ path('_default_support') }}" class="helpBtn"><img src="{{ asset('images1408/help.png') }}" width="38" height="38" alt="帮助" title="帮助"/></a>
 </div>
 </form> 

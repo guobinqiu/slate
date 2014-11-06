@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CheckinAdverList
 {
+
+    const ANY_OP_METHOD = 0;
+    const MANUAL_OP_METHOD = 3;
+    const AUTO_OP_METHOD = 5;
+
     public function __construct()
     {
         $this->createTime = new \DateTime();
@@ -39,6 +44,13 @@ class CheckinAdverList
      * @ORM\Column(name="inter_space", type="integer")
      */
     private $interSpace;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="operation_method", type="integer", nullable=true)
+     */
+    private $operationMethod;
 
     /**
      * @var \DateTime
@@ -103,6 +115,29 @@ class CheckinAdverList
     public function getInterSpace()
     {
         return $this->interSpace;
+    }
+
+    /**
+     * Set operationMethod
+     *
+     * @param integer $operationMethod
+     * @return CheckinAdverList
+     */
+    public function setOperationMethod($operationMethod)
+    {
+        $this->operationMethod = $operationMethod;
+
+        return $this;
+    }
+
+    /**
+     * Get operationMethod
+     *
+     * @return integer 
+     */
+    public function getOperationMethod()
+    {
+        return $this->operationMethod;
     }
 
     /**

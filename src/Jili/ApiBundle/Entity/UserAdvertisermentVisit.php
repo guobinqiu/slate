@@ -24,9 +24,9 @@ class UserAdvertisermentVisit
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
-    private $userid;
+    private $userId;
 
      /**
      * @var string
@@ -47,26 +47,26 @@ class UserAdvertisermentVisit
     }
 
     /**
-     * Set userid
+     * Set userId
      *
-     * @param integer $userid
-     * @return UserGameVisit
+     * @param integer $userId
+     * @return UserAdvertisermentVisit
      */
-    public function setUserid($userid)
+    public function setUserId($userId)
     {
-        $this->userid = $userid;
+        $this->userId = $userId;
 
         return $this;
     }
 
     /**
-     * Get userid
+     * Get userId
      *
-     * @return integer
+     * @return integer 
      */
-    public function getUserid()
+    public function getUserId()
     {
-        return $this->userid;
+        return $this->userId;
     }
 
 
@@ -74,7 +74,7 @@ class UserAdvertisermentVisit
      * Set visitDate
      *
      * @param string $visitDate
-     * @return UserGameVisit
+     * @return UserAdvertisermentVisit
      */
     public function setVisitDate($visitDate)
     {

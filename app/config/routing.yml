@@ -6,16 +6,22 @@ _login:
     path: /login
     defaults: { _controller: JiliApiBundle:User:login}
     schemes:  [https]
+    options:
+        expose: true
 
 _logout:
     path: /logout
     defaults: { _controller: JiliApiBundle:User:logout}
     schemes:  [http]
+    options:
+        expose: true
 
 _homepage:
     path: /
     defaults: { _controller: JiliFrontendBundle:Home:index }
     schemes:  [http]
+    options:
+        expose: true
 
 jili_api:
     resource: "@JiliApiBundle/Resources/config/routing.yml"
@@ -31,6 +37,9 @@ jili_backend:
 gregwar_captcha_routing:
     resource: "@GregwarCaptchaBundle/Resources/config/routing/routing.yml"
     prefix: /_gcb
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
 #_internal:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
