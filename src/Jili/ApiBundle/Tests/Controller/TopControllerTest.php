@@ -248,7 +248,7 @@ class TopControllerTest extends WebTestCase
 //        if(!$confirmPoints){
 //            $confirmPoints = 0;
 //        }
-       echo $session->get('user.points.confirmming'),PHP_EOL; 
+//       echo $session->get('user.points.confirmming'),PHP_EOL; 
 
         $this->assertEquals('500确认中米粒数', $crawler->filter('li')->eq(1)->text() );
         $this->assertEquals( '89当前米粒数',$crawler->filter('li')->eq(0)->text() , $user->getPoints() .' should be render' );
