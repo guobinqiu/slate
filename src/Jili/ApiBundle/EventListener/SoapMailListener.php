@@ -37,7 +37,7 @@ class SoapMailListener
     private function init_client()
     {
         ini_set('soap.wsdl_cache_enabled', '0');
-        $client = new \ SoapClient($this->soap, array (
+        $client = new \SoapClient($this->soap, array (
             'encoding' => 'utf-8',
             'features' => SOAP_SINGLE_ELEMENT_ARRAYS
         ));
