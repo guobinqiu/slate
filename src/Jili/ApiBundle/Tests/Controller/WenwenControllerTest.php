@@ -275,7 +275,7 @@ class WenwenControllerTest extends WebTestCase {
         $this->assertEquals(301, $client->getResponse()->getStatusCode()); //todo 301
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"message":"signature invalid"}', $client->getResponse()->getContent());
+        $this->assertEquals('{"meta":{"code":"400","message":"signature invalid"}}', $client->getResponse()->getContent());
 
         // token not exist
         $token = 'a4d3d591c343d3c6aae70ad8b492171e3bce6aa6232b0858540713906e0d68ff';
@@ -315,6 +315,6 @@ class WenwenControllerTest extends WebTestCase {
             'time' => $time
         );
         $signature_send = WenwenToken :: createSignature($params, $secret_key);
-        $this->assertEquals('{"cross_id":' . $cross->getId() . ',"time":' . $time . ',"signature":"' . $signature_send . '"}', $client->getResponse()->getContent());
+        $this->assertEquals('{"meta":{"code":200},"data":{"cross_id":'.$cross->getId().',"time":'.$time.',"signature":"'.$signature_send.'"}}', $client->getResponse()->getContent());
     }
 }
