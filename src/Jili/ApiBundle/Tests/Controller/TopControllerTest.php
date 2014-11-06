@@ -13,6 +13,9 @@ use Jili\ApiBundle\DataFixtures\ORM\LoadAdvertisermentMarketActivityData;
 
 use Jili\ApiBundle\DataFixtures\ORM\LoadTopCallboardCodeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadCookieLoginHomepageCodeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserInfoCodeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserInfoTaskHistoryData;
+
 class TopControllerTest extends WebTestCase
 {
     /**
@@ -34,22 +37,36 @@ class TopControllerTest extends WebTestCase
 
 // --
         $tn = $this->getName();
-        if (in_array( $tn, array('testCallboardAction','testCookieLoginHomepage'))) {
+        if (in_array( $tn, array('testCallboardAction','testCookieLoginHomepage','testUserInfoAction'))) {
             // purge tables;
             $purger = new ORMPurger($em);
             $executor = new ORMExecutor($em, $purger);
             $executor->purge();
+        
+            if (in_array( $tn, array('testUserInfoAction'))) {
 
+                // load fixtures
+                $fixture = new LoadUserInfoCodeData();
+                $fixture->setContainer($container);
 
-            if (in_array( $tn, array('testCallboardAction'))) {
+                $fixture1 = new LoadUserInfoTaskHistoryData();
+                $fixture1->setContainer($container);
+
+                $loader = new Loader();
+                $loader->addFixture($fixture);
+                $loader->addFixture($fixture1);
+
+                $executor->execute($loader->getFixtures());
+
+            } else if (in_array( $tn, array('testCallboardAction'))) {
                 // load fixtures
                 $fixture = new LoadTopCallboardCodeData();
                 $fixture->setContainer($container);
                 $loader = new Loader();
                 $loader->addFixture($fixture);
                 $executor->execute($loader->getFixtures());
-            }
-            if (in_array($tn,array('testCookieLoginHomepage'))) {
+
+            } else if (in_array($tn,array('testCookieLoginHomepage'))) {
                 $fixture = new LoadCookieLoginHomepageCodeData();
                 $fixture->setContainer($container);
                 $loader = new Loader();
@@ -122,7 +139,7 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals( $user->getPoints() , $session->get('points'));
 
         $url = $router->generate('jili_api_top_userinfo');
-        echo $url, PHP_EOL;
+        $this->assertEquals('/top/userInfo', $url);
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         // check the partial
@@ -132,15 +149,14 @@ class TopControllerTest extends WebTestCase
             $this->assertEquals('/images1408/headPortBg.jpg', $crawler->filter('img')->attr('src'));
         }
 
-
-        $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $user->getId() % 10 ) );
+        $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $user->getId() % 10 ) );
         $confirmPoints = $task->getConfirmPoints($user->getId());
+
         if(!$confirmPoints){
             $confirmPoints = 0;
         }
 
         $this->assertEquals($confirmPoints.'确认中米粒数', $crawler->filter('li')->eq(1)->text() );
-
         $this->assertEquals($user->getPoints() .'当前米粒数',$crawler->filter('li')->eq(0)->text() , $user->getPoints() .' should be render' );
     }
     /**
@@ -160,7 +176,8 @@ class TopControllerTest extends WebTestCase
 
         // request
         $url = $router->generate('jili_api_top_userinfo');
-        echo $url, PHP_EOL;
+        $this->assertEquals('/top/userInfo', $url);
+
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         // check the partial
@@ -171,16 +188,16 @@ class TopControllerTest extends WebTestCase
        // echo  $crawler->filter('dd')->eq(1)->text(),PHP_EOL;
 
         $query = array('email'=> 'alice.nima@gmail.com');
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-        if(! $user) {
-            echo 'bad email:',$query['email'], PHP_EOL;
-            return false;
-        }
+        $user = LoadUserInfoCodeData::$USERS[0];
+//        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
+ //       if(! $user) {
+ //           echo 'bad email:',$query['email'], PHP_EOL;
+ //           return false;
+ //       }
 
         // post to login , for sessions:
         $url = $container->get('router')->generate('_login', array(), true);
-##$url = 'http://localhost/login';
-        echo __LINE__,' ',$url, PHP_EOL;
+        $this->assertEquals('https://localhost/login',$url);
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
@@ -194,29 +211,47 @@ class TopControllerTest extends WebTestCase
 
         $session = $container->get('session');
         $this->assertTrue( $session->has('uid'));
-
-        // set session for login
-//        $session->set('uid', $user->getId());
-//        $session->save();
-
-#
 #        $keys = $container->getParameter('cache_config.session.points.keys');
 
         // request
         $url = $router->generate('jili_api_top_userinfo');
-        echo $url, PHP_EOL;
+        $this->assertEquals('/top/userInfo', $url);
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(301, $client->getResponse()->getStatusCode() );
 
-         $crawler=$client->followRedirect();
-//        echo $client->getResponse()->getContent(),PHP_EOL;
-
+        $crawler=$client->followRedirect();
+        $this->assertTrue( $session->has('uid'));
+        $this->assertEquals( $user->getId(), $session->get('uid'));
+ //       echo $client->getResponse()->getContent(),PHP_EOL;
         // check the partial
         // /other140307/defaultFace.jpg
-        $this->assertEquals('/other140307/defaultFace.jpg', $crawler->filter('img')->attr('src'));
+        $this->assertEquals('/images1408/headPortBg.jpg', $crawler->filter('img')->attr('src'));
 
-        var_dump($crawler->filter('dd')->eq(0)->text());
-        echo $crawler->filter('dd')->eq(1)->text(),PHP_EOL;
+        $this->assertEquals( '0当前米粒数',$crawler->filter('li')->eq(0)->text() , $user->getPoints() .' should be render' );
+        $this->assertEquals( '500确认中米粒数', $crawler->filter('li')->eq(1)->text() );
+
+        $session->set('uid', $user->getId());
+        $session->set('points', $user->getPoints());
+        $session->set('icon_path', $user->getIconPath());
+        $session->save();
+
+        $url = $router->generate('jili_api_top_userinfo');
+        $this->assertEquals('/top/userInfo', $url);
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        echo $client->getResponse()->getContent(),PHP_EOL;
+
+        $this->assertEquals('/uploads/user/5/1392030971_6586.jpeg', $crawler->filter('img')->attr('src'));
+
+//        $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $user->getId() % 10 ) );
+//        $confirmPoints = $task->getConfirmPoints($user->getId());
+//        if(!$confirmPoints){
+//            $confirmPoints = 0;
+//        }
+       echo $session->get('user.points.confirmming'),PHP_EOL; 
+
+        $this->assertEquals('500确认中米粒数', $crawler->filter('li')->eq(1)->text() );
+        $this->assertEquals( '89当前米粒数',$crawler->filter('li')->eq(0)->text() , $user->getPoints() .' should be render' );
     }
     /**
      * @group cache

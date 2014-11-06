@@ -1,6 +1,6 @@
 <div class="personInfo ">
     <div class="signArea clearfix">
-        <div class="headPort"></div>
+        <div class="headPort"><img src='{{ asset(app.session.get('icon_path','images1408/headPortBg.jpg' ) ) }}' height='46'/></div>
         <div class="welcome">欢迎您，<div class="userName">{{ app.session.get('nick') }}</div></div>
         {% if userCheckin is defined and userCheckin == 1 %}
         <div class="signBtn" id="mysign" onclick="signs();"><span class="signIcon"></span><span id="signTxt">
@@ -15,7 +15,7 @@
         {% endif %}
     </div>
     <ul class="userExtra mt10">
-        <li class="first"><span id="points">{{ app.session.get('points') }}</span>当前米粒数</li>
+        <li class="first"><span id="points">{{ app.session.get('points')|default(0) }}</span>当前米粒数</li>
         <li><span >{{ confirmPoints }}</span>确认中米粒数</li>
     </ul>
 </div>

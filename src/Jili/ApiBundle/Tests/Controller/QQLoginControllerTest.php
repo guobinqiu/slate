@@ -56,7 +56,6 @@ class QQLoginControllerTest extends WebTestCase
 
     /**
      * @group issue_474
-     * @group debug
      */
     public function testCallBackAction() 
     {
