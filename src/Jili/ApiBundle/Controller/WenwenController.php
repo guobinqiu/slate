@@ -195,10 +195,10 @@ class WenwenController extends Controller
     }
 
     /**
-     * @Route("/bindConfirm", name="_account_bind_confirm", requirements={"_scheme"="https"})
+     * @Route("/bindApi", name="_account_bind_api", requirements={"_scheme"="https"})
      * @Method({"GET", "POST"})
      */
-    public function accountBindConfirmAction() {
+    public function accountBindApiAction() {
         $token = $this->get('request')->get('token', '');
         $time = $this->get('request')->get('time', '');
         $signature = $this->get('request')->get('signature', '');
