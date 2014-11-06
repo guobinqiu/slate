@@ -31,6 +31,7 @@ parameters:
     user_regist.class: Jili\ApiBundle\Services\UserRegist
     user_bind.class: Jili\ApiBundle\Services\UserBind
     user_login.class: Jili\ApiBundle\Services\UserLogin
+    user_qq_login.class: Jili\ApiBundle\Services\QQLogin
     
 # session 
     session.task_list.class: Jili\ApiBundle\Services\Session\User\TaskList
@@ -228,3 +229,7 @@ services:
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+
+    user_qq_login:
+        class: %user_qq_login.class%
+

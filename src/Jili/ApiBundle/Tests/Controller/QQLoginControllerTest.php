@@ -21,6 +21,8 @@ class QQLoginControllerTest extends WebTestCase
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
+
+        $cn = get_class(static::$kernel);
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
@@ -42,32 +44,63 @@ class QQLoginControllerTest extends WebTestCase
         $this->container = $container;
         $this->em  = $em;
     }
+
     /**
      * {@inheritDoc}
      */
     protected function tearDown()
     {
+        $this->em->close();
         parent::tearDown();
-       $this->em->close();
     }
 
     /**
      * @group issue_474
-     * @group  debug
+     * @group debug
      */
     public function testCallBackAction() 
     {
         $client = static::createClient();
-        $url = $this->container->get('router')->generate('qq_api_callback');
-        $this->assertEquals('/QQLogin/qqcallback', $url);
 
         $url = $this->container->get('router')->generate('qq_api_callback');
         $this->assertEquals('/QQLogin/qqcallback', $url);
 
+        $crawler =  $client->request('GET', $url, array('code'=>''));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('对不起，QQ用户授权失败，请稍后再试。', $crawler->filter('div.errorMessage')->text());
+
+        $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
+            ->setMethods(array('access_token','get_openid'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $stubQQAuth->method('access_token')
+            ->willReturn(array('access_token'=>'xxxx'));
+
+        $stubQQAuth->method('get_openid')
+            ->willReturn('1111');
+
+
+        $mockQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\Services\\QQLogin')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mockQQAuth->expects($this->exactly(2))
+            ->method('getQQAuth')
+            ->willReturn( $stubQQAuth);
+
+
+        static::$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
+            $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
+        });
+
+       $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
+//        $client->
+        //
     }
+
     /**
      * @group issue_474
-     * @group  debug
      */
     public function testqqLoginAction()
     {
@@ -77,7 +110,6 @@ class QQLoginControllerTest extends WebTestCase
 
     /**
      * @group issue_474
-     * @group  debug
      */
     public function testqqRegisteAction()
     {
@@ -87,7 +119,6 @@ class QQLoginControllerTest extends WebTestCase
 
     /**
      * @group issue_474
-     * @group  debug
      */
    public function testqqBindAction()
     {
@@ -97,7 +128,6 @@ class QQLoginControllerTest extends WebTestCase
 
     /**
      * @group issue_474
-     * @group  debug
      */
     public function testqqFirstLoginAction()
     {

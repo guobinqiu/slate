@@ -25,15 +25,17 @@ class QQLoginController extends Controller
         $code = $request->query->get('code');
         $code = "0A188F5A7881938E405DA8D1E01D7765";
         //$qq_access_token = $request->getSession()->get('qq_token');
-        $qq_auth = new QQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),'');
+        $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),'');
+        $this->get('logger')->debug('{jarod}'. implode(':', array(__LINE__,__FILE__,'$qq_auth','')). var_export( get_class($qq_auth), true));
         if(isset($code) && trim($code)!=''){
             $result=$qq_auth->access_token($this->container->getParameter('callback_url'), $code);
         }
+
         if(isset($result['access_token']) && $result['access_token']!=''){
             //授权完成，保存登录信息，使用session保存
             $request->getSession()->set('qq_token', $result['access_token']);
             //得到openid
-            $qq_auth = new QQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$result['access_token']);
+            $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$result['access_token']);
             $qq_oid = $qq_auth->get_openid();
             $em = $this->getDoctrine()->getManager();
             $qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($qq_oid);
@@ -63,7 +65,8 @@ class QQLoginController extends Controller
     /**
      * @Route("/qqlogin", name="qq_api_login")
      */
-    public function qqLoginAction(){
+    public function qqLoginAction()
+    {
         $request = $this->get('request');
         $qq_access_token = $request->getSession()->get('qq_access_token');
         $user_login = $this->get('user_login');
@@ -153,7 +156,7 @@ class QQLoginController extends Controller
     {
         $request = $this->get('request');
         $qq_token = $request->getSession()->get('qq_token');
-        $qq_auth = new QQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
+        $qq_auth = $this->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
 
         //获取登录用户open id 
         $openid = $request->getSession()->get('openid');
@@ -167,5 +170,13 @@ class QQLoginController extends Controller
         $form  = $this->createForm(new QQFirstRegist());
         return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',
                 array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
+    }
+
+    /**
+     *
+     */
+    public function getQQAuth($appid, $appkey, $access_token= NULL )
+    {
+        return new QQAuth($appid, $appkey, $access_token);
     }
 }
