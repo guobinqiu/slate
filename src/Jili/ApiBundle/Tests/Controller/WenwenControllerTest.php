@@ -241,9 +241,9 @@ class WenwenControllerTest extends WebTestCase {
 
     /**
     * @group issue_487
-    * @group accountBindConfirmAction
+    * @group accountBindApiAction
     */
-    public function testAccountBindConfirmAction() {
+    public function testAccountBindApiAction() {
         $em = $this->em;
         $user = LoadUserData :: $USERS[0];
 
@@ -252,7 +252,7 @@ class WenwenControllerTest extends WebTestCase {
 
         $router = $container->get('router');
 
-        $url = '/api/91wenwen/bindConfirm';
+        $url = '/api/91wenwen/bindApi';
         //$url = $router->generate('_account_bind_confirm', $post_data, false);
 
         $secret_key = $container->getParameter('91wewen_bind_secret_key');
@@ -271,7 +271,7 @@ class WenwenControllerTest extends WebTestCase {
             'signature' => $signature . 'invalid'
         );
         $crawler = $client->request('POST', $url, $post_data);
-        $this->assertEquals('/api/91wenwen/bindConfirm', $client->getRequest()->getRequestUri());
+        $this->assertEquals('/api/91wenwen/bindApi', $client->getRequest()->getRequestUri());
         $this->assertEquals(301, $client->getResponse()->getStatusCode()); //todo 301
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -290,9 +290,9 @@ class WenwenControllerTest extends WebTestCase {
             'signature' => $signature
         );
         $crawler = $client->request('POST', $url, $post_data);
-        $this->assertEquals('/api/91wenwen/bindConfirm', $client->getRequest()->getRequestUri());
+        $this->assertEquals('/api/91wenwen/bindApi', $client->getRequest()->getRequestUri());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"message":"token not exist"}', $client->getResponse()->getContent());
+        $this->assertEquals('{"meta":{"code":"400","message":"token not exist"}}', $client->getResponse()->getContent());
 
         $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->create($user->getId());
         $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->create($cross->getId());
@@ -307,7 +307,7 @@ class WenwenControllerTest extends WebTestCase {
             'signature' => $signature
         );
         $crawler = $client->request('POST', $url, $post_data);
-        $this->assertEquals('/api/91wenwen/bindConfirm', $client->getRequest()->getRequestUri());
+        $this->assertEquals('/api/91wenwen/bindApi', $client->getRequest()->getRequestUri());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $params = array (
