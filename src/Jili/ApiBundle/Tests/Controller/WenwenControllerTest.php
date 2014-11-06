@@ -40,7 +40,7 @@ class WenwenControllerTest extends WebTestCase {
 
             // add an user
         } else
-            if ($tn == 'testAccountBindAction' || $tn == 'testAccountBindConfirmAction') {
+            if ($tn == 'testAccountBindAction' || $tn == 'accountBindApiAction') {
                 $with_fixture = true;
                 // load fixtures
                 $fixture = new LoadUserData();
@@ -310,6 +310,7 @@ class WenwenControllerTest extends WebTestCase {
         $this->assertEquals('/api/91wenwen/bindApi', $client->getRequest()->getRequestUri());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
+        $time = time();
         $params = array (
             'cross_id' => $cross->getId(),
             'time' => $time
