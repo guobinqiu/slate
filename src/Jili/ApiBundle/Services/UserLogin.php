@@ -12,15 +12,14 @@ use Jili\ApiBundle\Entity\User;
 class UserLogin
 {
     private $em;
+    private $session;
     /**
-     * UserRegiste
+     * check login status
      * @params $params array()
      */
     public function checkLoginStatus()
     {
-        $session = $this->container->get('session');
-        if( $session->has('uid')){
-            var_dump($session->get('uid'));
+        if( $this->session->has('uid')){
             return true;
         }
         return false;
@@ -29,5 +28,11 @@ class UserLogin
     public function setEntityManager(EntityManager $em)
     {
         $this->em= $em;
+    }
+    
+    public function setSession($session)
+    {
+        $this->session = $session;
+        return $this;
     }
 }

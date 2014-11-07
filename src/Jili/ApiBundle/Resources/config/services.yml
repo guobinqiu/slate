@@ -229,6 +229,7 @@ services:
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setSession, [ @session ] ] 
 
     user_qq_login:
         class: %user_qq_login.class%

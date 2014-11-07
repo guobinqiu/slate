@@ -20,12 +20,10 @@ class UserBind
         if (isset($params['email']) && isset($params['open_id'])) {
             $user = $this->em->getRepository('JiliApiBundle:User')->findOneBy(array('email'=> $params['email']));
             if( $user) {
-                echo 222;
                 $params['user_id'] =  $user->getId();
                 $qquser = $this->em->getRepository('JiliApiBundle:QQUser')->qquser_insert($params);
             } else {
                 $qquser = null;
-                echo 111;
             }
         }
         return $qquser;

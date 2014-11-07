@@ -23,14 +23,13 @@ class QQLoginController extends Controller
     { 
         $request = $this->get('request');
         $code = $request->query->get('code');
-        $code = "0A188F5A7881938E405DA8D1E01D7765";
+        $code = "4BEEF41172C84C0975BDFFC72327D24E";
         //$qq_access_token = $request->getSession()->get('qq_token');
         $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),'');
         $this->get('logger')->debug('{jarod}'. implode(':', array(__LINE__,__FILE__,'$qq_auth','')). var_export( get_class($qq_auth), true));
         if(isset($code) && trim($code)!=''){
             $result=$qq_auth->access_token($this->container->getParameter('callback_url'), $code);
         }
-
         if(isset($result['access_token']) && $result['access_token']!=''){
             //授权完成，保存登录信息，使用session保存
             $request->getSession()->set('qq_token', $result['access_token']);
@@ -48,8 +47,7 @@ class QQLoginController extends Controller
                 }
                 $request->getSession()->set('uid',$jiliuser->getId());
                 $request->getSession()->set('nick',$jiliuser->getNick());
-                $response = new RedirectResponse('/', '301');
-                return $response;
+                return $this->redirect($this->generateUrl('_homepage'));
             } else {
                 //无此用户，说明没有用qq注册过，转去fist_login页面
                 $request->getSession()->set('open_id',$qq_oid);
@@ -68,16 +66,18 @@ class QQLoginController extends Controller
     public function qqLoginAction()
     {
         $request = $this->get('request');
-        $qq_access_token = $request->getSession()->get('qq_access_token');
+        $qq_access_token = $request->getSession()->get('qq_token');
         $user_login = $this->get('user_login');
+        $user_login->setSession($request->getSession());
         $login_flag = $user_login->checkLoginStatus();
         if($login_flag) {
+            return $this->redirect($this->generateUrl('_homepage'));
         } else {
             // 首次qq登陆,到授权页面
-            $qq = new QQAuth($qq_k, $qq_s);
-            $callback_url = "http://91jili.com/";
-            $login_url = $qq->login_url($callback_url, $this->container->getParameter('scope'));
-            $response = new RedirectResponse($login_url, '301');
+            $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_access_token);
+            $callback_url = "www.91jili.com";
+            $login_url = $qq_auth->login_url($callback_url, $this->container->getParameter('scope'));
+            return  new RedirectResponse($login_url, '301');
         }
     }
     
@@ -107,10 +107,7 @@ class QQLoginController extends Controller
                 //注册成功，登陆并跳转主页
                 $code = $this->get('login.listener')->login($request);
                 if($code == 'ok') {
-                    $code_redirect = '301';
-                    $current_url = '/';
-                    $response = new RedirectResponse($current_url, $code_redirect);
-                    return $response;
+                    return $this->redirect($this->generateUrl('_homepage'));
                 }
             }
         } else {
@@ -138,10 +135,7 @@ class QQLoginController extends Controller
         $code = $this->get('login.listener')->login($request);
         if($code == 'ok') {
             $result = $user_bind->qq_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
-            $code_redirect = '301';
-            $current_url = '/'; 
-            $response = new RedirectResponse($current_url, $code_redirect);
-            return $response;
+            return $this->redirect($this->generateUrl('_homepage'));
         }
         $form  = $this->createForm(new QQFirstRegist());
         return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',
