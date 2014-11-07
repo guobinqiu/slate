@@ -99,9 +99,9 @@ class QQLoginController extends Controller
         if ($form->isValid()) {
             $user_regist = $this->get('user_regist'); 
             $qquser = $user_regist->qq_user_regist($param);
-            $inst_id = $qquser->getid();
-            if(!isset($inst_id)){
+            if(!$qquser){
                 //注册失败
+                $inst_id = $qquser->getid();
                 return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，QQ用户授权失败，请稍后再试。'));
             } else {
                 //注册成功，登陆并跳转主页
