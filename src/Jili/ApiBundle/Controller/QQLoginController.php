@@ -22,20 +22,22 @@ class QQLoginController extends Controller
     public function callBackAction()
     { 
         $request = $this->get('request');
+        $logger = $this->get('logger');
         $code = $request->query->get('code');
-        $code = "4BEEF41172C84C0975BDFFC72327D24E";
+        //$code = "4BEEF41172C84C0975BDFFC72327D24E";
         //$qq_access_token = $request->getSession()->get('qq_token');
         $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),'');
-        $this->get('logger')->debug('{jarod}'. implode(':', array(__LINE__,__FILE__,'$qq_auth','')). var_export( get_class($qq_auth), true));
         if(isset($code) && trim($code)!=''){
             $result=$qq_auth->access_token($this->container->getParameter('callback_url'), $code);
+            $logger->debug('{jarod}'. implode(':', array(__LINE__,__FILE__,'$result','')). var_export( $result, true));
         }
-        if(isset($result['access_token']) && $result['access_token']!=''){
+        if(isset($result['access_token']) && $result['access_token']!='') {
             //授权完成，保存登录信息，使用session保存
             $request->getSession()->set('qq_token', $result['access_token']);
             //得到openid
             $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$result['access_token']);
             $qq_oid = $qq_auth->get_openid();
+            $logger->debug('{jarod}'. implode(':', array(__LINE__,__FILE__,'$qq_oid','')). var_export( $qq_oid, true));
             $em = $this->getDoctrine()->getManager();
             $qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($qq_oid);
             //判断是否已经注册过

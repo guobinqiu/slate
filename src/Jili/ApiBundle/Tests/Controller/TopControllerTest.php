@@ -227,7 +227,7 @@ class TopControllerTest extends WebTestCase
         // /other140307/defaultFace.jpg
         $this->assertEquals('/images1408/headPortBg.jpg', $crawler->filter('img')->attr('src'));
 
-        $this->assertEquals( '0当前米粒数',$crawler->filter('li')->eq(0)->text() , $user->getPoints() .' should be render' );
+        $this->assertEquals( '当前米粒数',$crawler->filter('li')->eq(0)->text() , $user->getPoints() .' should be render' );
         $this->assertEquals( '500确认中米粒数', $crawler->filter('li')->eq(1)->text() );
 
         $session->set('uid', $user->getId());
