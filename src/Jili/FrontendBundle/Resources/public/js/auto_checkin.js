@@ -45,7 +45,10 @@ $(function() {
 			// todo: update the status button 
             CheckinModule.updateDomOfAutoCheckinOn();
 			// add an ajax to get the status of checkin
-            CheckinModule.autoCheckinCheckerId  = setInterval(CheckinModule.autoCheckinResultChecker, 4000);
+            CheckinModule.autoCheckinCheckerId  = setInterval(CheckinModule.autoCheckinResultChecker, 8000);
+
+            // todo: add a stop on CheckinModule.autoCheckinCheckerId
+            //
 			var target_url = Routing.generate("_homepage", {
 				"auto_checkin": 1
 			},

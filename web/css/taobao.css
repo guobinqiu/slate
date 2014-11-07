@@ -1,0 +1,31 @@
+ul,li{ list-style:none; margin:0; padding:0;}
+a{ text-decoration:none;}
+.corBO{ color:#ff340b;}
+.taobaoWrap{ width:1001px; margin:0px auto; text-align: left;}
+.itemL{ width:737px; float:left;}
+.itemL .taobaoSearch,.itemL .tablist,.itemR .discover dd{ border-right:1px solid #e2e2e2; border-bottom:2px solid #e2e2e2;}
+.itemL .taobaoSearch{ height:85px; padding:20px 0 0 34px; background:#fff;}
+.itemL .taobaoNotice{ color:#333; background:#fef7cd; border:1px solid #e6b31c; padding:7px 15px; font-size:12px; margin-bottom:10px;}
+.itemL .taobaoNotice em{ width:15px; vertical-align: -2px; height: 12px; margin-right: 5px; display: inline-block; background:url(../images/taobao/notice_icon.gif) no-repeat;}
+.itemL .ltab{ float:left; width: 100%; padding:0;margin: 10px 0; }
+.itemL .ltab li{ float: left; height: 26px; margin-top:3px; font-size: 14px; line-height: 25px; cursor:pointer; font-family:Microsoft Yahei,SimHei,Tahoma; }
+.itemL .ltab li.ui-tabs-active{ background:#ff4526; border-radius:3px;}
+.itemL .ltab li a{ color:#333; padding: 0px 12px;}
+.itemL .ltab li.ui-tabs-active a{ color:#fff;}
+.itemL .tablist{ float: left; display: none; margin-bottom: 200px; background-color: #fff;}
+.itemL .block{ display: block;}
+.itemL .tablist ul li{ margin-bottom: -1px; width: 730px; background: #fff; padding: 5px 0 0 5px;}
+.itemR{ width:248px; float:right;}
+.itemR .discover .pt{ background:url(../images/taobao/lovedx.jpg) no-repeat 0 4px; padding-left: 20px;}
+.itemR .discover dt{ font-family:Microsoft Yahei,SimHei,Tahoma; font-size: 16px; margin-bottom:10px; color:#333;}
+.itemR .discover dd{ background:#fff; margin:0;}
+.itemR .discover .mt{ background:url(../images/taobao/lovedp.jpg) no-repeat 0 4px; padding-left: 20px;}
+.itemR .rPt .discover{width:248px; margin-top: 8px;}
+.itemR .rPt .discover .pl ul li{margin: 5px auto; width: 230px;}
+.itemR .rMall{ margin-top: 15px;}
+.itemR .rMall .discover dd{ padding:20px;}
+.itemR .rMall .discover .listGroup .img{ float:left; margin-right: 10px;}
+.itemR .rMall .discover .listGroup .img img{ width:70px; height:70px;}
+.itemR .rMall .discover .listGroup .name{ color:#999; font-size:12px; vertical-align: -10px;}
+#infscr-loading{ text-align: center;}
+

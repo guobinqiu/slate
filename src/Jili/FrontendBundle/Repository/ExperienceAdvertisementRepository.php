@@ -11,10 +11,12 @@ class ExperienceAdvertisementRepository extends EntityRepository
     public function getAdvertisement($limit = null) {
         $query = $this->createQueryBuilder('ea');
         $query = $query->select('ea.missionHall,ea.point,ea.missionImgUrl,ea.missionTitle');
+        $query = $query->Where('ea.deleteFlag IS NULL OR ea.deleteFlag =:deleteFlag');
         if (!is_null($limit)) {
             $query = $query->setFirstResult(0);
             $query = $query->setMaxResults($limit);
         }
+        $query = $query->setParameter('deleteFlag',0);
         $query = $query->getQuery();
         return $query->getResult();
     }

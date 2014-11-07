@@ -57,25 +57,25 @@ class CheckinAdverListRepositoryTest extends KernelTestCase {
 
         $operation = CheckinAdverList::ANY_OP_METHOD;
         $advertiserments = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid, $operation); 
-        $this->assertCount(11, $advertiserments);
-        $this->assertEquals('4069102581b2c791e6398280261acdac', md5(json_encode($advertiserments) ));
+        $this->assertCount(6, $advertiserments);
+        $this->assertEquals('7e3953ab0100441f49803e71cc6fe78e', md5(json_encode($advertiserments) ));
         $directory = $this->container->get('kernel')->getBundle('JiliApiBundle')->getPath();
         $expected = $directory. '/Resources/data/show_checkinlist_expected.json';
         $this->assertJsonStringEqualsJsonFile( $expected,  json_encode($advertiserments) );
 
-
         $operation = CheckinAdverList::AUTO_OP_METHOD;
         $advertiserments = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid, $operation); 
-        $this->assertCount(10, $advertiserments, 'count of query return');
-        $this->assertEquals('638141c2180977485d0023ae71b3f702', md5(json_encode($advertiserments) ),'md5 of the query return json of auto checkin ');
+        $this->assertCount(5, $advertiserments, 'count of query return');
+        $this->assertEquals('f84971a9120a65b9cad67846ffb8b32b', md5(json_encode($advertiserments) ),'md5 of the query return json of auto checkin ');
         $directory = $this->container->get('kernel')->getBundle('JiliApiBundle')->getPath();
         $expected = $directory. '/Resources/data/show_checkinlist_expected_auto.json';
+
         $this->assertJsonStringEqualsJsonFile( $expected,  json_encode($advertiserments) );
 
         $operation = CheckinAdverList::MANUAL_OP_METHOD;
         $advertiserments = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid, $operation); 
-        $this->assertCount(11, $advertiserments, 'count of manual checkin advers ');
-        $this->assertEquals('4069102581b2c791e6398280261acdac', md5(json_encode($advertiserments) ));
+        $this->assertCount(6, $advertiserments, 'count of manual checkin advers ');
+        $this->assertEquals('7e3953ab0100441f49803e71cc6fe78e', md5(json_encode($advertiserments) ));
         $directory = $this->container->get('kernel')->getBundle('JiliApiBundle')->getPath();
         $expected = $directory. '/Resources/data/show_checkinlist_expected.json';
         $this->assertJsonStringEqualsJsonFile( $expected,  json_encode($advertiserments) );
