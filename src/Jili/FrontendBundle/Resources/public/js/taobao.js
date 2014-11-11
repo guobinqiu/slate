@@ -44,8 +44,12 @@ jili.taobao.searchBycatgory = function(id) {
 						$boxes.append($box);
 					});
 					return $boxes.find('.cell');
-				}
-			})
+				},
+				errorCallback: function (e) {console.log("infinit scroll error"); console.log(e) }
+			}, function( json, opts) { 
+				alimamatk_show(0);
+			});
+			alimamatk_show(0);
 			if($(window).height() > $("body").height()){
 				$("footer").css("position","fixed");
 			}
