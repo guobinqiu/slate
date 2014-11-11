@@ -13,4 +13,6 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
-    
+
+#91wenwen和91jili账号关联
+    91wewen_bind_secret_key: 91wewen_bind_secret_key #development,production
