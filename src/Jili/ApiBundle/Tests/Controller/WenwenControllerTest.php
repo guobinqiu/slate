@@ -35,6 +35,7 @@ class WenwenControllerTest extends WebTestCase {
             $with_fixture = true;
             // load fixtures
             $fixture = new LoadWenwenRegister5CodeData();
+            $fixture->setContainer($container);
             $loader = new Loader();
             $loader->addFixture($fixture);
 
@@ -44,6 +45,7 @@ class WenwenControllerTest extends WebTestCase {
                 $with_fixture = true;
                 // load fixtures
                 $fixture = new LoadUserData();
+                $fixture->setContainer($container);
                 $loader = new Loader();
                 $loader->addFixture($fixture);
             }
