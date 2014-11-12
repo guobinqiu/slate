@@ -16,7 +16,6 @@ class CheckinControllerTest extends WebTestCase
 
     /**
      * @group issue_469
-     * @group debug 
      */
     public function testUserCheckin()
     {
