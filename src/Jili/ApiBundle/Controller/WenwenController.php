@@ -170,9 +170,6 @@ class WenwenController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        // generate one time token
-        $token = WenwenToken :: generateOnetimeToken();
-
         $em = $this->getDoctrine()->getManager();
         $user_id = $this->get('request')->getSession()->get('uid');
 
