@@ -152,8 +152,7 @@ class QQLoginController extends Controller
     {
         $request = $this->get('request');
         $qq_token = $request->getSession()->get('qq_token');
-        $qq_auth = $this->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
-
+        $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
         //获取登录用户open id 
         $openid = $request->getSession()->get('openid');
         if(!$openid){
@@ -166,13 +165,5 @@ class QQLoginController extends Controller
         $form  = $this->createForm(new QQFirstRegist());
         return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',
                 array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
-    }
-
-    /**
-     *
-     */
-    public function getQQAuth($appid, $appkey, $access_token= NULL )
-    {
-        return new QQAuth($appid, $appkey, $access_token);
     }
 }
