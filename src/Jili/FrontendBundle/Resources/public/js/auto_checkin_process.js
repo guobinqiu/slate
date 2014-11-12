@@ -1,11 +1,11 @@
 $(function() {
-	CheckinModule.doAutoCheckin( );
+	CheckinModule.doAutoCheckin();
 });
 
 var CheckinModule = CheckinModule || {};
 // 开始自动签到。 
-CheckinModule.doAutoCheckin = function( ) {
-	var jili_autocheckin = CheckinModule.jili_autocheckin; 
+CheckinModule.doAutoCheckin = function() {
+	var jili_autocheckin = CheckinModule.jili_autocheckin;
 
 	// 取当前的autocheckin 是否有设置。
 	$.ajax({
@@ -19,7 +19,6 @@ CheckinModule.doAutoCheckin = function( ) {
 				// 开始自动签到
 				CheckinModule.auto_checkin.before_start();
 
-				$('#signInFrame .close_checkin').hide();
 				$("#signInFrame").show();
 				$(".blackBg").show();
 				$("#signInFrame .signInOptions span").removeClass('active');
@@ -60,22 +59,21 @@ CheckinModule.auto_checkin = function() {
 	};
 
 	var after_finished = function() {
-//        $("#points").text(parseInt($("#points").text()) + parseInt(CheckinModule.jili_autocheckin.checkin_point));
 		$("p.signInAuto").text("恭喜您签到成功");
-        CheckinModule.afterFinish();
-        return false;
+		CheckinModule.afterFinish();
+		return false;
 	};
 	var next = function() {
 		if (index >= count_of_ads) {
 			after_finished();
 			return false;
 		}
-		goto(index);
+		setTimeout(goto(index), 2000);
 		index++;
 	};
 
 	var goto = function(i) {
-		var cid = ads[i].cid; 
+		var cid = ads[i].cid;
 		var aid = ads[i].id;
 		var points = pts;
 
@@ -110,19 +108,26 @@ CheckinModule.auto_checkin = function() {
 											obj = JSON.parse(data);
 										}
 										// 打开商家，_checkin_location
-                                        var target = Routing.generate("_checkin_location", {
-                                             "aid": aid,
-                                             "type": 1
-                                         });
-										buffer.location.href = target;
+										var target = Routing.generate("_checkin_location", {
+											"aid": aid,
+											"type": 1
+										});
+
+										if (target.trim().length > 0) {
+											try {
+												buffer.location.href = target;
+											} catch(e) {
+												//alert(" name:  " + e.name + " \nmessage:  " + e.message + " \nlineNumber:  " + e.lineNumber + " \nfileName:  " + e.fileName + " \nstack:  " + e.stack);
+											}
+										}
 										$("div.signInManual li:eq(" + i + ") a").find(".gray").show();
 										$("div.signInManual li:eq(" + i + ")").addClass("finish");
 
 										// update the user's pts div
 										if (obj.code == 1) {
-//                                            $("#points").text(parseInt(obj.point) + parseInt(points));
-                                        }
-                                        
+											//                                            $("#points").text(parseInt(obj.point) + parseInt(points));
+										}
+
 									}
 								});
 							} else {
@@ -146,14 +151,19 @@ CheckinModule.auto_checkin = function() {
 			urls = params.urls;
 			if (index == 0) {
 				initFrame();
+
 				document.getElementsByTagName("iframe")[0].onload = function() {
 					next();
 					return false;
 				};
-				goto(index);
+
+				document.getElementsByTagName("iframe")[0].onerror= function() {
+                    //todo: re-push to shop into the end of array. 
+					next();
+					return false;
+				};
+				setTimeout(goto(index), 2000);
 				index++;
-			} else {
-				//				alert(' already start');
 			}
 		},
 		before_start: function() {

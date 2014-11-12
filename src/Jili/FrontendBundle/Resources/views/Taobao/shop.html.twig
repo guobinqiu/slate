@@ -1,0 +1,10 @@
+<dl class="discover">
+    <dt class="mt">发现<span class="corBO">好店</span></dt>
+    <dd>
+        <ul>
+            {% for item in shops %}
+            <li class="listGroup">{{item.content|raw}}</li>
+            {% endfor %}
+        </ul>
+    </dd>
+</dl>

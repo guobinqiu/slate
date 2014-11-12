@@ -244,6 +244,7 @@ parameters:
     file_path_advertiserment_check: /data/91jili/advertiserment_check.log
     file_path_emergency_announcement: /data/91jili/emergency_announcement.log
     91wenwen_api_url: https://www.91jili.com
+    91wenwen_api_connect_jili: https://www.wenwen.net/connect_jili/confirmConnect
     is_from_wenwen_register: 2
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
