@@ -41,6 +41,15 @@ class WenwenTokenTest extends \PHPUnit_Framework_TestCase {
         $secret_key = 'ADF93768CF';
         $signature = WenwenToken :: createSignature($params, $secret_key);
         $this->assertEquals(64, strlen($signature));
+
+        foreach ($params as $key => $value) {
+            if (!is_scalar($value)) {
+                throw new \ InvalidArgumentException('Non-scalar value in parameter: ' . $key);
+            }
+            $query[] = $key . '=' . $value;
+        }
+        $data_string = implode('&', $query);
+        $this->assertEquals(hash_hmac('sha256', $data_string, $secret_key), $signature);
     }
 
     /**
