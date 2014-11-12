@@ -225,7 +225,7 @@ class WenwenControllerTest extends WebTestCase {
         // connect_url
         $wenwen_api_connect_jili = $container->getParameter('91wenwen_api_connect_jili');
         $connect_url = $wenwen_api_connect_jili . '?state=123&token=' . $crossToken->getToken();
-        $link_node = $crawler->filter('a')->eq(0);
+        $link_node = $crawler->filter('a')->eq(1);
         $link = $link_node->link();
         $this->assertEquals($connect_url, $link->getUri(), 'Check wenwen bind page url');
     }
@@ -266,7 +266,7 @@ class WenwenControllerTest extends WebTestCase {
         $this->assertEquals(301, $client->getResponse()->getStatusCode()); //todo 301
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"code":"400"}', $client->getResponse()->getContent());
+        $this->assertEquals('{"meta":{"code":400,"message":"signature invalid"}}', $client->getResponse()->getContent());
 
         // token not exist
         $token = 'a4d3d591c343d3c6aae70ad8b492171e3bce6aa6232b0858540713906e0d68ff';
@@ -283,7 +283,7 @@ class WenwenControllerTest extends WebTestCase {
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals('/api/91wenwen/bindApi', $client->getRequest()->getRequestUri());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"code":"400"}', $client->getResponse()->getContent());
+        $this->assertEquals('{"meta":{"code":400,"message":"token not exist"}}', $client->getResponse()->getContent());
 
         $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->create($user->getId());
         $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->create($cross->getId());

@@ -209,7 +209,10 @@ class WenwenController extends Controller
 
         $signature_check = WenwenToken :: isSignatureValid($signature, $params, $secret_key, $time);
         if (!$signature_check) {
-            $response['code'] = '400';
+            $response['meta'] = array (
+                'code' => 400,
+                'message' => 'signature invalid'
+            );
             return new Response(json_encode($response));
         }
 
@@ -217,7 +220,10 @@ class WenwenController extends Controller
         $em = $this->getDoctrine()->getManager();
         $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->findOneByToken($token);
         if (!$crossToken || ($token != $crossToken->getToken())) {
-            $response['code'] = '400';
+            $response['meta'] = array (
+                'code' => 400,
+                'message' => 'token not exist'
+            );
             return new Response(json_encode($response));
         }
 
