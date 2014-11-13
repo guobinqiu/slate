@@ -244,9 +244,11 @@ class QQLoginControllerTest extends WebTestCase
             ->setMethods(array('login_url'))
             ->disableOriginalConstructor()
             ->getMock();
+
+        $uri_by_qq = 'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101163684&redirect_uri=http://testgroup.91jili.com/qqlogin&scope=get_user_info';
         $stubQQAuth->expects($this->once())
             ->method('login_url')
-            ->willReturn('http://www.baidu.com');
+            ->willReturn($uri_by_qq);
 
         $mockQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\Services\\QQLogin')
             ->disableOriginalConstructor()
@@ -269,17 +271,14 @@ class QQLoginControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
 
         $crawlerNew = $client->followRedirect(); 
-        $this->assertEquals( '/',$client->getRequest()->getRequestUri(),' the primary request uri is not changed');;
-        $this->assertEquals('http://www.baidu.com',$client->getHistory()->current()->getUri(),
+    //    $this->assertEquals( '/',$client->getRequest()->getRequestUri(),' the primary request uri is not changed');;
+        $this->assertEquals($uri_by_qq,$client->getHistory()->current()->getUri(),
             'a sub-requst should be the target url ');
-        
         // /oauth2.0/authorize?client_id=101163684&redirect_uri=www.91jili.com&response_type=code&scope=get_user_info
-
     }
 
     /**
      * @group issue_474
-     * @group debug 
      */
     public function testqqRegisteAction()
     {
@@ -317,10 +316,68 @@ class QQLoginControllerTest extends WebTestCase
      */
     public function testqqFirstLoginAction()
     {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $session = $container->get('session');
+
+        $em = $this->em;
+
         $url = $this->container->get('router')->generate('qq_fist_login');
         $this->assertEquals('/QQLogin/qqFistLogin', $url);
 
+        // . request without openid in session
         // mock the 获取登录用户open id 
+        //$qq_oid = $qq_auth->get_openid();
+        //$result = $qq_auth->get_user_info($openid);
+        $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
+            ->setMethods(array('get_openid', 'get_user_info'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $openid_qq = array('client_id' => '101163684',
+                'openid' => '973F697E97A60289C8C455B1D65FF5F0' );
+        $stubQQAuth->expects($this->once())
+            ->method('get_openid')
+            ->willReturn($openid_qq );
+
+        $user_info_qq =<<<EOD
+{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" } 
+EOD;
+
+        $stubQQAuth->expects($this->once())
+            ->method('get_user_info')
+            ->willReturn( json_decode($user_info_qq,true));
+
+        $mockQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\Services\\QQLogin')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockQQAuth->expects($this->once())
+            ->method('getQQAuth')
+            ->willReturn( $stubQQAuth);
+
+        static::$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
+            $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
+        });
+
+        // what if no qq_token session is set??
+        $session->set('qq_token', 'D8E44D85A05AA374243CFE3911365C51');
+        $session->remove('openid');
+        $session->save();
+        $this->assertTrue( $session->has('qq_token') );
+        $this->assertFalse( $session->has('openid') );
+        $crawler =  $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $session_request  = $client->getRequest()->getSession();
+        $this->assertTrue( $session_request->has('open_id'));
+        $this->assertEquals($openid_qq['openid'], $session_request->get('open_id'), 'the open id');
+        echo $client->getResponse()->getContent(), PHP_EOL;
+
+        //                                <input type="hidden" id="qqregist__token" name="qqregist[_token]" value="7ed7cbcce90ae5ef39bab53b259d091f0e841426" />
+        //
+//        $form = $crawler->selectButton('validate')->form();
+// 2. with session
+
 
     }
 }
