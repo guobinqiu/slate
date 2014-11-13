@@ -7,14 +7,14 @@ a{ text-decoration:none;}
 .itemL .taobaoSearch{ height:85px; padding:20px 0 0 34px; background:#fff;}
 .itemL .taobaoNotice{ color:#333; background:#fef7cd; border:1px solid #e6b31c; padding:7px 15px; font-size:12px; margin-bottom:10px;}
 .itemL .taobaoNotice em{ width:15px; vertical-align: -2px; height: 12px; margin-right: 5px; display: inline-block; background:url(../images/taobao/notice_icon.gif) no-repeat;}
-.itemL .ltab{ float:left; width: 100%; padding:0;margin: 10px 0; }
+.itemL .ltab{ width: 100%; padding:0;margin: 10px 0; }
 .itemL .ltab li{ float: left; height: 26px; margin-top:3px; font-size: 14px; line-height: 25px; cursor:pointer; font-family:Microsoft Yahei,SimHei,Tahoma; }
 .itemL .ltab li.ui-tabs-active{ background:#ff4526; border-radius:3px;}
 .itemL .ltab li a{ color:#333; padding: 0px 12px;}
 .itemL .ltab li.ui-tabs-active a{ color:#fff;}
-.itemL .tablist{ float: left; display: none; margin-bottom: 200px; background-color: #fff;}
+.itemL .tablist{ display: none; background-color: #fff;}
 .itemL .block{ display: block;}
-.itemL .tablist ul li{ margin-bottom: -1px; width: 730px; background: #fff; padding: 5px 0 0 5px;}
+.itemL .tablist .cell{ margin-bottom: -1px; width: 730px; height: 220px; background: #fff; padding: 5px 0 0 5px;}
 .itemR{ width:248px; float:right;}
 .itemR .discover .pt{ background:url(../images/taobao/lovedx.jpg) no-repeat 0 4px; padding-left: 20px;}
 .itemR .discover dt{ font-family:Microsoft Yahei,SimHei,Tahoma; font-size: 16px; margin-bottom:10px; color:#333;}
