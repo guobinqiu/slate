@@ -239,7 +239,7 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals('/top/userInfo', $url);
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-        echo $client->getResponse()->getContent(),PHP_EOL;
+//        echo $client->getResponse()->getContent(),PHP_EOL;
 
         $this->assertEquals('/uploads/user/5/1392030971_6586.jpeg', $crawler->filter('img')->attr('src'));
 

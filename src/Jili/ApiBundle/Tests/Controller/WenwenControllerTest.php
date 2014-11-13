@@ -236,7 +236,7 @@ class WenwenControllerTest extends WebTestCase {
         // connect_url
         $wenwen_api_connect_jili = $container->getParameter('91wenwen_api_connect_jili');
         $connect_url = $wenwen_api_connect_jili . '?state=123&token=' . $crossToken->getToken();
-        $link_node = $crawler->filter('a')->eq(0);
+        $link_node = $crawler->filter('a')->eq(1);
         $link = $link_node->link();
         $this->assertEquals($connect_url, $link->getUri(), 'Check wenwen bind page url');
     }
