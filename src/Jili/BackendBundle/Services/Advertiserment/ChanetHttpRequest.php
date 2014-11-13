@@ -14,7 +14,7 @@ class ChanetHttpRequest
     /**
      * @param string $url , the imageUrl
      */
-    public function fetch() 
+    public function fetch()
     {
         $url = $this->url;
         if( strlen($url) <= 0 ) {
