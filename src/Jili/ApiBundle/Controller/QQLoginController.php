@@ -23,8 +23,6 @@ class QQLoginController extends Controller
     { 
         $request = $this->get('request');
         $code = $request->query->get('code');
-        $code = "F5B45C453544781645EC72B57AFA29E9";
-        //$qq_access_token = $request->getSession()->get('qq_token');
         $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),'');
         if(isset($code) && trim($code)!=''){
             $result=$qq_auth->access_token($this->container->getParameter('callback_url'), $code);
@@ -75,8 +73,7 @@ class QQLoginController extends Controller
         } else {
             // 首次qq登陆,到授权页面
             $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_access_token);
-            $callback_url = "www.91jili.com";
-            $login_url = $qq_auth->login_url($callback_url, $this->container->getParameter('scope'));
+            $login_url = $qq_auth->login_url($this->container->getParameter('callback_url'), $this->container->getParameter('scope'));
             return  new RedirectResponse($login_url, '301');
         }
     }
@@ -152,7 +149,7 @@ class QQLoginController extends Controller
         $qq_token = $request->getSession()->get('qq_token');
         $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
         //获取登录用户open id 
-        $openid = $request->getSession()->get('openid');
+        $openid = $request->getSession()->get('open_id');
         if(!$openid){
             $qq_oid = $qq_auth->get_openid();
             $openid = $qq_oid['openid']; 

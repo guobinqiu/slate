@@ -253,7 +253,7 @@ parameters:
     qq_appid: 101163684
     qq_appkey: fe7b1879a8e220136aa63ae92a9e5745
     qq_email_suffix: qq.com
-    callback_url: http://www.91jili.com/qq_callback/
+    callback_url: testgroup.91jili.com/QQLogin/qqcallback
     scope: get_user_info
 
     upload_experience_advertisement_dir: images/experience_advertisement/
