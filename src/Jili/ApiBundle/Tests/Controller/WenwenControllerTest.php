@@ -26,25 +26,36 @@ class WenwenControllerTest extends WebTestCase {
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
         $container = static :: $kernel->getContainer();
 
-        // purge tables
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
+        $with_fixture = false;
+        $tn = $this->getName();
 
-        // load fixtures
-        $fixture = new LoadWenwenRegister5CodeData();
-        $fixture->setContainer($container);
-        $loader = new Loader();
-        $loader->addFixture($fixture);
-        $executor->execute($loader->getFixtures());
+        if (in_array($tn, array (
+                'test91wenwenRegister5'
+            ))) {
+            $with_fixture = true;
+            // load fixtures
+            $fixture = new LoadWenwenRegister5CodeData();
+            $fixture->setContainer($container);
+            $loader = new Loader();
+            $loader->addFixture($fixture);
 
-        // load fixtures
-        $fixture = new LoadUserData();
-        $fixture->setContainer($container);
-        $loader = new Loader();
-        $loader->addFixture($fixture);
-        $loader->addFixture($fixture);
-        $executor->execute($loader->getFixtures());
+            // add an user
+        } else
+            if ($tn == 'testAccountBindAction' || $tn == 'accountBindApiAction') {
+                $with_fixture = true;
+                // load fixtures
+                $fixture = new LoadUserData();
+                $loader = new Loader();
+                $loader->addFixture($fixture);
+            }
+
+        if (true === $with_fixture) {
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
+            $executor->execute($loader->getFixtures());
+        }
 
         $this->em = $em;
     }
