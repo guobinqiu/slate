@@ -152,7 +152,7 @@ class QQLoginController extends Controller
         $qq_token = $request->getSession()->get('qq_token');
         $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
         //获取登录用户open id 
-        $openid = $request->getSession()->get('openid');
+        $openid = $request->getSession()->get('open_id');
         if(!$openid){
             $qq_oid = $qq_auth->get_openid();
             $openid = $qq_oid['openid']; 
