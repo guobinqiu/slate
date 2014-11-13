@@ -26,7 +26,6 @@ class QQLoginController extends Controller
         $code = "F5B45C453544781645EC72B57AFA29E9";
         //$qq_access_token = $request->getSession()->get('qq_token');
         $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),'');
-        $this->get('logger')->debug('{jarod}'. implode(':', array(__LINE__,__FILE__,'$qq_auth','')). var_export( get_class($qq_auth), true));
         if(isset($code) && trim($code)!=''){
             $result=$qq_auth->access_token($this->container->getParameter('callback_url'), $code);
         }
@@ -37,7 +36,6 @@ class QQLoginController extends Controller
             $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$result['access_token']);
             $qq_response = $qq_auth->get_openid();
             $qq_oid = $qq_response['openid'];
-            $this->get('logger')->debug('{jarod}'. implode(':', array(__LINE__,__FILE__,'$qq_oid','')). var_export( $qq_oid, true));
             $em = $this->getDoctrine()->getManager();
             $qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($qq_oid);
             //判断是否已经注册过
@@ -152,8 +150,7 @@ class QQLoginController extends Controller
     {
         $request = $this->get('request');
         $qq_token = $request->getSession()->get('qq_token');
-        $qq_auth = $this->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
-
+        $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
         //获取登录用户open id 
         $openid = $request->getSession()->get('openid');
         if(!$openid){
@@ -166,13 +163,5 @@ class QQLoginController extends Controller
         $form  = $this->createForm(new QQFirstRegist());
         return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',
                 array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
-    }
-
-    /**
-     *
-     */
-    public function getQQAuth($appid, $appkey, $access_token= NULL )
-    {
-        return new QQAuth($appid, $appkey, $access_token);
     }
 }
