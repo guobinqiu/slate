@@ -26,36 +26,23 @@ class WenwenControllerTest extends WebTestCase {
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
         $container = static :: $kernel->getContainer();
 
-        $with_fixture = false;
-        $tn = $this->getName();
+        // purge tables
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
 
-        if (in_array($tn, array (
-                'test91wenwenRegister5'
-            ))) {
-            $with_fixture = true;
-            // load fixtures
-            $fixture = new LoadWenwenRegister5CodeData();
-            $fixture->setContainer($container);
-            $loader = new Loader();
-            $loader->addFixture($fixture);
+        // load fixtures
+        $loader = new Loader();
 
-            // add an user
-        } else
-            if ($tn == 'testAccountBindAction' || $tn == 'accountBindApiAction') {
-                $with_fixture = true;
-                // load fixtures
-                $fixture = new LoadUserData();
-                $loader = new Loader();
-                $loader->addFixture($fixture);
-            }
+        $fixture = new LoadWenwenRegister5CodeData();
+        $fixture->setContainer($container);
+        $loader->addFixture($fixture);
 
-        if (true === $with_fixture) {
-            // purge tables;
-            $purger = new ORMPurger($em);
-            $executor = new ORMExecutor($em, $purger);
-            $executor->purge();
-            $executor->execute($loader->getFixtures());
-        }
+        $fixture = new LoadUserData();
+        $fixture->setContainer($container);
+        $loader->addFixture($fixture);
+
+        $executor->execute($loader->getFixtures());
 
         $this->em = $em;
     }
@@ -160,6 +147,7 @@ class WenwenControllerTest extends WebTestCase {
     public function test91wenwenRegister5() {
         $em = $this->em;
         $client = static :: createClient();
+        $container = static :: $kernel->getContainer();
 
         $url = '/api/91wenwen/register';
         $user = LoadWenwenRegister5CodeData :: $ROWS[0];
@@ -178,9 +166,14 @@ class WenwenControllerTest extends WebTestCase {
         ));
         $this->assertCount(1, $record, ' checkin point setPassword code');
 
-        $expected = '{"status":"1","message":"success","activation_url":"https:\/\/www.91jili.com\/user\/setPassFromWenwen\/' . $record[0]->getCode() . '\/' . $user->getId() . '"}';
+        $wenwen_api_url = $container->getParameter('91wenwen_api_url');
+        $expected['status'] = "1";
+        $expected['message'] = "success";
+        $expected['activation_url'] = $wenwen_api_url . '/user/setPassFromWenwen/' . $record[0]->getCode() . '/' . $user->getId();
 
-        $this->assertEquals($expected, $client->getResponse()->getContent());
+        $content = $client->getResponse()->getContent();
+
+        $this->assertEquals(json_encode($expected),$content);
     }
 
     /**
