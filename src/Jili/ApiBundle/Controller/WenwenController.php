@@ -213,7 +213,7 @@ class WenwenController extends Controller
                 'code' => 400,
                 'message' => 'signature invalid'
             );
-            return new Response(json_encode($response));
+            return new Response(json_encode($response), 400);
         }
 
         // check one_time_token
@@ -224,7 +224,7 @@ class WenwenController extends Controller
                 'code' => 400,
                 'message' => 'token not exist'
             );
-            return new Response(json_encode($response));
+            return new Response(json_encode($response), 400);
         }
 
         // get cross id from db
