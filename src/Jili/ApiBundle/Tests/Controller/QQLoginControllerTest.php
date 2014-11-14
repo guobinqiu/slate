@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadQQUserCallbackData;
+use Jili\ApiBundle\DataFixtures\ORM\Services\LoadUserBindData;
 
 class QQLoginControllerTest extends WebTestCase
 {
@@ -35,14 +36,22 @@ class QQLoginControllerTest extends WebTestCase
         // load fixtures
         if( $tn === 'testCallBackAction') {
             $this->has_fixture = true;
-            // purge tables;
-            $purger = new ORMPurger($em);
-            $executor = new ORMExecutor($em, $purger);
-            $executor->purge();
             $fixture = new LoadQQUserCallbackData();
             $fixture->setContainer($container);
             $loader = new Loader();
             $loader->addFixture($fixture);
+        } elseif($tn === 'testqqBindActionWithUser')   {
+            $this->has_fixture = true;
+            $fixture  = new LoadUserBindData();
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+        }
+
+        if($this->has_fixture) {
+            // purge tables;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
             $executor->execute($loader->getFixtures());
         }
 
@@ -381,9 +390,8 @@ EOD;
 
     /**
      * @group issue_474
-     * @group debug 
      */
-    public function testqqRegisteAction()
+    public function testqqRegisteActionValidation()
     {
         //form valid  验证不通过
         // 注册失败  check insert data as... before? 
@@ -429,7 +437,23 @@ EOD;
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('邮箱地址格式不正确', trim($crawler->filter('#emailError')->text()));
-        return true;
+
+    }
+
+    /**
+     * @group issue_474
+     */
+    public function testqqRegisteActionFailure()
+    {
+        //form valid  验证不通过
+        // 注册失败  check insert data as... before? 
+        // 注册成功，登陆并跳转主页
+        $client = $this->client; 
+        $container  = $client->getContainer();
+        $session = $container->get('session');
+
+        $em = $this->em;
+
         // [] 注册失败 an empty  open_id in session. check insert data as... before? 
         $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
             ->setMethods(array('get_user_info','get_openid'))
@@ -451,6 +475,7 @@ EOD;
         $session->set('open_id', '973F697E97A60289C8C455B1D65FF5F0' );
         $session->set('qq_token', 'D8E44D85A05AA374243CFE3911365C51');
         $session->save();
+
         $this->assertTrue( $session->has('open_id') );
         $this->assertTrue( $session->has('qq_token') );
         $url_first_login = $container->get('router')->generate('qq_fist_login');
@@ -458,10 +483,31 @@ EOD;
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $form_register  = $crawler->selectButton('register')->form();
         $form_register['qqregist[email_id]'] = 'alice32';
-        $form_register['pwd'] = '123123';
-
+        $form_register['pwd'] = '123123'; 
+        //$session->set('open_id','D8E44D85A05AA374243CFE3911365C51');
+        $session->remove('open_id');
+        $session->save();
+        $this->assertFalse( $session->has('open_id') );
         // submit that form
         $crawler = $client->submit($form_register);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+       $this->assertEquals( '对不起，QQ用户授权失败，请稍后再试。', $crawler->filter('div.errorMessage')->text()); 
+    }
+
+    /**
+     * @group issue_474
+     */
+    public function testqqRegisteActionSuccess()
+    {
+        //form valid  验证不通过
+        // 注册失败  check insert data as... before? 
+        // 注册成功，登陆并跳转主页
+        $client = $this->client; 
+        $container  = $client->getContainer();
+        $session = $container->get('session');
+
+        $em = $this->em;
+        $url = $container->get('router')->generate('qq_registe');
         // [] 注册成功，登陆并跳转主页
         $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
             ->setMethods(array('get_user_info','get_openid'))
@@ -511,24 +557,114 @@ EOD;
         ));
         $this->assertNotNull($qq_user_actual,'check insert qq_user');
         $this->assertInstanceOf('Jili\\ApiBundle\\Entity\\QQUser',$qq_user_actual,'check insert qq_user');
-        //  set the  session open_id a empty string  .
-        
     }
 
     /**
      * @group issue_474
      */
-   public function testqqBindAction()
+   public function testqqBindActionWithUser()
    {
-        $client = static::createClient();
-        $container  = static::$kernel->getContainer();
-        $session = $container->get('session');
-        $em = $this->em;
-
+//        $code == 'ok' 
+ //           $result = $user_bind->qq_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
+       // []with wrong user
+       // corret user
+       $client = $this->client;
+       $container  = $client->getContainer();
+       $session = $container->get('session');
+       $em = $this->em;
        $url = $this->container->get('router')->generate('qq_bind');
        $this->assertEquals('/QQLogin/qqbind', $url);
 
+        $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
+            ->setMethods(array('get_user_info','get_openid'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $user_info_qq =<<<EOD
+{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" } 
+EOD;
+        $stubQQAuth->expects($this->once())
+            ->method('get_user_info')
+            ->willReturn( json_decode($user_info_qq,true));
+        $mockQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\Services\\QQLogin')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockQQAuth->expects($this->once())
+            ->method('getQQAuth')
+            ->willReturn( $stubQQAuth);
+        $container->set('user_qq_login', $mockQQAuth);
+        $session->set('open_id', '973F697E97A60289C8C455B1D65FF5F0' );
+        $session->set('qq_token', 'D8E44D85A05AA374243CFE3911365C51');
+        $session->save();
+        $this->assertTrue( $session->has('open_id') );
+        $this->assertTrue( $session->has('qq_token') );
+        $url_first_login = $container->get('router')->generate('qq_fist_login');
+        $crawler =  $client->request('GET', $url_first_login );
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
+        $user = LoadUserBindData::$USERS[0];
+        $form_binding = $crawler->selectButton('binding')->form();
+        $form_binding['jili_email'] = $user->getEmail();
+        $form_binding['jili_pwd'] = '111111';
+        $client->submit($form_binding);
+        $session0 = $client->getRequest()->getSession();
+        $this->assertTrue($session->has('uid'));
+        $this->assertEquals($user->getId(),$session->get('uid'));
+
+        $qq_user_actual = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('userId'=> $user->getId(), 'openId'=>'973F697E97A60289C8C455B1D65FF5F0' ));
+        $this->assertNotNull($qq_user_actual);
+        $this->assertInstanceOf('Jili\\ApiBundle\\Entity\\QQUser',$qq_user_actual,'check insert qq_user');
    }
 
+    /**
+     * @group issue_474
+     * @group debug 
+     */
+   public function testqqBindActionWithBadUser()
+   {
+       $client = $this->client;
+       $container  = $client->getContainer();
+       $session = $container->get('session');
+       $em = $this->em;
+       $url = $this->container->get('router')->generate('qq_bind');
+       $this->assertEquals('/QQLogin/qqbind', $url);
+
+//        $code == 'ok' 
+ //           $result = $user_bind->qq_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
+       // []with wrong user
+       // corret user
+
+        $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
+            ->setMethods(array('get_user_info','get_openid'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $user_info_qq =<<<EOD
+{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" } 
+EOD;
+        $stubQQAuth->expects($this->once())
+            ->method('get_user_info')
+            ->willReturn( json_decode($user_info_qq,true));
+        $mockQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\Services\\QQLogin')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockQQAuth->expects($this->once())
+            ->method('getQQAuth')
+            ->willReturn( $stubQQAuth);
+        $container->set('user_qq_login', $mockQQAuth);
+        $session->set('open_id', '973F697E97A60289C8C455B1D65FF5F0' );
+        $session->set('qq_token', 'D8E44D85A05AA374243CFE3911365C51');
+        $session->save();
+        $this->assertTrue( $session->has('open_id') );
+        $this->assertTrue( $session->has('qq_token') );
+        $url_first_login = $container->get('router')->generate('qq_fist_login');
+        $crawler =  $client->request('GET', $url_first_login );
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form_binding = $crawler->selectButton('binding')->form();
+        $form_binding['jili_email'] = 'xxxzzz@voyagegroup.com';
+        $form_binding['jili_pwd'] = '111222';
+        $crawler = $client->submit($form_binding);
+        $session0 = $client->getRequest()->getSession();
+        $this->assertFalse($session->has('uid'));
+        $this->assertEquals('邮箱地址或密码输入错误', $crawler->filter('errorMessage')->text());
+   }
 }

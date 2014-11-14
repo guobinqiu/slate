@@ -13,11 +13,9 @@ use Jili\ApiBundle\Entity\User;
 class LoadUserBindData extends AbstractFixture implements FixtureInterface {
 
     public static $USERS;
-    public static $QQUSERS;
 
     public function __construct() {
         self :: $USERS = array ();
-        self :: $QQUSERS = array ();
     }
 
     /**
