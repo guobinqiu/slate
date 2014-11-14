@@ -33,7 +33,7 @@
                                 </li>
                                 <li>为保障您的账号安全，请设置QQ邮箱作为找回账号的方式。</li>
                                 <li><label for="qqEmail">邮箱地址：</label>{{ form_widget(form.email_id, { 'attr': {'class': 'qqEmail'} }) }}@qq.com
-                                    <strong class="errorMsg" id="emailError">
+                                    <strong class="errorMsg" id="regist_emailError">
                                         {{ form_errors(form.email_id) }}
                                         {% if regcode is  defined %}
                                             {{ regcode }}
@@ -44,6 +44,7 @@
                                 <li><span class="submitBtn" id='info'>完善资料</span><a id="reg" class="submitBtn corGlobBlue font14 textUL">下次再说>></a></li>
                         </ul>
                                 {{ form_rest(form) }}
+                              <button style="display:none">register</button> 
                         </form>
                         {# else bind jili id#}
                         <span class="Jl fontYH">已有积粒网账号</span>
@@ -51,7 +52,7 @@
                         <ul class="bindAccount">
                             <li>将已有的积粒网账号与QQ账号绑定</li>
                             <li><label for="kxUser">积粒账号：</label><input name="jili_email" type="text" value="{{ email }}"/>
-                                <strong class="errorMsg" id="emailError">
+                                <strong class="errorMsg" id="bind_emailError">
                                     {% if bindcode is  defined %}
                                         {{ bindcode }}
                                     {% endif %}
@@ -64,6 +65,7 @@
                                 <br />
                                 <li><span id='bind' class="submitBtn">立即绑定</span><a class="corGlobBlue" href="#">忘记密码</a></li>
                         </ul>
+                              <button style="display:none">binding</button> 
                         </form>
                         {#endif#}
                     </div>
