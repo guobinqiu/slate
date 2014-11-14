@@ -17,25 +17,17 @@ class UserBind
      */
     public function qq_user_bind(array $params)
     {
+        $qquser = null;
         if (isset($params['email']) && isset($params['open_id'])) {
             $user = $this->em->getRepository('JiliApiBundle:User')->findOneBy(array('email'=> $params['email']));
             if( $user) {
                 $params['user_id'] =  $user->getId();
                 $qquser = $this->em->getRepository('JiliApiBundle:QQUser')->qquser_insert($params);
-            } else {
-                $qquser = null;
             }
         }
         return $qquser;
     }
     
-    public function bind_vaildate(array $params)
-    {
-        if ($user->pw_encode($password) != $user->getPwd()) {
-            $code = $this->getParameter('login_wr');
-            return $code;
-        }
-    }
     public function setEntityManager(EntityManager $em)
     {
         $this->em= $em;
