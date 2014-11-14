@@ -173,7 +173,7 @@ class WenwenControllerTest extends WebTestCase {
 
         $content = $client->getResponse()->getContent();
 
-        $this->assertEquals(json_encode($expected),$content);
+        $this->assertEquals(json_encode($expected), $content);
     }
 
     /**
@@ -248,7 +248,6 @@ class WenwenControllerTest extends WebTestCase {
         $router = $container->get('router');
 
         $url = '/api/91wenwen/bindApi';
-        //$url = $router->generate('_account_bind_confirm', $post_data, false);
 
         $secret_key = $container->getParameter('91wewen_bind_secret_key');
 
@@ -269,8 +268,16 @@ class WenwenControllerTest extends WebTestCase {
         $this->assertEquals('/api/91wenwen/bindApi', $client->getRequest()->getRequestUri());
         $this->assertEquals(301, $client->getResponse()->getStatusCode()); //todo 301
         $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"meta":{"code":400,"message":"signature invalid"}}', $client->getResponse()->getContent());
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+
+        $res = json_decode($client->getResponse()->getContent(), true);
+        $expected = array (
+            'meta' => array (
+                'code' => 400,
+                'message' => 'signature invalid'
+            )
+        );
+        $this->assertEquals($expected, $res);
 
         // token not exist
         $token = 'a4d3d591c343d3c6aae70ad8b492171e3bce6aa6232b0858540713906e0d68ff';
@@ -286,8 +293,16 @@ class WenwenControllerTest extends WebTestCase {
         );
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals('/api/91wenwen/bindApi', $client->getRequest()->getRequestUri());
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"meta":{"code":400,"message":"token not exist"}}', $client->getResponse()->getContent());
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+
+        $res = json_decode($client->getResponse()->getContent(), true);
+        $expected = array (
+            'meta' => array (
+                'code' => 400,
+                'message' => 'token not exist'
+            )
+        );
+        $this->assertEquals($expected, $res);
 
         $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->create($user->getId());
         $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->create($cross->getId());
@@ -311,6 +326,18 @@ class WenwenControllerTest extends WebTestCase {
             'time' => $time
         );
         $signature_send = WenwenToken :: createSignature($params, $secret_key);
-        $this->assertEquals('{"meta":{"code":200},"data":{"cross_id":' . $cross->getId() . ',"time":' . $time . ',"signature":"' . $signature_send . '"}}', $client->getResponse()->getContent());
+
+        $res = json_decode($client->getResponse()->getContent(), true);
+        $expected = array (
+            'meta' => array (
+                'code' => 200
+            ),
+            'data' => array (
+                'cross_id' => $cross->getId(),
+                'time' => $time,
+                'signature' => $signature_send
+            )
+        );
+        $this->assertEquals($expected, $res);
     }
 }
