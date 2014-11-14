@@ -33,7 +33,7 @@
                                 </li>
                                 <li>为保障您的账号安全，请设置QQ邮箱作为找回账号的方式。</li>
                                 <li><label for="qqEmail">邮箱地址：</label>{{ form_widget(form.email_id, { 'attr': {'class': 'qqEmail'} }) }}@qq.com
-                                    <strong class="errorMsg" id="emailError">
+                                    <strong class="errorMsg" id="regist_emailError">
                                         {{ form_errors(form.email_id) }}
                                         {% if regcode is  defined %}
                                             {{ regcode }}
@@ -52,7 +52,7 @@
                         <ul class="bindAccount">
                             <li>将已有的积粒网账号与QQ账号绑定</li>
                             <li><label for="kxUser">积粒账号：</label><input name="jili_email" type="text" value="{{ email }}"/>
-                                <strong class="errorMsg" id="emailError">
+                                <strong class="errorMsg" id="bind_emailError">
                                     {% if bindcode is  defined %}
                                         {{ bindcode }}
                                     {% endif %}
