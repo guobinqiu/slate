@@ -21,11 +21,11 @@
                 <div class="regForm qqRegForm" style="padding-top:100px;">
                     <h2 class="fontYH">欢迎来到积粒网！</h2>
                     <div class="qqReg">
-                    {# if( newregist )#}
-                    	<span class="noJl fontYH">没有积粒网账号</span>
+                        {# if( newregist )#}
+                        <span class="noJl fontYH">没有积粒网账号</span>
                         <form action="{{ path('qq_registe') }}" method="post" name="form1" id="form1" >
-                        <ul class="addAccount">
-                        	<li>已创建一个新账号，请您完善个人资料</li>
+                            <ul class="addAccount">
+                                <li>您的基本信息</li>
                                 <li class="qqMsg"><span><img height="48" src="/images1408/headPortBg.jpg"></span>
                                     <span>昵称：{{ nickname }}<br/>性别：{{ sex }}</span>
                                     <input type="hidden" name="qqnickname" value="{{ nickname }}"/>
@@ -41,76 +41,76 @@
                                     </strong></li>
                                 <li><label for="setPwd">设置密码：</label><input name="pwd" type="password" value=""/></li>
                                 <br />
-                                <li><span class="submitBtn" id='info'>完善资料</span><a id="reg" class="submitBtn corGlobBlue font14 textUL">下次再说>></a></li>
-                        </ul>
-                                {{ form_rest(form) }}
-                              <button style="display:none">register</button> 
+                                <li><span class="submitBtn" id='reg' >立即注册</span></li>
+                            </ul>
+                            {{ form_rest(form) }}
+                            <button style="display:none">register</button>
                         </form>
                         {# else bind jili id#}
                         <span class="Jl fontYH">已有积粒网账号</span>
                         <form action="{{ path('qq_bind') }}" method="post" name="form2" id="form2" >
-                        <ul class="bindAccount">
-                            <li>将已有的积粒网账号与QQ账号绑定</li>
-                            <li><label for="kxUser">积粒账号：</label><input name="jili_email" type="text" value="{{ email }}"/>
-                                <strong class="errorMsg" id="bind_emailError">
-                                    {% if bindcode is  defined %}
-                                        {{ bindcode }}
-                                    {% endif %}
-                                </strong></li>
-                            <li><label for="kxPwd">登录密码：</label><input id="pwd" name="jili_pwd" type="password" value=""/>{% if 1 %}
-                                {# if code_nick #}
-                                <strong class="errorMsg" id="nickError">{# code_nick #}</strong>
-                            {% else %}2-20个字符
-                                {% endif %}</li>
-                                <br />
-                                <li><span id='bind' class="submitBtn">立即绑定</span><a class="corGlobBlue" href="#">忘记密码</a></li>
-                        </ul>
-                              <button style="display:none">binding</button> 
-                        </form>
-                        {#endif#}
-                    </div>
-                    <div class="qqPic">
-                    	<img src="/images140307/qqPic.jpg" width="343" height="100"/>
-                    </div>
-                    <div class="clear"></div>
+                            <ul class="bindAccount">
+                                <li>将已有的积粒网账号与QQ账号绑定</li>
+                                <li><label for="kxUser">积粒账号：</label><input name="jili_email" type="text" value="{{ email }}"/>
+                                    <strong class="errorMsg" id="bind_emailError">
+                                        {% if bindcode is  defined %}
+                                            {{ bindcode }}
+                                        {% endif %}
+                                    </strong></li>
+                                <li><label for="kxPwd">登录密码：</label><input id="pwd" name="jili_pwd" type="password" value=""/>{% if 1 %}
+                                    {# if code_nick #}
+                                    <strong class="errorMsg" id="nickError">{# code_nick #}</strong>
+                                    {% else %}2-20个字符
+                                        {% endif %}</li>
+                                        <br />
+                                        <li><span id='bind' class="submitBtn">立即绑定</span><a class="corGlobBlue" href="{{ path('_user_resetPwd') }}">忘记密码</a></li>
+                                    </ul>
+                                    <button style="display:none">binding</button>
+                                </form>
+                                {#endif#}
+                            </div>
+                            <div class="qqPic">
+                                <img src="/images140307/qqPic.jpg" width="343" height="100"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </article>
                 </div>
-            </article>
-        </div>
-        {% include 'JiliApiBundle::userFoot.html.twig' %}
-    </body>
-    <script type="text/javascript">
-        function refresh() {
-            document.getElementById("verificationImg").src = '{{  path('_user_captcha') }}?r=' + 100000 * Math.random();
-        }
-        $(document).ready(function () {
-            $("#reg").click(function () {
-                $("#form1").submit();
-            });
-            $("#bind").click(function () {
-                $("#form2").submit();
-            });
-            $('.qqReg>span').addClass('corGlobBlue');
-            $('.qqReg>span').on('click', function(){
-                    var $this = $(this);
-                    var $bind = $('.bindAccount');
-                    var $add = $('.addAccount');
-                    $('.qqReg>span').removeClass('corGlobBlue');
-                    $('.qqReg>span').addClass("corLightGray");
-                    $('.qqReg>span').removeClass('active');
-                    $this.addClass('active');
-                    if($this.hasClass('noJl')){
+                {% include 'JiliApiBundle::userFoot.html.twig' %}
+            </body>
+            <script type="text/javascript">
+                function refresh() {
+                    document.getElementById("verificationImg").src = '{{  path('_user_captcha') }}?r=' + 100000 * Math.random();
+                }
+                $(document).ready(function () {
+                    $("#reg").click(function () {
+                        $("#form1").submit();
+                    });
+                    $("#bind").click(function () {
+                        $("#form2").submit();
+                    });
+                    $('.qqReg>span').addClass('corGlobBlue');
+                    $('.qqReg>span').on('click', function () {
+                        var $this = $(this);
+                        var $bind = $('.bindAccount');
+                        var $add = $('.addAccount');
+                        $('.qqReg>span').removeClass('corGlobBlue');
+                        $('.qqReg>span').addClass("corLightGray");
+                        $('.qqReg>span').removeClass('active');
+                        $this.addClass('active');
+                        if ($this.hasClass('noJl')) {
                             $bind.hide();
                             $add.show();
-                    }else{
+                        } else {
                             $add.hide();
                             $bind.show();
-                    }
-            });
-        });
-            {% if bindcode is  defined %}
-            var $bind = $('.bindAccount');
-            $bind.show();
-            {% endif %}
-    </script>
-</html>
+                        }
+                    });
+                });
+                {% if bindcode is  defined %}
+                        var $bind = $('.bindAccount');
+                        $bind.show();
+                {% endif %}
+            </script>
+        </html>
 
