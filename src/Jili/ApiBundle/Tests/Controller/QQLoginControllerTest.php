@@ -436,7 +436,7 @@ EOD;
 //        $form_register['qqregist[_token]'] = '';
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('邮箱地址格式不正确', trim($crawler->filter('#emailError')->text()));
+        $this->assertEquals('邮箱地址格式不正确', trim($crawler->filter('#regist_emailError')->text()));
 
     }
 
@@ -617,7 +617,6 @@ EOD;
 
     /**
      * @group issue_474
-     * @group debug 
      */
    public function testqqBindActionWithBadUser()
    {
@@ -665,6 +664,6 @@ EOD;
         $crawler = $client->submit($form_binding);
         $session0 = $client->getRequest()->getSession();
         $this->assertFalse($session->has('uid'));
-        $this->assertEquals('邮箱地址或密码输入错误', $crawler->filter('errorMessage')->text());
+        $this->assertEquals('邮箱地址或密码输入错误', trim($crawler->filter('#bind_emailError')->text()));
    }
 }

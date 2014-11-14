@@ -63,10 +63,12 @@ $this->container = static::$kernel->getContainer();
         // 1.1 email , open_id
         $params = array('email'=>1); 
         $qqUser =  $this->container->get('user_bind')->qq_user_bind($params);
+        $this->assertNull($qqUser);
 
         // 1.2 
         $params = array('open_id'=>1); 
         $qqUser =  $this->container->get('user_bind')->qq_user_bind($params);
+        $this->assertNull($qqUser);
 
         $user = LoadUserBindData::$USERS[0];
             // if( $user) {
