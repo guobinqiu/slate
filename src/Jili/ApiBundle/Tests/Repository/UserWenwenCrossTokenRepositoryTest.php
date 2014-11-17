@@ -69,7 +69,12 @@ class UserWenwenCrossTokenRepositoryTest extends KernelTestCase {
         $cross_id = 2;
         $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->create($cross_id);
         $this->assertEquals($cross_id, $crossToken->getCrossId());
+        $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->findOneByCrossId($cross_id);
+        $this->assertEquals(1, count($crossToken));
         $return = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->delete($cross_id);
         $this->assertTrue($return);
+        $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->findOneByCrossId($cross_id);
+        $this->assertEquals(0, count($crossToken));
+
     }
 }

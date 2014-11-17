@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 namespace Jili\BackendBundle\Services\Advertiserment;
 
 class ChanetHttpRequest
@@ -14,7 +14,7 @@ class ChanetHttpRequest
     /**
      * @param string $url , the imageUrl
      */
-    public function fetch() 
+    public function fetch()
     {
         $url = $this->url;
         if( strlen($url) <= 0 ) {
@@ -47,6 +47,6 @@ class ChanetHttpRequest
      */
     public function isExpired()
     {
-        return  ('c97eaac88c05d856b128d078477ba471' === md5($this->getRawReturn()) ) ? true : false;
+        return  ('c97eaac88c05d856b128d078477ba471' === md5(trim($this->getRawReturn())) ) ? true : false;
     }
 }
