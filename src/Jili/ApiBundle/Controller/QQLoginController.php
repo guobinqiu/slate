@@ -90,7 +90,6 @@ class QQLoginController extends Controller
         $param['pwd'] = $request->request->get('pwd');
         $param['nick'] = 'QQ'.$request->request->get('qqnickname'); 
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
-        $request->request->set('pwd', $param['pwd']);
         $form  = $this->createForm(new QQFirstRegist());
         $form->bind($request );
         if ($form->isValid()) {
@@ -98,13 +97,12 @@ class QQLoginController extends Controller
             $qquser = $user_regist->qq_user_regist($param);
             if(!$qquser){
                 //注册失败
-                return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，QQ用户授权失败，请稍后再试。'));
-            } else {
-                //注册成功，登陆并跳转主页
-                $code = $this->get('login.listener')->login($request);
-                if($code == 'ok') {
-                    return $this->redirect($this->generateUrl('_homepage'));
-                }
+                return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，QQ用户注册失败，请稍后再试。'));
+            } 
+            //注册成功，登陆并跳转主页
+            $code = $this->get('login.listener')->login($request);
+            if($code == 'ok') {
+                return $this->redirect($this->generateUrl('_homepage'));
             }
         } else {
             //验证不通过
@@ -125,7 +123,10 @@ class QQLoginController extends Controller
         $param['nick'] = 'QQ'.$request->request->get('qqnickname'); 
         $param['email'] = $request->request->get('jili_email');
         $param['pwd']= $request->request->get('jili_pwd');
-        $param['open_id'] = $request->getSession()->get('open_id'); // todo get in session
+        $param['open_id'] = $request->getSession()->get('open_id'); // get in session
+        if(!$param['open_id']){
+            return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请稍后再试。'));
+        }
         $request->request->set('pwd', $param['pwd']);
         $request->request->set('email',$param['email']);
         $code = $this->get('login.listener')->login($request);

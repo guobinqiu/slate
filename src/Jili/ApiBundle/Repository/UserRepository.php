@@ -646,6 +646,7 @@ EOT;
         $user->setNick($param['nick']);
         $user->setEmail($param['email']);
         $user->setPwd($param['pwd']);
+        $user->setDeleteFlag(0);
         $em = $this->getEntityManager();
         $em->persist($user);
         $em->flush();

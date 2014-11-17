@@ -31,7 +31,7 @@ class QQUser
     /**
      * @var string
      *
-     * @ORM\Column(name="open_id", type="string")
+     * @ORM\Column(name="open_id", type="string",unique=true)
      */
     private $openId;
 
