@@ -29,6 +29,8 @@ monolog:
             level: debug
 
 parameters:
-# NOTICE: product config use demo one. 
-    emar_com.app_AppKey: %emar_com.demo.AppKey% 
+# NOTICE: product config use demo one.
+    emar_com.app_AppKey: %emar_com.demo.AppKey%
     emar_com.app_AppSecret: %emar_com.demo.AppSecret%
+#91wenwen和91jili账号关联secret key
+    91wewen_bind_secret_key: %91wewen_bind_secret_key_prod%
