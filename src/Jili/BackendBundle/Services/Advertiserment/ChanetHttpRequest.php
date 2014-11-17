@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 namespace Jili\BackendBundle\Services\Advertiserment;
 
 class ChanetHttpRequest
