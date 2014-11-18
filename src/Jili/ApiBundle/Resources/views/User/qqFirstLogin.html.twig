@@ -19,7 +19,7 @@
         <div class="webArticle regStep">
             <article>
                 <div class="regForm qqRegForm" style="padding-top:100px;">
-                    <h2 class="fontYH">欢迎来到积粒网！</h2>
+                    <h2 class="fontYH">尊敬的QQ会员，欢迎来到积粒网！</h2>
                     <div class="qqReg">
                         {# if( newregist )#}
                         <span class="noJl fontYH">没有积粒网账号</span>
@@ -31,7 +31,7 @@
                                     <input type="hidden" name="qqnickname" value="{{ nickname }}"/>
                                     <input type="hidden" name="sex" value="{{ sex }}"/>
                                 </li>
-                                <li>为保障您的账号安全，请设置QQ邮箱作为找回账号的方式。</li>
+                                <li>您是首次来到积粒网，为保障您的账号安全，请设置QQ邮箱并且输入一个积粒网用的密码。</li>
                                 <li><label for="qqEmail">邮箱地址：</label>{{ form_widget(form.email_id, { 'attr': {'class': 'qqEmail'} }) }}@qq.com
                                     <strong class="errorMsg" id="regist_emailError">
                                         {{ form_errors(form.email_id) }}
