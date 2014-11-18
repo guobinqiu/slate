@@ -140,10 +140,6 @@ class WebsitesControllerTest extends WebTestCase
 
         $this->assertFileExists( $cache_fn);
 
-echo 'serialize($data):',PHP_EOL;
-echo serialize($data),PHP_EOL;
-echo '$cache_fn:',PHP_EOL;
-echo $cache_fn,PHP_EOL;
         $this->assertStringEqualsFile(  $cache_fn, serialize($data) );
     }
 

@@ -45,6 +45,10 @@ class QQLoginControllerTest extends WebTestCase
             $fixture  = new LoadUserBindData();
             $loader = new Loader();
             $loader->addFixture($fixture);
+        }elseif(in_array($tn, array('testqqRegisteActionSuccess', 'testqqRegisteActionValidation'))) {
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
         }
 
         if($this->has_fixture) {
@@ -54,6 +58,7 @@ class QQLoginControllerTest extends WebTestCase
             $executor->purge();
             $executor->execute($loader->getFixtures());
         }
+
 
         $this->container = $container;
         $this->em  = $em;
@@ -390,6 +395,7 @@ EOD;
 
     /**
      * @group issue_474
+     * @group debug 
      */
     public function testqqRegisteActionValidation()
     {
@@ -431,9 +437,17 @@ EOD;
         $crawler =  $client->request('GET', $url_first_login );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $form_register  = $crawler->selectButton('register')->form();
-        $form_register['qqregist[email_id]'] = '';
+        $form_register['qqregist[email_id]'] = '@A';
         $form_register['pwd'] = '123123';
-//        $form_register['qqregist[_token]'] = '';
+
+        $crawler = $client->submit($form_register);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('邮箱地址格式不正确', trim($crawler->filter('#regist_emailError')->text()));
+
+//        // again
+//        $form_register['qqregist[email_id]'] = 'A@';
+//        $form_register['pwd'] = '123123';
+//
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('邮箱地址格式不正确', trim($crawler->filter('#regist_emailError')->text()));
