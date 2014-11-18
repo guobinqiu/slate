@@ -34,9 +34,3 @@ parameters:
 #91wenwen和91jili账号关联secret key
     91wewen_bind_secret_key: %91wewen_bind_secret_key_dev%
 
-doctrine:
-    dbal:
-       dbname:   jili_1117
-       password:  MyNewPassword
-       charset:  UTF8
-       host:     192.168.1.28
