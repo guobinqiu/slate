@@ -643,7 +643,7 @@ EOT;
     public function qquser_quick_insert(array $param)
     {
         $user =  new User;
-        $user->setNick($param['nick']);
+        $user->setNick('QQ'.$param['nick']);
         $user->setEmail($param['email']);
         $user->setPwd($param['pwd']);
         $user->setDeleteFlag(0);

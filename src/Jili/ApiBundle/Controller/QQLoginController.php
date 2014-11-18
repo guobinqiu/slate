@@ -87,8 +87,8 @@ class QQLoginController extends Controller
         $qqForm = $request->request->get('qqregist');
         $param['email'] = $qqForm['email_id'].'@'.$this->container->getParameter('qq_email_suffix');
         $request->request->set('email',$param['email']);
+        $param['nick'] = $request->request->get('qqnickname'); 
         $param['pwd'] = $request->request->get('pwd');
-        $param['nick'] = 'QQ'.$request->request->get('qqnickname'); 
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
         $form  = $this->createForm(new QQFirstRegist());
         $form->bind($request );
@@ -106,7 +106,7 @@ class QQLoginController extends Controller
             }
         } else {
             //验证不通过
-            $code = $form->getErrorsAsString();
+            $code = '请填写正确的邮箱!';
         }
         return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',
                 array('email'=>$qqForm['email_id'], 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
