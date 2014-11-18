@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * GameSeekerDaily
  *
  * @ORM\Table(name="game_seeker_daily", uniqueConstraints={@ORM\UniqueConstraint(name="token", columns={"token"}), @ORM\UniqueConstraint(name="uid_daily", columns={"user_id", "created_day"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameSeekerDailyRepository")
  */
 class GameSeekerDaily
 {
@@ -56,6 +56,11 @@ class GameSeekerDaily
      */
     private $id;
 
+    public function __construct() 
+    {
+        $this->setPoints(0);
+        $this->setTokenUpdatedAt(new \DateTime());
+    }
 
 
     /**
@@ -133,9 +138,19 @@ class GameSeekerDaily
      * @param string $token
      * @return GameSeekerDaily
      */
-    public function setToken($token)
+    public function setToken($token = '')
     {
+        $updatedAtPrevious = $this->getTokenUpdatedAt();
+        $ts_now = time();
+
+        if(strlen($token) !== 16 ) {
+            $token = md5($token . $this->getUserId() . $updatedAtPrevious->getTimestamp() . $ts_now );
+        } 
         $this->token = $token;
+
+        $dateTime = new \DateTime() ;
+        $dateTime->setTimestamp($ts_now);
+        $this->setTokenUpdatedAt($dateTime);
 
         return $this;
     }

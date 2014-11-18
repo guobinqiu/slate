@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * GameSeekerPointsPool
  *
  * @ORM\Table(name="game_seeker_points_pool", indexes={@ORM\Index(name="pts_freq", columns={"points", "send_frequency"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameSeekerPointsPoolRepository")
  */
 class GameSeekerPointsPool
 {

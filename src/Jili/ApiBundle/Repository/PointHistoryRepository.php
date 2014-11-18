@@ -7,17 +7,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class PointHistoryRepository extends EntityRepository
 {
-    public function issetInsert($uid)
+    public function issetInsert($uid, $reason = 16)
     {
         $date = date('Y-m-d');
-        $nextdate = date("Y-m-d",strtotime("+1 day"));
+        $nextdate = date("Y-m-d",strtotime('+1 day'));
         $query = $this->createQueryBuilder('ph');
         $query = $query->select('ph.id');
         $query = $query->Where('ph.userId = :uid');
-        $query = $query->andWhere('ph.reason = 16');
+        $query = $query->andWhere('ph.reason = :reason');
         $query = $query->andWhere('ph.createTime > :date');
         $query = $query->andWhere('ph.createTime < :ndate');
-        $query = $query->setParameters(array('uid'=>$uid,'date'=>$date,'ndate'=>$nextdate));
+        $query = $query->setParameters(array('uid'=>$uid, 'reason'=> $reason, 'date'=>$date,'ndate'=>$nextdate));
         $query =  $query->getQuery();
         return $query->getResult();
     }
@@ -33,4 +33,12 @@ class PointHistoryRepository extends EntityRepository
         return $query->getResult();
     }
 
+    /**
+     * @return boolean  
+     */
+    public function isGameSeekerCompletedToday ($uid) {
+        $gameSeekerCategoryId = Jili\ApiBundle\Entity\AdCategory::ID_GAME_SEEKER; 
+        $pointLog =  $this->issetInsert( $uid, $gameSeekerCategoryId) ;
+        return ( $pointLog ) ? true : false;
+    }
 }
