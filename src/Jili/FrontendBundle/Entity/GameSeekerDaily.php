@@ -59,6 +59,8 @@ class GameSeekerDaily
     public function __construct() 
     {
         $this->setPoints(0);
+        $this->setCreatedDay(new \DateTime());
+
         $this->setTokenUpdatedAt(new \DateTime());
     }
 
@@ -117,6 +119,7 @@ class GameSeekerDaily
      */
     public function setCreatedDay($createdDay)
     {
+        $createdDay->setTime(0,0);
         $this->createdDay = $createdDay;
 
         return $this;
@@ -143,7 +146,7 @@ class GameSeekerDaily
         $updatedAtPrevious = $this->getTokenUpdatedAt();
         $ts_now = time();
 
-        if(strlen($token) !== 16 ) {
+        if(strlen($token) !== 32 ) {
             $token = md5($token . $this->getUserId() . $updatedAtPrevious->getTimestamp() . $ts_now );
         } 
         $this->token = $token;

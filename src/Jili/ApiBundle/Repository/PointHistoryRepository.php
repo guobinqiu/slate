@@ -7,6 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class PointHistoryRepository extends EntityRepository
 {
+    /**
+     * @param integer $uid user id 
+     * @param integer $reason ad_category.id 
+     * @return array  array(0=> array('id'=> ), 1=>array('id'=>),..) or array()
+     **/
     public function issetInsert($uid, $reason = 16)
     {
         $date = date('Y-m-d');
@@ -34,11 +39,11 @@ class PointHistoryRepository extends EntityRepository
     }
 
     /**
-     * @return boolean  
+     * @return boolean 
      */
     public function isGameSeekerCompletedToday ($uid) {
-        $gameSeekerCategoryId = Jili\ApiBundle\Entity\AdCategory::ID_GAME_SEEKER; 
+        $gameSeekerCategoryId = \Jili\ApiBundle\Entity\AdCategory::ID_GAME_SEEKER; 
         $pointLog =  $this->issetInsert( $uid, $gameSeekerCategoryId) ;
-        return ( $pointLog ) ? true : false;
+        return (empty($pointLog )) ? false: true;
     }
 }

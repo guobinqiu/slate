@@ -3,7 +3,8 @@
 namespace Jili\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Jili\FrontendBundle\DataFixtures\ORM\LoadGameSeekerGetChestInfoData
+use Jili\FrontendBundle\DataFixtures\ORM\LoadGameSeekerGetChestInfoData;
+
 class GameSeekerControllerTest extends WebTestCase
 {
     /**
@@ -43,9 +44,8 @@ class GameSeekerControllerTest extends WebTestCase
         if ($this->has_fixture) {
             $this->em->close();
         }
-
-
     }
+
     /**
      * @group issue_524
      * @group debug 

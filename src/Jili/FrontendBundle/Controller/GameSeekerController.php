@@ -14,9 +14,10 @@ class GameSeekerController extends Controller
 {
 
     /**
-     * @return {code: CODE, msg: "", data: {countOfChest: Num , 'token': '16位string'}}
+     * @return {code: CODE, msg: "", data: {countOfChest: Num , 'token': '32string'}}
      *  CODE: 0, 此用户今天还没有寻宝
      *  CODE: 1, 此用户今天已经完成寻宝
+     *         {} , when not Ajax request or not signed in. 
      * @Route("/getChestInfo")
      * @Method("POST");
      **/
@@ -33,6 +34,7 @@ class GameSeekerController extends Controller
         if( !$session->has('uid') ){
             return $response;
         }
+
         $uid = $session->get('uid');
         // check whether current user has done.
         $em  = $this->getEntityManager();
@@ -40,7 +42,7 @@ class GameSeekerController extends Controller
         $is_completed = $pointHistoryRepository->isGameSeekerCompletedToday($uid);
         if( ! $is_completed) {
             // insert/update  game_seeker_daily
-            $gameInfo = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->getInfoByUser( array('userId'=>$uid, ''=>));
+            $gameInfo = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->getInfoByUser( $uid);
         }
 // 
 

@@ -13,8 +13,11 @@ use Jili\ApiBundle\Entity\GameSeekerDaily;
 
 class LoadGameSeekerGetChestInfoData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface{
     public static $USERS;
+    public static $GAMESEEKLOGS;
+
     public function __construct() {
         self :: $USERS = array ();
+        self :: $GAMESEEKLOGS = array ();
     }
 
 

@@ -9,12 +9,13 @@ CREATE TABLE `game_seeker_daily` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `points` int(11) NOT NULL,
-  `created_day` date DEFAULT NULL COMMENT 'YYYY-mm-dd',
+  `clicked_day` date DEFAULT NULL COMMENT 'YYYY-mm-dd',
   `token` varchar(32) NOT NULL COMMENT '每次请求重新生成',
   `token_updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `token` (`token`),
-  UNIQUE KEY `uid_daily` (`user_id`,`created_day`)
+  UNIQUE KEY `uid_daily` (`user_id`,`clicked_day`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='寻宝完成状态表';
 
 DROP TABLE IF EXISTS `game_seeker_points_pool`;

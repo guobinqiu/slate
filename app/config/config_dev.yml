@@ -33,3 +33,11 @@ assetic:
 parameters:
 #91wenwen和91jili账号关联secret key
     91wewen_bind_secret_key: %91wewen_bind_secret_key_dev%
+
+doctrine:
+    dbal:
+       host:    localhost 
+       dbname:   jili_0904
+       password:  MyNewPassword
+       charset:  UTF8
+
