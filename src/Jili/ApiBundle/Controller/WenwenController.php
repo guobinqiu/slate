@@ -210,10 +210,10 @@ class WenwenController extends Controller
         $signature_check = WenwenToken :: isSignatureValid($signature, $params, $secret_key, $time);
         if (!$signature_check) {
             $response['meta'] = array (
-                'code' => '400',
+                'code' => 400,
                 'message' => 'signature invalid'
             );
-            return new Response(json_encode($response));
+            return new Response(json_encode($response), 400);
         }
 
         // check one_time_token
@@ -221,17 +221,17 @@ class WenwenController extends Controller
         $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->findOneByToken($token);
         if (!$crossToken || ($token != $crossToken->getToken())) {
             $response['meta'] = array (
-                'code' => '400',
+                'code' => 400,
                 'message' => 'token not exist'
             );
-            return new Response(json_encode($response));
+            return new Response(json_encode($response), 400);
         }
 
         // get cross id from db
         $cross_id = $crossToken->getCrossId();
 
         // delete one_time_token
-        $delete_token = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->delete($cross_id);
+        $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->delete($cross_id);
 
         // generate signature(cross_id, time)
             $time = time();

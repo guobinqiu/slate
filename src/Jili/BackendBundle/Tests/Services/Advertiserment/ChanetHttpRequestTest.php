@@ -9,9 +9,9 @@ class ChanetHttpRequestTest extends KernelTestCase
 {
 
     /**
-     * @group issue_469 
+     * @group issue_469
      */
-    public  function testIsExpired() 
+    public  function testIsExpired()
     {
         $map = array(
             array('http://count.chanet.com.cn/click.cgi?a=480534&d=9340&u=33&e=105',
