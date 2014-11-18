@@ -442,15 +442,15 @@ EOD;
 
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('邮箱地址格式不正确', trim($crawler->filter('#regist_emailError')->text()));
+        $this->assertEquals('请填写正确的邮箱或密码!', trim($crawler->filter('#regist_emailError')->text()));
 
-//        // again
-//        $form_register['qqregist[email_id]'] = 'A@';
-//        $form_register['pwd'] = '123123';
-//
+        // again
+        $form_register['qqregist[email_id]'] = 'AAA';
+        $form_register['pwd'] = '';
+
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('邮箱地址格式不正确', trim($crawler->filter('#regist_emailError')->text()));
+        $this->assertEquals('请填写正确的邮箱或密码!', trim($crawler->filter('#regist_emailError')->text()));
 
     }
 
