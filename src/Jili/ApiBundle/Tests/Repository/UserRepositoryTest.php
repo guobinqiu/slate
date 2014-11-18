@@ -157,7 +157,7 @@ class UserRepositoryTest extends KernelTestCase
     {
         $params = array('nick'=> 'alice32', 'email'=>'alice_nima@gmail.com', 'pwd'=>'123qwe');
         $i = $this->em->getRepository('JiliApiBundle:User')->qquser_quick_insert($params);
-        $this->assertEquals('alice32', $i->getNick());
+        $this->assertEquals('QQalice32', $i->getNick());
         $this->assertEquals('alice_nima@gmail.com', $i->getEmail());
         $this->assertEquals( $i->pw_encode('123qwe'),   $i->getPwd()) ;
 

@@ -491,7 +491,7 @@ EOD;
         // submit that form
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-       $this->assertEquals( '对不起，QQ用户授权失败，请稍后再试。', $crawler->filter('div.errorMessage')->text()); 
+       $this->assertEquals( '对不起，QQ用户注册失败，请稍后再试。', $crawler->filter('div.errorMessage')->text()); 
     }
 
     /**

@@ -67,7 +67,7 @@ class UserRegistTest extends KernelTestCase
 
         $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('alice_nima@gmail.com');
         $this->assertNotNull($user);
-        $this->assertEquals('alice32' , $user->getNick() );
+        $this->assertEquals('QQalice32' , $user->getNick() );
         $this->assertEquals($user->pw_encode('123qwe'), $user->getPwd());
 
         $this->assertInstanceOf('Jili\\ApiBundle\\Entity\\QQUser', $qqUser);
