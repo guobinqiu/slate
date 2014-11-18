@@ -20,6 +20,7 @@ class AdminControllerTest extends WebTestCase {
 
     private $em;
     private $container;
+    private $with_fixture;
 
     /**
      * {@inheritDoc}
@@ -33,10 +34,12 @@ class AdminControllerTest extends WebTestCase {
         $with_fixture = false;
 
         $tn = $this->getName();
+
         if ($tn == 'testHandleExchangeWen') {
             $with_fixture = true;
             // load fixtures
             $fixture = new LoadHandleExchangeWenData();
+            $fixture->setContainer($container);
             $loader = new Loader();
             $loader->addFixture($fixture);
         }
@@ -119,13 +122,16 @@ class AdminControllerTest extends WebTestCase {
 
         $this->container = $container;
         $this->em = $em;
+        $this->with_fixture = $with_fixture;
     }
     /**
      * {@inheritDoc}
      */
     protected function tearDown() {
         parent :: tearDown();
-        $this->em->close();
+        if($this->with_fixture ) {
+            $this->em->close();
+        }
     }
 
     /**
@@ -148,7 +154,7 @@ class AdminControllerTest extends WebTestCase {
 
         $users = LoadHandleExchangeWenData :: $USERS;
         $exchange = LoadHandleExchangeWenData :: $EXCHANGE_FROM_WENWEN;
-
+// return true;
         //测试有关表user,exchange_from_wenwen
         $file[1][0] = $exchange->getWenwenExchangeId();
         $file[1][1] = $users[0]->getEmail();

@@ -5,7 +5,7 @@ framework:
     router:   { resource: "%kernel.root_dir%/config/routing_dev.yml" }
     profiler: { only_exceptions: false }
     session:
-        gc_maxlifetime:  60 
+        gc_maxlifetime:  60
 
 web_profiler:
     toolbar: true
@@ -30,9 +30,6 @@ assetic:
 #swiftmailer:
 #    delivery_address: me@example.com
 
-#doctrine:
-#    dbal:
-#       dbname:   jili_0904
-#       password:  MyNewPassword
-#       charset:  UTF8
-#       host:     localhost
+parameters:
+#91wenwen和91jili账号关联secret key
+    91wewen_bind_secret_key: %91wewen_bind_secret_key_dev%

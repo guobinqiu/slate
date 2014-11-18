@@ -11,6 +11,7 @@ use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
 use Jili\ApiBundle\Utility\WenwenToken;
 
 class WenwenControllerTest extends WebTestCase {
+
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -23,44 +24,29 @@ class WenwenControllerTest extends WebTestCase {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
-        $tn = $this->getName();
         $container = static :: $kernel->getContainer();
 
-        $with_fixture = false;
-        $tn = $this->getName();
+        // purge tables
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
 
-        if (in_array($tn, array (
-                'test91wenwenRegister5'
-            ))) {
-            $with_fixture = true;
-            // load fixtures
-            $fixture = new LoadWenwenRegister5CodeData();
-            $fixture->setContainer($container);
-            $loader = new Loader();
-            $loader->addFixture($fixture);
+        // load fixtures
+        $loader = new Loader();
 
-            // add an user
-        } else
-            if ($tn == 'testAccountBindAction' || $tn == 'accountBindApiAction') {
-                $with_fixture = true;
-                // load fixtures
-                $fixture = new LoadUserData();
-                $fixture->setContainer($container);
-                $loader = new Loader();
-                $loader->addFixture($fixture);
-            }
+        $fixture = new LoadWenwenRegister5CodeData();
+        $fixture->setContainer($container);
+        $loader->addFixture($fixture);
 
-        if (true === $with_fixture) {
-            // purge tables;
-            $purger = new ORMPurger($em);
-            $executor = new ORMExecutor($em, $purger);
-            $executor->purge();
-            $executor->execute($loader->getFixtures());
-        }
+        $fixture = new LoadUserData();
+        $fixture->setContainer($container);
+        $loader->addFixture($fixture);
+
+        $executor->execute($loader->getFixtures());
 
         $this->em = $em;
-        $this->container = $container;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -68,6 +54,7 @@ class WenwenControllerTest extends WebTestCase {
         parent :: tearDown();
         $this->em->close();
     }
+
     /**
      * @group user
      * @group wenwenuser
@@ -160,6 +147,7 @@ class WenwenControllerTest extends WebTestCase {
     public function test91wenwenRegister5() {
         $em = $this->em;
         $client = static :: createClient();
+        $container = static :: $kernel->getContainer();
 
         $url = '/api/91wenwen/register';
         $user = LoadWenwenRegister5CodeData :: $ROWS[0];
@@ -178,9 +166,14 @@ class WenwenControllerTest extends WebTestCase {
         ));
         $this->assertCount(1, $record, ' checkin point setPassword code');
 
-        $expected = '{"status":"1","message":"success","activation_url":"https:\/\/www.91jili.com\/user\/setPassFromWenwen\/' . $record[0]->getCode() . '\/' . $user->getId() . '"}';
+        $wenwen_api_url = $container->getParameter('91wenwen_api_url');
+        $expected['status'] = "1";
+        $expected['message'] = "success";
+        $expected['activation_url'] = $wenwen_api_url . '/user/setPassFromWenwen/' . $record[0]->getCode() . '/' . $user->getId();
 
-        $this->assertEquals($expected, $client->getResponse()->getContent());
+        $content = $client->getResponse()->getContent();
+
+        $this->assertEquals(json_encode($expected), $content);
     }
 
     /**
@@ -255,7 +248,6 @@ class WenwenControllerTest extends WebTestCase {
         $router = $container->get('router');
 
         $url = '/api/91wenwen/bindApi';
-        //$url = $router->generate('_account_bind_confirm', $post_data, false);
 
         $secret_key = $container->getParameter('91wewen_bind_secret_key');
 
@@ -276,8 +268,16 @@ class WenwenControllerTest extends WebTestCase {
         $this->assertEquals('/api/91wenwen/bindApi', $client->getRequest()->getRequestUri());
         $this->assertEquals(301, $client->getResponse()->getStatusCode()); //todo 301
         $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"meta":{"code":"400","message":"signature invalid"}}', $client->getResponse()->getContent());
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+
+        $res = json_decode($client->getResponse()->getContent(), true);
+        $expected = array (
+            'meta' => array (
+                'code' => 400,
+                'message' => 'signature invalid'
+            )
+        );
+        $this->assertEquals($expected, $res);
 
         // token not exist
         $token = 'a4d3d591c343d3c6aae70ad8b492171e3bce6aa6232b0858540713906e0d68ff';
@@ -293,8 +293,16 @@ class WenwenControllerTest extends WebTestCase {
         );
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals('/api/91wenwen/bindApi', $client->getRequest()->getRequestUri());
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"meta":{"code":"400","message":"token not exist"}}', $client->getResponse()->getContent());
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+
+        $res = json_decode($client->getResponse()->getContent(), true);
+        $expected = array (
+            'meta' => array (
+                'code' => 400,
+                'message' => 'token not exist'
+            )
+        );
+        $this->assertEquals($expected, $res);
 
         $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->create($user->getId());
         $crossToken = $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->create($cross->getId());
@@ -318,6 +326,18 @@ class WenwenControllerTest extends WebTestCase {
             'time' => $time
         );
         $signature_send = WenwenToken :: createSignature($params, $secret_key);
-        $this->assertEquals('{"meta":{"code":200},"data":{"cross_id":'.$cross->getId().',"time":'.$time.',"signature":"'.$signature_send.'"}}', $client->getResponse()->getContent());
+
+        $res = json_decode($client->getResponse()->getContent(), true);
+        $expected = array (
+            'meta' => array (
+                'code' => 200
+            ),
+            'data' => array (
+                'cross_id' => $cross->getId(),
+                'time' => $time,
+                'signature' => $signature_send
+            )
+        );
+        $this->assertEquals($expected, $res);
     }
 }

@@ -1,5 +1,5 @@
 parameters:
-    offerwow_com.websiteid: 1162  
+    offerwow_com.websiteid: 1162
     offerwow_com.key: "91jili2offerwow"
     offerwow_com.name: "体验广告"
     offerwow_com.category_type: 17 # in ad_category table where cateogry_name ='offerwow' ??
@@ -13,7 +13,7 @@ parameters:
 
     cpa.category_type:  1 # in table ad_category where category_name='CPA'
     cps.category_type:  1 # in table ad_category where category_name='CPS'
-                    
+
 
     emar_com.accountid: '458631' # sid uSer id
     emar_com.91jili_com.websiteid: '732204' # wid Website id
@@ -24,7 +24,7 @@ parameters:
 
     emar_com.name: "亿玛返利"
     emar_com.cps.category_type: 19 # in ad_category table where cateogry_name ='emar' ??
-    emar_com.cps.task_type: 1 
+    emar_com.cps.task_type: 1
     emar_com.cps.action.default_rebate: 70 # used when no related advertiserment to the request action from emar .
 
 #    emar_com.cpa.name: "亿玛活动"
@@ -33,12 +33,12 @@ parameters:
     emar_com.cron.AppKey: '139599061334718017'
     emar_com.cron.AppSecret: '98a77033e7a6e8b8533f70eca181d09f'
 
-# demo: from production  
+# demo: from production
     emar_com.demo.AppKey: '139597428026718017'
     emar_com.demo.AppSecret: 'e7c5367e1ba7d609865389640007df3e'
 
     emar_com.open_api.app:
-        debug: # dev 
+        debug: # dev
             key: %emar_com.app_AppKey%
             secret: %emar_com.app_AppSecret%
         search: # demo
@@ -49,29 +49,29 @@ parameters:
             secret: %emar_com.app_AppSecret%
 
 # emar default 分页大小
-    emar_com.page_size: 20 
+    emar_com.page_size: 20
 # shop list 页面上的分页大小
-    emar_com.page_size_of_shoplist: 30 
+    emar_com.page_size_of_shoplist: 30
 # product search页面上的分页大小
-    emar_com.page_size_of_search: 24 
+    emar_com.page_size_of_search: 24
 # topcps页面上的分页大小
-    emar_com.page_size_of_topcps:  18 
+    emar_com.page_size_of_topcps:  18
 # emar的open.api读取记录数上限
-    emar_com.max_of_total: 1800 
+    emar_com.max_of_total: 1800
 # open.product.search->orderby fields
-    emar_com.api.orderby_range: [1,2,3] 
-    emar_com.api.orderby_default: 1 
+    emar_com.api.orderby_range: [1,2,3]
+    emar_com.api.orderby_default: 1
 
 # the router for search input box
-    emar_com.rt_of_search_form.name: 
-        'commodity': { value: 0 , label: '商品'} 
-        'shop': { value: 1, label: '商城' }   
-#        'else': { value: 3, label: '其它2' }   
+    emar_com.rt_of_search_form.name:
+        'commodity': { value: 0 , label: '商品'}
+        'shop': { value: 1, label: '商城' }
+#        'else': { value: 3, label: '其它2' }
 
-    emar_com.rt_of_search_form.router: 
+    emar_com.rt_of_search_form.router:
         - 'jili_emar_product_search'
-        - 'jili_emar_websites_shopsearch'  
-# 
+        - 'jili_emar_websites_shopsearch'
+#
     emar_com.pdt_cat.menu:
         - '影音':
             - '图书音像'
@@ -128,7 +128,7 @@ parameters:
     wenwen_vote_api: http://www.91wenwen.net/index.php/vote/activeList
     wenwen_vote_mark: c=91jili
 
-    emar_com.app_AppKey: %emar_com.cron.AppKey% 
+    emar_com.app_AppKey: %emar_com.cron.AppKey%
     emar_com.app_AppSecret: %emar_com.cron.AppSecret%
     campaign_multiple: 1
     admin_home_ip: 192.168.1.198
@@ -196,7 +196,7 @@ parameters:
     forget_en_pwd: 请输入用户密码
     forget_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
     forget_unsame_pwd: 2次输入的用户密码不相同
-    forget_su_pwd: 密码修改成功 
+    forget_su_pwd: 密码修改成功
     change_wr_oldpwd: 旧密码不正确
     change_en_oldpwd: 请输入旧的用户密码
     change_en_newpwd: 请输入新的用户密码
@@ -244,7 +244,7 @@ parameters:
     file_path_advertiserment_check: /data/91jili/advertiserment_check.log
     file_path_emergency_announcement: /data/91jili/emergency_announcement.log
     91wenwen_api_url: https://www.91jili.com
-    91wenwen_api_connect_jili: https://www.wenwen.net/connect_jili/confirmConnect
+    91wenwen_api_connect_jili: https://www.91wenwen.net/connect_jili/confirmConnect
     is_from_wenwen_register: 2
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
