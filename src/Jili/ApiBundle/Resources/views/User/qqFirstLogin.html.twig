@@ -107,9 +107,14 @@
                         }
                     });
                 });
+               {% if regcode is defined %}
+                var $add = $('.addAccount');
+                $add.show();
+               {% endif %}
+
                 {% if bindcode is  defined %}
-                        var $bind = $('.bindAccount');
-                        $bind.show();
+                var $bind = $('.bindAccount');
+                $bind.show();
                 {% endif %}
             </script>
         </html>
