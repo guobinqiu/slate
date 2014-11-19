@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class PointHistoryRepository extends EntityRepository
 {
+
     /**
      * @param integer $uid user id 
      * @param integer $reason ad_category.id 

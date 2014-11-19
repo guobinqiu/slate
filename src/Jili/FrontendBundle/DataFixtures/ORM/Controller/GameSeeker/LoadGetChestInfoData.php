@@ -15,11 +15,9 @@ class LoadGetChestInfoData extends AbstractFixture implements  FixtureInterface
     public static $GAMESEEKLOGS;
 
     public function __construct() {
-        self :: $USERS = array ();
-        self :: $GAMESEEKLOGS = array ();
+        self::$USERS = array ();
+        self::$GAMESEEKLOGS = array ();
     }
-
-
 
     /**
      * {@inheritDoc}
@@ -48,7 +46,7 @@ class LoadGetChestInfoData extends AbstractFixture implements  FixtureInterface
         self :: $USERS[] = $user;
 
         $today = new \DateTime();
-        
+
         $gameSeekDaily = new GameSeekerDaily();
         $gameSeekDaily->setUserId($user->getId());
         $gameSeekDaily->setPoints(0);
@@ -58,7 +56,7 @@ class LoadGetChestInfoData extends AbstractFixture implements  FixtureInterface
         $manager->flush();
         self :: $GAMESEEKLOGS[] = $gameSeekDaily;
 
-// user has completed
+        // user has completed
         $user = new User();
         $user->setNick('carl32');
         $user->setEmail('carl32@gmail.com');
@@ -78,5 +76,9 @@ class LoadGetChestInfoData extends AbstractFixture implements  FixtureInterface
         $manager->persist($pointHistory);
         $manager->flush();
 
+        $sql =<<<EOD
+INSERT INTO `ad_category` ( `id` , `category_name` , `asp` , `display_name` ) VALUES (30 , 'game', '91jili', '游戏寻宝箱')
+EOD;
+        $manager->getConnection()->executeUpdate($sql);
     }
 }

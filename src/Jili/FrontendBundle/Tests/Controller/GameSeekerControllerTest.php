@@ -33,8 +33,8 @@ class GameSeekerControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
         $this->has_fixture = false ;
-        $tn = $this->getName();
-        if($tn === 'testGetChestInfoAction' ){
+     //   $tn = $this->getName();
+    //    if($tn === 'testGetChestInfoAction' ){
             // purge tables;
             $purger = new ORMPurger($em);
             $executor = new ORMExecutor($em, $purger);
@@ -45,7 +45,7 @@ class GameSeekerControllerTest extends WebTestCase
             $executor->execute($loader->getFixtures());
 
             $this->has_fixture = true;
-        }
+      //  }
         $this->em  = $em;
     }
 
@@ -136,8 +136,20 @@ class GameSeekerControllerTest extends WebTestCase
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_gameseeker_click');
-        $this->assertEquals('/game-seeker/click',$url,'router '  );
+        $this->assertEquals('/game-seeker/click', $url, 'router');
 
+        // normal
+        $token = LoadGetChestInfoData::$GAMESEEKLOGS[0]->getToken();
+        $user = LoadGetChestInfoData::$USERS[1];
+        $session = $container->get('session');
+        $session->set('uid', $user->getId());
+        $session->save();
+         
+        $crawler = $client->request('POST', $url, array('token'=>$token), array(),array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals('{"code":0,"message":"\u5bfb\u5b9d\u7bb1\u6210\u529f","data":{"points":1}}', $client->getResponse()->getContent());
 
+        $this->assertTrue($session->has('points'));
+        $this->assertEquals(88, $session->get('points'));
+ 
     }
 }
