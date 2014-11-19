@@ -47,23 +47,36 @@ class LoadGetChestInfoData extends AbstractFixture implements  FixtureInterface
         $manager->flush();
         self :: $USERS[] = $user;
 
+        $today = new \DateTime();
+        
         $gameSeekDaily = new GameSeekerDaily();
         $gameSeekDaily->setUserId($user->getId());
         $gameSeekDaily->setPoints(0);
-        $gameSeekDaily->setClickedDay( new \DateTime('2014-11-18 19:00:19') );
         $gameSeekDaily->setToken('0ce584a7a8c13e1c74f25637ecd8f702');
-        $gameSeekDaily->setTokenUpdatedAt(new \DateTime('2014-11-18 18:40:19') );
+        $gameSeekDaily->setTokenUpdatedAt($today );
         $manager->persist($gameSeekDaily);
         $manager->flush();
         self :: $GAMESEEKLOGS[] = $gameSeekDaily;
 
+// user has completed
+        $user = new User();
+        $user->setNick('carl32');
+        $user->setEmail('carl32@gmail.com');
+        $user->setPoints(78);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+        self :: $USERS[] = $user;
 
-// id              
-// user_id         
-// points          
-// created_day     
-// token           
-// token_updated_at
-// 
+        $point_history_class  =   'Jili\\ApiBundle\\Entity\\PointHistory0'.( $user->getId() % 10) ;
+        $pointHistory =  new $point_history_class();
+        $pointHistory->setUserId($user->getId())
+            ->setPointChangeNum(1)
+            ->setReason(30);
+        $manager->persist($pointHistory);
+        $manager->flush();
+
     }
 }

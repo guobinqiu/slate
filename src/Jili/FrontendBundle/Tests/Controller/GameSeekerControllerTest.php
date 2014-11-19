@@ -95,20 +95,36 @@ class GameSeekerControllerTest extends WebTestCase
 
         $gameSeekerDaily = $this->em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=> $uid));
         $token = $gameSeekerDaily->getToken();
+
+        echo $token,PHP_EOL;
         $this->assertNotNull($gameSeekerDaily);
         $expected = '{"code":0,"data":{"countOfChest":3,"token":"'.$token.'"}}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'normal');
+        // to let the token seed changed
+        sleep(2); 
 
         // again
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $gameSeekerDailyList = $this->em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $uid));
+        $gameSeekerDailyList = $container->get('doctrine.orm.entity_manager')->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $uid));
         $this->assertNotEmpty($gameSeekerDailyList);
+
         $token_again = $gameSeekerDailyList[0]->getToken();
+        echo $token_again,PHP_EOL;
+
+        $this->assertNotEquals($token, $token_again);
 
         $expected = '{"code":0,"data":{"countOfChest":3,"token":"'.$token_again.'"}}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'normal');
+
+        //completed user
+        $user = LoadGetChestInfoData::$USERS[2];
+        $session->set('uid', $user->getId());
+        $session->save();
+        $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals( '{"code":1}',$client->getResponse()->getContent()  );
     }
 
     /**
@@ -121,6 +137,7 @@ class GameSeekerControllerTest extends WebTestCase
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_gameseeker_click');
         $this->assertEquals('/game-seeker/click',$url,'router '  );
+
 
     }
 }

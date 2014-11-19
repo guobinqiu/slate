@@ -32,21 +32,20 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
 
         // get session uid.
         if( ! $this->get('session')->has('uid')) {
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')));
             return $response;
         }
         $uid = $this->get('session')->get('uid');
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($uid, true));
         $em  = $this->get('doctrine.orm.entity_manager');
-        $is_completed = $em->getRepository('JiliApiBundle:PointHistory01')->isGameSeekerCompletedToday($uid);
+        $is_completed = $em->getRepository('JiliApiBundle:PointHistory0'. ($uid % 10) )->isGameSeekerCompletedToday($uid);
         if(  $is_completed) {
             $response->setData(array( 'code'=> 1));
             return $response;
         }
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($is_completed, true));
 
         $gameInfo = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->getInfoByUser( $uid);
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($gameInfo, true));
         // todo: manage the countOfChest in admin page
         // applied_at\publish_at, table system_configurations
         // read in to a cache file.
