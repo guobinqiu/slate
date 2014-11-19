@@ -1,17 +1,16 @@
 <?php
-namespace Jili\FrontendBundle\DataFixtures\ORM;
+namespace Jili\FrontendBundle\DataFixtures\ORM\Controller\GameSeeker;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\GameSeekerDaily;
+use Jili\FrontendBundle\Entity\GameSeekerDaily;
 
-class LoadGameSeekerGetChestInfoData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface{
+class LoadGetChestInfoData extends AbstractFixture implements  FixtureInterface
+{
     public static $USERS;
     public static $GAMESEEKLOGS;
 
@@ -21,17 +20,6 @@ class LoadGameSeekerGetChestInfoData extends AbstractFixture implements Containe
     }
 
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setContainer(ContainerInterface $container = null) {
-        $this->container = $container;
-    }
 
     /**
      * {@inheritDoc}
@@ -59,10 +47,10 @@ class LoadGameSeekerGetChestInfoData extends AbstractFixture implements Containe
         $manager->flush();
         self :: $USERS[] = $user;
 
-        $gameSeekDaily = GameSeekerDaily();
+        $gameSeekDaily = new GameSeekerDaily();
         $gameSeekDaily->setUserId($user->getId());
         $gameSeekDaily->setPoints(0);
-        $gameSeekDaily->setCreatedDay( new \DateTime('2014-11-18 19:00:19') );
+        $gameSeekDaily->setClickedDay( new \DateTime('2014-11-18 19:00:19') );
         $gameSeekDaily->setToken('0ce584a7a8c13e1c74f25637ecd8f702');
         $gameSeekDaily->setTokenUpdatedAt(new \DateTime('2014-11-18 18:40:19') );
         $manager->persist($gameSeekDaily);

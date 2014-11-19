@@ -36,12 +36,12 @@ class LoadGetInfoByUserData extends AbstractFixture implements  FixtureInterface
         $gameSeekerDaily = new GameSeekerDaily();
         $gameSeekerDaily->setUserId(1);
         $gameSeekerDaily->setPoints(0);
-        $gameSeekerDaily->setCreatedDay( $yesterday );
+        $gameSeekerDaily->setClickedDay( $yesterday );
         $gameSeekerDaily->setToken('0ce584a7a8c13e1c74f25637ecd8f702');
         $gameSeekerDaily->setTokenUpdatedAt($update_at );
         $manager->persist($gameSeekerDaily);
         $manager->flush();
-        self :: $GAMESEEKLOGS[] = $gameSeekerDaily;
+        self::$GAMESEEKLOGS[] = $gameSeekerDaily;
 
         $today = new \DateTime();
         $update_at = new \Datetime();
@@ -50,7 +50,7 @@ class LoadGetInfoByUserData extends AbstractFixture implements  FixtureInterface
         $gameSeekerDaily = new GameSeekerDaily();
         $gameSeekerDaily->setUserId(10);
         $gameSeekerDaily->setPoints(0);
-        $gameSeekerDaily->setCreatedDay( $today );
+        $gameSeekerDaily->setClickedDay( $today );
         $gameSeekerDaily->setToken('0ce584a7a8c13e1c74f25637ecd8f701');
         $gameSeekerDaily->setTokenUpdatedAt($update_at );
         $manager->persist($gameSeekerDaily);

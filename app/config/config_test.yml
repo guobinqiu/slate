@@ -21,7 +21,7 @@ swiftmailer:
 
 doctrine:
     dbal:
+       host:     192.168.1.18 #localhost
        dbname:   jili_test
        password:  MyNewPassword
        charset:  UTF8
-       host:     localhost

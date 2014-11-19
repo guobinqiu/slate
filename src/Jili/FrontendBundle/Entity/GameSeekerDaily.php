@@ -1,5 +1,4 @@
 <?php
-
 namespace Jili\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -7,7 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * GameSeekerDaily
  *
- * @ORM\Table(name="game_seeker_daily", uniqueConstraints={@ORM\UniqueConstraint(name="token", columns={"token"}), @ORM\UniqueConstraint(name="uid_daily", columns={"user_id", "created_day"})})
+ * @ORM\Table(name="game_seeker_daily", uniqueConstraints={@ORM\UniqueConstraint(name="token", columns={"token"}), @ORM\UniqueConstraint(name="uid_daily", columns={"user_id", "clicked_day"})})
+ *
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameSeekerDailyRepository")
  */
 class GameSeekerDaily
@@ -29,14 +29,14 @@ class GameSeekerDaily
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_day", type="date", nullable=true)
+     * @ORM\Column(name="clicked_day", type="date", nullable=false)
      */
-    private $createdDay;
+    private $clickedDay;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="token", type="string", length=32, nullable=false)
+     * @ORM\Column(name="token", type="string", length=32, nullable=false, unique=true)
      */
     private $token;
 
@@ -46,6 +46,13 @@ class GameSeekerDaily
      * @ORM\Column(name="token_updated_at", type="datetime", nullable=false)
      */
     private $tokenUpdatedAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    private $createdAt;
 
     /**
      * @var integer
@@ -59,9 +66,9 @@ class GameSeekerDaily
     public function __construct() 
     {
         $this->setPoints(0);
-        $this->setCreatedDay(new \DateTime());
-
         $this->setTokenUpdatedAt(new \DateTime());
+        $this->setCreatedAt(new \DateTime() );
+        $this->setClickedDay(new \DateTime());
     }
 
 
@@ -112,27 +119,27 @@ class GameSeekerDaily
     }
 
     /**
-     * Set createdDay
+     * Set clickedDay
      *
-     * @param \DateTime $createdDay
+     * @param \DateTime $clickedDay
      * @return GameSeekerDaily
      */
-    public function setCreatedDay($createdDay)
+    public function setClickedDay($clickedDay)
     {
-        $createdDay->setTime(0,0);
-        $this->createdDay = $createdDay;
+        $this->clickedDay= $clickedDay;
+        $this->clickedDay->setTime(0,0);
 
         return $this;
     }
 
     /**
-     * Get createdDay
+     * Get clickedDay
      *
      * @return \DateTime 
      */
-    public function getCreatedDay()
+    public function getClickedDay()
     {
-        return $this->createdDay;
+        return $this->clickedDay;
     }
 
     /**
@@ -189,6 +196,29 @@ class GameSeekerDaily
     public function getTokenUpdatedAt()
     {
         return $this->tokenUpdatedAt;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return GameSeekerDaily
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     /**

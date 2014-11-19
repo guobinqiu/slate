@@ -1,6 +1,8 @@
 <?php
 namespace Jili\FrontendBundle\Repository;
+
 use Doctrine\ORM\EntityRepository;
+
 use Jili\FrontendBundle\Entity\GameSeekerDaily;
 
 class GameSeekerDailyRepository extends EntityRepository 
@@ -13,7 +15,11 @@ class GameSeekerDailyRepository extends EntityRepository
     public function getInfoByUser($uid)
     {
         $em = $this->getEntityManager();
-        $gameSeekerDaily  = $this->findOneBy(array('userId'=> $uid, 'createdDay'=> new \DateTime() ));
+        $today_day = new \DateTime() ;
+        $today_day->setTime(0,0);
+
+        $gameSeekerDaily  = $this->findOneBy(array('userId'=> $uid, 'clickedDay'=> $today_day));
+
         if($gameSeekerDaily ) {
             $gameSeekerDaily->setToken();
         } else {
