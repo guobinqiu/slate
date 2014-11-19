@@ -80,21 +80,34 @@ class GameSeekerControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals('{}',$client->getResponse()->getContent(),'not ajax ');
 
+        // normal
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals('{}',$client->getResponse()->getContent(),'not sign in');
 
+        $uid = LoadGetChestInfoData::$USERS[0]->getId() ;
         $session = $client->getContainer()->get('session');
-        $session->set('uid', 1199);
+        $session->set('uid', $uid);
         $session->save();
 
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $gameSeekerDaily = $this->em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=> 1199/*, 'clickedDay'=>date('Y-m-d') */) );
-
+        $gameSeekerDaily = $this->em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=> $uid));
+        $token = $gameSeekerDaily->getToken();
         $this->assertNotNull($gameSeekerDaily);
-        $expected = '{"code":0,"data":{"countOfChest":3,"token":"'.$gameSeekerDaily->getToken().'"}}';
+        $expected = '{"code":0,"data":{"countOfChest":3,"token":"'.$token.'"}}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'normal');
+
+        // again
+        $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+
+        $gameSeekerDailyList = $this->em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $uid));
+        $this->assertNotEmpty($gameSeekerDailyList);
+        $token_again = $gameSeekerDailyList[0]->getToken();
+
+        $expected = '{"code":0,"data":{"countOfChest":3,"token":"'.$token_again.'"}}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'normal');
     }
 

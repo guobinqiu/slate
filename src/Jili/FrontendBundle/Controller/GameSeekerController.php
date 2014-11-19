@@ -38,7 +38,6 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $uid = $this->get('session')->get('uid');
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($uid, true));
         $em  = $this->get('doctrine.orm.entity_manager');
-//        $pointHistoryRepository = SequenseEntityClassFactory::createInstance('PointHistory', $uid);
         $is_completed = $em->getRepository('JiliApiBundle:PointHistory01')->isGameSeekerCompletedToday($uid);
         if(  $is_completed) {
             $response->setData(array( 'code'=> 1));
