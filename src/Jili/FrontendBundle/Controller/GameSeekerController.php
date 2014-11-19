@@ -155,10 +155,11 @@ $connection = $this->get('database_connection');
             $em->getConnection()->commit();
         } catch (\Exception $e) {
             $em->getConnection()->rollback();
-            throw $e;
-        }
+            $this->get('logger')->critical('[JiliFrontend][GameSeeker][click]'. $e->getMessage());
+            $this->get('session')->getFlashBag()->add('error','寻宝失败，内部出错');
+            return $this->redirect($this->generateUrl('_default_error'));
+        } 
 
-            print_r(get_class_methods($this->get('logger')));
         // update session of task_list.
         // update session of user.points 确认中的米粒数
         $this->get('login.listener')->updatePoints($user->getPoints() );
