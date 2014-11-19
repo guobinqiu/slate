@@ -34,6 +34,13 @@ class GameSeekerPointsPool
     private $isPublished;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="published_at", type="datetime", nullable=false)
+     */
+    private $publishedAt;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="is_valid", type="boolean", nullable=false)
@@ -46,6 +53,13 @@ class GameSeekerPointsPool
      * @ORM\Column(name="updated_at", type="datetime", nullable=false)
      */
     private $updatedAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    private $createdAt;
 
     /**
      * @var integer
@@ -128,6 +142,29 @@ class GameSeekerPointsPool
     }
 
     /**
+     * Set publishedAt
+     *
+     * @param \DateTime $publishedAt
+     * @return GameSeekerPointsPool
+     */
+    public function setPublishedAt($publishedAt)
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get publishedAt
+     *
+     * @return \DateTime 
+     */
+    public function getPublishedAt()
+    {
+        return $this->publishedAt;
+    }
+
+    /**
      * Set isValid
      *
      * @param boolean $isValid
@@ -171,6 +208,29 @@ class GameSeekerPointsPool
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return GameSeekerPointsPool
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     /**
