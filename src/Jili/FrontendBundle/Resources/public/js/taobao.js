@@ -21,7 +21,7 @@ jili.taobao.searchBycatgory = function(id) {
 			}
 			$box.find("#waterfall").html(html);
 			$box.find("#more").html("<a href="+Routing.generate("jili_frontend_taobao_categoryapi", {"id": id,"page":2})+"></a>");
-			$('.taoMainCon').append($box);
+			$('.taoMainCon').html($box);
 			$('#tabs-1').infinitescroll({
 				loading: {
 					finishedMsg: "<br style='clear:both'/><em>没有更多了。</em>",

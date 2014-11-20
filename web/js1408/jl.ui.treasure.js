@@ -109,7 +109,7 @@
                 if(treasureBox.length){
                     treasureBox.remove();
                 }
-                $(divLayer).html(imgLayer).css({"left": opts.box.position.x + 'px', "top": opts.box.position.y + 'px', "width": opts.box.size.w + 'px', "height": opts.box.size.h + 'px'}).addClass(opts.box.className).appendTo($(opts.container)).mouseover(function(){
+                $(divLayer).html(imgLayer).css({"left": opts.box.position.x + 'px', "top": opts.box.position.y + 'px', "width": opts.box.size.w + 'px', "height": opts.box.size.h + 'px'}).addClass(opts.box.className).appendTo($(opts.container).parent()).mouseover(function(){
                         $(this).animate({ "opacity": 1}, 1000);
                     }).on('click', function(){
                         $this.showResult(initData, $this.showBao);
@@ -131,8 +131,8 @@
             var winCon = "<div><img alt='宝箱' src='" + opts.box.gif + "'/><span></span></div>";
             //(new Image()).src = opts.box.gif;
             var $body = $('body');
-            $(divLayer).addClass(opts.theme.maskClass).appendTo($body);
-            $(divLayer).addClass(opts.theme.bgClass).append($(winCon).addClass(opts.theme.conClass)).append($(divLayer).addClass(opts.theme.closeClass).on('click', function(){ $this.closeResult()})).appendTo($body);
+            $(divLayer).addClass(opts.theme.maskClass).appendTo($body).animate({ width: "100%", height: "100%"}, 2000);
+            $(divLayer).addClass(opts.theme.bgClass).append($(winCon).addClass(opts.theme.conClass)).append($(divLayer).addClass(opts.theme.closeClass).on('click', function(){ $this.closeResult()})).appendTo($body).animate({ width: "1013px", height: "646px"}, 2000);;
             this.debug('运行动画');
         },
         closeResult: function(){
