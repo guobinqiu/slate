@@ -131,8 +131,8 @@
             var winCon = "<div><img alt='宝箱' src='" + opts.box.gif + "'/><span></span></div>";
             //(new Image()).src = opts.box.gif;
             var $body = $('body');
-            $(divLayer).addClass(opts.theme.maskClass).appendTo($body).animate({ width: "100%", height: "100%"}, 2000);
-            $(divLayer).addClass(opts.theme.bgClass).append($(winCon).addClass(opts.theme.conClass)).append($(divLayer).addClass(opts.theme.closeClass).on('click', function(){ $this.closeResult()})).appendTo($body).animate({ width: "1013px", height: "646px"}, 2000);;
+            $(divLayer).addClass(opts.theme.maskClass).appendTo($body);
+            $(divLayer).addClass(opts.theme.bgClass).append($(winCon).addClass(opts.theme.conClass)).append($(divLayer).addClass(opts.theme.closeClass).on('click', function(){ $this.closeResult()})).appendTo($body);
             this.debug('运行动画');
         },
         closeResult: function(){
