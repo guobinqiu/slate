@@ -72,7 +72,7 @@ jili.taobao.searchBycatgory = function(id) {
 					position: {"x": 0, "y": 0},
 					posNum: {"col": 4, "row": 5},
 					size: {"w": 180, "h": 200},
-					gap: {"gapW": 5, "gapH": 30},
+					gap: {"gapW": 0, "gapH": 20},
 					img: $("#loading_bar").find('.closeGif').attr('src'),
 					gif: $("#loading_bar").find('.openGif').attr('src'),
 					sortsArr: [],
