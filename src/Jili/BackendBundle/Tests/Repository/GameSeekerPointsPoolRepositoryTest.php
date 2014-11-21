@@ -49,15 +49,61 @@ class    GameSeekerPointsPoolRepositoryTest extends KernelTestCase
 10:20
 40:5
 100:2
-500:0
+1000:0
 EOD;
         $em->getRepository('JiliBackendBundle:GameSeekerPointsPool')->batchInsertRules($rules);
+        $era = new \DateTime();
+        $era->setTimestamp(0);
+
         $this->assertNotNull($em->getRepository('JiliBackendBundle:GameSeekerPointsPool')->findOneBy(array(
             'points'=> 500,
-            'sendFrequency' 1,
+            'sendFrequency'=> 1,
             'isValid'=> 0,
             'isPublished'=> 0,
+            'publishedAt'=> $era
         )));
 
+        $this->assertNotNull($em->getRepository('JiliBackendBundle:GameSeekerPointsPool')->findOneBy(array(
+            'points'=> 100,
+            'sendFrequency'=> 2,
+            'isValid'=> 0,
+            'isPublished'=> 0,
+            'publishedAt'=> $era
+        ))); 
+        $this->assertNotNull($em->getRepository('JiliBackendBundle:GameSeekerPointsPool')->findOneBy(array(
+            'points'=> 50,
+            'sendFrequency'=> 4,
+            'isValid'=> 0,
+            'isPublished'=> 0,
+            'publishedAt'=> $era
+        )));       
+        $this->assertNotNull($em->getRepository('JiliBackendBundle:GameSeekerPointsPool')->findOneBy(array(
+            'points'=> 20,
+            'sendFrequency'=> 10,
+            'isValid'=> 0,
+            'isPublished'=> 0,
+            'publishedAt'=> $era
+        )));       
+        $this->assertNotNull($em->getRepository('JiliBackendBundle:GameSeekerPointsPool')->findOneBy(array(
+            'points'=> 5,
+            'sendFrequency'=> 40,
+            'isValid'=> 0,
+            'isPublished'=> 0,
+            'publishedAt'=> $era
+        )));       
+        $this->assertNotNull($em->getRepository('JiliBackendBundle:GameSeekerPointsPool')->findOneBy(array(
+            'points'=> 2,
+            'sendFrequency' =>100,
+            'isValid'=> 0,
+            'isPublished'=> 0,
+            'publishedAt'=> $era
+        )));       
+        $this->assertNotNull($em->getRepository('JiliBackendBundle:GameSeekerPointsPool')->findOneBy(array(
+            'points'=> 0,
+            'sendFrequency' =>1000,
+            'isValid'=> 0,
+            'isPublished'=> 0,
+            'publishedAt'=> $era
+        )));       
     }
 }

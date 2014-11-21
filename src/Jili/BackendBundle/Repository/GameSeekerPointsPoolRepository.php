@@ -26,8 +26,8 @@ class GameSeekerPointsPoolRepository extends EntityRepository
             $pool = new GameSeekerPointsPool();
             $pool->setCreatedAt($createdAt);
             $pool->setUpdatedAt($createdAt);
-            $pool->setPoints($columns[0]);
-            $pool->setSendFrequency( $columns[1]);
+            $pool->setPoints($columns[1]);
+            $pool->setSendFrequency( $columns[0]);
             $em->persist($pool);
         }
         $em->flush(); $em->clear(); // Detaches all objects from Doctrine!

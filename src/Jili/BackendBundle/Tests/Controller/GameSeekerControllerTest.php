@@ -32,8 +32,13 @@ class GameSeekerControllerTest extends WebTestCase
 100:2
 500:0
 EOD;
-         $client->submit($form);
+        $client->submit($form);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
+
+        $crawler = $client->followRedirect();
+
+        //  check the redirected url.
+        $this->assertEquals( '/admin/game-seeker/enable', $client->getRequest()->getRequestUri());
 
     }
 }
