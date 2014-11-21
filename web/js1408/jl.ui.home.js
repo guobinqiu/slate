@@ -141,6 +141,13 @@
             });
         }
         var s = setInterval(textScroll, 2000);
+		$('.bxAdWrapper .close').on('click', function(){
+			/*$('.bxAd').animate({ left: '500px', top: '0px', width: '0px', height: '0px', opacity: '0'}, 1000);
+			$('.adMask').animate({ left: '50%', top: '0px', width: '0px', height: '0px', opacity: '0'}, 2000);*/
+			//$('.adMask').hide();
+			$('.bxAdWrapper').fadeOut({ width: '0px', height: '0px', opacity: '0'}, 3000);
+			$('.adMask').fadeOut({ width: '0px', height: '0px', opacity: '0'}, 3000);
+		});
     });
 })(jQuery);
 
