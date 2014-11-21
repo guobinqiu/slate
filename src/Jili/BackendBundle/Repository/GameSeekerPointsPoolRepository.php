@@ -18,43 +18,64 @@ class GameSeekerPointsPoolRepository extends EntityRepository
     function batchInsertRules($rules) 
     {
         $b = explode(PHP_EOL, $rules);
-        $batchSize = 20;
         $createdAt = new \Datetime();
         $em = $this->getEntityManager();
-        foreach($b as $k => $v) {
-            $columns = explode(':' , $v);
-            $pool = new GameSeekerPointsPool();
-            $pool->setCreatedAt($createdAt);
-            $pool->setUpdatedAt($createdAt);
-            $pool->setPoints($columns[1]);
-            $pool->setSendFrequency( $columns[0]);
-            $em->persist($pool);
+        try{
+            $em->getConnection()->beginTransaction();
+            $q = $em->createQuery('delete from Jili\BackendBundle\Entity\GameSeekerPointsPool m where m.isValid = 0 and m.isPublished = 0');
+            $q->execute();
+            foreach($b as $k => $v) {
+                $columns = explode(':' , $v);
+                $pool = new GameSeekerPointsPool();
+                $pool->setCreatedAt($createdAt);
+                $pool->setUpdatedAt($createdAt);
+                $pool->setPoints($columns[1]);
+                $pool->setSendFrequency( $columns[0]);
+                $em->persist($pool);
+            }
+            $em->flush(); 
+            $em->clear(); // Detaches all objects from Doctrine!
+            $em->getConnection()->commit();
+        } catch( \Exception $e) {
+            $em->getConnection()->rollback();
+            throw $e;
         }
-        $em->flush(); $em->clear(); // Detaches all objects from Doctrine!
     }
 
-    public function fetchToEnable( $created_at)
+
+    public function batchSetEnable( )
     {
-        $createdAt = new \DateTime();
-        $createdAt ->setTimestamp($created_at);
-        // latest createdAt
-        $this->findBy(array(
+        // delete ( 1, 0) 
+        // move (0,0) to ( 1, 0) 
+        $em = $this->getEntityManager();
+        try{
+            $em->getConnection()->beginTransaction();
+            $q = $em->createQuery('delete from Jili\BackendBundle\Entity\GameSeekerPointsPool m where m.isValid = 1 and m.isPublished = 0');
+
+            $q->execute();
+            $q_update = $em->createQuery('update Jili\BackendBundle\Entity\GameSeekerPointsPool m set m.isValid = 1, m.isPublished=1 , m.PublishedAt = now()  where m.isValid =0 and isPublished = 0');
+
+            $num_updated = $q_update->execute();
+            $em->getConnection()->commit();
+            return $num_updated;
+        } catch( \Exception $e) {
+            $em->getConnection()->rollback();
+            throw $e;
+        }
+    }
+
+    public function fetchToPublish( )
+    {
+        return $this->findBy(array(
             'isValid' => 0,
-            'isPublished' => 0,
-            'createdAt'=>$createdAt ));
-
+            'isPublished' => 0));
     }
 
-    public function fetchToPublish( $created_at)
+    public function fetchToEnable( )
     {
-        
-        $createdAt = new \DateTime();
-        $createdAt ->setTimestamp($created_at);
-
-        $this->findBy(array(
-            'isValid' => 1,
-            'isPublished' => 0,
-            'createdAt'=>$createdAt ));
-
+        return $this->findBy(array(
+            'isValid' => 0,
+            'isPublished' => 0));
     }
+
 }

@@ -6,6 +6,15 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class GameSeekerControllerTest extends WebTestCase
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUp()
+    {
+        $this->client = static::createClient();
+        $this->container  = static::$kernel->getContainer();
+    }
     
     /**
      * @group issue_524
@@ -13,11 +22,11 @@ class GameSeekerControllerTest extends WebTestCase
      */
     function testBuildAction() 
     {
-        $client = static::createClient();
-        $container  = static::$kernel->getContainer();
+        $client = $this->client;
+        $container = $this->container;
 
         $url =$container->get('router')->generate('jili_backend_gameseeker_buildpointstrategy');
-        $this->assertEquals('/admin/game-seeker/build-points-strategy', $url);
+        $this->assertEquals('https://localhost/admin/game-seeker/build-points-strategy', $url);
 
         $crawler = $client->request('GET', $url ); 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -38,7 +47,29 @@ EOD;
         $crawler = $client->followRedirect();
 
         //  check the redirected url.
-        $this->assertEquals( '/admin/game-seeker/enable', $client->getRequest()->getRequestUri());
+        $this->assertEquals( '/admin/game-seeker/publish-points-strategy', $client->getRequest()->getRequestUri());
+
+    }
+
+    /**
+     * @group issue_524
+     */
+    function testEnableAction() 
+    {
+        $client = $this->client;
+        $container = $this->container;
+    }
+
+    /**
+     * @group issue_524
+     * @group debug 
+     */
+    function testPublishAction() 
+    {
+        $client = $this->client;
+        $container = $this->container;
+
+        $this->assertEquals( 'https://localhost/admin/game-seeker/publish-points-strategy', $container->get('router')->generate('jili_backend_gameseeker_publishpointsstrategy'));
 
     }
 }

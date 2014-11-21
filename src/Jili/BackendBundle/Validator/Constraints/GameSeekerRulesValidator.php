@@ -10,8 +10,8 @@ class GameSeekerRulesValidator extends ConstraintValidator
     {
         $b = explode(PHP_EOL, $value);
         foreach($b as $k => $v) {
-            $v = str_replace(' ', '', $v);
-            if(!  preg_match('/^\d+\:\d+(\:\d+(,\d+)*)*$/', $v) &&  ! preg_match('/^\d+\:\:\d+(,\d+)*$/', $v)) 
+            $v = trim($v);
+            if( ! preg_match('/^\d+\:\d+(\:\d+(,\d+)*)*$/', $v) &&  ! preg_match('/^\d+\:\:\d+(,\d+)*$/', $v)) 
             {
                 $this->context->addViolation($constraint->message, array('%string%' => $v));
             }

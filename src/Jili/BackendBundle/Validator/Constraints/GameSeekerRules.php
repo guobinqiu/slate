@@ -9,9 +9,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class GameSeekerRules extends Constraint
 {
-    public $message = '%string% 格式出错, <pre>123:32</pre> or <pre>123:456:678,78</pre> ';
-
-// 'The string "%string%" contains an illegal.Allows string follow the format <pre>123:32</pre> or <pre>123:456:678,78</pre> for every line';
-
-
+    public $message = '%string% 格式出错, 参考123:32 ';
 }
