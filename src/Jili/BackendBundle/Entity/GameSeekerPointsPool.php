@@ -1,17 +1,24 @@
 <?php
 
-namespace Jili\FrontendBundle\Entity;
+namespace Jili\BackendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * GameSeekerPointsPool
+ * status on ( is_valid, is_published) composition
  *
+ *     0 0 init 
+ *     1 0 topublish
+ *     1 1 published
+ *     0 1 restored  
  * @ORM\Table(name="game_seeker_points_pool", indexes={@ORM\Index(name="pts_freq", columns={"points", "send_frequency"})})
- * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameSeekerPointsPoolRepository")
+ * @ORM\Entity(repositoryClass="Jili\BackendBundle\Repository\GameSeekerPointsPoolRepository")
  */
 class GameSeekerPointsPool
 {
+    
+    
     /**
      * @var integer
      *
@@ -242,4 +249,14 @@ class GameSeekerPointsPool
     {
         return $this->id;
     }
+
+    public function __construct() 
+    {
+        $this->setIsPublished(0);
+        $this->setIsValid(0);
+        $era= new \DateTime();
+        $era->setTimestamp(0);
+        $this->setPublishedAt($era);
+    }
 }
+

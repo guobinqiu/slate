@@ -30,6 +30,6 @@ CREATE TABLE `game_seeker_points_pool` (
   `updated_at` datetime NOT NULL COMMENT '更新日期, if has latest updated_at than cache ,do auto publish',
   `created_at` datetime NOT NULL COMMENT '创建日期',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `point_with_status` (`points`,`send_frequency`,`is_published`,`is_valid`),
   KEY `pts_freq` (`points`,`send_frequency`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='寻宝积分管理表';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='寻宝积分管理表'

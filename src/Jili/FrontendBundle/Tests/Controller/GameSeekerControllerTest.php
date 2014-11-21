@@ -129,7 +129,6 @@ class GameSeekerControllerTest extends WebTestCase
 
     /**
      * @group issue_524
-     * @group debug 
      */
     function testGetClickAction() 
     {

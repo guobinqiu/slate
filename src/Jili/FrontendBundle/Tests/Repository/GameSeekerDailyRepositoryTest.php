@@ -49,7 +49,6 @@ class GameSeekerDailyRepositoryTest  extends KernelTestCase
      */
     public function testGetInfoByUser() {
         $em = $this->em;
-        $this->assertEquals(1,1);
         $today = new \DateTime();
         $today->setTime(0,0);
         $instance = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=>1, 'clickedDay'=>$today ));

@@ -253,3 +253,8 @@ parameters:
     upload_experience_advertisement_dir_old: images/experience_advertisement/old/
     delete_flag_true: 1
     delete_flag_false: 0
+    game_seeker_config_path:
+        points_strategy: "%cache_data_path%/game_seeker_points_strategy_conf.json"
+        points_pool: "%cache_data_path%/game_seeker_points_pool_YYYYmmdd.json"
+        chest:  "%cache_data_path%/game_seeker_config_chest.txt"
+
