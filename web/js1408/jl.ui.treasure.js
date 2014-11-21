@@ -20,7 +20,7 @@
                 }
             });
             $this.debug("初始化……", opts);
-            var initData = {"state": 0, "num": 3};
+            var initData = {"state": 0, "num": 10};
             $this.randSort(initData);
             $this.setUp(initData);
         },
@@ -101,9 +101,9 @@
                     marginW = opts.box.gap.gapW;
                     marginH = opts.box.gap.gapH;
                 }
-				$this.debug("偏移元素", $(opts.container).position(), Math.floor(opts.box.gap.gapH/2));
+				$this.debug("偏移元素", $(opts.container).position(), Math.ceil(opts.box.gap.gapH/2));
                 opts.box.position = { "x" : $(opts.container).position().left + randNumX*(opts.box.size.w+marginW),
-                    "y" : $(opts.container).position().top + randNumY*(opts.box.size.h+marginH) + Math.floor(opts.box.gap.gapH/2)};
+                    "y" : $(opts.container).position().top + randNumY*(opts.box.size.h+marginH) + Math.ceil(opts.box.gap.gapH/2)};
                 $this.debug("随机位置", opts.box.position, randNumX, randNumY, marginW, marginH);
                 //设置宝箱位置和大小并显示宝箱
                 if(treasureBox.length){
