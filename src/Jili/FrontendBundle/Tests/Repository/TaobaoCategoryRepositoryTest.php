@@ -48,7 +48,7 @@ class TaobaoCategoryRepositoryTest extends KernelTestCase {
     /**
      * @group issue_504
      */
-    public function testFindComponents() {
+    public function testFindCategorys() {
         $em = $this->em;
         $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys();
         $this->assertEquals(16, count($keywords));

@@ -16,6 +16,7 @@ class TaobaoComponent
     const TAOBAO_COMPONENT_KEYWORD = 2; //分类产品,关键字
     const TAOBAO_COMPONENT_ITEM = 3; //单品
     const TAOBAO_COMPONENT_SHOP = 4; //店铺
+    const DROP_DOWN_BOX_DEFAULT = -1; //下拉框默认值
 
     /**
      * @var integer
@@ -46,9 +47,9 @@ class TaobaoComponent
     private $content;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="sort", type="boolean", nullable=true)
+     * @ORM\Column(name="sort", type="integer", length=3, nullable=true)
      */
     private $sort;
 
@@ -78,6 +79,7 @@ class TaobaoComponent
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->sort = 0;
     }
 
     /**
@@ -175,7 +177,7 @@ class TaobaoComponent
     /**
      * Set sort
      *
-     * @param boolean $sort
+     * @param integer $sort
      * @return TaobaoComponent
      */
     public function setSort($sort)
@@ -188,7 +190,7 @@ class TaobaoComponent
     /**
      * Get sort
      *
-     * @return boolean
+     * @return integer
      */
     public function getSort()
     {
