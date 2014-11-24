@@ -1,7 +1,31 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}JiliBackendBundle:GameSeekerPool:publish{% endblock %}
+{% block title %}发布积分方案{% endblock %}
 
 {% block body %}
-<h1>Welcome to the GameSeekerPool:publish page</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>数值</th>
+                <th>频数</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in rules %}
+            <tr>
+                <td>{{ entity.points }}</td>
+                <td>{{ entity.sendFrequency }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+<form action="" method="POST">
+{{ form_row(form.is_immediate)  }}
+{{ form_rest(form) }}
+<input type="submit" value="Publish" />
+</form>
+{% include("JiliBackendBundle:GameSeeker/PointsStrategy:menu.html.twig") %}
 {% endblock %}

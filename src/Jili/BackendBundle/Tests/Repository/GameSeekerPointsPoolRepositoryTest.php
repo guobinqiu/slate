@@ -37,7 +37,6 @@ class    GameSeekerPointsPoolRepositoryTest extends KernelTestCase
     }
     /**
      * @group issue-524
-     * @group debug 
      */
     public function testbatchInsertRules()
     {

@@ -1,6 +1,6 @@
 parameters:
      authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
-     game_seeker.point_pool.class: Jili\BackendBundle\Services\GameSeeker\PointsPool
+     game_seeker.points_pool.class: Jili\BackendBundle\Services\GameSeeker\PointsPool
 
 #    jili_api.api.class: Jili\ApiBundle\Controller\ApiController
 #    jili_api.offerwow.class: Jili\ApiBundle\Controller\OfferwowController
@@ -13,8 +13,8 @@ services:
         arguments: [ [%admin_home_ip%,  %admin_vpn_ip%,    %admin_ele_ip%,    %admin_un_ip% , 127.0.0.1] ]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-     game_seeker.point_pool:
-        class: %game_seeker.point_pool.class%
+     game_seeker.points_pool:
+        class: %game_seeker.points_pool.class%
         arguments: [ %game_seeker_config_path% ]
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 

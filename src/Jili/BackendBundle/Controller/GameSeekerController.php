@@ -28,7 +28,7 @@ class GameSeekerController extends Controller
         if( 'POST' === $request->getMethod()) {
             $form->bind($request);
             $data = $form->getData();
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__ ,'$data','')). var_export($data, true) );
+            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__ ,'$data','')). var_export($data, true) );
             if($form->isValid()) {
                 // validate
                 $errorList = $this->get('validator')->validateValue($data['rules'],new  GameSeekerRules());
@@ -59,16 +59,19 @@ class GameSeekerController extends Controller
         $form = $this->createFormBuilder()
             ->add('is_immediate', 'hidden')
             ->getForm();
+
+        $logger = $this->get('logger');
+
         if('POST'=== $request->getMethod()) {
 
-            $rules = $this->get('doctrine.orm.default_entity_manager')
+            $num_rules = $this->get('doctrine.orm.default_entity_manager')
                 ->getRepository('JiliBackendBundle:GameSeekerPointsPool')
                 ->batchSetPublished();
 
-            if( count($rules) > 0  ) {
+            if( count($num_rules) > 0  ) {
                 // write the the cache file
-                $this->get('game_seeker.points_pool')->publish($rules);
-                return $this->redirect($this->generateUrl('jili_backend_gameseeker_success' ));
+                $this->get('game_seeker.points_pool')->publish();
+                return $this->redirect($this->generateUrl('jili_backend_gameseeker_operatesuccess' ));
             }  else {
                 // 
             }
@@ -78,7 +81,6 @@ class GameSeekerController extends Controller
         $rules = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('JiliBackendBundle:GameSeekerPointsPool')
             ->fetchToPublish();
-
         return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:publish.html.twig', array('form'=> $form->createView(), 'rules'=> $rules));
     }
     /**
@@ -97,18 +99,19 @@ class GameSeekerController extends Controller
             }
 
             // session flash
-            return $this->redirect('jili_backend_gameseeker_success');
+            return $this->redirect('jili_backend_gameseeker_operatesuccess');
         }
         return $this->render('JiliBackendBundle:GameSeeker:Chest.html.twig', array(
             'form'=> $form->createView()
         ));
     }
+
     /**
      * @Route("/success")
      */
     public function operateSuccessAction()
     {
-        return $this->render('JiliBackendBundle:GameSeeker:operation_success.html.twig');
+        return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:operate_success.html.twig');
     }
 
     /**

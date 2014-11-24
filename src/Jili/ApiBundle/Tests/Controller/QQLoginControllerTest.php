@@ -395,7 +395,6 @@ EOD;
 
     /**
      * @group issue_474
-     * @group debug 
      */
     public function testqqRegisteActionValidation()
     {

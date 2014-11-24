@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class GameSeekerControllerTest extends WebTestCase
 {
 
+    private $em ;
+    private $has_fixture;
+
     /**
      * {@inheritDoc}
      */
@@ -14,11 +17,17 @@ class GameSeekerControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->container  = static::$kernel->getContainer();
+// $em = ?
+        $tn = $this->getName();
+        if('testPublishAction'=== $tn ){
+
+            $this->has_fixture = true;
+
+        }
     }
     
     /**
      * @group issue_524
-     * @group debug 
      */
     function testBuildAction() 
     {
@@ -68,8 +77,13 @@ EOD;
     {
         $client = $this->client;
         $container = $this->container;
+        $url =$container->get('router')->generate('jili_backend_gameseeker_publishpointsstrategy');
+        $this->assertEquals( 'https://localhost/admin/game-seeker/publish-points-strategy', $url);
+        // form post !
+        $crawler = $client->request('GET', $url);
+        // $form->
+        //$this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $this->assertEquals( 'https://localhost/admin/game-seeker/publish-points-strategy', $container->get('router')->generate('jili_backend_gameseeker_publishpointsstrategy'));
 
     }
 }
