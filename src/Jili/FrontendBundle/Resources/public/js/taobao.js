@@ -68,6 +68,8 @@ jili.taobao.searchBycatgory = function(id) {
 				container: '.taoMainCon',
 				sortSelector: '#tabs li',
 				curEle: '',
+				initUrl: '/app_dev.php/game-seeker/getChestInfo',
+				resultUrl: '/app_dev.php/game-seeker/click',
 				box: {
 					position: {"x": 0, "y": 0},
 					posNum: {"col": 4, "row": 5},

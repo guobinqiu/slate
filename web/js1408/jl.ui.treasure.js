@@ -10,19 +10,20 @@
         create: function(){
             var $this = this;
             var opts = $this.options;
+			if(!opts.initUrl){ $this.debug("请求地址不存在");}
             $.ajax({
-                url: '',
-                type: "GET",
+                url: opts.initUrl,
+                type: "POST",
                 dataType: 'json',
-                success: function(data){ },
-                error: function(){
-                    $this.debug('第一次请求错误');
-                }
-            });
-            $this.debug("初始化……", opts);
-            var initData = {"state": 0, "num": 10};
-            $this.randSort(initData);
-            $this.setUp(initData);
+                success: function(returnData){ 
+					if(returnData.code == 1){ $this.debug('亲，今天已经玩过了哦，明天再来吧');}
+					$this.debug("初始化……", opts, returnData);
+					$this.setUp(returnData);
+				},
+				error: function(){
+					$this.debug('第一次请求错误');
+				}
+			});
         },
         debug: function() {
             var opts = this.options;
@@ -30,24 +31,24 @@
                 return window.console && console.log.call(console, arguments);
             }
         },
-        //获取当前分类
-        setUp: function(initData){
-            var instance = this;
-            var opts = instance.options;
-            instance.debug('第一次加载页面时的分类', $(opts.sortSelector + '.ui-tabs-active').text());
-            opts.curEle = $(opts.sortSelector + '.ui-tabs-active').text();
-            instance.showBao(initData);
-            $(opts.sortSelector).on('click', function(){
-                var index = $(opts.sortSelector).index(this);
-                $(opts.sortSelector).removeClass('ui-tabs-active').eq(index).addClass('ui-tabs-active');
-                opts.curEle = $(this).text();
+		setUp: function(data){
+			var $this = this;
+            var opts = $this.options;
+			$this.debug('第一次加载页面时的分类', $(opts.sortSelector + '.ui-tabs-active').text());
+			opts.curEle = $(opts.sortSelector + '.ui-tabs-active').text();
+			if(data.code == 0){ $this.randSort(data); $this.showBao(data);}
+			$(opts.sortSelector).on('click', function(){
+				var index = $(opts.sortSelector).index(this);
+				$(opts.sortSelector).removeClass('ui-tabs-active').eq(index).addClass('ui-tabs-active');
+				opts.curEle = $(this).text();
 				var categoryId = $(this).attr('id');
 				if(opts.clickCallback){
-                    opts.clickCallback(categoryId);
-                }
-                instance.showBao(initData);
-            });
-        },
+					opts.clickCallback(categoryId);
+				}
+				if(data.code == 0){ $this.showBao(data);}
+			});
+			return false;
+		},
         //解决在ie7和ie8下indexOf方法不能用的问题
         indexOfRedefine: function(){
             if (!Array.prototype.indexOf){
@@ -69,8 +70,8 @@
             var opts = this.options;
             var allSorts = $(opts.sortSelector);
             var sortArr = [], randArr = [], randNum;
-            if(allSorts && (initData.num > allSorts.length || initData.num <= 0)){ this.debug('初始宝箱数不对'); return;}
-            for(var i = 0, j = 0; randArr.length < initData.num; i++){
+            if(allSorts && (initData.data.countOfChest > allSorts.length || initData.data.countOfChest <= 0)){ this.debug('初始宝箱数不对'); return;}
+            for(var i = 0, j = 0; randArr.length < initData.data.countOfChest; i++){
                 randNum = Math.floor(Math.random()*(0-(allSorts.length - 1)) + (allSorts.length - 1));
                 this.indexOfRedefine();
                 if(randArr.indexOf(randNum) == -1){
@@ -90,8 +91,8 @@
             var imgLayer = '<img alt="宝箱" src="' + opts.box.img + '"/>';
             (new Image()).src = opts.box.img;
             var treasureBox = $('.'+opts.box.className);
-            $this.debug('是否显示宝箱……',((opts.box.sortsArr).indexOf(opts.curEle)),initData.state);
-            if((opts.box.sortsArr).indexOf(opts.curEle) != -1 && initData.state == 0){
+            $this.debug('是否显示宝箱……',((opts.box.sortsArr).indexOf(opts.curEle)),initData.code);
+            if((opts.box.sortsArr).indexOf(opts.curEle) != -1 && initData.code == 0){
                 //根据坐标范围生成随机位置
                 var randNumX = Math.floor(Math.random()*(1-opts.box.posNum.col) + opts.box.posNum.col),
                     randNumY = Math.floor(Math.random()*(1-opts.box.posNum.row) + opts.box.posNum.row),
@@ -129,11 +130,10 @@
             var opts = $this.options;
             var divLayer = "<div></div>";
             var winCon = "<div><img alt='宝箱' src='" + opts.box.gif + "'/><span></span></div>";
-            //(new Image()).src = opts.box.gif;
             var $body = $('body');
             $(divLayer).addClass(opts.theme.maskClass).appendTo($body);
             $(divLayer).addClass(opts.theme.bgClass).append($(winCon).addClass(opts.theme.conClass)).append($(divLayer).addClass(opts.theme.closeClass).on('click', function(){ $this.closeResult()})).appendTo($body);
-            this.debug('运行动画');
+            $this.debug('运行动画');
         },
         closeResult: function(){
             var opts = this.options;
@@ -157,28 +157,31 @@
             this.debug('打开宝箱……');
             var $this = this;
 			var opts = $this.options;
-            initData.state = 1;
+            initData.code = 1;
+			if(!opts.initUrl){ $this.debug("请求地址不存在");}
             //获取中奖状态
             $.ajax({
-                url: '',
-                type: "GET",
+                url: opts.resultUrl,
+                type: "POST",
                 dataType: 'json',
-                data: initData,
-                success: function(data){
+                data: "token=" + initData.token,
+                success: function(returnData){
+					var resultData = { "point": returnData.data.points || 0};
+					$this.debug('请求结果', resultData);
+					$this.loadGif();
+					//判断结果是否中奖
+					if(resultData.point > 0){
+						$this.getPoint();
+						setTimeout(function(){ $this.showPoint(resultData);}, opts.box.gifTime);
+					}else{
+						setTimeout(function(){ $this.noPoint();}, opts.box.gifTime);
+					}
+					$this.showBao(resultData);
                 },
                 error: function(){
                     $this.debug('第二次请求错误');
                 }
             });
-            var resultData = { "point": 500};
-            $this.loadGif();
-            //判断结果是否中奖
-            if(resultData.point > 0){
-                $this.getPoint();
-                setTimeout(function(){ $this.showPoint(resultData);$this.showBao(initData);}, opts.box.gifTime);
-            }else{
-				setTimeout(function(){ $this.noPoint();}, opts.box.gifTime);
-            }
         }
     };
     $.treasure = function(options, element){
@@ -190,6 +193,8 @@
         container: '.proList',
         sortSelector: '.sorts li',
         curEle: '',
+		initUrl: '#',
+		resultUrl: '#',
         box: {
             position: {"x": 0, "y": 0},
             posNum: {"col": 4, "row": 5},

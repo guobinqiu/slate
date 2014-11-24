@@ -1,0 +1,20 @@
+parameters:
+    database_driver:   pdo_mysql
+    #database_host:     192.168.1.235
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     jili_db
+    database_user:     root
+    database_password: ecnavi
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
+    locale:            en
+    secret:            ThisTokenIsNotSoSecretChangeIt
+
+#91wenwen和91jili账号关联secret key
+    91wewen_bind_secret_key_dev: 0b0c2b46e396714623dcd1f4c361918a0658e8131d70e3efc237079a0f26625a   #development
+    91wewen_bind_secret_key_prod: 3b9a08811c66af715c71dacd8864cc1a301f7a03d97deb759ac8f9e270f8bb94   #production
+
