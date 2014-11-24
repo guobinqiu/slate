@@ -11,6 +11,9 @@ use Jili\BackendBundle\DataFixtures\ORM\Services\GameSeeker\LoadPointsPoolPublis
 
 class PointsPoolTest extends KernelTestCase
 {
+    private $has_fixture = false;
+    
+
     public function setUp()
     {
         static::$kernel = static::createKernel();
@@ -19,18 +22,34 @@ class PointsPoolTest extends KernelTestCase
             ->get('doctrine')
             ->getManager();
         $container =  static::$kernel->getContainer();
+        
+        $tn = $this->getName();
+        if( 'testPublish'=== $tn) {
+            $this->has_fixture  = true;
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
 
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
+            $loader = new Loader();
+            $fixture= new LoadPointsPoolPublishCodeData();
+            $loader->addFixture($fixture);
 
-        $loader = new Loader();
-        $fixture= new LoadPointsPoolPublishCodeData();
-        $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
+        }
 
-        $executor->execute($loader->getFixtures());
         $this->em = $em;
         $this->container = $container;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+        if($this->has_fixture) {
+            $this->em->close();
+        }
     }
 
 
@@ -53,10 +72,8 @@ class PointsPoolTest extends KernelTestCase
         $this->assertEquals($root_dir. DIRECTORY_SEPARATOR. 'cache_data/test/game_seeker_points_strategy_conf.json',$path_configs['points_strategy']);
 
         //  check file contents
-        //  [[1000,0],[1000,1],[500,2],[200,5],[1,500]]
-        $actual_string  = '[[1000,0],[0,1],[1000,2],[1,3],[500,4],[2,5],[200,6],[5,7],[1,8],[500,9]]';
+        $expected_string = '[[1000,0],[1000,1],[500,2],[200,5],[1,500]]';
         $this->assertFileExists($path_configs['points_strategy'] );
-        $this->assertStringEqualsFile($path_configs['points_strategy'] , $actual_string);
-
+        $this->assertStringEqualsFile( $path_configs['points_strategy'], $expected_string );
     }
 }

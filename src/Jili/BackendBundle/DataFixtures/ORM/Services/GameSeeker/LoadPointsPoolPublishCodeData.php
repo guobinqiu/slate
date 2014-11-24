@@ -11,29 +11,29 @@ use Jili\BackendBundle\Entity\GameSeekerPointsPool;
 class LoadPointsPoolPublishCodeData  extends AbstractFixture implements FixtureInterface
 {
 
-    // sql file ?
-//    insert data 
     /**
     * {@inheritDoc}
     */
     public function load(ObjectManager $manager) {
         // $manager->createQuery('insert into Jili\BackendBundle\Entity\GameSeekerPointsPool ( ) values () ');
         $fixtures = array(
-            '1000','0',
-            '1000','1',
-            '500','2',
-            '200','5',
-            '1','500',
+            array('1000','0'),
+            array('1000','1'),
+            array('500','2'),
+            array('200','5'),
+            array('1','500'),
         );
         $records = array();
         $createdAt = new \Datetime();
+
         foreach($fixtures as $k => $v) {
-            $columns = explode(':' , $v);
+            $f= $v[0];
+            $pts =$v[1]; 
             $entity = new GameSeekerPointsPool();
             $entity->setCreatedAt($createdAt)
             ->setUpdatedAt($createdAt)
-            ->setPoints($v)
-            ->setSendFrequency( $k)
+            ->setPoints( (string) $pts )
+            ->setSendFrequency( $f)
             ->setIsPublished(1)
             ->setPublishedAt($createdAt)
             ->setIsValid(1);

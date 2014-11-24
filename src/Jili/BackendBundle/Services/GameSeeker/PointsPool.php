@@ -24,33 +24,28 @@ class PointsPool
     }
 
     // Write content with json_encode  
-    public function writeCache($content, $path) 
+    public function writeCache($data, $file) 
     {
         $fs = new Filesystem();
-        $dir = dirname($path);
+        $dir = dirname($file);
         if( !  $fs->exists( $dir) ){
             $fs->mkdir($dir);
         }
         
-        $this->logger->debug('{jarod}'. var_export($path, true));
-        $this->logger->debug('{jarod}'. var_export($content, true));
-        $this->logger->debug('{jarod}'. var_export(json_encode($content), true));
-
-        if ( false === file_put_contents( $path, json_encode($data), LOCK_EX)) {
+        $fs->touch($file);
+        if ( false === file_put_contents( $file, json_encode($data), LOCK_EX)) {
             $this->logger->crit('[game_seeker][writeCache]cannot write points strategy to cache_data/' );
         };
-
     }
 
     // read the cache.
-    private function readCached($path)
+    private function readCached($file)
     {
-        $cached =  $this->getFileName($path);
         $fs = new Filesystem();
-        if(!  $fs->exists( $cached) ){
+        if(!  $fs->exists( $file) ){
             return ;
         }
-        return @json_decode(file_get_contents($cached));
+        return @json_decode(file_get_contents($file));
     }
 
     // 从奖池中抽取宝奖分
@@ -77,23 +72,30 @@ class PointsPool
      *  json_encode the points & write into cache file.
      *  return the points strategy list
      */
-    public function publish() {
+    public function publish() 
+    {
         $em = $this->em;
+        $fs = new Filesystem();
         try {
-            $rules = $em->getRepository('JiliBackendBundle:GameSeekerPointsPool')->fetchPublished();
-            $path = $this->config_paths['points_strategy'];
-            $this->writeCache( $rules, $path);
-            if(file_exists($path))  {
+            $file = $this->config_paths['points_strategy'];
+            if($fs->exists($file))  {
                 $tmp = tempnam ( '/tmp/', 'jili_game_seeker_');
-                exec('mv ' .$path . ' ' . $tmp );
+                $fs->copy($file , $tmp);
             }
+            $rules = $em->getRepository('JiliBackendBundle:GameSeekerPointsPool')->fetchPublished();
+            $this->writeCache( $rules, $file);
+            if (isset($tmp) && $fs->exists($tmp)) {
+                $fs->remove($tmp);
+            }
+            return $rules;
         } catch(\Exception $e ) {
             $this->logger->crit('[points_pool][publish]'. $e->getMessage());
-            if (isset($tmp) && file_exists($tmp)) {
-                exec('mv ' .$tmp. ' ' . $path );
+            if (isset($tmp) && $fs->exists($tmp)) {
+                $fs->copy( $tmp, $file);
+                $fs->remove($tmp);
             }
+            return $this->readCached();
         }
-        return $rules;
     }
 
     public function getPointsStrategyConfiguration() 
