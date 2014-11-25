@@ -20,18 +20,22 @@
             <article>
                 <div class="regForm qqRegForm" style="padding-top:100px;">
                     <h2 class="fontYH">尊敬的QQ会员，欢迎来到积粒网！</h2>
+                    <div>
+                        <ul>
+                            <li>您的基本信息</li>
+                            <li class="qqMsg">
+                                <span>昵称：{{ nickname }}<br/>性别：{{ sex }}</span>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="qqReg">
                         {# if( newregist )#}
                         <span class="noJl fontYH">没有积粒网账号</span>
                         <form action="{{ path('qq_registe') }}" method="post" name="form1" id="form1" >
                             <ul class="addAccount">
-                                <li>您的基本信息</li>
-                                <li class="qqMsg"><span><img height="48" src="/images1408/headPortBg.jpg"></span>
-                                    <span>昵称：{{ nickname }}<br/>性别：{{ sex }}</span>
-                                    <input type="hidden" name="qqnickname" value="{{ nickname }}"/>
-                                    <input type="hidden" name="sex" value="{{ sex }}"/>
-                                </li>
-                                <li>您是首次来到积粒网，为保障您的账号安全，请设置QQ邮箱并且输入一个积粒网用的密码。</li>
+                                <input type="hidden" name="qqnickname" value="{{ nickname }}"/>
+                                <input type="hidden" name="sex" value="{{ sex }}"/>
+                                <li>为保障您的账号安全，请设置QQ邮箱和积粒网密码。</li>
                                 <li><label for="qqEmail">邮箱地址：</label>{{ form_widget(form.email_id, { 'attr': {'class': 'qqEmail'} }) }}@qq.com</li>
                                 <li><label for="setPwd">设置密码：</label><input name="pwd" type="password" value=""/></li>
                                 <li>
