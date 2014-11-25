@@ -157,6 +157,7 @@
             this.debug('打开宝箱……');
             var $this = this;
 			var opts = $this.options;
+			$this.debug('第二次请求错误', initData);
             initData.code = 1;
 			if(!opts.initUrl){ $this.debug("请求地址不存在");}
             //获取中奖状态
@@ -164,7 +165,7 @@
                 url: opts.resultUrl,
                 type: "POST",
                 dataType: 'json',
-                data: "token=" + initData.token,
+                data: "token=" + initData.data.token,
                 success: function(returnData){
 					var resultData = { "point": returnData.data.points || 0};
 					$this.debug('请求结果', resultData);
