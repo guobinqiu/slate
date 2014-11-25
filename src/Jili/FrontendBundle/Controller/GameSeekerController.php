@@ -51,8 +51,8 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         // applied_at\publish_at, table system_configurations
         // read in to a cache file.
         // fetch from the cache file.
-        //
-        $response->setData(array( 'code'=> 0, 'data'=> array('countOfChest'=> 3, 'token'=> $gameInfo->getToken()) ));
+       $count_of_chest = $this->get('game_seeker.points_pool')->fetchChestCount(); 
+        $response->setData(array( 'code'=> 0, 'data'=> array('countOfChest'=> $count_of_chest, 'token'=> $gameInfo->getToken()) ));
         return $response;
     }
 
@@ -111,7 +111,7 @@ $connection = $this->get('database_connection');
         $adId = AdCategory::ID_GAME_SEEKER; // 30
         $adCategory = $em->getRepository('JiliApiBundle:AdCategory')->findOneById($adId); 
         // $conn  = $this->get('doctrine.dbal.default_connection');
-        $points = 1;
+        $points = $this->get('game_seeker.points_pool')->fetch();
 
         // transaction!
         // $em instanceof EntityManager
