@@ -2,7 +2,20 @@
 
 {% block title %}发布积分方案{% endblock %}
 
+
 {% block body %}
+
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="flash-notice">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+{% for flashMessage in app.session.flashbag.get('error') %}
+    <div class="flash-notice">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
 
     <table class="records_list">
         <thead>
@@ -22,10 +35,13 @@
     </table>
 
 
+<p>点击Publish,将列表中的奖励方案立即发布到正式环境中</p>
 <form action="" method="POST">
 {{ form_row(form.is_immediate)  }}
 {{ form_rest(form) }}
+
 <input type="submit" value="Publish" />
 </form>
+
 {% include("JiliBackendBundle:GameSeeker/PointsStrategy:menu.html.twig") %}
 {% endblock %}

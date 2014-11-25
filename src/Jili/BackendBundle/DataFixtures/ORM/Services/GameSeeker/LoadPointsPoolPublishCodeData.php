@@ -34,9 +34,9 @@ class LoadPointsPoolPublishCodeData  extends AbstractFixture implements FixtureI
             ->setUpdatedAt($createdAt)
             ->setPoints( (string) $pts )
             ->setSendFrequency( $f)
+            ->setIsValid(1)
             ->setIsPublished(1)
-            ->setPublishedAt($createdAt)
-            ->setIsValid(1);
+            ->setPublishedAt($createdAt);
             $manager->persist($entity);
             $records[]= $entity;
         }

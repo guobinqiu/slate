@@ -39,8 +39,8 @@ class GameSeekerController extends Controller
                     $this->get('session')->getFlashBag()->add ('notice','规则成功保存!');
                     return $this->redirect($this->generateUrl('jili_backend_gameseeker_publishpointsstrategy' ));
                 } else {
-                    $errorMessage = $errorList[0]->getMessage();
-                    $this->get('session')->getFlashBag()->add ('error',$errorMessage);
+                    $error_message = $errorList[0]->getMessage();
+                    $this->get('session')->getFlashBag()->add ('error',$error_message);
                 }
             }
         }
@@ -69,11 +69,11 @@ class GameSeekerController extends Controller
                 ->batchSetPublished();
 
             if( count($num_rules) > 0  ) {
-                // write the the cache file
                 $this->get('game_seeker.points_pool')->publish();
+                $this->get('session')->getFlashBag()->add ('notice','找宝箱奖分规则发布成功');
                 return $this->redirect($this->generateUrl('jili_backend_gameseeker_operatesuccess' ));
             }  else {
-                // 
+                $this->get('session')->getFlashBag()->add ('error','发布无效, 当前数据表中没有需要发布的方案');
             }
 
         }
@@ -83,25 +83,38 @@ class GameSeekerController extends Controller
             ->fetchToPublish();
         return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:publish.html.twig', array('form'=> $form->createView(), 'rules'=> $rules));
     }
+
     /**
      * @Route("/manage-chest")
      */
     public function manageChestAction()
     {
-        // code...
-        $form = $this->createFormBuilder()
-            ->add('total', 'number' , array('label'=> '宝箱数量'))
+        $logger = $this->get('logger');
+
+        $current_chest_quantity = $this->get('game_seeker.points_pool')->fetchChestCount();
+        $form = $this->createFormBuilder( array('quantity'=> $current_chest_quantity) )
+            ->add('quantity', 'number', array('label'=> '宝箱数量'))
             ->getForm();
+
         $request = $this->get('request');
         if( 'POST'=== $request->getMethod()) {
             $form->bind($request);
             if ($form->isValid()) {
+                $form_data = $form->getData();
+                
+                try {
+                    $this->get('game_seeker.points_pool')->updateChestCount($form_data['quantity']);
+                    $this->get('session')->getFlashBag()->add ('notice','宝箱个数设置成功!');
+                    return $this->redirect($this->generateUrl('jili_backend_gameseeker_operatesuccess'));
+                } catch(\Exception $e) {
+                    $this->get('logger')->crit('x');    
+                }
             }
-
             // session flash
-            return $this->redirect('jili_backend_gameseeker_operatesuccess');
+///         $this->get('session')->getFlashBag()->add ('error',$error_message);
         }
-        return $this->render('JiliBackendBundle:GameSeeker:Chest.html.twig', array(
+
+        return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:Chest.html.twig', array(
             'form'=> $form->createView()
         ));
     }
