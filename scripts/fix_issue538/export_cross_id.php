@@ -1,5 +1,6 @@
 <?php
-$path = getcwd(); //取得当前路径
+$path = __DIR__; //取得当前路径
+echo $path;
 $filename = $path . "/import.csv";
 $out_file = $path . "/export.csv";
 
