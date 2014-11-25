@@ -1,6 +1,7 @@
 <?php
-$filename = "D:/xampp/htdocs/PointMedia/scripts/fix_issue538/import.csv";
-$out_file = "D:/xampp/htdocs/PointMedia/scripts/fix_issue538/export.csv";
+$path = getcwd(); //取得当前路径
+$filename = $path . "/import.csv";
+$out_file = $path . "/export.csv";
 
 $file_handle = fopen($filename, "r");
 $out_handle = fopen($out_file, "w+");
