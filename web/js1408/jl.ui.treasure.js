@@ -113,7 +113,7 @@
                 $(divLayer).html(imgLayer).css({"left": opts.box.position.x + 'px', "top": opts.box.position.y + 'px', "width": opts.box.size.w + 'px', "height": opts.box.size.h + 'px'}).addClass(opts.box.className).appendTo($(opts.container).parent()).mouseover(function(){
                         $(this).animate({ "opacity": 1}, 1000);
                     }).on('click', function(){
-                        $this.showResult(initData, $this.showBao);
+                        $this.showResult(initData, $this.showBao(initData));
                     });
             }else{
                 if(treasureBox.length){
