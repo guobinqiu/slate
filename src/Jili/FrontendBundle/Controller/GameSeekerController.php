@@ -95,7 +95,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $em = $this->get('doctrine.orm.entity_manager');
 $connection = $this->get('database_connection');
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($userId, true));
-        // todo: fetch point from the pool by service 
+
         // todo: confirm the point from the pool by service 
         
         $is_completed = $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10) )->isGameSeekerCompletedToday($userId);
@@ -110,13 +110,18 @@ $connection = $this->get('database_connection');
 
         $adId = AdCategory::ID_GAME_SEEKER; // 30
         $adCategory = $em->getRepository('JiliApiBundle:AdCategory')->findOneById($adId); 
-        // $conn  = $this->get('doctrine.dbal.default_connection');
+        //fetch point from the pool by service 
         $points = $this->get('game_seeker.points_pool')->fetch();
 
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '$points:')). var_export($points, true));
+        if( $points <= 0 ) {
+            $response->setData(array( 'code'=> 0, 'message'=>'寻到一个空宝箱', 'data'=> array('points'=>0 ) ));
+            return $response;
+        }
         // transaction!
         // $em instanceof EntityManager
-        $em->getConnection()->beginTransaction(); // suspend auto-commit
         try {
+            $em->getConnection()->beginTransaction(); // suspend auto-commit
             // insert task_history
             $task_params = array(
                 'userid' => $userId, 

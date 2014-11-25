@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 
 use Jili\FrontendBundle\DataFixtures\ORM\Controller\GameSeeker\LoadGetChestInfoData;
+use Jili\BackendBundle\DataFixtures\ORM\Services\GameSeeker\LoadPointsPoolPublishCodeData;
 
 class GameSeekerControllerTest extends WebTestCase
 {
@@ -33,7 +34,7 @@ class GameSeekerControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
         $this->has_fixture = false ;
-     //   $tn = $this->getName();
+       $tn = $this->getName();
     //    if($tn === 'testGetChestInfoAction' ){
             // purge tables;
             $purger = new ORMPurger($em);
@@ -41,6 +42,10 @@ class GameSeekerControllerTest extends WebTestCase
             $fixture = new LoadGetChestInfoData();
             $loader = new Loader();
             $loader->addFixture($fixture);
+
+            if($tn === 'testGetClickActionNormal') {
+                $loader->addFixture(new LoadPointsPoolPublishCodeData());
+            }
             $executor->purge();
             $executor->execute($loader->getFixtures());
 
@@ -90,6 +95,8 @@ class GameSeekerControllerTest extends WebTestCase
         $session->set('uid', $uid);
         $session->save();
 
+        $path_configs= $container->getParameter('game_seeker_config_path');
+        @unlink($path_configs['chest']);
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
@@ -98,12 +105,14 @@ class GameSeekerControllerTest extends WebTestCase
 
         echo $token,PHP_EOL;
         $this->assertNotNull($gameSeekerDaily);
-        $expected = '{"code":0,"data":{"countOfChest":3,"token":"'.$token.'"}}';
+        $expected = '{"code":0,"data":{"countOfChest":5,"token":"'.$token.'"}}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'normal');
         // to let the token seed changed
         sleep(2); 
 
         // again
+        $path_configs= $container->getParameter('game_seeker_config_path');
+        @unlink($path_configs['chest']);
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
@@ -115,7 +124,7 @@ class GameSeekerControllerTest extends WebTestCase
 
         $this->assertNotEquals($token, $token_again);
 
-        $expected = '{"code":0,"data":{"countOfChest":3,"token":"'.$token_again.'"}}';
+        $expected = '{"code":0,"data":{"countOfChest":5,"token":"'.$token_again.'"}}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'normal');
 
         //completed user
@@ -128,27 +137,60 @@ class GameSeekerControllerTest extends WebTestCase
     }
 
     /**
+     * with no points strategy configed.
      * @group issue_524
      */
-    function testGetClickAction() 
+    function testGetClickActionNoPointsStrategy() 
     {
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_gameseeker_click');
         $this->assertEquals('/game-seeker/click', $url, 'router');
-
-        // normal
+        
+        // with no points strategy
         $token = LoadGetChestInfoData::$GAMESEEKLOGS[0]->getToken();
         $user = LoadGetChestInfoData::$USERS[1];
         $session = $container->get('session');
         $session->set('uid', $user->getId());
         $session->save();
          
-        $crawler = $client->request('POST', $url, array('token'=>$token), array(),array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
-        $this->assertEquals('{"code":0,"message":"\u5bfb\u5b9d\u7bb1\u6210\u529f","data":{"points":1}}', $client->getResponse()->getContent());
+        $path_configs= $container->getParameter('game_seeker_config_path');
+        @unlink($path_configs['points_strategy']);
+        @unlink($path_configs['points_pool']);
 
+        $crawler = $client->request('POST', $url, array('token'=>$token), array(),array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+//        $this->assertEquals('{"code":0,"message":"\u5bfb\u5b9d\u7bb1\u6210\u529f","data":{"points":-1}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"code":0,"message":"\u5bfb\u5230\u4e00\u4e2a\u7a7a\u5b9d\u7bb1","data":{"points":0}}', $client->getResponse()->getContent());
+
+        $this->assertFalse($session->has('points'));
+//        $this->assertEquals(87, $session->get('points'));
+    }
+
+    /**
+     * @group issue_524
+     */
+    function testGetClickActionNormal() 
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_gameseeker_click');
+        // normal
+        $token = LoadGetChestInfoData::$GAMESEEKLOGS[0]->getToken();
+        $user = LoadGetChestInfoData::$USERS[1];
+        $session = $container->get('session');
+        $session->set('uid', $user->getId());
+        $session->save();
+        $path_configs= $container->getParameter('game_seeker_config_path');
+        @unlink($path_configs['points_strategy']);
+        @unlink($path_configs['points_pool']);
+
+        $crawler = $client->request('POST', $url, array('token'=>$token), array(),array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($session->has('points'));
-        $this->assertEquals(88, $session->get('points'));
- 
+        $this->assertGreaterThan($user->getPoints(), $session->get('points'));
+
+        $diff = $session->get('points') - $user->getPoints();
+        $this->assertEquals('{"code":0,"message":"\u5bfb\u5b9d\u7bb1\u6210\u529f","data":{"points":'.$diff.'}}', $client->getResponse()->getContent());
+        
     }
 }

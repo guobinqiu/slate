@@ -148,6 +148,9 @@ class PointsPool
             $this->publish();
             $points_strategy = $this->getPointsStrategyConfiguration();
         } 
+        if(empty($points_strategy)) {
+            return array();
+        }
 
         $c = array();
         $key_begin = 0;
@@ -160,7 +163,7 @@ class PointsPool
         }
         shuffle($c);
         $file = $this->getDailyPointsPoolFile();
-        
+
         try {
             $this->writeCache( $c, $file);
         } catch( \Exception $e) {
@@ -169,7 +172,8 @@ class PointsPool
     }
 
     // 某次寻宝积分生成, 从奖池中抽取宝奖分
-    public function fetch() {
+    public function fetch() 
+    {
         // read the pointPool daily 
         $file = $this->getDailyPointsPoolFile();
         $points_pool = $this->readCached($file);
@@ -179,21 +183,21 @@ class PointsPool
             $points_pool = $this->readCached($file);
         } 
 
-        $this->logger->debug('{jarod}'. implode(':', array(__FILE__, __LINE__,'')). var_export(count($points_pool), true) );
-        $this->logger->debug('{jarod}'. implode(':', array(__FILE__, __LINE__,'')). var_export(is_array($points_pool), true) );
+        $this->logger->debug('{jarod}'. implode(':', array(__FILE__, __LINE__,'count():')). var_export(count($points_pool), true) );
+        $this->logger->debug('{jarod}'. implode(':', array(__FILE__, __LINE__,'is_array:')). var_export(is_array($points_pool), true) );
+        $this->logger->debug('{jarod}'. implode(':', array(__FILE__, __LINE__,'is_null:')). var_export(is_null($points_pool), true) );
 
+        if(0 === count($points_pool)) {
+            return -1;
+        }
         try {
-            if(0 === count($points_pool)) {
-                return ;
-            }
-
             /// backup 
             $tmp = $this->backup($file);
             $key = array_rand( $points_pool, 1);
             $value = $points_pool[$key];
             unset($points_pool[$key]);
             $this->writeCache( $points_pool, $file);
-            return array($key, $value);
+            return  $value;
         } catch(\Exception $e) {
             //restore
             $this->logger->crit('[gameSeeker][pointsPool][fetch]'. $e->getMessage());
