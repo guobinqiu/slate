@@ -19,7 +19,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
      *  CODE: 0, 此用户今天还没有寻宝
      *  CODE: 1, 此用户今天已经完成寻宝
      *         {} , when not Ajax request or not signed in. 
-     * @Route("/getChestInfo")
+     * @Route("/getChestInfo", options={"expose"=true})
      * @Method("POST");
      **/
     function getChestInfoAction() 
@@ -64,7 +64,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
      *    0: 寻宝成功
      *    1: 奖品过期,Thank you.
      *    {}  when not ajax request; no 32byte token post, not signin.
-     * @Route("/click")
+     * @Route("/click", options={"expose"=true})
      * @Method("POST")
      */
     function clickAction() 

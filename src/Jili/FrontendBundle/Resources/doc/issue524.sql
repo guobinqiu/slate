@@ -33,3 +33,16 @@ CREATE TABLE `game_seeker_points_pool` (
 --   UNIQUE KEY `point_with_status` (`points`,`send_frequency`,`is_published`,`is_valid`),
   KEY `pts_freq` (`points`,`send_frequency`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='寻宝积分管理表'
+
+-- 请求日志
+DROP TABLE IF EXISTS `user_visit_log`;
+CREATE TABLE `user_visit_log` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `target_flag` int(4) DEFAULT -1 COMMENT '分类标志位', 
+    `user_id` int(11) NOT NULL,
+    `visit_date` date NOT NULL,
+    `created_at` datetime NOT NULL COMMENT '创建日期',
+    PRIMARY KEY (`id`),
+    KEY `indx_user_target` (`user_id`,`target_flag`),
+    UNIQUE KEY `indx_user_target_daily` (`user_id`, `target_flag`,`visit_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 

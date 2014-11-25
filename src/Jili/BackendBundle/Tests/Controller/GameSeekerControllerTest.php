@@ -71,7 +71,6 @@ EOD;
 
     /**
      * @group issue_524
-     * @group debug 
      */
     function testPublishAction() 
     {
@@ -81,9 +80,8 @@ EOD;
         $this->assertEquals( 'https://localhost/admin/game-seeker/publish-points-strategy', $url);
         // form post !
         $crawler = $client->request('GET', $url);
+
         // $form->
         //$this->assertEquals(200, $client->getResponse()->getStatusCode() );
-
-
     }
 }

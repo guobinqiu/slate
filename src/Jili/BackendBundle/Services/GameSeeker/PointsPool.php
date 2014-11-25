@@ -118,7 +118,9 @@ class PointsPool
             return $rules;
         } catch(\Exception $e ) {
             $this->logger->crit('[gameSeeker][pointsPool][publish]'. $e->getMessage());
-            $this->restore($tmp, $file);
+            if( isset($tmp) ) {
+                $this->restore($tmp, $file);
+            }
 
             return array();
         }
