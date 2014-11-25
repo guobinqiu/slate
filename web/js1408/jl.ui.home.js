@@ -141,6 +141,14 @@
             });
         }
         var s = setInterval(textScroll, 2000);
+		var effect = function(data){
+			return $.each(data, function(index, value){
+				$(value).on('click', function(){
+					$('.bxAd').animate({ left: '950px', top: '0px', width: '0px', height: '0px', opacity: '0'}, 500, function(){$('.adMask').hide();});
+				});
+			});
+		};
+		effect(['.adMask', '.bxAdWrapper .close','.bxAdBg', '.sunRun', '.rewardRules']);
     });
 })(jQuery);
 

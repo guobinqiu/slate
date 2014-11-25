@@ -21,11 +21,11 @@ jili.taobao.searchBycatgory = function(id) {
 			}
 			$box.find("#waterfall").html(html);
 			$box.find("#more").html("<a href="+Routing.generate("jili_frontend_taobao_categoryapi", {"id": id,"page":2})+"></a>");
-			$('.taobaoCon').html($box);
+			$('.taoMainCon').html($box);
 			$('#tabs-1').infinitescroll({
 				loading: {
 					finishedMsg: "<br style='clear:both'/><em>没有更多了。</em>",
-					img: $("#loading_bar").html(),
+					img: $("#loading_bar").find('.loading').attr('src'),
 					msgText: ""
 				},
 				navSelector: '#more',
@@ -52,8 +52,7 @@ jili.taobao.searchBycatgory = function(id) {
 			alimamatk_show(0);
 			if($(window).height() > $("body").height()){
 				$("footer").css("position","fixed");
-			}
-			else{
+			}else{
 				$("footer").css("position","");
 			} 
 		},
@@ -65,11 +64,31 @@ jili.taobao.searchBycatgory = function(id) {
 	$(function(){
 		jili.taobao.searchBycatgory(1); 
 		$('.ltab li:first').addClass('ui-tabs-active');
-		$('.ltab li').on('click', function(){
-			var index = $('.ltab li').index(this);
-			var categoryId = $(this).attr('id');
-			$('.ltab li').removeClass('ui-tabs-active').eq(index).addClass('ui-tabs-active');
-			jili.taobao.searchBycatgory(categoryId); 
-		});
+		$('.taobaoCon').treasure({
+				container: '.taoMainCon',
+				sortSelector: '#tabs li',
+				curEle: '',
+				initUrl: '/app_dev.php/game-seeker/getChestInfo',
+				resultUrl: '/app_dev.php/game-seeker/click',
+				box: {
+					position: {"x": 0, "y": 0},
+					posNum: {"col": 4, "row": 5},
+					size: {"w": 180, "h": 200},
+					gap: {"gapW": 0, "gapH": 19},
+					img: $("#loading_bar").find('.closeGif').attr('src'),
+					gif: $("#loading_bar").find('.openGif').attr('src'),
+					sortsArr: [],
+					className: 'treasure'
+				},
+				theme: {
+					maskClass: 'mask',
+					bgClass: 'winLayer',
+					conClass: 'winCon',
+					resultClass: 'winResult',
+					closeClass: 'close'
+				},
+				debug: true,
+				clickCallback: function(categoryId){ jili.taobao.searchBycatgory(categoryId); }
+			});
 	});
 })(jQuery);

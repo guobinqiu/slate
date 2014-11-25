@@ -1,3 +1,4 @@
+
 analog-offerwow:
     resource: "@JiliBackendBundle/Controller/AnalogOfferwowController.php"
     type:     annotation

@@ -1,0 +1,5 @@
+parameter:
+    game_seeker_config_path:
+        points_strategy: %game_seeker_config_path.points_strategy%
+        points_pool: %game_seeker_config_path.points_pool%
+        chest:  %game_seeker_config_path.chest%

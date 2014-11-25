@@ -11,7 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\AdCategoryRepository")
  */
 class AdCategory
-{
+{   
+    const ID_GAME_SEEKER = 30;
     /**
      * @var integer
      *

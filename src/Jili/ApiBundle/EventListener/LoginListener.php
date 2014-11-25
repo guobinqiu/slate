@@ -116,9 +116,14 @@ class LoginListener
                 $session->remove('icon_path');
             }
         }
-
-        $session->set('points', $user->getPoints());
+        $this->updatePoints( $user->getPoints());
         //#todo: update the confirmPoinsts
+    }
+
+    public function updatePoints($points)
+    {
+        $this->container_->get('session')->set('points',$points );
+        return $this;
     }
 
     public function initSession(User  $user)

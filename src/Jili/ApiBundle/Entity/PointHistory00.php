@@ -10,12 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="point_history00")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\PointHistoryRepository")
  */
-class PointHistory00
+class PointHistory00 
 {
+
     public function __construct()
     {
         $this->createTime = new \DateTime();
     }
+
     /**
      * @var integer
      *
