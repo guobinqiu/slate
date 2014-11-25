@@ -32,8 +32,8 @@ a{ text-decoration:none;}
 .taobaoCon{ position: relative; z-index: 1; background-color: #fff; padding-top: 5px; padding-left: 5px;}
 .treasure{ position: absolute; z-index: 1000; background: transparent; cursor: pointer; opacity: 0; filter: alpha(opacity=0);}
 .mask{ position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 9000; opacity: .6; filter: alpha(opacity=60); background-color: #000;}
-.winLayer{ position: fixed; left: 50%; margin-left: -506px; top: 0px; background: url(../images/taobao/bg.png) no-repeat; width: 1013px; height: 646px; z-index: 9099;}
+.winLayer{ position: fixed; left: 50%; margin-left: -516px; top: 5px; background: url(../images/taobao/bg.png) no-repeat; width: 1033px; height: 646px; z-index: 9099;}
 .winLayer .winCon{ position: relative; left: 50%; margin-left: -201px; top: 330px; width: 402px; height: 203px; z-index: 9998;}
 .winLayer .winCon .winResult{ position: absolute; top: 100px; left: 65px; z-index: 9999; font-size: 18px; font-weight: bold; color: #ac1b00; font-family: Microsoft Yahei,SimHei,Tahoma; background: url(../images/taobao/point.png) no-repeat 0 0; padding-left: 60px; line-height: 45px;}
 .winLayer .winCon .winResult strong{ color: #ff1e00;}
-.winLayer .close{ position: fixed; top: 0; right: 50%; margin-right: -500px; color: #fff; width: 27px; height: 27px; cursor: pointer; z-index: 9999; background: url(../images/taobao/close.png) no-repeat;}
+.winLayer .close{ position: fixed; top: 5px; right: 50%; margin-right: -500px; color: #fff; width: 27px; height: 27px; cursor: pointer; z-index: 9999; background: url(../images/taobao/close.png) no-repeat;}
