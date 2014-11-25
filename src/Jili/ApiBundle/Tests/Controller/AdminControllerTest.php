@@ -9,18 +9,12 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 
-use Jili\ApiBundle\DataFixtures\ORM\LoadExchangeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadHandleExchangeWenData;
-use Jili\ApiBundle\DataFixtures\ORM\LoadUserTaskHistoryData;
-use Jili\ApiBundle\DataFixtures\ORM\LoadUserSendMessageData;
-use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
-use Jili\ApiBundle\DataFixtures\ORM\LoadAdminSelectTaskPercentCodeData;
 
 class AdminControllerTest extends WebTestCase {
 
     private $em;
     private $container;
-    private $with_fixture;
 
     /**
      * {@inheritDoc}
@@ -31,113 +25,34 @@ class AdminControllerTest extends WebTestCase {
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
         $container = static :: $kernel->getContainer();
 
-        $with_fixture = false;
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
 
-        $tn = $this->getName();
-
-        if ($tn == 'testHandleExchangeWen') {
-            $with_fixture = true;
-            // load fixtures
-            $fixture = new LoadHandleExchangeWenData();
-            $fixture->setContainer($container);
-            $loader = new Loader();
-            $loader->addFixture($fixture);
-        }
-        if ($tn == 'testUpdateTaskHistory' || $tn == 'testgetTaskHistory') {
-            $with_fixture = true;
-            // load fixtures
-            $fixture = new LoadUserTaskHistoryData();
-            $loader = new Loader();
-            $loader->addFixture($fixture);
-        }
-
-        if ($tn == 'testHandleExchange') {
-            $with_fixture = true;
-            // load fixtures
-            $fixture = new LoadExchangeData();
-            $loader = new Loader();
-            $loader->addFixture($fixture);
-        }
-
-        if ($tn == 'testSelectTaskPercent') {
-            $with_fixture = true;
-            // load fixtures
-            $fixture = new LoadAdminSelectTaskPercentCodeData();
-            $loader = new Loader();
-            $loader->addFixture($fixture);
-        }
-
-        if ($tn == 'testExchangeOKWen' || $tn == 'testInsertExWenwen' || $tn == 'testInsertFailExWenwen') {
-            $with_fixture = true;
-            // load fixtures
-            $fixture = new LoadUserData();
-            $loader = new Loader();
-            $loader->addFixture($fixture);
-        }
-
-        if (in_array($tn, array (
-                'testInsertSendMs',
-                'testupdateSendMs',
-                'testselectSendMs',
-                'testselectSendMsById',
-                'testdelSendMs'
-            ))) {
-            $with_fixture = true;
-            // load fixtures
-            $fixture = new LoadUserSendMessageData();
-            $loader = new Loader();
-            $loader->addFixture($fixture);
-        }
-
-        //        if (in_array($tn, array (
-        //                'testExchangeOKWen',
-        //                'testHandleExchange',
-        //                'testHandleExchangeWen'
-        //            ))) {
-        //            $with_fixture = true;
-        //            // load fixtures
-        //            $fixture = new LoadExchangeData();
-        //            $loader = new Loader();
-        //            $loader->addFixture($fixture);
-        //        }
-        //        elseif (in_array($tn, array (
-        //            'testSelectTaskPercent'
-        //        ))) {
-        //
-        //            $with_fixture = true;
-        //
-        //            $fixture = new LoadAdminSelectTaskPercentCodeData();
-        //            $loader = new Loader();
-        //            $loader->addFixture($fixture);
-        //
-        //        }
-
-        if (true === $with_fixture) {
-            // purge tables;
-            $purger = new ORMPurger($em);
-            $executor = new ORMExecutor($em, $purger);
-            $executor->purge();
-            $executor->execute($loader->getFixtures());
-        }
+        // load fixtures
+        $fixture = new LoadHandleExchangeWenData();
+        $fixture->setContainer($container);
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $executor->execute($loader->getFixtures());
 
         $this->container = $container;
         $this->em = $em;
-        $this->with_fixture = $with_fixture;
     }
     /**
      * {@inheritDoc}
      */
     protected function tearDown() {
         parent :: tearDown();
-        if($this->with_fixture ) {
-            $this->em->close();
-        }
+//        $this->em->close();
     }
 
     /**
      * @author mmzhang
      * @group HandleExchangeWen
      * @group issue_492
+     * @group issue_535
      */
     public function testHandleExchangeWen() {
         $client = static :: createClient();
@@ -153,11 +68,12 @@ class AdminControllerTest extends WebTestCase {
         //成功：ExchangeFromWenwen，User，PointHistory，SendMessage
 
         $users = LoadHandleExchangeWenData :: $USERS;
+        $user_crosss = LoadHandleExchangeWenData :: $USER_WENWEN_CROSS;
         $exchange = LoadHandleExchangeWenData :: $EXCHANGE_FROM_WENWEN;
-// return true;
+
         //测试有关表user,exchange_from_wenwen
         $file[1][0] = $exchange->getWenwenExchangeId();
-        $file[1][1] = $users[0]->getEmail();
+        $file[1][1] = $user_crosss[0]->getId();
         $file[1][2] = '30';
         $file[1][3] = '3000';
         $return = $controller->handleExchangeWen($file);
@@ -165,7 +81,7 @@ class AdminControllerTest extends WebTestCase {
 
         $file = array ();
         $file[2][0] = '91jili-201402-2625-1036110';
-        $file[2][1] = $users[0]->getEmail() . 'test';
+        $file[2][1] = $user_crosss[0]->getId() + 100;
         $file[2][2] = '30';
         $file[2][3] = '3000';
         $return = $controller->handleExchangeWen($file);
@@ -175,7 +91,7 @@ class AdminControllerTest extends WebTestCase {
 
         $file = array ();
         $file[3][0] = '91jili-201402-2625-1036111';
-        $file[3][1] = $users[1]->getEmail();
+        $file[3][1] = $user_crosss[1]->getId();
         $file[3][2] = '30';
         $file[3][3] = '3000';
         $return = $controller->handleExchangeWen($file);
@@ -185,7 +101,7 @@ class AdminControllerTest extends WebTestCase {
 
         $file = array ();
         $file[4][0] = '91jili-201402-2625-1036112';
-        $file[4][1] = $users[2]->getEmail();
+        $file[4][1] = $user_crosss[2]->getId();
         $file[4][2] = '30';
         $file[4][3] = '3000';
         $return = $controller->handleExchangeWen($file);
@@ -203,13 +119,14 @@ class AdminControllerTest extends WebTestCase {
 
     /**
      * @group InsertSendMs
+       @group issue_535
      */
     public function testInsertSendMs() {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
         $controller->setContainer($container);
-        $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
+        $sm = LoadHandleExchangeWenData :: $SEND_MESSAGE[0];
 
         $parms = array (
             'userid' => $sm->getSendTo(),
@@ -226,6 +143,7 @@ class AdminControllerTest extends WebTestCase {
 
     /**
      * @group delSendMs
+       @group issue_535
      */
     public function testdelSendMs() {
         $client = static :: createClient();
@@ -233,7 +151,7 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
+        $sm = LoadHandleExchangeWenData :: $SEND_MESSAGE[0];
         $controller->delSendMs($sm->getSendTo(), $sm->getId());
         $em = $this->em;
         $sendMessage = $em->getRepository('JiliApiBundle:SendMessage0' . ($sm->getSendTo() % 10))->find($sm->getId());
@@ -242,6 +160,7 @@ class AdminControllerTest extends WebTestCase {
 
     /**
      * @group updateSendMs
+       @group issue_535
      */
     public function testupdateSendMs() {
         $client = static :: createClient();
@@ -249,7 +168,7 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
+        $sm = LoadHandleExchangeWenData :: $SEND_MESSAGE[0];
         $return = $controller->selectSendMsById($sm->getSendTo(), $sm->getId());
 
         $params = array (
@@ -267,6 +186,7 @@ class AdminControllerTest extends WebTestCase {
 
     /**
      * @group selectSendMsById
+       @group issue_535
      */
     public function testselectSendMsById() {
         $client = static :: createClient();
@@ -274,14 +194,15 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
-        $user = LoadUserSendMessageData :: $USER;
+        $sm = LoadHandleExchangeWenData :: $SEND_MESSAGE[0];
+        $user = LoadHandleExchangeWenData :: $USERS[0];
         $return = $controller->selectSendMsById($sm->getSendTo(), $sm->getId());
         $this->assertEquals($user->getEmail(), $return['email']);
     }
 
     /**
      * @group selectSendMs
+       @group issue_535
      */
     public function testselectSendMs() {
         $client = static :: createClient();
@@ -289,8 +210,8 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $sm = LoadUserSendMessageData :: $SEND_MESSAGE;
-        $user = LoadUserSendMessageData :: $USER;
+        $sm = LoadHandleExchangeWenData :: $SEND_MESSAGE[0];
+        $user = LoadHandleExchangeWenData :: $USERS[0];
         $user_id = $user->getId();
 
         $id = $user_id % 10;
@@ -300,27 +221,30 @@ class AdminControllerTest extends WebTestCase {
 
     /**
      * @group SelectTaskPercent
+       @group issue_535
      */
     public function testSelectTaskPercent() {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
         $controller->setContainer($container);
-        $ta = LoadAdminSelectTaskPercentCodeData :: $TASK_HISTORY;
+        $ta = LoadHandleExchangeWenData :: $TASK_HISTORY[0];
         $return = $controller->selectTaskPercent($ta->getUserId(), $ta->getOrderId());
         $this->assertEquals($ta->getRewardPercent(), $return['rewardPercent']);
     }
 
     /**
      * @group UpdateTaskHistory
+       @group issue_535
      */
     public function testUpdateTaskHistory() {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
         $controller->setContainer($container);
+        $em = $this->em;
 
-        $task_history = LoadUserTaskHistoryData :: $TASK_HISTORY;
+        $task_history = LoadHandleExchangeWenData :: $TASK_HISTORY[0];
 
         $params = array (
             'userid' => $task_history->getUserId(),
@@ -355,15 +279,16 @@ class AdminControllerTest extends WebTestCase {
             'date' => date('Y-m-d H:i:s'),
             'status' => $task_history->getStatus()
         );
+
         $return = $controller->updateTaskHistory($params);
         $this->assertTrue($return);
-        $em = $this->em;
         $taskHistory = $em->getRepository('JiliApiBundle:TaskHistory0' . ($task_history->getUserId() % 10))->findByUserId($task_history->getUserId());
         $this->assertEquals($task_history->getPoint() + 100, $taskHistory[0]->getPoint());
     }
 
     /**
      * @group getTaskHistory
+       @group issue_535
      */
     public function testgetTaskHistory() {
         $client = static :: createClient();
@@ -371,7 +296,7 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $task_history = LoadUserTaskHistoryData :: $TASK_HISTORY;
+        $task_history = LoadHandleExchangeWenData :: $TASK_HISTORY[0];
 
         $params = array (
             'userid' => $task_history->getUserId(),
@@ -414,6 +339,7 @@ class AdminControllerTest extends WebTestCase {
 
     /**
      * @group ExchangeOKWen
+       @group issue_535
      */
     public function testExchangeOKWen() {
         $client = static :: createClient();
@@ -421,7 +347,7 @@ class AdminControllerTest extends WebTestCase {
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $user = LoadUserData :: $USERS[0];
+        $user = LoadHandleExchangeWenData :: $USERS[0];
 
         $points = 120;
 
@@ -440,9 +366,9 @@ class AdminControllerTest extends WebTestCase {
 
     /**
      * @group HandleExchange
+       @group issue_535
      */
-    public function testHandleExchange() 
-    {
+    public function testHandleExchange() {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -450,12 +376,13 @@ class AdminControllerTest extends WebTestCase {
 
         $client = static :: createClient();
         $em = $this->em;
+        $user = LoadHandleExchangeWenData :: $USERS[0];
 
         for ($i = 0; $i < 3; $i++) {
-            $exchange_id = LoadExchangeData :: $POINTS_EXCHANGES[$i]->getId();
+            $exchange_id = LoadHandleExchangeWenData :: $POINTS_EXCHANGES[$i]->getId();
 
             $file[$i +1][0] = $exchange_id;
-            $file[$i +1][1] = "zhangmm@voyagegroup.com.cn";
+            $file[$i +1][1] = $user->getEmail();
             $file[$i +1][2] = "13761756201";
             $file[$i +1][3] = date('Y/m/d');
             $file[$i +1][4] = "2010";
@@ -495,57 +422,125 @@ class AdminControllerTest extends WebTestCase {
                     break;
             }
         }
-        $em->clear();
     }
 
     /**
      * @group insertExWenwen
      * @group issue_492
+     * @group issue_535
      */
-    public function testInsertExWenwen()
-    {
+    public function testInsertExWenwen() {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $user = LoadUserData :: $USERS[0];
+        $user_cross = LoadHandleExchangeWenData :: $USER_WENWEN_CROSS[0];
 
-        $array = array(
-                      'wenwenExId' => "123456789",
-                      'userId' => $user->getId(),
-                      'email' => $user->getEmail(),
-                      'points' => 100,
-                      'status' => 1
-                  );
-        $return = $controller->insertExWenwen($array);
-        $this->assertTrue($return);
-        $return = $controller->insertExWenwen($array);
-        $this->assertFalse($return);
+        $wenwenExId= '123456789';
+
+        $array = array (
+            'wenwenExId' => $wenwenExId,
+            'userId' => $user_cross->getUserId(),
+            'cross_id' => $user_cross->getId(),
+            'points' => 100,
+            'status' => 1
+        );
+        $em = $this->em;
+        $exchange_0 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
+        $controller->insertExWenwen($array);
+        $exchange_1 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
+        $this->assertEquals(1,count($exchange_1)-count($exchange_0));
+        $controller->insertExWenwen($array);
+        $exchange_2 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
+        $this->assertEquals(0,count($exchange_2)-count($exchange_1));
     }
 
     /**
      * @group insertFailExWenwen
      * @group issue_492
+     * @group issue_535
      */
-    public function testInsertFailExWenwen()
-    {
+    public function testInsertFailExWenwen() {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
         $controller->setContainer($container);
 
-        $user = LoadUserData :: $USERS[0];
+        $user_cross = LoadHandleExchangeWenData :: $USER_WENWEN_CROSS[0];
 
-        $array = array(
-                          'wenwenExId' => "987654321",
-                          'email' => $user->getEmail(),
-                          'points' => 100,
-                          'reason' => 'account not exists'
-                      );
+        $array = array (
+            'wenwenExId' => "987654321",
+            'cross_id' => $user_cross->getId(),
+            'points' => 100,
+            'reason' => 'account not exists'
+        );
         $return = $controller->insertFailExWenwen($array);
         $this->assertTrue($return);
         $return = $controller->insertFailExWenwen($array);
         $this->assertFalse($return);
+    }
+
+    /**
+     * @group issue_535
+     * @group insertSuccessExWenwen
+     */
+    public function testInsertSuccessExWenwen() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $em = $this->em;
+
+        //        $users = LoadHandleExchangeWenData :: $USERS;
+        $user_crosss = LoadHandleExchangeWenData :: $USER_WENWEN_CROSS;
+        //        $exchange = LoadHandleExchangeWenData :: $EXCHANGE_FROM_WENWEN;
+
+        //todo
+        $wenwenExId = "issue535_123456_1";
+
+        $cross_id = $user_crosss[0]->getId();
+        $points = 200;
+
+        $userInfo = $em->getRepository('JiliApiBundle:User')->getUserByCrossId($cross_id);
+
+        $user = $userInfo[0];
+        $user_id = $user['id'];
+
+        $user_0 = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
+        $pointHistory_0 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
+        $sendMessage_0 = $em->getRepository('JiliApiBundle:SendMessage0' . ($user_id % 10))->findOneBySendTo($user_id);
+
+        //测试提交成功
+        $return = $controller->insertSuccessExWenwen($wenwenExId, $user, $cross_id, $points);
+        $this->assertTrue($return);
+        //check 4 张表：  ExchangeFromWenwen，User，PointHistory，SendMessage
+        //todo. 测试事务，需要数据
+        $em->clear();
+        $user_1 = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
+        $this->assertEquals($points, ($user_1->getPoints() - $user_0->getPoints()));
+        $exchange_1 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
+        $this->assertEquals(1, count($exchange_1));
+        $pointHistory_1 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findByUserId($user_id);
+        $this->assertEquals(1, count($pointHistory_1) - count($pointHistory_0));
+        $sendMessage_1 = $em->getRepository('JiliApiBundle:SendMessage0' . ($user_id % 10))->findBySendTo($user_id);
+        $this->assertEquals(1, count($sendMessage_1) - count($sendMessage_0));
+
+        //测试回滚
+        $wenwenExId = "issue535_123456_2";
+        $return = $controller->insertSuccessExWenwen($wenwenExId, null, $cross_id, $points);
+        $this->assertFalse($return);
+        //check 4 张表：  ExchangeFromWenwen，User，PointHistory，SendMessage
+        //todo. 测试事务，需要数据
+//        $em->clear();
+        $user_2 = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
+        $this->assertEquals(0, ($user_2->getPoints() - $user_1->getPoints()));
+        $exchange_2 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
+        $this->assertEquals(0, count($exchange_2));
+        $pointHistory_2 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findByUserId($user_id);
+        $this->assertEquals(0, count($pointHistory_2) - count($pointHistory_1));
+        $sendMessage_2 = $em->getRepository('JiliApiBundle:SendMessage0' . ($user_id % 10))->findBySendTo($user_id);
+        $this->assertEquals(0, count($sendMessage_2) - count($sendMessage_1));
     }
 }

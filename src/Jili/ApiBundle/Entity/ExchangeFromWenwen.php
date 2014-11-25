@@ -42,9 +42,16 @@ class ExchangeFromWenwen
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=250)
+     * @ORM\Column(name="email", type="string", length=250, nullable=true)
      */
     private $email;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_wenwen_cross_id", type="integer", nullable=true)
+     */
+    private $userWenwenCrossId;
 
     /**
      * @var integer
@@ -230,6 +237,28 @@ class ExchangeFromWenwen
         return $this->email;
     }
 
+     /**
+     * Set  userWenwenCrossId
+     *
+     * @param string $userWenwenCrossId
+     * @return ExchangeFromWenwen
+     */
+    public function setUserWenwenCrossId($userWenwenCrossId)
+    {
+        $this->userWenwenCrossId = $userWenwenCrossId;
+
+        return $this;
+    }
+
+    /**
+     * Get userWenwenCrossId
+     *
+     * @return string
+     */
+    public function getUserWenwenCrossId()
+    {
+        return $this->userWenwenCrossId;
+    }
 
     /**
      * Set createTime
