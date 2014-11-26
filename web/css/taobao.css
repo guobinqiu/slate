@@ -37,3 +37,5 @@ a{ text-decoration:none;}
 .winLayer .winCon .winResult{ position: absolute; top: 100px; left: 65px; z-index: 9999; font-size: 18px; font-weight: bold; color: #ac1b00; font-family: Microsoft Yahei,SimHei,Tahoma; background: url(../images/taobao/point.png) no-repeat 0 0; padding-left: 60px; line-height: 45px;}
 .winLayer .winCon .winResult strong{ color: #ff1e00;}
 .winLayer .close{ position: fixed; top: 5px; right: 50%; margin-right: -500px; color: #fff; width: 27px; height: 27px; cursor: pointer; z-index: 9999; background: url(../images/taobao/close.png) no-repeat;}
+/*2014-11-26, by wlt*/
+.itemL .tablist .loadimg{ background: url(../images/taobao/loadingImg.gif) no-repeat center;}
