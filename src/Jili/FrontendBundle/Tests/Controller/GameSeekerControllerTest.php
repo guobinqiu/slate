@@ -45,7 +45,7 @@ class GameSeekerControllerTest extends WebTestCase
             $loader = new Loader();
             $loader->addFixture($fixture);
 
-            if($tn === 'testGetClickActionNormal') {
+            if(in_array($tn,array('testGetClickActionNormalGreaterZero','testGetClickActionNormalZero'))) {
                 $loader->addFixture(new LoadPointsPoolPublishCodeData());
             } else if($tn === 'testIsGameSeekerDoneDailyAction') {
                 $loader->addFixture(new LoadIsGameSeekerDoneData());
@@ -144,7 +144,18 @@ class GameSeekerControllerTest extends WebTestCase
         @unlink($path_configs['chest']);
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-        $this->assertEquals( '{"code":1}',$client->getResponse()->getContent()  );
+
+        $gameSeekerDailyList = $container->get('doctrine.orm.entity_manager')->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $user->getId()));
+        $this->assertNotEmpty($gameSeekerDailyList);
+
+        $token_again = $gameSeekerDailyList[0]->getToken();
+        echo $token_again,PHP_EOL;
+
+        $this->assertNotEquals($token, $token_again);
+
+        $expected = '{"code":0,"data":{"countOfChest":5,"token":"'.$token_again.'"}}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'open again, not clicked');
+
 
         //completed user , clicked got points > 0 ;
         $user = LoadGetChestInfoData::$USERS[2];
@@ -169,7 +180,6 @@ class GameSeekerControllerTest extends WebTestCase
     /**
      * with no points strategy configed.
      * @group issue_524
-     * @group debug 
      */
     function testGetClickActionNoPointsStrategy() 
     {
@@ -188,7 +198,8 @@ class GameSeekerControllerTest extends WebTestCase
          
         $path_configs= $container->getParameter('game_seeker_config_path');
         @unlink($path_configs['points_strategy']);
-        @unlink($path_configs['points_pool']);
+        $file = str_replace('YYYYmmdd',date('Ymd') , $path_configs['points_pool']);
+        @unlink($file);
 
         $crawler = $client->request('POST', $url, array('token'=>$token), array(),array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
 //        $this->assertEquals('{"code":0,"message":"\u5bfb\u5b9d\u7bb1\u6210\u529f","data":{"points":-1}}', $client->getResponse()->getContent());
@@ -200,9 +211,8 @@ class GameSeekerControllerTest extends WebTestCase
 
     /**
      * @group issue_524
-     * @group debug 
      */
-    function testGetClickActionNormal() 
+    function testGetClickActionNormalGreaterZero() 
     {
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
@@ -213,18 +223,65 @@ class GameSeekerControllerTest extends WebTestCase
         $session = $container->get('session');
         $session->set('uid', $user->getId());
         $session->save();
+
         $path_configs= $container->getParameter('game_seeker_config_path');
-        @unlink($path_configs['points_strategy']);
-        @unlink($path_configs['points_pool']);
+        // @unlink($path_configs['points_strategy']);
+        
+        // last item in pool
+        $file = str_replace('YYYYmmdd',date('Ymd') , $path_configs['points_pool']);
+        @file_put_contents( $file, json_encode(array(3)));
 
         $crawler = $client->request('POST', $url, array('token'=>$token), array(),array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertTrue($session->has('points'));
-        $this->assertGreaterThan($user->getPoints(), $session->get('points'));
 
-        $diff = $session->get('points') - $user->getPoints();
-        $this->assertEquals('{"code":0,"message":"\u5bfb\u5b9d\u7bb1\u6210\u529f","data":{"points":'.$diff.'}}', $client->getResponse()->getContent());
+        $em = $this->em;
+        $day = new \DateTime();
+        $day->setTime(0,0);
+        $entity =  $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array(
+            'userId'=> $user->getId(),
+            'clickedDay'=>$day,
+        )); 
+
+        $this->assertEquals(3,$entity->getPoints());
+        $this->assertEquals('{"code":0,"message":"\u5bfb\u5b9d\u7bb1\u6210\u529f","data":{"points":3}}', $client->getResponse()->getContent());
+
+    }
+    /**
+     * @group issue_524
+     */
+    function testGetClickActionNormalZero() 
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_gameseeker_click');
+        // normal
+        $token = LoadGetChestInfoData::$GAMESEEKLOGS[0]->getToken();
+        $user = LoadGetChestInfoData::$USERS[1];
+        $session = $container->get('session');
+        $session->set('uid', $user->getId());
+        $session->save();
+
+        $path_configs= $container->getParameter('game_seeker_config_path');
+        // @unlink($path_configs['points_strategy']);
         
+        // last item in pool
+        $file = str_replace('YYYYmmdd',date('Ymd') , $path_configs['points_pool']);
+        @file_put_contents( $file, json_encode(array(0)));
+
+        $crawler = $client->request('POST', $url, array('token'=>$token), array(),array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $em = $this->em;
+        $day = new \DateTime();
+        $day->setTime(0,0);
+        $entity =  $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array(
+            'userId'=> $user->getId(),
+            'clickedDay'=>$day,
+        )); 
+
+        $this->assertEquals(0,$entity->getPoints());
+        $this->assertEquals('{"code":0,"message":"\u5bfb\u5230\u4e00\u4e2a\u7a7a\u5b9d\u7bb1","data":{"points":0}}', $client->getResponse()->getContent());
+
     }
 
     /**
