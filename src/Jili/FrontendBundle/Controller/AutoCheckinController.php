@@ -16,7 +16,6 @@ class AutoCheckinController extends Controller {
      */
     public function redirectmeAction(){
         $logger = $this->get('logger');
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__,'')) );
         $request = $this->get('request');
         if($request->get('36kr')) {
             return $this->redirect('http://www.36kr.com/');

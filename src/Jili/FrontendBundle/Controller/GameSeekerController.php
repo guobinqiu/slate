@@ -30,12 +30,13 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
             return $response;
         }
 
-        // get session uid.
+        $count_of_chest = $this->get('game_seeker.points_pool')->fetchChestCount(); 
         if( ! $this->get('session')->has('uid')) {
+            $response->setData(array( 'code'=> 0, 'data'=> array('countOfChest'=> $count_of_chest, 'token'=> '' ) ));
             return $response;
         }
+
         $userId = $this->get('session')->get('uid');
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($userId, true));
         $em  = $this->get('doctrine.orm.entity_manager');
         
         $is_completed = $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10) )->isGameSeekerCompletedToday($userId);
@@ -51,7 +52,6 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
             return $response;
         }
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($is_completed, true));
 
         $gameInfo = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->getInfoByUser( $userId);
 
@@ -59,7 +59,6 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         // applied_at\publish_at, table system_configurations
         // read in to a cache file.
         // fetch from the cache file.
-       $count_of_chest = $this->get('game_seeker.points_pool')->fetchChestCount(); 
         $response->setData(array( 'code'=> 0, 'data'=> array('countOfChest'=> $count_of_chest, 'token'=> $gameInfo->getToken()) ));
         return $response;
     }
@@ -82,16 +81,13 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $request = $this->getRequest();
 
         if ( !$request->isXmlHttpRequest()) {
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')) );
             return $response;
         }
         $token = $request->request->get('token');
         if(  strlen($token) !== 32) {
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')) );
             return $response;
         }
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($token, true) );
 
         // get session uid.
         if( ! $this->get('session')->has('uid') ){
@@ -101,12 +97,11 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $userId = $this->get('session')->get('uid');
         $em = $this->get('doctrine.orm.entity_manager');
         $connection = $this->get('database_connection');
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($userId, true));
 
         // todo: confirm the point from the pool by service 
         
         $is_completed = $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10) )->isGameSeekerCompletedToday($userId);
-        if(  $is_completed) {
+        if( $is_completed) {
             $response->setData(array( 'code'=> 1/*, 'message'=>'寻宝箱已经完成'*/));
             return $response;
         }
@@ -129,7 +124,6 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         //fetch point from the pool by service 
         $points = $this->get('game_seeker.points_pool')->fetch();
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '$points:')). var_export($points, true));
         if( $points <= 0 ) {
             // log the task has been done !
             // update game_seeker_daily
@@ -188,7 +182,6 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
             return $this->redirect($this->generateUrl('_default_error'));
         } 
 
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '$points:')). var_export($points, true));
         // update session of task_list.
         // update session of user.points 确认中的米粒数
         $this->get('login.listener')->updatePoints($user->getPoints() );
@@ -201,7 +194,6 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
      */
     function isAdsVisitAction() 
     {
-
         $logger = $this->get('logger');
         $response = new JsonResponse();
         $request = $this->getRequest();
@@ -217,8 +209,6 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $userId = $this->get('session')->get('uid');
         $em = $this->get('doctrine.orm.entity_manager');
         $result = $em->getRepository('JiliFrontendBundle:UserVisitLog')->isGameSeekerDoneDaily($userId);
-
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '$result:')). var_export($result, true));
 
         if( 1 === $result) {
             $response ->setData(array('code'=> 0, 'data'=> array('has_done'=> true) ));

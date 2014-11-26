@@ -28,7 +28,6 @@ class GameSeekerController extends Controller
         if( 'POST' === $request->getMethod()) {
             $form->bind($request);
             $data = $form->getData();
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__ ,'$data','')). var_export($data, true) );
             if($form->isValid()) {
                 // validate
                 $errorList = $this->get('validator')->validateValue($data['rules'],new  GameSeekerRules());
@@ -44,7 +43,8 @@ class GameSeekerController extends Controller
                 }
             }
         }
-        return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:build.html.twig', array('form'=> $form->createView()));
+        return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:build.html.twig',
+            array('form'=> $form->createView()));
     }
 
     /**
@@ -149,8 +149,7 @@ class GameSeekerController extends Controller
                 return $this->redirect($this->generateUrl('jili_backend_gameseeker_publishpointsstrategy' ));
             }
         }
-
-        //$logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__ ,'$data','')). var_export($data, true) );
-        return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:publish.html.twig', array('form'=> $form->createView()));
+        return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:publish.html.twig',
+            array('form'=> $form->createView()));
     }
 }

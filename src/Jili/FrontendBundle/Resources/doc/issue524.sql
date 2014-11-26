@@ -42,6 +42,9 @@ CREATE TABLE `user_visit_log` (
     `user_id` int(11) NOT NULL,
     `visit_date` date NOT NULL,
     `created_at` datetime NOT NULL COMMENT '创建日期',
+--  /ip
+--   /session
+--    /browser
     PRIMARY KEY (`id`),
     KEY `indx_user_target` (`user_id`,`target_flag`),
     UNIQUE KEY `indx_user_target_daily` (`user_id`, `target_flag`,`visit_date`)

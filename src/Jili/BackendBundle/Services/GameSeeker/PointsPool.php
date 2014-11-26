@@ -183,10 +183,6 @@ class PointsPool
             $points_pool = $this->readCached($file);
         } 
 
-        $this->logger->debug('{jarod}'. implode(':', array(__FILE__, __LINE__,'count():')). var_export(count($points_pool), true) );
-        $this->logger->debug('{jarod}'. implode(':', array(__FILE__, __LINE__,'is_array:')). var_export(is_array($points_pool), true) );
-        $this->logger->debug('{jarod}'. implode(':', array(__FILE__, __LINE__,'is_null:')). var_export(is_null($points_pool), true) );
-
         if(0 === count($points_pool)) {
             return ;
         }
@@ -203,9 +199,6 @@ class PointsPool
             $this->logger->crit('[gameSeeker][pointsPool][fetch]'. $e->getMessage());
             $this->restore($tmp, $file);
         }
-        // fetch one
-        // update 
-        // save again.
         return true;
     }
 

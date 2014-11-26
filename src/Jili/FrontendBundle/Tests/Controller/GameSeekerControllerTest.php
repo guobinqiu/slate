@@ -72,6 +72,7 @@ class GameSeekerControllerTest extends WebTestCase
 
     /**
      * @group issue_524
+     * @group debug 
      */
     function testGetChestInfoAction() 
     {
@@ -93,7 +94,7 @@ class GameSeekerControllerTest extends WebTestCase
         // not signin
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-        $this->assertEquals('{}',$client->getResponse()->getContent(),'not sign in');
+        $this->assertEquals('{"code":0,"data":{"countOfChest":5,"token":""}}',$client->getResponse()->getContent(),'not sign in');
 
         $uid = LoadGetChestInfoData::$USERS[0]->getId() ;
         $session = $client->getContainer()->get('session');
