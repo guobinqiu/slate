@@ -139,7 +139,17 @@ class GameSeekerControllerTest extends WebTestCase
         @unlink($path_configs['chest']);
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-        $this->assertEquals( '{"code":1}',$client->getResponse()->getContent()  );
+        $gameSeekerDailyList = $container->get('doctrine.orm.entity_manager')->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $uid));
+        $this->assertNotEmpty($gameSeekerDailyList);
+
+        $token_again = $gameSeekerDailyList[0]->getToken();
+        echo $token_again,PHP_EOL;
+
+        $this->assertNotEquals($token, $token_again);
+
+        $expected = '{"code":0,"data":{"countOfChest":5,"token":"'.$token_again.'"}}';
+        $this->assertEquals($expected, $client->getResponse()->getContent(),'open again, not clicked');
+
 
         //completed user , clicked got points > 0 ;
         $user = LoadGetChestInfoData::$USERS[2];
@@ -164,7 +174,6 @@ class GameSeekerControllerTest extends WebTestCase
     /**
      * with no points strategy configed.
      * @group issue_524
-     * @group debug 
      */
     function testGetClickActionNoPointsStrategy() 
     {
@@ -195,7 +204,6 @@ class GameSeekerControllerTest extends WebTestCase
 
     /**
      * @group issue_524
-     * @group debug 
      */
     function testGetClickActionNormal() 
     {

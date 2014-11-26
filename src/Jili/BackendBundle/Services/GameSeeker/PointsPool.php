@@ -188,7 +188,7 @@ class PointsPool
         $this->logger->debug('{jarod}'. implode(':', array(__FILE__, __LINE__,'is_null:')). var_export(is_null($points_pool), true) );
 
         if(0 === count($points_pool)) {
-            return -1;
+            return ;
         }
         try {
             /// backup 
