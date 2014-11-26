@@ -38,6 +38,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $userId = $this->get('session')->get('uid');
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($userId, true));
         $em  = $this->get('doctrine.orm.entity_manager');
+        
         $is_completed = $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10) )->isGameSeekerCompletedToday($userId);
         if(  $is_completed) {
             $response->setData(array( 'code'=> 1));
@@ -115,6 +116,8 @@ $connection = $this->get('database_connection');
 
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '$points:')). var_export($points, true));
         if( $points <= 0 ) {
+            // log the task has been done !
+            
             $response->setData(array( 'code'=> 0, 'message'=>'寻到一个空宝箱', 'data'=> array('points'=>0 ) ));
             return $response;
         }

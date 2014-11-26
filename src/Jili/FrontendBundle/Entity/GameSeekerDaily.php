@@ -29,7 +29,7 @@ class GameSeekerDaily
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="clicked_day", type="date", nullable=false)
+     * @ORM\Column(name="clicked_day", type="date", nullable=true)
      */
     private $clickedDay;
 
@@ -65,9 +65,10 @@ class GameSeekerDaily
 
     public function __construct() 
     {
-        $this->setPoints(0);
+        $this->setPoints( -1 );
         $this->setTokenUpdatedAt(new \DateTime());
         $this->setCreatedAt(new \DateTime() );
+
         $this->setClickedDay(new \DateTime());
     }
 
