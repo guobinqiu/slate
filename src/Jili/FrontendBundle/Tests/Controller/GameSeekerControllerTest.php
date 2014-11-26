@@ -85,7 +85,7 @@ class GameSeekerControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals('{}',$client->getResponse()->getContent(),'not ajax ');
 
-        // normal
+        // not signin
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals('{}',$client->getResponse()->getContent(),'not sign in');
@@ -94,10 +94,16 @@ class GameSeekerControllerTest extends WebTestCase
         $session = $client->getContainer()->get('session');
         $session->set('uid', $uid);
         $session->save();
+        
+        // normal
+        $uid = LoadGetChestInfoData::$USERS[0]->getId() ;
+        $session = $client->getContainer()->get('session');
+        $session->set('uid', $uid);
+        $session->save();
 
         $path_configs= $container->getParameter('game_seeker_config_path');
         @unlink($path_configs['chest']);
-        $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $crawler = $client->request('POST',$url,array(),array(),array('HTTP_X-Requested-With'=>'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
         $gameSeekerDaily = $this->em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=> $uid));
@@ -111,9 +117,8 @@ class GameSeekerControllerTest extends WebTestCase
         sleep(2); 
 
         // again
-        $path_configs= $container->getParameter('game_seeker_config_path');
         @unlink($path_configs['chest']);
-        $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $crawler = $client->request('POST',$url,array(),array(),array('HTTP_X-Requested-With'=>'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
         $gameSeekerDailyList = $container->get('doctrine.orm.entity_manager')->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $uid));
@@ -127,18 +132,39 @@ class GameSeekerControllerTest extends WebTestCase
         $expected = '{"code":0,"data":{"countOfChest":5,"token":"'.$token_again.'"}}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'normal');
 
-        //completed user
+        // another user , opened again, but not clicked yet
+        $user = LoadGetChestInfoData::$USERS[1];
+        $session->set('uid', $user->getId());
+        $session->save();
+        @unlink($path_configs['chest']);
+        $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals( '{"code":1}',$client->getResponse()->getContent()  );
+
+        //completed user , clicked got points > 0 ;
         $user = LoadGetChestInfoData::$USERS[2];
+        $session->set('uid', $user->getId());
+        $session->save();
+        @unlink($path_configs['chest']);
+        $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals( '{"code":1}',$client->getResponse()->getContent()  );
+
+        //completed user , clicked got points == 0 ;
+        $user = LoadGetChestInfoData::$USERS[3];
         $session->set('uid', $user->getId());
         $session->save();
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals( '{"code":1}',$client->getResponse()->getContent()  );
+
     }
+
 
     /**
      * with no points strategy configed.
      * @group issue_524
+     * @group debug 
      */
     function testGetClickActionNoPointsStrategy() 
     {
@@ -149,6 +175,7 @@ class GameSeekerControllerTest extends WebTestCase
         
         // with no points strategy
         $token = LoadGetChestInfoData::$GAMESEEKLOGS[0]->getToken();
+
         $user = LoadGetChestInfoData::$USERS[1];
         $session = $container->get('session');
         $session->set('uid', $user->getId());
@@ -168,6 +195,7 @@ class GameSeekerControllerTest extends WebTestCase
 
     /**
      * @group issue_524
+     * @group debug 
      */
     function testGetClickActionNormal() 
     {
