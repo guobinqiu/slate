@@ -39,3 +39,4 @@ a{ text-decoration:none;}
 .winLayer .close{ position: fixed; top: 5px; right: 50%; margin-right: -500px; color: #fff; width: 27px; height: 27px; cursor: pointer; z-index: 9999; background: url(../images/taobao/close.png) no-repeat;}
 /*2014-11-26, by wlt*/
 .itemL .tablist .loadimg{ background: url(../images/taobao/loadingImg.gif) no-repeat center;}
+.tips{ font-size: 14px; font-family: "微软雅黑"; width: 200px; height: 45px; line-height: 45px; background-color: #fff; position: absolute; top: 450px; left: 50%; margin-left: -100px; z-index: 9999;}

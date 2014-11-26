@@ -92,7 +92,8 @@ jili.taobao.searchBycatgory = function(id) {
 					bgClass: 'winLayer',
 					conClass: 'winCon',
 					resultClass: 'winResult',
-					closeClass: 'close'
+					closeClass: 'close',
+					tipClass: 'tips'
 				},
 				debug: true,
 				clickCallback: function(categoryId){ jili.taobao.searchBycatgory(categoryId); }

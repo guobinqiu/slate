@@ -166,6 +166,23 @@
                 dataType: 'json',
                 data: "token=" + initData.data.token,
                 success: function(returnData){
+					if(typeof returnData === "object" && !(returnData instanceof Array)){  
+						var hasProp = false;  
+						for (var prop in returnData){  
+							hasProp = true;  
+							break;  
+						}  
+						if(hasProp){  
+							returnData = [returnData];  
+						}else{  
+							$this.debug('返回结果为空');
+							var divLayer = "<div></div>";
+							var $body = $('body');
+							$(divLayer).addClass(opts.theme.maskClass).appendTo($body);
+							$(divLayer).addClass(opts.theme.tipClass).html("宝箱已过期，请刷新页面！").appendTo($body);
+							return false;  
+						}  
+					}  
 					var resultData = { "point": returnData.data.points || 0};
 					$this.debug('请求结果', resultData);
 					$this.loadGif();
@@ -211,7 +228,8 @@
             bgClass: 'winLayer',
             conClass: 'winCon',
             resultClass: 'winResult',
-            closeClass: 'close'
+            closeClass: 'close',
+			tipClass: 'tips'
         },
         debug: true,
 		clickCallback: function(){}
