@@ -17,11 +17,15 @@ jili.taobao.searchBycatgory = function(id) {
 			var $box = $('<div class="tablist block" id="tabs-1"><div id="waterfall"></div><div id="more" class="more"></div></div>');
 			var html = '';
 			for (var i = 0; i < items.length; i++) {
-				html += "<div class=\"cell\">" + items[i]['content'] + "</div>";
+				html += "<div class=\"cell loadimg\">" + items[i]['content'] + "</div>";
 			}
 			$box.find("#waterfall").html(html);
 			$box.find("#more").html("<a href="+Routing.generate("jili_frontend_taobao_categoryapi", {"id": id,"page":2})+"></a>");
-			$('.taoMainCon').html($box);
+			$(".taoMainCon").html($box);
+			$box.find(".cell").each(function(i, e){
+				setTimeout(function(){$box.find(".cell").eq(i).removeClass("loadimg");}, 1500);
+				setTimeout("alimamatk_show(0)", 1000);
+			});
 			$('#tabs-1').infinitescroll({
 				loading: {
 					finishedMsg: "<br style='clear:both'/><em>没有更多了。</em>",
@@ -43,13 +47,16 @@ jili.taobao.searchBycatgory = function(id) {
 						$box = $(myString);
 						$boxes.append($box);
 					});
+					$boxes.find(".cell").addClass("loadimg");
 					return $boxes.find('.cell');
 				},
 				errorCallback: function (e) {console.log("infinit scroll error"); console.log(e) }
-			}, function( json, opts) { 
-				alimamatk_show(0);
+			}, function( json, opts) {
+				$(".cell").each(function(i, e){
+					setTimeout(function(){$box.find(".cell").eq(i).removeClass("loadimg");}, 1500);
+					setTimeout("alimamatk_show(0)", 1000);
+				});
 			});
-			alimamatk_show(0);
 			if($(window).height() > $("body").height()){
 				$("footer").css("position","fixed");
 			}else{
