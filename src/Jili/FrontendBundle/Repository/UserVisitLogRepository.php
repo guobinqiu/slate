@@ -28,10 +28,10 @@ class UserVisitLogRepository extends EntityRepository
         $today->setTime(0,0);
         $entity = $this->findOneBy(array(
             'userId'=> $userId,
-            'visitDate'=>$today
+            'visitDate'=>$today,
+            'targetFlag'=> UserVisitLog::TARGET_FLAG_GAME_SEEKER
         ));
 
         return  is_null($entity) ? 0: 1;
-
     }
 }

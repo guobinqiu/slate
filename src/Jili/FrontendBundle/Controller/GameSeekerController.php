@@ -1,5 +1,4 @@
 <?php
-
 namespace Jili\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -198,7 +197,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
     }
     /**
      * @Route("/is-ads-visit", options={"expose"=true})
-     * @Method("POST")
+     * @Method("GET")
      */
     function isAdsVisitAction() 
     {
@@ -207,17 +206,20 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $response = new JsonResponse();
         $request = $this->getRequest();
 
-        if ( !$request->isXmlHttpRequest()) {
+        if ( ! $request->isXmlHttpRequest()) {
             return $response;
         }
         // get session uid.
-        if( ! $this->get('session')->has('uid') ){
+        if( ! $this->get('session')->has('uid')) {
             return $response;
         }
 
         $userId = $this->get('session')->get('uid');
         $em = $this->get('doctrine.orm.entity_manager');
-        $result = $em->getRepository('JiliFrontendBundle:')->isGameSeekerCompletedToday();
+        $result = $em->getRepository('JiliFrontendBundle:UserVisitLog')->isGameSeekerDoneDaily($userId);
+
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '$result:')). var_export($result, true));
+
         if( 1 === $result) {
             $response ->setData(array('code'=> 0, 'data'=> array('has_done'=> true) ));
         } else if( 0 ===  $result) {

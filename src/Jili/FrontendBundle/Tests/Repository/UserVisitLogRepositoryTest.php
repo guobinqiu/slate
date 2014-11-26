@@ -72,17 +72,15 @@ class UserVisitLogRepositoryTest extends KernelTestCase
 
     /**
      * @group issue_524
-     * @group debug 
      */
-    function testIsGameSeekerDoneDaily( )
+    function testIsGameSeekerDoneDaily()
     {
         $em = $this->em;
-
         $result  = $em->getRepository('JiliFrontendBundle:UserVisitLog')->isGameSeekerDoneDaily(1 );
         $this->assertEquals(1, $result);
         $result  = $em->getRepository('JiliFrontendBundle:UserVisitLog')->isGameSeekerDoneDaily(11 );
         // select good one!
-        $this->assertEquals(1, $result);
+        $this->assertEquals(0, $result);
         // select bad one!
         $result  = $em->getRepository('JiliFrontendBundle:UserVisitLog')->isGameSeekerDoneDaily(19 );
         $this->assertEquals(0, $result);

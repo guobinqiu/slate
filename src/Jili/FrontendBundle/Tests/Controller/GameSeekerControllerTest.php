@@ -36,26 +36,26 @@ class GameSeekerControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
         $this->has_fixture = false ;
-       $tn = $this->getName();
-    //    if($tn === 'testGetChestInfoAction' ){
-            // purge tables;
-            $purger = new ORMPurger($em);
-            $executor = new ORMExecutor($em, $purger);
-            $fixture = new LoadGetChestInfoData();
-            $loader = new Loader();
-            $loader->addFixture($fixture);
+        $tn = $this->getName();
+        //    if($tn === 'testGetChestInfoAction' ){
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $fixture = new LoadGetChestInfoData();
+        $loader = new Loader();
+        $loader->addFixture($fixture);
 
-            if(in_array($tn,array('testGetClickActionNormalGreaterZero','testGetClickActionNormalZero'))) {
-                $loader->addFixture(new LoadPointsPoolPublishCodeData());
-            } else if($tn === 'testIsGameSeekerDoneDailyAction') {
-                $loader->addFixture(new LoadIsGameSeekerDoneData());
-            }
+        if(in_array($tn,array('testGetClickActionNormalGreaterZero','testGetClickActionNormalZero'))) {
+            $loader->addFixture(new LoadPointsPoolPublishCodeData());
+        } else if($tn === 'testIsGameSeekerDoneDailyAction') {
+            $loader->addFixture(new LoadIsGameSeekerDoneData());
+        }
 
-            $executor->purge();
-            $executor->execute($loader->getFixtures());
+        $executor->purge();
+        $executor->execute($loader->getFixtures());
 
-            $this->has_fixture = true;
-      //  }
+        $this->has_fixture = true;
+        //  }
         $this->em  = $em;
     }
 
@@ -291,35 +291,39 @@ class GameSeekerControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
+
         $url =$container->get('router')->generate('jili_frontend_gameseeker_isadsvisit');
         $this->assertEquals('/game-seeker/is-ads-visit', $url, 'router');
         
-        // no POST 
-        $client->request('GET', $url);
-        $this->assertEquals(405,$client->getResponse()->getStatusCode(),'not post');
+        // no GET 
+        $client->request('POST', $url);
+        $this->assertEquals(405,$client->getResponse()->getStatusCode(),'not GET');
 
         // no Ajax 
-        $client->request('POST', $url);
+        $client->request('GET', $url);
         $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
-        $this->assertEquals('', $client->getResponse()->getContent());
+        $this->assertEquals('{}', $client->getResponse()->getContent());
+
         // no uid in session 
-        $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $client->request('GET', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
         $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
-        $this->assertEquals('', $client->getResponse()->getContent());
+        $this->assertEquals('{}', $client->getResponse()->getContent());
+
         // fixtures same as repository 
-        $session = $container->get('session');
-        $session->set('uid', 11);
-        $session->save();
-        $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
-        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
-        $this->assertEquals('', $client->getResponse()->getContent());
         
-        // normal request 
-        $session = $container->get('session');
+        // normal request, user has visit
+        $session = $client->getContainer()->get('session');
         $session->set('uid', 1);
         $session->save();
-        $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
-        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
-        $this->assertEquals('', $client->getResponse()->getContent());
+        $client->request('GET', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
+        $this->assertEquals('{"code":0,"data":{"has_done":true}}', $client->getResponse()->getContent());
+
+        // normal request, user has not visit
+        $session->set('uid', 11);
+        $session->save();
+        $client->request('GET', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'not visit');
+        $this->assertEquals('{"code":0,"data":{"has_done":false}}', $client->getResponse()->getContent());
     }
 }
