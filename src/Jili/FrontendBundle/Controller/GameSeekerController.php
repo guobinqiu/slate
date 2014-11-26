@@ -190,6 +190,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
             return $this->redirect($this->generateUrl('_default_error'));
         } 
 
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '$points:')). var_export($points, true));
         // update session of task_list.
         // update session of user.points 确认中的米粒数
         $this->get('login.listener')->updatePoints($user->getPoints() );
