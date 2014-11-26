@@ -10,6 +10,8 @@ use Doctrine\Common\DataFixtures\Loader;
 
 use Jili\FrontendBundle\DataFixtures\ORM\Controller\GameSeeker\LoadGetChestInfoData;
 use Jili\BackendBundle\DataFixtures\ORM\Services\GameSeeker\LoadPointsPoolPublishCodeData;
+use Jili\FrontendBundle\DataFixtures\ORM\Repository\UserVisitLog\LoadIsGameSeekerDoneData;
+
 
 class GameSeekerControllerTest extends WebTestCase
 {
@@ -45,7 +47,10 @@ class GameSeekerControllerTest extends WebTestCase
 
             if($tn === 'testGetClickActionNormal') {
                 $loader->addFixture(new LoadPointsPoolPublishCodeData());
+            } else if($tn === 'testIsGameSeekerDoneDailyAction') {
+                $loader->addFixture(new LoadIsGameSeekerDoneData());
             }
+
             $executor->purge();
             $executor->execute($loader->getFixtures());
 
@@ -192,5 +197,44 @@ class GameSeekerControllerTest extends WebTestCase
         $diff = $session->get('points') - $user->getPoints();
         $this->assertEquals('{"code":0,"message":"\u5bfb\u5b9d\u7bb1\u6210\u529f","data":{"points":'.$diff.'}}', $client->getResponse()->getContent());
         
+    }
+
+    /**
+     * @group issue_524
+     */
+    function testIsGameSeekerDoneDailyAction() 
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_gameseeker_isadsvisit');
+        $this->assertEquals('/game-seeker/is-ads-visit', $url, 'router');
+        
+        // no POST 
+        $client->request('GET', $url);
+        $this->assertEquals(405,$client->getResponse()->getStatusCode(),'not post');
+
+        // no Ajax 
+        $client->request('POST', $url);
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
+        $this->assertEquals('', $client->getResponse()->getContent());
+        // no uid in session 
+        $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
+        $this->assertEquals('', $client->getResponse()->getContent());
+        // fixtures same as repository 
+        $session = $container->get('session');
+        $session->set('uid', 11);
+        $session->save();
+        $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
+        $this->assertEquals('', $client->getResponse()->getContent());
+        
+        // normal request 
+        $session = $container->get('session');
+        $session->set('uid', 1);
+        $session->save();
+        $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
+        $this->assertEquals('', $client->getResponse()->getContent());
     }
 }

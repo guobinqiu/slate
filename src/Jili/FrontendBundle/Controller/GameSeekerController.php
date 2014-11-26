@@ -74,12 +74,12 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $request = $this->getRequest();
 
         if ( !$request->isXmlHttpRequest()) {
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')) );
+            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')) );
             return $response;
         }
         $token = $request->request->get('token');
         if(  strlen($token) !== 32) {
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')) );
+            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')) );
             return $response;
         }
 
@@ -87,7 +87,6 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
 
         // get session uid.
         if( ! $this->get('session')->has('uid') ){
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')) );
             return $response;
         }
 
@@ -169,6 +168,36 @@ $connection = $this->get('database_connection');
         // update session of user.points 确认中的米粒数
         $this->get('login.listener')->updatePoints($user->getPoints() );
         $response->setData(array( 'code'=> 0, 'message'=>'寻宝箱成功', 'data'=> array('points'=>$points) ));
+        return $response;
+    }
+    /**
+     * @Route("/is-ads-visit", options={"expose"=true})
+     * @Method("POST")
+     */
+    function isAdsVisitAction() 
+    {
+
+        $logger = $this->get('logger');
+        $response = new JsonResponse();
+        $request = $this->getRequest();
+
+        if ( !$request->isXmlHttpRequest()) {
+            return $response;
+        }
+        // get session uid.
+        if( ! $this->get('session')->has('uid') ){
+            return $response;
+        }
+
+        $userId = $this->get('session')->get('uid');
+        $em = $this->get('doctrine.orm.entity_manager');
+        $result = $em->getRepository('JiliFrontendBundle:')->isGameSeekerCompletedToday();
+        if( 1 === $result) {
+            $response ->setData(array('code'=> 0, 'data'=> array('has_done'=> true) ));
+        } else if( 0 ===  $result) {
+            $response ->setData(array('code'=> 0, 'data'=> array('has_done'=> false ) ));
+        }
+
         return $response;
     }
 }
