@@ -38,11 +38,20 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $userId = $this->get('session')->get('uid');
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($userId, true));
         $em  = $this->get('doctrine.orm.entity_manager');
+        
         $is_completed = $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10) )->isGameSeekerCompletedToday($userId);
         if(  $is_completed) {
             $response->setData(array( 'code'=> 1));
             return $response;
         }
+
+        // check the GameSeekerDaily
+        $gameSeekerDaily = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=> $userId,'points'=> 0, 'clickedDay'=>new \DateTime()));
+        if( !is_null($gameSeekerDaily)) {
+            $response->setData(array( 'code'=> 1));
+            return $response;
+        }
+
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($is_completed, true));
 
         $gameInfo = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->getInfoByUser( $userId);
@@ -92,7 +101,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
 
         $userId = $this->get('session')->get('uid');
         $em = $this->get('doctrine.orm.entity_manager');
-$connection = $this->get('database_connection');
+        $connection = $this->get('database_connection');
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($userId, true));
 
         // todo: confirm the point from the pool by service 
@@ -102,8 +111,17 @@ $connection = $this->get('database_connection');
             $response->setData(array( 'code'=> 1/*, 'message'=>'寻宝箱已经完成'*/));
             return $response;
         }
-        $gameSeekerDaily = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('token'=> $token,'userId'=> $userId));
-        if(!  $gameSeekerDaily ) {
+
+        // 已经完成的
+        $gameSeekerDaily = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=> $userId,'points'=> 0, 'clickedDay'=>new \DateTime()));
+        if( !is_null($gameSeekerDaily)) {
+            $response->setData(array( 'code'=> 1));
+            return $response;
+        }
+
+        // token 无效
+        $gameSeekerDaily = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('token'=> $token,'userId'=> $userId,'points'=> -1 , 'clickedDay'=>new \DateTime()));
+        if(! $gameSeekerDaily ) {
             return $response;
         }
 
@@ -114,6 +132,13 @@ $connection = $this->get('database_connection');
 
         $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '$points:')). var_export($points, true));
         if( $points <= 0 ) {
+            // log the task has been done !
+            // update game_seeker_daily
+            $gameSeekerDaily->setClickedDay(new \DateTime())
+                ->setPoints(0);
+            $em->persist($gameSeekerDaily);
+            $em->flush();
+            
             $response->setData(array( 'code'=> 0, 'message'=>'寻到一个空宝箱', 'data'=> array('points'=>0 ) ));
             return $response;
         }

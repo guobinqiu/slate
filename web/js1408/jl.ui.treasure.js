@@ -150,14 +150,13 @@
         noPoint: function(){
             var opts = this.options;
             this.debug('没有获得米粒');
-            $('.'+opts.theme.conClass).find('span').addClass(opts.theme.resultClass).append('再接再厉哦！');
+            $('.'+opts.theme.conClass).find('span').addClass(opts.theme.resultClass).append('亲，明天再接再厉哦！');
         },
         //结果层显示
         showResult: function(initData){
             this.debug('打开宝箱……');
             var $this = this;
 			var opts = $this.options;
-			$this.debug('第二次请求错误', initData);
             initData.code = 1;
 			if(!opts.initUrl){ $this.debug("请求地址不存在");}
             //获取中奖状态
@@ -177,7 +176,7 @@
 					}else{
 						setTimeout(function(){ $this.noPoint();}, opts.box.gifTime);
 					}
-					$this.showBao(resultData);
+					$this.showBao(initData);
                 },
                 error: function(){
                     $this.debug('第二次请求错误');

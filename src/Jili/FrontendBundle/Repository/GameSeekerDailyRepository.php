@@ -21,6 +21,9 @@ class GameSeekerDailyRepository extends EntityRepository
         $gameSeekerDaily  = $this->findOneBy(array('userId'=> $uid, 'clickedDay'=> $today_day));
 
         if($gameSeekerDaily ) {
+            if($gameSeekerDaily->getPoints() >= 0 ) {
+                return ;
+            }
             $gameSeekerDaily->setToken();
         } else {
             $gameSeekerDaily  = new GameSeekerDaily();

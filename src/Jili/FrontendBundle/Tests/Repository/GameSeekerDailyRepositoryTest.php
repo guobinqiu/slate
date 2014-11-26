@@ -51,21 +51,21 @@ class GameSeekerDailyRepositoryTest  extends KernelTestCase
         $em = $this->em;
         $today = new \DateTime();
         $today->setTime(0,0);
-        $instance = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=>1, 'clickedDay'=>$today ));
+
+        //case i, a user not clickedToday, the request will insert a new record.
+        $instance = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=>1, 'clickedDay'=>$today  ));
         $this->assertNull($instance,'before get, not exist');
 
         $instance = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->getInfoByUser(1);
-        $instance_after = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=>1, 'clickedDay'=>$today ));
+        $instance_after = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=>1, 'clickedDay'=>$today));
         $this->assertNotNull($instance_after,'after get, exists');
         $this->assertInstanceOf('Jili\\FrontendBundle\\Entity\\GameSeekerDaily', $instance_after);
         $this->assertSame($instance_after, $instance,'should be the same one');
 
-        // case ii.
+        // case ii. a user has open the page but not click today.
         $instance_before = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=>10, 'clickedDay'=>$today ));
-
         $before_token= $instance_before->getToken();
         $before_token_updated_at = $instance_before->getTokenUpdatedAt();
-
 
         $this->assertNotNull($instance_before,'before get, exist');
         $this->assertInstanceOf('Jili\\FrontendBundle\\Entity\\GameSeekerDaily', $instance_before, 'before get');
@@ -84,5 +84,20 @@ class GameSeekerDailyRepositoryTest  extends KernelTestCase
 
         $this->assertNotEquals( $before_token, $after_token, 'token should be diff');
 
+        // case iii. a user has clicked today and finished. 
+        
+        $instance_before = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=>10, 'clickedDay'=>$today ));
+        $before_token= $instance_before->getToken();
+        $before_token_updated_at = $instance_before->getTokenUpdatedAt();
+
+        $this->assertNotNull($instance_before,'before get, exist');
+        $this->assertInstanceOf('Jili\\FrontendBundle\\Entity\\GameSeekerDaily', $instance_before, 'before get');
+
+        $instance = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->getInfoByUser(21);
+        $this->assertNull($instance);
+
+        $instance_after  = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=>21, 'clickedDay'=>$today ));
+
+        $this->assertNotNull(serialize($instance_before), serialize($instance_after));
     }
 }

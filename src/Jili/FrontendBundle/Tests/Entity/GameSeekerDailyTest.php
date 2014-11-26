@@ -18,7 +18,7 @@ class GameSeekerDailyTest extends KernelTestCase
     public function testCreate()
     {
         $entity = new GameSeekerDaily();
-        $this->assertEquals(0, $entity->getPoints(), 'default point is 0');
+        $this->assertEquals(-1, $entity->getPoints(), 'default point is 0');
         $this->assertEquals(date('Y-m-d'), $entity->getClickedDay()->format('Y-m-d'));
         $this->assertEquals(date('Y-m-d 00:00:00'),$entity->getClickedDay()->format('Y-m-d H:i:s'));
         $entity->setToken('12345678901234567890123456789012');

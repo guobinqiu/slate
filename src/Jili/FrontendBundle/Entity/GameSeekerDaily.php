@@ -36,7 +36,7 @@ class GameSeekerDaily
     /**
      * @var string
      *
-     * @ORM\Column(name="token", type="string", length=32, nullable=false, unique=true)
+     * @ORM\Column(name="token", type="string", length=32, nullable=false)
      */
     private $token;
 
@@ -65,7 +65,7 @@ class GameSeekerDaily
 
     public function __construct() 
     {
-        $this->setPoints(0);
+        $this->setPoints( -1 );
         $this->setTokenUpdatedAt(new \DateTime());
         $this->setCreatedAt(new \DateTime() );
         $this->setClickedDay(new \DateTime());

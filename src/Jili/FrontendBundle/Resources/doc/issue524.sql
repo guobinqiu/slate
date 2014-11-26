@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS `game_seeker_daily`;
 CREATE TABLE `game_seeker_daily` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `points` int(11) NOT NULL,
+  `points` int(11) DEFAULT -1 NOT NULL,
   `clicked_day` date NOT NULL COMMENT 'YYYY-mm-dd',
   `token` varchar(32) NOT NULL COMMENT '每次请求重新生成',
   `token_updated_at` datetime NOT NULL,
