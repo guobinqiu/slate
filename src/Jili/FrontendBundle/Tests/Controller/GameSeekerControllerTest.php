@@ -43,7 +43,7 @@ class GameSeekerControllerTest extends WebTestCase
             $loader = new Loader();
             $loader->addFixture($fixture);
 
-            if(in_array($tn,array('testGetClickActionNormalGreaterZero','testGetClickActionNormalZero')) {
+            if(in_array($tn,array('testGetClickActionNormalGreaterZero','testGetClickActionNormalZero'))) {
                 $loader->addFixture(new LoadPointsPoolPublishCodeData());
             }
             $executor->purge();
