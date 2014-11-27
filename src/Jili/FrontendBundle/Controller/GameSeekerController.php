@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Jili\ApiBundle\Entity\AdCategory;
+use Jili\ApiBundle\Utility;
 
 /**
  * @Route("/game-seeker")
@@ -83,22 +84,28 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         if ( !$request->isXmlHttpRequest()) {
             return $response;
         }
+
         $token = $request->request->get('token');
-        if(  strlen($token) !== 32) {
+        if( strlen($token) !== 32 ) {
             return $response;
         }
 
-
         // get session uid.
         if( ! $this->get('session')->has('uid') ){
+            $response->setData(array( 'code'=> 2, 'message'=>'需要登录' ));
             return $response;
         }
 
         $userId = $this->get('session')->get('uid');
         $em = $this->get('doctrine.orm.entity_manager');
-        $connection = $this->get('database_connection');
+        // token 无效
+        $gameSeekerDaily = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('token'=> $token,'userId'=> $userId,'points'=> -1, 'clickedDay'=>new \DateTime()));
+        if(! $gameSeekerDaily ) {
+            $response->setData(array( 'code'=> 3, 'message'=>'token过期' ));
+            return $response;
+        }
 
-        // todo: confirm the point from the pool by service 
+        $connection = $this->get('database_connection');
         
         $is_completed = $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10) )->isGameSeekerCompletedToday($userId);
         if( $is_completed) {
@@ -106,16 +113,13 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
             return $response;
         }
 
+        $today_day = new \DateTime();
+        $today_day->setTime(0,0);
         // 已经完成的
-        $gameSeekerDaily = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=> $userId,'points'=> 0, 'clickedDay'=>new \DateTime()));
-        if( !is_null($gameSeekerDaily)) {
-            $response->setData(array( 'code'=> 1));
-            return $response;
-        }
+        $gameSeekerDaily = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=> $userId, 'clickedDay'=>$today_day));
 
-        // token 无效
-        $gameSeekerDaily = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('token'=> $token,'userId'=> $userId,'points'=> -1 , 'clickedDay'=>new \DateTime()));
-        if(! $gameSeekerDaily ) {
+        if( ! is_null($gameSeekerDaily) && $gameSeekerDaily->getPoints() >= 0 ) {
+            $response->setData(array('code'=> 1));
             return $response;
         }
 
@@ -125,8 +129,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $points = $this->get('game_seeker.points_pool')->fetch();
 
         if( $points <= 0 ) {
-            // log the task has been done !
-            // update game_seeker_daily
+            // log the task has been done, update game_seeker_daily
             $gameSeekerDaily->setClickedDay(new \DateTime())
                 ->setPoints(0);
             $em->persist($gameSeekerDaily);
@@ -135,8 +138,8 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
             $response->setData(array( 'code'=> 0, 'message'=>'寻到一个空宝箱', 'data'=> array('points'=>0 ) ));
             return $response;
         }
-        // transaction!
-        // $em instanceof EntityManager
+
+        // transaction! $em instanceof EntityManager
         try {
             $em->getConnection()->beginTransaction(); // suspend auto-commit
             // insert task_history
@@ -209,6 +212,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $userId = $this->get('session')->get('uid');
         $em = $this->get('doctrine.orm.entity_manager');
         $result = $em->getRepository('JiliFrontendBundle:UserVisitLog')->isGameSeekerDoneDaily($userId);
+        $session_id = $this->get('session')->getId();
 
         if( 1 === $result) {
             $response ->setData(array('code'=> 0, 'data'=> array('has_done'=> true) ));

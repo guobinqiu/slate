@@ -45,7 +45,7 @@ class GameSeekerControllerTest extends WebTestCase
         $loader = new Loader();
         $loader->addFixture($fixture);
 
-        if(in_array($tn,array('testGetClickActionNormalGreaterZero','testGetClickActionNormalZero'))) {
+        if(in_array($tn,array('testGetClickActionNormalGreaterZero','testGetClickActionNormalZero','testGetClickActionValidation'))) {
             $loader->addFixture(new LoadPointsPoolPublishCodeData());
         } else if($tn === 'testIsGameSeekerDoneDailyAction') {
             $loader->addFixture(new LoadIsGameSeekerDoneData());
@@ -72,7 +72,6 @@ class GameSeekerControllerTest extends WebTestCase
 
     /**
      * @group issue_524
-     * @group debug 
      */
     function testGetChestInfoAction() 
     {
@@ -179,6 +178,63 @@ class GameSeekerControllerTest extends WebTestCase
 
 
     /**
+     * validation
+     * @group issue_524
+     */
+    function testGetClickActionValidation() 
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_gameseeker_click');
+        $this->assertEquals('/game-seeker/click', $url, 'router');
+
+        // no POST 
+        $client->request('GET', $url);
+        $this->assertEquals(405,$client->getResponse()->getStatusCode(),'not POST');
+
+        // no Ajax 
+        $client->request('POST', $url);
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
+        $this->assertEquals('{}', $client->getResponse()->getContent());
+
+
+        // invalid token , token length less  32
+        $client->request('POST', $url, array('token'=>'1'), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
+        $this->assertEquals('{}', $client->getResponse()->getContent());
+
+        // invalid token , token length large 32
+        $client->request('POST', $url, array('token'=>str_repeat('1',33)), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
+        $this->assertEquals('{}', $client->getResponse()->getContent());
+
+        // not login, no uid in session 
+        $client->request('POST', $url, array('token'=>str_repeat('1',32)), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
+        $this->assertEquals('{"code":2,"message":"\u9700\u8981\u767b\u5f55"}', $client->getResponse()->getContent());
+        
+
+        // invalid token , none exists user id
+        $session = $client->getContainer()->get('session');
+        $session->set('uid', 100);
+        $session->save();
+        $client->request('POST', $url, array('token'=> str_repeat('1', 32) ), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
+        $this->assertEquals('{"code":3,"message":"token\u8fc7\u671f"}', $client->getResponse()->getContent());
+
+        // invalid token , exists user id, no exists token
+        $uid = LoadGetChestInfoData::$USERS[1]->getId() ;
+        $session = $client->getContainer()->get('session');
+        $session->set('uid', $uid);
+        $session->save();
+        $client->request('POST', $url, array('token'=> str_repeat('1', 32) ), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
+        $this->assertEquals('{"code":3,"message":"token\u8fc7\u671f"}', $client->getResponse()->getContent());
+
+
+    }
+    /**
      * with no points strategy configed.
      * @group issue_524
      */
@@ -187,7 +243,6 @@ class GameSeekerControllerTest extends WebTestCase
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_gameseeker_click');
-        $this->assertEquals('/game-seeker/click', $url, 'router');
         
         // with no points strategy
         $token = LoadGetChestInfoData::$GAMESEEKLOGS[0]->getToken();
