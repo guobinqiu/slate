@@ -111,6 +111,7 @@ class LoadHandleExchangeWenData extends AbstractFixture implements ContainerAwar
         $exchangeFromWenwen = new ExchangeFromWenwen();
         $exchangeFromWenwen->setWenwenExchangeId('123456');
         $exchangeFromWenwen->setEmail(self :: $USERS[0]->getEmail());
+        $exchangeFromWenwen->setUserWenwenCrossId(self :: $USER_WENWEN_CROSS[0]->getId());
         $exchangeFromWenwen->setPaymentPoint(3000);
         $manager->persist($exchangeFromWenwen);
         $manager->flush();
@@ -120,9 +121,24 @@ class LoadHandleExchangeWenData extends AbstractFixture implements ContainerAwar
         $po = SequenseEntityClassFactory :: createInstance('TaskHistory', self :: $USERS[0]->getId());
         $po->setOrderId(1);
         $po->setUserId(self :: $USERS[0]->getId());
-        $po->setTaskType(1);
+        $po->setTaskType(3);
         $po->setCategoryType(1);
         $po->setTaskName('广告体验');
+        $po->setRewardPercent(0);
+        $po->setPoint(500);
+        $po->setDate(date_create());
+        $po->setOcdCreatedDate(date_create());
+        $po->setStatus(1);
+        $manager->persist($po);
+        $manager->flush();
+        self :: $TASK_HISTORY[] = $po;
+
+        $po = SequenseEntityClassFactory :: createInstance('TaskHistory', self :: $USERS[0]->getId());
+        $po->setOrderId(1);
+        $po->setUserId(self :: $USERS[0]->getId());
+        $po->setTaskType(1);
+        $po->setCategoryType(2);
+        $po->setTaskName('广告体验2');
         $po->setRewardPercent(0);
         $po->setPoint(500);
         $po->setDate(date_create());

@@ -662,6 +662,6 @@ EOT;
         $query = $query->Where('uwc.id = :id');
         $query = $query->setParameter('id', $id);
         $query = $query->getQuery();
-        return $query->getResult();
+        return $query->getOneOrNullResult();
     }
 }

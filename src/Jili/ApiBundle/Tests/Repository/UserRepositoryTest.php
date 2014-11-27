@@ -182,6 +182,7 @@ class UserRepositoryTest extends KernelTestCase {
 
     /**
      * @group issue_535
+     * @group getUserByCrossId
      */
     public function testGetUserByCrossId() {
         $em = $this->em;
@@ -197,8 +198,7 @@ class UserRepositoryTest extends KernelTestCase {
         $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->create($user->getId());
 
         $user = $em->getRepository('JiliApiBundle:User')->getUserByCrossId($cross->getId());
-        $this->assertEquals(1, count($user));
-        $this->assertEquals('test@test.com', $user[0]['email']);
+        $this->assertEquals('test@test.com', $user['email']);
     }
 
 }

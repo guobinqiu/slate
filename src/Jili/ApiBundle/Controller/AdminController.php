@@ -1424,82 +1424,112 @@ class AdminController extends Controller implements IpAuthenticatedController
     //91wenwen兑换列表
     public function handleExchangeWen($file)
     {
-      $code = array();
-      $em = $this->getDoctrine()->getManager();
-      foreach ($file as $k=>$v){
-          $cross_id = $v[1];
-          $wenwenExId = $v[0];
-          $points = $v[3];
-          $wenwenEx = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
-          if(empty($wenwenEx)){
-              $userInfo = $em->getRepository('JiliApiBundle:User')->getUserByCrossId($cross_id);
-              if(empty($userInfo)){
-                 $array = array(
-                          'wenwenExId' => $wenwenExId,
-                          'cross_id' => $cross_id,
-                          'points' => $points,
-                          'reason' => 'account not exists'
-                      );
-                 $this->insertFailExWenwen($array);
-                 $code[] = $wenwenExId.'兑换失败';
-              }else{
-                  $user = $userInfo[0];
-                  if(!$user['pwd']){
-                    $array = array(
-                              'wenwenExId' => $wenwenExId,
-                              'cross_id' => $cross_id,
-                              'points' => $points,
-                              'reason' => '账号没有激活'
-                          );
-                     $this->insertFailExWenwen($array);
-                     $code[] = $wenwenExId.'兑换失败';
-                  }else{
-                    $return = $this->insertSuccessExWenwen($wenwenExId, $user, $cross_id, $points);
-                    if(!$return){
-                        $code[] = $wenwenExId.'兑换失败,DB或网络原因';
-                  }
-              }
-          }
-            }else{
-              $code[] = $wenwenExId.'已发放';
-          }
-      }
-      return $code;
+        $code = array ();
+        $em = $this->getDoctrine()->getManager();
 
+        foreach ($file as $k => $v) {
+            $cross_id = $v[1];
+            $wenwenExId = $v[0];
+            $points = $v[3];
+
+            //check
+            $check_result = $this->checkExchangeWen($cross_id, $wenwenExId, $points);
+
+            if ($check_result) {
+                //can't exchange
+                $code[] = $check_result;
+            } else {
+                // can exchange
+                $return = $this->insertSuccessExWenwen($wenwenExId, $cross_id, $points);
+                if (!$return) {
+                    $code[] = $wenwenExId . '兑换失败,DB或网络等原因';
+                }
+            }
+
+        }
+        return $code;
     }
 
-    public function insertSuccessExWenwen($wenwenExId, $user, $cross_id, $points){
+    public function checkExchangeWen($cross_id, $wenwenExId, $points) {
+        $message = '';
+        $em = $this->getDoctrine()->getManager();
+
+        //check already exchange
+        $wenwenEx = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
+        if ($wenwenEx) {
+            $message = $wenwenExId . '已发放';
+            return $message;
+        }
+
+        //get user
+        $user = $em->getRepository('JiliApiBundle:User')->getUserByCrossId($cross_id);
+        if (empty ($user)) {
+            //eheck user exist
+            $array = array (
+                'wenwenExId' => $wenwenExId,
+                'email' => '',
+                'cross_id' => $cross_id,
+                'points' => $points,
+                'reason' => 'account not exists'
+            );
+            $this->insertFailExWenwen($array);
+            $message = $wenwenExId . '兑换失败';
+            return $message;
+        }
+
+        //check user active
+        if (!$user['pwd']) {
+            $array = array (
+                'wenwenExId' => $wenwenExId,
+                'email' => $user['email'],
+                'cross_id' => $cross_id,
+                'points' => $points,
+                'reason' => '账号没有激活'
+            );
+            $this->insertFailExWenwen($array);
+            $message = $wenwenExId . '兑换失败';
+            return $message;
+        }
+
+        return $message;
+    }
+
+    public function insertSuccessExWenwen($wenwenExId, $cross_id, $points) {
         $em = $this->getDoctrine()->getManager();
         $db_connection = $em->getConnection();
         $db_connection->beginTransaction();
         try {
+            //get user
+            $user = $em->getRepository('JiliApiBundle:User')->getUserByCrossId($cross_id);
+
             // insert ExchangeFromWenwen
-             $exchangeFromWenwen = array(
-                              'wenwenExId' => $wenwenExId,
-                              'userId' => $user['id'],
-                              'cross_id' => $cross_id,
-                              'points' => $points,
-                              'status' => $this->container->getParameter('init_one')
-                          );
+            $exchangeFromWenwen = array (
+                'wenwenExId' => $wenwenExId,
+                'userId' => $user['id'],
+                'email' => $user['email'],
+                'cross_id' => $cross_id,
+                'points' => $points,
+                'status' => $this->container->getParameter('init_one')
+            );
             $this->insertExWenwen($exchangeFromWenwen);
 
             // insert PointHistory and update User
-            $this->exchangeOKWen($user['email'],$points);
+            $this->exchangeOKWen($user['email'], $points);
 
             // insert SendMessage
             $title = $this->container->getParameter('exchange_finish_wenwen_title');
             $content = $this->container->getParameter('ecchange_finish_wenwen_content');
-            $sendMessage = array(
-                              'userid' => $user['id'],
-                              'title' => $title,
-                              'content' => $content
-                            );
+            $sendMessage = array (
+                'userid' => $user['id'],
+                'title' => $title,
+                'content' => $content
+            );
             $this->insertSendMs($sendMessage);
 
             $db_connection->commit();
             return true;
 
-        } catch (\Exception $e) {
+        } catch (\ Exception $e) {
             $em->close();
             $db_connection->rollback();
             return false;
@@ -3065,7 +3095,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             }
 
         }else{
-            $arr['nick'] = $member->getNick();;
+            $arr['nick'] = $member->getNick();
             $arr['tel'] = $member->getTel();
             $arr['delete_flag'] = $member->getDeleteFlag();
             $arr['errorMessage'] = array();
