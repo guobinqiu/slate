@@ -434,20 +434,22 @@ class AdminControllerTest extends WebTestCase {
         $container = $client->getContainer();
         $controller = new AdminController();
         $controller->setContainer($container);
+        $em = $this->em;
 
         $user_cross = LoadHandleExchangeWenData :: $USER_WENWEN_CROSS[0];
+        $user = $em->getRepository('JiliApiBundle:User')->getUserByCrossId($user_cross->getId());
 
         $wenwenExId = '123456789';
 
         $array = array (
             'wenwenExId' => $wenwenExId,
-            'userId' => $user_cross->getUserId(),
-            'email' => '',
+            'userId' => $user['id'],
+            'email' => $user['email'],
             'cross_id' => $user_cross->getId(),
             'points' => 100,
             'status' => 1
         );
-        $em = $this->em;
+
         $exchange_0 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
         $controller->insertExWenwen($array);
         $exchange_1 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
@@ -470,7 +472,8 @@ class AdminControllerTest extends WebTestCase {
         $array = array (
             'wenwenExId' => "987654321",
             'cross_id' => $user_cross->getId(),
-            'email' => '',
+            'userId' => null,
+            'email' => null,
             'points' => 100,
             'reason' => 'account not exists'
         );

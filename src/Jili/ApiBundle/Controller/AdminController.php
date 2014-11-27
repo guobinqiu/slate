@@ -1390,6 +1390,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $exFromWen->setWenwenExchangeId($wenwenExId);
             $exFromWen->setPaymentPoint($points);
             $exFromWen->setUserId($userId);
+            $exFromWen->setEmail($email);
             $exFromWen->setUserWenwenCrossId($cross_id);
             $exFromWen->setStatus($this->container->getParameter('init_one'));
             $em->persist($exFromWen);
@@ -1412,6 +1413,8 @@ class AdminController extends Controller implements IpAuthenticatedController
             $exFromWen->setPaymentPoint($points);
             $exFromWen->setUserWenwenCrossId($cross_id);
             $exFromWen->setReason($reason);
+            $exFromWen->setUserId($userId);
+            $exFromWen->setEmail($email);
             $em->persist($exFromWen);
             $em->flush();
             return true;
@@ -1467,7 +1470,8 @@ class AdminController extends Controller implements IpAuthenticatedController
             //eheck user exist
             $array = array (
                 'wenwenExId' => $wenwenExId,
-                'email' => '',
+                'userId' => null,
+                'email' => null,
                 'cross_id' => $cross_id,
                 'points' => $points,
                 'reason' => 'account not exists'
@@ -1481,6 +1485,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         if (!$user['pwd']) {
             $array = array (
                 'wenwenExId' => $wenwenExId,
+                'userId' => $user['id'],
                 'email' => $user['email'],
                 'cross_id' => $cross_id,
                 'points' => $points,
