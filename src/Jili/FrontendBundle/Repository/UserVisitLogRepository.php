@@ -10,6 +10,9 @@ class UserVisitLogRepository extends EntityRepository
      */
     function logGameSeeker($params) 
     {
+        if(1 === $this->isGameSeekerDoneDaily($params['userId'])  ) {
+            return ;
+        }
         $entity = new UserVisitLog();
         $entity->setUserId($params['userId'])
             ->setTargetFlag( UserVisitLog::TARGET_FLAG_GAME_SEEKER);
