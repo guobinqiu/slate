@@ -86,9 +86,38 @@
                 <li>参与奖：1米粒</li>
             </ul>
         </div>
+        <div class="adMask"></div>
     </div>
 </div>
-<div class="adMask"></div>
+
+{% if not app.session.has('uid') %}
+<script>
+	(function($){
+		$('.bxAd').show();
+   	})(jQuery);
+</script>
+{% else %}
+<script>
+	(function($){
+		$.ajax({
+        	url: Routing.generate('jili_frontend_gameseeker_isadsvisit'),
+            type: "GET",
+            dataType: 'json',
+            success: function(returnData){
+				console.log("返回数据", returnData.data.has_done);
+				if(returnData.data.has_done){
+					$('.bxAd').show();
+				}else{
+					$('.bxAd').hide();
+				}
+            },
+            error: function(){
+                console.log('请求错误');
+            }
+        });
+   	})(jQuery);
+</script>
+{% endif %}
 {% endblock %}
 
 {% block body_bottom %}

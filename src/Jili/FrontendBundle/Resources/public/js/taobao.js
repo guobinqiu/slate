@@ -23,8 +23,8 @@ jili.taobao.searchBycatgory = function(id) {
 			$box.find("#more").html("<a href="+Routing.generate("jili_frontend_taobao_categoryapi", {"id": id,"page":2})+"></a>");
 			$(".taoMainCon").html($box);
 			$box.find(".cell").each(function(i, e){
-				setTimeout(function(){$box.find(".cell").eq(i).removeClass("loadimg");}, 1500);
-				setTimeout("alimamatk_show(0)", 1000);
+				setTimeout(function(){$box.find(".cell").eq(i).removeClass("loadimg");}, 1000);
+				setTimeout("alimamatk_show(0)", 800);
 			});
 			$('#tabs-1').infinitescroll({
 				loading: {
@@ -53,8 +53,8 @@ jili.taobao.searchBycatgory = function(id) {
 				errorCallback: function (e) {console.log("infinit scroll error"); console.log(e) }
 			}, function( json, opts) {
 				$(".cell").each(function(i, e){
-					setTimeout(function(){$box.find(".cell").eq(i).removeClass("loadimg");}, 1500);
-					setTimeout("alimamatk_show(0)", 1000);
+					setTimeout(function(){$box.find(".cell").eq(i).removeClass("loadimg");}, 1000);
+					setTimeout("alimamatk_show(0)", 800);
 				});
 			});
 			if($(window).height() > $("body").height()){
