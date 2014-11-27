@@ -180,7 +180,6 @@ class GameSeekerControllerTest extends WebTestCase
     /**
      * validation
      * @group issue_524
-     * @group debug 
      */
     function testGetClickActionValidation() 
     {
@@ -198,17 +197,6 @@ class GameSeekerControllerTest extends WebTestCase
         $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
         $this->assertEquals('{}', $client->getResponse()->getContent());
 
-
-        // invalid token , token length less  32
-        $client->request('POST', $url, array('token'=>'1'), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
-        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
-        $this->assertEquals('{}', $client->getResponse()->getContent());
-
-        // invalid token , token length large 32
-        $client->request('POST', $url, array('token'=>str_repeat('1',33)), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
-        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
-        $this->assertEquals('{}', $client->getResponse()->getContent());
-
         // not login, no uid in session 
         $client->request('POST', $url, array('token'=>str_repeat('1',32)), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
         $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
@@ -218,8 +206,22 @@ class GameSeekerControllerTest extends WebTestCase
         $expected = $container->get('router')->generate('jili_frontend_taobao_index');
         $this->assertEquals( $expected, $session->get('goToUrl'));
 
+        // invalid token , token length less  32
+        $uid = LoadGetChestInfoData::$USERS[1]->getId() ;
+        $session->set('uid', $uid);
+        $session->save();
+        $client->request('POST', $url, array('token'=>'1'), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
+        $this->assertEquals('{}', $client->getResponse()->getContent());
+
+        // invalid token , token length large 32
+        $session->set('uid', $uid);
+        $session->save();
+        $client->request('POST', $url, array('token'=>str_repeat('1',33)), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
+        $this->assertEquals('{}', $client->getResponse()->getContent());
+
         // invalid token , none exists user id
-        $session = $client->getContainer()->get('session');
         $session->set('uid', 100);
         $session->save();
         $client->request('POST', $url, array('token'=> str_repeat('1', 32) ), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
@@ -227,14 +229,11 @@ class GameSeekerControllerTest extends WebTestCase
         $this->assertEquals('{"code":3,"message":"token\u8fc7\u671f"}', $client->getResponse()->getContent());
 
         // invalid token , exists user id, no exists token
-        $uid = LoadGetChestInfoData::$USERS[1]->getId() ;
-        $session = $client->getContainer()->get('session');
         $session->set('uid', $uid);
         $session->save();
         $client->request('POST', $url, array('token'=> str_repeat('1', 32) ), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
         $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
         $this->assertEquals('{"code":3,"message":"token\u8fc7\u671f"}', $client->getResponse()->getContent());
-
 
     }
     /**
