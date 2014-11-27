@@ -78,11 +78,6 @@ class TaobaoController extends Controller {
         $arr['keywords'] = $keywords;
         $arr['page'] = $page +1;
 
-        $session =  $this->get('session');
-        if($session->has('uid')) {
-            $em->getRepository('JiliFrontendBundle:UserVisitLog')->logGameSeeker(array('userId'=>$session->get('uid')));
-        }
-
         $response = new JsonResponse();
         $response->setData($arr);
         return $response;
