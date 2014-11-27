@@ -53,10 +53,8 @@ class UserVisitLog
 
     public function __construct()
     {
-        $now = new \DateTime();
-        $this->setVisitDate($now)
-            ->setCreatedAt($now);
-
+        $this->setVisitDate(new \DateTime())
+            ->setCreatedAt(new \DateTime() );
     }
     /**
      * Set targetFlag
