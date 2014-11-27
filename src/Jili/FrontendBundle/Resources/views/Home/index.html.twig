@@ -106,9 +106,9 @@
             success: function(returnData){
 				console.log("返回数据", returnData.data.has_done);
 				if(returnData.data.has_done){
-					$('.bxAd').show();
-				}else{
 					$('.bxAd').hide();
+				}else{
+					$('.bxAd').show();
 				}
             },
             error: function(){
