@@ -1,5 +1,5 @@
 // JavaScript Document
-(function ($) {
+(function (window, $) {
     var treasure = function(options, element){
         this.options = options;
         this.element = $(element);
@@ -113,16 +113,13 @@
                 $(divLayer).html(imgLayer).css({"left": opts.box.position.x + 'px', "top": opts.box.position.y + 'px', "width": opts.box.size.w + 'px', "height": opts.box.size.h + 'px'}).addClass(opts.box.className).appendTo($(opts.container).parent()).mouseover(function(){
                         $(this).animate({ "opacity": 1}, 1000);
                     }).on('click', function(){
-                        $this.showResult(initData, $this.showBao(initData));
+                        $this.showResult(initData);
                     });
             }else{
                 if(treasureBox.length){
                     treasureBox.remove();
                 }
             }
-        },
-        getPoint: function(){
-            this.debug('获得米粒');
         },
         //加载动画 动画结束关闭并弹出结果
         loadGif: function(){
@@ -166,34 +163,39 @@
                 dataType: 'json',
                 data: "token=" + initData.data.token,
                 success: function(returnData){
-					if(typeof returnData === "object" && !(returnData instanceof Array)){  
-						var hasProp = false;  
-						for (var prop in returnData){  
-							hasProp = true;  
-							break;  
-						}  
-						if(hasProp){  
-							returnData = [returnData];  
-						}else{  
-							$this.debug('返回结果为空');
-							var divLayer = "<div></div>";
-							var $body = $('body');
-							$(divLayer).addClass(opts.theme.maskClass).appendTo($body);
-							$(divLayer).addClass(opts.theme.tipClass).html("宝箱已过期，请刷新页面！").appendTo($body);
-							return false;  
-						}  
-					}  
-					var resultData = { "point": returnData.data.points || 0};
-					$this.debug('请求结果', resultData);
-					$this.loadGif();
-					//判断结果是否中奖
-					if(resultData.point > 0){
-						$this.getPoint();
-						setTimeout(function(){ $this.showPoint(resultData);}, opts.box.gifTime);
-					}else{
-						setTimeout(function(){ $this.noPoint();}, opts.box.gifTime);
+					$this.debug("返回数据", returnData.code);
+					switch(returnData.code){
+						case 0: var resultData = { "point": returnData.data.points || 0};
+								$this.debug('请求结果', resultData);
+								$this.loadGif();
+								//判断结果是否中奖
+								if(resultData.point > 0){
+									setTimeout(function(){ $this.showPoint(resultData);}, opts.box.gifTime);
+								}else{
+									setTimeout(function(){ $this.noPoint();}, opts.box.gifTime);
+								}
+								$this.showBao(initData); break;
+						case 1: break;
+						case 2: $this.debug('用户未登陆');
+								window.location.href = Routing.generate('_login');break;
+						case 3: $this.debug('token过期');
+								var divLayer = "<div></div>";
+								var $body = $('body');
+								$(divLayer).addClass(opts.theme.maskClass).appendTo($(opts.container).parent());
+								$(divLayer).addClass(opts.theme.tipClass).html("宝箱已过期，请刷新页面！").css({top: opts.box.position.y + 'px'}).appendTo($(opts.container).parent());
+								return false;  
+						default: var hasProp = false;  
+								for (var prop in returnData){  
+									hasProp = true;  
+									break;  
+								}  
+								if(hasProp){  
+									returnData = [returnData];  
+								}else{  
+									$this.debug('返回结果为空');
+									return false;  
+								} break;
 					}
-					$this.showBao(initData);
                 },
                 error: function(){
                     $this.debug('第二次请求错误');
@@ -237,4 +239,4 @@
     $.fn.treasure = function(options){
         return $.treasure(options, this);
     };
-})(jQuery);
+})(window, jQuery);

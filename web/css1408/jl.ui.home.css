@@ -567,7 +567,7 @@ div.notice{
 /*2014-11-21, by wlt*/
 .adMask{ position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; opacity: .7; filter: alpha(opacity = 70);}
 .bxAdWrapper{ position: absolute; z-index: 1999;  left: 50%; top: 88px; width: 1000px; margin-left: -500px;}
-.bxAd{ position: relative; z-index: 2000; left: 0px; top: 0; width: 1000px; height: 510px; overflow: hidden;}
+.bxAd{ position: relative; z-index: 2000; left: 0px; top: 0; width: 1000px; height: 510px; overflow: hidden; display: none;}
 .bxAd .bxAdBg{ position: absolute; z-index: 2999; width: 1000px; height: 510px; top: 0; left: 0; background: url(../images/taobao/bg_sy.png) no-repeat 212px 80px;}
 .bxAd .sunRun, .bxAd .sample, .bxAd .close, .bxAd .goBtn, .bxAd .rewardRules{ position: absolute; z-index: 3000;}
 .bxAd .sunRun{ width: 178px; height: 104px; left: 803px; top: 121px; background: url(../images/taobao/sunRun.gif) no-repeat;}
