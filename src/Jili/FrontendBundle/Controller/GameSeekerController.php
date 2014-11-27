@@ -85,18 +85,20 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
             return $response;
         }
 
-        $token = $request->request->get('token');
-        if( strlen($token) !== 32 ) {
-            return $response;
-        }
-
         // get session uid.
         if( ! $this->get('session')->has('uid') ){
+            $this->get('session')->set('goToUrl', $this->get('router')->generate('jili_frontend_taobao_index'));
             $response->setData(array( 'code'=> 2, 'message'=>'需要登录' ));
             return $response;
         }
 
         $userId = $this->get('session')->get('uid');
+
+        $token = $request->request->get('token');
+        if( strlen($token) !== 32 ) {
+            return $response;
+        }
+
         $em = $this->get('doctrine.orm.entity_manager');
         // token 无效
         $gameSeekerDaily = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('token'=> $token,'userId'=> $userId,'points'=> -1, 'clickedDay'=>new \DateTime()));

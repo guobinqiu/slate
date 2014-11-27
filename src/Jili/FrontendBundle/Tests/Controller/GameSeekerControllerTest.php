@@ -180,6 +180,7 @@ class GameSeekerControllerTest extends WebTestCase
     /**
      * validation
      * @group issue_524
+     * @group debug 
      */
     function testGetClickActionValidation() 
     {
@@ -200,7 +201,6 @@ class GameSeekerControllerTest extends WebTestCase
 
         // invalid token , token length less  32
         $client->request('POST', $url, array('token'=>'1'), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
-
         $this->assertEquals(200,$client->getResponse()->getStatusCode(),'');
         $this->assertEquals('{}', $client->getResponse()->getContent());
 
@@ -213,7 +213,10 @@ class GameSeekerControllerTest extends WebTestCase
         $client->request('POST', $url, array('token'=>str_repeat('1',32)), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
         $this->assertEquals(200,$client->getResponse()->getStatusCode(),'no ajax');
         $this->assertEquals('{"code":2,"message":"\u9700\u8981\u767b\u5f55"}', $client->getResponse()->getContent());
-        
+        $session  =$client->getContainer()->get('session');
+        $this->assertTrue( $session->has('goToUrl'));
+        $expected = $container->get('router')->generate('jili_frontend_taobao_index');
+        $this->assertEquals( $expected, $session->get('goToUrl'));
 
         // invalid token , none exists user id
         $session = $client->getContainer()->get('session');
