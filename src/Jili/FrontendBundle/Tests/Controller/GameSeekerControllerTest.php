@@ -344,6 +344,7 @@ class GameSeekerControllerTest extends WebTestCase
 
     /**
      * @group issue_524
+     * @group debug 
      */
     function testIsGameSeekerDoneDailyAction() 
     {
@@ -368,7 +369,6 @@ class GameSeekerControllerTest extends WebTestCase
         $this->assertEquals('{}', $client->getResponse()->getContent());
 
         // fixtures same as repository 
-        
         // normal request, user has visit
         $session = $client->getContainer()->get('session');
         $session->set('uid', 1);

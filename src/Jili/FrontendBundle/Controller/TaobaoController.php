@@ -45,6 +45,7 @@ class TaobaoController extends Controller {
         $arr['categorys'] = $categorys;
         $arr['current_id'] = 1;
         $arr['page'] = 2;
+
         return $this->render('JiliFrontendBundle:Taobao:index.html.twig', $arr);
     }
 
@@ -76,6 +77,8 @@ class TaobaoController extends Controller {
         $arr['current_id'] = $id;
         $arr['keywords'] = $keywords;
         $arr['page'] = $page +1;
+
+        $em->getRepository('JiliFrontendBundle:UserVisitLog')->logGameSeeker(array('userId'=>$userId));
 
         $response = new JsonResponse();
         $response->setData($arr);

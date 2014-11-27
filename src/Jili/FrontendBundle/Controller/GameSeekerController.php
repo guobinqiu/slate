@@ -214,7 +214,6 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $userId = $this->get('session')->get('uid');
         $em = $this->get('doctrine.orm.entity_manager');
         $result = $em->getRepository('JiliFrontendBundle:UserVisitLog')->isGameSeekerDoneDaily($userId);
-        $session_id = $this->get('session')->getId();
 
         if( 1 === $result) {
             $response ->setData(array('code'=> 0, 'data'=> array('has_done'=> true) ));
