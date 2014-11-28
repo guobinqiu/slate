@@ -573,4 +573,29 @@ class AdminControllerTest extends WebTestCase {
         $this->assertEquals($wenwenExId."兑换失败", $message);
     }
 
+    /**
+     * @group issue_535
+     * @group testGetContentForExportExchangWen
+     */
+    public function testGetContentForExportExchangWen() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminController();
+        $controller->setContainer($container);
+
+        $exchange = LoadHandleExchangeWenData :: $EXCHANGE_FROM_WENWEN;
+        $em = $this->em;
+
+        $start_time = null;
+        $end_time = null;
+        $exFrWen = $this->em->getRepository('JiliApiBundle:ExchangeFromWenwen')->exFromWen($start_time, $end_time);
+        $content = $controller->getContentForExportExchangWen($exFrWen);
+
+        $export = explode("\n", $content);
+        $this->assertEquals('exchange_id,91jili_cross_id,payment_amount,payment_point,status,reason,create_time,91jili_email', $export[0]);
+        $item = explode(',', $export[1]);
+        $this->assertEquals(8, count($item));
+        $this->assertEquals($exchange->getWenwenExchangeId(), $item[0]);
+    }
+
 }

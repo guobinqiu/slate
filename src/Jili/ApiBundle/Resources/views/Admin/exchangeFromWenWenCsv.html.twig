@@ -1,5 +1,0 @@
-exchange_id,91jili_cross_id,payment_amount,payment_point,status,reason,create_time,91jili_email
-{% if exchange %}
-{% for item in exchange %}{{ item.wenwenExchangeId }},{{ item.userWenwenCrossId }},{{ item.paymentPoint/100 }},{{ item.paymentPoint }},{% if item.status == 1 %}ok{% else %}ng{% endif %},{{ item.reason }},{{ item.createTime.date | date('Y-m-d') }},{{ item.email }}
-{% endfor %}
-{% endif %}

@@ -1618,21 +1618,45 @@ class AdminController extends Controller implements IpAuthenticatedController
           $start_time = $request->request->get('start_time');
           $end_time = $request->request->get('end_time');
           if($request->request->get('add')){
+                $exchange = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->exFromWen($start_time, $end_time);
+
+                //get content
+                $content = $this->getContentForExportExchangWen($exchange);
+
                 $response = new Response();
-                $exchange = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->exFromWen($start_time,$end_time);
-                $arr['exchange'] = $exchange;
-                $response =  $this->render('JiliApiBundle:Admin:exchangeFromWenWenCsv.html.twig',$arr);
+                $response->setContent($content);
                 $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
-                $filename = "export".date("YmdHis").".csv";
-                $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
+                $filename = "export" . date("YmdHis") . ".csv";
+                $response->headers->set('Content-Disposition', 'attachment; filename=' . $filename);
                 return $response;
-          }
+            }
       }
       $arr['start'] = $start_time;
       $arr['end'] = $end_time;
       return $this->render('JiliApiBundle:Admin:exchangeCsvWen.html.twig',$arr);
     }
 
+    public function getContentForExportExchangWen($exchange) {
+        $content = 'exchange_id,91jili_cross_id,payment_amount,payment_point,status,reason,create_time,91jili_email';
+        foreach ($exchange as $value) {
+            $item = array ();
+            $item['exchange_id'] = $value['wenwenExchangeId'];
+            $item['91jili_cross_id'] = $value['userWenwenCrossId'];
+            $item['payment_amount'] = $value['paymentPoint'] / 100;
+            $item['payment_point'] = $value['paymentPoint'];
+            if ($value['status'] == 1) {
+                $item['status'] = 'ok';
+            } else {
+                $item['status'] = 'ng';
+            }
+            $item['reason'] = $value['reason'];
+            $item['create_time'] = $value['createTime']->format('Y-m-d');
+            $item['91jili_email'] = $value['email'];
+
+            $content .= "\n" . implode(',', $item);
+        }
+        return $content;
+    }
 
     /**
      * @Route("/exchangeIn", name="_admin_exchangeIn")
