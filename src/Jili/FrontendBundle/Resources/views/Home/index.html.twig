@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block javascript %}
+<script src="{{ asset('js1408/jquery.cookie.js') }}" type="application/javascript"></script>
 <script src="{{ asset('js1408/jl.ui.home.js') }}" language="javascript"></script>
 <script src="{{ asset('js1408/jl.ui.countdown.js') }}" language="javascript"></script>
 {% endblock %}
@@ -93,7 +94,10 @@
 {% if not app.session.has('uid') %}
 <script>
 	(function($){
-		$('.bxAd').show();
+		if(!$.cookie("fistShowAd")){
+			$('.bxAd').show();
+		}
+		$.cookie("fistShowAd", true,{expires:1});
    	})(jQuery);
 </script>
 {% else %}

@@ -31,7 +31,7 @@ a{ text-decoration:none;}
 /*2014-11-19, by wlt*/
 .taobaoCon{ position: relative; z-index: 1; background-color: #fff; padding-top: 5px; padding-left: 5px;}
 .treasure{ position: absolute; z-index: 1000; background: transparent; cursor: pointer; opacity: 0; filter: alpha(opacity=0);}
-.mask{ position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 9000; opacity: .6; filter: alpha(opacity=60); background-color: #000;}
+.mask, .taoNewGuideMask{ position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 9000; opacity: .6; filter: alpha(opacity=60); background-color: #000;}
 .winLayer{ position: fixed; left: 50%; margin-left: -516px; top: 5px; background: url(../images/taobao/bg.png) no-repeat; width: 1033px; height: 646px; z-index: 9099;}
 .winLayer .winCon{ position: relative; left: 50%; margin-left: -201px; top: 330px; width: 402px; height: 203px; z-index: 9998;}
 .winLayer .winCon .winResult, .winLayer .winCon .failResult{ position: absolute; top: 100px; left: 65px; z-index: 9999; font-size: 18px; font-weight: bold; color: #ac1b00; font-family: Microsoft Yahei,SimHei,Tahoma; background: url(../images/taobao/point.png) no-repeat 0 0; padding-left: 60px; line-height: 45px;}
@@ -41,3 +41,8 @@ a{ text-decoration:none;}
 /*2014-11-26, by wlt*/
 .itemL .tablist .loadimg{ background: url(../images/taobao/loadingImg.gif) no-repeat center;}
 .tips{ font-size: 14px; font-family: "微软雅黑"; width: 200px; height: 45px; text-align: center; line-height: 45px; background-color: #fff; position: absolute; top: 450px; left: 50%; margin-left: -100px; z-index: 9999;}
+.taoNewGuide{ position: absolute; z-index: 9998; top: 220px; left: 50%; width: 1000px; height: 756px; margin-left: -500px; background: url(../images/taobao/newGuide.png) no-repeat top center; display: none;}
+.guideGif{ position: absolute; z-index: 9999; top:158px; left: -18px; width: 774px; height: 262px; background: url(../images/taobao/find.gif) no-repeat center;}
+.guideClose{ position: absolute; top: 5px; right: 250px; color: #fff; width: 27px; height: 27px; cursor: pointer; z-index: 9999; background: url(../images/taobao/close.png) no-repeat;}
+.iKnow{ position: absolute; bottom: 95px; left: 248px; color: #fff; width: 185px; height: 95px; cursor: pointer; z-index: 9999; background: url(../images/taobao/iKnow.png) no-repeat;}
+.taoNewGuideMask{ display: none;}

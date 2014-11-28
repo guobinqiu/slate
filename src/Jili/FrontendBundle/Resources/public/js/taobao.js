@@ -99,5 +99,9 @@ jili.taobao.searchBycatgory = function(id) {
 				debug: true,
 				clickCallback: function(categoryId){ jili.taobao.searchBycatgory(categoryId); }
 			});
+		$(".guideClose, .iKnow").on("click", function(){
+			$('.taoNewGuide').hide();
+			$('.taoNewGuideMask').hide();
+		});
 	});
 })(jQuery);
