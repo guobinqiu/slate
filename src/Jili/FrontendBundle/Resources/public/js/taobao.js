@@ -92,6 +92,7 @@ jili.taobao.searchBycatgory = function(id) {
 					bgClass: 'winLayer',
 					conClass: 'winCon',
 					resultClass: 'winResult',
+					failClass: 'failResult',
 					closeClass: 'close',
 					tipClass: 'tips'
 				},

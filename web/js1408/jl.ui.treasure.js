@@ -147,7 +147,7 @@
         noPoint: function(){
             var opts = this.options;
             this.debug('没有获得米粒');
-            $('.'+opts.theme.conClass).find('span').addClass(opts.theme.resultClass).append('亲，明天再接再厉哦！');
+            $('.'+opts.theme.conClass).find('span').addClass(opts.theme.failClass).append('亲，明天再接再厉哦！');
         },
         //结果层显示
         showResult: function(initData){
@@ -230,6 +230,7 @@
             bgClass: 'winLayer',
             conClass: 'winCon',
             resultClass: 'winResult',
+			failClass: 'failResult',
             closeClass: 'close',
 			tipClass: 'tips'
         },

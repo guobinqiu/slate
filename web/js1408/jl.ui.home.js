@@ -149,6 +149,11 @@
 			});
 		};
 		effect(['.adMask', '.bxAdWrapper .close','.bxAdBg', '.sunRun', '.rewardRules']);
+		$(".ruleCon").hover(function(){
+			ruleDetail.slideDown();
+		}, function(){
+			ruleDetail.slideUp();
+		});
     });
 })(jQuery);
 
