@@ -96,7 +96,7 @@ jili.taobao.searchBycatgory = function(id) {
 					closeClass: 'close',
 					tipClass: 'tips'
 				},
-				debug: true,
+				debug: false,
 				clickCallback: function(categoryId){ jili.taobao.searchBycatgory(categoryId); }
 			});
 		$(".guideClose, .iKnow").on("click", function(){
