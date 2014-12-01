@@ -15,8 +15,12 @@ class PointHistoryRepository extends EntityRepository
      **/
     public function issetInsert($uid, $reason = 16)
     {
-        $date = date('Y-m-d');
-        $nextdate = date("Y-m-d",strtotime('+1 day'));
+        $date = new \Datetime();
+        $date->setTime(0,0);
+        $nextdate = new \Datetime();
+        $nextdate->setTime(0,0);
+        $nextdate->add(new \DateInterval('P1D'));
+
         $query = $this->createQueryBuilder('ph');
         $query = $query->select('ph.id');
         $query = $query->Where('ph.userId = :uid');

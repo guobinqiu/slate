@@ -52,6 +52,7 @@ class PointHistoryRepositoryTest extends KernelTestCase
     /**
      * @group point
      * @group issue_524 
+     * @group debug 
      */
     public function testIssetInsert()
     {
