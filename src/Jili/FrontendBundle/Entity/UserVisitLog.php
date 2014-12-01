@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
  * UserVisitLog
  *
  * @ORM\Table(name="user_visit_log", uniqueConstraints={@ORM\UniqueConstraint(name="indx_user_target_daily", columns={"user_id", "target_flag", "visit_date"})}, indexes={@ORM\Index(name="indx_user_target", columns={"user_id", "target_flag"})})
- * @ORM\Entity
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\UserVisitLogRepository")
  */
 class UserVisitLog
