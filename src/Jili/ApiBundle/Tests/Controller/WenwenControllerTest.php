@@ -208,7 +208,7 @@ class WenwenControllerTest extends WebTestCase {
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         // no data in db
-        $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->findOneByUserId($user->getId());
+        $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->findOneByUserId($user->getId()+100);
         $this->assertNull($cross);
 
         // login
