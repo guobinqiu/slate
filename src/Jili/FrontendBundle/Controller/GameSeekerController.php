@@ -52,14 +52,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
             $response->setData(array( 'code'=> 1));
             return $response;
         }
-
-
         $gameInfo = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->getInfoByUser( $userId);
-
-        // todo: manage the countOfChest in admin page
-        // applied_at\publish_at, table system_configurations
-        // read in to a cache file.
-        // fetch from the cache file.
         $response->setData(array( 'code'=> 0, 'data'=> array('countOfChest'=> $count_of_chest, 'token'=> $gameInfo->getToken()) ));
         return $response;
     }
@@ -111,7 +104,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         
         $is_completed = $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10) )->isGameSeekerCompletedToday($userId);
         if( $is_completed) {
-            $response->setData(array( 'code'=> 1/*, 'message'=>'寻宝箱已经完成'*/));
+            $response->setData(array( 'code'=> 1));
             return $response;
         }
 
@@ -129,7 +122,6 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         $adCategory = $em->getRepository('JiliApiBundle:AdCategory')->findOneById($adId); 
         //fetch point from the pool by service 
         $points = $this->get('game_seeker.points_pool')->fetch();
-
         if( $points <= 0 ) {
             // log the task has been done, update game_seeker_daily
             $gameSeekerDaily->setClickedDay(new \DateTime())
