@@ -79,7 +79,6 @@ class QQLoginControllerTest extends WebTestCase
 
     /**
      * @group issue_474
-     * @group debug 
      */
     public function testCallBackAction() 
     {
@@ -235,7 +234,6 @@ class QQLoginControllerTest extends WebTestCase
 
     /**
      * @group issue_474
-     * @group debug 
      */
     public function testqqFirstLoginAction()
     {
@@ -331,7 +329,6 @@ EOD;
 
     /**
      * @group issue_474
-     * @group debug
      */
     public function testqqLoginAction()
     {

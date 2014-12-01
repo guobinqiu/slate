@@ -36,8 +36,6 @@ class PointsPool
         if( !  $fs->exists( $dir) ){
             $fs->mkdir($dir);
         }
-//        echo __FILE__, __LINE__,':',PHP_EOL;
- //       echo $file,PHP_EOL;
         $fs->touch($file);
         $result = file_put_contents( $file, json_encode($data), LOCK_EX);
         if ( false === $result) {
@@ -202,11 +200,6 @@ class PointsPool
         return true;
     }
 
-    // 验证寻宝积分是否有效。
-    public function verifyPoints($points) {
-        // checkin pool of $points  is not empty
-    }
-
     // 取每轮出现宝箱的个数
     public function fetchChestCount()
     {
@@ -230,7 +223,6 @@ class PointsPool
     }
 
 //   public function update 
-     //*    'chest' => 'app/cache_data/test/game_seeker_config_chest.txt', ) 
     public function setEntityManager(EntityManager $em)
     {
         $this->em= $em;

@@ -89,7 +89,7 @@ class GameSeekerPointsPoolRepository extends EntityRepository
         $points_strategy = array();
         foreach( $query->getResult() as $key => $row) {
             $points_strategy[] = array( $row['sendFrequency'], $row['points']);
-        };
+        }
         return $points_strategy;
     }
 
