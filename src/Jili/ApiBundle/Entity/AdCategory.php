@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AdCategory
 {   
+    /**
+     * @var const
+     *  寻宝箱的id.
+     */
     const ID_GAME_SEEKER = 30;
     /**
      * @var integer

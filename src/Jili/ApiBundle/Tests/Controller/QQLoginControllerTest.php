@@ -1,6 +1,6 @@
 <?php
 namespace Jili\ApiBundle\Tests\Controller;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -79,6 +79,7 @@ class QQLoginControllerTest extends WebTestCase
 
     /**
      * @group issue_474
+     * @group debug 
      */
     public function testCallBackAction() 
     {
@@ -231,8 +232,10 @@ class QQLoginControllerTest extends WebTestCase
         $this->assertEquals($user->getNick(), $session->get('nick'),'');
 
     }
+
     /**
      * @group issue_474
+     * @group debug 
      */
     public function testqqFirstLoginAction()
     {
@@ -310,9 +313,6 @@ EOD;
         $mockQQAuth->expects($this->once())
             ->method('getQQAuth')
             ->willReturn( $stubQQAuth);
-//        static::$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
-//            $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
-//        });
         $client->getContainer()->set('user_qq_login', $mockQQAuth);
 
         $session->set('qq_token', 'D8E44D85A05AA374243CFE3911365C51');
@@ -331,6 +331,7 @@ EOD;
 
     /**
      * @group issue_474
+     * @group debug
      */
     public function testqqLoginAction()
     {
