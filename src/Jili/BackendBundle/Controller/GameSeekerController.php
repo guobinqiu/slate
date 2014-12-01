@@ -101,17 +101,16 @@ class GameSeekerController extends Controller
             $form->bind($request);
             if ($form->isValid()) {
                 $form_data = $form->getData();
-                
                 try {
                     $this->get('game_seeker.points_pool')->updateChestCount($form_data['quantity']);
                     $this->get('session')->getFlashBag()->add ('notice','宝箱个数设置成功!');
                     return $this->redirect($this->generateUrl('jili_backend_gameseeker_operatesuccess'));
                 } catch(\Exception $e) {
-                    $this->get('logger')->crit('x');    
+                    $this->get('logger')->crit($e->getMessage());    
+                    // session flash
+                    $this->get('session')->getFlashBag()->add ('error',$error_message);
                 }
             }
-            // session flash
-///         $this->get('session')->getFlashBag()->add ('error',$error_message);
         }
 
         return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:Chest.html.twig', array(
