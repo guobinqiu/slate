@@ -29,11 +29,9 @@ class LoadIsGameSeekerDoneData extends AbstractFixture implements  FixtureInterf
     public function load(ObjectManager $manager) 
     {
         $today = new \Datetime();
-    //    $today->setTime(0,0);
 
         $yesterday = new \Datetime();
         $yesterday->sub(new \DateInterval('P1D'));
-     //   $yesterday->setTime(0,0);
 
         // ( userId, TargetFlag, visitDate) 
         //        000
@@ -74,7 +72,7 @@ class LoadIsGameSeekerDoneData extends AbstractFixture implements  FixtureInterf
             ->setVisitDate($yesterday);
         $manager->persist($entity);
         $manager->flush();
-        self::$ROWS[0] = $entity;
+        self::$ROWS[1] = $entity;
 
         // 今天有其它target的记录
         $entity = new UserVisitLog();
@@ -83,7 +81,7 @@ class LoadIsGameSeekerDoneData extends AbstractFixture implements  FixtureInterf
             ->setVisitDate($today);
         $manager->persist($entity);
         $manager->flush();
-        self::$ROWS[] = $entity;
+        self::$ROWS[2] = $entity;
 
         // 昨天有记录 
         $entity = new UserVisitLog();
@@ -92,7 +90,7 @@ class LoadIsGameSeekerDoneData extends AbstractFixture implements  FixtureInterf
             ->setVisitDate($yesterday);
         $manager->persist($entity);
         $manager->flush();
-        self::$ROWS[] = $entity;
+        self::$ROWS[3] = $entity;
     }
 }
     
