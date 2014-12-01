@@ -57,6 +57,7 @@ class PointsPool
     private function backup($file)
     {
         $fs = new Filesystem();
+
         if($fs->exists($file))  {
             $tmp = tempnam ( '/tmp/', 'jili_gameSeeker_');
             $fs->copy($file , $tmp);
@@ -191,6 +192,9 @@ class PointsPool
             $value = $points_pool[$key];
             unset($points_pool[$key]);
             $this->writeCache( $points_pool, $file);
+            // remove backup
+            $fs = new Filesystem();
+            $fs->remove($tmp);
             return  $value;
         } catch(\Exception $e) {
             //restore
