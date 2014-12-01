@@ -28,7 +28,6 @@ class UserSignUpTracer
             $messages = $sessions->get('source_route');
             $this->user_source_logger->info($messages);
         } else {
-#            $logger->debug('{jarod}'. implode(':', array(__LINE__, __CLASS__) ). var_export( $sessions , true) );
         }
         return $this;
     }

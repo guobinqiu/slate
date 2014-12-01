@@ -45,6 +45,7 @@ class TaobaoController extends Controller {
         $arr['categorys'] = $categorys;
         $arr['current_id'] = 1;
         $arr['page'] = 2;
+
         return $this->render('JiliFrontendBundle:Taobao:index.html.twig', $arr);
     }
 
