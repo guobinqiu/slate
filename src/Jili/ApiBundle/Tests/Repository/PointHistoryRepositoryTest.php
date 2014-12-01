@@ -87,16 +87,16 @@ class PointHistoryRepositoryTest extends KernelTestCase
         $user = LoadIssetInsertData::$USERS[0];
         $em = $this->em;
         $result = $em->getRepository('JiliApiBundle:PointHistory0'. ( $user->getId() % 10))->isGameSeekerCompletedToday( $user->getId());
-        $this->assertTrue(false === $result);
+        $this->assertSame(false ,$result);
 
         // a yesterday point_history record  and other reason record
         $user = LoadIssetInsertData::$USERS[1];
         $result = $em->getRepository('JiliApiBundle:PointHistory0'. ( $user->getId() % 10))->isGameSeekerCompletedToday( $user->getId());
-        $this->assertTrue(false === $result);
+        $this->assertSame(false ,$result);
 
         // normal 
         $user = LoadIssetInsertData::$USERS[2];
         $result = $em->getRepository('JiliApiBundle:PointHistory0'. ( $user->getId() % 10))->isGameSeekerCompletedToday( $user->getId());
-        $this->assertTrue(true === $result);
+        $this->assertSame(true ,$result);
     }
 }
