@@ -143,7 +143,7 @@ class GameSeekerController extends Controller
 
                 $this->get('doctrine.orm.default_entity_manager')
                     ->getRepository('JiliBackendBundle:GameSeekerPointsPool')
-                    ->batchSetEnable( );
+                    ->batchSetEnable();
 
                 return $this->redirect($this->generateUrl('jili_backend_gameseeker_publishpointsstrategy' ));
             }
