@@ -40,7 +40,7 @@ class PointsPool
         $result = file_put_contents( $file, json_encode($data), LOCK_EX);
         if ( false === $result) {
             $this->logger->crit('[gameSeeker][pointsPool][writeCache]cannot write points strategy to cache_data/' );
-        };
+        }
         return $result;
     }
 
