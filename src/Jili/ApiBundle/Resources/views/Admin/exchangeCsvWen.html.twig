@@ -28,17 +28,19 @@ $(document).ready(function(){
     	<tr>
         	  <th>兑换id</th>
             <th>兑换账号</th>
+            <th>Cross Id</th>
             <th>兑换物品</th>
             <th>兑换米粒</th>
             <th>兑换状态</th>
             <th>失败理由</th>
-            <th>完成时间</th>   
+            <th>完成时间</th>
         </tr>
         {% if pagination %}
          {% for item in pagination %}
         <tr>
           <td align="center">{{ item.wenwenExchangeId }}</td>
           <td align="center">{{ item.email }}</td>
+          <td align="center">{{ item.userWenwenCrossId }}</td>
            <td align="center">{{ item.paymentPoint/100 }}</td>
           <td align="center">{{ item.paymentPoint }}</td>
           <td align="center">{% if item.status==1 %}ok{% else %}ng{% endif %} </td>
