@@ -113,7 +113,7 @@ class GameSeekerController extends Controller
             }
         }
 
-        return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:Chest.html.twig', array(
+        return $this->render('JiliBackendBundle:GameSeeker/PointsStrategy:chest.html.twig', array(
             'form'=> $form->createView()
         ));
     }
