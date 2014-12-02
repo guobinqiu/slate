@@ -43,7 +43,7 @@ class AdminTaobaoControllerTest extends WebTestCase {
      */
     protected function tearDown() {
         parent :: tearDown();
-        //$this->em->close();
+        $this->em->close();
     }
 
     /**
@@ -78,9 +78,6 @@ class AdminTaobaoControllerTest extends WebTestCase {
         // submit that form
         $crawler = $client->submit($form);
         $this->assertEquals('', $crawler->filter('#keywordId')->text());
-
-        //$logger->info('mmzhang00'.$crawler->filter('#categoryId')->text()."++++++++");
-
     }
 
     /**
@@ -118,35 +115,143 @@ class AdminTaobaoControllerTest extends WebTestCase {
      * @group issue_523
      */
     public function testGetComponentCategory() {
-
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminTaobaoController();
+        $controller->setContainer($container);
+        $component_category = $controller->getComponentCategory();
+        $this->assertEquals('搜索框', $component_category[1]);
+        $this->assertEquals('分类产品', $component_category[2]);
+        $this->assertEquals('单品', $component_category[3]);
+        $this->assertEquals('店铺', $component_category[4]);
     }
 
     /**
      * @group issue_523
      */
     public function testKeywordsAction() {
-
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_admin_taobao_keywords', array (
+            'categoryId' => 1
+        ), true);
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        $array = json_decode($content, true);
+        $this->assertEquals(23, count($array));
+        $this->assertEquals(2, $array[0]['id']);
+        $this->assertEquals('韩版女', $array[0]['keyword']);
     }
 
     /**
      * @group issue_523
      */
     public function testSaveComponentAction() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminTaobaoController();
+        $controller->setContainer($container);
+        $url = $container->get('router')->generate('_admin_taobao_saveComponent', array (), true);
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
 
+    /**
+     * @group issue_523
+     */
+    public function testSaveComponentFinishAction() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new AdminTaobaoController();
+        $controller->setContainer($container);
+
+        // insert
+        $post_data['componentId'] = 1;
+        $post_data['categoryId'] = -1;
+        $post_data['keyword'] = '';
+        $post_data['content'] = '淘宝Test';
+
+        $url = $container->get('router')->generate('_admin_taobao_saveComponentFinish', array (), true);
+        $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneByContent($post_data['content']);
+        $this->assertNotNull($taobaoComponent);
+        $this->assertEquals($post_data['content'], $taobaoComponent->getContent());
+
+        // update
+        $this->em->clear();
+        $post_data = array ();
+        $post_data['componentId'] = 1;
+        $post_data['categoryId'] = -1;
+        $post_data['keyword'] = '';
+        $post_data['content'] = 'Test淘宝Test';
+        $post_data['id'] = $taobaoComponent->getId();
+
+        $url = $container->get('router')->generate('_admin_taobao_saveComponentFinish', array (), true);
+        $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneByContent($post_data['content']);
+        $this->assertNotNull($taobaoComponent);
+        $this->assertEquals($post_data['content'], $taobaoComponent->getContent());
     }
 
     /**
      * @group issue_523
      */
     public function testDeleteComponentAction() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
 
+        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById(1);
+        $this->assertNotNull($taobaoComponent);
+
+        $session = $container->get('session');
+        $session->set('admin_taobao_condition', array ());
+        $session->save();
+
+        $url = $container->get('router')->generate('_admin_taobao_deleteComponent', array (
+            'id' => 1
+        ), true);
+        $crawler = $client->request('GET', $url);
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById(1);
+        $this->assertNull($taobaoComponent);
     }
 
     /**
      * @group issue_523
      */
     public function testSortComponentAction() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
 
+        $post_data['sort_1'] = 2;
+        $post_data['sort_2'] = 1;
+
+        $session = $container->get('session');
+        $session->set('admin_taobao_condition', array ());
+        $session->save();
+
+        $url = $container->get('router')->generate('_admin_taobao_sortComponent', array (), true);
+        $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById(1);
+        $this->assertEquals(2, $taobaoComponent->getSort());
+        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById(2);
+        $this->assertEquals(1, $taobaoComponent->getSort());
     }
 
 }
