@@ -183,16 +183,53 @@ class PointsPoolTest extends KernelTestCase
         $this->assertEquals(5, \Jili\BackendBundle\Services\GameSeeker\PointsPool::CHEST_COUNT);
         $path_configs= $this->container->getParameter('game_seeker_config_path');
         $this->assertArrayHasKey('chest', $path_configs);
-        $file =  $path_configs['chest'];
 
         $root_dir = $this->container->get('kernel')->getRootDir();
-        $this->assertEquals($root_dir. DIRECTORY_SEPARATOR. 'cache_data/test/game_seeker_config_chest.txt',$path_configs['chest']);
+        $this->assertEquals($root_dir. DIRECTORY_SEPARATOR. 'cache_data/test/game_seeker_config_chest.txt', $path_configs['chest']);
+        $file =  $path_configs['chest'];
 
+        // default;
         $this->container->get('game_seeker.points_pool')->fetchChestCount();
         $this->assertFileExists($file);
         $this->assertStringEqualsFile($file, 5);
         unlink($file);
 
+        // bounder 
+        $fs = new Filesystem();
+        $dir = dirname($file);
+        if(! $fs->exists($dir)){
+            $fs->mkdir( $dir);
+        }
+        file_put_contents($file, 0); 
+        $this->assertFileExists($file);
+        $this->assertStringEqualsFile($file, 0);
+        $v = $this->container->get('game_seeker.points_pool')->fetchChestCount();
+        $this->assertEquals(0, $v);
+        unlink($file);
+
+        // 
+        file_put_contents($file , -1); 
+        $this->assertFileExists($file);
+        $this->assertStringEqualsFile($file, '-1');
+        $v = $this->container->get('game_seeker.points_pool')->fetchChestCount();
+        $this->assertEquals(-1, $v);
+        unlink($file);
+
+        // 
+        file_put_contents($file, 17); 
+        $this->assertFileExists($file);
+        $this->assertStringEqualsFile($file, '17');
+        $v = $this->container->get('game_seeker.points_pool')->fetchChestCount();
+        $this->assertEquals(17, $v);
+        unlink($file);
+
+        // 
+        file_put_contents($file, 'abc'); 
+        $this->assertFileExists($file);
+        $this->assertStringEqualsFile($file, 'abc');
+        $v = $this->container->get('game_seeker.points_pool')->fetchChestCount();
+        $this->assertEquals(5, $v);
+        unlink($file);
     }
 
     /**
