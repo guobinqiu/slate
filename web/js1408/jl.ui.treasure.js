@@ -70,15 +70,20 @@
             var opts = this.options;
             var allSorts = $(opts.sortSelector);
             var sortArr = [], randArr = [], randNum;
-            if(allSorts && (initData.data.countOfChest > allSorts.length || initData.data.countOfChest <= 0)){ this.debug('初始宝箱数不对'); return;}
-            for(var i = 0, j = 0; randArr.length < initData.data.countOfChest; i++){
+            if(allSorts && (initData.data.countOfChest <= 0)){ this.debug('初始宝箱数不对'); return;}
+            for(var i = 0, j = 0; randArr.length < initData.data.countOfChest && i < allSorts.length ; i++){
                 randNum = Math.floor(Math.random()*(0-(allSorts.length - 1)) + (allSorts.length - 1));
                 this.indexOfRedefine();
-                if(randArr.indexOf(randNum) == -1){
-                    randArr[j] = randNum;
-                    sortArr[j] = allSorts.eq(randArr[j]).text();
-                    j++;
-                }
+				if(initData.data.countOfChest >= allSorts.length){
+					this.debug('每个分类都有宝箱哦');
+					sortArr[i] = allSorts.eq(i).text();
+				}else{
+					if(randArr.indexOf(randNum) == -1){
+						randArr[j] = randNum;
+						sortArr[j] = allSorts.eq(randArr[j]).text();
+						j++;
+					}
+				}
             }
             opts.box.sortsArr = sortArr;
             this.debug("随机数", randArr, "随机分类", sortArr);
