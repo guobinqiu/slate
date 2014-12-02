@@ -45,7 +45,7 @@ $(document).ready(function(){
           <td align="center">{{ item.paymentPoint }}</td>
           <td align="center">{% if item.status==1 %}ok{% else %}ng{% endif %} </td>
            <td align="center">{{ item.reason }}</td>
-            <td align="center">{{ item.createTime.date | date('Y-m-d') }}</td>
+            <td align="center">{{ item.createTime.date | date('Y-m-d H:i:s') }}</td>
         </tr>
          {% endfor %}
          {%  endif %}
