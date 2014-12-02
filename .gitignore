@@ -8,6 +8,10 @@ web/images/actionPic/
 /app/cache_data/*
 /app/logs/*
 /app/logs_data/*
+/app/config/config_dev.yml
+/app/config/config_test.yml
+/app/config/custom_parameters.yml
+/app/config/parameters.yml
 /vendor/
 /bin/
 /app/config/parameters.ini

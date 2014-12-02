@@ -9,13 +9,17 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\UserWenwenCross;
 
 class LoadUserData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface, OrderedFixtureInterface {
 
     public static $USERS;
+    public static $USER_WENWEN_CROSS;
+
 
     public function __construct() {
         self :: $USERS = array ();
+        self :: $USER_WENWEN_CROSS = array ();
     }
 
     /**
@@ -46,7 +50,12 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface, F
         $user->setPwd('111111');
         $manager->persist($user);
         $manager->flush();
-
         self :: $USERS[] = $user;
+
+        $cross = new UserWenwenCross();
+        $cross->setUserId($user->getId());
+        $manager->persist($cross);
+        $manager->flush();
+        self :: $USER_WENWEN_CROSS[] = $cross;
     }
 }

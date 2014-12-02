@@ -1,7 +1,20 @@
+api:
+    resource: "@JiliApiBundle/Controller"
+    type: annotation
+
+backend:
+    resource: "@JiliBackendBundle/Controller"
+    type: annotation
+
+frontend:
+    resource: "@JiliFrontendBundle/Controller"
+    type: annotation
+
 jili_frontend:
     resource: "@JiliFrontendBundle/Controller/"
     type:     annotation
     prefix:   /
+
 _login:
     path: /login
     defaults: { _controller: JiliApiBundle:User:login}
@@ -22,13 +35,14 @@ _homepage:
     schemes:  [http]
     options:
         expose: true
-
+    
 jili_api:
     resource: "@JiliApiBundle/Resources/config/routing.yml"
 
 jili_emar:
     resource: "@JiliEmarBundle/Resources/config/routing.yml"
     prefix:   /emar
+
 
 jili_backend:
     resource: "@JiliBackendBundle/Resources/config/routing.yml"
@@ -40,6 +54,7 @@ gregwar_captcha_routing:
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
 
 #_internal:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"

@@ -306,13 +306,78 @@ a.tencent{
 
 /* top banner */
 .indexTopbannerWrap{
-	background: #fff; 
+	background: #ffd400; 
 	border-top: 1px solid #eaeae8;
 }
 .indexTopbanner{
-	width:1000px;
-	margin:0 auto;
-	position:relative;
+	width:100%;
+	height: 51px;
+	position: relative;
+	z-index:2;
+}
+.indexTopbanner a{
+	display: block;
+}
+.indexTopbanner a.allPointer{
+	width: 100%;
+	height: 51px;
+	background: url(../images1408/baoXiangBanner.jpg) no-repeat center;
+}
+.indexTopbanner .rule{
+	width: 1000px;
+	position: absolute;
+	z-index: 1000;
+	top: 0;
+	left: 50%;
+	margin-left: -500px;
+}
+.ruleLink{width: 1000px;
+	position: absolute;
+	z-index: 1998;
+	top: 0;
+	left: 50%;
+	height: 51px;
+	margin-left: -500px;}
+.ruleCon{ position: relative; z-index:1998; float: right; height: 45px;}
+.indexTopbanner .rule a.rulePic{
+	width: 69px;
+	height: 45px;
+	background: url(../images1408/baoXiangRule.png) no-repeat top center;
+}
+.indexTopbanner .ruleDetail{
+	position: absolute;
+	z-index: 9999;
+	top: 43px;
+	right: 0;
+	width: 240px;
+	padding: 10px 15px;
+	background-color: #fffae3; 
+	color: #333;
+	border-radius: 3px;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+	padding: 12px 15px 18px;
+	display: none;	
+}
+.indexTopbanner .ruleDetail .textLink, .indexTopbanner .ruleDetail .tips{
+	color: #f23b1b;
+}
+.indexTopbanner .ruleDetail .textLink{
+	display: inline;
+	text-decoration: underline;
+}
+.indexTopbanner .ruleDetail p{
+	line-height: 25px;
+}
+.indexTopbanner .ruleDetail .tips{
+	text-align: left;
+	padding-left: 5px;
+}
+.indexTopbanner .ruleDetail li{
+	float: left;
+	width: 115px;
+	padding-left: 5px;
+	text-align: left;
+	line-height: 20px;
 }
 .indexTopbannerFold,.indexTopbannerUnfold {
 	width: 17px;
@@ -360,3 +425,4 @@ a.tencent{
 	padding: 0;
 }
 .l834Taobao{ width:834px; height:90px; background:#fff; margin-bottom:10px;}
+
