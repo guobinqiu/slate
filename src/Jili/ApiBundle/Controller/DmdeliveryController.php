@@ -24,7 +24,7 @@ class DmdeliveryController extends Controller
 {
     private $soap = 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php';
     private $username = 'admin';
-    private $password = 'Nvpiyjh1-';
+    private $password = 'nUshkwu#9';//'Nvpiyjh1-';
     /**
 	 * @Route("/pointFailure", name="_dmdelivery_pointFailure")
 	 */
@@ -40,6 +40,21 @@ class DmdeliveryController extends Controller
 
     }
 
+     /**
+	 * @Route("/pointFailureTemp", name="_dmdelivery_pointFailureTemp")
+	 */
+    public function pointFailureTempAction()
+    {
+
+        set_time_limit(0);
+        $failTime = 180;
+        $companyId = 4;
+        $mailingId = 28;
+        $rs = $this->handleSendPointFailTemp($failTime,$companyId,$mailingId);
+        return new Response($rs);
+
+    }
+    
     /**
 	 * @Route("/pointFailureForWeek", name="_dmdelivery_pointFailureForWeek")
 	 */
@@ -128,7 +143,7 @@ class DmdeliveryController extends Controller
                         $recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
                                                  array('name'=>'nick','value'=>$value['nick']));
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
-                        //$logger->info('{DmdeliveryController}'. "email:".$value['email'].",stauts:".$send->status);
+                        //$this->get('logger')->info('{DmdeliveryController}'. "email:".$value['email'].",stauts:".$send->status);
                         if($send->status != "ERROR"){
                             $this->insertSendPointFail($value['id'],$failTime);
                             if($failTime == 180){
@@ -149,6 +164,44 @@ class DmdeliveryController extends Controller
         return $rs;
     }
 
+    public function handleSendPointFailTemp($failTime,$companyId,$mailingId)
+    {
+        $rs = "";
+        $em = $this->getDoctrine()->getManager();
+        //$user = $em->getRepository('JiliApiBundle:User')->pointFail($failTime);
+        $user = $em->getRepository('JiliApiBundle:User')->pointFailTemp($failTime);
+        //$logger = $this->get('logger');
+        if(!empty($user)){
+            $group = $this->addgroup($companyId);
+            if($group->status != "ERROR"){
+                foreach ($user as $key => $value) {
+                    $failId = $this->issetFailRecord($value['id'],$failTime);
+                    if(!$failId){
+                        $recipient_arr = array();
+                        $recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
+                                                 array('name'=>'nick','value'=>$value['nick']));
+                        $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
+                        //$this->get('logger')->info('{DmdeliveryController}'. "email:".$value['email'].",stauts:".$send->status);
+                        if($send->status != "ERROR"){
+                            $this->insertSendPointFail($value['id'],$failTime);
+                            if($failTime == 180){
+                                $this->updatePointZero($value['id']);
+                            }
+                            $rs = 'Send email successfully';
+                        }else{
+                            $rs = 'Cannot send email:'.$send->statusMsg;
+                        }
+                    }
+                }
+            }else{
+                $rs = 'Cannot add group:'.$group->statusMsg;
+            }
+        }else{
+            $rs = 'Email list is empty';
+        }
+        return $rs;
+    }
+    
     public function updatePointZero($userId)
     {
         $em = $this->getDoctrine()->getManager();
