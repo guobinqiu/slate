@@ -6,8 +6,9 @@ namespace Jili\ApiBundle\OAuth;
  */
 class TaoBaoAuth
 {
-	public $api_url='https://oauth.taobao.com/';
-
+	public $auth_url='https://oauth.taobao.com/';
+    public $auth_sandbox_url='https://oauth.tbsandbox.com/';
+    
 	public function __construct($appid, $appkey, $access_token=NULL){
 		$this->appid=$appid;
 		$this->appkey=$appkey;
@@ -20,23 +21,25 @@ class TaoBaoAuth
             "response_type"	=>	"code",
             "client_id"		=>	$this->appid,
             "redirect_uri"	=>	$callback_url,
-            "state"			=>	$state
+            "state"			=>	$state,
+            "encode"        =>  'utf-8'
         );
-		return "https://oauth.taobao.com/authorize?".http_build_query($params);
+		return $this->auth_url."authorize?".http_build_query($params);
         //https://oauth.taobao.com/authorize?response_type=code&client_id=21234035&redirect_uri=http://www.zocms.com/oauthLogin.php&state=1
 	}
 
 	//获取access token
-	public function access_token($callback_url, $code){
+	public function access_token_and_user_info($callback_url, $code, $state){
 		$params=array(
-			'grant_type'=>'authorization_code',
-			'client_id'=>$this->appid,
+			'grant_type'   =>'authorization_code',
+			'client_id'    =>$this->appid,
 			'client_secret'=>$this->appkey,
-			'code'=>$code,
-			'state'=>'',
-			'redirect_uri'=>$callback_url
+			'code'         =>$code,
+			'state'        => $state,
+			'redirect_uri' =>$callback_url,
+            "encode"       =>  'utf-8'
 		);
-		$url='https://graph.qq.com/oauth2.0/token?'.http_build_query($params);
+		$url=$this->auth_url.'token?'.http_build_query($params);
 		$result_str=$this->http($url);
 		$json_r=array();
 		if($result_str!='')parse_str($result_str, $json_r);
@@ -72,20 +75,6 @@ class TaoBaoAuth
 		return $this->api('user/get_user_info', $params);
 	}
 
-	//发布分享
-	public function add_share($openid, $title, $url, $site, $fromurl, $images='', $summary=''){
-		$params=array(
-			'openid'=>$openid,
-			'title'=>$title,
-			'url'=>$url,
-			'site'=>$site,
-			'fromurl'=>$fromurl,
-			'images'=>$images,
-			'summary'=>$summary
-		);
-		return $this->api('share/add_share', $params, 'POST');
-	}
-
 	//调用接口
 	/**
 	$result=$qq->api('user/get_user_info', array('openid'=>$openid), 'GET');
@@ -106,7 +95,7 @@ class TaoBaoAuth
 	}
 
 	//提交请求
-	private function http($url, $postfields='', $method='GET', $headers=array()){
+	private function http($url, $postfields='', $method='POST', $headers=array()){
 		$ci=curl_init();
 		curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, FALSE); 
 		curl_setopt($ci, CURLOPT_RETURNTRANSFER, 1);
@@ -116,7 +105,7 @@ class TaoBaoAuth
 			curl_setopt($ci, CURLOPT_POST, TRUE);
 			if($postfields!='')curl_setopt($ci, CURLOPT_POSTFIELDS, $postfields);
 		}
-		$headers[]='User-Agent: QQ.PHP(piscdong.com)';
+		$headers[]='User-Agent: TaoBao.PHP(piscdong.com)';
 		curl_setopt($ci, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($ci, CURLOPT_URL, $url);
 		$response=curl_exec($ci);
