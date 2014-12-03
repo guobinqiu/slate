@@ -1,6 +1,9 @@
 <?php
 $log_file = "D:/xampp/htdocs/PointMedia/scripts/bug_issue514/log_file_insert.txt";
-$log_handle = fopen($log_file, "a+");
+$log_handle = fopen($log_file, "w");
+
+$log_file2 = "D:/xampp/htdocs/PointMedia/scripts/bug_issue514/log_file_user.txt";
+$log_handle2 = fopen($log_file2, "w");
 
 $link = mysql_connect('localhost', 'root', '') or die('Could not connect: ' . mysql_error());
 mysql_select_db('jili_2014-09-23') or die('Could not select database');
@@ -33,7 +36,7 @@ for ($i = 0; $i < 10; $i++) {
         }
 
         if ($count == 4) {
-            $roolback = insertDb($log_handle, $value, $total);
+            $roolback = insertDb($log_handle, $log_handle2, $value, $total);
             if ($roolback) {
                 mysql_query("ROOLBACK");
                 fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
@@ -43,11 +46,11 @@ for ($i = 0; $i < 10; $i++) {
             $roolback = insertDb($log_handle, $value, $total);
             if ($roolback) {
                 mysql_query("ROOLBACK");
-                fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
+                fwrite($log_handle, $log_handle2, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
                 exit;
             }
         } else {
-            $roolback = insertDb($log_handle, $value, $total);
+            $roolback = insertDb($log_handle, $log_handle2, $value, $total);
             if ($roolback) {
                 mysql_query("ROOLBACK");
                 fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
@@ -65,13 +68,19 @@ mysql_query("COMMIT"); //执行事务
 mysql_close($link);
 fwrite($log_handle, "执行完成\r\n重复记录总数：$total" . "\r\n");
 fclose($log_handle);
+fclose($log_handle2);
 echo "执行完成!";
 exit;
 
-function insertDb($log_handle, $value, & $total) {
+function insertDb($log_handle, $log_handle2, $value, & $total) {
 
     $roolback = false;
     $total++;
+
+    $csv = array();
+    $csv['user_id'] = $value['user_id'];
+    $csv['point_change_num'] = $value['point_change_num'];
+    fputcsv($log_handle2, $csv) . "\r\n";
 
     //update point_history00
     $ph_sql = "insert into point_history0" . ($value['user_id'] % 10) . " (user_id,point_change_num,reason,create_time) values (" . $value['user_id'] . "," . (- $value['point_change_num']) . ",13,'" . $value['create_time'] . "')";
