@@ -45,6 +45,11 @@ class WebsitesControllerTest extends WebTestCase
      */
     public function testDetailAction()
     {
+
+        $this->markTestIncomplete(
+          'TODO: EMAR API UPGRADED.'
+        );
+
         $client = static::createClient();
         $container = $client->getContainer();
         $logger= $container->get('logger');
@@ -112,7 +117,7 @@ class WebsitesControllerTest extends WebTestCase
 
         // get cache file name
         $website_cat_service  = $container->get('website.category_get');
-        $website_cat_service->fetch(  );
+        $website_cat_service->fetch();
 
         $cache = $website_cat_service->getCacheProxy();
 
@@ -144,6 +149,10 @@ class WebsitesControllerTest extends WebTestCase
      */
     public function testShopListCache()
     {
+ // Stop here and mark this test as incomplete.
+        $this->markTestIncomplete(
+          'TODO: EMAR API UPGRADED.'
+        );
         $client = static::createClient();
         $container = $client->getContainer();
 

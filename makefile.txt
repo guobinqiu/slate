@@ -8,6 +8,29 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
+fix-perms:
+	sudo chgrp -R apache app/cache
+	sudo chgrp -R apache app/cache_data
+	sudo chgrp -R apache app/logs
+	sudo chgrp -R apache web/images/actionPic
+	sudo chmod -R g+w  app/cache
+	sudo chmod -R g+w  app/cache_data
+	sudo chmod -R g+w  app/logs
+	sudo chmod -R g+w   web/images/actionPic 
+	sudo chgrp -R apache app/sessions 
+	sudo chmod -R g+w  app/sessions
+	sudo chgrp -R apache app/logs_data 
+	sudo chmod -R g+w  app/logs_data
+
 deploy: deploy-js-routing
 	@echo done
 
+cc-cache:
+	sudo rm -rf app/cache/*
+
+cc-all:
+	sudo rm -rf app/cache/*
+	sudo rm -rf app/cache_data/*
+	sudo rm -rf app/logs/*
+	sudo rm -rf app/logs_data/*
+	sudo rm -rf app/sessions/*

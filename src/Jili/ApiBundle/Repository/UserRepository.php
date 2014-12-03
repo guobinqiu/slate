@@ -583,7 +583,7 @@ EOT;
      * @param  array('nick'=> , 'email'=>);
      * @return the User
      */
-    public function createOnSignup($param) 
+    public function createOnSignup($param)
     {
         $user =  new User;
         $user->setNick($param['nick']);
@@ -617,7 +617,7 @@ EOT;
         return $user;
     }
     /**
-     * create the user on wenwen  
+     * create the user on wenwen
      * @param  array( 'email'=>, 'uniqkey'=> ,'');
      * @return the User
      */
@@ -633,5 +633,35 @@ EOT;
         $em->persist($user);
         $em->flush();
         return $user;
+    }
+
+    /**
+     * create the user when regist by qq
+     * @param  array('nick'=> , 'email'=> ,'pwd'=>);
+     * @return the User
+     */
+    public function qquser_quick_insert(array $param)
+    {
+        $user =  new User;
+        $user->setNick('QQ'.$param['nick']);
+        $user->setEmail($param['email']);
+        $user->setPwd($param['pwd']);
+        $user->setDeleteFlag(0);
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+        return $user;
+    }
+
+    public function getUserByCrossId($id)
+    {
+        $query = $this->createQueryBuilder('u');
+
+        $query = $query->select('u.id,u.email,u.pwd');
+        $query = $query->innerJoin('JiliApiBundle:UserWenwenCross', 'uwc', 'WITH', 'u.id = uwc.userId');
+        $query = $query->Where('uwc.id = :id');
+        $query = $query->setParameter('id', $id);
+        $query = $query->getQuery();
+        return $query->getOneOrNullResult();
     }
 }

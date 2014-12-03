@@ -2,77 +2,97 @@ default:
     resource: "@JiliApiBundle/Controller/DefaultController.php"
     prefix:   /
     type:     annotation
+
 user:
     resource: "@JiliApiBundle/Controller/UserController.php"
     prefix:   /user
     type:     annotation   
+
 shopping:
     resource: "@JiliApiBundle/Controller/ShoppingController.php"
     prefix:   /shopping
     type:     annotation
+
 advertiserment:
     resource: "@JiliApiBundle/Controller/AdvertisermentController.php"
     prefix:   /advertiserment
     type:     annotation
+
 callboard:
     resource: "@JiliApiBundle/Controller/CallboardController.php"
     prefix:   /callboard
     type:     annotation
+
 exchange:
     resource: "@JiliApiBundle/Controller/ExchangeController.php"
     prefix:   /exchange
     type:     annotation
+
 api:
     resource: "@JiliApiBundle/Controller/ApiController.php"
     prefix:   /api
     type:     annotation
+
 admin:
     resource: "@JiliApiBundle/Controller/AdminController.php"
     prefix:   /admin
     type:     annotation
+
 game:
     resource: "@JiliApiBundle/Controller/GameController.php"
     prefix:   /game
     type:     annotation
+
 marketActivity:
     resource: "@JiliApiBundle/Controller/MarketActivityController.php"
     prefix:   /marketActivity
     type:     annotation
+
 dmdelivery:
     resource: "@JiliApiBundle/Controller/DmdeliveryController.php"
     prefix:   /dmdelivery
     type:     annotation
+
 checkin:
     resource: "@JiliApiBundle/Controller/CheckinController.php"
     prefix:   /checkin
     type:     annotation
+
 topcron:
     resource: "@JiliApiBundle/Controller/TopCronController.php"
     prefix:   /topcron
     type:     annotation
+
 api-offerwow:
     resource: "@JiliApiBundle/Controller/OfferwowController.php"
     type:     annotation
     prefix:   /
+
 remind:
     resource: "@JiliApiBundle/Controller/RemindController.php"
     type:     annotation
     prefix:   /
+
 api-offer99:
     resource: "@JiliApiBundle/Controller/Offer99Controller.php"
     type:     annotation
     prefix:   /
+
 top:
     resource: "@JiliApiBundle/Controller/TopController.php"
     type:     annotation
     prefix:   /
+
 api-91wenwen:
     resource: "@JiliApiBundle/Controller/WenwenController.php"
     type:     annotation
     prefix:   /
+
 monthActivity:
     resource: "@JiliApiBundle/Controller/MonthActivityController.php"
     prefix:   /monthActivity
     type:     annotation
-
-
+qqLogin:
+    resource: "@JiliApiBundle/Controller/QQLoginController.php"
+    prefix:   /QQLogin
+    type:     annotation

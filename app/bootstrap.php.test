@@ -2,12 +2,13 @@
 // referto http://sgoettschkes.blogspot.com/2012/06/symfony2-test-database-best-pratice.html
 
 require_once __DIR__ . '/bootstrap.php.cache';
-require_once __DIR__ . '/AppKernel.php';
+require_once __DIR__ . '/AppTestKernel.php';
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 
-$kernel = new AppKernel('test', true); // create a "test" kernel
+// create a "test" kernel
+$kernel = new AppTestKernel('test', true); 
 $kernel->boot();
 
 $application = new Application($kernel);

@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block javascript %}
+<script src="{{ asset('js1408/jquery.cookie.js') }}" type="application/javascript"></script>
 <script src="{{ asset('js1408/jl.ui.home.js') }}" language="javascript"></script>
 <script src="{{ asset('js1408/jl.ui.countdown.js') }}" language="javascript"></script>
 {% endblock %}
@@ -30,7 +31,10 @@
         {% if not app.session.has('uid') %}
         <div class="loginArea">
             <a href="{{ path('_user_reg') }}" title="免费注册" class="register">免费注册</a>
-            <p><span>---------------</span>已有账号，<a href="{{ path('_user_login') }}" title="直接登录">直接登录</a><span>-------------</span></p>
+            <div class="ttLink mt20"><span>--------------------</span><a class="fontYH font16" href="{{ path('_user_login') }}" title="直接登录">直接登录</a><span>--------------------</span></div>
+            <div class="quickLog lightGray mt5"> 
+                用第三方账号快速登录：<a href="{{ path('qq_api_login') }}" class="logIcon" title="用第三方账号快速登录"></a>
+            </div>
         </div>
         {% else %}
             {{ render(controller('JiliApiBundle:Top:userInfo' ) ) }}
@@ -64,7 +68,59 @@
       </div>
     </div>
 </div>
+<div class="bxAdWrapper">
+    <div class="bxAd">
+        <div class="bxAdBg"></div>
+        <div class="sunRun"></div>
+        <span class="close"></span>
+        <a href="{{ path('jili_frontend_taobao_index') }}" class="sample"></a>
+        <a href="{{ path('jili_frontend_taobao_index') }}" class="goBtn"></a>
+        <div class="rewardRules clearfix">
+            <p>在淘宝页面找到宝箱，每天就有机会赚米粒</p>
+            <ul class="clearfix">
+                <li>一等奖：888米粒</li>
+                <li>四等奖：20米粒</li>
+                <li>二等奖：100米粒</li>
+                <li>五等奖：5米粒</li>
+                <li>三等奖：50米粒</li>
+                <li>六等奖：2米粒</li>
+                <li>参与奖：1米粒</li>
+            </ul>
+        </div>
+        <div class="adMask"></div>
+    </div>
+</div>
 
+{% if not app.session.has('uid') %}
+<script>
+	(function($){
+		if(!$.cookie("fistShowAd")){
+			$('.bxAd').show();
+		}
+		$.cookie("fistShowAd", true,{expires:1});
+   	})(jQuery);
+</script>
+{% else %}
+<script>
+	(function($){
+		$.ajax({
+        	url: Routing.generate('jili_frontend_gameseeker_isadsvisit'),
+            type: "GET",
+            dataType: 'json',
+            success: function(returnData){
+				if(returnData.data.has_done){
+					$('.bxAd').hide();
+				}else{
+					$('.bxAd').show();
+				}
+            },
+            error: function(){
+                console.log('请求错误');
+            }
+        });
+   	})(jQuery);
+</script>
+{% endif %}
 {% endblock %}
 
 {% block body_bottom %}

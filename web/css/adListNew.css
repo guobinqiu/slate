@@ -127,4 +127,4 @@ aside.offowAside{
 .offwowSubnav .subnavList .first a{ border-right:1px solid #ccc; padding-right:30px;}
 .offwowSubnav .subnavList a{ color:#333;}
 .offwowSubnav .subnavList a:hover,.offwowSubnav .subnavList a.now{ color:#e94d41;}
-.navNew{ position:absolute; top: -5px; left: 173px; z-index: -1;}
+.navNew{ position:absolute; top: -5px; left: 173px; z-index: -1; display: none;}

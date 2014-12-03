@@ -1,0 +1,40 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}发布积分方案{% endblock %}
+
+{% block body %}
+
+{% for  type,messages in app.session.flashBag.all %}
+    {% for message in messages %}
+        <div class="flash-{{ type }}">{{ message }}</div>
+    {% endfor  %}
+{% endfor %}
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>数值</th>
+                <th>频数</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in rules %}
+            <tr>
+                <td>{{ entity.points }}</td>
+                <td>{{ entity.sendFrequency }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+<p>点击Publish,将列表中的奖励方案立即发布到正式环境中</p>
+<form action="" method="POST">
+{{ form_row(form.is_immediate)  }}
+{{ form_rest(form) }}
+
+<input type="submit" value="Publish" />
+</form>
+
+{% include("JiliBackendBundle:GameSeeker/PointsStrategy:menu.html.twig") %}
+{% endblock %}

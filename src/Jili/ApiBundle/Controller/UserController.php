@@ -1057,6 +1057,7 @@ class UserController extends Controller
             if( strlen(trim($current_url)) == 0  && $session->has('goToUrl') ) {
                 $current_url = $session->get('goToUrl');
                 $session->remove('goToUrl');
+                $session->save();
             }
 
             if( strlen(trim($current_url)) == 0) {
