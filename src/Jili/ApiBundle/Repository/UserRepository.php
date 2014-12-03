@@ -189,6 +189,13 @@ class UserRepository extends EntityRepository
 
     }
 
+    public function pointFailTemp()
+    {
+        $sql_tmp = "(select distinct user_id from user_last)";
+        $sql = "select e.id,e.email,e.nick from user e where e.points>0  and e.id in ".$sql_tmp;
+        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+    }
+    
     /**
      * @param $date_str date("Y-m-d")
      */
