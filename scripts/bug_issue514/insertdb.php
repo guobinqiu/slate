@@ -47,39 +47,34 @@ for ($i = 0; $i < 10; $i++) {
                 fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
                 break 2;
             }
-        } else
-            if ($count == 4) {
+        }
+        elseif ($count == 4) {
 
-                $total_4++;
+            $total_4++;
 
-                $roolback = insertDb($log_handle, $log_handle2, $value, $total);
-                if ($roolback) {
-                    mysql_query("ROOLBACK");
-                    fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
-                    break 2;
-                }
-
-                $roolback = insertDb($log_handle, $log_handle2, $value, $total);
-                if ($roolback) {
-                    mysql_query("ROOLBACK");
-                    fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
-                    break 2;
-                }
-            } else {
-                fwrite($log_handle, "count 在2,3,4之外，没有执行  count:" . ($count) . "  user_id:" . $value['user_id'] . "\r\n");
+            $roolback = insertDb($log_handle, $log_handle2, $value, $total);
+            if ($roolback) {
+                mysql_query("ROOLBACK");
+                fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
+                break 2;
             }
 
-        $checkAfter = checkPointAfterEnd($log_handle, $value);
-        if ($checkAfter) {
-            fwrite($log_handle, $value['user_id'] . "修复成功，米粒：" . $value['point_change_num'] . "\r\n");
+            $roolback = insertDb($log_handle, $log_handle2, $value, $total);
+            if ($roolback) {
+                mysql_query("ROOLBACK");
+                fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
+                break 2;
+            }
         } else {
-            fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
+            fwrite($log_handle, "count 在2,3,4之外，没有执行  count:" . ($count) . "  user_id:" . $value['user_id'] . "\r\n");
         }
+
+        fwrite($log_handle, $value['user_id'] . "修复成功，米粒：" . $value['point_change_num'] . "\r\n");
 
     }
 
 }
-echo "总的：" . $total_222 . "<br>";
+echo "总的用户数：" . $total_222 . "<br>";
 echo "可执行：" . $total . "<br>";
 echo "数据不平衡:" . $total_333 . "<br>";
 echo "coount=4:" . $total_4 . "<br>";
@@ -87,7 +82,10 @@ echo "coount=4:" . $total_4 . "<br>";
 mysql_query("COMMIT"); //执行事务
 
 mysql_close($link);
-fwrite($log_handle, "执行完成\r\n重复记录总数：$total" . "\r\n");
+fwrite($log_handle, "执行完成\r\n重复记录总数：$total\r\n");
+fwrite($log_handle, "总的用户数：$total_222\r\n");
+fwrite($log_handle, "数据不平衡: $total_333\r\n");
+fwrite($log_handle, "count=4: $total_4\r\n");
 fclose($log_handle);
 fclose($log_handle2);
 echo "执行完成!";
@@ -110,7 +108,7 @@ function checkPointBeforeStart($log_handle, $value, $count) {
     if (($point_history['sum'] - $point_change_num) == $user['points']) {
         return true;
     } else {
-        fwrite($log_handle, $value['user_id'] . "分数不平衡不能执行\r\n");
+        fwrite($log_handle, $value['user_id'] . "分数不平衡\r\n");
         return false;
     }
 }

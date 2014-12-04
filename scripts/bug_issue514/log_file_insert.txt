@@ -6,114 +6,87 @@ SELECT * , count( user_id ) count
                 HAVING count >1 
  count:2  user_id:1048760
 1048760: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1048760,-100,13,'2014-09-22 17:29:37')
-执行后分数不平衡
-1048760修复失败，米粒：100
+1048760修复成功，米粒：100
  count:2  user_id:1051090
 1051090: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1051090,-5000,13,'2014-09-22 17:30:51')
-执行后分数不平衡
-1051090修复失败，米粒：5000
+1051090修复成功，米粒：5000
  count:2  user_id:1051740
 1051740: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1051740,-200,13,'2014-09-22 17:31:11')
-执行后分数不平衡
-1051740修复失败，米粒：200
+1051740修复成功，米粒：200
  count:2  user_id:1055970
 1055970: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1055970,-2100,13,'2014-09-22 17:32:07')
-执行后分数不平衡
-1055970修复失败，米粒：2100
+1055970修复成功，米粒：2100
  count:2  user_id:1058160
-1058160分数不平衡不能执行
+1058160分数不平衡
 1058160: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1058160,-100,13,'2014-09-22 17:29:09')
-执行后分数不平衡
-1058160修复失败，米粒：100
+1058160修复成功，米粒：100
  count:2  user_id:1058690
 1058690: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1058690,-700,13,'2014-09-22 17:30:43')
-执行后分数不平衡
-1058690修复失败，米粒：700
+1058690修复成功，米粒：700
  count:2  user_id:1062470
 1062470: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1062470,-500,13,'2014-09-22 17:31:33')
-执行后分数不平衡
-1062470修复失败，米粒：500
+1062470修复成功，米粒：500
  count:2  user_id:1066080
 1066080: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1066080,-1300,13,'2014-09-22 17:30:24')
-执行后分数不平衡
-1066080修复失败，米粒：1300
+1066080修复成功，米粒：1300
  count:2  user_id:1071730
 1071730: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1071730,-400,13,'2014-09-22 17:33:13')
-执行后分数不平衡
-1071730修复失败，米粒：400
+1071730修复成功，米粒：400
  count:2  user_id:1072730
 1072730: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1072730,-100,13,'2014-09-22 17:29:10')
-执行后分数不平衡
-1072730修复失败，米粒：100
+1072730修复成功，米粒：100
  count:2  user_id:1073170
 1073170: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1073170,-2200,13,'2014-09-22 17:30:38')
-执行后分数不平衡
-1073170修复失败，米粒：2200
+1073170修复成功，米粒：2200
  count:2  user_id:1077210
 1077210: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1077210,-100,13,'2014-09-22 17:29:53')
-执行后分数不平衡
-1077210修复失败，米粒：100
+1077210修复成功，米粒：100
  count:2  user_id:1085660
 1085660: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1085660,-100,13,'2014-09-22 17:32:08')
-执行后分数不平衡
-1085660修复失败，米粒：100
+1085660修复成功，米粒：100
  count:2  user_id:1085680
 1085680: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1085680,-600,13,'2014-09-22 17:30:08')
-执行后分数不平衡
-1085680修复失败，米粒：600
+1085680修复成功，米粒：600
  count:2  user_id:1094400
 1094400: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1094400,-2100,13,'2014-09-22 17:33:21')
-执行后分数不平衡
-1094400修复失败，米粒：2100
+1094400修复成功，米粒：2100
  count:2  user_id:1098850
 1098850: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1098850,-100,13,'2014-09-22 17:30:55')
-执行后分数不平衡
-1098850修复失败，米粒：100
+1098850修复成功，米粒：100
  count:2  user_id:1110140
 1110140: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1110140,-400,13,'2014-09-22 17:28:20')
-执行后分数不平衡
-1110140修复失败，米粒：400
+1110140修复成功，米粒：400
  count:2  user_id:1119030
 1119030: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1119030,-200,13,'2014-09-22 17:31:22')
-执行后分数不平衡
-1119030修复失败，米粒：200
+1119030修复成功，米粒：200
  count:2  user_id:1120450
 1120450: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1120450,-100,13,'2014-09-22 17:33:32')
-执行后分数不平衡
-1120450修复失败，米粒：100
+1120450修复成功，米粒：100
  count:2  user_id:1137320
 1137320: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1137320,-300,13,'2014-09-22 17:28:23')
-执行后分数不平衡
-1137320修复失败，米粒：300
+1137320修复成功，米粒：300
  count:2  user_id:1146700
 1146700: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1146700,-6200,13,'2014-09-22 17:28:44')
-执行后分数不平衡
-1146700修复失败，米粒：6200
+1146700修复成功，米粒：6200
  count:2  user_id:1180920
 1180920: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1180920,-100,13,'2014-09-22 17:30:56')
-执行后分数不平衡
-1180920修复失败，米粒：100
+1180920修复成功，米粒：100
  count:2  user_id:1189950
 1189950: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1189950,-700,13,'2014-09-22 17:30:19')
-执行后分数不平衡
-1189950修复失败，米粒：700
+1189950修复成功，米粒：700
  count:2  user_id:1192520
 1192520: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1192520,-600,13,'2014-09-22 17:30:01')
-执行后分数不平衡
-1192520修复失败，米粒：600
+1192520修复成功，米粒：600
  count:2  user_id:1234660
 1234660: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1234660,-400,13,'2014-09-22 17:28:41')
-执行后分数不平衡
-1234660修复失败，米粒：400
+1234660修复成功，米粒：400
  count:2  user_id:1236620
 1236620: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1236620,-100,13,'2014-09-22 17:33:09')
-执行后分数不平衡
-1236620修复失败，米粒：100
+1236620修复成功，米粒：100
  count:2  user_id:1241280
-1241280分数不平衡不能执行
+1241280分数不平衡
 1241280: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1241280,-400,13,'2014-09-22 17:31:13')
-执行后分数不平衡
-1241280修复失败，米粒：400
+1241280修复成功，米粒：400
 SELECT * , count( user_id ) count
                 FROM point_history01
                 WHERE reason =13
@@ -122,119 +95,91 @@ SELECT * , count( user_id ) count
                 HAVING count >1 
  count:2  user_id:1048871
 1048871: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1048871,-1300,13,'2014-09-22 17:31:25')
-执行后分数不平衡
-1048871修复失败，米粒：1300
+1048871修复成功，米粒：1300
  count:2  user_id:1054851
-1054851分数不平衡不能执行
+1054851分数不平衡
 1054851: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1054851,-900,13,'2014-09-22 17:29:30')
-执行后分数不平衡
-1054851修复失败，米粒：900
+1054851修复成功，米粒：900
  count:2  user_id:1055761
 1055761: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1055761,-100,13,'2014-09-22 17:29:33')
-执行后分数不平衡
-1055761修复失败，米粒：100
+1055761修复成功，米粒：100
  count:2  user_id:1058581
 1058581: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1058581,-1800,13,'2014-09-22 17:31:36')
-执行后分数不平衡
-1058581修复失败，米粒：1800
+1058581修复成功，米粒：1800
  count:2  user_id:1059981
 1059981: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1059981,-1000,13,'2014-09-22 17:32:20')
-执行后分数不平衡
-1059981修复失败，米粒：1000
+1059981修复成功，米粒：1000
  count:2  user_id:1060391
 1060391: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1060391,-100,13,'2014-09-22 17:29:19')
-执行后分数不平衡
-1060391修复失败，米粒：100
+1060391修复成功，米粒：100
  count:2  user_id:1061071
 1061071: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1061071,-5000,13,'2014-09-22 17:32:38')
-执行后分数不平衡
-1061071修复失败，米粒：5000
+1061071修复成功，米粒：5000
  count:2  user_id:1083671
 1083671: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1083671,-100,13,'2014-09-22 17:30:05')
-执行后分数不平衡
-1083671修复失败，米粒：100
+1083671修复成功，米粒：100
  count:2  user_id:1089451
 1089451: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1089451,-4900,13,'2014-09-22 17:32:55')
-执行后分数不平衡
-1089451修复失败，米粒：4900
+1089451修复成功，米粒：4900
  count:2  user_id:1090721
 1090721: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1090721,-3000,13,'2014-09-22 17:30:42')
-执行后分数不平衡
-1090721修复失败，米粒：3000
+1090721修复成功，米粒：3000
  count:2  user_id:1094841
 1094841: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1094841,-500,13,'2014-09-22 17:29:54')
-执行后分数不平衡
-1094841修复失败，米粒：500
+1094841修复成功，米粒：500
  count:2  user_id:1102271
-1102271分数不平衡不能执行
+1102271分数不平衡
 1102271: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1102271,-4800,13,'2014-09-22 17:29:32')
-执行后分数不平衡
-1102271修复失败，米粒：4800
+1102271修复成功，米粒：4800
  count:2  user_id:1105771
 1105771: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1105771,-200,13,'2014-09-22 17:28:10')
-执行后分数不平衡
-1105771修复失败，米粒：200
+1105771修复成功，米粒：200
  count:2  user_id:1107071
 1107071: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1107071,-500,13,'2014-09-22 17:32:54')
-执行后分数不平衡
-1107071修复失败，米粒：500
+1107071修复成功，米粒：500
  count:2  user_id:1114031
 1114031: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1114031,-100,13,'2014-09-22 17:30:11')
-执行后分数不平衡
-1114031修复失败，米粒：100
+1114031修复成功，米粒：100
  count:2  user_id:1115401
 1115401: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1115401,-100,13,'2014-09-22 17:33:00')
-执行后分数不平衡
-1115401修复失败，米粒：100
+1115401修复成功，米粒：100
  count:2  user_id:1121111
 1121111: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1121111,-3200,13,'2014-09-22 17:29:46')
-执行后分数不平衡
-1121111修复失败，米粒：3200
+1121111修复成功，米粒：3200
  count:2  user_id:1123381
 1123381: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1123381,-400,13,'2014-09-22 17:30:49')
-执行后分数不平衡
-1123381修复失败，米粒：400
+1123381修复成功，米粒：400
  count:2  user_id:1132231
 1132231: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1132231,-1700,13,'2014-09-22 17:30:23')
-执行后分数不平衡
-1132231修复失败，米粒：1700
+1132231修复成功，米粒：1700
  count:2  user_id:1140281
 1140281: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1140281,-100,13,'2014-09-22 17:30:03')
-执行后分数不平衡
-1140281修复失败，米粒：100
+1140281修复成功，米粒：100
  count:2  user_id:1147041
 1147041: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1147041,-1900,13,'2014-09-22 17:30:46')
-执行后分数不平衡
-1147041修复失败，米粒：1900
+1147041修复成功，米粒：1900
  count:2  user_id:1149581
 1149581: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1149581,-100,13,'2014-09-22 17:31:56')
-执行后分数不平衡
-1149581修复失败，米粒：100
+1149581修复成功，米粒：100
  count:2  user_id:1171551
 1171551: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1171551,-600,13,'2014-09-22 17:30:22')
-执行后分数不平衡
-1171551修复失败，米粒：600
+1171551修复成功，米粒：600
  count:2  user_id:1192301
 1192301: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1192301,-100,13,'2014-09-22 17:28:35')
-执行后分数不平衡
-1192301修复失败，米粒：100
+1192301修复成功，米粒：100
  count:2  user_id:1195711
 1195711: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1195711,-100,13,'2014-09-22 17:31:16')
-执行后分数不平衡
-1195711修复失败，米粒：100
+1195711修复成功，米粒：100
  count:2  user_id:1206151
-1206151分数不平衡不能执行
+1206151分数不平衡
 1206151: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1206151,-400,13,'2014-09-22 17:30:57')
-执行后分数不平衡
-1206151修复失败，米粒：400
+1206151修复成功，米粒：400
  count:2  user_id:1207221
 1207221: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1207221,-500,13,'2014-09-22 17:31:02')
-执行后分数不平衡
-1207221修复失败，米粒：500
+1207221修复成功，米粒：500
  count:2  user_id:1210311
 1210311: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1210311,-300,13,'2014-09-22 17:31:15')
-执行后分数不平衡
-1210311修复失败，米粒：300
+1210311修复成功，米粒：300
 SELECT * , count( user_id ) count
                 FROM point_history02
                 WHERE reason =13
@@ -243,111 +188,85 @@ SELECT * , count( user_id ) count
                 HAVING count >1 
  count:2  user_id:1052042
 1052042: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1052042,-100,13,'2014-09-22 17:29:08')
-执行后分数不平衡
-1052042修复失败，米粒：100
+1052042修复成功，米粒：100
  count:2  user_id:1053032
-1053032分数不平衡不能执行
+1053032分数不平衡
 1053032: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1053032,-100,13,'2014-09-22 17:36:17')
-执行后分数平衡了
 1053032修复成功，米粒：100
  count:2  user_id:1053802
 1053802: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1053802,-100,13,'2014-09-22 17:28:55')
-执行后分数不平衡
-1053802修复失败，米粒：100
+1053802修复成功，米粒：100
  count:4  user_id:1054782
 1054782: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1054782,-100,13,'2014-09-22 17:32:24')
 1054782: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1054782,-100,13,'2014-09-22 17:32:24')
-执行后分数不平衡
-1054782修复失败，米粒：100
+1054782修复成功，米粒：100
  count:2  user_id:1056802
 1056802: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1056802,-600,13,'2014-09-22 17:32:19')
-执行后分数不平衡
-1056802修复失败，米粒：600
+1056802修复成功，米粒：600
  count:2  user_id:1062932
 1062932: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1062932,-100,13,'2014-09-22 17:28:54')
-执行后分数不平衡
-1062932修复失败，米粒：100
+1062932修复成功，米粒：100
  count:2  user_id:1072102
-1072102分数不平衡不能执行
+1072102分数不平衡
 1072102: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1072102,-100,13,'2014-09-22 17:31:14')
-执行后分数不平衡
-1072102修复失败，米粒：100
+1072102修复成功，米粒：100
  count:2  user_id:1075642
 1075642: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1075642,-100,13,'2014-09-22 17:32:36')
-执行后分数不平衡
-1075642修复失败，米粒：100
+1075642修复成功，米粒：100
  count:2  user_id:1076392
 1076392: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1076392,-400,13,'2014-09-22 17:29:43')
-执行后分数不平衡
-1076392修复失败，米粒：400
+1076392修复成功，米粒：400
  count:2  user_id:1078872
 1078872: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1078872,-800,13,'2014-09-22 17:32:39')
-执行后分数不平衡
-1078872修复失败，米粒：800
+1078872修复成功，米粒：800
  count:2  user_id:1097402
 1097402: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1097402,-500,13,'2014-09-22 17:29:44')
-执行后分数不平衡
-1097402修复失败，米粒：500
+1097402修复成功，米粒：500
  count:2  user_id:1102432
 1102432: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1102432,-500,13,'2014-09-22 17:28:46')
-执行后分数不平衡
-1102432修复失败，米粒：500
+1102432修复成功，米粒：500
  count:2  user_id:1110362
 1110362: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1110362,-500,13,'2014-09-22 17:32:34')
-执行后分数不平衡
-1110362修复失败，米粒：500
+1110362修复成功，米粒：500
  count:2  user_id:1127452
 1127452: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1127452,-1200,13,'2014-09-22 17:29:38')
-执行后分数不平衡
-1127452修复失败，米粒：1200
+1127452修复成功，米粒：1200
  count:2  user_id:1128032
 1128032: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1128032,-400,13,'2014-09-22 17:30:30')
-执行后分数不平衡
-1128032修复失败，米粒：400
+1128032修复成功，米粒：400
  count:2  user_id:1132762
 1132762: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1132762,-3000,13,'2014-09-22 17:28:58')
-执行后分数不平衡
-1132762修复失败，米粒：3000
+1132762修复成功，米粒：3000
  count:2  user_id:1143262
 1143262: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1143262,-2100,13,'2014-09-22 17:30:18')
-执行后分数不平衡
-1143262修复失败，米粒：2100
+1143262修复成功，米粒：2100
  count:2  user_id:1145652
 1145652: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1145652,-1500,13,'2014-09-22 17:31:19')
-执行后分数不平衡
-1145652修复失败，米粒：1500
+1145652修复成功，米粒：1500
  count:2  user_id:1160572
 1160572: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1160572,-500,13,'2014-09-22 17:30:31')
-执行后分数不平衡
-1160572修复失败，米粒：500
+1160572修复成功，米粒：500
  count:2  user_id:1171522
 1171522: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1171522,-5100,13,'2014-09-22 17:28:33')
-执行后分数不平衡
-1171522修复失败，米粒：5100
+1171522修复成功，米粒：5100
  count:2  user_id:1200132
 1200132: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1200132,-500,13,'2014-09-22 17:30:35')
-执行后分数不平衡
-1200132修复失败，米粒：500
+1200132修复成功，米粒：500
  count:2  user_id:1234572
 1234572: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1234572,-100,13,'2014-09-22 17:33:28')
-执行后分数不平衡
-1234572修复失败，米粒：100
+1234572修复成功，米粒：100
  count:2  user_id:1235122
 1235122: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1235122,-600,13,'2014-09-22 17:31:48')
-执行后分数不平衡
-1235122修复失败，米粒：600
+1235122修复成功，米粒：600
  count:2  user_id:1237612
 1237612: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1237612,-100,13,'2014-09-22 17:30:02')
-执行后分数不平衡
-1237612修复失败，米粒：100
+1237612修复成功，米粒：100
  count:2  user_id:1237982
 1237982: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1237982,-100,13,'2014-09-22 17:31:20')
-执行后分数不平衡
-1237982修复失败，米粒：100
+1237982修复成功，米粒：100
  count:2  user_id:1238182
 1238182: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1238182,-100,13,'2014-09-22 17:33:05')
-执行后分数不平衡
-1238182修复失败，米粒：100
+1238182修复成功，米粒：100
 SELECT * , count( user_id ) count
                 FROM point_history03
                 WHERE reason =13
@@ -355,179 +274,139 @@ SELECT * , count( user_id ) count
                 GROUP BY user_id, point_change_num
                 HAVING count >1 
  count:2  user_id:1053113
-1053113分数不平衡不能执行
+1053113分数不平衡
 1053113: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1053113,-400,13,'2014-09-22 17:28:48')
-执行后分数不平衡
-1053113修复失败，米粒：400
+1053113修复成功，米粒：400
  count:2  user_id:1053773
-1053773分数不平衡不能执行
+1053773分数不平衡
 1053773: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1053773,-100,13,'2014-09-22 17:31:04')
-执行后分数不平衡
-1053773修复失败，米粒：100
+1053773修复成功，米粒：100
  count:2  user_id:1053773
-1053773分数不平衡不能执行
+1053773分数不平衡
 1053773: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1053773,-600,13,'2014-09-22 17:31:03')
-执行后分数不平衡
-1053773修复失败，米粒：600
+1053773修复成功，米粒：600
  count:2  user_id:1054143
 1054143: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1054143,-600,13,'2014-09-22 17:33:07')
-执行后分数不平衡
-1054143修复失败，米粒：600
+1054143修复成功，米粒：600
  count:2  user_id:1054393
 1054393: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1054393,-400,13,'2014-09-22 17:28:50')
-执行后分数不平衡
-1054393修复失败，米粒：400
+1054393修复成功，米粒：400
  count:2  user_id:1055593
 1055593: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1055593,-500,13,'2014-09-22 17:28:18')
-执行后分数不平衡
-1055593修复失败，米粒：500
+1055593修复成功，米粒：500
  count:2  user_id:1057453
-1057453分数不平衡不能执行
+1057453分数不平衡
 1057453: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1057453,-5000,13,'2014-09-22 17:28:36')
-执行后分数不平衡
-1057453修复失败，米粒：5000
+1057453修复成功，米粒：5000
  count:2  user_id:1062753
 1062753: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1062753,-1400,13,'2014-09-22 17:31:05')
-执行后分数不平衡
-1062753修复失败，米粒：1400
+1062753修复成功，米粒：1400
  count:2  user_id:1062863
 1062863: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1062863,-100,13,'2014-09-22 17:32:37')
-执行后分数不平衡
-1062863修复失败，米粒：100
+1062863修复成功，米粒：100
  count:2  user_id:1063893
 1063893: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1063893,-400,13,'2014-09-22 17:30:48')
-执行后分数不平衡
-1063893修复失败，米粒：400
+1063893修复成功，米粒：400
  count:2  user_id:1068483
 1068483: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1068483,-100,13,'2014-09-22 17:29:57')
-执行后分数不平衡
-1068483修复失败，米粒：100
+1068483修复成功，米粒：100
  count:2  user_id:1070183
 1070183: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1070183,-700,13,'2014-09-22 17:29:50')
-执行后分数不平衡
-1070183修复失败，米粒：700
+1070183修复成功，米粒：700
  count:2  user_id:1071313
 1071313: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1071313,-2100,13,'2014-09-22 17:32:49')
-执行后分数不平衡
-1071313修复失败，米粒：2100
+1071313修复成功，米粒：2100
  count:2  user_id:1073563
 1073563: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1073563,-900,13,'2014-09-22 17:28:53')
-执行后分数不平衡
-1073563修复失败，米粒：900
+1073563修复成功，米粒：900
  count:2  user_id:1076093
 1076093: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1076093,-100,13,'2014-09-22 17:28:24')
-执行后分数不平衡
-1076093修复失败，米粒：100
+1076093修复成功，米粒：100
  count:2  user_id:1079093
 1079093: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1079093,-4100,13,'2014-09-22 17:33:25')
-执行后分数不平衡
-1079093修复失败，米粒：4100
+1079093修复成功，米粒：4100
  count:2  user_id:1084143
 1084143: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1084143,-100,13,'2014-09-22 17:31:28')
-执行后分数不平衡
-1084143修复失败，米粒：100
+1084143修复成功，米粒：100
  count:2  user_id:1088023
 1088023: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1088023,-3200,13,'2014-09-22 17:29:39')
-执行后分数不平衡
-1088023修复失败，米粒：3200
+1088023修复成功，米粒：3200
  count:2  user_id:1088673
-1088673分数不平衡不能执行
+1088673分数不平衡
 1088673: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1088673,-4000,13,'2014-09-22 17:31:53')
-执行后分数不平衡
-1088673修复失败，米粒：4000
+1088673修复成功，米粒：4000
  count:2  user_id:1091293
 1091293: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1091293,-1000,13,'2014-09-22 17:30:14')
-执行后分数不平衡
-1091293修复失败，米粒：1000
+1091293修复成功，米粒：1000
  count:2  user_id:1091673
 1091673: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1091673,-100,13,'2014-09-22 17:29:13')
-执行后分数不平衡
-1091673修复失败，米粒：100
+1091673修复成功，米粒：100
  count:2  user_id:1091883
-1091883分数不平衡不能执行
+1091883分数不平衡
 1091883: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1091883,-100,13,'2014-09-22 17:29:55')
-执行后分数不平衡
-1091883修复失败，米粒：100
+1091883修复成功，米粒：100
  count:2  user_id:1092643
 1092643: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1092643,-2700,13,'2014-09-22 17:32:04')
-执行后分数不平衡
-1092643修复失败，米粒：2700
+1092643修复成功，米粒：2700
  count:2  user_id:1096633
 1096633: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1096633,-400,13,'2014-09-22 17:32:28')
-执行后分数不平衡
-1096633修复失败，米粒：400
+1096633修复成功，米粒：400
  count:2  user_id:1099563
-1099563分数不平衡不能执行
+1099563分数不平衡
 1099563: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1099563,-100,13,'2014-09-22 17:29:00')
-执行后分数不平衡
-1099563修复失败，米粒：100
+1099563修复成功，米粒：100
  count:2  user_id:1099563
-1099563分数不平衡不能执行
+1099563分数不平衡
 1099563: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1099563,-2500,13,'2014-09-22 17:28:59')
-执行后分数不平衡
-1099563修复失败，米粒：2500
+1099563修复成功，米粒：2500
  count:4  user_id:1100033
-1100033分数不平衡不能执行
+1100033分数不平衡
 1100033: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1100033,-200,13,'2014-09-22 17:29:16')
 1100033: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1100033,-200,13,'2014-09-22 17:29:16')
-执行后分数不平衡
-1100033修复失败，米粒：200
+1100033修复成功，米粒：200
  count:2  user_id:1112023
 1112023: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1112023,-200,13,'2014-09-22 17:31:06')
-执行后分数不平衡
-1112023修复失败，米粒：200
+1112023修复成功，米粒：200
  count:2  user_id:1119153
 1119153: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1119153,-900,13,'2014-09-22 17:28:19')
-执行后分数不平衡
-1119153修复失败，米粒：900
+1119153修复成功，米粒：900
  count:2  user_id:1128013
 1128013: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1128013,-500,13,'2014-09-22 17:28:30')
-执行后分数不平衡
-1128013修复失败，米粒：500
+1128013修复成功，米粒：500
  count:2  user_id:1130753
 1130753: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1130753,-100,13,'2014-09-22 17:32:17')
-执行后分数不平衡
-1130753修复失败，米粒：100
+1130753修复成功，米粒：100
  count:2  user_id:1131063
-1131063分数不平衡不能执行
+1131063分数不平衡
 1131063: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1131063,-1000,13,'2014-09-22 17:32:13')
-执行后分数不平衡
-1131063修复失败，米粒：1000
+1131063修复成功，米粒：1000
  count:2  user_id:1131723
 1131723: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1131723,-100,13,'2014-09-22 17:31:44')
-执行后分数不平衡
-1131723修复失败，米粒：100
+1131723修复成功，米粒：100
  count:2  user_id:1132113
 1132113: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1132113,-500,13,'2014-09-22 17:29:29')
-执行后分数不平衡
-1132113修复失败，米粒：500
+1132113修复成功，米粒：500
  count:2  user_id:1139083
 1139083: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1139083,-1900,13,'2014-09-22 17:29:41')
-执行后分数不平衡
-1139083修复失败，米粒：1900
+1139083修复成功，米粒：1900
  count:2  user_id:1155453
 1155453: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1155453,-500,13,'2014-09-22 17:29:58')
-执行后分数不平衡
-1155453修复失败，米粒：500
+1155453修复成功，米粒：500
  count:2  user_id:1224563
 1224563: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1224563,-100,13,'2014-09-22 17:30:47')
-执行后分数不平衡
-1224563修复失败，米粒：100
+1224563修复成功，米粒：100
  count:2  user_id:1241003
-1241003分数不平衡不能执行
+1241003分数不平衡
 1241003: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1241003,-1000,13,'2014-09-22 17:31:43')
-执行后分数不平衡
-1241003修复失败，米粒：1000
+1241003修复成功，米粒：1000
  count:2  user_id:1241083
-1241083分数不平衡不能执行
+1241083分数不平衡
 1241083: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1241083,-3000,13,'2014-09-22 17:29:21')
-执行后分数不平衡
-1241083修复失败，米粒：3000
+1241083修复成功，米粒：3000
  count:2  user_id:1241173
-1241173分数不平衡不能执行
+1241173分数不平衡
 1241173: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1241173,-100,13,'2014-09-22 17:27:05')
-执行后分数不平衡
-1241173修复失败，米粒：100
+1241173修复成功，米粒：100
 SELECT * , count( user_id ) count
                 FROM point_history04
                 WHERE reason =13
@@ -536,94 +415,72 @@ SELECT * , count( user_id ) count
                 HAVING count >1 
  count:2  user_id:1054164
 1054164: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1054164,-1000,13,'2014-09-22 17:28:39')
-执行后分数不平衡
-1054164修复失败，米粒：1000
+1054164修复成功，米粒：1000
  count:2  user_id:1058244
 1058244: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1058244,-100,13,'2014-09-22 17:32:45')
-执行后分数不平衡
-1058244修复失败，米粒：100
+1058244修复成功，米粒：100
  count:2  user_id:1058384
 1058384: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1058384,-1200,13,'2014-09-22 17:30:16')
-执行后分数不平衡
-1058384修复失败，米粒：1200
+1058384修复成功，米粒：1200
  count:2  user_id:1061194
 1061194: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1061194,-200,13,'2014-09-22 17:33:30')
-执行后分数不平衡
-1061194修复失败，米粒：200
+1061194修复成功，米粒：200
  count:2  user_id:1066614
 1066614: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1066614,-1200,13,'2014-09-22 17:32:32')
-执行后分数不平衡
-1066614修复失败，米粒：1200
+1066614修复成功，米粒：1200
  count:4  user_id:1083804
 1083804: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1083804,-100,13,'2014-09-22 17:28:15')
 1083804: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1083804,-100,13,'2014-09-22 17:28:15')
-执行后分数不平衡
-1083804修复失败，米粒：100
+1083804修复成功，米粒：100
  count:2  user_id:1092704
 1092704: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1092704,-3000,13,'2014-09-22 17:31:55')
-执行后分数不平衡
-1092704修复失败，米粒：3000
+1092704修复成功，米粒：3000
  count:2  user_id:1095224
 1095224: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1095224,-100,13,'2014-09-22 17:29:05')
-执行后分数不平衡
-1095224修复失败，米粒：100
+1095224修复成功，米粒：100
  count:2  user_id:1095974
 1095974: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1095974,-100,13,'2014-09-22 17:31:49')
-执行后分数不平衡
-1095974修复失败，米粒：100
+1095974修复成功，米粒：100
  count:2  user_id:1099304
 1099304: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1099304,-500,13,'2014-09-22 17:30:36')
-执行后分数不平衡
-1099304修复失败，米粒：500
+1099304修复成功，米粒：500
  count:2  user_id:1099854
 1099854: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1099854,-200,13,'2014-09-22 17:28:37')
-执行后分数不平衡
-1099854修复失败，米粒：200
+1099854修复成功，米粒：200
  count:2  user_id:1119914
-1119914分数不平衡不能执行
+1119914分数不平衡
 1119914: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1119914,-1600,13,'2014-09-22 17:31:31')
-执行后分数不平衡
-1119914修复失败，米粒：1600
+1119914修复成功，米粒：1600
  count:2  user_id:1121844
 1121844: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1121844,-100,13,'2014-09-22 17:31:21')
-执行后分数不平衡
-1121844修复失败，米粒：100
+1121844修复成功，米粒：100
  count:2  user_id:1123494
 1123494: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1123494,-1000,13,'2014-09-22 17:31:10')
-执行后分数不平衡
-1123494修复失败，米粒：1000
+1123494修复成功，米粒：1000
  count:2  user_id:1128384
 1128384: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1128384,-1800,13,'2014-09-22 17:31:27')
-执行后分数不平衡
-1128384修复失败，米粒：1800
+1128384修复成功，米粒：1800
  count:2  user_id:1131204
 1131204: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1131204,-100,13,'2014-09-22 17:28:34')
-执行后分数不平衡
-1131204修复失败，米粒：100
+1131204修复成功，米粒：100
  count:2  user_id:1152124
 1152124: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1152124,-600,13,'2014-09-22 17:32:46')
-执行后分数不平衡
-1152124修复失败，米粒：600
+1152124修复成功，米粒：600
  count:2  user_id:1164024
 1164024: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1164024,-200,13,'2014-09-22 17:29:04')
-执行后分数不平衡
-1164024修复失败，米粒：200
+1164024修复成功，米粒：200
  count:2  user_id:1173664
 1173664: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1173664,-800,13,'2014-09-22 17:31:45')
-执行后分数不平衡
-1173664修复失败，米粒：800
+1173664修复成功，米粒：800
  count:2  user_id:1175374
 1175374: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1175374,-1200,13,'2014-09-22 17:30:45')
-执行后分数不平衡
-1175374修复失败，米粒：1200
+1175374修复成功，米粒：1200
  count:2  user_id:1229264
 1229264: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1229264,-100,13,'2014-09-22 17:28:52')
-执行后分数不平衡
-1229264修复失败，米粒：100
+1229264修复成功，米粒：100
  count:2  user_id:1229994
 1229994: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1229994,-100,13,'2014-09-22 17:28:14')
-执行后分数不平衡
-1229994修复失败，米粒：100
+1229994修复成功，米粒：100
 SELECT * , count( user_id ) count
                 FROM point_history05
                 WHERE reason =13
@@ -632,105 +489,81 @@ SELECT * , count( user_id ) count
                 HAVING count >1 
  count:2  user_id:1056715
 1056715: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1056715,-1500,13,'2014-09-22 17:30:39')
-执行后分数不平衡
-1056715修复失败，米粒：1500
+1056715修复成功，米粒：1500
  count:2  user_id:1064955
 1064955: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1064955,-3300,13,'2014-09-22 17:30:05')
-执行后分数不平衡
-1064955修复失败，米粒：3300
+1064955修复成功，米粒：3300
  count:2  user_id:1072665
 1072665: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1072665,-300,13,'2014-09-22 17:30:33')
-执行后分数不平衡
-1072665修复失败，米粒：300
+1072665修复成功，米粒：300
  count:2  user_id:1073055
-1073055分数不平衡不能执行
+1073055分数不平衡
 1073055: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1073055,-1500,13,'2014-09-22 17:29:40')
-执行后分数不平衡
-1073055修复失败，米粒：1500
+1073055修复成功，米粒：1500
  count:2  user_id:1079645
 1079645: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1079645,-300,13,'2014-09-22 17:30:41')
-执行后分数不平衡
-1079645修复失败，米粒：300
+1079645修复成功，米粒：300
  count:2  user_id:1098055
 1098055: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1098055,-500,13,'2014-09-22 17:33:15')
-执行后分数不平衡
-1098055修复失败，米粒：500
+1098055修复成功，米粒：500
  count:2  user_id:1100805
 1100805: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1100805,-100,13,'2014-09-22 17:33:17')
-执行后分数不平衡
-1100805修复失败，米粒：100
+1100805修复成功，米粒：100
  count:2  user_id:1112945
 1112945: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1112945,-100,13,'2014-09-22 17:31:46')
-执行后分数不平衡
-1112945修复失败，米粒：100
+1112945修复成功，米粒：100
  count:2  user_id:1115945
 1115945: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1115945,-300,13,'2014-09-22 17:30:34')
-执行后分数不平衡
-1115945修复失败，米粒：300
+1115945修复成功，米粒：300
  count:2  user_id:1118635
 1118635: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1118635,-100,13,'2014-09-22 17:31:58')
-执行后分数不平衡
-1118635修复失败，米粒：100
+1118635修复成功，米粒：100
  count:2  user_id:1124725
-1124725分数不平衡不能执行
+1124725分数不平衡
 1124725: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1124725,-3100,13,'2014-09-22 17:29:01')
-执行后分数不平衡
-1124725修复失败，米粒：3100
+1124725修复成功，米粒：3100
  count:2  user_id:1126235
 1126235: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1126235,-700,13,'2014-09-22 17:28:09')
-执行后分数不平衡
-1126235修复失败，米粒：700
+1126235修复成功，米粒：700
  count:2  user_id:1133195
 1133195: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1133195,-1700,13,'2014-09-22 17:32:50')
-执行后分数不平衡
-1133195修复失败，米粒：1700
+1133195修复成功，米粒：1700
  count:2  user_id:1152795
-1152795分数不平衡不能执行
+1152795分数不平衡
 1152795: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1152795,-5300,13,'2014-09-22 17:28:07')
-执行后分数不平衡
-1152795修复失败，米粒：5300
+1152795修复成功，米粒：5300
  count:2  user_id:1161455
-1161455分数不平衡不能执行
+1161455分数不平衡
 1161455: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1161455,-100,13,'2014-09-22 17:28:28')
-执行后分数不平衡
-1161455修复失败，米粒：100
+1161455修复成功，米粒：100
  count:2  user_id:1161455
-1161455分数不平衡不能执行
+1161455分数不平衡
 1161455: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1161455,-300,13,'2014-09-22 17:28:29')
-执行后分数不平衡
-1161455修复失败，米粒：300
+1161455修复成功，米粒：300
  count:2  user_id:1177145
 1177145: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1177145,-2000,13,'2014-09-22 17:31:39')
-执行后分数不平衡
-1177145修复失败，米粒：2000
+1177145修复成功，米粒：2000
  count:2  user_id:1190365
 1190365: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1190365,-1400,13,'2014-09-22 17:33:19')
-执行后分数不平衡
-1190365修复失败，米粒：1400
+1190365修复成功，米粒：1400
  count:2  user_id:1204565
 1204565: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1204565,-1200,13,'2014-09-22 17:29:35')
-执行后分数不平衡
-1204565修复失败，米粒：1200
+1204565修复成功，米粒：1200
  count:2  user_id:1220035
 1220035: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1220035,-100,13,'2014-09-22 17:30:00')
-执行后分数不平衡
-1220035修复失败，米粒：100
+1220035修复成功，米粒：100
  count:2  user_id:1222695
 1222695: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1222695,-100,13,'2014-09-22 17:33:26')
-执行后分数不平衡
-1222695修复失败，米粒：100
+1222695修复成功，米粒：100
  count:2  user_id:1223985
 1223985: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1223985,-100,13,'2014-09-22 17:28:38')
-执行后分数不平衡
-1223985修复失败，米粒：100
+1223985修复成功，米粒：100
  count:2  user_id:1225075
 1225075: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1225075,-100,13,'2014-09-22 17:28:08')
-执行后分数不平衡
-1225075修复失败，米粒：100
+1225075修复成功，米粒：100
  count:2  user_id:1236075
 1236075: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1236075,-100,13,'2014-09-22 17:29:18')
-执行后分数不平衡
-1236075修复失败，米粒：100
+1236075修复成功，米粒：100
 SELECT * , count( user_id ) count
                 FROM point_history06
                 WHERE reason =13
@@ -738,101 +571,78 @@ SELECT * , count( user_id ) count
                 GROUP BY user_id, point_change_num
                 HAVING count >1 
  count:2  user_id:1054476
-1054476分数不平衡不能执行
+1054476分数不平衡
 1054476: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1054476,-4900,13,'2014-09-22 17:32:23')
-执行后分数不平衡
-1054476修复失败，米粒：4900
+1054476修复成功，米粒：4900
  count:2  user_id:1055306
 1055306: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1055306,-100,13,'2014-09-22 17:33:02')
-执行后分数不平衡
-1055306修复失败，米粒：100
+1055306修复成功，米粒：100
  count:2  user_id:1057556
 1057556: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1057556,-1500,13,'2014-09-22 17:29:52')
-执行后分数不平衡
-1057556修复失败，米粒：1500
+1057556修复成功，米粒：1500
  count:2  user_id:1065896
 1065896: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1065896,-3000,13,'2014-09-22 17:31:54')
-执行后分数不平衡
-1065896修复失败，米粒：3000
+1065896修复成功，米粒：3000
  count:2  user_id:1067476
-1067476分数不平衡不能执行
+1067476分数不平衡
 1067476: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1067476,-2300,13,'2014-09-22 17:29:22')
-执行后分数不平衡
-1067476修复失败，米粒：2300
+1067476修复成功，米粒：2300
  count:2  user_id:1067886
 1067886: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1067886,-100,13,'2014-09-22 17:29:34')
-执行后分数不平衡
-1067886修复失败，米粒：100
+1067886修复成功，米粒：100
  count:2  user_id:1074546
 1074546: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1074546,-1100,13,'2014-09-22 17:33:23')
-执行后分数不平衡
-1074546修复失败，米粒：1100
+1074546修复成功，米粒：1100
  count:2  user_id:1075906
 1075906: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1075906,-1100,13,'2014-09-22 17:29:56')
-执行后分数不平衡
-1075906修复失败，米粒：1100
+1075906修复成功，米粒：1100
  count:2  user_id:1081836
 1081836: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1081836,-500,13,'2014-09-22 17:28:49')
-执行后分数不平衡
-1081836修复失败，米粒：500
+1081836修复成功，米粒：500
  count:2  user_id:1085526
 1085526: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1085526,-600,13,'2014-09-22 17:28:22')
-执行后分数不平衡
-1085526修复失败，米粒：600
+1085526修复成功，米粒：600
  count:2  user_id:1087066
-1087066分数不平衡不能执行
+1087066分数不平衡
 1087066: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1087066,-100,13,'2014-09-22 17:26:52')
-执行后分数平衡了
 1087066修复成功，米粒：100
  count:2  user_id:1092546
 1092546: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1092546,-1400,13,'2014-09-22 17:30:13')
-执行后分数不平衡
-1092546修复失败，米粒：1400
+1092546修复成功，米粒：1400
  count:3  user_id:1092896
-1092896分数不平衡不能执行
+1092896分数不平衡
 1092896: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1092896,-100,13,'2014-09-22 17:32:56')
-执行后分数不平衡
-1092896修复失败，米粒：100
+1092896修复成功，米粒：100
  count:2  user_id:1096596
 1096596: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1096596,-500,13,'2014-09-22 17:29:23')
-执行后分数不平衡
-1096596修复失败，米粒：500
+1096596修复成功，米粒：500
  count:2  user_id:1108186
 1108186: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1108186,-700,13,'2014-09-22 17:33:03')
-执行后分数不平衡
-1108186修复失败，米粒：700
+1108186修复成功，米粒：700
  count:2  user_id:1108426
 1108426: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1108426,-100,13,'2014-09-22 17:30:26')
-执行后分数不平衡
-1108426修复失败，米粒：100
+1108426修复成功，米粒：100
  count:2  user_id:1131136
 1131136: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1131136,-3000,13,'2014-09-22 17:31:42')
-执行后分数不平衡
-1131136修复失败，米粒：3000
+1131136修复成功，米粒：3000
  count:2  user_id:1152116
 1152116: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1152116,-500,13,'2014-09-22 17:30:10')
-执行后分数不平衡
-1152116修复失败，米粒：500
+1152116修复成功，米粒：500
  count:2  user_id:1172216
 1172216: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1172216,-2600,13,'2014-09-22 17:30:29')
-执行后分数不平衡
-1172216修复失败，米粒：2600
+1172216修复成功，米粒：2600
  count:2  user_id:1177016
 1177016: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1177016,-100,13,'2014-09-22 17:28:27')
-执行后分数不平衡
-1177016修复失败，米粒：100
+1177016修复成功，米粒：100
  count:2  user_id:1190306
 1190306: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1190306,-700,13,'2014-09-22 17:33:10')
-执行后分数不平衡
-1190306修复失败，米粒：700
+1190306修复成功，米粒：700
  count:2  user_id:1191226
 1191226: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1191226,-100,13,'2014-09-22 17:29:15')
-执行后分数不平衡
-1191226修复失败，米粒：100
+1191226修复成功，米粒：100
  count:2  user_id:1221866
 1221866: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1221866,-200,13,'2014-09-22 17:32:06')
-执行后分数不平衡
-1221866修复失败，米粒：200
+1221866修复成功，米粒：200
 SELECT * , count( user_id ) count
                 FROM point_history07
                 WHERE reason =13
@@ -841,119 +651,91 @@ SELECT * , count( user_id ) count
                 HAVING count >1 
  count:2  user_id:1048757
 1048757: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1048757,-1000,13,'2014-09-22 17:28:25')
-执行后分数不平衡
-1048757修复失败，米粒：1000
+1048757修复成功，米粒：1000
  count:2  user_id:1050097
 1050097: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1050097,-500,13,'2014-09-22 17:32:27')
-执行后分数不平衡
-1050097修复失败，米粒：500
+1050097修复成功，米粒：500
  count:2  user_id:1051637
 1051637: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1051637,-1000,13,'2014-09-22 17:30:53')
-执行后分数不平衡
-1051637修复失败，米粒：1000
+1051637修复成功，米粒：1000
  count:2  user_id:1058217
 1058217: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1058217,-800,13,'2014-09-22 17:28:51')
-执行后分数不平衡
-1058217修复失败，米粒：800
+1058217修复成功，米粒：800
  count:2  user_id:1065267
 1065267: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1065267,-100,13,'2014-09-22 17:28:31')
-执行后分数不平衡
-1065267修复失败，米粒：100
+1065267修复成功，米粒：100
  count:2  user_id:1065307
 1065307: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1065307,-1600,13,'2014-09-22 17:32:42')
-执行后分数不平衡
-1065307修复失败，米粒：1600
+1065307修复成功，米粒：1600
  count:2  user_id:1066167
 1066167: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1066167,-100,13,'2014-09-22 17:30:58')
-执行后分数不平衡
-1066167修复失败，米粒：100
+1066167修复成功，米粒：100
  count:2  user_id:1077847
 1077847: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1077847,-400,13,'2014-09-22 17:32:09')
-执行后分数不平衡
-1077847修复失败，米粒：400
+1077847修复成功，米粒：400
  count:2  user_id:1079217
 1079217: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1079217,-1400,13,'2014-09-22 17:32:12')
-执行后分数不平衡
-1079217修复失败，米粒：1400
+1079217修复成功，米粒：1400
  count:2  user_id:1082927
 1082927: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1082927,-300,13,'2014-09-22 17:30:29')
-执行后分数不平衡
-1082927修复失败，米粒：300
+1082927修复成功，米粒：300
  count:2  user_id:1085147
 1085147: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1085147,-2600,13,'2014-09-22 17:31:28')
-执行后分数不平衡
-1085147修复失败，米粒：2600
+1085147修复成功，米粒：2600
  count:2  user_id:1092847
 1092847: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1092847,-2000,13,'2014-09-22 17:28:43')
-执行后分数不平衡
-1092847修复失败，米粒：2000
+1092847修复成功，米粒：2000
  count:2  user_id:1095647
 1095647: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1095647,-500,13,'2014-09-22 17:29:25')
-执行后分数不平衡
-1095647修复失败，米粒：500
+1095647修复成功，米粒：500
  count:2  user_id:1095697
 1095697: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1095697,-100,13,'2014-09-22 17:32:15')
-执行后分数不平衡
-1095697修复失败，米粒：100
+1095697修复成功，米粒：100
  count:2  user_id:1099407
 1099407: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1099407,-400,13,'2014-09-22 17:32:01')
-执行后分数不平衡
-1099407修复失败，米粒：400
+1099407修复成功，米粒：400
  count:2  user_id:1110877
 1110877: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1110877,-3500,13,'2014-09-22 17:29:05')
-执行后分数不平衡
-1110877修复失败，米粒：3500
+1110877修复成功，米粒：3500
  count:2  user_id:1128857
 1128857: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1128857,-100,13,'2014-09-22 17:30:37')
-执行后分数不平衡
-1128857修复失败，米粒：100
+1128857修复成功，米粒：100
  count:2  user_id:1134227
-1134227分数不平衡不能执行
+1134227分数不平衡
 1134227: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1134227,-100,13,'2014-09-22 17:25:10')
-执行后分数平衡了
 1134227修复成功，米粒：100
  count:2  user_id:1153197
 1153197: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1153197,-800,13,'2014-09-22 17:29:48')
-执行后分数不平衡
-1153197修复失败，米粒：800
+1153197修复成功，米粒：800
  count:2  user_id:1155577
 1155577: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1155577,-800,13,'2014-09-22 17:30:59')
-执行后分数不平衡
-1155577修复失败，米粒：800
+1155577修复成功，米粒：800
  count:2  user_id:1185577
 1185577: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1185577,-100,13,'2014-09-22 17:28:57')
-执行后分数不平衡
-1185577修复失败，米粒：100
+1185577修复成功，米粒：100
  count:2  user_id:1190897
 1190897: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1190897,-500,13,'2014-09-22 17:31:51')
-执行后分数不平衡
-1190897修复失败，米粒：500
+1190897修复成功，米粒：500
  count:2  user_id:1198667
-1198667分数不平衡不能执行
+1198667分数不平衡
 1198667: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1198667,-900,13,'2014-09-22 17:31:17')
-执行后分数不平衡
-1198667修复失败，米粒：900
+1198667修复成功，米粒：900
  count:2  user_id:1220927
 1220927: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1220927,-1000,13,'2014-09-22 17:31:57')
-执行后分数不平衡
-1220927修复失败，米粒：1000
+1220927修复成功，米粒：1000
  count:2  user_id:1224987
 1224987: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1224987,-1200,13,'2014-09-22 17:33:18')
-执行后分数不平衡
-1224987修复失败，米粒：1200
+1224987修复成功，米粒：1200
  count:2  user_id:1234747
 1234747: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1234747,-100,13,'2014-09-22 17:31:00')
-执行后分数不平衡
-1234747修复失败，米粒：100
+1234747修复成功，米粒：100
  count:2  user_id:1238007
 1238007: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1238007,-100,13,'2014-09-22 17:29:28')
-执行后分数不平衡
-1238007修复失败，米粒：100
+1238007修复成功，米粒：100
  count:2  user_id:1241147
-1241147分数不平衡不能执行
+1241147分数不平衡
 1241147: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1241147,-1100,13,'2014-09-22 17:33:14')
-执行后分数不平衡
-1241147修复失败，米粒：1100
+1241147修复成功，米粒：1100
 SELECT * , count( user_id ) count
                 FROM point_history08
                 WHERE reason =13
@@ -961,96 +743,74 @@ SELECT * , count( user_id ) count
                 GROUP BY user_id, point_change_num
                 HAVING count >1 
  count:2  user_id:1051438
-1051438分数不平衡不能执行
+1051438分数不平衡
 1051438: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1051438,-400,13,'2014-09-22 17:42:44')
-执行后分数平衡了
 1051438修复成功，米粒：400
  count:2  user_id:1055578
 1055578: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1055578,-100,13,'2014-09-22 17:29:47')
-执行后分数不平衡
-1055578修复失败，米粒：100
+1055578修复成功，米粒：100
  count:2  user_id:1055878
 1055878: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1055878,-100,13,'2014-09-22 17:28:46')
-执行后分数不平衡
-1055878修复失败，米粒：100
+1055878修复成功，米粒：100
  count:2  user_id:1057548
 1057548: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1057548,-200,13,'2014-09-22 17:28:40')
-执行后分数不平衡
-1057548修复失败，米粒：200
+1057548修复成功，米粒：200
  count:2  user_id:1059228
 1059228: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1059228,-3000,13,'2014-09-22 17:32:03')
-执行后分数不平衡
-1059228修复失败，米粒：3000
+1059228修复成功，米粒：3000
  count:2  user_id:1062738
 1062738: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1062738,-100,13,'2014-09-22 17:28:20')
-执行后分数不平衡
-1062738修复失败，米粒：100
+1062738修复成功，米粒：100
  count:2  user_id:1077138
 1077138: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1077138,-2000,13,'2014-09-22 17:33:12')
-执行后分数不平衡
-1077138修复失败，米粒：2000
+1077138修复成功，米粒：2000
  count:2  user_id:1079668
 1079668: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1079668,-100,13,'2014-09-22 17:29:12')
-执行后分数不平衡
-1079668修复失败，米粒：100
+1079668修复成功，米粒：100
  count:2  user_id:1084008
 1084008: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1084008,-500,13,'2014-09-22 17:32:58')
-执行后分数不平衡
-1084008修复失败，米粒：500
+1084008修复成功，米粒：500
  count:2  user_id:1084968
 1084968: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1084968,-700,13,'2014-09-22 17:29:26')
-执行后分数不平衡
-1084968修复失败，米粒：700
+1084968修复成功，米粒：700
  count:2  user_id:1090958
 1090958: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1090958,-500,13,'2014-09-22 17:30:17')
-执行后分数不平衡
-1090958修复失败，米粒：500
+1090958修复成功，米粒：500
  count:2  user_id:1093038
 1093038: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1093038,-100,13,'2014-09-22 17:31:23')
-执行后分数不平衡
-1093038修复失败，米粒：100
+1093038修复成功，米粒：100
  count:2  user_id:1101628
 1101628: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1101628,-100,13,'2014-09-22 17:29:13')
-执行后分数不平衡
-1101628修复失败，米粒：100
+1101628修复成功，米粒：100
  count:2  user_id:1106988
 1106988: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1106988,-100,13,'2014-09-22 17:31:34')
-执行后分数不平衡
-1106988修复失败，米粒：100
+1106988修复成功，米粒：100
  count:2  user_id:1110468
 1110468: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1110468,-1200,13,'2014-09-22 17:32:35')
-执行后分数不平衡
-1110468修复失败，米粒：1200
+1110468修复成功，米粒：1200
  count:2  user_id:1113378
 1113378: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1113378,-100,13,'2014-09-22 17:31:41')
-执行后分数不平衡
-1113378修复失败，米粒：100
+1113378修复成功，米粒：100
  count:2  user_id:1115848
 1115848: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1115848,-100,13,'2014-09-22 17:29:23')
-执行后分数不平衡
-1115848修复失败，米粒：100
+1115848修复成功，米粒：100
  count:2  user_id:1198928
 1198928: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1198928,-100,13,'2014-09-22 17:30:52')
-执行后分数不平衡
-1198928修复失败，米粒：100
+1198928修复成功，米粒：100
  count:2  user_id:1234818
 1234818: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1234818,-100,13,'2014-09-22 17:32:05')
-执行后分数不平衡
-1234818修复失败，米粒：100
+1234818修复成功，米粒：100
  count:2  user_id:1238868
 1238868: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1238868,-200,13,'2014-09-22 17:33:27')
-执行后分数不平衡
-1238868修复失败，米粒：200
+1238868修复成功，米粒：200
  count:2  user_id:1241118
-1241118分数不平衡不能执行
+1241118分数不平衡
 1241118: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1241118,-100,13,'2014-09-22 17:32:22')
-执行后分数不平衡
-1241118修复失败，米粒：100
+1241118修复成功，米粒：100
  count:2  user_id:1241118
-1241118分数不平衡不能执行
+1241118分数不平衡
 1241118: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1241118,-200,13,'2014-09-22 17:32:21')
-执行后分数不平衡
-1241118修复失败，米粒：200
+1241118修复成功，米粒：200
 SELECT * , count( user_id ) count
                 FROM point_history09
                 WHERE reason =13
@@ -1059,115 +819,91 @@ SELECT * , count( user_id ) count
                 HAVING count >1 
  count:2  user_id:1048739
 1048739: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1048739,-5000,13,'2014-09-22 17:31:35')
-执行后分数不平衡
-1048739修复失败，米粒：5000
+1048739修复成功，米粒：5000
  count:2  user_id:1050829
 1050829: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1050829,-15100,13,'2014-09-22 17:31:50')
-执行后分数不平衡
-1050829修复失败，米粒：15100
+1050829修复成功，米粒：15100
  count:2  user_id:1050879
 1050879: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1050879,-100,13,'2014-09-22 17:30:15')
-执行后分数不平衡
-1050879修复失败，米粒：100
+1050879修复成功，米粒：100
  count:2  user_id:1058269
 1058269: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1058269,-400,13,'2014-09-22 17:31:08')
-执行后分数不平衡
-1058269修复失败，米粒：400
+1058269修复成功，米粒：400
  count:2  user_id:1062919
 1062919: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1062919,-300,13,'2014-09-22 17:33:22')
-执行后分数不平衡
-1062919修复失败，米粒：300
+1062919修复成功，米粒：300
  count:2  user_id:1063109
 1063109: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1063109,-2500,13,'2014-09-22 17:29:11')
-执行后分数不平衡
-1063109修复失败，米粒：2500
+1063109修复成功，米粒：2500
  count:2  user_id:1064399
 1064399: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1064399,-100,13,'2014-09-22 17:30:25')
-执行后分数不平衡
-1064399修复失败，米粒：100
+1064399修复成功，米粒：100
  count:2  user_id:1064589
 1064589: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1064589,-600,13,'2014-09-22 17:30:09')
-执行后分数不平衡
-1064589修复失败，米粒：600
+1064589修复成功，米粒：600
  count:2  user_id:1071599
 1071599: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1071599,-100,13,'2014-09-22 17:29:06')
-执行后分数不平衡
-1071599修复失败，米粒：100
+1071599修复成功，米粒：100
  count:2  user_id:1075849
 1075849: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1075849,-2000,13,'2014-09-22 17:32:16')
-执行后分数不平衡
-1075849修复失败，米粒：2000
+1075849修复成功，米粒：2000
  count:2  user_id:1079769
 1079769: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1079769,-100,13,'2014-09-22 17:31:09')
-执行后分数不平衡
-1079769修复失败，米粒：100
+1079769修复成功，米粒：100
  count:2  user_id:1089699
 1089699: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1089699,-100,13,'2014-09-22 17:29:02')
-执行后分数不平衡
-1089699修复失败，米粒：100
+1089699修复成功，米粒：100
  count:2  user_id:1092949
-1092949分数不平衡不能执行
+1092949分数不平衡
 1092949: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1092949,-4900,13,'2014-09-22 17:32:31')
-执行后分数不平衡
-1092949修复失败，米粒：4900
+1092949修复成功，米粒：4900
  count:2  user_id:1093859
 1093859: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1093859,-200,13,'2014-09-22 17:32:53')
-执行后分数不平衡
-1093859修复失败，米粒：200
+1093859修复成功，米粒：200
  count:2  user_id:1096559
 1096559: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1096559,-400,13,'2014-09-22 17:32:57')
-执行后分数不平衡
-1096559修复失败，米粒：400
+1096559修复成功，米粒：400
  count:2  user_id:1097789
-1097789分数不平衡不能执行
+1097789分数不平衡
 1097789: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1097789,-1100,13,'2014-09-22 17:28:26')
-执行后分数不平衡
-1097789修复失败，米粒：1100
+1097789修复成功，米粒：1100
  count:2  user_id:1107799
 1107799: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1107799,-2200,13,'2014-09-22 17:31:24')
-执行后分数不平衡
-1107799修复失败，米粒：2200
+1107799修复成功，米粒：2200
  count:2  user_id:1110509
 1110509: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1110509,-2200,13,'2014-09-22 17:28:12')
-执行后分数不平衡
-1110509修复失败，米粒：2200
+1110509修复成功，米粒：2200
  count:2  user_id:1118009
-1118009分数不平衡不能执行
+1118009分数不平衡
 1118009: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1118009,-4900,13,'2014-09-22 17:30:21')
-执行后分数不平衡
-1118009修复失败，米粒：4900
+1118009修复成功，米粒：4900
  count:2  user_id:1125389
 1125389: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1125389,-300,13,'2014-09-22 17:30:28')
-执行后分数不平衡
-1125389修复失败，米粒：300
+1125389修复成功，米粒：300
  count:2  user_id:1135179
 1135179: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1135179,-1300,13,'2014-09-22 17:30:06')
-执行后分数不平衡
-1135179修复失败，米粒：1300
+1135179修复成功，米粒：1300
  count:2  user_id:1135349
 1135349: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1135349,-100,13,'2014-09-22 17:33:04')
-执行后分数不平衡
-1135349修复失败，米粒：100
+1135349修复成功，米粒：100
  count:2  user_id:1155559
 1155559: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1155559,-100,13,'2014-09-22 17:32:00')
-执行后分数不平衡
-1155559修复失败，米粒：100
+1155559修复成功，米粒：100
  count:2  user_id:1183039
 1183039: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1183039,-600,13,'2014-09-22 17:28:44')
-执行后分数不平衡
-1183039修复失败，米粒：600
+1183039修复成功，米粒：600
  count:2  user_id:1210769
-1210769分数不平衡不能执行
+1210769分数不平衡
 1210769: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1210769,-400,13,'2014-09-22 17:31:30')
-执行后分数不平衡
-1210769修复失败，米粒：400
+1210769修复成功，米粒：400
  count:2  user_id:1232199
 1232199: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1232199,-100,13,'2014-09-22 17:32:48')
-执行后分数不平衡
-1232199修复失败，米粒：100
+1232199修复成功，米粒：100
  count:2  user_id:1237329
 1237329: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1237329,-400,13,'2014-09-22 17:32:14')
-执行后分数不平衡
-1237329修复失败，米粒：400
+1237329修复成功，米粒：400
 执行完成
 重复记录总数：270
+总的用户数：267
+数据不平衡: 40
+count=4: 3
