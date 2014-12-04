@@ -1,9 +1,9 @@
 SELECT * , count( user_id ) count
-                FROM point_history00
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 
+                    FROM point_history00
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 
  count:2  user_id:1048760
 1048760: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1048760,-100,13,'2014-09-22 17:29:37')
 1048760: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1048760,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:37',0,0)
@@ -26,12 +26,119 @@ SELECT * , count( user_id ) count
 1055970修复失败，米粒：2100
  count:2  user_id:1058160
 1058160分数不平衡不能执行
+ count:2  user_id:1058690
+1058690: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1058690,-700,13,'2014-09-22 17:30:43')
+1058690: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1058690,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:43',0,0)
+执行后分数不平衡
+1058690修复失败，米粒：700
+ count:2  user_id:1062470
+1062470: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1062470,-500,13,'2014-09-22 17:31:33')
+1062470: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1062470,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:33',0,0)
+执行后分数不平衡
+1062470修复失败，米粒：500
+ count:2  user_id:1066080
+1066080: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1066080,-1300,13,'2014-09-22 17:30:24')
+1066080: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1066080,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:24',0,0)
+执行后分数不平衡
+1066080修复失败，米粒：1300
+ count:2  user_id:1071730
+1071730: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1071730,-400,13,'2014-09-22 17:33:13')
+1071730: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1071730,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:13',0,0)
+执行后分数不平衡
+1071730修复失败，米粒：400
+ count:2  user_id:1072730
+1072730: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1072730,-100,13,'2014-09-22 17:29:10')
+1072730: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1072730,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:10',0,0)
+执行后分数不平衡
+1072730修复失败，米粒：100
+ count:2  user_id:1073170
+1073170: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1073170,-2200,13,'2014-09-22 17:30:38')
+1073170: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1073170,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:38',0,0)
+执行后分数不平衡
+1073170修复失败，米粒：2200
+ count:2  user_id:1077210
+1077210: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1077210,-100,13,'2014-09-22 17:29:53')
+1077210: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1077210,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:53',0,0)
+执行后分数不平衡
+1077210修复失败，米粒：100
+ count:2  user_id:1085660
+1085660: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1085660,-100,13,'2014-09-22 17:32:08')
+1085660: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1085660,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:08',0,0)
+执行后分数不平衡
+1085660修复失败，米粒：100
+ count:2  user_id:1085680
+1085680: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1085680,-600,13,'2014-09-22 17:30:08')
+1085680: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1085680,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:08',0,0)
+执行后分数不平衡
+1085680修复失败，米粒：600
+ count:2  user_id:1094400
+1094400: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1094400,-2100,13,'2014-09-22 17:33:21')
+1094400: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1094400,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:21',0,0)
+执行后分数不平衡
+1094400修复失败，米粒：2100
+ count:2  user_id:1098850
+1098850: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1098850,-100,13,'2014-09-22 17:30:55')
+1098850: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1098850,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:55',0,0)
+执行后分数不平衡
+1098850修复失败，米粒：100
+ count:2  user_id:1110140
+1110140: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1110140,-400,13,'2014-09-22 17:28:20')
+1110140: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1110140,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:20',0,0)
+执行后分数不平衡
+1110140修复失败，米粒：400
+ count:2  user_id:1119030
+1119030: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1119030,-200,13,'2014-09-22 17:31:22')
+1119030: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1119030,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:22',0,0)
+执行后分数不平衡
+1119030修复失败，米粒：200
+ count:2  user_id:1120450
+1120450: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1120450,-100,13,'2014-09-22 17:33:32')
+1120450: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1120450,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:32',0,0)
+执行后分数不平衡
+1120450修复失败，米粒：100
+ count:2  user_id:1137320
+1137320: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1137320,-300,13,'2014-09-22 17:28:23')
+1137320: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1137320,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:23',0,0)
+执行后分数不平衡
+1137320修复失败，米粒：300
+ count:2  user_id:1146700
+1146700: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1146700,-6200,13,'2014-09-22 17:28:44')
+1146700: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1146700,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:44',0,0)
+执行后分数不平衡
+1146700修复失败，米粒：6200
+ count:2  user_id:1180920
+1180920: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1180920,-100,13,'2014-09-22 17:30:56')
+1180920: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1180920,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:56',0,0)
+执行后分数不平衡
+1180920修复失败，米粒：100
+ count:2  user_id:1189950
+1189950: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1189950,-700,13,'2014-09-22 17:30:19')
+1189950: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1189950,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:19',0,0)
+执行后分数不平衡
+1189950修复失败，米粒：700
+ count:2  user_id:1192520
+1192520: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1192520,-600,13,'2014-09-22 17:30:01')
+1192520: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1192520,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:01',0,0)
+执行后分数不平衡
+1192520修复失败，米粒：600
+ count:2  user_id:1234660
+1234660: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1234660,-400,13,'2014-09-22 17:28:41')
+1234660: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1234660,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:41',0,0)
+执行后分数不平衡
+1234660修复失败，米粒：400
+ count:2  user_id:1236620
+1236620: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1236620,-100,13,'2014-09-22 17:33:09')
+1236620: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1236620,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:09',0,0)
+执行后分数不平衡
+1236620修复失败，米粒：100
+ count:2  user_id:1241280
+1241280分数不平衡不能执行
 SELECT * , count( user_id ) count
-                FROM point_history01
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 
+                    FROM point_history01
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 
  count:2  user_id:1048871
 1048871: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1048871,-1300,13,'2014-09-22 17:31:25')
 1048871: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1048871,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:25',0,0)
@@ -39,12 +146,136 @@ SELECT * , count( user_id ) count
 1048871修复失败，米粒：1300
  count:2  user_id:1054851
 1054851分数不平衡不能执行
+ count:2  user_id:1055761
+1055761: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1055761,-100,13,'2014-09-22 17:29:33')
+1055761: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1055761,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:33',0,0)
+执行后分数不平衡
+1055761修复失败，米粒：100
+ count:2  user_id:1058581
+1058581: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1058581,-1800,13,'2014-09-22 17:31:36')
+1058581: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1058581,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:36',0,0)
+执行后分数不平衡
+1058581修复失败，米粒：1800
+ count:2  user_id:1059981
+1059981: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1059981,-1000,13,'2014-09-22 17:32:20')
+1059981: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1059981,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:20',0,0)
+执行后分数不平衡
+1059981修复失败，米粒：1000
+ count:2  user_id:1060391
+1060391: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1060391,-100,13,'2014-09-22 17:29:19')
+1060391: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1060391,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:19',0,0)
+执行后分数不平衡
+1060391修复失败，米粒：100
+ count:2  user_id:1061071
+1061071: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1061071,-5000,13,'2014-09-22 17:32:38')
+1061071: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1061071,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:38',0,0)
+执行后分数不平衡
+1061071修复失败，米粒：5000
+ count:2  user_id:1083671
+1083671: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1083671,-100,13,'2014-09-22 17:30:05')
+1083671: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1083671,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:05',0,0)
+执行后分数不平衡
+1083671修复失败，米粒：100
+ count:2  user_id:1089451
+1089451: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1089451,-4900,13,'2014-09-22 17:32:55')
+1089451: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1089451,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:55',0,0)
+执行后分数不平衡
+1089451修复失败，米粒：4900
+ count:2  user_id:1090721
+1090721: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1090721,-3000,13,'2014-09-22 17:30:42')
+1090721: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1090721,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:42',0,0)
+执行后分数不平衡
+1090721修复失败，米粒：3000
+ count:2  user_id:1094841
+1094841: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1094841,-500,13,'2014-09-22 17:29:54')
+1094841: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1094841,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:54',0,0)
+执行后分数不平衡
+1094841修复失败，米粒：500
+ count:2  user_id:1102271
+1102271分数不平衡不能执行
+ count:2  user_id:1105771
+1105771: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1105771,-200,13,'2014-09-22 17:28:10')
+1105771: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1105771,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:10',0,0)
+执行后分数不平衡
+1105771修复失败，米粒：200
+ count:2  user_id:1107071
+1107071: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1107071,-500,13,'2014-09-22 17:32:54')
+1107071: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1107071,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:54',0,0)
+执行后分数不平衡
+1107071修复失败，米粒：500
+ count:2  user_id:1114031
+1114031: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1114031,-100,13,'2014-09-22 17:30:11')
+1114031: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1114031,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:11',0,0)
+执行后分数不平衡
+1114031修复失败，米粒：100
+ count:2  user_id:1115401
+1115401: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1115401,-100,13,'2014-09-22 17:33:00')
+1115401: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1115401,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:00',0,0)
+执行后分数不平衡
+1115401修复失败，米粒：100
+ count:2  user_id:1121111
+1121111: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1121111,-3200,13,'2014-09-22 17:29:46')
+1121111: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1121111,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:46',0,0)
+执行后分数不平衡
+1121111修复失败，米粒：3200
+ count:2  user_id:1123381
+1123381: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1123381,-400,13,'2014-09-22 17:30:49')
+1123381: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1123381,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:49',0,0)
+执行后分数不平衡
+1123381修复失败，米粒：400
+ count:2  user_id:1132231
+1132231: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1132231,-1700,13,'2014-09-22 17:30:23')
+1132231: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1132231,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:23',0,0)
+执行后分数不平衡
+1132231修复失败，米粒：1700
+ count:2  user_id:1140281
+1140281: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1140281,-100,13,'2014-09-22 17:30:03')
+1140281: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1140281,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:03',0,0)
+执行后分数不平衡
+1140281修复失败，米粒：100
+ count:2  user_id:1147041
+1147041: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1147041,-1900,13,'2014-09-22 17:30:46')
+1147041: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1147041,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:46',0,0)
+执行后分数不平衡
+1147041修复失败，米粒：1900
+ count:2  user_id:1149581
+1149581: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1149581,-100,13,'2014-09-22 17:31:56')
+1149581: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1149581,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:56',0,0)
+执行后分数不平衡
+1149581修复失败，米粒：100
+ count:2  user_id:1171551
+1171551: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1171551,-600,13,'2014-09-22 17:30:22')
+1171551: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1171551,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:22',0,0)
+执行后分数不平衡
+1171551修复失败，米粒：600
+ count:2  user_id:1192301
+1192301: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1192301,-100,13,'2014-09-22 17:28:35')
+1192301: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1192301,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:35',0,0)
+执行后分数不平衡
+1192301修复失败，米粒：100
+ count:2  user_id:1195711
+1195711: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1195711,-100,13,'2014-09-22 17:31:16')
+1195711: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1195711,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:16',0,0)
+执行后分数不平衡
+1195711修复失败，米粒：100
+ count:2  user_id:1206151
+1206151分数不平衡不能执行
+ count:2  user_id:1207221
+1207221: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1207221,-500,13,'2014-09-22 17:31:02')
+1207221: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1207221,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:02',0,0)
+执行后分数不平衡
+1207221修复失败，米粒：500
+ count:2  user_id:1210311
+1210311: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1210311,-300,13,'2014-09-22 17:31:15')
+1210311: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1210311,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:15',0,0)
+执行后分数不平衡
+1210311修复失败，米粒：300
 SELECT * , count( user_id ) count
-                FROM point_history02
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 
+                    FROM point_history02
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 
  count:2  user_id:1052042
 1052042: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1052042,-100,13,'2014-09-22 17:29:08')
 1052042: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1052042,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:08',0,0)
@@ -52,20 +283,298 @@ SELECT * , count( user_id ) count
 1052042修复失败，米粒：100
  count:2  user_id:1053032
 1053032分数不平衡不能执行
+ count:2  user_id:1053802
+1053802: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1053802,-100,13,'2014-09-22 17:28:55')
+1053802: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1053802,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:55',0,0)
+执行后分数不平衡
+1053802修复失败，米粒：100
+ count:4  user_id:1054782
+1054782: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1054782,-100,13,'2014-09-22 17:32:24')
+1054782: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1054782,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:24',0,0)
+1054782: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1054782,-100,13,'2014-09-22 17:32:24')
+1054782: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1054782,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:24',0,0)
+执行后分数不平衡
+1054782修复失败，米粒：100
+ count:2  user_id:1056802
+1056802: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1056802,-600,13,'2014-09-22 17:32:19')
+1056802: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1056802,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:19',0,0)
+执行后分数不平衡
+1056802修复失败，米粒：600
+ count:2  user_id:1062932
+1062932: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1062932,-100,13,'2014-09-22 17:28:54')
+1062932: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1062932,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:54',0,0)
+执行后分数不平衡
+1062932修复失败，米粒：100
+ count:2  user_id:1072102
+1072102分数不平衡不能执行
+ count:2  user_id:1075642
+1075642: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1075642,-100,13,'2014-09-22 17:32:36')
+1075642: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1075642,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:36',0,0)
+执行后分数不平衡
+1075642修复失败，米粒：100
+ count:2  user_id:1076392
+1076392: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1076392,-400,13,'2014-09-22 17:29:43')
+1076392: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1076392,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:43',0,0)
+执行后分数不平衡
+1076392修复失败，米粒：400
+ count:2  user_id:1078872
+1078872: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1078872,-800,13,'2014-09-22 17:32:39')
+1078872: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1078872,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:39',0,0)
+执行后分数不平衡
+1078872修复失败，米粒：800
+ count:2  user_id:1097402
+1097402: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1097402,-500,13,'2014-09-22 17:29:44')
+1097402: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1097402,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:44',0,0)
+执行后分数不平衡
+1097402修复失败，米粒：500
+ count:2  user_id:1102432
+1102432: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1102432,-500,13,'2014-09-22 17:28:46')
+1102432: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1102432,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:46',0,0)
+执行后分数不平衡
+1102432修复失败，米粒：500
+ count:2  user_id:1110362
+1110362: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1110362,-500,13,'2014-09-22 17:32:34')
+1110362: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1110362,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:34',0,0)
+执行后分数不平衡
+1110362修复失败，米粒：500
+ count:2  user_id:1127452
+1127452: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1127452,-1200,13,'2014-09-22 17:29:38')
+1127452: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1127452,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:38',0,0)
+执行后分数不平衡
+1127452修复失败，米粒：1200
+ count:2  user_id:1128032
+1128032: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1128032,-400,13,'2014-09-22 17:30:30')
+1128032: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1128032,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:30',0,0)
+执行后分数不平衡
+1128032修复失败，米粒：400
+ count:2  user_id:1132762
+1132762: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1132762,-3000,13,'2014-09-22 17:28:58')
+1132762: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1132762,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:58',0,0)
+执行后分数不平衡
+1132762修复失败，米粒：3000
+ count:2  user_id:1143262
+1143262: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1143262,-2100,13,'2014-09-22 17:30:18')
+1143262: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1143262,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:18',0,0)
+执行后分数不平衡
+1143262修复失败，米粒：2100
+ count:2  user_id:1145652
+1145652: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1145652,-1500,13,'2014-09-22 17:31:19')
+1145652: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1145652,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:19',0,0)
+执行后分数不平衡
+1145652修复失败，米粒：1500
+ count:2  user_id:1160572
+1160572: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1160572,-500,13,'2014-09-22 17:30:31')
+1160572: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1160572,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:31',0,0)
+执行后分数不平衡
+1160572修复失败，米粒：500
+ count:2  user_id:1171522
+1171522: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1171522,-5100,13,'2014-09-22 17:28:33')
+1171522: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1171522,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:33',0,0)
+执行后分数不平衡
+1171522修复失败，米粒：5100
+ count:2  user_id:1200132
+1200132: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1200132,-500,13,'2014-09-22 17:30:35')
+1200132: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1200132,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:35',0,0)
+执行后分数不平衡
+1200132修复失败，米粒：500
+ count:2  user_id:1234572
+1234572: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1234572,-100,13,'2014-09-22 17:33:28')
+1234572: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1234572,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:28',0,0)
+执行后分数不平衡
+1234572修复失败，米粒：100
+ count:2  user_id:1235122
+1235122: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1235122,-600,13,'2014-09-22 17:31:48')
+1235122: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1235122,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:48',0,0)
+执行后分数不平衡
+1235122修复失败，米粒：600
+ count:2  user_id:1237612
+1237612: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1237612,-100,13,'2014-09-22 17:30:02')
+1237612: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1237612,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:02',0,0)
+执行后分数不平衡
+1237612修复失败，米粒：100
+ count:2  user_id:1237982
+1237982: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1237982,-100,13,'2014-09-22 17:31:20')
+1237982: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1237982,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:20',0,0)
+执行后分数不平衡
+1237982修复失败，米粒：100
+ count:2  user_id:1238182
+1238182: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1238182,-100,13,'2014-09-22 17:33:05')
+1238182: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1238182,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:05',0,0)
+执行后分数不平衡
+1238182修复失败，米粒：100
 SELECT * , count( user_id ) count
-                FROM point_history03
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 
+                    FROM point_history03
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 
  count:2  user_id:1053113
 1053113分数不平衡不能执行
+ count:2  user_id:1053773
+1053773分数不平衡不能执行
+ count:2  user_id:1053773
+1053773分数不平衡不能执行
+ count:2  user_id:1054143
+1054143: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1054143,-600,13,'2014-09-22 17:33:07')
+1054143: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1054143,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:07',0,0)
+执行后分数不平衡
+1054143修复失败，米粒：600
+ count:2  user_id:1054393
+1054393: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1054393,-400,13,'2014-09-22 17:28:50')
+1054393: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1054393,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:50',0,0)
+执行后分数不平衡
+1054393修复失败，米粒：400
+ count:2  user_id:1055593
+1055593: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1055593,-500,13,'2014-09-22 17:28:18')
+1055593: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1055593,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:18',0,0)
+执行后分数不平衡
+1055593修复失败，米粒：500
+ count:2  user_id:1057453
+1057453分数不平衡不能执行
+ count:2  user_id:1062753
+1062753: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1062753,-1400,13,'2014-09-22 17:31:05')
+1062753: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1062753,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:05',0,0)
+执行后分数不平衡
+1062753修复失败，米粒：1400
+ count:2  user_id:1062863
+1062863: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1062863,-100,13,'2014-09-22 17:32:37')
+1062863: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1062863,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:37',0,0)
+执行后分数不平衡
+1062863修复失败，米粒：100
+ count:2  user_id:1063893
+1063893: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1063893,-400,13,'2014-09-22 17:30:48')
+1063893: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1063893,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:48',0,0)
+执行后分数不平衡
+1063893修复失败，米粒：400
+ count:2  user_id:1068483
+1068483: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1068483,-100,13,'2014-09-22 17:29:57')
+1068483: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1068483,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:57',0,0)
+执行后分数不平衡
+1068483修复失败，米粒：100
+ count:2  user_id:1070183
+1070183: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1070183,-700,13,'2014-09-22 17:29:50')
+1070183: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1070183,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:50',0,0)
+执行后分数不平衡
+1070183修复失败，米粒：700
+ count:2  user_id:1071313
+1071313: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1071313,-2100,13,'2014-09-22 17:32:49')
+1071313: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1071313,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:49',0,0)
+执行后分数不平衡
+1071313修复失败，米粒：2100
+ count:2  user_id:1073563
+1073563: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1073563,-900,13,'2014-09-22 17:28:53')
+1073563: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1073563,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:53',0,0)
+执行后分数不平衡
+1073563修复失败，米粒：900
+ count:2  user_id:1076093
+1076093: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1076093,-100,13,'2014-09-22 17:28:24')
+1076093: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1076093,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:24',0,0)
+执行后分数不平衡
+1076093修复失败，米粒：100
+ count:2  user_id:1079093
+1079093: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1079093,-4100,13,'2014-09-22 17:33:25')
+1079093: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1079093,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:25',0,0)
+执行后分数不平衡
+1079093修复失败，米粒：4100
+ count:2  user_id:1084143
+1084143: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1084143,-100,13,'2014-09-22 17:31:28')
+1084143: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1084143,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:28',0,0)
+执行后分数不平衡
+1084143修复失败，米粒：100
+ count:2  user_id:1088023
+1088023: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1088023,-3200,13,'2014-09-22 17:29:39')
+1088023: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1088023,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:39',0,0)
+执行后分数不平衡
+1088023修复失败，米粒：3200
+ count:2  user_id:1088673
+1088673分数不平衡不能执行
+ count:2  user_id:1091293
+1091293: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1091293,-1000,13,'2014-09-22 17:30:14')
+1091293: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1091293,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:14',0,0)
+执行后分数不平衡
+1091293修复失败，米粒：1000
+ count:2  user_id:1091673
+1091673: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1091673,-100,13,'2014-09-22 17:29:13')
+1091673: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1091673,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:13',0,0)
+执行后分数不平衡
+1091673修复失败，米粒：100
+ count:2  user_id:1091883
+1091883分数不平衡不能执行
+ count:2  user_id:1092643
+1092643: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1092643,-2700,13,'2014-09-22 17:32:04')
+1092643: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1092643,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:04',0,0)
+执行后分数不平衡
+1092643修复失败，米粒：2700
+ count:2  user_id:1096633
+1096633: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1096633,-400,13,'2014-09-22 17:32:28')
+1096633: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1096633,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:28',0,0)
+执行后分数不平衡
+1096633修复失败，米粒：400
+ count:2  user_id:1099563
+1099563分数不平衡不能执行
+ count:2  user_id:1099563
+1099563分数不平衡不能执行
+ count:4  user_id:1100033
+1100033分数不平衡不能执行
+ count:2  user_id:1112023
+1112023: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1112023,-200,13,'2014-09-22 17:31:06')
+1112023: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1112023,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:06',0,0)
+执行后分数不平衡
+1112023修复失败，米粒：200
+ count:2  user_id:1119153
+1119153: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1119153,-900,13,'2014-09-22 17:28:19')
+1119153: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1119153,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:19',0,0)
+执行后分数不平衡
+1119153修复失败，米粒：900
+ count:2  user_id:1128013
+1128013: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1128013,-500,13,'2014-09-22 17:28:30')
+1128013: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1128013,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:30',0,0)
+执行后分数不平衡
+1128013修复失败，米粒：500
+ count:2  user_id:1130753
+1130753: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1130753,-100,13,'2014-09-22 17:32:17')
+1130753: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1130753,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:17',0,0)
+执行后分数不平衡
+1130753修复失败，米粒：100
+ count:2  user_id:1131063
+1131063分数不平衡不能执行
+ count:2  user_id:1131723
+1131723: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1131723,-100,13,'2014-09-22 17:31:44')
+1131723: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1131723,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:44',0,0)
+执行后分数不平衡
+1131723修复失败，米粒：100
+ count:2  user_id:1132113
+1132113: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1132113,-500,13,'2014-09-22 17:29:29')
+1132113: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1132113,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:29',0,0)
+执行后分数不平衡
+1132113修复失败，米粒：500
+ count:2  user_id:1139083
+1139083: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1139083,-1900,13,'2014-09-22 17:29:41')
+1139083: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1139083,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:41',0,0)
+执行后分数不平衡
+1139083修复失败，米粒：1900
+ count:2  user_id:1155453
+1155453: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1155453,-500,13,'2014-09-22 17:29:58')
+1155453: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1155453,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:58',0,0)
+执行后分数不平衡
+1155453修复失败，米粒：500
+ count:2  user_id:1224563
+1224563: insert into point_history03 (user_id,point_change_num,reason,create_time) values (1224563,-100,13,'2014-09-22 17:30:47')
+1224563: insert into send_message03(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1224563,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:47',0,0)
+执行后分数不平衡
+1224563修复失败，米粒：100
+ count:2  user_id:1241003
+1241003分数不平衡不能执行
+ count:2  user_id:1241083
+1241083分数不平衡不能执行
+ count:2  user_id:1241173
+1241173分数不平衡不能执行
 SELECT * , count( user_id ) count
-                FROM point_history04
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 
+                    FROM point_history04
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 
  count:2  user_id:1054164
 1054164: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1054164,-1000,13,'2014-09-22 17:28:39')
 1054164: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1054164,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:39',0,0)
@@ -125,12 +634,62 @@ SELECT * , count( user_id ) count
 1099854修复失败，米粒：200
  count:2  user_id:1119914
 1119914分数不平衡不能执行
+ count:2  user_id:1121844
+1121844: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1121844,-100,13,'2014-09-22 17:31:21')
+1121844: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1121844,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:21',0,0)
+执行后分数不平衡
+1121844修复失败，米粒：100
+ count:2  user_id:1123494
+1123494: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1123494,-1000,13,'2014-09-22 17:31:10')
+1123494: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1123494,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:10',0,0)
+执行后分数不平衡
+1123494修复失败，米粒：1000
+ count:2  user_id:1128384
+1128384: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1128384,-1800,13,'2014-09-22 17:31:27')
+1128384: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1128384,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:27',0,0)
+执行后分数不平衡
+1128384修复失败，米粒：1800
+ count:2  user_id:1131204
+1131204: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1131204,-100,13,'2014-09-22 17:28:34')
+1131204: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1131204,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:34',0,0)
+执行后分数不平衡
+1131204修复失败，米粒：100
+ count:2  user_id:1152124
+1152124: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1152124,-600,13,'2014-09-22 17:32:46')
+1152124: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1152124,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:46',0,0)
+执行后分数不平衡
+1152124修复失败，米粒：600
+ count:2  user_id:1164024
+1164024: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1164024,-200,13,'2014-09-22 17:29:04')
+1164024: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1164024,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:04',0,0)
+执行后分数不平衡
+1164024修复失败，米粒：200
+ count:2  user_id:1173664
+1173664: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1173664,-800,13,'2014-09-22 17:31:45')
+1173664: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1173664,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:45',0,0)
+执行后分数不平衡
+1173664修复失败，米粒：800
+ count:2  user_id:1175374
+1175374: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1175374,-1200,13,'2014-09-22 17:30:45')
+1175374: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1175374,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:45',0,0)
+执行后分数不平衡
+1175374修复失败，米粒：1200
+ count:2  user_id:1229264
+1229264: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1229264,-100,13,'2014-09-22 17:28:52')
+1229264: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1229264,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:52',0,0)
+执行后分数不平衡
+1229264修复失败，米粒：100
+ count:2  user_id:1229994
+1229994: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1229994,-100,13,'2014-09-22 17:28:14')
+1229994: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1229994,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:14',0,0)
+执行后分数不平衡
+1229994修复失败，米粒：100
 SELECT * , count( user_id ) count
-                FROM point_history05
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 
+                    FROM point_history05
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 
  count:2  user_id:1056715
 1056715: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1056715,-1500,13,'2014-09-22 17:30:39')
 1056715: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1056715,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:39',0,0)
@@ -148,20 +707,209 @@ SELECT * , count( user_id ) count
 1072665修复失败，米粒：300
  count:2  user_id:1073055
 1073055分数不平衡不能执行
+ count:2  user_id:1079645
+1079645: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1079645,-300,13,'2014-09-22 17:30:41')
+1079645: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1079645,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:41',0,0)
+执行后分数不平衡
+1079645修复失败，米粒：300
+ count:2  user_id:1098055
+1098055: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1098055,-500,13,'2014-09-22 17:33:15')
+1098055: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1098055,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:15',0,0)
+执行后分数不平衡
+1098055修复失败，米粒：500
+ count:2  user_id:1100805
+1100805: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1100805,-100,13,'2014-09-22 17:33:17')
+1100805: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1100805,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:17',0,0)
+执行后分数不平衡
+1100805修复失败，米粒：100
+ count:2  user_id:1112945
+1112945: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1112945,-100,13,'2014-09-22 17:31:46')
+1112945: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1112945,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:46',0,0)
+执行后分数不平衡
+1112945修复失败，米粒：100
+ count:2  user_id:1115945
+1115945: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1115945,-300,13,'2014-09-22 17:30:34')
+1115945: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1115945,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:34',0,0)
+执行后分数不平衡
+1115945修复失败，米粒：300
+ count:2  user_id:1118635
+1118635: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1118635,-100,13,'2014-09-22 17:31:58')
+1118635: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1118635,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:58',0,0)
+执行后分数不平衡
+1118635修复失败，米粒：100
+ count:2  user_id:1124725
+1124725分数不平衡不能执行
+ count:2  user_id:1126235
+1126235: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1126235,-700,13,'2014-09-22 17:28:09')
+1126235: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1126235,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:09',0,0)
+执行后分数不平衡
+1126235修复失败，米粒：700
+ count:2  user_id:1133195
+1133195: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1133195,-1700,13,'2014-09-22 17:32:50')
+1133195: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1133195,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:50',0,0)
+执行后分数不平衡
+1133195修复失败，米粒：1700
+ count:2  user_id:1152795
+1152795分数不平衡不能执行
+ count:2  user_id:1161455
+1161455分数不平衡不能执行
+ count:2  user_id:1161455
+1161455分数不平衡不能执行
+ count:2  user_id:1177145
+1177145: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1177145,-2000,13,'2014-09-22 17:31:39')
+1177145: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1177145,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:39',0,0)
+执行后分数不平衡
+1177145修复失败，米粒：2000
+ count:2  user_id:1190365
+1190365: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1190365,-1400,13,'2014-09-22 17:33:19')
+1190365: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1190365,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:19',0,0)
+执行后分数不平衡
+1190365修复失败，米粒：1400
+ count:2  user_id:1204565
+1204565: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1204565,-1200,13,'2014-09-22 17:29:35')
+1204565: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1204565,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:35',0,0)
+执行后分数不平衡
+1204565修复失败，米粒：1200
+ count:2  user_id:1220035
+1220035: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1220035,-100,13,'2014-09-22 17:30:00')
+1220035: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1220035,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:00',0,0)
+执行后分数不平衡
+1220035修复失败，米粒：100
+ count:2  user_id:1222695
+1222695: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1222695,-100,13,'2014-09-22 17:33:26')
+1222695: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1222695,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:26',0,0)
+执行后分数不平衡
+1222695修复失败，米粒：100
+ count:2  user_id:1223985
+1223985: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1223985,-100,13,'2014-09-22 17:28:38')
+1223985: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1223985,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:38',0,0)
+执行后分数不平衡
+1223985修复失败，米粒：100
+ count:2  user_id:1225075
+1225075: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1225075,-100,13,'2014-09-22 17:28:08')
+1225075: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1225075,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:08',0,0)
+执行后分数不平衡
+1225075修复失败，米粒：100
+ count:2  user_id:1236075
+1236075: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1236075,-100,13,'2014-09-22 17:29:18')
+1236075: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1236075,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:18',0,0)
+执行后分数不平衡
+1236075修复失败，米粒：100
 SELECT * , count( user_id ) count
-                FROM point_history06
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 
+                    FROM point_history06
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 
  count:2  user_id:1054476
 1054476分数不平衡不能执行
+ count:2  user_id:1055306
+1055306: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1055306,-100,13,'2014-09-22 17:33:02')
+1055306: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1055306,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:02',0,0)
+执行后分数不平衡
+1055306修复失败，米粒：100
+ count:2  user_id:1057556
+1057556: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1057556,-1500,13,'2014-09-22 17:29:52')
+1057556: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1057556,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:52',0,0)
+执行后分数不平衡
+1057556修复失败，米粒：1500
+ count:2  user_id:1065896
+1065896: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1065896,-3000,13,'2014-09-22 17:31:54')
+1065896: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1065896,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:54',0,0)
+执行后分数不平衡
+1065896修复失败，米粒：3000
+ count:2  user_id:1067476
+1067476分数不平衡不能执行
+ count:2  user_id:1067886
+1067886: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1067886,-100,13,'2014-09-22 17:29:34')
+1067886: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1067886,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:34',0,0)
+执行后分数不平衡
+1067886修复失败，米粒：100
+ count:2  user_id:1074546
+1074546: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1074546,-1100,13,'2014-09-22 17:33:23')
+1074546: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1074546,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:23',0,0)
+执行后分数不平衡
+1074546修复失败，米粒：1100
+ count:2  user_id:1075906
+1075906: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1075906,-1100,13,'2014-09-22 17:29:56')
+1075906: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1075906,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:56',0,0)
+执行后分数不平衡
+1075906修复失败，米粒：1100
+ count:2  user_id:1081836
+1081836: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1081836,-500,13,'2014-09-22 17:28:49')
+1081836: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1081836,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:49',0,0)
+执行后分数不平衡
+1081836修复失败，米粒：500
+ count:2  user_id:1085526
+1085526: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1085526,-600,13,'2014-09-22 17:28:22')
+1085526: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1085526,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:22',0,0)
+执行后分数不平衡
+1085526修复失败，米粒：600
+ count:2  user_id:1087066
+1087066分数不平衡不能执行
+ count:2  user_id:1092546
+1092546: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1092546,-1400,13,'2014-09-22 17:30:13')
+1092546: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1092546,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:13',0,0)
+执行后分数不平衡
+1092546修复失败，米粒：1400
+ count:3  user_id:1092896
+1092896分数不平衡不能执行
+ count:2  user_id:1096596
+1096596: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1096596,-500,13,'2014-09-22 17:29:23')
+1096596: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1096596,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:23',0,0)
+执行后分数不平衡
+1096596修复失败，米粒：500
+ count:2  user_id:1108186
+1108186: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1108186,-700,13,'2014-09-22 17:33:03')
+1108186: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1108186,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:03',0,0)
+执行后分数不平衡
+1108186修复失败，米粒：700
+ count:2  user_id:1108426
+1108426: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1108426,-100,13,'2014-09-22 17:30:26')
+1108426: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1108426,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:26',0,0)
+执行后分数不平衡
+1108426修复失败，米粒：100
+ count:2  user_id:1131136
+1131136: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1131136,-3000,13,'2014-09-22 17:31:42')
+1131136: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1131136,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:42',0,0)
+执行后分数不平衡
+1131136修复失败，米粒：3000
+ count:2  user_id:1152116
+1152116: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1152116,-500,13,'2014-09-22 17:30:10')
+1152116: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1152116,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:10',0,0)
+执行后分数不平衡
+1152116修复失败，米粒：500
+ count:2  user_id:1172216
+1172216: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1172216,-2600,13,'2014-09-22 17:30:29')
+1172216: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1172216,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:29',0,0)
+执行后分数不平衡
+1172216修复失败，米粒：2600
+ count:2  user_id:1177016
+1177016: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1177016,-100,13,'2014-09-22 17:28:27')
+1177016: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1177016,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:27',0,0)
+执行后分数不平衡
+1177016修复失败，米粒：100
+ count:2  user_id:1190306
+1190306: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1190306,-700,13,'2014-09-22 17:33:10')
+1190306: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1190306,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:10',0,0)
+执行后分数不平衡
+1190306修复失败，米粒：700
+ count:2  user_id:1191226
+1191226: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1191226,-100,13,'2014-09-22 17:29:15')
+1191226: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1191226,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:15',0,0)
+执行后分数不平衡
+1191226修复失败，米粒：100
+ count:2  user_id:1221866
+1221866: insert into point_history06 (user_id,point_change_num,reason,create_time) values (1221866,-200,13,'2014-09-22 17:32:06')
+1221866: insert into send_message06(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1221866,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:06',0,0)
+执行后分数不平衡
+1221866修复失败，米粒：200
 SELECT * , count( user_id ) count
-                FROM point_history07
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 
+                    FROM point_history07
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 
  count:2  user_id:1048757
 1048757: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1048757,-1000,13,'2014-09-22 17:28:25')
 1048757: insert into send_message07(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1048757,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:25',0,0)
@@ -249,20 +997,163 @@ SELECT * , count( user_id ) count
 1128857修复失败，米粒：100
  count:2  user_id:1134227
 1134227分数不平衡不能执行
+ count:2  user_id:1153197
+1153197: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1153197,-800,13,'2014-09-22 17:29:48')
+1153197: insert into send_message07(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1153197,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:48',0,0)
+执行后分数不平衡
+1153197修复失败，米粒：800
+ count:2  user_id:1155577
+1155577: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1155577,-800,13,'2014-09-22 17:30:59')
+1155577: insert into send_message07(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1155577,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:59',0,0)
+执行后分数不平衡
+1155577修复失败，米粒：800
+ count:2  user_id:1185577
+1185577: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1185577,-100,13,'2014-09-22 17:28:57')
+1185577: insert into send_message07(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1185577,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:57',0,0)
+执行后分数不平衡
+1185577修复失败，米粒：100
+ count:2  user_id:1190897
+1190897: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1190897,-500,13,'2014-09-22 17:31:51')
+1190897: insert into send_message07(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1190897,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:51',0,0)
+执行后分数不平衡
+1190897修复失败，米粒：500
+ count:2  user_id:1198667
+1198667分数不平衡不能执行
+ count:2  user_id:1220927
+1220927: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1220927,-1000,13,'2014-09-22 17:31:57')
+1220927: insert into send_message07(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1220927,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:57',0,0)
+执行后分数不平衡
+1220927修复失败，米粒：1000
+ count:2  user_id:1224987
+1224987: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1224987,-1200,13,'2014-09-22 17:33:18')
+1224987: insert into send_message07(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1224987,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:18',0,0)
+执行后分数不平衡
+1224987修复失败，米粒：1200
+ count:2  user_id:1234747
+1234747: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1234747,-100,13,'2014-09-22 17:31:00')
+1234747: insert into send_message07(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1234747,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:00',0,0)
+执行后分数不平衡
+1234747修复失败，米粒：100
+ count:2  user_id:1238007
+1238007: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1238007,-100,13,'2014-09-22 17:29:28')
+1238007: insert into send_message07(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1238007,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:28',0,0)
+执行后分数不平衡
+1238007修复失败，米粒：100
+ count:2  user_id:1241147
+1241147分数不平衡不能执行
 SELECT * , count( user_id ) count
-                FROM point_history08
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 
+                    FROM point_history08
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 
  count:2  user_id:1051438
 1051438分数不平衡不能执行
+ count:2  user_id:1055578
+1055578: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1055578,-100,13,'2014-09-22 17:29:47')
+1055578: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1055578,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:47',0,0)
+执行后分数不平衡
+1055578修复失败，米粒：100
+ count:2  user_id:1055878
+1055878: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1055878,-100,13,'2014-09-22 17:28:46')
+1055878: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1055878,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:46',0,0)
+执行后分数不平衡
+1055878修复失败，米粒：100
+ count:2  user_id:1057548
+1057548: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1057548,-200,13,'2014-09-22 17:28:40')
+1057548: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1057548,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:40',0,0)
+执行后分数不平衡
+1057548修复失败，米粒：200
+ count:2  user_id:1059228
+1059228: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1059228,-3000,13,'2014-09-22 17:32:03')
+1059228: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1059228,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:03',0,0)
+执行后分数不平衡
+1059228修复失败，米粒：3000
+ count:2  user_id:1062738
+1062738: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1062738,-100,13,'2014-09-22 17:28:20')
+1062738: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1062738,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:20',0,0)
+执行后分数不平衡
+1062738修复失败，米粒：100
+ count:2  user_id:1077138
+1077138: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1077138,-2000,13,'2014-09-22 17:33:12')
+1077138: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1077138,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:12',0,0)
+执行后分数不平衡
+1077138修复失败，米粒：2000
+ count:2  user_id:1079668
+1079668: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1079668,-100,13,'2014-09-22 17:29:12')
+1079668: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1079668,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:12',0,0)
+执行后分数不平衡
+1079668修复失败，米粒：100
+ count:2  user_id:1084008
+1084008: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1084008,-500,13,'2014-09-22 17:32:58')
+1084008: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1084008,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:58',0,0)
+执行后分数不平衡
+1084008修复失败，米粒：500
+ count:2  user_id:1084968
+1084968: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1084968,-700,13,'2014-09-22 17:29:26')
+1084968: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1084968,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:26',0,0)
+执行后分数不平衡
+1084968修复失败，米粒：700
+ count:2  user_id:1090958
+1090958: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1090958,-500,13,'2014-09-22 17:30:17')
+1090958: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1090958,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:17',0,0)
+执行后分数不平衡
+1090958修复失败，米粒：500
+ count:2  user_id:1093038
+1093038: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1093038,-100,13,'2014-09-22 17:31:23')
+1093038: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1093038,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:23',0,0)
+执行后分数不平衡
+1093038修复失败，米粒：100
+ count:2  user_id:1101628
+1101628: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1101628,-100,13,'2014-09-22 17:29:13')
+1101628: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1101628,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:13',0,0)
+执行后分数不平衡
+1101628修复失败，米粒：100
+ count:2  user_id:1106988
+1106988: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1106988,-100,13,'2014-09-22 17:31:34')
+1106988: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1106988,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:34',0,0)
+执行后分数不平衡
+1106988修复失败，米粒：100
+ count:2  user_id:1110468
+1110468: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1110468,-1200,13,'2014-09-22 17:32:35')
+1110468: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1110468,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:35',0,0)
+执行后分数不平衡
+1110468修复失败，米粒：1200
+ count:2  user_id:1113378
+1113378: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1113378,-100,13,'2014-09-22 17:31:41')
+1113378: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1113378,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:41',0,0)
+执行后分数不平衡
+1113378修复失败，米粒：100
+ count:2  user_id:1115848
+1115848: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1115848,-100,13,'2014-09-22 17:29:23')
+1115848: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1115848,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:23',0,0)
+执行后分数不平衡
+1115848修复失败，米粒：100
+ count:2  user_id:1198928
+1198928: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1198928,-100,13,'2014-09-22 17:30:52')
+1198928: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1198928,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:52',0,0)
+执行后分数不平衡
+1198928修复失败，米粒：100
+ count:2  user_id:1234818
+1234818: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1234818,-100,13,'2014-09-22 17:32:05')
+1234818: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1234818,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:05',0,0)
+执行后分数不平衡
+1234818修复失败，米粒：100
+ count:2  user_id:1238868
+1238868: insert into point_history08 (user_id,point_change_num,reason,create_time) values (1238868,-200,13,'2014-09-22 17:33:27')
+1238868: insert into send_message08(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1238868,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:27',0,0)
+执行后分数不平衡
+1238868修复失败，米粒：200
+ count:2  user_id:1241118
+1241118分数不平衡不能执行
+ count:2  user_id:1241118
+1241118分数不平衡不能执行
 SELECT * , count( user_id ) count
-                FROM point_history09
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 
+                    FROM point_history09
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 
  count:2  user_id:1048739
 1048739: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1048739,-5000,13,'2014-09-22 17:31:35')
 1048739: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1048739,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:35',0,0)
@@ -325,5 +1216,66 @@ SELECT * , count( user_id ) count
 1089699修复失败，米粒：100
  count:2  user_id:1092949
 1092949分数不平衡不能执行
+ count:2  user_id:1093859
+1093859: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1093859,-200,13,'2014-09-22 17:32:53')
+1093859: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1093859,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:53',0,0)
+执行后分数不平衡
+1093859修复失败，米粒：200
+ count:2  user_id:1096559
+1096559: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1096559,-400,13,'2014-09-22 17:32:57')
+1096559: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1096559,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:57',0,0)
+执行后分数不平衡
+1096559修复失败，米粒：400
+ count:2  user_id:1097789
+1097789分数不平衡不能执行
+ count:2  user_id:1107799
+1107799: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1107799,-2200,13,'2014-09-22 17:31:24')
+1107799: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1107799,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:24',0,0)
+执行后分数不平衡
+1107799修复失败，米粒：2200
+ count:2  user_id:1110509
+1110509: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1110509,-2200,13,'2014-09-22 17:28:12')
+1110509: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1110509,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:12',0,0)
+执行后分数不平衡
+1110509修复失败，米粒：2200
+ count:2  user_id:1118009
+1118009分数不平衡不能执行
+ count:2  user_id:1125389
+1125389: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1125389,-300,13,'2014-09-22 17:30:28')
+1125389: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1125389,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:28',0,0)
+执行后分数不平衡
+1125389修复失败，米粒：300
+ count:2  user_id:1135179
+1135179: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1135179,-1300,13,'2014-09-22 17:30:06')
+1135179: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1135179,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:06',0,0)
+执行后分数不平衡
+1135179修复失败，米粒：1300
+ count:2  user_id:1135349
+1135349: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1135349,-100,13,'2014-09-22 17:33:04')
+1135349: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1135349,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:33:04',0,0)
+执行后分数不平衡
+1135349修复失败，米粒：100
+ count:2  user_id:1155559
+1155559: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1155559,-100,13,'2014-09-22 17:32:00')
+1155559: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1155559,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:00',0,0)
+执行后分数不平衡
+1155559修复失败，米粒：100
+ count:2  user_id:1183039
+1183039: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1183039,-600,13,'2014-09-22 17:28:44')
+1183039: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1183039,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:44',0,0)
+执行后分数不平衡
+1183039修复失败，米粒：600
+ count:2  user_id:1210769
+1210769分数不平衡不能执行
+ count:2  user_id:1232199
+1232199: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1232199,-100,13,'2014-09-22 17:32:48')
+1232199: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1232199,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:48',0,0)
+执行后分数不平衡
+1232199修复失败，米粒：100
+ count:2  user_id:1237329
+1237329: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1237329,-400,13,'2014-09-22 17:32:14')
+1237329: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1237329,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:32:14',0,0)
+执行后分数不平衡
+1237329修复失败，米粒：400
 执行完成
-重复记录总数：50
+重复记录总数：229

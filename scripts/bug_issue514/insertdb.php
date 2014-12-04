@@ -14,25 +14,29 @@ mysql_query("SET AUTOCOMMIT=0"); //设置事务不自动commit
 
 $count = 0;
 $total = 0;
+$total_222 = 0;
+$total_333 = 0;
+$total_4 = 0;
 
 for ($i = 0; $i < 10; $i++) {
     $query = "SELECT * , count( user_id ) count
-                    FROM point_history0" . $i . "
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 ";
+                FROM point_history0" . $i . "
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 ";
     fwrite($log_handle, $query . "\r\n");
     $result = mysql_query($query) or die('Query failed: ' . mysql_error());
 
     while ($value = mysql_fetch_assoc($result)) {
-
+        $total_222++;
         $count = $value['count'];
         fwrite($log_handle, " count:" . ($count) . "  user_id:" . $value['user_id'] . "\r\n");
 
         $checkBefore = checkPointBeforeStart($log_handle, $value, $count);
         if (!$checkBefore) {
-            break;
+            $total_333++;
+            continue;
         }
 
         if ($count == 2 || $count == 3) {
@@ -44,6 +48,9 @@ for ($i = 0; $i < 10; $i++) {
             }
         } else
             if ($count == 4) {
+
+                $total_4++;
+
                 $roolback = insertDb($log_handle, $log_handle2, $value, $total);
                 if ($roolback) {
                     mysql_query("ROOLBACK");
@@ -71,6 +78,10 @@ for ($i = 0; $i < 10; $i++) {
     }
 
 }
+echo "总的：" . $total_222 . "\r\n";
+echo "可执行：" . $total . "\r\n";
+echo "不可执行:" . $total_333 . "\r\n";
+echo "coount=4:" . $total_4 . "\r\n";
 
 mysql_query("COMMIT"); //执行事务
 
