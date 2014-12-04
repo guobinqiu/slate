@@ -45,7 +45,7 @@ for ($i = 0; $i < 10; $i++) {
             if ($roolback) {
                 mysql_query("ROOLBACK");
                 fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
-                exit;
+                break 2;
             }
         } else
             if ($count == 4) {
@@ -56,14 +56,14 @@ for ($i = 0; $i < 10; $i++) {
                 if ($roolback) {
                     mysql_query("ROOLBACK");
                     fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
-                    exit;
+                    break 2;
                 }
 
                 $roolback = insertDb($log_handle, $log_handle2, $value, $total);
                 if ($roolback) {
                     mysql_query("ROOLBACK");
                     fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
-                    exit;
+                    break 2;
                 }
             } else {
                 fwrite($log_handle, "count 在2,3,4之外，没有执行  count:" . ($count) . "  user_id:" . $value['user_id'] . "\r\n");
