@@ -141,7 +141,6 @@ class TaobaoControllerTest extends WebTestCase {
 
     /**
      * @group issue_553
-     * @group debug 
      */
     public function testAdsRedirect()
     {
