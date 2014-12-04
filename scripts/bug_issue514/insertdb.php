@@ -37,7 +37,7 @@ for ($i = 0; $i < 10; $i++) {
         if (!$checkBefore) {
             $total_333++;
             echo $value['user_id'] . "<br>";
-            continue;
+            //continue;
         }
 
         if ($count == 2 || $count == 3) {
@@ -81,7 +81,7 @@ for ($i = 0; $i < 10; $i++) {
 }
 echo "总的：" . $total_222 . "<br>";
 echo "可执行：" . $total . "<br>";
-echo "不可执行:" . $total_333 . "<br>";
+echo "数据不平衡:" . $total_333 . "<br>";
 echo "coount=4:" . $total_4 . "<br>";
 
 mysql_query("COMMIT"); //执行事务
