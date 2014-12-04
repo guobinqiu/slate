@@ -181,7 +181,7 @@ class DmdeliveryController extends Controller
                         $recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
                                                  array('name'=>'nick','value'=>$value['nick']));
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
-                        $this->get('logger')->info('{DmdeliveryController}'. "email:".$value['email'].",stauts:".$send->status.'key:'.$key);
+                        $this->get('logger')->info('{DmdeliveryController}'. "email:".$value['email'].",status:".$send->status.'key:'.$key);
                         if($send->status != "ERROR"){
                             $this->insertSendPointFail($value['id'],$failTime);
                             if($failTime == 180){
