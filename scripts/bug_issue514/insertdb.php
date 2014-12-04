@@ -153,17 +153,6 @@ function insertDb($log_handle, $log_handle2, $value, & $total) {
     //        return $roolback;
     //    }
 
-    //insert send_message00
-    $title = "重复数据修改";
-    $content = '亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心';
-    $m_sql1 = "insert into send_message0" . ($value['user_id'] % 10) . "(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0," . $value['user_id'] . ",'" . $title . "','" . $content . "','" . $value['create_time'] . "',0,0)";
-    fwrite($log_handle, $value['user_id'] . ": " . $m_sql1 . "\r\n");
-    //    $sm_flag = mysql_query($m_sql1);
-    //    if (!$sm_flag) {
-    //        $roolback = true;
-    //        return $roolback;
-    //    }
-
     return $roolback;
 }
 ?>
