@@ -38,12 +38,13 @@ class TaobaoController extends Controller {
                 $em->persist($visit);
                 $em->flush();
             }
-        } else if ( $this->getRequest()->query->has('l') ) {
-            $this->get('session')->set('goToUrl', 
-                $this->get('router')->generate('jili_frontend_taobao_index', array('l'=> $this->getRequest()->query->get('l'))));
-
-            return $this->redirect($this->generateUrl('_user_login'));
         } else {
+            if ( $this->getRequest()->query->has('l') ) {
+                $this->get('session')->set('goToUrl', 
+                    $this->get('router')->generate('jili_frontend_taobao_index', array('l'=> $this->getRequest()->query->get('l'))));
+
+                return $this->redirect($this->generateUrl('_user_login'));
+            } 
         }
 
         // get taobao category
