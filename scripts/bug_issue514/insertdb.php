@@ -17,45 +17,57 @@ $total = 0;
 
 for ($i = 0; $i < 10; $i++) {
     $query = "SELECT * , count( user_id ) count
-                FROM point_history0" . $i . "
-                WHERE reason =13
-                AND create_time LIKE '2014-09-22%'
-                GROUP BY user_id, point_change_num
-                HAVING count >1 ";
+                    FROM point_history0" . $i . "
+                    WHERE reason =13
+                    AND create_time LIKE '2014-09-22%'
+                    GROUP BY user_id, point_change_num
+                    HAVING count >1 ";
     fwrite($log_handle, $query . "\r\n");
     $result = mysql_query($query) or die('Query failed: ' . mysql_error());
 
     while ($value = mysql_fetch_assoc($result)) {
 
         $count = $value['count'];
-        if ($count != 2) {
-            fwrite($log_handle, "count!=2 需要执行两次insertDb  count:" . ($count) . "  user_id:" . $value['user_id'] . "\r\n");
+        fwrite($log_handle, " count:" . ($count) . "  user_id:" . $value['user_id'] . "\r\n");
+
+        $checkBefore = checkPointBeforeStart($log_handle, $value, $count);
+        if (!$checkBefore) {
+            break;
         }
 
-        if ($count == 4) {
+        if ($count == 2 || $count == 3) {
             $roolback = insertDb($log_handle, $log_handle2, $value, $total);
             if ($roolback) {
                 mysql_query("ROOLBACK");
                 fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
                 exit;
             }
+        } else
+            if ($count == 4) {
+                $roolback = insertDb($log_handle, $log_handle2, $value, $total);
+                if ($roolback) {
+                    mysql_query("ROOLBACK");
+                    fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
+                    exit;
+                }
 
-            $roolback = insertDb($log_handle, $value, $total);
-            if ($roolback) {
-                mysql_query("ROOLBACK");
-                fwrite($log_handle, $log_handle2, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
-                exit;
+                $roolback = insertDb($log_handle, $log_handle2, $value, $total);
+                if ($roolback) {
+                    mysql_query("ROOLBACK");
+                    fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
+                    exit;
+                }
+            } else {
+                fwrite($log_handle, "count 在2,3,4之外，没有执行  count:" . ($count) . "  user_id:" . $value['user_id'] . "\r\n");
             }
+
+        $checkAfter = checkPointAfterEnd($log_handle, $value);
+        if ($checkAfter) {
+            fwrite($log_handle, $value['user_id'] . "修复成功，米粒：" . $value['point_change_num'] . "\r\n");
         } else {
-            $roolback = insertDb($log_handle, $log_handle2, $value, $total);
-            if ($roolback) {
-                mysql_query("ROOLBACK");
-                fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
-                exit;
-            }
+            fwrite($log_handle, $value['user_id'] . "修复失败，米粒：" . $value['point_change_num'] . "\r\n");
         }
 
-        fwrite($log_handle, $value['user_id'] . "修复成功，米粒：" . $value['point_change_num'] . "\r\n");
     }
 
 }
@@ -69,12 +81,53 @@ fclose($log_handle2);
 echo "执行完成!";
 exit;
 
+function checkPointBeforeStart($log_handle, $value, $count) {
+
+    $user_sql = "select points from user where id = " . $value['user_id'];
+    $result = mysql_query($user_sql);
+    $user = mysql_fetch_assoc($result);
+
+    $point_history_sql = "select sum(point_change_num) sum from point_history0" . ($value['user_id'] % 10) . " where user_id = " . $value['user_id'];
+    $result = mysql_query($point_history_sql);
+    $point_history = mysql_fetch_assoc($result);
+
+    $point_change_num = $value['point_change_num'];
+    if ($count == 4) {
+        $point_change_num = $point_change_num * 2;
+    }
+    if (($point_history['sum'] - $point_change_num) == $user['points']) {
+        return true;
+    } else {
+        fwrite($log_handle, $value['user_id'] . "分数不平衡不能执行\r\n");
+        return false;
+    }
+}
+
+function checkPointAfterEnd($log_handle, $value) {
+
+    $user_sql = "select points from user where id = " . $value['user_id'];
+    $result = mysql_query($user_sql);
+    $user = mysql_fetch_assoc($result);
+
+    $point_history_sql = "select sum(point_change_num) sum from point_history0" . ($value['user_id'] % 10) . " where user_id = " . $value['user_id'];
+    $result = mysql_query($point_history_sql);
+    $point_history = mysql_fetch_assoc($result);
+
+    if (($point_history['sum'] - $user['points']) == 0) {
+        fwrite($log_handle, "执行后分数平衡了\r\n");
+        return true;
+    } else {
+        fwrite($log_handle, "执行后分数不平衡\r\n");
+        return false;
+    }
+}
+
 function insertDb($log_handle, $log_handle2, $value, & $total) {
 
     $roolback = false;
     $total++;
 
-    $csv = array();
+    $csv = array ();
     $csv['user_id'] = $value['user_id'];
     $csv['point_change_num'] = $value['point_change_num'];
     fputcsv($log_handle2, $csv) . "\r\n";
@@ -82,22 +135,22 @@ function insertDb($log_handle, $log_handle2, $value, & $total) {
     //update point_history00
     $ph_sql = "insert into point_history0" . ($value['user_id'] % 10) . " (user_id,point_change_num,reason,create_time) values (" . $value['user_id'] . "," . (- $value['point_change_num']) . ",13,'" . $value['create_time'] . "')";
     fwrite($log_handle, $value['user_id'] . ": " . $ph_sql . "\r\n");
-//    $ph_flag = mysql_query($ph_sql);
-//    if (!$ph_flag) {
-//        $roolback = true;
-//        return $roolback;
-//    }
+    //    $ph_flag = mysql_query($ph_sql);
+    //    if (!$ph_flag) {
+    //        $roolback = true;
+    //        return $roolback;
+    //    }
 
     //insert send_message00
     $title = "重复数据修改";
     $content = '亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心';
     $m_sql1 = "insert into send_message0" . ($value['user_id'] % 10) . "(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0," . $value['user_id'] . ",'" . $title . "','" . $content . "','" . $value['create_time'] . "',0,0)";
     fwrite($log_handle, $value['user_id'] . ": " . $m_sql1 . "\r\n");
-//    $sm_flag = mysql_query($m_sql1);
-//    if (!$sm_flag) {
-//        $roolback = true;
-//        return $roolback;
-//    }
+    //    $sm_flag = mysql_query($m_sql1);
+    //    if (!$sm_flag) {
+    //        $roolback = true;
+    //        return $roolback;
+    //    }
 
     return $roolback;
 }
