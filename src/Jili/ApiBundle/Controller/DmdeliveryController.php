@@ -176,7 +176,7 @@ class DmdeliveryController extends Controller
             if($group->status != "ERROR"){
                 foreach ($user as $key => $value) {
                     $failId = $this->issetFailRecord($value['id'],$failTime);
-                    if(!$failId){
+                    if(!$failId && isset($value['email']) && strlen($value['email']) > 0){
                         $recipient_arr = array();
                         $recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
                                                  array('name'=>'nick','value'=>$value['nick']));
