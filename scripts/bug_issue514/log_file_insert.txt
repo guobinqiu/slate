@@ -1,9 +1,9 @@
 SELECT * , count( user_id ) count
-                    FROM point_history00
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 
+                FROM point_history00
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 
  count:2  user_id:1048760
 1048760: insert into point_history00 (user_id,point_change_num,reason,create_time) values (1048760,-100,13,'2014-09-22 17:29:37')
 1048760: insert into send_message00(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1048760,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:37',0,0)
@@ -134,11 +134,11 @@ SELECT * , count( user_id ) count
  count:2  user_id:1241280
 1241280分数不平衡不能执行
 SELECT * , count( user_id ) count
-                    FROM point_history01
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 
+                FROM point_history01
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 
  count:2  user_id:1048871
 1048871: insert into point_history01 (user_id,point_change_num,reason,create_time) values (1048871,-1300,13,'2014-09-22 17:31:25')
 1048871: insert into send_message01(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1048871,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:25',0,0)
@@ -271,11 +271,11 @@ SELECT * , count( user_id ) count
 执行后分数不平衡
 1210311修复失败，米粒：300
 SELECT * , count( user_id ) count
-                    FROM point_history02
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 
+                FROM point_history02
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 
  count:2  user_id:1052042
 1052042: insert into point_history02 (user_id,point_change_num,reason,create_time) values (1052042,-100,13,'2014-09-22 17:29:08')
 1052042: insert into send_message02(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1052042,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:29:08',0,0)
@@ -403,11 +403,11 @@ SELECT * , count( user_id ) count
 执行后分数不平衡
 1238182修复失败，米粒：100
 SELECT * , count( user_id ) count
-                    FROM point_history03
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 
+                FROM point_history03
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 
  count:2  user_id:1053113
 1053113分数不平衡不能执行
  count:2  user_id:1053773
@@ -570,11 +570,11 @@ SELECT * , count( user_id ) count
  count:2  user_id:1241173
 1241173分数不平衡不能执行
 SELECT * , count( user_id ) count
-                    FROM point_history04
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 
+                FROM point_history04
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 
  count:2  user_id:1054164
 1054164: insert into point_history04 (user_id,point_change_num,reason,create_time) values (1054164,-1000,13,'2014-09-22 17:28:39')
 1054164: insert into send_message04(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1054164,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:39',0,0)
@@ -685,11 +685,11 @@ SELECT * , count( user_id ) count
 执行后分数不平衡
 1229994修复失败，米粒：100
 SELECT * , count( user_id ) count
-                    FROM point_history05
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 
+                FROM point_history05
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 
  count:2  user_id:1056715
 1056715: insert into point_history05 (user_id,point_change_num,reason,create_time) values (1056715,-1500,13,'2014-09-22 17:30:39')
 1056715: insert into send_message05(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1056715,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:30:39',0,0)
@@ -796,11 +796,11 @@ SELECT * , count( user_id ) count
 执行后分数不平衡
 1236075修复失败，米粒：100
 SELECT * , count( user_id ) count
-                    FROM point_history06
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 
+                FROM point_history06
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 
  count:2  user_id:1054476
 1054476分数不平衡不能执行
  count:2  user_id:1055306
@@ -905,11 +905,11 @@ SELECT * , count( user_id ) count
 执行后分数不平衡
 1221866修复失败，米粒：200
 SELECT * , count( user_id ) count
-                    FROM point_history07
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 
+                FROM point_history07
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 
  count:2  user_id:1048757
 1048757: insert into point_history07 (user_id,point_change_num,reason,create_time) values (1048757,-1000,13,'2014-09-22 17:28:25')
 1048757: insert into send_message07(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1048757,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:28:25',0,0)
@@ -1042,11 +1042,11 @@ SELECT * , count( user_id ) count
  count:2  user_id:1241147
 1241147分数不平衡不能执行
 SELECT * , count( user_id ) count
-                    FROM point_history08
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 
+                FROM point_history08
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 
  count:2  user_id:1051438
 1051438分数不平衡不能执行
  count:2  user_id:1055578
@@ -1149,11 +1149,11 @@ SELECT * , count( user_id ) count
  count:2  user_id:1241118
 1241118分数不平衡不能执行
 SELECT * , count( user_id ) count
-                    FROM point_history09
-                    WHERE reason =13
-                    AND create_time LIKE '2014-09-22%'
-                    GROUP BY user_id, point_change_num
-                    HAVING count >1 
+                FROM point_history09
+                WHERE reason =13
+                AND create_time LIKE '2014-09-22%'
+                GROUP BY user_id, point_change_num
+                HAVING count >1 
  count:2  user_id:1048739
 1048739: insert into point_history09 (user_id,point_change_num,reason,create_time) values (1048739,-5000,13,'2014-09-22 17:31:35')
 1048739: insert into send_message09(sendFrom,sendTo,title,content,createtime,read_flag,delete_flag) values (0,1048739,'重复数据修改','亲爱的<br/><br/>您好！您在9月19日申请了91问问积分兑换米粒，积粒网于9月22日进行米粒发放。因系统原因，造成数据重复，现已修改。对于给您造成困扰，深表歉意。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心','2014-09-22 17:31:35',0,0)

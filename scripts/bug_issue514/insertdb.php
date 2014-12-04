@@ -36,6 +36,7 @@ for ($i = 0; $i < 10; $i++) {
         $checkBefore = checkPointBeforeStart($log_handle, $value, $count);
         if (!$checkBefore) {
             $total_333++;
+            echo $value['user_id'] . "<br>";
             continue;
         }
 
@@ -78,10 +79,10 @@ for ($i = 0; $i < 10; $i++) {
     }
 
 }
-echo "总的：" . $total_222 . "\r\n";
-echo "可执行：" . $total . "\r\n";
-echo "不可执行:" . $total_333 . "\r\n";
-echo "coount=4:" . $total_4 . "\r\n";
+echo "总的：" . $total_222 . "<br>";
+echo "可执行：" . $total . "<br>";
+echo "不可执行:" . $total_333 . "<br>";
+echo "coount=4:" . $total_4 . "<br>";
 
 mysql_query("COMMIT"); //执行事务
 
