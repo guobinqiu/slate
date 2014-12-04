@@ -168,9 +168,7 @@ class DmdeliveryController extends Controller
     {
         $rs = "";
         $em = $this->getDoctrine()->getManager();
-        //$user = $em->getRepository('JiliApiBundle:User')->pointFail($failTime);
         $user = $em->getRepository('JiliApiBundle:User')->pointFailTemp($failTime);
-        //$logger = $this->get('logger');
         if(!empty($user)){
             $group = $this->addgroup($companyId);
             if($group->status != "ERROR"){
@@ -181,15 +179,17 @@ class DmdeliveryController extends Controller
                         $recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
                                                  array('name'=>'nick','value'=>$value['nick']));
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
-                        //$this->get('logger')->info('{DmdeliveryController}'. "email:".$value['email'].",stauts:".$send->status);
+                        $this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
                         if($send->status != "ERROR"){
                             $this->insertSendPointFail($value['id'],$failTime);
                             if($failTime == 180){
                                 $this->updatePointZero($value['id']);
                             }
                             $rs = 'Send email successfully';
+                            echo 'key :'.$key. ',userid:'.$value['id'].'-> Send email successfully  \n';
                         }else{
                             $rs = 'Cannot send email:'.$send->statusMsg;
+                            echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email:'.$send->statusMsg.' \n';
                         }
                     }
                 }
