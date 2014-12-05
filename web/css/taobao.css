@@ -46,3 +46,4 @@ a{ text-decoration:none;}
 .guideClose{ position: absolute; top: 5px; right: 250px; color: #fff; width: 27px; height: 27px; cursor: pointer; z-index: 9999; background: url(../images/taobao/close.png) no-repeat;}
 .iKnow{ position: absolute; bottom: 95px; left: 248px; color: #fff; width: 185px; height: 95px; cursor: pointer; z-index: 9999; background: url(../images/taobao/iKnow.png) no-repeat;}
 .taoNewGuideMask{ display: none;}
+.toTop{width:65px; height:66px; position: fixed; right: 30px; bottom: 120px; cursor:pointer; display:none;}
