@@ -17,7 +17,7 @@ class TaobaoComponentRepository extends EntityRepository {
             $query = $query->setFirstResult(($page -1) * $limit);
             $query = $query->setMaxResults($limit);
         }
-        $query->orderBy('tc.sort', 'ASC');
+        $query->orderBy('tc.sort', 'DESC');
         $query = $query->getQuery();
         return $query->getResult();
     }

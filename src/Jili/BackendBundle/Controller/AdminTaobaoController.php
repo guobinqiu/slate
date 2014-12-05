@@ -32,7 +32,7 @@ class AdminTaobaoController extends Controller {
         $categoryId = $request->query->get('categoryId', TaobaoComponent :: DROP_DOWN_BOX_DEFAULT);
 
         //组件类型下拉框
-        $component_category = $this->getComponentCategory();
+        $component_category = TaobaoComponent :: $COMPONENT_CATEGORY;
 
         //产品分类下拉框
         $categorys = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findAll();
@@ -75,17 +75,6 @@ class AdminTaobaoController extends Controller {
         return $param;
     }
 
-    //取得组件类型数组
-    public function getComponentCategory() {
-        $component_category = array (
-            TaobaoComponent :: TAOBAO_COMPONENT_SEARCH_BOX => '搜索框',
-            TaobaoComponent :: TAOBAO_COMPONENT_KEYWORD => '分类产品',
-            TaobaoComponent :: TAOBAO_COMPONENT_ITEM => '单品',
-            TaobaoComponent :: TAOBAO_COMPONENT_SHOP => '店铺'
-        );
-        return $component_category;
-    }
-
     /**
     * @Route("/keywords", name="_admin_taobao_keywords")
     */
@@ -119,7 +108,7 @@ class AdminTaobaoController extends Controller {
         $content = "";
 
         //check 组件ID, if (id is exist, get component record)
-        $taobaoComponent = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById($id);
+        $taobaoComponent = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->find($id);
         if ($taobaoComponent) {
             $componentId = $taobaoComponent->getComponentId();
             $categoryId = $taobaoComponent->getCategoryId();
@@ -128,7 +117,7 @@ class AdminTaobaoController extends Controller {
         }
 
         //组件类型下拉框
-        $component_category = $this->getComponentCategory();
+        $component_category = TaobaoComponent :: $COMPONENT_CATEGORY;
 
         //产品分类下拉框
         $categorys = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findAll();
@@ -148,6 +137,7 @@ class AdminTaobaoController extends Controller {
 
     /**
     * @Route("/saveComponentFinish", name="_admin_taobao_saveComponentFinish")
+    * @Method({"POST"});
     */
     public function saveComponentFinishAction() {
         $em = $this->getDoctrine()->getManager();
@@ -161,7 +151,7 @@ class AdminTaobaoController extends Controller {
         $id = $request->request->get('id', "");
 
         // check component content exist
-        $taobaoComponent = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById($id);
+        $taobaoComponent = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->find($id);
         // 保存组件内容
         if ($taobaoComponent) {
             $taobaoComponent->setUpdatedAt(new \ DateTime());
@@ -195,7 +185,7 @@ class AdminTaobaoController extends Controller {
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         //删除组件
-        $taobaoComponent = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById($id);
+        $taobaoComponent = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->find($id);
         if ($taobaoComponent) {
             $em->remove($taobaoComponent);
             $em->flush();
@@ -227,7 +217,7 @@ class AdminTaobaoController extends Controller {
 
         //update sort
         foreach ($components as $component) {
-            $taobaoComponent = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById($component['id']);
+            $taobaoComponent = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->find($component['id']);
             if ($taobaoComponent) {
                 $taobaoComponent->setSort($component['sort']);
                 $taobaoComponent->setUpdatedAt(new \ DateTime());

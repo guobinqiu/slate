@@ -18,6 +18,12 @@ class TaobaoComponent
     const TAOBAO_COMPONENT_SHOP = 4; //店铺
     const DROP_DOWN_BOX_DEFAULT = -1; //下拉框默认值
 
+    public static $COMPONENT_CATEGORY = array (
+        TaobaoComponent :: TAOBAO_COMPONENT_SEARCH_BOX => '搜索框',
+        TaobaoComponent :: TAOBAO_COMPONENT_KEYWORD => '分类产品',
+        TaobaoComponent :: TAOBAO_COMPONENT_ITEM => '单品',
+        TaobaoComponent :: TAOBAO_COMPONENT_SHOP => '店铺'
+    );
     /**
      * @var integer
      *

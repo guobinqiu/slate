@@ -114,21 +114,6 @@ class AdminTaobaoControllerTest extends WebTestCase {
     /**
      * @group issue_523
      */
-    public function testGetComponentCategory() {
-        $client = static :: createClient();
-        $container = $client->getContainer();
-        $controller = new AdminTaobaoController();
-        $controller->setContainer($container);
-        $component_category = $controller->getComponentCategory();
-        $this->assertEquals('搜索框', $component_category[1]);
-        $this->assertEquals('分类产品', $component_category[2]);
-        $this->assertEquals('单品', $component_category[3]);
-        $this->assertEquals('店铺', $component_category[4]);
-    }
-
-    /**
-     * @group issue_523
-     */
     public function testKeywordsAction() {
         $client = static :: createClient();
         $container = $client->getContainer();
