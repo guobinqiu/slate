@@ -105,3 +105,17 @@ jili.taobao.searchBycatgory = function(id) {
 		});
 	});
 })(jQuery);
+
+//Goto top
+$(function(){  
+	showScroll();
+	function showScroll(){
+		$(window).scroll(function(){
+			var scrollValue = $(window).scrollTop();
+			scrollValue > 100 ? $('div[class=toTop]').fadeIn():$('div[class=toTop]').fadeOut();
+		});
+		$('#toTop').click(function(){
+			$("html,body").animate({scrollTop:0},200);
+		});
+	}
+}); 
