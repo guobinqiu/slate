@@ -30,7 +30,7 @@ try {
         $query = $dbh->prepare($user_sql);
         $query->execute() or die(print_r($dbh->errorInfo(), true));
         $user = $query->fetch(PDO :: FETCH_ASSOC);
-        fwrite($log_handle, "email: " . $user['email'] . "user_id:" . $user['id'] . " , points: " . $user['points'] . "\r\n");
+        fwrite($log_handle, "email: " . $user['email'] . ", user_id:" . $user['id'] . ", points: " . $user['points'] . "\r\n");
 
         //检索task_history
         $task_history_sql = "select * from task_history0" . ($user['id'] % 10) . " where user_id =" . $user['id'] . " and point = " . $point . " and task_name like '%亚马逊%' and date like '" . $date . "%'";
@@ -43,22 +43,22 @@ try {
         //update task_history
         $task_history_update_sql = "update task_history0" . ($user['id'] % 10) . " set status = 3 where id = " . $task_history['id'];
         fwrite($log_handle, $email . ": " . $task_history_update_sql . "\r\n");
-        //        $query = $dbh->prepare($task_history_update_sql);
-        //        $query->execute() or die(print_r($dbh->errorInfo(), true));
+//        $count = $dbh->exec($task_history_update_sql);
+//        fwrite($log_handle, $email . ": count: " . $count . "\r\n");
 
         //update user
         $user_update_sql = "update user set points = points + " . $point . " where id = " . $user['id'];
         fwrite($log_handle, $email . ": " . $user_update_sql . "\r\n");
-        //        $query = $dbh->prepare($user_update_sql);
-        //        $query->execute() or die(print_r($dbh->errorInfo(), true));
+//        $count = $dbh->exec($user_update_sql);
+//        fwrite($log_handle, $email . ": count: " . $count . "\r\n");
 
         //insert point_history00
         $create_time = date('Y-m-d H:i:s');
 
         $ph_sql = "insert into point_history0" . ($user['id'] % 10) . " (user_id,point_change_num,reason,create_time) values (" . $user['id'] . "," . $point . "," . $task_history['category_type'] . ",'" . $create_time . "')";
         fwrite($log_handle, $email . ": " . $ph_sql . "\r\n");
-        //        $query = $dbh->prepare($ph_sql);
-        //        $query->execute() or die(print_r($dbh->errorInfo(), true));
+//        $count = $dbh->exec($ph_sql);
+//        fwrite($log_handle, $email . ": count: " . $count . "\r\n");
 
         fwrite($log_handle, "\r\n\r\n");
 
