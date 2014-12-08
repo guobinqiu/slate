@@ -84,7 +84,6 @@ class AdminTaobaoController extends Controller {
         //取得某个类别下的所有关键字list
         $em = $this->getDoctrine()->getManager();
         $keywords = $em->getRepository('JiliFrontendBundle:TaobaoComponent')->findKeywordByCategoryId($category_id);
-        $logger = $this->get('logger');
 
         $response = new JsonResponse();
         $response->setData($keywords);
