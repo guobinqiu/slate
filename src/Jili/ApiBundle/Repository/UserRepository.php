@@ -161,34 +161,43 @@ class UserRepository extends EntityRepository
     public function pointFail($type)
     {
         $daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
-        $sqlpoint = " (select distinct user_id from point_history00 where create_time > '" . $daydate . "' " .
-                "union select distinct user_id from point_history01 where create_time > '" . $daydate . "' " .
-                "union select distinct user_id from point_history02 where create_time > '" . $daydate . "' " .
-                "union select distinct user_id from point_history03 where create_time > '" . $daydate . "' " .
-                "union select distinct user_id from point_history04 where create_time > '" . $daydate . "' " .
-                "union select distinct user_id from point_history05 where create_time > '" . $daydate . "' " .
-                "union select distinct user_id from point_history06 where create_time > '" . $daydate . "' " .
-                "union select distinct user_id from point_history07 where create_time > '" . $daydate . "' " .
-                "union select distinct user_id from point_history08 where create_time > '" . $daydate . "' " .
-                "union select distinct user_id from point_history09 where create_time > '" . $daydate . "') ";
-
-        $sqltask = " (select distinct user_id from task_history00 where status=2 and date > '" . $daydate . "' " .
-                "union select distinct user_id from task_history01 where status=2 and date > '" . $daydate . "' " .
-                "union select distinct user_id from task_history02 where status=2 and date > '" . $daydate . "' " .
-                "union select distinct user_id from task_history03 where status=2 and date > '" . $daydate . "' " .
-                "union select distinct user_id from task_history04 where status=2 and date > '" . $daydate . "' " .
-                "union select distinct user_id from task_history05 where status=2 and date > '" . $daydate . "' " .
-                "union select distinct user_id from task_history06 where status=2 and date > '" . $daydate . "' " .
-                "union select distinct user_id from task_history07 where status=2 and date > '" . $daydate . "' " .
-                "union select distinct user_id from task_history08 where status=2 and date > '" . $daydate . "' " .
-                "union select distinct user_id from task_history09 where status=2 and date > '" . $daydate . "')  ";
-
-        $sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate . "' and e.id not in " . $sqlpoint . " and e.id not in " . $sqltask;
-
+        $point_histories = array('point_history00','point_history01','point_history02','point_history03','point_history04','point_history05',
+                                 'point_history06','point_history07','point_history08','point_history09');
+        $task_histories = array('task_history00','task_history01','task_history02','task_history03','task_history04','task_history05',
+                                 'task_history06','task_history07','task_history08','task_history09');
+        
+        $merged_point_result = array();
+        for($i=0;$i<count($point_histories);$i++){
+            $sql = "select distinct user_id from ".$point_histories[$i]." where create_time > '" . $daydate . "' ";
+            $result = $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+            $temp = array();
+            foreach ($result as $key => $valus){
+                $temp[]=$valus['user_id'];
+            }
+            $merged_point_result = array_merge($merged_point_result,$temp);
+            unset($result);
+            unset($temp);
+        }
+        $merged_task_result = array();
+        for($i=0;$i<count($task_histories);$i++){
+            $sql = "select distinct user_id from ".$task_histories[$i]." where status=2 and date > '" . $daydate . "' ";
+            $result = $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+            $temp = array();
+            foreach ($result as $key => $valus){
+                $temp[]=$valus['user_id'];
+            }
+            $merged_task_result = array_merge($merged_task_result,$temp);
+            unset($result);
+            unset($temp);
+        }
+        $user_ids = array_unique(array_merge($merged_point_result,$merged_task_result));
+        $user_ids = implode(',', $user_ids);
+        $sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate 
+             . "' and e.id not in (" . $user_ids.")";
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
-
     }
 
+    
     public function pointFailTemp()
     {
         $sql_tmp = "(select distinct user_id from user_last)";
