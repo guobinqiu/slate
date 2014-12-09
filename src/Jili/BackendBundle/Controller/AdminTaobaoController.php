@@ -18,7 +18,8 @@ use Jili\FrontendBundle\Entity\TaobaoComponent;
 /**
  * @Route("/admin/taobao",requirements={"_scheme"="https"})
  */
-class AdminTaobaoController extends Controller {
+class AdminTaobaoController extends Controller implements  IpAuthenticatedController
+{
 
     /**
     * @Route("/component", name="_admin_taobao_component")
