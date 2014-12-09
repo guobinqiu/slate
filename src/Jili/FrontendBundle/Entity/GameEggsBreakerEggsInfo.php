@@ -15,6 +15,8 @@ class GameEggsBreakerEggsInfo
     const EGG_TYPE_COMMON = 1;
     const EGG_TYPE_CONSOLATION = 2;
 
+    const COST_PER_EGG = 10.00;
+
     /**
      * @var integer
      *
@@ -97,6 +99,16 @@ class GameEggsBreakerEggsInfo
         $seed .= time();  
         $token = md5($seed );
         return $this->setToken($token);
+    }
+
+    /**
+     */
+    public function getLessForNextEgg()
+    {
+        if(self::COST_PER_EGG <= floatval($this->getOffcutForNext())) {
+            return 0;
+        }
+        return round( self::COST_PER_EGG - floatval($this->getOffcutForNext()), 2);
     }
 
     /**

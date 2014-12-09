@@ -27,13 +27,19 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
     /**
      *    updateOne for audit
      */
-    public function updateOne($params)
+    public function updateOneOnAudit($params)
     {
-
         $em = $this->getEntityManager();
-
     }
 
 
+    /**
+     * updateOne when breaking an egg
+     */
+    public function updateOneOnBreakEgg($params)
+    {
+
+        $em = $this->getEntityManager();
+    }
 
 } 

@@ -5,9 +5,14 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 
-use Jili\FrontendBundle\Entity\GameEggsTaobaoOrder;
+use Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder;
+use Jili\FrontendBundle\Entity\GameEggsBreakerEggsInfo;
 
-class GameEggsTaobaoOrderRepoisitoryTest extends KernelTestCase
+
+use Doctrine\Common\DataFixtures\Loader;
+use Jili\FrontendBundle\DataFixtures\ORM\Repository\GameEggsBreakerTaobaoOrder\LoadTaobaoOrdersData;
+
+class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -21,10 +26,19 @@ class GameEggsTaobaoOrderRepoisitoryTest extends KernelTestCase
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
-        
+
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
+        $tn = $this->getName();
+        if($tn === 'testUpdateOne' ) {
+            $fixture = new LoadTaobaoOrdersData();
+            $loader  = new Loader();
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
+        }
+
+
         $this->em = $em;
     }
     /**
@@ -37,20 +51,39 @@ class GameEggsTaobaoOrderRepoisitoryTest extends KernelTestCase
 
     /**
      * @group issue_537 
-     * @group debug 
+     * #group debug 
      */
     public function testInsertUserPost() 
     {
+        $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+            ->insertUserPost(array('userId'=> 1, 'orderPaid'=> 100.01, 'orderId'=> '10d93jasdf0f2' ));
 
-        $this->em->getRepository('JiliFrontendBundle:GameEggsTaobaoOrder')
-            ->insertUserPost(array('userId'=> 1, 'orderPaid'=> 100.00, 'orderId'=> '10d93jasdf0f2' ));
-
-        $expected_entity = $this->em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')
+        $expected_entity = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
             ->findOneBy( array('userId'=> 1,
-                'eggType'=> GameEggsBreakerEggsInfo::EGG_TYPE_COMMON,
-                'pointsAcquried'=> 5));
+                'orderId'=>'10d93jasdf0f2',
+                'orderPaid'=> 100.01));
         $this->assertNotNull($expected_entity);
-        $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBrokenLog',$expected_entity);
+        $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerTaobaoOrder',$expected_entity);
 
+        // invalid testing
     }
+
+    /**
+     * @group issue_537 
+     * @group debug 
+     */
+    public function testUpdateOneOnAudit() 
+    {
+        // auditing 
+
+        // ng 
+
+        // valid 
+
+        // uncertain
+
+        $this->assertEquals(1,1);
+    }
+
+
 }

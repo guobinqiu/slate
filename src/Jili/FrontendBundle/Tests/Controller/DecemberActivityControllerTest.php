@@ -7,6 +7,8 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 
+
+use Jili\FrontendBundle\DataFixtures\ORM\Controller\DecemberActivity\LoadGetEggsInfoData;
 class DecemberActivityControllerTest extends WebTestCase
 {
     /**
@@ -29,9 +31,21 @@ class DecemberActivityControllerTest extends WebTestCase
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
-        $this->has_fixture = false ;
-//        $tn = $this->getName();
 
+
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        $tn = $this->getName();
+        if( in_array($tn, array('testGetEggsInfoActionNormal','testBreakEggActionNormal'))){
+            $fixture = new LoadGetEggsInfoData();
+            $loader  = new Loader();
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
+
+        }
+        $this->has_fixture = true ;
 
         $this->em  = $em;
     }
@@ -60,7 +74,7 @@ class DecemberActivityControllerTest extends WebTestCase
 
     /**
      * @group issue_537
-     * @group debug 
+     * #group debug 
      */
     public function testAddTaobaoOrderActionValidation()
     {
@@ -80,12 +94,12 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertTrue( $session->has('goToUrl'));
         $this->assertEquals('/activity/december/', $session->get('goToUrl'));
 
-//        $form = $crawler->selectButton('submit')->getForm();
+        //        $form = $crawler->selectButton('submit')->getForm();
 
         // $client->getResponse()->getContent();
 
-// invalid form inputs 
-// duplicated post ? 
+        // invalid form inputs 
+        // duplicated post ? 
         $session  = $client->getRequest()->getSession();
         $session->set('uid' , 1);
         $session->save();
@@ -93,7 +107,7 @@ class DecemberActivityControllerTest extends WebTestCase
     }
     /**
      * @group issue_537
-     * @group debug 
+     * #group debug 
      */
     public function testAddTaobaoOrderActionNormal()
     {
@@ -108,9 +122,9 @@ class DecemberActivityControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-//        echo $client->getResponse()->getContent();
+        //        echo $client->getResponse()->getContent();
 
-        $form = $crawler->selectButton('submit')->getForm();
+        $form = $crawler->selectButton('submit')->form();
         $form['order[orderId]']->setValue('myorderid001');
         $form['order[orderPaid]']->setValue(5.0);
         $crawler = $client->submit($form);
@@ -121,5 +135,54 @@ class DecemberActivityControllerTest extends WebTestCase
             ->findOneBy(array('userId'=> 1, 'orderId'=>'myorderid001' , 'orderPaid'=> 5.0));
         $this->assertNotNull( $expected_record);
 
+    }
+
+    /**
+     * @group issue_537
+     * @group debug 
+     */
+    public function testGetEggsInfoActionNormal()
+    {
+//prepare testing data
+// ajax post 
+// normal  
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_geteggsinfo');
+        $this->assertEquals('/activity/december/get-eggs-info', $url);
+
+        $user  = LoadGetEggsInfoData::$USERS[0];
+        $session  = $container->get('session');
+        $session->set('uid' , $user->getId() );
+        $session->save();
+
+        $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+
+        $actual_info  = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
+            ->findOneByUserId($user->getId());
+
+//        $info = LoadGetEggsInfoData::$INFOS[0];
+
+        $expected_response = '{"code":0,"data":{"token":"'.$actual_info->getToken() .'","numOfEggs":4,"numOfConsolationEggs":3,"lessForNextEgg":0}}';
+
+        $this->assertEquals($expected_response, $client->getResponse()->getContent());
+
+    }
+
+
+    /**
+     * @group issue_537
+     * @group debug 
+     */
+    public function testBreakEggActionNormal() 
+    {
+// prepare data token 
+// prepare pointsPool
+
+// ajax post
+        $this->assertEquals(1,1);
+
+// 
     }
 }

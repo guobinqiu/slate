@@ -22,6 +22,8 @@ class GameEggsBreakerTaobaoOrder
     const ORDER_UNCERTAIN = 3;
 
     const IS_EGGED_INIT = 0;
+    const IS_EGGED_COMPLETED = 1;
+
 
     /**
      * @var integer

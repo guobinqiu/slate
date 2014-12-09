@@ -50,16 +50,16 @@ class DecemberActivityController extends Controller
     {
         $request = $this->get('request');
         $session = $this->get('session');
-
         $logger = $this->get('logger');
-        if( ! $session->has('uid')) {
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__)));
-            $session->set('goToUrl', $this->get('router')->generate('jili_frontend_decemberactivity_index'));
-            return $this->redirect($this->generateUrl('_login') );
-        }
 
         $form = $this->createForm(new GameEggsBreakerTaoBaoOrderType());
         if( 'POST' == $request->getMethod()) {
+            if( ! $session->has('uid')) {
+                $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__)));
+                $session->set('goToUrl', $this->get('router')->generate('jili_frontend_decemberactivity_index'));
+                return $this->redirect($this->generateUrl('_login') );
+            }
+
             $form->bind($request);
             if( $form->isValid()){
                 $data= $form->getData();
@@ -70,9 +70,8 @@ class DecemberActivityController extends Controller
                         'orderPaid'=>$data['orderPaid'], 
                         'orderId'=>$data['orderId'], 
                     ));
-                // store the post data 
                 $this->get('session')->setFlash('notice','提交成功，等待审核');
-                return $this->rediret($this->generate('jili_frontend_decemberactivity_index'));
+                return $this->redirect($this->generateUrl('jili_frontend_decemberactivity_index'));
             }
         }
 
@@ -87,7 +86,7 @@ class DecemberActivityController extends Controller
     public function getEggsInfoAction()
     {
         $request = $this->getRequest();
-        $response = JsonResponse ();
+        $response = new  JsonResponse ();
         if(! $request->isXmlHttpRequest()) {
             return $response;
         }
@@ -101,9 +100,25 @@ class DecemberActivityController extends Controller
         $userId = $this->get('session')->get('uid');
         $em  = $this->get('doctrine.orm.entity_manager');
 
-        $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo');
-        // completed response 
-        //->
+        $record = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')->findOneByUserId($userId);
+        if( ! $record) {
+            return $response;
+        }
+
+        $record->refreshToken();
+        $em->persist($record);
+        $em->flush();
+
+        // numOfEggs: 1, numOfConsolationEggs: 3, lessForNextEgg: 00.01 
+        //$cost_per_egg = $container->get
+
+        $response->setData( array('code'=> 0, 
+            'data'=>array('token'=> $record->getToken(),
+            'numOfEggs'=> $record->getNumOfCommon(),
+            'numOfConsolationEggs' => $record->getNumOfConsolation(),
+            'lessForNextEgg'=> $record->getLessForNextEgg( )
+        )));
+        return $response;      
 
     }
 
