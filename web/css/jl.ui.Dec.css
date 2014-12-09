@@ -25,7 +25,6 @@ a{ color: #fff;}
 .decRuleMain{ margin-top: 30px;}
 .decRuleMain .decTime{ font-size: 18px; color: #e89d07; margin-top: 20px;}
 .decRuleMain li{ margin-top: 15px;}
-.decTopCon{ }
 .decTopCon .goBtn, .decRuleBtn, .backTop, .decTopCon .timestamp{ cursor: pointer;}
 .decTopCon .logo, .decTopCon .login, .decTopCon .goBtn, .decTopCon .timestamp{ position: absolute; z-index: 1000;}
 .decTopCon .logo{ top: 10px; left: 0;}
@@ -58,7 +57,7 @@ a{ color: #fff;}
 .winnerList h2{ font-size: 26px; line-height: 35px;}
 .winnerList .mask{ margin-top: 15px; width: 312px; height: 70px; overflow: hidden;}
 .winnerList li{ line-height: 35px;}
-.decListMain{ margin-top: 30px; background-color: #e0a100;}
+.decListMain{ margin-top: 30px; background-color: #e0a100; padding-bottom: 14px;}
 .decListMain h2{ font-size: 28px; font-weight: bold; line-height: 55px; height: 56px; padding-left: 15px; background: url(../images/december/navBg.png) no-repeat top; overflow: hidden;}
 .decListMain h2.sort02{ background-position: 0 -60px;}
 .decListMain h2.sort03{ background-position: 0 -120px;}
@@ -70,14 +69,16 @@ a{ color: #fff;}
 .decListMain h2.sort09{ background-position: 0 -480px;}
 .decListMain h2.sort10{ background-position: 0 -540px;}
 .decListMain h2.sort11{ background-position: 0 -600px;}
-.decListMain ul{ margin-left: 14px; margin-top: 14px;}
-.decListMain li{ float: left; margin-bottom: 14px; margin-right: 14px;}
+.decListMain ul{ margin-left: 14px;}
+.decListMain li{ float: left; margin-top: 14px; margin-right: 14px;}
 .decListMain li span, .decListMain li b{ display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
 .decListMain li .proDetail{ color: #828282; font-family: "宋体"; background-color: #ececec; width: 170px; height: 40px; padding: 5px; line-height: 20px; overflow: hidden;}
 .decListMain li .proDetail b, .decListMain li .proDetail strong{ color: #cc122a; font-size: 12px;} 
 .decListMain li .proDetail b{ padding-left:5px; padding-right: 3px;}
 .decListMain li .proDetail strong{ font-family: "微软雅黑"; font-size: 18px; font-weight: bold; margin-right: 10px;}
 .decListMain li .bugBtn{ width: 32px; height: 36px; padding: 7px 10px 7px 8px; line-height: 18px; font-size: 13px; font-weight: bold; background: #cc122a url(../images/december/arrow.png) no-repeat 38px 30px;}
+.decListMain li .proDetail a{ color: #828282;}
+.decListMain li .proDetail a:hover{ text-decoration: underline;}
 .decListMain li .proDetail span{text-decoration:line-through;}
 .fixMask{ position: fixed; z-index: 9998; left: 0; top: 0; width: 100%; height: 100%; opacity: .6; filter: alpha(opacity=60); background-color: #000;}
 .popupCon{ position: fixed; z-index: 9999; width: 990px; left: 50%; margin-left: -495px; top: 0;}
