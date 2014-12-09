@@ -184,14 +184,14 @@ $(function(){
                 dataType: 'json',
                 success: function(eggData){
                     //var eggData = { code: '1', msg: '', data: { token: '', validNum: 2, comfortNum: 1, diffMoney: 200, isStart: false}};
-					this.debug('初始金蛋信息……', eggData);
-                    $this.getEgg(eggData);
-                    $this.setEgg(eggData);
+					$this.debug('初始金蛋信息……', eggData);
+                    $this.showEgg(eggData);
+                    $this.setEggInfo(eggData);
                     $this.addEgg(eggData);
                     $this.openStart(eggData);
                 },
                 error: function(){
-                    this.debug('第一次请求失败……');
+                    $this.debug('第一次请求失败……');
                 }
             });
         },
@@ -204,9 +204,8 @@ $(function(){
                 return window.console && console.log.call(console, arguments);
             }
         },
-        getEgg: function(initData){
-            var $this = this;
-            var opts = $this.options;
+        showEgg: function(initData){
+            var opts = this.options;
             if((initData.data.validNum + initData.data.comfortNum) > 0){
                 $(opts.hasEgg).show();
                 $(opts.noEgg).hide();
@@ -215,7 +214,7 @@ $(function(){
                 $(opts.noEgg).show();
             }
         },
-        setEgg: function(initData){
+        setEggInfo: function(initData){
             $(this.options.eggNum).html((initData.data.validNum + initData.data.comfortNum));
             $(this.options.eggMoney).html(initData.data.diffMoney + '元');
         },
@@ -236,14 +235,14 @@ $(function(){
                 url: Routing.generate('jili_frontend_decemberactivity_breakegg'),
                 type: 'post',
                 dataType: 'json',
-                data: "token=" + initData.token + "eggType" + eggType,
+                data: "token=" + initData.token + "&eggType=" + eggType,
                 success: function(resultData){
                     //var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
-					this.debug('砸蛋结果……', resultData);
+					$this.debug('砸蛋结果……', resultData);
                     $this.showResult(resultData);
                 },
                 error: function(){
-                    this.debug('第二次请求结果失败……');
+                    $this.debug('第二次请求结果失败……');
                 }
             });
         },
@@ -257,7 +256,7 @@ $(function(){
         openEgg: function(initData){
             var $this = this;
             var opts = $this.options;
-            var eggType;
+            var eggType = 0;
             $this.debug('进入砸蛋程序');
             $(opts.container).find('li').each(function(index, e){
                 $(this).on('click', function(){
@@ -270,7 +269,7 @@ $(function(){
                         initData.data.validNum = initData.data.validNum -1;
                     }
                     $this.getResult(initData, eggType);
-                    $this.setEgg(initData);
+                    $this.setEggInfo(initData);
                 });
             });
         },
