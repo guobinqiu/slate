@@ -133,7 +133,7 @@ function countDown(){
         }
         $('.countDownTime').html(str);
     }
-    var countdownStart, endDate = new Date('2014/12/31 17:58:50');
+    var countdownStart, endDate = new Date('2015/1/20 9:00:00');
     countdown(endDate);
     countdownStart = setInterval(function(){ countdown(endDate)}, 1E3);
 }
