@@ -23,17 +23,22 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
     }
 
     /**
-     * @Route("/list-orders")
+     * @Route("/list-orders",  defaults={"p"=1})
+     * @Route("/list-orders/{p}", requirements={"p"="\d+"}, defaults={"p"=1})
      * @Method( "GET");
      */
-    public function listAllAction($page=1)
+    public function listAllAction($p)
     {
        $request = $this->get('request'); 
        $logger = $this->get('logger');
+       $page_size = $this->container->getParameter('page_num');
+       $em = $this->get('doctrine.orm.entity_manager');
+       $returns = $em->getRepository( 'JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+           ->fetchByRange( $p , $page_size );
 
-       $page_size= 30;
-
-
+       return $this->render('JiliBackendBundle:GameEggsBreaker\TaobaoOrder:list.html.twig', array('entities'=> $returns['data'], 'total'=> $returns['total'] ,
+'page_size'=> $page_size,
+'p'=>$p));
     }
 
     /**

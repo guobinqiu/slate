@@ -4,9 +4,10 @@ INSERT INTO `ad_category` ( `id` , `category_name` , `asp` , `display_name` ) VA
 
 DROP TABLE IF EXISTS `game_eggs_breaker_taobao_order` ;
 CREATE TABLE `game_eggs_breaker_taobao_order` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `order_id` varchar(255) NOT NULL,
+  `order_at` date NOT NULL,
   `order_paid` float(9,2) NOT NULL DEFAULT '0.00',
   `audit_by` varchar(16) DEFAULT NULL,
   `audit_status` int(2) NOT NULL DEFAULT 0, -- 0 init, 1 pending ,2 completed 

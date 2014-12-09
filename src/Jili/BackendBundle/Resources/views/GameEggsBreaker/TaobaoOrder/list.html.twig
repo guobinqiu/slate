@@ -1,0 +1,44 @@
+{% extends "JiliBackendBundle::base.html.twig"%}
+
+{% block title %}
+Taobao订单审核-12月活动-{{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset('css/pageNav.css')}}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+
+<h4>Taobao订单</h4>
+<table align="center" width="500">
+<tr>
+<th>订单号</th>
+<th>订单日期</th>
+</tr>
+{% for entity in entities %}
+    <tr>
+        <td>{{ entity.orderId }}</td>
+    </tr>
+
+{% endfor %}
+</table>
+
+<!--
+    {% set total_  = total %}
+    {% set cur = p %}
+    <p>cur: {{ cur }}</p>
+    {% set first = 1 %} 
+    {% set last =  ( total/ page_size) |round(0,'ceil') %} 
+    <p>last: {{ last }}</p>
+    {% set prev = ( cur > first ) ? cur - 1: first  %}
+    <p>prev: {{ prev }}</p>
+    {% set next = ( cur < last  ) ? cur + 1: last  %}
+-->
+<div style="display: inline-block; width: 100%;">
+{% include "JiliEmarBundle::page_nav.html.twig" %}
+
+</div>
+{% endblock %}

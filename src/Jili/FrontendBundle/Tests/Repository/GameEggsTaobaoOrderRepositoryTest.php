@@ -22,7 +22,8 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp() {
+    public function setUp() 
+    {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
@@ -31,7 +32,7 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
         $tn = $this->getName();
-        if($tn === 'testUpdateOne' ) {
+        if(in_array($tn , array('testUpdateOne','testFetchByRange'))) {
             $fixture = new LoadTaobaoOrdersData();
             $loader  = new Loader();
             $loader->addFixture($fixture);
@@ -44,7 +45,8 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown() {
+    protected function tearDown() 
+    {
         parent :: tearDown();
         $this->em->close();
     }
@@ -85,5 +87,18 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
         $this->assertEquals(1,1);
     }
 
+    /**
+     * @group issue_537 
+     * @group debug 
+     */
+    public function testFetchByRange() 
+    {
+        $actual = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+            ->fetchByRange(1,10);
+        $this->assertEquals(35,$actual['total']);
+        $expected_orders =array_merge( array_reverse(array_slice(LoadTaobaoOrdersData::$ORDERS, 0, 5)),array_slice(LoadTaobaoOrdersData::$ORDERS,5,5 ) );
+        $this->assertEquals(serialize($expected_orders)  ,serialize($actual['data']));
+        $this->assertEquals($expected_orders, $actual['data']);
+    }
 
 }

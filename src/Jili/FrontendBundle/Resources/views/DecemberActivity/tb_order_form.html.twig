@@ -1,13 +1,13 @@
 <form action="{{ path('jili_frontend_decemberactivity_addtaobaoorder') }}" method="POST">
     <ul class="shoppingForm">
         <li>
-        {{ form_label(form.orderPaid ,'购物时间：', {'label_attr' : { 'for': 'datepicker'}  } ) }}
-        {{ form_widget( form.orderPaid , {'attr' : { 'id': 'datepicker', 'value': '', 'class': 'clearTxt'}} ) }}
+        {{ form_label(form.orderPaid ,'购物时间：', {'id': 'datepicker'} ) }}
+        {{ form_widget( form.orderPaid , {'id':'datepicker','attr':{'value': '', 'class':'clearTxt'}} ) }}
         <span class="defaultTxt">yyyy-mm-dd</span>
         </li>
         <li>
-        {{ form_label( form.orderId, '淘宝订单号：', {'label_attr' : { 'for': 'orderNum'}  } ) }}
-        {{ form_widget(form.orderId , {'attr'  : { 'id':'orderNum', 'value':'', 'class' : 'clearTxt'  }}) }}
+        {{ form_label( form.orderId, '淘宝订单号：', {'id':'orderNum'} ) }}
+        {{ form_widget(form.orderId , {'id':'orderNum','attr': {'value':'','class':'clearTxt'  }}) }}
         <span class="defaultTxt"></span>
         </li>
     </ul>

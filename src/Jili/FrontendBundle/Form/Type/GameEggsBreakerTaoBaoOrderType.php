@@ -4,8 +4,7 @@ namespace Jili\FrontendBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class GameEggsBreakerTaoBaoOrderType extends AbstractType
 {
@@ -14,10 +13,12 @@ class GameEggsBreakerTaoBaoOrderType extends AbstractType
         $builder->add('orderId', 'text', array(
             'label'=>'订单号',
             'invalid_message' => '订单号不正确',
+            'constraints'=> new NotBlank() 
         ))->add('orderPaid', 'money', array(
-            'currency'=>false,
+            'currency'=> false,
             'divisor' => 100,
-            'label'=> '支付金额'
+            'label'=> '支付金额',
+            'constraints'=> new NotBlank() 
         ));
     }
 
@@ -26,4 +27,4 @@ class GameEggsBreakerTaoBaoOrderType extends AbstractType
         return 'order';
     }
 }
-?>
+

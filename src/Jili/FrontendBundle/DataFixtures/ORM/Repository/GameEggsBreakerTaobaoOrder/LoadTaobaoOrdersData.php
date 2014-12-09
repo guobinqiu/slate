@@ -99,17 +99,23 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
         for($i =0 ;$i<30 ; $i++ ) {
             $day = new \Datetime();
             $day->sub(new \DateInterval('P10D'));
+
+            $created = new \Datetime();
+            $created->sub(new \DateInterval('P12DT'. (1+$i).'M' ));
+
             $entity = new GameEggsBreakerTaobaoOrder(); 
             $entity->setUserId($user_id)
-                ->setOrderId('testorder00'. ( 5 + $i)   )
+                ->setOrderId('testorder00'. ( 6 + $i)   )
                 ->setOrderPaid( 150.01 )
                 ->setAuditStatus($entity::AUDIT_STATUS_COMPLETED)
                 ->setAuditPendedAt($day)
-                ->setIsVAlid($entity::ORDER_VALID)
-                ->setIsEgged($entity::IS_EGGED_INIT);
+                ->setIsValid($entity::ORDER_VALID)
+                ->setIsEgged($entity::IS_EGGED_INIT)
+                ->setCreatedAt($created);
+            
             $manager->persist($entity);
             $manager->flush();
-            self::$ORDERS[4+$i] = $entity;
+            self::$ORDERS[5+$i] = $entity;
         }
 
     }
