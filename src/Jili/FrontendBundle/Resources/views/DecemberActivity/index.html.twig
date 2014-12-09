@@ -1,0 +1,24 @@
+<div>
+this is the december activity page
+</div>
+
+{% set flashbag = app.session.flashbag.all %}
+{% if flashbag is not empty %}
+    <div class="messages-container">
+        {% for type, messages in flashbag %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div>
+{% render(controller("JiliFrontendBundle:DecemberActivity:stat") ) %}
+</div>
+
+<div>
+{% render(controller("JiliFrontendBundle:DecemberActivity:addTaobaoOrder") ) %}
+</div>

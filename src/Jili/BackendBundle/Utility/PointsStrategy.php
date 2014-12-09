@@ -1,13 +1,13 @@
 <?php
-namespace Jili/BackendBundle/Utility;
+namespace Jili\BackendBundle\Utility;
 
 /**
  * 
  **/
 class PointsStrategy extends JsonCacheFileHandler
 {
-
     protected $file; 
+
     function __construct($file)
     {
         $this->file  = $file;
@@ -18,9 +18,8 @@ class PointsStrategy extends JsonCacheFileHandler
         return $this->writeCache( $data ,$this->file); 
     } 
 
-    public function  get()
+    public function get()
     {
         return $this->readCached($this->file);
-
     } 
 }

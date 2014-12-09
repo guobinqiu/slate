@@ -8,10 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
  * GameEggsBreakerEggsInfo
  *
  * @ORM\Table(name="game_eggs_breaker_eggs_info", indexes={@ORM\Index(name="user_visit_token", columns={"user_id", "token"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameEggsBreakerEggsInfoRepository")
  */
 class GameEggsBreakerEggsInfo
 {
+    const EGG_TYPE_COMMON = 1;
+    const EGG_TYPE_CONSOLATION = 2;
+
     /**
      * @var integer
      *
@@ -78,6 +81,23 @@ class GameEggsBreakerEggsInfo
     private $id;
 
 
+    public function __construct()
+    {
+        $this->setNumOfCommon(0)
+            ->setNumOfConsolation(0)
+            ->setCreatedAt(new \DateTime());
+    }
+
+    /**
+     * 
+     */
+    public function refreshToken( $seed = '') 
+    {
+        $seed .= $this->getUserId();
+        $seed .= time();  
+        $token = md5($seed );
+        return $this->setToken($token);
+    }
 
     /**
      * Set userId

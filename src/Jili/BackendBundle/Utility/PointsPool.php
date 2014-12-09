@@ -1,7 +1,8 @@
 <?php
+namespace Jili\BackendBundle\Utility;
 
-namespace Jili/BackendBundle/Utility;
 
+use Symfony\Component\Filesystem\Filesystem;
 /**
  * 
  **/
@@ -9,14 +10,94 @@ class PointsPool extends JsonCacheFileHandler
 {
     
     protected $file; 
-    function __construct($file)
+    protected $file_strategy;
+    function __construct($file, $file_strategy)
     {
         $this->setDailyPointsPoolFile($file); 
+        $this->file_strategy = $file_strategy;
     }
 
     public function fetchByRandom()
     {
-        $
+       $pool = $this->isExists($this->file); 
+       if( is_null($pool)) {
+           $pointsStrategy = new PointsStrategy($this->file_strategy);
+           $strategy = $pointsStrategy->get();
+           
+           unset($pointsStrategy);
+           if(is_null($strategy)) {
+               throw new \Exception('points strategy is not exists');
+           }
+
+           $this->build($strategy);
+       }
+
+       $pool  = $this->readCached($this->file);
+       try {
+           /// backup 
+           if(0 === count($pool)) {
+               return ;
+           }
+           $tmp = $this->backup($this->file);
+           // read 
+           $fp = fopen($this->file, 'r+');
+           $c = 1;
+           while(!flock($fp, LOCK_EX | LOCK_NB)) {
+               $c++;
+               sleep($c);
+               if($c > 600){
+                   fclose($fp);
+                   throw new \Exception('Unable to obtain lock');
+               }
+           }
+           // read all content
+           $row = '';
+           while (!feof($fp)) {
+               $row .= fread($fp, 8192);
+           }
+
+           // the pool is empty
+           if(empty($row)) {
+               flock($fp, LOCK_UN);
+               fclose($fp);
+               throw  new \Exception('points pool cache is empty.');
+           }
+           $pool = json_decode($row, true);
+
+           // 'json parse retruns empty';
+           if( empty($pool)  ) {
+               flock($fp, LOCK_UN);
+               fclose($fp);
+               return array();
+           }
+
+           $key = array_rand( $pool, 1);
+           $value = $pool[$key];
+           //echo strlen(json_encode($pool)),PHP_EOL;
+           unset($pool[$key]);
+           shuffle($pool);
+           //echo strlen(json_encode($pool)),PHP_EOL;
+           $r = ftruncate($fp, 0 );
+           rewind($fp);
+           if($r === false ) {
+               flock($fp, LOCK_UN);
+               fclose($fp);
+               throw new \Exception('cannot truncate exception points pool cache');
+           }
+           fwrite( $fp, json_encode($pool));
+           unset($pool);
+           flock($fp, LOCK_UN);
+           fclose($fp);
+           // remove backup
+           $fs = new Filesystem();
+           $fs->remove($tmp);
+           return  $value;
+       } catch(\Exception $e) {
+            //restore
+            $this->restore($tmp, $file);
+            throw $e;
+        }
+        return true;
     } 
 
     /**
@@ -24,8 +105,6 @@ class PointsPool extends JsonCacheFileHandler
      */
     public function build( $points_strategy ) 
     {
-
-        //$strategy = $this->writeCache($data, $this->file); 
         if(empty($points_strategy)) {
             return array();
         }
@@ -40,19 +119,18 @@ class PointsPool extends JsonCacheFileHandler
             $c = array_merge($c, $tmp);
         }
         shuffle($c);
-
         try {
             $this->writeCache( $c, $this->file);
         } catch( \Exception $e) {
-            throw new \Exception();
-//            $this->logger->crit('[gameEggsBreaker][pointsPool][build]'. $e->getMessage());
+            throw $e;
         }
+        return $c;
     }
 
     // return the daily points pool file name
     private function setDailyPointsPoolFile($file)
     {
-        if( strpos('YYYYmmdd', $file) === false) {
+        if( strpos($file,'YYYYmmdd') === false) {
             throw new \Exception($file . ' should includes YYYYmmdd');
         }
         $this->file = str_replace('YYYYmmdd', date('Ymd'),$file );

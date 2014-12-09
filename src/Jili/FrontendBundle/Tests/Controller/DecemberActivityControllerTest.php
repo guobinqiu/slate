@@ -48,7 +48,7 @@ class DecemberActivityControllerTest extends WebTestCase
     }
 
     /**
-     * @group issue-537
+     * @group issue_537
      */
     public function testIndexAction()
     {
@@ -59,10 +59,10 @@ class DecemberActivityControllerTest extends WebTestCase
     }
 
     /**
-     * @group issue-537
+     * @group issue_537
      * @group debug 
      */
-    public function testAddTaobaoOrderAction()
+    public function testAddTaobaoOrderActionValidation()
     {
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
@@ -70,12 +70,56 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals('/activity/december/add-taobao-order', $url);
 
         $crawler = $client->request('GET', $url);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        echo $client->getResponse()->getContent();
+        $this->assertEquals('/login', $client->getRequest()->getRequestUri());
+
+        // check uri 
+        $session = $client->getRequest()->getSession();
+        $this->assertTrue( $session->has('goToUrl'));
+        $this->assertEquals('/activity/december/', $session->get('goToUrl'));
+
+//        $form = $crawler->selectButton('submit')->getForm();
+
+        // $client->getResponse()->getContent();
+
+// invalid form inputs 
+// duplicated post ? 
+        $session  = $client->getRequest()->getSession();
+        $session->set('uid' , 1);
+        $session->save();
+
+    }
+    /**
+     * @group issue_537
+     * @group debug 
+     */
+    public function testAddTaobaoOrderActionNormal()
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_addtaobaoorder');
+        $this->assertEquals('/activity/december/add-taobao-order', $url);
+
+        $session  = $container->get('session');
+        $session->set('uid' , 1);
+        $session->save();
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+//        echo $client->getResponse()->getContent();
+
         $form = $crawler->selectButton('submit')->getForm();
-        $form['order[orderId]']->setValue('1');
-        $form['order[orderPaid]']->setValue('5.0');
+        $form['order[orderId]']->setValue('myorderid001');
+        $form['order[orderPaid]']->setValue(5.0);
         $crawler = $client->submit($form);
+
+        // check result
+        $expected_record= $this->em 
+            ->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+            ->findOneBy(array('userId'=> 1, 'orderId'=>'myorderid001' , 'orderPaid'=> 5.0));
+        $this->assertNotNull( $expected_record);
 
     }
 }

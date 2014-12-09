@@ -3,7 +3,8 @@
 {% block body %}
 {{ parent() }}
 
-<form action="{{ path('jili_backend_gameseeker_buildpointstrategy') }}" method="POST">
+<form action="{{ path('jili_backend_decemberactivity_pointspool') }}" method="POST">
+{{ form_errors(form.rules) }}
 {{ form_label(form.rules, '规则列表' ) }}
 {{ form_widget(form.rules) }}
 {{ form_rest(form) }}

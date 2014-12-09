@@ -15,6 +15,7 @@ class GameEggsBreakerTaoBaoOrderType extends AbstractType
             'label'=>'订单号',
             'invalid_message' => '订单号不正确',
         ))->add('orderPaid', 'money', array(
+            'currency'=>false,
             'divisor' => 100,
             'label'=> '支付金额'
         ));

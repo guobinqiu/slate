@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * GameEggsBrokenLog
  *
  * @ORM\Table(name="game_eggs_broken_log")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameEggsBrokenLogRepository")
  */
 class GameEggsBrokenLog
 {
@@ -50,6 +50,10 @@ class GameEggsBrokenLog
     private $id;
 
 
+    public function __construct() 
+    {
+        $this->setCreatedAt(new \DateTime() );
+    }
 
     /**
      * Set userId

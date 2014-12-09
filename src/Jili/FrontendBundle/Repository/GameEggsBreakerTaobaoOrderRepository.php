@@ -24,4 +24,16 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
         return $entity;
     }
 
+    /**
+     *    updateOne for audit
+     */
+    public function updateOne($params)
+    {
+
+        $em = $this->getEntityManager();
+
+    }
+
+
+
 } 

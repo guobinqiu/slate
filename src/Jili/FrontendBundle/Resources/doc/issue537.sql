@@ -1,3 +1,7 @@
+-- 找宝箱游戏
+
+INSERT INTO `ad_category` ( `id` , `category_name` , `asp` , `display_name` ) VALUES (31 , 'game', '91jili', '游戏砸金蛋');
+
 DROP TABLE IF EXISTS `game_eggs_breaker_taobao_order` ;
 CREATE TABLE `game_eggs_breaker_taobao_order` (
   `id` int(11) NOT NULL,

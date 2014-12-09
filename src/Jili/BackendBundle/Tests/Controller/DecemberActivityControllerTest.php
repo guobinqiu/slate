@@ -6,4 +6,5 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DecemberActivityControllerTest extends WebTestCase
 {
+ 
 }

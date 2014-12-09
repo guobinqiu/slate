@@ -1,11 +1,14 @@
 <?php
-namespace Jili/BackendBundle/Utility;
+namespace Jili\BackendBundle\Utility;
+
+use  Symfony\Component\Filesystem\Filesystem;
 
 /**
  * 
  **/
 class JsonCacheFileHandler 
 {
+
     /**
      * Write content with json_encode  
      * @param array $data
@@ -19,6 +22,7 @@ class JsonCacheFileHandler
             $fs->mkdir($dir);
         }
         $fs->touch($file);
+        // chmod() 700 
         $result = file_put_contents( $file, json_encode($data), LOCK_EX);
         if ( false === $result) {
             throw new \Exception('cannot write points strategy to cache_data');
@@ -27,14 +31,42 @@ class JsonCacheFileHandler
         return $result;
     }
 
-    // read the cache.
-    protected function readCached($file)
+    public function fetch($file) 
+    {
+
+        $fp = fopen($file, 'w');
+        $c = 1;
+        while(!flock($fp, LOCK_EX | LOCK_NB)) {
+            sleep(1);
+            $c++;
+            if ($c > 3) {
+                throw new \Exception('busy request');
+            }
+        }
+
+        flock($fp, LOCK_UN);
+
+        fclose($fp);
+
+
+
+    }
+    protected function isExists( $file)
     {
         $fs = new Filesystem();
         if(!  $fs->exists( $file) ){
             return ;
         }
-        return @json_decode(file_get_contents($file), true);
+        return false;
+    }
+
+    // read the cache.
+    protected function readCached($file)
+    {
+        if( is_null($this->isExists($file))) {
+            return ;
+        }
+        return json_decode(file_get_contents($file), true);
     }
 
     protected function backup($file)

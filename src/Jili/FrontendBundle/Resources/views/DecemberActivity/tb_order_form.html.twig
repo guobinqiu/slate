@@ -1,10 +1,10 @@
 <div>
 <form action="{{ path('jili_frontend_decemberactivity_addtaobaoorder')  }}" method="POST">
 {{ form_label( form.orderId) }}
-{{ form_row(form.orderId ) }}
+{{ form_widget(form.orderId ) }}
 
 {{ form_label(form.orderPaid ) }}
-{{ form_row( form.orderPaid) }}
+{{ form_widget( form.orderPaid) }}
 
 {{ form_rest(form) }}
 <input type="submit" value="submit" />

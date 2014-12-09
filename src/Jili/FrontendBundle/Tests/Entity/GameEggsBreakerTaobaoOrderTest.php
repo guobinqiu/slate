@@ -10,7 +10,6 @@ class GameEggsBreakerTaobaoOrderTest extends KernelTestCase
 
     /**
      * @group issue-537
-     * @group debug
      */
     public function testInsertUserPost()
     {
