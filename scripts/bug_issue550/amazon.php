@@ -1,8 +1,10 @@
 <?php
+header("Content-type:text/html;charset=utf-8");
 $execute = false;
 
 $dsn = "mysql:host=localhost;dbname=jili_2014-09-23";
 $dbh = new PDO($dsn, 'root', '');
+$dbh->exec("SET NAMES 'utf8';");
 
 $filename = __DIR__ . "/import550.csv";
 $log_file = __DIR__ . "/log_file.sql";
@@ -84,6 +86,6 @@ try {
 }
 
 fclose($log_handle);
-echo date('c')."   end!";
+echo "\r\n\r\n" . date('c') . "   end!\r\n\r\n";
 exit;
 ?>
