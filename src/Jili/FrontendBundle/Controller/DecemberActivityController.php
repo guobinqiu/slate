@@ -52,11 +52,7 @@ class DecemberActivityController extends Controller
         $session = $this->get('session');
 
         $logger = $this->get('logger');
-        if( ! $session->has('uid')) {
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__)));
-            $session->set('goToUrl', $this->get('router')->generate('jili_frontend_decemberactivity_index'));
-            return $this->redirect($this->generateUrl('_login') );
-        }
+
 
         $form = $this->createForm(new GameEggsBreakerTaoBaoOrderType());
         if( 'POST' == $request->getMethod()) {
