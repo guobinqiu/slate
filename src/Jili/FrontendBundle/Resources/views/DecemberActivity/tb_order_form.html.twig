@@ -1,18 +1,22 @@
 <form action="{{ path('jili_frontend_decemberactivity_addtaobaoorder') }}" method="POST">
     <ul class="shoppingForm">
-        <li><label for="datepicker">购物时间：</label><input type="text" id="datepicker" value="" class="clearTxt"/><span class="defaultTxt">yyyy-mm-dd</span></li>
-        <li><label for="orderNum">淘宝订单号：</label><input type="text" id="orderNum" value="" class="clearTxt"/><span class="defaultTxt"></span></li>
+        <li>
+        {{ form_label(form.orderPaid ,'购物时间：', {'label_attr' : { 'for': 'datepicker'}  } ) }}
+        {{ form_widget( form.orderPaid , {'attr' : { 'id': 'datepicker', 'value': '', 'class': 'clearTxt'}} ) }}
+        <span class="defaultTxt">yyyy-mm-dd</span>
+        </li>
+        <li>
+        {{ form_label( form.orderId, '淘宝订单号：', {'label_attr' : { 'for': 'orderNum'}  } ) }}
+        {{ form_widget(form.orderId , {'attr'  : { 'id':'orderNum', 'value':'', 'class' : 'clearTxt'  }}) }}
+        <span class="defaultTxt"></span>
+        </li>
     </ul>
-	<div class="submitBtn"></div>
-<!--{{ form_label( form.orderId) }}
-{{ form_widget(form.orderId ) }}
-
-{{ form_label(form.orderPaid ) }}
-{{ form_widget( form.orderPaid) }}
-
-{{ form_rest(form) }}
-<input type="submit" value="submit" />-->
+     {{ form_rest(form) }}
+    <button type="submit" value="submit"  style="border:0;background:transparent">
+        <div class="submitBtn"></div>
+    </button>
 </form>
+<!--
 {% set flashbag = app.session.flashbag.all %}
 {% if flashbag is not empty %}
     <div class="messages-container">
@@ -25,3 +29,4 @@
         {% endfor %}
     </div>
 {% endif %}
+-->
