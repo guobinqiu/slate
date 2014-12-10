@@ -49,7 +49,6 @@ class GameEggsBreakerCommandTest extends KernelTestCase {
 
     /**
      * @group issue_537
-     * @group debug 
      */
     public function testExecute() 
     {
@@ -92,19 +91,19 @@ class GameEggsBreakerCommandTest extends KernelTestCase {
 
         $this->assertEmpty($pending);
         //  user[0] 
-        $user = LoadTaobaoOrderFinishAuditData:$USERS[0];       
+        $user = LoadTaobaoOrderFinishAuditData::$USERS[0];       
         $info = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
             ->findOneByUserId($user->getId());
 
 
         //  user[1] 
-        $user1 = LoadTaobaoOrderFinishAuditData:$USERS[1];       
+        $user1 = LoadTaobaoOrderFinishAuditData::$USERS[1];       
         
         //  user[2] 
-        $user2 = LoadTaobaoOrderFinishAuditData:$USERS[2];       
+        $user2 = LoadTaobaoOrderFinishAuditData::$USERS[2];       
         
         //  user[3] 
-        $user3 = LoadTaobaoOrderFinishAuditData:$USERS[3];       
+        $user3 = LoadTaobaoOrderFinishAuditData::$USERS[3];       
          
 
         $this->assertEquals(1,1);
