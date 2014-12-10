@@ -28,8 +28,8 @@ class DmdeliveryCommand extends ContainerAwareCommand
     
     protected function configure()
     {
-        $this->setName('jili:run_crontab')
-            ->setDescription('run crontab')
+        $this->setName('jili:run_crontab_Dmdelivery')
+            ->setDescription('run_crontab_Dmdelivery')
             ->addArgument('batch_name', InputArgument :: REQUIRED, 'batch_name');
     }
 
@@ -67,6 +67,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
     public function handleSendPointFail($em, $failTime,$companyId,$mailingId)
     {
         $user = $em->getRepository('JiliApiBundle:User')->pointFail($failTime);
+        echo "select count : ".count($user)."\n";
         if(!empty($user)){
             $group = $this->addgroup($companyId);
             if($group->status != "ERROR"){
@@ -74,17 +75,32 @@ class DmdeliveryCommand extends ContainerAwareCommand
                 foreach ($user as $key => $value) {
                     $failId = $this->issetFailRecord($em, $value['id'],$failTime);
                     if(!$failId){
-                        $recipient_arr = array();
-                        $recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
-                                                 array('name'=>'nick','value'=>$value['nick']));
+                        $recipient_arr = array(
+                                            array(
+                                                'fields'=>
+                                                    array(
+                                                        array('name'=>'email','value'=>$value['email']),
+                                                        array('name'=>'nick','value'=>$value['nick'])
+                                                         )
+                                                 )
+                                        );
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
                         //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
                         if($send->status != "ERROR"){
-                            $this->insertSendPointFail($em, $value['id'],$failTime);
-                            if($failTime == 180){
-                                $this->updatePointZero($em, $value['id']);
+                            try{
+                                $em->getConnection()->beginTransaction();
+                                $this->insertSendPointFail($em, $value['id'],$failTime);
+                                if($failTime == 180){
+                                    $this->updatePointZero($em, $value['id']);
+                                }
+                                echo 'key :'.$key. ',userid:'.$value['id']."-> Send email successfully  \n";
+                                $em->getConnection()->commit();
+                            } catch (Exception $ex) {
+                                $em->getConnection()->rollback();
+                                $content = $this->setALertEmailBody('pointFailure','something error happend when insert or update)');
+                                $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
+                                throw $e;
                             }
-                            echo 'key :'.$key. ',userid:'.$value['id']."-> Send email successfully  \n";
                         } else {
                             $send_fail_email_count++;
                             echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email:'.$send->statusMsg." \n";
@@ -109,32 +125,48 @@ class DmdeliveryCommand extends ContainerAwareCommand
     public function handleSendPointFailTemp($em, $failTime,$companyId,$mailingId)
     {
         $user = $em->getRepository('JiliApiBundle:User')->pointFailTemp($failTime);
-        $send_fail_email_count = 0;
+        echo "select count : ".count($user)."\n";
         if(!empty($user)){
             $group = $this->addgroup($companyId);
             if($group->status != "ERROR"){
+                $send_fail_email_count = 0;
                 foreach ($user as $key => $value) {
                     $failId = $this->issetFailRecord($em, $value['id'],$failTime);
                     if(!$failId){
-                        $recipient_arr = array();
-                        $recipient_arr[] = array(array('name'=>'email','value'=>$value['email']),
-                                                 array('name'=>'nick','value'=>$value['nick']));
+                        $recipient_arr = array(
+                                            array(
+                                                'fields'=>
+                                                    array(
+                                                        array('name'=>'email','value'=>$value['email']),
+                                                        array('name'=>'nick','value'=>$value['nick'])
+                                                         )
+                                                 )
+                                        );
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
                         //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
                         if($send->status != "ERROR"){
-                            $this->insertSendPointFail($em, $value['id'],$failTime);
-                            if($failTime == 180){
-                                $this->updatePointZero($em, $value['id']);
+                            try{
+                                $em->getConnection()->beginTransaction();
+                                $this->insertSendPointFail($em, $value['id'],$failTime);
+                                if($failTime == 180){
+                                    $this->updatePointZero($em, $value['id']);
+                                }
+                                echo 'key :'.$key. ',userid:'.$value['id']."-> Send email successfully  \n";
+                                $em->getConnection()->commit();
+                            } catch (Exception $ex) {
+                                $em->getConnection()->rollback();
+                                $content = $this->setALertEmailBody('pointFailure','something error happend when insert or update)');
+                                $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
+                                throw $e;
                             }
-                            echo 'key :'.$key. ',userid:'.$value['id']."-> Send email successfully  \n";
-                        }else{
+                        } else {
                             $send_fail_email_count++;
                             echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email:'.$send->statusMsg." \n";
                         }
                     }
                 }
                 if ($send_fail_email_count > 0){
-                    $content = $this->setALertEmailBody('pointFailure','Cannot send email:'.$group->statusMsg);
+                    $content = $this->setALertEmailBody('pointFailure','Cannot send email，count = '.$send_fail_email_count);
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
                 }
             }else{
@@ -143,7 +175,6 @@ class DmdeliveryCommand extends ContainerAwareCommand
             }
         }else{
             $content = $this->setALertEmailBody('pointFailure','Email list is empty');
-            //$this->get('send_mail')->sendMails('积粒网-定时任务提醒邮件', array('jinzhang@voyagegroup.com.cn','zspike1985@139.com'),$content);
             $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
         }
     }
@@ -244,7 +275,8 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $user->setPoints($this->getContainer()->getParameter('init'));
         $em->persist($user);
         $em->flush();
-        $this->getPoint($em, $userId,'-'.$oldPoint,$this->getContainer()->getParameter('init_fifteen'));
+        $params = array('userid'=>$userId,'point'=>'-'.$oldPoint,'type'=>$this->getContainer()->getParameter('init_fifteen'));
+        $this->getContainer()->get('general_api.point_history')->get($params);
     }
 
     public function insertSendPointFail($em, $userId,$type)
@@ -255,52 +287,6 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $em->persist($sendPoint);
         $em->flush();
 
-    }
-    
-   private function getPoint($em, $userid,$point,$type)
-    {
-      if(strlen($userid)>1){
-            $uid = substr($userid,-1,1);
-      }else{
-            $uid = $userid;
-      }
-      switch($uid){
-            case 0:
-                  $po = new PointHistory00();
-                  break;
-            case 1:
-                  $po = new PointHistory01();
-                  break;
-            case 2:
-                  $po = new PointHistory02();
-                  break;
-            case 3:
-                  $po = new PointHistory03();
-                  break;
-            case 4:
-                  $po = new PointHistory04();
-                  break;
-            case 5:
-                  $po = new PointHistory05();
-                  break;
-            case 6:
-                  $po = new PointHistory06();
-                  break;
-            case 7:
-                  $po = new PointHistory07();
-                  break;
-            case 8:
-                  $po = new PointHistory08();
-                  break;
-            case 9:
-                  $po = new PointHistory09();
-                  break;
-      }
-      $po->setUserId($userid);
-      $po->setPointChangeNum($point);
-      $po->setReason($type);
-      $em->persist($po);
-      $em->flush();
     }
     
     public function setALertEmailBody($batch_name, $message){

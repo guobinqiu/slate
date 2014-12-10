@@ -157,7 +157,7 @@ class UserRepository extends EntityRepository
         $query = $query->getQuery();
         return $query->getResult();
     }
-
+    
     public function pointFail($type)
     {
         $daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
