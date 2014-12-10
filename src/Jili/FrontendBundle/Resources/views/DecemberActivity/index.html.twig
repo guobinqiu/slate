@@ -16,8 +16,12 @@
 <div class="decTop">
     <div class="decTopCon">
         <div class="decTopConBg"><img src="{{ asset('images/december/topConBg.jpg')}}" width="990" height="415" border="0"/></div>
-        <div class="logo"><a href="http://www.91jili.com/"><img src="{{ asset('images/december/logo.png')}}" width="154" height="42" alt="logo"/></a></div>
-        <div class="login">您好，请<a href="https://www.91jili.com/user/login">登录</a></div>
+        <div class="logo"><a href="{{ path('_homepage') }}"><img src="{{ asset('images/december/logo.png')}}" width="154" height="42" alt="logo"/></a></div>
+        {% if not app.session.has('uid') %}
+        	<div class="login">您好，请<a href="{{ path('_user_login')}}">登录</a></div>
+        {% else %}
+            <div class="login">您好，{{ app.session.get('nick') }}</div>
+        {% endif %}
         <span class="timestamp"><img src="{{ asset('images/december/foldTxt.png')}}" width="409" height="85"/></span>
         <span class="goBtn"><img src="{{ asset('images/december/goBtn.png')}}" width="169" height="67" alt="抢金蛋"/></span>
     </div>
@@ -27,7 +31,7 @@
         <div class="luckyDraw clearfix">
             <div class="luckyDrawL">
                 <p>我当前拥有金蛋的个数：<strong class="eggNum"></strong>抢下一个金蛋所需消费淘宝金额：<strong class="eggMoney"></strong></p>
-                <div class="noStart"><img src="{{ asset('images/december/noStart.png')}}" width="424" height="171" alt="您还没有金蛋哦"></div>
+                <div class="noStart"><img src="{{ asset('images/december/noegg.gif')}}" width="400" height="200" alt="您还没有金蛋哦"></div>
                 <div class="mask">
                     <ul class="goldenEggs clearfix">
                     </ul>
@@ -192,21 +196,21 @@
                 <li>美容护肤</li>
                 <li>数码电器</li>
                 <li>文化体育</li>
-                <li><a href="http://www.91jili.com/taobao/index">更多商品</a></li>
+                <li><a href="{{ path('jili_frontend_taobao_index') }}">更多商品</a></li>
             </ul>
             <div class="backTop">回顶部</div>
         </div>
     </div>
 </div>
-<div class="decRuleBtn">如何抢到金蛋>></div>
 <div class="decRule">
+	<div class="decRuleBtn">如何抢到金蛋<br/>>></div>
 	<div class="decRuleFlow">
         <h2><em>●</em>抢金蛋流程</h2>
         <div class="decRuleCon">
-            <p>第<span>1</span>步，当前<a href="#" target="_blank">活动页面</a>购物或者到<a href="http://www.91jili.com/taobao/index">淘宝专页</a>购物满<strong>10</strong>元</p>
+            <p>第<span>1</span>步，当前<a href="javascript: void(0)" target="_blank">活动页面</a>购物或者到<a href="{{ path('jili_frontend_taobao_index') }}">淘宝专页</a>购物满<strong>10</strong>元</p>
             <p>
             	第<span>2</span>步，填写如下表单
-                <div>{% render(controller("JiliFrontendBundle:DecemberActivity:addTaobaoOrder") ) %}</div>
+                <div class="formWrapper">{% render(controller("JiliFrontendBundle:DecemberActivity:addTaobaoOrder") ) %}</div>
             </p>
         </div>
     </div>

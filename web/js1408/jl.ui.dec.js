@@ -85,10 +85,14 @@ function checkFlow(){
     decRuleBtn.on('click', function(){
         var datepicker = $( "#datepicker, .defaultTxt" );
         datepicker.datetimepicker({ lang : 'ch', parentID: '.decRuleFlow', timepicker : false, format : 'Y-m-d', formatDate : 'Y-m-d' });
-        decRule.animate({ right: '0px'}, 500);
-    });
-    decRule.on('mouseleave', function(){
-        $(this).animate({ right: '-405px'}, 500);
+        if($(this).hasClass('decRuleBtnActive')){
+            $('.decRuleBtn').removeClass('decRuleBtnActive');
+            decRule.animate({ right: '-405px'}, 500);
+        }else{
+            decRule.animate({ right: '0px'}, 500, function(){
+                $('.decRuleBtn').addClass('decRuleBtnActive');
+            });
+        }
     });
     formClear();
 }
@@ -140,25 +144,20 @@ function countDown(){
 function topFold(){
     $('.timestamp').hide();
     setTimeout(function(){
+        $('.goBtn').fadeOut('fast');
+        $('.decTopConBg').animate({ height: '119px', overflow: 'hidden'}, 1E3);
         $('.decTop').addClass('decTopFold').animate({ height: '119px'}, 1E3, function(){
             $('.timestamp').fadeIn();
-            $('.goBtn').hide();
             $('.decTopConBg').fadeOut();
             runFlow();
         });
-    }, 2E3);
-}
-function addMask(parentEle){
-    var wrapper = '<div></div>';
-    $(wrapper).addClass('fixMask').appendTo($(parentEle));
-    $(wrapper).addClass('popupCon').html("蚊子蚊子").appendTo($(parentEle));
+    }, 5E3);
 }
 $(function(){
     var s = setInterval(textScroll, 2E3);
     topFold();
     checkFlow();
     countDown();
-    //addMask('body');
     $.fn.eggFrenzy({
         container: '.goldenEggs',
         hasEgg: '.luckyDrawL .mask',
@@ -178,22 +177,28 @@ $(function(){
         beginAjax: function(){
             var $this = this;
             var opts = $this.options;
-            $.ajax({
-                url: Routing.generate('jili_frontend_decemberactivity_geteggsinfo'),
-                type: 'post',
-                dataType: 'json',
-                success: function(eggData){
-                    //var eggData = { code: '1', msg: '', data: { token: '', validNum: 2, comfortNum: 1, diffMoney: 200, isStart: false}};
-					$this.debug('初始金蛋信息……', eggData);
-                    $this.showEgg(eggData);
-                    $this.setEggInfo(eggData);
-                    $this.addEgg(eggData);
-                    $this.openStart(eggData);
-                },
-                error: function(){
-                    $this.debug('第一次请求失败……');
-                }
-            });
+            /*$.ajax({
+             url: Routing.generate('jili_frontend_decemberactivity_geteggsinfo'),
+             type: 'post',
+             dataType: 'json',
+             success: function(eggData){
+             //var eggData = { code: '1', msg: '', data: { token: '', validNum: 2, comfortNum: 1, diffMoney: 200, isStart: false}};
+             $this.debug('初始金蛋信息……', eggData);
+             $this.showEgg(eggData);
+             $this.setEggInfo(eggData);
+             $this.addEgg(eggData);
+             $this.openStart(eggData);
+             },
+             error: function(){
+             $this.debug('第一次请求失败……');
+             }
+             });*/
+            var eggData = { code: '1', msg: '', data: { token: '', validNum: 3, comfortNum: 2, diffMoney: 200, isStart: false}};
+            $this.debug('初始金蛋信息……', eggData);
+            $this.showEgg(eggData);
+            $this.setEggInfo(eggData);
+            $this.addEgg(eggData);
+            $this.openStart(eggData);
         },
         init: function(){
             this.beginAjax();
@@ -221,30 +226,39 @@ $(function(){
         addEgg: function(initData){
             var $this = this;
             var opts = $this.options;
-            var eggWrapper = '<li><div><img src="/images/december/egg.gif" width="110" height="138"/></div><span>我要砸蛋</span></li>';
+            var randNum;
+            var imgArr = ["/images/december/static_egg.gif", "/images/december/shaking_egg7.gif", "/images/december/shaking_egg12.gif"];
+            var eggWrapper = '<li><div><img src="#" width="110" height="138"/></div><span>我要砸蛋</span></li>';
             for(var i = 0; i< initData.data.validNum; i++){
-                $(opts.container).append(eggWrapper);
+                randNum = Math.floor(Math.random()*(0-3) + 3);
+                $this.debug(randNum);
+                $(eggWrapper).find('img').attr("src", imgArr[randNum]).end().appendTo($(opts.container));
             }
             for(var j = 0; j< initData.data.comfortNum; j++){
-                $(opts.container).append($(eggWrapper).addClass('comfort'));
+                randNum = Math.floor(Math.random()*(0-3) + 3);
+                $this.debug(randNum);
+                $(eggWrapper).find('img').attr("src", imgArr[randNum]).end().addClass('comfort').appendTo($(opts.container));
             }
         },
         getResult: function(initData, eggType){
             var $this = this;
-            $.ajax({
-                url: Routing.generate('jili_frontend_decemberactivity_breakegg'),
-                type: 'post',
-                dataType: 'json',
-                data: "token=" + initData.token + "&eggType=" + eggType,
-                success: function(resultData){
-                    //var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
-					$this.debug('砸蛋结果……', resultData);
-                    $this.showResult(resultData);
-                },
-                error: function(){
-                    $this.debug('第二次请求结果失败……');
-                }
-            });
+            /*$.ajax({
+             url: Routing.generate('jili_frontend_decemberactivity_breakegg'),
+             type: 'post',
+             dataType: 'json',
+             data: "token=" + initData.token + "&eggType=" + eggType,
+             success: function(resultData){
+             //var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
+             $this.debug('砸蛋结果……', resultData);
+             $this.showResult(resultData);
+             },
+             error: function(){
+             $this.debug('第二次请求结果失败……');
+             }
+             });*/
+            var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
+            $this.debug('砸蛋结果……', resultData);
+            $this.showResult(resultData);
         },
         showResult: function(resultData){
             this.debug('展示砸蛋结果……');
