@@ -10,23 +10,19 @@
         {{ form_widget(form.orderId , {'attr'  : { 'id':'orderNum', 'value':'', 'class' : 'clearTxt'  }}) }}
         <span class="defaultTxt"></span>
         </li>
+        {% set flashbag = app.session.flashbag.all %}
+        {% if flashbag is not empty %}
+            <li class="errorMsg">
+                {% for type, messages in flashbag %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }}">
+                            *您输入的日期不对哦{{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </li>
+        {% endif %}
     </ul>
      {{ form_rest(form) }}
-    <button type="submit" value="submit"  style="border:0;background:transparent">
-        <div class="submitBtn"></div>
-    </button>
+    <button type="submit" value="submit"  class="submitBtn"  style="border:0;"></button>
 </form>
-<!--
-{% set flashbag = app.session.flashbag.all %}
-{% if flashbag is not empty %}
-    <div class="messages-container">
-        {% for type, messages in flashbag %}
-            {% for message in messages %}
-                <div class="alert alert-{{ type }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-    </div>
-{% endif %}
--->

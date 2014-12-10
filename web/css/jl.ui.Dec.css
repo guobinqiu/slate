@@ -8,7 +8,7 @@ a{ color: #fff;}
 .decTopCon, .decMainCon{ position: relative; z-index: 1; width: 990px; margin: 0 auto;}
 .decRule, .decRuleBtn, .decRuleBtnActive{ position: absolute; z-index: 9999; right: 405px; top: 155px;}
 .decRule{ top: 0; width: 345px; height: 865px; right: -405px; line-height: 24px; background-color: #2a2a2a; padding: 30px; font-size: 16px;}
-.decRule h2 em, .shoppingForm label, .decRuleCon p span{ display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
+.decRule h2 em, .shoppingForm label, .decRuleCon p span, .shoppingForm button{ display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
 .decRule h2{ font-size: 36px; font-weight: bold; line-height: 45px;}
 .decRule h2 em{ font-size: 24px; margin-right: 10px;}
 .decRule .decRuleFlow{ font-size: 18px; border-bottom: 1px dashed #363636; line-height: 28px;}
@@ -21,7 +21,7 @@ a{ color: #fff;}
 .shoppingForm label{ width: 110px; height: 34px; line-height: 34px;}
 .shoppingForm input{ width: 165px; height: 30px; padding: 2px 3px;}
 .shoppingForm span{ position: absolute; z-index: 1000; padding: 3px; left: 120px; color: #b5b5b5;}
-.decRuleCon .submitBtn{ margin-top: 20px; width: 169px; height: 67px; cursor: pointer; background: url(../images/december/goBtn.png) no-repeat;}
+.decRuleCon .submitBtn{ margin-top: 20px; width: 169px; height: 67px; cursor: pointer; background: url(../images/december/goBtn.png) no-repeat; outline:none;}
 .decRuleMain{ margin-top: 30px;}
 .decRuleMain .decTime{ font-size: 18px; color: #e89d07; margin-top: 20px;}
 .decRuleMain li{ margin-top: 15px;}
@@ -82,4 +82,7 @@ a{ color: #fff;}
 .decListMain li .proDetail span{text-decoration:line-through;}
 .fixMask{ position: fixed; z-index: 9998; left: 0; top: 0; width: 100%; height: 100%; opacity: .6; filter: alpha(opacity=60); background-color: #000;}
 .popupCon{ position: fixed; z-index: 9999; width: 990px; left: 50%; margin-left: -495px; top: 0;}
-.eggTips{ position: absolute; z-index: 3000; top: 100px; left: 50%; margin-left: -80px; width: 160px; height: 35px; text-align: center; line-height: 35px; background-color: #fff; color: #333; font-size: 12px;}
+.eggTips, .submitTips{ position: absolute; z-index: 3000; top: 100px; left: 50%; margin-left: -80px; width: 160px; height: 35px; text-align: center; line-height: 35px; background-color: #fff; color: #333; font-size: 12px;}
+.formWrapper{ position: relative; z-index: 1;}
+.submitTips{ top: 120px; left: 130px; margin-left: 0;}
+.shoppingForm li.errorMsg{ font-size: 12px; color: #cc122a; margin-top: 10px;}
