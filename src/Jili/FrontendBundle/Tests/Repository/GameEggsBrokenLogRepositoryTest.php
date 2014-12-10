@@ -43,7 +43,6 @@ class GameEggsBrokenLogRepoisitoryTest extends KernelTestCase
         $this->em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')
             ->addLog(array('userId'=> 1, 'eggType'=> GameEggsBreakerEggsInfo::EGG_TYPE_COMMON , 'points'=>5 ));
 
-
         $expected_entity = $this->em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')
             ->findOneBy( array('userId'=> 1,
                 'eggType'=> GameEggsBreakerEggsInfo::EGG_TYPE_COMMON,

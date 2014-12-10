@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Jili\BackendBundle\Form\Type\PointsStrategyType;
+use Jili\BackendBundle\Form\Type\GameEggsBreakerAuditType;
 
 /**
  * @Route("/admin/activity/december", requirements={"_scheme" = "https"})
@@ -23,8 +24,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
     }
 
     /**
-     * @Route("/list-orders",  defaults={"p"=1})
-     * @Route("/list-orders/{p}", requirements={"p"="\d+"}, defaults={"p"=1})
+     * @Route("/list-orders/{p}",  defaults={"p"=1}, requirements={"p" = "\d+"})
      * @Method( "GET");
      */
     public function listAllAction($p)
@@ -41,6 +41,40 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
 'p'=>$p));
     }
 
+    /**
+     * @Route("/audit-order/{id}",  requirements={"id" = "\d+"})
+     * @Method( {"GET", "POST" });
+     */
+    public function auditAction($id)
+    {
+
+        $request = $this->get('request');
+        $em = $this->get('doctrine.orm.entity_manager');
+        $entity = $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')->findOneForAudit($id);
+
+        if(! $entity)  {
+            $this->get('session')->getFlashBag()->add('error', '没找到审核订单');
+            return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_listall'));
+
+        }
+
+       $form = $this->createForm( new GameEggsBreakerAuditType(), $entity);
+        if( 'POST' === $request->getMethod()) {
+            if($form->isValid()  ) {
+                $data = $form->getData();
+                $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+                    ->updateOneOnAudit($data);
+
+                   $this->get('session')->setFlash('notice','审核成功');
+                return $this->redirect($this->generateUrl('jili_backend_decemberactivity_listall'));
+            }
+        }
+
+        return $this->render('JiliBackendBundle:GameEggsBreaker/TaobaoOrder:edit.html.twig', array(
+            'form'=>$form->createView(),
+            'id'=>$id
+        ));
+    }
     /**
      * @Route("/points-pool-publised-sccuess")
      * @Method("GET");

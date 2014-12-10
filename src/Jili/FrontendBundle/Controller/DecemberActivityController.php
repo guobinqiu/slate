@@ -67,7 +67,7 @@ class DecemberActivityController extends Controller
                 $em  = $this->get('doctrine.orm.entity_manager');
                 $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
                     ->insertUserPost( array('userId'=>$session->get('uid'),
-                        'orderPaid'=>$data['orderPaid'], 
+                        'orderAt'=>$data['orderAt'], 
                         'orderId'=>$data['orderId'], 
                     ));
                 $this->get('session')->setFlash('notice','提交成功，等待审核');
@@ -123,11 +123,26 @@ class DecemberActivityController extends Controller
     }
 
     /**
+     *  request token:  typeOfEgg:0 ,1
      * @Route("/break-egg", options={"expose"=true})
      * @Method("POST")
+     * @return {code:0 , data: { points: \d+ } }
      */
     public function breakEggAction()
     {
-        // more stuff 
+        // $point = service->breakEgg( $token, );
+        $request = $this->getRequest();
+        $response = new  JsonResponse ();
+        if(! $request->isXmlHttpRequest()) {
+            return $response;
+        }
+
+        // user not sign in , return {'code': ?}
+        if( ! $this->get('session')->has('uid')) {
+            $response->setData(array( 'code'=> 0 ));
+            return $response;
+        }
+
+        return $response;
     }
 }

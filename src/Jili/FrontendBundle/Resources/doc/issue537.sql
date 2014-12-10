@@ -17,7 +17,8 @@ CREATE TABLE `game_eggs_breaker_taobao_order` (
   `updated_at` datetime NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_order` (`user_id`,`order_id`)
+  KEY `user_order` (`user_id`,`order_id`),
+  KEY `audit_pend` (`audit_status`,`audit_pended_at`) -- find pending cron
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `game_eggs_breaker_eggs_info` ;
@@ -32,6 +33,7 @@ CREATE TABLE `game_eggs_breaker_eggs_info` (
   `token_updated_at` datetime NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `user` (`user_id`) ,
   KEY `user_visit_token` (`user_id`,`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

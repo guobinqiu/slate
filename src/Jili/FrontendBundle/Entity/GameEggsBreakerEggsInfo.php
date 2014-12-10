@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * GameEggsBreakerEggsInfo
  *
- * @ORM\Table(name="game_eggs_breaker_eggs_info", indexes={@ORM\Index(name="user_visit_token", columns={"user_id", "token"})})
+ * @ORM\Table(name="game_eggs_breaker_eggs_info", uniqueConstraints={@ORM\UniqueConstraint(name="user", columns={"user_id"})}, indexes={@ORM\Index(name="user_visit_token", columns={"user_id", "token"})})
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameEggsBreakerEggsInfoRepository")
  */
 class GameEggsBreakerEggsInfo
@@ -87,7 +87,26 @@ class GameEggsBreakerEggsInfo
     {
         $this->setNumOfCommon(0)
             ->setNumOfConsolation(0)
+            ->setOffcutForNext(0)
             ->setCreatedAt(new \DateTime());
+    }
+
+    /**
+     * @param array $eggs = array('common'=> , 'consolation'=> )
+     * @param string $token ;
+     */
+    public function updateNumOfEggs( $eggs, $token ) 
+    {
+        if( $token === $this->getToken()) {
+            $common =$eggs['common']+ $this->getNumOfCommon();
+            $consolation = $eggs['consolation'] + $this->getNumOfConsolation();
+
+            $this->setNumOfConsolation($consolation)
+            ->setNumOfCommon( $common)
+            ->setOffcutForNext($eggs['offcut'])
+            ->setNumUpdatedAt( new \DateTime() );
+        } 
+        return $this;
     }
 
     /**
@@ -98,7 +117,8 @@ class GameEggsBreakerEggsInfo
         $seed .= $this->getUserId();
         $seed .= time();  
         $token = md5($seed );
-        return $this->setToken($token);
+        return $this->setToken($token)
+            ->setTokenUpdatedAt(new \DateTime());
     }
 
     /**

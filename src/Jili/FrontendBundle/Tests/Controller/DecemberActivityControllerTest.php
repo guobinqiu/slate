@@ -74,7 +74,6 @@ class DecemberActivityControllerTest extends WebTestCase
 
     /**
      * @group issue_537
-     * #group debug 
      */
     public function testAddTaobaoOrderActionValidation()
     {
@@ -107,7 +106,6 @@ class DecemberActivityControllerTest extends WebTestCase
     }
     /**
      * @group issue_537
-     * #group debug 
      */
     public function testAddTaobaoOrderActionNormal()
     {
@@ -126,7 +124,7 @@ class DecemberActivityControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('submit')->form();
         $form['order[orderId]']->setValue('myorderid001');
-        $form['order[orderPaid]']->setValue(5.0);
+        $form['order[orderAt]']->setValue(date('Y-m-d'));
         $crawler = $client->submit($form);
 
         // check result
@@ -139,7 +137,6 @@ class DecemberActivityControllerTest extends WebTestCase
 
     /**
      * @group issue_537
-     * @group debug 
      */
     public function testGetEggsInfoActionNormal()
     {
@@ -173,7 +170,6 @@ class DecemberActivityControllerTest extends WebTestCase
 
     /**
      * @group issue_537
-     * @group debug 
      */
     public function testBreakEggActionNormal() 
     {

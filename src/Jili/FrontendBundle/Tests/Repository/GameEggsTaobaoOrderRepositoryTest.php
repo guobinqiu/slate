@@ -53,7 +53,6 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
 
     /**
      * @group issue_537 
-     * #group debug 
      */
     public function testInsertUserPost() 
     {
@@ -63,7 +62,7 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
         $expected_entity = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
             ->findOneBy( array('userId'=> 1,
                 'orderId'=>'10d93jasdf0f2',
-                'orderPaid'=> 100.01));
+                'orderAt'=> date('Y-m-d')));
         $this->assertNotNull($expected_entity);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerTaobaoOrder',$expected_entity);
 
@@ -72,7 +71,6 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
 
     /**
      * @group issue_537 
-     * @group debug 
      */
     public function testUpdateOneOnAudit() 
     {
@@ -89,7 +87,6 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
 
     /**
      * @group issue_537 
-     * @group debug 
      */
     public function testFetchByRange() 
     {
@@ -97,7 +94,6 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
             ->fetchByRange(1,10);
         $this->assertEquals(35,$actual['total']);
         $expected_orders =array_merge( array_reverse(array_slice(LoadTaobaoOrdersData::$ORDERS, 0, 5)),array_slice(LoadTaobaoOrdersData::$ORDERS,5,5 ) );
-        $this->assertEquals(serialize($expected_orders)  ,serialize($actual['data']));
         $this->assertEquals($expected_orders, $actual['data']);
     }
 

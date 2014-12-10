@@ -9,7 +9,6 @@ class TaobaoOrderToEggsTest  extends KernelTestCase
 
     /**
      * @group issue_537
-     * @group debug 
      */
     public function testCaculateEggs() 
     {
@@ -71,7 +70,6 @@ class TaobaoOrderToEggsTest  extends KernelTestCase
     }
     /**
      * @group issue_537
-     * @group debug 
      */
     public function testLessToNext() 
     {

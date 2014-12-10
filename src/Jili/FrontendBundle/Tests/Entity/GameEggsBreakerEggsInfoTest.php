@@ -10,7 +10,6 @@ class GameEggsBreakerEggsInfoTest extends KernelTestCase
     
     /**
      * @group issue_537
-     * @group debug 
      */
     public function testGetLessForNextEgg()
     {
@@ -28,6 +27,36 @@ class GameEggsBreakerEggsInfoTest extends KernelTestCase
 
         $entity->setOffcutForNext(9.99);
         $this->assertEquals(0.01, $entity->getLessForNextEgg() );
+    }
+
+    /**
+     * @group issue_537
+     */
+    public function testUpdateNumOfEggs( ) 
+    {
+//$eggs, $token 
+        $entity = new GameEggsBreakerEggsInfo();
+        $eggs = array('offcut'=> 0.01 ,'common'=> 3, 'consolation'=> 7);
+        $token = $entity->getToken();
+
+        $actual = $entity->updateNumOfEggs($eggs, $token);
+        $this->assertEquals(1,1);
+        $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerEggsInfo',$actual);
+        $this->assertEquals( 3, $entity->getNumOfCommon());
+        $this->assertEquals( 7, $entity->getNumOfConsolation());
+        $this->assertEquals( 0.01, $entity->getOffcutForNext());
+        $this->assertEquals( $token, $entity->getToken());
+        
+        $eggs = array('offcut'=> 5.0, 'common'=> 11, 'consolation'=> 37);
+
+        $actual = $entity->updateNumOfEggs($eggs, $token)
+            ->refreshToken();
+
+        $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerEggsInfo',$actual);
+        $this->assertEquals( 14, $entity->getNumOfCommon());
+        $this->assertEquals( 44, $entity->getNumOfConsolation());
+        $this->assertEquals( 5.0, $entity->getOffcutForNext());
+        $this->assertNotEquals($token, $entity->getToken());
     }
 }
 

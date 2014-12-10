@@ -14,10 +14,9 @@ class GameEggsBreakerTaoBaoOrderType extends AbstractType
             'label'=>'订单号',
             'invalid_message' => '订单号不正确',
             'constraints'=> new NotBlank() 
-        ))->add('orderPaid', 'money', array(
-            'currency'=> false,
-            'divisor' => 100,
-            'label'=> '支付金额',
+        ))->add('orderAt', 'date', array(
+            'widget'=> 'single_text',
+            'label'=> '订单日期',
             'constraints'=> new NotBlank() 
         ));
     }

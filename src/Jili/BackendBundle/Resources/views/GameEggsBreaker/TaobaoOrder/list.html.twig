@@ -1,7 +1,7 @@
 {% extends "JiliBackendBundle::base.html.twig"%}
 
 {% block title %}
-Taobao订单审核-12月活动-{{ parent() }}
+Taobao订单列表-12月活动-{{ parent() }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -13,14 +13,38 @@ Taobao订单审核-12月活动-{{ parent() }}
 {% block body %}
 
 <h4>Taobao订单</h4>
-<table align="center" width="500">
+<table align="center" width="300">
 <tr>
 <th>订单号</th>
 <th>订单日期</th>
+<th>订单金额</th>
+<th>审核进度:审核结果\操作</th>
 </tr>
 {% for entity in entities %}
     <tr>
         <td>{{ entity.orderId }}</td>
+        <td>{{ entity.orderAt|date('Y-m-d') }}</td>
+        <td>{{ entity.orderPaid|number_format(2,'.',',' )}}</td>
+        <td>
+{% if entity.isAuditCompleted or  entity.isAuditPending %}
+    {% if entity.isAuditCompleted %}
+    结束
+    {% elseif entity.isAuditPending %}
+    等待
+    {% endif %}
+            {% if entity.isValid %}
+            :有效
+            {% elseif entity.isInvalid %}
+            :无效
+            {% elseif entity.isUncertain%}
+            :不确定
+            {% endif %}
+
+{% else %}
+<a href="{{ path( 'jili_backend_decemberactivity_audit', {'id': entity.id })  }}">审核</a>
+
+{% endif %}
+        </td>
     </tr>
 
 {% endfor %}
