@@ -110,6 +110,9 @@ class DmdeliveryCommand extends ContainerAwareCommand
                 if ($send_fail_email_count > 0){
                     $content = $this->setALertEmailBody('pointFailure','Cannot send email，count = '.$send_fail_email_count);
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
+                } else {
+                    $content = $this->setALertEmailBody('pointFailure','Send finish!!!');
+                    $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
                 }
             }else{
                 $content = $this->setALertEmailBody('pointFailure','Cannot add group:'.$group->statusMsg);
@@ -168,6 +171,9 @@ class DmdeliveryCommand extends ContainerAwareCommand
                 if ($send_fail_email_count > 0){
                     $content = $this->setALertEmailBody('pointFailure','Cannot send email，count = '.$send_fail_email_count);
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
+                } else {
+                    $content = $this->setALertEmailBody('pointFailure','Send finish!!!',true);
+                    $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
                 }
             }else{
                 $content = $this->setALertEmailBody('pointFailure','Cannot add group:'.$group->statusMsg);
@@ -286,17 +292,21 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $sendPoint->setSendType($type);
         $em->persist($sendPoint);
         $em->flush();
-
     }
     
-    public function setALertEmailBody($batch_name, $message){
+    public function setALertEmailBody($batch_name, $message, $successflag = false){
+        if($successflag) {
+            $msg_str = "执行成功";
+        } else {
+            $msg_str = "出现错误";
+        }
         $content =      '<html>' .
                         ' <head></head>' .
                         ' <body>' .
                         '积粒网管理员：'.'<br/>'.
                         '<br/>'.
-                        '  您的定时任务'.$batch_name.'出现错误，请确认。<br/>'.
-                        '  错误信息为：'.$message. '<br/>' .
+                        '  您的定时任务'.$batch_name.$msg_str.',请确认。<br/>'.
+                        '  信息为：'.$message. '<br/>' .
                         '  ++++++++++++++++++++++++++++++++++<br/>' .
                         '  积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
                         ' </body>' .
