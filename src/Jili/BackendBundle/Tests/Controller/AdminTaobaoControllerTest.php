@@ -56,7 +56,6 @@ class AdminTaobaoControllerTest extends WebTestCase {
         $logger = $container->get('logger');
 
         $url = 'backend/admin/taobao/component';
-        $client = static :: createClient();
         $crawler = $client->request('GET', $url);
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();

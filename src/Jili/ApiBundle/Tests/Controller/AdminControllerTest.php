@@ -598,4 +598,18 @@ class AdminControllerTest extends WebTestCase {
         $this->assertEquals($exchange->getWenwenExchangeId(), $item[0]);
     }
 
+    /**
+     * @group issue_560
+     * @group debug
+     */
+    public function testAddPointManageAction(){
+        $client = static :: createClient();
+
+        $url = '/admin/pointManage';
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
 }
