@@ -21,10 +21,10 @@ use Jili\ApiBundle\Entity\PointHistory09;
 class DmdeliveryCommand extends ContainerAwareCommand
 {
     private $soap = 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php';
-    private $username = 'admin';
-    private $password = 'nUshkwu#9';//'Nvpiyjh1-';
-    private $alertTo = array('jinzhang@voyagegroup.com.cn','zspike1985@139.com');
-    private $alertSubject = '积粒网-定时任务提醒邮件';
+    private $username;
+    private $password;
+    private $alertTo;
+    private $alertSubject;
     
     protected function configure()
     {
@@ -35,12 +35,18 @@ class DmdeliveryCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('start...');
+        $this->username = $this->getContainer()->getParameter('webpower_email_username');
+        $this->password = $this->getContainer()->getParameter('webpower_email_password');
+        $this->alertTo = explode(",", $this->getContainer()->getParameter('cron_alertTo_contacts'));
+        $this->alertSubject = $this->getContainer()->getParameter('alert_subject');
+        $output->writeln('start at '.date('Y-m-d H:i:s',time()));
         $batch_name = $input->getArgument('batch_name');
         $output->writeln('batch name : ' . $batch_name);
         $em = $this->getContainer()->get('doctrine')->getManager();
         $this->$batch_name($em);
-        $output->writeln('finish!!');
+        $output->writeln('finish at '.date('Y-m-d H:i:s',time()));
+        $output->writeln("");
+        $output->writeln("");
     }
     
     public function pointFailureTemp($em)
@@ -49,19 +55,33 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $failTime = 180;
         $companyId = 4;
         $mailingId = 28;
-        $rs = $this->handleSendPointFailTemp($em, $failTime,$companyId,$mailingId);
-        //return new Response($rs);
+        $this->handleSendPointFailTemp($em, $failTime,$companyId,$mailingId);
     }
     
     public function pointFailure($em)
     {
-
         set_time_limit(0);
         $failTime = 180;
         $companyId = 4;
         $mailingId = 28;
-        $rs = $this->handleSendPointFail($em, $failTime,$companyId,$mailingId);
-        //return new Response($rs);
+        $this->handleSendPointFail($em, $failTime,$companyId,$mailingId);
+    }
+    public function pointFailureForWeek($em)
+    {
+        set_time_limit(0);
+        $failTime = 173;
+        $companyId = 4;
+        $mailingId = 31;
+        $this->handleSendPointFail($em,$failTime,$companyId,$mailingId);
+    }
+    
+    public function pointFailureForMonth($em)
+    {
+        set_time_limit(0);
+        $failTime = 150;
+        $companyId = 4;
+        $mailingId = 30;
+        $this->handleSendPointFail($em,$failTime,$companyId,$mailingId);
     }
     
     public function handleSendPointFail($em, $failTime,$companyId,$mailingId)
