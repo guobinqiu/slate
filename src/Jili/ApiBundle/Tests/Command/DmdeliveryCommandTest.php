@@ -45,18 +45,9 @@ class DmdeliveryCommandTest extends KernelTestCase
      */
     protected function tearDown() {
         parent :: tearDown();
-        //$this->em->close();
+        $this->em->close();
     }
-    /**
-     * @group nouse
-     */
-    public function testUpdatePointZero() {
-        $container = $this->container ;
-        $dc = new DmdeliveryCommand();
-        $dc->updatePointZero($this->em,1110);
-        $user = $em->getRepository('JiliApiBundle:User')->find(1110);
-        $this->assertEquals(0, $user->getPoints());
-    }
+
     /**
      * @group issue548
      */

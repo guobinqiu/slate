@@ -129,17 +129,21 @@ class DmdeliveryCommand extends ContainerAwareCommand
                 }
                 if ($send_fail_email_count > 0){
                     $content = $this->setALertEmailBody('pointFailure','Cannot send email，count = '.$send_fail_email_count);
+                    echo $content."\n";
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
                 } else {
-                    $content = $this->setALertEmailBody('pointFailure','Send finish!!!');
+                    $content = $this->setALertEmailBody('pointFailure','Send finish!!!',true);
+                    echo $content."\n";
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
                 }
             }else{
                 $content = $this->setALertEmailBody('pointFailure','Cannot add group:'.$group->statusMsg);
+                echo $content."\n";
                 $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
             }
         }else{
             $content = $this->setALertEmailBody('pointFailure','Email list is empty');
+            echo $content."\n";
             $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
         }
     }
