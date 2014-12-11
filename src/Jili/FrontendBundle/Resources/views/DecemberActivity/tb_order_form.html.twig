@@ -16,7 +16,7 @@
                 {% for type, messages in flashbag %}
                     {% for message in messages %}
                         <div class="alert alert-{{ type }}">
-                            *您输入的日期不对哦{{ message }}
+                            *{{ message }}
                         </div>
                     {% endfor %}
                 {% endfor %}

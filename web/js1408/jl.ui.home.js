@@ -141,8 +141,8 @@
             });
         }
         var s = setInterval(textScroll, 2000);
-		$('.adMask, .bxAdWrapper .close,.bxAdBg, .sunRun, .rewardRules').on('click', function(){
-			$('.bxAd').animate({ left: '950px', top: '0px', width: '0px', height: '0px', opacity: '0'}, 500, function(){$('.adMask').hide();});
+		$('.adMask, .activityAdWrapper .close, .activityAdBg, .closeBtn').on('click', function(){
+			$('.activityAd').animate({ left: '950px', top: '0px', width: '0px', height: '0px', opacity: '0'}, 500, function(){$('.adMask').hide();});
 		});
 		var ruleDetail = $(".ruleDetail");
 		$(".ruleCon").hover(function(){

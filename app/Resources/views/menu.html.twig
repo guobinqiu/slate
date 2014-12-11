@@ -139,9 +139,9 @@ $(document).ready(function(){
                 <li {{ router_current == '_exchange_index' ? 'class="active"':'' }}><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
                 <li {{ router_current == 'jili_frontend_taobao_index' ? 'class="active"':'' }}><a href="{{ path('jili_frontend_taobao_index') }}" title="淘宝购物" class="navTB">淘宝购物<span class="iconTB"></span></a></li>
             </ul>
+            <a href="{{ path('jili_frontend_decemberactivity_index', {'l': 7}) }}" class="decActivityGif"></a>
             <div class="dailyQuest">
                 {{ render(controller('JiliFrontendBundle:Home:task' ) ) }}{# 任务列表 #}
-                
             </div>
         </div>
     </div>
