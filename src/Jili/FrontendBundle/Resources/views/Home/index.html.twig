@@ -68,24 +68,13 @@
       </div>
     </div>
 </div>
-<div class="bxAdWrapper">
-    <div class="bxAd">
-        <div class="bxAdBg"></div>
-        <div class="sunRun"></div>
+<div class="activityAdWrapper">
+    <div class="activityAd">
+        <div class="activityAdBg"></div>
         <span class="close"></span>
-        <a href="{{ path('jili_frontend_taobao_index', {'l': 5}) }}" class="sample"></a>
-        <a href="{{ path('jili_frontend_taobao_index', {'l': 6}) }}" class="goBtn"></a>
-        <div class="rewardRules clearfix">
-            <p>在淘宝页面找到宝箱，每天就有机会赚米粒</p>
-            <ul class="clearfix">
-                <li>一等奖：888米粒</li>
-                <li>四等奖：20米粒</li>
-                <li>二等奖：100米粒</li>
-                <li>五等奖：5米粒</li>
-                <li>三等奖：50米粒</li>
-                <li>六等奖：2米粒</li>
-                <li>参与奖：1米粒</li>
-            </ul>
+        <div class="btns">
+            <a href="{{ path('jili_frontend_decemberactivity_index', {'l': 6}) }}" class="goBtn"></a>
+            <span class="closeBtn"></span>
         </div>
         <div class="adMask"></div>
     </div>
@@ -95,7 +84,7 @@
 <script>
 	(function($){
 		if(!$.cookie("fistShowAd")){
-			$('.bxAd').show();
+			$('.activityAd').show();
 		}
 		$.cookie("fistShowAd", true,{expires:1});
    	})(jQuery);
@@ -109,9 +98,9 @@
             dataType: 'json',
             success: function(returnData){
 				if(returnData.data.has_done){
-					$('.bxAd').hide();
+					$('.activityAd').hide();
 				}else{
-					$('.bxAd').show();
+					$('.activityAd').show();
 				}
             },
             error: function(){

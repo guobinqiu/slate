@@ -81,7 +81,7 @@ function runFlow(){
     });
 }
 function checkFlow(){
-    var decRule = $('.decRule'), decRuleBtn = $('.decRuleBtn, .decTopCon .goBtn, .noStart, .timestamp');
+    var decRule = $('.decRule'), decRuleBtn = $('.decRuleBtn, .decTopCon .goBtn, .noStart, .noLogin, .timestamp');
     decRuleBtn.on('click', function(){
         var datepicker = $( "#datepicker, .defaultTxt" );
         datepicker.datetimepicker({ lang : 'ch', parentID: '.decRuleFlow', timepicker : false, format : 'Y-m-d', formatDate : 'Y-m-d' });
@@ -164,7 +164,7 @@ $(function(){
         noEgg: '.luckyDrawL .noStart',
         eggNum: '.luckyDrawL .eggNum',
         eggMoney: '.luckyDrawL .eggMoney',
-        debug: false
+        debug: true
     });
 });
 (function($){
@@ -174,54 +174,55 @@ $(function(){
         this.init();
     };
     Egg.prototype = {
-        beginAjax: function(){
-            var $this = this;
-            var opts = $this.options;
-            /*$.ajax({
-             url: Routing.generate('jili_frontend_decemberactivity_geteggsinfo'),
-             type: 'post',
-             dataType: 'json',
-             success: function(eggData){
-             //var eggData = { code: '1', msg: '', data: { token: '', validNum: 2, comfortNum: 1, diffMoney: 10, isStart: false}};
-             $this.debug('初始金蛋信息……', eggData);
-             $this.showEgg(eggData);
-             $this.setEggInfo(eggData);
-             $this.addEgg(eggData);
-             $this.openStart(eggData);
-             },
-             error: function(){
-             $this.debug('第一次请求失败……');
-             }
-             });*/
-            var eggData = { code: '1', msg: '', data: { token: '', validNum: 3, comfortNum: 2, diffMoney: 10, isStart: false}};
-            $this.debug('初始金蛋信息……', eggData);
-            $this.showEgg(eggData);
-            $this.setEggInfo(eggData);
-            $this.addEgg(eggData);
-            $this.openStart(eggData);
-        },
-        init: function(){
-            this.beginAjax();
-        },
-        debug: function() {
+		debug: function() {
             var opts = this.options;
             if (opts.debug) {
                 return window.console && console.log.call(console, arguments);
             }
         },
+        beginAjax: function(){
+            var $this = this;
+            var opts = $this.options;
+            $.ajax({
+				 url: Routing.generate('jili_frontend_decemberactivity_geteggsinfo'),
+				 type: 'post',
+				 dataType: 'json',
+				 success: function(eggData){
+					 $this.debug('初始金蛋信息……', $.isEmptyObject(eggData));
+					 if(!$.isEmptyObject(eggData)&&eggData.data === undefined) return false;
+					 if($this.showEgg(eggData)){
+						 $this.setEggInfo(eggData);
+						 $this.addEgg(eggData);
+						 $this.openStart(eggData);
+					 }else{
+						 $(opts.eggNum).html("0");
+						 $(opts.eggMoney).html('10元');
+					 }
+				 },
+				 error: function(){
+					$this.debug('第一次请求失败……');
+				 }
+             });
+        },
+        init: function(){
+            this.beginAjax();
+        },
         showEgg: function(initData){
             var opts = this.options;
-            if((initData.data.validNum + initData.data.comfortNum) > 0){
-                $(opts.hasEgg).show();
-                $(opts.noEgg).hide();
-            }else{
+            if($.isEmptyObject(initData) || (initData.data.numOfEggs + initData.data.numOfConsolationEggs) <= 0){
+				this.debug('金蛋数为空……');
                 $(opts.hasEgg).hide();
                 $(opts.noEgg).show();
+				return false;
+            }else{
+                $(opts.hasEgg).show();
+                $(opts.noEgg).hide();
+				return true;
             }
         },
         setEggInfo: function(initData){
-            $(this.options.eggNum).html((initData.data.validNum + initData.data.comfortNum));
-            $(this.options.eggMoney).html(initData.data.diffMoney + '元');
+            $(this.options.eggNum).html((initData.data.numOfEggs + initData.data.numOfConsolationEggs));
+            $(this.options.eggMoney).html(initData.data.lessForNextEgg + '元');
         },
         addEgg: function(initData){
             var $this = this;
@@ -229,14 +230,12 @@ $(function(){
             var randNum;
             var imgArr = ["/images/december/static_egg.gif", "/images/december/shaking_egg7.gif", "/images/december/shaking_egg12.gif"];
             var eggWrapper = '<li><div><img src="#" width="110" height="138"/></div><span>我要砸蛋</span></li>';
-            for(var i = 0; i< initData.data.validNum; i++){
+            for(var i = 0; i< initData.data.numOfEggs; i++){
                 randNum = Math.floor(Math.random()*(0-3) + 3);
-                $this.debug(randNum);
                 $(eggWrapper).find('img').attr("src", imgArr[randNum]).end().appendTo($(opts.container));
             }
-            for(var j = 0; j< initData.data.comfortNum; j++){
+            for(var j = 0; j< initData.data.numOfConsolationEggs; j++){
                 randNum = Math.floor(Math.random()*(0-3) + 3);
-                $this.debug(randNum);
                 $(eggWrapper).find('img').attr("src", imgArr[randNum]).end().addClass('comfort').appendTo($(opts.container));
             }
         },
@@ -278,9 +277,9 @@ $(function(){
                     $this.openGif(index);
                     if($(this).hasClass('comfort')){
                         eggType = 1;
-                        initData.data.comfortNum = initData.data.comfortNum -1;
+                        initData.data.numOfConsolationEggs = initData.data.numOfConsolationEggs -1;
                     }else{
-                        initData.data.validNum = initData.data.validNum -1;
+                        initData.data.numOfEggs = initData.data.numOfEggs -1;
                     }
                     $this.getResult(initData, eggType);
                     $this.setEggInfo(initData);
@@ -288,7 +287,7 @@ $(function(){
             });
         },
         openStart: function(initData){
-            if(initData.data.isStart){
+            if(false){
                 this.openEgg(initData);
             }else{
                 $(this.options.container).on('click', function(){
