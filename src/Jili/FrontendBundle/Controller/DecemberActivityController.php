@@ -22,9 +22,6 @@ class DecemberActivityController extends Controller
      */
     public function indexAction()
     {
-        // render the page 
-        
-       
         return $this->render('JiliFrontendBundle:DecemberActivity:index.html.twig');
     }
 
@@ -110,12 +107,15 @@ class DecemberActivityController extends Controller
 
         // numOfEggs: 1, numOfConsolationEggs: 3, lessForNextEgg: 00.01 
         //$cost_per_egg = $container->get
+        $startAt = new \Datetime('2015-01-20 00:00:00');
+        $now = new \Datetime();
 
         $response->setData( array('code'=> 0, 
             'data'=>array('token'=> $record->getToken(),
             'numOfEggs'=> $record->getNumOfCommon(),
             'numOfConsolationEggs' => $record->getNumOfConsolation(),
-            'lessForNextEgg'=> $record->getLessForNextEgg( )
+            'lessForNextEgg'=> $record->getLessForNextEgg(),
+            'isStart'=> ( $now >= $startAt ) ? true: false  
         )));
         return $response;      
 
