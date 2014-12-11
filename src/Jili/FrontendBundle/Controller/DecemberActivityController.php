@@ -64,7 +64,7 @@ class DecemberActivityController extends Controller
                 $em  = $this->get('doctrine.orm.entity_manager');
                 $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
                     ->insertUserPost( array('userId'=>$session->get('uid'),
-                        'orderAt'=>$data['orderAt'], 
+                        'orderAt'=> new \Datetime($data['orderAt']), 
                         'orderId'=>$data['orderId'], 
                     ));
                 $this->get('session')->setFlash('notice','提交成功，等待审核');
@@ -112,14 +112,15 @@ class DecemberActivityController extends Controller
         $now = new \Datetime();
 
         $response->setData( array('code'=> 0, 
-            'data'=>array('token'=> $record->getToken(),
-            'numOfEggs'=> $record->getNumOfCommon(),
-            'numOfConsolationEggs' => $record->getNumOfConsolation(),
-            'lessForNextEgg'=> TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
-            'isStart'=> ( $now >= $startAt ) ? true: false  
-        )));
-        return $response;      
+            'data'=>array(
+                'token'=> $record->getToken(),
+                'numOfEggs'=> $record->getNumOfCommon(),
+                'numOfConsolationEggs' => $record->getNumOfConsolation(),
+                'lessForNextEgg'=> TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
+                'isStart'=> ( $now >= $startAt ) ? true: false  
+            )));
 
+        return $response;      
     }
 
     /**

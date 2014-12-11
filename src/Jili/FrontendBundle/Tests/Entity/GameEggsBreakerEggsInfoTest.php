@@ -34,7 +34,6 @@ class GameEggsBreakerEggsInfoTest extends KernelTestCase
      */
     public function testUpdateNumOfEggs() 
     {
-//$eggs, $token 
         $entity = new GameEggsBreakerEggsInfo();
 
         $eggs = array('offcut'=> 0.01 ,'common'=> 3, 'consolation'=> 7);
@@ -57,7 +56,7 @@ class GameEggsBreakerEggsInfoTest extends KernelTestCase
             ->refreshToken();
 
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerEggsInfo',$actual);
-        $this->assertEquals( 14, $entity->getNumOfCommon());
+        $this->assertEquals( 11, $entity->getNumOfCommon());
         $this->assertEquals( 44, $entity->getNumOfConsolation());
         $this->assertEquals( 5.0, $entity->getOffcutForNext());
         $this->assertNotEquals($token, $entity->getToken());
