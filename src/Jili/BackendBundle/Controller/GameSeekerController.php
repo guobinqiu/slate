@@ -10,7 +10,7 @@ use Jili\BackendBundle\Validator\Constraints\GameSeekerRules;
 /**
  * @Route("/admin/game-seeker", requirements={"_scheme" = "https"})
  */
-class GameSeekerController extends Controller
+class GameSeekerController extends Controller implements  IpAuthenticatedController
 {
     /**
      * @Route("/build-points-strategy")
