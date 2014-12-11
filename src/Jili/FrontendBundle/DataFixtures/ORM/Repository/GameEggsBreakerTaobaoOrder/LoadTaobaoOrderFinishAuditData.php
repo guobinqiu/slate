@@ -223,11 +223,12 @@ class LoadTaobaoOrderFinishAuditData  extends AbstractFixture implements  Fixtur
             $manager->flush();
             self::$ORDERS[44+$i] = $entity;
         }
+
         $entity = new GameEggsBreakerEggsInfo();
         $entity->setUserId($user->getId() )
             ->setOffcutForNext(49.03)
-            ->setNumOfCommon(4)
-            ->setNumOfConsolation(3)
+                ->setNumOfCommon(4)
+                ->setNumOfConsolation(3)
             ->setTokenUpdatedAt(new \Datetime()) ;
         $entity->refreshToken();
         $manager->persist($entity);

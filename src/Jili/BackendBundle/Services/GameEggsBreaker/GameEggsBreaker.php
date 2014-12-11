@@ -204,15 +204,14 @@ class GameEggsBreaker
         if(is_null( $content ) || empty($content) ) {
             $this->writeSentStat();
             $content = $js->readCached($file);
+        } else {
+            $ts = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')->getLastestTimestampeEgged();
+            if( ! is_null($ts) && strtotime($ts) > strtotime($content['ts'])) {
+                $this->writeSentStat();
+                $content = $js->readCached($file);
+            }
         }
-
-        $ts = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-            ->getLastestTimestampeEgged();
-        if( ! is_null($ts) && strtotime($ts) > strtotime($content['ts'])) {
-            $this->writeSentStat();
-            $content = $js->readCached($file);
-        }
-        return $content['data'];
+        return $content;
     }
 
     public function writeSentStat()
@@ -220,12 +219,10 @@ class GameEggsBreaker
         $file = $this->configs ['sent_stat'] ;  
         $js = new JsonCacheFileHandler();
         // fetch data to write 
-       $data = array('ts'=> new \Datetime(), 'data'=> array() ); 
-
-        // sorted, nick, sum(orders) , num_eggs. 
-        $this->em->getrepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-            ->findLatestEggedNickList( 10 );
-
+        $data = array(
+            'ts' => $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')->getLastestTimestampeEgged(),
+            'eggsInfo' => $this->em->getrepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+            ->findLatestEggedNickList( 10 ));
         $js->writeCache($data, $file);
     }
 

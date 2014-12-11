@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Jili\ApiBundle\Entity\User;
 use Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder;
+use Jili\FrontendBundle\Entity\GameEggsBreakerEggsInfo;
 
 /**
  * 
@@ -121,7 +122,7 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
         self::$ORDERS[4] = $entity;
 
         // user with 30  row audit for building eggs 
-        for($i =0 ;$i<1000 ; $i++ ) {
+        for($i =0 ;$i<10 ; $i++ ) {
             $user = new User();
             $user->setNick('bob'. $i);
             $user->setEmail('bob'.$i.'@gmail.com');
@@ -158,6 +159,16 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
             $manager->persist($entity);
             $manager->flush();
             self::$ORDERS[5+$i] = $entity;
+
+            $entity = new GameEggsBreakerEggsInfo();
+            $entity->setUserId($user->getId() )
+                ->setOffcutForNext(49.03)
+            ->setNumOfCommon(4 + $i)
+            ->setNumOfConsolation( $i*3)
+                ->setTokenUpdatedAt(new \Datetime()) ;
+            $entity->refreshToken();
+            $manager->persist($entity);
+            $manager->flush();
         }
         // 5 + 29 = 34
 

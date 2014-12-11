@@ -30,16 +30,15 @@ class DecemberActivityController extends Controller
 
     /**
      * render the ranking 
-     * @Route("/stat")
+     * @Route("/eggs-sent-stat")
      * @Method("GET")
      */
-    public function statAction()
+    public function eggsSentStatAction()
     {
-        //$cache_files = $this->get('container')->getParameter(''); 
-        //$ranking = 
-        //$this->get('december_activity.game_eggs_breaker')
-        //->getRanking();
-        return $this->render('JiliFrontendBundle:DecemberActivity:stat.html.twig');
+        $stat = $this->get('december_activity.game_eggs_breaker')->fetchSentStat();
+        $logger = $this->get('logger');
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($stat , true));
+        return $this->render('JiliFrontendBundle:DecemberActivity:eggs_sent_stat.html.twig', $stat);
     }
 
     /**

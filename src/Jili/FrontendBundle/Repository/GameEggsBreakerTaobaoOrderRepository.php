@@ -144,7 +144,6 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('o');
         $q = $qb->select('o.userId, o.updatedAt')
-//            ->innerJoin('JiliApiBundle:User', 'u', 'u.id = o.userId')
             ->where('o.isEgged = :is_egged')
             ->groupBy('o.userId')
             ->orderBy('o.updatedAt','DESC')
@@ -152,13 +151,73 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
             ->setFirstResult(0)
             ->setMaxResults($limit)
             ->getQuery();
-
         $result =  $q->getResult();
+
+        if( empty($result) ) {
+            return ;
+        }
+
+        $orders = array();
+        $user_ids = array();
+        foreach( $result as $k => $v ) {
+           $user_ids [] = $v['userId'];
+           $orders[$v['userId']] = $v;
+        }
+        unset($result);
+
         // sum of the orderPaid ? 
+        $qb = $this->createQueryBuilder('o');
+        $q = $qb->select('sum(o.orderPaid) as totalPaid, o.userId')  
+               ->groupBy('o.userId')
+               ->having($qb->expr()->in('o.userId', $user_ids))
+               ->getQuery();
+        $result = $q ->getResult();
+        $paids = array();
+        foreach($result as $k => $v) {
+            $paids[$v['userId']] = $v['totalPaid'];
+        }
+        unset($result);
+
+        // select sum(orderPaid) , user_id from order group by user_id having user_id in ();
+        $em = $this->getEntityManager();
+        // select nick from user where id in (); 
+        $qb = $em->createQueryBuilder();
+        $q = $qb->select('u.id, u.nick')
+            ->from('JiliApiBundle:User', 'u')
+            ->where($qb->expr()->in('u.id', $user_ids))
+            ->getQuery();
+        $result = $q->getResult();
+        $nicks = array();
+        foreach($result as $k => $v) {
+            $nicks[$v['id']] = $v['nick'];
+        }
+        unset($result);
+
         // eggsInfo ? 
+        // select * from info where user_id in ();
+        $qb = $em->createQueryBuilder();
+        $q = $qb->select('i.userId, i.numOfConsolation + i.numOfCommon  as numOfEggs')
+            ->from('JiliFrontendBundle:GameEggsBreakerEggsInfo', 'i')
+            ->where($qb->expr()->in('i.userId', $user_ids))
+            ->getQuery();
+        $result = $q->getResult();
+        $eggs = array();
+        foreach ($result as $k => $v) {
+            $eggs[$v['userId']] = $v['numOfEggs'];
+        }
+        unset($result);
 
-
-        return $result; 
-
+        // merge the results
+        $results = array();
+        foreach( $orders as $user_id => $order) {
+            $results [] = array(
+                'nick'=> isset($nicks[$user_id]) ? $nicks[$user_id]: '',
+                'paid'=> isset($paids[$user_id]) ? $paids[$user_id]: 0,
+                'countOfEggs'=> isset($eggs[$user_id]) ? $eggs[$user_id]: 0,
+                'at'=> $order['updatedAt']
+            ) ;
+        }
+        return $results; 
     }
+
 } 

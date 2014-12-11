@@ -105,13 +105,16 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
     }
     /**
      * @group issue_537 
-     * @group debug 
      */
     public function testFindLatestEggedNickList()
     {
         $actual = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
             ->findLatestEggedNickList(10);
-        var_dump($actual);
+
+       // echo json_encode($actual);
+
+        '[{"nick":"alice32","paid":"192.03","eggs":0,"at":{"date":"2014-12-06 00:00:00.000000","timezone_type":3,"timezone":"Asia\/Shanghai"}},{"nick":"bob0","paid":"150.01","eggs":"7","at":{"date":"2014-11-30 10:14:02.000000","timezone_type":3,"timezone":"Asia\/Shanghai"}},{"nick":"bob1","paid":"150.01","eggs":"7","at":{"date":"2014-11-30 10:13:02.000000","timezone_type":3,"timezone":"Asia\/Shanghai"}},{"nick":"bob2","paid":"150.01","eggs":"7","at":{"date":"2014-11-30 10:12:02.000000","timezone_type":3,"timezone":"Asia\/Shanghai"}},{"nick":"bob3","paid":"150.01","eggs":"7","at":{"date":"2014-11-30 10:11:03.000000","timezone_type":3,"timezone":"Asia\/Shanghai"}},{"nick":"bob4","paid":"150.01","eggs":"7","at":{"date":"2014-11-30 10:10:03.000000","timezone_type":3,"timezone":"Asia\/Shanghai"}},{"nick":"bob5","paid":"150.01","eggs":"7","at":{"date":"2014-11-30 10:09:03.000000","timezone_type":3,"timezone":"Asia\/Shanghai"}},{"nick":"bob6","paid":"150.01","eggs":"7","at":{"date":"2014-11-30 10:08:03.000000","timezone_type":3,"timezone":"Asia\/Shanghai"}},{"nick":"bob7","paid":"150.01","eggs":"7","at":{"date":"2014-11-30 10:07:03.000000","timezone_type":3,"timezone":"Asia\/Shanghai"}},{"nick":"bob8","paid":"150.01","eggs":"7","at":{"date":"2014-11-30 10:06:03.000000","timezone_type":3,"timezone":"Asia\/Shanghai"}}]';
+
         $this->assertEquals(1,1);
     }
 }

@@ -266,7 +266,8 @@ parameters:
         chest:  "%cache_data_path%/game_seeker_config_chest.txt"
 
     game_eggs_breaker:
-        ranking: "%cache_data_path%/game_eggs_breaker/ranking.cached"
+        ranking: "%cache_data_path%/game_eggs_breaker/ranking.json"
+        sent_stat: "%cache_data_path%/game_eggs_breaker/sent_stat.json"
         common:
             points_strategy: "%cache_data_path%/game_eggs_breaker/common/points_strategy_conf.json"
             points_pool: "%cache_data_path%/game_eggs_breaker/common/points_pool_YYYYmmdd.json"

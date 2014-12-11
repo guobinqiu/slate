@@ -1,0 +1,6 @@
+<ul>
+<!--  {{ ts|date("Y-m-d H:i:s")  }}-->
+{% for eggInfo  in eggsInfo %}
+    <li>{{ eggInfo.nick }}淘宝购物{{ eggInfo.paid }}元，得到{{  eggInfo.countOfEggs }}个金蛋</li>
+{% endfor %}
+</ul>

@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Loader;
 
 
 use Jili\FrontendBundle\DataFixtures\ORM\Controller\DecemberActivity\LoadGetEggsInfoData;
+use Jili\FrontendBundle\DataFixtures\ORM\Repository\GameEggsBreakerTaobaoOrder\LoadTaobaoOrdersData;
 class DecemberActivityControllerTest extends WebTestCase
 {
     /**
@@ -44,6 +45,11 @@ class DecemberActivityControllerTest extends WebTestCase
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
 
+        } elseif ('testEggsSentStatAction' === $tn) {
+            $fixture = new LoadTaobaoOrdersData();
+            $loader  = new Loader();
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
         }
         $this->has_fixture = true ;
 
@@ -179,7 +185,6 @@ class DecemberActivityControllerTest extends WebTestCase
 
     }
 
-
     /**
      * @group issue_537
      */
@@ -192,5 +197,27 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals(1,1);
 
 // 
+    }
+
+    /**
+     * @group issue_537
+     * @group debug 
+     */
+    public function testEggsSentStatAction() 
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_eggssentstat');
+
+        $config =$container->getParameter('game_eggs_breaker');
+        $file = $config['sent_stat'];
+        @unlink($file);
+
+        $this->assertEquals('/activity/december/eggs-sent-stat', $url);
+        $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    //    echo $client->getResponse()->getContent();
+     //   echo PHP_EOL;
+
     }
 }
