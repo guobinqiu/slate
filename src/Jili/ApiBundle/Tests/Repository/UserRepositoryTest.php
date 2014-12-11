@@ -8,6 +8,8 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixtureLoader;
 
 use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\DataFixtures\ORM\Repository\UserRepository\LoadDmdeliveryData;
+use Doctrine\Common\DataFixtures\Loader;
 
 class UserRepositoryTest extends KernelTestCase {
 
@@ -40,7 +42,7 @@ class UserRepositoryTest extends KernelTestCase {
             $loader->loadFromDirectory($directory);
             $executor->execute($loader->getFixtures());
         }
-
+        
         $this->container = $container;
         $this->em = $em;
     }
@@ -201,4 +203,25 @@ class UserRepositoryTest extends KernelTestCase {
         $this->assertEquals('test@test.com', $user['email']);
     }
 
+     /**
+     * @group issue548
+     */
+    public function testPointFail() {
+        $em = $this->em;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+        $container = static :: $kernel->getContainer();
+        // load fixtures
+        $fixture = new LoadDmdeliveryData();
+        $fixture->setContainer($container);
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $executor->execute($loader->getFixtures());
+        
+        $user = $em->getRepository('JiliApiBundle:User')->pointFail(180);
+        $this->assertEquals(2, count($user));
+        $this->assertEquals(1110, $user[0]['id']);
+    }
+    
 }
