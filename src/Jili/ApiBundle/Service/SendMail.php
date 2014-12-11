@@ -12,6 +12,7 @@ class SendMail
 {
     private $logger;
     private $soap_mail;
+    private $mailer;
 
     public function __construct(LoggerInterface $logger)
     {
@@ -58,5 +59,24 @@ class SendMail
     public function setSoapMail($soap_mail)
     {
         $this->soap_mail = $soap_mail;
+    }
+    public function setMailer($mailer)
+    {
+        $this->mailer = $mailer;
+    }
+    public function sendMails($subject,$email,$content)
+    {
+        $message = \Swift_Message::newInstance()
+        ->setSubject($subject)
+        ->setFrom(array('account@91jili.com'=>'积粒网'))
+        ->setTo($email)
+        ->setBody($content,'text/html');
+        $flag = $this->mailer->send($message);
+        if($flag===1){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

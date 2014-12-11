@@ -189,7 +189,7 @@ class DmdeliveryController extends Controller
                             echo 'key :'.$key. ',userid:'.$value['id'].'-> Send email successfully  \n';
                         }else{
                             $rs = 'Cannot send email:'.$send->statusMsg;
-                            echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email:'.$send->statusMsg.' \n';
+                            echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email: statusMsg=>'.$send->statusMsg.',status=>'.$send->status. '\n';
                         }
                     }
                 }
