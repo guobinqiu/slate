@@ -19,10 +19,10 @@
     <div class="decTopCon">
         <div class="decTopConBg"><img src="{{ asset('images/december/topConBg.jpg')}}" width="990" height="415" border="0"/></div>
         <div class="logo"><a href="{{ path('_homepage') }}"><img src="{{ asset('images/december/logo.png')}}" width="154" height="42" alt="logo"/></a></div>
-        {% if not app.session.has('uid') %}
-        	<div class="login">您好，请<a href="{{ path('_user_login')}}">登录</a></div>
+        {% if app.session.has('uid') %}
+        	<div class="login">您好，{{ app.session.get('nick') }}</div>
         {% else %}
-            <div class="login">您好，{{ app.session.get('nick') }}</div>
+            <div class="login">您好，请<a href="{{ path('_user_login')}}">登录</a></div>
         {% endif %}
         <span class="timestamp"><img src="{{ asset('images/december/foldTxt.png')}}" width="409" height="85"/></span>
         <span class="goBtn"><img src="{{ asset('images/december/goBtn.png')}}" width="169" height="67" alt="抢金蛋"/></span>
@@ -31,7 +31,8 @@
 <div class="decMain">
     <div class="decMainCon">
         <div class="luckyDraw clearfix">
-            <div class="luckyDrawL">
+            {% if app.session.has('uid') %}
+                <div class="luckyDrawL">
                 <p>我当前拥有金蛋的个数：<strong class="eggNum"></strong>抢下一个金蛋所需消费淘宝金额：<strong class="eggMoney"></strong></p>
                 <div class="noStart"><img src="{{ asset('images/december/noegg.gif')}}" width="400" height="200" alt="您还没有金蛋哦"></div>
                 <div class="mask">
@@ -39,6 +40,16 @@
                     </ul>
                 </div>
             </div>
+            {% else %}
+                <div class="luckyDrawL">
+                <p>我当前拥有金蛋的个数：<strong class="eggNum">0</strong>抢下一个金蛋所需消费淘宝金额：<strong class="eggMoney">10元</strong></p>
+                <div class="noStart"><img src="{{ asset('images/december/noegg.gif')}}" width="400" height="200" alt="您还没有金蛋哦"></div>
+                <div class="mask">
+                    <ul class="goldenEggs clearfix">
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
             <div class="luckyDrawR">
                 <div class="countDown">
                     <label>距离砸金蛋时间仅剩下</label><span class="countDownTime"></span>
