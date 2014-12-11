@@ -146,9 +146,9 @@
 		});
 		var ruleDetail = $(".ruleDetail");
 		$(".ruleCon").hover(function(){
-			ruleDetail.slideDown();
+			ruleDetail.show();
 		}, function(){
-			ruleDetail.slideUp();
+			ruleDetail.hide();
 		});
     });
 })(jQuery);
@@ -162,7 +162,7 @@
 				var objLength = $(this).text().length; 
 				var num = $(this).attr("limit"); 
 				if(objLength > num){ 
-		$(this).attr("title",objString); 
+					$(this).attr("title",objString); 
 					objString = $(this).text(objString.substring(0,num) + "..."); 
 				} 
 			}) 

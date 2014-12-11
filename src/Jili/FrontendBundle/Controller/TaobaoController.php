@@ -25,8 +25,10 @@ class TaobaoController extends Controller {
     public function indexAction() {
         // save user taobao visit
         $day = date('Ymd');
+
         $user_id = $this->get('request')->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
+        $logger = $this->get('logger');
         if ($user_id) {
             $visit = $em->getRepository('JiliFrontendBundle:UserTaobaoVisit')->getTaobaoVisit($user_id, $day);
             if (empty ($visit)) {
@@ -36,6 +38,13 @@ class TaobaoController extends Controller {
                 $em->persist($visit);
                 $em->flush();
             }
+        } else {
+            if ( $this->getRequest()->query->has('l') ) {
+                $this->get('session')->set('goToUrl', 
+                    $this->get('router')->generate('jili_frontend_taobao_index', array('l'=> $this->getRequest()->query->get('l'))));
+
+                return $this->redirect($this->generateUrl('_user_login'));
+            } 
         }
 
         // get taobao category

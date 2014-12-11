@@ -15,7 +15,8 @@ use Jili\ApiBundle\Entity\UserEdmUnsubscribe;
 /**
  * @Route("/edm/unsubscribe",requirements={"_scheme"="https"})
  */
-class EdmUnsubscribeController extends Controller {
+class EdmUnsubscribeController extends Controller  implements  IpAuthenticatedController
+{
 
     /**
     * @Route("/list", name="_edm_unsubscribe_list")
