@@ -35,7 +35,6 @@ class DecemberActivityController extends Controller
     {
         $stat = $this->get('december_activity.game_eggs_breaker')->fetchSentStat();
         $logger = $this->get('logger');
-        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($stat , true));
         return $this->render('JiliFrontendBundle:DecemberActivity:eggs_sent_stat.html.twig', $stat);
     }
 
@@ -52,7 +51,6 @@ class DecemberActivityController extends Controller
         $form = $this->createForm(new GameEggsBreakerTaoBaoOrderType());
         if( 'POST' == $request->getMethod()) {
             if( ! $session->has('uid')) {
-                $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__)));
                 $session->set('goToUrl', $this->get('router')->generate('jili_frontend_decemberactivity_index'));
                 return $this->redirect($this->generateUrl('_login') );
             }

@@ -80,27 +80,20 @@ class GameEggsBreaker
     {
         $logger = $this->logger;
         $em = $this->em;
-        $logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '')));
-        $logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$duration:')). var_export($duration, true));
 
         // fetch records
         $eggs_info_by_user = $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')->fetchPendingOnCron($duration);
         
         foreach($eggs_info_by_user as $user_id => $eggs_info) {
-            $logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$eggs_info["total_paid"]:')). var_export($eggs_info['total_paid'], true));
-            $logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$eggs_info["count_of_uncertain"]:')). var_export($eggs_info['count_of_uncertain'], true));
-            $logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, 'count($eggs_info["entities_to_update"]):')). var_export(count($eggs_info['entities_to_update']), true));
-                // caculate eggs
+            // caculate eggs
             $eggsInfo = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
                 ->findOneOrCreateByUserId($user_id);
 
             $token = $eggsInfo->getToken();
             $result_caculated  = TaobaoOrderToEggs::caculateEggs( $eggsInfo->getOffcutForNext() + $eggs_info['total_paid'] );
 
- //           $em->clear();
             try {
                 $em->getConnection()->beginTransaction();
-                //$logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$eggs:')).var_export($eggs, true));
                 $eggsInfo->updateNumOfEggs(array(
                     'offcut'=> $result_caculated['left'],
                     'common'=> $result_caculated['count_of_eggs'],
@@ -108,20 +101,15 @@ class GameEggsBreaker
 , $token)
                     ->refreshToken();
 
-                $logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '')));
-                //$em->persist($eggsInfo);
                 // userId , eggsInfo  
                 foreach($eggs_info['entities_to_update'] as $entity ) {
                     $entity->finishAudit();
-//                    $em->persist($entity);
                 }
                 $em->flush();
-                //$em->clear();
                 $em->getConnection()->commit();
             } catch(\Exception $e) {
                 $logger->crit('[backend][finishAudit]'. $e->getMessage());
                 $em->getConnection()->rollback();
-                //todo: add context
             }
         }
 // caculat eggs ...
@@ -152,7 +140,6 @@ class GameEggsBreaker
             // caculate eggs info
             $total_paid = 0;
             $count_of_uncertain = 0;
-            $this->logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$order->getOrderPaid():')). var_export($order->getOrderPaid(), true));
             // fetch previous or create eggsInfo
             $eggsInfo = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
                 ->findOneOrCreateByUserId($order->getUserId());
@@ -162,9 +149,6 @@ class GameEggsBreaker
                 $total_paid = $order->getOrderPaid() + $eggsInfo->getTotalPaid();
                 $result_caculated  = TaobaoOrderToEggs::caculateEggs( $total_paid );
 
-                $this->logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$total_paid:')). var_export($total_paid, true));
-
-                $this->logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$result_caculated:')). var_export($result_caculated, true));
                 $eggsInfo->updateNumOfEggs(array('paid'=>$total_paid,
                     'common'=> $result_caculated['count_of_eggs']),
                 $token);
@@ -226,7 +210,6 @@ class GameEggsBreaker
      */
     public function breakEgg()
     {
-        $this->logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '')));
         // token 
         //
 
