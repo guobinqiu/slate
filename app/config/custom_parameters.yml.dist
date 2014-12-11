@@ -265,3 +265,8 @@ parameters:
         points_pool: "%cache_data_path%/game_seeker_points_pool_YYYYmmdd.json"
         chest:  "%cache_data_path%/game_seeker_config_chest.txt"
 
+    webpower_email_username: 'admin'
+    webpower_email_password: 'nUshkwu#9'
+    
+    cron_alertTo_contacts: jinzhang@voyagegroup.com.cn,zspike1985@139.com
+    alert_subject: '积粒网-定时任务提醒邮件'
