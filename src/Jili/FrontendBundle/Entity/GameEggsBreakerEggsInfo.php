@@ -102,11 +102,13 @@ class GameEggsBreakerEggsInfo
             $consolation = $eggs['consolation'] + $this->getNumOfConsolation();
 
             $this->setNumOfConsolation($consolation)
-            ->setNumOfCommon( $common)
-            ->setOffcutForNext($eggs['offcut'])
-            ->setNumUpdatedAt( new \DateTime() );
+                ->setNumOfCommon( $common);
+            if( isset($eggs['offcut'])) {
+                $this->setOffcutForNext($eggs['offcut']);
+            }
+            $this->setNumUpdatedAt( new \DateTime() );
         } 
-        return $this;
+        return ;
     }
 
     /**

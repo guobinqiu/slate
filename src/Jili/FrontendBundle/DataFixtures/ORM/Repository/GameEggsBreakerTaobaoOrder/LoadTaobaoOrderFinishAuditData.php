@@ -45,7 +45,6 @@ class LoadTaobaoOrderFinishAuditData  extends AbstractFixture implements  Fixtur
         self :: $USERS[0] = $user;
         $user_id = $user->getId();
 
-
         // user with 1 row built eggs 
         $orderAt= new \Datetime();
         $orderAt->setTime(0,0);

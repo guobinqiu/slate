@@ -124,9 +124,11 @@ class GameEggsBreakerTaobaoOrder
     public function isValid() {
         return self::ORDER_VALID === $this->getIsValid();
     }
+
     public function isInvalid() {
         return self::ORDER_INVALID === $this->getIsValid();
     }
+
     public function isUncertain() {
         return self::ORDER_UNCERTAIN=== $this->getIsValid();
     }
@@ -135,14 +137,16 @@ class GameEggsBreakerTaobaoOrder
     {
         return ( self::AUDIT_STATUS_PENDING === $this->getAuditStatus()) ? true : false;
     }
-static public function getIsValidChoices()
-{
-    return array(
-        self::ORDER_VALID=> '有效',
-        self::ORDER_INVALID => '无效',
-        self::ORDER_UNCERTAIN=>'不确定',
-    );
-}
+
+    static public function getIsValidChoices()
+    {
+        return array(
+            self::ORDER_VALID=> '有效',
+            self::ORDER_INVALID => '无效',
+            self::ORDER_UNCERTAIN=>'不确定',
+        );
+    }
+
     public function isAuditCompleted()
     {
         return ( self::AUDIT_STATUS_COMPLETED === $this->getAuditStatus()) ? true : false;
@@ -151,10 +155,14 @@ static public function getIsValidChoices()
 
     public function finishAudit()
     {
-        return $this->setAuditStatus(self::AUDIT_STATUS_COMPLETED)
-            ->setIsEgged(self::IS_EGGED_COMPLETED)
-            ->setUpdatedAt(new \DateTime());
+        $this->setAuditStatus(self::AUDIT_STATUS_COMPLETED);
+        if( ! $this->isInvalid()) {
+            $this->setIsEgged(self::IS_EGGED_COMPLETED);
+        }
+        $this->setUpdatedAt(new \DateTime());
+        return $this;
     }
+
     /**
      * Set userId
      *

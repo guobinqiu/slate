@@ -43,14 +43,10 @@ class JsonCacheFileHandler
                 throw new \Exception('busy request');
             }
         }
-
         flock($fp, LOCK_UN);
-
         fclose($fp);
-
-
-
     }
+
     protected function isExists( $file)
     {
         $fs = new Filesystem();
@@ -61,7 +57,7 @@ class JsonCacheFileHandler
     }
 
     // read the cache.
-    protected function readCached($file)
+    public function readCached($file)
     {
         if( is_null($this->isExists($file))) {
             return ;

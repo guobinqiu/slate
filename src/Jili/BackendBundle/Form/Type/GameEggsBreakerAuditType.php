@@ -23,7 +23,6 @@ class GameEggsBreakerAuditType extends AbstractType
             'label'=> '订单金额',
             'required'=> true,
             'currency'=> false,
-            'divisor'=>100,
             'constraints'=> array(
                 new NotBlank(),
             )

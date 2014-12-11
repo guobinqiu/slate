@@ -8,6 +8,8 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Jili\BackendBundle\Utility\PointsStrategy;
 use Jili\BackendBundle\Utility\PointsPool;
 use Jili\BackendBundle\Utility\TaobaoOrderToEggs;
+use Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder;
+use Jili\BackendBundle\Utility\JsonCacheFileHandler;
 
 // write ranking to cache file
 // read ranking 
@@ -132,6 +134,99 @@ class GameEggsBreaker
         //  next 
        
         //      update stat ( eggs sent out) cache file 
+    }
+
+
+    /**
+     * @param GameEggsBreakerTaobaoOrder $order
+     */
+    public function auditOrderEntity(GameEggsBreakerTaobaoOrder $order) 
+    {
+        $logger = $this->logger;
+        $em = $this->em;
+
+
+        $order->finishAudit();
+
+        if( !  $order->isInvalid()) {
+            // caculate eggs info
+            $total_paid = 0;
+            $count_of_uncertain = 0;
+            $this->logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$order->getOrderPaid():')). var_export($order->getOrderPaid(), true));
+            // fetch previous or create eggsInfo
+            $eggsInfo = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
+                ->findOneOrCreateByUserId($order->getUserId());
+            $token = $eggsInfo->getToken();
+
+            if($order->isValid()) {
+                $total_paid = $order->getOrderPaid() + $eggsInfo->getOffcutForNext();
+                $result_caculated  = TaobaoOrderToEggs::caculateEggs(  $total_paid );
+
+                $this->logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$total_paid:')). var_export($total_paid, true));
+                $this->logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$result_caculated:')). var_export($result_caculated, true));
+                $eggsInfo->updateNumOfEggs(array(
+                    'offcut'=> $result_caculated['left'],
+                    'common'=> $result_caculated['count_of_eggs'],
+                    'consolation'=> 0)
+                    , $token);
+            } elseif( $order->isUncertain()) {
+                $eggsInfo->updateNumOfEggs(array(
+                    'common'=> 0,
+                    'consolation'=> 1)
+                    , $token);
+            }
+            $eggsInfo->refreshToken();
+        }
+
+        try {
+            $em->getConnection()->beginTransaction();
+            $em->flush();
+            $em->getConnection()->commit();
+        } catch(\Exception $e) {
+            $logger->crit('[backend][auditOrder]'. $e->getMessage());
+            $em->getConnection()->rollback();
+        }
+
+
+        // update stat cache file 
+        // remove last line 
+        // 100 lines
+        // insert fisrt line.
+        
+    }
+
+    public function fetchSentStat()
+    {
+        $file = $this->configs ['sent_stat'] ;  
+        $js = new JsonCacheFileHandler();
+        $content = $js->readCached($file);
+        // if not exists or latest exists
+        if(is_null( $content ) || empty($content) ) {
+            $this->writeSentStat();
+            $content = $js->readCached($file);
+        }
+
+        $ts = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+            ->getLastestTimestampeEgged();
+        if( ! is_null($ts) && strtotime($ts) > strtotime($content['ts'])) {
+            $this->writeSentStat();
+            $content = $js->readCached($file);
+        }
+        return $content['data'];
+    }
+
+    public function writeSentStat()
+    {
+        $file = $this->configs ['sent_stat'] ;  
+        $js = new JsonCacheFileHandler();
+        // fetch data to write 
+       $data = array('ts'=> new \Datetime(), 'data'=> array() ); 
+
+        // sorted, nick, sum(orders) , num_eggs. 
+        $this->em->getrepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+            ->findLatestEggedNickList( 10 );
+
+        $js->writeCache($data, $file);
     }
 
     /**

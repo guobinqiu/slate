@@ -21,6 +21,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
     public function updateAction()
     {
        $request = $this->get('request'); 
+
     }
 
     /**
@@ -55,17 +56,17 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
         if(! $entity)  {
             $this->get('session')->getFlashBag()->add('error', '没找到审核订单');
             return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_listall'));
-
         }
 
        $form = $this->createForm( new GameEggsBreakerAuditType(), $entity);
         if( 'POST' === $request->getMethod()) {
+            $form->bind($request);
             if($form->isValid()  ) {
                 $data = $form->getData();
-                $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-                    ->updateOneOnAudit($data);
+                $this->get('december_activity.game_eggs_breaker')
+                    ->auditOrderEntity($data);
 
-                   $this->get('session')->setFlash('notice','审核成功');
+                $this->get('session')->setFlash('notice','审核成功');
                 return $this->redirect($this->generateUrl('jili_backend_decemberactivity_listall'));
             }
         }

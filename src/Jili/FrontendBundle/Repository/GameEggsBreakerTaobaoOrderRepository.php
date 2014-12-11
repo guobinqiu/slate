@@ -17,7 +17,7 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
         $em = $this->getEntityManager();
         $entity  = new GameEggsBreakerTaobaoOrder();
         $entity->setUserId($params['userId'])
-            ->setOrderAt($params['orderAt'])
+            ->setOrderAt( $params['orderAt'] )
             ->setOrderId($params['orderId']);
         $em->persist($entity);
         $em->flush();
@@ -38,7 +38,6 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
      */
     public function updateOneOnAudit($params)
     {
-
         $em = $this->getEntityManager();
     }
 
@@ -99,7 +98,6 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
      */
     public function updateOneOnBreakEgg($params)
     {
-
         $em = $this->getEntityManager();
     }
 
@@ -111,7 +109,6 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
      */
     public function fetchByRange( $page_no = 1, $page_size= 10 )
     {
-
         $em = $this->getEntityManager();
         $query = $em->createQuery('SELECT count(o.id) as total  FROM \Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder o');
         $total = $query->getSingleScalarResult();
@@ -129,4 +126,39 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
         return array('total'=> $total, 'data'=> $rows);
     }
 
+    /**
+     * for eggs sent out
+     */
+    public function getLastestTimestampeEgged()
+    {
+        $qb = $this->createQueryBuilder('o');
+        $q = $qb->select($qb->expr()->max('o.updatedAt') )
+            ->where('o.isEgged = :is_egged')
+            ->setParameter('is_egged' , GameEggsBreakerTaobaoOrder::IS_EGGED_COMPLETED )
+            ->getQuery();
+        return $q->getSingleScalarResult();
+    }
+
+    public function findLatestEggedNickList ( $limit = 10 )
+    {
+
+        $qb = $this->createQueryBuilder('o');
+        $q = $qb->select('o.userId, o.updatedAt')
+//            ->innerJoin('JiliApiBundle:User', 'u', 'u.id = o.userId')
+            ->where('o.isEgged = :is_egged')
+            ->groupBy('o.userId')
+            ->orderBy('o.updatedAt','DESC')
+            ->setParameter('is_egged', GameEggsBreakerTaobaoOrder::IS_EGGED_COMPLETED)
+            ->setFirstResult(0)
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        $result =  $q->getResult();
+        // sum of the orderPaid ? 
+        // eggsInfo ? 
+
+
+        return $result; 
+
+    }
 } 

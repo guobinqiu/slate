@@ -74,7 +74,6 @@ class DecemberActivityControllerTest extends WebTestCase
 
     /**
      * @group issue_537
-     * @group debug 
      */
     public function testAddTaobaoOrderActionValidation()
     {
@@ -110,7 +109,6 @@ class DecemberActivityControllerTest extends WebTestCase
 
     /**
      * @group issue_537
-     * @group debug 
      */
     public function testAddTaobaoOrderActionNormal()
     {
@@ -125,17 +123,26 @@ class DecemberActivityControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        //        echo $client->getResponse()->getContent();
 
         $form = $crawler->selectButton('submit')->form();
         $form['order[orderId]']->setValue('myorderid001');
         $form['order[orderAt]']->setValue(date('Y-m-d'));
         $crawler = $client->submit($form);
 
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('/activity/december/', $client->getRequest()->getRequestUri());
+
+
+        $day = new \DateTime();
+        $day->setTime(0,0);
+
         // check result
         $expected_record= $this->em 
             ->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-            ->findOneBy(array('userId'=> 1, 'orderId'=>'myorderid001' , 'orderPaid'=> 5.0));
+            ->findOneBy(array('userId'=> 1, 'orderId'=>'myorderid001' , 'orderAt'=> $day));
         $this->assertNotNull( $expected_record);
 
     }

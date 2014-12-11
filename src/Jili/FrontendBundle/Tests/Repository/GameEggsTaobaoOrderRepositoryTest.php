@@ -24,24 +24,22 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
      */
     public function setUp() 
     {
-        static :: $kernel = static :: createKernel();
-        static :: $kernel->boot();
+        static::$kernel = static::createKernel();
+        static::$kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
-
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
         $tn = $this->getName();
-        if(in_array($tn , array('testUpdateOne','testFetchByRange'))) {
+        if(in_array($tn , array('testGetLastestEggedTimestampe','testUpdateOne','testFetchByRange','testFindLatestEggedNickList'))) {
             $fixture = new LoadTaobaoOrdersData();
             $loader  = new Loader();
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
         }
-
-
         $this->em = $em;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -56,13 +54,15 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
      */
     public function testInsertUserPost() 
     {
+        $day = new \DateTime();
+        $day->setTime(0,0);
         $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-            ->insertUserPost(array('userId'=> 1, 'orderPaid'=> 100.01, 'orderId'=> '10d93jasdf0f2' ));
+            ->insertUserPost(array('userId'=> 1, 'orderAt'=> $day, 'orderId'=> '10d93jasdf0f2' ));
 
         $expected_entity = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
             ->findOneBy( array('userId'=> 1,
                 'orderId'=>'10d93jasdf0f2',
-                'orderAt'=> date('Y-m-d')));
+                'orderAt'=> $day));
         $this->assertNotNull($expected_entity);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerTaobaoOrder',$expected_entity);
 
@@ -75,13 +75,9 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
     public function testUpdateOneOnAudit() 
     {
         // auditing 
-
         // ng 
-
         // valid 
-
         // uncertain
-
         $this->assertEquals(1,1);
     }
 
@@ -97,4 +93,25 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
         $this->assertEquals($expected_orders, $actual['data']);
     }
 
+    /**
+     * @group issue_537 
+     */
+    public function testGetLastestEggedTimestampe()
+    {
+        $actual = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+            ->getLastestTimestampeEgged();
+        $updated = LoadTaobaoOrdersData::$ORDERS[0] ->getUpdatedAt();
+        $this->assertEquals($updated->format('Y-m-d 00:00:00'), $actual);
+    }
+    /**
+     * @group issue_537 
+     * @group debug 
+     */
+    public function testFindLatestEggedNickList()
+    {
+        $actual = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+            ->findLatestEggedNickList(10);
+        var_dump($actual);
+        $this->assertEquals(1,1);
+    }
 }

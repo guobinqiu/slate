@@ -18,19 +18,37 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
 {
 
     public static $ORDERS;
+    public static $USERS;
+
 
     public function __construct() {
         self::$ORDERS = array ();
+        self::$USERS= array ();
     }
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager) 
     {
+
         $orderAt= new \Datetime();
         $orderAt->setTime(0,0);
         $orderAt->sub(new \DateInterval('P20D'));
-        $user_id = 1;
+        $updated = new \Datetime();
+        $updated->setTime(0,0);
+        $updated->sub(new \DateInterval('P5D'));
+
+        $user = new User();
+        $user->setNick('alice32');
+        $user->setEmail('alice32@gmail.com');
+        $user->setPoints(100);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+        self :: $USERS[0] = $user;
+        $user_id = $user->getId();
         // user with 1 row built eggs 
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user_id)
@@ -39,6 +57,7 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_COMPLETED)
             ->setIsEgged($entity::IS_EGGED_COMPLETED )
+            ->setUpdatedAt($updated)
             ->setIsVAlid($entity::ORDER_VALID);
 
         $manager->persist($entity);
@@ -52,7 +71,7 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_COMPLETED)
             ->setIsVAlid($entity::ORDER_INVALID)
-            ->setIsEgged($entity::IS_EGGED_COMPLETED );
+            ->setIsEgged($entity::IS_EGGED_INIT);
         $manager->persist($entity);
         $manager->flush();
         self::$ORDERS[1] = $entity;
@@ -102,24 +121,40 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
         self::$ORDERS[4] = $entity;
 
         // user with 30  row audit for building eggs 
-        for($i =0 ;$i<30 ; $i++ ) {
+        for($i =0 ;$i<1000 ; $i++ ) {
+            $user = new User();
+            $user->setNick('bob'. $i);
+            $user->setEmail('bob'.$i.'@gmail.com');
+            $user->setPoints(100);
+            $user->setIsInfoSet(0);
+            $user->setRewardMultiple(1);
+            $user->setPwd('111111');
+            $manager->persist($user);
+            $manager->flush();
+            self :: $USERS[$i+1] = $user;
+
+            $user_id = $user->getId();
+
             $day = new \Datetime();
             $day->sub(new \DateInterval('P10D'));
 
             $created = new \Datetime();
             $created->sub(new \DateInterval('P12DT'. (1+$i).'M' ));
+            $updated = new \Datetime();
+            $updated->sub(new \DateInterval('P11DT'. (1+$i).'M' ));
 
             $entity = new GameEggsBreakerTaobaoOrder(); 
             $entity->setUserId($user_id)
-                ->setOrderId('testorder00'. ( 6 + $i)   )
+                ->setOrderId('testorderBob00'. ( 6 + $i)   )
                 ->setOrderPaid( 150.01 )
                 ->setOrderAt($orderAt)
                 ->setAuditStatus($entity::AUDIT_STATUS_COMPLETED)
                 ->setAuditPendedAt($day)
                 ->setIsValid($entity::ORDER_VALID)
-                ->setIsEgged($entity::IS_EGGED_INIT)
+                ->setIsEgged($entity::IS_EGGED_COMPLETED)
+                ->setUpdatedAt($updated )
                 ->setCreatedAt($created);
-            
+
             $manager->persist($entity);
             $manager->flush();
             self::$ORDERS[5+$i] = $entity;
