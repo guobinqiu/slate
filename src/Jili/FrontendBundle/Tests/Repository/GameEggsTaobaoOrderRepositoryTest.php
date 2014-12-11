@@ -88,7 +88,7 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
     {
         $actual = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
             ->fetchByRange(1,10);
-        $this->assertEquals(35,$actual['total']);
+        $this->assertEquals(15, $actual['total']);
         $expected_orders =array_merge( array_reverse(array_slice(LoadTaobaoOrdersData::$ORDERS, 0, 5)),array_slice(LoadTaobaoOrdersData::$ORDERS,5,5 ) );
         $this->assertEquals($expected_orders, $actual['data']);
     }

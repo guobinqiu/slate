@@ -201,7 +201,6 @@ class DecemberActivityControllerTest extends WebTestCase
 
     /**
      * @group issue_537
-     * @group debug 
      */
     public function testEggsSentStatAction() 
     {

@@ -97,18 +97,17 @@ class GameEggsBreakerEggsInfo
      */
     public function updateNumOfEggs( $eggs, $token ) 
     {
-        if( $token === $this->getToken()) {
-            $common =$eggs['common']+ $this->getNumOfCommon();
-            $consolation = $eggs['consolation'] + $this->getNumOfConsolation();
-
-            $this->setNumOfConsolation($consolation)
-                ->setNumOfCommon( $common);
-            if( isset($eggs['offcut'])) {
-                $this->setOffcutForNext($eggs['offcut']);
-            }
-            $this->setNumUpdatedAt( new \DateTime() );
+        if( $token !== $this->getToken()) {
+            return ;
         } 
-        return ;
+        if( isset($eggs['offcut'])) {
+            $this->setOffcutForNext($eggs['offcut']);
+        }
+        $common =$eggs['common']+ $this->getNumOfCommon();
+        $consolation = $eggs['consolation'] + $this->getNumOfConsolation();
+        return $this->setNumOfConsolation($consolation)
+            ->setNumOfCommon($common)
+            ->setNumUpdatedAt( new \DateTime() );
     }
 
     /**
