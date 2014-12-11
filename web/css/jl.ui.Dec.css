@@ -1,0 +1,87 @@
+html { overflow-x: visible;}
+body{ color: #fff; font-family: "微软雅黑"; background-color: #f5ce42; overflow-x: hidden;}
+a{ color: #fff;}
+.clearfix:after{clear:both;	visibility:hidden;display:block;font-size:0;content:'.';height:0;}
+.clearfix{ zoom: 1;}
+.decTop{ height: 415px; background: #cc122a url(../images/december/topBg.jpg) no-repeat center; border-bottom: 5px solid #c78500;}
+.decTopFold{ background: #cc122a url(../images/december/topBgFold.jpg) no-repeat center; overflow: hidden;}
+.decMain{ background: #f5ce42 url(../images/december/mainBg.jpg) no-repeat top center; padding-top: 30px; padding-bottom: 30px;}
+.decTopCon, .decMainCon{ position: relative; z-index: 1; width: 990px; margin: 0 auto;}
+.decRule, .decRuleBtn, .decRuleBtnActive{ position: absolute; z-index: 9999; right: 405px; top: 155px;}
+.decRule{ top: 0; width: 345px; height: 865px; right: -405px; line-height: 24px; background-color: #2a2a2a; padding: 30px; font-size: 16px;}
+.decRule h2 em, .shoppingForm label, .decRuleCon p span, .shoppingForm button{ display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
+.decRule h2{ font-size: 36px; font-weight: bold; line-height: 45px;}
+.decRule h2 em{ font-size: 24px; margin-right: 10px;}
+.decRule .decRuleFlow{ font-size: 18px; border-bottom: 1px dashed #363636; line-height: 28px;}
+.decRuleCon p{ margin-top: 30px;}
+.decRuleCon p a{ color: #e89d07; text-decoration: underline;}
+.decRuleCon p strong{ font-size: 23px;}
+.decRuleCon p span{ width: 21px; text-align: center; background: url(../images/december/numBg.png) no-repeat center;}
+.shoppingForm{ border-radius: 8px; margin-top: 5px; padding: 20px; background-color: #0c0c0c;}
+.shoppingForm li{ margin-top: 5px; position: relative; z-index: 1;}
+.shoppingForm label{ width: 110px; height: 34px; line-height: 34px;}
+.shoppingForm input{ width: 165px; height: 30px; padding: 2px 3px;}
+.shoppingForm span{ position: absolute; z-index: 1000; padding: 3px; left: 120px; color: #b5b5b5;}
+.decRuleCon .submitBtn{ margin-top: 20px; width: 169px; height: 67px; cursor: pointer; background: url(../images/december/goBtn.png) no-repeat; outline:none; font-size: 0;}
+.decRuleMain{ margin-top: 30px;}
+.decRuleMain .decTime{ font-size: 18px; color: #e89d07; margin-top: 20px;}
+.decRuleMain li{ margin-top: 15px;}
+.decTopCon .goBtn, .decRuleBtn, .decRuleBtnActive, .backTop, .decTopCon .timestamp{ cursor: pointer;}
+.decTopCon .logo, .decTopCon .login, .decTopCon .goBtn, .decTopCon .timestamp{ position: absolute; z-index: 1000;}
+.decTopCon .logo{ top: 10px; left: 0;}
+.decTopCon .login{ top: 0; right: 0; width: 148px; text-align: center; font-family: "宋体"; background-color: #b80917; padding-top: 5px; padding-bottom: 8px; border-radius: 0 0 8px 8px;}
+.decTopCon .login a{ margin-left: 5px; font-weight: bold; color: #fcf10c; text-decoration: underline;}
+.decTopCon .goBtn{ bottom: 50px; right: 336px;}
+.decTopCon .timestamp{ top: 15px; left: 50%; margin-left: -205px; display: none;}
+.decRuleBtn, .decRuleBtnActive{ font-size: 14px; width: 42px; text-align: center; padding: 13px; line-height: 20px; border-radius: 6px 0 0 6px; background-color: #2a2a2a;}
+.decSort{ position: absolute; z-index: 9999; width: 127px; height: 546px; text-align: center; padding-top: 32px; left: -150px; font-size: 16px; background: url(../images/december/sortBg.png) no-repeat; display: none;}
+.decSortActive{ position: fixed; z-index: 9999; top: 0;}
+.decSort li{ line-height: 36px; cursor: pointer;}
+.decSort li.active{ color: #f9ca40;}
+.backTop{ margin-top: 45px;}
+.decMainCon{ background: url(../images/december/border.png) no-repeat top; padding-top: 17px;}
+.luckyDraw{ font-size: 15px; background: #492109 url(../images/december/border.png) no-repeat top; padding: 10px 30px 20px;}
+.luckyDrawL, .luckyDrawR{ float: left;}
+.luckyDrawL{ position: relative; z-index: 1; width: 583px; margin-right: 35px;}
+.luckyDrawL .noStart{ text-align: center; display: none; cursor: pointer;}
+.luckyDrawL .mask{ margin-top: 15px; width: 570px; height: 186px; overflow-x: hidden; overflow-y: auto; padding-left: 10px;}
+.luckyDrawL li{ float: left; cursor: pointer; margin-right: 28px; text-align: center;}
+.luckyDrawL li span{ margin: 10px auto; width: 100px; height: 28px; line-height: 28px; background-color: #8f8f8f; border-radius: 5px; box-shadow: 0 3px 0 rgba(0, 0, 0, .7); display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
+.luckyDrawL p{ height: 40px; line-height: 40px; padding-left: 25px; background-color: #5c3210;}
+.luckyDrawL p strong{ font-size: 20px; color: #fce015; padding-right: 30px;}
+.luckyDrawR .countDown{ font-weight: bold; width: 256px; height: 40px; background: url(../images/december/timeBg.jpg) no-repeat; padding: 24px 28px; line-height: 20px;}
+.luckyDrawR .countDown label, .luckyDrawR .countDown span, .luckyDrawR .countDown span b, .luckyDrawR .countDown span strong{ display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
+.luckyDrawR .countDown label{ width: 75px; margin-right: 10px;}
+.luckyDrawR .countDown span{ height: 40px; line-height: 40px;}
+.luckyDrawR .countDown span b{ width: 20px; text-align: center; margin-right: 1px; height: 38px; line-height: 38px; font-size: 24px; font-weight: bold; background-color: #650e19;}
+.winnerList{ margin-top: 30px;}
+.winnerList h2{ font-size: 26px; line-height: 35px;}
+.winnerList .mask{ margin-top: 15px; width: 312px; height: 70px; overflow: hidden;}
+.winnerList li{ line-height: 35px;}
+.decListMain{ margin-top: 30px; background-color: #e0a100; padding-bottom: 14px;}
+.decListMain h2{ font-size: 28px; font-weight: bold; line-height: 55px; height: 56px; padding-left: 15px; background: url(../images/december/navBg.png) no-repeat top; overflow: hidden;}
+.decListMain h2.sort02{ background-position: 0 -60px;}
+.decListMain h2.sort03{ background-position: 0 -120px;}
+.decListMain h2.sort04{ background-position: 0 -180px;}
+.decListMain h2.sort05{ background-position: 0 -240px;}
+.decListMain h2.sort06{ background-position: 0 -300px;}
+.decListMain h2.sort07{ background-position: 0 -360px;}
+.decListMain h2.sort08{ background-position: 0 -420px;}
+.decListMain h2.sort09{ background-position: 0 -480px;}
+.decListMain h2.sort10{ background-position: 0 -540px;}
+.decListMain h2.sort11{ background-position: 0 -600px;}
+.decListMain ul{ margin-left: 14px;}
+.decListMain li{ float: left; margin-top: 14px; margin-right: 14px;}
+.decListMain li span, .decListMain li b{ display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
+.decListMain li .proDetail{ color: #828282; font-family: "宋体"; background-color: #ececec; width: 176px; height: 40px; padding: 5px 2px; line-height: 20px; overflow: hidden;}
+.decListMain li .proDetail b, .decListMain li .proDetail strong{ color: #cc122a; font-size: 12px;} 
+.decListMain li .proDetail b{ padding-left:5px; padding-right: 3px;}
+.decListMain li .proDetail strong{ font-family: "微软雅黑"; font-size: 18px; font-weight: bold; margin-right: 10px;}
+.decListMain li .bugBtn{ width: 32px; height: 36px; padding: 7px 10px 7px 8px; line-height: 18px; font-size: 13px; font-weight: bold; background: #cc122a url(../images/december/arrow.png) no-repeat 38px 30px; cursor: pointer;}
+.decListMain li .proDetail a{ color: #828282;}
+.decListMain li .proDetail a:hover{ text-decoration: underline;}
+.decListMain li .proDetail span{text-decoration:line-through;}
+.fixMask{ position: fixed; z-index: 9998; left: 0; top: 0; width: 100%; height: 100%; opacity: .6; filter: alpha(opacity=60); background-color: #000;}
+.popupCon{ position: fixed; z-index: 9999; width: 990px; left: 50%; margin-left: -495px; top: 0;}
+.eggTips{ position: absolute; z-index: 3000; top: 100px; left: 50%; margin-left: -80px; width: 160px; height: 35px; text-align: center; line-height: 35px; background-color: #fff; color: #333; font-size: 12px;}
+.shoppingForm li.errorMsg{ font-size: 12px; color: #cc122a; margin-top: 10px;}

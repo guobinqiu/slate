@@ -1,24 +1,7 @@
-{% extends "::base.html.twig" %}
-
-{% block title %}创建积分策略{% endblock %}
+{% extends "JiliBackendBundle:Points:strategy_body.html.twig" %}
 
 {% block body %}
-
-<h1>创建积分策略</h1>
-
-{% for flashMessage in app.session.flashbag.get('error') %}
-    <div class="flash-error">
-        {{ flashMessage }}
-    </div>
-{% endfor %}
-<div>
-<p>格式要求:</p>
-<pre>
-分发频率1:分值1
-分发频率2:分值2
-...
-</pre>
-</div>
+{{ parent() }}
 
 <form action="{{ path('jili_backend_gameseeker_buildpointstrategy') }}" method="POST">
 {{ form_label(form.rules, '规则列表' ) }}
