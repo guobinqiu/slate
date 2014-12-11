@@ -137,7 +137,7 @@ function countDown(){
         }
         $('.countDownTime').html(str);
     }
-    var countdownStart, endDate = new Date('2015/1/20 9:00:00');
+    var countdownStart, endDate = new Date('2015/1/20 00:00:00');
     countdown(endDate);
     countdownStart = setInterval(function(){ countdown(endDate)}, 1E3);
 }
@@ -164,7 +164,7 @@ $(function(){
         noEgg: '.luckyDrawL .noStart',
         eggNum: '.luckyDrawL .eggNum',
         eggMoney: '.luckyDrawL .eggMoney',
-        debug: true
+        debug: false
     });
 });
 (function($){
@@ -182,7 +182,7 @@ $(function(){
              type: 'post',
              dataType: 'json',
              success: function(eggData){
-             //var eggData = { code: '1', msg: '', data: { token: '', validNum: 2, comfortNum: 1, diffMoney: 200, isStart: false}};
+             //var eggData = { code: '1', msg: '', data: { token: '', validNum: 2, comfortNum: 1, diffMoney: 10, isStart: false}};
              $this.debug('初始金蛋信息……', eggData);
              $this.showEgg(eggData);
              $this.setEggInfo(eggData);
@@ -193,7 +193,7 @@ $(function(){
              $this.debug('第一次请求失败……');
              }
              });*/
-            var eggData = { code: '1', msg: '', data: { token: '', validNum: 3, comfortNum: 2, diffMoney: 200, isStart: false}};
+            var eggData = { code: '1', msg: '', data: { token: '', validNum: 3, comfortNum: 2, diffMoney: 10, isStart: false}};
             $this.debug('初始金蛋信息……', eggData);
             $this.showEgg(eggData);
             $this.setEggInfo(eggData);
