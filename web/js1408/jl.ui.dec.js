@@ -25,7 +25,8 @@ function formClear(){
                 $(this).removeClass('active');
             }
         });
-        inputTxt.on('click, focus', function(){
+        inputTxt.on('click', function(){
+			conInput.focus();
             $(this).css('display', 'none');
             conInput.addClass('active');
         });
