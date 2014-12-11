@@ -14,7 +14,6 @@ class GameEggsBreakerEggsInfo
 {
     const EGG_TYPE_COMMON = 1;
     const EGG_TYPE_CONSOLATION = 2;
-
     const COST_PER_EGG = 10.00;
 
     /**
@@ -23,6 +22,13 @@ class GameEggsBreakerEggsInfo
      * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
     private $userId;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="total_paid", type="float", precision=9, scale=2, nullable=false)
+     */
+    private $totalPaid;
 
     /**
      * @var float
@@ -83,54 +89,6 @@ class GameEggsBreakerEggsInfo
     private $id;
 
 
-    public function __construct()
-    {
-        $this->setNumOfCommon(0)
-            ->setNumOfConsolation(0)
-            ->setOffcutForNext(0)
-            ->setCreatedAt(new \DateTime());
-    }
-
-    /**
-     * @param array $eggs = array('common'=> , 'consolation'=> )
-     * @param string $token ;
-     */
-    public function updateNumOfEggs( $eggs, $token ) 
-    {
-        if( $token !== $this->getToken()) {
-            return ;
-        } 
-        if( isset($eggs['offcut'])) {
-            $this->setOffcutForNext($eggs['offcut']);
-        }
-        $common =$eggs['common']+ $this->getNumOfCommon();
-        $consolation = $eggs['consolation'] + $this->getNumOfConsolation();
-        return $this->setNumOfConsolation($consolation)
-            ->setNumOfCommon($common)
-            ->setNumUpdatedAt( new \DateTime() );
-    }
-
-    /**
-     * 
-     */
-    public function refreshToken( $seed = '') 
-    {
-        $seed .= $this->getUserId();
-        $seed .= time();  
-        $token = md5($seed );
-        return $this->setToken($token)
-            ->setTokenUpdatedAt(new \DateTime());
-    }
-
-    /**
-     */
-    public function getLessForNextEgg()
-    {
-        if(self::COST_PER_EGG <= floatval($this->getOffcutForNext())) {
-            return 0;
-        }
-        return round( self::COST_PER_EGG - floatval($this->getOffcutForNext()), 2);
-    }
 
     /**
      * Set userId
@@ -153,6 +111,29 @@ class GameEggsBreakerEggsInfo
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Set totalPaid
+     *
+     * @param float $totalPaid
+     * @return GameEggsBreakerEggsInfo
+     */
+    public function setTotalPaid($totalPaid)
+    {
+        $this->totalPaid = $totalPaid;
+
+        return $this;
+    }
+
+    /**
+     * Get totalPaid
+     *
+     * @return float 
+     */
+    public function getTotalPaid()
+    {
+        return $this->totalPaid;
     }
 
     /**
@@ -324,5 +305,65 @@ class GameEggsBreakerEggsInfo
     public function getId()
     {
         return $this->id;
+    }
+
+    public function __construct()
+    {
+        $this->setNumOfCommon(0)
+            ->setNumOfConsolation(0)
+            ->setOffcutForNext(0)
+            ->setTotalPaid(0)
+            ->setCreatedAt(new \DateTime());
+    }
+
+    /**
+     * @param array $eggs = array('common'=> , 'consolation'=> )
+     * @param string $token ;
+     */
+    public function updateNumOfEggs( $eggs, $token ) 
+    {
+        if( $token !== $this->getToken()) {
+            return ;
+        } 
+        if( isset($eggs['offcut']) ) {
+            $this->setOffcutForNext($eggs['offcut']);
+        }
+
+        if( isset($eggs['paid']) ) {
+            $this->setTotalPaid($eggs['paid']);
+        }
+
+        if( isset($eggs['common']) ) {
+            $this->setNumOfCommon($eggs['common']);
+        }
+
+        if( isset($eggs['consolation']) ) {
+            $consolation = $eggs['consolation'] + $this->getNumOfConsolation();
+            $this->setNumOfConsolation($consolation);
+        }
+
+        return $this->setNumUpdatedAt( new \DateTime() );
+    }
+
+    /**
+     * 
+     */
+    public function refreshToken( $seed = '') 
+    {
+        $seed .= $this->getUserId();
+        $seed .= time();  
+        $token = md5($seed );
+        return $this->setToken($token)
+            ->setTokenUpdatedAt(new \DateTime());
+    }
+
+    /**
+     */
+    public function getLessForNextEgg()
+    {
+        if(self::COST_PER_EGG <= floatval($this->getOffcutForNext())) {
+            return 0;
+        }
+        return round( self::COST_PER_EGG - floatval($this->getOffcutForNext()), 2);
     }
 }

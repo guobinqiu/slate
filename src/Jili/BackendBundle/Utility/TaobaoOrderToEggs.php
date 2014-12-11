@@ -1,6 +1,7 @@
 <?php
 namespace Jili\BackendBundle\Utility;
 
+
 class TaobaoOrderToEggs
 {
 
@@ -38,19 +39,28 @@ class TaobaoOrderToEggs
 
         return array( 'left'=> $paid, 'count_of_eggs'=> 0);
     }
+
     /**
-     * @param float $offcut [0, 50) 
-     * @return null when $offcut >= 50
+     * @param float $offcut [0, +infinit) 
+     * @return 50  when $offcut >= 150
      */
-    static public function lessToNext( $offcut = 0 ) 
+    static public function lessToNext( $total_paid = 0 ) 
     {
-        if( $offcut < 10 ) {
-            return 10 - $offcut;
-        } elseif ( $offcut < 20 )  {
-            return 20 - $offcut;
-        } elseif($offcut < 50 ) {
-            return 50 - $offcut;
+        if( $total_paid < 10 ) {
+            return 10 - $total_paid;
+        } elseif ( $total_paid < 20 )  {
+            return 20 - $total_paid;
+        } elseif($total_paid < 50 ) {
+            return 50 - $total_paid;
+        } elseif($total_paid < 100 ) {
+            return 100 - $total_paid;
+        } elseif($total_paid < 150 ) {
+            return 150 - $total_paid;
         }
-        return ;
+
+        $higher =  $total_paid - 150;
+        $quotient = floor($higher / 50);
+
+        return  50 * ( 1 + $quotient ) - $higher;
     }
 }

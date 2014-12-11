@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\FrontendBundle\Form\Type\GameEggsBreakerTaoBaoOrderType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Jili\ApiBundle\Entity\AdCategory;
+use Jili\BackendBundle\Utility\TaobaoOrderToEggs;
 
 /**
  * @Route("/activity/december")
@@ -22,9 +23,6 @@ class DecemberActivityController extends Controller
      */
     public function indexAction()
     {
-        // render the page 
-        
-       
         return $this->render('JiliFrontendBundle:DecemberActivity:index.html.twig');
     }
 
@@ -66,7 +64,7 @@ class DecemberActivityController extends Controller
                 $em  = $this->get('doctrine.orm.entity_manager');
                 $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
                     ->insertUserPost( array('userId'=>$session->get('uid'),
-                        'orderAt'=>$data['orderAt'], 
+                        'orderAt'=> new \Datetime($data['orderAt']), 
                         'orderId'=>$data['orderId'], 
                     ));
                 $this->get('session')->setFlash('notice','提交成功，等待审核');
@@ -110,15 +108,19 @@ class DecemberActivityController extends Controller
 
         // numOfEggs: 1, numOfConsolationEggs: 3, lessForNextEgg: 00.01 
         //$cost_per_egg = $container->get
+        $startAt = new \Datetime('2015-01-20 00:00:00');
+        $now = new \Datetime();
 
         $response->setData( array('code'=> 0, 
-            'data'=>array('token'=> $record->getToken(),
-            'numOfEggs'=> $record->getNumOfCommon(),
-            'numOfConsolationEggs' => $record->getNumOfConsolation(),
-            'lessForNextEgg'=> $record->getLessForNextEgg( )
-        )));
-        return $response;      
+            'data'=>array(
+                'token'=> $record->getToken(),
+                'numOfEggs'=> $record->getNumOfCommon(),
+                'numOfConsolationEggs' => $record->getNumOfConsolation(),
+                'lessForNextEgg'=> TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
+                'isStart'=> ( $now >= $startAt ) ? true: false  
+            )));
 
+        return $response;      
     }
 
     /**

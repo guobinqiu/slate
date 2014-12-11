@@ -14,8 +14,7 @@ class GameEggsBreakerTaoBaoOrderType extends AbstractType
             'label'=>'订单号',
             'invalid_message' => '订单号不正确',
             'constraints'=> new NotBlank() 
-        ))->add('orderAt', 'date', array(
-            'widget'=> 'single_text',
+        ))->add('orderAt', 'text', array(
             'label'=> '订单日期',
             'constraints'=> new NotBlank() 
         ));

@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `game_eggs_breaker_eggs_info` ;
 CREATE TABLE `game_eggs_breaker_eggs_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
+  `total_paid` float(9,2) NOT NULL DEFAULT '0.00',
   `offcut_for_next` float(9,2) NOT NULL DEFAULT '0.00',
   `num_of_common` int(11) NOT NULL,
   `num_of_consolation` int(11) NOT NULL,

@@ -158,9 +158,6 @@ class DecemberActivityControllerTest extends WebTestCase
      */
     public function testGetEggsInfoActionNormal()
     {
-//prepare testing data
-// ajax post 
-// normal  
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_geteggsinfo');
@@ -177,9 +174,10 @@ class DecemberActivityControllerTest extends WebTestCase
         $actual_info  = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
             ->findOneByUserId($user->getId());
 
-//        $info = LoadGetEggsInfoData::$INFOS[0];
-
-        $expected_response = '{"code":0,"data":{"token":"'.$actual_info->getToken() .'","numOfEggs":4,"numOfConsolationEggs":3,"lessForNextEgg":0}}';
+        $startAt = new \Datetime('2015-01-20 00:00:00');
+        $now = new \Datetime();
+        $isStart =  ( $now >= $startAt ) ? 'true': 'false'  ;
+        $expected_response = '{"code":0,"data":{"token":"'.$actual_info->getToken() .'","numOfEggs":4,"numOfConsolationEggs":3,"lessForNextEgg":19.97,"isStart":'.$isStart.'}}';
 
         $this->assertEquals($expected_response, $client->getResponse()->getContent());
 

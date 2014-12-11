@@ -79,8 +79,12 @@ class TaobaoOrderToEggsTest  extends KernelTestCase
         $this->assertEquals( 29.99, TaobaoOrderToEggs::lessToNext(20.01));
         $this->assertEquals( 19.99, TaobaoOrderToEggs::lessToNext(30.01));
         $this->assertEquals( 9.99, TaobaoOrderToEggs::lessToNext(40.01));
-        $this->assertNull(  TaobaoOrderToEggs::lessToNext(50.01));
-
+        $this->assertEquals( 49.99, TaobaoOrderToEggs::lessToNext(50.01));
         $this->assertEquals( 0.01, TaobaoOrderToEggs::lessToNext(9.99));
+        $this->assertEquals( 49.99, TaobaoOrderToEggs::lessToNext(100.01));
+        $this->assertEquals(0.01 , TaobaoOrderToEggs::lessToNext(149.99));
+        $this->assertEquals(49.99 , TaobaoOrderToEggs::lessToNext(150.01));
+        $this->assertEquals(19.99 , TaobaoOrderToEggs::lessToNext(180.01));
+        $this->assertEquals(49.99 , TaobaoOrderToEggs::lessToNext(200.01));
     }
 }
