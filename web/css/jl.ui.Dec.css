@@ -73,7 +73,7 @@ a{ color: #fff;}
 .decListMain ul{ margin-left: 14px;}
 .decListMain li{ float: left; margin-top: 14px; margin-right: 14px;}
 .decListMain li span, .decListMain li b{ display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
-.decListMain li .proDetail{ color: #828282; font-family: "宋体"; background-color: #ececec; width: 170px; height: 40px; padding: 5px; line-height: 20px; overflow: hidden;}
+.decListMain li .proDetail{ color: #828282; font-family: "宋体"; background-color: #ececec; width: 176px; height: 40px; padding: 5px 2px; line-height: 20px; overflow: hidden;}
 .decListMain li .proDetail b, .decListMain li .proDetail strong{ color: #cc122a; font-size: 12px;} 
 .decListMain li .proDetail b{ padding-left:5px; padding-right: 3px;}
 .decListMain li .proDetail strong{ font-family: "微软雅黑"; font-size: 18px; font-weight: bold; margin-right: 10px;}
