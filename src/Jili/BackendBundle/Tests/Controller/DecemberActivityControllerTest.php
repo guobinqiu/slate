@@ -98,14 +98,17 @@ class DecemberActivityControllerTest extends WebTestCase
         $form['order[auditBy]']->setValue('yuki');
         $crawler = $client->submit($form);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-
         $actual = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
             ->findOneByUserId($user->getId());
+
         $this->assertNotNUll($actual);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerEggsInfo', $actual);
-        $this->assertEquals(0.90 , $actual->getOffcutForNext());
+        $this->assertEquals(0 , $actual->getOffcutForNext());
         $this->assertEquals(8 , $actual->getNumOfCommon());
         $this->assertEquals(0 , $actual->getNumOfConsolation());
+        $this->assertEquals(300.90 , $actual->getTotalPaid());
+
+
         $actual = $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
             ->findOneBy(array('id'=> $order->getId(),
                 'userId'=>$user->getId(),
@@ -163,6 +166,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertNotNUll($actual);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerEggsInfo', $actual);
         $this->assertEquals(0 , $actual->getOffcutForNext());
+        $this->assertEquals(0 , $actual->getTotalPaid());
         $this->assertEquals(0 , $actual->getNumOfCommon());
         $this->assertEquals(1 , $actual->getNumOfConsolation());
         $actual = $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
@@ -196,6 +200,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertNotNUll($actual);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerEggsInfo', $actual);
         $this->assertEquals(49.03 , $actual->getOffcutForNext());
+        $this->assertEquals(149.99 , $actual->getTotalPaid());
         $this->assertEquals(4 , $actual->getNumOfCommon());
         $this->assertEquals(4 , $actual->getNumOfConsolation());
         $this->assertNotEquals( $info->getToken(), $actual->getToken());
@@ -230,6 +235,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertNotNUll($actual);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerEggsInfo', $actual);
         $this->assertEquals(49.03 , $actual->getOffcutForNext());
+        $this->assertEquals(149.99 , $actual->getTotalPaid());
         $this->assertEquals(4 , $actual->getNumOfCommon());
         $this->assertEquals(3 , $actual->getNumOfConsolation());
         $this->assertEquals( $info->getToken(), $actual->getToken());
@@ -245,7 +251,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerTaobaoOrder', $actual);
         
 
-        // valid , no changes on token!!
+        // valid ,  changed on token!!
         $order = LoadAuditOrderData::$ORDERS[5];
         $user = LoadAuditOrderData::$USERS[5];
         $info = LoadAuditOrderData::$INFOS[2];
@@ -265,8 +271,9 @@ class DecemberActivityControllerTest extends WebTestCase
             ->findOneByUserId($user->getId());
         $this->assertNotNUll($actual);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerEggsInfo', $actual);
-        $this->assertEquals(0 , $actual->getOffcutForNext());
-        $this->assertEquals(7 , $actual->getNumOfCommon());
+///        $this->assertEquals(0 , $actual->getOffcutForNext());
+        $this->assertEquals(150.96 , $actual->getTotalPaid());
+        $this->assertEquals(5 , $actual->getNumOfCommon());
         $this->assertEquals(3 , $actual->getNumOfConsolation());
         $this->assertNotEquals( $info->getToken(), $actual->getToken());
         $actual = $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')

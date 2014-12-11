@@ -148,7 +148,7 @@ class GameEggsBreaker
 
         $order->finishAudit();
 
-        if( !  $order->isInvalid()) {
+        if( ! $order->isInvalid()) {
             // caculate eggs info
             $total_paid = 0;
             $count_of_uncertain = 0;
@@ -159,21 +159,17 @@ class GameEggsBreaker
             $token = $eggsInfo->getToken();
 
             if($order->isValid()) {
-                $total_paid = $order->getOrderPaid() + $eggsInfo->getOffcutForNext();
-                $result_caculated  = TaobaoOrderToEggs::caculateEggs(  $total_paid );
+                $total_paid = $order->getOrderPaid() + $eggsInfo->getTotalPaid();
+                $result_caculated  = TaobaoOrderToEggs::caculateEggs( $total_paid );
 
                 $this->logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$total_paid:')). var_export($total_paid, true));
+
                 $this->logger->debug('{jarod}'. implode(':' , array(__LINE__, __FILE__, '$result_caculated:')). var_export($result_caculated, true));
-                $eggsInfo->updateNumOfEggs(array(
-                    'offcut'=> $result_caculated['left'],
-                    'common'=> $result_caculated['count_of_eggs'],
-                    'consolation'=> 0)
-                    , $token);
+                $eggsInfo->updateNumOfEggs(array('paid'=>$total_paid,
+                    'common'=> $result_caculated['count_of_eggs']),
+                $token);
             } elseif( $order->isUncertain()) {
-                $eggsInfo->updateNumOfEggs(array(
-                    'common'=> 0,
-                    'consolation'=> 1)
-                    , $token);
+                $eggsInfo->updateNumOfEggs(array('consolation'=> 1), $token);
             }
             $eggsInfo->refreshToken();
         }
@@ -186,7 +182,6 @@ class GameEggsBreaker
             $logger->crit('[backend][auditOrder]'. $e->getMessage());
             $em->getConnection()->rollback();
         }
-
 
         // update stat cache file 
         // remove last line 

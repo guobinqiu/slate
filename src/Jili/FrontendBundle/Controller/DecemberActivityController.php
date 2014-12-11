@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\FrontendBundle\Form\Type\GameEggsBreakerTaoBaoOrderType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Jili\ApiBundle\Entity\AdCategory;
+use Jili\BackendBundle\Utility\TaobaoOrderToEggs;
 
 /**
  * @Route("/activity/december")
@@ -114,7 +115,7 @@ class DecemberActivityController extends Controller
             'data'=>array('token'=> $record->getToken(),
             'numOfEggs'=> $record->getNumOfCommon(),
             'numOfConsolationEggs' => $record->getNumOfConsolation(),
-            'lessForNextEgg'=> $record->getLessForNextEgg(),
+            'lessForNextEgg'=> TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
             'isStart'=> ( $now >= $startAt ) ? true: false  
         )));
         return $response;      

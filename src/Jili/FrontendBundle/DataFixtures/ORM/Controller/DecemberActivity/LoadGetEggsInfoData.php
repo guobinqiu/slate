@@ -44,6 +44,7 @@ class LoadGetEggsInfoData extends AbstractFixture implements  FixtureInterface
         $entity = new GameEggsBreakerEggsInfo();
         $entity->setUserId($user->getId() )
             ->setOffcutForNext(10.03)
+            ->setTotalPaid(180.03)
             ->setNumOfCommon(4)
             ->setNumOfConsolation(3)
             ->setTokenUpdatedAt(new \Datetime()) ;
