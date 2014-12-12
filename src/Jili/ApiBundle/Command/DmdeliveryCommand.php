@@ -43,6 +43,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $batch_name = $input->getArgument('batch_name');
         $output->writeln('batch name : ' . $batch_name);
         $em = $this->getContainer()->get('doctrine')->getManager();
+        ini_set("memory_limit","100M");
         $this->$batch_name($em);
         $output->writeln('finish at '.date('Y-m-d H:i:s',time()));
         $output->writeln("");
@@ -129,21 +130,21 @@ class DmdeliveryCommand extends ContainerAwareCommand
                 }
                 if ($send_fail_email_count > 0){
                     $content = $this->setALertEmailBody('pointFailure','Cannot send email，count = '.$send_fail_email_count);
-                    echo $content."\n";
+                    echo 'Cannot send email，count = '.$send_fail_email_count."\n";
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
                 } else {
                     $content = $this->setALertEmailBody('pointFailure','Send finish!!!',true);
-                    echo $content."\n";
+                    echo 'Send finish!!!'."\n";
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
                 }
             }else{
                 $content = $this->setALertEmailBody('pointFailure','Cannot add group:'.$group->statusMsg);
-                echo $content."\n";
+                echo 'Cannot add group:'.$group->statusMsg."\n";
                 $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
             }
         }else{
             $content = $this->setALertEmailBody('pointFailure','Email list is empty');
-            echo $content."\n";
+            echo 'Email list is empty'."\n";
             $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
         }
     }
@@ -205,6 +206,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
             }
         }else{
             $content = $this->setALertEmailBody('pointFailure','Email list is empty');
+            echo 'Email list is empty'."\n";
             $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
         }
     }
