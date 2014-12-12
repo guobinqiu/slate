@@ -1,0 +1,16 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+{% for flashMessage in app.session.flashbag.get('error') %}
+    <div class="flash-error">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+{%include "JiliBackendBundle:GameEggsBreaker:internal_menu.html.twig"  %}
+
+{% endblock %}
+
+

@@ -265,3 +265,17 @@ parameters:
         points_pool: "%cache_data_path%/game_seeker_points_pool_YYYYmmdd.json"
         chest:  "%cache_data_path%/game_seeker_config_chest.txt"
 
+    game_eggs_breaker:
+        ranking: "%cache_data_path%/game_eggs_breaker/ranking.json"
+        sent_stat: "%cache_data_path%/game_eggs_breaker/sent_stat.json"
+        common:
+            points_strategy: "%cache_data_path%/game_eggs_breaker/common/points_strategy_conf.json"
+            points_pool: "%cache_data_path%/game_eggs_breaker/common/points_pool_YYYYmmdd.json"
+        consolation:
+            points_strategy: "%cache_data_path%/game_eggs_breaker/consolation/points_strategy_conf.json"
+            points_pool: "%cache_data_path%/game_eggs_breaker/consolation/points_pool_YYYYmmdd.json"
+    webpower_email_username: 'admin'
+    webpower_email_password: 'nUshkwu#9'
+    
+    cron_alertTo_contacts: jinzhang@voyagegroup.com.cn,zhangmm@voyagegroup.com.cn,tao_jiang@voyagegroup.com,xiaoyi_chai@voyagegroup.com,xujf@voyagegroup.com.cn
+    alert_subject: '积粒网-定时任务提醒邮件'

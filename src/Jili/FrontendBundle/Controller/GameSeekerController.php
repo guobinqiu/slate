@@ -6,7 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Jili\ApiBundle\Entity\AdCategory;
-use Jili\ApiBundle\Utility;
 
 /**
  * @Route("/game-seeker")
