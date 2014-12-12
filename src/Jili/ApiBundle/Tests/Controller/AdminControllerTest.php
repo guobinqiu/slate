@@ -600,7 +600,6 @@ class AdminControllerTest extends WebTestCase {
 
     /**
      * @group issue_560
-     * @group debug
      */
     public function testAddPointManageAction(){
         $client = static :: createClient();
