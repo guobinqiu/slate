@@ -23,6 +23,10 @@ class DecemberActivityController extends Controller
      */
     public function indexAction()
     {
+        $session =$this->get('session');
+        if(! $session->has('uid')) {
+            $session->set('referer', $this->get('request')->getRequestUri());
+        }
         return $this->render('JiliFrontendBundle:DecemberActivity:index.html.twig');
     }
 
