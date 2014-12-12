@@ -57,13 +57,6 @@ Date.prototype.Format = function(fmt)
   return fmt; 
 }
 function formCheck(){
-	function showMsg(msg){
-		$('.decRuleBtn').addClass('decRuleBtnActive');
-        var $div = $('<div></div>');
-        $div.addClass('submitTips').html(msg).appendTo($('.shoppingForm').parent()).fadeIn(1000, function() {
-            $(this).fadeOut(3000);
-        });
-    }
 	function compareTime(startDate, endDate){
 		var arr = startDate.split("-");
 		var starttime = new Date(arr[0], arr[1], arr[2]);
@@ -86,18 +79,15 @@ function formCheck(){
 	if(compareTime(startDate, inputDate)&&compareTime(inputDate, endDate)){
 		if(compareTime(inputDate, curDate)){
 			if(orderNum.match(/[^a-zA-Z\d]/g) || orderNum.length > 20) {
-				//showMsg('您输入的订单格式不对，请重新输入！');
 				$('.errorMsg').html('*您输入的订单格式或长度不对，请重新输入！');
 				return false;
 			}
 			return true;
 		}else{
-			//showMsg('您输入的时间大于当前时间，请重新输入！');
 			$('.errorMsg').html('*您输入的时间大于当前时间，请重新输入！');
 			return false;
 		}
 	}else{
-		//showMsg('您输入的时间不在活动范围内，请重新输入！');
 		$('.errorMsg').html('*您输入的时间不在活动范围内，请重新输入！');
 		return false;
 	}
@@ -153,6 +143,7 @@ function runFlow(){
 }
 function checkFlow(){
     var decRule = $('.decRule'), decRuleBtn = $('.decRuleBtn, .decTopCon .goBtn, .noStart, .noLogin, .timestamp');
+	var datepicker = $( "#datepicker, .defaultTxt" );
 	var tipsMsg = $('.errorMsg .tipsMsg');
 	if(tipsMsg.html()){ 
 		decRule.animate({ right: '0px'}, 500, function(){
@@ -160,8 +151,6 @@ function checkFlow(){
         });
 	}
     decRuleBtn.on('click', function(){
-        var datepicker = $( "#datepicker, .defaultTxt" );
-        datepicker.datetimepicker({ lang : 'ch', parentID: '.decRuleFlow', timepicker : false, format : 'Y-m-d', formatDate : 'Y-m-d' });
         if($(this).hasClass('decRuleBtnActive')){
             $('.decRuleBtn').removeClass('decRuleBtnActive');
             decRule.animate({ right: '-405px'}, 500);
@@ -171,6 +160,7 @@ function checkFlow(){
             });
         }
     });
+	datepicker.datetimepicker({ lang : 'ch', parentID: '.decRuleFlow', timepicker : false, format : 'Y-m-d', formatDate : 'Y-m-d' });
     formClear();
 }
 function countDown(){
