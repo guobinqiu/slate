@@ -64,6 +64,9 @@ class GameEggsBreakerTaobaoOrder
      * @var \DateTime
      *
      * @ORM\Column(name="order_at", type="date", nullable=false)
+     * @Assert\Date(
+     *      message = "需要填写有效的日期, 如: 2014-12-20"
+     * )
      */
     private $orderAt;
 
