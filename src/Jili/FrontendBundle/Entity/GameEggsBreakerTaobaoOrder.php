@@ -3,12 +3,24 @@
 namespace Jili\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
 
 /**
  * GameEggsBreakerTaobaoOrder
  *
- * @ORM\Table(name="game_eggs_breaker_taobao_order", indexes={@ORM\Index(name="user_order", columns={"user_id", "order_id"})})
+ * @ORM\Table(name="game_eggs_breaker_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="user_order", columns={"user_id", "order_id"})}, indexes={@ORM\Index(name="audit_pend", columns={"audit_status", "audit_pended_at"})})
+ *
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameEggsBreakerTaobaoOrderRepository")
+ *
+ * @UniqueEntity(
+ *     fields={"userId", "orderId"},
+ *     errorPath="orderId",
+ *     message="你已经提交过相同的订单号."
+ * )
+ *
  */
 class GameEggsBreakerTaobaoOrder
 {

@@ -17,9 +17,13 @@ CREATE TABLE `game_eggs_breaker_taobao_order` (
   `updated_at` datetime NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_order` (`user_id`,`order_id`),
+  UNIQUE KEY `user_order` (`user_id`,`order_id`),
   KEY `audit_pend` (`audit_status`,`audit_pended_at`) -- find pending cron
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- select count(*)  as c , user_id , order_id  from game_eggs_breaker_taobao_order group by user_id , order_id having c > 1 ;
+
+-- ALTER TABLE `jili_db`.`game_eggs_breaker_taobao_order` DROP INDEX `user_order`, ADD UNIQUE `user_order` (`user_id`, `order_id`);
 
 DROP TABLE IF EXISTS `game_eggs_breaker_eggs_info` ;
 CREATE TABLE `game_eggs_breaker_eggs_info` (

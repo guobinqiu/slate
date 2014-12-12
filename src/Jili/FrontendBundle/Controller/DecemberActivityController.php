@@ -9,8 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Jili\FrontendBundle\Form\Type\GameEggsBreakerTaoBaoOrderType;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Jili\ApiBundle\Entity\AdCategory;
 use Jili\BackendBundle\Utility\TaobaoOrderToEggs;
+use Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder;
 
 /**
  * @Route("/activity/december")
@@ -63,13 +63,25 @@ class DecemberActivityController extends Controller
             if( $form->isValid()){
                 $data= $form->getData();
 
-                $em  = $this->get('doctrine.orm.entity_manager');
-                $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-                    ->insertUserPost( array('userId'=>$session->get('uid'),
-                        'orderAt'=> new \Datetime($data['orderAt']), 
-                        'orderId'=>$data['orderId'], 
-                    ));
-                $this->get('session')->setFlash('notice','提交成功，等待审核');
+                $entity = new GameEggsBreakerTaobaoOrder();
+                $entity->setUserId($session->get('uid'))
+                    ->setOrderId($data['orderId']);
+                $validator = $this->get('validator');
+                $errors = $validator->validate($entity);
+                if(count($errors)>0) {
+                    foreach($errors as $error ) {
+                        $messages[] = $error->getMessage();
+                        $this->get('session')->setFlash('error', $messages);
+                    }
+                } else {
+                    $em  = $this->get('doctrine.orm.entity_manager');
+                    $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+                        ->insertUserPost( array('userId'=>$session->get('uid'),
+                            'orderAt'=> new \Datetime($data['orderAt']), 
+                            'orderId'=>$data['orderId'], 
+                        ));
+                    $this->get('session')->setFlash('notice','提交成功，等待审核');
+                }
                 return $this->redirect($this->generateUrl('jili_frontend_decemberactivity_index'));
             }
         }
