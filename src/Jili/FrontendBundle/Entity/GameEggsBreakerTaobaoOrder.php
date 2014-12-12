@@ -48,6 +48,15 @@ class GameEggsBreakerTaobaoOrder
      * @var string
      *
      * @ORM\Column(name="order_id", type="string", length=255, nullable=false)
+     * @Assert\Regex(
+     *     pattern="/^\d{15}$/",
+     *     message="需要填0~9组成的订单号"
+     * )
+     * @Assert\Length(
+     *      min = 15,
+     *      max = 15,
+     *      exactMessage ="需要填15位订单号"
+     * )
      */
     private $orderId;
 
