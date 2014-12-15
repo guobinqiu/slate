@@ -8,7 +8,7 @@ a{ color: #fff;}
 .decMain{ background: #f5ce42 url(../images/december/mainBg.jpg) no-repeat top center; padding-top: 30px; padding-bottom: 30px;}
 .decTopCon, .decMainCon{ position: relative; z-index: 1; width: 990px; margin: 0 auto;}
 .decRule, .decRuleBtn, .decRuleBtnActive{ position: absolute; z-index: 9999; right: 405px; top: 155px;}
-.decRule{ top: 0; width: 345px; height: 1145px; right: -405px; line-height: 24px; background-color: #2a2a2a; padding: 30px; font-size: 16px;}
+.decRule{ top: 0; width: 345px; right: -405px; line-height: 24px; background-color: #2a2a2a; padding: 30px; font-size: 16px;}
 .decRule h2 em, .shoppingForm label, .decRuleCon p span, .shoppingForm button{ display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
 .decRule h2{ font-size: 36px; font-weight: bold; line-height: 45px;}
 .decRule h2 em{ font-size: 24px; margin-right: 10px;}
