@@ -1,7 +1,7 @@
 INSERT INTO `user` (`id`, `email`, `pwd`,  `nick`, `register_date`, `points`, `delete_flag`,`token`,`reward_multiple`,`is_info_set`)  
-VALUES (1110,'jinzhang@voyagegroup.com.cn','testpwd','jin','2014-04-16 21:17:44','3',0, 'a',1,1),
-(1111,'zspike1985@139.com','testpwd','jin11','2014-05-16 21:17:44','3',0 , 'a',1,1),
-(1112,'zspike1985@139.com','testpwd','jin11','2014-05-16 21:17:44','0',0 , 'a',1,1),
+VALUES (1110,'jili_test@voyagegroup.com.cn','testpwd','jintest','2014-04-16 21:17:44','3',0, 'a',1,1),
+(1111,'jili_test@voyagegroup.com.cn','testpwd','jintest','2014-05-16 21:17:44','3',0 , 'a',1,1),
+(1112,'jili_test@voyagegroup.com.cn','testpwd','jintest','2014-05-16 21:17:44','0',0 , 'a',1,1),
 (1113,'aabbcc@139.com','testpwd','jin22','2014-09-16 21:17:44','3',0 , 'a',1,1),
 (1114,'aabbcc1111@139.com','testpwd','jin33','2014-10-16 21:17:44','3',0 , 'a',1,1),
 (1115,'aabbcc2222@139.com','testpwd','jin33','2014-11-16 21:17:44','3',0 , 'a',1,1);
