@@ -38,7 +38,6 @@ class DecemberActivityController extends Controller
     public function eggsSentStatAction()
     {
         $stat = $this->get('december_activity.game_eggs_breaker')->fetchSentStat();
-        $logger = $this->get('logger');
         return $this->render('JiliFrontendBundle:DecemberActivity:eggs_sent_stat.html.twig', $stat);
     }
 
@@ -50,9 +49,8 @@ class DecemberActivityController extends Controller
     {
         $request = $this->get('request');
         $session = $this->get('session');
-        $logger = $this->get('logger');
-
         $form = $this->createForm(new GameEggsBreakerTaoBaoOrderType());
+ 
         if( 'POST' == $request->getMethod()) {
             if( ! $session->has('uid')) {
                 $session->set('goToUrl', $this->get('router')->generate('jili_frontend_decemberactivity_index'));
@@ -102,7 +100,6 @@ class DecemberActivityController extends Controller
         if(! $request->isXmlHttpRequest()) {
             return $response;
         }
-
         // user not sign in , return {'code': ?}
         if( ! $this->get('session')->has('uid')) {
             $response->setData(array( 'code'=> 0 ));
