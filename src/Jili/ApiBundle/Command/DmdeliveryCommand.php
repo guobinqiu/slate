@@ -43,10 +43,10 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $batch_name = $input->getArgument('batch_name');
         $output->writeln('batch name : ' . $batch_name);
         $em = $this->getContainer()->get('doctrine')->getManager();
-        ini_set("memory_limit","100M");
+        $mem_limit = ini_get("memory_limit");
+        ini_set("memory_limit","128M");
         $this->$batch_name($em);
         $output->writeln('finish at '.date('Y-m-d H:i:s',time()));
-        $mem_limit = ini_get("memory_limit");
         ini_set("memory_limit" , $mem_limit);
         $output->writeln("");
         $output->writeln("");
