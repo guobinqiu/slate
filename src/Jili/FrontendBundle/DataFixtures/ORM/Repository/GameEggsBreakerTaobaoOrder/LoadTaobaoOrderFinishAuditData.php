@@ -58,7 +58,7 @@ class LoadTaobaoOrderFinishAuditData  extends AbstractFixture implements  Fixtur
             $created->sub(new \DateInterval('P12DT'. (1+$i).'M' )); // 
             $entity = new GameEggsBreakerTaobaoOrder(); 
             $entity->setUserId($user_id)
-                ->setOrderId('testorder00'. (  $i)   )
+                ->setOrderId('1234567890123'. ( 45 + $i)   )
                 ->setOrderPaid( 140.01 )
                 ->setOrderAt($orderAt)
                 ->setAuditStatus($entity::AUDIT_STATUS_PENDING)
@@ -78,7 +78,7 @@ class LoadTaobaoOrderFinishAuditData  extends AbstractFixture implements  Fixtur
             $created->sub(new \DateInterval('P12DT'. (1+$i).'M' )); // 
             $entity = new GameEggsBreakerTaobaoOrder(); 
             $entity->setUserId($user_id)
-                ->setOrderId('testorder00'. ( 4 + $i)   )
+                ->setOrderId('1234567890123'. ( 50 + $i)   )
                 ->setOrderAt($orderAt)
                 ->setAuditStatus($entity::AUDIT_STATUS_PENDING)
                 ->setAuditPendedAt($day)
@@ -97,7 +97,7 @@ class LoadTaobaoOrderFinishAuditData  extends AbstractFixture implements  Fixtur
             $created->sub(new \DateInterval('P12DT'. (1+$i).'M' )); // 
             $entity = new GameEggsBreakerTaobaoOrder(); 
             $entity->setUserId($user_id)
-                ->setOrderId('testorder00'. ( 7 + $i)   )
+                ->setOrderId('1234567890123'. ( 53 + $i)   )
                 ->setOrderAt($orderAt)
                 ->setAuditStatus($entity::AUDIT_STATUS_PENDING)
                 ->setAuditPendedAt($day)
@@ -113,7 +113,7 @@ class LoadTaobaoOrderFinishAuditData  extends AbstractFixture implements  Fixtur
         // completed  rows wont audit again.
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user_id)
-            ->setOrderId('testorder0015'   )
+            ->setOrderId('123456789012360'   )
             ->setOrderPaid( 160.91 )
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_COMPLETED)
@@ -131,7 +131,7 @@ class LoadTaobaoOrderFinishAuditData  extends AbstractFixture implements  Fixtur
         $day->sub(new \DateInterval('P10D'));
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user_id)
-            ->setOrderId('testorder0016'  )
+            ->setOrderId('123456789012361'  )
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_INIT)
             ->setAuditPendedAt($day)
@@ -156,7 +156,7 @@ class LoadTaobaoOrderFinishAuditData  extends AbstractFixture implements  Fixtur
             $created->sub(new \DateInterval('P12DT'. (1+$i).'M' )); // 
             $entity = new GameEggsBreakerTaobaoOrder(); 
             $entity->setUserId($user->getId() )
-                ->setOrderId('testorder200'. ( 17 + $i)   )
+                ->setOrderId('1234567890123'. ( 62 + $i)   )
                 ->setOrderPaid(17.8)
                 ->setOrderAt($orderAt)
                 ->setAuditStatus($entity::AUDIT_STATUS_PENDING)
@@ -184,7 +184,7 @@ class LoadTaobaoOrderFinishAuditData  extends AbstractFixture implements  Fixtur
             $created->sub(new \DateInterval('P12DT'. (1+$i).'M' )); // 
             $entity = new GameEggsBreakerTaobaoOrder(); 
             $entity->setUserId($user->getId() )
-                ->setOrderId('testorder300'. ( 27 + $i)   )
+                ->setOrderId('1234567890123'. ( 72 + $i)   )
                 ->setOrderAt($orderAt)
                 ->setAuditStatus($entity::AUDIT_STATUS_PENDING)
                 ->setAuditPendedAt($day)
@@ -212,7 +212,7 @@ class LoadTaobaoOrderFinishAuditData  extends AbstractFixture implements  Fixtur
             $created->sub(new \DateInterval('P12DT'. (1+$i).'M' )); // 
             $entity = new GameEggsBreakerTaobaoOrder(); 
             $entity->setUserId($user->getId() )
-                ->setOrderId('testorder400'. ( 44 + $i)   )
+                ->setOrderId('123456789012'. ( 389 + $i)   )
                 ->setOrderAt($orderAt)
                 ->setAuditStatus($entity::AUDIT_STATUS_PENDING)
                 ->setAuditPendedAt($day)

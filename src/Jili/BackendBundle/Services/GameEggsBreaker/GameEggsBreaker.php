@@ -206,9 +206,9 @@ class GameEggsBreaker
     }
 
     /**
-     *
+     * @param array $params array('user_id', 'token', 'egg_type' )
      */
-    public function breakEgg()
+    public function breakEgg( $params)
     {
         // token 
         //

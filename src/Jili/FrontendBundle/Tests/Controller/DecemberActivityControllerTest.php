@@ -80,6 +80,7 @@ class DecemberActivityControllerTest extends WebTestCase
 
     /**
      * @group issue_537
+     * @group debug
      */
     public function testAddTaobaoOrderActionValidation()
     {
@@ -91,9 +92,22 @@ class DecemberActivityControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
+        // post without sign in.
+        
+        $crawler = $client->request('POST', $url);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
+        $this->assertEquals('/login', $client->getRequest()->getRequestUri());
+
+        // invalid date field
+       
+        // invalid  order id wrong length 
+        // invalid  order id wrong character 
+        // invalid duplicated order id 
+
         //$this->assertEquals(302, $client->getResponse()->getStatusCode());
         //$client->followRedirect();
-        //$this->assertEquals(200, $client->getResponse()->getStatusCode());
+        //$client->assertEquals(200, $client->getResponse()->getStatusCode());
         //$this->assertEquals('/login', $client->getRequest()->getRequestUri());
 
         // check uri 
@@ -131,7 +145,7 @@ class DecemberActivityControllerTest extends WebTestCase
 
 
         $form = $crawler->selectButton('submit')->form();
-        $form['order[orderId]']->setValue('myorderid001');
+        $form['order[orderId]']->setValue('123456789012345');
         $form['order[orderAt]']->setValue(date('Y-m-d'));
         $crawler = $client->submit($form);
 
@@ -148,7 +162,7 @@ class DecemberActivityControllerTest extends WebTestCase
         // check result
         $expected_record= $this->em 
             ->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-            ->findOneBy(array('userId'=> 1, 'orderId'=>'myorderid001' , 'orderAt'=> $day));
+            ->findOneBy(array('userId'=> 1, 'orderId'=>'123456789012345' , 'orderAt'=> $day));
         $this->assertNotNull( $expected_record);
 
     }
@@ -191,7 +205,27 @@ class DecemberActivityControllerTest extends WebTestCase
 // prepare data token 
 // prepare pointsPool
 
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_breakegg');
+
+//jili_frontend_decemberactivity_breakegg                 POST     ANY    ANY  /activity/december/break-egg
+        $this->assertEquals('/activity/december/break-egg', $url);
 // ajax post
+        $user  = LoadGetEggsInfoData::$USERS[0];
+        $session  = $container->get('session');
+        $session->set('uid' , $user->getId() );
+        $session->save();
+
+        $info = LoadGetEggsInfoData::$INFOS[0];
+
+        $data = array('data' =>$info->getToken(), 'eggType'=> 0);
+
+        $client->request('POST', $url, $data, array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+
+        echo $client->getResponse()->getContent();
+        echo PHP_EOL;
         $this->assertEquals(1,1);
 
 // 
@@ -211,10 +245,9 @@ class DecemberActivityControllerTest extends WebTestCase
         @unlink($file);
 
         $this->assertEquals('/activity/december/eggs-sent-stat', $url);
-        $client->request('GET', $url);
+        $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-    //    echo $client->getResponse()->getContent();
-     //   echo PHP_EOL;
-
+        $this->assertCount(10 , $crawler->filter('ul > li') );
+        @unlink($file);
     }
 }

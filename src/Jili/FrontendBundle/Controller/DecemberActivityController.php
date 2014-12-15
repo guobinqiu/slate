@@ -65,7 +65,8 @@ class DecemberActivityController extends Controller
 
                 $entity = new GameEggsBreakerTaobaoOrder();
                 $entity->setUserId($session->get('uid'))
-                    ->setOrderId($data['orderId']);
+                    ->setOrderId($data['orderId'])
+                    ->setOrderAt($data['orderAt']);
                 $validator = $this->get('validator');
                 $errors = $validator->validate($entity);
                 if(count($errors)>0) {
@@ -155,6 +156,13 @@ class DecemberActivityController extends Controller
         // user not sign in , return {'code': ?}
         if( ! $this->get('session')->has('uid')) {
             $response->setData(array( 'code'=> 0 ));
+            return $response;
+        }
+
+        $startAt = new \Datetime('2015-01-20 00:00:00');
+        $now = new \Datetime();
+
+        if( ( $now >= $startAt ) ) {
             return $response;
         }
 
