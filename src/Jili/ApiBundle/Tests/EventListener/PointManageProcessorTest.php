@@ -88,7 +88,20 @@ class PointManageProcessorTest extends KernelTestCase {
         $this->assertContains('need necessary items', $message['code'][0]);
         $this->assertEquals('这些该用户积分导入失败', $message['code'][1]);
 
-        // rollback [TODO]
+        // 测试 rollback
+        $logger = $container->get('logger');
+        $stub = $this->getMockBuilder('\Jili\ApiBundle\EventListener\PointManageProcessor')->setMethods(array (
+            'updatePoint'
+        ))->setConstructorArgs(array (
+            $logger,
+            $em
+        ))->getMock();
+
+        // Configure the stub.
+        $stub->method('updatePoint')->will($this->throwException(new \Exception));
+
+        $message = $stub->process($path, $log_path);
+        $this->assertEquals('rollback.导入失败，请查明原因再操作', $message['code'][0]);
 
         unlink($path);
         unlink($log_path);

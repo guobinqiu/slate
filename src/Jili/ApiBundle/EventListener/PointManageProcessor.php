@@ -67,12 +67,15 @@ class PointManageProcessor {
             $db_connection->commit();
 
         } catch (\Exception $e) {
-            $em->close();
-            $db_connection->rollback();
             echo $e->getMessage();
+            $db_connection->rollback();
+            $em->close();
 
             fwrite($log_handle, $e->getMessage() . "\n");
             $arr['code'][] = "rollback.导入失败，请查明原因再操作";
+
+            fclose($handle);
+            fclose($log_handle);
             return $arr;
 
         }
@@ -90,7 +93,7 @@ class PointManageProcessor {
     }
 
     //更新point: user, point_history , task_history
-    private function updatePoint($data) {
+    public function updatePoint($data) {
         //user_id,email,point,task_name,category_type,task_type
         $user_id = $data[0];
         $email = $data[1];
