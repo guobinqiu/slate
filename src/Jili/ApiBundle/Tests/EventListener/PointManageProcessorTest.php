@@ -80,17 +80,7 @@ class PointManageProcessorTest extends KernelTestCase {
         $taskHistory = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user->getId() % 10))->findOneByUserId($user->getId());
         $this->assertEquals(1, count($taskHistory));
 
-        // rollback
-        $cursor = $em->getConnection()->query("DROP TABLE task_history0" . ($user->getId() % 10));
-        $cursor->closeCursor();
-        $message = $this->container->get('point_manage.processor')->process($path, $log_path);
-        $this->assertEquals('rollback.导入失败，请查明原因再操作', $message['code'][0]);
-
-        $user3 = $em->getRepository('JiliApiBundle:User')->find($user->getId());
-        $this->assertEquals($points2, $user3->getPoints());
-
-        $pointHistory2 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->findOneByUserId($user->getId());
-        $this->assertEquals(1, count($pointHistory2));
+        // rollback [TODO]
 
         unlink($path);
         unlink($log_path);
