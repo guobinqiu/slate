@@ -80,6 +80,14 @@ class PointManageProcessorTest extends KernelTestCase {
         $taskHistory = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user->getId() % 10))->findOneByUserId($user->getId());
         $this->assertEquals(1, count($taskHistory));
 
+        // 测试错误
+        $content = "user_id,email,point,task_name,category_type,task_type\r\n";
+        $content .= $user->getId() . ",,100,测试手动发送积分,,4";
+        file_put_contents($path, $content);
+        $message = $this->container->get('point_manage.processor')->process($path, $log_path);
+        $this->assertContains('need necessary items', $message['code'][0]);
+        $this->assertEquals('这些该用户积分导入失败', $message['code'][1]);
+
         // rollback [TODO]
 
         unlink($path);
