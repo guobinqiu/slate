@@ -58,7 +58,7 @@ class LoadAuditOrderData extends AbstractFixture implements  FixtureInterface
 
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user_id)
-            ->setOrderId('testorder001')
+            ->setOrderId('123456789012345')
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_INIT)
             ->setAuditPendedAt($day)
@@ -81,7 +81,7 @@ class LoadAuditOrderData extends AbstractFixture implements  FixtureInterface
         self :: $USERS[1] = $user;
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user->getId() )
-            ->setOrderId('testorder002')
+            ->setOrderId('123456789012346')
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_INIT)
             ->setAuditPendedAt($day)
@@ -104,7 +104,7 @@ class LoadAuditOrderData extends AbstractFixture implements  FixtureInterface
         self :: $USERS[2] = $user;
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user->getId() )
-            ->setOrderId('testorder002')
+            ->setOrderId('123456789012347')
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_INIT)
             ->setAuditPendedAt($day)
@@ -132,7 +132,7 @@ class LoadAuditOrderData extends AbstractFixture implements  FixtureInterface
         $created->sub(new \DateInterval('P12DT1M' )); // 
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user->getId() )
-            ->setOrderId('testorder300'  )
+            ->setOrderId('123456789012348'  )
             ->setOrderAt($orderAt)
             ->setCreatedAt($created);
         $manager->persist($entity);
@@ -166,7 +166,7 @@ class LoadAuditOrderData extends AbstractFixture implements  FixtureInterface
         $created->sub(new \DateInterval('P12DT1M' )); // 
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user->getId() )
-            ->setOrderId('testorder400'  )
+            ->setOrderId('123456789012349'  )
             ->setOrderAt($orderAt)
             ->setCreatedAt($created);
         $manager->persist($entity);
@@ -202,7 +202,7 @@ class LoadAuditOrderData extends AbstractFixture implements  FixtureInterface
 
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user->getId() )
-            ->setOrderId('testorder500'  )
+            ->setOrderId('123456789012350'  )
             ->setOrderAt($orderAt)
             ->setCreatedAt($created);
         $manager->persist($entity);

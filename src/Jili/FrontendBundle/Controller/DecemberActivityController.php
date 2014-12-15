@@ -9,8 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Jili\FrontendBundle\Form\Type\GameEggsBreakerTaoBaoOrderType;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Jili\ApiBundle\Entity\AdCategory;
 use Jili\BackendBundle\Utility\TaobaoOrderToEggs;
+use Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder;
 
 /**
  * @Route("/activity/december")
@@ -23,6 +23,10 @@ class DecemberActivityController extends Controller
      */
     public function indexAction()
     {
+        $session =$this->get('session');
+        if(! $session->has('uid')) {
+            $session->set('referer', $this->get('request')->getRequestUri());
+        }
         return $this->render('JiliFrontendBundle:DecemberActivity:index.html.twig');
     }
 
@@ -34,7 +38,6 @@ class DecemberActivityController extends Controller
     public function eggsSentStatAction()
     {
         $stat = $this->get('december_activity.game_eggs_breaker')->fetchSentStat();
-        $logger = $this->get('logger');
         return $this->render('JiliFrontendBundle:DecemberActivity:eggs_sent_stat.html.twig', $stat);
     }
 
@@ -46,9 +49,8 @@ class DecemberActivityController extends Controller
     {
         $request = $this->get('request');
         $session = $this->get('session');
-        $logger = $this->get('logger');
-
         $form = $this->createForm(new GameEggsBreakerTaoBaoOrderType());
+ 
         if( 'POST' == $request->getMethod()) {
             if( ! $session->has('uid')) {
                 $session->set('goToUrl', $this->get('router')->generate('jili_frontend_decemberactivity_index'));
@@ -59,13 +61,26 @@ class DecemberActivityController extends Controller
             if( $form->isValid()){
                 $data= $form->getData();
 
-                $em  = $this->get('doctrine.orm.entity_manager');
-                $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-                    ->insertUserPost( array('userId'=>$session->get('uid'),
-                        'orderAt'=> new \Datetime($data['orderAt']), 
-                        'orderId'=>$data['orderId'], 
-                    ));
-                $this->get('session')->setFlash('notice','提交成功，等待审核');
+                $entity = new GameEggsBreakerTaobaoOrder();
+                $entity->setUserId($session->get('uid'))
+                    ->setOrderId($data['orderId'])
+                    ->setOrderAt($data['orderAt']);
+                $validator = $this->get('validator');
+                $errors = $validator->validate($entity);
+                if(count($errors)>0) {
+                    foreach($errors as $error ) {
+                        $messages[] = $error->getMessage();
+                        $this->get('session')->setFlash('error', $messages);
+                    }
+                } else {
+                    $em  = $this->get('doctrine.orm.entity_manager');
+                    $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+                        ->insertUserPost( array('userId'=>$session->get('uid'),
+                            'orderAt'=> new \Datetime($data['orderAt']), 
+                            'orderId'=>$data['orderId'], 
+                        ));
+                    $this->get('session')->setFlash('notice','提交成功，等待审核');
+                }
                 return $this->redirect($this->generateUrl('jili_frontend_decemberactivity_index'));
             }
         }
@@ -85,7 +100,6 @@ class DecemberActivityController extends Controller
         if(! $request->isXmlHttpRequest()) {
             return $response;
         }
-
         // user not sign in , return {'code': ?}
         if( ! $this->get('session')->has('uid')) {
             $response->setData(array( 'code'=> 0 ));
@@ -139,6 +153,13 @@ class DecemberActivityController extends Controller
         // user not sign in , return {'code': ?}
         if( ! $this->get('session')->has('uid')) {
             $response->setData(array( 'code'=> 0 ));
+            return $response;
+        }
+
+        $startAt = new \Datetime('2015-01-20 00:00:00');
+        $now = new \Datetime();
+
+        if( ( $now >= $startAt ) ) {
             return $response;
         }
 

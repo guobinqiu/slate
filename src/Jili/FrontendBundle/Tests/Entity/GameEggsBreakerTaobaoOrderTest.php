@@ -20,5 +20,7 @@ class GameEggsBreakerTaobaoOrderTest extends KernelTestCase
         $this->assertEquals(0, $entity->getIsValid());
         $this->assertEquals(0, $entity->getIsEgged());
     }
+
+
 }
 

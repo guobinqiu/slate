@@ -32,6 +32,66 @@ function formClear(){
         });
     });
 }
+// 对Date的扩展，将 Date 转化为指定格式的String 
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
+// 例子： 
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
+Date.prototype.Format = function(fmt) 
+{ //author: meizz 
+  var o = { 
+    "M+" : this.getMonth()+1,                 //月份 
+    "d+" : this.getDate(),                    //日 
+    "h+" : this.getHours(),                   //小时 
+    "m+" : this.getMinutes(),                 //分 
+    "s+" : this.getSeconds(),                 //秒 
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+    "S"  : this.getMilliseconds()             //毫秒 
+  }; 
+  if(/(y+)/.test(fmt)) 
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+  for(var k in o) 
+    if(new RegExp("("+ k +")").test(fmt)) 
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
+  return fmt; 
+}
+function formCheck(){
+	function compareTime(startDate, endDate){
+		var arr = startDate.split("-");
+		var starttime = new Date(arr[0], arr[1], arr[2]);
+		var starttimes = starttime.getTime();
+		var arrs = endDate.split("-");
+		var lktime = new Date(arrs[0], arrs[1], arrs[2]);
+		var lktimes = lktime.getTime();
+		if (starttimes > lktimes) {
+			return false;
+		}else{
+			return true;
+		}
+	}   
+    var startDate = '2014-12-12', 
+		endDate = '2015-1-12', 
+		curDate = new Date().Format("yyyy-MM-dd"),
+		inputDate, orderNum;
+	inputDate = $('#datepicker').val().toString();
+	orderNum = $('#orderNum').val().toString().replace(/\s+/g,"");
+	if(compareTime(startDate, inputDate)&&compareTime(inputDate, endDate)){
+		if(compareTime(inputDate, curDate)){
+			if(orderNum.match(/[^a-zA-Z\d]/g) || orderNum.length > 20) {
+				$('.errorMsg').html('*您输入的订单格式或长度不对，请重新输入！');
+				return false;
+			}
+			return true;
+		}else{
+			$('.errorMsg').html('*您输入的时间大于当前时间，请重新输入！');
+			return false;
+		}
+	}else{
+		$('.errorMsg').html('*您输入的时间不在活动范围内，请重新输入！');
+		return false;
+	}
+}
 function textScroll(){
     var scrollCon = $('.winnerList ul');
     scrollCon.stop().animate({ marginTop: '-36px'}, 500, function(){
@@ -83,9 +143,14 @@ function runFlow(){
 }
 function checkFlow(){
     var decRule = $('.decRule'), decRuleBtn = $('.decRuleBtn, .decTopCon .goBtn, .noStart, .noLogin, .timestamp');
+	var datepicker = $( "#datepicker, .defaultTxt" );
+	var tipsMsg = $('.errorMsg .tipsMsg');
+	if(tipsMsg.html()){ 
+		decRule.animate({ right: '0px'}, 500, function(){
+            $('.decRuleBtn').addClass('decRuleBtnActive');
+        });
+	}
     decRuleBtn.on('click', function(){
-        var datepicker = $( "#datepicker, .defaultTxt" );
-        datepicker.datetimepicker({ lang : 'ch', parentID: '.decRuleFlow', timepicker : false, format : 'Y-m-d', formatDate : 'Y-m-d' });
         if($(this).hasClass('decRuleBtnActive')){
             $('.decRuleBtn').removeClass('decRuleBtnActive');
             decRule.animate({ right: '-405px'}, 500);
@@ -95,6 +160,7 @@ function checkFlow(){
             });
         }
     });
+	datepicker.datetimepicker({ lang : 'ch', parentID: '.decRuleFlow', timepicker : false, format : 'Y-m-d', formatDate : 'Y-m-d' });
     formClear();
 }
 function countDown(){

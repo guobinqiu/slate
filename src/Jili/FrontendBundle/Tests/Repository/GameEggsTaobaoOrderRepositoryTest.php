@@ -31,7 +31,7 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
         $tn = $this->getName();
-        if(in_array($tn , array('testGetLastestEggedTimestampe','testUpdateOne','testFetchByRange','testFindLatestEggedNickList'))) {
+        if(in_array($tn , array('testGetLastestEggedTimestamp','testUpdateOne','testFetchByRange','testFindLatestEggedNickList'))) {
             $fixture = new LoadTaobaoOrdersData();
             $loader  = new Loader();
             $loader->addFixture($fixture);
@@ -96,13 +96,14 @@ class GameEggsBreakerTaobaoOrderRepoisitoryTest extends KernelTestCase
     /**
      * @group issue_537 
      */
-    public function testGetLastestEggedTimestampe()
+    public function testGetLastestEggedTimestamp()
     {
         $actual = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
             ->getLastestTimestampeEgged();
         $updated = LoadTaobaoOrdersData::$ORDERS[0] ->getUpdatedAt();
         $this->assertEquals($updated->format('Y-m-d 00:00:00'), $actual);
     }
+
     /**
      * @group issue_537 
      */

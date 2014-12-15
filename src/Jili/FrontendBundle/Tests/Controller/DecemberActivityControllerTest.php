@@ -91,26 +91,86 @@ class DecemberActivityControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        //$this->assertEquals(302, $client->getResponse()->getStatusCode());
-        //$client->followRedirect();
-        //$this->assertEquals(200, $client->getResponse()->getStatusCode());
-        //$this->assertEquals('/login', $client->getRequest()->getRequestUri());
+        // post without sign in.
+        
+        $crawler = $client->request('POST', $url);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
+        $this->assertEquals('/login', $client->getRequest()->getRequestUri());
 
-        // check uri 
-        //$session = $client->getRequest()->getSession();
-        //$this->assertTrue( $session->has('goToUrl'));
-        //$this->assertEquals('/activity/december/', $session->get('goToUrl'));
+// post invalid date field
+        $this->assertEquals('/activity/december/add-taobao-order', $url);
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        //        $form = $crawler->selectButton('submit')->getForm();
+        $form = $crawler->selectButton('submit')->form();
+        $form['order[orderId]']->setValue('123456789012345');
+        $form['order[orderAt]']->setValue('2');
 
-        // $client->getResponse()->getContent();
+        $session  = $container->get('session');
+        $session->set('uid' , 1);
+        $session->save();
+        $crawler = $client->submit($form);
+        $crawler = $client->followRedirect();
+        $error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
+        $this->assertEquals('*需要填写有效的日期, 如: 2014-12-20',$error_message);
+        // invalid  order id wrong length 
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $form = $crawler->selectButton('submit')->form();
+        $form['order[orderId]']->setValue('12345678901234');
+        $form['order[orderAt]']->setValue('2014-12-12');
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+        $error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
+        $this->assertEquals('*需要填0~9组成的订单号',$error_message);
+        $error_message = trim( $crawler->filter('div.alert-error')->eq(1)->text() );
+        $this->assertEquals('*需要填15位订单号',$error_message);
 
-        // invalid form inputs 
-        // duplicated post ? 
-        //$session  = $client->getRequest()->getSession();
-        //$session->set('uid' , 1);
-        //$session->save();
 
+        // invalid  order id wrong character 
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $form = $crawler->selectButton('submit')->form();
+        $form['order[orderId]']->setValue('12345678901234a');
+        $form['order[orderAt]']->setValue('2014-12-12');
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+        $error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
+        $this->assertEquals('*需要填0~9组成的订单号',$error_message);
+
+    }
+    /**
+     * @group issue_537
+     */
+    public function testAddTaobaoOrderActionValidationII()
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_addtaobaoorder');
+        $session  = $container->get('session');
+        $session->set('uid' , 1);
+        $session->save();
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form = $crawler->selectButton('submit')->form();
+        $form['order[orderId]']->setValue('123456789012345');
+        $form['order[orderAt]']->setValue(date('Y-m-d'));
+        $crawler = $client->submit($form);
+        // invalid duplicated order id 
+        //post again
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form = $crawler->selectButton('submit')->form();
+        $form['order[orderId]']->setValue('123456789012345');
+        $form['order[orderAt]']->setValue(date('Y-m-d'));
+        $crawler = $client->submit($form);
+
+        $crawler = $client->followRedirect();
+        $error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
+        $this->assertEquals('*你已经提交过相同的订单号',$error_message);
     }
 
     /**
@@ -131,7 +191,7 @@ class DecemberActivityControllerTest extends WebTestCase
 
 
         $form = $crawler->selectButton('submit')->form();
-        $form['order[orderId]']->setValue('myorderid001');
+        $form['order[orderId]']->setValue('123456789012345');
         $form['order[orderAt]']->setValue(date('Y-m-d'));
         $crawler = $client->submit($form);
 
@@ -141,14 +201,13 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('/activity/december/', $client->getRequest()->getRequestUri());
 
-
         $day = new \DateTime();
         $day->setTime(0,0);
 
         // check result
         $expected_record= $this->em 
             ->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-            ->findOneBy(array('userId'=> 1, 'orderId'=>'myorderid001' , 'orderAt'=> $day));
+            ->findOneBy(array('userId'=> 1, 'orderId'=>'123456789012345' , 'orderAt'=> $day));
         $this->assertNotNull( $expected_record);
 
     }
@@ -188,13 +247,26 @@ class DecemberActivityControllerTest extends WebTestCase
      */
     public function testBreakEggActionNormal() 
     {
-// prepare data token 
-// prepare pointsPool
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_breakegg');
 
-// ajax post
-        $this->assertEquals(1,1);
+        $this->assertEquals('/activity/december/break-egg', $url);
+        // ajax post
+        $user  = LoadGetEggsInfoData::$USERS[0];
+        $session  = $container->get('session');
+        $session->set('uid' , $user->getId() );
+        $session->save();
 
-// 
+        $info = LoadGetEggsInfoData::$INFOS[0];
+
+        $data = array('data' =>$info->getToken(), 'eggType'=> 0);
+
+        $client->request('POST', $url, $data, array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+
+        echo $client->getResponse()->getContent();
+        echo PHP_EOL;
     }
 
     /**
@@ -211,10 +283,9 @@ class DecemberActivityControllerTest extends WebTestCase
         @unlink($file);
 
         $this->assertEquals('/activity/december/eggs-sent-stat', $url);
-        $client->request('GET', $url);
+        $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-    //    echo $client->getResponse()->getContent();
-     //   echo PHP_EOL;
-
+        $this->assertCount(10 , $crawler->filter('ul > li') );
+        @unlink($file);
     }
 }

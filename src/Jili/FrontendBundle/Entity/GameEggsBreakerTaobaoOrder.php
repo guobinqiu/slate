@@ -3,12 +3,24 @@
 namespace Jili\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
 
 /**
  * GameEggsBreakerTaobaoOrder
  *
- * @ORM\Table(name="game_eggs_breaker_taobao_order", indexes={@ORM\Index(name="user_order", columns={"user_id", "order_id"})})
+ * @ORM\Table(name="game_eggs_breaker_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="user_order", columns={"user_id", "order_id"})}, indexes={@ORM\Index(name="audit_pend", columns={"audit_status", "audit_pended_at"})})
+ *
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameEggsBreakerTaobaoOrderRepository")
+ *
+ * @UniqueEntity(
+ *     fields={"userId", "orderId"},
+ *     errorPath="orderId",
+ *     message="你已经提交过相同的订单号."
+ * )
+ *
  */
 class GameEggsBreakerTaobaoOrder
 {
@@ -36,6 +48,15 @@ class GameEggsBreakerTaobaoOrder
      * @var string
      *
      * @ORM\Column(name="order_id", type="string", length=255, nullable=false)
+     * @Assert\Regex(
+     *     pattern="/^\d{15}$/",
+     *     message="需要填0~9组成的订单号"
+     * )
+     * @Assert\Length(
+     *      min = 15,
+     *      max = 15,
+     *      exactMessage ="需要填15位订单号"
+     * )
      */
     private $orderId;
 
@@ -43,6 +64,9 @@ class GameEggsBreakerTaobaoOrder
      * @var \DateTime
      *
      * @ORM\Column(name="order_at", type="date", nullable=false)
+     * @Assert\Date(
+     *      message = "需要填写有效的日期, 如: 2014-12-20"
+     * )
      */
     private $orderAt;
 

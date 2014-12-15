@@ -53,7 +53,7 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
         // user with 1 row built eggs 
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user_id)
-            ->setOrderId('testorder001'  )
+            ->setOrderId('123456789012345')
             ->setOrderPaid(102.01)
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_COMPLETED)
@@ -68,7 +68,7 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
         // user with 1 row ng 
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user_id)
-            ->setOrderId('testorder002'  )
+            ->setOrderId('123456789012346'  )
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_COMPLETED)
             ->setIsVAlid($entity::ORDER_INVALID)
@@ -80,7 +80,7 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
         // user with 1 row init 
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user_id)
-            ->setOrderId('testorder003'  )
+            ->setOrderId('123456789012347'  )
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_INIT)
             ->setIsVAlid($entity::ORDER_INIT)
@@ -94,7 +94,7 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
         $day->sub(new \DateInterval('P5D'));
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user_id)
-            ->setOrderId('testorder004'  )
+            ->setOrderId('123456789012348'  )
             ->setOrderPaid(40.01)
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_PENDING)
@@ -110,7 +110,7 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
         $day->sub(new \DateInterval('P10D'));
         $entity = new GameEggsBreakerTaobaoOrder(); 
         $entity->setUserId($user_id)
-            ->setOrderId('testorder005'  )
+            ->setOrderId('123456789012349'  )
             ->setOrderPaid(50.01)
             ->setOrderAt($orderAt)
             ->setAuditStatus($entity::AUDIT_STATUS_PENDING)
@@ -146,7 +146,7 @@ class LoadTaobaoOrdersData  extends AbstractFixture implements  FixtureInterface
 
             $entity = new GameEggsBreakerTaobaoOrder(); 
             $entity->setUserId($user_id)
-                ->setOrderId('testorderBob00'. ( 6 + $i)   )
+                ->setOrderId('1234567890123'. ( 50 + $i)   )
                 ->setOrderPaid( 150.01 )
                 ->setOrderAt($orderAt)
                 ->setAuditStatus($entity::AUDIT_STATUS_COMPLETED)
