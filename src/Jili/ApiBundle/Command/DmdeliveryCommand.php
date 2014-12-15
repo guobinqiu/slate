@@ -46,6 +46,8 @@ class DmdeliveryCommand extends ContainerAwareCommand
         ini_set("memory_limit","100M");
         $this->$batch_name($em);
         $output->writeln('finish at '.date('Y-m-d H:i:s',time()));
+        $mem_limit = init_get("memory_limit");
+        init_set("memory_limit" , $mem_limit);
         $output->writeln("");
         $output->writeln("");
     }
