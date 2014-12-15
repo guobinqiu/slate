@@ -38,7 +38,6 @@ class DecemberActivityController extends Controller
     public function eggsSentStatAction()
     {
         $stat = $this->get('december_activity.game_eggs_breaker')->fetchSentStat();
-        $logger = $this->get('logger');
         return $this->render('JiliFrontendBundle:DecemberActivity:eggs_sent_stat.html.twig', $stat);
     }
 
@@ -50,9 +49,8 @@ class DecemberActivityController extends Controller
     {
         $request = $this->get('request');
         $session = $this->get('session');
-        $logger = $this->get('logger');
-
         $form = $this->createForm(new GameEggsBreakerTaoBaoOrderType());
+ 
         if( 'POST' == $request->getMethod()) {
             if( ! $session->has('uid')) {
                 $session->set('goToUrl', $this->get('router')->generate('jili_frontend_decemberactivity_index'));
@@ -65,7 +63,8 @@ class DecemberActivityController extends Controller
 
                 $entity = new GameEggsBreakerTaobaoOrder();
                 $entity->setUserId($session->get('uid'))
-                    ->setOrderId($data['orderId']);
+                    ->setOrderId($data['orderId'])
+                    ->setOrderAt($data['orderAt']);
                 $validator = $this->get('validator');
                 $errors = $validator->validate($entity);
                 if(count($errors)>0) {
@@ -101,7 +100,6 @@ class DecemberActivityController extends Controller
         if(! $request->isXmlHttpRequest()) {
             return $response;
         }
-
         // user not sign in , return {'code': ?}
         if( ! $this->get('session')->has('uid')) {
             $response->setData(array( 'code'=> 0 ));
@@ -155,6 +153,13 @@ class DecemberActivityController extends Controller
         // user not sign in , return {'code': ?}
         if( ! $this->get('session')->has('uid')) {
             $response->setData(array( 'code'=> 0 ));
+            return $response;
+        }
+
+        $startAt = new \Datetime('2015-01-20 00:00:00');
+        $now = new \Datetime();
+
+        if( ( $now >= $startAt ) ) {
             return $response;
         }
 
