@@ -26,7 +26,8 @@ a{ color: #fff;}
 .decRuleMain{ margin-top: 30px; margin-bottom:30px; padding-bottom: 30px;}
 .decRuleMain .decTime,.decAwardMain .decTime{ font-size: 18px; font-weight:bold; margin-left: 5px; height: 30px; vertical-align: -3px;}
 .decRuleMain li{ margin-top: 15px;}
-.decRuleMain .corRed{ color:#f5425a;}
+.decRule .corRed{ color:#f5425a;}
+.decAwardMain p{ font-size: 12px;}
 .awardDetail{ margin:20px 0;}
 .awardDetail td{ height:35px; text-align:center;}
 .awardDetail td.dist{ background:#474747;}
