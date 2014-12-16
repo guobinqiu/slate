@@ -66,6 +66,7 @@ use Jili\ApiBundle\Entity\SendMessage09;
 use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 
 use Jili\BackendBundle\Controller\IpAuthenticatedController;
+use Jili\ApiBundle\Utility\FileUtil;
 
 /**
  * @Route( requirements={"_scheme" = "https"})
@@ -2949,7 +2950,14 @@ class AdminController extends Controller implements IpAuthenticatedController
         //判断是否是csv文件
         $format = explode(".", $file['name']);
         if($format[1] != "csv"){
-            $arr['code'][] = "请上传csv格式，文件编码为utf-8的文件";
+            $arr['code'][] = "请上传csv格式，文件编码为utf-8(无签名)的文件";
+            return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
+        }
+
+        // 检查编码是否为utf-8
+        $encoding = FileUtil::isUTF8($file['tmp_name']);
+        if(!$encoding){
+            $arr['code'][] = "请上传csv格式，文件编码为utf-8(无签名)的文件";
             return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
         }
 

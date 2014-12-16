@@ -9,8 +9,7 @@ use Doctrine\ORM\EntityManager;
 /**
  *
  **/
-class PointManageProcessor
-{
+class PointManageProcessor {
     private $em;
     private $logger;
     private $container_;
@@ -18,15 +17,14 @@ class PointManageProcessor
     private $task_logger;
     private $point_logger;
 
-    public function __construct(LoggerInterface $logger, EntityManager $em)
-    {
+    public function __construct(LoggerInterface $logger, EntityManager $em) {
         $this->logger = $logger;
         $this->em = $em;
     }
 
-    public function process($path, $log_path)
-    {
+    public function process($path, $log_path) {
         $code = array ();
+
         //打开上传的文件
         $handle = fopen($path, 'r');
         if (!$handle) {
@@ -45,34 +43,57 @@ class PointManageProcessor
 
         $i = 0;
         fwrite($log_handle, "user_id,email,point,task_name,category_type,task_type\n");
-        while ($data = fgetcsv($handle)) {
-            if ($i != 0 && $data) {
-                //user_id,email,point,task_name,category_type,task_type
-                $return = $this->updatePoint($data);
-                if ($return) {
-                    $code[] = "[ ".$data['0'] ." ". $data['1'] . " ] " . $return;
-                    fwrite($log_handle, implode(",", $data) . "," . $return . "\n");
-                } else {
-                    fwrite($log_handle, implode(",", $data) . "," . "point import success\n");
+
+        //加上事务处理
+        $em = $this->em;
+        $db_connection = $em->getConnection();
+        $db_connection->beginTransaction();
+        try {
+
+            while ($data = fgetcsv($handle)) {
+                if ($i != 0 && $data) {
+                    //user_id,email,point,task_name,category_type,task_type
+                    $return = $this->updatePoint($data);
+                    if ($return) {
+                        $code[] = "[ " . $data['0'] . " " . $data['1'] . " ] " . $return;
+                        fwrite($log_handle, implode(",", $data) . "," . $return . "\n");
+                    } else {
+                        fwrite($log_handle, implode(",", $data) . "," . "point import success\n");
+                    }
                 }
+                $i++;
             }
-            $i++;
+
+            $db_connection->commit();
+
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            $db_connection->rollback();
+            $em->close();
+
+            fwrite($log_handle, $e->getMessage() . "\n");
+            $arr['code'][] = "rollback.导入失败，请查明原因再操作";
+
+            fclose($handle);
+            fclose($log_handle);
+            return $arr;
+
         }
+
         fclose($handle);
         fclose($log_handle);
 
         if ($code) {
-            $code[] = "These users point import fail";
+            $code[] = "这些该用户积分导入失败";
         } else {
-            $arr['success'] = "point import success";
+            $arr['success'] = "导入成功";
         }
         $arr['code'] = $code;
         return $arr;
     }
 
     //更新point: user, point_history , task_history
-    private function updatePoint($data)
-    {
+    public function updatePoint($data) {
         //user_id,email,point,task_name,category_type,task_type
         $user_id = $data[0];
         $email = $data[1];
@@ -111,7 +132,7 @@ class PointManageProcessor
         $params = array (
             'userid' => $userId,
             'point' => $point,
-            'type' => $category_type,
+            'type' => $category_type
         );
         $this->getPointHistory($params);
 
@@ -131,34 +152,28 @@ class PointManageProcessor
         return $message;
     }
 
-    private function initTaskHistory($params = array ())
-    {
+    private function initTaskHistory($params = array ()) {
         extract($params);
         return $this->task_logger->init($params);
     }
 
-    private function getPointHistory($params = array ())
-    {
+    private function getPointHistory($params = array ()) {
         $this->point_logger->get($params);
     }
 
-    public function getParameter($key)
-    {
+    public function getParameter($key) {
         return $this->container_->getParameter($key);
     }
 
-    public function setContainer($c)
-    {
+    public function setContainer($c) {
         $this->container_ = $c;
     }
 
-    public function setTaskLogger(TaskHistory $task_logger)
-    {
+    public function setTaskLogger(TaskHistory $task_logger) {
         $this->task_logger = $task_logger;
     }
 
-    public function setPointLogger(PointHistory $point_logger)
-    {
+    public function setPointLogger(PointHistory $point_logger) {
         $this->point_logger = $point_logger;
     }
 }
