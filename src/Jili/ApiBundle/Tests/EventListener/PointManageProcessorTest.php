@@ -57,7 +57,9 @@ class PointManageProcessorTest extends KernelTestCase {
         $user1 = $em->getRepository('JiliApiBundle:User')->find($user->getId());
         $points1 = $user1->getPoints();
 
-        $directory = $container->get('kernel')->getBundle('JiliApiBundle')->getPath();
+        $directory = $container->getParameter('cache_data_path');
+        //$container->get('kernel')->getBundle('JiliApiBundle')->getPath();
+        $directory .= $container->get('kernel')->getEnvironment();
         $directory .= '/DataFixtures/ORM/Services';
 
         $content = "user_id,email,point,task_name,category_type,task_type\r\n";
@@ -65,6 +67,12 @@ class PointManageProcessorTest extends KernelTestCase {
 
         $path = $directory . '/PointManageProcessorTest_commit.csv';
         $log_path = $directory . '/PointManageProcessorTest_commit_log.csv';
+
+        dirname($log_path);
+        $dir = dirname($log_path);
+        if( ! file_exists($dir)) {
+            mkdir(  $dir , 0700 , true) ;
+        }
         file_put_contents($path, $content);
 
         $message = $this->container->get('point_manage.processor')->process($path, $log_path);
