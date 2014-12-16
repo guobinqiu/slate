@@ -2955,7 +2955,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         }
 
         // 检查编码是否为utf-8
-        $encoding = FileUtil::isUTF8(file_get_contents($file['tmp_name']));
+        $encoding = FileUtil::isUTF8($file['tmp_name']);
         if(!$encoding){
             $arr['code'][] = "请上传csv格式，文件编码为utf-8(无签名)的文件";
             return $this->render('JiliApiBundle:Admin:pointManage.html.twig', $arr);
