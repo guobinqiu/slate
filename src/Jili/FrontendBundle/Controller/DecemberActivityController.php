@@ -149,7 +149,7 @@ class DecemberActivityController extends Controller
         if(! $request->isXmlHttpRequest()) {
             return $response;
         }
-
+        $logger = $this->get('logger');
         // user not sign in , return {'code': ?}
         if( ! $this->get('session')->has('uid')) {
             $response->setData(array( 'code'=> 0 ));
@@ -158,11 +158,22 @@ class DecemberActivityController extends Controller
 
         $startAt = new \Datetime('2015-01-20 00:00:00');
         $now = new \Datetime();
+        if ('test' !==  $this->get('kernel')->getEnvironment() && 
+            $now >= $startAt )  {
+                return $response;
+            }
 
-        if( ( $now >= $startAt ) ) {
-            return $response;
-        }
 
+        $result = $this->get('december_activity.game_eggs_breaker')
+            ->breakEgg(array(
+                'user_id'=> $this->get('session')->get('uid'),
+                'token'=> $request->request->get('token'),
+                'egg_type'=>$request->request->get('egg_type', -1)
+            ) );
+
+            if(!is_null($result)){
+                $response->setData($result);
+            }
         return $response;
     }
 }

@@ -17,6 +17,13 @@ class AdCategory
      *  寻宝箱的id.
      */
     const ID_GAME_SEEKER = 30;
+
+    /**
+     * @var const
+     *  砸金蛋id.
+     */
+    const ID_GAME_EGGS_BREAKER = 31;
+
     /**
      * @var integer
      *

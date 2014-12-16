@@ -1,7 +1,6 @@
 <?php
-namespace Jili\BackendBundle\Services\GameEggsBreaker;
-          ;
 
+namespace Jili\BackendBundle\Services\GameEggsBreaker;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
@@ -10,6 +9,8 @@ use Jili\BackendBundle\Utility\PointsPool;
 use Jili\BackendBundle\Utility\TaobaoOrderToEggs;
 use Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder;
 use Jili\BackendBundle\Utility\JsonCacheFileHandler;
+use Jili\FrontendBundle\Entity\GameEggsBreakerEggsInfo;
+use Jili\ApiBundle\Entity\AdCategory;
 
 // write ranking to cache file
 // read ranking 
@@ -58,6 +59,9 @@ class GameEggsBreaker
         return  $pointsStrategy->publish($points_strategy);
     }
 
+    /**
+     * @param string $points_type [ common consolation]
+     */
     public function fetchRandomPoints($points_type)
     {
         if(! isset( $this->configs[$points_type] ) )
@@ -210,9 +214,82 @@ class GameEggsBreaker
      */
     public function breakEgg( $params)
     {
-        // token 
-        //
 
+        $logger = $this->logger;
+        // verify the  token 
+        if( ! isset($params['token']) || strlen( $params['token']) !== GameEggsBreakerEggsInfo::TOKEN_LENGTH ) {
+            return array('code'=> 1); // invalid token 
+        }
+
+        $em = $this->em;
+        $user_id = $params['user_id'];
+        $token = $params['token'];
+
+            $eggsInfo = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
+                ->findOneBy(array(
+                    'userId'=> $user_id,
+                    'token'=>$token,
+                ));
+        try {
+            $em->getConnection()->beginTransaction();
+
+            $egg_type  = $eggsInfo->getEggTypeByRandom();
+            if($egg_type === GameEggsBreakerEggsInfo::EGG_TYPE_COMMON) {
+                $points = $this->fetchRandomPoints('common');
+            } elseif ($egg_type === GameEggsBreakerEggsInfo::EGG_TYPE_CONSOLATION) {
+                $points = $this->fetchRandomPoints('consolation');
+            } else {
+                return ;
+            }
+            // insert  daily_log
+            $em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')
+                ->addLog(array(
+                    'userId'=> $user_id,
+                    'eggType'=> $egg_type,
+                    'points'=> $points
+                ));
+            if($points > 0 ) {
+                $ad_id = AdCategory::ID_GAME_EGGS_BREAKER; // 31
+                $adCategory = $em->getRepository('JiliApiBundle:AdCategory')
+                    ->findOneById($ad_id); 
+
+                // insert task_history
+                $em->getRepository('JiliApiBundle:TaskHistory00')
+                    ->init( array(
+                        'userid' => $user_id, 
+                        'orderId' => 0 ,
+                        'taskType' =>   \Jili\ApiBundle\Entity\TaskHistory00::TASK_TYPE_GAME_EGGS_BREAKER,
+                        'categoryType' => $ad_id,
+                        'task_name' => $adCategory->getDisplayName(),
+                        'point' => $points,
+                        'date' => new \Datetime(),
+                        'status' => 1
+                    ));
+
+
+                // insert point_history
+                $em->getRepository('JiliApiBundle:PointHistory00')
+                    ->get( array(
+                    'userid' => $user_id,
+                    'point' => $points,
+                    'type' =>  $ad_id
+                ));
+
+                // update user.point更新user表总分数
+                $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+                $oldPoint = $user->getPoints();
+                $user->setPoints(intval($oldPoint+$points));
+            }
+            $em->flush();
+            $em->getConnection()->commit();
+            $em->clear();
+            return array('code'=> 0, 'data'=> array('points'=>$points));
+        } catch(\Exception $e) {
+            // internal error
+            $logger->crit('[backend][breakEgg]'. $e->getMessage());
+            $em->getConnection()->rollback();
+        }
+        return  ;  
     }
 
     public function setEntityManager(EntityManager $em)
