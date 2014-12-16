@@ -149,7 +149,6 @@ class DecemberActivityController extends Controller
         if(! $request->isXmlHttpRequest()) {
             return $response;
         }
-        $logger = $this->get('logger');
         // user not sign in , return {'code': ?}
         if( ! $this->get('session')->has('uid')) {
             $response->setData(array( 'code'=> 0 ));
@@ -168,7 +167,7 @@ class DecemberActivityController extends Controller
             ->breakEgg(array(
                 'user_id'=> $this->get('session')->get('uid'),
                 'token'=> $request->request->get('token'),
-                'egg_type'=>$request->request->get('egg_type', -1)
+                'egg_type'=>$request->request->get('egg_type')
             ) );
 
             if(!is_null($result)){

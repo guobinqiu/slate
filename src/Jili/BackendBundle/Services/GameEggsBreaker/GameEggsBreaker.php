@@ -225,11 +225,11 @@ class GameEggsBreaker
         $user_id = $params['user_id'];
         $token = $params['token'];
 
-            $eggsInfo = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
-                ->findOneBy(array(
-                    'userId'=> $user_id,
-                    'token'=>$token,
-                ));
+        $eggsInfo = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
+            ->findOneBy(array(
+                'userId'=> $user_id,
+                'token'=>$token,
+            ));
         try {
             $em->getConnection()->beginTransaction();
 
@@ -270,10 +270,10 @@ class GameEggsBreaker
                 // insert point_history
                 $em->getRepository('JiliApiBundle:PointHistory00')
                     ->get( array(
-                    'userid' => $user_id,
-                    'point' => $points,
-                    'type' =>  $ad_id
-                ));
+                        'userid' => $user_id,
+                        'point' => $points,
+                        'type' =>  $ad_id
+                    ));
 
                 // update user.point更新user表总分数
                 $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
