@@ -59,7 +59,7 @@ class GameEggsBreakerTest extends KernelTestCase
 
         $dir = dirname($file_expected);
         if( ! file_exists($dir)) {
-            mkdir(  $dir ) ;
+            mkdir(  $dir , 0700 , true) ;
         }
 
         // I
@@ -132,7 +132,7 @@ class GameEggsBreakerTest extends KernelTestCase
 
         $actual_points = $game_eggs_breakers->fetchRandomPoints('common');
         $this->assertNull( $actual_points);
-        $this->assertFileExists( $file_pool);
+         $this->assertFileExists( $file_pool);
         $this->assertStringEqualsFile( $file_pool,'[]');
 
         $actual_points = $game_eggs_breakers->fetchRandomPoints('common');
