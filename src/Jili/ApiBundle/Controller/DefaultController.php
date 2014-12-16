@@ -554,7 +554,7 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/contact", name="_default_contact")
+	 * @Route("/contact", name="_default_contact", options={"expose"=true})
 	 */
     public function contactAction()
     {

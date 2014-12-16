@@ -40,16 +40,23 @@
 			});
 		}
 		var sendContent = function(){
+			var con = $("#fbc").val().toString().replace(/\s+/g,"");
+			var email = $("#email").val().toString().replace(/\s+/g,"");
+			var tips = $('.tips');
+			if(con == "" || email == ""){ tips.text('*请输入您的问题和联系方式'); return; }
 			$.ajax({  
-				url: "{{ path('_default_contact') }}?content="+encodeURIComponent($("#fbc").val())+"&email="+$("#email").val(),
+				url: Routing.generate("_default_contact", {
+					"content": con,
+					"email": email
+				}),
 				type: "POST",
 				success:function(data){
 					switch(data){
-						case 1: alert('请输入您的问题'); break;
-						case 2: alert('请输入您的联系方式'); break;
-						case 3: alert('您的联系方式不正确'); break;
-						case 4: alert('系统出错，邮件发送失败'); break;
-						default: alert('提交成功'); $('.askQuestionDetail').hide(); $('.tips').show(); break;
+						case 1: tips.text('*请输入您的问题'); break;
+						case 2: tips.text('*请输入您的联系方式'); break;
+						case 3: tips.text('*您的联系方式不正确'); break;
+						case 4: tips.text('*系统出错，邮件发送失败'); break;
+						default: $('.askQuestionDetail').html("非常感谢，我们已经收到了您的问题！之后我们会与您取得联系，并帮助您解决问题。");  break;
 					}
 				}
 			  });
