@@ -506,7 +506,7 @@ EOD;
     }
 
     /**
-     * @group issue_474
+     * @group issue_577
      */
     public function testqqRegisteActionSuccess()
     {
@@ -551,11 +551,21 @@ EOD;
 
         // submit that form
         $crawler = $client->submit($form_register);
+        $crawler = $client->submit($form_register);
+        $crawler = $client->submit($form_register);
+        $crawler = $client->submit($form_register);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
         $this->assertEquals( '/', $client->getRequest()->getRequestUri());
 
         // check the result
+        $records = $em->getRepository('JiliApiBundle:User')->findBy(array (
+            'email' => 'alice32@qq.com'
+        ));
+        $this->assertEquals(1, count($records), 'more then 1 record in user ');
+        $records = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId('973F697E97A60289C8C455B1D65FF5F0');
+        $this->assertEquals(1, count($records), 'more then 1 record in qquser ');
+        
         $user_actual = $this->em->getRepository('JiliApiBundle:User')->findOneBy( array(
             'email'=>'alice32@qq.com',
             'nick'=>'QQJin'
