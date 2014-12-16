@@ -90,7 +90,7 @@ class QQLoginController extends Controller
         $param['nick'] = $request->request->get('qqnickname'); 
         $param['pwd'] = $request->request->get('pwd');
         $code = true;
-        if(empty($param['pwd']) && (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
+        if(empty($param['pwd']) || (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
             $code = false;
         }
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session

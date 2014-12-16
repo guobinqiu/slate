@@ -552,8 +552,6 @@ EOD;
         // submit that form
         $crawler = $client->submit($form_register);
         $crawler = $client->submit($form_register);
-        $crawler = $client->submit($form_register);
-        $crawler = $client->submit($form_register);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
         $this->assertEquals( '/', $client->getRequest()->getRequestUri());
