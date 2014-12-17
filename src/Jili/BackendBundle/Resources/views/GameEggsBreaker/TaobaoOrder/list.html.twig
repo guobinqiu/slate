@@ -12,23 +12,16 @@ Taobao订单列表-12月活动-{{ parent() }}
 
 {% block body %}
 
-<h4>Taobao订单</h4>
+{% include("JiliBackendBundle:GameEggsBreaker/TaobaoOrder:filter_menu.html.twig") %}
 
-{% set flashbag = app.session.flashbag.all %}
-{% if flashbag is not empty %}
-    <div class="messages-container">
-    {% for type, messages in flashbag %}
-        {% for message in messages %}
-             <div class="alert alert-{{ type }}">
-                 {{ message }}
-             </div>
-        {% endfor %}
-    {% endfor %}
-    </div>
-{% endif %}
+<h3 align="center">Taobao订单</h3>
 
-<table align="center" width="300">
+{% include("JiliBackendBundle::session_notification.html.twig") %}
+
+<table align="center" width="700">
 <tr>
+<th>用户Email</th>
+<th>提交日期</th>
 <th>订单号</th>
 <th>订单日期</th>
 <th>订单金额</th>
@@ -36,26 +29,28 @@ Taobao订单列表-12月活动-{{ parent() }}
 </tr>
 {% for entity in entities %}
     <tr>
-        <td>{{ entity.orderId }}</td>
-        <td>{{ entity.orderAt|date('Y-m-d') }}</td>
-        <td>{{ entity.orderPaid|number_format(2,'.',',' )}}</td>
+        <td>{{ entity.email}}</td>
+        <td>{{ entity[0].createdAt|date('Y-m-d')}}</td>
+        <td>{{ entity[0].orderId }}</td>
+        <td>{{ entity[0].orderAt|date('Y-m-d') }}</td>
+        <td>{{ entity[0].orderPaid|number_format(2,'.',',' )}}</td>
         <td>
-{% if entity.isAuditCompleted or  entity.isAuditPending %}
-    {% if entity.isAuditCompleted %}
+{% if entity[0].isAuditCompleted or  entity[0].isAuditPending %}
+    {% if entity[0].isAuditCompleted %}
     结束
-    {% elseif entity.isAuditPending %}
+    {% elseif entity[0].isAuditPending %}
     等待
     {% endif %}
-            {% if entity.isValid %}
+            {% if entity[0].isValid %}
             :有效
-            {% elseif entity.isInvalid %}
+            {% elseif entity[0].isInvalid %}
             :无效
-            {% elseif entity.isUncertain%}
+            {% elseif entity[0].isUncertain%}
             :不确定
             {% endif %}
 
 {% else %}
-<a href="{{ path( 'jili_backend_decemberactivity_audit', {'id': entity.id })  }}">审核</a>
+<a href="{{ path( 'jili_backend_decemberactivity_audit', {'id': entity[0].id })  }}">审核</a>
 
 {% endif %}
         </td>
