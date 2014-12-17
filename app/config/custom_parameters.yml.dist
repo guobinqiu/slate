@@ -11,6 +11,13 @@ parameters:
     offer99_com.category_type: 18
     offer99_com.task_type: 5
 
+    bangwoya_com:
+        url: "http://demo.bangwoya.com/shortname"
+        key: "91jili2bangwoya"
+        name: "体验广告"
+        category_type: 22
+        task_type: 5
+
     cpa.category_type:  1 # in table ad_category where category_name='CPA'
     cps.category_type:  1 # in table ad_category where category_name='CPS'
 
@@ -249,7 +256,7 @@ parameters:
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
     file_path_cpa_ranking_activity: /data/91jili/logs/activity/cpa_ranking_activity
-    
+
     qq_appid: 101163684
     qq_appkey: fe7b1879a8e220136aa63ae92a9e5745
     qq_email_suffix: qq.com
@@ -276,6 +283,6 @@ parameters:
             points_pool: "%cache_data_path%/game_eggs_breaker/consolation/points_pool_YYYYmmdd.json"
     webpower_email_username: 'admin'
     webpower_email_password: 'nUshkwu#9'
-    
+
     cron_alertTo_contacts: jinzhang@voyagegroup.com.cn,zhangmm@voyagegroup.com.cn,tao_jiang@voyagegroup.com,xiaoyi_chai@voyagegroup.com,xujf@voyagegroup.com.cn
     alert_subject: '积粒网-定时任务提醒邮件'

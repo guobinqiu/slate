@@ -6,7 +6,7 @@ default:
 user:
     resource: "@JiliApiBundle/Controller/UserController.php"
     prefix:   /user
-    type:     annotation   
+    type:     annotation
 
 shopping:
     resource: "@JiliApiBundle/Controller/ShoppingController.php"
@@ -75,6 +75,11 @@ remind:
 
 api-offer99:
     resource: "@JiliApiBundle/Controller/Offer99Controller.php"
+    type:     annotation
+    prefix:   /
+
+api-bangwoya:
+    resource: "@JiliApiBundle/Controller/BangwoyaController.php"
     type:     annotation
     prefix:   /
 

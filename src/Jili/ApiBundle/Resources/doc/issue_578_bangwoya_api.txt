@@ -1,0 +1,22 @@
+http://www.bangwoya.com/List/Index/index/pid/bwy.html
+http://www.bangwoya.com/qianbao
+
+CREATE TABLE IF NOT EXISTS `bangwoya_api_return` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `content` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `bangwoya_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `tid` varchar(100) DEFAULT NULL,
+  `delete_flag` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tid` (`tid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `jili_db`.`ad_category` (`id` ,`category_name` ,`asp` ,`display_name`)VALUES ('22', 'bangwoya', '天芒云', '体验广告');
+

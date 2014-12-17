@@ -2,7 +2,7 @@ imports:
     - { resource: cache.yml }
 
 parameters:
-    offerwow_com: 
+    offerwow_com:
         validations:
             1: { errorno: "offerwow-01", message: "出现空参数"}
             2: { errorno: "offerwow-02", message: "网站id不存在" }
@@ -15,10 +15,10 @@ parameters:
         #sign=md5(memberId+point+eventId+websiteId+immediate+key)
 
         key: "%offerwow_com.key%"
-        websiteid: %offerwow_com.websiteid%  
+        websiteid: %offerwow_com.websiteid%
         name: "%offerwow_com.name%"
         category_type: %offerwow_com.category_type% # in ad_category table where cateogry_name ='offerwow' ??
-        task_type: %offerwow_com.task_type% 
+        task_type: %offerwow_com.task_type%
 
         immediate_status:
            HANGUP_SUSPEND: 0 # ：非即时返利活动,处于待审核状态；
@@ -26,7 +26,7 @@ parameters:
            HANGUP_PASSED: 2 #：非即时返利活动，审核通过，重新回传，发放奖励给会员；
            HANGUP_REFUSED: 3 #：非即时返利活动，审核不通过，重新回传，不发放奖励；
 
-    offer99_com: 
+    offer99_com:
         validations:
             1: { errorno: "1001", message: "缺少参数(检查参数是否传递,tid是否为32位)"}
             2: { errorno: "1002", message: "密码验证不通过" }
@@ -39,10 +39,29 @@ parameters:
         #合作客户提供密钥key，然后把接收到的uid,vcpoints,tid跟key连接起来后再进行md5加密，如果产生的pass为大写，则需转换为小写。
 
         key: "%offer99_com.key%"
-        pid: %offer99_com.pid%  
+        pid: %offer99_com.pid%
         name: "%offer99_com.name%"
         category_type: %offer99_com.category_type%
-        task_type: %offer99_com.task_type% 
+        task_type: %offer99_com.task_type%
+
+    bangwoya_com:
+        validations:
+            1: { errorno: "1001", message: "缺少参数(检查参数是否传递,nonceStr是否为32位)"}
+            2: { errorno: "1002", message: "密码验证不通过" }
+            3: { errorno: "1003", message: "tid重复" }
+            4: { errorno: "1004", message: "vmoney超过最大限额" }
+            5: { errorno: "1005", message: "partnerid不存在" }
+            6: { errorno: "1006", message: "非法IP" }
+            7: { errorno: "1007", message: "指令收到，充值需要等待" }
+
+        #由合作客户提供密钥key，然后把接收到的partnerid,vmoney,tid跟key连接起来后再进行md5加密，如果产生的nonceStr（密码验证）为大写，则需转换为小写。
+        #示例：PHP版本$nonceStr= md5($safec ode.$partnerid.$vmoney.$tid)。
+
+        url: "%bangwoya_com.url%"
+        key: %bangwoya_com.key%
+        name: "%bangwoya_com.name%"
+        category_type: %bangwoya_com.category_type%
+        task_type: %bangwoya_com.task_type%
 
     # cpa & offerwow 活动返利有效的活动分类，对应ad_category表中的记录。
     rebate_activity_category:

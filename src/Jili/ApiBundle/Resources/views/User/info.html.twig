@@ -16,12 +16,12 @@
 <script src="{{ asset('js/jquery.Jcrop.min.js')}}"></script>
 <script type="text/javascript">
 var path = '{{ asset("") }}';
-$(document).ready(function(){ 
+$(document).ready(function(){
   $(".amClose").click(function (){
-        $(".web_click_bg").hide();  
+        $(".web_click_bg").hide();
         $(".am_blackBg").hide();
     })
-  $("#moreExchange").attr('href',"{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}"); 
+  $("#moreExchange").attr('href',"{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}");
     function showPreview(coords){
       var rx = 100 / coords.w;
       var ry = 100 / coords.h;
@@ -64,41 +64,41 @@ $(document).ready(function(){
             });
             $(".resizeimage").html("<img src='"+path+data.result+"' id='preview'/>");
             $(".resizeSubmit").html("<input type='submit' value='上传图片' name='resize' class='resBut'/><br/><input type='submit' value='取消上传' name='cancer' class='cancerBut'/>");
-          }  
+          }
         }
     });
   {% if codeflag %}
       $("#info").hide();
       $("#updateInfo").show();
-      var year = $("#yearInfo");  
-      var month = $("#monthInfo");  
+      var year = $("#yearInfo");
+      var month = $("#monthInfo");
       var newYear = {{ newYear }};
       var newMonth = {{ newMonth }};
       var yearhtml = '';
       var monthhtml = '';
-      var date = new Date();  
-      var y = date.getFullYear();  
-      yearhtml += "<option value='0'>请选择年</option>";   
-      for (var i = 1940; i <= y ; i++) {  
+      var date = new Date();
+      var y = date.getFullYear();
+      yearhtml += "<option value='0'>请选择年</option>";
+      for (var i = 1940; i <= y ; i++) {
          if({{ year }}){
             var usernewYear = {{ year }};
-            var selected = (usernewYear == i)?"selected='selected'":""; 
+            var selected = (usernewYear == i)?"selected='selected'":"";
          }else{
-            var selected = (newYear == i)?"selected='selected'":""; 
+            var selected = (newYear == i)?"selected='selected'":"";
          }
          yearhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>";
-      } 
+      }
       year.html(yearhtml);
-      monthhtml += "<option value='0'>请选择月</option>";   
-      for (var i = 1; i < 13; i++) {  
+      monthhtml += "<option value='0'>请选择月</option>";
+      for (var i = 1; i < 13; i++) {
           var selected = '';
           if({{ month }}){
             var usernewMonth = {{ month }};
-            var selected = (usernewMonth == i)?"selected='selected'":""; 
+            var selected = (usernewMonth == i)?"selected='selected'":"";
           }
-          if(newMonth) 
-              selected = (newMonth == i)?"selected='selected'":""; 
-          monthhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>"; 
+          if(newMonth)
+              selected = (newMonth == i)?"selected='selected'":"";
+          monthhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>";
       }
       month.html(monthhtml);
       var html = '';
@@ -108,15 +108,15 @@ $(document).ready(function(){
             type: "POST",
             success:function(data){
               var obj = eval(data);
-              for(var i=0;i<obj.length;i++){ 
+              for(var i=0;i<obj.length;i++){
                   var selected = '';
                  if({{ city }}){
                     var oldcity = {{ city }};
-                    selected = ( oldcity == obj[i]['id'])?"selected='selected'":""; 
+                    selected = ( oldcity == obj[i]['id'])?"selected='selected'":"";
                  }
-                 html += "<option value='"+obj[i]['id']+"'  " + selected+ " >"+obj[i]['cityName']+"</option>";                 
+                 html += "<option value='"+obj[i]['id']+"'  " + selected+ " >"+obj[i]['cityName']+"</option>";
               }
-              $("#cityInfo").html(html); 
+              $("#cityInfo").html(html);
             }
         });
     {% endif %}
@@ -138,90 +138,90 @@ $(document).ready(function(){
                   type: "POST",
                   success:function(data){
                     var obj = eval(data);
-                    for(var i=0;i<obj.length;i++){ 
+                    for(var i=0;i<obj.length;i++){
                         var selected = '';
                        if({{ user.city }}){
                           var oldcity = {{ user.city }};
-                          selected = ( oldcity == obj[i]['id'])?"selected='selected'":""; 
+                          selected = ( oldcity == obj[i]['id'])?"selected='selected'":"";
                        }
 
-                       html += "<option value='"+obj[i]['id']+"'  " + selected+ " >"+obj[i]['cityName']+"</option>";                 
+                       html += "<option value='"+obj[i]['id']+"'  " + selected+ " >"+obj[i]['cityName']+"</option>";
                     }
-                    $("#cityInfo").html(html); 
+                    $("#cityInfo").html(html);
                   }
               });
           {% endif %}
-          var year = $("#yearInfo");  
-          var month = $("#monthInfo");  
+          var year = $("#yearInfo");
+          var month = $("#monthInfo");
           var newYear = {{ newYear }};
           var newMonth = {{ newMonth }};
           var yearhtml = '';
           var monthhtml = '';
-          var date = new Date();  
-          var y = date.getFullYear();  
-          yearhtml += "<option value='0'>请选择年</option>";   
-          for (var i = 1940; i <= y ; i++) {  
-             var selected = (newYear == i)?"selected='selected'":""; 
+          var date = new Date();
+          var y = date.getFullYear();
+          yearhtml += "<option value='0'>请选择年</option>";
+          for (var i = 1940; i <= y ; i++) {
+             var selected = (newYear == i)?"selected='selected'":"";
              yearhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>";
-          } 
+          }
           year.html(yearhtml);
-          monthhtml += "<option value='0'>请选择月</option>";   
-          for (var i = 1; i < 13; i++) {  
+          monthhtml += "<option value='0'>请选择月</option>";
+          for (var i = 1; i < 13; i++) {
               var selected = '';
-                if(newMonth) 
-                  selected = (newMonth == i)?"selected='selected'":""; 
-                monthhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>"; 
+                if(newMonth)
+                  selected = (newMonth == i)?"selected='selected'":"";
+                monthhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>";
           }
           month.html(monthhtml);
-       
-         
+
+
       {% else %}
            window.location.href = "{{ path('_user_registerReward') }}";
       {% endif %}
   })
-   
+
 });
 function selectYear(){
-  var month = $("#monthInfo"); 
+  var month = $("#monthInfo");
   if($("#yearInfo").val()=='0'){
-    month.get(0).options.length = 0; 
-    month.get(0).options.add(new Option("请选择月", "0"));  
+    month.get(0).options.length = 0;
+    month.get(0).options.add(new Option("请选择月", "0"));
   }else{
-    month.get(0).options.length = 0; 
-    month.get(0).options.add(new Option("请选择月", "0"));  
-    for (var i = 1; i < 13; i++) {  
-            month.get(0).options.add(new Option(i, i));  
+    month.get(0).options.length = 0;
+    month.get(0).options.add(new Option("请选择月", "0"));
+    for (var i = 1; i < 13; i++) {
+            month.get(0).options.add(new Option(i, i));
     }
   }
 }
 function selectCity(){
-  var html = ''; 
+  var html = '';
   if($("#provinceInfo").val()!=0){
      $.ajax({
               url: "{{ path('_user_getCity') }}?cid="+$('#provinceInfo').val(),
               type: "POST",
               success:function(data){
                 var obj = eval(data);
-                for(var i=0;i<obj.length;i++){ 
-                    html += "<option value='"+obj[i]['id']+"'>"+obj[i]['cityName']+"</option>";                 
+                for(var i=0;i<obj.length;i++){
+                    html += "<option value='"+obj[i]['id']+"'>"+obj[i]['cityName']+"</option>";
                 }
-                $("#cityInfo").html(html); 
+                $("#cityInfo").html(html);
               }
           });
   }else{
-      html += "<option value='0'>请选择地区</option>";   
+      html += "<option value='0'>请选择地区</option>";
       $("#cityInfo").html(html);
   }
 }
 function copy(){
     var text = $("#amz").html();
     urlCp = text.split("<a");
-    $('.copy').zclip({ 
+    $('.copy').zclip({
         path: "{{ asset('js/ZeroClipboard.swf')}}",
         copy: urlCp[0],
-        afterCopy: function(){//复制成功 
-           alert('复制成功'); 
-        } 
+        afterCopy: function(){//复制成功
+           alert('复制成功');
+        }
     })
 }
 function look(eid){
@@ -231,11 +231,11 @@ function look(eid){
             success:function(data){
               var html='';
               var obj = eval(data);
-              for(var i=0;i<obj.length;i++){ 
-                if(obj[i]['a'])  
-                  html += "<p id='amz' class='amz_"+i+"'>"+obj[i]['a']+"<a class='copy' href='javascript:void(0);'>复制</a></p>";                 
+              for(var i=0;i<obj.length;i++){
+                if(obj[i]['a'])
+                  html += "<p id='amz' class='amz_"+i+"'>"+obj[i]['a']+"<a class='copy' href='javascript:void(0);'>复制</a></p>";
               }
-              $(".web_click_bg .cardNumberArea").html(html); 
+              $(".web_click_bg .cardNumberArea").html(html);
               $(".am_blackBg").show();
               $(".web_click_bg").show();
               copy();
@@ -245,18 +245,18 @@ function look(eid){
 function addClass(id){
   switch(id){
         case 1:
-             $(".screen a:last").removeClass("hover"); 
-             $(".screen a:first").addClass("hover"); 
+             $(".screen a:last").removeClass("hover");
+             $(".screen a:first").addClass("hover");
              $("#exfromjili").show();
              $("#exfromwen").hide();
-             $("#moreExchange").attr('href',"{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}"); 
+             $("#moreExchange").attr('href',"{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}");
             break;
         case 2:
-             $(".screen a:first").removeClass("hover"); 
-             $(".screen a:last").addClass("hover"); 
+             $(".screen a:first").removeClass("hover");
+             $(".screen a:last").addClass("hover");
              $("#exfromjili").hide();
              $("#exfromwen").show();
-             $("#moreExchange").attr('href',"{{ path('_user_exchange',{'type': 0,'exchangeType':2 }) }}"); 
+             $("#moreExchange").attr('href',"{{ path('_user_exchange',{'type': 0,'exchangeType':2 }) }}");
             break;
        default:
             break;
@@ -272,7 +272,7 @@ function addClass(id){
   <div class="cardNumberArea">
   </div>
 </div>
-<div class="personalWrap">   
+<div class="personalWrap">
   <section class="line">
     <div class="photo">
       <div class="img">
@@ -309,7 +309,7 @@ function addClass(id){
          </div>
     </div>
   </section>
-  
+
 <section id= "info">
     <h3>个人信息<a></a></h3>
     <div class="info" style="border-top: 1px #e0e0e0 dashed;">
@@ -325,13 +325,13 @@ function addClass(id){
         </li>
         <li style="width:60%;">
           <dd>性  别：</dd>
-          <dt>{% if user.sex==1 %} 
+          <dt>{% if user.sex==1 %}
          男{% elseif user.sex==2 %}女{% else %}&nbsp;{% endif %}</dt>
         </li>
 
          <li  style="width:40%;">
           <dd>出  生：</dd>
-          <dt>{% if newYear %} 
+          <dt>{% if newYear %}
                 {% if newMonth %}
                     {{ newYear }}年{{ newMonth }}月
                 {% else %}
@@ -341,39 +341,39 @@ function addClass(id){
                   &nbsp;
               {% endif %}</dt>
         </li>
-      
+
         <li style="width:60%;">
           <dd>地  区：</dd>
           <dt>
             {{ disarea }}
           </dt>
-        </li>  
+        </li>
 
         <li>
           <dd>手机号码：</dd>
           <dt>
             {{ user.tel }}
           </dt>
-        </li>  
+        </li>
 
         <li>
           <dd>个人月收入:</dd>
           <dt>
             {{ usercomes }}
           </dt>
-        </li>  
+        </li>
 
         <li>
           <dd>兴趣爱好：</dd>
           <dt>
             {{ userHobby }}
           </dt>
-        </li>  
+        </li>
 
       </ul>
     </div>
   </section>
-  
+
   <section id= "updateInfo">
    <form action="{{ path('_user_info') }}" method="post">
     <h3>个人信息<a></a></h3>
@@ -401,8 +401,8 @@ function addClass(id){
 
 
        <li style="width:40%;"><dd><font style="color:#EE472C;"> * </font>出生年月：</dd>
-            <dt><select id="yearInfo" name="year" onchange="selectYear()"></select>      
-            &nbsp;<select id="monthInfo" name="month"></select>      
+            <dt><select id="yearInfo" name="year" onchange="selectYear()"></select>
+            &nbsp;<select id="monthInfo" name="month"></select>
           </dt>
       </li>
 
@@ -412,7 +412,7 @@ function addClass(id){
               {% for item in province %}
                <option value="{{ item.id }}" {% if provinceId %} {% if provinceId == item.id %} selected = "selected" {% endif %} {% endif %}{% if user.province == item.id %} selected = "selected" {% endif %}>{{ item.provinceName }}</option>
               {% endfor %}
-            
+
             </select>
             <select id="cityInfo" name="city"><option value='0'>请选择地区</option>
               </select>
@@ -476,7 +476,7 @@ function addClass(id){
           <th>奖励积分</th>
           <th>更新时间</th>
           <th>任务状态</th>
-        </tr>     
+        </tr>
          {% for item in adtaste %}
         <tr>
           <td>
@@ -490,10 +490,12 @@ function addClass(id){
                     <a href="{{ path('_advertiserment_list') }}" target="_blank">{{ item.title }}</a>
                   {% elseif item.incentiveType == 18 %}
                     <a href="{{ asset(path('_advertiserment_offer99')) }}" target="_blank">{{ item.title }}</a>
+                  {% elseif item.incentiveType == 22 %}
+                    <a href="{{ asset(path('_advertiserment_bangwoya')) }}" target="_blank">{{ item.title }}</a>
                   {% else %}
                     {{ item.title }}
                   {% endif %}
-              {% endif %}  
+              {% endif %}
           </td>
           <td>{% if item.incentiveType==2 or item.incentiveType == 19 %}
                      {% if item.orderStatus > 1 %}
@@ -523,7 +525,7 @@ function addClass(id){
         <tr><td align="center" colspan="5">没有任务记录</td></tr>
         {% endif %}
       </table>
-     
+
     </div>
   </section>
   <section>
@@ -571,7 +573,7 @@ function addClass(id){
         {% else %}
         <tr><td align="center" colspan="6">没有兑换记录</td></tr>
         {% endif %}
-         
+
       </table>
       <table width="100%" border="0" cellspacing="0" cellpadding="0" id="exfromwen" style="display:none">
         <tr>
@@ -592,7 +594,7 @@ function addClass(id){
         <tr><td align="center" colspan="3">没有兑换记录</td></tr>
         {% endif %}
       </table>
-    
+
     </div>
   </section>
 
