@@ -149,6 +149,8 @@ $(document).ready(function(){
 {% block body %}{% endblock %}
 </div>	
 {% include 'JiliApiBundle::footer.html.twig' %} 
+{% include '::analytics_js.html.twig' %} 
+
 {# 如果不是自动签到页面 #}
 {% if (0 == app.request.get('auto_checkin',0) ) %}
 {% include '::userinfo.html.twig' %}
