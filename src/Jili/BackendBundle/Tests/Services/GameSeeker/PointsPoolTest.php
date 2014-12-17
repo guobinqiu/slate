@@ -105,11 +105,15 @@ class PointsPoolTest extends KernelTestCase
         $fixture_dir = dirname($fixture_file);
         if(! $fs->exists($fixture_dir)){
             $fs->mkdir( $fixture_dir);
+        } 
+
+        if(! $fs->exists($fixture_file) ) {
+            $fs->touch($fixture_file);
         }
         file_put_contents( $fixture_file,$fixture_string);
 
         $expected_ctime  =  filectime( $fixture_file);
-// 
+ 
         // do request
         $this->container->get('game_seeker.points_pool')->build();
         $file = str_replace('YYYYmmdd', date('Ymd'), $path_configs['points_pool']);
