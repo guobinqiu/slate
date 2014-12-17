@@ -25,8 +25,8 @@
         <div class="askQuestion">
         	<h2><strong class="inlineBlock fnLeft">我要提问</strong><span class="inlineBlock fnRight"></span></h2>
             <div class="askQuestionDetail borderGray">
-            	<p><textarea class="clearTxt borderGray" id="fbc"></textarea><span class="defaultTxt">请输入您的问题</span></p>
-                <p class="contact mt5"><input type="text" class="clearTxt borderGray" id="email"/><span class="defaultTxt">请输入您的邮箱</span></p>
+            	<p><textarea class="clearTxt borderGray" id="fbc" name="content"></textarea><span class="defaultTxt">请输入您的问题</span></p>
+                <p class="contact mt5"><input type="text" class="clearTxt borderGray" id="email" name="email"/><span class="defaultTxt">请输入您的邮箱</span></p>
                 <p class="tips"></p>
                 <div class="askQuestionBtn mt5"><input type="button" class="submitQuestion" value="提 交" title="提 交" border="0" /></div>
             </div>
@@ -39,7 +39,7 @@
             	<p><img src="{{ asset('images1408/help/icon01.png') }}" width="99" height="105"/></p>
                 <dl>
                     <dt>购物返利享不停</dt>
-                    <dd>手把手教学，拿返利不难！三步即可搞定，再不会省钱就out啦！</dd>
+                    <dd>选择喜欢的商家进入，购买商品就能返利哦！</dd>
                     <dd><span class="more">快去了解</span></dd>
                 </dl>
             </li>
@@ -47,7 +47,7 @@
             	<p><img src="{{ asset('images1408/help/icon02.png') }}" width="99" height="100"/></p>
                 <dl>
                     <dt>广告体验赚米粒</dt>
-                    <dd>手把手教学，拿返利不难！三步即可搞定，再不会省钱就out啦！</dd>
+                    <dd>玩玩小游戏、做做问卷，米粒轻松到手！</dd>
                     <dd><span class="more">快去了解</span></dd>
                 </dl>
             </li>
@@ -55,7 +55,7 @@
             	<p><img src="{{ asset('images1408/help/icon03.png') }}" width="99" height="100"/></p>
                 <dl>
                     <dt>游戏体验抢排名</dt>
-                    <dd>手把手教学，拿返利不难！三步即可搞定，再不会省钱就out啦！</dd>
+                    <dd>每天摇色子，每周统计排名，第一名更有5888米粒奖励！</dd>
                     <dd><span class="more">快去了解</span></dd>
                 </dl>
             </li>
@@ -63,7 +63,7 @@
             	<p><img src="{{ asset('images1408/help/icon04.png') }}" width="99" height="100"/></p>
                 <dl>
                     <dt>商家活动购实惠</dt>
-                    <dd>手把手教学，拿返利不难！三步即可搞定，再不会省钱就out啦！</dd>
+                    <dd>为您推荐最实惠的商家！为您寻找最实惠的活动！</dd>
                     <dd><span class="more">快去了解</span></dd>
                 </dl>
             </li>
@@ -72,7 +72,7 @@
         	<h3>购物返利享不停</h3>
         	<ul>
                 <li>
-                    <p><strong>第一步</strong>请先免费注册积粒网，如有积粒账户，请<a href="">登录</a>后，点击“商家列表”。</p>
+                    <p><strong>第一步</strong>请先免费注册积粒网，如有积粒账户，请<a href="{{ path('_user_login') }}">登录</a>后，点击“商家列表”。</p>
                     <div class="guideImg"><img src="{{ asset('images1408/help/guide01Step01.jpg') }}" width="551" height="257"/></div>
                 </li>
                 <li>
@@ -84,7 +84,7 @@
                     <div class="guideImg"><img src="{{ asset('images1408/help/guide01Step03.jpg') }}" width="551" height="190"/></div>
                 </li>
                 <li>
-                    <p><strong>第四步</strong>返回积粒网，查看<a href="">我的任务历史</a>就能看的返利啦！</p>
+                    <p><strong>第四步</strong>返回积粒网，查看<a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a>就能看的返利啦！</p>
                     <div class="guideImg"><img src="{{ asset('images1408/help/guide01Step04.jpg') }}" width="551" height="299"/></div>
                 </li>
         	</ul>
@@ -99,7 +99,7 @@
                     <div class="guideImg"><img src="{{ asset('images1408/help/guide02Step02_2.jpg') }}" width="551" height="300"/></div>
                 </li>
                 <li>
-                    <p><strong>第三步</strong>查看<a href="">我的任务历史</a>就能看到相关返利啦！</p>
+                    <p><strong>第三步</strong>查看<a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a>就能看到相关返利啦！</p>
                     <div class="guideImg"><img src="{{ asset('images1408/help/guide01Step04.jpg') }}" width="551" height="299"/></div>
                 </li>
         	</ul>
@@ -117,7 +117,7 @@
                     <div class="guideImg"><img src="{{ asset('images1408/help/guide03Step03.jpg') }}" width="551" height="298"/></div>
                 </li>
                 <li>
-                    <p><strong>第四步</strong>查看<a href="">我的任务历史</a>就能看到获得的米粒数啦！</p>
+                    <p><strong>第四步</strong>查看<a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a>就能看到获得的米粒数啦！</p>
                     <div class="guideImg"><img src="{{ asset('images1408/help/guide03Step04.jpg') }}" width="551" height="298"/></div>
                 </li>
         	</ul>
@@ -137,7 +137,7 @@
                     <div class="guideImg"><img src="{{ asset('images1408/help/guide01Step03.jpg') }}" width="551" height="190"/></div>
                 </li>
                 <li>
-                    <p><strong>第四步</strong>返回积粒网，查看<a href="">我的任务历史</a>就能看的返利啦！</p>
+                    <p><strong>第四步</strong>返回积粒网，查看<a href="{{ asset(path('_user_adtaste',{'type':0}),'cdn1') }}">我的任务历史</a>就能看的返利啦！</p>
                     <div class="guideImg"><img src="{{ asset('images1408/help/guide01Step04.jpg') }}" width="551" height="299"/></div>
                 </li>
         	</ul>

@@ -672,7 +672,6 @@ class DefaultController extends Controller
                 } else {
                     // todo: set the error flash
                 }
-
             }
         }
         return $response;

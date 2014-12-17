@@ -52,11 +52,11 @@
 				type: "POST",
 				success:function(data){
 					switch(data){
-						case 1: tips.text('*请输入您的问题'); break;
-						case 2: tips.text('*请输入您的联系方式'); break;
-						case 3: tips.text('*您的联系方式不正确'); break;
-						case 4: tips.text('*系统出错，邮件发送失败'); break;
-						default: $('.askQuestionDetail').html("非常感谢，我们已经收到了您的问题！之后我们会与您取得联系，并帮助您解决问题。");  break;
+						case "1": tips.text('*请输入您的问题'); break;
+						case "2": tips.text('*请输入您的联系方式'); break;
+						case "3": tips.text('*您的联系方式不正确'); break;
+						case "4": tips.text('*系统出错，邮件发送失败'); break;
+						default: $('.askQuestionDetail').html("非常感谢，我们已经收到了您的问题！之后我们将以邮件形式与您取得联系，并帮助您解决问题。");  break;
 					}
 				}
 			  });

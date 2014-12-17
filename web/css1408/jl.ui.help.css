@@ -37,7 +37,7 @@
 .questions li .question span.icons{float: right;margin-top: 15px;padding-right: 20px;width: 15px;height: 15px;background: url(../images1408/help/arrow.png) no-repeat 0 -35px;}
 .questions li.active .question span.icons, .questions li.on .question span.icons{padding-right: 23px;background: url(../images1408/help/arrow.png) no-repeat 0 -55px;}
 .questions li.active .question, .questions li.on .question{color: #ff350d;background-color: #ffe5e0;}
-.questions li p{line-height: 20px;font-size: 12px;margin: 15px 0;padding-left: 40px;padding-right: 20px;display: none;}
+.questions li p{line-height: 22px;font-size: 12px;margin: 15px 0;padding-left: 40px;padding-right: 20px;display: none;}
 .questions li p strong{color: #eb411f;font-weight: normal;}
 .questions li p a{color: #4c94ff;}
 .submitTips{ position: absolute; z-index: 3000; top: 100px; left: 50%; margin-left: -80px; width: 160px; height: 35px; text-align: center; line-height: 35px; background-color: #fff; color: #333; font-size: 12px;}
