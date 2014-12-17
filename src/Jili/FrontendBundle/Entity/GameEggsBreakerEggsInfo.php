@@ -15,6 +15,7 @@ class GameEggsBreakerEggsInfo
     const EGG_TYPE_COMMON = 1;
     const EGG_TYPE_CONSOLATION = 2;
     const COST_PER_EGG = 10.00;
+    const TOKEN_LENGTH = 32;
 
     /**
      * @var integer
@@ -366,4 +367,44 @@ class GameEggsBreakerEggsInfo
         }
         return round( self::COST_PER_EGG - floatval($this->getOffcutForNext()), 2);
     }
+
+    /**
+     * @abstract update the entity and return the type of egg.
+     * @return array array( egg_type = 1 );
+     */
+    public function getEggTypeByRandom()
+    {
+        $num_of_consolation = (int) $this->getNumOfConsolation();
+        $num_of_common  = (int) $this->getNumOfCommon();
+
+        if( $num_of_consolation >  0) {
+            $pool = array_fill(0, $num_of_consolation, self::EGG_TYPE_CONSOLATION);
+        } else {
+            $pool = array();
+        }
+
+        if($num_of_common >  0) {
+            if( count($pool ) > 0) {
+                $pool = array_merge($pool, array_fill(0, $num_of_common,self::EGG_TYPE_COMMON));
+            } else {
+                $pool = array_fill(0, $num_of_common, self::EGG_TYPE_COMMON);
+            }
+        }
+
+        if(count($pool) === 0 ) {
+            return -1;
+        }
+
+        $key = array_rand($pool);
+        $egg_type = $pool[$key];
+
+        if($egg_type === self::EGG_TYPE_CONSOLATION ) {
+            $this->setNumOfConsolation($num_of_consolation - 1 );
+        } else {
+            $this->setNumOfCommon($num_of_common- 1 );
+        }
+        $this->setNumUpdatedAt(new \Datetime());
+        return $egg_type;
+    }
+
 }

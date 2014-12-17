@@ -33,13 +33,12 @@ class DecemberActivityControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
-
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
 
         $tn = $this->getName();
-        if( in_array($tn, array('testGetEggsInfoActionNormal','testBreakEggActionNormal'))){
+        if( in_array($tn, array('testGetEggsInfoActionNormal','testBreakEggActionNormal','testBreakEggActionCommon','testBreakEggActionConsolation','testBreakEggActionConsolationZero','testBreakEggActionNone'))){
             $fixture = new LoadGetEggsInfoData();
             $loader  = new Loader();
             $loader->addFixture($fixture);
@@ -51,8 +50,57 @@ class DecemberActivityControllerTest extends WebTestCase
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
         }
-        $this->has_fixture = true ;
 
+        $this->has_fixture = true ;
+        $container  = static::$kernel->getContainer();
+
+        if( in_array($tn, array('testGetEggsInfoActionNormal','testBreakEggActionNormal','testBreakEggActionCommon','testBreakEggActionConsolation','testBreakEggActionConsolationZero','testBreakEggActionNone'))){
+            // prepare the points pool
+            $configs = $container->getParameter('game_eggs_breaker');
+            $cache_dir =$container->getParameter('cache_data_path');
+
+            $file_strategy = $cache_dir.'/game_eggs_breaker/common/points_strategy_conf.json';
+            if( file_exists($file_strategy)) {
+                unlink($file_strategy);
+            }
+            $file_consolation_strategy = $cache_dir.'/game_eggs_breaker/consolation/points_strategy_conf.json';
+            if( file_exists($file_strategy)) {
+                unlink($file_strategy);
+            }
+
+            if (file_exists($file_consolation_strategy)) {
+                unlink($file_consolation_strategy);
+            }
+            $dir = dirname($file_strategy);
+            if( ! file_exists($dir)) {
+                mkdir(  $dir , 0700, true) ;
+            }
+            $dir = dirname($file_consolation_strategy);
+            if( ! file_exists($dir)) {
+                mkdir(  $dir , 0700, true) ;
+            }
+
+
+            if($tn === 'testBreakEggActionConsolationZero' )  {
+                file_put_contents( $file_consolation_strategy, json_encode(array(array(1,0))));
+            } else{
+                file_put_contents( $file_consolation_strategy, json_encode(array(array(1,1))));
+            } 
+
+            file_put_contents( $file_strategy, json_encode(array(array(1,7))));
+
+
+            $file_pool = str_replace('YYYYmmdd', date('Ymd'), $configs['common']['points_pool']);
+
+            if(file_exists($file_pool)){
+                unlink($file_pool);
+            }
+            $file_pool = str_replace('YYYYmmdd', date('Ymd'), $configs['consolation']['points_pool']);
+
+            if(file_exists($file_pool)){
+                unlink($file_pool);
+            }
+        }
         $this->em  = $em;
     }
 
@@ -250,23 +298,152 @@ class DecemberActivityControllerTest extends WebTestCase
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_breakegg');
-
         $this->assertEquals('/activity/december/break-egg', $url);
         // ajax post
         $user  = LoadGetEggsInfoData::$USERS[0];
         $session  = $container->get('session');
         $session->set('uid' , $user->getId() );
         $session->save();
-
         $info = LoadGetEggsInfoData::$INFOS[0];
-
-        $data = array('data' =>$info->getToken(), 'eggType'=> 0);
-
+        $data = array('token' =>$info->getToken(), 'eggType'=> 0);
         $client->request('POST', $url, $data, array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
         $this->assertEquals(200,$client->getResponse()->getStatusCode());
 
-        echo $client->getResponse()->getContent();
-        echo PHP_EOL;
+        $this->assertRegExp('/{"code":0,"data":{"points":(1|7)}}/', $client->getResponse()->getContent());
+
+        //userpoint task_history point_history log  
+        $em = $this->em;
+
+        $this->assertNotNull($em->getRepository('JiliApiBundle:TaskHistory0'.($user->getId() % 10 ) )->findOneBy(array('userId'=> $user->getId())));
+
+        $this->assertNotNull($em->getRepository('JiliApiBundle:PointHistory0'.($user->getId() % 10 ))->findOneBy(array('userId'=> $user->getId())));
+
+        $this->assertNotNull($em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')->findOneBy(array('userId'=> $user->getId())));
+
+        $user_actual = $em->getRepository('JiliApiBundle:User')->findOneBy(array('id'=> $user->getId() ));
+        $this->assertNotNull($user_actual);
+        $this->assertGreaterThan($user->getPoints() ,$user_actual->getPoints());
+$diff = $user_actual->getPoints() - $user->getPoints();
+var_dump($diff);
+        $this->assertRegExp('/(1|7)/', (string) $diff , ' diff after egg breaks');
+    }
+
+    /**
+     * @group issue_537
+     */
+    public function testBreakEggActionCommon() 
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_breakegg');
+        // ajax post
+        $user  = LoadGetEggsInfoData::$USERS[1];
+        $session  = $container->get('session');
+        $session->set('uid' , $user->getId() );
+        $session->save();
+        $info = LoadGetEggsInfoData::$INFOS[1];
+        $data = array('token' =>$info->getToken(), 'eggType'=> 0);
+        $client->request('POST', $url, $data, array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $this->assertEquals('{"code":0,"data":{"points":7}}', $client->getResponse()->getContent());
+
+        $em = $this->em;
+        $user_actual = $em->getRepository('JiliApiBundle:User')->findOneBy(array('id'=> $user->getId(),'points' => 107 ));
+        $this->assertNotNull($user_actual);
+        $this->assertNotNull($em->getRepository('JiliApiBundle:TaskHistory0'.($user->getId() % 10 ))->findOneBy(array('userId'=> $user->getId())));
+
+        $this->assertNotNull($em->getRepository('JiliApiBundle:PointHistory0'.($user->getId() % 10 ))->findOneBy(array('userId'=> $user->getId())));
+        $this->assertNotNull($em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')->findOneBy(array('userId'=> $user->getId())));
+    }
+    /**
+     * @group issue_537
+     */
+    public function testBreakEggActionConsolation() 
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_breakegg');
+        // ajax post
+        $user  = LoadGetEggsInfoData::$USERS[2];
+        $session  = $container->get('session');
+        $session->set('uid' , $user->getId() );
+        $session->save();
+        $info = LoadGetEggsInfoData::$INFOS[2];
+        $data = array('token' =>$info->getToken(), 'eggType'=> 0);
+        $client->request('POST', $url, $data, array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $this->assertEquals('{"code":0,"data":{"points":1}}', $client->getResponse()->getContent());
+
+        $em = $this->em;
+        $user_actual = $em->getRepository('JiliApiBundle:User')->findOneBy(array('id'=> $user->getId() ,'points'=>101));
+
+        $this->assertNotNull($em->getRepository('JiliApiBundle:TaskHistory0'.($user->getId() % 10 ))->findOneBy(array('userId'=> $user->getId())));
+
+        $this->assertNotNull($em->getRepository('JiliApiBundle:PointHistory0'.($user->getId() % 10 ))->findOneBy(array('userId'=> $user->getId())));
+
+        $this->assertNotNull($em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')->findOneBy(array('userId'=> $user->getId())));
+
+    }
+ 
+
+    /**
+     * @group issue_537
+     */
+    public function testBreakEggActionConsolationZero() 
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_breakegg');
+        // ajax post
+        $user  = LoadGetEggsInfoData::$USERS[2];
+        $session  = $container->get('session');
+        $session->set('uid' , $user->getId() );
+        $session->save();
+        $info = LoadGetEggsInfoData::$INFOS[2];
+        $data = array('token' =>$info->getToken(), 'eggType'=> 0);
+        $client->request('POST', $url, $data, array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $this->assertEquals('{"code":0,"data":{"points":0}}', $client->getResponse()->getContent());
+
+        $em = $this->em;
+        $user_actual = $em->getRepository('JiliApiBundle:User')->findOneBy(array('id'=> $user->getId() ,'points'=>100));
+
+        $this->assertNull($em->getRepository('JiliApiBundle:TaskHistory0'.($user->getId() % 10 ))->findOneBy(array('userId'=> $user->getId())));
+
+        $this->assertNull($em->getRepository('JiliApiBundle:PointHistory0'.($user->getId() % 10 ))->findOneBy(array('userId'=> $user->getId())));
+
+        $this->assertNotNull($em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')->findOneBy(array('userId'=> $user->getId())));
+    }
+
+    /**
+     * @group issue_537
+     */
+    public function testBreakEggActionNone() 
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_breakegg');
+        // ajax post
+        $user  = LoadGetEggsInfoData::$USERS[3];
+        $session  = $container->get('session');
+        $session->set('uid' , $user->getId() );
+        $session->save();
+        $info = LoadGetEggsInfoData::$INFOS[3];
+        $data = array('token' =>$info->getToken(), 'eggType'=> 0);
+        $client->request('POST', $url, $data, array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $this->assertEquals('{}', $client->getResponse()->getContent());
+
+        $em = $this->em;
+        $user_actual = $em->getRepository('JiliApiBundle:User')->findOneBy(array('id'=> $user->getId(),'points'=> 100 ));
+        $this->assertNotNull($user_actual);
+
+        $this->assertNull($em->getRepository('JiliApiBundle:TaskHistory0'.($user->getId() % 10 ) )->findOneBy(array('userId'=> $user->getId())));
+
+        $this->assertNull($em->getRepository('JiliApiBundle:PointHistory0'.($user->getId() % 10 ))->findOneBy(array('userId'=> $user->getId())));
+
+        $this->assertNull($em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')->findOneBy(array('userId'=> $user->getId())));
+
     }
 
     /**

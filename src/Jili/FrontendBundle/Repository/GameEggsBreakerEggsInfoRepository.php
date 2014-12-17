@@ -7,15 +7,6 @@ use Jili\FrontendBundle\Entity\GameEggsBreakerEggsInfo;
 
 class GameEggsBreakerEggsInfoRepository extends EntityRepository 
 {
-
-    /**
-     *
-     */
-    public function getStat()
-    {
-
-    }
-
     /**
      * @param array $params 
      * @return 
