@@ -177,10 +177,9 @@ class AdvertisermentController extends Controller
             $taskList->remove(array( 'adv_visit'));
         }
 
-        $config = $this->container->getParameter('bangwoya_com');
-        $arr['url'] = $config['url'];
-        return $this->render('JiliApiBundle:Advertiserment:bangwoya.html.twig',$arr);
+        return $this->render('JiliApiBundle:Advertiserment:bangwoya.html.twig');
     }
+
 
     /**
      * 签到,记录商家access log
@@ -195,6 +194,7 @@ class AdvertisermentController extends Controller
             $id = $request->query->get('id');
             $em = $this->getDoctrine()->getManager();
             $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
+
             $service_params = array( 'advertiserment'=> $advertiserment , 'request'=> $request );
             $accessHistory = $this->get('cps_access_history.logger')->log($service_params) ;
             if($advertiserment->getIncentiveType() ==1 ) {

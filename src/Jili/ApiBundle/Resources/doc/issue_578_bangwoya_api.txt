@@ -1,6 +1,7 @@
 http://www.bangwoya.com/List/Index/index/pid/bwy.html
 http://www.bangwoya.com/qianbao
 
+1.
 CREATE TABLE IF NOT EXISTS `bangwoya_api_return` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` datetime NOT NULL,
@@ -20,3 +21,8 @@ CREATE TABLE IF NOT EXISTS `bangwoya_order` (
 
 INSERT INTO `jili_db`.`ad_category` (`id` ,`category_name` ,`asp` ,`display_name`)VALUES ('22', 'bangwoya', '天芒云', '体验广告');
 
+2. 修改配置文件并且创建文件夹
+custom_parameters.yml
+url: "http://demo.bangwoya.com/shortname"
+bangwoya_api_log: "/data/91jili/logs/api/bangwoya_api.log" #
+client_ip: "::1" #121.40.71.200

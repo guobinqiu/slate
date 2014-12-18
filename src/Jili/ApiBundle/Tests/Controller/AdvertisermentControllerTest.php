@@ -64,9 +64,9 @@ class AdvertisermentControllerTest extends WebTestCase {
 
         //test UserAdvertisermentVisit
         $visit1 = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($user_id, $day);
-        $this->assertCount(1, $visit1);
+        $this->assertCount(0, $visit1);
 
-        //[todo:confirm]
+        //login 前
         $url = '/advertiserment/bangwoya';
         $crawler = $client->request('GET', $url);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());

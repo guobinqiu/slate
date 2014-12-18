@@ -25,6 +25,8 @@ class BangwoyaController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
 
+        $clientIp = $request->getClientIp();
+
         //把接口数据写到表中bangwoya_api_return
         $api_logger = $this->get('bangwoya_api.init_log');
         $api_logger->log($request->getRequestUri());
@@ -40,7 +42,7 @@ class BangwoyaController extends Controller {
 
         //验证接口数据
         $request_validator = $this->get('bangwoya_request.validation');
-        $validate_return = $request_validator->validate($tid, $partnerid, $vmoney, $nonceStr);
+        $validate_return = $request_validator->validate($tid, $partnerid, $vmoney, $nonceStr, $clientIp);
 
         $result = array (
             'partnerid' => $request->query->get('partnerid', ''),
@@ -62,17 +64,11 @@ class BangwoyaController extends Controller {
         $bangwoya_service = $this->get('bangwoya_request.processor');
         $order_id = $bangwoya_service->process($tid, $partnerid, $vmoney);
 
-        if ($order_id) {
-            $result['status'] = 'success';
-            $result['sn'] = $order_id;
-        } else {
-            $result['status'] = 'no';
-            $result['errno'] = '1007'; //指令收到，充值需要等待
-        }
-
-        //返回状态给对方
+        //成功
         $result['status'] = 'success';
         $result['sn'] = $order_id;
+
+        //返回状态给对方
         $resp = new Response(json_encode($result));
         $resp->headers->set('Content-Type', 'text/plain');
         return $resp;

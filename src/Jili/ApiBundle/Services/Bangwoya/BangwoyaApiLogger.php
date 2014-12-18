@@ -1,5 +1,5 @@
 <?php
-namespace Jili\ApiBundle\Services;
+namespace Jili\ApiBundle\Services\Bangwoya;
 
 use Symfony\Bridge\Monolog\Logger;
 use Doctrine\ORM\EntityManager;
@@ -12,8 +12,8 @@ use Jili\ApiBundle\Entity\BangwoyaApiReturn;
 class BangwoyaApiLogger {
 
     private $em;
-
     private $logger;
+
     public function __construct(Logger $logger, $em) {
         $this->logger = $logger;
         $this->em = $em;

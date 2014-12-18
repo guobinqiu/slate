@@ -1,5 +1,5 @@
 <?php
-namespace Jili\ApiBundle\Services;
+namespace Jili\ApiBundle\Services\Bangwoya;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -7,32 +7,23 @@ use Symfony\Component\DependencyInjection\ParameterBagInterface;
 use Doctrine\ORM\EntityManager;
 
 use Jili\ApiBundle\Entity\BangwoyaOrder;
-use Jili\ApiBundle\Util\String;
+use Jili\ApiBundle\Utility\FileUtil;
 
 /**
  *
  **/
 class BangwoyaRequestProcessor {
 
-    /**
-    * @var array
-    */
-    protected $configs;
-    /**
-    * @var \Doctrine\ORM\EntityManager
-    */
-    protected $em;
-    /**
-    * @var \Symfony\Component\HttpKernel\Log\LoggerInterface
-    */
-    protected $logger;
+    private $em;
+    private $configs;
+    private $logger;
+    private $container;
 
     function __construct($configs) {
         $this->configs = $configs;
     }
 
     public function process($tid, $partnerid, $vmoney) {
-
         $configs = $this->configs;
 
         $category_type = $configs['category_type'];
@@ -41,22 +32,18 @@ class BangwoyaRequestProcessor {
 
         $em = $this->em;
 
-        //transaction[TODO] 失败了如何处理
-
+        //transaction
         try {
             $em->getConnection()->beginTransaction();
 
-            $order = $em->getRepository('JiliApiBundle:BangwoyaOrder')->findOneByTid($tid);
-            if (is_null($order)) {
-                $is_new = true;
-                // insert bangwoya order
-                $order = new BangwoyaOrder();
-                $order->setUserid($partnerid);
-                $order->setTid($tid);
-                $order->setCreatedAt(date_create(date('Y-m-d H:i:s')));
-                $order->setDeleteFlag(0);
-                $em->persist($order);
-            }
+            // insert bangwoya order
+            $order = new BangwoyaOrder();
+            $order->setUserid($partnerid);
+            $order->setTid($tid);
+            $order->setCreatedAt(date_create(date('Y-m-d H:i:s')));
+            $order->setDeleteFlag(0);
+            $em->persist($order);
+            $em->flush();
 
             // insert task_history
             $em->getRepository('JiliApiBundle:TaskHistory00')->init(array (
@@ -82,21 +69,35 @@ class BangwoyaRequestProcessor {
             $user = $em->getRepository('JiliApiBundle:User')->find($partnerid);
             $oldPoint = $user->getPoints();
             $user->setPoints(intval($oldPoint + $vmoney));
-            //$em->persist($user);
-
+            $em->persist($user);
             $em->flush();
+
             $em->getConnection()->commit();
-            $em->clear();
 
             return $order->getId();
 
         } catch (\ Exception $e) {
-            // internal error[todo]
-            echo $e->getMessage();
+            // internal error
             $em->getConnection()->rollback();
+            $em->close();
+
+            // 出错处理
+            $content = "user_id:" . $partnerid . " tid:" . $tid . " vmoney:" . $vmoney . "\r\n" . $e->getMessage();
+            $this->rollbackHandle($configs, $content);
 
             return false;
         }
+    }
+
+    public function rollbackHandle($configs, $content) {
+        //send email
+        $content = $configs['mail_subject'] . "\r\n" . $content;
+        $alertTo = explode(",", $this->getParameter('cron_alertTo_contacts'));
+        $this->container->get('send_mail')->sendMails($configs['mail_subject'], $alertTo, $content);
+
+        //write log
+        $file_name = $configs['bangwoya_api_log'];
+        FileUtil :: writeContents($file_name, $content);
     }
 
     public function setEntityManager(EntityManager $em) {
@@ -106,5 +107,13 @@ class BangwoyaRequestProcessor {
     public function setLogger(LoggerInterface $logger) {
         $this->logger = $logger;
         return $this;
+    }
+
+    public function getParameter($key) {
+        return $this->container->getParameter($key);
+    }
+
+    public function setContainer($c) {
+        $this->container = $c;
     }
 }

@@ -91,7 +91,7 @@ function addClass(type){
                     <a href="{{ path('_advertiserment_list') }}" target="_blank">{{ item.title }}</a>
                   {% elseif item.incentiveType == 18 %}
                     <a href="{{ asset(path('_advertiserment_offer99')) }}" target="_blank">{{ item.title }}</a>
-                  {% elseif item.incentiveType == 22 %}
+                  {% elseif item.incentiveType == bangwoya_com.category_type %}
                     <a href="{{ asset(path('_advertiserment_bangwoya')) }}" target="_blank">{{ item.title }}</a>
                   {% else %}
                     {{ item.title }}

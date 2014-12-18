@@ -17,9 +17,9 @@ parameters:
     offer99_request.validation.class: Jili\ApiBundle\EventListener\Offer99RequestValidation
     offer99_request.processor.class:  Jili\ApiBundle\EventListener\Offer99RequestProcessor
 
-    bangwoya_api_return.logger.class: Jili\ApiBundle\Services\BangwoyaApiLogger
-    bangwoya_request.validation.class: Jili\ApiBundle\Services\BangwoyaRequestValidation
-    bangwoya_request.processor.class:  Jili\ApiBundle\Services\BangwoyaRequestProcessor
+    bangwoya_api_return.logger.class: Jili\ApiBundle\Services\Bangwoya\BangwoyaApiLogger
+    bangwoya_request.validation.class: Jili\ApiBundle\Services\Bangwoya\BangwoyaRequestValidation
+    bangwoya_request.processor.class:  Jili\ApiBundle\Services\Bangwoya\BangwoyaRequestProcessor
 
     rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
 
@@ -167,6 +167,7 @@ services:
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]
+            - [ setContainer, ["@service_container"]]
 
     check_in.listener:
         class: %check_in.listener.class%
