@@ -102,24 +102,17 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
             ->setParameter('finishAt', $filters['finish']);
         }
 
+        if(isset($filters['auditStatus']) ) {
+            $qb->andWhere($qb->expr()->eq('o.auditStatus', ':auditStatus' ))
+                ->setParameter('auditStatus', $filters['auditStatus']);
+        }
+
         $total = $qb->getQuery()->getSingleScalarResult();
         $limit = $page_size; 
         $offset = $page_size * ($page_no - 1); 
-        $qb= $this->createQueryBuilder('o');
         $qb->select('u.email,o')
             ->leftJoin('JiliApiBundle:User', 'u', 'WITH', 'o.userId = u.id')
             ->orderBy('o.createdAt DESC, o.id', 'DESC');
-
-
-        if (isset( $filters['begin']) && isset($filters['finish']) ) {
-            $qb->where($qb->expr()->andX(
-                $qb->expr()->gte('o.createdAt',':beginAt') , 
-                $qb->expr()->lte('o.createdAt',':finishAt') 
-            ) )
-            ->setParameter('beginAt', $filters['begin'])
-            ->setParameter('finishAt', $filters['finish']);
-        }
-        
         $qb->setFirstResult( $offset )
             ->setMaxResults( $limit );
         $rows = $qb->getQuery()->getResult();

@@ -12,7 +12,7 @@
 
 {% include("JiliBackendBundle::session_notification.html.twig") %}
 
-<form action="{{ path('jili_backend_decemberactivity_orderpostatfilter') }}" method="POST">
+<form action="{{ path('jili_backend_decemberactivity_orderfilter') }}" method="POST">
 
 <div>
 {{ form_label(form.beginAt)  }}
@@ -24,6 +24,12 @@
 {{ form_label(form.finishAt)  }}
 {{ form_widget(form.finishAt , {'attr': {'class': 'Wdate', 'onClick': 'WdatePicker()','style':'cursor:pointer' }}) }}
 {{ form_errors(form.finishAt)  }}
+</div>
+
+<div>
+{{ form_label(form.auditStatus)  }}
+{{ form_widget(form.auditStatus) }}
+{{ form_errors(form.auditStatus)  }}
 </div>
 
 {{ form_rest(form) }}
