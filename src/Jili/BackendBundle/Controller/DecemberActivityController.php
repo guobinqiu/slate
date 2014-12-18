@@ -31,7 +31,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
                $data = $form->getData();
                $entity = $this->get('doctrine.orm.entity_manager')
                    ->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder' )
-                   ->find($data['orderId']);
+                   ->findOneByOrderId($data['orderId']);
 
                if($entity) {
                    // redirect to audit id action
@@ -120,9 +120,11 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
         if(! $entity)  {
             $this->get('session')->getFlashBag()->add('error', '没找到审核订单');
             return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_listall'));
-        }
+        } 
+        $user = $em->getRepository('JiliApiBundle:User')
+            ->findOneById($entity->getUserId());
+        $form = $this->createForm( new GameEggsBreakerAuditType(), $entity);
 
-       $form = $this->createForm( new GameEggsBreakerAuditType(), $entity);
         if( 'POST' === $request->getMethod()) {
             $form->bind($request);
             if($form->isValid()  ) {
@@ -137,7 +139,8 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
 
         return $this->render('JiliBackendBundle:GameEggsBreaker/TaobaoOrder:edit.html.twig', array(
             'form'=>$form->createView(),
-            'id'=>$id
+            'id'=>$id,
+            'user'=> $user
         ));
     }
 
