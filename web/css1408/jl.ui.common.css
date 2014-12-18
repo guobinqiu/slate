@@ -102,6 +102,8 @@ strong,b{ font-weight:bold;}
 }
 .tbSearch {
 	float: left;
+	width:573px;
+	height:66px;
 }
 .hpIco {
 	width:46px;
