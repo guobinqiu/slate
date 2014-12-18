@@ -188,7 +188,7 @@ class GameEggsBreaker
             $this->writeSentStat();
             $content = $js->readCached($file);
         } else {
-            $ts = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')->getLastestTimestampeEgged();
+            $ts = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')->getLastestTimestampEgged();
             if( ! is_null($ts) && strtotime($ts) > strtotime($content['ts'])) {
                 $this->writeSentStat();
                 $content = $js->readCached($file);
@@ -203,7 +203,7 @@ class GameEggsBreaker
         $js = new JsonCacheFileHandler();
         // fetch data to write 
         $data = array(
-            'ts' => $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')->getLastestTimestampeEgged(),
+            'ts' => $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')->getLastestTimestampEgged(),
             'eggsInfo' => $this->em->getrepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
             ->findLatestEggedNickList( 10 ));
         $js->writeCache($data, $file);

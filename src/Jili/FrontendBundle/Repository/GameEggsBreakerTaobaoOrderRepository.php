@@ -33,13 +33,6 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
         ));
     }
    
-    /**
-     *    updateOne for audit
-     */
-    public function updateOneOnAudit($params)
-    {
-        $em = $this->getEntityManager();
-    }
 
     /**
      * @param $integer $duration number of day have been pending
@@ -85,21 +78,6 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
         return $eggs_info_by_user;
     }
 
-    /**
-     *    updateOne for audit
-     */
-    public function updateOneOnCron($id)
-    {
-
-    }
-
-    /**
-     * updateOne when breaking an egg
-     */
-    public function updateOneOnBreakEgg($params)
-    {
-        $em = $this->getEntityManager();
-    }
 
     /**
      * TODO: add some filter
@@ -151,7 +129,7 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
     /**
      * for eggs sent out
      */
-    public function getLastestTimestampeEgged()
+    public function getLastestTimestampEgged()
     {
         $qb = $this->createQueryBuilder('o');
         $q = $qb->select($qb->expr()->max('o.updatedAt') )
@@ -161,7 +139,11 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
         return $q->getSingleScalarResult();
     }
 
-    public function findLatestEggedNickList ( $limit = 10 )
+    /**
+     *
+     * @param integer $limit
+     */
+    public function findLatestEggedNickList( $limit = 10 )
     {
 
         $qb = $this->createQueryBuilder('o');
@@ -192,6 +174,8 @@ class GameEggsBreakerTaobaoOrderRepository extends EntityRepository
         $q = $qb->select('sum(o.orderPaid) as totalPaid, o.userId')  
                ->groupBy('o.userId')
                ->having($qb->expr()->in('o.userId', $user_ids))
+               ->where('o.isEgged = :is_egged')
+               ->setParameter('is_egged', GameEggsBreakerTaobaoOrder::IS_EGGED_COMPLETED)
                ->getQuery();
         $result = $q ->getResult();
         $paids = array();
