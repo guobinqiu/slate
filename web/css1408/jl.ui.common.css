@@ -95,9 +95,10 @@ strong,b{ font-weight:bold;}
 	width: 638px;
 }
 .tbTipsWrap{
-	float: right;
-	width: 142px;
-	height: 70px;
+	right: 0px;
+	top: 0px;
+	position: absolute;
+	height: 50px;
 }
 .tbSearch {
 	float: left;
@@ -112,18 +113,18 @@ strong,b{ font-weight:bold;}
 	background: url(../images1408/icons.png) no-repeat 0 -350px;
 }
 .tbTipsIco {
-	width:13px;
-	height:13px;
+	width:22px;
+	height:22px;
 	position: absolute;
-	right: 190px;
+	right: 180px;
 	top: 12px;
-	background: url(../images1408/icons.png) no-repeat 0 -332px;
+	background: url(../images1408/icons.png) no-repeat 0 -400px;
 }
 .tbTipsCon {
 	position: absolute;
 	z-index: 9999999;
-	top: 34px;
-	right: 2px;
+	top: 32px;
+	right: 4px;
 	width: 172px;
 	line-height: 20px;
 	padding: 8px 11px;
