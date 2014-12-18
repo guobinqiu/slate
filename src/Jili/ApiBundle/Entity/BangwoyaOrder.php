@@ -7,9 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * BangwoyaOrder
  *
- * @ORM\Table(name="bangwoya_order")
  * @ORM\Table(name="bangwoya_order", uniqueConstraints={@ORM\UniqueConstraint(name="tid", columns={"tid"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\BangwoyaOrderRepository")
  */
 class BangwoyaOrder
 {

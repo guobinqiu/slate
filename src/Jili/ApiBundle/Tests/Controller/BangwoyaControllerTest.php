@@ -51,7 +51,6 @@ class BangwoyaControllerTest extends WebTestCase {
 
     /**
      * @group issue_578
-     * @group debug
      */
     public function testGetInfoAction() {
         $client = static :: createClient();

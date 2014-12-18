@@ -78,11 +78,6 @@ api-offer99:
     type:     annotation
     prefix:   /
 
-api-bangwoya:
-    resource: "@JiliApiBundle/Controller/BangwoyaController.php"
-    type:     annotation
-    prefix:   /
-
 top:
     resource: "@JiliApiBundle/Controller/TopController.php"
     type:     annotation

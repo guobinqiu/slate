@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBagInterface;
 use Doctrine\ORM\EntityManager;
 
-use Jili\ApiBundle\Entity\BangwoyaOrder;
 use Jili\ApiBundle\Utility\FileUtil;
 
 /**
@@ -37,13 +36,10 @@ class BangwoyaRequestProcessor {
             $em->getConnection()->beginTransaction();
 
             // insert bangwoya order
-            $order = new BangwoyaOrder();
-            $order->setUserid($partnerid);
-            $order->setTid($tid);
-            $order->setCreatedAt(date_create(date('Y-m-d H:i:s')));
-            $order->setDeleteFlag(0);
-            $em->persist($order);
-            $em->flush();
+            $order = $em->getRepository('JiliApiBundle:BangwoyaOrder')->insert(array (
+                'userId' => $partnerid,
+                'tid' => $tid
+            ));
 
             // insert task_history
             $em->getRepository('JiliApiBundle:TaskHistory00')->init(array (
@@ -65,7 +61,7 @@ class BangwoyaRequestProcessor {
                 'type' => $category_type
             ));
 
-            // update user.point更新user表总分数
+            // update user point更新user表总分数
             $user = $em->getRepository('JiliApiBundle:User')->find($partnerid);
             $oldPoint = $user->getPoints();
             $user->setPoints(intval($oldPoint + $vmoney));
@@ -76,7 +72,7 @@ class BangwoyaRequestProcessor {
 
             return $order->getId();
 
-        } catch (\ Exception $e) {
+        } catch (\Exception $e) {
             // internal error
             $em->getConnection()->rollback();
             $em->close();

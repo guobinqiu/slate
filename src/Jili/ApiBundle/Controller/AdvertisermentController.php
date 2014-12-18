@@ -105,11 +105,12 @@ class AdvertisermentController extends Controller
         $id = $request->getSession()->get('uid');
         $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
         if (empty ($visit)) {
-            $gameVisit = new UserAdvertisermentVisit();
-            $gameVisit->setUserId($id);
-            $gameVisit->setVisitDate($day);
-            $em->persist($gameVisit);
-            $em->flush();
+            //insert db
+            $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->insert(array (
+                'userId' => $id,
+                'date' => $day
+            ));
+
             // remove from session cache.
             $taskList = $this->get('session.task_list');
             $taskList->remove(array( 'adv_visit'));
