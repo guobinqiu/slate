@@ -38,7 +38,6 @@ class BangwoyaRequestProcessorTest extends KernelTestCase {
 
     /**
      * @group issue_578
-     * @group debug
      */
     public function testProcess() {
         $em = $this->em;

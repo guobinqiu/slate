@@ -54,7 +54,7 @@ class BangwoyaRequestProcessor {
                 'reward_percent' => 0,
                 'task_name' => $task_name,
                 'point' => $vmoney,
-                'date' => new \ Datetime(),
+                'date' => new \Datetime(),
                 'status' => 1
             ));
 
@@ -92,7 +92,7 @@ class BangwoyaRequestProcessor {
     public function rollbackHandle($configs, $content) {
         //send email
         $content = $configs['mail_subject'] . "\r\n" . $content;
-        $alertTo = explode(",", $this->getParameter('cron_alertTo_contacts'));
+        $alertTo = $configs['alertTo_contacts'];
         $this->container->get('send_mail')->sendMails($configs['mail_subject'], $alertTo, $content);
 
         //write log

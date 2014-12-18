@@ -26,3 +26,4 @@ custom_parameters.yml
 url: "http://demo.bangwoya.com/shortname"
 bangwoya_api_log: "/data/91jili/logs/api/bangwoya_api.log" #
 client_ip: "::1" #121.40.71.200
+alertTo_contacts: zhangmm@voyagegroup.com.cn
