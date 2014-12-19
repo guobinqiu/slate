@@ -65,7 +65,7 @@ class BangwoyaController extends Controller {
         $order_id = $bangwoya_service->process($tid, $partnerid, $vmoney);
 
         //成功
-        $result['status'] = 'success';
+        $result['status'] = 'ok';
         $result['sn'] = $order_id;
 
         //返回状态给对方

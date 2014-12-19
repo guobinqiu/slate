@@ -167,7 +167,7 @@ services:
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]
-            - [ setContainer, ["@service_container"]]
+            - [ setSendMail, ["@send_mail"] ]
 
     check_in.listener:
         class: %check_in.listener.class%

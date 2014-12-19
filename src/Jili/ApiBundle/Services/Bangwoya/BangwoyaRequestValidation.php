@@ -49,8 +49,8 @@ class BangwoyaRequestValidation {
         }
 
         //3.tid重复
-        $o = $this->em->getRepository("JiliApiBundle:BangwoyaOrder")->findOneByTid($tid);
-        if (!is_null($o)) {
+        $order = $this->em->getRepository("JiliApiBundle:BangwoyaOrder")->findOneByTid($tid);
+        if (!is_null($order)) {
             $result['valid_flag'] = false;
             $result['code'] = $configs['validations'][3]['errorno'];
             return $result;

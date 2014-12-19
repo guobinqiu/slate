@@ -16,7 +16,7 @@ class BangwoyaRequestProcessor {
     private $em;
     private $configs;
     private $logger;
-    private $container;
+    private $send_mail;
 
     function __construct($configs) {
         $this->configs = $configs;
@@ -78,7 +78,7 @@ class BangwoyaRequestProcessor {
             $em->close();
 
             // 出错处理
-            $content = "user_id:" . $partnerid . " tid:" . $tid . " vmoney:" . $vmoney . "\r\n" . $e->getMessage();
+            $content = "user_id:" . $partnerid . " tid:" . $tid . " vmoney:" . $vmoney . "<br><br>" . $e->getMessage();
             $this->rollbackHandle($configs, $content);
 
             return false;
@@ -87,9 +87,9 @@ class BangwoyaRequestProcessor {
 
     public function rollbackHandle($configs, $content) {
         //send email
-        $content = $configs['mail_subject'] . "\r\n" . $content;
+        $content = $configs['mail_subject'] . "<br><br>" . $content;
         $alertTo = $configs['alertTo_contacts'];
-        $this->container->get('send_mail')->sendMails($configs['mail_subject'], $alertTo, $content);
+        $this->send_mail->sendMails($configs['mail_subject'], $alertTo, $content);
 
         //write log
         $file_name = $configs['bangwoya_api_log'];
@@ -109,7 +109,8 @@ class BangwoyaRequestProcessor {
         return $this->container->getParameter($key);
     }
 
-    public function setContainer($c) {
-        $this->container = $c;
+    public function setSendMail($send_mail)
+    {
+        $this->send_mail = $send_mail;
     }
 }

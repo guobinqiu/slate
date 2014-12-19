@@ -18,7 +18,7 @@ parameters:
         category_type: 22
         task_type: 5
         upper_limit: 5000
-        client_ip: "127.0.0.1" #121.40.71.200
+        client_ip: "127.0.0.1" #正式121.40.71.200，测试：121.40.71.200 本机127.0.0.1,::1
         mail_subject: "积粒网-bangwoya体验广告接口数据处理失败"
         bangwoya_api_log: "/data/91jili/logs/api/bangwoya_api.log"
         alertTo_contacts: zhangmm@voyagegroup.com.cn

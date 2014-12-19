@@ -85,4 +85,19 @@ class BangwoyaRequestProcessorTest extends KernelTestCase {
         $rollbackPoint = $user->getPoints();
         $this->assertEquals(0, $rollbackPoint - $newPoint);
     }
+
+    /**
+     * @group issue_578
+     */
+    public function testRollbackHandle() {
+        $container = $this->container;
+        $config = $container->getParameter('bangwoya_com');
+
+        // get service
+        $bangwoya_service = $container->get('bangwoya_request.processor');
+        $content = "rollbackHandle";
+        $bangwoya_service->rollbackHandle($config, $content);
+        $file_name = $config['bangwoya_api_log'];
+        $this->assertContains($content,file_get_contents($file_name));
+    }
 }

@@ -87,6 +87,6 @@ class BangwoyaControllerTest extends WebTestCase {
         );
         $crawler = $client->request('GET', '/api/bangwoya/getInfo?' . http_build_query($params));
         $return = $client->getResponse()->getContent();
-        $this->assertEquals('{"partnerid":"'.$partnerid.'","vmoney":"100","tid":"123456","status":"success","sn":1}', $return);
+        $this->assertEquals('{"partnerid":"'.$partnerid.'","vmoney":"100","tid":"123456","status":"ok","sn":1}', $return);
     }
 }
