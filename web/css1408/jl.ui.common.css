@@ -76,7 +76,7 @@ strong,b{ font-weight:bold;}
 }
 .headerConWrapper{
 	background-color:#fff;
-	height:115px;
+	height:135px;
 	border-bottom: 1px #eaeae8 solid;
 	box-shadow: 1px 1px 1px rgb(234, 234, 232);
 }
@@ -86,42 +86,66 @@ strong,b{ font-weight:bold;}
 }
 .headerConUp{
 	height: 45px;
-	padding: 15px 0;
+	padding: 17px 0 35px;
 }
+/*topSearch*/
 .search{
 	position: relative;
-	z-index: 1;
-	width: 521px;
-	padding: 10px 0;
+	z-index: 2;
+	width: 638px;
 }
-.search input{
-	width: 420px;
-	height: 22px;
-	line-height: 22px;
-	padding: 5px 10px;
-	border: 3px solid #eaeae8;
-	color: #999;
+.tbTipsWrap{
+	right: 0px;
+	top: 0px;
+	position: absolute;
+	height: 50px;
 }
-.search .searchBtn, .search .helpBtn{
-	position: absolute; 
-	z-index: 20;
-	top: 10px;
-	width: 38px;
-	height: 38px;
-	background-color: #eb411f;
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
+.tbSearch {
+	float: left;
+	width:573px;
+	height:66px;
 }
-.search .searchBtn{
-	left: 443px;
-	cursor: pointer;
+.hpIco {
+	width:46px;
+	height:36px;
+	float: right;
+	margin-top: 2px;
+	background: url(../images1408/icons.png) no-repeat 0 -350px;
 }
-.search .helpBtn{
-	left: 482px;
+.tbTipsIco {
+	width:22px;
+	height:22px;
+	position: absolute;
+	right: 180px;
+	top: 12px;
+	background: url(../images1408/icons.png) no-repeat 0 -400px;
 }
-span.searchBtn:hover, a.helpBtn:hover{
-    background-color: #d43a1b;
+.tbTipsCon {
+	position: absolute;
+	z-index: 9999999;
+	top: 32px;
+	right: 4px;
+	width: 172px;
+	line-height: 20px;
+	padding: 8px 11px;
+	font-size: 12px;
+	-moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);/*firefox*/
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);/*webkit*/
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);/*opera或ie9*/
+	background-color: #fffae3;
+	color: #333;
+	display: none;
+}
+.tbTipsCon em {
+	width: 9px;
+	height: 10px;
+	position: absolute;
+	top: -9px;
+	left: -1px;
+	background: url(../images1408/icons.png) no-repeat 0 -383px;
+}
+.tbTipsCon a {
+	color: #f75232;
 }
 .mainNavs{
 	padding-left: 220px;
@@ -132,8 +156,9 @@ span.searchBtn:hover, a.helpBtn:hover{
 	line-height:40px;
 	padding: 0 19px;
 }
+.mainNavs li:first-child{ width:30px;}
 .mainNavs li.active a{
-	color:#c84126;
+	color:#dd3d1d;
 }
 .mainNavs a{
 	color: #000;
@@ -141,7 +166,7 @@ span.searchBtn:hover, a.helpBtn:hover{
 	font-weight: bold;
 }
 .mainNavs a:hover{
-	color: #c84126;
+	color: #dd3d1d;
     text-decoration: none;
 }
 .mainNavs li a.navTB{
@@ -161,10 +186,10 @@ span.searchBtn:hover, a.helpBtn:hover{
 	position: absolute;
 	z-index:1000;
 	left: 0;
-	top: 75px;
+	top: 95px;
 	width: 190px;
 	color: #fff;
-	background-color: #f75232;
+	background-color: #ff4621;
 }
 .dailyQuest a{
 	color: #fff;
@@ -176,7 +201,7 @@ span.searchBtn:hover, a.helpBtn:hover{
 	height: 40px;
 	line-height: 40px;
 	padding-left:20px;
-	background-color: #eb411f;
+	background-color: #dd3d1d;
 	cursor:pointer;
 }
 .dailyQuest span, .dailyQuest em{
@@ -202,7 +227,7 @@ span.expandIcon{
 }
 .dailyQuest li.done{ background:#f86447; border-bottom:1px solid #f9765a;}
 .dailyQuest li:hover, .dailyQuest li.active{
-	background-color: #d43a1b;
+	background-color: #dd3d1d;
 	cursor:pointer;
 }
 .dailyQuest em{
