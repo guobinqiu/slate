@@ -8,7 +8,7 @@ qq用户注册时产生的多个重复数据的删除
  需要清掉每个用户 提交的重复数据
 
 调试时
-php __FILE__   -u user -p MyNewPassword -hlocalhost -d jili_0904 2>/tmp/r.err
+php __FILE__   -u user -p MyNewPassword -hlocalhost -d jili_db 2>/tmp/r.err
 
 正式执行时
 修改db 帐号
@@ -74,21 +74,12 @@ try {
             if($rows[0]['user_id']==$rows[1]['user_id']){
                 echo "+++++".$rows[0]['id'].",".$rows[0]['uid'].",".$rows[0]['points']."\n";
                 unset($rows[0]);
-                /*foreach($rows as $key=>$row){
-                    echo "-----".$row['id'].",".$row['uid'].",".$row['points']."\n";
-                }
-                echo "**********"."\n";*/
-    
                 delete_data($dbh,$rows, false);
                 
             } else {
                 //其他情况下，最后条留下
                 echo "+++++".$rows[count($rows)-1]['id'].",".$rows[count($rows)-1]['uid'].",".$rows[count($rows)-1]['points']."\n";
                 unset($rows[count($rows)-1]);
-                /*foreach($rows as $key=>$row){
-                    echo "-----".$row['id'].",".$row['uid'].",".$row['points']."\n";
-                }
-                echo "**********"."\n";*/
                 delete_data($dbh,$rows);
             }
             
@@ -96,10 +87,6 @@ try {
             // points有一个比较大，后面都比较小的情况下（一般为1）
             echo "+++++".$rows[0]['id'].",".$rows[0]['uid'].",".$rows[0]['points']."\n";
             unset($rows[0]);
-                /*foreach($rows as $key=>$row){
-                    echo "-----".$row['id'].",".$row['uid'].",".$row['points']."\n";
-                }
-                echo "**********"."\n";*/
             delete_data($dbh,$rows);
         }
         
@@ -126,10 +113,12 @@ function delete_data($dbh,$rows, $both=true) {
         
     foreach ($rows as $row){
         try{
+            echo "-----".$row['id'].",".$row['uid'].",".$row['points']."\n";
             $dbh->beginTransaction();
             $dbh->exec(  'delete from qq_user where id  = ' . $row['id'] . ' limit 1' );
             if($both){
-                $dbh->exec(   'delete from user where id  = ' . $row['uid'] . ' limit 1' );
+                //$dbh->exec(   'delete from user where id  = ' . $row['uid'] . ' limit 1' );
+                $dbh->exec(   'update user set delete_flag=1 where id  = ' . $row['uid'] . ' limit 1' );
             }
             $dbh->commit();
         } catch (Exception $ex) {
