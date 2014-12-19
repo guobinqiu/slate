@@ -20,7 +20,7 @@ parameters:
         upper_limit: 5000
         client_ip: "127.0.0.1" #121.40.71.200
         mail_subject: "积粒网-bangwoya体验广告接口数据处理失败"
-        bangwoya_api_log: "D:/xampp/htdocs/PointMedia/app/logs/api/bangwoya_api.log"
+        bangwoya_api_log: "/data/91jili/logs/api/bangwoya_api.log"
         alertTo_contacts: zhangmm@voyagegroup.com.cn
         validations:
             1: { errorno: "1001", message: "缺少参数(检查参数是否传递,nonceStr是否为32位)"}
