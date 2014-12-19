@@ -125,9 +125,11 @@ $(document).ready(function(){
         <div class="headerCon w1000">
             <div class="headerConUp clearfix">
                 <a href="{{ path('_homepage') }}" title="91积粒logo" class="logo fnLeft"><img src="{{ asset('images1408/logo.png') }}" width="160" height="46" alt="91积粒logo" title="91积粒logo"/></a>
-                {% block search_box %}
-                {{ render(controller('JiliEmarBundle:Search:form', {'rt' : 1 } )) }}{# 商城检索 #}
-                {% endblock %}
+                {% if app.request.attributes.get('_route') == '_homepage' %}
+                    {% block search_box %}
+                    	{{ render(controller('JiliEmarBundle:Search:form', {'rt' : 1 } )) }}{# 商城检索 #}
+                    {% endblock %}
+				{% endif %}
             </div>
             <ul class="mainNavs clearfix">
                 {% set router_current = app.request.attributes.get('_route') %}
@@ -150,4 +152,5 @@ $(document).ready(function(){
     	{{ render(controller('JiliApiBundle:Top:checkIn' , {auto_checkin: app.request.get('auto_checkin',0)}) ) }}{# 签到 #}
 	{% endif %}
     <!--end checkin div-->
- {% include "JiliFrontendBundle::alimama.html.twig" with { pid:"mm_49376465_4372428_28778243" } %}
+    
+
