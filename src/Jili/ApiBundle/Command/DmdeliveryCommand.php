@@ -109,7 +109,14 @@ class DmdeliveryCommand extends ContainerAwareCommand
                                         );
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
                         //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
-                        if($send->status != "ERROR"){
+                        $sendflag = true;
+                        if($send->status == "ERROR"){
+                            if (!strpos($send->errors->recipient[0]->DMDmessage,"排除列表")){
+                                $sendflag = false;
+                            }
+                        } 
+
+                        if ($sendflag){
                             try{
                                 $em->getConnection()->beginTransaction();
                                 $this->insertSendPointFail($em, $value['id'],$failTime);
@@ -174,7 +181,14 @@ class DmdeliveryCommand extends ContainerAwareCommand
                                         );
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
                         //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
-                        if($send->status != "ERROR"){
+                        $sendflag = true;
+                        if($send->status == "ERROR"){
+                            if (!strpos($send->errors->recipient[0]->DMDmessage,"排除列表")){
+                                $sendflag = false;
+                            }
+                        } 
+
+                        if ($sendflag){
                             try{
                                 $em->getConnection()->beginTransaction();
                                 $this->insertSendPointFail($em, $value['id'],$failTime);
