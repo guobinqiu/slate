@@ -4,15 +4,18 @@
     <form action="{{ path('jili_emar_search_form' , app.request.query.all ) }}" method="POST" id="search_box">
 {% endif %}
 
-<div class="search fnRight">
-    
-    {{ form_widget( search_form.q , {'attr': { 'type': 'text', 'placeholder': "请输入您要搜索的商家名称", 'onkeydown': "javascript:if(event.keyCode==13) search('key');", 'autocomplete':"off", 'id':"key", 'accesskey':"s", 'class':"text"  }} )  }}
-
-    {{ form_widget( search_form.rt ) }}
-    <span class="searchBtn"><img clstag="homepage|keycount|home2013|03a"  src="{{ asset('images1408/search.png') }}" width="38" height="38" alt="搜索" title="搜索" onclick="search();return false;"/></span>
-    {{ form_rest(search_form)  }}
-    <a href="{{ path('_default_support') }}" class="helpBtn"><img src="{{ asset('images1408/help.png') }}" width="38" height="38" alt="帮助" title="帮助"/></a>
-</div>
+    <div class="search fnRight">
+        <div class="tbSearch"><a data-type="6" data-tmpl="573x66" data-tmplid="140" data-style="2" data-border="0" biz-s_logo="1" biz-s_hot="1" href="#"></a>
+            <div class="tbTipsWrap">
+                <a class="tbTipsIco"></a>
+                <div class="tbTipsCon">
+                    <em></em>通过这里去淘宝购物最高可获得<a>8888</a>米粒（参加<a style="text-decoration:underline;" href="http://www.91jili.com/activity/december/?l=7" target="_blank">抢金蛋活动</a>，但没有返利）
+                </div>
+            </div>
+        </div>
+        <a href="{{ path('_default_support') }}" class="hpIco" title="帮助中心"></a>
+    </div>
+    {% include "JiliFrontendBundle::alimama.html.twig" with { pid:"mm_49376465_4372428_28778243" } %}
 </form> 
 <script type="text/javascript">
 var search_form_rt_config = search_form_rt_config || {};
@@ -22,4 +25,13 @@ var search = function() {
      $('#search_box').submit();
      return false;
 };
+//taobaoTips
+var tbTipsCon = $(".tbTipsCon");
+$(".tbTipsWrap").hover(function(){
+		tbTipsCon.show();
+	}, function(){
+		tbTipsCon.hide();
+});
 </script>
+
+

@@ -12,6 +12,7 @@
 <link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+<script src="//cdn.optimizely.com/js/2322420073.js"></script>
 </head>
 <body>
 {% include 'JiliApiBundle::userHead.html.twig' %}
@@ -19,7 +20,7 @@
   <article>
     <div class="regForm" style="padding-top:100px;">
     <h2><img src="{{ asset('images/quickLogin.gif')}}" alt="快速注册"><span>通过邮箱注册，快速加入积粒网，轻轻松松拿米粒、换现金！</span></h2>
-    <ul class="form"> 
+    <ul class="form">
     <form action="{{ path('_user_reg') }}" method="post" name="form1" id="form1" >
     	<li><dd>邮件地址：</dd><dt><input name="email" type="text" class="text" id="email" value="{{ email }}"><br />
     	    <span id="emailError">
@@ -48,7 +49,7 @@
         <br />
         <span id="captchaError">
     	    {% if code_cha %}<font color='red'>{{ code_cha }}</font>
-    	    {% endif %} 
+    	    {% endif %}
         </span>
         </dt>
          </li>

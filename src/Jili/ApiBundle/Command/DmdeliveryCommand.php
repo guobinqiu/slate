@@ -109,14 +109,21 @@ class DmdeliveryCommand extends ContainerAwareCommand
                                         );
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
                         //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
-                        if($send->status != "ERROR"){
+                        $sendflag = true;
+                        if($send->status == "ERROR"){
+                            if ( strpos($send->errors->recipient[0]->DMDmessage,"排除列表") === false ) {
+                                $sendflag = false;
+                            }
+                        } 
+
+                        if ($sendflag){
                             try{
                                 $em->getConnection()->beginTransaction();
                                 $this->insertSendPointFail($em, $value['id'],$failTime);
                                 if($failTime == 180){
                                     $this->updatePointZero($em, $value['id']);
                                 }
-                                echo 'key :'.$key. ',userid:'.$value['id']."-> Send email successfully  \n";
+                                echo 'key :'.$key. ',userid:'.$value['id']."-> update successfully  \n";
                                 $em->getConnection()->commit();
                             } catch (Exception $ex) {
                                 $em->getConnection()->rollback();
@@ -127,6 +134,9 @@ class DmdeliveryCommand extends ContainerAwareCommand
                         } else {
                             $send_fail_email_count++;
                             echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email:'.$send->statusMsg." \n";
+                            if(isset($send->errors->recipient[0]->DMDmessage)){
+                                echo 'errorDMDmessage =>'.$send->errors->recipient[0]->DMDmessage." \n";
+                            }
                         }
                     }
                 }
@@ -136,7 +146,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
                 } else {
                     $content = $this->setALertEmailBody('pointFailure','Send finish!!!',true);
-                    echo 'Send finish!!!'."\n";
+                    echo ' Finished and Successed !!!'."\n";
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
                 }
             }else{
@@ -172,16 +182,23 @@ class DmdeliveryCommand extends ContainerAwareCommand
                                                          )
                                                  )
                                         );
+                        echo $value['email'];
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
                         //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
-                        if($send->status != "ERROR"){
+                        $sendflag = true;
+                        if($send->status == "ERROR"){
+                            if ( strpos($send->errors->recipient[0]->DMDmessage,"排除列表") === false ) {
+                                $sendflag = false;
+                            }
+                        } 
+                        if ($sendflag){
                             try{
                                 $em->getConnection()->beginTransaction();
                                 $this->insertSendPointFail($em, $value['id'],$failTime);
                                 if($failTime == 180){
                                     $this->updatePointZero($em, $value['id']);
                                 }
-                                echo 'key :'.$key. ',userid:'.$value['id']."-> Send email successfully  \n";
+                                echo 'key :'.$key. ',userid:'.$value['id']."-> update successfully  \n";
                                 $em->getConnection()->commit();
                             } catch (Exception $ex) {
                                 $em->getConnection()->rollback();
@@ -192,18 +209,24 @@ class DmdeliveryCommand extends ContainerAwareCommand
                         } else {
                             $send_fail_email_count++;
                             echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email:'.$send->statusMsg." \n";
+                            if(isset($send->errors->recipient[0]->DMDmessage)){
+                                echo 'errorDMDmessage =>'.$send->errors->recipient[0]->DMDmessage." \n";
+                            }
                         }
                     }
                 }
                 if ($send_fail_email_count > 0){
                     $content = $this->setALertEmailBody('pointFailure','Cannot send email，count = '.$send_fail_email_count);
+                    echo 'Cannot send email，count = '.$send_fail_email_count."\n";
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
                 } else {
                     $content = $this->setALertEmailBody('pointFailure','Send finish!!!',true);
+                    echo ' Finished and Successed !!!'."\n";
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
                 }
             }else{
                 $content = $this->setALertEmailBody('pointFailure','Cannot add group:'.$group->statusMsg);
+                echo 'Cannot add group:'.$group->statusMsg."\n";
                 $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
             }
         }else{

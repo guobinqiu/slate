@@ -12,7 +12,7 @@ parameters:
     offer99_com.task_type: 5
 
     bangwoya_com:
-        url: "http://demo.bangwoya.com/91jili"
+        url: "http://demo.bangwoya.com/91jili"  #正式机 :http://www.bangwoya.com/91jili
         key: "91jili2bangwoya"
         name: "体验广告"
         category_type: 22
@@ -21,7 +21,7 @@ parameters:
         client_ip: "127.0.0.1" #正式121.40.71.200，测试：121.40.71.200 本机127.0.0.1,::1
         mail_subject: "积粒网-bangwoya体验广告接口数据处理失败"
         bangwoya_api_log: "/data/91jili/logs/api/bangwoya_api.log"
-        alertTo_contacts: zhangmm@voyagegroup.com.cn
+        alertTo_contacts: vctech-system-emergency@voyagegroup.com
         validations:
             1: { errorno: "1001", message: "缺少参数(检查参数是否传递,nonceStr是否为32位)"}
             2: { errorno: "1002", message: "密码验证不通过" }
