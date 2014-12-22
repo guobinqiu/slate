@@ -575,7 +575,7 @@ div.notice{
 .activityAd .btns .closeBtn, .activityAd .btns .goBtn, .decActivityGif{ display: inline-block;*display: inline;*zoom: 1;cursor: pointer;}
 .activityAd .btns .closeBtn{ width: 114px; height: 64px; background: url(../images/december/decActivityClose.png) no-repeat; margin-left: 20px;}
 .activityAd .btns .goBtn{ width: 149px; height: 64px; background: url(../images/december/decActivityBtn.png) no-repeat;}
-.decActivityGif{ position: absolute; z-index: 1000; right: 0; bottom: 5px; width: 99px; height: 41px; background: url(../images/december/floating.gif) no-repeat;}
+.decActivityGif{ position: absolute; z-index: 1; right: 0; bottom: 5px; width: 99px; height: 41px; background: url(../images/december/floating.gif) no-repeat;}
 
 
 
