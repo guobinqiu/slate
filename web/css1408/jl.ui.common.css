@@ -104,6 +104,7 @@ strong,b{ font-weight:bold;}
 	float: left;
 	width:573px;
 	height:66px;
+	background: url(../images1408/loadingsc.gif) no-repeat 220px 20px;
 }
 .hpIco {
 	width:46px;
