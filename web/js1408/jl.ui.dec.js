@@ -231,7 +231,7 @@ $(function(){
         noEgg: '.luckyDrawL .noStart',
         eggNum: '.luckyDrawL .eggNum',
         eggMoney: '.luckyDrawL .eggMoney',
-        debug: false
+        debug: true
     });
 });
 (function($){
@@ -308,23 +308,23 @@ $(function(){
         },
         getResult: function(initData, eggType){
             var $this = this;
-            /*$.ajax({
-             url: Routing.generate('jili_frontend_decemberactivity_breakegg'),
-             type: 'post',
-             dataType: 'json',
-             data: "token=" + initData.token + "&eggType=" + eggType,
-             success: function(resultData){
-             //var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
-             $this.debug('砸蛋结果……', resultData);
-             $this.showResult(resultData);
-             },
-             error: function(){
-             $this.debug('第二次请求结果失败……');
-             }
-             });*/
-            var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
+            $.ajax({
+				 url: Routing.generate('jili_frontend_decemberactivity_breakegg'),
+				 type: 'post',
+				 dataType: 'json',
+				 data: "token=" + initData.token + "&eggType=" + eggType,
+				 success: function(resultData){
+					 //var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
+					 $this.debug('砸蛋结果……', resultData);
+					 $this.showResult(resultData);
+				 },
+				 error: function(){
+				 $this.debug('第二次请求结果失败……');
+				 }
+             });
+            /*var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
             $this.debug('砸蛋结果……', resultData);
-            $this.showResult(resultData);
+            $this.showResult(resultData);*/
         },
         showResult: function(resultData){
             this.debug('展示砸蛋结果……');
@@ -354,7 +354,7 @@ $(function(){
             });
         },
         openStart: function(initData){
-            if(false){
+            if(true){
                 this.openEgg(initData);
             }else{
                 $(this.options.container).on('click', function(){

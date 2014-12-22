@@ -24,11 +24,9 @@ class GameEggsBreakerEggsInfoRepoisitoryTest extends KernelTestCase
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
-//        $tn = $this->getName();
-
-
         $this->em = $em;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -41,11 +39,21 @@ class GameEggsBreakerEggsInfoRepoisitoryTest extends KernelTestCase
     /**
      * @group issue_537 
      */
-    public function testInsertUserPost() 
+    public function testFindOneOrCreateByUserId() 
     {
-        $entity = $this->em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
+        $em = $this->em ;
+        $before = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
+            ->findOneByUserId(1);
+        $this->assertNull($before);
+        $entity = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
             ->findOneOrCreateByUserId(1);
-
-        $this->assertEquals(1,1);
+        $after = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
+            ->findOneByUserId(1);
+        $this->assertNotNull($after);
+        $this->assertInstanceOf('\Jili\FrontendBundle\Entity\GameEggsBreakerEggsInfo', $after);
+        $again =  $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
+            ->findOneOrCreateByUserId(1);
+        $this->assertEquals(serialize($after), serialize($again));
     }
+
 }

@@ -171,6 +171,15 @@ class GameEggsBreakerTaobaoOrder
         );
     }
 
+    static public function getAuditStatusChoices()
+    {
+        return array(
+            self::AUDIT_STATUS_INIT=> '未审',
+            self::AUDIT_STATUS_PENDING => '已验',
+            self::AUDIT_STATUS_COMPLETED=>'结束',
+        );
+    }
+
     public function isAuditCompleted()
     {
         return ( self::AUDIT_STATUS_COMPLETED === $this->getAuditStatus()) ? true : false;
