@@ -231,7 +231,7 @@ $(function(){
         noEgg: '.luckyDrawL .noStart',
         eggNum: '.luckyDrawL .eggNum',
         eggMoney: '.luckyDrawL .eggMoney',
-        debug: true
+        debug: false
     });
 });
 (function($){
@@ -308,7 +308,7 @@ $(function(){
         },
         getResult: function(initData, eggType){
             var $this = this;
-            $.ajax({
+            /*$.ajax({
 				 url: Routing.generate('jili_frontend_decemberactivity_breakegg'),
 				 type: 'post',
 				 dataType: 'json',
@@ -316,15 +316,16 @@ $(function(){
 				 success: function(resultData){
 					 //var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
 					 $this.debug('砸蛋结果……', resultData);
+					 if(!$.isEmptyObject(eggData)&&eggData.data === undefined) return false;
 					 $this.showResult(resultData);
 				 },
 				 error: function(){
 				 $this.debug('第二次请求结果失败……');
 				 }
-             });
-            /*var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
+             });*/
+            var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
             $this.debug('砸蛋结果……', resultData);
-            $this.showResult(resultData);*/
+            $this.showResult(resultData);
         },
         showResult: function(resultData){
             this.debug('展示砸蛋结果……');
@@ -354,7 +355,7 @@ $(function(){
             });
         },
         openStart: function(initData){
-            if(true){
+            if(false){
                 this.openEgg(initData);
             }else{
                 $(this.options.container).on('click', function(){
