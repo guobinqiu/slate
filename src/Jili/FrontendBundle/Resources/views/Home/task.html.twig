@@ -1,13 +1,14 @@
 <h3>每日任务列表<span class="expandIcon"></span></h3>
    <!-- {% set router_current = app.request.attributes.get('_route') %}-->
 <ul class="dailyList" style="display:none;">
+    <li class="shopping"><em class="shoppingIcon"></em><span><a href="{{ path('jili_frontend_taobao_index') }}" title="淘宝购物">淘宝购物</a></span>{% if app.session.has('uid') %}<span class="mark"></span>{% endif %}</li>
     <li><em class="signIcon"></em><span><a {% if app.session.has('uid') %} href="javascript:void(0)" {% else %} href="{{ path('_user_login') }}" {% endif %} id="sign"  onclick="signs();" title="每日签到">每日签到</a><p>{{ task.checkinPoint }}米粒</p></span>{% if app.session.has('uid') %}{% if task.checkin is defined and task.checkin == 1 %}<span id="task_checkin_mark" class="mark"></span>{% else %}<span class="hasMark"></span>{% endif %}{% endif %}</li>
-    <li><em class="taskHallIcon"></em><span>
-    <a href="{{ path('_advertiserment_list') }}" title="任务大厅一">任务大厅一</a><br/>
-    <a href="{{ path('_advertiserment_offer99') }}" title="任务大厅二">任务大厅二</a><br/>
-    <a href="{{ path('_advertiserment_bangwoya') }}" title="任务大厅三">任务大厅三</a>
+    <li class="taskHall" style="padding-top: 3px; height: 50px;"><em class="taskHallIcon"></em><span class="taskHallTxt">
+    任务大厅<br/>
+    <a class="taskHallItem" href="{{ path('_advertiserment_list') }}" title="任务大厅一"><em>1</em></a>
+    <a class="taskHallItem" href="{{ path('_advertiserment_offer99') }}" title="任务大厅二"><em>2</em></a>
+    <a class="taskHallItem" href="{{ path('_advertiserment_bangwoya') }}" title="任务大厅三"><em>3</em></a>
     </span>{% if app.session.has('uid') %}{% if task.ad is defined and task.ad ==1 %}<span class="mark"></span>{% else %}<span class="hasMark"></span>{% endif %}{% endif %}</li>
-    <li class="shopping"><em class="shoppingIcon"></em><span><a href="{{ path('_marketActivity_index')}}" title="商家活动">商家活动</a></span>{% if app.session.has('uid') %}<span class="mark"></span>{% endif %}</li>
     <li><em class="quickQIcon"></em><span><a id="wen_vote" href="{{wenwen_vote_url}}" title="91问问快速问答" target="_blank">91问问快速问答</a><p>每日1米粒</p></span>{% if app.session.has('uid') %}{% if task.wen is defined and task.wen == 1 %}<span id="task_wen_mark" class="mark"></span>{% else %}<span class="hasMark"></span>{% endif %}{% endif %}</li>
     <li><em class="chickenIcon"></em><span><a href="{{ path('_game_chick') }}" title="小鸡找米">小鸡找米</a><p>最高5888米粒</p></span>{% if app.session.has('uid') %}{% if task.game is defined and task.game == 1 %}<span class="mark"></span>{% else %}<span class="hasMark"></span>{% endif %}{% endif %}</li>
 </ul>
