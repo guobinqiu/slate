@@ -105,11 +105,12 @@ class AdvertisermentController extends Controller
         $id = $request->getSession()->get('uid');
         $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
         if (empty ($visit)) {
-            $gameVisit = new UserAdvertisermentVisit();
-            $gameVisit->setUserId($id);
-            $gameVisit->setVisitDate($day);
-            $em->persist($gameVisit);
-            $em->flush();
+            //insert db
+            $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->insert(array (
+                'userId' => $id,
+                'date' => $day
+            ));
+
             // remove from session cache.
             $taskList = $this->get('session.task_list');
             $taskList->remove(array( 'adv_visit'));
@@ -149,6 +150,37 @@ class AdvertisermentController extends Controller
         return $this->render('JiliApiBundle:Advertiserment:offer99.html.twig');
     }
 
+    /**
+     * @Route("/bangwoya", name="_advertiserment_bangwoya", requirements={"_scheme"="http"})
+     */
+    public function bangwoyaAction()
+    {
+        if(!  $this->get('request')->getSession()->get('uid') ) {
+            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('_advertiserment_bangwoya') );
+            return  $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        //UserAdvertisermentVisit
+        $day = date('Ymd');
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->getSession()->get('uid');
+        $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
+        if (empty ($visit)) {
+            $gameVisit = new UserAdvertisermentVisit();
+            $gameVisit->setUserId($id);
+            $gameVisit->setVisitDate($day);
+            $em->persist($gameVisit);
+            $em->flush();
+
+            // remove from session cache.
+            $taskList = $this->get('session.task_list');
+            $taskList->remove(array( 'adv_visit'));
+        }
+
+        return $this->render('JiliApiBundle:Advertiserment:bangwoya.html.twig');
+    }
+
 
     /**
      * 签到,记录商家access log
@@ -163,6 +195,7 @@ class AdvertisermentController extends Controller
             $id = $request->query->get('id');
             $em = $this->getDoctrine()->getManager();
             $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
+
             $service_params = array( 'advertiserment'=> $advertiserment , 'request'=> $request );
             $accessHistory = $this->get('cps_access_history.logger')->log($service_params) ;
             if($advertiserment->getIncentiveType() ==1 ) {

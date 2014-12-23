@@ -1536,7 +1536,6 @@ class AdminController extends Controller implements IpAuthenticatedController
             return true;
 
         } catch (\ Exception $e) {
-            $em->close();
             $db_connection->rollback();
             return false;
         }

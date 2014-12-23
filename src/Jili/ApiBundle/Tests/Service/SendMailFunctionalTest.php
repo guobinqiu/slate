@@ -2,8 +2,8 @@
 namespace Jili\ApiBundle\Tests\Service;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class SendMailFunctionalTest extends WebTestCase
-{
+class SendMailFunctionalTest extends WebTestCase {
+
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -12,8 +12,7 @@ class SendMailFunctionalTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
-    {
+    public function setUp() {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
@@ -23,14 +22,12 @@ class SendMailFunctionalTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
-    {
+    protected function tearDown() {
         parent :: tearDown();
         $this->em->close();
     }
 
-    public function testsendMailForRegisterFromWenwen()
-    {
+    public function testsendMailForRegisterFromWenwen() {
         $client = static :: createClient();
         $container = $client->getContainer();
         $send_mail = $container->get('send_mail');
@@ -38,6 +35,19 @@ class SendMailFunctionalTest extends WebTestCase
         $email = 'zhangmm@voyagegroup.com.cn';
         $url = 'https://localhost/PointMedia/web/app_dev.php/user/setPassFromWenwen/11fe83aa9baac88ce489967a6d0cf0bb/1057703';
         $result = $send_mail->sendMailForRegisterFromWenwen($email, $url);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @group issue_578
+     */
+    public function testSendMails() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $send_mail = $container->get('send_mail');
+
+        $email = 'zhangmm@voyagegroup.com.cn';
+        $result = $send_mail->sendMails('mail_subject', $email, "cont");
         $this->assertTrue($result);
     }
 }

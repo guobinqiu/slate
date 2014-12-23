@@ -22,6 +22,20 @@ fix-perms:
 	sudo chgrp -R apache app/logs_data 
 	sudo chmod -R g+w  app/logs_data
 
+fix-777:
+	sudo chgrp -R apache app/cache
+	sudo chgrp -R apache app/cache_data
+	sudo chgrp -R apache app/logs
+	sudo chgrp -R apache web/images/actionPic
+	sudo chmod -R 777  app/cache
+	sudo chmod -R 777  app/cache_data
+	sudo chmod -R 777  app/logs
+	sudo chmod -R 777   web/images/actionPic 
+	sudo chgrp -R apache app/sessions 
+	sudo chmod -R 777  app/sessions
+	sudo chgrp -R apache app/logs_data 
+	sudo chmod -R 777  app/logs_data
+
 deploy: deploy-js-routing
 	@echo done
 
