@@ -69,7 +69,6 @@ class PointManageProcessor {
         } catch (\Exception $e) {
             echo $e->getMessage();
             $db_connection->rollback();
-            $em->close();
 
             fwrite($log_handle, $e->getMessage() . "\n");
             $arr['code'][] = "rollback.导入失败，请查明原因再操作";
