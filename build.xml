@@ -7,7 +7,7 @@
     <!-- <property name="toolsdir" value="${basedir}/vendor/bin/"/> -->
 
     <target name="build"
-        depends="prepare,copy-parameters,bower,composer,lint,phploc-ci,pdepend,phpmd-ci,phpcs-ci,phpcpd-ci,phpunit,phpdox"
+        depends="prepare,copy-parameters,composer,lint,phploc-ci,pdepend,phpmd-ci,phpcs-ci,phpcpd-ci,phpunit,phpdox"
         description=""/>
 
     <target name="build-parallel"
@@ -192,11 +192,12 @@
             <env key="SYMFONY_ENV" value="test"/>
         </exec>
     </target>
-
+    <!--
     <target name="bower" description="Installing bower dependencies">
         <exec executable="bower" failonerror="true">
             <arg value="install" />
         </exec>
     </target>
+    -->
 </project>
 
