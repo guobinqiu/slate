@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * QQUser
  *
- * @ORM\Table(name="qq_user")
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\QQUserRepository")
+ * @ORM\Table(name="taobao_user")
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\TaoBaoUserRepository")
  */
 class TaoBaoUser
 {

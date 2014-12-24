@@ -9,9 +9,9 @@ class TaoBaoAuth
 	public $auth_url='https://oauth.taobao.com/';
     public $auth_sandbox_url='https://oauth.tbsandbox.com/';
     
-	public function __construct($appid, $appkey, $access_token=NULL){
+	public function __construct($appid, $appsecret, $access_token=NULL){
 		$this->appid=$appid;
-		$this->appkey=$appkey;
+		$this->appsecret=$appsecret;
 		$this->access_token=$access_token;
 	}
 
@@ -33,7 +33,7 @@ class TaoBaoAuth
 		$params=array(
 			'grant_type'   =>'authorization_code',
 			'client_id'    =>$this->appid,
-			'client_secret'=>$this->appkey,
+			'client_secret'=>$this->appsecret,
 			'code'         =>$code,
 			'state'        => $state,
 			'redirect_uri' =>$callback_url,
@@ -41,9 +41,10 @@ class TaoBaoAuth
 		);
 		$url=$this->auth_url.'token?'.http_build_query($params);
 		$result_str=$this->http($url);
-		$json_r=array();
-		if($result_str!='')parse_str($result_str, $json_r);
-		return $json_r;
+        $result_str = urldecode($result_str);
+		//$json_r=array();
+		//if($result_str!='')parse_str($result_str, $json_r);
+		return json_decode($result_str,true);
 	}
 
 	/**

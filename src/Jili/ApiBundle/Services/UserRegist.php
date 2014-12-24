@@ -36,6 +36,29 @@ class UserRegist
         return null;
     }
     
+    /**
+     * UserRegiste
+     * @params $params array()
+     */
+    public function taobao_user_regist(array $params)
+    {
+        if (isset($params['email']) && isset($params['open_id']) && isset($params['pwd']) && isset($params['nick'])) {
+            $connection = $this->em->getConnection();
+            $connection->beginTransaction();
+            try {
+                $user = $this->em->getRepository('JiliApiBundle:User')->taboabo_user_quick_insert($params);
+                $params['pwd'] = $user->pw_encode($params['pwd']);
+                $params['user_id'] =  $user->getId();
+                $qquser = $this->em->getRepository('JiliApiBundle:TaoBaoUser')->taobao_user_insert($params);
+                $connection->commit();
+                return $qquser;
+            } catch (Exception $ex) {
+                $connection->rollback();
+            }
+        } 
+        return null;
+    }
+    
     public function setEntityManager(EntityManager $em)
     {
         $this->em= $em;

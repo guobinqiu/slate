@@ -652,4 +652,22 @@ EOT;
         $em->flush();
         return $user;
     }
+    
+    /**
+     * create the user when regist by taobao
+     * @param  array('nick'=> , 'email'=> ,'pwd'=>);
+     * @return the User
+     */
+    public function taboabo_user_quick_insert(array $param)
+    {
+        $user =  new User;
+        $user->setNick("taobao_".$param['nick']);
+        $user->setEmail($param['email']);
+        $user->setPwd($param['pwd']);
+        $user->setDeleteFlag(0);
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+        return $user;
+    }
 }

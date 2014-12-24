@@ -11,8 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Jili\ApiBundle\OAuth\QQAuth;
-//use Jili\ApiBundle\Form\Type\QQFirstRegist;
+use Jili\ApiBundle\OAuth\TaoBaoAuth;
+use Jili\ApiBundle\Form\Type\TaoBaoFirstRegist;
 
 class TaoBaoLoginController extends Controller
 {
@@ -23,17 +23,18 @@ class TaoBaoLoginController extends Controller
     { 
         $request = $this->get('request');
         $code = $request->query->get('code');
-        $code = 'tcR0g5jf5HWBlwaWZyFU6ky1288114';
-        $taobao_auth = $this->get('user_taobao_login')->getTaoBaoAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appkey'),'');
+        $code = '3wYSz6OUh60AmCGiW6oiuYTS1477681';
+        $taobao_auth = $this->get('user_taobao_login')->getTaoBaoAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appsecret'),'');
         if(isset($code) && trim($code)!=''){
-            $result=$taobao_auth->access_token_and_user_info($this->container->getParameter('callback_url'), $code, 'test');
+            //$request->getSession()->set('code', $code);
+            $result=$taobao_auth->access_token_and_user_info($this->container->getParameter('callback_url'), $code, 'test');//得到token和淘宝用户基本信息
         }
-        var_dump($result);exit;
+        //var_dump($result);exit;
         if(isset($result['access_token']) && $result['access_token']!=''){
             //授权完成，保存登录信息，使用session保存
             $request->getSession()->set('taobao_token', $result['access_token']);
             //得到openid
-            $taobao_openid = $result['openid'];
+            $taobao_openid = $result['taobao_user_id'];
             $em = $this->getDoctrine()->getManager();
             $taobaouser = $em->getRepository('JiliApiBundle:TaoBaoUser')->findOneByOpenId($taobao_openid);
             //判断是否已经注册过
@@ -49,6 +50,7 @@ class TaoBaoLoginController extends Controller
             } else {
                 //无此用户，说明没有用taobao注册过，转去fist_login页面
                 $request->getSession()->set('open_id',$taobao_openid);
+                $request->getSession()->set('nickname',$result['taobao_user_nick']);
             }
         }else{
             // '授权失败';
@@ -72,8 +74,8 @@ class TaoBaoLoginController extends Controller
             return $this->redirect($this->generateUrl('_homepage'));
         } else {
             // 首次taobao登陆,到授权页面
-            $taobao_auth = $this->get('user_taobao_login')->getTaoBaoAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appkey'),$taobao_access_token);
-            $login_url = $taobao_auth->login_url($this->container->getParameter('taobao_login_callback_url'), $this->container->getParameter('scope'));
+            $taobao_auth = $this->get('user_taobao_login')->getTaoBaoAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appsecret'),$taobao_access_token);
+            $login_url = $taobao_auth->login_url($this->container->getParameter('taobao_login_callback_url'),"test" );
             return  new RedirectResponse($login_url, '301');
         }
     }
@@ -84,25 +86,29 @@ class TaoBaoLoginController extends Controller
     public function taobaoRegisteAction()
     {
         $request = $this->get('request');
-        $taobaoForm = $request->request->get('taobaoregist');
-        $param['email'] = $taobaoForm['email_id'].'@'.$this->container->getParameter('taobao_email_suffix');
+        $taobaoForm = $request->request->get('taobao_user_regist');
+        $param['email'] = $taobaoForm['email']; 
         $request->request->set('email',$param['email']);
         $param['nick'] = $request->request->get('taobaonickname'); 
         $param['pwd'] = $request->request->get('pwd');
         $code = true;
-        if(empty($param['pwd']) && (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
+        if(empty($param['pwd']) || (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
             $code = false;
         }
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
-        $form  = $this->createForm(new QQFirstRegist());
+        $form  = $this->createForm(new TaoBaoFirstRegist());
         $form->bind($request );
         if ($form->isValid() && $code) {
-            $user_regist = $this->get('user_regist'); 
-            $taobaouser = $user_regist->taobao_user_regist($param);
-            if(!$taobaouser){
-                //注册失败
-                return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，QQ用户注册失败，请稍后再试。'));
-            } 
+            $em = $this->getDoctrine()->getManager();
+            $check_taobaouser = $em->getRepository('JiliApiBundle:TaoBaoUser')->findOneByOpenId($param['open_id']);
+            if( empty($check_taobaouser)){
+                $user_regist = $this->get('user_regist'); 
+                $taobaouser = $user_regist->taobao_user_regist($param);
+                if(!$taobaouser){
+                    //注册失败
+                    return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，淘宝用户注册失败，请稍后再试。'));
+                } 
+            }
             //注册成功，登陆并跳转主页
             $code = $this->get('login.listener')->login($request);
             if($code == 'ok') {
@@ -113,8 +119,8 @@ class TaoBaoLoginController extends Controller
             $code = '请填写正确的邮箱或密码!';
         }
         return $this->render('JiliApiBundle:User:taobaoFirstLogin.html.twig',
-                array('email'=>$taobaoForm['email_id'], 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
-                    'sex'=>$request->request->get('sex'),'form' => $form->createView(), 'regcode'=>$code));
+                array('email'=>$param['email'], 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
+                   'form' => $form->createView(), 'regcode'=>$code));
     }
     
     /**
@@ -124,7 +130,7 @@ class TaoBaoLoginController extends Controller
     {
         $request = $this->get('request');
         $user_bind = $this->get('user_bind');
-        $param['nick'] = 'QQ'.$request->request->get('taobaonickname'); 
+        $param['nick'] = 'taobao_'.$request->request->get('taobaonickname'); 
         $param['email'] = $request->request->get('jili_email');
         $param['pwd']= $request->request->get('jili_pwd');
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
@@ -138,10 +144,10 @@ class TaoBaoLoginController extends Controller
             $result = $user_bind->taobao_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
             return $this->redirect($this->generateUrl('_homepage'));
         }
-        $form  = $this->createForm(new QQFirstRegist());
+        $form  = $this->createForm(new TaoBaoFirstRegist());
         return $this->render('JiliApiBundle:User:taobaoFirstLogin.html.twig',
-                array('email'=>$request->request->get('email_id'), 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
-                    'sex'=>$request->request->get('sex'),'form' => $form->createView(),'bindcode'=>$code));
+                array('email'=>$param['email'], 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
+                    'form' => $form->createView(),'bindcode'=>$code));
     }
     
     /**
@@ -151,18 +157,23 @@ class TaoBaoLoginController extends Controller
     {
         $request = $this->get('request');
         $taobao_token = $request->getSession()->get('taobao_token');
-        $taobao_auth = $this->get('user_taobao_login')->getQQAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appkey'),$taobao_token);
+        if(!$taobao_token){
+            return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请在淘宝完成授权后再试。'));
+        }
+        //$taobao_auth = $this->get('user_taobao_login')->getTaoBaoAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appsecret'),$taobao_token);
         //获取登录用户open id 
-        $openid = $request->getSession()->get('open_id');
+        /*$openid = $request->getSession()->get('open_id');
+        $openid = "111111";
         if(!$openid){
             $taobao_oid = $taobao_auth->get_openid();
             $openid = $taobao_oid['openid']; 
             $request->getSession()->set('open_id',$openid);
-        }
+        }*/
         
-        $result = $taobao_auth->get_user_info($openid);
-        $form  = $this->createForm(new QQFirstRegist());
+        //$result = $taobao_auth->get_user_info($openid);
+        $result['nickname'] = $request->getSession()->get('nickname');
+        $form  = $this->createForm(new TaoBaoFirstRegist());
         return $this->render('JiliApiBundle:User:taobaoFirstLogin.html.twig',
-                array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
+                array('email'=>'', 'pwd'=>'','nickname'=>$result['nickname'],'form' => $form->createView()));
     }
 }
