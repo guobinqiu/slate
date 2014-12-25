@@ -17,7 +17,11 @@ class GameEggsBreakerAuditType extends AbstractType
             'label'=> '订单号'
         ))->add('orderAt', 'date', array(
             'read_only'=> true,
-            'label'=> '订单时间',
+            'label'=> '订单生成',
+            'widget'=>'single_text'
+        ))->add('createdAt', 'date', array(
+            'read_only'=> true,
+            'label'=> '提交订单',
             'widget'=>'single_text'
         ))->add( 'orderPaid', 'money', array(
             'label'=> '订单金额',

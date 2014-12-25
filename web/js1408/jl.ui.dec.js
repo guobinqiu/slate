@@ -309,18 +309,19 @@ $(function(){
         getResult: function(initData, eggType){
             var $this = this;
             /*$.ajax({
-             url: Routing.generate('jili_frontend_decemberactivity_breakegg'),
-             type: 'post',
-             dataType: 'json',
-             data: "token=" + initData.token + "&eggType=" + eggType,
-             success: function(resultData){
-             //var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
-             $this.debug('砸蛋结果……', resultData);
-             $this.showResult(resultData);
-             },
-             error: function(){
-             $this.debug('第二次请求结果失败……');
-             }
+				 url: Routing.generate('jili_frontend_decemberactivity_breakegg'),
+				 type: 'post',
+				 dataType: 'json',
+				 data: "token=" + initData.token + "&eggType=" + eggType,
+				 success: function(resultData){
+					 //var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
+					 $this.debug('砸蛋结果……', resultData);
+					 if(!$.isEmptyObject(eggData)&&eggData.data === undefined) return false;
+					 $this.showResult(resultData);
+				 },
+				 error: function(){
+				 $this.debug('第二次请求结果失败……');
+				 }
              });*/
             var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
             $this.debug('砸蛋结果……', resultData);

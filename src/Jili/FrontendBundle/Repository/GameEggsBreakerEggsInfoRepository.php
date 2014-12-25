@@ -7,20 +7,11 @@ use Jili\FrontendBundle\Entity\GameEggsBreakerEggsInfo;
 
 class GameEggsBreakerEggsInfoRepository extends EntityRepository 
 {
-
-    /**
-     *
-     */
-    public function getStat()
-    {
-
-    }
-
     /**
      * @param array $params 
-     * @return 
+     * @return Instance
      */
-    public function findOneOrCreateByUserId( $user_id )
+    public function findOneOrCreateByUserId($user_id)
     {
         $entity = $this->findOneByUserId( $user_id );
         if(! $entity) {

@@ -17,6 +17,10 @@ parameters:
     offer99_request.validation.class: Jili\ApiBundle\EventListener\Offer99RequestValidation
     offer99_request.processor.class:  Jili\ApiBundle\EventListener\Offer99RequestProcessor
 
+    bangwoya_api_return.logger.class: Jili\ApiBundle\Services\Bangwoya\BangwoyaApiLogger
+    bangwoya_request.validation.class: Jili\ApiBundle\Services\Bangwoya\BangwoyaRequestValidation
+    bangwoya_request.processor.class:  Jili\ApiBundle\Services\Bangwoya\BangwoyaRequestProcessor
+
     rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
 
     cps_access_history.logger.class: Jili\ApiBundle\EventListener\CpsAccessHistoryFactory
@@ -27,7 +31,7 @@ parameters:
     point_manage.processor.class:  Jili\ApiBundle\EventListener\PointManageProcessor
 
     send_mail.class:  Jili\ApiBundle\Service\SendMail
-    
+
     user_regist.class: Jili\ApiBundle\Services\UserRegist
     user_bind.class: Jili\ApiBundle\Services\UserBind
     user_login.class: Jili\ApiBundle\Services\UserLogin
@@ -61,15 +65,15 @@ services:
         class: %user_sign_up_route.class%
         arguments: []
         calls:
-            - [ setLogger, [ @logger ] ] 
-            - [ setSession, [ @session ] ] 
-            - [ setUserSourceLogger, [ @monolog.logger.user_source ] ] 
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setLogger, [ @logger ] ]
+            - [ setSession, [ @session ] ]
+            - [ setUserSourceLogger, [ @monolog.logger.user_source ] ]
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
 
     user_source.logger:
         class: %user_source.logger.class%
         arguments: ["@logger"]
-        tags: 
+        tags:
             - { name: monolog.logger, channel: user_source }
 
 
@@ -79,7 +83,7 @@ services:
             - "%%datetime%%\t%%extra.token%%\t%%channel%%\t%%level_name%%\t%%message%%\n"
 
     monolog.processor.session_request:
-        class: %monolog.processor.session_request.class% 
+        class: %monolog.processor.session_request.class%
         arguments:  ["@session"]
         tags:
             - { name: monolog.processor, method: processRecord }
@@ -89,7 +93,7 @@ services:
         class: %rebate_activity.caculator.class%
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
         calls:
-            - [setContainer, ["@service_container"] ] 
+            - [setContainer, ["@service_container"] ]
 
     general_api.task_history:
         class: %general_api.task_history.class%
@@ -110,7 +114,7 @@ services:
     offerwow_request.processor:
         class: %offerwow_request.processor.class%
         calls:
-            - [setContainer, ["@service_container"] ] 
+            - [setContainer, ["@service_container"] ]
             - [setTaskLogger, ["@general_api.task_history"] ]
             - [setPointLogger, ["@general_api.point_history"] ]
             - [setRebatePointCaculator, ["@rebate_point.caculator"] ]
@@ -121,15 +125,15 @@ services:
         class: %cps_access_history.logger.class%
         calls:
             - [setLogger, ["@logger"] ]
-            - [setEntityManager, ["@doctrine.orm.entity_manager"] ] 
-            - [setContainer, ["@service_container"] ] 
+            - [setEntityManager, ["@doctrine.orm.entity_manager"] ]
+            - [setContainer, ["@service_container"] ]
 
     cps_order.factory:
         class: %cps_order.factory.class%
         calls:
             - [setLogger, ["@logger"] ]
-            - [setEntityManager, ["@doctrine.orm.entity_manager"] ] 
-            - [setContainer, ["@service_container"] ] 
+            - [setEntityManager, ["@doctrine.orm.entity_manager"] ]
+            - [setContainer, ["@service_container"] ]
 
     offer99_api.init_log:
         class: %offer99_api_return.logger.class%
@@ -142,11 +146,30 @@ services:
     offer99_request.processor:
         class: %offer99_request.processor.class%
         calls:
-            - [setContainer, ["@service_container"] ] 
+            - [setContainer, ["@service_container"] ]
             - [setTaskLogger, ["@general_api.task_history"] ]
             - [setPointLogger, ["@general_api.point_history"] ]
-
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    bangwoya_api.init_log:
+        class: %bangwoya_api_return.logger.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    bangwoya_request.validation:
+        class: %bangwoya_request.validation.class%
+        arguments: [ %bangwoya_com% ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setLogger, [ @logger ] ]
+
+    bangwoya_request.processor:
+        class: %bangwoya_request.processor.class%
+        arguments: [ %bangwoya_com% ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setLogger, [ @logger ] ]
+            - [ setSendMail, ["@send_mail"] ]
+
     check_in.listener:
         class: %check_in.listener.class%
         calls:
@@ -155,7 +178,7 @@ services:
     point_manage.processor:
         class: %point_manage.processor.class%
         calls:
-            - [setContainer, ["@service_container"] ] 
+            - [setContainer, ["@service_container"] ]
             - [setTaskLogger, ["@general_api.task_history"] ]
             - [setPointLogger, ["@general_api.point_history"] ]
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
@@ -164,47 +187,47 @@ services:
         class: %session.task_list.class%
         arguments: [ %cache_config.session.task_list.keys%,%cache_config.session.task_list.duration%  ]
         calls:
-            - [ setContainer, [ @service_container ] ] 
-            - [ setLogger, [ @logger ] ] 
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
-            - [ setSession, [ @session ] ] 
+            - [ setContainer, [ @service_container ] ]
+            - [ setLogger, [ @logger ] ]
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setSession, [ @session ] ]
             - [ setCheckInListener , [ @check_in.listener ] ]
 
     session.my_task_list:
         class: %session.my_task_list.class%
         arguments: [ %cache_config.session.my_task_list.keys%,%cache_config.session.my_task_list.duration%  ]
         calls:
-            - [ setContainer, [ @service_container ] ] 
-            - [ setLogger, [ @logger ] ] 
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
-            - [ setSession, [ @session ] ] 
+            - [ setContainer, [ @service_container ] ]
+            - [ setLogger, [ @logger ] ]
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setSession, [ @session ] ]
 
     session.points:
         class: %session.points.class%
         arguments: [ %cache_config.session.points.keys%,%cache_config.session.points.duration%  ]
         calls:
-            - [ setLogger, [ @logger ] ] 
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
-            - [ setSession, [ @session ] ] 
+            - [ setLogger, [ @logger ] ]
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setSession, [ @session ] ]
 
     session.user_configs:
         class: %session.user_configs.class%
         arguments: [ %cache_config.session.user_configs.keys%  ]
         calls:
-            - [ setLogger, [ @logger ] ] 
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
-            - [ setSession, [ @session ] ] 
+            - [ setLogger, [ @logger ] ]
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setSession, [ @session ] ]
 
     signup_activate.form_handler:
         class: %signup_activate.form_handler.class%
         calls:
-            - [ setLogger, [ @logger ] ] 
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
-            - [ setSession, [ @session ] ] 
-            - [ setContainer, [ @service_container ] ] 
+            - [ setLogger, [ @logger ] ]
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setSession, [ @session ] ]
+            - [ setContainer, [ @service_container ] ]
             - [ setSoapMailListener, [ "@soap.mail.listener" ] ]
             - [ setLoginListener, [ "@login.listener" ] ]
-                
+
 
     send_mail:
         class: %send_mail.class%
@@ -218,20 +241,20 @@ services:
         class: %user_regist.class%
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
         calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
-            
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+
     user_bind:
         class: %user_bind.class%
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
         calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
-            
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+
     user_login:
         class: %user_login.class%
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
         calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
-            - [ setSession, [ @session ] ] 
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setSession, [ @session ] ]
 
     user_qq_login:
         class: %user_qq_login.class%

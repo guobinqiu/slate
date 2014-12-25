@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Jili\BackendBundle\Form\Type\PointsStrategyType;
 use Jili\BackendBundle\Form\Type\GameEggsBreakerAuditType;
+use Jili\BackendBundle\Form\Type\GameEggsBreaker\OrderIdFilterType;
+use Jili\BackendBundle\Form\Type\GameEggsBreaker\OrderFilterType;
 
 /**
  * @Route("/admin/activity/december", requirements={"_scheme" = "https"})
@@ -15,13 +17,64 @@ use Jili\BackendBundle\Form\Type\GameEggsBreakerAuditType;
 class DecemberActivityController extends Controller implements IpAuthenticatedController 
 {
     /**
-     * @Route("/update-order")
-     * @Method( "POST");
+     * @Route("/search-order-id")
+     * @Method( {"GET", "POST"});
      */
-    public function updateAction()
+    public function orderIdFilterAction()
     {
        $request = $this->get('request'); 
+       $form = $this->createForm(new OrderIdFilterType()) ;//, array(
 
+       if ('POST'=== $request->getMethod()) {
+           $form->bind( $request);
+           if ($form->isValid()) {
+               $data = $form->getData();
+               $entity = $this->get('doctrine.orm.entity_manager')
+                   ->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder' )
+                   ->findOneByOrderId($data['orderId']);
+
+               if($entity) {
+                   // redirect to audit id action
+                   return $this->redirect($this->generateUrl('jili_backend_decemberactivity_audit',
+                       array('id'=> $entity->getId() )));
+               } else {
+                   $this->get('session')->getFlashBag()->add('error', '没找到订单号'.$data['orderId'].'相关记录');
+               }
+           }
+       }
+
+       return $this->render( 'JiliBackendBundle:GameEggsBreaker/TaobaoOrder:filter_order_id.html.twig', array('form'=> $form->createView()));
+    }
+
+    /**
+     * @Route("/order-filter")
+     * @Method( {"GET", "POST"});
+     */
+    public function orderFilterAction()
+    {
+        $request = $this->get('request'); 
+        $form = $this->createForm(new OrderFilterType());
+        if ('POST' === $request->getMethod()) {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $data= $form->getData();
+                try{
+                    $begin = new \Datetime($data['beginAt']); 
+                    $finish = new \Datetime($data['finishAt']); 
+                    if($finish >  $begin  )  { 
+                        return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_listall',
+                            array( 'beginAt'=> $data['beginAt'],
+                            'finishAt'=> $data['finishAt'],
+                            'auditStatus'=> $data['auditStatus'])));
+                    } else {
+                        $this->get('session')->getFlashBag()->add('error', '结束时间 要晚于 开始时间');
+                    }
+                } catch(\Exception $e) {
+                    $this->get('session')->getFlashBag()->add('error', $e->getMessage());
+                } 
+            }
+        }
+        return $this->render( 'JiliBackendBundle:GameEggsBreaker/TaobaoOrder:filter_order.html.twig', array('form'=> $form->createView()));
     }
 
     /**
@@ -31,15 +84,29 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
     public function listAllAction($p)
     {
        $request = $this->get('request'); 
-       $logger = $this->get('logger');
        $page_size = $this->container->getParameter('page_num');
-       $em = $this->get('doctrine.orm.entity_manager');
-       $returns = $em->getRepository( 'JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-           ->fetchByRange( $p , $page_size );
 
-       return $this->render('JiliBackendBundle:GameEggsBreaker\TaobaoOrder:list.html.twig', array('entities'=> $returns['data'], 'total'=> $returns['total'] ,
-'page_size'=> $page_size,
-'p'=>$p));
+       $em = $this->get('doctrine.orm.entity_manager');
+
+       $filters = array();
+
+       if($request->query->has('finishAt') && $request->query->has('beginAt') ) {
+           $filters['finish'] = new \Datetime($request->query->get('finishAt'));
+           $filters['begin']  = new \Datetime( $request->query->get('beginAt'));
+       }
+       
+       if($request->query->has('auditStatus')) {
+           $filters['auditStatus'] = $request->query->get('auditStatus');
+       }
+
+       $returns = $em->getRepository( 'JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
+           ->fetchByRange( $p , $page_size, $filters  );
+
+       return $this->render('JiliBackendBundle:GameEggsBreaker\TaobaoOrder:list.html.twig', array(
+           'entities'=> $returns['data'],
+           'total'=> $returns['total'] ,
+           'page_size'=> $page_size,
+           'p'=>$p));
     }
 
     /**
@@ -56,9 +123,11 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
         if(! $entity)  {
             $this->get('session')->getFlashBag()->add('error', '没找到审核订单');
             return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_listall'));
-        }
+        } 
+        $user = $em->getRepository('JiliApiBundle:User')
+            ->findOneById($entity->getUserId());
+        $form = $this->createForm( new GameEggsBreakerAuditType(), $entity);
 
-       $form = $this->createForm( new GameEggsBreakerAuditType(), $entity);
         if( 'POST' === $request->getMethod()) {
             $form->bind($request);
             if($form->isValid()  ) {
@@ -73,9 +142,11 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
 
         return $this->render('JiliBackendBundle:GameEggsBreaker/TaobaoOrder:edit.html.twig', array(
             'form'=>$form->createView(),
-            'id'=>$id
+            'id'=>$id,
+            'user'=> $user
         ));
     }
+
     /**
      * @Route("/points-pool-publised-sccuess")
      * @Method("GET");

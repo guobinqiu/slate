@@ -4,6 +4,8 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 use Doctrine\Common\Collections\ArrayCollection;
+use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
+
 
 class PointHistoryRepository extends EntityRepository
 {
@@ -41,6 +43,31 @@ class PointHistoryRepository extends EntityRepository
         $query = $query->setParameters(array('uid'=>$uid));
         $query =  $query->getQuery();
         return $query->getResult();
+    }
+
+    /**
+     * @param array $params = array (
+     *      'userid' => 1057622,
+     *      'point' => 17,
+     *      'type' => 1,
+     *    )
+     *
+     * @return PointHistory Instance
+     */
+    public function get(array $params = array() )
+    {
+        if( ! isset($params['userid'] ) || $params['userid'] <= 0 
+            || ! isset($params['point']) || ! isset($params['type']) ) {
+                return null;
+            }
+        $po  = SequenseEntityClassFactory::createInstance('PointHistory', $params['userid']);
+        $em = $this->getEntityManager();
+        $po->setUserId($params['userid']);
+        $po->setPointChangeNum($params['point']);
+        $po->setReason($params['type']);
+        $em->persist($po);
+        $em->flush();
+        return $po;
     }
 
     /**

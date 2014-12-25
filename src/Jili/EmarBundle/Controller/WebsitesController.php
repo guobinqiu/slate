@@ -289,7 +289,9 @@ class WebsitesController extends Controller
         $website = $this->get('website.detail_get')->fetch($params);
         $web_raw  = $this->get('website.list_get')->fetch( $params );
         $em = $this->getDoctrine()->getManager();
+
         $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($website ['commission'] );
+
         $web_configed=$em->getRepository('JiliEmarBundle:EmarWebsites')->findOneByWebId($wid);
         if( $web_configed) {
             $multiple= $web_configed->getCommission();

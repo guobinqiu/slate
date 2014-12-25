@@ -2,6 +2,7 @@
 namespace Jili\ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 
 
 class TaskHistoryRepository extends EntityRepository
@@ -87,6 +88,32 @@ class TaskHistoryRepository extends EntityRepository
         $query = $query->setParameter('userId',$userid);
         $query = $query->getQuery();
         return $query->getSingleScalarResult()?$query->getSingleScalarResult():0;
+    }
+
+    /**
+     * @param array $params array()
+     * @return TaskHistory instance
+     */
+    public function init( array $params=array())
+    {
+        $po  = SequenseEntityClassFactory::createInstance('TaskHistory', $params['userid']);
+        $po->setUserid($params['userid'])
+            ->setOrderId($params['orderId'])
+            ->setOcdCreatedDate($params['date'])
+            ->setCategoryType($params['categoryType'])
+            ->setTaskType($params['taskType'])
+            ->setTaskName(trim($params['task_name']))
+            ->setDate($params['date'])
+            ->setPoint( $params['point'])
+            ->setStatus($params['status']);
+        if(isset($params['reward_percent'])) {
+            $po->setRewardPercent( $params['reward_percent']);
+        }
+
+        $em = $this->getEntityManager();
+        $em->persist($po);
+        $em->flush();
+        return $po;
     }
 
 }

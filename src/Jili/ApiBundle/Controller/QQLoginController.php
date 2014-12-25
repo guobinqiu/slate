@@ -90,19 +90,23 @@ class QQLoginController extends Controller
         $param['nick'] = $request->request->get('qqnickname'); 
         $param['pwd'] = $request->request->get('pwd');
         $code = true;
-        if(empty($param['pwd']) && (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
+        if(empty($param['pwd']) || (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
             $code = false;
         }
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
         $form  = $this->createForm(new QQFirstRegist());
         $form->bind($request );
         if ($form->isValid() && $code) {
-            $user_regist = $this->get('user_regist'); 
-            $qquser = $user_regist->qq_user_regist($param);
-            if(!$qquser){
-                //注册失败
-                return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，QQ用户注册失败，请稍后再试。'));
-            } 
+            $em = $this->getDoctrine()->getManager();
+            $check_qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($param['open_id']);
+            if( empty($check_qquser)){
+                $user_regist = $this->get('user_regist'); 
+                $qquser = $user_regist->qq_user_regist($param);
+                if(!$qquser){
+                    //注册失败
+                    return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，QQ用户注册失败，请稍后再试。'));
+                } 
+            }
             //注册成功，登陆并跳转主页
             $code = $this->get('login.listener')->login($request);
             if($code == 'ok') {

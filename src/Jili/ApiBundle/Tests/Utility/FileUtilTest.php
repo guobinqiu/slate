@@ -2,7 +2,7 @@
 namespace Jili\ApiBundle\Tests\Utility;
 use Jili\ApiBundle\Utility\FileUtil;
 
-class FileUtilTest extends\PHPUnit_Framework_TestCase {
+class FileUtilTest extends \PHPUnit_Framework_TestCase {
 
     /**
     * @group ReadFileContent
@@ -21,9 +21,9 @@ class FileUtilTest extends\PHPUnit_Framework_TestCase {
                 '123',
                 '456',
                 '789'
-            ),
-
+            )
         );
+
         $fp = fopen($file_name, 'w');
         foreach ($list as $fields) {
             fputcsv($fp, $fields);
@@ -57,6 +57,7 @@ class FileUtilTest extends\PHPUnit_Framework_TestCase {
                 '789'
             ),
 
+
         );
         $fp = fopen($file_name, 'w');
         fwrite($fp, json_encode($list));
@@ -68,5 +69,37 @@ class FileUtilTest extends\PHPUnit_Framework_TestCase {
         $this->assertEquals('2', count($content));
 
         unlink($file_name);
+    }
+
+    /**
+    * @group issue_560
+    */
+    public function testIsUTF8() {
+        $file_name = dirname(__FILE__) . "/test.log";
+
+        $content = "test测试";
+        $content = iconv('utf-8', 'utf-8', $content); /*转换为utf-8编码*/
+        file_put_contents($file_name, $content);
+        $is_utf8 = FileUtil :: isUTF8($file_name);
+        $this->assertTrue($is_utf8);
+
+        $content = iconv('utf-8', 'gb2312', $content); /*转换为ISO-8859-1编码*/
+        file_put_contents($file_name, $content);
+        $is_utf8 = FileUtil :: isUTF8($file_name);
+        $this->assertFalse($is_utf8);
+
+        unlink($file_name);
+    }
+
+    /**
+    * @group issue_578
+    */
+    public function testWriteContents() {
+        $file_name = dirname(__FILE__) . "/test.log";
+        $content = "testWriteContents";
+        FileUtil :: writeContents($file_name, $content);
+
+        $this->assertContains("testWriteContents\r\n", file_get_contents($file_name));
+        $aa = unlink($file_name);
     }
 }

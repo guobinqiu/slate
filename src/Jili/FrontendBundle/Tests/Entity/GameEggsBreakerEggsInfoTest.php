@@ -61,5 +61,55 @@ class GameEggsBreakerEggsInfoTest extends KernelTestCase
         $this->assertEquals( 5.0, $entity->getOffcutForNext());
         $this->assertNotEquals($token, $entity->getToken());
     }
+    /**
+     *  @group issue_537 
+     */
+    public function testGetEggTypeByRandom()
+    {
+        $this->assertEquals(1,GameEggsBreakerEggsInfo::EGG_TYPE_COMMON);
+        $this->assertEquals(2,GameEggsBreakerEggsInfo::EGG_TYPE_CONSOLATION);
+        $entity = new GameEggsBreakerEggsInfo();
+        $this->assertEquals(-1, $entity->getEggTypeByRandom());
+        
+        $entity = new GameEggsBreakerEggsInfo();
+        $entity->setNumOfCommon(1);
+        $this->assertEquals(1, $entity->getEggTypeByRandom());
+        
+        $entity = new GameEggsBreakerEggsInfo();
+        $entity->setNumOfCommon(10);
+        $this->assertEquals(1 , $entity->getEggTypeByRandom());
+        $this->assertEquals(9, $entity->getNumOfCommon());
+
+        $entity = new GameEggsBreakerEggsInfo();
+        $entity->setNumOfConsolation(1);
+        $this->assertEquals(2 , $entity->getEggTypeByRandom());
+
+        $entity = new GameEggsBreakerEggsInfo();
+        $entity->setNumOfConsolation(10);
+        $this->assertEquals(2 , $entity->getEggTypeByRandom());
+        $this->assertEquals(9, $entity->getNumOfConsolation());
+
+        $entity = new GameEggsBreakerEggsInfo();
+        $entity->setNumOfCommon(1);
+        $entity->setNumOfConsolation(1);
+        $actual = array();
+        $actual []  = $entity->getEggTypeByRandom();
+        $actual []  = $entity->getEggTypeByRandom();
+
+        $this->assertEquals(0, $entity->getNumOfCommon());
+        $this->assertEquals(0, $entity->getNumOfConsolation());
+
+        $this->assertCount(2, $actual);
+        $this->assertContains(2, $actual);
+        $this->assertContains(1, $actual);
+    }
+
+    /**
+     * @group issue_537
+     */
+    public function testConst()
+    {
+        $this->assertEquals(32, GameEggsBreakerEggsInfo::TOKEN_LENGTH);
+    }
 }
 

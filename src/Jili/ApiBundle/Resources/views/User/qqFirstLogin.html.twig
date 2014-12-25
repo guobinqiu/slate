@@ -88,9 +88,11 @@
                 }
                 $(document).ready(function () {
                     $("#reg").click(function () {
+                        $("#reg").unbind('click');
                         $("#form1").submit();
                     });
                     $("#bind").click(function () {
+                        $("#bind").unbind('click');
                         $("#form2").submit();
                     });
                     $('.qqReg>span').addClass('corGlobBlue');

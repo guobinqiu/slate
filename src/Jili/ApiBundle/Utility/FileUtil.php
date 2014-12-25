@@ -59,4 +59,19 @@ class FileUtil {
 
         return $contents;
     }
+
+    public static function isUTF8($filename) {
+        $string = file_get_contents($filename);
+        if ($string === mb_convert_encoding(mb_convert_encoding($string, "UTF-32", "UTF-8"), "UTF-8", "UTF-32")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function writeContents($filename, $content) {
+        $log_handle = fopen($filename, "a");
+        fwrite($log_handle, date("Y-m-d H:i:s") . "  " . $content . "\r\n");
+        fclose($log_handle);
+    }
 }
