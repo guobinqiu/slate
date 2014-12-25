@@ -1,7 +1,7 @@
 <?php
 namespace Jili\ApiBundle\OAuth;
 /**
- * QQ API client for PHP
+ * Taobao API client for PHP
  *
  */
 class TaoBaoAuth
@@ -47,12 +47,6 @@ class TaoBaoAuth
 		return json_decode($result_str,true);
 	}
 
-	/**
-	//使用refresh token获取新的access token，QQ暂时不支持
-	public function access_token_refresh($refresh_token){
-	}
-	**/
-
 	//获取登录用户的openid
 	public function get_openid(){
 		$params=array(
@@ -78,7 +72,6 @@ class TaoBaoAuth
 
 	//调用接口
 	/**
-	$result=$qq->api('user/get_user_info', array('openid'=>$openid), 'GET');
 	**/
 	public function api($url, $params=array(), $method='GET'){
 		$url=$this->api_url.$url;
