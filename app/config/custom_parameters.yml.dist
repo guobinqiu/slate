@@ -279,3 +279,8 @@ parameters:
     
     cron_alertTo_contacts: jinzhang@voyagegroup.com.cn,zhangmm@voyagegroup.com.cn,tao_jiang@voyagegroup.com,xiaoyi_chai@voyagegroup.com,xujf@voyagegroup.com.cn
     alert_subject: '积粒网-定时任务提醒邮件'
+
+    # the uri relative to web/
+    taobao_self_promotion_picture_uri_path: images/tb_products_pic/
+    taobao_self_promotion_picture_dir: %kernel.root_dir%/../web/%taobao_self_promotion_picture_uri_path%
+

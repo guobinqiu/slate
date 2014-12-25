@@ -1,0 +1,94 @@
+{% extends "JiliBackendBundle::base.html.twig"%}
+
+{% block title %}
+Taobao self promotion -{{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+
+<form action="{{ path('jili_backend_admintaobao_addpromotionselfproduct')  }}" method="POST">
+<table align="center">
+
+<tr>
+    <td>{{ form_label(form.taobaoCategory) }}</td>
+    <td>
+    {{ form_errors(form.taobaoCategory) }}
+    {{ form_widget(form.taobaoCategory) }}
+</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.title) }}</td>
+    <td>
+    {{ form_errors(form.title) }}
+    {{ form_widget(form.title) }}
+</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.price) }}</td>
+    <td>
+    {{ form_errors(form.price) }}
+    {{ form_widget(form.price) }}
+</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.pricePromotion) }}</td>
+    <td>
+    {{ form_errors(form.pricePromotion) }}
+    {{ form_widget(form.pricePromotion) }}
+</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.itemUrl) }}</td>
+    <td>
+    {{ form_errors(form.itemUrl) }}
+    {{ form_widget(form.itemUrl) }}
+</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.clickUrl) }}</td>
+    <td>
+    {{ form_errors(form.clickUrl) }}
+    {{ form_widget(form.clickUrl) }}
+</td>
+</tr>
+
+
+<tr>
+    <td>{{ form_label(form.picture) }}</td>
+    <td>
+    {{ form_errors(form.picture) }}
+    {{ form_widget(form.picture) }}
+</td>
+</tr>
+
+{# todo: render current image #}
+
+<tr>
+    <td>{{ form_label(form.commentDescription) }}</td>
+    <td>
+    {{ form_errors(form.commentDescription) }}
+    {{ form_widget(form.commentDescription) }}
+</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.promotionRate) }}</td>
+    <td>
+    {{ form_errors(form.promotionRate) }}
+    {{ form_widget(form.promotionRate) }}
+</td>
+</tr>
+
+{{ form_rest(form) }}
+
+<tr><td>&nbsp;</td><td><input type="submit" value="提交" /></td></tr>
+
+</table>
+</form>
+{% endblock %}

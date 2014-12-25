@@ -1,0 +1,49 @@
+{% extends "JiliBackendBundle::base.html.twig"%}
+
+{% block title %}
+Taobao自助推广列表-{{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset('css/pageNav.css')}}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+
+{% include("JiliBackendBundle:Taobao/PromotionSelfProduct:menu.html.twig") %}
+
+
+<h3 align="center">Taobao自助推广单品</h3>
+<table>
+    <tr>
+        <td>商品title</td>
+        <td>操作</td>
+    </tr>
+
+{% for entity in entities %}
+    <tr>
+        <td>{{ entity.title}}</td>
+        <td> 
+        <a href="{{ path("jili_backend_admintaobao_updatepromotionselfproduct", { "id": entity.id}) }}">Edit</a>
+        &nbsp;| </td>
+     </tr>
+{% endfor %}
+</table>
+<!--
+    {% set total_  = total %}
+    {% set cur = p %}
+    <p>cur: {{ cur }}</p>
+    {% set first = 1 %} 
+    {% set last =  ( total/ page_size) |round(0,'ceil') %} 
+    <p>last: {{ last }}</p>
+    {% set prev = ( cur > first ) ? cur - 1: first  %}
+    <p>prev: {{ prev }}</p>
+    {% set next = ( cur < last  ) ? cur + 1: last  %}
+-->
+<div style="display: inline-block; width: 100%;">
+{% include "JiliEmarBundle::page_nav.html.twig" %}
+
+</div>
+{% endblock %}

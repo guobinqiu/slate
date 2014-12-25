@@ -13,7 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
+use Jili\BackendBundle\Form\Type\PromotionSelfLinkProductType;
 use Jili\FrontendBundle\Entity\TaobaoComponent;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
  * @Route("/admin/taobao",requirements={"_scheme"="https"})
@@ -54,7 +56,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
         $arr['category_product'] = TaobaoComponent :: TAOBAO_COMPONENT_KEYWORD;
         $arr['components'] = $components;
         $arr['drop_down_box_default'] = TaobaoComponent :: DROP_DOWN_BOX_DEFAULT;
-        return $this->render('JiliBackendBundle:taobao:component.html.twig', $arr);
+        return $this->render('JiliBackendBundle:Taobao:component.html.twig', $arr);
     }
 
     public function getConditions($componentId, $categoryId, $keywordId) {
@@ -132,7 +134,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
         $arr['id'] = $id;
         $arr['category_product'] = TaobaoComponent :: TAOBAO_COMPONENT_KEYWORD;
         $arr['drop_down_box_default'] = TaobaoComponent :: DROP_DOWN_BOX_DEFAULT;
-        return $this->render('JiliBackendBundle:taobao:saveComponent.html.twig', $arr);
+        return $this->render('JiliBackendBundle:Taobao:saveComponent.html.twig', $arr);
     }
 
     /**
@@ -231,4 +233,84 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
         $parameters = $session->get('admin_taobao_condition');
         return $this->redirect($this->generateUrl('_admin_taobao_component',$parameters));
     }
+
+    /**
+    * @Route("/promotion-self-product/add")
+    */
+    public function addPromotionSelfProductAction()
+    {
+        $request = $this->get('request');
+        $logger = $this->get('logger');
+        $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($request->getClientIp(), true) );
+        $form = $this->createForm( new PromotionSelfLinkProductType() );
+        if('POST' === $request->getMethod()) {
+            // form type
+            $form->bind($request);
+            if($form->isValid()) {
+                $data =$form->getData();
+                $em = $this->get('doctrine.orm.entity_manager');
+                $data ['pic_target_path']  = $this->container->getParameter('taobao_self_promotion_picture_dir');
+                $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($data, true));
+                try {
+                    $em->getConnection()->beginTransaction();
+                    $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->insert($data );
+                    $em->getConnection()->commit();
+                } catch ( IOExceptionInterface $e) {
+                    $error = 'An error occurred while creating your directory at '.$e->getPath();
+                    $em->getConnection()->rollback();
+                } catch (\Exception $e){
+                    $logger->crit('[JiliBackendBundle][taobaoSelfPromotionProduct][add]'.$e->getMessage());
+                    //    $errors = array('internal errror');
+                    $em->getConnection()->rollback();
+                }
+            } else {
+                $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, ' form invalid')) );
+                $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, ' ')) .var_export($form->getErrorsAsString() , true) );
+            }
+
+            // insert
+        } else {
+                $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, 'not a post')) );
+
+        }
+        return $this->render( 'JiliBackendBundle:Taobao/PromotionSelfProduct:add.html.twig', array('form'=> $form->createView() )) ;
+    }
+
+    /**
+     * @Route("/promotion-self-product/list/{p}", defaults={"p"=1}, requirements={"p" = "\d+"})
+     * @Method( "GET");
+     */
+    public function listPromotionSelfProductAction($p)
+    {
+        $page_size = $this->container->getParameter('page_num');
+        $em = $this->get('doctrine.orm.entity_manager');
+        $returns =   $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
+            ->fetchByRange($p, $page_size) ;
+    
+        return $this->render( 'JiliBackendBundle:Taobao/PromotionSelfProduct:list.html.twig', array(
+            'entities'=> $returns['data'],
+            'total'=> $returns['total'] ,
+            'page_size'=> $page_size,
+            'p'=>$p));
+    }
+
+    /**
+     * @Route("/promotion-self-product/update/{id}", requirements={"id"="\d+"})
+     * @Method({"GET", "POST" });
+     */
+    public function updatePromotionSelfProductAction()
+    {
+
+        // update
+    }
+
+    /**
+     * @Route("/promotion-self-product/remove/{id}")
+     */
+    public function removePromotionSelfProductAction()
+    {
+        //remove
+
+    }
+
 }

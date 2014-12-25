@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadTaobaoCategoryData;
+use Jili\FrontendBundle\Entity\TaobaoCategory;
 
 class TaobaoCategoryRepositoryTest extends KernelTestCase {
 
@@ -47,12 +48,26 @@ class TaobaoCategoryRepositoryTest extends KernelTestCase {
 
     /**
      * @group issue_504
+     * @group issue_594
      */
     public function testFindCategorys() {
         $em = $this->em;
         $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys();
         $this->assertEquals(16, count($keywords));
+
         $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys(1);
         $this->assertEquals(1, count($keywords));
+
+        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys(0,TaobaoCategory::COMPONENTS );
+        $this->assertEquals(16, count($keywords));
+
+        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys(1,TaobaoCategory::COMPONENTS );
+        $this->assertEquals(1, count($keywords));
+
+ 
+        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys(0,TaobaoCategory::SELF_PROMOTION);
+        $this->assertEquals(12, count($keywords));
+
     }
+
 }
