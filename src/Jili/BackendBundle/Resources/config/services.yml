@@ -1,27 +1,26 @@
 parameters:
-     authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
-
-#    jili_api.api.class: Jili\ApiBundle\Controller\ApiController
-#    jili_api.offerwow.class: Jili\ApiBundle\Controller\OfferwowController
+    authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
+    game_seeker.points_pool.class: Jili\BackendBundle\Services\GameSeeker\PointsPool
+    december_activity.game_eggs_breaker.class: Jili\BackendBundle\Services\GameEggsBreaker\GameEggsBreaker
 
 services:
-     authentication_ip.action_listener:
+    authentication_ip.action_listener:
         class: %authentication_ip.action_listener.class%
         calls:
             - [setContainer, ["@service_container"] ] 
         arguments: [ [%admin_home_ip%,  %admin_vpn_ip%,    %admin_ele_ip%,    %admin_un_ip% , 127.0.0.1] ]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-#    jili_api.api:
-#        class: %jili_api.api.class%
-#
-#    jili_api.offerwow.controller:
-#        class:  %jili_api.offerwow.class%
-#
-##        arguments: [@service_id, "plain_value", %parameter%]
-#
-#  demo.tokens.action_listener:
-#        class: Acme\DemoBundle\EventListener\TokenListener
-#        arguments: ["%tokens%"]
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+    game_seeker.points_pool:
+        class: %game_seeker.points_pool.class%
+        arguments: [ %game_seeker_config_path% ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setLogger, [ @logger ] ] 
+
+    december_activity.game_eggs_breaker:
+        class: %december_activity.game_eggs_breaker.class%
+        arguments: [ %game_eggs_breaker% ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setLogger, [ @logger ] ] 

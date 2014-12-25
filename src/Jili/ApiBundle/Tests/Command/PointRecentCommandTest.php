@@ -8,7 +8,6 @@ use Jili\ApiBundle\Command\PointRecentCommand;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixtureLoader;
 
 class PointRecentCommandTest extends KernelTestCase

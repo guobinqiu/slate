@@ -141,6 +141,15 @@
             });
         }
         var s = setInterval(textScroll, 2000);
+		$('.adMask, .activityAdWrapper .close, .activityAdBg, .closeBtn').on('click', function(){
+			$('.activityAd').animate({ left: '950px', top: '0px', width: '0px', height: '0px', opacity: '0'}, 500, function(){$('.adMask').hide();});
+		});
+		var ruleDetail = $(".ruleDetail");
+		$(".ruleCon").hover(function(){
+			ruleDetail.show();
+		}, function(){
+			ruleDetail.hide();
+		});
     });
 })(jQuery);
 
@@ -153,7 +162,7 @@
 				var objLength = $(this).text().length; 
 				var num = $(this).attr("limit"); 
 				if(objLength > num){ 
-		$(this).attr("title",objString); 
+					$(this).attr("title",objString); 
 					objString = $(this).text(objString.substring(0,num) + "..."); 
 				} 
 			}) 

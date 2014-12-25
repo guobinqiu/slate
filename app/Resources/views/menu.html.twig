@@ -92,16 +92,33 @@ $(document).ready(function(){
     {% endif %}  
     </div>
 {% if app.request.attributes.get('_route') == '_homepage' %}
-    <!--<div class="indexTopbannerWrap">
-    	<div id="banner" class="indexTopbanner" style="display:none;">
-            <a href="{{ path('_monthActivity_october') }}"><img src="{{ asset('images1408/sepUnFoldBanner.jpg') }}" width="1000" height="300" /></a>
+    <div class="indexTopbannerWrap">
+    	<!--<div id="banner" class="indexTopbanner" style="display:none;">
+            <a href="{{ path('_monthActivity_october') }}"><img src="{{ asset('images1408/baoXiangBanner.jpg') }}" width="1000" height="300" /></a>
             <span class="indexTopbannerFold">展开<s></s></span>
-        </div>
+        </div>-->
         <div id="top" class="indexTopbanner">
-            <a href="{{ path('_monthActivity_october') }}"><img src="{{ asset('images1408/octFoldBanner.jpg') }}" width="1000" height="60" /></a>
-            <span class="indexTopbannerFold">展开<s></s></span>
+            <a href="{{ path('jili_frontend_taobao_index', {'l':1}) }}" class="allPointer"></a>
+            <div class="rule">
+                <a href="{{ path('jili_frontend_taobao_index',{'l':2}) }}" class="ruleLink"></a>
+            <div class="ruleCon">
+                <a href="{{ path('jili_frontend_taobao_index', {'l':3}) }}" class="rulePic"></a>
+                <div class="ruleDetail">
+                    <p>在<a href="{{ path('jili_frontend_taobao_index',{'l':4}) }}" class="textLink">淘宝页面</a>找到宝箱，每天就有机会赢米粒</p>
+                    <ul class="clearfix">
+                        <li>一等奖：888米粒</li>
+                        <li>四等奖：20米粒</li>
+                        <li>二等奖：100米粒</li>
+                        <li>五等奖：5米粒</li>
+                        <li>三等奖：50米粒</li>
+                        <li>六等奖：2米粒</li>
+                        <li>参与奖：1米粒</li>
+                    </ul>
+                </div>
+            </div>
+            </div>
         </div>
-    </div>-->
+    </div>
 {% else %}
 {% endif %}
     <div class="headerConWrapper">
@@ -122,9 +139,9 @@ $(document).ready(function(){
                 <li {{ router_current == '_exchange_index' ? 'class="active"':'' }}><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
                 <li {{ router_current == 'jili_frontend_taobao_index' ? 'class="active"':'' }}><a href="{{ path('jili_frontend_taobao_index') }}" title="淘宝购物" class="navTB">淘宝购物<span class="iconTB"></span></a></li>
             </ul>
+            <a href="{{ path('jili_frontend_decemberactivity_index', {'l': 7}) }}" class="decActivityGif"></a>
             <div class="dailyQuest">
                 {{ render(controller('JiliFrontendBundle:Home:task' ) ) }}{# 任务列表 #}
-                
             </div>
         </div>
     </div>

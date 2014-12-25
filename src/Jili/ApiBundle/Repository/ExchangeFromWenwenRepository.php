@@ -14,7 +14,7 @@ class ExchangeFromWenwenRepository extends EntityRepository
         if($end)
             $end_time = $end.' 23:59:59';
         $query = $this->createQueryBuilder('efw');
-        $query = $query->select('efw.wenwenExchangeId,efw.email,efw.paymentPoint,efw.status,efw.reason,efw.createTime');
+        $query = $query->select('efw.wenwenExchangeId,efw.email,efw.userWenwenCrossId,efw.paymentPoint,efw.status,efw.reason,efw.createTime');
         $query = $query->Where('1 = 1');
         if($start){
             $query = $query->andWhere('efw.createTime>=:start_time');

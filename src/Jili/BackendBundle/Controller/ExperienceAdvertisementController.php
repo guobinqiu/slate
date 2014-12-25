@@ -9,7 +9,7 @@ use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ExperienceAdvertisementController extends Controller 
+class ExperienceAdvertisementController extends Controller  implements  IpAuthenticatedController
 {
     /**
      * @Route("/ExperienceAdvertisementList", name="experience_ad_list")

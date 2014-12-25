@@ -1,0 +1,1 @@
+ALTER TABLE `taobao_component` ADD INDEX `component_index` ( `component_id` , `category_id` ) ;

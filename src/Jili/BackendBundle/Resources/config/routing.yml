@@ -1,3 +1,4 @@
+
 analog-offerwow:
     resource: "@JiliBackendBundle/Controller/AnalogOfferwowController.php"
     type:     annotation
@@ -18,3 +19,6 @@ edm-unsubscribe:
     resource: "@JiliBackendBundle/Controller/EdmUnsubscribeController.php"
     type:     annotation
 
+admin-taobao:
+    resource: "@JiliBackendBundle/Controller/AdminTaobaoController.php"
+    type:     annotation

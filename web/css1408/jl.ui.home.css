@@ -564,3 +564,30 @@ div.notice{
 	color: #fff;
     background: url(../images1408/rankBg.png) no-repeat;
 }
+/*2014-12-11, by wlt*/
+.adMask{ position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; opacity: .7; filter: alpha(opacity = 70);}
+.activityAdWrapper{ position: absolute; z-index: 1999;  left: 50%; top: 139px; width: 1000px; margin-left: -500px;}
+.activityAd{ position: relative; z-index: 2000; left: 0px; top: 0; width: 1000px; height: 530px; overflow: hidden; display: none;}
+.activityAd .activityAdBg{ position: absolute; z-index: 2999; width: 1000px; height: 510px; top: 0; left: 0; background: url(../images/december/decActivityBg.png) no-repeat 212px -30px;}
+.activityAd .close, .activityAd .btns{ position: absolute; z-index: 3000;}
+.activityAd .close{ width: 27px; height: 27px; left: 940px; top: 20px; cursor: pointer; background: url(../images/taobao/close.png) no-repeat;}
+.activityAd .btns{ left: 378px; top: 455px;}
+.activityAd .btns .closeBtn, .activityAd .btns .goBtn, .decActivityGif{ display: inline-block;*display: inline;*zoom: 1;cursor: pointer;}
+.activityAd .btns .closeBtn{ width: 114px; height: 64px; background: url(../images/december/decActivityClose.png) no-repeat; margin-left: 20px;}
+.activityAd .btns .goBtn{ width: 149px; height: 64px; background: url(../images/december/decActivityBtn.png) no-repeat;}
+.decActivityGif{ position: absolute; z-index: 1000; right: 0; bottom: 5px; width: 99px; height: 41px; background: url(../images/december/floating.gif) no-repeat;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
