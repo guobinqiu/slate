@@ -217,6 +217,8 @@ class UserRepositoryTest extends KernelTestCase {
         $j = $this->em->getRepository('JiliApiBundle:User')->findOneBy( array('nick'=>'taobao_alice32', 'email'=> 'alice_nima@gmail.com') );
         $this->assertNotEmpty($j);
         $this->assertEquals( $i->pw_encode('123qwe'), $j->getPwd()) ;
+    }
+    
      /**
      * @group issue548
      */

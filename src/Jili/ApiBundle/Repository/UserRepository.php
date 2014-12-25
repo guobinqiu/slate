@@ -685,7 +685,8 @@ EOT;
         $em->persist($user);
         $em->flush();
         return $user;
-
+    }
+    
     public function getUserByCrossId($id)
     {
         $query = $this->createQueryBuilder('u');
