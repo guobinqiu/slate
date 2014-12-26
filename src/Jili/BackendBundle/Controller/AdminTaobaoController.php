@@ -17,6 +17,7 @@ use Jili\BackendBundle\Form\Type\PromotionSelfLinkProductType;
 use Jili\FrontendBundle\Entity\TaobaoComponent;
 use Jili\FrontendBundle\Entity\TaobaoSelfPromotionProducts;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Jili\ApiBundle\Utility\FileUtil;
 
 /**
@@ -254,47 +255,24 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
     public function createPromotionSelfProductAction()
     {
         $request = $this->get('request');
-        $logger = $this->get('logger');
         $entity = new TaobaoSelfPromotionProducts();
         $form = $this->createForm( new PromotionSelfLinkProductType(),$entity );
-        // form type
         $form->bind($request);
         if($form->isValid()) {
             $entity = $form->getData();
             $em = $this->get('doctrine.orm.entity_manager');
 
-           $uploaded =  $form['picture']->getData();
+            $uploaded =  $form['picture']->getData();
             if( ! is_null($uploaded)) {
                 $picture_name = FileUtil::moveUploadedFile($uploaded,
                     $this->container->getParameter('taobao_self_promotion_picture_dir'));
                 $entity->setPictureName($picture_name);
             }
 
-//            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, '')). var_export($entity, true));
-//            $entity['pic_target_path']  = $this->container->getParameter('taobao_self_promotion_picture_dir');
- //           try {
-                //$form['picture']->getData()->move($this->container->getParameter('taobao_self_promotion_picture_dir'),
-//                    $someNewFilename);
-
-//                $em->getConnection()->beginTransaction();
-//              $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->insert($data );
-                $em->persist($entity);
-                $em->flush();
-  //              $em->getConnection()->commit();
-
-   //         } catch ( IOExceptionInterface $e) {
-   //             $error = 'An error occurred while creating your directory at '.$e->getPath();
-   //             $em->getConnection()->rollback();
-   //         } catch (\Exception $e){
-   //             $logger->crit('[JiliBackendBundle][taobaoSelfPromotionProduct][add]'.$e->getMessage());
-   //             //    $errors = array('internal errror');
-   //             $em->getConnection()->rollback();
-   //         }
+            $em->persist($entity);
+            $em->flush();
             return $this->redirect($this->generateUrl('jili_backend_admintaobao_editpromotionselfproduct', array('id' => $entity->getId())));
 
-        } else {
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, ' form invalid')) );
-            $logger->debug('{jarod}'. implode(':', array(__LINE__, __FILE__, ' ')) .var_export($form->getErrorsAsString() , true) );
         }
 
         return $this->render( 'JiliBackendBundle:Taobao/PromotionSelfProduct:add.html.twig', array('form'=> $form->createView() )) ;
@@ -380,8 +358,8 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
     }
 
     /**
-     * @Route("/promotion-self-product/delete/{id}")
-     * @Route("DELETE")
+     * @Route("/promotion-self-product/delete/{id}", requirements={"id"="\d+"})
+     * @Method("DELETE")
      */
     public function deletePromotionSelfProductAction(Request $request, $id)
     {
@@ -397,7 +375,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
                 throw $this->createNotFoundException('Unable to find TaobaoSelfPromotionProducts entity.');
             }
 
-            $picture_name = $this->getPictureName();
+            $picture_name = $entity->getPictureName();
             if( ! empty($picture_name) ) {
                 $fs = new Filesystem();
                 $target = $this->container->getParameter('taobao_self_promotion_picture_dir').$picture_name;

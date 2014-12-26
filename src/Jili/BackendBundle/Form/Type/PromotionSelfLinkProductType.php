@@ -54,21 +54,25 @@ class PromotionSelfLinkProductType extends AbstractType
                 'empty_data'=> 0
             ));
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event){
-            $form = $event->getForm();
-            $formOptions = array(
-                'label'=> '商品分类',
-                'class' => 'Jili\FrontendBundle\Entity\TaobaoCategory',
-                'property' => 'categoryName',
-                'query_builder' => function(EntityRepository $er) {
-                    return  $er->createQueryBuilder('tc')
-                        ->Where('tc.unionProduct = :unionProduct')
-                        ->andWhere('tc.deleteFlag = 0')
-                        ->setParameter('unionProduct', \Jili\FrontendBundle\Entity\TaobaoCategory::SELF_PROMOTION) ;
-                },
-                );
-            $form->add('taobaoCategory', 'entity', $formOptions);
-        });
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
+//        $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event){});
+    }
+
+    public function onPreSetData(FormEvent $event)
+    {
+        $form = $event->getForm();
+        $formOptions = array(
+            'label'=> '商品分类',
+            'class' => 'Jili\FrontendBundle\Entity\TaobaoCategory',
+            'property' => 'categoryName',
+            'query_builder' => function(EntityRepository $er) {
+                return  $er->createQueryBuilder('tc')
+                    ->Where('tc.unionProduct = :unionProduct')
+                    ->andWhere('tc.deleteFlag = 0')
+                    ->setParameter('unionProduct', \Jili\FrontendBundle\Entity\TaobaoCategory::SELF_PROMOTION) ;
+            },
+            );
+        $form->add('taobaoCategory', 'entity', $formOptions);
     }
 
     public function getName()

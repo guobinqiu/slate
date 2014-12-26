@@ -34,7 +34,6 @@ class AdminTaobaoControllerTest extends WebTestCase {
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
 
-
         $tn =$this->getName();
 
 
@@ -44,13 +43,14 @@ class AdminTaobaoControllerTest extends WebTestCase {
             $loader = new Loader();
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
-        } else if(in_array($tn, array('testAddPromotionSelfProductActionNormal','testAddPromotionSelfProductActionNoPic', 'testRemovePromotionSelfProductAction','testListPromotionSelfProductAction','testUpdatePromotionSelfProductAction') )  ) {
+        } else if(in_array($tn, array('testAddPromotionSelfProductActionNormal','testAddPromotionSelfProductActionNoPic', 'testRemovePromotionSelfProductAction','testListPromotionSelfProductAction','testUpdatePromotionSelfProductAction','testUpdatePromotionSelfProductActionWithPic','testRemovePromotionSelfProductActionWithPic') )  ) {
+
             $fixture = new LoadTaobaoCategoryData();
             $fixture->setContainer($container);
             $loader = new Loader();
             $loader->addFixture($fixture);
 
-            if (in_array( $tn, array('testRemovePromotionSelfProductAction','testListPromotionSelfProductAction','testUpdatePromotionSelfProductAction'))) {
+            if (in_array( $tn, array('testRemovePromotionSelfProductAction','testListPromotionSelfProductAction','testUpdatePromotionSelfProductAction','testUpdatePromotionSelfProductActionWithPic','testRemovePromotionSelfProductActionWithPic'))) {
                 $fixture1 = new LoadTaobaoSelfPromotionProductData();
                 $fixture1->setContainer($container);
                 $loader->addFixture($fixture1);
@@ -271,27 +271,24 @@ class AdminTaobaoControllerTest extends WebTestCase {
     {
         $client = static :: createClient();
         $container = $client->getContainer();
+        $em = $this->em;
         $root_dir = $container->get('kernel')->getRootDir();
         $fixture_dir = $root_dir . DIRECTORY_SEPARATOR . 'fixtures';
 
-        $url = $container->get('router')->generate('jili_backend_admintaobao_addpromotionselfproduct');
-
-        $this->assertEquals('https://localhost/backend/admin/taobao/promotion-self-product/add' ,$url);
+        $url = $container->get('router')->generate('jili_backend_admintaobao_newpromotionselfproduct');
+        $this->assertEquals('https://localhost/backend/admin/taobao/promotion-self-product/new' ,$url);
 
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $form =$crawler->selectButton('提交')->form();
 
-        $target_dir = $container->getParameter('taobao_self_promotion_picture_dir');
-        $fs= new FileSystem();
-        $fs->remove($target_dir);
-        
-        $em = $this->em;
+        $picture_dir = $container->getParameter('taobao_self_promotion_picture_dir') ;
+        $fs = new FileSystem();
+        $fs->remove($picture_dir);
 
         $categories = LoadTaobaoCategoryData::$SELF_PROMOTION_CATEGORIES;
-
         $params =  array(
-            'taobaoCategoryId'=> $categories[0]->getId(),
+        //    'taobaoCategoryId'=> $categories[0]->getId(),
             'title'=>'【天猫】加厚打底裤',
             'price'=>25.00,
             'pricePromotion'=>8.80,
@@ -299,7 +296,7 @@ class AdminTaobaoControllerTest extends WebTestCase {
         );
 
         $form->setValues(array(
-            'taobao_promotion_self_link_product[taobaoCategory]'=> $params['taobaoCategoryId'],
+            'taobao_promotion_self_link_product[taobaoCategory]'=> $categories[0]->getId(),
             'taobao_promotion_self_link_product[title]'=> $params['title'],
             'taobao_promotion_self_link_product[price]'=>$params['price'],
             'taobao_promotion_self_link_product[pricePromotion]'=> $params['pricePromotion'],
@@ -311,23 +308,22 @@ class AdminTaobaoControllerTest extends WebTestCase {
 
         ));
 
-        $picture_dir = $container->getParameter('taobao_self_promotion_picture_dir') ;
-        $fs = new FileSystem();
-        $fs->remove($picture_dir);
-
         $crawler = $client->submit($form);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
+
 
         // check the db
         $expected  = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
             ->findOneBy($params); 
         $this->assertNotNull($expected);
         $this->assertInstanceOf( '\\Jili\\FrontendBundle\\Entity\\TaobaoSelfPromotionProducts', $expected);
-
+$this->assertEquals($categories[0]->getId(), $expected->getTaobaoCategory()->getId());
         $target = $picture_dir.$expected->getPictureName();
         // check the image file
         $this->assertFileExists($target);
-
+        @unlink($target);
     }
 
     /**
@@ -338,17 +334,17 @@ class AdminTaobaoControllerTest extends WebTestCase {
     {
         $client = static :: createClient();
         $container = $client->getContainer();
+        $em=$this->em;
         $root_dir = $container->get('kernel')->getRootDir();
         $fixture_dir = $root_dir . DIRECTORY_SEPARATOR . 'fixtures';
 
-        $url = $container->get('router')->generate('jili_backend_admintaobao_addpromotionselfproduct');
+        $url = $container->get('router')->generate('jili_backend_admintaobao_newpromotionselfproduct');
 
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $form =$crawler->selectButton('提交')->form();
          
         $params =  array(
-            'taobaoCategoryId'=> LoadTaobaoCategoryData::$SELF_PROMOTION_CATEGORIES[0]->getId(),
             'title'=>'【天猫】加厚打底裤',
             'price'=>25.00,
             'pricePromotion'=>8.80,
@@ -356,20 +352,23 @@ class AdminTaobaoControllerTest extends WebTestCase {
         );
 
         $form->setValues(array(
-            'taobao_promotion_self_link_product[taobaoCategory]'=> $params['taobaoCategoryId'],
+            'taobao_promotion_self_link_product[taobaoCategory]'=>LoadTaobaoCategoryData::$SELF_PROMOTION_CATEGORIES[0]->getId(),
             'taobao_promotion_self_link_product[title]'=> $params['title'],
             'taobao_promotion_self_link_product[price]'=>$params['price'],
             'taobao_promotion_self_link_product[pricePromotion]'=> $params['pricePromotion'],
-            //'taobao_promotion_self_link_product[itemUrl]'=>,
             'taobao_promotion_self_link_product[clickUrl]'=>$params['clickUrl'],
-        //    'taobao_promotion_self_link_product[picture]'=>$fixture_dir.DIRECTORY_SEPARATOR.'taobao/pro01_01.jpg',
-            //'taobao_promotion_self_link_product[commentDescription]'=>,
             'taobao_promotion_self_link_product[promotionRate]'=>10,
 
         ));
 
         $crawler = $client->submit($form);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $expected  = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
+            ->findOneBy($params); 
+        $this->assertNotNull($expected);
+        $this->assertInstanceOf( '\\Jili\\FrontendBundle\\Entity\\TaobaoSelfPromotionProducts', $expected);
+        $this->assertEquals(LoadTaobaoCategoryData::$SELF_PROMOTION_CATEGORIES[0]->getId(), $expected->getTaobaoCategory()->getId());
+
     }
 
     /**
@@ -391,29 +390,132 @@ class AdminTaobaoControllerTest extends WebTestCase {
 
     /**
      * @group issue_594 
+     * @group debug 
      */
     public function testUpdatePromotionSelfProductAction()
     {
         $client = static :: createClient();
         $container = $client->getContainer();
+        $em = $this->em;
 
+        $product = LoadTaobaoSelfPromotionProductData::$PRODUCTS[0];
+        $url = $container->get('router')->generate('jili_backend_admintaobao_editpromotionselfproduct', array('id'=> $product->getId() ));
 
-        $url = $container->get('router')->generate('jili_backend_admintaobao_updatepromotionselfproduct', array('id'=> 1));
+        $this->assertEquals('https://localhost/backend/admin/taobao/promotion-self-product/edit/'.$product->getId() ,$url);
 
-        $this->assertEquals('https://localhost/backend/admin/taobao/promotion-self-product/update/1' ,$url);
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $form =$crawler->selectButton('提交')->form(array(
+            'taobao_promotion_self_link_product[price]'=>  $product->getPrice() * 2,
+        ), 'PUT');
+
+        $client->submit($form);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+
         // prepare a product data 
+       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($product->getId());
+        $this->assertEquals($product->getPrice() * 2 , $after->getPrice());
+
+    }
+    /**
+     * edit with picture
+     * @group issue_594 
+     * @group debug 
+     */
+    public function testUpdatePromotionSelfProductActionWithPic()
+    {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+        $root_dir = $container->get('kernel')->getRootDir();
+        $fixture_dir = $root_dir . DIRECTORY_SEPARATOR . 'fixtures';
+
+        $product = LoadTaobaoSelfPromotionProductData::$PRODUCTS[3];
+
+        $url = $container->get('router')->generate('jili_backend_admintaobao_editpromotionselfproduct', array('id'=> $product->getId() ));
+
+        $this->assertEquals('https://localhost/backend/admin/taobao/promotion-self-product/edit/'.$product->getId() ,$url);
+
+        $crawler = $client->request('GET', $url);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form =$crawler->selectButton('提交')->form(array(
+            'taobao_promotion_self_link_product[picture]'=>$fixture_dir.DIRECTORY_SEPARATOR.'taobao/pro01_01.jpg',
+        ), 'PUT');
+
+        $client->submit($form);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        // check the image uploaded
+       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($product->getId());
+        $this->assertEmpty($product->getPictureName());
+        $this->assertNotEmpty($after->getPictureName());
+
+        $picture_dir = $container->getParameter('taobao_self_promotion_picture_dir') ;
+        $target = $picture_dir.$after->getPictureName();
+        $this->assertFileExists( $target);
+
     }
 
     /**
      * @group issue_594 
+     * @group debug 
      */
     public function testRemovePromotionSelfProductAction()
     {
         $client = static :: createClient();
         $container = $client->getContainer();
-        $url = $container->get('router')->generate('jili_backend_admintaobao_removepromotionselfproduct', array('id'=>1));
-        $this->assertEquals('https://localhost/backend/admin/taobao/promotion-self-product/remove/1' ,$url);
+        $em  = $this->em;
+
+        $product = LoadTaobaoSelfPromotionProductData::$PRODUCTS[2];
+
+        $url = $container->get('router')->generate('jili_backend_admintaobao_editpromotionselfproduct', array('id'=> $product->getId() ));
+
+        $this->assertEquals('https://localhost/backend/admin/taobao/promotion-self-product/edit/'.$product->getId() ,$url);
+
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $form =$crawler->selectButton('删除')->form(array(), 'DELETE');
         // prepare a product data
+        $client->submit($form);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        
+       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($product->getId());
+        $this->assertNull($after);
     }
 
+    /**
+     * With image
+     * @group issue_594 
+     * @group debug 
+     */
+    public function testRemovePromotionSelfProductActionWithPic()
+    {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $em  = $this->em;
+
+        $product = LoadTaobaoSelfPromotionProductData::$PRODUCTS[0];
+
+        $url = $container->get('router')->generate('jili_backend_admintaobao_editpromotionselfproduct', array('id'=> $product->getId() ));
+
+        $this->assertEquals('https://localhost/backend/admin/taobao/promotion-self-product/edit/'.$product->getId() ,$url);
+
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $form =$crawler->selectButton('删除')->form(array(), 'DELETE');
+        // prepare a product data
+        $client->submit($form);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        
+       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($product->getId());
+        $this->assertNull($after);
+        // image should not exists anymore
+       $picture_name =  $product->getPictureName();
+        $this->assertNotEmpty($picture_name);
+        $picture_dir = $container->getParameter('taobao_self_promotion_picture_dir') ;
+        $target = $picture_dir.$picture_name;
+        $this->assertFileNotExists($target);
+
+    }
 }

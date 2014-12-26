@@ -1,5 +1,15 @@
 {% extends "JiliBackendBundle::base.html.twig"%}
 
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset('css/pageNav.css')}}" type="text/css" rel="stylesheet">
+
+<style type="text/css">
+input.text{text-align:center;padding:10px 20px;width:300px;} 
+</style>
+
+{% endblock %}
+
 {% block title %}
 Taobao self promotion Edit-{{ parent() }}
 {% endblock %}
@@ -9,10 +19,8 @@ Taobao self promotion Edit-{{ parent() }}
 {% include("JiliBackendBundle:Taobao/PromotionSelfProduct:menu.html.twig") %}
 
 <form action="{{ path('jili_backend_admintaobao_updatepromotionselfproduct', {'id': entity.id} )  }}" method="POST" {{ form_enctype(edit_form) }} >
-            <input type="hidden" name="_method" value="PUT" />
-
+<input type="hidden" name="_method" value="PUT" />
 <table align="center">
-
 <tr>
     <td>{{ form_label(edit_form.taobaoCategory) }}</td>
     <td>
@@ -58,16 +66,17 @@ Taobao self promotion Edit-{{ parent() }}
     <td>
     {{ form_errors(edit_form.clickUrl) }}
     {{ form_widget(edit_form.clickUrl) }}
+    <a target="_blank" href="{{ entity.clickUrl }}">goto</a>
 </td>
 </tr>
 
 
 <tr>
-    <td>{{ form_label(edit_form.pictureName) }}</td>
+    <td>{# form_label(edit_form.pictureName) #}</td>
     <td>
     {{ form_errors(edit_form.pictureName) }}
     {{ form_widget(edit_form.pictureName) }}
-</td>
+    </td>
 </tr>
 
 <tr>

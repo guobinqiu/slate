@@ -101,7 +101,6 @@ class TaobaoSelfPromotionProductsRepositoryTest extends KernelTestCase
 
     /**
      * @group issue_594
-     * @group debug 
      */
     public function testRemove()
     {
