@@ -156,7 +156,7 @@ class TaoBaoLoginController extends Controller
         $request = $this->get('request');
         $taobao_token = $request->getSession()->get('taobao_token');
         if(!$taobao_token){
-            return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请在淘宝完成授权后再试。'));
+            //return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请在淘宝完成授权后再试。'));
         }
         $result['nickname'] = $request->getSession()->get('nickname');
         $form  = $this->createForm(new TaoBaoFirstRegist());

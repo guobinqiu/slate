@@ -35,7 +35,7 @@
                             <ul class="addAccount">
                                 <input type="hidden" name="taobaonickname" value="{{ nickname }}"/>
                                 <li>为保障您的账号安全，请设置一个邮箱和积粒网密码。</li>
-                                <li><label for="qqEmail">邮箱地址：</label>{{ form_widget(form.email, { 'attr': {'class': 'qqEmail'} }) }}</li>
+                                <li><label for="qqEmail">邮箱地址：</label>{{ form_widget(form.email, { 'attr': {'class': 'taobaoEmail'} }) }}</li>
                                 <li><label for="setPwd">设置密码：</label><input name="pwd" type="password" value=""/></li>
                                 <li>
                                     <strong class="errorMsg" id="regist_emailError">
@@ -73,7 +73,7 @@
                                 {#endif#}
                             </div>
                             <div class="qqPic">
-                                <img src="/images140307/qqPic.jpg" width="343" height="100"/>
+                                <img src="/images140307/taobaoPic.jpg" width="343" height="100"/>
                             </div>
                             <div class="clear"></div>
                         </div>
