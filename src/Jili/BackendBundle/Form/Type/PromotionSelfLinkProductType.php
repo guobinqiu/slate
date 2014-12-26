@@ -37,8 +37,12 @@ class PromotionSelfLinkProductType extends AbstractType
                 'label' => '自定义单品转后url',
                 'required'=> true,
                 'default_protocol'=>'http'
+            ))->add( 'pictureName','hidden', array(
+                'label'=>'图片文件名',
+                'required'=> false
             ))->add( 'picture','file', array(
-                'label'=>'图片' ,
+                'label'=>'图片上传' ,
+                'mapped'=>false,
                 'required'=> false
             ))->add( 'commentDescription', 'text',array(
                 'label'=> '评论',
@@ -71,4 +75,11 @@ class PromotionSelfLinkProductType extends AbstractType
     {
         return 'taobao_promotion_self_link_product';
     }
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Jili\FrontendBundle\Entity\TaobaoSelfPromotionProducts'
+        ));
+    }
+
 }

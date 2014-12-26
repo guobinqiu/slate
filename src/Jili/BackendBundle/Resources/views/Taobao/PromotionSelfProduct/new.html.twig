@@ -1,13 +1,14 @@
 {% extends "JiliBackendBundle::base.html.twig"%}
 
 {% block title %}
-Taobao self promotion -{{ parent() }}
+Taobao self promotion create -{{ parent() }}
 {% endblock %}
 
 {% block body %}
 
+{% include("JiliBackendBundle:Taobao/PromotionSelfProduct:menu.html.twig") %}
 
-<form action="{{ path('jili_backend_admintaobao_addpromotionselfproduct')  }}" method="POST">
+<form action="{{ path('jili_backend_admintaobao_createpromotionselfproduct')  }}" method="POST" {{ form_enctype(form) }} >
 <table align="center">
 
 <tr>
@@ -59,6 +60,13 @@ Taobao self promotion -{{ parent() }}
 </tr>
 
 
+<tr>
+    <td>{{ form_label(form.pictureName) }}</td>
+    <td>
+    {{ form_errors(form.pictureName) }}
+    {{ form_widget(form.pictureName) }}
+</td>
+</tr>
 <tr>
     <td>{{ form_label(form.picture) }}</td>
     <td>

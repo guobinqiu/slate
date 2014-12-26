@@ -1,6 +1,7 @@
 /web/bundles/
 /web/js/fos_js_routes.js
 /web/images/actionPic/
+/web/images/tb_products_pic/
 #/app/bootstrap*
 web/images/actionPic/
 /app/cache/*

@@ -13,13 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class TaobaoSelfPromotionProducts
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="taobao_category_id", type="integer", nullable=false)
-     */
-    private $taobaoCategoryId;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=64, nullable=true)
@@ -43,7 +36,7 @@ class TaobaoSelfPromotionProducts
     /**
      * @var string
      *
-     * @ORM\Column(name="item_url", type="string", length=255, nullable=false)
+     * @ORM\Column(name="item_url", type="string", length=255, nullable=true)
      */
     private $itemUrl;
 
@@ -57,14 +50,14 @@ class TaobaoSelfPromotionProducts
     /**
      * @var string
      *
-     * @ORM\Column(name="picture_name", type="string", length=64, nullable=false)
+     * @ORM\Column(name="picture_name", type="string", length=64, nullable=true)
      */
     private $pictureName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="comment_description", type="string", length=255, nullable=false)
+     * @ORM\Column(name="comment_description", type="string", length=255, nullable=true)
      */
     private $commentDescription;
 
@@ -98,30 +91,17 @@ class TaobaoSelfPromotionProducts
      */
     private $id;
 
-
-
     /**
-     * Set taobaoCategoryId
+     * @var \Jili\FrontendBundle\Entity\TaobaoCategory
      *
-     * @param integer $taobaoCategoryId
-     * @return TaobaoSelfPromotionProducts
+     * @ORM\ManyToOne(targetEntity="Jili\FrontendBundle\Entity\TaobaoCategory")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="taobao_category_id", referencedColumnName="id")
+     * })
      */
-    public function setTaobaoCategoryId($taobaoCategoryId)
-    {
-        $this->taobaoCategoryId = $taobaoCategoryId;
+    private $taobaoCategory;
 
-        return $this;
-    }
 
-    /**
-     * Get taobaoCategoryId
-     *
-     * @return integer 
-     */
-    public function getTaobaoCategoryId()
-    {
-        return $this->taobaoCategoryId;
-    }
 
     /**
      * Set title
@@ -363,12 +343,35 @@ class TaobaoSelfPromotionProducts
         return $this->id;
     }
 
+    /**
+     * Set taobaoCategory
+     *
+     * @param \Jili\FrontendBundle\Entity\TaobaoCategory $taobaoCategory
+     * @return TaobaoSelfPromotionProducts
+     */
+    public function setTaobaoCategory(\Jili\FrontendBundle\Entity\TaobaoCategory $taobaoCategory = null)
+    {
+        $this->taobaoCategory = $taobaoCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get taobaoCategory
+     *
+     * @return \Jili\FrontendBundle\Entity\TaobaoCategory 
+     */
+    public function getTaobaoCategory()
+    {
+        return $this->taobaoCategory;
+    }
+
+    /**
+     *
+     */
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime())
-            ->setCommentDescription('')
-            ->setItemUrl('')
-            ->setPictureName('')
             ->setPromotionRate(0);
     }
 

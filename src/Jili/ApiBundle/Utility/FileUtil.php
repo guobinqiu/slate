@@ -88,6 +88,7 @@ class FileUtil {
         if( ! $fs->exists($directory) ) {
             $fs->mkdir( $directory);
         }
+
         // mv upload image
         $uploaded->move($directory ,$name);
         return $name;

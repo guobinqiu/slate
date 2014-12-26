@@ -26,8 +26,8 @@ Taobao自助推广列表-{{ parent() }}
     <tr>
         <td>{{ entity.title}}</td>
         <td> 
-        <a href="{{ path("jili_backend_admintaobao_updatepromotionselfproduct", { "id": entity.id}) }}">Edit</a>
-        &nbsp;| </td>
+        <a href="{{ path('jili_backend_admintaobao_editpromotionselfproduct', { 'id': entity.id}) }}">编辑</a>
+        &nbsp; </td>
      </tr>
 {% endfor %}
 </table>
