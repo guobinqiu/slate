@@ -23,7 +23,7 @@ class TaoBaoLoginController extends Controller
     { 
         $request = $this->get('request');
         $code = $request->query->get('code');
-        $code = '3wYSz6OUh60AmCGiW6oiuYTS1477681';
+        //$code = '3wYSz6OUh60AmCGiW6oiuYTS1477681';
         $taobao_auth = $this->get('user_taobao_login')->getTaoBaoAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appsecret'),'');
         if(isset($code) && trim($code)!=''){
             //$request->getSession()->set('code', $code);
@@ -112,6 +112,7 @@ class TaoBaoLoginController extends Controller
             //注册成功，登陆并跳转主页
             $code = $this->get('login.listener')->login($request);
             if($code == 'ok') {
+                //$request->getSession()->remove('open_id');
                 return $this->redirect($this->generateUrl('_homepage'));
             }
         } else {
@@ -160,17 +161,6 @@ class TaoBaoLoginController extends Controller
         if(!$taobao_token){
             return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请在淘宝完成授权后再试。'));
         }
-        //$taobao_auth = $this->get('user_taobao_login')->getTaoBaoAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appsecret'),$taobao_token);
-        //获取登录用户open id 
-        /*$openid = $request->getSession()->get('open_id');
-        $openid = "111111";
-        if(!$openid){
-            $taobao_oid = $taobao_auth->get_openid();
-            $openid = $taobao_oid['openid']; 
-            $request->getSession()->set('open_id',$openid);
-        }*/
-        
-        //$result = $taobao_auth->get_user_info($openid);
         $result['nickname'] = $request->getSession()->get('nickname');
         $form  = $this->createForm(new TaoBaoFirstRegist());
         return $this->render('JiliApiBundle:User:taobaoFirstLogin.html.twig',
