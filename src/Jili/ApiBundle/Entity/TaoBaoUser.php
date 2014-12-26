@@ -5,7 +5,7 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * QQUser
+ * TaoBaoUser
  *
  * @ORM\Table(name="taobao_user")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\TaoBaoUserRepository")

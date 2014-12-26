@@ -23,13 +23,11 @@ class TaoBaoLoginController extends Controller
     { 
         $request = $this->get('request');
         $code = $request->query->get('code');
-        //$code = '3wYSz6OUh60AmCGiW6oiuYTS1477681';
         $taobao_auth = $this->get('user_taobao_login')->getTaoBaoAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appsecret'),'');
         if(isset($code) && trim($code)!=''){
             //$request->getSession()->set('code', $code);
             $result=$taobao_auth->access_token_and_user_info($this->container->getParameter('callback_url'), $code, 'test');//得到token和淘宝用户基本信息
         }
-        //var_dump($result);exit;
         if(isset($result['access_token']) && $result['access_token']!=''){
             //授权完成，保存登录信息，使用session保存
             $request->getSession()->set('taobao_token', $result['access_token']);
@@ -44,8 +42,7 @@ class TaoBaoLoginController extends Controller
                 if(empty($jiliuser)){
                     return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，找不到该用户，请联系客服。'));
                 }
-                $request->getSession()->set('uid',$jiliuser->getId());
-                $request->getSession()->set('nick',$jiliuser->getNick());
+                $this->get('login.listener')->initSession($jiliuser);
                 return $this->redirect($this->generateUrl('_homepage'));
             } else {
                 //无此用户，说明没有用taobao注册过，转去fist_login页面
@@ -57,7 +54,7 @@ class TaoBaoLoginController extends Controller
             return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，淘宝用户授权失败，请稍后再试。'));
         }
         //跳转到 taobaologin action
-        return $this->redirect($this->generateUrl('taobao_fist_login'));
+        return $this->redirect($this->generateUrl('taobao_first_login'));
     }
     
     /**
@@ -152,7 +149,7 @@ class TaoBaoLoginController extends Controller
     }
     
     /**
-     * @Route("/taobaoFistLogin", name="taobao_fist_login")
+     * @Route("/taobaoFirstLogin", name="taobao_first_login")
      */
     public function taobaoFirstLoginAction()
     {
