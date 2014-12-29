@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * @Route("/admin/pointmanage",requirements={"_scheme"="https"})
  */
-class PointManageController extends Controller implements IpAuthenticatedController, LoginAuthenticatedController {
+class PointManageController extends Controller implements IpAuthenticatedController {
 
     /**
     * @Route("/pointHistorySearch", name="_admin_pointHistorySearch")
