@@ -11,6 +11,26 @@ parameters:
     offer99_com.category_type: 18
     offer99_com.task_type: 5
 
+    bangwoya_com:
+        url: "http://demo.bangwoya.com/91jili"  #正式机 :http://www.bangwoya.com/91jili
+        key: "91jili2bangwoya"
+        name: "体验广告"
+        category_type: 22
+        task_type: 5
+        upper_limit: 5000
+        client_ip: "127.0.0.1" #正式121.40.71.200，测试：121.40.71.200 本机127.0.0.1,::1
+        mail_subject: "积粒网-bangwoya体验广告接口数据处理失败"
+        bangwoya_api_log: "/data/91jili/logs/api/bangwoya_api.log"
+        alertTo_contacts: vctech-system-emergency@voyagegroup.com
+        validations:
+            1: { errorno: "1001", message: "缺少参数(检查参数是否传递,nonceStr是否为32位)"}
+            2: { errorno: "1002", message: "密码验证不通过" }
+            3: { errorno: "1003", message: "tid重复" }
+            4: { errorno: "1004", message: "vmoney超过最大限额" }
+            5: { errorno: "1005", message: "partnerid不存在" }
+            6: { errorno: "1006", message: "非法IP" }
+            7: { errorno: "1007", message: "指令收到，充值需要等待" }
+
     cpa.category_type:  1 # in table ad_category where category_name='CPA'
     cps.category_type:  1 # in table ad_category where category_name='CPS'
 
@@ -249,7 +269,7 @@ parameters:
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
     file_path_cpa_ranking_activity: /data/91jili/logs/activity/cpa_ranking_activity
-    
+
     qq_appid: 101163684
     qq_appkey: fe7b1879a8e220136aa63ae92a9e5745
     qq_email_suffix: qq.com
@@ -276,7 +296,7 @@ parameters:
             points_pool: "%cache_data_path%/game_eggs_breaker/consolation/points_pool_YYYYmmdd.json"
     webpower_email_username: 'admin'
     webpower_email_password: 'nUshkwu#9'
-    
+
     cron_alertTo_contacts: jinzhang@voyagegroup.com.cn,zhangmm@voyagegroup.com.cn,tao_jiang@voyagegroup.com,xiaoyi_chai@voyagegroup.com,xujf@voyagegroup.com.cn
     alert_subject: '积粒网-定时任务提醒邮件'
 
