@@ -13,10 +13,8 @@ class TaoBaoUserRepository extends EntityRepository
     public function taobao_user_insert(array $param)
     {
         $taobao_user =  new TaoBaoUser;
-        //var_dump($taobao_user);exit;
         $taobao_user->setUserId($param['user_id']);
         $taobao_user->setOpenId($param['open_id']);
-        $taobao_user->setRegistDate(new \Datetime());
         $em = $this->getEntityManager();
         $em->persist($taobao_user);
         $em->flush();

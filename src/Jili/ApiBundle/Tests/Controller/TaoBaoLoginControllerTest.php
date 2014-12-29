@@ -78,7 +78,7 @@ class TaoBaoLoginControllerTest extends WebTestCase
     }
 
     /**
-     * @group issue_5366
+     * @group issue_536
      */
     public function testCallBackAction() 
     {
