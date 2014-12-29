@@ -58,6 +58,11 @@ class PointManageController extends Controller implements IpAuthenticatedControl
         // 取得积分历史记录
         $user_id = $user->getId();
         $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->pointHistorySearch($user_id, $category_id, $start_time, $end_time);
+        if (!$result) {
+            $arr['message'] = 'No record.';
+            return $this->render('JiliBackendBundle:PointManage:pointHistorySearch.html.twig', $arr);
+        }
+
         // 取得各记录中所对应的积分类型名称
         foreach ($result as $key => $value) {
             $category = $em->getRepository('JiliApiBundle:AdCategory')->find($value['reason']);
