@@ -271,6 +271,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
 
             $em->persist($entity);
             $em->flush();
+            $this->get('session')->getFlashBag()->add('notice', '成功创建商品: '. $entity->getTitle());
             return $this->redirect($this->generateUrl('jili_backend_admintaobao_editpromotionselfproduct', array('id' => $entity->getId())));
 
         }
@@ -347,6 +348,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add('notice', '成功修改 id为'. $id. '的商品');
             return $this->redirect($this->generateUrl('jili_backend_admintaobao_editpromotionselfproduct', array('id' => $id)));
         }
 

@@ -51,4 +51,5 @@ CREATE TABLE `taobao_self_promotion_products` (
 ALTER TABLE  `taobao_self_promotion_products` CHANGE  `picture_name`  `picture_name` VARCHAR( 64 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
 -- ALTER TABLE  `taobao_self_promotion_products` ADD  `taobao_category_id` INT NOT NULL AFTER  `id` ,ADD INDEX (  `taobao_category_id` ) ;
 -- ALTER TABLE `taobao_self_promotion_products` ADD FOREIGN KEY ( `taobao_category_id` ) REFERENCES `taobao_category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT ;
+-- ALTER TABLE `taobao_self_promotion_products` CHANGE `picture_name` `picture_name` VARCHAR( 64 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;
 

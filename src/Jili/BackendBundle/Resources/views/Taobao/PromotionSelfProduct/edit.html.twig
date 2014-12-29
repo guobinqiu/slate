@@ -18,6 +18,8 @@ Taobao self promotion Edit-{{ parent() }}
 
 {% include("JiliBackendBundle:Taobao/PromotionSelfProduct:menu.html.twig") %}
 
+{% include("JiliBackendBundle::session_notification.html.twig") %}
+
 <form action="{{ path('jili_backend_admintaobao_updatepromotionselfproduct', {'id': entity.id} )  }}" method="POST" {{ form_enctype(edit_form) }} >
 <input type="hidden" name="_method" value="PUT" />
 <table align="center">

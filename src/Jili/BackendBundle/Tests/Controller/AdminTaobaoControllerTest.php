@@ -390,7 +390,6 @@ $this->assertEquals($categories[0]->getId(), $expected->getTaobaoCategory()->get
 
     /**
      * @group issue_594 
-     * @group debug 
      */
     public function testUpdatePromotionSelfProductAction()
     {
@@ -420,7 +419,6 @@ $this->assertEquals($categories[0]->getId(), $expected->getTaobaoCategory()->get
     /**
      * edit with picture
      * @group issue_594 
-     * @group debug 
      */
     public function testUpdatePromotionSelfProductActionWithPic()
     {
@@ -459,7 +457,6 @@ $this->assertEquals($categories[0]->getId(), $expected->getTaobaoCategory()->get
 
     /**
      * @group issue_594 
-     * @group debug 
      */
     public function testRemovePromotionSelfProductAction()
     {
@@ -487,7 +484,6 @@ $this->assertEquals($categories[0]->getId(), $expected->getTaobaoCategory()->get
     /**
      * With image
      * @group issue_594 
-     * @group debug 
      */
     public function testRemovePromotionSelfProductActionWithPic()
     {

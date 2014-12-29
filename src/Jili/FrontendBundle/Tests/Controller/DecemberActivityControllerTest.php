@@ -117,6 +117,7 @@ class DecemberActivityControllerTest extends WebTestCase
 
     /**
      * @group issue_537
+     * @group debug 
      */
     public function testIndexAction()
     {
@@ -124,6 +125,10 @@ class DecemberActivityControllerTest extends WebTestCase
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_index');
         $this->assertEquals('/activity/december/', $url);
+
+        $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     /**

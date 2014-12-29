@@ -38,7 +38,7 @@ class TaobaoSelfPromotionProductsRepositoryTest extends KernelTestCase
         $loader->addFixture($fixture);
 
         $tn = $this->getName();
-        if(in_array( $tn ,array('testFetchByRange','testRemove'))) {
+        if(in_array( $tn ,array('testFetchByRange','testRemove','testFetchWithCategory'))) {
             $fixture1 = new LoadTaobaoSelfPromotionProductData();
             $fixture1->setContainer($container);
             $loader->addFixture($fixture1);
@@ -98,6 +98,19 @@ class TaobaoSelfPromotionProductsRepositoryTest extends KernelTestCase
         //
     }
 
+    /**
+     * @group issue_594
+     **/
+    public function testFetchWithCategory()
+    {
+
+        $em = $this->em;
+        $actual = $this->em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
+            ->fetch();
+
+        $this->assertCount(100, $actual['products']);
+        $this->assertCount(12,$actual['categorys']);
+    }
 
     /**
      * @group issue_594
@@ -128,6 +141,7 @@ class TaobaoSelfPromotionProductsRepositoryTest extends KernelTestCase
             ->remove($id,$picture_dir);
         $this->assertNull($em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($id));
     }
+
 
 
 }

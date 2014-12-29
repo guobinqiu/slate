@@ -126,4 +126,23 @@ class TaobaoSelfPromotionProductsRepository extends EntityRepository
         return array('total'=> $total, 'data'=> $rows);
     }
 
+    /**
+     * @return array  
+     */
+    public function fetch()
+    {
+        $em = $this->getEntityManager();
+
+        $qb= $this->createQueryBuilder('p');
+        $qb->orderBy('p.taobaoCategory', 'ASC');
+        $qb->addOrderBy('p.id', 'DESC');
+
+        $rows = $qb->getQuery()->getResult();
+
+        return  $rows ;
+        
+        //$em->getRepository('JiliFrontendBundle:TaobaoCategory', 'tbc')
+    }
+
+
 }
