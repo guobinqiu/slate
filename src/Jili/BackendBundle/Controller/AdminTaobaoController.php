@@ -54,7 +54,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
         $arr['category_product'] = TaobaoComponent :: TAOBAO_COMPONENT_KEYWORD;
         $arr['components'] = $components;
         $arr['drop_down_box_default'] = TaobaoComponent :: DROP_DOWN_BOX_DEFAULT;
-        return $this->render('JiliBackendBundle:taobao:component.html.twig', $arr);
+        return $this->render('JiliBackendBundle:Taobao:component.html.twig', $arr);
     }
 
     public function getConditions($componentId, $categoryId, $keywordId) {
@@ -132,7 +132,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
         $arr['id'] = $id;
         $arr['category_product'] = TaobaoComponent :: TAOBAO_COMPONENT_KEYWORD;
         $arr['drop_down_box_default'] = TaobaoComponent :: DROP_DOWN_BOX_DEFAULT;
-        return $this->render('JiliBackendBundle:taobao:saveComponent.html.twig', $arr);
+        return $this->render('JiliBackendBundle:Taobao:saveComponent.html.twig', $arr);
     }
 
     /**
