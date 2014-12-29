@@ -2,7 +2,7 @@
 namespace Jili\ApiBundle\Utility;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\FileSystem\FileSystem;
+use Symfony\Component\Filesystem\Filesystem;
 /**
  *
  */
@@ -84,7 +84,7 @@ class FileUtil {
         //      throw new ParameterNotFoundException('taobao_self_promotion_picture_dir');
         //  }
         
-        $fs = new FileSystem();
+        $fs = new Filesystem();
         if( ! $fs->exists($directory) ) {
             $fs->mkdir( $directory);
         }

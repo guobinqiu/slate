@@ -3,7 +3,7 @@ namespace Jili\BackendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\FileSystem\FileSystem;
+use Symfony\Component\Filesystem\Filesystem;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -283,7 +283,7 @@ class AdminTaobaoControllerTest extends WebTestCase {
         $form =$crawler->selectButton('提交')->form();
 
         $picture_dir = $container->getParameter('taobao_self_promotion_picture_dir') ;
-        $fs = new FileSystem();
+        $fs = new Filesystem();
         $fs->remove($picture_dir);
 
         $categories = LoadTaobaoCategoryData::$SELF_PROMOTION_CATEGORIES;

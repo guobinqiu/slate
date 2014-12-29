@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\FileSystem\FileSystem;
+use Symfony\Component\Filesystem\Filesystem;
 
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
@@ -60,7 +60,7 @@ class LoadTaobaoSelfPromotionProductData extends AbstractFixture implements Cont
         $directory = $this->container->getParameter('taobao_self_promotion_picture_dir');
         $fixture_dir = $this->container->getParameter('kernel.root_dir');
         $source = $fixture_dir.'/fixtures/taobao/';
-        $fs = new FileSystem();
+        $fs = new Filesystem();
         if( ! $fs->exists($directory) ) {
             $fs->mkdir( $directory);
         }
