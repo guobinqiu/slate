@@ -5,10 +5,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
-
-// use Jili\ApiBundle\DataFixtures\ORM\Entity\LoadAdvertisermentCodeData;
-
 
 class TaoBaoUserTest extends KernelTestCase
 {
@@ -28,15 +24,10 @@ class TaoBaoUserTest extends KernelTestCase
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
         $container = static :: $kernel->getContainer();
 
-            // purge tables;
-            $purger = new ORMPurger($em);
-            $executor = new ORMExecutor($em, $purger);
-            $executor->purge();
-
-  //              $fixture = new LoadAdvertisermentCodeData(); 
-  //          $loader = new Loader();
-  //          $loader->addFixture($fixture);
-  //          $executor->execute($loader->getFixtures());
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
 
         $this->container = $container;
         $this->em = $em;

@@ -659,7 +659,7 @@ EOT;
     public function qquser_quick_insert(array $param)
     {
         $user =  new User;
-        $user->setNick('QQ'.$param['nick']);
+        $user->setNick(User::FROM_QQ_PREFIX.$param['nick']);
         $user->setEmail($param['email']);
         $user->setPwd($param['pwd']);
         $user->setDeleteFlag(0);
@@ -677,7 +677,7 @@ EOT;
     public function taboabo_user_quick_insert(array $param)
     {
         $user =  new User;
-        $user->setNick("taobao_".$param['nick']);
+        $user->setNick(User::FROM_TAOBAO_PREFIX.$param['nick']);
         $user->setEmail($param['email']);
         $user->setPwd($param['pwd']);
         $user->setDeleteFlag(0);
