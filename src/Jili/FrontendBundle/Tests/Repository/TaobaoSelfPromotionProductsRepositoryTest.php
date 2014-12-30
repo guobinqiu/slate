@@ -59,32 +59,6 @@ class TaobaoSelfPromotionProductsRepositoryTest extends KernelTestCase
         $this->em->close();
     }
 
-    /**
-     * @group issue_594
-     */
-    public function  testInsert() 
-    {
-
-        $em = $this->em;
-        $params = array(
-            'title'=>'【天猫】电脑屏幕防辐射 贴膜'  ,
-            'price'=> 22.00,
-            'pricePromotion'=> 7.90,
-            'clickUrl'=>'http://s.click.taobao.com/t?e=m%3D2%26s%3Dw0GvCHM7Pr8cQipKwQzePOeEDrYVVa64pRe%2F8jaAHci5VBFTL4hn2dPNz8lX%2Bm09DOz%2BQ0BmwbzE%2Ff4qt46kcundZYnGkACiyiq2TwADYwZJ3n63Gp0ZhdzgqBjt9TgiXkknyJYcnZp4A7P1X76t%2ByGFCzYOOqAQ',
-        );
-
-        $entity = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
-            ->insert( $params );
-
-        $expected =$em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
-            ->findBy($params);
-
-        $this->assertEquals(1, count($expected));
-
-        // with pics
-        //
-    }
-
 
     /**
      * @group issue_594
@@ -108,39 +82,9 @@ class TaobaoSelfPromotionProductsRepositoryTest extends KernelTestCase
         $actual = $this->em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
             ->fetch();
 
-        $this->assertCount(100, $actual['products']);
-        $this->assertCount(12,$actual['categorys']);
+        $this->assertCount(100, $actual);
     }
 
-    /**
-     * @group issue_594
-     */
-    public function testRemove()
-    {
-        $em = $this->em;
-        $picture_dir = $this->container->getParameter('taobao_self_promotion_picture_dir') ;
-
-        // with image
-        $id = LoadTaobaoSelfPromotionProductData::$PRODUCTS[0]->getId();
-        $target = $picture_dir.LoadTaobaoSelfPromotionProductData::$PRODUCTS[0]->getPictureName();
-        $this->assertFileExists($target);
-        $before = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($id);
-        $this->assertNotNull($before);
-        $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\TaobaoSelfPromotionProducts',$before);
-        $actual = $this->em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
-            ->remove($id,$picture_dir);
-        $this->assertNull($em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($id));
-        $this->assertFileNotExists($target);
-
-        // without image
-        $id = LoadTaobaoSelfPromotionProductData::$PRODUCTS[1]->getId();
-        $before = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($id);
-        $this->assertNotNull($before);
-        $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\TaobaoSelfPromotionProducts',$before);
-        $actual = $this->em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
-            ->remove($id,$picture_dir);
-        $this->assertNull($em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($id));
-    }
 
 
 

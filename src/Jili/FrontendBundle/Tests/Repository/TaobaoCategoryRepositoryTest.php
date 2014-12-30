@@ -66,7 +66,7 @@ class TaobaoCategoryRepositoryTest extends KernelTestCase {
 
  
         $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys(0,TaobaoCategory::SELF_PROMOTION);
-        $this->assertEquals(12, count($keywords));
+        $this->assertEquals(11, count($keywords));
 
     }
 
