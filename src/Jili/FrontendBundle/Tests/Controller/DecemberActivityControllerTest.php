@@ -208,9 +208,9 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals('*需要填0~9组成的订单号',$error_message);
 
     }
+
     /**
      * @group issue_537
-     * @group debug 
      */
     public function testAddTaobaoOrderActionValidationII()
     {

@@ -11,8 +11,8 @@ class PointHistoryRepository extends EntityRepository
 {
 
     /**
-     * @param integer $uid user id 
-     * @param integer $reason ad_category.id 
+     * @param integer $uid user id
+     * @param integer $reason ad_category.id
      * @return array  array(0=> array('id'=> ), 1=>array('id'=>),..) or array()
      **/
     public function issetInsert($uid, $reason = 16)
@@ -56,7 +56,7 @@ class PointHistoryRepository extends EntityRepository
      */
     public function get(array $params = array() )
     {
-        if( ! isset($params['userid'] ) || $params['userid'] <= 0 
+        if( ! isset($params['userid'] ) || $params['userid'] <= 0
             || ! isset($params['point']) || ! isset($params['type']) ) {
                 return null;
             }
@@ -71,11 +71,40 @@ class PointHistoryRepository extends EntityRepository
     }
 
     /**
-     * @return boolean 
+     * @return boolean
      */
     public function isGameSeekerCompletedToday ($uid) {
-        $gameSeekerCategoryId = \Jili\ApiBundle\Entity\AdCategory::ID_GAME_SEEKER; 
+        $gameSeekerCategoryId = \Jili\ApiBundle\Entity\AdCategory::ID_GAME_SEEKER;
         $pointLog =  $this->issetInsert( $uid, $gameSeekerCategoryId) ;
         return (empty($pointLog )) ? false: true;
+    }
+
+    public function pointHistorySearch($user_id, $category_id, $start_time, $end_time)
+    {
+        $param = array();
+        $query = $this->createQueryBuilder('ph');
+        $query = $query->select('ph.id, ph.userId, ph.reason, ph.pointChangeNum, ph.createTime');
+
+        $query = $query->Where('ph.userId = :userId');
+        $param['userId'] = $user_id;
+
+        if($category_id){
+            $query = $query->andWhere('ph.reason = :reason');
+            $param['reason'] = $category_id;
+        }
+
+        if($start_time){
+            $query = $query->andWhere('ph.createTime >= :start_time');
+            $param['start_time'] = $start_time." 00:00:00";
+        }
+
+        if($end_time){
+            $query = $query->andWhere('ph.createTime <= :end_time');
+            $param['end_time'] = $end_time." 23:59:59";
+        }
+        $query = $query->setParameters($param);
+        $query->orderBy('ph.createTime', 'DESC');
+        $query =  $query->getQuery();
+        return $query->getResult();
     }
 }
