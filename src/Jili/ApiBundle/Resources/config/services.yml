@@ -36,8 +36,9 @@ parameters:
     user_bind.class: Jili\ApiBundle\Services\UserBind
     user_login.class: Jili\ApiBundle\Services\UserLogin
     user_qq_login.class: Jili\ApiBundle\Services\QQLogin
-
-# session
+    user_taobao_login.class: Jili\ApiBundle\Services\TaoBaoLogin
+    
+# session 
     session.task_list.class: Jili\ApiBundle\Services\Session\User\TaskList
     session.my_task_list.class: Jili\ApiBundle\Services\Session\User\MyTaskList
     session.points.class: Jili\ApiBundle\Services\Session\User\Points
@@ -258,3 +259,5 @@ services:
     user_qq_login:
         class: %user_qq_login.class%
 
+    user_taobao_login:
+        class: %user_taobao_login.class%

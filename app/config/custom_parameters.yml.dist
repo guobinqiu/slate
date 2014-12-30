@@ -299,3 +299,7 @@ parameters:
 
     cron_alertTo_contacts: jinzhang@voyagegroup.com.cn,zhangmm@voyagegroup.com.cn,tao_jiang@voyagegroup.com,xiaoyi_chai@voyagegroup.com,xujf@voyagegroup.com.cn
     alert_subject: '积粒网-定时任务提醒邮件'
+
+    taobao_appid: 23058537
+    taobao_appsecret: e6ccc0b02a0c2180d3af84f20a7cb535
+    taobao_login_callback_url: http://www.91jili.com/TaoBaoLogin/taobaocallback
