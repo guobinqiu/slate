@@ -53,6 +53,7 @@
                         <span class="Jl fontYH">已有积粒网账号</span>
                         <form action="{{ path('taobao_bind') }}" method="post" name="form2" id="form2" >
                             <ul class="bindAccount">
+                                <input type="hidden" name="taobaonickname" value="{{ nickname }}"/>
                                 <li>将已有的积粒网账号与淘宝账号绑定</li>
                                 <li><label for="kxUser">积粒账号：</label><input name="jili_email" type="text" value="{{ email }}"/></li>
                                 <li><label for="kxPwd">登录密码：</label><input id="pwd" name="jili_pwd" type="password" value=""/>{% if 1 %}

@@ -54,6 +54,8 @@
                         <span class="Jl fontYH">已有积粒网账号</span>
                         <form action="{{ path('qq_bind') }}" method="post" name="form2" id="form2" >
                             <ul class="bindAccount">
+                                <input type="hidden" name="qqnickname" value="{{ nickname }}"/>
+                                <input type="hidden" name="sex" value="{{ sex }}"/>
                                 <li>将已有的积粒网账号与QQ账号绑定</li>
                                 <li><label for="kxUser">积粒账号：</label><input name="jili_email" type="text" value="{{ email }}"/>
                                     <strong class="errorMsg" id="bind_emailError">

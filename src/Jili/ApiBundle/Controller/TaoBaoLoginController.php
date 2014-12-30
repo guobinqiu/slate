@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\OAuth\TaoBaoAuth;
 use Jili\ApiBundle\Form\Type\TaoBaoFirstRegist;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class TaoBaoLoginController extends Controller
 {
@@ -23,10 +24,13 @@ class TaoBaoLoginController extends Controller
     { 
         $request = $this->get('request');
         $code = $request->query->get('code');
+        $cakkback_error = $request->query->get('error','');
         $taobao_auth = $this->get('user_taobao_login')->getTaoBaoAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appsecret'),'');
+        if(isset($cakkback_error) && trim($cakkback_error)!=''){
+            return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，淘宝用户授权失败，请稍后再试。'));
+        }
         if(isset($code) && trim($code)!=''){
-            //$request->getSession()->set('code', $code);
-            $result=$taobao_auth->access_token_and_user_info($this->container->getParameter('callback_url'), $code, 'test');//得到token和淘宝用户基本信息
+            $result=$taobao_auth->access_token_and_user_info($this->container->getParameter('callback_url'), $code, '');//得到token和淘宝用户基本信息
         }
         if(isset($result['access_token']) && $result['access_token']!=''){
             //授权完成，保存登录信息，使用session保存
@@ -39,9 +43,6 @@ class TaoBaoLoginController extends Controller
             if( !empty($taobaouser)){
                 //如果db已有此openid，说明用户已注册过，设成登陆状态，可直接跳转到首页
                 $jiliuser = $em->getRepository('JiliApiBundle:User')->find($taobaouser->getUserId());
-                if(empty($jiliuser)){
-                    return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，找不到该用户，请联系客服。'));
-                }
                 $this->get('login.listener')->initSession($jiliuser);
                 return $this->redirect($this->generateUrl('_homepage'));
             } else {
@@ -72,13 +73,14 @@ class TaoBaoLoginController extends Controller
         } else {
             // 首次taobao登陆,到授权页面
             $taobao_auth = $this->get('user_taobao_login')->getTaoBaoAuth($this->container->getParameter('taobao_appid'), $this->container->getParameter('taobao_appsecret'),$taobao_access_token);
-            $login_url = $taobao_auth->login_url($this->container->getParameter('taobao_login_callback_url'),"test" );
+            $login_url = $taobao_auth->login_url($this->container->getParameter('taobao_login_callback_url'),"" );
             return  new RedirectResponse($login_url, '301');
         }
     }
     
     /**
      * @Route("/taobaoRegiste", name="taobao_registe")
+     * @Method( "POST" )
      */
     public function taobaoRegisteAction()
     {
@@ -123,22 +125,24 @@ class TaoBaoLoginController extends Controller
     
     /**
      * @Route("/taobaobind", name="taobao_bind")
+     * @Method( "POST" )
      */
     public function taobaoBindAction()
     {
         $request = $this->get('request');
-        $user_bind = $this->get('user_bind');
-        $param['nick'] = 'taobao_'.$request->request->get('taobaonickname'); 
-        $param['email'] = $request->request->get('jili_email');
-        $param['pwd']= $request->request->get('jili_pwd');
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
         if(!$param['open_id']){
             return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请稍后再试。'));
         }
+        $param['nick'] = $request->request->get('taobaonickname'); 
+        $param['email'] = $request->request->get('jili_email');
+        $param['pwd']= $request->request->get('jili_pwd');
+
         $request->request->set('pwd', $param['pwd']);
         $request->request->set('email',$param['email']);
         $code = $this->get('login.listener')->login($request);
         if($code == 'ok') {
+            $user_bind = $this->get('user_bind');
             $result = $user_bind->taobao_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
             return $this->redirect($this->generateUrl('_homepage'));
         }
