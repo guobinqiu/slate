@@ -559,18 +559,18 @@ class AdminControllerTest extends WebTestCase {
         $wenwenExId = "issue535_123456_1";
 
         $message = $controller->checkExchangeWen($cross_id, $wenwenExId, $points);
-        $this->assertEquals($wenwenExId."已发放", $message);
+        $this->assertEquals($wenwenExId . "已发放", $message);
 
         $wenwenExId = "issue535_123456_2";
         $cross_id = 100;
         $message = $controller->checkExchangeWen($cross_id, $wenwenExId, $points);
 
-        $this->assertEquals($wenwenExId."兑换失败", $message);
+        $this->assertEquals($wenwenExId . "兑换失败", $message);
 
         $wenwenExId = "issue535_123456_3";
         $cross_id = $user_crosss[1]->getId();
         $message = $controller->checkExchangeWen($cross_id, $wenwenExId, $points);
-        $this->assertEquals($wenwenExId."兑换失败", $message);
+        $this->assertEquals($wenwenExId . "兑换失败", $message);
     }
 
     /**
@@ -603,7 +603,6 @@ class AdminControllerTest extends WebTestCase {
      */
     public function testAddPointManageAction(){
         $client = static :: createClient();
-
         $url = '/admin/pointManage';
         $crawler = $client->request('GET', $url);
         $this->assertEquals(301, $client->getResponse()->getStatusCode());

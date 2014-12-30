@@ -44,7 +44,7 @@ $(document).ready(function(){
     </form>
  </table>
  {% if member %}
-   <table border="1px" cellspacing="0px" class="member_table"> 
+   <table border="1px" cellspacing="0px" class="member_table">
     <tr>
         <th>user id</th>
         <td width="350px;">{{ member.id }}
@@ -52,11 +52,11 @@ $(document).ready(function(){
     </tr>
     <tr>
         <th>email</th>
-        <td>{{ member.email }}</td>
+        <td>{{ member.email }}&nbsp;</td>
     </tr>
     <tr>
         <th>nick</th>
-        <td>{{ member.nick }}</td>
+        <td>{{ member.nick }}&nbsp;</td>
     </tr>
     <tr>
         <th>tel</th>
@@ -64,11 +64,11 @@ $(document).ready(function(){
     </tr>
     <tr>
         <th>register date</th>
-        <td>{{ member.registerDate|date("Y-m-d H:i:s") }}</td>
+        <td>{{ member.registerDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
     <tr>
         <th>last login date</th>
-        <td>{{ member.lastLoginDate|date("Y-m-d H:i:s") }}</td>
+        <td>{{ member.lastLoginDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
     <tr>
         <th>points</th>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Jili\ApiBundle\Tests\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Jili\ApiBundle\DataFixtures\ORM\Repository\PointHistory\LoadIssetInsertData;
 
-class PointHistoryRepositoryTest extends KernelTestCase 
+class PointHistoryRepositoryTest extends KernelTestCase
 {
 
     /**
@@ -51,7 +51,7 @@ class PointHistoryRepositoryTest extends KernelTestCase
 
     /**
      * @group point
-     * @group issue_524 
+     * @group issue_524
      */
     public function testIssetInsert()
     {
@@ -68,7 +68,7 @@ class PointHistoryRepositoryTest extends KernelTestCase
         $this->assertNotNull($instance);
         $this->assertEmpty($instance);
 
-        // normal 
+        // normal
         $user = LoadIssetInsertData::$USERS[2];
         $instance = $em->getRepository('JiliApiBundle:PointHistory0'. ( $user->getId() % 10))->issetInsert( $user->getId(), 30);
         $this->assertNotNull($instance);
@@ -79,9 +79,9 @@ class PointHistoryRepositoryTest extends KernelTestCase
 
     /**
      * @group point
-     * @group issue_524 
+     * @group issue_524
      */
-    public function testIsGameSeekerCompletedToday () 
+    public function testIsGameSeekerCompletedToday ()
     {
         // user with no point_history record
         $user = LoadIssetInsertData::$USERS[0];
@@ -94,9 +94,35 @@ class PointHistoryRepositoryTest extends KernelTestCase
         $result = $em->getRepository('JiliApiBundle:PointHistory0'. ( $user->getId() % 10))->isGameSeekerCompletedToday( $user->getId());
         $this->assertSame(false ,$result);
 
-        // normal 
+        // normal
         $user = LoadIssetInsertData::$USERS[2];
         $result = $em->getRepository('JiliApiBundle:PointHistory0'. ( $user->getId() % 10))->isGameSeekerCompletedToday( $user->getId());
         $this->assertSame(true ,$result);
+    }
+
+    /**
+     * @group issue_600
+     */
+    public function testPointHistorySearch() {
+        $user = LoadIssetInsertData :: $USERS[1];
+        $em = $this->em;
+        $category_id = '';
+        $start_time = '';
+        $end_time = '';
+        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->pointHistorySearch($user->getId(), $category_id, $start_time, $end_time);
+        $this->assertCount(2, $result);
+
+        $category_id = 16;
+        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->pointHistorySearch($user->getId(), $category_id, $start_time, $end_time);
+        $this->assertCount(1, $result);
+
+        $category_id = '';
+        $start_time = date('Y-m-d');
+        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->pointHistorySearch($user->getId(), $category_id, $start_time, $end_time);
+        $this->assertCount(1, $result);
+
+        $end_time = date('Y-m-d');
+        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->pointHistorySearch($user->getId(), $category_id, $start_time, $end_time);
+        $this->assertCount(1, $result);
     }
 }
