@@ -47,29 +47,6 @@ class TaoBaoAuth
 		return json_decode($result_str,true);
 	}
 
-	//获取登录用户的openid
-	public function get_openid(){
-		$params=array(
-			'access_token'=>$this->access_token
-		);
-		$url='https://graph.qq.com/oauth2.0/me?'.http_build_query($params);
-		$result_str=$this->http($url);
-		$json_r=array();
-		if($result_str!=''){
-			preg_match('/callback\(\s+(.*?)\s+\)/i', $result_str, $result_a);
-			$json_r=json_decode($result_a[1], true);
-		}
-		return $json_r;
-	}
-
-	//根据openid获取用户信息
-	public function get_user_info($openid){
-		$params=array(
-			'openid'=>$openid
-		);
-		return $this->api('user/get_user_info', $params);
-	}
-
 	//调用接口
 	/**
 	**/
