@@ -276,7 +276,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
 
         }
 
-        return $this->render( 'JiliBackendBundle:Taobao/PromotionSelfProduct:add.html.twig', array('form'=> $form->createView() )) ;
+        return $this->render( 'JiliBackendBundle:Taobao/PromotionSelfProduct:new.html.twig', array('form'=> $form->createView() )) ;
     }
 
 
