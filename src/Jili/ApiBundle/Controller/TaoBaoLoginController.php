@@ -85,23 +85,27 @@ class TaoBaoLoginController extends Controller
     public function taobaoRegisteAction()
     {
         $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
         $taobaoForm = $request->request->get('taobao_user_regist');
+        $code = "";
         $param['email'] = $taobaoForm['email']; 
         $request->request->set('email',$param['email']);
         $param['nick'] = $request->request->get('taobaonickname'); 
         $param['pwd'] = $request->request->get('pwd');
-        $code = true;
+        $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
+        if($check_user){
+            $code = '此账号已存在，请点击下方’已有积粒网账号‘按钮进行绑定!';
+        }
         if(empty($param['pwd']) || (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
-            $code = false;
+            $code = '请填写正确的邮箱或密码!';
         }
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
         $form  = $this->createForm(new TaoBaoFirstRegist());
         $form->bind($request );
-        if ($form->isValid() && $code) {
-            $em = $this->getDoctrine()->getManager();
+        if ($form->isValid() && empty($code)) {
             $check_taobaouser = $em->getRepository('JiliApiBundle:TaoBaoUser')->findOneByOpenId($param['open_id']);
             if( empty($check_taobaouser)){
-                $user_regist = $this->get('user_regist'); 
+                $user_regist = $this->get('user_regist');
                 $taobaouser = $user_regist->taobao_user_regist($param);
                 if(!$taobaouser){
                     //注册失败
@@ -116,7 +120,9 @@ class TaoBaoLoginController extends Controller
             }
         } else {
             //验证不通过
-            $code = '请填写正确的邮箱或密码!';
+            if(!$check_user){
+                $code = '请填写正确的邮箱或密码!';
+            }
         }
         return $this->render('JiliApiBundle:User:taobaoFirstLogin.html.twig',
                 array('email'=>$param['email'], 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
