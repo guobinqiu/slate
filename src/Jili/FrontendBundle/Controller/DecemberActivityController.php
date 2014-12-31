@@ -129,7 +129,8 @@ class DecemberActivityController extends Controller
                 'numOfEggs'=> $record->getNumOfCommon(),
                 'numOfConsolationEggs' => $record->getNumOfConsolation(),
                 'lessForNextEgg'=> TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
-                'isStart'=> ( $now >= $startAt ) ? true: false  
+                'isStart'=> true
+				//( $now >= $startAt ) ? true: false  
             )));
 
         return $response;      
@@ -157,7 +158,7 @@ class DecemberActivityController extends Controller
 
         $startAt = new \Datetime('2015-01-20 00:00:00');
         $now = new \Datetime();
-        if ('test' !==  $this->get('kernel')->getEnvironment() && 
+        if ('dev' !==  $this->get('kernel')->getEnvironment() && 
             $now >= $startAt )  {
                 return $response;
             }

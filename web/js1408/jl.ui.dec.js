@@ -231,7 +231,7 @@ $(function(){
         noEgg: '.luckyDrawL .noStart',
         eggNum: '.luckyDrawL .eggNum',
         eggMoney: '.luckyDrawL .eggMoney',
-        debug: false
+        debug: true
     });
 });
 (function($){
@@ -255,14 +255,18 @@ $(function(){
 				 type: 'post',
 				 dataType: 'json',
 				 success: function(eggData){
-					 $this.debug('初始金蛋信息……', $.isEmptyObject(eggData));
-					 if(!$.isEmptyObject(eggData)&&eggData.data === undefined) return false;
+					 $this.debug('初始金蛋信息……', eggData);
+					 if($.isEmptyObject(eggData)&&eggData.data === undefined) return;
+					 if(eggData.data.isStart){
+						$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
+						$('.timestamp').unbind('click');
+					 }
 					 if($this.showEgg(eggData)){
 						 $this.setEggInfo(eggData);
 						 $this.addEgg(eggData);
 						 $this.openStart(eggData);
 					 }else{
-						 $(opts.eggNum).html("0");
+						 $(opts.eggNum).html('0');
 						 $(opts.eggMoney).html('10元');
 					 }
 				 },
@@ -288,8 +292,17 @@ $(function(){
             }
         },
         setEggInfo: function(initData){
-            $(this.options.eggNum).html((initData.data.numOfEggs + initData.data.numOfConsolationEggs));
-            $(this.options.eggMoney).html(initData.data.lessForNextEgg + '元');
+			var opts = this.options;
+			var allEggs = parseInt(initData.data.numOfEggs + initData.data.numOfConsolationEggs);
+			if(allEggs>0){
+				$(opts.eggNum).html((initData.data.numOfEggs + initData.data.numOfConsolationEggs));
+				$(opts.eggMoney).html(initData.data.lessForNextEgg + '元');
+			}else{
+				$(opts.eggNum).html('0');
+				$(opts.eggMoney).html('10元');
+				$(opts.hasEgg).hide();
+                $(opts.noEgg).show();
+			}
         },
         addEgg: function(initData){
             var $this = this;
@@ -308,54 +321,82 @@ $(function(){
         },
         getResult: function(initData, eggType){
             var $this = this;
-            /*$.ajax({
+            $.ajax({
 				 url: Routing.generate('jili_frontend_decemberactivity_breakegg'),
 				 type: 'post',
 				 dataType: 'json',
-				 data: "token=" + initData.token + "&eggType=" + eggType,
+				 data: "token=" + initData.data.token + "&eggType=" + eggType,
 				 success: function(resultData){
-					 //var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
 					 $this.debug('砸蛋结果……', resultData);
-					 if(!$.isEmptyObject(eggData)&&eggData.data === undefined) return false;
-					 $this.showResult(resultData);
+					if(undefined === resultData && $.isEmptyObject(resultData)&&undefined === resultData.data){
+						$this.debug('砸蛋结果为空');	
+						return;
+					} 
+					$this.showResult(resultData);
 				 },
 				 error: function(){
 				 $this.debug('第二次请求结果失败……');
 				 }
-             });*/
-            var resultData = { code: 1, msg: '', data: { token: '', points: 50}};
-            $this.debug('砸蛋结果……', resultData);
-            $this.showResult(resultData);
+             });
         },
         showResult: function(resultData){
-            this.debug('展示砸蛋结果……');
+			this.debug('展示砸蛋结果……');
+			this.debug(resultData.data.points);
+            $('<div></div>').addClass('fixMask').appendTo($('body'));
+			if(parseInt(resultData.data.points)>0){
+				$('<div class="eggResult"><div><div class="resultTxt"></div><span class="close"></span><div><img src="/images/december/success.gif?t='+Math.random()+'" width="930" height="515"/></div></div></div>').appendTo($('body'));
+				setTimeout(function(){
+					//$('.resultTxt').html('恭喜您获得了<strong>'+resultData.data.points+'</strong>米粒!').hide().fadeIn(1E3);
+					switch(resultData.data.points.toString()){
+						case "8888": $('.resultTxt').html('恭喜您中了一等奖，获得了<strong>'+resultData.data.points+'</strong>米粒!发财啦~').hide().fadeIn(1E3); break;
+						case "888": $('.resultTxt').html('恭喜您中了二等奖，获得了<strong>'+resultData.data.points+'</strong>米粒!发财啦~').hide().fadeIn(1E3); break;
+						case "88": $('.resultTxt').html('恭喜您中了三等奖，获得了<strong>'+resultData.data.points+'</strong>米粒!还不错哦~').hide().fadeIn(1E3); break;
+						case "8": $('.resultTxt').html('恭喜您中了四等奖，<strong>'+resultData.data.points+'</strong>米粒入手咯~').hide().fadeIn(1E3); break;
+						case "1": $('.resultTxt').html('恭喜您获得安慰奖，<strong>'+resultData.data.points+'</strong>米粒入手咯~').hide().fadeIn(1E3); break;
+						default: break;
+					}
+				}, 3E3);
+			}else{
+				$('<div class="eggResult"><div><div class="resultTxt"></div><span class="close"></span><div><img src="/images/december/fail.gif?t='+Math.random()+'" width="930" height="515"/></div></div></div>').appendTo($('body'));
+				setTimeout(function(){
+					$('.resultTxt').text('太残忍了，竟然没有米粒！').hide().fadeIn(1E3);
+				}, 2E3);
+			}
+			$('.eggResult .close').on('click', function(){
+				$('.fixMask').remove();
+				$('.eggResult').remove();
+			});			 
         },
         openGif: function(index){
             this.debug('砸蛋效果……');
-            $(this.options.container).find('li img').eq(index).attr("src", "/images/december/egg.png");
+			if($('.eggResult').length>=1){
+				$('.fixMask').remove();
+				$('.eggResult').remove();
+			}
+			$(this.options.container).find('li').eq(index).remove();
         },
         openEgg: function(initData){
             var $this = this;
             var opts = $this.options;
             var eggType = 0;
             $this.debug('进入砸蛋程序');
-            $(opts.container).find('li').each(function(index, e){
-                $(this).on('click', function(){
-                    $this.debug('开始执行砸蛋');
-                    $this.openGif(index);
-                    if($(this).hasClass('comfort')){
-                        eggType = 1;
-                        initData.data.numOfConsolationEggs = initData.data.numOfConsolationEggs -1;
-                    }else{
-                        initData.data.numOfEggs = initData.data.numOfEggs -1;
-                    }
-                    $this.getResult(initData, eggType);
-                    $this.setEggInfo(initData);
-                });
+            $(opts.container).find('li').on('click', function(){
+				var index = $(opts.container).find('li').index(this);
+                $this.debug('开始执行砸蛋');
+                $this.openGif(index);
+				if($(this).hasClass('comfort')){
+                    eggType = 1;
+                    initData.data.numOfConsolationEggs = initData.data.numOfConsolationEggs -1;
+                }else{
+                    initData.data.numOfEggs = initData.data.numOfEggs -1;
+                }
+                $this.getResult(initData, eggType);
+                $this.setEggInfo(initData);
             });
         },
         openStart: function(initData){
-            if(false){
+            if(initData.data.isStart){
+				$(this.options.container).find('li span').addClass('active');
                 this.openEgg(initData);
             }else{
                 $(this.options.container).on('click', function(){
