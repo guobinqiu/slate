@@ -52,6 +52,7 @@ a{ color: #fff;}
 .luckyDrawL .noStart{ text-align: center; display: none; cursor: pointer;}
 .luckyDrawL .mask{ position: relative; z-index: 1; margin-top: 15px; width: 570px; height: 186px; overflow-x: hidden; overflow-y: auto; padding-left: 10px;}
 .luckyDrawL .hammer{ position: absolute; z-index: 1000; top: 0px; left: 90px; width: 56px; height: 65px; background:url(../images/december/hammer.png) no-repeat center;}
+.luckyDrawL .hammerActive{  background:url(../images/december/hammer0.png) no-repeat center;}
 .luckyDrawL li{ float: left; cursor: pointer; margin-right: 28px; text-align: center;}
 .luckyDrawL li span{ margin: 10px auto; width: 100px; height: 28px; line-height: 28px; background-color: #8f8f8f; border-radius: 5px; box-shadow: 0 3px 0 rgba(0, 0, 0, .7); display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
 .luckyDrawL li span.active{ background-color: #d01e36;}

@@ -233,7 +233,7 @@ $(function(){
         noEgg: '.luckyDrawL .noStart',
         eggNum: '.luckyDrawL .eggNum',
         eggMoney: '.luckyDrawL .eggMoney',
-        debug: false
+        debug: true
     });
 });
 (function($){
@@ -335,7 +335,7 @@ $(function(){
 						return false;
 					} 
 					setTimeout(function(){
-						$this.delEgg(index);
+						$($this.options.container).find('li').eq(index).remove();
 						$this.setEggInfo(initData);
 					}, 5E3);
 					$this.showResult(resultData);
@@ -375,23 +375,20 @@ $(function(){
 				$('.eggResult').remove();
 			});			 
         },
-        delEgg: function(index){
-			$(this.options.container).find('li').eq(index).remove();
-        },
         openEgg: function(initData){
             var $this = this;
             var opts = $this.options;
             var eggType = 0;
+			var eggPos = $(opts.container).find('li'),hammer = $('.luckyDrawL .hammer');
             $this.debug('进入砸蛋程序');
-			$(opts.container).find('li').on('mousedown', function(){
-				$('.luckyDrawL .hammer').css({'background-image': 'url(/images/december/hammer0.png)', 'background-repeat': 'no-repeat', 'background-position': 'center'});
+			eggPos.on('mousedown', function(){
+				hammer.addClass('hammerActive');
 			});
-			$(opts.container).find('li').on('mouseup', function(){
-				$('.luckyDrawL .hammer').css({'background-image': 'url(/images/december/hammer.png)'});
-				$this.debug('当前图片路径',$(this).find('img').attr('src'));
+			eggPos.on('mouseup', function(){
+				hammer.removeClass('hammerActive');
 				if($(this).find('img').hasClass('active')){
 					$(this).find('img').removeClass('active');
-					var index = $(opts.container).find('li').index(this);
+					var index = eggPos.index(this);
 					$this.debug('开始执行砸蛋');
 					if($(this).hasClass('comfort')){
 						eggType = 1;
@@ -408,10 +405,10 @@ $(function(){
                     });
 				}
 			});
-			var leftW = $('.luckyDrawL .hammer').css('left').substr(0, $('.luckyDrawL .hammer').css('left').indexOf('px'));
-			$(opts.container).find('li').on('mouseover', function(){
-				var index = $(opts.container).find('li').index(this);
-				$('.luckyDrawL .hammer').css({'top': Math.floor(index/4)*186 + 'px', 'left': ((Math.floor(index%4))*(110+28)+parseInt(leftW)) + 'px'});
+			var leftW = hammer.css('left').substr(0, hammer.css('left').indexOf('px'));
+			eggPos.on('mouseover', function(){
+				var index = eggPos.index(this);
+				hammer.css({'top': Math.floor(index/4)*186 + 'px', 'left': ((Math.floor(index%4))*(110+28)+parseInt(leftW)) + 'px'});
 			});
         },
         openStart: function(initData){
