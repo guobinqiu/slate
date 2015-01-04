@@ -6,7 +6,6 @@ class DateUtilTest extends\PHPUnit_Framework_TestCase {
 
     /**
     * @group GetTimeByMonth
-    * @group debug 
     */
     public function testGetTimeByMonth() {
         $year = date('Y');
