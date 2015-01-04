@@ -301,7 +301,7 @@ parameters:
     alert_subject: '积粒网-定时任务提醒邮件'
 
     # the uri relative to web/
-    taobao_self_promotion_picture_uri_path: images/tb_products_pic/
+    taobao_self_promotion_picture_uri_path: images/taobao_products_pic/
     taobao_self_promotion_picture_dir: %kernel.root_dir%/../web/%taobao_self_promotion_picture_uri_path%
 
     taobao_appid: 23058537
