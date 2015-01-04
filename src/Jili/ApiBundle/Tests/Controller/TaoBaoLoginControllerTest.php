@@ -79,7 +79,6 @@ class TaoBaoLoginControllerTest extends WebTestCase
 
     /**
      * @group issue_536
-     * @group debug 
      */
     public function testCallBackAction() 
     {
@@ -98,7 +97,6 @@ class TaoBaoLoginControllerTest extends WebTestCase
 
     /**
      * @group issue_536
-     * @group debug 
      */
     public function testCallBackActionI()
     {
@@ -134,7 +132,6 @@ class TaoBaoLoginControllerTest extends WebTestCase
     }
     /**
      * @group issue_536
-     * @group debug 
      */
     public function testCallBackActionII()
     {
@@ -179,7 +176,6 @@ class TaoBaoLoginControllerTest extends WebTestCase
     }
     /**
      * @group issue_536
-     * @group debug 
      */
     public function testCallBackActionIII()
     {
@@ -219,7 +215,6 @@ class TaoBaoLoginControllerTest extends WebTestCase
     }
     /**
      * @group issue_536
-     * @group debug 
      */
     public function testCallBackActionIV()
     {
