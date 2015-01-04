@@ -1,6 +1,8 @@
 <?php
 namespace Jili\ApiBundle\Utility;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Filesystem\Filesystem;
 /**
  *
  */
@@ -67,6 +69,29 @@ class FileUtil {
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param Symfony\Component\HttpFoundation\File\UploadedFile $uploaded the post file .
+     * @param sring $directory the targe path.
+     * @return string $filename
+     */
+    static public function moveUploadedFile(UploadedFile $uploaded , $directory  ) 
+    {
+        $name = md5(md5_file($uploaded->getPathname()). time() ). '.'.$uploaded->getClientOriginalExtension();
+
+        //  if( ! isset($params['pic_target_path'])) {
+        //      throw new ParameterNotFoundException('taobao_self_promotion_picture_dir');
+        //  }
+        
+        $fs = new Filesystem();
+        if( ! $fs->exists($directory) ) {
+            $fs->mkdir( $directory);
+        }
+
+        // mv upload image
+        $uploaded->move($directory ,$name);
+        return $name;
     }
 
     public static function writeContents($filename, $content) {

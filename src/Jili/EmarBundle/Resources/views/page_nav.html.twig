@@ -33,7 +33,7 @@
             <li> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur-1 })) }}">{{ cur-1 }}</a> </li>
         {% endif %}
 
-        <li class="currPage"> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': '' })) }}" onclick="javascript:function() {return false;};">{{ cur }}</a> </li>
+        <li class="currPage"> <a href="#" onclick="javascript:function() {return false;};">{{ cur }}</a> </li>
 
         {% if cur + 1 < last %}
             <li> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur+1 })) }}">{{ cur+1 }}</a> </li>

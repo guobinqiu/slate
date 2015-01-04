@@ -10,6 +10,10 @@ use Doctrine\Common\DataFixtures\Loader;
 
 use Jili\FrontendBundle\DataFixtures\ORM\Controller\DecemberActivity\LoadGetEggsInfoData;
 use Jili\FrontendBundle\DataFixtures\ORM\Repository\GameEggsBreakerTaobaoOrder\LoadTaobaoOrdersData;
+
+use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadTaobaoCategoryData;
+use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadTaobaoSelfPromotionProductData;
+
 class DecemberActivityControllerTest extends WebTestCase
 {
     /**
@@ -29,6 +33,7 @@ class DecemberActivityControllerTest extends WebTestCase
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
+        $container = static::$kernel->getContainer();
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
@@ -49,11 +54,22 @@ class DecemberActivityControllerTest extends WebTestCase
             $loader  = new Loader();
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
+        } else if(in_array( $tn ,array('testIndexAction','testAddTaobaoOrderActionNormal' ,'testAddTaobaoOrderActionValidation','testAddTaobaoOrderActionValidationII') )) {
+            $loader  = new Loader();
+            $fixture = new LoadTaobaoCategoryData();
+            $fixture->setContainer($container);
+            $loader->addFixture($fixture);
+
+            $fixture1 = new LoadTaobaoSelfPromotionProductData();
+            $fixture1->setContainer($container);
+            $loader->addFixture($fixture1);
+            $executor->execute($loader->getFixtures());
         }
 
         $this->has_fixture = true ;
         $container  = static::$kernel->getContainer();
 
+        // points pool related
         if( in_array($tn, array('testGetEggsInfoActionNormal','testBreakEggActionNormal','testBreakEggActionCommon','testBreakEggActionConsolation','testBreakEggActionConsolationZero','testBreakEggActionNone'))){
             // prepare the points pool
             $configs = $container->getParameter('game_eggs_breaker');
@@ -124,6 +140,10 @@ class DecemberActivityControllerTest extends WebTestCase
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_index');
         $this->assertEquals('/activity/december/', $url);
+
+        $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     /**
@@ -188,6 +208,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals('*需要填0~9组成的订单号',$error_message);
 
     }
+
     /**
      * @group issue_537
      */

@@ -157,7 +157,7 @@ class UserRepository extends EntityRepository
         $query = $query->getQuery();
         return $query->getResult();
     }
-    
+
     public function pointFail($type)
     {
         $daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
@@ -165,7 +165,7 @@ class UserRepository extends EntityRepository
                                  'point_history06','point_history07','point_history08','point_history09');
         $task_histories = array('task_history00','task_history01','task_history02','task_history03','task_history04','task_history05',
                                  'task_history06','task_history07','task_history08','task_history09');
-        
+
         $merged_point_result = array();
         for($i=0;$i<count($point_histories);$i++){
             $sql = "select distinct user_id from ".$point_histories[$i]." where create_time > '" . $daydate . "' ";
@@ -192,19 +192,19 @@ class UserRepository extends EntityRepository
         }
         $user_ids = array_unique(array_merge($merged_point_result,$merged_task_result));
         $user_ids = implode(',', $user_ids);
-        $sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate 
+        $sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate
              . "' and e.id not in (" . $user_ids.")";
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
-    
+
     public function pointFailTemp()
     {
         $sql_tmp = "(select distinct user_id from user_last)";
         $sql = "select e.id,e.email,e.nick from user e where e.points>0  and e.id in ".$sql_tmp;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
-    
+
     /**
      * @param $date_str date("Y-m-d")
      */
@@ -434,17 +434,17 @@ EOT;
             $sql2 .= " and a.email = '".$email."'";
         }
 
-        $sql = "select a.id, a.email,b.point,b.category_type,b.task_type,b.task_name,b.date from user a inner join
-                (select user_id,point,category_type,task_type,task_name,date from task_history00 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date from task_history01 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date from task_history02 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date from task_history03 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date from task_history04 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date from task_history05 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date from task_history06 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date from task_history07 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date from task_history08 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date from task_history09 where ".$sql1." )b
+        $sql = "select a.id, a.email,b.point,b.category_type,b.task_type,b.task_name,b.date,b.status from user a inner join
+                (select user_id,point,category_type,task_type,task_name,date,status from task_history00 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date,status from task_history01 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date,status from task_history02 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date,status from task_history03 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date,status from task_history04 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date,status from task_history05 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date,status from task_history06 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date,status from task_history07 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date,status from task_history08 where ".$sql1."
+                union all select user_id,point,category_type,task_type,task_name,date,status from task_history09 where ".$sql1." )b
                 on a.id = b.user_id where (a.delete_flag IS NULL OR a.delete_flag = 0) ".$sql2." order by b.date desc";
                 //echo $sql;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
@@ -659,7 +659,7 @@ EOT;
     public function qquser_quick_insert(array $param)
     {
         $user =  new User;
-        $user->setNick('QQ'.$param['nick']);
+        $user->setNick(User::FROM_QQ_PREFIX.$param['nick']);
         $user->setEmail($param['email']);
         $user->setPwd($param['pwd']);
         $user->setDeleteFlag(0);
@@ -668,7 +668,25 @@ EOT;
         $em->flush();
         return $user;
     }
-
+    
+    /**
+     * create the user when regist by taobao
+     * @param  array('nick'=> , 'email'=> ,'pwd'=>);
+     * @return the User
+     */
+    public function taboabo_user_quick_insert(array $param)
+    {
+        $user =  new User;
+        $user->setNick(User::FROM_TAOBAO_PREFIX.$param['nick']);
+        $user->setEmail($param['email']);
+        $user->setPwd($param['pwd']);
+        $user->setDeleteFlag(0);
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+        return $user;
+    }
+    
     public function getUserByCrossId($id)
     {
         $query = $this->createQueryBuilder('u');

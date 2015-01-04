@@ -10,6 +10,8 @@ use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixtureLoad
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\DataFixtures\ORM\Repository\UserRepository\LoadDmdeliveryData;
 use Doctrine\Common\DataFixtures\Loader;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserInfoCodeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserInfoTaskHistoryData;
 
 class UserRepositoryTest extends KernelTestCase {
 
@@ -42,7 +44,7 @@ class UserRepositoryTest extends KernelTestCase {
             $loader->loadFromDirectory($directory);
             $executor->execute($loader->getFixtures());
         }
-        
+
         $this->container = $container;
         $this->em = $em;
     }
@@ -203,6 +205,22 @@ class UserRepositoryTest extends KernelTestCase {
         $this->assertEquals('test@test.com', $user['email']);
     }
 
+    /**
+     * @group issue_536
+     */
+    public function testTaoBao_user_quick_insert()
+    {
+        $params = array('nick'=> 'alice32', 'email'=>'alice_nima@gmail.com', 'pwd'=>'123qwe');
+        $i = $this->em->getRepository('JiliApiBundle:User')->taboabo_user_quick_insert($params);
+        $this->assertEquals('taobao_alice32', $i->getNick());
+        $this->assertEquals('alice_nima@gmail.com', $i->getEmail());
+        $this->assertEquals( $i->pw_encode('123qwe'),   $i->getPwd()) ;
+
+        $j = $this->em->getRepository('JiliApiBundle:User')->findOneBy( array('nick'=>'taobao_alice32', 'email'=> 'alice_nima@gmail.com') );
+        $this->assertNotEmpty($j);
+        $this->assertEquals( $i->pw_encode('123qwe'), $j->getPwd()) ;
+    }
+    
      /**
      * @group issue548
      */
@@ -218,10 +236,51 @@ class UserRepositoryTest extends KernelTestCase {
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
-        
+
         $user = $em->getRepository('JiliApiBundle:User')->pointFail(180);
         $this->assertEquals(2, count($user));
         $this->assertEquals(1110, $user[0]['id']);
     }
-    
+
+    /**
+     * @group issue_600
+     */
+    public function testAddPointHistorySearch() {
+        $em = $this->em;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+        $container = static :: $kernel->getContainer();
+
+        // load fixtures
+        $fixture = new LoadUserInfoCodeData();
+        $fixture->setContainer($container);
+
+        $fixture1 = new LoadUserInfoTaskHistoryData();
+        $fixture1->setContainer($container);
+
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $loader->addFixture($fixture1);
+        $executor->execute($loader->getFixtures());
+
+        $start_time = '';
+        $end_time = '';
+        $category_id = '';
+        $email = '';
+        $user_id = '';
+        $user = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id,$email,$user_id);;
+        $this->assertCount(3, $user);
+
+        $email ='alice.nima@gmail.com';
+        $start_time = date('Y-m-d');
+        $end_time = date('Y-m-d');
+        $user = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id,$email,$user_id);;
+        $this->assertCount(3, $user);
+
+        $user = LoadUserInfoCodeData::$USERS[0];
+        $user_id = $user->getId();
+        $user = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id,$email,$user_id);;
+        $this->assertCount(3, $user);
+    }
 }

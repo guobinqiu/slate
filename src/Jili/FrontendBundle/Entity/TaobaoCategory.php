@@ -12,12 +12,21 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TaobaoCategory
 {
+    const SELF_PROMOTION=1;
+    const COMPONENTS=2;
     /**
      * @var string
      *
      * @ORM\Column(name="category_name", type="string", length=16, nullable=false)
      */
     private $categoryName;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="union_product", type="integer", nullable=true)
+     */
+    private $unionProduct;
 
     /**
      * @var integer
@@ -75,6 +84,29 @@ class TaobaoCategory
     public function getCategoryName()
     {
         return $this->categoryName;
+    }
+
+    /**
+     * Set unionProduct
+     *
+     * @param integer $unionProduct
+     * @return TaobaoCategory
+     */
+    public function setUnionProduct($unionProduct)
+    {
+        $this->unionProduct = $unionProduct;
+
+        return $this;
+    }
+
+    /**
+     * Get unionProduct
+     *
+     * @return integer 
+     */
+    public function getUnionProduct()
+    {
+        return $this->unionProduct;
     }
 
     /**

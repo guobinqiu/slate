@@ -88,4 +88,39 @@ $this->container = static::$kernel->getContainer();
         $this->assertNotNull($qq_user);
     }
 
+     /**
+     * @group issue_536
+     */
+    public function testTaobao_user_bind() 
+    {
+
+        // if (isset($params['email']) && isset($params['open_id'])) {
+        // 1.1 email , open_id
+        $params = array('email'=>1); 
+        $taobaoUser =  $this->container->get('user_bind')->taobao_user_bind($params);
+        $this->assertNull($taobaoUser);
+
+        // 1.2 
+        $params = array('open_id'=>1); 
+        $taobaoUser =  $this->container->get('user_bind')->taobao_user_bind($params);
+        $this->assertNull($taobaoUser);
+
+        $user = LoadUserBindData::$USERS[0];
+            // if( $user) {
+        // 2.1 no user
+        
+        $params = array('email'=> 1, 'open_id'=>1); 
+        $taobaoUser =  $this->container->get('user_bind')->taobao_user_bind($params);
+        $this->assertNull($taobaoUser);
+
+        // 2.2 has user
+        $params = array('email'=> $user->getEmail(), 'open_id'=>1); 
+        $taobaoUser =  $this->container->get('user_bind')->taobao_user_bind($params);
+        $this->assertNotNull($taobaoUser);
+
+        $qq_user = $this->em->getRepository('JiliApiBundle:TaoBaoUser')->findOneBy(array('userId'=> $user->getId(),
+        'openId'=> 1));
+        $this->assertNotNull($qq_user);
+    }
+    
 }
