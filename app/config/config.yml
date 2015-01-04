@@ -55,6 +55,7 @@ twig:
         bangwoya_com: %bangwoya_com%
 
         cps_rebate_type: %cps_rebate_type%
+        tb_self_promot_pic_path: %taobao_self_promotion_picture_uri_path% 
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%

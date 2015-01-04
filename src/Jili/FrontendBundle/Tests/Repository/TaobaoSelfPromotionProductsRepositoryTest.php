@@ -5,10 +5,14 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadTaobaoCategoryData;
 use Jili\FrontendBundle\Entity\TaobaoCategory;
 
-class TaobaoCategoryRepositoryTest extends KernelTestCase {
+use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadTaobaoCategoryData;
+use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadTaobaoSelfPromotionProductData;
+
+class TaobaoSelfPromotionProductsRepositoryTest extends KernelTestCase 
+{
+
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -18,7 +22,8 @@ class TaobaoCategoryRepositoryTest extends KernelTestCase {
     /**
      * {@inheritDoc}
      */
-    public function setUp() {
+    public function setUp() 
+    {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
@@ -32,10 +37,18 @@ class TaobaoCategoryRepositoryTest extends KernelTestCase {
         $loader = new Loader();
         $loader->addFixture($fixture);
 
+        $tn = $this->getName();
+        if(in_array( $tn ,array('testFetchByRange','testRemove','testFetchWithCategory'))) {
+            $fixture1 = new LoadTaobaoSelfPromotionProductData();
+            $fixture1->setContainer($container);
+            $loader->addFixture($fixture1);
+        }
+
         $executor->purge();
         $executor->execute($loader->getFixtures());
 
         $this->em = $em;
+        $this->container = $container;
     }
 
     /**
@@ -46,28 +59,33 @@ class TaobaoCategoryRepositoryTest extends KernelTestCase {
         $this->em->close();
     }
 
+
     /**
-     * @group issue_504
      * @group issue_594
      */
-    public function testFindCategorys() {
+    public function testFetchByRange()
+    {
         $em = $this->em;
-        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys();
-        $this->assertEquals(16, count($keywords));
-
-        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys(1);
-        $this->assertEquals(1, count($keywords));
-
-        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys(0,TaobaoCategory::COMPONENTS );
-        $this->assertEquals(16, count($keywords));
-
-        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys(1,TaobaoCategory::COMPONENTS );
-        $this->assertEquals(1, count($keywords));
-
- 
-        $keywords = $em->getRepository('JiliFrontendBundle:TaobaoCategory')->findCategorys(0,TaobaoCategory::SELF_PROMOTION);
-        $this->assertEquals(11, count($keywords));
-
+        $actual = $this->em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
+            ->fetchByRange(1,10);
+        $this->assertEquals(100, $actual['total']);
+        //
     }
+
+    /**
+     * @group issue_594
+     **/
+    public function testFetchWithCategory()
+    {
+
+        $em = $this->em;
+        $actual = $this->em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
+            ->fetch();
+
+        $this->assertCount(100, $actual);
+    }
+
+
+
 
 }

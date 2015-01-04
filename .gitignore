@@ -1,6 +1,7 @@
 /web/bundles/
 /web/js/fos_js_routes.js
 /web/images/actionPic/
+/web/images/tb_products_pic/
 #/app/bootstrap*
 web/images/actionPic/
 /app/cache/*
@@ -37,3 +38,9 @@ web/images/banner/1397133290_7671.jpeg
 +/nbproject/project.xml
 +/nbproject/project.properties
 _compareTemp
+
+# build
+!build/phpmd.xml
+!build/phpunit.xml
+!build/phpdox.xml
+build/*

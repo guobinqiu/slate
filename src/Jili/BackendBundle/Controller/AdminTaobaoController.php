@@ -13,7 +13,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
+use Jili\BackendBundle\Form\Type\PromotionSelfLinkProductType;
 use Jili\FrontendBundle\Entity\TaobaoComponent;
+use Jili\FrontendBundle\Entity\TaobaoSelfPromotionProducts;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Jili\ApiBundle\Utility\FileUtil;
 
 /**
  * @Route("/admin/taobao",requirements={"_scheme"="https"})
@@ -137,7 +142,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
 
     /**
     * @Route("/saveComponentFinish", name="_admin_taobao_saveComponentFinish")
-    * @Method({"POST"});
+    * @Method("POST");
     */
     public function saveComponentFinishAction() {
         $em = $this->getDoctrine()->getManager();
@@ -179,8 +184,8 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
     }
 
     /**
-    * @Route("/deleteComponent/{id}", name="_admin_taobao_deleteComponent")
-    */
+     * @Route("/deleteComponent/{id}", name="_admin_taobao_deleteComponent")
+     */
     public function deleteComponentAction($id) {
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
@@ -231,4 +236,177 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
         $parameters = $session->get('admin_taobao_condition');
         return $this->redirect($this->generateUrl('_admin_taobao_component',$parameters));
     }
+
+    /**
+     * @Route("/promotion-self-product/new")
+     * @Method( "GET" )
+     */
+    public function newPromotionSelfProductAction()
+    {
+        $form = $this->createForm( new PromotionSelfLinkProductType() , new TaobaoSelfPromotionProducts());
+        return $this->render( 'JiliBackendBundle:Taobao/PromotionSelfProduct:new.html.twig',
+            array('form'=> $form->createView() )) ;
+    }
+
+    /**
+     * @Route("/promotion-self-product/create")
+     * @Method( "POST" )
+     */
+    public function createPromotionSelfProductAction()
+    {
+        $request = $this->get('request');
+        $entity = new TaobaoSelfPromotionProducts();
+        $form = $this->createForm( new PromotionSelfLinkProductType(),$entity );
+        $form->bind($request);
+        if($form->isValid()) {
+            $entity = $form->getData();
+            $em = $this->get('doctrine.orm.entity_manager');
+
+            $uploaded =  $form['picture']->getData();
+            if( ! is_null($uploaded)) {
+                $picture_name = FileUtil::moveUploadedFile($uploaded,
+                    $this->container->getParameter('taobao_self_promotion_picture_dir'));
+                $entity->setPictureName($picture_name);
+            }
+
+            $em->persist($entity);
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('notice', '成功创建商品: '. $entity->getTitle());
+            return $this->redirect($this->generateUrl('jili_backend_admintaobao_editpromotionselfproduct', array('id' => $entity->getId())));
+
+        }
+
+        return $this->render( 'JiliBackendBundle:Taobao/PromotionSelfProduct:new.html.twig', array('form'=> $form->createView() )) ;
+    }
+
+
+    /**
+     * @Route("/promotion-self-product/list/{p}", defaults={"p"=1}, requirements={"p" = "\d+"})
+     * @Method( "GET");
+     */
+    public function listPromotionSelfProductAction($p)
+    {
+        $page_size = $this->container->getParameter('page_num');
+        $em = $this->get('doctrine.orm.entity_manager');
+        $returns =   $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
+            ->fetchByRange($p, $page_size) ;
+    
+        return $this->render( 'JiliBackendBundle:Taobao/PromotionSelfProduct:list.html.twig', array(
+            'entities'=> $returns['data'],
+            'total'=> $returns['total'] ,
+            'page_size'=> $page_size,
+            'p'=>$p));
+    }
+
+    /**
+     * @Route("/promotion-self-product/edit/{id}", requirements={"id"="\d+"})
+     * @Method("GET")
+     */
+    public function editPromotionSelfProductAction($id)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $entity = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find TaobaoSelfPromotionProducts entity.');
+        }
+
+        $editForm = $this->createForm( new PromotionSelfLinkProductType(), $entity );
+        $deleteForm = $this->createDeleteForm($id);
+
+        return $this->render('JiliBackendBundle:Taobao/PromotionSelfProduct:edit.html.twig' , array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+
+    }
+
+    /**
+     * @Route("/promotion-self-product/update/{id}", requirements={"id"="\d+"})
+     * @Method("PUT")
+     */
+    public function updatePromotionSelfProductAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find TaobaoSelfPromotionProducts entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createForm( new PromotionSelfLinkProductType(), $entity );
+        $editForm->bind($request);
+
+        if ($editForm->isValid()) {
+            $uploaded =  $editForm['picture']->getData();
+            if( ! is_null($uploaded)) {
+                $picture_name = FileUtil::moveUploadedFile($uploaded,
+                    $this->container->getParameter('taobao_self_promotion_picture_dir'));
+                $entity->setPictureName($picture_name);
+            }
+
+            $em->persist($entity);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('notice', '成功修改 id为'. $id. '的商品');
+            return $this->redirect($this->generateUrl('jili_backend_admintaobao_editpromotionselfproduct', array('id' => $id)));
+        }
+
+        return $this->render('JiliBackendBundle:Taobao/PromotionSelfProduct:edit.html.twig' , array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/promotion-self-product/delete/{id}", requirements={"id"="\d+"})
+     * @Method("DELETE")
+     */
+    public function deletePromotionSelfProductAction(Request $request, $id)
+    {
+        //do the remove stuff
+        $form = $this->createDeleteForm($id);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find TaobaoSelfPromotionProducts entity.');
+            }
+
+            $picture_name = $entity->getPictureName();
+            if( ! empty($picture_name) ) {
+                $fs = new Filesystem();
+                $target = $this->container->getParameter('taobao_self_promotion_picture_dir').$picture_name;
+                if ($fs->exists($target) ) {
+                    $fs->remove($target);
+                }
+            };
+
+            $em->remove($entity);
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('notice', '成功删除 id为'. $id. '的商品');
+        }
+        return $this->redirect($this->generateUrl('jili_backend_admintaobao_listpromotionselfproduct'));
+    }
+
+    /**
+     * Creates a form to delete a TaobaoSelfPromotionProducts entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array('id' => $id))
+            ->add('id', 'hidden')
+            ->getForm()
+        ;
+    }
+
+
 }

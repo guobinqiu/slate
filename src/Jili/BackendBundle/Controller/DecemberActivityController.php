@@ -100,7 +100,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
        }
 
        $returns = $em->getRepository( 'JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-           ->fetchByRange( $p , $page_size, $filters  );
+           ->fetchByRange( $p , $page_size, $filters );
 
        return $this->render('JiliBackendBundle:GameEggsBreaker\TaobaoOrder:list.html.twig', array(
            'entities'=> $returns['data'],
