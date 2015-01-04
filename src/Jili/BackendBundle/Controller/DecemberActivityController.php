@@ -78,7 +78,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
     }
 
     /**
-     * @Route("/list-orders/{p}",  defaults={"p"=1}, requirements={"p" = "\d+"})
+     * @Route("/list-orders/{p}",  defaults={"p"=1}, requirements={"p" = "\d*"})
      * @Method( "GET");
      */
     public function listAllAction($p)
