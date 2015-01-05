@@ -90,4 +90,16 @@ class FileUtilTest extends \PHPUnit_Framework_TestCase {
 
         unlink($file_name);
     }
+
+    /**
+    * @group issue_578
+    */
+    public function testWriteContents() {
+        $file_name = dirname(__FILE__) . "/test.log";
+        $content = "testWriteContents";
+        FileUtil :: writeContents($file_name, $content);
+
+        $this->assertContains("testWriteContents\r\n", file_get_contents($file_name));
+        $aa = unlink($file_name);
+    }
 }

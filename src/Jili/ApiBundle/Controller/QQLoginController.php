@@ -127,8 +127,7 @@ class QQLoginController extends Controller
     public function qqBindAction()
     {
         $request = $this->get('request');
-        $user_bind = $this->get('user_bind');
-        $param['nick'] = 'QQ'.$request->request->get('qqnickname'); 
+        $param['nick'] = $request->request->get('qqnickname'); 
         $param['email'] = $request->request->get('jili_email');
         $param['pwd']= $request->request->get('jili_pwd');
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
@@ -139,6 +138,7 @@ class QQLoginController extends Controller
         $request->request->set('email',$param['email']);
         $code = $this->get('login.listener')->login($request);
         if($code == 'ok') {
+            $user_bind = $this->get('user_bind');
             $result = $user_bind->qq_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
             return $this->redirect($this->generateUrl('_homepage'));
         }

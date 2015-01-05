@@ -11,6 +11,7 @@ use Jili\FrontendBundle\Form\Type\GameEggsBreakerTaoBaoOrderType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Jili\BackendBundle\Utility\TaobaoOrderToEggs;
 use Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder;
+use Jili\FrontendBundle\Entity\TaobaoCategory;
 
 /**
  * @Route("/activity/december")
@@ -27,7 +28,16 @@ class DecemberActivityController extends Controller
         if(! $session->has('uid')) {
             $session->set('referer', $this->get('request')->getRequestUri());
         }
-        return $this->render('JiliFrontendBundle:DecemberActivity:index.html.twig');
+
+        $em  = $this->get('doctrine.orm.entity_manager');
+
+        $products = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
+            ->fetch();
+        $categorys = $em->getRepository('JiliFrontendBundle:TaobaoCategory')
+            ->findCategorys(0, TaobaoCategory::SELF_PROMOTION);
+
+
+        return $this->render('JiliFrontendBundle:DecemberActivity:index.html.twig',array('products'=>$products , 'categorys'=> $categorys) );
     }
 
     /**
@@ -129,7 +139,8 @@ class DecemberActivityController extends Controller
                 'numOfEggs'=> $record->getNumOfCommon(),
                 'numOfConsolationEggs' => $record->getNumOfConsolation(),
                 'lessForNextEgg'=> TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
-                'isStart'=> ( $now >= $startAt ) ? true: false  
+                'isStart'=> true
+				//( $now >= $startAt ) ? true: false  
             )));
 
         return $response;      
@@ -157,7 +168,7 @@ class DecemberActivityController extends Controller
 
         $startAt = new \Datetime('2015-01-20 00:00:00');
         $now = new \Datetime();
-        if ('test' !==  $this->get('kernel')->getEnvironment() && 
+        if ('dev' !==  $this->get('kernel')->getEnvironment() && 
             $now >= $startAt )  {
                 return $response;
             }

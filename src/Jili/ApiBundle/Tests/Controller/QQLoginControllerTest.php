@@ -25,16 +25,18 @@ class QQLoginControllerTest extends WebTestCase
     public function setUp()
     {
         $this->has_fixture = false;
-        static::$kernel = static::createKernel();
+        static::$kernel = static::createKernel( array('environment'=>'test') );
         static::$kernel->boot();
+
         $em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
         $container  = static::$kernel->getContainer();
 
         $tn = $this->getName();
         // load fixtures
-        if( $tn === 'testCallBackAction') {
+        if( in_array($tn ,array('testCallBackAction', 'testCallBackActionI','testCallBackActionII','testCallBackActionIII'))) {
             $this->has_fixture = true;
             $fixture = new LoadQQUserCallbackData();
             $fixture->setContainer($container);
@@ -82,9 +84,11 @@ class QQLoginControllerTest extends WebTestCase
      */
     public function testCallBackAction() 
     {
-        $client = static::createClient();
-        $container  = static::$kernel->getContainer();
-
+        $client = $this->client;
+        //$client = static::CreateClient();
+        //static::$kernel = static::createKernel( array('environment'=>'test') );
+        $container  = $client->getContainer();
+        $kernel = $container->get('kernel');
         $session = $container->get('session');
         $em = $this->em;
 
@@ -94,12 +98,25 @@ class QQLoginControllerTest extends WebTestCase
         $crawler =  $client->request('GET', $url, array('code'=>''));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('对不起，QQ用户授权失败，请稍后再试。', $crawler->filter('div.errorMessage')->text());
+    }
 
+    /**
+     * @group issue_474
+     */
+    public function testCallBackAction0() 
+    {
+        $client = $this->client;
+        $container  = $client->getContainer();
+        $kernel = $container->get('kernel');
+        $session = $container->get('session');
+        $em = $this->em;
+        $url = $this->container->get('router')->generate('qq_api_callback');
         // test no access_token
         $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
             ->setMethods(array('access_token','get_openid'))
             ->disableOriginalConstructor()
             ->getMock();
+        
         $stubQQAuth->expects($this->once())
             ->method('access_token')
             ->willReturn(array('access_token'=>''));
@@ -111,13 +128,34 @@ class QQLoginControllerTest extends WebTestCase
             ->method('getQQAuth')
             ->willReturn( $stubQQAuth);
 
-        static::$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
-            $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
-        });
+        //$client->getContainer()->set('user_qq_login', $mockQQAuth);
+        $container->set('user_qq_login', $mockQQAuth);
+        //$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
+        //    $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
+        //});
+        $session->remove('qq_token');
+        $session->remove('open_id');
+        $session->save();
+
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('对不起，QQ用户授权失败，请稍后再试。', $crawler->filter('div.errorMessage')->text(),'no access_token returned');
+        //var_dump($session->has('qq_token') );
         $this->assertFalse( $session->has('qq_token') );
+    }
+
+    /**
+     * @group issue_474
+     */
+    public function testCallBackActionI () 
+    {
+        $client = $this->client;
+        $container  = $client->getContainer();
+        $kernel = $container->get('kernel');
+        $session = $container->get('session');
+        $em = $this->em;
+        $url = $this->container->get('router')->generate('qq_api_callback');
+
         $session->remove('qq_token');
         $session->remove('open_id');
         $session->save();
@@ -140,9 +178,10 @@ class QQLoginControllerTest extends WebTestCase
         $mockQQAuth->expects($this->exactly(2))
             ->method('getQQAuth')
             ->willReturn( $stubQQAuth);
-        static::$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
-            $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
-        });
+        $container->set('user_qq_login', $mockQQAuth);
+        //        $kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
+        //            $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
+        //        });
 
 
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
@@ -151,9 +190,23 @@ class QQLoginControllerTest extends WebTestCase
         $session = $client->getRequest()->getSession();
 
         $this->assertTrue($session->has('open_id') );
-        $crawlerNew = $client->followRedirect(); 
-        $this->assertEquals( '/QQLogin/qqFistLogin', $client->getRequest()->getRequestUri());
-        $this->assertEquals('973F697E97A60289C8C455B1D65FAAAA', $session->get('open_id'),'open_id session is set' );
+        //        $crawlerNew = $client->followRedirect(); 
+        //       $this->assertEquals( '/QQLogin/qqFistLogin', $client->getRequest()->getRequestUri());
+        //      $this->assertEquals('973F697E97A60289C8C455B1D65FAAAA', $session->get('open_id'),'open_id session is set' );
+        //
+    }
+
+    /**
+     * @group issue_474
+     */
+    public function testCallBackActionII () 
+    {
+       $client = $this->client;
+       $container  = $client->getContainer();
+       $kernel = $container->get('kernel');
+        $session = $container->get('session');
+        $em = $this->em;
+        $url = $this->container->get('router')->generate('qq_api_callback');
         $session->remove('qq_token');
         $session->remove('open_id');
         $session->save();
@@ -176,9 +229,10 @@ class QQLoginControllerTest extends WebTestCase
         $mockQQAuth->expects($this->exactly(2))
             ->method('getQQAuth')
             ->willReturn( $stubQQAuth);
-        static::$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
-            $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
-        });
+        $container->set('user_qq_login', $mockQQAuth);
+        //$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
+        //    $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
+        //});
         
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
 
@@ -187,11 +241,23 @@ class QQLoginControllerTest extends WebTestCase
         $session = $client->getRequest()->getSession();
         $this->assertTrue( $session->has('qq_token') );
         $this->assertEquals('D8E44D85A05AA374243CFE3911365C51', $session->get('qq_token'),'qq_token session is set');
+    }
 
+    /**
+     * @group issue_474
+     */
+    public function testCallBackActionIII () 
+    {
+       $client = $this->client;
+       $container  = $client->getContainer();
+       $kernel = $container->get('kernel');
+        $session = $container->get('session');
+        $em = $this->em;
         $session->remove('qq_token');
         $session->remove('open_id');
         $session->save();
 
+        $url = $this->container->get('router')->generate('qq_api_callback');
        // has qquser, has jili user , login
         $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
             ->setMethods(array('access_token','get_openid'))
@@ -210,14 +276,16 @@ class QQLoginControllerTest extends WebTestCase
         $mockQQAuth->expects($this->exactly(2))
             ->method('getQQAuth')
             ->willReturn( $stubQQAuth);
-        static::$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
-            $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
-        });
-        
+        $container->set('user_qq_login', $mockQQAuth);
+        //$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
+        //    $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
+        //});
 
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
+
         $crawlerNew = $client->followRedirect(); 
+
         $this->assertEquals( '/', $client->getRequest()->getRequestUri());
 
         $this->assertFalse($session->has('open_id') );
@@ -271,6 +339,7 @@ EOD;
 
         // what if no qq_token session is set??
         $client->getContainer()->set('user_qq_login', $mockQQAuth);
+
         $session->set('qq_token', 'D8E44D85A05AA374243CFE3911365C51');
         $session->remove('open_id');
         $session->save();
@@ -334,32 +403,45 @@ EOD;
     {
         $url = $this->container->get('router')->generate('qq_api_login');
         $this->assertEquals('/QQLogin/qqlogin', $url);
-        $client = static::createClient();
-        $container  = static::$kernel->getContainer();
+        $client = $this->client;
+        $container  = $client->getContainer();
         $session = $container->get('session');
 
         $em = $this->em;
         // 1. set session qq_token
-        
+
         $session->set('qq_token', '111');
         $session->save();
-
         // 1.1 user has login , redirect
         $session->set('uid', 1);
         $session->save();
-
         $crawler =  $client->request('GET', $url);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $crawlerNew = $client->followRedirect(); 
         $this->assertEquals( '/', $client->getRequest()->getRequestUri());
+    }
 
+    /**
+     * @group issue_474
+     */
+    public function testqqLoginActionI()
+    {
+        $client = $this->client;
+        $container  = $client->getContainer();
+        $session = $container->get('session');
+
+        $em = $this->em;
+
+        $url = $this->container->get('router')->generate('qq_api_login');
+        // 1. set session qq_token
         // 1.2 no user login, mock the  login_url, redirect
         $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
             ->setMethods(array('login_url'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $uri_by_qq = 'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101163684&redirect_uri=http://testgroup.91jili.com/qqlogin&scope=get_user_info';
+        //        $uri_by_qq = 'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101163684&redirect_uri=http://testgroup.91jili.com/qqlogin&scope=get_user_info';
+        $uri_by_qq = 'https://graph.qq.com/oauth2.0/authorize?client_id=101163684&redirect_uri=http%3A%2F%2Fwww.91jili.com%2FQQLogin%2Fqqcallback&response_type=code&scope=get_user_info';
         $stubQQAuth->expects($this->once())
             ->method('login_url')
             ->willReturn($uri_by_qq);
@@ -371,9 +453,10 @@ EOD;
             ->method('getQQAuth')
             ->willReturn( $stubQQAuth);
 
-        static::$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
-            $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
-        });
+        $container->set('user_qq_login', $mockQQAuth);
+        //        static::$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
+        //            $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
+        //        });
 
         $session->remove('uid');
         $session->set('qq_token', '222');
@@ -385,7 +468,7 @@ EOD;
         $this->assertTrue($client->getResponse()->isRedirect());
 
         $crawlerNew = $client->followRedirect(); 
-    //    $this->assertEquals( '/',$client->getRequest()->getRequestUri(),' the primary request uri is not changed');;
+        //    $this->assertEquals( '/',$client->getRequest()->getRequestUri(),' the primary request uri is not changed');;
         $this->assertEquals($uri_by_qq,$client->getHistory()->current()->getUri(),
             'a sub-requst should be the target url ');
         // /oauth2.0/authorize?client_id=101163684&redirect_uri=www.91jili.com&response_type=code&scope=get_user_info

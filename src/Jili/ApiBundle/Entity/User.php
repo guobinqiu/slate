@@ -25,6 +25,9 @@ class User
 
     const IS_NOT_FROM_WENWEN = 1;
     const IS_FROM_WENWEN = 2;
+    
+    const FROM_QQ_PREFIX = "QQ";
+    const FROM_TAOBAO_PREFIX = "taobao_";
 
     public function __construct()
     {

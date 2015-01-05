@@ -175,7 +175,6 @@ class GameEggsBreaker
         // remove last line 
         // 100 lines
         // insert fisrt line.
-        
     }
 
     public function fetchSentStat()

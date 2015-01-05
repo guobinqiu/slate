@@ -6,7 +6,7 @@ default:
 user:
     resource: "@JiliApiBundle/Controller/UserController.php"
     prefix:   /user
-    type:     annotation   
+    type:     annotation
 
 shopping:
     resource: "@JiliApiBundle/Controller/ShoppingController.php"
@@ -95,4 +95,8 @@ monthActivity:
 qqLogin:
     resource: "@JiliApiBundle/Controller/QQLoginController.php"
     prefix:   /QQLogin
+    type:     annotation
+TaoBaoLogin:
+    resource: "@JiliApiBundle/Controller/TaoBaoLoginController.php"
+    prefix:   /TaoBaoLogin
     type:     annotation

@@ -78,7 +78,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
     }
 
     /**
-     * @Route("/list-orders/{p}",  defaults={"p"=1}, requirements={"p" = "\d+"})
+     * @Route("/list-orders/{p}",  defaults={"p"=1}, requirements={"p" = "\d*"})
      * @Method( "GET");
      */
     public function listAllAction($p)
@@ -100,7 +100,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
        }
 
        $returns = $em->getRepository( 'JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
-           ->fetchByRange( $p , $page_size, $filters  );
+           ->fetchByRange( $p , $page_size, $filters );
 
        return $this->render('JiliBackendBundle:GameEggsBreaker\TaobaoOrder:list.html.twig', array(
            'entities'=> $returns['data'],

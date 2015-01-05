@@ -15,20 +15,20 @@ $(document).ready(function() {
 	var url = window.location.href;
     url = url.split("adtaste/");
     url = url[1].substring(0,1);
-    $("div article .screen a").removeClass("hover"); 
+    $("div article .screen a").removeClass("hover");
     if(url){
     	switch(url){
-        case "0":   
+        case "0":
             $("div article .screen a:first").addClass("hover");
             break;
         case "1":
              $("div article .screen a:eq(1)").addClass("hover");
             break;
         case "2":
-            $("div article .screen a:eq(2)").addClass("hover"); 
-            break; 
+            $("div article .screen a:eq(2)").addClass("hover");
+            break;
         case "3":
-            $("div article .screen a:last").addClass("hover"); 
+            $("div article .screen a:last").addClass("hover");
             break;
        default:
         	location.href="{{ path('_user_adtaste',{'type': 0}) }}";
@@ -91,10 +91,12 @@ function addClass(type){
                     <a href="{{ path('_advertiserment_list') }}" target="_blank">{{ item.title }}</a>
                   {% elseif item.incentiveType == 18 %}
                     <a href="{{ asset(path('_advertiserment_offer99')) }}" target="_blank">{{ item.title }}</a>
+                  {% elseif item.incentiveType == bangwoya_com.category_type %}
+                    <a href="{{ asset(path('_advertiserment_bangwoya')) }}" target="_blank">{{ item.title }}</a>
                   {% else %}
                     {{ item.title }}
                   {% endif %}
-              {% endif %} 
+              {% endif %}
           </td>
           <td>{% if item.incentiveType==2 or item.incentiveType==19  %}
                      {% if item.orderStatus > 1 %}
@@ -123,7 +125,7 @@ function addClass(type){
        {% else %}
       <tr><td align="center" colspan="5">没有任务记录</td></tr>
       {% endif %}
-         
+
     </table>
     {{ knp_pagination_render(pagination) }}
     <div class="prompt">
@@ -133,5 +135,5 @@ function addClass(type){
   </article>
 </div>
 {% endblock %}
- 
- 
+
+

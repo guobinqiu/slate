@@ -12,7 +12,7 @@ class UserBind
 {
     private $em;
     /**
-     * UserBind
+     * qq UserBind
      * @params $params array()
      */
     public function qq_user_bind(array $params)
@@ -23,6 +23,23 @@ class UserBind
             if( $user) {
                 $params['user_id'] =  $user->getId();
                 $qquser = $this->em->getRepository('JiliApiBundle:QQUser')->qquser_insert($params);
+            }
+        }
+        return $qquser;
+    }
+    
+    /**
+     * taobao UserBind
+     * @params $params array()
+     */
+    public function taobao_user_bind(array $params)
+    {
+        $qquser = null;
+        if (isset($params['email']) && isset($params['open_id'])) {
+            $user = $this->em->getRepository('JiliApiBundle:User')->findOneBy(array('email'=> $params['email']));
+            if( $user) {
+                $params['user_id'] =  $user->getId();
+                $qquser = $this->em->getRepository('JiliApiBundle:TaoBaoUser')->taobao_user_insert($params);
             }
         }
         return $qquser;
