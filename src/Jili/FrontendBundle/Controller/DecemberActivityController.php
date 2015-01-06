@@ -186,4 +186,14 @@ class DecemberActivityController extends Controller
             }
         return $response;
     }
+
+    /**
+     * @Route("/broken-stat")
+     * @Method("GET")
+     */
+    public function brokerListAction() 
+    {
+        $stat = $this->get('december_activity.game_eggs_breaker')->fetchBrokenStat();
+        return $this->render('JiliFrontendBundle:DecemberActivity:recent_brokers_stat.html.twig', $stat );
+    }
 }

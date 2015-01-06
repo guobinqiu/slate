@@ -13,6 +13,7 @@ use Jili\FrontendBundle\DataFixtures\ORM\Repository\GameEggsBreakerTaobaoOrder\L
 
 use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadTaobaoCategoryData;
 use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadTaobaoSelfPromotionProductData;
+use Jili\FrontendBundle\DataFixtures\ORM\Repository\GameEggsBreakerTaobaoOrder\LoadLogsData;
 
 class DecemberActivityControllerTest extends WebTestCase
 {
@@ -54,6 +55,12 @@ class DecemberActivityControllerTest extends WebTestCase
             $loader  = new Loader();
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
+        } elseif ('testBrokersListAction' === $tn) {
+            $fixture = new LoadLogsData();
+            $loader  = new Loader();
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
+
         } else if(in_array( $tn ,array('testIndexAction','testAddTaobaoOrderActionNormal' ,'testAddTaobaoOrderActionValidation','testAddTaobaoOrderActionValidationII') )) {
             $loader  = new Loader();
             $fixture = new LoadTaobaoCategoryData();
@@ -481,6 +488,27 @@ var_dump($diff);
         @unlink($file);
 
         $this->assertEquals('/activity/december/eggs-sent-stat', $url);
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertCount(10 , $crawler->filter('ul > li') );
+        @unlink($file);
+    }
+
+    /**
+     * @group issue_537
+     */
+    public function  testBrokersListAction()
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_brokerlist');
+
+        $config =$container->getParameter('game_eggs_breaker');
+        $file = $config['broken_stat'];
+        @unlink($file);
+
+        $this->assertEquals('/activity/december/broken-stat', $url);
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(10 , $crawler->filter('ul > li') );

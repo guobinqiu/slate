@@ -52,11 +52,17 @@
                     <label>距离砸金蛋时间仅剩下</label><span class="countDownTime"></span>
                 </div>
                 <div class="winnerList">
+                    {% if  date() < date("2015-01-20 00:00:00")  %}
                     <h2>抢金蛋名单</h2>
                     <div class="mask">
 						{% render(controller("JiliFrontendBundle:DecemberActivity:eggsSentStat") ) %}
+                   </div>
+                    {% else %}
+                    <h2>砸金蛋名单</h2>
+                    <div class="mask">
+						{% render(controller("JiliFrontendBundle:DecemberActivity:brokerList") ) %}
                     </div>
-                </div>
+                    {% endif %}
             </div>
         </div>
         <div class="decList">
