@@ -67,7 +67,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $failTime = 180;
         $companyId = 4;
         $mailingId = 28;
-        $this->handleSendPointFail($em, $failTime,$companyId,$mailingId);
+        $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailure');
     }
     public function pointFailureForWeek($em)
     {
@@ -75,7 +75,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $failTime = 173;
         $companyId = 4;
         $mailingId = 31;
-        $this->handleSendPointFail($em,$failTime,$companyId,$mailingId);
+        $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailureForWeek');
     }
     
     public function pointFailureForMonth($em)
@@ -84,10 +84,10 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $failTime = 150;
         $companyId = 4;
         $mailingId = 30;
-        $this->handleSendPointFail($em,$failTime,$companyId,$mailingId);
+        $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailureForMonth');
     }
     
-    public function handleSendPointFail($em, $failTime,$companyId,$mailingId)
+    public function handleSendPointFail($em, $failTime, $companyId, $mailingId, $pointType)
     {
         $user = $em->getRepository('JiliApiBundle:User')->pointFail($failTime);
         echo "select count : ".count($user)."\n";
@@ -123,11 +123,16 @@ class DmdeliveryCommand extends ContainerAwareCommand
                                 if($failTime == 180){
                                     $this->updatePointZero($em, $value['id']);
                                 }
-                                echo 'key :'.$key. ',userid:'.$value['id']."-> update successfully  \n";
+                                if($pointType==='pointFailure'){
+                                    echo 'key :'.$key. ',userid:'.$value['id']."-> update successfully  \n";
+                                } else {
+                                    echo 'key :'.$key. ',userid:'.$value['id']."-> send successfully  \n";
+                                }
+                                
                                 $em->getConnection()->commit();
                             } catch (Exception $ex) {
                                 $em->getConnection()->rollback();
-                                $content = $this->setALertEmailBody('pointFailure','something error happend when insert or update)');
+                                $content = $this->setALertEmailBody($pointType,'something error happend when insert or update)');
                                 $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
                                 throw $e;
                             }
@@ -141,21 +146,21 @@ class DmdeliveryCommand extends ContainerAwareCommand
                     }
                 }
                 if ($send_fail_email_count > 0){
-                    $content = $this->setALertEmailBody('pointFailure','Cannot send email，count = '.$send_fail_email_count);
+                    $content = $this->setALertEmailBody($pointType,'Cannot send email，count = '.$send_fail_email_count);
                     echo 'Cannot send email，count = '.$send_fail_email_count."\n";
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
                 } else {
-                    $content = $this->setALertEmailBody('pointFailure','Send finish!!!',true);
+                    $content = $this->setALertEmailBody($pointType,'Send finish!!!',true);
                     echo ' Finished and Successed !!!'."\n";
                     $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
                 }
             }else{
-                $content = $this->setALertEmailBody('pointFailure','Cannot add group:'.$group->statusMsg);
+                $content = $this->setALertEmailBody($pointType,'Cannot add group:'.$group->statusMsg);
                 echo 'Cannot add group:'.$group->statusMsg."\n";
                 $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
             }
         }else{
-            $content = $this->setALertEmailBody('pointFailure','Email list is empty');
+            $content = $this->setALertEmailBody($pointType,'Email list is empty');
             echo 'Email list is empty'."\n";
             $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
         }
