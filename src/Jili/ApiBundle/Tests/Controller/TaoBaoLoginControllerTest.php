@@ -209,6 +209,8 @@ class TaoBaoLoginControllerTest extends WebTestCase
         
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
 
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('对不起，找不到该用户，请联系客服。', $crawler->filter('div.errorMessage')->text());
         $session = $client->getRequest()->getSession();
         $this->assertTrue( $session->has('taobao_token') );
         $this->assertEquals('D8E44D85A05AA374243CFE3911365C51', $session->get('taobao_token'),'TaoBao_token session is set');
