@@ -12,13 +12,13 @@ parameters:
     offer99_com.task_type: 5
 
     bangwoya_com:
-        url: "http://demo.bangwoya.com/91jili"  #正式机 :http://www.bangwoya.com/91jili
+        url: "http://www.bangwoya.com/91jili"  #测试机 :http://demo.bangwoya.com/91jili
         key: "91jili2bangwoya"
         name: "体验广告"
         category_type: 22
         task_type: 5
         upper_limit: 5000
-        client_ip: "127.0.0.1" #正式121.40.71.200，测试：121.40.71.200 本机127.0.0.1,::1
+        client_ip: "121.40.71.200" #正式121.40.71.200，测试：121.40.71.200 本机127.0.0.1,::1
         mail_subject: "积粒网-bangwoya体验广告接口数据处理失败"
         bangwoya_api_log: "/data/91jili/logs/api/bangwoya_api.log"
         alertTo_contacts: vctech-system-emergency@voyagegroup.com
