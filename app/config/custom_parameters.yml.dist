@@ -303,7 +303,3 @@ parameters:
     # the uri relative to web/
     taobao_self_promotion_picture_uri_path: images/taobao_products_picture/
     taobao_self_promotion_picture_dir: %kernel.root_dir%/../web/%taobao_self_promotion_picture_uri_path%
-
-    taobao_appid: 23058537
-    taobao_appsecret: e6ccc0b02a0c2180d3af84f20a7cb535
-    taobao_login_callback_url: http://www.91jili.com/TaoBaoLogin/taobaocallback
