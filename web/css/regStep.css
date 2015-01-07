@@ -347,9 +347,6 @@
 .qqReg input[type='text'].qqEmail{
 	width: 120px;
 }
-.qqReg input[type='text'].taobaoEmail{
-	width: 180px;
-}
 .qqReg .errorMsg{
 	color: #fb2c03;
 	margin: 0 0 0 5px;

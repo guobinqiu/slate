@@ -81,32 +81,4 @@ class UserRegistTest extends KernelTestCase
 
     }
 
-     /**
-     * @group issue_536
-     */
-    public function testTaobao_user_regist() 
-    {
-        $params = array('email'=>'alice_nima11@gmail.com', 'open_id'=>'973F697E97A60289C8C455B1D65FF5F0', 'pwd'=>'123qwe');
-        $taobaoUser =  $this->container->get('user_regist')->taobao_user_regist($params);
-
-        // 
-
-        $params = array('nick'=>'alice32','email'=>'alice_nima11@gmail.com', 'open_id'=>'973F697E97A60289C8C455B1D65FF5F0', 'pwd'=>'123qwe');
-        $taobaoUser =  $this->container->get('user_regist')->taobao_user_regist($params);
-
-        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('alice_nima11@gmail.com');
-        $this->assertNotNull($user);
-        $this->assertEquals('taobao_alice32' , $user->getNick() );
-        $this->assertEquals($user->pw_encode('123qwe'), $user->getPwd());
-
-        $this->assertInstanceOf('Jili\\ApiBundle\\Entity\\TaoBaoUser', $taobaoUser);
-        $this->assertEquals($user->getId(), $taobaoUser->getUserId());
-        $this->assertEquals('973F697E97A60289C8C455B1D65FF5F0', $taobaoUser->getOpenId() );
-
-        $taobaoUser1 = $this->em->getRepository('JiliApiBundle:TaoBaoUser')->findOneBy(array('userId'=>$user->getId(), 'openId'=>'973F697E97A60289C8C455B1D65FF5F0' ));
-        
-        $this->assertNotNull( $taobaoUser1);
-        $this->assertInstanceOf('Jili\\ApiBundle\\Entity\\TaoBaoUser', $taobaoUser1);
-
-    }
 }

@@ -329,15 +329,6 @@ div.loginArea{
 	vertical-align: -3px;
 	*+vertical-align: -2px;
 }
-.loginArea .tblogIcon{
-	width:15px; 
-	height:16px;
-	background:url(../images1408/icons.png) no-repeat 0 -422px;
-	display: inline-block;
-	vertical-align: -3px;
-	*+vertical-align: -2px;
-	margin-left: 4px;
-}
 a.register{
 	width: 240px;
 	height: 55px;
