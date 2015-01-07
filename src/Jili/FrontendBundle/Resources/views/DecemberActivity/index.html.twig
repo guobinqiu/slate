@@ -30,6 +30,7 @@
 </div>
 <div class="decMain">
     <div class="decMainCon">
+    {% if  date() < date("2015-01-07 17:10:00")  %}
         <div class="luckyDraw clearfix">
             {% if app.session.has('uid') %}
             <div class="luckyDrawL">
@@ -51,20 +52,47 @@
                 <div class="countDown">
                     <label>距离砸金蛋时间仅剩下</label><span class="countDownTime"></span>
                 </div>
-                <div class="winnerList">
-                    {% if  date() < date("2015-01-20 00:00:00")  %}
+                <div class="winnerList">                
                     <h2>抢金蛋名单</h2>
                     <div class="mask">
 						{% render(controller("JiliFrontendBundle:DecemberActivity:eggsSentStat") ) %}
                    </div>
-                    {% else %}
-                    <h2>砸金蛋名单</h2>
+                 </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="luckyDraw luckyDrawActive clearfix">
+            {% if app.session.has('uid') %}
+            <div class="luckyDrawL">
+                <div class="noStart"><img src="{{ asset('images/december/noeggbreak.gif')}}" width="462" height="175" alt="您还没有金蛋哦"></div>
+                <div class="mask">
+                	<div class="hammer"></div>
+                    <ul class="goldenEggs clearfix">
+                    </ul>
+                </div>
+            </div> 
+            {% else %}
+            <div class="luckyDrawL">
+                <div class="noLogin"><img src="{{ asset('images/december/noeggbreak.gif')}}" width="462" height="175" alt="您还没有金蛋哦"></div>
+            </div>
+            {% endif %}
+            <div class="luckyDrawR">
+            	{% if app.session.has('uid') %}
+            	<p>您当前的金蛋：<strong class="eggNum"></strong>个，赶紧来砸蛋吧！</p>
+                {% else %}
+                <p>您当前的金蛋：<strong class="eggNum">0</strong>个，赶紧来砸蛋吧！</p>
+                {% endif %}
+                <div class="winnerList">
                     <div class="mask">
 						{% render(controller("JiliFrontendBundle:DecemberActivity:brokerList") ) %}
                     </div>
-                    {% endif %}
+                 </div>
+                 <div class="countDown">
+                    <label>砸蛋还剩</label><span class="countDownTime"></span>
+                </div>
             </div>
         </div>
+         {% endif %}
         <div class="decList">
             {% set index_product = 0 %}
             {% for i, row in categorys %}
