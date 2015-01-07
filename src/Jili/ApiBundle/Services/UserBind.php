@@ -27,24 +27,7 @@ class UserBind
         }
         return $qquser;
     }
-    
-    /**
-     * taobao UserBind
-     * @params $params array()
-     */
-    public function taobao_user_bind(array $params)
-    {
-        $qquser = null;
-        if (isset($params['email']) && isset($params['open_id'])) {
-            $user = $this->em->getRepository('JiliApiBundle:User')->findOneBy(array('email'=> $params['email']));
-            if( $user) {
-                $params['user_id'] =  $user->getId();
-                $qquser = $this->em->getRepository('JiliApiBundle:TaoBaoUser')->taobao_user_insert($params);
-            }
-        }
-        return $qquser;
-    }
-    
+      
     public function setEntityManager(EntityManager $em)
     {
         $this->em= $em;
