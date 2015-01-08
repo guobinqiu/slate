@@ -218,15 +218,24 @@ $(function(){
     var s = setInterval(textScroll, 2E3);
     topFold();
     checkFlow();
-	var breakEggS = '2015/1/7 17:20:59', breakEggE = '2015/1/9 17:55:59';
-	var breakEggSFmt = new Date('2015/1/6 16:35:59').Format("yyyy-MM-dd"), curDateFmt = new Date().Format("yyyy-MM-dd");
-	if(compareTime(curDateFmt, breakEggSFmt)){
+	var breakEggS = '2015/1/20 00:00:00', breakEggE = '2015/1/26 23:59:59';
+	var sDiff = (new Date(breakEggS)).getTime() - new Date().getTime();
+	var eDiff = (new Date(breakEggE)).getTime() - new Date().getTime();
+	if(parseInt(sDiff)>0){
 		countDown(breakEggS);
 	}else{
 		$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
 		$('.timestamp').unbind('click');
 		countDown(breakEggE);
 	}
+	if(parseInt(eDiff)<0){
+		$('<div></div>').addClass('fixMask').appendTo($('body'));
+		$('<div class="endBreak"><div><span class="close"></span><div class="conclusion">来晚一步，砸金蛋活动已经结束了。</div></div></div>').appendTo($('body'));
+	}
+	$('.endBreak .close').on('click', function(){
+		$('.fixMask').hide();
+		$('.endBreak').hide();
+	});	
     $.fn.eggFrenzy({
         container: '.goldenEggs',
         hasEgg: '.luckyDrawL .mask',
@@ -264,7 +273,7 @@ $(function(){
 						 $(opts.eggNum).html('0');
 						 return false;
 					 }
-					 if(eggData.data.isStart){
+					 if(eggData.data.isOpenSeason){
 						$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
 						$('.timestamp').unbind('click');
 					 }
@@ -369,7 +378,7 @@ $(function(){
 				$('<div class="eggResult"><div><div class="resultTxt"></div><span class="close"></span><div><img src="/images/december/fail.gif?t='+Math.random()+'" width="930" height="515"/></div></div></div>').appendTo($('body'));
 				setTimeout(function(){
 					$('.resultTxt').text('太残忍了，竟然没有米粒！').hide().fadeIn(1E3);
-				}, 2E3);
+				}, 1500);
 			}
 			$('.eggResult .close').on('click', function(){
 				$('.fixMask').remove();
@@ -418,7 +427,7 @@ $(function(){
             });
         },
         openStart: function(initData){
-            if(initData.data.isStart){
+            if(initData.data.isOpenSeason){
 				$(this.options.container).find('li span').addClass('active');
                 this.openEgg(initData);
             }else{
