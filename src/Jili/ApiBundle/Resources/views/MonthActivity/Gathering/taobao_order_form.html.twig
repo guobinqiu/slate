@@ -1,0 +1,8 @@
+<form action="{{ path('jili_api_monthactivity_gatheringsavetaobaoorder') }}" method="POST">
+{{ form_label(form.orderIdentity)}}
+{{ form_widget(form.orderIdentity)}}
+{{ form_errors(form.orderIdentity)}}
+
+{{ form_rest(form)}}
+<input type="submit" value="提交" />
+</form>

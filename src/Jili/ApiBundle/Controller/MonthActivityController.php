@@ -4,8 +4,11 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Utility\FileUtil;
+use Jili\ApiBundle\Form\Type\MonthActivity\GatheringOrderType;
+use Jili\ApiBundle\Form\Type\MonthActivity\GatheringCheckinType;
 
 class MonthActivityController extends Controller {
 
@@ -111,10 +114,10 @@ class MonthActivityController extends Controller {
      */
     public function gatheringIndexAction(Request $request)
     {
-
         // read the order_total:
         return $this->render('JiliApiBundle:MonthAcitivity/Gathering:index.html.twig');
     }
+
     /**
      *  GET 显示提交订单号的Form
      *  @Route("/activity/gathering/order-add")
@@ -122,8 +125,10 @@ class MonthActivityController extends Controller {
      */
     function gatheringAddTaobaoOrderAction(Request $request )
     {
-        // form
-        return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig');
+        $form = $this->createForm(new GatheringOrderType());
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
+            'form'=>$form->createView()
+        ));
     }
 
     /**
@@ -133,8 +138,47 @@ class MonthActivityController extends Controller {
      */
     function gatheringSaveTaobaoOrderAction(Request $request )
     {
-        //form
-        //session
-        return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
+        $form = $this->createForm(new GatheringOrderType());
+        $form->bind($request);
+        if($form->isValid()) {
+            //session
+            return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
+        }
+
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
+            'form'=>$form->createView()
+        ));
+    }
+
+    /**
+     *  @Route("/activity/gathering/checkin")
+     *  @Method("GET")
+     */
+    function gatheringCheckinAction(Request $request )
+    {
+
+        $form = $this->createForm(new GatheringCheckinType());
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:checkin_form.html.twig', array(
+            'form'=>$form->createView()
+        ));
+    }
+
+    /**
+     *  @Route("/activity/gathering/checkin-save")
+     *  @Method("POST")
+     */
+    function saveGatheringCheckinAction(Request $request )
+    {
+        $form = $this->createForm(new GatheringCheckinType());
+        $form->bind($request);
+        if($form->isValid()) {
+            //session
+            return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
+        }
+
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:checkin_form.html.twig', array(
+            'form'=>$form->createView()
+        ));
+
     }
 }
