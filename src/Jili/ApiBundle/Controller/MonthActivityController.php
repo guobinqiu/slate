@@ -3,6 +3,7 @@ namespace Jili\ApiBundle\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Utility\FileUtil;
 
@@ -104,4 +105,36 @@ class MonthActivityController extends Controller {
         return $users;
     }
 
+    /**
+     * @Route("/activity/gathering")
+     * @Method("GET")
+     */
+    public function gatheringIndexAction(Request $request)
+    {
+
+        // read the order_total:
+        return $this->render('JiliApiBundle:MonthAcitivity/Gathering:index.html.twig');
+    }
+    /**
+     *  GET 显示提交订单号的Form
+     *  @Route("/activity/gathering/order-add")
+     *  @Method("GET")
+     */
+    function gatheringAddTaobaoOrderAction(Request $request )
+    {
+        // form
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig');
+    }
+
+    /**
+     *  POST 保存订单号到
+     *  @Route("/activity/gathering/order-save")
+     *  @Method("POST")
+     */
+    function gatheringSaveTaobaoOrderAction(Request $request )
+    {
+        //form
+        //session
+        return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
+    }
 }

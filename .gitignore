@@ -44,3 +44,7 @@ _compareTemp
 !build/phpunit.xml
 !build/phpdox.xml
 build/*
+.rsync_cache/
+Capfile
+app/config/deploy.rb
+build.xml.0
