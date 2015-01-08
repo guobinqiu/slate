@@ -99,3 +99,15 @@ a{ color: #fff;}
 .resultTxt{ position: absolute; z-index: 10000; top: 90px; left: 435px; width: 150px; color: #474747; font-size: 16px; line-height: 30px;}
 .resultTxt strong{ color: #f5425a; font-size: 20px; font-weight: bold;}
 .eggResult .close{ position: absolute; z-index: 10000; top: 10px; right: 0; width: 27px; height: 27px; background: url(../images/taobao/close.png) no-repeat; cursor: pointer;}
+/*by wlt, 2015-1-7*/
+.luckyDrawActive .luckyDrawR p{ width: 287px; height: 40px; line-height: 40px; padding-left: 25px; background-color: #61320a;}
+.luckyDrawActive .luckyDrawR p strong{ font-size: 20px; font-weight: bold; color: #fce015;}
+.luckyDrawActive .winnerList{ margin-top: 1px; background-color: #61320a; padding-left: 25px;}
+.luckyDrawActive .winnerList .mask{ margin-top: 0px; width: 287px; height: 70px; overflow: hidden;}
+.luckyDrawActive .luckyDrawR .countDown { color: #260e00;}
+.luckyDrawActive .luckyDrawR .countDown{ margin-top: 5px; background: url(../images/december/timeBg2.jpg) no-repeat;}
+.luckyDrawActive .luckyDrawR .countDown label{ width: 30px; margin-right: 10px; padding-left: 45px; font-weight: bold;}
+.luckyDrawActive .luckyDrawR .countDown span b{ color: #fff; width: 20px; text-align: center; margin-right: 1px; height: 38px; line-height: 38px; font-size: 24px; font-weight: bold; background-color: #260e00;}
+.endBreak{ position: fixed; z-index: 9999; width: 990px; left: 50%; margin-left: -495px; top: 0;}
+.endBreak .conclusion{ position: absolute; z-index: 10000; top: 150px; left: 300px; width: 270px; padding: 50px 10px 50px 145px; color: #492109; font-size: 16px; font-weight: bold; line-height: 30px;  background: #fff url(../images/december/endBreak.jpg) no-repeat; border: 3px solid #f5efdc;}
+.endBreak .close{ position: absolute; z-index: 10000; top: 10px; right: 0; width: 27px; height: 27px; background: url(../images/taobao/close.png) no-repeat; cursor: pointer;}

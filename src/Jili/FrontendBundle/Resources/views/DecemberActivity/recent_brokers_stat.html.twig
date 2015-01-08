@@ -1,6 +1,6 @@
     <ul>
         <!--  {{ ts|date("Y-m-d H:i:s")  }}-->
         {% for breakerInfo  in breakersInfo %}
-        <li>恭喜{{ breakerInfo.nick[:3]}}**砸到{{ breakerInfo.pointsAcquried }}米粒</li>
+        <li>{{ breakerInfo.nick[:3]}}**刚刚砸了一个蛋，获得{{ breakerInfo.pointsAcquried }}米粒</li>
         {% endfor %}
     </ul>
