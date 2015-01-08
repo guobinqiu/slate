@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\FrontendBundle\Entity;
+namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ActivityGatheringTaobaoOrder
  *
  * @ORM\Table(name="activity_gathering_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="order_identity", columns={"order_identity"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\ActivityGatheringTaobaoOrderRepository")
  */
 class ActivityGatheringTaobaoOrder
 {
@@ -36,9 +36,9 @@ class ActivityGatheringTaobaoOrder
     private $id;
 
     /**
-     * @var \Jili\FrontendBundle\Entity\User
+     * @var \Jili\ApiBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="Jili\FrontendBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="order_identity", referencedColumnName="id")
      * })
@@ -106,10 +106,10 @@ class ActivityGatheringTaobaoOrder
     /**
      * Set orderentity
      *
-     * @param \Jili\FrontendBundle\Entity\User $orderentity
+     * @param \Jili\ApiBundle\Entity\User $orderentity
      * @return ActivityGatheringTaobaoOrder
      */
-    public function setOrderentity(\Jili\FrontendBundle\Entity\User $orderentity = null)
+    public function setOrderentity(\Jili\ApiBundle\Entity\User $orderentity = null)
     {
         $this->orderentity = $orderentity;
 
@@ -119,10 +119,15 @@ class ActivityGatheringTaobaoOrder
     /**
      * Get orderentity
      *
-     * @return \Jili\FrontendBundle\Entity\User 
+     * @return \Jili\ApiBundle\Entity\User 
      */
     public function getOrderentity()
     {
         return $this->orderentity;
+    }
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
     }
 }

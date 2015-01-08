@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\FrontendBundle\Entity;
+namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ActivityGatheringCheckinLog
  *
  * @ORM\Table(name="activity_gathering_checkin_log", uniqueConstraints={@ORM\UniqueConstraint(name="user_id", columns={"user_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\ActivityGatheringCheckinLogRepository")
  */
 class ActivityGatheringCheckinLog
 {
@@ -29,15 +29,14 @@ class ActivityGatheringCheckinLog
     private $id;
 
     /**
-     * @var \Jili\FrontendBundle\Entity\User
+     * @var \Jili\ApiBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="Jili\FrontendBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
     private $user;
-
 
 
     /**
@@ -76,10 +75,10 @@ class ActivityGatheringCheckinLog
     /**
      * Set user
      *
-     * @param \Jili\FrontendBundle\Entity\User $user
+     * @param \Jili\ApiBundle\Entity\User $user
      * @return ActivityGatheringCheckinLog
      */
-    public function setUser(\Jili\FrontendBundle\Entity\User $user = null)
+    public function setUser(\Jili\ApiBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -89,7 +88,7 @@ class ActivityGatheringCheckinLog
     /**
      * Get user
      *
-     * @return \Jili\FrontendBundle\Entity\User 
+     * @return \Jili\ApiBundle\Entity\User 
      */
     public function getUser()
     {

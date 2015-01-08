@@ -138,6 +138,13 @@ class MonthActivityController extends Controller {
      */
     function gatheringSaveTaobaoOrderAction(Request $request )
     {
+        // redirect to login.
+        $uid = $this->get('request')->getSession()->get('uid');
+        if(!$uid){
+           $this->getRequest()->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
+           return $this->redirect($this->generateUrl('_user_login'));
+        }
+        
         $form = $this->createForm(new GatheringOrderType());
         $form->bind($request);
         if($form->isValid()) {
@@ -145,9 +152,7 @@ class MonthActivityController extends Controller {
             return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
         }
 
-        return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
-            'form'=>$form->createView()
-        ));
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array('form'=>$form->createView()));
     }
 
     /**
@@ -156,11 +161,16 @@ class MonthActivityController extends Controller {
      */
     function gatheringCheckinAction(Request $request )
     {
+        
+        // whether has checkin ?
+        
+        $uid = $this->get('request')->getSession()->get('uid');
+        if($uid) {
+            $em  = $this->get('doctrine.orm.entity_manager');
+        }
 
         $form = $this->createForm(new GatheringCheckinType());
-        return $this->render('JiliApiBundle:MonthActivity/Gathering:checkin_form.html.twig', array(
-            'form'=>$form->createView()
-        ));
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:checkin_form.html.twig', array('form'=>$form->createView()));
     }
 
     /**
@@ -169,6 +179,13 @@ class MonthActivityController extends Controller {
      */
     function saveGatheringCheckinAction(Request $request )
     {
+        // redirect to login.
+        $uid = $this->get('request')->getSession()->get('uid');
+        if(!$uid){
+           $this->getRequest()->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
+           return $this->redirect($this->generateUrl('_user_login'));
+        }
+        
         $form = $this->createForm(new GatheringCheckinType());
         $form->bind($request);
         if($form->isValid()) {
@@ -176,9 +193,7 @@ class MonthActivityController extends Controller {
             return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
         }
 
-        return $this->render('JiliApiBundle:MonthActivity/Gathering:checkin_form.html.twig', array(
-            'form'=>$form->createView()
-        ));
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:checkin_form.html.twig', array('form'=>$form->createView()));
 
     }
 }
