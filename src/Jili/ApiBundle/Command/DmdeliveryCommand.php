@@ -143,7 +143,12 @@ class DmdeliveryCommand extends ContainerAwareCommand
                                 echo 'errorDMDmessage =>'.$send->errors->recipient[0]->DMDmessage." \n";
                             }
                         }
+                        unset($recipient_arr);
+                        unset($send);
+                        unset($sendflag);
                     }
+                    unset($failId);
+                    unset($user[$key]);
                 }
                 if ($send_fail_email_count > 0){
                     $content = $this->setALertEmailBody($pointType,'Cannot send email，count = '.$send_fail_email_count);
