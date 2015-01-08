@@ -84,19 +84,25 @@ class QQLoginController extends Controller
     public function qqRegisteAction()
     {
         $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
         $qqForm = $request->request->get('qqregist');
+        $code = "";
         $param['email'] = $qqForm['email_id'].'@'.$this->container->getParameter('qq_email_suffix');
         $request->request->set('email',$param['email']);
         $param['nick'] = $request->request->get('qqnickname'); 
         $param['pwd'] = $request->request->get('pwd');
-        $code = true;
+        $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
+        if($check_user){
+            $code = '此账号已存在，请点击下方’已有积粒网账号‘按钮进行绑定!';
+        }
         if(empty($param['pwd']) || (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
-            $code = false;
+            echo 222;
+            $code = '请填写正确的邮箱或密码!';
         }
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
         $form  = $this->createForm(new QQFirstRegist());
         $form->bind($request );
-        if ($form->isValid() && $code) {
+        if ($form->isValid() && empty($code)) {
             $em = $this->getDoctrine()->getManager();
             $check_qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($param['open_id']);
             if( empty($check_qquser)){
@@ -114,7 +120,9 @@ class QQLoginController extends Controller
             }
         } else {
             //验证不通过
-            $code = '请填写正确的邮箱或密码!';
+            if(!$check_user){
+                $code = '请填写正确的邮箱或密码!';
+            }
         }
         return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',
                 array('email'=>$qqForm['email_id'], 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
@@ -138,8 +146,12 @@ class QQLoginController extends Controller
         $request->request->set('email',$param['email']);
         $code = $this->get('login.listener')->login($request);
         if($code == 'ok') {
-            $user_bind = $this->get('user_bind');
-            $result = $user_bind->qq_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
+            $em = $this->getDoctrine()->getManager();
+            $check_qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($param['open_id']);
+            if(!$check_qquser){
+                $user_bind = $this->get('user_bind');
+                $result = $user_bind->qq_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
+            }
             return $this->redirect($this->generateUrl('_homepage'));
         }
         $form  = $this->createForm(new QQFirstRegist());
@@ -158,6 +170,8 @@ class QQLoginController extends Controller
         $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
         //获取登录用户open id 
         $openid = $request->getSession()->get('open_id');
+        $openid = 'testopenid';
+        $request->getSession()->set('open_id',$openid);
         if(!$openid){
             $qq_oid = $qq_auth->get_openid();
             $openid = $qq_oid['openid']; 
@@ -167,6 +181,7 @@ class QQLoginController extends Controller
         $result = $qq_auth->get_user_info($openid);
         $form  = $this->createForm(new QQFirstRegist());
         return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',
-                array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
+                //array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
+            array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>'test','sex'=>"man",'form' => $form->createView()));
     }
 }

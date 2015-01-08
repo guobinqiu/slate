@@ -37,7 +37,7 @@
                                 <input type="hidden" name="sex" value="{{ sex }}"/>
                                 <li>为保障您的账号安全，请设置QQ邮箱和积粒网密码。</li>
                                 <li><label for="qqEmail">邮箱地址：</label>{{ form_widget(form.email_id, { 'attr': {'class': 'qqEmail'} }) }}@qq.com</li>
-                                <li><label for="setPwd">设置密码：</label><input name="pwd" type="password" value=""/></li>
+                                <li><label for="setPwd">设置密码：</label><input name="pwd" type="password" value=""/>  <span>6-20位</span></li>
                                 <li>
                                     <strong class="errorMsg" id="regist_emailError">
                                         {% if regcode is  defined %}
@@ -57,20 +57,16 @@
                                 <input type="hidden" name="qqnickname" value="{{ nickname }}"/>
                                 <input type="hidden" name="sex" value="{{ sex }}"/>
                                 <li>将已有的积粒网账号与QQ账号绑定</li>
-                                <li><label for="kxUser">积粒账号：</label><input name="jili_email" type="text" value="{{ email }}"/>
-                                    <strong class="errorMsg" id="bind_emailError">
+                                <li><label for="kxUser">积粒账号：</label><input name="jili_email" type="text" value="{{ email }}"/></li>
+                                <li><label for="kxPwd">登录密码：</label><input id="pwd" name="jili_pwd" type="password" value=""/></li>
+                                <li><strong class="errorMsg" id="bind_emailError">
                                         {% if bindcode is  defined %}
                                             {{ bindcode }}
                                         {% endif %}
-                                    </strong></li>
-                                <li><label for="kxPwd">登录密码：</label><input id="pwd" name="jili_pwd" type="password" value=""/>{% if 1 %}
-                                    {# if code_nick #}
-                                    <strong class="errorMsg" id="nickError">{# code_nick #}</strong>
-                                    {% else %}2-20个字符
-                                        {% endif %}</li>
-                                        <br />
-                                        <li><span id='bind' class="submitBtn">立即绑定</span><a class="corGlobBlue" href="{{ path('_user_resetPwd') }}">忘记密码</a></li>
-                                    </ul>
+                                    </strong>
+                                </li>
+                                <li><span id='bind' class="submitBtn">立即绑定</span><a class="corGlobBlue" href="{{ path('_user_resetPwd') }}">忘记密码</a></li>
+                            </ul>
                                     <button style="display:none">binding</button>
                                 </form>
                                 {#endif#}
