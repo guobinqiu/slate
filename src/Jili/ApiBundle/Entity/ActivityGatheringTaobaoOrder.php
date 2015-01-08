@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ActivityGatheringTaobaoOrder
  *
- * @ORM\Table(name="activity_gathering_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="order_identity", columns={"order_identity"})})
+ * @ORM\Table(name="activity_gathering_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="order_identity", columns={"order_identity"})}, indexes={@ORM\Index(name="user_id", columns={"user_id"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\ActivityGatheringTaobaoOrderRepository")
  */
 class ActivityGatheringTaobaoOrder
@@ -15,9 +15,9 @@ class ActivityGatheringTaobaoOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="order_identity", type="integer", nullable=false)
      */
-    private $userId;
+    private $orderIdentity;
 
     /**
      * @var \DateTime
@@ -40,34 +40,34 @@ class ActivityGatheringTaobaoOrder
      *
      * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="order_identity", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
-    private $orderentity;
+    private $user;
 
 
 
     /**
-     * Set userId
+     * Set orderIdentity
      *
-     * @param integer $userId
+     * @param integer $orderIdentity
      * @return ActivityGatheringTaobaoOrder
      */
-    public function setUserId($userId)
+    public function setOrderIdentity($orderIdentity)
     {
-        $this->userId = $userId;
+        $this->orderIdentity = $orderIdentity;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get orderIdentity
      *
      * @return integer 
      */
-    public function getUserId()
+    public function getOrderIdentity()
     {
-        return $this->userId;
+        return $this->orderIdentity;
     }
 
     /**
@@ -104,26 +104,26 @@ class ActivityGatheringTaobaoOrder
     }
 
     /**
-     * Set orderentity
+     * Set user
      *
-     * @param \Jili\ApiBundle\Entity\User $orderentity
+     * @param \Jili\ApiBundle\Entity\User $user
      * @return ActivityGatheringTaobaoOrder
      */
-    public function setOrderentity(\Jili\ApiBundle\Entity\User $orderentity = null)
+    public function setUser(\Jili\ApiBundle\Entity\User $user = null)
     {
-        $this->orderentity = $orderentity;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get orderentity
+     * Get user
      *
      * @return \Jili\ApiBundle\Entity\User 
      */
-    public function getOrderentity()
+    public function getUser()
     {
-        return $this->orderentity;
+        return $this->user;
     }
 
     public function __construct()

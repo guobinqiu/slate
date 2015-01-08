@@ -161,9 +161,7 @@ class MonthActivityController extends Controller {
      */
     function gatheringCheckinAction(Request $request )
     {
-        
         // whether has checkin ?
-        
         $uid = $this->get('request')->getSession()->get('uid');
         if($uid) {
             $em  = $this->get('doctrine.orm.entity_manager');

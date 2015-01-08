@@ -11,7 +11,7 @@ use Doctrine\Common\DataFixtures\Loader;
 
 
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
-//use Jili\ApiBundle\DataFixtures\ORM\Advertiserment\LoadAdCategoryData;
+use Jili\ApiBundle\DataFixtures\ORM\Repository\ActivityGatheringCheckinLog\LoadIsCheckedData;
 
 class ActivityGatheringCheckinLogRepositoryTest extends KernelTestCase {
 
@@ -34,20 +34,21 @@ class ActivityGatheringCheckinLogRepositoryTest extends KernelTestCase {
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
-//        $directory = $container->get('kernel')->getBundle('JiliApiBundle')->getPath();
-//        $directory .= '/DataFixtures/ORM/Advertiserment';
-//        $loader = new DataFixtureLoader($container);
-//        $loader->loadFromDirectory($directory);
-//        $executor->execute($loader->getFixtures());
         $tn  = $this->getName();
-        if ($tn === 'log') {
-            $loader = new Loader();
+        if ($tn === 'testLog') {
             $fixture = new LoadUserData();
             $fixture->setContainer($container);
+            $loader = new Loader();
             $loader->addFixture($fixture);
-            $loader->execute($loader->getFixtures());
+            $executor->execute($loader->getFixtures());
+        } elseif ($tn === 'testIsChecked') {
+            $fixture = new LoadIsCheckedData();
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
 
         }
+
         $this->em = $em;
         $this->container = $container;
     }
@@ -62,13 +63,33 @@ class ActivityGatheringCheckinLogRepositoryTest extends KernelTestCase {
 
     /**
      * @group issue_618
-     * @group debug 
      */
     public function testLog()
     {
         $em = $this->em;
-        $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->log(array('userId'=> LoadUserData::$USERS[0]->getId()));
-        $this->assertEquals(1,'1');
+        $user = LoadUserData::$USERS[0];
+        $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->log(array('userId'=> $user->getId() ));
+
+        $entities = $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->findAll();
+        $this->assertCount(1, $entities);
+        $this->assertEquals($user->getId(), $entities[0]->getUser()->getId());
+   }
+
+    /**
+     * @group issue_618
+     */
+    public function testIsChecked()
+    {
+
+        $em = $this->em;
+        $user = LoadIsCheckedData::$USERS[0];
+        $actual = $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->isChecked(array('userId'=> $user->getId() ));
+        $this->assertTrue($actual);
+
+        $user = LoadIsCheckedData::$USERS[1];
+        $actual = $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->isChecked(array('userId'=> $user->getId() ));
+        $this->assertFalse($actual);
+
     }
 }
 
