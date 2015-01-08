@@ -32,7 +32,7 @@ class ActivityGatheringTaobaoOrderRepositoryTest extends KernelTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
         $tn  = $this->getName();
-        if ($tn === 'testInsert') {
+        if (in_array($tn, array('testInsert','testIsDuplicatedOrderByUser'))) {
             $fixture = new LoadInsertData();
             $loader = new Loader();
             $loader->addFixture($fixture);
@@ -53,7 +53,28 @@ class ActivityGatheringTaobaoOrderRepositoryTest extends KernelTestCase
 
     /**
      * @group issue_618
-     * @group debug 
+     */
+    public function testIsDuplicatedOrderByUser()
+    {
+        $em = $this->em;
+        $user = LoadInsertData::$USERS[0];
+        $order = LoadInsertData::$ORDERS[0];
+        $actual = $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')
+            ->isDuplicatedOrderByUser(array(
+                'orderIdentity'=> $order->getOrderIdentity(),
+                'userId'=>$user->getId()));
+        $this->assertTrue($actual);
+
+        $user = LoadInsertData::$USERS[1];
+        $actual = $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')
+            ->isDuplicatedOrderByUser(array('orderIdentity'=>'qwert1234',
+                'userId'=>$user->getId()));
+
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @group issue_618
      */
     public function testInsert()
     {
@@ -71,11 +92,11 @@ class ActivityGatheringTaobaoOrderRepositoryTest extends KernelTestCase
         $this->assertEquals($user->getId(), $actual->getUser()->getId());
 
 
-
-        $user = LoadInsertData::$USERS[1];
+        $user = LoadInsertData::$USERS[0];
         $order = LoadInsertData::$ORDERS[0];
 
         try{
+
             $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')
                 ->insert(array('orderIdentity'=>$order->getOrderIdentity(),'userId'=>$user->getId()));
 
@@ -83,6 +104,4 @@ class ActivityGatheringTaobaoOrderRepositoryTest extends KernelTestCase
             echo get_class($e);
         } 
     }
-
-
 }

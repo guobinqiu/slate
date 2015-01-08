@@ -7,15 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ActivityGatheringTaobaoOrder
  *
- * @ORM\Table(name="activity_gathering_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="order_identity", columns={"order_identity"})}, indexes={@ORM\Index(name="user_id", columns={"user_id"})})
+ * @ORM\Table(name="activity_gathering_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="uniq_order_user", columns={"order_identity", "user_id"})}, indexes={@ORM\Index(name="user_id", columns={"user_id"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\ActivityGatheringTaobaoOrderRepository")
  */
 class ActivityGatheringTaobaoOrder
 {
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="order_identity", type="integer", nullable=false)
+     * @ORM\Column(name="order_identity", type="string", length=255, nullable=false)
      */
     private $orderIdentity;
 
@@ -50,7 +50,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * Set orderIdentity
      *
-     * @param integer $orderIdentity
+     * @param string $orderIdentity
      * @return ActivityGatheringTaobaoOrder
      */
     public function setOrderIdentity($orderIdentity)
@@ -63,7 +63,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * Get orderIdentity
      *
-     * @return integer 
+     * @return string 
      */
     public function getOrderIdentity()
     {

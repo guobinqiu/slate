@@ -148,7 +148,14 @@ class MonthActivityController extends Controller {
         $form = $this->createForm(new GatheringOrderType());
         $form->bind($request);
         if($form->isValid()) {
-            //session
+            $data  = $form->getData();
+            $em  = $this->get('doctrine.orm.entity_manager');
+            $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')->insert(array(
+                'userId'=>$uid,
+                'orderIdentity'=> $data['orderIdentity']
+            ));
+
+            $this->get('session')->setFlash('notice','成功提交订单号!');
             return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
         }
 
@@ -165,9 +172,14 @@ class MonthActivityController extends Controller {
         $uid = $this->get('request')->getSession()->get('uid');
         if($uid) {
             $em  = $this->get('doctrine.orm.entity_manager');
+            $is_checked= $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')
+                ->isChecked(array('userId'=> $uid));
+            if($is_checked) {
+                // already checked??
+            }
         }
 
-        $form = $this->createForm(new GatheringCheckinType());
+        $form = $this->createForm(new GatheringCheckinType() ,array('token', md5( $uid. time())));
         return $this->render('JiliApiBundle:MonthActivity/Gathering:checkin_form.html.twig', array('form'=>$form->createView()));
     }
 
@@ -179,7 +191,7 @@ class MonthActivityController extends Controller {
     {
         // redirect to login.
         $uid = $this->get('request')->getSession()->get('uid');
-        if(!$uid){
+        if(!$uid) {
            $this->getRequest()->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
            return $this->redirect($this->generateUrl('_user_login'));
         }
@@ -187,7 +199,11 @@ class MonthActivityController extends Controller {
         $form = $this->createForm(new GatheringCheckinType());
         $form->bind($request);
         if($form->isValid()) {
-            //session
+            $em = $this->getDoctrine()->getManager();
+            $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->log(array(
+                'userId'=> $uid
+            ));
+            $this->get('session')->setFlash('notice','成功参加!');
             return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
         }
 
