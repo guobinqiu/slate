@@ -131,6 +131,7 @@ class DecemberActivityController extends Controller
         // numOfEggs: 1, numOfConsolationEggs: 3, lessForNextEgg: 00.01 
         //$cost_per_egg = $container->get
         $startAt = new \Datetime('2015-01-20 00:00:00');
+        $endAt = new \Datetime('2015-01-26 23:59:59');
         $now = new \Datetime();
 
         $response->setData( array('code'=> 0, 
@@ -139,8 +140,7 @@ class DecemberActivityController extends Controller
                 'numOfEggs'=> $record->getNumOfCommon(),
                 'numOfConsolationEggs' => $record->getNumOfConsolation(),
                 'lessForNextEgg'=> TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
-                'isStart'=> true
-				//( $now >= $startAt ) ? true: false  
+                'isOpenSeason'=> ( $now < $startAt || $now > $endAt) ? false: true 
             )));
 
         return $response;      
