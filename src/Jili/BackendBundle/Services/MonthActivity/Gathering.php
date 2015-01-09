@@ -26,11 +26,15 @@ class  Gathering
 
     public function getTotal()
     {
-
         $file = $this->configs ['taobao_order_total_src'] ;  
         $js = new JsonCacheFileHandler();
         $content =  $js->readCached($file);
         return $content['total'];
+    }
+
+    public function updateTotal($total)
+    {
+        return $this->createTotal($total);
     }
 
     public function createTotal($total)

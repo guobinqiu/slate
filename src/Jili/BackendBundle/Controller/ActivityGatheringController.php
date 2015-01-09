@@ -15,6 +15,19 @@ use Jili\BackendBundle\Form\Type\ActivityGathering\OrderTotalType;
  */
 class ActivityGatheringController extends Controller implements IpAuthenticatedController 
 {
+
+    /**
+     * @Route("/order-total/get")
+     * @Method("GET")
+     */
+    function getOrderTotalAction()
+    {
+        $total = $this->get('month_activity.gathering')->getTotal();
+        return $this->render('JiliBackendBundle:ActivityGathering:taobao_order_total_index.html.twig', array(
+            'total'=> $total
+        ));
+    }
+
     /**
      * @Route("/order-total/create")
      * @Method("GET")
@@ -35,17 +48,15 @@ class ActivityGatheringController extends Controller implements IpAuthenticatedC
     function editOrderTotalAction()
     {
         // read exists data
-
-        $data =   $this->get('month_activity.gathering')->getTotal();
-        if( empty($data)) {
-            $this->get('session')->getFlashBag()->add('error', '');
+        $total = $this->get('month_activity.gathering')->getTotal();
+        if( is_null($total)) {
+            $this->get('session')->getFlashBag()->add('error', '还没有新建');
             return $this->redirect($this->generateUrl('jili_backend_activitygathering_editordertotal'));
 
         }
 
         //显示 edit form
-        $form = $this->createForm(new OrderTotalType());
-
+        $form = $this->createForm(new OrderTotalType(), array('total'=> $total, 'total_current'=> $total));
         return $this->render('JiliBackendBundle:ActivityGathering:edit_taobao_order_total_form.html.twig', array(
             'form'=>$form->createView()
         ));
@@ -57,12 +68,16 @@ class ActivityGatheringController extends Controller implements IpAuthenticatedC
      */
     function updateOrderTotalAction(Request $request)
     {
-
         $form = $this->createForm(new OrderTotalType());
         $form->bind($request);
         if ($form->isValid()) {
-            //  GatheringService->updateTotal()
-            return $this->redirect($this->generateUrl('jili_backend_activitygathering_editordertotal'));
+            $data = $form->getData();
+            $total = $this->get('month_activity.gathering')->getTotal();
+            if( $total !== $data['total_current'] ) {
+                $this->get('month_activity.gathering')->updateTotal($data['total']);
+                $this->get('session')->getFlashBag()->add('notice', '更新成功');
+                return $this->redirect($this->generateUrl('jili_backend_activitygathering_getordertotal'));
+            }
         }
 
         return $this->render('JiliBackendBundle:ActivityGathering:edit_taobao_order_total_form.html.twig', array(
@@ -84,7 +99,7 @@ class ActivityGatheringController extends Controller implements IpAuthenticatedC
             $data = $form->getData();
             $this->get('month_activity.gathering')->createTotal($data['total']);
             $this->get('session')->getFlashBag()->add('notice', '创建成功');
-            return $this->redirect($this->generateUrl('jili_backend_activitygathering_editordertotal'));
+            return $this->redirect($this->generateUrl('jili_backend_activitygathering_getordertotal'));
             // GatheringService->createTotal()
         }
 

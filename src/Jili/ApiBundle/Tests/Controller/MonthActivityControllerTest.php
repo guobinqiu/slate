@@ -93,12 +93,11 @@ class MonthActivityControllerTest extends WebTestCase
     }
     // duplicated checkin
     // not session checkin 
-
     // order form post
+
     /**
      * checkin form post
      * @group issue_618
-     * @group debug 
      */
     public function testAddOrderNormal()
     {

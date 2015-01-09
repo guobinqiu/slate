@@ -8,6 +8,7 @@ Taobao订单数量创建-201501月活动-{{ parent() }}
 
 {% include("JiliBackendBundle::session_notification.html.twig") %}
 
+<div align="center">
 <form action="{{ path('jili_backend_activitygathering_saveordertotal') }}" method="POST">
 <table>
 <tr>
@@ -22,6 +23,6 @@ Taobao订单数量创建-201501月活动-{{ parent() }}
 
 {{ form_rest(form) }}
 <tr><td>&nbsp;</td><td><input type="submit" value="Create" /></td></tr>
-
 </form>
+</div>
 {% endblock %}

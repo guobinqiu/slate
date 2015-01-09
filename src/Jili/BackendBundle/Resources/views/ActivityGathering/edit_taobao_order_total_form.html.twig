@@ -7,21 +7,22 @@ Taobao订单数量修改-201501月活动-{{ parent() }}
 {% block body %}
 
 {% include("JiliBackendBundle::session_notification.html.twig") %}
+<div align="center">
+    <form action="{{ path('jili_backend_activitygathering_updateordertotal') }}" method="POST">
+        <table>
+            <tr>
+                <td>{{ form_label(form.total) }}</td>
+                <td>
+                    {{ form_errors(form.total) }}
+                    {{ form_widget(form.total) }}
+                </td>
+            </tr>
 
-<form action="{{ path('jili_backend_activitygathering_updateordertotal') }}" method="POST">
-<table>
-<tr>
-    <td>{{ form_label(form.total) }}</td>
-    <td>
-    {{ form_errors(form.total) }}
-    {{ form_widget(form.total) }}
-</td>
-</tr>
+        </table>
 
-</table>
+        {{ form_rest(form) }}
+        <tr><td>&nbsp;</td><td><input type="submit" value="Update" /></td></tr>
 
-{{ form_rest(form) }}
-<tr><td>&nbsp;</td><td><input type="submit" value="Update" /></td></tr>
-
-</form>
+    </form>
+</div>
 {% endblock %}
