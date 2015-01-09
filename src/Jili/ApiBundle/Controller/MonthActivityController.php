@@ -115,7 +115,7 @@ class MonthActivityController extends Controller {
     public function gatheringIndexAction(Request $request)
     {
         // read the order_total:
-        return $this->render('JiliApiBundle:MonthAcitivity/Gathering:index.html.twig');
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:index.html.twig');
     }
 
     /**
