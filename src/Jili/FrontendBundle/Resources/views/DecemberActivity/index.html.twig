@@ -157,6 +157,11 @@
 </div>
 {% else %}
 {% endif %}
+{% if  date() > date("2015-1-26 23:59:59")  %}
+    <div class="fixMask"></div>
+    <div class="endBreak"><div><span class="close"></span><div class="conclusion">来晚一步，砸金蛋活动已经结束了。</div></div></div>
+{% else %}
+{% endif %}
 {% include '::analytics_js.html.twig' %} 
 </body>
 </html>

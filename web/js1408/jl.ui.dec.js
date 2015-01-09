@@ -218,20 +218,7 @@ $(function(){
     var s = setInterval(textScroll, 2E3);
     topFold();
     checkFlow();
-	var breakEggS = '2015/1/20 00:00:00', breakEggE = '2015/1/26 23:59:59';
-	var sDiff = (new Date(breakEggS)).getTime() - new Date().getTime();
-	var eDiff = (new Date(breakEggE)).getTime() - new Date().getTime();
-	if(parseInt(sDiff)>0){
-		countDown(breakEggS);
-	}else{
-		$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
-		$('.timestamp').unbind('click');
-		countDown(breakEggE);
-	}
-	if(parseInt(eDiff)<0){
-		$('<div></div>').addClass('fixMask').appendTo($('body'));
-		$('<div class="endBreak"><div><span class="close"></span><div class="conclusion">来晚一步，砸金蛋活动已经结束了。</div></div></div>').appendTo($('body'));
-	}
+	countDown('2015/1/20 00:00:00');
 	$('.endBreak .close').on('click', function(){
 		$('.fixMask').hide();
 		$('.endBreak').hide();
@@ -428,6 +415,9 @@ $(function(){
         },
         openStart: function(initData){
             if(initData.data.isOpenSeason){
+				$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
+				$('.timestamp').unbind('click');
+				countDown('2015/1/26 23:59:59');
 				$(this.options.container).find('li span').addClass('active');
                 this.openEgg(initData);
             }else{
