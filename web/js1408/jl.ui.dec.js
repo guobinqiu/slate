@@ -176,14 +176,14 @@ function countDown(endStr){
     }
 
     //计算差值 判断并显示倒计时
-    function countdown(endDate){
+    function countdown(endDate, serverCurDate){
         var str, endDiff, curDate;
         var oneDay = 24*60*60*1000,
             oneHour = 60*60*1000,
             oneMinute = 60*1000,
             oneSecond = 1000;
         var dayDiff, hourDiff, minuteDiff, secondDiff, millisecondDiff;
-        curDate = new Date();
+        curDate = new Date(serverCurDate);
         endDiff = (endDate).getTime() - curDate.getTime();
         dayDiff = Math.floor(endDiff/oneDay);
         hourDiff = Math.floor((endDiff%oneDay)/oneHour);
@@ -198,9 +198,20 @@ function countDown(endStr){
         }
         $('.countDownTime').html(str);
     }
-    var countdownStart, endDate = new Date(endStr);
-	countdown(endDate);
-    countdownStart = setInterval(function(){ countdown(endDate)}, 1E3);
+    var countdownStart, endDate = new Date(endStr), serverDate = $.ajax({async:false}).getResponseHeader("Date");
+	countdown(endDate, serverDate);
+    countdownStart = setInterval(function(){ countdown(endDate, serverDate)}, 8E3);
+	var robEggE = '2015/1/9 14:23:00', breakEggE = '2015/1/9 15:58:59';//抢蛋结束时间和砸蛋结束时间
+	var sDiff = (new Date(robEggE)).getTime() - new Date(serverDate).getTime();
+	var bDiff = (new Date(breakEggE)).getTime() - new Date(serverDate).getTime();
+	if(parseInt(sDiff)<0){
+		var decRuleBtn = $('.decRuleBtn, .decTopCon .goBtn, .noStart, .noLogin, .timestamp');
+		decRuleBtn.unbind('click');
+		$('.timestamp img').attr('src', '/images/december/foldTxt01.png');
+	}
+	if(parseInt(bDiff)<0){
+		$('.timestamp img').attr('src', '/images/december/foldTxt03.png');
+	}
 }
 function topFold(){
     $('.timestamp').hide();
@@ -214,11 +225,12 @@ function topFold(){
         });
     }, 5E3);
 }
+
 $(function(){
     var s = setInterval(textScroll, 2E3);
     topFold();
     checkFlow();
-	countDown('2015/1/20 00:00:00');
+	countDown('2015/1/9 14:25:00');//砸蛋开始时间
 	$('.endBreak .close').on('click', function(){
 		$('.fixMask').hide();
 		$('.endBreak').hide();
@@ -261,8 +273,8 @@ $(function(){
 						 return false;
 					 }
 					 if(eggData.data.isOpenSeason){
+						countDown('2015/1/9 15:58:59');//砸蛋结束时间
 						$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
-						$('.timestamp').unbind('click');
 					 }
 					 if($this.showEgg(eggData)){
 						 $this.setEggInfo(eggData);
@@ -402,10 +414,14 @@ $(function(){
                     }, 3E3);
 				}else{
 					$(this).find('img').addClass('active').attr('src', '/images/december/crack_egg.gif');
-					var $div = $('<div></div>');
-                    $div.addClass('eggTips').html('咦？没砸开，再砸一下！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
-                        $(this).fadeOut(2E3);
-                    });
+					var eggTips = $('.eggTips');
+					if(eggTips.length>=1){
+						eggTips.remove();
+					}
+					var $div = $('<div></div>')
+					$div.addClass('eggTips').html('咦？没砸开，再砸一下！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
+						$(this).fadeOut(2E3);
+					});
 				}
 			});
             eggPos.on('mouseover', function(){
@@ -415,17 +431,18 @@ $(function(){
         },
         openStart: function(initData){
             if(initData.data.isOpenSeason){
-				$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
-				$('.timestamp').unbind('click');
-				countDown('2015/1/26 23:59:59');
 				$(this.options.container).find('li span').addClass('active');
                 this.openEgg(initData);
             }else{
                 $(this.options.container).on('click', function(){
-                    var $div = $('<div></div>');
-                    $div.addClass('eggTips').html('还不可以砸蛋哦！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
-                        $(this).fadeOut(3E3);
-                    });
+                    var eggTips = $('.eggTips');
+					if(eggTips.length>=1){
+						eggTips.remove();
+					}
+					var $div = $('<div></div>')
+					$div.addClass('eggTips').html('还不可以砸蛋哦！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
+						$(this).fadeOut(3E3);
+					});
                 });
             }
         }
