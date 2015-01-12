@@ -38,5 +38,6 @@ class ActivityGatheringTaobaoOrderRepository extends EntityRepository
         ));
         return ( is_null($entity)) ? false: true;
     }
+
 }
 

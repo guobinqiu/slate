@@ -57,7 +57,6 @@ class ActivityGatheringControllerTest extends WebTestCase
     /**
      * checkin form post
      * @group issue_618
-     * @group debug 
      */
     public function testIndexNormal()
     {

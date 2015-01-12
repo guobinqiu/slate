@@ -125,7 +125,25 @@ class MonthActivityController extends Controller {
      */
     function gatheringAddTaobaoOrderAction(Request $request )
     {
+        // no form render when on  login.
+        $uid = $this->get('request')->getSession()->get('uid');
+        if(!$uid) {
+            return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig');
+        }
+
+        // no form render if has checked in
+        $em  = $this->get('doctrine.orm.entity_manager');
+
+        $is_checked   = $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->isChecked(array('userId'=>$uid));
+        if ( $is_checked) {
+            return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
+                'isChecked' : $is_checked
+            ));
+        }
+
         $form = $this->createForm(new GatheringOrderType());
+
+        // check where checked before
         return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
             'form'=>$form->createView()
         ));
@@ -150,64 +168,27 @@ class MonthActivityController extends Controller {
         if($form->isValid()) {
             $data  = $form->getData();
             $em  = $this->get('doctrine.orm.entity_manager');
-            $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')->insert(array(
-                'userId'=>$uid,
-                'orderIdentity'=> $data['orderIdentity']
-            ));
+            $em->getConnection()->beginTransaction();
+            try {
+                $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')->insert(array(
+                    'userId'=>$uid,
+                    'orderIdentity'=> $data['orderIdentity']
+                ));
+
+                $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->log(array(
+                    'userId'=> $uid
+                ));
+
+                $em->getConnection()->commit();
+            } catch(\Exception $e) {
+                $em->getConnection->rollback();
+                $this->get('logger')->crit('[monthActivity][gathering]'. $e->getMessage());
+            }
 
             $this->get('session')->setFlash('notice','成功提交订单号!');
             return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
         }
 
         return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array('form'=>$form->createView()));
-    }
-
-    /**
-     *  @Route("/activity/gathering/checkin")
-     *  @Method("GET")
-     */
-    function gatheringCheckinAction(Request $request )
-    {
-        // whether has checkin ?
-        $uid = $this->get('request')->getSession()->get('uid');
-        if($uid) {
-            $em  = $this->get('doctrine.orm.entity_manager');
-            $is_checked= $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')
-                ->isChecked(array('userId'=> $uid));
-            if($is_checked) {
-                // already checked??
-            }
-        }
-
-        $form = $this->createForm(new GatheringCheckinType() ,array('token', md5( $uid. time())));
-        return $this->render('JiliApiBundle:MonthActivity/Gathering:checkin_form.html.twig', array('form'=>$form->createView()));
-    }
-
-    /**
-     *  @Route("/activity/gathering/checkin-save")
-     *  @Method("POST")
-     */
-    function saveGatheringCheckinAction(Request $request )
-    {
-        // redirect to login.
-        $uid = $this->get('request')->getSession()->get('uid');
-        if(!$uid) {
-           $this->getRequest()->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
-           return $this->redirect($this->generateUrl('_user_login'));
-        }
-        
-        $form = $this->createForm(new GatheringCheckinType());
-        $form->bind($request);
-        if($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->log(array(
-                'userId'=> $uid
-            ));
-            $this->get('session')->setFlash('notice','成功参加!');
-            return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
-        }
-
-        return $this->render('JiliApiBundle:MonthActivity/Gathering:checkin_form.html.twig', array('form'=>$form->createView()));
-
     }
 }

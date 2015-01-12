@@ -54,45 +54,6 @@ class MonthActivityControllerTest extends WebTestCase
         parent::tearDown();
     }
 
-    /**
-     * checkin form post
-     * @group issue_618
-     */
-    public function testCheckinNormal()
-    {
-        $client = $this->client; 
-        $em =$this->em;
-        $container = $this->container;
-        $url =$container->get('router')->generate('jili_api_monthactivity_gatheringcheckin'); ;
-        //set session
-        $this->assertEquals('/monthActivity/activity/gathering/checkin', $url);
-
-
-        $user = LoadUserData::$USERS[0];
-        $session = $container->get('session');
-        $session->set('uid', $user->getId());
-        $session->save();
-
-        $crawler =  $client->request('GET', $url );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
-        // get form , fill form submit 
-        // check the result
-        $session = $client->getRequest()->getSession();
-        $session->set('uid', $user->getId());
-        $session->save();
-
-        $form = $crawler->selectButton('我要参加')->form();
-        $crawler = $client->submit($form);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        
-        $entities = $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->findAll();
-        $this->assertCount(1, $entities);
-        $this->assertEquals($user->getId(), $entities[0]->getUser()->getId());
-
-    }
-    // duplicated checkin
-    // not session checkin 
     // order form post
 
     /**

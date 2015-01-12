@@ -16,6 +16,7 @@ class GatheringOrderType extends AbstractType
     {
         $builder->add('orderIdentity','text',array(
             'label'=>'订单号',
+            'invalid_message' => '订单号不正确',
             'constraints'=> new NotBlank()
         ));
     }
