@@ -1,10 +1,23 @@
-{% if isChecked defined and isChecked == true %}
+{% if isChecked is defined and isChecked == true %}
 <div>
-    你已经提交过
+    你已经参加活动
 </div>
 {% else %}
-
 {% if form is defined %}
+
+{% set flashbag = app.session.flashbag.all %}
+{% if flashbag is not empty %}
+    <div class="messages-container">
+    {% for type, messages in flashbag %}
+        {% for message in messages %}
+             <div class="alert alert-{{ type }}">
+                 {{ message }}
+             </div>
+        {% endfor %}
+    {% endfor %}
+    </div>
+{% endif %}
+
 <form action="{{ path('jili_api_monthactivity_gatheringsavetaobaoorder') }}" method="POST">
     {{ form_label(form.orderIdentity)}}
     {{ form_widget(form.orderIdentity)}}
@@ -13,6 +26,8 @@
     {{ form_rest(form)}}
     <input type="submit" value="提交" />
 </form>
+{% else %}
+
 {% endif %}
 {% endif %}
 

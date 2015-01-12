@@ -59,6 +59,7 @@ class MonthActivityControllerTest extends WebTestCase
     /**
      * checkin form post
      * @group issue_618
+     * @group debug 
      */
     public function testAddOrderNormal()
     {

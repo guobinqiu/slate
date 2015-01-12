@@ -4,11 +4,23 @@ namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * ActivityGatheringTaobaoOrder
  *
- * @ORM\Table(name="activity_gathering_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="uniq_order_user", columns={"order_identity", "user_id"})}, indexes={@ORM\Index(name="user_id", columns={"user_id"})})
+ * @ORM\Table(name="activity_gathering_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="user_id", columns={"user_id"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\ActivityGatheringTaobaoOrderRepository")
+ *
+ *
+ * @UniqueEntity(
+ *     fields={"user"},
+ *     errorPath="user",
+ *     message="你已经参与此活动."
+ * )
+ *
+ *
  */
 class ActivityGatheringTaobaoOrder
 {
@@ -16,6 +28,17 @@ class ActivityGatheringTaobaoOrder
      * @var string
      *
      * @ORM\Column(name="order_identity", type="string", length=255, nullable=false)
+     *
+     * @Assert\Regex(
+     *     pattern="/^\d{15}$/",
+     *     message="需要填0~9组成的订单号"
+     * )
+     * @Assert\Length(
+     *      min = 15,
+     *      max = 15,
+     *      exactMessage ="需要填15位订单号"
+     * )
+     *
      */
     private $orderIdentity;
 
@@ -23,6 +46,7 @@ class ActivityGatheringTaobaoOrder
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     *
      */
     private $createdAt;
 

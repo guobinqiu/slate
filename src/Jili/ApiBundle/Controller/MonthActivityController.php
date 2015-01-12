@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Form\Type\MonthActivity\GatheringOrderType;
-use Jili\ApiBundle\Form\Type\MonthActivity\GatheringCheckinType;
+use Jili\ApiBundle\Entity\ActivityGatheringTaobaoOrder;
 
 class MonthActivityController extends Controller {
 
@@ -127,22 +127,18 @@ class MonthActivityController extends Controller {
     {
         // no form render when on  login.
         $uid = $this->get('request')->getSession()->get('uid');
-        if(!$uid) {
-            return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig');
-        }
-
-        // no form render if has checked in
-        $em  = $this->get('doctrine.orm.entity_manager');
-
-        $is_checked   = $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->isChecked(array('userId'=>$uid));
-        if ( $is_checked) {
-            return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
-                'isChecked' : $is_checked
-            ));
+        if( $uid) {
+            // no form render if has checked in
+            $em  = $this->get('doctrine.orm.entity_manager');
+            $is_checked   = $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')->isChecked(array('userId'=>$uid));
+            if ( $is_checked) {
+                return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
+                    'isChecked' => $is_checked
+                ));
+            }
         }
 
         $form = $this->createForm(new GatheringOrderType());
-
         // check where checked before
         return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
             'form'=>$form->createView()
@@ -165,25 +161,30 @@ class MonthActivityController extends Controller {
         
         $form = $this->createForm(new GatheringOrderType());
         $form->bind($request);
+
         if($form->isValid()) {
             $data  = $form->getData();
-            $em  = $this->get('doctrine.orm.entity_manager');
-            $em->getConnection()->beginTransaction();
-            try {
-                $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')->insert(array(
-                    'userId'=>$uid,
-                    'orderIdentity'=> $data['orderIdentity']
-                ));
 
-                $em->getRepository('JiliApiBundle:ActivityGatheringCheckinLog')->log(array(
-                    'userId'=> $uid
-                ));
+            $em = $this->get('doctrine.orm.entity_manager');
+            $entity = new ActivityGatheringTaobaoOrder();
+            $entity->setUser( $em->getReference('Jili\\ApiBundle\\Entity\\User', $uid))
+                ->setOrderIdentity($data['orderIdentity']);
+            $validator = $this->get('validator');
+            $errors = $validator->validate($entity);
 
-                $em->getConnection()->commit();
-            } catch(\Exception $e) {
-                $em->getConnection->rollback();
-                $this->get('logger')->crit('[monthActivity][gathering]'. $e->getMessage());
-            }
+            if(count($errors)>0) {
+                foreach($errors as $error ) {
+                    $messages[] = $error->getMessage();
+                    $this->get('session')->setFlash('error', $messages);
+                }
+                return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array('form'=>$form->createView()));
+
+            } 
+
+            $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')->insert(array(
+                'userId'=>$uid,
+                'orderIdentity'=> $data['orderIdentity']
+            ));
 
             $this->get('session')->setFlash('notice','成功提交订单号!');
             return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
