@@ -163,12 +163,12 @@ class UserRepository extends EntityRepository
         $daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
         $daydate180 = date("Y-m-d H:i:s", strtotime(' -180 day'));
         //echo $daydate."\n";
-        /*$point_histories = array('point_history00','point_history01','point_history02','point_history03','point_history04','point_history05',
+        $point_histories = array('point_history00','point_history01','point_history02','point_history03','point_history04','point_history05',
                                  'point_history06','point_history07','point_history08','point_history09');
         $task_histories = array('task_history00','task_history01','task_history02','task_history03','task_history04','task_history05',
-                                 'task_history06','task_history07','task_history08','task_history09');*/
-        $point_histories = array('point_history00', 'point_history01');
-        $task_histories = array('task_history00','task_history01');
+                                 'task_history06','task_history07','task_history08','task_history09');
+        //$point_histories = array('point_history00', 'point_history01');
+        //$task_histories = array('task_history00','task_history01');
         $merged_point_result = array();
         for($i=0;$i<count($point_histories);$i++){
             $sql = "select distinct user_id from ".$point_histories[$i]." where create_time > '" . $daydate . "' ";
