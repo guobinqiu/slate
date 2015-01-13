@@ -277,6 +277,7 @@ $(function(){
 						 $(opts.hasEgg).hide();
                 		 $(opts.noEgg).show();
 						 $(opts.eggNum).html('0');
+						 $(opts.eggMoney).html('10元');
 						 return false;
 					 }
 					 if(eggData.data.isOpenSeason){
