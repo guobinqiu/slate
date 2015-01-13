@@ -130,8 +130,8 @@ class DecemberActivityController extends Controller
 
         // numOfEggs: 1, numOfConsolationEggs: 3, lessForNextEgg: 00.01 
         //$cost_per_egg = $container->get
-        $startAt = new \Datetime('2015-01-13 11:20:00');
-        $endAt = new \Datetime('2015-01-13 11:45:00');
+        $startAt = new \Datetime('2015-01-13 14:30:00');
+        $endAt = new \Datetime('2015-01-13 15:00:00');
         $now = new \Datetime();
 
         $response->setData( array('code'=> 0, 
@@ -166,7 +166,7 @@ class DecemberActivityController extends Controller
             return $response;
         }
 
-        $startAt = new \Datetime('2015-01-13 11:15:00');
+        $startAt = new \Datetime('2015-01-13 14:30:00');
         $now = new \Datetime();
         if ('dev' !==  $this->get('kernel')->getEnvironment() && 
             $now >= $startAt )  {

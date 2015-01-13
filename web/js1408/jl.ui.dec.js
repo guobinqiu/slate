@@ -177,14 +177,16 @@ function countDown(endStr){
 
     //计算差值 判断并显示倒计时
     function countdown(endDate, serverCurDate){
-        var str, endDiff, curDate;
+        var str, endDiff, curDate, localDate;
         var oneDay = 24*60*60*1000,
             oneHour = 60*60*1000,
             oneMinute = 60*1000,
             oneSecond = 1000;
         var dayDiff, hourDiff, minuteDiff, secondDiff, millisecondDiff;
+		localDate = new Date();
         curDate = new Date(serverCurDate);
-        endDiff = (endDate).getTime() - curDate.getTime();
+		diff = curDate.getTime() - localDate.getTime();
+        endDiff = (endDate).getTime() - localDate.getTime() + diff;
         dayDiff = Math.floor(endDiff/oneDay);
         hourDiff = Math.floor((endDiff%oneDay)/oneHour);
         minuteDiff = Math.floor(((endDiff%oneDay)%oneHour)/oneMinute);
@@ -201,7 +203,7 @@ function countDown(endStr){
     var countdownStart, endDate = new Date(endStr), serverDate = $.ajax({async:false}).getResponseHeader("Date");
 	countdown(endDate, serverDate);
     countdownStart = setInterval(function(){ countdown(endDate, serverDate)}, 8E3);
-	var breakEggE = '2015/1/13 11:45:00';
+	var breakEggE = '2015/1/13 15:00:00';
 	var bDiff = (new Date(breakEggE)).getTime() - new Date(serverDate).getTime();
 	if(parseInt(bDiff)<0){
 		$('.timestamp img').attr('src', '/images/december/foldTxt03.png');
@@ -224,7 +226,7 @@ $(function(){
     var s = setInterval(textScroll, 2E3);
     topFold();
     //checkFlow();
-	var breakEggS = '2015/1/13 11:20:00',breakEggE = '2015/1/13 11:45:00', serverDate = $.ajax({async:false}).getResponseHeader("Date");
+	var breakEggS = '2015/1/13 14:30:00',breakEggE = '2015/1/13 15:00:00', serverDate = $.ajax({async:false}).getResponseHeader("Date");
 	var diff = (new Date(breakEggS)).getTime() - new Date(serverDate).getTime();
 	if(parseInt(diff)<0){
 		countDown(breakEggE);
@@ -274,7 +276,7 @@ $(function(){
 						 return false;
 					 }
 					 if(eggData.data.isOpenSeason){
-						countDown('2015/1/13 11:45:00');//砸蛋结束时间
+						countDown('2015/1/13 15:00:00');//砸蛋结束时间
 						$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
 					 }
 					 if($this.showEgg(eggData)){
@@ -345,7 +347,11 @@ $(function(){
 				 success: function(resultData){
 					$this.debug('砸蛋结果……', resultData);
 					if($.isEmptyObject(resultData)||undefined === resultData.data){
-						$this.debug('砸蛋结果为空');	
+						$this.debug('砸蛋结果为空');
+						var $div = $('<div></div>')
+						$div.addClass('eggTips').html('砸蛋失败，重新再砸！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
+							$(this).fadeOut(2E3);
+						});	
 						return false;
 					} 
 					$this.showResult(resultData);
