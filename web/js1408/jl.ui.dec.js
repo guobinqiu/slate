@@ -201,7 +201,7 @@ function countDown(endStr){
     var countdownStart, endDate = new Date(endStr), serverDate = $.ajax({async:false}).getResponseHeader("Date");
 	countdown(endDate, serverDate);
     countdownStart = setInterval(function(){ countdown(endDate, serverDate)}, 8E3);
-	var robEggE = '2015/1/9 14:23:00', breakEggE = '2015/1/9 15:58:59';//抢蛋结束时间和砸蛋结束时间
+	var robEggE = '2015/1/13 00:00:00', breakEggE = '2015/1/27 00:00:00';//抢蛋结束时间和砸蛋结束时间
 	var sDiff = (new Date(robEggE)).getTime() - new Date(serverDate).getTime();
 	var bDiff = (new Date(breakEggE)).getTime() - new Date(serverDate).getTime();
 	if(parseInt(sDiff)<0){
@@ -230,7 +230,7 @@ $(function(){
     var s = setInterval(textScroll, 2E3);
     topFold();
     checkFlow();
-	countDown('2015/1/9 14:25:00');//砸蛋开始时间
+	countDown('2015/1/20 00:00:00');//砸蛋开始时间
 	$('.endBreak .close').on('click', function(){
 		$('.fixMask').hide();
 		$('.endBreak').hide();
@@ -273,7 +273,7 @@ $(function(){
 						 return false;
 					 }
 					 if(eggData.data.isOpenSeason){
-						countDown('2015/1/9 15:58:59');//砸蛋结束时间
+						countDown('2015/1/27 00:00:00');//砸蛋结束时间
 						$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
 					 }
 					 if($this.showEgg(eggData)){
@@ -440,7 +440,7 @@ $(function(){
 						eggTips.remove();
 					}
 					var $div = $('<div></div>')
-					$div.addClass('eggTips').html('还不可以砸蛋哦！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
+					$div.addClass('eggTips').html('已经不可以砸蛋了！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
 						$(this).fadeOut(3E3);
 					});
                 });
