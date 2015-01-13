@@ -202,7 +202,7 @@ function countDown(endStr){
 	var diff = localDate.getTime() - new Date(serverDate).getTime();
 	countdown(endDate, diff);
     countdownStart = setInterval(function(){ countdown(endDate, diff)}, 8E3);
-	var breakEggE = '2015/1/13 15:40:00';
+	var breakEggE = '2015/1/27 00:00:59';
 	var bDiff = (new Date(breakEggE)).getTime() - new Date(serverDate).getTime();
 	if(parseInt(bDiff)<0){
 		$('.timestamp img').attr('src', '/images/december/foldTxt03.png');
@@ -225,7 +225,7 @@ $(function(){
     var s = setInterval(textScroll, 2E3);
     topFold();
     //checkFlow();
-	var breakEggS = '2015/1/13 15:30:00',breakEggE = '2015/1/13 15:40:00', localDate = new Date(), serverDate = $.ajax({async:false}).getResponseHeader("Date");
+	var breakEggS = '2015/1/20 00:00:59',breakEggE = '2015/1/27 00:00:59', localDate = new Date(), serverDate = $.ajax({async:false}).getResponseHeader("Date");
 	var diff = localDate.getTime() - new Date(serverDate).getTime();
 	var sDiff = (new Date(breakEggS)).getTime() - new Date(serverDate).getTime();
 	var bDiff = (new Date(breakEggE)).getTime() - new Date(serverDate).getTime();
@@ -280,7 +280,7 @@ $(function(){
 						 return false;
 					 }
 					 if(eggData.data.isOpenSeason){
-						countDown('2015/1/13 15:40:00');//砸蛋结束时间
+						countDown('2015/1/27 00:00:59');//砸蛋结束时间
 						$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
 					 }
 					 if($this.showEgg(eggData)){
