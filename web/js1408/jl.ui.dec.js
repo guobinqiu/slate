@@ -379,11 +379,13 @@ $(function(){
 						case "1": $('.resultTxt').html('恭喜您获得安慰奖，<strong>'+resultData.data.points+'</strong>米粒入手咯~').hide().fadeIn(1E3); break;
 						default: break;
 					}
+					location.reload();
 				}, 1500);
 			}else{
 				$('<div class="eggResult"><div><div class="resultTxt"></div><span class="close"></span><div><img src="/images/december/fail.gif?t='+Math.random()+'" width="930" height="515"/></div></div></div>').appendTo($('body'));
 				setTimeout(function(){
 					$('.resultTxt').text('太残忍了，竟然没有米粒！').hide().fadeIn(1E3);
+					location.reload();
 				}, 1500);
 			}
 			$('.eggResult .close').on('click', function(){
