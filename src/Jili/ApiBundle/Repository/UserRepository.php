@@ -161,12 +161,14 @@ class UserRepository extends EntityRepository
     public function pointFail($type)
     {
         $daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
-        $point_histories = array('point_history00','point_history01','point_history02','point_history03','point_history04','point_history05',
+        $daydate180 = date("Y-m-d H:i:s", strtotime(' -180 day'));
+        //echo $daydate."\n";
+        /*$point_histories = array('point_history00','point_history01','point_history02','point_history03','point_history04','point_history05',
                                  'point_history06','point_history07','point_history08','point_history09');
         $task_histories = array('task_history00','task_history01','task_history02','task_history03','task_history04','task_history05',
-                                 'task_history06','task_history07','task_history08','task_history09');
-        //$point_histories = array('point_history00', 'point_history01');
-        //$task_histories = array('task_history00','task_history01');
+                                 'task_history06','task_history07','task_history08','task_history09');*/
+        $point_histories = array('point_history00', 'point_history01');
+        $task_histories = array('task_history00','task_history01');
         $merged_point_result = array();
         for($i=0;$i<count($point_histories);$i++){
             $sql = "select distinct user_id from ".$point_histories[$i]." where create_time > '" . $daydate . "' ";
@@ -176,8 +178,8 @@ class UserRepository extends EntityRepository
                 $temp[]=$valus['user_id'];
             }
             $merged_point_result = array_merge($merged_point_result,$temp);
-            //unset($result);
-            //unset($temp);
+            unset($result);
+            unset($temp);
         }
         $merged_task_result = array();
         for($i=0;$i<count($task_histories);$i++){
@@ -188,8 +190,8 @@ class UserRepository extends EntityRepository
                 $temp[]=$valus['user_id'];
             }
             $merged_task_result = array_merge($merged_task_result,$temp);
-            //unset($result);
-            //unset($temp);
+            unset($result);
+            unset($temp);
         }
         
         $user_ids_arr = array_unique(array_merge($merged_point_result,$merged_task_result));
@@ -204,7 +206,7 @@ class UserRepository extends EntityRepository
             $sql_type = "180";
         }
         $temp = array();
-        $sql = "select distinct user_id from send_point_fail where user_id not in (".$user_ids.") and send_type in (".$sql_type.")";
+        $sql = "select distinct user_id from send_point_fail where user_id not in (".$user_ids.") and send_type in (".$sql_type.") and create_time > '".$daydate180."'";
         $result = $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
         foreach ($result as $key => $valus){
             $temp[]=$valus['user_id'];
@@ -216,8 +218,6 @@ class UserRepository extends EntityRepository
         if($send_point_ids){
             $sql.= " and id not in(".$send_point_ids.") ";
         }
-        //echo $sql;
-        //unset($user_ids);
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
