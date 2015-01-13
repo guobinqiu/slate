@@ -176,7 +176,7 @@ function countDown(endStr){
     }
 
     //计算差值 判断并显示倒计时
-    function countdown(endDate, serverCurDate){
+    function countdown(endDate, diff){
         var str, endDiff, curDate, localDate;
         var oneDay = 24*60*60*1000,
             oneHour = 60*60*1000,
@@ -184,8 +184,6 @@ function countDown(endStr){
             oneSecond = 1000;
         var dayDiff, hourDiff, minuteDiff, secondDiff, millisecondDiff;
 		localDate = new Date();
-        curDate = new Date(serverCurDate);
-		diff = curDate.getTime() - localDate.getTime();
         endDiff = (endDate).getTime() - localDate.getTime() + diff;
         dayDiff = Math.floor(endDiff/oneDay);
         hourDiff = Math.floor((endDiff%oneDay)/oneHour);
@@ -200,10 +198,11 @@ function countDown(endStr){
         }
         $('.countDownTime').html(str);
     }
-    var countdownStart, endDate = new Date(endStr), serverDate = $.ajax({async:false}).getResponseHeader("Date");
-	countdown(endDate, serverDate);
-    countdownStart = setInterval(function(){ countdown(endDate, serverDate)}, 8E3);
-	var breakEggE = '2015/1/13 15:00:00';
+    var countdownStart, endDate = new Date(endStr), localDate = new Date(), serverDate = $.ajax({async:false}).getResponseHeader("Date");
+	var diff = localDate.getTime() - new Date(serverDate).getTime();
+	countdown(endDate, diff);
+    countdownStart = setInterval(function(){ countdown(endDate, diff)}, 8E3);
+	var breakEggE = '2015/1/13 15:40:00';
 	var bDiff = (new Date(breakEggE)).getTime() - new Date(serverDate).getTime();
 	if(parseInt(bDiff)<0){
 		$('.timestamp img').attr('src', '/images/december/foldTxt03.png');
@@ -226,13 +225,18 @@ $(function(){
     var s = setInterval(textScroll, 2E3);
     topFold();
     //checkFlow();
-	var breakEggS = '2015/1/13 14:30:00',breakEggE = '2015/1/13 15:00:00', serverDate = $.ajax({async:false}).getResponseHeader("Date");
-	var diff = (new Date(breakEggS)).getTime() - new Date(serverDate).getTime();
-	if(parseInt(diff)<0){
-		countDown(breakEggE);
+	var breakEggS = '2015/1/13 15:30:00',breakEggE = '2015/1/13 15:40:00', localDate = new Date(), serverDate = $.ajax({async:false}).getResponseHeader("Date");
+	var diff = localDate.getTime() - new Date(serverDate).getTime();
+	var sDiff = (new Date(breakEggS)).getTime() - new Date(serverDate).getTime();
+	var bDiff = (new Date(breakEggE)).getTime() - new Date(serverDate).getTime();
+	if(parseInt(sDiff)<0){
+		countDown(breakEggE, diff);
 		$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
 	}else{
-		countDown(breakEggS);//砸蛋开始时间
+		countDown(breakEggS, diff);//砸蛋开始时间
+	}
+	if(parseInt(bDiff)<0){
+		$('.timestamp img').attr('src', '/images/december/foldTxt03.png');
 	}
 	$('.endBreak .close').on('click', function(){
 		$('.fixMask').hide();
@@ -276,7 +280,7 @@ $(function(){
 						 return false;
 					 }
 					 if(eggData.data.isOpenSeason){
-						countDown('2015/1/13 15:00:00');//砸蛋结束时间
+						countDown('2015/1/13 15:40:00');//砸蛋结束时间
 						$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
 					 }
 					 if($this.showEgg(eggData)){
@@ -379,13 +383,11 @@ $(function(){
 						case "1": $('.resultTxt').html('恭喜您获得安慰奖，<strong>'+resultData.data.points+'</strong>米粒入手咯~').hide().fadeIn(1E3); break;
 						default: break;
 					}
-					location.reload();
 				}, 1500);
 			}else{
 				$('<div class="eggResult"><div><div class="resultTxt"></div><span class="close"></span><div><img src="/images/december/fail.gif?t='+Math.random()+'" width="930" height="515"/></div></div></div>').appendTo($('body'));
 				setTimeout(function(){
 					$('.resultTxt').text('太残忍了，竟然没有米粒！').hide().fadeIn(1E3);
-					location.reload();
 				}, 1500);
 			}
 			$('.eggResult .close').on('click', function(){
