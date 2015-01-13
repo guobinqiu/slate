@@ -91,13 +91,20 @@ class DmdeliveryCommand extends ContainerAwareCommand
     {
         $user = $em->getRepository('JiliApiBundle:User')->pointFail($failTime);
         echo "select count : ".count($user)."\n";
+        echo 'memory after user:'.memory_get_usage()."\n";
+        exit;
         if(!empty($user)){
             $group = $this->addgroup($companyId);
+            echo 'memory after group:'.memory_get_usage()."\n";
             if($group->status != "ERROR"){
                 $send_fail_email_count = 0;
+                echo 'memory after send_fail_email_count:'.memory_get_usage()."\n";
                 foreach ($user as $key => $value) {
-                    $failId = $this->issetFailRecord($em, $value['id'],$failTime);
-                    if(!$failId){
+                    //echo 'memory after before:'.memory_get_usage()."\n";
+                    //$failId = $this->issetFailRecord($em, $value['id'],$failTime);
+                    //echo 'memory after failId111:'.memory_get_usage()."\n";
+                    if(1==1){
+                        echo 'memory after failId222:'.memory_get_usage()."\n";
                         $recipient_arr = array(
                                             array(
                                                 'fields'=>
@@ -107,14 +114,15 @@ class DmdeliveryCommand extends ContainerAwareCommand
                                                          )
                                                  )
                                         );
-                        $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
+                        //$send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
+                        echo 'memory after send:'.memory_get_usage()."\n";
                         //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
                         $sendflag = true;
-                        if($send->status == "ERROR"){
+                        /*if($send->status == "ERROR"){
                             if ( strpos($send->errors->recipient[0]->DMDmessage,"排除列表") === false ) {
                                 $sendflag = false;
                             }
-                        } 
+                        } */
 
                         if ($sendflag){
                             try{
@@ -133,41 +141,43 @@ class DmdeliveryCommand extends ContainerAwareCommand
                             } catch (Exception $ex) {
                                 $em->getConnection()->rollback();
                                 $content = $this->setALertEmailBody($pointType,'something error happend when insert or update)');
-                                $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
+                                //$this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
                                 throw $e;
                             }
                         } else {
                             $send_fail_email_count++;
-                            echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email:'.$send->statusMsg." \n";
+                            /*echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email:'.$send->statusMsg." \n";
                             if(isset($send->errors->recipient[0]->DMDmessage)){
                                 echo 'errorDMDmessage =>'.$send->errors->recipient[0]->DMDmessage." \n";
-                            }
+                            }*/
                         }
-                        unset($recipient_arr);
-                        unset($send);
-                        unset($sendflag);
+                        //unset($recipient_arr);
+                        //unset($send);
+                        //unset($content);
+                        //unset($sendflag);
                     }
-                    unset($failId);
-                    unset($user[$key]);
+                    //unset($failId);
+                    //unset($user[$key]);
+                    echo 'memory after one record:'.memory_get_usage()."\n";
                 }
                 if ($send_fail_email_count > 0){
                     $content = $this->setALertEmailBody($pointType,'Cannot send email，count = '.$send_fail_email_count);
                     echo 'Cannot send email，count = '.$send_fail_email_count."\n";
-                    $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
+                    //$this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
                 } else {
                     $content = $this->setALertEmailBody($pointType,'Send finish!!!',true);
                     echo ' Finished and Successed !!!'."\n";
-                    $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
+                    //$this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
                 }
             }else{
                 $content = $this->setALertEmailBody($pointType,'Cannot add group:'.$group->statusMsg);
                 echo 'Cannot add group:'.$group->statusMsg."\n";
-                $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
+                //$this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
             }
         }else{
             $content = $this->setALertEmailBody($pointType,'Email list is empty');
             echo 'Email list is empty'."\n";
-            $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
+            //$this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
         }
     }
     
@@ -192,7 +202,6 @@ class DmdeliveryCommand extends ContainerAwareCommand
                                                          )
                                                  )
                                         );
-                        echo $value['email'];
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
                         //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
                         $sendflag = true;
@@ -296,11 +305,15 @@ class DmdeliveryCommand extends ContainerAwareCommand
     {
         switch ($failTime) {
         case 150:
+            //echo 'memory after issetFailRecord000:'.memory_get_usage()."\n";
               $failRecord = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,180);
+            //echo 'memory after issetFailRecord111:'.memory_get_usage()."\n";
               if(empty($failRecord)){
                     $failRecordWeek = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,173);
+                    //echo 'memory after issetFailRecord222:'.memory_get_usage()."\n";
                     if(empty($failRecordWeek)){
                         $failRecordMonth = $em->getRepository('JiliApiBundle:SendPointFail')->issetFailRecord($user_id,150);
+                       // echo 'memory after issetFailRecord333:'.memory_get_usage()."\n";
                         if(empty($failRecordMonth)){
                             return '';
                         }else{

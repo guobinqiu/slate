@@ -165,7 +165,8 @@ class UserRepository extends EntityRepository
                                  'point_history06','point_history07','point_history08','point_history09');
         $task_histories = array('task_history00','task_history01','task_history02','task_history03','task_history04','task_history05',
                                  'task_history06','task_history07','task_history08','task_history09');
-
+        //$point_histories = array('point_history00', 'point_history01');
+        //$task_histories = array('task_history00','task_history01');
         $merged_point_result = array();
         for($i=0;$i<count($point_histories);$i++){
             $sql = "select distinct user_id from ".$point_histories[$i]." where create_time > '" . $daydate . "' ";
@@ -175,8 +176,8 @@ class UserRepository extends EntityRepository
                 $temp[]=$valus['user_id'];
             }
             $merged_point_result = array_merge($merged_point_result,$temp);
-            unset($result);
-            unset($temp);
+            //unset($result);
+            //unset($temp);
         }
         $merged_task_result = array();
         for($i=0;$i<count($task_histories);$i++){
@@ -187,13 +188,36 @@ class UserRepository extends EntityRepository
                 $temp[]=$valus['user_id'];
             }
             $merged_task_result = array_merge($merged_task_result,$temp);
-            unset($result);
-            unset($temp);
+            //unset($result);
+            //unset($temp);
         }
-        $user_ids = array_unique(array_merge($merged_point_result,$merged_task_result));
-        $user_ids = implode(',', $user_ids);
+        
+        $user_ids_arr = array_unique(array_merge($merged_point_result,$merged_task_result));
+        $user_ids = implode(',', $user_ids_arr);
+
+        //过滤已发送的
+        if($type == 150){
+            $sql_type = "150,173,180";
+        } elseif($type==173){
+            $sql_type = "173,180";
+        } else {
+            $sql_type = "180";
+        }
+        $temp = array();
+        $sql = "select distinct user_id from send_point_fail where user_id not in (".$user_ids.") and send_type in (".$sql_type.")";
+        $result = $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+        foreach ($result as $key => $valus){
+            $temp[]=$valus['user_id'];
+        }
+        $send_point_ids = implode(',', $temp);
+
         $sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate
-             . "' and e.id not in (" . $user_ids.")";
+             . "' and e.id not in (" . $user_ids.") ";
+        if($send_point_ids){
+            $sql.= " and id not in(".$send_point_ids.") ";
+        }
+        //echo $sql;
+        //unset($user_ids);
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 

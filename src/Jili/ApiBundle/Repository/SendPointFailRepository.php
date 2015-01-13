@@ -17,6 +17,6 @@ class SendPointFailRepository extends EntityRepository
         $query = $query->andWhere('spf.createtime > :daydate');
         $query = $query->setParameters(array('user_id'=>$user_id,'send_type'=>$send_type,'daydate'=>$daydate));
         $query = $query->getQuery();
-        return $query->getResult();
+        return $query->getArrayResult();
     }
 }
