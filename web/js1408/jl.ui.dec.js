@@ -185,7 +185,7 @@ function countDown(endStr){
         var dayDiff, hourDiff, minuteDiff, secondDiff, millisecondDiff;
 		localDate = new Date();
         curDate = new Date(serverCurDate);
-		diff = curDate.getTime() - localDate.getTime();
+		diff = localDate.getTime() - curDate.getTime();
         endDiff = (endDate).getTime() - localDate.getTime() + diff;
         dayDiff = Math.floor(endDiff/oneDay);
         hourDiff = Math.floor((endDiff%oneDay)/oneHour);
@@ -278,6 +278,8 @@ $(function(){
 					 if(eggData.data.isOpenSeason){
 						countDown('2015/1/13 15:00:00');//砸蛋结束时间
 						$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
+					 }else{
+						$('.timestamp img').attr('src', '/images/december/foldTxt03.png');
 					 }
 					 if($this.showEgg(eggData)){
 						 $this.setEggInfo(eggData);
@@ -379,13 +381,11 @@ $(function(){
 						case "1": $('.resultTxt').html('恭喜您获得安慰奖，<strong>'+resultData.data.points+'</strong>米粒入手咯~').hide().fadeIn(1E3); break;
 						default: break;
 					}
-					location.reload();
 				}, 1500);
 			}else{
 				$('<div class="eggResult"><div><div class="resultTxt"></div><span class="close"></span><div><img src="/images/december/fail.gif?t='+Math.random()+'" width="930" height="515"/></div></div></div>').appendTo($('body'));
 				setTimeout(function(){
 					$('.resultTxt').text('太残忍了，竟然没有米粒！').hide().fadeIn(1E3);
-					location.reload();
 				}, 1500);
 			}
 			$('.eggResult .close').on('click', function(){
