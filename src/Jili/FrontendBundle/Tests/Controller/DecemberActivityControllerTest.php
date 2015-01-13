@@ -158,6 +158,8 @@ class DecemberActivityControllerTest extends WebTestCase
      */
     public function testAddTaobaoOrderActionValidation()
     {
+        $this->markTestSkipped('this function has been offline');
+
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_addtaobaoorder');
@@ -187,7 +189,11 @@ class DecemberActivityControllerTest extends WebTestCase
         $session->save();
         $crawler = $client->submit($form);
         $crawler = $client->followRedirect();
+
+        $html  = $client->getResponse()->getContent();
+
         $error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
+
         $this->assertEquals('*需要填写有效的日期, 如: 2014-12-20',$error_message);
         // invalid  order id wrong length 
         $crawler = $client->request('GET', $url);
@@ -221,6 +227,7 @@ class DecemberActivityControllerTest extends WebTestCase
      */
     public function testAddTaobaoOrderActionValidationII()
     {
+        $this->markTestSkipped('this function has been offline');
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_addtaobaoorder');
@@ -245,6 +252,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         $crawler = $client->followRedirect();
+
         $error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
         $this->assertEquals('*你已经提交过相同的订单号.',$error_message);
     }
@@ -312,7 +320,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $startAt = new \Datetime('2015-01-20 00:00:00');
         $now = new \Datetime();
         $isStart =  ( $now >= $startAt ) ? 'true': 'false'  ;
-        $expected_response = '{"code":0,"data":{"token":"'.$actual_info->getToken() .'","numOfEggs":4,"numOfConsolationEggs":3,"lessForNextEgg":19.97,"isStart":'.$isStart.'}}';
+        $expected_response = '{"code":0,"data":{"token":"'.$actual_info->getToken() .'","numOfEggs":4,"numOfConsolationEggs":3,"lessForNextEgg":19.97,"isOpenSeason":'.$isStart.'}}';
 
         $this->assertEquals($expected_response, $client->getResponse()->getContent());
 
