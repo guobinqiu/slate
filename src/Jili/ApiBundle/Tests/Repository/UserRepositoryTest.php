@@ -225,6 +225,15 @@ class UserRepositoryTest extends KernelTestCase {
         $user = $em->getRepository('JiliApiBundle:User')->pointFail(180);
         $this->assertEquals(2, count($user));
         $this->assertEquals(1110, $user[0]['id']);
+        
+        $user = $em->getRepository('JiliApiBundle:User')->pointFail(150);
+        $this->assertEquals(2, count($user));
+        $this->assertEquals(1110, $user[0]['id']);
+        $this->assertEquals(1111, $user[0]['id']);
+        
+        $user = $em->getRepository('JiliApiBundle:User')->pointFail(173);
+        $this->assertEquals(1, count($user));
+        $this->assertEquals(1111, $user[0]['id']);
     }
 
     /**
