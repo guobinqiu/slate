@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Form\Type\MonthActivity\GatheringOrderType;
 use Jili\ApiBundle\Entity\ActivityGatheringTaobaoOrder;
@@ -146,9 +147,9 @@ class MonthActivityController extends Controller {
     }
 
     /**
-     *  POST 保存订单号到
-     *  @Route("/activity/gathering/order-save")
-     *  @Method("POST")
+     *  post 保存订单号到
+     *  @route("/activity/gathering/order-save")
+     *  @method("POST")
      */
     function gatheringSaveTaobaoOrderAction(Request $request )
     {
@@ -191,5 +192,21 @@ class MonthActivityController extends Controller {
         }
 
         return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array('form'=>$form->createView()));
+    }
+
+    /**
+     *  取订单数据,后台修改的
+     *  @route("/activity/gathering/order-count", options={"expose"=true})
+     *  @method("GET")
+     */
+    public function  gatheringTaobaoOrderCountAction(Request $request)
+    {
+        $response = new  JsonResponse ();
+        if(! $request->isXmlHttpRequest()) {
+            return $response;
+        }
+        $result = $this->get('month_activity.gathering')->getTotal();
+        $response->setData((int) $result);
+        return $response;
     }
 }

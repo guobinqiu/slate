@@ -53,7 +53,6 @@ class ActivityGatheringTaobaoOrderRepositoryTest extends KernelTestCase
 
     /**
      * @group issue_618
-     * @group debug 
      */
     public function testIsChecked()
     {
@@ -76,7 +75,6 @@ class ActivityGatheringTaobaoOrderRepositoryTest extends KernelTestCase
 
     /**
      * @group issue_618
-     * @group debug 
      */
     public function testInsert()
     {

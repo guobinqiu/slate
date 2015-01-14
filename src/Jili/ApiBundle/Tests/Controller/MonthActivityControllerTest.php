@@ -59,7 +59,6 @@ class MonthActivityControllerTest extends WebTestCase
     /**
      * checkin form post
      * @group issue_618
-     * @group debug 
      */
     public function testAddOrderNormal()
     {
@@ -94,6 +93,15 @@ class MonthActivityControllerTest extends WebTestCase
         $this->assertNotNull($actual);
         $this->assertInstanceOf('Jili\ApiBundle\Entity\ActivityGatheringTaobaoOrder',$actual);
         $this->assertEquals($user->getId(), $actual->getUser()->getId());
+
+    }
+
+    /**
+     * @group issue_618
+     * @group debug 
+     */
+    public function testOrderCount()
+    {
 
     }
 
