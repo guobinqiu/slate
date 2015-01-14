@@ -35,6 +35,13 @@ class DmdeliveryCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $xhprof_enabled = false;
+        if($xhprof_enabled) {
+            $XHPROF_ROOT = '/home/tau/yard/xhprof-0.9.4';
+            // start profiling
+            xhprof_enable(XHPROF_FLAGS_MEMORY);
+        }
+
         $this->username = $this->getContainer()->getParameter('webpower_email_username');
         $this->password = $this->getContainer()->getParameter('webpower_email_password');
         $this->alertTo = explode(",", $this->getContainer()->getParameter('cron_alertTo_contacts'));
@@ -50,6 +57,23 @@ class DmdeliveryCommand extends ContainerAwareCommand
         ini_set("memory_limit" , $mem_limit);
         $output->writeln("");
         $output->writeln("");
+
+        if ($xhprof_enabled) {
+            // stop profiler
+            $xhprof_data = xhprof_disable();
+            include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";
+            include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";
+
+            $xhprof_runs = new XHProfRuns_Default();
+            $run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_foo");
+            $echo= "---------------\n".
+                "Assuming you have set up the http based UI for \n".
+                "XHProf at some address, you can view run at \n".
+                "http://<xhprof-ui-address>/index.php?run=$run_id&source=xhprof_foo\n".
+                "---------------\n";
+            $output->writeln($echo);
+        }
+        $output->writeln("\n");
     }
     
     public function pointFailureTemp($em)
