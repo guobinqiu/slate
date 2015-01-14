@@ -13,6 +13,7 @@ use Jili\FrontendBundle\DataFixtures\ORM\Repository\GameEggsBreakerTaobaoOrder\L
 
 use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadTaobaoCategoryData;
 use Jili\FrontendBundle\DataFixtures\ORM\Repository\LoadTaobaoSelfPromotionProductData;
+use Jili\FrontendBundle\DataFixtures\ORM\Repository\GameEggsBreakerTaobaoOrder\LoadLogsData;
 
 class DecemberActivityControllerTest extends WebTestCase
 {
@@ -54,6 +55,12 @@ class DecemberActivityControllerTest extends WebTestCase
             $loader  = new Loader();
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
+        } elseif ('testBrokersListAction' === $tn) {
+            $fixture = new LoadLogsData();
+            $loader  = new Loader();
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
+
         } else if(in_array( $tn ,array('testIndexAction','testAddTaobaoOrderActionNormal' ,'testAddTaobaoOrderActionValidation','testAddTaobaoOrderActionValidationII') )) {
             $loader  = new Loader();
             $fixture = new LoadTaobaoCategoryData();
@@ -151,6 +158,8 @@ class DecemberActivityControllerTest extends WebTestCase
      */
     public function testAddTaobaoOrderActionValidation()
     {
+        $this->markTestSkipped('this function has been offline');
+
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_addtaobaoorder');
@@ -180,7 +189,11 @@ class DecemberActivityControllerTest extends WebTestCase
         $session->save();
         $crawler = $client->submit($form);
         $crawler = $client->followRedirect();
+
+        $html  = $client->getResponse()->getContent();
+
         $error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
+
         $this->assertEquals('*需要填写有效的日期, 如: 2014-12-20',$error_message);
         // invalid  order id wrong length 
         $crawler = $client->request('GET', $url);
@@ -214,6 +227,7 @@ class DecemberActivityControllerTest extends WebTestCase
      */
     public function testAddTaobaoOrderActionValidationII()
     {
+        $this->markTestSkipped('this function has been offline');
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_addtaobaoorder');
@@ -238,6 +252,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         $crawler = $client->followRedirect();
+
         $error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
         $this->assertEquals('*你已经提交过相同的订单号.',$error_message);
     }
@@ -305,7 +320,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $startAt = new \Datetime('2015-01-20 00:00:00');
         $now = new \Datetime();
         $isStart =  ( $now >= $startAt ) ? 'true': 'false'  ;
-        $expected_response = '{"code":0,"data":{"token":"'.$actual_info->getToken() .'","numOfEggs":4,"numOfConsolationEggs":3,"lessForNextEgg":19.97,"isStart":'.$isStart.'}}';
+        $expected_response = '{"code":0,"data":{"token":"'.$actual_info->getToken() .'","numOfEggs":4,"numOfConsolationEggs":3,"lessForNextEgg":19.97,"isOpenSeason":'.$isStart.'}}';
 
         $this->assertEquals($expected_response, $client->getResponse()->getContent());
 
@@ -481,6 +496,27 @@ var_dump($diff);
         @unlink($file);
 
         $this->assertEquals('/activity/december/eggs-sent-stat', $url);
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertCount(10 , $crawler->filter('ul > li') );
+        @unlink($file);
+    }
+
+    /**
+     * @group issue_537
+     */
+    public function  testBrokersListAction()
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_brokerlist');
+
+        $config =$container->getParameter('game_eggs_breaker');
+        $file = $config['broken_stat'];
+        @unlink($file);
+
+        $this->assertEquals('/activity/december/broken-stat', $url);
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(10 , $crawler->filter('ul > li') );

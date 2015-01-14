@@ -288,6 +288,7 @@ parameters:
     game_eggs_breaker:
         ranking: "%cache_data_path%/game_eggs_breaker/ranking.json"
         sent_stat: "%cache_data_path%/game_eggs_breaker/sent_stat.json"
+        broken_stat: "%cache_data_path%/game_eggs_breaker/broken_stat.json"
         common:
             points_strategy: "%cache_data_path%/game_eggs_breaker/common/points_strategy_conf.json"
             points_pool: "%cache_data_path%/game_eggs_breaker/common/points_pool_YYYYmmdd.json"

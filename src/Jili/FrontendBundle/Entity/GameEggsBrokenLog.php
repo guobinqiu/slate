@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * GameEggsBrokenLog
  *
- * @ORM\Table(name="game_eggs_broken_log")
+ * @ORM\Table(name="game_eggs_broken_log", indexes={@ORM\Index(name="idx_user_at", columns={"user_id", "created_at", "points_acquried"})})
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameEggsBrokenLogRepository")
  */
 class GameEggsBrokenLog

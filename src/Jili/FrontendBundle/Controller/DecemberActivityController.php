@@ -7,8 +7,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+
 use Jili\FrontendBundle\Form\Type\GameEggsBreakerTaoBaoOrderType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Jili\BackendBundle\Utility\TaobaoOrderToEggs;
 use Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder;
 use Jili\FrontendBundle\Entity\TaobaoCategory;
@@ -57,6 +59,14 @@ class DecemberActivityController extends Controller
      */
     public function addTaobaoOrderAction()
     {
+
+        $startAt = new \Datetime('2015-01-20 00:00:00');
+        $now = new \Datetime();
+
+        if($now > $startAt ) {
+            return new Reponse('');
+        }
+
         $request = $this->get('request');
         $session = $this->get('session');
         $form = $this->createForm(new GameEggsBreakerTaoBaoOrderType());
@@ -132,6 +142,7 @@ class DecemberActivityController extends Controller
         // numOfEggs: 1, numOfConsolationEggs: 3, lessForNextEgg: 00.01 
         //$cost_per_egg = $container->get
         $startAt = new \Datetime('2015-01-20 00:00:00');
+        $endAt = new \Datetime('2015-01-27 00:00:00');
         $now = new \Datetime();
 
         $response->setData( array('code'=> 0, 
@@ -140,7 +151,7 @@ class DecemberActivityController extends Controller
                 'numOfEggs'=> $record->getNumOfCommon(),
                 'numOfConsolationEggs' => $record->getNumOfConsolation(),
                 'lessForNextEgg'=> TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
-                'isStart'=> ( $now >= $startAt ) ? true: false  
+                'isOpenSeason'=> ( $now < $startAt || $now > $endAt) ? false: true 
             )));
 
         return $response;      
@@ -168,7 +179,7 @@ class DecemberActivityController extends Controller
 
         $startAt = new \Datetime('2015-01-20 00:00:00');
         $now = new \Datetime();
-        if ('test' !==  $this->get('kernel')->getEnvironment() && 
+        if ('dev' !==  $this->get('kernel')->getEnvironment() && 
             $now >= $startAt )  {
                 return $response;
             }
@@ -185,5 +196,15 @@ class DecemberActivityController extends Controller
                 $response->setData($result);
             }
         return $response;
+    }
+
+    /**
+     * @Route("/broken-stat")
+     * @Method("GET")
+     */
+    public function brokerListAction() 
+    {
+        $stat = $this->get('december_activity.game_eggs_breaker')->fetchBrokenStat();
+        return $this->render('JiliFrontendBundle:DecemberActivity:recent_brokers_stat.html.twig', $stat );
     }
 }

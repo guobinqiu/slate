@@ -1,3 +1,4 @@
+
 -- 找宝箱游戏
 
 INSERT INTO `ad_category` ( `id` , `category_name` , `asp` , `display_name` ) VALUES (31 , 'game', '91jili', '游戏砸金蛋');
@@ -49,6 +50,9 @@ CREATE TABLE `game_eggs_broken_log` (
   `egg_type` int(2) NOT NULL DEFAULT 0, -- 0, 1:,2 
   `points_acquried` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_user_at` (`user_id`,`created_at`,`points_acquried`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- alter table  game_eggs_broken_log add index idx_user_at(user_id,created_at, points_acquried);
 
