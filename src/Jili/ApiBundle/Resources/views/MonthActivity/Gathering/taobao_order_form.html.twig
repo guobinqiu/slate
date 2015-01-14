@@ -1,33 +1,44 @@
 {% if isChecked is defined and isChecked == true %}
-<div>
-    你已经参加活动
-</div>
+<div class="hasDone"><a href="{{ path('jili_frontend_taobao_index') }}" target="_blank" class="shoppingBtn"><img src="{{ asset('images/january/shoppingBtn.png')}}" width="235" height="82" /></a><a href="" target="_blank" class="shoppingInfo">淘宝购物流程说明</a></div>
 {% else %}
-{% if form is defined %}
-
-{% set flashbag = app.session.flashbag.all %}
-{% if flashbag is not empty %}
-    <div class="messages-container">
-    {% for type, messages in flashbag %}
-        {% for message in messages %}
-             <div class="alert alert-{{ type }}">
-                 {{ message }}
-             </div>
-        {% endfor %}
-    {% endfor %}
+<div class="noDone">
+    <div class="taobao fl">
+        <h2>淘宝购物</h2>
+        <div class="shopping">
+            <p>点击以下按钮，去淘宝购物。</p>
+            <div><a href="{{ path('jili_frontend_taobao_index') }}" target="_blank" class="shoppingInfo">淘宝购物流程说明</a></div>
+            <div class="btnWrapper"><a href="" target="_blank" class="shoppingBtn"></a></div>
+        </div>
     </div>
+    <div class="order fl">
+        <h2>提交表单</h2>
+        <div class="orderCon">
+            <p>填写表单，你就可以成为抱团大作战的成员了。</p>
+            <form action="{{ path('jili_api_monthactivity_gatheringsavetaobaoorder') }}" method="POST">
+            <ul class="shoppingForm">
+                <li>
+                {{ form_label( form.orderIdentity, '淘宝订单号：', {'id':'orderId'} ) }}
+        		{{ form_widget(form.orderIdentity , {'id':'orderId','attr': {'value':'','class':'clearTxt'  }}) }}
+                <span class="defaultTxt">在此输入</span></li>
+                <li class="tips">
+                	{% set flashbag = app.session.flashbag.all %}
+                    {% if flashbag is not empty %}
+                        <div class="messages-container">
+                        {% for type, messages in flashbag %}
+                            {% for message in messages %}
+                                 <div class="alert alert-{{ type }}">
+                                     {{ message }}
+                                 </div>
+                            {% endfor %}
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                </li>
+                <li class="btnWrapper"><input type="submit" value="" class="submitBtn"/></li>
+            </ul>
+            {{ form_rest(form)}}
+            </form>
+        </div>
+    </div>
+</div>
 {% endif %}
-
-<form action="{{ path('jili_api_monthactivity_gatheringsavetaobaoorder') }}" method="POST">
-    {{ form_label(form.orderIdentity)}}
-    {{ form_widget(form.orderIdentity)}}
-    {{ form_errors(form.orderIdentity)}}
-
-    {{ form_rest(form)}}
-    <input type="submit" value="提交" />
-</form>
-{% else %}
-
-{% endif %}
-{% endif %}
-
