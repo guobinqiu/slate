@@ -981,8 +981,19 @@ class UserController extends Controller
 
         $this->get('request')->getSession()->remove('uid');
         $this->get('request')->getSession()->remove('nick');
-        $url_homepage = $this->generateUrl('_homepage');
-        $response = new RedirectResponse($url_homepage);
+
+        if ($session->has('referer')) {
+            $referer_url = $session->get('referer');
+            $session->remove('referer');
+            if(strlen($referer_url)>0) {
+                $response =   new RedirectResponse($referer_url);
+            }
+        } else {
+            $url_homepage = $this->generateUrl('_homepage');
+            $response = new RedirectResponse($url_homepage);
+        }
+
+
         // set cookie based according the the remember_me.
         $response->headers->setCookie(new Cookie("jili_rememberme", '', time() - 3600 , '/') );
 

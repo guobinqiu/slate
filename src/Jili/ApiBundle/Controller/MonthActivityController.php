@@ -110,22 +110,23 @@ class MonthActivityController extends Controller {
     }
 
     /**
-     * @Route("/activity/gathering")
+     * @Route("/gathering")
      * @Method("GET")
      */
     public function gatheringIndexAction(Request $request)
     {
-        $uid = $this->get('request')->getSession()->get('uid');
-        if(!$uid){
-           $this->getRequest()->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
+        $session = $this->get('request')->getSession();
+        if(! $session->has('referer') ) {
+           $session->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
         }
+
         // read the order_total:
         return $this->render('JiliApiBundle:MonthActivity/Gathering:index.html.twig');
     }
 
     /**
      *  GET 显示提交订单号的Form
-     *  @Route("/activity/gathering/order-add")
+     *  @Route("/gathering/order-add")
      *  @Method("GET")
      */
     function gatheringAddTaobaoOrderAction(Request $request )
@@ -152,7 +153,7 @@ class MonthActivityController extends Controller {
 
     /**
      *  post 保存订单号到
-     *  @route("/activity/gathering/order-save")
+     *  @route("/gathering/order-save")
      *  @method("POST")
      */
     function gatheringSaveTaobaoOrderAction(Request $request )
