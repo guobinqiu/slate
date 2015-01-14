@@ -206,7 +206,7 @@ class MonthActivityController extends Controller {
             return $response;
         }
         $result = $this->get('month_activity.gathering')->getTotal();
-        $response->setData((int) $result);
+        $response->setData(array('code'=>0, 'data'=>array( 'total'=>(int) $result)));
         return $response;
     }
 }

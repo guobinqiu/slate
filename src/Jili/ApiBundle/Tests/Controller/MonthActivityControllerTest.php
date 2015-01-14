@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
+use Symfony\Component\Filesystem\Filesystem;
 
 class MonthActivityControllerTest extends WebTestCase
 {
@@ -98,11 +99,39 @@ class MonthActivityControllerTest extends WebTestCase
 
     /**
      * @group issue_618
-     * @group debug 
      */
     public function testOrderCount()
     {
 
+        $client = $this->client; 
+        $em =$this->em;
+        $container = $this->container;
+        $url =$container->get('router')->generate('jili_api_monthactivity_gatheringtaobaoordercount'); 
+        //not ajax request
+        $this->assertEquals('/monthActivity/activity/gathering/order-count', $url);
+        $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{}', $client->getResponse()->getContent());
+        // no fixtures
+        
+        $config =$container->getParameter('activity_gathering');
+        $file = $config['taobao_order_total_src'];
+        echo $file; 
+        @unlink($file);
+        $client->request('GET', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"code":0,"data":{"total":0}}', $client->getResponse()->getContent());
+
+        $fs = new Filesystem();
+        $fs->mkdir(dirname($file));
+        // with fixture  fixtures
+        file_put_contents( $file,json_encode( array('total'=> 23)));
+
+        $client->request('GET', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"code":0,"data":{"total":23}}', $client->getResponse()->getContent());
+
+        $fs->remove($file);
     }
 
 }
