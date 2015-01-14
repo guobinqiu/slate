@@ -9,7 +9,6 @@ img{ border:0; vertical-align:bottom;}
 .fr{float:right;}
 body{font-size:12px;color: #333;font-family:'微软雅黑', Arial, Helvetica, sans-serif;}
 a{text-decoration:none;color:#3399ff;}
-.hide{ display: none;}
 .topCon, .mainTopCon, .con{ width: 990px; margin: 0 auto;}
 .topCon{ height: 50px; overflow: hidden; margin-top: 5px;}
 .userInfo{ height: 50px; line-height: 50px; font-family: "宋体";}
@@ -24,8 +23,6 @@ a{text-decoration:none;color:#3399ff;}
 .splitLvTxt b{ position: relative; z-index: 1; width: 22px; height: 33px; line-height: 33px; margin-right: 1px; margin-top: -2px; background-color: #000; border-radius: 3px; overflow: hidden;}
 .splitLvTxt b span{ position: absolute; z-index: 1000; top: 0; left: 0; width: 22px; height: 330px; background: url(../images/january/num.png) no-repeat;}
 .splitLvTxt strong{ color: #e00000; line-height: 37px;}
-.splitLv2Txt{ bottom: 183px;}
-.splitLv3Txt{ bottom: 253px;}
 .mainCon{ height: 667px; padding-top: 50px; background: #fbb51f url(../images/january/conBg.jpg) no-repeat top center;}
 .shoppingForm li{ position: relative; z-index: 1; line-height:30px;}
 .shoppingForm li.tips{ font-family: "宋体"; font-size: 12px; color: #ff0000; height: 18px; line-height: 18px;}

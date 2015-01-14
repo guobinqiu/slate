@@ -14,7 +14,7 @@
         <h2>提交表单</h2>
         <div class="orderCon">
             <p>填写表单，你就可以成为抱团大作战的成员了。</p>
-            <form action="{{ path('jili_api_monthactivity_gatheringsavetaobaoorder') }}" method="POST">
+            <form id="shoppingForm" action="{{ path('jili_api_monthactivity_gatheringsavetaobaoorder') }}" method="POST">
             <ul class="shoppingForm">
                 <li>
                 {{ form_label( form.orderIdentity, '淘宝订单号：', {'id':'orderId'} ) }}

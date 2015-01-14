@@ -8,9 +8,7 @@ $(function(){
 		type: 'get',
 		dataType: 'json',
 		success: function(orderData){
-			console.log('初始订单信息……', orderData);
 			if(!$.isEmptyObject(orderData)&&orderData.data === undefined){ 
-				console.log('返回结果为空');
 				return false;
 			}
 			$('.splitLvTxt').numScroll({num:orderData.data.total});
@@ -37,12 +35,12 @@ $(function(){
 			needNum = parseInt(2000-opts.num);
 			$('.splitLvImg').html('<img src="/images/january/lv2.png" width="554" height="387" />');
 			$(obj).find('strong').html('<img src="/images/january/lv2Txt.png" width="104" height="37" />');
-			$(obj).addClass('splitLv2Txt');
+			$(obj).css({ bottom: '183px'});
 		}else if(opts.num>=2000&&opts.num<3000){
 			needNum = parseInt(3000-opts.num);
 			$('.splitLvImg').html('<img src="/images/january/lv3.png" width="614" height="387" />');
 			$(obj).find('strong').html('<img src="/images/january/lv3Txt.png" width="99" height="37" />');
-			$(obj).addClass('splitLv3Txt');
+			$(obj).css({ bottom: '253px'});
 		}else{
 			needNum = 0;
 			$('.splitLvImg').html('<img src="/images/january/clearance.png" width="614" height="387" />');
@@ -52,7 +50,6 @@ $(function(){
 		for(var i = 0; i < arrNeed.length; i++){
 			$('<b><span></span></b>').appendTo($(obj).find('.needNum')).find('span').animate({ top: '-' + (parseInt(arrNeed[i])*opts.digitH) + 'px'}, opts.animateTimer);
 		}
-		console.log('还需要的订单数是：' + needNum + '-------' + $('.splitLvTxt .needNum').html());
 	}
 	$.fn.numScroll = function(options){
 		var options = $.extend(defaults, options);
@@ -89,14 +86,12 @@ $(function(){
         });
 	};
 	var valForm = function(obj){
-		//console.log($(obj).find('#orderId').val());
 		var inputVal = $(obj).find('#orderId').val();
 		if(inputVal ==""){
 			$(obj).find('.tips').html('*请输入您的订单号！');
 			return false;
 		}else{
 			inputValTrim = inputVal.toString().replace(/\s+/g,"");
-			//console.log('匹配结果：'+inputValTrim.match(/^\d{15}$/));
 			if(!inputValTrim.match(/^\d{15}$/)) {
 				$(obj).find('.tips').html('*请输入合法订单号！');
 				return false;
@@ -114,8 +109,7 @@ $(function(){
 			$(_this).find('.submitBtn').on('click', function(event){ 
 				event.preventDefault();
 				if(valForm(_this)){
-					$(_this).find('.submitBtn').submit();
-					console.log('提交成功'+valForm(_this));
+					$('#shoppingForm').submit();
 				}
 			});
 		});
