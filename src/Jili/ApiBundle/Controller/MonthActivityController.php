@@ -115,6 +115,10 @@ class MonthActivityController extends Controller {
      */
     public function gatheringIndexAction(Request $request)
     {
+        $uid = $this->get('request')->getSession()->get('uid');
+        if(!$uid){
+           $this->getRequest()->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
+        }
         // read the order_total:
         return $this->render('JiliApiBundle:MonthActivity/Gathering:index.html.twig');
     }
