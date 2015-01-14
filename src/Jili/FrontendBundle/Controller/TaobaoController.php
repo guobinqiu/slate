@@ -128,11 +128,16 @@ class TaobaoController extends Controller {
 
         $user_id = $this->get('request')->getSession()->get('uid');
 
+        if($user_id){
+            $pid = 'mm_49376465_4372428_'.($user_id);
+        }
+
         $arr['search'] = '<a data-type="6" data-tmpl="573x66" data-tmplid="140" data-style="2" data-border="0" biz-s_logo="1" biz-s_hot="1" href="#"></a>';
         $arr['item_a'] = '<a data-type="0" biz-itemid="38484921637" data-tmpl="230x312" data-tmplid="4" data-rd="2" data-style="2" data-border="1" href="http://detail.tmall.com/item.htm?id=38484921637&ali_trackid=2:mm_49376465_4372428_25658343:1421143797_310_1532929028&clk1=8ca11a415ad425d504db03a5d5938c19&spm=0.0.0.0.flh1JC#app_pvid=200_10.103.30.20_371_1421143794264">http://detail.tmall.com/item.htm?id=38484921637&ali_trackid=2:mm_49376465_4372428_25658343:1421143797_310_1532929028&clk1=8ca11a415ad425d504db03a5d5938c19&spm=0.0.0.0.flh1JC#app_pvid=200_10.103.30.20_371_1421143794264</a>';
         $arr['item_b'] = '<a data-type="0" biz-itemid="40999740482" data-tmpl="230x312" data-tmplid="4" data-rd="2" data-style="2" data-border="1" href="http://detail.tmall.com/item.htm?id=40999740482&ali_trackid=2:mm_49376465_4372428_25658343:1421143846_310_969157030&clk1=661c16dffd72bbac9e1921b85f31f9f2&spm=0.0.0.0.0YBRCI#app_pvid=200_10.237.10.115_149350_1421143844128">http://detail.tmall.com/item.htm?id=40999740482&ali_trackid=2:mm_49376465_4372428_25658343:1421143846_310_969157030&clk1=661c16dffd72bbac9e1921b85f31f9f2&spm=0.0.0.0.0YBRCI#app_pvid=200_10.237.10.115_149350_1421143844128</a>';
 
         $arr['user_id'] = $user_id;
+        $arr['pid'] = $pid;
         return $this->render('JiliFrontendBundle:Taobao:test.html.twig', $arr);
     }
 
