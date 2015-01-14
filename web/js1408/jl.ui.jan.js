@@ -1,7 +1,6 @@
 /**
  * Created by wangliting on 14-12-1.
  */
-
 $(function(){
 	$.ajax({
 		url: Routing.generate('jili_api_monthactivity_gatheringtaobaoordercount'),
@@ -22,7 +21,7 @@ $(function(){
 (function($){
     //页面加载完毕时数字滚动到位
 	var defaults = {
-		digitH : 33,
+		digitH : 30,
         num: 235,
         animateTimer: 2000
     };
@@ -35,12 +34,12 @@ $(function(){
 			needNum = parseInt(2000-opts.num);
 			$('.splitLvImg').html('<img src="/images/january/lv2.png" width="554" height="387" />');
 			$(obj).find('strong').html('<img src="/images/january/lv2Txt.png" width="104" height="37" />');
-			$(obj).css({ bottom: '183px'});
+			$(obj).css({ bottom: '185px'});
 		}else if(opts.num>=2000&&opts.num<3000){
 			needNum = parseInt(3000-opts.num);
 			$('.splitLvImg').html('<img src="/images/january/lv3.png" width="614" height="387" />');
 			$(obj).find('strong').html('<img src="/images/january/lv3Txt.png" width="99" height="37" />');
-			$(obj).css({ bottom: '253px'});
+			$(obj).css({ bottom: '255px'});
 		}else{
 			needNum = 0;
 			$('.splitLvImg').html('<img src="/images/january/clearance.png" width="614" height="387" />');

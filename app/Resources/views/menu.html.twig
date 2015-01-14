@@ -93,29 +93,12 @@ $(document).ready(function(){
     </div>
 {% if app.request.attributes.get('_route') == '_homepage' %}
     <div class="indexTopbannerWrap">
-    	<!--<div id="banner" class="indexTopbanner" style="display:none;">
-            <a href="{{ path('_monthActivity_october') }}"><img src="{{ asset('images1408/baoXiangBanner.jpg') }}" width="1000" height="300" /></a>
-            <span class="indexTopbannerFold">展开<s></s></span>
-        </div>-->
         <div id="top" class="indexTopbanner">
-            <a href="{{ path('jili_frontend_taobao_index', {'l':1}) }}" class="allPointer"></a>
+            <a href="{{ path('jili_api_monthactivity_gatheringindex', {'l':1}) }}" class="allPointer"></a>
             <div class="rule">
-                <a href="{{ path('jili_frontend_taobao_index',{'l':2}) }}" class="ruleLink"></a>
-            <div class="ruleCon">
-                <a href="{{ path('jili_frontend_taobao_index', {'l':3}) }}" class="rulePic"></a>
-                <div class="ruleDetail">
-                    <p>在<a href="{{ path('jili_frontend_taobao_index',{'l':4}) }}" class="textLink">淘宝页面</a>找到宝箱，每天就有机会赢米粒</p>
-                    <ul class="clearfix">
-                        <li>一等奖：888米粒</li>
-                        <li>四等奖：20米粒</li>
-                        <li>二等奖：100米粒</li>
-                        <li>五等奖：5米粒</li>
-                        <li>三等奖：50米粒</li>
-                        <li>六等奖：2米粒</li>
-                        <li>参与奖：1米粒</li>
-                    </ul>
-                </div>
-            </div>
+                <a href="{{ path('jili_api_monthactivity_gatheringindex',{'l':2}) }}" class="ruleLink"></a>
+                <a href="{{ path('jili_api_monthactivity_gatheringindex', {'l':3}) }}" class="commander"><img src="{{ asset('images/january/crown.png') }}" width="145" height="74" /></a>
+                <div class="splitLvTxt">再拼<span class="needNum"></span>单，瓜分<strong><img src="{{ asset('images/january/lv1TxtHome.png')}}" width="104" height="35" /></strong>米粒</div>
             </div>
         </div>
     </div>

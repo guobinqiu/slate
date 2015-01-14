@@ -1,9 +1,23 @@
 {% if isChecked is defined and isChecked == true %}
-<div class="hasDone"><a href="{{ path('jili_frontend_taobao_index') }}" target="_blank" class="shoppingBtn"><img src="{{ asset('images/january/shoppingBtn.png')}}" width="235" height="82" /></a><a href="" target="_blank" class="shoppingInfo">淘宝购物流程说明</a></div>
+<div class="hasDone">
+	<div class="shoppingCon"><a href="{{ path('jili_frontend_taobao_index') }}" target="_blank" class="shoppingBtn"><img src="{{ asset('images/january/shoppingBtn.png')}}" width="235" height="82" /></a><a href="" target="_blank" class="shoppingInfo">淘宝购物流程说明</a></div>
+    {% set flashbag = app.session.flashbag.all %}
+    {% if flashbag is not empty %}
+        <div class="messages-container">
+        {% for type, messages in flashbag %}
+            {% for message in messages %}
+                 <div class="alert alert-{{ type }}">
+                     {{ message }}
+                 </div>
+            {% endfor %}
+        {% endfor %}
+        </div>
+    {% endif %}
+</div>
 {% else %}
 <div class="noDone">
     <div class="taobao fl">
-        <h2>淘宝购物</h2>
+        <h2>购物</h2>
         <div class="shopping">
             <p>点击以下按钮，去淘宝购物。</p>
             <div><a href="{{ path('jili_frontend_taobao_index') }}" target="_blank" class="shoppingInfo">淘宝购物流程说明</a></div>
@@ -11,7 +25,7 @@
         </div>
     </div>
     <div class="order fl">
-        <h2>提交表单</h2>
+        <h2>参加活动</h2>
         <div class="orderCon">
             <p>填写表单，你就可以成为抱团大作战的成员了。</p>
             <form id="shoppingForm" action="{{ path('jili_api_monthactivity_gatheringsavetaobaoorder') }}" method="POST">
