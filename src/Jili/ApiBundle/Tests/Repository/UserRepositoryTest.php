@@ -207,6 +207,7 @@ class UserRepositoryTest extends KernelTestCase {
     
      /**
      * @group issue548
+     * @group issue619
      */
     public function testPointFail() {
         $em = $this->em;

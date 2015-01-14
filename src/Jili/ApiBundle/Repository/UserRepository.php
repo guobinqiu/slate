@@ -161,7 +161,6 @@ class UserRepository extends EntityRepository
     public function pointFail($type)
     {
         $daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
-        $daydate180 = date("Y-m-d H:i:s", strtotime(' -180 day'));
         //echo $daydate."\n";
         $point_histories = array('point_history00','point_history01','point_history02','point_history03','point_history04','point_history05',
                                  'point_history06','point_history07','point_history08','point_history09');
@@ -206,10 +205,9 @@ class UserRepository extends EntityRepository
             $sql_type = "180";
         }
         $temp = array();
-        $sql = "select distinct user_id from send_point_fail where user_id not in (".$user_ids.") and send_type in (".$sql_type.") and create_time > '".$daydate180."'";
-        $result = $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
+        $result = $this->getEntityManager()->getRepository('JiliApiBundle:SendPointFail')->gethasSendedUsers($user_ids,$type);
         foreach ($result as $key => $valus){
-            $temp[]=$valus['user_id'];
+            $temp[]=$valus['userId'];
         }
         $send_point_ids = implode(',', $temp);
 
