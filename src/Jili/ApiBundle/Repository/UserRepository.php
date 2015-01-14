@@ -198,14 +198,14 @@ class UserRepository extends EntityRepository
 
         //过滤已发送的
         if($type == 150){
-            $sql_type = "150,173,180";
+            $sql_type = array(180,173,150);
         } elseif($type==173){
-            $sql_type = "173,180";
+            $sql_type = array(180,173);
         } else {
-            $sql_type = "180";
+            $sql_type = 180;
         }
         $temp = array();
-        $result = $this->getEntityManager()->getRepository('JiliApiBundle:SendPointFail')->gethasSendedUsers($user_ids,$type);
+        $result = $this->getEntityManager()->getRepository('JiliApiBundle:SendPointFail')->gethasSendedUsers($user_ids_arr,$sql_type);
         foreach ($result as $key => $valus){
             $temp[]=$valus['userId'];
         }
