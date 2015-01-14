@@ -113,9 +113,9 @@ $(function(){
 			clearForm(_this);
 			$(_this).find('.submitBtn').on('click', function(event){ 
 				event.preventDefault();
-				//console.log('验证结果'+valForm(_this));
 				if(valForm(_this)){
-					$(_this).submit();
+					$(_this).find('.submitBtn').submit();
+					console.log('提交成功'+valForm(_this));
 				}
 			});
 		});
