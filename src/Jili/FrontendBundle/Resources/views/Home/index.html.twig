@@ -69,48 +69,6 @@
       </div>
     </div>
 </div>
-<div class="activityAdWrapper">
-    <div class="activityAd">
-        <div class="activityAdBg"></div>
-        <span class="close"></span>
-        <div class="btns">
-            <a href="{{ path('jili_frontend_decemberactivity_index', {'l': 6}) }}" class="goBtn"></a>
-            <span class="closeBtn"></span>
-        </div>
-        <div class="adMask"></div>
-    </div>
-</div>
-
-{% if not app.session.has('uid') %}
-<script>
-	(function($){
-		if(!$.cookie("fistShowAd")){
-			$('.activityAd').show();
-		}
-		$.cookie("fistShowAd", true,{expires:1});
-   	})(jQuery);
-</script>
-{% else %}
-<script>
-	(function($){
-		$.ajax({
-        	url: Routing.generate('jili_frontend_gameseeker_isadsvisit'),
-            type: "GET",
-            dataType: 'json',
-            success: function(returnData){
-				if(returnData.data.has_done){
-					$('.activityAd').hide();
-				}else{
-					$('.activityAd').show();
-				}
-            },
-            error: function(){
-                console.log('请求错误');
-            }
-        });
-   	})(jQuery);
-</script>
-{% endif %}
 {% endblock %}
 
 {% block body_bottom %}

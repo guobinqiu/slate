@@ -208,6 +208,38 @@ class GameEggsBreaker
         $js->writeCache($data, $file);
     }
 
+
+    public function fetchBrokenStat()
+    {
+        $file = $this->configs ['broken_stat'] ;  
+        $js = new JsonCacheFileHandler();
+        $content = $js->readCached($file);
+        // if not exists or latest exists
+        if(is_null( $content ) || empty($content) ) {
+            $this->writeBrokenStat();
+            $content = $js->readCached($file);
+        } else {
+            $ts = $this->em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')->getLastestTimestampBroken();
+            if( ! is_null($ts) && strtotime($ts) > strtotime($content['ts'])) {
+                $this->writeBrokenStat();
+                $content = $js->readCached($file);
+            }
+        }
+        return $content;
+    }
+
+    public function writeBrokenStat()
+    {
+        $file = $this->configs ['broken_stat'] ;  
+        $js = new JsonCacheFileHandler();
+        // fetch data to write 
+        $data = array(
+            'ts' => $this->em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')->getLastestTimestampBroken(),
+            'breakersInfo' => $this->em->getrepository('JiliFrontendBundle:GameEggsBrokenLog')
+            ->findLatestBrokenNickList( 10 ));
+        $js->writeCache($data, $file);
+    }
+
     /**
      * @param array $params array('user_id', 'token', 'egg_type' )
      */

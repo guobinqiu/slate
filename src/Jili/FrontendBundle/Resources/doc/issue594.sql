@@ -22,8 +22,7 @@ INSERT INTO `taobao_category`
 ( '包包配饰',1,0,null,null),
 ( '美容护肤',1,0,null,null),
 ( '数码电器',1,0,null,null),
-( '文化体育',1,0,null,null),
-( '更多商品',1,0,null,null);
+( '文化体育',1,0,null,null);
 
 --
 -- 表的结构 `taobao_self_promotion_products`
