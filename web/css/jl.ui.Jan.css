@@ -23,7 +23,7 @@ a{text-decoration:none;color:#3399ff;}
 .splitLvTxt b{ position: relative; z-index: 1; width: 22px; height: 30px; line-height: 30px; margin-right: 1px; margin-top: -4px; background-color: #000; border-radius: 3px; overflow: hidden;}
 .splitLvTxt b span{ position: absolute; z-index: 1000; top: 0; left: 0; width: 22px; height: 300px; background: url(../images/january/num.png) no-repeat;}
 .splitLvTxt strong{ color: #e00000; line-height: 37px;}
-.mainCon{ height: 667px; padding-top: 50px; background: #fbb51f url(../images/january/conBg.jpg) no-repeat top center;}
+.mainCon{ padding-top: 50px; padding-bottom: 50px; background: #fbb51f url(../images/january/conBg.jpg) no-repeat top center;}
 .shoppingForm li{ position: relative; z-index: 1; line-height:30px;}
 .shoppingForm li.tips{ font-family: "宋体"; font-size: 12px; color: #ff0000; height: 18px; line-height: 18px;}
 .shoppingForm li .clearTxt{ border: 1px solid #e3e3e3; width: 170px; height: 24px; padding: 2px 5px;}
@@ -31,7 +31,7 @@ a{text-decoration:none;color:#3399ff;}
 .activityIntro{ text-align: center; margin-top: 40px;}
 .noDone{ width: 760px; height: 222px; margin: 0 auto; font-size: 14px; background: url(../images/january/orderBg.png) no-repeat;}
 .noDone h2{ height: 70px; line-height: 70px; color: #fff; font-size: 26px; font-weight: bold; padding-left: 80px;}
-.noDone .taobao{ width: 330px; margin-right: 95px;}
+.noDone .taobao{ width: 340px; margin-right: 75px;}
 .noDone .shopping{ width: 187px; margin-left: 13px; padding-top: 10px; padding-left: 67px; line-height: 30px; background-color: #fff;}
 .hasDone{ text-align: center; line-height: 35px; padding-bottom: 15px;}
 .hasDone .messages-container{ font-family: "宋体"; font-size: 16px; font-weight: bold; }
@@ -39,7 +39,7 @@ a{text-decoration:none;color:#3399ff;}
 .btnWrapper{ text-align: center; padding-top: 5px;}
 .shopping a.shoppingInfo{ font-family: "宋体"; font-size: 12px; color: #ff0000; text-decoration: underline;}
 .shopping a.shoppingBtn, .orderCon .submitBtn{ width: 141px; height: 51px; display: inline-block; *display: inlien; *zoom: 1;}
-.orderCon{ padding: 5px 0px 10px 35px; line-height: 28px; }
+.orderCon{ padding: 5px 0px 10px 40px; line-height: 28px; }
 .shopping a.shoppingBtn{ background: url(../images/january/taobaoBtn.png) no-repeat;}
 .orderCon .submitBtn{ background: url(../images/january/submitBtn.png) no-repeat; cursor: pointer;}
 .shopping .btnWrapper{ padding-top: 12px;}
