@@ -78,9 +78,13 @@
 						$(e.title).removeClass('active').eq(index).addClass('active');
 						$(e.con).hide().eq(index).show();
 						if($(e.title).eq(index).hasClass('more')){
-							$('.newGuide').hide();
-							$(e.con).parent().show();
-							$(e.con).parent().find('h3').html($('.newGuide dt').eq(index).text());
+							console.log($(e.title).eq(index).find('a').length);
+							if($(e.title).eq(index).find('a').length==0){
+								console.log($(e.title).eq(index).find('a').length);
+								$('.newGuide').hide();
+								$(e.con).parent().show();
+								$(e.con).parent().find('h3').html($('.newGuide dt').eq(index).text());
+							}
 						}else{
 							$('.newGuideDetail').hide();
 							$(e.con).parent().find('h2').text($(e.title).eq(index).text());
