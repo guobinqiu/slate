@@ -15,7 +15,7 @@
 <body>
 <div class="top">
 	<div class="topCon">
-    	<div class="logo fl"><a href="http://www.91jili.com/" title="积粒网"><img src="{{ asset('images1408/logo.png')}}" width="160" height="46" alt="积粒网logo"/></a></div>
+    	<div class="logo fl"><a href="{{ path('_homepage') }}" title="积粒网"><img src="{{ asset('images1408/logo.png')}}" width="160" height="46" alt="积粒网logo"/></a></div>
         {% if app.session.has('uid') %}
         	<div class="userInfo fr">{{ app.session.get('nick') }},[<a href="{{ path('_user_logout') }}">退出</a>]</div>
         {% else %}
