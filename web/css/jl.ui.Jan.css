@@ -10,13 +10,13 @@ img{ border:0; vertical-align:bottom;}
 body{font-size:12px;color: #333;font-family:'微软雅黑', Arial, Helvetica, sans-serif;}
 a{text-decoration:none;color:#3399ff;}
 .topCon, .mainTopCon, .con{ width: 990px; margin: 0 auto;}
-.topCon{ height: 50px; overflow: hidden; margin-top: 5px;}
-.userInfo{ height: 50px; line-height: 50px; font-family: "宋体";}
-.main{ background-color: #f61f1f;}
-.mainTop{ background: #df221e url(../images/january/bannerBg.jpg) no-repeat center; }
+.topCon{ height: 43px; overflow: hidden; margin-top: 2px;}
+.userInfo{ height: 40px; line-height: 40px; font-family: "宋体";}
+.main{ background-color: #f81e1d;}
+.mainTop{ background: #f81e1d url(../images/january/bannerBg.jpg) no-repeat center; }
 .mainTopCon{ height: 542px; overflow: hidden;}
 .splitLv{ height: 542px; background: url(../images/january/bannerBg.png) no-repeat;}
-.splitLvCon{ position: relative; z-index: 1; width: 614px; padding-top: 155px; margin: 0 auto;}
+.splitLvCon{ position: relative; z-index: 1; width: 614px; padding-top: 37px; margin: 0 auto;}
 .splitLvImg{ text-align: center;}
 .splitLvTxt{ position: absolute; z-index: 1000; bottom: 115px; width: 100%; text-align: center; line-height: 45px; font-size: 15px; font-weight: bold;}
 .splitLvTxt b, .splitLvTxt span, .splitLvTxt strong{ display: inline-block; *display: inline; *zoom: 1; vertical-align: middle;}
