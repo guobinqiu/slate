@@ -32,18 +32,19 @@ $(function(){
 			needNum = parseInt(1000-opts.num);
 		}else if(opts.num>=1000&&opts.num<2000){
 			needNum = parseInt(2000-opts.num);
-			$('.splitLvImg').html('<img src="/images/january/lv2.png" width="554" height="387" />');
+			$('.splitLvImg').html('<img src="/images/january/lv2.gif" width="614" height="500" />');
 			$(obj).find('strong').html('<img src="/images/january/lv2Txt.png" width="104" height="37" />');
 			$(obj).css({ bottom: '185px'});
 		}else if(opts.num>=2000&&opts.num<3000){
 			needNum = parseInt(3000-opts.num);
-			$('.splitLvImg').html('<img src="/images/january/lv3.png" width="614" height="387" />');
+			$('.splitLvImg').html('<img src="/images/january/lv3.gif" width="614" height="500" />');
 			$(obj).find('strong').html('<img src="/images/january/lv3Txt.png" width="99" height="37" />');
 			$(obj).css({ bottom: '255px'});
 		}else{
 			needNum = 0;
-			$('.splitLvImg').html('<img src="/images/january/clearance.png" width="614" height="387" />');
+			$('.splitLvImg').html('<img src="/images/january/clearance.png" width="614" height="500" />');
 			$(obj).hide();
+			$('.rule').find(obj).html('参与拼单即可瓜分<img src="/images/january/lv3Txt.png" width="99" height="37" />米粒').show();
 		}
 		arrNeed = needNum.toString().split('');
 		for(var i = 0; i < arrNeed.length; i++){
@@ -114,28 +115,3 @@ $(function(){
 		});
 	}
 })(jQuery);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
