@@ -68,7 +68,7 @@ class MonthActivityControllerTest extends WebTestCase
         $container = $this->container;
         $url =$container->get('router')->generate('jili_api_monthactivity_gatheringaddtaobaoorder'); ;
         //set session
-        $this->assertEquals('/monthActivity/activity/gathering/order-add', $url);
+        $this->assertEquals('/monthActivity/gathering/order-add', $url);
 
         $user = LoadUserData::$USERS[0];
         $session = $container->get('session');
@@ -81,7 +81,7 @@ class MonthActivityControllerTest extends WebTestCase
         $session->set('uid', $user->getId());
         $session->save();
 
-        $form = $crawler->selectButton('提交')->form();
+        $form = $crawler->selectButton('')->form();
         $form['activityGatheringOrder[orderIdentity]']= '123451234512345';
         $crawler = $client->submit($form);
 
@@ -108,7 +108,7 @@ class MonthActivityControllerTest extends WebTestCase
         $container = $this->container;
         $url =$container->get('router')->generate('jili_api_monthactivity_gatheringtaobaoordercount'); 
         //not ajax request
-        $this->assertEquals('/monthActivity/activity/gathering/order-count', $url);
+        $this->assertEquals('/monthActivity/gathering/order-count', $url);
         $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('{}', $client->getResponse()->getContent());

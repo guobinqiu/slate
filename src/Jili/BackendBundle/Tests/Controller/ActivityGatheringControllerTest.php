@@ -64,6 +64,7 @@ class ActivityGatheringControllerTest extends WebTestCase
         $container = $this->container;
         $url =$container->get('router')->generate('jili_backend_activitygathering_getordertotal'); 
         $this->assertEquals('https://localhost/admin/activity/gathering/order-total/get', $url);
+        $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
     }

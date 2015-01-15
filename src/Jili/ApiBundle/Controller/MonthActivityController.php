@@ -201,7 +201,7 @@ class MonthActivityController extends Controller {
 
     /**
      *  取订单数据,后台修改的
-     *  @route("/activity/gathering/order-count", options={"expose"=true})
+     *  @route("/gathering/order-count", options={"expose"=true})
      *  @method("GET")
      */
     public function  gatheringTaobaoOrderCountAction(Request $request)
