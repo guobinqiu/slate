@@ -1,41 +1,47 @@
 INSERT INTO `user` (`id`, `email`, `pwd`,  `nick`, `register_date`, `points`, `delete_flag`,`token`,`reward_multiple`,`is_info_set`)  
-VALUES (1110,'jili_test@voyagegroup.com.cn','testpwd','jintest','2014-04-16 21:17:44','3',0, 'a',1,1),
-(1111,'jili_test@voyagegroup.com.cn','testpwd','jintest','2014-05-16 21:17:44','3',0 , 'a',1,1),
-(1112,'jili_test@voyagegroup.com.cn','testpwd','jintest','2014-05-16 21:17:44','0',0 , 'a',1,1),
-(1113,'aabbcc@139.com','testpwd','jin22','2014-09-16 21:17:44','3',0 , 'a',1,1),
-(1114,'aabbcc1111@139.com','testpwd','jin33','2014-10-16 21:17:44','3',0 , 'a',1,1),
-(1115,'aabbcc2222@139.com','testpwd','jin33','2014-11-16 21:17:44','3',0 , 'a',1,1);
+VALUES (1110,'jili_test@voyagegroup.com.cn','testpwd','jintest',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0, 'a',1,1),
+(1111,'jili_test@voyagegroup.com.cn','testpwd','jintest',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0 , 'a',1,1),
+(1112,'jili_test@voyagegroup.com.cn','testpwd','jintest',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'0',0 , 'a',1,1),
+(1113,'aabbcc@139.com','testpwd','jin22',DATE_SUB(CURDATE(), INTERVAL 1 MONTH),'3',0 , 'a',1,1),
+(1114,'aabbcc1111@139.com','testpwd','jin33',DATE_SUB(CURDATE(), INTERVAL 1 WEEK),'3',0 , 'a',1,1),
+(1115,'aabbcc2222@139.com','testpwd','jin32',DATE_SUB(CURDATE(), INTERVAL 181 DAY),'3',0 , 'a',1,1);
+
+INSERT INTO `point_history00` VALUES (1,1110,3,16,DATE_SUB(CURDATE(), INTERVAL 181 DAY));
+INSERT INTO `point_history01` VALUES (2,1116,1,16,DATE_SUB(CURDATE(), INTERVAL 170 DAY));
+INSERT INTO `point_history02` VALUES (3,1113,1,16,DATE_SUB(CURDATE(), INTERVAL 1 MONTH));
+INSERT INTO `point_history03` VALUES (4,1116,1,16,DATE_SUB(CURDATE(), INTERVAL 1 MONTH));
+INSERT INTO `point_history04` VALUES (5,1113,1,16,DATE_SUB(CURDATE(), INTERVAL 1 MONTH));
+INSERT INTO `point_history05` VALUES (6,1112,1,16,DATE_SUB(CURDATE(), INTERVAL 1 MONTH));
+INSERT INTO `point_history06` VALUES (7,1116,1,16,DATE_SUB(CURDATE(), INTERVAL 1 MONTH));
+INSERT INTO `point_history07` VALUES (8,1113,1,16,DATE_SUB(CURDATE(), INTERVAL 1 MONTH));
+INSERT INTO `point_history08` VALUES (9,1112,1,16,DATE_SUB(CURDATE(), INTERVAL 1 MONTH));
+INSERT INTO `point_history09` VALUES (10,1116,1,16,DATE_SUB(CURDATE(), INTERVAL 1 MONTH));
+
+INSERT INTO `send_point_fail` VALUES (1,1110,150,DATE_SUB(CURDATE(), INTERVAL 181 MONTH));
+INSERT INTO `send_point_fail` VALUES (2,1111,180,DATE_SUB(CURDATE(), INTERVAL 172 DAY));
+INSERT INTO `send_point_fail` VALUES (3,1114,173,DATE_SUB(CURDATE(), INTERVAL 2 MONTH));
+INSERT INTO `send_point_fail` VALUES (4,1115,173,DATE_SUB(CURDATE(), INTERVAL 181 DAY));
+INSERT INTO `send_point_fail` VALUES (5,1116,150,DATE_SUB(CURDATE(), INTERVAL 179 DAY));
 
 INSERT INTO `task_history00` 
-VALUES (1111,0,1111,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-05-16 09:32:04',2),(1112,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',2);
+VALUES (1,0,1111,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 YEAR),2),(12,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),2);
 INSERT INTO `task_history01` 
-VALUES (1113,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-09-16 09:32:04',1),(1114,0,1113,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',2);
+VALUES (2,0,1115,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 179 DAY),1),(13,0,1113,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),2);
 INSERT INTO `task_history02` 
-VALUES (1115,0,1113,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-09-16 09:32:04',1),(1116,0,1113,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',2);
+VALUES (3,0,1113,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),1),(14,0,1113,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),2);
 INSERT INTO `task_history03` 
-VALUES (1117,0,1115,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-09-16 09:32:04',1),(1118,0,1115,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',3);
+VALUES (4,0,1116,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),1),(15,0,1116,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),3);
 INSERT INTO `task_history04` 
-VALUES (1119,0,1115,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-09-16 09:32:04',1),(1120,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',1);
+VALUES (5,0,1116,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),1),(16,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),1);
 INSERT INTO `task_history05` 
-VALUES (1121,0,1114,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-09-16 09:32:04',1),(1122,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',2)
+VALUES (6,0,1114,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),1),(17,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),2);
 INSERT INTO `task_history06` 
-VALUES (1123,0,1115,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-09-16 09:32:04',1),(1124,0,1113,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',4);
+VALUES (7,0,1116,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),1),(18,0,1113,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),4);
 INSERT INTO `task_history06` 
-VALUES (1125,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-09-16 09:32:04',1),(1126,0,1113,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',4);
+VALUES (8,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),1),(19,0,1113,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),4);
 INSERT INTO `task_history07` 
-VALUES (1127,0,1115,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-09-16 09:32:04',2),(1128,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',4);
+VALUES (9,0,1116,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),2),(20,0,1112,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),4);
 INSERT INTO `task_history08` 
-VALUES (1129,0,1114,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-09-16 09:32:04',1),(1130,0,1114,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',4);
+VALUES (10,0,1114,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),2),(21,0,1114,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),4);
 INSERT INTO `task_history09` 
-VALUES (1131,0,1114,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-09-16 09:32:04',1),(1132,0,1114,4,16,'每天签到获取米粒',NULL,1,NULL,'2014-08-11 09:32:04',4);
-
-INSERT INTO `point_history00` (`id`, `user_id`, `point_change_num`, `reason`, `create_time`) VALUES (1111,1110,3,16,'2014-03-04 00:01:36');
-INSERT INTO `point_history01` (`id`, `user_id`, `point_change_num`, `reason`, `create_time`) VALUES (1112,1115,1,16,'2014-08-04 00:01:36');
-INSERT INTO `point_history02` (`id`, `user_id`, `point_change_num`, `reason`, `create_time`) VALUES (1113,1113,1,16,'2014-09-04 00:01:36');
-INSERT INTO `point_history03` (`id`, `user_id`, `point_change_num`, `reason`, `create_time`) VALUES (1114,1115,1,16,'2014-09-04 00:01:36');
-INSERT INTO `point_history04` (`id`, `user_id`, `point_change_num`, `reason`, `create_time`) VALUES (1115,1113,1,16,'2014-10-04 00:01:36');
-INSERT INTO `point_history05` (`id`, `user_id`, `point_change_num`, `reason`, `create_time`) VALUES (1116,1112,1,16,'2014-09-04 00:01:36');
-INSERT INTO `point_history06` (`id`, `user_id`, `point_change_num`, `reason`, `create_time`) VALUES (1117,1115,1,16,'2014-09-04 00:01:36');
-INSERT INTO `point_history07` (`id`, `user_id`, `point_change_num`, `reason`, `create_time`) VALUES (1118,1113,1,16,'2014-09-04 00:01:36');
-INSERT INTO `point_history08` (`id`, `user_id`, `point_change_num`, `reason`, `create_time`) VALUES (1119,1112,1,16,'2014-09-04 00:01:36');
-INSERT INTO `point_history09` (`id`, `user_id`, `point_change_num`, `reason`, `create_time`) VALUES (1110,1115,1,16,'2014-09-04 00:01:36');
+VALUES (11,0,1114,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),1),(22,0,1114,4,16,'每天签到获取米粒',NULL,1,NULL,DATE_SUB(CURDATE(), INTERVAL 1 MONTH),4);

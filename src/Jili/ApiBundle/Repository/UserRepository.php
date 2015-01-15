@@ -161,11 +161,13 @@ class UserRepository extends EntityRepository
     public function pointFail($type)
     {
         $daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
+        //echo $daydate."\n";
         $point_histories = array('point_history00','point_history01','point_history02','point_history03','point_history04','point_history05',
                                  'point_history06','point_history07','point_history08','point_history09');
         $task_histories = array('task_history00','task_history01','task_history02','task_history03','task_history04','task_history05',
                                  'task_history06','task_history07','task_history08','task_history09');
-
+        //$point_histories = array('point_history00', 'point_history01');
+        //$task_histories = array('task_history00','task_history01');
         $merged_point_result = array();
         for($i=0;$i<count($point_histories);$i++){
             $sql = "select distinct user_id from ".$point_histories[$i]." where create_time > '" . $daydate . "' ";
@@ -190,10 +192,30 @@ class UserRepository extends EntityRepository
             unset($result);
             unset($temp);
         }
-        $user_ids = array_unique(array_merge($merged_point_result,$merged_task_result));
-        $user_ids = implode(',', $user_ids);
+        
+        $user_ids_arr = array_unique(array_merge($merged_point_result,$merged_task_result));
+        $user_ids = implode(',', $user_ids_arr);
+
+        //过滤已发送的
+        if($type == 150){
+            $sql_type = array(180,173,150);
+        } elseif($type==173){
+            $sql_type = array(180,173);
+        } else {
+            $sql_type = 180;
+        }
+        $temp = array();
+        $result = $this->getEntityManager()->getRepository('JiliApiBundle:SendPointFail')->gethasSendedUsers($user_ids_arr,$sql_type);
+        foreach ($result as $key => $valus){
+            $temp[]=$valus['userId'];
+        }
+        $send_point_ids = implode(',', $temp);
+
         $sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate
-             . "' and e.id not in (" . $user_ids.")";
+             . "' and e.id not in (" . $user_ids.") ";
+        if($send_point_ids){
+            $sql.= " and id not in(".$send_point_ids.") ";
+        }
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 

@@ -35,6 +35,13 @@ class DmdeliveryCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $xhprof_enabled = false;
+        if($xhprof_enabled) {
+            $XHPROF_ROOT = '/home/tau/yard/xhprof-0.9.4';
+            // start profiling
+            xhprof_enable(XHPROF_FLAGS_MEMORY);
+        }
+
         $this->username = $this->getContainer()->getParameter('webpower_email_username');
         $this->password = $this->getContainer()->getParameter('webpower_email_password');
         $this->alertTo = explode(",", $this->getContainer()->getParameter('cron_alertTo_contacts'));
@@ -44,12 +51,29 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $output->writeln('batch name : ' . $batch_name);
         $em = $this->getContainer()->get('doctrine')->getManager();
         $mem_limit = ini_get("memory_limit");
-        ini_set("memory_limit","128M");
+        ini_set("memory_limit","256M");
         $this->$batch_name($em);
         $output->writeln('finish at '.date('Y-m-d H:i:s',time()));
         ini_set("memory_limit" , $mem_limit);
         $output->writeln("");
         $output->writeln("");
+
+        if ($xhprof_enabled) {
+            // stop profiler
+            $xhprof_data = xhprof_disable();
+            include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";
+            include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";
+
+            $xhprof_runs = new XHProfRuns_Default();
+            $run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_foo");
+            $echo= "---------------\n".
+                "Assuming you have set up the http based UI for \n".
+                "XHProf at some address, you can view run at \n".
+                "http://<xhprof-ui-address>/index.php?run=$run_id&source=xhprof_foo\n".
+                "---------------\n";
+            $output->writeln($echo);
+        }
+        $output->writeln("\n");
     }
     
     public function pointFailureTemp($em)
@@ -91,59 +115,64 @@ class DmdeliveryCommand extends ContainerAwareCommand
     {
         $user = $em->getRepository('JiliApiBundle:User')->pointFail($failTime);
         echo "select count : ".count($user)."\n";
+        echo 'memory after user:'.memory_get_usage()."\n";
+        //exit;
         if(!empty($user)){
             $group = $this->addgroup($companyId);
             if($group->status != "ERROR"){
                 $send_fail_email_count = 0;
                 foreach ($user as $key => $value) {
-                    $failId = $this->issetFailRecord($em, $value['id'],$failTime);
-                    if(!$failId){
-                        $recipient_arr = array(
-                                            array(
-                                                'fields'=>
-                                                    array(
-                                                        array('name'=>'email','value'=>$value['email']),
-                                                        array('name'=>'nick','value'=>$value['nick'])
-                                                         )
-                                                 )
-                                        );
-                        $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
-                        //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
-                        $sendflag = true;
-                        if($send->status == "ERROR"){
-                            if ( strpos($send->errors->recipient[0]->DMDmessage,"排除列表") === false ) {
-                                $sendflag = false;
-                            }
-                        } 
-
-                        if ($sendflag){
-                            try{
-                                $em->getConnection()->beginTransaction();
-                                $this->insertSendPointFail($em, $value['id'],$failTime);
-                                if($failTime == 180){
-                                    $this->updatePointZero($em, $value['id']);
-                                }
-                                if($pointType==='pointFailure'){
-                                    echo 'key :'.$key. ',userid:'.$value['id']."-> update successfully  \n";
-                                } else {
-                                    echo 'key :'.$key. ',userid:'.$value['id']."-> send successfully  \n";
-                                }
-                                
-                                $em->getConnection()->commit();
-                            } catch (Exception $ex) {
-                                $em->getConnection()->rollback();
-                                $content = $this->setALertEmailBody($pointType,'something error happend when insert or update)');
-                                $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
-                                throw $e;
-                            }
-                        } else {
-                            $send_fail_email_count++;
-                            echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email:'.$send->statusMsg." \n";
-                            if(isset($send->errors->recipient[0]->DMDmessage)){
-                                echo 'errorDMDmessage =>'.$send->errors->recipient[0]->DMDmessage." \n";
-                            }
+                    $recipient_arr = array(
+                                        array(
+                                            'fields'=>
+                                                array(
+                                                    array('name'=>'email','value'=>$value['email']),
+                                                    array('name'=>'nick','value'=>$value['nick'])
+                                                     )
+                                             )
+                                    );
+                    $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
+                    //echo 'memory after send:'.memory_get_usage()."\n";
+                    //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
+                    $sendflag = true;
+                    if($send->status == "ERROR"){
+                        if ( strpos($send->errors->recipient[0]->DMDmessage,"排除列表") === false ) {
+                            $sendflag = false;
                         }
                     }
+
+                    if ($sendflag){
+                        try{
+                            $em->getConnection()->beginTransaction();
+                            $this->insertSendPointFail($em, $value['id'],$failTime);
+                            if($failTime == 180){
+                                $this->updatePointZero($em, $value['id']);
+                            }
+                            if($pointType==='pointFailure'){
+                                echo 'key :'.$key. ',userid:'.$value['id']."-> update successfully  \n";
+                            } else {
+                                echo 'key :'.$key. ',userid:'.$value['id']."-> send successfully  \n";
+                            }
+
+                            $em->getConnection()->commit();
+                        } catch (Exception $ex) {
+                            $em->getConnection()->rollback();
+                            $content = $this->setALertEmailBody($pointType,'something error happend when insert or update)');
+                            $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
+                            throw $e;
+                        }
+                    } else {
+                        $send_fail_email_count++;
+                        echo 'key :'.$key. ',userid:'.$value['id'].'-> Cannot send email:'.$send->statusMsg." \n";
+                        if(isset($send->errors->recipient[0]->DMDmessage)){
+                            echo 'errorDMDmessage =>'.$send->errors->recipient[0]->DMDmessage." \n";
+                        }
+                    }
+                    $recipient_arr = null;
+                    $send = null;
+                    $content = null;
+                    $sendflag = null;
+                    echo 'memory after one record:'.memory_get_usage()."\n";
                 }
                 if ($send_fail_email_count > 0){
                     $content = $this->setALertEmailBody($pointType,'Cannot send email，count = '.$send_fail_email_count);
@@ -167,7 +196,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
     }
     
     
-    public function handleSendPointFailTemp($em, $failTime,$companyId,$mailingId)
+    /*public function handleSendPointFailTemp($em, $failTime,$companyId,$mailingId)
     {
         $user = $em->getRepository('JiliApiBundle:User')->pointFailTemp($failTime);
         echo "select count : ".count($user)."\n";
@@ -187,7 +216,6 @@ class DmdeliveryCommand extends ContainerAwareCommand
                                                          )
                                                  )
                                         );
-                        echo $value['email'];
                         $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
                         //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
                         $sendflag = true;
@@ -239,7 +267,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
             echo 'Email list is empty'."\n";
             $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
         }
-    }
+    }*/
     
     public function addRecipientsSendMailing($companyId,$mailingId,$groupId,$recipient_arr)
     {
