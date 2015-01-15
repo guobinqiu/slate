@@ -87,6 +87,7 @@ class DecemberActivityController extends Controller
                     ->setOrderAt($data['orderAt']);
                 $validator = $this->get('validator');
                 $errors = $validator->validate($entity);
+
                 if(count($errors)>0) {
                     foreach($errors as $error ) {
                         $messages[] = $error->getMessage();

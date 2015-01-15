@@ -304,3 +304,7 @@ parameters:
     # the uri relative to web/
     taobao_self_promotion_picture_uri_path: images/taobao_products_picture/
     taobao_self_promotion_picture_dir: %kernel.root_dir%/../web/%taobao_self_promotion_picture_uri_path%
+
+    # 201501活动中，保存taobao订单数量
+    activity_gathering:
+        taobao_order_total_src:  "%cache_data_path%/activity_gathering_taobao_order_total.json"

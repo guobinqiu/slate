@@ -2,6 +2,7 @@ parameters:
     authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
     game_seeker.points_pool.class: Jili\BackendBundle\Services\GameSeeker\PointsPool
     december_activity.game_eggs_breaker.class: Jili\BackendBundle\Services\GameEggsBreaker\GameEggsBreaker
+    month_activity.gathering.class: Jili\BackendBundle\Services\MonthActivity\Gathering
 
 services:
     authentication_ip.action_listener:
@@ -23,4 +24,10 @@ services:
         arguments: [ %game_eggs_breaker% ]
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
+            - [ setLogger, [ @logger ] ] 
+
+    month_activity.gathering:
+        class: %month_activity.gathering.class%
+        arguments: [ %activity_gathering% ]
+        calls:
             - [ setLogger, [ @logger ] ] 

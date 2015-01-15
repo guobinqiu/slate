@@ -3,8 +3,13 @@ namespace Jili\ApiBundle\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Jili\ApiBundle\Utility\FileUtil;
+use Jili\ApiBundle\Form\Type\MonthActivity\GatheringOrderType;
+use Jili\ApiBundle\Entity\ActivityGatheringTaobaoOrder;
 
 class MonthActivityController extends Controller {
 
@@ -104,4 +109,109 @@ class MonthActivityController extends Controller {
         return $users;
     }
 
+    /**
+     * @Route("/gathering")
+     * @Method("GET")
+     */
+    public function gatheringIndexAction(Request $request)
+    {
+        $session = $this->get('request')->getSession();
+        if(! $session->has('referer') ) {
+           $session->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
+        }
+
+        // read the order_total:
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:index.html.twig');
+    }
+
+    /**
+     *  GET 显示提交订单号的Form
+     *  @Route("/gathering/order-add")
+     *  @Method("GET")
+     */
+    function gatheringAddTaobaoOrderAction(Request $request )
+    {
+        // no form render when on  login.
+        $uid = $this->get('request')->getSession()->get('uid');
+        if( $uid) {
+            // no form render if has checked in
+            $em  = $this->get('doctrine.orm.entity_manager');
+            $is_checked   = $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')->isChecked(array('userId'=>$uid));
+            if ( $is_checked) {
+                return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
+                    'isChecked' => $is_checked
+                ));
+            }
+        }
+
+        $form = $this->createForm(new GatheringOrderType());
+        // check where checked before
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
+            'form'=>$form->createView()
+        ));
+    }
+
+    /**
+     *  post 保存订单号到
+     *  @route("/gathering/order-save")
+     *  @method("POST")
+     */
+    function gatheringSaveTaobaoOrderAction(Request $request )
+    {
+        // redirect to login.
+        $uid = $this->get('request')->getSession()->get('uid');
+        if(!$uid){
+           $this->getRequest()->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
+           return $this->redirect($this->generateUrl('_user_login'));
+        }
+        
+        $form = $this->createForm(new GatheringOrderType());
+        $form->bind($request);
+
+        if($form->isValid()) {
+            $data  = $form->getData();
+
+            $em = $this->get('doctrine.orm.entity_manager');
+            $entity = new ActivityGatheringTaobaoOrder();
+            $entity->setUser( $em->getReference('Jili\\ApiBundle\\Entity\\User', $uid))
+                ->setOrderIdentity($data['orderIdentity']);
+            $validator = $this->get('validator');
+            $errors = $validator->validate($entity);
+
+            if(count($errors)>0) {
+                foreach($errors as $error ) {
+                    $messages[] = $error->getMessage();
+                    $this->get('session')->setFlash('error', $messages);
+                }
+                return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array('form'=>$form->createView()));
+
+            } 
+
+            $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')->insert(array(
+                'userId'=>$uid,
+                'orderIdentity'=> $data['orderIdentity']
+            ));
+
+            $this->get('session')->setFlash('notice','成功提交订单号!');
+            return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
+        }
+
+        return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array('form'=>$form->createView()));
+    }
+
+    /**
+     *  取订单数据,后台修改的
+     *  @route("/gathering/order-count", options={"expose"=true})
+     *  @method("GET")
+     */
+    public function  gatheringTaobaoOrderCountAction(Request $request)
+    {
+        $response = new  JsonResponse ();
+        if(! $request->isXmlHttpRequest()) {
+            return $response;
+        }
+        $result = $this->get('month_activity.gathering')->getTotal();
+        $response->setData(array('code'=>0, 'data'=>array( 'total'=>(int) $result)));
+        return $response;
+    }
 }
