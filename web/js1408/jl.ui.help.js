@@ -78,9 +78,11 @@
 						$(e.title).removeClass('active').eq(index).addClass('active');
 						$(e.con).hide().eq(index).show();
 						if($(e.title).eq(index).hasClass('more')){
-							$('.newGuide').hide();
-							$(e.con).parent().show();
-							$(e.con).parent().find('h3').html($('.newGuide dt').eq(index).text());
+							if($(e.title).eq(index).find('a').length==0){
+								$('.newGuide').hide();
+								$(e.con).parent().show();
+								$(e.con).parent().find('h3').html($('.newGuide dt').eq(index).text());
+							}
 						}else{
 							$('.newGuideDetail').hide();
 							$(e.con).parent().find('h2').text($(e.title).eq(index).text());
@@ -101,5 +103,13 @@
 		$('.submitQuestion').on('click', function(){
 			sendContent();
 		});
+		var url = window.location.href;
+		var paraVal = url.substr((url.indexOf('=')+1));
+		if(paraVal=='tao'){
+			$('.newGuide').hide();
+			$('.newGuideDetail').show();
+			$('.newGuideDetail h3').text($('.newGuide dt').eq(0).text()).addClass('active');
+			$('.newGuideDetail ul').hide().eq(0).show();
+		}
 	});
 })(jQuery);
