@@ -45,10 +45,18 @@ class SendPointFailRepositoryTest extends KernelTestCase
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
 
-        $user_ids = "1115";
-        $type = "173";
+        $user_ids = array(1115);
+        $type = array(173,180);
         $user = $em->getRepository('JiliApiBundle:SendPointFail')->gethasSendedUsers($user_ids,$type);
-        $this->assertEquals(1, count($user));
+        $this->assertEquals(2, count($user));
+        $this->assertEquals(1111, $user[0]['userId']);
+        $this->assertEquals(1114, $user[1]['userId']);
+        
+        $user_ids = array(1111,1115);
+        $type = array(180,173,150);
+        $user = $em->getRepository('JiliApiBundle:SendPointFail')->gethasSendedUsers($user_ids,$type);
+        $this->assertEquals(2, count($user));
         $this->assertEquals(1114, $user[0]['userId']);
+        $this->assertEquals(1116, $user[1]['userId']);
     }
 }

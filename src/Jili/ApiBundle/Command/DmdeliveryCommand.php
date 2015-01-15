@@ -132,7 +132,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
                                              )
                                     );
                     $send = $this->addRecipientsSendMailing($companyId,$mailingId,$group->id,$recipient_arr);
-                    echo 'memory after send:'.memory_get_usage()."\n";
+                    //echo 'memory after send:'.memory_get_usage()."\n";
                     //$this->get('logger')->info('{DmdeliveryController}'. "email:".var_export($value['email'], true) .",status:". var_export($send->status, true).'key:'.$key);
                     $sendflag = true;
                     if($send->status == "ERROR"){
@@ -196,7 +196,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
     }
     
     
-    public function handleSendPointFailTemp($em, $failTime,$companyId,$mailingId)
+    /*public function handleSendPointFailTemp($em, $failTime,$companyId,$mailingId)
     {
         $user = $em->getRepository('JiliApiBundle:User')->pointFailTemp($failTime);
         echo "select count : ".count($user)."\n";
@@ -267,7 +267,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
             echo 'Email list is empty'."\n";
             $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo,$content);
         }
-    }
+    }*/
     
     public function addRecipientsSendMailing($companyId,$mailingId,$groupId,$recipient_arr)
     {
