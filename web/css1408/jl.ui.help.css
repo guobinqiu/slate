@@ -18,18 +18,32 @@
 .helpR{width: 749px;margin-left: -1px;padding: 5px 30px 20px;background-color: #fff;font-size: 14px;min-height: 650px;}
 .helpR h2{height: 45px;line-height: 45px;color: #fd6244;font-family: "微软雅黑";font-size: 18px;font-weight: bold;border-bottom: 1px dotted #c9c9c9;}
 .newGuide{padding: 0 30px;}
-.newGuide li{float: left;width: 50%;padding: 50px 0;height: 100px;overflow: hidden;}
+.newGuide li{float: left;width: 50%;padding: 40px 0;height: 100px;overflow: hidden;}
 .newGuide li p{float: left;margin-right: 10px;}
 .newGuide li dl{float: left;width: 185px;}
 .newGuide li dt{color: #333;font-family: "微软雅黑";font-weight: bold;font-size: 18px;}
 .newGuide li dd{font-size: 12px;padding-top: 13px;color: #666;}
 .newGuide li dd span{font-size: 14px;width: 100px;height: 22px;line-height: 22px;text-align: center;border: 1px solid #ccc;background-color: #f6f6f6;display: inline-block;*display: inline;*zoom: 1;cursor: pointer;}
 .newGuideDetail h3{margin-top: 10px;line-height: 30px;font-size: 14px;font-weight: bold;}
+.newGuideDetail h3.active{ font-family: "微软雅黑";font-weight: bold;font-size: 16px;}
 .newGuideDetail li{color: #000;font-size: 12px;margin-top: 15px;}
 .newGuideDetail li p{line-height: 22px;}
-.newGuideDetail li strong{color: #fd6244;margin-right: 10px;}
+.newGuideDetail li strong{color: #fd6244;margin-right: 10px;display: inline-block;*display: inline;*zoom: 1; vertical-align: top;}
 .newGuideDetail li a{color: #4c94ff;}
 .newGuideDetail li .guideImg{margin-top: 5px;}
+.taobao{ position: relative; z-index: 1;}
+.taobao li.arrows{ position: absolute; z-index: 1000; top:80px; left: 400px; width: 69px; height: 104px; background: url(../images1408/help/arrows.png) no-repeat top left;}
+.taobao li.arrow02{ top:490px; left: 245px; width: 109px; height: 132px; background-position: 0 -118px;}
+.taobao li.arrow03{ top:772px; left: 330px; width: 145px; height: 72px; background-position: 0 -275px;}
+.taobao strong{ width: 23px; height: 25px; background:  url(../images1408/help/numTitle.png) no-repeat top;}
+.taobao strong.icon02{ background-position: 0 -27px;}
+.taobao strong.icon03{ background-position: 0 -54px;}
+.taobao strong.icon04{ background-position: 0 -81px;}
+.taobao li p{ font-size: 14px; font-weight: bold; line-height: 25px;}
+.taobao li .guideImg{ margin-top: 15px; padding-left: 30px;}
+.taobao li .intro{ background-color: #f5f5f5; padding: 5px 20px 15px; width: 620px;}
+.taobao li .intro p{ font-size: 12px; font-weight: bold; line-height: 35px;}
+.intro .hasSpace{ margin-right: 30px;}
 .questions{padding: 20px 0;display: none;}
 .questions li{font-size: 0;}
 .questions li .question{font-size: 14px;padding-left: 20px;	height: 45px;line-height: 45px;	background-color: #f5f5f5;margin-bottom: 2px;cursor: pointer;}
