@@ -34,7 +34,7 @@
 .taobao{ position: relative; z-index: 1;}
 .taobao li.arrows{ position: absolute; z-index: 1000; top:80px; left: 400px; width: 69px; height: 104px; background: url(../images1408/help/arrows.png) no-repeat top left;}
 .taobao li.arrow02{ top:490px; left: 245px; width: 109px; height: 132px; background-position: 0 -118px;}
-.taobao li.arrow03{ top:772px; left: 330px; width: 145px; height: 72px; background-position: 0 -275px;}
+.taobao li.arrow03{ top:772px; left: 266px; width: 145px; height: 72px; background-position: 0 -275px;}
 .taobao strong{ width: 23px; height: 25px; background:  url(../images1408/help/numTitle.png) no-repeat top;}
 .taobao strong.icon02{ background-position: 0 -27px;}
 .taobao strong.icon03{ background-position: 0 -54px;}

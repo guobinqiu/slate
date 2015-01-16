@@ -32,7 +32,7 @@ a{text-decoration:none;color:#3399ff;}
 .noDone{ width: 760px; height: 222px; margin: 0 auto; font-size: 14px; background: url(../images/january/orderBg.png) no-repeat;}
 .noDone h2{ height: 70px; line-height: 70px; color: #fff; font-size: 26px; font-weight: bold; padding-left: 80px;}
 .noDone .taobao{ width: 340px; margin-right: 75px;}
-.noDone .shopping{ width: 187px; margin-left: 13px; padding-top: 10px; padding-left: 67px; line-height: 30px; background-color: #fff;}
+.noDone .shopping{ width: 227px; margin-left: 13px; padding-top: 10px; padding-left: 67px; line-height: 30px; background-color: #fff;}
 .hasDone{ text-align: center; line-height: 35px; padding-bottom: 15px;}
 .hasDone .messages-container{ font-family: "宋体"; font-size: 16px; font-weight: bold; }
 .hasDone .shoppingInfo{ color: #a14b00; font-size: 16px; text-decoration: underline; margin-left: 15px;}
