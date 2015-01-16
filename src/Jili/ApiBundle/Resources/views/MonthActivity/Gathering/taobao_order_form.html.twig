@@ -1,6 +1,6 @@
 {% if isChecked is defined and isChecked == true %}
 <div class="hasDone">
-	<div class="shoppingCon"><a href="{{ path('jili_frontend_taobao_index') }}" target="_blank" class="shoppingBtn"><img src="{{ asset('images/january/shoppingBtn.png')}}" width="235" height="82" /></a><a href="{{ path('_default_support', {'channel':'tao'}) }}" target="_blank" class="shoppingInfo">淘宝购物流程说明</a></div>
+	<div class="shoppingCon"><a href="http://ai.taobao.com/?pid=mm_49376465_4372428_29418729" target="_blank" class="shoppingBtn"><img src="{{ asset('images/january/shoppingBtn.png')}}" width="235" height="82" /></a><a href="{{ path('_default_support', {'channel':'tao'}) }}" target="_blank" class="shoppingInfo">购物流程说明</a></div>
     {% set flashbag = app.session.flashbag.all %}
     {% if flashbag is not empty %}
         <div class="messages-container">
@@ -19,9 +19,9 @@
     <div class="taobao fl">
         <h2>购物</h2>
         <div class="shopping">
-            <p>点击以下按钮，去淘宝购物。</p>
-            <div><a href="{{ path('_default_support', {'channel':'tao'}) }}" target="_blank" class="shoppingInfo">淘宝购物流程说明</a></div>
-            <div class="btnWrapper"><a href="{{ path('jili_frontend_taobao_index') }}" target="_blank" class="shoppingBtn"></a></div>
+            <p>点击以下按钮，去爱淘宝购物。</p>
+            <div><a href="{{ path('_default_support', {'channel':'tao'}) }}" target="_blank" class="shoppingInfo">购物流程说明</a></div>
+            <div class="btnWrapper"><a href="http://ai.taobao.com/?pid=mm_49376465_4372428_29418729" target="_blank" class="shoppingBtn"></a></div>
         </div>
     </div>
     <div class="order fl">
