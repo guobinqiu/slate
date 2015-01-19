@@ -47,3 +47,5 @@ a{ text-decoration:none;}
 .iKnow{ position: absolute; bottom: 95px; left: 248px; color: #fff; width: 185px; height: 95px; cursor: pointer; z-index: 9999; background: url(../images/taobao/iKnow.png) no-repeat;}
 .taoNewGuideMask{ display: none;}
 .toTop{width:65px; height:66px; position: fixed; right: 30px; bottom: 120px; cursor:pointer; display:none;}
+/*2015-1-16, by wlt*/
+.itemL .taobaoNotice a, .itemL .taobaoNotice strong{ color: #ff340b; font-size: 14px; font-weight: bold; padding: 0 2px;}
