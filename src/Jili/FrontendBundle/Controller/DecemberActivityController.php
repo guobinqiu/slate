@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\FrontendBundle\Form\Type\GameEggsBreakerTaoBaoOrderType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Jili\BackendBundle\Utility\TaobaoOrderToEggs;
 use Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder;
 use Jili\FrontendBundle\Entity\TaobaoCategory;
@@ -178,12 +179,11 @@ class DecemberActivityController extends Controller
         }
 
         $startAt = new \Datetime('2015-01-20 00:00:00');
+        $endAt = new \Datetime('2015-01-27 00:00:00');
         $now = new \Datetime();
-        if ('dev' !==  $this->get('kernel')->getEnvironment() && 
-            $now >= $startAt )  {
-                return $response;
-            }
-
+        if(  $now <= $startAt  || $endAt <= $now )  {
+            return $response;
+        }
 
         $result = $this->get('december_activity.game_eggs_breaker')
             ->breakEgg(array(
