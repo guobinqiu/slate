@@ -262,6 +262,7 @@ class DecemberActivityControllerTest extends WebTestCase
      */
     public function testAddTaobaoOrderActionNormal()
     {
+        $this->markTestSkipped('this function remove from frontend temporaliy');
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_addtaobaoorder');

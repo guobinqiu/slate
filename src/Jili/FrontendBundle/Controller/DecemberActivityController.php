@@ -6,8 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
-
 use Jili\FrontendBundle\Form\Type\GameEggsBreakerTaoBaoOrderType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,7 +62,7 @@ class DecemberActivityController extends Controller
         $now = new \Datetime();
 
         if($now > $startAt ) {
-            return new Reponse('');
+            return new Response('');
         }
 
         $request = $this->get('request');
@@ -178,12 +176,11 @@ class DecemberActivityController extends Controller
         }
 
         $startAt = new \Datetime('2015-01-20 00:00:00');
+        $endAt = new \Datetime('2015-01-27 00:00:00');
         $now = new \Datetime();
-        if ('dev' !==  $this->get('kernel')->getEnvironment() && 
-            $now >= $startAt )  {
-                return $response;
-            }
-
+        if(  $now <= $startAt  || $endAt <= $now )  {
+            return $response;
+        }
 
         $result = $this->get('december_activity.game_eggs_breaker')
             ->breakEgg(array(
