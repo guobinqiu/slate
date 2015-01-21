@@ -109,7 +109,13 @@
 			$('.newGuide').hide();
 			$('.newGuideDetail').show();
 			$('.newGuideDetail h3').text($('.newGuide dt').eq(0).text()).addClass('active');
-			$('.newGuideDetail ul').hide().eq(0).show();
+			$('.newGuideDetail>ul').hide().eq(0).show();
 		}
+		$('.taobao ul').hide().eq(0).show();
+		$('.channels span').on('click', function(){
+			var index = $('.channels span').index(this);
+			$('.channels span').removeClass('active').eq(index).addClass('active');
+			$('.taobao ul').hide().eq(index).show();
+		});
 	});
 })(jQuery);
