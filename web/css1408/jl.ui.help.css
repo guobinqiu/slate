@@ -45,5 +45,5 @@
 .txt01, .txt02{ font-weight: bold; letter-spacing: 1px;}
 span.txt02{ color: #fd6244; background-color: #f1f1f1; height: 25px; line-height: 25px; padding: 0 10px; display: inline-block; *display: inline; *zoom: 1;}
 .channels{ margin-top: 10px; border-bottom: 3px solid #fd6244;}
-.channels span{ height: 25px; line-height: 25px; padding: 0 20px; margin-right: 5px; font-weight: bold; letter-spacing: 1px; color: #9e9e9e; background-color: #f1f1f1; border-radius: 3px 3px 0 0; display: inline-block; *display: inline; *zoom: 1; cursor: pointer;}
+.channels span{ height: 25px; line-height: 25px; padding: 0 15px; margin-right: 5px; font-weight: bold; letter-spacing: 1px; color: #9e9e9e; background-color: #f1f1f1; border-radius: 3px 3px 0 0; display: inline-block; *display: inline; *zoom: 1; cursor: pointer;}
 .channels span.active{ color: #fff; background-color: #fd6244;}
