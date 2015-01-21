@@ -42,7 +42,6 @@
 .questions li p a{color: #4c94ff;}
 .submitTips{ position: absolute; z-index: 3000; top: 100px; left: 50%; margin-left: -80px; width: 160px; height: 35px; text-align: center; line-height: 35px; background-color: #fff; color: #333; font-size: 12px;}
 /*by wlt, 2015-1-21*/
-.taobao ul{ display: none;}
 .txt01, .txt02{ font-weight: bold; letter-spacing: 1px;}
 span.txt02{ color: #fd6244; background-color: #f1f1f1; height: 25px; line-height: 25px; padding: 0 10px; display: inline-block; *display: inline; *zoom: 1;}
 .channels{ margin-top: 10px; border-bottom: 3px solid #fd6244;}
