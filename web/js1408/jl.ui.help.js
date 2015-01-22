@@ -117,5 +117,13 @@
 			$('.channels span').removeClass('active').eq(index).addClass('active');
 			$('.taobao ul').hide().eq(index).show();
 		});
+		var s, s2;
+		$('.tipTxt span').hover(function(){
+			$('.tipHelp').show().css('cursor', 'default');
+			$('.tipArrow').show().css('cursor', 'default');
+		}, function(){
+			$('.tipHelp').hide();
+			$('.tipArrow').hide();
+		});
 	});
 })(jQuery);
