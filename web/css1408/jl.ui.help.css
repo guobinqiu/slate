@@ -48,11 +48,11 @@ span.txt02{ color: #fd6244; background-color: #f1f1f1; height: 25px; line-height
 .channels span{ height: 25px; line-height: 25px; padding: 0 15px; margin-right: 5px; font-weight: bold; letter-spacing: 1px; color: #9e9e9e; background-color: #f1f1f1; border-radius: 3px 3px 0 0; display: inline-block; *display: inline; *zoom: 1; cursor: pointer;}
 .channels span.active{ color: #fff; background-color: #fd6244;}
 .shoppingTips{ position: relative; z-index: 1; font-size: 12px; }
-.shoppingTips .tipTxt{ background-color: #f5f5f5; padding: 10px 20px; letter-spacing: 2px; line-height: 35px;}
-.shoppingTips .tipTxt strong{ font-family: "微软雅黑"; font-size: 14px; font-weight: bold; color: #f75232; padding-left: 18px; background:url(../images1408/help/icon00.png) no-repeat center left;}
+.shoppingTips .tipTxt{ background-color: #f5f5f5; padding: 10px 20px; font-weight: bold; letter-spacing: 2px; line-height: 35px;}
+.shoppingTips .tipTxt strong{ font-family: "微软雅黑"; font-size: 14px; color: #f75232; padding-left: 18px; background:url(../images1408/help/icon00.png) no-repeat center left;}
 .shoppingTips .tipTxt span{ width: 20px; height: 35px; line-height: 35px; display: inline-block; *display: inline; *zoom: 1; vertical-align: top; cursor: pointer;background:url(../images1408/help/iconQ.png) no-repeat center left;}
-.shoppingTips .tipHelp{ position: absolute; z-index: 100; bottom: 43px; right: 0; background-color: #fffae3; padding: 10px 20px 15px; width: 350px; box-shadow: 1px 1px 3px #b4b3b3; display: none;}
-.tipArrow{ position: absolute; z-index: 200; bottom: 35px; right: 230px; width: 10px; height: 9px; background:url(../images1408/help/iconArrow.png) no-repeat; display: none;}
+.shoppingTips .tipHelp{ position: absolute; z-index: 100; bottom: 43px; right: 0; font-weight: normal; background-color: #fffae3; padding: 10px 20px 15px; width: 350px; box-shadow: 1px 1px 3px #b4b3b3; display: none;}
+.tipArrow{ position: absolute; z-index: 200; bottom: 35px; right: 220px; width: 10px; height: 9px; background:url(../images1408/help/iconArrow.png) no-repeat; display: none;}
 .helpT{ color: #fd6244; font-weight: bold; letter-spacing: 1px; line-height: 25px;}
 .shoppingTips .tipHelp p{ line-height: 22px;}
 .helpImg{ margin-top: 3px;}
