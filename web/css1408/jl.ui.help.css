@@ -23,7 +23,8 @@
 .newGuide li dl{float: left;width: 185px;}
 .newGuide li dt{color: #333;font-family: "微软雅黑";font-weight: bold;font-size: 18px;}
 .newGuide li dd{font-size: 12px;padding-top: 13px;color: #666;}
-.newGuide li dd span{font-size: 14px;width: 100px;height: 22px;line-height: 22px;text-align: center;border: 1px solid #ccc;background-color: #f6f6f6;display: inline-block;*display: inline;*zoom: 1;cursor: pointer;}
+.newGuide li dd span, .newGuide li dd span a{font-family: "宋体";font-size: 14px;width: 100px;height: 22px;line-height: 22px;text-align: center;border: 1px solid #ccc;background-color: #f6f6f6;display: inline-block;*display: inline;*zoom: 1;cursor: pointer;}
+.newGuide li dd span a{ border: none;}
 .newGuideDetail h3{margin-top: 10px;line-height: 30px;font-size: 14px;font-weight: bold;}
 .newGuideDetail h3.active{ font-family: "微软雅黑";font-weight: bold;font-size: 16px;}
 .newGuideDetail li{color: #000;font-size: 12px;margin-top: 15px;}
