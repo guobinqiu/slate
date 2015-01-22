@@ -25,7 +25,7 @@
         <div class="navNew"><img src="{{ asset('images/newTag.gif') }}" title="NEW"></div>
     </div>
     <!--  subnav  /-->
-    {% if( date() < date("2015-01-22 22:00:00") or date() > date("2015-01-23 07:00:00") ) %}
+    {% if( date() < date("2015-01-22 22:00:00") or date() > date("2015-01-23 08:00:00") ) %}
     <iframe src='http://app.offer99.com/index.php?pid={{ offer99_com.pid }}&userid={{ app.session.get('uid') }}' style='width:1000px;height:1140px;' scrolling='auto' frameborder='no' border='0' allowTransparency='true'></iframe>
     {% else %}
     <div>
