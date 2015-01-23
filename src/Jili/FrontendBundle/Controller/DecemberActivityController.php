@@ -61,9 +61,9 @@ class DecemberActivityController extends Controller
         $startAt = new \Datetime('2015-01-20 00:00:00');
         $now = new \Datetime();
 
-        if($now > $startAt ) {
+       /* if($now > $startAt ) {
             return new Response('');
-        }
+        }*/
 
         $request = $this->get('request');
         $session = $this->get('session');

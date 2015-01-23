@@ -224,31 +224,14 @@ function topFold(){
 $(function(){
     var s = setInterval(textScroll, 2E3);
     topFold();
-    //checkFlow();
-	var breakEggS = '2015/1/20 00:00:59',breakEggE = '2015/1/27 00:00:59', localDate = new Date(), serverDate = $.ajax({async:false}).getResponseHeader("Date");
-	var diff = localDate.getTime() - new Date(serverDate).getTime();
-	var sDiff = (new Date(breakEggS)).getTime() - new Date(serverDate).getTime();
-	var bDiff = (new Date(breakEggE)).getTime() - new Date(serverDate).getTime();
-	if(parseInt(sDiff)<0){
-		countDown(breakEggE, diff);
-		$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
-	}else{
-		countDown(breakEggS, diff);//砸蛋开始时间
-	}
-	if(parseInt(bDiff)<0){
-		$('.timestamp img').attr('src', '/images/december/foldTxt03.png');
-	}
-	$('.endBreak .close').on('click', function(){
-		$('.fixMask').hide();
-		$('.endBreak').hide();
-	});	
+    checkFlow();	
     $.fn.eggFrenzy({
         container: '.goldenEggs',
         hasEgg: '.luckyDrawL .mask',
         noEgg: '.luckyDrawL .noStart',
         eggNum: '.luckyDraw .eggNum',
         eggMoney: '.luckyDraw .eggMoney',
-        debug: false
+        debug: true
     });
 });
 (function($){
@@ -272,25 +255,15 @@ $(function(){
 				 type: 'post',
 				 dataType: 'json',
 				 success: function(eggData){
+					 var eggData={code: 1, token: 'dssdlkwuoere', data: {numOfEggs: 1, numOfConsolationEggs:1, lessForNextEgg: 20, isOpenSeason: true}};
 					 $this.debug('初始金蛋信息……', eggData);
-					 if($.isEmptyObject(eggData)||undefined === eggData.data) {
-						 $(opts.hasEgg).hide();
-                		 $(opts.noEgg).show();
-						 $(opts.eggNum).html('0');
-						 $(opts.eggMoney).html('10元');
+					 if($.isEmptyObject(eggData)|| undefined === eggData.data || parseInt(eggData.data.numOfEggs + eggData.data.numOfConsolationEggs) <= 0) {//判断结果或金蛋个数是否为空
+						 $this.noEgg();
 						 return false;
-					 }
-					 if(eggData.data.isOpenSeason){
-						countDown('2015/1/27 00:00:59');//砸蛋结束时间
-						$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
-					 }
-					 if($this.showEgg(eggData)){
-						 $this.setEggInfo(eggData);
+					 }else{
+						 $this.hasEgg(eggData);
 						 $this.addEgg(eggData);
 						 $this.openStart(eggData);
-					 }else{
-						 $(opts.eggNum).html('0');
-						 $(opts.eggMoney).html('10元');
 					 }
 				 },
 				 error: function(){
@@ -301,30 +274,23 @@ $(function(){
         init: function(){
             this.beginAjax();
         },
-        showEgg: function(initData){
+		noEgg: function(){
             var opts = this.options;
-            if($.isEmptyObject(initData) || (initData.data.numOfEggs + initData.data.numOfConsolationEggs) <= 0){
-				this.debug('金蛋数为空……');
-                $(opts.hasEgg).hide();
-                $(opts.noEgg).show();
-				return false;
-            }else{
-                $(opts.hasEgg).show();
-                $(opts.noEgg).hide();
-				return true;
-            }
-        },
-        setEggInfo: function(initData){
-			var opts = this.options;
+			$(opts.hasEgg).hide();
+			$(opts.noEgg).show();
+			$(opts.eggNum).html('0');
+			$(opts.eggMoney).html('10元');
+		},
+        hasEgg: function(initData){
+            var opts = this.options;
 			var allEggs = parseInt(initData.data.numOfEggs + initData.data.numOfConsolationEggs);
-			if(allEggs>0){
-				$(opts.eggNum).html((initData.data.numOfEggs + initData.data.numOfConsolationEggs));
-				$(opts.eggMoney).html(initData.data.lessForNextEgg + '元');
+			if(allEggs<=0){
+				this.noEgg();
 			}else{
-				$(opts.eggNum).html('0');
-				$(opts.eggMoney).html('10元');
-				$(opts.hasEgg).hide();
-                $(opts.noEgg).show();
+				$(opts.hasEgg).show();
+				$(opts.noEgg).hide();
+				$(opts.eggNum).html(allEggs);
+				$(opts.eggMoney).html(initData.data.lessForNextEgg + '元');
 			}
         },
         addEgg: function(initData){
@@ -351,6 +317,7 @@ $(function(){
 				 data: "token=" + initData.data.token + "&eggType=" + eggType,
 				 success: function(resultData){
 					$this.debug('砸蛋结果……', resultData);
+					resultData = {code: 1, token: 'sdkfslf9wewe', data:{points:8888, moreEgg: true}};
 					if($.isEmptyObject(resultData)||undefined === resultData.data){
 						$this.debug('砸蛋结果为空');
 						var $div = $('<div></div>')
@@ -358,8 +325,9 @@ $(function(){
 							$(this).fadeOut(2E3);
 						});	
 						return false;
-					} 
-					$this.showResult(resultData);
+					}else{
+						$this.showResult(resultData);
+					}
 				 },
 				 error: function(){
 				 	$this.debug('第二次请求结果失败……');
@@ -422,7 +390,7 @@ $(function(){
                     setTimeout(function(){
                         $($this.options.container).find('li').eq(index).remove();
 						eggPos = $(opts.container).find('li');
-                        $this.setEggInfo(initData);
+                        $this.hasEgg(initData);
                     }, 3E3);
 				}else{
 					$(this).find('img').addClass('active').attr('src', '/images/december/crack_egg.gif');
@@ -442,6 +410,7 @@ $(function(){
             });
         },
         openStart: function(initData){
+			this.debug('开始了么', initData.data.isOpenSeason);
             if(initData.data.isOpenSeason){
 				$(this.options.container).find('li span').addClass('active');
                 this.openEgg(initData);
