@@ -78,6 +78,7 @@
 						$(e.title).removeClass('active').eq(index).addClass('active');
 						$(e.con).hide().eq(index).show();
 						if($(e.title).eq(index).hasClass('more')){
+							
 							if($(e.title).eq(index).find('a').length==0){
 								$('.newGuide').hide();
 								$(e.con).parent().show();
@@ -88,6 +89,11 @@
 							$(e.con).parent().find('h2').text($(e.title).eq(index).text());
 						}
 					}
+					if($('.newGuide').is(':hidden')){
+								$('.shoppingTips').hide();
+							}else{
+								$('.shoppingTips').show();
+							}
 				});
 			});
 		};
@@ -109,7 +115,32 @@
 			$('.newGuide').hide();
 			$('.newGuideDetail').show();
 			$('.newGuideDetail h3').text($('.newGuide dt').eq(0).text()).addClass('active');
-			$('.newGuideDetail ul').hide().eq(0).show();
+			$('.newGuideDetail>ul').hide().eq(0).show();
+			if($('.newGuide').is(':hidden')){
+				$('.shoppingTips').hide();
+			}else{
+				$('.shoppingTips').show();
+			}
 		}
+		console.log($('.newGuide').is(':hidden'));
+		if($('.newGuide').is(':hidden')){
+			$('.shoppingTips').hide();
+		}else{
+			$('.shoppingTips').show();
+		}
+		$('.taobao ul').hide().eq(0).show();
+		$('.channels span').on('click', function(){
+			var index = $('.channels span').index(this);
+			$('.channels span').removeClass('active').eq(index).addClass('active');
+			$('.taobao ul').hide().eq(index).show();
+		});
+		var s, s2;
+		$('.tipTxt span').hover(function(){
+			$('.tipHelp').show().css('cursor', 'default');
+			$('.tipArrow').show().css('cursor', 'default');
+		}, function(){
+			$('.tipHelp').hide();
+			$('.tipArrow').hide();
+		});
 	});
 })(jQuery);
