@@ -295,6 +295,9 @@ parameters:
         consolation:
             points_strategy: "%cache_data_path%/game_eggs_breaker/consolation/points_strategy_conf.json"
             points_pool: "%cache_data_path%/game_eggs_breaker/consolation/points_pool_YYYYmmdd.json"
+    # 即开砸普通蛋奖米粒
+    game_immediate_egg_breaker:
+        common_award: 10  
     webpower_email_username: 'admin'
     webpower_email_password: 'nUshkwu#9'
 
