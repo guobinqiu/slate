@@ -87,4 +87,22 @@ class TaobaoOrderToEggsTest  extends KernelTestCase
         $this->assertEquals(19.99 , TaobaoOrderToEggs::lessToNext(180.01));
         $this->assertEquals(49.99 , TaobaoOrderToEggs::lessToNext(200.01));
     }
+
+    /**
+     * @group issue_592 
+     */
+    public function testCaculateImmediateEggs()
+    {
+        $this->assertEquals(array('left'=> 0.01, 'count_of_eggs'=>0 ) , TaobaoOrderToEggs::caculateImmediateEggs(0.01 ,10));
+
+        $this->assertEquals(array('left'=> 0, 'count_of_eggs'=>0 ) , TaobaoOrderToEggs::caculateImmediateEggs( -1, 10));
+        $this->assertEquals(array('left'=> 0, 'count_of_eggs'=>0 ) , TaobaoOrderToEggs::caculateImmediateEggs( 0, 10));
+        $this->assertEquals(array('left'=> 0, 'count_of_eggs'=>0 ) , TaobaoOrderToEggs::caculateImmediateEggs( 1, 0));
+        $this->assertEquals(array('left'=> 0, 'count_of_eggs'=>0 ) , TaobaoOrderToEggs::caculateImmediateEggs( 1, -10));
+
+        $this->assertEquals(array('left'=> 1.11, 'count_of_eggs'=>0 ) , TaobaoOrderToEggs::caculateImmediateEggs(1.11 ,10));
+        $this->assertEquals(array('left'=> 9.99, 'count_of_eggs'=>0 ) , TaobaoOrderToEggs::caculateImmediateEggs( 9.99,10));
+        $this->assertEquals(array('left'=> 0.01, 'count_of_eggs'=>1 ) , TaobaoOrderToEggs::caculateImmediateEggs( 10.01,10));
+        $this->assertEquals(array('left'=> 9.99, 'count_of_eggs'=>1 ) , TaobaoOrderToEggs::caculateImmediateEggs( 19.99,10));
+    }
 }

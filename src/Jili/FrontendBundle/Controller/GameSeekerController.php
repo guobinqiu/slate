@@ -203,7 +203,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         }
 
         $userId = $this->get('session')->get('uid');
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->getDoctrine()->getManager(); 
         $result = $em->getRepository('JiliFrontendBundle:UserVisitLog')->isGameSeekerDoneDaily($userId);
 
         if( 1 === $result) {

@@ -29,6 +29,11 @@ class GameEggsBreaker
      */
     protected $logger;
 
+    /**
+     * @param array $configs = array(
+     *
+     * )
+     */
     function __construct( $configs)
     {
         $this->configs = $configs;
@@ -116,16 +121,6 @@ class GameEggsBreaker
                 $em->getConnection()->rollback();
             }
         }
-// caculat eggs ...
-        // loop  by userId
-        //      init eggsinfo if not exists
-        //  transaction 
-        //      update order
-        //      update eggsInfo
-        //      log 
-        //  next 
-       
-        //      update stat ( eggs sent out) cache file 
     }
 
 
@@ -136,10 +131,7 @@ class GameEggsBreaker
     {
         $logger = $this->logger;
         $em = $this->em;
-
-
         $order->finishAudit();
-
         if( ! $order->isInvalid()) {
             // caculate eggs info
             $total_paid = 0;
@@ -170,11 +162,53 @@ class GameEggsBreaker
             $logger->crit('[backend][auditOrder]'. $e->getMessage());
             $em->getConnection()->rollback();
         }
+    }
 
-        // update stat cache file 
-        // remove last line 
-        // 100 lines
-        // insert fisrt line.
+    /**
+     *  审核第2轮的即时订单
+     */
+    public function auditImmdiateOrderEntity(GameEggsBreakerTaobaoOrder $order) 
+    {
+        $logger = $this->logger;
+        $em = $this->em;
+        $order->finishAudit();
+        if( ! $order->isInvalid()) {
+            // caculate eggs info
+            $total_paid = 0;
+            $count_of_uncertain = 0;
+
+            // fetch previous or create eggsInfo
+            $eggsInfo = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
+                ->findOneOrCreateByUserId($order->getUserId());
+
+            $token = $eggsInfo->getToken();
+
+            if($order->isValid()) {
+                $total_paid = $order->getOrderPaid() + $eggsInfo->getTotalPaid();
+                $cost_per_egg = $this->config['immediate_egg_cost'] ;
+                $result_caculated = TaobaoOrderToEggs::caculateImmediateEggs( $order->getOrderPaid() + $cost_per_egg - $order->getOffcutForNext(), 
+                $cost_per_egg);
+                $eggsInfo->updateNumOfEggs(array('paid'=>$total_paid,
+                    'common'=> $result_caculated['count_of_eggs'],
+                    'offcut'=> $cost_per_egg - $result_caculated['left']
+                ),
+                $token);
+
+            } elseif( $order->isUncertain()) {
+
+                $eggsInfo->updateNumOfEggs(array('consolation'=> 1), $token);
+            }
+            $eggsInfo->refreshToken();
+        }
+
+        try {
+            $em->getConnection()->beginTransaction();
+            $em->flush();
+            $em->getConnection()->commit();
+        } catch(\Exception $e) {
+            $logger->crit('[backend][auditOrder]'. $e->getMessage());
+            $em->getConnection()->rollback();
+        }
     }
 
     public function fetchSentStat()

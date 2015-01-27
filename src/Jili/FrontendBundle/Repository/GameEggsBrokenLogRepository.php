@@ -93,14 +93,4 @@ class GameEggsBrokenLogRepository extends EntityRepository
 
     }
 
-    /**
-     * 取消 
-     */
-    public function getRanking()
-    {
-        // with group and sum order top 10
-        // sum(points) 
-        // group by user_id 
-    }
-
 }

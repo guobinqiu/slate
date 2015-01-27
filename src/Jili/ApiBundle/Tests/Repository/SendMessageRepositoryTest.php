@@ -48,7 +48,6 @@ class SendMessageRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @group debug
      * @group issue_592 
      */
     public function testInsertSendMs()

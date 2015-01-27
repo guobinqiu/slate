@@ -288,4 +288,15 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerTaobaoOrder', $actual);
 
     }
+
+    /**
+     * @group issue_592
+     * @group debug 
+     */
+    public function testAuditImmediateActionNormal()
+    {
+
+        $this->assertEquals(1,1);
+    }
+
 }
