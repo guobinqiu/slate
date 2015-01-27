@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * GameEggsBrokenLog
  *
- * @ORM\Table(name="game_eggs_broken_log", indexes={@ORM\Index(name="idx_user_at", columns={"user_id", "created_at", "points_acquried"})})
+ * @ORM\Table(name="game_eggs_broken_log", indexes={@ORM\Index(name="idx_user_at", columns={"user_id", "created_at", "points_acquired"})})
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GameEggsBrokenLogRepository")
  */
 class GameEggsBrokenLog
@@ -29,9 +29,9 @@ class GameEggsBrokenLog
     /**
      * @var integer
      *
-     * @ORM\Column(name="points_acquried", type="integer", nullable=false)
+     * @ORM\Column(name="points_acquired", type="integer", nullable=false)
      */
-    private $pointsAcquried;
+    private $pointsAcquired;
 
     /**
      * @var \DateTime
@@ -102,26 +102,26 @@ class GameEggsBrokenLog
     }
 
     /**
-     * Set pointsAcquried
+     * Set pointsAcquired
      *
-     * @param integer $pointsAcquried
+     * @param integer $pointsAcquired
      * @return GameEggsBrokenLog
      */
-    public function setPointsAcquried($pointsAcquried)
+    public function setPointsAcquired($pointsAcquired)
     {
-        $this->pointsAcquried = $pointsAcquried;
+        $this->pointsAcquired = $pointsAcquired;
 
         return $this;
     }
 
     /**
-     * Get pointsAcquried
+     * Get pointsAcquired
      *
      * @return integer 
      */
-    public function getPointsAcquried()
+    public function getPointsAcquired()
     {
-        return $this->pointsAcquried;
+        return $this->pointsAcquired;
     }
 
     /**

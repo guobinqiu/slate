@@ -125,6 +125,7 @@ class GameEggsBreaker
 
 
     /**
+     *  审核第1轮的即时订单
      * @param GameEggsBreakerTaobaoOrder $order
      */
     public function auditOrderEntity(GameEggsBreakerTaobaoOrder $order) 
@@ -166,6 +167,7 @@ class GameEggsBreaker
 
     /**
      *  审核第2轮的即时订单
+     * @param GameEggsBreakerTaobaoOrder $order
      */
     public function auditImmdiateOrderEntity(GameEggsBreakerTaobaoOrder $order) 
     {
@@ -180,25 +182,32 @@ class GameEggsBreaker
             // fetch previous or create eggsInfo
             $eggsInfo = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
                 ->findOneOrCreateByUserId($order->getUserId());
-
             $token = $eggsInfo->getToken();
-
             if($order->isValid()) {
                 $total_paid = $order->getOrderPaid() + $eggsInfo->getTotalPaid();
-                $cost_per_egg = $this->config['immediate_egg_cost'] ;
-                $result_caculated = TaobaoOrderToEggs::caculateImmediateEggs( $order->getOrderPaid() + $cost_per_egg - $order->getOffcutForNext(), 
-                $cost_per_egg);
+                $cost_per_egg = $this->configs['immediate_egg_cost'];
+                $result_caculated = TaobaoOrderToEggs::caculateImmediateEggs($order->getOrderPaid(),$eggsInfo->getOffcutForNext(),$cost_per_egg );
+
                 $eggsInfo->updateNumOfEggs(array('paid'=>$total_paid,
-                    'common'=> $result_caculated['count_of_eggs'],
+                    'common'=> $eggsInfo->getNumOfCommon() + $result_caculated['count_of_eggs'],
                     'offcut'=> $cost_per_egg - $result_caculated['left']
                 ),
                 $token);
 
             } elseif( $order->isUncertain()) {
-
                 $eggsInfo->updateNumOfEggs(array('consolation'=> 1), $token);
+
             }
+
             $eggsInfo->refreshToken();
+
+            // 发送站内信。 
+            $uid =$order->getUserId();
+            $em->getRepository('JiliApiBundle:SendMessage0'. ($uid % 10))->insertSendMs( array(
+                  'userid' => $uid,
+                  'title' => '订单审核结果',
+                  'content' => '已经通过?!'
+            )); 
         }
 
         try {
@@ -295,25 +304,22 @@ class GameEggsBreaker
                 'userId'=> $user_id,
                 'token'=>$token,
             ));
+
         try {
             $em->getConnection()->beginTransaction();
 
             $egg_type  = $eggsInfo->getEggTypeByRandom();
             if($egg_type === GameEggsBreakerEggsInfo::EGG_TYPE_COMMON) {
-                $points = $this->fetchRandomPoints('common');
+                $points_fetched = $this->fetchRandomPoints('common');
             } elseif ($egg_type === GameEggsBreakerEggsInfo::EGG_TYPE_CONSOLATION) {
-                $points = $this->fetchRandomPoints('consolation');
+                $points_fetched = $this->fetchRandomPoints('consolation');
             } else {
                 return ;
             }
-            // insert  daily_log
-            $em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')
-                ->addLog(array(
-                    'userId'=> $user_id,
-                    'eggType'=> $egg_type,
-                    'points'=> $points
-                ));
-            if($points > 0 ) {
+            
+            if($points_fetched > 0 ) {
+                $points = $points_fetched;
+                $eggsInfo->reduceCountOfEgg($egg_type);
                 $ad_id = AdCategory::ID_GAME_EGGS_BREAKER; // 31
                 $adCategory = $em->getRepository('JiliApiBundle:AdCategory')
                     ->findOneById($ad_id); 
@@ -331,7 +337,6 @@ class GameEggsBreaker
                         'status' => 1
                     ));
 
-
                 // insert point_history
                 $em->getRepository('JiliApiBundle:PointHistory00')
                     ->get( array(
@@ -344,11 +349,32 @@ class GameEggsBreaker
                 $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
                 $oldPoint = $user->getPoints();
                 $user->setPoints(intval($oldPoint+$points));
+                $is_once_more = false;
+            } else {
+                $points = 0;
+                if($points_fetched === $this->configs['strategy_value_of_once_more'] ) {
+                    $egg_type = $eggsInfo->getEggTypeOfOnceMore($egg_type);
+                    $is_once_more = true;
+                }
             }
+
+            // insert  daily_log
+            $em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')
+                ->addLog(array(
+                    'eggType' => $egg_type,
+                    'points' =>  $points,
+                    'userId' => $user_id,
+                ));
+
             $em->flush();
             $em->getConnection()->commit();
             $em->clear();
-            return array('code'=> 0, 'data'=> array('points'=>$points));
+
+            if( $points_fetched >= 0) {
+                return array('code'=> 0, 'data'=> array('points'=>$points ));
+            }
+
+            return array('code'=> 0, 'data'=> array('points'=>$points, 'is_once_more'=>$is_once_more ));
         } catch(\Exception $e) {
             // internal error
             $logger->crit('[backend][breakEgg]'. $e->getMessage());

@@ -70,13 +70,20 @@ class TaobaoOrderToEggs
 
     /**
      * @param float $paid
+     * @param float $offcut  上次结算差多少够1个蛋
+     * @param float $cost_per_egg 1个蛋的价
      * @return  array array('left'=> 'count_of_eggs'=>) 返回left= 余额, count_of_eggs 个数. 
      */
-    static public function caculateImmediateEggs($paid = 0, $cost_per_egg) 
+    static public function caculateImmediateEggs($paid = 0, $offcut = 0,  $cost_per_egg) 
     {
+
         if(  $paid <= 0 || $cost_per_egg <= 0 ) {
             return array( 'left'=> 0, 'count_of_eggs'=> 0);
         } 
+
+        if( $offcut > 0 ) {
+            $paid  = $paid +  $cost_per_egg - $offcut;
+        }
 
         $count = floor( $paid / $cost_per_egg );
         $paid = $paid - $count * $cost_per_egg; 

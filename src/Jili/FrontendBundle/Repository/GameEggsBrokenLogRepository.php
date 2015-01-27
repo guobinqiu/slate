@@ -15,7 +15,7 @@ class GameEggsBrokenLogRepository extends EntityRepository
         $entity = new GameEggsBrokenLog();
         $entity->setUserId($params['userId']) 
             ->setEggType($params['eggType'])
-            ->setPointsAcquried($params['points']);
+            ->setPointsAcquired($params['points']);
 
         $em = $this->getEntityManager();
         $em->persist($entity);
@@ -30,7 +30,7 @@ class GameEggsBrokenLogRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('l');
         $q = $qb->select($qb->expr()->max('l.createdAt') )
-            ->where('l.pointsAcquried > 0')
+            ->where('l.pointsAcquired > 0')
             ->getQuery();
         return $q->getSingleScalarResult();
     }
@@ -42,11 +42,11 @@ class GameEggsBrokenLogRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $conn = $em->getConnection();
-        $sql = 'select a.user_id as userId, a.points_acquried as pointsAcquried, a.created_at as createdAt
+        $sql = 'select a.user_id as userId, a.points_acquired as pointsAcquired, a.created_at as createdAt
             from game_eggs_broken_log a 
             inner join  
             ( select c.user_id , max(c.created_at) as last_at  from game_eggs_broken_log  c 
-            where c.points_acquried > 0 
+            where c.points_acquired > 0 
             group by c.user_id order by last_at  desc limit :limit offset 0   ) b 
             on ( b.user_id = a.user_id and b.last_at = a.created_at)
             order by a.created_at desc';
@@ -85,7 +85,7 @@ class GameEggsBrokenLogRepository extends EntityRepository
         foreach( $logs as $user_id => $log) {
             $results [] = array(
                 'nick'=> isset($nicks[$user_id]) ? $nicks[$user_id]: '',
-                'pointsAcquried'=> isset($log['pointsAcquried']) ? $log['pointsAcquried']: 0,
+                'pointsAcquired'=> isset($log['pointsAcquired']) ? $log['pointsAcquired']: 0,
                 'at'=> $log['createdAt']
             ) ;
         }

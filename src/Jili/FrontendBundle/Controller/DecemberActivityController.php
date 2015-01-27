@@ -179,9 +179,10 @@ class DecemberActivityController extends Controller
         $startAt = new \Datetime('2015-01-20 00:00:00');
         $endAt = new \Datetime('2015-01-31 00:00:00');
         $now = new \Datetime();
-        if(  $now <= $startAt  || $endAt <= $now )  {
-            return $response;
-        }
+
+        //if(  $now <= $startAt  || $endAt <= $now )  {
+        //    return $response;
+        //}
 
         $result = $this->get('december_activity.game_eggs_breaker')
             ->breakEgg(array(

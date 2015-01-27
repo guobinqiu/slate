@@ -211,7 +211,7 @@ class LoadAuditOrderData extends AbstractFixture implements  FixtureInterface
         
         $entity = new GameEggsBreakerEggsInfo();
         $entity->setUserId($user->getId() )
-            ->setOffcutForNext(49.03)
+            ->setOffcutForNext(9.03)
             ->setTotalPaid(149.99)
             ->setNumOfCommon(4)
             ->setNumOfConsolation(3)
