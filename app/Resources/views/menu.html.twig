@@ -125,7 +125,7 @@ $(document).ready(function(){
                 <li {{ router_current == 'jili_frontend_taobao_index' ? 'class="active"':'' }}><a href="{{ path('jili_frontend_taobao_index') }}" title="淘宝购物" class="navTB">淘宝购物<span class="iconTB"></span></a></li>
             </ul>
             <a href="{{ path('jili_frontend_decemberactivity_index', {'l': 7}) }}" class="decActivityGif"></a>
-            {% if app.request.attributes.get('_route') == '_homepage' %}
+            {% if app.request.attributes.get('_route') == '_homepage' and app.session.has('uid') %}
             <span class="eggTag"></span>
             {% endif %}
             <div class="dailyQuest">
