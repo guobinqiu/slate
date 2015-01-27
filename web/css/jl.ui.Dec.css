@@ -112,6 +112,8 @@ a{ color: #fff;}
 .endBreak .conclusion{ position: absolute; z-index: 10000; top: 150px; left: 300px; width: 270px; padding: 50px 10px 50px 145px; color: #492109; font-size: 16px; font-weight: bold; line-height: 30px;  background: #fff url(../images/december/endBreak.jpg) no-repeat; border: 3px solid #d6d6d6;}
 .endBreak .close{ position: absolute; z-index: 10000; top: 10px; right: 0; width: 27px; height: 27px; background: url(../images/taobao/close.png) no-repeat; cursor: pointer;}
 /*by wlt, 2015-1-26*/
+.decMain{ padding-top: 20px;}
+.decRule{ padding: 30px 30px 60px;}
 .decTopCon .logo{ top: 13px;}
 .decTop{ height: 135px; background: #cc122a url(../images/december/topBgFold.jpg) no-repeat center; border-bottom: 5px solid #c78500;}
 .decTopCon .timestamp{ top: 0; left: 50%; margin-left: -285px; display: block;}
@@ -125,7 +127,7 @@ a{ color: #fff;}
 .eggTips, .submitTips{ top: 60px;}
 .decTopCon .login a.logout{ text-decoration: none; margin-left: 0;}
 .decListMain h2{ position: relative; z-index: 1;}
-.decListMain h2 a{ position: absolute; z-index: 1000; font-size: 16px; font-family: "宋体"; right: 20px; top: 0;}
+.decListMain h2 a{ position: absolute; z-index: 1000; font-size: 14px; right: 20px; top: 0;}
 .decRuleCon li>p{ font-weight: bold;}
 .decRuleCon>li>div{ margin-top: 15px; background-color: #0b0b0b; font-size: 15px; padding: 10px 20px; border-radius: 10px;}
 .shoppingForm{ padding: 0;}
@@ -133,3 +135,4 @@ a{ color: #fff;}
 .decRuleCon strong{ color: #e89d07;}
 .decRuleCon .submitBtn{ margin-top: 10px;}
 .luckyDrawL .hammer{ left: 85px;}
+.decListMain{ margin-top: 20px;}
