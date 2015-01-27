@@ -17,15 +17,13 @@
 <body>
 <div class="decTop">
     <div class="decTopCon">
-        <div class="decTopConBg"><img src="{{ asset('images/december/topConBg.jpg')}}" width="990" height="415" border="0"/></div>
         <div class="logo"><a href="{{ path('_homepage') }}"><img src="{{ asset('images/december/logo.png')}}" width="154" height="42" alt="logo"/></a></div>
         {% if app.session.has('uid') %}
-        	<div class="login">您好，{{ app.session.get('nick') }}</div>
+        	<div class="login">{{ app.session.get('nick') }}，[<a href="{{ path('_user_logout') }}" class="logout">退出</a>]</div>
         {% else %}
             <div class="login">您好，请<a href="{{ path('_user_login')}}">登录</a></div>
         {% endif %}
-        <span class="timestamp"><img src="{{ asset('images/december/foldTxt01.png')}}" width="430" height="118"/></span>
-        <span class="goBtn"><img src="{{ asset('images/december/goBtn.png')}}" width="169" height="67" alt="抢金蛋"/></span>
+        <span class="timestamp"><img src="{{ asset('images/december/banner.jpg')}}" width="619" height="135"/></span>
     </div>
 </div>
 <div class="decMain">
@@ -33,7 +31,7 @@
         <div class="luckyDraw luckyDrawActive clearfix">
             {% if app.session.has('uid') %}
             <div class="luckyDrawL">
-                <div class="noStart"><img src="{{ asset('images/december/noeggbreak.gif')}}" width="462" height="175" alt="您还没有金蛋哦"></div>
+                <div class="noStart"><img src="{{ asset('images/december/noegg.gif')}}" width="466" height="158" alt="您还没有金蛋哦"></div>
                 <div class="mask">
                 	<div class="hammer"></div>
                     <ul class="goldenEggs clearfix">
@@ -42,14 +40,14 @@
             </div> 
             {% else %}
             <div class="luckyDrawL">
-                <div class="noLogin"><img src="{{ asset('images/december/noeggbreak.gif')}}" width="462" height="175" alt="您还没有金蛋哦"></div>
+                <div class="noLogin"><img src="{{ asset('images/december/noegg.gif')}}" width="466" height="158" alt="您还没有金蛋哦"></div>
             </div>
             {% endif %}
             <div class="luckyDrawR">
             	{% if app.session.has('uid') %}
-            	<p>您当前的金蛋：<strong class="eggNum"></strong>个，赶紧来砸蛋吧！</p>
+            	<p>您的金蛋：<strong class="eggNum"></strong>个，抢下一个金蛋还差：<strong class="eggMoney"></strong>元</p>
                 {% else %}
-                <p>您当前的金蛋：<strong class="eggNum">0</strong>个，赶紧来砸蛋吧！</p>
+                <p>您的金蛋：<strong class="eggNum">0</strong>个，抢下一个金蛋还差：<strong class="eggMoney">10</strong>元</p>
                 {% endif %}
                 <div class="winnerList">
                     <div class="mask">
@@ -62,7 +60,7 @@
             {% set index_product = 0 %}
             {% for i, row in categorys %}
             <div class="decListMain">
-                <h2 class="sort{{ "%02d"|format(i+1) }}">{{ row.categoryName }}</h2>
+                <h2 class="sort{{ "%02d"|format(i+1) }}">{{ row.categoryName }}<a href="{{ path('jili_frontend_taobao_index') }}">更多>></a></h2>
                 <ul class="clearfix">
                     {% for j,product in products[index_product:] if product.taobaoCategory.id  == row.id %}
                     <li><a href="{{ product.clickUrl }}"  target="_blank"><img src="{{ asset(tb_self_promot_pic_path ~ product.pictureName )  }}" alt="产品图片" width="230" height="182" /></a><div class="proIntro"><span class="proDetail"><p><a href="{{ product.clickUrl }}" class="txtLink" target="_blank">{{ product.title }} </a></p><b>￥</b><strong>{{ "%.02f"|format(product.pricePromotion) }}</strong><span>原价：￥{{"%.02f"|format(product.price) }}</span></span><a href="{{ product.clickUrl }}" target="_blank"><span class="bugBtn">点击购买</span></a></span></div></li>
@@ -86,37 +84,25 @@
 </div>
 <div class="decRule">
 	<div class="decRuleBtn">如何抢到金蛋<br/>>></div>
-	<div class="decRuleFlow boderBot">
-        <h2><em>●</em>抢金蛋流程</h2>
-        <div class="decRuleCon">
-            <p>第<span>1</span>步，当前<a href="javascript: void(0)" target="_blank">活动页面</a>购物或者到<a href="{{ path('jili_frontend_taobao_index') }}">淘宝专页</a>购物满<strong>10</strong>元</p>
-            <p>
-            	第<span>2</span>步，填写如下表单
+	<div class="decRuleFlow">
+        <h2><em>●</em>活动流程</h2>
+        <ul class="decRuleCon">
+            <li>
+            	<p>第<span>1</span>步，抢金蛋</p>
+                <div>
+                	<p>在<a href="javascript: void(0)" target="_blank">当前页面</a>购物或者到<a href="{{ path('jili_frontend_taobao_index') }}">淘宝专页</a>购物</p>
+					<p>购物满10元可得1个金蛋，满50元可得3个金蛋，满150元可得5个金蛋。之后每增加50元就可多得1个金蛋。</p>
+                </div>
+            </li>
+            <li>
+            	<p>第<span>2</span>步，填写如下表单</p>
                 <div class="formWrapper">{% render(controller("JiliFrontendBundle:DecemberActivity:addTaobaoOrder") ) %}</div>
-            </p>
-        </div>
-    </div>
-    <div class="decRuleMain boderBot">
-        <h2><em>●</em>抢金蛋<em class="decTime"></em></h2>
-        <ul>
-        	<li>> 购物活动期间，通过积粒网去淘宝购物累计满10元能获得1次抽奖机会，满50元能获得3次抽奖机会，满150元能获得5次抽奖机会。之后每增加50元就有机会多获得1次抽奖机会。</li>
-            <li>> 用户完成购物后，需通过以上表单提交该次交易的淘宝订单号及相关信息方便客服确认交易的有效性（注：因淘宝订单确认时间较长，<em class="corRed">客服审核周期为10天左右</em>，请耐心等待）</li>
-            <li>> 不提交订单号的场合将视为用户自动放弃该笔交易</li>
+            </li>
+            <li>
+            	<p>第<span>3</span>步，砸金蛋</p>
+               	<div>一等奖<strong>8888</strong>米粒，二等奖<strong>888</strong>米粒，三等奖<strong>88</strong>米粒，还有更多奖励名额等你拿！</div>
+            </li>
         </ul>
-    </div>
-    <div class="decAwardMain">
-        <h2><em>●</em>砸金蛋<em class="decTime"></em></h2>
-        	<table class="awardDetail" width="350" cellpadding="0" cellspacing="0">
-            	<tbody>
-                	<tr><td class="dist">级别</td><td class="dist">奖金数（米粒）</td><td class="dist">奖励名额</td></tr>
-                    <tr><td>一等奖</td><td>8888</td><td>20</td></tr>
-                    <tr><td class="dist">二等奖</td><td class="dist">888</td><td class="dist">200</td></tr>
-                    <tr><td>三等奖</td><td>88</td><td>1000</td></tr>
-                    <tr><td class="dist">四等奖</td><td class="dist">8</td><td class="dist">10000</td></tr>
-                    <tr><td>安慰奖</td><td>1</td><td>10000</td></tr>
-                </tbody>
-            </table>
-            <p>注：最终奖励名额可根据实际情况进行调整。<br/>积粒网保留在法律规定的范围内对上述规则进行解释的权利。</p>
     </div>
 </div>
 {% if  date() > date("2016-1-22 00:00:00")  %}

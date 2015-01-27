@@ -150,6 +150,21 @@
 		}, function(){
 			ruleDetail.hide();
 		});
+		$.ajax({
+			 url: Routing.generate('jili_frontend_decemberactivity_geteggsinfo'),
+			 type: 'post',
+			 dataType: 'json',
+			 success: function(eggData){
+				 if($.isEmptyObject(eggData)|| undefined === eggData.data || parseInt(eggData.data.numOfEggs + eggData.data.numOfConsolationEggs) <= 0) {//判断结果或金蛋个数是否为空
+					 return false;
+				 }else{
+					 $('.eggTag').html('+' + (eggData.data.numOfEggs + eggData.data.numOfConsolationEggs));
+				 }
+			 },
+			 error: function(){
+				console.log('第一次请求失败……');
+			 }
+		 });
     });
 })(jQuery);
 
