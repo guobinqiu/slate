@@ -329,6 +329,15 @@ div.loginArea{
 	vertical-align: -3px;
 	*+vertical-align: -2px;
 }
+.loginArea .weiboIcon{
+	width:18px; 
+	height:16px;
+	background:url(../images1408/icons.png) no-repeat 0 -422px;
+	display: inline-block;
+	vertical-align: -2px;
+	*+vertical-align: -2px;
+        *margin-left:5px;
+}
 a.register{
 	width: 240px;
 	height: 55px;
