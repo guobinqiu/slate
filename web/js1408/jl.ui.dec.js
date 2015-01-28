@@ -310,9 +310,7 @@ $(function(){
             }else{
                 $(this.options.container).on('click', function(){
                     var eggTips = $('.eggTips');
-					if(eggTips.length>=1){
-						eggTips.remove();
-					}
+					if(eggTips.length>=1){ eggTips.remove();}
 					var $div = $('<div></div>')
 					$div.addClass('eggTips').html('还不可以砸蛋哦！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
 						$(this).fadeOut(3E3);
@@ -327,6 +325,10 @@ $(function(){
 			var eggPos = $(opts.container).find('li'),hammer = $('.luckyDraw .hammer');
             var leftW = hammer.css('left').substr(0, hammer.css('left').indexOf('px'));
             $this.debug('进入砸蛋程序');
+			eggPos.on('mouseover', function(){
+                var index = eggPos.index(this);
+                hammer.css({'top': Math.floor(index/4)*148 + 'px', 'left': ((Math.floor(index%4))*(110+28)+85) + 'px'});
+            });
 			eggPos.on('mousedown', function(){
 				hammer.addClass('hammerActive');
 			});
@@ -336,18 +338,7 @@ $(function(){
 					$(this).find('img').removeClass('active');
 					var index = eggPos.index(this);
 					$this.debug('开始执行砸蛋');
-					/*if($(this).hasClass('comfort')){
-						eggType = 1;
-						initData.data.numOfConsolationEggs = initData.data.numOfConsolationEggs -1;
-					}else{
-						initData.data.numOfEggs = initData.data.numOfEggs -1;
-					}*/
 					$this.getResult(initData, eggType);
-                    /*setTimeout(function(){
-                        $($this.options.container).find('li').eq(index).remove();
-						eggPos = $(opts.container).find('li');
-                        $this.hasEgg(initData);
-                    }, 3E3);*/
 				}else{
 					$(this).find('div>img').addClass('active').attr('src', '/images/december/crack_egg.gif');
 					var eggTips = $('.eggTips');
@@ -360,10 +351,6 @@ $(function(){
 					});
 				}
 			});
-            eggPos.on('mouseover', function(){
-                var index = eggPos.index(this);
-                hammer.css({'top': Math.floor(index/4)*148 + 'px', 'left': ((Math.floor(index%4))*(110+28)+parseInt(leftW)) + 'px'});
-            });
         },
         getResult: function(initData, eggType){
             var $this = this;
@@ -421,11 +408,11 @@ $(function(){
 					}, 1500);
 				}
 			}
-			$this.beginAjax();
 			$('.eggResult .close').on('click', function(){
 				$('.fixMask').remove();
 				$('.eggResult').remove();
-			});			 
+			});		
+			$this.beginAjax();	 
         }
     }
     $.eggFrenzy = function(options, element){
