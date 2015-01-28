@@ -577,7 +577,7 @@ div.notice{
 .activityAd .btns .goBtn{ width: 227px; height: 82px; background: url(../images/january/gobtn.png) no-repeat;}
 .decActivityGif{ position: absolute; z-index: 1; right: 0; bottom: 5px; width: 99px; height: 41px; background: url(../images/december/floating.gif) no-repeat;}
 /*by wlt, 2015-1-26*/
-.eggTag{ position: absolute; z-index: 100; color: #fff; letter-spacing: -1px; text-align:center; right: -30px; bottom: 12px; width: 25px; height: 21px; background: url(../images/december/eggTag.png) no-repeat;}
+.eggTag{ position: absolute; z-index: 100; color: #fff; letter-spacing: -1px; text-align:center; right: -30px; bottom: 12px; width: 25px; height: 21px; background: url(../images/december/eggTag.png) no-repeat; display: none;}
 
 
 
