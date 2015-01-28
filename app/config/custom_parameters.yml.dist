@@ -295,12 +295,15 @@ parameters:
         consolation:
             points_strategy: "%cache_data_path%/game_eggs_breaker/consolation/points_strategy_conf.json"
             points_pool: "%cache_data_path%/game_eggs_breaker/consolation/points_pool_YYYYmmdd.json"
-    # 即开砸普通蛋奖米粒
-    game_immediate_egg_breaker:
-        common_award: 10  
+        # 兑换即开金蛋需要订单10.00
+        immediate_egg_cost: 10
+        # 再来1次的金蛋 策略取值
+        strategy_value_of_once_more: -1
+
     webpower_email_username: 'admin'
     webpower_email_password: 'nUshkwu#9'
-
+    webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
+    
     cron_alertTo_contacts: jinzhang@voyagegroup.com.cn,zhangmm@voyagegroup.com.cn,tao_jiang@voyagegroup.com,xiaoyi_chai@voyagegroup.com,xujf@voyagegroup.com.cn
     alert_subject: '积粒网-定时任务提醒邮件'
 
@@ -308,6 +311,10 @@ parameters:
     taobao_self_promotion_picture_uri_path: images/taobao_products_picture/
     taobao_self_promotion_picture_dir: %kernel.root_dir%/../web/%taobao_self_promotion_picture_uri_path%
 
-    # 201501活动中，保存taobao订单数量
+    taobao_appid: 23058537
+    taobao_appsecret: e6ccc0b02a0c2180d3af84f20a7cb535
+    taobao_login_callback_url: http://www.91jili.com/TaoBaoLogin/taobaocallback
+
+# 201501活动中，保存taobao订单数量
     activity_gathering:
         taobao_order_total_src:  "%cache_data_path%/activity_gathering_taobao_order_total.json"

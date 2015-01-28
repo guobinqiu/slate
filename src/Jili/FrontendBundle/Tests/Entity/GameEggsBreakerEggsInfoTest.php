@@ -94,11 +94,14 @@ class GameEggsBreakerEggsInfoTest extends KernelTestCase
         $entity->setNumOfCommon(1);
         $entity->setNumOfConsolation(1);
         $actual = array();
-        $actual []  = $entity->getEggTypeByRandom();
-        $actual []  = $entity->getEggTypeByRandom();
+        $actual [] = $entity->getEggTypeByRandom();
+        $entity->reduceCountOfEgg($actual[0]);
 
-        $this->assertEquals(1, $entity->getNumOfCommon());
-        $this->assertEquals(1, $entity->getNumOfConsolation());
+        $actual []  = $entity->getEggTypeByRandom();
+        $entity->reduceCountOfEgg($actual[1]);
+
+        $this->assertEquals(0, $entity->getNumOfCommon());
+        $this->assertEquals(0, $entity->getNumOfConsolation());
 
         $this->assertCount(2, $actual);
         $this->assertContains(1, $actual);
