@@ -121,7 +121,7 @@ a{ color: #fff;}
 .luckyDrawL{ margin-right: 25px; width: 570px;}
 .luckyDrawActive .luckyDrawR p{ width: 325px; padding-left: 20px; height: 45px; line-height: 45px; margin-top: 4px;}
 .luckyDrawActive .winnerList{ padding: 15px 20px;}
-.luckyDrawL .mask{ padding-left: 0; margin-top: 5px; height: 145px;}
+.luckyDrawL .mask{ padding-left: 0; margin-top: 5px; height: 148px;}
 .luckyDrawL li{ position: relative; z-index: 1; margin-bottom: 10px;}
 .luckyDrawL li strong{position: absolute; z-index: 1000; top: 47px; left: 16px;}
 .eggTips, .submitTips{ top: 60px;}
