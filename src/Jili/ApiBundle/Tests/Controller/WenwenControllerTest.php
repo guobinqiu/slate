@@ -59,6 +59,7 @@ class WenwenControllerTest extends WebTestCase {
      * @group user
      * @group wenwenuser
      * @group signup
+     * @group issue_646
      */
     public function test91wenwenRegister() {
         $client = static :: createClient();
@@ -72,6 +73,7 @@ class WenwenControllerTest extends WebTestCase {
      * @group user
      * @group wenwenuser
      * @group signup
+     * @group issue_646
      */
     public function test91wenwenRegister1() {
         $client = static :: createClient();
@@ -90,6 +92,7 @@ class WenwenControllerTest extends WebTestCase {
      * @group user
      * @group wenwenuser
      * @group signup
+     * @group issue_646
      */
     public function test91wenwenRegister2() {
         $client = static :: createClient();
@@ -109,6 +112,7 @@ class WenwenControllerTest extends WebTestCase {
      * @group user
      * @group wenwenuser
      * @group signup
+     * @group issue_646
      */
     public function test91wenwenRegister3() {
         $client = static :: createClient();
@@ -126,6 +130,7 @@ class WenwenControllerTest extends WebTestCase {
      * @group user
      * @group wenwenuser
      * @group signup
+     * @group issue_646
      */
     public function test91wenwenRegister4() {
         $client = static :: createClient();
@@ -143,6 +148,7 @@ class WenwenControllerTest extends WebTestCase {
      * @group user
      * @group wenwenuser
      * @group signup
+     * @group issue_646
      */
     public function test91wenwenRegister5() {
         $em = $this->em;
@@ -154,13 +160,37 @@ class WenwenControllerTest extends WebTestCase {
         $email = $user->getEmail();
         $crawler = $client->request('POST', $url, array (
             'email' => $email,
+            'signature' => '8dda1ce847bba441f34f8770d662fbf22abab3bc',
+            'uniqkey' => 'test'
+        ));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
+
+        $expected['status'] = "2";
+        $expected['message'] = "already exist";
+
+        $content = $client->getResponse()->getContent();
+
+        $this->assertEquals(json_encode($expected), $content);
+    }
+
+    /**
+     * @group issue_646
+     */
+    public function test91wenwenRegister6() {
+        $em = $this->em;
+        $client = static :: createClient();
+        $container = static :: $kernel->getContainer();
+
+        $url = '/api/91wenwen/register';
+        $email = 'zhangmm@voyagegroup.com.cn';
+        $crawler = $client->request('POST', $url, array (
+            'email' => $email,
             'signature' => '88ed4ef124e926ea1df1ea6cdddf8377771327ab',
             'uniqkey' => 'test'
         ));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
 
-        //$user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);;
-        // $user->getId();
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);;
         $record = $em->getRepository('JiliApiBundle:SetPasswordCode')->findBy(array (
             'userId' => $user->getId()
         ));
