@@ -302,8 +302,6 @@ class GameEggsBreaker
      */
     public function breakEgg( $params)
     {
-
-        $logger = $this->logger;
         // verify the  token 
         if( ! isset($params['token']) || strlen( $params['token']) !== GameEggsBreakerEggsInfo::TOKEN_LENGTH ) {
             return array('code'=> 1); // invalid token 
@@ -331,7 +329,6 @@ class GameEggsBreaker
                 return ;
             }
             
-        $logger->debug('{jarod}$points_fetched:'. var_export($points_fetched, true));
             if($points_fetched > 0 ) {
                 $points = $points_fetched;
 

@@ -132,7 +132,6 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
             $form->bind($request);
             if($form->isValid()) {
                 $data = $form->getData();
-                $logger->debug('{jarod}'.implode(':', array(__LINE__, __FILE__,'$data:')).var_export($data, true));
                 $this->get('december_activity.game_eggs_breaker')
                     ->auditImmdiateOrderEntity($data);
 
