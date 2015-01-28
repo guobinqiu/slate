@@ -195,16 +195,11 @@ var isNewMs = function(uid) {
 		}),
 		type: "POST",
 		success: function(data) {
-			var sid = 1
-			if (data) {
-				sid = 2;
-			}
-			var msg_url = Routing.generate("_user_message", {
-				"sid": sid
-			});
-			$('.newms').attr('href', msg_url);
-			$('.myMes').attr('href', msg_url);
-			$('.message').attr('href', msg_url);
+            if ( data > 0) {
+                $('.message').attr('href', Routing.generate("_user_message", {
+                    "sid":  data
+                }));
+            }  
 		}
 	});
 }

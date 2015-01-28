@@ -69,12 +69,12 @@ $(document).ready(function(){
     <div class="topNavs w1000">
     {% if app.session.has('uid') %}
       <ul id="userbar">
+<li><a class="message">新消息
 {% set count_new_msgs =  render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}
 {% if  count_new_msgs|length > 0 %}
-        <li><a class="message">新消息(<span class="corLightRed">+{{ render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) }}</span>)</a></li>
-{% else %}
-        <li><a class="message">新消息</a></li>
+    (<span class="corLightRed">+{{ count_new_msgs }}</span>)
 {% endif %}
+</a></li>
         <li class="division">|</li>
         <li><a class="personal">个人中心</a></li>
         <div id="userFrame">
