@@ -25,6 +25,7 @@ services:
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
             - [ setLogger, [ @logger ] ] 
+            - [ setRouter, [ @router ] ] 
 
     month_activity.gathering:
         class: %month_activity.gathering.class%
