@@ -726,8 +726,9 @@ class UserController extends Controller
             return new Response($count);
         }
 
-        if($this->notReadCb() > 0) { 
-            return new Response($this->container->getParameter('init_two'));
+        $count = $this->notReadCb(); 
+        if( $count > 0) { 
+            return new Response($count);
         }
         return new Response('');
     }
