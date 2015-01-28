@@ -220,7 +220,7 @@ class GameEggsBreaker
             $em->getRepository('JiliApiBundle:SendMessage0'. ($uid % 10))->insertSendMs( array(
                   'userid' => $uid,
                   'title' => '订单审核结果',
-                  'content' => '已经通过?!'
+                  'content' => '您提交的订单已审核成功，<a href="'.$this->router->generate('jili_api_monthactivity_gatheringindex').'">查看金蛋</a>'
             )); 
         }
 
@@ -408,4 +408,9 @@ class GameEggsBreaker
         return $this;
     }
 
+    public function setRouter($router)
+    {
+        $this->router = $router;
+        return $this;
+    }
 }
