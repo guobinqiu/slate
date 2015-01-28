@@ -74,14 +74,13 @@ class DecemberActivityController extends Controller
                 $session->set('goToUrl', $this->get('router')->generate('jili_frontend_decemberactivity_index'));
                 return $this->redirect($this->generateUrl('_login') );
             }
-
             $form->bind($request);
             if( $form->isValid()){
                 $data= $form->getData();
-
+                $order_id  = str_replace(' ' ,'', $data['orderId']);
                 $entity = new GameEggsBreakerTaobaoOrder();
                 $entity->setUserId($session->get('uid'))
-                    ->setOrderId($data['orderId'])
+                    ->setOrderId($order_id)
                     ->setOrderAt($data['orderAt']);
                 $validator = $this->get('validator');
                 $errors = $validator->validate($entity);
@@ -96,7 +95,7 @@ class DecemberActivityController extends Controller
                     $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
                         ->insertUserPost( array('userId'=>$session->get('uid'),
                             'orderAt'=> new \Datetime($data['orderAt']), 
-                            'orderId'=>$data['orderId'], 
+                            'orderId'=>$order_id, 
                         ));
                     $this->get('session')->setFlash('notice','提交成功，等待审核');
                 }
