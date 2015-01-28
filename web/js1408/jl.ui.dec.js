@@ -374,7 +374,6 @@ $(function(){
 				 data: "token=" + initData.data.token + "&eggType=" + eggType,
 				 success: function(resultData){
 					$this.debug('砸蛋结果……', resultData);
-					resultData = {code: 1, data: { points: -1}};
 					if($.isEmptyObject(resultData)||undefined === resultData.data){
 						$this.debug('砸蛋结果为空');
 						var $div = $('<div></div>')
