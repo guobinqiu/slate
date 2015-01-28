@@ -11,12 +11,12 @@ class WeiBoUserRepository extends EntityRepository
     */
     public function weibo_user_insert(array $param)
     {
-    $weibo_user = new WeiBoUser;
-    $weibo_user->setUserId($param['user_id']);
-    $weibo_user->setOpenId($param['open_id']);
-    $em = $this->getEntityManager();
-    $em->persist($weibo_user);
-    $em->flush();
-    return $weibo_user;
+        $weibo_user = new WeiBoUser;
+        $weibo_user->setUserId($param['user_id']);
+        $weibo_user->setOpenId($param['open_id']);
+        $em = $this->getEntityManager();
+        $em->persist($weibo_user);
+        $em->flush();
+        return $weibo_user;
     }
 }

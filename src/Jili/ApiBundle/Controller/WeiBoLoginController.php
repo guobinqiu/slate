@@ -22,15 +22,13 @@ class WeiBoLoginController extends Controller
     public function callBackAction()
     { 
         $request = $this->get('request');
-        //$code = $request->query->get('code');
-        //$code = '7fb65a368f31f2d2737bd0346d75591f';
         $weibo_token = $request->getSession()->get('weibo_token');
         $weibo_uid = $request->getSession()->get('weibo_open_id');
         echo $weibo_token."+++".$weibo_uid;
         //没有token，用code取
         if(empty($weibo_token) || empty($weibo_uid)){
             $code = $request->query->get('code');
-            //$code = 'b57cd2153ca7e557cdb18ff37ec87291';
+            //$code = 'b57cd2153ca7e557cdb18ff37ec87291'; test用
             if(isset($code) && trim($code)!=''){
                 $weibo_auth = $this->get('user_weibo_login')->getWeiBoAuth($this->container->getParameter('weibo_appid'), $this->container->getParameter('weibo_appkey'),'');
                 $result=$weibo_auth->access_token($this->container->getParameter('callback_url'), $code);
@@ -40,9 +38,6 @@ class WeiBoLoginController extends Controller
                 }
             }
         }
-        
-        //$result['access_token'] = "2.0081rntD0yY7uke2c44d506dsR11ZC";
-        //$result['uid'] = '3572980047';
         if(isset($weibo_token) && $weibo_token!='' && $weibo_uid){
             //授权完成，保存token信息，使用session保存
             $request->getSession()->set('weibo_token', $weibo_token);
@@ -50,8 +45,6 @@ class WeiBoLoginController extends Controller
             //得到用户基本信息
             $weibo_auth = $this->get('user_weibo_login')->getWeiBoAuth($this->container->getParameter('weibo_appid'), $this->container->getParameter('weibo_appkey'),$weibo_token);
             $weibo_response_user = $weibo_auth->get_user_info($weibo_uid);
-            //var_dump($weibo_response_user);
-            //$weibo_oid = $weibo_response_user['openid'];
             $em = $this->getDoctrine()->getManager();
             $weibouser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneByOpenId($weibo_uid);
             //判断是否已经注册过
@@ -63,7 +56,7 @@ class WeiBoLoginController extends Controller
             } else {
                 //无此用户，说明没有用weibo注册过，转去first_login页面
                 $request->getSession()->set('weibo_name',$weibo_response_user['name']);
-                //跳转到 weibologin action
+                //跳转到 weibofirstlogin action
                 return $this->redirect($this->generateUrl('weibo_first_login'));
             }
         }else{
@@ -106,8 +99,6 @@ class WeiBoLoginController extends Controller
         $request->request->set('email',$param['email']);
         $param['nick'] = $request->request->get('weibonickname'); 
         $param['pwd'] = $request->request->get('pwd');
-        //var_dump($param['pwd']);
-        //exit;
         $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
         if($check_user){
             $code = '此账号已存在，请点击下方’已有积粒网账号‘按钮进行绑定!';

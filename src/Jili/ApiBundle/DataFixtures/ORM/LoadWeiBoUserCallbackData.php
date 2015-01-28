@@ -58,7 +58,7 @@ class LoadWeiBoUserCallbackData extends AbstractFixture implements ContainerAwar
         $manager->flush();
         self :: $WeiBoUSERS[] = $weiboUser;
 
-        // qq_user  without jili_user
+        // weibo_user  without jili_user
         $weiboUser  = new WeiBoUser();
         $weiboUser->setUserId(99);
         $weiboUser->setOpenId('973E697D97F60289B8B455A1C65CC5E1');

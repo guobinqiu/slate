@@ -48,24 +48,7 @@ class WeiBoAuth
 		return $this->api('2/users/show.json', $params);
 	}
 
-	//发布分享
-	public function add_share($openid, $title, $url, $site, $fromurl, $images='', $summary=''){
-		$params=array(
-			'openid'=>$openid,
-			'title'=>$title,
-			'url'=>$url,
-			'site'=>$site,
-			'fromurl'=>$fromurl,
-			'images'=>$images,
-			'summary'=>$summary
-		);
-		return $this->api('share/add_share', $params, 'POST');
-	}
-
 	//调用接口
-	/**
-	//示例：根据openid获取用户信息
-	**/
 	public function api($url, $params=array(), $method='GET'){
 		$url=$this->api_url.$url;
 		$params['access_token']=$this->access_token;
