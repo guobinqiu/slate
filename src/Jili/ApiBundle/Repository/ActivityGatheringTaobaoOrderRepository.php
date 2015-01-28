@@ -31,11 +31,23 @@ class ActivityGatheringTaobaoOrderRepository extends EntityRepository
      */
     public function isChecked($params)
     {
+        $created_end  = new \DateTime();
+        $created_end->add(new \DateInterval('P1M'));
+
         $em = $this->getEntityManager();
-        $entity =  $this->findOneBy(array(
-            'user'=> $em->getReference('Jili\\ApiBundle\\Entity\\User', $params['userId']),
-        ));
-        return ( is_null($entity)) ? false: true;
+        $qb = $em->createQueryBuilder('o');
+
+        $qb->select($qb->expr()->count('o.id'));
+//        $qb->where( $qb->expr()->eq('o.user', $em->getReference('Jili\\ApiBundle\\Entity\\User', $params['userId']) ))  ;
+        $qb->Where( $qb->expr()->eq('o.user', $em->getReference('Jili\\ApiBundle\\Entity\\User', $params['userId']) )  ;
+        $qb->andWhere( $qb->expr()->lt('o.createdAt', ':endAt')  );
+        $qb->andWhere( $qb->expr()->gte( 'o.createdAt' , ':startAt')  );
+        $qb->setParameter('startAt',date('Y-m-1 00:00:00')  ) ;
+        $qb->setParameter('endAt',$created_end->format('Y-m-1 00:00:00')  ) ;
+
+        $result = $qb->getQuery()->getSingleResult();
+
+        return ( empty($result)) ? false: true;
     }
 
 }
