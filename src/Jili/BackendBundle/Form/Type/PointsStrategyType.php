@@ -19,6 +19,10 @@ class PointsStrategyType extends AbstractType
                     new NotBlank(),
                     new GameSeekerRules()
                 )
+            ))
+            ->add('whether_clean_current','checkbox', array(
+                'label'=> '是否清除当前奖池',
+                'required'  => false,
             ));
     }
 

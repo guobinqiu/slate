@@ -163,15 +163,25 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
      */
     public function consolationPointsPoolAction() 
     {
+        $logger = $this->get('logger');
        $request = $this->get('request'); 
        $form = $this->createForm( new PointsStrategyType());
        if('POST'=== $request->getMethod()){
            $form->bind($request);
            if($form->isValid()) {
                $data = $form->getData();
+
+               $logger->debug('{jarod}'. var_export($data, true));
+
                try {
                    $this->get('december_activity.game_eggs_breaker')->publishPointsStrategy( $data['rules'], 'consolation');
                    $this->get('session')->setFlash('notice','发布成功');
+
+                   if(true === $data['whether_clean_current']) {
+                       $this->get('december_activity.game_eggs_breaker')->cleanPointsPool('consolation');
+                       $this->get('session')->setFlash('notice','当前奖池成功清空');
+                   }
+
                    return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_pointspoolpulishedsuccess') );
                } catch(\Exception $e) {
                    $this->get('logger')->crit('[backend][decemberActivity][consolationPointsPool] points strategy publish internal error. '.$e->getMessage() );
@@ -192,14 +202,21 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
     public function pointsPoolAction()
     {
        $request = $this->get('request'); 
+       $logger = $this->get('logger');
+
        $form = $this->createForm( new PointsStrategyType());
        if('POST'=== $request->getMethod()){
            $form->bind($request);
            if($form->isValid()) {
                $data = $form->getData();
+               $logger->debug('{jarod}'. var_export($data, true));
                try {
                    $this->get('december_activity.game_eggs_breaker')->publishPointsStrategy( $data['rules'], 'common');
                    $this->get('session')->setFlash('notice','发布成功');
+                   if(true === $data['whether_clean_current']) {
+                       $this->get('december_activity.game_eggs_breaker')->cleanPointsPool('common');
+                       $this->get('session')->setFlash('notice','当前奖池成功清空');
+                   }
                    return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_pointspoolpulishedsuccess') );
                } catch(\Exception $e) {
                    $this->get('logger')->crit('[backend][decemberActivity][commonPointsPool] points strategy publish internal error. '.$e->getMessage() );

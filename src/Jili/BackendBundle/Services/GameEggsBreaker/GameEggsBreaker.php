@@ -64,6 +64,20 @@ class GameEggsBreaker
         return  $pointsStrategy->publish($points_strategy);
     }
 
+    public function cleanPointsPool( $points_type)
+    {
+        if(! isset( $this->configs[$points_type] ) )
+        {
+            throw new \Exception( 'points strategy path for ' .var_export($points_type, true). ' is not configured in '. var_export( $this->configs, true) );
+        }
+
+        $points_file = $this->configs[$points_type]['points_pool'];
+        $strategy_file = $this->configs[$points_type]['points_pool'];
+
+        $pointsPool = new PointsPool( $this->configs[$points_type]['points_pool']
+            ,$this->configs[$points_type]['points_strategy'] );
+        $pointsPool->cleanPointsPool( );
+    }
     /**
      * @param string $points_type [ common consolation]
      */
@@ -317,9 +331,12 @@ class GameEggsBreaker
                 return ;
             }
             
+        $logger->debug('{jarod}$points_fetched:'. var_export($points_fetched, true));
             if($points_fetched > 0 ) {
                 $points = $points_fetched;
+
                 $eggsInfo->reduceCountOfEgg($egg_type);
+
                 $ad_id = AdCategory::ID_GAME_EGGS_BREAKER; // 31
                 $adCategory = $em->getRepository('JiliApiBundle:AdCategory')
                     ->findOneById($ad_id); 

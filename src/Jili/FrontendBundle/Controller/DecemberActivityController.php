@@ -148,7 +148,7 @@ class DecemberActivityController extends Controller
                 'token'=> $record->getToken(),
                 'numOfEggs'=> $record->getNumOfCommon(),
                 'numOfConsolationEggs' => $record->getNumOfConsolation(),
-                'lessForNextEgg'=> TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
+                'lessForNextEgg'=> $record->getOffcutForNext(), //TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
                 'isOpenSeason'=> true
 				//( $now < $startAt || $now > $endAt) ? false: true 
             )));

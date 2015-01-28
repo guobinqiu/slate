@@ -11,6 +11,7 @@ class PointsPool extends JsonCacheFileHandler
     
     protected $file; 
     protected $file_strategy;
+
     function __construct($file, $file_strategy)
     {
         $this->setDailyPointsPoolFile($file); 
@@ -127,6 +128,17 @@ class PointsPool extends JsonCacheFileHandler
         return $c;
     }
 
+
+    /**
+     * for development
+     */
+    public function cleanPointsPool()
+    {
+        $fs = new Filesystem();
+        if($fs->exists($this->file)){
+            $fs->remove($this->file);
+        }
+    }
     // return the daily points pool file name
     private function setDailyPointsPoolFile($file)
     {

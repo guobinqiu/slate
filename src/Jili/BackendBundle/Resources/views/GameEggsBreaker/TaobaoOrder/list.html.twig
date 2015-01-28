@@ -50,7 +50,7 @@ Taobao订单列表-12月活动-{{ parent() }}
             {% endif %}
 
 {% else %}
-<a href="{{ path( 'jili_backend_decemberactivity_audit', {'id': entity[0].id })  }}">审核</a>
+<a href="{{ path( 'jili_backend_decemberactivity_audit', {'id': entity[0].id })  }}" target="_blank">审核</a>
 
 {% endif %}
         </td>
