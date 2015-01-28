@@ -54,15 +54,18 @@ class WenwenController extends Controller
         }
 
         //存db
-        $user = $em->getRepository('JiliApiBundle:User')->getNotActiveUserByEmail($email);
-        if (empty($user)) {
-            $user = $em->getRepository('JiliApiBundle:User')->createOnWenwen(array('email'=>$email, 'uniqkey'=>$uniqkey));
+        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+        if (empty ($user)) {
+            $user = $em->getRepository('JiliApiBundle:User')->createOnWenwen(array (
+                'email' => $email,
+                'uniqkey' => $uniqkey
+            ));
         } else {
-            $user = $user[0];
-            $user->setRegisterDate(date_create(date('Y-m-d H:i:s')));
-            $user->setUniqkey($uniqkey);
-            $em->persist($user);
-            $em->flush();
+            $result['status'] = '2';
+            $result['message'] = 'already exist';
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'text/plain');
+            return $resp;
         }
         $str = 'jilifirstregister';
         $code = md5($user->getId() . str_shuffle($str));
@@ -146,7 +149,7 @@ class WenwenController extends Controller
 
         //email exist check
         $em = $this->getDoctrine()->getManager();
-        $is_email = $em->getRepository('JiliApiBundle:User')->getWenwenUser($email);
+        $is_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
         if ($is_email) {
             $result['status'] = '2';
             $result['message'] = 'already exist';
