@@ -184,7 +184,7 @@ class WenwenControllerTest extends WebTestCase {
         $url = '/api/91wenwen/register';
         $email = 'zhangmm@voyagegroup.com.cn';
         $crawler = $client->request('POST', $url, array (
-            'email' => 'zhangmm@voyagegroup.com.cn',
+            'email' => $email,
             'signature' => '88ed4ef124e926ea1df1ea6cdddf8377771327ab',
             'uniqkey' => 'test'
         ));
