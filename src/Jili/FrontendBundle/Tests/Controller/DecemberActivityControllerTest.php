@@ -61,7 +61,7 @@ class DecemberActivityControllerTest extends WebTestCase
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
 
-        } else if(in_array( $tn ,array('testIndexAction','testAddTaobaoOrderActionNormal' ,'testAddTaobaoOrderActionValidation','testAddTaobaoOrderActionValidationII') )) {
+        } else if(in_array( $tn ,array('testIndexAction','testAddTaobaoOrderActionNormal' ,'testAddTaobaoOrderActionValidation','testAddTaobaoOrderActionValidationII','testAddTaobaoOrderActionValidationIII') )) {
             $loader  = new Loader();
             $fixture = new LoadTaobaoCategoryData();
             $fixture->setContainer($container);
@@ -163,7 +163,7 @@ class DecemberActivityControllerTest extends WebTestCase
      */
     public function testAddTaobaoOrderActionValidation()
     {
-        $this->markTestSkipped('this function has been offline');
+    //    $this->markTestSkipped('this function has been offline');
 
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
@@ -232,7 +232,6 @@ class DecemberActivityControllerTest extends WebTestCase
      */
     public function testAddTaobaoOrderActionValidationII()
     {
-        $this->markTestSkipped('this function has been offline');
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_addtaobaoorder');
@@ -262,12 +261,38 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals('*你已经提交过相同的订单号.',$error_message);
     }
 
+
+    /**
+     * @group issue_592
+     */
+    public function testAddTaobaoOrderActionValidationIII()
+    {
+        $client = static::createClient();
+        $container  = static::$kernel->getContainer();
+        $url =$container->get('router')->generate('jili_frontend_decemberactivity_addtaobaoorder');
+        $session  = $container->get('session');
+        $session->set('uid' , 1);
+        $session->save();
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form = $crawler->selectButton('submit')->form();
+        $form['order[orderId]']->setValue('1 2 3456789012345 ');
+        $form['order[orderAt]']->setValue(date('Y-m-d'));
+        $crawler = $client->submit($form);
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        //$error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
+        echo $client->getResponse()->getContent(); 
+        //$this->assertEquals('*你已经提交过相同的订单号.',$error_message);
+    }
+
     /**
      * @group issue_537
      */
     public function testAddTaobaoOrderActionNormal()
     {
-        $this->markTestSkipped('this function remove from frontend temporaliy');
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
         $url =$container->get('router')->generate('jili_frontend_decemberactivity_addtaobaoorder');

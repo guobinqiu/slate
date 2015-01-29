@@ -15,10 +15,6 @@ DB_PASS=vct@20140423 #数据库密码
 DB_HOST=vct002 #数据库的server 的ip 或dns
 BAKCUP_DATA_DIR=/tmp/game_eggs_breaker/ # 备份数据的保存目录
 
-DB_NAME=jili_1117
-DB_USER=root
-DB_PASS=MyNewPassword
-DB_HOST=192.168.1.22
 
 mkdir -p ${BAKCUP_DATA_DIR}
 

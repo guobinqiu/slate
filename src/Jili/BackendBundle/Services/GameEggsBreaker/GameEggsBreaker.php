@@ -328,7 +328,8 @@ class GameEggsBreaker
             } else {
                 return ;
             }
-            
+           // $points_fetched 是直接从奖池中取得的值 
+            // 如果为正数,直接用于米粒数;否则为特定的奖蛋。
             if($points_fetched > 0 ) {
                 $points = $points_fetched;
 
@@ -363,11 +364,13 @@ class GameEggsBreaker
                 $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
                 $oldPoint = $user->getPoints();
                 $user->setPoints(intval($oldPoint+$points));
+                // 不是再来1次金蛋。
                 $is_once_more = false;
             } else {
                 $points = 0;
                 if($points_fetched === $this->configs['strategy_value_of_once_more'] ) {
                     $egg_type = $eggsInfo->getEggTypeOfOnceMore($egg_type);
+                    // 是再来1次金蛋。
                     $is_once_more = true;
                 }
             }

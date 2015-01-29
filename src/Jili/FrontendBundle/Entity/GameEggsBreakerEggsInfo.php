@@ -411,10 +411,15 @@ class GameEggsBreakerEggsInfo
     {
         if($egg_type === self::EGG_TYPE_CONSOLATION ) {
             $num_of_consolation = (int) $this->getNumOfConsolation();
-            $this->setNumOfConsolation($num_of_consolation - 1 );
+            if($num_of_consolation > 0 ) {
+                $this->setNumOfConsolation($num_of_consolation - 1 );
+            }
         } else {
             $num_of_common  = (int) $this->getNumOfCommon();
-            $this->setNumOfCommon($num_of_common- 1 );
+            if($num_of_common > 0 ) {
+                $this->setNumOfCommon($num_of_common- 1 );
+            }
+
         }
         $this->setNumUpdatedAt(new \Datetime());
     }
