@@ -249,7 +249,7 @@ $(function(){
 				 success: function(eggData){
 					 $this.debug('初始金蛋信息……', eggData);
 					 //判断结果或金蛋个数是否为空
-					 if($.isEmptyObject(eggData)|| undefined === eggData.data || parseInt(eggData.data.numOfEggs + eggData.data.numOfConsolationEggs) <= 0) {
+					 if($.isEmptyObject(eggData)|| undefined === eggData.data || parseInt(eggData.data.numOfEggs + eggData.data.numOfConsolationEggs) < 0) {
 						 $this.noEgg();
 						 return false;
 					 }else{
@@ -275,14 +275,19 @@ $(function(){
 			var $this = this;
             var opts = $this.options;
 			var allEggs = parseInt(initData.data.numOfEggs + initData.data.numOfConsolationEggs);
-			if(allEggs<=0){
+			if(allEggs<0){
 				$this.noEgg();
 			}else{
-				$(opts.hasEgg).show();
-				$(opts.noEgg).hide();
 				$(opts.eggNum).html(allEggs);
 				$(opts.eggMoney).html(initData.data.lessForNextEgg);
-				$this.addEgg(initData);
+				if(allEggs!=0){
+					$(opts.hasEgg).show();
+					$(opts.noEgg).hide();
+					$this.addEgg(initData);
+				}else{
+					$(opts.hasEgg).hide();
+					$(opts.noEgg).show();
+				}
 			}
         },
         addEgg: function(initData){
