@@ -22,9 +22,10 @@ class WeiBoLoginController extends Controller
     public function callBackAction()
     { 
         $request = $this->get('request');
+        //$request->getSession()->remove('weibo_token');
+        //$request->getSession()->remove('weibo_open_id');
         $weibo_token = $request->getSession()->get('weibo_token');
         $weibo_uid = $request->getSession()->get('weibo_open_id');
-        echo $weibo_token."+++".$weibo_uid;
         //没有token，用code取
         if(empty($weibo_token) || empty($weibo_uid)){
             $code = $request->query->get('code');
@@ -94,7 +95,6 @@ class WeiBoLoginController extends Controller
         $code = "";
         $request = $this->get('request');
         $weiboForm = $request->request->get('weibo_user_regist');
-        //var_dump($weiboForm);
         $param['email'] = $weiboForm['email'];
         $request->request->set('email',$param['email']);
         $param['nick'] = $request->request->get('weibonickname'); 
@@ -123,6 +123,8 @@ class WeiBoLoginController extends Controller
             $code = $this->get('login.listener')->login($request);
             if($code == 'ok') {
                 return $this->redirect($this->generateUrl('_homepage'));
+            } elseif($check_weibouser) {
+                $code = "您的微博ID已在积粒网注册，请直接登录，如有问题请联系客服。";
             }
         } else {
             //验证不通过
