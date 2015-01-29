@@ -35,7 +35,7 @@ class WeiBoLoginControllerTest extends WebTestCase
 
         $tn = $this->getName();
         // load fixtures
-        if( in_array($tn ,array('testCallBackAction', 'testCallBackActionI','testCallBackActionII','testCallBackActionIII'))) {
+        if( in_array($tn ,array('testCallBackAction', 'testCallBackActionI','testCallBackActionII','testCallBackActionIII','testweiboRegisteActionFailure'))) {
             $this->has_fixture = true;
             $fixture = new LoadWeiBoUserCallbackData();
             $fixture->setContainer($container);
@@ -169,7 +169,6 @@ class WeiBoLoginControllerTest extends WebTestCase
         $container->set('user_weibo_login', $mockWeiBoAuth);
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $client->getRequest()->getRequestUri();
     }
 
     /**
@@ -364,7 +363,6 @@ class WeiBoLoginControllerTest extends WebTestCase
         
         $form_register['weibo_user_regist[email]'] = '@A';
         $form_register['pwd'] = '123123';
-
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('请填写正确的邮箱或密码!', trim($crawler->filter('#regist_emailError')->text()));
@@ -372,7 +370,6 @@ class WeiBoLoginControllerTest extends WebTestCase
         // again
         $form_register['weibo_user_regist[email]'] = 'AAA';
         $form_register['pwd'] = '';
-
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('请填写正确的邮箱或密码!', trim($crawler->filter('#regist_emailError')->text()));
@@ -381,7 +378,7 @@ class WeiBoLoginControllerTest extends WebTestCase
         $form_register['pwd'] = '123456';
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('此账号已存在，请点击下方’已有积粒网账号‘按钮进行绑定!', trim($crawler->filter('#regist_emailError')->text()));
+        $this->assertEquals('请填写正确的邮箱或密码!', trim($crawler->filter('#regist_emailError')->text()));
     }
 
     /**
@@ -420,6 +417,12 @@ class WeiBoLoginControllerTest extends WebTestCase
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals( '对不起，微博用户注册失败，请稍后再试。', $crawler->filter('div.errorMessage')->text()); 
+        
+        $form_register['weibo_user_regist[email]'] = 'alice32@gmail.com';
+        $form_register['pwd'] = '123123'; 
+        $crawler = $client->submit($form_register);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals( '此账号已存在，请点击下方【已有积粒网账号】按钮进行绑定!', trim($crawler->filter('#regist_emailError')->text())); 
     }
 
     /**

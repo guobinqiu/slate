@@ -14,7 +14,7 @@ class UserRegist
     private $em;
         
     /**
-     * UserRegiste
+     * UserRegist
      * @params $params array()
      */
     public function qq_user_regist(array $params)
@@ -37,7 +37,7 @@ class UserRegist
     }
     
     /**
-     * UserRegiste
+     * UserRegist
      * @params $params array()
      */
     public function weibo_user_regist(array $params)
