@@ -57,14 +57,13 @@ function compareTime(startDate, endDate){
         }
     }  
 function formCheck(){
-    var startDate = '2015-1-25', 
+    var startDate = '2015-1-27', 
 		endDate = '2015-3-1', 
 		curDate = new Date().Format("yyyy-MM-dd"),
 		inputDate, orderNum;
 	inputDate = $('#datepicker').val().toString();
 	orderNum = $('#orderNum').val().toString().replace(/\s+/g,"");
-	console.log(orderNum);
-	if(compareTime(startDate, inputDate)&&compareTime(inputDate, endDate)){
+	if(compareTime(startDate, inputDate)){
 		if(compareTime(inputDate, curDate)){
 			if(!orderNum.match(/^\d{15}$/)) {
 				$('.errorMsg').html('*订单格式或长度不对，请重新输入！');
