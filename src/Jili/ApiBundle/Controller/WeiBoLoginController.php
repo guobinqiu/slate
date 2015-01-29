@@ -102,8 +102,7 @@ class WeiBoLoginController extends Controller
         $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
         if($check_user){
             $code = '此账号已存在，请点击下方’已有积粒网账号‘按钮进行绑定!';
-        }
-        if(empty($param['pwd']) || (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
+        } elseif (empty($param['pwd']) || (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
             $code = '请填写正确的邮箱或密码!';
         }
         $param['open_id'] = $request->getSession()->get('weibo_open_id'); // get in session
@@ -128,7 +127,7 @@ class WeiBoLoginController extends Controller
             }
         } else {
             //验证不通过
-            if(!$check_user){
+            if(!$code){
                 $code = '请填写正确的邮箱或密码!';
             }
         }
