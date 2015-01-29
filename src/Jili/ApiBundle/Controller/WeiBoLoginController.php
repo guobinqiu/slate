@@ -91,7 +91,6 @@ class WeiBoLoginController extends Controller
      */
     public function weiboRegisteAction()
     {
-        $em = $this->getDoctrine()->getManager();
         $code = "";
         $request = $this->get('request');
         $weiboForm = $request->request->get('weibo_user_regist');
@@ -99,16 +98,18 @@ class WeiBoLoginController extends Controller
         $request->request->set('email',$param['email']);
         $param['nick'] = $request->request->get('weibonickname'); 
         $param['pwd'] = $request->request->get('pwd');
-        $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
-        if($check_user){
-            $code = '此账号已存在，请点击下方’已有积粒网账号‘按钮进行绑定!';
-        } elseif (empty($param['pwd']) || (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
-            $code = '请填写正确的邮箱或密码!';
-        }
         $param['open_id'] = $request->getSession()->get('weibo_open_id'); // get in session
         $form  = $this->createForm(new WeiBoFirstRegist());
         $form->bind($request );
-        if ($form->isValid() && empty($code)) {
+        if ($form->isValid() && ($param['pwd'] && strlen($param['pwd'])>=6 && strlen($param['pwd'])<=20) ) {
+            $em = $this->getDoctrine()->getManager();
+            //email存在check
+            $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
+            if($check_user){
+                $code = '此账号已存在，请点击下方【已有积粒网账号】按钮进行绑定!';
+                return $this->render('JiliApiBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'form' => $form->createView(), 'regcode'=>$code));
+            } 
+            //openid check
             $check_weibouser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneByOpenId($param['open_id']);
             if( empty($check_weibouser)){
                 $user_regist = $this->get('user_regist'); 
@@ -126,13 +127,10 @@ class WeiBoLoginController extends Controller
                 $code = "您的微博ID已在积粒网注册，请直接登录，如有问题请联系客服。";
             }
         } else {
-            //验证不通过
-            if(!$code){
-                $code = '请填写正确的邮箱或密码!';
-            }
+            //入力验证不通过
+            $code = '请填写正确的邮箱或密码!';
         }
-        return $this->render('JiliApiBundle:User:weiboFirstLogin.html.twig',
-                array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'form' => $form->createView(), 'regcode'=>$code));
+        return $this->render('JiliApiBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'form' => $form->createView(), 'regcode'=>$code));
     }
     
     /**
@@ -173,6 +171,10 @@ class WeiBoLoginController extends Controller
         if(!$weibo_token || !$weibo_openid || !$weibo_name){
             return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请在微博完成授权后再试。'));
         }
+        //销毁不用session (暂定不销毁)
+        //$request->getSession()->remove('weibo_token');
+        //$request->getSession()->remove('weibo_name');
+        //设置form跳转注册页
         $form  = $this->createForm(new WeiBoFirstRegist());
         return $this->render('JiliApiBundle:User:weiboFirstLogin.html.twig',
                 array('email'=>'', 'pwd'=>'','open_id'=>$weibo_openid,'nickname'=>$weibo_name,'form' => $form->createView()));

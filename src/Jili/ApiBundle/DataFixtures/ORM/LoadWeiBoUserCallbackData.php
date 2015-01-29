@@ -14,11 +14,11 @@ use Jili\ApiBundle\Entity\WeiBoUser;
 class LoadWeiBoUserCallbackData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface, OrderedFixtureInterface {
 
     public static $USERS;
-    public static $WeiBoUSERS;
+    public static $WEIBOUSERS;
 
     public function __construct() {
         self :: $USERS = array ();
-        self :: $WeiBoUSERS = array ();
+        self :: $WEIBOUSERS = array ();
     }
 
     /**
@@ -56,7 +56,7 @@ class LoadWeiBoUserCallbackData extends AbstractFixture implements ContainerAwar
         $weiboUser->setOpenId('973F697E97A60289C8C455B1D65FF5F0');
         $manager->persist($weiboUser);
         $manager->flush();
-        self :: $WeiBoUSERS[] = $weiboUser;
+        self :: $WEIBOUSERS[] = $weiboUser;
 
         // weibo_user  without jili_user
         $weiboUser  = new WeiBoUser();
@@ -64,6 +64,6 @@ class LoadWeiBoUserCallbackData extends AbstractFixture implements ContainerAwar
         $weiboUser->setOpenId('973E697D97F60289B8B455A1C65CC5E1');
         $manager->persist($weiboUser);
         $manager->flush();
-        self :: $WeiBoUSERS[] = $weiboUser;
+        self :: $WEIBOUSERS[] = $weiboUser;
     }
 }
