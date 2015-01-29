@@ -590,6 +590,7 @@ EOD;
 
     /**
      * @group issue_577
+     * @group issue_474
      */
     public function testqqRegisteActionSuccess()
     {
@@ -633,7 +634,6 @@ EOD;
         $form_register['pwd'] = '123123';
 
         // submit that form
-        $crawler = $client->submit($form_register);
         $crawler = $client->submit($form_register);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
