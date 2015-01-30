@@ -29,25 +29,21 @@ class ActivityGatheringTaobaoOrderRepository extends EntityRepository
      * @param array $params
      * @return true when exists, false when not found
      */
-    public function isChecked($params)
+    public function isCheckedCurrentYearMonth($params)
     {
-        $created_end  = new \DateTime();
+        $now = date('Y-m-1 00:00:00');
+        $created_end  = new \DateTime($now);
         $created_end->add(new \DateInterval('P1M'));
 
         $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder('o');
+        $q = $em->createQuery('select count(o) from JiliApiBundle:ActivityGatheringTaobaoOrder o 
+            Where IDENTITY(o.user) = :user_id and o.createdAt >= :start_at and o.createdAt < :end_at')
+            ->setParameters(array('user_id'=> $params['userId'],
+                'start_at'=>$now ,
+            'end_at'=> $created_end->format('Y-m-1 00:00:00')));
 
-        $qb->select($qb->expr()->count('o.id'));
-//        $qb->where( $qb->expr()->eq('o.user', $em->getReference('Jili\\ApiBundle\\Entity\\User', $params['userId']) ))  ;
-        $qb->Where( $qb->expr()->eq('o.user', $em->getReference('Jili\\ApiBundle\\Entity\\User', $params['userId']) )  ;
-        $qb->andWhere( $qb->expr()->lt('o.createdAt', ':endAt')  );
-        $qb->andWhere( $qb->expr()->gte( 'o.createdAt' , ':startAt')  );
-        $qb->setParameter('startAt',date('Y-m-1 00:00:00')  ) ;
-        $qb->setParameter('endAt',$created_end->format('Y-m-1 00:00:00')  ) ;
-
-        $result = $qb->getQuery()->getSingleResult();
-
-        return ( empty($result)) ? false: true;
+        $result =  (int) $q->getSingleScalarResult();
+        return ( 0 === $result) ? false : true;
     }
 
 }

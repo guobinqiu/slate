@@ -62,7 +62,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * @var \Jili\ApiBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User", fetch="EXTRA_LAZY")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
