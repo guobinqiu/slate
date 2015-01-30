@@ -33,6 +33,7 @@ class MonthActivityControllerTest extends WebTestCase
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
+
         $tn  = $this->getName();
         if (in_array($tn ,array('testAddOrderNormal', 'testCheckinNormal') )){
             $fixture = new LoadUserData();
@@ -77,19 +78,20 @@ class MonthActivityControllerTest extends WebTestCase
 
         $crawler =  $client->request('GET', $url );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
         $session = $client->getRequest()->getSession();
         $session->set('uid', $user->getId());
         $session->save();
 
-        $form = $crawler->selectButton('')->form();
-        $form['activityGatheringOrder[orderIdentity]']= '123451234512345';
+        $form = $crawler->filter('form[id=shoppingForm]')->form();
+        $form['activityGatheringOrder[orderIdentity]']= '923451234512349';
         $crawler = $client->submit($form);
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
 
         $actual = $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')
-            ->findOneBy(array('orderIdentity'=>'123451234512345'));
+            ->findOneBy(array('orderIdentity'=>'923451234512349'));
         
         $this->assertNotNull($actual);
         $this->assertInstanceOf('Jili\ApiBundle\Entity\ActivityGatheringTaobaoOrder',$actual);

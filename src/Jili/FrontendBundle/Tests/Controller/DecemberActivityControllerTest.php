@@ -283,9 +283,6 @@ class DecemberActivityControllerTest extends WebTestCase
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
-        //$error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
-        echo $client->getResponse()->getContent(); 
-        //$this->assertEquals('*你已经提交过相同的订单号.',$error_message);
     }
 
     /**

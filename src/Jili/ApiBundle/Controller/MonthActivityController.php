@@ -161,9 +161,9 @@ class MonthActivityController extends Controller {
     function gatheringSaveTaobaoOrderAction(Request $request )
     {
         // redirect to login.
-        $uid = $this->get('request')->getSession()->get('uid');
+        $uid = $request->getSession()->get('uid');
         if(!$uid){
-           $this->getRequest()->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
+           $request->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
            return $this->redirect($this->generateUrl('_user_login'));
         }
         

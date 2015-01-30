@@ -13,13 +13,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="activity_gathering_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="user_order", columns={"user_id", "order_identity"})}, indexes={@ORM\Index(name="IDX_93358419A76ED395", columns={"user_id"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\ActivityGatheringTaobaoOrderRepository")
  *
- *
  * @UniqueEntity(
- *     fields={"userId", "orderId"},
- *     errorPath="orderId",
+ *     fields={"user", "orderIdentity"},
+ *     errorPath="orderIdentity",
  *     message="你已经提交过相同的订单号."
  * )
- *
  *
  */
 class ActivityGatheringTaobaoOrder
