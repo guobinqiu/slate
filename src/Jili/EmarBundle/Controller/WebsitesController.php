@@ -285,6 +285,8 @@ class WebsitesController extends Controller
     {
         $request = $this->get('request');
         $logger = $this->get('logger');
+        
+        var_dump($this->container->getParameter('emar_com.api.websites.list_get.depreacted_web_ids'));
         if( in_array($wid,
             $this->container->getParameter('emar_com.api.websites.list_get.depreacted_web_ids'))) {
                 throw $this->createNotFoundException( '没找到此商家.');
