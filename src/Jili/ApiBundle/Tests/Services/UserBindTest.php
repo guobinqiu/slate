@@ -88,4 +88,37 @@ $this->container = static::$kernel->getContainer();
         $this->assertNotNull($qq_user);
     }
     
+    /**
+    * @group issue636
+    */
+    public function testWeiBo_user_bind()
+    {
+
+        // if (isset($params['email']) && isset($params['open_id'])) {
+        // 1.1 email , open_id
+        $params = array('email'=>1);
+        $weiboUser = $this->container->get('user_bind')->weibo_user_bind($params);
+        $this->assertNull($weiboUser);
+
+        // 1.2
+        $params = array('open_id'=>1);
+        $weiboUser = $this->container->get('user_bind')->weibo_user_bind($params);
+        $this->assertNull($weiboUser);
+
+        $user = LoadUserBindData::$USERS[0];
+        // if( $user) {
+        // 2.1 no user
+
+        $params = array('email'=> 1, 'open_id'=>1);
+        $weiboUser = $this->container->get('user_bind')->weibo_user_bind($params);
+        $this->assertNull($weiboUser);
+
+        // 2.2 has user
+        $params = array('email'=> $user->getEmail(), 'open_id'=>1);
+        $weiboUser = $this->container->get('user_bind')->weibo_user_bind($params);
+        $this->assertNotNull($weiboUser);
+
+        $qq_user = $this->em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('userId'=> $user->getId(),'openId'=> 1));
+        $this->assertNotNull($qq_user);
+    }
 }
