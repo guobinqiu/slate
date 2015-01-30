@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * WeiBoUser
  *
- * @ORM\Table(name="weibo_user")
+ * @ORM\Table(name="weibo_user", indexes={@ORM\Index(name="user_id", columns={"user_id"})},indexes={@ORM\Index(name="open_id", columns={"open_id"})}  )
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\WeiBoUserRepository")
  */
 class WeiBoUser
