@@ -307,6 +307,7 @@ class GameEggsBreaker
             return array('code'=> 1); // invalid token 
         }
 
+        $logger = $this->logger;
         $em = $this->em;
         $user_id = $params['user_id'];
         $token = $params['token'];
