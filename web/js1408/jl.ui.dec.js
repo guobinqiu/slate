@@ -7,27 +7,20 @@ function formClear(){
         var _self = $(this);
         var conInput = _self.find('.clearTxt');
         var inputTxt = _self.find('.defaultTxt');
-
-        if(conInput.val() && conInput.val().length){
-            inputTxt.css('display', 'none');
-        }
+        if(conInput.val() && conInput.val().length){ inputTxt.hide();}
         conInput.bind({
             focus: function(){
-                inputTxt.css('display', 'none');
+                inputTxt.hide();
                 $(this).addClass('active');
             },
             blur: function(){
-                if($(this).val() && $(this).val().length){
-                    inputTxt.css('display', 'none');
-                }else{
-                    inputTxt.css('display', 'block');
-                }
+				$(this).val() && $(this).val().length?inputTxt.hide():inputTxt.show();
                 $(this).removeClass('active');
             }
         });
         inputTxt.on('click', function(){
 			conInput.focus();
-            $(this).css('display', 'none');
+            $(this).hide();
             conInput.addClass('active');
         });
     });
@@ -64,16 +57,16 @@ function compareTime(startDate, endDate){
         }
     }  
 function formCheck(){
-    var startDate = '2014-12-12', 
-		endDate = '2015-1-12', 
+    var startDate = '2015-1-27', 
+		endDate = '2015-3-1', 
 		curDate = new Date().Format("yyyy-MM-dd"),
 		inputDate, orderNum;
 	inputDate = $('#datepicker').val().toString();
 	orderNum = $('#orderNum').val().toString().replace(/\s+/g,"");
-	if(compareTime(startDate, inputDate)&&compareTime(inputDate, endDate)){
+	if(compareTime(startDate, inputDate)){
 		if(compareTime(inputDate, curDate)){
-			if(orderNum.match(/[^a-zA-Z\d]/g) || orderNum.length > 20) {
-				$('.errorMsg').html('*您输入的订单格式或长度不对，请重新输入！');
+			if(!orderNum.match(/^\d{15}$/)) {
+				$('.errorMsg').html('*订单格式或长度不对，请重新输入！');
 				return false;
 			}
 			return true;
@@ -216,32 +209,14 @@ function topFold(){
         $('.decTop').addClass('decTopFold').animate({ height: '119px'}, 1E3, function(){
             $('.timestamp').fadeIn();
             $('.decTopConBg').fadeOut();
-            runFlow();
         });
     }, 5E3);
 }
 
 $(function(){
     var s = setInterval(textScroll, 2E3);
-    topFold();
-    //checkFlow();
-	var breakEggS = '2015/1/20 00:00:59',breakEggE = '2015/1/27 00:00:59', localDate = new Date(), serverDate = $.ajax({async:false}).getResponseHeader("Date");
-	var diff = localDate.getTime() - new Date(serverDate).getTime();
-	var sDiff = (new Date(breakEggS)).getTime() - new Date(serverDate).getTime();
-	var bDiff = (new Date(breakEggE)).getTime() - new Date(serverDate).getTime();
-	if(parseInt(sDiff)<0){
-		countDown(breakEggE, diff);
-		$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
-	}else{
-		countDown(breakEggS, diff);//砸蛋开始时间
-	}
-	if(parseInt(bDiff)<0){
-		$('.timestamp img').attr('src', '/images/december/foldTxt03.png');
-	}
-	$('.endBreak .close').on('click', function(){
-		$('.fixMask').hide();
-		$('.endBreak').hide();
-	});	
+    checkFlow();	
+	runFlow();
     $.fn.eggFrenzy({
         container: '.goldenEggs',
         hasEgg: '.luckyDrawL .mask',
@@ -266,31 +241,18 @@ $(function(){
         },
         beginAjax: function(){
             var $this = this;
-            var opts = $this.options;
             $.ajax({
 				 url: Routing.generate('jili_frontend_decemberactivity_geteggsinfo'),
 				 type: 'post',
 				 dataType: 'json',
 				 success: function(eggData){
 					 $this.debug('初始金蛋信息……', eggData);
-					 if($.isEmptyObject(eggData)||undefined === eggData.data) {
-						 $(opts.hasEgg).hide();
-                		 $(opts.noEgg).show();
-						 $(opts.eggNum).html('0');
-						 $(opts.eggMoney).html('10元');
+					 //判断结果或金蛋个数是否为空
+					 if($.isEmptyObject(eggData)|| undefined === eggData.data || parseInt(eggData.data.numOfEggs + eggData.data.numOfConsolationEggs) < 0) {
+						 $this.noEgg();
 						 return false;
-					 }
-					 if(eggData.data.isOpenSeason){
-						countDown('2015/1/27 00:00:59');//砸蛋结束时间
-						$('.timestamp img').attr('src', '/images/december/foldTxt02.png');
-					 }
-					 if($this.showEgg(eggData)){
-						 $this.setEggInfo(eggData);
-						 $this.addEgg(eggData);
-						 $this.openStart(eggData);
 					 }else{
-						 $(opts.eggNum).html('0');
-						 $(opts.eggMoney).html('10元');
+						 $this.hasEgg(eggData);
 					 }
 				 },
 				 error: function(){
@@ -301,30 +263,30 @@ $(function(){
         init: function(){
             this.beginAjax();
         },
-        showEgg: function(initData){
+		noEgg: function(){
             var opts = this.options;
-            if($.isEmptyObject(initData) || (initData.data.numOfEggs + initData.data.numOfConsolationEggs) <= 0){
-				this.debug('金蛋数为空……');
-                $(opts.hasEgg).hide();
-                $(opts.noEgg).show();
-				return false;
-            }else{
-                $(opts.hasEgg).show();
-                $(opts.noEgg).hide();
-				return true;
-            }
-        },
-        setEggInfo: function(initData){
-			var opts = this.options;
+			$(opts.hasEgg).hide();
+			$(opts.noEgg).show();
+			$(opts.eggNum).html('0');
+			$(opts.eggMoney).html('10');
+		},
+        hasEgg: function(initData){
+			var $this = this;
+            var opts = $this.options;
 			var allEggs = parseInt(initData.data.numOfEggs + initData.data.numOfConsolationEggs);
-			if(allEggs>0){
-				$(opts.eggNum).html((initData.data.numOfEggs + initData.data.numOfConsolationEggs));
-				$(opts.eggMoney).html(initData.data.lessForNextEgg + '元');
+			if(allEggs<0){
+				$this.noEgg();
 			}else{
-				$(opts.eggNum).html('0');
-				$(opts.eggMoney).html('10元');
-				$(opts.hasEgg).hide();
-                $(opts.noEgg).show();
+				$(opts.eggNum).html(allEggs);
+				$(opts.eggMoney).html(initData.data.lessForNextEgg);
+				if(allEggs!=0){
+					$(opts.hasEgg).show();
+					$(opts.noEgg).hide();
+					$this.addEgg(initData);
+				}else{
+					$(opts.hasEgg).hide();
+					$(opts.noEgg).show();
+				}
 			}
         },
         addEgg: function(initData){
@@ -332,15 +294,67 @@ $(function(){
             var opts = $this.options;
             var randNum;
             var imgArr = ["/images/december/static_egg.gif", "/images/december/shaking_egg7.gif", "/images/december/shaking_egg12.gif"];
-            var eggWrapper = '<li><div><img src="#" width="110" height="138"/></div><span>我要砸蛋</span></li>';
+            var eggWrapper = '<li><div><img src="#" width="110" height="138"/></div><strong><img src="/images/december/breakBtn.png" width="77" height="43"/></strong></li>';
+			$(opts.container).html('');
             for(var i = 0; i< initData.data.numOfEggs; i++){
                 randNum = Math.floor(Math.random()*(0-3) + 3);
-                $(eggWrapper).find('img').attr("src", imgArr[randNum]).end().appendTo($(opts.container));
+                $(eggWrapper).find('div>img').attr("src", imgArr[randNum]).end().appendTo($(opts.container));
             }
             for(var j = 0; j< initData.data.numOfConsolationEggs; j++){
                 randNum = Math.floor(Math.random()*(0-3) + 3);
-                $(eggWrapper).find('img').attr("src", imgArr[randNum]).end().addClass('comfort').appendTo($(opts.container));
+                $(eggWrapper).find('div>img').attr("src", imgArr[randNum]).end().addClass('comfort').appendTo($(opts.container));
             }
+			$this.openStart(initData);
+        },
+        openStart: function(initData){
+			this.debug('开始了么', initData.data.isOpenSeason);
+            if(initData.data.isOpenSeason){
+				$(this.options.container).find('li span').addClass('active');
+                this.openEgg(initData);
+            }else{
+                $(this.options.container).on('click', function(){
+                    var eggTips = $('.eggTips');
+					if(eggTips.length>=1){ eggTips.remove();}
+					var $div = $('<div></div>')
+					$div.addClass('eggTips').html('还不可以砸蛋哦！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
+						$(this).fadeOut(3E3);
+					});
+                });
+            }
+        },
+		openEgg: function(initData){
+            var $this = this;
+            var opts = $this.options;
+            var eggType = 0;
+			var eggPos = $(opts.container).find('li'),hammer = $('.luckyDraw .hammer');
+            var leftW = hammer.css('left').substr(0, hammer.css('left').indexOf('px'));
+            $this.debug('进入砸蛋程序');
+			eggPos.on('mouseover', function(){
+                var index = eggPos.index(this);
+                hammer.css({'top': Math.floor(index/4)*148 + 'px', 'left': ((Math.floor(index%4))*(110+28)+85) + 'px'});
+            });
+			eggPos.on('mousedown', function(){
+				hammer.addClass('hammerActive');
+			});
+			eggPos.on('mouseup', function(){
+				hammer.removeClass('hammerActive');
+				if($(this).find('img').hasClass('active')){
+					$(this).find('img').removeClass('active');
+					var index = eggPos.index(this);
+					$this.debug('开始执行砸蛋');
+					$this.getResult(initData, eggType);
+				}else{
+					$(this).find('div>img').addClass('active').attr('src', '/images/december/crack_egg.gif');
+					var eggTips = $('.eggTips');
+					if(eggTips.length>=1){
+						eggTips.remove();
+					}
+					var $div = $('<div></div>')
+					$div.addClass('eggTips').html('咦？没砸开，再砸一下！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
+						$(this).fadeOut(2E3);
+					});
+				}
+			});
         },
         getResult: function(initData, eggType){
             var $this = this;
@@ -358,8 +372,9 @@ $(function(){
 							$(this).fadeOut(2E3);
 						});	
 						return false;
-					} 
-					$this.showResult(resultData);
+					}else{
+						$this.showResult(resultData);
+					}
 				 },
 				 error: function(){
 				 	$this.debug('第二次请求结果失败……');
@@ -367,7 +382,8 @@ $(function(){
              });
         },
         showResult: function(resultData){
-			this.debug('展示砸蛋结果……');
+			var $this = this;
+			$this.debug('展示砸蛋结果……');
 			if($('.eggResult').length>=1){
 				$('.fixMask').remove();
 				$('.eggResult').remove();
@@ -382,81 +398,25 @@ $(function(){
 						case "88": $('.resultTxt').html('恭喜您中了三等奖，获得了<strong>'+resultData.data.points+'</strong>米粒!还不错哦~').hide().fadeIn(1E3); break;
 						case "8": $('.resultTxt').html('恭喜您中了四等奖，<strong>'+resultData.data.points+'</strong>米粒入手咯~').hide().fadeIn(1E3); break;
 						case "1": $('.resultTxt').html('恭喜您获得安慰奖，<strong>'+resultData.data.points+'</strong>米粒入手咯~').hide().fadeIn(1E3); break;
-						default: break;
+						default: $('.resultTxt').html('恭喜您中奖啦，获得了<strong>'+resultData.data.points+'</strong>米粒!发财啦~').hide().fadeIn(1E3); break;
 					}
 				}, 1500);
+				
 			}else{
-				$('<div class="eggResult"><div><div class="resultTxt"></div><span class="close"></span><div><img src="/images/december/fail.gif?t='+Math.random()+'" width="930" height="515"/></div></div></div>').appendTo($('body'));
-				setTimeout(function(){
-					$('.resultTxt').text('太残忍了，竟然没有米粒！').hide().fadeIn(1E3);
-				}, 1500);
+				if(resultData.data.is_once_more){
+					$('<div class="eggResult"><div><div class="resultTxt"></div><span class="close"></span><div><img src="/images/december/anotheregg.gif?t='+Math.random()+'" width="930" height="515"/></div></div></div>').appendTo($('body'));
+				}else{
+					$('<div class="eggResult"><div><div class="resultTxt"></div><span class="close"></span><div><img src="/images/december/fail.gif?t='+Math.random()+'" width="930" height="515"/></div></div></div>').appendTo($('body'));
+					setTimeout(function(){
+						$('.resultTxt').text('太残忍了，竟然没有米粒！').hide().fadeIn(1E3);
+					}, 1500);
+				}
 			}
 			$('.eggResult .close').on('click', function(){
 				$('.fixMask').remove();
 				$('.eggResult').remove();
-			});			 
-        },
-        openEgg: function(initData){
-            var $this = this;
-            var opts = $this.options;
-            var eggType = 0;
-			var eggPos = $(opts.container).find('li'),hammer = $('.luckyDraw .hammer');
-            var leftW = hammer.css('left').substr(0, hammer.css('left').indexOf('px'));
-            $this.debug('进入砸蛋程序');
-			eggPos.on('mousedown', function(){
-				hammer.addClass('hammerActive');
-			});
-			eggPos.on('mouseup', function(){
-				hammer.removeClass('hammerActive');
-				if($(this).find('img').hasClass('active')){
-					$(this).find('img').removeClass('active');
-					var index = eggPos.index(this);
-					$this.debug('开始执行砸蛋');
-					if($(this).hasClass('comfort')){
-						eggType = 1;
-						initData.data.numOfConsolationEggs = initData.data.numOfConsolationEggs -1;
-					}else{
-						initData.data.numOfEggs = initData.data.numOfEggs -1;
-					}
-					$this.getResult(initData, eggType);
-                    setTimeout(function(){
-                        $($this.options.container).find('li').eq(index).remove();
-						eggPos = $(opts.container).find('li');
-                        $this.setEggInfo(initData);
-                    }, 3E3);
-				}else{
-					$(this).find('img').addClass('active').attr('src', '/images/december/crack_egg.gif');
-					var eggTips = $('.eggTips');
-					if(eggTips.length>=1){
-						eggTips.remove();
-					}
-					var $div = $('<div></div>')
-					$div.addClass('eggTips').html('咦？没砸开，再砸一下！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
-						$(this).fadeOut(2E3);
-					});
-				}
-			});
-            eggPos.on('mouseover', function(){
-                var index = eggPos.index(this);
-                hammer.css({'top': Math.floor(index/4)*186 + 'px', 'left': ((Math.floor(index%4))*(110+28)+parseInt(leftW)) + 'px'});
-            });
-        },
-        openStart: function(initData){
-            if(initData.data.isOpenSeason){
-				$(this.options.container).find('li span').addClass('active');
-                this.openEgg(initData);
-            }else{
-                $(this.options.container).on('click', function(){
-                    var eggTips = $('.eggTips');
-					if(eggTips.length>=1){
-						eggTips.remove();
-					}
-					var $div = $('<div></div>')
-					$div.addClass('eggTips').html('还不可以砸蛋哦！').appendTo($('.luckyDrawL')).fadeIn(1E1, function() {
-						$(this).fadeOut(3E3);
-					});
-                });
-            }
+			});		
+			$this.beginAjax();	 
         }
     }
     $.eggFrenzy = function(options, element){

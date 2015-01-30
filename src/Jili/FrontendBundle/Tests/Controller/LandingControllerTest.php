@@ -210,7 +210,6 @@ class LandingControllerTest extends WebTestCase
 
     /**
      * @group issue_448
-     * @group debug 
      */
     public function testHomepageWithSignUpTrace()
     {

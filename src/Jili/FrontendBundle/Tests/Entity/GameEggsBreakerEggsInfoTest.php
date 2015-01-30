@@ -63,6 +63,7 @@ class GameEggsBreakerEggsInfoTest extends KernelTestCase
     }
     /**
      *  @group issue_537 
+     *  @group issue_592
      */
     public function testGetEggTypeByRandom()
     {
@@ -78,7 +79,7 @@ class GameEggsBreakerEggsInfoTest extends KernelTestCase
         $entity = new GameEggsBreakerEggsInfo();
         $entity->setNumOfCommon(10);
         $this->assertEquals(1 , $entity->getEggTypeByRandom());
-        $this->assertEquals(9, $entity->getNumOfCommon());
+        $this->assertEquals(10, $entity->getNumOfCommon());
 
         $entity = new GameEggsBreakerEggsInfo();
         $entity->setNumOfConsolation(1);
@@ -87,21 +88,24 @@ class GameEggsBreakerEggsInfoTest extends KernelTestCase
         $entity = new GameEggsBreakerEggsInfo();
         $entity->setNumOfConsolation(10);
         $this->assertEquals(2 , $entity->getEggTypeByRandom());
-        $this->assertEquals(9, $entity->getNumOfConsolation());
+        $this->assertEquals(10, $entity->getNumOfConsolation());
 
         $entity = new GameEggsBreakerEggsInfo();
         $entity->setNumOfCommon(1);
         $entity->setNumOfConsolation(1);
         $actual = array();
+        $actual [] = $entity->getEggTypeByRandom();
+        $entity->reduceCountOfEgg($actual[0]);
+
         $actual []  = $entity->getEggTypeByRandom();
-        $actual []  = $entity->getEggTypeByRandom();
+        $entity->reduceCountOfEgg($actual[1]);
 
         $this->assertEquals(0, $entity->getNumOfCommon());
         $this->assertEquals(0, $entity->getNumOfConsolation());
 
         $this->assertCount(2, $actual);
-        $this->assertContains(2, $actual);
         $this->assertContains(1, $actual);
+        $this->assertContains(2, $actual);
     }
 
     /**

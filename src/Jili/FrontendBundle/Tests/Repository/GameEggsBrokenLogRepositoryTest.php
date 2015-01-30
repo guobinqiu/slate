@@ -58,7 +58,7 @@ class GameEggsBrokenLogRepoisitoryTest extends KernelTestCase
         $expected_entity = $this->em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')
             ->findOneBy( array('userId'=> 1,
                 'eggType'=> GameEggsBreakerEggsInfo::EGG_TYPE_COMMON,
-                'pointsAcquried'=> 5));
+                'pointsAcquired'=> 5));
         $this->assertNotNull($expected_entity);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBrokenLog',$expected_entity);
 
@@ -88,34 +88,34 @@ class GameEggsBrokenLogRepoisitoryTest extends KernelTestCase
 
         $fixtures = array(
             array('nick'=> LoadLogsData::$USERS[0]->getNick(),
-            'pointsAcquried'=> LoadLogsData::$LOGS[1]->getPointsAcquried(),
+            'pointsAcquired'=> LoadLogsData::$LOGS[1]->getPointsAcquired(),
             'at'=> LoadLogsData::$LOGS[1]->getCreatedAt()->format("Y-m-d H:i:s")),
             array('nick'=> LoadLogsData::$USERS[1]->getNick(),
-            'pointsAcquried'=> LoadLogsData::$LOGS[2]->getPointsAcquried(),
+            'pointsAcquired'=> LoadLogsData::$LOGS[2]->getPointsAcquired(),
             'at'=> LoadLogsData::$LOGS[2]->getCreatedAt()->format("Y-m-d H:i:s")),
             array('nick'=> LoadLogsData::$USERS[11]->getNick(),
-            'pointsAcquried'=> LoadLogsData::$LOGS[12]->getPointsAcquried(),
+            'pointsAcquired'=> LoadLogsData::$LOGS[12]->getPointsAcquired(),
             'at'=> LoadLogsData::$LOGS[12]->getCreatedAt()->format("Y-m-d H:i:s")),
             array('nick'=> LoadLogsData::$USERS[2]->getNick(),
-            'pointsAcquried'=> LoadLogsData::$LOGS[3]->getPointsAcquried(),
+            'pointsAcquired'=> LoadLogsData::$LOGS[3]->getPointsAcquired(),
             'at'=> LoadLogsData::$LOGS[3]->getCreatedAt()->format("Y-m-d H:i:s")),
             array('nick'=> LoadLogsData::$USERS[12]->getNick(),
-            'pointsAcquried'=> LoadLogsData::$LOGS[13]->getPointsAcquried(),
+            'pointsAcquired'=> LoadLogsData::$LOGS[13]->getPointsAcquired(),
             'at'=> LoadLogsData::$LOGS[13]->getCreatedAt()->format("Y-m-d H:i:s")),
             array('nick'=> LoadLogsData::$USERS[4]->getNick(),
-            'pointsAcquried'=> LoadLogsData::$LOGS[5]->getPointsAcquried(),
+            'pointsAcquired'=> LoadLogsData::$LOGS[5]->getPointsAcquired(),
             'at'=> LoadLogsData::$LOGS[5]->getCreatedAt()->format("Y-m-d H:i:s")),
             array('nick'=> LoadLogsData::$USERS[13]->getNick(),
-            'pointsAcquried'=> LoadLogsData::$LOGS[14]->getPointsAcquried(),
+            'pointsAcquired'=> LoadLogsData::$LOGS[14]->getPointsAcquired(),
             'at'=> LoadLogsData::$LOGS[14]->getCreatedAt()->format("Y-m-d H:i:s")),
             array('nick'=> LoadLogsData::$USERS[5]->getNick(),
-            'pointsAcquried'=> LoadLogsData::$LOGS[6]->getPointsAcquried(),
+            'pointsAcquired'=> LoadLogsData::$LOGS[6]->getPointsAcquired(),
             'at'=> LoadLogsData::$LOGS[6]->getCreatedAt()->format("Y-m-d H:i:s")),
             array('nick'=> LoadLogsData::$USERS[14]->getNick(),
-            'pointsAcquried'=> LoadLogsData::$LOGS[15]->getPointsAcquried(),
+            'pointsAcquired'=> LoadLogsData::$LOGS[15]->getPointsAcquired(),
             'at'=> LoadLogsData::$LOGS[15]->getCreatedAt()->format("Y-m-d H:i:s")),
             array('nick'=> LoadLogsData::$USERS[6]->getNick(),
-            'pointsAcquried'=> LoadLogsData::$LOGS[7]->getPointsAcquried(),
+            'pointsAcquired'=> LoadLogsData::$LOGS[7]->getPointsAcquired(),
             'at'=> LoadLogsData::$LOGS[7]->getCreatedAt()->format("Y-m-d H:i:s")),
         );
         $this->assertEquals($fixtures, $stat);

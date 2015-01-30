@@ -4,6 +4,8 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 use Doctrine\Common\Collections\ArrayCollection;
+use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
+use Jili\ApiBundle\Entity\SendMessage;
 
 class SendMessageRepository extends EntityRepository
 {
@@ -54,6 +56,36 @@ class SendMessageRepository extends EntityRepository
         $query = $query->setParameter('uid',$uid);
         $query =  $query->getQuery();
         return $query->getResult();
+    }
+
+
+    /**
+     * @param array $params
+     *     $params = array(
+     *             'userid' => $uid,
+     *             'title' => $title,
+     *             'content' => $content
+     *           );
+     */
+    public function insertSendMs($params=array())
+    {
+        $em = $this->getEntityManager();
+
+  //      $tableName = $em->getClassMetadata('JiliApiBundle:SendMessage')->getTableName();
+ //       $tableName .= '0'.( $params['userid'] % 10 );
+
+//        $this->setDataTableName($em, array('name'=>$tableName));
+        $sm = SequenseEntityClassFactory :: createInstance('SendMessage', $params['userid']);
+        $sm->setSendTo( $params['userid'])
+            ->setTitle($params['title'])
+            ->setContent($params['content']);
+
+//        $sm->setSendFrom($this->container->getParameter('init'));
+        //$sm->setReadFlag($this->container->getParameter('init'));
+        //$sm->setDeleteFlag($this->container->getParameter('init'));
+
+        $em->persist($sm);
+        $em->flush();
     }
 
 }

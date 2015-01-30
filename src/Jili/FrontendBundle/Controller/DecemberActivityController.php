@@ -61,9 +61,9 @@ class DecemberActivityController extends Controller
         $startAt = new \Datetime('2015-01-20 00:00:00');
         $now = new \Datetime();
 
-        if($now > $startAt ) {
+       /* if($now > $startAt ) {
             return new Response('');
-        }
+        }*/
 
         $request = $this->get('request');
         $session = $this->get('session');
@@ -74,14 +74,13 @@ class DecemberActivityController extends Controller
                 $session->set('goToUrl', $this->get('router')->generate('jili_frontend_decemberactivity_index'));
                 return $this->redirect($this->generateUrl('_login') );
             }
-
             $form->bind($request);
             if( $form->isValid()){
                 $data= $form->getData();
-
+                $order_id  = str_replace(' ' ,'', $data['orderId']);
                 $entity = new GameEggsBreakerTaobaoOrder();
                 $entity->setUserId($session->get('uid'))
-                    ->setOrderId($data['orderId'])
+                    ->setOrderId($order_id)
                     ->setOrderAt($data['orderAt']);
                 $validator = $this->get('validator');
                 $errors = $validator->validate($entity);
@@ -96,7 +95,7 @@ class DecemberActivityController extends Controller
                     $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
                         ->insertUserPost( array('userId'=>$session->get('uid'),
                             'orderAt'=> new \Datetime($data['orderAt']), 
-                            'orderId'=>$data['orderId'], 
+                            'orderId'=>$order_id, 
                         ));
                     $this->get('session')->setFlash('notice','提交成功，等待审核');
                 }
@@ -140,7 +139,7 @@ class DecemberActivityController extends Controller
         // numOfEggs: 1, numOfConsolationEggs: 3, lessForNextEgg: 00.01 
         //$cost_per_egg = $container->get
         $startAt = new \Datetime('2015-01-20 00:00:00');
-        $endAt = new \Datetime('2015-01-27 00:00:00');
+        $endAt = new \Datetime('2015-01-31 00:00:00');
         $now = new \Datetime();
 
         $response->setData( array('code'=> 0, 
@@ -148,8 +147,9 @@ class DecemberActivityController extends Controller
                 'token'=> $record->getToken(),
                 'numOfEggs'=> $record->getNumOfCommon(),
                 'numOfConsolationEggs' => $record->getNumOfConsolation(),
-                'lessForNextEgg'=> TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
-                'isOpenSeason'=> ( $now < $startAt || $now > $endAt) ? false: true 
+                'lessForNextEgg'=> $record->getOffcutForNext(), //TaobaoOrderToEggs::lessToNext( $record->getTotalPaid()),
+                'isOpenSeason'=> true
+				//( $now < $startAt || $now > $endAt) ? false: true 
             )));
 
         return $response;      
@@ -176,11 +176,12 @@ class DecemberActivityController extends Controller
         }
 
         $startAt = new \Datetime('2015-01-20 00:00:00');
-        $endAt = new \Datetime('2015-01-27 00:00:00');
+        $endAt = new \Datetime('2015-01-31 00:00:00');
         $now = new \Datetime();
-        if(  $now <= $startAt  || $endAt <= $now )  {
-            return $response;
-        }
+
+        //if(  $now <= $startAt  || $endAt <= $now )  {
+        //    return $response;
+        //}
 
         $result = $this->get('december_activity.game_eggs_breaker')
             ->breakEgg(array(
