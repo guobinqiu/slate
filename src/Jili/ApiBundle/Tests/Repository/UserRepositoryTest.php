@@ -277,4 +277,19 @@ class UserRepositoryTest extends KernelTestCase {
         $user = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id,$email,$user_id);;
         $this->assertCount(3, $user);
     }
+    
+    /**
+    * @group issue636
+    */
+    public function testWeiBo_user_quick_insert()
+    {
+        $params = array('nick'=> 'alice32', 'email'=>'alice_nima@gmail.com', 'pwd'=>'123qwe');
+        $i = $this->em->getRepository('JiliApiBundle:User')->weibo_user_quick_insert($params);
+        $this->assertEquals('WeiBo_alice32', $i->getNick());
+        $this->assertEquals('alice_nima@gmail.com', $i->getEmail());
+        $this->assertEquals( $i->pw_encode('123qwe'), $i->getPwd()) ;
+        $j = $this->em->getRepository('JiliApiBundle:User')->findOneBy( array('nick'=>'weibo_alice32', 'email'=> 'alice_nima@gmail.com') );
+        $this->assertNotEmpty($j);
+        $this->assertEquals( $i->pw_encode('123qwe'), $j->getPwd()) ;
+    }
 }

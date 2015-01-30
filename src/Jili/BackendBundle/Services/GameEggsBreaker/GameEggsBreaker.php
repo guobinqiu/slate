@@ -307,6 +307,7 @@ class GameEggsBreaker
             return array('code'=> 1); // invalid token 
         }
 
+        $logger = $this->logger;
         $em = $this->em;
         $user_id = $params['user_id'];
         $token = $params['token'];
@@ -394,7 +395,7 @@ class GameEggsBreaker
             return array('code'=> 0, 'data'=> array('points'=>$points, 'is_once_more'=>$is_once_more ));
         } catch(\Exception $e) {
             // internal error
-            $logger->crit('[backend][breakEgg]'. $e->getMessage());
+            $this->logger->crit('[backend][breakEgg]'. $e->getMessage());
             $em->getConnection()->rollback();
         }
         return  ;  
