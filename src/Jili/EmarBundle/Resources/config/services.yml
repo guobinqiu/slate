@@ -107,6 +107,7 @@ services:
 
     website.list_get:
         class: %website.list_get.class%
+        arguments:  [ %emar_com.api.websites.list_get.depreacted_web_ids% ]
         calls:
             - [ setConnection,[ @emar_request.connection ] ]
             - [ setLogger, [ @logger ] ] 
