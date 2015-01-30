@@ -721,11 +721,16 @@ class UserController extends Controller
      */
     public function isNewMsAction($id)
     {
-        $countMessage = '';
-        if($this->notReadCb() > 0 && $this->notReadMs($id) == 0){
-            $countMessage = $this->container->getParameter('init_one');
+        $count = $this->notReadMs($id);
+        if(  $count>  0){
+            return new Response($count);
         }
-        return new Response($countMessage);
+
+        $count = $this->notReadCb(); 
+        if( $count > 0) { 
+            return new Response($count);
+        }
+        return new Response('');
     }
 
 

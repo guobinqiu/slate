@@ -5,8 +5,10 @@ namespace Jili\BackendBundle\Utility;
 class TaobaoOrderToEggs
 {
 
+
     /**
      *
+     * @abstract
      * 购物金额 奖券数
      * 10元 1
      * 20元 2
@@ -14,6 +16,8 @@ class TaobaoOrderToEggs
      * 100元 4
      * 150元 5
      * 每增加50元 奖券数+1
+     * @param float $paid
+     * @return  array array('left'=> 'count_of_eggs'=>) 返回left= 余额，count_of_eggs 个数. 
      */
     static public function caculateEggs($paid = 0) 
     {
@@ -62,5 +66,28 @@ class TaobaoOrderToEggs
         $quotient = floor($higher / 50);
 
         return  50 * ( 1 + $quotient ) - $higher;
+    }
+
+    /**
+     * @param float $paid
+     * @param float $offcut  上次结算差多少够1个蛋
+     * @param float $cost_per_egg 1个蛋的价
+     * @return  array array('left'=> 'count_of_eggs'=>) 返回left= 余额, count_of_eggs 个数. 
+     */
+    static public function caculateImmediateEggs($paid = 0, $offcut = 0,  $cost_per_egg) 
+    {
+
+        if(  $paid <= 0 || $cost_per_egg <= 0 ) {
+            return array( 'left'=> 0, 'count_of_eggs'=> 0);
+        } 
+
+        if( $offcut > 0 ) {
+            $paid  = $paid +  $cost_per_egg - $offcut;
+        }
+
+        $count = floor( $paid / $cost_per_egg );
+        $paid = $paid - $count * $cost_per_egg; 
+
+        return array('left'=> $paid , 'count_of_eggs'=> $count );
     }
 }

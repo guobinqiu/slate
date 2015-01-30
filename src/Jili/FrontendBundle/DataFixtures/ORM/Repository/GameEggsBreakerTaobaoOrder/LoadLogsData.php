@@ -50,7 +50,7 @@ class LoadLogsData extends AbstractFixture implements  FixtureInterface
         $entity->setUserId($user->getId() ) 
             ->setEggType(GameEggsBreakerEggsInfo::EGG_TYPE_COMMON )
             ->setCreatedAt($createdAt)
-            ->setPointsAcquried(13);
+            ->setPointsAcquired(13);
         $manager->persist($entity);
         $manager->flush();
         self::$LOGS[0] = $entity;
@@ -59,7 +59,7 @@ class LoadLogsData extends AbstractFixture implements  FixtureInterface
         $entity = new GameEggsBrokenLog();
         $entity->setUserId($user->getId() ) 
             ->setEggType(GameEggsBreakerEggsInfo::EGG_TYPE_CONSOLATION)
-            ->setPointsAcquried(1);
+            ->setPointsAcquired(1);
         $manager->persist($entity);
         $manager->flush();
 
@@ -99,7 +99,7 @@ $user_id = $user->getId();
             $entity->setUserId($user->getId() ) 
                 ->setEggType( $egg_types[$egg_type_key_fixture[$i]]  )
                 ->setCreatedAt($createdAt )
-                ->setPointsAcquried( $points_fixture[$i] );
+                ->setPointsAcquired( $points_fixture[$i] );
             $manager->persist($entity);
             $manager->flush();
 
@@ -133,7 +133,7 @@ $user_id = $user->getId();
             $entity->setUserId($user->getId() ) 
                 ->setEggType(GameEggsBreakerEggsInfo::EGG_TYPE_COMMON )
                 ->setCreatedAt($createdAt)
-                ->setPointsAcquried(88+$i);
+                ->setPointsAcquired(88+$i);
             $manager->persist($entity);
 
             $manager->flush();

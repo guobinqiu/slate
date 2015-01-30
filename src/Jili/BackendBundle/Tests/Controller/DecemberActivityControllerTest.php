@@ -92,22 +92,22 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals('https://localhost/admin/activity/december/audit-order/'. $order->getId() , $url);
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200,$client->getResponse()->getStatusCode() );
-        $form = $crawler->selectButton('提交' ) ->form();
+        $form = $crawler->filter('form[name=edit-order]')->form();
         $form['order[orderPaid]']->setValue('300.90');
         $form['order[isValid]']->setValue(GameEggsBreakerTaobaoOrder::ORDER_VALID );
         $form['order[auditBy]']->setValue('yuki');
         $crawler = $client->submit($form);
+
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $actual = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')
             ->findOneByUserId($user->getId());
 
-        $this->assertNotNUll($actual);
+        $this->assertNotNull($actual);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerEggsInfo', $actual);
-        $this->assertEquals(0 , $actual->getOffcutForNext());
-        $this->assertEquals(8 , $actual->getNumOfCommon());
+        $this->assertEquals(9.1 , $actual->getOffcutForNext());
+        $this->assertEquals(30 , $actual->getNumOfCommon());
         $this->assertEquals(0 , $actual->getNumOfConsolation());
         $this->assertEquals(300.90 , $actual->getTotalPaid());
-
 
         $actual = $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
             ->findOneBy(array('id'=> $order->getId(),
@@ -127,7 +127,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals('https://localhost/admin/activity/december/audit-order/'. $order->getId() , $url);
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200,$client->getResponse()->getStatusCode() );
-        $form = $crawler->selectButton('提交' ) ->form();
+        $form = $crawler->filter('form[name=edit-order]')->form();
         $form['order[isValid]']->setValue(GameEggsBreakerTaobaoOrder::ORDER_INVALID );
         $form['order[auditBy]']->setValue('mandy');
         $crawler = $client->submit($form);
@@ -155,9 +155,10 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals('https://localhost/admin/activity/december/audit-order/'. $order->getId() , $url);
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200,$client->getResponse()->getStatusCode() );
-        $form = $crawler->selectButton('提交' ) ->form();
+        $form = $crawler->filter('form[name=edit-order]')->form();
+        
         $form['order[isValid]']->setValue(GameEggsBreakerTaobaoOrder::ORDER_UNCERTAIN );
-        $form['order[auditBy]']->setValue('mandy');
+        $form['order[auditBy]']->setValue('daisy');
         $crawler = $client->submit($form);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
@@ -189,7 +190,8 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals('https://localhost/admin/activity/december/audit-order/'. $order->getId() , $url);
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200,$client->getResponse()->getStatusCode() );
-        $form = $crawler->selectButton('提交' ) ->form();
+;
+        $form = $crawler->filter('form[name=edit-order]')->form();
         $form['order[isValid]']->setValue(GameEggsBreakerTaobaoOrder::ORDER_UNCERTAIN );
         $form['order[auditBy]']->setValue('mandy');
         $crawler = $client->submit($form);
@@ -224,7 +226,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals('https://localhost/admin/activity/december/audit-order/'. $order->getId() , $url);
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200,$client->getResponse()->getStatusCode() );
-        $form = $crawler->selectButton('提交' ) ->form();
+        $form = $crawler->filter('form[name=edit-order]')->form();
         $form['order[isValid]']->setValue(GameEggsBreakerTaobaoOrder::ORDER_INVALID );
         $form['order[auditBy]']->setValue('mandy');
         $crawler = $client->submit($form);
@@ -260,7 +262,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals('https://localhost/admin/activity/december/audit-order/'. $order->getId() , $url);
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200,$client->getResponse()->getStatusCode() );
-        $form = $crawler->selectButton('提交' ) ->form();
+        $form = $crawler->filter('form[name=edit-order]')->form();
         $form['order[isValid]']->setValue(GameEggsBreakerTaobaoOrder::ORDER_VALID );
         $form['order[auditBy]']->setValue('mandy');
         $form['order[orderPaid]']->setValue(0.97);
@@ -271,9 +273,9 @@ class DecemberActivityControllerTest extends WebTestCase
             ->findOneByUserId($user->getId());
         $this->assertNotNUll($actual);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerEggsInfo', $actual);
-///        $this->assertEquals(0 , $actual->getOffcutForNext());
         $this->assertEquals(150.96 , $actual->getTotalPaid());
-        $this->assertEquals(5 , $actual->getNumOfCommon());
+        $this->assertEquals( 8.06   , $actual->getOffcutForNext());
+        $this->assertEquals(4 , $actual->getNumOfCommon());
         $this->assertEquals(3 , $actual->getNumOfConsolation());
         $this->assertNotEquals( $info->getToken(), $actual->getToken());
         $actual = $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
@@ -287,5 +289,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertNotNUll($actual);
         $this->assertInstanceOf('\\Jili\\FrontendBundle\\Entity\\GameEggsBreakerTaobaoOrder', $actual);
 
+        
     }
+
 }

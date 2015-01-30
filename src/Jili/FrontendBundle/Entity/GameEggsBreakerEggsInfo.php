@@ -14,6 +14,9 @@ class GameEggsBreakerEggsInfo
 {
     const EGG_TYPE_COMMON = 1;
     const EGG_TYPE_CONSOLATION = 2;
+    const EGG_TYPE_COMMON_ONE_MORE = 3;
+    const EGG_TYPE_CONSOLATION_ONE_MORE = 4;
+
     const COST_PER_EGG = 10.00;
     const TOKEN_LENGTH = 32;
 
@@ -398,13 +401,44 @@ class GameEggsBreakerEggsInfo
         $key = array_rand($pool);
         $egg_type = $pool[$key];
 
+        return $egg_type;
+    }
+
+    /**
+     * @param integer $egg_type  type of  egg 
+     */
+    public function reduceCountOfEgg($egg_type)
+    {
         if($egg_type === self::EGG_TYPE_CONSOLATION ) {
+            $num_of_consolation = (int) $this->getNumOfConsolation();
+            if($num_of_consolation <= 0 ) {
+                return $this;
+            }
             $this->setNumOfConsolation($num_of_consolation - 1 );
         } else {
+            $num_of_common  = (int) $this->getNumOfCommon();
+            if($num_of_common <= 0 ) {
+                return $this;
+            }
             $this->setNumOfCommon($num_of_common- 1 );
         }
         $this->setNumUpdatedAt(new \Datetime());
+        return $this;
+    }
+
+    /**
+     * 再来1次蛋的类型转换，
+     * @param integer $egg_type  type of one more egg 
+     */
+    public function getEggTypeOfOnceMore( $egg_type )
+    {
+        if( $egg_type === self::EGG_TYPE_CONSOLATION ) { 
+            return  self::EGG_TYPE_CONSOLATION_ONE_MORE;
+        } else if( $egg_type === self::EGG_TYPE_COMMON ){
+            return self::EGG_TYPE_COMMON_ONE_MORE; 
+        }
         return $egg_type;
     }
+
 
 }

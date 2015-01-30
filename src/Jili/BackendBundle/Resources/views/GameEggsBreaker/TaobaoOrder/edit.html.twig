@@ -8,7 +8,7 @@ Taobao订单审核-12月活动-{{ parent() }}
 
 {% include("JiliBackendBundle:GameEggsBreaker/TaobaoOrder:filter_menu.html.twig") %}
 
-<form action="{{ path( 'jili_backend_decemberactivity_audit', {'id': id})  }}" method="POST">
+<form name="edit-order"  action="{{ path( 'jili_backend_decemberactivity_audit', {'id': id})  }}" method="POST">
 <table align="center">
 
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>

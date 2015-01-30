@@ -5,9 +5,9 @@ class CheckinImmigration {
     private $stmts = array();
     private $tables = array('checkin_click_list', 'checkin_user_list');
     public function __construct() {
-        $user = 'root';
-        $dsn = 'mysql:dbname=jili_0129;host=127.0.0.1';
-        $password = 'MyNewPassword';
+        $user = 'jili_admin';
+        $dsn = 'mysql:dbname=jili_db;host=10.132.35.246';
+        $password = 'vct@20140423';
         try {
             $this->dbh = new \PDO($dsn, $user, $password);
             $this->dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
