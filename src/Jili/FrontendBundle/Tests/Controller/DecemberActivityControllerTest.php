@@ -351,7 +351,8 @@ class DecemberActivityControllerTest extends WebTestCase
         $startAt = new \Datetime('2015-01-20 00:00:00');
         $now = new \Datetime();
         $isStart =  ( $now >= $startAt ) ? 'true': 'false'  ;
-        $expected_response = '{"code":0,"data":{"token":"'.$actual_info->getToken() .'","numOfEggs":4,"numOfConsolationEggs":3,"lessForNextEgg":19.97,"isOpenSeason":'.$isStart.'}}';
+
+        $expected_response = '{"code":0,"data":{"token":"'.$actual_info->getToken() .'","numOfEggs":4,"numOfConsolationEggs":3,"lessForNextEgg":10.03,"isOpenSeason":'.$isStart.'}}';
 
         $this->assertEquals($expected_response, $client->getResponse()->getContent());
 
