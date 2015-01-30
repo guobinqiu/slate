@@ -81,4 +81,31 @@ class UserRegistTest extends KernelTestCase
 
     }
 
+    /**
+    * @group issue636
+    */
+    public function testWeiBo_user_regist()
+    {
+        $params = array('email'=>'alice_nima11@gmail.com', 'open_id'=>'973F697E97A60289C8C455B1D65FF5F0', 'pwd'=>'123qwe');
+        $weiboUser = $this->container->get('user_regist')->weibo_user_regist($params);
+
+        $params = array('nick'=>'alice32','email'=>'alice_nima11@gmail.com', 'open_id'=>'973F697E97A60289C8C455B1D65FF5F0', 'pwd'=>'123qwe');
+        $weiboUser = $this->container->get('user_regist')->weibo_user_regist($params);
+
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('alice_nima11@gmail.com');
+        $this->assertNotNull($user);
+        $this->assertEquals('WeiBo_alice32' , $user->getNick() );
+        $this->assertEquals($user->pw_encode('123qwe'), $user->getPwd());
+
+        $this->assertInstanceOf('Jili\\ApiBundle\\Entity\\weiboUser', $weiboUser);
+        $this->assertEquals($user->getId(), $weiboUser->getUserId());
+        $this->assertEquals('973F697E97A60289C8C455B1D65FF5F0', $weiboUser->getOpenId() );
+
+        $weiboUser1 = $this->em->getRepository('JiliApiBundle:weiboUser')->findOneBy(array('userId'=>$user->getId(), 'openId'=>'973F697E97A60289C8C455B1D65FF5F0' ));
+
+        $this->assertNotNull( $weiboUser1);
+        $this->assertInstanceOf('Jili\\ApiBundle\\Entity\\weiboUser', $weiboUser1);
+
+    }
+
 }

@@ -27,6 +27,7 @@ class User
     const IS_FROM_WENWEN = 2;
     
     const FROM_QQ_PREFIX = "QQ";
+    const FROM_WEIBO_PREFIX = "WeiBo_";
 
     public function __construct()
     {
