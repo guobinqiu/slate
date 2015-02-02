@@ -31,16 +31,12 @@ class ActivityGatheringTaobaoOrderRepository extends EntityRepository
      */
     public function isCheckedCurrentYearMonth($params)
     {
-        $now = date('Y-m-1 00:00:00');
-        $created_end  = new \DateTime($now);
-        $created_end->add(new \DateInterval('P1M'));
-
         $em = $this->getEntityManager();
         $q = $em->createQuery('select count(o) from JiliApiBundle:ActivityGatheringTaobaoOrder o 
             Where IDENTITY(o.user) = :user_id and o.createdAt >= :start_at and o.createdAt < :end_at')
             ->setParameters(array('user_id'=> $params['userId'],
-                'start_at'=>$now ,
-            'end_at'=> $created_end->format('Y-m-1 00:00:00')));
+                'start_at'=>date('2015-02-01 00:00:00'),
+            'end_at'=> date('2015-03-01 00:00:00')));
 
         $result =  (int) $q->getSingleScalarResult();
         return ( 0 === $result) ? false : true;
