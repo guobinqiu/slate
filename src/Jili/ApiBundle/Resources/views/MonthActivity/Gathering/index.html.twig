@@ -37,7 +37,11 @@
     </div>
     <div class="mainCon">
         <div class="con">
+            {% if form is defined %}
+            {{ include('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig') }}
+            {% else %}
         	{{ render(controller("JiliApiBundle:MonthActivity:gatheringAddTaobaoOrder") ) }}
+            {% endif %}
             <div class="activityIntro"><img src="{{ asset('images/january/info.png')}}" width="759" height="159"/></div>
         </div>
     </div>

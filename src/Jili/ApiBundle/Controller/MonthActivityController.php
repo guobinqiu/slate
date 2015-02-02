@@ -185,8 +185,7 @@ class MonthActivityController extends Controller {
                     $messages[] = $error->getMessage();
                     $this->get('session')->setFlash('error', $messages);
                 }
-                return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array('form'=>$form->createView()));
-
+                return $this->render('JiliApiBundle:MonthActivity/Gathering:index.html.twig', array('form'=>$form->createView() ));
             } 
 
             $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')->insert(array(
