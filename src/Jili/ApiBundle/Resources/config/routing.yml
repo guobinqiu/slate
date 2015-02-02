@@ -96,3 +96,7 @@ qqLogin:
     resource: "@JiliApiBundle/Controller/QQLoginController.php"
     prefix:   /QQLogin
     type:     annotation
+weiboLogin:
+    resource: "@JiliApiBundle/Controller/WeiBoLoginController.php"
+    prefix: /WeiBoLogin
+    type: annotation
