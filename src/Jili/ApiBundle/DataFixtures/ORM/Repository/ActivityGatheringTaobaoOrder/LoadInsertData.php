@@ -41,14 +41,14 @@ class LoadInsertData extends AbstractFixture implements  FixtureInterface {
         $user->setPwd('111111');
         $manager->persist($user);
         $manager->flush();
-        self :: $USERS[] = $user;
+        self :: $USERS[0] = $user;
 
         $order= new ActivityGatheringTaobaoOrder();
         $order->setUser($user)
             ->setOrderIdentity('123456789012345');
         $manager->persist($order);
         $manager->flush();
-        self :: $ORDERS[] = $order;
+        self :: $ORDERS[0] = $order;
 
         $user = new User();
         $user->setNick('cccc');
@@ -59,7 +59,28 @@ class LoadInsertData extends AbstractFixture implements  FixtureInterface {
         $user->setPwd('111111');
         $manager->persist($user);
         $manager->flush();
-        self :: $USERS[] = $user;
+        self :: $USERS[1] = $user;
+
+        $user = new User();
+        $user->setNick('dddd');
+        $user->setEmail('dddd@voyagegroup.com.cn');
+        $user->setPoints(101);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+        self :: $USERS[2] = $user;
+
+        $at = new \DateTime();
+        $at->sub( new \DateInterval( 'P1M') );
+        $order= new ActivityGatheringTaobaoOrder();
+        $order->setUser($user)
+            ->setOrderIdentity('123456789012346')
+        ->setCreatedAt( $at );
+        $manager->persist($order);
+        $manager->flush();
+        self :: $ORDERS[1] = $order;
     }
 }
 

@@ -57,7 +57,7 @@ function compareTime(startDate, endDate){
         }
     }  
 function formCheck(){
-    var startDate = '2015-1-27', 
+    var startDate = '2015-2-1', 
 		endDate = '2015-3-1', 
 		curDate = new Date().Format("yyyy-MM-dd"),
 		inputDate, orderNum;

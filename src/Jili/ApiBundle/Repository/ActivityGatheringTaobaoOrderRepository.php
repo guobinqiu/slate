@@ -29,13 +29,17 @@ class ActivityGatheringTaobaoOrderRepository extends EntityRepository
      * @param array $params
      * @return true when exists, false when not found
      */
-    public function isChecked($params)
+    public function isCheckedCurrentYearMonth($params)
     {
         $em = $this->getEntityManager();
-        $entity =  $this->findOneBy(array(
-            'user'=> $em->getReference('Jili\\ApiBundle\\Entity\\User', $params['userId']),
-        ));
-        return ( is_null($entity)) ? false: true;
+        $q = $em->createQuery('select count(o) from JiliApiBundle:ActivityGatheringTaobaoOrder o 
+            Where IDENTITY(o.user) = :user_id and o.createdAt >= :start_at and o.createdAt < :end_at')
+            ->setParameters(array('user_id'=> $params['userId'],
+                'start_at'=>date('2015-02-01 00:00:00'),
+            'end_at'=> date('2015-03-01 00:00:00')));
+
+        $result =  (int) $q->getSingleScalarResult();
+        return ( 0 === $result) ? false : true;
     }
 
 }
