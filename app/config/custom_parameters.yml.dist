@@ -321,4 +321,4 @@ parameters:
 
     weibo_appid: 693159936
     weibo_appkey: ac24832ff6273b123b4f3dc7747cbf1e
-    callback_url: http://www.91jili.com/WeiBoLogin/weibocallback
+    weibologin_callback_url: http://www.91jili.com/WeiBoLogin/weibocallback
