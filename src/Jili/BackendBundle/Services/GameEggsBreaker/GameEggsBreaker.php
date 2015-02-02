@@ -75,7 +75,7 @@ class GameEggsBreaker
         $strategy_file = $this->configs[$points_type]['points_pool'];
 
         $pointsPool = new PointsPool( $this->configs[$points_type]['points_pool']
-            ,$this->configs[$points_type]['points_strategy'] );
+            ,$this->configs[$points_type]['points_strategy'] , false);
         $pointsPool->cleanPointsPool( );
     }
     /**
@@ -89,7 +89,7 @@ class GameEggsBreaker
         }
 
         $pointsPool = new PointsPool( $this->configs[$points_type]['points_pool']
-            ,$this->configs[$points_type]['points_strategy'] );
+            ,$this->configs[$points_type]['points_strategy'], false );
         // buildPointsPool
         return $pointsPool->fetchByRandom();
     }
