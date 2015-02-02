@@ -32,7 +32,7 @@ class WeiBoLoginController extends Controller
             //$code = 'b57cd2153ca7e557cdb18ff37ec87291'; test用
             if(isset($code) && trim($code)!=''){
                 $weibo_auth = $this->get('user_weibo_login')->getWeiBoAuth($this->container->getParameter('weibo_appid'), $this->container->getParameter('weibo_appkey'),'');
-                $result=$weibo_auth->access_token($this->container->getParameter('callback_url'), $code);
+                $result=$weibo_auth->access_token($this->container->getParameter('weibologin_callback_url'), $code);
                 if(isset($result['access_token']) &&  isset($result['uid'])){
                     $weibo_token = $result['access_token'];
                     $weibo_uid = $result['uid'];
@@ -81,7 +81,7 @@ class WeiBoLoginController extends Controller
         } else {
             // 首次weibo登陆,到授权页面
             $weibo_auth = $this->get('user_weibo_login')->getWeiBoAuth($this->container->getParameter('weibo_appid'), $this->container->getParameter('weibo_appkey'),$weibo_access_token);
-            $login_url = $weibo_auth->login_url($this->container->getParameter('callback_url'), $this->container->getParameter('scope'));
+            $login_url = $weibo_auth->login_url($this->container->getParameter('weibologin_callback_url'), $this->container->getParameter('scope'));
             return  new RedirectResponse($login_url, '301');
         }
     }
