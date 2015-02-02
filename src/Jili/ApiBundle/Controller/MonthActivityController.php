@@ -136,7 +136,9 @@ class MonthActivityController extends Controller {
         if( $uid) {
             // no form render if has checked in
             $em  = $this->get('doctrine.orm.entity_manager');
-            $is_checked   = $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')->isChecked(array('userId'=>$uid));
+            $is_checked   = $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')
+                ->isCheckedCurrentYearMonth(array('userId'=>$uid));
+
             if ( $is_checked) {
                 return $this->render('JiliApiBundle:MonthActivity/Gathering:taobao_order_form.html.twig', array(
                     'isChecked' => $is_checked
@@ -159,9 +161,9 @@ class MonthActivityController extends Controller {
     function gatheringSaveTaobaoOrderAction(Request $request )
     {
         // redirect to login.
-        $uid = $this->get('request')->getSession()->get('uid');
+        $uid = $request->getSession()->get('uid');
         if(!$uid){
-           $this->getRequest()->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
+           $request->getSession()->set('referer', $this->generateUrl('jili_api_monthactivity_gatheringindex') );
            return $this->redirect($this->generateUrl('_user_login'));
         }
         
