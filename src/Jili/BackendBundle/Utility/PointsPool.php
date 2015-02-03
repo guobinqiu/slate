@@ -140,6 +140,10 @@ class PointsPool extends JsonCacheFileHandler
         }
     }
 
+    public function getPointsPoolFile() {
+        return $this->file;
+    }
+
     // return the daily points pool file name
     private function setDailyPointsPoolFile($file , $is_daily=true)
     {
