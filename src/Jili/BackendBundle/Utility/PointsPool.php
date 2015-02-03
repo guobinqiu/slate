@@ -12,9 +12,9 @@ class PointsPool extends JsonCacheFileHandler
     protected $file; 
     protected $file_strategy;
 
-    function __construct($file, $file_strategy)
+    function __construct($file, $file_strategy, $is_daily = true)
     {
-        $this->setDailyPointsPoolFile($file); 
+        $this->setDailyPointsPoolFile($file, $is_daily); 
         $this->file_strategy = $file_strategy;
     }
 
@@ -139,13 +139,19 @@ class PointsPool extends JsonCacheFileHandler
             $fs->remove($this->file);
         }
     }
+
     // return the daily points pool file name
-    private function setDailyPointsPoolFile($file)
+    private function setDailyPointsPoolFile($file , $is_daily=true)
     {
         if( strpos($file,'YYYYmmdd') === false) {
             throw new \Exception($file . ' should includes YYYYmmdd');
         }
-        $this->file = str_replace('YYYYmmdd', date('Ymd'),$file );
+
+        if($is_daily  ) {
+            $this->file = str_replace('YYYYmmdd', date('Ymd'),$file );
+        } else {
+            $this->file = str_replace('YYYYmmdd','',$file );
+        }
         return $this;
     } 
 }
