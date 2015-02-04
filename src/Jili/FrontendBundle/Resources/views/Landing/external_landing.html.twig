@@ -5,99 +5,58 @@
     <title>积粒网-轻松积米粒,快乐换奖励!</title>
     <meta content="积粒,积粒网,91积粒网,返利网,返利,返现,超级返,购物返利,商城返利,淘宝,淘宝返利,京东返利,积分,积分商城,网购返利,91jili.com" name="keywords"/>
     <meta content="积粒网，轻松积米粒，快乐换奖励！拥有游戏体验，体验广告，购物返利，商家活动几大板块，网站的货币为米粒，在享受众多商城最优惠价格同时还可从积粒网获得不同比率的现金奖励！积粒网让你省得多，赚得也更多！" name="description"/>
-    <link href="{{ asset('css140307/common.css') }} " rel="stylesheet" type="text/css">
-    <link href="{{ asset('css140307/reset.css') }} " rel="stylesheet" type="text/css"> 
-    <link href="{{ asset('css1408/jl.ui.login.css') }} " rel="stylesheet" type="text/css">
+    <link href="{{ asset('css1408/jl.ui.reset.css') }} " rel="stylesheet" type="text/css"> 
+    <link href="{{ asset('css1408/jl.ui.common.css') }} " rel="stylesheet" type="text/css"> 
+    <link href="{{ asset('css1408/jl.ui.landing.css') }} " rel="stylesheet" type="text/css">
     <script src="{{ asset('js/jquery-1.7.js') }}" language="javascript"></script>
 	<script src="{{ asset('js/html5.js') }}" type="text/javascript"></script> 
     <script src="{{ asset('js1408/jl.ui.login.js') }}" language="javascript"></script>
-    <script type="text/javascript">
-        (function($) {
-        	$(function() {
-        		$('div.registerBtn>a:eq(0)').click(function() {
-        			$("#form1").submit();
-        			return false;
-        		});
-        	});
-        })(jQuery);
-    </script>
 </head>
 <body>
     <header>
-        <a href="{{ path('_homepage') }}"><img src="{{ asset('images1408/lp/logo.png') }}" width="160" height="46" alt="91积粒网" title="91积粒网"/></a>
-        <span class="tips">已有积粒网账号，<a href="{{ path('_user_login') }}">直接登录</a></span>
-    </header>
-    <div class="loginNewBox">
-        <div class="loginMask"></div>
-        <div class="slider">
-            <div class="sliderMask">
-            <img class="img1" src="{{ asset('images1408/lp/pic01.png') }}" width="388" height="249"/>
-            <img class="img2" src="{{ asset('images1408/lp/pic02.png') }}" width="466" height="249"/>
-            <img class="img3" src="{{ asset('images1408/lp/pic03.png') }}" width="567" height="249"/></div>
-            <div class="menus"><span><b class="active"></b><b></b><b></b></span></div>
-        </div>
-        <div class="loginArea">
-            <div class="loginBox">
-    {% form_theme form with 'JiliApiBundle:Form:form_errors.html.twig' %}
-
-    <form action="{{ path('_landing_external') }}" method="post" name="form1" id="form1" {{ form_enctype(form) }} >
-					{#
-                    <div class="msgShow">
-                        <span>***当前已积累米粒</span>
-                        <div class="digits">
-                            <div class="digit"><span></span></div>
-                            <div class="digit"><span></span></div>
-                            <div class="digit"><span></span></div>
-                            <div class="digit"><span></span></div>
-                            <div class="digit"><span></span></div>
-                        </div>
-                    </div> #}
-					
-
-
-                    <ul class="loginForm">
-                        <!--<li class="error">您输入的密码或用户名有误</li>-->
-                     {% if form.email.vars.errors|length %}
-                        <li class="error">{{ form_errors(form.email) }}</li>
-                     {% endif %}
-                     {% if errors is defined and  errors.email is defined  %}
-                        <li class="error">{{ errors.email }}</li>
-                     {% endif %}
-                        <li><span class="defaultTxt">{{  form.email.vars.label  }}</span>
-                        {{ form_widget( form.email, {'attr' : { 'class':'text email clearTxt', 'onFocus':'$(".error").html("&nbsp;");' }}) }}
-                        </li>
-                        <!-- nickname -->
-                     {% if form.nickname.vars.errors|length %}
-                        <li class="error">{{ form_errors(form.nickname ) }}</li>
-        	         {% endif %}
-                     {% if errors is defined and  errors.nickname is defined  %}
-                        <li class="error">{{ errors.nickname  }}</li>
-        	         {% endif %}
-
-                        <li><span class="defaultTxt">{{  form.nickname.vars.label  }}</span>
-                        {{ form_widget( form.nickname, {'attr' : { 'class':'text nick clearTxt', 'onFocus':'$(".error").html("&nbsp;");' }}) }}
-                        </li>
-                        <!-- captcha -->
-                     {% if form.captcha.vars.errors|length %}
-                         <li class="error">{{ form_errors(form.captcha) }}</li>
-                     {% endif %}
-                        <li>
-                        {{ form_widget( form.captcha ) }}<span class="defaultTxt captcha"></span>
-                        </li>
-                        {{ form_rest(form)}}
-
-                        <li class="clearfix">
-                        <div class="registerBtn"><a href="#">快速注册</a></div>
-                           <div class="reward corLightGray">注册当天完善资料送<em class="corLightRed">20米粒</em>，当天签到送<em class="corLightRed">5米粒</em></div>
-                            </li>
+    	<div class="header">
+            <div class="headerTop w1000">
+                <a href="{{ path('_homepage') }}" class="logo"><img src="{{ asset('images1408/lp/logo_landing.png') }}" width="176" height="56" alt="91积粒网" title="91积粒网"/></a>
+                <span class="payroll">积粒网截止目前累计发放<b class="digits"><span></span></b><b class="digits"><span></span></b><b class="digits"><span></span></b><b class="digits"><span></span></b><b class="digits"><span></span></b><b class="digits"><span></span></b>元人民币</span>
+                <span class="tips">已有积粒网账号，<a href="{{ path('_user_login') }}">直接登录</a></span>
+            </div>
+            <div class="headerCon w1000 clearfix">
+                <div class="headerConL fnLeft">
+                    <div><img src="{{ asset('images1408/lp/title.png') }}" width="380" height="145" alt="疯狂玩转积粒网" title="疯狂玩转积粒网"/></div>
+                    <ul class="clearfix mt15">
+                        <li><a href=""><img src="{{ asset('images1408/lp/register1.png') }}" width="120" height="46" alt="免费注册" title="免费注册"/></a></li>
+                        <li><a href=""><img src="{{ asset('images1408/lp/register2.png') }}" width="120" height="46" alt="qq登录" title="qq登录"/></a></li>
+                        <li><a href=""><img src="{{ asset('images1408/lp/register3.png') }}" width="120" height="46" alt="微博登录" title="微博登录"/></a></li>
                     </ul>
-
-                </form>
+                </div>
+                <div class="headerConR fnRight"><a href="#"><img src="{{ asset('images1408/lp/slogan.png') }}" width="527" height="221" alt="轻松积米粒，快乐换奖励！" title="轻松积米粒，快乐换奖励！"/></a></div>
             </div>
         </div>
-    </div>
-    {{ render(controller('JiliApiBundle:Top:event', { 'tmpl_prefix':'signup'}))  }}
-            
+    </header> 
+    <div class="main w1000">
+    	<ul class="mainCon">
+        	<li class="step1">
+            	<h3>天天签到送米粒</h3>
+                <p>日积月累得米粒！签到时浏览商城，活动第一时间知晓，省得何止是1米粒！</p>
+            </li>
+            <li class="step2">
+            	<h3>淘宝购物</h3>
+                <p>通过积粒网去淘宝购物，参加积粒网的各种活动（找宝箱、抢金蛋等），在乐趣中收获意外的惊喜！</p>
+            </li>
+            <li class="step3">
+            	<h3>商城返利</h3>
+                <p>通过积粒网去商城购物，返利最高达70%！</p>
+            </li>
+            <li class="step4">
+            	<h3>玩游戏</h3>
+                <p>每天掷筛子，通关即可有奖励！进入排名奖励更丰厚！</p>
+            </li>
+            <li class="step5">
+            	<h3>广告体验</h3>
+                <p>做做小问卷、玩玩游戏也能拿米粒！这种好事哪里找！</p>
+            </li>
+        </ul>
+    </div>           
 {% include 'JiliApiBundle::footer.html.twig' %} 
 </body>
 </html>

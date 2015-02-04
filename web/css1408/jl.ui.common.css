@@ -397,11 +397,6 @@ a.tencent{
 .splitLvTxt b span{ position: absolute; z-index: 1000; top: 0px; left: 0; width: 22px; height: 300px; background: url(../images/january/num.png) no-repeat;}
 .splitLvTxt strong{ color: #e00000; line-height: 37px;}
 .commander{ position: absolute; z-index: 1000; top: -15px; left: 50%; margin-left: 17px;}
-.indexTopbanner .rule a.rulePic{
-	width: 69px;
-	height: 45px;
-	background: url(../images1408/baoXiangRule.png) no-repeat top center;
-}
 .indexTopbannerFold,.indexTopbannerUnfold {
 	width: 17px;
 	height: 38px;
