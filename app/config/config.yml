@@ -21,8 +21,8 @@ framework:
             version:              ~
             version_format:       %%s?%%s
             base_urls:
-                http:        [http://192.168.1.235]
-                ssl:         [http://192.168.1.235]
+                http:        [%base_url%]
+                ssl:         [%base_url%]
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
@@ -98,9 +98,9 @@ swiftmailer:
     transport:  smtp
     encryption: ~
     auth_mode:  login
-    host:       smtp.exmail.qq.com
-    username:   account@91jili.com
-    password:   91jili
+    host:       %mailer_host%
+    username:   %mailer_user%
+    password:   %mailer_password%
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
