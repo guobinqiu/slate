@@ -189,7 +189,7 @@
             direction: 'left'});
         //米粒数字
         $('.digits span').numScroll({
-            digitH : 24,
+            digitH : 20,
             num: 598985,
             animateTimer: 2000
         });
