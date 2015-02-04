@@ -24,9 +24,9 @@
                 <div class="headerConL fnLeft">
                     <div><img src="{{ asset('images1408/lp/title.png') }}" width="380" height="145" alt="疯狂玩转积粒网" title="疯狂玩转积粒网"/></div>
                     <ul class="clearfix mt15">
-                        <li><a href=""><img src="{{ asset('images1408/lp/register1.png') }}" width="120" height="46" alt="免费注册" title="免费注册"/></a></li>
-                        <li><a href=""><img src="{{ asset('images1408/lp/register2.png') }}" width="120" height="46" alt="qq登录" title="qq登录"/></a></li>
-                        <li><a href=""><img src="{{ asset('images1408/lp/register3.png') }}" width="120" height="46" alt="微博登录" title="微博登录"/></a></li>
+                        <li><a href="{{ path('_user_reg') }}"><img src="{{ asset('images1408/lp/register1.png') }}" width="120" height="46" alt="免费注册" title="免费注册"/></a></li>
+                        <li><a href="{{ path('qq_api_login') }}"><img src="{{ asset('images1408/lp/register2.png') }}" width="120" height="46" alt="qq登录" title="qq登录"/></a></li>
+                        <li><a href="{{ path('weibo_api_login') }}"><img src="{{ asset('images1408/lp/register3.png') }}" width="120" height="46" alt="微博登录" title="微博登录"/></a></li>
                     </ul>
                 </div>
                 <div class="headerConR fnRight"><a href="#"><img src="{{ asset('images1408/lp/slogan.png') }}" width="527" height="221" alt="轻松积米粒，快乐换奖励！" title="轻松积米粒，快乐换奖励！"/></a></div>
