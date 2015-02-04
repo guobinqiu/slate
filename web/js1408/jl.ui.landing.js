@@ -190,7 +190,7 @@
         //米粒数字
         $('.digits span').numScroll({
             digitH : 20,
-            num: 598985,
+            num: 1394918,
             animateTimer: 2000
         });
     });

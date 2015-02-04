@@ -9,6 +9,7 @@ header{ width: 100%; background: #ffda34 url(../images1408/lp/shade1.png); borde
 .payroll b{ position: relative; z-index: 2; width: 15px; height: 20px; background-color: #000; margin-right: 1px; overflow: hidden;}
 .payroll b span{ position: absolute; z-index: 100; width: 15px; height: 200px; top: 0; left: 0; background: url(../images1408/lp/num.png) no-repeat center; }
 .tips{ top: 35px; right: 20px; width: 150px;}
+.tips a{ color: #835506;}
 .headerCon{ margin-top: 35px;}
 .headerConL{ padding-left: 20px;}
 .headerConL li{ float: left; padding-right: 15px; padding-bottom: 20px; background: url(../images1408/lp/btnShadow.png) no-repeat left bottom;}
