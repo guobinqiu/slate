@@ -226,10 +226,51 @@ echo serialize($data1),PHP_EOL;
     }
 
     /**
-     *
+     * @group issue_652
      */
-    public function testShopListAction()
+    public function testDetailNotFound()
     {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $logger= $container->get('logger');
+        $router = $container->get('router');
+        $em = $this->em;
+        // clear cache dir
+        $cache_dir =$container->getParameter('cache_data_path');
+        echo $cache_dir , PHP_EOL;
+        exec('rm -rf '. $cache_dir);
 
+        // clear cache dir
+        $cache_dir =$container->getParameter('cache_data_path');
+        echo $cache_dir , PHP_EOL;
+        exec('rm -rf '. $cache_dir);
+
+        $wid = '1111'; 
+        $params = array('webid'=>$wid );
+
+        $website_detail_service  = $container->get('website.detail_get');
+        $website_detail_service->fetch( $params );
+
+        $cache = $website_detail_service->getCacheProxy();
+
+        $key = $cache->getKey();
+
+        echo 'key:',$key,PHP_EOL;
+        $cache_fn =$cache_dir .DIRECTORY_SEPARATOR . $key.'.cached';
+        $this->assertFileExists( $cache_fn);
+
+        $data = $cache->get();
+        //   clear again
+        exec('rm -rf '. $cache_fn);
+
+        $this->assertFileNotExists( $cache_fn);
+
+        // request
+        $queries  = array('wid'=> $params['webid']);
+        $url = $router->generate('jili_emar_websites_detail' , $queries , true) ;
+        $this->assertEquals('http://localhost/emar/websites/detail/1111', $url);
+        $crawler = $client->request('GET', $url  );
+        $this->assertEquals('404', $client->getResponse()->getStatusCode());
+        $this->assertFileNotExists( $cache_fn);
     }
 }

@@ -65,7 +65,7 @@ class GameEggsBreakerTest extends KernelTestCase
         // I
         file_put_contents( $file_expected, json_encode(array(array(1,7))));
         
-        $file_pool = str_replace('YYYYmmdd', date('Ymd'), $configs['common']['points_pool']);
+        $file_pool = str_replace('YYYYmmdd', '', $configs['common']['points_pool']);
         if(file_exists($file_pool)){
             unlink($file_pool);
         }
@@ -74,6 +74,7 @@ class GameEggsBreakerTest extends KernelTestCase
         $game_eggs_breakers  = $container->get('december_activity.game_eggs_breaker');
         // test fetch 
         $actual_points = $game_eggs_breakers->fetchRandomPoints('common');
+
         // check points pool built
         $this->assertEquals(7, $actual_points);
         $this->assertStringEqualsFile( $file_expected,'[[1,7]]');

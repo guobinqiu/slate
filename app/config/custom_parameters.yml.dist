@@ -81,7 +81,8 @@ parameters:
 # open.product.search->orderby fields
     emar_com.api.orderby_range: [1,2,3]
     emar_com.api.orderby_default: 1
-
+# emar中需要 不显示的商家的web_id
+    emar_com.api.websites.list_get.depreacted_web_ids:  [ 1111 ]
 # the router for search input box
     emar_com.rt_of_search_form.name:
         'commodity': { value: 0 , label: '商品'}
