@@ -245,7 +245,7 @@ echo serialize($data1),PHP_EOL;
         echo $cache_dir , PHP_EOL;
         exec('rm -rf '. $cache_dir);
 
-        $wid = '1111'; //jd.com
+        $wid = '1111'; 
         $params = array('webid'=>$wid );
 
         $website_detail_service  = $container->get('website.detail_get');
