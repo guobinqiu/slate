@@ -13,11 +13,10 @@ web/images/actionPic/
 /app/config/config_test.yml
 /app/config/custom_parameters.yml
 /app/config/parameters.yml
-/vendor/
 /bin/
 /app/config/parameters.ini
-/app/SymfonyRequirements.php
 composer.lock
+composer.phar
 
 web\uploads/
 dwsync.xml
@@ -48,3 +47,13 @@ build/*
 .rsync_cache/
 Capfile
 app/config/deploy.rb
+.settings/
+.travis.yml
+build.xml
+composer.lock
+composer.phar
+phpinfo.php
+#app/SymfonyRequirements.php
+#app/bootstrap.php.cache
+#vendor/
+web/images/taobao_products_picture/
