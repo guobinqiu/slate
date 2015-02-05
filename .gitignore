@@ -28,9 +28,6 @@ src/Jili/*/Resources/config/doctrine/metadata/orm/*.orm.xml
 ^config/
 /config/
 makefile
-web/images/actionPic/1391840458_3367.jpeg
-web/images/actionPic/1391840458_5171.jpeg
-web/images/banner/1397133290_7671.jpeg
 
 *.swp
 .gitignore
