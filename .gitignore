@@ -1,9 +1,9 @@
 web/bundles/
 web/js/fos_js_routes.js
-web/images/actionPic/
+#web/images/actionPic/
 web/images/tb_products_pic/
-web/images/actionPic/
 web/images/taobao_products_picture/
+#web/uploads/
 app/cache/*
 app/sessions/*
 app/cache_data/*
@@ -19,7 +19,6 @@ app/config/parameters.ini
 app/SymfonyRequirements.php
 composer.lock
 
-web/uploads/
 dwsync.xml
 .DS_Store
 
