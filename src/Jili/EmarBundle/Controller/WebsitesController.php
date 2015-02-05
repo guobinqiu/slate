@@ -285,6 +285,11 @@ class WebsitesController extends Controller
     {
         $request = $this->get('request');
         $logger = $this->get('logger');
+        
+        if( in_array($wid,
+            $this->container->getParameter('emar_com.api.websites.list_get.depreacted_web_ids'))) {
+                throw $this->createNotFoundException( '没找到此商家.');
+        }
         $params = array('webid'=>$wid );
         $website = $this->get('website.detail_get')->fetch($params);
         $web_raw  = $this->get('website.list_get')->fetch( $params );

@@ -118,12 +118,12 @@ class DecemberActivityControllerTest extends WebTestCase
 
             }
 
-            $file_pool = str_replace('YYYYmmdd', date('Ymd'), $configs['common']['points_pool']);
+            $file_pool = str_replace('YYYYmmdd', '', $configs['common']['points_pool']);
 
             if(file_exists($file_pool)){
                 unlink($file_pool);
             }
-            $file_pool = str_replace('YYYYmmdd', date('Ymd'), $configs['consolation']['points_pool']);
+            $file_pool = str_replace('YYYYmmdd', '', $configs['consolation']['points_pool']);
 
             if(file_exists($file_pool)){
                 unlink($file_pool);
