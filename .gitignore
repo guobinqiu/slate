@@ -1,22 +1,22 @@
-/web/bundles/
-/web/js/fos_js_routes.js
-/web/images/actionPic/
-/web/images/tb_products_pic/
+^web/bundles/
+^web/js/fos_js_routes.js
+^web/images/actionPic/
+^web/images/tb_products_pic/
 #/app/bootstrap*
 web/images/actionPic/
-/app/cache/*
-/app/sessions/*
-/app/cache_data/*
-/app/logs/*
-/app/logs_data/*
-/app/config/config_dev.yml
-/app/config/config_test.yml
-/app/config/custom_parameters.yml
-/app/config/parameters.yml
-/vendor/
-/bin/
-/app/config/parameters.ini
-/app/SymfonyRequirements.php
+^app/cache/*
+^app/sessions/*
+^app/cache_data/*
+^app/logs/*
+^app/logs_data/*
+^app/config/config_dev.yml
+^app/config/config_test.yml
+^app/config/custom_parameters.yml
+^app/config/parameters.yml
+^vendor/
+^bin/
+^app/config/parameters.ini
+^app/SymfonyRequirements.php
 composer.lock
 
 web\uploads/
@@ -26,7 +26,7 @@ dwsync.xml
 src/Jili/*/Resources/config/doctrine/*.orm.xml
 src/Jili/*/Resources/config/doctrine/metadata/orm/*.orm.xml
 
-/config/
+^config/
 makefile
 web/images/actionPic/1391840458_3367.jpeg
 web/images/actionPic/1391840458_5171.jpeg
@@ -43,8 +43,9 @@ _compareTemp
 !build/phpmd.xml
 !build/phpunit.xml
 !build/phpdox.xml
-build/*
+^build/*
 
 .rsync_cache/
 Capfile
-app/config/deploy.rb
+^app/config/deploy.rb
+
