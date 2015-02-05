@@ -44,7 +44,6 @@ public function initialized($id);
 }
 namespace Symfony\Component\DependencyInjection
 {
-use Symfony\Component\DependencyInjection\Exception\InactiveScopeException;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -55,17 +54,20 @@ use Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
 class Container implements IntrospectableContainerInterface
 {
 protected $parameterBag;
-protected $services = array();
-protected $methodMap = array();
-protected $aliases = array();
-protected $scopes = array();
-protected $scopeChildren = array();
-protected $scopedServices = array();
-protected $scopeStacks = array();
+protected $services;
+protected $scopes;
+protected $scopeChildren;
+protected $scopedServices;
+protected $scopeStacks;
 protected $loading = array();
 public function __construct(ParameterBagInterface $parameterBag = null)
 {
-$this->parameterBag = $parameterBag ?: new ParameterBag();
+$this->parameterBag = null === $parameterBag ? new ParameterBag() : $parameterBag;
+$this->services = array();
+$this->scopes = array();
+$this->scopeChildren = array();
+$this->scopedServices = array();
+$this->scopeStacks = array();
 $this->set('service_container', $this);
 }
 public function compile()
@@ -99,9 +101,6 @@ if (self::SCOPE_PROTOTYPE === $scope) {
 throw new InvalidArgumentException(sprintf('You cannot set service "%s" of scope "prototype".', $id));
 }
 $id = strtolower($id);
-if ('service_container'=== $id) {
-return;
-}
 if (self::SCOPE_CONTAINER !== $scope) {
 if (!isset($this->scopedServices[$scope])) {
 throw new RuntimeException(sprintf('You cannot set service "%s" of inactive scope.', $id));
@@ -109,92 +108,42 @@ throw new RuntimeException(sprintf('You cannot set service "%s" of inactive scop
 $this->scopedServices[$scope][$id] = $service;
 }
 $this->services[$id] = $service;
-if (method_exists($this, $method ='synchronize'.strtr($id, array('_'=>'','.'=>'_','\\'=>'_')).'Service')) {
-$this->$method();
-}
-if (self::SCOPE_CONTAINER !== $scope && null === $service) {
-unset($this->scopedServices[$scope][$id]);
-}
-if (null === $service) {
-unset($this->services[$id]);
-}
 }
 public function has($id)
 {
 $id = strtolower($id);
-if ('service_container'=== $id) {
-return true;
-}
-return isset($this->services[$id])
-|| array_key_exists($id, $this->services)
-|| isset($this->aliases[$id])
-|| method_exists($this,'get'.strtr($id, array('_'=>'','.'=>'_','\\'=>'_')).'Service')
-;
+return isset($this->services[$id]) || method_exists($this,'get'.strtr($id, array('_'=>'','.'=>'_')).'Service');
 }
 public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE)
 {
-foreach (array(false, true) as $strtolower) {
-if ($strtolower) {
 $id = strtolower($id);
-}
-if ('service_container'=== $id) {
-return $this;
-}
-if (isset($this->aliases[$id])) {
-$id = $this->aliases[$id];
-}
-if (isset($this->services[$id]) || array_key_exists($id, $this->services)) {
+if (isset($this->services[$id])) {
 return $this->services[$id];
-}
 }
 if (isset($this->loading[$id])) {
 throw new ServiceCircularReferenceException($id, array_keys($this->loading));
 }
-if (isset($this->methodMap[$id])) {
-$method = $this->methodMap[$id];
-} elseif (method_exists($this, $method ='get'.strtr($id, array('_'=>'','.'=>'_','\\'=>'_')).'Service')) {
-} else {
-if (self::EXCEPTION_ON_INVALID_REFERENCE === $invalidBehavior) {
-if (!$id) {
-throw new ServiceNotFoundException($id);
-}
-$alternatives = array();
-foreach (array_keys($this->services) as $key) {
-$lev = levenshtein($id, $key);
-if ($lev <= strlen($id) / 3 || false !== strpos($key, $id)) {
-$alternatives[] = $key;
-}
-}
-throw new ServiceNotFoundException($id, null, null, $alternatives);
-}
-return;
-}
+if (method_exists($this, $method ='get'.strtr($id, array('_'=>'','.'=>'_')).'Service')) {
 $this->loading[$id] = true;
 try {
 $service = $this->$method();
 } catch (\Exception $e) {
 unset($this->loading[$id]);
-if (array_key_exists($id, $this->services)) {
+if (isset($this->services[$id])) {
 unset($this->services[$id]);
-}
-if ($e instanceof InactiveScopeException && self::EXCEPTION_ON_INVALID_REFERENCE !== $invalidBehavior) {
-return;
 }
 throw $e;
 }
 unset($this->loading[$id]);
 return $service;
 }
+if (self::EXCEPTION_ON_INVALID_REFERENCE === $invalidBehavior) {
+throw new ServiceNotFoundException($id);
+}
+}
 public function initialized($id)
 {
-$id = strtolower($id);
-if ('service_container'=== $id) {
-return true;
-}
-if (isset($this->aliases[$id])) {
-$id = $this->aliases[$id];
-}
-return isset($this->services[$id]) || array_key_exists($id, $this->services);
+return isset($this->services[strtolower($id)]);
 }
 public function getServiceIds()
 {
@@ -205,7 +154,6 @@ if (preg_match('/^get(.+)Service$/', $method->name, $match)) {
 $ids[] = self::underscore($match[1]);
 }
 }
-$ids[] ='service_container';
 return array_unique(array_merge($ids, array_keys($this->services)));
 }
 public function enterScope($name)
@@ -252,11 +200,8 @@ $this->services = call_user_func_array('array_diff_key', $services);
 if (isset($this->scopeStacks[$name]) && count($this->scopeStacks[$name]) > 0) {
 $services = $this->scopeStacks[$name]->pop();
 $this->scopedServices += $services;
-foreach ($services as $array) {
-foreach ($array as $id => $service) {
-$this->set($id, $service, $name);
-}
-}
+array_unshift($services, $this->services);
+$this->services = call_user_func_array('array_merge', $services);
 }
 }
 public function addScope(ScopeInterface $scope)
@@ -289,7 +234,7 @@ return isset($this->scopedServices[$name]);
 }
 public static function camelize($id)
 {
-return strtr(ucwords(strtr($id, array('_'=>' ','.'=>'_ ','\\'=>'_ '))), array(' '=>''));
+return strtr(ucwords(strtr($id, array('_'=>' ','.'=>'_ '))), array(' '=>''));
 }
 public static function underscore($id)
 {
@@ -942,8 +887,6 @@ $application->add($r->newInstance());
 namespace Symfony\Component\Config
 {
 use Symfony\Component\Config\Resource\ResourceInterface;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
 class ConfigCache
 {
 private $debug;
@@ -951,7 +894,7 @@ private $file;
 public function __construct($file, $debug)
 {
 $this->file = $file;
-$this->debug = (bool) $debug;
+$this->debug = (Boolean) $debug;
 }
 public function __toString()
 {
@@ -965,7 +908,7 @@ return false;
 if (!$this->debug) {
 return true;
 }
-$metadata = $this->getMetaFile();
+$metadata = $this->file.'.meta';
 if (!is_file($metadata)) {
 return false;
 }
@@ -980,25 +923,27 @@ return true;
 }
 public function write($content, array $metadata = null)
 {
-$mode = 0666;
-$umask = umask();
-$filesystem = new Filesystem();
-$filesystem->dumpFile($this->file, $content, null);
-try {
-$filesystem->chmod($this->file, $mode, $umask);
-} catch (IOException $e) {
+$dir = dirname($this->file);
+if (!is_dir($dir)) {
+if (false === @mkdir($dir, 0777, true)) {
+throw new \RuntimeException(sprintf('Unable to create the %s directory', $dir));
+}
+} elseif (!is_writable($dir)) {
+throw new \RuntimeException(sprintf('Unable to write in the %s directory', $dir));
+}
+$tmpFile = tempnam($dir, basename($this->file));
+if (false !== @file_put_contents($tmpFile, $content) && @rename($tmpFile, $this->file)) {
+@chmod($this->file, 0666 & ~umask());
+} else {
+throw new \RuntimeException(sprintf('Failed to write cache file "%s".', $this->file));
 }
 if (null !== $metadata && true === $this->debug) {
-$filesystem->dumpFile($this->getMetaFile(), serialize($metadata), null);
-try {
-$filesystem->chmod($this->getMetaFile(), $mode, $umask);
-} catch (IOException $e) {
+$file = $this->file.'.meta';
+$tmpFile = tempnam($dir, basename($file));
+if (false !== @file_put_contents($tmpFile, serialize($metadata)) && @rename($tmpFile, $file)) {
+@chmod($file, 0666 & ~umask());
 }
 }
-}
-private function getMetaFile()
-{
-return $this->file.'.meta';
 }
 }
 }
