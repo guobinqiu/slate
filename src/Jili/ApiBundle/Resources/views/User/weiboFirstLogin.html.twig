@@ -23,6 +23,11 @@
                     <div>
                         <ul>
                             <li>您的基本信息</li>
+                                {% if weibo_user_img is defined %}
+                                <li class="qqMsg">
+                                    <span>头像：<img src="{{ weibo_user_img }}" /></span>
+                                </li>
+                            {% endif %}
                             <li class="qqMsg">
                                 <span>昵称：{{ nickname }}</span>
                             </li>
