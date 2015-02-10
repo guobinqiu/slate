@@ -224,7 +224,6 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals( $user->getId(), $session->get('uid'));
  //       echo $client->getResponse()->getContent(),PHP_EOL;
         // check the partial
-        // /other140307/defaultFace.jpg
         $this->assertEquals('/images1408/headPortBg.jpg', $crawler->filter('img')->attr('src'));
 
         $this->assertEquals( '当前米粒数',$crawler->filter('li')->eq(0)->text() , $user->getPoints() .' should be render' );
