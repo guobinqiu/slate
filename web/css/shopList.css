@@ -1,203 +1,235 @@
-.shopList {
-	margin-top: 30px;
-}
-.shopList article {
-	width: 723px;
-	_margin-right: -15px;
-	float: left;
-	display: inline-block;
-}
-.shopList article h2 {
-	height: 30px;
-	line-height: 30px;
-}
-.shopList ul.shopRecommend {
-	background-color: #FFF;
-	width: 215px;
-	padding: 0 10px;
-	border-right: none;
-	display: inline-block;
-}
-.shopList ul.shopRecommend li {
-	float: left;
-	height: 65px;
-	padding: 0;
-	text-align: center;
-	width: 107px;
-	position: relative;
-	border-bottom: medium none;
-	margin:10px 0;
-}
-.shopList ul.shopRecommend li img{
-	width:70%;
-	height:auto;
-}
-.shopList ul.shopRecommend li:hover img{
-	
-}
-.shopList ul.shopRecommend li p.about {
-	bottom: 0;
-    line-height: 18px;
-    padding: 0;
-	left:0;
+/*ul.shopListUl{ padding:0; border-top: 1px solid #DDDDDD; border-left: 1px solid #DDDDDD;}
+ul.shopListUl li{ background-color:#FFF; width:107.667px; height:103px; float:left; padding:15px 21px 15px 9px; position:relative;border-bottom: 1px solid #DDDDDD; border-right: 1px solid #DDDDDD;}
+ul.shopListUl li dt{ width:120px; overflow:hidden; position:relative;}
+ul.shopListUl li dt a.shop{ background-color: rgba(255, 255, 255, 0.75); bottom: 5px; color: #000000; display: inline-block; left: 5px; padding: 2px 5px; position: absolute; cursor:pointer;}
+ul.shopListUl li dd{ margin:5px 0 0 0; width:100%; float:left;}
+ul.shopListUl li dd p.title{ overflow:hidden; color:#666; width:100%; height:20px; text-align:center;}
+ul.shopListUl li dd p.title a{ color:#666;}
+ul.shopListUl li dd p.price{ color:#e94d41; font-size:15px; font-weight:bold; float:left;}
+ul.shopListUl li dd p.rebate{ text-align:center; color:#999; white-space: nowrap;}
+ul.shopListUl li dd p.rebate em{ color:#e94d41;}
+ul.shopListUl li div.hover {
+    background-color: #FFFCD9;
+    border: 1px dashed #FB991A;
+    display: none;
+    height: 106px;
+    left: 0;
+    padding: 20px 0 5px;
     position: absolute;
-    text-align: center;
-    width: 100%;
+    top: 0;
+	width:136.6px;
 }
-.shopList ul.shopRecommend li p.about span.store {
-	background-color: #f5602a;
-	display: inline-block;
-	color: #FFF;
-	padding: 0 5px;
-	height: 18px;
-	line-height: 18px;
-}
-.shopList ul.shopRecommend li p.about span.rebate {
-	color: #999999;
-    height: 18px;
-    line-height: 18px;
-}
-.shopList ul.shopRecommend li:hover p.about span.rebate{
-	color: #e94d41;
-}
-.shopList .classify-nav{
-	border: 1px solid #EEEEEE;
-	background-color: #FFF;
-	width: 696px;
-    padding: 0;
+ul.shopListUl li div.hover .tr {
     display: inline-block;
-}
-.shopList .classify-nav h4{
-	float: left;
-    margin-right: 10px;
-}
-.shopList .classify-nav a{
-	display: inline-block;
-    height: 35px;
-    line-height: 35px;
-    overflow: hidden;
-    text-align: center;
-    text-decoration: none;
-    width: 85px;
-    float: left;
-    border:1px dotted #EEEEEE;
-    border-left-color:#FFFFFF;
-    border-top-color:#FFF;
-    background-image: url(../images/hotcatg-bg.png);
-}
-.shopList .classify-nav a:hover{
-	background-color:#e94d41;
-	color:#FFF;
-	background-image: none;
-	border-style: solid;
-}
-.shopList .classify-nav a.hover{
-	background-color:#e94d41;
-	color:#FFF;
-	background-image: none;
-	border-style: solid;
-}
-
-.shopList .classify-nav a.unfoldBtn{
-	position: absolute;
-    right: 0;
-    top: 3px;
-	color:#4a8ef3;
-}
-
-.shopList .shopRebate {
-	text-align: center;
-	background: #FFF;
-	width: 695px;
-	margin: 10px 0;
-	border: 1px solid #ececec;
-	border-bottom: none;
-	border-right: none;
-	display: inline-block;
-}
-.shopList .shopRebate .s_box {
-	border: 1px solid #ececec;
-	border-top: none;
-	border-left: none;
-	padding: 15px 0 5px;
-	display: inline-table;
-	position: relative;
-	width: 138px;
-	height: 110px;
-	float: left;
-}
-.shopList .shopRebate .s_box p.store {
-	color: #5D5D5D;
-    height: 20px;
-    margin: 0 auto;
-    overflow: hidden;
-    width: 120px;
-}
-.shopList .shopRebate .s_box p.rebate {
-	color: #999999;
-}
-.shopList .shopRebate .s_box p.rebate em {
-	color: #e94d41;
-	font-style: normal;
-}
-.shopList .shopRebate .s_box div.hover {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 138px;
-	height: 103px;
-	padding: 20px 0 5px;
-	background-color: #fffcd9;
-	background-image: url(../images/s_box_bg.jpg);
-	background-position: bottom right;
-	background-repeat: no-repeat;
-	border: 1px dashed #fb991a;
-	display: none;
-}
-.shopList .shopRebate .s_box div.hover .tr{
-	display: inline-block;
-    float: left;
-    margin-bottom: 10px;
+    margin: 5px 0;
     width: 100%;
 }
-.shopList .shopRebate .s_box div.hover .img {
-	display: block;
-	float: left;
-	margin: 0px 5px 0px 10px;
-	overflow: hidden;
-	text-align: center;
-	width:60px;
-	height:44px;
+ul.shopListUl li div.hover .img {
+    display: block;
+    float: left;
+    height: 30px;
+    margin: 0 5px 0 10px;
+    overflow: hidden;
+    text-align: center;
+    width: 60px;
 }
-.shopList .shopRebate .s_box div.hover .text {
-	display: block;
-	float: left;
-	overflow: hidden;
+ul.shopListUl li div.hover .text {
+    overflow: hidden;
+	float:left;
+	text-align:left;
 }
-.shopList .shopRebate .s_box div.hover .text em, .shopList .shopRebate .s_box div.hover p em {
-	color: #e94d41;
+ul.shopListUl li div.hover .text em, ul.shopListUl li div.hover p em {
+    color: #e94d41;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+}
+ul.shopListUl li div.hover p {
+    margin: 5px 0;
+	text-align:center;
+}
+ul.shopListUl li div.hover p a.btnDetail {
+    background-color: #F5602A;
+    border-radius: 0 10px 10px;
+    color: #FFFFFF;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 0 5px;
+}
+ul.shopListUl li div.hover p a.btnShopping {
+    background-color: #46BAF0;
+    border-radius: 0 10px 10px;
+    color: #FFFFFF;
+    display: inline-block;
+    padding: 0 5px;
+}
+.shopSearch {
+	width: 200px;
+	display: inline-block;
+	*display:inline;
+    *zoom:1;
+	vertical-align: -7px;
+	margin-bottom:10px;
+}
+.shopSearchInput {
+	width: 130px;
+	border: 1px solid #d1d1d1;
+	padding: 3px;
+	float: left;
+}
+.shopSearchSubmit {
+	background: #d1d1d1;
+	padding: 6px;
+	float: left;
+}
+.shopSearchBtn {
+	width: 12px;
+	height: 12px;
+	font-size: 0;
+	border: none;
+	background: url("../images/iconImage.png") no-repeat;
+	background-position: 0 -740px;
+}*/
+
+/* shop list */
+.shopL {
+	background: #eee;
+}
+.shopL .shopSearch {
+	width: 158px;
+	display: inline-block;
+	vertical-align: -7px;
+	margin: 15px 15px 0 15px;
+	border: 1px solid #f75232;
+	height: 32px;
+	background: #fff;
+	*display:inline;
+	*zoom:1;
+}
+.shopL .shopSearchInput {
+	width: 114px;
+	padding: 0 7px;
+	float: left;
+	border: none;
+	height: 32px;
+	line-height:32px;
+}
+.shopL .shopSearchSubmit {
+	padding: 6px;
+	float: left;
+}
+.shopL .shopSearchBtn {
+	width: 14px;
+	height: 14px;
+	font-size: 0;
+	border: none;
+	background: url(../images/icons.png) no-repeat 0 -228px;
+}
+.shopL .tabnav {
+	width:160px;
+	padding: 15px;
+	height: 546px;
+	overflow-y: scroll;
+}
+.shopL .tabnav li {
+	color: #333;
+	cursor: pointer;
+	height: 34px;
+	line-height: 34px;
+	text-align: left;
+	padding-left: 23px;
+	font-size: 12px;
+	margin-top: 1px;
+}
+.shopL .tabnav li a{ display:block;}
+.shopL .tabnav li:hover {
+	background: #f75232;
+}
+.shopL .tabnav li:hover a {
+	color: #fff;
+}
+.shopL .tabnav li.active {
+	background: #f75232;
+}
+.shopL .tabnav li.active a {
+	color: #fff;
+}
+.shopR {
+	width: 810px;
+	background: #fff;
+	min-height: 624px;
+}
+.shopR .tit {
+	border-bottom: 1px solid #f2f2f2;
+	font-size: 12px;
+	height: 46px;
+	line-height: 46px;
+	text-align: left;
+	padding-left: 20px;
+}
+.shopR .tit a {
 	font-size: 14px;
-	font-weight: bold;
-	font-style: normal;
+	color: #c7c7c5;
+	padding: 15px 6px;
 }
-.shopList .shopRebate .s_box div.hover p {
-	margin: 5px 0;
+.shopR .tit a:hover, .shopR .tit a.current {
+	font-size: 14px;
+	background: #ffefeb;
+	border-bottom: 1px solid #f75232;
+	color: #f75232;
+	padding: 15px 6px;
 }
-.shopList .shopRebate .s_box div.hover p a.btnDetail {
-	background-color: #f5602a;
-	display: inline-block;
-	color: #FFF;
-	border-radius: 0 10px 10px 10px;
-	padding: 0px 5px;
-	margin-right: 5px;
+.shopR .center {
+	margin: 20px 0 20px 11px;
 }
-.shopList .shopRebate .s_box div.hover p a.btnShopping {
-	background-color: #46baf0;
-	display: inline-block;
-	color: #FFF;
-	border-radius: 0 10px 10px 10px;
-	padding: 0px 5px;
+.shopR .center ul li {
+	width: 157px;
+	height: 102px;
+	padding-top: 20px;
+	float: left;
+	border: 1px solid #f2f2f2;
+	margin-right: -1px;
+	margin-bottom: -1px;
+	position: relative;
+	overflow: hidden;
 }
-.shopList .shopRebate .s_box div.hover p a:hover {
-	text-decoration: none;
+.logoImg {
+	display: block;
+	text-align: center;
 }
+.logoWord {
+	text-align: center;
+	margin-top: 6px;
+	font-family: "宋体";
+}
+.logoMore {
+	position: absolute;
+	display:none;
+	bottom: 0;
+	height: 120px;
+	width: 157px;
+	z-index:9999;
+	*left:0;
+}
+.logoMore .logoMask {
+	width: 99%;
+	height: 99%;
+	border: 1px solid #f9b036;
+}
+.logoMore .logoBtn {
+	position: absolute;
+	bottom: 1px;
+	*left:0;
+}
+.logoMore .logoBtn a {
+	width: 78px;
+	height: 33px;
+	text-align: center;
+	line-height: 33px;
+	float:left;
+	color: #fff; 
+	cursor: pointer;
+}
+.logoMore .logoBtn a.toBuy{background:#f9b036;}
+.logoMore .logoBtn a.toMore{ background:#9ccc3d;}
+/* shop list / */

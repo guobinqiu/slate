@@ -107,7 +107,7 @@ $(document).ready(function(){
     <div class="headerConWrapper">
         <div class="headerCon w1000">
             <div class="headerConUp clearfix">
-                <a href="{{ path('_homepage') }}" title="91积粒logo" class="logo fnLeft"><img src="{{ asset('images1408/logo.png') }}" width="160" height="46" alt="91积粒logo" title="91积粒logo"/></a>
+                <a href="{{ path('_homepage') }}" title="91积粒logo" class="logo fnLeft"><img src="{{ asset('images/logo.png') }}" width="160" height="46" alt="91积粒logo" title="91积粒logo"/></a>
                 {% if app.request.attributes.get('_route') == '_homepage' %}
                     {% block search_box %}
                     	{{ render(controller('JiliEmarBundle:Search:form', {'rt' : 1 } )) }}{# 商城检索 #}

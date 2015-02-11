@@ -1,20 +1,20 @@
-body{ background: #fcf8e5 url(../images1408/lp/shade2.png);}
-header{ width: 100%; background: #ffda34 url(../images1408/lp/shade1.png); border-bottom: 10px solid #ffb21e;}
-.header{ background: url(../images1408/lp/lace.png) repeat-x top;}
+body{ background: #fcf8e5 url(../images/lp/shade2.png);}
+header{ width: 100%; background: #ffda34 url(../images/lp/shade1.png); border-bottom: 10px solid #ffb21e;}
+.header{ background: url(../images/lp/lace.png) repeat-x top;}
 .headerTop{ color: #835506; position: relative; z-index: 1; height: 56px;}
 .logo, .payroll, .tips{ position: absolute; z-index: 100; top: 0;}
 .logo{ left: 0;}
 .payroll{ top: 32px; right: 245px; font-size: 14px; font-family: "微软雅黑"; height: 20px; line-height: 20px;}
 .payroll b, .payroll b span, .registerBtn{ display: inline-block; *display: inline; *zoom: 1; vertical-align: top;}
 .payroll b{ position: relative; z-index: 2; width: 15px; height: 20px; background-color: #000; margin-right: 1px; overflow: hidden;}
-.payroll b span{ position: absolute; z-index: 100; width: 15px; height: 200px; top: 0; left: 0; background: url(../images1408/lp/num.png) no-repeat center; }
+.payroll b span{ position: absolute; z-index: 100; width: 15px; height: 200px; top: 0; left: 0; background: url(../images/lp/num.png) no-repeat center; }
 .tips{ top: 35px; right: 20px; width: 150px;}
 .tips a{ color: #835506;}
 .headerCon{ margin-top: 35px;}
 .headerConL{ padding-left: 20px;}
-.headerConL li{ float: left; padding-right: 15px; padding-bottom: 20px; background: url(../images1408/lp/btnShadow.png) no-repeat left bottom;}
+.headerConL li{ float: left; padding-right: 15px; padding-bottom: 20px; background: url(../images/lp/btnShadow.png) no-repeat left bottom;}
 .headerConR{ padding-top: 10px;}
-.main{ background: url(../images1408/lp/path.png) no-repeat center top; padding-bottom: 50px;}
+.main{ background: url(../images/lp/path.png) no-repeat center top; padding-bottom: 50px;}
 .mainCon{ position: relative; z-index: 1; font-family: "微软雅黑"; height: 1629px;}
 .mainCon li{ position: absolute; z-index: 100; top: 160px; right: 180px; width: 240px;}
 .mainCon li h3{ font-size: 32px; font-weight: bold; color: #572300; line-height: 55px; height: 55px;}

@@ -10,7 +10,7 @@
 .recommend li dd p.price{color:#e94d41; font-size:18px; line-height:200%;}
 .recommend li dd p.link a{ background-color:#ffa695; color:#FFF; display: inline-block; padding: 3px 10px;}
 .recommend li dd p.link a:hover{ background-color:#e94d41;}
-.recommend .prevBtn, .recommend .nextBtn{ display:inline-block; position:absolute; background-image:url(../images140307/iconImage.png); width:15px; height:23px; top:85px; cursor:pointer;}
+.recommend .prevBtn, .recommend .nextBtn{ display:inline-block; position:absolute; background-image:url(../images/iconImage.png); width:15px; height:23px; top:85px; cursor:pointer;}
 .recommend .prevBtn{ background-position:0 -300px; left:20px;}
 .recommend .nextBtn{ background-position:0 -340px; right:20px;}
 
@@ -33,7 +33,7 @@
 .miniRecommend ul li dt{ float:left;}
 .miniRecommend ul li dd{font-size:15px; font-weight:bold; color:#e94d41; float:right;}
 .miniRecommend ul li .rebate em{color:#e94d41;}
-.miniRecommend .prevBtn, .miniRecommend .nextBtn{ display:inline-block; position:absolute; font-size:0; background-image:url(../images140307/iconImage.png); width:15px; height:23px; top:85px; cursor:pointer;}
+.miniRecommend .prevBtn, .miniRecommend .nextBtn{ display:inline-block; position:absolute; font-size:0; background-image:url(../images/iconImage.png); width:15px; height:23px; top:85px; cursor:pointer;}
 .miniRecommend .prevBtn{ background-position:0 -300px; left:5px;}
 .miniRecommend .nextBtn{ background-position:0 -340px; right:5px;}
 

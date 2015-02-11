@@ -82,7 +82,7 @@ strong,b{ font-weight:bold;}
 }
 .headerCon{
 	position: relative;
-	z-index: 1;
+	z-index: 9998;
 }
 .headerConUp{
 	height: 45px;
@@ -104,14 +104,14 @@ strong,b{ font-weight:bold;}
 	float: left;
 	width:573px;
 	height:66px;
-	background: url(../images1408/loadingsc.gif) no-repeat 220px 20px;
+	background: url(../images/loadingsc.gif) no-repeat 220px 20px;
 }
 .hpIco {
 	width:46px;
 	height:36px;
 	float: right;
 	margin-top: 2px;
-	background: url(../images1408/icons.png) no-repeat 0 -350px;
+	background: url(../images/icons.png) no-repeat 0 -350px;
 }
 .tbTipsIco {
 	width:22px;
@@ -119,7 +119,7 @@ strong,b{ font-weight:bold;}
 	position: absolute;
 	right: 180px;
 	top: 12px;
-	background: url(../images1408/icons.png) no-repeat 0 -400px;
+	background: url(../images/icons.png) no-repeat 0 -400px;
 }
 .tbTipsCon {
 	position: absolute;
@@ -143,7 +143,7 @@ strong,b{ font-weight:bold;}
 	position: absolute;
 	top: -9px;
 	left: -1px;
-	background: url(../images1408/icons.png) no-repeat 0 -383px;
+	background: url(../images/icons.png) no-repeat 0 -383px;
 }
 .tbTipsCon a {
 	color: #f75232;
@@ -181,7 +181,7 @@ strong,b{ font-weight:bold;}
 	display: inline-block;
 	margin-bottom: -2px;
 	margin-left: 4px;
-	background:url(../images1408/icons.png) no-repeat 0 -290px;
+	background:url(../images/icons.png) no-repeat 0 -290px;
 }
 .dailyQuest{
 	position: absolute;
@@ -215,7 +215,7 @@ span.expandIcon{
 	width: 11px;
 	height: 11px;
 	overflow: hidden;
-	background: url(../images1408/icons.png) no-repeat 0 -165px;
+	background: url(../images/icons.png) no-repeat 0 -165px;
 }
 .dailyQuest li{
 	height: 43px;
@@ -238,20 +238,20 @@ span.expandIcon{
 	overflow: hidden;
 }
 em.signIcon{
-	background: url(../images1408/taskIcons.png) no-repeat 0 0;
+	background: url(../images/taskIcons.png) no-repeat 0 0;
 }
 em.taskHallIcon{
-	background: url(../images1408/taskIcons.png) no-repeat 0 -35px;
+	background: url(../images/taskIcons.png) no-repeat 0 -35px;
 	margin-bottom: 5px;
 }
 em.shoppingIcon{
-	background: url(../images1408/taskIcons.png) no-repeat 0 -70px;
+	background: url(../images/taskIcons.png) no-repeat 0 -70px;
 }
 em.quickQIcon{
-	background: url(../images1408/taskIcons.png) no-repeat 0 -105px;
+	background: url(../images/taskIcons.png) no-repeat 0 -105px;
 }
 em.chickenIcon{
-	background: url(../images1408/taskIcons.png) no-repeat 0 -140px;
+	background: url(../images/taskIcons.png) no-repeat 0 -140px;
 }
 .dailyQuest li span{
 	line-height: 18px;
@@ -284,14 +284,14 @@ em.chickenIcon{
 	width: 35px;
 	height: 28px;
 	padding: 0;
-	background:url(../images1408/icons.png) no-repeat 0 -69px;
+	background:url(../images/icons.png) no-repeat 0 -69px;
 	position: absolute;
 	z-index: 50;
 	top: 0;
 	right: 0;
 }
 .dailyQuest span.hasMark{
-	background:url(../images1408/icons.png) no-repeat 0 -200px;
+	background:url(../images/icons.png) no-repeat 0 -200px;
 	right: -7px;
 }
 .dailyQuest li.shopping{
@@ -318,12 +318,12 @@ span.aboutUs{
 	padding-right: 20px;
 }
 a.sina{
-	background: url(../images1408/sinaIcon.jpg) no-repeat left center;
+	background: url(../images/sinaIcon.jpg) no-repeat left center;
 	padding-left: 20px;
 	padding-right: 20px;
 }
 a.tencent{
-	background: url(../images1408/txweiboIcon.jpg) no-repeat left center;
+	background: url(../images/txweiboIcon.jpg) no-repeat left center;
 	padding-left: 20px;
 }	
 
