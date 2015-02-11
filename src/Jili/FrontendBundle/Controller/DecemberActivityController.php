@@ -29,7 +29,7 @@ class DecemberActivityController extends Controller
             $session->set('referer', $this->get('request')->getRequestUri());
         }
 
-        $em  = $this->get('doctrine.orm.entity_manager');
+        $em  = $this->getDoctrine()->getEntityManager() ;
 
         $products = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
             ->fetch();
