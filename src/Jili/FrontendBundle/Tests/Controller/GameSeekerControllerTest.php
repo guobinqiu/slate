@@ -126,7 +126,7 @@ class GameSeekerControllerTest extends WebTestCase
         $crawler = $client->request('POST',$url,array(),array(),array('HTTP_X-Requested-With'=>'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $gameSeekerDailyList = $container->get('doctrine.orm.entity_manager')->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $uid));
+        $gameSeekerDailyList = $container->getDoctrine()->getEntityManager()->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $uid));
         $this->assertNotEmpty($gameSeekerDailyList);
 
         $token_again = $gameSeekerDailyList[0]->getToken();
@@ -145,7 +145,7 @@ class GameSeekerControllerTest extends WebTestCase
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $gameSeekerDailyList = $container->get('doctrine.orm.entity_manager')->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $user->getId()));
+        $gameSeekerDailyList = $container->getDoctrine()->getEntityManager()->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $user->getId()));
         $this->assertNotEmpty($gameSeekerDailyList);
 
         $token_again = $gameSeekerDailyList[0]->getToken();

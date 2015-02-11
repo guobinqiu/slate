@@ -91,7 +91,7 @@ class DecemberActivityController extends Controller
                         $this->get('session')->setFlash('error', $messages);
                     }
                 } else {
-                    $em  = $this->get('doctrine.orm.entity_manager');
+                    $em  = $this->getDoctrine()->getEntityManager();
                     $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
                         ->insertUserPost( array('userId'=>$session->get('uid'),
                             'orderAt'=> new \Datetime($data['orderAt']), 
@@ -125,7 +125,7 @@ class DecemberActivityController extends Controller
         }
 
         $userId = $this->get('session')->get('uid');
-        $em  = $this->get('doctrine.orm.entity_manager');
+        $em  = $this->getDoctrine()->getEntityManager();
 
         $record = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')->findOneByUserId($userId);
         if( ! $record) {

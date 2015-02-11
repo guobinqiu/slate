@@ -37,7 +37,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
         }
 
         $userId = $this->get('session')->get('uid');
-        $em  = $this->get('doctrine.orm.entity_manager');
+        $em  = $this->getDoctrine()->getEntityManager();
         
         $is_completed = $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10) )->isGameSeekerCompletedToday($userId);
         if(  $is_completed) {
@@ -91,7 +91,7 @@ class GameSeekerController extends Controller /* implements signedInRequiredInte
             return $response;
         }
 
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->getDoctrine()->getEntityManager();
         // token 无效
         $gameSeekerDaily = $em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('token'=> $token,'userId'=> $userId,'points'=> -1, 'clickedDay'=>new \DateTime()));
         if(! $gameSeekerDaily ) {
