@@ -88,10 +88,10 @@ $container = $this->getContainer();
                 $body .= $consolation_pool_status.PHP_EOL; 
                 // TODO: move the title & recipients to config_.yml 
                 if( $env !== 'prod' ) {
-                    $title ='';
+                    $title = '[235上的测试][test]'; 
                     $recipients  = 'chiang_32@126.com';
                 } else {
-                    $title = '[235上的测试][test]'; 
+                    $title ='';
                     $recipients = 'vctech-system@voyagegroup.info';
                 }
 
