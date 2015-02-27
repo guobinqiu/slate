@@ -1363,18 +1363,22 @@ class AdminController extends Controller implements IpAuthenticatedController
         }
     }
 
-
-    public function exchangeOKWen($email,$points)
+    /**
+     * 写point_history表，更新用户的point
+     * @param int $user_id
+     * @param int $points 
+     */
+    public function exchangeOKWen($user_id,$points)
     {
         $em = $this->getDoctrine()->getManager();
-        $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        $po = SequenseEntityClassFactory :: createInstance('PointHistory', $userInfo[0]->getId());
-        $po->setUserId($userInfo[0]->getId());
+        $po = SequenseEntityClassFactory :: createInstance('PointHistory', $user_id);
+        $po->setUserId($user_id);
         $po->setPointChangeNum('+'.$points);
         $po->setReason($this->container->getParameter('init_thirteen'));
         $em->persist($po);
         $em->flush();
-        $user = $em->getRepository('JiliApiBundle:User')->find($userInfo[0]->getId());
+
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $user->setPoints(intval($user->getPoints() + $points));
         $em->persist($user);
         $em->flush();
@@ -1520,7 +1524,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $this->insertExWenwen($exchangeFromWenwen);
 
             // insert PointHistory and update User
-            $this->exchangeOKWen($user['email'], $points);
+            $this->exchangeOKWen($user['id'], $points);
 
             // insert SendMessage
             $title = $this->container->getParameter('exchange_finish_wenwen_title');
