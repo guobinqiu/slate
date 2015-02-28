@@ -339,9 +339,12 @@ class AdminControllerTest extends WebTestCase {
 
     /**
      * @group ExchangeOKWen
-       @group issue_535
+     * @group issue_535
+     * @group issue_670
+     * @group debug
      */
-    public function testExchangeOKWen() {
+    public function testExchangeOKWen() 
+    {
         $client = static :: createClient();
         $container = $client->getContainer();
         $controller = new AdminController();
@@ -354,7 +357,7 @@ class AdminControllerTest extends WebTestCase {
         $em = $this->em;
         $pointHistory1 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->findAll();
 
-        $return = $controller->exchangeOKWen($user->getEmail(), $points);
+        $return = $controller->exchangeOKWen($user->getId(), $points);
         $this->assertTrue($return);
 
         $pointHistory2 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->findAll();
@@ -362,6 +365,7 @@ class AdminControllerTest extends WebTestCase {
 
         $userInfo = $em->getRepository('JiliApiBundle:User')->findById($user->getId());
         $this->assertEquals($user->getPoints() + 120, $userInfo[0]->getPoints());
+
     }
 
     /**
