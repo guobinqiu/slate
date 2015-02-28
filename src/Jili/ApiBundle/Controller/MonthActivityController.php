@@ -135,7 +135,7 @@ class MonthActivityController extends Controller {
         $uid = $this->get('request')->getSession()->get('uid');
         if( $uid) {
             // no form render if has checked in
-            $em  = $this->get('doctrine.orm.entity_manager');
+            $em  = $this->getDoctrine()->getEntityManager();
             $is_checked   = $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')
                 ->isCheckedCurrentYearMonth(array('userId'=>$uid));
 
@@ -173,7 +173,7 @@ class MonthActivityController extends Controller {
         if($form->isValid()) {
             $data  = $form->getData();
 
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->getDoctrine()->getEntityManager();
             $entity = new ActivityGatheringTaobaoOrder();
             $entity->setUser( $em->getReference('Jili\\ApiBundle\\Entity\\User', $uid))
                 ->setOrderIdentity($data['orderIdentity']);

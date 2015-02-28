@@ -1,10 +1,10 @@
 $(document).ready(function() {
-	$(".s_box").hover(
+	$(".shopListUl li").hover(
 		function () {
-    		$(this).children(".hover").show();
-  		},
-  		function () {
-   			$(this).children(".hover").hide();
-  		}
+			$(this).children(".hover").show();
+		},
+		function () {
+			$(this).children(".hover").hide();
+		}
 	);
 });

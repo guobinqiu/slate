@@ -260,7 +260,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
         $form->bind($request);
         if($form->isValid()) {
             $entity = $form->getData();
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->getDoctrine()->getEntityManager();
 
             $uploaded =  $form['picture']->getData();
             if( ! is_null($uploaded)) {
@@ -287,7 +287,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
     public function listPromotionSelfProductAction($p)
     {
         $page_size = $this->container->getParameter('page_num');
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->getDoctrine()->getEntityManager();
         $returns =   $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
             ->fetchByRange($p, $page_size) ;
     
@@ -304,7 +304,7 @@ class AdminTaobaoController extends Controller implements  IpAuthenticatedContro
      */
     public function editPromotionSelfProductAction($id)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find TaobaoSelfPromotionProducts entity.');

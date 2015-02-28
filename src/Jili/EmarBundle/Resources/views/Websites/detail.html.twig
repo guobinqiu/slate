@@ -2,15 +2,15 @@
 {% block title %}商家列表{% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css140307/pageNumber.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/recommend.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/shopMore.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/commodity834.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css140307/searchShop.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/pageNumber.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/recommend.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/shopMore.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/commodity834.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/searchShop.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
-<script src="{{ asset('js140307/recommend.js') }}" language="javascript"></script>
+<script src="{{ asset('js/recommend.js') }}" language="javascript"></script>
 {% endblock %}
 
 
@@ -26,7 +26,7 @@
 {% endif %}
           </div>
           <a href="{{ href_ }}" class="goBtn" target="_blank" rel="nofollow" >去购物,赚米粒</a> 
-        </div>
+        </div>  
         <div class="shop-info-r">
           <h2 class="fontYH">{{ website.web_name }}</h2>
           <p class="intro">{{ website.information|raw }}</p>
@@ -107,7 +107,7 @@
 
   <div class="rebateProcess borderGlob">
     	<h3>返利流程</h3>	
-        <img src="{{ asset('images140307/rebateExplain.jpg') }}" />
+        <img src="{{ asset('images/rebateExplain.jpg') }}" />
     </div>
   </div>
 

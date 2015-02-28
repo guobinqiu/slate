@@ -55,7 +55,7 @@ class GameSeekerControllerTest extends WebTestCase
         $executor->execute($loader->getFixtures());
 
         $this->has_fixture = true;
-        //  }
+        
         $this->em  = $em;
     }
 
@@ -113,11 +113,11 @@ class GameSeekerControllerTest extends WebTestCase
 
         $gameSeekerDaily = $this->em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findOneBy(array('userId'=> $uid));
         $token = $gameSeekerDaily->getToken();
-
-        echo $token,PHP_EOL;
+        echo '$token:',$token,PHP_EOL;
         $this->assertNotNull($gameSeekerDaily);
         $expected = '{"code":0,"data":{"countOfChest":5,"token":"'.$token.'"}}';
         $this->assertEquals($expected, $client->getResponse()->getContent(),'normal');
+
         // to let the token seed changed
         sleep(2); 
 
@@ -126,16 +126,20 @@ class GameSeekerControllerTest extends WebTestCase
         $crawler = $client->request('POST',$url,array(),array(),array('HTTP_X-Requested-With'=>'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $gameSeekerDailyList = $container->get('doctrine.orm.entity_manager')->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $uid));
+        $actual_response_again = $client->getResponse()->getContent();
+
+        $this->em->clear();
+        $gameSeekerDailyList = $this->em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $uid));
+
         $this->assertNotEmpty($gameSeekerDailyList);
 
         $token_again = $gameSeekerDailyList[0]->getToken();
-        echo $token_again,PHP_EOL;
-
-        $this->assertNotEquals($token, $token_again);
+        echo '$token_again:',$token_again,PHP_EOL;
+        $this->assertNotEquals($token, $token_again,'');
 
         $expected = '{"code":0,"data":{"countOfChest":5,"token":"'.$token_again.'"}}';
-        $this->assertEquals($expected, $client->getResponse()->getContent(),'normal');
+        $this->assertEquals($expected, $actual_response_again ,'normal');
+
 
         // another user , opened again, but not clicked yet
         $user = LoadGetChestInfoData::$USERS[1];
@@ -145,7 +149,7 @@ class GameSeekerControllerTest extends WebTestCase
         $crawler = $client->request('POST', $url, array(), array(), array('HTTP_X-Requested-With'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $gameSeekerDailyList = $container->get('doctrine.orm.entity_manager')->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $user->getId()));
+        $gameSeekerDailyList = $this->em->getRepository('JiliFrontendBundle:GameSeekerDaily')->findBy(array('userId'=> $user->getId()));
         $this->assertNotEmpty($gameSeekerDailyList);
 
         $token_again = $gameSeekerDailyList[0]->getToken();
