@@ -13,16 +13,19 @@
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     <script src="{{ asset('js1408/jquery.datetimepicker.js')}}" type="text/javascript"></script>
     <script src="{{ asset('js1408/jl.ui.dec.js')}}" type="text/javascript"></script>
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 <div class="decTop">
     <div class="decTopCon">
         <div class="logo"><a href="{{ path('_homepage') }}"><img src="{{ asset('images/december/logo.png')}}" width="154" height="42" alt="logo"/></a></div>
+        <wb:share-button class="weiboshare" addition="simple" type="button" ralateUid="3572980047" default_text="抢金蛋，赢大奖，最高8888米粒"></wb:share-button>
         {% if app.session.has('uid') %}
         	<div class="login">{{ app.session.get('nick') }}，[<a href="{{ path('_user_logout') }}" class="logout">退出</a>]</div>
         {% else %}
             <div class="login">您好，请<a href="{{ path('_user_login')}}">登录</a></div>
         {% endif %}
+        
         <span class="timestamp"><img src="{{ asset('images/december/banner.jpg')}}" width="619" height="135"/></span>
     </div>
 </div>

@@ -33,11 +33,12 @@ a{ color: #fff;}
 .awardDetail td.dist{ background:#474747;}
 .boderBot{ border-bottom:1px dashed #474747;}
 .decTopCon .goBtn, .decRuleBtn, .decRuleBtnActive, .backTop, .decTopCon .timestamp{ cursor: pointer;}
-.decTopCon .logo, .decTopCon .login, .decTopCon .goBtn, .decTopCon .timestamp{ position: absolute; z-index: 1000;}
+.decTopCon .logo, .decTopCon .login, .decTopCon .goBtn, .decTopCon .timestamp,.decTopCon .weiboshare{ position: absolute; z-index: 1000;}
 .decTopCon .logo{ top: 20px; left: 0;}
-.decTopCon .login{ top: 0; right: 0; width: 148px; text-align: center; font-family: "宋体"; background-color: #b80917; padding-top: 5px; padding-bottom: 8px; border-radius: 0 0 8px 8px;}
+.decTopCon .login{ top: 0; right: 0; width: 104px; text-align: center; font-family: "宋体"; background-color: #b80917; padding-top: 5px; padding-bottom: 8px; border-radius: 0 0 8px 8px;}
 .decTopCon .login a{ margin-left: 5px; font-weight: bold; color: #fcf10c; text-decoration: underline;}
 .decTopCon .goBtn{ bottom: 50px; right: 336px;}
+.decTopCon .weiboshare{ margin-left: 5px; right: 106px; top: 6px; z-index: 1001;}
 .decTopCon .timestamp{ top: 0; left: 47%; margin-left: -205px; display: none;}
 .decRuleBtn, .decRuleBtnActive{ font-size: 14px; width: 42px; text-align: center; padding: 13px; line-height: 20px; border-radius: 6px 0 0 6px; background-color: #2a2a2a;}
 .decSort{ position: absolute; z-index: 9999; width: 127px; height: 546px; text-align: center; padding-top: 32px; left: -150px; font-size: 16px; background: url(../images/december/sortBg.png) no-repeat; display: none;}
