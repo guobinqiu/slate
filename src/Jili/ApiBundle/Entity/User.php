@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserRepository")
  */
 class User
@@ -25,7 +25,7 @@ class User
 
     const IS_NOT_FROM_WENWEN = 1;
     const IS_FROM_WENWEN = 2;
-    
+
     const FROM_QQ_PREFIX = "QQ";
     const FROM_WEIBO_PREFIX = "WeiBo_";
 
