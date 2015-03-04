@@ -20,9 +20,9 @@ use Jili\ApiBundle\Utility\WenwenToken;
 class WenwenController extends Controller
 {
     /**
-	 * @Route("/register", name="_api_91wenwen_register");
-	 * @Method({"POST"});
-	 */
+     * @Route("/register", name="_api_91wenwen_register");
+     * @Method({"POST"});
+     */
     public function registerAction()
     {
         if ( isset($_SERVER['REMOTE_ADDR'] ) && !($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip')
@@ -38,9 +38,10 @@ class WenwenController extends Controller
             $result['message'] = 'Illegal ip access';
 
             $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'text/plain');
+            $resp->headers->set('Content-Type', 'application/json');
             return $resp;
         }
+
         $em = $this->getDoctrine()->getManager();
         $email = $this->get('request')->get('email');
         $signature = $this->get('request')->get('signature');
@@ -49,24 +50,16 @@ class WenwenController extends Controller
         $result = $this->check($email, $signature, $uniqkey);
         if ($result['status'] != 1) {
             $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'text/plain');
+            $resp->headers->set('Content-Type', 'application/json');
             return $resp;
         }
 
         //存db
-        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        if (empty ($user)) {
-            $user = $em->getRepository('JiliApiBundle:User')->createOnWenwen(array (
-                'email' => $email,
-                'uniqkey' => $uniqkey
-            ));
-        } else {
-            $result['status'] = '2';
-            $result['message'] = 'already exist';
-            $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'text/plain');
-            return $resp;
-        }
+        $user = $em->getRepository('JiliApiBundle:User')->createOnWenwen(array (
+            'email' => $email,
+            'uniqkey' => $uniqkey
+        ));
+
         $str = 'jilifirstregister';
         $code = md5($user->getId() . str_shuffle($str));
 
@@ -103,7 +96,7 @@ class WenwenController extends Controller
         $logger->info('{WenwenController:registerAction}' . json_encode($result));
 
         $resp = new Response(json_encode($result));
-        $resp->headers->set('Content-Type', 'text/plain');
+        $resp->headers->set('Content-Type', 'application/json');
         return $resp;
 
     }
@@ -134,7 +127,7 @@ class WenwenController extends Controller
         }
 
         //signature error
-        if ($signature !== WenwenToken::getUniqueToken($email) ) {
+        if ($signature !== WenwenToken :: getUniqueToken($email)) {
             $result['status'] = '0';
             $result['message'] = 'access error ';
             return $result;
@@ -149,8 +142,8 @@ class WenwenController extends Controller
 
         //email exist check
         $em = $this->getDoctrine()->getManager();
-        $is_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        if ($is_email) {
+        $is_email = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        if ($is_email && $is_email->getPwd()) {
             $result['status'] = '2';
             $result['message'] = 'already exist';
             return $result;
@@ -237,13 +230,12 @@ class WenwenController extends Controller
         $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->delete($cross_id);
 
         // generate signature(cross_id, time)
-            $time = time();
+        $time = time();
 
-        $params = array (
+        $signature_send = WenwenToken :: createSignature(array (
             'cross_id' => $cross_id,
             'time' => $time
-        );
-        $signature_send = WenwenToken :: createSignature($params, $secret_key);
+        ), $secret_key);
 
         $response['meta']['code'] = 200;
         $response['data'] = array (

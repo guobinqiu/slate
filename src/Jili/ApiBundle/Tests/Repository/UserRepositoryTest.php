@@ -140,6 +140,7 @@ class UserRepositoryTest extends KernelTestCase {
     }
     /**
      * @group issue_453
+     * @group issue_646
      */
     public function testCreateOnWenwen() {
         $em = $this->em;
@@ -161,6 +162,14 @@ class UserRepositoryTest extends KernelTestCase {
 
         $this->assertEquals($param['email'], $user->getEmail());
         $this->assertEquals($param['uniqkey'], $user->getUniqkey());
+
+        $param = array (
+            'uniqkey' => '123',
+            'email' => 'chiangtor@gmail.com'
+        );
+        $user2 = $em->getRepository('JiliApiBundle:User')->createOnWenwen($param);
+        $this->assertEquals($param['uniqkey'], $user2->getUniqkey());
+
     }
     /**
      * @group issue_474
@@ -204,7 +213,7 @@ class UserRepositoryTest extends KernelTestCase {
         $user = $em->getRepository('JiliApiBundle:User')->getUserByCrossId($cross->getId());
         $this->assertEquals('test@test.com', $user['email']);
     }
-    
+
      /**
      * @group issue548
      * @group issue619
@@ -226,11 +235,11 @@ class UserRepositoryTest extends KernelTestCase {
         $this->assertEquals(2, count($user));
         $this->assertEquals(1110, $user[0]['id']);
         $this->assertEquals(1115, $user[1]['id']);
-        
+
         $user = $em->getRepository('JiliApiBundle:User')->pointFail(150);
         $this->assertEquals(2, count($user));
         $this->assertEquals(1110, $user[0]['id']);
-        
+
         $user = $em->getRepository('JiliApiBundle:User')->pointFail(173);
         $this->assertEquals(2, count($user));
         $this->assertEquals(1115, $user[1]['id']);
@@ -277,7 +286,7 @@ class UserRepositoryTest extends KernelTestCase {
         $user = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id,$email,$user_id);;
         $this->assertCount(3, $user);
     }
-    
+
     /**
     * @group issue636
     */

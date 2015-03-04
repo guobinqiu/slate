@@ -182,6 +182,41 @@ class WenwenControllerTest extends WebTestCase {
         $container = static :: $kernel->getContainer();
 
         $url = '/api/91wenwen/register';
+        $user = LoadWenwenRegister5CodeData :: $ROWS[1];
+        $email = $user->getEmail();
+
+        $crawler = $client->request('POST', $url, array (
+            'email' => $email,
+            'signature' => '6e943c3f641b16294038a07494f1a853bf400927',
+            'uniqkey' => 'test'
+        ));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
+
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        $record = $em->getRepository('JiliApiBundle:SetPasswordCode')->findBy(array (
+            'userId' => $user->getId()
+        ));
+        $this->assertCount(1, $record, ' checkin point setPassword code');
+
+        $wenwen_api_url = $container->getParameter('91wenwen_api_url');
+        $expected['status'] = "1";
+        $expected['message'] = "success";
+        $expected['activation_url'] = $wenwen_api_url . '/user/setPassFromWenwen/' . $record[0]->getCode() . '/' . $user->getId();
+
+        $content = $client->getResponse()->getContent();
+
+        $this->assertEquals(json_encode($expected), $content);
+    }
+
+    /**
+     * @group issue_646
+     */
+    public function test91wenwenRegister7() {
+        $em = $this->em;
+        $client = static :: createClient();
+        $container = static :: $kernel->getContainer();
+
+        $url = '/api/91wenwen/register';
         $email = 'zhangmm@voyagegroup.com.cn';
         $crawler = $client->request('POST', $url, array (
             'email' => $email,
@@ -190,7 +225,7 @@ class WenwenControllerTest extends WebTestCase {
         ));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
 
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);;
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
         $record = $em->getRepository('JiliApiBundle:SetPasswordCode')->findBy(array (
             'userId' => $user->getId()
         ));
