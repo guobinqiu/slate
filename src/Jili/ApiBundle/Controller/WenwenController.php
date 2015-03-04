@@ -54,19 +54,20 @@ class WenwenController extends Controller
         }
 
         //存db
-        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        if (empty ($user)) {
-            $user = $em->getRepository('JiliApiBundle:User')->createOnWenwen(array (
-                'email' => $email,
-                'uniqkey' => $uniqkey
-            ));
-        } else {
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        if ($user && $user->getPwd()) {
             $result['status'] = '2';
             $result['message'] = 'already exist';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'text/plain');
             return $resp;
+        } else {
+            $user = $em->getRepository('JiliApiBundle:User')->createOnWenwen(array (
+                'email' => $email,
+                'uniqkey' => $uniqkey
+            ));
         }
+
         $str = 'jilifirstregister';
         $code = md5($user->getId() . str_shuffle($str));
 
@@ -134,7 +135,7 @@ class WenwenController extends Controller
         }
 
         //signature error
-        if ($signature !== WenwenToken::getUniqueToken($email) ) {
+        if ($signature !== WenwenToken :: getUniqueToken($email)) {
             $result['status'] = '0';
             $result['message'] = 'access error ';
             return $result;
@@ -149,8 +150,8 @@ class WenwenController extends Controller
 
         //email exist check
         $em = $this->getDoctrine()->getManager();
-        $is_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        if ($is_email) {
+        $is_email = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        if ($is_email && $is_email->getPwd()) {
             $result['status'] = '2';
             $result['message'] = 'already exist';
             return $result;
@@ -237,7 +238,7 @@ class WenwenController extends Controller
         $em->getRepository('JiliApiBundle:UserWenwenCrossToken')->delete($cross_id);
 
         // generate signature(cross_id, time)
-            $time = time();
+        $time = time();
 
         $params = array (
             'cross_id' => $cross_id,

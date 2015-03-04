@@ -192,7 +192,7 @@ class UserRepository extends EntityRepository
             unset($result);
             unset($temp);
         }
-        
+
         $user_ids_arr = array_unique(array_merge($merged_point_result,$merged_task_result));
         $user_ids = implode(',', $user_ids_arr);
 
@@ -661,11 +661,17 @@ EOT;
      */
     public function createOnWenwen($param)
     {
-        $user = new User();
-        $user->setEmail($param['email']);
+        $user = $this->findOneByEmail($param['email']);
+        if($user){
+            $user->setRegisterDate ( new \DateTime());
+            $user->setLastLoginDate ( new \DateTime());
+        }else{
+            $user = new User();
+            $user->setEmail($param['email']);
+            $user->setPoints(User::POINT_EMPTY);
+            $user->setIsInfoSet(User::INFO_NOT_SET);
+        }
         $user->setUniqkey($param['uniqkey']);
-        $user->setPoints(User::POINT_EMPTY);
-        $user->setIsInfoSet(User::INFO_NOT_SET);
         $user->setIsFromWenwen(User::IS_FROM_WENWEN); //和91问问同时注册 2
         $em = $this->getEntityManager();
         $em->persist($user);
