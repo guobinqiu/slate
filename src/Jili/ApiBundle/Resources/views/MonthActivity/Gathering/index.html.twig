@@ -18,7 +18,7 @@
 <div class="top">
 	<div class="topCon">
     	<div class="logo fl"><a href="{{ path('_homepage') }}" title="积粒网"><img src="{{ asset('images/january/91jiliLogo.png')}}" width="118" height="34" alt="积粒网logo"/></a></div>
-        <wb:share-button class="weiboshare fl" addition="simple" type="button" ralateUid="3572980047" default_text="抱团大作战，最高瓜分2,888,888米粒！"></wb:share-button>
+        <wb:share-button class="weiboshare fl" appkey="17dg2I" addition="simple" type="button" ralateUid="3572980047" default_text="抱团大作战，最高瓜分2,888,888米粒！"></wb:share-button>
         {% if app.session.has('uid') %}
         	<div class="userInfo fr">{{ app.session.get('nick') }},[<a href="{{ path('_user_logout') }}">退出</a>]</div>
         {% else %}

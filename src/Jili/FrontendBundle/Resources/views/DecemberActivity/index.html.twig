@@ -19,7 +19,7 @@
 <div class="decTop">
     <div class="decTopCon">
         <div class="logo"><a href="{{ path('_homepage') }}"><img src="{{ asset('images/december/logo.png')}}" width="154" height="42" alt="logo"/></a></div>
-        <wb:share-button class="weiboshare" addition="simple" type="button" ralateUid="3572980047" default_text="抢金蛋，赢大奖，最高8888米粒"></wb:share-button>
+        <wb:share-button class="weiboshare" appkey="17dg2I" addition="simple" type="button" ralateUid="3572980047" default_text="抢金蛋，赢大奖！最高8888米粒！"></wb:share-button>
         {% if app.session.has('uid') %}
         	<div class="login">{{ app.session.get('nick') }}，[<a href="{{ path('_user_logout') }}" class="logout">退出</a>]</div>
         {% else %}
