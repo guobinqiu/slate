@@ -14,14 +14,18 @@ $(document).ready(function(){
 	// $("div .btnArea a").attr("disabled", "disabled");
 	$("#amazonBtn").click(function(){
         return false;
-		$('#exchangeForm').attr("action", "{{ path('_exchange_amazonInfo') }}"); 
+		$('#exchangeForm').attr("action", "{{ path('_exchange_amazonInfo') }}");
 		$("#exchangeForm").submit();
 	});
 	$("#alipayBtn").click(function(){
 		alipayClick();
 	});
 	$("#mobileBtn").click(function(){
-		$('#exchangeForm').attr("action", "{{ path('_exchange_mobileInfo') }}"); 
+		$('#exchangeForm').attr("action", "{{ path('_exchange_mobileInfo') }}");
+		$("#exchangeForm").submit();
+	});
+	$("#flowBtn").click(function(){
+		$('#exchangeForm').attr("action", "{{ path('_exchange_flowInfo') }}");
 		$("#exchangeForm").submit();
 	});
 });
@@ -31,14 +35,14 @@ function alipayClick(){
           post: "GET",
           success:function(data){
               if(data==1){
-                $('#exchangeForm').attr("action", "{{ path('_exchange_alipayInfo') }}"); 
+                $('#exchangeForm').attr("action", "{{ path('_exchange_alipayInfo') }}");
 				$("#exchangeForm").submit();
               }else{
-              	$('#exchangeForm').attr("action", "{{ path('_exchange_identityCardComfirm',{'type': 'alipay'}) }}"); 
+              	$('#exchangeForm').attr("action", "{{ path('_exchange_identityCardComfirm',{'type': 'alipay'}) }}");
               	$("#exchangeForm").submit();
               }
           }
-        });	
+        });
 }
 </script>
 {% endblock %}
@@ -65,6 +69,11 @@ function alipayClick(){
             	<h4 class="corLightRed font22">支付宝兑换现金</h4>
                 <p>用积分通过支付宝直接兑换成现金，<br/><strong class="corLightRed">2050</strong>米粒起兑</p>
                 <a class="exchangeBtn" id="alipayBtn">立即兑换</a>
+            </div>
+           <div class="flowWay">
+                <h4 class="corLightRed font22">流量包</h4>
+                <p>用积分兑换流量包，<br/><strong class="corLightRed">2050</strong>米粒起兑</p>
+                <a class="exchangeBtn" id="flowBtn">立即兑换</a>
             </div>
             <div class="morePrizes">
             	<h4>更多奖品，敬请期待</h4>

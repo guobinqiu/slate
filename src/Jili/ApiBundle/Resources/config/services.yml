@@ -47,6 +47,10 @@ parameters:
 # form_handler:
     signup_activate.form_handler.class: Jili\ApiBundle\Form\Handler\SignupActivateHandler
 
+#flow 流量
+    flow_mobilevalidate.processor.class:  Jili\ApiBundle\Services\Flow\FlowMobileValidateApiProcessor
+    flow_ordercreate.processor.class:  Jili\ApiBundle\Services\Flow\FlowOrderCreateApiProcessor
+
 services:
     login.listener:
         class: %login.listener.class%
@@ -261,3 +265,17 @@ services:
         
     user_weibo_login:
         class: %user_weibo_login.class%
+
+    flow_mobilevalidate.processor:
+        class: %flow_mobilevalidate.processor.class%
+        arguments: [ %flow% ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setLogger, [ @logger ] ]
+
+    flow_ordercreate.processor:
+        class: %flow_ordercreate.processor.class%
+        arguments: [ %flow% ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setLogger, [ @logger ] ]

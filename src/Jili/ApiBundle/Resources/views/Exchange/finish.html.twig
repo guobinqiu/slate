@@ -4,6 +4,7 @@
     {% elseif type =='amazon' %}兑换亚马逊礼品卡
     {% elseif type=='alipay' %}兑换支付宝
     {% elseif type=='mobile' %}兑换手机充值
+    {% elseif type=='flow' %}兑换流量包
     {% else %}
     {% endif %}
 {% endblock %}
@@ -32,7 +33,8 @@
       {% include 'JiliApiBundle:Exchange:alipayFinish.html.twig' %}
     {% elseif type=='mobile' %}
       {% include 'JiliApiBundle:Exchange:mobileFinish.html.twig' %}
-    {% else %}
+    {% elseif type=='flow' %}
+      {% include 'JiliApiBundle:Exchange:flowFinish.html.twig' %}
     {% endif %}
   </article>
 </div>

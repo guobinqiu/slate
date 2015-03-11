@@ -1,0 +1,140 @@
+{% extends 'JiliFrontendBundle::base.html.twig' %} {% block title
+%}积粒网-兑换流量包{% endblock %} {% block stylesheet %}
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/personalAside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/exchange.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %} {% block javascript %}
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+var existMobile = "{{ existMobile }}";
+var points = "{{ points }}";
+$(document).ready(function() {
+    {% if existMobile %}
+        $(".form dt:eq(1)").hide();
+        $(".form dt:eq(2)").hide();
+        $(".form dd:eq(1)").hide();
+    {% else %}
+        $(".form dt:eq(0)").hide();
+    {% endif %}
+
+    $(".otherUser").click(function (){
+        $("#existMobile").val('1');
+        $(".form dt:eq(0)").hide();
+        $(".form dt:eq(1)").show();
+        $(".form dt:eq(2)").show();
+        $(".form dd:eq(1)").show();
+    })
+
+    $("#active").hide();
+    $("#unactive").show();
+});
+function getFlowlist(){
+    var filter = /^1[3|4|5|8][0-9]\d{4,8}$/;
+    if($("#mobile").val()==''){
+        $("#error").html("<font color='red'>请输入您的手机号码</font>");
+        return false;
+    }
+    if(!filter.test($("#mobile").val())){
+        $("#error").html("<font color='red'>输入的手机格式不正确</font>");
+        return false;
+    }
+    if($("#mobile").val()!=$("#re_mobile").val()){
+        $("#error").html("<font color='red'>2次输入的手机号码不相同</font>");
+        return false;
+    }
+
+    $.ajax({
+        url: Routing.generate('jili_api_exchange_getflowapi', {
+            "mobile": $("#mobile").val()
+        }),
+        type: "POST",
+        dataType: 'json',
+        success: function(obj){
+            var is_success = obj.is_success;
+            if(is_success){
+                var html = '<dd>选择兑换金额：</dd>';
+                html += '<dt><select id="point" name="point" onchange="changePoint();">';
+                var default_point = obj.product_list[0]['custom_prise']*100;
+                $.each(obj.product_list, function(i, n){
+                    html += "<option value='" + n.custom_prise*100 + "'>" + n.packagesize + "M </option>";
+                });
+                html += '= <span  class="rechange">'+default_point+'</span> 米粒</dt>';
+                $("#flow_package").html(html);
+                $("#rechangeMi").html(default_point);
+                $("#over").html(points-default_point);
+                showButton();
+            }else{
+                
+            }
+
+        // if(returnData.data.has_done){
+           //     $('.activityAd').hide();
+           // }else{
+           //     $('.activityAd').show();
+           // }
+        },
+        error: function(){
+            console.log('请求错误');
+        }
+    });
+    
+    //var exchange_total = $(".rechange").html();
+    //$('#changes').val(exchange_total);
+    //$("#form1").submit();
+}
+
+function exchangeFlow(){
+    $("#form1").submit();
+}
+function changePoint(){
+    var total = $("#point").val();
+    var over = {{ points }} - total;
+    $(".rechange").html(total);
+    $(".rechangeMi").html(total);
+    $("#over").html(over);
+    showButton();
+}
+
+function showButton(){
+    if($("#over").html()<0){
+        $("#active").hide();
+        $("#unactive").show();
+    }else{
+        $("#active").show();
+        $("#unactive").hide();
+    }
+}
+
+</script>
+{% endblock %} {% block body %}
+<div class="webArticle exchange">
+<form action="{{ path('_exchange_flowInfo') }}" method="post" id="form1">
+<h2><span class="font18 corLightRed crumbTit">兑换信息</span></h2>
+<aside> {% include 'JiliApiBundle:User:rightInfo.html.twig' %} </aside>
+<article>
+<div class="wenwen">
+    <div class="form">
+    <dd>手机号码：</dd>
+    <dt>{{ existMobile }} <a class="otherUser">使用其他号码</a></dt>
+    <dt><input type="text" id="mobile" name="mobile" value="{{ mobile }}" /></dt>
+    <dd>再次输入号码：</dd>
+    <dt><input type="text" id="re_mobile" name="re_mobile" /></dt>
+    </div>
+    <input type="hidden" name="existMobile" id="existMobile"/>
+    <input type="hidden" name="rechange" id="changes"/>
+    <div id="flow_package"></div>
+    <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi" id="rechangeMi"></span></div>
+    <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-2010 }}</span></div>
+    <div><span id='error' style="color: red">{{code}}</span></div>
+    <div class="btnArea mt50">
+        <a class="fontYH font18" id="flowList" onclick="getFlowlist();">获取流量包列表</a> 
+        <a class="fontYH font18" id="active" onclick="exchangeFlow();">兑换</a>
+        <a class="fontYH font18" id="unactive" >兑换</a>
+    </div>
+</div>
+</article> 
+<input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
+</form>
+</div>
+{% endblock %}
+
