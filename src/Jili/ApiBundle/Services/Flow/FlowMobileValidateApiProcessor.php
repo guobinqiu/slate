@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 
 use Jili\ApiBundle\Utility\FlowUtil;
 use Jili\ApiBundle\Utility\CurlUtil;
+use Jili\ApiBundle\Utility\FileUtil;
 
 /**
  *
@@ -25,7 +26,7 @@ class FlowMobileValidateApiProcessor {
     public function process($mobile) {
         $configs = $this->configs;
 
-        $url = $configs['url'] . 'mobile_validateV1.php';//todo
+        $url = $configs['url'] . 'mobile_validateV1.php'; //todo
         $prv_key = $configs['prv_key'];
         $custom_sn = $configs['custom_sn'];
 
@@ -41,6 +42,21 @@ class FlowMobileValidateApiProcessor {
 
         //解析接口数据
         $data = json_decode($return, true);
+
+        //写log
+        $log_path = $configs['file_path_flow_api_log'];
+        if ($data['resultcode'] != 200) {
+            $content = "[mobile_validate]url:" . $url . ' return:' . $return . FlowUtil :: $MOBILE_VALIDATE_ERROR[$data['resultcode']];
+            FileUtil :: writeContents($log_path, $content);
+        }
+
+        //显示给用户的错误信息
+        if (in_array($data['resultcode'], array (
+                '204',
+                '206'
+            ))) {
+            $data['error_message'] = FlowUtil :: $MOBILE_VALIDATE_ERROR[$data['resultcode']];
+        }
 
         return $data;
     }

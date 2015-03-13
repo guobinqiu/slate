@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 
 use Jili\ApiBundle\Utility\FlowUtil;
 use Jili\ApiBundle\Utility\CurlUtil;
+use Jili\ApiBundle\Utility\FileUtil;
 
 /**
  *
@@ -24,9 +25,8 @@ class FlowOrderCreateApiProcessor {
 
     public function process($param) {
         $configs = $this->configs;
-echo "<pre>";
-print_r($param);
-        $url = $configs['url'] . 'createorder_api.php';//todo
+
+        $url = $configs['url'] . 'createorder_api.php'; //todo
         $prv_key = $configs['prv_key'];
         $custom_sn = $configs['custom_sn'];
 
@@ -44,6 +44,24 @@ print_r($param);
 
         //解析接口数据
         $data = json_decode($return, true);
+
+        //写log
+        $log_path = $configs['file_path_flow_api_log'];
+        if ($data['resultcode'] != 101) {
+            $content = "[createorder_api]url:" . $url . ' return:' . $return . FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
+            FileUtil :: writeContents($log_path, $content);
+        }
+
+        //显示给用户的错误信息
+        if (in_array($data['resultcode'], array (
+                204,
+                205,
+                206,
+                209,
+                210
+            ))) {
+            $data['error_message'] = FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
+        }
 
         return $data;
     }

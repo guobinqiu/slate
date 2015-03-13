@@ -1,0 +1,69 @@
+{% extends 'JiliFrontendBundle::base.html.twig' %} {% block title
+%}积粒网-兑换流量包{% endblock %} {% block stylesheet %}
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/personalAside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/exchange.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %} {% block javascript %}
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+
+var points = "{{ user.points }}";
+
+{% autoescape false %}
+var product_list = '{{mobile_info.product_list |json_encode() }}';
+{% endautoescape %}
+
+function exchangeFlow(){
+    if($("#over").html()<0){
+        $("#error").html("<font color='red'>对不起，您的米粒不足，不能兑换</font>");
+        return false;
+    }
+    $("#form1").submit();
+}
+function changePoint(selected_index){
+    var data = eval(product_list);
+    var exchange_point = data[selected_index].custom_prise*100;
+    var over = points - exchange_point;
+    $(".rechangeMi").html(exchange_point);
+    $("#over").html(over);
+}
+</script>
+{% endblock %} {% block body %}
+<div class="webArticle exchange">
+<form action="{{ path('_exchange_flowSave') }}" method="post" id="form1">
+<h2><span class="font18 corLightRed crumbTit">流量包兑换信息</span></h2>
+<aside> {% include 'JiliApiBundle:User:rightInfo.html.twig' %} </aside>
+<article>
+<div class="wenwen">
+    <div class="form">
+    <dd>手机号码：</dd>
+    <dt>{{ mobile_info.mobile }} </dt>
+    <dd>手机号码所属运营商：</dd>
+    <dt>{{ mobile_info.provider }}</dt>
+    <dd>手机号码归属省份：</dd>
+    <dt>{{ mobile_info.province }}
+    
+    <dd>流量包选择：</dd>
+    <dt>
+    <select id="flow_list" name="flow_list" onchange="changePoint(this.value);">
+      {% for item in mobile_info.product_list %}
+       <option value="{{ loop.index0 }}" {% if loop.index0 == selected_flow %} selected = "selected" {% endif %}>{{ item.packagesize }} M</option>
+      {% endfor %}
+    </select>
+    </dt>
+    </div>
+
+    <input type="hidden" name="custom_product_id" id="custom_product_id"/>
+    <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi" id="rechangeMi">{{change_point}}</span></div>
+    <div class="changePoint">兑换后剩余米粒：<span id="over">{{ user.points-change_point }}</span></div>
+    <div><span id='error' style="color: red">{% if code is defined %}{{code}}{% endif %}</span></div>
+    <div class="btnArea mt50">
+        <a class="fontYH font18" onclick="javascript:history.back(1);">返回</a> 
+        <a class="fontYH font18" id="active" onclick="exchangeFlow();">兑换</a>
+    </div>
+</div>
+</article> 
+<input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
+</form>
+</div>
+{% endblock %}

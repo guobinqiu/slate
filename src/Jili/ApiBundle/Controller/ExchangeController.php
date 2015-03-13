@@ -1054,195 +1054,220 @@ class  ExchangeController extends Controller
         }
 
         $request = $this->get('request');
-        $arr['mobile'] = '';
-        $arr['code'] = '';
-        $arr['existMobile'] = '';
+        $em = $this->getDoctrine()->getManager();
+        $user_id = $request->getSession()->get('uid');
 
+        //csrf_check
         $tokenKey = $request->request->get('tokenKey');
         $arr['tokenKey'] = $tokenKey;
+        $csrf_token = $request->getSession()->get('csrf_token');
+        if(!$tokenKey || ($tokenKey != $csrf_token)){
+            return $this->redirect($this->generateUrl('_default_error'));
+        }
 
+        $pointsExchange = new PointsExchange();
+        $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($user_id,$pointsExchange::TYPE_FLOW);
+        if(!empty($targetAcc)){
+             $arr['existMobile'] = $targetAcc[0]['targetAccount'];
+        }
+
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $request->getSession()->set('flow_user', $user);
+        $arr['user'] = $user;
+        return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
+    }
+
+    /**
+     * @Route("/getFlowList", name="_exchange_flowList")
+     */
+    public function getFlowListAction()
+    {
+        //login check
+        if(!$this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        //csrf_check
+        $tokenKey = $this->get('request')->request->get('tokenKey');
+        $arr['tokenKey'] = $tokenKey;
         $csrf_token = $this->get('request')->getSession()->get('csrf_token');
         if(!$tokenKey || ($tokenKey != $csrf_token)){
             return $this->redirect($this->generateUrl('_default_error'));
         }
 
-        $id = $this->get('request')->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        $points = $user->getPoints();
-        $arr['user'] = $user;
-        $arr['points'] = $points;
-
-        $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($id,5);//todo
-        if(!empty($targetAcc)){
-             $arr['existMobile'] = $targetAcc[0]['targetAccount'];
-        }
-
-        $change_point =  $request->request->get('point');
-        // show page，用户在页面上输入手机号码
-        if(!$change_point) {
-            return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
-        }
-
-        // 兑换处理
-        $rechange =  $request->request->get('rechange');
-        $change_point =  $request->request->get('point');
+        $request = $this->get('request');
         $mobile = $request->request->get('mobile');
         $re_mobile = $request->request->get('re_mobile');
         $existMobile = $request->request->get('existMobile');
-        $targetAccount = '';
-        $arr['mobile'] = $mobile;
+
+        $selected_flow =  $request->request->get('flow_list',0);
+        //get user
+        $arr['user'] = $request->getSession()->get('flow_user');
 
         //check mobile todo
-        if($existMobile){
-            if($existMobile != $arr['existMobile']){
-                $code = $this->container->getParameter('exchange_en_mobile');
-                $arr['code'] = $code;
+        $error_message = $this->checkFlowMobile($existMobile, $mobile, $re_mobile);
+        if($error_message){
+            $arr['code'] = $error_message;
+            $arr['mobile'] = $mobile;
+            $arr['existMobile'] = $existMobile;
+            return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
+        }
+
+        //确定targetAccount
+        if($mobile){
+            $targetAccount = $mobile;
+        }else{
+            $targetAccount = $existMobile;
+        }
+
+        //调用service, 手机号码验证接口，返回流量包信息
+        $service = $this->container->get('flow_mobilevalidate.processor');
+        $return = $service->process($targetAccount);
+        if($return['resultcode'] == 200){
+            $arr['mobile_info'] = array('mobile'=>$targetAccount,'provider'=>$return['provider'],'province'=>$return['province'],'product_list'=>$return['product_list']);
+            $this->get('request')->getSession()->set('mobile_info',$arr['mobile_info']);
+            $arr['selected_flow'] = $selected_flow;
+            $arr['change_point'] = $arr['mobile_info']['product_list'][$selected_flow]['custom_prise']*100;//todo
+            return $this->render('JiliApiBundle:Exchange:flowApply.html.twig',$arr);
+        }else{
+            if($return['error_message']){
+                $arr['code'] = $return['error_message']."不能兑换，请联系客服！";//todo
             }else{
-                $targetAccount = $existMobile;
+                $arr['code'] = "不能兑换，请联系客服！";//todo
+            }
+            $arr['mobile'] = $mobile;
+            $arr['existMobile'] = $existMobile;
+            return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
+        }
+    }
+
+    public function checkFlowMobile($existMobile, $mobile, $re_mobile){
+        if($existMobile){
+            $request = $this->get('request');
+            $user_id = $request->getSession()->get('uid');
+            $em = $this->getDoctrine()->getManager();
+            $pointsExchange = new PointsExchange();
+            $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($user_id,$pointsExchange::TYPE_FLOW);
+            if($targetAcc){
+                if($targetAcc[0]['targetAccount'] != $existMobile){
+                    return $this->container->getParameter('exchange_en_mobile');
+                }
+            }else{
+                return $this->container->getParameter('exchange_en_mobile');
             }
         }else{
-            //check mobile
+             //check mobile todo 重构
             if(!preg_match("/^1\d{10}$/", $mobile)) {
-                $code = $this->container->getParameter('update_wr_mobile');
-                $arr['code'] = $code;
+                return $this->container->getParameter('update_wr_mobile');
             }elseif($mobile != $re_mobile){
-                $code = $this->container->getParameter('exchange_unsame_mobile');
-                $arr['code'] = $code;
-            }else{
-                $targetAccount = $mobile;
+                return $this->container->getParameter('exchange_unsame_mobile');
             }
         }
+        return null;
+    }
 
-        //check $change_point todo 坚持分数是否对？
-        if($change_point-$points>0){
-            $code = $this->container->getParameter('exchange_wr_point');
-            $arr['code'] = $code;
+    /**
+     * @Route("/getFlowSave", name="_exchange_flowSave")
+     */
+    public function getFlowSaveAction()
+    {
+        //login check
+        if(!$this->get('request')->getSession()->get('uid')){
+            return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        // 有错返回
-        if($arr['code']){
-            return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
+        //csrf_check
+        $tokenKey = $this->get('request')->request->get('tokenKey');
+        $arr['tokenKey'] = $tokenKey;
+        $csrf_token = $this->get('request')->getSession()->get('csrf_token');
+        if(!$tokenKey || ($tokenKey != $csrf_token)){
+            return $this->redirect($this->generateUrl('_default_error'));
+        }
+
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $user_id = $request->getSession()->get('uid');
+        //get user
+        $arr['user'] = $request->getSession()->get('flow_user');
+
+        //用户选择的流量包信息
+        $selected_flow =  $request->request->get('flow_list');
+        $arr['mobile_info'] = $this->get('request')->getSession()->get('mobile_info');+
+        $change_point = $arr['mobile_info']['product_list'][$selected_flow]['custom_prise']*100;
+
+        //check 分数
+        if(($change_point-$arr['user']->getPoints()) > 0){
+            $arr['code'] = $this->container->getParameter('exchange_wr_point');;
+            $arr['selected_flow'] = $selected_flow;
+            $arr['change_point'] = $arr['mobile_info']['product_list'][$selected_flow]['custom_prise']*100;
+            return $this->render('JiliApiBundle:Exchange:flowApply.html.twig',$arr);
         }
 
         //ExchangeFlowOrder save
         $exchangeFlowOrder = new ExchangeFlowOrder();
-        $exchangeFlowOrder->setUserId($id);
+        $exchangeFlowOrder->setUserId($user_id);
+        $exchangeFlowOrder->setProvider($arr['mobile_info']['provider']);
+        $exchangeFlowOrder->setProvince($arr['mobile_info']['province']);
+        $exchangeFlowOrder->setCustomProductId($arr['mobile_info']['product_list'][$selected_flow]['custom_product_id']*100);
+        $exchangeFlowOrder->setPackagesize($arr['mobile_info']['product_list'][$selected_flow]['packagesize']);
+        $exchangeFlowOrder->setCustomPrise($arr['mobile_info']['product_list'][$selected_flow]['custom_prise']);
+        $em->persist($exchangeFlowOrder);
+        $em->flush();
+
+        // get targetAccount
+        $targetAccount = $arr['mobile_info']['mobile'];
+        $arr['mobile'] = $targetAccount;
 
         // 请求充值接口
-
-        $service = $this->container->get('flow_ordercreate.processor');
-        $param['custom_product_id'] = '20030';
+        $param['custom_product_id'] = $arr['mobile_info']['product_list'][$selected_flow]['custom_product_id'];
         $param['mobile'] = $targetAccount;
-        $param['custom_order_sn']=1;//todo
+        $param['custom_order_sn']=$exchangeFlowOrder->getId();
+        $service = $this->container->get('flow_ordercreate.processor');
         $return = $service->process($param);
 
         if($return['resultcode'] == 101){
-            //todo 事务处理
-            $user->setPoints($points - intval($change_point));
-            $em->persist($user);
-            $em->flush();
+            // 事务处理
+            $em->getConnection()->beginTransaction();
+            try {
+                $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+                $user->setPoints($user->getPoints() - intval($change_point));
+                $em->persist($user);
+                $em->flush();
 
-            $pointschange  = new PointsExchange();
-            $pointschange->setUserId($id);
-            $pointschange->setType(5);//todo
-            $pointschange->setSourcePoint($points-intval($change_point));
-            $pointschange->setTargetPoint(intval($change_point));
-            $pointschange->setTargetAccount($targetAccount);
-            $pointschange->setExchangeItemNumber(0);//todo
-            $pointschange->setIp($this->get('request')->getClientIp());
-            $em->persist($pointschange);
-            $em->flush();
+                $pointschange  = new PointsExchange();
+                $pointschange->setUserId($user_id);
+                $pointschange->setType($pointschange::TYPE_FLOW);
+                $pointschange->setSourcePoint($user->getPoints()-intval($change_point));
+                $pointschange->setTargetPoint(intval($change_point));
+                $pointschange->setTargetAccount($targetAccount);
+                $pointschange->setExchangeItemNumber($arr['mobile_info']['product_list'][$selected_flow]['packagesize']);
+                $pointschange->setIp($this->get('request')->getClientIp());
+                $em->persist($pointschange);
+                $em->flush();
 
-            $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$id);
-            $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$id);
-            $this->pwdDanger($user->getPwd(),$pointschange->getId(),$id);
+                $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$user_id);
+                $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$user_id);
+                $this->pwdDanger($user->getPwd(),$pointschange->getId(),$user_id);
 
-            return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'flow')));//todo
+                $em->getConnection()->commit();
+
+                return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'flow')));//todo
+
+            } catch (\ Exception $e) {
+                echo $e->getMessage();
+                $em->getConnection()->rollback();
+                $arr['code'] = "不能兑换，请联系客服！";//todo
+                return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
+            }
 
         }else{
-            $arr['code'] = $return['resultcode']."兑换失败";//todo
+            if($return['error_message']){
+                $arr['code'] = $return['error_message']."不能兑换，请联系客服！";//todo
+            }else{
+                $arr['code'] = "不能兑换，请联系客服！";//todo
+            }
             return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
         }
-
-    }
-
-
-    /**
-     * @Route("/getFlowApi", options={"expose"=true})
-     */
-    public function getFlowApiAction()
-    {
-        $request = $this->get('request');
-        $mobile = $request->query->get('mobile', "");
-
-        $output = array( 'is_success' => false );
-        $response = new JsonResponse();
-
-/*
-        // post method only
-        if (!$request->isMethod(sfWebRequest::POST)) {
-            $output['error'] = 'wrong_method';
-            $this->outputJson($output, '405');
-            return sfView::NONE;
-        }
-
-        // login users only
-        if (!$this->getUser()->isAuthenticated()) {
-            $output['error'] = 'need_login';
-            $this->outputJson($output, '403');
-            return sfView::NONE;
-        }
-
-        // csrf対策
-        $this->form->bind($request->getPostParameters());
-
-        if (!$this->form->isValid()) {
-            $output['error'] = 'csrf_check_failed';
-            $this->outputJson($output);
-            return sfView::NONE;
-        }
-
-        //check mobile number valid
-        $mobile_number = $request->getParameter('mobile_number');
-        if (!$mobile_number) {
-            $output['error'] = 'need_mobile_number';
-            $this->outputJson($output);
-            return sfView::NONE;
-        } elseif (!preg_match("/^1\d{10}$/", $mobile_number)) {
-            $output['error'] = 'mobile_number_invalid';
-            $this->outputJson($output);
-            return sfView::NONE;
-        }
-
-*/
-        //验证手机号码正确性 todo
-        if (!$mobile) {
-            $output['error'] = 'need_mobile_number';
-            $response->setData($output);
-            return $response;
-        } elseif (!preg_match("/^1\d{10}$/", $mobile)) {
-            $output['error'] = 'mobile_number_invalid';
-            $response->setData($output);
-            return $response;
-        }
-
-        //csrf 验证 todo
-
-
-        //调用service, 手机号码验证接口，返回流量包信息
-        $service = $this->container->get('flow_mobilevalidate.processor');
-        $return = $service->process($mobile);
-
-        if($return['resultcode'] == 200){
-            $output['is_success'] = true;
-            $output['product_list'] =  $return['product_list'] ;
-        }else{
-            $output['error'] = $return['resultcode'];//todo
-        }
-
-        $response->setData($output);
-        return $response;
     }
 
 }
