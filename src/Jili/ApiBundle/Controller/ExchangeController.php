@@ -20,6 +20,7 @@ use Jili\ApiBundle\Entity\SendMessage09;
 use Jili\ApiBundle\Entity\IdentityConfirm;
 use Jili\ApiBundle\Entity\ExchangeDanger;
 use Jili\ApiBundle\Entity\ExchangeFlowOrder;
+use Jili\ApiBundle\Entity\PointsExchangeType;
 
 /**
  * @Route( requirements={"_scheme" = "http"})
@@ -793,6 +794,8 @@ class  ExchangeController extends Controller
             if($type =='flow'){
                 //todo
                 $this->get('request')->getSession()->remove('csrf_token');
+                $this->get('request')->getSession()->remove('mobile_info');
+                $this->get('request')->getSession()->remove('flow_user');
             }
             $arr['user'] = $user;
             $arr['type'] = $type;
@@ -1065,8 +1068,8 @@ class  ExchangeController extends Controller
             return $this->redirect($this->generateUrl('_default_error'));
         }
 
-        $pointsExchange = new PointsExchange();
-        $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($user_id,$pointsExchange::TYPE_FLOW);
+        $pointsExchangeType = new PointsExchangeType();
+        $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($user_id,$pointsExchangeType::TYPE_FLOW);
         if(!empty($targetAcc)){
              $arr['existMobile'] = $targetAcc[0]['targetAccount'];
         }
@@ -1146,8 +1149,8 @@ class  ExchangeController extends Controller
             $request = $this->get('request');
             $user_id = $request->getSession()->get('uid');
             $em = $this->getDoctrine()->getManager();
-            $pointsExchange = new PointsExchange();
-            $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($user_id,$pointsExchange::TYPE_FLOW);
+            $pointsExchangeType = new PointsExchangeType();
+            $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($user_id,$pointsExchangeType::TYPE_FLOW);
             if($targetAcc){
                 if($targetAcc[0]['targetAccount'] != $existMobile){
                     return $this->container->getParameter('exchange_en_mobile');
@@ -1235,8 +1238,9 @@ class  ExchangeController extends Controller
                 $em->flush();
 
                 $pointschange  = new PointsExchange();
+                $pointschangeType  = new PointsExchangeType();
                 $pointschange->setUserId($user_id);
-                $pointschange->setType($pointschange::TYPE_FLOW);
+                $pointschange->setType($pointschangeType::TYPE_FLOW);
                 $pointschange->setSourcePoint($user->getPoints()-intval($change_point));
                 $pointschange->setTargetPoint(intval($change_point));
                 $pointschange->setTargetAccount($targetAccount);
@@ -1248,6 +1252,12 @@ class  ExchangeController extends Controller
                 $this->ipDanger($pointschange->getIp(),$pointschange->getId(),$user_id);
                 $this->mobileAlipayDanger($pointschange->getTargetAccount(),$pointschange->getId(),$user_id);
                 $this->pwdDanger($user->getPwd(),$pointschange->getId(),$user_id);
+
+                //update ExchangeFlowOrder
+                $flowOrder = $em->getRepository('JiliApiBundle:ExchangeFlowOrder')->find($param['custom_order_sn']);
+                $flowOrder->setExchangeId($pointschange->getId());
+                $em->persist($flowOrder);
+                $em->flush();
 
                 $em->getConnection()->commit();
 

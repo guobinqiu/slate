@@ -33,11 +33,11 @@ class FlowOrderRequestProcessor {
         $em = $this->em;
 
         $valid = $this->checkData($data);
-        if(!$valid)
+        if(!$valid){
             //写log
             $content = "[flow_order_request_processor] 推送数据格式不正确" . var_dump($data);
-            FileUtil :: writeContents($file_name, $content);
-            return;
+            FileUtil :: writeContents($log_path, $content);
+            return false;
         }
 
         //get point exchange id
@@ -45,20 +45,22 @@ class FlowOrderRequestProcessor {
         if(!($exchangeFlowOrder && $exchangeFlowOrder->getExchangeId())){
             //写log
             $content = "[flow_order_request_processor] 该订单不存在exchange_flow_order_id" . $data['custom_order_sn'];
-            FileUtil :: writeContents($file_name, $content);
-            return;
+            FileUtil :: writeContents($log_path, $content);
+            return false;
         }
 
         $pointsExchangeType = new PointsExchangeType();
         $type = $pointsExchangeType :: TYPE_FLOW;
         if ($data['status'] == 'error') {
             //兑换失败
-            $this->exchange_service->exchangeNg($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
+            return $this->exchange_service->exchangeNg($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
         }
         elseif ($data['status'] == 'success') {
             //兑换成功
-            $this->exchange_service->exchangeOK($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
+            return $this->exchange_service->exchangeOK($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
         }
+
+        return true;
     }
 
     public function checkData($data) {

@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/api/flow")
@@ -21,19 +23,20 @@ class FlowOrderController extends Controller {
         $logger = $this->get('logger');
 
         $em = $this->getDoctrine()->getManager();
-        $request = $this->get('request');
-
-        $clientIp = $request->getClientIp();
-
-        //把接口数据写到表中flow_order_api_return
-        $api_logger = $this->get('flow_order_api.init_log');
-        $api_logger->log($request->getRequestUri());
 
         $result = file_get_contents("php://input");
         $data = json_decode($result, true);
 
+        //把接口数据写到表中flow_order_api_return
+        $api_logger = $this->get('flow_order_api.init_log');
+        $api_logger->log($result);
+
         //对接口数据进行处理
         $service = $this->get('flow_order_request.processor');
-        $service->process($data);
+        $result = $service->process($data);
+
+        $resp = new Response(json_encode($result));
+        $resp->headers->set('Content-Type', 'application/json');
+        return $resp;
     }
 }

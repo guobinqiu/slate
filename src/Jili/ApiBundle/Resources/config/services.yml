@@ -302,3 +302,4 @@ services:
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]
+            - [ setContainer, [ @service_container ] ]

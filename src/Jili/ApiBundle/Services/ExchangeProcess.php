@@ -1,12 +1,17 @@
 <?php
 namespace Jili\ApiBundle\Services;
 
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBagInterface;
+
 use Doctrine\ORM\EntityManager;
+
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\PointsExchangeType;
 use Jili\ApiBundle\Entity\PointsExchange;
 use Jili\ApiBundle\Utility\FileUtil;
+use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 
 class ExchangeProcess {
     private $em;
@@ -30,11 +35,11 @@ class ExchangeProcess {
         print_r($exchanges);
 
         if (!$points) {
-            $points = $exchanges->getTargetAccount();
+            $points = $exchanges->getTargetPoint();
         }
 
         if (!$finish_time) {
-            $finish_time = new \ DateTime();
+            $finish_time = date('Y-m-d H:i:s');
         }
 
         if (!$exchanges->getStatus()) {
@@ -44,13 +49,11 @@ class ExchangeProcess {
                 $em->getConnection()->beginTransaction();
 
                 $user_id = $exchanges->getUserId();
-                $userInfo = $em->getRepository('JiliApiBundle:User')->find($user_id);
                 $pointHistory = 'Jili\ApiBundle\Entity\PointHistory0' . ($user_id % 10);
                 $po = new $pointHistory ();
                 $po->setUserId($user_id);
                 $po->setPointChangeNum('-' . $points);
                 $po->setReason($reason[$type]);
-                $po->setAdminUserId($admin_user_id);
                 $em->persist($po);
                 $em->flush();
                 $exchanges->setStatus($pointsExchange :: STATUS_OK);
@@ -89,18 +92,25 @@ class ExchangeProcess {
                 $em->getConnection()->beginTransaction();
 
                 $user_id = $exchanges->getUserId();
+                if (!$points) {
+                    $points = $exchanges->getTargetAccount();
+                }
+
+                if (!$finish_time) {
+                    $finish_time = new \ DateTime();
+                }
 
                 $userInfo = $em->getRepository('JiliApiBundle:User')->find($user_id);
                 $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
                 $user->setPoints(intval($user->getPoints() + $points));
                 $em->persist($user);
                 $em->flush();
-                $exchanges->setStatus($this->container->getParameter('init_two'));
+                $exchanges->setStatus($this->getParameter('init_two'));
                 $exchanges->setFinishDate(date_create($finish_time));
                 $em->persist($exchanges);
                 $em->flush();
 
-                $this->exchangeSendMsFail($type, $user_id));
+                $this->exchangeSendMsFail($type, $user_id);
 
                 $em->getConnection()->commit();
 
@@ -122,22 +132,23 @@ class ExchangeProcess {
     public function exchangeSendMs($type, $uid) {
         $title = '';
         $content = '';
+        $pointsExchangeType = new PointsExchangeType();
         switch ($type) {
             case $pointsExchangeType :: TYPE_AMAZON :
-                $title = $this->container->getParameter('exchange_finish_amazon_tilte');
-                $content = $this->container->getParameter('exchange_finish_amazon_content');
+                $title = $this->getParameter('exchange_finish_amazon_tilte');
+                $content = $this->getParameter('exchange_finish_amazon_content');
                 break;
             case $pointsExchangeType :: TYPE_ALIPAY :
-                $title = $this->container->getParameter('exchange_finish_alipay_tilte');
-                $content = $this->container->getParameter('exchange_finish_alipay_content');
+                $title = $this->getParameter('exchange_finish_alipay_tilte');
+                $content = $this->getParameter('exchange_finish_alipay_content');
                 break;
             case $pointsExchangeType :: TYPE_MOBILE :
-                $title = $this->container->getParameter('exchange_finish_mobile_tilte');
-                $content = $this->container->getParameter('exchange_finish_mobile_content');
+                $title = $this->getParameter('exchange_finish_mobile_tilte');
+                $content = $this->getParameter('exchange_finish_mobile_content');
                 break;
             case $pointsExchangeType :: TYPE_FLOW :
-                $title = $this->container->getParameter('exchange_finish_flow_tilte');
-                $content = $this->container->getParameter('exchange_finish_flow_content');
+                $title = $this->getParameter('exchange_finish_flow_tilte');
+                $content = $this->getParameter('exchange_finish_flow_content');
                 break;
             default :
                 break;
@@ -157,20 +168,20 @@ class ExchangeProcess {
         $content = '';
         switch ($type) {
             case $pointsExchangeType :: TYPE_AMAZON :
-                $title = $this->container->getParameter('exchange_fail_amazon_tilte');
-                $content = $this->container->getParameter('exchange_fail_amazon_content');
+                $title = $this->getParameter('exchange_fail_amazon_tilte');
+                $content = $this->getParameter('exchange_fail_amazon_content');
                 break;
             case $pointsExchangeType :: TYPE_ALIPAY :
-                $title = $this->container->getParameter('exchange_fail_alipay_tilte');
-                $content = $this->container->getParameter('exchange_fail_alipay_content');
+                $title = $this->getParameter('exchange_fail_alipay_tilte');
+                $content = $this->getParameter('exchange_fail_alipay_content');
                 break;
             case $pointsExchangeType :: TYPE_MOBILE :
-                $title = $this->container->getParameter('exchange_fail_mobile_tilte');
-                $content = $this->container->getParameter('exchange_fail_mobile_content');
+                $title = $this->getParameter('exchange_fail_mobile_tilte');
+                $content = $this->getParameter('exchange_fail_mobile_content');
                 break;
             case $pointsExchangeType :: TYPE_FLOW :
-                $title = $this->container->getParameter('exchange_fail_flow_tilte');
-                $content = $this->container->getParameter('exchange_fail_flow_content');
+                $title = $this->getParameter('exchange_fail_flow_tilte');
+                $content = $this->getParameter('exchange_fail_flow_content');
                 break;
             default :
                 break;
@@ -189,12 +200,12 @@ class ExchangeProcess {
         extract($parms);
         $em = $this->em;
         $sm = SequenseEntityClassFactory :: createInstance('SendMessage', $userid);
-        $sm->setSendFrom($this->container->getParameter('init'));
+        $sm->setSendFrom($this->getParameter('init'));
         $sm->setSendTo($userid);
         $sm->setTitle($title);
         $sm->setContent($content);
-        $sm->setReadFlag($this->container->getParameter('init'));
-        $sm->setDeleteFlag($this->container->getParameter('init'));
+        $sm->setReadFlag($this->getParameter('init'));
+        $sm->setDeleteFlag($this->getParameter('init'));
         $em->persist($sm);
         $em->flush();
     }
@@ -208,7 +219,12 @@ class ExchangeProcess {
         return $this;
     }
 
-    public function getParameter($key) {
+    private function getParameter($key) {
         return $this->container->getParameter($key);
+    }
+
+    public function setContainer($container) {
+        $this->container = $container;
+        return $this;
     }
 }
