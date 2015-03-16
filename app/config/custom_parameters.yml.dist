@@ -227,23 +227,29 @@ parameters:
     exchange_ing_amazon_tilte: “亚马逊礼品卡”兑换申请
     exchange_ing_alipay_tilte: 支付宝充值兑换申请
     exchange_ing_mobile_tilte: 手机费兑换申请
+    exchange_ing_flow_tilte: 流量包兑换申请
     exchange_ing_amazon_content: 亲爱的<br/><br/>我们已经收到您的“亚马逊礼品卡”兑换申请，兑换会在三个工作日内完成（遇周末及节假日顺延）。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/2/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
     exchange_ing_alipay_content: 亲爱的<br/><br/>您好！我们已经收到了您的支付宝充值申请，我们将在十个工作日内完成支付宝充值手续。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/3/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
     exchange_ing_mobile_content: 亲爱的<br/><br/>我们已经收到您的手机费兑换申请，兑换会在三个工作日内完成（遇周末及节假日顺延）。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/4/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
+    exchange_ing_flow_content: 亲爱的<br/><br/>我们已经收到您的流量包兑换申请，兑换会在三个工作日内完成（遇周末及节假日顺延）。<br/>请关注您的<a href="http://www.91jili.com/user/exchange/4/1"  target="_blank">兑换历史</a>，来及时了解兑换状态。如果兑换失败，积分会自动返还到您的积粒网帐户。<br/><br/>积粒网运营中心
     exchange_finish_amazon_tilte: “亚马逊礼品卡”兑换成功
     exchange_finish_alipay_tilte: 支付宝充值兑换成功
     exchange_finish_mobile_tilte: 手机费兑换成功
+    exchange_finish_flow_tilte: 手机费兑换成功
     exchange_finish_amazon_content: 亲爱的<br/><br/>您好！您的“亚马逊礼品卡”兑换申请已经处理成功，<br/>请在<a href="http://www.91jili.com/user/exchange/2/1"  target="_blank">兑换历史</a>中查看您的“亚马逊礼品卡”卡号。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/"  target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
     exchange_finish_alipay_content: 亲爱的<br/><br/>您好！您的支付宝充值申请已经处理成功，请及时查看您的支付宝余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
     exchange_finish_mobile_content: 亲爱的<br/><br/>您好！您的手机费兑换申请已经处理成功，请及时查看您的手机余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
+    exchange_finish_flow_content: 亲爱的<br/><br/>您好！您的流量包兑换申请已经处理成功，请及时查看您的手机余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
     exchange_finish_wenwen_title: 91问问积分兑换成功
     ecchange_finish_wenwen_content: 亲爱的<br/><br/>您好！您从91问问网站上申请的兑换已经处理成功，米粒已经发放至您的积粒网账户，请及时查看您的米粒余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
     exchange_fail_amazon_tilte: “亚马逊礼品卡”兑换失败
     exchange_fail_alipay_tilte: 支付宝充值兑换失败
     exchange_fail_mobile_tilte: 手机费兑换失败
+    exchange_fail_flow_tilte: 流量包兑换失败
     exchange_fail_amazon_content: 亲爱的<br/><br/>您好！非常抱歉，您的“亚马逊礼品卡”申请兑换失败，积分已自动返还到您的积粒网帐户。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
     exchange_fail_alipay_content: 亲爱的<br/><br/>您好！非常抱歉，您的支付宝充值申请兑换失败，积分已自动返还到您的积粒网帐户。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
     exchange_fail_mobile_content: 亲爱的<br/><br/>您好！非常抱歉，您的手机费申请兑换失败，积分已自动返还到您的积粒网帐户。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
+    exchange_fail_flow_content: 亲爱的<br/><br/>您好！非常抱歉，您的流量包申请兑换失败，积分已自动返还到您的积粒网帐户。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
     card_number_is_null: 请输入您的身份证号码
     card_number_is_error: 身份证号码错误
     card_number_is_exist: 您已经提交过身份证号码，如需修改请联系客服
@@ -304,7 +310,7 @@ parameters:
     webpower_email_username: 'admin'
     webpower_email_password: 'nUshkwu#9'
     webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
-    
+
     cron_alertTo_contacts: jinzhang@voyagegroup.com.cn,zhangmm@voyagegroup.com.cn,tao_jiang@voyagegroup.com,xiaoyi_chai@voyagegroup.com,xujf@voyagegroup.com.cn
     alert_subject: '积粒网-定时任务提醒邮件'
 

@@ -51,7 +51,9 @@ parameters:
     flow_mobilevalidate.processor.class:  Jili\ApiBundle\Services\Flow\FlowMobileValidateApiProcessor
     flow_ordercreate.processor.class:  Jili\ApiBundle\Services\Flow\FlowOrderCreateApiProcessor
     flow_order_api_return.logger.class: Jili\ApiBundle\Services\Flow\FlowOrderApiLogger
-
+    flow_order_request.processor.class:  Jili\ApiBundle\Services\Flow\FlowOrderRequestProcessor
+# 兑换结果处理
+    exchange.processor.class:  Jili\ApiBundle\Services\ExchangeProcess
 
 services:
     login.listener:
@@ -285,3 +287,18 @@ services:
     flow_order_api.init_log:
         class: %flow_order_api_return.logger.class%
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+
+    flow_order_request.processor:
+        class: %flow_order_request.processor.class%
+        arguments: [ %flow% ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setLogger, [ @logger ] ]
+            - [ setSendMail, ["@send_mail"] ]
+            - [ setExchange, [ @exchange.processor ] ]
+
+    exchange.processor:
+        class: %exchange.processor.class%
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setLogger, [ @logger ] ]

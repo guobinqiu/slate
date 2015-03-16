@@ -15,9 +15,9 @@ class FlowOrderApiReturn
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="create_time", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
-    private $createTime;
+    private $createdAt;
 
     /**
      * @var string
@@ -37,30 +37,30 @@ class FlowOrderApiReturn
 
     public function __construct()
     {
-        $this->createTime = new \DateTime();
+        $this->createdAt = new \DateTime();
     }
 
     /**
-     * Set createTime
+     * Set createdAt
      *
-     * @param \DateTime $createTime
+     * @param \DateTime $createdAt
      * @return FlowOrderApiReturn
      */
-    public function setCreateTime($createTime)
+    public function setCreatedAt($createdAt)
     {
-        $this->createTime = $createTime;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get createTime
+     * Get createdAt
      *
      * @return \DateTime
      */
-    public function getCreateTime()
+    public function getCreatedAt()
     {
-        return $this->createTime;
+        return $this->createdAt;
     }
 
     /**

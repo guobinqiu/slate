@@ -11,7 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\AdCategoryRepository")
  */
 class AdCategory
-{   
+{
+    const ID_91WENWEN_POINTS = 8;//91问问积分
+    const ID_AMAZON = 10;//亚马逊礼品卡
+    const ID_ALIPAY = 11;//支付宝
+    const ID_MOBILE = 12;//手机费
+    const ID_FLOW = 24;//流量包
+
+
     /**
      * @var const
      *  寻宝箱的id.

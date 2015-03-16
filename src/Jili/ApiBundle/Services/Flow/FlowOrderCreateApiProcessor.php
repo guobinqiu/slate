@@ -48,7 +48,7 @@ class FlowOrderCreateApiProcessor {
         //写log
         $log_path = $configs['file_path_flow_api_log'];
         if ($data['resultcode'] != 101) {
-            $content = "[createorder_api]url:" . $url . ' return:' . $return . FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
+            $content = "[flow_create_order_api]url:" . $url . ' return:' . $return . FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
             FileUtil :: writeContents($log_path, $content);
         }
 

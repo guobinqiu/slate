@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBagInterface;
 use Doctrine\ORM\EntityManager;
 
+use Jili\ApiBundle\Entity\PointsExchangeType;
 use Jili\ApiBundle\Utility\FileUtil;
 
 /**
@@ -17,83 +18,59 @@ class FlowOrderRequestProcessor {
     private $configs;
     private $logger;
     private $send_mail;
+    private $exchange_service;
 
     function __construct($configs) {
         $this->configs = $configs;
     }
 
-    public function process($tid, $partnerid, $vmoney) {
+    public function process($data) {
         $configs = $this->configs;
 
-        $category_type = $configs['category_type'];
-        $task_name = $configs['name'];
-        $task_type = $configs['task_type'];
+        $log_path = $configs['file_path_flow_api_log'];
+        $pointsExchangeType = new PointsExchangeType();
 
         $em = $this->em;
 
-        //transaction
-        try {
-            $em->getConnection()->beginTransaction();
+        $valid = $this->checkData($data);
+        if(!$valid)
+            //写log
+            $content = "[flow_order_request_processor] 推送数据格式不正确" . var_dump($data);
+            FileUtil :: writeContents($file_name, $content);
+            return;
+        }
 
-            // insert bangwoya order
-            $order = $em->getRepository('JiliApiBundle:BangwoyaOrder')->insert(array (
-                'userId' => $partnerid,
-                'tid' => $tid
-            ));
+        //get point exchange id
+        $exchangeFlowOrder = $em->getRepository('JiliApiBundle:ExchangeFlowOrder')->find($data['custom_order_sn']);
+        if(!($exchangeFlowOrder && $exchangeFlowOrder->getExchangeId())){
+            //写log
+            $content = "[flow_order_request_processor] 该订单不存在exchange_flow_order_id" . $data['custom_order_sn'];
+            FileUtil :: writeContents($file_name, $content);
+            return;
+        }
 
-            // insert task_history
-            $em->getRepository('JiliApiBundle:TaskHistory00')->init(array (
-                'userid' => $partnerid,
-                'orderId' => $order->getId(),
-                'taskType' => $task_type,
-                'categoryType' => $category_type,
-                'reward_percent' => 0,
-                'task_name' => $task_name,
-                'point' => $vmoney,
-                'date' => new \Datetime(),
-                'status' => 1
-            ));
-
-            // insert point_history
-            $em->getRepository('JiliApiBundle:PointHistory00')->get(array (
-                'userid' => $partnerid,
-                'point' => $vmoney,
-                'type' => $category_type
-            ));
-
-            // update user point更新user表总分数
-            $user = $em->getRepository('JiliApiBundle:User')->find($partnerid);
-            $oldPoint = $user->getPoints();
-            $user->setPoints(intval($oldPoint + $vmoney));
-            $em->persist($user);
-            $em->flush();
-
-            $em->getConnection()->commit();
-
-            return $order->getId();
-
-        } catch (\Exception $e) {
-            // internal error
-            $em->getConnection()->rollback();
-            $em->close();
-
-            // 出错处理
-            $content = "user_id:" . $partnerid . " tid:" . $tid . " vmoney:" . $vmoney . "<br><br>" . $e->getMessage();
-            $this->rollbackHandle($configs, $content);
-
-            return false;
+        $pointsExchangeType = new PointsExchangeType();
+        $type = $pointsExchangeType :: TYPE_FLOW;
+        if ($data['status'] == 'error') {
+            //兑换失败
+            $this->exchange_service->exchangeNg($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
+        }
+        elseif ($data['status'] == 'success') {
+            //兑换成功
+            $this->exchange_service->exchangeOK($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
         }
     }
 
-    public function rollbackHandle($configs, $content) {
-        //send email
-        $content = $configs['mail_subject'] . "<br><br>" . $content;
-        $alertTo = $configs['alertTo_contacts'];
-        $this->send_mail->sendMails($configs['mail_subject'], $alertTo, $content);
+    public function checkData($data) {
+        if(!($data['status'] && $data['custom_order_sn'])){
+            return false;
+        }
 
-        //write log
-        $file_name = $configs['bangwoya_api_log'];
-        FileUtil :: writeContents($file_name, $content);
+        if (!($data['status'] == 'error' || $data['status'] == 'success')) {
+            return false;
+        }
+
+        return true;
     }
 
     public function setEntityManager(EntityManager $em) {
@@ -112,5 +89,9 @@ class FlowOrderRequestProcessor {
     public function setSendMail($send_mail)
     {
         $this->send_mail = $send_mail;
+    }
+
+    public function setExchange($exchange_service) {
+        $this->exchange_service = $exchange_service;
     }
 }

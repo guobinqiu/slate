@@ -46,7 +46,7 @@ class FlowMobileValidateApiProcessor {
         //写log
         $log_path = $configs['file_path_flow_api_log'];
         if ($data['resultcode'] != 200) {
-            $content = "[mobile_validate]url:" . $url . ' return:' . $return . FlowUtil :: $MOBILE_VALIDATE_ERROR[$data['resultcode']];
+            $content = "[flow_mobile_validate]url:" . $url . ' return:' . $return . FlowUtil :: $MOBILE_VALIDATE_ERROR[$data['resultcode']];
             FileUtil :: writeContents($log_path, $content);
         }
 
