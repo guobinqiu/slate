@@ -9,7 +9,7 @@ use Jili\ApiBundle\Entity\FlowOrderApiReturn;
 /**
  *
  **/
-class FlowOrderResultLogger {
+class FlowOrderApiLogger {
 
     private $em;
     private $logger;
@@ -19,6 +19,11 @@ class FlowOrderResultLogger {
         $this->em = $em;
     }
 
+    /**
+     *
+     * @param  $content the request uri of Adw
+     *
+     */
     public function log($content) {
         $api = new FlowOrderApiReturn();
         $api->setContent($content);

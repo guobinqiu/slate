@@ -50,6 +50,8 @@ parameters:
 #flow 流量
     flow_mobilevalidate.processor.class:  Jili\ApiBundle\Services\Flow\FlowMobileValidateApiProcessor
     flow_ordercreate.processor.class:  Jili\ApiBundle\Services\Flow\FlowOrderCreateApiProcessor
+    flow_order_api_return.logger.class: Jili\ApiBundle\Services\Flow\FlowOrderApiLogger
+
 
 services:
     login.listener:
@@ -279,3 +281,7 @@ services:
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]
+
+    flow_order_api.init_log:
+        class: %flow_order_api_return.logger.class%
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]

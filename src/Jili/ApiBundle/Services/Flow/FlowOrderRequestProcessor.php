@@ -1,5 +1,5 @@
 <?php
-namespace Jili\ApiBundle\Services\Bangwoya;
+namespace Jili\ApiBundle\Services\Flow;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +11,7 @@ use Jili\ApiBundle\Utility\FileUtil;
 /**
  *
  **/
-class BangwoyaRequestProcessor {
+class FlowOrderRequestProcessor {
 
     private $em;
     private $configs;
