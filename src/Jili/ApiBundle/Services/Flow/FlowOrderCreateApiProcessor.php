@@ -44,6 +44,7 @@ class FlowOrderCreateApiProcessor {
 
         //解析接口数据
         $data = json_decode($return, true);
+        $data['error_message'] = '';
 
         //写log
         $log_path = $configs['file_path_flow_api_log'];

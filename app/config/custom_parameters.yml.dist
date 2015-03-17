@@ -235,7 +235,7 @@ parameters:
     exchange_finish_amazon_tilte: “亚马逊礼品卡”兑换成功
     exchange_finish_alipay_tilte: 支付宝充值兑换成功
     exchange_finish_mobile_tilte: 手机费兑换成功
-    exchange_finish_flow_tilte: 手机费兑换成功
+    exchange_finish_flow_tilte: 流量包兑换成功
     exchange_finish_amazon_content: 亲爱的<br/><br/>您好！您的“亚马逊礼品卡”兑换申请已经处理成功，<br/>请在<a href="http://www.91jili.com/user/exchange/2/1"  target="_blank">兑换历史</a>中查看您的“亚马逊礼品卡”卡号。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/"  target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
     exchange_finish_alipay_content: 亲爱的<br/><br/>您好！您的支付宝充值申请已经处理成功，请及时查看您的支付宝余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
     exchange_finish_mobile_content: 亲爱的<br/><br/>您好！您的手机费兑换申请已经处理成功，请及时查看您的手机余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="https://www.91wenwen.net/support/" target="_blank">https://www.91wenwen.net/support/</a><br/><br/>积粒网运营中心
@@ -334,6 +334,6 @@ parameters:
     flow_url: http://59.83.33.14/   #接口url
     flow_prv_key: 5E703068E764D3DC   #加密私钥
     flow_custom_sn: B772AA94ABDC6BEE   #SN号码
-    flow_file_path_flow_api_log: D:/xampp/htdocs/PointMedia/app/logs/api/flow_api.log
+    flow_file_path_flow_api_log: /data/91jili/logs/api/flow_api.log
     flow_mail_subject: "积粒网-flow流量包接口数据处理失败"
     flow_alertTo_contacts: zhangmm@voyagegroup.com.cn

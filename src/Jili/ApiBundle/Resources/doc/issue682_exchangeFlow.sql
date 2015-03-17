@@ -3,6 +3,7 @@ INSERT INTO `jili_db`.`points_exchange_type` (`id` ,`type`)VALUES ('5', 'flow');
 INSERT INTO `ad_category` (`id` ,`category_name` ,`asp` ,`display_name`)VALUES ('24', NULL, NULL , '流量包');
 
 --增加表exchange_flow_order
+DROP TABLE IF EXISTS `exchange_flow_order`;
 CREATE TABLE IF NOT EXISTS `exchange_flow_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT 'USER ID',
@@ -11,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `exchange_flow_order` (
   `province` varchar(64) NOT NULL COMMENT '手机号码归属省份',
   `custom_product_id` varchar(5) NOT NULL COMMENT '流量包产品编码',
   `packagesize` varchar(8) NOT NULL COMMENT '流量包产品大小，如30表示30MB',
-  `custom_prise` decimal(3,2) NOT NULL COMMENT '流量包产品用户执行的价格，单位（元）',
+  `custom_prise` decimal(8,3) NOT NULL COMMENT '流量包产品用户执行的价格，单位（元）',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)

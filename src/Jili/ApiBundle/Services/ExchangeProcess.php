@@ -31,8 +31,6 @@ class ExchangeProcess {
         );
 
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
-        echo "<pre>";
-        print_r($exchanges);
 
         if (!$points) {
             $points = $exchanges->getTargetPoint();

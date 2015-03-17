@@ -57,7 +57,7 @@ class ExchangeFlowOrder
     /**
      * @var string
      *
-     * @ORM\Column(name="custom_prise", type="decimal", precision=3, scale=2, nullable=false)
+     * @ORM\Column(name="custom_prise", type="decimal", precision=8, scale=3, nullable=false)
      */
     private $customPrise;
 
