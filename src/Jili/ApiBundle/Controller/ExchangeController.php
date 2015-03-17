@@ -1130,7 +1130,7 @@ class  ExchangeController extends Controller
             $arr['mobile_info'] = array('mobile'=>$targetAccount,'provider'=>$return['provider'],'province'=>$return['province'],'product_list'=>$return['product_list']);
             $this->get('request')->getSession()->set('mobile_info',$arr['mobile_info']);
             $arr['selected_flow'] = $selected_flow;
-            $arr['change_point'] = $arr['mobile_info']['product_list'][$selected_flow]['custom_prise']*100;//todo
+            $arr['change_point'] = $arr['mobile_info']['product_list'][$selected_flow]['change_point'];
             return $this->render('JiliApiBundle:Exchange:flowApply.html.twig',$arr);
         }else{
             if($return['error_message']){
@@ -1196,13 +1196,13 @@ class  ExchangeController extends Controller
         //用户选择的流量包信息
         $selected_flow =  $request->request->get('flow_list');
         $arr['mobile_info'] = $this->get('request')->getSession()->get('mobile_info');+
-        $change_point = $arr['mobile_info']['product_list'][$selected_flow]['custom_prise']*100;
+        $change_point = $arr['mobile_info']['product_list'][$selected_flow]['change_point'];
 
         //check 分数
         if(($change_point-$arr['user']->getPoints()) > 0){
             $arr['code'] = $this->container->getParameter('exchange_wr_point');;
             $arr['selected_flow'] = $selected_flow;
-            $arr['change_point'] = $arr['mobile_info']['product_list'][$selected_flow]['custom_prise']*100;
+            $arr['change_point'] = $change_point;
             return $this->render('JiliApiBundle:Exchange:flowApply.html.twig',$arr);
         }
 
@@ -1211,7 +1211,7 @@ class  ExchangeController extends Controller
         $exchangeFlowOrder->setUserId($user_id);
         $exchangeFlowOrder->setProvider($arr['mobile_info']['provider']);
         $exchangeFlowOrder->setProvince($arr['mobile_info']['province']);
-        $exchangeFlowOrder->setCustomProductId($arr['mobile_info']['product_list'][$selected_flow]['custom_product_id']*100);
+        $exchangeFlowOrder->setCustomProductId($arr['mobile_info']['product_list'][$selected_flow]['custom_product_id']);
         $exchangeFlowOrder->setPackagesize($arr['mobile_info']['product_list'][$selected_flow]['packagesize']);
         $exchangeFlowOrder->setCustomPrise($arr['mobile_info']['product_list'][$selected_flow]['custom_prise']);
         $em->persist($exchangeFlowOrder);

@@ -56,8 +56,32 @@ class FlowMobileValidateApiProcessor {
                 '206'
             ))) {
             $data['error_message'] = FlowUtil :: $MOBILE_VALIDATE_ERROR[$data['resultcode']];
+            return $data;
         }
 
+        //处理数据，计算价格
+        $data = $this->getChangePoint($data);
+
+        return $data;
+    }
+
+    public function getChangePoint($data) {
+        $product_list = array ();
+        foreach ($data['product_list'] as $key => $value) {
+            if ($value['custom_prise'] >= 14 && $value['custom_prise'] < 20) {
+                $value['change_point'] = round($value['custom_prise'] * 1.07, 1) * 100;
+                $product_list[] = $value;
+            }
+            elseif ($value['custom_prise'] >= 20 && $value['custom_prise'] < 40) {
+                $value['change_point'] = round($value['custom_prise'] * 1.03, 1) * 100;
+                $product_list[] = $value;
+            }
+            elseif ($value['custom_prise'] >= 40) {
+                $value['change_point'] = round($value['custom_prise'] * 1.01, 1) * 100;
+                $product_list[] = $value;
+            }
+        }
+        $data['product_list'] = $product_list;
         return $data;
     }
 

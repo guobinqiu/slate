@@ -22,7 +22,7 @@ function exchangeFlow(){
 }
 function changePoint(selected_index){
     var data = eval(product_list);
-    var exchange_point = data[selected_index].custom_prise*100;
+    var exchange_point = data[selected_index].change_point;
     var over = points - exchange_point;
     $(".rechangeMi").html(exchange_point);
     $("#over").html(over);
@@ -42,7 +42,7 @@ function changePoint(selected_index){
     <dt>{{ mobile_info.provider }}</dt>
     <dd>手机号码归属省份：</dd>
     <dt>{{ mobile_info.province }}
-    
+
     <dd>流量包选择：</dd>
     <dt>
     <select id="flow_list" name="flow_list" onchange="changePoint(this.value);">
@@ -58,11 +58,11 @@ function changePoint(selected_index){
     <div class="changePoint">兑换后剩余米粒：<span id="over">{{ user.points-change_point }}</span></div>
     <div><span id='error' style="color: red">{% if code is defined %}{{code}}{% endif %}</span></div>
     <div class="btnArea mt50">
-        <a class="fontYH font18" onclick="javascript:history.back(1);">返回</a> 
+        <a class="fontYH font18" onclick="javascript:history.back(1);">返回</a>
         <a class="fontYH font18" id="active" onclick="exchangeFlow();">兑换</a>
     </div>
 </div>
-</article> 
+</article>
 <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
 </form>
 </div>

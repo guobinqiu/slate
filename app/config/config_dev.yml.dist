@@ -34,5 +34,11 @@ parameters:
 #91wenwen和91jili账号关联secret key
     91wewen_bind_secret_key: %91wewen_bind_secret_key_dev%
 #流量包
-    flow: %flow_dev%
+    flow:
+        url: http://59.83.33.14/
+        prv_key: 5E703068E764D3DC
+        custom_sn: %flow_custom_sn%
+        file_path_flow_api_log: %flow_file_path_flow_api_log%
+        mail_subject: %flow_mail_subject%
+        alertTo_contacts: %flow_alertTo_contacts%
 
