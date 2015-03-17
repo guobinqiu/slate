@@ -17,16 +17,3 @@ parameters:
 #91wenwen和91jili账号关联secret key
     91wewen_bind_secret_key_dev: 0b0c2b46e396714623dcd1f4c361918a0658e8131d70e3efc237079a0f26625a   #development
     91wewen_bind_secret_key_prod: 3b9a08811c66af715c71dacd8864cc1a301f7a03d97deb759ac8f9e270f8bb94   #production
-
-#流量包
-    flow_dev:
-        url: http://59.83.33.14/   #接口url
-        prv_key: 5E703068E764D3DC   #加密私钥
-        custom_sn: B772AA94ABDC6BEE   #SN号码
-        file_path_flow_api_log: /data/91jili/logs/api/flow_api.log
-    flow_prod:
-        url: http://59.83.33.14/   #接口url
-        prv_key: 5E703068E764D3DC   #加密私钥
-        custom_sn: B772AA94ABDC6BEE   #SN号码
-        file_path_flow_api_log: /data/91jili/logs/api/flow_api.log
-
