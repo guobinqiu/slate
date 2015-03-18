@@ -12,7 +12,7 @@ use Doctrine\Common\DataFixtures\Loader;
 
 use Jili\ApiBundle\DataFixtures\ORM\LoadSeptemberActivityData;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CpaRankingActivityCommandTest extends KernelTestCase {
     /**

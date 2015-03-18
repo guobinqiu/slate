@@ -5,7 +5,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 #use Doctrine\Common\DataFixtures\Loader;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class    GameSeekerPointsPoolRepositoryTest extends KernelTestCase
 {
 

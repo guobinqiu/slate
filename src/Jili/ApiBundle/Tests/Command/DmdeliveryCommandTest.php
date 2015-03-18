@@ -3,7 +3,7 @@ namespace Jili\ApiBundle\Tests\Command;
 use Jili\ApiBundle\Command\DmdeliveryCommand;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Jili\ApiBundle\DataFixtures\ORM\Repository\UserRepository\LoadDmdeliveryData;
 use Doctrine\Common\DataFixtures\Loader;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -35,7 +35,8 @@ class DmdeliveryCommandTest extends KernelTestCase
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
-        
+
+
         $this->container = static :: $kernel->getContainer();
         $this->em = $em;
     }
@@ -51,6 +52,7 @@ class DmdeliveryCommandTest extends KernelTestCase
     /**
      * @group issue548
      * @group issue619
+     * @group debug 
      */
     public function testExecute() {
         // mock the Kernel or create one depending on your needs

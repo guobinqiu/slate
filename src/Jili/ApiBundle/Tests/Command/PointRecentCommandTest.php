@@ -1,7 +1,7 @@
 <?php
 namespace Jili\ApiBundle\Tests\Command;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Jili\ApiBundle\Command\PointRecentCommand;

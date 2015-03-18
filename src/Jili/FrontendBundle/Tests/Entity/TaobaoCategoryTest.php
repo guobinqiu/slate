@@ -1,7 +1,7 @@
 <?php
 namespace Jili\FrontendBundle\Tests\Entity;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use Jili\FrontendBundle\Entity\TaobaoCategory;
 

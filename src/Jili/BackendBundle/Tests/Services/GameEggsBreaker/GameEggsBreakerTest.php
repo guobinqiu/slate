@@ -2,7 +2,7 @@
 namespace  Jili\BackendBundle\Tests\Services\GameEggsBreaker;
 
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class GameEggsBreakerTest extends KernelTestCase
 {
 

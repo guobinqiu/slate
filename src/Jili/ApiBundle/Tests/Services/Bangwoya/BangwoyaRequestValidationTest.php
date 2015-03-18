@@ -1,7 +1,7 @@
 <?php
 namespace  Jili\ApiBundle\Tests\Services\Bangwoya;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\BangwoyaOrder;
 
