@@ -25,17 +25,7 @@
     {% include 'JiliApiBundle:User:rightInfo.html.twig' %}
   </aside>
   <article>
-    {% if type == 'jili' %}
-      {% include 'JiliApiBundle:Exchange:jiliFinish.html.twig' %}
-    {% elseif type =='amazon' %}
-      {% include 'JiliApiBundle:Exchange:amazonFinish.html.twig' %}
-    {% elseif type=='alipay' %}
-      {% include 'JiliApiBundle:Exchange:alipayFinish.html.twig' %}
-    {% elseif type=='mobile' %}
-      {% include 'JiliApiBundle:Exchange:mobileFinish.html.twig' %}
-    {% elseif type=='flow' %}
-      {% include 'JiliApiBundle:Exchange:flowFinish.html.twig' %}
-    {% endif %}
+  {% include 'JiliApiBundle:Exchange:' ~  type ~ 'Finish.html.twig' %}
   </article>
 </div>
 {% endblock %}

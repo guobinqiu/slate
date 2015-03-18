@@ -21,6 +21,7 @@ use Jili\ApiBundle\Entity\IdentityConfirm;
 use Jili\ApiBundle\Entity\ExchangeDanger;
 use Jili\ApiBundle\Entity\ExchangeFlowOrder;
 use Jili\ApiBundle\Entity\PointsExchangeType;
+use Jili\ApiBundle\Utility\FileUtil;
 
 /**
  * @Route( requirements={"_scheme" = "http"})
@@ -1264,7 +1265,9 @@ class  ExchangeController extends Controller
                 return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'flow')));//todo
 
             } catch (\ Exception $e) {
-                echo $e->getMessage();
+                $log_path = $this->container->getParameter('flow_file_path_flow_api_log');
+                FileUtil :: writeContents($log_path, '[ExchangeController.getFlowSaveAction]'.$e->getMessage());
+
                 $em->getConnection()->rollback();
                 $arr['code'] = "不能兑换，请联系客服！";//todo
                 return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
