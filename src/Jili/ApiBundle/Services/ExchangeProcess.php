@@ -217,7 +217,7 @@ class ExchangeProcess {
         return $this;
     }
 
-    private function getParameter($key) {
+    public function getParameter($key) {
         return $this->container->getParameter($key);
     }
 

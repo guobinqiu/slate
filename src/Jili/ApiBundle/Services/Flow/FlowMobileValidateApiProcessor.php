@@ -29,6 +29,7 @@ class FlowMobileValidateApiProcessor {
         $url = $configs['url'] . 'mobile_validateV1.php'; //todo
         $prv_key = $configs['prv_key'];
         $custom_sn = $configs['custom_sn'];
+        $log_path = $configs['file_path_flow_api_log'];
 
         $out_arr['custom_sn'] = 'custom_sn=' . $custom_sn;
         $out_arr['mobile'] = 'mobile=' . $mobile;
@@ -38,13 +39,19 @@ class FlowMobileValidateApiProcessor {
         $post_data['mobile'] = $mobile;
         $post_data['enctext'] = $encText;
 
-        $return = CurlUtil :: curl($url, $post_data);
+        try {
+            $return = CurlUtil :: curl($url, $post_data);
+        } catch (\ Exception $e) {
+            //写log
+            FileUtil :: writeContents($log_path, $e->getMessage());
+            $data['error_message'] = $this->getParameter('access_error');
+            return $data;
+        }
 
         //解析接口数据
         $data = json_decode($return, true);
 
         //写log
-        $log_path = $configs['file_path_flow_api_log'];
         if ($data['resultcode'] != 200) {
             $content = "[flow_mobile_validate]url:" . $url . ' return:' . $return . FlowUtil :: $MOBILE_VALIDATE_ERROR[$data['resultcode']];
             FileUtil :: writeContents($log_path, $content);
@@ -96,5 +103,10 @@ class FlowMobileValidateApiProcessor {
 
     public function getParameter($key) {
         return $this->container->getParameter($key);
+    }
+
+    public function setContainer($container) {
+        $this->container = $container;
+        return $this;
     }
 }

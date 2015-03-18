@@ -33,7 +33,7 @@ class CurlUtil {
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $tmpInfo = curl_exec($curl);
         if (curl_errno($curl)) {
-            echo '<pre><b>error:</b><br />' . curl_error($curl);
+            throw new \Exception(curl_error($curl));
         }
         curl_close($curl);
         return $tmpInfo;

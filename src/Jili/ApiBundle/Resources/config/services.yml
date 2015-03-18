@@ -276,6 +276,7 @@ services:
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]
+            - [ setContainer, [ @service_container ] ]
 
     flow_ordercreate.processor:
         class: %flow_ordercreate.processor.class%
@@ -283,6 +284,7 @@ services:
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]
+            - [ setContainer, [ @service_container ] ]
 
     flow_order_api.init_log:
         class: %flow_order_api_return.logger.class%

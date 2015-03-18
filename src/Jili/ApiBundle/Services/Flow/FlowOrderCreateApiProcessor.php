@@ -29,6 +29,7 @@ class FlowOrderCreateApiProcessor {
         $url = $configs['url'] . 'createorder_api.php'; //todo
         $prv_key = $configs['prv_key'];
         $custom_sn = $configs['custom_sn'];
+        $log_path = $configs['file_path_flow_api_log'];
 
         $out_arr['custom_sn'] = 'custom_sn=' . $custom_sn;
         $out_arr['custom_product_id'] = 'custom_product_id=' . $param['custom_product_id'];
@@ -40,14 +41,20 @@ class FlowOrderCreateApiProcessor {
         $param['custom_sn'] = $custom_sn;
         $param['enctext'] = $encText;
 
-        $return = CurlUtil :: curl($url, $param);
+        try {
+            $return = CurlUtil :: curl($url, $param);
+        } catch (\ Exception $e) {
+            //写log
+            FileUtil :: writeContents($log_path, $e->getMessage());
+            $data['error_message'] = $this->getParameter('access_error');
+            return $data;
+        }
 
         //解析接口数据
         $data = json_decode($return, true);
         $data['error_message'] = '';
 
         //写log
-        $log_path = $configs['file_path_flow_api_log'];
         if ($data['resultcode'] != 101) {
             $content = "[flow_create_order_api]url:" . $url . ' return:' . $return . FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
             FileUtil :: writeContents($log_path, $content);
@@ -78,5 +85,10 @@ class FlowOrderCreateApiProcessor {
 
     public function getParameter($key) {
         return $this->container->getParameter($key);
+    }
+
+    public function setContainer($container) {
+        $this->container = $container;
+        return $this;
     }
 }
