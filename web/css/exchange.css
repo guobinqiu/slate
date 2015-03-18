@@ -1,79 +1,3 @@
-.exchange .about{
-    color: #666666;
-    text-align: left;
-}
-.exchange .about .historyExchange{
-	background-image: url("../images/goExchangeHistory.gif");
-    display: inline-block;
-	width: 153px;
-    height: 40px;
-    position: absolute;
-    color: #666666;
-    font-size: 14px;
-    line-height: 40px;
-    padding-left: 15px;
-    right: -60px; 
-    top: 160px;
-}
-.exchange .about a.exchangeBtn{
-	background-image: url("../images/exchange_91ww_btn.gif");
-    background-position: 0 0;
-    display: inline-block;
-    height: 36px;
-    width: 112px;
-	color: #FFFFFF;
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 36px;
-    position: static;
-    text-align: center;
-}
-.exchange .about a.exchangeBtn:hover{
-	background-position:0px 36px;
-}
-.exchange .about a.await{
-	background-image:url(../images/exchange_mobile_unavailable_btn.gif);
-	background-position: 0 0;
-    display: inline-block;
-    height: 36px;
-    width: 112px;
-	font-size: 0;
-	position:absolute;
-}
-.exchange .about a.mobileBtn{
-    left: 281px;
-    top: 366px;
-}
-.exchange .about a.close{
-	background-color: #999999;
-    background-position: 0 0;
-    border-radius: 5px;
-    color: #FFFFFF;
-    display: inline-block;
-    font-size: 16px;
-    height: 36px;
-    line-height: 36px;
-    position: absolute;
-    text-align: center;
-    width: 112px;
-}
-
-.exchange .about a.alipayBtn{
-    right: 735px;
-    top: 618px;
-}
-.exchange .about .amazonBtn{
-	right: 236px;
-    top: 484px;
-}
-.exchange .about a.wenwen{
-	left: 185px;
-    top: 357px;
-}
-.exchange .about a.mobiel{
-	left: 247px;
-    top: 578px;
-}
 .exchange .btnArea{
 	text-align:center;
 	margin:30px 0 0 0;
@@ -133,10 +57,6 @@
 	line-height:200%;
 }
 
-.exchange article .wenwen span.error{
-	
-}
-
 .exchange article .wenwen div.identity dt input[type="text"]{
 	border:1px solid #cccccc;
 	padding:5px;
@@ -153,8 +73,6 @@
     margin: 5px 0 0 60px;
     width: 120px;
 }
-
-
 .exchange article .wenwen div.form dd{
 	float: left;
     margin: 10px 0;
@@ -284,40 +202,90 @@
 .exchange article .finish a{
 	color:#4a8ef3;
 }
-.exchange .about .amazonBtn{
-    background-image: url("../images/exchange_mobile_closed_btn.gif")!important;
+/*by wlt, 2015-3-18*/
+.exchangeV2 ul{
+	margin-top: -20px;
+	margin-right: -40px;
 }
-.exchange .historyView{
-	background: url("../images/exchangeContent.png") no-repeat scroll 0 0;
-    font-size: 16px;
-    margin: 0 auto;
-    padding-bottom: 122px;
-    padding-top: 120px;
-    position: relative;
-    width: 885px;
+.exchangeV2 li{
+	float: left;
+	margin-top: 40px;
+	margin-right: 40px;
+	background-color: #fff;
+	padding: 50px;
+	font-family: "微软雅黑";
+	box-shadow: 0px 1px 4px rgba(149,148,148,.3);
+	position: relative;
+	z-index: 1;
 }
-.exchange .historyView p {
-    line-height: 24px;
+.exchangeV2 .pic, .exchangeV2 dl{
+	float: left;
 }
-.exchangeWay {
-    background: url("../images/exchangeFuture.png") no-repeat scroll 0 0;
-    margin: 0 auto;
-    padding-bottom: 125px;
-    width: 905px;
+.exchangeV2 .pic{
+	width: 140px;
+	height: 125px;
+	padding-top: 10px;
+	text-align: center;
+	margin-right: 20px;
 }
-.exchangeWay p {
-    line-height: 28px;
+.exchangeV2 dl{
+	width: 220px;
+	color: #000;
 }
-.mobileWay {
-    padding-left: 165px;
-    padding-top: 35px;
+.exchangeV2 dt{
+	font-size: 20px;
+	font-weight: bold;	
 }
-.amazonWay,.morePrizes {
-    padding-left: 680px;
-    padding-top: 15px;
+.exchangeV2 dd.text{
+	line-height: 35px;
+	font-family: "宋体";
 }
-.alipayWay {
-    padding-left: 165px;
-    padding-top: 35px;
+.exchangeV2 dd.text strong{
+	font-weight: normal;
+	color: #ff5938;
 }
-.mobileWay h4,.amazonWay h4,.alipayWay h4{font-family:"Microsoft Yahei",SimHei,Tahoma; margin-bottom:10px;}
+.exchangeV2 dd.exchangeBtn{
+	margin-top: 10px;
+}
+.exchangeV2 li span, .exchangeV2 .viewLink a{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+.exchangeV2 dd.exchangeBtn span{
+	width: 102px;
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	color: #fff;
+	background-color: #4a8ef3;
+	font-size: 14px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.exchangeV2 dd.exchangeBtn span.disabled{
+	background-color: #bfbfbf;
+	cursor: text;
+}
+.exchangeV2 .newIcon{
+	position: absolute;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	width: 64px;
+	height: 64px;
+	background: url("../images/exchange/newIcon.png") no-repeat 0 0;
+}
+.exchangeV2 .viewLink{
+	margin-top: 20px;
+	margin-bottom: 30px;
+	text-align: right;
+}
+.exchangeV2 .viewLink a.historyExchange{
+	padding: 0 20px;
+	height: 35px;
+	line-height: 35px;
+	color: #787878;
+	background-color: #ebebeb;
+	border: 1px solid #dedede;
+}
