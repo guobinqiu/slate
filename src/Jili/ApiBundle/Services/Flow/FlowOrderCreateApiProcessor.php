@@ -26,7 +26,7 @@ class FlowOrderCreateApiProcessor {
     public function process($param) {
         $configs = $this->configs;
 
-        $url = $configs['url'] . 'createorder_api.php'; //todo
+        $url = $configs['url'] . $this->getParameter('flow_createorder_api');
         $prv_key = $configs['prv_key'];
         $custom_sn = $configs['custom_sn'];
         $log_path = $configs['file_path_flow_api_log'];
@@ -46,21 +46,23 @@ class FlowOrderCreateApiProcessor {
         } catch (\ Exception $e) {
             //写log
             FileUtil :: writeContents($log_path, $e->getMessage());
-            $data['error_message'] = $this->getParameter('access_error');
+            $data['error_message'] = $this->getParameter('flow_exchange_error');
             return $data;
         }
 
         //解析接口数据
         $data = json_decode($return, true);
-        $data['error_message'] = '';
 
-        //写log
-        if ($data['resultcode'] != 101) {
-            $content = "[flow_create_order_api]url:" . $url . ' return:' . $return . FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
-            FileUtil :: writeContents($log_path, $content);
+        //正确场合
+        if ($data['resultcode'] == 101) {
+            return $data;
         }
 
-        //显示给用户的错误信息
+        //写log
+        $content = "[flow_create_order_api]url:" . $url . ' return:' . $return . FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
+        FileUtil :: writeContents($log_path, $content);
+
+        //出错场合：显示给用户的错误信息
         if (in_array($data['resultcode'], array (
                 204,
                 205,
@@ -69,6 +71,8 @@ class FlowOrderCreateApiProcessor {
                 210
             ))) {
             $data['error_message'] = FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
+        } else {
+            $data['error_message'] = $this->getParameter('flow_exchange_error');
         }
 
         return $data;

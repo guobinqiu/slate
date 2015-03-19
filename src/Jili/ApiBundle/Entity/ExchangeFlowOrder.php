@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ExchangeFlowOrder
  *
  * @ORM\Table(name="exchange_flow_order")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\ExchangeFlowOrderRepository")
  */
 class ExchangeFlowOrder
 {

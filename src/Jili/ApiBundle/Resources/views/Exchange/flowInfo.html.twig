@@ -8,12 +8,12 @@
 <script type="text/javascript">
 var existMobile = '';
 
-{% if existMobile is defined %}
+{% if existMobile is defined and existMobile != '' %}
 var existMobile = "{{ existMobile }}";
 {% endif %}
 
 $(document).ready(function() {
-    {% if existMobile is defined %}
+    {% if existMobile is defined and existMobile != '' %}
         $(".form dt:eq(1)").hide();
         $(".form dt:eq(2)").hide();
         $(".form dd:eq(1)").hide();
@@ -68,7 +68,7 @@ function getFlowlist(){
     <div><span id='error' style="color: red">{% if code is defined %}{{code}}{% endif %}</span></div>
     <div class="btnArea mt50">
         <a class="fontYH font18" onclick="javascript:history.back(1);">返回</a>
-        <a class="fontYH font18" id="flowList" onclick="getFlowlist();">获取流量包列表</a>
+        <a class="fontYH font18" id="flowList" onclick="getFlowlist();">下一步</a>
     </div>
 </div>
 </article>
