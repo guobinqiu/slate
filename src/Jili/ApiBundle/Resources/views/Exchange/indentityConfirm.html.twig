@@ -12,7 +12,6 @@
 function change(){
 	var img1=document.getElementById("active");
 	img1.onclick = null;
-	$("#active").attr("src","{{ asset('images/changeEnterBtn_unactive.jpg')}}") ;
 	$("#active").hover(function() {
 		$(this).css({ opacity: 1 });
 		$(this).css({ cursor: "default" });
@@ -41,7 +40,7 @@ function change(){
          </dt> <span class="error">{% if code %}<font color='red'>{{ code }}</font>{% endif %}</span>
          </div>
       
-      <div class="btnArea mt50"><img id="active" onclick="change();" src="{{ asset('images/changeEnterBtn.jpg')}}" width="175" height="60"></div>
+      <div class="btnArea mt50"><a class="fontYH font18" id="active" onclick="change();">下一步</a></div>
     </div>
   </article>
   <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />

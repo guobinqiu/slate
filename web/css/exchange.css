@@ -24,6 +24,7 @@
     width: 765px;
 	font-size:14px;
 	text-align:center;
+	padding-bottom: 30px;
 }
 .exchange article .warn{
 	background-image: url("../images/warn.gif");
@@ -49,7 +50,7 @@
 	 margin: 50px 50px 100px;
 
 }
-.exchange article .wenwen div.form{
+.exchange article .wenwen dl.form{
 	display:inline-block;
 	text-align:left;
 	width:100%;
@@ -73,20 +74,20 @@
     margin: 5px 0 0 60px;
     width: 120px;
 }
-.exchange article .wenwen div.form dd{
+.exchange article .wenwen dl.form dt{
 	float: left;
-    margin: 10px 0;
+    margin: 5px 0;
     padding-right: 20px;
     text-align: right;
     width: 120px;
 	clear:both;
 }
-.exchange article .wenwen div.form dt{
+.exchange article .wenwen dl.form dd{
 	width:500px;
-	margin: 10px 0;
+	margin: 5px 0;
 	float:left;
 }
-.exchange article .wenwen div.form dt.notice{
+.exchange article .wenwen dl.form dd.notice{
 	background-color: #FFF2F2;
     border: 1px solid #FF8888;
     border-radius: 5px;
@@ -96,42 +97,43 @@
     padding: 3px 10px;
     width: 440px;
 }
-.exchange article .wenwen div.form dt span.warn{
+.exchange article .wenwen dl.form dd span.warn{
 	color:#F00;
 	font-size:12px;
 	font-weight:normal;
 }
-.exchange article .wenwen div.form dt span.info{
+.exchange article .wenwen dl.form dd span.info{
 	font-size:12px;
 	font-weight:normal;
 }
-.exchange article .wenwen div.form dt span.info a{
+.exchange article .wenwen dl.form dd span.info a{
 	margin: 0 3px;
 	text-decoration: underline;
 }
-.exchange article .wenwen div.form dt span.account{
+.exchange article .wenwen dl.form dd span.account{
 	color:#999;
 	font-size:14px;
 	font-weight:normal;
 }
-.exchange article .wenwen div.form dt a{
+.exchange article .wenwen dl.form dd a{
 	color:#8abf0f;
 }
-.exchange article .wenwen div.form dt a.otherUser{
+.exchange article .wenwen dl.form dd a.otherUser{
 	font-size: 12px;
 	color: #4a8ef3;
+	display: none;
 }
-.exchange article .wenwen div.form dt img, .exchange article div.wenwen div dt input{
+.exchange article .wenwen dl.form dd img, .exchange article div.wenwen div dd input{
 	vertical-align:middle;
 }
-.exchange article .wenwen div.form dt input[type="text"]{
+.exchange article .wenwen dl.form dd input[type="text"]{
 	border:1px solid #cccccc;
 	padding:5px;
 	width:200px;
 	box-shadow:inset 1px 1px 2px #eee;
 	margin:0 5px 0 0;
 }
-.exchange article .wenwen div.form dt input[type="text"]:focus{
+.exchange article .wenwen dl.form dd input[type="text"]:focus{
 	border:1px solid #7FCAF1;
 }
 .exchange article .wenwen div.changePoint{
@@ -142,7 +144,7 @@
     text-align: center;
     width: 350px;
 }
-.exchange article .wenwen div.changePoint span, .exchange article .wenwen div dt span{
+.exchange article .wenwen div.changePoint span, .exchange article .wenwen div dd span{
 	color: #FF7114;
     display: inline-block;
     font-size: 20px;
@@ -169,7 +171,7 @@
 	Filter:alpha(opacity=80);
 }
 .exchange article .wenwen div.mt50{
-	margin-top:50px;
+	margin-top:30px;
 }
 .exchange article .finish{
 	font-size:14px;
@@ -237,7 +239,8 @@
 	font-weight: bold;	
 }
 .exchangeV2 dd.text{
-	line-height: 35px;
+	margin-top: 5px;
+	line-height: 20px;
 	font-family: "宋体";
 }
 .exchangeV2 dd.text strong{
@@ -288,4 +291,22 @@
 	color: #787878;
 	background-color: #ebebeb;
 	border: 1px solid #dedede;
+}
+.flowTips{
+	margin-top: 35px;
+	line-height: 20px;
+	padding: 15px 20px;
+	background-color: #f9f9f9;
+	text-align: left;
+	font-size: 12px;
+}
+.flowTips .title{
+	font-size: 14px;
+	font-weight: bold;
+}
+.flowTips p{
+	margin-top: 10px;
+}
+.flowTips p em{
+	margin-right: 10px;
 }

@@ -8,23 +8,22 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
 var existMobile = "{{ existMobile }}";
 $(document).ready(function() {
   {% if existMobile %}
-    $(".form dt:eq(1)").hide();
-    $(".form dt:eq(2)").hide();
     $(".form dd:eq(1)").hide();
+    $(".form dd:eq(2)").hide();
+    $(".form dt:eq(1)").hide();
   {% else %}
-    $(".form dt:eq(0)").hide();
+    $(".form dd:eq(0)").hide();
   {% endif %}
   $(".otherUser").click(function (){
     $("#existMobile").val('1');
-    $(".form dt:eq(0)").hide();
-    $(".form dt:eq(1)").show();
-    $(".form dt:eq(2)").show();
+    $(".form dd:eq(0)").hide();
     $(".form dd:eq(1)").show();
+    $(".form dd:eq(2)").show();
+    $(".form dt:eq(1)").show();
   })
 	if($("#over").html()<0){
 		$("#active").hide();
@@ -82,20 +81,20 @@ function changePoint(){
   </aside>
   <article>
     <div class="wenwen">
-      <div class="form">
-        <dd>手机号码：</dd>
-        <dt>{{ existMobile }} <a class="otherUser">使用其他号码</a></dt>
-        <dt><input type="text" id="mobile" name="mobile" value="{{ mobile }}" /></dt>
-        <dd>再次输入号码：</dd>
-        <dt><input type="text" id="re_mobile" name="re_mobile" /></dt>
-        <dd>选择兑换金额：</dd>
-        <dt><select id="point" name="point"  onchange="changePoint();">
+      <dl class="form">
+        <dt>手机号码：</dt>
+        <dd>{{ existMobile }} <a class="otherUser">使用其他号码</a></dd>
+        <dd><input type="text" id="mobile" name="mobile" value="{{ mobile }}" /></dd>
+        <dt>再次输入号码：</dt>
+        <dd><input type="text" id="re_mobile" name="re_mobile" /></dd>
+        <dt>选择兑换金额：</dt>
+        <dd><select id="point" name="point"  onchange="changePoint();">
             <option value='2010'>20元</option>
             <option value='2995'>30元</option>
             <option value='4960'>50元</option>
           </select>
-         = <span  class="rechange">2010</span> 米粒</dt>
-      </div>
+         = <span  class="rechange">2010</span> 米粒</dd>
+      </dl>
       <input type="hidden" name="existMobile" id="existMobile"/>
       <input type="hidden" name="rechange" id="changes"/>
       <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">2010</span></div>
