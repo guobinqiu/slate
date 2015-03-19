@@ -8,13 +8,12 @@
 {% block javascript %}
 <script type="text/javascript">
     var existMobile = '';
-
-    {% if existMobile is defined %}
+    {% if existMobile is defined and existMobile != '' %}
     var existMobile = "{{ existMobile }}";
     {% endif %}
 
     $(document).ready(function() {
-        {% if existMobile is defined %}
+        {% if existMobile is defined and existMobile != '' %}
             $(".form dd:eq(1)").hide();
             $(".form dd:eq(2)").hide();
             $(".form dt:eq(1)").hide();

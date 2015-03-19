@@ -2,6 +2,7 @@
 namespace Jili\ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Jili\ApiBundle\Entity\PointsExchange;
 
 
 class PointsExchangeRepository extends EntityRepository
@@ -252,5 +253,20 @@ class PointsExchangeRepository extends EntityRepository
         $q = $qb->getQuery();
 
         return $q->getResult();
+    }
+
+    public function insert($params = array ()) {
+        $em = $this->getEntityManager();
+        $pointschange  = new PointsExchange();
+        $pointschange->setUserId($params['user_id']);
+        $pointschange->setType($params['type']);
+        $pointschange->setSourcePoint($params['source_point']);
+        $pointschange->setTargetPoint($params['target_point']);
+        $pointschange->setTargetAccount($params['target_account']);
+        $pointschange->setExchangeItemNumber($params['exchange_item_number']);
+        $pointschange->setIp($params['ip']);
+        $em->persist($pointschange);
+        $em->flush();
+        return $pointschange;
     }
 }
