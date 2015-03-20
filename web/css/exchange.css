@@ -45,11 +45,6 @@
 	 margin-top: 50px;
 	  font-size: 16px;
 }
-
-.exchange article .wenwen div.identity{
-	 margin: 50px 50px 100px;
-
-}
 .exchange article .wenwen dl.form{
 	display:inline-block;
 	text-align:left;
@@ -58,18 +53,18 @@
 	line-height:200%;
 }
 
-.exchange article .wenwen div.identity dt input[type="text"]{
+.exchange article .wenwen dl.identity dd input[type="text"]{
 	border:1px solid #cccccc;
 	padding:5px;
 	width:200px;
 	box-shadow:inset 1px 1px 2px #eee;
 	margin:0 5px 0 0;
 }
-.exchange article .wenwen div.identity dt{
+.exchange article .wenwen dl.identity dd{
 	margin: 10px -55px;
     width: 460px;
 }
-.exchange article .wenwen div.identity dd{
+.exchange article .wenwen dl.identity dt{
 	float: left;
     margin: 5px 0 0 60px;
     width: 120px;
@@ -308,4 +303,10 @@
 }
 .flowTips p em{
 	margin-right: 10px;
+}
+.identityWrapper{
+	margin: 50px 50px 100px;
+}
+.identityWrapper .tips span.error{
+	padding-top: 0;
 }

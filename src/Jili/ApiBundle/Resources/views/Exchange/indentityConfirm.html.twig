@@ -9,42 +9,42 @@
 
 {% block javascript %}
 <script type="text/javascript">
-function change(){
-	var img1=document.getElementById("active");
-	img1.onclick = null;
-	$("#active").hover(function() {
-		$(this).css({ opacity: 1 });
-		$(this).css({ cursor: "default" });
-	});
+  function change(){
+  var img1=document.getElementById("active");
+  img1.onclick = null;
+  $("#active").hover(function() {
+  $(this).css({ opacity: 1 });
+  $(this).css({ cursor: "default" });
+  });
 
-	$("#form1").submit();
-}
+  $("#form1").submit();
+  }
 </script>
 {% endblock %}
 
 {% block body %}
 <div class="webArticle exchange">
-<form action="{{ path('_exchange_identityCardComfirm',{'type': type}) }}" method="post" id="form1">
-  <h2><span class="font18 corLightRed crumbTit">兑换信息</span></h2>
-  <aside>
-   {% include 'JiliApiBundle:User:rightInfo.html.twig' %}
-  </aside>
-  <article>
+  <form action="{{ path('_exchange_identityCardComfirm',{'type': type}) }}" method="post" id="form1">
+    <h2><span class="font18 corLightRed crumbTit">兑换信息</span></h2>
+    <aside>
+     {% include 'JiliApiBundle:User:rightInfo.html.twig' %}
+   </aside>
+   <article>
     <div class="wenwen">
- <div class="desCon"><span>您是第一次兑换米粒，我们需要记录并保存您的身份证号码。<br /><br />
-        请您务必认真填写,该号码将在您兑换成功后自动绑定。</span></div> 
-      <div class="identity">
-       <dd>您的身份证号码：</dd>
-        <dt>
-          <input name="identityCard" type="text">
-         </dt> <span class="error">{% if code %}<font color='red'>{{ code }}</font>{% endif %}</span>
-         </div>
-      
-      <div class="btnArea mt50"><a class="fontYH font18" id="active" onclick="change();">下一步</a></div>
-    </div>
-  </article>
-  <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
-  </form>
+     <div class="desCon"><span>您是第一次兑换米粒，我们需要记录并保存您的身份证号码。<br /><br />
+     请您务必认真填写,该号码将在您兑换成功后自动绑定。</span></div>
+     <div class="identityWrapper"> 
+     <dl class="identity">
+       <dt>您的身份证号码：</dt>
+       <dd><input name="identityCard" type="text"></dd> 
+      </dl>
+      <div class="tips"><span class="error">{% if code %}<font color='red'>{{ code }}</font>{% endif %}</span></div>
+      </div>
+     <div class="btnArea mt50"><a class="fontYH font18" id="active" onclick="change();">下一步</a></div>
+   </div>
+ </article>
+ <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
+</form>
 </div>
 {% endblock %}
 
