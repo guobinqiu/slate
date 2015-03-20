@@ -121,7 +121,6 @@
 .exchange article .wenwen dl.form dd a.otherUser{
 	font-size: 12px;
 	color: #4a8ef3;
-	display: none;
 }
 .exchange article .wenwen dl.form dd img, .exchange article div.wenwen div dd input{
 	vertical-align:middle;
