@@ -44,7 +44,7 @@ class FlowOrderRequestProcessor {
         $exchangeFlowOrder = $em->getRepository('JiliApiBundle:ExchangeFlowOrder')->find($data['custom_order_sn']);
         if(!($exchangeFlowOrder && $exchangeFlowOrder->getExchangeId())){
             //写log
-            $content = "[flow_order_request_processor] 该订单不存在exchange_flow_order_id" . $data['custom_order_sn'];
+            $content = "[flow_order_request_processor] 该订单不存在exchange_flow_order_id:" . $data['custom_order_sn'];
             FileUtil :: writeContents($log_path, $content);
             return false;
         }
@@ -64,7 +64,7 @@ class FlowOrderRequestProcessor {
     }
 
     public function checkData($data) {
-        if(!($data['status'] && $data['custom_order_sn'])){
+        if(!(isset($data['status']) && isset($data['custom_order_sn']))){
             return false;
         }
 

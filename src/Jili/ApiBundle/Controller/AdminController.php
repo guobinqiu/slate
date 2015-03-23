@@ -67,6 +67,7 @@ use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 
 use Jili\BackendBundle\Controller\IpAuthenticatedController;
 use Jili\ApiBundle\Utility\FileUtil;
+use Jili\ApiBundle\Utility\ValidateUtil;
 
 /**
  * @Route( requirements={"_scheme" = "https"})
@@ -1366,7 +1367,7 @@ class AdminController extends Controller implements IpAuthenticatedController
     /**
      * 写point_history表，更新用户的point
      * @param int $user_id
-     * @param int $points 
+     * @param int $points
      */
     public function exchangeOKWen($user_id,$points)
     {
@@ -3158,7 +3159,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             }
         }
 
-        if($tel && !preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$tel)){
+        if($tel && !(ValidateUtil::validateMobile($tel))){
             $errorMessage[] = "输入的手机格式不正确";
         }
         return $errorMessage;

@@ -95,7 +95,7 @@ class ExchangeProcess {
                 }
 
                 if (!$finish_time) {
-                    $finish_time = new \ DateTime();
+                    $finish_time = date('Y-m-d H:i:s');
                 }
 
                 $userInfo = $em->getRepository('JiliApiBundle:User')->find($user_id);
@@ -164,6 +164,7 @@ class ExchangeProcess {
     public function exchangeSendMsFail($type, $uid) {
         $title = '';
         $content = '';
+        $pointsExchangeType = new PointsExchangeType();
         switch ($type) {
             case $pointsExchangeType :: TYPE_AMAZON :
                 $title = $this->getParameter('exchange_fail_amazon_tilte');

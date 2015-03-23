@@ -23,6 +23,7 @@ use Jili\ApiBundle\Entity\ExchangeDanger;
 use Jili\ApiBundle\Entity\ExchangeFlowOrder;
 use Jili\ApiBundle\Entity\PointsExchangeType;
 use Jili\ApiBundle\Utility\FileUtil;
+use Jili\ApiBundle\Utility\ValidateUtil;
 
 /**
  * @Route( requirements={"_scheme" = "http"})
@@ -106,7 +107,7 @@ class  ExchangeController extends Controller
                         if($change_point == 2050 || $change_point == 3030 || $change_point == 5000){
                             if($existAlipay || $arr['existAlipay']==''){
                                 if($alipay){
-                                    if (preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$alipay) || preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$alipay)){
+                                    if (preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$alipay) || (ValidateUtil::validateMobile($alipay))){
                                         if($alipay == $re_alipay){
                                             if($real_name){
                                                 // if(!eregi("[^\x80-\xff]",$real_name)){
@@ -241,7 +242,7 @@ class  ExchangeController extends Controller
                     if($change_point == 2010 || $change_point == 2995 || $change_point == 4960){
                         if($existMobile || $arr['existMobile']==''){
                             if($mobile){
-                                    if (!preg_match("/^13[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/",$mobile)){
+                                    if (!(ValidateUtil::validateMobile($mobile))){
                                         $code = $this->container->getParameter('update_wr_mobile');
                                         $arr['code'] = $code;
                                     }else{
@@ -794,7 +795,6 @@ class  ExchangeController extends Controller
                 $this->get('request')->getSession()->remove('mobile');
             }
             if($type =='flow'){
-                //todo
                 $this->get('request')->getSession()->remove('csrf_token');
                 $this->get('request')->getSession()->remove('mobile_info');
                 $this->get('request')->getSession()->remove('flow_user');
@@ -1115,7 +1115,7 @@ class  ExchangeController extends Controller
         $arr['mobile'] = $mobile;
         $arr['existMobile'] = $existMobile;
 
-        //check mobile todo
+        //check mobile
         $user_id = $this->get('request')->getSession()->get('uid');
         $error_message = $this->checkFlowMobile($existMobile, $mobile, $re_mobile, $user_id);
         if($error_message){
@@ -1164,8 +1164,8 @@ class  ExchangeController extends Controller
                 return $this->container->getParameter('exchange_en_mobile');
             }
         }else{
-             //check mobile todo 重构
-            if(!preg_match("/^1\d{10}$/", $mobile)) {
+             //check mobile
+            if(!(ValidateUtil::validateMobile($mobile))){
                 return $this->container->getParameter('update_wr_mobile');
             }elseif($mobile != $re_mobile){
                 return $this->container->getParameter('exchange_unsame_mobile');

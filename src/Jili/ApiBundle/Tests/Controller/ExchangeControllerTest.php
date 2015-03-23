@@ -44,12 +44,15 @@ class ExchangeControllerTest extends WebTestCase {
         $session->remove('csrf_token');
         $session->save();
 
-        $query = array( 'tokenKey'=> '123', 'uid'=> 1 );
-        $url = $container->get('router')->generate('_exchange_flowInfo', $query ) ;
-        $crawler =$client->request('GET', $url ) ;
-        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
+        $query = array (
+            'tokenKey' => '123',
+            'uid' => 1
+        );
+        $url = $container->get('router')->generate('_exchange_flowInfo', $query);
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
-        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
     /**
@@ -65,12 +68,15 @@ class ExchangeControllerTest extends WebTestCase {
         $session->remove('csrf_token');
         $session->save();
 
-        $query = array( 'tokenKey'=> '123', 'uid'=> 1 );
-        $url = $container->get('router')->generate('_exchange_flowList', $query ) ;
-        $crawler =$client->request('GET', $url ) ;
-        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
+        $query = array (
+            'tokenKey' => '123',
+            'uid' => 1
+        );
+        $url = $container->get('router')->generate('_exchange_flowList', $query);
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
-        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
     /**
@@ -89,13 +95,19 @@ class ExchangeControllerTest extends WebTestCase {
         $mobile = '';
         $re_mobile = '';
         $return = $controller->checkFlowMobile($existMobile, $mobile, $re_mobile, $user_id);
-        $this->assertEquals( '输入的手机格式不正确', $return);
+        $this->assertEquals('输入的手机格式不正确', $return);
 
         $existMobile = '';
         $mobile = '13761756201';
         $re_mobile = '';
         $return = $controller->checkFlowMobile($existMobile, $mobile, $re_mobile, $user_id);
-        $this->assertEquals( '2次输入的手机号码不相同', $return);
+        $this->assertEquals('2次输入的手机号码不相同', $return);
+
+        $existMobile = '';
+        $mobile = '23761756201';
+        $re_mobile = '';
+        $return = $controller->checkFlowMobile($existMobile, $mobile, $re_mobile, $user_id);
+        $this->assertEquals('输入的手机格式不正确', $return);
 
         $existMobile = '';
         $mobile = '13761756201';
@@ -107,9 +119,9 @@ class ExchangeControllerTest extends WebTestCase {
         $mobile = '';
         $re_mobile = '';
         $return = $controller->checkFlowMobile($existMobile, $mobile, $re_mobile, $user_id);
-        $this->assertEquals( '请输入您的手机号码', $return);
+        $this->assertEquals('请输入您的手机号码', $return);
 
-        $pointschange  = new PointsExchange();
+        $pointschange = new PointsExchange();
         $pointschange->setUserId(1);
         $pointschange->setType(5);
         $pointschange->setSourcePoint(2000);
@@ -124,12 +136,12 @@ class ExchangeControllerTest extends WebTestCase {
         $mobile = '';
         $re_mobile = '';
         $return = $controller->checkFlowMobile($existMobile, $mobile, $re_mobile, $user_id);
-        $this->assertNull(  $return);
+        $this->assertNull($return);
     }
 
-     /**
-     * @group issue_682
-     */
+    /**
+    * @group issue_682
+    */
     public function testGetFlowSaveAction() {
         $client = static :: createClient();
         $container = static :: $kernel->getContainer();
@@ -140,11 +152,14 @@ class ExchangeControllerTest extends WebTestCase {
         $session->remove('csrf_token');
         $session->save();
 
-        $query = array( 'tokenKey'=> '123', 'uid'=> 1 );
-        $url = $container->get('router')->generate('_exchange_flowSave', $query ) ;
-        $crawler =$client->request('GET', $url ) ;
-        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
+        $query = array (
+            'tokenKey' => '123',
+            'uid' => 1
+        );
+        $url = $container->get('router')->generate('_exchange_flowSave', $query);
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
-        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }

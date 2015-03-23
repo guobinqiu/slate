@@ -20,11 +20,8 @@ class FlowOrderController extends Controller {
      * @Method("POST");
      */
     public function getInfoAction() {
-        $logger = $this->get('logger');
-
-        $em = $this->getDoctrine()->getManager();
-
-        $result = file_get_contents("php://input");
+        $request = $this->get('request');
+        $result = $request->getContent();
         $data = json_decode($result, true);
 
         //把接口数据写到表中flow_order_api_return
