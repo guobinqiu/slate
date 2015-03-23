@@ -73,6 +73,7 @@
 }
 .login article .loginForm li.otherLogin{
 	margin-top:10px;
+	display: none;
 }
 .login article .loginForm li.forget a{
 	color:#4a8ef3;
@@ -100,13 +101,13 @@
     height: 16px;
     margin: 0 0 0 10px;
     vertical-align: text-top;
-    width: 16px;
+    width: 18px;
 }
 .login article .loginForm li.otherLogin a.weibo{
-	background-image:url(../images/weiboIcon.jpg);
+	background:url(../images/icons.png) no-repeat 0 -421px;
 }
 .login article .loginForm li.otherLogin a.qq{
-	background-image:url(../images/qqIcon.jpg);
+	background:url(../images/icons.png) no-repeat 0 -311px;
 }
 .login article .regArea{
 	text-align:center;

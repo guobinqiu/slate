@@ -17,6 +17,7 @@
 	}
 </script>
 <script src="{{ asset('js/bottom.js') }}" language="javascript"></script>
+<script src="//cdn.optimizely.com/js/2322420073.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -42,7 +43,7 @@
       <input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
       {% endif %}
       <li class="loginBtn"><input id="loginSubmit" name="login" type="submit" class="submit" value="&nbsp;"><a class="forget" href="{{ asset(path('_user_resetPwd'),'cdn1') }}" target="_blank">忘记密码</a></li>
-      <!--  <li class="otherLogin">使用合作网站登录<a class="weibo" href="#"></a><a class="qq" href="#"></a></li>-->
+      <li class="otherLogin">使用合作网站登录：<a href="{{ path('qq_api_login') }}" class="qq" title="用QQ账号快速登录"></a><a href="{{ path('weibo_api_login') }}" class="weibo" title="用微博账号快速登录"></a></li>
     </ul>
     <div class="regArea"><a href="{{ path('_user_reg') }}" target="_blank" class="reg"></a></div>
   </article></form>
