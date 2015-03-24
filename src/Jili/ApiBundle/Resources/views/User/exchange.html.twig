@@ -183,7 +183,7 @@ function look(eid){
               {% elseif item.exType == 4 %}
                    <td>{{ item.exchangeItemNumber }}元手机话费</td>
              {% elseif item.exType == 5 %}
-                  <td>{{ item.exchangeItemNumber }}M 流量包</td>
+                  <td>{{ item.exchangeItemNumber }}M流量包</td>
               {% endif %}
               <td>{% if item.status %} {{ item.finishDate.date | date('Y-m-d') }} {% else %} {% endif %}</td>
               <td>{% if item.status %} {% if item.status==1 %} 兑换成功 {% elseif item.status==2 %} 兑换失败 {% else %} {% endif %}  {% else %} 处理中 {% endif %}</td>

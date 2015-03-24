@@ -1,5 +1,5 @@
 --增加记录
-INSERT INTO `jili_db`.`points_exchange_type` (`id` ,`type`)VALUES ('5', 'flow');
+INSERT INTO `jili_db`.`points_exchange_type` (`id` ,`type`)VALUES ('5', '流量包');
 INSERT INTO `ad_category` (`id` ,`category_name` ,`asp` ,`display_name`)VALUES ('24', NULL, NULL , '流量包');
 
 --增加表exchange_flow_order
