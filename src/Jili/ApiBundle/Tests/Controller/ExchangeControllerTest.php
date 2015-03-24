@@ -49,7 +49,7 @@ class ExchangeControllerTest extends WebTestCase {
             'uid' => 1
         );
         $url = $container->get('router')->generate('_exchange_flowInfo', $query);
-        $crawler = $client->request('GET', $url);
+        $crawler = $client->request('POST', $url);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -73,7 +73,7 @@ class ExchangeControllerTest extends WebTestCase {
             'uid' => 1
         );
         $url = $container->get('router')->generate('_exchange_flowList', $query);
-        $crawler = $client->request('GET', $url);
+        $crawler = $client->request('POST', $url);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -157,7 +157,7 @@ class ExchangeControllerTest extends WebTestCase {
             'uid' => 1
         );
         $url = $container->get('router')->generate('_exchange_flowSave', $query);
-        $crawler = $client->request('GET', $url);
+        $crawler = $client->request('POST', $url);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

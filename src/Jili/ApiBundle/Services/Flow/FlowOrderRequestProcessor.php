@@ -33,16 +33,16 @@ class FlowOrderRequestProcessor {
         $em = $this->em;
 
         $valid = $this->checkData($data);
-        if(!$valid){
+        if (!$valid) {
             //写log
-            $content = "[flow_order_request_processor] 推送数据格式不正确" . var_dump($data);
+            $content = "[flow_order_request_processor] 推送数据格式不正确" . var_export($data, true);
             FileUtil :: writeContents($log_path, $content);
             return false;
         }
 
         //get point exchange id
         $exchangeFlowOrder = $em->getRepository('JiliApiBundle:ExchangeFlowOrder')->find($data['custom_order_sn']);
-        if(!($exchangeFlowOrder && $exchangeFlowOrder->getExchangeId())){
+        if (!($exchangeFlowOrder && $exchangeFlowOrder->getExchangeId())) {
             //写log
             $content = "[flow_order_request_processor] 该订单不存在exchange_flow_order_id:" . $data['custom_order_sn'];
             FileUtil :: writeContents($log_path, $content);
@@ -64,7 +64,7 @@ class FlowOrderRequestProcessor {
     }
 
     public function checkData($data) {
-        if(!(isset($data['status']) && isset($data['custom_order_sn']))){
+        if (!(isset ($data['status']) && isset ($data['custom_order_sn']))) {
             return false;
         }
 
@@ -88,8 +88,7 @@ class FlowOrderRequestProcessor {
         return $this->container->getParameter($key);
     }
 
-    public function setSendMail($send_mail)
-    {
+    public function setSendMail($send_mail) {
         $this->send_mail = $send_mail;
     }
 

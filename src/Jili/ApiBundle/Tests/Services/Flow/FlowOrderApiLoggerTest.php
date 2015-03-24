@@ -1,5 +1,5 @@
 <?php
-namespace  Jili\ApiBundle\Tests\Services\Bangwoya;
+namespace  Jili\ApiBundle\Tests\Services\Flow;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
