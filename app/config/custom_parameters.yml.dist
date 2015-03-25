@@ -239,7 +239,7 @@ parameters:
     exchange_finish_amazon_content: 亲爱的<br/><br/>您好！您的“亚马逊礼品卡”兑换申请已经处理成功，<br/>请在<a href="http://www.91jili.com/user/exchange/2/1"  target="_blank">兑换历史</a>中查看您的“亚马逊礼品卡”卡号。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="http://www.91jili.com/support"  target="_blank">http://www.91jili.com/support</a><br/><br/>积粒网运营中心
     exchange_finish_alipay_content: 亲爱的<br/><br/>您好！您的支付宝充值申请已经处理成功，请及时查看您的支付宝余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="http://www.91jili.com/support" target="_blank">http://www.91jili.com/support</a><br/><br/>积粒网运营中心
     exchange_finish_mobile_content: 亲爱的<br/><br/>您好！您的手机费兑换申请已经处理成功，请及时查看您的手机余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="http://www.91jili.com/support" target="_blank">http://www.91jili.com/support</a><br/><br/>积粒网运营中心
-    exchange_finish_flow_content: 亲爱的<br/><br/>您好！您的流量包兑换申请已经处理成功，请及时查看您的手机余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="http://www.91jili.com/support" target="_blank">http://www.91jili.com/support</a><br/><br/>积粒网运营中心
+    exchange_finish_flow_content: 亲爱的<br/><br/>您好！您的流量包兑换申请已经处理成功，请及时查看您的流量。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="http://www.91jili.com/support" target="_blank">http://www.91jili.com/support</a><br/><br/>积粒网运营中心
     exchange_finish_wenwen_title: 91问问积分兑换成功
     ecchange_finish_wenwen_content: 亲爱的<br/><br/>您好！您从91问问网站上申请的兑换已经处理成功，米粒已经发放至您的积粒网账户，请及时查看您的米粒余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="http://www.91jili.com/support" target="_blank">http://www.91jili.com/support</a><br/><br/>积粒网运营中心
     exchange_fail_amazon_tilte: “亚马逊礼品卡”兑换失败
