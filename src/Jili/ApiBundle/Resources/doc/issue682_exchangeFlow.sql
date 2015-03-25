@@ -26,3 +26,6 @@ CREATE TABLE IF NOT EXISTS `flow_order_api_return` (
   `content` longtext NOT NULL COMMENT '推送内容',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='充值状态推送接口日志' AUTO_INCREMENT=1 
+
+--修改表结构
+ALTER TABLE `exchange_danger` ADD `created_at` DATETIME NULL ;
