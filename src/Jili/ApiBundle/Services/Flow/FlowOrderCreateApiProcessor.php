@@ -43,15 +43,24 @@ class FlowOrderCreateApiProcessor {
 
         try {
             $return = CurlUtil :: curl($url, $param);
-        } catch (\ Exception $e) {
+        } catch (\Exception $e) {
             //写log
-            FileUtil :: writeContents($log_path, $e->getMessage());
+            FileUtil :: writeContents($log_path, "[flow_create_order_api]url:" . $url . $e->getMessage());
             $data['error_message'] = $this->getParameter('flow_exchange_error');
             return $data;
         }
 
         //解析接口数据
         $data = json_decode($return, true);
+
+        //返回空
+        if (is_null($data)) {
+            //写log
+            $content = "[flow_create_order_api]url:" . $url . ' return: null';
+            FileUtil :: writeContents($log_path, $content);
+            $data['error_message'] = $this->getParameter('flow_exchange_error');
+            return $data;
+        }
 
         //正确场合
         if ($data['resultcode'] == 101) {

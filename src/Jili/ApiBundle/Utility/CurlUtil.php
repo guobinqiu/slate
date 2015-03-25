@@ -3,9 +3,8 @@ namespace Jili\ApiBundle\Utility;
 
 class CurlUtil {
 
-    public static function curl($url, $post = '', $cookie = '', $cookiejar = '', $referer = '') {
+    public static function curl($url, $post = '', $cookie = '', $cookiejar = '', $referer = '', $cookiepath='') {
         $tmpInfo = '';
-        $cookiepath = getcwd() . './' . $cookiejar;
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         if (isset ($_SERVER['HTTP_USER_AGENT'])) {
@@ -32,6 +31,7 @@ class CurlUtil {
         curl_setopt($curl, CURLOPT_HEADER, 0);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $tmpInfo = curl_exec($curl);
+
         if (curl_errno($curl)) {
             throw new \Exception(curl_error($curl));
         }

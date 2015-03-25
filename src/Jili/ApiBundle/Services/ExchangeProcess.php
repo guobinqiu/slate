@@ -19,15 +19,12 @@ class ExchangeProcess {
     public function exchangeOK($exchange_id, $points, $finish_time, $type, $log_path) {
         $em = $this->em;
 
-        $adCatogory = new AdCategory();
-        $pointsExchangeType = new PointsExchangeType();
-        $pointsExchange = new PointsExchange();
         $reason = array (
-            $pointsExchangeType :: TYPE_91WENWEN => $adCatogory :: ID_91WENWEN_POINTS,
-            $pointsExchangeType :: TYPE_AMAZON => $adCatogory :: ID_AMAZON,
-            $pointsExchangeType :: TYPE_ALIPAY => $adCatogory :: ID_ALIPAY,
-            $pointsExchangeType :: TYPE_MOBILE => $adCatogory :: ID_MOBILE,
-            $pointsExchangeType :: TYPE_FLOW => $adCatogory :: ID_FLOW
+            PointsExchangeType :: TYPE_91WENWEN => AdCategory :: ID_91WENWEN_POINTS,
+            PointsExchangeType :: TYPE_AMAZON => AdCategory :: ID_AMAZON,
+            PointsExchangeType :: TYPE_ALIPAY => AdCategory :: ID_ALIPAY,
+            PointsExchangeType :: TYPE_MOBILE => AdCategory :: ID_MOBILE,
+            PointsExchangeType :: TYPE_FLOW => AdCategory :: ID_FLOW
         );
 
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
@@ -54,7 +51,7 @@ class ExchangeProcess {
                 $po->setReason($reason[$type]);
                 $em->persist($po);
                 $em->flush();
-                $exchanges->setStatus($pointsExchange :: STATUS_OK);
+                $exchanges->setStatus(PointsExchange :: STATUS_OK);
                 $exchanges->setFinishDate(date_create($finish_time));
                 $em->persist($exchanges);
                 $em->flush();
@@ -91,14 +88,13 @@ class ExchangeProcess {
 
                 $user_id = $exchanges->getUserId();
                 if (!$points) {
-                    $points = $exchanges->getTargetAccount();
+                    $points = $exchanges->getTargetPoint();
                 }
 
                 if (!$finish_time) {
                     $finish_time = date('Y-m-d H:i:s');
                 }
 
-                $userInfo = $em->getRepository('JiliApiBundle:User')->find($user_id);
                 $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
                 $user->setPoints(intval($user->getPoints() + $points));
                 $em->persist($user);
@@ -130,21 +126,20 @@ class ExchangeProcess {
     public function exchangeSendMs($type, $uid) {
         $title = '';
         $content = '';
-        $pointsExchangeType = new PointsExchangeType();
         switch ($type) {
-            case $pointsExchangeType :: TYPE_AMAZON :
+            case PointsExchangeType :: TYPE_AMAZON :
                 $title = $this->getParameter('exchange_finish_amazon_tilte');
                 $content = $this->getParameter('exchange_finish_amazon_content');
                 break;
-            case $pointsExchangeType :: TYPE_ALIPAY :
+            case PointsExchangeType :: TYPE_ALIPAY :
                 $title = $this->getParameter('exchange_finish_alipay_tilte');
                 $content = $this->getParameter('exchange_finish_alipay_content');
                 break;
-            case $pointsExchangeType :: TYPE_MOBILE :
+            case PointsExchangeType :: TYPE_MOBILE :
                 $title = $this->getParameter('exchange_finish_mobile_tilte');
                 $content = $this->getParameter('exchange_finish_mobile_content');
                 break;
-            case $pointsExchangeType :: TYPE_FLOW :
+            case PointsExchangeType :: TYPE_FLOW :
                 $title = $this->getParameter('exchange_finish_flow_tilte');
                 $content = $this->getParameter('exchange_finish_flow_content');
                 break;
@@ -157,28 +152,27 @@ class ExchangeProcess {
                 'title' => $title,
                 'content' => $content
             );
-            $this->insertSendMs($parms);
+            $this->em->getRepository('JiliApiBundle:SendMessage0' . ($uid % 10))->insertSendMs($parms);
         }
     }
 
     public function exchangeSendMsFail($type, $uid) {
         $title = '';
         $content = '';
-        $pointsExchangeType = new PointsExchangeType();
         switch ($type) {
-            case $pointsExchangeType :: TYPE_AMAZON :
+            case PointsExchangeType :: TYPE_AMAZON :
                 $title = $this->getParameter('exchange_fail_amazon_tilte');
                 $content = $this->getParameter('exchange_fail_amazon_content');
                 break;
-            case $pointsExchangeType :: TYPE_ALIPAY :
+            case PointsExchangeType :: TYPE_ALIPAY :
                 $title = $this->getParameter('exchange_fail_alipay_tilte');
                 $content = $this->getParameter('exchange_fail_alipay_content');
                 break;
-            case $pointsExchangeType :: TYPE_MOBILE :
+            case PointsExchangeType :: TYPE_MOBILE :
                 $title = $this->getParameter('exchange_fail_mobile_tilte');
                 $content = $this->getParameter('exchange_fail_mobile_content');
                 break;
-            case $pointsExchangeType :: TYPE_FLOW :
+            case PointsExchangeType :: TYPE_FLOW :
                 $title = $this->getParameter('exchange_fail_flow_tilte');
                 $content = $this->getParameter('exchange_fail_flow_content');
                 break;
@@ -191,22 +185,8 @@ class ExchangeProcess {
                 'title' => $title,
                 'content' => $content
             );
-            $this->insertSendMs($parms);
+            $this->em->getRepository('JiliApiBundle:SendMessage0' . ($uid % 10))->insertSendMs($parms);
         }
-    }
-
-    public function insertSendMs($parms = array ()) {
-        extract($parms);
-        $em = $this->em;
-        $sm = SequenseEntityClassFactory :: createInstance('SendMessage', $userid);
-        $sm->setSendFrom($this->getParameter('init'));
-        $sm->setSendTo($userid);
-        $sm->setTitle($title);
-        $sm->setContent($content);
-        $sm->setReadFlag($this->getParameter('init'));
-        $sm->setDeleteFlag($this->getParameter('init'));
-        $em->persist($sm);
-        $em->flush();
     }
 
     public function setEntityManager(EntityManager $em) {

@@ -28,14 +28,13 @@ class FlowOrderRequestProcessor {
         $configs = $this->configs;
 
         $log_path = $configs['file_path_flow_api_log'];
-        $pointsExchangeType = new PointsExchangeType();
 
         $em = $this->em;
 
         $valid = $this->checkData($data);
         if (!$valid) {
             //写log
-            $content = "[flow_order_request_processor] 推送数据格式不正确" . var_export($data, true);
+            $content = "[flow_order_request_processor] the data's format is not correct " . var_export($data, true);
             FileUtil :: writeContents($log_path, $content);
             return false;
         }
@@ -44,13 +43,12 @@ class FlowOrderRequestProcessor {
         $exchangeFlowOrder = $em->getRepository('JiliApiBundle:ExchangeFlowOrder')->find($data['custom_order_sn']);
         if (!($exchangeFlowOrder && $exchangeFlowOrder->getExchangeId())) {
             //写log
-            $content = "[flow_order_request_processor] 该订单不存在exchange_flow_order_id:" . $data['custom_order_sn'];
+            $content = "[flow_order_request_processor] order is not exist. exchange_flow_order_id:" . $data['custom_order_sn'];
             FileUtil :: writeContents($log_path, $content);
             return false;
         }
 
-        $pointsExchangeType = new PointsExchangeType();
-        $type = $pointsExchangeType :: TYPE_FLOW;
+        $type = PointsExchangeType :: TYPE_FLOW;
         if ($data['status'] == 'error') {
             //兑换失败
             return $this->exchange_service->exchangeNg($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
@@ -82,10 +80,6 @@ class FlowOrderRequestProcessor {
     public function setLogger(LoggerInterface $logger) {
         $this->logger = $logger;
         return $this;
-    }
-
-    public function getParameter($key) {
-        return $this->container->getParameter($key);
     }
 
     public function setSendMail($send_mail) {

@@ -39,7 +39,7 @@ class LoadExchangeFlowOrderData extends AbstractFixture implements FixtureInterf
         $user = new User();
         $user->setNick('bb');
         $user->setEmail('user@voyagegroup.com.cn');
-        $user->setPoints(100);
+        $user->setPoints(2000);
         $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');

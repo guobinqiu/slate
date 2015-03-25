@@ -21,6 +21,15 @@ class FlowMobileValidateApiProcessorTest extends KernelTestCase {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->em->close();
+    }
+
+    /**
      * @group issue_682
      */
     public function testProcess() {

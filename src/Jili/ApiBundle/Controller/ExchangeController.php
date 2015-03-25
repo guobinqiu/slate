@@ -1072,8 +1072,7 @@ class  ExchangeController extends Controller
         $arr['tokenKey'] = $tokenKey;
 
         //get existMobile
-        $pointsExchangeType = new PointsExchangeType();
-        $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($user_id,$pointsExchangeType::TYPE_FLOW);
+        $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($user_id, PointsExchangeType::TYPE_FLOW);
         if(!empty($targetAcc)){
              $arr['existMobile'] = $targetAcc[0]['targetAccount'];
         }
@@ -1154,8 +1153,7 @@ class  ExchangeController extends Controller
         if($existMobile){
             //check targetAccount
             $em = $this->getDoctrine()->getManager();
-            $pointsExchangeType = new PointsExchangeType();
-            $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($user_id,$pointsExchangeType::TYPE_FLOW);
+            $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($user_id, PointsExchangeType::TYPE_FLOW);
             if($targetAcc){
                 if($targetAcc[0]['targetAccount'] != $existMobile){
                     return $this->container->getParameter('exchange_en_mobile');
