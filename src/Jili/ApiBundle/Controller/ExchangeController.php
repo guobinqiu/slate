@@ -488,7 +488,6 @@ class  ExchangeController extends Controller
                  if(!empty($existUserExchange)){
                     foreach ($existUserExchange as $key1 => $value1) {
                         $this->insertDanger($value1['userId'],$value1['id'],$this->container->getParameter('init_three'),$identityCard[0]->getIdentityCard());
-
                     }
                     $this->insertDanger($uid,$exchange_id,$this->container->getParameter('init_three'),$identityCard[0]->getIdentityCard());
 
@@ -1240,6 +1239,8 @@ class  ExchangeController extends Controller
         // 事务处理
         $em->getConnection()->beginTransaction();
         try {
+            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+
             // insert PointsExchange
             $pointschangeType = new PointsExchangeType();
             $params = array(
@@ -1265,7 +1266,6 @@ class  ExchangeController extends Controller
             $em->flush();
 
             //update user points
-            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
             $user->setPoints($user->getPoints() - intval($change_point));
             $em->persist($user);
             $em->flush();
