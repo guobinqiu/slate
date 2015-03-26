@@ -39,9 +39,8 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
-    {
-        parent::tearDown();
+    protected function tearDown() {
+        parent :: tearDown();
         $this->em->close();
     }
 
@@ -53,16 +52,11 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
         $container = $this->container;
 
         $order = LoadExchangeFlowOrderData :: $EXCHANGE_FLOW_ORDER[0];
+
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'ng';
-        $service = $container->get('flow_order_request.processor');
-        $result = $service->process($data);
-        $this->assertFalse($result);
-
-        $data = array ();
-        $data['custom_order_sn'] = 123456;
-        $data['status'] = 'error';
+        $data['client_ip'] = '127.0.0.1';
         $service = $container->get('flow_order_request.processor');
         $result = $service->process($data);
         $this->assertFalse($result);
@@ -70,13 +64,16 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'error';
+        $data['client_ip'] = '127.0.0.1';
         $service = $container->get('flow_order_request.processor');
         $result = $service->process($data);
         $this->assertTrue($result);
 
+        $order = LoadExchangeFlowOrderData :: $EXCHANGE_FLOW_ORDER[1];
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'success';
+        $data['client_ip'] = '127.0.0.1';
         $service = $container->get('flow_order_request.processor');
         $result = $service->process($data);
         $this->assertTrue($result);
@@ -87,38 +84,53 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
      */
     public function testCheckData() {
         $container = $this->container;
+        $service = $container->get('flow_order_request.processor');
+        $configs = $container->getParameter('flow');
+        $order = LoadExchangeFlowOrderData :: $EXCHANGE_FLOW_ORDER[0];
 
         $data = array ();
-        $data['custom_order_sn'] = 1;
-        $service = $container->get('flow_order_request.processor');
-        $result = $service->checkData($data);
-        $this->assertFalse($result);
+        $data['custom_order_sn'] = $order->getId();
+        $result = $service->checkData($data, $configs);
+        $this->assertEquals("缺少参数(custom_order_sn,status)", $result);
 
         $data = array ();
         $data['status'] = 'success';
         $service = $container->get('flow_order_request.processor');
-        $result = $service->checkData($data);
-        $this->assertFalse($result);
+        $result = $service->checkData($data, $configs);
+        $this->assertEquals("缺少参数(custom_order_sn,status)", $result);
+
+        $data = array ();
+        $data['custom_order_sn'] = 1;
+        $data['status'] = 'success';
+        $data['client_ip'] = '127.1.1.1';
+        $result = $service->checkData($data, $configs);
+        $this->assertEquals("非法IP", $result);
 
         $data = array ();
         $data['custom_order_sn'] = 1;
         $data['status'] = 'ng';
-        $service = $container->get('flow_order_request.processor');
-        $result = $service->checkData($data);
-        $this->assertFalse($result);
+        $data['client_ip'] = '127.0.0.1';
+        $result = $service->checkData($data, $configs);
+        $this->assertEquals("status不正确(success,error)", $result);
 
         $data = array ();
-        $data['custom_order_sn'] = 1;
+        $data['custom_order_sn'] = 123456;
         $data['status'] = 'success';
-        $service = $container->get('flow_order_request.processor');
-        $result = $service->checkData($data);
-        $this->assertTrue($result);
+        $data['client_ip'] = '127.0.0.1';
+        $result = $service->checkData($data, $configs);
+        $this->assertEquals("订单不存在", $result);
 
         $data = array ();
-        $data['custom_order_sn'] = 1;
-        $data['status'] = 'error';
-        $service = $container->get('flow_order_request.processor');
-        $result = $service->checkData($data);
-        $this->assertTrue($result);
+        $data['custom_order_sn'] = $order->getId();
+        $data['status'] = 'success';
+        $data['client_ip'] = '127.0.0.1';
+        $service->process($data, $configs);
+
+        $data = array ();
+        $data['custom_order_sn'] = $order->getId();
+        $data['status'] = 'success';
+        $data['client_ip'] = '127.0.0.1';
+        $result = $service->checkData($data, $configs);
+        $this->assertEquals("订单已结束", $result);
     }
 }

@@ -149,6 +149,11 @@ parameters:
         url: %flow_url%
         prv_key: %flow_prv_key%
         custom_sn: %flow_custom_sn%
+        client_ip: %flow_client_ip%
         file_path_flow_api_log: %flow_file_path_flow_api_log%
         mail_subject: %flow_mail_subject%
         alertTo_contacts: %flow_alertTo_contacts%
+        exchange_error: %flow_exchange_error%
+        mobile_validate_api: %flow_mobile_validate_api%
+        createorder_api: %flow_createorder_api%
+        validations: %flow_validations%

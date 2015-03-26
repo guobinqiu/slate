@@ -26,51 +26,85 @@ class FlowOrderRequestProcessor {
 
     public function process($data) {
         $configs = $this->configs;
-
         $log_path = $configs['file_path_flow_api_log'];
 
         $em = $this->em;
 
-        $valid = $this->checkData($data);
-        if (!$valid) {
-            //写log
-            $content = "[flow_order_request_processor] the data's format is not correct " . var_export($data, true);
+        $error_message = $this->checkData($data, $configs);
+        if ($error_message) {
+            //验证不通过,写log
+            $content = "[flow_order_request_processor] Failure to accept data:" . $error_message . var_export($data, true);
             FileUtil :: writeContents($log_path, $content);
             return false;
         }
 
         //get point exchange id
         $exchangeFlowOrder = $em->getRepository('JiliApiBundle:ExchangeFlowOrder')->find($data['custom_order_sn']);
-        if (!($exchangeFlowOrder && $exchangeFlowOrder->getExchangeId())) {
-            //写log
-            $content = "[flow_order_request_processor] order is not exist. exchange_flow_order_id:" . $data['custom_order_sn'];
-            FileUtil :: writeContents($log_path, $content);
-            return false;
-        }
-
         $type = PointsExchangeType :: TYPE_FLOW;
         if ($data['status'] == 'error') {
             //兑换失败
-            return $this->exchange_service->exchangeNg($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
+            $return = $this->exchange_service->exchangeNg($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
         }
         elseif ($data['status'] == 'success') {
             //兑换成功
-            return $this->exchange_service->exchangeOK($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
+            $return = $this->exchange_service->exchangeOK($exchangeFlowOrder->getExchangeId(), null, null, $type, $log_path);
         }
 
-        return true;
+        //处理结果写log
+        if ($return) {
+            $content = "[flow_order_request_processor] Handle orders successful.";
+        } else {
+            $content = "[flow_order_request_processor] Handle orders failure.";
+            $this->sendMail($configs, $content);
+        }
+        FileUtil :: writeContents($log_path, $content);
+
+        return $return;
     }
 
-    public function checkData($data) {
-        if (!(isset ($data['status']) && isset ($data['custom_order_sn']))) {
-            return false;
+    public function checkData($data, $configs) {
+        $error_message = "";
+
+        //缺少参数
+        if (empty ($data['custom_order_sn']) || empty ($data['status'])) {
+            $error_message = $configs['validations'][1]['message'];
+            return $error_message;
         }
 
-        if (!($data['status'] == 'error' || $data['status'] == 'success')) {
-            return false;
+        //非法IP
+        if (!in_array($data['client_ip'], $configs['client_ip'])) {
+            $error_message = $configs['validations'][2]['message'];
+            return $error_message;
         }
 
-        return true;
+        //status不正确
+        if (!($data['status'] == 'success' || $data['status'] == 'error')){
+             $error_message = $configs['validations'][3]['message'];
+            return $error_message;
+        }
+
+        //订单不存在
+        $order = $this->em->getRepository("JiliApiBundle:ExchangeFlowOrder")->find($data['custom_order_sn']);
+        if (is_null($order) || is_null($order->getExchangeId())) {
+            $error_message = $configs['validations'][4]['message'];
+            return $error_message;
+        }
+
+        //订单已结束
+        $exchanges = $this->em->getRepository('JiliApiBundle:PointsExchange')->find($order->getExchangeId());
+        if ($exchanges->getFinishDate()) {
+            $error_message = $configs['validations'][5]['message'];
+            return $error_message;
+
+        }
+        return $error_message;
+    }
+
+    public function sendMail($configs, $content) {
+        //send email
+        $content = $configs['mail_subject'] . "<br><br>" . $content;
+        $alertTo = $configs['alertTo_contacts'];
+        $this->send_mail->sendMails($configs['mail_subject'], $alertTo, $content);
     }
 
     public function setEntityManager(EntityManager $em) {

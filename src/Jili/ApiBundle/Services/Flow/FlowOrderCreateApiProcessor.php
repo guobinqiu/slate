@@ -26,7 +26,7 @@ class FlowOrderCreateApiProcessor {
     public function process($param) {
         $configs = $this->configs;
 
-        $url = $configs['url'] . $this->getParameter('flow_createorder_api');
+        $url = $configs['url'] . $configs['createorder_api'];
         $prv_key = $configs['prv_key'];
         $custom_sn = $configs['custom_sn'];
         $log_path = $configs['file_path_flow_api_log'];
@@ -46,7 +46,7 @@ class FlowOrderCreateApiProcessor {
         } catch (\Exception $e) {
             //写log
             FileUtil :: writeContents($log_path, "[flow_create_order_api]url:" . $url . $e->getMessage());
-            $data['error_message'] = $this->getParameter('flow_exchange_error');
+            $data['error_message'] = $configs['exchange_error'];
             return $data;
         }
 
@@ -58,7 +58,7 @@ class FlowOrderCreateApiProcessor {
             //写log
             $content = "[flow_create_order_api]url:" . $url . ' return: null';
             FileUtil :: writeContents($log_path, $content);
-            $data['error_message'] = $this->getParameter('flow_exchange_error');
+            $data['error_message'] = $configs['exchange_error'];
             return $data;
         }
 
@@ -81,7 +81,7 @@ class FlowOrderCreateApiProcessor {
             ))) {
             $data['error_message'] = FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
         } else {
-            $data['error_message'] = $this->getParameter('flow_exchange_error');
+            $data['error_message'] = $configs['exchange_error'];
         }
 
         return $data;
@@ -93,15 +93,6 @@ class FlowOrderCreateApiProcessor {
 
     public function setLogger(LoggerInterface $logger) {
         $this->logger = $logger;
-        return $this;
-    }
-
-    public function getParameter($key) {
-        return $this->container->getParameter($key);
-    }
-
-    public function setContainer($container) {
-        $this->container = $container;
         return $this;
     }
 }

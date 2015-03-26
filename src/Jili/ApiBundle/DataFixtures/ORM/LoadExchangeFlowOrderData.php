@@ -70,5 +70,29 @@ class LoadExchangeFlowOrderData extends AbstractFixture implements FixtureInterf
         $manager->persist($exchangeFlowOrder);
         $manager->flush();
         self :: $EXCHANGE_FLOW_ORDER[] = $exchangeFlowOrder;
+
+        $pointschange  = new PointsExchange();
+        $pointschange->setUserId($user->getId());
+        $pointschange->setType(5);
+        $pointschange->setTargetAccount('13761756201');
+        $pointschange->setSourcePoint(2000);
+        $pointschange->setTargetPoint(500);
+        $pointschange->setExchangeItemNumber(40);
+        $pointschange->setIp('127.1.1.1');
+        $manager->persist($pointschange);
+        $manager->flush();
+        self :: $POINTS_CHANGE[] = $pointschange;
+
+        $exchangeFlowOrder = new ExchangeFlowOrder();
+        $exchangeFlowOrder->setUserId($user->getId());
+        $exchangeFlowOrder->setExchangeId($pointschange->getId());
+        $exchangeFlowOrder->setProvider('移动');
+        $exchangeFlowOrder->setProvince('上海');
+        $exchangeFlowOrder->setCustomProductId('20150');
+        $exchangeFlowOrder->setPackagesize(150);
+        $exchangeFlowOrder->setCustomPrise('15.500');
+        $manager->persist($exchangeFlowOrder);
+        $manager->flush();
+        self :: $EXCHANGE_FLOW_ORDER[] = $exchangeFlowOrder;
     }
 }

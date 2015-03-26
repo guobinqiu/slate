@@ -26,7 +26,7 @@ class FlowMobileValidateApiProcessor {
     public function process($mobile) {
         $configs = $this->configs;
 
-        $url = $configs['url'] . $this->getParameter('flow_mobile_validate_api');
+        $url = $configs['url'] . $configs['mobile_validate_api'];
         $prv_key = $configs['prv_key'];
         $custom_sn = $configs['custom_sn'];
         $log_path = $configs['file_path_flow_api_log'];
@@ -44,22 +44,17 @@ class FlowMobileValidateApiProcessor {
         } catch (\ Exception $e) {
             //写log
             FileUtil :: writeContents($log_path, $e->getMessage());
-            $data['error_message'] = $this->getParameter('flow_exchange_error');
+            $data['error_message'] = $configs['exchange_error'];
             return $data;
         }
 
         //解析接口数据
         $data = json_decode($return, true);
-
         if ($data['resultcode'] == 200) {
             //处理数据，计算价格
             $data = $this->getChangePoint($data);
             return $data;
         }
-
-        //写log
-        $content = "[flow_mobile_validate]url:" . $url . ' return:' . $return . FlowUtil :: $MOBILE_VALIDATE_ERROR[$data['resultcode']];
-        FileUtil :: writeContents($log_path, $content);
 
         //显示给用户的错误信息
         if (in_array($data['resultcode'], array (
@@ -68,8 +63,13 @@ class FlowMobileValidateApiProcessor {
             ))) {
             $data['error_message'] = FlowUtil :: $MOBILE_VALIDATE_ERROR[$data['resultcode']];
         } else {
-            $data['error_message'] = $this->getParameter('flow_exchange_error');
+            $data['error_message'] = $configs['exchange_error'];
         }
+
+        //写log
+        $content = "[flow_mobile_validate]url:" . $url . var_export($data, true);
+        FileUtil :: writeContents($log_path, $content);
+
         return $data;
     }
 
@@ -101,15 +101,6 @@ class FlowMobileValidateApiProcessor {
 
     public function setLogger(LoggerInterface $logger) {
         $this->logger = $logger;
-        return $this;
-    }
-
-    public function getParameter($key) {
-        return $this->container->getParameter($key);
-    }
-
-    public function setContainer($container) {
-        $this->container = $container;
         return $this;
     }
 }

@@ -24,6 +24,8 @@ class FlowOrderController extends Controller {
         $result = $request->getContent();
         $data = json_decode($result, true);
 
+        $data['client_ip'] = $request->getClientIp();
+
         //把接口数据写到表中flow_order_api_return
         $api_logger = $this->get('flow_order_api.init_log');
         $api_logger->log($result);

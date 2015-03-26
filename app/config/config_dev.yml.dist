@@ -37,8 +37,12 @@ parameters:
     flow:
         url: http://59.83.33.14/
         prv_key: 5E703068E764D3DC
-        custom_sn: %flow_custom_sn%
+        custom_sn: B772AA94ABDC6BEE
+        client_ip: %flow_client_ip%
         file_path_flow_api_log: %flow_file_path_flow_api_log%
         mail_subject: %flow_mail_subject%
         alertTo_contacts: %flow_alertTo_contacts%
-
+        exchange_error: %flow_exchange_error%
+        mobile_validate_api: %flow_mobile_validate_api%
+        createorder_api: %flow_createorder_api%
+        validations: %flow_validations%
