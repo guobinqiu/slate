@@ -52,7 +52,7 @@ class FlowOrderRequestProcessor {
 
         //处理结果写log
         if ($return) {
-            $content = "[flow_order_request_processor] Handle orders successful.";
+            $content = "[flow_order_request_processor] Handle orders successful. ExchangeFlowOrder id: " . $exchangeFlowOrder->getId();
         } else {
             $content = "[flow_order_request_processor] Handle orders failure.";
             $this->sendMail($configs, $content);
@@ -78,8 +78,8 @@ class FlowOrderRequestProcessor {
         }
 
         //status不正确
-        if (!($data['status'] == 'success' || $data['status'] == 'error')){
-             $error_message = $configs['validations'][3]['message'];
+        if (!($data['status'] == 'success' || $data['status'] == 'error')) {
+            $error_message = $configs['validations'][3]['message'];
             return $error_message;
         }
 
