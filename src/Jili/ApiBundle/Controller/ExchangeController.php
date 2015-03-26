@@ -1240,12 +1240,6 @@ class  ExchangeController extends Controller
         // 事务处理
         $em->getConnection()->beginTransaction();
         try {
-            //update user points
-            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-            $user->setPoints($user->getPoints() - intval($change_point));
-            $em->persist($user);
-            $em->flush();
-
             // insert PointsExchange
             $pointschangeType = new PointsExchangeType();
             $params = array(
@@ -1268,6 +1262,12 @@ class  ExchangeController extends Controller
             $flowOrder = $em->getRepository('JiliApiBundle:ExchangeFlowOrder')->find($param['custom_order_sn']);
             $flowOrder->setExchangeId($pointschange->getId());
             $em->persist($flowOrder);
+            $em->flush();
+
+            //update user points
+            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+            $user->setPoints($user->getPoints() - intval($change_point));
+            $em->persist($user);
             $em->flush();
 
             $em->getConnection()->commit();
