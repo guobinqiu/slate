@@ -19,6 +19,7 @@ class FlowOrderRequestProcessor {
     private $logger;
     private $send_mail;
     private $exchange_service;
+    private $alert_service;
 
     function __construct($configs) {
         $this->configs = $configs;
@@ -54,8 +55,11 @@ class FlowOrderRequestProcessor {
         if ($return) {
             $content = "[flow_order_request_processor] Handle orders successful. ExchangeFlowOrder id: " . $exchangeFlowOrder->getId();
         } else {
-            $content = "[flow_order_request_processor] Handle orders failure.";
+            $content = "[flow_order_request_processor] Handle orders failure. ExchangeFlowOrder id: " . $exchangeFlowOrder->getId();
             $this->sendMail($configs, $content);
+
+            $content = "兑换流量包-充值状态推送接口-推送处理失败。 ExchangeFlowOrder id: " . $exchangeFlowOrder->getId();
+            $this->alert_service->sendAlertToSlack($content);
         }
         FileUtil :: writeContents($log_path, $content);
 
@@ -122,5 +126,9 @@ class FlowOrderRequestProcessor {
 
     public function setExchange($exchange_service) {
         $this->exchange_service = $exchange_service;
+    }
+
+    public function alertToSlack($alert_service) {
+        $this->alert_service = $alert_service;
     }
 }

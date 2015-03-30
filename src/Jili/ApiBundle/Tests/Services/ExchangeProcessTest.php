@@ -43,7 +43,6 @@ class ExchangeProcessTest extends KernelTestCase {
 
     /**
      * @group issue_682
-     * @group debug
      */
     public function testExchangeOk() {
         $em = $this->em;
@@ -83,7 +82,6 @@ class ExchangeProcessTest extends KernelTestCase {
 
     /**
      * @group issue_682
-     * @group debug
      */
     public function testExchangeNg() {
         $em = $this->em;

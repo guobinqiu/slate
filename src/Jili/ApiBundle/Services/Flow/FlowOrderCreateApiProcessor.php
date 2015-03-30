@@ -18,6 +18,7 @@ class FlowOrderCreateApiProcessor {
     private $em;
     private $configs;
     private $logger;
+    private $alert_service;
 
     function __construct($configs) {
         $this->configs = $configs;
@@ -47,6 +48,10 @@ class FlowOrderCreateApiProcessor {
             //写log
             FileUtil :: writeContents($log_path, "[flow_create_order_api]url:" . $url . $e->getMessage());
             $data['error_message'] = $configs['exchange_error'];
+
+            $content = "兑换流量包-流量充值接口-调用失败。" . "[flow_create_order_api]url:" . $url . $e->getMessage();
+            $this->alert_service->sendAlertToSlack($content);
+
             return $data;
         }
 
@@ -94,5 +99,9 @@ class FlowOrderCreateApiProcessor {
     public function setLogger(LoggerInterface $logger) {
         $this->logger = $logger;
         return $this;
+    }
+
+    public function alertToSlack($alert_service) {
+        $this->alert_service = $alert_service;
     }
 }

@@ -349,3 +349,7 @@ parameters:
         3: { errorno: "1003", message: "status不正确(success,error)" }
         4: { errorno: "1004", message: "订单不存在" }
         5: { errorno: "1005", message: "订单已结束" }
+#slack
+    slack_alert_url: "https://hooks.slack.com/services/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"
+    slack_alert_channel: "#vct-alert-91jili"
+    slack_alert_username: "91jili_system"

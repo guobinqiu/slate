@@ -54,6 +54,8 @@ parameters:
     flow_order_request.processor.class:  Jili\ApiBundle\Services\Flow\FlowOrderRequestProcessor
 # 兑换结果处理
     exchange.processor.class:  Jili\ApiBundle\Services\ExchangeProcess
+#AlertToSlack
+    alerttoslack.class:  Jili\ApiBundle\Services\AlertToSlack
 
 services:
     login.listener:
@@ -276,6 +278,7 @@ services:
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]
+            - [ alertToSlack, [ @alert_to_slack ] ]
 
     flow_ordercreate.processor:
         class: %flow_ordercreate.processor.class%
@@ -283,6 +286,7 @@ services:
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]
+            - [ alertToSlack, [ @alert_to_slack ] ]
 
     flow_order_api.init_log:
         class: %flow_order_api_return.logger.class%
@@ -296,10 +300,16 @@ services:
             - [ setLogger, [ @logger ] ]
             - [ setSendMail, ["@send_mail"] ]
             - [ setExchange, [ @exchange.processor ] ]
+            - [ alertToSlack, [ @alert_to_slack ] ]
 
     exchange.processor:
         class: %exchange.processor.class%
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]
+            - [ setContainer, [ @service_container ] ]
+
+    alert_to_slack:
+        class: %alerttoslack.class%
+        calls:
             - [ setContainer, [ @service_container ] ]
