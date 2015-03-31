@@ -61,7 +61,7 @@ class ExchangeFlowOrderRepositoryTest extends KernelTestCase {
             'user_id' => $user_id,
             'provider' => '移动',
             'province' => '上海',
-            'custom_product_id' => 'custom_product_id',
+            'custom_product_id' => '30010',
             'packagesize' => '30',
             'custom_prise' => '4.000'
         );

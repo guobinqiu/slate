@@ -39,6 +39,6 @@ class FlowOrderCreateApiProcessorTest extends KernelTestCase {
         $param['custom_order_sn'] = 10000;
         $return = $service->process($param);
         $this->assertEquals(205, $return['resultcode']);
-        $this->assertEquals('请求的产品不正确', $return['error_message']);
+        $this->assertEquals(' 请求的产品不正确', $return['error_message']);
     }
 }
