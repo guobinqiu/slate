@@ -353,3 +353,4 @@ parameters:
     slack_alert_url: "https://hooks.slack.com/services/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"
     slack_alert_channel: "#vct-alert-91jili"
     slack_alert_username: "91jili_system"
+    slack_alert_text_prefix: "channel: "

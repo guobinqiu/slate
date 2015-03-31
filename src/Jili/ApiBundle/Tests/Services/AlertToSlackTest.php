@@ -7,13 +7,13 @@ class AlertToSlackTest extends KernelTestCase {
 
     /**
      */
-    public function testSendMessage() {
+    public function testSendAlertToSlack() {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $container = static :: $kernel->getContainer();
         $service = $container->get('alert_to_slack');
         $content = 'test: Alert to slack from 91jili system.';
-        $return = $service->sendMessage($content);
+        $return = $service->sendAlertToSlack($content);
         $this->assertTrue($return);
     }
 }

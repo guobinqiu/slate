@@ -10,7 +10,8 @@ class AlertToSlack {
         $url = $this->getParameter('slack_alert_url');
         $data['channel'] = $this->getParameter('slack_alert_channel');
         $data['username'] = $this->getParameter('slack_alert_username');
-        $data['text'] = $content;
+        $text_prefix = $this->getParameter('slack_alert_text_prefix');
+        $data['text'] = "@" . $text_prefix . $content;
         $post_data = 'payload=' . json_encode($data);
         try {
             CurlUtil :: curl($url, $post_data);
