@@ -8,7 +8,6 @@
 {% block javascript %}
 <script src="{{ asset('js/jquery.cookie.js') }}" type="application/javascript"></script>
 <script src="{{ asset('js/jquery.infinitescroll.js')}}" type="text/javascript"></script>
-<script src="{{ asset('js/jl.ui.treasure.js')}}" type="text/javascript"></script>
 <script src="{{ asset('bundles/jilifrontend/js/taobao.js') }}" language="javascript"></script>
 {% endblock %}
  
@@ -31,8 +30,6 @@
                 </div>
                 <div style="display:none" id="loading_bar">
                 	<img class="loading" src="{{ asset('images/taobao/progressBar.gif')}}" alt="加载中"/>
-                    <img class="closeGif" src="{{ asset('images/taobao/baoxiang.gif')}}" alt="未打开宝箱动画"/>
-                    <img class="openGif" src="{{ asset('images/taobao/baoxiang1.gif')}}" alt="宝箱打开动画"/>
                 </div>
             </div>
         </div>
@@ -41,18 +38,6 @@
             <div class="rMall"> {{ render(controller('JiliFrontendBundle:Taobao:shop' ) ) }} </div>
         </div>
     </div>
-    <div class="taoNewGuide"><div class="guideGif"></div><span class="guideClose"></span><span class="iKnow"></span></div>
-    <div class="taoNewGuideMask"></div>
-    <script>
-		(function($){
-			if(!$.cookie("fistShowFlag")){
-				$('.taoNewGuide').show();
-				$('.taoNewGuideMask').show();
-			}
-			$.cookie("fistShowFlag", true,{expires:100});
-		})(jQuery);
-	</script>
-    
     <div class="toTop" id="toTop"><img src="{{ asset('images/taobao/toTop.gif')}}" /></div>
     
 {% include "JiliFrontendBundle::alimama.html.twig" with { pid:"mm_49376465_4372428_26502700" } %}
