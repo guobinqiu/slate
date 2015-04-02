@@ -28,13 +28,13 @@ class ActivityGatheringTaobaoOrder
      * @ORM\Column(name="order_identity", type="string", length=255, nullable=false)
      *
      * @Assert\Regex(
-     *     pattern="/^\d{15}$/",
+     *     pattern="/^\d{15,16}$/",
      *     message="需要填0~9组成的订单号"
      * )
      * @Assert\Length(
      *      min = 15,
-     *      max = 15,
-     *      exactMessage ="需要填15位订单号"
+     *      max = 16,
+     *      exactMessage ="需要填15-16位订单号"
      * )
      *
      */
@@ -85,7 +85,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * Get orderIdentity
      *
-     * @return string 
+     * @return string
      */
     public function getOrderIdentity()
     {
@@ -108,7 +108,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -118,7 +118,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -141,7 +141,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * Get user
      *
-     * @return \Jili\ApiBundle\Entity\User 
+     * @return \Jili\ApiBundle\Entity\User
      */
     public function getUser()
     {
