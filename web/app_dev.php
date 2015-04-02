@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 // Feel free to remove this, extend it, or make something more sophisticated.
  if (isset($_SERVER['HTTP_CLIENT_IP'])
      || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-     || !in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1',/* 'fe80::1', '::1',*/'112.65.174.206', '180.169.71.34'))
+     || !in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1',/* 'fe80::1',*/ '::1','112.65.174.206', '180.169.71.34'))
  ) {
      header('HTTP/1.0 403 Forbidden');
      exit('你无权访问此页面.');

@@ -49,13 +49,13 @@ class GameEggsBreakerTaobaoOrder
      *
      * @ORM\Column(name="order_id", type="string", length=255, nullable=false)
      * @Assert\Regex(
-     *     pattern="/^\d{15}$/",
+     *     pattern="/^\d{15,16}$/",
      *     message="需要填0~9组成的订单号"
      * )
      * @Assert\Length(
      *      min = 15,
-     *      max = 15,
-     *      exactMessage ="需要填15位订单号"
+     *      max = 16,
+     *      exactMessage ="需要填15-16位订单号"
      * )
      */
     private $orderId;
@@ -212,7 +212,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -235,7 +235,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get orderId
      *
-     * @return string 
+     * @return string
      */
     public function getOrderId()
     {
@@ -258,7 +258,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get orderAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getOrderAt()
     {
@@ -281,7 +281,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get orderPaid
      *
-     * @return float 
+     * @return float
      */
     public function getOrderPaid()
     {
@@ -304,7 +304,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get auditBy
      *
-     * @return string 
+     * @return string
      */
     public function getAuditBy()
     {
@@ -327,7 +327,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get auditStatus
      *
-     * @return integer 
+     * @return integer
      */
     public function getAuditStatus()
     {
@@ -350,7 +350,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get auditPendedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getAuditPendedAt()
     {
@@ -373,7 +373,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get isValid
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsValid()
     {
@@ -396,7 +396,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get isEgged
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsEgged()
     {
@@ -419,7 +419,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -442,7 +442,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -452,7 +452,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
