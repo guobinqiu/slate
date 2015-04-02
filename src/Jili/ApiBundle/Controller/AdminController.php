@@ -2920,7 +2920,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             //die("指定文件不能打开，操作中断!");
             return new Response(0);
         }
-        if (fwrite($handle, $content) === FALSE) {
+        if (fwrite($handle, trim($content)) === FALSE) {
            return new Response(0);
         }
         fclose($handle);

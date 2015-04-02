@@ -1055,7 +1055,7 @@ class  ExchangeController extends Controller
     {
         //login check
         if(!$this->get('request')->getSession()->get('uid')){
-            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('_exchange_flowInfo') );
+            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('_exchange_index') );
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -1080,6 +1080,9 @@ class  ExchangeController extends Controller
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $request->getSession()->set('flow_user', $user);
         $arr['user'] = $user;
+
+        $filename = $this->container->getParameter('file_path_emergency_announcement');
+        $arr['content'] = file_get_contents($filename);
         return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
     }
 
