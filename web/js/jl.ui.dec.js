@@ -65,7 +65,7 @@ function formCheck(){
 	orderNum = $('#orderNum').val().toString().replace(/\s+/g,"");
 	if(compareTime(startDate, inputDate)){
 		if(compareTime(inputDate, curDate)){
-			if(!orderNum.match(/^\d{15}$/)) {
+			if(!orderNum.match(/^\d{15,16}$/)) {
 				$('.errorMsg').html('*订单格式或长度不对，请重新输入！');
 				return false;
 			}
