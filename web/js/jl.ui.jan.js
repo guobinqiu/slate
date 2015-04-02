@@ -92,7 +92,7 @@ $(function(){
 			return false;
 		}else{
 			inputValTrim = inputVal.toString().replace(/\s+/g,"");
-			if(!inputValTrim.match(/^\d{15}$/)) {
+			if(inputValTrim.match(/^\d{15,16}$/)) {
 				$(obj).find('.tips').html('*请输入合法订单号！');
 				return false;
 			}else{
