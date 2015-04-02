@@ -55,7 +55,6 @@
         <h2><span class="font18 corLightRed crumbTit">流量包兑换信息</span></h2>
         <aside> {% include 'JiliApiBundle:User:rightInfo.html.twig' %} </aside>
         <article>
-            {% if content is defined and content != '' %}<div>{{content}}</div>{% endif %}
             <div class="wenwen">
                 <dl class="form">
                     <dt>手机号码：</dt>
@@ -63,6 +62,7 @@
                     <dd><input type="text" id="mobile" name="mobile" value="{% if mobile is defined %}{{ mobile }}{% endif %}" /></dd>
                     <dt>再次输入号码：</dt>
                     <dd><input type="text" id="re_mobile" name="re_mobile" /></dd>
+                    <dt></dt><dd class="notice">{% if content is defined and content != '' %}<div>{{content}}</div>{% endif %}</dd>
                 </dl>
                 <input type="hidden" name="existMobile" id="existMobile" value="{% if existMobile is defined %}{{ existMobile }}{% endif %}"/>
                 <div id="flow_package"></div>
