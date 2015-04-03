@@ -21,6 +21,7 @@ $(document).ready(function(){
         $("#exchangeForm").submit();
     });
     $("#flowBtn").click(function(){
+        return false;
         $('#exchangeForm').attr("action", "{{ path('_exchange_flowInfo') }}");
         $("#exchangeForm").submit();
     });
@@ -85,7 +86,7 @@ function alipayClick(){
                         <dt>上网流量包兑换</dt>
                         <dd class="text">用积分兑换上网流量包，电信、联通<strong>1590米粒</strong>起兑，移动<strong>1660米粒</strong>起兑</dd>
                         <dd class="exchangeBtn">
-                            <span id="flowBtn">立即兑换</span>
+                            <span class="disabled" id="flowBtn">暂未开放</span>
                         </dd>
                     </dl>
                     <span class="newIcon"></span>

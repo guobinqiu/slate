@@ -94,6 +94,12 @@ class FlowMobileValidateApiProcessor {
                     $value['change_point'] = round($value['custom_prise'] * 1.01, 1) * 100;
                     $product_list[] = $value;
                 }
+
+                //测试，对用户开放时删除
+                if ($value['custom_prise'] < 14){
+                    $value['change_point'] = round($value['custom_prise'] * 1.00, 1)*100;
+                    $product_list[] = $value;
+                }
             }
         }
         $data['product_list'] = $product_list;
