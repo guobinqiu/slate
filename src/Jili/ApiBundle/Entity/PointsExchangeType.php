@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PointsExchangeType
 {
+    const TYPE_91WENWEN = 1;
+    const TYPE_AMAZON = 2;
+    const TYPE_ALIPAY = 3;
+    const TYPE_MOBILE = 4;
+    const TYPE_FLOW = 5;
+
     /**
      * @var integer
      *

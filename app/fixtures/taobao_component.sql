@@ -1,22 +1,21 @@
-
-INSERT INTO `taobao_category` (`id`, `category_name`, `delete_flag`, `created_at`, `updated_at`) VALUES
-(1, '精选女装', 0, NULL, NULL),
-(2, '精选男装', 0, NULL, NULL),
-(3, '鞋靴箱包', 0, NULL, NULL),
-(4, '运动户外', 0, NULL, NULL),
-(5, '珠宝配饰', 0, NULL, NULL),
-(6, '手机数码', 0, NULL, NULL),
-(7, '家电办公', 0, NULL, NULL),
-(8, '护肤彩妆', 0, NULL, NULL),
-(9, '母婴用品', 0, NULL, NULL),
-(10, '家居家纺', 0, NULL, NULL),
-(11, '家装设计', 0, NULL, NULL),
-(12, '汇吃美食', 0, NULL, NULL),
-(13, '百货日用', 0, NULL, NULL),
-(14, '汽车摩托', 0, NULL, NULL),
-(15, '花鸟文娱', 0, NULL, NULL),
-(16, '生活服务', 0, NULL, NULL),
-(17, '更多服务', 0, NULL, NULL);
+INSERT INTO `taobao_category` (`id`, `category_name`, `union_product`, `delete_flag`, `created_at`, `updated_at`) VALUES
+(1, '精选女装', 2, 0, NULL, NULL),
+(2, '精选男装', 2, 0, NULL, NULL),
+(3, '鞋靴箱包', 2, 0, NULL, NULL),
+(4, '运动户外', 2, 0, NULL, NULL),
+(5, '珠宝配饰', 2, 0, NULL, NULL),
+(6, '手机数码', 2, 0, NULL, NULL),
+(7, '家电办公', 2, 0, NULL, NULL),
+(8, '护肤彩妆', 2, 0, NULL, NULL),
+(9, '母婴用品', 2, 0, NULL, NULL),
+(10, '家居家纺', 2, 0, NULL, NULL),
+(11, '家装设计', 2, 0, NULL, NULL),
+(12, '汇吃美食', 2, 0, NULL, NULL),
+(13, '百货日用', 2, 0, NULL, NULL),
+(14, '汽车摩托', 2, 0, NULL, NULL),
+(15, '花鸟文娱', 2, 0, NULL, NULL),
+(16, '生活服务', 2, 0, NULL, NULL),
+(17, '更多服务', 2, 0, NULL, NULL);
 
 INSERT INTO `taobao_component` (`id`, `component_id`, `category_id`, `keyword`, `content`, `sort`, `created_at`, `updated_at`) VALUES
 (1, 1, NULL, NULL, '<a data-type="6" data-tmpl="573x66" data-tmplid="140" data-style="2" data-border="0" biz-s_logo="1" biz-s_hot="1" href="#"></a>', 0, NULL, NULL),
