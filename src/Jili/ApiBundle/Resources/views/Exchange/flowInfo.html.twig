@@ -62,7 +62,7 @@
                     <dd><input type="text" id="mobile" name="mobile" value="{% if mobile is defined %}{{ mobile }}{% endif %}" /></dd>
                     <dt>再次输入号码：</dt>
                     <dd><input type="text" id="re_mobile" name="re_mobile" /></dd>
-                    <dt></dt><dd class="notice">{% if content is defined and content != '' %}<div>{{content}}</div>{% endif %}</dd>
+                    <dt></dt>{% if content is defined and content != '' %}<dd class="notice"><div>{{content}}</div></dd>{% endif %}
                 </dl>
                 <input type="hidden" name="existMobile" id="existMobile" value="{% if existMobile is defined %}{{ existMobile }}{% endif %}"/>
                 <div id="flow_package"></div>

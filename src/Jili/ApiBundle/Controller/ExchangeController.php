@@ -1082,7 +1082,9 @@ class  ExchangeController extends Controller
         $arr['user'] = $user;
 
         $filename = $this->container->getParameter('file_path_emergency_announcement');
-        $arr['content'] = file_get_contents($filename);
+        if (file_exists($filename)) {
+            $arr['content'] = file_get_contents($filename);
+        }
         return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
     }
 
