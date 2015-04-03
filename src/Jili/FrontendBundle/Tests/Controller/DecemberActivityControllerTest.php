@@ -23,7 +23,7 @@ class DecemberActivityControllerTest extends WebTestCase
     private $em;
 
     /**
-     * @var boolean 
+     * @var boolean
      **/
     private $has_fixture;
 
@@ -109,7 +109,7 @@ class DecemberActivityControllerTest extends WebTestCase
                 file_put_contents( $file_consolation_strategy, json_encode(array(array(1,0))));
             } else{
                 file_put_contents( $file_consolation_strategy, json_encode(array(array(1,1))));
-            } 
+            }
 
             if( $tn === 'testBreakEggActionNormalOneMoreChance') {
                 file_put_contents( $file_strategy, json_encode(array(array(1,-1))));
@@ -174,7 +174,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         // post without sign in.
-        
+
         $crawler = $client->request('POST', $url);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
@@ -200,7 +200,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
 
         $this->assertEquals('*需要填写有效的日期, 如: 2014-12-20',$error_message);
-        // invalid  order id wrong length 
+        // invalid  order id wrong length
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $form = $crawler->selectButton('submit')->form();
@@ -211,10 +211,10 @@ class DecemberActivityControllerTest extends WebTestCase
         $error_message = trim( $crawler->filter('div.alert-error')->eq(0)->text() );
         $this->assertEquals('*需要填0~9组成的订单号',$error_message);
         $error_message = trim( $crawler->filter('div.alert-error')->eq(1)->text() );
-        $this->assertEquals('*需要填15位订单号',$error_message);
+        $this->assertEquals('*需要填15-16位订单号',$error_message);
 
 
-        // invalid  order id wrong character 
+        // invalid  order id wrong character
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $form = $crawler->selectButton('submit')->form();
@@ -245,7 +245,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $form['order[orderId]']->setValue('123456789012345');
         $form['order[orderAt]']->setValue(date('Y-m-d'));
         $crawler = $client->submit($form);
-        // invalid duplicated order id 
+        // invalid duplicated order id
         //post again
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -317,7 +317,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $day->setTime(0,0);
 
         // check result
-        $expected_record= $this->em 
+        $expected_record= $this->em
             ->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
             ->findOneBy(array('userId'=> 1, 'orderId'=>'123456789012345' , 'orderAt'=> $day));
         $this->assertNotNull( $expected_record);
@@ -358,7 +358,7 @@ class DecemberActivityControllerTest extends WebTestCase
     /**
      * @group issue_537
      */
-    public function testBreakEggActionNormal() 
+    public function testBreakEggActionNormal()
     {
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
@@ -377,7 +377,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertRegExp('/{"code":0,"data":{"points":(1|7)}}/', $client->getResponse()->getContent());
 
 
-        //userpoint task_history point_history log  
+        //userpoint task_history point_history log
         $em = $this->em;
 
         $this->assertNotNull($em->getRepository('JiliApiBundle:TaskHistory0'.($user->getId() % 10 ) )->findOneBy(array('userId'=> $user->getId())));
@@ -396,7 +396,7 @@ class DecemberActivityControllerTest extends WebTestCase
     /**
      * @group issue_537
      */
-    public function testBreakEggActionCommon() 
+    public function testBreakEggActionCommon()
     {
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
@@ -424,7 +424,7 @@ class DecemberActivityControllerTest extends WebTestCase
     /**
      * @group issue_537
      */
-    public function testBreakEggActionConsolation() 
+    public function testBreakEggActionConsolation()
     {
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
@@ -451,12 +451,12 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertNotNull($em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')->findOneBy(array('userId'=> $user->getId())));
 
     }
- 
+
 
     /**
      * @group issue_537
      */
-    public function testBreakEggActionConsolationZero() 
+    public function testBreakEggActionConsolationZero()
     {
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
@@ -485,7 +485,7 @@ class DecemberActivityControllerTest extends WebTestCase
     /**
      * @group issue_537
      */
-    public function testBreakEggActionNone() 
+    public function testBreakEggActionNone()
     {
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
@@ -516,7 +516,7 @@ class DecemberActivityControllerTest extends WebTestCase
     /**
      * @group issue_537
      */
-    public function testEggsSentStatAction() 
+    public function testEggsSentStatAction()
     {
         $client = static::createClient();
         $container  = static::$kernel->getContainer();
@@ -584,7 +584,7 @@ class DecemberActivityControllerTest extends WebTestCase
         $this->assertNull($em->getRepository('JiliApiBundle:TaskHistory0'.($user->getId() % 10 ))->findOneBy(array('userId'=> $user->getId())));
 
         $this->assertNull($em->getRepository('JiliApiBundle:PointHistory0'.($user->getId() % 10 ))->findOneBy(array('userId'=> $user->getId())));
-        $this->assertNotNull($em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')->findOneBy(array('userId'=> $user->getId(), 
+        $this->assertNotNull($em->getRepository('JiliFrontendBundle:GameEggsBrokenLog')->findOneBy(array('userId'=> $user->getId(),
         'pointsAcquired'=> 0 )));
      }
 
