@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `exchange_flow_order` (
 DROP TABLE IF EXISTS `flow_order_api_return`;
 CREATE TABLE IF NOT EXISTS `flow_order_api_return` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `create_time` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
   `content` longtext NOT NULL COMMENT '推送内容',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='充值状态推送日志' AUTO_INCREMENT=1 
