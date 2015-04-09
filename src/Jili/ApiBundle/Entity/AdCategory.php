@@ -25,6 +25,11 @@ class AdCategory
     const ID_GAME_EGGS_BREAKER = 31;
 
     /**
+     * @var const
+     *  多买id.
+     */
+    const ID_DUOMAI = 31;
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer", nullable=false)

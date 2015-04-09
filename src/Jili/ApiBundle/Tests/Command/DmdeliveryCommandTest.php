@@ -52,7 +52,6 @@ class DmdeliveryCommandTest extends KernelTestCase
     /**
      * @group issue548
      * @group issue619
-     * @group debug 
      */
     public function testExecute() {
         // mock the Kernel or create one depending on your needs

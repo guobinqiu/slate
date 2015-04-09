@@ -1,0 +1,66 @@
+duomai:
+    login:
+        url: 'http://www.duomai.com/index.php?m=siter&a=dologin'
+        form_data:
+            ll: ''
+            email: 'admin@voyagegroup.com.cn'
+            password: 'zaq1ZAQ!'
+            imageField.x: 70 
+            imageField.y: 12 
+        cookie_file: "/tmp/duomai/cookies.txt" 
+            
+# /index.php?m=siter_act&a=myact_export
+    csv_sites:
+        url: "http://www.duomai.com/index.php?m=siter_act&a=myact_export"
+        output: "/tmp/duomai/activites_YYYYmmdd.csv"
+        output_utf8: "/tmp/duomai/activites_utf8_YYYYmmdd.csv"
+
+    html_comm:
+        url: "http://www.duomai.com/index.php?m=siter_act&a=view&ads_id=%d"
+        output: "/tmp/duomai/comm/ads_id_%d_YYYYmmdd.html"
+        output_reg: "/tmp/duomai/comm/ads_id_\d+_YYYYmmdd.html"
+        output_utf8: "/tmp/duomai/comm/ads_id_utf8_%d_YYYYmmdd.html"
+
+emar:
+    cookie_file: "/tmp/yiqifa/cookies.txt"
+
+    xls_sites:
+        url: "http://yiqifa.com/earner/applyBatchLinkList.do?type=site"
+        form_data: 
+             siteId: 708089
+             linkType: 'URL'
+             categoryd: 0
+             schCampaignId: 0
+             campaignName: ''
+
+#        url: "http://yiqifa.com/earner/campaignView.do?pageNumber=1&pageSize=10&searchType=searchType&orderByType=&backType=apply&schSiteId=708089&schPageNumber=1&schPageSize=10&auditStatus=&campaignType=web&auditingType=&siteType=website&campaignName1=&campaignId=%d&websiteType=website&hasMobileSite=0+&searchOption=campaignId&searchValue=&campaignName=&siteId=708089&perSize=10&perSize2=10"
+    html_comm:
+        url: "http://yiqifa.com/earner/campaignView.do?backType=search&middleBack=campaignLinkList&campaignId=%d&siteId=708089&schSiteId=&schPageNumber=1&costType=&auditingType=&searchOption=campaignId&searchValue=&categoryId=0&schSearchType=&schPageSize=10"
+        output: "/tmp/yiqifa/comm/ads_id_%d_YYYYmmdd.html"
+        output_utf8: "/tmp/yiqifa/comm/ads_id_utf8_%d_YYYYmmdd.html"
+        output_reg: "/tmp/yiqifa/comm/ads_id_\d+_YYYYmmdd.html"
+
+#    login_url: 'http://yiqifa.com/userLogin.do'
+#    login_form: 'http://yiqifa.com/earner/applyBatchLinkList.do'
+
+chanet:
+    cookie_file: "/tmp/chanet/cookies.txt"
+# https://www.chanet.com.cn/partner/get_all_links.cgi
+# https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=0&search_type=1&search_as_id=480534&link_type=2&act-type=on&category=0
+    login:
+        url: 'https://www.chanet.com.cn/partner/login.cgi'
+
+    xls_sites: 
+        url: "https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=&search_type=1&search_as_id=480534&link_type=2&act-type=on&category=0"
+        output: "/tmp/chanet/promotio_linkYYYY-mm-dd.xls"
+        output_csv: "/tmp/chanet/promotio_linkYYYY-mm-dd.csv"
+        output_reg: "/tmp/chanet/comm/ads_id_\d+_YYYYmmdd.html"
+#form_data:
+    html_comm:
+        url: "https://www.chanet.com.cn/partner/pm_detail.cgi?pm_id=246"
+        output: "/tmp/chanet/comms/ads_id_%d_YYYYmmdd.html"
+        output_reg: "/tmp/chanet/comms/ads_id_\d+_YYYYmmdd.html"
+        xpath: "/html/body/div[13]/div/div[1]/div[4]/div[1]/table"
+
+
+
