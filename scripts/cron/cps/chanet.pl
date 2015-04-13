@@ -38,7 +38,7 @@ $ENV{HTTPS_CA_DIR}    = '/tmp/certs/';
 $ENV{HTTPS_DEBUG} = 1;
 
 
-
+# 取商家列表
 sub fetch_xls_sites {
     my $config  = shift;
     print $config->{cookie_file},"\n" ;
@@ -72,6 +72,7 @@ sub fetch_xls_sites {
     die "fetch comm html failed " unless $response->status_line;
 }
 
+# 取captcha图
 sub gen_captcha {
     my $config = shift;
     my $cookie_jar = HTTP::Cookies::Netscape->new(
@@ -103,6 +104,7 @@ print $url_image, "\n";
 
 
 
+  
 sub login {
     my $url = 'https://www.chanet.com.cn/partner/login.cgi';
     my $date = localtime->strftime("%Y%m%d");
@@ -592,14 +594,14 @@ sub query_chanet_commission_by_fixed_hash {
 
 my $config = LoadFile( "./config/config.yml");
 
-#login();
+login();
 ##parse_siters();
 ##parse_siters_2007();
-#insert_chanet_advertiserment($config->{chanet});
+insert_chanet_advertiserment($config->{chanet});
 #fetch_ads_ids();
 ##fetch_xls_sites( $config->{chanet} );
 ##captcha($config->{chanet} );
-#fetch_comms_html($config->{chanet});
+fetch_comms_html($config->{chanet});
 insert_commission($config->{chanet});
 
 __END__

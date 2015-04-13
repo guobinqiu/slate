@@ -1,0 +1,2749 @@
+>>>>>>>>>No. 1:
+   麦包包
+   www.mbaobao.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8179',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 2:
+   1号店
+   www.yhd.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8180',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 3:
+   京东商城
+   www.jd.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8181',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 4:
+   PrinterInks
+   www.printerinks.com
+.....$VAR1 = {
+          'id' => '8182',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 5:
+   No5
+   www.no5.com.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8183'
+        };
+>>>>>>>>>No. 6:
+   途家网
+   www.tujia.com
+.....$VAR1 = {
+          'id' => '8184',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 7:
+   当当
+   www.dangdang.com
+.....$VAR1 = {
+          'id' => '8185',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 8:
+   SmartBuyGlasses唯视良品
+   www.smartbuyglasses.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8186'
+        };
+>>>>>>>>>No. 9:
+   朵唯手机
+   shop.doov.com.cn
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8187',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 10:
+   乐淘
+   www.letao.com
+.....$VAR1 = {
+          'id' => '8188',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 11:
+   DHC
+   www.dhc.net.cn
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8189',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 12:
+   LIZI
+   www.lizi.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8190',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 13:
+   银泰
+   www.yintai.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8191',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 14:
+   皙肤泉
+   www.xifuquan.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8192',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 15:
+   玛萨玛索
+   www.masamaso.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8193',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 16:
+   美国购物网
+   www.usashopcn.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8194',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 17:
+   红孩子
+   redbaby.suning.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8195',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 18:
+   奢集网
+   www.luxji.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8196',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 19:
+   华为商城
+   www.vmall.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8197'
+        };
+>>>>>>>>>No. 20:
+   携程
+   www.ctrip.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8198',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 21:
+   苏宁
+   www.suning.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8199',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 22:
+   新蛋CPS优媒推广
+   www.newegg.cn
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8200',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 23:
+   同程网
+   www.ly.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8201'
+        };
+>>>>>>>>>No. 24:
+   上品折扣
+   www.shopin.net
+.....$VAR1 = {
+          'id' => '8202',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 25:
+   蔚蓝网
+   www.wl.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8203',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 26:
+   聚美优品
+   www.jumei.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8204',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 27:
+   梧桐理财网
+   www.91wutong.com
+.....$VAR1 = {
+          'id' => '8205',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 28:
+   母婴之家
+   www.muyingzhijia.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8206',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 29:
+   金象网
+   www.jxdyf.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8207'
+        };
+>>>>>>>>>No. 30:
+   乐友购物网站
+   www.leyou.com.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8208'
+        };
+>>>>>>>>>No. 31:
+   拍鞋网
+   www.paixie.net
+.....$VAR1 = {
+          'id' => '8209',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 32:
+   快乐购
+   www.happigo.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8210',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 33:
+   万表网
+   www.wbiao.cn
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8211',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 34:
+   美团CPS
+   www.meituan.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8212'
+        };
+>>>>>>>>>No. 35:
+   芒果网CPS
+   www.mangocity.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8213',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 36:
+   品质团
+   www.pztuan.com
+.....$VAR1 = {
+          'id' => '8214',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 37:
+   邦购网
+   www.banggo.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8215',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 38:
+   名鞋库
+   www.s.cn
+.....$VAR1 = {
+          'id' => '8216',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 39:
+   爱之谷
+   www.aizhigu.com.cn
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8217',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 40:
+   酒仙网
+   www.jiuxian.com
+.....$VAR1 = {
+          'id' => '8218',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 41:
+   第五大道奢侈品网
+   www.5lux.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8219',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 42:
+   蜜芽宝贝
+   www.miyabaobei.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8220'
+        };
+>>>>>>>>>No. 43:
+   给力团
+   www.glituan.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8221'
+        };
+>>>>>>>>>No. 44:
+   布丁酒店
+   www.podinns.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8222'
+        };
+>>>>>>>>>No. 45:
+   艺龙旅游网
+   www.elong.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8223',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 46:
+   走秀网
+   www.xiu.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8224',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 47:
+   博库书城
+   www.bookuu.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8225'
+        };
+>>>>>>>>>No. 48:
+   包包树购物商城
+   www.bagtree.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8226'
+        };
+>>>>>>>>>No. 49:
+   818医药
+   www.818.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8227',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 50:
+   拉手网
+   www.lashou.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8228'
+        };
+>>>>>>>>>No. 51:
+   韩都衣舍
+   www.handu.com
+.....$VAR1 = {
+          'id' => '8229',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 52:
+   窝窝团
+   www.55tuan.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8230',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 53:
+   桔色
+   www.x.com.cn
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8231',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 54:
+   天天网
+   www.tiantian.com
+.....$VAR1 = {
+          'id' => '8232',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 55:
+   汇美丽
+   www.hmeili.com
+.....$VAR1 = {
+          'id' => '8233',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 56:
+   康德乐大药房
+   www.baiji.com.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8234'
+        };
+>>>>>>>>>No. 57:
+   宝贝购
+   www.baobeigou.com
+.....$VAR1 = {
+          'id' => '8235',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 58:
+   D8婚团
+   www.d8wed.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8236',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 59:
+   也买酒
+   www.yesmywine.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8237'
+        };
+>>>>>>>>>No. 60:
+   国美在线
+   www.gome.com.cn
+.....$VAR1 = {
+          'id' => '8238',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 61:
+   喜团网
+   www.xituan.com
+.....$VAR1 = {
+          'id' => '8239',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 62:
+   团委会
+   static.tuanweihui.com
+.....$VAR1 = {
+          'id' => '8240',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 63:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 64:
+   壹药网
+   www.111.com.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8241',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 65:
+   爱戴眼镜网CPS
+   www.aidai.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8242',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 66:
+   知我药妆
+   www.zhiwo.com
+.....$VAR1 = {
+          'id' => '8243',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 67:
+   手礼网
+   www.shouliwang.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8244'
+        };
+>>>>>>>>>No. 68:
+   骆驼官方商城
+   www.camel.com.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8245',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 69:
+   易视眼镜网
+   www.easeeyes.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8246'
+        };
+>>>>>>>>>No. 70:
+   甲虎图书批发网
+   www.jarhu.com
+.....$VAR1 = {
+          'id' => '8247',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 71:
+   波奇商城
+   shop.boqii.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8248',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 72:
+   锦江之星
+   www.jinjianginns.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8249',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 73:
+   驴妈妈
+   www.lvmama.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8250'
+        };
+>>>>>>>>>No. 74:
+   拍拍网
+   u.paipai.com
+.....$VAR1 = {
+          'id' => '8251',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 75:
+   乐蜂网
+   www.lefeng.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8252'
+        };
+>>>>>>>>>No. 76:
+   裂帛服饰
+   www.liebo.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8253',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 77:
+   大朴
+   www.dapu.com
+.....$VAR1 = {
+          'id' => '8254',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 78:
+   ESPRIT
+   www.esprit.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8255',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 79:
+   易迅网
+   www.yixun.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8256'
+        };
+>>>>>>>>>No. 80:
+   佐卡伊珠宝
+   www.zocai.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8257',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 81:
+   爱慕官网
+   www.aimer.com.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8258'
+        };
+>>>>>>>>>No. 82:
+   优购
+   www.yougou.com
+.....$VAR1 = {
+          'id' => '8259',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 83:
+   当当
+   fashion.dangdang.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8260'
+        };
+>>>>>>>>>No. 84:
+   百度糯米
+   www.nuomi.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8261',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 85:
+   Godiva
+   www.godiva.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8262',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 86:
+   SierraTP
+   www.sierratradingpost.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8263',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 87:
+   窝夫小子
+   www.wfboy.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8264',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 88:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 89:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 90:
+   美乐乐
+   www.meilele.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8265'
+        };
+>>>>>>>>>No. 91:
+   网酒网
+   www.wangjiu.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8266',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 92:
+   沱沱工社
+   www.tootoo.cn
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8267',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 93:
+   小米手机
+   www.mi.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8268'
+        };
+>>>>>>>>>No. 94:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 95:
+   香港莎莎网
+   web1.sasa.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8269'
+        };
+>>>>>>>>>No. 96:
+   徐家汇商城
+   www.xjh.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8270'
+        };
+>>>>>>>>>No. 97:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 98:
+   红酒客
+   www.winekee.com
+.....$VAR1 = {
+          'id' => '8271',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 99:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 100:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 101:
+   万里通彩票
+   caipiao.wanlitong.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8272',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 102:
+   Ashford.com
+   www.ashford.com
+.....$VAR1 = {
+          'id' => '8273',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 103:
+   醉品商城
+   www.zuipin.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8274'
+        };
+>>>>>>>>>No. 104:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 105:
+   LifeVC
+   www.lifevc.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8275',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 106:
+   诺心蛋糕
+   www.lecake.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8276',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 107:
+   顺丰优选
+   www.sfbest.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8277'
+        };
+>>>>>>>>>No. 108:
+   去哪儿
+   dujia.qunar.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8278',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 109:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 110:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 111:
+   海尔商城
+   www.ehaier.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8279',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 112:
+   Backcountry
+   www.backcountry.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8280'
+        };
+>>>>>>>>>No. 113:
+   6PM
+   www.6pm.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8281',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 114:
+   好孩子
+   www.haohaizi.com
+.....$VAR1 = {
+          'id' => '8282',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 115:
+   Jomashop
+   www.jomashop.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8283',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 116:
+   JomaDeals
+   www.jomadeals.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8284'
+        };
+>>>>>>>>>No. 117:
+   中酒网
+   www.zhongjiu.cn
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8285',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 118:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 119:
+   苹果官方商城
+   store.apple.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8286',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 120:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 121:
+   飞飞商城
+   www.feifei.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8287',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 122:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 123:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 124:
+   蘑菇街
+   www.mogujie.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8288',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 125:
+   Woot
+   www.woot.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8289',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 126:
+   Kmart
+   www.kmart.com
+.....$VAR1 = {
+          'id' => '8290',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 127:
+   优购物
+   www.17ugo.com
+.....$VAR1 = {
+          'id' => '8291',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 128:
+   Missselfridge
+   www.missselfridge.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8292'
+        };
+>>>>>>>>>No. 129:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 130:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 131:
+   草莓网
+   www.strawberrynet.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8293',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 132:
+   乐视TV
+   shop.letv.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8294',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 133:
+   四季青
+   www.sjq.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8295'
+        };
+>>>>>>>>>No. 134:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 135:
+   去哪儿团购
+   tuan.qunar.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8296'
+        };
+>>>>>>>>>No. 136:
+   BeautyBridge
+   www.beautybridge.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8297'
+        };
+>>>>>>>>>No. 137:
+   美荟网
+   www.meihuiclub.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8298',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 138:
+   永乐票务
+   www.228.com.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8299',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 139:
+   路路行
+   www.lulutrip.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8300',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 140:
+   跨境淘
+   www.ikjtao.com
+.....$VAR1 = {
+          'id' => '8301',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 141:
+   好药师
+   www.ehaoyao.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8302',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 142:
+   美丽说
+   www.meilishuo.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8303',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 143:
+   彩客网
+   www.310win.com
+.....$VAR1 = {
+          'id' => '8304',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 144:
+   Bestcake
+   www.bestcake.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8305',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 145:
+   茶途网
+   www.chatu.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8306',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 146:
+   飞牛网
+   www.feiniu.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8307'
+        };
+>>>>>>>>>No. 147:
+   民生商城
+   www.minshengec.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8308',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 148:
+   Mcake
+   www.mcake.com
+.....$VAR1 = {
+          'id' => '8309',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 149:
+   茵曼
+   www.inman.com.cn
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8310',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 150:
+   趣天麦网
+   www.m18.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8311'
+        };
+>>>>>>>>>No. 151:
+   麦乐购
+   www.m6go.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8312'
+        };
+>>>>>>>>>No. 152:
+   维也纳酒店
+   www.wyn88.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8313',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 153:
+   嗨淘
+   www.hitao.com
+.....$VAR1 = {
+          'id' => '8314',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 154:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 155:
+   贝备网
+   www.bbready.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8315',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 156:
+   口袋购物
+   hot.weidian.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8316'
+        };
+>>>>>>>>>No. 157:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 158:
+   500彩票
+   www.500.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8317',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 159:
+   88财富网
+   www.88.com.cn
+.....$VAR1 = {
+          'id' => '8318',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 160:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 161:
+   谷网商城
+   www.guuoo.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8319'
+        };
+>>>>>>>>>No. 162:
+   高鸿彩票
+   www.ghcai.com
+.....$VAR1 = {
+          'id' => '8320',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 163:
+   柒牌商城
+   www.qipaimall.com
+.....$VAR1 = {
+          'id' => '8321',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 164:
+   优集品
+   www.ujipin.com
+.....$VAR1 = {
+          'id' => '8322',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 165:
+   钻石小鸟
+   www.zbird.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8323'
+        };
+>>>>>>>>>No. 166:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 167:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 168:
+   汉购网
+   hango.com.cn
+.....$VAR1 = {
+          'id' => '8324',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 169:
+   东方CJ
+   www.ocj.com.cn
+.....$VAR1 = {
+          'id' => '8325',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 170:
+   云猴网
+   www.yunhou.com
+.....$VAR1 = {
+          'id' => '8326',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 171:
+   速普商城
+   www.supuy.com
+.....$VAR1 = {
+          'id' => '8327',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 172:
+   辣妈汇
+   www.lamahui.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8328',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 173:
+   王府井
+   www.wangfujing.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8329'
+        };
+>>>>>>>>>No. 174:
+   亲亲宝贝
+   www.qinqinbaby.com
+.....$VAR1 = {
+          'id' => '8330',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 175:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 176:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 177:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 178:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 179:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 180:
+   车蚂蚁
+   www.chemayi.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8331',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 181:
+   一加手机
+   www.oneplus.cn
+.....$VAR1 = {
+          'id' => '8332',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 182:
+   ZALORA香港
+   www.zalora.com.hk
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8333',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 183:
+   GiltCity
+   www.giltcity.com
+.....$VAR1 = {
+          'id' => '8334',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 184:
+   GiltGroupe
+   www.gilt.com
+.....$VAR1 = {
+          'id' => '8335',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 185:
+   Herbspro
+   www.herbspro.com
+.....$VAR1 = {
+          'id' => '8336',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 186:
+   拔草网
+   www.luxnut.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8337',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 187:
+   到喜啦
+   www.daoxila.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8338',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 188:
+   UGG
+   www.uggaustralia.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8339'
+        };
+>>>>>>>>>No. 189:
+   爱团网
+   www.aituan.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8340'
+        };
+>>>>>>>>>No. 190:
+   途风网
+   cn.toursforfun.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8341',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 191:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 192:
+   红星美凯龙
+   www.mmall.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8342',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 193:
+   Lacoste鳄鱼
+   shop.lacoste.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8343',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 194:
+   尚妆网
+   www.showjoy.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8344'
+        };
+>>>>>>>>>No. 195:
+   ChemistDirect
+   www.chemistdirect.co.uk
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8345',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 196:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 197:
+   Mybag.com
+   www.mybag.com
+.....$VAR1 = {
+          'id' => '8346',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 198:
+   COSMEDE玫丽网
+   www.cosme-de.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8347',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 199:
+   Allsole
+   www.allsole.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8348',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 200:
+   BeautyExpert
+   www.beautyexpert.co.uk
+.....$VAR1 = {
+          'id' => '8349',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 201:
+   Sears
+   www.sears.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8350'
+        };
+>>>>>>>>>No. 202:
+   Myvitamins
+   www.myvitamins.com
+.....$VAR1 = {
+          'id' => '8351',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 203:
+   HQhair.com
+   www.hqhair.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8352'
+        };
+>>>>>>>>>No. 204:
+   Lookfantastic.com
+   www.lookfantastic.com
+.....$VAR1 = {
+          'id' => '8353',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 205:
+   Mankind
+   www.mankind.co.uk
+.....$VAR1 = {
+          'id' => '8354',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 206:
+   JoesNewBalanceOutlet
+   www.joesnewbalanceoutlet.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8355',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 207:
+   TommyHilfigerUK
+   uk.tommy.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8356'
+        };
+>>>>>>>>>No. 208:
+   Skinstore
+   www.skinstore.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8357'
+        };
+>>>>>>>>>No. 209:
+   Jewelry
+   www.jewelry.com
+.....$VAR1 = {
+          'id' => '8358',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 210:
+   Clarks
+   www.clarks.co.uk
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8359',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 211:
+   joules
+   www.joules.com
+.....$VAR1 = {
+          'id' => '8360',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 212:
+   Columbia哥伦比亚户外
+   www.columbia.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8361',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 213:
+   A.T.Cross
+   www.cross.com
+.....$VAR1 = {
+          'id' => '8362',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 214:
+   姚记彩票
+   yjcp.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8363',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 215:
+   Topman
+   www.topman.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8364',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 216:
+   Coggles.com
+   www.coggles.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8365',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 217:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 218:
+   海尔日日顺
+   www.rrs.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8366',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 219:
+   BlueNileHK
+   www.bluenile.com
+.....$VAR1 = {
+          'id' => '8367',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 220:
+   酷旅网
+   www.kulv.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8368'
+        };
+>>>>>>>>>No. 221:
+   Agoda.com
+   www.agoda.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8369',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 222:
+   Allbeauty.com
+   www.allbeauty.com
+.....$VAR1 = {
+          'id' => '8370',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 223:
+   Escentual
+   www.escentual.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8371',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 224:
+   SwarovskiUS
+   www.swarovski.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8372',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 225:
+   Crocs
+   www.crocs.co.uk
+.....$VAR1 = {
+          'id' => '8373',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 226:
+   Unineed
+   www.unineed.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8374',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 227:
+   Myprotein
+   www.myprotein.com
+.....$VAR1 = {
+          'id' => '8375',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 228:
+   KoboInc
+   www.kobobooks.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8376',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 229:
+   FragranceX
+   www.fragrancex.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8377',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 230:
+   Zavvi
+   www.zavvi.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8378',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 231:
+   Walgreens
+   www.walgreens.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8379',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 232:
+   Pixmania
+   www.pixmania.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8380',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 233:
+   玩途自由行
+   www.hitour.cc
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8381',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 234:
+   有特价
+   www.youtejia.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8382',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 235:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 236:
+   AllSaints
+   www.allsaints.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8383'
+        };
+>>>>>>>>>No. 237:
+[CPS][DUOMAI][FILTER][WARN] mob/wap ads_name
+>>>>>>>>>No. 238:
+[CPS][DUOMAI][FILTER][WARN] mob/wap ads_name
+>>>>>>>>>No. 239:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 240:
+   可得眼镜
+   www.keede.com
+.....$VAR1 = {
+          'id' => '8384',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 241:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 242:
+   ao.com
+   ao.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8385',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 243:
+   BHSFurniture
+   www.bhsfurniture.co.uk
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8386'
+        };
+>>>>>>>>>No. 244:
+   BritishCornerShop
+   www.britishcornershop.co.uk
+.....$VAR1 = {
+          'id' => '8387',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 245:
+   CafePress(US&CA)
+   www.cafepress.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8388'
+        };
+>>>>>>>>>No. 246:
+   EvansClothing
+   www.evans.co.uk
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8389'
+        };
+>>>>>>>>>No. 247:
+   Goldsmiths
+   www.goldsmiths.co.uk
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8390'
+        };
+>>>>>>>>>No. 248:
+   Goddiva
+   goddiva.co.uk
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8391',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 249:
+   Gemnation
+   www.gemnation.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8392',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 250:
+   薇诺娜
+   www.winona.cn
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8393',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 251:
+   IWOOT
+   www.iwantoneofthose.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8394',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 252:
+   TheWatchHut
+   www.thewatchhut.co.uk
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8395'
+        };
+>>>>>>>>>No. 253:
+   ElizabethArden
+   www.elizabetharden.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8396',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 254:
+   Hotels.com
+   www.hotels.co.uk
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8397'
+        };
+>>>>>>>>>No. 255:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 256:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 257:
+   paperchase
+   www.paperchase-usa.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8398'
+        };
+>>>>>>>>>No. 258:
+   Boots.com
+   www.boots.com
+.....$VAR1 = {
+          'id' => '8399',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 259:
+   Casioonline
+   www.casioonline.co.uk
+.....$VAR1 = {
+          'id' => '8400',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 260:
+   Macy's
+   www.macys.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8401',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 261:
+   ProBikeKit
+   www.probikekit.co.uk
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8402',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 262:
+   Orchira
+   www.orchira.co.uk
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8403',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 263:
+   TomCarterWatch
+   www.tomcarterwatch.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8404',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 264:
+   CorsetDeal
+   www.corsetdeal.com
+.....$VAR1 = {
+          'id' => '8405',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 265:
+   开心保保险网
+   www.kaixinbao.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8406',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 266:
+[CPS][DUOMAI][FILTER][WARN] mob/wap ads_name
+>>>>>>>>>No. 267:
+   BHCosmetics
+   www.bhcosmetics.com
+.....$VAR1 = {
+          'id' => '8407',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 268:
+   海蜜全球购
+   www.haimi.com
+.....$VAR1 = {
+          'id' => '8408',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 269:
+   PetSmart
+   www.petsmart.com
+.....$VAR1 = {
+          'id' => '8409',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 270:
+   51YOU旅游网
+   www.51you.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8410'
+        };
+>>>>>>>>>No. 271:
+   诺诺镑客
+   www.nonobank.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8411'
+        };
+>>>>>>>>>No. 272:
+   金融工场
+   www.9888.cn
+.....$VAR1 = {
+          'id' => '8412',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 273:
+   AHAVA
+   ahavaus.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8413'
+        };
+>>>>>>>>>No. 274:
+   洋码头
+   www.ymatou.com
+.....$VAR1 = {
+          'id' => '8414',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 275:
+   Lord&Taylor
+   www.lordandtaylor.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8415',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 276:
+[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url
+>>>>>>>>>No. 277:
+   Adorama
+   www.adorama.com
+.....$VAR1 = {
+          'id' => '8416',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 278:
+   MYHABIT.com
+   www.myhabit.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8417'
+        };
+>>>>>>>>>No. 279:
+   TheWatchery
+   www.thewatchery.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8418'
+        };
+>>>>>>>>>No. 280:
+   L'OccitaneCanada
+   ca.loccitane.com
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8419',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 281:
+   MZWallace
+   www.mzwallace.com
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8420',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 282:
+   LifeVcROI
+   www.lifevc.com
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8557',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.lifevc.com win(unused)
+[CPS][DUOMAI][INFO] j: 243
+>>>>>>>>>No. 1:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8607',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.ocj.com.cn win(unused)
+>>>>>>>>>No. 2:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8463',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.jd.com win(unused)
+>>>>>>>>>No. 3:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8421',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 4:
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8422',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 5:
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8423',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 6:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8424'
+        };
+>>>>>>>>>No. 7:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8578'
+        };
+[CPS][PUSH][INFO] exists tuan.qunar.com win(unused)
+>>>>>>>>>No. 8:
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8425',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 9:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8513',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.x.com.cn win(unused)
+>>>>>>>>>No. 10:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8426'
+        };
+>>>>>>>>>No. 11:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8465'
+        };
+[CPS][PUSH][INFO] exists www.no5.com.cn win(unused)
+>>>>>>>>>No. 12:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8427',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 13:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8467'
+        };
+[CPS][PUSH][INFO] exists www.dangdang.com win(unused)
+>>>>>>>>>No. 14:
+.....$VAR1 = {
+          'id' => '8428',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 15:
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8429',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 16:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8430',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 17:
+.....$VAR1 = {
+          'id' => '8431',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 18:
+.....$VAR1 = {
+          'id' => '8432',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 19:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8482'
+        };
+[CPS][PUSH][INFO] exists www.newegg.cn win(unused)
+>>>>>>>>>No. 20:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8470'
+        };
+[CPS][PUSH][INFO] exists www.letao.com win(unused)
+>>>>>>>>>No. 21:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8462'
+        };
+[CPS][PUSH][INFO] exists www.yhd.com win(unused)
+>>>>>>>>>No. 22:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8461',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.mbaobao.com win(unused)
+>>>>>>>>>No. 23:
+.....$VAR1 = {
+          'id' => '8489',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.jxdyf.com win(unused)
+>>>>>>>>>No. 24:
+.....$VAR1 = {
+          'id' => '8499',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.aizhigu.com.cn win(unused)
+>>>>>>>>>No. 25:
+.....$VAR1 = {
+          'id' => '8593',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.m18.com win(unused)
+>>>>>>>>>No. 26:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8433',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 27:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8434',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 28:
+.....$VAR1 = {
+          'id' => '8435',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 29:
+.....$VAR1 = {
+          'id' => '8475',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.masamaso.com win(unused)
+>>>>>>>>>No. 30:
+.....$VAR1 = {
+          'id' => '8534',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.lefeng.com win(unused)
+>>>>>>>>>No. 31:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8436',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 32:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8488',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.muyingzhijia.com win(unused)
+>>>>>>>>>No. 33:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8437'
+        };
+>>>>>>>>>No. 34:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8498',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.s.cn win(unused)
+>>>>>>>>>No. 35:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8531'
+        };
+[CPS][PUSH][INFO] exists www.jinjianginns.com win(unused)
+>>>>>>>>>No. 36:
+.....$VAR1 = {
+          'id' => '8514',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.tiantian.com win(unused)
+>>>>>>>>>No. 37:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8520',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.gome.com.cn win(unused)
+>>>>>>>>>No. 38:
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8438',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 39:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8506',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.xiu.com win(unused)
+>>>>>>>>>No. 40:
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8439',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 41:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8538',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.yixun.com win(unused)
+>>>>>>>>>No. 42:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8440'
+        };
+>>>>>>>>>No. 43:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8473',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.yintai.com win(unused)
+>>>>>>>>>No. 44:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8692',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.51you.com win(unused)
+>>>>>>>>>No. 45:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8484'
+        };
+[CPS][PUSH][INFO] exists www.shopin.net win(unused)
+>>>>>>>>>No. 46:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8519',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.yesmywine.com win(unused)
+>>>>>>>>>No. 47:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8486',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.jumei.com win(unused)
+>>>>>>>>>No. 48:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8541'
+        };
+[CPS][PUSH][INFO] exists www.yougou.com win(unused)
+>>>>>>>>>No. 49:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8495',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.mangocity.com win(unused)
+>>>>>>>>>No. 50:
+.....$VAR1 = {
+          'id' => '8472',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.lizi.com win(unused)
+>>>>>>>>>No. 51:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8441',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 52:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8500',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.jiuxian.com win(unused)
+>>>>>>>>>No. 53:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8442'
+        };
+>>>>>>>>>No. 54:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8532'
+        };
+[CPS][PUSH][INFO] exists www.lvmama.com win(unused)
+>>>>>>>>>No. 55:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8443',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 56:
+.....$VAR1 = {
+          'id' => '8507',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.bookuu.com win(unused)
+>>>>>>>>>No. 57:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8553'
+        };
+[CPS][PUSH][INFO] exists www.winekee.com win(unused)
+>>>>>>>>>No. 58:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8525',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.zhiwo.com win(unused)
+>>>>>>>>>No. 59:
+.....$VAR1 = {
+          'id' => '8444',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 60:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8527',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.camel.com.cn win(unused)
+>>>>>>>>>No. 61:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8497',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.banggo.com win(unused)
+>>>>>>>>>No. 62:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8493',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.wbiao.cn win(unused)
+>>>>>>>>>No. 63:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8558',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.lecake.com win(unused)
+>>>>>>>>>No. 64:
+.....$VAR1 = {
+          'id' => '8445',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 65:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8446'
+        };
+>>>>>>>>>No. 66:
+.....$VAR1 = {
+          'id' => '8447',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 67:
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8448',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 68:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8537',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.esprit.cn win(unused)
+>>>>>>>>>No. 69:
+.....$VAR1 = {
+          'id' => '8526',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.shouliwang.com win(unused)
+>>>>>>>>>No. 70:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8449'
+        };
+>>>>>>>>>No. 71:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8534',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.lefeng.com win(unused)
+>>>>>>>>>No. 72:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8450',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 73:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8451'
+        };
+>>>>>>>>>No. 74:
+.....$VAR1 = {
+          'id' => '8452',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 75:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8561',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.ehaier.com win(unused)
+>>>>>>>>>No. 76:
+.....$VAR1 = {
+          'id' => '8523',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.111.com.cn win(unused)
+>>>>>>>>>No. 77:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8541'
+        };
+[CPS][PUSH][INFO] exists www.yougou.com win(unused)
+>>>>>>>>>No. 78:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8511'
+        };
+[CPS][PUSH][INFO] exists www.handu.com win(unused)
+>>>>>>>>>No. 79:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8603'
+        };
+[CPS][PUSH][INFO] exists www.qipaimall.com win(unused)
+>>>>>>>>>No. 80:
+[CPS][CHANET][FILTER][WARN] empty ads_url
+$VAR1 = {
+          'ads_url' => '',
+          'ads_id' => '2631',
+          'id' => '81',
+          'category' => '服装/时尚',
+          'marketing_url' => '不支持',
+          'ads_name' => '无印良品CPS活动'
+        };
+>>>>>>>>>No. 81:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8453',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 82:
+.....$VAR1 = {
+          'id' => '8535',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.liebo.com win(unused)
+>>>>>>>>>No. 83:
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8454',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 84:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8479'
+        };
+[CPS][PUSH][INFO] exists www.vmall.com win(unused)
+>>>>>>>>>No. 85:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8455'
+        };
+>>>>>>>>>No. 86:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8551',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists web1.sasa.com win(unused)
+>>>>>>>>>No. 87:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8584',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.ehaoyao.com win(unused)
+>>>>>>>>>No. 88:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8589'
+        };
+[CPS][PUSH][INFO] exists www.feiniu.com win(unused)
+>>>>>>>>>No. 89:
+[CPS][CHANET][FILTER][WARN] empty ads_url
+$VAR1 = {
+          'marketing_url' => '不支持',
+          'ads_name' => '合时代 CPS活动',
+          'category' => '金融/投资/股票',
+          'id' => '90',
+          'ads_url' => '',
+          'ads_id' => '2761'
+        };
+>>>>>>>>>No. 90:
+[CPS][CHANET][FILTER][WARN] empty ads_url
+$VAR1 = {
+          'id' => '91',
+          'ads_url' => '',
+          'ads_id' => '2764',
+          'ads_name' => '你我贷CPS',
+          'marketing_url' => '不支持',
+          'category' => '金融/投资/股票'
+        };
+>>>>>>>>>No. 91:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8570',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.mogujie.com win(unused)
+>>>>>>>>>No. 92:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8567',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.zhongjiu.cn win(unused)
+>>>>>>>>>No. 93:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'id' => '8543',
+          'selected_at' => undef
+        };
+[CPS][PUSH][INFO] exists www.nuomi.com win(unused)
+>>>>>>>>>No. 94:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8585'
+        };
+[CPS][PUSH][INFO] exists www.meilishuo.com win(unused)
+>>>>>>>>>No. 95:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8594',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.m6go.com win(unused)
+>>>>>>>>>No. 96:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8587',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.bestcake.com win(unused)
+>>>>>>>>>No. 97:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8512',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.55tuan.com win(unused)
+>>>>>>>>>No. 98:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8612',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.qinqinbaby.com win(unused)
+>>>>>>>>>No. 99:
+.....$VAR1 = {
+          'id' => '8456',
+          'selected_at' => '2015-04-11 14:07:48',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 100:
+.....$VAR1 = {
+          'id' => '8648',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.rrs.com win(unused)
+>>>>>>>>>No. 101:
+.....$VAR1 = {
+          'selected_at' => undef,
+          'id' => '8502',
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.miyabaobei.com win(unused)
+>>>>>>>>>No. 102:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8457',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 103:
+.....$VAR1 = {
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8458',
+          'is_activated' => '1'
+        };
+>>>>>>>>>No. 104:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'selected_at' => '2015-04-11 14:07:48',
+          'id' => '8459'
+        };
+>>>>>>>>>No. 105:
+.....$VAR1 = {
+          'is_activated' => '1',
+          'id' => '8460',
+          'selected_at' => '2015-04-11 14:07:48'
+        };
+>>>>>>>>>No. 106:
+.....$VAR1 = {
+          'id' => '8605',
+          'selected_at' => undef,
+          'is_activated' => '0'
+        };
+[CPS][PUSH][INFO] exists www.zbird.com win(unused)
+>>>>>>>>>No. 107:
+.....$VAR1 = {
+          'is_activated' => '0',
+          'selected_at' => undef,
+          'id' => '8609'
+        };
+[CPS][PUSH][INFO] exists www.supuy.com win(unused)
+[CPS][CHANET][INFO] j: 104   
+|||rows deactive(1->2): 282
+|||rows activated(0->1): 282
+|||rows updated duomai_advertisement.seleted_at: 242
+|||rows updated chanet_advertisement.seleted_at: 40
+|||rows updated emar_advertisement.seleted_at: 0
+|||rows deleted (is_activated==2): 282

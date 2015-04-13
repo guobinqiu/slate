@@ -33,6 +33,8 @@ emar:
              schCampaignId: 0
              campaignName: ''
 
+        output: "/tmp/yiqifa/积粒网自定义链接全表YYYY-mm-dd.xls"
+
 #        url: "http://yiqifa.com/earner/campaignView.do?pageNumber=1&pageSize=10&searchType=searchType&orderByType=&backType=apply&schSiteId=708089&schPageNumber=1&schPageSize=10&auditStatus=&campaignType=web&auditingType=&siteType=website&campaignName1=&campaignId=%d&websiteType=website&hasMobileSite=0+&searchOption=campaignId&searchValue=&campaignName=&siteId=708089&perSize=10&perSize2=10"
     html_comm:
         url: "http://yiqifa.com/earner/campaignView.do?backType=search&middleBack=campaignLinkList&campaignId=%d&siteId=708089&schSiteId=&schPageNumber=1&costType=&auditingType=&searchOption=campaignId&searchValue=&categoryId=0&schSearchType=&schPageSize=10"

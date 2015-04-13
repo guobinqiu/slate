@@ -3,15 +3,17 @@
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Jili\ApiBundle\Component\OrderBase;
 
 /**
  * DuomaiOrder
  *
  * @ORM\Table(name="duomai_order", uniqueConstraints={@ORM\UniqueConstraint(name="ocd", columns={"ocd"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\DuomaiOrderRepository")
  */
 class DuomaiOrder
 {
+
     /**
      * @var integer
      *
@@ -452,4 +454,38 @@ class DuomaiOrder
     {
         return $this->id;
     }
+
+    public function __construct() {
+        $ds = new \DateTime();
+        $era  = new \DateTime();
+        $era->setTimestamp(0);
+
+        $this->setComm(0)
+            ->setStatus( OrderBase::getInitStatus() )
+            ->setDeactivatedAt($era)
+            ->setConfirmedAt($era)
+            ->setBalancedAt($era)
+            ->setCreatedAt($ds);
+    }
+
+
+
+
+    public function isPending() {
+        return $this->getStatus() === OrderBase::getInitStatus() ; 
+    }
+
+    public function isConfirmed() {
+        return $this->getStatus() === OrderBase::getPendingStatus();
+
+    }
+
+    public function isInvalid() {
+        return $this->getStatus() === OrderBase::getSuccessStatus();
+    }
+
+    public function isBalanced() {
+        return $this->getStatus() === OrderBase::getFailedStatus();
+    }
+
 }

@@ -26,9 +26,10 @@ class AdCategory
 
     /**
      * @var const
-     *  多买id.
+     *  多麦id.
      */
-    const ID_DUOMAI = 31;
+    const ID_DUOMAI = 23;
+
     /**
      * @var integer
      *

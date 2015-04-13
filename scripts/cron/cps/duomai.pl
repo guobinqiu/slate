@@ -147,7 +147,7 @@ sub calc_duomai_cps_commission_hash {
     return $hash;
 }
 
-sub query_duomai_advertiserment_by_fixed_hash {
+sub query_duomai_advertisement_by_fixed_hash {
     my $fixed_hash = shift;
     my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
@@ -171,7 +171,7 @@ sub query_duomai_commission_by_fixed_hash {
 }
 
 # insert into table
-sub insert_duomai_advertiserment {
+sub insert_duomai_advertisement {
 
     my $config = shift;
     #my ($row , @title) = @_;
@@ -186,16 +186,17 @@ sub insert_duomai_advertiserment {
     open my $fh, "<:encoding(utf8)", $file or die "Could not open $file  $!\n";
     my $row = $csv->getline( $fh );
     my @title = @$row;
+
     # verify the exists hash
     # select ads_id  & is activated !  
 
-    my $sql = 'INSERT INTO duomai_advertisement(ads_id,ads_name,ads_url,ads_commission,start_time,end_time,category,return_day,billing_cycle,link_custom,link_custom_short,fixed_hash,is_activated) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    my $sql = qq{INSERT INTO duomai_advertisement(ads_id,ads_name,ads_url,ads_commission,start_time,end_time,category,return_day,billing_cycle,link_custom,link_custom_short,fixed_hash,is_activated) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?)};
 
     while ( my $row = $csv->getline( $fh ) ) {
         next if (length($row->[0])==0); # skip the 
         my $hash = calc_duomai_cps_advertisement_hash($row);
 
-        my $ads_exist = query_duomai_advertiserment_by_fixed_hash($hash );
+        my $ads_exist = query_duomai_advertisement_by_fixed_hash($hash );
 
         if( defined($ads_exist) && $ads_exist->{is_activated} == 1) {
             next;
@@ -457,7 +458,7 @@ sub insert_commission {
 my $config = LoadFile( "./config/config.yml");
 fetch_duomai_cps_csv( $config->{duomai});
 #### parse_duomai_cps_csv();
-insert_duomai_advertiserment($config->{duomai});
+insert_duomai_advertisement($config->{duomai});
 #### query_duomai_advertisement();
 fetch_commission_csv($config->{duomai});
 ### parse_commission($config->{duomai});
