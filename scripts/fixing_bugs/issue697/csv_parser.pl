@@ -15,6 +15,8 @@ use Yiqifa::CpsConfirmed;
 use Encode qw(from_to encode);
 use URI::Escape;
 use Digest::MD5 qw(md5_hex);
+use YAML::Syck;;
+
 
 sub csv_parse {
 # read file
@@ -54,16 +56,15 @@ sub csv_parse {
         }
 
         $csv->eof or $csv->error_diag();
-
         close($fh)|| warn "close failed: $!";
     }
 # build query
-
 }
+
 
 sub fetch_confirmed {
     # read file
-    my ($files ) = @_;
+    my ($files , $db_config ) = @_;
     binmode(STDIN, ':encoding(utf8)');
     binmode(STDOUT, ':encoding(utf8)');
     binmode(STDERR, ':encoding(utf8)');
@@ -121,7 +122,7 @@ sub fetch_confirmed {
 
             my $sql = qq{SELECT * FROM emar_api_return WHERE content like "%unique_id=%&create_date=%&action_id=$row->[0]&action_name=%&sid=458631&wid=732204&order_no=$order_no&order_time=$order_time&prod_id=$prod_id&prod_name=%&prod_count=%&prod_money=$prod_money%&feed_back=$row->[17]&status=%&comm_type=%&commision=%&chkcode=%&prod_type=%&am=%&exchange_rate=%&superrebate=%"};
 
-            my $database = Jili::DBConnection->instance(('root','ecnavi','zili_dev4','192.168.1.235'));
+            my $database = Jili::DBConnection->instance(($db_config->{user},$db_config->{password},$db_config->{name},$db_config->{host}));
             #my $database = Jili::DBConnection->instance();
             my $dbh = $database->{dbh};
 
@@ -162,7 +163,7 @@ sub fetch_confirmed {
                 my $l = 0;
                 foreach my $id (keys %$api_return_hash_ref) {
                     my $qs = Uri::Parser::parseQueryString($api_return_hash_ref->{$id}->{content});
-                    my $hist =  queryOrderAndTaskByUniqueId($qs->{unique_id}, $l);
+                    my $hist =  queryOrderAndTaskByUniqueId($qs->{unique_id}, $l, $db_config);
 
                     if($hist == 0 ) {
                         $l++;
@@ -243,6 +244,7 @@ sub fetch_confirmed {
 # build query
 }
 
+ # sample of return unique_id=165e4ac022865ebac2d1a8b5faf12ee3&create_date=2015-03-14+16%3A50%3A48&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=8788744088&order_time=2015-03-14+16%3A48%3A54&prod_id=&prod_name=1357888&prod_count=1&prod_money=472.0&feed_back=1068849&status=R&comm_type=0&commision=4.8&chkcode=e4582ec5c725beb419f8dceb7da8ebf2&prod_type=0&am=0.0&exchange_rate=0.0&superrebate=
 sub buildQueryStringForNone 
 {
     binmode(STDIN, ':encoding(utf8)');
@@ -325,9 +327,9 @@ sub buildQueryStringForNone
             $qs = $qs. $x. '='. $query->{$x}. '&';
     }
     return $qs;
-    # unique_id=165e4ac022865ebac2d1a8b5faf12ee3&create_date=2015-03-14+16%3A50%3A48&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=8788744088&order_time=2015-03-14+16%3A48%3A54&prod_id=&prod_name=1357888&prod_count=1&prod_money=472.0&feed_back=1068849&status=R&comm_type=0&commision=4.8&chkcode=e4582ec5c725beb419f8dceb7da8ebf2&prod_type=0&am=0.0&exchange_rate=0.0&superrebate=
 }
 
+# 生成验证码
 sub generateChkcode {
     my ($action_id, $order_no, $prod_money, $order_time, $wid) = @_;
     my $DataSecret ='';
@@ -347,9 +349,9 @@ sub generateChkcode {
 # return 1 no order record
 # return 2 no task record
 sub queryOrderAndTaskByUniqueId {
-    my ($ocd, $seq_nu ) = @_;
-# 
-    my $database = Jili::DBConnection->instance(('root','ecnavi','zili_dev4','192.168.1.235'));
+    my ($ocd, $seq_nu , $db_config ) = @_;
+#    my $database = Jili::DBConnection->instance(('root','ecnavi','zili_dev4','192.168.1.235'));
+    my $database = Jili::DBConnection->instance(($db_config->{user},$db_config->{password},$db_config->{name},$db_config->{host}));
     #my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
 
@@ -379,82 +381,13 @@ sub queryOrderAndTaskByUniqueId {
     return 0;
 }
 
+my $db_config = LoadFile( "./config/db.yml");
 
-my $confirmed_data_dir = './status_recallback';
+
+my $confirmed_data_dir = './CpsEffectConfirmedData';
 my $files = Yiqifa::CpsConfirmed::get_confirmed_utf8_filelist($confirmed_data_dir);
 print Dumper($files);
-fetch_confirmed($files);
+
+fetch_confirmed($files, $db_config->{db});
 
 __END__
- 
-my $files = [
-  'CpsEffectConfirmData1429061431686_utf8.csv',
-  'CpsEffectConfirmData1429061453865_utf8.csv',
-  'CpsEffectConfirmData1429061473035_utf8.csv'
-  ];
-csv_parse($files);
-
- unique_id=165e4ac022865ebac2d1a8b5faf12ee3&create_date=2015-03-14+16%3A50%3A48&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=8788744088&order_time=2015-03-14+16%3A48%3A54&prod_id=&prod_name=1357888&prod_count=1&prod_money=472.0&feed_back=1068849&status=R&comm_type=0&commision=4.8&chkcode=e4582ec5c725beb419f8dceb7da8ebf2&prod_type=0&am=0.0&exchange_rate=0.0&superrebate=
-   1:
-       0   活动ID:  5402  
-        1  活动名称:  美团网CPS  
-        2  网站ID:  732204  
-        3  网站名称:  购物客91jili  
-        4  下单时间:  2015-01-01 00:23:23  
-        5  订单编号:  890134907-2'  
-        6  商品类别:  O  
-        7  商品编号:  24975453  
-      8  收订订单数:  1  
-      9  收订订单金额:  9.90000  
-      10  确认时间:  2015-03-04 16:59:25  
-       11 有效订单数:  1  
-       12 有效订单金额:  9.90000  
-       13 业绩状态:  有效  
-       14 业绩类型:  正常  
-       15 预计佣金:  0.11880  
-       16 确认佣金:  0.00000  
-       17 反馈标签:  1147880  
-       18 是否超级返推广:  否  
-
-
- $sql = qq{SELECT * FROM emar_apir_return WHERE content like 'unique_id=%&create_date=%&action_id=$row->[0]&action_name=%&sid=458631&wid=732204&order_no=$row->[5]&order_time=$row->[4]&prod_id=%&prod_name=%&prod_count=%&prod_money=$row->[9]&feed_back=%&status=%&comm_type=%&commision=%&chkcode=%&prod_type=%&am=%&exchange_rate=%&superrebate=%'};
-
-
- SELECT * FROM emar_api_return WHERE content like "%&action_id=297%&sid=458631&wid=732204&order_no=248024412%"
-
-
-0        活动ID:  297  
-1        活动名称:  携程旅行网CPS  
-2        网站ID:  732204  
-3        网站名称:  购物客91jili  
-4        下单时间:  2014-07-14 18:29:21  
-5        订单编号:  248024412'  
-6        商品类别:  H  
-7        商品编号:    
-8        收订订单数:  1  
-9        收订订单金额:  99.00000  
-10        确认时间:  2015-03-03 14:24:05  
- 11       有效订单数:  0  
-12        有效订单金额:  0.00000  
-13        业绩状态:  无效  
-14        业绩类型:  正常  
-15        预计佣金:  2.97000  
-16        确认佣金:  0.0000  
-17        反馈标签:  1064857  
-18        是否超级返推广:  否  
-
- /emar/api/callback?unique_id=6d0f92a6db15a7a81630c9f4bee7924b&create_date=2014-07-14+18%3A29%3A33&action_id=297&action_name=%D0%AF%B3%CC%C2%C3%D0%D0%CD%F8CPS&sid=458631&wid=732204&order_no=248024412&order_time=2014-07-14+18%3A29%3A21&prod_id=&prod_name=&prod_count=1&prod_money=99.0&feed_back=1064857&status=R&comm_type=H&commision=2.97&chkcode=83e29f8288e5e686d887ffee545653b2&prod_type=H&am=0.0&exchange_rate=0.0 |
-
-150416 17:08:32 28540 Query SELECT * FROM emar_api_return WHERE content like "%unique_id=%&create_date=%&action_id=297&action_name=%&sid=458631&wid=732204&order_no=248024412'&order_time=2014-07-14%2018%3A29%3A21&prod_id=%&prod_name=%&prod_count=%&prod_money=99.00000&feed_back=%&status=%&comm_type=%&commision=%&chkcode=%&prod_type=%&am=%&exchange_rate=%&superrebate=%"
-
-"%unique_id=%&create_date=%&action_id=297&action_name=%&sid=458631&wid=732204&order_no=248024412'&order_time=2014-07-14%2018%3A29%3A21&prod_id=%&prod_name=%&prod_count=%&prod_money=99.00000&feed_back=%&status=%&comm_type=%&commision=%&chkcode=%&prod_type=%&am=%&exchange_rate=%&superrebate=%"
-
-
- diff: 
- datetime + than %20
- feedback use it!
- prod_money   
-
-SELECT * FROM emar_api_return WHERE content like "%unique_id=%&create_date=%&action_id=5402&action_name=%&sid=458631&wid=732204&order_no=890134907-2&order_time=2015-01-01%2B00%3A23%3A23&prod_id=%&prod_name=%&prod_count=%&prod_money=9.90000&feed_back=1147880&status=%&comm_type=%&commision=%&chkcode=%&prod_type=%&am=%&exchange_rate=%&superrebate=%"
-
-
