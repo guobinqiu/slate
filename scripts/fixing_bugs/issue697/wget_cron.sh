@@ -15,6 +15,7 @@ j=0;
 # 找到2/27/2015 ~ 3/14/2015 期间,
 perl -Ilib/ csv_parser.pl > ~/confirmed_${DT}.log
 grep 'WGET|||' ~/confirmed_${DT}.log| sed -e "s/\ *WGET|||//g" > ~/confirmed_${DT}_x.log
+mkdir  -p /tmp/yqfconfirmed_output/ /tmp/yqfconfirmed_wgetlog/
 # confirmed data 
 for x in $(cat ~/confirmed_${DT}_x.log)
 do
@@ -36,8 +37,8 @@ let "j=0";
 perl -Ilib/ accesslog_parser.pl > ~/access_log_${DT}.log
 # accesslog  
 grep 'query_string' ~/access_log_${DT}.log | sed -e 's/^.*query_string: //' > ~/access_log_${DT}_x.log
-sed -e '/APIMemberId/d' ~/access_log_${DT}_x.log
-
+sed -i'' -e '/APIMemberId/d' ~/access_log_${DT}_x.log
+mkdir -p /tmp/httpaccess_output/ /tmp/httpaccess_wgetlog/
 for x in $(cat ~/access_log_${DT}_x.log)
 do
     if [[ $i -ge $max_request_per_second ]]; then
