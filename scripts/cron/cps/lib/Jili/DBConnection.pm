@@ -14,7 +14,7 @@ sub _new_instance {
     my $user     = shift || "root";
     my $password = shift || "MyNewPassword";
     my $database = shift || "jili_1216"; #jili_1117";
-    my $hostname = shift || "localhost"; #192.168.1.18";
+    my $hostname = shift || "localhost"; #192.168.1.70";
     my $port     = shift || 3306;
 
     my $dsn = "DBI:mysql:database=$database;host=$hostname;port=$port";

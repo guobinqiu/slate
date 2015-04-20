@@ -1,13 +1,13 @@
 <ul class="clearfix" style="display:block;">
-    {% for wid,row in websites%}
-    {% set href_ = path('jili_emar_default_redirect') ~ '?m=' ~ row.url|url_encode %}
+    {% for key,row in websites %}
+    {% set href_ = path('jili_frontend_cpsadvertisement_redirect')  %}
     <li>
-        <a class="logoImg" target="_blank" title="{{ row.name }}" href="{{ href_ }}"><img src="{{ row.logo }}" alt="{{ row.name }}" width="120" height="60"></a>
+        <a class="logoImg" target="_blank" title="{{ row.title }}" href="{{ href_ }}"><img src="#" alt="{{ row.title }}" width="120" height="60"></a>
         {% if row.commission is defined and  row.commission > 0 %}<div class="logoWord lightGray">最高返{{ row.commission }}%</div>{% endif %}
         <div class="logoMore">
         	<div class="logoMask"></div>
             <div class="logoBtn">
-            	<a href="{{  path('jili_emar_websites_detail', {'wid': wid }) }}" class="toMore"><i class="detailIcon"></i>返利详情</a>
+            	<a href="{{  path('jili_frontend_cpsadvertisement_detail', {'wid': row.id }) }}" class="toMore"><i class="detailIcon"></i>返利详情</a>
             	<a target="_blank" href="{{ href_ }}" class="toBuy"><i class="shopIcon"></i>直接购物</a>
             </div>
         </div>

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CpsAdvertisement
  *
  * @ORM\Table(name="cps_advertisement", uniqueConstraints={@ORM\UniqueConstraint(name="ad_id", columns={"ad_category_id", "ad_id", "is_activated"}), @ORM\UniqueConstraint(name="website_host", columns={"website_host", "is_activated"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\CpsAdvertisementRepository")
  */
 class CpsAdvertisement
 {

@@ -20,6 +20,10 @@ duomai:
         output: "/tmp/duomai/comm/ads_id_%d_YYYYmmdd.html"
         output_reg: "/tmp/duomai/comm/ads_id_\d+_YYYYmmdd.html"
         output_utf8: "/tmp/duomai/comm/ads_id_utf8_%d_YYYYmmdd.html"
+        logo_xpath: ""
+
+    logo_path: "/tmp/duomai/logo/"
+    logo_file: "/tmp/duomai/logo/logos_desired_YYYY-mm-dd.txt"
 
 emar:
     cookie_file: "/tmp/yiqifa/cookies.txt"
@@ -42,6 +46,9 @@ emar:
         output_utf8: "/tmp/yiqifa/comm/ads_id_utf8_%d_YYYYmmdd.html"
         output_reg: "/tmp/yiqifa/comm/ads_id_\d+_YYYYmmdd.html"
 
+    logo_path: "/tmp/yiqifa/logo/"
+    logo_file: "/tmp/yiqifa/logo/logos_desired_YYYY-mm-dd.txt"
+
 #    login_url: 'http://yiqifa.com/userLogin.do'
 #    login_form: 'http://yiqifa.com/earner/applyBatchLinkList.do'
 
@@ -63,6 +70,9 @@ chanet:
         output: "/tmp/chanet/comms/ads_id_%d_YYYYmmdd.html"
         output_reg: "/tmp/chanet/comms/ads_id_\d+_YYYYmmdd.html"
         xpath: "/html/body/div[13]/div/div[1]/div[4]/div[1]/table"
+        logo_xpath: ""
 
+    logo_path: "/tmp/chanet/logo/"
+    logo_file: "/tmp/chanet/logo/logos_desired_YYYY-mm-dd.txt"
 
 

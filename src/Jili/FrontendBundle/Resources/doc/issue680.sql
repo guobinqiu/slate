@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS `duomai_commission` (
 DROP TABLE IF EXISTS `duomai_commission_data`;
 CREATE TABLE IF NOT EXISTS `duomai_commission_data` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `duomai_commission_id` int(11) NOT NULL COMMENT 'FK',
-  `commission_id` int(3) NOT NULL COMMENT '佣金序号',
+  `commission_id` int(11) NOT NULL COMMENT 'FK',
+  `commission_serial_number` int(3) NOT NULL COMMENT '佣金序号',
   `commission_name` varchar(200) DEFAULT NULL COMMENT '商品名称',
   `commission` varchar(100) DEFAULT NULL COMMENT '佣金比例',
   `commission_period` varchar(100) DEFAULT NULL COMMENT '有效期',
@@ -138,9 +138,9 @@ CREATE TABLE IF NOT EXISTS `emar_commission` (
 DROP TABLE IF EXISTS `emar_commission_data`;
 CREATE TABLE IF NOT EXISTS `emar_commission_data` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `emar_commission_id` int(11) NOT NULL COMMENT 'FK',
-  `commission_id` int(3) NOT NULL COMMENT '佣金序号',
-  `commission_category` varchar(200) DEFAULT '' COMMENT '佣金类目',
+  `commission_id` int(11) NOT NULL COMMENT 'FK',
+  `commission_serial_number` int(3) NOT NULL COMMENT '佣金序号',
+  `commission_name` varchar(200) DEFAULT '' COMMENT '佣金类目',
   `commission` varchar(100) DEFAULT '' COMMENT '佣金',
   `commission_period` varchar(100) DEFAULT '' COMMENT '佣金周期',
   `product_apply_to` varchar(100) DEFAULT ''  COMMENT '适用商品',
@@ -182,8 +182,8 @@ CREATE TABLE IF NOT EXISTS `chanet_commission` (
 DROP TABLE IF EXISTS `chanet_commission_data`;
 CREATE TABLE IF NOT EXISTS `chanet_commission_data` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `chanet_commission_id` int(11) NOT NULL COMMENT 'FK',
-  `commission_id` int(3) NOT NULL COMMENT '佣金序号',
+  `commission_id` int(11) NOT NULL COMMENT 'FK',
+  `commission_serial_number` int(3) NOT NULL COMMENT '佣金序号',
   `commission_name` varchar(200) DEFAULT NULL COMMENT '商品名称',
   `commission` varchar(100) DEFAULT NULL COMMENT '佣金比例',
   `commission_period` varchar(100) DEFAULT NULL COMMENT '有效期',

@@ -15,16 +15,16 @@ class DuomaiCommissionData
     /**
      * @var integer
      *
-     * @ORM\Column(name="duomai_commission_id", type="integer", nullable=false)
+     * @ORM\Column(name="commission_id", type="integer", nullable=false)
      */
-    private $duomaiCommissionId;
+    private $commissionId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="commission_id", type="integer", nullable=false)
+     * @ORM\Column(name="commission_serial_number", type="integer", nullable=false)
      */
-    private $commissionId;
+    private $commissionSerialNumber;
 
     /**
      * @var string
@@ -73,29 +73,6 @@ class DuomaiCommissionData
 
 
     /**
-     * Set duomaiCommissionId
-     *
-     * @param integer $duomaiCommissionId
-     * @return DuomaiCommissionData
-     */
-    public function setDuomaiCommissionId($duomaiCommissionId)
-    {
-        $this->duomaiCommissionId = $duomaiCommissionId;
-
-        return $this;
-    }
-
-    /**
-     * Get duomaiCommissionId
-     *
-     * @return integer 
-     */
-    public function getDuomaiCommissionId()
-    {
-        return $this->duomaiCommissionId;
-    }
-
-    /**
      * Set commissionId
      *
      * @param integer $commissionId
@@ -116,6 +93,29 @@ class DuomaiCommissionData
     public function getCommissionId()
     {
         return $this->commissionId;
+    }
+
+    /**
+     * Set commissionSerialNumber
+     *
+     * @param integer $commissionSerialNumber
+     * @return DuomaiCommissionData
+     */
+    public function setCommissionSerialNumber($commissionSerialNumber)
+    {
+        $this->commissionSerialNumber = $commissionSerialNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get commissionSerialNumber
+     *
+     * @return integer 
+     */
+    public function getCommissionSerialNumber()
+    {
+        return $this->commissionSerialNumber;
     }
 
     /**

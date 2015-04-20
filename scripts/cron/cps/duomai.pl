@@ -86,12 +86,12 @@ sub fetch_duomai_cps_csv {
 
 # parse the csv file
 sub parse_duomai_cps_csv {
+
     binmode(STDIN, ':encoding(utf8)');
     binmode(STDOUT, ':encoding(utf8)');
     binmode(STDERR, ':encoding(utf8)');
 
     print "OK\n";
-
 
     print Text::CSV->VERSION, "\n";      # This module version
     print Text::CSV->version,"\n";      # The version of the worker module
@@ -127,7 +127,6 @@ sub parse_duomai_cps_csv {
     close $fh or die "/tmp/a2.csv\n";
 }
 
-
 # the hash should remove the go.j5k6.com url in short url.
 # it always changed alone without meaning.
 sub calc_duomai_cps_advertisement_hash {
@@ -152,9 +151,13 @@ sub query_duomai_advertisement_by_fixed_hash {
     my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated FROM duomai_advertisement where fixed_hash = ? });
+
     $sth->execute( ($fixed_hash) );
+
     $dbh->commit;
+
     my $hash_ref = $sth->fetchrow_hashref();
+
     return $hash_ref;
 }
 
@@ -201,6 +204,7 @@ sub insert_duomai_advertisement {
         if( defined($ads_exist) && $ads_exist->{is_activated} == 1) {
             next;
         } 
+
         my $sth_deactivate = $dbh->prepare(qq{ UPDATE duomai_advertisement SET is_activated = 0 WHERE ads_id = ? and is_activated = 1 });
 
         $sth_deactivate->execute(($row->[0]));
@@ -323,9 +327,7 @@ sub parse_commission {
         next unless (-f "$path_dest/$file");
         # Use a regular expression to find files ending in .txt
         next unless ( "$path_dest/$file" =~ m/$file_reg/);
-
         $ads_id = $1;
-
         print "$ads_id:\t $file\n";
 
         my $result = parse_html("$path_dest/$file", $ads_id);
@@ -400,7 +402,7 @@ sub insert_commission {
     my $i = 0;
     my $ts = localtime->strftime("%Y-%m-%d %H:%M:%S");
     my $sth_comm = $dbh->prepare(qq{ INSERT INTO duomai_commission(ads_id, fixed_hash, is_activated, created_at) VAlUES (? , ?, 1, "$ts" ) } ) or die "Can't prepare : $dbh->errstr/n";
-    my $sth_comm_data = $dbh->prepare(qq{ INSERT INTO duomai_commission_data(`duomai_commission_id`, `commission_id`, `commission_name`, `commission`, `commission_period`, `description`, `created_at` ) VALUES ( \@duomai_commision_id , ? , ? ,? ,?,?, "$ts" ) }) or die "Can't prepare : $dbh->errstr/n";
+    my $sth_comm_data = $dbh->prepare(qq{ INSERT INTO duomai_commission_data(`commission_id`, `commission_serial_number`, `commission_name`, `commission`, `commission_period`, `description`, `created_at` ) VALUES ( \@duomai_commision_id , ? , ? ,? ,?,?, "$ts" ) }) or die "Can't prepare : $dbh->errstr/n";
 
     while (my $file = readdir($dh)) {
         my $ads_id;

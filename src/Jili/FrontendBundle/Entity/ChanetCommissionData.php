@@ -10,21 +10,21 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="chanet_commission_data")
  * @ORM\Entity
  */
-class ChanetCommissionData
+class ChanetCommissionData extends CommissionDataBase
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="chanet_commission_id", type="integer", nullable=false)
-     */
-    private $chanetCommissionId;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="commission_id", type="integer", nullable=false)
      */
     private $commissionId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="commission_serial_number", type="integer", nullable=false)
+     */
+    private $commissionSerialNumber;
 
     /**
      * @var string
@@ -73,29 +73,6 @@ class ChanetCommissionData
 
 
     /**
-     * Set chanetCommissionId
-     *
-     * @param integer $chanetCommissionId
-     * @return ChanetCommissionData
-     */
-    public function setChanetCommissionId($chanetCommissionId)
-    {
-        $this->chanetCommissionId = $chanetCommissionId;
-
-        return $this;
-    }
-
-    /**
-     * Get chanetCommissionId
-     *
-     * @return integer 
-     */
-    public function getChanetCommissionId()
-    {
-        return $this->chanetCommissionId;
-    }
-
-    /**
      * Set commissionId
      *
      * @param integer $commissionId
@@ -116,6 +93,29 @@ class ChanetCommissionData
     public function getCommissionId()
     {
         return $this->commissionId;
+    }
+
+    /**
+     * Set commissionSerialNumber
+     *
+     * @param integer $commissionSerialNumber
+     * @return ChanetCommissionData
+     */
+    public function setCommissionSerialNumber($commissionSerialNumber)
+    {
+        $this->commissionSerialNumber = $commissionSerialNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get commissionSerialNumber
+     *
+     * @return integer 
+     */
+    public function getCommissionSerialNumber()
+    {
+        return $this->commissionSerialNumber;
     }
 
     /**

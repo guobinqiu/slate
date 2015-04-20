@@ -12,6 +12,15 @@ use URI;
 use Log::Log4perl;
 use Time::Piece;
 
+use YAML::Syck;;
+
+use File::Basename;
+use File::Path qw(make_path);
+
+use HTML::TreeBuilder::XPath;
+use LWP::Simple;  
+
+use Digest::MD5 qw(md5_hex);
 # merge into cps_advertisement
 
 # select from aps 
@@ -200,7 +209,7 @@ sub push_emar_advertisement {
         # 取domain/host
         my $ads_url = $hash_ref->{ads_url};
         chomp($ads_url);
-        $ads_url =~ s/^.*(https?:\/\/)/\1/;
+        $ads_url =~ s/^.*(https?:\/\/)/$1/;
         my $uri = URI->new( $ads_url);
         my $web_domain = $uri->host;
 
@@ -221,7 +230,7 @@ sub push_emar_advertisement {
             next;
         }
         $ads_name =~ s/(高佣金CPS|roi|CPS)$//ig;
-        $ads_name =~ s/CPS(\(天猫店\)|\(淘宝店\))$/\1/ig;
+        $ads_name =~ s/CPS(\(天猫店\)|\(淘宝店\))$/$1/ig;
 
 
         my $cps_params = {
@@ -377,20 +386,205 @@ sub datetime_str_to_int{
     return $t->epoch;
 }
 
-Log::Log4perl::init('config/log4perl.conf');
+#    logo_path: "/tmp/yiqifa/logo/"
+# read emar comm file list
+    # parse 
+    # download 
 
+    # query cps_advertisement to confirm all website has the logo file
+    # log those websites_domain which  not has log   into the  {logo_file}
+sub logo_update {
+    my ($config) = @_;
+    # prepare the path
+    my $logo_path = $config->{logo_path}; #"/tmp/yiqifa/logo/"
+    make_path($logo_path); 
+    my $logo_file = $config->{logo_file};#
+    my $dt = localtime->strftime('%Y-%m-%d');
+
+    $logo_file =~ s/YYYY-mm-dd/$dt/;
+    print $logo_path ,"\n";
+    print $logo_file ,"\n";
+
+    # looking for the detail page, to fetch the logo uri
+    my $file_reg = $config->{html_comm}->{output_utf8};
+    my $path_dest = dirname($file_reg) ;
+
+    my $ds = localtime->strftime("%Y%m%d");
+    $file_reg =~  s/YYYYmmdd/$ds/;
+    $file_reg =~  s/\%d/(\\d\+)/;
+    $file_reg = '^'.$file_reg.'$';
+    my $i=0;
+
+    opendir(my $dh, $path_dest) or  die $!;
+
+    my $ads_id;
+    while (my $file = readdir($dh)) {
+        $i++;
+        # Use a regular expression to find files ending in .txt
+        if( "$path_dest/$file" =~ m/$file_reg/) {
+            $ads_id = $1;
+        } else {
+            #  print "$path_dest/$file" ," NOT MATCHED\n";
+            next;
+        }
+
+        #  not a files found
+        if  ( ! -f "$path_dest/$file"){
+            next;
+        }
+
+        print  '>>>> ads_id : ', $ads_id ,"\n";
+
+        my $tree = HTML::TreeBuilder::XPath->new;
+        $tree->parse_file("$path_dest/$file");
+
+        # xpath  domain 
+        my $web_url_xpath = '/html/body/div/div/div[2]/div[2]/div/table/tr[2]/td[2]/a';
+        my @el_ = $tree->findnodes($web_url_xpath );
+        my $url =   $el_[0]->as_trimmed_text;
+        my $domain = $url;
+        $domain =~ s/http:\/\/([a-zA-Z\.\-])/$1/;
+
+        # xpath to fetch logo uri
+        my  $logo_xpath = '/html/body/div/div/div[2]/div[2]/div/table/tr[1]/td[1]/img';
+        my @el = $tree->findnodes($logo_xpath );
+        my $uri_logo =  $el[0]->attr('src');
+        my $logo_name = md5_hex($domain).'.jpg';
+        print '    ',$domain,"\n"; 
+        print '     >>',  $logo_path.'/' . $logo_name, "\n";
+        # skip if exits 
+        if(  -f  $logo_path.'/'.$logo_name){
+            next;
+        }
+
+        # do download 
+        my $res = get($uri_logo);
+        open(FILE_HANDLE,'>'. $logo_path.'/' . $logo_name);
+        binmode FILE_HANDLE;
+        print FILE_HANDLE $res;
+        close FILE_HANDLE;
+    }
+    closedir $dh;
+}
+
+# query, check: {x |cps_advertisement.website_url -  exits }
+sub logo_check {
+    my ($config, $ads_cat_hashref) = @_;
+    my $logo_path = $config->{emar}->{logo_path}; #"/tmp/yiqifa/logo/"
+
+    #my $logo_file = $config->{logo_file}; #
+    #my $dt = localtime->strftime('%Y-%m-%d');
+    #$logo_file =~ s/YYYY-mm-dd/$dt/;
+
+    my $database = Jili::DBConnection->instance();
+    my $dbh = $database->{dbh};
+    my $sth = $dbh->prepare(qq{SELECT ad_category_id,ad_id, website_host FROM cps_advertisement WHERE is_activated = 1});
+    #select website_host from cps_advertisement where is_activated = 1
+    $sth->execute();
+    $dbh->commit();
+
+    while ( my $hash_ref = $sth->fetchrow_hashref() ) {
+        my $domain_logo = $hash_ref->{website_host};
+
+        my $logo_name = md5_hex($domain_logo).'.jpg';
+
+        if(  -f $logo_path. $logo_name){
+            next;
+        }
+
+        fetchLogo($config ,$ads_cat_hashref,  $hash_ref  );
+        print '     >>', $hash_ref->{website_host},"\n";
+        print '     >>',  $logo_path. $logo_name, "\n";
+    }
+}
+
+# duomai & chanet
+sub fetchLogo {
+    my ($config, $ads_cat_hashref, $cps_hash_ref)   = @_;
+
+    my $ad_cat_id = $cps_hash_ref->{ad_category_id};
+
+    # get aps name?
+    my $cps_tbl_name = '';
+    foreach my $k ( keys %$ads_cat_hashref) {
+        if( $ad_cat_id eq $ads_cat_hashref->{$k} ) {
+            $cps_tbl_name = $k ;
+            last;
+        }
+    }
+
+    my $tag_in_config = $cps_tbl_name;
+    $tag_in_config =~ s/_advertisement//;
+
+    if( length($cps_tbl_name) == 0 ) {
+        return 1;
+    }
+
+    # search table 
+    my $database = Jili::DBConnection->instance();
+    my $dbh = $database->{dbh};
+    my $sth = $dbh->prepare(qq{SELECT ads_id FROM $cps_tbl_name WHERE id = ? limit 1 });
+    #select website_host from cps_advertisement where is_activated = 1
+    $sth->execute(( $cps_hash_ref->{ad_id}) );
+    $dbh->commit();
+    my $hash_ref = $sth->fetchrow_hashref(); 
+
+    if(! defined($hash_ref)) {
+        return 2;;
+    } 
+
+
+    # looking for the  detail page
+    my $detail_file ;
+    if( defined( $config->{$tag_in_config}->{html_comm}->{output_utf8})) {
+        $detail_file = $config->{$tag_in_config}->{html_comm}->{output_utf8};
+    } elsif(defined( $config->{$tag_in_config}->{html_comm}->{output} )) {
+        $detail_file = $config->{$tag_in_config}->{html_comm}->{output};
+    } else {
+        return 3;
+    }
+
+    my $ds = localtime->strftime("%Y%m%d");
+    $detail_file =~ s/YYYYmmdd/$ds/;
+    $detail_file =~ s/%d/$hash_ref->{ads_id}/;
+
+# $fetched_file = sprintf($output_tmpl, $ads_id);
+# $hash_ref->{ads_id}
+
+    my $xpath_logo =  $config->{$tag_in_config}->{html_comm}->{logo_xpath};
+    # parse the detail page for logo uri
+    print '     ->>' ,$cps_tbl_name,"\n";
+    print '     ->>' ,$detail_file,"\n";
+    print '     ->>' ,$xpath_logo,"\n";
+
+    # download it !
+}
+
+
+
+sub calcLogFileNameByDomain{
+    my($domain) = @_;
+    return md5_hex($domain);
+}
+
+Log::Log4perl::init('config/log4perl.conf');
 my $ads_cat_hashref  = {
     chanet_advertisement => query_ad_category_id( 'chanet', 'cps'), 
     emar_advertisement   => query_ad_category_id( 'emar', 'cps'), 
     duomai_advertisement => query_ad_category_id( 'duomai', 'cps'), 
 };
 
-#print Dumper($ads_cat_hashref);
+# 将各cps写入表中
+#push_emar_advertisement($ads_cat_hashref);
+#push_chanet_advertisement($ads_cat_hashref);
+#push_duomai_advertisement($ads_cat_hashref );
 
-push_emar_advertisement($ads_cat_hashref);
-push_chanet_advertisement($ads_cat_hashref);
-push_duomai_advertisement($ads_cat_hashref );
-do_activate($ads_cat_hashref);
+# 完成新旧cps的转换
+#do_activate($ads_cat_hashref);
+
+my $config = LoadFile( "./config/config.yml");
+#logo_update($config->{emar});
+logo_check($config, $ads_cat_hashref);
 
 __END__
 

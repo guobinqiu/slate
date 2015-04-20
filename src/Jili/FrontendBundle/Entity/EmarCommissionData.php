@@ -8,17 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
  * EmarCommissionData
  *
  * @ORM\Table(name="emar_commission_data")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\GeneralCommissionDataRepository")
  */
-class EmarCommissionData
+class EmarCommissionData extends CommissionDataBase
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="emar_commission_id", type="integer", nullable=false)
-     */
-    private $emarCommissionId;
-
     /**
      * @var integer
      *
@@ -27,11 +20,18 @@ class EmarCommissionData
     private $commissionId;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="commission_serial_number", type="integer", nullable=false)
+     */
+    private $commissionSerialNumber;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="commission_category", type="string", length=200, nullable=true)
+     * @ORM\Column(name="commission_name", type="string", length=200, nullable=true)
      */
-    private $commissionCategory;
+    private $commissionName;
 
     /**
      * @var string
@@ -80,29 +80,6 @@ class EmarCommissionData
 
 
     /**
-     * Set emarCommissionId
-     *
-     * @param integer $emarCommissionId
-     * @return EmarCommissionData
-     */
-    public function setEmarCommissionId($emarCommissionId)
-    {
-        $this->emarCommissionId = $emarCommissionId;
-
-        return $this;
-    }
-
-    /**
-     * Get emarCommissionId
-     *
-     * @return integer 
-     */
-    public function getEmarCommissionId()
-    {
-        return $this->emarCommissionId;
-    }
-
-    /**
      * Set commissionId
      *
      * @param integer $commissionId
@@ -126,26 +103,49 @@ class EmarCommissionData
     }
 
     /**
-     * Set commissionCategory
+     * Set commissionSerialNumber
      *
-     * @param string $commissionCategory
+     * @param integer $commissionSerialNumber
      * @return EmarCommissionData
      */
-    public function setCommissionCategory($commissionCategory)
+    public function setCommissionSerialNumber($commissionSerialNumber)
     {
-        $this->commissionCategory = $commissionCategory;
+        $this->commissionSerialNumber = $commissionSerialNumber;
 
         return $this;
     }
 
     /**
-     * Get commissionCategory
+     * Get commissionSerialNumber
+     *
+     * @return integer 
+     */
+    public function getCommissionSerialNumber()
+    {
+        return $this->commissionSerialNumber;
+    }
+
+    /**
+     * Set commissionName
+     *
+     * @param string $commissionName
+     * @return EmarCommissionData
+     */
+    public function setCommissionName($commissionName)
+    {
+        $this->commissionName = $commissionName;
+
+        return $this;
+    }
+
+    /**
+     * Get commissionName
      *
      * @return string 
      */
-    public function getCommissionCategory()
+    public function getCommissionName()
     {
-        return $this->commissionCategory;
+        return $this->commissionName;
     }
 
     /**

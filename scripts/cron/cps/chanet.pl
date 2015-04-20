@@ -114,6 +114,9 @@ sub login {
         'autosave'=>1,
         'ignore_discard'=> 1
     );
+
+    # todo: check the expire date
+    
     my $cache = LWP::ConnCache->new();
     my $ua = LWP::UserAgent->new(
         'show_progress' => 1,
@@ -445,7 +448,7 @@ sub insert_commission {
     my $i = 0;
     my $ts = localtime->strftime("%Y-%m-%d %H:%M:%S");
     my $sth_comm = $dbh->prepare(qq{ INSERT INTO chanet_commission(ads_id, fixed_hash, is_activated, created_at) VAlUES (? , ?, 1, "$ts" ) } ) or die "Can't prepare : $dbh->errstr/n";
-    my $sth_comm_data = $dbh->prepare(qq{ INSERT INTO chanet_commission_data(`chanet_commission_id`, `commission_id`, `commission_name`, `commission`, `commission_period`, `description`, `created_at` ) VALUES ( \@chanet_commision_id , ? , ? ,? ,?,?, "$ts" ) }) or die "Can't prepare : $dbh->errstr/n";
+    my $sth_comm_data = $dbh->prepare(qq{ INSERT INTO chanet_commission_data(`commission_id`, `commission_serial_number`, `commission_name`, `commission`, `commission_period`, `description`, `created_at` ) VALUES ( \@chanet_commision_id , ? , ? ,? ,?,?, "$ts" ) }) or die "Can't prepare : $dbh->errstr/n";
     #读取.html文件
     while (my $file = readdir($dh)) {
         my $ads_id;
@@ -607,7 +610,6 @@ insert_commission($config->{chanet});
 __END__
 https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=0&search_type=1&search_as_id=480534&link_type=2&act-type=on&category=0
 https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=&search_type=2&search_as_id=480534&link_type=2&act-type=on&category=0
-
 
 curl 'https://www.chanet.com.cn/partner/pm_detail.cgi?pm_id=246' 
 -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' 

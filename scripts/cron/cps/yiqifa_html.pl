@@ -256,13 +256,13 @@ print "\n";
                 push @$fields,($hash ); 
                 #my $sth=$dbh->prepare($sql);
                 my $rv = $sth_create->execute( values @$fields);
-                $sth_create->finish();
+#                $sth_create->finish();
                 $i++;
             } else {
                 if( $ads_exist->{marketing_url} ne $fields->[8] ) {
                     my $sth_activate = $dbh->prepare(qq{ UPDATE emar_advertisement SET is_activated = 1 , marketing_url = ?  WHERE id  = ? limit 1});
                     $sth_activate->execute(( $fields->[8], $ads_exist->{id} ));
-                    $sth_activate->finish();
+#                    $sth_activate->finish();
                     $u++;
 print '    u:', $u,"\n";
 print '    ',$_, "\n" for( @$fields);
@@ -271,7 +271,7 @@ print "\n";
                 } else {
                     my $sth_activate = $dbh->prepare(qq{ UPDATE emar_advertisement SET is_activated = 1 WHERE id  = ? limit 1});
                     $sth_activate->execute((  $ads_exist->{id} ));
-                    $sth_activate->finish();
+#                    $sth_activate->finish();
                 }
             }
             $dbh->commit;
@@ -452,10 +452,10 @@ sub insert_commission{
     my $i = 0;
     my $ts = localtime->strftime("%Y-%m-%d %H:%M:%S");
     my $sth_comm = $dbh->prepare(qq{ INSERT INTO emar_commission(ads_id, fixed_hash, is_activated, created_at) VAlUES (? , ?, 1, "$ts" ) } ) or die "Can't prepare : $dbh->errstr/n";
-    my $sth_comm_data = $dbh->prepare(qq{ INSERT INTO emar_commission_data(`emar_commission_id`,`commission_id`,`commission_category`,`commission`,`commission_period`,`product_apply_to`,`description`,`created_at`) VALUES ( \@emar_commision_id , ? ,?, ? ,? ,?,?, "$ts" ) }) or die "Can`t prepare : $dbh->errstr/n";
+    my $sth_comm_data = $dbh->prepare(qq{ INSERT INTO emar_commission_data(`commission_id`,`commission_serial_number`,`commission_name`,`commission`,`commission_period`,`product_apply_to`,`description`,`created_at`) VALUES ( \@emar_commision_id , ? ,?, ? ,? ,?,?, "$ts" ) }) or die "Can`t prepare : $dbh->errstr/n";
 
-    while (my $file = readdir($dh)) {
         my $ads_id;
+    while (my $file = readdir($dh)) {
         # Use a regular expression to find files ending in .txt
         if( "$path_dest/$file" =~ m/$file_reg/) {
             $ads_id = $1;
@@ -546,10 +546,10 @@ my $config = LoadFile( "./config/config.yml");
 # insert into database
  
 login(); 
-##parse_siters();
-insert_emar_advertisement($config->{emar});
-fetch_comms_html($config->{emar});
-insert_commission($config->{emar});
+###parse_siters();
+#insert_emar_advertisement($config->{emar});
+#fetch_comms_html($config->{emar});
+#insert_commission($config->{emar});
 
 __END__
  0:18046     1:第五大道移动CPS   2:奢侈品    3:1.4%-4.2%     4:xyd   5:纯url     8:第五大道WAP:http://m.5lux.com/    9:yes   10:c    11:http://p.yiqifa.com/n?k=2mLErnDS6E2OrI6H2mLErI6HWNzL6nMH6ljFWnzernt76NzOWQqD6n6Lg74HkQLErnb86Egy3ERlrIW-&e=c&t=http://m.5lux.com/   

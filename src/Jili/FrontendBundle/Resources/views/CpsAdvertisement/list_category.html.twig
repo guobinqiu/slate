@@ -1,0 +1,16 @@
+{% set wcatid_q = app.request.query.get('wcat','') %}
+<ul class="tabnav">
+            
+    <li {% if wcatid_q is not defined or  wcatid_q is empty %} class="active" {% endif %}><a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'wcat':0,"q":"", "p":1,"t":"" })) }}">热门商家</a></li>
+
+{% for catname,cnt in categories %}
+
+{% if wcatid_q is defined and wcatid_q == catname  %}
+    <li class="active"><a href="#" onclick="javascript:return false;">{{ catname}}</a></li>
+{% else %}
+    <li><a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'wcat':catname,"q":"", "p":1 ,"t":""})) }}">{{ catname }}</a></li>
+{% endif %}
+
+{% endfor %}
+
+</ul>
