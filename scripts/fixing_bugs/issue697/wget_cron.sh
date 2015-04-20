@@ -50,7 +50,7 @@ let "t1=$(date +%s)"
 perl -Ilib/ accesslog_parser.pl > ~/access_log_${DT}.log
 # accesslog  
 grep 'query_string' ~/access_log_${DT}.log | sed -e 's/^.*query_string: //' > ~/access_log_${DT}_x.log
-sed -e '/APIMemberId/d' ~/access_log_${DT}_x.log
+sed -i'' -e '/APIMemberId/d' ~/access_log_${DT}_x.log
 
 for x in $(cat ~/access_log_${DT}_x.log)
 do
