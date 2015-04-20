@@ -5,11 +5,11 @@ DT=$(date +"%Y%m%d%H%M%S")
 
 # 控制每单位时间内 发出的请求数量。
 # 取apache 限制的1/2 到1/3即可。
-max_request_per_second=100000
+max_request_per_second=100
 
 i=0; 
 j=0;
-t1=$(date +%s)
+#t1=$(date +%s)
 
 
 # 找到2/27/2015 ~ 3/14/2015 期间,
@@ -19,30 +19,16 @@ grep 'WGET|||' ~/confirmed_${DT}.log| sed -e "s/\ *WGET|||//g" > ~/confirmed_${D
 for x in $(cat ~/confirmed_${DT}_x.log)
 do
     if [[ $i -ge $max_request_per_second ]]; then
-        t2=$(date +%s)
-        let "diff=t2-t1"
-        echo 'processed ', $diff , 's';
-
-        if [[ $diff -lt  1  ]]  ; then
-            let "to_sleep=1-diff"
-            echo 'wait ', $to_sleep , 's';
-            sleep $to_sleep
-        fi
-
+        sleep 1 
         let "i=0";
-        let "t1=$(date +%s)"
     fi
 
-    #  235上测试
-    #wget -O $j -P/tmp/h  -a /tmp/wget.h.log  "http://jarod-jili.com/app_dev.php/emar/api/callback?$x"
-    wget -O /tmp/yqfconfirmed_output.$j -P/tmp/yqfconfirmed/wgetlog/ -a /tmp/wget.yqfconfirmed.log  "http://jarod-jili.com/app_dev.php$x"
+    wget -O /tmp/yqfconfirmed_output.$j -P/tmp/yqfconfirmed/wgetlog/ -a /tmp/wget.yqfconfirmed.log  "http://www.91jili.com$x"
     let "j+=1"; 
 done
 
-
 let "i=0"; 
 let "j=0"; 
-let "t1=$(date +%s)"
 
 
 
@@ -56,19 +42,11 @@ for x in $(cat ~/access_log_${DT}_x.log)
 do
     if [[ $i -ge $max_request_per_second ]]; then
         #statements
-        t2=$(date +%s)
-        let "diff=t2-t1"
-        echo 'processed ', $diff , 's';
-        if [[ $diff -lt  1  ]]  ; then
-            let "to_sleep=1-diff"
-            echo 'wait ', $to_sleep , 's';
-            sleep $to_sleep
-        fi
+        sleep 1 
         let "i=0";
-        let "t1=$(date +%s)"
     fi
 
     #  235上测试
-    wget -O /tmp/httpaccess_output.$j -P/tmp/httpaccess/wgetlog/ -a /tmp/wget.httpaccess.log  "http://jarod-jili.com/app_dev.php/emar/api/callback?$x"
+    wget -O /tmp/httpaccess_output.$j -P/tmp/httpaccess/wgetlog/ -a /tmp/wget.httpaccess.log  "http://www.91jili.com/emar/api/callback?$x"
     let "j+=1";
 done
