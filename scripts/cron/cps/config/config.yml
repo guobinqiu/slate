@@ -1,4 +1,5 @@
 duomai:
+    host: 'www.duomai.com'
     login:
         url: 'http://www.duomai.com/index.php?m=siter&a=dologin'
         form_data:
@@ -19,8 +20,10 @@ duomai:
         url: "http://www.duomai.com/index.php?m=siter_act&a=view&ads_id=%d"
         output: "/tmp/duomai/comm/ads_id_%d_YYYYmmdd.html"
         output_reg: "/tmp/duomai/comm/ads_id_\d+_YYYYmmdd.html"
-        output_utf8: "/tmp/duomai/comm/ads_id_utf8_%d_YYYYmmdd.html"
-        logo_xpath: ""
+#        output_utf8: "/tmp/duomai/comm/ads_id_utf8_%d_YYYYmmdd.html"
+        logo_xpath: "/html/body/div[4]/table/tbody/tr[1]/td[2]/div/img"
+#                    /html/body/div[4]/table/tr[1]/td[2]/div/img
+#                    /html/body/div[4]/table/tbody/tr[1]/td[2]/div/img
 
     logo_path: "/tmp/duomai/logo/"
     logo_file: "/tmp/duomai/logo/logos_desired_YYYY-mm-dd.txt"
@@ -45,6 +48,7 @@ emar:
         output: "/tmp/yiqifa/comm/ads_id_%d_YYYYmmdd.html"
         output_utf8: "/tmp/yiqifa/comm/ads_id_utf8_%d_YYYYmmdd.html"
         output_reg: "/tmp/yiqifa/comm/ads_id_\d+_YYYYmmdd.html"
+        logo_xpath:  '/html/body/div/div/div[2]/div[2]/div/table/tr[1]/td[1]/img'
 
     logo_path: "/tmp/yiqifa/logo/"
     logo_file: "/tmp/yiqifa/logo/logos_desired_YYYY-mm-dd.txt"
@@ -53,6 +57,7 @@ emar:
 #    login_form: 'http://yiqifa.com/earner/applyBatchLinkList.do'
 
 chanet:
+    host: 'www.chanet.com.cn'
     cookie_file: "/tmp/chanet/cookies.txt"
 # https://www.chanet.com.cn/partner/get_all_links.cgi
 # https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=0&search_type=1&search_as_id=480534&link_type=2&act-type=on&category=0
@@ -64,13 +69,14 @@ chanet:
         output: "/tmp/chanet/promotio_linkYYYY-mm-dd.xls"
         output_csv: "/tmp/chanet/promotio_linkYYYY-mm-dd.csv"
         output_reg: "/tmp/chanet/comm/ads_id_\d+_YYYYmmdd.html"
+
 #form_data:
     html_comm:
         url: "https://www.chanet.com.cn/partner/pm_detail.cgi?pm_id=246"
-        output: "/tmp/chanet/comms/ads_id_%d_YYYYmmdd.html"
-        output_reg: "/tmp/chanet/comms/ads_id_\d+_YYYYmmdd.html"
+        output: "/tmp/chanet/comm/ads_id_%d_YYYYmmdd.html"
+        output_reg: "/tmp/chanet/comm/ads_id_\d+_YYYYmmdd.html"
         xpath: "/html/body/div[13]/div/div[1]/div[4]/div[1]/table"
-        logo_xpath: ""
+        logo_xpath: "/html/body/div[10]/div/div[1]/div[2]/table/tr[1]/td[2]/span[1]/img"
 
     logo_path: "/tmp/chanet/logo/"
     logo_file: "/tmp/chanet/logo/logos_desired_YYYY-mm-dd.txt"

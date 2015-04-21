@@ -547,9 +547,9 @@ my $config = LoadFile( "./config/config.yml");
  
 login(); 
 ###parse_siters();
-#insert_emar_advertisement($config->{emar});
-#fetch_comms_html($config->{emar});
-#insert_commission($config->{emar});
+insert_emar_advertisement($config->{emar});
+fetch_comms_html($config->{emar});
+insert_commission($config->{emar});
 
 __END__
  0:18046     1:第五大道移动CPS   2:奢侈品    3:1.4%-4.2%     4:xyd   5:纯url     8:第五大道WAP:http://m.5lux.com/    9:yes   10:c    11:http://p.yiqifa.com/n?k=2mLErnDS6E2OrI6H2mLErI6HWNzL6nMH6ljFWnzernt76NzOWQqD6n6Lg74HkQLErnb86Egy3ERlrIW-&e=c&t=http://m.5lux.com/   
