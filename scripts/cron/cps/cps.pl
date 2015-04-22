@@ -21,6 +21,9 @@ use HTML::TreeBuilder::XPath;
 use LWP::Simple;  
 
 use Digest::MD5 qw(md5_hex);
+
+use File::Type;
+use File::Copy;
 # merge into cps_advertisement
 
 # select from aps 
@@ -374,6 +377,13 @@ print "|||rows activated(0->1): ", $sth_activate->rows,"\n";
 
     print "|||rows deleted (is_activated==2): ",$sql_delete_deprecated->rows,"\n" ;
 
+    my $sql_update = qq{update cps_advertisement SET website_name_dictionary_key = IF( ascii(website_name) < 128,  LEFT(website_name,1), ELT( INTERVAL( CONV( HEX( left( CONVERT( website_name USING gbk ) , 1 ) ) , 16, 10 ) , 0xB0A1, 0xB0C5, 0xB2C1, 0xB4EE, 0xB6EA, 0xB7A2, 0xB8C1, 0xB9FE, 0xBBF7, 0xBFA6, 0xC0AC, 0xC2E8, 0xC4C3, 0xC5B6, 0xC5BE, 0xC6DA, 0xC8BB, 0xC8F6, 0xCBFA, 0xCDDA, 0xCEF4, 0xD1B9, 0xD4D1 ) , 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'W', 'X', 'Y', 'Z' ))};
+    
+    my $sth_update= $dbh->prepare($sql_update );
+    $sth_update->execute();
+    
+    print "|||rows website_name_dictionary_index(updated): ",$sth_update->rows,"\n" ;
+
     $dbh->commit;
     # delete status == 2 
 }
@@ -490,7 +500,6 @@ sub logo_check {
     $sth->execute();
     $dbh->commit();
 
-
     while ( my $cps_hash_ref = $sth->fetchrow_hashref() ) {
          
         print '     >>', $cps_hash_ref->{website_host},"\n";
@@ -538,7 +547,6 @@ sub fetchLogo {
     }
   
     print '     ->>' ,$logo_file,"\n";
-
 
     # query responding table  for ads_id , the build the detail page name
     my $database = Jili::DBConnection->instance();
@@ -590,8 +598,6 @@ sub fetchLogo {
        $uri_logo = 'http://'. $config->{$tag_in_config}->{host}.$uri_logo;
     }
 
-
-
     print '     ->>' ,$uri_logo,"\n";
 
     # download it !
@@ -602,6 +608,61 @@ sub fetchLogo {
     print FILE_HANDLE $res;
     close FILE_HANDLE;
 
+}
+
+sub logo_rename {
+    my ($config) = @_;
+
+    my @paths_logo = (
+        $config->{chanet}->{logo_path},
+        $config->{duomai}->{logo_path},
+        $config->{emar}->{logo_path}
+    );
+
+
+    my $ft = File::Type->new();
+    foreach my $path ( @paths_logo) {
+        opendir(my $dh, $path) or  die $!;
+
+        while (my $filename  = readdir($dh)) {
+            my $logo_file=  $path . $filename;
+            if(not  -f $logo_file) {
+                next;
+            }
+            # only md5 has file name will be copying
+            if(not $logo_file =~ m/.*\/[a-f0-9]{32}$/ ) {
+                next
+            }
+
+            my  $suffix = '';
+            my $type_1 = $ft->mime_type($logo_file);
+            if ($type_1 eq 'image/jpeg') {
+                $suffix = 'jpg';
+            } elsif ($type_1 eq 'image/gif') {
+                $suffix = 'gif';
+            } elsif ($type_1 eq 'image/x-png') {
+                $suffix = 'png';
+            } else {
+                next;
+            }
+
+            if (length($suffix) == 0) {
+                next;
+            }
+
+            # target file name already exists 
+            if( -f $logo_file.'.'.$suffix ) {
+                next;
+            }
+
+            copy($logo_file ,$logo_file.'.'.$suffix) or die "Copy failed: $!";
+
+            print '   ->>',$logo_file,"\n";
+            print '   ->>',$logo_file.'.'.$suffix,"\n";
+        } 
+    }
+
+    print "\n",'~~~~~~~~~~~~~~~~~~~~~~',"\n";
 }
 
 sub calcLogFileNameByDomain{
@@ -616,18 +677,19 @@ my $ads_cat_hashref  = {
     duomai_advertisement => query_ad_category_id( 'duomai', 'cps'), 
 };
 
-## 将各cps写入表中
+### 将各cps写入表中
 #push_emar_advertisement($ads_cat_hashref);
 #push_chanet_advertisement($ads_cat_hashref);
 #push_duomai_advertisement($ads_cat_hashref );
 #
-## 完成新旧cps的转换
+### 完成新旧cps的转换
 #do_activate($ads_cat_hashref);
 
 my $config = LoadFile( "./config/config.yml");
-
 logo_update($config->{emar});
 logo_check($config, $ads_cat_hashref);
+logo_rename($config);
+
 
 __END__
 

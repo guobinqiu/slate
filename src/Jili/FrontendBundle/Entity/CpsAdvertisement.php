@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CpsAdvertisement
  *
- * @ORM\Table(name="cps_advertisement", uniqueConstraints={@ORM\UniqueConstraint(name="ad_id", columns={"ad_category_id", "ad_id", "is_activated"}), @ORM\UniqueConstraint(name="website_host", columns={"website_host", "is_activated"})})
+ * @ORM\Table(name="cps_advertisement", uniqueConstraints={@ORM\UniqueConstraint(name="ad_id", columns={"ad_category_id", "ad_id", "is_activated"}), @ORM\UniqueConstraint(name="website_host", columns={"website_host", "is_activated"})}, indexes={@ORM\Index(name="website_name_dictionary_key", columns={"website_name_dictionary_key"})})
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\CpsAdvertisementRepository")
  */
 class CpsAdvertisement
@@ -60,6 +60,13 @@ class CpsAdvertisement
      * @ORM\Column(name="website_name", type="string", length=64, nullable=false)
      */
     private $websiteName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="website_name_dictionary_key", type="string", length=1, nullable=false)
+     */
+    private $websiteNameDictionaryKey;
 
     /**
      * @var string
@@ -259,6 +266,29 @@ class CpsAdvertisement
     public function getWebsiteName()
     {
         return $this->websiteName;
+    }
+
+    /**
+     * Set websiteNameDictionaryKey
+     *
+     * @param string $websiteNameDictionaryKey
+     * @return CpsAdvertisement
+     */
+    public function setWebsiteNameDictionaryKey($websiteNameDictionaryKey)
+    {
+        $this->websiteNameDictionaryKey = $websiteNameDictionaryKey;
+
+        return $this;
+    }
+
+    /**
+     * Get websiteNameDictionaryKey
+     *
+     * @return string 
+     */
+    public function getWebsiteNameDictionaryKey()
+    {
+        return $this->websiteNameDictionaryKey;
     }
 
     /**

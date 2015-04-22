@@ -208,13 +208,15 @@ CREATE TABLE IF NOT EXISTS `cps_advertisement` (
     `ads_url` varchar(128) NOT NULL COMMENT '活动目标地址',
     `commission` varchar(100) DEFAULT '' COMMENT '返利详情',
     `website_name` varchar(64) NOT NULL COMMENT '商家名称',
+    `website_name_dictionary_key` char(1) NOT NULL DEFAULT '' COMMENT '商家名称索引',
     `website_category` varchar(128) NOT NULL COMMENT '活动分类', 
     `website_host` varchar(128) NOT NULL  COMMENT '活动地址(商家名)的域名，用于找logo',
     `selected_at` datetime DEFAULT NULL COMMENT '选入cps_adver时间',
     `is_activated` int(2) NOT NULL DEFAULT 0  COMMENT '1: 使用中, 0: 不在使用 , 2: 丢弃' ,
     PRIMARY KEY (`id`),
     UNIQUE KEY `ad_id` (`ad_category_id`,`ad_id`,`is_activated`),
-    UNIQUE KEY `website_host` (`website_host`,`is_activated`) 
+    UNIQUE KEY `website_host` (`website_host`,`is_activated`),
+    KEY `website_name_dictionary_key` (`website_name_dictionary_key`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
 
 -- DROP TABLE IF EXISTS `advertisement_website_category`;

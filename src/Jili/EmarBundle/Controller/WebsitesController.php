@@ -142,7 +142,7 @@ class WebsitesController extends Controller
             $websites_configed = $em->getRepository('JiliEmarBundle:EmarWebsites')->getSortedByParams( $params );
         }
 
-        /// sorting
+        // sorting
         $websites_filtered = array();
         $websites_left  = $websites;
         foreach($websites_configed as $row ) {

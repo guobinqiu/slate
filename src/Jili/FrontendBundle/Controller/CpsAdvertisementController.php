@@ -25,7 +25,6 @@ class CpsAdvertisementController extends Controller
     public function detailAction(Request $request ,$wid)
     {
         $em = $this->getDoctrine()->getManager();
-
         $logger = $this->get('logger');
 
         if(empty($wid) ) {
@@ -45,15 +44,20 @@ class CpsAdvertisementController extends Controller
             ->findOneById($cps->getAdCategoryId());
         $asp = $ad_category->getAsp();
 
-        // check class exits:
-        $commission_list  = $em->getRepository('JiliFrontendBundle:'.ucfirst($asp).'Commission')->findListByAdId($cps->getAdId());
+        $shop = $em->getRepository('JiliFrontendBundle:'.ucfirst($asp).'Advertisement')->findOneById($cps->getAdId());
 
+        $commission_list  = $em->getRepository('JiliFrontendBundle:'.ucfirst($asp).'Commission')->findListByAdId($shop->getAdsId());
+
+        $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'getWebsiteCategory: ')). var_export($cps->getWebsiteCategory() , true));
         $same_cat_websites = array();
 
-        $same_cat_websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')->findSameCatWebsitesByRandom( array( 'limit'=> 3, 'category'=> $cps->getWebsiteCategory() ) );
-        var_dump($same_cat_websites);
+        $same_cat_websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')
+            ->findSameCatWebsitesByRandom( array( 'limit'=> 3, 'category'=> $cps->getWebsiteCategory() ) );
 
+        # TODO: include asp  partial  to render the differece details.
+        
         $data = array('website'=> $cps ,
+            'detail' => $shop, 
             'commission_list'=>$commission_list,
             'same_cat_websites' => $same_cat_websites);
         // use template on asp
@@ -82,29 +86,30 @@ class CpsAdvertisementController extends Controller
         $logger= $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        $wcat = (int) $request->query->get('wcat', '' );
-        
-        $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'$wcat: ')). var_export($wcat, true));
+        $keyword = $request->query->get('q', '');
+        $keyword = trim($keyword);
+        $filter_form = $this->createForm(new WebsiteFilterType(), array('keyword'=>$keyword)  );
 
-        //todo: wcats with local file cache
+        #TODO: wcats with local file cache
         $wcats = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')
             ->fetchCategoryList();
         
         // webs
         $websites = array();
-        $params =array();
 
-        if( isset($wcat) && strlen( $wcat) > 0 ) {
-
+        $dic_key = $request->query->get('t','');
+        if( ! empty($dic_key) && strlen($dic_key) ===  1  ){
+            $websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')->fetchByWebsiteNameDictionaryKey($dic_key);
         } else {
-
+            $wcat =  $request->query->get('wcat', '' );
+            $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'$wcat: ')). var_export($wcat, true));
+            $params = array(/* 'dic_key'=> $dic_key , */ 'keyword' => $keyword, 'wcat'=> $wcat);
+            $websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')->fetchByKeywordsAndCategory($params);
         }
 
-        # ??
-        $websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')->findAll();
-
-        // page_size , page_no
+        # page_size , page_no
         $page_no = $request->query->getInt('p',1);
+
         $total =  count($websites);
         $page_size = $this->container->getParameter('emar_com.page_size_of_shoplist');
 
@@ -112,7 +117,6 @@ class CpsAdvertisementController extends Controller
         $start = ( $page_no -1 ) * $page_size ;
         $end =  $start + $page_size;
         $websites_paged = array();
-
         foreach($websites as $k => $v) {
             if(  $start <= $i ) {
                 if( $i >= $end ) {
@@ -122,18 +126,6 @@ class CpsAdvertisementController extends Controller
             }
             $i++;
         }
-
-        $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__)). var_export($websites_paged, true));
-
-        # search form 
-        $keyword = $request->query->get('q', '');
-        $keyword = trim($keyword);
-        if( strlen($keyword) > 0 ) {
-
-        }
-
-        $filter_form = $this->createForm(new WebsiteFilterType(), array('keyword'=>$keyword)  );
-
 
         return $this->render('JiliFrontendBundle:CpsAdvertisement:list.html.twig',
             array('categories'=> $wcats,
@@ -151,24 +143,28 @@ class CpsAdvertisementController extends Controller
     public function listSearchAction(Request $request)
     {
         $logger= $this->get('logger');
-
-        $wcat_id = $request->query->get('wcat' );
-
+        $wcat = $request->query->get('wcat','' );
         $form = $this->createForm(new WebsiteFilterType() );
         if( $request->isMethod('post')) {
             $form->bind($request);
-            if  ( $form->isValid()) {
+            if( $form->isValid()) {
+
                 $query_params = $form->getData();
                 $keyword = $query_params['keyword'];
                 $parameters = array('q'=> $keyword );
-                if( isset($wcat_id ) && is_numeric($wcat_id) && $wcat_id > 0 ) {
-                    $parameters ['wcat']= $wcat_id ;
+
+                if( empty($wcat) ) {
+                    $parameters ['wcat']=  -1;
+                } else {
+                    $parameters ['wcat']=  $wcat;
                 }
-                $url = $this->generateUrl('jili_frontend_cpsadvertisement_list') .'?'. http_build_query( $parameters ) ;
+
+                $url = $this->generateUrl('jili_frontend_cpsadvertisement_list', $parameters ) ;
+                $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'$wcat: ')). var_export($url, true));
+
                 return $this->redirect( $url );
             }
         }
-
         return $this->render('JiliFrontendBundle:CpsAdvertisement:list_search_form.html.twig', array('form'=> $form->createView( )));
     }
 
@@ -180,6 +176,9 @@ class CpsAdvertisementController extends Controller
     public function redirectAction(Request $request) 
     {
 
+        $logger= $this->get('logger');
+
+        $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__)). var_export($request, true));
         return new Response(__FUNCTION__);
     }
 }
