@@ -1,0 +1,4 @@
+smtp:
+    server:    smtp.exmail.qq.com
+    username:    username@voyagegroup.com.cn
+    password:    password

@@ -1,0 +1,112 @@
+{% extends 'JiliFrontendBundle::base.html.twig' %} {% block title
+%}积粒网-兑换流量包{% endblock %} {% block stylesheet %}
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/personalAside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/exchange.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %} {% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        if($("#over").html()<0){
+            $("#active").hide();
+            $("#unactive").show();
+        }else{
+            $("#active").show();
+            $("#unactive").hide();
+        }
+      
+    });
+    var points = "{{ user.points }}";
+    {% autoescape false %}
+    var product_list = '{{mobile_info.product_list |json_encode() }}';
+    {% endautoescape %}
+    function exchangeFlow(){
+        if($("#over").html()<0){
+        $("#error").html("<font color='red'>对不起，您的米粒不足，不能兑换</font>");
+        return false;
+        }
+        $("#form1").submit();
+    }
+    function changePoint(selected_index){
+        var data = eval(product_list);
+        var exchange_point = data[selected_index].change_point;
+        var over = points - exchange_point;
+        $(".rechangeMi").html(exchange_point);
+        $("#over").html(over);
+        if($("#over").html()<0){
+            $("#active").hide();
+            $("#unactive").show();
+        }else{
+            $("#active").show();
+            $("#unactive").hide();
+        }
+    }
+</script>
+{% endblock %} 
+{% block body %}
+<div class="webArticle exchange">
+    <form action="{{ path('_exchange_flowSave') }}" method="post" id="form1">
+        <h2><span class="font18 corLightRed crumbTit">流量包兑换信息</span></h2>
+        <aside> {% include 'JiliApiBundle:User:rightInfo.html.twig' %} </aside>
+        <article>
+            <div class="wenwen">
+                <dl class="form">
+                    <dt>手机号码：</dt>
+                    <dd>{{ mobile_info.mobile }}</dd>
+                    <dt>运营商：</dt>
+                    <dd>{{ mobile_info.provider }}</dd>
+                    <dt>归属地：</dt>
+                    <dd>{{ mobile_info.province }}</dd>
+                    <dt>流量包：</dt>
+                    <dd>
+                        <select id="flow_list" name="flow_list" onchange="changePoint(this.value);">
+                          {% for item in mobile_info.product_list %}
+                          <option value="{{ loop.index0 }}" {% if loop.index0 == selected_flow %} selected = "selected" {% endif %}>{{ item.packagesize }} M</option>
+                          {% endfor %}
+                        </select>
+                    </dd>
+                </dl>
+                <input type="hidden" name="custom_product_id" id="custom_product_id"/>
+                <div class="changePoint">本次充值所需米粒：<span class="rechangeMi" id="rechangeMi">{{change_point}}</span></div>
+                <div class="changePoint">兑换后剩余米粒：<span id="over">{{ user.points-change_point }}</span></div>
+                <div><span id='error' style="color: red">{% if code is defined %}{{code}}{% endif %}</span></div>
+                <div class="btnArea mt50">
+                    <a class="fontYH font18" onclick="javascript:history.back(1);">返回</a>
+                    <a class="fontYH font18" id="active" onclick="exchangeFlow();">兑换</a>
+                    <a class="fontYH font18" id="unactive" onclick="exchangeFlow();">兑换</a>
+                </div>
+                {% if(mobile_info.provider =='移动') %}
+                <div class="flowTips">
+                    <div class="title">中国移动用户充流量说明：</div>
+                    <p><em>•</em>生效时间：充值成功，短信提示后，立即生效。<br/>
+                    <em>•</em>使用范围：全国移动用户，全国漫游。<br/>
+                    <em>•</em>使用有效期：当月有效。<br/>
+                    <em>•</em>充值次数限制：单个号码每月仅限充值10次。<br/>
+                    <em>•</em>温馨提醒：每月后三天不受理再次充值业务。<br/>
+                    <em>•</em>售后说明：只要接收到10086短信就说明100%到账，各省目前查询方式不同，10086人工查询集团统付流量或退费减免可查到！（可致电400-6696-365索取具体查询方法），一旦充值不回退，充值失败不收费。</p>
+                </div>
+                
+                {% elseif(mobile_info.provider =='联通')%}
+                <div class="flowTips">
+                    <div class="title">中国联通用户充流量说明：</div>
+                    <p><em>•</em>生效时间：充值成功，短信提示后，立即生效。<br/>
+                    <em>•</em>使用范围：支持全国漫游。用户包括2G手机套餐（除北京、四川、河北、黑龙江、辽宁、广西、江西、天津、云南、吉林、安徽、海南）、3G手机套餐（不含20元预付费套餐）、4G手机套餐。<br/>
+                    <em>•</em>使用有效期：当月有效。<br/>
+                    <em>•</em>充值次数限制：单个号码每月每类包仅限充值3次。<br/>
+                    <em>•</em>温馨提醒：月末最后一天建议不要充值。</p>
+                </div>
+                
+                {% elseif(mobile_info.provider =='电信')%}
+                <div class="flowTips">
+                    <div class="title">中国电信用户充流量说明：</div>
+                    <p><em>•</em>生效时间：充值成功，短信提示后，立即生效。<br/>
+                    <em>•</em>使用范围：支持全国漫游（除陕西），全国电信用户均可充值。<br/>
+                    <em>•</em>使用有效期：当月有效。<br/>
+                    <em>•</em>温馨提醒：月末最后一天建议不要充值。</p>
+                </div>
+                {% endif %}
+            </div>
+        </article>
+        <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
+    </form>
+</div>
+{% endblock %}

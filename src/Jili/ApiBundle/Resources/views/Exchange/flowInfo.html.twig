@@ -1,0 +1,80 @@
+{% extends 'JiliFrontendBundle::base.html.twig' %}
+{% block title%}积粒网-兑换流量包{% endblock %}
+{% block stylesheet %}
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/personalAside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/exchange.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+    var existMobile = '';
+    {% if existMobile is defined and existMobile != '' %}
+    var existMobile = "{{ existMobile }}";
+    {% endif %}
+
+    $(document).ready(function() {
+        {% if existMobile is defined and existMobile != '' %}
+            $(".form dd:eq(1)").hide();
+            $(".form dd:eq(2)").hide();
+            $(".form dt:eq(1)").hide();
+        {% else %}
+            $(".form dd:eq(0)").hide();
+        {% endif %}
+
+        $(".otherUser").click(function (){
+            $("#existMobile").val(0);
+            $(".form dd:eq(0)").hide();
+            $(".form dd:eq(1)").show();
+            $(".form dd:eq(2)").show();
+            $(".form dt:eq(1)").show();
+        })
+    });
+    function getFlowlist(){
+    var filter = /^1\d{10}$/;
+        if( $("#existMobile").val()==0){
+            if($("#mobile").val()==''){
+                $("#error").html("<font color='red'>请输入您的手机号码</font>");
+                return false;
+            }
+            if(!filter.test($("#mobile").val())){
+                $("#error").html("<font color='red'>输入的手机格式不正确</font>");
+                return false;
+            }
+            if($("#mobile").val()!=$("#re_mobile").val()){
+                $("#error").html("<font color='red'>2次输入的手机号码不相同</font>");
+                return false;
+            }
+        }
+        $("#form1").submit();
+    }
+</script>
+{% endblock %}
+{% block body %}
+<div class="webArticle exchange">
+    <form action="{{ path('_exchange_flowList') }}" method="post" id="form1">
+        <h2><span class="font18 corLightRed crumbTit">流量包兑换信息</span></h2>
+        <aside> {% include 'JiliApiBundle:User:rightInfo.html.twig' %} </aside>
+        <article>
+            <div class="wenwen">
+                <dl class="form">
+                    <dt>手机号码：</dt>
+                    <dd>{% if existMobile is defined %} {{ existMobile }} {% endif %}<a class="otherUser">使用其他号码</a></dd>
+                    <dd><input type="text" id="mobile" name="mobile" value="{% if mobile is defined %}{{ mobile }}{% endif %}" /></dd>
+                    <dt>再次输入号码：</dt>
+                    <dd><input type="text" id="re_mobile" name="re_mobile" /></dd>
+                    <dt></dt>{% if content is defined and content != '' %}<dd class="notice"><div>{{content}}</div></dd>{% endif %}
+                </dl>
+                <input type="hidden" name="existMobile" id="existMobile" value="{% if existMobile is defined %}{{ existMobile }}{% endif %}"/>
+                <div id="flow_package"></div>
+                <div><span id='error' style="color: red">{% if code is defined %}{{code}}{% endif %}</span></div>
+                <div class="btnArea mt50">
+                    <a class="fontYH font18" onclick="javascript:history.back(1);">返回</a>
+                    <a class="fontYH font18" id="flowList" onclick="getFlowlist();">下一步</a>
+                </div>
+            </div>
+        </article>
+        <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
+    </form>
+</div>
+{% endblock %}
+

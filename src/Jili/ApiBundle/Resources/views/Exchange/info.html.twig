@@ -68,29 +68,29 @@ function changePoint(){
   <article>
     <div class="wenwen">
     <div class="warn">近期91问问网站的兑换中心将改版，改版后只提供米粒兑换，您的91问问积分可以通过先兑换成米粒，再通过积粒网兑换中心来兑换其他奖品。</div>
-      <div class="form">
+      <dl class="form">
        {% if user.wenwenUser %}
-        <dd>您的91问问账号：</dd>
-        <dt>
+        <dt>您的91问问账号：</dt>
+        <dd>
           {{ user.wenwenUser }}
           <input name="ck" id="ck" type="checkbox" value="1">
                               确定<br />
            <span class="info">如您91问问账号已更改，请发送邮件至<a href="mailto:cs@91jili.com">cs@91jili.com</a>，<br />或联系我们的<a target="_blank" href="http://www.weibo.com/91jili">新浪微博</a>或<a target="_blank" href="http://t.qq.com/china91jili">腾讯微博</a>。</span>
-         </dt>
+         </dd>
        {% else %}
-       <dd>您的91问问账号：</dd>
-        <dt>
+       <dt>您的91问问账号：</dt>
+        <dd>
           <input name="wenwen" type="text">
           <input name="ck" id="ck" type="checkbox" value="1" >
           确定<br />
           <span class="warn">该账号将在第一次兑换成功后与您的积粒网账号自动绑定</span><br />
-          <span class="account">还没有91问问账号？</span><a href="https://www.91wenwen.net/signup/profile" target="_blank">点这里去注册 >></a></dt>
+          <span class="account">还没有91问问账号？</span><a href="https://www.91wenwen.net/signup/profile" target="_blank">点这里去注册 >></a></dd>
        {% endif %}
        
-      </div>
-      <div class="form">
-        <dd>选择兑换的积分：</dd>
-        <dt><img src="{{ asset('images/91wenwenCard.jpg')}}" width="79" height="44"> *
+      </dl>
+      <dl class="form">
+        <dt>选择兑换的积分：</dt>
+        <dd><img src="{{ asset('images/91wenwenCard.jpg')}}" width="79" height="44"> *
           <select id="point" name="point"  onchange="changePoint();">
             <option>1</option>
             <option>2</option>
@@ -103,8 +103,8 @@ function changePoint(){
             <option>9</option>
             <option>10</option>
           </select>
-          = <span  class="rechange">500</span> 91问问积分</dt>
-      </div>
+          = <span  class="rechange">500</span> 91问问积分</dd>
+      </dl>
       <input type="hidden" name="rechange" id="changes"/>
       <div class="changePoint mt50">本次充值所需米粒：<span class="rechange">500</span></div>
       <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-500 }}</span></div>
@@ -113,8 +113,8 @@ function changePoint(){
           <font color='red'>{{ code }}</font>
      {% endif %}
      </span></div>
-      <div class="btnArea mt50"><img id="active" onclick="change();" src="{{ asset('images/changeEnterBtn.jpg')}}" width="175" height="60">
-      <img id="unactive" src="{{ asset('images/changeEnterBtn_unactive.jpg')}}" width="175" height="60"></div>
+      <div class="btnArea mt50"><a class="fontYH font18" id="active" onclick="change();">提交</a>
+        <a class="fontYH font18" id="unactive" onclick="change();">提交</a></div></div>
     </div>
   </article>
   </form>

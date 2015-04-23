@@ -70,38 +70,13 @@ jili.taobao.searchBycatgory = function(id) {
 }
 	$(function(){
 		jili.taobao.searchBycatgory(1); 
-		$('.ltab li:first').addClass('ui-tabs-active');
-		$('.taobaoCon').treasure({
-				container: '.taoMainCon',
-				sortSelector: '#tabs li',
-				curEle: '',
-				initUrl: Routing.generate('jili_frontend_gameseeker_getchestinfo'),
-                resultUrl: Routing.generate('jili_frontend_gameseeker_click'),
-				box: {
-					position: {"x": 0, "y": 0},
-					posNum: {"col": 4, "row": 5},
-					size: {"w": 180, "h": 200},
-					gap: {"gapW": 0, "gapH": 19},
-					img: $("#loading_bar").find('.closeGif').attr('src'),
-					gif: $("#loading_bar").find('.openGif').attr('src'),
-					sortsArr: [],
-					className: 'treasure'
-				},
-				theme: {
-					maskClass: 'mask',
-					bgClass: 'winLayer',
-					conClass: 'winCon',
-					resultClass: 'winResult',
-					failClass: 'failResult',
-					closeClass: 'close',
-					tipClass: 'tips'
-				},
-				debug: false,
-				clickCallback: function(categoryId){ jili.taobao.searchBycatgory(categoryId); }
-			});
-		$(".guideClose, .iKnow").on("click", function(){
-			$('.taoNewGuide').hide();
-			$('.taoNewGuideMask').hide();
+		var ltab = $('.ltab li');
+		ltab.eq(0).addClass('ui-tabs-active');
+		ltab.on('click', function(){
+			var index = ltab.index(this);
+			ltab.removeClass('ui-tabs-active').eq(index).addClass('ui-tabs-active');
+			var categoryId = $(this).attr('id');
+			jili.taobao.searchBycatgory(categoryId);
 		});
 	});
 })(jQuery);

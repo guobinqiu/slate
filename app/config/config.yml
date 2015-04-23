@@ -54,7 +54,6 @@ twig:
 
         bangwoya_com: %bangwoya_com%
 
-        cps_default_rebate: %cps_default_rebate% 
         cps_rebate_type: %cps_rebate_type%
         tb_self_promot_pic_path: %taobao_self_promotion_picture_uri_path% 
 # Assetic Configuration
@@ -144,4 +143,17 @@ gregwar_captcha:
     as_url: true
     invalid_message: %reg_wr_captcha%
 
-
+parameters:
+    #流量包
+    flow:
+        url: %flow_url%
+        prv_key: %flow_prv_key%
+        custom_sn: %flow_custom_sn%
+        client_ip: %flow_client_ip%
+        file_path_flow_api_log: %flow_file_path_flow_api_log%
+        mail_subject: %flow_mail_subject%
+        alertTo_contacts: %flow_alertTo_contacts%
+        exchange_error: %flow_exchange_error%
+        mobile_validate_api: %flow_mobile_validate_api%
+        createorder_api: %flow_createorder_api%
+        validations: %flow_validations%

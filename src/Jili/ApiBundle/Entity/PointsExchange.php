@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PointsExchange
 {
+    const STATUS_OK = 1;
+    const STATUS_FAIL = 2;
 
     public function __construct()
     {

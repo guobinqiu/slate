@@ -2,7 +2,7 @@
   <div class="finish">
 	    <div class="img"><img width="108" height="82" src="{{ asset('images/regFinish.jpg')}}"></div>
     <h2><img src="{{ asset('images/messageExchange.gif')}}" alt="我们已经收到了您的支付宝充值申请！"></h2>
-    <p>兑换将在十个工作日内（遇节假日顺延）完成支付宝充值手续，请关注您的<a href="{{ asset(path('_user_exchange',{'type':3,'exchangeType':1 }),'cdn1') }}" >兑换历史</a>，来及时了解兑换状态。</p>
+    <p>兑换将在十个工作日内（遇节假日顺延）完成支付宝充值手续，请关注您的<a href="{{ path('_user_exchange',{'type':3, 'exchangeType':1}) }}" >兑换历史</a>，来及时了解兑换状态。</p>
     <hr />
     <p>※ 如果兑换失败，积分会自动返还到您的积粒网帐户。</p>
     <p><a href="{{ path('_homepage') }}">返回首页</a></p>

@@ -17,40 +17,43 @@ $(document).ready(function() {
     url = url[1].split("/");
     var exchangeType = {{ exchangeType }};
     if(exchangeType == 1){
-          $(".exscreen a:last").removeClass("hover"); 
-          $(".exscreen a:first").addClass("hover"); 
-          $("div article .screen a").removeClass("hover"); 
+          $(".exscreen a:last").removeClass("hover");
+          $(".exscreen a:first").addClass("hover");
+          $("div article .screen a").removeClass("hover");
           switch(url[0]){
             case "0":
-                $("div article .screen a:first").addClass("hover"); 
+                $("div article .screen a:first").addClass("hover");
                 break;
             case "1":
-                $("div article .screen a:eq(1)").addClass("hover"); 
+                $("div article .screen a:eq(1)").addClass("hover");
                 break;
             case "2":
                 $("div article .screen a:eq(2)").addClass("hover");
-                break; 
+                break;
             case "3":
-                $("div article .screen a:eq(3)").addClass("hover"); 
+                $("div article .screen a:eq(3)").addClass("hover");
                 break;
             case "4":
-                $("div article .screen a:last").addClass("hover"); 
+                $("div article .screen a:eq(4)").addClass("hover");
+                break;
+            case "5":
+                $("div article .screen a:last").addClass("hover");
                 break;
             default:
                 location.href="{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}";
                 break;
             }
     }else{
-       $(".exscreen a:first").removeClass("hover"); 
+       $(".exscreen a:first").removeClass("hover");
        $(".exscreen a:last").addClass("hover");
     }
-    
+
     $(".close").click(function (){
-        $(".web_click_bg").hide();  
+        $(".web_click_bg").hide();
         $(".am_blackBg").hide();
     })
 
-    
+
 });
 function addClass(type){
     switch(type){
@@ -69,11 +72,14 @@ function addClass(type){
         case 4:
           location.href="{{ path('_user_exchange',{'type': 4,'exchangeType':1 }) }}";
           break;
+        case 5:
+          location.href="{{ path('_user_exchange',{'type': 5,'exchangeType':1 }) }}";
+          break;
         default:
           location.href="{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}";
             break;
     }
-	
+
 }
 function addExClass(type){
   switch(type){
@@ -81,7 +87,7 @@ function addExClass(type){
           location.href="{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}";
           break;
         case 2:
-          location.href="{{ path('_user_exchange',{'type': 0,'exchangeType':2 }) }}"; 
+          location.href="{{ path('_user_exchange',{'type': 0,'exchangeType':2 }) }}";
           break;
         default:
           location.href="{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}";
@@ -91,12 +97,12 @@ function addExClass(type){
 function copy(){
     var text = $("#amz").html();
     urlCp = text.split("<a");
-    $('.copy').zclip({ 
+    $('.copy').zclip({
         path: "{{ asset('js/ZeroClipboard.swf')}}",
         copy: urlCp[0],
-        afterCopy: function(){//复制成功 
-           alert('复制成功'); 
-        } 
+        afterCopy: function(){//复制成功
+           alert('复制成功');
+        }
     })
 }
 function look(eid){
@@ -106,12 +112,12 @@ function look(eid){
             success:function(data){
               var html='';
               var obj = eval(data);
-              for(var i=0;i<obj.length;i++){ 
-                 if(obj[i]['a']){   
-                  html += "<p id='amz' class='amz_"+i+"'>"+obj[i]['a']+"<a class='copy' href='javascript:void(0);'>复制</a></p>";      
+              for(var i=0;i<obj.length;i++){
+                 if(obj[i]['a']){
+                  html += "<p id='amz' class='amz_"+i+"'>"+obj[i]['a']+"<a class='copy' href='javascript:void(0);'>复制</a></p>";
                  }
               }
-              $(".web_click_bg .cardNumberArea").html(html); 
+              $(".web_click_bg .cardNumberArea").html(html);
               $(".am_blackBg").show();
               $(".web_click_bg").show();
               copy();
@@ -147,6 +153,7 @@ function look(eid){
     <a href="javascript:void(0);" onclick="addClass(2);return false;">亚马逊礼品卡</a>
     <a href="javascript:void(0);" onclick="addClass(3);return false;">支付宝充值</a>
     <a href="javascript:void(0);" onclick="addClass(4);return false;">手机费充值</a>
+    <a href="javascript:void(0);" onclick="addClass(5);return false;">流量包</a>
     </div>
       <table>
       	<tr>
@@ -175,7 +182,8 @@ function look(eid){
                    <td>{{ item.exchangeItemNumber }}元支付宝</td>
               {% elseif item.exType == 4 %}
                    <td>{{ item.exchangeItemNumber }}元手机话费</td>
-             {% else %}
+             {% elseif item.exType == 5 %}
+                  <td>{{ item.exchangeItemNumber }}M流量包</td>
               {% endif %}
               <td>{% if item.status %} {{ item.finishDate.date | date('Y-m-d') }} {% else %} {% endif %}</td>
               <td>{% if item.status %} {% if item.status==1 %} 兑换成功 {% elseif item.status==2 %} 兑换失败 {% else %} {% endif %}  {% else %} 处理中 {% endif %}</td>
@@ -207,7 +215,7 @@ function look(eid){
       {{ knp_pagination_render(pagination) }}
       {% else %}
       {% endif %}
-   
+
   </article>
 </div>
 {% endblock %}

@@ -310,7 +310,7 @@ parameters:
     webpower_email_username: 'admin'
     webpower_email_password: 'nUshkwu#9'
     webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
-    
+
     cron_alertTo_contacts: jinzhang@voyagegroup.com.cn,zhangmm@voyagegroup.com.cn,tao_jiang@voyagegroup.com,xiaoyi_chai@voyagegroup.com,xujf@voyagegroup.com.cn
     alert_subject: '积粒网-定时任务提醒邮件'
 

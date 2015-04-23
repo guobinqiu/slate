@@ -9,72 +9,74 @@
 
 {% block javascript %}
 <script type="text/javascript">
-$(document).ready(function() {
-	if($("#over").html()<0){
-		$("#active").hide();
-    $("#unactive").show();
-		}else{
+  $(document).ready(function() {
+    if($("#over").html()<0){
+      $("#active").hide();
+      $("#unactive").show();
+    }else{
       $("#active").show();
       $("#unactive").hide();
     }
-});
-function change(){
-		if($("#over").html()>=0){
+  });
+  function change(){
+    if($("#over").html()>=0){
       var exchange_total = $(".rechange").html();
       $('#changes').val(exchange_total*1000);
-			$("#form1").submit();
+      $("#form1").submit();
     }
-}
-function changePoint(){
-	var total = $("#point").val()*1;
-	var over = {{ points }} - total*1000;
-	$(".rechange").html(total);
-  $(".rechangeMi").html(total*1000);
-	$("#over").html(over);
-	if($("#over").html()<0){
-		$("#active").hide();
-		$("#unactive").show();
-	}else{
-    $("#active").show();
-    $("#unactive").hide();
   }
-}
+  function changePoint(){
+    var total = $("#point").val()*1;
+    var over = {{ points }} - total*1000;
+    $(".rechange").html(total);
+    $(".rechangeMi").html(total*1000);
+    $("#over").html(over);
+    if($("#over").html()<0){
+      $("#active").hide();
+      $("#unactive").show();
+    }else{
+      $("#active").show();
+      $("#unactive").hide();
+    }
+  }
 </script>
 {% endblock %}
 
 {% block body %}
 <div class="webArticle exchange">
-<form action="{{ path('_exchange_amazonInfo') }}" method="post" id="form1">
-  <h2><span class="font18 corLightRed crumbTit">兑换信息</span></h2>
-  <aside>
-   {% include 'JiliApiBundle:User:rightInfo.html.twig' %}
-  </aside>
-  <article>
+  <form action="{{ path('_exchange_amazonInfo') }}" method="post" id="form1">
+    <h2><span class="font18 corLightRed crumbTit">兑换信息</span></h2>
+    <aside>
+     {% include 'JiliApiBundle:User:rightInfo.html.twig' %}
+    </aside>
+    <article>
     <div class="wenwen">
-      <div class="form">
-        <dd>选择兑换张数：</dd>
-        <dt><img width="138" height="113" src="{{ asset('images/amazon_card.gif')}}"> *
+      <dl class="form">
+        <dt>选择兑换张数：</dt>
+        <dd><img width="138" height="113" src="{{ asset('images/amazon_card.gif')}}"> *
           <select id="point" name="point"  onchange="changePoint();">
             <option>2</option>
             <option>3</option>
             <option>4</option>
             <option>5</option>
           </select>
-          = <span  class="rechange">2</span> 张亚马逊礼品卡</dt>
-      </div>
+          = <span  class="rechange">2</span> 张亚马逊礼品卡</dd>
+      </dl>
       <input type="hidden" name="rechange" id="changes"/>
       <div class="changePoint mt50">本次充值所需米粒：<span class="rechangeMi">2000</span></div>
       <div class="changePoint">兑换后剩余米粒：<span id="over">{{ points-2000 }}</span></div>
       <div><span>
-      {% if code %}
-          <font color='red'>{{ code }}</font>
-     {% endif %}
-     </span></div>
-      <div class="btnArea mt50"><img id="active" onclick="change();" src="{{ asset('images/changeEnterBtn.jpg')}}" width="175" height="60">
-      <img id="unactive" src="{{ asset('images/changeEnterBtn_unactive.jpg')}}" width="175" height="60"></div>
+        {% if code %}
+        <font color='red'>{{ code }}</font>
+        {% endif %}
+      </span></div>
+      <div class="btnArea mt50">
+        <a class="fontYH font18" id="active" onclick="change();">提交</a>
+        <a class="fontYH font18" id="unactive" onclick="change();">提交</a>
+      </div>
     </div>
-  </article>
-  <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
+    </article>
+    <input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
   </form>
 </div>
 {% endblock %}
