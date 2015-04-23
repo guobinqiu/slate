@@ -24,8 +24,9 @@ use Digest::MD5 qw(md5_hex);
 
 use File::Type;
 use File::Copy;
-# merge into cps_advertisement
+use vars qw($database);
 
+# merge into cps_advertisement
 # select from aps 
 # check exists ? 
 
@@ -37,7 +38,7 @@ use File::Copy;
 sub query_ad_category_id {
     my ($asp,$category_name) = @_;
 
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id FROM ad_category where asp = ?  and  category_name = ?});
     $sth->execute(( $asp, $category_name)  );
@@ -61,7 +62,7 @@ sub query_ad_category_id {
 sub push_chanet_advertisement {
     my ($ads_cat_hashref ) = @_;
  # read records
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id, ads_name,category,ads_url,marketing_url,selected_at FROM chanet_advertisement where is_activated = 1});
     $sth->execute( );
@@ -121,7 +122,7 @@ sub push_duomai_advertisement {
     # read records
     my ($ads_cat_hashref ) = @_;
     # read records
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
 
     my $sth=$dbh->prepare(qq{SELECT `id`,`ads_id`,`ads_name`,`ads_url`,`ads_commission`,`start_time`,`end_time`,`category`,`return_day`,`billing_cycle`,`link_custom`,`link_custom_short` ,`selected_at` FROM duomai_advertisement where is_activated = 1});
@@ -192,7 +193,7 @@ sub push_emar_advertisement {
     # read records
     my ($ads_cat_hashref ) = @_;
     # read records
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
 
     my $sth=$dbh->prepare(qq{SELECT `id`,`ads_id`,`ads_name`,`category`,`commission`,`commission_period`,`ads_url`,`can_customize_target`,`feedback_tag`,`marketing_url`,`selected_at` FROM emar_advertisement where is_activated = 1});
@@ -259,7 +260,7 @@ sub push_emar_advertisement {
 sub insert_cps_advertisement {
     my ($enter_fields ) = @_;
 
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     #insert statement 
     my $sth_insert = $dbh->prepare(qq{ INSERT INTO cps_advertisement(`ad_category_id`, `ad_id`, `title`, `marketing_url`, `ads_url`,  `website_name`,`website_host`,`website_category`, `selected_at`,`is_activated` ) VALUES ( ?,?,?, ?,?,?, ?,?,?, ?  ) }) or die "Can't prepare : $dbh->errstr/n";
@@ -328,7 +329,7 @@ sub insert_cps_advertisement {
 # 查出已经存在的商家活动 ,如果有is_activated = 1,0的2个记录，只返回is_activated==0的。
 sub search_exists_by_webdomain{
     my ($web_domain) = @_;
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, selected_at,is_activated  FROM cps_advertisement where website_host = ? order by is_activated asc limit 1});
     $sth->execute(( $web_domain )  );
@@ -349,7 +350,7 @@ sub do_activate {
     my ($ads_cat_hashref) = @_;
     # status 1->2 
     my $ts = localtime->strftime("%Y-%m-%d %H:%M:%S");
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
 
     my $sth_deactivate = $dbh->prepare(qq{UPDATE cps_advertisement SET is_activated = ? WHERE is_activated = ? });
@@ -493,7 +494,7 @@ sub logo_check {
     make_path($config->{duomai}->{logo_path}); 
     make_path($config->{chanet}->{logo_path}); 
 
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth = $dbh->prepare(qq{SELECT ad_category_id,ad_id, website_host FROM cps_advertisement WHERE is_activated = 1});
     #select website_host from cps_advertisement where is_activated = 1
@@ -549,7 +550,7 @@ sub fetchLogo {
     print '     ->>' ,$logo_file,"\n";
 
     # query responding table  for ads_id , the build the detail page name
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth = $dbh->prepare(qq{SELECT ads_id FROM $cps_tbl_name WHERE id = ? limit 1 });
     #select website_host from cps_advertisement where is_activated = 1
@@ -670,15 +671,18 @@ sub calcLogFileNameByDomain{
     return md5_hex($domain);
 }
 
+
+my $db_config = LoadFile( "./config/db.yml");
+$database = Jili::DBConnection->instance(($db_config->{db}->{user},$db_config->{db}->{password},$db_config->{db}->{name},$db_config->{db}->{host}));
+
 Log::Log4perl::init('config/log4perl.conf');
+
 my $ads_cat_hashref  = {
     chanet_advertisement => query_ad_category_id( 'chanet', 'cps'), 
     emar_advertisement   => query_ad_category_id( 'emar', 'cps'), 
     duomai_advertisement => query_ad_category_id( 'duomai', 'cps'), 
 };
 
-my $db_config = LoadFile( "./config/db.yml");
-my $database = Jili::DBConnection->instance(($db_config->{user},$db_config->{password},$db_config->{name},$db_config->{host}));
 
 ## 将各cps写入表中
 push_emar_advertisement($ads_cat_hashref);

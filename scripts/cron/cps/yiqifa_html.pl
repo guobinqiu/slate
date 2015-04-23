@@ -20,6 +20,7 @@ use Spreadsheet::ParseExcel;
 use List::MoreUtils qw(uniq);
 use Digest::SHA qw(sha256_hex);
 use Jili::DBConnection;
+use vars qw($database);
 
 sub gen_captcha {
     my $config = shift;
@@ -195,7 +196,7 @@ sub insert_emar_advertisement {
         die "Parsing error: ", $parser->error(), ".\n";
     }
 
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
 
     my $sth_create  =  $dbh->prepare( qq{INSERT INTO emar_advertisement( `ads_id`,`ads_name`,`category`,`commission`,`commission_period`,`ads_url`,`can_customize_target`,`feedback_tag`,`marketing_url`,`fixed_hash`,`is_activated`) VALUES (?,?,?,?,?,?,?,?,?,?,1) });
@@ -255,7 +256,7 @@ print "\n";
                 #insert 
                 push @$fields,($hash ); 
                 #my $sth=$dbh->prepare($sql);
-                my $rv = $sth_create->execute( values @$fields);
+                my $rv = $sth_create->execute(  @$fields);
 #                $sth_create->finish();
                 $i++;
             } else {
@@ -284,7 +285,7 @@ print "\n";
 
 sub query_emar_advertisement_by_fixed_hash {
     my $fixed_hash = shift;
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated , marketing_url FROM emar_advertisement where fixed_hash = ? });
     $sth->execute( ($fixed_hash) );
@@ -297,7 +298,7 @@ sub query_emar_advertisement_by_fixed_hash {
 sub query_emar_commission_by_fixed_hash {
     my $fixed_hash = shift;
     my $ads_id = shift;
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated FROM emar_commission  where fixed_hash = ? and ads_id = ? });
     $sth->execute( ($fixed_hash, $ads_id ) );
@@ -446,7 +447,7 @@ sub insert_commission{
 
     opendir(my $dh, $path_dest) or  die $!;
 
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
 
     my $i = 0;
@@ -540,7 +541,7 @@ sub fetch_ads_ids {
 }
 
 my $db_config = LoadFile( "./config/db.yml");
-my $database = Jili::DBConnection->instance(($db_config->{user},$db_config->{password},$db_config->{name},$db_config->{host}));
+$database = Jili::DBConnection->instance(($db_config->{db}->{user},$db_config->{db}->{password},$db_config->{db}->{name},$db_config->{db}->{host}));
 
 my $config = LoadFile( "./config/config.yml");
 # download comms html

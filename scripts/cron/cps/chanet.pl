@@ -22,7 +22,7 @@ use File::Path qw(make_path);
 use File::Spec;
 
 use Spreadsheet::ParseExcel;
-use Spreadsheet::XLSX;
+#use Spreadsheet::XLSX;
 
 use utf8;
 use List::MoreUtils qw(uniq);
@@ -31,6 +31,7 @@ use HTML::TreeBuilder::XPath;
 use Digest::SHA qw(sha256_hex);
 use HTML::Entities;
 use Text::CSV;
+use vars qw($database);
 
 #$ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;
 $ENV{HTTPS_CA_FILE}   = '/tmp/certs/CHANET.COM.CN';
@@ -346,7 +347,7 @@ sub insert_chanet_advertiserment {
 # 340     东方CJ的CPS推广     商务/商店   首页推广链接    http://www.ocj.com.cn   0  
     my $i = 0;
 
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth_create  =  $dbh->prepare( qq{INSERT INTO chanet_advertisement(  `ads_id`, `ads_name`, `category`, `ads_url_type`, `ads_url`, `marketing_url`, `fixed_hash`, `is_activated`) VALUES( ?,?,?,?,?,?,?,1) });
 
@@ -388,7 +389,7 @@ sub insert_chanet_advertiserment {
         if(! defined($ads_exist)) {
             # insert stuff
             push @$row,($hash); 
-            my $rv = $sth_create->execute( values @$row);
+            my $rv = $sth_create->execute( @$row);
             $sth_create->finish();
         } else {
             my $sth_activate = $dbh->prepare(qq{ UPDATE chanet_advertisement SET is_activated = 1 WHERE id  = ? limit 1});
@@ -414,7 +415,7 @@ sub calc_chanet_cps_advertisement_hash {
 
 sub query_chanet_advertiserment_by_fixed_hash {
     my $fixed_hash = shift;
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated FROM chanet_advertisement where fixed_hash = ? });
     $sth->execute( ($fixed_hash) );
@@ -442,7 +443,7 @@ sub insert_commission {
 
     print $path_dest ,"\n";
 
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
 
     my $i = 0;
@@ -586,7 +587,7 @@ sub query_chanet_commission_by_fixed_hash {
 
     my $fixed_hash = shift;
     my $ads_id = shift;
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated FROM chanet_commission  where fixed_hash = ? and ads_id = ? });
     $sth->execute( ($fixed_hash, $ads_id ) );
@@ -595,10 +596,11 @@ sub query_chanet_commission_by_fixed_hash {
     return $hash_ref;
 }
 
-my $config = LoadFile( "./config/config.yml");
 
 my $db_config = LoadFile( "./config/db.yml");
-my $database = Jili::DBConnection->instance(($db_config->{user},$db_config->{password},$db_config->{name},$db_config->{host}));
+$database = Jili::DBConnection->instance(($db_config->{db}->{user},$db_config->{db}->{password},$db_config->{db}->{name},$db_config->{db}->{host}));
+
+my $config = LoadFile( "./config/config.yml");
 
 login();
 ##parse_siters();

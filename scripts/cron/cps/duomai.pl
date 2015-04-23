@@ -30,9 +30,9 @@ use File::Basename;
 use File::Path qw(make_path);
 
 use HTML::TreeBuilder::XPath;
-use Text::Table;
 
 use Data::Dumper;
+use vars qw($database);
 
 # login with account
 # download the csv files.
@@ -118,7 +118,7 @@ sub parse_duomai_cps_csv {
         my $hash = calc_duomai_cps_advertisement_hash($row);
         push @title, ('hash_filtered', 'is_activated');
         push @$row,($hash ,1); 
-        print  '   ', $_, ':', $title[$_],': ' , $row->[$_],"\n" for (keys $row);
+        print  '   ', $_, ':', $title[$_],': ' , $row->[$_],"\n" foreach ( @$row);
         print "\n";
         print "\n";
     }
@@ -148,7 +148,7 @@ sub calc_duomai_cps_commission_hash {
 
 sub query_duomai_advertisement_by_fixed_hash {
     my $fixed_hash = shift;
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated FROM duomai_advertisement where fixed_hash = ? });
 
@@ -164,7 +164,7 @@ sub query_duomai_advertisement_by_fixed_hash {
 sub query_duomai_commission_by_fixed_hash {
     my $fixed_hash = shift;
     my $ads_id = shift;
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated FROM duomai_commission  where fixed_hash = ? and ads_id = ? });
     $sth->execute( ($fixed_hash, $ads_id ) );
@@ -181,7 +181,7 @@ sub insert_duomai_advertisement {
     my $file = $config->{csv_sites}->{output_utf8};
     print $file ,"\n";
 
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $csv = Text::CSV->new ({auto_diag => 1, binary=>1,allow_whitespace=>1 })  # should set binary attribute.
         or die "Cannot use CSV: ".Text::CSV->error_diag ();
@@ -214,7 +214,7 @@ sub insert_duomai_advertisement {
             # hash not exits
             push @$row,($hash ,1); 
             my $sth=$dbh->prepare($sql);
-            my $rv = $sth->execute( values @$row);
+            my $rv = $sth->execute(  @$row);
             $sth->finish();
         } else {
             my $sth_activate = $dbh->prepare(qq{ UPDATE duomai_advertisement SET is_activated = 1 WHERE id  = ? limit 1});
@@ -231,7 +231,7 @@ sub insert_duomai_advertisement {
 
 # query table fetch the siters
 sub query_duomai_advertisement {
-    my $database = Jili::DBConnection->instance( );
+    # my $database = Jili::DBConnection->instance( );
     my $dbh = $database->{dbh};
     # now retrieve data from the table.
     my $sth = $dbh->prepare("SELECT * FROM duomai_advertisement where is_activated = 1");
@@ -396,7 +396,7 @@ sub insert_commission {
     print $file_reg, "\n";
     opendir(my $dh, $path_dest) or  die $!;
 
-    my $database = Jili::DBConnection->instance();
+    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
 
     my $i = 0;
@@ -458,7 +458,7 @@ sub insert_commission {
 # insert comm 
 
 my $db_config = LoadFile( "./config/db.yml");
-my $database = Jili::DBConnection->instance(($db_config->{user},$db_config->{password},$db_config->{name},$db_config->{host}));
+$database = Jili::DBConnection->instance(($db_config->{db}->{user},$db_config->{db}->{password},$db_config->{db}->{name},$db_config->{db}->{host}));
 
 my $config = LoadFile( "./config/config.yml");
 
