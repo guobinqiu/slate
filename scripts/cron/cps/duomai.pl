@@ -457,7 +457,11 @@ sub insert_commission {
 
 # insert comm 
 
+my $db_config = LoadFile( "./config/db.yml");
+my $database = Jili::DBConnection->instance(($db_config->{user},$db_config->{password},$db_config->{name},$db_config->{host}));
+
 my $config = LoadFile( "./config/config.yml");
+
 fetch_duomai_cps_csv( $config->{duomai});
 #### parse_duomai_cps_csv();
 insert_duomai_advertisement($config->{duomai});

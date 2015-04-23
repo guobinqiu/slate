@@ -53,7 +53,7 @@
                 <tbody>
                     <tr>
                         <td>{{ row[0].commissionName }}</td>
-                        <td>{{ row[0].commission }}</td>
+                        <td>{{ row[0].getCommissionForUser(cps_default_rebate) }}</td>
                     </tr>
                 </tbody>
                 {% if (loop.index == (loop.length/2)|round) and (loop.index != loop.last )%}

@@ -51,7 +51,14 @@ class CpsAdvertisementRepository extends EntityRepository
 
         # notice; the '2' is not number 2.
         if($key === '2' ) {
-            $s ='SELECT id,website_name as websiteName, titleFROM cps_advertisement WHERE website_name REGEXP "^[0-9]"';
+            $s ='SELECT id,website_name as websiteName, title, md5(website_host) as hostHashAsLogoName FROM cps_advertisement WHERE website_name REGEXP "^[0-9]"';
+            $stmt =  $this->getEntityManager()->getConnection()->prepare($s);
+            $stmt->execute();
+            return  $stmt->fetchAll();
+        }
+
+        if($key === '1' ) {
+            $s ='SELECT id,website_name as websiteName, title, md5(website_host) as hostHashAsLogoName FROM cps_advertisement ';
             $stmt =  $this->getEntityManager()->getConnection()->prepare($s);
             $stmt->execute();
             return  $stmt->fetchAll();
@@ -60,8 +67,7 @@ class CpsAdvertisementRepository extends EntityRepository
         $ord = ord($key);
         if ( ( 65<= $ord && $ord <= 90 ) || 97 <= $ord && $ord <= 122 ) {
             $qb = $this->createQueryBuilder('ca');
-            $qb = $qb->select('ca.id, ca.websiteName,ca.title')
-                ->Where('ca.websiteNameDictionaryKey = :key')
+            $qb->Where('ca.websiteNameDictionaryKey = :key')
                 ->setParameter('key', $key);
             $query = $qb->getQuery();
             return $query->getResult();
@@ -77,8 +83,7 @@ class CpsAdvertisementRepository extends EntityRepository
     {
 
         $qb = $this->createQueryBuilder('ca');
-        $qb->select('ca.id,ca.websiteName,ca.title')
-            ->Where('1=1');
+        $qb->Where('1=1');
 
         $keyword = $params['keyword']; 
         if(strlen($keyword) > 0 ) {

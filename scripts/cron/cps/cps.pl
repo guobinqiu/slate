@@ -610,6 +610,7 @@ sub fetchLogo {
 
 }
 
+#  add file extension to the image file
 sub logo_rename {
     my ($config) = @_;
 
@@ -618,7 +619,6 @@ sub logo_rename {
         $config->{duomai}->{logo_path},
         $config->{emar}->{logo_path}
     );
-
 
     my $ft = File::Type->new();
     foreach my $path ( @paths_logo) {
@@ -677,15 +677,20 @@ my $ads_cat_hashref  = {
     duomai_advertisement => query_ad_category_id( 'duomai', 'cps'), 
 };
 
-### 将各cps写入表中
-#push_emar_advertisement($ads_cat_hashref);
-#push_chanet_advertisement($ads_cat_hashref);
-#push_duomai_advertisement($ads_cat_hashref );
+my $db_config = LoadFile( "./config/db.yml");
+my $database = Jili::DBConnection->instance(($db_config->{user},$db_config->{password},$db_config->{name},$db_config->{host}));
+
+## 将各cps写入表中
+push_emar_advertisement($ads_cat_hashref);
+push_chanet_advertisement($ads_cat_hashref);
+push_duomai_advertisement($ads_cat_hashref );
 #
 ### 完成新旧cps的转换
-#do_activate($ads_cat_hashref);
+do_activate($ads_cat_hashref);
 
 my $config = LoadFile( "./config/config.yml");
+
+#TOOD: list those new  donwloaded logo files 
 logo_update($config->{emar});
 logo_check($config, $ads_cat_hashref);
 logo_rename($config);

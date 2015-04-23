@@ -2,7 +2,7 @@
     {% for key,row in websites %}
     {% set href_ = path('jili_frontend_cpsadvertisement_redirect')  %}
     <li>
-        <a class="logoImg" target="_blank" title="{{ row.title }}" href="{{ href_ }}"><img src="#" alt="{{ row.title }}" width="120" height="60"></a>
+    <a class="logoImg" target="_blank" title="{{ row.title }}" href="{{ href_ }}"><img src="/images/website_logos/{{  row.hostHashAsLogoName ~ '.jpg' }}" alt="{{ row.websiteName }}" width="120" height="60"></a>
         {% if row.commission is defined and  row.commission > 0 %}<div class="logoWord lightGray">最高返{{ row.commission }}%</div>{% endif %}
         <div class="logoMore">
         	<div class="logoMask"></div>

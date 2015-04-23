@@ -102,10 +102,11 @@ class CpsAdvertisementController extends Controller
             $websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')->fetchByWebsiteNameDictionaryKey($dic_key);
         } else {
             $wcat =  $request->query->get('wcat', '' );
-            $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'$wcat: ')). var_export($wcat, true));
             $params = array(/* 'dic_key'=> $dic_key , */ 'keyword' => $keyword, 'wcat'=> $wcat);
             $websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')->fetchByKeywordsAndCategory($params);
         }
+
+        $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'$websites: ')). var_export($websites, true));
 
         # page_size , page_no
         $page_no = $request->query->getInt('p',1);

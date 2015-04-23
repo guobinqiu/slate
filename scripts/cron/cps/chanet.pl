@@ -597,6 +597,9 @@ sub query_chanet_commission_by_fixed_hash {
 
 my $config = LoadFile( "./config/config.yml");
 
+my $db_config = LoadFile( "./config/db.yml");
+my $database = Jili::DBConnection->instance(($db_config->{user},$db_config->{password},$db_config->{name},$db_config->{host}));
+
 login();
 ##parse_siters();
 ##parse_siters_2007();

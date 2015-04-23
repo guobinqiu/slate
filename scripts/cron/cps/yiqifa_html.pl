@@ -539,12 +539,13 @@ sub fetch_ads_ids {
     return \@ads_ids;
 }
 
-my $config = LoadFile( "./config/config.yml");
+my $db_config = LoadFile( "./config/db.yml");
+my $database = Jili::DBConnection->instance(($db_config->{user},$db_config->{password},$db_config->{name},$db_config->{host}));
 
+my $config = LoadFile( "./config/config.yml");
 # download comms html
 # parse the comms html
 # insert into database
- 
 login(); 
 ###parse_siters();
 insert_emar_advertisement($config->{emar});

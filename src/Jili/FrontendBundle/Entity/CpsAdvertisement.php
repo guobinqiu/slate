@@ -392,4 +392,9 @@ class CpsAdvertisement
     {
         return $this->id;
     }
+
+    public function getHostHashAsLogoName()
+    {
+        return md5($this->getWebsiteHost());
+    }
 }
