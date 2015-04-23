@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="duomai_commission_data")
  * @ORM\Entity
  */
-class DuomaiCommissionData
+class DuomaiCommissionData extends CommissionDataBase
 {
     /**
      * @var integer
