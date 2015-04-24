@@ -24,6 +24,14 @@ class UserLogin
         }
         return false;
     }
+
+    public function getLoginUserId()
+    {
+        if( true === $this->checkLoginStatus()){
+            return $this->session->get('uid');
+        }
+        return ;
+    }
     
     public function setEntityManager(EntityManager $em)
     {

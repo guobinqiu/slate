@@ -17,9 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CpsAdvertisementController extends Controller
 {
     /**
-     *
      * @Route("/detail/{wid}", requirements={"wid" = "\d+"}, defaults={"wid" = 0})
-     * Route("/detail/{wid}" requirements={"wid" = "\d+"}, defaults={"wid" = 0})
      * todo: added pageno for recommend
      */
     public function detailAction(Request $request ,$wid)
@@ -28,10 +26,8 @@ class CpsAdvertisementController extends Controller
         $logger = $this->get('logger');
 
         if(empty($wid) ) {
-            throw $this->createNotFoundException( '没找到此商家.1');
+            throw $this->createNotFoundException( '没找到此商家.');
         } 
-
-        $em = $this->getDoctrine()->getManager();
 
         $cps = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')
             ->findOneById($wid);
@@ -43,28 +39,17 @@ class CpsAdvertisementController extends Controller
         $ad_category = $em->getRepository('JiliApiBundle:AdCategory')
             ->findOneById($cps->getAdCategoryId());
         $asp = $ad_category->getAsp();
-
         $shop = $em->getRepository('JiliFrontendBundle:'.ucfirst($asp).'Advertisement')->findOneById($cps->getAdId());
-
         $commission_list  = $em->getRepository('JiliFrontendBundle:'.ucfirst($asp).'Commission')->findListByAdId($shop->getAdsId());
-
         $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'getWebsiteCategory: ')). var_export($cps->getWebsiteCategory() , true));
-        $same_cat_websites = array();
-
         $same_cat_websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')
             ->findSameCatWebsitesByRandom( array( 'limit'=> 3, 'category'=> $cps->getWebsiteCategory() ) );
 
         # TODO: include asp  partial  to render the differece details.
-        
-        $data = array('website'=> $cps ,
+        return $this->render('JiliFrontendBundle:CpsAdvertisement:detail.html.twig',array('website'=> $cps ,
             'detail' => $shop, 
             'commission_list'=>$commission_list,
-            'same_cat_websites' => $same_cat_websites);
-        // use template on asp
-        // detail_emar.html.twig
-        // detail_chanet.html.twig
-        // detail_duomai.html.twig
-        return $this->render('JiliFrontendBundle:CpsAdvertisement:detail.html.twig', $data);
+            'same_cat_websites' => $same_cat_websites));
     }
 
     /**
@@ -74,13 +59,6 @@ class CpsAdvertisementController extends Controller
      */
     public function listAction(Request $request)
     {
-
-        # filter by search keyword
-        # filter by search category 
-        # filter by index key 
-        
-        # the hot websites category 
-        # pagination.
        
         $request = $this->get('request');
         $logger= $this->get('logger');
@@ -94,9 +72,7 @@ class CpsAdvertisementController extends Controller
         $wcats = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')
             ->fetchCategoryList();
         
-        // webs
         $websites = array();
-
         $dic_key = $request->query->get('t','');
         if( ! empty($dic_key) && strlen($dic_key) ===  1  ){
             $websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')->fetchByWebsiteNameDictionaryKey($dic_key);
@@ -106,7 +82,6 @@ class CpsAdvertisementController extends Controller
             $websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')->fetchByKeywordsAndCategory($params);
         }
 
-        $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'$websites: ')). var_export($websites, true));
 
         # page_size , page_no
         $page_no = $request->query->getInt('p',1);
@@ -132,12 +107,10 @@ class CpsAdvertisementController extends Controller
             array('categories'=> $wcats,
             'websites'=> $websites_paged,
             'total'=> $total,
-            'filter_form'=>$filter_form->createView(),
-            'letters'=>range('A','Z')));
+            'filter_form'=>$filter_form->createView() ));
     }
 
     /**
-     * 
      * @Route("/list/search")
      * @Method({"GET","POST"})
      */
@@ -149,20 +122,11 @@ class CpsAdvertisementController extends Controller
         if( $request->isMethod('post')) {
             $form->bind($request);
             if( $form->isValid()) {
-
                 $query_params = $form->getData();
                 $keyword = $query_params['keyword'];
-                $parameters = array('q'=> $keyword );
-
-                if( empty($wcat) ) {
-                    $parameters ['wcat']=  -1;
-                } else {
-                    $parameters ['wcat']=  $wcat;
-                }
-
-                $url = $this->generateUrl('jili_frontend_cpsadvertisement_list', $parameters ) ;
-                $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'$wcat: ')). var_export($url, true));
-
+                $url = $this->generateUrl('jili_frontend_cpsadvertisement_list',
+                    array('q'=> $keyword, 'wcat'=> empty($wcat) ? -1: $wcat) ) ;
+                #$logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'$wcat: ')). var_export($url, true));
                 return $this->redirect( $url );
             }
         }
@@ -171,15 +135,46 @@ class CpsAdvertisementController extends Controller
 
 
     /**
-     * @Route("/redirect")
-     * @Method({"GET","POST"})
+     * @Route("/redirect/{wid}", requirements={"wid" = "\d+"}, defaults={"wid" = 0})
+     * @Method({"GET"})
      */
-    public function redirectAction(Request $request) 
+    public function redirectAction(Request $request  , $wid) 
     {
+        $em = $this->getDoctrine()->getManager();
+        $logger = $this->get('logger');
+        if(empty($wid) ) {
+            throw $this->createNotFoundException( '没找到此商家.');
+        } 
+        $cps = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')
+            ->findOneById($wid);
 
-        $logger= $this->get('logger');
+        if( empty($cps)) {
+            throw $this->createNotFoundException( '没找到此商家.');
+        }
 
-        $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__)). var_export($request, true));
-        return new Response(__FUNCTION__);
+        # force to login 
+        if( false ===  $this->get('user_login')->checkLoginStatus()) {
+            $url_current = $request->getRequestUri();
+            $this->get('session')->set('referer', $url_current);
+            return $this->redirect( $this->generateUrl('_login'));
+        }
+
+        $uid =  $this->get('user_login')->getLoginUserId();
+
+        $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__)). var_export( $cps, true));
+
+        # goto the {asp}_advertisement table , fetch the redirect_url
+        $ad_category = $em->getRepository('JiliApiBundle:AdCategory')
+            ->findOneById($cps->getAdCategoryId());
+        $asp = $ad_category->getAsp();
+        $shop = $em->getRepository('JiliFrontendBundle:'.ucfirst($asp).'Advertisement')->findOneById($cps->getAdId());
+        
+        $uri_shop =$shop->getRedirectUrlWithUserId($uid );
+        if(strlen($uri_shop) > 0 ) {
+            return $this->redirect( $uri_shop);/// Response(__FUNCTION__);
+        }
+        #TODO add a flash notice if uri_shop is invalid!
+        #TODO notify the deverloper to update the uri data.
+        return $this->forward('JiliFrontendBundle:CpsAdvertisement:list');
     }
 }

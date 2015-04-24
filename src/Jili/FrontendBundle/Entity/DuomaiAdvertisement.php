@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="duomai_advertisement", uniqueConstraints={@ORM\UniqueConstraint(name="fixed_hash", columns={"fixed_hash"})})
  * @ORM\Entity
  */
-class DuomaiAdvertisement
+class DuomaiAdvertisement implements CustomRedirectUrlInterface
 {
     /**
      * @var integer
@@ -451,5 +451,18 @@ class DuomaiAdvertisement
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     *   duomai:
+     *       http://c.duomai.com/track.php?site_id=152244&aid=57&euid=APIMemberId&t=http%3A%2F%2Fwww.mbaobao.com%2F
+     */
+    public function getRedirectUrlWithUserId($uid) 
+    {
+        $uri = $this->getLinkCustom();
+        if (strlen($uri) > 0 &&  1 ===  preg_match(  '/(^.*[\?&])euid=(&?.*)$/', $uri, $matches)   ) {
+            return $matches[1]. 'euid='. $uid. $matches[2];
+        };
+        return '';
     }
 }

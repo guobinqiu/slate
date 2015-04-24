@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="emar_advertisement", uniqueConstraints={@ORM\UniqueConstraint(name="fixed_hash", columns={"fixed_hash"})})
  * @ORM\Entity
  */
-class EmarAdvertisement
+class EmarAdvertisement implements CustomRedirectUrlInterface
 {
     /**
      * @var integer
@@ -391,5 +391,21 @@ class EmarAdvertisement
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     *        yiqifa:
+     *            http://p.yiqifa.com/n?k=2mLErnDS6ERLrI6H2mLErI6HWNzqWn4H6ljFWnzernKlWlRs1QLErZyH2mq96OW76EjsWcqtCwAMWOgH&e=APIMemberId&t=http://www.peteralexander.com.au/shop/en/peteralexander
+     *
+     *            反馈用标签(eu_id)是用来跟踪联盟会员网站中自己的会员进行购物活动的一个标识。
+     *            反馈标签是根据联盟会员网站建站技术来确定其格式的，一般情况下可以为空。 
+     */
+    public function getRedirectUrlWithUserId($uid) 
+    {
+        $uri = $this->getMarketingUrl();
+        if (strlen($uri) > 0 &&  1 ===  preg_match(  '/(^.*[\?&])e=(&?.*)$/', $uri, $matches)   ) {
+            return $matches[1]. 'e='. $uid. $matches[2];
+        };
+        return '';
     }
 }

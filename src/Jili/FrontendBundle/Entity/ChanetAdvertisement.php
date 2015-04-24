@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="chanet_advertisement", uniqueConstraints={@ORM\UniqueConstraint(name="fixed_hash", columns={"fixed_hash"})})
  * @ORM\Entity
  */
-class ChanetAdvertisement
+class ChanetAdvertisement implements CustomRedirectUrlInterface
 {
     /**
      * @var integer
@@ -301,5 +301,21 @@ class ChanetAdvertisement
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     *        chanet:
+     *            e参数是为用户提供信息跟踪的功能，可利用此参数监测特定广告位等的广告效果。e参数仅支持不以0开头的数字，且最长为9位。 
+     *            u参数是为用户提供信息跟踪的功能，可利用此参数监测特定广告位等的广告效果。u参数支持字符型，最长为255位。 
+     *            http://count.chanet.com.cn/click.cgi?a=480534&d=375846&u=%E5%95%86%E5%AE%B6%E5%88%97%E8%A1%A8&e=999
+     *
+     */
+    public function getRedirectUrlWithUserId($uid) 
+    {
+        $uri = $this->getMarketingUrl();
+        if (strlen($uri) > 0 &&  1 ===  preg_match(  '/(^.*[\?&])e=(&?.*)$/', $uri, $matches)   ) {
+            return $matches[1]. 'e='. $uid. $matches[2];
+        };
+        return '';
     }
 }

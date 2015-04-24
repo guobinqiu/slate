@@ -19,7 +19,7 @@
 <div class="main w1000 clearfix">
 	<div class="shopL fl w192">
         {% include 'JiliFrontendBundle:CpsAdvertisement:list_search_form.html.twig' with {'form': filter_form } %}
-        {{ include( "JiliFrontendBundle:CpsAdvertisement:list_category.html.twig") }}
+        {% include 'JiliFrontendBundle:CpsAdvertisement:list_category.html.twig' %}
     </div>
     <div class="shopR globBorder fr">
         {% include 'JiliEmarBundle:Websites:shoplist_search_by_the_first_letter.html.twig' %}
