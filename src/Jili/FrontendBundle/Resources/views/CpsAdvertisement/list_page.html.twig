@@ -2,7 +2,7 @@
     {% for key,row in websites %}
     {% set href_ = path('jili_frontend_cpsadvertisement_redirect')  %}
     <li>
-    <a class="logoImg" target="_blank" title="{{ row.title }}" href="{{ href_ }}"><img src="/images/website_logos/{{  row.hostHashAsLogoName ~ '.jpg' }}" alt="{{ row.websiteName }}" width="120" height="60"></a>
+    <a class="logoImg" target="_blank" title="{{ row.title }}" href="{{ href_ }}"><img src="/images/website_logos/{{  row.hostHashAsLogoName ~ '.jpg' }}" alt="{{ row.websiteName }}" width="120" onerror="this.src='/images/shoplogoBg.jpg';this.onerror='null'"></a>
         {% if row.commission is defined and  row.commission > 0 %}<div class="logoWord lightGray">最高返{{ row.commission }}%</div>{% endif %}
         <div class="logoMore">
         	<div class="logoMask"></div>
@@ -18,12 +18,12 @@
 </ul>
 <script type="text/javascript">
 	$(function(){
-            $('.shopR .center ul li').hover(function(){
-                var index = $('.shopR .center ul li').index(this);
-                $('.logoMore').eq(index).stop(true,true).delay(400).show();
-            },function(){
-				var index = $('.shopR .center ul li').index(this);
-                $('.logoMore').eq(index).stop(true,true).hide();
-            });
+        $('.shopR .center ul li').hover(function(){
+            var index = $('.shopR .center ul li').index(this);
+            $('.logoMore').eq(index).stop(true,true).delay(400).show();
+        },function(){
+    		var index = $('.shopR .center ul li').index(this);
+            $('.logoMore').eq(index).stop(true,true).hide();
+        });
 	});
 </script>
