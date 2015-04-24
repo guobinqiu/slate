@@ -1,7 +1,7 @@
 <?php
 namespace  Jili\ApiBundle\Tests\Services;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AlertToSlackTest extends KernelTestCase {
 

@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `duomai_order` (
   `site_id` int(11) NOT NULL COMMENT '网站ID',
   `link_id` int(11) NOT NULL COMMENT '活动链接ID',
   `ocd` varchar(100) NOT NULL COMMENT 'order_sn 订单编号',
-  `order_time` int(11) NOT NULL COMMENT '下单时间',
+  `order_time` datetime NOT NULL DEFAULT 0 COMMENT '下单时间',
   `orders_price` float(10,2) NOT NULL DEFAULT 0.0 COMMENT '订单金额',
   `comm` float(10,2) NOT NULL DEFAULT 0.0  COMMENT 'siter_commission 订单佣金',
   `status` int(2) NOT NULL DEFAULT 0 COMMENT '订单状态  -1 无效 0 未确认 1 确认 2 结算',
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `duomai_order` (
   `balanced_at` datetime NOT NULL DEFAULT 0 COMMENT 'status= 2 的时间',
   `created_at` datetime NOT NULL DEFAULT 0 COMMENT 'status= 0 的时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ocd`(`ocd`)
+  UNIQUE KEY `order_idx`(`site_id`,`ocd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
 
 -- 记录多麦回调的原始请求参数

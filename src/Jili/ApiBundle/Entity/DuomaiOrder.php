@@ -59,7 +59,7 @@ class DuomaiOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="order_time", type="integer", nullable=false)
+     * @ORM\Column(name="order_time", type="datetime", nullable=false)
      */
     private $orderTime;
 
@@ -467,8 +467,6 @@ class DuomaiOrder
             ->setBalancedAt($era)
             ->setCreatedAt($ds);
     }
-
-
 
 
     public function isPending() {

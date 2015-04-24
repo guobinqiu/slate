@@ -20,10 +20,11 @@ class DuomaiOrderRepository extends EntityRepository
         }
         return false;
     }
-    
+
     /**
      */
-    public function init($params = array ()) {
+    public function init($params = array ()) 
+    {
         $em = $this->getEntityManager();
         $order = new DuomaiOrder();
 
@@ -36,11 +37,18 @@ class DuomaiOrderRepository extends EntityRepository
             ->setOrderTime($params['orderTime'])
             ->setOrdersPrice($params['ordersPrice']);
 
-//            ->setComm(0 /*$params['comm']*/)
- //           ->setStatus(DuomaiOrder::STATUS_PENDING);
+        // ->setComm(0 /*$params['comm']*/)
+        // ->setStatus(DuomaiOrder::STATUS_PENDING);
 
         $em->persist($order);
         $em->flush();
         return $order;
     }
+
+    public function update ($params = array ()) 
+    {
+
+
+    }
+
 }

@@ -1,7 +1,7 @@
 <?php
 namespace  Jili\ApiBundle\Tests\Services\Flow;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class FlowOrderCreateApiProcessorTest extends KernelTestCase {
 

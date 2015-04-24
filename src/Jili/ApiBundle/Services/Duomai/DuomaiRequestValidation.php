@@ -2,9 +2,8 @@
 namespace Jili\ApiBundle\Services\Duomai;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\DependencyInjection\ParameterBagInterface;
 use Symfony\Component\Validator\ValidatorInterface;
 use Jili\ApiBundle\Validator\Constraints\DuomaiApiOrdersPushChecksum;
 
@@ -24,7 +23,7 @@ class DuomaiRequestValidation {
     /**
      *
      **/
-    public function validate(ParameterBagInterface $request,  $client_ip = '') 
+    public function validate(ParameterBag $request,  $client_ip = '') 
     {
         $configs = $this->configs;
         $result = array (
@@ -33,7 +32,6 @@ class DuomaiRequestValidation {
             'message'=>'',
             'data'=>[]
         );
-
 
 // 在订单状态为 1 或者为 2 的时候  order_price 表示确认的订单金额，siter_commission 表示
         if( '0' === $request->getAlnum('ads_id') && '测试活动'=== $request->get('ads_name') && '0' === $request->getAlnum('site_id') 
@@ -55,7 +53,9 @@ class DuomaiRequestValidation {
         }
 
         $data = array('hash'=> $configs['site_hash'], 'request'=> $request->all() );
-        $errors =  $validator->validate( $data, new DuomaiApiOrdersPushChecksum() );
+
+        $errors =  $this->validator->validate( $data, new DuomaiApiOrdersPushChecksum() );
+
         if(count($errors) > 0  ) { 
             $error_message = $errors[0]->getMessage();
             $this->logger->debug('[duomaiApi]:'. $error_message );
@@ -63,17 +63,17 @@ class DuomaiRequestValidation {
             return  $result;
         }
         
-        
         // 订单是否已经存在
         // 请求的状态是否已经是过时的 
         $order_sn = $request->get('order_sn');
         // 订单状态  -1 无效 0 未确认 1 确认 2 结算
         $status = $request->get('status');
-        $order_exists = $em->getRepository('JiliApiBundle:DuomaiOrder')->findOneByOcd( $order_sn ) ;
+        $order_exists = $this->em->getRepository('JiliApiBundle:DuomaiOrder')->findOneByOcd( $order_sn ) ;
 
-        if( $order_exists->isBalanced() || $order_exists->isInvalid() 
+
+        if( $order_exists && ($order_exists->isBalanced() || $order_exists->isInvalid() 
             || ($status === $configs['status']['UNCERTAIN'] && ( $order_exists->isPending() ||  $order_exists->isConfirmed()) ) 
-            || ($status === $configs['status']['CONFIRMED'] && $order_exists->isConfirmed()) ) 
+            || ($status === $configs['status']['CONFIRMED'] && $order_exists->isConfirmed()) ) )
         {
             // 0 表示推送成功 但订单已存在。
             $result['code']= $configs['response']['SUCCESS_DUPLICATED'];

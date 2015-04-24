@@ -93,7 +93,6 @@ class DuomaiControllerTest extends WebTestCase
     /**
      * 订单初提交 
      * @group issue_680 
-     * @group debug 
      */
     public function testGetInfoInit() 
     {
@@ -114,10 +113,13 @@ class DuomaiControllerTest extends WebTestCase
             'checksum'=>'bb9a518f17b400380c2a3d22ebd7cdbf' 
         );
 
-        $url = $container->get('router')->generate('_api_duomai_getinfo'  ) ;
-        $this->assertEquals('/api/duomai/getInfo', $url);
+        $url = $container->get('router')->generate('_api_duomai_getinfo' , $query_array ) ;
 
-        $response = $client->request('POST', $url ) ;
+        $this->assertEquals('/api/duomai/getInfo?ads_id=1&ads_name=%E6%B5%8B%E8%AF%95%E6%B4%BB%E5%8A%A8init&site_id=1&link_id=1&euid=1&order_sn=asdfasf&order_time=2015-04-02+00%3A00%3A00&orders_price=10&siter_commission=4&status=0&checksum=bb9a518f17b400380c2a3d22ebd7cdbf', $url);
+
+        $crawler = $client->request('GET', $url ) ;
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
         $this->assertEquals(1,1);
     }

@@ -54,7 +54,6 @@ class CpsAdvertisementControllerTest extends WebTestCase
 
     /**
      * @group issue_680
-     * @group debug 
      */
     public function testListAction()
     {
@@ -72,7 +71,6 @@ class CpsAdvertisementControllerTest extends WebTestCase
 
     /**
      * @group issue_680
-     * @group debug 
      */
     public function testListSearchAction()
     {
@@ -94,7 +92,7 @@ class CpsAdvertisementControllerTest extends WebTestCase
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('/shop/list?q='. urlencode('东'), $client->getRequest()->getRequestUri(),'redirected uri');
+        $this->assertEquals('/shop/list?q='. urlencode('东').'&wcat=-1', $client->getRequest()->getRequestUri(),'redirected uri');
     }
 
 #        $this->assertEquals(1,1);
