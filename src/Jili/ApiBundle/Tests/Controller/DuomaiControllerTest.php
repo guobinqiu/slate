@@ -181,7 +181,6 @@ class DuomaiControllerTest extends WebTestCase
     /**
      * 订单确认提交 
      * @group issue_680 
-     * @group debug 
      */
     public function testGetInfoConfirmed() 
     {
@@ -223,7 +222,6 @@ class DuomaiControllerTest extends WebTestCase
 
     /**
      * @group issue_680
-     * @group debug 
      */
     public function testGetInfoBalanced() 
     {

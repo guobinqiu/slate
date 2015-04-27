@@ -33,7 +33,7 @@ class DuomaiRequestValidation {
             'data'=>[]
         );
 
-// 在订单状态为 1 或者为 2 的时候  order_price 表示确认的订单金额，siter_commission 表示
+        // 在订单状态为 1 或者为 2 的时候  order_price 表示确认的订单金额，siter_commission 表示
         if( '0' === $request->getAlnum('ads_id') && '测试活动'=== $request->get('ads_name') && '0' === $request->getAlnum('site_id') 
             && '0' === $request->getDigits('link_id')&& 0 === strlen( $request->get('euid') ) && '0'===$request->getAlnum('order_sn') 
             &&  '0000-00-00 00:00:00' === $request->getAlnum('order_time')&&  '0.00' === $request->getAlnum('orders_price') 
@@ -42,7 +42,7 @@ class DuomaiRequestValidation {
                 return  $result;
             }
 
-        
+
         $required_keys = array('ads_id', 'ads_name','site_id', 'link_id','euid','order_sn','orders_price', 'siter_commission','status');
 
         foreach ($required_keys as $key ) {
@@ -62,7 +62,7 @@ class DuomaiRequestValidation {
             $result['message'] = $error_message;
             return  $result;
         }
-        
+
         // UNIQUE KEY
         // 订单是否已经存在
         // 请求的状态是否已经是过时的 
@@ -72,16 +72,20 @@ class DuomaiRequestValidation {
         $order_exists = $this->em->getRepository('JiliApiBundle:DuomaiOrder')->findOneByOcd( $ocd) ;
         $status_int = (int) $status;
 
-        if( $order_exists && ($order_exists->isBalanced() || $order_exists->isInvalid() 
-            || ($status_int === $configs['status']['UNCERTAIN'] && ( $order_exists->isPending() ||  $order_exists->isConfirmed()) ) 
-            || ($status === $configs['status']['CONFIRMED'] && $order_exists->isConfirmed()) ) )
-        {
-            // 0 表示推送成功 但订单已存在。
-            $result['code']= $configs['response']['SUCCESS_DUPLICATED'];
-            return $result;
+        if( $order_exists ) {
+            if( ($order_exists->isBalanced() || $order_exists->isInvalid() 
+                || ($status_int === $configs['status']['UNCERTAIN'] && ( $order_exists->isPending() ||  $order_exists->isConfirmed()) ) 
+                || ($status === $configs['status']['CONFIRMED'] && $order_exists->isConfirmed()) ) )
+            {
+                // 0 表示推送成功 但订单已存在。
+                $result['code']= $configs['response']['SUCCESS_DUPLICATED'];
+                return $result;
+            }
+
+
+            $result['data']['exists_order_id' ] =  $order_exists->getId();
+            $result['data']['exists_order_status' ] =  $order_exists->getStatus();
         }
-        $result['data']['exists_order_id' ] =  $order_exists->getId();
-        $result['data']['exists_order_status' ] =  $order_exists->getStatus();
 
         $result['value']= true;
         $result['code']= $configs['response']['SUCCESS'];

@@ -77,8 +77,8 @@ class DuomaiRequestProcessor {
                         'date'=> $order->getCreatedAt(),
                         'status'=> $order->getStatus(),
                         'task_name'=> $configs['name'],
-                        'reward_percent'=>$configs['cps_deafult_rebate'] ,
-                        'point'=> intval($order->getComm() * $configs['cps_deafult_rebate'] )
+                        'reward_percent'=>$configs['cps_default_rebate'] ,
+                        'point'=> intval($order->getComm() * $configs['cps_default_rebate'] )
                     ));
 
                 $em->getConnection()->commit();
