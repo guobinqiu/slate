@@ -293,7 +293,6 @@ class DuomaiControllerTest extends WebTestCase
 
     /**
      * @group issue_680
-     * @group debug 
      */
     public function testGetInfoInvalid() 
     {
