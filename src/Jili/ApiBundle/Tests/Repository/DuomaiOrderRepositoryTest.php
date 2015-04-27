@@ -43,7 +43,6 @@ class DuomaiOrderRepositoryTest extends KernelTestCase {
 
     /**
      * @group issue_680 
-     * @group debug 
      */
     public function testInit() 
     {
@@ -54,7 +53,7 @@ class DuomaiOrderRepositoryTest extends KernelTestCase {
             'siteId'=>123,
             'linkId'=>12314,
             'ordersPrice'=>0.01,
-            'orderTime'=> '2014-04-20 00:00:00',
+            'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', '2014-04-20 00:00:00'),
             'ocd'=>'f0ij20f99239i09ri920r32'
         );
         $return =$em->getRepository('JiliApiBundle:DuomaiOrder')
@@ -63,6 +62,20 @@ class DuomaiOrderRepositoryTest extends KernelTestCase {
         $this->assertInstanceOf('\Jili\ApiBundle\Entity\DuomaiOrder', $return);
         $this->assertNotNull($return->getId());
         $this->assertEquals(1, $return->getStatus(),'init order status should be 1');
+    }
+    /**
+     * @group issue_680 
+     * @group debug 
+     */
+    public function testUpdate() 
+    {
+
+        $return =$em->getRepository('JiliApiBundle:DuomaiOrder')
+            ->update($params);
+        $this->assertInstanceOf('\Jili\ApiBundle\Entity\DuomaiOrder', $return);
+        $this->assertNotNull($return->getId());
+
+        $this->assertEquals(1,1);
     }
 
 }

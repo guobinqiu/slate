@@ -45,10 +45,37 @@ class DuomaiOrderRepository extends EntityRepository
         return $order;
     }
 
+/*
+                'userId'=> $userid,
+                'adsId'=>$request->get('ads_id'),
+                'adsName'=>$request->get('ads_name'),
+                'siteId'=>$request->get('site_id'),
+                'linkId'=> $request->get('link_id'),
+                'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', $request->get('order_time')),
+                'ocd' => $request->get('order_sn'),
+                'ordersPrice'=> $request->get('orders_price'),
+                'commission' => $request->get('siter_commission'),
+                'status' => $status
+ */
     public function update ($params = array ()) 
     {
 
+        $em = $this->getEntityManager();
 
+        $sql = 'UPDATE Jili\ApiBundle\Entity\DuomaiOrder  SET ';
+        if( isset($params['confirmedAt'] )) {
+            $sql .=  ' confirmedAt = :confirmedAt' ; 
+        } elseif (isset($params['balancedAt']) ) {
+            $sql .=  ' balancedAt = :balancedAt' ; 
+        } elseif (isset($params['deactivatedAt']) ) {
+            $sql .=  ' deactivatedAt = :deactivatedAt' ; 
+        }
+
+        $sql .= ', status = :status, comm = :commission WHERE  userId= :userId and adsId = :adsId  and siteId = :siteId and linkId = :linkId AND ocd = :ocd AND orderTime = :orderTime AND orderPrice =:orderPrice  LIMIT 1';
+
+        $q_update = $em->createQuery($sql);
+        $q_update ->setParameters( $params);
+        return  $q_update->execute();
     }
 
 }

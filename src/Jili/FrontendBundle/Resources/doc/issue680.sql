@@ -74,11 +74,12 @@ DROP TABLE IF EXISTS `duomai_order`;
 CREATE TABLE IF NOT EXISTS `duomai_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT ,
   `user_id` int(11) NOT NULL COMMENT 'euid网站主设定的反馈标签',
+  `ocd` varchar(32) NOT NULL COMMENT '请求参数中的id',
   `ads_id` int(11) NOT NULL COMMENT '活动ID',
   `ads_name` varchar(128) NOT NULL COMMENT '活动名称',
   `site_id` int(11) NOT NULL COMMENT '网站ID',
   `link_id` int(11) NOT NULL COMMENT '活动链接ID',
-  `ocd` varchar(100) NOT NULL COMMENT 'order_sn 订单编号',
+  `order_sn` varchar(32) NOT NULL COMMENT 'order_sn 订单编号',
   `order_time` datetime NOT NULL DEFAULT 0 COMMENT '下单时间',
   `orders_price` float(10,2) NOT NULL DEFAULT 0.0 COMMENT '订单金额',
   `comm` float(10,2) NOT NULL DEFAULT 0.0  COMMENT 'siter_commission 订单佣金',

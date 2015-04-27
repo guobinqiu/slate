@@ -57,7 +57,7 @@ class DuomaiOrder
     private $ocd;
 
     /**
-     * @var integer
+     * @var \DateTime
      *
      * @ORM\Column(name="order_time", type="datetime", nullable=false)
      */
@@ -264,7 +264,7 @@ class DuomaiOrder
     /**
      * Set orderTime
      *
-     * @param integer $orderTime
+     * @param \DateTime $orderTime
      * @return DuomaiOrder
      */
     public function setOrderTime($orderTime)
@@ -277,7 +277,7 @@ class DuomaiOrder
     /**
      * Get orderTime
      *
-     * @return integer 
+     * @return \DateTime 
      */
     public function getOrderTime()
     {
@@ -467,7 +467,6 @@ class DuomaiOrder
             ->setBalancedAt($era)
             ->setCreatedAt($ds);
     }
-
 
     public function isPending() {
         return $this->getStatus() === OrderBase::getInitStatus() ; 

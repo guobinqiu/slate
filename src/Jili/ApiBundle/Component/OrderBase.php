@@ -46,15 +46,6 @@ class OrderBase
         return self::$CONFIG;
     }
 
-    public static function getFailedStatus()
-    {
-        return self::$CONFIG['COMPLETED_FAILED'];
-    }
-
-    public static function getSuccessStatus()
-    {
-        return self::$CONFIG['COMPLETED_SUCCEEDED'];
-    }
 
     public static function getInitStatus() 
     {
@@ -66,4 +57,14 @@ class OrderBase
         return self::$CONFIG['Pending'];
     }
 
+
+    public static function getSuccessStatus()
+    {
+        return self::$CONFIG['COMPLETED_SUCCEEDED'];
+    }
+
+    public static function getFailedStatus()
+    {
+        return self::$CONFIG['COMPLETED_FAILED'];
+    }
 }

@@ -93,6 +93,7 @@ class DuomaiControllerTest extends WebTestCase
     /**
      * 订单初提交 
      * @group issue_680 
+     * @group debug 
      */
     public function testGetInfoInit() 
     {
@@ -121,7 +122,19 @@ class DuomaiControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $this->assertEquals(1,1);
+        $duomai_order_stm =   $em->getConnection()->prepare('select * from duomai_order');
+        $duomai_order_stm->execute();
+        $duomai_order_records =$duomai_order_stm->fetchAll(\PDO::FETCH_COLUMN);
+
+        var_dump($duomai_order_records);
+
+        $task_history_stm  =   $em->getConnection()->prepare('select * from task_history01');
+        $task_history_stm->execute(); 
+        $task_history_records =$task_history_stm->fetchAll(\PDO::FETCH_COLUMN);
+        var_dump($task_history_records);
+        
+        # qeury for duomai order
+        # qeury for task_history 
     }
 
     /**

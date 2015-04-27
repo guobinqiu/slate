@@ -49,12 +49,19 @@ class DuomaiController extends Controller
             return $resp;
         }
 
-        $logger->debug('jarod '. implode(':', array(__LINE__, __LINE__,  'query: ') ). var_export($request->query, true));
 
         // III. process.
         $result_processed  = $this->get('duomai_request.processor')
             ->process( $request->query);
+        if($result_processed['value']  === false) {
+            $logger->debug('jarod '. implode(':', array(__LINE__, __LINE__,  '$result_processed: ') ). var_export($result_processed, true));
+            $resp = new Response( $result_processed['code'] );
+            $resp->headers->set('Content-Type', 'text/plain');
+            return $resp;
+        }
 
+        
+        $logger->debug('jarod '. implode(':', array(__LINE__, __LINE__,  '$result_processed ') ). var_export($result_processed, true));
         
         $resp = new Response(0);
         $resp->headers->set('Content-Type', 'text/plain');
