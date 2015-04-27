@@ -19,8 +19,7 @@ class FlowOrderController extends Controller {
      * @Route("/getInfo", name="_api_flow_getinfo");
      * @Method("POST");
      */
-    public function getInfoAction() {
-        $request = $this->get('request');
+    public function getInfoAction(Request $request) {
         $result = $request->getContent();
         $data = json_decode($result, true);
 

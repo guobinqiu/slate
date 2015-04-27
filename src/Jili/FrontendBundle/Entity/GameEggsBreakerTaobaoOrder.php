@@ -55,7 +55,9 @@ class GameEggsBreakerTaobaoOrder
      * @Assert\Length(
      *      min = 15,
      *      max = 16,
-     *      exactMessage ="需要填15-16位订单号"
+     *      exactMessage ="需要填15-16位订单号",
+     *      minMessage ="需要填15-16位订单号",
+     *      maxMessage ="需要填15-16位订单号"
      * )
      */
     private $orderId;

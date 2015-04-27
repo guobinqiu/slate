@@ -59,7 +59,8 @@ class FlowOrderControllerTest extends WebTestCase {
         $post['status'] = 'success';
         $post['msg'] = '';
         $post['desc'] = '';
-        $crawler = $client->request('POST', $url, array (), array (), array (), json_encode($post));
+        $this->assertEquals('/api/flow/getInfo',$url);
+        $crawler = $client->request('POST', $url, array (), array (), array ('REMOTE_ADDR'=> '59.83.33.8'), json_encode($post));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $return = $client->getResponse()->getContent();
         $this->assertEquals('true', $return);
