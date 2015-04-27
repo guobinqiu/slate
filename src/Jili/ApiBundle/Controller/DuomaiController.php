@@ -26,11 +26,6 @@ class DuomaiController extends Controller
         $response = new Response();
         $response->headers->set('Content-Type', 'text/plain');
 
-        // 默认情况下 ，接口没有收到数据。直接访问的情况下 请输出 -1 或者 不输出
-#        if( 'GET' === $request->getMethod()) {
-#            return $response->setContent(-1) ;
-#        }
-
         $logger = $this->get('logger');
 
         // add request to adw_api_return?? or another table.
@@ -43,27 +38,21 @@ class DuomaiController extends Controller
 
         // II.get result_validation 
         if($result_validation['value']  === false) {
-            $logger->debug('jarod '. implode(':', array(__LINE__, __LINE__,  '$result_validation: ') ). var_export($result_validation, true));
             $resp = new Response( $result_validation['code'] );
             $resp->headers->set('Content-Type', 'text/plain');
             return $resp;
         }
 
-
         // III. process.
         $result_processed  = $this->get('duomai_request.processor')
-            ->process( $request->query);
+            ->process( $request->query, $result_validation['data']);
         if($result_processed['value']  === false) {
-            $logger->debug('jarod '. implode(':', array(__LINE__, __LINE__,  '$result_processed: ') ). var_export($result_processed, true));
             $resp = new Response( $result_processed['code'] );
             $resp->headers->set('Content-Type', 'text/plain');
             return $resp;
         }
-
         
-        $logger->debug('jarod '. implode(':', array(__LINE__, __LINE__,  '$result_processed ') ). var_export($result_processed, true));
-        
-        $resp = new Response(0);
+        $resp = new Response( $result_processed['code'] );
         $resp->headers->set('Content-Type', 'text/plain');
         return $resp;
     }

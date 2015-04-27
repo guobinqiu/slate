@@ -34,11 +34,10 @@ class DuomaiOrderRepository extends EntityRepository
             ->setSiteId($params['siteId'])
             ->setLinkId($params['linkId'])
             ->setOcd($params['ocd'])
+            ->setOrderSn($params['orderSn'])
             ->setOrderTime($params['orderTime'])
             ->setOrdersPrice($params['ordersPrice']);
 
-        // ->setComm(0 /*$params['comm']*/)
-        // ->setStatus(DuomaiOrder::STATUS_PENDING);
 
         $em->persist($order);
         $em->flush();
@@ -46,36 +45,79 @@ class DuomaiOrderRepository extends EntityRepository
     }
 
 /*
-                'userId'=> $userid,
-                'adsId'=>$request->get('ads_id'),
-                'adsName'=>$request->get('ads_name'),
-                'siteId'=>$request->get('site_id'),
-                'linkId'=> $request->get('link_id'),
-                'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', $request->get('order_time')),
-                'ocd' => $request->get('order_sn'),
-                'ordersPrice'=> $request->get('orders_price'),
-                'commission' => $request->get('siter_commission'),
-                'status' => $status
+        $params = array( 'userId'=> 105,
+            'adsId'=>61,
+            'adsName'=>'京东商城CPS推广',
+            'siteId'=>'152244',
+            'linkId'=>'0',
+            'orderSn'=>'9152050154',
+            'ordersPrice'=>'799.00',
+            'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', '2015-04-27 10:28:59'),
+            'ocd' => '71440050',
+            'status'=> 1,
+            'statusPrevous'=> 0
+        );
  */
-    public function update ($params = array ()) 
+    public function update($params = array ()) 
     {
 
         $em = $this->getEntityManager();
 
-        $sql = 'UPDATE Jili\ApiBundle\Entity\DuomaiOrder  SET ';
+        $sql = 'UPDATE Jili\ApiBundle\Entity\DuomaiOrder d  SET ';
+
         if( isset($params['confirmedAt'] )) {
-            $sql .=  ' confirmedAt = :confirmedAt' ; 
+            $sql .=  ' d.confirmedAt = :confirmedAt' ; 
         } elseif (isset($params['balancedAt']) ) {
-            $sql .=  ' balancedAt = :balancedAt' ; 
+            $sql .=  ' d.balancedAt = :balancedAt' ; 
         } elseif (isset($params['deactivatedAt']) ) {
-            $sql .=  ' deactivatedAt = :deactivatedAt' ; 
+            $sql .=  ' d.deactivatedAt = :deactivatedAt' ; 
+        } else {
+            return ;
+            # throw new Exception('');
         }
 
-        $sql .= ', status = :status, comm = :commission WHERE  userId= :userId and adsId = :adsId  and siteId = :siteId and linkId = :linkId AND ocd = :ocd AND orderTime = :orderTime AND orderPrice =:orderPrice  LIMIT 1';
+        $sql .= ', d.status = :status, d.comm = :commission WHERE  d.userId= :userId and d.adsId = :adsId  and d.siteId = :siteId and d.linkId = :linkId AND d.ocd = :ocd AND d.orderTime = :orderTime AND d.ordersPrice =:ordersPrice and d.orderSn = :orderSn ';
+
+        if ( isset($params['statusPrevous'])) {
+            $sql .= ' and d.status = :statusPrevous';
+        }
 
         $q_update = $em->createQuery($sql);
-        $q_update ->setParameters( $params);
+        $q_update->setParameters( $params);
         return  $q_update->execute();
     }
+/*
+            'id'=>1,
+            'commission'
+            'status'=> 1,
+            'statusPrevous'=> 0
+ */
+    public function updateById($params = array ()) 
+    {
 
+        $em = $this->getEntityManager();
+
+        $sql = 'UPDATE Jili\ApiBundle\Entity\DuomaiOrder d  SET ';
+
+        if( isset($params['confirmedAt'] )) {
+            $sql .=  ' d.confirmedAt = :confirmedAt' ; 
+        } elseif (isset($params['balancedAt']) ) {
+            $sql .=  ' d.balancedAt = :balancedAt' ; 
+        } elseif (isset($params['deactivatedAt']) ) {
+            $sql .=  ' d.deactivatedAt = :deactivatedAt' ; 
+        } else {
+            return ;
+            # throw new Exception('');
+        }
+
+        $sql .= ', d.status = :status, d.comm = :commission WHERE  d.id = :id';
+
+        if ( isset($params['statusPrevous'])) {
+            $sql .= ' and d.status = :statusPrevous';
+        }
+
+        $q_update = $em->createQuery($sql);
+        $q_update->setParameters( $params);
+        return  $q_update->execute();
+    }
 }

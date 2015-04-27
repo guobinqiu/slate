@@ -63,22 +63,25 @@ class DuomaiRequestValidation {
             return  $result;
         }
         
+        // UNIQUE KEY
         // 订单是否已经存在
         // 请求的状态是否已经是过时的 
-        $order_sn = $request->get('order_sn');
+        $ocd = $request->get('id');
         // 订单状态  -1 无效 0 未确认 1 确认 2 结算
         $status = $request->get('status');
-        $order_exists = $this->em->getRepository('JiliApiBundle:DuomaiOrder')->findOneByOcd( $order_sn ) ;
-
+        $order_exists = $this->em->getRepository('JiliApiBundle:DuomaiOrder')->findOneByOcd( $ocd) ;
+        $status_int = (int) $status;
 
         if( $order_exists && ($order_exists->isBalanced() || $order_exists->isInvalid() 
-            || ($status === $configs['status']['UNCERTAIN'] && ( $order_exists->isPending() ||  $order_exists->isConfirmed()) ) 
+            || ($status_int === $configs['status']['UNCERTAIN'] && ( $order_exists->isPending() ||  $order_exists->isConfirmed()) ) 
             || ($status === $configs['status']['CONFIRMED'] && $order_exists->isConfirmed()) ) )
         {
             // 0 表示推送成功 但订单已存在。
             $result['code']= $configs['response']['SUCCESS_DUPLICATED'];
             return $result;
         }
+        $result['data']['exists_order_id' ] =  $order_exists->getId();
+        $result['data']['exists_order_status' ] =  $order_exists->getStatus();
 
         $result['value']= true;
         $result['code']= $configs['response']['SUCCESS'];

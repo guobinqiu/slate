@@ -726,4 +726,15 @@ EOT;
         $query = $query->getQuery();
         return $query->getOneOrNullResult();
     }
+
+    /**
+     * @param array array('id'=> , 'points');
+     * @return integer rows updated
+     */
+    public function updatePointById($params) 
+    {
+        $em = $this->getEntityManager();
+        $stm = $em->getConnection()->prepare('update user u set u.points = u.points + :points where u.id  = :id');
+        return $stm->execute($params);
+    }
 }

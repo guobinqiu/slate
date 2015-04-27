@@ -8,11 +8,12 @@ use Jili\ApiBundle\Component\OrderBase;
 /**
  * DuomaiOrder
  *
- * @ORM\Table(name="duomai_order", uniqueConstraints={@ORM\UniqueConstraint(name="ocd", columns={"ocd"})})
+ * @ORM\Table(name="duomai_order", uniqueConstraints={@ORM\UniqueConstraint(name="order_idx", columns={"site_id", "ocd"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\DuomaiOrderRepository")
  */
 class DuomaiOrder
 {
+
 
     /**
      * @var integer
@@ -20,6 +21,13 @@ class DuomaiOrder
      * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
     private $userId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ocd", type="string", length=32, nullable=false)
+     */
+    private $ocd;
 
     /**
      * @var integer
@@ -52,9 +60,9 @@ class DuomaiOrder
     /**
      * @var string
      *
-     * @ORM\Column(name="ocd", type="string", length=100, nullable=false)
+     * @ORM\Column(name="order_sn", type="string", length=32, nullable=false)
      */
-    private $ocd;
+    private $orderSn;
 
     /**
      * @var \DateTime
@@ -144,6 +152,29 @@ class DuomaiOrder
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Set ocd
+     *
+     * @param string $ocd
+     * @return DuomaiOrder
+     */
+    public function setOcd($ocd)
+    {
+        $this->ocd = $ocd;
+
+        return $this;
+    }
+
+    /**
+     * Get ocd
+     *
+     * @return string 
+     */
+    public function getOcd()
+    {
+        return $this->ocd;
     }
 
     /**
@@ -239,26 +270,26 @@ class DuomaiOrder
     }
 
     /**
-     * Set ocd
+     * Set orderSn
      *
-     * @param string $ocd
+     * @param string $orderSn
      * @return DuomaiOrder
      */
-    public function setOcd($ocd)
+    public function setOrderSn($orderSn)
     {
-        $this->ocd = $ocd;
+        $this->orderSn = $orderSn;
 
         return $this;
     }
 
     /**
-     * Get ocd
+     * Get orderSn
      *
      * @return string 
      */
-    public function getOcd()
+    public function getOrderSn()
     {
-        return $this->ocd;
+        return $this->orderSn;
     }
 
     /**

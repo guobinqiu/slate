@@ -49,12 +49,10 @@ class DuomaiRequestProcessor {
 
         $logger = $this->logger;
 
-#`        $logger->debug('jarod '. implode(':', array(__LINE__, __LINE__,  '$status: ') ). var_export($status, true));
- #       $logger->debug('jarod '. implode(':', array(__LINE__, __LINE__,  '$configs: ') ). var_export($configs, true));
-        $logger->debug('jarod '. implode(':', array(__LINE__, __LINE__,  '$requests: ') ). var_export($request, true));
 
         $status_int = (int) $status;
         if( $status_int === $configs['status']['UNCERTAIN'] ) {
+
             try{
                 $em->getConnection()->beginTransaction();
                 $order = $em->getRepository('JiliApiBundle:DuomaiOrder')->init( array(
@@ -65,18 +63,22 @@ class DuomaiRequestProcessor {
                     'linkId'=> $request->get('link_id'),
                     'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', $request->get('order_time')),
                     'ordersPrice'=> $request->get('orders_price'),
-                    'ocd'=>$request->get('order_sn')
+                    'orderSn'=>$request->get('order_sn'),
+                    'ocd'=>$request->get('id'),
+                    'commission'=>$request->get('siter_commission')
                 ));
+
 
                 $em->getRepository('JiliApiBundle:TaskHistory0'. ($userid % 10))
                     ->init( array('userid'=>$userid,
                         'orderId'=> $order->getId(),
                         'categoryType'=> AdCategory::ID_DUOMAI ,
                         'taskType' => TaskHistory00::TASK_TYPE_DUOMAI,
-                        'task_name'=> $configs['name'], #$odrer->getAdsName(),
                         'date'=> $order->getCreatedAt(),
-                        'point'=>0,
-                        'status'=> $order->getStatus()
+                        'status'=> $order->getStatus(),
+                        'task_name'=> $configs['name'],
+                        'reward_percent'=>$configs['cps_deafult_rebate'] ,
+                        'point'=> intval($order->getComm() * $configs['cps_deafult_rebate'] )
                     ));
 
                 $em->getConnection()->commit();
@@ -90,24 +92,22 @@ class DuomaiRequestProcessor {
             return $result;
         } 
         # other status
-        $status_order = '';
         $order_params =  array(
             'userId'=> $userid,
             'adsId'=>$request->get('ads_id'),
-            'adsName'=>$request->get('ads_name'),
             'siteId'=>$request->get('site_id'),
             'linkId'=> $request->get('link_id'),
             'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', $request->get('order_time')),
-            'ocd' => $request->get('order_sn'),
+            'ocd' => $request->get('id'),
             'ordersPrice'=> $request->get('orders_price'),
-            'commission' => $request->get('siter_commission'),
-            'status' => $status
+            'orderSn'=> $request->get('order_sn'),
+            'commission' => $request->get('siter_commission')
         );
 
         if ( $status_int === $configs['status']['CONFIRMED']  ) {
             $order_params['status'] = OrderBase::getPendingStatus();
             $order_params['confirmedAt'] = new \DateTime();
-        } else if($statut_int === $configs['status']['BALANCED'] ) {
+        } else if($status_int === $configs['status']['BALANCED'] ) {
             $order_params['status'] = OrderBase::getSuccessStatus();
             $order_params['balancedAt']= new \DateTime();
         } else if ( $status_int === $configs['status']['INVALID'] ) {
@@ -118,34 +118,47 @@ class DuomaiRequestProcessor {
             return  $result;
         }
 
-        // update duomai_order
-        $em->getRepository('JiliApiBundle:DuomaiOrder')->update($order_params);
-
         // by select emar_order ? 
+        $task_params = array(
+            'userId'=> $userid, 
+            'orderId'=> $data['exists_order_id'],
+            'categoryType'=> AdCategory::ID_DUOMAI ,
+            'taskType' => TaskHistory00::TASK_TYPE_DUOMAI,
+            'point'=> intval ($request->get('siter_commission') * $configs['cps_default_rebate']),
+            'rewardPercent' => $configs['cps_default_rebate'],
+            'status' => $order_params['status'],
+            'statusPrevious'=> $data['exists_order_status']
+        );
 
-        // update task_history
-        #            $em->getRepository('JiliApiBundle:TaskHistory0'. ($userid % 10))
-        #                ->update( array('userid'=>$userid,
-        #                    'orderId'=> $order->getId(),
-        #                    'categoryType'=> Jili\ApiBundle\Entity\AdCategory::ID_DUOMAI ,
-        #                    'taskType' => Jili\ApiBundle\Entity\TaskHistory00\TASK_TYPE_DUOMAI,
-        #                    'task_name'=> $config['name'], #$odrer->getAdsName(),
-        #                    'date'=> $order->getCreatedAt(),
-        #                    'point'=>0,
-        #                    'status'=> $order->getStatus()
-        #                ));
-        #
-        // $em->getRepository('JiliApiBundle:DuomaiOrder')->update( array() );
-        // $em->getRepository('JiliApiBundle:TaskHistory0'. ($userid % 10))->update(  array() );
+        try{
+            $em->getConnection()->beginTransaction();
+            // update duomai_order
+            $order_update_result = $em->getRepository('JiliApiBundle:DuomaiOrder')->update($order_params);
 
-        if( $status_int  === $configs['status']['BALANCED'] ) {
-            // inssert point_history
-            // update  user.points
-        }
+            // update task_history
+            $em->getRepository('JiliApiBundle:TaskHistory0'. ($userid % 10))
+                ->update($task_params);
+
+            if( $status_int  === $configs['status']['BALANCED'] ) {
+                // inssert point_history
+                $em->getRepository('JiliApiBundle:PointHistory0'. ($userid % 10))
+                    ->get( array( 'userid'=>$userid, 'point'=>$task_params['point'] ,'type'=> $task_params['categoryType'] ) );
+                // update  user.points
+                $em->getRepository('JiliApiBundle:User')->updatePointById(array('id'=> $userid, 'points'=> $task_params['point']));
+            }
+            $em->getConnection()->commit();
+        } catch (\Exception $e) {
+                $this->logger->crit('[duomai][callback]'. $e->getMessage());
+                $em->getConnection()->rollback();
+                return $result;
+            }
 
         // 0 -> 1,2 
 
         // 0 -> -1 
+        $result['value'] = true;
+        $result['code']= $configs['response']['SUCCESS'];
+        return $result;
     }
 
 

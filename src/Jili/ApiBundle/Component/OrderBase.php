@@ -54,7 +54,7 @@ class OrderBase
 
     public static function getPendingStatus() 
     {
-        return self::$CONFIG['Pending'];
+        return self::$CONFIG['PENDING'];
     }
 
 
