@@ -2,6 +2,8 @@
 namespace  Jili\ApiBundle\Tests\Services\Bangwoya;
 
 use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\BangwoyaOrder;
 
@@ -14,6 +16,10 @@ class BangwoyaRequestValidationTest extends KernelTestCase {
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
         $container = static :: $kernel->getContainer();
 
         $config = $container->getParameter('bangwoya_com');
