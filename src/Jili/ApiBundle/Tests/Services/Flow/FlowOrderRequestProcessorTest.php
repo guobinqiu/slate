@@ -56,7 +56,7 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'ng';
-        $data['client_ip'] = '127.0.0.1';
+        $data['client_ip'] = '59.83.33.60';
         $service = $container->get('flow_order_request.processor');
         $result = $service->process($data);
         $this->assertFalse($result);
@@ -64,7 +64,7 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'error';
-        $data['client_ip'] = '127.0.0.1';
+        $data['client_ip'] = '59.83.33.60';
         $service = $container->get('flow_order_request.processor');
         $result = $service->process($data);
         $this->assertTrue($result);
@@ -73,7 +73,7 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'success';
-        $data['client_ip'] = '127.0.0.1';
+        $data['client_ip'] = '59.83.33.60';
         $service = $container->get('flow_order_request.processor');
         $result = $service->process($data);
         $this->assertTrue($result);

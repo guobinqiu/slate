@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS `duomai_advertisement` (
     `return_day` int(2) NOT NULL DEFAULT 0 COMMENT '效果认定期RD', 
     `billing_cycle` varchar(255) NOT NULL COMMENT '结算周期',
     `link_custom` varchar(128) NOT NULL COMMENT '自定义链接',
-    `link_custom_short` varchar(128) NOT NULL COMMENT '自定义短链接',
     `selected_at` datetime DEFAULT NULL COMMENT '选入cps_adver时间',
     `fixed_hash` varchar(64) NOT NULL  COMMENT '更新时使用',
     `is_activated` int(2) NOT NULL DEFAULT 0 COMMENT '1: 使用中, 0: 不在使用' ,

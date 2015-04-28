@@ -125,7 +125,7 @@ sub push_duomai_advertisement {
     # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
 
-    my $sth=$dbh->prepare(qq{SELECT `id`,`ads_id`,`ads_name`,`ads_url`,`ads_commission`,`start_time`,`end_time`,`category`,`return_day`,`billing_cycle`,`link_custom`,`link_custom_short` ,`selected_at` FROM duomai_advertisement where is_activated = 1});
+    my $sth=$dbh->prepare(qq{SELECT `id`,`ads_id`,`ads_name`,`ads_url`,`ads_commission`,`start_time`,`end_time`,`category`,`return_day`,`billing_cycle`,`link_custom`,`selected_at` FROM duomai_advertisement where is_activated = 1});
     $sth->execute();
     $dbh->commit;
 
@@ -175,7 +175,7 @@ sub push_duomai_advertisement {
             ad_category_id => $ad_category_id, # ad_category_id
             ad_id=>$hash_ref->{id}, # ad_id ;
             title=>$ads_name, # title ;
-            marketing_url=> $hash_ref->{link_custom_short}, # marketing_url;
+            marketing_url=> $hash_ref->{link_custom}, # marketing_url;
             ads_url => $hash_ref->{ads_url}, #ads_url, web_host;
             website_name=>$ads_name, #  website_name ;
             website_host=>$web_domain, #website_host
