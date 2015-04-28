@@ -218,6 +218,9 @@ class DuomaiControllerTest extends WebTestCase
         $task_history_stm->execute(); 
         $task_history_records =$task_history_stm->fetchAll();
 
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals(0, $client->getResponse()->getContent(), 'duplicated callback return 0 ');
     }
 
     /**
@@ -287,6 +290,10 @@ class DuomaiControllerTest extends WebTestCase
         $this->assertEquals(105,  $users[0]['id']);
         $this->assertEquals(98614,  $users[0]['points'], 'point added by 378');
 
+
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals(0, $client->getResponse()->getContent(), 'duplicated callback return 0 ');
     }
 
     /**
@@ -343,6 +350,10 @@ class DuomaiControllerTest extends WebTestCase
         $this->assertEquals(105,  $users[0]['id']);
         $this->assertEquals(98236,  $users[0]['points'], 'point not changed');
 
+
+        $crawler = $client->request('GET', $url ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals(0, $client->getResponse()->getContent(), 'duplicated callback return 0 ');
     }
 
 

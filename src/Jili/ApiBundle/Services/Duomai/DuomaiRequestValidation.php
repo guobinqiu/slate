@@ -75,7 +75,7 @@ class DuomaiRequestValidation {
         if( $order_exists ) {
             if( ($order_exists->isBalanced() || $order_exists->isInvalid() 
                 || ($status_int === $configs['status']['UNCERTAIN'] && ( $order_exists->isPending() ||  $order_exists->isConfirmed()) ) 
-                || ($status === $configs['status']['CONFIRMED'] && $order_exists->isConfirmed()) ) )
+                || ($status_int === $configs['status']['CONFIRMED'] && $order_exists->isConfirmed()) ) )
             {
                 // 0 表示推送成功 但订单已存在。
                 $result['code']= $configs['response']['SUCCESS_DUPLICATED'];

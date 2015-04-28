@@ -19,7 +19,7 @@
       <div class="shop-info module clearfix borderGlob">
           {% set href_ = path('jili_frontend_cpsadvertisement_redirect', {'wid':app.request.get('wid') })  %}
         <div class="shop-info-l">
-            <div class="shop_img"> <a href="{{ href_ }}" target="_blank" rel="nofollow"><img src="#" width="120" height="60"  alt="{{ website.websiteName  }}" /></a>
+            <div class="shop_img"> <a href="{{ href_ }}" target="_blank" rel="nofollow"><img src="/images/website_logos/{{ website.hostHashAsLogoName ~ '.jpg' }}" width="120" height="60"  alt="{{ website.websiteName  }}" /></a>
 
 {% if website.commission is defined and website.commission is not empty %}
             <p class="shop-rebate corLightGray">最高返利<em>{{ website.commission }}%</em></p>
@@ -86,7 +86,7 @@
       <ul id="mallsRecommend">
         {% for row in same_cat_websites %}
         <li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}" target="_blank">
-            <img src="{# row.logo_ur #}}" width="120" height="60" alt="{{ row.website_name }}">
+            <img src="/images/website_logos/{{ row.hostHashAsLogoName ~ '.jpg' }}" width="120" height="60" alt="{{ row.website_name }}">
 
             {%if row.max_commission is defined %}
             <span class="itemTxt">最高返<strong class="corGlobRed">{{row.max_commission}}%</strong></span>

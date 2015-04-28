@@ -45,7 +45,6 @@ class CpsAdvertisementController extends Controller
         $same_cat_websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')
             ->findSameCatWebsitesByRandom( array( 'limit'=> 3, 'category'=> $cps->getWebsiteCategory() ) );
 
-        # TODO: include asp  partial  to render the differece details.
         return $this->render('JiliFrontendBundle:CpsAdvertisement:detail.html.twig',array('website'=> $cps ,
             'detail' => $shop, 
             'commission_list'=>$commission_list,
@@ -126,7 +125,6 @@ class CpsAdvertisementController extends Controller
                 $keyword = $query_params['keyword'];
                 $url = $this->generateUrl('jili_frontend_cpsadvertisement_list',
                     array('q'=> $keyword, 'wcat'=> empty($wcat) ? -1: $wcat) ) ;
-                #$logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'$wcat: ')). var_export($url, true));
                 return $this->redirect( $url );
             }
         }
@@ -173,8 +171,6 @@ class CpsAdvertisementController extends Controller
         if(strlen($uri_shop) > 0 ) {
             return $this->redirect( $uri_shop);/// Response(__FUNCTION__);
         }
-        #TODO add a flash notice if uri_shop is invalid!
-        #TODO notify the deverloper to update the uri data.
         return $this->forward('JiliFrontendBundle:CpsAdvertisement:list');
     }
 }

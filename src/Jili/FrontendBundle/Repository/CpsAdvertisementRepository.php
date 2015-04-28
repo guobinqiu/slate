@@ -31,7 +31,7 @@ class CpsAdvertisementRepository extends EntityRepository
     public function findSameCatWebsitesByRandom( $params ) 
     {
         
-        $sql = 'select ca.* from cps_advertisement ca inner join(select r1.id from cps_advertisement as r1  join( select (rand() * (select max(id) from cps_advertisement) ) AS id ) AS r2 Where  r1.id > r2.id and r1.website_category = :web_cat  order by r1.id asc  limit :cnt) as rows on rows.id = ca.id ';
+        $sql = 'select ca.* , md5(ca.website_host) as hostHashAsLogoName  from cps_advertisement ca inner join(select r1.id from cps_advertisement as r1  join( select (rand() * (select max(id) from cps_advertisement) ) AS id ) AS r2 Where  r1.id > r2.id and r1.website_category = :web_cat  order by r1.id asc  limit :cnt) as rows on rows.id = ca.id ';
 
         $conn = $em = $this->getEntityManager()->getConnection();
         $sth = $conn->prepare($sql);

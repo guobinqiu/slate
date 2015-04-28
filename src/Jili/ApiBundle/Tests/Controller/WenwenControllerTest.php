@@ -158,17 +158,30 @@ class WenwenControllerTest extends WebTestCase {
         $url = '/api/91wenwen/register';
         $user = LoadWenwenRegister5CodeData :: $ROWS[0];
         $email = $user->getEmail();
+
         $crawler = $client->request('POST', $url, array (
             'email' => $email,
             'signature' => '8dda1ce847bba441f34f8770d662fbf22abab3bc',
             'uniqkey' => 'test'
         ));
+
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
 
         $expected['status'] = "2";
         $expected['message'] = "already exist";
 
         $content = $client->getResponse()->getContent();
+        $regex='/{"status":"1","message":"success","activation_url":"https:\\\\\/\\\\\/www\.91jili\.com\\\\\/user\\\\\/setPassFromWenwen\\\\\/[0-9a-f]{32}\\\\\/1"}/i';
+        
+        $this->assertRegExp($regex , $content);
+        
+
+        $crawler = $client->request('POST', $url, array (
+            'email' => $email,
+            'signature' => '8dda1ce847bba441f34f8770d662fbf22abab3bc',
+            'uniqkey' => 'test'
+        ));
+
 
         $this->assertEquals(json_encode($expected), $content);
     }
