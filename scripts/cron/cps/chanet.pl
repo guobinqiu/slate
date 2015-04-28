@@ -40,76 +40,20 @@ $ENV{HTTPS_DEBUG} = 1;
 
 
 # 取商家列表
-sub fetch_xls_sites {
-    my $config  = shift;
-    print $config->{cookie_file},"\n" ;
-    my $url = $config->{xls_sites}->{url};
-    my $output =  $config->{xls_sites}->{output};
-
-
-    print $url,"\n";
-    my $cookie_jar = HTTP::Cookies::Netscape->new(
-        file => $config->{cookie_file} 
-    );
-
-    my $headers = HTTP::Headers->new(
-        Host=> 'www.chanet.com.cn', 
-    );
-
-    my $ua = LWP::UserAgent->new();
-
-    $ua->agent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0');
-    $ua->timeout(40);
-    $ua->cookie_jar($cookie_jar);
-    $ua->default_header($headers );
-
-    my $ds = localtime->strftime("%Y-%m-%d");
-    $output =~ s/YYYY-mm-dd/$ds/;
-
-    print $output, "\n";
-    my $response = $ua->post($url);#//,':content_file' => $output);
-
-    print $response->headers->as_string,"\n";
-    die "fetch comm html failed " unless $response->status_line;
-}
-
 # 取captcha图
-sub gen_captcha {
-    my $config = shift;
-    my $cookie_jar = HTTP::Cookies::Netscape->new(
-        file => $config->{cookie_file} ,
-        autosave => 1,
-    );
 
-    my $cache = LWP::ConnCache->new();
-    my $ua = LWP::UserAgent->new(
-        'conn_cache'=> $cache
-    );
-    $ua->agent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0');
-    $ua->timeout(40);
-    $ua->cookie_jar($cookie_jar);
+sub login 
+{
+    my ($config) = @_;
+    my $url = $config->{login}->{url};
 
-
-    my $url_image = 'http://www.chanet.com.cn/captcha.cgi?'. int(rand()*100 +0.4999) ;
-print $url_image, "\n";
-
-    my $res = $ua->get($url_image);
-    if(!$res->is_success){
-        return 0;
-    }
-    open(FILE_HANDLE,'>/tmp/img.jpg');
-    binmode FILE_HANDLE;
-    print FILE_HANDLE $res->content;
-    close FILE_HANDLE;
-}
-
-
-
-  
-sub login {
-    my $url = 'https://www.chanet.com.cn/partner/login.cgi';
     my $date = localtime->strftime("%Y%m%d");
-    my $cookie_file = "/tmp/chanet/cookies_$date.txt";
+
+    my $cookie_file = $config->{cookie_file};
+
+    my $path_dest = dirname($cookie_file);
+    make_path($path_dest); 
+
     my $cookie_jar = HTTP::Cookies->new(
         'file' => $cookie_file,
         'autosave'=>1,
@@ -117,7 +61,6 @@ sub login {
     );
 
     # todo: check the expire date
-    
     my $cache = LWP::ConnCache->new();
     my $ua = LWP::UserAgent->new(
         'show_progress' => 1,
@@ -128,7 +71,7 @@ sub login {
     );
     my $response =  $ua->get($url );
     print $response->headers->as_string,"\n";
-    #print $response->content;
+    
     print "\n";
 
     my $url_image = 'http://www.chanet.com.cn/captcha.cgi?'. int(rand()*100 +0.4999) ;
@@ -150,13 +93,14 @@ sub login {
     $response = $ua->post( $url, [
             'confirm'=> '1',
             'p'=> '',
-            'login_name'=> 'voyage',
-            'login_pass'=> 'jilijili',
+            'login_name'=> $config->{login}->{login_name},
+            'login_pass'=> $config->{login}->{login_pass},
             'login_week'=> '1',
             'validate_code'=> $captcha,
         ] );
 
     print $response->headers->as_string,"\n";
+
     die "download csv file failed " unless $response->status_line;
 
     if( $response->content =~ m/验证码错误，请重试/ ) {
@@ -164,109 +108,36 @@ sub login {
         return ;
     }
 
-    $url = 'https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=&search_type=2&search_as_id=480534&link_type=2&act-type=on&category=0';
-#           https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=&search_type=2&search_as_id=480534&link_type=2&act-type=on&category=0
-#                                                               pmid=&search_type=2&search_as_id=480534&link_type=2&act-type=on&category=0
-    my $output= "/tmp/chanet/promotio_linkYYYY-mm-dd.xls";
+    $url = $config->{xls_sites}->{url};
+    print $url,"\n";
 
-    my $path_dest = dirname($output);
-    make_path($path_dest); 
+    my $output =  $config->{xls_sites}->{output};
 
     my $ds = localtime->strftime("%Y-%m-%d");
     $output =~ s/YYYY-mm-dd/$ds/;
 
     $response = $ua->get($url, ':content_file' => $output);
+
     print $response->headers->as_string,"\n";
     print $response->status_line, "\n";
     print 'saved to:', $output,"\n";
 
-#    $url = 'https://www.chanet.com.cn/partner/pm_detail.cgi?pm_id=246';
-#    print $url,"\n";
-
-#    $output = '/tmp/chanet/comms/chanet246-1.html';
-#    $path_dest = dirname($output);
-#    make_path($path_dest); 
-#
-#    $response = $ua->get($url, ':content_file' => $output);
-#    print $response->headers->as_string,"\n";
-#    print $response->status_line, "\n";
-#    print 'saved to:', $output,"\n";
-#    print "\n";
-
 }
 
-sub parse_siters_2007 {
-    my $output= "/tmp/chanet/promotio_linkYYYY-mm-dd.xlsx";
-    my $ds = localtime->strftime("%Y-%m-%d");
-    $output =~ s/YYYY-mm-dd/$ds/;
-    if( not -f $output) {
-        print "$output not a file \n";
-        return ;
-    }
 
-    my $excel = Spreadsheet::XLSX -> new ($output);
-    foreach my $sheet (@{$excel -> {Worksheet}}) {
-        printf("Sheet: %s\n", $sheet->{Name});
-        $sheet -> {MaxRow} ||= $sheet -> {MinRow};
-        foreach my $row ($sheet -> {MinRow} .. $sheet -> {MaxRow}) {
-            $sheet -> {MaxCol} ||= $sheet -> {MinCol};
-            foreach my $col ($sheet -> {MinCol} ..  $sheet -> {MaxCol}) {
-                my $cell = $sheet -> {Cells} [$row] [$col];
-                if ($cell) {
-                    printf("( %s , %s ) => %s\n", $row, $col, $cell -> {Val});
-                }
-            }
-        }
-    }
-}
+sub fetch_comms_html 
+{
+    my ($config  ) = @_;
 
-sub parse_siters {
-    binmode(STDIN, ':encoding(utf8)');
-    binmode(STDOUT, ':encoding(utf8)');
-    binmode(STDERR, ':encoding(utf8)');
-
-    my $output= "/tmp/chanet/promotio_linkYYYY-mm-dd.xls";
-
-    my $path_dest = dirname($output);
-    my $ds = localtime->strftime("%Y-%m-%d");
-    $output =~ s/YYYY-mm-dd/$ds/;
-    if( not -f $output) {
-        print "$output not a file \n";
-        return ;
-    }
-
-    my $parser   = Spreadsheet::ParseExcel->new();
-    my $workbook = $parser->parse( $output );
-    if ( !defined $workbook ) {
-        die "Parsing error: ", $parser->error(), ".\n";
-    }
-
-
-    for my $worksheet ( $workbook->worksheets() ) {
-        print "Worksheet name: ", $worksheet->get_name(), "\n\n";
-        my ( $row_min, $row_max ) = $worksheet->row_range();
-        my ( $col_min, $col_max ) = $worksheet->col_range();
-        for my $row ( $row_min .. $row_max ) {
-            for my $col ( $col_min .. $col_max ) {
-                my $cell = $worksheet->get_cell( $row, $col );
-                next unless $cell;
-                print " ", $cell->value(),       "\t";
-            }
-            print "\n";
-        }
-    }
-# insert into the chanet_advertisement;
-    print "OK\n";
-}
-
-sub fetch_comms_html {
-    my $config  = shift;
     my $date = localtime->strftime("%Y%m%d");
+
     my $output_tmpl  =  $config->{html_comm}->{output};
     $output_tmpl =~ s/YYYYmmdd/$date/;
+
     my $path_dest = dirname($output_tmpl);
     make_path($path_dest); 
-    my $cookie_file = "/tmp/chanet/cookies_$date.txt";
+
+    my $cookie_file =$config->{cookie_file} ; 
     my $url_tmpl  = 'https://www.chanet.com.cn/partner/pm_detail.cgi?pm_id=%d';
     my $cookie_jar = HTTP::Cookies->new(
         'file' =>$cookie_file,
@@ -288,7 +159,7 @@ sub fetch_comms_html {
     $ua->protocols_allowed( [ 'http','https'] );
     $ua->timeout(120);
     $ua->cookie_jar($cookie_jar);
-    my $ads_ids = fetch_ads_ids();
+    my $ads_ids = fetch_ads_ids( $config );
     my $i=0;
     for my $ads_id ( @$ads_ids) {
         #next if ($i++ == 1);
@@ -302,15 +173,10 @@ sub fetch_comms_html {
     }
 }
 
-sub insert_chanet_advertiserment {
-#    binmode(STDIN, ':encoding(utf8)');
-#    binmode(STDOUT, ':encoding(utf8)');
-#    binmode(STDERR, ':encoding(utf8)');
-
-    my $config = shift;
+sub insert_chanet_advertiserment 
+{
+    my( $config) = @_;
     my $output = $config->{xls_sites}->{output};
-    my $path_dest = dirname($output);
-
     my $ds = localtime->strftime("%Y-%m-%d");
     $output =~ s/YYYY-mm-dd/$ds/;
 
@@ -326,6 +192,7 @@ sub insert_chanet_advertiserment {
     my $parser = "java -Dfile.encoding=utf8 -jar $dirs/bin/xls2csv ";
 
     my $output_csv = $output;
+
     $output_csv =~ s/.xls$/.csv/;
     my $content = readpipe( $parser.' '.$output );
 
@@ -334,7 +201,6 @@ sub insert_chanet_advertiserment {
     open( my $fh , '+>', $output_csv)  or die "Could not open $output_csv $!\n";
     print $fh  $content;
     close($fh)|| warn "close failed: $!";
-
 
     print "  saved to ",$output_csv,"\n";
     # 读出转换好的 活动列表
@@ -405,7 +271,8 @@ sub insert_chanet_advertiserment {
     print "OK\n";
 }
 
-sub calc_chanet_cps_advertisement_hash {
+sub calc_chanet_cps_advertisement_hash 
+{
     my $row = shift;
     my $joined = join('-', @$row);
     utf8::encode($joined);
@@ -413,7 +280,8 @@ sub calc_chanet_cps_advertisement_hash {
     return $hash;
 }
 
-sub query_chanet_advertiserment_by_fixed_hash {
+sub query_chanet_advertiserment_by_fixed_hash 
+{
     my $fixed_hash = shift;
     # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
@@ -424,7 +292,8 @@ sub query_chanet_advertiserment_by_fixed_hash {
     return $hash_ref;
 }
 
-sub insert_commission {
+sub insert_commission 
+{
 
     my $config = shift;
 
@@ -506,7 +375,8 @@ sub insert_commission {
 }
 
 
-sub parse_html {
+sub parse_html 
+{
     my $doc = shift; 
     my $ads_id = shift;
     open(my $fh, "<:utf8", $doc) || die;
@@ -543,7 +413,8 @@ sub parse_html {
     return { comms_ref =>\@comms , comms_hash => $hash };
 }
 
-sub calc_chanet_cps_commission_hash {
+sub calc_chanet_cps_commission_hash 
+{
     my $joined = shift ;
     utf8::encode($joined); # compatible with php version ?
     my $hash = sha256_hex($joined); 
@@ -551,9 +422,12 @@ sub calc_chanet_cps_commission_hash {
 }
 
 # try to fetch from db
-sub fetch_ads_ids {
+sub fetch_ads_ids 
+{
+    my ($config) = @_;
     my @ads_ids;
-    my $output= "/tmp/chanet/promotio_linkYYYY-mm-dd.xls";
+    my $output= $config->{xls_sites}->{output}; 
+
     my $path_dest = dirname($output);
     my $ds = localtime->strftime("%Y-%m-%d");
     $output =~ s/YYYY-mm-dd/$ds/;
@@ -583,7 +457,8 @@ sub fetch_ads_ids {
     return \@ads_ids;
 }
 
-sub query_chanet_commission_by_fixed_hash {
+sub query_chanet_commission_by_fixed_hash 
+{
 
     my $fixed_hash = shift;
     my $ads_id = shift;
@@ -602,28 +477,14 @@ $database = Jili::DBConnection->instance(($db_config->{db}->{user},$db_config->{
 
 my $config = LoadFile( "./config/config.yml");
 
-login();
-##parse_siters();
-##parse_siters_2007();
+login($config->{chanet});
 insert_chanet_advertiserment($config->{chanet});
-#fetch_ads_ids();
-##fetch_xls_sites( $config->{chanet} );
-##captcha($config->{chanet} );
 fetch_comms_html($config->{chanet});
 insert_commission($config->{chanet});
 
 __END__
-https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=0&search_type=1&search_as_id=480534&link_type=2&act-type=on&category=0
+"pmid=&search_type=2&act-type=on"
+** GET 
+https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=&search_type=1&search_as_id=480534&link_type=2&act-type=on&category=0 ==> 200 OK (1s)
 https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=&search_type=2&search_as_id=480534&link_type=2&act-type=on&category=0
 
-curl 'https://www.chanet.com.cn/partner/pm_detail.cgi?pm_id=246' 
--H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' 
--H 'Accept-Encoding: gzip, deflate' 
--H 'Accept-Language: en-US,en;q=0.5' 
--H 'Connection: keep-alive' 
--H 'Cookie: AdwaysCHANetpromotion15=1584%2C87909879176%2C1410847684%2C480534%2C135950%2C54%2C105%2C87909879176%2C1%26; AdwaysCHANetpromotion25=2503%2C88987882576%2C1413954878%2C480534%2C358559%2C45%2C105%2C88987882576%2C1%26; AdwaysCHANetpromotion6=645%2C91147264616%2C1419492915%2C480534%2C378636%2C49%2C105%2C91147264616%2C1%26661%2C92627949676%2C1424840886%2C480534%2C377023%2C76%2C%2C92627949676%2C30%26; AdwaysCHANetpromotion21=2171%2C89185536676%2C1414479370%2C480534%2C333073%2C51%2C105%2C89185536676%2C30%26; AdwaysCHANetpromotion5=533%2C79918401606%2C1398407894%2C480534%2C72294%2C47%2C1094111%2C79918401606%2C1%26514%2C89431487046%2C1415086904%2C480534%2C22822%2C48%2C1203235%2C89431487046%2C1%26; AdwaysCHANetpromotion13=1378%2C81225948496%2C1399957915%2C480534%2C359134%2C103%2C1094010%2C81225948496%2C30%261300%2C89177683866%2C1414464271%2C480534%2C351009%2C52%2C105%2C89177683866%2C1%26; AdwaysCHANetpromotion3=350%2C81833783606%2C1400815845%2C480534%2C216816%2C79%2C1057704%2C81833783606%2C1%26; AdwaysCHANetpromotion2=283%2C92380863246%2C1423822377%2C480534%2C9340%2C33%2C105%2C92380863246%2C1%26; AdwaysCHANetpromotion10=1053%2C92173243496%2C1423032393%2C480534%2C346379%2C88%2C1120386%2C92173243496%2C1%26; AdwaysCHANetpromotion24=2466%2C89175420486%2C1414459806%2C480534%2C370115%2C128%2C1120386%2C89175420486%2C30%26; AdwaysCHANetpromotion27=2743%2C91147319706%2C1419493026%2C480534%2C371059%2C118%2C105%2C91147319706%2C1%26; AdwaysCHANetpromotion26=2604%2C89175917676%2C1414460909%2C480534%2C337996%2C43%2C105%2C89175917676%2C30%26; AdwaysCHANetpromotion20=2046%2C89185533256%2C1414479362%2C480534%2C212334%2C53%2C105%2C89185533256%2C30%26; AdwaysCHANetpromotion7=773%2C91147259936%2C1419492906%2C480534%2C350282%2C123%2C105%2C91147259936%2C30%26; AdwaysCHANetpromotion22=2227%2C91147270216%2C1419492929%2C480534%2C375710%2C124%2C105%2C91147270216%2C30%26; Apache=127.0.0.1.1427464379047637; __utma=116180180.2005983665.1427464387.1427464387.1427866359.2; __utmz=116180180.1427464387.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); _ga=GA1.3.2005983665.1427464387; Hm_lvt_8a3ccf95e588f7c28f6f3595aa8d7ee2=1427464548,1427866351; Hm_lpvt_8a3ccf95e588f7c28f6f3595aa8d7ee2=1427867745; CGISESSID=5c96919e3f650ed8cdfc7044e9f7b826; __utmb=116180180.1.10.1427867740; __utmc=116180180; info=a8013cab6eec993c950cfc4b197f972275a728cb043b09ce22b73e21f6bef976voyage; _gat=1; __utmt=1' 
--H 'Host: www.chanet.com.cn' 
--H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0'
-
-
-perl -d:Modlist -S lwp-request -UusSeEda https://www.chanet.com.cn/partner/pm_detail.cgi?pm_id=246

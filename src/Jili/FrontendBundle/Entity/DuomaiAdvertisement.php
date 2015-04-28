@@ -83,13 +83,6 @@ class DuomaiAdvertisement implements CustomRedirectUrlInterface
     private $linkCustom;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="link_custom_short", type="string", length=128, nullable=false)
-     */
-    private $linkCustomShort;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="selected_at", type="datetime", nullable=true)
@@ -349,29 +342,6 @@ class DuomaiAdvertisement implements CustomRedirectUrlInterface
     public function getLinkCustom()
     {
         return $this->linkCustom;
-    }
-
-    /**
-     * Set linkCustomShort
-     *
-     * @param string $linkCustomShort
-     * @return DuomaiAdvertisement
-     */
-    public function setLinkCustomShort($linkCustomShort)
-    {
-        $this->linkCustomShort = $linkCustomShort;
-
-        return $this;
-    }
-
-    /**
-     * Get linkCustomShort
-     *
-     * @return string 
-     */
-    public function getLinkCustomShort()
-    {
-        return $this->linkCustomShort;
     }
 
     /**

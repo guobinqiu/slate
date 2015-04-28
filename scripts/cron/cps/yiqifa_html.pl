@@ -22,40 +22,16 @@ use Digest::SHA qw(sha256_hex);
 use Jili::DBConnection;
 use vars qw($database);
 
-sub gen_captcha {
-    my $config = shift;
-    my $cookie_jar = HTTP::Cookies::Netscape->new(
-        file => $config->{cookie_file} ,
-        autosave => 1,
-    );
-
-    my $cache = LWP::ConnCache->new();
-    my $ua = LWP::UserAgent->new(
-        'conn_cache'=> $cache
-    );
-    $ua->agent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0');
-    $ua->timeout(40);
-    $ua->cookie_jar($cookie_jar);
-
-    my $url_image = 'http://yiqifa.com/validateimage.do?d='.time();
-print $url_image, "\n";
-
-    my $res = $ua->get($url_image);
-    if(!$res->is_success){
-        return 0;
-    }
-    open(FILE_HANDLE,'>/tmp/img_yiqifa.jpg');
-    binmode FILE_HANDLE;
-    print FILE_HANDLE $res->content;
-    close FILE_HANDLE;
-}
 
 sub login {
-    my $url = 'http://yiqifa.com/userLogin.do';
+
+    my($config) = @_;
+
+    my $url = $config->{login}->{url};
 
     my $date = localtime->strftime("%Y%m%d");
 
-    my $cookie_file = "/tmp/yiqifa/cookies_$date.txt";
+    my $cookie_file = $config->{cookie_file}; 
 
     my $path_dest = dirname($cookie_file);
     make_path($path_dest); 
@@ -98,8 +74,8 @@ print $url_image, "\n";
 
     $response = $ua->post( $url, [
             'yhq'=> '',
-            'userName'=> 'jili@voyagegroup.com.cn',
-            'password'=> '123voyage',
+            'userName'=> $config->{login}->{userName}, 
+            'password'=> $config->{login}->{password},
             'loginFlag'=> '1',
             'checkCode'=> $captcha,
         ] );
@@ -113,7 +89,7 @@ print $url_image, "\n";
     }
 
     $url = 'http://yiqifa.com/earner/applyBatchLinkList.do?type=site';
-    my $output= "/tmp/yiqifa/积粒网自定义链接全表YYYY-mm-dd.xls";
+    my $output= $config->{xls_sites}->{output};
     my $ds = localtime->strftime("%Y-%m-%d");
     $output =~ s/YYYY-mm-dd/$ds/;
 
@@ -138,47 +114,9 @@ print $url_image, "\n";
 }
 
 # parse the xls
-sub parse_siters {
-
-    binmode(STDIN, ':encoding(utf8)');
-    binmode(STDOUT, ':encoding(utf8)');
-    binmode(STDERR, ':encoding(utf8)');
-
-    my $output= "/tmp/yiqifa/积粒网自定义链接全表YYYY-mm-dd.xls";
-    my $ds = localtime->strftime("%Y-%m-%d");
-    $output =~ s/YYYY-mm-dd/$ds/;
-
-    if( not -f $output) {
-        print "$output not a file \n";
-        return ;
-    }
-
-    my $parser   = Spreadsheet::ParseExcel->new();
-    my $workbook = $parser->parse( $output );
-    if ( !defined $workbook ) {
-        die "Parsing error: ", $parser->error(), ".\n";
-    }
-
-    for my $worksheet ( $workbook->worksheets() ) {
-        print "Worksheet name: ", $worksheet->get_name(), "\n\n";
-        my ( $row_min, $row_max ) = $worksheet->row_range();
-        my ( $col_min, $col_max ) = $worksheet->col_range();
-        for my $row ( $row_min .. $row_max ) {
-            for my $col ( $col_min .. $col_max ) {
-                my $cell = $worksheet->get_cell( $row, $col );
-                next unless $cell;
-                print " $col:", $cell->value(),       "\t";
-            }
-            print "\n";
-        }
-    }
-# insert into the chanet_advertisement;
-    print "OK\n";
-}
 
 sub insert_emar_advertisement {
     my $config = shift;
-# "/tmp/yiqifa/积粒网自定义链接全表YYYY-mm-dd.xls";
     my $output = $config->{xls_sites}->{output};
     my $ds = localtime->strftime("%Y-%m-%d");
     $output =~ s/YYYY-mm-dd/$ds/;
@@ -310,16 +248,20 @@ sub query_emar_commission_by_fixed_hash {
 # 批量下载商家返利详情的网页
 sub fetch_comms_html {
     #todo verify the siters file history hash.
-    my $config  = shift;
+    my ($config ) = @_;
     my $date = localtime->strftime("%Y%m%d");
+
     my $output_tmpl  =  $config->{html_comm}->{output};
     my $output_utf8_tmpl  =  $config->{html_comm}->{output_utf8};
+
     $output_tmpl =~ s/YYYYmmdd/$date/;
     $output_utf8_tmpl =~ s/YYYYmmdd/$date/;
 
     my $path_dest = dirname($output_tmpl);
     make_path($path_dest); 
-    my $cookie_file = "/tmp/yiqifa/cookies_$date.txt";
+
+    my $cookie_file = $config->{cookie_file}; 
+
     my $url_tmpl  = $config->{html_comm}->{url};
 
     my $cookie_jar = HTTP::Cookies->new(
@@ -342,7 +284,7 @@ sub fetch_comms_html {
     $ua->timeout(120);
     $ua->cookie_jar($cookie_jar);
     
-    my $ads_ids = fetch_ads_ids();
+    my $ads_ids = fetch_ads_ids($config);
     my $i=0;
     for my $ads_id ( @$ads_ids) {
         #next if ($i++ == 1);
@@ -508,12 +450,16 @@ sub insert_commission{
     closedir $dh;
 }
 
-sub fetch_ads_ids {
+sub fetch_ads_ids 
+{
+    my($config) = @_;
     my @ads_ids;
-    my $output= "/tmp/yiqifa/积粒网自定义链接全表YYYY-mm-dd.xls";
-    my $path_dest = dirname($output);
+    my $output =  $config->{xls_sites}->{output};
+
     my $ds = localtime->strftime("%Y-%m-%d");
     $output =~ s/YYYY-mm-dd/$ds/;
+
+    my $path_dest = dirname($output);
     if( not -f $output) {
         print "$output not a file \n";
         return ;
@@ -544,11 +490,8 @@ my $db_config = LoadFile( "./config/db.yml");
 $database = Jili::DBConnection->instance(($db_config->{db}->{user},$db_config->{db}->{password},$db_config->{db}->{name},$db_config->{db}->{host}));
 
 my $config = LoadFile( "./config/config.yml");
-# download comms html
-# parse the comms html
-# insert into database
-login(); 
-###parse_siters();
+
+login($config->{emar}); 
 insert_emar_advertisement($config->{emar});
 fetch_comms_html($config->{emar});
 insert_commission($config->{emar});

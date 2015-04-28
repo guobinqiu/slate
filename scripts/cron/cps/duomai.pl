@@ -78,61 +78,16 @@ sub fetch_duomai_cps_csv {
 
     close $filter  or die "$csv_sites_output\n";
     close $filter_new or die "$csv_sites_output_utf8\n";
-    # TODO : how to verfiy the file fetched ??
-    # TODO: clear tmp cookies.
-    # TODO : time out alarm with email ?? 
 } 
 
 
 # parse the csv file
-sub parse_duomai_cps_csv {
-
-    binmode(STDIN, ':encoding(utf8)');
-    binmode(STDOUT, ':encoding(utf8)');
-    binmode(STDERR, ':encoding(utf8)');
-
-    print "OK\n";
-
-    print Text::CSV->VERSION, "\n";      # This module version
-    print Text::CSV->version,"\n";      # The version of the worker module
-    # same as Text::CSV->backend->version
-    my $csv = Text::CSV->new ({auto_diag => 1, binary=>1,allow_whitespace=>1 })  # should set binary attribute.
-        or die "Cannot use CSV: ".Text::CSV->error_diag ();
-
-    my $config = shift;
-    my $file = $config->{csv_sites}->{output_utf8};
-
-    open my $fh, "<:encoding(utf8)", $file or die "Could not open $file  $!\n";
-
-    my $row = $csv->getline( $fh );
-    my @title = @$row;
-
-    my $i = 0;
-
-    while ( my $row = $csv->getline( $fh ) ) {
-
-        next if (length($row->[0]) == 0);
-
-        print $i++,"<<<<\n";
-
-        my $hash = calc_duomai_cps_advertisement_hash($row);
-        push @title, ('hash_filtered', 'is_activated');
-        push @$row,($hash ,1); 
-        print  '   ', $_, ':', $title[$_],': ' , $row->[$_],"\n" foreach ( @$row);
-        print "\n";
-        print "\n";
-    }
-
-    $csv->eof or $csv->error_diag();
-    close $fh or die "/tmp/a2.csv\n";
-}
 
 # the hash should remove the go.j5k6.com url in short url.
 # it always changed alone without meaning.
 sub calc_duomai_cps_advertisement_hash {
     my $row = shift;
     my $joined = join('-', @$row);
-    $joined  =~ s/http:\/\/go\.[0-9a-z]{4}\.com/http:\/\/go\.xxxx\.com/;
 
     utf8::encode($joined);
     my $hash = sha256_hex($joined); 
@@ -193,7 +148,7 @@ sub insert_duomai_advertisement {
     # verify the exists hash
     # select ads_id  & is activated !  
 
-    my $sql = qq{INSERT INTO duomai_advertisement(ads_id,ads_name,ads_url,ads_commission,start_time,end_time,category,return_day,billing_cycle,link_custom,link_custom_short,fixed_hash,is_activated) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?)};
+    my $sql = qq{INSERT INTO duomai_advertisement(ads_id,ads_name,ads_url,ads_commission,start_time,end_time,category,return_day,billing_cycle,link_custom,fixed_hash,is_activated) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?)};
 
     while ( my $row = $csv->getline( $fh ) ) {
         next if (length($row->[0])==0); # skip the 
@@ -294,59 +249,11 @@ sub fetch_commission_csv {
         #    last if ( $i++ == 10 );
     } 
 
-    # TODO : how to verfiy the file fetched ??
-    # TODO: clear tmp cookies.
-    # TODO : time out alarm with email ?? 
     return ;
 }
 
 
 # parse the commissions .htmls
-sub parse_commission {
-    my $config = shift; 
-
-    my $file_reg = $config->{html_comm}->{output};
-    my $path_dest = dirname($file_reg) ;
-
-    my $ds = localtime->strftime("%Y%m%d");
-
-    $file_reg =~  s/YYYYmmdd/$ds/;
-    $file_reg =~  s/\%d/(\\d\+)/;
-    $file_reg = '^'.$file_reg.'$';
-    print $file_reg,"\n";
-    opendir(my $dh, $path_dest) or  die $!;
-
-    my $i = 0;
-    my $comms;
-    my $ads_id;
-    my $item;
-
-    while (my $file = readdir($dh)) {
-        $i++;
-        # We only want files
-        next unless (-f "$path_dest/$file");
-        # Use a regular expression to find files ending in .txt
-        next unless ( "$path_dest/$file" =~ m/$file_reg/);
-        $ads_id = $1;
-        print "$ads_id:\t $file\n";
-
-        my $result = parse_html("$path_dest/$file", $ads_id);
-        my $comms = $result->{comms_ref};
-
-#        print 'length >>> ', length(@$comms),"\n";
-
-        foreach $item ( @$comms) {
-            print $item->[0], "\t";
-            print $item->[1], "\t";
-            print $item->[2], "\t";
-            print $item->[3], "\n";
-        }
-
-        print "\n";
-    }
-    closedir $dh;
-# list  
-}
 
 #'序号', '商品名称','佣金比例','有效期','备注');
 sub parse_html {
@@ -455,7 +362,6 @@ sub insert_commission {
     closedir $dh;
 }
 
-# insert comm 
 
 my $db_config = LoadFile( "./config/db.yml");
 $database = Jili::DBConnection->instance(($db_config->{db}->{user},$db_config->{db}->{password},$db_config->{db}->{name},$db_config->{db}->{host}));
@@ -463,11 +369,12 @@ $database = Jili::DBConnection->instance(($db_config->{db}->{user},$db_config->{
 my $config = LoadFile( "./config/config.yml");
 
 fetch_duomai_cps_csv( $config->{duomai});
-#### parse_duomai_cps_csv();
 insert_duomai_advertisement($config->{duomai});
-#### query_duomai_advertisement();
+
 fetch_commission_csv($config->{duomai});
-### parse_commission($config->{duomai});
 insert_commission($config->{duomai});
 
 __END__
+
+活动ID,活动名称,网址,佣金,活动时间(起),活动时间(止),活动分类,RD,结算周期,自定义链接 
+

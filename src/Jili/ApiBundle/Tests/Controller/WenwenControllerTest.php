@@ -171,17 +171,6 @@ class WenwenControllerTest extends WebTestCase {
         $expected['message'] = "already exist";
 
         $content = $client->getResponse()->getContent();
-        $regex='/{"status":"1","message":"success","activation_url":"https:\\\\\/\\\\\/www\.91jili\.com\\\\\/user\\\\\/setPassFromWenwen\\\\\/[0-9a-f]{32}\\\\\/1"}/i';
-        
-        $this->assertRegExp($regex , $content);
-        
-
-        $crawler = $client->request('POST', $url, array (
-            'email' => $email,
-            'signature' => '8dda1ce847bba441f34f8770d662fbf22abab3bc',
-            'uniqkey' => 'test'
-        ));
-
 
         $this->assertEquals(json_encode($expected), $content);
     }
@@ -195,14 +184,16 @@ class WenwenControllerTest extends WebTestCase {
         $container = static :: $kernel->getContainer();
 
         $url = '/api/91wenwen/register';
-        $user = LoadWenwenRegister5CodeData :: $ROWS[1];
-        $email = $user->getEmail();
+        $email = 'zhangmm@voyagegroup.com.cn';
+
+        $signature = WenwenToken :: getUniqueToken($email);
 
         $crawler = $client->request('POST', $url, array (
             'email' => $email,
-            'signature' => '6e943c3f641b16294038a07494f1a853bf400927',
+            'signature' => $signature , //'8dda1ce847bba441f34f8770d662fbf22abab3bc',
             'uniqkey' => 'test'
         ));
+
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'post to ' . $url);
 
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
