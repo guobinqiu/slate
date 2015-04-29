@@ -75,13 +75,12 @@ sub push_chanet_advertisement {
     my $j = 0;
     while( my $hash_ref = $sth->fetchrow_hashref()) {
        $i++; 
-        print ">>>>>>>>>No. $i:\n";
         # do filter
         my $ads_url = $hash_ref->{ads_url};
         chomp($ads_url);
         # 空的ads_url
         if(length($ads_url ) == 0) {
-            print "[CPS][CHANET][FILTER][WARN] empty ads_url\n";
+            #print "[CPS][CHANET][FILTER][WARN] empty ads_url\n";
             next;
         } 
         # 没有http://的ads_url
@@ -115,7 +114,7 @@ sub push_chanet_advertisement {
         insert_cps_advertisement($cps_params);
         $j++;
     }
-    print "[CPS][CHANET][INFO] j: $j   \n";
+    #print "[CPS][CHANET][INFO] j: $j   \n";
 } 
 
 sub push_duomai_advertisement {
@@ -137,13 +136,12 @@ sub push_duomai_advertisement {
 
     while( my $hash_ref = $sth->fetchrow_hashref()) {
         $i++; 
-        print ">>>>>>>>>No. $i:\n";
         my $ads_url = $hash_ref->{ads_url};
         chomp($ads_url);
 
         # 空的ads_url
         if(length($ads_url ) == 0) {
-            print "[CPS][DUOMAI][FILETER][WARN] empty ads_url\n";
+            #print "[CPS][DUOMAI][FILETER][WARN] empty ads_url\n";
             next;
         } 
         # 没有http://的ads_url
@@ -155,22 +153,18 @@ sub push_duomai_advertisement {
         my $uri = URI->new( $ads_url);
         my $web_domain = $uri->host;
         if( $web_domain =~ m/^(m|wap)\./ ) {
-            print "[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url\n";
+            #print "[CPS][DUOMAI][FILETER][WARN] mob/wap ads_url\n";
             next;
         }
 
         # filter by the title 
         my $ads_name = $hash_ref->{ads_name};
         if ( $ads_name =~ m/(wap端|wap|移动端)/ ) {
-            print "[CPS][DUOMAI][FILTER][WARN] mob/wap ads_name\n";
+            #print "[CPS][DUOMAI][FILTER][WARN] mob/wap ads_name\n";
             next;
         }
         $ads_name =~ s/[\s+]//g;
         $ads_name =~ s/(CPS推广|返点站推广|高佣金CPS)$//ig;
-
-        print '   ' , $ads_name,"\n";
-        print '   ' , $web_domain,"\n";
-
         my $cps_params = {
             ad_category_id => $ad_category_id, # ad_category_id
             ad_id=>$hash_ref->{id}, # ad_id ;
@@ -186,7 +180,7 @@ sub push_duomai_advertisement {
         insert_cps_advertisement($cps_params);
         $j++;
     } #eof while
-            print "[CPS][DUOMAI][INFO] j: $j\n";
+    #print "[CPS][DUOMAI][INFO] j: $j\n";
 } #eof duomai 
 
 sub push_emar_advertisement {
@@ -208,7 +202,6 @@ sub push_emar_advertisement {
 
     while( my $hash_ref = $sth->fetchrow_hashref()) {
         $i++; 
-        print ">>>>>>>>>No. $i:\n";
 
         # 取domain/host
         my $ads_url = $hash_ref->{ads_url};
@@ -217,12 +210,9 @@ sub push_emar_advertisement {
         my $uri = URI->new( $ads_url);
         my $web_domain = $uri->host;
 
-        print '   ' , $web_domain,"\n";
-    
-
         chomp($web_domain);
         if( $web_domain =~ m/^(m|wap)\./ ) {
-            print "[CPS][EMAR][FILETER][WARN] mob/wap $ads_url\n";
+            #print "[CPS][EMAR][FILETER][WARN] mob/wap $ads_url\n";
             next;
         }
 
@@ -230,7 +220,7 @@ sub push_emar_advertisement {
         my $ads_name = $hash_ref->{ads_name};
         $ads_name =~ s/\s+//g;
         if ( $ads_name =~ m/(移动CPS)$/i ) {
-            print "[CPS][DUOMAI][FILTER][WARN] mob/wap $ads_name\n";
+            #print "[CPS][DUOMAI][FILTER][WARN] mob/wap $ads_name\n";
             next;
         }
         $ads_name =~ s/(高佣金CPS|roi|CPS)$//ig;
@@ -253,7 +243,7 @@ sub push_emar_advertisement {
         insert_cps_advertisement($cps_params);
         $j++;
     } 
-    print "[CPS][emar][INFO] j: $j\n";
+    #print "[CPS][emar][INFO] j: $j\n";
 # return rows inesert & replace 
 } 
 
@@ -283,7 +273,6 @@ sub insert_cps_advertisement {
             $enter_fields->{selected_at},
             0 
         ];
-        print Dumper($cps_params),"\n";
         $sth_insert->execute(@$cps_params);
         $dbh->commit();
         return 0; 
@@ -291,7 +280,7 @@ sub insert_cps_advertisement {
 
     #go next, 如果己存在的记录为is_activated == 0 && selected_at = undef 
     if( ! defined( $exists_hashref->{selected_at} )  ) {
-        print "[CPS][PUSH][INFO] exists $enter_fields->{website_host} win(unused)\n";
+        #print "[CPS][PUSH][INFO] exists $enter_fields->{website_host} win(unused)\n";
         return 0; 
     }
 
@@ -302,13 +291,13 @@ sub insert_cps_advertisement {
         my $t_enter  = datetime_str_to_int($enter_fields->{selected_at});
 
         if( $t_exists <  $t_enter) {
-            print "[CPS][PUSH][INFO] exists $enter_fields->{website_host} win(earlier)\n";
+            #print "[CPS][PUSH][INFO] exists $enter_fields->{website_host} win(earlier)\n";
             return 0; 
         }
     } 
 
     # do  update
-    print "[CPS][PUSH][INFO] exists $enter_fields->{website_host} win(... to update)\n";
+    #print "[CPS][PUSH][INFO] exists $enter_fields->{website_host} win(... to update)\n";
     my $cps_params = [
         $enter_fields->{ad_category_id},
         $enter_fields->{ad_id},
@@ -336,7 +325,6 @@ sub search_exists_by_webdomain{
     $dbh->commit;
     my $hash_ref = $sth->fetchrow_hashref(); 
     if ( defined( $hash_ref) ) {
-        print '.....',Dumper($hash_ref);;
         return $hash_ref;
     }
     return ;
@@ -355,12 +343,12 @@ sub do_activate {
 
     my $sth_deactivate = $dbh->prepare(qq{UPDATE cps_advertisement SET is_activated = ? WHERE is_activated = ? });
     $sth_deactivate->execute((2,1));
-print "|||rows deactive(1->2): ", $sth_deactivate->rows,"\n";
+    print "|||rows deactive(1->2): ", $sth_deactivate->rows,"\n";
 
     # status 0->1 
     my $sth_activate =$dbh->prepare(qq{UPDATE cps_advertisement SET is_activated = ?, selected_at = ?  where is_activated = ?});
     $sth_activate->execute((1,$ts, 0));
-print "|||rows activated(0->1): ", $sth_activate->rows,"\n";
+    print "|||rows activated(0->1): ", $sth_activate->rows,"\n";
 
     # update with join  select 
 
@@ -371,18 +359,16 @@ print "|||rows activated(0->1): ", $sth_activate->rows,"\n";
     }
 
     # chanet ,
-#    $sql_update_selected_at = 'update chanet_advertisement a inner join cps_advertisement b on a.id = b.ad_id set a.selected_at = b.selected_at where b.ad_category_id = ?  and b.is_activated = 1';
-#select count(*) from chanet_advertisement a inner join cps_advertisement b on a.id = b.ad_id where b.ad_category_id = 2 and is_activated = 1;
     my $sql_delete_deprecated = $dbh->prepare( qq{delete from cps_advertisement where is_activated = 2 limit ? });
     $sql_delete_deprecated->execute( ($sth_deactivate->rows) );
 
     print "|||rows deleted (is_activated==2): ",$sql_delete_deprecated->rows,"\n" ;
 
     my $sql_update = qq{update cps_advertisement SET website_name_dictionary_key = IF( ascii(website_name) < 128,  LEFT(website_name,1), ELT( INTERVAL( CONV( HEX( left( CONVERT( website_name USING gbk ) , 1 ) ) , 16, 10 ) , 0xB0A1, 0xB0C5, 0xB2C1, 0xB4EE, 0xB6EA, 0xB7A2, 0xB8C1, 0xB9FE, 0xBBF7, 0xBFA6, 0xC0AC, 0xC2E8, 0xC4C3, 0xC5B6, 0xC5BE, 0xC6DA, 0xC8BB, 0xC8F6, 0xCBFA, 0xCDDA, 0xCEF4, 0xD1B9, 0xD4D1 ) , 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'W', 'X', 'Y', 'Z' ))};
-    
+
     my $sth_update= $dbh->prepare($sql_update );
     $sth_update->execute();
-    
+
     print "|||rows website_name_dictionary_index(updated): ",$sth_update->rows,"\n" ;
 
     $dbh->commit;
@@ -403,31 +389,24 @@ sub datetime_str_to_int{
 
 # query cps_advertisement to confirm all website has the logo file
 # log those websites_domain which  not has log   into the  {logo_file}
-sub logo_update {
+sub logo_update 
+{
     my ($config) = @_;
     # prepare the path
-    my $logo_path = $config->{logo_path}; #"/tmp/yiqifa/logo/"
+    my $logo_path = $config->{logo_path}; 
     make_path($logo_path); 
 
-    my $logo_file = $config->{logo_file};#
-    my $dt = localtime->strftime('%Y-%m-%d');
-
-    $logo_file =~ s/YYYY-mm-dd/$dt/;
-    print $logo_path ,"\n";
-    print $logo_file ,"\n";
-
     # looking for the detail page, to fetch the logo uri
-    my $file_reg = $config->{html_comm}->{output_utf8};
-    my $path_dest = dirname($file_reg) ;
-
     my $ds = localtime->strftime("%Y%m%d");
+    my $file_reg = $config->{html_comm}->{output_utf8};
     $file_reg =~  s/YYYYmmdd/$ds/;
     $file_reg =~  s/\%d/(\\d\+)/;
     $file_reg = '^'.$file_reg.'$';
-    my $i=0;
 
+    my $path_dest = $config->{html_comm}->{output_dir} ; 
     opendir(my $dh, $path_dest) or  die $!;
 
+    my $i=0;
     my $ads_id;
     while (my $file = readdir($dh)) {
         $i++;
@@ -435,42 +414,37 @@ sub logo_update {
         if( "$path_dest/$file" =~ m/$file_reg/) {
             $ads_id = $1;
         } else {
-            #  print "$path_dest/$file" ," NOT MATCHED\n";
             next;
         }
 
-        #  not a files found
+        #  not found  shop detail html. 
         if  ( ! -f "$path_dest/$file"){
             print  STDERR   "Not found $path_dest/$file\n";
             next;
         }
 
-        print  '>>>> ads_id : ', $ads_id ,"\n";
-
         my $tree = HTML::TreeBuilder::XPath->new;
         $tree->parse_file("$path_dest/$file");
 
-        # xpath  domain 
+        # xpath  domain ( yiqifa) 
         my $web_url_xpath = '/html/body/div/div/div[2]/div[2]/div/table/tr[2]/td[2]/a';
         my @el_ = $tree->findnodes($web_url_xpath );
         my $url =   $el_[0]->as_trimmed_text;
         my $domain = $url;
         $domain =~ s/http:\/\/([a-zA-Z\.\-])/$1/;
 
-        # xpath to fetch logo uri
+        # xpath to fetch logo uri (yiqifa)
         my  $logo_xpath = '/html/body/div/div/div[2]/div[2]/div/table/tr[1]/td[1]/img';
         my @el = $tree->findnodes($logo_xpath );
         my $uri_logo =  $el[0]->attr('src');
 
         my $logo_name = md5_hex($domain);
-        print '    ',$domain,"\n"; 
-        print '     >>',  $logo_path.'/' . $logo_name, "\n";
         # skip if exits 
         if(  -f  $logo_path.'/'.$logo_name){
             next;
         }
 
-        # do download 
+        # do downloading 
         my $res = get($uri_logo);
         open(FILE_HANDLE,'>'. $logo_path.'/' . $logo_name);
         binmode FILE_HANDLE;
@@ -481,39 +455,30 @@ sub logo_update {
 }
 
 # query, check: {x |cps_advertisement.website_url -  exits }
-sub logo_check {
+sub logo_check 
+{
     my ($config, $ads_cat_hashref) = @_;
-
-#    my $logo_path = $config->{emar}->{logo_path};
-    #"/tmp/yiqifa/logo/"
-
-    #my $logo_file = $config->{logo_file}; #
-    #my $dt = localtime->strftime('%Y-%m-%d');
-    #$logo_file =~ s/YYYY-mm-dd/$dt/;
 
     make_path($config->{duomai}->{logo_path}); 
     make_path($config->{chanet}->{logo_path}); 
 
-    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth = $dbh->prepare(qq{SELECT ad_category_id,ad_id, website_host FROM cps_advertisement WHERE is_activated = 1});
-    #select website_host from cps_advertisement where is_activated = 1
+
     $sth->execute();
     $dbh->commit();
 
     while ( my $cps_hash_ref = $sth->fetchrow_hashref() ) {
-         
-        print '     >>', $cps_hash_ref->{website_host},"\n";
         fetchLogo($config ,$ads_cat_hashref,  $cps_hash_ref  );
-        #    print '     >>',  $logo_path. $logo_name, "\n";
     }
 }
 
 # parse the detail page for logo uri( duomai & chanet)
-sub fetchLogo {
+sub fetchLogo 
+{
     my ($config, $ads_cat_hashref, $cps_hash_ref)   = @_;
 
-# return if exits
+    # return if exits
     my $domain = $cps_hash_ref->{website_host};
     my $logo_name = md5_hex($domain);
 
@@ -537,20 +502,17 @@ sub fetchLogo {
         return 1;
     }
 
-    print '     ->>' ,$cps_tbl_name,"\n";
     my $tag_in_config = $cps_tbl_name;
     $tag_in_config =~ s/_advertisement//;
 
     my $save_to = $config->{$tag_in_config}->{logo_path};
     my $logo_file = $save_to. $logo_name;
+    # return if log file already exits
     if( -f $logo_file ) {
         return 0;
     }
-  
-    print '     ->>' ,$logo_file,"\n";
 
     # query responding table  for ads_id , the build the detail page name
-    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth = $dbh->prepare(qq{SELECT ads_id FROM $cps_tbl_name WHERE id = ? limit 1 });
     #select website_host from cps_advertisement where is_activated = 1
@@ -578,7 +540,6 @@ sub fetchLogo {
     $detail_file =~ s/%d/$asp_hash_ref->{ads_id}/;
 
     # parse the detail page for logo uri
-    print '     ->>' ,$detail_file,"\n";
 
     if( ! -f $detail_file) 
     {
@@ -587,19 +548,16 @@ sub fetchLogo {
     }
 
     my $xpath_logo =  $config->{$tag_in_config}->{html_comm}->{logo_xpath};
-    print '     ->>' ,$xpath_logo,"\n";
     my $tree = HTML::TreeBuilder::XPath->new;
     $tree->parse_file($detail_file);
     my @el = $tree->findnodes($xpath_logo );
     my $uri_logo =  $el[0]->attr('src');
 
-    print '     ->>' ,$uri_logo,"\n";
 
     if( not  $uri_logo =~ m/^http/) {
-       $uri_logo = 'http://'. $config->{$tag_in_config}->{host}.$uri_logo;
+        $uri_logo = 'http://'. $config->{$tag_in_config}->{host}.$uri_logo;
     }
 
-    print '     ->>' ,$uri_logo,"\n";
 
     # download it !
     # do download 
@@ -612,9 +570,9 @@ sub fetchLogo {
 }
 
 #  add file extension to the image file
-sub logo_rename {
+sub logo_rename 
+{
     my ($config) = @_;
-
     my @paths_logo = (
         $config->{chanet}->{logo_path},
         $config->{duomai}->{logo_path},
@@ -657,20 +615,16 @@ sub logo_rename {
             }
 
             copy($logo_file ,$logo_file.'.'.$suffix) or die "Copy failed: $!";
-
-            print '   ->>',$logo_file,"\n";
-            print '   ->>',$logo_file.'.'.$suffix,"\n";
         } 
     }
-
-    print "\n",'~~~~~~~~~~~~~~~~~~~~~~',"\n";
 }
 
-sub calcLogFileNameByDomain{
+# 生成图片的文件名。
+sub calcLogFileNameByDomain
+{
     my($domain) = @_;
     return md5_hex($domain);
 }
-
 
 my $db_config = LoadFile( "./config/db.yml");
 $database = Jili::DBConnection->instance(($db_config->{db}->{user},$db_config->{db}->{password},$db_config->{db}->{name},$db_config->{db}->{host}));
@@ -688,13 +642,13 @@ my $ads_cat_hashref  = {
 push_emar_advertisement($ads_cat_hashref);
 push_chanet_advertisement($ads_cat_hashref);
 push_duomai_advertisement($ads_cat_hashref );
-#
+
 ### 完成新旧cps的转换
 do_activate($ads_cat_hashref);
 
 my $config = LoadFile( "./config/config.yml");
 
-#TOOD: list those new  donwloaded logo files 
+#TODO: list those new  donwloaded logo files 
 logo_update($config->{emar});
 logo_check($config, $ads_cat_hashref);
 logo_rename($config);
@@ -702,5 +656,24 @@ logo_rename($config);
 
 __END__
 
-如何测试？ 
+select count(*) from cps_advertisement;
+truncate cps_advertisement;
+
+#1. 将.gif .png转为jpg
+#2. 与目前在使用中的 .jpg合并
+
+mkdir /tmp/logos
+rm -rf /tmp/logos
+bash convert_batch.sh   /data/91jili/cps/chanet/logo /tmp/logos
+bash convert_batch.sh   /data/91jili/cps/duomai/logo /tmp/logos
+
+cd  /tmp/logos
+find /data/91jili/cps/*/logo/*.jpg -exec cp {} \;
+
+cp -rf /var/www/html/jili/web/images/website_logos/*  /tmp/logos 
+cp -rf  /tmp/logos/* /var/www/html/jili/web/images/website_logos/
+
+
+
+
 

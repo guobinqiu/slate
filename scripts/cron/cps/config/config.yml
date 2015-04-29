@@ -35,7 +35,6 @@ emar:
         url:  'http://yiqifa.com/userLogin.do'
         userName: 'jili@voyagegroup.com.cn'
         password: '123voyage'
-
     xls_sites:
         url: "http://yiqifa.com/earner/applyBatchLinkList.do?type=site"
         form_data: 
@@ -46,10 +45,9 @@ emar:
              campaignName: ''
 
         output: "/data/91jili/cps/yiqifa/积粒网自定义链接全表YYYY-mm-dd.xls"
-
-
     html_comm:
         url: "http://yiqifa.com/earner/campaignView.do?backType=search&middleBack=campaignLinkList&campaignId=%d&siteId=708089&schSiteId=&schPageNumber=1&costType=&auditingType=&searchOption=campaignId&searchValue=&categoryId=0&schSearchType=&schPageSize=10"
+        output_dir: "/data/91jili/cps/yiqifa/comm/"
         output: "/data/91jili/cps/yiqifa/comm/ads_id_%d_YYYYmmdd.html"
         output_utf8: "/data/91jili/cps/yiqifa/comm/ads_id_utf8_%d_YYYYmmdd.html"
         output_reg: "/data/91jili/cps/yiqifa/comm/ads_id_\d+_YYYYmmdd.html"
