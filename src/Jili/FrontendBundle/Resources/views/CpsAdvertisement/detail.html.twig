@@ -74,9 +74,7 @@
 
     {% if is_emar_cps %}
     <!-- {{ detail.adsId }}-->
-    <div class="shopRecommend">
       {{  render( controller("JiliEmarBundle:Product:recommendByWeb",  {'wid': detail.adsId } ) )  }}
-    </div>
    {% endif %}
   </div><!-- eof main  -->
 

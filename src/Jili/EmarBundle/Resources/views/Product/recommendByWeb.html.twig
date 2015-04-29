@@ -1,4 +1,5 @@
 {% if products|length > 0 %}
+    <div class="shopRecommend">
       <h3>为您推荐</h3>
       <ul class="commodityByWeb commodityUl clearfix">
     {% for row in  products %}
@@ -15,4 +16,5 @@
         </li>
     {% endfor %}
       </ul>
+    </div>
 {% endif %}
