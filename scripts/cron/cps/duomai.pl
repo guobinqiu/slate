@@ -8,9 +8,10 @@
 # insert into the table.
 #
 #########################
+
 use warnings;
 use strict;
-#use HTTP::Request::Common qw(POST);
+
 use HTTP::Request;
 use HTTP::Response;
 use HTTP::Cookies;
@@ -25,19 +26,17 @@ use Time::Piece;
 use Digest::SHA qw(sha256_hex);
 use Digest::MD5 qw(md5_hex);
 use YAML::Syck;;
-
 use File::Basename;
 use File::Path qw(make_path);
-
 use HTML::TreeBuilder::XPath;
-
 use Data::Dumper;
 use vars qw($database);
 
 # login with account
 # download the csv files.
-sub fetch_duomai_cps_csv {
-    my $config = shift;
+sub fetch_duomai_cps_csv 
+{
+    my ( $config ) = @_;
 
     my $cookie_file = $config->{login}->{cookie_file};
     my $login_url = $config->{login}->{url};
@@ -46,9 +45,7 @@ sub fetch_duomai_cps_csv {
     my $csv_sites_output=$config->{csv_sites}->{output};
     my $csv_sites_output_utf8 = $config->{csv_sites}->{output_utf8};;
 
-#    my $ds = localtime->strftime("%Y%m%d");
-#    $cookie_file ~=  s/YYYYmmdd/$ds/;
-
+    # 创建cookie file的目录
     my $path_dest = dirname($cookie_file) ;
     make_path($path_dest); 
 
@@ -68,9 +65,10 @@ sub fetch_duomai_cps_csv {
 
     $response = $ua->get($csv_sites_url ,':content_file' => $csv_sites_output );
     print $response->headers->as_string,"\n";
+
     die "download csv file failed " unless $response->status_line;
 
-    # conver the encoding from gb2312 to utf8 
+    # convert the encoding from gb2312 to utf8 
     open my $filter,'<:encoding(gb2312)',$csv_sites_output; 
     open my $filter_new, '+>:utf8',$csv_sites_output_utf8; 
 
@@ -94,32 +92,35 @@ sub calc_duomai_cps_advertisement_hash {
     return $hash;
 }
 
-sub calc_duomai_cps_commission_hash {
+# 返回商家的返利hash 
+sub calc_duomai_cps_commission_hash 
+{
     my $joined = shift ;
     utf8::encode($joined); # compatible with php version ?
     my $hash = sha256_hex($joined); 
     return $hash;
 }
 
-sub query_duomai_advertisement_by_fixed_hash {
+# 查询已经写入的商家属性hash
+sub query_duomai_advertisement_by_fixed_hash 
+{
     my $fixed_hash = shift;
     # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated FROM duomai_advertisement where fixed_hash = ? });
-
     $sth->execute( ($fixed_hash) );
-
     $dbh->commit;
-
     my $hash_ref = $sth->fetchrow_hashref();
-
     return $hash_ref;
 }
 
-sub query_duomai_commission_by_fixed_hash {
+
+# 查询已经写入的商家返利的hash
+sub query_duomai_commission_by_fixed_hash 
+{
     my $fixed_hash = shift;
     my $ads_id = shift;
-    # my $database = Jili::DBConnection->instance();
+    
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated FROM duomai_commission  where fixed_hash = ? and ads_id = ? });
     $sth->execute( ($fixed_hash, $ads_id ) );
@@ -130,13 +131,10 @@ sub query_duomai_commission_by_fixed_hash {
 
 # insert into table
 sub insert_duomai_advertisement {
-
-    my $config = shift;
-    #my ($row , @title) = @_;
+    my ( $config ) = @_;
     my $file = $config->{csv_sites}->{output_utf8};
     print $file ,"\n";
-
-    # my $database = Jili::DBConnection->instance();
+    
     my $dbh = $database->{dbh};
     my $csv = Text::CSV->new ({auto_diag => 1, binary=>1,allow_whitespace=>1 })  # should set binary attribute.
         or die "Cannot use CSV: ".Text::CSV->error_diag ();
@@ -147,7 +145,6 @@ sub insert_duomai_advertisement {
 
     # verify the exists hash
     # select ads_id  & is activated !  
-
     my $sql = qq{INSERT INTO duomai_advertisement(ads_id,ads_name,ads_url,ads_commission,start_time,end_time,category,return_day,billing_cycle,link_custom,fixed_hash,is_activated) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?)};
 
     while ( my $row = $csv->getline( $fh ) ) {
@@ -184,8 +181,9 @@ sub insert_duomai_advertisement {
     close $fh or die "/tmp/a2.csv\n";
 }
 
-# query table fetch the siters
-sub query_duomai_advertisement {
+# 查询是否已经存在 相同的 商家属性hash
+sub query_duomai_advertisement 
+{
     # my $database = Jili::DBConnection->instance( );
     my $dbh = $database->{dbh};
     # now retrieve data from the table.
@@ -199,9 +197,10 @@ sub query_duomai_advertisement {
     return @ads_ids;
 }
 
-sub fetch_commission_csv {
+# 下载商家返利页面
+sub fetch_commission_csv 
+{
     my $config = shift;
-
     my @ads_ids = query_duomai_advertisement();
     my $count_ids = @ads_ids;
 
@@ -238,17 +237,10 @@ sub fetch_commission_csv {
     foreach my $ads_id ( @ads_ids  ) {
         $url = sprintf($url_tmpl, $ads_id);
         $fetched_file = sprintf($output_tmpl, $ads_id);
-
         $response = $ua->get($url,':content_file' => $fetched_file);
         print $response->headers->as_string,"\n";
         die "fetch comm html failed " unless $response->status_line;
-        # conver the encoding from gb2312 to utf8 
-        #open my $filter,'<:encoding(gb2312)',$fetched_file; 
-        #open my $filter_new, '+>:utf8',$fetched_file_utf8; 
-
-        #    last if ( $i++ == 10 );
     } 
-
     return ;
 }
 
@@ -256,7 +248,8 @@ sub fetch_commission_csv {
 # parse the commissions .htmls
 
 #'序号', '商品名称','佣金比例','有效期','备注');
-sub parse_html {
+sub parse_html 
+{
     my $doc = shift; 
     my $ads_id = shift;
 
@@ -269,7 +262,6 @@ sub parse_html {
     my $string = $tree->findvalue($xpath);
 
     my $hash = calc_duomai_cps_commission_hash( $string.'-'.$ads_id );
-    print $hash, "\n";
     my @comms;
 
     my $i = 0;
@@ -313,7 +305,6 @@ sub insert_commission {
 
     while (my $file = readdir($dh)) {
         my $ads_id;
-        print " >>>> seq : " ,$i,"\n";
         # Use a regular expression to find files ending in .txt
         if( "$path_dest/$file" =~ m/$file_reg/) {
             $ads_id = $1;
@@ -321,7 +312,6 @@ sub insert_commission {
             print "$path_dest/$file" ," NOT MATCHED\n";
             next;
         }
-        print  '>>>> ads_id : ', $ads_id ,"\n";
         # We only want files
         if  ( ! -f "$path_dest/$file"){
             print "$path_dest/$file" ," NOT EXISTS\n";
@@ -370,11 +360,18 @@ my $config = LoadFile( "./config/config.yml");
 
 fetch_duomai_cps_csv( $config->{duomai});
 insert_duomai_advertisement($config->{duomai});
-
 fetch_commission_csv($config->{duomai});
 insert_commission($config->{duomai});
 
 __END__
 
 活动ID,活动名称,网址,佣金,活动时间(起),活动时间(止),活动分类,RD,结算周期,自定义链接 
+
+select count(*) from duomai_advertisement;
+select count(*) from duomai_commission;
+select count(*) from duomai_commission_data;
+
+truncate duomai_advertisement;
+truncate duomai_commission;
+truncate duomai_commission_data;
 

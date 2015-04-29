@@ -5,9 +5,7 @@ use strict;
 
 use Data::Dumper;
 use YAML::Syck;
-
 use Time::Piece;
-
 use HTTP::Request;
 use HTTP::Response;
 use HTTP::Cookies;
@@ -15,15 +13,10 @@ use HTTP::Headers;
 use HTTP::Cookies::Netscape;
 use LWP::ConnCache;
 use LWP::UserAgent;
-#use Crypt::SSLeay;
-#use Net::SSL (); # From Crypt-SSLeay
 use File::Basename;
 use File::Path qw(make_path);
 use File::Spec;
-
 use Spreadsheet::ParseExcel;
-#use Spreadsheet::XLSX;
-
 use utf8;
 use List::MoreUtils qw(uniq);
 use Jili::DBConnection;
@@ -34,13 +27,11 @@ use Text::CSV;
 use vars qw($database);
 
 #$ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;
-$ENV{HTTPS_CA_FILE}   = '/tmp/certs/CHANET.COM.CN';
-$ENV{HTTPS_CA_DIR}    = '/tmp/certs/';
-$ENV{HTTPS_DEBUG} = 1;
+#$ENV{HTTPS_CA_FILE}   = '/tmp/certs/CHANET.COM.CN';
+#$ENV{HTTPS_CA_DIR}    = '/tmp/certs/';
+#$ENV{HTTPS_DEBUG} = 1;
 
 
-# 取商家列表
-# 取captcha图
 
 sub login 
 {
@@ -76,6 +67,8 @@ sub login
 
     my $url_image = 'http://www.chanet.com.cn/captcha.cgi?'. int(rand()*100 +0.4999) ;
     print $url_image, "\n";
+
+    # 取captcha图
     my $res = $ua->get($url_image);
     if(!$res->is_success){
         return 0;
@@ -116,6 +109,7 @@ sub login
     my $ds = localtime->strftime("%Y-%m-%d");
     $output =~ s/YYYY-mm-dd/$ds/;
 
+# 取商家列表
     $response = $ua->get($url, ':content_file' => $output);
 
     print $response->headers->as_string,"\n";
@@ -124,7 +118,7 @@ sub login
 
 }
 
-
+#取有商家返利信息的 页面。
 sub fetch_comms_html 
 {
     my ($config  ) = @_;
@@ -144,6 +138,7 @@ sub fetch_comms_html
         'autosave'=>1,
         'ignore_depreacted'=> 0
     );
+
     my @ns_headers = (
         'Agent' =>'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0',
         'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' ,
@@ -173,6 +168,7 @@ sub fetch_comms_html
     }
 }
 
+# 写入商家数据
 sub insert_chanet_advertiserment 
 {
     my( $config) = @_;
@@ -186,34 +182,33 @@ sub insert_chanet_advertiserment
     }
 
     print "  loading: ",$output ,"\n";
-
+   
+    # 取当前绝对路径
     my $path_curf = File::Spec->rel2abs(__FILE__);
     my ($vol, $dirs, $file) = File::Spec->splitpath($path_curf);
     my $parser = "java -Dfile.encoding=utf8 -jar $dirs/bin/xls2csv ";
 
     my $output_csv = $output;
 
+    # 输出到.csv文件
     $output_csv =~ s/.xls$/.csv/;
     my $content = readpipe( $parser.' '.$output );
 
-    # todo: 网址中包括了formula中的参数。
+    # 清掉非法字符
     $content =~ s/"&B[34]&"//g;
     open( my $fh , '+>', $output_csv)  or die "Could not open $output_csv $!\n";
     print $fh  $content;
-    close($fh)|| warn "close failed: $!";
+    close($fh) || warn "close failed: $!";
 
     print "  saved to ",$output_csv,"\n";
-    # 读出转换好的 活动列表
 
+    # 读出转换好的 活动列表
     my $csv = Text::CSV->new ({auto_diag => 1, binary=>1,allow_whitespace=>1 })  # should set binary attribute.
         or die "Cannot use CSV: ".Text::CSV->error_diag ();
     open($fh, '<:encoding(utf8)', $output_csv) or die "Could not open '$output_csv' $!\n";
 
-# 活动ID  活动名称    活动分类    链接类型    首页地址    推广链接   
-# 340     东方CJ的CPS推广     商务/商店   首页推广链接    http://www.ocj.com.cn   0  
     my $i = 0;
 
-    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth_create  =  $dbh->prepare( qq{INSERT INTO chanet_advertisement(  `ads_id`, `ads_name`, `category`, `ads_url_type`, `ads_url`, `marketing_url`, `fixed_hash`, `is_activated`) VALUES( ?,?,?,?,?,?,?,1) });
 
@@ -224,11 +219,7 @@ sub insert_chanet_advertiserment
         next if (length($row->[0]) == 0) ;
         next if ( $row->[0] !~ qr/^\d+$/ );
 
-        print $i++,"<<<<\n";
-        print '   ' , $row->[0], "\n";
-
-        # ignore wap only url
-
+        # ignore wap/mobile url
         if ($row->[4] =~ m/:\/\/(wap|m)\./ ) {
             next;
         }
@@ -271,6 +262,7 @@ sub insert_chanet_advertiserment
     print "OK\n";
 }
 
+# 计算商家的属性的hash
 sub calc_chanet_cps_advertisement_hash 
 {
     my $row = shift;
@@ -280,6 +272,7 @@ sub calc_chanet_cps_advertisement_hash
     return $hash;
 }
 
+# 查询是否已经存在 相同的 商家属性hash
 sub query_chanet_advertiserment_by_fixed_hash 
 {
     my $fixed_hash = shift;
@@ -292,6 +285,7 @@ sub query_chanet_advertiserment_by_fixed_hash
     return $hash_ref;
 }
 
+# 将商家的返利写入，( commission表的commission_data表）
 sub insert_commission 
 {
 
@@ -330,7 +324,7 @@ sub insert_commission
             next;
         }
 
-        # 文件名中有当天日期
+        # 文件名中有商家的id
         if( "$path_dest/$file" =~ m/$file_reg/) {
             $ads_id = $1;
         } else {
@@ -338,16 +332,14 @@ sub insert_commission
             next;
         }
 
-        print  '>>>> ads_id : ', $ads_id ,"\n";
-
         my $parsed_html_hash_ref  = parse_html("$path_dest/$file", $ads_id);
-
         my $hash = $parsed_html_hash_ref->{comms_hash};
         my $comm_exist_ref =  query_chanet_commission_by_fixed_hash($hash, $ads_id );
         if( defined($comm_exist_ref) && $comm_exist_ref->{is_activated} == 1) {
             next;
         } 
-        # deactivating the  current activated
+
+        # deactivating the  previous  
         my $sth_deactivate = $dbh->prepare(qq{ UPDATE chanet_commission SET is_activated = 0 WHERE ads_id = ? and is_activated = 1 });
         $sth_deactivate->execute(($ads_id));
         $sth_deactivate->finish();
@@ -363,7 +355,7 @@ sub insert_commission
                 $sth_comm_data->finish();
             }
         } else {
-            # deactivating the  current activated
+            # deactivating the  previous activated
             my $sth_activate = $dbh->prepare(qq{ UPDATE chanet_commission SET is_activated = 1 WHERE id  = ? limit 1});
             $sth_activate->execute(( $comm_exist_ref->{id} ));
             $sth_activate->finish();
@@ -375,6 +367,7 @@ sub insert_commission
 }
 
 
+# 解析商家返利信息
 sub parse_html 
 {
     my $doc = shift; 
@@ -413,6 +406,7 @@ sub parse_html
     return { comms_ref =>\@comms , comms_hash => $hash };
 }
 
+# 计算商家返利的hash
 sub calc_chanet_cps_commission_hash 
 {
     my $joined = shift ;
@@ -421,25 +415,29 @@ sub calc_chanet_cps_commission_hash
     return $hash;
 }
 
-# try to fetch from db
+# 从商家.xls文件中取商家的id.
 sub fetch_ads_ids 
 {
     my ($config) = @_;
     my @ads_ids;
-    my $output= $config->{xls_sites}->{output}; 
 
-    my $path_dest = dirname($output);
+    my $output= $config->{xls_sites}->{output}; 
     my $ds = localtime->strftime("%Y-%m-%d");
     $output =~ s/YYYY-mm-dd/$ds/;
+
+    my $path_dest = dirname($output);
+
     if( not -f $output) {
         print "$output not a file \n";
         return ;
     }
+
     my $parser   = Spreadsheet::ParseExcel->new();
     my $workbook = $parser->parse( $output );
     if ( !defined $workbook ) {
         die "Parsing error: ", $parser->error(), ".\n";
     }
+
     for my $worksheet ( $workbook->worksheets() ) {
         my ( $row_min, $row_max ) = $worksheet->row_range();
         my ( $col_min, $col_max ) = $worksheet->col_range();
@@ -457,6 +455,7 @@ sub fetch_ads_ids
     return \@ads_ids;
 }
 
+# 查出已经存在的返利记录
 sub query_chanet_commission_by_fixed_hash 
 {
 
@@ -483,8 +482,10 @@ fetch_comms_html($config->{chanet});
 insert_commission($config->{chanet});
 
 __END__
-"pmid=&search_type=2&act-type=on"
-** GET 
-https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=&search_type=1&search_as_id=480534&link_type=2&act-type=on&category=0 ==> 200 OK (1s)
-https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=&search_type=2&search_as_id=480534&link_type=2&act-type=on&category=0
+select count(*) from chanet_advertisement;
+select count(*) from chanet_commission;
+select count(*) from chanet_commission_data;
 
+truncate chanet_advertisement;
+truncate chanet_commission;
+truncate chanet_commission_data;

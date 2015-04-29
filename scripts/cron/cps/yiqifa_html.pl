@@ -5,34 +5,28 @@ use strict;
 
 use Data::Dumper;
 use YAML::Syck;
-
 use HTTP::Cookies::Netscape;
 use LWP::ConnCache;
 use LWP::UserAgent;
 use HTML::TreeBuilder::XPath;
-
 use Time::Piece;
 use HTTP::Cookies;
 use File::Basename;
 use File::Path qw(make_path);
-
 use Spreadsheet::ParseExcel;
 use List::MoreUtils qw(uniq);
 use Digest::SHA qw(sha256_hex);
 use Jili::DBConnection;
 use vars qw($database);
 
-
-sub login {
-
+sub login 
+{
     my($config) = @_;
-
     my $url = $config->{login}->{url};
-
     my $date = localtime->strftime("%Y%m%d");
-
     my $cookie_file = $config->{cookie_file}; 
 
+    #创建cooki file所在目录
     my $path_dest = dirname($cookie_file);
     make_path($path_dest); 
 
@@ -50,18 +44,18 @@ sub login {
         'cookie_jar'=> $cookie_jar,
         'conn_cache'=> $cache
     );
+
     my $response =  $ua->get($url );
     print $response->headers->as_string,"\n";
-    #print $response->content;
     print "\n";
-
     my $url_image = 'http://yiqifa.com/validateimage.do?d='.time();
-print $url_image, "\n";
+    print $url_image, "\n";
 
     my $res = $ua->get($url_image);
     if(!$res->is_success){
         return 0;
     }
+
     open(FILE_HANDLE,'>/tmp/img_yiqifa.jpg');
     binmode FILE_HANDLE;
     print FILE_HANDLE $res->content;
@@ -93,7 +87,7 @@ print $url_image, "\n";
     my $ds = localtime->strftime("%Y-%m-%d");
     $output =~ s/YYYY-mm-dd/$ds/;
 
-#    siteId=708089&linkType=URL&categoryd=0&schCampaignId=0&campaignName=
+    # 下载商家列表
     $response = $ua->post( $url, [
             'siteId'=> '708089',
             'linkType'=> 'URL',
@@ -113,9 +107,9 @@ print $url_image, "\n";
 
 }
 
-# parse the xls
-
-sub insert_emar_advertisement {
+# parse the xls & insert emar advertisements
+sub insert_emar_advertisement 
+{
     my $config = shift;
     my $output = $config->{xls_sites}->{output};
     my $ds = localtime->strftime("%Y-%m-%d");
@@ -126,7 +120,6 @@ sub insert_emar_advertisement {
         return ;
     }
 
-    print "  loading: ",$output ,"\n";
 
     my $parser   = Spreadsheet::ParseExcel->new();
     my $workbook = $parser->parse( $output );
@@ -134,9 +127,7 @@ sub insert_emar_advertisement {
         die "Parsing error: ", $parser->error(), ".\n";
     }
 
-    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
-
     my $sth_create  =  $dbh->prepare( qq{INSERT INTO emar_advertisement( `ads_id`,`ads_name`,`category`,`commission`,`commission_period`,`ads_url`,`can_customize_target`,`feedback_tag`,`marketing_url`,`fixed_hash`,`is_activated`) VALUES (?,?,?,?,?,?,?,?,?,?,1) });
     my $i=0; # insert counter
     my $u=0; # update counter
@@ -166,21 +157,12 @@ sub insert_emar_advertisement {
             my $hash = calc_emar_cps_advertisement_hash($fields);
             my $ads_exist = query_emar_advertisement_by_fixed_hash($hash);
             if( defined($ads_exist) && $ads_exist->{is_activated} == 1 ) {
-
                 if( $ads_exist->{marketing_url} ne $fields->[8] ) {
                     my $sth_activate = $dbh->prepare(qq{ UPDATE emar_advertisement SET  marketing_url = ?  WHERE id  = ? limit 1});
                     $sth_activate->execute(( $fields->[8], $ads_exist->{id} ));
                     $sth_activate->finish();
                     $u++;
                     $dbh->commit; 
-
-print '    u:', $u,"\n";
-print '    ',$_, "\n" for( @$fields);
-print '    ', $hash,"\n";
-print '    ', $fields->[8],"\n";
-print '    ', $ads_exist->{marketing_url},"\n";
-
-print "\n";
                 }
 
                 next;
@@ -193,24 +175,16 @@ print "\n";
             if(! defined($ads_exist)) {
                 #insert 
                 push @$fields,($hash ); 
-                #my $sth=$dbh->prepare($sql);
                 my $rv = $sth_create->execute(  @$fields);
-#                $sth_create->finish();
                 $i++;
             } else {
                 if( $ads_exist->{marketing_url} ne $fields->[8] ) {
                     my $sth_activate = $dbh->prepare(qq{ UPDATE emar_advertisement SET is_activated = 1 , marketing_url = ?  WHERE id  = ? limit 1});
                     $sth_activate->execute(( $fields->[8], $ads_exist->{id} ));
-#                    $sth_activate->finish();
                     $u++;
-print '    u:', $u,"\n";
-print '    ',$_, "\n" for( @$fields);
-print '    ', $hash,"\n";
-print "\n";
                 } else {
                     my $sth_activate = $dbh->prepare(qq{ UPDATE emar_advertisement SET is_activated = 1 WHERE id  = ? limit 1});
                     $sth_activate->execute((  $ads_exist->{id} ));
-#                    $sth_activate->finish();
                 }
             }
             $dbh->commit;
@@ -221,9 +195,10 @@ print "\n";
     print "  records insert: $i\n";
 }
 
-sub query_emar_advertisement_by_fixed_hash {
+# 查询是否已经存在 相同的 商家属性hash
+sub query_emar_advertisement_by_fixed_hash 
+{
     my $fixed_hash = shift;
-    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated , marketing_url FROM emar_advertisement where fixed_hash = ? });
     $sth->execute( ($fixed_hash) );
@@ -236,7 +211,6 @@ sub query_emar_advertisement_by_fixed_hash {
 sub query_emar_commission_by_fixed_hash {
     my $fixed_hash = shift;
     my $ads_id = shift;
-    # my $database = Jili::DBConnection->instance();
     my $dbh = $database->{dbh};
     my $sth=$dbh->prepare(qq{SELECT id, ads_id,is_activated FROM emar_commission  where fixed_hash = ? and ads_id = ? });
     $sth->execute( ($fixed_hash, $ads_id ) );
@@ -247,10 +221,8 @@ sub query_emar_commission_by_fixed_hash {
 
 # 批量下载商家返利详情的网页
 sub fetch_comms_html {
-    #todo verify the siters file history hash.
     my ($config ) = @_;
     my $date = localtime->strftime("%Y%m%d");
-
     my $output_tmpl  =  $config->{html_comm}->{output};
     my $output_utf8_tmpl  =  $config->{html_comm}->{output_utf8};
 
@@ -287,14 +259,10 @@ sub fetch_comms_html {
     my $ads_ids = fetch_ads_ids($config);
     my $i=0;
     for my $ads_id ( @$ads_ids) {
-        #next if ($i++ == 1);
         my $output = sprintf( $output_tmpl, $ads_id);
         my $output_utf8 = sprintf( $output_utf8_tmpl, $ads_id);
         my $url =sprintf($url_tmpl, $ads_id);
 
-#print $output, "\n";
-#print ' => ', $output_utf8, "\n";
-#next;
         my $response = $ua->get($url,@ns_headers, ':content_file' => $output);
         open my $filter,'<:encoding(gbk)',$output; 
         open my $filter_new, '+>:utf8',$output_utf8; 
@@ -323,6 +291,7 @@ sub siter_file_hash {
 }
 
 # 序号,佣金类目,佣金,佣金周期,适用商品,详细说明,
+# 解析商家返利信息
 sub parse_html {
     my $doc = shift; 
     my $ads_id = shift;
@@ -370,14 +339,18 @@ sub calc_emar_cps_advertisement_hash {
     return $hash;
 }
 
-sub calc_emar_cps_commission_hash {
+# 计算商家返利的hash
+sub calc_emar_cps_commission_hash 
+{
     my $joined = shift ;
     utf8::encode($joined); # compatible with php version ?
     my $hash = sha256_hex($joined); 
     return $hash;
 }
 
-sub insert_commission{
+# 将商家的返利写入，( commission表的commission_data表）
+sub insert_commission
+{
     my $config = shift; 
     my $file_reg = $config->{html_comm}->{output_utf8};
     my $path_dest = dirname($file_reg) ;
@@ -412,7 +385,6 @@ sub insert_commission{
             #print "$path_dest/$file" ," NOT EXISTS\n";
             next;
         }
-        print  '>>>> ads_id : ', $ads_id ,"\n";
         my $parsed_html_hash_ref  = parse_html("$path_dest/$file", $ads_id);
         my $hash = $parsed_html_hash_ref->{comms_hash};
 
@@ -450,6 +422,7 @@ sub insert_commission{
     closedir $dh;
 }
 
+# 从商家.xls文件中取商家的id.
 sub fetch_ads_ids 
 {
     my($config) = @_;
@@ -497,5 +470,14 @@ fetch_comms_html($config->{emar});
 insert_commission($config->{emar});
 
 __END__
+
  0:18046     1:第五大道移动CPS   2:奢侈品    3:1.4%-4.2%     4:xyd   5:纯url     8:第五大道WAP:http://m.5lux.com/    9:yes   10:c    11:http://p.yiqifa.com/n?k=2mLErnDS6E2OrI6H2mLErI6HWNzL6nMH6ljFWnzernt76NzOWQqD6n6Lg74HkQLErnb86Egy3ERlrIW-&e=c&t=http://m.5lux.com/   
+
+select count(*) from emar_advertisement;
+select count(*) from emar_commission;
+select count(*) from emar_commission_data;
+
+truncate emar_advertisement;
+truncate emar_commission;
+truncate emar_commission_data;
 
