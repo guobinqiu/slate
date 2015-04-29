@@ -34,16 +34,20 @@ class DuomaiRequestValidation {
         );
 
         // 在订单状态为 1 或者为 2 的时候  order_price 表示确认的订单金额，siter_commission 表示
-        if( '0' === $request->getAlnum('ads_id') && '测试活动'=== $request->get('ads_name') && '0' === $request->getAlnum('site_id') 
-            && '0' === $request->getDigits('link_id')&& 0 === strlen( $request->get('euid') ) && '0'===$request->getAlnum('order_sn') 
-            &&  '0000-00-00 00:00:00' === $request->getAlnum('order_time')&&  '0.00' === $request->getAlnum('orders_price') 
-            &&'0.00' === $request->getAlnum('siter_commission') && '0'=== $request->getAlnum('status') )  {
+        if(  '0' === $request->get('ads_id') && '测试活动'=== $request->get('ads_name') && '0' === $request->get('site_id') 
+            && '0' === $request->get('link_id')&& 0 === strlen( $request->get('euid') ) && '0'===$request->get('order_sn') 
+            &&  '0000-00-00 00:00:00' === $request->get('order_time')&&  '0.00' === $request->get('orders_price') 
+            &&'0.00' === $request->get('siter_commission') && '-1'=== $request->get('status') )  {
+
                 $result['message'] = '审核接口';
+                $result['code'] = $configs['response']['SUCCESS'];
+
                 return  $result;
             }
 
 
-        $required_keys = array('ads_id', 'ads_name','site_id', 'link_id','euid','order_sn','orders_price', 'siter_commission','status');
+        # 重要参数不少
+        $required_keys = array('ads_id', 'ads_name','site_id', 'link_id','euid','order_sn','orders_price', 'siter_commission','status','id');
 
         foreach ($required_keys as $key ) {
             if( ! $request->has($key)  ) {
@@ -52,20 +56,17 @@ class DuomaiRequestValidation {
             }
         }
 
-        $data = array('hash'=> $configs['site_hash'], 'request'=> $request->all() );
-
-        $errors =  $this->validator->validate( $data, new DuomaiApiOrdersPushChecksum() );
+        # 难证checksum
+        $errors =  $this->validator->validateValue( array('hash'=> $configs['site_hash'], 'request'=> $request->all() ), new DuomaiApiOrdersPushChecksum() );
 
         if(count($errors) > 0  ) { 
             $error_message = $errors[0]->getMessage();
-            $this->logger->debug('[duomaiApi]:'. $error_message );
+            $this->logger->crit('[duomaiApi]:'. $error_message );
             $result['message'] = $error_message;
             return  $result;
         }
 
-        // UNIQUE KEY
-        // 订单是否已经存在
-        // 请求的状态是否已经是过时的 
+        // 订单是否已经存在 &  请求的状态是否已经是过时的 
         $ocd = $request->get('id');
         // 订单状态  -1 无效 0 未确认 1 确认 2 结算
         $status = $request->get('status');

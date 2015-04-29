@@ -43,6 +43,7 @@ class DuomaiController extends Controller
             return $resp;
         }
 
+
         // III. process.
         $result_processed  = $this->get('duomai_request.processor')
             ->process( $request->query, $result_validation['data']);

@@ -46,9 +46,11 @@ class DuomaiApiOrdersPushChecksumValidator extends ConstraintValidator
         unset($query['checksum'],$query['id']);
 
         ksort($query);
+
         $localsum = md5(join('',  array_values($query)).$hash);
+
         if ($localsum !== $checksum ) {
-            $this->context->addViolation($constraint->message, array( '%string%'=>$checksum));
+            $this->context->addViolation($constraint->message, array( '%string%'=>$checksum .'('.$localsum.')'));
         }
     }
 }
