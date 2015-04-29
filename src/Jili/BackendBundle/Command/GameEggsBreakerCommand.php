@@ -100,7 +100,7 @@ $container = $this->getContainer();
                 $mailer = $this->getContainer()->get('mailer');
                 $message = $mailer->createMessage()
                     ->setSubject($title )
-                    ->setFrom($container ->getParameter('mailer_user') )
+                    ->setFrom(array($container->getParameter('mailer_user')=>'积粒网'))
                     ->setTo($recipients )
                     ->setBody($body);
                 $result =  $mailer->send($message);
