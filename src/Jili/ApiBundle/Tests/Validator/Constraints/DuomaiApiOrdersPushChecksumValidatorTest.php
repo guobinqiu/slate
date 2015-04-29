@@ -26,11 +26,8 @@ class DuomaiApiOrdersPushChecksumValidatorTest extends \PHPUnit_Framework_TestCa
             ->with($this->equalTo('Checksum %string% 验证失败'), $this->equalTo( array('%string%'=>$checksum)));
 
         $validator->initialize($context);
-
         $bad_value  = array('hash'=>$hash , 'request'=> array('id'=>'11','field4'=> 'abc', 'field2'=>2.2, 'field3'=> '2015-03-23 16:02:00', 'checksum'=>$checksum));
         $validator->validate($bad_value, $constraint);
-
-        $this->assertEquals(1,1) ;
     }
 
     /**

@@ -18,7 +18,6 @@ class CpsAdvertisementController extends Controller
 {
     /**
      * @Route("/detail/{wid}", requirements={"wid" = "\d+"}, defaults={"wid" = 0})
-     * todo: added pageno for recommend
      */
     public function detailAction(Request $request ,$wid)
     {
@@ -41,11 +40,12 @@ class CpsAdvertisementController extends Controller
         $asp = $ad_category->getAsp();
         $shop = $em->getRepository('JiliFrontendBundle:'.ucfirst($asp).'Advertisement')->findOneById($cps->getAdId());
         $commission_list  = $em->getRepository('JiliFrontendBundle:'.ucfirst($asp).'Commission')->findListByAdId($shop->getAdsId());
-        $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__,'getWebsiteCategory: ')). var_export($cps->getWebsiteCategory() , true));
+
         $same_cat_websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')
             ->findSameCatWebsitesByRandom( array( 'limit'=> 3, 'category'=> $cps->getWebsiteCategory() ) );
 
         return $this->render('JiliFrontendBundle:CpsAdvertisement:detail.html.twig',array('website'=> $cps ,
+            'is_emar_cps'=> $ad_category->getIsEmarCps()  ,
             'detail' => $shop, 
             'commission_list'=>$commission_list,
             'same_cat_websites' => $same_cat_websites));
@@ -158,8 +158,6 @@ class CpsAdvertisementController extends Controller
         }
 
         $uid =  $this->get('user_login')->getLoginUserId();
-
-        $logger->debug('[jarod]'.implode(',',array(__LINE__,__FUNCTION__)). var_export( $cps, true));
 
         # goto the {asp}_advertisement table , fetch the redirect_url
         $ad_category = $em->getRepository('JiliApiBundle:AdCategory')
