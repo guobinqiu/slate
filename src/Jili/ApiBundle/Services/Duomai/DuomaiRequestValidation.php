@@ -21,7 +21,8 @@ class DuomaiRequestValidation {
     }
 
     /**
-     *
+     * @param object $request 请求参数
+     * @param string $client_ip request ip  default empty
      **/
     public function validate(ParameterBag $request,  $client_ip = '') 
     {
@@ -46,11 +47,12 @@ class DuomaiRequestValidation {
             }
 
 
-        # 重要参数不少
+        # 重要参数不可少
         $required_keys = array('ads_id', 'ads_name','site_id', 'link_id','euid','order_sn','orders_price', 'siter_commission','status','id');
 
         foreach ($required_keys as $key ) {
             if( ! $request->has($key)  ) {
+                $this->logger->crit('[duomaiApi]: lack request parameters'. $key);
                 $result['message'] = 'Lack parameters';
                 return  $result;
             }

@@ -7,15 +7,16 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Loader; 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixtureLoader;
-
 use Jili\ApiBundle\DataFixtures\ORM\Repository\DuomaiOrder\LoadInitData;
 use Jili\ApiBundle\DataFixtures\ORM\Repository\DuomaiOrder\LoadConfirmedData;
 
+/**
+ * @abstract duomai 回调接口测试
+ */
 class DuomaiControllerTest extends WebTestCase
 {
 
-
-   /**
+    /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
@@ -27,7 +28,6 @@ class DuomaiControllerTest extends WebTestCase
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
-
 
         $container  = static::$kernel->getContainer();
         $em = $container->get('doctrine')
@@ -44,13 +44,12 @@ class DuomaiControllerTest extends WebTestCase
             $loader = new Loader();
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
-        
-         } else if (in_array($tn, array('testGetInfoBalanced'))) {
+        } else if (in_array($tn, array('testGetInfoBalanced'))) {
             $fixture = new LoadConfirmedData();
             $loader = new Loader();
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
-         }
+        }
 
         $this->client = static::createClient();
         $this->container = $container;
@@ -173,15 +172,15 @@ class DuomaiControllerTest extends WebTestCase
             'euid'=>'1',
             'order_sn'=>'asdfasf',
             'order_time'=>'2015-04-02 00:00:00',
-            'orders_price'=>10.00,
-            'siter_commission'=>4.00,
+            'orders_price'=>'10.00',
+            'siter_commission'=>'4.00',
             'status'=> 0,
             'checksum'=>'bb9a518f17b400380c2a3d22ebd7cdbf' ,
             'id'=> 11111,
         );
         $url = $container->get('router')->generate('_api_duomai_getinfo' , $query_array ) ;
 
-        $this->assertEquals('/api/duomai/getInfo?ads_id=1&ads_name=%E6%B5%8B%E8%AF%95%E6%B4%BB%E5%8A%A8init&site_id=1&link_id=1&euid=1&order_sn=asdfasf&order_time=2015-04-02+00%3A00%3A00&orders_price=10&siter_commission=4&status=0&checksum=bb9a518f17b400380c2a3d22ebd7cdbf&id=11111', $url);
+        $this->assertEquals('/api/duomai/getInfo?ads_id=1&ads_name=%E6%B5%8B%E8%AF%95%E6%B4%BB%E5%8A%A8init&site_id=1&link_id=1&euid=1&order_sn=asdfasf&order_time=2015-04-02+00%3A00%3A00&orders_price=10.00&siter_commission=4.00&status=0&checksum=bb9a518f17b400380c2a3d22ebd7cdbf&id=11111', $url,'回调url');
 
         $query_array = array(
             'ads_id' => '61',
@@ -205,6 +204,7 @@ class DuomaiControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals(1, $client->getResponse()->getContent());
 
+        # qeury for duomai order
         $duomai_order_stm =   $em->getConnection()->prepare('select * from duomai_order');
         $duomai_order_stm->execute();
         $duomai_order_records =$duomai_order_stm->fetchAll();
@@ -213,15 +213,14 @@ class DuomaiControllerTest extends WebTestCase
         $this->assertEquals('71440050', $duomai_order_records[0]['ocd']);
         $this->assertEquals('1', $duomai_order_records[0]['status'], '初始订单的duomai_order表中的状态为1');
 
+        # qeury for task_history 
         $task_history_stm  =   $em->getConnection()->prepare('select * from task_history05');
         $task_history_stm->execute(); 
         $task_history_records =$task_history_stm->fetchAll();
 
         $this->assertCount(1,$task_history_records);
         $this->assertEquals(1,$task_history_records[0]['status'], '初始订单的task_history 表中的状态为1');
-        
-        # qeury for duomai order
-        # qeury for task_history 
+
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals(0, $client->getResponse()->getContent(), 'duplicated callback return 0 ');
@@ -411,6 +410,5 @@ class DuomaiControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals(0, $client->getResponse()->getContent(), 'duplicated callback return 0 ');
     }
-
 
 }
