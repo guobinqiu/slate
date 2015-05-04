@@ -21,6 +21,9 @@ parameters:
     bangwoya_request.validation.class: Jili\ApiBundle\Services\Bangwoya\BangwoyaRequestValidation
     bangwoya_request.processor.class:  Jili\ApiBundle\Services\Bangwoya\BangwoyaRequestProcessor
 
+    duomai_request.validation.class: Jili\ApiBundle\Services\Duomai\DuomaiRequestValidation
+    duomai_request.processor.class:  Jili\ApiBundle\Services\Duomai\DuomaiRequestProcessor
+
     rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
 
     cps_access_history.logger.class: Jili\ApiBundle\EventListener\CpsAccessHistoryFactory
@@ -175,6 +178,22 @@ services:
     bangwoya_request.processor:
         class: %bangwoya_request.processor.class%
         arguments: [ %bangwoya_com% ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setLogger, [ @logger ] ]
+            - [ setSendMail, ["@send_mail"] ]
+
+    duomai_request.validation:
+        class: %duomai_request.validation.class%
+        arguments: [ %duomai_com% ]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setLogger, [ @logger ] ]
+            - [ setValidator, [ @validator ] ]
+
+    duomai_request.processor:
+        class: %duomai_request.processor.class%
+        arguments: [ %duomai_com% ]
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]

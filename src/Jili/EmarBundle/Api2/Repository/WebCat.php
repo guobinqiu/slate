@@ -25,7 +25,7 @@ class WebCat
     $mapings = array();
     foreach($rows as $row) {
       if(isset($row['web_catid']) && isset($row['web_cname'])  ) {
-        $mapings[ (string) $row['web_catid'] ] = array('name'=>$row['web_cname'],'amount'=> $row['amount']) ;
+          $mapings[ (string) $row['web_catid'] ] = array('name'=>$row['web_cname'] /*,'amount'=> $row['amount']*/) ;
       }
     }
     return $mapings;

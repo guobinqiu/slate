@@ -276,7 +276,7 @@ parameters:
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
     file_path_cpa_ranking_activity: /data/91jili/logs/activity/cpa_ranking_activity
-
+    
     qq_appid: 101163684
     qq_appkey: fe7b1879a8e220136aa63ae92a9e5745
     qq_email_suffix: qq.com
@@ -310,7 +310,7 @@ parameters:
     webpower_email_username: 'admin'
     webpower_email_password: 'nUshkwu#9'
     webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
-
+    
     cron_alertTo_contacts: jinzhang@voyagegroup.com.cn,zhangmm@voyagegroup.com.cn,tao_jiang@voyagegroup.com,xiaoyi_chai@voyagegroup.com,xujf@voyagegroup.com.cn
     alert_subject: '积粒网-定时任务提醒邮件'
 
@@ -354,3 +354,27 @@ parameters:
     slack_alert_channel: "#vct-alert-91jili"
     slack_alert_username: "91jili_system"
     slack_alert_text_prefix: "channel: "
+
+    duomai_com:
+        name:        "购物返利"
+        site_id:     152244
+        site_hash:   f2cc3391af820e539fac5d3fbcb89c2c
+        cps_default_rebate:  %cps_default_rebate%
+
+        # 订单状态  -1 无效 0 未确认 1 确认 2 结算
+        # request status to request status
+        status:
+            UNCERTAIN:   0 # init
+            CONFIRMED:   1 # pending 
+            BALANCED:    2 # completed success
+            INVALID:    -1 # completed failed
+
+        response:
+            SUCCESS: 1            #1 表示此次推送成功 并且订单已成功入库。
+            SUCCESS_DUPLICATED: 0 #0 表示推送成功 但订单已存在。
+            FAILED: -1            #-1 表示推送失败
+
+twig:
+    globals: 
+        cps_default_rebate:  %cps_default_rebate%
+        

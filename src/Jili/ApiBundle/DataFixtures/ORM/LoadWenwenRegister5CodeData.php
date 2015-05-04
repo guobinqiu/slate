@@ -34,16 +34,16 @@ class LoadWenwenRegister5CodeData  extends AbstractFixture implements ContainerA
     {
 
         $user = new User();
-        $user->setNick('zhangmm');
-        $user->setEmail('zhangmm1@voyagegroup.com.cn');
-        $user->setIsFromWenwen(2);
-        $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
-        $user->setRewardMultiple($this->container->getParameter('init_one'));
+
+        $user->setNick('zhangmm')
+            ->setEmail('zhangmm1@voyagegroup.com.cn')
+            ->setPwd('aaaaaa');
+
         $manager->persist($user);
         $manager->flush();
 
-        self::$ROWS[] = $user;
+        self::$ROWS[0] = $user;
+
 
         $setPasswordCode = new SetPasswordCode();
         $setPasswordCode->setUserId($user->getId());

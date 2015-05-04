@@ -1,0 +1,29 @@
+<ul class="clearfix" style="display:block;">
+    {% for key,row in websites %}
+    {% set href_ = path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })  %}
+    <li>
+    <a class="logoImg" target="_blank" title="{{ row.title }}" href="{{ href_ }}"><img src="/images/website_logos/{{  row.hostHashAsLogoName ~ '.jpg' }}" alt="{{ row.websiteName }}" width="120" onerror="this.src='/images/shoplogoBg.jpg';this.onerror='null'"></a>
+        {% if row.commission is defined and  row.commission > 0 %}<div class="logoWord lightGray">最高返{{ row.commission }}%</div>{% endif %}
+        <div class="logoMore">
+        	<div class="logoMask"></div>
+            <div class="logoBtn">
+            	<a href="{{  path('jili_frontend_cpsadvertisement_detail', {'wid': row.id }) }}" class="toMore"><i class="detailIcon"></i>返利详情</a>
+            	<a target="_blank" href="{{ href_ }}" class="toBuy"><i class="shopIcon"></i>直接购物</a>
+            </div>
+        </div>
+    </li>
+    {% else %}
+    <em>很抱歉，没有找到相关的商家。</em> 
+    {% endfor %}
+</ul>
+<script type="text/javascript">
+	$(function(){
+        $('.shopR .center ul li').hover(function(){
+            var index = $('.shopR .center ul li').index(this);
+            $('.logoMore').eq(index).stop(true,true).delay(400).show();
+        },function(){
+    		var index = $('.shopR .center ul li').index(this);
+            $('.logoMore').eq(index).stop(true,true).hide();
+        });
+	});
+</script>

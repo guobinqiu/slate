@@ -341,7 +341,6 @@ class AdminControllerTest extends WebTestCase {
      * @group ExchangeOKWen
      * @group issue_535
      * @group issue_670
-     * @group debug
      */
     public function testExchangeOKWen() 
     {

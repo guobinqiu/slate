@@ -45,7 +45,9 @@ class LoadInsertData extends AbstractFixture implements  FixtureInterface {
 
         $order= new ActivityGatheringTaobaoOrder();
         $order->setUser($user)
-            ->setOrderIdentity('123456789012345');
+            ->setOrderIdentity('123456789012345')
+            ->setCreatedAt( \DateTime::createFromFormat('Y-m-d H:i:s', '2015-02-07 00:00:00'));
+        
         $manager->persist($order);
         $manager->flush();
         self :: $ORDERS[0] = $order;
@@ -72,12 +74,13 @@ class LoadInsertData extends AbstractFixture implements  FixtureInterface {
         $manager->flush();
         self :: $USERS[2] = $user;
 
-        $at = new \DateTime();
-        $at->sub( new \DateInterval( 'P1M') );
+        $at = \DateTime::createFromFormat('Y-m-d H:i:s', '2015-03-07 00:00:00');
+
+        # 1 month ago.
         $order= new ActivityGatheringTaobaoOrder();
         $order->setUser($user)
             ->setOrderIdentity('123456789012346')
-        ->setCreatedAt( $at );
+            ->setCreatedAt( $at );
         $manager->persist($order);
         $manager->flush();
         self :: $ORDERS[1] = $order;

@@ -1,0 +1,91 @@
+duomai:
+    host: 'www.duomai.com'
+    login:
+        url: 'http://www.duomai.com/index.php?m=siter&a=dologin'
+        form_data:
+            ll: ''
+            email: 'admin@voyagegroup.com.cn'
+            password: 'zaq1ZAQ!'
+            imageField.x: 70 
+            imageField.y: 12 
+        cookie_file: "/data/91jili/cps/duomai/cookies.txt" 
+            
+# /index.php?m=siter_act&a=myact_export
+    csv_sites:
+#url: "http://www.duomai.com/index.php?m=siter_act&a=myact_export"
+        url: "http://www.duomai.com/index.php?m=siter_act&a=index&export=true"
+        output: "/data/91jili/cps/duomai/activites_YYYYmmdd.csv"
+        output_utf8: "/data/91jili/cps/duomai/activites_utf8_YYYYmmdd.csv"
+
+    html_comm:
+        url: "http://www.duomai.com/index.php?m=siter_act&a=view&ads_id=%d"
+        output: "/data/91jili/cps/duomai/comm/ads_id_%d_YYYYmmdd.html"
+        output_reg: "/data/91jili/cps/duomai/comm/ads_id_\d+_YYYYmmdd.html"
+#        output_utf8: "/data/91jili/cps/duomai/comm/ads_id_utf8_%d_YYYYmmdd.html"
+        logo_xpath: "/html/body/div[4]/table/tbody/tr[1]/td[2]/div/img"
+#                    /html/body/div[4]/table/tr[1]/td[2]/div/img
+#                    /html/body/div[4]/table/tbody/tr[1]/td[2]/div/img
+
+    logo_path: "/data/91jili/cps/duomai/logo/"
+    logo_file: "/data/91jili/cps/duomai/logo/logos_desired_YYYY-mm-dd.txt"
+
+emar:
+    cookie_file: "/data/91jili/cps/yiqifa/cookies.txt"
+    login:
+        url:  'http://yiqifa.com/userLogin.do'
+        userName: 'jili@voyagegroup.com.cn'
+        password: '123voyage'
+    xls_sites:
+        url: "http://yiqifa.com/earner/applyBatchLinkList.do?type=site"
+        form_data: 
+             siteId: 708089
+             linkType: 'URL'
+             categoryd: 0
+             schCampaignId: 0
+             campaignName: ''
+
+        output: "/data/91jili/cps/yiqifa/积粒网自定义链接全表YYYY-mm-dd.xls"
+    html_comm:
+        url: "http://yiqifa.com/earner/campaignView.do?backType=search&middleBack=campaignLinkList&campaignId=%d&siteId=708089&schSiteId=&schPageNumber=1&costType=&auditingType=&searchOption=campaignId&searchValue=&categoryId=0&schSearchType=&schPageSize=10"
+        output_dir: "/data/91jili/cps/yiqifa/comm/"
+        output: "/data/91jili/cps/yiqifa/comm/ads_id_%d_YYYYmmdd.html"
+        output_utf8: "/data/91jili/cps/yiqifa/comm/ads_id_utf8_%d_YYYYmmdd.html"
+        output_reg: "/data/91jili/cps/yiqifa/comm/ads_id_\d+_YYYYmmdd.html"
+        logo_xpath:  '/html/body/div/div/div[2]/div[2]/div/table/tr[1]/td[1]/img'
+
+    logo_path: "/data/91jili/cps/yiqifa/logo/"
+    logo_file: "/data/91jili/cps/yiqifa/logo/logos_desired_YYYY-mm-dd.txt"
+
+#    login_url: 'http://yiqifa.com/userLogin.do'
+#    login_form: 'http://yiqifa.com/earner/applyBatchLinkList.do'
+
+chanet:
+    host: 'www.chanet.com.cn'
+    cookie_file: "/data/91jili/cps/chanet/cookies_YYYYmmdd.txt"
+# https://www.chanet.com.cn/partner/get_all_links.cgi
+# https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=0&search_type=1&search_as_id=480534&link_type=2&act-type=on&category=0
+    login:
+        url: 'https://www.chanet.com.cn/partner/login.cgi'
+        login_name:  voyage
+        login_pass:  jilijili
+
+
+    xls_sites: 
+#        url: "https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=&search_type=1&search_as_id=480534&link_type=2&act-type=on&category=0"
+        url: "https://www.chanet.com.cn/partner/get_all_links.cgi?pmid=&search_type=2&search_as_id=480534&link_type=2&act-type=on&category=0"
+        output:     "/data/91jili/cps/chanet/promotio_linkYYYY-mm-dd.xls"
+        output_csv: "/data/91jili/cps/chanet/promotio_linkYYYY-mm-dd.csv"
+        output_reg: "/data/91jili/cps/chanet/comm/ads_id_\d+_YYYYmmdd.html"
+
+#form_data:
+    html_comm:
+        url: "https://www.chanet.com.cn/partner/pm_detail.cgi?pm_id=246"
+        output: "/data/91jili/cps/chanet/comm/ads_id_%d_YYYYmmdd.html"
+        output_reg: "/data/91jili/cps/chanet/comm/ads_id_\d+_YYYYmmdd.html"
+        xpath: "/html/body/div[13]/div/div[1]/div[4]/div[1]/table"
+        logo_xpath: "/html/body/div[10]/div/div[1]/div[2]/table/tr[1]/td[2]/span[1]/img"
+
+    logo_path: "/data/91jili/cps/chanet/logo/"
+    logo_file: "/data/91jili/cps/chanet/logo/logos_desired_YYYY-mm-dd.txt"
+
+

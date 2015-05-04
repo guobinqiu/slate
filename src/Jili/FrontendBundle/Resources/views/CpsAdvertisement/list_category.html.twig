@@ -1,0 +1,23 @@
+{% set wcatid_q = app.request.query.get('wcat','') %}
+<ul class="tabnav">
+            
+
+{% for catname,cnt in categories  if catname != "其他"  %}
+
+
+{% if wcatid_q is defined and wcatid_q == catname  %}
+
+    <li class="active"><a href="#" onclick="javascript:return false;">{{ catname}}</a></li>
+{% else %}
+    <li><a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'wcat':catname,"q":"", "p":1 ,"t":""})) }}">{{ catname }}</a></li>
+{% endif %}
+
+{% endfor %}
+
+
+{% if wcatid_q is defined and wcatid_q == "其他" %}
+    <li class="active"><a href="#" onclick="javascript:return false;">其他</a></li>
+{% else %}
+    <li><a href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'wcat':"其他","q":"", "p":1 ,"t":""})) }}">其他</a></li>
+{% endif %}
+</ul>

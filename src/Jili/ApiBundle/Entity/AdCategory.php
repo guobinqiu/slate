@@ -32,6 +32,12 @@ class AdCategory
     const ID_GAME_EGGS_BREAKER = 31;
 
     /**
+     * @var const
+     *  多麦id.
+     */
+    const ID_DUOMAI = 23;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
@@ -140,5 +146,10 @@ class AdCategory
     public function getDisplayName()
     {
         return $this->displayName;
+    }
+
+    public function getIsEmarCps()
+    {
+        return $this->getAsp() === 'emar' && strtolower($this->getCategoryName() )=== 'cps';
     }
 }

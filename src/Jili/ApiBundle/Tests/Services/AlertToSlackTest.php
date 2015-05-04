@@ -1,7 +1,7 @@
 <?php
 namespace  Jili\ApiBundle\Tests\Services;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AlertToSlackTest extends KernelTestCase {
 
@@ -12,7 +12,7 @@ class AlertToSlackTest extends KernelTestCase {
         static :: $kernel->boot();
         $container = static :: $kernel->getContainer();
         $service = $container->get('alert_to_slack');
-        $content = 'test: Alert to slack from 91jili system.';
+        $content = 'this is a testing notification (ignore me)';
         $return = $service->sendAlertToSlack($content);
         $this->assertTrue($return);
     }

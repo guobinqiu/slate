@@ -1,0 +1,7 @@
+<form name="shoplist_search" action="{{ path('jili_frontend_cpsadvertisement_listsearch', app.request.query.all) }}" method="POST" class="shopSearch" _lpchecked="1">
+   {{ form_widget(form.keyword, { 'attr': { 'class': 'shopSearchInput', 'palceholder': '该条件下查找'}}) }}
+   {{ form_rest(form) }}
+    <div class="shopSearchSubmit" >
+    <input type="submit" class="shopSearchBtn curPt"  />
+    </div>
+</form>

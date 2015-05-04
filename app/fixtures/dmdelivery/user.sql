@@ -1,7 +1,7 @@
 INSERT INTO `user` (`id`, `email`, `pwd`,  `nick`, `register_date`, `points`, `delete_flag`,`token`,`reward_multiple`,`is_info_set`)  
 VALUES (1110,'jili_test@voyagegroup.com.cn','testpwd','jintest',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0, 'a',1,1),
-(1111,'jili_test@voyagegroup.com.cn','testpwd','jintest',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0 , 'a',1,1),
-(1112,'jili_test@voyagegroup.com.cn','testpwd','jintest',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'0',0 , 'a',1,1),
+(1111,'jili_test2@voyagegroup.com.cn','testpwd','jintest2',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0 , 'a',1,1),
+(1112,'jili_test3@voyagegroup.com.cn','testpwd','jintest3',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'0',0 , 'a',1,1),
 (1113,'aabbcc@139.com','testpwd','jin22',DATE_SUB(CURDATE(), INTERVAL 1 MONTH),'3',0 , 'a',1,1),
 (1114,'aabbcc1111@139.com','testpwd','jin33',DATE_SUB(CURDATE(), INTERVAL 1 WEEK),'3',0 , 'a',1,1),
 (1115,'aabbcc2222@139.com','testpwd','jin32',DATE_SUB(CURDATE(), INTERVAL 181 DAY),'3',0 , 'a',1,1);

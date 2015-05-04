@@ -2,8 +2,8 @@
     {% for wid,row in websites%}
     {% set href_ = path('jili_emar_default_redirect') ~ '?m=' ~ row.url|url_encode %}
     <li>
-        <a class="logoImg" target="_blank" title="{{ row.name }}" href="{{ href_ }}"><img src="{{ row.logo }}" alt="{{ row.name }}" width="120" height="60"></a>
-        {% if row.commission > 0 %}<div class="logoWord lightGray">最高返{{ row.commission }}%</div>{% endif %}
+        <a class="logoImg" target="_blank" title="{{ row.name }}" href="{{ href_ }}"><img src="{{ row.logo }}" alt="{{ row.name }}" width="120"></a>
+        {% if row.commission is defined and  row.commission > 0 %}<div class="logoWord lightGray">最高返{{ row.commission }}%</div>{% endif %}
         <div class="logoMore">
         	<div class="logoMask"></div>
             <div class="logoBtn">

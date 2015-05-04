@@ -116,4 +116,36 @@ class TaskHistoryRepository extends EntityRepository
         return $po;
     }
 
+
+    /**
+     *  dwprivate function updateTaskHistory($params=array()) {
+     *  @param: $params   'userid' => 1057622,
+     *                     'orderId' => 2,
+     *                     'taskType' => 1,
+     *                     'reward_percent' => '',
+     *                     'point' => 17,
+     *                     'date' =>
+     *                     DateTime::__set_state(array(
+     *                        'date' => '2014-01-03 13:46:23',
+     *                        'timezone_type' => 3,
+     *                        'timezone' => 'Asia/Hong_Kong',
+     *                     )),
+     *                     'status' => 4,
+     * @return null
+     */
+    public function update( array $params=array())
+    {
+
+        $flag =  $params['userId'] % 10;
+
+        $sql = 'UPDATE JiliApiBundle:TaskHistory0'. $flag.' t';
+        $sql .= ' SET t.status= :status, t.point =:point, t.rewardPercent= :rewardPercent';
+        $sql .= ' WHERE t.userId = :userId and t.orderId = :orderId and t.categoryType =:categoryType and t.taskType = :taskType and t.status = :statusPrevious';
+
+        $em = $this->getEntityManager();
+        $q_update = $em->createQuery($sql);
+        $q_update->setParameters( $params);
+        return  $q_update->execute();
+    }
+
 }

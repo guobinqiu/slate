@@ -230,6 +230,7 @@ echo serialize($data1),PHP_EOL;
      */
     public function testDetailNotFound()
     {
+         $this->markTestSkipped('TODO: detail get should be removed');
         $client = static::createClient();
         $container = $client->getContainer();
         $logger= $container->get('logger');

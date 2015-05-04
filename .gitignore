@@ -3,6 +3,7 @@ web/js/fos_js_routes.js
 web/images/actionPic/
 web/images/tb_products_pic/
 web/images/taobao_products_picture/
+web/images/website_logos/*
 web/uploads/
 app/cache/*
 app/sessions/*

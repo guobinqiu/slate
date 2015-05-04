@@ -7,7 +7,7 @@
             {% if cur != i %} 
             <li> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': i})) }}">{{ i }}</a></li>
             {% else %}
-            <li class="currPage"> <a href="#" onclick="javascript: return false;">{{ cur }}</a> </li>
+            <li class="currPage"> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': i})) }}" onclick="javascript: return false;">{{ cur }}</a> </li>
             {% endif %}
     
         {% endfor %} 
@@ -18,7 +18,9 @@
 
 
         {% if cur  != prev %}
-         <li class="prevPage"> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': prev })) }}"><span class="arrowleftOrange"></span></a></li>
+         <li class="prevPage"> 
+         <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': prev })) }}"><span class="arrowleftOrange"></span></a>
+         </li>
         {% endif %}
 
         {% if cur - 3 > 0 %}
@@ -87,7 +89,7 @@ $(document).ready(function() {
 			alert("当前页面已经是第" + cur_page + "页");
 		} else {
 			var url = $('li.currPage a').attr('href');
-			var href = url.replace(/([&\?])p=.*?(&?.*?)$/, "$1p=" + goto_page+"$2");
+			var href = url.replace(/([&\?])p=\d+(&?.*?)$/, "$1p=" + goto_page+"$2");
 			window.location.href = href;
 		};
 	});

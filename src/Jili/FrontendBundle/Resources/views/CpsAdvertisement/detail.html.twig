@@ -1,0 +1,111 @@
+{% extends 'JiliFrontendBundle::base.html.twig' %}
+{% block title %}商家列表{% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/pageNumber.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/recommend.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/shopMore.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/commodity834.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/searchShop.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js/recommend.js') }}" language="javascript"></script>
+{% endblock %}
+
+
+{% block body %}
+  <div class="main w834 fl">
+      <div class="shop-info module clearfix borderGlob">
+          {% set href_ = path('jili_frontend_cpsadvertisement_redirect', {'wid':app.request.get('wid') })  %}
+        <div class="shop-info-l">
+            <div class="shop_img"> <a href="{{ href_ }}" target="_blank" rel="nofollow"><img src="/images/website_logos/{{ website.hostHashAsLogoName ~ '.jpg' }}" width="120" height="60"  alt="{{ website.websiteName  }}" /></a>
+
+{% if website.commission is defined and website.commission is not empty %}
+            <p class="shop-rebate corLightGray">最高返利<em>{{ website.commission }}%</em></p>
+{% endif %}
+          </div>
+          <a href="{{ href_ }}" class="goBtn" target="_blank" rel="nofollow" >去购物,赚米粒</a> 
+        </div>  
+        <div class="shop-info-r">
+          <h2 class="fontYH">{{ website.websiteName }}</h2>
+          <!--          <p class="intro">{# website.information|raw #}</p> -->
+          <p class="rebate">返利比率：<em>正常商品：7%  团购商品：2%  优惠券、礼品卡商品：4%</em></p>
+        </div>
+     </div><!-- eof shop-info -->
+     <div class="l834Taobao">
+     	<a data-type="3" data-tmpl="800x90" data-tmplid="195" data-rd="2" data-style="2" data-border="0" href="#"></a>
+     </div>
+     {% include "JiliFrontendBundle::alimama.html.twig" with { pid:"mm_49376465_4372428_25660341" } %}
+     <!-- taobao -->
+      {% if commission_list is defined and commission_list is not empty  %}
+      <div class="shopRecommend rebateDetail">
+      	<h3>返利详情</h3>
+        <div class="conWrap clearfix">
+        	<table>
+            	<thead>
+                    <tr>
+                    	<th>类目</th>
+                   	    <th>返利</th>
+                    </tr>
+             	</thead>
+                {% for row in commission_list %}
+                <tbody>
+                    <tr>
+                        <td>{{ row[0].commissionName }}</td>
+                        <td>{{ row[0].getCommissionForUser(cps_default_rebate) }}</td>
+                    </tr>
+                </tbody>
+                {% if (loop.index == (loop.length/2)|round) and (loop.index != loop.last )%}
+                </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>类目</th>
+                        <th>返利</th>
+                    </tr>
+                </thead>
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+      </div>
+      {% endif %}
+
+    {% if is_emar_cps %}
+    <!-- {{ detail.adsId }}-->
+      {{  render( controller("JiliEmarBundle:Product:recommendByWeb",  {'wid': detail.adsId } ) )  }}
+   {% endif %}
+  </div><!-- eof main  -->
+
+  <div class="sidebar w154 fr">
+  {% if same_cat_websites is defined and same_cat_websites  is not empty %}
+  <div class="busiSec">
+    <h3 class="busiSecTit">同类商家推荐</h3>
+    <div class="busiSecBd">
+      <ul id="mallsRecommend">
+        {% for row in same_cat_websites %}
+        <li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}" target="_blank">
+            <img src="/images/website_logos/{{ row.hostHashAsLogoName ~ '.jpg' }}" width="120" height="60" alt="{{ row.website_name }}">
+
+            {%if row.max_commission is defined %}
+            <span class="itemTxt">最高返<strong class="corGlobRed">{{row.max_commission}}%</strong></span>
+            {%endif%}
+            </a>
+        </li>
+        {% endfor %}
+	  </ul>
+    </div>
+  </div>
+  {% else %}
+  <!--  list same cat websites -->
+  {% endif %}
+
+  <div class="rebateProcess borderGlob">
+    	<h3>返利流程</h3>	
+        <img src="{{ asset('images/rebateExplain.jpg') }}" />
+    </div>
+  </div>
+
+{% endblock %}
+

@@ -142,7 +142,7 @@ class WebsitesController extends Controller
             $websites_configed = $em->getRepository('JiliEmarBundle:EmarWebsites')->getSortedByParams( $params );
         }
 
-        /// sorting
+        // sorting
         $websites_filtered = array();
         $websites_left  = $websites;
         foreach($websites_configed as $row ) {
@@ -181,22 +181,22 @@ class WebsitesController extends Controller
             $websites_configed_wid [$row->getWebId() ] = $row;
         }
 
-        foreach ($websites_paged as $k => $v) {
-            $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($websites_paged[$k] ['commission'] );
-
-            if( isset( $websites_configed_wid[$k] )) {
-                $row = $websites_configed_wid[$k];
-                if( 0 <  strlen(trim($row->getCommission()))) {
-                    $multiple = $row->getCommission();
-                }
-            }
-
-            if( ! isset($multiple) || $multiple === '' || $multiple === 0 || is_null($multiple)) {
-                $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
-            }
-
-            $websites_paged[$k] ['commission'] = round($comm * $multiple /100, 2);
-        }
+//        foreach ($websites_paged as $k => $v) {
+//            $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($websites_paged[$k] ['commission'] );
+//
+//            if( isset( $websites_configed_wid[$k] )) {
+//                $row = $websites_configed_wid[$k];
+//                if( 0 <  strlen(trim($row->getCommission()))) {
+//                    $multiple = $row->getCommission();
+//                }
+//            }
+//
+//            if( ! isset($multiple) || $multiple === '' || $multiple === 0 || is_null($multiple)) {
+//                $multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
+//            }
+//
+//            $websites_paged[$k] ['commission'] = round($comm * $multiple /100, 2);
+//        }
 
         $filter_form = $this->createForm(new WebsiteFilterType(), array('keyword'=>$keyword)  );
         $letters = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'W', 'X', 'Y', 'Z' );
@@ -251,7 +251,7 @@ class WebsitesController extends Controller
 
                 # input commissions_of_configed , $commission_of_api, $commission_of_default;
                 foreach( $result as $row) {
-                    $em->detach($row);
+                       $em->detach($row);
                     $web_id = $row->getWebId();
                     $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($row->getCommission() );
                     if( array_key_exists( $web_id,  $commissions) ){
@@ -294,17 +294,17 @@ class WebsitesController extends Controller
         $website = $this->get('website.detail_get')->fetch($params);
         $web_raw  = $this->get('website.list_get')->fetch( $params );
         $em = $this->getDoctrine()->getManager();
-
-        $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($website ['commission'] );
-
-        $web_configed=$em->getRepository('JiliEmarBundle:EmarWebsites')->findOneByWebId($wid);
-        if( $web_configed) {
-            $multiple= $web_configed->getCommission();
-        } else {
-            //$multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
-            $multiple = $this->get('rebate_point.caculator')->getRebate('emar');
-        }
-        $web_commision =  round($comm * $multiple /100, 2);
+ 
+//        $comm = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($website ['commission'] );
+//
+//        $web_configed=$em->getRepository('JiliEmarBundle:EmarWebsites')->findOneByWebId($wid);
+//        if( $web_configed) {
+//            $multiple= $web_configed->getCommission();
+//        } else {
+//            //$multiple = $this->container->getParameter('emar_com.cps.action.default_rebate');
+//            $multiple = $this->get('rebate_point.caculator')->getRebate('emar');
+//        }
+//        $web_commision =  round($comm * $multiple /100, 2);
         //todo: better update the emar_webiste for caching...
         //  if the current_time - row.updated_at  < 1 hour, fetch from the database /
 
@@ -317,6 +317,7 @@ class WebsitesController extends Controller
         foreach ($same_cat_websites as $k=>$v){
             $same_cat_websites[$k]['max_commission'] = $em->getRepository('JiliEmarBundle:EmarWebsitesCroned')->parseMaxComission($v['commission'] );
         }
+
         //整理数据
         if($commission_list){
             foreach ($commission_list as $key=>$value){

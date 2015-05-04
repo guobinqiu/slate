@@ -1,7 +1,7 @@
 <?php
 namespace Jili\BackendBundle\Tests\Utility;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Jili\BackendBundle\Utility\TaobaoOrderToEggs;
 
 class TaobaoOrderToEggsTest  extends KernelTestCase

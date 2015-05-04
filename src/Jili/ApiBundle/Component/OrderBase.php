@@ -2,10 +2,12 @@
 namespace Jili\ApiBundle\Component;
 
 /**
+ * 状态的迁移1->2->3/4 是订单中的状态取值，也是 历史记录中的状态取值。
  *
  */
 class OrderBase
 {
+
     private static $CONFIG = array(
         'INIT'=>  1 ,
         'PENDING'=> 2,
@@ -44,13 +46,25 @@ class OrderBase
         return self::$CONFIG;
     }
 
-    public static function getFailedStatus()
+
+    public static function getInitStatus() 
     {
-        return self::$CONFIG['COMPLETED_FAILED'];
+        return self::$CONFIG['INIT'];
     }
+
+    public static function getPendingStatus() 
+    {
+        return self::$CONFIG['PENDING'];
+    }
+
 
     public static function getSuccessStatus()
     {
         return self::$CONFIG['COMPLETED_SUCCEEDED'];
+    }
+
+    public static function getFailedStatus()
+    {
+        return self::$CONFIG['COMPLETED_FAILED'];
     }
 }

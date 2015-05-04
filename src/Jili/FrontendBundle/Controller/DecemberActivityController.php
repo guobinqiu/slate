@@ -29,7 +29,7 @@ class DecemberActivityController extends Controller
             $session->set('referer', $this->get('request')->getRequestUri());
         }
 
-        $em  = $this->getDoctrine()->getEntityManager() ;
+        $em  = $this->getDoctrine()->getManager() ;
 
         $products = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')
             ->fetch();
@@ -91,7 +91,7 @@ class DecemberActivityController extends Controller
                         $this->get('session')->setFlash('error', $messages);
                     }
                 } else {
-                    $em  = $this->getDoctrine()->getEntityManager();
+                    $em  = $this->getDoctrine()->getManager();
                     $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')
                         ->insertUserPost( array('userId'=>$session->get('uid'),
                             'orderAt'=> new \Datetime($data['orderAt']), 
@@ -125,7 +125,7 @@ class DecemberActivityController extends Controller
         }
 
         $userId = $this->get('session')->get('uid');
-        $em  = $this->getDoctrine()->getEntityManager();
+        $em  = $this->getDoctrine()->getManager();
 
         $record = $em->getRepository('JiliFrontendBundle:GameEggsBreakerEggsInfo')->findOneByUserId($userId);
         if( ! $record) {

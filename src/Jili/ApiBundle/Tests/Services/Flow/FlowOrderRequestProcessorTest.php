@@ -1,7 +1,7 @@
 <?php
 namespace  Jili\ApiBundle\Tests\Services\Flow;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
@@ -56,7 +56,7 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'ng';
-        $data['client_ip'] = '127.0.0.1';
+        $data['client_ip'] = '59.83.33.60';
         $service = $container->get('flow_order_request.processor');
         $result = $service->process($data);
         $this->assertFalse($result);
@@ -64,7 +64,7 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'error';
-        $data['client_ip'] = '127.0.0.1';
+        $data['client_ip'] = '59.83.33.60';
         $service = $container->get('flow_order_request.processor');
         $result = $service->process($data);
         $this->assertTrue($result);
@@ -73,7 +73,7 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'success';
-        $data['client_ip'] = '127.0.0.1';
+        $data['client_ip'] = '59.83.33.60';
         $service = $container->get('flow_order_request.processor');
         $result = $service->process($data);
         $this->assertTrue($result);
@@ -109,27 +109,27 @@ class FlowOrderRequestProcessorTest extends KernelTestCase {
         $data = array ();
         $data['custom_order_sn'] = 1;
         $data['status'] = 'ng';
-        $data['client_ip'] = '127.0.0.1';
+        $data['client_ip'] = '59.83.33.60';
         $result = $service->checkData($data, $configs);
-        $this->assertEquals("status不正确(success,error)", $result);
+        $this->assertEquals("status不正确(success,error)", $result, '');
 
         $data = array ();
         $data['custom_order_sn'] = 123456;
         $data['status'] = 'success';
-        $data['client_ip'] = '127.0.0.1';
+        $data['client_ip'] = '59.83.33.60';
         $result = $service->checkData($data, $configs);
         $this->assertEquals("订单不存在", $result);
 
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'success';
-        $data['client_ip'] = '127.0.0.1';
+        $data['client_ip'] = '59.83.33.60';
         $service->process($data, $configs);
 
         $data = array ();
         $data['custom_order_sn'] = $order->getId();
         $data['status'] = 'success';
-        $data['client_ip'] = '127.0.0.1';
+        $data['client_ip'] = '59.83.33.60';
         $result = $service->checkData($data, $configs);
         $this->assertEquals("订单已结束", $result);
     }

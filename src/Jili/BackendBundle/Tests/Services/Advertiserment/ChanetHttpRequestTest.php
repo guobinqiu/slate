@@ -2,7 +2,7 @@
 
 namespace Jili\BackendBundle\Tests\Services\Advertiserment;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use Jili\BackendBundle\Services\Advertiserment\ChanetHttpRequest;
 
