@@ -15,6 +15,7 @@ j=0;
 # 找到2/27/2015 ~ 3/14/2015 期间,
 perl -Ilib/ csv_parser.pl > ~/confirmed_${DT}.log
 grep 'WGET|||' ~/confirmed_${DT}.log| sed -e "s/\ *WGET|||//g" > ~/confirmed_${DT}_x.log
+grep 'WGET|_|' ~/confirmed_${DT}.log| sed -e "s/\ *WGET|_|//g" >> ~/confirmed_${DT}_x.log
 mkdir  -p /tmp/yqfconfirmed_output/ /tmp/yqfconfirmed_wgetlog/
 # confirmed data 
 for x in $(cat ~/confirmed_${DT}_x.log)
@@ -24,7 +25,7 @@ do
         let "i=0";
     fi
 
-    wget -O /tmp/yqfconfirmed_output.$j -P/tmp/yqfconfirmed/wgetlog/ -a /tmp/wget.yqfconfirmed.log  "http://www.91jili.com$x"
+    wget -O /tmp/yqfconfirmed_output/$j -P/tmp/yqfconfirmed_wgetlog/ -a /tmp/wget.yqfconfirmed.log  "http://www.91jili.com/emar/api/callback?$x"
     let "j+=1"; 
 done
 
@@ -48,6 +49,6 @@ do
     fi
 
     #  235上测试
-    wget -O /tmp/httpaccess_output.$j -P/tmp/httpaccess/wgetlog/ -a /tmp/wget.httpaccess.log  "http://www.91jili.com/emar/api/callback?$x"
+    wget -O /tmp/httpaccess_output/$j -P/tmp/httpaccess_wgetlog/ -a /tmp/wget.httpaccess.log  "http://www.91jili.com/emar/api/callback?$x"
     let "j+=1";
 done
