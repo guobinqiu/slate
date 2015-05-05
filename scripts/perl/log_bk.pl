@@ -35,7 +35,7 @@ if (defined($open_file)) {
                         if ($? == 0) {
                             chomp($result);
                             my $cp_result=system("/bin/cp $v/$result /data/log_backup/$ts/");
-                            
+
                             ###将cp的列表发送邮件###
                             if ($cp_result != 0) {
                                 #拷贝日志文件失败,记录日志.
@@ -60,9 +60,6 @@ if (defined($open_file)) {
                 #tar压缩失败,记录日志
                 log("error_log_bk","系统执行tar命令失败,请检查目录权限");
             }else{
-                #将压缩包传到内部服务器
-                my $scp_result=system("/usr/bin/scp -P 8084 /data/log_backup/log_backup_${ts}_$host_name.tar.gz root\@112.65.174.206:/tmp/");
-                if ($scp_result == 0) {
                     #传输文件成功,发送邮件
                     my $mail_title="$host_name Log文件成功备份";
                     my $file_body=join("\n",@file_list);
@@ -80,9 +77,7 @@ if (defined($open_file)) {
                         #邮件发送失败,记录错误代码
                         log("error_log_bk","log备份通知邮件没有发送成功,错误代码是 $sendmail_return");
                     }
-                }else{
-                    log("error_log_bk","scp执行失败,请检查网络");
-                }
+
             }
         }else{
             #常见备份目录失败
@@ -92,3 +87,4 @@ if (defined($open_file)) {
     #打开yaml配置文件失败
     log("error_log_bk","无法打开配置文件,请检查文件是否存在或目录权限");
 }
+
