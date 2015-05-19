@@ -61,7 +61,7 @@ if (defined($open_file)) {
                 log("error_log_bk","系统执行tar命令失败,请检查目录权限");
             }else{
                     #传输文件成功,发送邮件
-                    my $mail_title="$host_name Log文件成功备份";
+                    my $mail_title="Log文件成功备份".$host_name;
                     my $file_body=join("\n",@file_list);
                     my $sendmail_return;
                     if ($file_num == $num) {
