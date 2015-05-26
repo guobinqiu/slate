@@ -150,7 +150,13 @@ sub fetch_confirmed {
                 print '  NONE|||$i= ' ,$i,":\n";
                 print '  NONE||||||', $title->[$_] ,':  ', $row->[$_],"  \n", foreach  (keys  @$row);
                 if('无效' ne $row->[13] ) {
-                    my $qs = buildQueryStringForNone($row);
+                    my $qs = buildQueryStringForNone($row );
+                    my $qs_R = $qs;
+
+                    $qs_R ~= s/status=[A|F]/status=R/;
+
+                    print '   WGET|_|',$qs_R,"\n";
+
                     print '   WGET|_|',$qs,"\n";
                 }
 
@@ -311,12 +317,12 @@ sub buildQueryStringForNone
     $query->{exchange_rate} = '0.0';
 
     $query->{superrebate}='';
-    $query->{chkcode} = generateChkcode($query->{action_id},
+    $query->{chkcode} = substr(generateChkcode($query->{action_id},
         $query->{order_no},
         $query->{prod_money},
         $row->[4],
         $query->{wid}
-    ); 
+    ),1); 
 
     my $query_keys = [qw(unique_id create_date action_id action_name sid wid order_no order_time prod_id prod_name prod_count prod_money feed_back status comm_type commision chkcode prod_type am exchange_rate superrebate)];
 

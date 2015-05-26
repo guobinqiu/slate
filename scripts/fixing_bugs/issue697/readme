@@ -56,4 +56,9 @@ remove the earlier one bwteen the two  records with its status = 2
 6.4.
 if status is A/F
     and query string is ignore!!
- 
+
+6.5
+no R status request.
+build a unique_id of 31 character R & A/F query string,
+
+sed -e "s/unique_id=\([a-f0-9]\{31\}\)[0-9a-f]\(.*\)/unique_id=\1\2/g" confirmed_y.log > y1.log 

@@ -1,0 +1,8 @@
+dir:
+    log:      /var/log
+    httpd:      /var/log/httpd
+keywords:
+    log:      maillog,messages,spooler
+    httpd:      access_log,error_log,ssl_access_log
+mail_to:
+    to:      xujf@voyagegroup.com.cn
