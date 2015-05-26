@@ -112,22 +112,27 @@ class ApiController extends Controller
                     $code = 1;
                 }
             }else{//cps
-              $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
-              $rewardRate = $advertiserment->getRewardRate();
-              $users = $em->getRepository('JiliApiBundle:User')->find($uid);
-              $user_rate = $users->getRewardMultiple();
-              $campaign_multiple = $this->container->getParameter('campaign_multiple');
-              $rate = $user_rate > $campaign_multiple ? $user_rate : $campaign_multiple;
-              $reward_percent = $rewardRate*$rate;
-              $cps_reward = intval($comm*$reward_percent);
+                $rewardRate = $this->container->getParameter('cps_default_rebate'); 
+                if( $adid > 0 ) {
+                    $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+                    if($advertiserment) {
+                        $rewardRate = $advertiserment->getRewardRate();
+                    }
+                }
+                $users = $em->getRepository('JiliApiBundle:User')->find($uid);
+                $user_rate = $users->getRewardMultiple();
+                $campaign_multiple = $this->container->getParameter('campaign_multiple');
+                $rate =  $user_rate > $campaign_multiple ? $user_rate : $campaign_multiple;
+                $reward_percent = $rewardRate*$rate;
+                $cps_reward = intval($comm*$reward_percent);
                 $issetCpsInfo = $em->getRepository('JiliApiBundle:AdwOrder')->getCpsInfo($uid,$adid);
-              if($issetCpsInfo[0]['ocd']){
-                      foreach ($issetCpsInfo as $key => $value) {
-                          $issetOrderOcd[] = $value['ocd'];
-                      }
-                      if(in_array($ocd, $issetOrderOcd)){
+                if($issetCpsInfo[0]['ocd']){
+                    foreach ($issetCpsInfo as $key => $value) {
+                        $issetOrderOcd[] = $value['ocd'];
+                    }
+                    if(in_array($ocd, $issetOrderOcd)){
                         $code = 3;
-                      }else{
+                    }else{
                         $cpsOrder = new AdwOrder();
                         $cpsOrder->setUserId($uid);
                         $cpsOrder->setAdId($adid);
@@ -154,10 +159,10 @@ class ApiController extends Controller
                             'ocd_date' => date('Y-m-d H:i:s'),
                             'date' => $happenTime,
                             'status' => $cpsOrder->getOrderStatus()
-                          );
+                        );
                         $this->getTaskHistory($parms);
                         $code = 1 ;
-                      }
+                    }
                 }else{
                     $cpsOrder = $em->getRepository('JiliApiBundle:AdwOrder')->find($issetCpsInfo[0]['id']);
                     $cpsOrder->setComm($comm);
@@ -169,18 +174,18 @@ class ApiController extends Controller
                     $cpsOrder->setAdwReturnTime(date_create(date('Y-m-d H:i:s')));
                     $em->flush();
 
-                $parms = array(
-                      'userid' => $uid,
-                      'orderId' => $order[0]['id'],
-                      'taskType' => $this->container->getParameter('init_one'),
-                      'reward_percent' => $reward_percent,
-                      'point' => $cps_reward,
-                      'ocd_date' => date('Y-m-d H:i:s'),
-                      'date' => $happenTime,
-                      'status' => $this->container->getParameter('init_two')
+                    $parms = array(
+                        'userid' => $uid,
+                        'orderId' => $order[0]['id'],
+                        'taskType' => $this->container->getParameter('init_one'),
+                        'reward_percent' => $reward_percent,
+                        'point' => $cps_reward,
+                        'ocd_date' => date('Y-m-d H:i:s'),
+                        'date' => $happenTime,
+                        'status' => $this->container->getParameter('init_two')
                     );
-                $this->updateTaskHistory($parms);
-                $code = 1;
+                    $this->updateTaskHistory($parms);
+                    $code = 1;
                 }
             }
         }else{
