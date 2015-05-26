@@ -147,8 +147,13 @@ sub insert_duomai_advertisement {
     # select ads_id  & is activated !  
     my $sql = qq{INSERT INTO duomai_advertisement(ads_id,ads_name,ads_url,ads_commission,start_time,end_time,category,return_day,billing_cycle,link_custom,fixed_hash,is_activated) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?)};
 
-    while ( my $row = $csv->getline( $fh ) ) {
-        next if (length($row->[0])==0); # skip the 
+    while ( my $row1 = $csv->getline( $fh ) ) {
+        next if (length($row1->[0])==0); # skip the 
+        # remove the 网站id, 和,加密链接  
+
+        my @row2 = @$row1[1..10];
+        my $row = \@row2;
+
         my $hash = calc_duomai_cps_advertisement_hash($row);
 
         my $ads_exist = query_duomai_advertisement_by_fixed_hash($hash );
@@ -366,6 +371,7 @@ insert_commission($config->{duomai});
 __END__
 
 活动ID,活动名称,网址,佣金,活动时间(起),活动时间(止),活动分类,RD,结算周期,自定义链接 
+网站ID,活动ID,活动名称,网址,佣金,活动时间(起),活动时间(止),活动分类,RD,结算周期,自定义链接,加密链接 
 
 select count(*) from duomai_advertisement;
 select count(*) from duomai_commission;
