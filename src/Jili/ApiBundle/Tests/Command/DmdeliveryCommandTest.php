@@ -24,18 +24,20 @@ class DmdeliveryCommandTest extends KernelTestCase
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
         
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
-        
-        // load fixtures
-        $container = static :: $kernel->getContainer();
-        $fixture = new LoadDmdeliveryData();
-        $fixture->setContainer($container);
-        $loader = new Loader();
-        $loader->addFixture($fixture);
-        $executor->execute($loader->getFixtures());
+        $tn = $this->getName();
+        if($tn==='testExecute') {
+            $purger = new ORMPurger($em);
+            $executor = new ORMExecutor($em, $purger);
+            $executor->purge();
+            // load fixtures
+            $container = static :: $kernel->getContainer();
+            $fixture = new LoadDmdeliveryData();
+            $fixture->setContainer($container);
+            $loader = new Loader();
+            $loader->addFixture($fixture);
+            $executor->execute($loader->getFixtures());
 
+        }
 
         $this->container = static :: $kernel->getContainer();
         $this->em = $em;
@@ -93,5 +95,21 @@ class DmdeliveryCommandTest extends KernelTestCase
         $sendPointFail = $em->getRepository('JiliApiBundle:SendPointFail')->findByUserId(1110);
         $this->assertEquals(4, count($sendPointFail));
         
+    }
+
+    /**
+     */
+    public function testConfigs() 
+    {
+
+        $container = $this->container;
+        $contacts = $container->getParameter('cron_alertTo_contacts');
+        $this->assertCount(5,$contacts);
+        $this->assertContains( "jinzhang@voyagegroup.com.cn", $contacts);
+        $this->assertContains( "zhangmm@voyagegroup.com.cn", $contacts );
+        $this->assertContains( "tao_jiang@voyagegroup.com", $contacts );
+        $this->assertContains( "jinzhang@voyagegroup.com.cn", $contacts);
+        $this->assertContains( "xiaoyi_chai@voyagegroup.com", $contacts );
+        $this->assertContains( "xujf@voyagegroup.com.cn", $contacts );
     }
 }
