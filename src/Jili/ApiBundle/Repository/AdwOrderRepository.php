@@ -108,6 +108,18 @@ class AdwOrderRepository extends EntityRepository
 
     }
 
+    /**
+     * getOrderInfo 
+     *
+     *  fetch the order info join with advertiserment table.
+     *
+     * @param mixed $userid 
+     * @param mixed $adid 
+     * @param string $ocd 
+     * @param string $status 
+     * @access public
+     * @return void
+     */
     public function getOrderInfo($userid,$adid,$ocd='',$status='')
     {
         $userid = (int) $userid;

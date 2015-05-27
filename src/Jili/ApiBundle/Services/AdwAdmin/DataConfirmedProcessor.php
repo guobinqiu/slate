@@ -3,7 +3,10 @@ namespace Jili\ApiBundle\Services\AdwAdmin;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Component\OrderBase;
+
+use Jili\ApiBundle\Component\OrderBase,
+    Jili\ApiBundle\Entity\TaskHistory00,
+    Jili\ApiBundle\Entity\AdCategory;
 
 class DataConfirmedProcessor 
 {
@@ -35,7 +38,11 @@ class DataConfirmedProcessor
         $em = $this->em;
         $logger = $this->logger ;
 
+        // advertisement must be adw cps
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+        if($advertiserment->getIncentiveType()!=2){
+            return false;
+        }
 
         $adworder = $em->getRepository('JiliApiBundle:AdwOrder')
             ->getOrderInfo($userId,$adid,$ocd);
@@ -44,13 +51,13 @@ class DataConfirmedProcessor
             return false;
         }
 
-        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')
-            ->find($adworder[0]['id']);
 
         // transaction: 
         $connection = $em->getConnection();
         $connection->beginTransaction();
         try{
+            $adworder = $em->getRepository('JiliApiBundle:AdwOrder')
+                ->find($adworder[0]['id']);
             $adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')))
                 ->setOrderStatus($order_status['COMPLETED_FAILED']);
 
@@ -60,8 +67,8 @@ class DataConfirmedProcessor
             $parms = array(
                 'userId' => $userId,
                 'orderId' => $adworder->getId(),
-                'taskType' => 1, // adw cps
-                'categoryType'=> $adworder->getIncentiveType(),
+                'taskType' => TaskHistory00::TASK_TYPE_ADW, // adw 
+                'categoryType'=> AdCategory::ID_ADW_CPS, 
                 'rewardPercent' => 0, //no use for uncertified 
                 'point' => $adworder->getIncentive(),
                 'status' => $order_status['COMPLETED_FAILED'],
@@ -73,7 +80,7 @@ class DataConfirmedProcessor
                 ->update($parms);
 
             if( $return == 0) {
-               throw new \Exception('task history no updated with return '. var_export($return, true)); 
+                throw new \Exception('task history no updated with return '. var_export($return, true)); 
             }
 
             $connection->commit();
@@ -135,8 +142,8 @@ class DataConfirmedProcessor
         $parms = array(
             'userid' => $userId,
             'orderId' => $adworder->getId(),
-            'taskType' => 1,
-            'categoryType'=> $adworder->getIncentiveType(),
+            'taskType' => TaskHistory00::TASK_TYPE_ADW, // adw 
+            'categoryType'=> AdCategory::ID_ADW_CPS, 
             'point' => intval($comm*$taskPercent['rewardPercent']),
             'date' => date('Y-m-d H:i:s'),
             'status' => $order_status['COMPLETED_SUCCEEDED'] ,
@@ -161,10 +168,11 @@ class DataConfirmedProcessor
         $em->persist($limitrs);
         $em->flush();
 
+        // AdCategory::ID_ADW_CPS : 2, $adworder->getIncentiveType(cps): 2 
         $em->getRepository('JiliApiBundle:PointHistory'. ($userId % 10))
             ->get(array('userid'=>$userId,
                 'point'=> $adworder->getIncentive(),
-                'type' => $adworder->getIncentiveType()));
+                'type' => AdCategory::ID_ADW_CPS)); 
 
         $user = $em->getRepository('JiliApiBundle:User')
             ->updatePointById(array('id'=> $userId,

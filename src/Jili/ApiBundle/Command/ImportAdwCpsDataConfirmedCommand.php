@@ -131,9 +131,9 @@ EOT
             $mailer_user = $this->getContainer()->getParameter('mailer_user');
             $message = new \Swift_Message();
             $message = \Swift_Message::newInstance()
-                ->setSubject('Hello Email '. $env)
+                ->setSubject('成果确认数据导入结果 '. $env)
                 ->setFrom(array($mailer_user=> 'Jili Command'))
-                ->setTo('chiangtor@gmail.com')
+                ->setTo( $container->getParameter('cron_alertTo_contacts'))
                 ->setBody($body);
 
             $container = $this->getContainer();

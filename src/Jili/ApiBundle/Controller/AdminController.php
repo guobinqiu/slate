@@ -173,14 +173,16 @@ class AdminController extends Controller implements IpAuthenticatedController
 
         $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
         $taskPercent = $this->selectTaskPercent($userId,$adworder->getId());
-        if($adworder->getIncentiveType()==2){
+        if($adworder->getIncentiveType()==2){ 
+            //adw cps
             $adworder->setIncentive(intval($comm*$taskPercent['rewardPercent']));
         }
         $adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')));
         $adworder->setOrderStatus($this->container->getParameter('init_three'));
         $em->persist($adworder);
         $em->flush();
-        if($adworder->getIncentiveType()==1){
+        if($adworder->getIncentiveType()==1){ 
+            // adw cpa
             $parms = array(
                 'userid' => $userId,
                 'orderId' => $adworder->getId(),
@@ -189,8 +191,8 @@ class AdminController extends Controller implements IpAuthenticatedController
                 'date' => date('Y-m-d H:i:s'),
                 'status' => $this->container->getParameter('init_three')
             );
-        }
-        if($adworder->getIncentiveType()==2){
+        } else if($adworder->getIncentiveType()==2){ 
+            //adw cps
             $parms = array(
                 'userid' => $userId,
                 'orderId' => $adworder->getId(),

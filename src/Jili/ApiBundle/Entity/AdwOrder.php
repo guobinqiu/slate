@@ -10,6 +10,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AdwOrder
 {
+    /**
+     *  @var const
+     *  adw 成果类型 CPA,与实时接口的type一致,同时与ad_category ID_ADW_CPA 碰巧取值都是1
+     */
+    const INCENTIVE_TYPE_CPA=1;
+
+    /**
+     *  @var const
+     *  adw 成果类型 CPS 
+     */
+    const INCENTIVE_TYPE_CPS=2;
+
     public function __construct()
     {
         $this->createTime = new \DateTime();

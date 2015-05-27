@@ -13,11 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class TaskHistory00
 {
     // 1:cpa, 4:checkin , 2 or 3: 小鸡找米, 5: offer-wow
-    const  TASK_TYPE_CPA = 1 ; // adw CPS/CPA 
+    const  TASK_TYPE_ADW = 1 ; // adw CPS/CPA  TASK_TYPE_CPA is deprecated 
     const  TASK_TYPE_PAG_CPX = 2; //小鸡找米 广告ad_category.id == 3, 
     const  TASK_TYPE_PAG_POINTS = 3; //小鸡找米 积分码ad_category.id == 4
     const  TASK_TYPE_CHECKIN = 4 ;//签到 
-    const  TASK_TYPE_OFFERWOW = 5;  // offerwow
+    const  TASK_TYPE_OFFERWOW = 5;  // offerwow , bangwoya, offer99
     const  TASK_TYPE_GAME_SEEKER = 6; // 寻宝箱
     const  TASK_TYPE_GAME_EGGS_BREAKER = 7;  // 
     const  TASK_TYPE_DUOMAI  = 8;  // 多麦

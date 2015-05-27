@@ -38,6 +38,18 @@ class AdCategory
     const ID_DUOMAI = 23;
 
     /**
+     * @var const
+     *  成果CPA.
+     */
+    const ID_ADW_CPA = 1;
+
+    /**
+     * @var const
+     *  成果CPS.
+     */
+    const ID_ADW_CPS = 2;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
