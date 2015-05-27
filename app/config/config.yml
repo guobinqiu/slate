@@ -127,7 +127,13 @@ monolog:
         main:
             type: fingers_crossed
             action_level: error
-            channels: [!user_source]
+            channels: ["!user_source", "!import_adw_cps"]
+
+        command_import_adw_csv:
+            type: stream
+            path: /data/91jili/logs/commands/%kernel.environment%.import_adw_cps.log
+            level: info
+            channels: [import_adw_cps]
 
         user_source:
             type: stream
@@ -135,6 +141,7 @@ monolog:
             level: info
             formatter: monolog.formatter.session_request
             channels: [user_source]
+
 
 gregwar_captcha:
     width: 100

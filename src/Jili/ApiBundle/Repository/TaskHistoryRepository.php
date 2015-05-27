@@ -83,7 +83,7 @@ class TaskHistoryRepository extends EntityRepository
         $query = $this->createQueryBuilder('to');
         $query = $query->select('sum(to.point)');
         $query = $query->Where('to.userId = :userId');
-        $query = $query->andWhere('to.categoryType in (1,2,17, 19)');
+        $query = $query->andWhere('to.categoryType in (1,2,17,19)');
         $query = $query->andWhere('to.status = 2');
         $query = $query->setParameter('userId',$userid);
         $query = $query->getQuery();
@@ -118,8 +118,8 @@ class TaskHistoryRepository extends EntityRepository
 
 
     /**
-     *  dwprivate function updateTaskHistory($params=array()) {
-     *  @param: $params   'userid' => 1057622,
+     *  private function updateTaskHistory($params=array()) {
+     *  @param: $params   'userId' => 1057622,
      *                     'orderId' => 2,
      *                     'taskType' => 1,
      *                     'reward_percent' => '',
@@ -140,6 +140,10 @@ class TaskHistoryRepository extends EntityRepository
 
         $sql = 'UPDATE JiliApiBundle:TaskHistory0'. $flag.' t';
         $sql .= ' SET t.status= :status, t.point =:point, t.rewardPercent= :rewardPercent';
+        if( isset($params['date']) ) {
+            $sql .= ', t.date = :date ';
+        }
+
         $sql .= ' WHERE t.userId = :userId and t.orderId = :orderId and t.categoryType =:categoryType and t.taskType = :taskType and t.status = :statusPrevious';
 
         $em = $this->getEntityManager();

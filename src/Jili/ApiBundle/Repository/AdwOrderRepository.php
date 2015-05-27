@@ -21,6 +21,16 @@ class AdwOrderRepository extends EntityRepository
         return $query->getResult();
     }
 
+    /**
+     * getCpsInfo 
+     * 
+     * Getting the cps title from advertisment table for a adw order of the user. 
+     *
+     * @param mixed $uid 
+     * @param mixed $adid 
+     * @access public
+     * @return void
+     */
     public function getCpsInfo($uid,$adid)
     {
         $query = $this->createQueryBuilder('ao');
@@ -67,6 +77,17 @@ class AdwOrderRepository extends EntityRepository
         return $ret;
     }
 
+    /**
+     * getOrderStatus 
+     * 
+     *  finding the adw_order 
+     * 
+     * @param mixed $uid 
+     * @param mixed $aid 
+     * @param string $ocd 
+     * @access public
+     * @return void
+     */
     public function getOrderStatus($uid,$aid,$ocd='')
     {
         $parameters = array();
@@ -74,7 +95,8 @@ class AdwOrderRepository extends EntityRepository
         $query = $query->select('ao.id,ao.incentiveType,ao.orderStatus,ao.confirmTime');
         $query = $query->Where('ao.userid = :id');
         $query = $query->andWhere('ao.adid = :adid');
-        $query = $query->andWhere("ao.orderStatus in (3,4)");
+        // 3,4 is the finish status
+        $query = $query->andWhere("ao.orderStatus in (3,4)"); 
         $parameters = array('id'=>$uid,'adid'=>$aid);
         if($ocd){
             $query = $query->andWhere('ao.ocd = :ocd');
@@ -86,8 +108,23 @@ class AdwOrderRepository extends EntityRepository
 
     }
 
+    /**
+     * getOrderInfo 
+     *
+     *  fetch the order info join with advertiserment table.
+     *
+     * @param mixed $userid 
+     * @param mixed $adid 
+     * @param string $ocd 
+     * @param string $status 
+     * @access public
+     * @return void
+     */
     public function getOrderInfo($userid,$adid,$ocd='',$status='')
     {
+        $userid = (int) $userid;
+        $adid = (int) $adid;
+
         $parameters = array();
         $query = $this->createQueryBuilder('ao');
         $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime,ao.ocd,a.title');
