@@ -30,7 +30,7 @@ class TaskHistoryRepositoryTest extends KernelTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
         $tn  = $this->getName();
-        if (in_array($tn, array('testUpdate'))) {
+        if (in_array($tn, array('testUpdate', 'testUpdateWithDate'))) {
             $fixture = new LoadInitData();
             $loader = new Loader();
             $loader->addFixture($fixture);
@@ -39,6 +39,39 @@ class TaskHistoryRepositoryTest extends KernelTestCase
 
         $this->container = $container;
         $this->em = $em;
+    }
+
+    /**
+     */
+    public function testUpdateWithDate()
+    {
+        $em = $this->em;
+        $return =$em->getRepository('JiliApiBundle:TaskHistory05')
+            ->update( array(
+                'userId'=> 105, 
+                'orderId'=> 1,
+                'categoryType'=> \Jili\ApiBundle\Entity\AdCategory::ID_DUOMAI ,
+                'taskType' => \Jili\ApiBundle\Entity\TaskHistory00::TASK_TYPE_DUOMAI,
+                'point'=> intval (5.4* 70),
+                'rewardPercent' =>70, 
+                'status' => 2,
+                'statusPrevious'=> 1 ,
+                'date'=> new \DateTime('2015-05-27 09:09:00')
+            ));
+
+
+        $this->assertNotNull( $return);
+
+        $this->assertEquals(1, $return);
+        $duomai_task_stm =   $em->getConnection()->prepare('select * from task_history05');
+        $duomai_task_stm->execute();
+        $duomai_task_records =$duomai_task_stm->fetchAll();
+
+        $this->assertCount(1, $duomai_task_records);
+        $this->assertEquals('2', $duomai_task_records[0]['status']);
+        $this->assertEquals( 378,  $duomai_task_records[0]['point']);
+        $this->assertEquals( '2015-05-27 09:09:00',  $duomai_task_records[0]['date']);
+
     }
 
     /**
@@ -70,6 +103,7 @@ class TaskHistoryRepositoryTest extends KernelTestCase
         $this->assertCount(1, $duomai_task_records);
         $this->assertEquals('2', $duomai_task_records[0]['status']);
         $this->assertEquals( 378,  $duomai_task_records[0]['point']);
+
     }
 
 }

@@ -215,6 +215,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $limitrs->setResultIncentive($adworder->getIncentive());
             $em->persist($limitrs);
             $em->flush();
+
             $this->getPointHistory($userId,$adworder->getIncentive(),$adworder->getIncentiveType());
             $user = $em->getRepository('JiliApiBundle:User')->find($userId);
             $user->setPoints(intval($user->getPoints() + $adworder->getIncentive())); // point caculated when setInsentive()
@@ -291,15 +292,12 @@ class AdminController extends Controller implements IpAuthenticatedController
     private function getStatus($uid,$aid,$ocd = '')
     {
         $em = $this->getDoctrine()->getManager();
-#        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
-#        if($advertiserment->getIncentiveType()==1){
-        if( empty($ocd) ) {
+        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($aid);
+        if($advertiserment->getIncentiveType()==1){
             $adwStatus = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($uid,$aid);
-#        } else if($advertiserment->getIncentiveType()==2){
-        } else {
+        } else if($advertiserment->getIncentiveType()==2){
             $adwStatus = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($uid,$aid,$ocd);
         }
-#        }
         if(empty($adwStatus))
             return true;
         else
@@ -313,7 +311,8 @@ class AdminController extends Controller implements IpAuthenticatedController
     public function importCpsAdverAction()
     {
         set_time_limit(1800);
-
+        // is pid file exits ? 
+        
         $code = array();
         $request = $this->get('request');
         $success = '';
@@ -322,6 +321,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         $logger = $this->get('logger');
         if ($request->getMethod('post') == 'POST') {
 
+            $em = $this->getManager();
             $success = $this->container->getParameter('init_one');
             if (isset($_FILES['csv'])) {
                 $file = $_FILES['csv']['tmp_name'];
@@ -330,13 +330,15 @@ class AdminController extends Controller implements IpAuthenticatedController
                 $i = 2;
                 while ($v = fgetcsv($handle)){
                     $i++;
-                    $logger->info('['. __FUNCTION__.']round $i:'. $i);
+                    $logger->info('['. __FUNCTION__.']line in csv file $i:'. $i);
                     $status = mb_convert_encoding($v[6],'UTF-8', 'gbk');
                     $name = mb_convert_encoding($v[0],'UTF-8','gbk');
                     $ocd = trim($v[3], "'");
                     $adid = trim($v[7], "'");
                     $userId = trim($v[8], "'");
-                    if($this->getStatus($userId,$adid,$ocd)) {
+
+                    $adw_order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($userId,$adid,$ocd);
+                    if(  empty($adw_order)) {
                         if($status === $this->container->getParameter('nothrough')){
                             if(!$this->noCertified($userId,$adid,$ocd)){
                                 $code[] = '[ '.$name.', '.$userId.', '.$adid.', '.$ocd.' ] 插入数据失败';
@@ -346,7 +348,6 @@ class AdminController extends Controller implements IpAuthenticatedController
                                 $code[] = '[ '.$name.', '.$userId.', '.$adid.', '.$ocd.' ] 插入数据失败';
                             }
                         }
-
                     }
                 }
                 fclose($handle);

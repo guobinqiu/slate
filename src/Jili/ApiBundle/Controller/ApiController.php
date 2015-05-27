@@ -112,6 +112,7 @@ class ApiController extends Controller
                     $code = 1;
                 }
             }else{//cps
+                // Use the rebate if  the advertisement.id found by adid. Or use the the default one. 
                 $rewardRate = $this->container->getParameter('cps_default_rebate'); 
                 if( $adid > 0 ) {
                     $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
@@ -119,14 +120,18 @@ class ApiController extends Controller
                         $rewardRate = $advertiserment->getRewardRate();
                     }
                 }
+                
                 $users = $em->getRepository('JiliApiBundle:User')->find($uid);
                 $user_rate = $users->getRewardMultiple();
                 $campaign_multiple = $this->container->getParameter('campaign_multiple');
+
+                // Send more points to user  
                 $rate =  $user_rate > $campaign_multiple ? $user_rate : $campaign_multiple;
                 $reward_percent = $rewardRate*$rate;
                 $cps_reward = intval($comm*$reward_percent);
+
                 $issetCpsInfo = $em->getRepository('JiliApiBundle:AdwOrder')->getCpsInfo($uid,$adid);
-                if($issetCpsInfo[0]['ocd']){
+                if($issetCpsInfo[0]['ocd']){ // 
                     foreach ($issetCpsInfo as $key => $value) {
                         $issetOrderOcd[] = $value['ocd'];
                     }
@@ -163,7 +168,7 @@ class ApiController extends Controller
                         $this->getTaskHistory($parms);
                         $code = 1 ;
                     }
-                }else{
+                }else{ // no related title for the CPA order 
                     $cpsOrder = $em->getRepository('JiliApiBundle:AdwOrder')->find($issetCpsInfo[0]['id']);
                     $cpsOrder->setComm($comm);
                     $cpsOrder->setOcd($ocd);

@@ -4,6 +4,7 @@ parameters:
     soap.mail.listener.class: Jili\ApiBundle\EventListener\SoapMailListener
     user_sign_up_route.class: Jili\ApiBundle\Services\UserSignUpTracer
     user_source.logger.class: Jili\ApiBundle\Services\Logger\UserSourceLogger
+    monolog.logger.import_adw_cps.class: Jili\ApiBundle\Services\Logger\ImportAdwCpsLogger
     monolog.processor.session_request.class: Jili\ApiBundle\Services\Session\SessionRequestProcessor
 
     general_api.task_history.class: Jili\ApiBundle\EventListener\TaskHistory
@@ -24,12 +25,15 @@ parameters:
     duomai_request.validation.class: Jili\ApiBundle\Services\Duomai\DuomaiRequestValidation
     duomai_request.processor.class:  Jili\ApiBundle\Services\Duomai\DuomaiRequestProcessor
 
+    adw_admin.data_confirmed.processor.class: Jili\ApiBundle\Services\AdwAdmin\DataConfirmedProcessor
+
     rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
 
     cps_access_history.logger.class: Jili\ApiBundle\EventListener\CpsAccessHistoryFactory
     cps_order.factory.class: Jili\ApiBundle\EventListener\CpsOrderFactory
 
     check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
+
 
     point_manage.processor.class:  Jili\ApiBundle\EventListener\PointManageProcessor
 
@@ -89,6 +93,11 @@ services:
         tags:
             - { name: monolog.logger, channel: user_source }
 
+    monolog.logger.import_adw_cps:
+        class: %monolog.logger.import_adw_cps.class%
+        arguments: ["@logger"]
+        tags:
+            - { name: monolog.logger, channel: import_adw_cps }
 
     monolog.formatter.session_request:
         class: Monolog\Formatter\LineFormatter
@@ -99,7 +108,7 @@ services:
         class: %monolog.processor.session_request.class%
         arguments:  ["@session"]
         tags:
-            - { name: monolog.processor, method: processRecord }
+            - { name: monolog.processor, method: processRecord, channel: user_source }
 
     # rebate_activity.point_caculator
     rebate_point.caculator:
@@ -198,6 +207,12 @@ services:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setLogger, [ @logger ] ]
             - [ setSendMail, ["@send_mail"] ]
+
+    adw_admin.data_confirmed.processor: 
+        class: %adw_admin.data_confirmed.processor.class% 
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setLogger, [ @logger ] ]
 
     check_in.listener:
         class: %check_in.listener.class%
