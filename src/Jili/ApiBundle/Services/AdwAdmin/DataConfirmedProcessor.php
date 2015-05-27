@@ -34,13 +34,21 @@ class DataConfirmedProcessor
      */
     public function noCertified($userId,$adid,$ocd)
     {
+        $adid = (int) $adid;
+        $userId = (int) $userId;
+        $ocd = trim($ocd);
+
+        if(  $userId <= 0 || strlen($ocd) === 0 ) {
+            return false;
+        }
+
         $order_status = $this->order_status;
         $em = $this->em;
         $logger = $this->logger ;
 
         // advertisement must be adw cps
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
-        if($advertiserment->getIncentiveType()!=2){
+        if(! $advertiserment || $advertiserment->getIncentiveType()!=2){
             return false;
         }
 
@@ -105,11 +113,19 @@ class DataConfirmedProcessor
      */
     public function hasCertified($userId,$adid,$ocd,$comm)
     {
+        $adid = (int) $adid;
+        $userId = (int) $userId;
+        $ocd = trim($ocd);
+
+        if(  $userId <= 0 || strlen($ocd) === 0) {
+            return false;
+        }
+
         $order_status = $this->order_status;
         $em = $this->em;
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
 
-        if($advertiserment->getIncentiveType()!=2){
+        if(! $advertiserment || $advertiserment->getIncentiveType()!=2){
             return false;
         }
 
