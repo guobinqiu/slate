@@ -44,7 +44,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
 
         $this->username = $this->getContainer()->getParameter('webpower_email_username');
         $this->password = $this->getContainer()->getParameter('webpower_email_password');
-        $this->alertTo = explode(",", $this->getContainer()->getParameter('cron_alertTo_contacts'));
+        $this->alertTo =  $this->getContainer()->getParameter('cron_alertTo_contacts');
         $this->alertSubject = $this->getContainer()->getParameter('alert_subject');
         $output->writeln('start at '.date('Y-m-d H:i:s',time()));
         $batch_name = $input->getArgument('batch_name');
