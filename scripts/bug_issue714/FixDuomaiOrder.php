@@ -6,6 +6,7 @@ class FixDuomaiOrder {
     private $dbh;
     private $stmts = array();
 
+    // 数据库连接
     public function __construct() 
     {
         $dsn = 'mysql:dbname=zili_dev;host=192.168.1.235';
@@ -23,10 +24,12 @@ class FixDuomaiOrder {
 
     public function exec() 
     {
+        //取得duomai历史 请求参数，
         $conn = $this->dbh;
         $sql='select * from duomai_api_return'; 
         $stmt = $conn->query($sql);
         $result = $stmt->setFetchMode( PDO::FETCH_ASSOC );
+        // 记录 请求记录中的 siter_commission和（可能会有重复的, 因为相同的订单可能会2次请求)
         $sum = 0;
         while ($row = $stmt->fetch()) {
             $qs = $this->queryStringParser($row['content']);
@@ -40,6 +43,7 @@ class FixDuomaiOrder {
                 'id' => $qs['id'],
                 'site_id' => $qs['site_id'],
             ));
+
             $sum += $qs['siter_commission'];
 
             echo 'sum( + ',$qs['siter_commission'] ,' ) := '  , $sum ,PHP_EOL;
@@ -66,7 +70,9 @@ class FixDuomaiOrder {
     private function updateOrder($params) 
     {
 
+        
         $conn = $this->dbh;
+        // 根据请求参数 取得 order 记录
         $sql = 'select id , user_id  from  duomai_order where  ocd = :id and site_id = :site_id and status = 1  and comm = 0 ';
         $sth = $conn->prepare($sql);
 
@@ -79,10 +85,13 @@ class FixDuomaiOrder {
         $conn->beginTransaction();
 
         try{
+
+        //  修改 order 记录中的comm字段，
             $sql = 'update duomai_order set comm = :comm where id = :id and comm = 0 and status =1 limit 1';
             $sth = $conn->prepare($sql);
             $sth->execute(array('id'=> $result['id'],'comm'=> $params['siter_commission'] ));
 
+        //  修改 对应的task_history记录中的point字段，
             $sql_th = 'update task_history0'.($user_id % 10).' set point = :point where  point = 0
                 and category_type=23 and user_id = :user_id and order_id = :order_id limit 1';
             $sth_th = $conn->prepare($sql_th);
