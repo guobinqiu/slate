@@ -1,0 +1,12 @@
+{
+    "name": "root/bug_issue714",
+    "authors": [
+        {
+            "name": "Jarod Chiang",
+            "email": "chiangtor@gmail.com"
+        }
+    ],
+    "require": {
+        "psr/log": "1.0.*@dev"
+    }
+}
