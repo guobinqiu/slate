@@ -36,7 +36,8 @@ class DuomaiOrderRepository extends EntityRepository
             ->setOcd($params['ocd'])
             ->setOrderSn($params['orderSn'])
             ->setOrderTime($params['orderTime'])
-            ->setOrdersPrice($params['ordersPrice']);
+            ->setOrdersPrice($params['ordersPrice'])
+            ->setComm($params['commission']);
 
 
         $em->persist($order);

@@ -41,7 +41,7 @@ class FlowMobileValidateApiProcessorTest extends KernelTestCase {
         $this->assertEquals(200, $return['resultcode']);
         $this->assertEquals('移动', $return['provider']);
         $this->assertEquals('上海', $return['province']);
-        $this->assertEquals(3, count($return['product_list']));
+        $this->assertNotNull($return['product_list']);
         $this->assertEquals(20150, $return['product_list'][0]['custom_product_id']);
         $this->assertEquals(150, $return['product_list'][0]['packagesize']);
         $this->assertEquals(15.500, $return['product_list'][0]['custom_prise']);

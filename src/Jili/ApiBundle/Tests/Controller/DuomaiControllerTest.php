@@ -212,6 +212,7 @@ class DuomaiControllerTest extends WebTestCase
         $this->assertCount(1, $duomai_order_records);
         $this->assertEquals('71440050', $duomai_order_records[0]['ocd']);
         $this->assertEquals('1', $duomai_order_records[0]['status'], '初始订单的duomai_order表中的状态为1');
+        $this->assertEquals('5.40', $duomai_order_records[0]['comm'],'初始订单的duomai_order表中的comm与请求参数中的siter_commission是一样的，5.40');
 
         # qeury for task_history 
         $task_history_stm  =   $em->getConnection()->prepare('select * from task_history05');
@@ -264,6 +265,7 @@ class DuomaiControllerTest extends WebTestCase
         $this->assertCount(1, $duomai_order_records);
         $this->assertEquals('71440050', $duomai_order_records[0]['ocd']);
         $this->assertEquals('2', $duomai_order_records[0]['status'], '初始订单的duomai_order表中的状态为2');
+        $this->assertEquals('5.40', $duomai_order_records[0]['comm'],'初始订单的duomai_order表中的comm与请求参数中的siter_commission是一样的，5.40');
 
         $task_history_stm  =   $em->getConnection()->prepare('select * from task_history05');
         $task_history_stm->execute(); 
@@ -314,6 +316,7 @@ class DuomaiControllerTest extends WebTestCase
         $this->assertNotNull( $duomai_order_records);
         $this->assertCount(1,  $duomai_order_records);
         $this->assertEquals(3,  $duomai_order_records[0]['status'], '结算后duomai_order.status为3');
+        $this->assertEquals('5.40', $duomai_order_records[0]['comm'],'结算后duomai_order表中的comm与请求参数中的siter_commission是一样的，5.40');
 
         $task_history_stm  =   $em->getConnection()->prepare('select * from task_history05');
         $task_history_stm->execute(); 
@@ -388,6 +391,7 @@ class DuomaiControllerTest extends WebTestCase
         $this->assertNotNull(  $duomai_order_records);
         $this->assertCount(1,  $duomai_order_records);
         $this->assertEquals(4,  $duomai_order_records[0]['status'], '无效状态的duomai_order 为4');
+        $this->assertEquals('5.40', $duomai_order_records[0]['comm'],'无效状态的uomai_order表中的comm与请求参数中的siter_commission是一样的，5.40');
 
         $task_history_stm  =   $em->getConnection()->prepare('select * from task_history05');
         $task_history_stm->execute(); 
