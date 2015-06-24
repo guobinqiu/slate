@@ -102,7 +102,7 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * Get adsId
      *
-     * @return integer 
+     * @return integer
      */
     public function getAdsId()
     {
@@ -125,7 +125,7 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * Get adsName
      *
-     * @return string 
+     * @return string
      */
     public function getAdsName()
     {
@@ -148,7 +148,7 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * Get category
      *
-     * @return string 
+     * @return string
      */
     public function getCategory()
     {
@@ -171,7 +171,7 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * Get adsUrlType
      *
-     * @return string 
+     * @return string
      */
     public function getAdsUrlType()
     {
@@ -194,7 +194,7 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * Get adsUrl
      *
-     * @return string 
+     * @return string
      */
     public function getAdsUrl()
     {
@@ -217,7 +217,7 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * Get marketingUrl
      *
-     * @return string 
+     * @return string
      */
     public function getMarketingUrl()
     {
@@ -240,7 +240,7 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * Get selectedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getSelectedAt()
     {
@@ -263,7 +263,7 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * Get fixedHash
      *
-     * @return string 
+     * @return string
      */
     public function getFixedHash()
     {
@@ -286,7 +286,7 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * Get isActivated
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsActivated()
     {
@@ -296,7 +296,7 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -305,16 +305,20 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
 
     /**
      *        chanet:
-     *            e参数是为用户提供信息跟踪的功能，可利用此参数监测特定广告位等的广告效果。e参数仅支持不以0开头的数字，且最长为9位。 
-     *            u参数是为用户提供信息跟踪的功能，可利用此参数监测特定广告位等的广告效果。u参数支持字符型，最长为255位。 
+     *            e参数是为用户提供信息跟踪的功能，可利用此参数监测特定广告位等的广告效果。e参数仅支持不以0开头的数字，且最长为9位。
+     *            u参数是为用户提供信息跟踪的功能，可利用此参数监测特定广告位等的广告效果。u参数支持字符型，最长为255位。
      *            http://count.chanet.com.cn/click.cgi?a=480534&d=375846&u=%E5%95%86%E5%AE%B6%E5%88%97%E8%A1%A8&e=999
      *
      */
-    public function getRedirectUrlWithUserId($uid) 
+    public function getRedirectUrlWithUserId($uid)
     {
         $uri = $this->getMarketingUrl();
         if (strlen($uri) > 0 &&  1 ===  preg_match(  '/(^.*[\?&])e=(&?.*)$/', $uri, $matches)   ) {
             return $matches[1]. 'e='. $uid. $matches[2];
+        };
+
+        if (strlen($uri) > 0 &&  1 ===  preg_match(  '/(^.*[\?&])u=(&?.*)$/', $uri, $matches)   ) {
+            return $matches[1]. 'u='. $uid."_".$this->getId(). $matches[2];
         };
         return '';
     }

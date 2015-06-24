@@ -2,7 +2,7 @@
     {% for key,row in websites %}
     {% set href_ = path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })  %}
     <li>
-    <a class="logoImg" target="_blank" title="{{ row.title }}" href="{{ href_ }}"><img src="/images/website_logos/{{  row.hostHashAsLogoName ~ '.jpg' }}" alt="{{ row.websiteName }}" width="120" onerror="this.src='/images/shoplogoBg.jpg';this.onerror='null'"></a>
+    <a class="logoImg" target="_blank" title="{{ row.title }}" href="{{ href_ }}"><img src="{{asset('images/website_logos/'~row.hostHashAsLogoName ~ '.jpg' )  }}" alt="{{ row.websiteName }}" width="120" onerror="this.src='/images/shoplogoBg.jpg';this.onerror='null'"></a>
         {% if row.commission is defined and  row.commission > 0 %}<div class="logoWord lightGray">最高返{{ row.commission }}%</div>{% endif %}
         <div class="logoMore">
         	<div class="logoMask"></div>
@@ -13,7 +13,7 @@
         </div>
     </li>
     {% else %}
-    <em>很抱歉，没有找到相关的商家。</em> 
+    <em>很抱歉，没有找到相关的商家。</em>
     {% endfor %}
 </ul>
 <script type="text/javascript">
