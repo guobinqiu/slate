@@ -56,7 +56,7 @@ class ChanetAdvertisementTest extends KernelTestCase
         # $model  = new ChanetAdvertisement();
         $entity = LoadAnChanetAdvertisement::$ENTITIES[0];
 
-        $sample = 'http://count.chanet.com.cn/click.cgi?a=480534&d=383449&u=19&e=19_'.$entity->getId().'&url=http%3A%2F%2Fwww.supuy.com%2F';
+        $sample = 'http://count.chanet.com.cn/click.cgi?a=480534&d=383449&u=19_'.$entity->getId().'&e=19&url=http%3A%2F%2Fwww.supuy.com%2F';
 
         $this->assertEquals($sample, $entity->getRedirectUrlWithUserId(19), 'redirect url');
     }
