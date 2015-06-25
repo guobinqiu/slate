@@ -102,7 +102,7 @@ class ApiController extends Controller
             $adid = $advertiserment_id;
         }
 
-        $order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid, $cps_advertisement);
+        $order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid,'','',$cps_advertisement);
 
         if($order){
             //1: cpa;  目前已经没有cpa数据，所以不对应此处代码

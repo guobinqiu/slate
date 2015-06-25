@@ -133,7 +133,7 @@ class AdminController extends Controller implements IpAuthenticatedController
                 $ocd = '';
             }
         }
-        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd,$cps_advertisement);
+        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd,'',$cps_advertisement);
         if(empty($adworder)){
             return false;
         }
