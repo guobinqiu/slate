@@ -314,12 +314,12 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     {
         $uri = $this->getMarketingUrl();
         if (strlen($uri) > 0 &&  1 ===  preg_match(  '/(^.*[\?&])e=(&?.*)$/', $uri, $matches)   ) {
-            return $matches[1]. 'e='. $uid. $matches[2];
+            $uri= $matches[1]. 'e='. $uid. $matches[2];
         };
 
         if (strlen($uri) > 0 &&  1 ===  preg_match(  '/(^.*[\?&])u=(&?.*)$/', $uri, $matches)   ) {
-            return $matches[1]. 'u='. $uid."_".$this->getId(). $matches[2];
+            $uri= $matches[1]. 'u='. $uid."_".$this->getId(). $matches[2];
         };
-        return '';
+        return $uri;
     }
 }
