@@ -90,16 +90,46 @@ class ApiController extends Controller
         //订单号 String,缺省为‘
         $ocd = $request->query->get('ocd');
         $totalPrice = $request->query->get('totalPrice');
+        //订单状态 Int型，对应值：成功下单0,  已发货2,  已签收3,  已退货4,  已完成6,  部分退换货9
+        $status = $request->query->get('status');
 
         // 合并后的商家活动， url: e=uid u=uid_adid
         $cps_advertisement = false;
-        if (strpos($adid, $uid) === true) {
+        if (strpos($uid, $adid) !== false) {
             $user_id = $adid;
             $advertiserment_id = preg_replace('/'.$adid.'_/i', "", $uid);
             $cps_advertisement = true;
 
             $uid = $user_id;
             $adid = $advertiserment_id;
+        }
+
+        $reward_percent = $this->getRewardPercent($uid, $adid, $cps_advertisement);
+        $cps_reward = intval($comm*$reward_percent);
+
+        //合并后的cps
+        if($cps_advertisement){
+            $cps_ad_order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfoForCpsAdvertisement($uid,$adid);
+            if(empty($cps_ad_order)){
+                $cpsOrder = new AdwOrder();
+                $cpsOrder->setUserId($uid);
+                $cpsOrder->setAdId($adid);
+                $cpsOrder->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                $cpsOrder->setHappenTime(date_create($happenTime));
+                $cpsOrder->setAdwReturnTime(date_create(date('Y-m-d H:i:s')));
+                //  1: cpa, 2: cps
+                $cpsOrder->setIncentiveType($type);
+                $cpsOrder->setIncentive($cps_reward);
+                $cpsOrder->setIncentiveRate("");
+                $cpsOrder->setOcd($ocd);
+                $cpsOrder->setComm($comm);
+                $cpsOrder->setOrderPrice($totalPrice);
+                $cpsOrder->setOrderStatus($status);
+                $cpsOrder->setDeleteFlag($this->container->getParameter('init'));
+                $cpsOrder->setOrderType($cpsOrder::ORDER_TYPE);
+                $em->persist($cpsOrder);
+                $em->flush();
+            }
         }
 
         $order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($uid,$adid,'','',$cps_advertisement);
@@ -142,28 +172,6 @@ class ApiController extends Controller
                 }
             } else {
                 // $type = 2: cps
-                // Use the rebate if  the advertisement.id found by adid. Or use the the default one.
-                $rewardRate = $this->container->getParameter('cps_default_rebate');
-                if( $cps_advertisement == false && $adid > 0 ) {
-                    $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
-                    if($advertiserment) {
-                        $rewardRate = $advertiserment->getRewardRate();
-                    }
-                }
-
-                $users = $em->getRepository('JiliApiBundle:User')->find($uid);
-                // always 1
-                $user_rate = $users->getRewardMultiple();
-                // always 1
-                $campaign_multiple = $this->container->getParameter('campaign_multiple');
-
-                // Send more points to user
-                // always 1
-                $rate =  $user_rate > $campaign_multiple ? $user_rate : $campaign_multiple;
-                // $rewardRate * 1
-                $reward_percent = $rewardRate*$rate;
-                $cps_reward = intval($comm*$reward_percent);
-
                 $issetCpsInfo = $em->getRepository('JiliApiBundle:AdwOrder')->getCpsInfo($uid,$adid,$cps_advertisement);
                 // cps must has ocd
                 if($issetCpsInfo[0]['ocd']){
@@ -239,6 +247,31 @@ class ApiController extends Controller
             $code = 2;
         }
         return new Response($code);
+    }
+
+    public function getRewardPercent ($uid, $adid, $cps_advertisement){
+        $em = $this->getDoctrine()->getManager();
+        // Use the rebate if  the advertisement.id found by adid. Or use the the default one.
+        $rewardRate = $this->container->getParameter('cps_default_rebate');
+        if( $cps_advertisement == false && $adid > 0 ) {
+            $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+            if($advertiserment) {
+                $rewardRate = $advertiserment->getRewardRate();
+            }
+        }
+
+        $users = $em->getRepository('JiliApiBundle:User')->find($uid);
+        // always 1
+        $user_rate = $users->getRewardMultiple();
+        // always 1
+        $campaign_multiple = $this->container->getParameter('campaign_multiple');
+
+        // Send more points to user
+        // always 1
+        $rate =  $user_rate > $campaign_multiple ? $user_rate : $campaign_multiple;
+        // $rewardRate * 1
+        $reward_percent = $rewardRate*$rate;
+        return $reward_percent;
     }
 
     /**
