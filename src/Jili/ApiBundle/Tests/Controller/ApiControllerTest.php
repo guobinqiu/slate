@@ -69,7 +69,7 @@ class ApiControllerTest extends WebTestCase
 
     /**
      * todo: testing required update the schema & method to http post
-     * @group api 
+     * @group api
      */
     public function testIsEmailDuplicated()
     {
@@ -111,7 +111,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
         $orders_stm  =  $em->getConnection()->prepare('select * from adw_order');
-        $orders_stm->execute(); 
+        $orders_stm->execute();
         $orders = $orders_stm->fetchAll();
 
         $this->assertNotNull( $orders);
@@ -120,7 +120,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('2', $orders[0]['order_status'], '初始订单的adw_order表中的状态为1');
 
         $task_hisotries_stm  =   $em->getConnection()->prepare('select * from task_history0'.($user->getId() % 10));
-        $task_hisotries_stm->execute(); 
+        $task_hisotries_stm->execute();
         $task_hisotries= $task_hisotries_stm->fetchAll();
 
         $this->assertNotNull( $task_hisotries);
@@ -143,21 +143,20 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
         $orders_stm  =   $em->getConnection()->prepare('select * from adw_order');
-        $orders_stm->execute(); 
+        $orders_stm->execute();
         $orders = $orders_stm->fetchAll();
-
         $this->assertNotNull( $orders);
-        $this->assertCount(1,  $orders);
-        $this->assertEquals('9587735585', $orders[0]['ocd']);
-        $this->assertEquals('2', $orders[0]['status'], '初始订单的adw_order表中的状态为1');
+        $this->assertCount(2,  $orders);
+        $this->assertEquals('9587735585', $orders[1]['ocd']);
+        $this->assertEquals('2', $orders[1]['order_status'], '初始订单的adw_order表中的状态为1');
 
         $task_hisotries_stm  =   $em->getConnection()->prepare('select * from task_history0'.($user->getId() % 10));
-        $task_hisotries_stm->execute(); 
+        $task_hisotries_stm->execute();
         $task_hisotries= $task_hisotries_stm->fetchAll();
 
         $this->assertNotNull( $task_hisotries);
-        $this->assertCount(1,  $task_hisotries);
-        $this->assertEquals(2,$task_hisotries[0]['status'], '初始订单的task_history 表中的状态为1');
+        $this->assertCount(2,  $task_hisotries);
+        $this->assertEquals(2,$task_hisotries[1]['status'], '初始订单的task_history 表中的状态为1');
 
 // check order status
 // check task history status

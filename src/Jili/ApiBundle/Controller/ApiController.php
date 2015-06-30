@@ -124,11 +124,28 @@ class ApiController extends Controller
                 $cpsOrder->setOcd($ocd);
                 $cpsOrder->setComm($comm);
                 $cpsOrder->setOrderPrice($totalPrice);
-                $cpsOrder->setOrderStatus($status);
+                $cpsOrder->setOrderStatus($this->container->getParameter('init_two'));
                 $cpsOrder->setDeleteFlag($this->container->getParameter('init'));
                 $cpsOrder->setOrderType($cpsOrder::ORDER_TYPE);
                 $em->persist($cpsOrder);
                 $em->flush();
+
+                $issetCpsInfo = $em->getRepository('JiliApiBundle:AdwOrder')->getCpsInfo($uid,$adid,$cps_advertisement);
+                $parms = array(
+                    'orderId' => $cpsOrder->getId(),
+                    'userid' => $uid,
+                    //adw task
+                    'task_type' => $this->container->getParameter('init_one'),
+                    // adw cps
+                    'categoryId' => $this->container->getParameter('init_two'),
+                    'taskName' => $issetCpsInfo[0]['title'],
+                    'reward_percent' => $reward_percent,
+                    'point' => $cps_reward,
+                    'ocd_date' => date('Y-m-d H:i:s'),
+                    'date' => $happenTime,
+                    'status' => $cpsOrder->getOrderStatus()
+                );
+                $this->getTaskHistory($parms);
             }
         }
 
