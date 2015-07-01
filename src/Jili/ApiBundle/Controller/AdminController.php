@@ -124,14 +124,16 @@ class AdminController extends Controller implements IpAuthenticatedController
     }
 
     //没有通过认证
-    private function noCertified($userId,$adid,$ocd)
+    private function noCertified($userId,$adid,$ocd,$cps_advertisement = false)
     {
         $em = $this->getDoctrine()->getManager();
-        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
-        if(!$advertiserment || $advertiserment->getIncentiveType()==1) {
-            $ocd = '';
+        if($cps_advertisement == false){
+            $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+            if(!$advertiserment || $advertiserment->getIncentiveType()==1) {
+                $ocd = '';
+            }
         }
-        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd);
+        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd,'',$cps_advertisement);
         if(empty($adworder)){
             return false;
         }
@@ -156,16 +158,17 @@ class AdminController extends Controller implements IpAuthenticatedController
     }
 
     //已经认证
-    private function hasCertified($userId,$adid,$ocd,$comm)
+    private function hasCertified($userId,$adid,$ocd,$comm,$cps_advertisement = false)
     {
         $em = $this->getDoctrine()->getManager();
-        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
-        if($advertiserment->getIncentiveType()==1){
-            $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid);
-        } else if($advertiserment->getIncentiveType()==2){
-            $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd);
-        }
 
+        if($cps_advertisement == false){
+            $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+            if(!$advertiserment || $advertiserment->getIncentiveType()==1) {
+                $ocd = '';
+            }
+        }
+        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd);
 
         if(empty($adworder)){
             return false;
@@ -173,7 +176,7 @@ class AdminController extends Controller implements IpAuthenticatedController
 
         $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
         $taskPercent = $this->selectTaskPercent($userId,$adworder->getId());
-        if($adworder->getIncentiveType()==2){ 
+        if($adworder->getIncentiveType()==2){
             //adw cps
             $adworder->setIncentive(intval($comm*$taskPercent['rewardPercent']));
         }
@@ -181,7 +184,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         $adworder->setOrderStatus($this->container->getParameter('init_three'));
         $em->persist($adworder);
         $em->flush();
-        if($adworder->getIncentiveType()==1){ 
+        if($adworder->getIncentiveType()==1){
             // adw cpa
             $parms = array(
                 'userid' => $userId,
@@ -191,7 +194,7 @@ class AdminController extends Controller implements IpAuthenticatedController
                 'date' => date('Y-m-d H:i:s'),
                 'status' => $this->container->getParameter('init_three')
             );
-        } else if($adworder->getIncentiveType()==2){ 
+        } else if($adworder->getIncentiveType()==2){
             //adw cps
             $parms = array(
                 'userid' => $userId,
@@ -313,8 +316,8 @@ class AdminController extends Controller implements IpAuthenticatedController
     public function importCpsAdverAction()
     {
         set_time_limit(1800);
-        // is pid file exits ? 
-        
+        // is pid file exits ?
+
         $code = array();
         $request = $this->get('request');
         $success = '';
@@ -339,14 +342,25 @@ class AdminController extends Controller implements IpAuthenticatedController
                     $adid = trim($v[7], "'");
                     $userId = trim($v[8], "'");
 
+                    // 合并后的商家活动， url: e=uid u=uid_adid
+                    $cps_advertisement = false;
+                    if (strpos($adid, $userId) === true) {
+                        $user_id = $adid;
+                        $advertiserment_id = preg_replace('/'.$adid.'_/i', "", $userId);
+                        $cps_advertisement = true;
+
+                        $userId = $user_id;
+                        $adid = $advertiserment_id;
+                    }
+
                     $adw_order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($userId,$adid,$ocd);
                     if(  empty($adw_order)) {
                         if($status === $this->container->getParameter('nothrough')){
-                            if(!$this->noCertified($userId,$adid,$ocd)){
+                            if(!$this->noCertified($userId,$adid,$ocd,$cps_advertisement)){
                                 $code[] = '[ '.$name.', '.$userId.', '.$adid.', '.$ocd.' ] 插入数据失败';
                             }
                         } else if($status === $this->container->getParameter('certified')){
-                            if(!$this->hasCertified($userId,$adid,$ocd,$v[5])){
+                            if(!$this->hasCertified($userId,$adid,$ocd,$v[5],$cps_advertisement)){
                                 $code[] = '[ '.$name.', '.$userId.', '.$adid.', '.$ocd.' ] 插入数据失败';
                             }
                         }
