@@ -35,6 +35,7 @@ use Jili\ApiBundle\Entity\TaskHistory06;
 use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
+use Jili\ApiBundle\Utility\String;
 
 class ApiController extends Controller
 {
@@ -95,13 +96,11 @@ class ApiController extends Controller
 
         // 合并后的商家活动， url: e=uid u=uid_adid
         $cps_advertisement = false;
-        if (strpos($uid, $adid) !== false) {
-            $user_id = $adid;
-            $advertiserment_id = preg_replace('/'.$adid.'_/i', "", $uid);
+        $return = String :: parseChanetCallbackUrl($uid, $adid);
+        if($return){
             $cps_advertisement = true;
-
-            $uid = $user_id;
-            $adid = $advertiserment_id;
+            $uid = $return['user_id'];
+            $adid = $return['advertiserment_id'];
         }
 
         $reward_percent = $this->getRewardPercent($uid, $adid, $cps_advertisement);

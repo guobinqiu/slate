@@ -68,6 +68,7 @@ use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 use Jili\BackendBundle\Controller\IpAuthenticatedController;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\ValidateUtil;
+use Jili\ApiBundle\Utility\String;
 
 /**
  * @Route( requirements={"_scheme" = "https"})
@@ -344,13 +345,11 @@ class AdminController extends Controller implements IpAuthenticatedController
 
                     // 合并后的商家活动， url: e=uid u=uid_adid
                     $cps_advertisement = false;
-                    if (strpos($adid, $userId) === true) {
-                        $user_id = $adid;
-                        $advertiserment_id = preg_replace('/'.$adid.'_/i', "", $userId);
+                    $return = String :: parseChanetCallbackUrl($userId, $adid);
+                    if($return){
                         $cps_advertisement = true;
-
-                        $userId = $user_id;
-                        $adid = $advertiserment_id;
+                        $userId = $return['user_id'];
+                        $adid = $return['advertiserment_id'];
                     }
 
                     $adw_order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($userId,$adid,$ocd);
