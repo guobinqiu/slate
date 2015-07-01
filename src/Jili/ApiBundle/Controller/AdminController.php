@@ -169,8 +169,7 @@ class AdminController extends Controller implements IpAuthenticatedController
                 $ocd = '';
             }
         }
-        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd);
-
+        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd,'',$cps_advertisement);
         if(empty($adworder)){
             return false;
         }
@@ -229,20 +228,22 @@ class AdminController extends Controller implements IpAuthenticatedController
             $em->flush();
 
         }else{
-            $rateAd = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adid);
-            //todo: deprecated
-            $raters = new RateAdResult();
-            $raters->setAccessHistoryId($adworder->getId());
-            $raters->setUserId($userId);
-            $raters->setRateAdId($rateAd[0]->getId());
-            $raters->setResultPrice($adworder->getComm());
-            $raters->setResultIncentive($adworder->getIncentive());
-            $em->persist($raters);
-            $em->flush();
+            if(!$cps_advertisement){
+                $rateAd = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adid);
+                //todo: deprecated
+                $raters = new RateAdResult();
+                $raters->setAccessHistoryId($adworder->getId());
+                $raters->setUserId($userId);
+                $raters->setRateAdId($rateAd[0]->getId());
+                $raters->setResultPrice($adworder->getComm());
+                $raters->setResultIncentive($adworder->getIncentive());
+                $em->persist($raters);
+                $em->flush();
+            }
 
             $this->getPointHistory($userId,$adworder->getIncentive(),$adworder->getIncentiveType());
             $user = $em->getRepository('JiliApiBundle:User')->find($userId);
-            $user->setPoints(intval($user->getPoints() + $raters->getResultIncentive()));
+            $user->setPoints(intval($user->getPoints() + $adworder->getIncentive()));
             $em->persist($user);
             $em->flush();
 
@@ -327,7 +328,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         $logger = $this->get('logger');
         if ($request->getMethod('post') == 'POST') {
 
-            $em = $this->getManager();
+            $em = $this->getDoctrine()->getManager();
             $success = $this->container->getParameter('init_one');
             if (isset($_FILES['csv'])) {
                 $file = $_FILES['csv']['tmp_name'];
