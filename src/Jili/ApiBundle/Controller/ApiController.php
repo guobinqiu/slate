@@ -35,6 +35,7 @@ use Jili\ApiBundle\Entity\TaskHistory06;
 use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
+use Jili\ApiBundle\Utility\String;
 
 class ApiController extends Controller
 {
@@ -77,9 +78,9 @@ class ApiController extends Controller
         $code = array('code'=>'','msg'=>'');
         $issetOrderOcd = array();
         // 用户信息, 成果网广告链接里的 u参数 , string 型,可接受字母和数字,最长 255 位,缺省为‘’
-        $uid = $request->query->get('userinfo');
+        $userinfo = $request->query->get('userinfo');
         // 下线信息, 成果网广告链接里的e 参数, int 型,可接受数字,最长 9 位,缺省 为0
-        $adid = $request->query->get('extinfo');
+        $extinfo = $request->query->get('extinfo');
         $date = $request->query->get('date');
         $time = $request->query->get('time');
         $happenTime = $this->getTime($date,$time);
@@ -95,13 +96,14 @@ class ApiController extends Controller
 
         // 合并后的商家活动， url: e=uid u=uid_adid
         $cps_advertisement = false;
-        if (strpos($uid, $adid) !== false) {
-            $user_id = $adid;
-            $advertiserment_id = preg_replace('/'.$adid.'_/i', "", $uid);
+        $return = String :: parseChanetCallbackUrl($userinfo, $extinfo);
+        if($return){
             $cps_advertisement = true;
-
-            $uid = $user_id;
-            $adid = $advertiserment_id;
+            $uid = $return['user_id'];
+            $adid = $return['advertiserment_id'];
+        }else{
+            $uid = $userinfo;
+            $adid = $extinfo;
         }
 
         $reward_percent = $this->getRewardPercent($uid, $adid, $cps_advertisement);
@@ -120,7 +122,6 @@ class ApiController extends Controller
                 //  1: cpa, 2: cps
                 $cpsOrder->setIncentiveType($type);
                 $cpsOrder->setIncentive($cps_reward);
-                $cpsOrder->setIncentiveRate("");
                 $cpsOrder->setOcd($ocd);
                 $cpsOrder->setComm($comm);
                 $cpsOrder->setOrderPrice($totalPrice);

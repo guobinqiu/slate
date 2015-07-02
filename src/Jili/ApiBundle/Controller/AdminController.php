@@ -68,6 +68,7 @@ use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 use Jili\BackendBundle\Controller\IpAuthenticatedController;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\ValidateUtil;
+use Jili\ApiBundle\Utility\String;
 
 /**
  * @Route( requirements={"_scheme" = "https"})
@@ -168,8 +169,7 @@ class AdminController extends Controller implements IpAuthenticatedController
                 $ocd = '';
             }
         }
-        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd);
-
+        $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderInfo($userId,$adid,$ocd,'',$cps_advertisement);
         if(empty($adworder)){
             return false;
         }
@@ -228,20 +228,22 @@ class AdminController extends Controller implements IpAuthenticatedController
             $em->flush();
 
         }else{
-            $rateAd = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adid);
-            //todo: deprecated
-            $raters = new RateAdResult();
-            $raters->setAccessHistoryId($adworder->getId());
-            $raters->setUserId($userId);
-            $raters->setRateAdId($rateAd[0]->getId());
-            $raters->setResultPrice($adworder->getComm());
-            $raters->setResultIncentive($adworder->getIncentive());
-            $em->persist($raters);
-            $em->flush();
+            if(!$cps_advertisement){
+                $rateAd = $em->getRepository('JiliApiBundle:RateAd')->findByAdId($adid);
+                //todo: deprecated
+                $raters = new RateAdResult();
+                $raters->setAccessHistoryId($adworder->getId());
+                $raters->setUserId($userId);
+                $raters->setRateAdId($rateAd[0]->getId());
+                $raters->setResultPrice($adworder->getComm());
+                $raters->setResultIncentive($adworder->getIncentive());
+                $em->persist($raters);
+                $em->flush();
+            }
 
             $this->getPointHistory($userId,$adworder->getIncentive(),$adworder->getIncentiveType());
             $user = $em->getRepository('JiliApiBundle:User')->find($userId);
-            $user->setPoints(intval($user->getPoints() + $raters->getResultIncentive()));
+            $user->setPoints(intval($user->getPoints() + $adworder->getIncentive()));
             $em->persist($user);
             $em->flush();
 
@@ -326,7 +328,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         $logger = $this->get('logger');
         if ($request->getMethod('post') == 'POST') {
 
-            $em = $this->getManager();
+            $em = $this->getDoctrine()->getManager();
             $success = $this->container->getParameter('init_one');
             if (isset($_FILES['csv'])) {
                 $file = $_FILES['csv']['tmp_name'];
@@ -344,13 +346,11 @@ class AdminController extends Controller implements IpAuthenticatedController
 
                     // 合并后的商家活动， url: e=uid u=uid_adid
                     $cps_advertisement = false;
-                    if (strpos($adid, $userId) === true) {
-                        $user_id = $adid;
-                        $advertiserment_id = preg_replace('/'.$adid.'_/i', "", $userId);
+                    $return = String :: parseChanetCallbackUrl($userId, $adid);
+                    if($return){
                         $cps_advertisement = true;
-
-                        $userId = $user_id;
-                        $adid = $advertiserment_id;
+                        $userId = $return['user_id'];
+                        $adid = $return['advertiserment_id'];
                     }
 
                     $adw_order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($userId,$adid,$ocd);
