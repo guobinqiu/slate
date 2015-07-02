@@ -119,7 +119,6 @@ class ApiController extends Controller
                 //  1: cpa, 2: cps
                 $cpsOrder->setIncentiveType($type);
                 $cpsOrder->setIncentive($cps_reward);
-                $cpsOrder->setIncentiveRate("");
                 $cpsOrder->setOcd($ocd);
                 $cpsOrder->setComm($comm);
                 $cpsOrder->setOrderPrice($totalPrice);

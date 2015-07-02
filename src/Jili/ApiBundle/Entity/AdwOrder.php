@@ -105,7 +105,7 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive_rate", type="integer")
+     * @ORM\Column(name="incentive_rate", type="integer", nullable=true)
      */
     private $incentiveRate;
 
