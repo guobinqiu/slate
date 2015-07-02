@@ -22,20 +22,24 @@ class AdwOrderRepository extends EntityRepository
     }
 
     /**
-     * getCpsInfo 
-     * 
-     * Getting the cps title from advertisment table for a adw order of the user. 
+     * getCpsInfo
      *
-     * @param mixed $uid 
-     * @param mixed $adid 
+     * Getting the cps title from advertisment table for a adw order of the user.
+     *
+     * @param mixed $uid
+     * @param mixed $adid
      * @access public
      * @return void
      */
-    public function getCpsInfo($uid,$adid)
+    public function getCpsInfo($uid,$adid,$cps_advertisement = false)
     {
         $query = $this->createQueryBuilder('ao');
         $query = $query->select('ao.id,ao.ocd,a.title');
-        $query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
+        if($cps_advertisement){
+            $query = $query->innerJoin('JiliApiBundle:CpsAdvertisement', 'a', 'WITH', 'ao.adid = a.id');
+        }else{
+            $query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
+        }
         $query = $query->Where('ao.adid = :adid');
         $query = $query->andWhere('ao.userid = :uid');
         $parameters = array('uid'=>$uid,'adid'=>$adid);
@@ -78,13 +82,13 @@ class AdwOrderRepository extends EntityRepository
     }
 
     /**
-     * getOrderStatus 
-     * 
-     *  finding the adw_order 
-     * 
-     * @param mixed $uid 
-     * @param mixed $aid 
-     * @param string $ocd 
+     * getOrderStatus
+     *
+     *  finding the adw_order
+     *
+     * @param mixed $uid
+     * @param mixed $aid
+     * @param string $ocd
      * @access public
      * @return void
      */
@@ -96,7 +100,7 @@ class AdwOrderRepository extends EntityRepository
         $query = $query->Where('ao.userid = :id');
         $query = $query->andWhere('ao.adid = :adid');
         // 3,4 is the finish status
-        $query = $query->andWhere("ao.orderStatus in (3,4)"); 
+        $query = $query->andWhere("ao.orderStatus in (3,4)");
         $parameters = array('id'=>$uid,'adid'=>$aid);
         if($ocd){
             $query = $query->andWhere('ao.ocd = :ocd');
@@ -109,18 +113,18 @@ class AdwOrderRepository extends EntityRepository
     }
 
     /**
-     * getOrderInfo 
+     * getOrderInfo
      *
      *  fetch the order info join with advertiserment table.
      *
-     * @param mixed $userid 
-     * @param mixed $adid 
-     * @param string $ocd 
-     * @param string $status 
+     * @param mixed $userid
+     * @param mixed $adid
+     * @param string $ocd
+     * @param string $status
      * @access public
      * @return void
      */
-    public function getOrderInfo($userid,$adid,$ocd='',$status='')
+    public function getOrderInfo($userid,$adid,$ocd='',$status='' ,$cps_advertisement = false)
     {
         $userid = (int) $userid;
         $adid = (int) $adid;
@@ -128,7 +132,11 @@ class AdwOrderRepository extends EntityRepository
         $parameters = array();
         $query = $this->createQueryBuilder('ao');
         $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime,ao.ocd,a.title');
-        $query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
+        if($cps_advertisement){
+            $query = $query->innerJoin('JiliApiBundle:CpsAdvertisement', 'a', 'WITH', 'ao.adid = a.id');
+        }else{
+            $query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
+        }
         $query = $query->Where('ao.userid = :id');
         $query = $query->andWhere('ao.adid = :adid');
         $parameters = array('id'=>$userid,'adid'=>$adid);

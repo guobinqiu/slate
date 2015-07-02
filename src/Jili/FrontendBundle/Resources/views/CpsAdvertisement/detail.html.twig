@@ -19,14 +19,14 @@
       <div class="shop-info module clearfix borderGlob">
           {% set href_ = path('jili_frontend_cpsadvertisement_redirect', {'wid':app.request.get('wid') })  %}
         <div class="shop-info-l">
-            <div class="shop_img"> <a href="{{ href_ }}" target="_blank" rel="nofollow"><img src="/images/website_logos/{{ website.hostHashAsLogoName ~ '.jpg' }}" width="120" height="60"  alt="{{ website.websiteName  }}" /></a>
+            <div class="shop_img"> <a href="{{ href_ }}" target="_blank" rel="nofollow"><img src="{{asset('images/website_logos/'~website.hostHashAsLogoName ~ '.jpg' )}}" width="120" height="60"  alt="{{ website.websiteName  }}" /></a>
 
 {% if website.commission is defined and website.commission is not empty %}
             <p class="shop-rebate corLightGray">最高返利<em>{{ website.commission }}%</em></p>
 {% endif %}
           </div>
-          <a href="{{ href_ }}" class="goBtn" target="_blank" rel="nofollow" >去购物,赚米粒</a> 
-        </div>  
+          <a href="{{ href_ }}" class="goBtn" target="_blank" rel="nofollow" >去购物,赚米粒</a>
+        </div>
         <div class="shop-info-r">
           <h2 class="fontYH">{{ website.websiteName }}</h2>
           <!--          <p class="intro">{# website.information|raw #}</p> -->
@@ -86,8 +86,7 @@
       <ul id="mallsRecommend">
         {% for row in same_cat_websites %}
         <li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}" target="_blank">
-            <img src="/images/website_logos/{{ row.hostHashAsLogoName ~ '.jpg' }}" width="120" height="60" alt="{{ row.website_name }}">
-
+            <img src="{{asset('images/website_logos/'~row.hostHashAsLogoName~'.jpg')}}" width="120" height="60" alt="{{ row.website_name }}">
             {%if row.max_commission is defined %}
             <span class="itemTxt">最高返<strong class="corGlobRed">{{row.max_commission}}%</strong></span>
             {%endif%}
@@ -102,7 +101,7 @@
   {% endif %}
 
   <div class="rebateProcess borderGlob">
-    	<h3>返利流程</h3>	
+    	<h3>返利流程</h3>
         <img src="{{ asset('images/rebateExplain.jpg') }}" />
     </div>
   </div>
