@@ -138,7 +138,7 @@ class ApiControllerTest extends WebTestCase
         $user= LoadApiGetAdwInfoCodeData::$USERS[0];
         $cps_advertisement = LoadApiGetAdwInfoCodeData::$CPS_ADVERTISEMENTS[0];
 
-        $url = '/api/getAdwInfo?date=20150624&time=151816&type=2&promotionID=514&promotionName=%E4%BA%AC%E4%B8%9C%E5%95%86%E5%9F%8ECPS&extinfo='.$user->getId().'&userinfo='.$user->getId().'_'.$cps_advertisement->getId().'&comm=3.0000&totalPrice=202.4000&ocd=9587735585&goodDetails=B1%2F0%25%2F3.0000%2F169%2F1%2F%5B1545861%5D%3AA1%2F0%25%2F0.0000%2F9.9%2F1%2F%5B1417552%5D%3AA1%2F0%25%2F0.0000%2F23.5%2F1%2F%5B1039780%5D&paymentmethod=0&status=0&paid=2&confirm=0';
+        $url = '/api/getAdwInfo?date=20150624&time=151816&type=2&promotionID=514&promotionName=%E4%BA%AC%E4%B8%9C%E5%95%86%E5%9F%8ECPS&extinfo='.$user->getId().'&userinfo='.$user->getId().'_'.$cps_advertisement->getAdId().'&comm=3.0000&totalPrice=202.4000&ocd=9587735585&goodDetails=B1%2F0%25%2F3.0000%2F169%2F1%2F%5B1545861%5D%3AA1%2F0%25%2F0.0000%2F9.9%2F1%2F%5B1417552%5D%3AA1%2F0%25%2F0.0000%2F23.5%2F1%2F%5B1039780%5D&paymentmethod=0&status=0&paid=2&confirm=0';
 
         $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
