@@ -15,10 +15,11 @@ class AdwOrder
      *  adw 成果类型 CPA,与实时接口的type一致,同时与ad_category ID_ADW_CPA 碰巧取值都是1
      */
     const INCENTIVE_TYPE_CPA=1;
+    const ORDER_TYPE=2; // 合并后的order，关联表 cps_advertiserment
 
     /**
      *  @var const
-     *  adw 成果类型 CPS 
+     *  adw 成果类型 CPS
      */
     const INCENTIVE_TYPE_CPS=2;
 
@@ -104,7 +105,7 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive_rate", type="integer")
+     * @ORM\Column(name="incentive_rate", type="integer", nullable=true)
      */
     private $incentiveRate;
 
@@ -144,6 +145,13 @@ class AdwOrder
      * @ORM\Column(name="delete_flag", type="integer")
      */
     private $deleteFlag;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="order_type", type="integer", nullable=true)
+     */
+    private $orderType;
 
     /**
      * Get id
@@ -497,6 +505,29 @@ class AdwOrder
     public function getDeleteFlag()
     {
         return $this->deleteFlag;
+    }
+
+    /**
+     * Set orderType
+     *
+     * @param integer $orderType
+     * @return AdwOrder
+     */
+    public function setOrderType($orderType)
+    {
+        $this->orderType = $orderType;
+
+        return $this;
+    }
+
+    /**
+     * Get orderType
+     *
+     * @return integer
+     */
+    public function getOrderType()
+    {
+        return $this->orderType;
     }
 
 

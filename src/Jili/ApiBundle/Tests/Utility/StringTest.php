@@ -59,4 +59,13 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('adid', $b);
         $this->assertEquals(0, $b['adid']);
     }
+
+    public function test_parseChanetCallbackUrl()
+    {
+        $this->assertEquals($expected=array('user_id' => '123123',
+            'advertiserment_id' =>'78979'), String::parseChanetCallbackUrl('123123_78979','123123'), 'array as [ user_id, advertiserment_id ] should be return');
+        $this->assertNull( String::parseChanetCallbackUrl('123123_78979','12312' ), 'null should return');
+        $this->assertNull( String::parseChanetCallbackUrl('123123_78979','123123_' ), 'null should return ');
+    }
+
 }

@@ -31,4 +31,18 @@ class String
         $r = $uid. 'a'. $adid ;
         return $r;
     }
+    //    getRedirectUrlWithUserId
+    public static function parseChanetCallbackUrl($uid, $adid)
+    {
+        if (strpos($uid, $adid) !== false) {
+            $user_id = $adid;
+            $advertiserment_id = preg_replace('/' . $adid . '_/i', "", $uid);
+            $return = array (
+                'user_id' => $user_id,
+                'advertiserment_id' => $advertiserment_id
+            );
+            return $return;
+        }
+        return null;
+    }
 }

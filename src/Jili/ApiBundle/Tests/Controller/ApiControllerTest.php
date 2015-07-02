@@ -118,6 +118,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertCount(1,  $orders);
         $this->assertEquals('9587735585', $orders[0]['ocd']);
         $this->assertEquals('2', $orders[0]['order_status'], '初始订单的adw_order表中的状态为1');
+        $this->assertNull( $orders[0]['order_type']);
 
         $task_hisotries_stm  =   $em->getConnection()->prepare('select * from task_history0'.($user->getId() % 10));
         $task_hisotries_stm->execute();
@@ -149,6 +150,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertCount(2,  $orders);
         $this->assertEquals('9587735585', $orders[1]['ocd']);
         $this->assertEquals('2', $orders[1]['order_status'], '初始订单的adw_order表中的状态为1');
+        $this->assertEquals(2,  $orders[1]['order_type']);
 
         $task_hisotries_stm  =   $em->getConnection()->prepare('select * from task_history0'.($user->getId() % 10));
         $task_hisotries_stm->execute();
