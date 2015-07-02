@@ -34,10 +34,11 @@ class AdwOrderRepository extends EntityRepository
     public function getCpsInfo($uid,$adid,$cps_advertisement = false)
     {
         $query = $this->createQueryBuilder('ao');
-        $query = $query->select('ao.id,ao.ocd,a.title');
         if($cps_advertisement){
-            $query = $query->innerJoin('JiliFrontendBundle:CpsAdvertisement', 'a', 'WITH', 'ao.adid = a.id');
+            $query = $query->select('ao.id,ao.ocd,a.adsName as title');
+            $query = $query->innerJoin('JiliFrontendBundle:ChanetAdvertisement', 'a', 'WITH', 'ao.adid = a.id');
         }else{
+            $query = $query->select('ao.id,ao.ocd,a.title');
             $query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
         }
         $query = $query->Where('ao.adid = :adid');
@@ -131,10 +132,11 @@ class AdwOrderRepository extends EntityRepository
 
         $parameters = array();
         $query = $this->createQueryBuilder('ao');
-        $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime,ao.ocd,a.title');
         if($cps_advertisement){
-            $query = $query->innerJoin('JiliFrontendBundle:CpsAdvertisement', 'a', 'WITH', 'ao.adid = a.id');
+            $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime,ao.ocd,a.adsName as title');
+            $query = $query->innerJoin('JiliFrontendBundle:ChanetAdvertisement', 'a', 'WITH', 'ao.adid = a.id');
         }else{
+            $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime,ao.ocd,a.title');
             $query = $query->innerJoin('JiliApiBundle:Advertiserment', 'a', 'WITH', 'ao.adid = a.id');
         }
         $query = $query->Where('ao.userid = :id');
@@ -171,8 +173,8 @@ class AdwOrderRepository extends EntityRepository
 
         $parameters = array();
         $query = $this->createQueryBuilder('ao');
-        $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime,ao.ocd,a.title');
-        $query = $query->innerJoin('JiliFrontendBundle:CpsAdvertisement', 'a', 'WITH', 'ao.adid = a.id');
+        $query = $query->select('ao.id,ao.orderStatus,ao.incentiveType,ao.confirmTime,ao.ocd,a.adsName as title');
+        $query = $query->innerJoin('JiliFrontendBundle:ChanetAdvertisement', 'a', 'WITH', 'ao.adid = a.id');
         $query = $query->Where('ao.userid = :id');
         $query = $query->andWhere('ao.adid = :adid');
         $parameters = array('id'=>$userid,'adid'=>$adid);

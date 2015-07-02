@@ -10,6 +10,7 @@ use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\Advertiserment;
 use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\FrontendBundle\Entity\CpsAdvertisement;
+use Jili\FrontendBundle\Entity\ChanetAdvertisement;
 
 class LoadApiGetAdwInfoCodeData extends AbstractFixture implements ContainerAwareInterface,  FixtureInterface
 {
@@ -65,9 +66,22 @@ class LoadApiGetAdwInfoCodeData extends AbstractFixture implements ContainerAwar
         $manager->flush();
         self::$ADVERTISEMENTS[] = $advertisement;
 
+        $chanet_advertisement = new ChanetAdvertisement();
+        $chanet_advertisement->setAdsId( 514)
+            ->setAdsName( '京东商城CPS')
+            ->setCategory('电子/家电')
+            ->setAdsUrlType('首页推广链接')
+            ->setAdsUrl('http://www.jd.com')
+            ->setMarketingUrl('http://count.chanet.com.cn/click.cgi?a=480534&d=22338&u=&e=&url=http%3A%2F%2Fwww.jd.com')
+            ->setSelectedAt(new \DateTime('2015-04-30 07:23:50'))
+            ->setFixedHash('3d11fb7cc6c1b2a4c10a33ff3b6e5e61a951491088af5dc5f7324be20f02f720')
+            ->setIsActivated( 1);
+        $manager->persist($chanet_advertisement);
+        $manager->flush();
+
         $cps_advertisement = new CpsAdvertisement();
         $cps_advertisement->setAdCategoryId(2)
-            ->setAdId( 108)
+            ->setAdId( $chanet_advertisement->getId() )
             ->setTitle('京东商城')
             ->setMarketingUrl('http://count.chanet.com.cn/click.cgi?a=480534&d=22338&u=&e=&url=http%3A%2F%2Fwww.jd.com')
             ->setAdsUrl('http://www.jd.com')
@@ -77,14 +91,27 @@ class LoadApiGetAdwInfoCodeData extends AbstractFixture implements ContainerAwar
             ->setwebsiteHost('www.jd.com')
             ->setSelectedAt(new \DateTime('2015-04-22 13:22:43'))
             ->setIsActivated(1);
-
         $manager->persist($cps_advertisement);
         $manager->flush();
         self::$CPS_ADVERTISEMENTS[0] = $cps_advertisement;
 
+
+        $chanet_advertisement = new ChanetAdvertisement();
+        $chanet_advertisement->setAdsId( 283)
+            ->setAdsName( '当当CPS推广')
+            ->setCategory('其他')
+            ->setAdsUrlType('首页推广链接')
+            ->setAdsUrl('http://www.dangdang.com')
+            ->setMarketingUrl('http://count.chanet.com.cn/click.cgi?a=480534&d=5775&u=&e=&url=http%3A%2F%2Fwww.dangdang.com')
+            ->setSelectedAt(new \DateTime('2015-04-30 07:23:50'))
+            ->setFixedHash('d91fab7853315510a8770442973a21b9478d599c88a167f124f1e2e1e1949b39')
+            ->setIsActivated( 1);
+        $manager->persist($chanet_advertisement);
+        $manager->flush();
+
         $cps_advertisement = new CpsAdvertisement();
         $cps_advertisement->setAdCategoryId(2)
-            ->setAdId( 12)
+            ->setAdId( $chanet_advertisement->getId() )
             ->setTitle('当当')
             ->setMarketingUrl('http://count.chanet.com.cn/click.cgi?a=480534&d=5775&u=&e=&url=http%3A%2F%2Fwww.dangdang.com')
             ->setAdsUrl('http://www.dangdang.com')
@@ -99,9 +126,22 @@ class LoadApiGetAdwInfoCodeData extends AbstractFixture implements ContainerAwar
         self::$CPS_ADVERTISEMENTS[1] = $cps_advertisement;
 
 
+        $chanet_advertisement = new ChanetAdvertisement();
+        $chanet_advertisement->setAdsId( 2466)
+            ->setAdsName( '史泰博官网CPS')
+            ->setCategory('其他')
+            ->setAdsUrlType('首页推广链接')
+            ->setAdsUrl('http://www.staples.cn')
+            ->setMarketingUrl('http://count.chanet.com.cn/click.cgi?a=480534&d=299417&u=&e=&url=http%3A%2F%2Fwww.staples.cn')
+            ->setSelectedAt(new \DateTime('2015-04-30 07:22:29'))
+            ->setFixedHash('b27441cc2026e8d378ce149016cdc1563dde084b0629cdf9d7baf0ba37a29ffb
+')
+            ->setIsActivated( 1);
+        $manager->persist($chanet_advertisement);
+        $manager->flush();
         $cps_advertisement = new CpsAdvertisement();
         $cps_advertisement->setAdCategoryId(2)
-            ->setAdId( 70)
+            ->setAdId( $chanet_advertisement->getId() )
             ->setTitle('史泰博官网')
             ->setMarketingUrl('http://count.chanet.com.cn/click.cgi?a=480534&d=299417&u=&e=&url=http%3A%2F%2Fwww.staples.cn')
             ->setAdsUrl('http://www.staples.cn')
