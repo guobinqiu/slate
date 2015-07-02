@@ -31,15 +31,16 @@ class String
         $r = $uid. 'a'. $adid ;
         return $r;
     }
+
     //    getRedirectUrlWithUserId
-    public static function parseChanetCallbackUrl($uid, $adid)
+    // 合并后的商家活动， url: e=uid u=uid_adid
+    public static function parseChanetCallbackUrl($userinfo, $extinfo)
     {
-        if (strpos($uid, $adid) !== false) {
-            $user_id = $adid;
-            $advertiserment_id = preg_replace('/' . $adid . '_/i', "", $uid);
+        $info = explode("_", $userinfo);
+        if (is_array($info) && $info[0] == $extinfo) {
             $return = array (
-                'user_id' => $user_id,
-                'advertiserment_id' => $advertiserment_id
+                'user_id' => $extinfo,
+                'advertiserment_id' => $info[1]
             );
             return $return;
         }
