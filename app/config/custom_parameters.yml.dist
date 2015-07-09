@@ -155,7 +155,7 @@ parameters:
     admin_home_ip: 192.168.1.198
     admin_vpn_ip: 210.175.54.14
     admin_ele_ip: 112.65.174.206
-    admin_un_ip: 180.169.71.34
+    admin_un_ip: 180.167.8.42 #上海市 RPA-CHN-OFFICE 电信
     wenwen_dev_ip: 54.251.246.14
     wenwen_prod_ip: 54.254.98.246
     upload_banner_dir: images/banner/
