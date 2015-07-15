@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -20,7 +20,7 @@ class QQLoginController extends Controller
      * @Route("/qqcallback", name="qq_api_callback")
      */
     public function callBackAction()
-    { 
+    {
         $request = $this->get('request');
         $code = $request->query->get('code');
         $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),'');
@@ -57,7 +57,7 @@ class QQLoginController extends Controller
         //跳转到 qqlogin action
         return $this->redirect($this->generateUrl('qq_fist_login'));
     }
-    
+
     /**
      * @Route("/qqlogin", name="qq_api_login")
      */
@@ -77,7 +77,7 @@ class QQLoginController extends Controller
             return  new RedirectResponse($login_url, '301');
         }
     }
-    
+
     /**
      * @Route("/qqRegiste", name="qq_registe")
      */
@@ -87,9 +87,9 @@ class QQLoginController extends Controller
         $em = $this->getDoctrine()->getManager();
         $qqForm = $request->request->get('qqregist');
         $code = "";
-        $param['email'] = $qqForm['email_id'].'@'.$this->container->getParameter('qq_email_suffix');
+        $param['email'] = trim($qqForm['email_id']).'@'.$this->container->getParameter('qq_email_suffix');
         $request->request->set('email',$param['email']);
-        $param['nick'] = $request->request->get('qqnickname'); 
+        $param['nick'] = $request->request->get('qqnickname');
         $param['pwd'] = $request->request->get('pwd');
         $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
         if($check_user){
@@ -105,12 +105,12 @@ class QQLoginController extends Controller
             $em = $this->getDoctrine()->getManager();
             $check_qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($param['open_id']);
             if( empty($check_qquser)){
-                $user_regist = $this->get('user_regist'); 
+                $user_regist = $this->get('user_regist');
                 $qquser = $user_regist->qq_user_regist($param);
                 if(!$qquser){
                     //注册失败
                     return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，QQ用户注册失败，请稍后再试。'));
-                } 
+                }
             }
             //注册成功，登陆并跳转主页
             $code = $this->get('login.listener')->login($request);
@@ -127,14 +127,14 @@ class QQLoginController extends Controller
                 array('email'=>$qqForm['email_id'], 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
                     'sex'=>$request->request->get('sex'),'form' => $form->createView(), 'regcode'=>$code));
     }
-    
+
     /**
      * @Route("/qqbind", name="qq_bind")
      */
     public function qqBindAction()
     {
         $request = $this->get('request');
-        $param['nick'] = $request->request->get('qqnickname'); 
+        $param['nick'] = $request->request->get('qqnickname');
         $param['email'] = $request->request->get('jili_email');
         $param['pwd']= $request->request->get('jili_pwd');
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
@@ -158,7 +158,7 @@ class QQLoginController extends Controller
                 array('email'=>$request->request->get('email_id'), 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
                     'sex'=>$request->request->get('sex'),'form' => $form->createView(),'bindcode'=>$code));
     }
-    
+
     /**
      * @Route("/qqFistLogin", name="qq_fist_login")
      */
@@ -167,14 +167,14 @@ class QQLoginController extends Controller
         $request = $this->get('request');
         $qq_token = $request->getSession()->get('qq_token');
         $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
-        //获取登录用户open id 
+        //获取登录用户open id
         $openid = $request->getSession()->get('open_id');
         if(!$openid){
             $qq_oid = $qq_auth->get_openid();
-            $openid = $qq_oid['openid']; 
+            $openid = $qq_oid['openid'];
             $request->getSession()->set('open_id',$openid);
         }
-        
+
         $result = $qq_auth->get_user_info($openid);
         $form  = $this->createForm(new QQFirstRegist());
         return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
