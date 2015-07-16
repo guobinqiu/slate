@@ -82,7 +82,7 @@ class QQLoginControllerTest extends WebTestCase
     /**
      * @group issue_474
      */
-    public function testCallBackAction() 
+    public function testCallBackAction()
     {
         $client = $this->client;
         //$client = static::CreateClient();
@@ -103,7 +103,7 @@ class QQLoginControllerTest extends WebTestCase
     /**
      * @group issue_474
      */
-    public function testCallBackAction0() 
+    public function testCallBackAction0()
     {
         $client = $this->client;
         $container  = $client->getContainer();
@@ -116,7 +116,7 @@ class QQLoginControllerTest extends WebTestCase
             ->setMethods(array('access_token','get_openid'))
             ->disableOriginalConstructor()
             ->getMock();
-        
+
         $stubQQAuth->expects($this->once())
             ->method('access_token')
             ->willReturn(array('access_token'=>''));
@@ -147,7 +147,7 @@ class QQLoginControllerTest extends WebTestCase
     /**
      * @group issue_474
      */
-    public function testCallBackActionI () 
+    public function testCallBackActionI ()
     {
         $client = $this->client;
         $container  = $client->getContainer();
@@ -190,7 +190,7 @@ class QQLoginControllerTest extends WebTestCase
         $session = $client->getRequest()->getSession();
 
         $this->assertTrue($session->has('open_id') );
-        //        $crawlerNew = $client->followRedirect(); 
+        //        $crawlerNew = $client->followRedirect();
         //       $this->assertEquals( '/QQLogin/qqFistLogin', $client->getRequest()->getRequestUri());
         //      $this->assertEquals('973F697E97A60289C8C455B1D65FAAAA', $session->get('open_id'),'open_id session is set' );
         //
@@ -199,7 +199,7 @@ class QQLoginControllerTest extends WebTestCase
     /**
      * @group issue_474
      */
-    public function testCallBackActionII () 
+    public function testCallBackActionII ()
     {
        $client = $this->client;
        $container  = $client->getContainer();
@@ -210,8 +210,8 @@ class QQLoginControllerTest extends WebTestCase
         $session->remove('qq_token');
         $session->remove('open_id');
         $session->save();
-        
-        // has qquser, no jili user  , error message 
+
+        // has qquser, no jili user  , error message
         $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
             ->setMethods(array('access_token','get_openid'))
             ->disableOriginalConstructor()
@@ -233,7 +233,7 @@ class QQLoginControllerTest extends WebTestCase
         //$kernel->setKernelModifier(function($kernel) use ($mockQQAuth) {
         //    $kernel->getContainer()->set('user_qq_login', $mockQQAuth);
         //});
-        
+
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -246,7 +246,7 @@ class QQLoginControllerTest extends WebTestCase
     /**
      * @group issue_474
      */
-    public function testCallBackActionIII () 
+    public function testCallBackActionIII ()
     {
        $client = $this->client;
        $container  = $client->getContainer();
@@ -284,7 +284,7 @@ class QQLoginControllerTest extends WebTestCase
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
-        $crawlerNew = $client->followRedirect(); 
+        $crawlerNew = $client->followRedirect();
 
         $this->assertEquals( '/', $client->getRequest()->getRequestUri());
 
@@ -313,7 +313,7 @@ class QQLoginControllerTest extends WebTestCase
         $session = $client->getContainer()->get('session');
 
         // 1. request without openid in session
-        // mock the 获取登录用户open id 
+        // mock the 获取登录用户open id
         //$qq_oid = $qq_auth->get_openid();
         //$result = $qq_auth->get_user_info($openid);
         $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
@@ -325,7 +325,7 @@ class QQLoginControllerTest extends WebTestCase
             ->method('get_openid')
             ->willReturn($openid_qq );
         $user_info_qq =<<<EOD
-{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" } 
+{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" }
 EOD;
         $stubQQAuth->expects($this->once())
             ->method('get_user_info')
@@ -358,8 +358,8 @@ EOD;
         $this->assertEquals('Jin',$form_register['qqnickname']->getValue());
         $this->assertEquals('男',$form_register['sex']->getValue());
         $form_binding  = $crawler->selectButton('binding')->form();
-        
-        
+
+
         $client = static::createClient();
         $session = $client->getContainer()->get('session');
 
@@ -369,7 +369,7 @@ EOD;
             ->disableOriginalConstructor()
             ->getMock();
         $user_info_qq =<<<EOD
-{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" } 
+{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" }
 EOD;
         $stubQQAuth->expects($this->once())
             ->method('get_user_info')
@@ -417,7 +417,7 @@ EOD;
         $session->save();
         $crawler =  $client->request('GET', $url);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawlerNew = $client->followRedirect(); 
+        $crawlerNew = $client->followRedirect();
         $this->assertEquals( '/', $client->getRequest()->getRequestUri());
     }
 
@@ -467,7 +467,7 @@ EOD;
         $this->assertTrue($client->getResponse() instanceof RedirectResponse);
         $this->assertTrue($client->getResponse()->isRedirect());
 
-        $crawlerNew = $client->followRedirect(); 
+        $crawlerNew = $client->followRedirect();
         //    $this->assertEquals( '/',$client->getRequest()->getRequestUri(),' the primary request uri is not changed');;
         $this->assertEquals($uri_by_qq,$client->getHistory()->current()->getUri(),
             'a sub-requst should be the target url ');
@@ -476,13 +476,14 @@ EOD;
 
     /**
      * @group issue_474
+     * @group issue_722
      */
     public function testqqRegisteActionValidation()
     {
         //form valid  验证不通过
-        // 注册失败  check insert data as... before? 
+        // 注册失败  check insert data as... before?
         // 注册成功，登陆并跳转主页
-        $client = $this->client; 
+        $client = $this->client;
         $container  = $client->getContainer();
         $session = $container->get('session');
 
@@ -496,7 +497,7 @@ EOD;
             ->disableOriginalConstructor()
             ->getMock();
         $user_info_qq =<<<EOD
-{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" } 
+{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" }
 EOD;
         $stubQQAuth->expects($this->once())
             ->method('get_user_info')
@@ -517,6 +518,13 @@ EOD;
         $crawler =  $client->request('GET', $url_first_login );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $form_register  = $crawler->selectButton('register')->form();
+        $form_register['qqregist[email_id]'] = '';
+        $form_register['pwd'] = '123123';
+
+        $crawler = $client->submit($form_register);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('请填写正确的邮箱或密码!', trim($crawler->filter('#regist_emailError')->text()));
+
         $form_register['qqregist[email_id]'] = '@A';
         $form_register['pwd'] = '123123';
 
@@ -540,21 +548,21 @@ EOD;
     public function testqqRegisteActionFailure()
     {
         //form valid  验证不通过
-        // 注册失败  check insert data as... before? 
+        // 注册失败  check insert data as... before?
         // 注册成功，登陆并跳转主页
-        $client = $this->client; 
+        $client = $this->client;
         $container  = $client->getContainer();
         $session = $container->get('session');
 
         $em = $this->em;
 
-        // [] 注册失败 an empty  open_id in session. check insert data as... before? 
+        // [] 注册失败 an empty  open_id in session. check insert data as... before?
         $stubQQAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\QQAuth')
             ->setMethods(array('get_user_info','get_openid'))
             ->disableOriginalConstructor()
             ->getMock();
         $user_info_qq =<<<EOD
-{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" } 
+{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" }
 EOD;
         $stubQQAuth->expects($this->once())
             ->method('get_user_info')
@@ -577,7 +585,7 @@ EOD;
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $form_register  = $crawler->selectButton('register')->form();
         $form_register['qqregist[email_id]'] = 'alice32';
-        $form_register['pwd'] = '123123'; 
+        $form_register['pwd'] = '123123';
         //$session->set('open_id','D8E44D85A05AA374243CFE3911365C51');
         $session->remove('open_id');
         $session->save();
@@ -585,7 +593,7 @@ EOD;
         // submit that form
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-       $this->assertEquals( '对不起，QQ用户注册失败，请稍后再试。', $crawler->filter('div.errorMessage')->text()); 
+       $this->assertEquals( '对不起，QQ用户注册失败，请稍后再试。', $crawler->filter('div.errorMessage')->text());
     }
 
     /**
@@ -595,9 +603,9 @@ EOD;
     public function testqqRegisteActionSuccess()
     {
         //form valid  验证不通过
-        // 注册失败  check insert data as... before? 
+        // 注册失败  check insert data as... before?
         // 注册成功，登陆并跳转主页
-        $client = $this->client; 
+        $client = $this->client;
         $container  = $client->getContainer();
         $session = $container->get('session');
 
@@ -609,7 +617,7 @@ EOD;
             ->disableOriginalConstructor()
             ->getMock();
         $user_info_qq =<<<EOD
-{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" } 
+{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" }
 EOD;
         $stubQQAuth->expects($this->once())
             ->method('get_user_info')
@@ -646,7 +654,7 @@ EOD;
         $this->assertEquals(1, count($records), 'more then 1 record in user ');
         $records = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId('973F697E97A60289C8C455B1D65FF5F0');
         $this->assertEquals(1, count($records), 'more then 1 record in qquser ');
-        
+
         $user_actual = $this->em->getRepository('JiliApiBundle:User')->findOneBy( array(
             'email'=>'alice32@qq.com',
             'nick'=>'QQJin'
@@ -666,7 +674,7 @@ EOD;
      */
    public function testqqBindActionWithUser()
    {
-//        $code == 'ok' 
+//        $code == 'ok'
  //           $result = $user_bind->qq_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
        // []with wrong user
        // corret user
@@ -682,7 +690,7 @@ EOD;
             ->disableOriginalConstructor()
             ->getMock();
         $user_info_qq =<<<EOD
-{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" } 
+{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" }
 EOD;
         $stubQQAuth->expects($this->once())
             ->method('get_user_info')
@@ -729,7 +737,7 @@ EOD;
        $url = $this->container->get('router')->generate('qq_bind');
        $this->assertEquals('/QQLogin/qqbind', $url);
 
-//        $code == 'ok' 
+//        $code == 'ok'
  //           $result = $user_bind->qq_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
        // []with wrong user
        // corret user
@@ -739,7 +747,7 @@ EOD;
             ->disableOriginalConstructor()
             ->getMock();
         $user_info_qq =<<<EOD
-{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" } 
+{ "ret": 0, "msg": "", "is_lost":0, "nickname": "Jin", "gender": "男", "province": "上海", "city": "杨浦", "year": "1985", "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/30", "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/50", "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "figureurl_qq_1": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/40", "figureurl_qq_2": "http:\/\/q.qlogo.cn\/qqapp\/101155200\/905EF40580E05666FFF1675F9E38E9B5\/100", "is_yellow_vip": "0", "vip": "0", "yellow_vip_level": "0", "level": "0", "is_yellow_year_vip": "0" }
 EOD;
         $stubQQAuth->expects($this->once())
             ->method('get_user_info')

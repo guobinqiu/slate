@@ -81,7 +81,7 @@ class WeiBoLoginControllerTest extends WebTestCase
     /**
      * @group issue636
      */
-    public function testCallBackAction() 
+    public function testCallBackAction()
     {
         $client = $this->client;
         $container  = $client->getContainer();
@@ -100,7 +100,7 @@ class WeiBoLoginControllerTest extends WebTestCase
     /**
      * @group issue636
      */
-    public function testCallBackAction0() 
+    public function testCallBackAction0()
     {
         $client = $this->client;
         $container  = $client->getContainer();
@@ -108,13 +108,13 @@ class WeiBoLoginControllerTest extends WebTestCase
         $session = $container->get('session');
         $em = $this->em;
         $url = $this->container->get('router')->generate('weibo_api_callback');
-                
+
         // test no access_token no openid
         $stubWeiBoAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\WeiBoAuth')
             ->setMethods(array('access_token'))
             ->disableOriginalConstructor()
             ->getMock();
-        
+
         $stubWeiBoAuth->expects($this->once())
             ->method('access_token')
             ->willReturn(array('access_token'=>''));
@@ -139,7 +139,7 @@ class WeiBoLoginControllerTest extends WebTestCase
     /**
      * @group issue636
      */
-    public function testCallBackActionI () 
+    public function testCallBackActionI ()
     {
         $client = $this->client;
         $container  = $client->getContainer();
@@ -174,7 +174,7 @@ class WeiBoLoginControllerTest extends WebTestCase
     /**
      * @group issue636
      */
-    public function testCallBackActionIII () 
+    public function testCallBackActionIII ()
     {
        $client = $this->client;
        $container  = $client->getContainer();
@@ -206,7 +206,7 @@ class WeiBoLoginControllerTest extends WebTestCase
         $container->set('user_weibo_login', $mockWeiBoAuth);
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawlerNew = $client->followRedirect(); 
+        $crawlerNew = $client->followRedirect();
         $this->assertEquals( '/', $client->getRequest()->getRequestUri());
         $this->assertTrue($session->has('weibo_open_id') );
         $this->assertTrue( $session->has('weibo_token') );
@@ -236,7 +236,7 @@ class WeiBoLoginControllerTest extends WebTestCase
         $session->set('weibo_open_id', '112233');
         $session->set('weibo_name', 'test11');
         $session->save();
-        
+
         $crawler =  $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $session_request  = $client->getRequest()->getSession();
@@ -247,7 +247,7 @@ class WeiBoLoginControllerTest extends WebTestCase
         $form_register  = $crawler->selectButton('register')->form();
         $this->assertEquals('test11',$form_register['weibonickname']->getValue());
         $form_binding  = $crawler->selectButton('binding')->form();
-        
+
         $client = static::createClient();
         $session = $client->getContainer()->get('session');
 
@@ -258,7 +258,7 @@ class WeiBoLoginControllerTest extends WebTestCase
 
         $crawler =  $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals( '对不起，非法操作，请在微博完成授权后再试。', $crawler->filter('div.errorMessage')->text()); 
+        $this->assertEquals( '对不起，非法操作，请在微博完成授权后再试。', $crawler->filter('div.errorMessage')->text());
 
     }
 
@@ -283,7 +283,7 @@ class WeiBoLoginControllerTest extends WebTestCase
         $session->save();
         $crawler =  $client->request('GET', $url);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawlerNew = $client->followRedirect(); 
+        $crawlerNew = $client->followRedirect();
         $this->assertEquals( '/', $client->getRequest()->getRequestUri());
     }
 
@@ -329,20 +329,21 @@ class WeiBoLoginControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse() instanceof RedirectResponse);
         $this->assertTrue($client->getResponse()->isRedirect());
 
-        $crawlerNew = $client->followRedirect(); 
+        $crawlerNew = $client->followRedirect();
         $this->assertEquals($uri_by_weibo,$client->getHistory()->current()->getUri(),
             'a sub-requst should be the target url ');
     }
 
     /**
      * @group issue636
+     * @group issue_722
      */
     public function testweiboRegisteActionValidation()
     {
         //form valid  验证不通过
-        // 注册失败  check insert data as... before? 
+        // 注册失败  check insert data as... before?
         // 注册成功，登陆并跳转主页
-        $client = $this->client; 
+        $client = $this->client;
         $container  = $client->getContainer();
         $session = $container->get('session');
 
@@ -360,7 +361,25 @@ class WeiBoLoginControllerTest extends WebTestCase
         $crawler =  $client->request('GET', $url_first_login );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $form_register  = $crawler->selectButton('register')->form();
-        
+
+        $form_register['weibo_user_regist[email]'] = '';
+        $form_register['pwd'] = '123123';
+        $crawler = $client->submit($form_register);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('请填写正确的邮箱或密码!', trim($crawler->filter('#regist_emailError')->text()));
+
+        $form_register['weibo_user_regist[email]'] = 'hwyf1229@163..com';
+        $form_register['pwd'] = '123123';
+        $crawler = $client->submit($form_register);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('请填写正确的邮箱或密码!', trim($crawler->filter('#regist_emailError')->text()));
+
+        $form_register['weibo_user_regist[email]'] = 'm18713336976@.163.com';
+        $form_register['pwd'] = '123123';
+        $crawler = $client->submit($form_register);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('请填写正确的邮箱或密码!', trim($crawler->filter('#regist_emailError')->text()));
+
         $form_register['weibo_user_regist[email]'] = '@A';
         $form_register['pwd'] = '123123';
         $crawler = $client->submit($form_register);
@@ -373,8 +392,8 @@ class WeiBoLoginControllerTest extends WebTestCase
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('请填写正确的邮箱或密码!', trim($crawler->filter('#regist_emailError')->text()));
-        
-        $form_register['weibo_user_regist[email]'] = 'alice.nima@voyagegroup.com.cn';
+
+        $form_register['weibo_user_regist[email]'] = 'alicenima @voyagegroup.com.cn';
         $form_register['pwd'] = '123456';
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -387,15 +406,15 @@ class WeiBoLoginControllerTest extends WebTestCase
     public function testweiboRegisteActionFailure()
     {
         //form valid  验证不通过
-        // 注册失败  check insert data as... before? 
+        // 注册失败  check insert data as... before?
         // 注册成功，登陆并跳转主页
-        $client = $this->client; 
+        $client = $this->client;
         $container  = $client->getContainer();
         $session = $container->get('session');
 
         $em = $this->em;
 
-        // [] 注册失败 an empty  open_id in session. check insert data as... before? 
+        // [] 注册失败 an empty  open_id in session. check insert data as... before?
         $session->set('weibo_open_id', '973F697E97A60289C8C455B1D65FF5F0' );
         $session->set('weibo_token', 'D8E44D85A05AA374243CFE3911365C51');
         $session->set('weibo_name', 'test');
@@ -409,20 +428,20 @@ class WeiBoLoginControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $form_register  = $crawler->selectButton('register')->form();
         $form_register['weibo_user_regist[email]'] = 'alice32@11.com';
-        $form_register['pwd'] = '123123'; 
+        $form_register['pwd'] = '123123';
         $session->remove('weibo_open_id');
         $session->save();
         $this->assertFalse( $session->has('weibo_open_id') );
         // submit that form
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals( '对不起，微博用户注册失败，请稍后再试。', $crawler->filter('div.errorMessage')->text()); 
-        
+        $this->assertEquals( '对不起，微博用户注册失败，请稍后再试。', $crawler->filter('div.errorMessage')->text());
+
         $form_register['weibo_user_regist[email]'] = 'alice32@gmail.com';
-        $form_register['pwd'] = '123123'; 
+        $form_register['pwd'] = '123123';
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals( '此账号已存在，请点击下方【已有积粒网账号】按钮进行绑定!', trim($crawler->filter('#regist_emailError')->text())); 
+        $this->assertEquals( '此账号已存在，请点击下方【已有积粒网账号】按钮进行绑定!', trim($crawler->filter('#regist_emailError')->text()));
     }
 
     /**
@@ -431,9 +450,9 @@ class WeiBoLoginControllerTest extends WebTestCase
     public function testweiboRegisteActionSuccess()
     {
         //form valid  验证不通过
-        // 注册失败  check insert data as... before? 
+        // 注册失败  check insert data as... before?
         // 注册成功，登陆并跳转主页
-        $client = $this->client; 
+        $client = $this->client;
         $container  = $client->getContainer();
         $session = $container->get('session');
 
@@ -458,7 +477,7 @@ class WeiBoLoginControllerTest extends WebTestCase
         // submit that form
         $crawler = $client->submit($form_register);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawlerNew = $client->followRedirect(); 
+        $crawlerNew = $client->followRedirect();
         $this->assertEquals( '/', $client->getRequest()->getRequestUri());
 
         // check the result
@@ -483,7 +502,7 @@ class WeiBoLoginControllerTest extends WebTestCase
      */
    public function testweiboBindActionWithUser()
    {
-//        $code == 'ok' 
+//        $code == 'ok'
  //           $result = $user_bind->weibo_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
        // []with wrong user
        // corret user
