@@ -374,6 +374,7 @@ parameters:
             SUCCESS_DUPLICATED: 0 #0 表示推送成功 但订单已存在。
             FAILED: -1            #-1 表示推送失败
 
+   jili_app.logs_dir: /data/91jili/logs
 twig:
     globals: 
         cps_default_rebate:  %cps_default_rebate%
