@@ -25,7 +25,7 @@ monolog:
             handler:      nested
         nested:
             type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
+            path:  %jili_app.logs_dir%/sf2/%kernel.environment%.log
             level: debug
 
 parameters:
