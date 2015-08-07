@@ -78,13 +78,31 @@ class DuomaiOrderRepository extends EntityRepository
 
         # when orders status transfer to pending , orders_price may changes.
         if( intval($params['status']) ===  OrderBase::getPendingStatus() ) {
-            $sql .= ', d.status = :status, d.comm = :commission, d.ordersPrice = :ordersPrice WHERE  d.userId= :userId and d.adsId = :adsId  and d.siteId = :siteId and d.linkId = :linkId AND d.ocd = :ocd AND d.orderTime = :orderTime AND  d.orderSn = :orderSn ';
+            $sql .= ', d.status = :status
+                    , d.comm = :commission
+                    , d.ordersPrice = :ordersPrice 
+                    WHERE  d.userId= :userId 
+                        AND d.adsId = :adsId  
+                        AND d.siteId = :siteId 
+                        AND d.linkId = :linkId 
+                        AND d.ocd = :ocd 
+                        AND d.orderTime = :orderTime 
+                        AND  d.orderSn = :orderSn ';
         } else {
-            $sql .= ', d.status = :status, d.comm = :commission WHERE  d.userId= :userId and d.adsId = :adsId  and d.siteId = :siteId and d.linkId = :linkId AND d.ocd = :ocd AND d.orderTime = :orderTime AND d.ordersPrice = cast(  :ordersPrice  as decimal(10,2)) and d.orderSn = :orderSn ';
+            $sql .= ', d.status = :status
+                    , d.comm = :commission 
+                    WHERE  d.userId= :userId 
+                        AND d.adsId = :adsId  
+                        AND d.siteId = :siteId 
+                        AND d.linkId = :linkId 
+                        AND d.ocd = :ocd 
+                        AND d.orderTime = :orderTime 
+                        AND d.ordersPrice = cast(  :ordersPrice  AS decimal(10,2)) 
+                        AND d.orderSn = :orderSn ';
         }
 
         if ( isset($params['statusPrevous'])) {
-            $sql .= ' and d.status = :statusPrevous';
+            $sql .= ' AND d.status = :statusPrevous';
         }
 
         $q_update = $em->createQuery($sql);
