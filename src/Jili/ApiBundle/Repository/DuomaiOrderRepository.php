@@ -3,6 +3,7 @@ namespace Jili\ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
 use Jili\ApiBundle\Entity\DuomaiOrder;
+use Jili\ApiBundle\Component\OrderBase;
 
 class DuomaiOrderRepository extends EntityRepository
 {
@@ -61,7 +62,6 @@ class DuomaiOrderRepository extends EntityRepository
  */
     public function update($params = array ()) 
     {
-
         $em = $this->getEntityManager();
 
         $sql = 'UPDATE Jili\ApiBundle\Entity\DuomaiOrder d  SET ';
@@ -74,10 +74,14 @@ class DuomaiOrderRepository extends EntityRepository
             $sql .=  ' d.deactivatedAt = :deactivatedAt' ; 
         } else {
             return ;
-            # throw new Exception('');
         }
 
-        $sql .= ', d.status = :status, d.comm = :commission WHERE  d.userId= :userId and d.adsId = :adsId  and d.siteId = :siteId and d.linkId = :linkId AND d.ocd = :ocd AND d.orderTime = :orderTime AND d.ordersPrice =:ordersPrice and d.orderSn = :orderSn ';
+        # when orders status transfer to pending , orders_price may changes.
+        if( intval($params['status']) ===  OrderBase::getPendingStatus() ) {
+            $sql .= ', d.status = :status, d.comm = :commission, d.ordersPrice = :ordersPrice WHERE  d.userId= :userId and d.adsId = :adsId  and d.siteId = :siteId and d.linkId = :linkId AND d.ocd = :ocd AND d.orderTime = :orderTime AND  d.orderSn = :orderSn ';
+        } else {
+            $sql .= ', d.status = :status, d.comm = :commission WHERE  d.userId= :userId and d.adsId = :adsId  and d.siteId = :siteId and d.linkId = :linkId AND d.ocd = :ocd AND d.orderTime = :orderTime AND d.ordersPrice = cast(  :ordersPrice  as decimal(10,2)) and d.orderSn = :orderSn ';
+        }
 
         if ( isset($params['statusPrevous'])) {
             $sql .= ' and d.status = :statusPrevous';
@@ -85,8 +89,10 @@ class DuomaiOrderRepository extends EntityRepository
 
         $q_update = $em->createQuery($sql);
         $q_update->setParameters( $params);
+
         return  $q_update->execute();
     }
+
 /*
             'id'=>1,
             'commission'

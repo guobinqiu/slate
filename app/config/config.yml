@@ -3,6 +3,8 @@ imports:
     - { resource: parameters.yml }
     - { resource: custom_parameters.yml }
     - { resource: security.yml }
+    - { resource: mysql.yml }
+
 framework:
     esi:             ~
     #translator:      { fallback: %locale% }

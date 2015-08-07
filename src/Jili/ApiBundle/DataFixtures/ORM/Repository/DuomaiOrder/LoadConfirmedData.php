@@ -22,7 +22,7 @@ class LoadConfirmedData extends AbstractFixture implements  FixtureInterface
         $r1->closeCursor();
 
         // 已经确认的订单数据(status=1过后)
-        $r2 = $manager->getConnection()->query("INSERT INTO duomai_order (id, user_id, ocd, ads_id, ads_name, site_id, link_id, order_sn, order_time, orders_price, comm, status, deactivated_at, confirmed_at, balanced_at, created_at) VALUES (1,'105', '71440050', '61', '京东商城CPS推广', '152244', '0', '9152050154', '2015-04-27 10:28:59', '799.00', '5.4', 2, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', '2015-04-27 11:58:32')");
+        $r2 = $manager->getConnection()->query("INSERT INTO duomai_order (id, user_id, ocd, ads_id, ads_name, site_id, link_id, order_sn, order_time, orders_price, comm, status, deactivated_at, confirmed_at, balanced_at, created_at) VALUES (1,'105', '71440050', '61', '京东商城CPS推广', '152244', '0', '9152050154', '2015-04-27 10:28:59', '799.91', '5.4', 2, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '1970-01-01 08:00:00', '2015-04-27 11:58:32')");
         $r2->closeCursor();
 
         // 已经确认的任务历史数据(status=1之后)
