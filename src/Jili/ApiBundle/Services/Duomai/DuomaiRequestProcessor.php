@@ -99,7 +99,7 @@ class DuomaiRequestProcessor {
             'linkId'=> $request->get('link_id'),
             'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', $request->get('order_time')),
             'ocd' => $request->get('id'),
-            'ordersPrice'=> $request->get('orders_price'),
+            'ordersPrice'=>  $request->get('orders_price'),
             'orderSn'=> $request->get('order_sn'),
             'commission' => $request->get('siter_commission')
         );
@@ -148,14 +148,13 @@ class DuomaiRequestProcessor {
             }
             $em->getConnection()->commit();
         } catch (\Exception $e) {
-                $this->logger->crit('[duomai][callback]'. $e->getMessage());
-                $em->getConnection()->rollback();
-                return $result;
-            }
+            $this->logger->crit('[duomai][callback]'. $e->getMessage());
+            $em->getConnection()->rollback();
+            return $result;
+        }
 
-        // 0 -> 1,2 
-
-        // 0 -> -1 
+        // 0 -> 1 -> 2 
+        // 0 -> 1 -> -1 
         $result['value'] = true;
         $result['code']= $configs['response']['SUCCESS'];
         return $result;

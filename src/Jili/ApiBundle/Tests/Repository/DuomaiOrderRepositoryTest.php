@@ -30,7 +30,7 @@ class DuomaiOrderRepositoryTest extends KernelTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
         $tn  = $this->getName();
-        if (in_array($tn, array('testUpdateConfirmed','testUpdateInvalid'))) {
+        if (in_array($tn, array('testUpdateConfirmed','testUpdateInvalid','testUpdateConfirmedOrdersPriceChanged'))) {
             $fixture = new LoadInitData();
             $loader = new Loader();
             $loader->addFixture($fixture);
@@ -68,7 +68,7 @@ class DuomaiOrderRepositoryTest extends KernelTestCase
             'siteId'=>'152244',
             'linkId'=>'0',
             'orderSn'=>'9152050154',
-            'ordersPrice'=>'799.00',
+            'ordersPrice'=>'799.91',
             'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', '2014-04-20 00:00:00'),
             'ocd' => '71440050',
             'commission'=> '5.40',
@@ -93,7 +93,7 @@ class DuomaiOrderRepositoryTest extends KernelTestCase
             'siteId'=>'152244',
             'linkId'=>'0',
             'orderSn'=>'9152050154',
-            'ordersPrice'=>'799.00',
+            'ordersPrice'=>'799.91',
             'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', '2015-04-27 10:28:59'),
             'ocd' => '71440050',
             'commission'=> '5.40',
@@ -118,6 +118,44 @@ class DuomaiOrderRepositoryTest extends KernelTestCase
     }
 
     /**
+     * @group issue_680 
+     * @group debug 
+     */
+    public function testUpdateConfirmedOrdersPriceChanged() 
+    {
+        $em = $this->em;
+        $params = array( 
+            'userId'=> 105,
+            'adsId'=>61,
+            'siteId'=>'152244',
+            'linkId'=>'0',
+            'orderSn'=>'9152050154',
+            'ordersPrice'=>'789.91',
+            'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', '2015-04-27 10:28:59'),
+            'ocd' => '71440050',
+            'commission'=> '5.35',
+            'status'=> 2,
+        );
+        $params['confirmedAt'] = new \DateTime();
+        $return =$em->getRepository('JiliApiBundle:DuomaiOrder')
+            ->update($params);
+
+        $this->assertNotNull( $return);
+        $this->assertEquals(1, $return);
+
+        $duomai_order_stm =   $em->getConnection()->prepare('select * from duomai_order');
+        $duomai_order_stm->execute();
+        $duomai_order_records =$duomai_order_stm->fetchAll();
+
+        $this->assertCount(1, $duomai_order_records);
+        $this->assertEquals('71440050', $duomai_order_records[0]['ocd']);
+
+        $this->assertEquals('2', $duomai_order_records[0]['status']);
+        $this->assertEquals('789.91', $duomai_order_records[0]['orders_price']);
+        $this->assertEquals(5.35, $duomai_order_records[0]['comm']);
+    }
+
+    /**
      * @group issue_680
      */
     public function testUpdateBalanced() 
@@ -129,7 +167,7 @@ class DuomaiOrderRepositoryTest extends KernelTestCase
             'siteId'=>'152244',
             'linkId'=>'0',
             'orderSn'=>'9152050154',
-            'ordersPrice'=>'799.00',
+            'ordersPrice'=>'799.91',
             'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', '2015-04-27 10:28:59'),
             'ocd' => '71440050',
             'commission'=> '5.40',
@@ -166,7 +204,7 @@ class DuomaiOrderRepositoryTest extends KernelTestCase
             'siteId'=>'152244',
             'linkId'=>'0',
             'orderSn'=>'9152050154',
-            'ordersPrice'=>'799.00',
+            'ordersPrice'=>'799.91',
             'orderTime'=> \DateTime::createFromFormat('Y-m-d H:i:s', '2015-04-27 10:28:59'),
             'ocd' => '71440050',
             'commission'=> '5.40',
