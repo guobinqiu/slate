@@ -1,5 +1,5 @@
 mail:
-    to:    admin@voyagegroup.com.cn,xujf@voyagegroup.com.cn
+    to:    vctech-system@voyagegroup.info
 interface:
     balance:    1000
     url:    http://59.83.33.14/custom_balanceV1.php
