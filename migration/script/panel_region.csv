@@ -1,0 +1,357 @@
+id,panel_country_id,name,name_native,name_en,category_name,category_name_en,sort_key,visible_flag,delete_flag,updated_at,created_at
+2000,2,北京,北京,Bei Jing,北京市,Bei Jing,2000,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2001,2,市辖县,市辖县,Bei Jing suburb,北京市,Bei Jing,2001,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2002,2,上海,上海,Shang Hai,上海市,Shang Hai,2002,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2003,2,市辖县,市辖县,Shang Hai suburb,上海市,Shang Hai,2003,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2004,2,天津,天津,Tian Jin,天津市,Tian Jin,2004,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2005,2,市辖县,市辖县,Tian Jin suburb,天津市,Tian Jin,2005,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2006,2,石家庄市,石家庄市,Shi Jia Zhuang city,河北省,He Bei province,2006,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2007,2,唐山市,唐山市,Tang Shan city,河北省,He Bei province,2007,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2008,2,秦皇岛市,秦皇岛市,Qin Huang Dao city,河北省,He Bei province,2008,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2009,2,邯郸市,邯郸市,Han Dan city,河北省,He Bei province,2009,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2010,2,邢台市,邢台市,Xing Tai city,河北省,He Bei province,2010,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2011,2,保定市,保定市,Bao Ding city,河北省,He Bei province,2011,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2012,2,张家口市,张家口市,Zhang Jia Kou city,河北省,He Bei province,2012,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2013,2,承德市,承德市,Cheng De city,河北省,He Bei province,2013,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2014,2,沧州市,沧州市,Cang Zhou city,河北省,He Bei province,2014,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2015,2,廊坊市,廊坊市,Lang Fang city,河北省,He Bei province,2015,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2016,2,衡水市,衡水市,Heng Shui city,河北省,He Bei province,2016,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2017,2,太原市,太原市,Tai Yuan city,山西省,Shan Xi province,2017,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2018,2,大同市,大同市,Da Tong city,山西省,Shan Xi province,2018,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2019,2,阳泉市,阳泉市,Yang Quan city,山西省,Shan Xi province,2019,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2020,2,长治市,长治市,Chang Zhi city,山西省,Shan Xi province,2020,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2021,2,晋城市,晋城市,Jin Cheng city,山西省,Shan Xi province,2021,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2022,2,朔州市,朔州市,Shuo Zhou city,山西省,Shan Xi province,2022,1,0,4/8/2010 8:38:29,10/23/2009 10:39:39
+2023,2,晋中市,晋中市,Jin Zhong city,山西省,Shan Xi province,2023,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2024,2,运城市,运城市,Yun Cheng city,山西省,Shan Xi province,2024,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2025,2,忻州市,忻州市,Xin Zhou city,山西省,Shan Xi province,2025,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2026,2,临汾市,临汾市,Lin Fen city,山西省,Shan Xi province,2026,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2027,2,吕梁市,吕梁市,Lu Liang city,山西省,Shan Xi province,2027,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2028,2,呼和浩特市,呼和浩特市,Hu He Hao Te city,内蒙古自治区,Inner Mongolia,2028,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2029,2,包头市,包头市,Bao Tou city,内蒙古自治区,Inner Mongolia,2029,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2030,2,乌海市,乌海市,Wu Hai city,内蒙古自治区,Inner Mongolia,2030,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2031,2,赤峰市,赤峰市,Chi Feng city,内蒙古自治区,Inner Mongolia,2031,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2032,2,通辽市,通辽市,Tong Liao city,内蒙古自治区,Inner Mongolia,2032,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2033,2,鄂尔多斯市,鄂尔多斯市,E Er Duo Si city,内蒙古自治区,Inner Mongolia,2033,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2034,2,呼伦贝尔市,呼伦贝尔市,Hu Lun Bei Er city,内蒙古自治区,Inner Mongolia,2034,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2035,2,巴彦淖尔市,巴彦淖尔市,Ba Yan Nao Er city,内蒙古自治区,Inner Mongolia,2035,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2036,2,乌兰察布市,乌兰察布市,Wu Lan Cha Bu city,内蒙古自治区,Inner Mongolia,2036,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2037,2,兴安盟,兴安盟,Xing An Meng,内蒙古自治区,Inner Mongolia,2037,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2038,2,锡林郭勒盟,锡林郭勒盟,Xi Lin Guo Le Meng,内蒙古自治区,Inner Mongolia,2038,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2039,2,阿拉善盟,阿拉善盟,A La Shan Meng,内蒙古自治区,Inner Mongolia,2039,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2040,2,沈阳市,沈阳市,Shen Yang city,辽宁省,Liao Ning province,2040,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2041,2,大连市,大连市,Da Lian city,辽宁省,Liao Ning province,2041,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2042,2,鞍山市,鞍山市,An Shan city,辽宁省,Liao Ning province,2042,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2043,2,抚顺市,抚顺市,Fu Shun city,辽宁省,Liao Ning province,2043,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2044,2,本溪市,本溪市,Ben Xi city,辽宁省,Liao Ning province,2044,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2045,2,丹东市,丹东市,Dan Dong city,辽宁省,Liao Ning province,2045,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2046,2,锦州市,锦州市,Jin Zhou city,辽宁省,Liao Ning province,2046,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2047,2,营口市,营口市,Ying Kou city,辽宁省,Liao Ning province,2047,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2048,2,阜新市,阜新市,Fu Xin city,辽宁省,Liao Ning province,2048,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2049,2,辽阳市,辽阳市,Liao Yang city,辽宁省,Liao Ning province,2049,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2050,2,盘锦市,盘锦市,Pan Jin city,辽宁省,Liao Ning province,2050,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2051,2,铁岭市,铁岭市,Tie Ling city,辽宁省,Liao Ning province,2051,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2052,2,朝阳市,朝阳市,Chao Yang city,辽宁省,Liao Ning province,2052,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2053,2,葫芦岛市,葫芦岛市,Hu Lu Dao city,辽宁省,Liao Ning province,2053,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2054,2,长春市,长春市,Chang Chun city,吉林省,Ji Lin province,2054,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2055,2,吉林市,吉林市,Ji Lin city,吉林省,Ji Lin province,2055,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2056,2,四平市,四平市,Si Ping city,吉林省,Ji Lin province,2056,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2057,2,辽源市,辽源市,Liao Yuan city,吉林省,Ji Lin province,2057,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2058,2,通化市,通化市,Tong Hua city,吉林省,Ji Lin province,2058,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2059,2,白山市,白山市,Bai Shan city,吉林省,Ji Lin province,2059,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2060,2,松原市,松原市,Song Yuan city,吉林省,Ji Lin province,2060,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2061,2,白城市,白城市,Bai Cheng city,吉林省,Ji Lin province,2061,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2062,2,延边朝鲜族自治州,延边朝鲜族自治州,Yan Bian Korean autonomous prefecture,吉林省,Ji Lin province,2062,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2063,2,哈尔滨市,哈尔滨市,Ha Er Bin city,黑龙江省,Hei Long Jiang province,2063,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2064,2,齐齐哈尔市,齐齐哈尔市,Qi Qi Ha Er city,黑龙江省,Hei Long Jiang province,2064,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2065,2,鸡西市,鸡西市,Ji Xi city,黑龙江省,Hei Long Jiang province,2065,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2066,2,鹤岗市,鹤岗市,He Gang city,黑龙江省,Hei Long Jiang province,2066,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2067,2,双鸭山市,双鸭山市,Shuang Ya Shan city,黑龙江省,Hei Long Jiang province,2067,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2068,2,大庆市,大庆市,Da Qing city,黑龙江省,Hei Long Jiang province,2068,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2069,2,伊春市,伊春市,Yi Chun city,黑龙江省,Hei Long Jiang province,2069,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2070,2,佳木斯市,佳木斯市,Jia Mu Si city,黑龙江省,Hei Long Jiang province,2070,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2071,2,七台河市,七台河市,Qi Tai He city,黑龙江省,Hei Long Jiang province,2071,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2072,2,牡丹江市,牡丹江市,Mu Dan Jiang city,黑龙江省,Hei Long Jiang province,2072,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2073,2,黑河市,黑河市,Hei He city,黑龙江省,Hei Long Jiang province,2073,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2074,2,绥化市,绥化市,Sui Hua city,黑龙江省,Hei Long Jiang province,2074,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2075,2,大兴安岭地区,大兴安岭地区,Da Xing An Ling area,黑龙江省,Hei Long Jiang province,2075,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2076,2,南京市,南京市,Nan Jing city,江苏省,Jiang Su province,2076,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2077,2,无锡市,无锡市,Wu Xi city,江苏省,Jiang Su province,2077,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2078,2,徐州市,徐州市,Xu Zhou city,江苏省,Jiang Su province,2078,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2079,2,常州市,常州市,Chang Zhou city,江苏省,Jiang Su province,2079,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2080,2,苏州市,苏州市,Su Zhou city,江苏省,Jiang Su province,2080,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2081,2,南通市,南通市,Nan Tong city,江苏省,Jiang Su province,2081,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2082,2,连云港市,连云港市,Lian Yun Gang city,江苏省,Jiang Su province,2082,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2083,2,淮安市,淮安市,Huai An city,江苏省,Jiang Su province,2083,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2084,2,盐城市,盐城市,Yan Cheng city,江苏省,Jiang Su province,2084,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2085,2,扬州市,扬州市,Yang Zhou city,江苏省,Jiang Su province,2085,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2086,2,镇江市,镇江市,Zhen Jiang city,江苏省,Jiang Su province,2086,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2087,2,泰州市,泰州市,Tai Zhou city,江苏省,Jiang Su province,2087,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2088,2,宿迁市,宿迁市,Su Qian city,江苏省,Jiang Su province,2088,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2089,2,杭州市,杭州市,Hang Zhou city,浙江省,Zhe Jiang province,2089,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2090,2,宁波市,宁波市,Ning Bo city,浙江省,Zhe Jiang province,2090,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2091,2,温州市,温州市,Wen Zhou city,浙江省,Zhe Jiang province,2091,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2092,2,嘉兴市,嘉兴市,Jia Xing city,浙江省,Zhe Jiang province,2092,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2093,2,湖州市,湖州市,Hu Zhou city,浙江省,Zhe Jiang province,2093,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2094,2,绍兴市,绍兴市,Shao Xing city,浙江省,Zhe Jiang province,2094,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2095,2,金华市,金华市,Jin Hua city,浙江省,Zhe Jiang province,2095,1,0,4/8/2010 8:38:30,10/23/2009 10:39:39
+2096,2,衢州市,衢州市,Qu Zhou city,浙江省,Zhe Jiang province,2096,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2097,2,舟山市,舟山市,Zhou Shan city,浙江省,Zhe Jiang province,2097,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2098,2,台州市,台州市,Tai Zhou city,浙江省,Zhe Jiang province,2098,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2099,2,丽水市,丽水市,Li Shui city,浙江省,Zhe Jiang province,2099,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2100,2,合肥市,合肥市,He Fei city,安徽省,An Hui province,2100,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2101,2,芜湖市,芜湖市,Wu Hu city,安徽省,An Hui province,2101,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2102,2,蚌埠市,蚌埠市,Bang Bu city,安徽省,An Hui province,2102,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2103,2,淮南市,淮南市,Huai Nan city,安徽省,An Hui province,2103,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2104,2,马鞍山市,马鞍山市,Ma An Shan city,安徽省,An Hui province,2104,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2105,2,淮北市,淮北市,Huai Bei city,安徽省,An Hui province,2105,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2106,2,铜陵市,铜陵市,Tong Ling city,安徽省,An Hui province,2106,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2107,2,安庆市,安庆市,An Qing city,安徽省,An Hui province,2107,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2108,2,黄山市,黄山市,Huang Shan city,安徽省,An Hui province,2108,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2109,2,滁州市,滁州市,Chu Zhou city,安徽省,An Hui province,2109,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2110,2,阜阳市,阜阳市,Fu Yang city,安徽省,An Hui province,2110,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2111,2,宿州市,宿州市,Su Zhou city,安徽省,An Hui province,2111,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2112,2,巢湖市,巢湖市,Chao Hu city,安徽省,An Hui province,2112,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2113,2,六安市,六安市,Liu An city,安徽省,An Hui province,2113,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2114,2,亳州市,亳州市,Bo Zhou city,安徽省,An Hui province,2114,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2115,2,池州市,池州市,Chi Zhou city,安徽省,An Hui province,2115,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2116,2,宣城市,宣城市,Xuan Cheng city,安徽省,An Hui province,2116,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2117,2,福州市,福州市,Fu Zhou city,福建省,Fu Jian province,2117,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2118,2,厦门市,厦门市,Xia Men city,福建省,Fu Jian province,2118,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2119,2,莆田市,莆田市,Pu Tian city,福建省,Fu Jian province,2119,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2120,2,三明市,三明市,San Ming city,福建省,Fu Jian province,2120,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2121,2,泉州市,泉州市,Quan Zhou city,福建省,Fu Jian province,2121,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2122,2,漳州市,漳州市,Zhang Zhou city,福建省,Fu Jian province,2122,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2123,2,南平市,南平市,Nan Ping city,福建省,Fu Jian province,2123,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2124,2,龙岩市,龙岩市,Long Yan city,福建省,Fu Jian province,2124,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2125,2,宁德市,宁德市,Ning De city,福建省,Fu Jian province,2125,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2126,2,南昌市,南昌市,Nan Chang city,江西省,Jiang Xi province,2126,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2127,2,景德镇市,景德镇市,Jing De Zhen city,江西省,Jiang Xi province,2127,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2128,2,萍乡市,萍乡市,Ping Xiang city,江西省,Jiang Xi province,2128,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2129,2,九江市,九江市,Jiu Jiang city,江西省,Jiang Xi province,2129,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2130,2,新余市,新余市,Xin Yu city,江西省,Jiang Xi province,2130,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2131,2,鹰潭市,鹰潭市,Ying Tan city,江西省,Jiang Xi province,2131,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2132,2,赣州市,赣州市,Gan Zhou city,江西省,Jiang Xi province,2132,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2133,2,吉安市,吉安市,Ji An city,江西省,Jiang Xi province,2133,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2134,2,宜春市,宜春市,Yi Chun city,江西省,Jiang Xi province,2134,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2135,2,抚州市,抚州市,Fu Zhou city,江西省,Jiang Xi province,2135,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2136,2,上饶市,上饶市,Shang Rao city,江西省,Jiang Xi province,2136,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2137,2,济南市,济南市,Ji Nan city,山东省,Shan Dong province,2137,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2138,2,青岛市,青岛市,Qing Dao city,山东省,Shan Dong province,2138,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2139,2,淄博市,淄博市,Zi Bo city,山东省,Shan Dong province,2139,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2140,2,枣庄市,枣庄市,Zao Zhuang city,山东省,Shan Dong province,2140,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2141,2,东营市,东营市,Dong Ying city,山东省,Shan Dong province,2141,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2142,2,烟台市,烟台市,Yan Tai city,山东省,Shan Dong province,2142,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2143,2,潍坊市,潍坊市,Wei Fang city,山东省,Shan Dong province,2143,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2144,2,济宁市,济宁市,Ji Ning city,山东省,Shan Dong province,2144,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2145,2,泰安市,泰安市,Tai An city,山东省,Shan Dong province,2145,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2146,2,威海市,威海市,Wei Hai city,山东省,Shan Dong province,2146,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2147,2,日照市,日照市,Ri Zhao city,山东省,Shan Dong province,2147,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2148,2,莱芜市,莱芜市,Lai Wu city,山东省,Shan Dong province,2148,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2149,2,临沂市,临沂市,Lin Yi city,山东省,Shan Dong province,2149,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2150,2,德州市,德州市,De Zhou city,山东省,Shan Dong province,2150,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2151,2,聊城市,聊城市,Liao Cheng city,山东省,Shan Dong province,2151,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2152,2,滨州市,滨州市,Bin Zhou city,山东省,Shan Dong province,2152,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2153,2,菏泽市,菏泽市,He Ze city,山东省,Shan Dong province,2153,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2154,2,郑州市,郑州市,Zheng Zhou city,河南省,He Nan province,2154,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2155,2,开封市,开封市,Kai Feng city,河南省,He Nan province,2155,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2156,2,洛阳市,洛阳市,Luo Yang city,河南省,He Nan province,2156,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2157,2,平顶山市,平顶山市,Ping Ding Shan city,河南省,He Nan province,2157,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2158,2,安阳市,安阳市,An Yang city,河南省,He Nan province,2158,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2159,2,鹤壁市,鹤壁市,He Bi city,河南省,He Nan province,2159,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2160,2,新乡市,新乡市,Xin Xiang city,河南省,He Nan province,2160,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2161,2,焦作市,焦作市,Jiao Zuo city,河南省,He Nan province,2161,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2162,2,濮阳市,濮阳市,Pu Yang city,河南省,He Nan province,2162,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2163,2,许昌市,许昌市,Xu Chang city,河南省,He Nan province,2163,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2164,2,漯河市,漯河市,Luo He city,河南省,He Nan province,2164,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2165,2,三门峡市,三门峡市,San Men Xia city,河南省,He Nan province,2165,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2166,2,南阳市,南阳市,Nan Yang city,河南省,He Nan province,2166,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2167,2,商丘市,商丘市,Shang Qiu city,河南省,He Nan province,2167,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2168,2,信阳市,信阳市,Xin Yang city,河南省,He Nan province,2168,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2169,2,周口市,周口市,Zhou Kou city,河南省,He Nan province,2169,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2170,2,驻马店市,驻马店市,Zhu Ma Dian city,河南省,He Nan province,2170,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2171,2,武汉市,武汉市,Wu Han city,湖北省,Hu Bei province,2171,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2172,2,黄石市,黄石市,Huang Shi city,湖北省,Hu Bei province,2172,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2173,2,十堰市,十堰市,Shi Yan city,湖北省,Hu Bei province,2173,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2174,2,宜昌市,宜昌市,Yi Chang city,湖北省,Hu Bei province,2174,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2175,2,襄樊市,襄樊市,Xiang Fan city,湖北省,Hu Bei province,2175,1,0,4/8/2010 8:38:31,10/23/2009 10:39:39
+2176,2,鄂州市,鄂州市,E Zhou city,湖北省,Hu Bei province,2176,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2177,2,荆门市,荆门市,Jing Men city,湖北省,Hu Bei province,2177,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2178,2,孝感市,孝感市,Xiao Gan city,湖北省,Hu Bei province,2178,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2179,2,荆州市,荆州市,Jing Zhou city,湖北省,Hu Bei province,2179,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2180,2,黄冈市,黄冈市,Huang Gang city,湖北省,Hu Bei province,2180,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2181,2,咸宁市,咸宁市,Xian Ning city,湖北省,Hu Bei province,2181,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2182,2,随州市,随州市,Sui Zhou city,湖北省,Hu Bei province,2182,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2183,2,恩施土家族苗族自治州,恩施土家族苗族自治州,Enshi Tujia and Miao autonomous prefecture,湖北省,Hu Bei province,2183,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2184,2,其他省直辖行政单位,其他省直辖行政单位,other province administered area,湖北省,Hu Bei province,2184,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2185,2,长沙市,长沙市,Chang Sha city,湖南省,Hu Nan province,2185,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2186,2,株洲市,株洲市,Zhu Zhou city,湖南省,Hu Nan province,2186,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2187,2,湘潭市,湘潭市,Xiang Tan city,湖南省,Hu Nan province,2187,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2188,2,衡阳市,衡阳市,Heng Yang city,湖南省,Hu Nan province,2188,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2189,2,邵阳市,邵阳市,Shao Yang city,湖南省,Hu Nan province,2189,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2190,2,岳阳市,岳阳市,Yue Yang city,湖南省,Hu Nan province,2190,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2191,2,常德市,常德市,Chang De city,湖南省,Hu Nan province,2191,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2192,2,张家界市,张家界市,Zhang Jia Jie city,湖南省,Hu Nan province,2192,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2193,2,益阳市,益阳市,Yi Yang city,湖南省,Hu Nan province,2193,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2194,2,郴州市,郴州市,Chen Zhou city,湖南省,Hu Nan province,2194,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2195,2,永州市,永州市,Yong Zhou city,湖南省,Hu Nan province,2195,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2196,2,怀化市,怀化市,Huai Hua city,湖南省,Hu Nan province,2196,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2197,2,娄底市,娄底市,Lou Di city,湖南省,Hu Nan province,2197,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2198,2,湘西土家族苗族自治州,湘西土家族苗族自治州,Xiangxi Tujia and Miao Autonomous Prefecture,湖南省,Hu Nan province,2198,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2199,2,广州市,广州市,Guang Zhou city,广东省,Guang Dong province,2199,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2200,2,韶关市,韶关市,Shao Guan city,广东省,Guang Dong province,2200,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2201,2,深圳市,深圳市,Shen Zhen city,广东省,Guang Dong province,2201,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2202,2,珠海,珠海,Zhu Hai city,广东省,Guang Dong province,2202,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2203,2,汕头市,汕头市,Shan Tou city,广东省,Guang Dong province,2203,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2204,2,佛山市,佛山市,Fo Shan city,广东省,Guang Dong province,2204,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2205,2,江门市,江门市,Jiang Men city,广东省,Guang Dong province,2205,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2206,2,湛江市,湛江市,Zhan Jiang city,广东省,Guang Dong province,2206,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2207,2,茂名市,茂名市,Mao Ming city,广东省,Guang Dong province,2207,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2208,2,肇庆市,肇庆市,Zhao Qing city,广东省,Guang Dong province,2208,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2209,2,惠州市,惠州市,Hui Zhou city,广东省,Guang Dong province,2209,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2210,2,梅州市,梅州市,Mei Zhou city,广东省,Guang Dong province,2210,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2211,2,汕尾市,汕尾市,Shan Wei city,广东省,Guang Dong province,2211,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2212,2,河源市,河源市,He Yuan city,广东省,Guang Dong province,2212,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2213,2,阳江市,阳江市,Yang Jiang city,广东省,Guang Dong province,2213,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2214,2,清远市,清远市,Qing Yuan city,广东省,Guang Dong province,2214,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2215,2,东莞市,东莞市,Dong Guan city,广东省,Guang Dong province,2215,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2216,2,中山市,中山市,Zhong Shan city,广东省,Guang Dong province,2216,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2217,2,潮州市,潮州市,Chao Zhou city,广东省,Guang Dong province,2217,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2218,2,揭阳市,揭阳市,Jie Yang city,广东省,Guang Dong province,2218,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2219,2,云浮市,云浮市,Yun Fu city,广东省,Guang Dong province,2219,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2220,2,南宁市,南宁市,Nan Ning city,广西壮族自治区,Guang Xi Zhuang Zu province,2220,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2221,2,柳州市,柳州市,Liu Zhou city,广西壮族自治区,Guang Xi Zhuang Zu province,2221,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2222,2,桂林市,桂林市,Gui Lin city,广西壮族自治区,Guang Xi Zhuang Zu province,2222,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2223,2,梧州市,梧州市,Wu Zhou city,广西壮族自治区,Guang Xi Zhuang Zu province,2223,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2224,2,北海市,北海市,Bei Hai city,广西壮族自治区,Guang Xi Zhuang Zu province,2224,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2225,2,防城港市,防城港市,Fang Cheng Gang city,广西壮族自治区,Guang Xi Zhuang Zu province,2225,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2226,2,钦州市,钦州市,Qin Zhou city,广西壮族自治区,Guang Xi Zhuang Zu province,2226,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2227,2,贵港市,贵港市,Gui Gang city,广西壮族自治区,Guang Xi Zhuang Zu province,2227,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2228,2,玉林市,玉林市,Yu Lin city,广西壮族自治区,Guang Xi Zhuang Zu province,2228,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2229,2,百色市,百色市,Bai Se city,广西壮族自治区,Guang Xi Zhuang Zu province,2229,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2230,2,贺州市,贺州市,He Zhou city,广西壮族自治区,Guang Xi Zhuang Zu province,2230,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2231,2,河池市,河池市,He Chi city,广西壮族自治区,Guang Xi Zhuang Zu province,2231,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2232,2,来宾市,来宾市,Lai Bin city,广西壮族自治区,Guang Xi Zhuang Zu province,2232,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2233,2,崇左市,崇左市,Chong Zuo city,广西壮族自治区,Guang Xi Zhuang Zu province,2233,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2234,2,海口市,海口市,Hai Kou city,海南省,Hai Nan province,2234,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2235,2,三亚市,三亚市,San Ya city,海南省,Hai Nan province,2235,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2236,2,其他省直辖县级行政单位,其他省直辖县级行政单位,other province administered area,海南省,Hai Nan province,2236,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2237,2,重庆,重庆,Chong Qing,重庆市,Chong Qing City,2237,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2238,2,市辖县,市辖县,Chong Qing suburb,重庆市,Chong Qing City,2238,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2239,2,县级市,县级市,Chong Qing suburb,重庆市,Chong Qing City,2239,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2240,2,成都市,成都市,Cheng Du city,四川省,Si Chuan province,2240,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2241,2,自贡市,自贡市,Zi Gong city,四川省,Si Chuan province,2241,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2242,2,攀枝花市,攀枝花市,Pan Zhi Hua city,四川省,Si Chuan province,2242,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2243,2,泸州市,泸州市,Lu Zhou city,四川省,Si Chuan province,2243,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2244,2,德阳市,德阳市,De Yang city,四川省,Si Chuan province,2244,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2245,2,绵阳市,绵阳市,Mian Yang city,四川省,Si Chuan province,2245,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2246,2,广元市,广元市,Guang Yuan city,四川省,Si Chuan province,2246,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2247,2,遂宁市,遂宁市,Sui Ning city,四川省,Si Chuan province,2247,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2248,2,内江市,内江市,Nei Jiang city,四川省,Si Chuan province,2248,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2249,2,乐山市,乐山市,Le Shan city,四川省,Si Chuan province,2249,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2250,2,南充市,南充市,Nan Chong city,四川省,Si Chuan province,2250,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2251,2,眉山市,眉山市,Mei Shan city,四川省,Si Chuan province,2251,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2252,2,宜宾市,宜宾市,Yi Bin city,四川省,Si Chuan province,2252,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2253,2,广安市,广安市,Guang An city,四川省,Si Chuan province,2253,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2254,2,达州市,达州市,Da Zhou city,四川省,Si Chuan province,2254,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2255,2,雅安市,雅安市,Ya An city,四川省,Si Chuan province,2255,1,0,4/8/2010 8:38:32,10/23/2009 10:39:39
+2256,2,巴中市,巴中市,Ba Zhong city,四川省,Si Chuan province,2256,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2257,2,资阳市,资阳市,Zi Yang city,四川省,Si Chuan province,2257,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2258,2,阿坝藏族羌族自治州,阿坝藏族羌族自治州,Aba Tibetan and Qiang Autonomous Prefecture,四川省,Si Chuan province,2258,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2259,2,甘孜藏族自治州,甘孜藏族自治州,Ganzi Tibetan Autonomous Prefecture,四川省,Si Chuan province,2259,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2260,2,凉山彝族自治州,凉山彝族自治州,Liangshan Yi Autonomous Prefecture,四川省,Si Chuan province,2260,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2261,2,贵阳市,贵阳市,Gui Yang city,贵州省,Gui Zhou province,2261,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2262,2,六盘水市,六盘水市,Liu Pan Shui city,贵州省,Gui Zhou province,2262,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2263,2,遵义市,遵义市,Zun Yi city,贵州省,Gui Zhou province,2263,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2264,2,安顺市,安顺市,An Shun city,贵州省,Gui Zhou province,2264,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2265,2,铜仁地区,铜仁地区,Tong Ren area,贵州省,Gui Zhou province,2265,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2266,2,黔西南布依族苗族自治州,黔西南布依族苗族自治州,Southwest Guizhou Buyi and Miao Autonomous Prefecture,贵州省,Gui Zhou province,2266,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2267,2,毕节地区,毕节地区,Bijie Region,贵州省,Gui Zhou province,2267,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2268,2,黔东南苗族侗族自治州,黔东南苗族侗族自治州,Southeast Guizhou Miao and Dong Autonomous Prefecture,贵州省,Gui Zhou province,2268,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2269,2,黔南布依族苗族自治州,黔南布依族苗族自治州,Qiannan Buyi and Miao Autonomous Prefecture,贵州省,Gui Zhou province,2269,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2270,2,昆明市,昆明市,Kun Ming city,云南省,Yun Nan province,2270,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2271,2,曲靖市,曲靖市,Qu Jing city,云南省,Yun Nan province,2271,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2272,2,玉溪市,玉溪市,Yu Xi city,云南省,Yun Nan province,2272,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2273,2,保山市,保山市,Bao Shan city,云南省,Yun Nan province,2273,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2274,2,昭通市,昭通市,Zhao Tong city,云南省,Yun Nan province,2274,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2275,2,丽江市,丽江市,Li Jiang city,云南省,Yun Nan province,2275,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2276,2,思茅市,思茅市,Si Mao city,云南省,Yun Nan province,2276,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2277,2,临沧市,临沧市,Lin Cang city,云南省,Yun Nan province,2277,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2278,2,楚雄彝族自治州,楚雄彝族自治州,Chuxiong Yi Autonomous Prefecture,云南省,Yun Nan province,2278,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2279,2,红河哈尼族彝族自治州,红河哈尼族彝族自治州,Honghe Hani and Yi Autonomous Prefecture,云南省,Yun Nan province,2279,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2280,2,文山壮族苗族自治州,文山壮族苗族自治州,Wenshan Zhuang and Miao Autonomous Prefecture,云南省,Yun Nan province,2280,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2281,2,西双版纳傣族自治州,西双版纳傣族自治州,Xishuangbanna Dai Autonomous Prefecture,云南省,Yun Nan province,2281,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2282,2,大理白族自治州,大理白族自治州,Da Li Bai Autonomous Prefecture,云南省,Yun Nan province,2282,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2283,2,德宏傣族景颇族自治州,德宏傣族景颇族自治州,De Hong Dai Autonomous Prefecture,云南省,Yun Nan province,2283,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2284,2,怒江傈僳族自治州,怒江傈僳族自治州,Nu Jiang Li Su Autonomous Prefecture,云南省,Yun Nan province,2284,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2285,2,迪庆藏族自治州,迪庆藏族自治州,Diqing Tibetan Autonomous Prefecture,云南省,Yun Nan province,2285,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2286,2,拉萨市,拉萨市,La Sa city,西藏自治区,Tibet province,2286,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2287,2,昌都地区,昌都地区,Chang Du area,西藏自治区,Tibet province,2287,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2288,2,山南地区,山南地区,Shan Nan area,西藏自治区,Tibet province,2288,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2289,2,日喀则地区,日喀则地区,Ri Ka Ze area,西藏自治区,Tibet province,2289,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2290,2,那曲地区,那曲地区,Na Qu area,西藏自治区,Tibet province,2290,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2291,2,阿里地区,阿里地区,A Li area,西藏自治区,Tibet province,2291,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2292,2,林芝地区,林芝地区,Lin Zhi area,西藏自治区,Tibet province,2292,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2293,2,西安市,西安市,Xi An city,陕西省,Shaan Xi province,2293,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2294,2,铜川市,铜川市,Tong Chuan city,陕西省,Shaan Xi province,2294,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2295,2,宝鸡市,宝鸡市,Bao Ji city,陕西省,Shaan Xi province,2295,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2296,2,咸阳市,咸阳市,Xian Yang city,陕西省,Shaan Xi province,2296,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2297,2,渭南市,渭南市,Wei Nan city,陕西省,Shaan Xi province,2297,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2298,2,延安市,延安市,Yan An city,陕西省,Shaan Xi province,2298,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2299,2,汉中市,汉中市,Han Zhong city,陕西省,Shaan Xi province,2299,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2300,2,榆林市,榆林市,Yu Lin city,陕西省,Shaan Xi province,2300,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2301,2,安康市,安康市,An Kang city,陕西省,Shaan Xi province,2301,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2302,2,商洛市,商洛市,Shang Luo city,陕西省,Shaan Xi province,2302,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2303,2,兰州,兰州,Lan Zhou city,甘肃,Gan Su province,2303,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2304,2,嘉峪关市,嘉峪关市,Jia Yu Guan city,甘肃,Gan Su province,2304,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2305,2,金昌市,金昌市,Jin Chang city,甘肃,Gan Su province,2305,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2306,2,白银市,白银市,Bai Yin city,甘肃,Gan Su province,2306,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2307,2,天水市,天水市,Tian Shui city,甘肃,Gan Su province,2307,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2308,2,武威市,武威市,Wu Wei city,甘肃,Gan Su province,2308,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2309,2,张掖市,张掖市,Zhang Ye city,甘肃,Gan Su province,2309,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2310,2,平凉市,平凉市,Ping Liang city,甘肃,Gan Su province,2310,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2311,2,酒泉市,酒泉市,Jiu Quan city,甘肃,Gan Su province,2311,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2312,2,庆阳市,庆阳市,Qing Yang city,甘肃,Gan Su province,2312,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2313,2,定西市,定西市,Ding Xi city,甘肃,Gan Su province,2313,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2314,2,陇南市,陇南市,Long Nan city,甘肃,Gan Su province,2314,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2315,2,临夏回族自治州,临夏回族自治州,Linxia Hui Autonomous Prefecture,甘肃,Gan Su province,2315,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2316,2,甘南藏族自治州,甘南藏族自治州,Gannan Tibetan Autonomous Prefecture,甘肃,Gan Su province,2316,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2317,2,西宁市,西宁市,Xi Ning city,青海省,Qing Hai province,2317,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2318,2,海东地区,海东地区,Hai Dong area,青海省,Qing Hai province,2318,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2319,2,海北藏族自治州,海北藏族自治州,Haibei Tibetan Autonomous Prefecture,青海省,Qing Hai province,2319,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2320,2,黄南藏族自治州,黄南藏族自治州,Huangnan Tibetan Autonomous Prefecture,青海省,Qing Hai province,2320,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2321,2,海南藏族自治州,海南藏族自治州,Hainan Tibetan Autonomous Prefecture,青海省,Qing Hai province,2321,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2322,2,果洛藏族自治州,果洛藏族自治州,Golog Tibetan Autonomous Prefecture,青海省,Qing Hai province,2322,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2323,2,玉树藏族自治州,玉树藏族自治州,Yushu Tibetan Autonomous Prefecture,青海省,Qing Hai province,2323,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2324,2,海西蒙古族藏族自治州,海西蒙古族藏族自治州,Haixi Mongolian-Tibetan Autonomous Prefecture,青海省,Qing Hai province,2324,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2325,2,银川市,银川市,Yin Chuan city,宁夏回族自治区,Ningxia Hui Autonomous Region,2325,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2326,2,石嘴山市,石嘴山市,Shi Zui Shan city,宁夏回族自治区,Ningxia Hui Autonomous Region,2326,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2327,2,吴忠市,吴忠市,Wu Zhong city,宁夏回族自治区,Ningxia Hui Autonomous Region,2327,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2328,2,固原市,固原市,Gu Yuan city,宁夏回族自治区,Ningxia Hui Autonomous Region,2328,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2329,2,中卫市,中卫市,Zhong Wei city,宁夏回族自治区,Ningxia Hui Autonomous Region,2329,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2330,2,乌鲁木齐市,乌鲁木齐市,Wu Lu Mu Qi city,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2330,1,0,4/8/2010 8:38:33,10/23/2009 10:39:39
+2331,2,克拉玛依市,克拉玛依市,Ke La Ma Yi city,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2331,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2332,2,吐鲁番地区,吐鲁番地区,Tu Lu Fan area,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2332,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2333,2,哈密地区,哈密地区,Ha Mi area,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2333,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2334,2,昌吉回族自治州,昌吉回族自治州,Changji Hui Autonomous Prefecture,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2334,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2335,2,博尔塔拉蒙古自治州,博尔塔拉蒙古自治州,Bortala Mongol Autonomous Prefecture,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2335,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2336,2,巴音郭楞蒙古自治州,巴音郭楞蒙古自治州,Bayingolin Mongol Autonomous Prefecture,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2336,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2337,2,阿克苏地区,阿克苏地区,Aksu,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2337,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2338,2,克孜勒苏柯尔克孜自治州,克孜勒苏柯尔克孜自治州,Kizilsu Kirgiz Autonomous Prefecture,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2338,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2339,2,喀什地区,喀什地区,Kashi,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2339,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2340,2,和田地区,和田地区,Hotan,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2340,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2341,2,伊犁哈萨克自治州,伊犁哈萨克自治州,Ili Kazakh Autonomous Prefecture,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2341,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2342,2,塔城地区,塔城地区,Tacheng,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2342,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2343,2,阿勒泰地区,阿勒泰地区,Altay,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2343,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2344,2,省直辖行政单位,省直辖行政单位,other province administered area,新疆维吾尔自治区,Xinjiang Uygur Autonomous Region,2344,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2345,2,香港,香港,Hongkong,香港特别行政区,Hongkong,2345,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2346,2,澳门,澳门,Macao,澳门特别行政区,Macao,2346,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2347,2,台北市,台北市,Tai Bei city,台湾省,Tai Wan province,2347,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2348,2,高雄市,高雄市,"Gao Xiong city,",台湾省,Tai Wan province,2348,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2349,2,基隆市,基隆市,Ji Long city,台湾省,Tai Wan province,2349,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2350,2,台中市,台中市,Tai Zhong city,台湾省,Tai Wan province,2350,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2351,2,台南市,台南市,Tai Nan city,台湾省,Tai Wan province,2351,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2352,2,新竹市,新竹市,Xin Zhu city,台湾省,Tai Wan province,2352,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2353,2,嘉义市,嘉义市,Jia Yi city,台湾省,Tai Wan province,2353,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2354,2,县,县,county,台湾省,Tai Wan province,2354,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
+2355,2,其他,其他,other area,其他,Qi Ta,2355,1,0,4/8/2010 8:38:34,10/23/2009 10:39:39
