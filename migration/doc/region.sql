@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `migration_region_mapping` (
   `region_id` int(11) NOT NULL,
   `province_id` int(11) NOT NULL,
   `city_id` int(11) NOT NULL,
+  PRIMARY KEY (`region_id`),
   UNIQUE KEY `region_id` (`region_id`,`province_id`,`city_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
