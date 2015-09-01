@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * VoteAnswerYyyymm
  *
  * @ORM\Table(name="vote_answer_yyyymm", uniqueConstraints={@ORM\UniqueConstraint(name="user_id", columns={"user_id", "vote_id"})}, indexes={@ORM\Index(name="vote_id", columns={"vote_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\VoteAnswerYyyymmRepository")
  */
 class VoteAnswerYyyymm
 {
@@ -67,14 +67,14 @@ class VoteAnswerYyyymm
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -90,14 +90,14 @@ class VoteAnswerYyyymm
     public function setVoteId($voteId)
     {
         $this->voteId = $voteId;
-    
+
         return $this;
     }
 
     /**
      * Get voteId
      *
-     * @return integer 
+     * @return integer
      */
     public function getVoteId()
     {
@@ -113,14 +113,14 @@ class VoteAnswerYyyymm
     public function setAnswerNumber($answerNumber)
     {
         $this->answerNumber = $answerNumber;
-    
+
         return $this;
     }
 
     /**
      * Get answerNumber
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAnswerNumber()
     {
@@ -136,14 +136,14 @@ class VoteAnswerYyyymm
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -159,14 +159,14 @@ class VoteAnswerYyyymm
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -176,7 +176,7 @@ class VoteAnswerYyyymm
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

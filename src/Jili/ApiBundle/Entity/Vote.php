@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Vote
  *
  * @ORM\Table(name="vote")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\VoteRepository")
  */
 class Vote
 {
@@ -95,14 +95,14 @@ class Vote
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -118,14 +118,14 @@ class Vote
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -141,14 +141,14 @@ class Vote
     public function setYyyymm($yyyymm)
     {
         $this->yyyymm = $yyyymm;
-    
+
         return $this;
     }
 
     /**
      * Get yyyymm
      *
-     * @return string 
+     * @return string
      */
     public function getYyyymm()
     {
@@ -164,14 +164,14 @@ class Vote
     public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
-    
+
         return $this;
     }
 
     /**
      * Get startTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartTime()
     {
@@ -187,14 +187,14 @@ class Vote
     public function setEndTime($endTime)
     {
         $this->endTime = $endTime;
-    
+
         return $this;
     }
 
     /**
      * Get endTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndTime()
     {
@@ -210,14 +210,14 @@ class Vote
     public function setPointValue($pointValue)
     {
         $this->pointValue = $pointValue;
-    
+
         return $this;
     }
 
     /**
      * Get pointValue
      *
-     * @return integer 
+     * @return integer
      */
     public function getPointValue()
     {
@@ -233,14 +233,14 @@ class Vote
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-    
+
         return $this;
     }
 
     /**
      * Get deleteFlag
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDeleteFlag()
     {
@@ -256,14 +256,14 @@ class Vote
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -279,14 +279,14 @@ class Vote
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -296,7 +296,7 @@ class Vote
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

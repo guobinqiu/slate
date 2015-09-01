@@ -1,0 +1,12 @@
+<table>
+    {% for item in votes %}
+    <tr>
+      <td align="left" >{{ item.id }}</td>
+      <td align="left">{{ item.keyword | raw }}</td>
+      <td align="left">{{ item.content }} </td>
+      <td align="center"><input type="text" size="8" name="sort_{{item.id}}" value="{{ item.sort|raw }}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"></td>
+      <td align="center"><a href="{{ path('_admin_taobao_saveComponent',{'id':item.id}) }}">编辑</a>
+      <a href="{{ path('_admin_taobao_deleteComponent',{'id':item.id}) }}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a></td>
+   </tr>
+   {% endfor %}
+</table>

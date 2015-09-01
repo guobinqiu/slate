@@ -1,0 +1,21 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block title %} 
+{{ parent() }} - vote 管理
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}
+
+{% block body%}
+
+{{ render(controller('JiliBackendBundle:AdminVote:ReserveList', { 'paging':false}) ) }} 
+
+{{ render(controller('JiliBackendBundle:AdminVote:ActiveList', { 'paging':false} ) ) }} 
+
+{% endblock %}
