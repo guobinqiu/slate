@@ -327,7 +327,7 @@ class Vote
      *
      * @param VoteChoice $voteChoices
      */
-    public function setVoteChoices(VoteChoice $voteChoice)
+    public function addVoteChoice(VoteChoice $voteChoice)
     {
         $this->voteChoices[] = $voteChoice;
     }

@@ -49,15 +49,15 @@ class VoteChoice
      */
     private $id;
 
-    /**
-     * @var \Jili\ApiBundle\Entity\Vote
-     *
-     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\Vote")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="vote_id", referencedColumnName="id")
-     * })
-     */
-    protected $vote;
+//     /**
+//      * @var \Jili\ApiBundle\Entity\Vote
+//      *
+//      * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\Vote")
+//      * @ORM\JoinColumns({
+//      * @ORM\JoinColumn(name="vote_id", referencedColumnName="id")
+//      * })
+//      */
+//     protected $vote;
 
     /**
      * @var integer
@@ -174,28 +174,28 @@ class VoteChoice
         return $this->id;
     }
 
-    /**
-     * Set vote
-     *
-     * @param \Jili\ApiBundle\Entity\Vote $vote
-     * @return VoteChoice
-     */
-    public function setVote(\Jili\ApiBundle\Entity\Vote $vote = null)
-    {
-        $this->vote = $vote;
+//     /**
+//      * Set vote
+//      *
+//      * @param \Jili\ApiBundle\Entity\Vote $vote
+//      * @return VoteChoice
+//      */
+//     public function setVote(\Jili\ApiBundle\Entity\Vote $vote = null)
+//     {
+//         $this->vote = $vote;
 
-        return $this;
-    }
+//         return $this;
+//     }
 
-    /**
-     * Get vote
-     *
-     * @return \Jili\ApiBundle\Entity\Vote
-     */
-    public function getVote()
-    {
-        return $this->vote;
-    }
+//     /**
+//      * Get vote
+//      *
+//      * @return \Jili\ApiBundle\Entity\Vote
+//      */
+//     public function getVote()
+//     {
+//         return $this->vote;
+//     }
 
     /**
      * Set voteId

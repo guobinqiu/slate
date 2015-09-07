@@ -96,7 +96,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
         for ($i = 1; $i <= 10; $i++) {
             $VoteChoice = new VoteChoice();
-            $vote->setVoteChoices($VoteChoice);
+            $vote->addVoteChoice($VoteChoice);
         }
 
         $form = $this->createForm(new VoteType(), $vote);
@@ -115,7 +115,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
         for ($i = 1; $i <= 10; $i++) {
             $VoteChoice = new VoteChoice();
-            $vote->setVoteChoices($VoteChoice);
+            $vote->addVoteChoice($VoteChoice);
         }
 
         $form = $this->createForm(new VoteType(), $vote);
@@ -146,7 +146,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
         for ($i = 1; $i <= 10; $i++) {
             $VoteChoice = new VoteChoice();
-            $vote->setVoteChoices($VoteChoice);
+            $vote->addVoteChoice($VoteChoice);
         }
 
         $form = $this->createForm(new VoteType(), $vote);
@@ -158,6 +158,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
             $em = $this->getDoctrine()->getManager();
             $db_connection = $em->getConnection();
             $db_connection->beginTransaction();
+
             try {
 
                 $vote_entity = new Vote();
@@ -175,6 +176,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 foreach ($values->getVoteChoices() as $key => $choice) {
                     $choice->setAnswerNumber($key + 1);
                     $choice->setVoteId($vote_id);
+                    //$choice->setVote($vote_entity);
 
                     echo "<br>line_" . __LINE__ . "_aaaaaaaaaa<pre>";
                     print_r($choice);
@@ -198,6 +200,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         }
 
         $error_meeeages = ValidateUtil::getFormErrors($form);
+
         return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
             'form' => $form->createView(),
             'error_meeeages' => $error_meeeages
