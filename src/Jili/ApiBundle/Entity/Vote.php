@@ -3,6 +3,9 @@
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Jili\ApiBundle\Entity\VoteImage;
+// use Jili\ApiBundle\Entity\Vote;
+
 
 /**
  * Vote
@@ -84,6 +87,22 @@ class Vote
      */
     private $id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Jili\ApiBundle\Entity\VoteChoice", mappedBy="parent")
+     */
+    private $voteChoices;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Jili\ApiBundle\Entity\VoteImage", mappedBy="parent")
+     **/
+    private $voteImage;
+
+    public function __construct()
+    {
+        $this->deleteFlag = 0;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
 
 
     /**
@@ -301,5 +320,45 @@ class Vote
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Add voteChoice
+     *
+     * @param VoteChoice $voteChoices
+     */
+    public function setVoteChoices(VoteChoice $voteChoice)
+    {
+        $this->voteChoices[] = $voteChoice;
+    }
+
+    /**
+     * Get voteChoices
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getVoteChoices()
+    {
+        return $this->voteChoices;
+    }
+
+    /**
+     * Add voteImage
+     *
+     * @param VoteImage $voteImage
+     */
+    public function setVoteImage(VoteImage $voteImage)
+    {
+        $this->voteImage = $voteImage;
+    }
+
+    /**
+     * Get voteImage
+     *
+     * @return VoteImage $voteImage
+     */
+    public function getVoteImage()
+    {
+        return $this->voteImage;
     }
 }

@@ -3,7 +3,7 @@
 {% endblock %}
 
 </script>
-<h2>实施中的快速问答</h2>
+<h2>実施中の設問</h2>
 <table>
     <tr>
         <th>时间</th>
@@ -12,7 +12,7 @@
         <th>image</th>
         <th>&nbsp;</th>
     </tr>
-    {% if pagination is defined %} 
+    {% if pagination is defined %}
     {% for item in pagination %}
     <tr>
       <td align="left" >{{ item.startTime | date("Y/m/d")}} - {{item.endTime | date("m/d")  }}</td>
@@ -22,7 +22,7 @@
       <td align="center"><a href="{{ path('_admin_vote_edit',{'id':item.id}) }}">编辑</a>
       <a href="{{ path('_admin_vote_delete',{'id':item.id}) }}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a></td>
    </tr>
-    {% endfor %} 
+    {% endfor %}
     {% endif %}
 
     <tr>

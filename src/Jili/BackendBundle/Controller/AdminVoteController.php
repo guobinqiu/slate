@@ -10,11 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Jili\BackendBundle\Form\Type\VoteType;
+use Jili\BackendBundle\Form\VoteType;
 use Jili\ApiBundle\Entity\Vote;
+use Jili\ApiBundle\Entity\VoteChoice;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Jili\ApiBundle\Utility\FileUtil;
+use Symfony\Component\Validator\Constraints as Assert;
+use Jili\ApiBundle\Utility\ValidateUtil;
 
 /**
  * @Route("/admin/vote",requirements={"_scheme"="https"})
@@ -85,19 +88,120 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     }
 
     /**
-     * @Route("/add", name="_admin_vote_add")
-     */
-    public function addAction(Request $request)
-    {
-        return $this->render('JiliBackendBundle:Vote:add.html.twig');
-    }
-
-    /**
      * @Route("/edit", name="_admin_vote_edit")
      */
     public function editAction(Request $request)
     {
-        return $this->render('JiliBackendBundle:Vote:edit.html.twig');
+        $vote = new Vote();
+
+        for ($i = 1; $i <= 10; $i++) {
+            $VoteChoice = new VoteChoice();
+            $vote->setVoteChoices($VoteChoice);
+        }
+
+        $form = $this->createForm(new VoteType(), $vote);
+
+        return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/editConfirm", name="_admin_vote_edit_confirm")
+     */
+    public function editConfirmAction(Request $request)
+    {
+        $vote = new Vote();
+
+        for ($i = 1; $i <= 10; $i++) {
+            $VoteChoice = new VoteChoice();
+            $vote->setVoteChoices($VoteChoice);
+        }
+
+        $form = $this->createForm(new VoteType(), $vote);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $values = $form->getData();
+
+            return $this->render('JiliBackendBundle:Vote:editConfirm.html.twig', array (
+                'form' => $form->createView(),
+                'values' => $values
+            ));
+        }
+
+        $error_meeeages = ValidateUtil::getFormErrors($form);
+        return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
+            'form' => $form->createView(),
+            'error_meeeages' => $error_meeeages
+        ));
+    }
+
+    /**
+     * @Route("/editCommit", name="_admin_vote_edit_commit")
+     */
+    public function editCommitAction(Request $request)
+    {
+        $vote = new Vote();
+
+        for ($i = 1; $i <= 10; $i++) {
+            $VoteChoice = new VoteChoice();
+            $vote->setVoteChoices($VoteChoice);
+        }
+
+        $form = $this->createForm(new VoteType(), $vote);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $values = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $db_connection = $em->getConnection();
+            $db_connection->beginTransaction();
+            try {
+
+                $vote_entity = new Vote();
+                $vote_entity->setTitle($values->getTitle());
+                $vote_entity->setDescription($values->getDescription());
+                $vote_entity->setYyyymm(date('Ym'));
+                $vote_entity->setStartTime(\DateTime::createFromFormat('Y-m-d H:i:s', $values->getStartTime() . ' 00:00:00'));
+                $vote_entity->setEndTime(\DateTime::createFromFormat('Y-m-d H:i:s', $values->getEndTime() . ' 23:59:59'));
+                $vote_entity->setPointValue($values->getPointValue());
+                $em->persist($vote_entity);
+                $em->flush();
+
+                $vote_id = $vote_entity->getId();
+
+                foreach ($values->getVoteChoices() as $key => $choice) {
+                    $choice->setAnswerNumber($key + 1);
+                    $choice->setVoteId($vote_id);
+
+                    echo "<br>line_" . __LINE__ . "_aaaaaaaaaa<pre>";
+                    print_r($choice);
+
+                    $em->persist($choice);
+                    $em->flush();
+                }
+
+                $db_connection->commit();
+
+                return $this->render('JiliBackendBundle:Vote:index.html.twig');
+            } catch (\Exception $e) {
+                $db_connection->rollback();
+                echo $e->getMessage();
+
+                return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
+                    'form' => $form->createView(),
+                    'error_meeeages' => $e->getMessage()
+                ));
+            }
+        }
+
+        $error_meeeages = ValidateUtil::getFormErrors($form);
+        return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
+            'form' => $form->createView(),
+            'error_meeeages' => $error_meeeages
+        ));
     }
 
     /**

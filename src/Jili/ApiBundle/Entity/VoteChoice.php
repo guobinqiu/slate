@@ -54,12 +54,23 @@ class VoteChoice
      *
      * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\Vote")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="vote_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="vote_id", referencedColumnName="id")
      * })
      */
-    private $vote;
+    protected $vote;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="vote_id", type="integer")
+     */
+    private $voteId;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
 
     /**
      * Set answerNumber
@@ -70,14 +81,14 @@ class VoteChoice
     public function setAnswerNumber($answerNumber)
     {
         $this->answerNumber = $answerNumber;
-    
+
         return $this;
     }
 
     /**
      * Get answerNumber
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAnswerNumber()
     {
@@ -93,14 +104,14 @@ class VoteChoice
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -116,14 +127,14 @@ class VoteChoice
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -139,14 +150,14 @@ class VoteChoice
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -156,7 +167,7 @@ class VoteChoice
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -172,17 +183,41 @@ class VoteChoice
     public function setVote(\Jili\ApiBundle\Entity\Vote $vote = null)
     {
         $this->vote = $vote;
-    
+
         return $this;
     }
 
     /**
      * Get vote
      *
-     * @return \Jili\ApiBundle\Entity\Vote 
+     * @return \Jili\ApiBundle\Entity\Vote
      */
     public function getVote()
     {
         return $this->vote;
     }
+
+    /**
+     * Set voteId
+     *
+     * @param integer $voteId
+     * @return VoteChoice
+     */
+    public function setVoteId($voteId)
+    {
+        $this->voteId = $voteId;
+
+        return $this;
+    }
+
+    /**
+     * Get voteId
+     *
+     * @return integer
+     */
+    public function getVoteId()
+    {
+        return $this->voteId;
+    }
+
 }
