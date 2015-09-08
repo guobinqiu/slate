@@ -122,7 +122,7 @@ class TaskHistoryRepository extends EntityRepository
      *  @param: $params   'userId' => 1057622,
      *                     'orderId' => 2,
      *                     'taskType' => 1,
-     *                     'reward_percent' => '',
+     *                     'rewardPercent' => '',
      *                     'point' => 17,
      *                     'date' =>
      *                     DateTime::__set_state(array(
@@ -139,7 +139,10 @@ class TaskHistoryRepository extends EntityRepository
         $flag =  $params['userId'] % 10;
 
         $sql = 'UPDATE JiliApiBundle:TaskHistory0'. $flag.' t';
-        $sql .= ' SET t.status= :status, t.point =:point, t.rewardPercent= :rewardPercent';
+        $sql .= ' SET t.status= :status, t.point =:point';
+        if( isset($params['rewardPercent']) ) {
+            $sql .=', t.rewardPercent= :rewardPercent';
+        }
         if( isset($params['date']) ) {
             $sql .= ', t.date = :date ';
         }

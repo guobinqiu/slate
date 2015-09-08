@@ -6,7 +6,8 @@ use Doctrine\ORM\EntityManager;
 
 use Jili\ApiBundle\Component\OrderBase,
     Jili\ApiBundle\Entity\TaskHistory00,
-    Jili\ApiBundle\Entity\AdCategory;
+    Jili\ApiBundle\Entity\AdCategory,
+    Jili\ApiBundle\Entity\LimitAdResult;
 
 class DataConfirmedProcessor 
 {
@@ -47,9 +48,11 @@ class DataConfirmedProcessor
         $logger = $this->logger ;
 
         // advertisement must be adw cps
-        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
-        if(! $advertiserment || $advertiserment->getIncentiveType()!=2){
-            return false;
+        if($cps_advertisement == false){
+            $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+            if(! $advertiserment || $advertiserment->getIncentiveType()!=2){
+                return false;
+            }
         }
 
         $adworder = $em->getRepository('JiliApiBundle:AdwOrder')
@@ -59,13 +62,13 @@ class DataConfirmedProcessor
             return false;
         }
 
-
         // transaction: 
         $connection = $em->getConnection();
         $connection->beginTransaction();
         try{
             $adworder = $em->getRepository('JiliApiBundle:AdwOrder')
                 ->find($adworder[0]['id']);
+
             $adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')))
                 ->setOrderStatus($order_status['COMPLETED_FAILED']);
 
@@ -77,7 +80,7 @@ class DataConfirmedProcessor
                 'orderId' => $adworder->getId(),
                 'taskType' => TaskHistory00::TASK_TYPE_ADW, // adw 
                 'categoryType'=> AdCategory::ID_ADW_CPS, 
-                'rewardPercent' => 0, //no use for uncertified 
+                'reward_percent' => 0, //no use for uncertified 
                 'point' => $adworder->getIncentive(),
                 'status' => $order_status['COMPLETED_FAILED'],
                 'statusPrevious' => $order_status['PENDING'],
@@ -123,22 +126,21 @@ class DataConfirmedProcessor
 
         $order_status = $this->order_status;
         $em = $this->em;
-        $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
-
-        if(! $advertiserment || $advertiserment->getIncentiveType()!=2){
-            return false;
+        if($cps_advertisement == false){
+            $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+            if(! $advertiserment || $advertiserment->getIncentiveType()!=2){
+                return false;
+            }
         }
 
         $adworder = $em->getRepository('JiliApiBundle:AdwOrder')
             ->getOrderInfo($userId, $adid, $ocd, '', $cps_advertisement);
-
 
         if(empty($adworder)){
             return false;
         }
 
         $adworder = $em->getRepository('JiliApiBundle:AdwOrder')->find($adworder[0]['id']);
-
 
         if($adworder->getIncentiveType()!=2){
             return false;
@@ -156,7 +158,7 @@ class DataConfirmedProcessor
         $em->flush();
 
         $parms = array(
-            'userid' => $userId,
+            'userId' => $userId,
             'orderId' => $adworder->getId(),
             'taskType' => TaskHistory00::TASK_TYPE_ADW, // adw 
             'categoryType'=> AdCategory::ID_ADW_CPS, 
@@ -174,18 +176,18 @@ class DataConfirmedProcessor
             return false;
         }
 
-        $limitAd = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adid);
-        $limitrs = new LimitAdResult();
-        $limitrs->setAccessHistoryId($adworder->getId());
-        $limitrs->setUserId($userId);
-        $limitrs->setLimitAdId($limitAd[0]->getId());
-        $limitrs->setResultIncentive($adworder->getIncentive());
-
-        $em->persist($limitrs);
-        $em->flush();
+//        $limitAd = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adid);
+//        $limitrs = new LimitAdResult();
+//        $limitrs->setAccessHistoryId($adworder->getId());
+//        $limitrs->setUserId($userId);
+//        $limitrs->setLimitAdId($limitAd[0]->getId());
+//        $limitrs->setResultIncentive($adworder->getIncentive());
+//
+//        $em->persist($limitrs);
+//        $em->flush();
 
         // AdCategory::ID_ADW_CPS : 2, $adworder->getIncentiveType(cps): 2 
-        $em->getRepository('JiliApiBundle:PointHistory'. ($userId % 10))
+        $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10))
             ->get(array('userid'=>$userId,
                 'point'=> $adworder->getIncentive(),
                 'type' => AdCategory::ID_ADW_CPS)); 

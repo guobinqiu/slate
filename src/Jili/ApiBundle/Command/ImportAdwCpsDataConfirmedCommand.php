@@ -89,10 +89,11 @@ EOT
                 $adid = $return['advertiserment_id'];
             }
 
-            $logger->info( 'user_id: '.$userId . ', adid: ' . $adid. ', ocd: ' . $ocd. ', name: ' . $name. ', status: ' . $status  );
+            $logger->info( 'user_id: '.$userId . ', adid: ' . $adid. ', ocd: ' . $ocd. ', name: ' . $name. ', status: ' . $status 
+                .', isNewAds: ' . ($cps_advertisement ? 'Yes':'No') );
 
             $adw_order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($userId,$adid,$ocd);
-            $msg = '[ '.$name.', '.$userId.', '.$adid.', '.$ocd.' ] ';
+            $msg = '[ name:'.$name.', userId:'.$userId.', adid:'.$adid.', ocd:'.$ocd.' ] ';
             if(  empty($adw_order)) {
                 if($status === $container->getParameter('nothrough')){
                     if(! $container->get('adw_admin.data_confirmed.processor')->noCertified($userId,$adid,$ocd, $cps_advertisement)){
@@ -118,7 +119,7 @@ EOT
                     }
                 }
             } else {
-                $msg .= '插入数据失败';
+                $msg .= '插入数据失败,无adwOrder记录';
                 $output->writeln('<error>'.$msg.'</error>');
                 $stats['no_order']++;
             }
