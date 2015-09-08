@@ -1110,4 +1110,228 @@ class User
         return $this->tokenCreatedAt;
     }
 
+    /**
+     * @var boolean
+     */
+    private $originFlag;
+
+    /**
+     * @var string
+     */
+    private $personaldes;
+
+    /**
+     * @var string
+     */
+    private $loginPassword;
+
+    /**
+     * @var string
+     */
+    private $loginPasswordCryptType;
+
+    /**
+     * @var string
+     */
+    private $passwordSalt;
+
+    /**
+     * @var string
+     */
+    private $createdRemoteAddr;
+
+    /**
+     * @var string
+     */
+    private $createdUserAgent;
+
+    /**
+     * @var string
+     */
+    private $campaignCode;
+
+
+    /**
+     * Set originFlag
+     *
+     * @param boolean $originFlag
+     * @return User
+     */
+    public function setOriginFlag($originFlag)
+    {
+        $this->originFlag = $originFlag;
+
+        return $this;
+    }
+
+    /**
+     * Get originFlag
+     *
+     * @return boolean 
+     */
+    public function getOriginFlag()
+    {
+        return $this->originFlag;
+    }
+
+    /**
+     * Set personaldes
+     *
+     * @param string $personaldes
+     * @return User
+     */
+    public function setPersonaldes($personaldes)
+    {
+        $this->personaldes = $personaldes;
+
+        return $this;
+    }
+
+    /**
+     * Get personaldes
+     *
+     * @return string 
+     */
+    public function getPersonaldes()
+    {
+        return $this->personaldes;
+    }
+
+    /**
+     * Set loginPassword
+     *
+     * @param string $loginPassword
+     * @return User
+     */
+    public function setLoginPassword($loginPassword)
+    {
+        $this->loginPassword = $loginPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get loginPassword
+     *
+     * @return string 
+     */
+    public function getLoginPassword()
+    {
+        return $this->loginPassword;
+    }
+
+    /**
+     * Set loginPasswordCryptType
+     *
+     * @param string $loginPasswordCryptType
+     * @return User
+     */
+    public function setLoginPasswordCryptType($loginPasswordCryptType)
+    {
+        $this->loginPasswordCryptType = $loginPasswordCryptType;
+
+        return $this;
+    }
+
+    /**
+     * Get loginPasswordCryptType
+     *
+     * @return string 
+     */
+    public function getLoginPasswordCryptType()
+    {
+        return $this->loginPasswordCryptType;
+    }
+
+    /**
+     * Set passwordSalt
+     *
+     * @param string $passwordSalt
+     * @return User
+     */
+    public function setPasswordSalt($passwordSalt)
+    {
+        $this->passwordSalt = $passwordSalt;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordSalt
+     *
+     * @return string 
+     */
+    public function getPasswordSalt()
+    {
+        return $this->passwordSalt;
+    }
+
+    /**
+     * Set createdRemoteAddr
+     *
+     * @param string $createdRemoteAddr
+     * @return User
+     */
+    public function setCreatedRemoteAddr($createdRemoteAddr)
+    {
+        $this->createdRemoteAddr = $createdRemoteAddr;
+
+        return $this;
+    }
+
+    /**
+     * Get createdRemoteAddr
+     *
+     * @return string 
+     */
+    public function getCreatedRemoteAddr()
+    {
+        return $this->createdRemoteAddr;
+    }
+
+    /**
+     * Set createdUserAgent
+     *
+     * @param string $createdUserAgent
+     * @return User
+     */
+    public function setCreatedUserAgent($createdUserAgent)
+    {
+        $this->createdUserAgent = $createdUserAgent;
+
+        return $this;
+    }
+
+    /**
+     * Get createdUserAgent
+     *
+     * @return string 
+     */
+    public function getCreatedUserAgent()
+    {
+        return $this->createdUserAgent;
+    }
+
+    /**
+     * Set campaignCode
+     *
+     * @param string $campaignCode
+     * @return User
+     */
+    public function setCampaignCode($campaignCode)
+    {
+        $this->campaignCode = $campaignCode;
+
+        return $this;
+    }
+
+    /**
+     * Get campaignCode
+     *
+     * @return string 
+     */
+    public function getCampaignCode()
+    {
+        return $this->campaignCode;
+    }
 }
