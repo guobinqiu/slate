@@ -14,23 +14,29 @@ class VoteChoiceType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('answerNumber', 'hidden', array (
+            'required' => true,
+            'error_bubbling' => true
+        ));
         $builder->add('name', 'text', array (
             'label' => 'Choice',
             'required' => false,
             'data' => 'test:name',
-            'attr'      => array('size' => '50')
+            'attr' => array (
+                'size' => '50'
+            )
         ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array (
-            'data_class' => 'Jili\ApiBundle\Entity\VoteChoice',
+            'data_class' => 'Jili\ApiBundle\Entity\VoteChoice'
         ));
     }
 
     public function getName()
     {
-        return '';
+        return 'vote_choice';
     }
 }

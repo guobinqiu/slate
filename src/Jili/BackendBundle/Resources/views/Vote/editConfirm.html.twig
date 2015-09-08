@@ -28,6 +28,7 @@
 {{ form_row(form.voteImage) }}
  {% for voteChoice in form.voteChoices %}
 {{ form_row(voteChoice.name)}}
+{{ form_row(voteChoice.answerNumber)}}
 {% endfor %}
 </div>
 
@@ -54,7 +55,7 @@
         </tr>
         <tr>
             <td>{{form_label(form.description)}}</td>
-            <td>{{form.description.vars.value}}</td>
+            <td>{{form.description.vars.value|nl2br}}</td>
         </tr>
         <tr>
             <td>{{form_label(form.voteImage)}}</td>

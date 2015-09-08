@@ -51,6 +51,7 @@
         </tr>
         {% for voteChoice in form.voteChoices %}
             <tr><td>{{ form_row(voteChoice.name, {'label': 'Choice_'~loop.index})}}</td></tr>
+            {{ form_row(voteChoice.answerNumber, {'value':loop.index})}}
         {% endfor %}
         {{ form_widget(form._token) }}
 

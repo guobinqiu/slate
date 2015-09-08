@@ -174,7 +174,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 $vote_id = $vote_entity->getId();
 
                 foreach ($values->getVoteChoices() as $key => $choice) {
-                    $choice->setAnswerNumber($key + 1);
                     $choice->setVoteId($vote_id);
                     //$choice->setVote($vote_entity);
 
