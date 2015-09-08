@@ -4,7 +4,6 @@ namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-// use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * User
@@ -250,6 +249,27 @@ class User
     private $tokenCreatedAt;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="origin_flag", type="boolean", nullable=true)
+     */
+    private $originFlag;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="created_user_agent", type="string", length=100, nullable=true)
+     */
+    private $createdUserAgent;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="campaign_code", type="string", length=100, nullable=true)
+     */
+    private $campaignCode;
+
+    /**
      * upload resizeimage to temp dir
      */
     public function resizeUpload($path,$x,$y,$x1,$y1)
@@ -273,7 +293,7 @@ class User
         imagedestroy($dst);
 
     }
-/**
+    /**
      * upload image to temp dir
      */
     public function upload($upload_dir)
@@ -1111,47 +1131,6 @@ class User
     }
 
     /**
-     * @var boolean
-     */
-    private $originFlag;
-
-    /**
-     * @var string
-     */
-    private $personaldes;
-
-    /**
-     * @var string
-     */
-    private $loginPassword;
-
-    /**
-     * @var string
-     */
-    private $loginPasswordCryptType;
-
-    /**
-     * @var string
-     */
-    private $passwordSalt;
-
-    /**
-     * @var string
-     */
-    private $createdRemoteAddr;
-
-    /**
-     * @var string
-     */
-    private $createdUserAgent;
-
-    /**
-     * @var string
-     */
-    private $campaignCode;
-
-
-    /**
      * Set originFlag
      *
      * @param boolean $originFlag
@@ -1172,98 +1151,6 @@ class User
     public function getOriginFlag()
     {
         return $this->originFlag;
-    }
-
-    /**
-     * Set personaldes
-     *
-     * @param string $personaldes
-     * @return User
-     */
-    public function setPersonaldes($personaldes)
-    {
-        $this->personaldes = $personaldes;
-
-        return $this;
-    }
-
-    /**
-     * Get personaldes
-     *
-     * @return string 
-     */
-    public function getPersonaldes()
-    {
-        return $this->personaldes;
-    }
-
-    /**
-     * Set loginPassword
-     *
-     * @param string $loginPassword
-     * @return User
-     */
-    public function setLoginPassword($loginPassword)
-    {
-        $this->loginPassword = $loginPassword;
-
-        return $this;
-    }
-
-    /**
-     * Get loginPassword
-     *
-     * @return string 
-     */
-    public function getLoginPassword()
-    {
-        return $this->loginPassword;
-    }
-
-    /**
-     * Set loginPasswordCryptType
-     *
-     * @param string $loginPasswordCryptType
-     * @return User
-     */
-    public function setLoginPasswordCryptType($loginPasswordCryptType)
-    {
-        $this->loginPasswordCryptType = $loginPasswordCryptType;
-
-        return $this;
-    }
-
-    /**
-     * Get loginPasswordCryptType
-     *
-     * @return string 
-     */
-    public function getLoginPasswordCryptType()
-    {
-        return $this->loginPasswordCryptType;
-    }
-
-    /**
-     * Set passwordSalt
-     *
-     * @param string $passwordSalt
-     * @return User
-     */
-    public function setPasswordSalt($passwordSalt)
-    {
-        $this->passwordSalt = $passwordSalt;
-
-        return $this;
-    }
-
-    /**
-     * Get passwordSalt
-     *
-     * @return string 
-     */
-    public function getPasswordSalt()
-    {
-        return $this->passwordSalt;
     }
 
     /**

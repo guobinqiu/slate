@@ -1,12 +1,18 @@
 -- Mon Sep  7 15:07:28 CST 2015
 -- Jarod
-ALTER TABLE `user` ADD `origin_flag` TINYINT( 4 ) NOT NULL DEFAULT '0' AFTER `email` ;
+ALTER TABLE `user` ADD `origin_flag` TINYINT( 4 ) NULL COMMENT 'which sites does the user from',
+ADD `created_remote_addr` VARCHAR( 20 ) NULL COMMENT 'remote IP when create',
+ADD `created_user_agent` VARCHAR( 100 ) NULL COMMENT 'remote User Agent when create',
+ADD `campaign_code` VARCHAR( 100 ) NULL COMMENT 'recrute campaign code';
 
-ALTER TABLE `user` ADD `login_password` TEXT NULL ,
-ADD `login_password_crypt_type` VARCHAR( 50 ) NULL ,
-ADD `password_salt` TEXT NULL ;
 
-ALTER TABLE `user` ADD `created_remote_addr` VARCHAR( 20 ) NULL ,
-ADD `created_user_agent` VARCHAR( 100 ) NULL ,
-ADD `campaign_code` VARCHAR( 100 ) NULL ;
-~                                         
+CREATE TABLE `user_wenwen_login` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `login_password_salt` text,
+  `login_password_crypt_type` varchar(50) DEFAULT NULL,
+  `login_password` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  CONSTRAINT `user_wenwen_login_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 
