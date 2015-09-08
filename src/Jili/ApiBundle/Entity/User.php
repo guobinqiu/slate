@@ -258,6 +258,13 @@ class User
     /**
      * @var string
      *
+     * @ORM\Column(name="created_remote_addr", type="string", length=20, nullable=true)
+     */
+    private $createdRemoteAddr;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="created_user_agent", type="string", length=100, nullable=true)
      */
     private $createdUserAgent;
