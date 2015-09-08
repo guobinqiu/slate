@@ -38,7 +38,15 @@ class VoteType extends AbstractType
             'label' => 'pointValue',
             'required' => true,
             'data' => 1,
-            'constraints' => new NotBlank(),
+            'constraints' => array (
+                new NotBlank(),
+                new Assert\Range(array (
+                    'min' => 0,
+                    'max' => 1,
+                    'minMessage' => 'Invalid pointValue',
+                    'maxMessage' => 'Invalid pointValue'
+                ))
+            ),
             'invalid_message' => 'Invalid pointValue'
         ));
         $builder->add('title', 'text', array (

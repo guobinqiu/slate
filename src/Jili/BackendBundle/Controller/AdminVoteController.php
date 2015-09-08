@@ -120,17 +120,26 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
         $form = $this->createForm(new VoteType(), $vote);
         $form->bind($request);
+        $values = $form->getData();
 
-        if ($form->isValid()) {
-            $values = $form->getData();
+        $error_meeeages = ValidateUtil::getFormErrors($form);
 
+        //todo check period 能否写到VoteType中
+        $start_time = $values->getStartTime();
+        $end_time = $values->getEndTime();
+        if (!empty($start_time) && !empty($end_time)) {
+            if ($start_time > $end_time) {
+                $error_meeeages[] = 'Invalid period';
+            }
+        }
+
+        if (!$error_meeeages) {
             return $this->render('JiliBackendBundle:Vote:editConfirm.html.twig', array (
                 'form' => $form->createView(),
                 'values' => $values
             ));
         }
 
-        $error_meeeages = ValidateUtil::getFormErrors($form);
         return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
             'form' => $form->createView(),
             'error_meeeages' => $error_meeeages
