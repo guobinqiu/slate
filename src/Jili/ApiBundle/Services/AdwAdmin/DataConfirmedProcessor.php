@@ -32,7 +32,7 @@ class DataConfirmedProcessor
      * @access public
      * @return void
      */
-    public function noCertified($userId,$adid,$ocd)
+    public function noCertified($userId,$adid,$ocd,$cps_advertisement = false)
     {
         $adid = (int) $adid;
         $userId = (int) $userId;
@@ -53,7 +53,7 @@ class DataConfirmedProcessor
         }
 
         $adworder = $em->getRepository('JiliApiBundle:AdwOrder')
-            ->getOrderInfo($userId,$adid,$ocd);
+            ->getOrderInfo($userId, $adid, $ocd, '' , $cps_advertisement);
 
         if(empty($adworder)){
             return false;
@@ -111,7 +111,7 @@ class DataConfirmedProcessor
      * @access public
      * @return void
      */
-    public function hasCertified($userId,$adid,$ocd,$comm)
+    public function hasCertified($userId,$adid,$ocd,$comm,$cps_advertisement = false)
     {
         $adid = (int) $adid;
         $userId = (int) $userId;
@@ -130,7 +130,7 @@ class DataConfirmedProcessor
         }
 
         $adworder = $em->getRepository('JiliApiBundle:AdwOrder')
-            ->getOrderInfo($userId,$adid, $ocd);
+            ->getOrderInfo($userId, $adid, $ocd, '', $cps_advertisement);
 
 
         if(empty($adworder)){

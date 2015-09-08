@@ -9,10 +9,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use Psr\Log\LoggerInterface;
-
 use Symfony\Component\Filesystem\Filesystem;
+use Jili\ApiBundle\Utility\String;
 
 class ImportAdwCpsDataConfirmedCommand extends ContainerAwareCommand
 {
@@ -80,12 +79,23 @@ EOT
             $adid = trim($v[7], "'");
             $userId = trim($v[8], "'");
 
+
+            // 合并后的商家活动， url: e=uid u=uid_adid
+            $cps_advertisement = false;
+            $return = String::parseChanetCallbackUrl($userId, $adid);
+            if($return){
+                $cps_advertisement = true;
+                $userId = $return['user_id'];
+                $adid = $return['advertiserment_id'];
+            }
+
             $logger->info( 'user_id: '.$userId . ', adid: ' . $adid. ', ocd: ' . $ocd. ', name: ' . $name. ', status: ' . $status  );
+
             $adw_order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($userId,$adid,$ocd);
             $msg = '[ '.$name.', '.$userId.', '.$adid.', '.$ocd.' ] ';
             if(  empty($adw_order)) {
                 if($status === $container->getParameter('nothrough')){
-                    if(! $container->get('adw_admin.data_confirmed.processor')->noCertified($userId,$adid,$ocd)){
+                    if(! $container->get('adw_admin.data_confirmed.processor')->noCertified($userId,$adid,$ocd, $cps_advertisement)){
                         $msg .= '插入拒绝数据失败';
                         $output->writeln('<error>'.$msg.'</error>');
                         $code[]  = $msg;
@@ -96,7 +106,7 @@ EOT
                         $stats['refused_done']++;
                     }
                 } else if($status === $container->getParameter('certified')){
-                    if(! $container->get('adw_admin.data_confirmed.processor')->hasCertified($userId,$adid,$ocd,$v[5])){
+                    if(! $container->get('adw_admin.data_confirmed.processor')->hasCertified($userId,$adid,$ocd,$v[5], $cps_advertisement)){
                         $msg .= '插入已认证数据失败';
                         $output->writeln('<error>'.$msg.'</error>');
                         $code[] = $msg;
