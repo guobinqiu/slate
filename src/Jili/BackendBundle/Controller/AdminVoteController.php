@@ -168,6 +168,10 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 $vote_entity->setStartTime(\DateTime::createFromFormat('Y-m-d H:i:s', $values->getStartTime() . ' 00:00:00'));
                 $vote_entity->setEndTime(\DateTime::createFromFormat('Y-m-d H:i:s', $values->getEndTime() . ' 23:59:59'));
                 $vote_entity->setPointValue($values->getPointValue());
+
+                // 月別テーブルをつくる
+                $this->generateMonthlyTable($vote_entity);
+
                 $em->persist($vote_entity);
                 $em->flush();
 
@@ -175,11 +179,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
                 foreach ($values->getVoteChoices() as $key => $choice) {
                     $choice->setVoteId($vote_id);
-                    //$choice->setVote($vote_entity);
-
-                    echo "<br>line_" . __LINE__ . "_aaaaaaaaaa<pre>";
-                    print_r($choice);
-
                     $em->persist($choice);
                     $em->flush();
                 }
@@ -215,14 +214,14 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     }
 
     /**
-     * 月別テーブル作成2
+     * 月別テーブル作成
      *
      * @param Vote
      */
     public function generateMonthlyTable(Vote $vote)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('VoteAnswerYyyymm')->createYyyymmTable($vote->getYyyymm());
+        $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->createYyyymmTable($vote->getYyyymm());
         return true;
     }
 }

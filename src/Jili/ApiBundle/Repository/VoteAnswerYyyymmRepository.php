@@ -29,11 +29,11 @@ class VoteAnswerYyyymmRepository extends EntityRepository
                 updated_at datetime default NULL,
                 created_at datetime default NULL,
                 PRIMARY KEY  (id),
-                UNIQUE KEY (panelist_id,vote_id),
+                UNIQUE KEY (user_id,vote_id),
                 KEY  (vote_id)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8
-                ");
-        return $stm->execute($params);
+                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+            ");
+        return $stm->execute();
     }
 
     public function getAnswerCount($vote_id, $yyyymm)

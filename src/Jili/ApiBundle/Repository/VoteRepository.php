@@ -10,7 +10,7 @@ class VoteRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('v');
         $query->select('v.id,v.title,v.startTime,v.endTime,v.yyyymm,vi.sqPath');
-        $query->innerJoin('JiliApiBundle:VoteImage', 'vi', 'WITH', 'v.id = vi.voteId');
+        $query->leftJoin('JiliApiBundle:VoteImage', 'vi', 'WITH', 'v.id = vi.voteId');
         if ($active_flag) {
             $query->andWhere('v.startTime <= :startTime');
         } else {

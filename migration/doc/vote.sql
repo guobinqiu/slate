@@ -152,4 +152,4 @@ CREATE TABLE `vote_answer_yyyymm` (
    PRIMARY KEY (`id`),
    UNIQUE KEY `user_id` (`user_id`,`vote_id`),
    KEY `vote_id` (`vote_id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
