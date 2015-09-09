@@ -79,8 +79,7 @@ EOT
             $adid = trim($v[7], "'");
             $userId = trim($v[8], "'");
 
-
-            // 合并后的商家活动， url: e=uid u=uid_adid
+            // 合并后的商家活动， url query string includes: e=uid&u=uid_adid
             $cps_advertisement = false;
             $return = String::parseChanetCallbackUrl($userId, $adid);
             if($return){
@@ -89,8 +88,8 @@ EOT
                 $adid = $return['advertiserment_id'];
             }
 
-            $logger->info( 'user_id: '.$userId . ', adid: ' . $adid. ', ocd: ' . $ocd. ', name: ' . $name. ', status: ' . $status 
-                .', isNewAds: ' . ($cps_advertisement ? 'Yes':'No') );
+            $logger->info( 'user_id: '.$userId . ', adid: ' . $adid. ', ocd: ' . $ocd. ', name: ' . $name. 
+                ', status: ' . $status .', isNewAds: ' . ($cps_advertisement ? 'Yes':'No') );
 
             $adw_order = $em->getRepository('JiliApiBundle:AdwOrder')->getOrderStatus($userId,$adid,$ocd);
             $msg = '[ name:'.$name.', userId:'.$userId.', adid:'.$adid.', ocd:'.$ocd.' ] ';

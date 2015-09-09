@@ -48,15 +48,15 @@ class DataConfirmedProcessor
         $logger = $this->logger ;
 
         // advertisement must be adw cps
-        if($cps_advertisement == false){
+        if(! $cps_advertisement ){
             $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
             if(! $advertiserment || $advertiserment->getIncentiveType()!=2){
                 return false;
             }
         }
-
+        $status_ = '';
         $adworder = $em->getRepository('JiliApiBundle:AdwOrder')
-            ->getOrderInfo($userId, $adid, $ocd, '' , $cps_advertisement);
+            ->getOrderInfo($userId, $adid, $ocd, $status_ , $cps_advertisement);
 
         if(empty($adworder)){
             return false;
