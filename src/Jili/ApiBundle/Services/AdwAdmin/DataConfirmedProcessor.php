@@ -57,7 +57,6 @@ class DataConfirmedProcessor
         $status_ = '';
         $adworder = $em->getRepository('JiliApiBundle:AdwOrder')
             ->getOrderInfo($userId, $adid, $ocd, $status_ , $cps_advertisement);
-
         if(empty($adworder)){
             return false;
         }
@@ -120,14 +119,16 @@ class DataConfirmedProcessor
         $userId = (int) $userId;
         $ocd = trim($ocd);
 
+        $logger = $this->logger;
         if(  $userId <= 0 || strlen($ocd) === 0) {
             return false;
         }
 
         $order_status = $this->order_status;
         $em = $this->em;
-        if($cps_advertisement == false){
+        if(! $cps_advertisement ){
             $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
+
             if(! $advertiserment || $advertiserment->getIncentiveType()!=2){
                 return false;
             }
@@ -137,6 +138,7 @@ class DataConfirmedProcessor
             ->getOrderInfo($userId, $adid, $ocd, '', $cps_advertisement);
 
         if(empty($adworder)){
+            $logger->info('    =>No adw_order');
             return false;
         }
 
