@@ -50,7 +50,7 @@ class DuomaiApiOrdersPushChecksumValidator extends ConstraintValidator
         $localsum = md5(join('',  array_values($query)).$hash);
 
         if ($localsum !== $checksum ) {
-            $this->context->addViolation($constraint->message, array( '%string%'=>$checksum ));
+            $this->context->addViolation($constraint->message, array( '%request_checksum%'=>$checksum , '%local_checksum%'=>$localsum));
         }
     }
 }
