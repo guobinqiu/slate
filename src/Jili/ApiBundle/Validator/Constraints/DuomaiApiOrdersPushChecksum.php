@@ -9,5 +9,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class DuomaiApiOrdersPushChecksum extends Constraint
 {
-    public $message = 'Checksum %string% 验证失败';
+    public $message = 'Checksum  验证失败: 需要%local_checksum%, 得到 %request_checksum%';
 }

@@ -295,11 +295,11 @@ class DuomaiControllerTest extends WebTestCase
             'link_id' => '0',
             'order_sn' => '9152050154',
             'order_time' => '2015-04-27 10:28:59',
-            'orders_price' => '799.00',
+            'orders_price' => '799.91',
             'site_id' => '152244',
             'siter_commission' => '5.40',
             'status' => '2',
-            'checksum' => 'b1514c3865a6f43a282d8e3edbc3cfc5',
+            'checksum' => '89ae7f3db6af246ade542766dc0f6bc1',
             'id' => '71440050',
         );
 
@@ -370,11 +370,11 @@ class DuomaiControllerTest extends WebTestCase
             'link_id' => '0',
             'order_sn' => '9152050154',
             'order_time' => '2015-04-27 10:28:59',
-            'orders_price' => '799.00',
+            'orders_price' => '799.91', # the price may chages when init->pending, but not pending->invalid
             'site_id' => '152244',
             'siter_commission' => '5.40',
             'status' => '-1',
-            'checksum' => '5f2604ab4d3e3147d678803e1fe6f0e4',
+            'checksum' => '66c0e42bda03e8a60c627ebb3f44734d',
             'id' => '71440050',
         );
 
