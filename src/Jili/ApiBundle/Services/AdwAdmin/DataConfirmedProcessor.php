@@ -94,12 +94,13 @@ class DataConfirmedProcessor
             }
 
             $connection->commit();
-            return true;
         } catch ( \Exception $e) {
-            $logger->error( $e->getMessage() );
             $connection->rollback();
+            $logger->error( '    =>' .$e->getMessage() );
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -174,7 +175,6 @@ class DataConfirmedProcessor
                 ->setOrderStatus($order_status['COMPLETED_SUCCEEDED']);
 
             $em->persist($adworder);
-            $em->flush();
 
             $return = $em->getRepository('JiliApiBundle:TaskHistory0'. ($userId % 10))
                 ->update($task_params);
@@ -185,18 +185,23 @@ class DataConfirmedProcessor
 
             // AdCategory::ID_ADW_CPS : 2, $adworder->getIncentiveType(cps): 2 
             $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10))
-                ->get(array('userid'=>$userId,
+                ->get(array(
+                    'userid'=>$userId,
                     'point'=> $point,
                     'type' => AdCategory::ID_ADW_CPS)); 
 
             $user = $em->getRepository('JiliApiBundle:User')
-                ->updatePointById(array('id'=> $userId,
+                ->updatePointById(array(
+                    'id'=> $userId,
                     'points'=> $point));
-            $em->getConnection()->commit();
 
-        } catch (\Exception  $e)   {
-            $logger->info('    => '. $e->getMessage());
+            $em->flush();
+            $em->getConnection()->commit();
             $em->getConnection()->rollback();
+            $logger->info('    => ok' );
+        } catch (\Exception $e) {
+            $em->getConnection()->rollback();
+            $logger->info('    => [exception]'. $e->getMessage());
             return false;
         }
         return true;
