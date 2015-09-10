@@ -170,6 +170,7 @@ class DataConfirmedProcessor
             'statusPrevious' => $order_status['PENDING'],
         );
 
+
         try {
             $em->getConnection()->beginTransaction();
             $adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')))
@@ -182,7 +183,7 @@ class DataConfirmedProcessor
                 ->update($task_params);
 
             if(!$return){
-                throw new Exception('Update task history failed');
+                throw new \Exception('Update task history failed');
             }
 
             // AdCategory::ID_ADW_CPS : 2, $adworder->getIncentiveType(cps): 2 
@@ -197,8 +198,12 @@ class DataConfirmedProcessor
                     'id'=> $userId,
                     'points'=> $point));
 
-            $em->flush();
-            $em->getConnection()->commit();
+            if($this->definitive ) {
+                $em->flush();
+                $em->getConnection()->commit();
+            } else {
+                $logger->info('    => non definitive , not commit');
+            }
             $logger->info('    => ok' );
         } catch (\Exception $e) {
             $em->getConnection()->rollback();
@@ -216,6 +221,10 @@ class DataConfirmedProcessor
 
     public function setLogger(LoggerInterface $logger) {
         $this->logger = $logger;
+        return $this;
+    }
+    public function setDefinitive($definitive) {
+        $this->definitive = $definitive;
         return $this;
     }
 }

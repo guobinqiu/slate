@@ -21,9 +21,16 @@ class ImportAdwCpsDataConfirmedCommand extends ContainerAwareCommand
         $this->setName('jili:import-adw-cps-data-confirmed')
             ->setDescription('导入已经确认的adw cps数据')
             ->addArgument('csvfile',InputArgument::REQUIRED, 'the confirmed data')
+            ->addOption('definitive',null,InputOption::VALUE_NONE,'If set, the task will operate on db')
             ->setHelp(  <<<EOT
 For prod usage:
-./app/console jili:import-adw-cps-data-confirmed -e prod 
+./app/console jili:import-adw-cps-data-confirmed -e prod  --definitive  
+
+or for dry-run:
+./app/console jili:import-adw-cps-data-confirmed -e prod  
+
+-e prod Use prod config
+--definitive for update db really.
 EOT
         );
     }
@@ -43,9 +50,14 @@ EOT
         $em = $container->get('doctrine')->getManager();
 
         $env =  $this->getApplication()->getKernel()->getEnvironment();
+        $definitive = $input->getOption('definitive') ? true : false; 
 
         /** @var $logger LoggerInterface */
         $logger = $container->get('monolog.logger.import_adw_cps');
+        $logger->info( 'Starting '. __CLASS__);
+        $logger->info( '     definitive: '. ( $definitive ? 'true': 'false'));
+
+
         $fs = new Filesystem();
         $csv_file = $input->getArgument('csvfile');
 
@@ -67,6 +79,7 @@ EOT
             'refused_failed' => 0,
             'no_order'=> 0
         );
+
 
         $code = array();
         while($v = fgetcsv($handle)) {
@@ -96,7 +109,8 @@ EOT
             if(  empty($adw_order)) {
 
                 $processor = $container->get('adw_admin.data_confirmed.processor');
-                $processor->setLogger($logger);
+                $processor->setLogger($logger)
+                    ->setDefinitive($definitive);
 
                 if($status === $container->getParameter('nothrough')){
                     if(! $processor->noCertified($userId,$adid,$ocd, $cps_advertisement)){
