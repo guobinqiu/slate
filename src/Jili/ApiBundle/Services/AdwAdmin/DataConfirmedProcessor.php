@@ -153,54 +153,52 @@ class DataConfirmedProcessor
             ->getTaskPercent($adworder->getId());
 
         $taskPercent =  $task_order[0];
-
-        $adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')))
-            ->setIncentive(intval($comm * $taskPercent['rewardPercent']) ) // use the comm in csv exclude the exists.
-            ->setOrderStatus($order_status['COMPLETED_SUCCEEDED']);
-
-        $em->persist($adworder);
-        $em->flush();
+        // use the comm in csv exclude the exists.
+        $point = intval($comm * $taskPercent['rewardPercent']);
 
         $task_params = array(
             'userId' => $userId,
             'orderId' => $adworder->getId(),
             'taskType' => TaskHistory00::TASK_TYPE_ADW, // adw 
             'categoryType'=> AdCategory::ID_ADW_CPS, 
-            'point' => $adworder->getIncentive(),
+            'point' => $point,
             'date' => date('Y-m-d H:i:s'),
             'status' => $order_status['COMPLETED_SUCCEEDED'] ,
             'statusPrevious' => $order_status['PENDING'],
         );
 
+        try {
+            $em->getConnection()->beginTransaction();
+            $adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')))
+                ->setIncentive( $point) 
+                ->setOrderStatus($order_status['COMPLETED_SUCCEEDED']);
 
-        $return = $em->getRepository('JiliApiBundle:TaskHistory0'. ($userId % 10))
-            ->update($task_params);
+            $em->persist($adworder);
+            $em->flush();
 
-        if(!$return){
+            $return = $em->getRepository('JiliApiBundle:TaskHistory0'. ($userId % 10))
+                ->update($task_params);
+
+            if(!$return){
+                throw new Exception('Update task history failed');
+            }
+
+            // AdCategory::ID_ADW_CPS : 2, $adworder->getIncentiveType(cps): 2 
+            $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10))
+                ->get(array('userid'=>$userId,
+                    'point'=> $point,
+                    'type' => AdCategory::ID_ADW_CPS)); 
+
+            $user = $em->getRepository('JiliApiBundle:User')
+                ->updatePointById(array('id'=> $userId,
+                    'points'=> $point));
+            $em->getConnection()->commit();
+
+        } catch (\Exception  $e)   {
+            $logger->info('    => '. $e->getMessage());
+            $em->getConnection()->rollback();
             return false;
         }
-
-//        $limitAd = $em->getRepository('JiliApiBundle:LimitAd')->findByAdId($adid);
-//        $limitrs = new LimitAdResult();
-//        $limitrs->setAccessHistoryId($adworder->getId());
-//        $limitrs->setUserId($userId);
-//        $limitrs->setLimitAdId($limitAd[0]->getId());
-//        $limitrs->setResultIncentive($adworder->getIncentive());
-//
-//        $em->persist($limitrs);
-//        $em->flush();
-
-        // AdCategory::ID_ADW_CPS : 2, $adworder->getIncentiveType(cps): 2 
-        $em->getRepository('JiliApiBundle:PointHistory0'. ($userId % 10))
-            ->get(array('userid'=>$userId,
-                'point'=> $adworder->getIncentive(),
-                'type' => AdCategory::ID_ADW_CPS)); 
-
-        $user = $em->getRepository('JiliApiBundle:User')
-            ->updatePointById(array('id'=> $userId,
-                'points'=> $adworder->getIncentive()));
-        
-
         return true;
     }
 
