@@ -158,6 +158,7 @@ class DataConfirmedProcessor
         $taskPercent =  $task_order[0];
         // use the comm in csv exclude the exists.
         $point = intval($comm * $taskPercent['rewardPercent']);
+        $logger->info('    => points: '. $point . ', comm: '.$comm . ',  reward_percent: ' . $taskPercent['rewardPercent']);
 
         $task_params = array(
             'userId' => $userId,
@@ -204,7 +205,7 @@ class DataConfirmedProcessor
             } else {
                 $logger->info('    => non definitive , not commit');
             }
-            $logger->info('    => ok' );
+            $logger->info('    => done' );
         } catch (\Exception $e) {
             $em->getConnection()->rollback();
             $logger->info('    => [exception]'. $e->getMessage());
