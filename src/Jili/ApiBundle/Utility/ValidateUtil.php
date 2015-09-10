@@ -13,6 +13,16 @@ class ValidateUtil
         return false;
     }
 
+    public static function validatePeriod($start_time, $end_time)
+    {
+        if (!empty($start_time) && !empty($end_time)) {
+            if ($start_time > $end_time) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static function getFormErrors($form)
     {
         $error_meeeages = array ();

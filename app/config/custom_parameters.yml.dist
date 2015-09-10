@@ -162,7 +162,7 @@ parameters:
     upload_adver_dir: images/actionPic/
     upload_tmp_dir: uploads/user/
     upload_activity_dir: images/activity/
-    upload_tmp_image_dir: uploads/vote_image/tmp/
+    upload_tmp_image_dir: uploads/tmp/
     upload_vote_image_dir: uploads/vote_image/
     page_num: 10
     init: 0

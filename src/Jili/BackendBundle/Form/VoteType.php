@@ -77,9 +77,12 @@ test:description',
         ));
 
         $builder->add('voteImage', 'file', array (
-            'label' => 'voteImage',
             'required' => false,
-            'invalid_message' => 'voteImage error'
+            'label' => 'voteImage',
+            'constraints' => array (
+                new Assert\Image()
+            ),
+            'invalid_message' => 'Invalid voteImage'
         ));
     }
 

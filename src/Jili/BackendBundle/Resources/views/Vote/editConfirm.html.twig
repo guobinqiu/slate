@@ -59,7 +59,11 @@
         </tr>
         <tr>
             <td>{{form_label(form.voteImage)}}</td>
-            <td>{{form.voteImage.vars.value}}</td>
+            <td>{% if tmp_image is defined %}
+                    <img src="{{ asset(upload_tmp_image_dir ~ tmp_image) }}" />
+                    <input type="hidden" name="tmp_image" id="tmp_image" value="{{ tmp_image }}">
+                    {%endif%}
+            </td>
         </tr>
         {% for voteChoice in values.voteChoices %}
         <tr>

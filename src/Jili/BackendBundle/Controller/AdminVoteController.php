@@ -13,10 +13,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Jili\BackendBundle\Form\VoteType;
 use Jili\ApiBundle\Entity\Vote;
 use Jili\ApiBundle\Entity\VoteChoice;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Filesystem\Filesystem;
+use Jili\ApiBundle\Entity\VoteImage;
 use Jili\ApiBundle\Utility\FileUtil;
-use Symfony\Component\Validator\Constraints as Assert;
 use Jili\ApiBundle\Utility\ValidateUtil;
 
 /**
@@ -25,7 +23,7 @@ use Jili\ApiBundle\Utility\ValidateUtil;
 class AdminVoteController extends Controller implements IpAuthenticatedController
 {
 
-    public static function getTmpImageDir()
+    public function getTmpImageDir()
     {
         return $this->container->getParameter('upload_tmp_image_dir');
     }
@@ -112,6 +110,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     public function editConfirmAction(Request $request)
     {
         $vote = new Vote();
+        $tmp_image = '';
 
         for ($i = 1; $i <= 10; $i++) {
             $VoteChoice = new VoteChoice();
@@ -125,18 +124,22 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $error_meeeages = ValidateUtil::getFormErrors($form);
 
         //todo check period 能否写到VoteType中
-        $start_time = $values->getStartTime();
-        $end_time = $values->getEndTime();
-        if (!empty($start_time) && !empty($end_time)) {
-            if ($start_time > $end_time) {
-                $error_meeeages[] = 'Invalid period';
-            }
+        if (!ValidateUtil::validatePeriod($values->getStartTime(), $values->getEndTime())) {
+            $error_meeeages[] = 'Invalid period';
         }
 
         if (!$error_meeeages) {
+
+            //todo: 图片名，wenwen是40位，jili是32位，是否要一致
+            $voteImage = $values->getVoteImage();
+            if (!is_null($voteImage) && !$voteImage->getError()) {
+                $tmp_image = FileUtil::moveUploadedFile($voteImage, $this->getTmpImageDir());
+            }
+
             return $this->render('JiliBackendBundle:Vote:editConfirm.html.twig', array (
                 'form' => $form->createView(),
-                'values' => $values
+                'values' => $values,
+                'tmp_image' => $tmp_image
             ));
         }
 
@@ -160,16 +163,21 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
         $form = $this->createForm(new VoteType(), $vote);
         $form->bind($request);
+        $values = $form->getData();
 
-        if ($form->isValid()) {
-            $values = $form->getData();
+        $error_meeeages = ValidateUtil::getFormErrors($form);
 
+        //todo check period 能否写到VoteType中
+        if (!ValidateUtil::validatePeriod($values->getStartTime(), $values->getEndTime())) {
+            $error_meeeages[] = 'Invalid period';
+        }
+
+        if (!$error_meeeages) {
             $em = $this->getDoctrine()->getManager();
             $db_connection = $em->getConnection();
             $db_connection->beginTransaction();
 
             try {
-
                 $vote_entity = new Vote();
                 $vote_entity->setTitle($values->getTitle());
                 $vote_entity->setDescription($values->getDescription());
@@ -191,10 +199,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                     $em->persist($choice);
                     $em->flush();
                 }
-
                 $db_connection->commit();
-
-                return $this->render('JiliBackendBundle:Vote:index.html.twig');
             } catch (\Exception $e) {
                 $db_connection->rollback();
                 echo $e->getMessage();
@@ -204,6 +209,34 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                     'error_meeeages' => $e->getMessage()
                 ));
             }
+
+            $tmp_image = $request->request->get('tmp_image');
+
+            if ($tmp_image) {
+                //delete
+                $images = $em->getRepository('JiliApiBundle:VoteImage')->findByVoteId($vote_id);
+                foreach ($images as $image) {
+                    $em->remove($image);
+                    $em->flush();
+                }
+
+                $vote_image = new VoteImage();
+                $vote_image->setVoteId($vote_id);
+                $vote_image->setSrcImagePath($this->getTmpImageDir() . '/' . $tmp_image);
+                $vote_image->setFile($this->getTmpImageDir() . '/' . $tmp_image);
+
+                $em->persist($vote_image);
+                $em->flush();
+
+                //image resizer
+                $source_path = $this->getTmpImageDir() . '/' . $tmp_image;
+                $target_dir = $this->container->getParameter('upload_vote_image_dir');
+                $imageresizer = $this->get('helper.imageresizer');
+                $imageresizer->resizeImage($source_path, $target_dir, $vote_image->getSqPath(), $vote_image::SQ_SIDE);
+                $imageresizer->resizeImage($source_path, $target_dir, $vote_image->getSPath(), $vote_image::S_SIDE);
+                $imageresizer->resizeImage($source_path, $target_dir, $vote_image->getMPath(), $vote_image::M_SIDE);
+            }
+            return $this->render('JiliBackendBundle:Vote:index.html.twig');
         }
 
         $error_meeeages = ValidateUtil::getFormErrors($form);

@@ -12,6 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class VoteImage
 {
+
+    const SQ_SIDE = 60;
+
+    const S_SIDE = 90;
+
+    const M_SIDE = 120;
+
     /**
      * @var integer
      *
@@ -139,8 +146,39 @@ class VoteImage
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+    private $src_image_path;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
 
+    public function setFile()
+    {
+        $this->setFilename(basename($this->src_image_path));
+
+        { // Sq file
+            $sq_file = $this->getDstImagePath('sq');
+            $this->setSqPath($sq_file);
+            $this->setSqWidth(self::SQ_SIDE);
+            $this->setSqHeight(self::SQ_SIDE);
+        }
+
+        { // S file
+            $s_file = $this->getDstImagePath('s');
+            $this->setSPath($s_file);
+            $this->setSWidth(self::S_SIDE);
+            $this->setSHeight(self::S_SIDE);
+        }
+
+        { // M file
+            $m_file = $this->getDstImagePath('m');
+            $this->setMPath($m_file);
+            $this->setMWidth(self::M_SIDE);
+            $this->setMHeight(self::M_SIDE);
+        }
+    }
 
     /**
      * Set voteId
@@ -151,14 +189,14 @@ class VoteImage
     public function setVoteId($voteId)
     {
         $this->voteId = $voteId;
-    
+
         return $this;
     }
 
     /**
      * Get voteId
      *
-     * @return integer 
+     * @return integer
      */
     public function getVoteId()
     {
@@ -174,14 +212,14 @@ class VoteImage
     public function setFilename($filename)
     {
         $this->filename = $filename;
-    
+
         return $this;
     }
 
     /**
      * Get filename
      *
-     * @return string 
+     * @return string
      */
     public function getFilename()
     {
@@ -197,14 +235,14 @@ class VoteImage
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -220,14 +258,14 @@ class VoteImage
     public function setWidth($width)
     {
         $this->width = $width;
-    
+
         return $this;
     }
 
     /**
      * Get width
      *
-     * @return integer 
+     * @return integer
      */
     public function getWidth()
     {
@@ -243,14 +281,14 @@ class VoteImage
     public function setHeight($height)
     {
         $this->height = $height;
-    
+
         return $this;
     }
 
     /**
      * Get height
      *
-     * @return integer 
+     * @return integer
      */
     public function getHeight()
     {
@@ -266,14 +304,14 @@ class VoteImage
     public function setSqPath($sqPath)
     {
         $this->sqPath = $sqPath;
-    
+
         return $this;
     }
 
     /**
      * Get sqPath
      *
-     * @return string 
+     * @return string
      */
     public function getSqPath()
     {
@@ -289,14 +327,14 @@ class VoteImage
     public function setSqWidth($sqWidth)
     {
         $this->sqWidth = $sqWidth;
-    
+
         return $this;
     }
 
     /**
      * Get sqWidth
      *
-     * @return integer 
+     * @return integer
      */
     public function getSqWidth()
     {
@@ -312,14 +350,14 @@ class VoteImage
     public function setSqHeight($sqHeight)
     {
         $this->sqHeight = $sqHeight;
-    
+
         return $this;
     }
 
     /**
      * Get sqHeight
      *
-     * @return integer 
+     * @return integer
      */
     public function getSqHeight()
     {
@@ -335,14 +373,14 @@ class VoteImage
     public function setSPath($sPath)
     {
         $this->sPath = $sPath;
-    
+
         return $this;
     }
 
     /**
      * Get sPath
      *
-     * @return string 
+     * @return string
      */
     public function getSPath()
     {
@@ -358,14 +396,14 @@ class VoteImage
     public function setSWidth($sWidth)
     {
         $this->sWidth = $sWidth;
-    
+
         return $this;
     }
 
     /**
      * Get sWidth
      *
-     * @return integer 
+     * @return integer
      */
     public function getSWidth()
     {
@@ -381,14 +419,14 @@ class VoteImage
     public function setSHeight($sHeight)
     {
         $this->sHeight = $sHeight;
-    
+
         return $this;
     }
 
     /**
      * Get sHeight
      *
-     * @return integer 
+     * @return integer
      */
     public function getSHeight()
     {
@@ -404,14 +442,14 @@ class VoteImage
     public function setMPath($mPath)
     {
         $this->mPath = $mPath;
-    
+
         return $this;
     }
 
     /**
      * Get mPath
      *
-     * @return string 
+     * @return string
      */
     public function getMPath()
     {
@@ -427,14 +465,14 @@ class VoteImage
     public function setMWidth($mWidth)
     {
         $this->mWidth = $mWidth;
-    
+
         return $this;
     }
 
     /**
      * Get mWidth
      *
-     * @return integer 
+     * @return integer
      */
     public function getMWidth()
     {
@@ -450,14 +488,14 @@ class VoteImage
     public function setMHeight($mHeight)
     {
         $this->mHeight = $mHeight;
-    
+
         return $this;
     }
 
     /**
      * Get mHeight
      *
-     * @return integer 
+     * @return integer
      */
     public function getMHeight()
     {
@@ -473,14 +511,14 @@ class VoteImage
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-    
+
         return $this;
     }
 
     /**
      * Get deleteFlag
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDeleteFlag()
     {
@@ -496,14 +534,14 @@ class VoteImage
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -519,14 +557,14 @@ class VoteImage
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -536,10 +574,30 @@ class VoteImage
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getImage()
+    {
+        return $this->src_image_path;
+    }
+
+    public function setSrcImagePath($src_image_path)
+    {
+        $this->src_image_path = $src_image_path;
+    }
+
+    public function getDstImagePath($suffix)
+    {
+        $path_info = pathinfo($this->src_image_path);
+        // Moon.jpg -> Moon
+        $src_image_name = basename($this->src_image_path, '.' . $path_info['extension']);
+
+        preg_match('/^(.)(.)/', $src_image_name, $res);
+        return sprintf('%s/%s/%s_%s.jpg', $res[1], $res[2], $src_image_name, $suffix);
     }
 }

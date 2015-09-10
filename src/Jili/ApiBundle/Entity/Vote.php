@@ -3,9 +3,6 @@
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Jili\ApiBundle\Entity\VoteImage;
-// use Jili\ApiBundle\Entity\Vote;
-
 
 /**
  * Vote
@@ -93,7 +90,7 @@ class Vote
     private $voteChoices;
 
     /**
-     * @ORM\OneToOne(targetEntity="Jili\ApiBundle\Entity\VoteImage", mappedBy="parent")
+     * @var string
      **/
     private $voteImage;
 
@@ -343,11 +340,11 @@ class Vote
     }
 
     /**
-     * Add voteImage
+     * Set voteImage
      *
-     * @param VoteImage $voteImage
+     * @param string $voteImage
      */
-    public function setVoteImage(VoteImage $voteImage)
+    public function setVoteImage( $voteImage)
     {
         $this->voteImage = $voteImage;
     }
@@ -355,7 +352,7 @@ class Vote
     /**
      * Get voteImage
      *
-     * @return VoteImage $voteImage
+     * @return string $voteImage
      */
     public function getVoteImage()
     {
