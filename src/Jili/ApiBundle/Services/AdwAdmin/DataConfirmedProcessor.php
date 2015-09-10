@@ -152,8 +152,10 @@ class DataConfirmedProcessor
             ->getTaskPercent($adworder->getId());
 
         $taskPercent =  $task_order[0];
+        $point = intval($comm*$taskPercent['rewardPercent']);
 
         $adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')))
+            ->setIncentive($point)
             ->setOrderStatus($order_status['COMPLETED_SUCCEEDED']);
 
         $em->persist($adworder);
@@ -164,7 +166,7 @@ class DataConfirmedProcessor
             'orderId' => $adworder->getId(),
             'taskType' => TaskHistory00::TASK_TYPE_ADW, // adw 
             'categoryType'=> AdCategory::ID_ADW_CPS, 
-            'point' => intval($comm*$taskPercent['rewardPercent']),
+            'point' => $point,
             'date' => date('Y-m-d H:i:s'),
             'status' => $order_status['COMPLETED_SUCCEEDED'] ,
             'statusPrevious' => $order_status['PENDING'],
