@@ -15,10 +15,12 @@ class DataConfirmedProcessor
     private $logger;
 
     private $order_status;
+    private $definitive;
 
     public function __construct() 
     {
         $this->order_status = OrderBase::getStatusList(); 
+        $this->definitive = false;
     }
 
 
@@ -197,7 +199,6 @@ class DataConfirmedProcessor
 
             $em->flush();
             $em->getConnection()->commit();
-            $em->getConnection()->rollback();
             $logger->info('    => ok' );
         } catch (\Exception $e) {
             $em->getConnection()->rollback();
