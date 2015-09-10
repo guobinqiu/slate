@@ -148,25 +148,25 @@ class DataConfirmedProcessor
             return false;
         }
 
+
         $task_order = $em->getRepository('JiliApiBundle:TaskHistory0'.( $userId % 10))
             ->getTaskPercent($adworder->getId());
 
         $taskPercent =  $task_order[0];
-        $point = intval($comm*$taskPercent['rewardPercent']);
 
         $adworder->setConfirmTime(date_create(date('Y-m-d H:i:s')))
-            ->setIncentive($point)
+            ->setIncentive(intval($comm * $taskPercent['rewardPercent']) ) // use the comm in csv exclude the exists.
             ->setOrderStatus($order_status['COMPLETED_SUCCEEDED']);
 
         $em->persist($adworder);
         $em->flush();
 
-        $parms = array(
+        $task_params = array(
             'userId' => $userId,
             'orderId' => $adworder->getId(),
             'taskType' => TaskHistory00::TASK_TYPE_ADW, // adw 
             'categoryType'=> AdCategory::ID_ADW_CPS, 
-            'point' => $point,
+            'point' => $adworder->getIncentive(),
             'date' => date('Y-m-d H:i:s'),
             'status' => $order_status['COMPLETED_SUCCEEDED'] ,
             'statusPrevious' => $order_status['PENDING'],
@@ -174,7 +174,7 @@ class DataConfirmedProcessor
 
 
         $return = $em->getRepository('JiliApiBundle:TaskHistory0'. ($userId % 10))
-            ->update($parms);
+            ->update($task_params);
 
         if(!$return){
             return false;
