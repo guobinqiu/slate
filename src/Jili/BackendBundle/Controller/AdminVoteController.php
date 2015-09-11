@@ -16,6 +16,7 @@ use Jili\ApiBundle\Entity\VoteChoice;
 use Jili\ApiBundle\Entity\VoteImage;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\ValidateUtil;
+use Jili\BackendBundle\Utility\VoteImageResizer;
 
 /**
  * @Route("/admin/vote",requirements={"_scheme"="https"})
@@ -190,11 +191,11 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                     $new_flag = false;
                 } else {
                     $vote_entity = new Vote();
+                    $vote_entity->setYyyymm(date('Ym'));
                 }
 
                 $vote_entity->setTitle($values->getTitle());
                 $vote_entity->setDescription($values->getDescription());
-                $vote_entity->setYyyymm(date('Ym'));
                 $vote_entity->setStartTime(\DateTime::createFromFormat('Y-m-d H:i:s', $values->getStartTime() . ' 00:00:00'));
                 $vote_entity->setEndTime(\DateTime::createFromFormat('Y-m-d H:i:s', $values->getEndTime() . ' 23:59:59'));
                 $vote_entity->setPointValue($values->getPointValue());
@@ -219,7 +220,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                     $em->flush();
                 }
                 $db_connection->commit();
-
             } catch (\Exception $e) {
                 $db_connection->rollback();
                 echo $e->getMessage();
@@ -251,10 +251,9 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 //image resizer
                 $source_path = $this->getTmpImageDir() . '/' . $tmp_image;
                 $target_dir = $this->container->getParameter('upload_vote_image_dir');
-                $imageresizer = $this->get('helper.imageresizer');
-                $imageresizer->resizeImage($source_path, $target_dir, $vote_image->getSqPath(), $vote_image::SQ_SIDE);
-                $imageresizer->resizeImage($source_path, $target_dir, $vote_image->getSPath(), $vote_image::S_SIDE);
-                $imageresizer->resizeImage($source_path, $target_dir, $vote_image->getMPath(), $vote_image::M_SIDE);
+                VoteImageResizer::resizeImage($source_path, $target_dir, $vote_image->getSqPath(), $vote_image::SQ_SIDE);
+                VoteImageResizer::resizeImage($source_path, $target_dir, $vote_image->getSPath(), $vote_image::S_SIDE);
+                VoteImageResizer::resizeImage($source_path, $target_dir, $vote_image->getMPath(), $vote_image::M_SIDE);
             }
             return $this->render('JiliBackendBundle:Vote:index.html.twig', array (
                 'vote_edit_complete' => true,

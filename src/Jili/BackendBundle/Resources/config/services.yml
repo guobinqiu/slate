@@ -32,5 +32,3 @@ services:
         arguments: [ %activity_gathering% ]
         calls:
             - [ setLogger, [ @logger ] ] 
-    helper.imageresizer:
-        class: Jili\BackendBundle\Helper\ImageResizer

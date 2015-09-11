@@ -1,10 +1,10 @@
 <?php
 
-namespace Jili\BackendBundle\Helper;
+namespace Jili\BackendBundle\Utility;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-class ImageResizer
+class VoteImageResizer
 {
 
     /**
@@ -16,10 +16,10 @@ class ImageResizer
      * @param int $sidePx (The new side to resize the image to)
      * @return string (The new path to the reized image)
      */
-    public function resizeImage($image, $targetDir, $relativePath, $sidePx = 0)
+    static public function resizeImage($image, $targetDir, $relativePath, $sidePx = 0)
     {
         // Get current dimensions
-        $ImageDetails = $this->getImageDetails($image);
+        $ImageDetails = self::getImageDetails($image);
         $name = $ImageDetails->name;
         $height_orig = $ImageDetails->height;
         $width_orig = $ImageDetails->width;
@@ -54,8 +54,8 @@ class ImageResizer
         }
 
         $path = explode("/", $relativePath);
-        $this->mkdir_chmod($targetDir, $path[0], 0666);
-        $this->mkdir_chmod($targetDir . $path[0], $path[1], 0666);
+        self::mkdir_chmod($targetDir, $path[0], 0666);
+        self::mkdir_chmod($targetDir . $path[0], $path[1], 0666);
 
         $newPath = $targetDir . $relativePath;
 
@@ -84,7 +84,7 @@ class ImageResizer
      * @param $imageWithPath
      * @return \stdClass
      */
-    private function getImageDetails($imageWithPath)
+    static private function getImageDetails($imageWithPath)
     {
         $size = getimagesize($imageWithPath);
 
@@ -112,7 +112,7 @@ class ImageResizer
         return $Details;
     }
 
-    private function mkdir_chmod($base_dir, $path, $mode)
+    static private function mkdir_chmod($base_dir, $path, $mode)
     {
         $base_dir .= '/' . $path;
 
