@@ -46,6 +46,6 @@ class FlowOrderCreateApiProcessorTest extends KernelTestCase {
         $param['custom_order_sn'] = 10000;
         $return = $service->process($param);
         $this->assertEquals(212, $return['resultcode']);
-        $this->assertEquals('请求的产品暂时关停', $return['error_message']);
+        $this->assertEquals('对不起，不能兑换，请联系客服！', $return['error_message']);
     }
 }
