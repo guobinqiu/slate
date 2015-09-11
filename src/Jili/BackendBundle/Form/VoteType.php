@@ -52,7 +52,6 @@ class VoteType extends AbstractType
         $builder->add('title', 'text', array (
             'label' => 'title',
             'required' => true,
-            'data' => 'test:title',
             'attr' => array (
                 'size' => '50'
             ),
@@ -62,8 +61,6 @@ class VoteType extends AbstractType
         $builder->add('description', 'textarea', array (
             'label' => 'description',
             'required' => true,
-            'data' => 'test:description
-test:description',
             'attr' => array (
                 'rows' => '6',
                 'cols' => '50'

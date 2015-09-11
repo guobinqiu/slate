@@ -1,6 +1,6 @@
 {% extends '::adminBase.html.twig' %}
 
-{% block title %} 
+{% block title %}
 {{ parent() }} - vote 管理
 {% endblock %}
 
@@ -14,8 +14,16 @@
 
 {% block body%}
 
-{{ render(controller('JiliBackendBundle:AdminVote:ReserveList', { 'paging':false}) ) }} 
+{% if vote_edit_complete is defined %}
+{% if is_new == true %}
+    設問を追加しました。[ID: {{edited_vote_id}}]
+{% else %}
+    設問の設定変更をしました。[ID: {{edited_vote_id}}]
+{% endif %}
+{% endif %}
 
-{{ render(controller('JiliBackendBundle:AdminVote:ActiveList', { 'paging':false} ) ) }} 
+{{ render(controller('JiliBackendBundle:AdminVote:ReserveList', { 'paging':false}) ) }}
+
+{{ render(controller('JiliBackendBundle:AdminVote:ActiveList', { 'paging':false} ) ) }}
 
 {% endblock %}

@@ -85,7 +85,7 @@ class Vote
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Jili\ApiBundle\Entity\VoteChoice", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Jili\ApiBundle\Entity\VoteChoice", mappedBy="vote")
      */
     private $voteChoices;
 
@@ -100,7 +100,6 @@ class Vote
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
     }
-
 
     /**
      * Set title
@@ -320,6 +319,19 @@ class Vote
     }
 
     /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Vote
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Add voteChoice
      *
      * @param VoteChoice $voteChoices
@@ -327,6 +339,16 @@ class Vote
     public function addVoteChoice(VoteChoice $voteChoice)
     {
         $this->voteChoices[] = $voteChoice;
+    }
+
+    /**
+     * Remove  voteChoice
+     * @param integer $index
+     *
+     */
+    public function removeVoteChoice($index)
+    {
+        unset($this->voteChoices[$index]);
     }
 
     /**
@@ -344,7 +366,7 @@ class Vote
      *
      * @param string $voteImage
      */
-    public function setVoteImage( $voteImage)
+    public function setVoteImage($voteImage)
     {
         $this->voteImage = $voteImage;
     }

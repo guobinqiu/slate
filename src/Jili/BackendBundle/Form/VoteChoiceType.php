@@ -21,7 +21,6 @@ class VoteChoiceType extends AbstractType
         $builder->add('name', 'text', array (
             'label' => 'Choice',
             'required' => false,
-            'data' => 'test:name',
             'attr' => array (
                 'size' => '50'
             )

@@ -34,7 +34,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         return $this->render('JiliBackendBundle:Vote:index.html.twig');
     }
 
@@ -92,9 +91,15 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     {
         $vote = new Vote();
 
-        for ($i = 1; $i <= 10; $i++) {
-            $VoteChoice = new VoteChoice();
-            $vote->addVoteChoice($VoteChoice);
+        if ($request->query->has('id')) {
+            $vote_id = $request->query->get('id');
+            $em = $this->getDoctrine()->getManager();
+            $vote = $em->getRepository('JiliApiBundle:Vote')->findOneById($vote_id);
+        } else {
+            for ($i = 1; $i <= 10; $i++) {
+                $VoteChoice = new VoteChoice();
+                $vote->addVoteChoice($VoteChoice);
+            }
         }
 
         $form = $this->createForm(new VoteType(), $vote);
@@ -155,6 +160,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     public function editCommitAction(Request $request)
     {
         $vote = new Vote();
+        $new_flag = true;
 
         for ($i = 1; $i <= 10; $i++) {
             $VoteChoice = new VoteChoice();
@@ -178,7 +184,14 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
             $db_connection->beginTransaction();
 
             try {
-                $vote_entity = new Vote();
+
+                if ($values->getId()) {
+                    $vote_entity = $em->getRepository('JiliApiBundle:Vote')->findOneById($values->getId());
+                    $new_flag = false;
+                } else {
+                    $vote_entity = new Vote();
+                }
+
                 $vote_entity->setTitle($values->getTitle());
                 $vote_entity->setDescription($values->getDescription());
                 $vote_entity->setYyyymm(date('Ym'));
@@ -195,11 +208,18 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 $vote_id = $vote_entity->getId();
 
                 foreach ($values->getVoteChoices() as $key => $choice) {
-                    $choice->setVoteId($vote_id);
-                    $em->persist($choice);
+                    $choice_entity = $em->getRepository('JiliApiBundle:VoteChoice')->getVoteChoice($vote_id, $choice->getAnswerNumber());
+                    if (!$choice_entity) {
+                        $choice_entity = new VoteChoice();
+                        $choice_entity->setVote($vote_entity);
+                        $choice_entity->setAnswerNumber($choice->getAnswerNumber());
+                    }
+                    $choice_entity->setName($choice->getName());
+                    $em->persist($choice_entity);
                     $em->flush();
                 }
                 $db_connection->commit();
+
             } catch (\Exception $e) {
                 $db_connection->rollback();
                 echo $e->getMessage();
@@ -236,7 +256,11 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 $imageresizer->resizeImage($source_path, $target_dir, $vote_image->getSPath(), $vote_image::S_SIDE);
                 $imageresizer->resizeImage($source_path, $target_dir, $vote_image->getMPath(), $vote_image::M_SIDE);
             }
-            return $this->render('JiliBackendBundle:Vote:index.html.twig');
+            return $this->render('JiliBackendBundle:Vote:index.html.twig', array (
+                'vote_edit_complete' => true,
+                'edited_vote_id' => $vote_id,
+                'is_new' => $new_flag
+            ));
         }
 
         $error_meeeages = ValidateUtil::getFormErrors($form);

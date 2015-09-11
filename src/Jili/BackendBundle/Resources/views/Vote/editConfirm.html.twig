@@ -16,19 +16,19 @@
 
 {% form_theme form 'form_table_layout.html.twig' %}
 <form action="{{ path('_admin_vote_edit_commit') }}" method="post" id="form1">
-{{form_widget(form.id)}}
 
 <!-- hidden fields -->
 <div style="display: none">
-{{ form_row(form.startTime) }}
-{{ form_row(form.endTime) }}
-{{ form_row(form.pointValue) }}
-{{ form_row(form.title) }}
-{{ form_row(form.description) }}
-{{ form_row(form.voteImage) }}
+{{form_widget(form.id)}}
+{{ form_widget(form.startTime) }}
+{{ form_widget(form.endTime) }}
+{{ form_widget(form.pointValue) }}
+{{ form_widget(form.title) }}
+{{ form_widget(form.description) }}
+{{ form_widget(form.voteImage) }}
  {% for voteChoice in form.voteChoices %}
-{{ form_row(voteChoice.name)}}
-{{ form_row(voteChoice.answerNumber)}}
+{{ form_widget(voteChoice.name)}}
+{{ form_widget(voteChoice.answerNumber)}}
 {% endfor %}
 </div>
 
@@ -75,7 +75,7 @@
         {{form_errors(form)}}
         <tr>
             <td><input type="button" value="back" onclick="history.back();"></td>
-            <td><input type="submit" value="create" /></td>
+            <td><input type="submit" value="commit" /></td>
             <td>&nbsp;</td>
         </tr>
     </table>
