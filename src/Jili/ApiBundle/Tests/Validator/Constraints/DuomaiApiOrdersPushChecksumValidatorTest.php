@@ -14,6 +14,7 @@ class DuomaiApiOrdersPushChecksumValidatorTest extends \PHPUnit_Framework_TestCa
     {
         $hash = '123qweasdzxc';
         $checksum = '';
+        $localsum ='72953e9c175e18ac8af3fd675b58b070';
 
         $constraint = new DuomaiApiOrdersPushChecksum();
         $validator  = new DuomaiApiOrdersPushChecksumValidator();
@@ -23,7 +24,7 @@ class DuomaiApiOrdersPushChecksumValidatorTest extends \PHPUnit_Framework_TestCa
 
         $context->expects($this->once())
             ->method('addViolation')
-            ->with($this->equalTo('Checksum %string% 验证失败'), $this->equalTo( array('%string%'=>$checksum)));
+            ->with($this->equalTo('Checksum  验证失败: 需要%local_checksum%, 得到 %request_checksum%'), $this->equalTo( array( '%request_checksum%'=>$checksum , '%local_checksum%'=>$localsum)));
 
         $validator->initialize($context);
         $bad_value  = array('hash'=>$hash , 'request'=> array('id'=>'11','field4'=> 'abc', 'field2'=>2.2, 'field3'=> '2015-03-23 16:02:00', 'checksum'=>$checksum));
