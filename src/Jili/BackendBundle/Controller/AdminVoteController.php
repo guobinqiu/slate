@@ -96,11 +96,17 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
             $vote_id = $request->query->get('id');
             $em = $this->getDoctrine()->getManager();
             $vote = $em->getRepository('JiliApiBundle:Vote')->findOneById($vote_id);
+
+            $vote->setStartTime($vote->getStartTime()->format('Y-m-d'));
+            $vote->setEndTime($vote->getEndTime()->format('Y-m-d'));
         } else {
             for ($i = 1; $i <= 10; $i++) {
                 $VoteChoice = new VoteChoice();
                 $vote->addVoteChoice($VoteChoice);
             }
+            $vote->setStartTime(date('Y-m-d'));
+            $vote->setEndTime(date('Y-m-d'));
+            $vote->setPointValue(1);
         }
 
         $form = $this->createForm(new VoteType(), $vote);

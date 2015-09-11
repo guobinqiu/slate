@@ -22,7 +22,6 @@ class VoteType extends AbstractType
             'label' => 'startTime',
             'required' => true,
             'read_only' => 'true',
-            'data' => date('Y-m-d'),
             'constraints' => new NotBlank(),
             'invalid_message' => 'Invalid startTime'
         ));
@@ -30,14 +29,12 @@ class VoteType extends AbstractType
             'label' => 'endTime',
             'required' => true,
             'read_only' => 'true',
-            'data' => date('Y-m-d'),
             'constraints' => new NotBlank(),
             'invalid_message' => 'Invalid endTime'
         ));
         $builder->add('pointValue', 'number', array (
             'label' => 'pointValue',
             'required' => true,
-            'data' => 1,
             'constraints' => array (
                 new NotBlank(),
                 new Assert\Range(array (
