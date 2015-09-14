@@ -6,6 +6,14 @@ use Doctrine\ORM\EntityRepository;
 
 class VoteRepository extends EntityRepository
 {
+
+    /**
+     * fetch vote entity list
+     *
+     * @param boolean $active_flag
+     *
+     * @return array The objects.
+     */
     public function fetchVoteList($active_flag = true)
     {
         $query = $this->createQueryBuilder('v');

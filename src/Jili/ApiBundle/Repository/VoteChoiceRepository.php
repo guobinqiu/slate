@@ -6,6 +6,15 @@ use Doctrine\ORM\EntityRepository;
 
 class VoteChoiceRepository extends EntityRepository
 {
+
+    /**
+     * get vote choice entity
+     *
+     * @param integer $vote_id
+     * @param integer $answer_number
+     *
+     * @return object|null The entity instance or NULL if the entity can not be found.
+     */
     public function getVoteChoice($vote_id, $answer_number)
     {
         $query = $this->createQueryBuilder('vc');

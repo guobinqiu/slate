@@ -7,6 +7,13 @@ use Doctrine\ORM\EntityRepository;
 class VoteAnswerYyyymmRepository extends EntityRepository
 {
 
+    /**
+     * get vote answer table name
+     *
+     * @param string $yyyymm
+     *
+     * @return string
+     */
     public function getTableNameByYyyymm($yyyymm)
     {
         if (!preg_match('/^\d{4}\d{2}$/', $yyyymm)) {
@@ -16,6 +23,13 @@ class VoteAnswerYyyymmRepository extends EntityRepository
         return sprintf('vote_answer_%s', $yyyymm);
     }
 
+    /**
+     * create vote answer table
+     *
+     * @param mixed $yyyymm
+     *
+     * @return integer The number of rows
+     */
     public function createYyyymmTable($yyyymm)
     {
         $tablename = $this->getTableNameByYyyymm($yyyymm);
@@ -36,6 +50,14 @@ class VoteAnswerYyyymmRepository extends EntityRepository
         return $stm->execute();
     }
 
+    /**
+     * get answer count
+     *
+     * @param integer $vote_id
+     * @param string $yyyymm
+     *
+     * @return integer The count of answer
+     */
     public function getAnswerCount($vote_id, $yyyymm)
     {
         $tablename = $this->getTableNameByYyyymm($yyyymm);
