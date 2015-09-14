@@ -47,6 +47,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $page = $request->query->get('page', 1);
         $arr = $this->getVoteList($page, $active_flag);
         $arr['paging'] = $paging;
+        $arr['page'] = $page;
         return $this->render('JiliBackendBundle:Vote:activelist.html.twig', $arr);
     }
 
@@ -59,6 +60,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $page = $request->query->get('page', 1);
         $arr = $this->getVoteList($page, $active_flag);
         $arr['paging'] = $paging;
+        $arr['page'] = $page;
         return $this->render('JiliBackendBundle:Vote:reserveList.html.twig', $arr);
     }
 
@@ -81,7 +83,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $paginator = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate($result, $page, $page_size);
         $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
-
         return $arr;
     }
 
@@ -281,7 +282,49 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
      */
     public function deleteAction(Request $request)
     {
-        return $this->render('JiliBackendBundle:Vote:delete.html.twig');
+        $id = $request->query->get('id');
+        $ret_page = $request->query->get('page', '');
+        $ret_action = $request->query->get('ret_action', '');
+        $em = $this->getDoctrine()->getManager();
+        $db_connection = $em->getConnection();
+        $db_connection->beginTransaction();
+
+        try {
+            $voteChoices = $em->getRepository('JiliApiBundle:VoteChoice')->findByVoteId($id);
+            foreach ($voteChoices as $voteChoice) {
+                $em->remove($voteChoice);
+            }
+
+            $voteImages = $em->getRepository('JiliApiBundle:VoteImage')->findByVoteId($id);
+            foreach ($voteImages as $voteImage) {
+                $em->remove($voteImage);
+            }
+
+            $vote = $em->getRepository('JiliApiBundle:Vote')->find($id);
+            if ($vote) {
+                $em->remove($vote);
+            }
+
+            $em->flush();
+            $db_connection->commit();
+        } catch (\Exception $e) {
+            $db_connection->rollback();
+            echo $e->getMessage();
+        }
+
+        if ($ret_action == '_admin_vote_activelist') {
+            return $this->redirect($this->get('router')->generate('_admin_vote_activelist', array (
+                'paging' => true,
+                'page' => $ret_page
+            )));
+        } else if ($ret_action == '_admin_vote_reserveList') {
+            return $this->redirect($this->get('router')->generate('_admin_vote_reserveList', array (
+                'paging' => true,
+                'page' => $ret_page
+            )));
+        } else {
+            return $this->redirect($this->get('router')->generate('_admin_vote_index'));
+        }
     }
 
     /**
