@@ -54,7 +54,6 @@ class FlowOrderCreateApiProcessorTest extends KernelTestCase
     }
 
     /**
-     * @group debug 
      */
     public function testProcessResultCodeNotFound() 
     {
@@ -66,12 +65,13 @@ class FlowOrderCreateApiProcessorTest extends KernelTestCase
 
         $this->assertCount(13, FlowUtil::$CREATEORDER_API_ERROR);
 
-        $service = $container->get('flow_ordercreate.processor');
-
-        $param['custom_product_id'] = '00000';
-        $param['mobile'] = '18016018626';
-        $param['custom_order_sn'] = 1;
-        $return = $service->process($param);
-        // check the slack vct-alert-91jili channel.
+        if( false ) {
+            $service = $container->get('flow_ordercreate.processor');
+            $param['custom_product_id'] = '00000';
+            $param['mobile'] = '18016018626';
+            $param['custom_order_sn'] = 1;
+            $return = $service->process($param);
+            // check the slack vct-alert-91jili channel.
+        }
     }
 }

@@ -72,7 +72,7 @@ class FlowOrderCreateApiProcessor {
             return $data;
         }
 
-        if(! in_array($data['resultcode'], FlowUtil::$CREATEORDER_API_ERROR )) {
+        if(! in_array($data['resultcode'], array_keys(FlowUtil::$CREATEORDER_API_ERROR ))) {
             $content = '[flow_create_order_api]url:' . $url . ' return:' . $return .'.  resultcode not defined in FlowUtil::$CREATEORDER_API_ERROR' ;
             $this->alert_service->sendAlertToSlack($content);
             FileUtil::writeContents($log_path, $content);
