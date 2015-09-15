@@ -124,6 +124,12 @@ services:
         class: Knp\Component\Pager\Event\Subscriber\Sortable\SortableSubscriber
         tags:
             - { name: knp_paginator.subscriber }
+
+    monolog.formatter.command_import_adw_csv:
+        class: Monolog\Formatter\LineFormatter
+        arguments:
+            - "[%%datetime%%] %%channel%%.%%level_name%%: %%message%% \n"
+
 monolog:
     handlers:
         main:
@@ -136,6 +142,8 @@ monolog:
             path: /data/91jili/logs/commands/%kernel.environment%.import_adw_cps.log
             level: info
             channels: [import_adw_cps]
+            formatter: monolog.formatter.command_import_adw_csv
+
 
         user_source:
             type: stream
