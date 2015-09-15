@@ -37,13 +37,13 @@ class FlowOrderCreateApiProcessor {
         $out_arr['mobile'] = 'mobile=' . $param['mobile'];
         $out_arr['custom_order_sn'] = 'custom_order_sn=' . $param['custom_order_sn'];
 
-        $encText = FlowUtil :: params_md5($out_arr, $prv_key);
+        $encText = FlowUtil::params_md5($out_arr, $prv_key);
 
         $param['custom_sn'] = $custom_sn;
         $param['enctext'] = $encText;
 
         try {
-            $return = CurlUtil :: curl($url, $param);
+            $return = CurlUtil::curl($url, $param);
         } catch (\Exception $e) {
             //写log
             FileUtil :: writeContents($log_path, "[flow_create_order_api]url:" . $url . $e->getMessage());
@@ -72,9 +72,17 @@ class FlowOrderCreateApiProcessor {
             return $data;
         }
 
+        if(! in_array($data['resultcode'], FlowUtil::$CREATEORDER_API_ERROR )) {
+            $content = '[flow_create_order_api]url:' . $url . ' return:' . $return .'.  resultcode not defined in FlowUtil::$CREATEORDER_API_ERROR' ;
+            $this->alert_service->sendAlertToSlack($content);
+            FileUtil::writeContents($log_path, $content);
+            $data['error_message'] = $configs['exchange_error'];
+            return $data;
+        }
+
         //写log
-        $content = "[flow_create_order_api]url:" . $url . ' return:' . $return . FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
-        FileUtil :: writeContents($log_path, $content);
+        $content = "[flow_create_order_api]url:" . $url . ' return:' . $return . FlowUtil::$CREATEORDER_API_ERROR[$data['resultcode']];
+        FileUtil::writeContents($log_path, $content);
 
         //出错场合：显示给用户的错误信息
         if (in_array($data['resultcode'], array (
