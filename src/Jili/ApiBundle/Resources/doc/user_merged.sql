@@ -3,7 +3,7 @@
 ALTER TABLE `user` ADD `origin_flag` TINYINT( 4 ) NULL COMMENT 'which sites does the user from',
 ADD `created_remote_addr` VARCHAR( 20 ) NULL COMMENT 'remote IP when create',
 ADD `created_user_agent` VARCHAR( 100 ) NULL COMMENT 'remote User Agent when create',
-ADD `campaign_code` VARCHAR( 100 ) NULL COMMENT 'recrute campaign code';
+ADD `campaign_code` VARCHAR( 100 ) NULL COMMENT 'recruit campaign code';
 
 
 CREATE TABLE `user_wenwen_login` (
