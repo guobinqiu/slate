@@ -72,6 +72,7 @@ class FlowOrderCreateApiProcessor {
             return $data;
         }
 
+        // resultcode not defined
         if(! in_array($data['resultcode'], array_keys(FlowUtil::$CREATEORDER_API_ERROR ))) {
             $content = '[flow_create_order_api]url:' . $url . ' return:' . $return .'.  resultcode not defined in FlowUtil::$CREATEORDER_API_ERROR' ;
             $this->alert_service->sendAlertToSlack($content);
@@ -80,20 +81,23 @@ class FlowOrderCreateApiProcessor {
             return $data;
         }
 
-        //写log
+        // 写log
         $content = "[flow_create_order_api]url:" . $url . ' return:' . $return . FlowUtil::$CREATEORDER_API_ERROR[$data['resultcode']];
         FileUtil::writeContents($log_path, $content);
 
-        //出错场合：显示给用户的错误信息
+        // 出错场合：显示给用户的错误信息
         if (in_array($data['resultcode'], array (
                 204,
-                205,
                 206,
                 209,
                 210
             ))) {
-            $data['error_message'] = FlowUtil :: $CREATEORDER_API_ERROR[$data['resultcode']];
+            $data['error_message'] = FlowUtil::$CREATEORDER_API_ERROR[$data['resultcode']];
         } else {
+            // 其它的resultcode 是非用户直接相关。使用统一提示信息
+            $content = '[flow_create_order_api]url:' . $url . ' return:' . $return. ', '.FlowUtil::$CREATEORDER_API_ERROR[$data['resultcode']] ;
+            $this->alert_service->sendAlertToSlack($content);
+            FileUtil::writeContents($log_path, $content);
             $data['error_message'] = $configs['exchange_error'];
         }
 
