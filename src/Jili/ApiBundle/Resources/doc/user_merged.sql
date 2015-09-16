@@ -9,9 +9,9 @@ ADD `campaign_code` VARCHAR( 100 ) NULL COMMENT 'recrute campaign code';
 CREATE TABLE `user_wenwen_login` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `login_password_salt` text,
-  `login_password_crypt_type` varchar(50) DEFAULT NULL,
-  `login_password` text,
+  `login_password_salt` text COMMENT 'The salt for encrypt password',
+  `login_password_crypt_type` varchar(50) DEFAULT NULL COMMENT 'the encrypt method name',
+  `login_password` text COMMENT 'the encrypted text',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`),
   CONSTRAINT `user_wenwen_login_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
