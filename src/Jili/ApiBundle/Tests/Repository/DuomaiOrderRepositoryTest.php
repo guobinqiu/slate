@@ -119,7 +119,6 @@ class DuomaiOrderRepositoryTest extends KernelTestCase
 
     /**
      * @group issue_680 
-     * @group debug 
      */
     public function testUpdateConfirmedOrdersPriceChanged() 
     {

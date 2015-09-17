@@ -267,6 +267,15 @@ class ApiController extends Controller
         return new Response($code);
     }
 
+    /**
+     * getRewardPercent 
+     *  only cps use this function
+     * @param mixed $uid 
+     * @param mixed $adid 
+     * @param mixed $cps_advertisement 
+     * @access public
+     * @return void
+     */
     public function getRewardPercent ($uid, $adid, $cps_advertisement){
         $em = $this->getDoctrine()->getManager();
         // Use the rebate if  the advertisement.id found by adid. Or use the the default one.
@@ -274,6 +283,7 @@ class ApiController extends Controller
         if( $cps_advertisement == false && $adid > 0 ) {
             $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($adid);
             if($advertiserment) {
+               // for cps , the rewardRate will be different; for cpa  no rewardRate ( null)
                 $rewardRate = $advertiserment->getRewardRate();
             }
         }
