@@ -150,7 +150,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $values = $form->getData();
 
         //get error messages
-        $error_meeeages = ValidateUtil::getFormErrors($form);
+        $error_meeeages = $this->getFormErrors($form);
 
         //todo check period 能否写到VoteType中
         if (!ValidateUtil::validatePeriod($values->getStartTime(), $values->getEndTime())) {
@@ -199,7 +199,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $values = $form->getData();
 
         //get error messages
-        $error_meeeages = ValidateUtil::getFormErrors($form);
+        $error_meeeages = $this->getFormErrors($form);
 
         //todo check period 能否写到VoteType中
         if (!ValidateUtil::validatePeriod($values->getStartTime(), $values->getEndTime())) {
@@ -368,5 +368,34 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $em = $this->getDoctrine()->getManager();
         $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->createYyyymmTable($vote->getYyyymm());
         return true;
+    }
+
+    /**
+     * get all form errors
+     *
+     * @param object $form
+     *
+     * @return array The error meeeages
+     */
+    public function getFormErrors($form)
+    {
+        $error_meeeages = array ();
+        $errors = $form->getErrors();
+        foreach ($errors as $error) {
+            if ($error) {
+                $error_meeeages[] = $error->getMessage();
+            }
+        }
+
+        foreach ($form->all() as $key => $child) {
+            $error_tiems = $child->getErrors();
+            foreach ($error_tiems as $child_error) {
+                if ($child_error) {
+                    $error_meeeages[] = $key . ": " . $child_error->getMessage();
+                }
+            }
+        }
+
+        return $error_meeeages;
     }
 }

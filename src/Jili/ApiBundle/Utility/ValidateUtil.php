@@ -37,33 +37,4 @@ class ValidateUtil
         }
         return true;
     }
-
-    /**
-     * get all form errors
-     *
-     * @param object $form
-     *
-     * @return array The error meeeages
-     */
-    public static function getFormErrors($form)
-    {
-        $error_meeeages = array ();
-        $errors = $form->getErrors();
-        foreach ($errors as $error) {
-            if ($error) {
-                $error_meeeages[] = $error->getMessage();
-            }
-        }
-
-        foreach ($form->all() as $key => $child) {
-            $error_tiems = $child->getErrors();
-            foreach ($error_tiems as $child_error) {
-                if ($child_error) {
-                    $error_meeeages[] = $key . ": " . $child_error->getMessage();
-                }
-            }
-        }
-
-        return $error_meeeages;
-    }
 }
