@@ -90,7 +90,8 @@ class FlowOrderCreateApiProcessor {
                 204,
                 206,
                 209,
-                210
+                210,
+                212
             ))) {
             $data['error_message'] = FlowUtil::$CREATEORDER_API_ERROR[$data['resultcode']];
         } else {
