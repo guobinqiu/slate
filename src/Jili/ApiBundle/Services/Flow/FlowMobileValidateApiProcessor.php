@@ -44,12 +44,11 @@ class FlowMobileValidateApiProcessor {
             $return = CurlUtil :: curl($url, $post_data);
         } catch (\Exception $e) {
             //写log
-            FileUtil :: writeContents($log_path, "[mobile_validate_api]url:" . $url . $e->getMessage());
+            FileUtil :: writeContents($log_path, "[mobile_validate_api]url:" . $url . $e->getMessage() 
+                . ' post_data:'. var_export($post_data, true));
             $data['error_message'] = $configs['exchange_error'];
-
             $content = "兑换流量包-手机号码验证接口-调用失败。" . "[mobile_validate_api]url:" . $url . $e->getMessage();
             $this->alert_service->sendAlertToSlack($content);
-
             return $data;
         }
 
@@ -69,6 +68,11 @@ class FlowMobileValidateApiProcessor {
             $data['error_message'] = FlowUtil :: $MOBILE_VALIDATE_ERROR[$data['resultcode']];
         } else {
             $data['error_message'] = $configs['exchange_error'];
+            $content = '兑换流量包-手机号码验证接口-调用返回代码[mobile_validate_api]return:'.$return. ', '
+                . FlowUtil::$MOBILE_VALIDATE_ERROR[$data['resultcode']];
+            FileUtil::writeContents($log_path, '[mobile_validate_api]url:' . $url .', return'. $return
+                . ' post_data:'. var_export($post_data, true));
+            $this->alert_service->sendAlertToSlack($content);
         }
 
         //写log
