@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\ApiBundle\DataFixtures\ORM\Repository;
+namespace Jili\ApiBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;

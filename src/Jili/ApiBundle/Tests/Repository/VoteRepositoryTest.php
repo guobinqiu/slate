@@ -60,8 +60,9 @@ class VoteRepositoryTest extends KernelTestCase
     {
         $em = $this->em;
         $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList();
-        var_dump($choice);
-        $voteList = $em->getRepository('JiliApiBundle:Vote')->getVoteChoice(false);
-        var_dump($choice);
+        $this->assertEquals(2, count($voteList));
+        $this->assertEquals('喜欢你的人，偷偷拍了一张你的照片，并保存做了手机桌面。', $voteList[0]['title']);
+        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(false);
+        $this->assertEquals(0, count($voteList));
     }
 }

@@ -18,6 +18,17 @@ INSERT INTO `vote_image` (`id`, `vote_id`, `filename`, `description`, `width`, `
 (1, 1, 'c4206a37d99689c00aa30e8f9f6dff402e989c27.jpg', NULL, 302, 450, 'c/4/c4206a37d99689c00aa30e8f9f6dff402e989c27_sq.jpg', 60, 60, 'c/4/c4206a37d99689c00aa30e8f9f6dff402e989c27_s.jpg', 60, 90, 'c/4/c4206a37d99689c00aa30e8f9f6dff402e989c27_m.jpg', 80, 120, NULL, '2010-09-16 11:57:52', '2010-09-16 11:57:52'),
 (2, 2, '49e09fb9ad3c670a87940be0f286dbfe9b892ed5.jpg', NULL, 450, 296, '4/9/49e09fb9ad3c670a87940be0f286dbfe9b892ed5_sq.jpg', 60, 60, '4/9/49e09fb9ad3c670a87940be0f286dbfe9b892ed5_s.jpg', 90, 59, '4/9/49e09fb9ad3c670a87940be0f286dbfe9b892ed5_m.jpg', 120, 78, NULL, '2010-09-16 11:58:22', '2010-09-16 11:58:22');
 
+ CREATE TABLE IF NOT EXISTS vote_answer_201508 (
+    id int(11) NOT NULL auto_increment,
+    user_id int(11) NOT NULL,
+    vote_id int(11) NOT NULL,
+    answer_number tinyint(4) NOT NULL,
+    updated_at datetime default NULL,
+    created_at datetime default NULL,
+    PRIMARY KEY  (id),
+    UNIQUE KEY (user_id,vote_id),
+    KEY  (vote_id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `vote_answer_201508` (`id`, `user_id`, `vote_id`, `answer_number`, `updated_at`, `created_at`) VALUES
 (1, 1, 1, 1, NULL, NULL),

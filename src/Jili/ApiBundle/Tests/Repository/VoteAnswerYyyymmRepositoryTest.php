@@ -50,7 +50,7 @@ class VoteAnswerYyyymmRepositoryTest extends KernelTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        //$this->em->close();
+        $this->em->close();
     }
 
     /**
@@ -69,9 +69,8 @@ class VoteAnswerYyyymmRepositoryTest extends KernelTestCase
     public function testCreateYyyymmTable()
     {
         $em = $this->em;
-        $result = $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->createYyyymmTable('201508');
-        var_dump($result);
-        //         $this->assertEquals('vote_answer_201509', $tablename);
+        $result = $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->createYyyymmTable('201509');
+        $this->assertTrue($result);
     }
 
     /**
@@ -80,8 +79,8 @@ class VoteAnswerYyyymmRepositoryTest extends KernelTestCase
     public function testGetAnswerCount()
     {
         $em = $this->em;
+        $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->createYyyymmTable('201508');
         $count = $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->getAnswerCount(1, '201508');
-        var_dump($result);
-        //         $this->assertEquals('vote_answer_201509', $tablename);
+        $this->assertEquals(2, $count);
     }
 }

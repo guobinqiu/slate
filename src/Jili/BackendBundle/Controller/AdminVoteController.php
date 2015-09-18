@@ -241,8 +241,10 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
                 foreach ($values->getVoteChoices() as $key => $choice) {
                     //get vote choice entity
-                    $choice_entity = $em->getRepository('JiliApiBundle:VoteChoice')->getVoteChoice($vote_id, $choice->getAnswerNumber());
-
+                    $choice_entity = $em->getRepository('JiliApiBundle:VoteChoice')->findOneBy(array (
+                        'voteId' => $vote_id,
+                        'answerNumber' => $choice->getAnswerNumber()
+                    ));
                     if (!$choice_entity) {
                         // if choice not exist, create VoteChoice entity
                         $choice_entity = new VoteChoice();
