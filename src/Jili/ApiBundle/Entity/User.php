@@ -4,7 +4,6 @@ namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-// use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * User
@@ -250,6 +249,34 @@ class User
     private $tokenCreatedAt;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="origin_flag", type="boolean", nullable=true)
+     */
+    private $originFlag;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="created_remote_addr", type="string", length=20, nullable=true)
+     */
+    private $createdRemoteAddr;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="created_user_agent", type="string", length=100, nullable=true)
+     */
+    private $createdUserAgent;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="campaign_code", type="string", length=100, nullable=true)
+     */
+    private $campaignCode;
+
+    /**
      * upload resizeimage to temp dir
      */
     public function resizeUpload($path,$x,$y,$x1,$y1)
@@ -273,7 +300,7 @@ class User
         imagedestroy($dst);
 
     }
-/**
+    /**
      * upload image to temp dir
      */
     public function upload($upload_dir)
@@ -1110,4 +1137,95 @@ class User
         return $this->tokenCreatedAt;
     }
 
+    /**
+     * Set originFlag
+     *
+     * @param boolean $originFlag
+     * @return User
+     */
+    public function setOriginFlag($originFlag)
+    {
+        $this->originFlag = $originFlag;
+
+        return $this;
+    }
+
+    /**
+     * Get originFlag
+     *
+     * @return boolean 
+     */
+    public function getOriginFlag()
+    {
+        return $this->originFlag;
+    }
+
+    /**
+     * Set createdRemoteAddr
+     *
+     * @param string $createdRemoteAddr
+     * @return User
+     */
+    public function setCreatedRemoteAddr($createdRemoteAddr)
+    {
+        $this->createdRemoteAddr = $createdRemoteAddr;
+
+        return $this;
+    }
+
+    /**
+     * Get createdRemoteAddr
+     *
+     * @return string 
+     */
+    public function getCreatedRemoteAddr()
+    {
+        return $this->createdRemoteAddr;
+    }
+
+    /**
+     * Set createdUserAgent
+     *
+     * @param string $createdUserAgent
+     * @return User
+     */
+    public function setCreatedUserAgent($createdUserAgent)
+    {
+        $this->createdUserAgent = $createdUserAgent;
+
+        return $this;
+    }
+
+    /**
+     * Get createdUserAgent
+     *
+     * @return string 
+     */
+    public function getCreatedUserAgent()
+    {
+        return $this->createdUserAgent;
+    }
+
+    /**
+     * Set campaignCode
+     *
+     * @param string $campaignCode
+     * @return User
+     */
+    public function setCampaignCode($campaignCode)
+    {
+        $this->campaignCode = $campaignCode;
+
+        return $this;
+    }
+
+    /**
+     * Get campaignCode
+     *
+     * @return string 
+     */
+    public function getCampaignCode()
+    {
+        return $this->campaignCode;
+    }
 }
