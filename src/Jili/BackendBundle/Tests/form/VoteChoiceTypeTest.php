@@ -35,17 +35,12 @@ class VoteChoiceTypeTest extends TypeTestCase
             'name' => 'test'
         );
 
-        $data = array (
-            'answerNumber' => 1,
-            'name' => 'test'
-        );
-
         $form->bind($formData);
         $this->assertTrue($form->isSynchronized());
 
         $choice = $form->getData();
-        $this->assertEquals($data['answerNumber'], $choice->getAnswerNumber());
-        $this->assertEquals($data['name'], $choice->getName());
+        $this->assertEquals($formData['answerNumber'], $choice->getAnswerNumber());
+        $this->assertEquals($formData['name'], $choice->getName());
 
         $view = $form->createView();
         $children = $view->children;

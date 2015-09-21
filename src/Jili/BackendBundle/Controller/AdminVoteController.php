@@ -45,7 +45,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     /**
      * @Route("/activeList/{paging}",  name="_admin_vote_activelist")
      */
-    public function ActiveListAction(Request $request, $paging)
+    public function activeListAction(Request $request, $paging)
     {
         $active_flag = true;
         $page = $request->query->get('page', 1);
@@ -58,7 +58,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     /**
      * @Route("/reserveList/{paging}", name="_admin_vote_reserveList")
      */
-    public function ReserveListAction(Request $request, $paging)
+    public function reserveListAction(Request $request, $paging)
     {
         $active_flag = false;
         $page = $request->query->get('page', 1);
