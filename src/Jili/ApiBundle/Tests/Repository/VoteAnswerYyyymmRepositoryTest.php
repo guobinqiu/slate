@@ -60,7 +60,7 @@ class VoteAnswerYyyymmRepositoryTest extends KernelTestCase
     {
         $em = $this->em;
         $tablename = $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->getTableNameByYyyymm('201508');
-        $this->assertEquals('vote_answer_201508', $tablename);
+        $this->assertEquals('vote_answer_201508', $tablename, 'table name is ' . $tablename);
     }
 
     /**
@@ -70,7 +70,7 @@ class VoteAnswerYyyymmRepositoryTest extends KernelTestCase
     {
         $em = $this->em;
         $result = $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->createYyyymmTable('201509');
-        $this->assertTrue($result);
+        $this->assertTrue($result, 'create table success');
     }
 
     /**
@@ -81,6 +81,6 @@ class VoteAnswerYyyymmRepositoryTest extends KernelTestCase
         $em = $this->em;
         $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->createYyyymmTable('201508');
         $count = $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->getAnswerCount(1, '201508');
-        $this->assertEquals(2, $count);
+        $this->assertEquals(2, $count, 'AnswerCount is ' . $count);
     }
 }

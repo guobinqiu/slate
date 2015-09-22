@@ -28,10 +28,10 @@ class ValidateUtilTest extends \PHPUnit_Framework_TestCase
     public function testValidatePeriod()
     {
         $return = ValidateUtil::validatePeriod(null, null);
-        $this->assertTrue($return);
+        $this->assertTrue($return, 'start time is null, end time is null');
         $return = ValidateUtil::validatePeriod('2015-09-05', '2015-09-04');
-        $this->assertFalse($return);
+        $this->assertFalse($return, 'Start time is later than the end of time');
         $return = ValidateUtil::validatePeriod('2015-09-01', '2015-09-01');
-        $this->assertTrue($return);
+        $this->assertTrue($return, 'Start time is before than the end of time');
     }
 }

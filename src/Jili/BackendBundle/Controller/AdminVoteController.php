@@ -38,7 +38,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         return $this->render('JiliBackendBundle:Vote:index.html.twig');
     }
 
