@@ -1,5 +1,5 @@
 <?php
-$log = "log_" . date('Ymd') . ".sql";
+$log = "log_" . date('YmdHis') . ".sql";
 $log_handle = fopen($log, "w");
 
 $file_handle = fopen('panel_region.csv', "r");
@@ -45,7 +45,11 @@ try {
             $provinceName = '直辖市';
         }
 
-        if ($provinceName == '甘肃' && $cityName == '兰州') {
+        if ($provinceName == '甘肃') {
+            $provinceName = '甘肃省';
+        }
+
+        if ($provinceName == '甘肃省' && $cityName == '兰州') {
             $cityName = '兰州市';
         }
 
