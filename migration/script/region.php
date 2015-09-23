@@ -111,14 +111,10 @@ fwrite($log_handle, "end" . "\r\n");
 fclose($log_handle);
 echo "Done!";
 exit();
+
+// 1. dry-run
+// php region.php "definitive=0"
+// 2. run
+// php region.php "definitive=1"
+
 ?>
-
-__END__
-
-=head1 dry-run
-
-php region.php "definitive=0"
-
-=head1 run
-
-php region.php "definitive=1"
