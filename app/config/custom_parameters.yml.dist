@@ -377,6 +377,7 @@ parameters:
             FAILED: -1            #-1 表示推送失败
 
     jili_app.logs_dir: /data/91jili/logs
+    admin_vote_log_path: /data/91jili/logs/admin/admin_vote.log
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%

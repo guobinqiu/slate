@@ -260,6 +260,9 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 $db_connection->rollback();
                 echo $e->getMessage();
 
+                $log_path = $this->container->getParameter('admin_vote_log_path');
+                FileUtil::writeContents($log_path, 'vote save fail: '. $e->getMessage());
+
                 return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
                     'form' => $form->createView(),
                     'error_meeeages' => $e->getMessage()
