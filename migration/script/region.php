@@ -53,11 +53,11 @@ try {
             $cityName = '兰州市';
         }
 
-        if ($provinceName == '珠海' && $cityName == '广东省') {
+        if ($provinceName == '广东省' && $cityName == '珠海') {
             $cityName = '珠海市';
         }
 
-        if ($provinceName == '襄樊市' && $cityName == '湖北省') {
+        if ($provinceName == '湖北省' && $cityName == '襄樊市') {
             $cityName = '襄阳市';
         }
 
