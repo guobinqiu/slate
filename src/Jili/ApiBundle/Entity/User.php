@@ -28,6 +28,11 @@ class User
     const FROM_QQ_PREFIX = "QQ";
     const FROM_WEIBO_PREFIX = "WeiBo_";
 
+    const ORIGIN_FLAG_NEW = 0 ; // check password by UserWenwenLogin 0: new 1:jili,2:wenwen 3: jili & wenwen
+    const ORIGIN_FLAG_JILI = 1; 
+    const ORIGIN_FLAG_WENWEN = 2; 
+    const ORIGIN_FLAG_WENWEN_JILI = 3;
+
     public function __construct()
     {
         $this->setRegisterDate ( new \DateTime())
@@ -1228,4 +1233,12 @@ class User
     {
         return $this->campaignCode;
     }
+
+    public function isOriginFlagWenwen()
+    {
+        $origin_flag =  $this->getOriginFlag();
+        return  !(is_null($origin_flag) ) && 
+            intval($origin_flag) === self::ORIGIN_FLAG_WENWEN;
+    }
+    
 }

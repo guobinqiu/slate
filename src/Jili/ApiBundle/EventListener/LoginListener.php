@@ -52,22 +52,28 @@ class LoginListener
             return $code;
         }
 
-        $user = $em_email[0];//->getRepository('JiliApiBundle:User')->find($id);
+        $user = $em_email[0];
         $id = $user->getId();
         if ($user->getDeleteFlag() == 1) {
             $code = $this->getParameter('login_wr');
             return $code;
         }
 
+       // check the password
         $password = $request->request->get('pwd');
-        if ($user->pw_encode($password) != $user->getPwd()) {
-            $code = $this->getParameter('login_wr');
-            return $code;
+
+        if( $user->isOriginFlagWenwen() ) {
+            // query user_wenwen_login & check password
+
+        } else {
+            if ($user->pw_encode($password) != $user->getPwd()) {
+                $code = $this->getParameter('login_wr');
+                return $code;
+            }
         }
 
         $this->afterLogin($user, $request);
-        $code ='ok';
-        return $code;
+        return 'ok';
     }
 
     /**
