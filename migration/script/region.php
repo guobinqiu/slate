@@ -19,7 +19,7 @@ if (isset($argv[1])) {
     parse_str($argv[1]);
 }
 
-var_dump($definitive);
+echo "definitive:" . $definitive . "\r\n";
 
 try {
     $dsn = "mysql:host=localhost;dbname=jili_db_new";
