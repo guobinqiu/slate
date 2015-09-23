@@ -48,11 +48,11 @@ class UserTest extends KernelTestCase
         $u->setOriginFlag( 1);
         $this->assertFalse($u->isOriginFlagWenwen(), 'origin_flag is 1 should returns false ');
         $u->setOriginFlag( 2);
-        $this->assertFalse($u->isOriginFlagWenwen(), 'origin_flag is 2 should returns false ');
+        $this->assertTrue($u->isOriginFlagWenwen(), 'origin_flag is 2 should returns false ');
         $u->setOriginFlag( 0);
         $this->assertFalse($u->isOriginFlagWenwen(), 'origin_flag is 0 should returns false ');
         $u->setOriginFlag( 3);
-        $this->assertTrue($u->isOriginFlagWenwen(), 'origin_flag is 3 should returns false ');
+        $this->assertFalse($u->isOriginFlagWenwen(), 'origin_flag is 3 should returns false ');
     }
 }
 
