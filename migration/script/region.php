@@ -1,6 +1,4 @@
 <?php
-header("Content-type:text/html;charset=utf-8");
-
 $log = "log_" . date('Ymd') . ".sql";
 $log_handle = fopen($log, "w");
 
@@ -15,11 +13,13 @@ if ($file_handle !== FALSE) {
 fclose($file_handle);
 unset($contents[0]);
 
-//根据命令行参数，决定是否正式执行
+//根据命令行参数，决定是否正式执行 definitive为true时正式执行
 $definitive = false;
 if (isset($argv[1])) {
-    $definitive = $argv[1];
+    parse_str($argv[1]);
 }
+
+var_dump($definitive);
 
 try {
     $dsn = "mysql:host=localhost;dbname=jili_db_new";
@@ -112,3 +112,13 @@ fclose($log_handle);
 echo "Done!";
 exit();
 ?>
+
+__END__
+
+=head1 dry-run
+
+php region.php "definitive=0"
+
+=head1 run
+
+php region.php "definitive=1"
