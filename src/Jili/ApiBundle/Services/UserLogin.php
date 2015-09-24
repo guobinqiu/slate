@@ -84,7 +84,7 @@ class UserLogin
 
         if( $user->isOriginFlagWenwen() ) {
             // query user_wenwen_login & check password
-            $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUserId($user->getId());
+            $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
             if(! $wenwenLogin || ! $wenwenLogin->getLoginPasswordCryptType() ) {
 
                 return $this->getParameter('login_wr'); // login failed;
@@ -98,7 +98,6 @@ class UserLogin
             }
 
         } else {
-echo __LINE__ , ' ' ;
             if ($user->pw_encode($password) != $user->getPwd()) {
                 $code = $this->getParameter('login_wr');
                 return $code;

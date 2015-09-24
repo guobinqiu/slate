@@ -256,7 +256,7 @@ class User
     /**
      * @var boolean
      *
-     * @ORM\Column(name="origin_flag", type="boolean", nullable=true)
+     * @ORM\Column(name="origin_flag", type="integer", length=4, nullable=true)
      */
     private $originFlag;
 

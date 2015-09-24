@@ -54,7 +54,7 @@ class LoadUserLoginData extends AbstractFixture implements FixtureInterface
         self::$USERS[] = $user;
         $login = new UserWenwenLogin();
         $login->setUser($user)
-            ->setLoginPassword('aPaR9Ucsu4U=') // 123123
+            ->setLoginPassword('aPaR9Ucsu4U=') // 123123 dZcCU45B0rk=
             ->setLoginPasswordCryptType('blowfish')
             ->setLoginPasswordSalt('★★★★★アジア事業戦略室★★★★★');
         $manager->persist($login);
