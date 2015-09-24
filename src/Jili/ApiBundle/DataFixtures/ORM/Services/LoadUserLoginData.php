@@ -13,10 +13,13 @@ class LoadUserLoginData extends AbstractFixture implements FixtureInterface
 
    
     public static $USERS;
+    public static $USER_LOGIN;
 
     public function __construct() 
     {
         self::$USERS = array();
+        self::$USER_LOGIN = array();
+
     }
 
 
@@ -59,7 +62,7 @@ class LoadUserLoginData extends AbstractFixture implements FixtureInterface
             ->setLoginPasswordSalt('★★★★★アジア事業戦略室★★★★★');
         $manager->persist($login);
         $manager->flush();
-
+        self::$USER_LOGIN[] =  $login;
     }
 
 

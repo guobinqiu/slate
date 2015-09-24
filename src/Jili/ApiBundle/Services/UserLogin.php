@@ -17,7 +17,7 @@ class UserLogin
     private $em;
     private $task_list;
     private $user_config;
-//#	private $session_points;
+    //#	private $session_points;
 
     public function __construct(EntityManager $em)
     {
@@ -25,8 +25,8 @@ class UserLogin
     }
 
     /**
-	 * @param  $request
-	 */
+     * @param  $request
+     */
     public function login(Request $request)
     {
         $request_params =  array( 
@@ -79,23 +79,23 @@ class UserLogin
             return $code;
         }
 
-       // check the password
+        // check the password
         $password = $params['pwd'];
 
         if( $user->isOriginFlagWenwen() ) {
             // query user_wenwen_login & check password
             $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
             if(! $wenwenLogin || ! $wenwenLogin->getLoginPasswordCryptType() ) {
+                return $this->getParameter('login_wr'); // login failed;
+            }
 
-                return $this->getParameter('login_wr'); // login failed;
-            }
- 
-            if ( $wenwenLogin->getLoginPassword() !== PasswordEncoder::encode(
-                $wenwenLogin->getLoginPasswordCryptType(), $password, $wenwenLogin->getLoginPasswordSalt())) {
-                    $sample = PasswordEncoder::encode($wenwenLogin->getLoginPasswordCryptType(), $password, $wenwenLogin->getLoginPasswordSalt());
-                    var_dump($sample);
-                return $this->getParameter('login_wr'); // login failed;
-            }
+            if ( $wenwenLogin->getLoginPassword() !== PasswordEncoder::encode($wenwenLogin->getLoginPasswordCryptType(),
+                $password, $wenwenLogin->getLoginPasswordSalt())) {
+                    return $this->getParameter('login_wr'); // login failed;
+                }
+
+             $em->getRepository('JiliApiBundle:User')
+                 ->migrateUserWenwenLogin( $password , $user->getId());
 
         } else {
             if ($user->pw_encode($password) != $user->getPwd()) {
@@ -189,7 +189,7 @@ class UserLogin
         // init the task_list & my_task_list when first login.
         // some session will be kept when logout, but not this.
         $this->task_list->remove(array('alive'));
-#        $this->my_task_list->remove(array('alive'));
+        #        $this->my_task_list->remove(array('alive'));
     }
 
     /**
@@ -278,44 +278,44 @@ class UserLogin
         $try = 5;
         $token = '';
 
-            // insert token
-            // read uid from session.
-            $session = $this->container_->get('session');
-            if( $session->has('uid') ) {
-                $uid = $session->get('uid');
-                if( ! empty( $uid ) ) {
-                    $em = $this->em;
-                    // get signned in user
-                    $entity = $em->getRepository('JiliApiBundle:User')->findOneById($uid);
-                    if( $entity) {
-                        do {
-                            $token = $this->generateToken($user);
-                            // check the token is unique.
-                            $exists = $em->getRepository('JiliApiBundle:User')->findByValidateToken($token);
-                            if ( $exists   ) {
+        // insert token
+        // read uid from session.
+        $session = $this->container_->get('session');
+        if( $session->has('uid') ) {
+            $uid = $session->get('uid');
+            if( ! empty( $uid ) ) {
+                $em = $this->em;
+                // get signned in user
+                $entity = $em->getRepository('JiliApiBundle:User')->findOneById($uid);
+                if( $entity) {
+                    do {
+                        $token = $this->generateToken($user);
+                        // check the token is unique.
+                        $exists = $em->getRepository('JiliApiBundle:User')->findByValidateToken($token);
+                        if ( $exists   ) {
 
-                                if( count($exists) == 1  ) {
-                                    $exist = $exists[0];
-                                    if(  $exist->getId() == $uid ) {
-                                        $entity->setTokenCreatedAt( new \Datetime('now') );
-                                        $em->flush();
-                                        break;
-                                    }
-                                }
-
-                                if( $try-- > 0 ) {
-                                    $logger = $this->container_->get('logger');
-                                    continue;
+                            if( count($exists) == 1  ) {
+                                $exist = $exists[0];
+                                if(  $exist->getId() == $uid ) {
+                                    $entity->setTokenCreatedAt( new \Datetime('now') );
+                                    $em->flush();
+                                    break;
                                 }
                             }
-                            $entity->setToken($token);
-                            $entity->setTokenCreatedAt( new \Datetime('now') );
-                            $em->flush();
-                            break;
-                        } while ($try-- > 0);
-                    }
+
+                            if( $try-- > 0 ) {
+                                $logger = $this->container_->get('logger');
+                                continue;
+                            }
+                        }
+                        $entity->setToken($token);
+                        $entity->setTokenCreatedAt( new \Datetime('now') );
+                        $em->flush();
+                        break;
+                    } while ($try-- > 0);
                 }
             }
+        }
 
         return $token;
     }
@@ -349,11 +349,5 @@ class UserLogin
         }
         return false;
     }
-//    /**
-//     * @param: $service the session.points service
-//     */
-//    public function setSessionPoints($service) {
-//        $this->session_points = $service;
-//    }
 
 }

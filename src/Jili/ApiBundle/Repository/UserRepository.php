@@ -163,9 +163,9 @@ class UserRepository extends EntityRepository
         $daydate = date("Y-m-d H:i:s", strtotime(' -' . $type . ' day'));
         //echo $daydate."\n";
         $point_histories = array('point_history00','point_history01','point_history02','point_history03','point_history04','point_history05',
-                                 'point_history06','point_history07','point_history08','point_history09');
+            'point_history06','point_history07','point_history08','point_history09');
         $task_histories = array('task_history00','task_history01','task_history02','task_history03','task_history04','task_history05',
-                                 'task_history06','task_history07','task_history08','task_history09');
+            'task_history06','task_history07','task_history08','task_history09');
         //$point_histories = array('point_history00', 'point_history01');
         //$task_histories = array('task_history00','task_history01');
         $merged_point_result = array();
@@ -212,7 +212,7 @@ class UserRepository extends EntityRepository
         $send_point_ids = implode(',', $temp);
 
         $sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate
-             . "' and e.id not in (" . $user_ids.") ";
+            . "' and e.id not in (" . $user_ids.") ";
         if($send_point_ids){
             $sql.= " and id not in(".$send_point_ids.") ";
         }
@@ -270,79 +270,79 @@ EOT;
     public function getRanking($start, $end)
     {
         $sql = "select
-                  a.nick,
-                  sum(b.point_change_num) total
+            a.nick,
+            sum(b.point_change_num) total
+            from
+            user a
+            left join (
+                select
+                user_id,
+                create_time ,
+                point_change_num
                 from
-                  user a
-                  left join (
-                    select
-                      user_id,
-                      create_time ,
-                      point_change_num
-                    from
-                      point_history00
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num
-                    from
-                      point_history01
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num
-                    from
-                      point_history02
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num
-                    from
-                      point_history03
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num
-                    from
-                      point_history04
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num
-                    from
-                      point_history05
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num
-                    from
-                      point_history06
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num
-                    from
-                      point_history07
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num
-                    from
-                      point_history08
-                    union
-                    select
-                      user_id,
-                      create_time ,point_change_num
-                    from
-                      point_history09
-                  ) b on a.id = b.user_id
-                where create_time >= '" . $start . "'
-                and create_time <= '" . $end . "'
-                and point_change_num > 0
-                group by nick
-                order by total desc
-                limit 5
-                ";
+                point_history00
+                union
+                select
+                user_id,
+                create_time ,point_change_num
+                from
+                point_history01
+                union
+                select
+                user_id,
+                create_time ,point_change_num
+                from
+                point_history02
+                union
+                select
+                user_id,
+                create_time ,point_change_num
+                from
+                point_history03
+                union
+                select
+                user_id,
+                create_time ,point_change_num
+                from
+                point_history04
+                union
+                select
+                user_id,
+                create_time ,point_change_num
+                from
+                point_history05
+                union
+                select
+                user_id,
+                create_time ,point_change_num
+                from
+                point_history06
+                union
+                select
+                user_id,
+                create_time ,point_change_num
+                from
+                point_history07
+                union
+                select
+                user_id,
+                create_time ,point_change_num
+                from
+                point_history08
+                union
+                select
+                user_id,
+                create_time ,point_change_num
+                from
+                point_history09
+            ) b on a.id = b.user_id
+            where create_time >= '" . $start . "'
+            and create_time <= '" . $end . "'
+            and point_change_num > 0
+            group by nick
+            order by total desc
+            limit 5
+            ";
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
@@ -371,16 +371,16 @@ EOT;
     {
         $daydate = date("Y-m-d", strtotime(' -' . $day . ' day'));
         $sql = "SELECT user.id, user.email, user.nick
-                FROM user
-                WHERE register_date LIKE '".$daydate."%'
-                AND (
+            FROM user
+            WHERE register_date LIKE '".$daydate."%'
+            AND (
                 delete_flag IS NULL
                 OR delete_flag =0
-                )
-                AND (
+            )
+            AND (
                 last_login_date IS NULL
                 OR last_login_date LIKE '".$daydate."%'
-                )";
+            )";
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
 
     }
@@ -397,17 +397,17 @@ EOT;
     {
         $daydate = date("Y-m-d", strtotime(' -' . $day . ' day'));
         $sql = "select a.nick, a.email, b.date, b.point, b.task_name, c.display_name from user a inner join
-                 ( select id, user_id, date, point, category_type, task_name, status from task_history00 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
-                union select id, user_id, date, point, category_type, task_name, status from task_history01 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
-                union select id, user_id, date, point, category_type, task_name, status from task_history02 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
-                union select id, user_id, date, point, category_type, task_name, status from task_history03 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
-                union select id, user_id, date, point, category_type, task_name, status from task_history04 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
-                union select id, user_id, date, point, category_type, task_name, status from task_history05 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
-                union select id, user_id, date, point, category_type, task_name, status from task_history06 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
-                union select id, user_id, date, point, category_type, task_name, status from task_history07 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
-                union select id, user_id, date, point, category_type, task_name, status from task_history08 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
-                union select id, user_id, date, point, category_type, task_name, status from task_history09 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)) b
-                on a.id = b.user_id inner join ad_category c on b.category_type = c.id WHERE a.delete_flag IS NULL OR a.delete_flag = 0";
+            ( select id, user_id, date, point, category_type, task_name, status from task_history00 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+            union select id, user_id, date, point, category_type, task_name, status from task_history01 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+            union select id, user_id, date, point, category_type, task_name, status from task_history02 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+            union select id, user_id, date, point, category_type, task_name, status from task_history03 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+            union select id, user_id, date, point, category_type, task_name, status from task_history04 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+            union select id, user_id, date, point, category_type, task_name, status from task_history05 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+            union select id, user_id, date, point, category_type, task_name, status from task_history06 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+            union select id, user_id, date, point, category_type, task_name, status from task_history07 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+            union select id, user_id, date, point, category_type, task_name, status from task_history08 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)
+            union select id, user_id, date, point, category_type, task_name, status from task_history09 where status=3 AND point >0 AND date like '".$daydate."%' and category_type in (1,2,3)) b
+            on a.id = b.user_id inner join ad_category c on b.category_type = c.id WHERE a.delete_flag IS NULL OR a.delete_flag = 0";
         //1,2,3 广告体验,购物返利,游戏广告
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
@@ -416,17 +416,17 @@ EOT;
     public function getUserListForRemindTotalPoint($start, $end)
     {
         $sql = "select a.id, a.email, a.points from user a inner join
-                (select distinct user_id from point_history00 where create_time >= '".$start."' and create_time <= '".$end."'
-                union all select distinct user_id from point_history01 where create_time >= '".$start."' and create_time <= '".$end."'
-                union all select distinct user_id from point_history02 where create_time >= '".$start."' and create_time <= '".$end."'
-                union all select distinct user_id from point_history03 where create_time >= '".$start."' and create_time <= '".$end."'
-                union all select distinct user_id from point_history04 where create_time >= '".$start."' and create_time <= '".$end."'
-                union all select distinct user_id from point_history05 where create_time >= '".$start."' and create_time <= '".$end."'
-                union all select distinct user_id from point_history06 where create_time >= '".$start."' and create_time <= '".$end."'
-                union all select distinct user_id from point_history07 where create_time >= '".$start."' and create_time <= '".$end."'
-                union all select distinct user_id from point_history08 where create_time >= '".$start."' and create_time <= '".$end."'
-                union all select distinct user_id from point_history09 where create_time >= '".$start."' and create_time <= '".$end."' )b
-                on a.id = b.user_id where a.points > 0 AND (a.delete_flag IS NULL OR a.delete_flag = 0)";
+            (select distinct user_id from point_history00 where create_time >= '".$start."' and create_time <= '".$end."'
+            union all select distinct user_id from point_history01 where create_time >= '".$start."' and create_time <= '".$end."'
+            union all select distinct user_id from point_history02 where create_time >= '".$start."' and create_time <= '".$end."'
+            union all select distinct user_id from point_history03 where create_time >= '".$start."' and create_time <= '".$end."'
+            union all select distinct user_id from point_history04 where create_time >= '".$start."' and create_time <= '".$end."'
+            union all select distinct user_id from point_history05 where create_time >= '".$start."' and create_time <= '".$end."'
+            union all select distinct user_id from point_history06 where create_time >= '".$start."' and create_time <= '".$end."'
+            union all select distinct user_id from point_history07 where create_time >= '".$start."' and create_time <= '".$end."'
+            union all select distinct user_id from point_history08 where create_time >= '".$start."' and create_time <= '".$end."'
+            union all select distinct user_id from point_history09 where create_time >= '".$start."' and create_time <= '".$end."' )b
+            on a.id = b.user_id where a.points > 0 AND (a.delete_flag IS NULL OR a.delete_flag = 0)";
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
@@ -457,18 +457,18 @@ EOT;
         }
 
         $sql = "select a.id, a.email,b.point,b.category_type,b.task_type,b.task_name,b.date,b.status from user a inner join
-                (select user_id,point,category_type,task_type,task_name,date,status from task_history00 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date,status from task_history01 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date,status from task_history02 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date,status from task_history03 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date,status from task_history04 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date,status from task_history05 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date,status from task_history06 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date,status from task_history07 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date,status from task_history08 where ".$sql1."
-                union all select user_id,point,category_type,task_type,task_name,date,status from task_history09 where ".$sql1." )b
-                on a.id = b.user_id where (a.delete_flag IS NULL OR a.delete_flag = 0) ".$sql2." order by b.date desc";
-                //echo $sql;
+            (select user_id,point,category_type,task_type,task_name,date,status from task_history00 where ".$sql1."
+            union all select user_id,point,category_type,task_type,task_name,date,status from task_history01 where ".$sql1."
+            union all select user_id,point,category_type,task_type,task_name,date,status from task_history02 where ".$sql1."
+            union all select user_id,point,category_type,task_type,task_name,date,status from task_history03 where ".$sql1."
+            union all select user_id,point,category_type,task_type,task_name,date,status from task_history04 where ".$sql1."
+            union all select user_id,point,category_type,task_type,task_name,date,status from task_history05 where ".$sql1."
+            union all select user_id,point,category_type,task_type,task_name,date,status from task_history06 where ".$sql1."
+            union all select user_id,point,category_type,task_type,task_name,date,status from task_history07 where ".$sql1."
+            union all select user_id,point,category_type,task_type,task_name,date,status from task_history08 where ".$sql1."
+            union all select user_id,point,category_type,task_type,task_name,date,status from task_history09 where ".$sql1." )b
+            on a.id = b.user_id where (a.delete_flag IS NULL OR a.delete_flag = 0) ".$sql2." order by b.date desc";
+        //echo $sql;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
@@ -481,9 +481,9 @@ EOT;
         $query = $query->andWhere('u.registerDate >= :start_time');
         $query = $query->andWhere('u.registerDate <= :end_time');
         $query = $query->setParameters(array (
-             'start_time' => $start_time,
-             'end_time' => $end_time
-         ));
+            'start_time' => $start_time,
+            'end_time' => $end_time
+        ));
         $query = $query->getQuery();
         return $query->getResult();
     }
@@ -698,10 +698,10 @@ EOT;
     }
 
     /**
-    * create the user when regist by weibo
-    * @param array('nick'=> , 'email'=> ,'pwd'=>);
-    * @return the User
-    */
+     * create the user when regist by weibo
+     * @param array('nick'=> , 'email'=> ,'pwd'=>);
+     * @return the User
+     */
     public function weibo_user_quick_insert(array $param)
     {
         $user = new User;
@@ -736,5 +736,20 @@ EOT;
         $em = $this->getEntityManager();
         $stm = $em->getConnection()->prepare('update user u set u.points = u.points + :points where u.id  = :id');
         return $stm->execute($params);
+    }
+
+    public function migrateUserWenwenLogin($password, $user_id) 
+    {
+        $user = new User();
+        $new_pwd= $user->pw_encode($password);
+        $em = $this->getEntityManager();
+        $sql_update  =$em->createQuery( 'UPDATE Jili\ApiBundle\Entity\User u SET u.pwd= :pwd , u.originFlag = :originFlag WHERE  u.id = :userId');
+        $sql_update->setParameters(array(
+            'pwd'=>$new_pwd,
+            'originFlag'=>User::ORIGIN_FLAG_WENWEN_JILI,
+            'userId'=>$user_id
+        ));
+
+        return  $sql_update->execute();
     }
 }

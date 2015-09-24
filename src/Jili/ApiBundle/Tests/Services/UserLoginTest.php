@@ -40,7 +40,7 @@ class UserLoginTest extends KernelTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
         $tn = $this->getName();
-        if( $tn =='testDoLogin' ) {
+        if( $tn=='testDoLogin' ) {
 
             // load fixtures
             $fixture = new LoadUserLoginData();
@@ -90,7 +90,20 @@ class UserLoginTest extends KernelTestCase
                 'method'=> 'POST',
                 'client_ip'=> '127.0.0.1'
             ));
+
         $this->assertEquals('ok', $result,  '"ok" for bob login successuflly');
+
+        $user  = LoadUserLoginData::$USERS[1];
+        $em = $this->em;
+
+        $user_updated = $em->getRepository('JiliApiBundle:User')->findOneBy(array('id'=>$user->getId()));
+
+        $user_stm =   $em->getConnection()->prepare('select * from user where id =  '.$user->getId());
+        $user_stm->execute();
+        $user_updated =$user_stm->fetchAll();
+
+        $this->assertNotEmpty($user_updated[0]['pwd'], 'password should not be empty');
+        $this->assertEquals( 3, $user_updated[0]['origin_flag'], 'after migrate password , origin_flag should be 3');
 
     }
 }
