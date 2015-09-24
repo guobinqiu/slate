@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * UserWenwenLogin
  *
  * @ORM\Table(name="user_wenwen_login", uniqueConstraints={@ORM\UniqueConstraint(name="user_id", columns={"user_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserWenwenLoginRepository")
  */
 class UserWenwenLogin
 {
