@@ -62,9 +62,7 @@ class UserLoginTest extends KernelTestCase
         parent::tearDown();
         $this->em->close();
     }
-    /**
-     *  @group debug
-     */
+
     public function testContainerGet()
     {
         $container = $this->container;
@@ -88,7 +86,7 @@ class UserLoginTest extends KernelTestCase
         $result = $container->get('login.listener')
             ->doLogin(array(
                 'email'=> 'bob.inch@voyagegroup.com.cn',
-                'pwd'=>'123123' ,
+                'pwd'=>'111111' ,
                 'method'=> 'POST',
                 'client_ip'=> '127.0.0.1'
             ));

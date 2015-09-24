@@ -59,6 +59,7 @@ class LoadUserLoginData extends AbstractFixture implements FixtureInterface
             ->setLoginPasswordSalt('★★★★★アジア事業戦略室★★★★★');
         $manager->persist($login);
         $manager->flush();
+
     }
 
 
