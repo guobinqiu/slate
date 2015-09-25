@@ -124,13 +124,14 @@ class AdminVoteControllerTest extends WebTestCase
         $controller->setContainer($container);
 
         $result = $controller->getVoteList(1, true);
-
-        $this->assertEquals(2, $result['pagination']->count());
+        $this->assertEquals(1, $result['pagination']->count());
         $item = $result['pagination']->getItems();
-        $this->assertEquals(2, $item[0]['id']);
+        $this->assertEquals(1, $item[0]['id']);
 
         $result = $controller->getVoteList(1, false);
-        $this->assertEquals(0, $result['pagination']->count());
+        $this->assertEquals(1, $result['pagination']->count());
+        $item = $result['pagination']->getItems();
+        $this->assertEquals(2, $item[0]['id']);
     }
 
     /**
@@ -180,7 +181,6 @@ class AdminVoteControllerTest extends WebTestCase
 
     /**
      * @group admin_vote
-     * @group mmzhang
      */
     public function testDeleteAction()
     {
