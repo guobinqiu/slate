@@ -55,7 +55,7 @@
         </tr>
         <tr>
             <td>{{form_label(form.description)}}</td>
-            <td>{{form.description.vars.value|nl2br}}</td>
+            <td>{% autoescape false %}{{form.description.vars.value }}{% endautoescape %}</td>
         </tr>
         <tr>
             <td>{{form_label(form.voteImage)}}</td>
