@@ -54,8 +54,8 @@ class VoteImageResizer
         }
 
         $path = explode("/", $relativePath);
-        self::mkdir_chmod($targetDir, $path[0], 0666);
-        self::mkdir_chmod($targetDir . $path[0], $path[1], 0666);
+        self::mkdir_chmod($targetDir, $path[0], 0777);
+        self::mkdir_chmod($targetDir . $path[0], $path[1], 0777);
 
         $newPath = $targetDir . $relativePath;
 
@@ -74,6 +74,7 @@ class VoteImageResizer
                 break;
         }
 
+        chmod($target_full_path, 0666);
         return $newPath;
     }
 
