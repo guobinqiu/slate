@@ -2,8 +2,12 @@
 -- Jarod
 ALTER TABLE `user` ADD `origin_flag` TINYINT( 4 ) NULL COMMENT 'which sites does the user from',
 ADD `created_remote_addr` VARCHAR( 20 ) NULL COMMENT 'remote IP when create',
-ADD `created_user_agent` VARCHAR( 100 ) NULL COMMENT 'remote User Agent when create',
+ADD `created_user_agent` TEXT  NULL COMMENT 'remote User Agent when create',
 ADD `campaign_code` VARCHAR( 100 ) NULL COMMENT 'recruit campaign code';
+
+
+-- ALTER TABLE `user` CHANGE `created_user_agent` `created_user_agent` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'remote User Agent when create';
+
 
 
 CREATE TABLE `user_wenwen_login` (

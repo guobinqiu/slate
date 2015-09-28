@@ -1410,7 +1410,12 @@ class UserController extends Controller
                                             if($count > 20) {
                                                 $code_nick = $this->container->getParameter('reg_wr_nick');
                                             } else {
-                                                $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array('nick'=> $nick, 'email'=>$email ));
+                                                $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array(
+                                                    'nick'=> $nick, 
+                                                    'email'=>$email,
+                                                    'remote_address'=>$request->getClientIp(),
+                                                    'user_agent'=>$request->headers->get('USER_AGENT'),
+                                                ));
 
                                                 $str = 'jilifirstregister';
                                                 $code = md5($user->getId().str_shuffle($str));

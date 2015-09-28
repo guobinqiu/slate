@@ -626,6 +626,8 @@ EOT;
         $user =  new User;
         $user->setNick($param['nick']);
         $user->setEmail($param['email']);
+        $user->setCreatedRemoteAddr($param['remote_address']);
+        $user->setCreatedUserAgent($param['user_agent']);
 
         $em = $this->getEntityManager();
         $em->persist($user);

@@ -265,7 +265,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="created_user_agent", type="string", length=100, nullable=true)
+     * @ORM\Column(name="created_user_agent", type="text", nullable=true)
      */
     private $createdUserAgent;
 
