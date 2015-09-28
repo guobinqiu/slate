@@ -74,7 +74,7 @@ class VoteImageResizer
                 break;
         }
 
-        chmod($target_full_path, 0666);
+        chmod($newPath, 0666);
         return $newPath;
     }
 
