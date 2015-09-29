@@ -1,0 +1,27 @@
+<div id="top-header" class="header">
+    <div class="header-top">
+        <div class="header-top-con w1000 clearfix">
+            <ul class="left clearfix">
+                <li><a href="../about/map.html" title="网站地图">网站地图</a><span>|</span></li>
+                <li><a href="../help/help.html" title="帮助中心">帮助中心</a></li>
+            </ul>
+            <ul class="right clearfix">
+                <li><em class="guide"></em><a href="../help/help.html" title="新手上路">新手上路</a><span>|</span></li>
+                <li><em class="tool"></em><a href="../gadget/gadget.html" title="调查工具">调查工具</a><span>|</span></li>
+                <li><a href="../personal/message.html"><em class="mail"><div class="mark"></div></em></a><span class="special expand-btn"><label for="personal_links">个人中心</label><b></b><div id="personal_links" class="personal expand-con">
+                <div class="personal-con">
+                    <span><img src="{{ asset('img/common/default_tx.png') }}" alt="头像"></span>
+                    <span class="txt"><div class="nickname">wenwen_sina</div><div><label for="points">积分：</label><strong id="points" name="points">2542</strong></div></span>
+                </div>
+                <ul>
+                    <li><a href="../personal/profile.html">个人资料</a></li>
+                    <li><a href="../personal/account.html">账户设置</a></li>
+                    <li><a href="../personal/taskHistory.html">任务历史</a></li>
+                    <li><a href="../personal/exchangeHistory.html">兑换历史</a></li>
+                    <li><a href="../home/index.html" class="exit">退出</a></li>
+                </ul></div></span></li>
+            </ul>
+        </div>
+    </div>
+    {% include 'WenwenFrontendBundle::headerNavi.html.twig' %}
+</div>

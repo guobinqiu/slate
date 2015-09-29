@@ -1,0 +1,91 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+.form{
+	li{
+		margin-top: 10px;
+		label{
+			width: 100px;
+			text-align: right;
+			font-size: 14px;
+			@include dib();
+		}
+	}
+	input[type='text'], input[type='password']{
+		padding: 0 5px;
+		height: 34px;
+		line-height: 34px;
+		border: 1px solid #e5e5e5;
+		outline: none;
+		&:focus, &.input_focus{
+			border: $input-border-focus;
+		}
+		&.input_error{
+			border: 1px solid $error-color;
+		}
+	}
+	input[type='text']{
+		width: 255px;
+	}
+	span{
+		display: none;
+		text-align: left;
+		line-height: 34px;
+		&.succeed{
+			color: #3bc570;
+			@include dib();
+		}
+		&.focus{
+			border: $normal-border;
+			background: $normal-bg-color;
+			color: $normal-color;
+			@include dib();
+			vertical-align: top;
+		}
+		&.error, strong{
+			border: $error-border;
+			background: $error-bg-color;
+			color: $error-color;
+			@include dib();
+			vertical-align: top;
+		}
+		b{
+			font-size: 20px;
+		}
+		a{
+			display: block;
+			font-size: 16px;
+			color: #319dfa;
+		}
+	}
+	.btn{
+		span{
+			width: 74px;
+			text-align: center;
+			height: 36px;
+			line-height: 36px;
+			@include btn();
+			@include dib();
+			vertical-align: middle;
+		}
+	}
+}
+#pwdStrength{
+	padding: 0;
+	margin-right: 20px;
+	b{
+		margin-right: 1px;
+		width: 45px;
+		height: 15px;
+		text-align: center;
+		line-height: 15px;
+		font-size: 12px;
+		color: #fff;
+		background: #b9b9b9;
+		vertical-align: middle;
+		@include dib();
+		&.c1{
+			background: #ffc6a0;
+		}
+	}
+}

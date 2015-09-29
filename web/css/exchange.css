@@ -1,312 +1,457 @@
-.exchange .btnArea{
-	text-align:center;
-	margin:30px 0 0 0;
-}
-.exchange h2{
-	font-size:18px;
-	font-weight:bold;
-	border-bottom:3px solid #eaeaea;
-	text-align:left;
-	height:30px;
-}
-.exchange h2 span{
-	color:#f75232;
-	border-bottom:3px solid #f75232;
-	font-family:"Microsoft Yahei",SimHei,Tahoma;
-	font-weight:bold;
-}
-.exchange article{
-	background-color: #FFFFFF;
-    box-shadow: 0 0 3px #CCCCCC;
-    float: right;
-    margin: 20px 0 0;
-    padding: 10px;
-    width: 765px;
-	font-size:14px;
-	text-align:center;
-	padding-bottom: 30px;
-}
-.exchange article .warn{
-	background-image: url("../images/warn.gif");
-    background-position: 0 5px;
-    background-repeat: no-repeat;
-    color: #FF0000;
-    line-height: 180%;
-    margin-bottom: 10px;
-    padding-left: 60px;
-    text-align: left;
-    width: 500px;
-}
-.exchange article .wenwen{
-	padding:20px 50px;
+.w1000 {
+  width: 1000px;
+  margin: 0 auto;
 }
 
-.exchange article .wenwen div.desCon{
-	 margin-top: 50px;
-	  font-size: 16px;
-}
-.exchange article .wenwen dl.form{
-	display:inline-block;
-	text-align:left;
-	width:100%;
-	margin:10px 0;
-	line-height:200%;
+.left {
+  float: left;
 }
 
-.exchange article .wenwen dl.identity dd input[type="text"]{
-	border:1px solid #cccccc;
-	padding:5px;
-	width:200px;
-	box-shadow:inset 1px 1px 2px #eee;
-	margin:0 5px 0 0;
+.right {
+  float: right;
 }
-.exchange article .wenwen dl.identity dd{
-	margin: 10px -55px;
-    width: 460px;
+
+.hide {
+  display: none;
 }
-.exchange article .wenwen dl.identity dt{
-	float: left;
-    margin: 5px 0 0 60px;
-    width: 120px;
+
+body {
+  font-family: "Microsoft YaHei", Tohoma, Arial;
+  font-size: 12px;
+  background: #f5f5f7;
+  color: #333;
 }
-.exchange article .wenwen dl.form dt{
-	float: left;
-    margin: 5px 0;
-    padding-right: 20px;
-    text-align: right;
-    width: 120px;
-	clear:both;
+
+.main {
+  margin-top: 111px;
 }
-.exchange article .wenwen dl.form dd{
-	width:500px;
-	margin: 5px 0;
-	float:left;
+.main.unlogin {
+  margin-top: 81px;
 }
-.exchange article .wenwen dl.form dd.notice{
-	background-color: #FFF2F2;
-    border: 1px solid #FF8888;
-    border-radius: 5px;
-    color: #000000;
-    font-size: 12px;
-    line-height: 170%;
-    padding: 3px 10px;
-    width: 440px;
+
+.main-con-left > div, .main-con-right > div {
+  margin-top: 20px;
+  background: #fff;
+  border: 1px solid #eee;
 }
-.exchange article .wenwen dl.form dd span.warn{
-	color:#F00;
-	font-size:12px;
-	font-weight:normal;
+
+.main-con-left > div {
+  padding: 10px 25px;
 }
-.exchange article .wenwen dl.form dd span.info{
-	font-size:12px;
-	font-weight:normal;
+
+.main-con-left {
+  width: 75%;
 }
-.exchange article .wenwen dl.form dd span.info a{
-	margin: 0 3px;
-	text-decoration: underline;
+
+.main-con-right {
+  width: 23%;
 }
-.exchange article .wenwen dl.form dd span.account{
-	color:#999;
-	font-size:14px;
-	font-weight:normal;
+.main-con-right h2 {
+  padding: 0 15px;
+  line-height: 35px;
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+  border-bottom: 1px solid #f6f6f6;
 }
-.exchange article .wenwen dl.form dd a{
-	color:#8abf0f;
+.main-con-right .weibo {
+  height: 550px;
+  overflow: hidden;
 }
-.exchange article .wenwen dl.form dd a.otherUser{
-	font-size: 12px;
-	color: #4a8ef3;
+
+.clearfix {
+  zoom: 1;
 }
-.exchange article .wenwen dl.form dd img, .exchange article div.wenwen div dd input{
-	vertical-align:middle;
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
 }
-.exchange article .wenwen dl.form dd input[type="text"]{
-	border:1px solid #cccccc;
-	padding:5px;
-	width:200px;
-	box-shadow:inset 1px 1px 2px #eee;
-	margin:0 5px 0 0;
+
+.header {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+  box-shadow: 0px 1px 5px #d8d8d8;
 }
-.exchange article .wenwen dl.form dd input[type="text"]:focus{
-	border:1px solid #7FCAF1;
+.header li {
+  float: left;
 }
-.exchange article .wenwen div.changePoint{
-	border: 2px dotted #EEEEEE;
-    display: block;
-    margin: 10px 0 10px 120px;
-    padding: 10px;
-    text-align: center;
-    width: 350px;
+.header.header-show {
+  -webkit-transform: translateY(0%);
+  -ms-transform: translateY(0%);
+  transform: translateY(0%);
+  -webkit-transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
+  -moz-transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
 }
-.exchange article .wenwen div.changePoint span, .exchange article .wenwen div dd span{
-	color: #FF7114;
-    display: inline-block;
-    font-size: 20px;
-    font-weight: bold;
-    vertical-align: middle;
+.header.header-hide {
+  -webkit-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  transform: translateY(-100%);
+  -webkit-transition: all 300ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  -moz-transition: all 300ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  -o-transition: all 300ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  transition: all 300ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
-.exchange article .wenwen div.btnArea{
-	text-align:center;
-	margin:10px 0;
+.header.unlogin {
+  height: 80px;
 }
-.exchange article .wenwen div.btnArea a{
-	cursor: pointer;
-	background:#4a8ef3;
-	padding:12px 40px;
-	-moz-border-radius: 2px; 
-    -webkit-border-radius: 2px; 
-    border-radius: 2px;
-	color:#fff;
-	font-weight:bold;
+
+.header-top {
+  background: #36363c;
+  color: #9a9a9b;
+  height: 30px;
+  line-height: 30px;
+  border-bottom: 1px solid #bcbdc2;
 }
-.exchange article .wenwen div.btnArea a#unactive{ background:#bdbdbd;}
-.exchange .btnArea a:hover img, .exchange article .wenwen div.btnArea #active:hover{
-	opacity:.8;
-	Filter:alpha(opacity=80);
+.header-top a {
+  color: #9a9a9b;
+  font-size: 12px;
 }
-.exchange article .wenwen div.mt50{
-	margin-top:30px;
+.header-top a:hover {
+  color: #fff;
 }
-.exchange article .finish{
-	font-size:14px;
-	line-height:200%;
-	display:inline-block;
-	text-align:left;
-	margin:50px 0px;
-	width:580px;
+
+.header-top-con a {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
 }
-.exchange article .finish p{
-	margin:10px 0;
+.header-top-con em {
+  width: 20px;
+  height: 15px;
+  line-height: 15px;
+  margin-right: 8px;
+  margin-top: -3px;
+  background: url(../img/common/icons_common.png) no-repeat 0 0;
+  vertical-align: middle;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
 }
-.exchange article .finish hr{
-	height:0;
-	line-height:0;
-	border:none;
-	border-bottom:1px solid #eee;
+.header-top-con em.tool {
+  width: 12px;
+  height: 16px;
+  line-height: 16px;
+  background-position: 0 -38px;
 }
-.exchange article .finish .img{
-	float:left;
-	margin:0px 20px;
-	width:auto;
-	height:180px;
+.header-top-con em.mail {
+  background-position: 0 -20px;
+  position: relative;
+  z-index: 1;
 }
-.exchange article .finish h2{
-	font-size:24px;
-	border:none;
-	font-weight:bold;
+.header-top-con em .mark {
+  position: absolute;
+  z-index: 1000;
+  top: -3px;
+  right: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff5500;
 }
-.exchange article .finish a{
-	color:#4a8ef3;
+.header-top-con span {
+  color: #77777a;
+  padding: 0 15px;
+  vertical-align: top;
 }
-/*by wlt, 2015-3-18*/
-.exchangeV2 ul{
-	margin-top: -20px;
-	margin-right: -40px;
+.header-top-con span.special {
+  color: #fff;
+  padding: 10px 15px 10px 10px;
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
 }
-.exchangeV2 li{
-	float: left;
-	margin-top: 40px;
-	margin-right: 40px;
-	background-color: #fff;
-	padding: 50px;
-	font-family: "微软雅黑";
-	box-shadow: 0px 1px 4px rgba(149,148,148,.3);
-	position: relative;
-	z-index: 1;
+.header-top-con span label {
+  vertical-align: top;
 }
-.exchangeV2 .pic, .exchangeV2 dl{
-	float: left;
+.header-top-con span b {
+  position: absolute;
+  z-index: 1000;
+  top: 15px;
+  right: 0;
+  margin-left: 5px;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  font-size: 0;
+  overflow: hidden;
+  border-width: 5px;
+  cursor: pointer;
+  border-style: solid dashed dashed dashed;
+  border-color: #9a9a9b transparent transparent transparent;
+  border-bottom: none;
+  transition: transform .1s ease-in 0s;
+  -webkit-transition: -webkit-transform .1s ease-in 0s;
 }
-.exchangeV2 .pic{
-	width: 140px;
-	height: 125px;
-	padding-top: 10px;
-	text-align: center;
-	margin-right: 20px;
+.header-top-con span:hover b {
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
 }
-.exchangeV2 dl{
-	width: 220px;
-	color: #000;
+.header-top-con .personal {
+  position: absolute;
+  z-index: 9999;
+  top: 33px;
+  right: 0;
+  border: 1px solid #eee;
+  background: #fff;
+  width: 186px;
+  display: none;
 }
-.exchangeV2 dt{
-	font-size: 20px;
-	font-weight: bold;	
+.header-top-con .personal li {
+  float: none;
+  border-top: 1px solid #eee;
+  line-height: 35px;
+  padding: 0 20px;
 }
-.exchangeV2 dd.text{
-	margin-top: 5px;
-	line-height: 20px;
-	font-family: "宋体";
+.header-top-con .personal li a {
+  color: #4d4d4d;
 }
-.exchangeV2 dd.text strong{
-	font-weight: normal;
-	color: #ff5938;
+.header-top-con .personal li:hover {
+  background: #fafafa;
 }
-.exchangeV2 dd.exchangeBtn{
-	margin-top: 10px;
+.header-top-con .personal-con {
+  padding: 15px 20px;
 }
-.exchangeV2 li span, .exchangeV2 .viewLink a{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
+.header-top-con .personal-con span {
+  padding: 0;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+  color: #4d4d4d;
 }
-.exchangeV2 dd.exchangeBtn span{
-	width: 102px;
-	text-align: center;
-	height: 40px;
-	line-height: 40px;
-	color: #fff;
-	background-color: #4a8ef3;
-	font-size: 14px;
-	border-radius: 3px;
-	cursor: pointer;
+.header-top-con .personal-con span.face {
+  border-radius: 50%;
 }
-.exchangeV2 dd.exchangeBtn span.disabled{
-	background-color: #bfbfbf;
-	cursor: text;
+.header-top-con .personal-con span.txt {
+  font-size: 12px;
+  line-height: 20px;
+  margin-left: 5px;
 }
-.exchangeV2 .newIcon{
-	position: absolute;
-	z-index: 100;
-	top: 0;
-	left: 0;
-	width: 64px;
-	height: 64px;
-	background: url("../images/exchange/newIcon.png") no-repeat 0 0;
+.header-top-con .personal-con span.txt .nickname {
+  margin-bottom: 5px;
 }
-.exchangeV2 .viewLink{
-	margin-top: 20px;
-	margin-bottom: 30px;
-	text-align: right;
+.header-top-con .personal-con span label {
+  vertical-align: top;
 }
-.exchangeV2 .viewLink a.historyExchange{
-	padding: 0 20px;
-	height: 35px;
-	line-height: 35px;
-	color: #787878;
-	background-color: #ebebeb;
-	border: 1px solid #dedede;
+.header-top-con .personal-con span strong {
+  font-size: 16px;
+  color: #ff5500;
 }
-.flowTips{
-	margin-top: 35px;
-	line-height: 20px;
-	padding: 15px 20px;
-	background-color: #f9f9f9;
-	text-align: left;
-	font-size: 12px;
+
+.header-nav {
+  background: #fff;
+  height: 80px;
+  line-height: 80px;
 }
-.flowTips .title{
-	font-size: 14px;
-	font-weight: bold;
+.header-nav span {
+  color: #f5eeeb;
+  padding: 0 15px;
 }
-.flowTips p{
-	margin-top: 10px;
+.header-nav img {
+  vertical-align: middle;
 }
-.flowTips p em{
-	margin-right: 10px;
+.header-nav .logo {
+  margin-right: 80px;
 }
-.identityWrapper{
-	margin: 50px 50px 100px;
+.header-nav .logo a {
+  padding-right: 20px;
 }
-.identityWrapper .tips span.error{
-	padding-top: 0;
+.header-nav .logo span {
+  height: 28px;
+  line-height: 28px;
+  border-left: 1px solid #ddd;
+  vertical-align: middle;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.header-nav .nav {
+  font-size: 0;
+  height: 80px;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+}
+.header-nav .nav .border {
+  position: absolute;
+  z-index: 1000;
+  left: 0;
+  bottom: 0;
+  height: 6px;
+  width: 115px;
+  background: #ff5500;
+  display: none;
+}
+.header-nav .nav a {
+  width: 115px;
+  text-align: center;
+  font-size: 16px;
+  color: #404040;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  overflow: hidden;
+}
+.header-nav .nav a:hover, .header-nav .nav a.active {
+  color: #ff5500;
+}
+.header-nav .login-btn a {
+  margin-left: 5px;
+  padding: 5px 10px;
+  color: #88878e;
+  border: 1px solid #dedfe3;
+  border-radius: 3px;
+}
+.header-nav .login-btn a:hover {
+  color: #fff;
+  background: #ff5500;
+  border: 1px solid #ff5500;
+}
+
+.main-con {
+  padding-top: 20px;
+}
+
+.main-con-exchange ul {
+  margin-top: -20px;
+  margin-right: -40px;
+}
+.main-con-exchange li {
+  position: relative;
+  z-index: 1;
+  float: left;
+  margin-top: 40px;
+  margin-right: 40px;
+  background-color: #fff;
+  padding: 49px 20px;
+  -webkit-box-shadow: 0px 1px 4px rgba(149, 148, 148, 0.3);
+  -moz-box-shadow: 0px 1px 4px rgba(149, 148, 148, 0.3);
+  box-shadow: 0px 1px 4px rgba(149, 148, 148, 0.3);
+}
+.main-con-exchange li span, .main-con-exchange li a {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.main-con-exchange .pic, .main-con-exchange dl {
+  float: left;
+}
+.main-con-exchange .pic {
+  width: 177px;
+  height: 138px;
+  text-align: center;
+  margin-right: 35px;
+}
+.main-con-exchange dl {
+  width: 222px;
+  color: #000;
+}
+.main-con-exchange dt {
+  line-height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.main-con-exchange dd.text {
+  margin-top: 5px;
+  line-height: 24px;
+}
+.main-con-exchange dd.text strong {
+  font-weight: normal;
+  color: #ff5938;
+}
+.main-con-exchange dd.exchangeBtn {
+  margin-top: 15px;
+}
+.main-con-exchange dd.exchangeBtn a {
+  width: 102px;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  color: #fff;
+  background: #2f8be0;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 2px 0 #206dc7;
+  -moz-box-shadow: 0 2px 0 #206dc7;
+  box-shadow: 0 2px 0 #206dc7;
+  cursor: pointer;
+}
+.main-con-exchange dd.exchangeBtn a.disabled {
+  background-color: #888;
+  cursor: text;
+  -webkit-box-shadow: 0 2px 0 #666;
+  -moz-box-shadow: 0 2px 0 #666;
+  box-shadow: 0 2px 0 #666;
+}
+.main-con-exchange .newIcon {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 64px;
+  height: 64px;
+  background: url("../img/exchange/newIcon.png") no-repeat 0 0;
+}
+.main-con-exchange .viewLink {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  text-align: right;
+}
+.main-con-exchange .viewLink a.historyExchange {
+  padding: 0 20px;
+  height: 35px;
+  line-height: 35px;
+  color: #787878;
+  background-color: #ebebeb;
+  border: 1px solid #dedede;
+}
+
+.footer {
+  margin-top: 50px;
+  border-top: 3px solid #bebebe;
+  padding: 30px 0;
+  line-height: 24px;
+  background: #f8f8f8;
+  color: #535353;
+}
+.footer .footer-nav-group {
+  float: left;
+  margin-right: 80px;
+}
+.footer .footer-nav-group span {
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 0;
+  display: inline-block;
+}
+.footer .footer-nav-group li span {
+  color: inherit;
+  font-size: 12px;
+  font-weight: normal;
+  padding: 0;
+}
+.footer .special {
+  margin-top: 16px;
+}
+.footer .special .img-link img {
+  margin-left: 2px;
+  margin-top: 3px;
+  display: inline-block;
+}
+.footer .copyright {
+  text-align: center;
+  margin-top: 20px;
+}
+.footer .copyright p {
+  line-height: 30px;
+  color: #989898;
 }

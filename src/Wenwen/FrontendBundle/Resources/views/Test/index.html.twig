@@ -1,0 +1,28 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent()  }} Test {% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+ 
+{% block body %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle::headerUser.html.twig' %} 
+{% endblock %}
+
+<div class="main-con-left left">
+    <div class="vote vote-sub">
+        <em></em>
+        <h1>Test</h1>
+        <p >Test</p>
+    </div>
+</div>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/home')}}"></script>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle::footer.html.twig' %} 
+{% endblock %}

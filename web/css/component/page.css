@@ -1,0 +1,26 @@
+.page-wrapper {
+  padding: 30px;
+  font-size: 0;
+}
+
+.page {
+  text-align: center;
+}
+.page span {
+  border: 1px solid #dbdbdb;
+  color: #adadad;
+  font-size: 12px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  padding: 0px 8px;
+  height: 22px;
+  text-center: center;
+  line-height: 22px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.page span:hover, .page span.active {
+  border: 1px solid #ff5500;
+  color: #ff5500;
+}

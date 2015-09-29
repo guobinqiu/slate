@@ -1,0 +1,417 @@
+.signWait{
+
+}
+.userNick{
+	color:#4a8ef3;
+}
+.userType{
+	color:#ec4920;
+}
+.index section.one, .index section.process, .index section.main {
+	margin: 20px 0 0px 0;
+	display: inline-block;
+	position:relative;
+}
+.index section.one #banner {
+	width: 722px;
+	height: 250px;
+	overflow:hidden;
+	float: left;
+	position:relative;
+}
+.index section.one #banner ul.bannerImg {
+	position:absolute;
+}
+.index section.one #banner ul.bannerImg li{
+	width: 722px;
+	height: 250px;
+}
+.index section.one #banner div.bannerNumber{
+	position:absolute;
+	right:10px;
+	bottom:10px;
+}
+.index section.one #banner div.bannerNumber a{
+	width:20px;
+	height:20px;
+	display:inline-block;
+	text-align:center;
+	line-height:20px;
+	color:#ee472c;
+	background-color:#FFF;
+	margin-left:5px;
+}
+.index section.one #banner div.bannerNumber a:hover, .index section.one #banner div.bannerNumber a.hover{
+	color:#FFF;
+	background-color:#ee472c;
+	text-decoration:none;
+}
+.index section.one #userInformation {
+	float: left;
+	background-color: #FFF;
+	border: 0px;
+	border-left: none;
+	height: 250px;
+    padding: 0px 8px 0px 12px;
+    width: 217px;
+	box-shadow: 3px 0 1px #DDDDDD inset;
+	position:relative;
+}
+.index section.one #userInformation .before p{
+	margin:15px 0;
+}
+.index section.one #userInformation .before a.reg{
+	background-image:url(../images/indexRegBtn.jpg);
+	width:214px;
+	height:53px;
+	text-indent:-9999px;
+	display:block;
+}
+.index section.one #userInformation .before a.reg:hover{
+	opacity:.8;
+	Filter:alpha(opacity=80);
+}
+.index section.one #userInformation .before input.text, .index section.one #userInformation .before input.password{
+	border:1px solid #cacaca;
+	width:172px;
+	height:35px;
+	background-repeat:no-repeat;
+	display:inline-block;
+	padding:0 5px 0 35px;
+	color:#c5c5c5;
+	line-height:35px;
+}
+.index section.one #userInformation .before input.text, .index section.one #userInformation .before input.password{
+	border:1px solid #e4e4e4;
+	width:172px;
+	height:35px;
+	background-repeat:no-repeat;
+	display:inline-block;
+	padding:0 5px 0 35px;
+	color:#c5c5c5;
+	line-height:35px;
+}
+.index section.one #userInformation .before input.text:focus, .index section.one #userInformation .before input.password:focus{
+	color:#666;
+}
+.index section.one #userInformation .before input.text{
+	background-image:url(../images/inputUserIcon.jpg);
+	background-position:8px;
+}
+.index section.one #userInformation .before input.password{
+	background-image:url(../images/inputPasswordIcon.jpg);
+	background-position:10px;
+}
+.index section.one #userInformation .before input.image{
+	vertical-align:middle;
+	margin-right:5px;
+}
+.index section.one #userInformation .before input.image:hover{
+	opacity:.8;
+	Filter:alpha(opacity=80);
+}
+.index section.one #userInformation .before a.forget{
+	color:#4a8ef3;
+}
+.index section.one #userInformation .after{
+	margin:10px 0;
+}
+.index section.one #userInformation .after .user{
+	display: inline-block;
+    width: 217px;
+}
+.index section.one #userInformation .after .user .photo{
+	background: url("../images/user_head60_bg.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    float: left;
+    height: 64px;
+    margin: 0 10px 0 0;
+    padding: 3px;
+    width: 60px;
+}
+.index section.one #userInformation .after .user .photo img{
+	width:60px;
+	height:60px;
+}
+.index section.one #userInformation .after .user .photo:hover img{
+	opacity: .8;
+	Filter:alpha(opacity=80);
+}
+.index section.one #userInformation .after .user p{
+	margin:10px 0;
+}
+.index section.one #userInformation .after .user p.point{
+	font-size:18px;
+	color:#CCC;
+}
+.index section.one #userInformation .after .user p.point span{
+	color:#f75232;
+	font-weight:bold;
+}
+.index section.one #userInformation .after .user a.signIn{
+	background-image: url("../images/signInBtn.jpg");
+    display: inline-block;
+    height: 45px;
+    margin-top: 20px;
+    width: 214px;
+	cursor:pointer;
+}
+.index section.one #userInformation .after .user a.signWait{
+	background-image: url("../images/signInWait.jpg");
+    display: inline-block;
+    height: 45px;
+    margin-top: 20px;
+    width: 214px;
+	cursor:pointer;
+}
+.index section.one #userInformation .after .user a.signIn.close{
+	background-image:url(../images/signInClose.jpg);
+	cursor:default;
+}
+.index section.one #userInformation .after .user .signInExplain{
+	background-image: url("../images/signInExplain.gif");
+    height: 40px;
+    left: 25px;
+    line-height: 40px;
+    padding-top: 5px;
+    position: absolute;
+    text-align: center;
+    top: 150px;
+    width: 193px;
+    z-index: 9997;
+}
+.index section.one #userInformation .after .user .signInExplain span{
+	color:#f75232;
+}
+.index section.one #userInformation .after .user p a.hello{
+	display: inline-block;
+	width: 100px;
+	word-wrap:break-word;
+}
+.index section.one #userInformation .after .user p a.personalBtn{
+	display: inline-block;
+	margin-top: 8px;
+}
+.index section.one #userInformation .after .user p a.personalBtn:hover img{
+	opacity: .8;
+	Filter:alpha(opacity=80);
+}
+.index section.one #userInformation .after ul{
+	position:absolute;
+	bottom:0px;
+	right:0px;
+}
+.index section.one #userInformation .after ul li a{
+	background-color: #F6F6F6;
+    background-image: url("../images/listArrow.gif");
+    background-position: 200px 50%;
+    background-repeat: no-repeat;
+    border-top: 1px solid #ECECEC;
+    display: inline-block;
+    font-size: 14px;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 0 0 20px;
+    width: 214px;
+}
+.index section.one #userInformation .after ul li a:hover{
+	background-color: #F0F0F0;
+	text-decoration:none;
+}
+.index section.main article {
+	width: 723px;
+	_margin-right:-15px;
+	float:left;
+	display:inline-block;
+}
+.index section.main article h2 {
+	position: relative;
+	margin: 0 15px 0 0;
+	height:30px;
+}
+.index section.main article h2 a.more {
+	position: absolute;
+	right: 0px;
+	bottom: 5px;
+	font-size: 12px;
+	color:#666666;
+	font-weight:normal;
+}
+.index section.main article div.task {
+	width: 199px;
+	height: 180px;
+	padding: 10px 10px 5px 10px;
+	float: left;
+	border: 3px solid #ECECEC;
+	margin: 0 15px 15px 0;
+	_margin:0 14px 15px 0;
+	background-color: #FFF;
+}
+.index section.main article div.task:hover{
+	border: 3px solid #ffd8c9;
+}
+.index section.main article div.task img{
+	margin:0 0 5px 0;
+	border: 1px solid #EEEEEE;
+    height: 130px;
+    margin: -1px 0 0 -1px;
+    width: 200px;
+}
+
+.index section.main article div.task h3 {
+	position: relative;
+	color: #ec4920;
+}
+.index section.main article div.task h3 a:hover{
+	color: #EC4920;
+	text-decoration:none;
+}
+.index section.main article div.task p span {
+	font-weight: bold;
+	color: #ec4920;
+}
+.index section.main aside {
+	float:left;
+	width: 237px;
+	margin-top: 30px;
+}
+.index section.main aside section {
+	border: 1px solid #ececec;
+	background-color: #FFF;
+	margin: 0 0 15px 0;
+}
+.index section.main aside section h4 {
+	border-bottom: 1px solid #ECECEC;
+    color: #333333;
+    font-size: 14px;
+    height: 20px;
+    padding: 12px 5px 5px 10px;
+    position: relative;
+}
+.index section.main aside section h4 a.more {
+	position: absolute;
+	right: 10px;
+	bottom: 5px;
+	font-size: 12px;
+	color:#666666;
+	font-weight:normal;
+}
+.index section.main aside section ul {
+	width: 90%;
+	overflow: hidden;
+	margin: auto;
+}
+.index section.main aside section ul.news a span {
+	color: #ec4920;
+}
+.index section.main aside section ul.news a {
+	color: #666666;
+}
+.index section.main aside section ul.news a:hover{
+	text-decoration:none;
+}
+.index section.main aside section ul.timeline a {
+	color: #ec4920;
+	margin-right: 5px;
+}
+.index section.main aside section ul.timeline font {
+	color: #4a8ef3;
+	margin: 0 5px;
+}
+.index section.main aside section li {
+	height:30px;
+	line-height: 30px;
+	border-bottom: 1px solid #ececec;
+	overflow: hidden;
+}
+.index section.main aside section li.last{
+	border-bottom: none;
+}
+#signInFrame{
+	background: url("../images/signInFrame.jpg") bottom;
+    height: 352px;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 483px;
+	padding:20px 30px;
+	z-index: 9999;
+}
+#signInFrame h5{
+	font-weight:normal;
+	font-size:14px;
+}
+#signInFrame h5 span{
+	color:#e94c1b;
+}
+#signInFrame a.close{
+	background-image: url("../images/closeTag.gif");
+    display: inline-block;
+    font-size: 0;
+    height: 13px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 14px;
+}
+#signInFrame ul{
+	margin-top:10px;
+}
+#signInFrame li{
+	float:left;
+	width:160px;
+	border-top:1px dotted #dcdcdc;
+	border-right:1px dotted #dcdcdc;
+	text-align:center;
+	padding:5px 0;
+	position:relative;
+}
+#signInFrame li.rbn{
+	border-right:none;
+}
+#signInFrame li.tbn{
+	border-top:none;
+}
+#signInFrame li img{
+	width:120px;
+	height:auto;
+}
+#signInFrame li p{
+	text-align:center;
+}
+#signInFrame li .gray{
+	background-color:#000;
+	opacity:.5;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	display:none;
+}
+#signInFrame li .goTo{
+	text-align:center;
+	color:#FFF;
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:30px;
+	line-height:30px;
+	background-color:#5eb524;
+	display:none;
+}
+#signInFrame li .finish{
+	text-align:center;
+	color:#bcbdbd;
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:30px;
+	line-height:30px;
+	background-color:#e0e2e2;
+	display:none;
+}
+#signInFrame li.finish .gray ,#signInFrame li.finish .finish{
+	display:block;
+}

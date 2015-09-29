@@ -1,0 +1,232 @@
+@charset "UTF-8";
+
+@import "global";
+$header-height: 110px;
+.header{
+	position: fixed;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: $header-height;
+	box-shadow: 0px 1px 5px #d8d8d8;
+	li{
+		float: left;
+	}
+	&.header-show{
+		@include animation(0%, 500ms, (0.190, 1.000, 0.220, 1.000));
+	}
+	&.header-hide{
+		@include animation(-100%, 300ms, (0.550, 0.055, 0.675, 0.190));
+	}
+	&.unlogin{
+		height: 80px;
+	}
+}
+$top-font-color: #9a9a9b;
+$top-bg-color: #36363c;
+.header-top{
+	background: $top-bg-color;
+	color: $top-font-color;
+	height: 30px;
+	line-height: 30px;
+	border-bottom: 1px solid #bcbdc2;
+	a{
+		color: $top-font-color;
+		font-size: 12px;
+		&:hover{
+			color: #fff;
+		} 
+	}
+}
+.header-top-con{
+	a{
+		@include dib();
+	}
+	em{
+		width: 20px;
+		height: 15px;
+		line-height: 15px;
+		margin-right: 8px;
+		margin-top: -3px;
+		background: url(../img/common/icons_common.png) no-repeat 0 0;
+		vertical-align: middle;
+		@include dib();
+		&.tool{
+			width: 12px;
+			height: 16px;
+			line-height: 16px;
+			background-position: 0 -38px;
+		}
+		&.mail{
+			background-position: 0 -20px;
+			position: relative;
+			z-index: 1;
+		}
+		.mark{
+			position: absolute;
+			z-index: 1000;
+			top: -3px;
+			right: -3px;
+			width: 7px;
+			height: 7px;
+			border-radius: 50%;
+			background: $main-color;
+		}
+	}
+	span{
+		color: #77777a;
+		padding: 0 15px;
+		vertical-align: top;
+		&.special{
+			color: #fff;
+			padding: 10px 15px 10px 10px;
+			position: relative;
+			z-index: 10;
+			cursor: pointer;
+		}
+		label{
+			vertical-align: top;
+		}
+		b{
+			position: absolute;
+			z-index: 1000;
+			top: 15px;
+			right: 0;
+			margin-left: 5px;
+			@include arrow(bottom, 5px, $top-font-color);
+			transition:transform .1s ease-in 0s;
+			-webkit-transition:-webkit-transform .1s ease-in 0s;
+		}
+	}
+	span:hover{
+		b{
+			transform:rotate(180deg);
+			-webkit-transform:rotate(180deg)
+		}
+	}
+	.personal{
+		position: absolute;
+		z-index: 9999;
+		top: 33px;
+		right: 0;
+		border: $block-border;
+		background: $block-bg-color;
+		width: 186px;
+		display: none;
+		li{
+			float: none;
+			border-top: $block-border;
+			line-height: 35px;
+			padding: 0 20px;
+			a{
+				color: #4d4d4d;
+			}
+			&:hover{
+				background: #fafafa;
+			}
+		}
+		
+	}
+	.personal-con{
+		padding: 15px 20px;
+		span{
+			padding: 0;
+			@include dib();
+			vertical-align: top;
+			color: #4d4d4d;
+			&.face{
+				border-radius: 50%;
+			}
+			&.txt{
+				font-size: 12px;
+				line-height: 20px;
+				margin-left: 5px;
+				.nickname{
+					margin-bottom: 5px;
+				}
+			}
+			label{
+				vertical-align: top;
+			} 
+			strong{
+				font-size: 16px;
+				color: $main-color;
+			}
+		}
+	}
+}
+
+$nav-font-color: #404040;
+$nav-font-size: 16px;
+$header-nav-height: 80px;
+.header-nav{
+	background: $block-bg-color;
+	height: $header-nav-height;
+	line-height: $header-nav-height;
+	span{
+		color: #f5eeeb;
+		padding: 0 15px;
+	}
+	img{
+		vertical-align: middle;
+	}
+	.logo{
+		margin-right: 80px;
+		a{
+			padding-right: 20px;
+		}
+		span{
+			height: 28px;
+			line-height: 28px;
+			border-left: 1px solid #ddd;
+			vertical-align: middle;
+			@include dib();
+		}
+	}
+	.nav{
+		font-size: 0;
+		height: $header-nav-height;
+		overflow: hidden;
+		position: relative;
+		z-index: 2;
+		.border{
+			position: absolute;
+			z-index: 1000;
+			left: 0;
+			bottom: 0;
+			height: 6px;
+			width: 115px;
+			background: $main-color;
+			display: none;
+		}
+		a{
+			width: 115px;
+			text-align: center;
+			font-size: $nav-font-size;
+			color: $nav-font-color;
+			@include dib();
+			overflow: hidden;
+			&:hover, &.active{
+				color: $main-color;
+			}
+			// &.first{
+			// 	width: 85px;
+			// }
+		}
+	}
+	.login-btn{
+		a{
+			margin-left: 5px;
+			padding: 5px 10px;
+			color: #88878e;
+			border: 1px solid #dedfe3;
+			border-radius: 3px;
+			&:hover{
+				color: #fff;
+				background: $main-color;
+				border: 1px solid $main-color;
+			}
+		}
+	}
+}

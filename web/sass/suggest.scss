@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/form";
+.main-con{
+	padding-top: 20px;
+}
+.main-con-suggest{
+	padding: 20px 60px 50px;
+	border: $block-border;
+	background: $block-bg-color;
+	h1{
+		line-height: 45px;
+		font-size: 16px;
+		font-weight: bold;
+		color: $main-title-color;
+	}
+	p{
+		line-height: 22px;
+		em{
+			padding: 0 5px;
+			color: #b4b4b4;
+		}
+		strong{
+			color: $main-color;
+		}
+	}
+	.abstract{
+		padding: 5px 0 20px 0;
+		border-bottom: $block-inner-border;
+	}
+	.form{
+		padding: 20px;
+		label{
+			width: 65px;
+			font-weight: bold;
+			margin-right: 10px;
+		}
+		input[type="text"]{
+			width: 437px;
+			border-radius: 3px;
+		}
+		textarea{
+			padding: 2px 5px;
+			width: 437px;
+			height: 70px;
+			line-height: 22px;
+			border: 1px solid #e5e5e5;
+			border-radius: 3px;
+			outline: none;
+			&:focus{
+				border: $input-border-focus;
+			}
+			&.input_error{
+				border: 1px solid $error-color;
+			}
+		}
+		span{
+			margin-left: 5px;
+			padding: 0 5px;
+			border-radius: 3px;
+		}
+		.btn{
+			padding: 20px 0 10px 75px;
+			span{
+				width: 110px;
+				font-size: 14px;
+				font-weight: bold;
+			}
+		}
+	}
+	.tips{
+		line-height: 24px;
+		padding: 15px 30px 20px;
+		background: #fafafa;
+	}
+}
+@import "layout/footer";

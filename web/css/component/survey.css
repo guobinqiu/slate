@@ -1,0 +1,196 @@
+.main-con-left h1 {
+  height: 55px;
+  line-height: 55px;
+  font-size: 20px;
+  padding-left: 20px;
+  border-bottom: 1px solid #f6f6f6;
+  font-weight: bold;
+}
+.main-con-left .title a {
+  color: #0078b6;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 35px;
+}
+.main-con-left ul {
+  width: 100%;
+}
+.main-con-left li {
+  padding: 10px 20px;
+  border-top: 1px solid #f6f6f6;
+  position: relative;
+  z-index: 1;
+}
+.main-con-left li:hover .survey-item, .main-con-left li.active .survey-item {
+  width: 80%;
+}
+.main-con-left li:hover .survey-btn, .main-con-left li.active .survey-btn {
+  width: 15%;
+}
+.main-con-left li:hover .vote-txt, .main-con-left li.active .vote-txt {
+  width: 68%;
+}
+.main-con-left li span {
+  vertical-align: top;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+
+.survey-item {
+  width: 100%;
+  padding: 0 0 5px 0;
+  transition: width 300ms;
+  -moz-transition: width 300ms;
+  -webkit-transition: width 300ms;
+  -o-transition: width 300ms;
+}
+.survey-item ul {
+  margin-left: -10px;
+  width: 100%;
+}
+.survey-item li {
+  float: left;
+  width: 27%;
+  text-align: left;
+  padding: 5px 0 0 10px;
+  border-top: none;
+  border-left: 1px solid #f6f6f6;
+}
+.survey-item li span {
+  line-height: 22px;
+  color: #8a8a8a;
+}
+.survey-item li p {
+  line-height: 28px;
+}
+.survey-item li p strong {
+  color: #ff5500;
+  font-size: 16px;
+}
+.survey-item li.first {
+  border-left: none;
+}
+.survey-item li.last {
+  width: 10%;
+}
+
+.survey-btn {
+  width: 0%;
+  height: 100%;
+  line-height: 800%;
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  background: #ff5500;
+  cursor: pointer;
+  overflow: hidden;
+  transition: width 300ms;
+  -moz-transition: width 300ms;
+  -webkit-transition: width 300ms;
+  -o-transition: width 300ms;
+}
+
+.vote a.survey-btn {
+  color: #fff;
+  line-height: 900%;
+}
+.vote li {
+  padding: 20px;
+}
+.vote li.vote-new .vote-img {
+  width: 15%;
+}
+.vote li.vote-new .vote-txt {
+  width: 54%;
+}
+.vote li.vote-new .tips {
+  position: absolute;
+  z-index: 1000;
+  top: 30px;
+  right: 0px;
+}
+.vote li.vote-new .tips span {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #979797;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+.vote li.vote-new .tips-con {
+  position: absolute;
+  z-index: 1999;
+  top: 12px;
+  right: 3px;
+  border: 1px solid #dedddc;
+  background: #f5f5f5;
+  padding: 8px;
+  width: 110px;
+  line-height: 20px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0px 0px 1px #dedddc;
+  -moz-box-shadow: 0px 0px 1px #dedddc;
+  box-shadow: 0px 0px 1px #dedddc;
+  display: none;
+}
+
+.vote-img {
+  width: 15%;
+}
+
+.vote-txt {
+  width: 84%;
+  color: #8a8a8a;
+  line-height: 22px;
+  transition: width 300ms;
+  -moz-transition: width 300ms;
+  -webkit-transition: width 300ms;
+  -o-transition: width 300ms;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vote-txt p {
+  padding-left: 3px;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vote-txt .relate span {
+  padding: 0 3px;
+}
+.vote-txt .relate span strong {
+  color: #ff5500;
+}
+.vote-txt .relate span.vline {
+  color: #f6f6f6;
+}
+
+.countdown {
+  color: #914b11;
+  font-size: 20px;
+  position: absolute;
+  z-index: 1000;
+  top: 30px;
+  right: 20px;
+  height: 52px;
+  line-height: 52px;
+}
+.countdown span {
+  width: 33px;
+  text-align: center;
+  border: 1px solid #dedddc;
+  background: #f5f5f5;
+}
+.countdown b {
+  padding: 0 5px;
+}

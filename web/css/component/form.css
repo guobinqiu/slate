@@ -1,0 +1,103 @@
+.form li {
+  margin-top: 10px;
+}
+.form li label {
+  width: 100px;
+  text-align: right;
+  font-size: 14px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.form input[type='text'], .form input[type='password'] {
+  padding: 0 5px;
+  height: 34px;
+  line-height: 34px;
+  border: 1px solid #e5e5e5;
+  outline: none;
+}
+.form input[type='text']:focus, .form input[type='text'].input_focus, .form input[type='password']:focus, .form input[type='password'].input_focus {
+  border: 1px solid #3bc570;
+}
+.form input[type='text'].input_error, .form input[type='password'].input_error {
+  border: 1px solid #ff0000;
+}
+.form input[type='text'] {
+  width: 255px;
+}
+.form span {
+  display: none;
+  text-align: left;
+  line-height: 34px;
+}
+.form span.succeed {
+  color: #3bc570;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.form span.focus {
+  border: 1px solid #e7e7e7;
+  background: #fafafa;
+  color: #898989;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+}
+.form span.error, .form span strong {
+  border: 1px solid #ffbdbe;
+  background: #ffebeb;
+  color: #ff0000;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+}
+.form span b {
+  font-size: 20px;
+}
+.form span a {
+  display: block;
+  font-size: 16px;
+  color: #319dfa;
+}
+.form .btn span {
+  width: 74px;
+  text-align: center;
+  height: 36px;
+  line-height: 36px;
+  color: #fff;
+  background: #2f8be0;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 2px 0 #206dc7;
+  -moz-box-shadow: 0 2px 0 #206dc7;
+  box-shadow: 0 2px 0 #206dc7;
+  cursor: pointer;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+}
+
+#pwdStrength {
+  padding: 0;
+  margin-right: 20px;
+}
+#pwdStrength b {
+  margin-right: 1px;
+  width: 45px;
+  height: 15px;
+  text-align: center;
+  line-height: 15px;
+  font-size: 12px;
+  color: #fff;
+  background: #b9b9b9;
+  vertical-align: middle;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+#pwdStrength b.c1 {
+  background: #ffc6a0;
+}

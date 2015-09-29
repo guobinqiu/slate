@@ -1,0 +1,145 @@
+@charset "UTF-8";
+
+$font-color: #333;
+$font-size: 12px;
+$font-family: "Microsoft YaHei", Tohoma, Arial;
+
+$bg-body-color: #f5f5f7;
+$bg-body-color2: #fff;
+
+$page-width: 1000px;
+
+$block-bg-color: #fff;
+$block-line-color: #f6f6f6;
+$block-border: 1px solid #eee;
+$block-inner-border: 1px solid #f6f6f6;
+
+$main-color: #ff5500;
+$main-title-color: #0078b6;
+
+$error-color: #ff0000;
+$error-bg-color: #ffebeb;
+$error-border: 1px solid #ffbdbe;
+
+$normal-color: #898989;
+$normal-bg-color: #fafafa;
+$normal-border: 1px solid #e7e7e7;
+
+$input-border: 1px solid #eee;
+$input-border-focus: 1px solid #3bc570;
+$input-border-error: 1px solid #ff0000;
+
+$title-h2: 2px solid #ededed;
+$title-h2-span: 2px solid #d4d4d4;
+
+@mixin ell() {
+    overflow: hidden;
+	-ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+@mixin dib() {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+@mixin minHeight($min-height) {
+    min-height: $min-height;
+    height: auto !important;
+    height: $min-height;
+}
+@mixin arrow($direction, $size, $color) {
+    width: 0;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    overflow: hidden;
+    border-width: $size;
+    cursor: pointer;
+    @if $direction == top {
+        border-style: dashed dashed solid dashed;
+        border-color: transparent transparent $color transparent;
+        border-top: none;
+    }
+    @else if $direction == bottom {
+        border-style: solid dashed dashed dashed;
+        border-color: $color transparent transparent transparent;
+        border-bottom: none;
+    }
+    @else if $direction == right {
+        border-style: dashed dashed dashed solid;
+        border-color: transparent transparent transparent $color;
+        border-right: none;
+    }
+    @else if $direction == left {
+        border-style: dashed solid dashed dashed;
+        border-color: transparent $color transparent transparent;
+        border-left: none;
+    }
+}
+@mixin box-shadow($shadow...){
+    -webkit-box-shadow:$shadow;
+    -moz-box-shadow:$shadow;
+    box-shadow:$shadow; 
+}
+@mixin border-radius($radius) {
+  border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+}
+@mixin animation($transform, $transitionTime, $cubic-bezier){
+    -webkit-transform: translateY($transform);
+	-ms-transform: translateY($transform);
+	transform: translateY($transform);
+-webkit-transition: all $transitionTime cubic-bezier($cubic-bezier);
+   -moz-transition: all $transitionTime cubic-bezier($cubic-bezier);
+     -o-transition: all $transitionTime cubic-bezier($cubic-bezier);
+        transition: all $transitionTime cubic-bezier($cubic-bezier);
+}
+@mixin transition($pro, $time){
+    transition: $pro $time;
+    -moz-transition: $pro $time; 
+    -webkit-transition: $pro $time; 
+    -o-transition: $pro $time;
+}
+@mixin gradient($topC, $bottomC){
+  background-image:-webkit-linear-gradient(to bottom, $topC, $bottomC);
+  background-image:linear-gradient(to bottom, $topC, $bottomC);
+  background-color: $topC;
+}
+@mixin opacity($num1, $num2){
+    filter:alpha(opacity=$num1);   
+    -moz-opacity:$num2;   
+    -khtml-opacity: $num2;   
+    opacity: $num2;
+}
+@mixin center($width: null, $height: null) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    @if not $width and not $height {
+        transform: translate(-50%, -50%);
+    } @else if $width and $height {
+        width: $width;
+        height: $height;
+        margin: -($width / 2) #{0 0} -($height / 2);
+    } @else if not $height {
+        width: $width;
+        margin-left: -($width / 2);
+        transform: translateY(-50%);
+    } @else {
+        height: $height;
+        margin-top: -($height / 2);
+        transform: translateX(-50%);
+    }
+}
+@mixin btn(){
+    color: #fff;
+    background: #2f8be0;
+    border-radius: 3px;
+    @include box-shadow(0 2px 0 #206dc7);
+    cursor: pointer;
+}

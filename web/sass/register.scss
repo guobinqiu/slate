@@ -1,0 +1,186 @@
+@charset "UTF-8";
+
+@import "layout/common-simple";
+@import "layout/header-simple";
+@import "component/form";
+.main-register{
+	position: relative;
+	z-index: 1;
+	margin: 20px 80px 30px;
+	&.weibo{
+		margin: 50px 80px 80px;
+	}
+	li{
+		margin-top: 5px;
+		color: #a1a1a1;
+		label{
+			line-height: 30px;
+			text-align: left;
+			color: #575757;
+		}
+		input[type='text'], input[type='password']{
+			width: 245px;
+			border: $input-border;
+			border-radius: 2px;
+			&#authcode{
+				width: 70px;
+			}
+		}
+		input[type='checkbox']{
+			vertical-align: middle;
+			margin-right: 5px;
+		}
+		img{
+			vertical-align: middle;
+		}
+		span{
+			margin-left: 5px;
+			line-height: 34px;
+			padding: 0 15px;
+			border-radius: 3px;
+		}
+	}
+}
+.main-register-btn{
+	margin-top: 15px;
+	span{
+		margin-right: 10px;
+		width: 255px;
+		text-align: center;
+		height: 45px;
+		line-height: 45px;
+		color: #fff;
+		font-size: 18px;
+		background: #ff5e00;
+		border-radius: 3px;
+		@include box-shadow(0 2px 0 #db5000);
+		@include dib();
+		cursor: pointer;
+	}
+	img{
+		vertical-align: middle;
+	}
+}
+.login-others{
+	position: absolute;
+	z-index: 1000;
+	top: 60px;
+	left: 610px;
+	line-height: 40px;
+	a{
+		margin-top: 10px;
+		font-size: 14px;
+		width: 128px;
+		height: 40px;
+		text-align: center;
+		color: #404040;
+		background: #fafafa;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		display: block;
+		img{
+			vertical-align: middle;
+			margin-right: 5px;
+		}
+	}
+	.regPoints{
+		margin-top: 40px;
+	}
+}
+.subscribe{
+	position: relative;
+	z-index: 2;
+	padding-top: 5px;
+	margin-bottom: 5px;
+	.tips{
+		position: absolute;
+		z-index: 1000;
+		top: 7px;
+		left: 208px;
+		b{   
+			width: 13px;
+			height: 13px;
+			line-height: 13px;
+			border-radius: 50%;
+			background: #979797;
+			color: #fff;
+			text-align: center;
+			cursor: pointer;
+			@include dib();
+		}
+	}
+	.tips-con{
+		position: absolute;
+		z-index: 1999;
+		top: 12px;
+		right: -268px;
+		padding: 8px;
+		width: 260px;
+		line-height: 20px;
+		color: #333;
+		background: #fff;
+		border: 1px solid #dedddc;
+		border-radius: 3px;
+		@include box-shadow(0px 0px 1px #dedddc);
+		display: none;
+	}
+}
+.main-register-active{
+	margin: 50px 80px 100px;
+	color: #a3a3a3;
+	.title{
+		font-size: 20px;
+		font-weight: bold;
+		color: #333;
+		line-height: 40px;
+		b{
+			color: #fe5718;
+		}
+	}
+	p{
+		line-height: 28px;
+	}
+	.con{
+		padding-top: 20px;
+		.text{
+			margin-left: 80px;
+			padding-left: 75px;
+			background: url(../img/common/success_email.png) no-repeat left 10px;
+		}
+		a{
+			margin-top: 10px;
+			width: 118px;
+			height: 27px;
+			line-height: 27px;
+			text-align: center;
+			color: #fff;
+			background: #f37022;
+			border-radius: 2px;
+			@include dib();
+		}
+	}
+	.finish{
+		.title{
+			line-height: 75px;
+		}
+	}
+	.tips{
+		margin-top: 90px;
+		padding: 30px 0 30px 157px;
+		background: #f5f5f6;
+		border-radius: 8px;
+		dl{
+			margin-bottom: 30px;
+		}
+		dt{
+			font-size: 16px;
+			line-height: 35px;
+			color: #333;
+		}
+		dd{
+			font-size: 12px;
+			line-height: 20px;
+		}
+	}
+}
+@import "layout/footer-simple";

@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/personal";
+.main-personal-points{
+	padding: 30px 40px;
+}
+@import "component/filter";
+@import "component/table";
+@import "component/page";
+@import "layout/footer";

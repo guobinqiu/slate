@@ -1,0 +1,140 @@
+.login-wrapper {
+  position: absolute;
+  z-index: 1000;
+  right: -70px;
+  top: 50px;
+  background: url(../img/home/loginBg.png) no-repeat center bottom;
+  padding: 0 70px 5px;
+}
+
+.login {
+  width: 405px;
+  height: 460px;
+  color: #757982;
+  font-size: 16px;
+  background: #efeff4;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.login .login-con {
+  padding: 30px 38px;
+}
+.login h2 {
+  height: 64px;
+  line-height: 64px;
+  color: #fff;
+  font-size: 24px;
+  background: #313035;
+  padding: 0 38px;
+}
+.login li {
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 1;
+}
+.login li img {
+  vertical-align: middle;
+}
+.login li span {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+}
+.login li span div {
+  font-size: 12px;
+  padding: 10px 10px 0;
+  cursor: pointer;
+}
+.login li span div img {
+  margin-right: 5px;
+}
+.login li span.error-message {
+  position: absolute;
+  z-index: 1000;
+  right: 0;
+  top: 0;
+  color: #c80000;
+  background: #fff;
+  font-size: 12px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+  border: 1px solid #c80000;
+  border-radius: 3px;
+  display: none;
+}
+.login li label {
+  width: 65px;
+  line-height: 35px;
+  color: #525e78;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+}
+.login li input {
+  width: 252px;
+  height: 32px;
+  line-height: 30px;
+  padding: 0 5px;
+  border: 1px solid #d2d2e1;
+  background: #fff;
+  outline: none;
+  vertical-align: middle;
+}
+.login li input:focus, .login li input.active {
+  border: 1px solid #3bc570;
+}
+.login li input#identify {
+  width: 90px;
+  margin-left: 10px;
+}
+.login .login-btn {
+  margin-top: 30px;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  color: #fff;
+  font-size: 21px;
+  background: #1566d6;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+.login .login-btn a {
+  color: #fff;
+}
+.login p {
+  line-height: 55px;
+}
+.login p a {
+  color: #1566d6;
+}
+.login p a.spec {
+  color: #757982;
+}
+.login .login-btn-others {
+  margin-top: 20px;
+}
+.login .login-btn-others span {
+  margin-left: -10px;
+}
+.login .login-btn-others a {
+  margin-left: 10px;
+  padding-left: 20px;
+  width: 137px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #a3a3a3;
+  font-size: 14px;
+  background: #fff url(../img/home/sina.png) no-repeat 32px 12px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  border-radius: 5px;
+}
+.login .login-btn-others a.qq-login {
+  background: #fff url(../img/home/qq.png) no-repeat 40px 13px;
+}

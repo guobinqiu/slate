@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+.main-con{
+	padding-top: 20px;
+}
+.main-con-exchange{
+	ul{
+		margin-top: -20px;
+		margin-right: -40px;
+	}
+	li{
+		position: relative;
+		z-index: 1;
+		float: left;
+		margin-top: 40px;
+		margin-right: 40px;
+		background-color: #fff;
+		padding: 49px 20px;
+		@include box-shadow(0px 1px 4px rgba(149,148,148,.3));
+		span, a{
+			@include dib();
+		}
+	}
+	.pic, dl{
+		float: left;
+	}
+	.pic{
+		width: 177px;
+		height: 138px;
+		text-align: center;
+		margin-right: 35px;
+	}
+	dl{
+		width: 222px;
+		color: #000;
+	}
+	dt{
+		line-height: 30px;
+		font-size: 20px;
+		font-weight: bold;	
+	}
+	dd{
+		&.text{
+			margin-top: 5px;
+			line-height: 24px;
+			strong{
+				font-weight: normal;
+				color: #ff5938;
+			}
+		}
+		&.exchangeBtn{
+			margin-top: 15px;
+			a{
+				width: 102px;
+				text-align: center;
+				height: 40px;
+				line-height: 40px;
+				font-size: 14px;
+				@include btn();
+				&.disabled{
+					background-color: #888;
+					cursor: text;
+					@include box-shadow(0 2px 0 #666);
+				}
+			}
+		}
+	}
+	.newIcon{
+		position: absolute;
+		z-index: 100;
+		top: 0;
+		left: 0;
+		width: 64px;
+		height: 64px;
+		background: url("../img/exchange/newIcon.png") no-repeat 0 0;
+	}
+	.viewLink{
+		margin-top: 20px;
+		margin-bottom: 30px;
+		text-align: right;
+		a.historyExchange{
+			padding: 0 20px;
+			height: 35px;
+			line-height: 35px;
+			color: #787878;
+			background-color: #ebebeb;
+			border: 1px solid #dedede;
+		}
+	}
+}
+@import "layout/footer";

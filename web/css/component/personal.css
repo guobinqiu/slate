@@ -1,0 +1,93 @@
+.main-personal {
+  padding: 20px 0 0 5px;
+}
+
+h1 {
+  padding-left: 3px;
+  font-size: 20px;
+  height: 55px;
+  line-height: 55px;
+}
+
+.main-personal-left {
+  width: 135px;
+  margin-right: 15px;
+  padding-left: 15px;
+}
+.main-personal-left em {
+  margin-right: 10px;
+  width: 18px;
+  height: 20px;
+  background: url(../img/personal/icons.png) no-repeat 0 2px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+}
+.main-personal-left em.icon2 {
+  background-position: 0 -47px;
+}
+.main-personal-left em.icon3 {
+  background-position: 0 -94px;
+}
+.main-personal-left em.icon4 {
+  background-position: 0 -142px;
+}
+.main-personal-left em.icon5 {
+  background-position: 0 -191px;
+}
+.main-personal-left li {
+  margin-top: 20px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 14px;
+}
+.main-personal-left li.active em, .main-personal-left li:hover em {
+  background-position: -24px 2px;
+}
+.main-personal-left li.active em.icon2, .main-personal-left li:hover em.icon2 {
+  background-position: -24px -47px;
+}
+.main-personal-left li.active em.icon3, .main-personal-left li:hover em.icon3 {
+  background-position: -24px -94px;
+}
+.main-personal-left li.active em.icon4, .main-personal-left li:hover em.icon4 {
+  background-position: -24px -142px;
+}
+.main-personal-left li.active em.icon5, .main-personal-left li:hover em.icon5 {
+  background-position: -24px -191px;
+}
+.main-personal-left li.active a, .main-personal-left li:hover a {
+  color: #ff5500;
+}
+
+.main-personal-right {
+  width: 830px;
+  min-height: 600px;
+  height: auto !important;
+  height: 600px;
+  background: #fff;
+  border: 1px solid #eee;
+}
+.main-personal-right h2 {
+  margin-top: 25px;
+  padding-left: 25px;
+  font-size: 24px;
+  color: #ff5500;
+  border-left: 6px solid #ff5500;
+}
+.main-personal-right h2 > div {
+  float: right;
+  padding-right: 30px;
+}
+.main-personal-right h2 > div label {
+  font-size: 12px;
+  color: #333;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.main-personal-right .page-wrapper {
+  padding: 30px 0;
+  text-align: right;
+}

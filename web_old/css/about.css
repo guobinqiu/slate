@@ -1,0 +1,58 @@
+.about {
+	padding: 20px 0 140px 0;
+	font-size: 14px;
+	color: #666;
+}
+.about h3 {
+	color: #333333;
+	font-size: 24px;
+	margin: 30px 0 15px 0;
+	font-weight:normal;
+}
+.about div.line {
+	display: inline-block;
+	text-align:left;
+	width:100%;
+}
+.about div.hr{
+	background-image:url(../images/aboutWire.jpg);
+	background-position:center;
+	margin:50px 0;
+	background-repeat:no-repeat;
+	height:9px;
+}
+.about p {
+	margin: 10px 0;
+	line-height: 200%;
+}
+.about p span {
+	color: #45adde;
+}
+.about dd.left {
+	float: left;
+}
+.about dd.right {
+	float: right;
+}
+.about .ddOne {
+	margin: 30px 50px 0 30px;
+}
+.about .ddTwo {
+	margin: 0px 150px 0 120px;
+}
+.about .ddThree {
+	margin: 0 50px 0 100px;
+}
+.about .ddFour {
+	margin: 0 25px 0 170px;
+}
+.about .dtFour{margin: -19px 0 0 150px; display: inline-block;}
+.about .dtOne {
+	margin: 10px 0 0 50px;
+}
+.about .dtTwo {
+	margin: 50px 60px 0 0;
+}
+.about .dtThree {
+	margin: 20px 0 0 50px;
+}

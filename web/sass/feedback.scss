@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/help";
+@import "component/form";
+$input-border-normal: 1px solid #dcdcdc;
+.main-help-con{
+	border: $block-border;
+	background: $block-bg-color;
+}
+.main-help-feedback{
+	padding: 40px 50px 50px;		
+	h2{
+		padding-left: 20px;
+		font-size: 16px;
+		font-weight: bold;
+		color: #333;
+		border-left: 6px solid $main-color;
+		b{
+			color: $main-color;
+		}
+	}
+	ul{
+		margin-top: 20px;
+		padding-top: 20px;
+		border-top: $block-border;
+	}
+	li{
+		margin-top: 15px;
+		line-height: 35px;
+		em{
+			color: #ff0000;
+		}
+		label{
+			width: 230px;
+			vertical-align: top;
+		}
+		textarea{
+			padding: 5px;
+			width: 425px;
+			height: 110px;
+			line-height: 20px;
+			border: $input-border-normal;
+			&:focus{
+				border: $input-border-focus;
+				outline: none;
+			}
+			&.input_error{
+				border: $input-border-error;
+			}
+		}
+		select{
+			height: 34px;
+			line-height: 34px;
+			border: $input-border-normal;
+			&:focus{
+				border: $input-border-focus;
+				outline: none;
+			}
+			&.input_error{
+				border: $input-border-error;
+			}
+		}
+		span{
+			padding: 0 5px;
+			border: $input-border-normal;
+			&.focus{
+				display: none;
+			}
+		}
+	}
+	.btn{
+		padding: 40px 0 20px 235px;
+		a{
+			color: #fff;
+			font-size: 16px;
+			width: 145px;
+			text-align: center;
+			height: 52px;
+			line-height: 52px;
+			background: #3b79c4;
+			border-radius: 3px;
+			@include box-shadow(0 2px 0 #113f78);
+			@include dib();
+			cursor: pointer;
+			&.normal{
+				margin-right: 10px;
+				color: #404040;
+				background: #f5f5f7;
+				@include box-shadow(0 2px 0 #c7c7c9);
+			}
+		}
+	}
+	table{
+		margin: 35px 0 0 25px;
+		width: 760px;
+		td{
+			padding: 10px 20px;
+			line-height: 30px;
+			border: $input-border-normal;
+			&.first{
+				width: 170px;
+				text-align: right;
+				font-size: 14px;
+				background: #fafafa;
+			}
+		}
+		
+	}
+	&.comfirm{
+		.btn{
+			padding-left: 25px;
+		}
+	}
+	.finished{
+		padding: 50px 0 80px 250px;
+		background: url(../img/help/finished.png) no-repeat 100px 40px;
+		p{
+			line-height: 55px;
+			font-size: 14px;
+			font-weight: bold;
+		}
+		a{
+			color: #007bbc;
+		}
+	}
+}
+@import "layout/footer";

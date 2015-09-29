@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+.main{
+	.main-con{
+		.newsInfo{
+			display: table;
+		    margin: 20px auto;
+		    padding: 0 0 140px;
+		    position: relative;
+		    width: 1000px;
+		    z-index: auto;
+		    article{
+		    	background-color: #fff;
+			    border: 1px solid #ececec;
+			    display: inline-block;
+			    float: left;
+			    padding: 20px;
+			    width: 732px;
+			    h1{
+			    	color: $main-color;
+				    font-size: 22px;
+				    font-weight: bold;
+				    line-height: 200%;
+				    text-align: center;
+			    }
+			    .artInfo {
+				    border-bottom: 1px dotted #eee;
+				    color: #ccc;
+				    padding-bottom: 20px;
+				    text-align: center;
+				}
+				.content {
+				    font-size: 14px;
+				    line-height: 200%;
+				    padding: 20px;
+				    text-align: left;
+				}
+			}
+		}
+	}
+}
+@import "layout/footer";

@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/about";
+.main-about-con{
+	.aboutR{
+		.rpaIntro{
+			@at-root h3,p{
+				margin: 16px 0;	
+			}
+			@at-root h3{
+				font-weight: bold;
+				height: 40px;
+				line-height: 40px;
+				background: $block-line-color;
+				padding-left: 10px; 
+			}
+			@at-root p{
+				line-height: 23px;
+				padding: 0 15px;
+			}
+			.lh30{
+				line-height: 30px;
+			}
+		}
+		.wwIntro{
+			p{
+				margin: 16px 0;
+				line-height: 23px;
+			}
+		}
+		.rules{
+			text-align: left;
+			@at-root .font20{
+				font-size: 20px;
+			}
+		}
+		.sitemap{
+			.box{
+				h3{
+					color: $main-title-color;
+				}
+				ul{
+					padding: 0 11px;
+				}
+				li{
+					float: left;
+				    padding-bottom: 10px;
+				    padding-right: 10px;
+				    width: 130px;
+				    line-height: 24px;
+				    .font16{
+				    	font-size: 16px;
+				    }
+				    @include ell;
+				}
+			}
+
+		}
+		.friendLink{
+			ul{
+				margin-top: 20px;
+			}
+			li{
+				li{
+					padding: 20px 30px;
+	  				float: left;
+	  				border-right: 1px solid #f6f6f6;
+	  				border-bottom: 1px solid #f6f6f6;
+				}
+			}
+			.bordRN{
+  				border-right: none;
+  			}
+  			.bordBN{
+  				border-bottom: none;
+  			}
+		}
+		.linkStep{
+			div{
+				padding: 0 10px;
+				dt,dd{
+					line-height: 30px;
+					a{
+					color: $main-title-color;
+					}
+				}
+			}
+		}
+	}
+}
+@import "layout/footer";

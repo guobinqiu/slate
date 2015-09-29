@@ -1,0 +1,312 @@
+.exchange .btnArea{
+	text-align:center;
+	margin:30px 0 0 0;
+}
+.exchange h2{
+	font-size:18px;
+	font-weight:bold;
+	border-bottom:3px solid #eaeaea;
+	text-align:left;
+	height:30px;
+}
+.exchange h2 span{
+	color:#f75232;
+	border-bottom:3px solid #f75232;
+	font-family:"Microsoft Yahei",SimHei,Tahoma;
+	font-weight:bold;
+}
+.exchange article{
+	background-color: #FFFFFF;
+    box-shadow: 0 0 3px #CCCCCC;
+    float: right;
+    margin: 20px 0 0;
+    padding: 10px;
+    width: 765px;
+	font-size:14px;
+	text-align:center;
+	padding-bottom: 30px;
+}
+.exchange article .warn{
+	background-image: url("../images/warn.gif");
+    background-position: 0 5px;
+    background-repeat: no-repeat;
+    color: #FF0000;
+    line-height: 180%;
+    margin-bottom: 10px;
+    padding-left: 60px;
+    text-align: left;
+    width: 500px;
+}
+.exchange article .wenwen{
+	padding:20px 50px;
+}
+
+.exchange article .wenwen div.desCon{
+	 margin-top: 50px;
+	  font-size: 16px;
+}
+.exchange article .wenwen dl.form{
+	display:inline-block;
+	text-align:left;
+	width:100%;
+	margin:10px 0;
+	line-height:200%;
+}
+
+.exchange article .wenwen dl.identity dd input[type="text"]{
+	border:1px solid #cccccc;
+	padding:5px;
+	width:200px;
+	box-shadow:inset 1px 1px 2px #eee;
+	margin:0 5px 0 0;
+}
+.exchange article .wenwen dl.identity dd{
+	margin: 10px -55px;
+    width: 460px;
+}
+.exchange article .wenwen dl.identity dt{
+	float: left;
+    margin: 5px 0 0 60px;
+    width: 120px;
+}
+.exchange article .wenwen dl.form dt{
+	float: left;
+    margin: 5px 0;
+    padding-right: 20px;
+    text-align: right;
+    width: 120px;
+	clear:both;
+}
+.exchange article .wenwen dl.form dd{
+	width:500px;
+	margin: 5px 0;
+	float:left;
+}
+.exchange article .wenwen dl.form dd.notice{
+	background-color: #FFF2F2;
+    border: 1px solid #FF8888;
+    border-radius: 5px;
+    color: #000000;
+    font-size: 12px;
+    line-height: 170%;
+    padding: 3px 10px;
+    width: 440px;
+}
+.exchange article .wenwen dl.form dd span.warn{
+	color:#F00;
+	font-size:12px;
+	font-weight:normal;
+}
+.exchange article .wenwen dl.form dd span.info{
+	font-size:12px;
+	font-weight:normal;
+}
+.exchange article .wenwen dl.form dd span.info a{
+	margin: 0 3px;
+	text-decoration: underline;
+}
+.exchange article .wenwen dl.form dd span.account{
+	color:#999;
+	font-size:14px;
+	font-weight:normal;
+}
+.exchange article .wenwen dl.form dd a{
+	color:#8abf0f;
+}
+.exchange article .wenwen dl.form dd a.otherUser{
+	font-size: 12px;
+	color: #4a8ef3;
+}
+.exchange article .wenwen dl.form dd img, .exchange article div.wenwen div dd input{
+	vertical-align:middle;
+}
+.exchange article .wenwen dl.form dd input[type="text"]{
+	border:1px solid #cccccc;
+	padding:5px;
+	width:200px;
+	box-shadow:inset 1px 1px 2px #eee;
+	margin:0 5px 0 0;
+}
+.exchange article .wenwen dl.form dd input[type="text"]:focus{
+	border:1px solid #7FCAF1;
+}
+.exchange article .wenwen div.changePoint{
+	border: 2px dotted #EEEEEE;
+    display: block;
+    margin: 10px 0 10px 120px;
+    padding: 10px;
+    text-align: center;
+    width: 350px;
+}
+.exchange article .wenwen div.changePoint span, .exchange article .wenwen div dd span{
+	color: #FF7114;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.exchange article .wenwen div.btnArea{
+	text-align:center;
+	margin:10px 0;
+}
+.exchange article .wenwen div.btnArea a{
+	cursor: pointer;
+	background:#4a8ef3;
+	padding:12px 40px;
+	-moz-border-radius: 2px; 
+    -webkit-border-radius: 2px; 
+    border-radius: 2px;
+	color:#fff;
+	font-weight:bold;
+}
+.exchange article .wenwen div.btnArea a#unactive{ background:#bdbdbd;}
+.exchange .btnArea a:hover img, .exchange article .wenwen div.btnArea #active:hover{
+	opacity:.8;
+	Filter:alpha(opacity=80);
+}
+.exchange article .wenwen div.mt50{
+	margin-top:30px;
+}
+.exchange article .finish{
+	font-size:14px;
+	line-height:200%;
+	display:inline-block;
+	text-align:left;
+	margin:50px 0px;
+	width:580px;
+}
+.exchange article .finish p{
+	margin:10px 0;
+}
+.exchange article .finish hr{
+	height:0;
+	line-height:0;
+	border:none;
+	border-bottom:1px solid #eee;
+}
+.exchange article .finish .img{
+	float:left;
+	margin:0px 20px;
+	width:auto;
+	height:180px;
+}
+.exchange article .finish h2{
+	font-size:24px;
+	border:none;
+	font-weight:bold;
+}
+.exchange article .finish a{
+	color:#4a8ef3;
+}
+/*by wlt, 2015-3-18*/
+.exchangeV2 ul{
+	margin-top: -20px;
+	margin-right: -40px;
+}
+.exchangeV2 li{
+	float: left;
+	margin-top: 40px;
+	margin-right: 40px;
+	background-color: #fff;
+	padding: 50px;
+	font-family: "微软雅黑";
+	box-shadow: 0px 1px 4px rgba(149,148,148,.3);
+	position: relative;
+	z-index: 1;
+}
+.exchangeV2 .pic, .exchangeV2 dl{
+	float: left;
+}
+.exchangeV2 .pic{
+	width: 140px;
+	height: 125px;
+	padding-top: 10px;
+	text-align: center;
+	margin-right: 20px;
+}
+.exchangeV2 dl{
+	width: 220px;
+	color: #000;
+}
+.exchangeV2 dt{
+	font-size: 20px;
+	font-weight: bold;	
+}
+.exchangeV2 dd.text{
+	margin-top: 5px;
+	line-height: 20px;
+	font-family: "宋体";
+}
+.exchangeV2 dd.text strong{
+	font-weight: normal;
+	color: #ff5938;
+}
+.exchangeV2 dd.exchangeBtn{
+	margin-top: 10px;
+}
+.exchangeV2 li span, .exchangeV2 .viewLink a{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+.exchangeV2 dd.exchangeBtn span{
+	width: 102px;
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	color: #fff;
+	background-color: #4a8ef3;
+	font-size: 14px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.exchangeV2 dd.exchangeBtn span.disabled{
+	background-color: #bfbfbf;
+	cursor: text;
+}
+.exchangeV2 .newIcon{
+	position: absolute;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	width: 64px;
+	height: 64px;
+	background: url("../images/exchange/newIcon.png") no-repeat 0 0;
+}
+.exchangeV2 .viewLink{
+	margin-top: 20px;
+	margin-bottom: 30px;
+	text-align: right;
+}
+.exchangeV2 .viewLink a.historyExchange{
+	padding: 0 20px;
+	height: 35px;
+	line-height: 35px;
+	color: #787878;
+	background-color: #ebebeb;
+	border: 1px solid #dedede;
+}
+.flowTips{
+	margin-top: 35px;
+	line-height: 20px;
+	padding: 15px 20px;
+	background-color: #f9f9f9;
+	text-align: left;
+	font-size: 12px;
+}
+.flowTips .title{
+	font-size: 14px;
+	font-weight: bold;
+}
+.flowTips p{
+	margin-top: 10px;
+}
+.flowTips p em{
+	margin-right: 10px;
+}
+.identityWrapper{
+	margin: 50px 50px 100px;
+}
+.identityWrapper .tips span.error{
+	padding-top: 0;
+}

@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/survey";
+.vote-sub{
+ 	position: relative;
+	z-index: 1;
+	em{
+		position: absolute;
+		z-index: 1000;
+		left: 0;
+		top: 28px;
+		@include dib();
+		width: 6px;
+		height: 20px;
+		background: $main-color;
+	}
+	h1{
+		font-weight: bold;
+		font-size: 20px;
+		padding-left: 20px;
+		border-bottom: $block-inner-border;
+	}
+	li{
+		border-top: none;
+		border-bottom: $block-inner-border;
+		&.vote-txt{
+			width: 94%;
+			.relate{
+				margin-left: 0;
+				margin-top: 10px;
+				
+			}
+		}
+	}
+	.deadline{
+		float: right;
+	}
+	.vote-txt{
+		span{
+			strong{
+				font-weight: normal;
+			}
+		}
+	}
+}
+.exchange-dynamics{
+	padding: 10px 20px;
+	line-height: 24px;
+	.mask{
+		height: 344px;
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	ul{
+		position: absolute;
+		z-index: 1000;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+	h2{
+		padding: 0;
+	}
+	li{
+		padding: 10px 0;
+		border-bottom: $block-inner-border;
+		b{
+			color: $main-color;
+		}
+		p{
+			color: #4d4d4d;
+			@include ell();
+		}
+		.date{
+			color: #bfbfbf;
+		}
+	}
+}
+@import "component/page";
+@import "layout/footer";

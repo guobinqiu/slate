@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+table{
+	width: 100%;
+}
+th, td{
+	height: 45px;
+	line-height: 45px;
+	padding-left: 30px;
+	text-align: left;
+}
+th{
+	font-size: 14px;
+	font-weight: bold;
+	color: #888;	
+	background: #fafafc;
+	border-bottom: 1px solid #ebebed;
+}
+td{
+	border-bottom: $block-inner-border;
+}

@@ -15,6 +15,10 @@ jili_frontend:
     type:     annotation
     prefix:   /
 
+wenwen_frontend:
+    resource: "@WenwenFrontendBundle/Controller/"
+    type:     annotation
+
 _login:
     path: /login
     defaults: { _controller: JiliApiBundle:User:login}
