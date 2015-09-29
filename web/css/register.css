@@ -175,10 +175,10 @@ body {
 .main-register {
   position: relative;
   z-index: 1;
-  margin: 20px 80px 30px;
+  padding: 20px 80px 30px;
 }
 .main-register.weibo {
-  margin: 50px 80px 80px;
+  padding: 50px 80px 80px;
 }
 .main-register li {
   margin-top: 5px;

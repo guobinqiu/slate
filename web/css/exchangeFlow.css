@@ -498,6 +498,7 @@ body {
   margin-top: 60px;
 }
 .main-con-exchangeInfo .btn span {
+  margin-right: 5px;
   width: 126px;
   height: 50px;
   line-height: 50px;
@@ -512,6 +513,10 @@ body {
   -webkit-box-shadow: 0 3px 0 #666;
   -moz-box-shadow: 0 3px 0 #666;
   box-shadow: 0 3px 0 #666;
+}
+.main-con-exchangeInfo .btn.spec {
+  text-align: left;
+  padding-left: 200px;
 }
 .main-con-exchangeInfo .tips {
   margin-top: 50px;
@@ -528,6 +533,27 @@ body {
 }
 .main-con-exchangeInfo .tips p em {
   margin-right: 5px;
+}
+.main-con-exchangeInfo .alipay-tips {
+  margin-bottom: 50px;
+  padding: 20px 0 20px 96px;
+  line-height: 20px;
+  background: #f6f6f6;
+}
+.main-con-exchangeInfo .alipay-tips em {
+  color: #ccc;
+  margin-right: 10px;
+}
+.main-con-exchangeInfo .flow-tips {
+  margin-top: 30px;
+  padding-left: 200px;
+}
+.main-con-exchangeInfo .flow-tips p {
+  padding-left: 10px;
+  line-height: 35px;
+  background: #fcf5eb;
+  border: 1px solid #fdb558;
+  border-radius: 3px;
 }
 
 .main-con-finished {

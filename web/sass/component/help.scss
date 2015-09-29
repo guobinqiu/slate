@@ -10,6 +10,9 @@
 		z-index: 1;
 		height: 104px;
 		line-height: 104px;
+		.title{
+			*font-size: 84px;
+		}
 		img{
 			vertical-align: middle;
 			&.titleE{

@@ -6,9 +6,9 @@
 .main-register{
 	position: relative;
 	z-index: 1;
-	margin: 20px 80px 30px;
+	padding: 20px 80px 30px;
 	&.weibo{
-		margin: 50px 80px 80px;
+		padding: 50px 80px 80px;
 	}
 	li{
 		margin-top: 5px;
@@ -97,7 +97,7 @@
 		z-index: 1000;
 		top: 7px;
 		left: 208px;
-		b{   
+		&>b{   
 			width: 13px;
 			height: 13px;
 			line-height: 13px;
@@ -113,16 +113,29 @@
 		position: absolute;
 		z-index: 1999;
 		top: 12px;
-		right: -268px;
-		padding: 8px;
-		width: 260px;
-		line-height: 20px;
+		right: -272px;
+		padding-top: 10px;
+		width: 280px;
 		color: #333;
-		background: #fff;
-		border: 1px solid #dedddc;
-		border-radius: 3px;
-		@include box-shadow(0px 0px 1px #dedddc);
 		display: none;
+		p{
+			padding: 5px;
+			line-height: 20px;
+			background: #fff;
+			border: 1px solid #dedddc;
+			border-radius: 3px;
+			@include box-shadow(0px 2px 0px #f2f2f2);
+		}
+		b.arrow{
+			position: absolute;
+			z-index: 1999;
+			top: 1px;
+			left: 0;
+			width: 9px;
+			height: 10px;
+			background: url(../img/common/icons_arrow.png) top left no-repeat;
+			@include dib();
+		}
 	}
 }
 .main-register-active{

@@ -2,18 +2,18 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
+<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
 {% endblock %}
  
-{% block body %}
-
 {% block header %}
 {% include 'WenwenFrontendBundle::headerUser.html.twig' %} 
 {% endblock %}
 
-<div class="main-con-left left">
+{% block body %}
+<div class="main-con-left w1000">
     <div class="vote vote-sub">
         <em></em>
         <h1>Test</h1>

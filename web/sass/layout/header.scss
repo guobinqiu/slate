@@ -41,13 +41,20 @@ $top-bg-color: #36363c;
 }
 .header-top-con{
 	a{
-		@include dib();
+		padding: 0 15px;
+		border-right: 1px solid #77777a;
+		&.first{
+			padding-left: 0;
+		}
+		&.last{
+			border-right: none;
+		}
 	}
 	em{
 		width: 20px;
 		height: 15px;
 		line-height: 15px;
-		margin-right: 8px;
+		margin-left: 15px;
 		margin-top: -3px;
 		background: url(../img/common/icons_common.png) no-repeat 0 0;
 		vertical-align: middle;
@@ -59,9 +66,13 @@ $top-bg-color: #36363c;
 			background-position: 0 -38px;
 		}
 		&.mail{
+			margin-top: 1px;
+			margin-left: 0;
 			background-position: 0 -20px;
 			position: relative;
 			z-index: 1;
+			cursor: pointer;
+			*margin-top: 8px;
 		}
 		.mark{
 			position: absolute;
@@ -71,27 +82,24 @@ $top-bg-color: #36363c;
 			width: 7px;
 			height: 7px;
 			border-radius: 50%;
-			background: $main-color;
+			background: url(../img/common/icons_common.png) no-repeat 0 -58px;
 		}
 	}
 	span{
-		color: #77777a;
-		padding: 0 15px;
 		vertical-align: top;
 		&.special{
 			color: #fff;
-			padding: 10px 15px 10px 10px;
 			position: relative;
 			z-index: 10;
-			cursor: pointer;
+			@include dib();
 		}
-		label{
-			vertical-align: top;
+		.expand-title{
+			padding: 1px 20px 1px 0;
 		}
 		b{
 			position: absolute;
 			z-index: 1000;
-			top: 15px;
+			top: 14px;
 			right: 0;
 			margin-left: 5px;
 			@include arrow(bottom, 5px, $top-font-color);
@@ -108,7 +116,7 @@ $top-bg-color: #36363c;
 	.personal{
 		position: absolute;
 		z-index: 9999;
-		top: 33px;
+		top: 30px;
 		right: 0;
 		border: $block-border;
 		background: $block-bg-color;
@@ -120,7 +128,9 @@ $top-bg-color: #36363c;
 			line-height: 35px;
 			padding: 0 20px;
 			a{
+				border-right: none;
 				color: #4d4d4d;
+				@include dib();
 			}
 			&:hover{
 				background: #fafafa;
@@ -146,9 +156,6 @@ $top-bg-color: #36363c;
 					margin-bottom: 5px;
 				}
 			}
-			label{
-				vertical-align: top;
-			} 
 			strong{
 				font-size: 16px;
 				color: $main-color;

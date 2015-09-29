@@ -68,6 +68,7 @@
 	.btn{
 		margin-top: 60px;
 		span{
+			margin-right: 5px;
 			width: 126px;
 			height: 50px;
 			line-height: 50px;
@@ -78,6 +79,10 @@
 				background: #888;
 				@include box-shadow(0 3px 0 #666);
 			}
+		}
+		&.spec{
+			text-align: left;
+			padding-left: 200px;
 		}
 	}
 	.tips{
@@ -94,6 +99,27 @@
 			em{
 				margin-right: 5px;
 			}
+		}
+	}
+	.alipay-tips{
+		margin-bottom: 50px;
+		padding: 20px 0 20px 96px;
+		line-height: 20px;
+		background: #f6f6f6;
+		em{
+			color: #ccc;
+			margin-right: 10px;
+		}
+	}
+	.flow-tips{
+		margin-top: 30px;
+		padding-left: 200px;
+		p{
+			padding-left: 10px;
+			line-height: 35px;
+			background: #fcf5eb;
+			border: 1px solid #fdb558;
+			border-radius: 3px;
 		}
 	}
 }

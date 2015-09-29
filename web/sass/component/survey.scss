@@ -117,7 +117,7 @@ $survey-border-color: #f6f6f6;
 			.tips{
 				position: absolute;
 				z-index: 1000;
-				top: 30px;
+				top: 42px;
 				right: 0px;
 				span{   
 					width: 13px;
@@ -132,16 +132,29 @@ $survey-border-color: #f6f6f6;
 			.tips-con{
 				position: absolute;
 				z-index: 1999;
-				top: 12px;
-				right: 3px;
-				border: 1px solid #dedddc;
-				background: #f5f5f5;
-				padding: 8px;
-				width: 110px;
-				line-height: 20px;
-				border-radius: 3px;
-				@include box-shadow(0px 0px 1px #dedddc);
+				top: -40px;
+				right: -3px;
+				padding-bottom: 10px;
+				width: 270px;
 				display: none;
+				p{
+					padding-left: 5px;
+					line-height: 32px;
+					background: #fff;
+					border: 1px solid #dedddc;
+					border-radius: 3px;
+					@include box-shadow(0px 2px 0px #f2f2f2);
+				}
+				b{
+					position: absolute;
+					z-index: 1999;
+					bottom: 1px;
+					right: 0;
+					width: 9px;
+					height: 10px;
+					background: url(../img/common/icons_arrow.png) right bottom no-repeat;
+					@include dib();
+				}
 			}
 		}
 	}
@@ -154,7 +167,6 @@ $survey-border-color: #f6f6f6;
 	color: $survey-con-font-color;
 	line-height: 22px;
 	@include transition(width, 300ms);
-	@include ell();
 	p{
 		padding-left: 3px;
 		@include ell();
@@ -180,7 +192,7 @@ $count-bg: #f5f5f5;
 	font-size: $count-font-size;
 	position: absolute;
 	z-index: 1000;
-	top: 30px;
+	top: 42px;
 	right: 20px;
 	height: 52px; 
 	line-height: 52px;

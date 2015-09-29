@@ -53,34 +53,14 @@ define(['jquery'],function($){
         }
     });
 
-    function RPAExpand(options){
-        this.expandBtn = options.expandBtn;
-        this.expandCon = options.expandCon;
-        this.init();
-    }
-    RPAExpand.prototype = {
-        init: function(){
-            var _self = this;
-            $.each(_self.expandCon, function(i, e){
-                $(this).eq(i).hide();
-                _self.oper(i);
-            });
-        },
-        oper: function(index){
-            var _self = this;
-            var curExpandBtn = _self.expandBtn.eq(index);
-            var curExpandCon = _self.expandCon.eq(index);
-            curExpandBtn.hover(function(){
-                curExpandCon.show();
-                //curExpandCon.slideToggle("fast");
+    var expandBtn = $('.expand-btn'),
+        expandCon = $('.expand-con');
+
+        $.each(expandCon, function(i, e){
+            expandBtn.eq(i).hover(function(){
+                expandCon.eq(i).show();
             }, function(){
-                curExpandCon.hide();
-                //curExpandCon.slideToggle("fast");
+                expandCon.eq(i).hide();
             });
-        }
-    };
-    var expand = new RPAExpand({
-        expandBtn: $('.expand-btn'),
-        expandCon: $('.expand-con')
-    });
+        });
 });

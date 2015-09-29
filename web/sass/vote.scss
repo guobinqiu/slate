@@ -29,18 +29,50 @@
 			width: 94%;
 			.relate{
 				margin-left: 0;
-				margin-top: 10px;
-				
+				margin-top: 10px;	
 			}
 		}
 	}
-	.deadline{
-		float: right;
-	}
 	.vote-txt{
+		width: 68%;
 		span{
 			strong{
 				font-weight: normal;
+			}
+		}
+		.title{
+			a{
+				line-height: 20px;
+			}
+		}
+		.con{
+			margin-top: 5px;
+			padding-left: 3px;
+			line-height: 20px;
+		}
+		.relate{
+			margin-top: 5px;	
+		}
+	}
+	.survey-btn{
+		background: transparent;
+		width: 15%;
+		cursor: default;
+		@include transition(width, 0);
+		a{
+			margin: 58px auto auto;
+			width: 90px;
+			height: 33px;
+			line-height: 33px;
+			text-align: center;
+			color: #fff;
+			font-size: 12px;
+			border-radius: 3px;
+			background: #ff5718;
+			@include gradient(#ff6e16, #ff5718);
+			@include dib();
+			&.disabled{
+				background: #a7a7a7;
 			}
 		}
 	}
