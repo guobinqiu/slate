@@ -120,15 +120,20 @@ body {
 }
 
 .header-top-con a {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
+  padding: 0 15px;
+  border-right: 1px solid #77777a;
+}
+.header-top-con a.first {
+  padding-left: 0;
+}
+.header-top-con a.last {
+  border-right: none;
 }
 .header-top-con em {
   width: 20px;
   height: 15px;
   line-height: 15px;
-  margin-right: 8px;
+  margin-left: 15px;
   margin-top: -3px;
   background: url(../img/common/icons_common.png) no-repeat 0 0;
   vertical-align: middle;
@@ -143,9 +148,13 @@ body {
   background-position: 0 -38px;
 }
 .header-top-con em.mail {
+  margin-top: 1px;
+  margin-left: 0;
   background-position: 0 -20px;
   position: relative;
   z-index: 1;
+  cursor: pointer;
+  *margin-top: 8px;
 }
 .header-top-con em .mark {
   position: absolute;
@@ -155,27 +164,26 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #ff5500;
+  background: url(../img/common/icons_common.png) no-repeat 0 -58px;
 }
 .header-top-con span {
-  color: #77777a;
-  padding: 0 15px;
   vertical-align: top;
 }
 .header-top-con span.special {
   color: #fff;
-  padding: 10px 15px 10px 10px;
   position: relative;
   z-index: 10;
-  cursor: pointer;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
 }
-.header-top-con span label {
-  vertical-align: top;
+.header-top-con span .expand-title {
+  padding: 1px 20px 1px 0;
 }
 .header-top-con span b {
   position: absolute;
   z-index: 1000;
-  top: 15px;
+  top: 14px;
   right: 0;
   margin-left: 5px;
   width: 0;
@@ -198,7 +206,7 @@ body {
 .header-top-con .personal {
   position: absolute;
   z-index: 9999;
-  top: 33px;
+  top: 30px;
   right: 0;
   border: 1px solid #eee;
   background: #fff;
@@ -212,7 +220,11 @@ body {
   padding: 0 20px;
 }
 .header-top-con .personal li a {
+  border-right: none;
   color: #4d4d4d;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
 }
 .header-top-con .personal li:hover {
   background: #fafafa;
@@ -238,9 +250,6 @@ body {
 }
 .header-top-con .personal-con span.txt .nickname {
   margin-bottom: 5px;
-}
-.header-top-con .personal-con span label {
-  vertical-align: top;
 }
 .header-top-con .personal-con span strong {
   font-size: 16px;
@@ -574,11 +583,11 @@ h1 {
   line-height: 35px;
   border: none;
   color: #fff;
-  background: #1666d7;
+  background: #2f8be0;
   border-radius: 3px;
-  -webkit-box-shadow: 0 2px 0 #0043a1;
-  -moz-box-shadow: 0 2px 0 #0043a1;
-  box-shadow: 0 2px 0 #0043a1;
+  -webkit-box-shadow: 0 2px 0 #206dc7;
+  -moz-box-shadow: 0 2px 0 #206dc7;
+  box-shadow: 0 2px 0 #206dc7;
   cursor: pointer;
 }
 .main-personal-profile .profile-base .resizeSubmit input.cancelBtn {
@@ -654,11 +663,11 @@ h1 {
   line-height: 35px;
   text-align: center;
   color: #fff;
-  background: #1666d7;
+  background: #2f8be0;
   border-radius: 3px;
-  -webkit-box-shadow: 0 2px 0 #0043a1;
-  -moz-box-shadow: 0 2px 0 #0043a1;
-  box-shadow: 0 2px 0 #0043a1;
+  -webkit-box-shadow: 0 2px 0 #206dc7;
+  -moz-box-shadow: 0 2px 0 #206dc7;
+  box-shadow: 0 2px 0 #206dc7;
   cursor: pointer;
   display: inline-block;
   *display: inline;

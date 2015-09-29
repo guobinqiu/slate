@@ -11,6 +11,9 @@
   height: 104px;
   line-height: 104px;
 }
+.main-help-banner .text .title {
+  *font-size: 84px;
+}
 .main-help-banner .text img {
   vertical-align: middle;
 }

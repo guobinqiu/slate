@@ -275,7 +275,7 @@ body {
   top: 7px;
   left: 208px;
 }
-.subscribe .tips b {
+.subscribe .tips > b {
   width: 13px;
   height: 13px;
   line-height: 13px;
@@ -292,18 +292,33 @@ body {
   position: absolute;
   z-index: 1999;
   top: 12px;
-  right: -268px;
-  padding: 8px;
-  width: 260px;
-  line-height: 20px;
+  right: -272px;
+  padding-top: 10px;
+  width: 280px;
   color: #333;
+  display: none;
+}
+.subscribe .tips-con p {
+  padding: 5px;
+  line-height: 20px;
   background: #fff;
   border: 1px solid #dedddc;
   border-radius: 3px;
-  -webkit-box-shadow: 0px 0px 1px #dedddc;
-  -moz-box-shadow: 0px 0px 1px #dedddc;
-  box-shadow: 0px 0px 1px #dedddc;
-  display: none;
+  -webkit-box-shadow: 0px 2px 0px #f2f2f2;
+  -moz-box-shadow: 0px 2px 0px #f2f2f2;
+  box-shadow: 0px 2px 0px #f2f2f2;
+}
+.subscribe .tips-con b.arrow {
+  position: absolute;
+  z-index: 1999;
+  top: 1px;
+  left: 0;
+  width: 9px;
+  height: 10px;
+  background: url(../img/common/icons_arrow.png) top left no-repeat;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
 }
 
 .main-register-active {
