@@ -98,15 +98,7 @@
 		top: 7px;
 		left: 208px;
 		&>b{   
-			width: 13px;
-			height: 13px;
-			line-height: 13px;
-			border-radius: 50%;
-			background: #979797;
-			color: #fff;
-			text-align: center;
-			cursor: pointer;
-			@include dib();
+			@include tips();
 		}
 	}
 	.tips-con{

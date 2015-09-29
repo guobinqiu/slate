@@ -143,3 +143,14 @@ $title-h2-span: 2px solid #d4d4d4;
     @include box-shadow(0 2px 0 #206dc7);
     cursor: pointer;
 }
+@mixin tips(){
+    width: 13px;
+    height: 13px;
+    line-height: 13px;
+    border-radius: 50%;
+    background: #979797;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    @include dib();
+}

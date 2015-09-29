@@ -467,10 +467,90 @@ body {
 .main-con-exchangeInfo li select.input_error {
   border: 1px solid #ff0000;
 }
-.main-con-exchangeInfo li span.cur {
+.main-con-exchangeInfo li span.cur, .main-con-exchangeInfo li span.option {
   display: inline-block;
   *display: inline;
   *zoom: 1;
+}
+.main-con-exchangeInfo li span.option {
+  position: relative;
+  z-index: 1;
+  margin-right: 8px;
+  width: 70px;
+  text-align: center;
+  background: #f1f1f1;
+  cursor: pointer;
+}
+.main-con-exchangeInfo li span.option .points {
+  position: absolute;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  font-size: 0;
+  color: #fff;
+  background: #ff5500;
+  transition: all 300ms;
+  -moz-transition: all 300ms;
+  -webkit-transition: all 300ms;
+  -o-transition: all 300ms;
+}
+.main-con-exchangeInfo li span.option:hover .points, .main-con-exchangeInfo li span.option.active .points {
+  top: 0;
+  left: 0;
+  font-size: 12px;
+  width: 70px;
+  height: 34px;
+}
+.main-con-exchangeInfo li span.about {
+  position: relative;
+  z-index: 1;
+  color: #9192a6;
+}
+.main-con-exchangeInfo li span.about > b {
+  margin-right: 3px;
+  font-size: 12px;
+  width: 13px;
+  height: 13px;
+  line-height: 13px;
+  border-radius: 50%;
+  background: #979797;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.main-con-exchangeInfo li span.about .expand-con {
+  position: absolute;
+  z-index: 1000;
+  top: 25px;
+  left: 8px;
+  width: 420px;
+  padding-top: 10px;
+  display: none;
+}
+.main-con-exchangeInfo li span.about .expand-con b.arrow {
+  position: absolute;
+  z-index: 1999;
+  top: 1px;
+  left: 0;
+  width: 9px;
+  height: 10px;
+  background: url(../img/exchange/icons_arrow.png) top left no-repeat;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.main-con-exchangeInfo li span.about p {
+  padding: 10px 15px;
+  line-height: 20px;
+  color: #666;
+  background: #fcf5eb;
+  border: 1px solid #fdb558;
+  border-radius: 3px;
 }
 .main-con-exchangeInfo li a {
   margin-left: 10px;
