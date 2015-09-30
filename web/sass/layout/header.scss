@@ -36,6 +36,9 @@ $top-bg-color: #36363c;
 		font-size: 12px;
 		&:hover{
 			color: #fff;
+		}
+		&.mailLink{
+			@include dib();
 		} 
 	}
 }

@@ -117,6 +117,11 @@ body {
 .header-top a:hover {
   color: #fff;
 }
+.header-top a.mailLink {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
 
 .header-top-con a {
   padding: 0 15px;
@@ -340,7 +345,7 @@ body {
   margin-top: 40px;
   margin-right: 40px;
   background-color: #fff;
-  padding: 49px 20px;
+  padding: 49px 23px;
   -webkit-box-shadow: 0px 1px 4px rgba(149, 148, 148, 0.3);
   -moz-box-shadow: 0px 1px 4px rgba(149, 148, 148, 0.3);
   box-shadow: 0px 1px 4px rgba(149, 148, 148, 0.3);

@@ -118,6 +118,11 @@ body {
 .header-top a:hover {
   color: #fff;
 }
+.header-top a.mailLink {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
 
 .header-top-con a {
   padding: 0 15px;
