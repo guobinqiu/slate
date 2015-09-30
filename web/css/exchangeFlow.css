@@ -540,7 +540,7 @@ body {
 .main-con-exchangeInfo li span.about .expand-con b.arrow {
   position: absolute;
   z-index: 1999;
-  top: 1px;
+  top: 2px;
   left: 0;
   width: 9px;
   height: 10px;
