@@ -13,9 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 class VoteChoice
 {
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="answer_number", type="boolean", nullable=false)
+     * @ORM\Column(name="answer_number", type="integer", nullable=false)
      */
     private $answerNumber;
 
@@ -73,7 +73,7 @@ class VoteChoice
     /**
      * Set answerNumber
      *
-     * @param boolean $answerNumber
+     * @param integer $answerNumber
      * @return VoteChoice
      */
     public function setAnswerNumber($answerNumber)
@@ -86,7 +86,7 @@ class VoteChoice
     /**
      * Get answerNumber
      *
-     * @return boolean
+     * @return integer
      */
     public function getAnswerNumber()
     {
