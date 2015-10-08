@@ -3,6 +3,7 @@
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Jili\ApiBundle\Utility\PasswordEncoder;
 
 /**
  * UserWenwenLogin
@@ -154,5 +155,11 @@ class UserWenwenLogin
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function isPwdCorrect($password) 
+    {
+        return ( $this->getLoginPassword() === PasswordEncoder::encode($this->getLoginPasswordCryptType(),
+            $password, $this->getLoginPasswordSalt())) ;
     }
 }

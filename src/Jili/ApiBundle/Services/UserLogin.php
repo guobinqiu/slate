@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBagInterface;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\LoginLog;
-use Jili\ApiBundle\Utility\PasswordEncoder;
 
 /**
  *
@@ -89,10 +88,9 @@ class UserLogin
                 return $this->getParameter('login_wr'); // login failed;
             }
 
-            if ( $wenwenLogin->getLoginPassword() !== PasswordEncoder::encode($wenwenLogin->getLoginPasswordCryptType(),
-                $password, $wenwenLogin->getLoginPasswordSalt())) {
+            if(! $wenwenLogin->isPwdCorrect($password) ) {
                     return $this->getParameter('login_wr'); // login failed;
-                }
+            }
 
              $em->getRepository('JiliApiBundle:User')
                  ->migrateUserWenwenLogin( $password , $user->getId());
