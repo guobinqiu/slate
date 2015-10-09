@@ -54,5 +54,13 @@ class UserTest extends KernelTestCase
         $u->setOriginFlag( 3);
         $this->assertFalse($u->isOriginFlagWenwen(), 'origin_flag is 3 should returns false ');
     }
+    public function test_isPwdCorrect()
+    {
+        $u = new User();
+        $u->setPwd('111111');
+
+        $this->assertTrue($u->isPwdCorrect('111111'), 'correct password returns TRUE');
+        $this->assertFalse($u->isPwdCorrect('111112'), 'wrong password returns FALSE');
+    }
 }
 

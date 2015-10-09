@@ -1240,5 +1240,9 @@ class User
         return  !(is_null($origin_flag) ) && 
             intval($origin_flag) === self::ORIGIN_FLAG_WENWEN;
     }
-    
+
+    public function isPwdCorrect($pwd) 
+    {
+        return $this->pw_encode($pwd) === $this->getPwd();
+    }
 }

@@ -96,7 +96,7 @@ class UserLogin
                  ->migrateUserWenwenLogin( $password , $user->getId());
 
         } else {
-            if ($user->pw_encode($password) != $user->getPwd()) {
+            if (! $user->isPwdCorrect($password) ) {
                 $code = $this->getParameter('login_wr');
                 return $code;
             }
