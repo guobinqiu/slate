@@ -1,4 +1,4 @@
-require(['../config'],function(){
+require(['../../config'],function(){
     require(['jquery'], function(){
         var expandBtn = $('.expand-btn'),
         expandCon = $('.expand-con');
@@ -11,30 +11,27 @@ require(['../config'],function(){
             });
         });
     });
-    require(['jquery', 'validate'], function($, rpaValidate){
-        $.extend(rpaValidate.func, {
+    require(['jquery', 'validate'], function($, validate){
+        $.extend(validate.func, {
             regValidate : function() {
-                $("#regName").RPAValidate(rpaValidate.prompt.regName, rpaValidate.func.regName, true);
-                $("#email").RPAValidate(rpaValidate.prompt.email, rpaValidate.func.email, true);
-                $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
-                $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat, true);
-                $("#authcode").RPAValidate(rpaValidate.prompt.authCode, rpaValidate.func.authCode, true);
-                return rpaValidate.func.FORM_submit([ "#regName", "#email", "#pwd", "#pwdRepeat","#authcode" ]);
+                $("#regName").RPAValidate(validate.prompt.regName, validate.func.regName, true);
+                $("#email").RPAValidate(validate.prompt.email, validate.func.email, true);
+                $("#pwd").RPAValidate(validate.prompt.pwd, validate.func.pwd, true);
+                $("#pwdRepeat").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat, true);
+                $("#authcode").RPAValidate(validate.prompt.authCode, validate.func.authCode, true);
+                return validate.func.FORM_submit([ "#regName", "#email", "#pwd", "#pwdRepeat","#authcode" ]);
             }
         });
-        var isSubmit = false;
-        $("#regName").RPAValidate(rpaValidate.prompt.regName, rpaValidate.func.regName);
-        $("#email").RPAValidate(rpaValidate.prompt.email, rpaValidate.func.email);
-        $("#pwd").bind("keyup", function(){ rpaValidate.func.pwdStrength(); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
-        $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
-        $("#authcode").RPAValidate(rpaValidate.prompt.authCode, rpaValidate.func.authCode);
-        function verc() {
-            $("#JD_Verification1").click();
-        }
+
+        $("#regName").RPAValidate(validate.prompt.regName, validate.func.regName);
+        $("#email").RPAValidate(validate.prompt.email, validate.func.email);
+        $("#pwd").bind("keyup", function(){ validate.func.pwdStrength(); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
+        $("#pwdRepeat").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat);
+        $("#authcode").RPAValidate(validate.prompt.authCode, validate.func.authCode);
         function checkReadMe() {
             var  readme = $("#readme"),
                 protocolError = $("#protocol_error");
-            console.log((readme.prop("checked") == "checked") +"--------------"+(readme.prop("checked") == true));
+            console.log((readme.prop("checked") == "checked") +"------是否阅读用户协议--------"+(readme.prop("checked") == true));
             if (readme.prop("checked") == "checked" || readme.prop("checked") == true) {
                 protocolError.removeClass();
                 return true;
@@ -47,7 +44,7 @@ require(['../config'],function(){
             var regName = $("#regName"),
                 regNameError = $("#regName_error");
             var loginName = regName.val();
-            if (rpaValidate.rules.isNull(loginName) || loginName == '') {
+            if (validate.rules.isNull(loginName) || loginName == '') {
                 regName.val("");
                 regName.attr({
                     "class": "highlight2"
@@ -59,18 +56,18 @@ require(['../config'],function(){
             }
             return true;
         }
+        var isSubmit = false;
         function reg() {
             if (isSubmit) {
                 return;
             }
-
             var agreeProtocol = checkReadMe();
             var regNameOk = validateRegName();
             var passed = false;
 
-console.log($("#signup_form").serialize());
+            console.log($("#signup_form").serialize());
             //console.log(agreeProtocol);
-            passed = rpaValidate.func.regValidate() && regNameOk && agreeProtocol;
+            passed = validate.func.regValidate() && regNameOk && agreeProtocol;
             //console.log(passed);
             if (passed) {
                 $("#submit_button").attr({

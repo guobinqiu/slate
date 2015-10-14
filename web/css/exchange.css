@@ -257,7 +257,7 @@ body {
 }
 .header-top-con .personal-con span strong {
   font-size: 16px;
-  color: #ff5500;
+  color: #ff6700;
 }
 
 .header-nav {
@@ -301,7 +301,7 @@ body {
   bottom: 0;
   height: 6px;
   width: 115px;
-  background: #ff5500;
+  background: #ff6700;
   display: none;
 }
 .header-nav .nav a {
@@ -315,7 +315,7 @@ body {
   overflow: hidden;
 }
 .header-nav .nav a:hover, .header-nav .nav a.active {
-  color: #ff5500;
+  color: #ff6700;
 }
 .header-nav .login-btn a {
   margin-left: 5px;
@@ -326,8 +326,12 @@ body {
 }
 .header-nav .login-btn a:hover {
   color: #fff;
-  background: #ff5500;
-  border: 1px solid #ff5500;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  -o-transition: all 0.1s;
 }
 
 .main-con {
@@ -345,7 +349,7 @@ body {
   margin-top: 40px;
   margin-right: 40px;
   background-color: #fff;
-  padding: 49px 23px;
+  padding: 49px 20px;
   -webkit-box-shadow: 0px 1px 4px rgba(149, 148, 148, 0.3);
   -moz-box-shadow: 0px 1px 4px rgba(149, 148, 148, 0.3);
   box-shadow: 0px 1px 4px rgba(149, 148, 148, 0.3);
@@ -391,19 +395,23 @@ body {
   line-height: 40px;
   font-size: 14px;
   color: #fff;
-  background: #2f8be0;
+  background: #ff6700;
+  border: 1px solid #ff6700;
   border-radius: 3px;
-  -webkit-box-shadow: 0 2px 0 #206dc7;
-  -moz-box-shadow: 0 2px 0 #206dc7;
-  box-shadow: 0 2px 0 #206dc7;
   cursor: pointer;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+}
+.main-con-exchange dd.exchangeBtn a:hover {
+  background: #f25807;
+  border: 1px solid #f25807;
 }
 .main-con-exchange dd.exchangeBtn a.disabled {
-  background-color: #888;
+  background-color: #a7a7a7;
+  border: 1px solid #a7a7a7;
   cursor: text;
-  -webkit-box-shadow: 0 2px 0 #666;
-  -moz-box-shadow: 0 2px 0 #666;
-  box-shadow: 0 2px 0 #666;
 }
 .main-con-exchange .newIcon {
   position: absolute;

@@ -257,7 +257,7 @@ body {
 }
 .header-top-con .personal-con span strong {
   font-size: 16px;
-  color: #ff5500;
+  color: #ff6700;
 }
 
 .header-nav {
@@ -301,7 +301,7 @@ body {
   bottom: 0;
   height: 6px;
   width: 115px;
-  background: #ff5500;
+  background: #ff6700;
   display: none;
 }
 .header-nav .nav a {
@@ -315,7 +315,7 @@ body {
   overflow: hidden;
 }
 .header-nav .nav a:hover, .header-nav .nav a.active {
-  color: #ff5500;
+  color: #ff6700;
 }
 .header-nav .login-btn a {
   margin-left: 5px;
@@ -326,8 +326,12 @@ body {
 }
 .header-nav .login-btn a:hover {
   color: #fff;
-  background: #ff5500;
-  border: 1px solid #ff5500;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  -o-transition: all 0.1s;
 }
 
 .main-personal {
@@ -345,6 +349,7 @@ h1 {
   width: 135px;
   margin-right: 15px;
   padding-left: 15px;
+  padding-top: 27px;
 }
 .main-personal-left em {
   margin-right: 10px;
@@ -369,7 +374,7 @@ h1 {
   background-position: 0 -191px;
 }
 .main-personal-left li {
-  margin-top: 20px;
+  margin-top: 10px;
   height: 35px;
   line-height: 35px;
   font-size: 14px;
@@ -390,7 +395,7 @@ h1 {
   background-position: -24px -191px;
 }
 .main-personal-left li.active a, .main-personal-left li:hover a {
-  color: #ff5500;
+  color: #ff6700;
 }
 
 .main-personal-right {
@@ -402,11 +407,11 @@ h1 {
   border: 1px solid #eee;
 }
 .main-personal-right h2 {
-  margin-top: 25px;
-  padding-left: 25px;
-  font-size: 24px;
-  color: #ff5500;
-  border-left: 6px solid #ff5500;
+  margin-top: 36px;
+  padding-left: 38px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  color: #757575;
 }
 .main-personal-right h2 > div {
   float: right;
@@ -444,6 +449,11 @@ h1 {
 }
 .form input[type='text']:focus, .form input[type='text'].input_focus, .form input[type='password']:focus, .form input[type='password'].input_focus {
   border: 1px solid #3bc570;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: all 0.075s;
+  -moz-transition: all 0.075s;
+  -webkit-transition: all 0.075s;
+  -o-transition: all 0.075s;
 }
 .form input[type='text'].input_error, .form input[type='password'].input_error {
   border: 1px solid #ff0000;
@@ -461,6 +471,8 @@ h1 {
   display: inline-block;
   *display: inline;
   *zoom: 1;
+  background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
+  font-size: 0;
 }
 .form span.focus {
   border: 1px solid #e7e7e7;
@@ -488,27 +500,37 @@ h1 {
   font-size: 16px;
   color: #319dfa;
 }
+.form span a.more {
+  font-size: 12px;
+  display: inline;
+}
 .form .btn span {
   width: 74px;
   text-align: center;
   height: 36px;
   line-height: 36px;
   color: #fff;
-  background: #2f8be0;
+  background: #ff6700;
+  border: 1px solid #ff6700;
   border-radius: 3px;
-  -webkit-box-shadow: 0 2px 0 #206dc7;
-  -moz-box-shadow: 0 2px 0 #206dc7;
-  box-shadow: 0 2px 0 #206dc7;
   cursor: pointer;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
   display: inline-block;
   *display: inline;
   *zoom: 1;
   vertical-align: middle;
 }
+.form .btn span:hover {
+  background: #f25807;
+  border: 1px solid #f25807;
+}
 
 #pwdStrength {
   padding: 0;
-  margin-right: 20px;
+  margin-right: 4px;
 }
 #pwdStrength b {
   margin-right: 1px;
@@ -525,11 +547,11 @@ h1 {
   *zoom: 1;
 }
 #pwdStrength b.c1 {
-  background: #ffc6a0;
+  background: #ff8b3d;
 }
 
 .main-personal-account {
-  padding: 20px 30px 50px;
+  padding: 20px 45px 50px;
   color: #666;
 }
 .main-personal-account li {
@@ -632,16 +654,22 @@ h1 {
   height: 36px;
   line-height: 36px;
   color: #fff;
-  background: #2f8be0;
+  background: #ff6700;
+  border: 1px solid #ff6700;
   border-radius: 3px;
-  -webkit-box-shadow: 0 2px 0 #206dc7;
-  -moz-box-shadow: 0 2px 0 #206dc7;
-  box-shadow: 0 2px 0 #206dc7;
   cursor: pointer;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
   display: inline-block;
   *display: inline;
   *zoom: 1;
   vertical-align: middle;
+}
+.main-personal-account .con .btn span:hover {
+  background: #f25807;
+  border: 1px solid #f25807;
 }
 .main-personal-account .con.bding ul {
   margin-top: 20px;

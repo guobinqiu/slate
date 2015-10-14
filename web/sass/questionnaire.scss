@@ -113,8 +113,8 @@
 				.txt{
 					font-size: 14px;
 					line-height: 30px;
-					margin-left: 20px;
-					margin-top: 10px;
+					margin-left: 31px;
+					margin-top: 35px;
 					h2{
 						font-size: 20px;
 						font-weight: bold;
@@ -124,20 +124,12 @@
 			.qnEndRecommend{
 				margin-top: 170px;
 				.tit{
-					height: 50px;
-					line-height: 50px;
-					font-size: 20px;
-					margin-bottom: 10px;
-					@include gradient(#f8f8f8, #f2f2f2);
-					@include box-shadow(0 2px 0 #e8e8e8);
-					span{
-						  width: 9px;
-						  margin-top: 18px;
-						  padding-left: 40px;
-						  float: left;
-						  height: 15px;
-						  background: url(../img/questionnaire/pixTag.png) no-repeat center;
-					}
+					    height: 70px;
+  						line-height: 40px;
+						font-size: 30px;
+						font-weight: normal;
+						color: #757575;
+						margin-top: 30px;	
 				}
 				.list{
 					table{
@@ -148,7 +140,7 @@
 								  height: 48px;
 								  line-height: 48px;
 								  font-size: 14px;
-								  color: #666;
+								  color: #333;
 								a{
 									color: $main-title-color;
 								}

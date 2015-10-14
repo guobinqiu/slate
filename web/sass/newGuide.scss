@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/help";
+.main-help-con{
+	background: $block-bg-color;
+	border: $block-border;
+}
+.newGuide{
+	padding: 0 40px 30px;
+}
+.newGuideDetail{
+	display: none;
+	position: relative;
+	.back{
+		position: absolute;
+		right: 8px; 
+		top: 27px;
+		margin-top: 10px;
+	    padding: 0 10px;
+	    height: 24px;
+	    line-height: 24px;
+	    color: #666;
+	    background: #f7f7f7;
+	    border: 1px solid #ededf0;
+	    border-radius: 3px;
+	    display: inline-block;
+	}
+	h3{
+		color: #b0b0b0;
+		font-size: 36px;
+		line-height: 100px;
+		height: 100px;
+	}
+	dt{
+		line-height: 40px;
+		font-size: 16px;
+		color: #333;
+		strong{
+			margin-right: 5px;
+			color: #ff6700;
+		}
+	}
+	dd{
+		margin-bottom: 20px;
+	}
+}
+@import "layout/footer";

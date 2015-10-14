@@ -19,7 +19,7 @@ $survey-border-color: #f6f6f6;
 	.title{
 		a{
 			color: $main-title-color;
-			font-size: $h-small-font-size;
+			font-size: 15px;
 			font-weight: bold;
 			line-height: 35px;
 		}
@@ -51,7 +51,7 @@ $survey-border-color: #f6f6f6;
 }
 .survey-item{
 	width: 100%;
-	padding: 0 0 5px 0;
+	padding: 0 0 15px 0;
 	@include transition(width, 300ms);
 	ul{
 		margin-left: -10px;
@@ -99,6 +99,10 @@ $survey-border-color: #f6f6f6;
 	cursor: pointer;
 	overflow: hidden;
 	@include transition(width, 300ms);
+	@include transition(all, 0.4s);
+	&:hover, &:active{
+		background:#f25807;
+	}
 }
 .vote{
 	a.survey-btn{

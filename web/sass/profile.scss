@@ -49,7 +49,9 @@ $color: #0078b6;
 	padding: 20px 30px 50px;
 	h3{
 		padding: 10px;
-		font-size: 18px;
+		font-size: 14px;
+		font-weight: bold;
+		color: #555;
 		height: 45px;
 		line-height: 45px;
 		b{
@@ -161,12 +163,21 @@ $color: #0078b6;
 				width: 150px;
 				height: 35px;
 				line-height: 35px;
-				border: none;
-				@include btn();
+				color: #fff;
+				cursor: pointer;
+				border-radius: 3px;
+				background: #83c44e;
+				border: 1px solid #83c44e;
+				@include transition(all, 0.4s);
+				@include dib();
+				&:hover{
+					background:#71b639;
+					border: 1px solid #71b639;
+				}
 				&.cancelBtn{
 					color: #666;
 					background: #e5e5e5;
-					@include box-shadow(0 2px 0 #d1d1d1);
+					border: 1px solid #e5e5e5;
 				}
 			}
 		}

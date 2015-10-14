@@ -88,6 +88,11 @@ body {
 }
 .form input[type='text']:focus, .form input[type='text'].input_focus, .form input[type='password']:focus, .form input[type='password'].input_focus {
   border: 1px solid #3bc570;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: all 0.075s;
+  -moz-transition: all 0.075s;
+  -webkit-transition: all 0.075s;
+  -o-transition: all 0.075s;
 }
 .form input[type='text'].input_error, .form input[type='password'].input_error {
   border: 1px solid #ff0000;
@@ -105,6 +110,8 @@ body {
   display: inline-block;
   *display: inline;
   *zoom: 1;
+  background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
+  font-size: 0;
 }
 .form span.focus {
   border: 1px solid #e7e7e7;
@@ -132,27 +139,37 @@ body {
   font-size: 16px;
   color: #319dfa;
 }
+.form span a.more {
+  font-size: 12px;
+  display: inline;
+}
 .form .btn span {
   width: 74px;
   text-align: center;
   height: 36px;
   line-height: 36px;
   color: #fff;
-  background: #2f8be0;
+  background: #ff6700;
+  border: 1px solid #ff6700;
   border-radius: 3px;
-  -webkit-box-shadow: 0 2px 0 #206dc7;
-  -moz-box-shadow: 0 2px 0 #206dc7;
-  box-shadow: 0 2px 0 #206dc7;
   cursor: pointer;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
   display: inline-block;
   *display: inline;
   *zoom: 1;
   vertical-align: middle;
 }
+.form .btn span:hover {
+  background: #f25807;
+  border: 1px solid #f25807;
+}
 
 #pwdStrength {
   padding: 0;
-  margin-right: 20px;
+  margin-right: 4px;
 }
 #pwdStrength b {
   margin-right: 1px;
@@ -169,13 +186,13 @@ body {
   *zoom: 1;
 }
 #pwdStrength b.c1 {
-  background: #ffc6a0;
+  background: #ff8b3d;
 }
 
 .main-register {
   position: relative;
   z-index: 1;
-  padding: 20px 80px 30px;
+  padding: 30px 80px 50px;
 }
 .main-register.weibo {
   padding: 50px 80px 80px;
@@ -212,7 +229,7 @@ body {
 }
 
 .main-register-btn {
-  margin-top: 15px;
+  margin-top: 30px;
 }
 .main-register-btn span {
   margin-right: 10px;
@@ -220,17 +237,24 @@ body {
   text-align: center;
   height: 45px;
   line-height: 45px;
-  color: #fff;
   font-size: 18px;
-  background: #ff5e00;
-  border-radius: 3px;
-  -webkit-box-shadow: 0 2px 0 #db5000;
-  -moz-box-shadow: 0 2px 0 #db5000;
-  box-shadow: 0 2px 0 #db5000;
   display: inline-block;
   *display: inline;
   *zoom: 1;
+  color: #fff;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  border-radius: 3px;
   cursor: pointer;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  cursor: pointer;
+}
+.main-register-btn span:hover {
+  background: #f25807;
+  border: 1px solid #f25807;
 }
 .main-register-btn img {
   vertical-align: middle;
@@ -240,7 +264,7 @@ body {
   position: absolute;
   z-index: 1000;
   top: 60px;
-  left: 610px;
+  left: 670px;
   line-height: 40px;
 }
 .login-others a {
@@ -257,7 +281,7 @@ body {
 }
 .login-others a img {
   vertical-align: middle;
-  margin-right: 5px;
+  margin-right: 9px;
 }
 .login-others .regPoints {
   margin-top: 40px;
@@ -352,11 +376,21 @@ body {
   line-height: 27px;
   text-align: center;
   color: #fff;
-  background: #f37022;
-  border-radius: 2px;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
   display: inline-block;
   *display: inline;
   *zoom: 1;
+}
+.main-register-active .con a:hover {
+  background: #f25807;
+  border: 1px solid #f25807;
 }
 .main-register-active .finish .title {
   line-height: 75px;

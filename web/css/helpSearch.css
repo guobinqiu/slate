@@ -257,7 +257,7 @@ body {
 }
 .header-top-con .personal-con span strong {
   font-size: 16px;
-  color: #ff5500;
+  color: #ff6700;
 }
 
 .header-nav {
@@ -301,7 +301,7 @@ body {
   bottom: 0;
   height: 6px;
   width: 115px;
-  background: #ff5500;
+  background: #ff6700;
   display: none;
 }
 .header-nav .nav a {
@@ -315,7 +315,7 @@ body {
   overflow: hidden;
 }
 .header-nav .nav a:hover, .header-nav .nav a.active {
-  color: #ff5500;
+  color: #ff6700;
 }
 .header-nav .login-btn a {
   margin-left: 5px;
@@ -326,18 +326,24 @@ body {
 }
 .header-nav .login-btn a:hover {
   color: #fff;
-  background: #ff5500;
-  border: 1px solid #ff5500;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  -o-transition: all 0.1s;
 }
 
 .main-help-banner {
   height: 104px;
-  background: #f6660d url(../img/help/bannerBg.jpg) no-repeat center;
-  -webkit-box-shadow: 0px 1px 5px #9b3502 inset;
-  -moz-box-shadow: 0px 1px 5px #9b3502 inset;
-  box-shadow: 0px 1px 5px #9b3502 inset;
+  margin-bottom: 20px;
+  background: #677484 url(../img/common/seamless-noise-bg.png) repeat;
+  -webkit-box-shadow: 0px 1px 5px #2a3033 inset;
+  -moz-box-shadow: 0px 1px 5px #2a3033 inset;
+  box-shadow: 0px 1px 5px #2a3033 inset;
 }
 .main-help-banner .text {
+  background: url(../img/help/bannerBg.png) no-repeat center;
   position: relative;
   z-index: 1;
   height: 104px;
@@ -406,10 +412,10 @@ body {
   font-size: 16px;
   font-weight: bold;
   color: #333;
-  border-left: 6px solid #ff5500;
+  border-left: 6px solid #ff6700;
 }
 .main-help-con h2 b {
-  color: #ff5500;
+  color: #ff6700;
 }
 .main-help-con .search-result {
   margin-top: 20px;
@@ -423,12 +429,15 @@ body {
   font-weight: bold;
 }
 .main-help-con .search-result dt b {
-  color: #ff5500;
+  color: #ff6700;
 }
 .main-help-con .search-result dd {
   padding-bottom: 20px;
   line-height: 20px;
   border-bottom: 1px solid #f6f6f6;
+}
+.main-help-con .search-result dd.allCon {
+  display: none;
 }
 .main-help-con .search-result dd a {
   color: #0078b6;
@@ -449,6 +458,21 @@ body {
   display: inline-block;
   *display: inline;
   *zoom: 1;
+}
+
+.backTop {
+  position: fixed;
+  z-index: 1000;
+  bottom: 150px;
+  left: 50%;
+  margin-left: 540px;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  color: #fff;
+  background: #d6d6d6;
+  cursor: pointer;
 }
 
 .footer {

@@ -21,9 +21,13 @@ require.config({
         'numScroll': 'common/numScroll',
         'tab': 'common/tab',
         'validate': 'common/validate',
+        'mobile': 'common/validate_mobile',
+        'alipay': 'common/validate_alipay',
         'expand': 'common/expand',
         'autoJump': 'common/autoJump',
-        'mobile': 'common/validate_mobile'
+        'layer': 'common/layer',
+        'exchange': 'common/exchange',
+        'backTop': 'common/backTop'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {

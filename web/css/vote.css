@@ -257,7 +257,7 @@ body {
 }
 .header-top-con .personal-con span strong {
   font-size: 16px;
-  color: #ff5500;
+  color: #ff6700;
 }
 
 .header-nav {
@@ -301,7 +301,7 @@ body {
   bottom: 0;
   height: 6px;
   width: 115px;
-  background: #ff5500;
+  background: #ff6700;
   display: none;
 }
 .header-nav .nav a {
@@ -315,7 +315,7 @@ body {
   overflow: hidden;
 }
 .header-nav .nav a:hover, .header-nav .nav a.active {
-  color: #ff5500;
+  color: #ff6700;
 }
 .header-nav .login-btn a {
   margin-left: 5px;
@@ -326,8 +326,12 @@ body {
 }
 .header-nav .login-btn a:hover {
   color: #fff;
-  background: #ff5500;
-  border: 1px solid #ff5500;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  -o-transition: all 0.1s;
 }
 
 .main-con-left h1 {
@@ -340,7 +344,7 @@ body {
 }
 .main-con-left .title a {
   color: #0078b6;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
   line-height: 35px;
 }
@@ -371,7 +375,7 @@ body {
 
 .survey-item {
   width: 100%;
-  padding: 0 0 5px 0;
+  padding: 0 0 15px 0;
   transition: width 300ms;
   -moz-transition: width 300ms;
   -webkit-transition: width 300ms;
@@ -397,7 +401,7 @@ body {
   line-height: 28px;
 }
 .survey-item li p strong {
-  color: #ff5500;
+  color: #ff6700;
   font-size: 16px;
 }
 .survey-item li.first {
@@ -419,13 +423,20 @@ body {
   color: #fff;
   font-size: 14px;
   font-weight: bold;
-  background: #ff5500;
+  background: #ff6700;
   cursor: pointer;
   overflow: hidden;
   transition: width 300ms;
   -moz-transition: width 300ms;
   -webkit-transition: width 300ms;
   -o-transition: width 300ms;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+}
+.survey-btn:hover, .survey-btn:active {
+  background: #f25807;
 }
 
 .vote a.survey-btn {
@@ -512,7 +523,7 @@ body {
   padding: 0 3px;
 }
 .vote-txt .relate span strong {
-  color: #ff5500;
+  color: #ff6700;
 }
 .vote-txt .relate span.vline {
   color: #f6f6f6;
@@ -552,7 +563,7 @@ body {
   *zoom: 1;
   width: 6px;
   height: 20px;
-  background: #ff5500;
+  background: #ff6700;
 }
 .vote-sub h1 {
   font-weight: bold;
@@ -579,11 +590,13 @@ body {
 }
 .vote-sub .vote-txt .title a {
   line-height: 20px;
+  font-size: 15px;
 }
 .vote-sub .vote-txt .con {
-  margin-top: 5px;
+  margin-top: 7px;
   padding-left: 3px;
   line-height: 20px;
+  color: #9d9d9d;
 }
 .vote-sub .vote-txt .relate {
   margin-top: 5px;
@@ -605,17 +618,26 @@ body {
   text-align: center;
   color: #fff;
   font-size: 12px;
+  color: #fff;
+  background: #ff6700;
+  border: 1px solid #ff6700;
   border-radius: 3px;
-  background: #ff5718;
-  background-image: -webkit-linear-gradient(to bottom, #ff6e16, #ff5718);
-  background-image: linear-gradient(to bottom, #ff6e16, #ff5718);
-  background-color: #ff6e16;
+  cursor: pointer;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
   display: inline-block;
   *display: inline;
   *zoom: 1;
 }
+.vote-sub .survey-btn a:hover {
+  background: #f25807;
+  border: 1px solid #f25807;
+}
 .vote-sub .survey-btn a.disabled {
   background: #a7a7a7;
+  border: 1px solid #a7a7a7;
 }
 
 .exchange-dynamics {
@@ -643,7 +665,7 @@ body {
   border-bottom: 1px solid #f6f6f6;
 }
 .exchange-dynamics li b {
-  color: #ff5500;
+  color: #ff6700;
 }
 .exchange-dynamics li p {
   color: #4d4d4d;
@@ -679,8 +701,8 @@ body {
   cursor: pointer;
 }
 .page span:hover, .page span.active {
-  border: 1px solid #ff5500;
-  color: #ff5500;
+  border: 1px solid #ff6700;
+  color: #ff6700;
 }
 
 .footer {

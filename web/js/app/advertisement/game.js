@@ -1,4 +1,4 @@
-require(['../config'],function(){
+require(['../../config'],function(){
     require(['common']);
     require(['iframeResizer'], function(iframeResizer){
         iFrameResize({

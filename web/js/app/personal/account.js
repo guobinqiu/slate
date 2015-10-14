@@ -1,4 +1,4 @@
-require(['../config'],function(){
+require(['../../config'],function(){
     require(['common']);
     require(['jquery'],function($){
        	var eles = $('.main-personal-account>ul>li');
@@ -85,7 +85,70 @@ require(['../config'],function(){
 //            });
     });
     //修改手机（交互）
-    require(['mobile']);
+    require(['jquery', 'mobile'],function($, mobile){
+        var mobileSave = $('#mobile_save'),
+            mobileSucceed = $('#mobile_succeed'),
+            mobileError = $('#mobile_error');
+        var mobileInput = '#mobile';
+        var seconds, s;
+        function countdown(){
+            if (seconds > 0) {
+                seconds = seconds - 1;
+                var second = Math.floor(seconds % 10);             // 计算秒
+                $("#second").html(second);
+            } else {
+                $("#second").html('10');
+                $('#send_code').removeClass('disabled');
+                mobileSucceed.removeClass();
+                clearInterval(s);
+            }
+        }
+        function reSendCode(code){
+            var sendCode = $('#send_code'),
+                message = $(".message");
+            code = $.trim(code);
+            if (code == "" || (obj.isPhone(code) == false)) {
+                obj.eError(mobileInput, '请输入有效的手机号码');
+                return false;
+            }
+            //交互模拟结果数据
+            var data = 1;
+            if(data==1){
+                seconds = 10;
+                s = setInterval(countdown, 1000);
+                obj.eSucceed(mobileInput, '<strong id="second">10</strong>秒');
+                sendCode.addClass('disabled').html('重新发送');
+                sendCode.onclick = null;
+            }else if(data==2){
+                code = $('#email').val();
+                //var url = "{{ path('_user_activeEmail',{'email': "email" }) }}";
+                var url = "http://www.91jili.com";
+                url = url.replace('email',encodeURIComponent(code));
+                var html = "<p>邮箱地址未激活，请重新<a href='"+url+"'>激活</a></p>";
+                message.show().html(html);
+            }else{
+                $('#email').val('');
+            }
+        }
+        var obj = new mobile({ mobileInput: mobileInput, isSendCode: false, isRepeatInput: false, isFocusPrompt: true});
+        var sendCode = $('#send_code');
+        sendCode.on('click', function(){
+            var code = $('#mobile').val().trim();
+            if(sendCode.hasClass('disabled')){
+                return false;
+            }else{
+                reSendCode(code);
+            }
+        });
+        mobileSave.on('click', function(){
+            var code = $('#mobile').val().trim();
+            if (code == "" || (obj.isPhone(code) == false)) {
+                obj.eError(mobileInput, '请输入有效的手机号码');
+                return false;
+            }
+            //ajax提交
+        });
+    });
     //绑定、退订、注销
     require(['jquery'],function($){
         var weiboSave = $('#weibo_save');

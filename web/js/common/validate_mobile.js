@@ -1,82 +1,81 @@
 define(['jquery'],function($){
-    var mobileInput = $('#mobile'),
-        mobileSucceed = $('#mobile_succeed'),
-        mobileError = $('#mobile_error');
-    function isPhone(str){
-        return new RegExp("^0?(13|15|18|14|17)[0-9]{9}$").test(str);
-    }
-    function eError(prompt){
-        mobileInput.removeClass().addClass('input_error');
-        mobileSucceed.removeClass();
-        mobileError.removeClass().addClass('error').html(prompt);
-    }
-    function eSucceed(prompt){
-        mobileInput.removeClass();
-        mobileSucceed.removeClass().addClass('focus').html(prompt);
-        mobileError.removeClass().html('');
-    }
-    var seconds, s;
-    function countdown(){
-        if (seconds > 0) {
-            seconds = seconds - 1;
-            var second = Math.floor(seconds % 10);             // 计算秒
-            $("#second").html(second);
-        } else {
-            $("#second").html('10');
-            $('#send_code').removeClass('disabled');
+    var ValidateMobile = function(option){
+        this.mobileInput = option.mobileInput;
+        this.isSendCode = option.isSendCode;
+        this.isRepeatInput = option.isRepeatInput;
+        this.isFocusPrompt = option.isFocusPrompt;
+        this.init();
+    };
+
+    ValidateMobile.prototype = {
+        init: function(){
+            var _self = this;
+            if(_self.isFocusPrompt){
+                $(_self.mobileInput).focus(function(){
+                    _self.eFocus(_self.mobileInput);
+                }).blur(function(){
+                    var mobileNum = $(_self.mobileInput).val().trim();
+                    if (mobileNum == "" || (_self.isPhone(mobileNum) == false)) {
+                        _self.eError(_self.mobileInput, '请输入有效的手机号码');
+                        return false;
+                    }else{
+                        _self.eSucceed(_self.mobileInput);
+                        return true;
+                    }
+                });
+                if(_self.isRepeatInput){
+                    var mobileRepeatInput = '#mobileRepeat';
+                    $(mobileRepeatInput).focus(function(){
+                        _self.eFocus(mobileRepeatInput);
+                    }).blur(function(){
+                        var mobileNum = $(_self.mobileInput).val().trim(),
+                            mobileRepeatNum = $(mobileRepeatInput).val().trim();
+                        if(!_self.isEqual(mobileNum, mobileRepeatNum)){
+                            _self.eError(mobileRepeatInput, '两次输入不一致！');
+                            return false;
+                        }else{
+                            _self.eSucceed(mobileRepeatInput);
+                            return true;
+                        }
+                    });
+                }
+            }
+        },
+        isPhone: function(str){
+            return new RegExp("^0?(13|15|18|14|17)[0-9]{9}$").test(str);
+        },
+        isEqual: function(val1, val2){
+            return $.trim(val1) == $.trim(val2);
+        },
+        eFocus: function(inputEle, prompt){
+            var mobileInput = $(inputEle),
+                mobileSucceed = $(inputEle +'_succeed'),
+                mobileError = $(inputEle +'_error');
+            mobileInput.removeClass('input_error');
             mobileSucceed.removeClass();
-            clearInterval(s);
+            if(prompt = '' || prompt == undefined){
+                mobileError.removeClass();
+            }else{
+                mobileError.removeClass().addClass('error').html(prompt);
+            }
+        },
+        eError: function(inputEle, prompt){
+            var mobileInput = $(inputEle),
+                mobileSucceed = $(inputEle +'_succeed'),
+                mobileError = $(inputEle +'_error');
+            mobileInput.removeClass().addClass('input_error');
+            mobileSucceed.removeClass();
+            mobileError.removeClass().addClass('error').html(prompt);
+        },
+        eSucceed: function(inputEle, prompt){
+            var mobileInput = $(inputEle),
+                mobileSucceed = $(inputEle +'_succeed'),
+                mobileError = $(inputEle +'_error');
+            mobileInput.removeClass();
+            mobileSucceed.removeClass().addClass('focus').html(prompt);
+            mobileError.removeClass().html('');
         }
-    }
-    function reSendCode(code){
-        var sendCode = $('#send_code'),
-            message = $(".message");
-        code = $.trim(code);
-        if (code == "" || (isPhone(code) == false)) {
-            eError('请输入有效的手机号码');
-            return false;
-        }
-//            $.ajax({
-//                url: "{{ path('_user_reset') }}?email="+$('#email').val(),
-//                post: "GET",
-//                success:function(data){
-        var data = 1;
-        if(data==1){
-            seconds = 10;
-            s = setInterval(countdown, 1000);
-            eSucceed('<strong id="second">10</strong>秒');
-            sendCode.addClass('disabled').html('重新发送');
-            sendCode.onclick = null;
-        }else if(data==2){
-            var code = $('#email').val();
-            //var url = "{{ path('_user_activeEmail',{'email': "email" }) }}";
-            var url = "http://www.91jili.com";
-            url = url.replace('email',encodeURIComponent( code));
-            var html = "<p>邮箱地址未激活，请重新<a href='"+url+"'>激活</a></p>";
-            message.show().html(html);
-        }else{
-            $('#email').val('');
-        }
-//                }
-//            });
-    }
-    var sendCode = $('#send_code');
-    sendCode.on('click', function(){
-        var code = $('#mobile').val();
-        if(sendCode.hasClass('disabled')){
-            return;
-        }else{
-            reSendCode(code);
-        }
-    });
-    var mobileSave = $('#mobile_save');
-    mobileSave.on('click', function(){
-        var code = $('#mobile').val();
-        code = $.trim(code);
-        if (code == "" || (isPhone(code) == false)) {
-            eError('请输入有效的手机号码');
-            return false;
-        }
-        //ajax提交
-    });
+    };
+
+    return ValidateMobile;
 });

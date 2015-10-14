@@ -43,12 +43,14 @@
 		.title{
 			a{
 				line-height: 20px;
+				font-size: 15px;
 			}
 		}
 		.con{
-			margin-top: 5px;
+			margin-top: 7px;
 			padding-left: 3px;
 			line-height: 20px;
+			color: #9d9d9d;
 		}
 		.relate{
 			margin-top: 5px;	
@@ -67,12 +69,11 @@
 			text-align: center;
 			color: #fff;
 			font-size: 12px;
-			border-radius: 3px;
-			background: #ff5718;
-			@include gradient(#ff6e16, #ff5718);
+			@include btn();
 			@include dib();
 			&.disabled{
 				background: #a7a7a7;
+				border: 1px solid #a7a7a7;
 			}
 		}
 	}

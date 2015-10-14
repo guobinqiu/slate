@@ -1,11 +1,13 @@
 .main-help-banner {
   height: 104px;
-  background: #f6660d url(../img/help/bannerBg.jpg) no-repeat center;
-  -webkit-box-shadow: 0px 1px 5px #9b3502 inset;
-  -moz-box-shadow: 0px 1px 5px #9b3502 inset;
-  box-shadow: 0px 1px 5px #9b3502 inset;
+  margin-bottom: 20px;
+  background: #677484 url(../img/common/seamless-noise-bg.png) repeat;
+  -webkit-box-shadow: 0px 1px 5px #2a3033 inset;
+  -moz-box-shadow: 0px 1px 5px #2a3033 inset;
+  box-shadow: 0px 1px 5px #2a3033 inset;
 }
 .main-help-banner .text {
+  background: url(../img/help/bannerBg.png) no-repeat center;
   position: relative;
   z-index: 1;
   height: 104px;

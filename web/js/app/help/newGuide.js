@@ -1,6 +1,5 @@
-require(['../config'],function(){
+require(['../../config'],function(){
     require(['common']);
-    require(['tab']);
     require(['jquery'], function($){
         var search = $('.search');
         search.find('input').bind('focus', function(){
@@ -11,5 +10,14 @@ require(['../config'],function(){
                 search.find('label').show();
             }
         });
+
+        var link = window.location.href;
+        var channel;
+        if(link.indexOf('#') != -1){
+            channel = link.substr(link.indexOf('#') + 1, link.length);
+        }else{
+            channel = '';
+        }
+        $('#' + channel).show();
     });
 });

@@ -149,7 +149,7 @@
 					top: 0;
 					padding-top: 108px;
 					width: 161px;
-					border: 1px solid #319cfa;
+					border: 1px solid #83c44e;
 					display: block;
 					a{
 						padding-bottom: 0;
@@ -157,8 +157,12 @@
 						height: 30px;
 						text-align: center;
 						color: #fff;
-						background: #319cfa;
+						background: #83c44e;
 						@include dib();
+						@include transition(all, 0.4s);
+						&:hover, &:active{
+							background: #629b2c;
+						}
 						&.first{
 							border-right: 1px solid #f6f6f6;
 						}

@@ -8,7 +8,7 @@
 }
 .main-con-left .title a {
   color: #0078b6;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
   line-height: 35px;
 }
@@ -39,7 +39,7 @@
 
 .survey-item {
   width: 100%;
-  padding: 0 0 5px 0;
+  padding: 0 0 15px 0;
   transition: width 300ms;
   -moz-transition: width 300ms;
   -webkit-transition: width 300ms;
@@ -65,7 +65,7 @@
   line-height: 28px;
 }
 .survey-item li p strong {
-  color: #ff5500;
+  color: #ff6700;
   font-size: 16px;
 }
 .survey-item li.first {
@@ -87,13 +87,20 @@
   color: #fff;
   font-size: 14px;
   font-weight: bold;
-  background: #ff5500;
+  background: #ff6700;
   cursor: pointer;
   overflow: hidden;
   transition: width 300ms;
   -moz-transition: width 300ms;
   -webkit-transition: width 300ms;
   -o-transition: width 300ms;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+}
+.survey-btn:hover, .survey-btn:active {
+  background: #f25807;
 }
 
 .vote a.survey-btn {
@@ -180,7 +187,7 @@
   padding: 0 3px;
 }
 .vote-txt .relate span strong {
-  color: #ff5500;
+  color: #ff6700;
 }
 .vote-txt .relate span.vline {
   color: #f6f6f6;

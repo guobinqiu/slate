@@ -257,7 +257,7 @@ body {
 }
 .header-top-con .personal-con span strong {
   font-size: 16px;
-  color: #ff5500;
+  color: #ff6700;
 }
 
 .header-nav {
@@ -301,7 +301,7 @@ body {
   bottom: 0;
   height: 6px;
   width: 115px;
-  background: #ff5500;
+  background: #ff6700;
   display: none;
 }
 .header-nav .nav a {
@@ -315,7 +315,7 @@ body {
   overflow: hidden;
 }
 .header-nav .nav a:hover, .header-nav .nav a.active {
-  color: #ff5500;
+  color: #ff6700;
 }
 .header-nav .login-btn a {
   margin-left: 5px;
@@ -326,8 +326,12 @@ body {
 }
 .header-nav .login-btn a:hover {
   color: #fff;
-  background: #ff5500;
-  border: 1px solid #ff5500;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  -o-transition: all 0.1s;
 }
 
 .main .main-con .newsInfo {
@@ -347,7 +351,7 @@ body {
   width: 732px;
 }
 .main .main-con .newsInfo article h1 {
-  color: #ff5500;
+  color: #ff6700;
   font-size: 22px;
   font-weight: bold;
   line-height: 200%;

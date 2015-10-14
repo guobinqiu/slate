@@ -17,7 +17,7 @@
 		margin-top: 40px;
 		margin-right: 40px;
 		background-color: #fff;
-		padding: 49px 23px;
+		padding: 49px 20px;
 		@include box-shadow(0px 1px 4px rgba(149,148,148,.3));
 		span, a{
 			@include dib();
@@ -60,9 +60,9 @@
 				font-size: 14px;
 				@include btn();
 				&.disabled{
-					background-color: #888;
+					background-color: #a7a7a7;
+					border: 1px solid #a7a7a7;
 					cursor: text;
-					@include box-shadow(0 2px 0 #666);
 				}
 			}
 		}

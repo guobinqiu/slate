@@ -21,6 +21,6 @@
   cursor: pointer;
 }
 .page span:hover, .page span.active {
-  border: 1px solid #ff5500;
-  color: #ff5500;
+  border: 1px solid #ff6700;
+  color: #ff6700;
 }

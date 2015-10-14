@@ -257,7 +257,7 @@ body {
 }
 .header-top-con .personal-con span strong {
   font-size: 16px;
-  color: #ff5500;
+  color: #ff6700;
 }
 
 .header-nav {
@@ -301,7 +301,7 @@ body {
   bottom: 0;
   height: 6px;
   width: 115px;
-  background: #ff5500;
+  background: #ff6700;
   display: none;
 }
 .header-nav .nav a {
@@ -315,7 +315,7 @@ body {
   overflow: hidden;
 }
 .header-nav .nav a:hover, .header-nav .nav a.active {
-  color: #ff5500;
+  color: #ff6700;
 }
 .header-nav .login-btn a {
   margin-left: 5px;
@@ -326,8 +326,12 @@ body {
 }
 .header-nav .login-btn a:hover {
   color: #fff;
-  background: #ff5500;
-  border: 1px solid #ff5500;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  -o-transition: all 0.1s;
 }
 
 .login-wrapper {
@@ -351,6 +355,9 @@ body {
 .login .login-con {
   padding: 30px 38px;
 }
+.login .login-con p {
+  font-size: 12px;
+}
 .login h2 {
   height: 64px;
   line-height: 64px;
@@ -368,20 +375,41 @@ body {
   vertical-align: middle;
 }
 .login li span {
+  vertical-align: middle;
+  display: none;
+}
+.login li span.authcodeInput {
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  vertical-align: middle;
 }
-.login li span div {
+.login li span .change {
+  height: 13px;
   font-size: 12px;
-  padding: 10px 10px 0;
+  padding: 0  10px 0 25px;
+  margin: 10px 0 0 10px;
   cursor: pointer;
+  background: url(../img/home/change.png) 0 0 no-repeat;
 }
-.login li span div img {
-  margin-right: 5px;
+.login li span .change:hover {
+  color: #6f93da;
+  background: url(../img/home/change.png) 0 -13px no-repeat;
 }
-.login li span.error-message {
+.login li span.succeed {
+  color: #3bc570;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
+  font-size: 0;
+}
+.login li span.focus {
+  border: 1px solid #e7e7e7;
+  background: #fafafa;
+  color: #898989;
+  vertical-align: top;
+}
+.login li span.error, .login li span strong {
   position: absolute;
   z-index: 1000;
   right: 0;
@@ -394,6 +422,12 @@ body {
   padding: 0 10px;
   border: 1px solid #c80000;
   border-radius: 3px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+}
+.login li span.fade {
   display: none;
 }
 .login li label {
@@ -410,15 +444,23 @@ body {
   height: 32px;
   line-height: 30px;
   padding: 0 5px;
-  border: 1px solid #d2d2e1;
+  color: #555;
+  font-size: 14px;
+  border: 1px solid #e4e4eb;
   background: #fff;
   outline: none;
+  border-radius: 3px;
+  transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
   vertical-align: middle;
 }
 .login li input:focus, .login li input.active {
   border: 1px solid #3bc570;
+  box-shadow: 0 0 5px #3bc570;
 }
-.login li input#identify {
+.login li input#authcode {
   width: 90px;
   margin-left: 10px;
 }
@@ -430,9 +472,18 @@ body {
   color: #fff;
   font-size: 21px;
   background: #1566d6;
+  border: 1px solid #1566d6;
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+}
+.login .login-btn:hover {
+  background: #145dc4;
+  border: 1px solid #145dc4;
 }
 .login .login-btn a {
   color: #fff;
@@ -454,21 +505,37 @@ body {
 }
 .login .login-btn-others a {
   margin-left: 10px;
-  padding-left: 20px;
-  width: 137px;
+  padding-left: 36px;
+  width: 123px;
   height: 40px;
   line-height: 40px;
   text-align: center;
   color: #a3a3a3;
   font-size: 14px;
-  background: #fff url(../img/home/sina.png) no-repeat 32px 12px;
+  background: #fff url(../img/home/sinaUnact.png) no-repeat 32px 12px;
   display: inline-block;
   *display: inline;
   *zoom: 1;
   border-radius: 5px;
 }
+.login .login-btn-others a:hover {
+  background: #fff url(../img/home/sina.png) no-repeat 32px 12px;
+  color: #ff7f58;
+  transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+}
 .login .login-btn-others a.qq-login {
-  background: #fff url(../img/home/qq.png) no-repeat 40px 13px;
+  background: #fff url(../img/home/qqunact.png) no-repeat 38px 11px;
+}
+.login .login-btn-others a.qq-login:hover {
+  background: #fff url(../img/home/qq.png) no-repeat 38px 11px;
+  color: #6f93da;
+  transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
 }
 
 .header {
@@ -482,7 +549,7 @@ body {
 
 .main-ad {
   height: 470px;
-  background: #eb7020 url(../img/home/adBg.png) no-repeat center;
+  background: #eb7020 url(../img/home/adBg.png) no-repeat 300px bottom;
 }
 
 .main-ad-con {
@@ -578,6 +645,80 @@ body {
   margin: 0 auto;
   color: #828282;
   line-height: 24px;
+}
+.main-con-detail .party {
+  background: url(../img/home/wallCon.png) no-repeat;
+  height: 415px;
+  width: 928px;
+  position: relative;
+}
+.main-con-detail .party .party-item {
+  background: url(../img/home/wallPortrait.png) no-repeat;
+  display: block;
+  left: 403px;
+  opacity: 0;
+  position: absolute;
+  top: 155px;
+  -webkit-transition: all linear .5s;
+  -moz-transition: all linear .5s;
+  transition: all linear .5s;
+}
+.main-con-detail .party .party01 {
+  background-position: -5px -23px;
+  height: 34px;
+  width: 34px;
+}
+.main-con-detail .party .party02 {
+  background-position: -41px 0;
+  height: 78px;
+  width: 78px;
+}
+.main-con-detail .party .party03 {
+  background-position: -121px -9px;
+  height: 60px;
+  width: 57px;
+}
+.main-con-detail .party .party04 {
+  background-position: 0 -84px;
+  height: 57px;
+  width: 57px;
+}
+.main-con-detail .party .party05 {
+  background-position: -59px -84px;
+  height: 58px;
+  width: 57px;
+}
+.main-con-detail .party .party06 {
+  background-position: -122px -96px;
+  height: 27px;
+  width: 28px;
+}
+.main-con-detail .animateing .party-item {
+  opacity: 1;
+}
+.main-con-detail .animateing .party01 {
+  left: 143px;
+  top: 135px;
+}
+.main-con-detail .animateing .party02 {
+  left: 290px;
+  top: 124px;
+}
+.main-con-detail .animateing .party03 {
+  left: 530px;
+  top: -10px;
+}
+.main-con-detail .animateing .party04 {
+  left: 363px;
+  top: 363px;
+}
+.main-con-detail .animateing .party05 {
+  left: 505px;
+  top: 246px;
+}
+.main-con-detail .animateing .party06 {
+  left: 714px;
+  top: 144px;
 }
 
 .footer {

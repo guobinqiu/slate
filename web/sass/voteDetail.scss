@@ -7,7 +7,7 @@
 		padding-bottom: 50px;
 	}
 	.survey-recomend{
-		padding: 15px 30px 30px;
+		padding: 15px 40px 40px;
 	}
 }
 .vote-sub{
@@ -36,6 +36,7 @@
  	.relate{
  		margin-top: 20px;
  		padding-left: 130px;
+ 		padding-right: 20px;
  		position: relative;
  		z-index: 1;
  		@include minHeight(90px);
@@ -47,7 +48,7 @@
  		}
  	}
  	.relate-text{
- 		color: #a1a1a1;
+ 		color: #9d9d9d;
  		line-height: 20px;
  		b{
  			color: $main-color;
@@ -55,22 +56,28 @@
  		.description{
  			margin-top: 5px;
  			padding: 0 10px;
- 			height: 30px;
+ 			height: 33px;
  			line-height: 30px;
  			color: #6b6b6b;
  			background: #f6f6f1;
  			overflow: hidden;
+ 			cursor: pointer;
 			@include transition(height, 300ms);
  			b{
  				float: right;
- 				margin-top: 13px;
+ 				margin-top: 15px;
  				@include arrow(bottom, 5px, $top-font-color);
+ 			}
+ 			p{
+ 				padding: 6px 20px 10px 2px;
+  				line-height: 22px;
  			}
  		}
  	}
  	.options{
  		margin-top: 10px;
  		padding-left: 130px;
+ 		padding-right: 20px;
  		li{
  			line-height: 35px;
  			span{
@@ -92,23 +99,36 @@
 			a{
 				float: right;
 				color: $main-title-color;
+				margin-top: 12px;
 			}
  		}
  		dt{
- 			margin-top: 20px;
- 			line-height: 20px;
+ 			margin-top: 25px;
+ 			font-size: 13px;
+ 			color: #404040;
+ 			font-weight: bold;
+ 			height: 30px;
+			line-height: 30px;
+            overflow: hidden;
+			width: 50%;
+ 		}
+ 		dd{
+ 			width: 50%;
+  		    float: right;
+  		    margin-top: -24px;
  		}
  		b, span.result{
  			float: right;
+ 			color: #9d9d9d;
  		}
  		.progress{
- 			width: 91%;
- 			height: 8px;
+ 			width: 82%;
+ 			height: 18px;
  			background: #f2f2f2;
  			@include dib();
  			p{
  				width: 0%;
- 				height: 8px;
+ 				height: 18px;
  				background: #59ca4f;
  				@include transition(width, 2s);
  			}
@@ -132,27 +152,29 @@
 }
 .survey-recomend{
 	h2{
-		line-height: 30px;
+		line-height: 75px;
 		color: #333;
 		font-size: 14px;
 		font-weight: bold;
-		border-bottom: $title-h2;
 		span{
 			padding-bottom: 6px;
-			border-bottom: $title-h2-span;
+			font-size: 30px;
+		    font-weight: normal;
+		    color: #757575;
+		    margin-top: 30px;
 		}
 	}
 	table{
-		margin-top: 20px;
 		width: 100%;
 	}
 	td{
 		color: #a1a1a1;
-		height: 35px;
-		line-height: 35px;
+		height: 40px;
+		line-height: 40px;
 		p{
 			width: 290px;
 			color: #333;
+			font-size: 14px;
 			@include ell();
 		}
 		a{

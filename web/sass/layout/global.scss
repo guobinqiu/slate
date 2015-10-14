@@ -14,7 +14,7 @@ $block-line-color: #f6f6f6;
 $block-border: 1px solid #eee;
 $block-inner-border: 1px solid #f6f6f6;
 
-$main-color: #ff5500;
+$main-color: #ff6700;
 $main-title-color: #0078b6;
 
 $error-color: #ff0000;
@@ -138,10 +138,15 @@ $title-h2-span: 2px solid #d4d4d4;
 }
 @mixin btn(){
     color: #fff;
-    background: #2f8be0;
+    background: #ff6700;
+    border: 1px solid #ff6700;
     border-radius: 3px;
-    @include box-shadow(0 2px 0 #206dc7);
     cursor: pointer;
+    @include transition(all, 0.4s);
+    &:hover{
+        background:#f25807;
+        border: 1px solid #f25807;
+    }
 }
 @mixin tips(){
     width: 13px;

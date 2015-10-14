@@ -35,6 +35,9 @@
 		li{
 			width: 22%;
 			border-bottom: none;
+			span{
+				color: #9d9d9d;
+			}
 		}
 	}
 	.survey-btn{
@@ -51,8 +54,7 @@
 			height: 33px;
 			line-height: 33px;
 			text-align: center;
-			border-radius: 2px;
-			@include box-shadow(0 2px 0 #d15f26);
+			@include btn();			
 			@include dib();
 		}
 	}

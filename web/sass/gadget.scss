@@ -9,7 +9,7 @@ body{
 	background: #fff;
 	.gadgetBanner{
 		height: 324px;
-		background: url(../img/gadget/gadgetBgx.png) repeat-x;
+		background: #f08a39 url(../img/common/seamless-noise-bg.png) repeat;
 		.bg{
 			height: 351px;
 			margin: 0 auto;
@@ -27,7 +27,7 @@ body{
 	}
 	.gadgetBtn{
 		margin-top: 63px;
-		margin-bottom: 30px;
+		margin-bottom: 60px;
 		li{
 			width: 33.33333%;
 			float: left;
@@ -174,9 +174,9 @@ body{
 		}
 	}
 	.gadgetList{
-		background: #fafafc;
+		background: #efeef3;
 		ul{
-			padding-top: 60px;
+			padding-top: 70px;
 			li{
 				padding-left: 60px;
 				margin-right: 20px;
@@ -215,5 +215,8 @@ body{
 			}
 		}
 	}
+}
+.footer{
+	margin-top: 0!important;
 }
 @import "layout/footer";

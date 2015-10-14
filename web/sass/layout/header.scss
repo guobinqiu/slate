@@ -236,6 +236,7 @@ $header-nav-height: 80px;
 				color: #fff;
 				background: $main-color;
 				border: 1px solid $main-color;
+				@include transition(all, .1s);
 			}
 		}
 	}

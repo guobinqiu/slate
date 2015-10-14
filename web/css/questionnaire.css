@@ -257,7 +257,7 @@ body {
 }
 .header-top-con .personal-con span strong {
   font-size: 16px;
-  color: #ff5500;
+  color: #ff6700;
 }
 
 .header-nav {
@@ -301,7 +301,7 @@ body {
   bottom: 0;
   height: 6px;
   width: 115px;
-  background: #ff5500;
+  background: #ff6700;
   display: none;
 }
 .header-nav .nav a {
@@ -315,7 +315,7 @@ body {
   overflow: hidden;
 }
 .header-nav .nav a:hover, .header-nav .nav a.active {
-  color: #ff5500;
+  color: #ff6700;
 }
 .header-nav .login-btn a {
   margin-left: 5px;
@@ -326,8 +326,12 @@ body {
 }
 .header-nav .login-btn a:hover {
   color: #fff;
-  background: #ff5500;
-  border: 1px solid #ff5500;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  -o-transition: all 0.1s;
 }
 
 .header {
@@ -410,7 +414,7 @@ body {
   margin: 20px 0;
 }
 .main .qnWrap .qnCon .qnTxt .subtit .point {
-  color: #ff5500;
+  color: #ff6700;
 }
 .main .qnWrap .qnCon .qnTxt .prompt {
   width: 100%;
@@ -452,8 +456,8 @@ body {
 .main .qnWrap .qnEnd .qnEndTxt .txt {
   font-size: 14px;
   line-height: 30px;
-  margin-left: 20px;
-  margin-top: 10px;
+  margin-left: 31px;
+  margin-top: 35px;
 }
 .main .qnWrap .qnEnd .qnEndTxt .txt h2 {
   font-size: 20px;
@@ -463,24 +467,12 @@ body {
   margin-top: 170px;
 }
 .main .qnWrap .qnEnd .qnEndRecommend .tit {
-  height: 50px;
-  line-height: 50px;
-  font-size: 20px;
-  margin-bottom: 10px;
-  background-image: -webkit-linear-gradient(to bottom, #f8f8f8, #f2f2f2);
-  background-image: linear-gradient(to bottom, #f8f8f8, #f2f2f2);
-  background-color: #f8f8f8;
-  -webkit-box-shadow: 0 2px 0 #e8e8e8;
-  -moz-box-shadow: 0 2px 0 #e8e8e8;
-  box-shadow: 0 2px 0 #e8e8e8;
-}
-.main .qnWrap .qnEnd .qnEndRecommend .tit span {
-  width: 9px;
-  margin-top: 18px;
-  padding-left: 40px;
-  float: left;
-  height: 15px;
-  background: url(../img/questionnaire/pixTag.png) no-repeat center;
+  height: 70px;
+  line-height: 40px;
+  font-size: 30px;
+  font-weight: normal;
+  color: #757575;
+  margin-top: 30px;
 }
 .main .qnWrap .qnEnd .qnEndRecommend .list table {
   width: 100%;
@@ -492,7 +484,7 @@ body {
   height: 48px;
   line-height: 48px;
   font-size: 14px;
-  color: #666;
+  color: #333;
 }
 .main .qnWrap .qnEnd .qnEndRecommend .list table tr td a {
   color: #0078b6;

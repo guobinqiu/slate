@@ -19,6 +19,9 @@
 	overflow: hidden;
 	.login-con{
 		padding: 30px 38px;
+		p{
+			font-size: 12px;
+		}
 	}
 	h2{
 		height: 64px;
@@ -36,17 +39,36 @@
 			vertical-align: middle;
 		}
 		span{
-			@include dib();
 			vertical-align: middle;
-			div{
+			display: none;
+			&.authcodeInput{
+				@include dib();
+			}
+			.change{
+				height: 13px;
 				font-size: 12px;
-				padding: 10px 10px 0;
+				padding: 0  10px 0 25px;
+				margin: 10px 0 0 10px;
 				cursor: pointer;
-				img{
-					margin-right: 5px;
+				background: url(../img/home/change.png) 0 0 no-repeat;	
+				&:hover{
+					color: #6f93da;
+					background: url(../img/home/change.png) 0 -13px no-repeat;
 				}
 			}
-			&.error-message{
+			&.succeed{
+				color: #3bc570;
+				@include dib();
+				background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
+				font-size: 0;
+			}
+			&.focus{
+				border: $normal-border;
+				background: $normal-bg-color;
+				color: $normal-color;
+				vertical-align: top;
+			}
+			&.error, strong{
 				position: absolute;
 				z-index: 1000;
 				right: 0;
@@ -59,6 +81,10 @@
 				padding: 0 10px;
 				border: 1px solid #c80000;
 				border-radius: 3px;
+				@include dib();
+				vertical-align: top;
+			}
+			&.fade{
 				display: none;
 			}
 		}
@@ -74,13 +100,18 @@
 			height: 32px;
 			line-height: 30px;
 			padding: 0 5px;
-			border: 1px solid #d2d2e1;
+			color: #555;
+            font-size: 14px;
+			border: 1px solid #e4e4eb;
 			background: #fff;
 			outline: none;
+			border-radius: 3px;
+			@include transition(all, .3s);
 			&:focus, &.active{
 				border: $input-border-focus;
+				box-shadow: 0 0 5px #3bc570;
 			}
-			&#identify{
+			&#authcode{
 				width: 90px;
 				margin-left: 10px;
 			}
@@ -95,9 +126,15 @@
 		color: #fff;
 		font-size: 21px;
 		background: #1566d6;
+		border: 1px solid #1566d6;
 		border-radius: 5px;
 		text-align: center;
 		cursor: pointer;
+		&:hover{
+			background:#145dc4;
+			border: 1px solid #145dc4;
+		}
+		@include transition(all, 0.4s);
 		a{
 			color: #fff;
 		}
@@ -118,18 +155,28 @@
 		}
 		a{
 			margin-left: 10px;
-			padding-left: 20px;
-			width: 137px;
+			padding-left: 36px;
+			width: 123px;
 			height: 40px;
 			line-height: 40px;
 			text-align: center;
 			color: #a3a3a3;
 			font-size: 14px;
-			background: #fff url(../img/home/sina.png) no-repeat 32px 12px;
+			background: #fff url(../img/home/sinaUnact.png) no-repeat 32px 12px;
+			&:hover{
+				background: #fff url(../img/home/sina.png) no-repeat 32px 12px;
+				color: #ff7f58;
+				@include transition(all, .5s);
+			}
 			@include dib();
 			border-radius: 5px;
 			&.qq-login{
-				background: #fff url(../img/home/qq.png) no-repeat 40px 13px;
+				background: #fff url(../img/home/qqunact.png) no-repeat 38px 11px;
+				&:hover{
+					background: #fff url(../img/home/qq.png) no-repeat 38px 11px;
+					color: #6f93da;
+					@include transition(all, .5s);
+				}
 			}
 		}
 	}

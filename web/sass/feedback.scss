@@ -73,22 +73,19 @@ $input-border-normal: 1px solid #dcdcdc;
 	.btn{
 		padding: 40px 0 20px 235px;
 		a{
-			color: #fff;
 			font-size: 16px;
 			width: 145px;
 			text-align: center;
 			height: 52px;
 			line-height: 52px;
-			background: #3b79c4;
-			border-radius: 3px;
-			@include box-shadow(0 2px 0 #113f78);
+			@include btn();
 			@include dib();
 			cursor: pointer;
 			&.normal{
 				margin-right: 10px;
 				color: #404040;
 				background: #f5f5f7;
-				@include box-shadow(0 2px 0 #c7c7c9);
+				border: 1px solid #ededed;
 			}
 		}
 	}

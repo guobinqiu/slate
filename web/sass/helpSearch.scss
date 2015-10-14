@@ -34,6 +34,9 @@ body{
 			padding-bottom: 20px;
 			line-height: 20px;
 			border-bottom: $block-inner-border;
+			&.allCon{
+				display: none;
+			}
 			a{
 				color: $main-title-color;
 			}
@@ -52,5 +55,19 @@ body{
 			@include dib();
 		}
 	}
+}
+.backTop{
+	position: fixed;
+	z-index: 1000;
+	bottom: 150px;
+	left: 50%;
+	margin-left: 540px;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	color: #fff;
+	background: #d6d6d6;
+	cursor: pointer;
 }
 @import "layout/footer";

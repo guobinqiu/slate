@@ -28,12 +28,12 @@
   display: block;
 }
 .main-about-con .aboutL .tabNav li a.active, .main-about-con .aboutL .tabNav li a:hover {
-  color: #ff5500;
+  color: #ff6700;
   font-weight: bold;
   background: #f6f6f6;
   border-left-width: 3px;
   border-left-style: solid;
-  border-left-color: #ff5500;
+  border-left-color: #ff6700;
 }
 .main-about-con .aboutR {
   width: 729px;

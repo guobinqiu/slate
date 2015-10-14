@@ -334,7 +334,19 @@ define(['jquery'],function($){
             }
         },
         authCode: function(option){
-            checkAuthCode(option);
+            if ($('#vcode').css("display") == "none") {
+                option.element.attr("sta", validateSettings.succeed.state);
+                return false;
+            }
+            var authCode = option.value;
+            console.log('authCode: '+ authCode);
+            //模拟交互数据true：验证码正确，flase：验证码错误
+            var flg = true;
+            if (flg == false) {
+                validateSettings.error.run(option, option.prompts.error.badMsg);
+            }else{
+                option.element.attr("sta", validateSettings.succeed.state);
+            }
         },
         protocol: function(option) {
             if (option.element.attr("checked") == true) {
@@ -582,7 +594,7 @@ define(['jquery'],function($){
         }
         if (!validateRules.isEmail(pin)) {
             validateSettings.error.run(option, option.prompts.error.badFormat);
-            return;
+            return false;
         }
         if (!emailState || emailOld != pin) {
             if (emailOld != pin) {
@@ -590,7 +602,8 @@ define(['jquery'],function($){
                 option.errorEle.html("<em style='color:#999'>检验中……</em>");
 //                $.getJSON("../validateuser/isPinEngaged?pin=" + escape(pin) + "&r=" + Math.random(),
 //                    function(date) {
-                var date = {success: 9, morePin: {}};
+                //模拟交互数据0：可以提交，其他：不能提交
+                var date = {success: 0, morePin: {}};
                 if (date.success == 0) {
                     validateSettings.succeed.run(option);
                     emailState = true;
@@ -606,28 +619,6 @@ define(['jquery'],function($){
         } else {
             validateSettings.succeed.run(option);
         }
-    }
-    // 判断是否显示了图形验证码
-    function checkAuthCode(option) {
-        if ($('#vcode').css("display") == "none") {
-            return true;
-        }
-        var authCode = option.value;
-        console.log('authCode: '+ authCode);
-        var type=0;
-//        $.ajax({
-//            type: 'POST',
-//            url: 'p/vcode_check_new.php',
-//            data: 'vcode=' + vcode+'&type='+type,
-//            async: false,
-//            success: function (flg) {
-                 var flg = 'false';
-                if (flg == 'false') {
-                    validateSettings.error.run(option, option.prompts.error.badMsg);
-                }
-//            }
-//        });
-        return true;
     }
 
     var rpaValidate = {

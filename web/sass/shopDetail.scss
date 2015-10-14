@@ -70,11 +70,8 @@
 			height: 45px;
 			line-height: 45px;
 			font-size: 14px;
-			color: #fff;
-			background: #319cfa;
-			border-radius: 3px;
-			@include box-shadow(0 2px 0 #0a7fe6);
 			cursor: pointer;
+			@include btn();
 		}
 	}
 	h1{

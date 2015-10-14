@@ -257,7 +257,7 @@ body {
 }
 .header-top-con .personal-con span strong {
   font-size: 16px;
-  color: #ff5500;
+  color: #ff6700;
 }
 
 .header-nav {
@@ -301,7 +301,7 @@ body {
   bottom: 0;
   height: 6px;
   width: 115px;
-  background: #ff5500;
+  background: #ff6700;
   display: none;
 }
 .header-nav .nav a {
@@ -315,7 +315,7 @@ body {
   overflow: hidden;
 }
 .header-nav .nav a:hover, .header-nav .nav a.active {
-  color: #ff5500;
+  color: #ff6700;
 }
 .header-nav .login-btn a {
   margin-left: 5px;
@@ -326,8 +326,12 @@ body {
 }
 .header-nav .login-btn a:hover {
   color: #fff;
-  background: #ff5500;
-  border: 1px solid #ff5500;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  -o-transition: all 0.1s;
 }
 
 .main-con-shopList {
@@ -402,7 +406,7 @@ body {
   color: #000;
 }
 .shopList-category li:hover, .shopList-category li.active {
-  background: #ff5500;
+  background: #ff6700;
 }
 .shopList-category li:hover a, .shopList-category li.active a {
   color: #fff;
@@ -477,7 +481,7 @@ body {
   color: #bababa;
 }
 .shopList-con .shops li b {
-  color: #ff5500;
+  color: #ff6700;
 }
 .shopList-con .shops li .btns {
   z-index: 1999;
@@ -492,7 +496,7 @@ body {
   top: 0;
   padding-top: 108px;
   width: 161px;
-  border: 1px solid #319cfa;
+  border: 1px solid #83c44e;
   display: block;
 }
 .shopList-con .shops li:hover .btns a, .shopList-con .shops li.active .btns a {
@@ -501,10 +505,17 @@ body {
   height: 30px;
   text-align: center;
   color: #fff;
-  background: #319cfa;
+  background: #83c44e;
   display: inline-block;
   *display: inline;
   *zoom: 1;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+}
+.shopList-con .shops li:hover .btns a:hover, .shopList-con .shops li:hover .btns a:active, .shopList-con .shops li.active .btns a:hover, .shopList-con .shops li.active .btns a:active {
+  background: #629b2c;
 }
 .shopList-con .shops li:hover .btns a.first, .shopList-con .shops li.active .btns a.first {
   border-right: 1px solid #f6f6f6;
@@ -533,8 +544,8 @@ body {
   cursor: pointer;
 }
 .page span:hover, .page span.active {
-  border: 1px solid #ff5500;
-  color: #ff5500;
+  border: 1px solid #ff6700;
+  color: #ff6700;
 }
 
 .footer {

@@ -13,7 +13,7 @@ $main-ad-color: #eb7020;
 }
 .main-ad{
 	height: 470px;
-	background: $main-ad-color url(../img/home/adBg.png) no-repeat center;
+	background: $main-ad-color url(../img/home/adBg.png) no-repeat 300px bottom;
 }
 .main-ad-con{
 	position: relative;
@@ -100,5 +100,83 @@ $main-ad-color: #eb7020;
 			line-height: 24px;
 		}
 	}
+	.party{
+		    background: url(../img/home/wallCon.png) no-repeat;
+  			height: 415px;
+			width: 928px;
+			position: relative;
+			.party-item {
+				background: url(../img/home/wallPortrait.png) no-repeat;
+				display: block;
+				left: 403px;
+				opacity: 0;
+				position: absolute;
+				top: 155px;
+				-webkit-transition: all linear .5s;
+				-moz-transition: all linear .5s;
+				transition: all linear .5s;
+			}
+			.party01 {
+				background-position: -5px -23px;
+				height: 34px;
+				width: 34px;
+			}
+			.party02{
+				background-position: -41px 0;
+				height: 78px;
+				width: 78px;
+			}
+			.party03{
+				background-position: -121px -9px;
+				height: 60px;
+				width: 57px;
+			}
+			.party04{
+				background-position: 0 -84px;
+				height: 57px;
+				width: 57px;
+			}
+			.party05{
+				background-position: -59px -84px;
+				height: 58px;
+				width: 57px;
+			}
+			.party06{
+				background-position: -122px -96px;
+				height: 27px;
+				width: 28px;
+			}
+	}
+	.animateing{
+		.party-item {
+			opacity: 1;
+		}
+		.party01{
+			left: 143px;
+			top: 135px;
+		}
+		.party02{
+			left: 290px;
+			top: 124px;
+		}
+		.party03{
+			left: 530px;
+			top: -10px;
+		}
+		.party04{
+			left: 363px;
+			top: 363px;
+		}
+		.party05{
+			left: 505px;
+			top: 246px;
+		}
+		.party06{
+			left: 714px;
+			top: 144px;
+		}
+	}
+	
+
 }
 @import "layout/footer";

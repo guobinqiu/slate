@@ -140,11 +140,16 @@
 			height: 50px;
 			line-height: 50px;
 			font-size: 18px;
-			font-weight: bold;
-			@include box-shadow(0 3px 0 #206dc7);
+			@include btn();
 			&.disabled{
 				background: #888;
-				@include box-shadow(0 3px 0 #666);
+				cursor: defalut;
+			}
+			&.return{
+				margin-right: 10px;
+				color: #404040;
+				background: #f5f5f7;
+				border: 1px solid #ededed;
 			}
 		}
 		&.spec{
@@ -224,3 +229,4 @@
 	}
 }
 @import "layout/footer";
+@import "component/layer";
