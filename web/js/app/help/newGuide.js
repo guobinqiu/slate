@@ -19,5 +19,6 @@ require(['../../config'],function(){
             channel = '';
         }
         $('#' + channel).show();
+        $('#survey').show();
     });
 });

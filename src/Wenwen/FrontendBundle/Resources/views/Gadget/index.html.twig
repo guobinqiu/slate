@@ -1,0 +1,96 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent()  }} Test {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/gadget.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle::headerUser.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main">
+	<div class="main-con clearfix"> 
+		<div class="gadgetBanner">
+			<div class="bg">
+				<img class="txt" src="{{ asset('img/gadget/gadgetBannerText.png') }}" alt="91问问调查助手">
+			</div>
+		</div>
+		<ul class="tabNav gadgetBtn w1000 clearfix">
+			<li><div class="btn deskIco"><a></a><a class="hover"></a></div><div class="txt">桌面版</div></li>
+			<li><div class="btn iPhoneIco"><a></a><a class="hover"></a></div><div class="txt">iPhone版</div></li>
+			<li><div class="btn AndroidIco"><a></a><a class="hover"></a></div><div class="txt">Android版</div></li>
+		</ul>
+		<div class="slideDown">
+			<div class="tabCon slideCon w1000">
+				<div class="con deskCon clearfix">
+					<div class="txtL pcBtn left">
+						<div id="divInstaller">
+							<a href="http://www.adobe.com/go/getflashplayer" target="_blank"><img src="http://www.91wenwen.net/img/gadget/SeamlessInstallerFPError.png" alt="Get Adobe Flash player" border="0" /></a>
+						</div>
+						<p>下载失败？您可以手动下载<br>第一步&nbsp;<a target="_blank" href="http://get.adobe.com/cn/air/">下载adobe air插件</a><br>第二步&nbsp;<a href="http://www.91wenwen.net/dl/gadget/91wenwenDesktopWidget_1_0_9.air">下载91问问桌面工具</a></p>
+					</div>
+					<div class="txtR right">
+						<p>推荐的安装环境:<br>
+						Windows OS Windows XP SP2以上的版本<br>
+						CPU Intel Pentium 1GHz以上<br>
+						内存 512MB以上<br>
+						软件环境 Adobe AIR 2.6以上、Adobe Flash Player 10以上</p>
+					</div>
+				</div>
+				<div class="con iPhoneCon">
+					<a class="iPhoneBtn" target="_blank" href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=450441580&amp;mt=8">立即下载</a>
+					<p>☆下载安装91问问调查助手,首次登录送50点积分,每天登录送1积分☆</p>
+				</div>
+				<div class="con AndroidCon">
+					<a class="AndroidBtn" target="_blank" href="../../web/dl/android/91wenwen.1.1.0.apk">直接下载</a>
+					<p>☆下载安装91问问调查助手,首次登录送50点积分,每天登录送1积分☆</p>
+				</div>
+				<div class="arrowUp"></div>
+				<div class="closeTag"></div>
+			</div>
+		</div>
+		<div class="gadgetList">
+			<ul class="w1000 clearfix">
+				<li>
+					<div class="icon i1 left"></div>
+					<div class="text left">
+						<h2>自动推送</h2>
+						<p>自动推送新问卷邀请、快速问答、网站消息等让您第一时间获得高分问卷的机会，还可设置推送间隔时间，节省手机上网流量</p>
+					</div>
+				</li>
+				<li>
+					<div class="icon i2 left"></div>
+					<div class="text left">
+						<h2>快速回答更快速</h2>
+						<p>用手机直接参与快速问答并获得积分返还可以查看评论和回复评论</p>
+					</div>
+				</li>
+				<li>
+					<div class="icon i3 left"></div>
+					<div class="text left">
+						<h2>积分</h2>
+						<p>实时查询您的账户积分余额及历史积分明细</p>
+					</div>
+				</li>
+				<li>
+					<div class="icon i4 left"></div>
+					<div class="text left">
+						<h2>分享</h2>
+						<p>通过新浪微博、开心网、人人网等把91问问调查网分享给更多人参与调查</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/gadget')}}"></script>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle::footer.html.twig' %} 
+{% endblock %}

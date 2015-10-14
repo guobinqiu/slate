@@ -1,0 +1,36 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent()  }} Test {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle::headerUser.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main">
+	<div class="main-about-con w1000 clearfix">
+		{% include 'WenwenFrontendBundle:About:leftSidebar.html.twig' %}
+		<div class="aboutR tabCon right">
+			<h2>问问介绍</h2>
+			<ul class="wwIntro w732 con">
+				<li>
+					<p class="lh30">"91问问调查网"成立于2009年10月，办公室位于上海，是亚洲领先的在线调研面板提供商 Research Panel Asia, Inc.(简称RPA)旗下的中国会员网站。旨在收集中国网民的意见，为政府和企业提供决策的依据。</p>
+					<p class="lh30">我们认为每个人都是社会的决策者！参加"91问问调查网"的有偿问卷，会员在发表自己看法的同时，还可以获得相应的积分，以换取现金报酬或礼品奖励。从网站发布至今，我们已经向中国会员派发了数百万人民币的现金报酬。</p>
+					<p class="lh30">目前，"91问问调查网"是中国国内流量和会员活跃率最高的在线调研网站之一，我们的目标是成为中国最好的在线调研网站。请关注我们，支持我们！</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle::footer.html.twig' %} 
+{% endblock %}

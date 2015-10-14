@@ -19,6 +19,7 @@
 			margin-bottom: -1px;
 			border-bottom: $block-border;
 			@include dib();
+			cursor: pointer;
 			&.active, &:hover{
 				color: $main-color;
 				font-weight: bold;

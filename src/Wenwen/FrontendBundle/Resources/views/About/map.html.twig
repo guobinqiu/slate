@@ -1,0 +1,79 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent()  }} Test {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle::headerUser.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main">
+	<div class="main-about-con w1000 clearfix">
+		{% include 'WenwenFrontendBundle:About:leftSidebar.html.twig' %}
+		<div class="aboutR tabCon right">
+			<h2>网站地图</h2>
+			<div class="sitemap w732 con">
+				<div class="box">
+					<h3>账户相关</h3>
+					<ul class="clearfix">
+						<li class="font16"><strong>注册登录</strong></li><li><a href="../user/register.html" title="注册">注册</a></li><li><a href="../home/home.html" title="登录">登录</a></li><li><a href="../user/register_weibo.html" title="微博登录">微博登录</a></li><li><a href="../user/resetPwdEmail.html" title="忘记密码">忘记密码</a></li>
+					</ul>
+					<ul class="clearfix">
+						<li class="font16"><strong>个人中心</strong></li><li><a href="../personal/profile.html" title="个人资料">个人资料</a></li><li><a href="../personal/account.html" title="账户设置">账户设置</a></li><li><a href="../personal/taskHistory.html" title="任务历史">任务历史</a></li><li><a href="../personal/exchangeHistory.html" title="兑换历史">兑换历史</a></li><li></li><li><a href="../personal/message.html" title="我的消息">我的消息</a></li>
+					</ul>
+					<ul class="clearfix">
+						<li class="font16"><strong>账户设置</strong></li><li><a href="../personal/account.html" title="修改密码">修改密码</a></li><li><a href="../personal/account.html" title="手机号码">手机号码</a></li><li><a href="../personal/account.html" title="绑定设置">绑定设置</a></li><li><a href="../personal/account.html" title="订退邮件">订退邮件</a></li><li></li><li><a href="../personal/account.html" title="注销账户">注销账户</a></li>
+					</ul>
+				</div>
+				<div class="box">
+					<h3>问卷与奖励</h3>
+					<ul class="clearfix">
+						<li class="font16"><strong>问卷列表</strong></li><li><a href="../survey/survey.html" title="问卷列表">问卷列表</a></li><li><a href="" title="参与海外市场调查项目">参与海外市场调查项目</a></li>
+					</ul>
+					<ul class="clearfix">
+						<li class="font16"><strong>快速问答</strong></li><li><a href="../vote/vote.html" title="快速问答">快速问答</a></li><li><a href="../vote/suggest.html" title="有奖出题">有奖出题</a></li>
+					</ul>
+					<ul class="clearfix">
+						<li class="font16"><strong>体验广告</strong></li><li><a href="../advertisement/advertisement.html" title="体验广告">体验广告</a></li><li><a href="../advertisement/game.html" title="游戏试玩">游戏试玩</a></li><li><a href="../advertisement/shopList.html" title="返利商家">返利商家</a></li>
+					</ul>
+					<ul class="clearfix">
+						<li class="font16"><strong>活动中心</strong></li><li><a href="" title="活动中心">活动中心</a></li>
+					</ul>
+					<ul class="clearfix">
+						<li class="font16"><strong>调查助手</strong></li><li><a href="../gadget/gadget.html" title="PC版">PC版</a></li><li><a href="../gadget/gadget.html" title="iPhone版">iPhone版</a></li><li><a href="../gadget/gadget.html" title="Android版">Android版</a></li>
+					</ul>
+					<ul class="clearfix">
+						<li class="font16"><strong>兑换中心</strong></li><li><a href="../exchange/exchange.html" title="兑换中心">兑换中心</a></li><li><a href="../exchange/mobileInfo.html" title="手机费兑换">手机费兑换</a></li><li><a href="../exchange/alipayInfo.html" title="支付宝兑换">支付宝兑换</a></li><li><a href="../exchange/flowInfo.html" title="手机流量兑换">手机流量兑换</a></li>
+					</ul>
+				</div>
+				<div class="box">
+					<h3>了解我们</h3>
+					<ul class="clearfix">
+						<li class="font16"><strong>关于我们</strong></li><li><a href="../about/about_company.html" title="集团介绍">集团介绍</a></li><li><a href="../about/about_91wenwen.html" title="问问介绍">问问介绍</a></li><li><a href="../about/regulations.html" title="会员协议">会员协议</a></li><li><a target="_blank" href="http://weibo.com/91wenwen" title="官方微博">官方微博</a></li>
+					</ul>
+					<ul class="clearfix">
+						<li class="font16"><strong>联系我们</strong></li><li><a href="https://www.researchpanelasia.com/contact/" title="合作咨询" target="_blank">合作咨询</a></li><li><a href="../about/links.html" title="友情链接">友情链接</a></li>
+					</ul>
+					<ul class="clearfix">
+						<li class="font16"><strong>集团网站</strong></li><li><a target="_blank" href="http://www.researchpanelasia.com/" title="Research Panel Asia">Research Panel Asia</a></li><li><a target="_blank" href="https://research-panel.jp/" title="Japan Panel">Japan Panel</a></li><li><a target="_blank" href="http://www.panelnow.co.kr/" title="South Korea Panel">South Korea Panel</a></li>
+					</ul>
+					<ul class="clearfix">
+						<li class="font16"><strong>帮助中心</strong></li><li><a href="../help/help.html" title="新手上路">新手上路</a></li><li><a href="../help/help.html" title="常见问题">常见问题</a></li><li><a href="../help/feedback.html" title="我要反馈">我要反馈</a></li><li><a href="../about/map.html" title="网站地图">网站地图</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle::footer.html.twig' %} 
+{% endblock %}

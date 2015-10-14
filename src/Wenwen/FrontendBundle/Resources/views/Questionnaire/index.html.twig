@@ -1,0 +1,43 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent()  }} Test {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle::headerSurvey.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main">
+    <div class="qnWrap">
+		<div class="qnCon">
+			<div class="qnTxt">
+				<h2>关于购物的问卷调查</h2>
+				<div class="subtit">
+					<strong>问卷编号： r1146<br></strong>
+					<strong>积分数：<span class="point">336分</span></strong>
+				</div>
+				<div class="prompt">※ 积分会在本次问卷回答期间完全结束后自动累计<br>※ 如果超过了回答期限将无法参加本次调查</div>
+				<div class="notice">
+					<strong>注意事项：</strong>
+					<p>回答中请不要点击浏览器的返回按钮。<br>
+						请开启浏览器对JAVA的支持。<br>
+						推荐浏览器6.0版本以上的Internet Explorer。<br>
+						根据用户会员协议，请不要向第三者泄露，复制，销售，公开问卷的内容。<br>
+						保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</p>
+				</div>
+				<div class="qnBtn"><a href="">开始回答问卷</a></div>
+			</div>
+		</div>
+		{% include 'WenwenFrontendBundle:Questionnaire:footer.html.twig' %}
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

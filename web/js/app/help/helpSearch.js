@@ -1,7 +1,7 @@
 require(['../../config'],function(){
     require(['common']);
-    require(['backTop'], function(backTop){
-        new backTop({src: '../../web/img/common/backTop.png'});
+    require(['goTop'], function(goTop){
+        new goTop({src: '/img/common/backTop.png'});
     });
     require(['jquery'], function($){
         var search = $('.search');

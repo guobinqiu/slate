@@ -1,7 +1,7 @@
 ﻿//配置要加载的文件
 require.config({
     //设置所有引入的js文件的相对根路径
-    baseUrl: "../../web/js",
+    baseUrl: "/js",
     // 版本号，开发，测试期间可以用时间戳作为版本号，正式发布可用指定版本号
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {//设置路径
@@ -27,7 +27,7 @@ require.config({
         'autoJump': 'common/autoJump',
         'layer': 'common/layer',
         'exchange': 'common/exchange',
-        'backTop': 'common/backTop'
+        'goTop': 'common/backTop'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {
