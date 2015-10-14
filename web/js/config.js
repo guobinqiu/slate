@@ -27,7 +27,7 @@ require.config({
         'autoJump': 'common/autoJump',
         'layer': 'common/layer',
         'exchange': 'common/exchange',
-        'goTop': 'common/backTop'
+        'backTop': 'common/backTop'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {

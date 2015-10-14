@@ -10,17 +10,27 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+
 /**
- * @Route("/exception",requirements={"_scheme"="http"})
+ * @Route("/home",requirements={"_scheme"="http"})
  */
-class ExceptionController extends Controller {
+class HomeController extends Controller {
 
     /**
-     * @Route("/index")
+     * @Route("/unLogin")
      * @Template
      */
     public function indexAction()
     {
-        return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
+        return $this->render('WenwenFrontendBundle:Home:index.html.twig');
+    }
+
+    /**
+     * @Route("/home")
+     * @Template
+     */
+    public function homeSimpleAction()
+    {
+        return $this->render('WenwenFrontendBundle:Home:home.html.twig');
     }
 }

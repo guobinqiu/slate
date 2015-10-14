@@ -81,11 +81,7 @@ require(['../config'],function(){
     });
     require(['jquery'], function($){
         var $window = $(window),
-            win_height_padded = $window.height() * 1.1,
-            isTouch = Modernizr.touch;
-        if (isTouch) {
-            $('.party').addClass('animateing');
-        }
+            win_height_padded = $window.height() * 1.1;
 
         $window.on('scroll', revealOnScroll);
 
