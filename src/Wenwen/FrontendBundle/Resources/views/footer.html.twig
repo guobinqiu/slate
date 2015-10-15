@@ -3,9 +3,9 @@
         <div class="footer-nav-group">
             <span>关于我们</span>
             <ul>
-                <li><a href="../about/about_company.html" title="集团介绍">集团介绍</a></li>
-                <li><a href="../about/about_91wenwen.html" title="问问介绍">问问介绍</a></li>
-                <li><a href="../about/map.html" title="网站地图">网站地图</a></li>
+                <li><a href="{{ path('wenwen_frontend_about_index') }}" title="集团介绍">集团介绍</a></li>
+                <li><a href="{{ path('wenwen_frontend_about_ww') }}" title="问问介绍">问问介绍</a></li>
+                <li><a href="{{ path('wenwen_frontend_about_map') }}" title="网站地图">网站地图</a></li>
             </ul>
         </div>
         <div class="footer-nav-group">
@@ -19,15 +19,15 @@
         <div class="footer-nav-group">
             <span>联系我们</span>
             <ul>
-                <li><a href="../help/help.html" title="帮助中心">帮助中心</a></li>
+                <li><a href="{{ path('wenwen_frontend_help_index') }}" title="帮助中心">帮助中心</a></li>
                 <li><a href="https://www.researchpanelasia.com/contact/" title="合作咨询" target="_blank">合作咨询</a></li>
-                <li><a href="../about/regulations.html" title="会员协议">会员协议</a></li>
+                <li><a href="{{ path('wenwen_frontend_about_regulations') }}" title="会员协议">会员协议</a></li>
             </ul>
         </div>
         <div class="footer-nav-group special">
             <span></span>
             <ul>
-                <li><a href="../about/links.html" title="友情链接">友情链接</a></li>
+                <li><a href="{{ path('wenwen_frontend_about_links') }}" title="友情链接">友情链接</a></li>
                 <li><span>关注我们</span>
                 <a href="http://weibo.com/91wenwen" target="_blank" title="新浪微博" class="img-link">
                     <img src="{{ asset('img/common/sina_ico.png') }}" alt="新浪微博">

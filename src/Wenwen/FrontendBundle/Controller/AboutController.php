@@ -17,6 +17,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 class AboutController extends Controller {
 
     /**
+     * @Route("/index")
+     * @Template
+     */
+    public function indexAction()
+    {
+        return $this->render('WenwenFrontendBundle:About:company.html.twig');
+    }
+    
+    /**
      * @Route("/map")
      * @Template
      */
@@ -52,12 +61,4 @@ class AboutController extends Controller {
         return $this->render('WenwenFrontendBundle:About:91ww.html.twig');
     }
 
-    /**
-     * @Route("/index")
-     * @Template
-     */
-    public function companyAction()
-    {
-        return $this->render('WenwenFrontendBundle:About:company.html.twig');
-    }
 }

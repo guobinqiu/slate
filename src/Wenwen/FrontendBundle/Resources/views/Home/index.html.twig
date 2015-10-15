@@ -19,7 +19,7 @@
 			<div class="main-ad-con-text">
 				<h1><img src="{{ asset('img/home/adTitle.png') }}" alt="动动手指就能赚钱"></h1>
 				<p class="digits"><img src="{{ asset('img/home/pointsText.png') }}" alt="91问问调查网当前已发放人民币"><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
-				<div class="more-btn"><a href="">了解更多？</a></div>
+				<div class="more-btn"><a href="{{ path('wenwen_frontend_help_index') }}">了解更多？</a></div>
 			</div>
 			<div class="login-wrapper">
 				<div class="login">
@@ -33,9 +33,9 @@
 						</ul>
 						<div class="login-btn" id="submit_button"><!-- <a href="home.html"> -->登录<!-- </a> --></div>
 						</form>
-						<p><a href="../user/resetPwdEmail.html" class="spec right">忘记密码？</a>还没账号，<a href="../user/register.html">马上注册</a></p>
+						<p><a href="{{ path('wenwen_frontend_user_register') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('wenwen_frontend_user_register') }}">马上注册</a></p>
 						<div class="login-btn-others">
-							<span><a href="">微博登录</a><a href="" class="qq-login">QQ登录</a></span>
+							<span><a href="{{ path('wenwen_frontend_user_weibo') }}">微博登录</a><a href="{{ path('wenwen_frontend_user_qq') }}" class="qq-login">QQ登录</a></span>
 						</div>
 					</div>
 				</div>
@@ -44,9 +44,9 @@
 	</div>
 	<div class="main-con main-con-rewardprocess">
 		<div class="w1000">
-			<h2><img src="{{ asset('img/home/rewardprocess.png') }}" alt="积分流程"></h2>
+			<h2><img src="{{ asset('img/home/rewardProcess.png') }}" alt="积分流程"></h2>
 			<div class="main-con-detail">
-				<div class="img"><img src="{{ asset('img/home/rewardprocessImg.png') }}" alt=""></div>
+				<div class="img"><img src="{{ asset('img/home/rewardProcessImg.png') }}" alt=""></div>
 				<div class="text">
 					<ul class="clearfix">
 						<li class="step1">

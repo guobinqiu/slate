@@ -12,25 +12,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 
 /**
- * @Route("/home",requirements={"_scheme"="http"})
+ * @Route("/survey",requirements={"_scheme"="http"})
  */
-class HomeController extends Controller {
+class SurveyController extends Controller {
 
     /**
-     * @Route("/out")
+     * @Route("/index")
      * @Template
      */
     public function indexAction()
     {
-        return $this->render('WenwenFrontendBundle:Home:index.html.twig');
+        return $this->render('WenwenFrontendBundle:Survey:index.html.twig');
     }
 
-    /**
-     * @Route("/in")
-     * @Template
-     */
-    public function homeAction()
-    {
-        return $this->render('WenwenFrontendBundle:Home:home.html.twig');
-    }
 }

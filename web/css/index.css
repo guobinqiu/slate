@@ -527,7 +527,7 @@ body {
   -o-transition: all 0.5s;
 }
 .login .login-btn-others a.qq-login {
-  background: #fff url(../img/home/qqunact.png) no-repeat 38px 11px;
+  background: #fff url(../img/home/qqUnact.png) no-repeat 38px 11px;
 }
 .login .login-btn-others a.qq-login:hover {
   background: #fff url(../img/home/qq.png) no-repeat 38px 11px;

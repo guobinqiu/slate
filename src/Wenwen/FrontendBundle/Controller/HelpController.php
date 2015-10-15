@@ -29,7 +29,7 @@ class HelpController extends Controller {
      * @Route("/newGuide")
      * @Template
      */
-    public function newGuideAction()
+    public function guideAction()
     {
         return $this->render('WenwenFrontendBundle:Help:newGuide.html.twig');
     }
