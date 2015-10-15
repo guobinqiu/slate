@@ -82,20 +82,21 @@ class UserLogin
         $password = $params['pwd'];
 
         if( $user->isOriginFlagWenwen() ) {
-            // query user_wenwen_login & check password
+            // check wenwen password 
             $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
             if(! $wenwenLogin || ! $wenwenLogin->getLoginPasswordCryptType() ) {
-                return $this->getParameter('login_wr'); // login failed;
+                return $this->getParameter('login_wr'); 
             }
 
+            // check jili password 
             if(! $wenwenLogin->isPwdCorrect($password) ) {
-                    return $this->getParameter('login_wr'); // login failed;
+                    return $this->getParameter('login_wr'); 
             }
 
              $em->getRepository('JiliApiBundle:User')
                  ->migrateUserWenwenLogin( $password , $user->getId());
-
         } else {
+            // check jili password 
             if (! $user->isPwdCorrect($password) ) {
                 $code = $this->getParameter('login_wr');
                 return $code;

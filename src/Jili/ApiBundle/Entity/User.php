@@ -28,10 +28,12 @@ class User
     const FROM_QQ_PREFIX = "QQ";
     const FROM_WEIBO_PREFIX = "WeiBo_";
 
-    const ORIGIN_FLAG_NEW = 0 ; // check password by UserWenwenLogin 0: new 1:jili,2:wenwen 3: jili & wenwen
+ // check password by UserWenwenLogin 0: new 1:jili,2:wenwen 3: jili & wenwen 
+    const ORIGIN_FLAG_NEW = 0 ;
     const ORIGIN_FLAG_JILI = 1; 
     const ORIGIN_FLAG_WENWEN = 2; 
     const ORIGIN_FLAG_WENWEN_JILI = 3;
+
 
     public function __construct()
     {
@@ -254,9 +256,9 @@ class User
     private $tokenCreatedAt;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="origin_flag", type="integer", length=4, nullable=true)
+     * @ORM\Column(name="origin_flag", type="smallint", nullable=true)
      */
     private $originFlag;
 
@@ -280,6 +282,13 @@ class User
      * @ORM\Column(name="campaign_code", type="string", length=100, nullable=true)
      */
     private $campaignCode;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="password_choice", type="smallint", nullable=true)
+     */
+    private $passwordChoice;
 
     /**
      * upload resizeimage to temp dir
@@ -1145,7 +1154,7 @@ class User
     /**
      * Set originFlag
      *
-     * @param boolean $originFlag
+     * @param integer $originFlag
      * @return User
      */
     public function setOriginFlag($originFlag)
@@ -1158,7 +1167,7 @@ class User
     /**
      * Get originFlag
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getOriginFlag()
     {
@@ -1234,6 +1243,7 @@ class User
         return $this->campaignCode;
     }
 
+
     public function isOriginFlagWenwen()
     {
         $origin_flag =  $this->getOriginFlag();
@@ -1243,6 +1253,29 @@ class User
 
     public function isPwdCorrect($pwd) 
     {
-        return $this->pw_encode($pwd) === $this->getPwd();
+        return (!empty($pwd)) && $this->pw_encode($pwd) === $this->getPwd();
+    }
+
+    /**
+     * Set passwordChoice
+     *
+     * @param integer $passwordChoice
+     * @return User
+     */
+    public function setPasswordChoice($passwordChoice)
+    {
+        $this->passwordChoice = $passwordChoice;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordChoice
+     *
+     * @return integer 
+     */
+    public function getPasswordChoice()
+    {
+        return $this->passwordChoice;
     }
 }
