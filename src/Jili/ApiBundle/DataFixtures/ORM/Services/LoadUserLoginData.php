@@ -50,6 +50,7 @@ class LoadUserLoginData extends AbstractFixture implements FixtureInterface
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $user->setOriginFlag(User::ORIGIN_FLAG_WENWEN);
+        $user->setPasswordChoice(User::PWD_WENWEN);
 
         $manager->persist($user);
         $manager->flush();

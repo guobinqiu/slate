@@ -11,15 +11,12 @@ use Jili\ApiBundle\DataFixtures\ORM\Services\LoadUserLoginData;
 
 class UserLoginTest extends KernelTestCase
 {
-
-
     /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
 
     private $cotainer;
-
 
     /**
      * {@inheritDoc}
@@ -103,7 +100,7 @@ class UserLoginTest extends KernelTestCase
         $user_updated =$user_stm->fetchAll();
 
         $this->assertNotEmpty($user_updated[0]['pwd'], 'password should not be empty');
-        $this->assertEquals( 3, $user_updated[0]['origin_flag'], 'after migrate password , origin_flag should be 3');
+        $this->assertEquals( 2, $user_updated[0]['password_choice'], 'after migrate password , password_choice should be 2');
 
     }
 }

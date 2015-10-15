@@ -34,6 +34,10 @@ class User
     const ORIGIN_FLAG_WENWEN = 2; 
     const ORIGIN_FLAG_WENWEN_JILI = 3;
 
+   # password_choice ,== PWD_WENWEN, verify the user_wenwen_login 
+   # == PWD_JILI or NULL , verify by user.password
+    const PWD_WENWEN = 1;
+    const PWD_JILI = 2; 
 
     public function __construct()
     {
@@ -1277,5 +1281,11 @@ class User
     public function getPasswordChoice()
     {
         return $this->passwordChoice;
+    }
+
+    public function isPasswordWenwen() 
+    {
+       $selected = $this->getPasswordChoice();      
+      return !is_null($selected ) && $selected  === self::PWD_WENWEN;
     }
 }

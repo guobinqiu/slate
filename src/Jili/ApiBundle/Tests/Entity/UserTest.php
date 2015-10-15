@@ -39,6 +39,9 @@ class UserTest extends KernelTestCase
         $this->assertEquals(1,User::ORIGIN_FLAG_JILI, 'ORIGIN_FLAG_JILI = 1 ');
         $this->assertEquals(2,User::ORIGIN_FLAG_WENWEN, 'ORIGIN_FLAG_JILI = 2');
         $this->assertEquals(3,User::ORIGIN_FLAG_WENWEN_JILI, 'origin_flag_wenwen_jili = 3');
+
+        $this->assertEquals(1,User::PWD_WENWEN, 'PWD_WENWEN = 1');
+        $this->assertEquals(2,User::PWD_JILI, 'PWD_JILI = 2');
     }
 
     public function test_isOriginFlagWenwen()
@@ -61,6 +64,19 @@ class UserTest extends KernelTestCase
 
         $this->assertTrue($u->isPwdCorrect('111111'), 'correct password returns TRUE');
         $this->assertFalse($u->isPwdCorrect('111112'), 'wrong password returns FALSE');
+    }
+
+    public function test_isPasswordWenwen()
+    {
+
+        $u = new User();
+
+        $this->assertFalse($u->isPasswordWenwen(), 'null value not wenwen password in use ');
+        $u->setPasswordChoice(2);
+        $this->assertFalse($u->isPasswordWenwen(), '2:  not wenwen password in use ');
+
+        $u->setPasswordChoice(1);
+        $this->assertTrue($u->isPasswordWenwen(), '1: wenwen password in use ');
     }
 }
 

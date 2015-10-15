@@ -81,7 +81,7 @@ class UserLogin
         // check the password
         $password = $params['pwd'];
 
-        if( $user->isOriginFlagWenwen() ) {
+        if( $user->isPasswordWenwen() ) {
             // check wenwen password 
             $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
             if(! $wenwenLogin || ! $wenwenLogin->getLoginPasswordCryptType() ) {
