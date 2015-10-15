@@ -6,6 +6,7 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\EntityManager;
+use Jili\ApiBundle\Entity\User;
 
 /**
  *
@@ -50,6 +51,9 @@ class SignupActivateHandler
                 $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
                 $user->setLastLoginIp($this->container->get('request')->getClientIp());
                 $passwordToken->setIsAvailable($this->getParameter('init'));
+                if( $user->isPasswordWenwen()) {
+                    $user->setPasswordChoice(User::PWD_JILI);
+                }
 
                 $em=$this->em;
                 $em->persist($user);

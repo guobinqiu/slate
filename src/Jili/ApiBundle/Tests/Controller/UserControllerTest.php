@@ -400,6 +400,12 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
 
         //  check session messages
         $this->assertEquals('恭喜，密码设置成功！', $crawler->filter('h2')->text());
+       
+        $user_stm =   $em->getConnection()->prepare('select * from user where id =  '.$uid);
+        $user_stm->execute();
+        $user_updated =$user_stm->fetchAll();
+        $this->assertEquals( 2, $user_updated[0]['password_choice'], 'after migrate password , password_choice should be 2');
+
 
     }
     /**
