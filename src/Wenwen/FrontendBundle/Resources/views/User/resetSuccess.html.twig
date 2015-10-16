@@ -2,26 +2,30 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/resetPwd.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
 {% endblock %}
  
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %} 
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left"><div><h1>以首页做示例</h1>左侧</div></div>
-		<div class="main-con-right right"><div>右侧</div></div>
+<div class="main w1000">
+	<div class="form main-resetPwd">
+		<div class="step3">
+			<div class="steps"><span>1 输入邮箱地址</span><span class="pass">2 重置密码</span><span class="last active">3 完成</span></div>
+			<div class="main-resetPwd-con">
+				<div><img src="{{ asset('img/common/success_email.png') }}" alt=""><span><b>密码修改成功！</b><a href="{{ path('wenwen_frontend_home_home') }}">回首页</a></span></div>
+			</div>
+		</div>
 	</div>
 </div>
 <script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
 {% endblock %}

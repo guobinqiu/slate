@@ -2,26 +2,42 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/resetPwd.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
 {% endblock %}
  
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %} 
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left"><div><h1>以首页做示例</h1>左侧</div></div>
-		<div class="main-con-right right"><div>右侧</div></div>
+<div class="main w1000">
+	<div class="form main-resetPwd">
+		<div class="step2">
+			<div class="steps"><span class="pass">1 输入邮箱地址</span><span class="active">2 重置密码</span><span class="last">3 完成</span></div>
+			<form action="">
+			<div class="main-resetPwd-con">
+				<ul>
+					<li>
+						<div><label for="">请输入新密码：</label><input type="password" id="pwd" name="pwd"></div>
+						<div class="prompt"><span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span><span id="pwd_succeed"></span><span id="pwd_error"></span></div>
+					</li>
+					<li>
+						<div><label for="">请再次输入：</label><input type="password" id="pwdRepeat" name="pwdRepeat"></div>
+						<div class="prompt"><span id="pwdRepeat_succeed"></span><span id="pwdRepeat_error"></span></div>
+					</li>
+				</ul>
+				<a href="{{ path('wenwen_frontend_user_resetsuccess') }}"><span class="btn" id="savePwd">下一步</span></a>
+			</div>
+			</form>
+		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/resetPwd')}}"></script>
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
 {% endblock %}
