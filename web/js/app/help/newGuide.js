@@ -15,10 +15,10 @@ require(['../../config'],function(){
         var channel;
         if(link.indexOf('#') != -1){
             channel = link.substr(link.indexOf('#') + 1, link.length);
+            $('#' + channel).show();
         }else{
             channel = '';
-        }
-        $('#' + channel).show();
-        $('#survey').show();
+            $('#survey').show();
+        }        
     });
 });

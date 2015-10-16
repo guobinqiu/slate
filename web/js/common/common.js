@@ -36,7 +36,7 @@ define(['jquery'],function($){
     var curIndex = navLinks.parent().find('.active').index();
 
     if(curIndex != -1){
-        navSlider.show().animate({ left: 115 * curIndex +'px'}, 100);
+       navSlider.show().animate({ left: 115 * curIndex +'px'}, 100);
     }
     navLinks.hover(function(){
         var i = $(this).index();

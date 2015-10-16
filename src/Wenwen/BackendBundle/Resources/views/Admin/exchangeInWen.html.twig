@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+<SCRIPT LANGUAGE="JavaScript">
+function check() {
+	alert("确认提交吗？")
+	document.getElementById("submit").disabled='disabled';
+return false;
+}
+</SCRIPT>
+</HEAD>
+<BODY>
+<form action="{{ path('_admin_exchangeInWen') }}" method="post" id="form1" enctype="multipart/form-data"  name="myForm" onSubmit="check();">
+<table align='center'>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>csv导入:
+<input type="file" name="csv" /></td><td><input id="submit" type="submit" name="add" value="提 交"/></td></tr>
+{% if code %}
+    {% for item in code %}
+        <center><font color='red'>{{ item }}</font></center>
+    {% endfor %}
+{% endif %}
+
+{% if success %}
+{% if success == 1 %}
+ <center><font color='red'>数据插入成功</font></center>
+ {% elseif success == 2 %}
+  <center><font color='red'>请上传csv文件</font></center>
+ {% else %}
+{% endif %}
+{% endif %}
+</table>
+<input type="hidden" value="{{ csrf_token }}" name="csrf_token" />
+</form>
+<div style="padding:30px;">
+提示：一次提交执行完成后，请点击"刷新页面"，可继续提交文件</br></br>
+<a href="{{ path('_admin_exchangeInWen') }}" >刷新页面</a>
+</div>
+</BODY></HTML>

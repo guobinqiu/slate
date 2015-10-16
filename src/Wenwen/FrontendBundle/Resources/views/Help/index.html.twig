@@ -9,7 +9,7 @@
 {% endblock %}
  
 {% block header %}
-{% include 'WenwenFrontendBundle::headerUser.html.twig' %} 
+{% include 'WenwenFrontendBundle::header.html.twig' %} 
 {% endblock %}
 
 {% block body %}
@@ -26,7 +26,7 @@
 	            <li>其他</li>
 	        </ul>
 	        <div class="feedback">
-	            <a href="feedback.html" title="我要提问"><img src="{{ asset('img/help/feedback.png') }}" alt="我要提问"></a>
+	            <a href="{{ path('wenwen_frontend_help_feedback') }}" title="我要提问"><img src="{{ asset('img/help/feedback.png') }}" alt="我要提问"></a>
 	        </div>
 	    </div>
 	    <div class="helpR tabCon right">
@@ -37,7 +37,7 @@
 	                <dl>
 	                    <dt>问卷调查</dt>
 	                    <dd>选择喜欢的商家进入，购买商品就能返利哦！</dd>
-	                    <dd><a href="newGuide" class="more">快去了解</a></dd>
+	                    <dd><a href="newGuide#survey" class="more">快去了解</a></dd>
 	                </dl>
 	            </li>
 	            <li>
