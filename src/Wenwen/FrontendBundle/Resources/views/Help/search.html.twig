@@ -9,12 +9,12 @@
 {% endblock %}
  
 {% block header %}
-{% include 'WenwenFrontendBundle::headerUser.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
 {% endblock %}
 
 {% block body %}
 <div class="main">
-	{% include 'WenwenFrontendBundle:Help:banner.html.twig' %}
+	{% include 'WenwenFrontendBundle:Help:_banner.html.twig' %}
 	<div class="main-help-con w1000">
 		<h2>这是关于<b>问卷</b>的搜索结果，请选择您想查看的内容。</h2>
 		<div class="search-result">
@@ -56,5 +56,5 @@ http://www.91wenwen.net/signup/<br>
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle::footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
 {% endblock %}

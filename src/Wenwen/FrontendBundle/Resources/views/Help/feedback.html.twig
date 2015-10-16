@@ -9,12 +9,12 @@
 {% endblock %}
  
 {% block header %}
-{% include 'WenwenFrontendBundle::headerUser.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
 {% endblock %}
 
 {% block body %}
 <div class="main">
-	{% include 'WenwenFrontendBundle:Help:banner.html.twig' %}
+	{% include 'WenwenFrontendBundle:Help:_banner.html.twig' %}
 	<div class="main-help-con w1000">
 		<div class="main-help-feedback form">
 			<h2>请填写完您的问题之后，点击提交按钮。有<b>*</b>的项目为必填项目。</h2>
@@ -90,5 +90,5 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle::footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
 {% endblock %}

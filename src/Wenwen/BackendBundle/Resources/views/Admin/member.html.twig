@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META http-equiv=Content-Type content="text/html; charset=utf8">
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<SCRIPT src="{{ asset('js/load.js')}}" type=text/javascript></SCRIPT>
+<script src="{{ asset('js/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#select").click(function (){
+      window.location.href="{{ path('_admin_member') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
+  })
+  $("#edit").click(function (){
+      window.location.href="{{ path('_admin_member_edit') }}?user_id="+$('#id').val();
+  })
+});
+</script>
+</HEAD>
+<BODY>
+
+ <STYLE TYPE="text/css" MEDIA=screen>
+<!--
+  table { margin: 30px;}
+  table th { text-align:left; width:150px;}
+  table td { text-align:left;}
+-->
+</STYLE>
+
+<table>
+    <form action="{{ path('_admin_member')}}" method="post" id="form1"}} >
+    <tr>
+        <td colspan="7" align="center">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="7" align="center">&nbsp;
+        user id:<input type="text" id="user_id" name="user_id" value="{% if user_id %}{{ user_id }}{% endif %}" size="15" />&nbsp;
+        email:<input type="text" id="email" name="email" value="{% if email %}{{ email }}{% endif %}" size="40" />&nbsp;
+        nick:<input type="text" id="nick" name="nick" value="{% if nick %}{{ nick }}{% endif %}" size="20" />&nbsp;
+        <input type="button" id="select" name="select" value="查 询" />&nbsp;</td>
+    </tr>
+    </form>
+ </table>
+ {% if member %}
+   <table border="1px" cellspacing="0px" class="member_table">
+    <tr>
+        <th>user id</th>
+        <td width="350px;">{{ member.id }}
+        <input type="hidden" id="id" name="user_id" value="{{ member.id }}"></td>
+    </tr>
+    <tr>
+        <th>email</th>
+        <td>{{ member.email }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>nick</th>
+        <td>{{ member.nick }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>tel</th>
+        <td>{{ member.tel }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>register date</th>
+        <td>{{ member.registerDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>last login date</th>
+        <td>{{ member.lastLoginDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>points</th>
+        <td>{{ member.points }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>is_from_wenwen</th>
+        <td>{{ member.isFromWenwen }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>delete flag</th>
+        <td>{{ member.deleteFlag }}&nbsp;</td>
+    </tr>
+</table>
+<input type="button" id="edit" name="edit" value="编辑" style="margin-left: 100px;"/>
+{% endif %}
+
+</BODY>
+</HTML>

@@ -1,0 +1,11 @@
+<div class="aboutL left">
+	<h2>关于我们</h2>
+	<ul class="tabNav">
+		{% set router_current = app.request.attributes.get('_route') %}
+		<li><a href="{{ path('wenwen_frontend_about_index') }}" {{ router_current == 'wenwen_frontend_about_index' ? 'class="active"':'' }}>集团介绍</a></li>
+		<li><a href="{{ path('wenwen_frontend_about_ww') }}" {{ router_current == 'wenwen_frontend_about_ww' ? 'class="active"':'' }}>问问介绍</a></li>
+		<li><a href="{{ path('wenwen_frontend_about_regulations') }}" {{ router_current == 'wenwen_frontend_about_regulations' ? 'class="active"':'' }}>会员协议</a></li>
+		<li><a href="{{ path('wenwen_frontend_about_map') }}" {{ router_current == 'wenwen_frontend_about_map' ? 'class="active"':'' }}>网站地图</a></li>
+		<li><a href="{{ path('wenwen_frontend_about_links') }}" {{ router_current == 'wenwen_frontend_about_links' ? 'class="active"':'' }}>友情链接</a></li>
+	</ul>
+</div>
