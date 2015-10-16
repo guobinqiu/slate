@@ -62,7 +62,7 @@ class UserController extends Controller {
     }
 
     /**
-     * @Route("/resetPwd")
+     * @Route("/resetPwd/reset")
      * @Template
      */
     public function resetpwdAction()
@@ -71,7 +71,7 @@ class UserController extends Controller {
     }
 
     /**
-     * @Route("/resetPwd/email")
+     * @Route("/resetPwd")
      * @Template
      */
     public function resetpwdemailAction()

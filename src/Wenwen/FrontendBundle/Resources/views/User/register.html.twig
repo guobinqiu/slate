@@ -2,26 +2,66 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
 {% endblock %}
  
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %} 
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left"><div><h1>以首页做示例</h1>左侧</div></div>
-		<div class="main-con-right right"><div>右侧</div></div>
+<div class="main w1000">
+	<div class="form main-register">
+		<form id="signup_form" action="/signup/profile" method="post" onsubmit="return false;">
+		<input type="hidden" name="region_id" id="region_id" /><input type="hidden" name="_csrf_token" value="3e820125858940ba4c409723ac2e4a81" id="_csrf_token" /> 
+		<ul>
+			<li>
+				<label for="regName">昵称</label>
+				<div><input name="regName" id="regName" type="text" ><span id="regName_succeed" class="succeed"></span><span id="regName_error" class="msg_normal">请输入您的昵称</span></div>
+			</li>
+			<li>
+				<label for="email">电子邮件</label>
+				<div><input name="email" id="email" type="text"><span id="email_succeed" class="succeed"></span><span id="email_error" class="msg_normal">输入有误</span></div>
+			</li>
+			<li>
+				<label for="pwd">设置密码</label>
+				<div><input name="pwd" id="pwd" type="password"><span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span><span id="pwd_succeed" class="succeed"></span><span id="pwd_error" class="msg"></span></div>
+			</li>
+			<li>
+				<label for="pwdRepeat">重复密码</label>
+				<div><input name="pwdRepeat" id="pwdRepeat" type="password"><span id="pwdRepeat_succeed" class="succeed"></span><span id="pwdRepeat_error" class="msg"></span></div>
+			</li>
+			<li id="vcode">
+				<label for="authcode">验证码</label>
+				<div><input name="authcode" id="authcode" type="text">
+				<img id="captcha" src="{{ asset('img/user/captcha.jpg') }}" alt="CAPTCHA Image" />
+				<img src="{{ asset('img/user/change.png') }}" alt="换一张" />
+				<b>换一张</b>
+				<span id="authcode_succeed" class="succeed"></span><span id="authcode_error" class="msg"></span></div>
+			</li>
+			<li>
+				<div class="subscribe"><input type="checkbox" checked>我愿意接收91问问发出的会员邮件<div class="tips expand-btn">
+					<b>?</b>
+					<div class="tips-con expand-con"><p>91问问将为会员定期发出问卷提醒、活动邀请等会员专享服务，您也可以在邮箱内取消订阅。</p><b class="arrow"></b></div>
+				</div></div>
+				<div><input type="checkbox"  id="readme" checked>我已阅读并接收<a href="" id="protocol">《会员协议》</a></div>
+				<span id="protocol_error"></span>
+			</li>
+		</ul>
+		<div class="main-register-btn"><span id="submit_button">注&nbsp;&nbsp;&nbsp;册</span><img src="{{ asset('img/user/regPoint.png') }}" alt=""></div>
+		</form>
+		<div class="login-others">
+			<p>用第三方账号登录：</p>
+			<div class="login-others-btns"><a href=""><img src="{{ asset('img/common/sina_logo.png') }}" alt="微博登录">微博登录</a><a href=""><img src="{{ asset('img/common/qq_logo.png') }}" alt="QQ登录">QQ登录</a></div>
+		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/register')}}"></script>
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
 {% endblock %}

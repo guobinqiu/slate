@@ -2,26 +2,24 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
 {% endblock %}
  
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %} 
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left"><div><h1>以首页做示例</h1>左侧</div></div>
-		<div class="main-con-right right"><div>右侧</div></div>
-	</div>
+<div class="main w1000">
+    <h1>以注册页面示例</h1>
+    <p>1、头部的css每个页面对应一个<br/>2、底部的js每个页面对应写入名字</p>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/register')}}"></script>
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
 {% endblock %}
