@@ -2,7 +2,7 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/shopDetail.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
@@ -14,10 +14,78 @@
 
 {% block body %}
 <div class="main">
-	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left"><div><h1>以首页做示例</h1>左侧</div></div>
-		<div class="main-con-right right"><div>右侧</div></div>
-	</div>
+	<div class="main-con-shopDetail w1000">
+			<div class="main-con-left">
+				<div class="main-con-shop">
+					<span>
+						<div class="img"><img src="{{ asset('img/temp/yl.jpg') }}" alt=""><div>最高返<b>7%</b></div></div>
+						<div class="btn"><span>去购物，赚积分</span></div>
+					</span>
+					<span class="text">
+						<h1>京东商城</h1>
+						<p>商城简介：京东商城是中国B2C市场最大的3C网购专业平台。是中国电子商务领域最受消费者欢迎和最具影响力的电子商务网站之一。</p>
+						<div class="prompts">返利比率：正常商品：7%  团购商品：2%  优惠券、礼品卡商品：4%</div>
+					</span>
+				</div>
+				<div class="main-con-rebate">
+					<h2><span>返利详情</span></h2>
+					<table>
+						<thead>
+							<tr>
+								<th>类目</th>
+								<th>返利</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>基本</td>
+								<td>销售额的0.245%</td>
+							</tr>
+							<tr>
+								<td>电子产品</td>
+								<td>销售额的0.5%</td>
+							</tr>
+							<tr>
+								<td>图书</td>
+								<td>销售额的0.45%</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="main-con-flow">
+					<h2><span>返利流程</span></h2>
+					<div class="con clearfix">
+						<div class="step">
+							<img src="{{ asset('img/advertisement/flow1.png') }}" alt="">
+							<p>登录网站</p>
+						</div>
+						<div class="step">
+							<img src="{{ asset('img/advertisement/flow2.png') }}" alt="">
+							<p>商家购物</p>
+						</div>
+						<div class="step last">
+							<img src="{{ asset('img/advertisement/flow3.png') }}" alt="">
+							<p>订单生效，积分到账</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main-con-right">
+				<div class="shop-recomend">
+					<h2>同类商家推荐</h2>
+					<div class="similar-shops">
+						<div>
+							<a href="http://www.jd.com"><img src="{{ asset('img/temp/jd.jpg') }}" alt=""><div>最高返<b>7%</b></div></a>
+							<a href="http://www.jd.com"><img src="{{ asset('img/temp/1hd.jpg') }}" alt=""><div>最高返<b>7%</b></div></a>
+						</div>
+						<div>
+							<a href="http://www.jd.com"><img src="{{ asset('img/temp/yh.jpg') }}" alt=""><div>最高返<b>7%</b></div></a>
+							<a href="http://www.jd.com"><img src="{{ asset('img/temp/yl.jpg') }}" alt=""><div>最高返<b>77.00%</b></div></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
 <script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
 {% endblock %}

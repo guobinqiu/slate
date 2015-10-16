@@ -2,7 +2,7 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/profile.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
@@ -14,12 +14,83 @@
 
 {% block body %}
 <div class="main">
-	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left"><div><h1>以首页做示例</h1>左侧</div></div>
-		<div class="main-con-right right"><div>右侧</div></div>
-	</div>
+	<div class="main-personal w1000 clearfix">
+			<div class="main-personal-left left">
+				<h1>个人中心</h1>
+				<ul>
+					<li class="active"><a href="{{ path('wenwen_frontend_personal_profile') }}"><em></em>个人资料</a></li>
+					<li><a href="{{ path('wenwen_frontend_personal_message') }}"><em class="icon2"></em>我的消息</a></li>
+					<li><a href="{{ path('wenwen_frontend_personal_task') }}"><em class="icon3"></em>任务历史</a></li>
+					<li><a href="{{ path('wenwen_frontend_personal_exchange') }}"><em class="icon4"></em>兑换历史</a></li>
+					<li><a href="{{ path('wenwen_frontend_personal_account') }}"><em class="icon5"></em>账户设置</a></li>
+				</ul>
+			</div>
+			<div class="main-personal-right right">
+				<h2><div class="progress"><label for="">资料完善度：</label><b></b><span><div class="colorBar"></div><div class="btn"></div></span></div>个人资料</h2>
+				<div class="main-personal-profile">
+					<div class="profile-base">
+						<h3>基本信息</h3>
+						<div class="con clearfix">
+							<div class="face left"><div class="face-wapper"><img src="{{ asset('img/common/default_tx.png') }}" alt=""></div><label class="set" for="attachment">设置头像</label><input type="file" id="attachment" name="attachment"><p class="errorInfo"></p></div>
+							<form action="" id="regName_form" name="regName_form">
+							<ul class="form text left">
+								<li>
+									<label for="">登录账号：</label>
+									<span>192838384@139.com</span>
+								</li>
+								<li>
+									<label for="regName">昵称：</label>
+									<span class="regName-value">192838384</span>
+									<input type="text" id="regName" name="regName" class="hide">
+									<a href="javascript:void(0);" id="regName_modify">修改</a>
+									<a href="javascript:void(0);" id="regName_save" class="hide">保存</a>
+								</li>
+								<li class="prompt">
+									<label for=""></label>
+									<span id="regName_succeed" class="succeed"></span>
+									<span id="regName_error"></span>
+								</li>
+							</ul>
+							</form>
+						</div>
+						<div class="picCut">
+							<form action="{{ path('_user_resUp') }}" method="post">
+					        <div class="imageInfo left"></div>
+					        <div class="resDiv left">
+								<div class="resImg"><p class="resizeimage"></p></div>
+								<input type="hidden" id="x" name="x" />
+								<input type="hidden" id="y" name="y" />
+								<input type="hidden" id="w" name="w" />
+								<input type="hidden" id="h" name="h" />
+								<input type="hidden" id="resizePath"  name="resizePath" />
+								<div class="resizeSubmit"></div>
+					         </div>
+					        </form>
+						</div>
+					</div>
+					<div class="profile-detail">
+						<h3><a href="">编辑</a>详细信息<b>您的个人信息将完全保密，请放心填写</b></h3>
+						<form action="" id="profile_form" name="profile_form">
+						<ul class="con">
+							<li><label for="sex">性别：</label><span><input id="sex" name="sex" type="radio" checked="checked" value="1">男</span><span><input name="sex" type="radio" value="2">女</span></li>
+							<li><label for="birthday">生日：</label><select id="birthday_year" name="birthday"><option value="" selected="selected">年</option></select><select id="birthday_month"><option value="" selected="selected">月</option></select><select id="birthday_day"><option value="" selected="selected">日</option></select></li>
+							<li><label for="address">居住地：</label><select id="address_province" name="address"><option value="" selected="selected">省、市</option></select><select id="address_city"><option value="" selected="selected">地区</option></select></li>
+							<li><label for="income">个人月收入：</label><select id="income" name="income"><option value="1" selected="selected">1000元</option></select></li>
+							<li><label for="job">职业：</label><select id="job_profession" name="job"><option value="" selected="selected">请选择职业</option></select><select id="job_category"><option value="" selected="selected">请选择行业</option></select><select id="job_department"><option value="" selected="selected">请选择部门</option></select></li>
+							<li><label for="education">教育程度：</label><select id="education" name="education"><option value="" selected="selected">请选择</option></select></li>
+							<li><label for="signature">签名：</label><textarea id="signature" name="signature"></textarea></li>
+							<li><label for="hobby">爱好：</label><input type="text" id="hobby" name="hobby"></li>
+							<li><label for="music">喜欢的音乐：</label><input type="text" id="music" name="music"></li>
+							<li><label for="wish">本月心愿：</label><input type="text" id="wish" name="wish"></li>
+						</ul>
+						<div class="btn"><span id="profile_save">保存</span></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/profile')}}"></script>
 {% endblock %}
 
 {% block footer %}

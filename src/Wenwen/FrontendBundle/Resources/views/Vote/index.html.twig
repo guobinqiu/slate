@@ -2,7 +2,7 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/vote.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
@@ -15,11 +15,160 @@
 {% block body %}
 <div class="main">
 	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left"><div><h1>以首页做示例</h1>左侧</div></div>
-		<div class="main-con-right right"><div>右侧</div></div>
-	</div>
+			<div class="main-con-left left">
+				<div class="vote vote-sub">
+					<em></em>
+					<h1>快速问答</h1>
+					<ul>
+						<li class="vote-new">
+							<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
+							<span class="vote-txt">
+								<div class="title"><a href="{{ path('wenwen_frontend_vote_detail') }}">【生活】心情不好时会选择对谁倾诉？</a></div>
+								<div class="con">众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家所关注的，如果我们网站有通过微信邀请好友，你会怎么做？</div>
+								<div class="relate">
+									<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline"></span>
+									<span>参与人气：<strong>484</strong></span>
+								</div>
+							</span>
+							<div><input type="hidden" name="timelimit_ut" value="1440777600" /><div id="countdown" class="countdown"></div></div>
+							<div class="tips expand-btn">
+								<span>?</span>
+								<div class="tips-con expand-con"><p>倒计时内回答此份快速回答，将额外获得1积分。</p><b class="arrow"></b></div>
+							</div>
+						</li>
+						<li>
+							<span class="vote-img"><a href="{{ path('wenwen_frontend_vote_detail') }}"><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
+							<span class="vote-txt">
+								<div class="title"><a href="{{ path('wenwen_frontend_vote_detail') }}">【生活】心情不好时会选择对谁倾诉？</a></div>
+								<div class="con">众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家所关注的，如果我们网站有通过微信邀请好友，你会怎么做？</div>
+								<div class="relate">
+									<span>参与人气：<strong>484</strong></span><span class="vline"></span>
+									<span>截止日期：2015-07-25</span>
+								</div>
+							</span>
+							<div class="survey-btn"><a href="{{ path('wenwen_frontend_vote_detail') }}">去投票</a></div>
+						</li>
+						<li>
+							<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
+							<span class="vote-txt">
+								<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
+								<div class="con">众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家所关注的，如果我们网站有通过微信邀请好友，你会怎么做？</div>
+								<div class="relate">
+									<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline"></span>
+									<span>参与人气：<strong>484</strong></span><span class="vline"></span>
+									<span>截止日期：2015-07-25</span>
+								</div>
+							</span>
+							<div class="survey-btn"><a href="">去投票</a></div>
+						</li>
+						<li>
+							<span class="vote-img"><a href="{{ path('wenwen_frontend_vote_detail') }}"><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
+							<span class="vote-txt">
+								<div class="title"><a href="{{ path('wenwen_frontend_vote_detail') }}">【生活】心情不好时会选择对谁倾诉？</a></div>
+								<div class="con">众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家所关注的，如果我们网站有通过微信邀请好友，你会怎么做？</div>
+								<div class="relate">
+									<span>参与人气：<strong>484</strong></span><span class="vline"></span>
+									<span>截止日期：2015-07-25</span>
+								</div>
+							</span>
+							<div class="survey-btn"><a href="javascript:void(0)" class="disabled">去投票</a></div>
+						</li>
+						<li>
+							<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
+							<span class="vote-txt">
+								<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
+								<div class="con">众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家所关注的，如果我们网站有通过微信邀请好友，你会怎么做？</div>
+								<div class="relate">
+									<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline"></span>
+									<span>参与人气：<strong>484</strong></span><span class="vline"></span>
+									<span>截止日期：2015-07-25</span>
+								</div>
+							</span>
+							<div class="survey-btn"><a href="javascript:void(0)" class="disabled">去投票</a></div>
+						</li>
+						<!-- <li class="vote-txt">
+							<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
+							<div class="relate">
+								<span class="deadline">调查期限：2015/07/25-2015/08/25</span>
+								<span>发起人：王琳</span><span class="vline"></span>
+								<span>参与人气：<strong>484</strong></span>
+							</div>
+						</li>
+						<li class="vote-txt">
+							<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
+							<div class="relate">
+								<span class="deadline">调查期限：2015/07/25-2015/08/25</span>
+								<span>发起人：王琳</span><span class="vline"></span>
+								<span>参与人气：<strong>484</strong></span>
+							</div>
+						</li> -->
+					</ul>
+					<div class="page-wrapper">
+						<p class="page">
+							<span class="active">1</span>
+							<span>2</span>
+							<span>3</span>
+							<span>4</span>
+							<span>5</span>
+							<span>6</span>
+							<span>尾页</span>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="main-con-right right">
+				<div><a href="{{ path('wenwen_frontend_vote_suggest') }}"><img src="{{ asset('img/vote/prize.jpg') }}" alt=""></a></div>
+				<div class="exchange-dynamics">
+					<h2>兑换动态</h2>
+					<div class="mask">
+						<ul>
+							<li>
+								<p>秋水无**  将1000米粒兑换成手机话费</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成手机流量</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成手机话费</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成手机流量</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>9秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/vote/vote')}}"></script>
 {% endblock %}
 
 {% block footer %}

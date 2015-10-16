@@ -2,7 +2,7 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/voteDetail.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
@@ -15,11 +15,154 @@
 {% block body %}
 <div class="main">
 	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left"><div><h1>以首页做示例</h1>左侧</div></div>
-		<div class="main-con-right right"><div>右侧</div></div>
-	</div>
+			<div class="main-con-left left">
+				<div class="vote vote-sub">
+					<h1>【生活】错误急救可能造成二次伤害你知道哪点？<a href="{{ path('wenwen_frontend_vote_index') }}">返回快速问答一览</a></h1>
+					<div class="relate">
+						<img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt="">
+						<div class="relate-text">
+							<div>时间：08/04 ~ 08/08<br>该题由热心用户：<b>新神</b> 提供，恭喜他获得了<b>200</b>积分！</div>
+							<div class="description">
+								<b class="btn"></b>
+								<p class="">随着网络的普及，视频播放器已成为每个人的手机或电脑的必备软件视频播放器已成为每个人的手机或电脑的必备软件视频播放器已成为每个人的手机或电脑的必备软件视频播放器已成为每个人的手机或电脑的必备软件，那么您平时最喜欢使用视频播放器已成为每个人的手机或电脑的必备软件，那么您平时最喜欢使用</p>
+							</div>
+						</div>
+					</div>
+					<div class="options">
+						<dl>
+							<dt title="发烧不能捂，散热才是根本，可以用温水擦浴">发烧不能捂，散热才是根本，可以用温水擦浴</dt>
+							<dd class="option1">
+								<span class="result">4019票</span>
+								<span class="progress"><p></p></span>
+							</dd>
+							<dt title="脚部扭伤要冷敷，24小时后才能热敷">脚部扭伤要冷敷，24小时后才能热敷<b></b></dt>
+							<dd class="option2">
+								<span class="result">2077票</span>
+								<span class="progress"><p></p></span>
+							</dd>
+							<dt title="卡鱼刺喝醋没用，应该用手或镊子取出">卡鱼刺喝醋没用，应该用手或镊子取出<b></b></dt>
+							<dd class="option3">
+								<span class="result">1906票</span>
+								<span class="progress"><p></p></span>
+							</dd>
+							<dt title="烫伤涂牙膏，会污染创面，应该大量冲冷水">烫伤涂牙膏，会污染创面，应该大量冲冷水<b></b></dt>
+							<dd class="option4">
+								<span class="result">431票</span>
+								<span class="progress"><p></p></span>
+							</dd>
+							<dt title="被狗咬伤后应及时用清水和肥皂水清洗伤口，消毒注射疫苗，而不是用嘴吸血">被狗咬伤后应及时用清水和肥皂水清洗伤口，消毒注射疫苗，而不是用嘴吸血<b></b></dt>
+							<dd class="option5">
+								<span class="result">788票</span>
+								<span class="progress"><p></p></span>
+							</dd>
+							<dt title="异物入眼忌用手揉搓，可尝试眨眼用眼泪排除异物">异物入眼忌用手揉搓，可尝试眨眼用眼泪排除异物<b></b></dt>
+							<dd class="option6">
+								<span class="result">452票</span>
+								<span class="progress"><p></p></span>
+							</dd>
+							<dt title="昏迷掐人中，只对患者的意识有判断作用，掐不对反而会害人">昏迷掐人中，只对患者的意识有判断作用，掐不对反而会害人<b></b></dt>
+							<dd class="option7">
+								<span class="result">272票</span>
+								<span class="progress"><p></p></span>
+							</dd>
+							<dt title="流鼻血仰头并不能止血，大量出血反而容易吸入气管及肺内">流鼻血仰头并不能止血，大量出血反而容易吸入气管及肺内<b></b></dt>
+							<dd class="option8">
+								<span class="result">288票</span>
+								<span class="progress"><p></p></span>
+							</dd>
+							<dt title="以上基本上知道">以上基本上知道<b></b></dt>
+							<dd class="option9">
+								<span class="result">177票</span>
+								<span class="progress"><p></p></span>
+							</dd>
+							<dt title="其他">其他<b></b></dt>
+							<dd class="option10">
+								<span class="result">460票</span>
+								<span class="progress"><p></p></span>
+							</dd>
+						</dl>
+						<div class="share"><a href="">分享到微博</a></div>
+					</div>
+				</div>
+				<div class="survey-recomend">
+					<h2><span>为您推荐的问卷</span></h2>
+					<table>
+						<tbody>
+							<tr>
+								<td class="first"><p>【生活】你愿意参加志愿活动吗？</p></td>
+								<td>时间：08/04 ～ 08/08</td>
+								<td>积分数：1</td>
+								<td class="last"><a href="{{ path('wenwen_frontend_vote_detail') }}" "voteDetail.html">投票</a></td>
+							</tr>
+							<tr>
+								<td class="first"><p>【生活】你愿意参加志愿活动参加志愿活动参加志愿活动参加志愿活动参加志愿活动吗？</p></td>
+								<td>时间：08/04 ～ 08/08</td>
+								<td>积分数：1</td>
+								<td class="last"><a href="{{ path('wenwen_frontend_vote_detail') }}">投票</a></td>
+							</tr>
+							<tr>
+								<td class="first"><p>【生活】错误急救可能造成二次伤害你知道哪点？</p></td>
+								<td>时间：08/04 ～ 08/08</td>
+								<td>积分数：1</td>
+								<td class="last"><a href="{{ path('wenwen_frontend_vote_detail') }}">投票</a></td>
+							</tr>
+						</tbody>
+					</table>			
+				</div>
+			</div>
+			<div class="main-con-right right">
+				<div><a href="{{ path('wenwen_frontend_vote_suggest') }}"><img src="{{ asset('img/vote/prize.jpg') }}" alt=""></a></div>
+				<div class="exchange-dynamics">
+					<h2>兑换动态</h2>
+					<div class="mask">
+						<ul>
+							<li>
+								<p>1秋水无**  将1000米粒兑换成手机话费</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成手机流量</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成手机话费</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成手机流量</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+							<li>
+								<p>9秋水无**  将1000米粒兑换成支付宝现金</p>
+								<div class="date">1分钟前</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/vote/voteDetail')}}"></script>
 {% endblock %}
 
 {% block footer %}
