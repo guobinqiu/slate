@@ -143,6 +143,7 @@
 			@include btn();
 			&.disabled{
 				background: #888;
+				border: 1px solid #888; 
 				cursor: defalut;
 			}
 			&.return{

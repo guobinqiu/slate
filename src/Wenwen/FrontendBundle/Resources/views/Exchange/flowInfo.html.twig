@@ -2,7 +2,7 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/exchangeFlow.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
@@ -14,12 +14,38 @@
 
 {% block body %}
 <div class="main">
-	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left"><div><h1>以首页做示例</h1>左侧</div></div>
-		<div class="main-con-right right"><div>右侧</div></div>
-	</div>
+	<div class="main-con w1000">
+			<div class="main-con-exchange form">
+				<h1>上网流量包兑换</h1>
+				<div class="main-con-exchangeInfo">
+					<form action="/exchange/mobileInfo" method="post" name="mobileInfo" id="form1">
+					<ul>
+						<li class="curVal">
+							<label for="curMobile">当前手机号码：</label>
+							<span id="curMobile" class="cur"></span>
+							<a href="javascript:void(0)" id="modify">使用其他手机号</a>
+						</li>
+						<li class="modifyInput">
+							<label for="mobile">手机号码：</label>
+							<input type="text" id="mobile">
+							<span id="mobile_succeed"></span>
+							<span id="mobile_error"></span>
+						</li>
+						<li class="modifyInput">
+							<label for="mobileRepeat">再次输入号码：</label>
+							<input type="text" id="mobileRepeat">
+							<span id="mobileRepeat_succeed"></span>
+							<span id="mobileRepeat_error"></span>
+						</li>
+					</ul>
+					<div class="flow-tips"><p>四川移动号码、湖北移动号码现已暂停充值，恢复时间另行通知！</p></div>
+					<div class="btn spec"><!-- <a href="flowApply.html"> --><span id="mobile_save">下一步</span><!-- </a> --></div>
+	        		</form>
+	        	</div>
+			</div>
+		</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/exchange/flowInfo')}}"></script>
 {% endblock %}
 
 {% block footer %}

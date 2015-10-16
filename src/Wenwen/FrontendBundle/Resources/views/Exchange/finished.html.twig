@@ -2,7 +2,7 @@
 {% block title %}{{ parent()  }} Test {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/exchangeFlow.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
@@ -14,12 +14,23 @@
 
 {% block body %}
 <div class="main">
-	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left"><div><h1>以首页做示例</h1>左侧</div></div>
-		<div class="main-con-right right"><div>右侧</div></div>
-	</div>
+	<div class="main-con w1000">
+			<div class="main-con-exchange">
+				<div class="main-con-finished">
+					<div class="con">
+						<h2>我们已经收到您的手机费兑换申请！</h2>
+						<div class="prompt">
+							<p><em>※</em>兑换会在<b>三个工作日内</b>完成（遇周末及节假日顺延），请关注您的<a href="">积分历史</a>，来及时了解兑换状态。<br><em>※</em>如果兑换失败，积分会自动返还到您的积粒网帐户。</p>
+						</div>
+					</div>
+	        		<div class="tips">
+	        			<p><b>10s</b>后将为您自动跳转……</p>
+	        		</div>
+	        	</div>
+			</div>
+		</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/finish')}}"></script>
 {% endblock %}
 
 {% block footer %}
