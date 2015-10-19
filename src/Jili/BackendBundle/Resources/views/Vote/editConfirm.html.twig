@@ -26,10 +26,7 @@
 {{ form_widget(form.title) }}
 {{ form_widget(form.description) }}
 {{ form_widget(form.voteImage) }}
- {% for voteChoice in form.voteChoices %}
-{{ form_widget(voteChoice.name)}}
-{{ form_widget(voteChoice.answerNumber)}}
-{% endfor %}
+{{ form_widget(form.stashData) }}
 </div>
 
     <table align='center'>
@@ -65,12 +62,10 @@
                     {%endif%}
             </td>
         </tr>
-        {% for voteChoice in values.voteChoices %}
         <tr>
-            <td>{{ 'Choice_'~loop.index }}</td>
-            <td>{{ voteChoice.name }}</td>
+            <td>{{form_label(form.stashData)}}</td>
+            <td>{% autoescape false %}{{form.stashData.vars.value|nl2br }}{% endautoescape %}</td>
         </tr>
-        {% endfor %}
         {{ form_widget(form._token) }}
         {{form_errors(form)}}
         <tr>

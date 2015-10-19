@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Vote
 {
+
+    const S_SIDE = 90;
+
     /**
      * @var string
      *
@@ -25,13 +28,6 @@ class Vote
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="yyyymm", type="string", length=10, nullable=true)
-     */
-    private $yyyymm;
 
     /**
      * @var \DateTime
@@ -53,6 +49,20 @@ class Vote
      * @ORM\Column(name="point_value", type="integer", nullable=true)
      */
     private $pointValue;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="stash_data", type="text", nullable=true)
+     */
+    private $stashData;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="vote_image", type="string", length=255, nullable=true)
+     */
+    private $voteImage;
 
     /**
      * @var boolean
@@ -84,15 +94,8 @@ class Vote
      */
     private $id;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Jili\ApiBundle\Entity\VoteChoice", mappedBy="vote")
-     */
-    private $voteChoices;
+    private $src_image_path;
 
-    /**
-     * @var string
-     **/
-    private $voteImage;
 
     public function __construct()
     {
@@ -145,29 +148,6 @@ class Vote
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set yyyymm
-     *
-     * @param string $yyyymm
-     * @return Vote
-     */
-    public function setYyyymm($yyyymm)
-    {
-        $this->yyyymm = $yyyymm;
-
-        return $this;
-    }
-
-    /**
-     * Get yyyymm
-     *
-     * @return string
-     */
-    public function getYyyymm()
-    {
-        return $this->yyyymm;
     }
 
     /**
@@ -237,6 +217,52 @@ class Vote
     public function getPointValue()
     {
         return $this->pointValue;
+    }
+
+    /**
+     * Set stashData
+     *
+     * @param string $stashData
+     * @return Vote
+     */
+    public function setStashData($stashData)
+    {
+        $this->stashData = $stashData;
+
+        return $this;
+    }
+
+    /**
+     * Get stashData
+     *
+     * @return string
+     */
+    public function getStashData()
+    {
+        return $this->stashData;
+    }
+
+    /**
+     * Set voteImage
+     *
+     * @param string $voteImage
+     * @return Vote
+     */
+    public function setVoteImage($voteImage)
+    {
+        $this->voteImage = $voteImage;
+
+        return $this;
+    }
+
+    /**
+     * Get voteImage
+     *
+     * @return string
+     */
+    public function getVoteImage()
+    {
+        return $this->voteImage;
     }
 
     /**
@@ -321,63 +347,58 @@ class Vote
     /**
      * Set id
      *
-     * @param integer $id
+     * @param
      * @return Vote
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * Set sPath
+     *
+     * @param string $sPath
+     * @return VoteImage
+     */
+    public function setSPath($sPath)
+    {
+        $this->sPath = $sPath;
 
         return $this;
     }
 
     /**
-     * Add voteChoice
+     * Get sPath
      *
-     * @param VoteChoice $voteChoices
+     * @return string
      */
-    public function addVoteChoice(VoteChoice $voteChoice)
+    public function getSPath()
     {
-        $this->voteChoices[] = $voteChoice;
+        return $this->sPath;
     }
 
-    /**
-     * Remove  voteChoice
-     * @param integer $index
-     *
-     */
-    public function removeVoteChoice($index)
+    public function setSrcImagePath($src_image_path)
     {
-        unset($this->voteChoices[$index]);
+        $this->src_image_path = $src_image_path;
     }
 
-    /**
-     * Get voteChoices
-     *
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getVoteChoices()
+    public function setFile()
     {
-        return $this->voteChoices;
+        $this->setVoteImage(basename($this->src_image_path));
+        // S file
+        $s_file = $this->getDstImagePath('s');
+        $this->setSPath($s_file);
     }
 
-    /**
-     * Set voteImage
-     *
-     * @param string $voteImage
-     */
-    public function setVoteImage($voteImage)
+    public function getDstImagePath($suffix)
     {
-        $this->voteImage = $voteImage;
-    }
+        $path_info = pathinfo($this->src_image_path);
+        // Moon.jpg -> Moon
+        $src_image_name = basename($this->src_image_path, '.' . $path_info['extension']);
 
-    /**
-     * Get voteImage
-     *
-     * @return string $voteImage
-     */
-    public function getVoteImage()
-    {
-        return $this->voteImage;
+        preg_match('/^(.)(.)/', $src_image_name, $res);
+        return sprintf('%s/%s/%s_%s.jpg', $res[1], $res[2], $src_image_name, $suffix);
     }
 }

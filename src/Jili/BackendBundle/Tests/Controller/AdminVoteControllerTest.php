@@ -205,21 +205,4 @@ class AdminVoteControllerTest extends WebTestCase
         $this->assertNull($after);
     }
 
-    /**
-     * @group admin_vote
-     */
-    public function testGenerateMonthlyTable()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-
-        $controller = new AdminVoteController();
-        $controller->setContainer($container);
-
-        $vote = new Vote();
-        $vote->setYyyymm('201509');
-
-        $return = $controller->generateMonthlyTable($vote);
-        $this->assertTrue($return);
-    }
 }

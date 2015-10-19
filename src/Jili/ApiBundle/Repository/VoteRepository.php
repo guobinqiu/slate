@@ -17,8 +17,7 @@ class VoteRepository extends EntityRepository
     public function fetchVoteList($active_flag = true)
     {
         $query = $this->createQueryBuilder('v');
-        $query->select('v.id,v.title,v.startTime,v.endTime,v.yyyymm,vi.sqPath');
-        $query->leftJoin('JiliApiBundle:VoteImage', 'vi', 'WITH', 'v.id = vi.voteId');
+        $query->select('v.id,v.title,v.startTime,v.endTime,v.description,v.voteImage');
         if ($active_flag) {
             $query->andWhere('v.startTime <= :startTime');
         } else {

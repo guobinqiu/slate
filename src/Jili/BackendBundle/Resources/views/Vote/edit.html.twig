@@ -49,12 +49,11 @@
             <td>{{form_label(form.voteImage)}}</td>
             <td>{{ form_widget(form.voteImage) }}</td>
         </tr>
-        {% for voteChoice in form.voteChoices %}
-            <tr><td>{{ form_row(voteChoice.name, {'label': 'Choice_'~loop.index})}}</td></tr>
-            {{ form_row(voteChoice.answerNumber, {'value':loop.index})}}
-        {% endfor %}
+        <tr>
+            <td>{{form_label(form.stashData)}}</td>
+            <td>{{ form_widget(form.stashData) }}</td>
+        </tr>
         {{ form_widget(form._token) }}
-
         <tr>
             <td>&nbsp;</td>
             <td><input type="submit" value="create" /></td>

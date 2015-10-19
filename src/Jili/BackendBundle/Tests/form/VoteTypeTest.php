@@ -32,10 +32,6 @@ class VoteTypeTest extends TypeTestCase
     {
         $type = new VoteType();
         $vote = new Vote();
-        for ($i = 1; $i <= 10; $i++) {
-            $VoteChoice = new VoteChoice();
-            $vote->addVoteChoice($VoteChoice);
-        }
 
         $form = $this->factory->create($type, $vote);
 
@@ -46,16 +42,7 @@ class VoteTypeTest extends TypeTestCase
             'pointValue' => 1,
             'title' => 'test:title',
             'description' => 'test:description',
-            'voteChoices' => array (
-                0 => array (
-                    'name' => 'a',
-                    'answerNumber' => '1'
-                ),
-                1 => array (
-                    'name' => 'b',
-                    'answerNumber' => '2'
-                )
-            ),
+            'stashData' => 'test:test',
             'voteImage' => ''
         );
 
@@ -68,8 +55,7 @@ class VoteTypeTest extends TypeTestCase
         $this->assertEquals($formData['pointValue'], $vote->getPointValue());
         $this->assertEquals($formData['title'], $vote->getTitle());
         $this->assertEquals($formData['description'], $vote->getDescription());
-        $form_choices = $vote->getVoteChoices();
-        $this->assertEquals($formData['voteChoices'][0]['name'], $form_choices[0]->getName());
+        $this->assertEquals($formData['stashData'], $vote->getStashData());
 
         $view = $form->createView();
         $children = $view->children;

@@ -15,7 +15,7 @@ class VoteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('id', 'hidden', array (
-            'required' => true,
+            'required' => false,
             'error_bubbling' => true
         ));
         $builder->add('startTime', 'text', array (
@@ -65,14 +65,21 @@ class VoteType extends AbstractType
             'constraints' => new NotBlank(),
             'invalid_message' => 'Invalid description'
         ));
-
-        $builder->add('voteChoices', 'collection', array (
-            'type' => new VoteChoiceType()
+        $builder->add('stashData', 'textarea', array (
+            'label' => 'vote choices',
+            'required' => true,
+            'attr' => array (
+                'rows' => '6',
+                'cols' => '50'
+            ),
+            'constraints' => new NotBlank(),
+            'invalid_message' => 'Invalid stashData'
         ));
 
         $builder->add('voteImage', 'file', array (
             'required' => false,
             'label' => 'voteImage',
+            'data_class'=>null,
             'constraints' => array (
                 new Assert\Image()
             ),
