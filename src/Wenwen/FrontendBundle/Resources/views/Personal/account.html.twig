@@ -15,145 +15,136 @@
 {% block body %}
 <div class="main">
 	<div class="main-personal w1000 clearfix">
-			<div class="main-personal-left left">
-				<h1>个人中心</h1>
+		{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
+		<div class="main-personal-right right">
+			<h2>账户设置</h2>
+			<div class="main-personal-account">
 				<ul>
-					<li><a href="{{ path('wenwen_frontend_personal_profile') }}"><em></em>个人资料</a></li>
-					<li><a href="{{ path('wenwen_frontend_personal_message') }}"><em class="icon2"></em>我的消息</a></li>
-					<li><a href="{{ path('wenwen_frontend_personal_task') }}"><em class="icon3"></em>任务历史</a></li>
-					<li><a href="{{ path('wenwen_frontend_personal_exchange') }}"><em class="icon4"></em>兑换历史</a></li>
-					<li class="active"><a href="{{ path('wenwen_frontend_personal_account') }}"><em class="icon5"></em>账户设置</a></li>
+					<li>
+						<a href="javascript:void(0)" class="edit">编辑</a>
+						<label for="login_pwd">登录密码</label>
+						<span name="login_pwd" id="login_pwd" class="default_value">******</span>
+						<div class="con form">
+							<form action="">
+							<ul>
+								<li>
+									<label for="curPwd">当前密码：</label>
+									<input type="password" id="curPwd">
+									<span id="curPwd_succeed" class="succeed"></span>
+									<span id="curPwd_error"></span>
+								</li>
+								<li>
+									<label for="pwd">新密码：</label>
+									<input type="password" id="pwd">
+									<span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span>
+									<span id="pwd_succeed" class="succeed"></span>
+									<span id="pwd_error"></span>
+								</li>
+								<li>
+									<label for="pwdRepeat">确认密码：</label>
+									<input type="password" id="pwdRepeat">
+									<span id="pwdRepeat_succeed" class="succeed"></span>
+									<span id="pwdRepeat_error"></span>
+								</li>
+							</ul>
+							<div class="btn"><span id="pwd_save">保存</span></div>
+							</form>
+						</div>
+					</li>
+					<li>
+						<a href="javascript:void(0)" class="edit">编辑</a>
+						<label for="phoneNum">手机号码</label>
+						<span class="default_value" id="phoneNum">13622458966</span>
+						<div class="con form">
+							<form action="">
+							<ul>
+								<li>
+									<label for="curMobile">当前手机号码：</label>
+									<span id="curMobile">13622458966</span>
+								</li>
+								<li>
+									<label for="mobile">新手机号码：</label>
+									<input type="text" id="mobile">
+									<span id="send_code">发送验证码</span>
+									<span id="mobile_succeed"></span>
+									<span id="mobile_error"></span>
+								</li>
+								<li>
+									<label for="authCode">请输入验证码：</label>
+									<input type="text" id="authCode">
+									<span id="authCode_succeed"></span>
+									<span id="authCode_error"></span>
+								</li>
+							</ul>
+							<div class="btn"><span id="mobile_save">保存</span></div>
+							</form>
+						</div>
+					</li>
+					<li>
+						<a href="javascript:void(0)" class="edit">编辑</a>
+						<label for="bding">绑定设置</label>
+						<span class="default_value" id="bding"><img src="{{ asset('img/common/sina_logo.png') }}" alt=""></span>
+						<div class="con bding">
+							<div>
+								<p><em>●</em>将91问问账户与你所喜欢的第三方服务绑定</p>
+								<p><em>●</em>用新浪微博账户轻松登陆91问问，分享更轻松！</p>
+							</div>
+							<ul class="btn">
+								<li>
+									<img src="{{ asset('img/personal/sina_logo.png') }}" alt="">
+									<span id="weibo_save">点击绑定</span>
+									<strong id="weibo_state">目前状态：未绑定</strong>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a href="javascript:void(0)" class="edit">编辑</a>
+						<label for="subscribe_state">订退邮件</label>
+						<span class="default_value" id="subscribe_state">当前已订阅</span>
+						<div class="con subscribe">
+							<ul>
+								<li><label>当前状态：</label><input id="subscribe" type="checkbox" checked="checked">订阅91问问周刊</li>
+								<li><p>注：有可能在你修改订阅状态时，当期周刊的邮件发送队列已经生成，<br>直到下一期周刊发送的时候，你的更改才能生效</p></li>
+								<li><p>当前订阅邮箱地址：wangxiaozu@163.com</p></li>
+							</ul>
+							<div class="btn"><span id="subscribe_save">保存</span></div>
+						</div>
+					</li>
+					<li>
+						<a href="javascript:void(0)" class="edit">编辑</a>
+						<label for="withdraw">注销账户</label>
+						<span class="default_value" id="withdraw">如果注销，您的积分会失效，请谨慎操作。</span>
+						<div class="con withdraw">
+							<div class="step1">
+								<p>亲爱的用户，感谢您一直以来参加91问问的问卷调查活动和关注我们的网站，请阅读以下的注意事项之后，完成会员注销程序。为了提升我们的服务质量，请您回答一份简短的问卷。</p>
+								<ul class="tips">
+									<li><em>●</em>选择注销用户后，您所有的问问积分将会失效。</li>
+									<li><em>●</em>选择注销用户后，将无法恢复您的账户。</li>
+									<li><em>●</em>会员注销后的基本信息将在3个月后完全删除。</li>
+								</ul>
+								<div class="btn"><span id="withdraw_continue">继续注销</span></div>
+							</div>
+							<div class="step2 hide">
+								<p>请确认您要注销会员。请在完成简单的问卷调查后，点击 《注销》 完成会员的注销手续。</p>
+								<div>用户注销以及问卷调查</div>
+								<ul class="reason">
+									<li><label for="email">邮件地址：</label><span id="email">wangxiaozu@163.com</span></li>
+									<li><label for="reasons">注销用户的理由：</label><span id="reasons"><ul class="reason-options">
+										<li><span><input type="checkbox" value="1">问卷调查活动的数量太少了</span><span><input type="checkbox" value="2">每个问卷的奖励太少了</span></li>
+										<li><span><input type="checkbox" value="3">问卷所要的时间太长了</span><span><input type="checkbox" value="4">相对于问题来说，积分报酬太少了</span></li>
+										<li><span><input type="checkbox" value="5">问卷的内容太难了</span><span><input type="checkbox" value="6">工作生活太忙，没时间参加</span></li>
+										<li><span><input type="checkbox" value="7">失去兴趣了</span></li>
+									</ul></span></li>
+								</ul>
+								<div class="btn"><span id="withdraw_save">注销用户</span></div>
+							</div>
+						</div>
+					</li>
 				</ul>
 			</div>
-			<div class="main-personal-right right">
-				<h2>账户设置</h2>
-				<div class="main-personal-account">
-					<ul>
-						<li>
-							<a href="javascript:void(0)" class="edit">编辑</a>
-							<label for="login_pwd">登录密码</label>
-							<span name="login_pwd" id="login_pwd" class="default_value">******</span>
-							<div class="con form">
-								<form action="">
-								<ul>
-									<li>
-										<label for="curPwd">当前密码：</label>
-										<input type="password" id="curPwd">
-										<span id="curPwd_succeed" class="succeed"></span>
-										<span id="curPwd_error"></span>
-									</li>
-									<li>
-										<label for="pwd">新密码：</label>
-										<input type="password" id="pwd">
-										<span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span>
-										<span id="pwd_succeed" class="succeed"></span>
-										<span id="pwd_error"></span>
-									</li>
-									<li>
-										<label for="pwdRepeat">确认密码：</label>
-										<input type="password" id="pwdRepeat">
-										<span id="pwdRepeat_succeed" class="succeed"></span>
-										<span id="pwdRepeat_error"></span>
-									</li>
-								</ul>
-								<div class="btn"><span id="pwd_save">保存</span></div>
-								</form>
-							</div>
-						</li>
-						<li>
-							<a href="javascript:void(0)" class="edit">编辑</a>
-							<label for="phoneNum">手机号码</label>
-							<span class="default_value" id="phoneNum">13622458966</span>
-							<div class="con form">
-								<form action="">
-								<ul>
-									<li>
-										<label for="curMobile">当前手机号码：</label>
-										<span id="curMobile">13622458966</span>
-									</li>
-									<li>
-										<label for="mobile">新手机号码：</label>
-										<input type="text" id="mobile">
-										<span id="send_code">发送验证码</span>
-										<span id="mobile_succeed"></span>
-										<span id="mobile_error"></span>
-									</li>
-									<li>
-										<label for="authCode">请输入验证码：</label>
-										<input type="text" id="authCode">
-										<span id="authCode_succeed"></span>
-										<span id="authCode_error"></span>
-									</li>
-								</ul>
-								<div class="btn"><span id="mobile_save">保存</span></div>
-								</form>
-							</div>
-						</li>
-						<li>
-							<a href="javascript:void(0)" class="edit">编辑</a>
-							<label for="bding">绑定设置</label>
-							<span class="default_value" id="bding"><img src="{{ asset('img/common/sina_logo.png') }}" alt=""></span>
-							<div class="con bding">
-								<div>
-									<p><em>●</em>将91问问账户与你所喜欢的第三方服务绑定</p>
-									<p><em>●</em>用新浪微博账户轻松登陆91问问，分享更轻松！</p>
-								</div>
-								<ul class="btn">
-									<li>
-										<img src="{{ asset('img/personal/sina_logo.png') }}" alt="">
-										<span id="weibo_save">点击绑定</span>
-										<strong id="weibo_state">目前状态：未绑定</strong>
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<a href="javascript:void(0)" class="edit">编辑</a>
-							<label for="subscribe_state">订退邮件</label>
-							<span class="default_value" id="subscribe_state">当前已订阅</span>
-							<div class="con subscribe">
-								<ul>
-									<li><label>当前状态：</label><input id="subscribe" type="checkbox" checked="checked">订阅91问问周刊</li>
-									<li><p>注：有可能在你修改订阅状态时，当期周刊的邮件发送队列已经生成，<br>直到下一期周刊发送的时候，你的更改才能生效</p></li>
-									<li><p>当前订阅邮箱地址：wangxiaozu@163.com</p></li>
-								</ul>
-								<div class="btn"><span id="subscribe_save">保存</span></div>
-							</div>
-						</li>
-						<li>
-							<a href="javascript:void(0)" class="edit">编辑</a>
-							<label for="withdraw">注销账户</label>
-							<span class="default_value" id="withdraw">如果注销，您的积分会失效，请谨慎操作。</span>
-							<div class="con withdraw">
-								<div class="step1">
-									<p>亲爱的用户，感谢您一直以来参加91问问的问卷调查活动和关注我们的网站，请阅读以下的注意事项之后，完成会员注销程序。为了提升我们的服务质量，请您回答一份简短的问卷。</p>
-									<ul class="tips">
-										<li><em>●</em>选择注销用户后，您所有的问问积分将会失效。</li>
-										<li><em>●</em>选择注销用户后，将无法恢复您的账户。</li>
-										<li><em>●</em>会员注销后的基本信息将在3个月后完全删除。</li>
-									</ul>
-									<div class="btn"><span id="withdraw_continue">继续注销</span></div>
-								</div>
-								<div class="step2 hide">
-									<p>请确认您要注销会员。请在完成简单的问卷调查后，点击 《注销》 完成会员的注销手续。</p>
-									<div>用户注销以及问卷调查</div>
-									<ul class="reason">
-										<li><label for="email">邮件地址：</label><span id="email">wangxiaozu@163.com</span></li>
-										<li><label for="reasons">注销用户的理由：</label><span id="reasons"><ul class="reason-options">
-											<li><span><input type="checkbox" value="1">问卷调查活动的数量太少了</span><span><input type="checkbox" value="2">每个问卷的奖励太少了</span></li>
-											<li><span><input type="checkbox" value="3">问卷所要的时间太长了</span><span><input type="checkbox" value="4">相对于问题来说，积分报酬太少了</span></li>
-											<li><span><input type="checkbox" value="5">问卷的内容太难了</span><span><input type="checkbox" value="6">工作生活太忙，没时间参加</span></li>
-											<li><span><input type="checkbox" value="7">失去兴趣了</span></li>
-										</ul></span></li>
-									</ul>
-									<div class="btn"><span id="withdraw_save">注销用户</span></div>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
 		</div>
+	</div>
 </div>
 <script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/account')}}"></script>
 {% endblock %}

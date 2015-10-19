@@ -13,7 +13,7 @@ require.config({
         'transport': 'plugin/fileUpload/jquery.iframe-transport',
         'jcrop': 'plugin/Jcrop/jquery.Jcrop',
         'layDate': 'plugin/layDate/layDate',
-        'iframeResizer': 'plugin/iframeResizer.min',
+        'iframeResizer': 'plugin/iframeResizer/iframeResizer.min',
         'common':'common/common',
         'slider': 'common/slider',
         'countdown': 'common/countdown',

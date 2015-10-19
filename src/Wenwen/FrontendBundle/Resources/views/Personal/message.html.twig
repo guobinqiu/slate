@@ -15,16 +15,7 @@
 {% block body %}
 <div class="main">
 	<div class="main-personal w1000 clearfix">
-		<div class="main-personal-left left">
-			<h1>个人中心</h1>
-			<ul>
-					<li><a href="{{ path('wenwen_frontend_personal_profile') }}"><em></em>个人资料</a></li>
-					<li class="active"><a href="{{ path('wenwen_frontend_personal_message') }}"><em class="icon2"></em>我的消息</a></li>
-					<li><a href="{{ path('wenwen_frontend_personal_task') }}"><em class="icon3"></em>任务历史</a></li>
-					<li><a href="{{ path('wenwen_frontend_personal_exchange') }}"><em class="icon4"></em>兑换历史</a></li>
-					<li><a href="{{ path('wenwen_frontend_personal_account') }}"><em class="icon5"></em>账户设置</a></li>
-				</ul>
-		</div>
+		{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
 		<div class="main-personal-right right">
 			<div class="main-personal-message">
 				<div class="btn tabNav"><span class="active">私信</span><span>系统</span><div class="border"></div></div>

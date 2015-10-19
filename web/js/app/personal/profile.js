@@ -220,7 +220,7 @@ require(['../../config'],function(){
         //        }else{
                     //$(".img img").attr("src",path+data.result);
         $('#attachment').on('change',function(){
-            var data = { result: "uploads\/user\/6\/3-110512123G1112.jpg"},
+            var data = { result: "uploads\/user\/6\/1369644344.jpeg"},
                 path = '../../web/';
             $('.picCut').show();
             $(".imageInfo").html("<img src='"+path+data.result+"' id='target'/>");

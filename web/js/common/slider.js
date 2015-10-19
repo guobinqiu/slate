@@ -26,7 +26,6 @@ define(['jquery'],function($){
         },
         nextEle: function(){
             var _self = this;
-            console.log(_self.config.index);
             _self.config.index++;
             if(_self.config.index > (_self.config.eleLen - 1)){
                 _self.config.index = 0;
