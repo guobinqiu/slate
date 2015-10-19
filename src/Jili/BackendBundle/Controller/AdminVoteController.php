@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Jili\BackendBundle\Form\VoteType;
 use Jili\ApiBundle\Entity\Vote;
-use Jili\ApiBundle\Entity\VoteChoice;
-use Jili\ApiBundle\Entity\VoteImage;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\ValidateUtil;
 use Jili\BackendBundle\Utility\VoteImageResizer;
@@ -75,13 +73,14 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
         //get vote list
         $result = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList($active_flag);
-
         foreach ($result as $key => $value) {
             //get vote answer count
-            $result[$key]['answerCount'] = $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->getAnswerCount($value['id'], $value['yyyymm']);
-            if ($result[$key]['sqPath']) {
+            $result[$key]['answerCount'] = $em->getRepository('JiliApiBundle:VoteAnswer')->getAnswerCount($value['id']);
+            if ($result[$key]['voteImage']) {
                 //get sq image path
-                $result[$key]['sqPath'] = $this->container->getParameter('upload_vote_image_dir') . $result[$key]['sqPath'];
+                $vote = new Vote();
+                $vote->setSrcImagePath($result[$key]['voteImage']);
+                $result[$key]['sqPath'] = $this->container->getParameter('upload_vote_image_dir') . $vote->getDstImagePath('s');
             } else {
                 $result[$key]['sqPath'] = false;
             }
@@ -109,12 +108,11 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
             //set default time
             $vote->setStartTime($vote->getStartTime()->format('Y-m-d'));
             $vote->setEndTime($vote->getEndTime()->format('Y-m-d'));
-        } else {
-            //set vote choices
-            for ($i = 1; $i <= 10; $i++) {
-                $VoteChoice = new VoteChoice();
-                $vote->addVoteChoice($VoteChoice);
+            if ($vote->getStashData()) {
+                $choices = $vote->getStashData();
+                $vote->setStashData(implode("\r\n", $choices['choices']));
             }
+        } else {
             //set default time
             $vote->setStartTime(date('Y-m-d'));
             $vote->setEndTime(date('Y-m-d'));
@@ -136,12 +134,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     {
         $vote = new Vote();
         $tmp_image = '';
-
-        //set vote choices
-        for ($i = 1; $i <= 10; $i++) {
-            $VoteChoice = new VoteChoice();
-            $vote->addVoteChoice($VoteChoice);
-        }
 
         //create vote form and get form data
         $form = $this->createForm(new VoteType(), $vote);
@@ -186,12 +178,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $vote = new Vote();
         $new_flag = true;
 
-        //set vote choices
-        for ($i = 1; $i <= 10; $i++) {
-            $VoteChoice = new VoteChoice();
-            $vote->addVoteChoice($VoteChoice);
-        }
-
         //create vote form and get form data
         $form = $this->createForm(new VoteType(), $vote);
         $form->bind($request);
@@ -219,7 +205,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 } else {
                     //add: create vote entity
                     $vote_entity = new Vote();
-                    $vote_entity->setYyyymm(date('Ym'));
                 }
 
                 //set vote other values
@@ -229,39 +214,34 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 $vote_entity->setEndTime(\DateTime::createFromFormat('Y-m-d H:i:s', $values->getEndTime() . ' 23:59:59'));
                 $vote_entity->setPointValue($values->getPointValue());
 
-                // 月別テーブルをつくる
-                $this->generateMonthlyTable($vote_entity);
+                //vote choice
+                $choices = explode("\r\n", $values->getStashData());
+                foreach ($choices as $k => $v) {
+                    $vote_stashdata['choices'][$k + 1] = trim($v);
+                }
+                $vote_entity->setStashData($vote_stashdata);
+
+                $tmp_image = $request->request->get('tmp_image');
+                if ($tmp_image) {
+                    $vote_entity->setSrcImagePath($this->getTmpImageDir() . '/' . $tmp_image);
+                    $vote_entity->setFile($this->getTmpImageDir() . '/' . $tmp_image);
+
+                    //image resizer
+                    $source_path = $this->getTmpImageDir() . '/' . $tmp_image;
+                    $target_dir = $this->container->getParameter('upload_vote_image_dir');
+                    VoteImageResizer::resizeImage($source_path, $target_dir, $vote_entity->getSPath(), $vote_entity::S_SIDE);
+                }
 
                 $em->persist($vote_entity);
                 $em->flush();
 
-                //get vote id
-                $vote_id = $vote_entity->getId();
-
-                foreach ($values->getVoteChoices() as $key => $choice) {
-                    //get vote choice entity
-                    $choice_entity = $em->getRepository('JiliApiBundle:VoteChoice')->findOneBy(array (
-                        'voteId' => $vote_id,
-                        'answerNumber' => $choice->getAnswerNumber()
-                    ));
-                    if (!$choice_entity) {
-                        // if choice not exist, create VoteChoice entity
-                        $choice_entity = new VoteChoice();
-                        $choice_entity->setVote($vote_entity);
-                        $choice_entity->setAnswerNumber($choice->getAnswerNumber());
-                    }
-                    //set choice name
-                    $choice_entity->setName($choice->getName());
-                    $em->persist($choice_entity);
-                    $em->flush();
-                }
                 $db_connection->commit();
             } catch (\Exception $e) {
                 $db_connection->rollback();
                 echo $e->getMessage();
 
                 $log_path = $this->container->getParameter('admin_vote_log_path');
-                FileUtil::writeContents($log_path, 'vote save fail: '. $e->getMessage());
+                FileUtil::writeContents($log_path, 'vote save fail: ' . $e->getMessage());
 
                 return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
                     'form' => $form->createView(),
@@ -269,35 +249,9 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 ));
             }
 
-            $tmp_image = $request->request->get('tmp_image');
-
-            if ($tmp_image) {
-                //remove vote image data
-                $images = $em->getRepository('JiliApiBundle:VoteImage')->findByVoteId($vote_id);
-                foreach ($images as $image) {
-                    $em->remove($image);
-                    $em->flush();
-                }
-
-                //create VoteImage entity
-                $vote_image = new VoteImage();
-                $vote_image->setVoteId($vote_id);
-                $vote_image->setSrcImagePath($this->getTmpImageDir() . '/' . $tmp_image);
-                $vote_image->setFile($this->getTmpImageDir() . '/' . $tmp_image);
-
-                $em->persist($vote_image);
-                $em->flush();
-
-                //image resizer
-                $source_path = $this->getTmpImageDir() . '/' . $tmp_image;
-                $target_dir = $this->container->getParameter('upload_vote_image_dir');
-                VoteImageResizer::resizeImage($source_path, $target_dir, $vote_image->getSqPath(), $vote_image::SQ_SIDE);
-                VoteImageResizer::resizeImage($source_path, $target_dir, $vote_image->getSPath(), $vote_image::S_SIDE);
-                VoteImageResizer::resizeImage($source_path, $target_dir, $vote_image->getMPath(), $vote_image::M_SIDE);
-            }
             return $this->render('JiliBackendBundle:Vote:index.html.twig', array (
                 'vote_edit_complete' => true,
-                'edited_vote_id' => $vote_id,
+                'edited_vote_id' => $vote_entity->getId(),
                 'is_new' => $new_flag
             ));
         }
@@ -322,18 +276,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $db_connection->beginTransaction();
 
         try {
-            //remove vote choice
-            $voteChoices = $em->getRepository('JiliApiBundle:VoteChoice')->findByVoteId($id);
-            foreach ($voteChoices as $voteChoice) {
-                $em->remove($voteChoice);
-            }
-
-            //remove vote image
-            $voteImages = $em->getRepository('JiliApiBundle:VoteImage')->findByVoteId($id);
-            foreach ($voteImages as $voteImage) {
-                $em->remove($voteImage);
-            }
-
             //remove vote
             $vote = $em->getRepository('JiliApiBundle:Vote')->find($id);
             if ($vote) {
@@ -360,18 +302,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         } else {
             return $this->redirect($this->get('router')->generate('_admin_vote_index'));
         }
-    }
-
-    /**
-     * 月別テーブル作成
-     *
-     * @param Vote
-     */
-    public function generateMonthlyTable(Vote $vote)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->getRepository('JiliApiBundle:VoteAnswerYyyymm')->createYyyymmTable($vote->getYyyymm());
-        return true;
     }
 
     /**

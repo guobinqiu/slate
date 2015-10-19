@@ -93,9 +93,7 @@ class Vote
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
     private $src_image_path;
-
 
     public function __construct()
     {
@@ -222,12 +220,12 @@ class Vote
     /**
      * Set stashData
      *
-     * @param string $stashData
+     * @param array $stashData
      * @return Vote
      */
     public function setStashData($stashData)
     {
-        $this->stashData = $stashData;
+        $this->stashData = json_encode($stashData);
 
         return $this;
     }
@@ -235,11 +233,11 @@ class Vote
     /**
      * Get stashData
      *
-     * @return string
+     * @return array
      */
     public function getStashData()
     {
-        return $this->stashData;
+        return json_decode($this->stashData, true);
     }
 
     /**
