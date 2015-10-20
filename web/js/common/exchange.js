@@ -1,5 +1,5 @@
 define(['jquery', 'layer'],function($, layer){
-    //计算金额�����
+    //计算金额
     //交互模拟结果数据（用户当前积分）
     var has = { result: { money: '2050'}};
     var exchange = function(options){
