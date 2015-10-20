@@ -49,10 +49,12 @@
             <td>{{form_label(form.voteImage)}}</td>
             <td>{{ form_widget(form.voteImage) }}</td>
         </tr>
+         {% for key, voteChoice in voteChoices %}
         <tr>
-            <td>{{form_label(form.stashData)}}</td>
-            <td>{{ form_widget(form.stashData) }}</td>
+            <td>Choice_{{key}}</td>
+            <td><input type="text" name="answer_number_{{key}}" id="answer_number_{{key}}" value="{{voteChoice}}" /></td>
         </tr>
+        {% endfor %}
         {{ form_widget(form._token) }}
         <tr>
             <td>&nbsp;</td>

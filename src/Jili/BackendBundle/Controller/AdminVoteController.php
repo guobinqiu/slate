@@ -98,6 +98,9 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     public function editAction(Request $request)
     {
         $vote = new Vote();
+        for ($i = 1; $i <= 10; $i++) {
+            $voteChoices[$i] = '';
+        }
 
         if ($request->query->has('id')) {
             $vote_id = $request->query->get('id');
@@ -105,15 +108,18 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
             //get vote
             $vote = $em->getRepository('JiliApiBundle:Vote')->findOneById($vote_id);
 
-            //set default time
+            //set default value
             $vote->setStartTime($vote->getStartTime()->format('Y-m-d'));
             $vote->setEndTime($vote->getEndTime()->format('Y-m-d'));
             if ($vote->getStashData()) {
                 $stashData = $vote->getStashData();
-                $vote->setStashData(implode("\r\n", $stashData['choices']));
+                $choices = $stashData['choices'];
+                foreach ($choices as $key => $value) {
+                    $voteChoices[$key] = $value;
+                }
             }
         } else {
-            //set default time
+            //set default value
             $vote->setStartTime(date('Y-m-d'));
             $vote->setEndTime(date('Y-m-d'));
             $vote->setPointValue(1);
@@ -123,7 +129,8 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $form = $this->createForm(new VoteType(), $vote);
 
         return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'voteChoices' => $voteChoices
         ));
     }
 
@@ -140,6 +147,9 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $form->bind($request);
         $values = $form->getData();
 
+        for ($i = 1; $i <= 10; $i++) {
+            $voteChoices[$i] = $request->request->get('answer_number_' . $i);
+        }
         //get error messages
         $error_meeeages = $this->getFormErrors($form);
 
@@ -160,13 +170,15 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
             return $this->render('JiliBackendBundle:Vote:editConfirm.html.twig', array (
                 'form' => $form->createView(),
                 'values' => $values,
-                'tmp_image' => $tmp_image
+                'tmp_image' => $tmp_image,
+                'voteChoices' => $voteChoices
             ));
         }
 
         return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
             'form' => $form->createView(),
-            'error_meeeages' => $error_meeeages
+            'error_meeeages' => $error_meeeages,
+            'voteChoices' => $voteChoices
         ));
     }
 
@@ -182,6 +194,10 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $form = $this->createForm(new VoteType(), $vote);
         $form->bind($request);
         $values = $form->getData();
+
+        for ($i = 1; $i <= 10; $i++) {
+            $voteChoices[$i] = $request->request->get('answer_number_' . $i);
+        }
 
         //get error messages
         $error_meeeages = $this->getFormErrors($form);
@@ -215,12 +231,9 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 $vote_entity->setPointValue($values->getPointValue());
 
                 //vote choice
-                $choices = explode("\r\n", $values->getStashData());
-                $i = 1;
-                foreach ($choices as $v) {
+                foreach ($voteChoices as $k => $v) {
                     if (trim($v)) {
-                        $vote_stashdata['choices'][$i] = trim($v);
-                        $i++;
+                        $vote_stashdata['choices'][$k] = trim($v);
                     }
                 }
                 $vote_entity->setStashData($vote_stashdata);

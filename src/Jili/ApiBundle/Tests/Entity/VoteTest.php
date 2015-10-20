@@ -58,6 +58,7 @@ class VoteTest extends KernelTestCase
 
         $vote->setStashData('test');
         $this->assertEquals('test', $vote->getStashData());
+        $this->assertEquals(0, json_last_error());
     }
 }
 

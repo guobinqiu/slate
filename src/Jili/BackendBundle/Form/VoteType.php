@@ -65,17 +65,6 @@ class VoteType extends AbstractType
             'constraints' => new NotBlank(),
             'invalid_message' => 'Invalid description'
         ));
-        $builder->add('stashData', 'textarea', array (
-            'label' => 'vote choices',
-            'required' => true,
-            'attr' => array (
-                'rows' => '6',
-                'cols' => '50'
-            ),
-            'constraints' => new NotBlank(),
-            'invalid_message' => 'Invalid stashData'
-        ));
-
         $builder->add('voteImage', 'file', array (
             'required' => false,
             'label' => 'voteImage',

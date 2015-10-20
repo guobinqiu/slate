@@ -26,7 +26,6 @@
 {{ form_widget(form.title) }}
 {{ form_widget(form.description) }}
 {{ form_widget(form.voteImage) }}
-{{ form_widget(form.stashData) }}
 </div>
 
     <table align='center'>
@@ -62,10 +61,13 @@
                     {%endif%}
             </td>
         </tr>
+         {% for key, voteChoice in voteChoices %}
         <tr>
-            <td>{{form_label(form.stashData)}}</td>
-            <td>{% autoescape false %}{{form.stashData.vars.value|nl2br }}{% endautoescape %}</td>
+            <td>Choice_{{key}}</td>
+            <td>{% autoescape false %}{{voteChoice|nl2br}}{% endautoescape %}</td>
+            <input type="hidden" name="answer_number_{{key}}" id="answer_number_{{key}}" value="{{voteChoice}}" />
         </tr>
+        {% endfor %}
         {{ form_widget(form._token) }}
         {{form_errors(form)}}
         <tr>
