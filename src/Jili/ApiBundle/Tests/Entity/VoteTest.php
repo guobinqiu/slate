@@ -55,6 +55,9 @@ class VoteTest extends KernelTestCase
         );
         $vote->setStashData($stashData);
         $this->assertEquals($stashData, $vote->getStashData());
+
+        $vote->setStashData('test');
+        $this->assertEquals('test', $vote->getStashData());
     }
 }
 
