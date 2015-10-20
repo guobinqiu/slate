@@ -11,7 +11,7 @@ define(['jquery'],function($){
         init: function(){
             var _self = this;
             if(_self.isFocusPrompt){
-                if(!_self.alipayInput){
+                if(_self.alipayInput){
                     $(_self.alipayInput).focus(function(){
                         _self.eFocus(_self.alipayInput);
                     }).blur(function(){
@@ -25,13 +25,13 @@ define(['jquery'],function($){
                         }
                     });
                 }
-                if(!_self.realName){
+                if(_self.realName){
                     $(_self.realName).focus(function(){
                         _self.eFocus(_self.realName);
                     }).blur(function(){
                         var name = $(_self.realName).val().trim();
                         if (name == "" || (_self.isRealName(name) == false)) {
-                            _self.eError(_self.realName, '请输入您的姓名');
+                            _self.eError(_self.realName, '请务必填写真实姓名与支付宝匹配，否则有可能兑换失败。');
                             return false;
                         }else{
                             _self.eSucceed(_self.realName);
@@ -74,11 +74,12 @@ define(['jquery'],function($){
                 alipaySucceed = $(inputEle +'_succeed'),
                 alipayError = $(inputEle +'_error');
             alipayInput.removeClass('input_error');
-            alipaySucceed.removeClass();
-            if(prompt = '' || prompt == undefined){
+            if(prompt == '' || prompt == undefined){
+                alipaySucceed.removeClass();
                 alipayError.removeClass();
             }else{
-                alipayError.removeClass().addClass('error').html(prompt);
+                alipaySucceed.removeClass().addClass('focus').html(prompt);
+                alipayError.removeClass().html('');
             }
         },
         eError: function(inputEle, prompt){

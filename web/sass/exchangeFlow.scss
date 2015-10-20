@@ -18,6 +18,15 @@
 		border-left: 6px solid $main-color;
 	}
 }
+.form{
+	.main-con-exchangeInfo{
+		span{
+			&.error{
+				padding: 0 5px;
+			}
+		}
+	}
+}
 .main-con-exchangeInfo{
 	padding: 50px;
 	li{
