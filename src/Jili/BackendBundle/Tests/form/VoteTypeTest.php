@@ -42,7 +42,6 @@ class VoteTypeTest extends TypeTestCase
             'pointValue' => 1,
             'title' => 'test:title',
             'description' => 'test:description',
-            'stashData' => 'test:test',
             'voteImage' => ''
         );
 
@@ -55,7 +54,6 @@ class VoteTypeTest extends TypeTestCase
         $this->assertEquals($formData['pointValue'], $vote->getPointValue());
         $this->assertEquals($formData['title'], $vote->getTitle());
         $this->assertEquals($formData['description'], $vote->getDescription());
-        $this->assertEquals($formData['stashData'], $vote->getStashData());
 
         $view = $form->createView();
         $children = $view->children;
