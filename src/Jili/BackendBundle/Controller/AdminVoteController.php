@@ -109,8 +109,8 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
             $vote->setStartTime($vote->getStartTime()->format('Y-m-d'));
             $vote->setEndTime($vote->getEndTime()->format('Y-m-d'));
             if ($vote->getStashData()) {
-                $choices = $vote->getStashData();
-                $vote->setStashData(implode("\r\n", $choices['choices']));
+                $stashData = $vote->getStashData();
+                $vote->setStashData(implode("\r\n", $stashData['choices']));
             }
         } else {
             //set default time
@@ -216,8 +216,12 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
                 //vote choice
                 $choices = explode("\r\n", $values->getStashData());
-                foreach ($choices as $k => $v) {
-                    $vote_stashdata['choices'][$k + 1] = trim($v);
+                $i = 1;
+                foreach ($choices as $v) {
+                    if (trim($v)) {
+                        $vote_stashdata['choices'][$i] = trim($v);
+                        $i++;
+                    }
                 }
                 $vote_entity->setStashData($vote_stashdata);
 
