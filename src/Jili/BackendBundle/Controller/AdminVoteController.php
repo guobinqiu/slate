@@ -262,7 +262,8 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
                 return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
                     'form' => $form->createView(),
-                    'error_meeeages' => $e->getMessage()
+                    'error_meeeages' => $e->getMessage(),
+                    'voteChoices' => $voteChoices
                 ));
             }
 
@@ -275,7 +276,8 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
         return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
             'form' => $form->createView(),
-            'error_meeeages' => $error_meeeages
+            'error_meeeages' => $error_meeeages,
+            'voteChoices' => $voteChoices
         ));
     }
 
