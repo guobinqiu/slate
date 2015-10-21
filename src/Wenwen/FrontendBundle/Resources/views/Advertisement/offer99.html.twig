@@ -15,104 +15,14 @@
 {% block body %}
 <div class="main">
 	<div class="main-con w1000">
-			<div class="main-con-shop clearfix">
-				<div class="main-slider left">
-					<div class="mask">
-						<ul class="clearfix">
-							<li>
-								<span>
-									<h2>寻找幸运7</h2>
-									<p>进口美食满199件100元！持续活动一直到月底哦！</p>
-									<a href="">去购物，最高返10.45%</a>
-									<div class="relate">
-										<div class="shopName"><em></em>京东商城</div>
-										<div class="attention"><em></em>1250</div>
-									</div>
-								</span>
-								<a href=""><img src="{{ asset('img/temp/sn.jpg') }}" alt=""></a>
-							</li>
-							<li>
-								<span>
-									<h2>寻找幸运7</h2>
-									<p>进口美食满199件100元！持续活动一直到月底哦！</p>
-									<a href="">去购物，最高返10.45%</a>
-									<div class="relate">
-										<div class="shopName"><em></em>京东商城</div>
-										<div class="attention"><em></em>1250</div>
-									</div>
-								</span>
-								<a href=""><img src="{{ asset('img/temp/sn.jpg') }}" alt=""></a>
-							</li>
-							<li>
-								<span>
-									<h2>寻找幸运7</h2>
-									<p>进口美食满199件100元！持续活动一直到月底哦！</p>
-									<a href="">去购物，最高返10.45%</a>
-									<div class="relate">
-										<div class="shopName"><em></em>京东商城</div>
-										<div class="attention"><em></em>1250</div>
-									</div>
-								</span>
-								<a href=""><img src="{{ asset('img/img/temp/sn.jpg') }}" alt=""></a>
-							</li>
-							<li>
-								<span>
-									<h2>寻找幸运7</h2>
-									<p>进口美食满199件100元！持续活动一直到月底哦！</p>
-									<a href="">去购物，最高返10.45%</a>
-									<div class="relate">
-										<div class="shopName"><em></em>京东商城</div>
-										<div class="attention"><em></em>1250</div>
-									</div>
-								</span>
-								<a href=""><img src="{{ asset('img/temp/sn.jpg') }}" alt=""></a>
-							</li>
-							<li>
-								<span>
-									<h2>寻找幸运7</h2>
-									<p>进口美食满199件100元！持续活动一直到月底哦！</p>
-									<a href="">去购物，最高返10.45%</a>
-									<div class="relate">
-										<div class="shopName"><em></em>京东商城</div>
-										<div class="attention"><em></em>1250</div>
-									</div>
-								</span>
-								<a href=""><img src="{{ asset('img/temp/sn.jpg') }}" alt=""></a>
-							</li>
-						</ul>
-					</div>
-					<div class="btn-group">
-						<b class="active"></b>
-						<b></b>
-						<b></b>
-						<b></b>
-						<b></b>
-					</div>
-				</div>
-				<div class="shops right">
-					<h2><em></em>返利商家</h2>
-					<ul class="shops clearfix">
-						<li><a href="http://www.suning.com/"><img src="{{ asset('img/temp/jd.jpg') }}" alt=""></a><a href="http://www.suning.com/" class="prompt" target="_blank">最高返<b>5%</b></a></li>
-						<li><a href=""><img src="{{ asset('img/temp/1hd.jpg') }}" alt=""></a><a href="" class="prompt" target="_blank">最高返<b>5%</b></a></li>
-						<li><a href=""><img src="{{ asset('img/temp/yl.jpg') }}" alt=""></a><a href="" class="prompt" target="_blank">最高返<b>5%</b></a></li>
-						<li><a href=""><img src="{{ asset('img/temp/yh.jpg') }}" alt=""></a><a href="" class="prompt" target="_blank">最高返<b>5%</b></a></li>
-						<li><a href=""><img src="{{ asset('img/temp/jd.jpg') }}" alt=""></a><a href="" class="prompt" target="_blank">最高返<b>5%</b></a></li>
-						<li><a href="{{ path('wenwen_frontend_advertisement_shoplist') }}">全部>></a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="gameBanner"><a href="{{ path('wenwen_frontend_advertisement_game') }}"><img src="{{ asset('img/advertisement/chickBanner.jpg') }}" alt=""></a></div>
-			<div class="main-con-advertisement">
-				<div class="tabBtns">
-					<a href="{{ path('wenwen_frontend_advertisement_index') }}" class="first">任务大厅一</a>
-					<a href="{{ path('wenwen_frontend_advertisement_bangwoya') }}">任务大厅二</a>
-					<a href="{{ path('wenwen_frontend_advertisement_offer99') }}" class="active">任务大厅三</a>
-				</div>
-				<div class="tabCon offer99">
-					<iframe src='http://app.offer99.com/index.php?pid=f4b42b65ce528bb151ea6e2eb5a01692&userid=1132938' style='width:1000px;height:1140px;' scrolling='auto' frameborder='no' border='0' allowTransparency='true'></iframe>
-				</div>
+		{% include 'WenwenFrontendBundle:Advertisement:_shopSlider.html.twig' %} 
+		<div class="main-con-advertisement">
+			{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
+			<div class="tabCon offer99">
+				<iframe src='http://app.offer99.com/index.php?pid=f4b42b65ce528bb151ea6e2eb5a01692&userid=1132938' style='width:1000px;height:1140px;' scrolling='auto' frameborder='no' border='0' allowTransparency='true'></iframe>
 			</div>
 		</div>
+	</div>
 </div>
 <script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/advertisement/advertisement')}}"></script>
 {% endblock %}

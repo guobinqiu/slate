@@ -39,10 +39,9 @@ require(['../../config'],function(){
                     }
                     var name = $(realNameInput).val().trim();
                     if (name == "" || (validateAlipay.isRealName(name) == false)) {
-                        validateAlipay.eError(realNameInput, '请输入您的姓名');
+                        validateAlipay.eError(realNameInput, '请务必填写真实姓名与支付宝匹配，否则有可能兑换失败。');
                         return false;
                     }
-                    validateAlipay.eSucceed(alipayRepeatInput);
                     if(!validateMoney()){
                         return false;
                     }

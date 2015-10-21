@@ -17,7 +17,7 @@
 	<div class="main-con w1000 clearfix">
 			<div class="main-con-left left">
 				<div class="vote vote-sub">
-					<h1>【生活】错误急救可能造成二次伤害你知道哪点？<a href="{{ path('wenwen_frontend_vote_index') }}" "vote.html">返回快速问答一览</a></h1>
+					<h1>【生活】错误急救可能造成二次伤害你知道哪点？<a href="{{ path('wenwen_frontend_vote_index') }}">返回快速问答一览</a></h1>
 					<div class="relate">
 						<img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt="">
 						<div class="relate-text">
@@ -43,7 +43,7 @@
 						</ul>
 						<div class="btn"><a href="{{ path('wenwen_frontend_vote_result') }}">仅查看结果>></a><span>投票</span></div>
 					</div>
-				</div>
+			    </div>
 			</div>
 			<div class="main-con-right right">
 				<div><a href="{{ path('wenwen_frontend_vote_suggest') }}"><img src="{{ asset('img/vote/prize.jpg') }}" alt=""></a></div>
@@ -85,7 +85,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+	</div>
 </div>
 <script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/vote/voteDetail')}}"></script>
 {% endblock %}
