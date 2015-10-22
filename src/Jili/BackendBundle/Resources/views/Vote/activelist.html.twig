@@ -21,7 +21,7 @@
       <td align="left">{{ item.title }}({{ item.answerCount }})</td>
       <td align="left"> {% if (item.sqPath) %} <img src="{{ asset(item.sqPath)}}" alt="{{item.sqPath}}"/>{% else %}No image{% endif %}</td>
       <td align="center"><a href="{{ path('_admin_vote_edit',{'id':item.id}) }}">编辑</a>
-      <a href="{{ path('_admin_vote_delete')}}?id={{item.id}}&ret_action={{router_current}}&page={{page}}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a></td>
+      <a href="{{ path('_admin_vote_delete',{'id':item.id,'ret_action':router_current,'page':page,'csrf_token':csrf_token})}}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a></td>
    </tr>
     {% endfor %}
     {% endif %}

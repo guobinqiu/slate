@@ -65,13 +65,6 @@ class Vote
     private $voteImage;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="delete_flag", type="boolean", nullable=true)
-     */
-    private $deleteFlag;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
@@ -261,29 +254,6 @@ class Vote
     public function getVoteImage()
     {
         return $this->voteImage;
-    }
-
-    /**
-     * Set deleteFlag
-     *
-     * @param boolean $deleteFlag
-     * @return Vote
-     */
-    public function setDeleteFlag($deleteFlag)
-    {
-        $this->deleteFlag = $deleteFlag;
-
-        return $this;
-    }
-
-    /**
-     * Get deleteFlag
-     *
-     * @return boolean
-     */
-    public function getDeleteFlag()
-    {
-        return $this->deleteFlag;
     }
 
     /**

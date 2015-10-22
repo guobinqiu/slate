@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\BackendBundle\Form\VoteType;
 use Jili\ApiBundle\Entity\Vote;
 use Jili\ApiBundle\Utility\FileUtil;
@@ -36,6 +37,11 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
      */
     public function indexAction(Request $request)
     {
+        $csrfProvider = new DefaultCsrfProvider('SECRET');
+        $csrf_token = $csrfProvider->generateCsrfToken('vote');
+        $session = $request->getSession();
+        $session->set('csrf_token', $csrf_token);
+
         return $this->render('JiliBackendBundle:Vote:index.html.twig');
     }
 
@@ -49,6 +55,16 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $arr = $this->getVoteList($page, $active_flag);
         $arr['paging'] = $paging;
         $arr['page'] = $page;
+
+        $session = $request->getSession();
+        $csrf_token = $session->get('csrf_token');
+        if (!$csrf_token) {
+            $csrfProvider = new DefaultCsrfProvider('SECRET');
+            $csrf_token = $csrfProvider->generateCsrfToken('vote');
+            $session->set('csrf_token', $csrf_token);
+        }
+        $arr['csrf_token'] = $csrf_token;
+
         return $this->render('JiliBackendBundle:Vote:activelist.html.twig', $arr);
     }
 
@@ -62,6 +78,16 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $arr = $this->getVoteList($page, $active_flag);
         $arr['paging'] = $paging;
         $arr['page'] = $page;
+
+        $session = $request->getSession();
+        $csrf_token = $session->get('csrf_token');
+        if (!$csrf_token) {
+            $csrfProvider = new DefaultCsrfProvider('SECRET');
+            $csrf_token = $csrfProvider->generateCsrfToken('vote');
+            $session->set('csrf_token', $csrf_token);
+        }
+        $arr['csrf_token'] = $csrf_token;
+
         return $this->render('JiliBackendBundle:Vote:reserveList.html.twig', $arr);
     }
 
@@ -69,7 +95,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     {
         $page_size = $this->container->getParameter('page_num');
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         //get vote list
         $result = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList($active_flag);
@@ -240,11 +266,11 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
                 $tmp_image = $request->request->get('tmp_image');
                 if ($tmp_image) {
-                    $vote_entity->setSrcImagePath($this->getTmpImageDir() . '/' . $tmp_image);
-                    $vote_entity->setFile($this->getTmpImageDir() . '/' . $tmp_image);
+                    $vote_entity->setSrcImagePath($this->getTmpImageDir() . $tmp_image);
+                    $vote_entity->setFile($this->getTmpImageDir() . $tmp_image);
 
                     //image resizer
-                    $source_path = $this->getTmpImageDir() . '/' . $tmp_image;
+                    $source_path = $this->getTmpImageDir() . $tmp_image;
                     $target_dir = $this->container->getParameter('upload_vote_image_dir');
                     VoteImageResizer::resizeImage($source_path, $target_dir, $vote_entity->getSPath(), $vote_entity::S_SIDE);
                 }
@@ -255,7 +281,6 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 $db_connection->commit();
             } catch (\Exception $e) {
                 $db_connection->rollback();
-                echo $e->getMessage();
 
                 $log_path = $this->container->getParameter('admin_vote_log_path');
                 FileUtil::writeContents($log_path, 'vote save fail: ' . $e->getMessage());
@@ -289,6 +314,14 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
         $id = $request->query->get('id');
         $ret_page = $request->query->get('page', '');
         $ret_action = $request->query->get('ret_action', '');
+        $csrf_token = $request->query->get('csrf_token', '');
+
+        //csrf_token check
+        $session = $request->getSession();
+        if (!$csrf_token || ($csrf_token != $session->get('csrf_token'))) {
+            return $this->redirect($this->get('router')->generate('_admin_vote_index'));
+        }
+        $session->remove('csrf_token');
 
         $em = $this->getDoctrine()->getManager();
         $db_connection = $em->getConnection();
