@@ -5,6 +5,7 @@ namespace Jili\BackendBundle\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
@@ -41,6 +42,8 @@ class AdminVoteControllerTest extends WebTestCase
 
         $this->em = $em;
         $this->container = $container;
+
+        @session_start();
     }
 
     /**
@@ -185,8 +188,16 @@ class AdminVoteControllerTest extends WebTestCase
     public function testDeleteAction()
     {
         $client = static::createClient();
-        $container = $client->getContainer();
+        $session = $client->getContainer()->get('session');
+
         $em = $this->em;
+
+        $csrfProvider = new DefaultCsrfProvider('SECRET');
+        $csrf_token = $csrfProvider->generateCsrfToken('vote');
+        $session->set('csrf_token', $csrf_token);
+        $session->save();
+
+        $this->assertTrue($session->has('csrf_token'));
 
         $before = $em->getRepository('JiliApiBundle:Vote')->findOneById(1);
         $this->assertNotNull($before);
@@ -195,7 +206,8 @@ class AdminVoteControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url, array (
             'id' => 1,
             'page' => '',
-            'ret_action' => ''
+            'ret_action' => '',
+            'csrf_token' => $csrf_token
         ));
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
