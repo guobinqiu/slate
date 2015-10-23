@@ -1,6 +1,6 @@
 parameters:
 # user related
-    login.listener.class: Jili\ApiBundle\EventListener\LoginListener
+    login.listener.class: Jili\ApiBundle\Services\UserLogin
     soap.mail.listener.class: Jili\ApiBundle\EventListener\SoapMailListener
     user_sign_up_route.class: Jili\ApiBundle\Services\UserSignUpTracer
     user_source.logger.class: Jili\ApiBundle\Services\Logger\UserSourceLogger
@@ -72,6 +72,7 @@ services:
             - [setContainer, ["@service_container"]]
             - [setTaskList, [ @session.task_list ]]
             - [setUserConfig, [ @session.user_configs]]
+
 
     soap.mail.listener:
         class: %soap.mail.listener.class%

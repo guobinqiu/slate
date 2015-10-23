@@ -44,6 +44,7 @@ class LoadUserSetPasswordCodeData  extends AbstractFixture implements ContainerA
         $user->setPoints($this->container->getParameter('init'));
         $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
+        $user->setPasswordChoice(User::PWD_WENWEN);
 
         $user->setPwd('123qwe');
         $manager->persist($user);
@@ -64,65 +65,66 @@ class LoadUserSetPasswordCodeData  extends AbstractFixture implements ContainerA
         $this->addReference('set_password_code0', $setPasswordCode);
         self::$USER[] = $user;
         self::$SET_PASSWORD_CODE[] = $setPasswordCode;
-###### //  user 1
-$user = new User();
-$user->setNick('alice32');
-$user->setEmail('alice.nima@gmail.com');
-$user->setPoints($this->container->getParameter('init'));
-$user->setIsInfoSet($this->container->getParameter('init'));
-$user->setRewardMultiple($this->container->getParameter('init_one'));
 
-$user->setPwd('123qwe');
-$manager->persist($user);
-$manager->flush();
-######
-######         // with invalid create_time
-$setPasswordCode = new SetPasswordCode();
-$setPasswordCode->setUserId($user->getId());
+        ###### //  user 1
+        $user = new User();
+        $user->setNick('alice32');
+        $user->setEmail('alice.nima@gmail.com');
+        $user->setPoints($this->container->getParameter('init'));
+        $user->setIsInfoSet($this->container->getParameter('init'));
+        $user->setRewardMultiple($this->container->getParameter('init_one'));
 
-$str = 'jilifirstregister';
-$code = md5($user->getId().str_shuffle($str));
-$setPasswordCode->setCode($code);
-$invalid_created =new \DateTime();
-$invalid_created ->setTimestamp( time() - SetPasswordCode::$VALIDATION_OF_SIGNUP_ACTIVATE -1  );
-$setPasswordCode->setCreateTime($invalid_created );
-$setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
-######
-$manager->persist($setPasswordCode);
-$manager->flush();
-######
-$this->addReference('user1', $user);
-$this->addReference('set_password_code1', $setPasswordCode);
-self::$USER[] = $user;
-self::$SET_PASSWORD_CODE[] = $setPasswordCode;
-###### //  user2
-$user = new User();
-$user->setNick('centeRay32');
-         $user->setEmail('center_ay@sohu.com');
-         $user->setPoints($this->container->getParameter('init'));
-         $user->setIsInfoSet($this->container->getParameter('init'));
-         $user->setRewardMultiple($this->container->getParameter('init_one'));
+        $user->setPwd('123qwe');
+        $manager->persist($user);
+        $manager->flush();
+        ######
+        ######         // with invalid create_time
+        $setPasswordCode = new SetPasswordCode();
+        $setPasswordCode->setUserId($user->getId());
 
-         $user->setPwd('123qwe');
-         $manager->persist($user);
-         $manager->flush();
+        $str = 'jilifirstregister';
+        $code = md5($user->getId().str_shuffle($str));
+        $setPasswordCode->setCode($code);
+        $invalid_created =new \DateTime();
+        $invalid_created ->setTimestamp( time() - SetPasswordCode::$VALIDATION_OF_SIGNUP_ACTIVATE -1  );
+        $setPasswordCode->setCreateTime($invalid_created );
+        $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
+        ######
+        $manager->persist($setPasswordCode);
+        $manager->flush();
+        ######
+        $this->addReference('user1', $user);
+        $this->addReference('set_password_code1', $setPasswordCode);
+        self::$USER[] = $user;
+        self::$SET_PASSWORD_CODE[] = $setPasswordCode;
+        ###### //  user2
+        $user = new User();
+        $user->setNick('centeRay32');
+        $user->setEmail('center_ay@sohu.com');
+        $user->setPoints($this->container->getParameter('init'));
+        $user->setIsInfoSet($this->container->getParameter('init'));
+        $user->setRewardMultiple($this->container->getParameter('init_one'));
 
-         // with invalid is_avaiable
-         $setPasswordCode = new SetPasswordCode();
-         $setPasswordCode->setUserId($user->getId());
+        $user->setPwd('123qwe');
+        $manager->persist($user);
+        $manager->flush();
 
-         $str = 'jilifirstregister';
-         $code = md5($user->getId().str_shuffle($str));
-         $setPasswordCode->setCode($code);
-         $setPasswordCode->setIsAvailable( 0 );
+        // with invalid is_avaiable
+        $setPasswordCode = new SetPasswordCode();
+        $setPasswordCode->setUserId($user->getId());
 
-         $manager->persist($setPasswordCode);
-         $manager->flush();
+        $str = 'jilifirstregister';
+        $code = md5($user->getId().str_shuffle($str));
+        $setPasswordCode->setCode($code);
+        $setPasswordCode->setIsAvailable( 0 );
 
-         $this->addReference('user2', $user);
-         $this->addReference('set_password_code2', $setPasswordCode);
-         self::$USER[] = $user;
-         self::$SET_PASSWORD_CODE[] = $setPasswordCode;
+        $manager->persist($setPasswordCode);
+        $manager->flush();
+
+        $this->addReference('user2', $user);
+        $this->addReference('set_password_code2', $setPasswordCode);
+        self::$USER[] = $user;
+        self::$SET_PASSWORD_CODE[] = $setPasswordCode;
 
     }
 
