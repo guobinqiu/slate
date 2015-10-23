@@ -41,7 +41,7 @@ parameters:
 
     user_regist.class: Jili\ApiBundle\Services\UserRegist
     user_bind.class: Jili\ApiBundle\Services\UserBind
-    user_login.class: Jili\ApiBundle\Services\UserLogin
+    user_login.class: Jili\ApiBundle\Services\Weibo\UserLogin
     user_qq_login.class: Jili\ApiBundle\Services\QQLogin
     user_weibo_login.class: Jili\ApiBundle\Services\WeiBoLogin
 
