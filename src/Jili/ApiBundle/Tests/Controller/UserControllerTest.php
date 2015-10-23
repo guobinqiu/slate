@@ -400,6 +400,12 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
 
         //  check session messages
         $this->assertEquals('恭喜，密码设置成功！', $crawler->filter('h2')->text());
+       
+        $user_stm =   $em->getConnection()->prepare('select * from user where id =  '.$uid);
+        $user_stm->execute();
+        $user_updated =$user_stm->fetchAll();
+        $this->assertEquals( 2, $user_updated[0]['password_choice'], 'after migrate password , password_choice should be 2');
+
 
     }
     /**
@@ -419,5 +425,37 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
         ));
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals('1', $client->getResponse()->getContent());
+    }
+    
+    public function testRegAction() 
+    {
+        $client = static::createClient(array(), array('HTTP_USER_AGENT'=>'symonfy/2.0' ,'REMOTE_ADDR'=>'121.199.27.128') );
+        $container = $client->getContainer();
+        $router = $container->get('router');
+        $em = $this->em;
+
+        $url = $container->get('router')->generate('_user_reg', array(), false);
+
+        $this->assertRegExp('/^https:\/\/.*\/user\/reg$/', $url, ' /user/reg url ');
+        $crawler = $client->request('GET', $url  ) ;
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() ,'get the register page return 200');
+
+        $session = $container->get('session'); 
+        $captcha = $session->get('phrase');
+        $phrase = $captcha ['phrase'] ;
+        $email = 'alice.nima@gmail.com';
+
+        $form = $crawler->filter('form[name=form1]')->form();
+        $form['email']->setValue( $email );
+        $form['nick']->setValue( 'alice32');
+        $form['captcha']->setValue( $phrase );
+
+        $crawler = $client->submit($form );
+
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email );
+        $this->assertEquals('symonfy/2.0',$user->getCreatedUserAgent(), 'user_agent should be symfony/2.0');
+        $this->assertEquals('121.199.27.128',$user->getCreatedRemoteAddr(), 'client ip when reg should be 121.199.27.128');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
+
     }
 }

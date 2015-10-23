@@ -4,7 +4,6 @@ namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-// use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * User
@@ -28,6 +27,17 @@ class User
 
     const FROM_QQ_PREFIX = "QQ";
     const FROM_WEIBO_PREFIX = "WeiBo_";
+
+ // check password by UserWenwenLogin 0: new 1:jili,2:wenwen 3: jili & wenwen 
+    const ORIGIN_FLAG_NEW = 0 ;
+    const ORIGIN_FLAG_JILI = 1; 
+    const ORIGIN_FLAG_WENWEN = 2; 
+    const ORIGIN_FLAG_WENWEN_JILI = 3;
+
+   # password_choice ,== PWD_WENWEN, verify the user_wenwen_login 
+   # == PWD_JILI or NULL , verify by user.password
+    const PWD_WENWEN = 1;
+    const PWD_JILI = 2; 
 
     public function __construct()
     {
@@ -250,6 +260,41 @@ class User
     private $tokenCreatedAt;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="origin_flag", type="smallint", nullable=true)
+     */
+    private $originFlag;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="created_remote_addr", type="string", length=20, nullable=true)
+     */
+    private $createdRemoteAddr;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="created_user_agent", type="text", nullable=true)
+     */
+    private $createdUserAgent;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="campaign_code", type="string", length=100, nullable=true)
+     */
+    private $campaignCode;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="password_choice", type="smallint", nullable=true)
+     */
+    private $passwordChoice;
+
+    /**
      * upload resizeimage to temp dir
      */
     public function resizeUpload($path,$x,$y,$x1,$y1)
@@ -273,7 +318,7 @@ class User
         imagedestroy($dst);
 
     }
-/**
+    /**
      * upload image to temp dir
      */
     public function upload($upload_dir)
@@ -1110,4 +1155,137 @@ class User
         return $this->tokenCreatedAt;
     }
 
+    /**
+     * Set originFlag
+     *
+     * @param integer $originFlag
+     * @return User
+     */
+    public function setOriginFlag($originFlag)
+    {
+        $this->originFlag = $originFlag;
+
+        return $this;
+    }
+
+    /**
+     * Get originFlag
+     *
+     * @return integer 
+     */
+    public function getOriginFlag()
+    {
+        return $this->originFlag;
+    }
+
+    /**
+     * Set createdRemoteAddr
+     *
+     * @param string $createdRemoteAddr
+     * @return User
+     */
+    public function setCreatedRemoteAddr($createdRemoteAddr)
+    {
+        $this->createdRemoteAddr = $createdRemoteAddr;
+
+        return $this;
+    }
+
+    /**
+     * Get createdRemoteAddr
+     *
+     * @return string 
+     */
+    public function getCreatedRemoteAddr()
+    {
+        return $this->createdRemoteAddr;
+    }
+
+    /**
+     * Set createdUserAgent
+     *
+     * @param string $createdUserAgent
+     * @return User
+     */
+    public function setCreatedUserAgent($createdUserAgent)
+    {
+        $this->createdUserAgent = $createdUserAgent;
+
+        return $this;
+    }
+
+    /**
+     * Get createdUserAgent
+     *
+     * @return string 
+     */
+    public function getCreatedUserAgent()
+    {
+        return $this->createdUserAgent;
+    }
+
+    /**
+     * Set campaignCode
+     *
+     * @param string $campaignCode
+     * @return User
+     */
+    public function setCampaignCode($campaignCode)
+    {
+        $this->campaignCode = $campaignCode;
+
+        return $this;
+    }
+
+    /**
+     * Get campaignCode
+     *
+     * @return string 
+     */
+    public function getCampaignCode()
+    {
+        return $this->campaignCode;
+    }
+
+
+    public function isOriginFlagWenwen()
+    {
+        $origin_flag =  $this->getOriginFlag();
+        return  !(is_null($origin_flag) ) && 
+            intval($origin_flag) === self::ORIGIN_FLAG_WENWEN;
+    }
+
+    public function isPwdCorrect($pwd) 
+    {
+        return (!empty($pwd)) && $this->pw_encode($pwd) === $this->getPwd();
+    }
+
+    /**
+     * Set passwordChoice
+     *
+     * @param integer $passwordChoice
+     * @return User
+     */
+    public function setPasswordChoice($passwordChoice)
+    {
+        $this->passwordChoice = $passwordChoice;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordChoice
+     *
+     * @return integer 
+     */
+    public function getPasswordChoice()
+    {
+        return $this->passwordChoice;
+    }
+
+    public function isPasswordWenwen() 
+    {
+       $selected = $this->getPasswordChoice();      
+      return !is_null($selected ) && $selected  === self::PWD_WENWEN;
+    }
 }
