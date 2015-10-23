@@ -90,7 +90,6 @@ class Vote
 
     public function __construct()
     {
-        $this->deleteFlag = 0;
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
     }
