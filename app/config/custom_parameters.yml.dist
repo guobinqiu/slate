@@ -332,7 +332,7 @@ parameters:
 
    #流量包
     flow_url: http://59.83.33.13/   #接口url
-    flow_prv_key: A757C0C02B0CF959   #加密私钥
+    flow_prv_key: ERL21WDDF9HSLJZE  #加密私钥 #A757C0C02B0CF959  
     flow_custom_sn: 8C981708DF8AE2F0   #SN号码
     flow_client_ip: #ip地址
         1: 59.83.33.8
