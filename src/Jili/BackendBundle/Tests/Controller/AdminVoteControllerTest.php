@@ -140,46 +140,85 @@ class AdminVoteControllerTest extends WebTestCase
     /**
      * @group admin_vote
      */
-    public function testEditAction()
+    public function testCreateVote()
     {
         $client = static::createClient();
         $container = $client->getContainer();
+        $em = $this->em;
 
         $url = '/admin/vote/edit';
         $crawler = $client->request('GET', $url);
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form = $crawler->selectButton('create')->form();
+        // set some values
+        $form['vote[title]'] = '【生活】堪比人参的养生食物，你知道吗？';
+        $form['vote[description]'] = '人参是深受人们喜爱的补品之一，具有很好的保健养生功效，人参价值贵，使人望而却步。然而你知道吗?其实生活中有很多食物功效可与“人参”相媲美，一下的养生圣品，你知道哪个？';
+        $form['answer_number_1'] = '动物人参——鹌鹑';
+        $form['answer_number_2'] = '果蔬人参——胡萝卜';
+
+        // submit the form
+        $crawler = $client->submit($form);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form = $crawler->selectButton('commit')->form();
+        $crawler = $client->submit($form);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("設問を追加しました。")')->count());
+
+        //check vote create success
+        $vote = $em->getRepository('JiliApiBundle:Vote')->findOneByTitle('【生活】堪比人参的养生食物，你知道吗？');
+        $this->assertNotNull($vote);
+
+        $this->assertEquals('人参是深受人们喜爱的补品之一，具有很好的保健养生功效，人参价值贵，使人望而却步。然而你知道吗?其实生活中有很多食物功效可与“人参”相媲美，一下的养生圣品，你知道哪个？', $vote->getDescription());
+        $this->assertEquals(1, $vote->getPointValue());
+        $this->assertEquals(date('Y-m-d') . ' 00:00:00', $vote->getStartTime()->format('Y-m-d H:i:s'));
+        $this->assertEquals(date('Y-m-d') . ' 23:59:59', $vote->getEndTime()->format('Y-m-d H:i:s'));
+        $stashData = $vote->getStashData();
+        $this->assertEquals('动物人参——鹌鹑', $stashData['choices'][1]);
+        $this->assertEquals('果蔬人参——胡萝卜', $stashData['choices'][2]);
     }
 
     /**
      * @group admin_vote
      */
-    public function testEditConfirmAction()
+    public function testEditVote()
     {
         $client = static::createClient();
         $container = $client->getContainer();
+        $em = $this->em;
 
-        $url = '/admin/vote/editConfirm';
-        $crawler = $client->request('GET', $url);
+        $url = '/admin/vote/edit';
+        $crawler = $client->request('GET', $url, array (
+            'id' => 1
+        ));
+
+        $before_vote = $em->getRepository('JiliApiBundle:Vote')->findOneById(1);
+        $this->assertEquals('【生活】英语九大前缀 你认识哪个？', $before_vote->getTitle());
+
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-    }
 
-    /**
-     * @group admin_vote
-     */
-    public function testEditCommitAction()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-
-        $url = '/admin/vote/editCommit';
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(301, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
+        $form = $crawler->selectButton('create')->form();
+        // set some values
+        $form['vote[title]'] = '【生活】英语九大前缀的认识';
+        $crawler = $client->submit($form);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form = $crawler->selectButton('commit')->form();
+        $crawler = $client->submit($form);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("設問の設定変更をしました。")')->count());
+
+        //check vote edit success
+        $em->clear();
+        $after_vote = $em->getRepository('JiliApiBundle:Vote')->findOneById(1);
+        $this->assertEquals('【生活】英语九大前缀的认识', $after_vote->getTitle());
     }
 
     /**
@@ -216,5 +255,4 @@ class AdminVoteControllerTest extends WebTestCase
         $after = $em->getRepository('JiliApiBundle:Vote')->findOneById(1);
         $this->assertNull($after);
     }
-
 }
