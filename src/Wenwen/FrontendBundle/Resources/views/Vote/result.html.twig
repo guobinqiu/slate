@@ -3,6 +3,7 @@
 
 {% block stylesheet %}
 <link href="{{ asset('css/voteDetail.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/component/crumbs.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascript %}
@@ -17,7 +18,10 @@
 	<div class="main-con w1000 clearfix">
 			<div class="main-con-left left">
 				<div class="vote vote-sub">
-					<h1>【生活】错误急救可能造成二次伤害你知道哪点？<a href="{{ path('wenwen_frontend_vote_index') }}">返回快速问答一览</a></h1>
+					<div class="crumbs">
+					     <a href="{{ path('wenwen_frontend_home_home') }}" class="home"></a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('wenwen_frontend_vote_index') }}">快速问答一览</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('wenwen_frontend_vote_detail') }}">快速问答详情</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;快速问答结果
+					</div>
+					<h1>【生活】错误急救可能造成二次伤害你知道哪点？</h1>
 					<div class="relate">
 						<img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt="">
 						<div class="relate-text">

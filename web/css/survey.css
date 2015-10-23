@@ -85,12 +85,12 @@ body {
 
 .header-top {
   background: #36363c;
-  color: #7e858f;
+  color: #828285;
   height: 30px;
   line-height: 30px;
   border-bottom: 1px solid #bcbdc2; }
   .header-top a {
-    color: #7e858f;
+    color: #828285;
     font-size: 12px; }
     .header-top a:hover {
       color: #fff; }
@@ -164,7 +164,7 @@ body {
     border-width: 5px;
     cursor: pointer;
     border-style: solid dashed dashed dashed;
-    border-color: #7e858f transparent transparent transparent;
+    border-color: #828285 transparent transparent transparent;
     border-bottom: none;
     transition: transform .1s ease-in 0s;
     -webkit-transition: -webkit-transform .1s ease-in 0s; }
@@ -328,7 +328,8 @@ body {
       line-height: 22px;
       color: #979ca6; }
     .survey-item li p {
-      line-height: 28px; }
+      line-height: 28px;
+      color: #646d7a; }
       .survey-item li p strong {
         color: #ff6700;
         font-size: 16px; }
