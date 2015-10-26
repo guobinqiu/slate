@@ -12,9 +12,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 
 /**
- * @Route("/about",requirements={"_scheme"="http"})
+ * @Route("/aboutg",requirements={"_scheme"="http"})
  */
-class AboutController extends Controller {
+class AboutgController extends Controller {
 
     /**
      * @Route("/index")

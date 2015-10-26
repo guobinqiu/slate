@@ -38,7 +38,8 @@ class  ExchangeController extends Controller
         $token_key = $this->getTokenKey();
         $session = $this->getRequest()->getSession();
         $session->set('csrf_token', $token_key);
-        return $this->render('JiliApiBundle:Exchange:index.html.twig',array('key'=>$token_key));
+        // return $this->render('JiliApiBundle:Exchange:index.html.twig',array('key'=>$token_key));
+        return $this->render('WenwenFrontendBundle:Exchange:index.html.twig',array('key'=>$token_key));
     }
 
     /**
@@ -189,7 +190,8 @@ class  ExchangeController extends Controller
 
         }
         $this->get('request')->getSession()->remove('alipayToken');
-        return $this->render('JiliApiBundle:Exchange:alipayInfo.html.twig',$arr);
+        // return $this->render('JiliApiBundle:Exchange:alipayInfo.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Exchange:alipayInfo.html.twig',$arr);
     }
 
     /**
@@ -340,7 +342,8 @@ class  ExchangeController extends Controller
 
             }
         }
-        return $this->render('JiliApiBundle:Exchange:mobileInfo.html.twig',$arr);
+        // return $this->render('JiliApiBundle:Exchange:mobileInfo.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Exchange:mobileInfo.html.twig',$arr);
     }
 
     /**
@@ -635,8 +638,8 @@ class  ExchangeController extends Controller
             }
 
         }
-        return $this->render('JiliApiBundle:Exchange:indentityConfirm.html.twig',$arr);
-
+        // return $this->render('JiliApiBundle:Exchange:indentityConfirm.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Exchange:alipayConfirm.html.twig',$arr);
     }
 
     /**

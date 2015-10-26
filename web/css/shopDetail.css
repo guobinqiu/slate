@@ -394,13 +394,16 @@ body {
   vertical-align: middle;
   *display: inline-block;
 }
+.main-con-shop img {
+  width: 120px;
+}
 .main-con-shop b {
   color: #ff6700;
 }
 .main-con-shop .btn {
   margin-top: 10px;
 }
-.main-con-shop .btn span {
+.main-con-shop .btn a {
   width: 180px;
   text-align: center;
   height: 45px;
@@ -416,8 +419,11 @@ body {
   -moz-transition: all 0.4s;
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
 }
-.main-con-shop .btn span:hover {
+.main-con-shop .btn a:hover {
   background: #f25807;
   border: 1px solid #f25807;
 }
@@ -459,10 +465,16 @@ body {
   margin-left: -1px;
   margin-bottom: -1px;
 }
+.similar-shops li {
+  float: left;
+}
+.similar-shops img {
+  width: 120px;
+}
 .similar-shops a {
   position: relative;
   z-index: 1;
-  width: 133px;
+  width: 132px;
   height: 100px;
   padding-bottom: 30px;
   border-left: 1px solid #eee;

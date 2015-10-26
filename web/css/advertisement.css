@@ -449,6 +449,7 @@ body {
   white-space: nowrap;
 }
 .main-slider span p {
+  height: 45px;
   line-height: 22px;
   color: #999;
 }
@@ -499,6 +500,9 @@ body {
   *display: inline;
   *zoom: 1;
   vertical-align: top;
+}
+.main-slider a img {
+  width: 520px;
 }
 
 .main-con-shop {

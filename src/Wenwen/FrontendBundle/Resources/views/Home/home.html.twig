@@ -168,15 +168,7 @@
 			</div>
 		</div>
 		<div class="main-con-right right">
-			<div class="notice">
-				<h2>最新公告</h2>
-				<ul>
-					<li><em></em><a href="{{ path('wenwen_frontend_callboard_index') }}">调查派会员信息审核公告</a></li>
-					<li><em></em><a href="{{ path('wenwen_frontend_callboard_index') }}">丁香园调研团队虚位以待</a></li>
-					<li><em></em><a href="{{ path('wenwen_frontend_callboard_index') }}">关注调查派微信 立即领取5个丁当领取5个丁当</a></li>
-					<li><em></em><a href="{{ path('wenwen_frontend_callboard_index') }}">确认调查报酬支付方式的操作方法</a></li>
-				</ul>
-			</div>
+			{{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
 			<div class="weibo"><iframe width="230" height="580" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=230&height=580&fansRow=2&ptype=1&speed=0&skin=5&isTitle=1&noborder=0&isWeibo=1&isFans=0&uid=1752291082&verifier=37e3a3a3&dpc=1"></iframe></div>
 		</div>
 	</div>

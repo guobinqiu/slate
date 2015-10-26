@@ -1,0 +1,16 @@
+<ul class="shops clearfix">
+	{% for key,row in websites %}
+    {% set href_ = path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })  %}
+	<li>
+		<a target="_blank" title="{{ row.title }}" href="{{ href_ }}"><img src="{{asset('img/website_logos/'~row.hostHashAsLogoName ~ '.jpg' )  }}" alt="{{ row.websiteName }}" onerror="this.src='/img/advertisement/shoplogoBg.jpg';this.onerror='null'"></a>
+		<p>{% if row.commission is defined and row.commission > 0 %}
+            最高返<b>{{ row.commission }}</b>
+            {% else %}
+            视情况而定
+            {% endif %}</p>
+		<div class="btns"><a href="{{  path('jili_frontend_cpsadvertisement_detail', {'wid': row.id }) }}" class="first">返利详情</a><a href="{{ href_ }}" target="_blank">直接购物</a></div>
+	</li>
+	{% else %}
+	<li class="noShop">很抱歉，没有找到相关的商家。</li>
+    {% endfor %}
+</ul>

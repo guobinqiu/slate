@@ -59,12 +59,15 @@
  		vertical-align:middle;
  		*display: inline-block;
 	}
+	img{
+		width: 120px;
+	}
 	b{
 		color: $main-color;
 	}
 	.btn{
 		margin-top: 10px;
-		span{
+		a{
 			width: 180px;
 			text-align: center;
 			height: 45px;
@@ -72,6 +75,7 @@
 			font-size: 14px;
 			cursor: pointer;
 			@include btn();
+			@include dib();
 		}
 	}
 	h1{
@@ -113,10 +117,16 @@
 .similar-shops{
 	margin-left: -1px;
 	margin-bottom: -1px;
+	li{
+		float: left;
+	}
+	img{
+		width: 120px;
+	}
 	a{
 		position: relative;
 		z-index: 1;
-		width: 133px;
+		width: 132px;
 		height: 100px;
 		padding-bottom: 30px;
 		border-left: 1px solid #eee;

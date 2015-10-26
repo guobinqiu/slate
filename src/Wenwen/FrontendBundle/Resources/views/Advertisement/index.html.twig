@@ -15,7 +15,7 @@
 {% block body %}
 <div class="main">
 	<div class="main-con w1000">
-		{% include 'WenwenFrontendBundle:Advertisement:_shopSlider.html.twig' %} 
+		{{ render(controller('JiliApiBundle:Top:market' ) ) }}{# 商家活动 #}
 		<div class="main-con-advertisement">
 			{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
 			<div class="tabCon offerWow">

@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 /**
  * @Route("/callboard",requirements={"_scheme"="http"})
  */
-class CallboardController extends Controller {
+class CallboardgController extends Controller {
 
     /**
      * @Route("/index")

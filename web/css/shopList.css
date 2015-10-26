@@ -365,7 +365,7 @@ body {
   position: relative;
   z-index: 1;
 }
-.shopList-search input {
+.shopList-search input[type='text'] {
   padding: 0 30px 0 10px;
   width: 142px;
   height: 35px;
@@ -374,6 +374,15 @@ body {
   border: 1px solid #eee;
   background: #fff;
   outline: none;
+}
+.shopList-search input[type='submit'] {
+  width: 18px;
+  height: 26px;
+  background: none;
+  border: none;
+  font-size: 0;
+  outline: none;
+  cursor: pointer;
 }
 .shopList-search label {
   position: absolute;
@@ -436,9 +445,10 @@ body {
 }
 .shopList-con .index a {
   padding: 0 8px;
-  line-height: 45px;
+  line-height: 40px;
   color: #c7c7c5;
   font-size: 15px;
+  border-bottom: 3px solid #fff;
   display: inline-block;
   *display: inline;
   *zoom: 1;
@@ -448,8 +458,6 @@ body {
   background: #f4f4f5;
 }
 .shopList-con .shops {
-  *margin-top: 1px;
-  margin-left: -1px;
   padding-bottom: 10px;
 }
 .shopList-con .shops li {
@@ -458,17 +466,21 @@ body {
   float: left;
   line-height: 30px;
   text-align: center;
-  border-left: 1px solid #eee;
+  margin-right: -1px;
+  border-right: 1px solid #eee;
   border-bottom: 1px solid #eee;
 }
 .shopList-con .shops li a {
-  width: 162px;
+  width: 163px;
   height: 80px;
   padding-bottom: 30px;
   display: table-cell;
   vertical-align: middle;
   *padding: 10px 0 15px;
   *display: inline-block;
+}
+.shopList-con .shops li img {
+  width: 120px;
 }
 .shopList-con .shops li p, .shopList-con .shops li .btns {
   position: absolute;
@@ -520,6 +532,14 @@ body {
 .shopList-con .shops li:hover .btns a.first, .shopList-con .shops li.active .btns a.first {
   border-right: 1px solid #f6f6f6;
 }
+.shopList-con .shops li.noShop {
+  border: none;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 120px;
+  font-size: 14px;
+}
 
 .page-wrapper {
   padding: 30px;
@@ -536,7 +556,6 @@ body {
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  padding: 0px 8px;
   height: 22px;
   text-center: center;
   line-height: 22px;
@@ -545,6 +564,21 @@ body {
 }
 .page span:hover, .page span.active {
   border: 1px solid #ff6700;
+  color: #ff6700;
+}
+.page span:hover a, .page span.active a {
+  color: #ff6700;
+}
+.page a {
+  color: #adadad;
+  height: 22px;
+  line-height: 22px;
+  padding: 0px 8px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.page a:hover, .page a.active {
   color: #ff6700;
 }
 

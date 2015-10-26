@@ -634,7 +634,6 @@ body {
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  padding: 0px 8px;
   height: 22px;
   text-center: center;
   line-height: 22px;
@@ -643,6 +642,21 @@ body {
 }
 .page span:hover, .page span.active {
   border: 1px solid #ff6700;
+  color: #ff6700;
+}
+.page span:hover a, .page span.active a {
+  color: #ff6700;
+}
+.page a {
+  color: #adadad;
+  height: 22px;
+  line-height: 22px;
+  padding: 0px 8px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.page a:hover, .page a.active {
   color: #ff6700;
 }
 

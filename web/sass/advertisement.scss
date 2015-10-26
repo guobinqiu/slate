@@ -60,6 +60,7 @@
 			@include ell();
 		}
 		p{
+			height: 45px;
 			line-height: 22px;
 			color: #999;
 		}
@@ -93,6 +94,9 @@
 		width: 520px;
 		@include dib();
 		vertical-align: top;
+		img{
+			width: 520px;
+		}
 	}
 }
 .main-con-shop{
