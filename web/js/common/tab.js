@@ -28,9 +28,7 @@ define(['jquery'],function($){
                     cons.hide().eq(index).show();
                 });
                 cons.each(function(i, e){
-                    if(i != 0){
-                        _self.tabToggle(e);
-                    }
+                    _self.tabToggle(e);
                 });
             }
         },

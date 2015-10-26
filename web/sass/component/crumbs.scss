@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+.crumbs{
+	margin: 10px 0 20px 11px;
+	.home{
+		width: 14px;
+		height: 12px;
+		vertical-align: -2px;
+		display: inline-block;
+		background: url(/img/common/icons_common.png) no-repeat 0 -69px;
+		&:hover{
+			background: url(/img/common/icons_common.png) no-repeat 0 -85px; 
+		}
+	}
+	em{
+		font-family: simsun;
+	}
+	&, & a{
+		color: #9197a1;
+		font-size: 12px;
+		font-family: "Microsoft YaHei", Tohoma, Arial;	
+	}
+	& a:hover{
+		color: $main-title-color;
+		text-decoration: underline;
+	}
+}

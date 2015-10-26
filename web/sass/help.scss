@@ -46,9 +46,6 @@
 			line-height: 45px;
 			color: #010101;
 			font-size: 20px;
-			&.first{
-				border-bottom: $block-border;
-			}
 		}
 	}
 	.tabCon ul{
@@ -108,55 +105,6 @@
 				}
 				a{
 					color: #4c94ff;
-				}
-			}
-		}
-		&.newGuide{
-			padding: 20px;
-			li{
-				float: left;
-				//width: 50%;
-				padding: 50px 0;
-				height: 100px;
-				overflow: hidden;
-				&:nth-child(odd){
-					width: 55%;
-				}
-				&:nth-child(even){
-					width: 45%;
-				}
-				dl{
-					float: left;
-					width: 148px;
-				}
-				dt{
-					color: #eb6b21;
-					font-size: 23px;
-				}
-				dd{
-					padding-top: 13px;
-					line-height: 18px;
-					font-size: 12px;
-					color: #929292;
-				}
-				.more{
-					font-size: 12px;
-					width: 100%;
-					height: 26px;
-					line-height: 26px;
-					text-align: center;
-					color: #545d63;
-					background-color: #ebedf3;
-					@include dib();
-					cursor: pointer;
-					&:hover, &.active, &.on{
-						background-color: #ff5500;
-						color: #fff;
-						@include transition(background, .6s);
-					}
-					a{
-						border: none;
-					}
 				}
 			}
 		}

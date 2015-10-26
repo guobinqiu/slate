@@ -20,3 +20,10 @@ CREATE TABLE `user_wenwen_login` (
   UNIQUE KEY `user_id` (`user_id`),
   CONSTRAINT `user_wenwen_login_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 
+
+
+-- Thu Oct 15 13:19:11 CST 2015 
+-- PR #740
+alter table user MODIFY `password_choice` SMALLINT(4) NULL COMMENT 'which password to use for login',
+MODIFY `origin_flag` SMALLINT( 4 ) NULL COMMENT 'which sites does the user from';
+

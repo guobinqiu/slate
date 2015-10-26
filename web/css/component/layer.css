@@ -9,8 +9,7 @@
   filter: alpha(opacity=60);
   -moz-opacity: 0.6;
   -khtml-opacity: 0.6;
-  opacity: 0.6;
-}
+  opacity: 0.6; }
 
 .maskConWrap {
   position: fixed;
@@ -18,15 +17,13 @@
   top: 0;
   left: 0;
   background: #fff;
-  border: 1px solid #eee;
-}
+  border: 1px solid #eee; }
 
 .maskCon {
   position: relative;
   z-index: 1;
   padding: 20px;
-  line-height: 35px;
-}
+  line-height: 35px; }
 
 .close {
   position: absolute;
@@ -39,5 +36,4 @@
   line-height: 24px;
   color: #fff;
   background: #a1a1a1;
-  cursor: pointer;
-}
+  cursor: pointer; }

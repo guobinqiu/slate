@@ -14,7 +14,12 @@
 
 {% block body %}
 <div class="main">
-	{% include 'WenwenFrontendBundle:Help:_banner.html.twig' %}
+	<div class="main-help-banner">
+		<div class="text w1000">
+			<div class="title"><a href="{{ path('wenwen_frontend_help_guide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
+			<div class="search"><input type="text" id="search" name="search"><label for="search">请输入关键字</label><div class="search-btn"></div></div>
+		</div>
+	</div>
 	<div class="main-help-con w1000">
 	    <div class="newGuide">
 	        <div class="newGuideDetail" id="survey">

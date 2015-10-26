@@ -35,6 +35,15 @@ class HelpController extends Controller {
     }
 
     /**
+     * @Route("/newGuideDetail")
+     * @Template
+     */
+    public function detailAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:newGuideDetail.html.twig');
+    }
+
+    /**
      * @Route("/search")
      * @Template
      */
