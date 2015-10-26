@@ -28,6 +28,17 @@ class User
     const FROM_QQ_PREFIX = "QQ";
     const FROM_WEIBO_PREFIX = "WeiBo_";
 
+ // check password by UserWenwenLogin 0: new 1:jili,2:wenwen 3: jili & wenwen 
+    const ORIGIN_FLAG_NEW = 0 ;
+    const ORIGIN_FLAG_JILI = 1; 
+    const ORIGIN_FLAG_WENWEN = 2; 
+    const ORIGIN_FLAG_WENWEN_JILI = 3;
+
+   # password_choice ,== PWD_WENWEN, verify the user_wenwen_login 
+   # == PWD_JILI or NULL , verify by user.password
+    const PWD_WENWEN = 1;
+    const PWD_JILI = 2; 
+
     public function __construct()
     {
         $this->setRegisterDate ( new \DateTime())
@@ -249,9 +260,9 @@ class User
     private $tokenCreatedAt;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="origin_flag", type="boolean", nullable=true)
+     * @ORM\Column(name="origin_flag", type="smallint", nullable=true)
      */
     private $originFlag;
 
@@ -275,6 +286,13 @@ class User
      * @ORM\Column(name="campaign_code", type="string", length=100, nullable=true)
      */
     private $campaignCode;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="password_choice", type="smallint", nullable=true)
+     */
+    private $passwordChoice;
 
     /**
      * upload resizeimage to temp dir
@@ -1140,7 +1158,7 @@ class User
     /**
      * Set originFlag
      *
-     * @param boolean $originFlag
+     * @param integer $originFlag
      * @return User
      */
     public function setOriginFlag($originFlag)
@@ -1153,7 +1171,7 @@ class User
     /**
      * Get originFlag
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getOriginFlag()
     {
@@ -1227,5 +1245,47 @@ class User
     public function getCampaignCode()
     {
         return $this->campaignCode;
+    }
+
+
+    public function isOriginFlagWenwen()
+    {
+        $origin_flag =  $this->getOriginFlag();
+        return  !(is_null($origin_flag) ) && 
+            intval($origin_flag) === self::ORIGIN_FLAG_WENWEN;
+    }
+
+    public function isPwdCorrect($pwd) 
+    {
+        return (!empty($pwd)) && $this->pw_encode($pwd) === $this->getPwd();
+    }
+
+    /**
+     * Set passwordChoice
+     *
+     * @param integer $passwordChoice
+     * @return User
+     */
+    public function setPasswordChoice($passwordChoice)
+    {
+        $this->passwordChoice = $passwordChoice;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordChoice
+     *
+     * @return integer 
+     */
+    public function getPasswordChoice()
+    {
+        return $this->passwordChoice;
+    }
+
+    public function isPasswordWenwen() 
+    {
+       $selected = $this->getPasswordChoice();      
+      return !is_null($selected ) && $selected  === self::PWD_WENWEN;
     }
 }

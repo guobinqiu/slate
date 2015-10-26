@@ -3,12 +3,13 @@
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Jili\ApiBundle\Utility\PasswordEncoder;
 
 /**
  * UserWenwenLogin
  *
  * @ORM\Table(name="user_wenwen_login", uniqueConstraints={@ORM\UniqueConstraint(name="user_id", columns={"user_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserWenwenLoginRepository")
  */
 class UserWenwenLogin
 {
@@ -154,5 +155,11 @@ class UserWenwenLogin
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function isPwdCorrect($password) 
+    {
+        return ( $this->getLoginPassword() === PasswordEncoder::encode($this->getLoginPasswordCryptType(),
+            $password, $this->getLoginPasswordSalt())) ;
     }
 }
