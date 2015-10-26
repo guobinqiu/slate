@@ -10,6 +10,15 @@
 
 {% block javascripts %}
 {{ parent() }}
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#back").click(function (){
+        $('#form1').attr('action', "{{ path('_admin_vote_edit') }}");
+        $("form").submit();
+    })
+});
+</script>
+
 {% endblock %}
 
 {% block body%}
@@ -71,7 +80,7 @@
         {{ form_widget(form._token) }}
         {{form_errors(form)}}
         <tr>
-            <td><input type="button" value="back" onclick="history.back();"></td>
+            <td><input type="button" value="back" id="back"></td>
             <td><input type="submit" value="commit" /></td>
             <td>&nbsp;</td>
         </tr>

@@ -123,11 +123,34 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
      */
     public function editAction(Request $request)
     {
-        $vote = new Vote();
+        //back
+        $params = $request->request->all();
+        if (isset($params['vote'])) {
+            $vote = new Vote();
+            $vote->setId($params['vote']['id']);
+            $vote->setStartTime($params['vote']['startTime']);
+            $vote->setEndTime($params['vote']['endTime']);
+            $vote->setPointValue($params['vote']['pointValue']);
+            $vote->setTitle($params['vote']['title']);
+            $vote->setDescription($params['vote']['description']);
+            for ($i = 1; $i <= 10; $i++) {
+                $voteChoices[$i] = $params['answer_number_' . $i];
+            }
+            // create vote form
+            $form = $this->createForm(new VoteType(), $vote);
+
+            return $this->render('JiliBackendBundle:Vote:edit.html.twig', array (
+                'form' => $form->createView(),
+                'voteChoices' => $voteChoices
+            ));
+        }
+
+        //set default value
         for ($i = 1; $i <= 10; $i++) {
             $voteChoices[$i] = '';
         }
 
+        // edit
         if ($request->query->has('id')) {
             $vote_id = $request->query->get('id');
             $em = $this->getDoctrine()->getManager();
@@ -146,6 +169,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
             }
         } else {
             //set default value
+            $vote = new Vote();
             $vote->setStartTime(date('Y-m-d'));
             $vote->setEndTime(date('Y-m-d'));
             $vote->setPointValue(1);
