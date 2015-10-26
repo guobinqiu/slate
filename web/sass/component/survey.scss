@@ -4,7 +4,7 @@
 $h-font-color: #000;
 $h-font-size: 18px;
 $h-small-font-size: 14px;
-$survey-con-font-color: #8a8a8a;
+$survey-con-font-color: #979ca6;
 $survey-border-color: #f6f6f6;
 
 .main-con-left{
@@ -70,6 +70,7 @@ $survey-border-color: #f6f6f6;
 		}
 		p{
 			line-height: 28px;
+			color: #646d7a;
 			strong{
 				color: $main-color;
 				font-size: 16px;
@@ -168,7 +169,7 @@ $survey-border-color: #f6f6f6;
 }
 .vote-txt{
 	width: 84%;
-	color: $survey-con-font-color;
+	color: #646d7a;
 	line-height: 22px;
 	@include transition(width, 300ms);
 	p{
@@ -176,6 +177,7 @@ $survey-border-color: #f6f6f6;
 		@include ell();
 	}
 	.relate{
+		color: #646d7a;
 		span{
 			padding: 0 3px;
 			strong{

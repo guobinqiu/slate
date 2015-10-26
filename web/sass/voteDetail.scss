@@ -48,22 +48,23 @@
  		}
  	}
  	.relate-text{
- 		color: #9d9d9d;
+ 		color: #9da1a8;
  		line-height: 20px;
  		b{
  			color: $main-color;
  		}
  		.description{
- 			margin-top: 5px;
+ 			margin-top: 7px;
+ 			margin-bottom: 20px;
  			padding: 0 10px;
  			height: 33px;
  			line-height: 30px;
- 			color: #6b6b6b;
- 			background: #f6f6f1;
+ 			color: #495361;
+ 			background: #f3f5f8;
  			overflow: hidden;
  			cursor: pointer;
 			@include transition(height, 300ms);
- 			b{
+ 			b.btn{
  				float: right;
  				margin-top: 15px;
  				@include arrow(bottom, 5px, $top-font-color);
@@ -75,7 +76,7 @@
  		}
  	}
  	.options{
- 		margin-top: 10px;
+ 		margin-top: -17px;
  		padding-left: 130px;
  		padding-right: 20px;
  		li{
@@ -110,7 +111,7 @@
  			height: 30px;
 			line-height: 30px;
             overflow: hidden;
-			width: 50%;
+			width: 48%;
  		}
  		dd{
  			width: 50%;
@@ -119,7 +120,7 @@
  		}
  		b, span.result{
  			float: right;
- 			color: #9d9d9d;
+ 			color: #9da1a8;
  		}
  		.progress{
  			width: 82%;
@@ -178,13 +179,13 @@
 			@include ell();
 		}
 		a{
-			width: 80px;
+			width: 67px;
 			text-align: center;
-			height: 26px;
-			line-height: 26px;
-			color: $main-title-color;
-			background: #f7f7f7;
-			border: 1px solid #ededf0;
+			height: 24px;
+			line-height: 24px;
+			color: #495361;
+			background: #edeff2;
+			border: 1px solid #dde0e6;
 			border-radius: 3px;
 			@include dib();
 		}
@@ -200,7 +201,7 @@
 	padding: 10px 20px;
 	line-height: 24px;
 	.mask{
-		height: 344px;
+		height: 335px;
 		overflow: hidden;
 		position: relative;
 		z-index: 1;
@@ -216,11 +217,18 @@
 		padding: 0;
 	}
 	li{
-		padding: 10px 0;
+		padding: 12px 0;
 		border-bottom: $block-inner-border;
 		p{
-			color: #4d4d4d;
+			color: #495361;
 			@include ell();
+			.name{
+				    width: 40px;
+				    display: inline-block;
+				    vertical-align: -7px;
+				    text-overflow: ellipsis;
+				    overflow: hidden;
+			}
 		}
 		.date{
 			color: #bfbfbf;

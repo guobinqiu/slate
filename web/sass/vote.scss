@@ -47,13 +47,13 @@
 			}
 		}
 		.con{
-			margin-top: 7px;
+			margin-top: 13px;
 			padding-left: 3px;
 			line-height: 20px;
-			color: #9d9d9d;
+			color: #979ca6;
 		}
 		.relate{
-			margin-top: 5px;	
+			margin-top: 4px;	
 		}
 	}
 	.survey-btn{
@@ -82,7 +82,7 @@
 	padding: 10px 20px;
 	line-height: 24px;
 	.mask{
-		height: 344px;
+		height: 335px;
 		overflow: hidden;
 		position: relative;
 		z-index: 1;
@@ -98,14 +98,21 @@
 		padding: 0;
 	}
 	li{
-		padding: 10px 0;
+		padding: 12px 0;
 		border-bottom: $block-inner-border;
 		b{
 			color: $main-color;
 		}
 		p{
-			color: #4d4d4d;
+			color: #495361;
 			@include ell();
+			.name{
+				    width: 40px;
+				    display: inline-block;
+				    vertical-align: -7px;
+				    text-overflow: ellipsis;
+				    overflow: hidden;
+			}
 		}
 		.date{
 			color: #bfbfbf;
