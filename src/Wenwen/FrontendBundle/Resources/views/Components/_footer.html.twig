@@ -39,6 +39,9 @@
             </ul>
         </div>
     </div>
-    <div class="footer-con-right right"><img src="{{ asset('img/common/qrcode.jpg') }}" alt="二维码"></div>
+    <div class="footer-con-right right">
+        <a href="{{ path('wenwen_frontend_gadget_index') }}" class="client"><span></span><em>下载客户端</em></a>
+        <a href="#" class="goTop"><span></span><em>返回顶部</em></a>
+    </div>
 </div>
 {% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
