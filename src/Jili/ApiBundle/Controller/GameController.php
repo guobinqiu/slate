@@ -50,7 +50,8 @@ class GameController extends Controller
            $arr['heightFlag'] = $this->container->getParameter('init_one');
         }
 
-        return $this->render('JiliApiBundle:Game:chick.html.twig',$arr);
+        // return $this->render('JiliApiBundle:Game:chick.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Advertisement:game.html.twig',$arr);
     }
 
 

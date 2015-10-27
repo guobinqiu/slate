@@ -73,7 +73,7 @@ class TopController extends Controller
         }
         $arr['callboard'] = $callboard;
 
-        return $this->render('WenwenFrontendBundle:Callboard:_list_home.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Callboard:_listHome.html.twig', $arr);
     }
 
     /**

@@ -1,11 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}新手上路：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/newGuide.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -13,30 +10,28 @@
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-help-banner">
-          <div class="text w1000">
-               <div class="title"><a href="{{ path('wenwen_frontend_help_guide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
-               <div class="search"><input type="text" id="search" name="search"><label for="search">请输入关键字</label><div class="search-btn"></div></div>
-          </div>
+<div class="main-help-banner">
+     <div class="text w1000">
+          <div class="title"><a href="{{ path('_default_support_newGuide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
      </div>
-	<div class="main-help-con w1000">
-	    <div class="newGuide">
-	        <div class="newGuideDetail" id="survey">
-				<h3>问卷调查</h3>
-				<a class="back" href="{{ path('wenwen_frontend_help_guide') }}">返回新手上路»</a>
-				<dl>
-					<dt><strong>第一步</strong>选择“体验广告”进入页面。</dt>
-	                <dd><img src="http://www.91jili.com/images/help/guide02Step01.jpg" width="551" height="257"/></dd>
+</div>
+<div class="main-help-con w1000">
+     <div class="newGuide">
+          <div class="newGuideDetail" id="survey">
+			<h3>问卷调查</h3>
+			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+               <dl>
+                    <dt><strong>第一步</strong>选择“体验广告”进入页面。</dt>
+                    <dd><img src="http://www.91jili.com/images/help/guide02Step01.jpg" width="551" height="257"/></dd>
                     <dt><strong>第二步</strong>选择任务大厅一或任务大厅二中的广告，点击“立即领取”任务，按照任务要求完成任务。</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide02Step02.jpg" width="551" height="125"/></dd>
                     <dt><strong>第三步</strong>查看我的任务历史就能看到相关返利啦！</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide02Step03.jpg" width="551" height="299"/></dd>
-	        	</dl>
-	        </div>
-	        <div class="newGuideDetail" id="vote">
-				<h3>快速问答</h3>
-				<a class="back" href="{{ path('wenwen_frontend_help_guide') }}">返回新手上路»</a>
+               </dl>
+          </div>
+          <div class="newGuideDetail" id="vote">
+			<h3>快速问答</h3>
+			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
 	        	<dl>
                     <dt><strong>第一步</strong>请先免费注册积粒网，如有积粒账户，请<a href="">登录</a>后，点击“商家列表”。</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide01Step01.jpg" width="551" height="257"/></dd>
@@ -47,11 +42,11 @@
                     <dt><strong>第四步</strong>返回积粒网，查看<a href="">我的任务历史</a>就能看的返利啦！</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide01Step04.jpg" width="551" height="299"/></dd>
 	        	</dl>
-	        </div>
-	        <div class="newGuideDetail" id="shop">
-				<h3>购物返利</h3>
-				<a class="back" href="{{ path('wenwen_frontend_help_guide') }}">返回新手上路»</a>
-	            <dl>
+          </div>
+          <div class="newGuideDetail" id="shop">
+			<h3>购物返利</h3>
+			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+               <dl>
                     <dt><strong>第一步</strong>选择“体验广告”进入页面。</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide02Step01.jpg" width="551" height="257"/></dd>
                     <dt><strong>第二步</strong>选择任务大厅一或任务大厅二中的广告，点击“立即领取”任务，按照任务要求完成任务。</dt>
@@ -59,12 +54,12 @@
                     <dd><img src="http://www.91jili.com/images/help/guide02Step02_2.jpg" width="551" height="300"/></dd>
                     <dt><strong>第三步</strong>查看<a href="">我的任务历史</a>就能看到相关返利啦！</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide02Step03.jpg" width="551" height="299"/></dd>
-	        	</dl>
-	        </div>
-	        <div class="newGuideDetail" id="advertisement">
-				<h3>广告体验</h3>
-				<a class="back" href="{{ path('wenwen_frontend_help_guide') }}">返回新手上路»</a>
-	            <dl>
+               </dl>
+          </div>
+          <div class="newGuideDetail" id="advertisement">
+			<h3>广告体验</h3>
+			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+               <dl>
                     <dt><strong>第一步</strong>点击“游戏体验”进入“小鸡找米”游戏页面！</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide03Step01.jpg" width="551" height="257"/></dd>
                     <dt><strong>第二步</strong>选择“掷色子”或“使用道具”进行游戏！</dt>
@@ -73,12 +68,12 @@
                     <dd><img src="http://www.91jili.com/images/help/guide03Step03.jpg" width="551" height="298"/></dd>
                     <dt><strong>第四步</strong>查看<a href="">我的任务历史</a>就能看到获得的米粒数啦！</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide03Step04.jpg" width="551" height="298"/></dd>
-	        	</dl>
-	        </div>
-	        <div class="newGuideDetail" id="game">
-				<h3>游戏体验</h3>
-				<a class="back" href="{{ path('wenwen_frontend_help_guide') }}">返回新手上路»</a>
-	            <dl>
+               </dl>
+          </div>
+          <div class="newGuideDetail" id="game">
+			<h3>游戏体验</h3>
+			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+               <dl>
                     <dt><strong>第一步</strong>点击“商家活动”或首页商家活动区域更多，进入商家活动页面。</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide04Step01.jpg" width="551" height="257"/></dd>
                     <dd><img src="http://www.91jili.com/images/help/guide04Step01_2.jpg" width="551" height="216"></dd>
@@ -89,12 +84,12 @@
                     <dd><img src="http://www.91jili.com/images/help/guide01Step03.jpg" width="551" height="190"/></dd>
                     <dt><strong>第四步</strong>返回积粒网，查看<a href="">我的任务历史</a>就能看的返利啦！</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide01Step04.jpg" width="551" height="299"/></dd>
-	        	</dl>
-	        </div>
-	        <div class="newGuideDetail" id="invitation">
-				<h3>邀请好友</h3>
-				<a class="back" href="{{ path('wenwen_frontend_help_guide') }}">返回新手上路»</a>
-	            <dl>
+               </dl>
+          </div>
+          <div class="newGuideDetail" id="invitation">
+			<h3>邀请好友</h3>
+			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+               <dl>
                     <dt><strong>第一步</strong>点击“商家活动”或首页商家活动区域更多，进入商家活动页面。</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide04Step01.jpg" width="551" height="257"/></dd>
                     <dd><img src="http://www.91jili.com/images/help/guide04Step01_2.jpg" width="551" height="216"></dd>
@@ -105,14 +100,16 @@
                     <dd><img src="http://www.91jili.com/images/help/guide01Step03.jpg" width="551" height="190"/></dd>
                     <dt><strong>第四步</strong>返回积粒网，查看<a href="">我的任务历史</a>就能看的返利啦！</dt>
                     <dd><img src="http://www.91jili.com/images/help/guide01Step04.jpg" width="551" height="299"/></dd>
-	        	</dl>
-	        </div>	
-	    </div>
-	</div>
+               </dl>
+          </div>	
+     </div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/newGuide')}}"></script>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/newGuide')}}"></script>
 {% endblock %}

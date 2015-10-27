@@ -1,11 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}新手上路：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/newGuide.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -13,106 +10,71 @@
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-help-banner">
-		<div class="text w1000">
-			<div class="title"><a href="{{ path('wenwen_frontend_help_guide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
-			<div class="search"><input type="text" id="search" name="search"><label for="search">请输入关键字</label><div class="search-btn"></div></div>
-		</div>
-	</div>
-	<div class="main-help-con w1000">
-	    <div class="newGuide">
-	        <div class="newGuideDetail" id="survey">
-				<h3>问卷调查</h3>
-				<a class="back" href="{{ path('_default_support') }}">返回新手上路»</a>
-				<dl>
-					<dt><strong>第一步</strong>选择“体验广告”进入页面。</dt>
-	                <dd><img src="http://www.91jili.com/images/help/guide02Step01.jpg" width="551" height="257"/></dd>
-                    <dt><strong>第二步</strong>选择任务大厅一或任务大厅二中的广告，点击“立即领取”任务，按照任务要求完成任务。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide02Step02.jpg" width="551" height="125"/></dd>
-                    <dt><strong>第三步</strong>查看我的任务历史就能看到相关返利啦！</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide02Step03.jpg" width="551" height="299"/></dd>
-	        	</dl>
-	        </div>
-	        <div class="newGuideDetail" id="vote">
-				<h3>快速问答</h3>
-				<a class="back" href="{{ path('_default_support') }}">返回新手上路»</a>
-	        	<dl>
-                    <dt><strong>第一步</strong>请先免费注册积粒网，如有积粒账户，请<a href="">登录</a>后，点击“商家列表”。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide01Step01.jpg" width="551" height="257"/></dd>
-                    <dt><strong>第二步</strong>选择需要的商家，并点击“直接购物”，跳转到购物页面。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide01Step02.jpg" width="551" height="290"/></dd>
-                    <dt><strong>第三步</strong>选择喜欢的商品，点击“加入购物车”，完成订单。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide01Step03.jpg" width="551" height="190"/></dd>
-                    <dt><strong>第四步</strong>返回积粒网，查看<a href="">我的任务历史</a>就能看的返利啦！</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide01Step04.jpg" width="551" height="299"/></dd>
-	        	</dl>
-	        </div>
-	        <div class="newGuideDetail" id="shop">
-				<h3>购物返利</h3>
-				<a class="back" href="{{ path('_default_support') }}">返回新手上路»</a>
-	            <dl>
-                    <dt><strong>第一步</strong>选择“体验广告”进入页面。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide02Step01.jpg" width="551" height="257"/></dd>
-                    <dt><strong>第二步</strong>选择任务大厅一或任务大厅二中的广告，点击“立即领取”任务，按照任务要求完成任务。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide02Step02.jpg" width="551" height="125"/></dd>
-                    <dd><img src="http://www.91jili.com/images/help/guide02Step02_2.jpg" width="551" height="300"/></dd>
-                    <dt><strong>第三步</strong>查看<a href="">我的任务历史</a>就能看到相关返利啦！</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide02Step03.jpg" width="551" height="299"/></dd>
-	        	</dl>
-	        </div>
-	        <div class="newGuideDetail" id="advertisement">
-				<h3>广告体验</h3>
-				<a class="back" href="{{ path('_default_support') }}">返回新手上路»</a>
-	            <dl>
-                    <dt><strong>第一步</strong>点击“游戏体验”进入“小鸡找米”游戏页面！</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide03Step01.jpg" width="551" height="257"/></dd>
-                    <dt><strong>第二步</strong>选择“掷色子”或“使用道具”进行游戏！</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide03Step02.jpg" width="551" height="298"/></dd>
-                    <dt><strong>第三步</strong>等待游戏完成后跳转到结束页面（在该页面可查看游戏状态），再关闭窗口！</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide03Step03.jpg" width="551" height="298"/></dd>
-                    <dt><strong>第四步</strong>查看<a href="">我的任务历史</a>就能看到获得的米粒数啦！</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide03Step04.jpg" width="551" height="298"/></dd>
-	        	</dl>
-	        </div>
-	        <div class="newGuideDetail" id="game">
-				<h3>游戏体验</h3>
-				<a class="back" href="{{ path('_default_support') }}">返回新手上路»</a>
-	            <dl>
-                    <dt><strong>第一步</strong>点击“商家活动”或首页商家活动区域更多，进入商家活动页面。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide04Step01.jpg" width="551" height="257"/></dd>
-                    <dd><img src="http://www.91jili.com/images/help/guide04Step01_2.jpg" width="551" height="216"></dd>
-                    <dt><strong>第二步</strong>点击喜欢的商家活动，在商家活动页面购买所需商品。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide04Step02.jpg" width="551" height="202"/></dd>
-                    <dd><img src="http://www.91jili.com/images/help/guide04Step02_2.jpg" width="551" height="216"/></dd>
-                    <dt><strong>第三步</strong>选择喜欢的商品，点击“加入购物车”，完成订单。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide01Step03.jpg" width="551" height="190"/></dd>
-                    <dt><strong>第四步</strong>返回积粒网，查看<a href="">我的任务历史</a>就能看的返利啦！</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide01Step04.jpg" width="551" height="299"/></dd>
-	        	</dl>
-	        </div>
-	        <div class="newGuideDetail" id="invitation">
-				<h3>邀请好友</h3>
-				<a class="back" href="{{ path('_default_support') }}">返回新手上路»</a>
-	            <dl>
-                    <dt><strong>第一步</strong>点击“商家活动”或首页商家活动区域更多，进入商家活动页面。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide04Step01.jpg" width="551" height="257"/></dd>
-                    <dd><img src="http://www.91jili.com/images/help/guide04Step01_2.jpg" width="551" height="216"></dd>
-                    <dt><strong>第二步</strong>点击喜欢的商家活动，在商家活动页面购买所需商品。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide04Step02.jpg" width="551" height="202"/></dd>
-                    <dd><img src="http://www.91jili.com/images/help/guide04Step02_2.jpg" width="551" height="216"/></dd>
-                    <dt><strong>第三步</strong>选择喜欢的商品，点击“加入购物车”，完成订单。</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide01Step03.jpg" width="551" height="190"/></dd>
-                    <dt><strong>第四步</strong>返回积粒网，查看<a href="">我的任务历史</a>就能看的返利啦！</dt>
-                    <dd><img src="http://www.91jili.com/images/help/guide01Step04.jpg" width="551" height="299"/></dd>
-	        	</dl>
-	        </div>	
-	    </div>
+<div class="main-help-banner">
+	<div class="text w1000">
+		<div class="title"><a href="{{ path('_default_support_newGuide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/newGuide')}}"></script>
+<div class="main-help-con w1000">
+    <div class="newGuide">
+        <ul class="clearfix">
+        	<li>
+            	<em><img src="{{ asset('img/help/icon01.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>问卷调查</dt>
+                    <dd>选择喜欢的商家进入，购买商品就能返利哦！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#survey" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon02.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>快速问答</dt>
+                    <dd>玩玩小游戏、做做问卷，米粒轻松到手！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#vote" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon03.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>购物返利</dt>
+                    <dd>为您推荐最实惠的商家！为您寻找最实惠的活动！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#shop" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon04.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>广告体验</dt>
+                    <dd>为您推荐最实惠的商家！为您寻找最实惠的活动！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#advertisement" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon05.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>游戏体验</dt>
+                    <dd>每天摇色子，每周统计排名，第一名更有5888米粒奖励！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#game" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon06.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>邀请好友</dt>
+                    <dd>为您推荐最实惠的商家！为您寻找最实惠的活动！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#invitation" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
 {% endblock %}

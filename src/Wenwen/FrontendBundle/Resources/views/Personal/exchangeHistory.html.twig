@@ -1,11 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}兑换历史：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/point.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -13,78 +10,79 @@
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-personal w1000 clearfix">
-		{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
-		<div class="main-personal-right right">
-			<h2><div class="filter"><label for="">按时间筛选：</label><input type="text" class="laydate-icon">到<input type="text" class="laydate-icon"><span class="searchBtn">搜索</span></div>兑换历史</h2>
-			<div class="main-personal-points">
-				<table>
-					<thead>
-						<tr>
-							<th>申请日期</th>
-							<th>兑换内容</th>
-							<th>兑换积分</th>
-							<th>状态</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>2015-07-10</td>
-							<td>支付宝-50元</td>
-							<td>5000</td>
-							<td>待审核</td>
-						</tr>
-						<tr>
-							<td>2015-07-10</td>
-							<td>手机费-20元</td>
-							<td>2010</td>
-							<td>成功</td>
-						</tr>
-						<tr>
-							<td>2015-07-10</td>
-							<td>手机费-50元</td>
-							<td>4960</td>
-							<td>成功</td>
-						</tr>
-						<tr>
-							<td>2015-07-10</td>
-							<td>手机流量-50M</td>
-							<td>1590</td>
-							<td>成功</td>
-						</tr>
-						<tr>
-							<td>2015-07-10</td>
-							<td>支付宝-50元</td>
-							<td>5000</td>
-							<td>失败</td>
-						</tr>
-						<tr>
-							<td>2015-07-10</td>
-							<td>支付宝-50元</td>
-							<td>5000</td>
-							<td>成功</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="page-wrapper">
-					<p class="page">
-						<span class="active">1</span>
-						<span>2</span>
-						<span>3</span>
-						<span>4</span>
-						<span>5</span>
-						<span>6</span>
-						<span>尾页</span>
-					</p>
-				</div>
+<div class="main-personal w1000 clearfix">
+	{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
+	<div class="main-personal-right right">
+		<h2><div class="filter"><label for="">按时间筛选：</label><input type="text" class="laydate-icon">到<input type="text" class="laydate-icon"><span class="searchBtn">搜索</span></div>兑换历史</h2>
+		<div class="main-personal-points">
+			<table>
+				<thead>
+					<tr>
+						<th>申请日期</th>
+						<th>兑换内容</th>
+						<th>兑换积分</th>
+						<th>状态</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>2015-07-10</td>
+						<td>支付宝-50元</td>
+						<td>5000</td>
+						<td>待审核</td>
+					</tr>
+					<tr>
+						<td>2015-07-10</td>
+						<td>手机费-20元</td>
+						<td>2010</td>
+						<td>成功</td>
+					</tr>
+					<tr>
+						<td>2015-07-10</td>
+						<td>手机费-50元</td>
+						<td>4960</td>
+						<td>成功</td>
+					</tr>
+					<tr>
+						<td>2015-07-10</td>
+						<td>手机流量-50M</td>
+						<td>1590</td>
+						<td>成功</td>
+					</tr>
+					<tr>
+						<td>2015-07-10</td>
+						<td>支付宝-50元</td>
+						<td>5000</td>
+						<td>失败</td>
+					</tr>
+					<tr>
+						<td>2015-07-10</td>
+						<td>支付宝-50元</td>
+						<td>5000</td>
+						<td>成功</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="page-wrapper">
+				<p class="page">
+					<span class="active">1</span>
+					<span>2</span>
+					<span>3</span>
+					<span>4</span>
+					<span>5</span>
+					<span>6</span>
+					<span>尾页</span>
+				</p>
 			</div>
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/point')}}"></script>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/point')}}"></script>
 {% endblock %}

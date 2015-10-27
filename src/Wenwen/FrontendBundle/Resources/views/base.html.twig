@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>首页:91问问调查网</title>
     <title>{% block title %}91问问调查网{% endblock %}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="keywords" content="就要问问,91wenwen,91问问,网络调查,问卷,赚钱,在线市场研究,在线市场调研,在线调研,在线调查软件,在线调查,体验广告，购物返利" />
@@ -19,7 +18,9 @@
 </head>
 <body>
     {% block header %}{% endblock %}
-    {% block body %}{% endblock %}
+    <div {% if app.session.has('uid') %} class="main" {% else %}  class="main unlogin" {% endif %}>
+        {% block body %}{% endblock %}
+    </div>
     <div class="footer">
         {% block footer %}{% endblock %}
     </div>

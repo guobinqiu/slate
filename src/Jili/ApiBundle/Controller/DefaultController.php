@@ -578,11 +578,19 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/support/newGuide", name="_default_support_newGuide", requirements={"_scheme"="http"})
+     * @Route("/newGuide", name="_default_support_newGuide", requirements={"_scheme"="http"})
      */
     public function guideAction()
     {
         return $this->render('WenwenFrontendBundle:Help:newGuide.html.twig');
+    }
+
+    /**
+     * @Route("/newGuide/detail", name="_default_support_newGuide_detail", requirements={"_scheme"="http"})
+     */
+    public function guideDetailAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:newGuideDetail.html.twig');
     }
 
     /**

@@ -1,4 +1,6 @@
-<div id="top-header" class="header">
+<div id="top-header" {% if app.session.has('uid') %} class="header" {% else %}  class="header unlogin" {% endif %} >
+	{% if app.session.has('uid') %}
 	{% include 'WenwenFrontendBundle:Components:_headerTopBar.html.twig' %}
+	{% endif %} 
     {% include 'WenwenFrontendBundle:Components:_headerNav.html.twig' %}
 </div>

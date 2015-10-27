@@ -1,17 +1,6 @@
 require(['../../config'],function(){
     require(['common']);
     require(['jquery'], function($){
-        var search = $('.search');
-        search.find('input').bind('focus', function(){
-            search.find('label').hide();
-        }).bind('blur', function(){
-            var val = $(this).val();
-            if(val == '请输入关键字' || val == ''){
-                search.find('label').show();
-            }
-        });
-    });
-    require(['jquery'], function($){
         var category = $('#category');
         var data = {
             title: ['账号类', '问卷类', '积分兑换', '应用程序','其他'],
@@ -34,13 +23,11 @@ require(['../../config'],function(){
         }
         initCategory();
 
-        console.log(category.find('option').length);
         var mobile = $('.mobile'), birthday = $('.birthday'), surveyId = $('.surveyId'), surveyName = $('.surveyName'), exchange = $('.exchange'), alipay = $('.alipay');
         var spec = $('.spec');
         spec.hide();
         function changeForm(){
             var optionsSel = $('#category').find('option:selected');
-
             switch (optionsSel.val()){
                 case '手机绑定': spec.hide(); mobile.show(); break;
                 case '生日错误': spec.hide(); birthday.show(); break;
@@ -143,61 +130,52 @@ require(['../../config'],function(){
             prompt: {
                 isNull: '请选择问题的种类'
             }
-        };
-        var content = {
+        }, content = {
             ele: '#content',
             prompt: {
                 isNull: '请输入相关内容',
                 isFocus: '请输入您想咨询的内容'
             }
-        };
-        var name = {
+        }, name = {
             ele: '#name',
             prompt: {
                 isNull: '请输入您的姓名'
             }
-        };
-        var email = {
+        }, email = {
             ele: '#email',
             prompt: {
                 isNull: '请输入您常用的邮箱地址',
                 isFormat: '邮箱格式错误'
             },
             type: 'email'
-        };
-        var mobile = {
+        }, mobile = {
             ele: '#mobile',
             prompt: {
                 isNull: '请输入您的手机号码',
                 isFormat: '手机格式不正确'
             },
             type: 'mobile'
-        };
-        var birthday = {
+        }, birthday = {
             ele: '#birthday',
             prompt: {
                 isNull: '请输入生日错误原因'
             }
-        };
-        var surveyId = {
+        }, surveyId = {
             ele: '#surveyId',
             prompt: {
                 isNull: '请输入调查问卷的编号'
             }
-        };
-        var surveyName = {
+        }, surveyName = {
             ele: '#surveyName',
             prompt: {
                 isNull: '请输入调查问卷的名称'
             }
-        };
-        var exchange = {
+        }, exchange = {
             ele: '#exchange',
             prompt: {
                 isNull: '请选择申请兑换的日期'
             }
-        };
-        var alipay = {
+        }, alipay = {
             ele: '#alipay',
             prompt: {
                 isNull: '请输入您的支付宝账号'
@@ -212,7 +190,6 @@ require(['../../config'],function(){
         var feedbackSave = $('#feedback_save');
         feedbackSave.on('click', function(){
             var optionsSel = $('#category').find('option:selected');
-
             checkInput(content, true);
             checkInput(name, true);
             checkInput(email, true);
@@ -253,18 +230,27 @@ require(['../../config'],function(){
                         reSubmit();
                     }
                     break;
-                default : break;
+                default : if(checkInput(content, true)&&checkInput(name, true)&&checkInput(email, true)){
+                        reSubmit();
+                    } break;
             }
         });
         function reSubmit(){
             var str = $('#feedback_form').serialize();
-            console.log('表单数据：'+str);
-//            $.ajax({
-//                url: "{{ path('_user_reset') }}?email="+$('#title').val(),
-//                post: "GET",
-//                success:function(data){
-//                }
-//            });
+            console.log('表单数据：'+ str);
+            $.ajax({  
+                url: Routing.generate("_default_contact", str),
+                type: "POST",
+                success:function(data){
+                    switch(data){
+                        case "1": tips.text('*请输入您的问题'); break;
+                        case "2": tips.text('*请输入您的联系方式'); break;
+                        case "3": tips.text('*您的联系方式不正确'); break;
+                        case "4": tips.text('*系统出错，邮件发送失败'); break;
+                        default: break;
+                    }
+                }
+            });
         }
         $(category.ele).on('change', function(){
             checkSel(category);
