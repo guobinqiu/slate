@@ -14,6 +14,7 @@ require.config({
         'jcrop': 'plugin/Jcrop/jquery.Jcrop',
         'layDate': 'plugin/layDate/layDate',
         'iframeResizer': 'plugin/iframeResizer/iframeResizer.min',
+        'router': 'plugin/router',
         'common':'common/common',
         'slider': 'common/slider',
         'countdown': 'common/countdown',
@@ -56,6 +57,10 @@ require.config({
         iframeResizer: {
             deps: [],
             exports: 'iframeResizer'
+        },
+        router: {
+            deps: [],
+            exports: 'router'
         }
     }
 });

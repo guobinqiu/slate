@@ -342,7 +342,6 @@ class  ExchangeController extends Controller
 
             }
         }
-        // return $this->render('JiliApiBundle:Exchange:mobileInfo.html.twig',$arr);
         return $this->render('WenwenFrontendBundle:Exchange:mobileInfo.html.twig',$arr);
     }
 
@@ -1088,6 +1087,7 @@ class  ExchangeController extends Controller
         if (file_exists($filename)) {
             $arr['content'] = file_get_contents($filename);
         }
+        // return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
         return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
     }
 
@@ -1153,6 +1153,7 @@ class  ExchangeController extends Controller
         $this->get('request')->getSession()->set('mobile_info',$arr['mobile_info']);
         $arr['selected_flow'] = $selected_flow;
         $arr['change_point'] = $arr['mobile_info']['product_list'][$selected_flow]['change_point'];
+        // return $this->render('JiliApiBundle:Exchange:flowApply.html.twig',$arr);
         return $this->render('JiliApiBundle:Exchange:flowApply.html.twig',$arr);
     }
 
