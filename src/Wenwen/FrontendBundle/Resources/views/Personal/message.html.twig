@@ -1,11 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}我的消息：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/message.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -13,63 +10,64 @@
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-personal w1000 clearfix">
-		{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
-		<div class="main-personal-right right">
-			<div class="main-personal-message">
-				<div class="btn tabNav"><span class="active">私信</span><span>系统</span><div class="border"></div></div>
-				<div class="tabCon">
-					<div class="con">
-						<ul>
-							<li class="title"><span>时间</span><strong>标题</strong></li>
-							<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a></li>
-							<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a><p>每个人都是社会的决策者，恭喜您成为亚洲调查面板旗下中国样本库的一员，今后您的意见将会成为政府和企业决策的依据。
-							在91问问调查网，您可以通过参加问卷、投票以及相关活动，获得积分并将积分兑换成现金和奖品。我们期待您保持活跃，经常登录并及时准确的完成属性问卷，这样您将有更多机会获得高分值的商业问卷。请经常查收您的邮箱，每周我们会至少发送一封问卷邀请给您，及时的查收邮件有助于您争取高分值问卷的名额。
-							做为亚洲领先的调查公司，我们始终努力让您获得良好的调查体验。如果您在使用91问问调查网的过程中遇到任何问题，请通过帮助中心与我们联系。谢谢！</p></li>
-							<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a></li>
-						</ul>
-						<div class="page-wrapper">
-							<p class="page">
-								<span class="active">1</span>
-								<span>2</span>
-								<span>3</span>
-								<span>4</span>
-								<span>5</span>
-								<span>6</span>
-								<span>尾页</span>
-							</p>
-						</div>
+<div class="main-personal w1000 clearfix">
+	{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
+	<div class="main-personal-right right">
+		<div class="main-personal-message">
+			<div class="btn tabNav"><span class="active">私信</span><span>系统</span><div class="border"></div></div>
+			<div class="tabCon">
+				<div class="con">
+					<ul>
+						<li class="title"><span>时间</span><strong>标题</strong></li>
+						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a></li>
+						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a><p>每个人都是社会的决策者，恭喜您成为亚洲调查面板旗下中国样本库的一员，今后您的意见将会成为政府和企业决策的依据。
+						在91问问调查网，您可以通过参加问卷、投票以及相关活动，获得积分并将积分兑换成现金和奖品。我们期待您保持活跃，经常登录并及时准确的完成属性问卷，这样您将有更多机会获得高分值的商业问卷。请经常查收您的邮箱，每周我们会至少发送一封问卷邀请给您，及时的查收邮件有助于您争取高分值问卷的名额。
+						做为亚洲领先的调查公司，我们始终努力让您获得良好的调查体验。如果您在使用91问问调查网的过程中遇到任何问题，请通过帮助中心与我们联系。谢谢！</p></li>
+						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a></li>
+					</ul>
+					<div class="page-wrapper">
+						<p class="page">
+							<span class="active">1</span>
+							<span>2</span>
+							<span>3</span>
+							<span>4</span>
+							<span>5</span>
+							<span>6</span>
+							<span>尾页</span>
+						</p>
 					</div>
-					<div class="con">
-						<ul>
-							<li class="title"><span>时间</span><strong>标题</strong></li>
-							<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了dfgfg一枚勋章</a></li>
-							<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a><p>每个人都是社会的决策者，恭喜您成为亚洲调查面板旗下中国样本库的一员，今后您的意见将会成为政府和企业决策的依据。
-							在91问问调查网，您可以通过参加问卷、投票以及相关活动，获得积分并将积分兑换成现金和奖品。我们期待您保持活跃，经常登录并及时准确的完成属性问卷，这样您将有更多机会获得高分值的商业问卷。请经常查收您的邮箱，每周我们会至少发送一封问卷邀请给您，及时的查收邮件有助于您争取高分值问卷的名额。
-							做为亚洲领先的调查公司，我们始终努力让您获得良好的调查体验。如果您在使用91问问调查网的过程中遇到任何问题，请通过帮助中心与我们联系。谢谢！</p></li>
-							<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a></li>
-						</ul>
-						<div class="page-wrapper">
-							<p class="page">
-								<span class="active">1</span>
-								<span>2</span>
-								<span>3</span>
-								<span>4</span>
-								<span>5</span>
-								<span>6</span>
-								<span>尾页</span>
-							</p>
-						</div>
+				</div>
+				<div class="con">
+					<ul>
+						<li class="title"><span>时间</span><strong>标题</strong></li>
+						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了dfgfg一枚勋章</a></li>
+						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a><p>每个人都是社会的决策者，恭喜您成为亚洲调查面板旗下中国样本库的一员，今后您的意见将会成为政府和企业决策的依据。
+						在91问问调查网，您可以通过参加问卷、投票以及相关活动，获得积分并将积分兑换成现金和奖品。我们期待您保持活跃，经常登录并及时准确的完成属性问卷，这样您将有更多机会获得高分值的商业问卷。请经常查收您的邮箱，每周我们会至少发送一封问卷邀请给您，及时的查收邮件有助于您争取高分值问卷的名额。
+						做为亚洲领先的调查公司，我们始终努力让您获得良好的调查体验。如果您在使用91问问调查网的过程中遇到任何问题，请通过帮助中心与我们联系。谢谢！</p></li>
+						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a></li>
+					</ul>
+					<div class="page-wrapper">
+						<p class="page">
+							<span class="active">1</span>
+							<span>2</span>
+							<span>3</span>
+							<span>4</span>
+							<span>5</span>
+							<span>6</span>
+							<span>尾页</span>
+						</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/message')}}"></script>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/message')}}"></script>
 {% endblock %}

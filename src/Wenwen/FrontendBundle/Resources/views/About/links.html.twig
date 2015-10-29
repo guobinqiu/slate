@@ -1,11 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}友情链接：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -13,41 +10,42 @@
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-about-con w1000 clearfix">
-		{% include 'WenwenFrontendBundle:About:_leftSidebar.html.twig' %}
-		<div class="aboutR tabCon right">
-			<h2>友情链接</h2>
-			<div class="friendLink w732 clearfix con">
-				<ul class="clearfix">
-					<li><a href="http://www.91wenwen.net/connect_jili/forwardToJili" target="_blank"><img width="120" height="40" src="{{ asset('img/about/jili_logo.jpg')}}" alt="积粒网"></a></li>
-					<li><a href="http://www.justonline.cn/?utm_source=91wenwen&amp;utm_medium=91wwedm&amp;utm_campaign=91wenwenedm_110125" target="_blank"><img width="120" height="40" src="{{ asset('img/about/jianshi.jpg')}}" alt="简时尚品"></a></li>
-					<li><a href="http://www.chanet.com.cn/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/chanet.jpg')}}" alt="成果网广告联盟"></a></li>
-					<li class="bordRN"><a href="http://www.manmanzou.com" target="_blank"><img width="120" height="40" src="{{ asset('img/about/manmanzou.jpg')}}" alt="慢慢走"></a></li>
-					<li class="bordBN"><a href="http://www.jd.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/jd_logo.jpg')}}" alt="京东商城"></a></li>
-					<li class="bordBN"><a href="http://www.zhubajie.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/zbj_logo.jpg')}}" alt="猪八戒"></a></li>
-					<li class="bordBN"><a href="http://www.680.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/680_logo.jpg')}}" alt="时间财富网"></a></li>
-					<li class="bordRN bordBN"><a href="http://www.vikecn.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/vikecn_logo.jpg')}}" alt="威客中国"></a></li>
-				</ul>
-				<div class="linkStep">
-					<h3>申请友情链接</h3>
-					<div>
-			            <dt class="linkStepTit">申请步骤：</dt>
-			            <dd>1.&nbsp;&nbsp;请先在贵网站做好91问问调查网的友情链接:</dd>
-			            <dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;链接文字：91问问调查网  &nbsp;&nbsp;&nbsp;&nbsp;链接地址：<a href="http://www.91wenwen.net/">http://www.91wenwen.net/</a></dd>
-			            <dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOGO尺寸：
-			            <img height="55" width="150" alt="91问问调查网" src="{{ asset('img/about/logo150-55.gif')}}">大小: 150x55<img height="31" width="88" alt="91问问调查网" src="{{ asset('img/about/logo88-31.gif')}}">大小: 81x33</dd>
-			        	<dd>2.&nbsp;&nbsp;做好链接后，请发邮件到：<a href="mailto:mandy_li@researchpanelasia.com">mandy_li@researchpanelasia.com</a>&lt;联系时请注明申请友情链接&gt;</dd>
-			            <dd>3.&nbsp;&nbsp;已经开通我站友情链接且内容健康，符合本站友情链接要求的网站，经91问问管理员审核后，可以显示在此友情链接页面。</dd>
-			        </div>
-				</div>
+<div class="main-about-con w1000 clearfix">
+	{% include 'WenwenFrontendBundle:About:_leftSidebar.html.twig' %}
+	<div class="aboutR tabCon right">
+		<h2>友情链接</h2>
+		<div class="friendLink w732 clearfix con">
+			<ul class="clearfix">
+				<li><a href="http://www.91wenwen.net/connect_jili/forwardToJili" target="_blank"><img width="120" height="40" src="{{ asset('img/about/jili_logo.jpg')}}" alt="积粒网"></a></li>
+				<li><a href="http://www.justonline.cn/?utm_source=91wenwen&amp;utm_medium=91wwedm&amp;utm_campaign=91wenwenedm_110125" target="_blank"><img width="120" height="40" src="{{ asset('img/about/jianshi.jpg')}}" alt="简时尚品"></a></li>
+				<li><a href="http://www.chanet.com.cn/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/chanet.jpg')}}" alt="成果网广告联盟"></a></li>
+				<li class="bordRN"><a href="http://www.manmanzou.com" target="_blank"><img width="120" height="40" src="{{ asset('img/about/manmanzou.jpg')}}" alt="慢慢走"></a></li>
+				<li class="bordBN"><a href="http://www.jd.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/jd_logo.jpg')}}" alt="京东商城"></a></li>
+				<li class="bordBN"><a href="http://www.zhubajie.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/zbj_logo.jpg')}}" alt="猪八戒"></a></li>
+				<li class="bordBN"><a href="http://www.680.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/680_logo.jpg')}}" alt="时间财富网"></a></li>
+				<li class="bordRN bordBN"><a href="http://www.vikecn.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/vikecn_logo.jpg')}}" alt="威客中国"></a></li>
+			</ul>
+			<div class="linkStep">
+				<h3>申请友情链接</h3>
+				<div>
+		            <dt class="linkStepTit">申请步骤：</dt>
+		            <dd>1.&nbsp;&nbsp;请先在贵网站做好91问问调查网的友情链接:</dd>
+		            <dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;链接文字：91问问调查网  &nbsp;&nbsp;&nbsp;&nbsp;链接地址：<a href="http://www.91wenwen.net/">http://www.91wenwen.net/</a></dd>
+		            <dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOGO尺寸：
+		            <img height="55" width="150" alt="91问问调查网" src="{{ asset('img/about/logo150-55.gif')}}">大小: 150x55<img height="31" width="88" alt="91问问调查网" src="{{ asset('img/about/logo88-31.gif')}}">大小: 81x33</dd>
+		        	<dd>2.&nbsp;&nbsp;做好链接后，请发邮件到：<a href="mailto:mandy_li@researchpanelasia.com">mandy_li@researchpanelasia.com</a>&lt;联系时请注明申请友情链接&gt;</dd>
+		            <dd>3.&nbsp;&nbsp;已经开通我站友情链接且内容健康，符合本站友情链接要求的网站，经91问问管理员审核后，可以显示在此友情链接页面。</dd>
+		        </div>
 			</div>
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
 {% endblock %}

@@ -4,15 +4,6 @@ require(['../../config'],function(){
         new goTop({src: '/img/common/backTop.png'});
     });
     require(['jquery'], function($){
-        var search = $('.search');
-        search.find('input').bind('focus', function(){
-            search.find('label').hide();
-        }).bind('blur', function(){
-            var val = $(this).val();
-            if(val == '请输入关键字' || val == ''){
-                search.find('label').show();
-            }
-        });
         function init(){
             var resultCon = $('.search-result');
             var cons = resultCon.find('.partCon'),

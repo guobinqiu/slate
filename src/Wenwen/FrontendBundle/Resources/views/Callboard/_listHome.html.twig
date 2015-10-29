@@ -1,0 +1,8 @@
+<div class="notice">
+	<h2>最新公告</h2>
+	<ul>
+		{% for item in callboard %}
+		<li><em></em><a href="{{ path('_callboard_info',{'id':item.id}) }}">{{ item.title[:17] }}</a></li>
+		{% endfor %}
+	</ul>
+</div>

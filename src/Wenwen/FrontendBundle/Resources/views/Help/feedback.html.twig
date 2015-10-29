@@ -1,11 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}意见反馈：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/feedback.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -13,82 +10,83 @@
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	{% include 'WenwenFrontendBundle:Help:_banner.html.twig' %}
-	<div class="main-help-con w1000">
-		<div class="main-help-feedback form">
-			<h2>请填写完您的问题之后，点击提交按钮。有<b>*</b>的项目为必填项目。</h2>
-			<form action="" id="feedback_form">
-			<ul>
-				<li>
-					<label for="category"><em>*</em>您碰到的问题的种类：</label>
-					<select name="category" id="category"><option selected="" value="">选择您碰到的问题的种类</option></select>
-					<span id="category_succeed"></span>
-					<span id="category_error"></span>
-				</li>
-				<li class="spec mobile">
-					<label for="mobile"><em>*</em>请输入您绑定的手机号码：</label>
-					<input type="text" id="mobile" name="mobile">
-					<span id="mobile_succeed"></span>
-					<span id="mobile_error"></span>
-				</li>
-				<li class="spec birthday">
-					<label for="birthday"><em>*</em>请提供您生日错误的原因：</label>
-					<textarea id="birthday" name="birthday"></textarea>
-					<span id="birthday_succeed"></span>
-					<span id="birthday_error"></span>
-				</li>
-				<li class="spec surveyId">
-					<label for="surveyId"><em>*</em>调查问卷的编号：</label>
-					<input type="text" id="surveyId" name="surveyId">
-					<span id="surveyId_succeed"></span>
-					<span id="surveyId_error"></span>
-				</li>
-				<li class="spec surveyName">
-					<label for="surveyName"><em>*</em>调查问卷的名称：</label>
-					<input type="text" id="surveyName" name="surveyName">
-					<span id="surveyName_succeed"></span>
-					<span id="surveyName_error"></span>
-				</li>
-				<li class="spec exchange">
-					<label for="exchange"><em>*</em>您申请兑换的日期：</label>
-					<input type="text" id="exchange" name="exchange">
-					<span id="exchange_succeed"></span>
-					<span id="exchange_error"></span>
-				</li>
-				<li class="spec alipay">
-					<label for="alipay"><em>*</em>您的支付宝账号：</label>
-					<input type="text" id="alipay" name="alipay">
-					<span id="alipay_succeed"></span>
-					<span id="alipay_error"></span>
-				</li>
-				<li>
-					<label for="content"><em>*</em>您想咨询的内容：</label>
-					<textarea id="content" name="content"></textarea>
-					<span id="content_succeed"></span>
-					<span id="content_error"></span>
-				</li>
-				<li>
-					<label for="name"><em>*</em>您的姓名：</label>
-					<input type="text" id="name" name="name">
-					<span id="name_succeed"></span>
-					<span id="name_error"></span>
-				</li>
-				<li>
-					<label for="email"><em>*</em>91问问注册邮箱：</label>
-					<input type="text" id="email" name="email">
-					<span id="email_succeed"></span>
-					<span id="email_error"></span>
-				</li>
-			</ul>
-			<div class="btn"><a href="javascript:void(0)" id="feedback_save">提交</a></div>
-			</form>
-		</div>
+{% include 'WenwenFrontendBundle:Help:_banner.html.twig' %}
+<div class="main-help-con w1000">
+	<div class="main-help-feedback form">
+		<h2>请填写完您的问题之后，点击提交按钮。有<b>*</b>的项目为必填项目。</h2>
+		<form action="" id="feedback_form">
+		<ul>
+			<li>
+				<label for="category"><em>*</em>您碰到的问题的种类：</label>
+				<select name="category" id="category"><option selected="" value="">选择您碰到的问题的种类</option></select>
+				<span id="category_succeed"></span>
+				<span id="category_error"></span>
+			</li>
+			<li class="spec mobile">
+				<label for="mobile"><em>*</em>请输入您绑定的手机号码：</label>
+				<input type="text" id="mobile" name="mobile">
+				<span id="mobile_succeed"></span>
+				<span id="mobile_error"></span>
+			</li>
+			<li class="spec birthday">
+				<label for="birthday"><em>*</em>请提供您生日错误的原因：</label>
+				<textarea id="birthday" name="birthday"></textarea>
+				<span id="birthday_succeed"></span>
+				<span id="birthday_error"></span>
+			</li>
+			<li class="spec surveyId">
+				<label for="surveyId"><em>*</em>调查问卷的编号：</label>
+				<input type="text" id="surveyId" name="surveyId">
+				<span id="surveyId_succeed"></span>
+				<span id="surveyId_error"></span>
+			</li>
+			<li class="spec surveyName">
+				<label for="surveyName"><em>*</em>调查问卷的名称：</label>
+				<input type="text" id="surveyName" name="surveyName">
+				<span id="surveyName_succeed"></span>
+				<span id="surveyName_error"></span>
+			</li>
+			<li class="spec exchange">
+				<label for="exchange"><em>*</em>您申请兑换的日期：</label>
+				<input type="text" id="exchange" name="exchange">
+				<span id="exchange_succeed"></span>
+				<span id="exchange_error"></span>
+			</li>
+			<li class="spec alipay">
+				<label for="alipay"><em>*</em>您的支付宝账号：</label>
+				<input type="text" id="alipay" name="alipay">
+				<span id="alipay_succeed"></span>
+				<span id="alipay_error"></span>
+			</li>
+			<li>
+				<label for="content"><em>*</em>您想咨询的内容：</label>
+				<textarea id="content" name="content"></textarea>
+				<span id="content_succeed"></span>
+				<span id="content_error"></span>
+			</li>
+			<li>
+				<label for="name"><em>*</em>您的姓名：</label>
+				<input type="text" id="name" name="name">
+				<span id="name_succeed"></span>
+				<span id="name_error"></span>
+			</li>
+			<li>
+				<label for="email"><em>*</em>91问问注册邮箱：</label>
+				<input type="text" id="email" name="email">
+				<span id="email_succeed"></span>
+				<span id="email_error"></span>
+			</li>
+		</ul>
+		<div class="btn"><a href="javascript:void(0)" id="feedback_save">提交</a></div>
+		</form>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/feedback')}}"></script>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/feedback')}}"></script>
 {% endblock %}

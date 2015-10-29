@@ -1,6 +1,6 @@
 <div class="tabBtns">
 	{% set router_current = app.request.attributes.get('_route') %}
-	<a href="{{ path('wenwen_frontend_advertisement_index') }}" {{ router_current == 'wenwen_frontend_advertisement_index' ? 'class="first active"':'class="first"' }}>任务大厅一</a>
-	<a href="{{ path('wenwen_frontend_advertisement_bangwoya') }}" {{ router_current == 'wenwen_frontend_advertisement_bangwoya' ? 'class="active"':'' }}>任务大厅二</a>
-	<a href="{{ path('wenwen_frontend_advertisement_offer99') }}" {{ router_current == 'wenwen_frontend_advertisement_offer99' ? 'class="active"':'' }}>任务大厅三</a>
+	<a href="{{ path('_advertiserment_list') }}" {{ router_current == '_advertiserment_list' ? 'class="first active"':'class="first"' }}>任务大厅一</a>
+	<a href="{{ path('_advertiserment_bangwoya') }}" {{ router_current == '_advertiserment_bangwoya' ? 'class="active"':'' }}>任务大厅二</a>
+	<a href="{{ path('_advertiserment_offer99') }}" {{ router_current == '_advertiserment_offer99' ? 'class="active"':'' }}>任务大厅三</a>
 </div>

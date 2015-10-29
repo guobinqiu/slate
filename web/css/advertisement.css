@@ -321,98 +321,119 @@ body {
 .main-slider {
   margin-right: 2px;
   background: #fff;
-  border: 1px solid #ebedf2; }
-  .main-slider .mask {
-    width: 764px;
-    height: 220px; }
-  .main-slider ul {
-    position: absolute;
-    z-index: 1999;
-    top: 0;
-    left: 0;
-    width: 1000%; }
-  .main-slider li {
-    float: left;
-    position: relative;
-    z-index: 3;
-    padding-left: 244px;
-    top: 0;
-    left: 0; }
-  .main-slider .btn-group {
-    bottom: 20px;
-    left: auto;
-    right: 200px;
-    margin-left: 0; }
-    .main-slider .btn-group b {
-      margin-right: 5px;
-      width: 8px;
-      height: 8px;
-      background: #cbcbcb;
-      border-radius: 50%; }
-      .main-slider .btn-group b:hover, .main-slider .btn-group b.active {
-        background: #ff430a; }
-  .main-slider span {
-    left: 0;
-    top: 0;
-    padding: 10px 20px 20px;
-    width: 204px;
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    vertical-align: top; }
-    .main-slider span h2 {
-      height: 45px;
-      line-height: 45px;
-      color: #000;
-      font-size: 18px;
-      overflow: hidden;
-      -ms-text-overflow: ellipsis;
-      text-overflow: ellipsis;
-      white-space: nowrap; }
-    .main-slider span p {
-      line-height: 22px;
-      color: #999; }
-    .main-slider span a {
-      margin-top: 15px;
-      width: 204px;
-      height: 45px;
-      line-height: 45px;
-      text-align: center;
-      font-size: 14px;
-      color: #fff;
-      background: #ff6700;
-      border: 1px solid #ff6700;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: all 0.4s;
-      -moz-transition: all 0.4s;
-      -webkit-transition: all 0.4s;
-      -o-transition: all 0.4s;
-      display: inline-block;
-      *display: inline;
-      *zoom: 1; }
-      .main-slider span a:hover {
-        background: #f25807;
-        border: 1px solid #f25807; }
-    .main-slider span .relate {
-      margin-top: 10px;
-      height: 30px;
-      line-height: 30px;
-      color: #b2b2b2; }
-      .main-slider span .relate .attention, .main-slider span .relate .shopName {
-        display: inline-block;
-        *display: inline;
-        *zoom: 1; }
-      .main-slider span .relate .shopName {
-        float: right; }
-        .main-slider span .relate .shopName em {
-          background-position: 0 -19px; }
-  .main-slider a {
-    width: 520px;
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    vertical-align: top; }
+  border: 1px solid #eee;
+}
+.main-slider .mask {
+  width: 764px;
+  height: 220px;
+}
+.main-slider ul {
+  position: absolute;
+  z-index: 1999;
+  top: 0;
+  left: 0;
+  width: 1000%;
+}
+.main-slider li {
+  float: left;
+  position: relative;
+  z-index: 3;
+  padding-left: 244px;
+  top: 0;
+  left: 0;
+}
+.main-slider .btn-group {
+  bottom: 20px;
+  left: auto;
+  right: 200px;
+  margin-left: 0;
+}
+.main-slider .btn-group b {
+  margin-right: 5px;
+  width: 8px;
+  height: 8px;
+  background: #cbcbcb;
+  border-radius: 50%;
+}
+.main-slider .btn-group b:hover, .main-slider .btn-group b.active {
+  background: #ff430a;
+}
+.main-slider span {
+  left: 0;
+  top: 0;
+  padding: 10px 20px 20px;
+  width: 204px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+}
+.main-slider span h2 {
+  height: 45px;
+  line-height: 45px;
+  color: #000;
+  font-size: 18px;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.main-slider span p {
+  height: 45px;
+  line-height: 22px;
+  color: #999;
+}
+.main-slider span a {
+  margin-top: 15px;
+  width: 204px;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  background: #ff6700;
+  border: 1px solid #ff6700;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.main-slider span a:hover {
+  background: #f25807;
+  border: 1px solid #f25807;
+}
+.main-slider span .relate {
+  margin-top: 10px;
+  height: 30px;
+  line-height: 30px;
+  color: #b2b2b2;
+}
+.main-slider span .relate .attention, .main-slider span .relate .shopName {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.main-slider span .relate .shopName {
+  float: right;
+}
+.main-slider span .relate .shopName em {
+  background-position: 0 -19px;
+}
+.main-slider a {
+  width: 520px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+}
+.main-slider a img {
+  width: 520px;
+}
 
 .main-con-shop {
   height: 222px;

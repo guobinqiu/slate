@@ -1,0 +1,35 @@
+<div class="main-con-shop clearfix">
+	<div class="main-slider left">
+		<div class="mask">
+			<ul class="clearfix">
+				{% for item in market %}
+				<li>
+					<span>
+						<h2>{{ item.businessName}}</h2>
+						<p>{{ item.activityDescription}}</p>
+						<a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2">去购物，最高返{% if item.incentiveType==1 %}
+                             {{ item.incentive }}积分
+                        {% elseif item.incentiveType==2 %}
+                             {{ item.reward_rate }}%
+                        {% endif %}</a>
+						<div class="relate">
+							<div class="shopName"><em></em>{{ item.title }}</div>
+							<div class="attention"><em></em>{{ item.click}}</div>
+						</div>
+					</span>
+					<a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" title="{{ item.businessName}}"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName}}"></a>
+				</li>
+			    {% endfor %}
+			</ul>
+		</div>
+		<div class="btn-group">
+			<b class="active"></b>
+			<b></b>
+			<b></b>
+			<b></b>
+			<b></b>
+		</div>
+	</div>
+	{{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 5, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
+</div>
+<div class="gameBanner"><a href="{{ path('_game_chick') }}"><img src="{{ asset('img/advertisement/chickBanner.jpg') }}" alt=""></a></div>

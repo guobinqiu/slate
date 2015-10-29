@@ -1,11 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}新手上路：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/newGuide.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -13,71 +10,71 @@
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-help-banner">
-		<div class="text w1000">
-			<div class="title"><a href="{{ path('wenwen_frontend_help_guide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
-			<div class="search"><input type="text" id="search" name="search"><label for="search">请输入关键字</label><div class="search-btn"></div></div>
-		</div>
-	</div>
-	<div class="main-help-con w1000">
-	    <div class="newGuide">
-            <ul class="clearfix">
-	        	<li>
-	            	<em><img src="{{ asset('img/help/icon01.png') }}" width="105" height="84"/></em>
-	                <dl>
-	                    <dt>问卷调查</dt>
-	                    <dd>选择喜欢的商家进入，购买商品就能返利哦！</dd>
-	                    <dd><a href="newGuideDetail#survey" class="more">快去了解</a></dd>
-	                </dl>
-	            </li>
-	            <li>
-	            	<em><img src="{{ asset('img/help/icon02.png') }}" width="105" height="84"/></em>
-	                <dl>
-	                    <dt>快速问答</dt>
-	                    <dd>玩玩小游戏、做做问卷，米粒轻松到手！</dd>
-	                    <dd><a href="newGuideDetail#vote" class="more">快去了解</a></dd>
-	                </dl>
-	            </li>
-	            <li>
-	            	<em><img src="{{ asset('img/help/icon03.png') }}" width="105" height="84"/></em>
-	                <dl>
-	                    <dt>购物返利</dt>
-	                    <dd>为您推荐最实惠的商家！为您寻找最实惠的活动！</dd>
-	                    <dd><a href="newGuideDetail#shop" class="more">快去了解</a></dd>
-	                </dl>
-	            </li>
-	            <li>
-	            	<em><img src="{{ asset('img/help/icon04.png') }}" width="105" height="84"/></em>
-	                <dl>
-	                    <dt>广告体验</dt>
-	                    <dd>为您推荐最实惠的商家！为您寻找最实惠的活动！</dd>
-	                    <dd><a href="newGuideDetail#advertisement" class="more">快去了解</a></dd>
-	                </dl>
-	            </li>
-	            <li>
-	            	<em><img src="{{ asset('img/help/icon05.png') }}" width="105" height="84"/></em>
-	                <dl>
-	                    <dt>游戏体验</dt>
-	                    <dd>每天摇色子，每周统计排名，第一名更有5888米粒奖励！</dd>
-	                    <dd><a href="newGuideDetail#game" class="more">快去了解</a></dd>
-	                </dl>
-	            </li>
-	            <li>
-	            	<em><img src="{{ asset('img/help/icon06.png') }}" width="105" height="84"/></em>
-	                <dl>
-	                    <dt>邀请好友</dt>
-	                    <dd>为您推荐最实惠的商家！为您寻找最实惠的活动！</dd>
-	                    <dd><a href="newGuideDetail#invitation" class="more">快去了解</a></dd>
-	                </dl>
-	            </li>
-	        </ul>
-	    </div>
+<div class="main-help-banner">
+	<div class="text w1000">
+		<div class="title"><a href="{{ path('_default_support_newGuide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/newGuide')}}"></script>
+<div class="main-help-con w1000">
+    <div class="newGuide">
+        <ul class="clearfix">
+        	<li>
+            	<em><img src="{{ asset('img/help/icon01.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>问卷调查</dt>
+                    <dd>选择喜欢的商家进入，购买商品就能返利哦！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#survey" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon02.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>快速问答</dt>
+                    <dd>玩玩小游戏、做做问卷，米粒轻松到手！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#vote" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon03.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>购物返利</dt>
+                    <dd>为您推荐最实惠的商家！为您寻找最实惠的活动！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#shop" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon04.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>广告体验</dt>
+                    <dd>为您推荐最实惠的商家！为您寻找最实惠的活动！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#advertisement" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon05.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>游戏体验</dt>
+                    <dd>每天摇色子，每周统计排名，第一名更有5888米粒奖励！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#game" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon06.png') }}" width="105" height="84"/></em>
+                <dl>
+                    <dt>邀请好友</dt>
+                    <dd>为您推荐最实惠的商家！为您寻找最实惠的活动！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#invitation" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
 {% endblock %}

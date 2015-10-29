@@ -1,264 +1,261 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}帮助中心：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/help.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block javascript %}
-{% endblock %}
- 
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	{% include 'WenwenFrontendBundle:Help:_banner.html.twig' %}
-	<div class="main-help-con w1000 clearfix">
-		<div class="helpL left">
-	        <ul class="tabNav">
-	            <li class="active">账号类</li>
-	            <li>问卷类</li>
-	            <li>积分兑换</li>
-				<li>应用程序</li>
-	            <li>其他</li>
-	        </ul>
-	        <div class="feedback">
-	            <a href="{{ path('wenwen_frontend_help_feedback') }}" title="我要提问"><img src="{{ asset('img/help/feedback.png') }}" alt="我要提问"></a>
-	        </div>
-	    </div>
-	    <div class="helpR tabCon right">
-	    	<h2 class="first">新手上路</h2>
-	        
-	        <ul class="con">
-	        	<li>
-	            	<div class="title"><em>1</em><span>如何获得返利</span><span class="icons"></span></div>
-	                <p>1.登录积粒网账户，点击“商家列表”，找到您感兴趣的商家，并点击“直接购物”。选择需要购买的商品，下单购买商品。回到积粒网，点击页面右上角的下拉菜单，选择“我的任务历史”查看您的购物返利状态。<br/>
-	2.点击菜单栏的“商家活动”按钮，或者首页下方的横幅按钮，前往商家活动页面，从列表中找到您感兴趣的商家活动并点击活动图片前往。找到您感兴趣的物品并下订单完成购买。您可以在任务历史页面，查看您的购物返利状态。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>2</em><span>返利何时到账</span><span class="icons"></span></div>
-	                <p>一般商城的返利时间在2-3个月，京东商城的返利时间比其他商城久。由于京东商城有他们自己的退换货的期限，过了这个期限他们才会审核数据返利，一旦有结果我们会尽快返利。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>3</em><span>返利显示为0</span><span class="icons"></span></div>
-	                <p>购物无返利有三种情况：<br/>
-	1.使用代金券 <br/>
-	2.使用优惠券 <br/>
-	3.该商品在该网站上返利为0<br/>
-	如果有以上情况，是没有返利的。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>4</em><span>通过积粒网搜索收藏的物品，下次购物是否可以返利</span><span class="icons"></span></div>
-	                <p>通过积粒网搜索收藏的物品，跳转至商品的结果页面，若购物之前已经收藏了该宝贝，可能导致您无法获得返利，不建议使用。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>5</em><span>购物无返利</span><span class="icons"></span></div>
-	                <p>请确认是否是通过积粒网产生的消费。请提交订单号，以便我们核查是否是我们网站的订单。<br/>
-	（1）跳转信息被删除了，没有记录是我们网站购买，您是否有打开过其他的返利网站呢？<br/>
-	（2）购物成功了，我们网站记录了。但是该网站漏单了。</p>
-	            </li>
-	        </ul>
-	        <ul class="con">
-	        	<li>
-	            	<div class="title"><em>1</em><span>体验广告如何获得返利</span><span class="icons"></span></div>
-	                <p>点击菜单栏的“体验广告”按钮，前往体验广告页面。选择您感兴趣的体验广告，并点击前往查看详细。请仔细阅读体验广告的流程，并确定自己是否符合要求。如果您符合要求，请点击“领取任务”按钮，将会带您去参加任务。并请您认真一步步完成任务。在任务历史页面，可以查看您的体验广告状态。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>2</em><span>体验广告没有获得返利</span><span class="icons"></span></div>
-	                <p>关于体验广告的返利，请联系体验广告的在线客服。</p>
-	            </li>
-	        </ul>
-	        <ul class="con">
-	        	<li>
-	            	<div class="title"><em>1</em><span>如何游戏并获得米粒</span><span class="icons"></span></div>
-	                <p>找到首页右上方的“游戏体验”按钮，并点击前往。点击页面上半部分的“开始游戏”按钮，进入游戏。游戏界面左下角有两个按钮，一个可以立即掷出筛子，另一个则是使用道具，请妥善使用。（一天只有一次机会）。游戏保存数据完后，将自动跳到广告界面，在这里您可以点击广告购买物品，并能获得游戏道具哦。点击广告界面右上角的游戏状态，在这里可以查看您现在的排名情况等信息。每天完成一次游戏，最快到达终点的人就可以得到最丰盛的奖励。连续一周都玩游戏的人可得到全勤奖励。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>2</em><span>小鸡找米游戏结果未保存</span><span class="icons"></span></div>
-	                <p>请等待游戏页面完成跳转成功后才关闭页面。否则可能会导致系统未保留到您的信息，记录不了当天的游戏内容。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>3</em><span>小鸡找米通过奖励和签到奖励</span><span class="icons"></span></div>
-	                <p>小鸡找米一周内通关奖励1米粒。一周七天签到奖励游戏道具“超级米粒”。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>4</em><span>为何停在道具码上没有获得道具</span><span class="icons"></span></div>
-	                <p>如果是按照筛子相应步数（包括自己使用道具），是会获得奖励的。但是如果是走到前进码或者后退码上（即游戏中被动走到道具码上的），再走到道具码上，那么是不会获得奖励的。</p>
-	            </li>
-	        </ul>
-	        <ul class="con">
-	        	<li>
-	            	<div class="title"><em>1</em><span>如何兑换</span><span class="icons"></span></div>
-	                <p>点击菜单栏的“兑换中心”按钮，前往兑换中心页面。选择其中一项兑换方式，现在提供兑换手机费、亚马逊现金券（暂未开放）、支付宝现金等。如您是第一次兑换，为了确保资料完整性，您需要输入自己的身份证账号。输入成功后您之后的兑换将跳过此步。根据要求输入您需要兑换的积分数，并确认兑换。前往到您的兑换历史页面，这里可以查看您的兑换记录和状态。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>2</em><span>兑换无法输入</span><span class="icons"></span></div>
-	                <p>建议您使用谷歌或者火狐浏览器，并开启浏览器对JavaScript的支持。请按照以下流程操作：<br/>
-	                工具——Internet选项——安全——自定义级别——脚本——活动脚本——选择“启用”——确定。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>3</em><span>91问问兑换来的米粒何时到账</span><span class="icons"></span></div>
-	                <p>积分兑换是隔天到账，节假日及周末延后。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>4</em><span>手机费兑换何时到账</span><span class="icons"></span></div>
-	                <p>手机费兑换是隔天到账，节假日及周末延后。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>5</em><span>手机费兑换总是失败</span><span class="icons"></span></div>
-	                <p>手机费兑换失败原因：<br/>
-	1.有多个账户兑换到同一个手机号码中。系统会自动判定不予兑换。<br/>
-	2.我们是通过移动运营商等兑换您的手机费，由于部分地区对小面额的充值不稳定的关系，导致多次充值失败。建议您多累积一点积分。大面额的充值比较稳定。</p>
-	            </li>
-	        	<li>
-	            	<div class="title"><em>6</em><span>支付宝兑换何时到账</span><span class="icons"></span></div>
-	                <p>支付宝的兑换工作一般需要十个工作日左右完成。每周一兑换上周一至周日的兑换申请，如果提交的兑换请求不满2周，敬请耐心等候。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>7</em><span>支付宝兑换总是失败</span><span class="icons"></span></div>
-	                <p>支付宝兑换失败，有以下几点原因：<br/>
-	1.无该支付宝账户。<br/>
-	2.支付宝账户和姓名不符（支付宝的账户名应该于您的真实姓名一致）。<br/>
-	3.有多个账户兑换到同一个支付宝账号中。系统会自动判定不予兑换。</p>
-	            </li>
-	        	<li>
-	            	<div class="title"><em>8</em><span>支付宝兑换显示成功，但未收到</span><span class="icons"></span></div>
-	                <p>请联系客服，我们将告知您支付宝流水号，进行查询。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>9</em><span>支付宝有了流水号就是没收到</span><span class="icons"></span></div>
-	                <p>支付宝的流水号是由支付宝提供给我们的积分兑换成功的凭证，请您联系支付宝客服查询。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>10</em><span>支付宝兑换不能输入身份证</span><span class="icons"></span></div>
-	                <p>请确认是否有输入正确的身份证号码。可以提供身份证明（身份证或其他可以证明您身份的证件，请将您的身份证扫描以邮件附件的形式传送给客服中心），以便我们可以帮助您绑定身份证号码。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>11</em><span>帮您核查支付宝兑换情况</span><span class="icons"></span></div>
-	                <p>如果您需要核查，请将您的支付宝帐号和申请兑换积分日期发送到客服中心。我们将帮您核查。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>12</em><span>怎样兑换现金</span><span class="icons"></span></div>
-	                <p>您从91问问调查网兑换到积粒网的积分、购物的返利、体验广告的返利、小鸡找米游戏的返利，积累了一定数量之后，就可以通过支付宝兑换现金、兑换手机费、亚马逊礼品卡（暂未开通）。<br/>
-	请参考以下链接。<br/>
-	<a href="">http://www.91jili.com/exchange/center</a><br/>
-	请注意，您必须拥有经过数字认证的支付宝账号，且您的支付宝帐号状态正常。一个积粒网账户仅可以关联一个支付宝账户。<br/>
-	具体有关支付宝账户注册及认证的问题，您可以查询支付宝网站 www.alipay.com 或致电支付宝客服热线：0571-88156688（全天24小时服务）。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>13</em><span>修改绑定的支付宝</span><span class="icons"></span></div>
-	                <p>进入“兑换中心”，点击“支付宝兑换”，点击在账号右侧的“使用其他账号”。</p>
-	            </li>
-	        	<li>
-	            	<div class="title"><em>14</em><span>积分未返还</span><span class="icons"></span></div>
-	                <p>如果兑换不成功，积分会自动返还（大约10个工作日之内）。请您耐心等待。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>15</em><span>支付宝账号只能对应一个积粒网账号</span><span class="icons"></span></div>
-	                <p>一个支付宝只能对应一个积粒网帐号。否则系统将会视为恶意兑换。</p>
-	            </li>
-	        	<li>
-	            	<div class="title"><em>16</em><span>支付宝名义人是什么</span><span class="icons"></span></div>
-	                <p>支付宝名义人是您在注册支付宝时填写的实名。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>17</em><span>支付宝如何支付手续费</span><span class="icons"></span></div>
-	                <p>由于支付宝方面大幅提高积分兑换的手续费，积粒网本着用户利益至上，一直以来承担着替用户支付手续费。现积粒网已经上线积分兑换手机费功能，您依然可以用<strong>2010分兑换成20元手机费</strong>。今后，我们会上线更多兑换的途径，使您有更多的兑换选择。</p>
-	            </li>
-	        	<li>
-	            	<div class="title"><em>18</em><span>支付宝兑换与手机兑换积分数量</span><span class="icons"></span></div>
-	                <p>手机费兑换：20元手机费->2010积分起兑。<br/>
-	2010积分=20元手机费<br/>
-	2995积分=30元手机费<br/>
-	4960积分=50元手机费<br/>
-	<br/>
-	支付宝兑换：20元支付宝现金->2050积分起兑。<br/>
-	2050积分=20元<br/>
-	3030积分=30元<br/>
-	5000积分=50元</p>
-	            </li>
-	        </ul>
-	        <ul class="con">
-	        	<li>
-	            	<div class="title"><em>1</em><span>注销账号</span><span class="icons"></span></div>
-	                <p>积粒网暂时没有注销账户的功能。请提供您的账户，我们会手动帮助您注销。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>2</em><span>退订邮件</span><span class="icons"></span></div>
-	                <p>请提供您的账户，发送至客服中心，申请退订邮件。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>3</em><span>如何退出网站</span><span class="icons"></span></div>
-	                <p>您可以点击网站右上角的“个人中心”——“退出”按钮，即成功登出您的账户。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>4</em><span>没有收到验证邮件</span><span class="icons"></span></div>
-	                <p>我们发送的激活验证邮件有可能被归为了<strong>垃圾邮件</strong>，请您先在垃圾邮件箱中查找来自于积粒网的验证激活邮件，并将我们添加为联系人。以便于以后正常收到我们的邮件。有些时候，邮件的发送可能会有10分钟到20分钟的<strong>延迟</strong>，请您过一会儿再查看邮箱。如果还是没有收到邮件，系统会自动在第二个工作日再次给您发送激活邮件。请注意查收。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>5</em><span>如何注册</span><span class="icons"></span></div>
-	                <p>您可以通过以下链接完成注册程序。<br/>
-	<a href="">https://www.91jili.com/user/reg</a><br/>
-	请您注意我们发送的激活验证邮件有时可能会被归为垃圾邮件，您可以在垃圾邮件中找找来自于积粒网的验证激活邮件,并将我们添加为联系人。<br/>
-	有些时候，邮件的发送可能会有10分钟到20分钟的延迟，请您过一会儿再查看邮箱。<br/>
-	在您完成会员注册，首次登陆积粒网后，在您完善信息之后并签到将会获得5米粒。今后我们将通过邮件向您发送积粒网的最新信息，请您留意您的邮件收件箱。</p>
-	            </li>
-	        	<li>
-	            	<div class="title"><em>6</em><span>验证邮件打不开</span><span class="icons"></span></div>
-	                <p>请将激活链接完整的复制进浏览器地址栏，按回车。请注意链接地址中没有多余的空格。如果此方法无法帮助您解决您的问题，请详细描述您的问题并提供截屏，我们会尽快为您解答。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>7</em><span>忘记帐号和密码</span><span class="icons"></span></div>
-	                <p>您在积粒网的账户名即为您的电子邮件地址。<br/>
-	如果您忘记了密码，您可以通过以下URL<br/>
-	找回密码 <a href="">http://www.91jili.com/user/resetPwd</a></p>
-	            </li>
-	        	<li>
-	            	<div class="title"><em>8</em><span>在哪里修改个人信息</span><span class="icons"></span></div>
-	                <p>您可以根据以下步骤操作：<br/>
-	                登录您的个人主页（网站右上角）——会员基础信息——拉动页面至底部，点击“修改”的蓝色按钮——除了账号、昵称不能修改，其他信息都能够进行修改，修改完毕，点击确认，即可保存。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>9</em><span>重复登陆网站/无法登陆</span><span class="icons"></span></div>
-	                <p>确认下述各项后，请再试一次。<br/>
-	1.输入的邮箱地址、密码是否正确？<br/>
-	如果您忘记了密码，您可以通过以下URL<br/>
-	找回密码 <a href="">http://www.91jili.com/user/resetPwd</a><br/>
-	 ※密码区分英文大小写。输入时请注意。<br/>
-	2.浏览器的设置是否处于接收「Cookie」的状态？<br/>
-	「Cookie」的设定无效时，无法正常登录本网站。请确认您使用的浏览器是否设定为接受「Cookie」的状态。<br/>
-	3.您使用的安全软件和Internet Explorer的扩展工具等是否屏蔽了本网站？<br/>
-	确认安全软件和IE扩展工具，当处于屏蔽本网站的状态时，请将其更改为接受状态。设定方法请参照各软件的手册指南或联系软件生产发行商。<br/>
-	4.另外，也有可能是网络繁忙原因导致无法登录。<br/>
-	请稍候片刻再登录。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>10</em><span>没有看到积分更新</span><span class="icons"></span></div>
-	                <p>请您回到首页后刷新页面或重新登录，即可以看到累积的积分。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>11</em><span>积分失效清零</span><span class="icons"></span></div>
-	                <p>通常情况下，连续超过180天未在积粒网签到，积分就会失效。<br/>
-	您可以提供您的积粒网账号，帮您核查一下，是否有意外情况造成您的积分损失。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>12</em><span>有客服电话吗</span><span class="icons"></span></div>
-	                <p>很抱歉，目前我们的客服系统只支持网络咨询。如果您有任何意见建议，欢迎发送邮件至客服（cs@91jili.com）。我们会尽快为您解答。</p>
-	            </li>
-	            <li>
-	            	<div class="title"><em>13</em><span>网络太慢</span><span class="icons"></span></div>
-	                <p>1.给您带来的不便深感抱歉。由于积粒网是一家全球性公司，服务器在海外，造成国内访问速度缓慢。<br/>
-	2.我们的系统团队始终致力于开发和改善此类功能，希望为您提供更好的服务。</p>
-	            </li>
-	        </ul>
-	    </div>
-	</div>
+{% include 'WenwenFrontendBundle:Help:_banner.html.twig' %}
+<div class="main-help-con w1000 clearfix">
+	<div class="helpL left">
+        <ul class="tabNav">
+            <li class="active">账号类</li>
+            <li>问卷类</li>
+            <li>积分兑换</li>
+			<li>应用程序</li>
+            <li>其他</li>
+        </ul>
+        <div class="feedback">
+            <a href="{{ path('_default_feedback') }}" title="我要提问"><img src="{{ asset('img/help/feedback.png') }}" alt="我要提问"></a>
+        </div>
+    </div>
+    <div class="helpR tabCon right">
+    	<h2 class="first">账号类</h2>
+        <ul class="con">
+        	<li>
+            	<div class="title"><em>1</em><span>如何获得返利</span><span class="icons"></span></div>
+                <p>1.登录积粒网账户，点击“商家列表”，找到您感兴趣的商家，并点击“直接购物”。选择需要购买的商品，下单购买商品。回到积粒网，点击页面右上角的下拉菜单，选择“我的任务历史”查看您的购物返利状态。<br/>
+2.点击菜单栏的“商家活动”按钮，或者首页下方的横幅按钮，前往商家活动页面，从列表中找到您感兴趣的商家活动并点击活动图片前往。找到您感兴趣的物品并下订单完成购买。您可以在任务历史页面，查看您的购物返利状态。</p>
+            </li>
+            <li>
+            	<div class="title"><em>2</em><span>返利何时到账</span><span class="icons"></span></div>
+                <p>一般商城的返利时间在2-3个月，京东商城的返利时间比其他商城久。由于京东商城有他们自己的退换货的期限，过了这个期限他们才会审核数据返利，一旦有结果我们会尽快返利。</p>
+            </li>
+            <li>
+            	<div class="title"><em>3</em><span>返利显示为0</span><span class="icons"></span></div>
+                <p>购物无返利有三种情况：<br/>
+1.使用代金券 <br/>
+2.使用优惠券 <br/>
+3.该商品在该网站上返利为0<br/>
+如果有以上情况，是没有返利的。</p>
+            </li>
+            <li>
+            	<div class="title"><em>4</em><span>通过积粒网搜索收藏的物品，下次购物是否可以返利</span><span class="icons"></span></div>
+                <p>通过积粒网搜索收藏的物品，跳转至商品的结果页面，若购物之前已经收藏了该宝贝，可能导致您无法获得返利，不建议使用。</p>
+            </li>
+            <li>
+            	<div class="title"><em>5</em><span>购物无返利</span><span class="icons"></span></div>
+                <p>请确认是否是通过积粒网产生的消费。请提交订单号，以便我们核查是否是我们网站的订单。<br/>
+（1）跳转信息被删除了，没有记录是我们网站购买，您是否有打开过其他的返利网站呢？<br/>
+（2）购物成功了，我们网站记录了。但是该网站漏单了。</p>
+            </li>
+        </ul>
+        <ul class="con">
+        	<li>
+            	<div class="title"><em>1</em><span>体验广告如何获得返利</span><span class="icons"></span></div>
+                <p>点击菜单栏的“体验广告”按钮，前往体验广告页面。选择您感兴趣的体验广告，并点击前往查看详细。请仔细阅读体验广告的流程，并确定自己是否符合要求。如果您符合要求，请点击“领取任务”按钮，将会带您去参加任务。并请您认真一步步完成任务。在任务历史页面，可以查看您的体验广告状态。</p>
+            </li>
+            <li>
+            	<div class="title"><em>2</em><span>体验广告没有获得返利</span><span class="icons"></span></div>
+                <p>关于体验广告的返利，请联系体验广告的在线客服。</p>
+            </li>
+        </ul>
+        <ul class="con">
+        	<li>
+            	<div class="title"><em>1</em><span>如何游戏并获得米粒</span><span class="icons"></span></div>
+                <p>找到首页右上方的“游戏体验”按钮，并点击前往。点击页面上半部分的“开始游戏”按钮，进入游戏。游戏界面左下角有两个按钮，一个可以立即掷出筛子，另一个则是使用道具，请妥善使用。（一天只有一次机会）。游戏保存数据完后，将自动跳到广告界面，在这里您可以点击广告购买物品，并能获得游戏道具哦。点击广告界面右上角的游戏状态，在这里可以查看您现在的排名情况等信息。每天完成一次游戏，最快到达终点的人就可以得到最丰盛的奖励。连续一周都玩游戏的人可得到全勤奖励。</p>
+            </li>
+            <li>
+            	<div class="title"><em>2</em><span>小鸡找米游戏结果未保存</span><span class="icons"></span></div>
+                <p>请等待游戏页面完成跳转成功后才关闭页面。否则可能会导致系统未保留到您的信息，记录不了当天的游戏内容。</p>
+            </li>
+            <li>
+            	<div class="title"><em>3</em><span>小鸡找米通过奖励和签到奖励</span><span class="icons"></span></div>
+                <p>小鸡找米一周内通关奖励1米粒。一周七天签到奖励游戏道具“超级米粒”。</p>
+            </li>
+            <li>
+            	<div class="title"><em>4</em><span>为何停在道具码上没有获得道具</span><span class="icons"></span></div>
+                <p>如果是按照筛子相应步数（包括自己使用道具），是会获得奖励的。但是如果是走到前进码或者后退码上（即游戏中被动走到道具码上的），再走到道具码上，那么是不会获得奖励的。</p>
+            </li>
+        </ul>
+        <ul class="con">
+        	<li>
+            	<div class="title"><em>1</em><span>如何兑换</span><span class="icons"></span></div>
+                <p>点击菜单栏的“兑换中心”按钮，前往兑换中心页面。选择其中一项兑换方式，现在提供兑换手机费、亚马逊现金券（暂未开放）、支付宝现金等。如您是第一次兑换，为了确保资料完整性，您需要输入自己的身份证账号。输入成功后您之后的兑换将跳过此步。根据要求输入您需要兑换的积分数，并确认兑换。前往到您的兑换历史页面，这里可以查看您的兑换记录和状态。</p>
+            </li>
+            <li>
+            	<div class="title"><em>2</em><span>兑换无法输入</span><span class="icons"></span></div>
+                <p>建议您使用谷歌或者火狐浏览器，并开启浏览器对JavaScript的支持。请按照以下流程操作：<br/>
+                工具——Internet选项——安全——自定义级别——脚本——活动脚本——选择“启用”——确定。</p>
+            </li>
+            <li>
+            	<div class="title"><em>3</em><span>91问问兑换来的米粒何时到账</span><span class="icons"></span></div>
+                <p>积分兑换是隔天到账，节假日及周末延后。</p>
+            </li>
+            <li>
+            	<div class="title"><em>4</em><span>手机费兑换何时到账</span><span class="icons"></span></div>
+                <p>手机费兑换是隔天到账，节假日及周末延后。</p>
+            </li>
+            <li>
+            	<div class="title"><em>5</em><span>手机费兑换总是失败</span><span class="icons"></span></div>
+                <p>手机费兑换失败原因：<br/>
+1.有多个账户兑换到同一个手机号码中。系统会自动判定不予兑换。<br/>
+2.我们是通过移动运营商等兑换您的手机费，由于部分地区对小面额的充值不稳定的关系，导致多次充值失败。建议您多累积一点积分。大面额的充值比较稳定。</p>
+            </li>
+        	<li>
+            	<div class="title"><em>6</em><span>支付宝兑换何时到账</span><span class="icons"></span></div>
+                <p>支付宝的兑换工作一般需要十个工作日左右完成。每周一兑换上周一至周日的兑换申请，如果提交的兑换请求不满2周，敬请耐心等候。</p>
+            </li>
+            <li>
+            	<div class="title"><em>7</em><span>支付宝兑换总是失败</span><span class="icons"></span></div>
+                <p>支付宝兑换失败，有以下几点原因：<br/>
+1.无该支付宝账户。<br/>
+2.支付宝账户和姓名不符（支付宝的账户名应该于您的真实姓名一致）。<br/>
+3.有多个账户兑换到同一个支付宝账号中。系统会自动判定不予兑换。</p>
+            </li>
+        	<li>
+            	<div class="title"><em>8</em><span>支付宝兑换显示成功，但未收到</span><span class="icons"></span></div>
+                <p>请联系客服，我们将告知您支付宝流水号，进行查询。</p>
+            </li>
+            <li>
+            	<div class="title"><em>9</em><span>支付宝有了流水号就是没收到</span><span class="icons"></span></div>
+                <p>支付宝的流水号是由支付宝提供给我们的积分兑换成功的凭证，请您联系支付宝客服查询。</p>
+            </li>
+            <li>
+            	<div class="title"><em>10</em><span>支付宝兑换不能输入身份证</span><span class="icons"></span></div>
+                <p>请确认是否有输入正确的身份证号码。可以提供身份证明（身份证或其他可以证明您身份的证件，请将您的身份证扫描以邮件附件的形式传送给客服中心），以便我们可以帮助您绑定身份证号码。</p>
+            </li>
+            <li>
+            	<div class="title"><em>11</em><span>帮您核查支付宝兑换情况</span><span class="icons"></span></div>
+                <p>如果您需要核查，请将您的支付宝帐号和申请兑换积分日期发送到客服中心。我们将帮您核查。</p>
+            </li>
+            <li>
+            	<div class="title"><em>12</em><span>怎样兑换现金</span><span class="icons"></span></div>
+                <p>您从91问问调查网兑换到积粒网的积分、购物的返利、体验广告的返利、小鸡找米游戏的返利，积累了一定数量之后，就可以通过支付宝兑换现金、兑换手机费、亚马逊礼品卡（暂未开通）。<br/>
+请参考以下链接。<br/>
+<a href="">http://www.91jili.com/exchange/center</a><br/>
+请注意，您必须拥有经过数字认证的支付宝账号，且您的支付宝帐号状态正常。一个积粒网账户仅可以关联一个支付宝账户。<br/>
+具体有关支付宝账户注册及认证的问题，您可以查询支付宝网站 www.alipay.com 或致电支付宝客服热线：0571-88156688（全天24小时服务）。</p>
+            </li>
+            <li>
+            	<div class="title"><em>13</em><span>修改绑定的支付宝</span><span class="icons"></span></div>
+                <p>进入“兑换中心”，点击“支付宝兑换”，点击在账号右侧的“使用其他账号”。</p>
+            </li>
+        	<li>
+            	<div class="title"><em>14</em><span>积分未返还</span><span class="icons"></span></div>
+                <p>如果兑换不成功，积分会自动返还（大约10个工作日之内）。请您耐心等待。</p>
+            </li>
+            <li>
+            	<div class="title"><em>15</em><span>支付宝账号只能对应一个积粒网账号</span><span class="icons"></span></div>
+                <p>一个支付宝只能对应一个积粒网帐号。否则系统将会视为恶意兑换。</p>
+            </li>
+        	<li>
+            	<div class="title"><em>16</em><span>支付宝名义人是什么</span><span class="icons"></span></div>
+                <p>支付宝名义人是您在注册支付宝时填写的实名。</p>
+            </li>
+            <li>
+            	<div class="title"><em>17</em><span>支付宝如何支付手续费</span><span class="icons"></span></div>
+                <p>由于支付宝方面大幅提高积分兑换的手续费，积粒网本着用户利益至上，一直以来承担着替用户支付手续费。现积粒网已经上线积分兑换手机费功能，您依然可以用<strong>2010分兑换成20元手机费</strong>。今后，我们会上线更多兑换的途径，使您有更多的兑换选择。</p>
+            </li>
+        	<li>
+            	<div class="title"><em>18</em><span>支付宝兑换与手机兑换积分数量</span><span class="icons"></span></div>
+                <p>手机费兑换：20元手机费->2010积分起兑。<br/>
+2010积分=20元手机费<br/>
+2995积分=30元手机费<br/>
+4960积分=50元手机费<br/>
+<br/>
+支付宝兑换：20元支付宝现金->2050积分起兑。<br/>
+2050积分=20元<br/>
+3030积分=30元<br/>
+5000积分=50元</p>
+            </li>
+        </ul>
+        <ul class="con">
+        	<li>
+            	<div class="title"><em>1</em><span>注销账号</span><span class="icons"></span></div>
+                <p>积粒网暂时没有注销账户的功能。请提供您的账户，我们会手动帮助您注销。</p>
+            </li>
+            <li>
+            	<div class="title"><em>2</em><span>退订邮件</span><span class="icons"></span></div>
+                <p>请提供您的账户，发送至客服中心，申请退订邮件。</p>
+            </li>
+            <li>
+            	<div class="title"><em>3</em><span>如何退出网站</span><span class="icons"></span></div>
+                <p>您可以点击网站右上角的“个人中心”——“退出”按钮，即成功登出您的账户。</p>
+            </li>
+            <li>
+            	<div class="title"><em>4</em><span>没有收到验证邮件</span><span class="icons"></span></div>
+                <p>我们发送的激活验证邮件有可能被归为了<strong>垃圾邮件</strong>，请您先在垃圾邮件箱中查找来自于积粒网的验证激活邮件，并将我们添加为联系人。以便于以后正常收到我们的邮件。有些时候，邮件的发送可能会有10分钟到20分钟的<strong>延迟</strong>，请您过一会儿再查看邮箱。如果还是没有收到邮件，系统会自动在第二个工作日再次给您发送激活邮件。请注意查收。</p>
+            </li>
+            <li>
+            	<div class="title"><em>5</em><span>如何注册</span><span class="icons"></span></div>
+                <p>您可以通过以下链接完成注册程序。<br/>
+<a href="">https://www.91jili.com/user/reg</a><br/>
+请您注意我们发送的激活验证邮件有时可能会被归为垃圾邮件，您可以在垃圾邮件中找找来自于积粒网的验证激活邮件,并将我们添加为联系人。<br/>
+有些时候，邮件的发送可能会有10分钟到20分钟的延迟，请您过一会儿再查看邮箱。<br/>
+在您完成会员注册，首次登陆积粒网后，在您完善信息之后并签到将会获得5米粒。今后我们将通过邮件向您发送积粒网的最新信息，请您留意您的邮件收件箱。</p>
+            </li>
+        	<li>
+            	<div class="title"><em>6</em><span>验证邮件打不开</span><span class="icons"></span></div>
+                <p>请将激活链接完整的复制进浏览器地址栏，按回车。请注意链接地址中没有多余的空格。如果此方法无法帮助您解决您的问题，请详细描述您的问题并提供截屏，我们会尽快为您解答。</p>
+            </li>
+            <li>
+            	<div class="title"><em>7</em><span>忘记帐号和密码</span><span class="icons"></span></div>
+                <p>您在积粒网的账户名即为您的电子邮件地址。<br/>
+如果您忘记了密码，您可以通过以下URL<br/>
+找回密码 <a href="">http://www.91jili.com/user/resetPwd</a></p>
+            </li>
+        	<li>
+            	<div class="title"><em>8</em><span>在哪里修改个人信息</span><span class="icons"></span></div>
+                <p>您可以根据以下步骤操作：<br/>
+                登录您的个人主页（网站右上角）——会员基础信息——拉动页面至底部，点击“修改”的蓝色按钮——除了账号、昵称不能修改，其他信息都能够进行修改，修改完毕，点击确认，即可保存。</p>
+            </li>
+            <li>
+            	<div class="title"><em>9</em><span>重复登陆网站/无法登陆</span><span class="icons"></span></div>
+                <p>确认下述各项后，请再试一次。<br/>
+1.输入的邮箱地址、密码是否正确？<br/>
+如果您忘记了密码，您可以通过以下URL<br/>
+找回密码 <a href="">http://www.91jili.com/user/resetPwd</a><br/>
+ ※密码区分英文大小写。输入时请注意。<br/>
+2.浏览器的设置是否处于接收「Cookie」的状态？<br/>
+「Cookie」的设定无效时，无法正常登录本网站。请确认您使用的浏览器是否设定为接受「Cookie」的状态。<br/>
+3.您使用的安全软件和Internet Explorer的扩展工具等是否屏蔽了本网站？<br/>
+确认安全软件和IE扩展工具，当处于屏蔽本网站的状态时，请将其更改为接受状态。设定方法请参照各软件的手册指南或联系软件生产发行商。<br/>
+4.另外，也有可能是网络繁忙原因导致无法登录。<br/>
+请稍候片刻再登录。</p>
+            </li>
+            <li>
+            	<div class="title"><em>10</em><span>没有看到积分更新</span><span class="icons"></span></div>
+                <p>请您回到首页后刷新页面或重新登录，即可以看到累积的积分。</p>
+            </li>
+            <li>
+            	<div class="title"><em>11</em><span>积分失效清零</span><span class="icons"></span></div>
+                <p>通常情况下，连续超过180天未在积粒网签到，积分就会失效。<br/>
+您可以提供您的积粒网账号，帮您核查一下，是否有意外情况造成您的积分损失。</p>
+            </li>
+            <li>
+            	<div class="title"><em>12</em><span>有客服电话吗</span><span class="icons"></span></div>
+                <p>很抱歉，目前我们的客服系统只支持网络咨询。如果您有任何意见建议，欢迎发送邮件至客服（cs@91jili.com）。我们会尽快为您解答。</p>
+            </li>
+            <li>
+            	<div class="title"><em>13</em><span>网络太慢</span><span class="icons"></span></div>
+                <p>1.给您带来的不便深感抱歉。由于积粒网是一家全球性公司，服务器在海外，造成国内访问速度缓慢。<br/>
+2.我们的系统团队始终致力于开发和改善此类功能，希望为您提供更好的服务。</p>
+            </li>
+        </ul>
+    </div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/help')}}"></script>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/help')}}"></script>
 {% endblock %}

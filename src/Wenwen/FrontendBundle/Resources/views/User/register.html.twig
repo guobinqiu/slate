@@ -1,11 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}用户注册：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -13,7 +10,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="main w1000">
+<div class="main-con w1000">
 	<div class="form main-register">
 		<form id="signup_form" action="/signup/profile" method="post" onsubmit="return false;">
 		<input type="hidden" name="region_id" id="region_id" /><input type="hidden" name="_csrf_token" value="3e820125858940ba4c409723ac2e4a81" id="_csrf_token" /> 
@@ -59,9 +56,12 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/register')}}"></script>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/register')}}"></script>
 {% endblock %}

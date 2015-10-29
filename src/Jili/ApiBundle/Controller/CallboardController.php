@@ -38,8 +38,8 @@ class  CallboardController extends Controller
             $arr['callboard'] = $callboard;
         else
             return $this->redirect($this->generateUrl('_default_error'));
-        return $this->render('JiliApiBundle:Callboard:info.html.twig',$arr);
-
+        
+        return $this->render('WenwenFrontendBundle:Callboard:info.html.twig',$arr);
     }
 
 

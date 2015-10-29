@@ -1,12 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}返利详情：{{ parent() }}{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/shopDetail.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css/component/crumbs.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -14,86 +10,81 @@
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-con-shopDetail w1000">
-		<div class="main-con-left">
-			<div class="main-con-shop">
-				<div class="crumbs">
-				     <a href="{{ path('wenwen_frontend_home_home') }}" class="home"></a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('wenwen_frontend_advertisement_index') }}">体验广告</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('wenwen_frontend_advertisement_shoplist') }}">商家列表</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;返利详情
-				</div>
-				<span>
-					<div class="img"><img src="{{ asset('img/temp/yl.jpg') }}" alt=""><div>最高返<b>7%</b></div></div>
-					<div class="btn"><span>去购物，赚积分</span></div>
-				</span>
-				<span class="text">
-					<h1>京东商城</h1>
-					<p>商城简介：京东商城是中国B2C市场最大的3C网购专业平台。是中国电子商务领域最受消费者欢迎和最具影响力的电子商务网站之一。</p>
-					<div class="prompts">返利比率：正常商品：7%  团购商品：2%  优惠券、礼品卡商品：4%</div>
-				</span>
+<div class="main-con-shopDetail w1000">
+	<div class="main-con-left">
+		{% set href_ = path('jili_frontend_cpsadvertisement_redirect', {'wid':app.request.get('wid') })  %}
+		<div class="main-con-shop">
+			<div class="crumbs">
+			     <a href="{{ path('wenwen_frontend_home_home') }}" class="home"></a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('_advertiserment_list') }}">体验广告</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('jili_frontend_cpsadvertisement_list') }}">商家列表</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;返利详情
 			</div>
-			<div class="main-con-rebate">
-				<h2><span>返利详情</span></h2>
-				<table>
-					<thead>
-						<tr>
-							<th>类目</th>
-							<th>返利</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>基本</td>
-							<td>销售额的0.245%</td>
-						</tr>
-						<tr>
-							<td>电子产品</td>
-							<td>销售额的0.5%</td>
-						</tr>
-						<tr>
-							<td>图书</td>
-							<td>销售额的0.45%</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="main-con-flow">
-				<h2><span>返利流程</span></h2>
-				<div class="con clearfix">
-					<div class="step">
-						<img src="{{ asset('img/advertisement/flow1.png') }}" alt="">
-						<p>登录网站</p>
-					</div>
-					<div class="step">
-						<img src="{{ asset('img/advertisement/flow2.png') }}" alt="">
-						<p>商家购物</p>
-					</div>
-					<div class="step last">
-						<img src="{{ asset('img/advertisement/flow3.png') }}" alt="">
-						<p>订单生效，积分到账</p>
-					</div>
-				</div>
-			</div>
+			<span>
+				<div class="img"><img src="{{asset('img/website_logos/'~website.hostHashAsLogoName ~ '.jpg' )}}" alt="">{% if website.commission is defined and website.commission is not empty %}<div>最高返<b>{{ website.commission }}%</b></div>{% endif %}</div>
+				<div class="btn"><a href="{{ href_ }}" target="_blank">去购物，赚积分</a></div>
+			</span>
+			<span class="text">
+				<h1>{{ website.websiteName }}</h1>
+				<p>商城简介：京东商城是中国B2C市场最大的3C网购专业平台。是中国电子商务领域最受消费者欢迎和最具影响力的电子商务网站之一。</p>
+				<div class="prompts">返利比率：正常商品：7%  团购商品：2%  优惠券、礼品卡商品：4%</div>
+			</span>
 		</div>
-		<div class="main-con-right">
-			<div class="shop-recomend">
-				<h2>同类商家推荐</h2>
-				<div class="similar-shops">
-					<div>
-						<a href="http://www.jd.com"><img src="{{ asset('img/temp/jd.jpg') }}" alt=""><div>最高返<b>7%</b></div></a>
-						<a href="http://www.jd.com"><img src="{{ asset('img/temp/1hd.jpg') }}" alt=""><div>最高返<b>7%</b></div></a>
-					</div>
-					<div>
-						<a href="http://www.jd.com"><img src="{{ asset('img/temp/yh.jpg') }}" alt=""><div>最高返<b>7%</b></div></a>
-						<a href="http://www.jd.com"><img src="{{ asset('img/temp/yl.jpg') }}" alt=""><div>最高返<b>77.00%</b></div></a>
-					</div>
+		{% if commission_list is defined and commission_list is not empty  %}
+		<div class="main-con-rebate">
+			<h2><span>返利详情</span></h2>
+			<table>
+				<thead>
+					<tr>
+						<th>类目</th>
+						<th>返利</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for row in commission_list %}
+					<tr>
+						<td>{{ row[0].commissionName }}</td>
+						<td>{{ row[0].getCommissionForUser(cps_default_rebate) }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		{% endif %}
+		<div class="main-con-flow">
+			<h2><span>返利流程</span></h2>
+			<div class="con clearfix">
+				<div class="step">
+					<img src="{{ asset('img/advertisement/flow1.png') }}" alt="">
+					<p>登录网站</p>
+				</div>
+				<div class="step">
+					<img src="{{ asset('img/advertisement/flow2.png') }}" alt="">
+					<p>商家购物</p>
+				</div>
+				<div class="step last">
+					<img src="{{ asset('img/advertisement/flow3.png') }}" alt="">
+					<p>订单生效，积分到账</p>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div class="main-con-right">
+		{% if same_cat_websites is defined and same_cat_websites is not empty %}
+		<div class="shop-recomend">
+			<h2>同类商家推荐</h2>
+			<ul class="similar-shops clearfix">
+				{% for row in same_cat_websites %}
+				<li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}"><img src="{{asset('img/website_logos/'~row.hostHashAsLogoName~'.jpg')}}" alt="">{%if row.max_commission is defined %}<div>最高返<b>{{row.max_commission}}%</b></div>{%endif%}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
+	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
 {% endblock %}

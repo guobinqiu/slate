@@ -1,11 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}首页：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -13,177 +10,170 @@
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-slider">
-		<div class="w1000">
-			<img src="{{ asset('img/home/sliderImg0.jpg') }}" alt="">
-		</div>
-	</div>
-	<!-- <div class="main-slider-wrapper color0">
-		<div class="main-slider w1000">
-			<div class="mask">
-				<ul>
-					<li><a href=""><img src="{{ asset('img/temp/sliderImg01.jpg') }}" alt=""></a></li>
-					<li><a href=""><img src="{{ asset('img/temp/sliderImg02.jpg') }}" alt=""></a></li>
-					<li><a href=""><img src="{{ asset('img/temp/sliderImg03.jpg') }}" alt=""></a></li>
-					<li><a href=""><img src="{{ asset('img/temp/sliderImg04.jpg') }}" alt=""></a></li>
-				</ul>
-			</div>
-			<span class="arrowL"></span>
-			<span class="arrowR"></span>
-			<div class="btn-group">
-				<b class="active"></b>
-				<b></b>
-				<b></b>
-				<b></b>
-			</div>
-		</div>
-	</div> -->
-	<div class="main-con w1000 clearfix">
-		<div class="main-con-left left">
-			<div class="survey">
-				<h1><em></em>问卷列表</h1>
-				<ul>
-					<li>
-						<div class="survey-item">
-							<div class="title"><a href="">关于饮用水品牌调查</a></div>
-							<ul class="con clearfix">
-								<li class="first">
-									<span>问卷编号</span>
-									<p>p168460</p>
-								</li>
-								<li>
-									<span>问卷类型</span>
-									<p>商业问卷</p>
-								</li>
-								<li>
-									<span>回答期限</span>
-									<p>2015-7-12</p>
-								</li>
-								<li class="last">
-									<span>积分数</span>
-									<p><strong>1</strong></p>
-								</li>
-							</ul>
-						</div>
-						<div class="survey-btn">可回答</div>
-					</li>
-					<li>
-						<div class="survey-item">
-							<div class="title"><a href="">关于饮用水品牌调查</a></div>
-							<ul class="con clearfix">
-								<li class="first">
-									<span>问卷编号</span>
-									<p>p168460</p>
-								</li>
-								<li>
-									<span>问卷类型</span>
-									<p>商业问卷</p>
-								</li>
-								<li>
-									<span>回答期限</span>
-									<p>2015-7-12</p>
-								</li>
-								<li class="last">
-									<span>积分数</span>
-									<p><strong>1</strong></p>
-								</li>
-							</ul>
-						</div>
-						<div class="survey-btn">可回答</div>
-					</li>
-				</ul>
-			</div>
-			<div class="vote">
-				<h1><em></em>快速问答</h1>
-				<ul>
-					<li class="vote-new">
-						<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
-						<span class="vote-txt">
-							<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
-							<p>众所周知，好友邀请是获取积分的途径之一，但是如何能让好友但是如何能让好友</p>
-							<div class="relate">
-								<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline">|</span>
-								<span>参与人气：484</span>
-							</div>
-						</span>
-						<div><input type="hidden" name="timelimit_ut" value="1440777600" /><div id="countdown" class="countdown"></div></div>
-						<div class="tips expand-btn">
-							<span>?</span>
-							<div class="tips-con expand-con"><p>倒计时内回答此份快速回答，将额外获得1积分。</p><b class="arrow"></b></div>
-						</div>
-					</li>
-					<li>
-						<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
-						<span class="vote-txt">
-							<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
-							<p>众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家但是如何能让好友邀请变的更方便简洁</p>
-							<div class="relate">
-								<span>参与人气：484</span><span class="vline">|</span>
-								<span>截止日期：2015-07-25</span>
-							</div>
-						</span>
-						<a href="" class="survey-btn">去投票</a>
-					</li>
-					<li>
-						<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
-						<span class="vote-txt">
-							<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
-							<p>众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家但是如何能让好友邀请变的更方便简洁</p>
-							<div class="relate">
-								<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline">|</span>
-								<span>参与人气：484</span><span class="vline">|</span>
-								<span>截止日期：2015-07-25</span>
-							</div>
-						</span>
-						<a href="" class="survey-btn">去投票</a>
-					</li>
-					<li>
-						<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
-						<span class="vote-txt">
-							<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
-							<p>众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家但是如何能让好友邀请变的更方便简洁</p>
-							<div class="relate">
-								<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline">|</span>
-								<span>参与人气：484</span><span class="vline">|</span>
-								<span>截止日期：2015-07-25</span>
-							</div>
-						</span>
-						<a href="" class="survey-btn">去投票</a>
-					</li>
-					<li>
-						<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
-						<span class="vote-txt">
-							<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
-							<p>众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家但是如何能让好友邀请变的更方便简洁</p>
-							<div class="relate">
-								<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline">|</span>
-								<span>参与人气：484</span><span class="vline">|</span>
-								<span>截止日期：2015-07-25</span>
-							</div>
-						</span>
-						<a href="" class="survey-btn">去投票</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div class="main-con-right right">
-			<div class="notice">
-				<h2>最新公告</h2>
-				<ul>
-					<li><em></em><a href="{{ path('wenwen_frontend_callboard_index') }}">调查派会员信息审核公告</a></li>
-					<li><em></em><a href="{{ path('wenwen_frontend_callboard_index') }}">丁香园调研团队虚位以待</a></li>
-					<li><em></em><a href="{{ path('wenwen_frontend_callboard_index') }}">关注调查派微信 立即领取5个丁当领取5个丁当</a></li>
-					<li><em></em><a href="{{ path('wenwen_frontend_callboard_index') }}">确认调查报酬支付方式的操作方法</a></li>
-				</ul>
-			</div>
-			<div class="weibo"><iframe width="230" height="580" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=230&height=580&fansRow=2&ptype=1&speed=0&skin=5&isTitle=1&noborder=0&isWeibo=1&isFans=0&uid=1752291082&verifier=37e3a3a3&dpc=1"></iframe></div>
-		</div>
+<div class="main-slider">
+	<div class="w1000">
+		<img src="{{ asset('img/home/sliderImg0.jpg') }}" alt="">
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/home')}}"></script>
+<!-- <div class="main-slider-wrapper color0">
+	<div class="main-slider w1000">
+		<div class="mask">
+			<ul>
+				<li><a href=""><img src="{{ asset('img/temp/sliderImg01.jpg') }}" alt=""></a></li>
+				<li><a href=""><img src="{{ asset('img/temp/sliderImg02.jpg') }}" alt=""></a></li>
+				<li><a href=""><img src="{{ asset('img/temp/sliderImg03.jpg') }}" alt=""></a></li>
+				<li><a href=""><img src="{{ asset('img/temp/sliderImg04.jpg') }}" alt=""></a></li>
+			</ul>
+		</div>
+		<span class="arrowL"></span>
+		<span class="arrowR"></span>
+		<div class="btn-group">
+			<b class="active"></b>
+			<b></b>
+			<b></b>
+			<b></b>
+		</div>
+	</div>
+</div> -->
+<div class="main-con w1000 clearfix">
+	<div class="main-con-left left">
+		<div class="survey">
+			<h1><em></em>问卷列表</h1>
+			<ul>
+				<li>
+					<div class="survey-item">
+						<div class="title"><a href="">关于饮用水品牌调查</a></div>
+						<ul class="con clearfix">
+							<li class="first">
+								<span>问卷编号</span>
+								<p>p168460</p>
+							</li>
+							<li>
+								<span>问卷类型</span>
+								<p>商业问卷</p>
+							</li>
+							<li>
+								<span>回答期限</span>
+								<p>2015-7-12</p>
+							</li>
+							<li class="last">
+								<span>积分数</span>
+								<p><strong>1</strong></p>
+							</li>
+						</ul>
+					</div>
+					<div class="survey-btn">可回答</div>
+				</li>
+				<li>
+					<div class="survey-item">
+						<div class="title"><a href="">关于饮用水品牌调查</a></div>
+						<ul class="con clearfix">
+							<li class="first">
+								<span>问卷编号</span>
+								<p>p168460</p>
+							</li>
+							<li>
+								<span>问卷类型</span>
+								<p>商业问卷</p>
+							</li>
+							<li>
+								<span>回答期限</span>
+								<p>2015-7-12</p>
+							</li>
+							<li class="last">
+								<span>积分数</span>
+								<p><strong>1</strong></p>
+							</li>
+						</ul>
+					</div>
+					<div class="survey-btn">可回答</div>
+				</li>
+			</ul>
+		</div>
+		<div class="vote">
+			<h1><em></em>快速问答</h1>
+			<ul>
+				<li class="vote-new">
+					<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
+					<span class="vote-txt">
+						<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
+						<p>众所周知，好友邀请是获取积分的途径之一，但是如何能让好友但是如何能让好友</p>
+						<div class="relate">
+							<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline">|</span>
+							<span>参与人气：484</span>
+						</div>
+					</span>
+					<div><input type="hidden" name="timelimit_ut" value="1440777600" /><div id="countdown" class="countdown"></div></div>
+					<div class="tips expand-btn">
+						<span>?</span>
+						<div class="tips-con expand-con"><p>倒计时内回答此份快速回答，将额外获得1积分。</p><b class="arrow"></b></div>
+					</div>
+				</li>
+				<li>
+					<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
+					<span class="vote-txt">
+						<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
+						<p>众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家但是如何能让好友邀请变的更方便简洁</p>
+						<div class="relate">
+							<span>参与人气：484</span><span class="vline">|</span>
+							<span>截止日期：2015-07-25</span>
+						</div>
+					</span>
+					<a href="" class="survey-btn">去投票</a>
+				</li>
+				<li>
+					<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
+					<span class="vote-txt">
+						<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
+						<p>众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家但是如何能让好友邀请变的更方便简洁</p>
+						<div class="relate">
+							<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline">|</span>
+							<span>参与人气：484</span><span class="vline">|</span>
+							<span>截止日期：2015-07-25</span>
+						</div>
+					</span>
+					<a href="" class="survey-btn">去投票</a>
+				</li>
+				<li>
+					<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
+					<span class="vote-txt">
+						<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
+						<p>众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家但是如何能让好友邀请变的更方便简洁</p>
+						<div class="relate">
+							<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline">|</span>
+							<span>参与人气：484</span><span class="vline">|</span>
+							<span>截止日期：2015-07-25</span>
+						</div>
+					</span>
+					<a href="" class="survey-btn">去投票</a>
+				</li>
+				<li>
+					<span class="vote-img"><a href=""><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt=""></a></span>
+					<span class="vote-txt">
+						<div class="title"><a href="">【生活】心情不好时会选择对谁倾诉？</a></div>
+						<p>众所周知，好友邀请是获取积分的途径之一，但是如何能让好友邀请变的更方便简洁，这是大家但是如何能让好友邀请变的更方便简洁</p>
+						<div class="relate">
+							<span>发起人：王琳(恭喜获得<strong>200</strong>积分！) </span><span class="vline">|</span>
+							<span>参与人气：484</span><span class="vline">|</span>
+							<span>截止日期：2015-07-25</span>
+						</div>
+					</span>
+					<a href="" class="survey-btn">去投票</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="main-con-right right">
+		{{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
+		<div class="weibo"><iframe width="230" height="580" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=230&height=580&fansRow=2&ptype=1&speed=0&skin=5&isTitle=1&noborder=0&isWeibo=1&isFans=0&uid=1752291082&verifier=37e3a3a3&dpc=1"></iframe></div>
+	</div>
+</div>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/home')}}"></script>
 {% endblock %}

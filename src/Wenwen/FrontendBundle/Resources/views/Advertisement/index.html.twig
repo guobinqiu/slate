@@ -1,11 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent()  }} Test {% endblock %}
+{% block title %}体验广告：{{ parent() }}{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/advertisement.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block javascript %}
 {% endblock %}
  
 {% block header %}
@@ -13,36 +10,34 @@
 {% endblock %}
 
 {% block body %}
-<div class="main">
-	<div class="main-con w1000">
-		{% include 'WenwenFrontendBundle:Advertisement:_shopSlider.html.twig' %} 
-		<div class="main-con-advertisement">
-			{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
-			<div class="tabCon offerWow">
-				<iframe src='http://www.offer-wow.com/affiliate/wall/open.do?websiteid=1162&styleIndex=1&memberid=1132938' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
-				<div class="taskFlow">
-					<h4>轻松3步，领取奖励</h4>
-					<div class="conWrapper">
-						<div class="con">
-							<div class="text">
-								<ul>
-									<li>
-										<em>1</em>
-										<div>领取任务</div>
-										<p>选择自己感兴趣的活动</p>
-									</li>
-									<li>
-										<em>2</em>
-										<div>完成体验</div>
-										<p>按照活动的要求完成活动体验</p>
-									</li>
-									<li class="last">
-										<em>3</em>
-										<div>获得奖励</div>
-										<p>点击领奖按钮获得奖励</p>
-									</li>
-								</ul>
-							</div>
+<div class="main-con w1000">
+	{{ render(controller('JiliApiBundle:Top:market' ) ) }}{# 商家活动 #}
+	<div class="main-con-advertisement">
+		{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
+		<div class="tabCon offerWow">
+			<iframe src='http://www.offer-wow.com/affiliate/wall/open.do?websiteid=1162&styleIndex=1&memberid=1132938' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
+			<div class="taskFlow">
+				<h4>轻松3步，领取奖励</h4>
+				<div class="conWrapper">
+					<div class="con">
+						<div class="text">
+							<ul>
+								<li>
+									<em>1</em>
+									<div>领取任务</div>
+									<p>选择自己感兴趣的活动</p>
+								</li>
+								<li>
+									<em>2</em>
+									<div>完成体验</div>
+									<p>按照活动的要求完成活动体验</p>
+								</li>
+								<li class="last">
+									<em>3</em>
+									<div>获得奖励</div>
+									<p>点击领奖按钮获得奖励</p>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -50,9 +45,12 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/advertisement/advertisement')}}"></script>
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/advertisement/advertisement')}}"></script>
 {% endblock %}
