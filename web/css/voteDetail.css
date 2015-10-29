@@ -497,7 +497,6 @@ body {
     padding: 12px 0;
     border-bottom: 1px solid #f6f6f6; }
     .exchange-dynamics li p {
-      color: #495361;
       overflow: hidden;
       -ms-text-overflow: ellipsis;
       text-overflow: ellipsis;

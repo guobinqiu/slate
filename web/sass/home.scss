@@ -60,6 +60,22 @@ $slider-height: 305px;
 			@include dib();
 		}
 	}
+	.vote li.vote-new .tips{
+		top: 42px;	
+		span{
+			width: 13px;
+			height: 13px;
+			border-radius: 50%;
+			background: #979797;
+			color: #fff;
+			text-align: center;
+			cursor: pointer;
+		}
+	}
+	.countdown{
+		top: 42px;
+		right: 20px;
+	}
 }
 .main-con-right{
 	.notice{
