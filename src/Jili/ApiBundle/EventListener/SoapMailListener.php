@@ -143,7 +143,7 @@ class SoapMailListener
                 return $rs;
             }
 
-            $resultsEmail = 'zhangmm@voyagegroup.com.cn';
+            $resultsEmail = 'miaomiao.zhang@d8aspring.com';
 
             $result = $client->sendMailing($login, $this->campaignId, $this->mailingId, true, $resultsEmail, array (
                 $group->id

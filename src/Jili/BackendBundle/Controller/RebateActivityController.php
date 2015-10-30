@@ -14,7 +14,7 @@ use Jili\ApiBundle\Entity\AdActivity;
 
 /**
  * @abstract
- * @author: jiangtao@voyagegroup.com
+ * @author: tao.jiang@d8aspring.com
  *
  * @Route("/rebate/activity",requirements={"_scheme"="https"})
  */

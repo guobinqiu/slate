@@ -339,7 +339,7 @@ parameters:
         2: 59.83.33.60
     flow_file_path_flow_api_log: /data/91jili/logs/api/flow_api.log
     flow_mail_subject: "积粒网-flow流量包接口数据处理失败"
-    flow_alertTo_contacts: vctech-system-emergency@voyagegroup.com
+    flow_alertTo_contacts: rpa-sys-china@d8aspring.com
     flow_exchange_error: "对不起，不能兑换，请联系客服！"
     flow_mobile_validate_api: "mobile_validateV1.php"
     flow_createorder_api: "createorder_api.php"
