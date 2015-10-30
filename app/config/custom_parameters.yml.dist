@@ -21,7 +21,7 @@ parameters:
         client_ip: "121.40.71.200" #正式121.40.71.200，测试：121.40.71.200 本机127.0.0.1,::1
         mail_subject: "积粒网-bangwoya体验广告接口数据处理失败"
         bangwoya_api_log: "/data/91jili/logs/api/bangwoya_api.log"
-        alertTo_contacts: vctech-system-emergency@voyagegroup.com
+        alertTo_contacts: rpa-sys-china@d8aspring.com
         validations:
             1: { errorno: "1001", message: "缺少参数(检查参数是否传递,nonceStr是否为32位)"}
             2: { errorno: "1002", message: "密码验证不通过" }
@@ -311,7 +311,7 @@ parameters:
     webpower_email_password: 'nUshkwu#9'
     webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
     
-    cron_alertTo_contacts: [ "miaomiao_zhang@voyagegroup.com",  "tao_jiang@voyagegroup.com", "xiaoyi_chai@voyagegroup.com" ]
+    cron_alertTo_contacts: [ "miaomiao.zhang@d8aspring.com",  "tao.jiang@d8aspring.com", "xiaoyi.chai@d8aspring.com" ]
     alert_subject: '积粒网-定时任务提醒邮件'
 
     # the uri relative to web/
