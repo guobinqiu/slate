@@ -162,6 +162,8 @@ parameters:
     upload_adver_dir: images/actionPic/
     upload_tmp_dir: uploads/user/
     upload_activity_dir: images/activity/
+    upload_tmp_image_dir: uploads/tmp/
+    upload_vote_image_dir: uploads/vote_image/
     page_num: 10
     init: 0
     init_one: 1
@@ -276,7 +278,7 @@ parameters:
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
     file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
     file_path_cpa_ranking_activity: /data/91jili/logs/activity/cpa_ranking_activity
-    
+
     qq_appid: 101163684
     qq_appkey: fe7b1879a8e220136aa63ae92a9e5745
     qq_email_suffix: qq.com
@@ -310,7 +312,7 @@ parameters:
     webpower_email_username: 'admin'
     webpower_email_password: 'nUshkwu#9'
     webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
-    
+
     cron_alertTo_contacts: [ "miaomiao_zhang@voyagegroup.com",  "tao_jiang@voyagegroup.com", "xiaoyi_chai@voyagegroup.com" ]
     alert_subject: '积粒网-定时任务提醒邮件'
 
@@ -365,7 +367,7 @@ parameters:
         # request status to request status
         status:
             UNCERTAIN:   0 # init
-            CONFIRMED:   1 # pending 
+            CONFIRMED:   1 # pending
             BALANCED:    2 # completed success
             INVALID:    -1 # completed failed
 
@@ -375,7 +377,8 @@ parameters:
             FAILED: -1            #-1 表示推送失败
 
     jili_app.logs_dir: /data/91jili/logs
+    admin_vote_log_path: /data/91jili/logs/admin/admin_vote.log
 twig:
-    globals: 
+    globals:
         cps_default_rebate:  %cps_default_rebate%
-        
+
