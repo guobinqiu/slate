@@ -55,15 +55,26 @@ class VoteRepositoryTest extends KernelTestCase
 
     /**
      * @group admin_vote
+     * @group user_vote
      */
     public function testFetchVoteList()
     {
         $em = $this->em;
         $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList();
-        $this->assertEquals(1, count($voteList), 'active_flag:true, the count of vote is' . count($voteList));
-        $this->assertEquals(1, $voteList[0]['id'], 'vote id is ' . $voteList[0]['id']);
+        $this->assertEquals(2, count($voteList), 'active_flag:true, the count of vote is' . count($voteList));
+        $this->assertEquals(3, $voteList[0]['id'], 'vote id is ' . $voteList[0]['id']);
         $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(false);
         $this->assertEquals(1, count($voteList), 'active_flag:false, the count of vote is ' . count($voteList));
         $this->assertEquals(2, $voteList[0]['id'], 'vote id is ' . $voteList[0]['id']);
+    }
+
+    /**
+     * @group user_vote
+     */
+    public function testGetActiveVoteList()
+    {
+        $em = $this->em;
+        $voteList = $em->getRepository('JiliApiBundle:Vote')->getActiveVoteList();
+        $this->assertEquals(1, count($voteList), 'acount of active vote list: ' . count($voteList));
     }
 }

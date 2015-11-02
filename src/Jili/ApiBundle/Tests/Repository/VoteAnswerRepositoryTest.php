@@ -55,11 +55,32 @@ class VoteAnswerRepositoryTest extends KernelTestCase
 
     /**
      * @group admin_vote
+     * @group user_vote
      */
     public function testGetAnswerCount()
     {
         $em = $this->em;
         $count = $em->getRepository('JiliApiBundle:VoteAnswer')->getAnswerCount(1);
-        $this->assertEquals(2, $count, 'AnswerCount is ' . $count);
+        $this->assertEquals(2, $count, 'vote_id:1, AnswerCount is ' . $count);
+    }
+
+    /**
+     * @group user_vote
+     */
+    public function testGetEachAnswerCount()
+    {
+        $em = $this->em;
+        $count = $em->getRepository('JiliApiBundle:VoteAnswer')->getEachAnswerCount(1, 1);
+        $this->assertEquals(2, $count, 'vote_id:1, answer_number:1, count is ' . $count);
+    }
+
+    /**
+     * @group user_vote
+     */
+    public function testGetUserAnswerCount()
+    {
+        $em = $this->em;
+        $count = $em->getRepository('JiliApiBundle:VoteAnswer')->getUserAnswerCount(1, 1);
+        $this->assertEquals(1, $count, 'user_id: 1 , vote_id :1 user answer count is ' . $count);
     }
 }

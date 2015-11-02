@@ -334,7 +334,7 @@ parameters:
 
    #流量包
     flow_url: http://59.83.33.13/   #接口url
-    flow_prv_key: ERL21WDDF9HSLJZE  #加密私钥 #A757C0C02B0CF959  
+    flow_prv_key: ERL21WDDF9HSLJZE  #加密私钥 #A757C0C02B0CF959
     flow_custom_sn: 8C981708DF8AE2F0   #SN号码
     flow_client_ip: #ip地址
         1: 59.83.33.8
@@ -378,6 +378,7 @@ parameters:
 
     jili_app.logs_dir: /data/91jili/logs
     admin_vote_log_path: /data/91jili/logs/admin/admin_vote.log
+    vote_suggest_mail_to: miaomiao.zhang@d8aspring.com
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%
