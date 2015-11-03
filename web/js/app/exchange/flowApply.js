@@ -40,25 +40,26 @@ require(['../../config'],function(){
             mobileSave.on('click', function(){
                 if(!validateMoney()){ return false;}
                 console.log('可以提交了！');
+                //获取当前选择的选项内容
+                var selOption = $('#money').find('.points').text();
+                var selNum = selOption.substr(0, selOption.indexOf('积分'));
+                $('#changes').val(selNum);
+                $("#form1").submit();
                 //ajax
             });
             return true;
         }
 
-        //交互模拟结果数据
-        //var data = { result: { }};
-        var data = { result: { num: '13658965463'}};
-        if(data.result.num){
-            var curMobile = $('#curMobile');
-            curMobile.text(data.result.num).show();
+        var curMobile = $('#curMobile');
+        var num = curMobile.text();
+        if(num != '' && num != undefined){
             validateBalance();
-        }else{
-            console.log('获取当前手机号失败啦！');
         }
         $(exchangeOptions.option).on('click', function(){
             var i = $(exchangeOptions.option).index(this);
             $(exchangeOptions.option).removeClass('active').eq(i).addClass('active');
             $(exchangeOptions.option).removeAttr('id').eq(i).attr("id","money");
+            $(exchangeOptions.option).removeAttr('name').eq(i).attr("name","money");
             validateMoney();
             validateBalance();
         });

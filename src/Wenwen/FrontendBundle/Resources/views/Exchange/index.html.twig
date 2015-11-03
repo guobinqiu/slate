@@ -23,7 +23,7 @@
 	                        <dt>手机充值</dt>
 	                        <dd class="text">用积分为手机充值，<strong>2010米粒</strong>起兑</dd>
 	                        <dd class="exchangeBtn">
-	                            <a href="{{ path('wenwen_frontend_exchange_mobileinfo') }}" id="mobileBtn">立即兑换</a>
+	                            <a href="javascript:void(0)" id="mobileBtn">立即兑换</a>
 	                        </dd>
 	                    </dl>
 	                </div>
@@ -51,7 +51,7 @@
 	                        <dt>支付宝现金兑换</dt>
 	                        <dd class="text">用积分兑换支付宝现金，<strong>2050米粒</strong>起兑</dd>
 	                        <dd class="exchangeBtn">
-	                            <a href="{{ path('wenwen_frontend_exchange_alipayinfo') }}" id="alipayBtn">立即兑换</a>
+	                            <a href="javascript:void(0)" id="alipayBtn">立即兑换</a>
 	                        </dd>
 	                    </dl>
 	                </div>
@@ -65,7 +65,7 @@
 	                        <dt>上网流量包兑换</dt>
 	                        <dd class="text">用积分兑换上网流量包，电信、联通<strong>1590米粒</strong>起兑，移动<strong>1660米粒</strong>起兑</dd>
 	                        <dd class="exchangeBtn">
-	                            <a href="{{ path('wenwen_frontend_exchange_flowinfo') }}" id="flowBtn">立即兑换</a>
+	                            <a href="javascript:void(0)" id="flowBtn">立即兑换</a>
 	                        </dd>
 	                    </dl>
 	                    <span class="newIcon"></span>
@@ -73,7 +73,7 @@
 	            </li>
 	        </ul>
 	        <input type="hidden" value="btn" name="btn">
-	        <input type="hidden" value="35d7b9362ee0d9ad0093b5653688618229cbb14a" name="tokenKey" />
+	        <input type="hidden" value="{{ key }}" name="tokenKey" />
         </form>
 	</div>
 </div>
@@ -84,5 +84,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/exchange/exchange')}}"></script>
 {% endblock %}

@@ -16,49 +16,40 @@
 		<div class="main-personal-message">
 			<div class="btn tabNav"><span class="active">私信</span><span>系统</span><div class="border"></div></div>
 			<div class="tabCon">
+				{% if sid == 1 %}
 				<div class="con">
 					<ul>
+						{% if showMs %}
 						<li class="title"><span>时间</span><strong>标题</strong></li>
-						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a></li>
-						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a><p>每个人都是社会的决策者，恭喜您成为亚洲调查面板旗下中国样本库的一员，今后您的意见将会成为政府和企业决策的依据。
-						在91问问调查网，您可以通过参加问卷、投票以及相关活动，获得积分并将积分兑换成现金和奖品。我们期待您保持活跃，经常登录并及时准确的完成属性问卷，这样您将有更多机会获得高分值的商业问卷。请经常查收您的邮箱，每周我们会至少发送一封问卷邀请给您，及时的查收邮件有助于您争取高分值问卷的名额。
-						做为亚洲领先的调查公司，我们始终努力让您获得良好的调查体验。如果您在使用91问问调查网的过程中遇到任何问题，请通过帮助中心与我们联系。谢谢！</p></li>
-						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a></li>
+						{% for item in pagination %}
+						<li {% if item.readFlag == 1 %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
+						{% endfor %}
+        				{% else %}
+          				<li>暂无消息</li>
+      					{% endif %}  
 					</ul>
 					<div class="page-wrapper">
-						<p class="page">
-							<span class="active">1</span>
-							<span>2</span>
-							<span>3</span>
-							<span>4</span>
-							<span>5</span>
-							<span>6</span>
-							<span>尾页</span>
-						</p>
+						{{ knp_pagination_render(pagination) }}
 					</div>
 				</div>
-				<div class="con">
+				<div class="con sys">
 					<ul>
+						{% if sendCb %}
 						<li class="title"><span>时间</span><strong>标题</strong></li>
-						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了dfgfg一枚勋章</a></li>
-						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a><p>每个人都是社会的决策者，恭喜您成为亚洲调查面板旗下中国样本库的一员，今后您的意见将会成为政府和企业决策的依据。
-						在91问问调查网，您可以通过参加问卷、投票以及相关活动，获得积分并将积分兑换成现金和奖品。我们期待您保持活跃，经常登录并及时准确的完成属性问卷，这样您将有更多机会获得高分值的商业问卷。请经常查收您的邮箱，每周我们会至少发送一封问卷邀请给您，及时的查收邮件有助于您争取高分值问卷的名额。
-						做为亚洲领先的调查公司，我们始终努力让您获得良好的调查体验。如果您在使用91问问调查网的过程中遇到任何问题，请通过帮助中心与我们联系。谢谢！</p></li>
-						<li><span>2015-04-08 16:53</span><a href="javascript:void(0)">恭喜您获得了一枚勋章</a></li>
+						{% for item in pagination %}
+						<li {% if item.isRead %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
+						{% endfor %}
+        				{% else %}
+          				<li>暂无消息</li>
+      					{% endif %} 
 					</ul>
 					<div class="page-wrapper">
-						<p class="page">
-							<span class="active">1</span>
-							<span>2</span>
-							<span>3</span>
-							<span>4</span>
-							<span>5</span>
-							<span>6</span>
-							<span>尾页</span>
-						</p>
+						{{ knp_pagination_render(pagination) }}
 					</div>
 				</div>
+				{% endif %}
 			</div>
+			<div id="countMessage"></div>
 		</div>
 	</div>
 </div>

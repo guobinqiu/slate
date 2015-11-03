@@ -4,7 +4,9 @@ require(['../../config'],function(){
         //表单验证
         var mobileSave = $('#mobile_save'), moneyInput = '#money';
         var mobileInput = '#mobile', mobileRepeatInput = '#mobileRepeat';
-        var exchangeOptions = {option: '.option', need: '#need', rest: '#rest', money: '#money', saveBtn: '#mobile_save'};
+        var curPoints = $('#curPoints').val();
+        console.log('获取用户当前积分：'+ curPoints);
+        var exchangeOptions = {option: '.option', need: '#need', rest: '#rest', money: '#money', points: curPoints, saveBtn: '#mobile_save'};
         var validateMobile;
         function validateMoney(){
             var moneyBox = $(moneyInput);
@@ -43,6 +45,11 @@ require(['../../config'],function(){
                         return false;
                     }
                     console.log('输入手机号后---可以提交了！');
+                    //获取当前选择的选项内容
+                    var selOption = $('#money').find('.points').text();
+                    var selNum = selOption.substr(0, selOption.indexOf('积分'));
+                    $('#changes').val(selNum);
+                    $("#form1").submit();
                     //ajax
                 });
             }else{
@@ -58,6 +65,11 @@ require(['../../config'],function(){
                         return false;
                     }
                     console.log('可以提交了！');
+                    //获取当前选择的选项内容
+                    var selOption = $('#money').find('.points').text();
+                    var selNum = selOption.substr(0, selOption.indexOf('积分'));
+                    $('#changes').val(selNum);
+                    $("#form1").submit();
                     //ajax
                 });
             }
@@ -84,18 +96,16 @@ require(['../../config'],function(){
         var isModify = false;
 
         modifyBtn.on('click', function(){
+            $("#existMobile").val('1');
             curVal.hide();
             modifyInput.show();
             isModify = true;
             validateBalance(isModify);
         });
 
-        //交互模拟结果数据
-        //var data = { result: { num: '13658965463'}};
-        var data = { result: { }};
-        if(data.result.num){
-            var curMobile = $('#curMobile');
-            curMobile.text(data.result.num);
+        var curMobile = $('#curMobile');
+        var num = curMobile.text();
+        if(num != '' && num != null){
             curVal.show();
             modifyInput.hide();
         }else{
@@ -108,6 +118,7 @@ require(['../../config'],function(){
             var i = $(exchangeOptions.option).index(this);
             $(exchangeOptions.option).removeClass('active').eq(i).addClass('active');
             $(exchangeOptions.option).removeAttr('id').eq(i).attr("id","money");
+            $(exchangeOptions.option).removeAttr('name').eq(i).attr("name","money");
             validateMoney();
             validateBalance(isModify);
         });

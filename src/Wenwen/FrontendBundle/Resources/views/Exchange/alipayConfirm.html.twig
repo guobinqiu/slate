@@ -15,17 +15,19 @@
 		<h1>支付宝现金兑换</h1>
 		<div class="main-con-exchangeInfo">
 			<p class="alipay-tips"><em>●</em>您是第一次兑换米粒，我们需要记录并保存您的身份证号码。<br><em>●</em>请您务必认真填写,该号码将在您兑换成功后自动绑定。</p>
-			<form action="/exchange/mobileInfo" method="post" name="mobileInfo" id="form1">
+			<form action="{{ path('_exchange_identityCardComfirm',{'type': type}) }}" method="post" id="form1">
 			<ul>
 				<li>
 					<label for="idCard">您的身份证号：</label>
-					<input type="text" id="idCard">
+					<input type="text" id="idCard" name="idCard">
 					<span id="idCard_succeed"></span>
 					<span id="idCard_error"></span>
 				</li>
 			</ul>
-			<div class="btn spec"><!-- <a href="alipayInfo.html"> --><span id="alipay_save">下一步</span><!-- </a> --></div>
-    	</form>
+			<div class="backError">{% if code is defined %}{{code}}{% endif %}</div>
+			<div class="btn spec"><span id="alipay_save">下一步</span></div>
+			<input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
+    		</form>
     	</div>
 	</div>
 </div>
