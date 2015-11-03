@@ -13,7 +13,7 @@
 .main-con-left ul {
   width: 100%; }
 .main-con-left li {
-  padding: 10px 20px;
+  padding: 20px;
   border-top: 1px solid #f6f6f6;
   position: relative;
   z-index: 1; }
@@ -48,7 +48,7 @@
     border-left: 1px solid #f6f6f6; }
     .survey-item li span {
       line-height: 22px;
-      color: #979ca6; }
+      color: #646d7a; }
     .survey-item li p {
       line-height: 28px;
       color: #646d7a; }
@@ -90,7 +90,7 @@
   color: #fff;
   line-height: 900%; }
 .vote li {
-  padding: 20px; }
+  padding: 30px 20px; }
   .vote li.vote-new .vote-img {
     width: 15%; }
   .vote li.vote-new .vote-txt {
@@ -98,15 +98,12 @@
   .vote li.vote-new .tips {
     position: absolute;
     z-index: 1000;
-    top: 42px;
-    right: 0px; }
+    top: 23px;
+    right: 5px; }
     .vote li.vote-new .tips span {
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      background: #979797;
-      color: #fff;
-      text-align: center;
+      background: url(../img/vote/doubleTag.png) no-repeat;
+      width: 70px;
+      height: 33px;
       cursor: pointer; }
   .vote li.vote-new .tips-con {
     position: absolute;
@@ -168,8 +165,8 @@
   font-size: 20px;
   position: absolute;
   z-index: 1000;
-  top: 42px;
-  right: 20px;
+  top: 61px;
+  right: 5px;
   height: 52px;
   line-height: 52px; }
   .countdown span {

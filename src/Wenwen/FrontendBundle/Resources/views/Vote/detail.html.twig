@@ -11,7 +11,8 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-con w1000 clearfix">
+<div class="main">
+	<div class="main-con w1000 clearfix">
 		<div class="main-con-left left">
 			<div class="vote vote-sub">
 				<div class="crumbs">
@@ -21,11 +22,12 @@
 				<div class="relate">
 					<img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt="">
 					<div class="relate-text">
-						<div>时间：08/04 ~ 08/08</div>
+						<div>时间：08/04 ~ 08/08&nbsp;&nbsp;&nbsp;&nbsp;答题奖励：<b>1分</b></div>
 						<div class="description">
 							<b class="btn"></b>
-							<p class="">该题由热心用户：<b>新神</b> 提供，恭喜他获得了<b>200</b>积分！随着网络的普及，视频播放器已成为每个人的手机或电脑的必备软件，那么您平时最喜欢使用视频播放器已成为每个人的手机或电脑的必备软件，那么您平时最喜欢使用</p>
+							<p class="">该题由热心用户：新神 提供，恭喜他获得了<b>200</b>积分！随着网络的普及，视频播放器已成为每个人的手机或电脑的必备软件，那么您平时最喜欢使用视频播放器已成为每个人的手机或电脑的必备软件，那么您平时最喜欢使用</p>
 						</div>
+
 					</div>
 				</div>
 				<div class="options">
@@ -43,8 +45,9 @@
 					</ul>
 					<div class="btn"><a href="{{ path('wenwen_frontend_vote_result') }}">仅查看结果>></a><span>投票</span></div>
 				</div>
-		    </div>
-		</div>
+			</div>
+	    </div>
+		
 		<div class="main-con-right right">
 			<div><a href="{{ path('wenwen_frontend_vote_suggest') }}"><img src="{{ asset('img/vote/prize.jpg') }}" alt=""></a></div>
 			<div class="exchange-dynamics">

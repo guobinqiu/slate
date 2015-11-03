@@ -291,7 +291,7 @@ body {
 .main-con-left ul {
   width: 100%; }
 .main-con-left li {
-  padding: 10px 20px;
+  padding: 20px;
   border-top: 1px solid #f6f6f6;
   position: relative;
   z-index: 1; }
@@ -326,7 +326,7 @@ body {
     border-left: 1px solid #f6f6f6; }
     .survey-item li span {
       line-height: 22px;
-      color: #979ca6; }
+      color: #646d7a; }
     .survey-item li p {
       line-height: 28px;
       color: #646d7a; }
@@ -368,7 +368,7 @@ body {
   color: #fff;
   line-height: 900%; }
 .vote li {
-  padding: 20px; }
+  padding: 30px 20px; }
   .vote li.vote-new .vote-img {
     width: 15%; }
   .vote li.vote-new .vote-txt {
@@ -376,15 +376,12 @@ body {
   .vote li.vote-new .tips {
     position: absolute;
     z-index: 1000;
-    top: 42px;
-    right: 0px; }
+    top: 23px;
+    right: 5px; }
     .vote li.vote-new .tips span {
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      background: #979797;
-      color: #fff;
-      text-align: center;
+      background: url(../img/vote/doubleTag.png) no-repeat;
+      width: 70px;
+      height: 33px;
       cursor: pointer; }
   .vote li.vote-new .tips-con {
     position: absolute;
@@ -446,8 +443,8 @@ body {
   font-size: 20px;
   position: absolute;
   z-index: 1000;
-  top: 42px;
-  right: 20px;
+  top: 61px;
+  right: 5px;
   height: 52px;
   line-height: 52px; }
   .countdown span {
@@ -556,7 +553,6 @@ body {
     .exchange-dynamics li b {
       color: #ff6700; }
     .exchange-dynamics li p {
-      color: #495361;
       overflow: hidden;
       -ms-text-overflow: ellipsis;
       text-overflow: ellipsis;
@@ -643,3 +639,53 @@ body {
     .footer .copyright p {
       line-height: 30px;
       color: #989898; }
+  .footer .footer-con-right {
+    position: relative; }
+    .footer .footer-con-right .client, .footer .footer-con-right .goTop {
+      width: 60px;
+      height: 40px;
+      line-height: 40px;
+      *line-height: 0;
+      background: #f5f6f8;
+      border: 1px solid #dfe1e6;
+      position: absolute;
+      right: 0;
+      cursor: pointer;
+      font-size: 0;
+      color: #949494;
+      display: block;
+      overflow: hidden;
+      -moz-transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s;
+      -o-transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s;
+      -webkit-transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s;
+      transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s; }
+      .footer .footer-con-right .client span, .footer .footer-con-right .goTop span {
+        width: 18px;
+        height: 16px;
+        display: inline-block;
+        background: url(../img/common/widget.png) no-repeat;
+        margin: 13px 50px 0 20px;
+        position: absolute; }
+      .footer .footer-con-right .client em, .footer .footer-con-right .goTop em {
+        margin-left: 46px; }
+      .footer .footer-con-right .client:hover, .footer .footer-con-right .goTop:hover {
+        width: 130px;
+        height: 40px;
+        display: inline-block;
+        vertical-align: 20px;
+        font-size: 12px; }
+        .footer .footer-con-right .client:hover em, .footer .footer-con-right .goTop:hover em {
+          display: inline-block;
+          font-style: normal;
+          color: #333; }
+    .footer .footer-con-right .client span {
+      background-position: 0 0; }
+    .footer .footer-con-right .client:hover span {
+      background-position: -19px 0; }
+    .footer .footer-con-right .goTop {
+      top: 41px; }
+      .footer .footer-con-right .goTop span {
+        margin-top: 15px;
+        background-position: 0 -18px; }
+      .footer .footer-con-right .goTop:hover span {
+        background-position: -19px -18px; }

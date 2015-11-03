@@ -31,3 +31,53 @@
     .footer .copyright p {
       line-height: 30px;
       color: #989898; }
+  .footer .footer-con-right {
+    position: relative; }
+    .footer .footer-con-right .client, .footer .footer-con-right .goTop {
+      width: 60px;
+      height: 40px;
+      line-height: 40px;
+      *line-height: 0;
+      background: #f5f6f8;
+      border: 1px solid #dfe1e6;
+      position: absolute;
+      right: 0;
+      cursor: pointer;
+      font-size: 0;
+      color: #949494;
+      display: block;
+      overflow: hidden;
+      -moz-transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s;
+      -o-transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s;
+      -webkit-transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s;
+      transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s; }
+      .footer .footer-con-right .client span, .footer .footer-con-right .goTop span {
+        width: 18px;
+        height: 16px;
+        display: inline-block;
+        background: url(../img/common/widget.png) no-repeat;
+        margin: 13px 50px 0 20px;
+        position: absolute; }
+      .footer .footer-con-right .client em, .footer .footer-con-right .goTop em {
+        margin-left: 46px; }
+      .footer .footer-con-right .client:hover, .footer .footer-con-right .goTop:hover {
+        width: 130px;
+        height: 40px;
+        display: inline-block;
+        vertical-align: 20px;
+        font-size: 12px; }
+        .footer .footer-con-right .client:hover em, .footer .footer-con-right .goTop:hover em {
+          display: inline-block;
+          font-style: normal;
+          color: #333; }
+    .footer .footer-con-right .client span {
+      background-position: 0 0; }
+    .footer .footer-con-right .client:hover span {
+      background-position: -19px 0; }
+    .footer .footer-con-right .goTop {
+      top: 41px; }
+      .footer .footer-con-right .goTop span {
+        margin-top: 15px;
+        background-position: 0 -18px; }
+      .footer .footer-con-right .goTop:hover span {
+        background-position: -19px -18px; }

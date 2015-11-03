@@ -104,6 +104,12 @@ $title-h2-span: 2px solid #d4d4d4;
     -webkit-transition: $pro $time; 
     -o-transition: $pro $time;
 }
+@mixin transition2($transition...) {
+    -moz-transition:    $transition;
+    -o-transition:      $transition;
+    -webkit-transition: $transition;
+    transition:         $transition;
+}
 @mixin gradient($topC, $bottomC){
   background-image:-webkit-linear-gradient(to bottom, $topC, $bottomC);
   background-image:linear-gradient(to bottom, $topC, $bottomC);
