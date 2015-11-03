@@ -14,39 +14,37 @@
 	<div class="main-con-exchange form">
 		<h1>支付宝现金兑换</h1>
 		<div class="main-con-exchangeInfo">
-			<form action="/exchange/mobileInfo" method="post" name="mobileInfo" id="form1">
+			<form action="{{ path('_exchange_alipayInfo') }}" method="post" name="mobileInfo" id="form1">
 			<ul>
 				<li class="curVal">
 					<label for="curAlipay">支付宝账号：</label>
-					<span id="curAlipay" class="cur">wangxiaozu@163.com</span>
+					<span id="curAlipay" class="cur">{{ existAlipay }}</span>
 					<a href="javascript:void(0)" id="modify">修改</a>
 				</li>
 				<li class="curVal">
 					<label for="curName">姓名：</label>
-					<span id="curName" class="cur">王小卒</span>
+					<span id="curName" class="cur">{{ existRealName }}</span>
 				</li>
 				<li class="modifyInput">
 					<label for="alipay">支付宝账号：</label>
-					<input type="text" id="alipay">
+					<input type="text" id="alipay" name="alipay" value="{{ alipay }}">
 					<span id="alipay_succeed"></span>
 					<span id="alipay_error"></span>
 				</li>
 				<li class="modifyInput">
 					<label for="alipayRepeat">再次输入账号：</label>
-					<input type="text" id="alipayRepeat">
+					<input type="text" id="alipayRepeat" name="alipayRepeat">
 					<span id="alipayRepeat_succeed"></span>
 					<span id="alipayRepeat_error"></span>
 				</li>
 				<li class="modifyInput">
 					<label for="realName">姓名：</label>
-					<input type="text" id="realName">
+					<input type="text" id="realName" name="realName">
 					<span id="realName_succeed"></span>
 					<span id="realName_error"></span>
 				</li>
 				<li>
 					<label for="money">选择兑换金额：</label>
-					<!-- <select id="money"><option selected="" value="20">20元</option><option value="30">30元</option><option value="50">50元</option></select>
-					<span class="equal cur">=2050积分</span> -->
 					<span class="option active" id="money">20元<div class="points">2050积分</div></span><span class="option">30元<div class="points">3030积分</div></span><span class="option">50元<div class="points">5000积分</div></span>
 					<span class="about cur expand-btn"><b>?</b>关于手续费<div class="expand-con"><b class="arrow"></b><p>由于支付宝每笔兑换会收取1元的手续费。2014-05-27日起，对于2000积分兑换20元支付宝现金的每笔兑换，手续费为0.5元/次（余下0.5元由91问问承担）；对于3000积分兑换30元支付宝现金的每笔兑换，手续费为为0.3元/次（余下0.7元由91问问承担）。而5000积分兑换50元支付宝现金的兑换，91问问将会全额承担兑换手续费。</p></div></span>
 				</li>
@@ -54,7 +52,13 @@
 			<div class="detail">
 				<div class="text">本次充值所需积分：<strong id="need">2050</strong>兑换后剩余积分：<strong id="rest">3028</strong></div>
 			</div>
+			<div class="backError">{{code}}</div>
 			<div class="btn"><span id="alipay_save">提交</span></div>
+			<input type="hidden" name="existAlipay" id="existAlipay"/>
+      		<input type="hidden" name="existRealName" id="existRealName"/>
+			<input type="hidden" name="rechange" id="changes"/>
+			<input type="hidden" name="curPoints" id="curPoints" value="{{ points }}"/>
+			<input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
     	</form>
     	</div>
 	</div>

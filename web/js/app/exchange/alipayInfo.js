@@ -4,7 +4,9 @@ require(['../../config'],function(){
         //表单验证
         var alipaySave = $('#alipay_save'), moneyInput = '#money';
         var alipayInput = '#alipay', alipayRepeatInput = '#alipayRepeat', realNameInput = '#realName';
-        var exchangeOptions = {option: '.option', need: '#need', rest: '#rest', money: '#money', saveBtn: '#alipay_save'};
+        var curPoints = $('#curPoints').val();
+        console.log('获取用户当前积分：'+ curPoints);
+        var exchangeOptions = {option: '.option', need: '#need', rest: '#rest', money: '#money', points: curPoints, saveBtn: '#alipay_save'};
         var validateAlipay;
         function validateMoney(){
             var moneyBox = $(moneyInput);
@@ -46,6 +48,11 @@ require(['../../config'],function(){
                         return false;
                     }
                     console.log('输入支付宝信息后---可以提交了！');
+                    //获取当前选择的选项内容
+                    var selOption = $('#money').find('.points').text();
+                    var selNum = selOption.substr(0, selOption.indexOf('积分'));
+                    $('#changes').val(selNum);
+                    $("#form1").submit();
                     //ajax
                 });
             }else{
@@ -61,6 +68,11 @@ require(['../../config'],function(){
                         return false;
                     }
                     console.log('可以提交了！');
+                    //获取当前选择的选项内容
+                    var selOption = $('#money').find('.points').text();
+                    var selNum = selOption.substr(0, selOption.indexOf('积分'));
+                    $('#changes').val(selNum);
+                    $("#form1").submit();
                     //ajax
                 });
             }
@@ -87,18 +99,17 @@ require(['../../config'],function(){
         var isModify = false;
 
         modifyBtn.on('click', function(){
+            $("#existAlipay").val('1');
             curVal.hide();
             modifyInput.show();
             isModify = true;
             validateBalance(isModify);
         });
 
-        //交互模拟结果数据
-        var data = { result: { alipayId: 'wangxiaozu@163.com', alipayName: '王小卒'}};
-        //var data = { result: { }};
-        if(data.result != undefined && data.result != null){
-            curVal.find('#curAlipay').text(data.result.alipayId);
-            curVal.find('#curName').text(data.result.alipayName);
+        var curAlipay = $('#curAlipay'), curName = $('#curName');
+        var alipayId = curAlipay.text(), alipayName = curName.text();
+        console.log('我的账号'+alipayId);
+        if(alipayId != undefined && alipayId != '' && alipayName != undefined && alipayName != ''){
             curVal.show();
             modifyInput.hide();
         }else{

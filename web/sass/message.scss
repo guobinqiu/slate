@@ -43,7 +43,7 @@
 		color: #555;
 		a{
 			margin-left: 40px;
-			color: $main-title-color;
+			color: #666;
 			font-size: 13px;
 			font-weight: bold;
 		}
@@ -60,6 +60,11 @@
 			line-height: 45px;
 			border: none;
 		}
+		&.new{
+			a{
+				color: $main-title-color;
+			}
+		}
 		p{
 			padding: 15px 40px;
 			line-height: 22px;
@@ -67,6 +72,10 @@
 			background: #fbfbfb;
 			border: 1px solid #ebebeb;
 			display: none;
+			a{
+				margin-left: 0;
+				color: $main-color;
+			}
 		}
 		&.active{
 			border: none;

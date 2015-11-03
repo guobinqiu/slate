@@ -1529,7 +1529,8 @@ class UserController extends Controller
             $arr['pagination'] = $paginator
                     ->paginate($exchange,
                     $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-            $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+            // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+            $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
         }else if($exchangeType==2){
             $exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenById($id);
             $arr['exFrWen'] = $exFrWen;
@@ -1537,7 +1538,8 @@ class UserController extends Controller
             $arr['pagination'] = $paginator
                     ->paginate($exFrWen,
                     $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-            $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+            // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+            $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
 
         }else{
             return $this->redirect($this->generateUrl('_default_error'));
@@ -1545,7 +1547,8 @@ class UserController extends Controller
         }
         $arr['exchangeType'] = $exchangeType;
         $arr['type'] = $type;
-        return $this->render('JiliApiBundle:User:exchange.html.twig',$arr);
+        // return $this->render('JiliApiBundle:User:exchange.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Personal:exchangeHistory.html.twig',$arr);
     }
 
 
@@ -1575,8 +1578,10 @@ class UserController extends Controller
         $arr['pagination'] = $paginator
         ->paginate($adtaste,
                 $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
-        return $this->render('JiliApiBundle:User:adtaste.html.twig',$arr);
+        // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
+        // return $this->render('JiliApiBundle:User:adtaste.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Personal:taskHistory.html.twig',$arr);
     }
 
     /**
@@ -1766,7 +1771,7 @@ class UserController extends Controller
     }
 
     /**
-	 * @Route("/updateIsRead", name="_user_updateIsRead")
+	 * @Route("/updateIsRead", name="_user_updateIsRead", options={"expose"=true})
 	 */
     public function updateIsReadAction()
     {
@@ -1794,7 +1799,7 @@ class UserController extends Controller
 
 
     /**
-	 * @Route("/updateSendMs", name="_user_updateSendMs")
+	 * @Route("/updateSendMs", name="_user_updateSendMs", options={"expose"=true})
 	 */
     public function updateSendMsAction()
     {
@@ -1841,7 +1846,8 @@ class UserController extends Controller
             $arr['pagination'] = $paginator
             ->paginate($sendCb,
                     $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-            $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+            // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+            $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
         }
         if($sid == $this->container->getParameter('init_one')){//消息
             $showMs  = $this->selectSendMs($id);
@@ -1850,11 +1856,12 @@ class UserController extends Controller
             $arr['pagination'] = $paginator
             ->paginate($showMs,
                     $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-            $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
-
+            // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+            $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
         }
         $arr['sid'] = $sid;
-        return $this->render('JiliApiBundle:User:message.html.twig',$arr);
+        // return $this->render('JiliApiBundle:User:message.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Personal:message.html.twig',$arr);
     }
 
 

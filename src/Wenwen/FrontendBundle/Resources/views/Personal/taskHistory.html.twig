@@ -1,5 +1,5 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}账户设置：{{ parent() }} {% endblock %}
+{% block title %}任务历史：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/point.css') }} " rel="stylesheet" type="text/css">
@@ -25,54 +25,52 @@
 					</tr>
 				</thead>
 				<tbody>
+					{% if adtaste %}
+         			{% for item in pagination %}
 					<tr>
-						<td>2015-07-10</td>
-						<td>购物返利-京东商城</td>
-						<td>761</td>
-						<td>待确认</td>
+						<td>{% if item.createTime %}{{ item.createTime.date | date('Y-m-d') }}{% endif %}</td>
+						<td>{{ item.displayName }}-{% if item.adid %}
+	                  		<a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">  {{ item.title }}</a>
+						{% else%}
+							{% if item.incentiveType == 17 %}
+							<a href="{{ path('_advertiserment_list') }}" target="_blank">{{ item.title }}</a>
+							{% elseif item.incentiveType == 18 %}
+							<a href="{{ asset(path('_advertiserment_offer99')) }}" target="_blank">{{ item.title }}</a>
+							{% elseif item.incentiveType == bangwoya_com.category_type %}
+							<a href="{{ asset(path('_advertiserment_bangwoya')) }}" target="_blank">{{ item.title }}</a>
+							{% else %}
+							{{ item.title }}
+							{% endif %}
+						{% endif %}</td>
+						<td>{% if item.incentiveType==2 or item.incentiveType==19 or item.incentiveType==23 %}
+							{% if item.orderStatus > 1 %}
+								{{ item.incentive }}
+							{% else %}
+							{% endif %}
+						{% else %}
+						     {{ item.incentive }}
+						{% endif %}</td>
+						<td>{% if item.incentiveType==1 or item.incentiveType==2 or item.incentiveType==17 or item.incentiveType==19 or item.incentiveType==23 %}
+							{% if item.orderStatus==1  %} 已参加
+							{% elseif item.orderStatus==2  %} 确认中
+							{% elseif item.orderStatus==3  %} 已完成
+							{% elseif item.orderStatus==4  %} 已拒绝
+							{% else %}{% endif %}
+							{% else %}
+							{% if item.orderStatus==0  %} 确认中
+							{% elseif item.orderStatus==1  %} 已完成
+							{% else %} 已拒绝
+							{% endif %}
+						{% endif %}</td>
 					</tr>
-					<tr>
-						<td>2015-07-10</td>
-						<td>q131 属性问卷</td>
-						<td>12</td>
-						<td>成功</td>
-					</tr>
-					<tr>
-						<td>2015-07-10</td>
-						<td>快速问答</td>
-						<td>1</td>
-						<td>成功</td>
-					</tr>
-					<tr>
-						<td>2015-07-10</td>
-						<td>购物返利-京东商城</td>
-						<td>761</td>
-						<td>待确认</td>
-					</tr>
-					<tr>
-						<td>2015-07-10</td>
-						<td>q131 属性问卷</td>
-						<td>12</td>
-						<td>成功</td>
-					</tr>
-					<tr>
-						<td>2015-07-10</td>
-						<td>快速问答</td>
-						<td>1</td>
-						<td>成功</td>
-					</tr>
+					{% endfor %}
+					{% else %}
+					<tr><td align="center">没有任务记录</td></tr>
+					{% endif %}
 				</tbody>
 			</table>
 			<div class="page-wrapper">
-				<p class="page">
-					<span class="active">1</span>
-					<span>2</span>
-					<span>3</span>
-					<span>4</span>
-					<span>5</span>
-					<span>6</span>
-					<span>尾页</span>
-				</p>
+				{{ knp_pagination_render(pagination) }}
 			</div>
 		</div>
 	</div>

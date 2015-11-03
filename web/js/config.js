@@ -14,7 +14,8 @@ require.config({
         'jcrop': 'plugin/Jcrop/jquery.Jcrop',
         'layDate': 'plugin/layDate/layDate',
         'iframeResizer': 'plugin/iframeResizer/iframeResizer.min',
-        'router': 'plugin/router',
+        'router': '../bundles/fosjsrouting/js/router',
+        'routing':'fos_js_routes',
         'common':'common/common',
         'slider': 'common/slider',
         'countdown': 'common/countdown',
@@ -58,9 +59,9 @@ require.config({
             deps: [],
             exports: 'iframeResizer'
         },
-        router: {
-            deps: [],
-            exports: 'router'
+        routing: {
+            deps: ['router'],
+            exports: 'routing'
         }
     }
 });

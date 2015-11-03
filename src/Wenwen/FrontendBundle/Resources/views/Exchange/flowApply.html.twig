@@ -14,23 +14,25 @@
 	<div class="main-con-exchange form">
 		<h1>上网流量包兑换</h1>
 		<div class="main-con-exchangeInfo">
-			<form action="/exchange/mobileInfo" method="post" name="mobileInfo" id="form1">
+			<form action="{{ path('_exchange_flowSave') }}" method="post" name="mobileInfo" id="form1">
 			<ul>
 				<li>
 					<label for="curMobile">手机号码：</label>
-					<span id="curMobile" class="cur"></span>
+					<span id="curMobile" class="cur">{{ mobile_info.mobile }}</span>
 				</li>
 				<li>
 					<label for="operator">运营商：</label>
-					<span id="operator" class="cur">联通</span>
+					<span id="operator" class="cur">{{ mobile_info.provider }}</span>
 				</li>
 				<li>
 					<label for="location">归属地：</label>
-					<span id="location" class="cur">上海</span>
+					<span id="location" class="cur">{{ mobile_info.province }}</span>
 				</li>
 				<li>
 					<label for="money">选择兑换流量：</label>
-					<span class="option">150M<div class="points">1650积分</div></span><span class="option">500M<div class="points">2380积分</div></span><span class="option">1024M<div class="points">3970积分</div></span>
+					{% for item in mobile_info.product_list %}
+					<span class="option">{{ item.packagesize }}M<div class="points">{{ item.change_point }}积分</div></span>
+					{% endfor %}
 					<span id="money_succeed"></span>
 					<span id="money_error"></span>
 				</li>
@@ -38,13 +40,14 @@
 			<div class="detail">
 				<div class="text">本次充值所需积分：<strong id="need">2050</strong>兑换后剩余积分：<strong id="rest">3028</strong></div>
 			</div>
-			<div class="btn"><a href="{{ path('wenwen_frontend_exchange_flowinfo') }}"><span class="return">返回</span></a><span id="mobile_save">提交</span></div>
+			<div class="backError">{% if code is defined %}{{code}}{% endif %}</div>
+			<div class="btn"><a href="{{ path('wenwen_frontend_exchange_flowinfo') }}" ><span class="return">返回</span></a><span id="mobile_save">提交</span></div>
+			<input type="hidden" name="custom_product_id" id="custom_product_id"/>
+			<input type="hidden" name="rechange" id="changes"/>
+			<input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
     		</form>
     		<div class="tips">
-    			<div class="unicom">
-        			<h3>中国联通用户充流量说明：</h3>
-        			<p><em>●</em>生效时间：充值成功，短信提示后，立即生效。<br><em>●</em>使用范围：支持全国漫游。用户包括2G手机套餐（除北京、四川、河北、黑龙江、辽宁、广西、江西、天津、云南、吉林、安徽、海南）、3G手机套餐（不含20元预付费套餐）、4G手机套餐。<br><em>●</em>使用有效期：当月有效。<br><em>●</em>充值次数限制：单个号码每月每类包仅限充值3次。<br><em>●</em>温馨提醒：月末最后一天建议不要充值。</p>
-    			</div>
+    			{% if(mobile_info.provider =='移动') %}
     			<div class="mobile hide">
         			<h3>中国移动用户充流量说明：</h3>
                     <p><em>•</em>生效时间：充值成功，短信提示后，立即生效。<br/>
@@ -54,6 +57,12 @@
                     <em>•</em>温馨提醒：每月后三天不受理再次充值业务。<br/>
                     <em>•</em>售后说明：只要接收到10086短信就说明100%到账，各省目前查询方式不同，10086人工查询集团统付流量或退费减免可查到！（可致电400-6696-365索取具体查询方法），一旦充值不回退，充值失败不收费。</p>
     			</div>
+    			{% elseif(mobile_info.provider =='联通')%}
+    			<div class="unicom">
+        			<h3>中国联通用户充流量说明：</h3>
+        			<p><em>●</em>生效时间：充值成功，短信提示后，立即生效。<br><em>●</em>使用范围：支持全国漫游。用户包括2G手机套餐（除北京、四川、河北、黑龙江、辽宁、广西、江西、天津、云南、吉林、安徽、海南）、3G手机套餐（不含20元预付费套餐）、4G手机套餐。<br><em>●</em>使用有效期：当月有效。<br><em>●</em>充值次数限制：单个号码每月每类包仅限充值3次。<br><em>●</em>温馨提醒：月末最后一天建议不要充值。</p>
+    			</div>
+    			{% elseif(mobile_info.provider =='电信')%}
     			<div class="telecom hide">
         			<h3>中国电信用户充流量说明：</h3>
                     <p><em>•</em>生效时间：充值成功，短信提示后，立即生效。<br/>
@@ -61,6 +70,7 @@
                     <em>•</em>使用有效期：当月有效。<br/>
                     <em>•</em>温馨提醒：月末最后一天建议不要充值。</p>
     			</div>
+    			{% endif %}
     		</div>
     	</div>
 	</div>

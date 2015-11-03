@@ -28,6 +28,7 @@ require(['../../config'],function(){
                         validateMobile.eSucceed(mobileRepeatInput);
                     }
                     console.log('输入手机号后---可以提交了！');
+                    $("#form1").submit();
                     //ajax
                 });
             }else{
@@ -40,6 +41,7 @@ require(['../../config'],function(){
                 mobileSave.unbind('click');
                 mobileSave.on('click', function(){
                     console.log('可以提交了！');
+                    $("#form1").submit();
                     //ajax
                 });
             }
@@ -50,17 +52,15 @@ require(['../../config'],function(){
             modifyBtn = $('#modify');
 
         modifyBtn.on('click', function(){
+            $("#existMobile").val(0);
             curVal.hide();
             modifyInput.show();
             executeValidate(true);
         });
 
-        //交互模拟结果数据
-        //var data = { result: { }};
-        var data2 = { result: { num: '13658965463'}};
-        if(data2.result.num){
-            var curMobile = $('#curMobile');
-            curMobile.text(data2.result.num).show();
+        var curMobile = $('#curMobile');
+        var num = curMobile.text();
+        if(num != undefined && num != ''){
             curVal.show();
             modifyInput.hide();
             executeValidate(false);

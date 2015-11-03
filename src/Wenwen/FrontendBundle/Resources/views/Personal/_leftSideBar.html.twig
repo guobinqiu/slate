@@ -3,9 +3,9 @@
 	<ul>
 		{% set router_current = app.request.attributes.get('_route') %}
 		<li {{ router_current == 'wenwen_frontend_personal_profile' ? 'class="active"':'' }}><a href="{{ path('wenwen_frontend_personal_profile') }}"><em></em>个人资料</a></li>
-		<li {{ router_current == 'wenwen_frontend_personal_message' ? 'class="active"':'' }}><a href="{{ path('wenwen_frontend_personal_message') }}"><em class="icon2"></em>我的消息</a></li>
-		<li {{ router_current == 'wenwen_frontend_personal_task' ? 'class="active"':'' }}><a href="{{ path('wenwen_frontend_personal_task') }}"><em class="icon3"></em>任务历史</a></li>
-		<li {{ router_current == 'wenwen_frontend_personal_exchange' ? 'class="active"':'' }}><a href="{{ path('wenwen_frontend_personal_exchange') }}"><em class="icon4"></em>兑换历史</a></li>
+		<li {{ router_current == 'wenwen_frontend_personal_message' ? 'class="active"':'' }}><a href="{{ path('_user_message',{'sid': 1}) }}"><em class="icon2"></em>我的消息</a></li>
+		<li {{ router_current == 'wenwen_frontend_personal_task' ? 'class="active"':'' }}><a href="{{ path('_user_adtaste',{'type':0}) }}"><em class="icon3"></em>任务历史</a></li>
+		<li {{ router_current == 'wenwen_frontend_personal_exchange' ? 'class="active"':'' }}><a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}"><em class="icon4"></em>兑换历史</a></li>
 		<li {{ router_current == 'wenwen_frontend_personal_account' ? 'class="active"':'' }}><a href="{{ path('wenwen_frontend_personal_account') }}"><em class="icon5"></em>账户设置</a></li>
 	</ul>
 </div>			

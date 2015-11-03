@@ -14,28 +14,31 @@
 	<div class="main-con-exchange form">
 		<h1>上网流量包兑换</h1>
 		<div class="main-con-exchangeInfo">
-			<form action="/exchange/mobileInfo" method="post" name="mobileInfo" id="form1">
+			<form action="{{ path('_exchange_flowList') }}" method="post" id="form1">
 			<ul>
 				<li class="curVal">
 					<label for="curMobile">当前手机号码：</label>
-					<span id="curMobile" class="cur"></span>
+					<span id="curMobile" class="cur">{% if existMobile is defined %} {{ existMobile }} {% endif %}</span>
 					<a href="javascript:void(0)" id="modify">使用其他手机号</a>
 				</li>
 				<li class="modifyInput">
 					<label for="mobile">手机号码：</label>
-					<input type="text" id="mobile">
+					<input type="text" id="mobile" name="mobile" {% if mobile is defined %}{{ mobile }}{% endif %}>
 					<span id="mobile_succeed"></span>
 					<span id="mobile_error"></span>
 				</li>
 				<li class="modifyInput">
 					<label for="mobileRepeat">再次输入号码：</label>
-					<input type="text" id="mobileRepeat">
+					<input type="text" id="mobileRepeat" name="mobileRepeat">
 					<span id="mobileRepeat_succeed"></span>
 					<span id="mobileRepeat_error"></span>
 				</li>
 			</ul>
-			<div class="flow-tips"><p>四川移动号码、湖北移动号码现已暂停充值，恢复时间另行通知！</p></div>
-			<div class="btn spec"><!-- <a href="flowApply.html"> --><span id="mobile_save">下一步</span><!-- </a> --></div>
+			{% if content is defined and content != '' %}<div class="flow-tips"><p>{{content}}</p></div>{% endif %}
+			<div class="backError flowInfo">{% if code is defined %}{{code}}{% endif %}</div>
+			<div class="btn spec"><span id="mobile_save">下一步</span></div>
+			<input type="hidden" name="existMobile" id="existMobile" value="{% if existMobile is defined %}{{ existMobile }}{% endif %}"/>
+			<input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
     		</form>
     	</div>
 	</div>
