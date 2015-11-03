@@ -1,0 +1,40 @@
+{% block stylesheets %}
+<link href="{{ asset('css/pagenav.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+</script>
+<h2>実施予定の設問</h2>
+<table>
+    <tr>
+        <th>时间</th>
+        <th>ID</th>
+        <th>title</th>
+        <th>image</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% if pagination is defined %}
+    {% set router_current = app.request.attributes.get('_route') %}
+    {% for item in pagination %}
+    <tr>
+      <td align="left" >{{ item.startTime | date("Y/m/d")}} - {{item.endTime | date("m/d")  }}</td>
+      <td align="left">{{ item.id}}</td>
+      <td align="left">{{ item.title }}</td>
+      <td align="left"> {% if (item.sqPath) %} <img src="{{ asset(item.sqPath)}}" alt="{{item.sqPath}}"/>{% else %}No image{% endif %}</td>
+      <td align="center"><a href="{{ path('_admin_vote_edit',{'id':item.id}) }}">编辑</a>
+      <a href="{{ path('_admin_vote_delete',{'id':item.id,'ret_action':router_current,'page':page,'csrf_token':csrf_token})}}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a></td>
+   </tr>
+    {% endfor %}
+    {% endif %}
+    <tr>
+    <td colspan="5">
+    {% if paging %}
+    {% if pagination is defined %}{{ knp_pagination_render(pagination) }}{%endif %}
+    {% else %}
+    <a href="{{ path('_admin_vote_reserveList', {'paging': true}) }}">more</a>
+    {% endif %}
+    </td>
+    </tr>
+</table>
+<form method="post" name="form"  action="{{ path('_admin_vote_edit') }}">
+    <input type="submit" value="create" name="addBtn" id="addBtn" />
+</form>
