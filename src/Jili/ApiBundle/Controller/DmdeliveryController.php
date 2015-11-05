@@ -263,7 +263,7 @@ class DmdeliveryController extends Controller
                 $companyId,
                 $mailingId,
                 true,
-                "yang@voyagegroup.com.cn",
+                "rpa-sys-china@d8aspring.com",
                 array($groupId),
                 "",
                 "",
