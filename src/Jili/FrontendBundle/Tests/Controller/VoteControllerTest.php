@@ -133,7 +133,7 @@ class VoteControllerTest extends WebTestCase
         $url = '/vote/show?id=3';
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('请登陆后', $client->getResponse()->getContent());
+        $this->assertContains('请登陆后', $client->getResponse()->getContent(), 'not login');
 
         $session = $client->getRequest()->getSession();
         $session->set('uid', 1);
@@ -141,18 +141,74 @@ class VoteControllerTest extends WebTestCase
 
         $url = '/vote/show?id=3';
         $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'show vote success');
 
         $form = $crawler->filter('form[id=show_form]')->form();
-
-        // set some values
         $form['answer_number'] = 1;
-
-        // submit the form
         $crawler = $client->submit($form);
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $this->assertRegExp('/\/vote\/result\?id=3$/', $client->getResponse()->headers->get('location'), 'need id');
+        $this->assertRegExp('/\/vote\/result\?id=3$/', $client->getResponse()->headers->get('location'), 'commit success');
+    }
+
+    /**
+     * @group user_vote
+     */
+    public function testVoteAction()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+        $url = '/vote/vote';
+
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertRegExp('/\/vote\/index$/', $client->getResponse()->headers->get('location'), 'need POST');
+
+        $crawler = $client->request('POST', $url);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertRegExp('/\/user\/login$/', $client->getResponse()->headers->get('location'), 'need login');
+
+        $session = $client->getRequest()->getSession();
+        $session->set('uid', 1);
+        $session->save();
+
+        $crawler = $client->request('POST', $url);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertRegExp('/\/vote\/index$/', $client->getResponse()->headers->get('location'), 'need vote_id');
+
+        $client->request('POST', $url, array (
+            'id' => 3
+        ));
+        $this->assertRegExp('/\/vote\/show\?id=3$/', $client->getResponse()->headers->get('location'), 'need answer_number');
+
+        $client->request('POST', $url, array (
+            'id' => 4,
+            'answer_number' => '1'
+        ));
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertRegExp('/\/vote\/index$/', $client->getResponse()->headers->get('location'), 'vote not exist');
+
+        $client->request('POST', $url, array (
+            'id' => 3,
+            'answer_number' => '6'
+        ));
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertRegExp('/\/vote\/show\?id=3$/', $client->getResponse()->headers->get('location'), 'invalid answer_number');
+
+        $client->request('POST', $url, array (
+            'id' => 1,
+            'answer_number' => '1'
+        ));
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertRegExp('/\/vote\/show\?id=3$/', $client->getResponse()->headers->get('location'), 'user has answered');
+
+        $client->request('POST', $url, array (
+            'id' => 3,
+            'answer_number' => '1'
+        ));
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertRegExp('/\/vote\/result\?id=3$/', $client->getResponse()->headers->get('location'), 'answer success');
 
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -241,7 +297,7 @@ class VoteControllerTest extends WebTestCase
         $url = '/vote/suggest';
         $crawler = $client->request('GET', $url);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $this->assertRegExp('/\/user\/login$/', $client->getResponse()->headers->get('location'), 'need id');
+        $this->assertRegExp('/\/user\/login$/', $client->getResponse()->headers->get('location'), 'need login');
 
         $session = $client->getRequest()->getSession();
         $session->set('uid', 1);

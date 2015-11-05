@@ -139,28 +139,33 @@ class VoteController extends Controller
      */
     public function voteAction(Request $request)
     {
+        //check post
+        if ($request->getMethod() != 'POST') {
+            return $this->redirect($this->generateUrl('jili_frontend_vote_index'));
+        }
+
+        //check login
         if (!$request->getSession()->get('uid')) {
             $request->getSession()->set('referer', $this->generateUrl('jili_frontend_vote_index'));
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        if ($request->getMethod() != 'POST') {
-            return $this->redirect($this->generateUrl('jili_frontend_vote_index'));
-        }
-
         $vote_id = $request->request->get('id');
         $answer_number = $request->request->get('answer_number');
 
+        //check parameter vote_id
         if (!$vote_id) {
             return $this->redirect($this->generateUrl('jili_frontend_vote_index'));
         }
 
+        //check parameter answer_number
         if (!$answer_number) {
             return $this->redirect($this->generateUrl('jili_frontend_vote_show', array (
                 'id' => $vote_id
             )));
         }
 
+        //check csrf_token
         $session = $request->getSession();
         $csrf_token = $request->request->get('csrf_token');
         if (!$csrf_token || ($csrf_token != $session->get('csrf_token'))) {
@@ -174,14 +179,23 @@ class VoteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $vote = $em->getRepository('JiliApiBundle:Vote')->findOneById($vote_id);
 
+        //check vote exist
         if (!$vote) {
             return $this->redirect($this->generateUrl('jili_frontend_vote_index'));
+        }
+
+        //check answer_number
+        $stashData = $vote->getStashData();
+        $choices = $stashData['choices'];
+        if (!array_key_exists($answer_number, $stashData['choices'])) {
+            return $this->redirect($this->generateUrl('jili_frontend_vote_show', array (
+                'id' => $vote_id
+            )));
         }
 
         //check answered
         $user_id = $this->get('session')->get('uid');
         $user_answer_count = $em->getRepository('JiliApiBundle:VoteAnswer')->getUserAnswerCount($user_id, $vote_id);
-
         if ($user_answer_count) {
             return $this->redirect($this->generateUrl('jili_frontend_vote_show', array (
                 'id' => $vote_id
