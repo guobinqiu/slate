@@ -801,13 +801,20 @@ class UserController extends Controller
         $exchange = $exchange->getUserExchange($id,$option_ex);
         $exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenByIdMaxTen($id);
         $sex = $request->request->get('sex');
-        $tel = $request->request->get('tel');
         $year = $request->request->get('year');
         $month = $request->request->get('month');
+        $day = $request->request->get('day');
         $provinceId = $request->request->get('province');
         $city = $request->request->get('city');
         $month_income = $request->request->get('income');
+        $profession = $request->request->get('profession');
+        $category = $request->request->get('category');
+        $department = $request->request->get('department');
+        $education = $request->request->get('education');
         $hobby = $request->request->get('hobby');
+        $signature = $request->request->get('signature');
+        $music = $request->request->get('music');
+        $wish = $request->request->get('wish');
         $form  = $this->createForm(new RegType(), $user);
         if ($request->getMethod() == 'POST') {
             if($request->request->get('update')){
@@ -901,7 +908,8 @@ class UserController extends Controller
 
         $this->get('login.listener')->updateInfoSession($user);
 
-        return $this->render('JiliApiBundle:User:info.html.twig', array(
+        
+        return $this->render('WenwenFrontendBundle:Personal:profile.html.twig', array(
             'form' => $form_view,
             'form_upload' =>$form_view,
             'user' => $user,
@@ -1226,12 +1234,14 @@ class UserController extends Controller
         $arr['user'] = $user;
         $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByUserId($id);
         if($setPasswordCode->getIsAvailable()==0){
-            return $this->render('JiliApiBundle::error.html.twig');
+            // return $this->render('JiliApiBundle::error.html.twig');
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
         $arr['pwdcode'] = $setPasswordCode;
         $time = $setPasswordCode->getCreateTime();
         if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
-            return $this->render('JiliApiBundle::error.html.twig');
+            // return $this->render('JiliApiBundle::error.html.twig');
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }else{
             if($setPasswordCode->getCode() == $code){
                 $request = $this->get('request');
@@ -1333,7 +1343,8 @@ class UserController extends Controller
 
             return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user[0]->getId()),true));
         }else{
-            return $this->render('JiliApiBundle::error.html.twig');
+            // return $this->render('JiliApiBundle::error.html.twig');
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
     }
 
@@ -1468,7 +1479,8 @@ class UserController extends Controller
 	 */
     public function agreementAction()
     {
-        return $this->render('JiliApiBundle:User:agreement.html.twig');
+        // return $this->render('JiliApiBundle:User:agreement.html.twig');
+        return $this->render('WenwenFrontendBundle:About:regulations.html.twig');
     }
 
     /**
@@ -1606,12 +1618,14 @@ class UserController extends Controller
         // check the uid
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
         if( ! $user ) {
-            return $this->render('JiliApiBundle::error.html.twig');
+            // return $this->render('JiliApiBundle::error.html.twig');
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
         // check the token
         $passwordToken = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken(array('user_id'=> $uid, 'token' => $token )  );
         if( !$passwordToken  ) {
-            return $this->render('JiliApiBundle::error.html.twig');
+            // return $this->render('JiliApiBundle::error.html.twig');
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
 
         $form  = $this->createForm(new SignupActivateType() );

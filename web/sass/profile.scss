@@ -203,6 +203,11 @@ $color: #0078b6;
 				&:focus{
 					border: $input-border-focus;
 				}
+				vertical-align: middle;
+			}
+			input[type='checkbox']{
+				border: $border;
+				vertical-align: middle;
 			}
 			span{
 				line-height: 34px;

@@ -2,13 +2,20 @@ require(['../../config'],function(){
     require(['common']);
     require(['jquery'], function($){
         var progress = $('.progress');
-        var data = { progress: '20%'};
-        progress.find('b').text(data.progress);
-        progress.find('.colorBar').css('width', data.progress);
-        progress.find('.btn').css('left', data.progress);
+        //ajax获取资料完善度
+        var data = { 'meta': {'code': 200,'message': ''},'data':{'progress': '20%'}};
+        if(data.meta.code == 200){
+            progress.find('b').text(data.data.progress);
+            progress.find('.colorBar').css('width', data.data.progress);
+            progress.find('.btn').css('left', data.data.progress);
+        }else{
+            progress.find('b').text('0%');
+            progress.find('.colorBar').css('width', '0%');
+            progress.find('.btn').css('left', '0%');
+        }
     });
 
-    //验证表单
+    //修改昵称，验证表单
     require(['jquery', 'validate'], function($, rpaValidate){
         $("#regName").RPAValidate(rpaValidate.prompt.regName, rpaValidate.func.regName);
         $('#regName_modify').on('click', function(){
@@ -42,43 +49,10 @@ require(['../../config'],function(){
 //                }
 //            });
         });
-        $('#profile_save').on('click', function(){
-            console.log($('#profile_form').serialize());
-        });
-//            $.ajax({
-//                type : "POST",
-//                url : "../register/regService?r=" + Math.random() + "&"
-//                    + location.search.substring(1),
-//                contentType : "application/x-www-form-urlencoded; charset=utf-8",
-//                data : $("#profile_form").serialize(),
-//                success : function(result) {
-//                    var result = {};
-//                    if (result) {
-//                        var obj = eval(result);
-//                        if (obj.info) {
-//                            //showMessage(obj.info);
-//                            console.log(obj.info);
-//                            verc();
-//                            $("#registsubmit").removeAttr("disabled").removeClass()
-//                                .addClass("btn-img btn-regist");
-//                            isSubmit = false;
-//                            return;
-//                        }
-//                        if (obj.noAuth) {
-//                            verc();
-//                            window.location = obj.noAuth;
-//                            return;
-//                        }
-//                        if (obj.success == true) {
-//                            window.location = obj.dispatchUrl;
-//                        }
-//                    }
-//                }
-//            });
     });
 
     //初始化表单
-    require(['jquery'], function($){
+    require(['jquery', 'routing'], function($, routing){
         //生日下拉框
         var birthdayY = $('#birthday_year'),
             birthdayM = $('#birthday_month'),
@@ -87,10 +61,9 @@ require(['../../config'],function(){
             return (year % 4 == 0 || (year % 100 == 0 && year % 400 == 0));
         }
         function addOption(selectbox, num, text) {
-            var option = $("<option></option>");
-            var str;
+            var str = '';
             for(var i = 0; i < num ; i++){
-                str += (option.attr('value', i).text(text[i]))[0].outerHTML;
+                str += '<option value="' + i + '">' + text[i] + '</option>';
             }
             selectbox.append(str);
         }
@@ -128,7 +101,6 @@ require(['../../config'],function(){
             // 添加天份，先默认31天
             addOption(birthdayD, 31, days);
         }
-        initOption();
         birthdayY.on('change', function(){
             setDays(birthdayY, birthdayM, birthdayD);
         });
@@ -136,57 +108,72 @@ require(['../../config'],function(){
             setDays(birthdayY, birthdayM, birthdayD);
         });
 
+        function addOptions(selectbox, text) {
+            var str = '';
+            for(var i = 0; i < text.length ; i++){
+                str += '<option value="' + text[i].id + '">' + text[i].name + '</option>';
+            }
+            selectbox.append(str);
+        }
         //居住地下拉框
         var addressProvince = $('#address_province'),
-            addressCity = $('#address_city');
-        var data = {province:['直辖市', '河北省'], city: [['上海','北京','天津','重庆'],['衡水市','石家庄市','唐山市','秦皇岛市','邯郸','邢台','保定','张家口市','承德市','沧州市','廊坊市'],[]]};
-        function initPro(){
-            addOption(addressProvince, data.province.length, data.province);
+            addressCity = $('#address_city'),
+            curProvince = $('#address_province').val();
+        function getCity(id){
+            $.ajax({
+                url: Routing.generate("_user_getCity", {"cid": id }),
+                type: "POST",
+                success:function(data){
+                    var str = '', citys = eval(data);
+                    for(var i = 0; i < citys.length ; i++){
+                        str += '<option value="' + citys[i].id + '">' + citys[i].cityName + '</option>';
+                    }
+                    addressCity.html(str);
+                }
+            });
         }
-        function initCity(){
-            addressCity.html('<option value="" selected="selected">地区</option>');
-        }
-        initPro();
-        function setCity(index){
-            if(addressCity.find('option').length > 1){
-                initCity();
-            }
-            addOption(addressCity, data.city[index].length, data.city[index]);
-        }
+        console.log(curProvince);
         addressProvince.on('change', function(){
-            if(addressProvince.find('option:selected').text() == '省、市'){
-                initCity();
-                return;
+            var id = $(this).val();
+            if(id == 0){
+                addressCity.html('<option value="0" selected="selected">地区</option>');
+                return false;
             }
-            setCity($(this).find('option:selected').index()-1);
+            getCity(id);
         });
-
-        //收入
-        var incomeSel = $('#income');
-        var incomeData = {income:['1000元-1999元', '2000元-2999元', '3000元-3999元', '32000元-35999元', '36000元以上']};
-        function initIncome(){
-            addOption(incomeSel, incomeData.income.length, incomeData.income);
-        }
-        initIncome();
 
         //工作
         var jobP = $('#job_profession'), jobC = $('#job_category'), jobD = $('#job_department');
-        var jobData = { profession:['公务员', '经营管理者', '公司职员（一般事务）', '公司职员（技术人员）', '公司职员（律师，医生等专业人士）', '军人'], category
-            : ['农业/水产', '金融（银行/证券/保险）', '计算机/IT/数据输入', '电子技术/半导体/集成电路', '会计/审计', '美容'], department: ['总务/人事/管理', '会计/财务', '销售', '公关/宣传', '规划', 'IT开发']};
-        function initJob(){
-            addOption(jobP, jobData.profession.length, jobData.profession);
-            addOption(jobC, jobData.category.length, jobData.category);
-            addOption(jobD, jobData.department.length, jobData.department);
-        }
-        initJob();
+        var jobData = { 'meta': {'code': 200, 'message': ''},'data':{ 'profession': [{ 'id': 1, 'name': '公务员'}, 
+        { 'id': 2, 'name': '经营管理者'}, { 'id': 3, 'name': '公司职员（一般事务）'}, { 'id': 4, 'name': '公司职员（技术人员）'}, 
+        { 'id': 5, 'name': '公司职员（律师，医生等专业人士）'}, { 'id': 6, 'name': '军人'}], 'category': [{'id': 1, 'name': '农业/水产'}, 
+        {'id': 2, 'name': '金融（银行/证券/保险）'}, {'id': 3, 'name': '计算机/IT/数据输入'}, {'id': 4, 'name': '电子技术/半导体/集成电路'},
+        {'id': 5, 'name': '会计/审计'}, {'id': 6, 'name': '美容'}], 'department': [{'id': 1, 'name': '总务/人事/管理'}, 
+        {'id': 2, 'name': '会计/财务'}, {'id': 3, 'name': '销售'}, {'id': 4, 'name': '公关/宣传'}, {'id': 5, 'name': '规划'}, {'id': 6, 'name': 'IT开发'}]}};    
+        function initJobData(){
+            addOptions(jobP, jobData.data.profession);
+            addOptions(jobC, jobData.data.category);
+            addOptions(jobD, jobData.data.department);
+        }        
 
         //教育程度
         var education = $('#education');
-        var educationData = { education:['高中以下', '高中毕业', '大专毕业', '大学本科毕业', '研究生，博士毕业']};
-        function initEducation(){
-            addOption(education, educationData.education.length, educationData.education);
+        var educationData = { 'meta': {'code': 200, 'message': ''},'data':{ 'education': [{ 'id': 1, 'name': '高中以下'}, 
+        { 'id': 2, 'name': '高中毕业'}, { 'id': 3, 'name': '大专毕业'}, { 'id': 4, 'name': '大学本科毕业'}, { 'id': 5, 'name': '研究生，博士毕业'}]}};
+
+        //没有填写过详细资料，初始化表单
+        function initForm(){
+            initOption();
+            initJobData();
+            addOptions(education, educationData.data.education);
         }
-        initEducation();
+
+        initForm();
+        var submitBtn = $('#profile_save');
+        submitBtn.on('click', function(){
+            console.log($('#profile_form').serialize());
+            $('#form1').submit();
+        });
     });
 
     //图像上传及裁切
@@ -212,33 +199,35 @@ require(['../../config'],function(){
             jQuery('#w').val(c.w);
             jQuery('#h').val(c.h);
         }
-        //$('#attachment').fileupload({
-        //    dataType: 'json',
-        //    done: function (e, data) {
-        //        if(data.result.substr(0,7)!='uploads'){
-        //            $(".errorInfo").html(data.result);
-        //        }else{
-                    //$(".img img").attr("src",path+data.result);
-        $('#attachment').on('change',function(){
-            var data = { result: "uploads\/user\/6\/1369644344.jpeg"},
-                path = '../../web/';
-            $('.picCut').show();
-            $(".imageInfo").html("<img src='"+path+data.result+"' id='target'/>");
-            $("#resizePath").val(data.result);
-            var Jcrop_api;
-            $('#target').Jcrop({
-                aspectRatio: 1,
-                onChange: showPreview,
-                onSelect: showPreview,
-                onSelect: updateCoords
-            },function(){
-                this.animateTo([0,0,256,256]);
-            });
-            $(".resizeimage").html("<img src='"+path+data.result+"' id='preview'/>");
-            $(".resizeSubmit").html("<input type='submit' value='上传图片' name='resize' class='resBtn'/><br/><input type='submit' value='取消上传' name='cancer' class='cancelBtn'/>");
+        $('#attachment').fileupload({
+           dataType: 'json',
+           done: function (e, data) {
+                console.log(data.result);
+                if(data.result.substr(0,7)!='uploads'){
+                   $(".errorInfo").html(data.result);
+                }else{
+                    $(".img img").attr("src",path+data.result);
+        // $('#attachment').on('change',function(){
+        //     var data = { result: "uploads\/user\/6\/1369644344.jpeg"},
+        //         path = '../../web/';
+                    var path = '../../web/';
+                    $('.picCut').show();
+                    $(".imageInfo").html("<img src='"+path+data.result+"' id='target'/>");
+                    $("#resizePath").val(data.result);
+                    var Jcrop_api;
+                    $('#target').Jcrop({
+                        aspectRatio: 1,
+                        onChange: showPreview,
+                        onSelect: showPreview,
+                        onSelect: updateCoords
+                    },function(){
+                        this.animateTo([0,0,256,256]);
+                    });
+                    $(".resizeimage").html("<img src='"+path+data.result+"' id='preview'/>");
+                    $(".resizeSubmit").html("<input type='submit' value='上传图片' name='resize' class='resBtn'/><br/><input type='submit' value='取消上传' name='cancer' class='cancelBtn'/>");
+        // });
+               }
+           }
         });
-        //        }
-        //    }
-        //});
     });
 });

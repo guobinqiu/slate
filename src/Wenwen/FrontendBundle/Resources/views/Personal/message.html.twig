@@ -14,7 +14,7 @@
 	{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
 	<div class="main-personal-right right">
 		<div class="main-personal-message">
-			<div class="btn tabNav"><span class="active">私信</span><span>系统</span><div class="border"></div></div>
+			<div class="btn tabNav"><a href="{{ path('_user_message',{'sid': 1}) }}" {% if sid == 1 %} class="active"{% endif %}>私信</a><a href="{{ path('_user_message',{'sid': 2}) }}" {% if sid == 2 %} class="active"{% endif %}>系统</a><div class="border"></div></div>
 			<div class="tabCon">
 				{% if sid == 1 %}
 				<div class="con">
@@ -32,6 +32,7 @@
 						{{ knp_pagination_render(pagination) }}
 					</div>
 				</div>
+				{% elseif sid == 2 %} 
 				<div class="con sys">
 					<ul>
 						{% if sendCb %}

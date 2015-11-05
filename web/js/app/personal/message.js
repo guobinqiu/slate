@@ -1,7 +1,7 @@
 require(['../../config'],function(){
     require(['common']);
     require(['jquery'],function($){
-       	var navLinks = $('.main-personal-message .btn span');
+       	var navLinks = $('.main-personal-message .btn a');
 	    var navSlider = $('.main-personal-message .btn .border');
 		var curIndex = navLinks.parent().find('.active').index();
 
