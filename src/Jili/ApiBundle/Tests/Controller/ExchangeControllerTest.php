@@ -162,4 +162,26 @@ class ExchangeControllerTest extends WebTestCase {
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
+
+    /**
+     * @group check_birthday
+     */
+    public function testBirthdayIsValid() {
+        $client = static :: createClient();
+        $container = $client->getContainer();
+        $controller = new ExchangeController();
+        $controller->setContainer($container);
+
+        $identityCard = '110912195602313734';
+        $return = $controller::birthdayIsValid($identityCard);
+        $this->assertFalse($return,'invalid birthday');
+
+        $identityCard = '110912295602313734';
+        $return = $controller::birthdayIsValid($identityCard);
+        $this->assertFalse($return,'birthday is after today');
+
+        $identityCard = '110912195602113734';
+        $return = $controller::birthdayIsValid($identityCard);
+        $this->assertTrue($return,'valid birthday');
+    }
 }
