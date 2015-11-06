@@ -173,7 +173,6 @@ class VoteController extends Controller
                 'id' => $vote_id
             )));
         }
-        $session->remove('csrf_token');
 
         //get vote
         $em = $this->getDoctrine()->getManager();
@@ -186,7 +185,6 @@ class VoteController extends Controller
 
         //check answer_number
         $stashData = $vote->getStashData();
-        $choices = $stashData['choices'];
         if (!array_key_exists($answer_number, $stashData['choices'])) {
             return $this->redirect($this->generateUrl('jili_frontend_vote_show', array (
                 'id' => $vote_id
@@ -253,7 +251,7 @@ class VoteController extends Controller
             $this->get('session')->getFlashBag()->add('error', '投票失败，内部出错');
             return $this->redirect($this->generateUrl('_default_error'));
         }
-
+        $session->remove('csrf_token');
         return $this->redirect($this->generateUrl('jili_frontend_vote_result', array (
             'id' => $vote_id
         )));

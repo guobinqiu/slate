@@ -177,35 +177,53 @@ class VoteControllerTest extends WebTestCase
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertRegExp('/\/vote\/index$/', $client->getResponse()->headers->get('location'), 'need vote_id');
 
-        $client->request('POST', $url, array (
+        $crawler = $client->request('POST', $url, array (
             'id' => 3
         ));
         $this->assertRegExp('/\/vote\/show\?id=3$/', $client->getResponse()->headers->get('location'), 'need answer_number');
 
-        $client->request('POST', $url, array (
-            'id' => 4,
-            'answer_number' => '1'
+        $crawler = $client->request('POST', $url, array (
+            'id' => 3,
+            'answer_number' => 1
         ));
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertRegExp('/\/vote\/result\?id=3$/', $client->getResponse()->headers->get('location'), 'check csrf_tokent');
+
+        $csrfProvider = new DefaultCsrfProvider('SECRET');
+        $csrf_token = $csrfProvider->generateCsrfToken('vote');
+        $session->set('csrf_token', $csrf_token);
+        $session->save();
+
+        $crawler = $client->request('POST', $url, array (
+            'id' => 4,
+            'answer_number' => 1,
+            'csrf_token' => $csrf_token
+        ));
+
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertRegExp('/\/vote\/index$/', $client->getResponse()->headers->get('location'), 'vote not exist');
 
-        $client->request('POST', $url, array (
+        $crawler = $client->request('POST', $url, array (
             'id' => 3,
-            'answer_number' => '6'
+            'answer_number' => 6,
+            'csrf_token' => $csrf_token
         ));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertRegExp('/\/vote\/show\?id=3$/', $client->getResponse()->headers->get('location'), 'invalid answer_number');
 
-        $client->request('POST', $url, array (
+        $crawler = $client->request('POST', $url, array (
             'id' => 1,
-            'answer_number' => '1'
+            'answer_number' => 1,
+            'csrf_token' => $csrf_token
         ));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $this->assertRegExp('/\/vote\/show\?id=3$/', $client->getResponse()->headers->get('location'), 'user has answered');
+        $this->assertRegExp('/\/vote\/show\?id=1$/', $client->getResponse()->headers->get('location'), 'user has answered');
 
-        $client->request('POST', $url, array (
+        $crawler = $client->request('POST', $url, array (
             'id' => 3,
-            'answer_number' => '1'
+            'answer_number' => 1,
+            'csrf_token' => $csrf_token
         ));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertRegExp('/\/vote\/result\?id=3$/', $client->getResponse()->headers->get('location'), 'answer success');
