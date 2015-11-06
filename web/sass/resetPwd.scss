@@ -63,7 +63,6 @@
 		width: 256px;
 	}
 	span{
-		margin-left: 26px;
 		line-height: 24px;
 		&.focus, &.error{
 			border: none;
@@ -71,6 +70,12 @@
 		}
 		&.error, strong{
 			color: $error-color;
+		}
+		strong{
+			&#second{
+				border: none;
+				background: none;
+			}
 		}
 		&.btn{
 			margin-top: 30px;
@@ -91,6 +96,11 @@
 				@include box-shadow(0 2px 0 #eee);
 				cursor: default;
 			}
+		}
+		.activeEmail{
+			font-size: 12px;
+			color: $main-title-color;
+			display: inline;
 		}
 	}
 }

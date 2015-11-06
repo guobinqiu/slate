@@ -19,7 +19,7 @@
         {% if app.session.has('uid') %}
         {% else %}  
         <div class="login-btn right">
-            <a href="{{ path('wenwen_frontend_user_register') }}" title="注册">注册</a>
+            <a href="{{ path('_user_reg') }}" title="注册">注册</a>
             <a href="{{ path('wenwen_frontend_home_home') }}" title="登录">登录</a>
         </div>
         {% endif %} 

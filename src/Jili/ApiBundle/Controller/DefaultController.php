@@ -618,7 +618,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/feedback/finished", name="_default_feedback_finished", requirements={"_scheme"="http"})
+     * @Route("/feedback/finished", name="_default_feedback_finished", requirements={"_scheme"="http"}, options={"expose"=true})
      */
     public function finishedAction()
     {

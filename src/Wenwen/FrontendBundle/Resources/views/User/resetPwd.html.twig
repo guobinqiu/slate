@@ -12,9 +12,17 @@
 {% block body %}
 <div class="main-con w1000">
 	<div class="form main-resetPwd">
+		{%  if codeflag==1 %}
+      	<div class="step3">
+			<div class="steps"><span>1 输入邮箱地址</span><span class="pass">2 重置密码</span><span class="last active">3 完成</span></div>
+			<div class="main-resetPwd-con">
+				<div><img src="{{ asset('img/common/success_email.png') }}" alt=""><span><b>密码修改成功！</b><a href="{{ path('wenwen_frontend_home_home') }}">回首页</a></span></div>
+			</div>
+		</div>
+      	{% endif %}
 		<div class="step2">
 			<div class="steps"><span class="pass">1 输入邮箱地址</span><span class="active">2 重置密码</span><span class="last">3 完成</span></div>
-			<form action="">
+			<form action="{{ path('_user_resetPass',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
 			<div class="main-resetPwd-con">
 				<ul>
 					<li>
@@ -26,7 +34,7 @@
 						<div class="prompt"><span id="pwdRepeat_succeed"></span><span id="pwdRepeat_error"></span></div>
 					</li>
 				</ul>
-				<a href="{{ path('wenwen_frontend_user_resetsuccess') }}"><span class="btn" id="savePwd">下一步</span></a>
+				<span class="btn" id="savePwd">下一步</span>
 			</div>
 			</form>
 		</div>

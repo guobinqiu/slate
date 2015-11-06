@@ -1015,11 +1015,12 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/resetPwd", name="_user_resetPwd")
+     * @Route("/resetPwd", name="_user_resetPwd", options={"expose"=true})
      */
     public function resetPwdAction()
     {
-        return $this->render('JiliApiBundle:User:resetPwd.html.twig');
+        // return $this->render('JiliApiBundle:User:resetPwd.html.twig');
+        return $this->render('WenwenFrontendBundle:User:resetPwdEmail.html.twig');
     }
 
     /**
@@ -1176,7 +1177,7 @@ class UserController extends Controller
     }
 
     /**
-	 * @Route("/reset", name="_user_reset")
+	 * @Route("/reset", name="_user_reset", options={"expose"=true})
 	 */
     public function resetAction()
     {
@@ -1276,7 +1277,8 @@ class UserController extends Controller
                     }
 
                 }
-                return $this->render('JiliApiBundle:User:resetPass.html.twig',$arr);
+                // return $this->render('JiliApiBundle:User:resetPass.html.twig',$arr);
+                return $this->render('WenwenFrontendBundle:User:resetPwd.html.twig',$arr);
             }
         }
     }
@@ -1314,7 +1316,7 @@ class UserController extends Controller
 
     }
     /**
-	 * @Route("/activeEmail/{email}", name="_user_activeEmail")
+	 * @Route("/activeEmail/{email}", name="_user_activeEmail", options={"expose"=true})
 	 */
     public function activeEmail($email)
     {
@@ -1378,7 +1380,7 @@ class UserController extends Controller
         $request = $this->get('request');
         $form = $this->createForm(new CaptchaType(), array());
         $email = $request->request->get('email');
-        $nick = $request->request->get('nick');
+        $nick = $request->request->get('regName');
         //获取签到积分
         $checkInLister = $this->get('check_in.listener');
         $checkInPoint = $checkInLister->getCheckinPointForReg($this->get('request'));
@@ -1462,7 +1464,8 @@ class UserController extends Controller
 //        } elseif( $request->getMethod()==='GET') {
 //             $this->get('user_sign_up_route.listener')->log( );
         }
-        return $this->render('JiliApiBundle:User:reg.html.twig',array(
+        
+        return $this->render('WenwenFrontendBundle:User:register.html.twig',array(
                 'form' => $form->createView(),
                 'code_nick'=>$code_nick,
                 'code_cha'=>$code_cha,

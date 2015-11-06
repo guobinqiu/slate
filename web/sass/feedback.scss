@@ -70,6 +70,12 @@ $input-border-normal: 1px solid #dcdcdc;
 			}
 		}
 	}
+	.sys_error{
+		color: #ff0000;
+		line-height: 24px;
+		padding-left: 235px;
+		margin-top: 20px;
+	}
 	.btn{
 		padding: 40px 0 20px 235px;
 		a{

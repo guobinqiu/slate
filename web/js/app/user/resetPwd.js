@@ -1,5 +1,5 @@
 require(['../../config'],function(){
-    require(['jquery', 'validate'], function($, rpaValidate){
+    require(['jquery', 'validate', , 'routing'], function($, rpaValidate, routing){
         var emailInput = $('#email'),
             emailSucceed = $('#email_succeed'),
             emailError = $('#email_error');
@@ -24,10 +24,14 @@ require(['../../config'],function(){
         function countdown(){
             if (seconds > 0) {
                 seconds = seconds - 1;
-                var second = Math.floor(seconds % 10);             // 计算秒
+                var second = Math.floor(seconds % 59);             // 计算秒
                 $("#second").html(second);
             } else {
-                $("#second").html('10');
+                if($("#secondNum").length > 0){
+                    $("#second").html(parseInt($("#secondNum").html()));    
+                }else{
+                    $("#second").html('59');    
+                }
                 $('#sendEmail').removeClass('disabled');
                 emailSucceed.removeClass();
                 clearInterval(s);
@@ -41,30 +45,32 @@ require(['../../config'],function(){
                 eError('请输入有效的邮箱地址');
                 return false;
             }
-//            $.ajax({
-//                url: "{{ path('_user_reset') }}?email="+$('#email').val(),
-//                post: "GET",
-//                success:function(data){
-                    var data = 1;
+            $.ajax({
+               url: Routing.generate("_user_reset", {"email": $('#email').val() }),
+               post: "GET",
+               success:function(data){
                     if(data==1){
                         $('#email').val('');
-                        seconds = 10;
+                        if($("#secondNum").length > 0){
+                            seconds = parseInt($("#secondNum").val());
+                        }else{
+                            seconds = 59;
+                        }
                         s = setInterval(countdown, 1000);
-                        eSucceed('重置密码邮件已经发送至您的邮箱，<strong id="second">10</strong>秒后可重新发送。');
+                        eSucceed('重置密码邮件已经发送至您的邮箱，<strong id="second">'+ seconds +'</strong>秒后可重新发送。');
                         sendEmail.addClass('disabled').html('重新发送');
                         sendEmail.onclick = null;
                     }else if(data==2){
                         var email = $('#email').val();
-                        //var url = "{{ path('_user_activeEmail',{'email': "email" }) }}";
-                        var url = "http://www.91jili.com";
+                        var url = Routing.generate("_user_activeEmail", {"email": email });
                         url = url.replace('email',encodeURIComponent( email));
-                        var html = "<p>邮箱地址未激活，请重新<a href='"+url+"'>激活</a></p>";
-                        message.show().html(html);
+                        eError('邮箱地址未激活，请重新<a href="'+url+'" class="activeEmail">激活</a>');
                     }else{
                         $('#email').val('');
+                        eError(data);
                     }
-//                }
-//            });
+               }
+           });
         }
         var sendEmail = $('#sendEmail');
         sendEmail.on('click', function(){
@@ -92,6 +98,7 @@ require(['../../config'],function(){
         savePwd.on('click', function(){
             $("#pwd").bind("keyup", function(){ rpaValidate.func.pwdStrength(); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
             $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat, true);
+            $("#form1").submit();
         });
         $("#pwd").bind("keyup", function(){ rpaValidate.func.pwdStrength(); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
         $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);

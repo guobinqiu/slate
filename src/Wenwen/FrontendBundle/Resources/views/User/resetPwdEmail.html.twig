@@ -14,14 +14,13 @@
 	<div class="form main-resetPwd">
 		<div class="step1">
 			<div class="steps"><span class="active">1 输入邮箱地址</span><span>2 重置密码</span><span class="last">3 完成</span></div>
-			<form action="">
 			<div class="main-resetPwd-con">
 				<div class="title">请输入您注册时填写的邮箱</div>
 				<div><input type="text" id="email" name="email"></div>
 				<div class="prompt"><span id="email_succeed"></span><span id="email_error"></span></div>
-				<a href="{{ path('wenwen_frontend_user_resetpwd') }}"><span class="btn" id="sendEmail">下一步</span></a>
+				<span class="btn" id="sendEmail">下一步</span>
+				<input type="hidden" id="secondNum" value="59"/>
 			</div>
-			</form>
 		</div>
 	</div>
 </div>
