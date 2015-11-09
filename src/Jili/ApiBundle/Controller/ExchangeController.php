@@ -1196,8 +1196,8 @@ class  ExchangeController extends Controller
         $arr['user'] = $request->getSession()->get('flow_user');
 
         //用户选择的流量包信息
-        $selected_flow =  $request->request->get('flow_list');
-        $arr['mobile_info'] = $this->get('request')->getSession()->get('mobile_info');+
+        $selected_flow =  $request->request->get('rechange');
+        $arr['mobile_info'] = $this->get('request')->getSession()->get('mobile_info');
         $change_point = $arr['mobile_info']['product_list'][$selected_flow]['change_point'];
 
         //check 分数

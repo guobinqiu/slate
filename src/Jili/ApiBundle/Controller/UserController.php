@@ -1247,7 +1247,7 @@ class UserController extends Controller
             if($setPasswordCode->getCode() == $code){
                 $request = $this->get('request');
                 $pwd = $request->request->get('pwd');
-                $newPwd = $request->request->get('newPwd');
+                $newPwd = $request->request->get('pwdRepeat');
                 if ($request->getMethod() == 'POST'){
                     if($pwd){
                         if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
@@ -1650,7 +1650,8 @@ class UserController extends Controller
         $vars['pwdcode'] = $passwordToken;
         $vars['user'] = $user;
 
-        return $this->render('JiliApiBundle:User:signup_activate.html.twig',$vars);
+        // return $this->render('JiliApiBundle:User:signup_activate.html.twig',$vars);
+        return $this->render('WenwenFrontendBundle:User:active.html.twig',$vars);
     }
 
     /**

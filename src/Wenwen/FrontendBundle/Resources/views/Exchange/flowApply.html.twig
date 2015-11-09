@@ -31,7 +31,7 @@
 				<li>
 					<label for="money">选择兑换流量：</label>
 					{% for item in mobile_info.product_list %}
-					<span class="option">{{ item.packagesize }}M<div class="points">{{ item.change_point }}积分</div></span>
+					<span class="option" value="{{ loop.index0 }}">{{ item.packagesize }}M<div class="points">{{ item.change_point }}积分</div></span>
 					{% endfor %}
 					<span id="money_succeed"></span>
 					<span id="money_error"></span>
@@ -41,14 +41,15 @@
 				<div class="text">本次充值所需积分：<strong id="need">2050</strong>兑换后剩余积分：<strong id="rest">3028</strong></div>
 			</div>
 			<div class="backError">{% if code is defined %}{{code}}{% endif %}</div>
-			<div class="btn"><a href="{{ path('wenwen_frontend_exchange_flowinfo') }}" ><span class="return">返回</span></a><span id="mobile_save">提交</span></div>
+			<div class="btn"><a href="{{ path('_exchange_flowInfo') }}" ><span class="return">返回</span></a><span id="mobile_save">提交</span></div>
+			<input type="hidden" name="curPoints" id="curPoints" value="{{ user.points }}"/>
 			<input type="hidden" name="custom_product_id" id="custom_product_id"/>
 			<input type="hidden" name="rechange" id="changes"/>
 			<input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
     		</form>
     		<div class="tips">
     			{% if(mobile_info.provider =='移动') %}
-    			<div class="mobile hide">
+    			<div class="mobile">
         			<h3>中国移动用户充流量说明：</h3>
                     <p><em>•</em>生效时间：充值成功，短信提示后，立即生效。<br/>
                     <em>•</em>使用范围：全国移动用户，全国漫游。<br/>
@@ -63,7 +64,7 @@
         			<p><em>●</em>生效时间：充值成功，短信提示后，立即生效。<br><em>●</em>使用范围：支持全国漫游。用户包括2G手机套餐（除北京、四川、河北、黑龙江、辽宁、广西、江西、天津、云南、吉林、安徽、海南）、3G手机套餐（不含20元预付费套餐）、4G手机套餐。<br><em>●</em>使用有效期：当月有效。<br><em>●</em>充值次数限制：单个号码每月每类包仅限充值3次。<br><em>●</em>温馨提醒：月末最后一天建议不要充值。</p>
     			</div>
     			{% elseif(mobile_info.provider =='电信')%}
-    			<div class="telecom hide">
+    			<div class="telecom">
         			<h3>中国电信用户充流量说明：</h3>
                     <p><em>•</em>生效时间：充值成功，短信提示后，立即生效。<br/>
                     <em>•</em>使用范围：支持全国漫游（除陕西），全国电信用户均可充值。<br/>

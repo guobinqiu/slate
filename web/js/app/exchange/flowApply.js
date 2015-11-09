@@ -4,7 +4,9 @@ require(['../../config'],function(){
         var mobileSave = $('#mobile_save'),
             moneySucceed = $('#money_succeed'),
             moneyError = $('#money_error');
-        var exchangeOptions = {option: '.option', need: '#need', rest: '#rest', money: '#money', saveBtn: '#mobile_save'};
+        var curPoints = $('#curPoints').val();
+        console.log('获取用户当前积分：'+ curPoints);
+        var exchangeOptions = {option: '.option', need: '#need', rest: '#rest', money: '#money', points: curPoints, saveBtn: '#mobile_save'};
         function validateMoney(){
             var moneyInput = $('#money');
             if(moneyInput.length != 0){
@@ -41,9 +43,8 @@ require(['../../config'],function(){
                 if(!validateMoney()){ return false;}
                 console.log('可以提交了！');
                 //获取当前选择的选项内容
-                var selOption = $('#money').find('.points').text();
-                var selNum = selOption.substr(0, selOption.indexOf('积分'));
-                $('#changes').val(selNum);
+                var selOption = $('#money').attr('value');
+                $('#changes').val(selOption);
                 $("#form1").submit();
                 //ajax
             });
