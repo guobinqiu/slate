@@ -8,18 +8,12 @@
 
 
 {% block body%}
-    <table align="center" width="402">
-
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-<tr>
-    <td colSpan='2'>
-        {{ rebate_notice|raw }}
-    </td>
-</tr>
-
-    <tr><td colspan="2">&nbsp;</td></tr>
-
+    <table align="center" width="402" class="list">
+        <tr>
+            <td colSpan='2'>
+                {{ rebate_notice|raw }}
+            </td>
+        </tr>
     <form  method="POST" action="{{ path('jili_backend_rebateactivity_caculator')}}">
         <tr>
             <td>{{ form_label( form.point) }}</td>
@@ -40,6 +34,6 @@
 {% endif %}
 
     </table>
-    <tr><td>&nbsp;</td><td><input type="submit" value='Caculate' /></td></tr>
+    <div class="tips"><input type="submit" value='Caculate' /></div>
 </form>
 {% endblock %}

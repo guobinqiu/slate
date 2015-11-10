@@ -26,11 +26,11 @@ require(['../../config'],function(){
                 url: Routing.generate("_exchange_issetIdent"),
                 post: "GET",
                 success:function(data){
-                  // if(data==1){
+                  if(data==1){
                     exchangeForm.attr("action", Routing.generate("_exchange_alipayInfo"));
-                  // }else{
-                  //   exchangeForm.attr("action", Routing.generate("_exchange_identityCardComfirm",{"type": "alipay"}));
-                  // }
+                  }else{
+                    exchangeForm.attr("action", Routing.generate("_exchange_identityCardComfirm",{"type": "alipay"}));
+                  }
                   exchangeForm.submit();
                 }
             });

@@ -1,9 +1,11 @@
 {% extends '::base.html.twig' %}
-
+{% block stylesheets %}
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+{% endblock %}
 {% block body -%}
     <h1>EmarWebsitesCroned</h1>
 
-    <table class="record_properties">
+    <table class="record_properties list">
         <tbody>
             <tr>
                 <th>Webid</th>

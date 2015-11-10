@@ -1,14 +1,13 @@
 {% extends '::adminBase.html.twig' %}
-
+{% block stylesheets %}
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+{% endblock %}
 
 {% block body -%}
 
 {{ render( controller('JiliEmarBundle:AdminWebsites:detail', { 'wid': entity.webId } ) ) }}
-<table align='center'>
-<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td cols="2"><h1>商家详细</h1></td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-
+<h1 align="center">商家详细</h1>
+    <table align='center' class="list">
         <tbody>
             <tr>
                 <th>Webid</th>
@@ -41,7 +40,7 @@
         </tbody>
     </table>
 
-        <ul class="record_actions">
+        <ul class="record_actions tips">
     <li>
         <a href="{{ path('admin_emar_websites') }}">
             Back to the list

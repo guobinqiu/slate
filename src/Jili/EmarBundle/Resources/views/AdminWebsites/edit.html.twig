@@ -6,12 +6,8 @@
 {% form_theme edit_form 'form_table_layout.html.twig' %}    
 
 {{ render( controller('JiliEmarBundle:AdminWebsites:detail', { 'wid': entity.webId } ) ) }}
-
-<table align='center'>
-<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td cols="2"><h1>EmarWebsites edit</h1></td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-    
+<h1 align='center'>EmarWebsites edit</h1>
+<table align='center' class="search">
     <form action="{{ path('admin_emar_websites_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
 
@@ -39,7 +35,7 @@
 </table>
 
 
-<ul class="record_actions">
+<ul class="record_actions tips">
     <li>
         <a href="{{ path('admin_emar_websites') }}">
             Back to the list

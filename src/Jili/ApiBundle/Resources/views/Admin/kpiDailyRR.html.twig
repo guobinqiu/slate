@@ -17,8 +17,8 @@ $(document).ready(function(){
 </script>
 </HEAD>
 <BODY>
-<p>注：默认开始时间为昨天</p>
-<table align="center" width="">
+<p class="tips">注：默认开始时间为昨天</p>
+<table align="center" width="" class="search">
     <form action="{{ path('_admin_kpiDailyRR')}}" method="post" id="form1"}} >
     <tr>
         <td colspan="7" align="center">&nbsp;</td>
@@ -30,16 +30,12 @@ $(document).ready(function(){
     </tr>
     </form>
  </table>
-   
-   <table align="left" width="" border="0"> 
+   <table align="center" width="" border="0" class="list"> 
     <tr>
         <td>{{ kpiYMD }}&nbsp;</td>
     </tr>
     <tr>
-        <td>&nbsp;</td>
-    </tr>
-    <tr>
-        <th align="left">RR_day</th>
+        <td align="left">RR_day</td>
         {% if kpi %}
         {% for item in kpi.rrday %}
         <td align="left">{{ item }}</td>
@@ -47,7 +43,7 @@ $(document).ready(function(){
         {% endif %}
     </tr>
     <tr>
-        <th align="left">register_YMD</th>
+        <td align="left">register_YMD</td>
         {% if kpi %}
         {% for item in kpi.registerYMD %}
         <td align="left">{{ item|date("m/d") }}</td>
@@ -55,7 +51,7 @@ $(document).ready(function(){
         {% endif %}
     </tr>
     <tr>
-        <th align="left">register_user</th>
+        <td align="left">register_user</td>
         {% if kpi %}
         {% for item in kpi.registerUser %}
         <td align="left">{{ item }}</td>
@@ -63,7 +59,7 @@ $(document).ready(function(){
         {% endif %}
     </tr>
     <tr>
-        <th align="left">active_user</th>
+        <td align="left">active_user</td>
         {% if kpi %}
         {% for item in kpi.activeUser %}
         <td align="left">{{ item }}</td>
@@ -71,7 +67,7 @@ $(document).ready(function(){
         {% endif %}
     </tr>
     <tr>
-        <th align="left">RR</th>
+        <td align="left">RR</td>
         {% if kpi %}
         {% for item in kpi.rr %}
         <td align="left">{{ item }}</td>

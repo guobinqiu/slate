@@ -801,6 +801,7 @@ class UserController extends Controller
         $exchange = $exchange->getUserExchange($id,$option_ex);
         $exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenByIdMaxTen($id);
         $sex = $request->request->get('sex');
+        $tel = $request->request->get('tel');
         $year = $request->request->get('year');
         $month = $request->request->get('month');
         $day = $request->request->get('day');

@@ -21,8 +21,7 @@
 
 <form  method="POST" action="{{ path('jili_backend_analogofferwow_api')}}">
 
-    <table align="center" width="1024">
-
+    <table align="center" width="1024" class="test">
         <tr>
             <td>memberid</td>
             <td><input name="memberid" type="text" /></td>
@@ -41,8 +40,7 @@
             <td>eventid</td>
             <td><input name="eventid" type="text" /></td>
         </tr>
-
+        <tr><td>&nbsp;</td><td><input type="submit" value='submit' /></td></tr>
     </table>
-    <tr><td>&nbsp;</td><td><input type="submit" value='submit' /></td></tr>
 </form>
 {% endblock %}

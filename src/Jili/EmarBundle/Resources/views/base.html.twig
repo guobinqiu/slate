@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
 {% block stylesheets %}
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
 {% endblock %}
 
 {% block javascirpts %}
-    <script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('js/lib/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
 {% endblock %}
 
 </head>

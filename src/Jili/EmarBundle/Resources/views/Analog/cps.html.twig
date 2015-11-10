@@ -41,101 +41,98 @@
 
 <form  method="POST" action="{{ path('jili_emar_analog_cps')}}">
 
-    <table align="center" width="1024">
+<table align="center" width="1024" class="test">
+    <tr>
+        <td>unique_id</td>
+        <td><input name="unique_id" type="text" value="null" /></td>
+    </tr>
+    <tr>
+        <td>create_date</td>
+        <td><input name="create_date" type="text" value="null" /></td>
+    </tr>
 
-        <tr>
-            <td>unique_id</td>
-            <td><input name="unique_id" type="text" value="null" /></td>
-        </tr>
-        <tr>
-            <td>create_date</td>
-            <td><input name="create_date" type="text" value="null" /></td>
-        </tr>
+    <tr>
+        <td>action_id</td>
+        <td><input name="action_id" type="text" /></td>
+    </tr>
 
-        <tr>
-            <td>action_id</td>
-            <td><input name="action_id" type="text" /></td>
-        </tr>
-
-        <tr>
-            <td>action_name</td>
-            <td><input name="action_name" type="text" /></td>
-        </tr>
+    <tr>
+        <td>action_name</td>
+        <td><input name="action_name" type="text" /></td>
+    </tr>
 
 
-        <tr>
-            <td>sid</td>
-            <td><input name="sid" type="text"  value="null" /></td>
-        </tr>
+    <tr>
+        <td>sid</td>
+        <td><input name="sid" type="text"  value="null" /></td>
+    </tr>
 
-        <tr>
-            <td>wid</td>
-            <td><input name="wid" type="text" value="null" /></td>
-        </tr>
-
- 
-<tr>
-    <td>Order no</td>
-    <td><input name="order_no" type="text" /></td>
-</tr>
-<tr>
-    <td>Order Time</td>
-    <td><input name="order_time" type="text" value="null" /></td>
-</tr>
-<tr>
-    <td>Prod Id</td>
-    <td><input name="prod_id" type="text" value="null" /></td>
-</tr>
-<tr>
-    <td>Prod Name</td>
-    <td><input name="prod_name" type="text" value="null" /></td>
-</tr>
-<tr>
-    <td>Prod count</td>
-    <td><input name="prod_count" type="text" value="1" /></td>
-</tr>
-<tr>
-    <td>Prod Money</td>
-    <td><input name="prod_money" type="text" value="12.0" /></td>
-</tr>
-<tr>
-    <td>FeedBack(userid)</td>
-    <td><input name="feed_back" type="text" /></td>
-</tr>
-<tr>
-    <td>Status</td>
-    <td><input name="status" type="text" value="R" /></td>
-</tr>
-<tr>
-    <td>comm_type</td>
-    <td><input name="comm_type" type="text" value="0" /></td>
-</tr>
-<tr>
-    <td>commision</td>
-    <td>
-        <input name="commision" type="text" value="0.0" />
-    </td>
-</tr>
-{#
-    tr>td,td>input[type=text][name=chkcode]
-#}
-<tr>
-    <td>Prod Type</td>
-    <td>
-        <input name="prod_type" type="text" value="0" />
-    </td>
-</tr>
-<tr>
-    <td>Amount</td>
-    <td><input name="am" type="text" value="0.0" /></td>
-</tr>
-<tr>
-    <td>Exchange rate</td>
-    <td>
-        <input name="exchange_rate" type="text" value="0.0" />
-        <value></value>
-    </td>
-</tr>
+    <tr>
+        <td>wid</td>
+        <td><input name="wid" type="text" value="null" /></td>
+    </tr> 
+    <tr>
+        <td>Order no</td>
+        <td><input name="order_no" type="text" /></td>
+    </tr>
+    <tr>
+        <td>Order Time</td>
+        <td><input name="order_time" type="text" value="null" /></td>
+    </tr>
+    <tr>
+        <td>Prod Id</td>
+        <td><input name="prod_id" type="text" value="null" /></td>
+    </tr>
+    <tr>
+        <td>Prod Name</td>
+        <td><input name="prod_name" type="text" value="null" /></td>
+    </tr>
+    <tr>
+        <td>Prod count</td>
+        <td><input name="prod_count" type="text" value="1" /></td>
+    </tr>
+    <tr>
+        <td>Prod Money</td>
+        <td><input name="prod_money" type="text" value="12.0" /></td>
+    </tr>
+    <tr>
+        <td>FeedBack(userid)</td>
+        <td><input name="feed_back" type="text" /></td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td><input name="status" type="text" value="R" /></td>
+    </tr>
+    <tr>
+        <td>comm_type</td>
+        <td><input name="comm_type" type="text" value="0" /></td>
+    </tr>
+    <tr>
+        <td>commision</td>
+        <td>
+            <input name="commision" type="text" value="0.0" />
+        </td>
+    </tr>
+    {#
+        tr>td,td>input[type=text][name=chkcode]
+    #}
+    <tr>
+        <td>Prod Type</td>
+        <td>
+            <input name="prod_type" type="text" value="0" />
+        </td>
+    </tr>
+    <tr>
+        <td>Amount</td>
+        <td><input name="am" type="text" value="0.0" /></td>
+    </tr>
+    <tr>
+        <td>Exchange rate</td>
+        <td>
+            <input name="exchange_rate" type="text" value="0.0" />
+            <value></value>
+        </td>
+    </tr>
     <tr><td>&nbsp;</td><td><input type="submit" value='submit' /></td></tr>
     <tr>
         <td></td>

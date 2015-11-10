@@ -35,6 +35,7 @@ require(['../../config'],function(){
                     return false;
                 }
                 console.log('可以提交了！');
+                $("#form1").submit();
                 //ajax
             });
         }

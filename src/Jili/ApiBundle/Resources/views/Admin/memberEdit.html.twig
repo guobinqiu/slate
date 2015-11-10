@@ -27,7 +27,7 @@ $(document).ready(function(){
 </STYLE>
 
 <form action="{{ path('_admin_member_edit')}}" method="post" id="form1">
-   <table border="1px" cellspacing="0px" class="member_table"> 
+   <table border="1px" cellspacing="0px" class="member_table list"> 
     <tr>
         <th>user id</th>
         <td width="350px;">{{ member.id }}&nbsp;<input type="hidden" id="id" name="user_id" value="{{ member.id }}"></td>
@@ -72,7 +72,7 @@ $(document).ready(function(){
     {% endfor %}
 {% endif %}
 
-<input type="submit" id="edit" name="edit" value="编辑" style="margin-left: 100px;"/>
+<input type="submit" id="edit" name="edit" value="编辑" style="margin-left: 10%;"/>
 
 </BODY>
 </HTML>

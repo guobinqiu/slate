@@ -29,8 +29,8 @@ $(document).ready(function(){
 -->
 </STYLE>
 
-<table>
-    <form action="{{ path('_admin_member')}}" method="post" id="form1"}} >
+<table align="center" class="search">
+    <form action="{{ path('_admin_member')}}" method="post" id="form1" >
     <tr>
         <td colspan="7" align="center">&nbsp;</td>
     </tr>
@@ -44,7 +44,7 @@ $(document).ready(function(){
     </form>
  </table>
  {% if member %}
-   <table border="1px" cellspacing="0px" class="member_table">
+   <table border="1px" cellspacing="0px" class="member_table list">
     <tr>
         <th>user id</th>
         <td width="350px;">{{ member.id }}
@@ -83,7 +83,7 @@ $(document).ready(function(){
         <td>{{ member.deleteFlag }}&nbsp;</td>
     </tr>
 </table>
-<input type="button" id="edit" name="edit" value="编辑" style="margin-left: 100px;"/>
+<input type="button" id="edit" name="edit" value="编辑" style="margin-left: 10%;"/>
 {% endif %}
 
 </BODY>

@@ -583,8 +583,8 @@ class  ExchangeController extends Controller
             $id = $this->get('request')->getSession()->get('uid');
             $request = $this->get('request');
             $identityCard =  $request->request->get('idCard');
-
             $tokenKey = $request->request->get('tokenKey');
+            
             $arr['tokenKey'] = $tokenKey;
             $session = $this->getRequest()->getSession();
             $session->set('alipayToken', $tokenKey);
