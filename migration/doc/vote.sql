@@ -7,7 +7,6 @@ CREATE TABLE `vote` (
    `point_value` int(11) DEFAULT NULL,
    `stash_data` text,
    `vote_image` varchar(255) DEFAULT NULL,
-   `delete_flag` tinyint(1) DEFAULT NULL,
    `updated_at` datetime DEFAULT NULL,
    `created_at` datetime DEFAULT NULL,
    PRIMARY KEY (`id`)
