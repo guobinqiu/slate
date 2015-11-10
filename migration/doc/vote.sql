@@ -24,15 +24,3 @@ CREATE TABLE `vote_answer` (
    KEY `vote_id` (`vote_id`)
  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
--- for import data
-CREATE TABLE `vote_answer_result` (
-   `id` int(11) NOT NULL AUTO_INCREMENT,
-   `vote_id` int(11) NOT NULL,
-   `answer_number` tinyint(4) NOT NULL,
-   `answer_count` int(11) DEFAULT NULL,
-   `updated_at` datetime DEFAULT NULL,
-   `created_at` datetime DEFAULT NULL,
-   PRIMARY KEY (`id`),
-   UNIQUE KEY `vote_id` (`vote_id`,`answer_number`)
- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
