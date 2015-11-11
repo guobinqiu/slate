@@ -61,10 +61,12 @@
             <td><input type="submit" value="create" /></td>
         </tr>
     </table>
+    <div class="tips">
     {% if error_meeeages is defined %}
     {% for error_meeeage in error_meeeages %}
      <center><font color='red'>{{ error_meeeage }}</font></center>
     {% endfor %}
     {%endif%}
+    </div>
 </form>
 {% endblock %}

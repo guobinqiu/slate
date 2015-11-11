@@ -52,15 +52,15 @@
 			<h2><span>返利流程</span></h2>
 			<div class="con clearfix">
 				<div class="step">
-					<img src="{{ asset('img/advertisement/flow1.png') }}" alt="">
+					<img src="{{ asset('img/advertisement/flow1.png') }}" alt="登录网站">
 					<p>登录网站</p>
 				</div>
 				<div class="step">
-					<img src="{{ asset('img/advertisement/flow2.png') }}" alt="">
+					<img src="{{ asset('img/advertisement/flow2.png') }}" alt="商家购物">
 					<p>商家购物</p>
 				</div>
 				<div class="step last">
-					<img src="{{ asset('img/advertisement/flow3.png') }}" alt="">
+					<img src="{{ asset('img/advertisement/flow3.png') }}" alt="订单生效，积分到账">
 					<p>订单生效，积分到账</p>
 				</div>
 			</div>
@@ -72,7 +72,7 @@
 			<h2>同类商家推荐</h2>
 			<ul class="similar-shops clearfix">
 				{% for row in same_cat_websites %}
-				<li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}"><img src="{{asset('img/website_logos/'~row.hostHashAsLogoName~'.jpg')}}" alt="">{%if row.max_commission is defined %}<div>最高返<b>{{row.max_commission}}%</b></div>{%endif%}</a></li>
+				<li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}"><img src="{{asset('img/website_logos/'~row.hostHashAsLogoName~'.jpg')}}" alt="{{ row.websiteName }}">{%if row.max_commission is defined %}<div>最高返<b>{{row.max_commission}}%</b></div>{%endif%}</a></li>
 				{% endfor %}
 			</ul>
 		</div>

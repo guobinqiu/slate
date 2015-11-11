@@ -1,10 +1,10 @@
 {% block stylesheets %}
-<link href="{{ asset('css/pagenav.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/admin.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-</script>
-<h2>実施予定の設問</h2>
-<table>
+<h2 align="center">実施予定の設問</h2>
+<table class="list">
     <tr>
         <th>时间</th>
         <th>ID</th>
@@ -26,15 +26,17 @@
     {% endfor %}
     {% endif %}
     <tr>
-    <td colspan="5">
-    {% if paging %}
-    {% if pagination is defined %}{{ knp_pagination_render(pagination) }}{%endif %}
-    {% else %}
-    <a href="{{ path('_admin_vote_reserveList', {'paging': true}) }}">more</a>
-    {% endif %}
-    </td>
+      <td colspan="5" align="right">
+      {% if paging %}
+      {% if pagination is defined %}{{ knp_pagination_render(pagination) }}{%endif %}
+      {% else %}
+      <a href="{{ path('_admin_vote_reserveList', {'paging': true}) }}">more</a>
+      {% endif %}
+      </td>
     </tr>
 </table>
+<div class="tips">
 <form method="post" name="form"  action="{{ path('_admin_vote_edit') }}">
     <input type="submit" value="create" name="addBtn" id="addBtn" />
 </form>
+</div>

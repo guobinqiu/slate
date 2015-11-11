@@ -16,6 +16,9 @@ table{
   font-size: 12px;
   font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
 }
+th{
+  background-color: #f6f6f6;
+}
 table.menu table{
   margin-bottom: 5px;
 }
@@ -90,7 +93,7 @@ table.search{
 ul.tips{
   list-style: none;
 }
-h1, h3{
+h1, h2, h3{
   margin-top: 10px;
 }
 A:link {

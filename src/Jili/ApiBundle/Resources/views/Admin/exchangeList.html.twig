@@ -20,12 +20,9 @@ $(document).ready(function(){
 </script>
 </HEAD>
 <BODY>
-<form action="{{ path('_admin_exchange_list')}}" method="post" id="form1"}} >
-<table align="center" width="1024">
-<tr><td colspan="12">&nbsp;</td></tr>
-<tr><td colspan="12">&nbsp;</td></tr>
-<!-- {{ start }}-->
-<!-- {{ end }}-->
+<form action="{{ path('_admin_exchange_list')}}" method="post" id="form1" >
+<table align="center" width="1024" class="search">
+<tr><td colspan="7">&nbsp;</td></tr>
 <tr><td colspan="12" align="center">
         兑换开始时间:<input id="start" name="start_time" value="{% if start is defined %}{{ start }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()"  class="Wdate" style="cursor:pointer"/>
         &nbsp;
@@ -38,7 +35,8 @@ $(document).ready(function(){
                     </select>
 <type type="hidden" id="hided" />
                     <input type="button" id="select" name="select" value="查 询"/>&nbsp;<input type="submit" id="add" name="add" value="导出兑换数据"/></td></tr>
-<tr><td colspan="12">&nbsp;</td></tr>
+  </table>
+  <table align="center" width="1024" class="list">
     	<tr>
         	<th>exchangeAccount</th>
         	<th>oppositeAccount</th>
@@ -73,6 +71,7 @@ $(document).ready(function(){
             {% elseif item.exType == 4 %}
                  <td align="center">{{ item.exchangeItemNumber }}</td>
             {% else %}
+                <td align="center"></td>
             {% endif %}
 
             {% if item.exType == 1 %}
@@ -84,6 +83,7 @@ $(document).ready(function(){
             {% elseif item.exType == 4 %}
                  <td align="center">mobile</td>
            {% else %}
+                  <td align="center"></td>
            {% endif %}
 
            <td align="center">{% if item.status==1 %}success{% elseif  item.status==2 %}fail{% else %}audit{% endif %}</td>
@@ -102,7 +102,7 @@ $(document).ready(function(){
     </table></form>
 
         {% if pagination is defined %}
-        <div class="pagnation-nav">
+        <div class="pagnation-nav tips">
         {% if 0 < pages %}
                   <a href="{{ path('_admin_exchange_list') }}?start={{start}}&end={{end }}&exType={{ exType}}&page=1">首页</a>&nbsp;
                   {% if 1 < page %}

@@ -19,10 +19,10 @@ Taobao自助推广列表-{{ parent() }}
 
 {% include("JiliBackendBundle::session_notification.html.twig") %}
 
-<table>
+<table class="list">
     <tr>
-        <td>商品title</td>
-        <td>操作</td>
+        <th>商品title</th>
+        <th>操作</th>
     </tr>
 
 {% for entity in entities %}

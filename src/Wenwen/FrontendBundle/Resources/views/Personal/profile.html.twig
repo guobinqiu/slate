@@ -18,7 +18,7 @@
 			<div class="profile-base">
 				<h3>基本信息</h3>
 				<div class="con clearfix">
-					<div class="face left"><div class="face-wapper">{% if user.iconPath %}<img src='{{ asset(user.iconPath) }}'/>{% else %}<img src="{{ asset('img/common/default_tx.png') }}" alt="">{% endif %}</div><label class="set" for="attachment">设置头像</label><input type="file" id="attachment" name="attachment"><p class="errorInfo"></p></div>
+					<div class="face left"><div class="face-wapper">{% if user.iconPath %}<img src='{{ asset(user.iconPath) }}'/>{% else %}<img src="{{ asset('img/common/default_tx.png') }}" alt="头像">{% endif %}</div><label class="set" for="attachment">设置头像</label><input type="file" id="attachment" name="attachment"><p class="errorInfo"></p></div>
 					<form action="" id="regName_form" name="regName_form">
 					<ul class="form text left">
 						<li>
