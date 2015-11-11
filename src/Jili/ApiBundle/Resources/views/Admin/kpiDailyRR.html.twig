@@ -30,12 +30,10 @@ $(document).ready(function(){
     </tr>
     </form>
  </table>
-   <table align="center" width="" border="0" class="list"> 
+<h3 align="center">{{ kpiYMD }}&nbsp;</h3>
+   <table align="center" width="100%" border="0" class="list"> 
     <tr>
-        <td>{{ kpiYMD }}&nbsp;</td>
-    </tr>
-    <tr>
-        <td align="left">RR_day</td>
+        <th align="left">RR_day</th>
         {% if kpi %}
         {% for item in kpi.rrday %}
         <td align="left">{{ item }}</td>
@@ -43,7 +41,7 @@ $(document).ready(function(){
         {% endif %}
     </tr>
     <tr>
-        <td align="left">register_YMD</td>
+        <th align="left">register_YMD</th>
         {% if kpi %}
         {% for item in kpi.registerYMD %}
         <td align="left">{{ item|date("m/d") }}</td>
@@ -51,7 +49,7 @@ $(document).ready(function(){
         {% endif %}
     </tr>
     <tr>
-        <td align="left">register_user</td>
+        <th align="left">register_user</th>
         {% if kpi %}
         {% for item in kpi.registerUser %}
         <td align="left">{{ item }}</td>
@@ -59,7 +57,7 @@ $(document).ready(function(){
         {% endif %}
     </tr>
     <tr>
-        <td align="left">active_user</td>
+        <th align="left">active_user</th>
         {% if kpi %}
         {% for item in kpi.activeUser %}
         <td align="left">{{ item }}</td>
@@ -67,7 +65,7 @@ $(document).ready(function(){
         {% endif %}
     </tr>
     <tr>
-        <td align="left">RR</td>
+        <th align="left">RR</th>
         {% if kpi %}
         {% for item in kpi.rr %}
         <td align="left">{{ item }}</td>
