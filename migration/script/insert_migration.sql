@@ -1,0 +1,1 @@
+load data infile '/data/91jili/merge/script/vote/migrate_vote_20151111.csv' into table vote  fields terminated by ','  optionally enclosed by '"' escaped by '"' lines terminated by '\r\n';

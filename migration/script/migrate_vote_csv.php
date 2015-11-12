@@ -77,7 +77,7 @@ foreach ($votes as $vote) {
 }
 
 // generate a csv file
-$migrate_vote_csv = $export_path . "/migrate_vote_" . date('YmdHis') . ".csv";
+$migrate_vote_csv = $export_path . "/migrate_vote_" . date('Ymd') . ".csv";
 $migrate_vote_handle = fopen($migrate_vote_csv, "w");
 fwrite($migrate_vote_handle, implode("\n", $csvline));
 fclose($migrate_vote_handle);
