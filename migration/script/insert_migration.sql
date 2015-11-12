@@ -1,1 +1,7 @@
-load data infile '/data/91jili/merge/script/vote/migrate_vote_20151112.csv' into table vote  character set utf8 fields terminated by ','  optionally enclosed by '"' escaped by '"' lines terminated by '\n';
+LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_vote.csv' 
+INTO TABLE vote 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '"' LINES 
+TERMINATED BY '\r\n';
