@@ -33,7 +33,24 @@ class FileUtil
         if (is_resource($file_handle)) {
             fclose($file_handle);
         }
-    }
+ 
+        /**
+         * every row in the csv must have the same number of columns.
+         * sample 
+         * check_csv( '/data/91jilivote', $vote);
+         * check_csv( 'vote_choice', $vote_choice);
+         */
+        static function check_csv( $file_path, $content ) {
+          $x = count($content[1]);
+          foreach( $content as $l => $r) {
+            $c =count($r);
+            if ( count($r) != $x ) {
+              throw new Exception("read file error: $file_path,\n\trequired cols number: $x;\n\tline number: $l\n\tcontent:". json_encode($r, true )  );
+            }
+          }
+          return true;
+        }
+   }
 }
 
 ?>
