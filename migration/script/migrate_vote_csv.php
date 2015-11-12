@@ -1,29 +1,21 @@
 <?php
-header("Content-type:text/html;charset=utf-8");
+include_once ('config.php');
+include_once ('FileUtil.php');
 
-$base_path = '/data/91jili/merge/ww_csv';
-$export_path = '/data/91jili/merge/script/vote';
+$import_path = IMPORT_PATH;
+$export_path = EXPORT_PATH;
 
-//$base_path = __DIR__;
-//$export_path = __DIR__;
+$vote_file = $import_path . "/panel_91wenwen_vote.csv";
+$vote_image_file = $import_path . "/panel_91wenwen_vote_image.csv";
+$vote_choice_file = $import_path . "/panel_91wenwen_vote_choice.csv";
 
-$vote_file = $base_path . "/panel_91wenwen_vote.csv";
-$vote_image_file = $base_path . "/panel_91wenwen_vote_image.csv";
-$vote_choice_file = $base_path . "/panel_91wenwen_vote_choice.csv";
+$migrate_vote_csv = $export_path . "/migrate_vote_" . date('YmdHis') . ".csv";
 
-$migrate_vote_csv = $export_path . "/migrate_vote_" . date('Ymd') . ".csv";
-
-$vote_handle = fopen($vote_file, "r");
-$vote_image_handle = fopen($vote_image_file, "r");
-$vote_choice_handle = fopen($vote_choice_file, "r");
+$vote = FileUtil::readCsvContent($vote_file);
+$vote_image = FileUtil::readCsvContent($vote_image_file);
+$vote_choice = FileUtil::readCsvContent($vote_choice_file);
 
 $migrate_vote_handle = fopen($migrate_vote_csv, "w");
-
-$vote = read_csv($vote_handle);
-
-$vote_image = read_csv($vote_image_handle);
-
-$vote_choice = read_csv($vote_choice_handle);
 
 $votes = array ();
 #id, title, description, yyyymm, start_time, end_time, point_value, delete_flag, updated_at, created_at
@@ -77,30 +69,14 @@ foreach ($votes as $vote) {
     ));
 }
 
-function read_csv($file_handle)
-{
-    $contents = null;
-    if ($file_handle !== FALSE) {
-        // todo: 1000 是否合适
-        while (($data = fgetcsv($file_handle, 1000, ",")) !== FALSE) {
-            $contents[] = $data;
-        }
-    }
-    fclose($file_handle);
-    unset($contents[0]);
-    return $contents;
-}
-
 function generate_stash_data($choice)
 {
     $stash_data['choices'] = $choice;
     return json_encode($stash_data);
 }
 
-fclose($vote_handle);
-fclose($vote_image_handle);
-fclose($vote_choice_handle);
-fclose($migrate_vote_handle);
+FileUtil::closeFile($migrate_vote_handle);
+
 echo "\r\n\r\n" . date('c') . "   end!\r\n\r\n";
 exit();
 ?>
