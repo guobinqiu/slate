@@ -1,0 +1,68 @@
+{% extends '::adminBase.html.twig' %}
+
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+{% endblock %}
+
+{% block body%}
+{% form_theme form 'form_table_layout.html.twig' %}    
+
+<form action="{{ path('rebate_activity_admin_new') }}" method="post" {{ form_enctype(form) }}>
+
+{{ form_errors(form) }}
+
+<table align='center'>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+<!-- hidden fields -->
+{{ form_row(form.title)       }}
+<!-- hidden fields -->
+{{ form_row(form.description) }}
+{# 'attr': {'class': 'Wdate', 'onClick': 'WdatePicker()','style':'cursor:pointer' } #}
+<tr>
+    <td>{{ form_label(form.startedAt , null ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.startedAt , {'attr': {'class': 'Wdate', 'onClick': 'WdatePicker()','style':'cursor:pointer' }}) }}</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.finishedAt, null ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.finishedAt, {'attr': {'class': 'Wdate', 'onClick': 'WdatePicker()','style':'cursor:pointer' }}) }}</td>
+</tr>
+
+<tr>
+    <td>{{ form_label(form.percentage, null ,{'label_attr': {'class': 'label'}} ) }}</td>
+    <td>{{ form_widget(form.percentage) }}</td>
+</tr>
+
+<!-- hidden fields -->
+
+<tr style="display:none">
+    <td>{{ form_label(form.isDeleted) }}</td>
+    <td>{{ form_widget(form.isDeleted) }}</td>
+</tr>
+
+<!-- hidden fields -->
+<tr style="display:none">
+    <td>{{ form_label(form.isHidden) }}</td>
+    <td>{{ form_widget(form.isHidden) }}</td>
+</tr>
+
+
+{{ form_rest(form) }}
+
+<tr><td>&nbsp;</td><td><input type="submit" name="add" value="提 交"/></td></tr>
+
+</table>
+
+</form>
+
+<div>
+<a href="{{ path('rebate_activity_admin_retrieve') }}">Return</a> | 
+</div>
+{% endblock %}

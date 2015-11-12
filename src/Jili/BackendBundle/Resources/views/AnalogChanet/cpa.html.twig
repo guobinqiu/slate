@@ -1,0 +1,97 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block title %} 
+{{ parent() }} - chanet-cpa 
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block body%}
+
+<!--
+ /api/getAdwInfo?date=20130809&time=105234&type=1&promotionID=34&promotionName=DHC%20CPS%E6%8E%A8%E5%B9%BF&extinfo=15&userinfo=1051242&comm=1.6000&totalPrice=0.0000&ocd=25146453&goodDetails=&paymentmethod=0&status=0&paid=2&confirm=0
+-->
+
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="flash-notice">
+        {{ flashMessage|raw }}
+    </div>
+{% endfor %}
+
+<form  method="POST" action="{{ path('jili_backend_analogchanet_cpa')}}">
+
+    <table align="center" width="1024" class="test">
+
+        <tr>
+            <td>date</td>
+            <td><input name="date" type="text"  value="{{ 'now'|date('Ymd')}}"  /></td>
+        </tr>
+        <tr>
+            <td>time</td>
+            <td><input name="time" type="text" value="{{ 'now'|date('His') }}" /></td>
+        </tr>
+        <tr>
+            <td>type</td>
+            <td><input name="type" type="text" value="1" /></td>
+        </tr>
+        <tr>
+            <td>promotionID</td>
+            <td><input name="promotionID" type="text" value="34"  /></td>
+        </tr>
+        <tr>
+            <td>promotionName</td>
+            <td><input name="promotionName" type="text"  value="TEST promotion" /></td>
+        </tr>
+        <tr>
+            <td>extinfo(adid)</td>
+            <td><input name="extinfo" type="text" value="15"  /></td>
+        </tr>
+        <tr>
+            <td>userinfo(uid)</td>
+            <td><input name="userinfo" type="text" value="90" /></td>
+        </tr>
+        <tr>
+            <td>comm</td>
+            <td><input name="comm" type="text" value="1.6000"/></td>
+        </tr>
+        <tr>
+            <td>totalPrice</td>
+            <td><input name="totalPrice" type="text" value="0.0000" /></td>
+        </tr>
+        <tr>
+            <td>ocd(流水号)</td>
+            <td><input name="ocd" type="text" /></td>
+        </tr>
+        <tr>
+            <td>goodDetails</td>
+            <td><input name="goodDetails" type="text" value="" /></td>
+        </tr>
+        <tr>
+            <td>paymentmethod</td>
+            <td><input name="paymentmethod" type="text" value="0" /></td>
+        </tr>
+        <tr>
+            <td>status</td>
+            <td><input name="status" type="text" value="0" /></td>
+        </tr>
+        <tr>
+            <td>paid</td>
+            <td><input name="paid" type="text" value="2" /></td>
+        </tr>
+
+        <tr>
+            <td>confirm</td>
+            <td><input name="confirm" type="text" value="0" /></td>
+        </tr>
+
+        <tr><td>&nbsp;</td><td><input type="submit" value='submit' /></td></tr>
+
+    </table>
+</form>
+
+
+
+{% endblock %}

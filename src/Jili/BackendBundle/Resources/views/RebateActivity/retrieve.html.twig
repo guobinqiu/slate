@@ -1,0 +1,58 @@
+{% extends '::adminBase.html.twig' %}
+
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/plugin/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+{% endblock %}
+
+{% block body%}
+    
+{% if activities is defined %}
+<table align="center" width="400" class="list">
+  <tr>
+      <td>#</td>
+      <td colspan="2" align="center">Valid duration</td>
+      <td align="center">Percent</td>
+      <td align="center">Operations</td>
+  </tr>
+
+    {% for row in activities %}
+    <tr>
+        <td>{{ loop.index }}. </td>
+        <td colspan="2" >从{{ row.startedAt|date('Y-m-d') }}日0时 至 {{ row.finishedAt|date('Y-m-d')  }}日0时</td>
+       <td>{{ row.percentage * 100  }}%</td>
+       <td>
+
+       <a href="{{ path('rebate_activity_admin_edit', {'id': row.id })  }}">修改</a>&nbsp;|
+
+{#
+       <a href="{{ path('rebate_activity_admin_remove', {'id': row.id} )  }}" onClick="if (confirm('确定要删除吗?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'post'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', 'form[id]'); m.setAttribute('value', '{{ row.id  }}'); f.appendChild(m);var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', 'form[_token]'); m.setAttribute('value', '{{  form._token.token }}'); f.appendChild(m);f.submit(); };return false;">删除1</a>
+
+ {{ csrf_token('authenticate')  }}
+#}
+ 
+  {{ render(controller('JiliBackendBundle:RebateActivity:remove', {
+        'id':row.id 
+    })) }}
+
+       </td>
+    </tr>
+    {% else %}
+
+  <tr>
+      <td colspan="5" align="center">没有找到数据</td>
+  <tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<div class="tips">
+<a href="{{ path('rebate_activity_admin_new') }}">Add</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "JiliBackendBundle:Points:strategy_body.html.twig" %}
+
+{% block body %}
+{{ parent() }}
+
+<form action="{{ path('jili_backend_gameseeker_buildpointstrategy') }}" method="POST">
+{{ form_label(form.rules, '规则列表' ) }}
+{{ form_widget(form.rules) }}
+{{ form_rest(form) }}
+<input type="submit" value="Create" class="btn btn-default pull-right" />
+</form>
+{% endblock %}
