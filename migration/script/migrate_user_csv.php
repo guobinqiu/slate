@@ -2,9 +2,15 @@
 include_once ('config.php');
 include_once ('FileUtil.php');
 include_once ('Constants.php');
+include_once ('CsvReader.php');
 
 $import_path = IMPORT_PATH;
 $export_path = EXPORT_PATH;
+
+// ini_set("memory_limit",-1);
+
+
+echo date('c') . " start!\r\n\r\n";
 
 // import file : wenwen
 $panelist_file = $import_path . "/panelist.csv";
@@ -31,24 +37,70 @@ $weibo_user_file = $import_path . "/weibo_user.csv";
 //todo: jili.migration_region_mapping 数据需要导出来
 $migration_region_mapping_file = $import_path . "/migration_region_mapping.csv";
 
-// get file content ： wenwen
-$panelist = FileUtil::readCsvContent($panelist_file);
-$panelist_detail = FileUtil::readCsvContent($panelist_detail_file);
-$panelist_profile = FileUtil::readCsvContent($panelist_profile_file);
-$panelist_profile_image = FileUtil::readCsvContent($panelist_profile_image_file);
-$panelist_mobile_number = FileUtil::readCsvContent($panelist_mobile_number_file);
-$panelist_point = FileUtil::readCsvContent($panelist_point_file);
-$panelist_sina_connection = FileUtil::readCsvContent($panelist_sina_connection_file);
-$pointexchange_91jili_account = FileUtil::readCsvContent($pointexchange_91jili_account_file);
-$vote_answer = FileUtil::readCsvContent($vote_answer_file);
-$panelist_91jili_connection = FileUtil::readCsvContent($panelist_91jili_connection_file);
+// // get file content ： wenwen
+// $panelist = FileUtil::readCsvContent($panelist_file);
+// $panelist_detail = FileUtil::readCsvContent($panelist_detail_file);
+// $panelist_profile = FileUtil::readCsvContent($panelist_profile_file);
+// $panelist_profile_image = FileUtil::readCsvContent($panelist_profile_image_file);
+// $panelist_mobile_number = FileUtil::readCsvContent($panelist_mobile_number_file);
+// $panelist_point = FileUtil::readCsvContent($panelist_point_file);
+// $panelist_sina_connection = FileUtil::readCsvContent($panelist_sina_connection_file);
+// $pointexchange_91jili_account = FileUtil::readCsvContent($pointexchange_91jili_account_file);
+// $vote_answer = FileUtil::readCsvContent($vote_answer_file);
+// $panelist_91jili_connection = FileUtil::readCsvContent($panelist_91jili_connection_file);
 
-// get file content ： jili
-$user = FileUtil::readCsvContent($user_file);
-$user_wenwen_cross = FileUtil::readCsvContent($user_wenwen_cross_file);
-$weibo_user = FileUtil::readCsvContent($weibo_user_file);
-$migration_region_mapping = FileUtil::readCsvContent($migration_region_mapping_file);
 
+// // get file content ： jili
+// $user = FileUtil::readCsvContent($user_file);
+// $user_wenwen_cross = FileUtil::readCsvContent($user_wenwen_cross_file);
+// $weibo_user = FileUtil::readCsvContent($weibo_user_file);
+// $migration_region_mapping = FileUtil::readCsvContent($migration_region_mapping_file);
+
+
+// export jili csv
+$migrate_user_csv = $export_path . "/migrate_user.csv";
+$migrate_user_wenwen_login_csv = $export_path . "/migrate_user_wenwen_login.csv";
+$migrate_weibo_user_csv = $export_path . "/weibo_user.csv";
+$migrate_vote_answer_csv = $export_path . "/migrate_vote_answer.csv";
+
+//check file
+// $panelist_file_handle = FileUtil::checkFile($panelist_file);
+// $panelist_detail_file_handle = FileUtil::checkFile($panelist_detail_file);
+// $panelist_profile_file_handle = FileUtil::checkFile($panelist_profile_file);
+// // $panelist_profile_image_file_handle = FileUtil::checkFile($panelist_profile_image_file);
+// $panelist_mobile_number_file_handle = FileUtil::checkFile($panelist_mobile_number_file);
+// $panelist_point_file_handle = FileUtil::checkFile($panelist_point_file);
+// $panelist_sina_connection_file_handle = FileUtil::checkFile($panelist_sina_connection_file);
+// $pointexchange_91jili_account_file_handle = FileUtil::checkFile($pointexchange_91jili_account_file);
+// $vote_answer_file_handle = FileUtil::checkFile($vote_answer_file);
+// // $panelist_91jili_connection_file_handle = FileUtil::checkFile($panelist_91jili_connection_file);
+
+
+//todo: get max user id
+
+
+//number one page
+$per = 1000;
+
+$csvreader_panelist = new CsvReader($panelist_file);
+$panelist_number = $csvreader_panelist->get_lines();
+$panelist_page = $panelist_number / $per;
+for ($i = 0; $i < $panelist_page + 1; $i++) {
+    $panelist_data = $csvreader_panelist->get_data(10, $i * $per);
+
+    //1.cross_id是否绑定过积粒账号
+
+
+    //2.panel_91wenwen_pointexchange_91jili_account.91jili_email 是否兑换过积粒
+
+
+    //3.panelist.email email在积粒中是否存在
+}
+
+echo date('c') . " end!\r\n\r\n";
+exit();
+?>
+<!--
 #import wenwen csv
 #$panelist : "id","panel_region_id","panel_id","email","login_id","login_password","login_password_crypt_type","login_password_salt","updated_at","created_at","created_remote_addr","created_user_agent","login_valid_flag","sex_code","birthday","panelist_status","campaign_code","last_login_time"
 #$panelist_detail :"panelist_id","name_first","name_middle","name_last","furigana_first","furigana_middle","furigana_last","age","zip1","zip2","address1","address2","address3","home_type_code","home_year","tel1","tel2","tel3","tel_mobile1","tel_mobile2","tel_mobile3","mobile_number","marriage_code","child_code","child_num","income_family_code","income_personal_code","job_code","industry_code","work_section_code","graduation_code","industry_code_family","internet_starttime_code","internet_usetime_code","last_answer_date","updated_at","created_at"
@@ -68,23 +120,19 @@ $migration_region_mapping = FileUtil::readCsvContent($migration_region_mapping_f
 #$weibo_user :"id","user_id","open_id","regist_date"
 #$migration_region_mapping :  region_id, province_id, city_id
 
-
-// export jili csv
-$migrate_user_csv = $export_path . "/migrate_user.csv";
-$migrate_user_wenwen_login_csv = $export_path . "/migrate_user_wenwen_login.csv";
-$migrate_weibo_user_csv = $export_path . "/weibo_user.csv";
-$migrate_vote_answer_csv = $export_path . "/migrate_vote_answer.csv";
-
+#export jili csv
 #$migrate_user_csv :# id, user_id, login_password_salt, login_password_crypt_type, login_password
 #$migrate_user_wenwen_login_csv :# id, user_id, login_password_salt, login_password_crypt_type, login_password
 #$migrate_weibo_user_csv :"id","user_id","open_id","regist_date"
 #$migrate_vote_answer_csv : id, user_id, vote_id, answer_number, updated_at, created_at
 
 
-//todo: 需要注意的地方
-// 1. 时区问题，取自问问db中的时间是否应该减去1小时
 
 
-echo "\r\n\r\n" . date('c') . "   end!\r\n\r\n";
-exit();
-?>
+#$data = FileUtil::csv_get_lines($panelist_file, 100, 2000);
+
+
+todo: 需要注意的地方
+1. 时区问题，取自问问db中的时间是否应该减去1小时
+2. set_time_limit(0)
+-->
