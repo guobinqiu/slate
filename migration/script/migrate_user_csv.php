@@ -16,19 +16,14 @@ echo date('c') . " start!\r\n\r\n";
 $panelist_file = $import_path . "/panelist.csv";
 $panelist_detail_file = $import_path . "/panel_91wenwen_panelist_detail.csv";
 $panelist_profile_file = $import_path . "/panel_91wenwen_panelist_profile.csv";
-//todo: panel_91wenwen_panelist_profile_image 数据需要导出来
 $panelist_profile_image_file = $import_path . "/panel_91wenwen_panelist_profile_image.csv";
 $panelist_mobile_number_file = $import_path . "/panel_91wenwen_panelist_mobile_number.csv";
 $panelist_point_file = $import_path . "/panel_91wenwen_panelist_point.csv";
 $panelist_sina_connection_file = $import_path . "/panel_91wenwen_panelist_sina_connection.csv";
 $pointexchange_91jili_account_file = $import_path . "/panel_91wenwen_pointexchange_91jili_account.csv";
 $vote_answer_file = $import_path . "/" . VOTE_ANSWER . ".csv";
-//todo: wenwen.panel_91wenwen_panelist_91jili_connection  数据需要导出来
 $panelist_91jili_connection_file = $import_path . "/panel_91wenwen_panelist_91jili_connection.csv";
-
-//todo: sop_respondent 应该迁移，如何处理： To mapping 91ww panelist_id to sop_panelist_id
-# id, panelist_id, status_flag, stash_data, updated_at, created_at
-
+$sop_respondent_file = $import_path . "/sop_respondent.csv";
 
 // import file : jili
 $user_file = $import_path . "/user.csv";
@@ -37,65 +32,137 @@ $weibo_user_file = $import_path . "/weibo_user.csv";
 //todo: jili.migration_region_mapping 数据需要导出来
 $migration_region_mapping_file = $import_path . "/migration_region_mapping.csv";
 
-// // get file content ： wenwen
-// $panelist = FileUtil::readCsvContent($panelist_file);
-// $panelist_detail = FileUtil::readCsvContent($panelist_detail_file);
-// $panelist_profile = FileUtil::readCsvContent($panelist_profile_file);
-// $panelist_profile_image = FileUtil::readCsvContent($panelist_profile_image_file);
-// $panelist_mobile_number = FileUtil::readCsvContent($panelist_mobile_number_file);
-// $panelist_point = FileUtil::readCsvContent($panelist_point_file);
-// $panelist_sina_connection = FileUtil::readCsvContent($panelist_sina_connection_file);
-// $pointexchange_91jili_account = FileUtil::readCsvContent($pointexchange_91jili_account_file);
-// $vote_answer = FileUtil::readCsvContent($vote_answer_file);
-// $panelist_91jili_connection = FileUtil::readCsvContent($panelist_91jili_connection_file);
-
-
-// // get file content ： jili
-// $user = FileUtil::readCsvContent($user_file);
-// $user_wenwen_cross = FileUtil::readCsvContent($user_wenwen_cross_file);
-// $weibo_user = FileUtil::readCsvContent($weibo_user_file);
-// $migration_region_mapping = FileUtil::readCsvContent($migration_region_mapping_file);
-
-
 // export jili csv
 $migrate_user_csv = $export_path . "/migrate_user.csv";
 $migrate_user_wenwen_login_csv = $export_path . "/migrate_user_wenwen_login.csv";
 $migrate_weibo_user_csv = $export_path . "/weibo_user.csv";
 $migrate_vote_answer_csv = $export_path . "/migrate_vote_answer.csv";
+$migrate_sop_respondent_csv = $export_path . "/migrate_sop_respondent.csv";
 
 //check file
-// $panelist_file_handle = FileUtil::checkFile($panelist_file);
+$panelist_file_handle = FileUtil::checkFile($panelist_file);
 // $panelist_detail_file_handle = FileUtil::checkFile($panelist_detail_file);
 // $panelist_profile_file_handle = FileUtil::checkFile($panelist_profile_file);
 // // $panelist_profile_image_file_handle = FileUtil::checkFile($panelist_profile_image_file);
 // $panelist_mobile_number_file_handle = FileUtil::checkFile($panelist_mobile_number_file);
 // $panelist_point_file_handle = FileUtil::checkFile($panelist_point_file);
 // $panelist_sina_connection_file_handle = FileUtil::checkFile($panelist_sina_connection_file);
-// $pointexchange_91jili_account_file_handle = FileUtil::checkFile($pointexchange_91jili_account_file);
+$pointexchange_91jili_account_file_handle = FileUtil::checkFile($pointexchange_91jili_account_file);
 // $vote_answer_file_handle = FileUtil::checkFile($vote_answer_file);
-// // $panelist_91jili_connection_file_handle = FileUtil::checkFile($panelist_91jili_connection_file);
+$panelist_91jili_connection_file_handle = FileUtil::checkFile($panelist_91jili_connection_file);
 
+$user_file_handle = FileUtil::checkFile($user_file);
+$user_wenwen_cross_file_handle = FileUtil::checkFile($user_wenwen_cross_file);
 
 //todo: get max user id
 
 
-//number one page
-$per = 1000;
+//遍历panelist表
+$i = 0;
+$both_cross_count = 0;
+$both_email_count = 0;
 
-$csvreader_panelist = new CsvReader($panelist_file);
-$panelist_number = $csvreader_panelist->get_lines();
-$panelist_page = $panelist_number / $per;
-for ($i = 0; $i < $panelist_page + 1; $i++) {
-    $panelist_data = $csvreader_panelist->get_data(10, $i * $per);
+while (($panelist_data = fgetcsv($panelist_file_handle, 2000, ",")) !== FALSE) {
 
-    //1.cross_id是否绑定过积粒账号
+    if ($i == 0) {
+        continue;
+    }
+    $panelist_id = $panelist_data[0];
+    $jili_email = $panelist_email = $panelist_data[3];
+    $j = 0;
+    $k = 0;
 
+    //遍历panel_91wenwen_panelist_91jili_connection表
+    while (($jili_connection_data = fgetcsv($panelist_91jili_connection_file_handle, 2000, ",")) !== FALSE) {
 
-    //2.panel_91wenwen_pointexchange_91jili_account.91jili_email 是否兑换过积粒
+        if ($j == 0) {
+            continue;
+        }
+        if ($panelist_id == $jili_connection_data[0]) {
+            $jili_cross_id = $jili_connection_data[1];
+            //遍历user_wenwen_cross表
+            $m = 0;
+            while (($user_wenwen_cross_data = fgetcsv($user_wenwen_cross_file_handle, 2000, ",")) !== FALSE) {
+                if ($m == 0) {
+                    continue;
+                }
+                if ($jili_cross_id == $user_wenwen_cross_data[0]) {
+                    $jili_email = $user_wenwen_cross_data[3];
+                    $both_cross_count++;
+                    break;
+                }
 
+                $m++;
+            }
 
-    //3.panelist.email email在积粒中是否存在
+            break;
+        }
+        $j++;
+    }
+
+    //遍历panel_91wenwen_pointexchange_91jili_account表
+    while (($jili_account_data = fgetcsv($pointexchange_91jili_account_file_handle, 2000, ",")) !== FALSE) {
+        if ($k == 0) {
+            continue;
+        }
+        if ($panelist_id == $jili_account_data[0]) {
+            $jili_email = $jili_account_data[1];
+            break;
+        }
+
+        $k++;
+    }
+
+    //遍历jili user 表
+    $both_email_count = $both_email_count + fetch_jili_user($jili_email);
+
+    $i++;
 }
+
+//遍历jili user 表
+function fetch_jili_user($email)
+{
+    $i = 0;
+    $both_email_count = 0;
+    while (($user_data = fgetcsv($user_file_handle, 2000, ",")) !== FALSE) {
+        if ($i == 0) {
+            break;
+        }
+        if ($email == $jili_account_data[1]) {
+            //todo:生成新的csv文件：拥有两边账号，取问问数据
+            //todo:删除user csv文件中该行
+            $both_email_count++;
+        }
+        $i++;
+    }
+
+    return $i;
+}
+
+echo "<br>line_".__LINE__."_aaaaaaaaaa<pre>";
+print_r($both_cross_count);
+print_r($both_email_count);
+
+//number one paged
+// $per = 1000;
+
+
+// $csvreader_panelist = new CsvReader($panelist_file);
+// $panelist_number = $csvreader_panelist->get_lines();
+// $panelist_page = $panelist_number / $per;
+// for ($i = 0; $i < $panelist_page + 1; $i++) {
+//     $panelist_data = $csvreader_panelist->get_data(10, $i * $per);
+
+
+//     //1.cross_id是否绑定过积粒账号
+
+
+//     //2.panel_91wenwen_pointexchange_91jili_account.91jili_email 是否兑换过积粒
+
+
+//     //3.panelist.email email在积粒中是否存在
+// }
+
 
 echo date('c') . " end!\r\n\r\n";
 exit();
@@ -113,10 +180,13 @@ exit();
 #$vote_answer :"id","panelist_id","vote_id","answer_number","updated_at","created_at"
 #$panelist_91jili_connection : panelist_id, jili_id, status_flag, stash_data, updated_at, created_at
 
+//todo: sop_respondent 应该迁移，如何处理： To mapping 91ww panelist_id to sop_panelist_id
+# id, panelist_id, status_flag, stash_data, updated_at, created_at
+
 
 #import jili csv
 #$user :"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
-#$user_wenwen_cross :"id","user_id","created_at"
+#$user_wenwen_cross :"id","user_id","created_at","email"
 #$weibo_user :"id","user_id","open_id","regist_date"
 #$migration_region_mapping :  region_id, province_id, city_id
 
