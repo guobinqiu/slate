@@ -75,13 +75,13 @@ try {
         FileUtil::writeContents($log_path, "i:" . $i);
 
         if ($i == 1) {
-            echo $i;
-            FileUtil::writeContents($log_path, "panelist_data:" . var_dump($panelist_data));
+            FileUtil::writeContents($log_path, "panelist_data:" . var_export($panelist_data, true));
         }
 
         if ($i == 0) {
             continue;
         }
+
         $panelist_id = $panelist_data[0];
         $jili_email = $panelist_email = $panelist_data[3];
         $j = 0;
@@ -95,7 +95,7 @@ try {
 
             if ($j == 1) {
                 echo $j;
-                FileUtil::writeContents($log_path, "jili_connection_data:" . var_dump($jili_connection_data));
+                FileUtil::writeContents($log_path, "jili_connection_data:" . var_export($jili_connection_data, true));
             }
 
             if ($j == 0) {
@@ -112,7 +112,7 @@ try {
 
                     if ($m == 1) {
                         echo $m;
-                        FileUtil::writeContents($log_path, "user_wenwen_cross_data:" . var_dump($user_wenwen_cross_data));
+                        FileUtil::writeContents($log_path, "user_wenwen_cross_data:" . var_export($user_wenwen_cross_data, true));
                     }
 
                     if ($m == 0) {
@@ -136,8 +136,7 @@ try {
         while (($jili_account_data = fgetcsv($pointexchange_91jili_account_file_handle, 2000, ",")) !== FALSE) {
 
             if ($k == 1) {
-                echo $k;
-                FileUtil::writeContents($log_path, "jili_account_data:" . var_dump($jili_account_data));
+                FileUtil::writeContents($log_path, "jili_account_data:" . var_export($jili_account_data, true));
             }
 
             if ($k == 0) {
@@ -154,9 +153,9 @@ try {
 
         //遍历jili user 表
         $both_email_count = $both_email_count + fetch_jili_user($jili_email, $log_path);
-
-        $i++;
     }
+
+    $i++;
 } catch (Exception $e) {
     FileUtil::writeContents($log_path, "Exception:" . $e->getMessage());
 }
@@ -170,14 +169,14 @@ function fetch_jili_user($email, $log_path)
     $n = 0;
     $both_email_count = 0;
 
-    $user_file = $import_path . "/user.csv";
+    $user_file = IMPORT_PATH . "/user.csv";
     $user_file_handle = FileUtil::checkFile($user_file);
 
     while (($user_data = fgetcsv($user_file_handle, 2000, ",")) !== FALSE) {
 
         if ($n == 1) {
             echo $n;
-            FileUtil::writeContents($log_path, "user_data:" . var_dump($user_data));
+            FileUtil::writeContents($log_path, "user_data:" . var_export($user_data, true));
         }
 
         if ($n == 0) {
