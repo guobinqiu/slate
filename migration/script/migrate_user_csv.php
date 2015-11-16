@@ -140,7 +140,16 @@ try {
         }
 
         //遍历jili user 表
-        $both_email_count = $both_email_count + fetch_jili_user($jili_email, $log_path);
+        $user_data = fetch_jili_user($jili_email, $log_path);
+        if ($user_data) {
+            $both_email_count = $both_email_count + 1;
+
+            //todo:生成新的csv文件：拥有两边账号，取问问数据
+            generate_csv();
+
+            //todo:删除user csv文件中该行
+            delete_row_user_csv();
+        }
     }
 } catch (Exception $e) {
     FileUtil::writeContents($log_path, "Exception:" . $e->getMessage());
@@ -152,7 +161,6 @@ FileUtil::writeContents($log_path, "both_email_count:" . $both_email_count);
 //遍历jili user 表
 function fetch_jili_user($email, $log_path)
 {
-    $both_email_count = 0;
     $n = 0;
 
     $user_file = IMPORT_PATH . "/user.csv";
@@ -167,15 +175,22 @@ function fetch_jili_user($email, $log_path)
         }
 
         if ($email == $jili_account_data[1]) {
-            //todo:生成新的csv文件：拥有两边账号，取问问数据
-            //todo:删除user csv文件中该行
-            $both_email_count++;
-
-            FileUtil::writeContents($log_path, "wenwen->jili_email_count:" . $email);
+            FileUtil::writeContents($log_path, "wenwen=>jili_email_count:" . $email);
+            return $user_data;
         }
     }
 
-    return $both_email_count;
+    return false;
+}
+
+function generate_csv()
+{
+    //生成 migrate_user.csv
+    //生成 migrate_user_wenwen_login.csv
+}
+
+function delete_row_user_csv()
+{
 }
 
 //number one paged
