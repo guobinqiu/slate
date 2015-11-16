@@ -91,7 +91,6 @@ while (($panelist_data = fgetcsv($panelist_file_handle, 2000, ",")) !== FALSE) {
                     $both_cross_count++;
                     break;
                 }
-
                 $m++;
             }
 
@@ -126,7 +125,7 @@ function fetch_jili_user($email)
     $both_email_count = 0;
     while (($user_data = fgetcsv($user_file_handle, 2000, ",")) !== FALSE) {
         if ($i == 0) {
-            break;
+            continue;
         }
         if ($email == $jili_account_data[1]) {
             //todo:生成新的csv文件：拥有两边账号，取问问数据
