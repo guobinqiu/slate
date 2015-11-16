@@ -1,0 +1,18 @@
+<?php
+
+// define('IMPORT_PATH', '/data/91jili/merge/ww_csv');
+// define('EXPORT_PATH',  '/data/91jili/merge/script/vote');
+
+define('BASE_PATH', '/data/91jili/merge');
+define('ENV', 'dev');
+
+//define('BASE_PATH', dirname(__FILE__));
+
+define('IMPORT_JILI_PATH', BASE_PATH.'/jl_csv');
+define('IMPORT_WW_PATH', BASE_PATH.'/ww_csv');
+define('EXPORT_PATH', BASE_PATH . '/export');
+
+define('LOG_PATH', BASE_PATH . '/log.txt');
+define('VOTE_ANSWER', 'panel_91wenwen_vote_answer_201511');
+
+?>
