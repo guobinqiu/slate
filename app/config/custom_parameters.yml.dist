@@ -312,7 +312,7 @@ parameters:
     webpower_email_username: 'admin'
     webpower_email_password: 'nUshkwu#9'
     webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
-    
+
     cron_alertTo_contacts: [ "miaomiao.zhang@d8aspring.com",  "tao.jiang@d8aspring.com", "xiaoyi.chai@d8aspring.com" ]
 
     alert_subject: '积粒网-定时任务提醒邮件'
@@ -379,7 +379,7 @@ parameters:
 
     jili_app.logs_dir: /data/91jili/logs
     admin_vote_log_path: /data/91jili/logs/admin/admin_vote.log
-    vote_suggest_mail_to: miaomiao.zhang@d8aspring.com
+    vote_suggest_mail_to: support@91wenwen.com
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%
