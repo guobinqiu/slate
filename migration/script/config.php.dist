@@ -8,8 +8,10 @@ define('ENV', 'dev');
 
 //define('BASE_PATH', dirname(__FILE__));
 
-define('IMPORT_PATH', BASE_PATH.'/import);
-define('IMPORT_JILI_PATH', BASE_PATH.'/jl_csv');
+define('IMPORT_PATH',  BASE_PATH. '/import');
+define('EXPORT_PATH', BASE_PATH . '/export');
+
+define('IMPORT_JL_PATH', BASE_PATH.'/jl_csv');
 define('IMPORT_WW_PATH', BASE_PATH.'/ww_csv');
 define('EXPORT_PATH', BASE_PATH . '/export');
 
