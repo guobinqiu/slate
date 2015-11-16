@@ -6,10 +6,12 @@ include_once ('CsvReader.php');
 
 $import_path = IMPORT_PATH;
 $export_path = EXPORT_PATH;
+$log_path = LOG_PATH;
 
 // ini_set("memory_limit",-1);
 
 
+FileUtil::writeContents($log_path, date('c') . " start!\r\n\r\n");
 echo date('c') . " start!\r\n\r\n";
 
 // import file : wenwen
@@ -39,6 +41,11 @@ $migrate_weibo_user_csv = $export_path . "/weibo_user.csv";
 $migrate_vote_answer_csv = $export_path . "/migrate_vote_answer.csv";
 $migrate_sop_respondent_csv = $export_path . "/migrate_sop_respondent.csv";
 
+// $panelist_file_handle = fopen($panelist_file, "r");
+// $panelist_sina_connection_file_handle = fopen($panelist_sina_connection_file, "r");
+// $panelist_91jili_connection_file_handle = fopen($panelist_91jili_connection_file, "r");
+
+
 //check file
 $panelist_file_handle = FileUtil::checkFile($panelist_file);
 // $panelist_detail_file_handle = FileUtil::checkFile($panelist_detail_file);
@@ -62,85 +69,132 @@ $i = 0;
 $both_cross_count = 0;
 $both_email_count = 0;
 
-while (($panelist_data = fgetcsv($panelist_file_handle, 2000, ",")) !== FALSE) {
+try {
+    while (($panelist_data = fgetcsv($panelist_file_handle, 4000, ",")) !== FALSE) {
 
-    if ($i == 0) {
-        continue;
-    }
-    $panelist_id = $panelist_data[0];
-    $jili_email = $panelist_email = $panelist_data[3];
-    $j = 0;
-    $k = 0;
+        FileUtil::writeContents($log_path, "i:" . $i);
 
-    //遍历panel_91wenwen_panelist_91jili_connection表
-    while (($jili_connection_data = fgetcsv($panelist_91jili_connection_file_handle, 2000, ",")) !== FALSE) {
+        if ($i == 1) {
+            echo $i;
+            FileUtil::writeContents($log_path, "panelist_data:" . var_dump($panelist_data));
+        }
 
-        if ($j == 0) {
+        if ($i == 0) {
             continue;
         }
-        if ($panelist_id == $jili_connection_data[0]) {
-            $jili_cross_id = $jili_connection_data[1];
-            //遍历user_wenwen_cross表
-            $m = 0;
-            while (($user_wenwen_cross_data = fgetcsv($user_wenwen_cross_file_handle, 2000, ",")) !== FALSE) {
-                if ($m == 0) {
-                    continue;
-                }
-                if ($jili_cross_id == $user_wenwen_cross_data[0]) {
-                    $jili_email = $user_wenwen_cross_data[3];
-                    $both_cross_count++;
-                    break;
-                }
-                $m++;
+        $panelist_id = $panelist_data[0];
+        $jili_email = $panelist_email = $panelist_data[3];
+        $j = 0;
+        $k = 0;
+
+        FileUtil::writeContents($log_path, "panelist_id:" . $panelist_id);
+        FileUtil::writeContents($log_path, "panelist_email:" . $panelist_email);
+
+        //遍历panel_91wenwen_panelist_91jili_connection表
+        while (($jili_connection_data = fgetcsv($panelist_91jili_connection_file_handle, 2000, ",")) !== FALSE) {
+
+            if ($j == 1) {
+                echo $j;
+                FileUtil::writeContents($log_path, "jili_connection_data:" . var_dump($jili_connection_data));
             }
 
-            break;
+            if ($j == 0) {
+                continue;
+            }
+            if ($panelist_id == $jili_connection_data[0]) {
+                $jili_cross_id = $jili_connection_data[1];
+
+                FileUtil::writeContents($log_path, "jili_cross_id:" . $jili_cross_id);
+
+                //遍历user_wenwen_cross表
+                $m = 0;
+                while (($user_wenwen_cross_data = fgetcsv($user_wenwen_cross_file_handle, 2000, ",")) !== FALSE) {
+
+                    if ($m == 1) {
+                        echo $m;
+                        FileUtil::writeContents($log_path, "user_wenwen_cross_data:" . var_dump($user_wenwen_cross_data));
+                    }
+
+                    if ($m == 0) {
+                        continue;
+                    }
+                    if ($jili_cross_id == $user_wenwen_cross_data[0]) {
+                        $jili_email = $user_wenwen_cross_data[3];
+                        FileUtil::writeContents($log_path, "jili_cross_id->jili email:" . $jili_email);
+                        $both_cross_count++;
+                        break;
+                    }
+                    $m++;
+                }
+
+                break;
+            }
+            $j++;
         }
-        $j++;
+
+        //遍历panel_91wenwen_pointexchange_91jili_account表
+        while (($jili_account_data = fgetcsv($pointexchange_91jili_account_file_handle, 2000, ",")) !== FALSE) {
+
+            if ($k == 1) {
+                echo $k;
+                FileUtil::writeContents($log_path, "jili_account_data:" . var_dump($jili_account_data));
+            }
+
+            if ($k == 0) {
+                continue;
+            }
+            if ($panelist_id == $jili_account_data[0]) {
+                $jili_email = $jili_account_data[1];
+                FileUtil::writeContents($log_path, "pointexchange-> jili_email:" . $jili_email);
+                break;
+            }
+
+            $k++;
+        }
+
+        //遍历jili user 表
+        $both_email_count = $both_email_count + fetch_jili_user($jili_email, $log_path);
+
+        $i++;
     }
-
-    //遍历panel_91wenwen_pointexchange_91jili_account表
-    while (($jili_account_data = fgetcsv($pointexchange_91jili_account_file_handle, 2000, ",")) !== FALSE) {
-        if ($k == 0) {
-            continue;
-        }
-        if ($panelist_id == $jili_account_data[0]) {
-            $jili_email = $jili_account_data[1];
-            break;
-        }
-
-        $k++;
-    }
-
-    //遍历jili user 表
-    $both_email_count = $both_email_count + fetch_jili_user($jili_email);
-
-    $i++;
+} catch (Exception $e) {
+    FileUtil::writeContents($log_path, "Exception:" . $e->getMessage());
 }
 
+FileUtil::writeContents($log_path, "both_cross_count:" . $both_cross_count);
+FileUtil::writeContents($log_path, "both_email_count:" . $both_email_count);
+
 //遍历jili user 表
-function fetch_jili_user($email)
+function fetch_jili_user($email, $log_path)
 {
-    $i = 0;
+    $n = 0;
     $both_email_count = 0;
+
+    $user_file = $import_path . "/user.csv";
+    $user_file_handle = FileUtil::checkFile($user_file);
+
     while (($user_data = fgetcsv($user_file_handle, 2000, ",")) !== FALSE) {
-        if ($i == 0) {
+
+        if ($n == 1) {
+            echo $n;
+            FileUtil::writeContents($log_path, "user_data:" . var_dump($user_data));
+        }
+
+        if ($n == 0) {
             continue;
         }
         if ($email == $jili_account_data[1]) {
             //todo:生成新的csv文件：拥有两边账号，取问问数据
             //todo:删除user csv文件中该行
             $both_email_count++;
+
+            FileUtil::writeContents($log_path, "wenwen->jili_email_count:" . $email);
         }
-        $i++;
+        $n++;
     }
 
-    return $i;
+    return $both_email_count;
 }
-
-echo "<br>line_".__LINE__."_aaaaaaaaaa<pre>";
-print_r($both_cross_count);
-print_r($both_email_count);
 
 //number one paged
 // $per = 1000;
@@ -162,6 +216,8 @@ print_r($both_email_count);
 //     //3.panelist.email email在积粒中是否存在
 // }
 
+
+FileUtil::writeContents($log_path, date('c') . " end!");
 
 echo date('c') . " end!\r\n\r\n";
 exit();

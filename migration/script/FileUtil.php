@@ -101,6 +101,12 @@ class FileUtil
         fclose($fp);
         return $data;
     }
+
+    public static function writeContents($filename, $content) {
+        $log_handle = fopen($filename, "a");
+        fwrite($log_handle, date("Y-m-d H:i:s") . "  " . $content . "\r\n");
+        fclose($log_handle);
+    }
 }
 
 ?>
