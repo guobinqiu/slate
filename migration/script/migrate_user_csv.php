@@ -193,6 +193,57 @@ function delete_row_user_csv()
 {
 }
 
+/**
+ * 遍历panel_91wenwen_panelist_91jili_connection表
+ *
+ * "panelist_id","jili_id","status_flag","stash_data","updated_at","created_at"
+ * "305","16980","1","NULL","2015-01-07 16:50:12","2015-01-07 16:50:12"
+ *
+ * @return jili_id or null
+ */
+function getJiliConnectionByPanelistId( $fh, $panelist_id_input) {
+  //  rewind($fh);
+  fgets($fh); //skip the title line
+  while ($row= fgets($fh, 1024)) {
+    $panelist_id_pos = strpos(  $row, ',');                                                                                                                   
+    if( $panelist_id_input != substr(  $row, 1, $panelist_id_pos - 2  )) {
+      continue;
+    }
+
+    $jili_id_pos = strpos(  $row, ',', $panelist_id_pos +1  );
+    $jili_id = substr( $row,$id_pos+2 , $jili_id_pos - $panelist_id_pos -3 );
+    $status_flag_pos = strpos(  $row, ',', $jili_id_pos +1 );
+
+    $status_flag = substr( $row , $jili_id_pos +2 ,  $status_flag_pos- $jili_id_pos-3);      
+    // need  to check to status_flag 
+    if( $status_flag != 1 ) {
+      continue;
+
+    }
+    return $jili_id; 
+
+  }
+   return ;
+}
+/**
+ *  遍历user_wenwen_cross表
+ * "id","user_id","created_at","email"
+ * "5629","1270570","2014-11-26 16:32:00","NULL"
+ * @return email or null
+ */
+function getUserWenwenCrossById( $fh, $id_input) {
+  // rewind
+  fgets($fh);
+  while ($row = fgets($fh) ) {
+    //
+    if( substr($row,1, strlen($id_input)  ) != $id_input) {
+      continue;
+    }
+    return  substr($row, strrpos($row, ',') + 2 , -1);
+  }
+  return null;
+}
+
 //number one paged
 // $per = 1000;
 
