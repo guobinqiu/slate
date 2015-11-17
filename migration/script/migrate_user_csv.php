@@ -4,166 +4,172 @@ include_once ('FileUtil.php');
 include_once ('Constants.php');
 include_once ('CsvReader.php');
 
-$import_path = IMPORT_PATH;
-$export_path = EXPORT_PATH;
-$log_path = LOG_PATH;
+function do_process() {
+  $import_path = IMPORT_PATH;
+  $export_path = EXPORT_PATH;
+  $log_path = LOG_PATH;
 
-// ini_set("memory_limit",-1);
-
-
-FileUtil::writeContents($log_path, date('c') . " start!\r\n\r\n");
-echo date('c') . " start!\r\n\r\n";
-
-// import file : wenwen
-$panelist_file = $import_path . "/panelist.csv";
-$panelist_detail_file = $import_path . "/panel_91wenwen_panelist_detail.csv";
-$panelist_profile_file = $import_path . "/panel_91wenwen_panelist_profile.csv";
-$panelist_profile_image_file = $import_path . "/panel_91wenwen_panelist_profile_image.csv";
-$panelist_mobile_number_file = $import_path . "/panel_91wenwen_panelist_mobile_number.csv";
-$panelist_point_file = $import_path . "/panel_91wenwen_panelist_point.csv";
-$panelist_sina_connection_file = $import_path . "/panel_91wenwen_panelist_sina_connection.csv";
-$pointexchange_91jili_account_file = $import_path . "/panel_91wenwen_pointexchange_91jili_account.csv";
-$vote_answer_file = $import_path . "/" . VOTE_ANSWER . ".csv";
-$panelist_91jili_connection_file = $import_path . "/panel_91wenwen_panelist_91jili_connection.csv";
-$sop_respondent_file = $import_path . "/sop_respondent.csv";
-
-// import file : jili
-$user_file = $import_path . "/user.csv";
-$user_wenwen_cross_file = $import_path . "/user_wenwen_cross.csv";
-$weibo_user_file = $import_path . "/weibo_user.csv";
-//todo: jili.migration_region_mapping 数据需要导出来
-$migration_region_mapping_file = $import_path . "/migration_region_mapping.csv";
-
-// export jili csv
-$migrate_user_csv = $export_path . "/migrate_user.csv";
-$migrate_user_wenwen_login_csv = $export_path . "/migrate_user_wenwen_login.csv";
-$migrate_weibo_user_csv = $export_path . "/weibo_user.csv";
-$migrate_vote_answer_csv = $export_path . "/migrate_vote_answer.csv";
-$migrate_sop_respondent_csv = $export_path . "/migrate_sop_respondent.csv";
-
-// $panelist_file_handle = fopen($panelist_file, "r");
-// $panelist_sina_connection_file_handle = fopen($panelist_sina_connection_file, "r");
-// $panelist_91jili_connection_file_handle = fopen($panelist_91jili_connection_file, "r");
+  // ini_set("memory_limit",-1);
 
 
-//check file
-$panelist_file_handle = FileUtil::checkFile($panelist_file);
-// $panelist_detail_file_handle = FileUtil::checkFile($panelist_detail_file);
-// $panelist_profile_file_handle = FileUtil::checkFile($panelist_profile_file);
-// // $panelist_profile_image_file_handle = FileUtil::checkFile($panelist_profile_image_file);
-// $panelist_mobile_number_file_handle = FileUtil::checkFile($panelist_mobile_number_file);
-// $panelist_point_file_handle = FileUtil::checkFile($panelist_point_file);
-// $panelist_sina_connection_file_handle = FileUtil::checkFile($panelist_sina_connection_file);
-$pointexchange_91jili_account_file_handle = FileUtil::checkFile($pointexchange_91jili_account_file);
-// $vote_answer_file_handle = FileUtil::checkFile($vote_answer_file);
-$panelist_91jili_connection_file_handle = FileUtil::checkFile($panelist_91jili_connection_file);
+  FileUtil::writeContents($log_path, date('c') . " start!\r\n\r\n");
+  echo date('c') . " start!\r\n\r\n";
 
-$user_file_handle = FileUtil::checkFile($user_file);
-$user_wenwen_cross_file_handle = FileUtil::checkFile($user_wenwen_cross_file);
+  // import file : wenwen
+  $panelist_file = IMPORT_WW_PATH . "/panelist.csv";
+  $panelist_detail_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_detail.csv";
+  $panelist_profile_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile.csv";
+  $panelist_profile_image_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile_image.csv";
+  $panelist_mobile_number_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv";
+  $panelist_point_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv";
+  $panelist_sina_connection_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_sina_connection.csv";
+  $pointexchange_91jili_account_file = IMPORT_WW_PATH . "/panel_91wenwen_pointexchange_91jili_account.csv";
+  $vote_answer_file = IMPORT_WW_PATH . "/" . VOTE_ANSWER . ".csv";
+  $panelist_91jili_connection_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_91jili_connection.csv";
+  $sop_respondent_file = IMPORT_WW_PATH . "/sop_respondent.csv";
 
-//todo: get max user id
+  // import file : jili
+  $user_file = IMPORT_JL_PATH . "/user.csv";
+  $user_wenwen_cross_file = IMPORT_JL_PATH . "/user_wenwen_cross.csv";
+  $weibo_user_file = IMPORT_JL_PATH . "/weibo_user.csv";
+  //todo: jili.migration_region_mapping 数据需要导出来
+  $migration_region_mapping_file = IMPORT_JL_PATH . "/migration_region_mapping.csv";
+
+  // export jili csv
+  $migrate_user_csv = $export_path . "/migrate_user.csv";
+  $migrate_user_wenwen_login_csv = $export_path . "/migrate_user_wenwen_login.csv";
+  $migrate_weibo_user_csv = $export_path . "/weibo_user.csv";
+  $migrate_vote_answer_csv = $export_path . "/migrate_vote_answer.csv";
+  $migrate_sop_respondent_csv = $export_path . "/migrate_sop_respondent.csv";
+
+  // $panelist_file_handle = fopen($panelist_file, "r");
+  // $panelist_sina_connection_file_handle = fopen($panelist_sina_connection_file, "r");
+  // $panelist_91jili_connection_file_handle = fopen($panelist_91jili_connection_file, "r");
 
 
-$both_cross_count = 0;
-$both_email_count = 0;
+  //check file
+  $panelist_file_handle = FileUtil::checkFile($panelist_file);
+  // $panelist_detail_file_handle = FileUtil::checkFile($panelist_detail_file);
+  // $panelist_profile_file_handle = FileUtil::checkFile($panelist_profile_file);
+  // // $panelist_profile_image_file_handle = FileUtil::checkFile($panelist_profile_image_file);
+  // $panelist_mobile_number_file_handle = FileUtil::checkFile($panelist_mobile_number_file);
+  // $panelist_point_file_handle = FileUtil::checkFile($panelist_point_file);
+  // $panelist_sina_connection_file_handle = FileUtil::checkFile($panelist_sina_connection_file);
+  $pointexchange_91jili_account_file_handle = FileUtil::checkFile($pointexchange_91jili_account_file);
+  // $vote_answer_file_handle = FileUtil::checkFile($vote_answer_file);
+  $panelist_91jili_connection_file_handle = FileUtil::checkFile($panelist_91jili_connection_file);
 
-//遍历panelist表
-$i = 0;
-fgetcsv($panelist_file_handle, 2000, ",");
-try {
+  $user_file_handle = FileUtil::checkFile($user_file);
+  $user_wenwen_cross_file_handle = FileUtil::checkFile($user_wenwen_cross_file);
+
+  //todo: get max user id
+
+
+  $both_cross_count = 0;
+  $both_email_count = 0;
+
+  //遍历panelist表
+  $i = 0;
+  fgetcsv($panelist_file_handle, 2000, ",");
+  try {
     while (($panelist_data = fgetcsv($panelist_file_handle, 2000, ",")) !== FALSE) {
-        $i++;
-        FileUtil::writeContents($log_path, "i:" . $i);
+      $i++;
+      FileUtil::writeContents($log_path, "i:" . $i);
 
-        if ($i == 2) {
-            FileUtil::writeContents($log_path, "panelist_data:" . var_export($panelist_data, true));
+      if ($i == 2) {
+        FileUtil::writeContents($log_path, "panelist_data:" . var_export($panelist_data, true));
+      }
+
+      $panelist_id = $panelist_data[0];
+      $jili_email = $panelist_email = $panelist_data[3];
+
+      FileUtil::writeContents($log_path, "panelist_id:" . $panelist_id);
+      FileUtil::writeContents($log_path, "panelist_email:" . $panelist_email);
+
+      $j = 0;
+      $k = 0;
+
+      //遍历panel_91wenwen_panelist_91jili_connection表
+      fgetcsv($panelist_91jili_connection_file_handle, 2000, ",");
+      while (($jili_connection_data = fgetcsv($panelist_91jili_connection_file_handle, 2000, ",")) !== FALSE) {
+        $j++;
+
+        if ($j == 2) {
+          FileUtil::writeContents($log_path, "jili_connection_data:" . var_export($jili_connection_data, true));
         }
 
-        $panelist_id = $panelist_data[0];
-        $jili_email = $panelist_email = $panelist_data[3];
+        if ($panelist_id == $jili_connection_data[0]) {
+          $jili_cross_id = $jili_connection_data[1];
 
-        FileUtil::writeContents($log_path, "panelist_id:" . $panelist_id);
-        FileUtil::writeContents($log_path, "panelist_email:" . $panelist_email);
+          FileUtil::writeContents($log_path, "jili_cross_id:" . $jili_cross_id);
 
-        $j = 0;
-        $k = 0;
+          //遍历user_wenwen_cross表
+          $m = 0;
+          fgetcsv($user_wenwen_cross_file_handle, 2000, ",");
+          while (($user_wenwen_cross_data = fgetcsv($user_wenwen_cross_file_handle, 2000, ",")) !== FALSE) {
+            $m++;
 
-        //遍历panel_91wenwen_panelist_91jili_connection表
-        fgetcsv($panelist_91jili_connection_file_handle, 2000, ",");
-        while (($jili_connection_data = fgetcsv($panelist_91jili_connection_file_handle, 2000, ",")) !== FALSE) {
-            $j++;
-
-            if ($j == 2) {
-                FileUtil::writeContents($log_path, "jili_connection_data:" . var_export($jili_connection_data, true));
+            if ($m == 2) {
+              FileUtil::writeContents($log_path, "user_wenwen_cross_data:" . var_export($user_wenwen_cross_data, true));
             }
 
-            if ($panelist_id == $jili_connection_data[0]) {
-                $jili_cross_id = $jili_connection_data[1];
-
-                FileUtil::writeContents($log_path, "jili_cross_id:" . $jili_cross_id);
-
-                //遍历user_wenwen_cross表
-                $m = 0;
-                fgetcsv($user_wenwen_cross_file_handle, 2000, ",");
-                while (($user_wenwen_cross_data = fgetcsv($user_wenwen_cross_file_handle, 2000, ",")) !== FALSE) {
-                    $m++;
-
-                    if ($m == 2) {
-                        FileUtil::writeContents($log_path, "user_wenwen_cross_data:" . var_export($user_wenwen_cross_data, true));
-                    }
-
-                    if ($jili_cross_id == $user_wenwen_cross_data[0]) {
-                        $jili_email = $user_wenwen_cross_data[3];
-                        FileUtil::writeContents($log_path, "jili_cross_id->jili email:" . $jili_email);
-                        $both_cross_count++;
-                        break;
-                    }
-                }
-
-                break;
+            if ($jili_cross_id == $user_wenwen_cross_data[0]) {
+              $jili_email = $user_wenwen_cross_data[3];
+              FileUtil::writeContents($log_path, "jili_cross_id->jili email:" . $jili_email);
+              $both_cross_count++;
+              break;
             }
+          }
+
+          break;
         }
+      }
 
-        //遍历panel_91wenwen_pointexchange_91jili_account表
-        fgetcsv($pointexchange_91jili_account_file_handle, 2000, ",");
-        while (($jili_account_data = fgetcsv($pointexchange_91jili_account_file_handle, 2000, ",")) !== FALSE) {
-            $k++;
+      //遍历panel_91wenwen_pointexchange_91jili_account表
+      fgetcsv($pointexchange_91jili_account_file_handle, 2000, ",");
+      while (($jili_account_data = fgetcsv($pointexchange_91jili_account_file_handle, 2000, ",")) !== FALSE) {
+        $k++;
 
-            if ($k == 2) {
-                FileUtil::writeContents($log_path, "jili_account_data:" . var_export($jili_account_data, true));
-            }
-            if ($panelist_id == $jili_account_data[0]) {
-                $jili_email = $jili_account_data[1];
-                FileUtil::writeContents($log_path, "pointexchange-> jili_email:" . $jili_email);
-                break;
-            }
+        if ($k == 2) {
+          FileUtil::writeContents($log_path, "jili_account_data:" . var_export($jili_account_data, true));
         }
-
-        //遍历jili user 表
-        $user_data = fetch_jili_user($jili_email, $log_path);
-        if ($user_data) {
-            $both_email_count = $both_email_count + 1;
-
-            //todo:生成新的csv文件：拥有两边账号，取问问数据
-            generate_csv();
-
-            //todo:删除user csv文件中该行
-            delete_row_user_csv();
+        if ($panelist_id == $jili_account_data[0]) {
+          $jili_email = $jili_account_data[1];
+          FileUtil::writeContents($log_path, "pointexchange-> jili_email:" . $jili_email);
+          break;
         }
+      }
+
+      //遍历jili user 表
+      $user_data = fetch_jili_user($jili_email, $log_path);
+      if ($user_data) {
+        $both_email_count = $both_email_count + 1;
+
+        //todo:生成新的csv文件：拥有两边账号，取问问数据
+        generate_csv();
+
+        //todo:删除user csv文件中该行
+        delete_row_user_csv();
+      }
     }
-} catch (Exception $e) {
+  } catch (Exception $e) {
     FileUtil::writeContents($log_path, "Exception:" . $e->getMessage());
-}
+  }
 
-FileUtil::writeContents($log_path, "both_cross_count:" . $both_cross_count);
-FileUtil::writeContents($log_path, "both_email_count:" . $both_email_count);
+  FileUtil::writeContents($log_path, "both_cross_count:" . $both_cross_count);
+  FileUtil::writeContents($log_path, "both_email_count:" . $both_email_count);
+
+  FileUtil::writeContents($log_path, date('c') . " end!");
+
+  echo date('c') . " end!\r\n\r\n";
+}
 
 //遍历jili user 表
 function fetch_jili_user($email, $log_path)
 {
     $n = 0;
 
-    $user_file = IMPORT_PATH . "/user.csv";
+    $user_file = IMPORT_JL_PATH . "/user.csv";
     $user_file_handle = FileUtil::checkFile($user_file);
 
     fgetcsv($user_file_handle, 2000, ",");
@@ -264,13 +270,8 @@ function getUserWenwenCrossById( $fh, $id_input) {
 //     //3.panelist.email email在积粒中是否存在
 // }
 
+// do_process();
 
-FileUtil::writeContents($log_path, date('c') . " end!");
-
-echo date('c') . " end!\r\n\r\n";
-exit();
-?>
-<!--
 #import wenwen csv
 #$panelist : "id","panel_region_id","panel_id","email","login_id","login_password","login_password_crypt_type","login_password_salt","updated_at","created_at","created_remote_addr","created_user_agent","login_valid_flag","sex_code","birthday","panelist_status","campaign_code","last_login_time"
 #$panelist_detail :"panelist_id","name_first","name_middle","name_last","furigana_first","furigana_middle","furigana_last","age","zip1","zip2","address1","address2","address3","home_type_code","home_year","tel1","tel2","tel3","tel_mobile1","tel_mobile2","tel_mobile3","mobile_number","marriage_code","child_code","child_num","income_family_code","income_personal_code","job_code","industry_code","work_section_code","graduation_code","industry_code_family","internet_starttime_code","internet_usetime_code","last_answer_date","updated_at","created_at"
@@ -304,8 +305,8 @@ exit();
 
 #$data = FileUtil::csv_get_lines($panelist_file, 100, 2000);
 
-
+/*
 todo: 需要注意的地方
 1. 时区问题，取自问问db中的时间是否应该减去1小时
 2. set_time_limit(0)
--->
+ */
