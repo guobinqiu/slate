@@ -255,6 +255,36 @@ function getUserWenwenCrossById( $fh, $id_input) {
   return ;
 }
 
+/**
+* 遍历panel_91wenwen_pointexchange_91jili_account表
+  * "panelist_id","jili_email","status_flag","stash_data","updated_at","created_at"
+  * "305","28216843@qq.com","1","NULL","2014-02-24 10:21:34","2014-02-20 11:58:08"
+  * "2229759","syravia@gmail.com","0","{""activation_url"":""https://www.91jili.com/user/setPassFromWenwen/944966ca79a14e49c74009896922bf13/1436557""}","2015-11-16 11:38:00","2015-11-16 11:38:00"
+  * @return  or null
+ */
+function getPointExchangeByPanelistId ($fh, $panelist_id_input) {
+  rewind($fh);
+  fgets($fh);
+  while( $row = fgets($fh, 1024)) {
+    $panelist_id_pos = strpos(  $row, ',');
+    if( $panelist_id_input != substr(  $row, 1, $panelist_id_pos - 2  )) {
+      continue;
+    }
+
+    $jili_email_pos = strpos($row, ',', $panelist_id_pos + 1);
+    $status_flag_pos = strpos($row, ',', $jili_email_pos + 1);
+    $status_flag = substr( $row , $jili_email_pos +2 ,  $status_flag_pos- $jili_email_pos-3);      
+
+    if( $status_flag != 1 ) {
+      continue;
+    }
+
+    $jili_email = substr( $row, $panelist_id_pos+2 , $jili_email_pos - $panelist_id_pos -3 );
+    return $jili_email; 
+  }
+  return;
+}
+
 //number one paged
 // $per = 1000;
 
