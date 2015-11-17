@@ -6,14 +6,8 @@ include_once ('CsvReader.php');
 
 function do_process()
 {
-    $import_path = IMPORT_PATH;
-    $export_path = EXPORT_PATH;
-    $log_path = LOG_PATH;
-
     // ini_set("memory_limit",-1);
-
-
-    FileUtil::writeContents($log_path, date('c') . " start!\r\n\r\n");
+    FileUtil::writeContents(LOG_PATH, date('c') . " start!\r\n\r\n");
     echo date('c') . " start!\r\n\r\n";
 
     // import file : wenwen
@@ -72,92 +66,74 @@ function do_process()
     try {
         while (($panelist_data = fgetcsv($panelist_file_handle, 2000, ",")) !== FALSE) {
             $i++;
-            FileUtil::writeContents($log_path, "panelist line:" . $i);
+
+            FileUtil::writeContents(LOG_PATH, "panelist line:" . $i);
 
             $panelist_id = $panelist_data[0];
             $jili_email = $panelist_email = $panelist_data[3];
 
-            //FileUtil::writeContents($log_path, "panelist_id:" . $panelist_id);
-            //FileUtil::writeContents($log_path, "panelist_email:" . $panelist_email);
+            //FileUtil::writeContents(LOG_PATH, "panelist_id:" . $panelist_id);
+            //FileUtil::writeContents(LOG_PATH, "panelist_email:" . $panelist_email);
 
 
             $j = 0;
             $k = 0;
 
             //遍历panel_91wenwen_panelist_91jili_connection表
-            fgetcsv($panelist_91jili_connection_file_handle, 2000, ",");
-            while (($jili_connection_data = fgetcsv($panelist_91jili_connection_file_handle, 2000, ",")) !== FALSE) {
-                $j++;
+            $jili_cross_id = getJiliConnectionByPanelistId($panelist_91jili_connection_file_handle, $panelist_id);
+            if ($jili_cross_id) {
+                FileUtil::writeContents(LOG_PATH, "jili_cross_id:" . $jili_cross_id);
 
-                if ($panelist_id == $jili_connection_data[0]) {
-                    $jili_cross_id = $jili_connection_data[1];
+                //遍历user_wenwen_cross表
+                $jili_email = getUserWenwenCrossById($user_wenwen_cross_file_handle, $jili_cross_id);
+                if ($jili_email) {
+                    FileUtil::writeContents(LOG_PATH, "jili_cross_id->jili email:" . $jili_email);
 
-                    FileUtil::writeContents($log_path, "jili_cross_id:" . $jili_cross_id);
-
-                    //遍历user_wenwen_cross表
-                    $m = 0;
-                    fgetcsv($user_wenwen_cross_file_handle, 2000, ",");
-                    while (($user_wenwen_cross_data = fgetcsv($user_wenwen_cross_file_handle, 2000, ",")) !== FALSE) {
-                        $m++;
-
-                        if ($jili_cross_id == $user_wenwen_cross_data[0]) {
-                            $jili_email = $user_wenwen_cross_data[3];
-                            FileUtil::writeContents($log_path, "jili_cross_id->jili email:" . $jili_email);
-                            $cross_exist_count++;
-                            FileUtil::writeContents($log_path, "cross_exist_count:" . $cross_exist_count);
-                            break;
-                        }
-                    }
-
-                    break;
+                    $cross_exist_count++;
+                    FileUtil::writeContents(LOG_PATH, "cross_exist_count:" . $cross_exist_count);
                 }
             }
 
             //遍历panel_91wenwen_pointexchange_91jili_account表
-            fgetcsv($pointexchange_91jili_account_file_handle, 2000, ",");
-            while (($jili_account_data = fgetcsv($pointexchange_91jili_account_file_handle, 2000, ",")) !== FALSE) {
-                $k++;
-
-                if ($panelist_id == $jili_account_data[0]) {
-                    $jili_email = $jili_account_data[1];
-                    $exchange_exist_count++;
-                    FileUtil::writeContents($log_path, "exchange_exist_count:" . $exchange_exist_count);
-                    FileUtil::writeContents($log_path, "pointexchange-> jili_email:" . $jili_email);
-                    break;
-                }
+            $exchang_jili_email = getPointExchangeByPanelistId($pointexchange_91jili_account_file_handle, $panelist_id);
+            if ($exchang_jili_email) {
+                $jili_email = $exchang_jili_email;
+                $exchange_exist_count++;
+                FileUtil::writeContents(LOG_PATH, "exchange_exist_count:" . $exchange_exist_count);
+                FileUtil::writeContents(LOG_PATH, "pointexchange-> jili_email:" . $jili_email);
             }
 
             //遍历jili user 表
-            $user_data = fetch_jili_user($jili_email, $log_path);
+            $user_data = fetch_jili_user($jili_email);
             if ($user_data) {
                 $both_exist_count = $both_exist_count + 1;
-                FileUtil::writeContents($log_path, "both_exist_count:" . $both_exist_count);
+                FileUtil::writeContents(LOG_PATH, "both_exist_count:" . $both_exist_count);
 
                 //todo:生成新的csv文件：拥有两边账号，相同的部分取问问数据
                 generate_csv_both();
             } else {
                 $only_wenwen_count++;
-                FileUtil::writeContents($log_path, "only_wenwen_count:" . $only_wenwen_count);
+                FileUtil::writeContents(LOG_PATH, "only_wenwen_count:" . $only_wenwen_count);
 
                 //todo:生成新的csv文件：仅存在问问的账号
                 generate_csv_from_wenwen();
             }
         }
     } catch (Exception $e) {
-        FileUtil::writeContents($log_path, "Exception:" . $e->getMessage());
+        FileUtil::writeContents(LOG_PATH, "Exception:" . $e->getMessage());
     }
 
-    FileUtil::writeContents($log_path, "cross_exist_count:" . $cross_exist_count);
-    FileUtil::writeContents($log_path, "exchange_exist_count:" . $exchange_exist_count);
-    FileUtil::writeContents($log_path, "both_exist_count:" . $both_exist_count);
-    FileUtil::writeContents($log_path, "only_wenwen_count:" . $only_wenwen_count);
+    FileUtil::writeContents(LOG_PATH, "cross_exist_count:" . $cross_exist_count);
+    FileUtil::writeContents(LOG_PATH, "exchange_exist_count:" . $exchange_exist_count);
+    FileUtil::writeContents(LOG_PATH, "both_exist_count:" . $both_exist_count);
+    FileUtil::writeContents(LOG_PATH, "only_wenwen_count:" . $only_wenwen_count);
 
-    FileUtil::writeContents($log_path, date('c') . " end!");
+    FileUtil::writeContents(LOG_PATH, date('c') . " end!");
 
     echo date('c') . " end!\r\n\r\n";
 }
 //遍历jili user 表
-function fetch_jili_user($email, $log_path)
+function fetch_jili_user($email)
 {
     $n = 0;
 
@@ -169,7 +145,7 @@ function fetch_jili_user($email, $log_path)
         $n++;
 
         if ($email == $jili_account_data[1]) {
-            FileUtil::writeContents($log_path, "both exist: wenwen=>jili_email:" . $email);
+            FileUtil::writeContents(LOG_PATH, "both exist: wenwen=>jili_email:" . $email);
 
             //todo:删除user csv文件中该行
             //delete_row_user_csv();
@@ -266,52 +242,36 @@ function getUserWenwenCrossById($fh, $id_input)
     }
     return;
 }
+
 /**
-* 遍历panel_91wenwen_pointexchange_91jili_account表
-  * "panelist_id","jili_email","status_flag","stash_data","updated_at","created_at"
-  * "305","28216843@qq.com","1","NULL","2014-02-24 10:21:34","2014-02-20 11:58:08"
-  * "2229759","syravia@gmail.com","0","{""activation_url"":""https://www.91jili.com/user/setPassFromWenwen/944966ca79a14e49c74009896922bf13/1436557""}","2015-11-16 11:38:00","2015-11-16 11:38:00"
-  * @return  or null
+ * 遍历panel_91wenwen_pointexchange_91jili_account表
+ * "panelist_id","jili_email","status_flag","stash_data","updated_at","created_at"
+ * "305","28216843@qq.com","1","NULL","2014-02-24 10:21:34","2014-02-20 11:58:08"
+ * "2229759","syravia@gmail.com","0","{""activation_url"":""https://www.91jili.com/user/setPassFromWenwen/944966ca79a14e49c74009896922bf13/1436557""}","2015-11-16 11:38:00","2015-11-16 11:38:00"
+ * @return  or null
  */
-function getPointExchangeByPanelistId ($fh, $panelist_id_input) 
+function getPointExchangeByPanelistId($fh, $panelist_id_input)
 {
-  rewind($fh);
-  fgets($fh);
-  while( $row = fgets($fh, 1024)) {
-    $panelist_id_pos = strpos(  $row, ',');
-    if( $panelist_id_input != substr(  $row, 1, $panelist_id_pos - 2  )) {
-      continue;
+    rewind($fh);
+    fgets($fh);
+    while ($row = fgets($fh, 1024)) {
+        $panelist_id_pos = strpos($row, ',');
+        if ($panelist_id_input != substr($row, 1, $panelist_id_pos - 2)) {
+            continue;
+        }
+
+        $jili_email_pos = strpos($row, ',', $panelist_id_pos + 1);
+        $status_flag_pos = strpos($row, ',', $jili_email_pos + 1);
+        $status_flag = substr($row, $jili_email_pos + 2, $status_flag_pos - $jili_email_pos - 3);
+
+        if ($status_flag != 1) {
+            continue;
+        }
+
+        $jili_email = substr($row, $panelist_id_pos + 2, $jili_email_pos - $panelist_id_pos - 3);
+        return $jili_email;
     }
-
-    $jili_email_pos = strpos($row, ',', $panelist_id_pos + 1);
-    $status_flag_pos = strpos($row, ',', $jili_email_pos + 1);
-    $status_flag = substr( $row , $jili_email_pos +2 ,  $status_flag_pos- $jili_email_pos-3);      
-
-    if( $status_flag != 1 ) {
-      continue;
-    }
-
-    $jili_email = substr( $row, $panelist_id_pos+2 , $jili_email_pos - $panelist_id_pos -3 );
-    return $jili_email; 
-  }
-  return;
+    return;
 }
-
-//number one paged
-// $per = 1000;
-
-
-// $csvreader_panelist = new CsvReader($panelist_file);
-// $panelist_number = $csvreader_panelist->get_lines();
-// $panelist_page = $panelist_number / $per;
-// for ($i = 0; $i < $panelist_page + 1; $i++) {
-//     $panelist_data = $csvreader_panelist->get_data(10, $i * $per);
-
-
-//     //1.cross_id是否绑定过积粒账号
-
-
-//     //2.panel_91wenwen_pointexchange_91jili_account.91jili_email 是否兑换过积粒
-
 
 // do_process();
