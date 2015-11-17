@@ -1,0 +1,16 @@
+
+gen-sql-ww:
+	source config.bashrc
+	/usr/bin/php -f a.php wenwen > a.sql
+	scp a.sql t-jiang@rpa-staff01:~/
+	ssh   t-jiang@rpa-staff01 'mysql -u ${WW_DB_USER} -p${WW_DB_PWD}-h${WW_DB_HOST}  ${WW_DB_NAME}  < ~/a.sql'  |sed '/^count/d;/^Table/d' |awk -F "\t"  'BEGIN{OFS="\t"} /^[a-z]/ {a=$$1;b=$$2}; /^[0-9]/ {print a,b,$$1}'  | tee ww_mig_tables_qauto.txt
+
+gen-sql-jl:
+	source config.bashrc
+	/usr/bin/php -f a.php jili > a.sql
+	scp -P9012 a.sql jiangtao@jili-web:~/
+	ssh   jiangtao@jili-web -p9012  'mysql -u ${WW_DB_USER} -p${WW_DB_PWD}-h${WW_DB_HOST}  ${WW_DB_NAME} < ~/a.sql' | tee ./a.txt
+	cat a.txt |sed '/^count/d;/^Table/d' |awk -F "\t"  'BEGIN{OFS="\t"} /^[a-z]/ {a=$$1;b=$$2}; /^[0-9]/ {print a,b,$$1}' 
+ 
+
+    
