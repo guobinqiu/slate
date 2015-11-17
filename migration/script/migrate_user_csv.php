@@ -208,16 +208,17 @@ function delete_row_user_csv()
  * @return jili_id or null
  */
 function getJiliConnectionByPanelistId( $fh, $panelist_id_input) {
-  //  rewind($fh);
+  rewind($fh);
   fgets($fh); //skip the title line
   while ($row= fgets($fh, 1024)) {
     $panelist_id_pos = strpos(  $row, ',');                                                                                                                   
+
     if( $panelist_id_input != substr(  $row, 1, $panelist_id_pos - 2  )) {
       continue;
     }
 
     $jili_id_pos = strpos(  $row, ',', $panelist_id_pos +1  );
-    $jili_id = substr( $row,$id_pos+2 , $jili_id_pos - $panelist_id_pos -3 );
+    $jili_id = substr( $row, $panelist_id_pos+2 , $jili_id_pos - $panelist_id_pos -3 );
     $status_flag_pos = strpos(  $row, ',', $jili_id_pos +1 );
 
     $status_flag = substr( $row , $jili_id_pos +2 ,  $status_flag_pos- $jili_id_pos-3);      
@@ -238,16 +239,20 @@ function getJiliConnectionByPanelistId( $fh, $panelist_id_input) {
  * @return email or null
  */
 function getUserWenwenCrossById( $fh, $id_input) {
-  // rewind
+  if(empty($id_input)) {
+    return;
+  }
+  
+  rewind($fh);
   fgets($fh);
   while ($row = fgets($fh) ) {
-    //
     if( substr($row,1, strlen($id_input)  ) != $id_input) {
       continue;
     }
-    return  substr($row, strrpos($row, ',') + 2 , -1);
+    $email = substr($row, strrpos($row, ',') + 2 , -2);
+    return ('NULL' == $email) ? null: $email; 
   }
-  return null;
+  return ;
 }
 
 //number one paged
