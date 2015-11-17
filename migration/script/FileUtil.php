@@ -86,7 +86,7 @@ class FileUtil
      * */
     public static function csv_get_lines($csvfile, $lines, $offset = 0)
     {
-        $fp = FileUtil::checkFile($filename);
+        $fp = FileUtil::checkFile($csvfile);
         $i = $j = 0;
         while (false !== ($line = fgets($fp))) {
             if ($i++ < $offset) {
@@ -102,10 +102,9 @@ class FileUtil
         return $data;
     }
 
-    public static function writeContents($filename, $content) {
-        $log_handle = fopen($filename, "a");
+    public static function writeContents($log_handle, $content)
+    {
         fwrite($log_handle, date("Y-m-d H:i:s") . "  " . $content . "\r\n");
-        fclose($log_handle);
     }
 }
 
