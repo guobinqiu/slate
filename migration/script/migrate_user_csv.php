@@ -196,27 +196,25 @@ function generate_csv_from_wenwen()
  */
 function getJiliConnectionByPanelistId($fh, $panelist_id_input)
 {
-    rewind($fh);
-    fgets($fh); //skip the title line
-    while ($row = fgets($fh, 1024)) {
-        $panelist_id_pos = strpos($row, ',');
+  //skip the title line
+  $row = fgets($fh, 1024);
+  $panelist_id_pos = strpos($row, ',');
+  $panelist_id = substr($row, 1, $panelist_id_pos - 2);
 
-        if ($panelist_id_input != substr($row, 1, $panelist_id_pos - 2)) {
-            continue;
-        }
+  while($panelist_id_input < $panelist_id ) {
 
-        $jili_id_pos = strpos($row, ',', $panelist_id_pos + 1);
-        $jili_id = substr($row, $panelist_id_pos + 2, $jili_id_pos - $panelist_id_pos - 3);
-        $status_flag_pos = strpos($row, ',', $jili_id_pos + 1);
+  }
 
-        $status_flag = substr($row, $jili_id_pos + 2, $status_flag_pos - $jili_id_pos - 3);
-        // need  to check to status_flag
-        if ($status_flag != 1) {
-            continue;
-        }
-        return $jili_id;
-    }
-    return;
+  $jili_id_pos = strpos($row, ',', $panelist_id_pos + 1);
+  $jili_id = substr($row, $panelist_id_pos + 2, $jili_id_pos - $panelist_id_pos - 3);
+  $status_flag_pos = strpos($row, ',', $jili_id_pos + 1);
+
+  $status_flag = substr($row, $jili_id_pos + 2, $status_flag_pos - $jili_id_pos - 3);
+  // need  to check to status_flag
+  if ($status_flag != 1) {
+    return ;
+  }
+  return $jili_id;
 }
 
 /**

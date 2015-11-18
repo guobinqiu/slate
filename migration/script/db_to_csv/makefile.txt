@@ -1,4 +1,3 @@
-JILI_DB=www.91jili.com
 
 dump-jili:
 	/usr/bin/php -f jl_csv.php > jl_csv.sh
@@ -8,6 +7,12 @@ dump-jili:
 #	scp jili_csv.sh jiangtao@${JILI_DB}:~/
 #	jiangtao@${JILI_DB} -e 'mysql -ujili_admin -h vct002 jili_db <  ~/select.sql'
 #	tar jcf - jili_csv.tar.bz | ssh -C  jiangtao@testgroup.91jili.com  'cd ~/tmp/jili_csv;tar jxf -'
+#	 time scp -P9012 jl_csv.tar.bz	 jiangtao@testgroup.91jili.com:/data/91jili/merge
+#	 jiangtao@testgroup.91jili.com:/data/91jili/merge
+#
+# on testgroup.com
+# ssh jiangtao@testgroup.91jili.com -p9012 'cd /data/91jili/merge;time tar xjvf jl_csv.tar.bz'
+#
 dump-ww:
 	/usr/bin/php -f ww_csv.php > ww_csv.sh
 	scp ww_csv.sh config.bashrc.dist  t-jiang@54.254.98.246:/mnt/tmp/merge/bin/
@@ -17,44 +22,17 @@ dump-ww:
 # on 235 
 #  time scp t-jiang@54.254.98.246:/mnt/tmp/merge/ww_csv.tar.bz /tmp/
 #  real    4m43.764s
+#  real    3m19.486s
+#
 #  time scp -P9012 /tmp/ww_csv.tar.bz jiangtao@testgroup.91jili.com:/data/91jili/merge/
 #  real    0m57.179s
+#  real    0m44.756s
+#
+#  
 
 # on testgroup.com
 # ssh jiangtao@testgroup.91jili.com -p9012 'cd /data/91jili/merge;time tar xjvf ww_csv.tar.bz'
 #  real    1m3.397s
 
-gen-bash-ww:
-# on rpa-staff01
-#  time scp   -C -o CompressionLevel=9 -P9012 jiangtao@testgroup.91jili.com:~/tmp/ww_csv/ ~/tmp/ww_csv/
-#	mkdir ~/tmp/
-scp-all:
-	scp t-jiang@rpa-staff01:~/panelist_wenwen.csv ~/tmp/
-	scp t-jiang@rpa-staff01:~/panel_91wenwen_panelist_profile_wenwen.csv ~/tmp/
-	scp t-jiang@rpa-staff01:~/panel_91wenwen_panelist_detail_wenwen.csv ~/tmp/
-	scp t-jiang@rpa-staff01:~/panel_91wenwen_panelist_point_wenwen.csv ~/tmp/
-	scp t-jiang@rpa-staff01:~/panel_91wenwen_panelist_mobile_number_wenwen.csv ~/tmp/
-	scp t-jiang@rpa-staff01:~/panel_91wenwen_pointexchange_91jili_account_wenwen.csv ~/tmp/
-	scp t-jiang@rpa-staff01:~/panel_91wenwen_panelist_sina_connection_wenwen.csv ~/tmp/
-	scp t-jiang@rpa-staff01:~/panel_91wenwen_vote_answer_201511_wenwen.csv ~/tmp/
-	scp t-jiang@rpa-staff01:~/panel_91wenwen_vote_wenwen.csv ~/tmp/
-	scp t-jiang@rpa-staff01:~/panel_91wenwen_vote_image_wenwen.csv ~/tmp/
-	scp t-jiang@rpa-staff01:~/panel_91wenwen_vote_choice_wenwen.csv ~/tmp/
-	
-	
-	 
-scp-to-testgroup:
-	tmp/ww_csv
-	scp ~/tmp/panelist_wenwen.csv jiangtao@jili-test:~/tmp/
-	scp ~/tmp/panel_91wenwen_panelist_profile_wenwen.csv jiangtao@jili-test:~/tmp/
-	scp ~/tmp/panel_91wenwen_panelist_detail_wenwen.csv jiangtao@jili-test:~/tmp/
-	scp ~/tmp/panel_91wenwen_panelist_point_wenwen.csv jiangtao@jili-test:~/tmp/
-	scp ~/tmp/panel_91wenwen_panelist_mobile_number_wenwen.csv jiangtao@jili-test:~/tmp/
-	scp ~/tmp/panel_91wenwen_pointexchange_91jili_account_wenwen.csv jiangtao@jili-test:~/tmp/
-	scp ~/tmp/panel_91wenwen_panelist_sina_connection_wenwen.csv jiangtao@jili-test:~/tmp/
-	scp ~/tmp/panel_91wenwen_vote_answer_201511_wenwen.csv jiangtao@jili-test:~/tmp/
-	scp ~/tmp/panel_91wenwen_vote_wenwen.csv jiangtao@jili-test:~/tmp/
-	scp ~/tmp/panel_91wenwen_vote_image_wenwen.csv jiangtao@jili-test:~/tmp/
-	scp ~/tmp/panel_91wenwen_vote_choice_wenwen.csv jiangtao@jili-test:~/tmp/
 
 
