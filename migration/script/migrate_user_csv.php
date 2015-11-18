@@ -63,6 +63,15 @@ function do_process()
     $both_exist_count = 0; //cross_exist_count+exchange_exist_count+wenwen_email
     $only_wenwen_count = 0;
 
+    // panel_91wenwen_panelist_91jili_connection 记录当前的connection csv handler中的行。 
+    $connection_current = array() ;
+     // 遍历user_wenwen_cross表
+    $cross_current = array();
+
+     // 遍历user_wenwen_cross表
+    $exchange_current_line = null;
+    $exchange_current_id = null;
+
     //遍历panelist表
     $i = 0;
     fgetcsv($panelist_file_handle, 2000, ",");
@@ -196,30 +205,58 @@ function generate_csv_from_wenwen()
  *
  * "panelist_id","jili_id","status_flag","stash_data","updated_at","created_at"
  * "305","16980","1","NULL","2015-01-07 16:50:12","2015-01-07 16:50:12"
- *
  * @return jili_id or null
  */
-function getJiliConnectionByPanelistId($fh, $panelist_id_input)
+function getJiliConnectionByPanelistId($fh, $panelist_id_input, array $current )
 {
-  //skip the title line
-  $row = fgets($fh, 1024);
-  $panelist_id_pos = strpos($row, ',');
-  $panelist_id = substr($row, 1, $panelist_id_pos - 2);
 
-  while($panelist_id_input < $panelist_id ) {
-
+  if(empty($panelist_id_input)) {
+    $current ['matched'] = 0 ;
+    return $current;
   }
 
-  $jili_id_pos = strpos($row, ',', $panelist_id_pos + 1);
-  $jili_id = substr($row, $panelist_id_pos + 2, $jili_id_pos - $panelist_id_pos - 3);
-  $status_flag_pos = strpos($row, ',', $jili_id_pos + 1);
-
-  $status_flag = substr($row, $jili_id_pos + 2, $status_flag_pos - $jili_id_pos - 3);
-  // need  to check to status_flag
-  if ($status_flag != 1) {
-    return ;
+  if( isset($current['panelist_id'] ) ) {
+    if( $panelist_id_input ==  $current['panelist_id']  ) {
+      $current ['matched'] = 1 ;
+      return $current;
+    } else if($panelist_id_input <  $current['panelist_id']  ) {
+      $current ['matched'] = 0 ;
+      return $current;
+    }
+  } else {
+    rewind($fh);
+    fgets($fh);
   }
-  return $jili_id;
+
+
+  $current['matched'] = 0 ;
+  // the input panelist_id > current panelist_id, move next line.
+  while( $row = fgets($fh, 1024) ) {
+    $panelist_id_pos = strpos($row, ',');
+    $current['panelist_id'] = substr($row, 1, $panelist_id_pos - 2);
+
+    if( $panelist_id_input <= $current['panelist_id'] ) {
+      $jili_id_pos = strpos($row, ',', $panelist_id_pos + 1);
+      $current['jili_id'] = substr($row, $panelist_id_pos + 2, $jili_id_pos - $panelist_id_pos - 3);
+
+      if( $panelist_id_input != $current['panelist_id']  ) {
+        break;
+      }
+
+      $status_flag_pos = strpos($row, ',', $jili_id_pos + 1);
+
+      $status_flag = substr($row, $jili_id_pos + 2, $status_flag_pos - $jili_id_pos - 3);
+      // need  to check to status_flag
+      if ($status_flag != 1) {
+        break;
+      }
+
+      $current['matched'] = 1 ;
+      break;
+    }
+  }
+
+  return $current;
 }
 
 /**
@@ -228,22 +265,44 @@ function getJiliConnectionByPanelistId($fh, $panelist_id_input)
  * "5629","1270570","2014-11-26 16:32:00","NULL"
  * @return email or null
  */
-function getUserWenwenCrossById($fh, $id_input)
+function getUserWenwenCrossById($fh, $id_input, $current)
 {
-    if (empty($id_input)) {
-        return;
-    }
+  if(empty($id_input)) {
+    $current ['matched'] = 0 ;
+    return $current;
+  }
 
+  if( isset($current['id'] ) ) {
+    if( $id_input ==  $current['id']  ) {
+      $current ['matched'] = 1 ;
+      return $current;
+    } else if($id_input <  $current['id']  ) {
+    $current ['matched'] = 0 ;
+      return $current;
+    }
+  } else {
     rewind($fh);
     fgets($fh);
-    while ($row = fgets($fh)) {
-        if (substr($row, 1, strlen($id_input)) != $id_input) {
-            continue;
-        }
+  }
+
+
+  $current['matched'] = 0 ;
+  while( $row = fgets($fh, 1024) ) {
+
+    $id_pos = strpos($row, ',');
+    $current['id'] = substr($row, 1, $id_pos - 2);
+
+
+    if( $id_input <= $current['id']) {
         $email = substr($row, strrpos($row, ',') + 2, -2);
-        return ('NULL' == $email) ? null : $email;
+        $current['email'] = ('NULL' == $email) ? null : $email;
+        if($id_input == $current['id'] ) {
+          $current['matched']=1;
+        }
+        break;
     }
-    return;
+  }
+  return $current;
 }
 
 /**
@@ -253,8 +312,54 @@ function getUserWenwenCrossById($fh, $id_input)
  * "2229759","syravia@gmail.com","0","{""activation_url"":""https://www.91jili.com/user/setPassFromWenwen/944966ca79a14e49c74009896922bf13/1436557""}","2015-11-16 11:38:00","2015-11-16 11:38:00"
  * @return  or null
  */
-function getPointExchangeByPanelistId($fh, $panelist_id_input)
+function getPointExchangeByPanelistId($fh, $panelist_id_input, $current)
 {
+  if(empty($panelist_id_input)) {
+    $current ['matched'] = 0 ;
+    return $current;
+  }
+
+  if( isset($current['panelist_id'] ) ) {
+    if( $panelist_id_input ==  $current['panelist_id']  ) {
+      $current ['matched'] = 1 ;
+      return $current;
+    } else if($panelist_id_input <  $current['panelist_id']  ) {
+      $current ['matched'] = 0 ;
+      return $current;
+    }
+  } else {
+    rewind($fh);
+    fgets($fh);
+  }
+
+
+  $current['matched'] = 0 ;
+  // the input panelist_id > current panelist_id, move next line.
+  while( $row = fgets($fh, 2048)) {
+    $panelist_id_pos = strpos($row, ',');
+    $current['panelist_id'] = substr($row, 1, $panelist_id_pos - 2);
+    if( $panelist_id_input <= $current['panelist_id'] ) {
+
+      $jili_email_pos = strpos($row, ',', $panelist_id_pos + 1);
+      $current['jili_email'] = substr($row, $panelist_id_pos + 2, $jili_email_pos - $panelist_id_pos - 3);
+
+      if( $panelist_id_input != $current['panelist_id']  ) {
+        break;
+      }
+
+      $status_flag_pos = strpos($row, ',', $jili_email_pos + 1);
+      $status_flag = substr($row, $jili_email_pos + 2, $status_flag_pos - $jili_email_pos - 3);
+      if ($status_flag != 1) {
+        break;
+      }
+      $current['matched']=1;
+      break;
+    }
+
+  }
+  return $current;
+
+  ///
     rewind($fh);
     fgets($fh);
     while ($row = fgets($fh, 1024)) {
