@@ -6,6 +6,7 @@ $tables =array(
 //  'user_wenwen_cross' ,
   'exchange_from_wenwen',
   'migration_region_mapping',
+  'weibo_user',
 );
 
 

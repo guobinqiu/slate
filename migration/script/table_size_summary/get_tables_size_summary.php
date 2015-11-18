@@ -14,6 +14,7 @@ if( $argv[1] == 'jili' )  {
     'user_wenwen_cross',
     'exchange_from_wenwen',
     'migration_region_mapping',
+    'weibo_user',
   );
   $db = 'jili_db';
 }else if( $argv[1] == 'wenwen' )  {

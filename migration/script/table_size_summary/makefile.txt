@@ -1,15 +1,13 @@
 
 gen-sql-ww:
-	
-	/usr/bin/php -f a.php wenwen > a.sql
+	php -f get_tables_size_summary.php wenwen > a.sql
 	scp a.sql t-jiang@54.254.98.246:/mnt/tmp/merge/bin/
-	ssh   t-jiang@54.254.98.246 'cd /mnt/tmp/merge/bin/;source config.bashrc;mysql -u ${WW_DB_USER} -p${WW_DB_PWD}-h${WW_DB_HOST}  ${WW_DB_NAME}  < a.sql'  |sed '/^count/d;/^Table/d' |awk -F "\t"  'BEGIN{OFS="\t"} /^[a-z]/ {a=$$1;b=$$2}; /^[0-9]/ {print a,b,$$1}'  | tee ww_mig_tables_qauto.txt
+	ssh   t-jiang@54.254.98.246 'cd /mnt/tmp/merge/bin/;source config.bashrc;mysql -u $${WW_DB_USER} -p$${WW_DB_PWD}-h$${WW_DB_HOST}  $${WW_DB_NAME}  < a.sql'  |sed '/^count/d;/^Table/d' |awk -F "\t"  'BEGIN{OFS="\t"} /^[a-z]/ {a=$$1;b=$$2}; /^[0-9]/ {print a,b,$$1}'  | tee ww_mig_tables_qauto.txt
 
 gen-sql-jl:
-	
-	/usr/bin/php -f a.php jili > a.sql
-	scp -P9012 a.sql jiangtao@www.91jili.com:/date/91jili/merge/bin/
-	ssh   jiangtao@www.91jili.com -p9012  'cd /date/91jili/merge/bin/;source config.bashrc;mysql -u ${WW_DB_USER} -p${WW_DB_PWD}-h${WW_DB_HOST}  ${WW_DB_NAME} < a.sql' | tee ./a.txt
+	php -f get_tables_size_summary.php jili > a.sql
+	scp -P9012 a.sql jiangtao@www.91jili.com:/data/91jili/merge/bin/
+	ssh   jiangtao@www.91jili.com -p9012  'cd /data/91jili/merge/bin/;source config.bashrc;mysql -u $${JILI_DB_USER} -p$${JILI_DB_PWD} -h$${JILI_DB_HOST}  $${JILI_DB_NAME} < a.sql' | tee ./a.txt
 	cat a.txt |sed '/^count/d;/^Table/d' |awk -F "\t"  'BEGIN{OFS="\t"} /^[a-z]/ {a=$$1;b=$$2}; /^[0-9]/ {print a,b,$$1}' 
  
 
