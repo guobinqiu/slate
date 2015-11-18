@@ -167,6 +167,7 @@ EOD
     $this->assertEquals("854799320@qq.com", $a[61433] );
     fclose($fh);
   }
+
   function test_getPointExchangeByPanelistId() {
     $fh = tmpfile();
     fwrite($fh, <<<EOD
@@ -206,6 +207,47 @@ EOD
     $this->assertEquals(0,$return['matched'] );
     $this->assertEquals(2230880,$return['panelist_id'] );
     $this->assertEquals('13559988133@163.com',$return['jili_email'] );
+
+    fclose($fh);
+  }
+
+  function test_getUser() {
+    $fh = tmpfile();
+    fwrite($fh, <<<EOD
+"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
+"1291365"," 1160595417@qq.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","NULL","NULL","NULL","","QQ懂你","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","NULL","0","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1374309"," 1766995961@qq.com","5ffad97ae3afff80a04060a03cde79e5743e687b","NULL","NULL","NULL","","QQ顾小白","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-07-03 16:43:14","2015-07-03 16:43:14","NULL","1","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1378657"," 209772454@qq.com","d09930b1d566b15a728eb82bd24402f7b83ecb30","NULL","NULL","NULL","","QQD-Oneight","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-07-10 11:01:14","2015-07-10 11:01:14","NULL","1","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1379445"," 2245303447@qq.com","639ce910d44d212f20397b86bfa57717b7a22e2d","NULL","NULL","NULL","","QQ丫丫","2","1994-10","","NULL","9","88","NULL","NULL","103","1,2,3,4,7,9,11,12","NULL","NULL","1","2015-07-11 19:10:52","2015-07-11 19:28:07","39.182.89.128","26","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1331179"," 2292220927@qq.com","643af5f1dccc9301c97b005a927ffda7fbcdc540","NULL","NULL","NULL","","QQ交予我.","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-04-18 15:30:57","2015-04-18 15:30:57","NULL","0","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1304351"," 3145737585@qq.com","94f696b7723b22b4dec1b8c2d58a848e236d5059","NULL","NULL","NULL","","QQ小霸王.☀","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-02-18 18:28:52","2015-02-18 18:28:52","NULL","0","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1277673"," 3165376163@qq.com","a1f243356e9c1f3670b697491b9e42bf61cb1396","NULL","NULL","NULL","","QQ梨落落","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2014-12-15 16:24:18","2014-12-15 16:24:18","NULL","1","1","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1349140"," 3226706849@qq.com","dfa89a28e5ecc965981676629308856009036c35","NULL","NULL","NULL","","QQ联友国旅--刘欢","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-05-14 11:30:12","2015-05-14 11:30:12","NULL","0","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1325239"," 3244434708@qq.com","e36c7eae682695a81ab3f883e9ab8f11dc3ebda0","NULL","NULL","NULL","","QQ★보고싶다 진짜~★","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-04-05 13:43:27","2015-04-05 13:43:27","NULL","0","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1378015","z_ch_hui@126.com","NULL","NULL","2","NULL","","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-07-09 10:42:54","2015-07-09 10:42:54","NULL","0","NULL","0","NULL","1ff490bcd868afc46523a7bba3aca21173173525","NULL","NULL","NULL","NULL","NULL","NULL"
+"1050778","z_j1224@163.com","b2c7101f2856b9692362716467c87bca2cef9c21","NULL","1","NULL","","缘字诀","1","1988-5","13585926135","NULL","1","1","NULL","NULL","103","1,2,3","NULL","NULL","1","2013-08-06 17:24:05","2014-03-01 10:49:15","116.247.87.130","0","NULL","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1257919","z_q_nancy@163.com","1b9ed0d64ac9e60283d0b30b8760247267d34210","NULL","2","NULL","0e1eef00d07f86563dfcc9b50c0e6cb2","prettyzq","2","1986-8","13526810713","NULL","14","164","NULL","NULL","102","1,2,3,4,5,6,7,8,9,10,11,12","NULL","NULL","1","2014-10-28 12:08:31","2014-10-30 12:26:17","49.122.70.12","0","NULL","1","NULL","72ae2cb6b55a581da7c0284354ac68fdd69e8e3d","2014-10-30 12:26:14","NULL","NULL","NULL","NULL","NULL"
+"1345834","z_ww1986@163.com","NULL","NULL","2","NULL","","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-05-07 11:05:13","2015-05-07 11:05:13","NULL","0","NULL","0","NULL","f4245ae16bff291622e0018f3aa6b78390434bba","NULL","NULL","NULL","NULL","NULL","NULL"
+"1237308","z_xinyao@126.com","NULL","NULL","2","NULL","","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2014-09-09 22:45:18","2014-09-09 22:45:18","NULL","0","NULL","0","NULL","fcbefd365ebe8a055deddcd0afea9d56aa8609e5","NULL","NULL","NULL","NULL","NULL","NULL"
+"1242432","z_x_shou@qq.com","NULL","NULL","2","NULL","","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2014-09-22 15:12:03","2014-09-22 15:12:03","NULL","0","NULL","0","NULL","901dba3cb3e796a64935ddf2f6e0aff2b90eafcf","NULL","NULL","NULL","NULL","NULL","NULL"
+"1343126","z_zh1988@126.com","NULL","NULL","2","NULL","","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-05-04 15:37:57","2015-05-04 15:37:57","NULL","0","NULL","0","NULL","927c41f77cac442334ae21b1e289e509fa17a16f","NULL","NULL","NULL","NULL","NULL","NULL"
+"1304571","z_z_shanyang@qq.com","NULL","NULL","2","NULL","","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-02-19 08:25:53","2015-02-19 08:25:53","NULL","0","NULL","0","NULL","7b02c7af63a61287f1bfc0804f3e6dfe61aa75db","NULL","NULL","NULL","NULL","NULL","NULL"
+"1099948","_me@qq.com","NULL","NULL","NULL","NULL","","zlme1009","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2014-01-23 23:25:07","2014-01-23 23:25:07","NULL","0","NULL","0","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1132079","_stlinshaohe@163.com","fdb587f7e8ff7fcaeabe7c0e56b85a68bb7663db","NULL","1","NULL","afcbe91e92487425b3b368f79bf9ac35","lznet","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2014-04-11 19:22:25","2015-06-02 15:24:04","123.89.81.0","1","NULL","0","NULL","c33ba821f6ebbd46690da2dfd15f5da84eb0e3fa","2015-01-12 20:36:57","NULL","NULL","NULL","NULL","NULL"
+
+EOD
+  );
+
+    $ret = getUser($fh);
+
+    $this->assertCount(19, $ret);
+
+    $this->assertEquals( 1132079, $ret['_stlinshaohe@163.com']['id'] ,'"1132079","_stlinshaohe@163.com",');
+
+    $pos = strlen('"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"');
+
+
+    $this->assertEquals($pos +1 , $ret[" 1160595417@qq.com"]['pointer'] ,'first line point');
 
     fclose($fh);
   }

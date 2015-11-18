@@ -101,23 +101,50 @@ function getUserWenwenCrossById($fh, $id_input, $current)
     return $current;
 }
 
+function getUserWenwenCross($fh)
+{
+     rewind($fh);
+     fgets($fh);
+     $a = array ();
+ 
+     while ($row = fgets($fh, 1024)) {
+
+         $id_pos = strpos($row, ',');
+        $email = substr($row, strrpos($row, ',') + 2, -2);
+        $a[substr($row, 1, $id_pos - 2)] = ('NULL' == $email) ? null : $email;
+     }
+     return $a;
+}
+
 /**
  * @param $fh file hanlder
  * @return  array( cross_id=> $email) ;
  */
-function getUserWenwenCross($fh)
+function getUser($fh)
 {
     rewind($fh);
     fgets($fh);
-    $a = array ();
 
-    while ($row = fgets($fh, 1024)) {
+    $p = ftell($fh); // the pointer for each row
+    $r = fgets($fh);
+    $data = array() ;
 
-        $id_pos = strpos($row, ',');
-        $email = substr($row, strrpos($row, ',') + 2, -2);
-        $a[substr($row, 1, $id_pos - 2)] = ('NULL' == $email) ? null : $email;
+    while( ! feof($fh)) {
+
+        $id_pos  = strpos($r, ',');
+        $email_pos = strpos($r, ',', $id_pos  + 1);
+
+        $email=  substr($r, $id_pos + 2, $email_pos - $id_pos - 3);
+        $data[$email]=   array(
+            'id'=>  substr($r, 1, $id_pos -2),
+            'pointer' => $p,
+        );
+
+        $p = ftell($fh);
+        $r = fgets($fh);
     }
-    return $a;
+
+    return $data;
 }
 
 /**
@@ -173,18 +200,6 @@ function getPointExchangeByPanelistId($fh, $panelist_id_input, $current)
     return $current;
 }
 
-/**
- * @param $fh file hanlder
- * @return  array( email => user_id ) ;
- */
-function getUserCsv($fh)
-{
-    rewind($fh);
-    fgets($fh);
-    while ($row = fgets($fh, 2048)) {
-    }
-    return $a;
-}
 
 //user data of both exist on wenwen and jili
 function generate_user_data_both_exsit($panelist_row, $user_row)

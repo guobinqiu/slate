@@ -1,7 +1,8 @@
 <?php
-include_once ('config.php');
-include_once ('FileUtil.php');
-include_once ('Constants.php');
+include('config.php');
+include('FileUtil.php');
+include('Constants.php');
+include ('migrate_function.php');
 
 
 function do_process()
@@ -54,11 +55,9 @@ function do_process()
 
     $user_file_handle = FileUtil::checkFile($user_file);
     $user_wenwen_cross_file_handle = FileUtil::checkFile($user_wenwen_cross_file);
-loop_user_csv($user_file_handle);
-return;
 
     //todo: get max user id
-    $jili_user_data = FileUtil::readCsvContent($user_file);
+//    $jili_user_data = FileUtil::readCsvContent($user_file);
 
 
     $cross_exist_count = 0;
@@ -69,9 +68,8 @@ return;
     // panel_91wenwen_panelist_91jili_connection 记录当前的connection csv handler中的行。 
     $connection_current = array() ;
      // 遍历user_wenwen_cross表
-    $cross_current = array();
     $cross =  getUserWenwenCross( $user_wenwen_cross_file_handle);
-
+    $user  =  getUser( $user_file_handle);
      // 遍历user_wenwen_cross表
     $exchange_current = array() ;
 
@@ -90,65 +88,65 @@ return;
             //FileUtil::writeContents($log_handle, "panelist_id:" . $panelist_id);
             //FileUtil::writeContents($log_handle, "panelist_email:" . $panelist_email);
 
-
             $j = 0;
             $k = 0;
 
             //遍历panel_91wenwen_panelist_91jili_connection表
             $connection_current = getJiliConnectionByPanelistId($panelist_91jili_connection_file_handle, $panelist_id,$connection_current );
-            
-           $jili_cross_id = ($connection_current['matched'] == 1) ? $connection_current['jili_id']: null;
+            $jili_cross_id = ($connection_current['matched'] == 1) ? $connection_current['jili_id']: null;
 
             if ($jili_cross_id) {
-                FileUtil::writeContents($log_handle, "jili_cross_id:" . $jili_cross_id);
+//              FileUtil::writeContents($log_handle, "jili_cross_id:" . $jili_cross_id);
 
-                //遍历user_wenwen_cross表
-    //           $cross_current = getUserWenwenCrossById($user_wenwen_cross_file_handle, $jili_cross_id, $cross_current);
-     //           $jili_email = ($cross_current['matched'] == 1) ? $cross_current['email']: null;
-                if( isset($cross[$jili_cross_id]) ) {
-                  $jili_email = $cross[$jili_cross_id];
-                  unset($cross[$jili_cross_id]);
- //               }
+              //遍历user_wenwen_cross表
+              if( isset($cross[$jili_cross_id]) ) {
+                $jili_email = $cross[$jili_cross_id];
+                unset($cross[$jili_cross_id]);
 
-//                if ($jili_email) {
-//                    FileUtil::writeContents($log_handle, "jili_cross_id->jili email:" . $jili_email);
-                    $cross_exist_count++;
- //                   FileUtil::writeContents($log_handle, "cross_exist_count:" . $cross_exist_count);
+                if ($jili_email) {
+                  //                    FileUtil::writeContents($log_handle, "jili_cross_id->jili email:" . $jili_email);
+                  $cross_exist_count++;
+                  //                   FileUtil::writeContents($log_handle, "cross_exist_count:" . $cross_exist_count);
+                  continue;
                 }
+              }
             }
+
             //遍历panel_91wenwen_pointexchange_91jili_account表
             $exchange_current = getPointExchangeByPanelistId($pointexchange_91jili_account_file_handle, $panelist_id,$exchange_current);
             $exchang_jili_email =  ($exchange_current['matched'] == 1) ? $exchange_current['jili_email']: null;
             if ($exchang_jili_email) {
               $jili_email = $exchang_jili_email;
               $exchange_exist_count++;
-              continue;
               //                FileUtil::writeContents($log_handle, "exchange_exist_count:" . $exchange_exist_count);
               //               FileUtil::writeContents($log_handle, "pointexchange-> jili_email:" . $jili_email);
+              continue;
             }
+
             //遍历jili user 表
-            foreach ($jili_user_data as $user_key => $user_row) {
-                if ($jili_email == $user_row[1]) {
+            if( isset($user[$jili_email])) {
                     $both_exist_count = $both_exist_count + 1;
-                    FileUtil::writeContents($log_handle, "both_exist_count:" . $both_exist_count);
-
-                  unset($jili_user_data [$user_key]);
-                  break;
-                }
+//                    FileUtil::writeContents($log_handle, "both_exist_count:" . $both_exist_count);
+                  unset($user[$jili_email]);
+                  continue;;
             }
-
-
+            $only_wenwen_count++;
         }
     } catch (Exception $e) {
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
     }
 
-    FileUtil::writeContents($log_handle, "cross_exist_count:" . $cross_exist_count);
-    FileUtil::writeContents($log_handle, "exchange_exist_count:" . $exchange_exist_count);
-    FileUtil::writeContents($log_handle, "both_exist_count:" . $both_exist_count);
-    FileUtil::writeContents($log_handle, "only_wenwen_count:" . $only_wenwen_count);
+    FileUtil::writeContents($log_handle, "\n\tcross_exist_count:" . $cross_exist_count.
+     "\n\texchange_exist_count:" . $exchange_exist_count.
+     "\n\tboth_exist_count:" . $both_exist_count.
+     "\n\tonly_wenwen_count:" . $only_wenwen_count.
+     "\n\ttotal:" .  ( $cross_exist_count + $exchange_exist_count+ $both_exist_count + $only_wenwen_count )
+);
+
 
     FileUtil::writeContents($log_handle, "end!");
+    echo ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB'. "\n"; 
+
 
     echo date('Y-m-d H:i:s') . " end!\r\n\r\n";
 
