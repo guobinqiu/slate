@@ -71,85 +71,98 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //password_choice
     $user_row[34] = 1; //todo:定义常量
 
+
     //tel: panel_91wenwen_panelist_mobile_number.mobile_number
-    global $panelist_mobile_number_file;
+    $panelist_mobile_number_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv";
     $panelist_mobile_data = FileUtil::readCsvContent($panelist_mobile_number_file);
-    foreach ($panelist_mobile_data as $panelist_mobile_row){
-        if($panelist_row[0] == $panelist_mobile_row[0]){
+    foreach ($panelist_mobile_data as $panelist_mobile_row) {
+        if ($panelist_row[0] == $panelist_mobile_row[0]) {
             $user_row[10] = $panelist_mobile_row[1];
             break;
         }
     }
 
-    //province: panelist.panel_region_id
-
-    global $migration_region_mapping_file;
+    //province , city : panelist.panel_region_id
+    $migration_region_mapping_file = IMPORT_JL_PATH . "/migration_region_mapping.csv";
     $region_mapping_data = FileUtil::readCsvContent($migration_region_mapping_file);
-    foreach ($region_mapping_data as $region_mapping_row){
-        if($panelist_row[0] == $panelist_mobile_row[0]){
-            $user_row[10] = $panelist_mobile_row[1];
+    foreach ($region_mapping_data as $region_mapping_row) {
+        if ($panelist_row[1] == $region_mapping_row[0]) {
+            //province
+            $user_row[12] = $region_mapping_row[1];
+            //city
+            $user_row[13] = $region_mapping_row[2];
             break;
         }
     }
 
-    $user_row[12] = 'todo';
+    $panelist_detail_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_detail.csv";
+    $panelist_detail_data = FileUtil::readCsvContent($panelist_detail_file);
+    foreach ($panelist_detail_data as $panelist_detail_row) {
+        if ($panelist_row[0] == $panelist_detail_row[0]) {
 
-    //city: panelist.panel_region_id
-    $user_row[13] = 'todo';
+            //education: detail.graduation_code
+            $user_row[14] = 'todo';
 
+            //profession: detail.detail.job_code
+            $user_row[15] = 'todo';
 
+            //income : detail.income_personal_code
+            $user_row[16] = 'todo';
 
-    //education: detail.graduation_code
-    $user_row[14] = 'todo';
+            //industry_code: detail.industry_code
+            $user_row[37] = 'todo';
 
-    //profession: detail.detail.job_code
-    $user_row[15] = 'todo';
+            //work_section_code: detail.work_section_code
+            $user_row[38] = 'todo';
 
-    //income : detail.income_personal_code
-    $user_row[16] = 'todo';
+            break;
+        }
+    }
 
-    //industry_code: detail.industry_code
-    $user_row[37] = 'todo';
+    $panelist_profile_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile.csv";
+    $panelist_profile_data = FileUtil::readCsvContent($panelist_profile_file);
+    foreach ($panelist_profile_data as $panelist_profile_row) {
 
-    //work_section_code: detail.work_section_code
-    $user_row[38] = 'todo';
+        if ($panelist_row[0] == $panelist_profile_row[1]) {
+            //hobby: profile.hobby
+            $user_row[17] = 'todo';
 
+            //personalDes: profile.biography
+            $user_row[18] = 'todo';
 
+            //fav_music: profile.fav_music
+            $user_row[35] = 'todo';
 
+            //monthly_wish:profile.monthly_wish
+            $user_row[36] = 'todo';
 
-    //hobby: profile.hobby
-    $user_row[17] = 'todo';
-
-    //personalDes: profile.biography
-    $user_row[18] = 'todo';
-
-
-    //fav_music: profile.fav_music
-    $user_row[35] = 'todo';
-
-    //monthly_wish:profile.monthly_wish
-    $user_row[36] = 'todo';
-
-
+            break;
+        }
+    }
 
     //last_login_ip todo
-    $user_row[23] = 'todo';
+    //$user_row[23] = 'todo';
+
 
     //points: panel_91wenwen_panelist_point.point_value
-    $user_row[24] = 'todo';
-
-
+    $panelist_point_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv";
+    $panelist_point_data = FileUtil::readCsvContent($panelist_point_file);
+    foreach ($panelist_point_data as $panelist_point_row) {
+        if ($panelist_row[0] == $panelist_point_row[0]) {
+            $user_row[24] = $user_row[24] + $panelist_point_row[1];
+            break;
+        }
+    }
 
     //icon_path:panelist_profile_image
-    $user_row[27] = 'todo';
-
-
-
-
-
-
-
-
+    $panelist_profile_image_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile_image.csv";
+    $panelist_profile_image_data = FileUtil::readCsvContent($panelist_profile_image_file);
+    foreach ($panelist_profile_image_data as $panelist_profile_image_row) {
+        if ($panelist_row[0] == $panelist_profile_image_row[0]) {
+            $user_row[27] = $panelist_profile_image_row[1];
+            break;
+        }
+    }
     return $user_row;
 }
 

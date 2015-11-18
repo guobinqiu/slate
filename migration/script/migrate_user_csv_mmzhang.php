@@ -6,40 +6,20 @@ include_once ('migrate_function.php');
 
 ini_set('memory_limit', '-1');
 
-// import file : wenwen
-$panelist_file = IMPORT_WW_PATH . "/panelist.csv";
-$panelist_detail_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_detail.csv";
-$panelist_profile_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile.csv";
-$panelist_profile_image_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile_image.csv";
-$panelist_mobile_number_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv";
-$panelist_point_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv";
-$panelist_sina_connection_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_sina_connection.csv";
-$pointexchange_91jili_account_file = IMPORT_WW_PATH . "/panel_91wenwen_pointexchange_91jili_account.csv";
-$vote_answer_file = IMPORT_WW_PATH . "/" . VOTE_ANSWER . ".csv";
-$panelist_91jili_connection_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_91jili_connection.csv";
-$sop_respondent_file = IMPORT_WW_PATH . "/sop_respondent.csv";
-
-// import file : jili
-$user_file = IMPORT_JL_PATH . "/user.csv";
-$user_wenwen_cross_file = IMPORT_JL_PATH . "/user_wenwen_cross.csv";
-$weibo_user_file = IMPORT_JL_PATH . "/weibo_user.csv";
-//todo: jili.migration_region_mapping 数据需要导出来
-$migration_region_mapping_file = IMPORT_JL_PATH . "/migration_region_mapping.csv";
-
 function do_process()
 {
+    $log_handle = fopen(LOG_PATH, "a");
+    echo date('Y-m-d H:i:s') . " start!\r\n\r\n";
+    FileUtil::writeContents($log_handle, "start!\r\n\r\n");
+
     //todo: get max user id
     $max_user_id = 2000000;
 
-    global $panelist_file;
-    global $panelist_91jili_connection_file;
-    global $pointexchange_91jili_account_file;
-    global $user_file;
-
-    $log_handle = fopen(LOG_PATH, "a");
-
-    echo date('Y-m-d H:i:s') . " start!\r\n\r\n";
-    FileUtil::writeContents($log_handle, "start!\r\n\r\n");
+    // import file
+    $panelist_file = IMPORT_WW_PATH . "/panelist.csv";
+    $panelist_91jili_connection_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_91jili_connection.csv";
+    $pointexchange_91jili_account_file = IMPORT_WW_PATH . "/panel_91wenwen_pointexchange_91jili_account.csv";
+    $user_file = IMPORT_JL_PATH . "/user.csv";
 
     // get file content
     //$panelist_data = FileUtil::readCsvContent($panelist_file);
