@@ -33,7 +33,7 @@ migration_region_mapping
 #$panelist : "id","panel_region_id","panel_id","email","login_id","login_password","login_password_crypt_type","login_password_salt","updated_at","created_at","created_remote_addr","created_user_agent","login_valid_flag","sex_code","birthday","panelist_status","campaign_code","last_login_time"
 #$panelist_detail :"panelist_id","name_first","name_middle","name_last","furigana_first","furigana_middle","furigana_last","age","zip1","zip2","address1","address2","address3","home_type_code","home_year","tel1","tel2","tel3","tel_mobile1","tel_mobile2","tel_mobile3","mobile_number","marriage_code","child_code","child_num","income_family_code","income_personal_code","job_code","industry_code","work_section_code","graduation_code","industry_code_family","internet_starttime_code","internet_usetime_code","last_answer_date","updated_at","created_at"
 #$panelist_profile :"id","panelist_id","nickname","show_sex","show_birthday","biography","hobby","fav_music","monthly_wish","website_url","updated_at","created_at"
-#$panelist_profile_image :
+#$panelist_profile_image :"panelist_id","hash","s_file","s_width","s_height","m_file","m_width","m_height","l_file","l_width","l_height","delete_flag","updated_at","created_at"
 #$panelist_mobile_number :"panelist_id","mobile_number","status_flag","updated_at","created_at"
 #$panelist_point :"panelist_id","point_value","last_add_time","last_add_log_yyyymm","last_add_log_id","last_active_time","updated_at","created_at"
 #$panelist_sina_connection :"panelist_id","sina_id","access_token","access_token_secret","is_registration","created_remote_addr","updated_at","created_at"

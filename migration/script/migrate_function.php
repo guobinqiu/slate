@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * 遍历panel_91wenwen_panelist_91jili_connection表
  *
@@ -8,123 +7,118 @@
  * "305","16980","1","NULL","2015-01-07 16:50:12","2015-01-07 16:50:12"
  * @return jili_id or null
  */
-function getJiliConnectionByPanelistId($fh, $panelist_id_input, array $current )
+function getJiliConnectionByPanelistId($fh, $panelist_id_input, array $current)
 {
+    if (empty($panelist_id_input)) {
+        $current['matched'] = 0;
+        return $current;
+    }
 
-  if(empty($panelist_id_input)) {
-    $current ['matched'] = 0 ;
+    if (isset($current['panelist_id'])) {
+        if ($panelist_id_input == $current['panelist_id']) {
+            $current['matched'] = 1;
+            return $current;
+        } else if ($panelist_id_input < $current['panelist_id']) {
+            $current['matched'] = 0;
+            return $current;
+        }
+    } else {
+        rewind($fh);
+        fgets($fh);
+    }
+
+    $current['matched'] = 0;
+    // the input panelist_id > current panelist_id, move next line.
+    while ($row = fgets($fh, 1024)) {
+        $panelist_id_pos = strpos($row, ',');
+        $current['panelist_id'] = substr($row, 1, $panelist_id_pos - 2);
+
+        if ($panelist_id_input <= $current['panelist_id']) {
+            $jili_id_pos = strpos($row, ',', $panelist_id_pos + 1);
+            $current['jili_id'] = substr($row, $panelist_id_pos + 2, $jili_id_pos - $panelist_id_pos - 3);
+
+            if ($panelist_id_input != $current['panelist_id']) {
+                break;
+            }
+
+            $status_flag_pos = strpos($row, ',', $jili_id_pos + 1);
+
+            $status_flag = substr($row, $jili_id_pos + 2, $status_flag_pos - $jili_id_pos - 3);
+            // need  to check to status_flag
+            if ($status_flag != 1) {
+                break;
+            }
+
+            $current['matched'] = 1;
+            break;
+        }
+    }
+
     return $current;
-  }
-
-  if( isset($current['panelist_id'] ) ) {
-    if( $panelist_id_input ==  $current['panelist_id']  ) {
-      $current ['matched'] = 1 ;
-      return $current;
-    } else if($panelist_id_input <  $current['panelist_id']  ) {
-      $current ['matched'] = 0 ;
-      return $current;
-    }
-  } else {
-    rewind($fh);
-    fgets($fh);
-  }
-
-
-  $current['matched'] = 0 ;
-  // the input panelist_id > current panelist_id, move next line.
-  while( $row = fgets($fh, 1024) ) {
-    $panelist_id_pos = strpos($row, ',');
-    $current['panelist_id'] = substr($row, 1, $panelist_id_pos - 2);
-
-    if( $panelist_id_input <= $current['panelist_id'] ) {
-      $jili_id_pos = strpos($row, ',', $panelist_id_pos + 1);
-      $current['jili_id'] = substr($row, $panelist_id_pos + 2, $jili_id_pos - $panelist_id_pos - 3);
-
-      if( $panelist_id_input != $current['panelist_id']  ) {
-        break;
-      }
-
-      $status_flag_pos = strpos($row, ',', $jili_id_pos + 1);
-
-      $status_flag = substr($row, $jili_id_pos + 2, $status_flag_pos - $jili_id_pos - 3);
-      // need  to check to status_flag
-      if ($status_flag != 1) {
-        break;
-      }
-
-      $current['matched'] = 1 ;
-      break;
-    }
-  }
-
-  return $current;
 }
 
 /**
  *  遍历user_wenwen_cross表
  * "id","user_id","created_at","email"
  * "5629","1270570","2014-11-26 16:32:00","NULL"
- * @return array( 'matched'=> , email => , id ) 
+ * @return array( 'matched'=> , email => , id )
  */
 function getUserWenwenCrossById($fh, $id_input, $current)
 {
-  if(empty($id_input)) {
-    $current ['matched'] = 0 ;
-    return $current;
-  }
-
-  if( isset($current['id'] ) ) {
-    if( $id_input ==  $current['id']  ) {
-      $current ['matched'] = 1 ;
-      return $current;
-    } else if($id_input <  $current['id']  ) {
-    $current ['matched'] = 0 ;
-      return $current;
+    if (empty($id_input)) {
+        $current['matched'] = 0;
+        return $current;
     }
-  } else {
-    rewind($fh);
-    fgets($fh);
-  }
 
-
-  $current['matched'] = 0 ;
-  while( $row = fgets($fh, 1024) ) {
-
-    $id_pos = strpos($row, ',');
-    $current['id'] = substr($row, 1, $id_pos - 2);
-
-
-    if( $id_input <= $current['id']) {
-        $email = substr($row, strrpos($row, ',') + 2, -2);
-        $current['email'] = ('NULL' == $email) ? null : $email;
-        if($id_input == $current['id'] ) {
-          $current['matched']=1;
+    if (isset($current['id'])) {
+        if ($id_input == $current['id']) {
+            $current['matched'] = 1;
+            return $current;
+        } else if ($id_input < $current['id']) {
+            $current['matched'] = 0;
+            return $current;
         }
-        break;
+    } else {
+        rewind($fh);
+        fgets($fh);
     }
-  }
-  return $current;
+
+    $current['matched'] = 0;
+    while ($row = fgets($fh, 1024)) {
+
+        $id_pos = strpos($row, ',');
+        $current['id'] = substr($row, 1, $id_pos - 2);
+
+        if ($id_input <= $current['id']) {
+            $email = substr($row, strrpos($row, ',') + 2, -2);
+            $current['email'] = ('NULL' == $email) ? null : $email;
+            if ($id_input == $current['id']) {
+                $current['matched'] = 1;
+            }
+            break;
+        }
+    }
+    return $current;
 }
 
 /**
  * @param $fh file hanlder
  * @return  array( cross_id=> $email) ;
  */
-function getUserWenwenCross($fh) 
+function getUserWenwenCross($fh)
 {
-  rewind($fh);
-  fgets($fh);
-  $a = array();
+    rewind($fh);
+    fgets($fh);
+    $a = array ();
 
-  while( $row = fgets($fh, 1024) ) {
-    
-    $id_pos = strpos($row, ',');
-    $email = substr($row, strrpos($row, ',') + 2, -2);
-    $a[substr($row, 1, $id_pos - 2)] =  ('NULL' == $email) ? null : $email;
-  }
-  return $a;
+    while ($row = fgets($fh, 1024)) {
+
+        $id_pos = strpos($row, ',');
+        $email = substr($row, strrpos($row, ',') + 2, -2);
+        $a[substr($row, 1, $id_pos - 2)] = ('NULL' == $email) ? null : $email;
+    }
+    return $a;
 }
-
 
 /**
  * 遍历panel_91wenwen_pointexchange_91jili_account表
@@ -135,64 +129,61 @@ function getUserWenwenCross($fh)
  */
 function getPointExchangeByPanelistId($fh, $panelist_id_input, $current)
 {
-  if(empty($panelist_id_input)) {
-    $current ['matched'] = 0 ;
+    if (empty($panelist_id_input)) {
+        $current['matched'] = 0;
+        return $current;
+    }
+
+    if (isset($current['panelist_id'])) {
+        if ($panelist_id_input == $current['panelist_id']) {
+            $current['matched'] = 1;
+            return $current;
+        } else if ($panelist_id_input < $current['panelist_id']) {
+            $current['matched'] = 0;
+            return $current;
+        }
+    } else {
+        rewind($fh);
+        fgets($fh);
+    }
+
+    $current['matched'] = 0;
+    // the input panelist_id > current panelist_id, move next line.
+    while ($row = fgets($fh, 2048)) {
+        $panelist_id_pos = strpos($row, ',');
+        $current['panelist_id'] = substr($row, 1, $panelist_id_pos - 2);
+        if ($panelist_id_input <= $current['panelist_id']) {
+
+            $jili_email_pos = strpos($row, ',', $panelist_id_pos + 1);
+            $current['jili_email'] = substr($row, $panelist_id_pos + 2, $jili_email_pos - $panelist_id_pos - 3);
+
+            if ($panelist_id_input != $current['panelist_id']) {
+                break;
+            }
+
+            $status_flag_pos = strpos($row, ',', $jili_email_pos + 1);
+            $status_flag = substr($row, $jili_email_pos + 2, $status_flag_pos - $jili_email_pos - 3);
+            if ($status_flag != 1) {
+                break;
+            }
+            $current['matched'] = 1;
+            break;
+        }
+    }
     return $current;
-  }
-
-  if( isset($current['panelist_id'] ) ) {
-    if( $panelist_id_input ==  $current['panelist_id']  ) {
-      $current ['matched'] = 1 ;
-      return $current;
-    } else if($panelist_id_input <  $current['panelist_id']  ) {
-      $current ['matched'] = 0 ;
-      return $current;
-    }
-  } else {
-    rewind($fh);
-    fgets($fh);
-  }
-
-
-  $current['matched'] = 0 ;
-  // the input panelist_id > current panelist_id, move next line.
-  while( $row = fgets($fh, 2048)) {
-    $panelist_id_pos = strpos($row, ',');
-    $current['panelist_id'] = substr($row, 1, $panelist_id_pos - 2);
-    if( $panelist_id_input <= $current['panelist_id'] ) {
-
-      $jili_email_pos = strpos($row, ',', $panelist_id_pos + 1);
-      $current['jili_email'] = substr($row, $panelist_id_pos + 2, $jili_email_pos - $panelist_id_pos - 3);
-
-      if( $panelist_id_input != $current['panelist_id']  ) {
-        break;
-      }
-
-      $status_flag_pos = strpos($row, ',', $jili_email_pos + 1);
-      $status_flag = substr($row, $jili_email_pos + 2, $status_flag_pos - $jili_email_pos - 3);
-      if ($status_flag != 1) {
-        break;
-      }
-      $current['matched']=1;
-      break;
-    }
-
-  }
-  return $current;
 }
 
 /**
  * @param $fh file hanlder
  * @return  array( email => user_id ) ;
  */
-function getUserCsv($fh) 
+function getUserCsv($fh)
 {
-  rewind($fh);
-  fgets($fh);
-  while($row = fgets($fh, 2048)) {
-
-  }
-  return $a;
+    rewind($fh);
+    fgets($fh);
+    while ($row = fgets($fh, 2048)) {
+    }
+    return $a;
 }
 
 //user data of both exist on wenwen and jili
@@ -201,8 +192,7 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
     $user_row = generate_user_data_wenwen_common($panelist_row, $user_row);
 
     //origin_flag
-    $user_row[30] = 3; //todo:定义常量, 是否在设值
-
+    $user_row[30] = Constants::$origin_flag['wenwen_jili'];
 
     return $user_row;
 }
@@ -221,8 +211,7 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     $user_row[20] = 1;
 
     //origin_flag
-    $user_row[30] = 2; //todo:定义常量, 是否在设值
-
+    $user_row[30] = Constants::$origin_flag['wenwen'];
 
     for ($i = 0; $i <= 38; $i++) {
         if (!isset($user_row[$i])) {
@@ -265,8 +254,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[33] = $panelist_row[16];
 
     //password_choice
-    $user_row[34] = 1; //todo:定义常量
-
+    $user_row[34] = Constants::$password_choice['pwd_wenwen'];
 
     //tel: panel_91wenwen_panelist_mobile_number.mobile_number
     $panelist_mobile_number_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv";
@@ -297,19 +285,19 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         if ($panelist_row[0] == $panelist_detail_row[0]) {
 
             //education: detail.graduation_code
-            $user_row[14] = 'todo';
+            $user_row[14] = $panelist_detail_row[30];
 
             //profession: detail.detail.job_code
-            $user_row[15] = 'todo';
+            $user_row[15] = $panelist_detail_row[27];
 
             //income : detail.income_personal_code
-            $user_row[16] = 'todo';
+            $user_row[16] = $panelist_detail_row[26];
 
             //industry_code: detail.industry_code
-            $user_row[37] = 'todo';
+            $user_row[37] = $panelist_detail_row[31];
 
             //work_section_code: detail.work_section_code
-            $user_row[38] = 'todo';
+            $user_row[38] = $panelist_detail_row[29];
 
             break;
         }
@@ -321,16 +309,16 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
         if ($panelist_row[0] == $panelist_profile_row[1]) {
             //hobby: profile.hobby
-            $user_row[17] = 'todo';
+            $user_row[17] = $panelist_profile_row[6];
 
             //personalDes: profile.biography
-            $user_row[18] = 'todo';
+            $user_row[18] = $panelist_profile_row[5];
 
             //fav_music: profile.fav_music
-            $user_row[35] = 'todo';
+            $user_row[35] = $panelist_profile_row[7];
 
             //monthly_wish:profile.monthly_wish
-            $user_row[36] = 'todo';
+            $user_row[36] = $panelist_profile_row[8];
 
             break;
         }

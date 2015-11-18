@@ -35,8 +35,8 @@ class Constants
     # password_choice ,== PWD_WENWEN, verify the user_wenwen_login
     # == PWD_JILI or NULL , verify by user.password
     public static $password_choice = array (
-        'PWD_WENWEN' => 1,
-        'PWD_JILI' => 2
+        'pwd_wenwen' => 1,
+        'pwd_jili' => 2
     );
 }
 
