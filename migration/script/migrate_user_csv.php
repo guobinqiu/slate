@@ -2,13 +2,16 @@
 include_once ('config.php');
 include_once ('FileUtil.php');
 include_once ('Constants.php');
-include_once ('CsvReader.php');
+
 
 function do_process()
 {
-    // ini_set("memory_limit",-1);
-    FileUtil::writeContents(LOG_PATH, date('c') . " start!\r\n\r\n");
-    echo date('c') . " start!\r\n\r\n";
+    ini_set('memory_limit', '-1');
+
+    $log_handle = fopen(LOG_PATH, "a");
+
+    echo date('Y-m-d H:i:s') . " start!\r\n\r\n";
+    FileUtil::writeContents($log_handle, "start!\r\n\r\n");
 
     // import file : wenwen
     $panelist_file = IMPORT_WW_PATH . "/panelist.csv";
@@ -31,11 +34,11 @@ function do_process()
     $migration_region_mapping_file = IMPORT_JL_PATH . "/migration_region_mapping.csv";
 
     // export jili csv
-    $migrate_user_csv = $export_path . "/migrate_user.csv";
-    $migrate_user_wenwen_login_csv = $export_path . "/migrate_user_wenwen_login.csv";
-    $migrate_weibo_user_csv = $export_path . "/weibo_user.csv";
-    $migrate_vote_answer_csv = $export_path . "/migrate_vote_answer.csv";
-    $migrate_sop_respondent_csv = $export_path . "/migrate_sop_respondent.csv";
+    $migrate_user_csv = EXPORT_PATH . "/migrate_user.csv";
+    $migrate_user_wenwen_login_csv = EXPORT_PATH . "/migrate_user_wenwen_login.csv";
+    $migrate_weibo_user_csv = EXPORT_PATH . "/weibo_user.csv";
+    $migrate_vote_answer_csv = EXPORT_PATH . "/migrate_vote_answer.csv";
+    $migrate_sop_respondent_csv = EXPORT_PATH . "/migrate_sop_respondent.csv";
 
     //check file
     $panelist_file_handle = FileUtil::checkFile($panelist_file);
@@ -67,13 +70,13 @@ function do_process()
         while (($panelist_data = fgetcsv($panelist_file_handle, 2000, ",")) !== FALSE) {
             $i++;
 
-            FileUtil::writeContents(LOG_PATH, "panelist line:" . $i);
+            FileUtil::writeContents($log_handle, "panelist line:" . $i);
 
             $panelist_id = $panelist_data[0];
             $jili_email = $panelist_email = $panelist_data[3];
 
-            //FileUtil::writeContents(LOG_PATH, "panelist_id:" . $panelist_id);
-            //FileUtil::writeContents(LOG_PATH, "panelist_email:" . $panelist_email);
+            //FileUtil::writeContents($log_handle, "panelist_id:" . $panelist_id);
+            //FileUtil::writeContents($log_handle, "panelist_email:" . $panelist_email);
 
 
             $j = 0;
@@ -82,15 +85,15 @@ function do_process()
             //遍历panel_91wenwen_panelist_91jili_connection表
             $jili_cross_id = getJiliConnectionByPanelistId($panelist_91jili_connection_file_handle, $panelist_id);
             if ($jili_cross_id) {
-                FileUtil::writeContents(LOG_PATH, "jili_cross_id:" . $jili_cross_id);
+                FileUtil::writeContents($log_handle, "jili_cross_id:" . $jili_cross_id);
 
                 //遍历user_wenwen_cross表
                 $jili_email = getUserWenwenCrossById($user_wenwen_cross_file_handle, $jili_cross_id);
                 if ($jili_email) {
-                    FileUtil::writeContents(LOG_PATH, "jili_cross_id->jili email:" . $jili_email);
+                    FileUtil::writeContents($log_handle, "jili_cross_id->jili email:" . $jili_email);
 
                     $cross_exist_count++;
-                    FileUtil::writeContents(LOG_PATH, "cross_exist_count:" . $cross_exist_count);
+                    FileUtil::writeContents($log_handle, "cross_exist_count:" . $cross_exist_count);
                 }
             }
 
@@ -99,38 +102,40 @@ function do_process()
             if ($exchang_jili_email) {
                 $jili_email = $exchang_jili_email;
                 $exchange_exist_count++;
-                FileUtil::writeContents(LOG_PATH, "exchange_exist_count:" . $exchange_exist_count);
-                FileUtil::writeContents(LOG_PATH, "pointexchange-> jili_email:" . $jili_email);
+                FileUtil::writeContents($log_handle, "exchange_exist_count:" . $exchange_exist_count);
+                FileUtil::writeContents($log_handle, "pointexchange-> jili_email:" . $jili_email);
             }
 
             //遍历jili user 表
             $user_data = fetch_jili_user($jili_email);
             if ($user_data) {
                 $both_exist_count = $both_exist_count + 1;
-                FileUtil::writeContents(LOG_PATH, "both_exist_count:" . $both_exist_count);
+                FileUtil::writeContents($log_handle, "both_exist_count:" . $both_exist_count);
 
                 //todo:生成新的csv文件：拥有两边账号，相同的部分取问问数据
                 generate_csv_both();
             } else {
                 $only_wenwen_count++;
-                FileUtil::writeContents(LOG_PATH, "only_wenwen_count:" . $only_wenwen_count);
+                FileUtil::writeContents($log_handle, "only_wenwen_count:" . $only_wenwen_count);
 
                 //todo:生成新的csv文件：仅存在问问的账号
                 generate_csv_from_wenwen();
             }
         }
     } catch (Exception $e) {
-        FileUtil::writeContents(LOG_PATH, "Exception:" . $e->getMessage());
+        FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
     }
 
-    FileUtil::writeContents(LOG_PATH, "cross_exist_count:" . $cross_exist_count);
-    FileUtil::writeContents(LOG_PATH, "exchange_exist_count:" . $exchange_exist_count);
-    FileUtil::writeContents(LOG_PATH, "both_exist_count:" . $both_exist_count);
-    FileUtil::writeContents(LOG_PATH, "only_wenwen_count:" . $only_wenwen_count);
+    FileUtil::writeContents($log_handle, "cross_exist_count:" . $cross_exist_count);
+    FileUtil::writeContents($log_handle, "exchange_exist_count:" . $exchange_exist_count);
+    FileUtil::writeContents($log_handle, "both_exist_count:" . $both_exist_count);
+    FileUtil::writeContents($log_handle, "only_wenwen_count:" . $only_wenwen_count);
 
-    FileUtil::writeContents(LOG_PATH, date('c') . " end!");
+    FileUtil::writeContents($log_handle, "end!");
 
-    echo date('c') . " end!\r\n\r\n";
+    echo date('Y-m-d H:i:s') . " end!\r\n\r\n";
+
+    fclose($log_handle);
 }
 //遍历jili user 表
 function fetch_jili_user($email)
@@ -145,7 +150,7 @@ function fetch_jili_user($email)
         $n++;
 
         if ($email == $jili_account_data[1]) {
-            FileUtil::writeContents(LOG_PATH, "both exist: wenwen=>jili_email:" . $email);
+            FileUtil::writeContents($log_handle, "both exist: wenwen=>jili_email:" . $email);
 
             //todo:删除user csv文件中该行
             //delete_row_user_csv();
