@@ -54,8 +54,11 @@ function do_process()
 
     $user_file_handle = FileUtil::checkFile($user_file);
     $user_wenwen_cross_file_handle = FileUtil::checkFile($user_wenwen_cross_file);
+loop_user_csv($user_file_handle);
+return;
 
     //todo: get max user id
+    $jili_user_data = FileUtil::readCsvContent($user_file);
 
 
     $cross_exist_count = 0;
@@ -124,20 +127,17 @@ function do_process()
               //               FileUtil::writeContents($log_handle, "pointexchange-> jili_email:" . $jili_email);
             }
             //遍历jili user 表
-            $user_data = fetch_jili_user($jili_email);
-            if ($user_data) {
-                $both_exist_count = $both_exist_count + 1;
-                FileUtil::writeContents($log_handle, "both_exist_count:" . $both_exist_count);
+            foreach ($jili_user_data as $user_key => $user_row) {
+                if ($jili_email == $user_row[1]) {
+                    $both_exist_count = $both_exist_count + 1;
+                    FileUtil::writeContents($log_handle, "both_exist_count:" . $both_exist_count);
 
-                //todo:生成新的csv文件：拥有两边账号，相同的部分取问问数据
-                generate_csv_both();
-            } else {
-                $only_wenwen_count++;
-                FileUtil::writeContents($log_handle, "only_wenwen_count:" . $only_wenwen_count);
-
-                //todo:生成新的csv文件：仅存在问问的账号
-                generate_csv_from_wenwen();
+                  unset($jili_user_data [$user_key]);
+                  break;
+                }
             }
+
+
         }
     } catch (Exception $e) {
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
@@ -313,6 +313,10 @@ function getUserWenwenCrossById($fh, $id_input, $current)
   return $current;
 }
 
+/**
+ * @param $fh file hanlder
+ * @return  array( cross_id=> $email) ;
+ */
 function getUserWenwenCross($fh) 
 {
   rewind($fh);
@@ -382,6 +386,20 @@ function getPointExchangeByPanelistId($fh, $panelist_id_input, $current)
 
   }
   return $current;
+}
+
+/**
+ * @param $fh file hanlder
+ * @return  array( email => user_id ) ;
+ */
+function getUserCsv($fh) 
+{
+  rewind($fh);
+  fgets($fh);
+  while($row = fgets($fh, 2048)) {
+
+  }
+  return $a;
 }
 
  do_process();
