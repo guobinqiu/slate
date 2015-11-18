@@ -385,3 +385,20 @@ function generate_user_wenwen_login_data($panelist_row, $user_id)
 
     return $user_wenwen_login_row;
 }
+
+function export_csv($datas, $title, $file_name){
+    $csvline = array ();
+
+    $csvline[] = FileUtil::joinCsv($title);
+
+    // prepare the output content
+    foreach ($datas as $data) {
+        $csvline[] = FileUtil::joinCsv($data);
+    }
+
+    // generate a csv file
+    $migrate_csv = EXPORT_PATH . "/".$file_name;
+    $migrate_handle = fopen($migrate_csv, "w");
+    fwrite($migrate_handle, implode("\n", $csvline));
+    fclose($migrate_handle);
+}
