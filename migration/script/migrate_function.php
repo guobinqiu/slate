@@ -1,4 +1,200 @@
 <?php
+
+
+/**
+ * 遍历panel_91wenwen_panelist_91jili_connection表
+ *
+ * "panelist_id","jili_id","status_flag","stash_data","updated_at","created_at"
+ * "305","16980","1","NULL","2015-01-07 16:50:12","2015-01-07 16:50:12"
+ * @return jili_id or null
+ */
+function getJiliConnectionByPanelistId($fh, $panelist_id_input, array $current )
+{
+
+  if(empty($panelist_id_input)) {
+    $current ['matched'] = 0 ;
+    return $current;
+  }
+
+  if( isset($current['panelist_id'] ) ) {
+    if( $panelist_id_input ==  $current['panelist_id']  ) {
+      $current ['matched'] = 1 ;
+      return $current;
+    } else if($panelist_id_input <  $current['panelist_id']  ) {
+      $current ['matched'] = 0 ;
+      return $current;
+    }
+  } else {
+    rewind($fh);
+    fgets($fh);
+  }
+
+
+  $current['matched'] = 0 ;
+  // the input panelist_id > current panelist_id, move next line.
+  while( $row = fgets($fh, 1024) ) {
+    $panelist_id_pos = strpos($row, ',');
+    $current['panelist_id'] = substr($row, 1, $panelist_id_pos - 2);
+
+    if( $panelist_id_input <= $current['panelist_id'] ) {
+      $jili_id_pos = strpos($row, ',', $panelist_id_pos + 1);
+      $current['jili_id'] = substr($row, $panelist_id_pos + 2, $jili_id_pos - $panelist_id_pos - 3);
+
+      if( $panelist_id_input != $current['panelist_id']  ) {
+        break;
+      }
+
+      $status_flag_pos = strpos($row, ',', $jili_id_pos + 1);
+
+      $status_flag = substr($row, $jili_id_pos + 2, $status_flag_pos - $jili_id_pos - 3);
+      // need  to check to status_flag
+      if ($status_flag != 1) {
+        break;
+      }
+
+      $current['matched'] = 1 ;
+      break;
+    }
+  }
+
+  return $current;
+}
+
+/**
+ *  遍历user_wenwen_cross表
+ * "id","user_id","created_at","email"
+ * "5629","1270570","2014-11-26 16:32:00","NULL"
+ * @return array( 'matched'=> , email => , id ) 
+ */
+function getUserWenwenCrossById($fh, $id_input, $current)
+{
+  if(empty($id_input)) {
+    $current ['matched'] = 0 ;
+    return $current;
+  }
+
+  if( isset($current['id'] ) ) {
+    if( $id_input ==  $current['id']  ) {
+      $current ['matched'] = 1 ;
+      return $current;
+    } else if($id_input <  $current['id']  ) {
+    $current ['matched'] = 0 ;
+      return $current;
+    }
+  } else {
+    rewind($fh);
+    fgets($fh);
+  }
+
+
+  $current['matched'] = 0 ;
+  while( $row = fgets($fh, 1024) ) {
+
+    $id_pos = strpos($row, ',');
+    $current['id'] = substr($row, 1, $id_pos - 2);
+
+
+    if( $id_input <= $current['id']) {
+        $email = substr($row, strrpos($row, ',') + 2, -2);
+        $current['email'] = ('NULL' == $email) ? null : $email;
+        if($id_input == $current['id'] ) {
+          $current['matched']=1;
+        }
+        break;
+    }
+  }
+  return $current;
+}
+
+/**
+ * @param $fh file hanlder
+ * @return  array( cross_id=> $email) ;
+ */
+function getUserWenwenCross($fh) 
+{
+  rewind($fh);
+  fgets($fh);
+  $a = array();
+
+  while( $row = fgets($fh, 1024) ) {
+    
+    $id_pos = strpos($row, ',');
+    $email = substr($row, strrpos($row, ',') + 2, -2);
+    $a[substr($row, 1, $id_pos - 2)] =  ('NULL' == $email) ? null : $email;
+  }
+  return $a;
+}
+
+
+/**
+ * 遍历panel_91wenwen_pointexchange_91jili_account表
+ * "panelist_id","jili_email","status_flag","stash_data","updated_at","created_at"
+ * "305","28216843@qq.com","1","NULL","2014-02-24 10:21:34","2014-02-20 11:58:08"
+ * "2229759","syravia@gmail.com","0","{""activation_url"":""https://www.91jili.com/user/setPassFromWenwen/944966ca79a14e49c74009896922bf13/1436557""}","2015-11-16 11:38:00","2015-11-16 11:38:00"
+ * @return array('matched'=> ,jili_email=> panelist_id=>)  or null
+ */
+function getPointExchangeByPanelistId($fh, $panelist_id_input, $current)
+{
+  if(empty($panelist_id_input)) {
+    $current ['matched'] = 0 ;
+    return $current;
+  }
+
+  if( isset($current['panelist_id'] ) ) {
+    if( $panelist_id_input ==  $current['panelist_id']  ) {
+      $current ['matched'] = 1 ;
+      return $current;
+    } else if($panelist_id_input <  $current['panelist_id']  ) {
+      $current ['matched'] = 0 ;
+      return $current;
+    }
+  } else {
+    rewind($fh);
+    fgets($fh);
+  }
+
+
+  $current['matched'] = 0 ;
+  // the input panelist_id > current panelist_id, move next line.
+  while( $row = fgets($fh, 2048)) {
+    $panelist_id_pos = strpos($row, ',');
+    $current['panelist_id'] = substr($row, 1, $panelist_id_pos - 2);
+    if( $panelist_id_input <= $current['panelist_id'] ) {
+
+      $jili_email_pos = strpos($row, ',', $panelist_id_pos + 1);
+      $current['jili_email'] = substr($row, $panelist_id_pos + 2, $jili_email_pos - $panelist_id_pos - 3);
+
+      if( $panelist_id_input != $current['panelist_id']  ) {
+        break;
+      }
+
+      $status_flag_pos = strpos($row, ',', $jili_email_pos + 1);
+      $status_flag = substr($row, $jili_email_pos + 2, $status_flag_pos - $jili_email_pos - 3);
+      if ($status_flag != 1) {
+        break;
+      }
+      $current['matched']=1;
+      break;
+    }
+
+  }
+  return $current;
+}
+
+/**
+ * @param $fh file hanlder
+ * @return  array( email => user_id ) ;
+ */
+function getUserCsv($fh) 
+{
+  rewind($fh);
+  fgets($fh);
+  while($row = fgets($fh, 2048)) {
+
+  }
+  return $a;
+}
+
 //user data of both exist on wenwen and jili
 function generate_user_data_both_exsit($panelist_row, $user_row)
 {

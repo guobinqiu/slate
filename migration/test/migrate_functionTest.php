@@ -1,8 +1,8 @@
 <?php
 
-require __DIR__.'/../script/migrate_user_csv.php';
+require __DIR__.'/../script/migrate_function.php';
 
-class migrate_user_csvTest extends PHPUnit_Framework_TestCase
+class migrate_functionTest extends PHPUnit_Framework_TestCase
 {
   public function test_getJiliConnectionByPanelistId() {
 
@@ -60,7 +60,13 @@ EOD
     fclose($fh);
   }
 
-  function test_getUserWenwenCrossById() {
+  function test_getUserWenwenCrossById() 
+  {
+
+      $this->markTestIncomplete(
+        'This test has not been implemented yet.'
+      );
+
 
     $fh = tmpfile();
     fwrite($fh, <<<EOD
@@ -126,6 +132,41 @@ EOD
     fclose($fh);
   }
 
+  function test_getUserWenwenCross() 
+  {
+
+    $fh = tmpfile();
+    fwrite($fh, <<<EOD
+"id","user_id","created_at","email"
+"1","91","2014-11-17 14:56:30","xujf@voyagegroup.com.cn"
+"2","1051021","2014-11-17 14:58:23","miaomiao.zhang@d8aspring.com"
+"3","110","2014-11-17 15:05:10","takafumi_sekiguchi@researchpanelasia.com"
+"4","1206052","2014-11-20 16:53:54","2442092961@qq.com"
+"5","1264810","2014-11-20 16:55:45","704617264@qq.com"
+"6","1257149","2014-11-20 16:55:50","515776213@qq.com"
+"7","1267542","2014-11-20 16:56:05","2605990968@qq.com"
+"8","1085696","2014-11-20 16:56:44","tangqing1984@126.com"
+"9","1266832","2014-11-20 16:57:23","1627958274@qq.com"
+"61424","1437347","2015-11-17 15:01:04","58073288@qq.com"
+"61425","1437413","2015-11-17 15:21:08","383589666@qq.com"
+"61426","1437443","2015-11-17 15:36:02","z863437758@163.com"
+"61427","1436474","2015-11-17 15:52:19","hailong.719@163.com"
+"61428","1437325","2015-11-17 15:52:32","604124403@qq.com"
+"61429","1437428","2015-11-17 15:53:57","allykua66@163.com"
+"61430","1437434","2015-11-17 16:16:49","lieyanhanbing810@163.com"
+"61431","1436638","2015-11-17 16:29:11","861522677@qq.com"
+"61432","1437472","2015-11-17 16:32:01","dfln@qq.com"
+"61433","1421745","2015-11-17 16:40:33","854799320@qq.com"
+
+EOD
+  );
+    $a = getUserWenwenCross($fh);
+    $this->assertCount(19, $a );
+    $this->assertEquals("xujf@voyagegroup.com.cn", $a[1] );
+    $this->assertEquals("854799320@qq.com", $a["61433"] );
+    $this->assertEquals("854799320@qq.com", $a[61433] );
+    fclose($fh);
+  }
   function test_getPointExchangeByPanelistId() {
     $fh = tmpfile();
     fwrite($fh, <<<EOD
