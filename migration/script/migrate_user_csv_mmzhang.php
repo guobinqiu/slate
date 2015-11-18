@@ -131,13 +131,10 @@ function do_process()
     FileUtil::writeContents($log_handle, "both_exist_count:" . $both_exist_count);
     FileUtil::writeContents($log_handle, "only_wenwen_count:" . $only_wenwen_count);
 
-    // export jili csv
-    $migrate_user_csv = EXPORT_PATH . "/migrate_user.csv";
-    $migrate_user_only_wenwen_csv = EXPORT_PATH . "/migrate_user_only_wenwen.csv";
-    $migrate_user_wenwen_login_csv = EXPORT_PATH . "/migrate_user_wenwen_login.csv";
-    $migrate_weibo_user_csv = EXPORT_PATH . "/weibo_user.csv";
-    $migrate_vote_answer_csv = EXPORT_PATH . "/migrate_vote_answer.csv";
-    $migrate_sop_respondent_csv = EXPORT_PATH . "/migrate_sop_respondent.csv";
+    //export csv file
+    export_csv($jili_user_data, Constants::$jili_user_title, 'migrate_user.csv');
+    export_csv($migrate_user_only_wenwen_data, Constants::$jili_user_title, 'migrate_user_only_wenwen.csv');
+    export_csv($migrate_user_wenwen_login_data, Constants::$user_wenwen_login_title, 'migrate_user_wenwen_login.csv');
 
     FileUtil::writeContents($log_handle, "end!");
 
