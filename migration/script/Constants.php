@@ -25,16 +25,19 @@ class Constants
         20 => 119
     );
 
-//     const ORIGIN_FLAG_NEW = 0 ;
-//     const ORIGIN_FLAG_JILI = 1;
-//     const ORIGIN_FLAG_WENWEN = 2;
-//     const ORIGIN_FLAG_WENWEN_JILI = 3;
+    public static $origin_flag = array (
+        'new' => 0,
+        'jili' => 1,
+        'wenwen' => 2,
+        'wenwen_jili' => 3
+    );
 
     # password_choice ,== PWD_WENWEN, verify the user_wenwen_login
     # == PWD_JILI or NULL , verify by user.password
-//     const PWD_WENWEN = 1;
-//     const PWD_JILI = 2;
-
+    public static $password_choice = array (
+        'PWD_WENWEN' => 1,
+        'PWD_JILI' => 2
+    );
 }
 
 ?>
