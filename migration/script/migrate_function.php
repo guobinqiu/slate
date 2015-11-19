@@ -1,27 +1,33 @@
 <?php
 
 # predefined global variables
-$panelist_mobile_data = array() ;
-//province , city : panelist.panel_region_id
-$region_mapping_data = array() ;
-$panelist_detail_data = array() ;
-$panelist_profile_data = array() ;
-//points: panel_91wenwen_panelist_point.point_value
-$panelist_point_data = array() ;
-$panelist_profile_image_data = array() ;
+
+
+//panel_91wenwen_panelist_mobile_number
+$panelist_mobile_data = array ();
+//migration_region_mapping
+$region_mapping_data = array ();
+//panel_91wenwen_panelist_detail
+$panelist_detail_data = array ();
+//panel_91wenwen_panelist_profile
+$panelist_profile_data = array ();
+//panel_91wenwen_panelist_point
+$panelist_point_data = array ();
+//panel_91wenwen_panelist_profile_image
+$panelist_profile_image_data = array ();
+//panel_91wenwen_panelist_sina_connection
+$panelist_sina_data = array ();
 
 # load csv lines into 2-dim array
 function initialise_csv()
 {
-  //tel: panel_91wenwen_panelist_mobile_number.mobile_number
-  $panelist_mobile_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_mobile_number.csv');
-  //province , city : panelist.panel_region_id
-  $region_mapping_data = FileUtil::readCsvContent( IMPORT_JL_PATH . '/migration_region_mapping.csv');
-  $panelist_detail_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_detail.csv');
-  $panelist_profile_data = FileUtil::readCsvContent( IMPORT_WW_PATH . '/panel_91wenwen_panelist_profile.csv');
-  //points: panel_91wenwen_panelist_point.point_value
-  $panelist_point_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_point.csv');
-  $panelist_profile_image_data = FileUtil::readCsvContent( IMPORT_WW_PATH . '/panel_91wenwen_panelist_profile_image.csv');
+    $panelist_mobile_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_mobile_number.csv');
+    $region_mapping_data = FileUtil::readCsvContent(IMPORT_JL_PATH . '/migration_region_mapping.csv');
+    $panelist_detail_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_detail.csv');
+    $panelist_profile_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_profile.csv');
+    $panelist_point_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_point.csv');
+    $panelist_profile_image_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_profile_image.csv');
+    $panelist_sina_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_sina_connection.csv');
 }
 
 /**
@@ -401,6 +407,53 @@ function generate_user_wenwen_login_data($panelist_row, $user_id)
     $user_wenwen_login_row[4] = $panelist_row[5];
 
     return $user_wenwen_login_row;
+}
+
+//weibo_user data
+function generate_weibo_user_data($panelist_id, $user_id)
+{
+    $weibo_user_row = array ();
+    global $panelist_sina_data;
+    foreach ($panelist_sina_data as $panelist_sina_row) {
+        if ($panelist_id == $panelist_sina_row[0]) {
+            //id
+            $weibo_user_row[0] = null;
+
+            //user_id
+            $weibo_user_row[1] = $user_id;
+
+            //open_id
+            $weibo_user_row[2] = $panelist_sina_row[1];
+
+            //regist_date
+            $weibo_user_row[3] = $panelist_sina_row[7];
+
+            break;
+        }
+    }
+    return $weibo_user_row;
+}
+
+function generate_sop_respondent_data($panelist_id, $user_id)
+{
+    global $sop_respondent_data;
+    foreach ($sop_respondent_data as $sop_respondent_row) {
+        if ($panelist_id == $sop_respondent_row[1]) {
+            $sop_respondent_row[1] = $user_id;
+            return $sop_respondent_row;
+        }
+    }
+}
+
+function generate_vote_answer_data($panelist_id, $user_id)
+{
+    global $vote_answer_data;
+    foreach ($vote_answer_data as $vote_answer_row) {
+        if ($panelist_id == $vote_answer_row[1]) {
+            $vote_answer_row[1] = $user_id;
+            return $vote_answer_row;
+        }
+    }
 }
 
 function export_csv($datas, $title, $file_name)

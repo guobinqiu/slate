@@ -1,10 +1,16 @@
-LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_vote.csv' 
-INTO TABLE vote 
-CHARACTER SET UTF8  
-FIELDS  TERMINATED BY ','  
-OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
-TERMINATED BY '\r\n';
+CREATE TABLE `sop_respondent` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `panelist_id` int(11) NOT NULL,
+  `status_flag` tinyint(4) DEFAULT '1',
+  `stash_data` text,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `panelist_uniq` (`panelist_id`),
+  KEY `panelist_status_idx` (`status_flag`,`panelist_id`),
+  KEY `sop_status_idx` (`status_flag`,`id`),
+  KEY `updated_at_idx` (`updated_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=900028 DEFAULT CHARSET=utf8;
 
 
 ALTER TABLE  `user` ADD  `fav_music` VARCHAR( 255 ) NULL COMMENT  '喜欢的音乐',
@@ -35,3 +41,12 @@ INSERT INTO  `month_income` (`id` ,`income`) VALUES
 ('117',  '28000元-31999元'),
 ('118',  '32000元-35999元'),
 ('119',  '36000元以上');
+
+
+LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_vote.csv' 
+INTO TABLE vote 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '"' LINES 
+TERMINATED BY '\r\n';
