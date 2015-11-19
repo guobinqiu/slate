@@ -92,6 +92,34 @@ class Constants
         "login_password_crypt_type",
         "login_password"
     );
+
+    //export csv title: weibo_user
+    public static $weibo_user_title = array (
+        "id",
+        "user_id",
+        "open_id",
+        "regist_date"
+    );
+
+    //export csv title: sop_respondent
+    public static $sop_respondent_title = array (
+        "id",
+        "panelist_id",
+        "status_flag",
+        "stash_data",
+        "updated_at",
+        "created_at"
+    );
+
+    //export csv title: vote_answer
+    public static $vote_answer_title = array (
+        "id",
+        "panelist_id",
+        "vote_id",
+        "answer_number",
+        "updated_at",
+        "created_at"
+    );
 }
 
 ?>

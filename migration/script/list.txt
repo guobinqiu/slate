@@ -40,10 +40,7 @@ migration_region_mapping
 #$pointexchange_91jili_account :"panelist_id","jili_email","status_flag","stash_data","updated_at","created_at"
 #$vote_answer :"id","panelist_id","vote_id","answer_number","updated_at","created_at"
 #$panelist_91jili_connection : panelist_id, jili_id, status_flag, stash_data, updated_at, created_at
-
-//todo: sop_respondent 应该迁移，如何处理： To mapping 91ww panelist_id to sop_panelist_id
-# id, panelist_id, status_flag, stash_data, updated_at, created_at
-
+#$sop_respondent: "id","panelist_id","status_flag","stash_data","updated_at","created_at"
 
 #import jili csv
 #$user :"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
