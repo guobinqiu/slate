@@ -6,14 +6,14 @@ include_once ('FileUtil.php');
 include_once ('Constants.php');
 include_once ('migrate_function.php');
 
+$log_handle = fopen(LOG_PATH, "a");
+echo date('Y-m-d H:i:s') . " start!\r\n\r\n";
+FileUtil::writeContents($log_handle, "start!\r\n\r\n");
+
 initialise_csv();
 
 function do_process()
 {
-    $log_handle = fopen(LOG_PATH, "a");
-    echo date('Y-m-d H:i:s') . " start!\r\n\r\n";
-    FileUtil::writeContents($log_handle, "start!\r\n\r\n");
-
     //todo: get max user id
     $max_user_id = 2000000;
 
@@ -36,11 +36,6 @@ function do_process()
     $user_wenwen_cross_data = FileUtil::readCsvContent($user_wenwen_cross_file);
     $sop_respondent_data = FileUtil::readCsvContent($sop_respondent_file);
     $vote_answer_data = FileUtil::readCsvContent($vote_answer_file);
-
-    $migrate_user_only_wenwen_data = array ();
-    $migrate_user_wenwen_login_data = array ();
-    $migrate_weibo_user_data = array ();
-    $migrate_sop_respondent_data = array ();
 
     $cross_exist_count = 0;
     $exchange_exist_count = 0;
@@ -114,20 +109,20 @@ function do_process()
                 $jili_user_id = $max_user_id;
 
                 //生成仅存在问问的账号的user数据
-                $migrate_user_only_wenwen_data[] = generate_user_data_only_wenwen($panelist_row, $jili_user_id);
+                generate_user_data_only_wenwen($panelist_row, $jili_user_id);
 
                 //新浪数据迁移
-                $migrate_weibo_user_data[] = generate_weibo_user_data($panelist_row[0], $jili_user_id);
+                generate_weibo_user_data($panelist_row[0], $jili_user_id);
             }
 
             //问问的账号的password数据迁移到user_wenwen_login
-            $migrate_user_wenwen_login_data[] = generate_user_wenwen_login_data($panelist_row, $jili_user_id);
+            generate_user_wenwen_login_data($panelist_row, $jili_user_id);
 
             //sop_respondent数据迁移
-            $migrate_sop_respondent_data[] = generate_sop_respondent_data($panelist_row[0], $jili_user_id);
+            generate_sop_respondent_data($panelist_row[0], $jili_user_id);
 
             //vote_answer 数据迁移
-            $migrate_vote_answer_data[] = generate_vote_answer_data($panelist_row[0], $jili_user_id);
+            generate_vote_answer_data($panelist_row[0], $jili_user_id);
         }
     } catch (Exception $e) {
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
@@ -139,12 +134,7 @@ function do_process()
     FileUtil::writeContents($log_handle, "only_wenwen_count:" . $only_wenwen_count);
 
     //export csv file
-    export_csv($jili_user_data, Constants::$jili_user_title, 'migrate_user.csv');
-    export_csv($migrate_user_only_wenwen_data, Constants::$jili_user_title, 'migrate_user_only_wenwen.csv');
-    export_csv($migrate_user_wenwen_login_data, Constants::$user_wenwen_login_title, 'migrate_user_wenwen_login.csv');
-    export_csv($migrate_weibo_user_data, Constants::$weibo_user_title, 'migrate_user_wenwen_login.csv');
-    export_csv($migrate_sop_respondent_data, Constants::$sop_respondent_title, 'migrate_user_wenwen_login.csv');
-    export_csv($migrate_vote_answer_data, Constants::$vote_answer_title, 'migrate_user_wenwen_login.csv');
+    export_csv($jili_user_data, Constants::$migrate_user_name);
 
     FileUtil::writeContents($log_handle, "end!");
 

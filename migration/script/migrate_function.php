@@ -21,6 +21,15 @@ $panelist_sina_data = array ();
 # load csv lines into 2-dim array
 function initialise_csv()
 {
+    //export csv file
+    export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_name);
+    export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_only_wenwen_name);
+    export_csv_row(Constants::$user_wenwen_login_title, Constants::$migrate_user_wenwen_login_name);
+    export_csv_row(Constants::$weibo_user_title, Constants::$migrate_weibo_user_name);
+    export_csv_row(Constants::$sop_respondent_title, Constants::$migrate_sop_respondent_name);
+    export_csv_row(Constants::$vote_answer_title, Constants::$migrate_vote_answer_name);
+
+    //import csv
     $panelist_mobile_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_mobile_number.csv');
     $region_mapping_data = FileUtil::readCsvContent(IMPORT_JL_PATH . '/migration_region_mapping.csv');
     $panelist_detail_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_detail.csv');
@@ -100,43 +109,41 @@ function build_index_by_selected($fh, $key_name, $val_name)
 /**
  * return array( 'col_value'=> array('pointer=> to_line));
  */
-function build_index_by_panelist_id($fh, $col_name = 'panelist_id') 
+function build_index_by_panelist_id($fh, $col_name = 'panelist_id')
 {
-   rewind($fh);
-   $title =  fgets($fh);
-   $col_pos = strpos( $title, $col_name); 
-   if( false === $col_pos ) {
-     return ; // 
-   }
+    rewind($fh);
+    $title = fgets($fh);
+    $col_pos = strpos($title, $col_name);
+    if (false === $col_pos) {
+        return; //
+    }
 
-   $col_seq = substr_count(substr( $title, 0, $col_pos),',' );
+    $col_seq = substr_count(substr($title, 0, $col_pos), ',');
 
+    $p = ftell($fh);
 
-   $p = ftell($fh);
+    $built = array ();
+    while ($row = fgets($fh)) {
 
-   $built  = array();
-   while($row = fgets($fh) ) {
+        $head_pos = 0;
 
-     $head_pos = 0;
+        for ($i = $col_seq; $i > 0; $i--) {
+            $head_pos = strpos($row, ',', $head_pos) + 1;
+        }
 
-     for($i = $col_seq; $i>0; $i--) {
-       $head_pos =  strpos($row, ',', $head_pos  ) + 1;
-     }
+        $tail_pos = strpos($row, ',', $head_pos + 1);
 
-     $tail_pos =  strpos($row, ',', $head_pos + 1);
+        $col_value = substr($row, $head_pos + 1, $tail_pos - $head_pos - 2);
 
+        $built[$col_value] = array (
+            'point' => $p
+        );
 
-     $col_value = substr( $row, $head_pos + 1 , $tail_pos - $head_pos - 2);
+        $p = ftell($fh);
+    }
 
-     $built[$col_value] = array('point'=> $p);
-
-     $p = ftell($fh);
-
-   }
-
-   return $built;
+    return $built;
 }
-
 
 /**
  * 遍历panel_91wenwen_panelist_91jili_connection表
@@ -370,6 +377,7 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
             $user_row[$i] = null;
         }
     }
+    export_csv_row($user_row, Constants::$migrate_user_only_wenwen_name);
 }
 
 //user common data of wenwen
@@ -514,7 +522,7 @@ function generate_user_wenwen_login_data($panelist_row, $user_id)
     //login_password
     $user_wenwen_login_row[4] = $panelist_row[5];
 
-    return $user_wenwen_login_row;
+    export_csv_row($user_wenwen_login_row, Constants::$migrate_user_wenwen_login_name);
 }
 
 //weibo_user data
@@ -522,7 +530,7 @@ function generate_weibo_user_data($panelist_id, $user_id)
 {
     $weibo_user_row = array ();
     global $panelist_sina_data;
-    foreach ($panelist_sina_data as $panelist_sina_row) {
+    foreach ($panelist_sina_data as $panelist_sina_key => $panelist_sina_row) {
         if ($panelist_id == $panelist_sina_row[0]) {
             //id
             $weibo_user_row[0] = null;
@@ -536,19 +544,23 @@ function generate_weibo_user_data($panelist_id, $user_id)
             //regist_date
             $weibo_user_row[3] = $panelist_sina_row[7];
 
+            export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
+            unset($panelist_sina_data[$panelist_sina_key]);
+
             break;
         }
     }
-    return $weibo_user_row;
 }
 
 function generate_sop_respondent_data($panelist_id, $user_id)
 {
     global $sop_respondent_data;
-    foreach ($sop_respondent_data as $sop_respondent_row) {
+    foreach ($sop_respondent_data as $sop_respondent_key => $sop_respondent_row) {
         if ($panelist_id == $sop_respondent_row[1]) {
             $sop_respondent_row[1] = $user_id;
-            return $sop_respondent_row;
+
+            export_csv_row($sop_respondent_row, Constants::$migrate_sop_respondent_name);
+            unset($sop_respondent_data[$sop_respondent_key]);
         }
     }
 }
@@ -556,28 +568,38 @@ function generate_sop_respondent_data($panelist_id, $user_id)
 function generate_vote_answer_data($panelist_id, $user_id)
 {
     global $vote_answer_data;
-    foreach ($vote_answer_data as $vote_answer_row) {
+    foreach ($vote_answer_data as $vote_answer_key => $vote_answer_row) {
         if ($panelist_id == $vote_answer_row[1]) {
             $vote_answer_row[1] = $user_id;
-            return $vote_answer_row;
+
+            export_csv_row($vote_answer_row, Constants::$migrate_sop_respondent_name);
+            unset($vote_answer_data[$vote_answer_key]);
         }
     }
 }
 
-function export_csv($datas, $title, $file_name)
+function export_csv_row($data, $file_name)
+{
+    $csvline[] = FileUtil::joinCsv($data);
+
+    // generate a csv file
+    $path = EXPORT_PATH . "/" . $file_name;
+    $handle = fopen($path, "w");
+    fwrite($handle, implode("\n", $csvline));
+    fclose($handle);
+}
+
+function export_csv($datas, $file_name)
 {
     $csvline = array ();
-
-    $csvline[] = FileUtil::joinCsv($title);
 
     // prepare the output content
     foreach ($datas as $data) {
         $csvline[] = FileUtil::joinCsv($data);
     }
-
     // generate a csv file
-    $migrate_csv = EXPORT_PATH . "/" . $file_name;
-    $migrate_handle = fopen($migrate_csv, "w");
-    fwrite($migrate_handle, implode("\n", $csvline));
-    fclose($migrate_handle);
+    $path = EXPORT_PATH . "/" . $file_name;
+    $handle = fopen($path, "w");
+    fwrite($handle, implode("\n", $csvline));
+    fclose($handle);
 }
