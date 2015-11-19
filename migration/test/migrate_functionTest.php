@@ -473,6 +473,69 @@ EOD
     fclose($fh);
 
   }
+
+
+  function test_use_index_by_panelist_id() 
+  {
+    $fh = fopen('php://memory','r+');
+    fwrite($fh, <<<EOD
+"id","panelist_id","nickname","show_sex","show_birthday","biography","hobby","fav_music","monthly_wish","website_url","updated_at","created_at"
+"2255","6","琪琪琪","1","1","","数码控","都一般","要不中个500万玩玩？","NULL","2010-12-14 13:03:21","2010-12-14 13:03:21"
+"412569","2230879","xingting520","0","0","NULL","NULL","NULL","NULL","NULL","2015-11-17 17:38:39","2015-11-17 17:38:39"
+EOD
+);
+    $index = build_index_by_panelist_id($fh);
+
+    $return = use_index_by_panelist_id( $index, 2230879 ,$fh , false);
+    $this->assertCount(2, $index);
+    $this->assertCount(12, $return,'csv array return' );
+
+    $this->assertEquals(412569, $return[0],'csv array return' );
+    $this->assertEquals('2015-11-17 17:38:39', $return[11],'csv array return' );
+
+    $return = use_index_by_panelist_id( $index, 6,$fh , true);
+    $this->assertCount(1, $index);
+
+  }
+
+  function test_use_index_by_selected() 
+  {
+    $fh = fopen('php://memory','r+');
+    fwrite($fh, <<<EOD
+"id","user_id","created_at","email"
+"1","91","2014-11-17 14:56:30","xujf@voyagegroup.com.cn"
+"2","1051021","2014-11-17 14:58:23","miaomiao.zhang@d8aspring.com"
+"3","110","2014-11-17 15:05:10","takafumi_sekiguchi@researchpanelasia.com"
+"4","1206052","2014-11-20 16:53:54","2442092961@qq.com"
+"5","1264810","2014-11-20 16:55:45","704617264@qq.com"
+"6","1257149","2014-11-20 16:55:50","515776213@qq.com"
+"7","1267542","2014-11-20 16:56:05","2605990968@qq.com"
+"8","1085696","2014-11-20 16:56:44","tangqing1984@126.com"
+"9","1266832","2014-11-20 16:57:23","1627958274@qq.com"
+"61424","1437347","2015-11-17 15:01:04","58073288@qq.com"
+"61425","1437413","2015-11-17 15:21:08","383589666@qq.com"
+"61426","1437443","2015-11-17 15:36:02","z863437758@163.com"
+"61427","1436474","2015-11-17 15:52:19","hailong.719@163.com"
+"61428","1437325","2015-11-17 15:52:32","604124403@qq.com"
+"61429","1437428","2015-11-17 15:53:57","allykua66@163.com"
+"61430","1437434","2015-11-17 16:16:49","lieyanhanbing810@163.com"
+"61431","1436638","2015-11-17 16:29:11","861522677@qq.com"
+"61432","1437472","2015-11-17 16:32:01","dfln@qq.com"
+"61433","1421745","2015-11-17 16:40:33","854799320@qq.com"
+
+EOD
+);
+    $index = build_index_by_selected($fh, 'id', 'email');
+
+    $return = use_index_by_selected($index, 61431, false );
+    $this->assertCount(19, $index);
+    $this->assertEquals('861522677@qq.com' ,$return['email'], ' found email of id 61431');
+    $return = use_index_by_selected($index, 61431  );
+    $this->assertCount(18, $index);
+
+    fclose($fh);
+  }
+
   private function after_test() 
   {
     global $panelist_mobile_data;

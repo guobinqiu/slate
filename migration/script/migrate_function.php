@@ -39,7 +39,11 @@ function initialise_csv()
     $panelist_sina_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_sina_connection.csv');
 }
 
-/**
+/** 
+ * @param $fh  the csv file handler
+ * @param $key_name    索引的关键字列名
+ * @param $val_name   索引的键值列名
+ * @return array($key_name_data => array( $val_name_data) )
  */
 function build_index_by_selected($fh, $key_name, $val_name) 
 {
@@ -105,6 +109,26 @@ function build_index_by_selected($fh, $key_name, $val_name)
   return $index;
 }
 
+/**
+ * 使用索引
+ * @param index  索引array
+ * @param key_val  关键字
+ * @param with_unset  是否从索引中删除找到了内容
+ * @return array(val_name  => val_data),  'val_name': 查找对象的名称
+ */
+function use_index_by_selected(&$index, $key_val,  $with_unset= true) 
+{
+  if(!  isset($index[$key_val])    ) {
+    return;
+  } 
+  $found = $index[$key_val];
+  if( $with_unset) {
+    unset($index[$key_val]);
+  }
+  return $found;
+}
+
+
 
 /**
  * return array( 'col_value'=> array('pointer=> to_line));
@@ -143,6 +167,19 @@ function build_index_by_panelist_id($fh, $col_name = 'panelist_id')
     }
 
     return $built;
+}
+
+function use_index_by_panelist_id(&$index, $col_val, $fh , $with_unset = true)
+{
+  if( ! isset( $index[$col_val]) ) {
+    return ;
+  }
+
+  fseek($fh, $index[$col_val]['point']);
+  if ( $with_unset) {
+    unset($index[$col_val]);
+  }
+  return fgetcsv($fh);
 }
 
 /**
