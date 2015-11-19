@@ -1,25 +1,28 @@
 <?php
 
-//tel: panel_91wenwen_panelist_mobile_number.mobile_number
-$panelist_mobile_number_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv";
-$panelist_mobile_data = FileUtil::readCsvContent($panelist_mobile_number_file);
-
+# predefined global variables
+$panelist_mobile_data = array() ;
 //province , city : panelist.panel_region_id
-$migration_region_mapping_file = IMPORT_JL_PATH . "/migration_region_mapping.csv";
-$region_mapping_data = FileUtil::readCsvContent($migration_region_mapping_file);
-
-$panelist_detail_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_detail.csv";
-$panelist_detail_data = FileUtil::readCsvContent($panelist_detail_file);
-
-$panelist_profile_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile.csv";
-$panelist_profile_data = FileUtil::readCsvContent($panelist_profile_file);
-
+$region_mapping_data = array() ;
+$panelist_detail_data = array() ;
+$panelist_profile_data = array() ;
 //points: panel_91wenwen_panelist_point.point_value
-$panelist_point_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv";
-$panelist_point_data = FileUtil::readCsvContent($panelist_point_file);
+$panelist_point_data = array() ;
+$panelist_profile_image_data = array() ;
 
-$panelist_profile_image_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile_image.csv";
-$panelist_profile_image_data = FileUtil::readCsvContent($panelist_profile_image_file);
+# load csv lines into 2-dim array
+function initialise_csv()
+{
+  //tel: panel_91wenwen_panelist_mobile_number.mobile_number
+  $panelist_mobile_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_mobile_number.csv');
+  //province , city : panelist.panel_region_id
+  $region_mapping_data = FileUtil::readCsvContent( IMPORT_JL_PATH . '/migration_region_mapping.csv');
+  $panelist_detail_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_detail.csv');
+  $panelist_profile_data = FileUtil::readCsvContent( IMPORT_WW_PATH . '/panel_91wenwen_panelist_profile.csv');
+  //points: panel_91wenwen_panelist_point.point_value
+  $panelist_point_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_point.csv');
+  $panelist_profile_image_data = FileUtil::readCsvContent( IMPORT_WW_PATH . '/panel_91wenwen_panelist_profile_image.csv');
+}
 
 /**
  * 遍历panel_91wenwen_panelist_91jili_connection表
