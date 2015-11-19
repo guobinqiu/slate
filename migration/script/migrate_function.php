@@ -31,7 +31,74 @@ function initialise_csv()
 }
 
 /**
- *
+ */
+function build_index_by_selected($fh, $key_name, $val_name) 
+{
+  rewind($fh);
+  $title =  fgets($fh);
+  $key_pos = strpos( $title, $key_name); 
+  $val_pos = strpos( $title, $val_name); 
+
+
+  if( false === $key_pos ||false === $val_pos ) {
+    return ; // 
+  }
+  if( $key_pos > $val_pos) { 
+    $min_pos =  $val_pos ;
+    $max_pos =  $key_pos ;
+  } else if($key_pos < $val_pos)  {
+    $min_pos =  $key_pos ;
+    $max_pos =  $val_pos ;
+  } else {
+    $min_pos =  $val_pos ;
+    $max_pos =  $min_pos ;
+  }
+
+
+  $min_col_seq = substr_count(substr( $title, 0, $min_pos),',' );
+  $max_col_seq = substr_count(substr( $title, 0, $max_pos),',' );
+
+
+  $index = array(); 
+  while ($row = fgets($fh, 1024)) {
+
+    $min_head = 0;
+    for( $i = $min_col_seq; $i>0; $i-- ) {
+      $min_head = strpos($row, ',', $min_head) + 1;
+    }
+    $min_tail = strpos($row, ',',$min_head);
+    $min_col_value =  substr($row, $min_head + 1 , $min_tail - $min_head - 2 ); 
+
+    if( $key_pos ==  $val_pos) { 
+      $index [$min_col_value] = array( $val_name => $min_col_value);
+      continue;
+    }
+    $max_head = $min_tail ;
+    for( $i = $max_col_seq - $min_col_seq; $i>0; $i-- ) {
+      $max_head = strpos($row, ',',  $max_head ) + 1;
+    }
+
+    $max_tail = strpos($row, ',', $max_head );
+
+    if( $max_tail === false ) {
+      $max_tail = strlen($row) -1;
+    }
+
+    $max_col_value =  substr($row, $max_head + 1 , $max_tail - $max_head - 2 ); 
+
+    if( $key_pos >   $val_pos) { 
+      $index [$max_col_value] = array( $val_name => $min_col_value);
+    } else {
+      $index [$min_col_value] = array( $val_name => $max_col_value);
+    }
+  }
+
+  return $index;
+}
+
+
+/**
+ * return array( 'col_value'=> array('pointer=> to_line));
  */
 function build_index_by_panelist_id($fh, $col_name = 'panelist_id') 
 {

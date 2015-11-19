@@ -7,7 +7,8 @@ include( __DIR__.'/../script/migrate_function.php');
 
 class migrate_functionTest extends PHPUnit_Framework_TestCase
 {
-  public function test_getJiliConnectionByPanelistId() {
+  public function test_getJiliConnectionByPanelistId() 
+  {
 
     $fh = tmpfile();
     fwrite($fh,<<<EOD
@@ -411,6 +412,67 @@ EOD
 
   }
 
+  function test_build_index_by_selected() 
+  {
+    $fh = fopen('php://memory','r+');
+    fwrite($fh, <<<EOD
+"id","user_id","created_at","email"
+"1","91","2014-11-17 14:56:30","xujf@voyagegroup.com.cn"
+"2","1051021","2014-11-17 14:58:23","miaomiao.zhang@d8aspring.com"
+"3","110","2014-11-17 15:05:10","takafumi_sekiguchi@researchpanelasia.com"
+"4","1206052","2014-11-20 16:53:54","2442092961@qq.com"
+"5","1264810","2014-11-20 16:55:45","704617264@qq.com"
+"6","1257149","2014-11-20 16:55:50","515776213@qq.com"
+"7","1267542","2014-11-20 16:56:05","2605990968@qq.com"
+"8","1085696","2014-11-20 16:56:44","tangqing1984@126.com"
+"9","1266832","2014-11-20 16:57:23","1627958274@qq.com"
+"61424","1437347","2015-11-17 15:01:04","58073288@qq.com"
+"61425","1437413","2015-11-17 15:21:08","383589666@qq.com"
+"61426","1437443","2015-11-17 15:36:02","z863437758@163.com"
+"61427","1436474","2015-11-17 15:52:19","hailong.719@163.com"
+"61428","1437325","2015-11-17 15:52:32","604124403@qq.com"
+"61429","1437428","2015-11-17 15:53:57","allykua66@163.com"
+"61430","1437434","2015-11-17 16:16:49","lieyanhanbing810@163.com"
+"61431","1436638","2015-11-17 16:29:11","861522677@qq.com"
+"61432","1437472","2015-11-17 16:32:01","dfln@qq.com"
+"61433","1421745","2015-11-17 16:40:33","854799320@qq.com"
+
+EOD
+);
+    $return = build_index_by_selected($fh, 'id', 'email');
+
+    $this->assertCount(19, $return );
+    $this->assertEquals("xujf@voyagegroup.com.cn", $return[1] ['email']);
+    $this->assertEquals("854799320@qq.com", $return["61433"] ['email']);
+    $this->assertEquals("854799320@qq.com", $return[61433] ['email']);
+        
+    $return = build_index_by_selected($fh,  'email','id');
+    $this->assertCount(19, $return );
+    $this->assertEquals(1, $return["xujf@voyagegroup.com.cn"] ['id']);
+    $this->assertEquals(61433, $return["854799320@qq.com"] ['id']);
+
+    $return = build_index_by_selected($fh,  'user_id','id');
+    $this->assertCount(19, $return );
+    $this->assertEquals(1, $return["91"] ['id']);
+    $this->assertEquals(61433, $return[1421745] ['id']);
+
+
+    $return = build_index_by_selected($fh,  'id','user_id');
+    $this->assertCount(19, $return );
+    $this->assertEquals(91, $return[1] ['user_id']);
+    $this->assertEquals(1421745, $return[61433] ['user_id']);
+
+    $return = build_index_by_selected($fh,  'id_','user_id');
+    $this->assertNull($return);
+
+    $return = build_index_by_selected($fh,  'email','user_id');
+    $this->assertCount(19, $return );
+    $this->assertEquals(91, $return['xujf@voyagegroup.com.cn'] ['user_id']);
+    $this->assertEquals(1421745, $return["854799320@qq.com"] ['user_id']);
+
+    fclose($fh);
+
+  }
   private function after_test() 
   {
     global $panelist_mobile_data;

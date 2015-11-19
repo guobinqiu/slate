@@ -68,8 +68,8 @@ function do_process()
     // panel_91wenwen_panelist_91jili_connection 记录当前的connection csv handler中的行。 
     $connection_current = array() ;
      // 遍历user_wenwen_cross表
-    $cross =  getUserWenwenCross( $user_wenwen_cross_file_handle);
-    $user  =  getUser( $user_file_handle);
+    $cross =  build_index_by_selected( $user_wenwen_cross_file_handle, 'id','email');
+    $user  =  build_index_by_panelist_id( $user_file_handle, 'email');
      // 遍历user_wenwen_cross表
     $exchange_current = array() ;
 
@@ -100,7 +100,7 @@ function do_process()
 
               //遍历user_wenwen_cross表
               if( isset($cross[$jili_cross_id]) ) {
-                $jili_email = $cross[$jili_cross_id];
+                $jili_email = $cross[$jili_cross_id]['email'];
                 unset($cross[$jili_cross_id]);
 
                 if ($jili_email) {
