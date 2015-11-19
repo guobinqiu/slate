@@ -356,6 +356,50 @@ EOD
 
   }
 
+  function test_build_index_by_panelist_id( ) 
+  {
+    $fh = fopen('php://memory','r+');
+    fwrite($fh, <<<EOD
+"panelist_id","mobile_number","status_flag","updated_at","created_at"
+"6","13052550759","1","2012-10-20 13:13:01","2012-10-20 13:13:01"
+"2230806","17715018917","1","2015-11-17 17:16:38","2015-11-17 17:16:38"
+
+EOD
+);
+    $return = build_index_by_panelist_id($fh);
+
+    $this->assertCount(2, $return);
+    $this->assertArrayHasKey(6, $return, 'panelist_id  6 as key');
+    $this->assertArrayHasKey(2230806, $return, 'panelist_id  6 as key');
+    fseek($fh, $return[6]['point']);
+    $this->assertEquals('"6","13052550759","1","2012-10-20 13:13:01","2012-10-20 13:13:01"'.PHP_EOL, fgets($fh) , 'the 1st data row ');
+    fseek($fh, $return[2230806]['point']);
+    $this->assertEquals('"2230806","17715018917","1","2015-11-17 17:16:38","2015-11-17 17:16:38"'.PHP_EOL, fgets($fh) , 'the 1st data row ');
+
+    fclose($fh);
+
+    $fh = fopen('php://memory','r+');
+    fwrite($fh, <<<EOD
+"id","panelist_id","nickname","show_sex","show_birthday","biography","hobby","fav_music","monthly_wish","website_url","updated_at","created_at"
+"2255","6","琪琪琪","1","1","","数码控","都一般","要不中个500万玩玩？","NULL","2010-12-14 13:03:21","2010-12-14 13:03:21"
+"412569","2230879","xingting520","0","0","NULL","NULL","NULL","NULL","NULL","2015-11-17 17:38:39","2015-11-17 17:38:39"
+EOD
+);
+    $return = build_index_by_panelist_id($fh);
+    $this->assertCount(2, $return);
+    $this->assertArrayHasKey(6, $return, 'panelist_id  6 as key');
+    $this->assertArrayHasKey(2230879, $return, 'panelist_id  6 as key');
+
+    fseek($fh, $return[6]['point']);
+    $this->assertEquals('"2255","6","琪琪琪","1","1","","数码控","都一般","要不中个500万玩玩？","NULL","2010-12-14 13:03:21","2010-12-14 13:03:21"'.PHP_EOL, 
+      fgets($fh) , 'the 1st data row ');
+    fseek($fh, $return[2230879]['point']);
+    $this->assertEquals('"412569","2230879","xingting520","0","0","NULL","NULL","NULL","NULL","NULL","2015-11-17 17:38:39","2015-11-17 17:38:39"', fgets($fh) , 'the 1st data row ');
+
+    fclose($fh);
+
+  }
+
   private function after_test() 
   {
     global $panelist_mobile_data;

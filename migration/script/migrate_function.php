@@ -25,6 +25,47 @@ function initialise_csv()
 }
 
 /**
+ *
+ */
+function build_index_by_panelist_id($fh, $col_name = 'panelist_id') 
+{
+   rewind($fh);
+   $title =  fgets($fh);
+   $col_pos = strpos( $title, $col_name); 
+   if( false === $col_pos ) {
+     return ; // 
+   }
+
+   $col_seq = substr_count(substr( $title, 0, $col_pos),',' );
+
+
+   $p = ftell($fh);
+
+   $built  = array();
+   while($row = fgets($fh) ) {
+
+     $head_pos = 0;
+
+     for($i = $col_seq; $i>0; $i--) {
+       $head_pos =  strpos($row, ',', $head_pos  ) + 1;
+     }
+
+     $tail_pos =  strpos($row, ',', $head_pos + 1);
+
+
+     $col_value = substr( $row, $head_pos + 1 , $tail_pos - $head_pos - 2);
+
+     $built[$col_value] = array('point'=> $p);
+
+     $p = ftell($fh);
+
+   }
+
+   return $built;
+}
+
+
+/**
  * 遍历panel_91wenwen_panelist_91jili_connection表
  *
  * "panelist_id","jili_id","status_flag","stash_data","updated_at","created_at"
