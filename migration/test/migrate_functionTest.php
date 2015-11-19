@@ -366,6 +366,17 @@ EOD
 
 EOD
 );
+
+    $return = build_index_by_panelist_id($fh, 'mobile_number');
+
+    $this->assertCount(2, $return);
+    $this->assertArrayHasKey('13052550759', $return, 'panelist_id  6 as key');
+    $this->assertArrayHasKey('17715018917', $return, 'panelist_id  6 as key');
+    fseek($fh, $return['13052550759']['point']);
+    $this->assertEquals('"6","13052550759","1","2012-10-20 13:13:01","2012-10-20 13:13:01"'.PHP_EOL, fgets($fh) , 'the 1st data row ');
+    fseek($fh, $return['17715018917']['point']);
+    $this->assertEquals('"2230806","17715018917","1","2015-11-17 17:16:38","2015-11-17 17:16:38"'.PHP_EOL, fgets($fh) , 'the 1st data row ');
+
     $return = build_index_by_panelist_id($fh);
 
     $this->assertCount(2, $return);
