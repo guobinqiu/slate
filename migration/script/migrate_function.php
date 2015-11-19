@@ -1,5 +1,26 @@
 <?php
 
+//tel: panel_91wenwen_panelist_mobile_number.mobile_number
+$panelist_mobile_number_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv";
+$panelist_mobile_data = FileUtil::readCsvContent($panelist_mobile_number_file);
+
+//province , city : panelist.panel_region_id
+$migration_region_mapping_file = IMPORT_JL_PATH . "/migration_region_mapping.csv";
+$region_mapping_data = FileUtil::readCsvContent($migration_region_mapping_file);
+
+$panelist_detail_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_detail.csv";
+$panelist_detail_data = FileUtil::readCsvContent($panelist_detail_file);
+
+$panelist_profile_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile.csv";
+$panelist_profile_data = FileUtil::readCsvContent($panelist_profile_file);
+
+//points: panel_91wenwen_panelist_point.point_value
+$panelist_point_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv";
+$panelist_point_data = FileUtil::readCsvContent($panelist_point_file);
+
+$panelist_profile_image_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile_image.csv";
+$panelist_profile_image_data = FileUtil::readCsvContent($panelist_profile_image_file);
+
 /**
  * 遍历panel_91wenwen_panelist_91jili_connection表
  *
@@ -103,17 +124,17 @@ function getUserWenwenCrossById($fh, $id_input, $current)
 
 function getUserWenwenCross($fh)
 {
-     rewind($fh);
-     fgets($fh);
-     $a = array ();
- 
-     while ($row = fgets($fh, 1024)) {
+    rewind($fh);
+    fgets($fh);
+    $a = array ();
 
-         $id_pos = strpos($row, ',');
+    while ($row = fgets($fh, 1024)) {
+
+        $id_pos = strpos($row, ',');
         $email = substr($row, strrpos($row, ',') + 2, -2);
         $a[substr($row, 1, $id_pos - 2)] = ('NULL' == $email) ? null : $email;
-     }
-     return $a;
+    }
+    return $a;
 }
 
 /**
@@ -127,17 +148,17 @@ function getUser($fh)
 
     $p = ftell($fh); // the pointer for each row
     $r = fgets($fh);
-    $data = array() ;
+    $data = array ();
 
-    while( ! feof($fh)) {
+    while (!feof($fh)) {
 
-        $id_pos  = strpos($r, ',');
-        $email_pos = strpos($r, ',', $id_pos  + 1);
+        $id_pos = strpos($r, ',');
+        $email_pos = strpos($r, ',', $id_pos + 1);
 
-        $email=  substr($r, $id_pos + 2, $email_pos - $id_pos - 3);
-        $data[$email]=   array(
-            'id'=>  substr($r, 1, $id_pos -2),
-            'pointer' => $p,
+        $email = substr($r, $id_pos + 2, $email_pos - $id_pos - 3);
+        $data[$email] = array (
+            'id' => substr($r, 1, $id_pos - 2),
+            'pointer' => $p
         );
 
         $p = ftell($fh);
@@ -199,7 +220,6 @@ function getPointExchangeByPanelistId($fh, $panelist_id_input, $current)
     }
     return $current;
 }
-
 
 //user data of both exist on wenwen and jili
 function generate_user_data_both_exsit($panelist_row, $user_row)
@@ -272,8 +292,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[34] = Constants::$password_choice['pwd_wenwen'];
 
     //tel: panel_91wenwen_panelist_mobile_number.mobile_number
-    $panelist_mobile_number_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv";
-    $panelist_mobile_data = FileUtil::readCsvContent($panelist_mobile_number_file);
+    global $panelist_mobile_data;
     foreach ($panelist_mobile_data as $panelist_mobile_row) {
         if ($panelist_row[0] == $panelist_mobile_row[0]) {
             $user_row[10] = $panelist_mobile_row[1];
@@ -282,8 +301,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     }
 
     //province , city : panelist.panel_region_id
-    $migration_region_mapping_file = IMPORT_JL_PATH . "/migration_region_mapping.csv";
-    $region_mapping_data = FileUtil::readCsvContent($migration_region_mapping_file);
+    global $region_mapping_data;
     foreach ($region_mapping_data as $region_mapping_row) {
         if ($panelist_row[1] == $region_mapping_row[0]) {
             //province
@@ -294,8 +312,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         }
     }
 
-    $panelist_detail_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_detail.csv";
-    $panelist_detail_data = FileUtil::readCsvContent($panelist_detail_file);
+    global $panelist_detail_data;
     foreach ($panelist_detail_data as $panelist_detail_row) {
         if ($panelist_row[0] == $panelist_detail_row[0]) {
 
@@ -318,8 +335,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         }
     }
 
-    $panelist_profile_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile.csv";
-    $panelist_profile_data = FileUtil::readCsvContent($panelist_profile_file);
+    global $panelist_profile_data;
     foreach ($panelist_profile_data as $panelist_profile_row) {
 
         if ($panelist_row[0] == $panelist_profile_row[1]) {
@@ -344,8 +360,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
 
     //points: panel_91wenwen_panelist_point.point_value
-    $panelist_point_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv";
-    $panelist_point_data = FileUtil::readCsvContent($panelist_point_file);
+    global $panelist_point_data;
     foreach ($panelist_point_data as $panelist_point_row) {
         if ($panelist_row[0] == $panelist_point_row[0]) {
             $user_row[24] = $user_row[24] + $panelist_point_row[1];
@@ -354,8 +369,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     }
 
     //icon_path:panelist_profile_image
-    $panelist_profile_image_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile_image.csv";
-    $panelist_profile_image_data = FileUtil::readCsvContent($panelist_profile_image_file);
+    global $panelist_profile_image_data;
     foreach ($panelist_profile_image_data as $panelist_profile_image_row) {
         if ($panelist_row[0] == $panelist_profile_image_row[0]) {
             $user_row[27] = $panelist_profile_image_row[1];
@@ -386,7 +400,8 @@ function generate_user_wenwen_login_data($panelist_row, $user_id)
     return $user_wenwen_login_row;
 }
 
-function export_csv($datas, $title, $file_name){
+function export_csv($datas, $title, $file_name)
+{
     $csvline = array ();
 
     $csvline[] = FileUtil::joinCsv($title);
@@ -397,7 +412,7 @@ function export_csv($datas, $title, $file_name){
     }
 
     // generate a csv file
-    $migrate_csv = EXPORT_PATH . "/".$file_name;
+    $migrate_csv = EXPORT_PATH . "/" . $file_name;
     $migrate_handle = fopen($migrate_csv, "w");
     fwrite($migrate_handle, implode("\n", $csvline));
     fclose($migrate_handle);

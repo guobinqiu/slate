@@ -50,6 +50,7 @@ migration_region_mapping
 #$user_wenwen_cross :"id","user_id","created_at","email"
 #$weibo_user :"id","user_id","open_id","regist_date"
 #$migration_region_mapping :  region_id, province_id, city_id
+#$weibo_user :  "id","user_id","open_id","regist_date"
 
 #export jili csv
 #$migrate_user_csv :# id, user_id, login_password_salt, login_password_crypt_type, login_password

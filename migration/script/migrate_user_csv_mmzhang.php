@@ -20,13 +20,15 @@ function do_process()
     $panelist_91jili_connection_file = IMPORT_WW_PATH . "/panel_91wenwen_panelist_91jili_connection.csv";
     $pointexchange_91jili_account_file = IMPORT_WW_PATH . "/panel_91wenwen_pointexchange_91jili_account.csv";
     $user_file = IMPORT_JL_PATH . "/user.csv";
+    $user_wenwen_cross_file = IMPORT_JL_PATH . "/user_wenwen_cross.csv";
 
     // get file content
     //$panelist_data = FileUtil::readCsvContent($panelist_file);
-    $panelist_data = FileUtil::csv_get_lines($panelist_file, 10);
+    $panelist_data = FileUtil::csv_get_lines($panelist_file, 5);
     $connection_account_data = FileUtil::readCsvContent($panelist_91jili_connection_file);
     $exchange_account_data = FileUtil::readCsvContent($pointexchange_91jili_account_file);
     $jili_user_data = FileUtil::readCsvContent($user_file);
+    $user_wenwen_cross_data = FileUtil::readCsvContent($user_wenwen_cross_file);
 
     $migrate_user_only_wenwen_data = array ();
     $migrate_user_wenwen_login_data = array ();
@@ -47,17 +49,18 @@ function do_process()
             FileUtil::writeContents($log_handle, "panelist_id:" . $panelist_id);
 
             //遍历panel_91wenwen_panelist_91jili_connection表
-            foreach ($connection_account_data as $wenwen_cross) {
+            foreach ($connection_account_data as $wen_cross_key => $wenwen_cross) {
                 if ($panelist_id == $wenwen_cross[0]) {
                     $cross_id = $wenwen_cross[1];
 
                     //遍历user_wenwen_cross表
-                    $user_wenwen_cross = FileUtil::readCsvContent($user_wenwen_cross_file);
-                    foreach ($user_wenwen_cross as $jili_cross) {
+                    foreach ($user_wenwen_cross_data as $jili_cross_key => $jili_cross) {
                         if ($cross_id == $jili_cross[0]) {
                             $jili_email = $jili_cross[3];
                             $cross_exist_count++;
                             FileUtil::writeContents($log_handle, "cross_exist_count:" . $cross_exist_count);
+                            unset($user_wenwen_cross_data[$jili_cross_key]);
+                            unset($connection_account_data[$wen_cross_key]);
                             break 2;
                         }
                     }
@@ -65,11 +68,12 @@ function do_process()
             }
 
             //遍历panel_91wenwen_pointexchange_91jili_account表
-            foreach ($exchange_account_data as $exchange) {
+            foreach ($exchange_account_data as $exchange_key => $exchange) {
                 if ($panelist_id == $exchange[0]) {
                     $jili_email = $exchange[1];
                     $exchange_exist_count++;
                     FileUtil::writeContents($log_handle, "exchange_exist_count:" . $exchange_exist_count);
+                    unset($exchange_account_data[$exchange_key]);
                     break;
                 }
             }
