@@ -145,7 +145,7 @@ function do_process()
 
 
     FileUtil::writeContents($log_handle, "end!");
-    echo ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB'. "\n"; 
+    echo ( ! function_exists('memory_get_peak_usage')) ? '0' : round(memory_get_peak_usage()/1024/1024, 2).'MB'. "\n"; 
 
 
     echo date('Y-m-d H:i:s') . " end!\r\n\r\n";
