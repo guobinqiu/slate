@@ -120,6 +120,14 @@ class Constants
         "updated_at",
         "created_at"
     );
+
+    //export csv name
+    public static $migrate_user_name = "/migrate_user.csv";
+    public static $migrate_user_only_wenwen_name = "/migrate_user_only_wenwen.csv";
+    public static $migrate_user_wenwen_login_name = "/migrate_user_wenwen_login.csv";
+    public static $migrate_weibo_user_name = "/migrate_weibo_user.csv";
+    public static $migrate_sop_respondent_name = "/migrate_sop_respondent.csv";
+    public static $migrate_vote_answer_name = "/migrate_vote_answer.csv";
 }
 
 ?>
