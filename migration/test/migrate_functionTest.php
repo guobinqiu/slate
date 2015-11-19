@@ -271,11 +271,34 @@ EOD
   }
   function test_generate_user_data_wenwen_common()
   {
-    $this->markTestIncomplete(
-      'This test has not been implemented yet.'
-    );
+
+    $this->before_test();
+
+    $return = generate_user_data_wenwen_common(array(), array());
+    $this->assertEquals('', $return);
+
+//"id","panel_region_id","panel_id","email","login_id","login_password","login_password_crypt_type","login_password_salt","updated_at","created_at","created_remote_addr","created_user_agent","login_valid_flag","sex_code","birthday","panelist_status","campaign_code","last_login_time"
+
+    $panelist_row = str_getcsv(<<<EOD
+"6","2000","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","","2013-12-19 17:48:55"
+
+EOD
+) ;
+//"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
+    $user_row = str_getcsv(<<<EOD
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","NULL","NULL","NULL","","QQ懂你","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","NULL","0","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+) ;
+
+    $return = generate_user_data_wenwen_common($panelist_row, $user_row);
+print_r($return);
+    $this->assertCount(38, $return);
+
+
+    $this->after_test();
 
   }
+
   function test_generate_user_wenwen_login_data()
   {
     $this->markTestIncomplete(
@@ -289,6 +312,69 @@ EOD
       'This test has not been implemented yet.'
     );
 
+  }
+
+  private function after_test() 
+  {
+    global $panelist_mobile_data;
+    global $region_mapping_data;
+    global $panelist_detail_data;
+    global $panelist_profile_data;
+    global $panelist_point_data;
+    global $panelist_profile_image_data;
+
+    unset($panelist_mobile_data);
+    unset($region_mapping_data);
+    unset($panelist_detail_data);
+    unset($panelist_profile_data);
+    unset($panelist_point_data);
+    unset($panelist_profile_image_data);
+  }
+
+  private function before_test() {
+    global $panelist_mobile_data;
+    global $region_mapping_data;
+    global $panelist_detail_data;
+    global $panelist_profile_data;
+    global $panelist_point_data;
+    global $panelist_profile_image_data;
+
+     $panelist_mobile_data       = str_getcsv(<<<EOD
+"panelist_id","mobile_number","status_flag","updated_at","created_at"
+"6","13052550759","1","2012-10-20 13:13:01","2012-10-20 13:13:01"
+"2230806","17715018917","1","2015-11-17 17:16:38","2015-11-17 17:16:38"
+EOD
+) ;
+     $region_mapping_data        = str_getcsv(<<<EOD
+"region_id","province_id","city_id"
+"2000","1","2"
+"2355","32","363"
+EOD
+) ;
+     $panelist_detail_data       = str_getcsv(<<<EOD
+"panelist_id","name_first","name_middle","name_last","furigana_first","furigana_middle","furigana_last","age","zip1","zip2","address1","address2","address3","home_type_code","home_year","tel1","tel2","tel3","tel_mobile1","tel_mobile2","tel_mobile3","mobile_number","marriage_code","child_code","child_num","income_family_code","income_personal_code","job_code","industry_code","work_section_code","graduation_code","industry_code_family","internet_starttime_code","internet_usetime_code","last_answer_date","updated_at","created_at"
+"6","广广广广","NULL","祥广","NULL","NULL","NULL","NULL","","","","taiwan","","0","","NULL","NULL","NULL","NULL","NULL","NULL","010101010","NULL","NULL","NULL","NULL","20","4","3","9","3","NULL","NULL","NULL","2010-01-18 11:31:22","2010-01-19 17:53:20","2009-10-30 09:41:38"
+"2230880","zyatwork","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","2015-11-17 17:39:49","2015-11-17 17:39:49"
+EOD
+) ;
+     $panelist_profile_data      = str_getcsv(<<<EOD
+"id","panelist_id","nickname","show_sex","show_birthday","biography","hobby","fav_music","monthly_wish","website_url","updated_at","created_at"
+"2255","6","琪琪琪","1","1","","数码控","都一般","要不中个500万玩玩？","NULL","2010-12-14 13:03:21","2010-12-14 13:03:21"
+"412569","2230879","xingting520","0","0","NULL","NULL","NULL","NULL","NULL","2015-11-17 17:38:39","2015-11-17 17:38:39"
+EOD
+) ;
+     $panelist_point_data        = str_getcsv(<<<EOD
+"panelist_id","point_value","last_add_time","last_add_log_yyyymm","last_add_log_id","last_active_time","updated_at","created_at"
+"6","0","2014-01-10 18:06:59","new","0","NULL","2014-01-10 18:06:59","2014-01-10 18:06:59"
+"2230880","12","2015-11-17 17:41:00","201511","854791","2015-11-17 17:41:00","2015-11-17 17:41:00","2015-11-17 17:39:49"
+EOD
+) ;
+     $panelist_profile_image_data= str_getcsv(<<<EOD
+"panelist_id","hash","s_file","s_width","s_height","m_file","m_width","m_height","l_file","l_width","l_height","delete_flag","updated_at","created_at"
+"6","c05fc2fdb476d327e418b9950ba89c32c443394c","c/0/5/c05fc2fdb476d327e418b9950ba89c32c443394c_s.jpg","30","30","c/0/5/c05fc2fdb476d327e418b9950ba89c32c443394c_m.jpg","90","90","c/0/5/c05fc2fdb476d327e418b9950ba89c32c443394c_l.jpg","270","270","0","2012-12-31 10:24:28","2012-12-31 10:23:15"
+"2230654","a58b61794e61191590bafb832c3fe29cd11c0eb1","a/5/8/a58b61794e61191590bafb832c3fe29cd11c0eb1_s.jpg","30","30","a/5/8/a58b61794e61191590bafb832c3fe29cd11c0eb1_m.jpg","90","90","a/5/8/a58b61794e61191590bafb832c3fe29cd11c0eb1_l.jpg","270","270","0","2015-11-17 14:15:00","2015-11-17 14:14:28"
+EOD
+);
   }
 
 }
