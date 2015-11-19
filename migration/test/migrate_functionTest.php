@@ -1,6 +1,9 @@
 <?php
 
-require __DIR__.'/../script/migrate_function.php';
+include(__DIR__.'/../script/config.php');
+include(__DIR__.'/../script/FileUtil.php');
+include(__DIR__.'/../script/Constants.php');
+include( __DIR__.'/../script/migrate_function.php');
 
 class migrate_functionTest extends PHPUnit_Framework_TestCase
 {
@@ -251,5 +254,42 @@ EOD
 
     fclose($fh);
   }
+
+  function test_generate_user_data_both_exsit()
+  {
+    $this->markTestIncomplete(
+      'This test has not been implemented yet.'
+    );
+
+  }
+  function test_generate_user_data_only_wenwen()
+  {
+    $this->markTestIncomplete(
+      'This test has not been implemented yet.'
+    );
+
+  }
+  function test_generate_user_data_wenwen_common()
+  {
+    $this->markTestIncomplete(
+      'This test has not been implemented yet.'
+    );
+
+  }
+  function test_generate_user_wenwen_login_data()
+  {
+    $this->markTestIncomplete(
+      'This test has not been implemented yet.'
+    );
+
+  }
+  function test_export_csv()
+  {
+    $this->markTestIncomplete(
+      'This test has not been implemented yet.'
+    );
+
+  }
+
 }
 
