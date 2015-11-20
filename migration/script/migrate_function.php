@@ -1,112 +1,168 @@
 <?php
 
 # predefined global variables
+//file handle
+$panelist_file_handle = '';
+$panelist_detail_file_handle = '';
+$panelist_profile_file_handle = '';
+$panelist_profile_image_file_handle = '';
+$panelist_mobile_number_file_handle = '';
+$panelist_point_file_handle = '';
+$panelist_sina_connection_file_handle = '';
+$pointexchange_91jili_account_file_handle = '';
+$vote_answer_file_handle = '';
+$panelist_91jili_connection_file_handle = '';
+$user_file_handle = '';
+$user_wenwen_cross_file_handle = '';
+$weibo_user_file_handle = '';
+$migration_region_mapping_file_handle = '';
+$sop_respondent_file_handle = '';
+$vote_answer_file_handle = '';
 
-
-//panel_91wenwen_panelist_mobile_number
-$panelist_mobile_data = array ();
-//migration_region_mapping
-$region_mapping_data = array ();
-//panel_91wenwen_panelist_detail
-$panelist_detail_data = array ();
-//panel_91wenwen_panelist_profile
-$panelist_profile_data = array ();
-//panel_91wenwen_panelist_point
-$panelist_point_data = array ();
-//panel_91wenwen_panelist_profile_image
-$panelist_profile_image_data = array ();
-//panel_91wenwen_panelist_sina_connection
-$panelist_sina_data = array ();
+//索引
+$panelist_image_indexs = '';
+$panelist_point_indexs = '';
+$panelist_mobile_indexs = '';
+$region_mapping_indexs = '';
+$panelist_detail_indexs = '';
+$panelist_profile_indexs = '';
+$sop_respondent_indexs = '';
+$vote_answer_indexs = '';
 
 # load csv lines into 2-dim array
 function initialise_csv()
 {
     //export csv file
     export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_name);
+    export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_both_exsit_name);
     export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_only_wenwen_name);
     export_csv_row(Constants::$user_wenwen_login_title, Constants::$migrate_user_wenwen_login_name);
     export_csv_row(Constants::$weibo_user_title, Constants::$migrate_weibo_user_name);
     export_csv_row(Constants::$sop_respondent_title, Constants::$migrate_sop_respondent_name);
     export_csv_row(Constants::$vote_answer_title, Constants::$migrate_vote_answer_name);
 
-    //import csv
-    $panelist_mobile_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_mobile_number.csv');
-    $region_mapping_data = FileUtil::readCsvContent(IMPORT_JL_PATH . '/migration_region_mapping.csv');
-    $panelist_detail_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_detail.csv');
-    $panelist_profile_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_profile.csv');
-    $panelist_point_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_point.csv');
-    $panelist_profile_image_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_profile_image.csv');
-    $panelist_sina_data = FileUtil::readCsvContent(IMPORT_WW_PATH . '/panel_91wenwen_panelist_sina_connection.csv');
+    global $panelist_detail_file_handle;
+    global $panelist_profile_file_handle;
+    global $panelist_profile_image_file_handle;
+    global $panelist_mobile_number_file_handle;
+    global $panelist_point_file_handle;
+    global $panelist_sina_connection_file_handle;
+    global $vote_answer_file_handle;
+    global $weibo_user_file_handle;
+    global $migration_region_mapping_file_handle;
+    global $sop_respondent_file_handle;
+    global $vote_answer_file_handle;
+
+    global $panelist_image_indexs;
+    global $panelist_point_indexs;
+    global $panelist_mobile_indexs;
+    global $region_mapping_indexs;
+    global $panelist_detail_indexs;
+    global $panelist_profile_indexs;
+    global $sop_respondent_indexs;
+    global $vote_answer_indexs;
+
+    //check file
+    $panelist_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panelist.csv");
+    $panelist_detail_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_detail.csv");
+    $panelist_profile_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile.csv");
+    $panelist_profile_image_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile_image.csv");
+    $panelist_mobile_number_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv");
+    $panelist_point_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv");
+    $panelist_sina_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_sina_connection.csv");
+    $pointexchange_91jili_account_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_pointexchange_91jili_account.csv");
+    $vote_answer_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/" . VOTE_ANSWER . ".csv");
+    $panelist_91jili_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_91jili_connection.csv");
+    $sop_respondent_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/sop_respondent.csv");
+
+    $user_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/user.csv");
+    $user_wenwen_cross_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/user_wenwen_cross.csv");
+    $weibo_user_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/weibo_user.csv");
+    $migration_region_mapping_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/migration_region_mapping.csv");
+
+    //创建索引
+    $panelist_image_indexs = build_index_by_selected($panelist_profile_image_file_handle, 'panelist_id', 'hash');
+    $panelist_point_indexs = build_index_by_selected($panelist_point_file_handle, 'panelist_id', 'point_value');
+    $panelist_mobile_indexs = build_index_by_selected($panelist_mobile_number_file_handle, 'panelist_id', 'mobile_number');
+    $region_mapping_indexs = build_index_by_panelist_id($migration_region_mapping_file_handle, 'region_id');
+    $panelist_detail_indexs = build_index_by_panelist_id($panelist_detail_file_handle, 'panelist_id');
+    $panelist_profile_indexs = build_index_by_panelist_id($panelist_profile_file_handle, 'panelist_id');
+    $sina_connection_indexs = build_index_by_panelist_id($panelist_sina_connection_file_handle, 'panelist_id');
+    $sop_respondent_indexs = build_index_by_panelist_id($sop_respondent_file_handle, 'panelist_id');
+    $vote_answer_indexs = build_index_by_panelist_id($vote_answer_file_handle, 'panelist_id');
 }
 
-/** 
+/**
  * @param $fh  the csv file handler
  * @param $key_name    索引的关键字列名
  * @param $val_name   索引的键值列名
  * @return array($key_name_data => array( $val_name_data) )
  */
-function build_index_by_selected($fh, $key_name, $val_name) 
+function build_index_by_selected($fh, $key_name, $val_name)
 {
-  rewind($fh);
-  $title =  fgets($fh);
-  $key_pos = strpos( $title, $key_name); 
-  $val_pos = strpos( $title, $val_name); 
+    rewind($fh);
+    $title = fgets($fh);
+    $key_pos = strpos($title, $key_name);
+    $val_pos = strpos($title, $val_name);
 
-
-  if( false === $key_pos ||false === $val_pos ) {
-    return ; // 
-  }
-  if( $key_pos > $val_pos) { 
-    $min_pos =  $val_pos ;
-    $max_pos =  $key_pos ;
-  } else if($key_pos < $val_pos)  {
-    $min_pos =  $key_pos ;
-    $max_pos =  $val_pos ;
-  } else {
-    $min_pos =  $val_pos ;
-    $max_pos =  $min_pos ;
-  }
-
-
-  $min_col_seq = substr_count(substr( $title, 0, $min_pos),',' );
-  $max_col_seq = substr_count(substr( $title, 0, $max_pos),',' );
-
-
-  $index = array(); 
-  while ($row = fgets($fh, 1024)) {
-
-    $min_head = 0;
-    for( $i = $min_col_seq; $i>0; $i-- ) {
-      $min_head = strpos($row, ',', $min_head) + 1;
+    if (false === $key_pos || false === $val_pos) {
+        return; //
     }
-    $min_tail = strpos($row, ',',$min_head);
-    $min_col_value =  substr($row, $min_head + 1 , $min_tail - $min_head - 2 ); 
-
-    if( $key_pos ==  $val_pos) { 
-      $index [$min_col_value] = array( $val_name => $min_col_value);
-      continue;
-    }
-    $max_head = $min_tail ;
-    for( $i = $max_col_seq - $min_col_seq; $i>0; $i-- ) {
-      $max_head = strpos($row, ',',  $max_head ) + 1;
-    }
-
-    $max_tail = strpos($row, ',', $max_head );
-
-    if( $max_tail === false ) {
-      $max_tail = strlen($row) -1;
-    }
-
-    $max_col_value =  substr($row, $max_head + 1 , $max_tail - $max_head - 2 ); 
-
-    if( $key_pos >   $val_pos) { 
-      $index [$max_col_value] = array( $val_name => $min_col_value);
+    if ($key_pos > $val_pos) {
+        $min_pos = $val_pos;
+        $max_pos = $key_pos;
+    } else if ($key_pos < $val_pos) {
+        $min_pos = $key_pos;
+        $max_pos = $val_pos;
     } else {
-      $index [$min_col_value] = array( $val_name => $max_col_value);
+        $min_pos = $val_pos;
+        $max_pos = $min_pos;
     }
-  }
 
-  return $index;
+    $min_col_seq = substr_count(substr($title, 0, $min_pos), ',');
+    $max_col_seq = substr_count(substr($title, 0, $max_pos), ',');
+
+    $index = array ();
+    while ($row = fgets($fh, 1024)) {
+
+        $min_head = 0;
+        for ($i = $min_col_seq; $i > 0; $i--) {
+            $min_head = strpos($row, ',', $min_head) + 1;
+        }
+        $min_tail = strpos($row, ',', $min_head);
+        $min_col_value = substr($row, $min_head + 1, $min_tail - $min_head - 2);
+
+        if ($key_pos == $val_pos) {
+            $index[$min_col_value] = array (
+                $val_name => $min_col_value
+            );
+            continue;
+        }
+        $max_head = $min_tail;
+        for ($i = $max_col_seq - $min_col_seq; $i > 0; $i--) {
+            $max_head = strpos($row, ',', $max_head) + 1;
+        }
+
+        $max_tail = strpos($row, ',', $max_head);
+
+        if ($max_tail === false) {
+            $max_tail = strlen($row) - 1;
+        }
+
+        $max_col_value = substr($row, $max_head + 1, $max_tail - $max_head - 2);
+
+        if ($key_pos > $val_pos) {
+            $index[$max_col_value] = array (
+                $val_name => $min_col_value
+            );
+        } else {
+            $index[$min_col_value] = array (
+                $val_name => $max_col_value
+            );
+        }
+    }
+
+    return $index;
 }
 
 /**
@@ -116,19 +172,17 @@ function build_index_by_selected($fh, $key_name, $val_name)
  * @param with_unset  是否从索引中删除找到了内容
  * @return array(val_name  => val_data),  'val_name': 查找对象的名称
  */
-function use_index_by_selected(&$index, $key_val,  $with_unset= true) 
+function use_index_by_selected(&$index, $key_val, $with_unset = true)
 {
-  if(!  isset($index[$key_val])    ) {
-    return;
-  } 
-  $found = $index[$key_val];
-  if( $with_unset) {
-    unset($index[$key_val]);
-  }
-  return $found;
+    if (!isset($index[$key_val])) {
+        return;
+    }
+    $found = $index[$key_val];
+    if ($with_unset) {
+        unset($index[$key_val]);
+    }
+    return $found;
 }
-
-
 
 /**
  * return array( 'col_value'=> array('pointer=> to_line));
@@ -159,7 +213,7 @@ function build_index_by_panelist_id($fh, $col_name = 'panelist_id')
 
         $col_value = substr($row, $head_pos + 1, $tail_pos - $head_pos - 2);
 
-        $built[$col_value] = $p; 
+        $built[$col_value] = $p;
 
         $p = ftell($fh);
     }
@@ -167,17 +221,17 @@ function build_index_by_panelist_id($fh, $col_name = 'panelist_id')
     return $built;
 }
 
-function use_index_by_panelist_id(&$index, $col_val, $fh , $with_unset = true)
+function use_index_by_panelist_id(&$index, $col_val, $fh, $with_unset = true)
 {
-  if( ! isset( $index[$col_val]) ) {
-    return ;
-  }
+    if (!isset($index[$col_val])) {
+        return;
+    }
 
-  fseek($fh, $index[$col_val]);
-  if ( $with_unset) {
-    unset($index[$col_val]);
-  }
-  return fgetcsv($fh);
+    fseek($fh, $index[$col_val]);
+    if ($with_unset) {
+        unset($index[$col_val]);
+    }
+    return fgetcsv($fh);
 }
 
 /**
@@ -186,16 +240,16 @@ function use_index_by_panelist_id(&$index, $col_val, $fh , $with_unset = true)
  */
 function get_max_user_id_by_index($index, $fh)
 {
-  $last = end($index);
-  fseek($fh, $last);
-  $row = fgets($fh);
+    $last = end($index);
+    fseek($fh, $last);
+    $row = fgets($fh);
 
-  $id_pos = strpos($row, ',');
+    $id_pos = strpos($row, ',');
 
-  if(false === $id_pos ) {
-    return null;
-  };
-  return  substr($row, 1, $id_pos -2 );
+    if (false === $id_pos) {
+        return null;
+    }
+    return substr($row, 1, $id_pos - 2);
 }
 
 /**
@@ -406,7 +460,7 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen_jili'];
 
-    return $user_row;
+    export_csv_row($user_row, Constants::$migrate_user_both_exsit_name);
 }
 
 //user data of only exist on wenwen
@@ -436,6 +490,20 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
 //user common data of wenwen
 function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 {
+    global $panelist_detail_file_handle;
+    global $panelist_profile_file_handle;
+    global $panelist_profile_image_file_handle;
+    global $panelist_mobile_number_file_handle;
+    global $panelist_point_file_handle;
+    global $migration_region_mapping_file_handle;
+
+    global $panelist_image_indexs;
+    global $panelist_point_indexs;
+    global $panelist_mobile_indexs;
+    global $region_mapping_indexs;
+    global $panelist_detail_indexs;
+    global $panelist_profile_indexs;
+
     //email
     $user_row[1] = $panelist_row[3];
 
@@ -470,67 +538,51 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[34] = Constants::$password_choice['pwd_wenwen'];
 
     //tel: panel_91wenwen_panelist_mobile_number.mobile_number
-    global $panelist_mobile_data;
-    foreach ($panelist_mobile_data as $panelist_mobile_row) {
-        if ($panelist_row[0] == $panelist_mobile_row[0]) {
-            $user_row[10] = $panelist_mobile_row[1];
-            break;
-        }
+    if (isset($panelist_mobile_indexs[$panelist_row[0]])) {
+        $user_row[10] = $panelist_mobile_indexs[$panelist_row[0]]['mobile_number'];
     }
 
     //province , city : panelist.panel_region_id
-    global $region_mapping_data;
-    foreach ($region_mapping_data as $region_mapping_row) {
-        if ($panelist_row[1] == $region_mapping_row[0]) {
-            //province
-            $user_row[12] = $region_mapping_row[1];
-            //city
-            $user_row[13] = $region_mapping_row[2];
-            break;
-        }
+    if (isset($region_mapping_indexs[$panelist_row[0]])) {
+        $region_mapping_row = use_index_by_panelist_id($region_mapping_indexs, $panelist_row[0], $migration_region_mapping_file_handle, false);
+        //province
+        $user_row[12] = $region_mapping_row[1];
+        //city
+        $user_row[13] = $region_mapping_row[2];
     }
 
-    global $panelist_detail_data;
-    foreach ($panelist_detail_data as $panelist_detail_row) {
-        if ($panelist_row[0] == $panelist_detail_row[0]) {
+    if (isset($panelist_detail_indexs[$panelist_row[0]])) {
+        $panelist_detail_row = use_index_by_panelist_id($panelist_detail_indexs, $panelist_row[0], $migration_region_mapping_file_handle, true);
 
-            //education: detail.graduation_code
-            $user_row[14] = $panelist_detail_row[30];
+        //education: detail.graduation_code
+        $user_row[14] = $panelist_detail_row[30];
 
-            //profession: detail.detail.job_code
-            $user_row[15] = $panelist_detail_row[27];
+        //profession: detail.detail.job_code
+        $user_row[15] = $panelist_detail_row[27];
 
-            //income : detail.income_personal_code
-            $user_row[16] = $panelist_detail_row[26];
+        //income : detail.income_personal_code
+        $user_row[16] = $panelist_detail_row[26];
 
-            //industry_code: detail.industry_code
-            $user_row[37] = $panelist_detail_row[31];
+        //industry_code: detail.industry_code
+        $user_row[37] = $panelist_detail_row[31];
 
-            //work_section_code: detail.work_section_code
-            $user_row[38] = $panelist_detail_row[29];
-
-            break;
-        }
+        //work_section_code: detail.work_section_code
+        $user_row[38] = $panelist_detail_row[29];
     }
 
-    global $panelist_profile_data;
-    foreach ($panelist_profile_data as $panelist_profile_row) {
+    if (isset($panelist_profile_indexs[$panelist_row[0]])) {
+        $panelist_profile_row = use_index_by_panelist_id($panelist_profile_indexs, $panelist_row[0], $panelist_profile_file_handle, true);
+        //hobby: profile.hobby
+        $user_row[17] = $panelist_profile_row[6];
 
-        if ($panelist_row[0] == $panelist_profile_row[1]) {
-            //hobby: profile.hobby
-            $user_row[17] = $panelist_profile_row[6];
+        //personalDes: profile.biography
+        $user_row[18] = $panelist_profile_row[5];
 
-            //personalDes: profile.biography
-            $user_row[18] = $panelist_profile_row[5];
+        //fav_music: profile.fav_music
+        $user_row[35] = $panelist_profile_row[7];
 
-            //fav_music: profile.fav_music
-            $user_row[35] = $panelist_profile_row[7];
-
-            //monthly_wish:profile.monthly_wish
-            $user_row[36] = $panelist_profile_row[8];
-
-            break;
-        }
+        //monthly_wish:profile.monthly_wish
+        $user_row[36] = $panelist_profile_row[8];
     }
 
     //last_login_ip todo
@@ -538,22 +590,15 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
 
     //points: panel_91wenwen_panelist_point.point_value
-    global $panelist_point_data;
-    foreach ($panelist_point_data as $panelist_point_row) {
-        if ($panelist_row[0] == $panelist_point_row[0]) {
-            $user_row[24] = $user_row[24] + $panelist_point_row[1];
-            break;
-        }
+    if (isset($panelist_profile_indexs[$panelist_row[0]])) {
+        $user_row[24] = $user_row[24] + $panelist_profile_indexs[$panelist_row[0]]['point_value'];
     }
 
     //icon_path:panelist_profile_image
-    global $panelist_profile_image_data;
-    foreach ($panelist_profile_image_data as $panelist_profile_image_row) {
-        if ($panelist_row[0] == $panelist_profile_image_row[0]) {
-            $user_row[27] = $panelist_profile_image_row[1];
-            break;
-        }
+    if (isset($panelist_image_indexs[$panelist_row[0]])) {
+        $user_row[27] = $panelist_image_indexs[$panelist_row[0]]['hash'];
     }
+
     return $user_row;
 }
 
@@ -581,64 +626,59 @@ function generate_user_wenwen_login_data($panelist_row, $user_id)
 //weibo_user data
 function generate_weibo_user_data($panelist_id, $user_id)
 {
-    $weibo_user_row = array ();
-    global $panelist_sina_data;
-    foreach ($panelist_sina_data as $panelist_sina_key => $panelist_sina_row) {
-        if ($panelist_id == $panelist_sina_row[0]) {
-            //id
-            $weibo_user_row[0] = null;
+    global $sina_connection_indexs;
+    global $panelist_sina_connection_file_handle;
 
-            //user_id
-            $weibo_user_row[1] = $user_id;
+    if (isset($sina_connection_indexs[$panelist_id])) {
+        $panelist_sina_row = use_index_by_panelist_id($sina_connection_indexs, $panelist_id, $panelist_sina_connection_file_handle, true);
+        //id
+        $weibo_user_row[0] = null;
 
-            //open_id
-            $weibo_user_row[2] = $panelist_sina_row[1];
+        //user_id
+        $weibo_user_row[1] = $user_id;
 
-            //regist_date
-            $weibo_user_row[3] = $panelist_sina_row[7];
+        //open_id
+        $weibo_user_row[2] = $panelist_sina_row[1];
 
-            export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
-            unset($panelist_sina_data[$panelist_sina_key]);
+        //regist_date
+        $weibo_user_row[3] = $panelist_sina_row[7];
 
-            break;
-        }
+        export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
     }
 }
 
 function generate_sop_respondent_data($panelist_id, $user_id)
 {
-    global $sop_respondent_data;
-    foreach ($sop_respondent_data as $sop_respondent_key => $sop_respondent_row) {
-        if ($panelist_id == $sop_respondent_row[1]) {
-            $sop_respondent_row[1] = $user_id;
+    global $sop_respondent_indexs;
+    global $sop_respondent_file_handle;
 
-            export_csv_row($sop_respondent_row, Constants::$migrate_sop_respondent_name);
-            unset($sop_respondent_data[$sop_respondent_key]);
-        }
+    if (isset($sop_respondent_indexs[$panelist_id])) {
+        $sop_respondent_row = use_index_by_panelist_id($sop_respondent_indexs, $panelist_id, $sop_respondent_file_handle, true);
+        $sop_respondent_row[1] = $user_id;
+        export_csv_row($sop_respondent_row, Constants::$migrate_sop_respondent_name);
     }
 }
 
 function generate_vote_answer_data($panelist_id, $user_id)
 {
-    global $vote_answer_data;
-    foreach ($vote_answer_data as $vote_answer_key => $vote_answer_row) {
-        if ($panelist_id == $vote_answer_row[1]) {
-            $vote_answer_row[1] = $user_id;
+    global $vote_answer_indexs;
+    global $vote_answer_file_handle;
 
-            export_csv_row($vote_answer_row, Constants::$migrate_sop_respondent_name);
-            unset($vote_answer_data[$vote_answer_key]);
-        }
+    if (isset($vote_answer_indexs[$panelist_id])) {
+        $vote_answer_row = use_index_by_panelist_id($vote_answer_indexs, $panelist_id, $vote_answer_file_handle, true);
+        $vote_answer_row[1] = $user_id;
+        export_csv_row($vote_answer_row, Constants::$migrate_vote_answer_name);
     }
 }
 
 function export_csv_row($data, $file_name)
 {
-    $csvline[] = FileUtil::joinCsv($data);
+    $csvline = FileUtil::joinCsv($data);
 
     // generate a csv file
     $path = EXPORT_PATH . "/" . $file_name;
-    $handle = fopen($path, "w");
-    fwrite($handle, implode("\n", $csvline));
+    $handle = fopen($path, "a");
+    fwrite($handle, $csvline . "\n");
     fclose($handle);
 }
 
