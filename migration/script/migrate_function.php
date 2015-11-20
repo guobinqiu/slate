@@ -159,9 +159,7 @@ function build_index_by_panelist_id($fh, $col_name = 'panelist_id')
 
         $col_value = substr($row, $head_pos + 1, $tail_pos - $head_pos - 2);
 
-        $built[$col_value] = array (
-            'point' => $p
-        );
+        $built[$col_value] = $p; 
 
         $p = ftell($fh);
     }
@@ -175,11 +173,29 @@ function use_index_by_panelist_id(&$index, $col_val, $fh , $with_unset = true)
     return ;
   }
 
-  fseek($fh, $index[$col_val]['point']);
+  fseek($fh, $index[$col_val]);
   if ( $with_unset) {
     unset($index[$col_val]);
   }
   return fgetcsv($fh);
+}
+
+/**
+ * @param $fh file hanlder
+ * @return  array( cross_id=> $email) ;
+ */
+function get_max_user_id_by_index($index, $fh)
+{
+  $last = end($index);
+  fseek($fh, $last);
+  $row = fgets($fh);
+
+  $id_pos = strpos($row, ',');
+
+  if(false === $id_pos ) {
+    return null;
+  };
+  return  substr($row, 1, $id_pos -2 );
 }
 
 /**
