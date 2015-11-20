@@ -120,13 +120,14 @@ function do_process()
     }
 
     FileUtil::writeContents($log_handle, "\n\tcross_exist_count:" . $cross_exist_count . "\n\texchange_exist_count:" . $exchange_exist_count . "\n\tboth_exist_count:" . $both_exist_count . "\n\tonly_wenwen_count:" . $only_wenwen_count . "\n\ttotal:" . ($cross_exist_count + $exchange_exist_count + $both_exist_count + $only_wenwen_count));
-
+    FileUtil::writeContents($log_handle, round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . date('Y-m-d H:i:s'));
     FileUtil::writeContents($log_handle, "end!");
-    echo (!function_exists('memory_get_peak_usage')) ? '0' : round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . "\n";
-
-    echo date('Y-m-d H:i:s') . " end!\r\n\r\n";
 
     fclose($log_handle);
+
+    echo "memory_get_peak_usage:" . (!function_exists('memory_get_peak_usage')) ? '0' : round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . date('Y-m-d H:i:s') . "\n";
+    echo "memory_get_usage :" . (!function_exists('memory_get_usage ')) ? '0' : round(memory_get_usage() / 1024 / 1024, 2) . 'MB' . date('Y-m-d H:i:s') . "\n";
+    echo date('Y-m-d H:i:s') . " end!\r\n\r\n";
 }
 
 function migrate_common($panelist_row, $jili_user_id)
