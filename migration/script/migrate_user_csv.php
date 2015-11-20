@@ -130,15 +130,13 @@ function do_process()
     }
 
     FileUtil::writeContents($log_handle, "\n\tcross_exist_count:" . $cross_exist_count . "\n\texchange_exist_count:" . $exchange_exist_count . "\n\tboth_exist_count:" . $both_exist_count . "\n\tonly_wenwen_count:" . $only_wenwen_count . "\n\tonly_jili_count:" . $only_jili_count . "\n\timport_wenwen_count:" . ($both_exist_count + $only_wenwen_count) . "\n\texport user total:" . ($both_exist_count + $only_wenwen_count + $only_jili_count));
-    FileUtil::writeContents($log_handle, round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . date('Y-m-d H:i:s'));
+    FileUtil::writeContents($log_handle, round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB');
     FileUtil::writeContents($log_handle, "end!");
 
     fclose($log_handle);
 
     echo date('Y-m-d H:i:s') . "memory_get_peak_usage:";
     echo (!function_exists('memory_get_peak_usage')) ? '0' : round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . "\n";
-    echo date('Y-m-d H:i:s') . "memory_get_usage:";
-    echo (!function_exists('memory_get_usage ')) ? '0' : round(memory_get_usage() / 1024 / 1024, 2) . 'MB' . "\n";
     echo date('Y-m-d H:i:s') . " end!\r\n\r\n";
 }
 
