@@ -75,7 +75,7 @@ function do_process()
 
     //遍历panelist表
     $i = 0;
-    fgetcsv($panelist_file_handle, 2000, ",");
+    fgetcsv($panelist_file_handle, 2000, ',');
     try {
         while (($panelist_data = fgetcsv($panelist_file_handle, 2000, ",")) !== FALSE) {
             $i++;
@@ -99,10 +99,9 @@ function do_process()
 //              FileUtil::writeContents($log_handle, "jili_cross_id:" . $jili_cross_id);
 
               //遍历user_wenwen_cross表
-              if( isset($cross[$jili_cross_id]) ) {
-                $jili_email = $cross[$jili_cross_id]['email'];
-                unset($cross[$jili_cross_id]);
-
+              $cross_found = use_index_by_selected($cross, $jili_cross_id );
+              if( $cross_found) {
+                $jili_email = $cross_found['email'];
                 if ($jili_email) {
                   //                    FileUtil::writeContents($log_handle, "jili_cross_id->jili email:" . $jili_email);
                   $cross_exist_count++;
