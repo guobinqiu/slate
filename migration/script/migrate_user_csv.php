@@ -19,6 +19,7 @@ function do_process()
     global $user_file_handle;
     global $user_wenwen_cross_file_handle;
     global $pointexchange_91jili_account_file_handle;
+    global $panelist_91jili_connection_file_handle;
 
     $cross_exist_count = 0;
     $exchange_exist_count = 0;
@@ -29,8 +30,8 @@ function do_process()
     $connection_current = array ();
 
     //创建索引
-    $cross_indexs = build_index_by_selected($user_wenwen_cross_file_handle, 'id', 'email');
-    $user_indexs = build_index_by_panelist_id($user_file_handle, 'email');
+    $cross_indexs = build_key_value_index($user_wenwen_cross_file_handle, 'id', 'email');
+    $user_indexs = build_file_index($user_file_handle, 'email');
 
     // 遍历user_wenwen_cross表
     $exchange_current = array ();
@@ -40,7 +41,6 @@ function do_process()
 
     //遍历panelist表
     $i = 0;
-    global $panelist_file_handle;
     fgetcsv($panelist_file_handle, 2000, ",");
     try {
         while (($panelist_row = fgetcsv($panelist_file_handle, 2000, ",")) !== FALSE) {
@@ -60,7 +60,7 @@ function do_process()
 
             if ($jili_cross_id) {
                 //遍历user_wenwen_cross表
-                $cross_found = use_index_by_selected($cross_indexs, $jili_cross_id);
+                $cross_found = use_key_value_index($cross_indexs, $jili_cross_id);
                 if ($cross_found) {
                     $jili_email = $cross_found['email'];
 
@@ -83,7 +83,7 @@ function do_process()
             //遍历jili user 表
             if (isset($user_indexs[$jili_email])) {
                 $both_exist_count = $both_exist_count + 1;
-                $user_row = use_index_by_panelist_id($user_indexs, $jili_email, $user_file_handle, true);
+                $user_row = use_file_index($user_indexs, $jili_email, $user_file_handle, true);
                 $jili_user_id = $user_row[0];
 
                 //生成新的user数据：拥有两边账号，相同的部分取问问数据
