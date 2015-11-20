@@ -50,3 +50,43 @@ FIELDS  TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"' 
 ESCAPED BY '"' LINES 
 TERMINATED BY '\r\n';
+
+LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_user.csv' 
+INTO TABLE user 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '"' LINES 
+TERMINATED BY '\r\n';
+
+LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_user_wenwen_login.csv' 
+INTO TABLE user_wenwen_login 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '"' LINES 
+TERMINATED BY '\r\n';
+
+LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_weibo_user.csv' 
+INTO TABLE weibo_user 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '"' LINES 
+TERMINATED BY '\r\n';
+
+LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_sop_respondent.csv' 
+INTO TABLE sop_respondent 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '"' LINES 
+TERMINATED BY '\r\n';
+
+LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_vote_answer.csv' 
+INTO TABLE vote_answer 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '"' LINES 
+TERMINATED BY '\r\n';

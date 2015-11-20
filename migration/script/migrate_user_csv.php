@@ -116,8 +116,16 @@ function do_process()
     //user_only
     foreach ($user_indexs as $email => $pointer) {
         $only_jili_count++;
+
         fseek($user_file_handle, $pointer);
         $user_row = fgetcsv($user_file_handle);
+
+        //origin_flag
+        $user_row[30] = Constants::$origin_flag['jili'];
+
+        //password_choice
+        $user_row[34] = Constants::$password_choice['pwd_jili'];
+
         export_csv_row($user_row, Constants::$migrate_user_name);
     }
 
