@@ -41,6 +41,9 @@ function initialise_csv()
     export_csv_row(Constants::$sop_respondent_title, Constants::$migrate_sop_respondent_name);
     export_csv_row(Constants::$vote_answer_title, Constants::$migrate_vote_answer_name);
 
+    global $panelist_file_handle;
+    global $user_file_handle;
+    global $user_wenwen_cross_file_handle;
     global $panelist_detail_file_handle;
     global $panelist_profile_file_handle;
     global $panelist_profile_image_file_handle;
@@ -51,7 +54,6 @@ function initialise_csv()
     global $weibo_user_file_handle;
     global $migration_region_mapping_file_handle;
     global $sop_respondent_file_handle;
-    global $vote_answer_file_handle;
 
     global $panelist_image_indexs;
     global $panelist_point_indexs;
