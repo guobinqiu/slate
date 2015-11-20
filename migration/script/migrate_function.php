@@ -34,8 +34,6 @@ function initialise_csv()
 {
     //export csv file
     export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_name);
-    export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_both_exsit_name);
-    export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_only_wenwen_name);
     export_csv_row(Constants::$user_wenwen_login_title, Constants::$migrate_user_wenwen_login_name);
     export_csv_row(Constants::$weibo_user_title, Constants::$migrate_weibo_user_name);
     export_csv_row(Constants::$sop_respondent_title, Constants::$migrate_sop_respondent_name);
@@ -462,7 +460,7 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen_jili'];
 
-    export_csv_row($user_row, Constants::$migrate_user_both_exsit_name);
+    export_csv_row($user_row, Constants::$migrate_user_name);
 }
 
 //user data of only exist on wenwen
@@ -486,7 +484,7 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
             $user_row[$i] = null;
         }
     }
-    export_csv_row($user_row, Constants::$migrate_user_only_wenwen_name);
+    export_csv_row($user_row, Constants::$migrate_user_name);
 }
 
 //user common data of wenwen

@@ -25,6 +25,7 @@ function do_process()
     $exchange_exist_count = 0;
     $both_exist_count = 0; //cross_exist_count+exchange_exist_count+wenwen_email
     $only_wenwen_count = 0;
+    $only_jili_count = 0;
 
     // panel_91wenwen_panelist_91jili_connection 记录当前的connection csv handler中的行。
     $connection_current = array ();
@@ -114,12 +115,19 @@ function do_process()
 
     //user_only
     foreach ($user_indexs as $email => $pointer) {
+        $only_jili_count++;
         fseek($user_file_handle, $pointer);
         $user_row = fgetcsv($user_file_handle);
         export_csv_row($user_row, Constants::$migrate_user_name);
     }
 
-    FileUtil::writeContents($log_handle, "\n\tcross_exist_count:" . $cross_exist_count . "\n\texchange_exist_count:" . $exchange_exist_count . "\n\tboth_exist_count:" . $both_exist_count . "\n\tonly_wenwen_count:" . $only_wenwen_count . "\n\ttotal:" . ($cross_exist_count + $exchange_exist_count + $both_exist_count + $only_wenwen_count));
+    FileUtil::writeContents($log_handle, "\n\tcross_exist_count:" . $cross_exist_count . "\n
+            \texchange_exist_count:" . $exchange_exist_count . "\n
+            \tboth_exist_count:" . $both_exist_count . "\n
+            \tonly_wenwen_count:" . $only_wenwen_count . "\n
+            \tonly_jili_count:" . $only_jili_count . "\n
+            \timport_wenwen_count:" . ($both_exist_count + $only_wenwen_count) . "\n
+            \texport user total:" . ($both_exist_count + $only_wenwen_count + $only_jili_count));
     FileUtil::writeContents($log_handle, round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . date('Y-m-d H:i:s'));
     FileUtil::writeContents($log_handle, "end!");
 

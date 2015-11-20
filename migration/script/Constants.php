@@ -123,8 +123,6 @@ class Constants
 
     //export csv name
     public static $migrate_user_name = "/migrate_user.csv";
-    public static $migrate_user_both_exsit_name = "/migrate_user_both_exsit.csv";
-    public static $migrate_user_only_wenwen_name = "/migrate_user_only_wenwen.csv";
     public static $migrate_user_wenwen_login_name = "/migrate_user_wenwen_login.csv";
     public static $migrate_weibo_user_name = "/migrate_weibo_user.csv";
     public static $migrate_sop_respondent_name = "/migrate_sop_respondent.csv";
