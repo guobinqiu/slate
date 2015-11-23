@@ -121,11 +121,26 @@ function do_process()
         fseek($user_file_handle, $pointer);
         $user_row = fgetcsv($user_file_handle);
 
+        //is_from_wenwen
+        if (empty($user_row[4]) || $user_row[4] == 'NULL') {
+            $user_row[4] = Constants::$is_from_wenwen['jili_register'];
+        }
+
         //origin_flag
         $user_row[30] = Constants::$origin_flag['jili'];
 
         //password_choice
         $user_row[34] = Constants::$password_choice['pwd_jili'];
+
+        //token_created_at
+        if (empty($user_row[29])) {
+            $user_row[29] = "0000-00-00 00:00:00";
+        }
+
+        //industry_code
+        if (empty($user_row[37])) {
+            $user_row[37] = "";
+        }
 
         export_csv_row($user_row, Constants::$migrate_user_name);
     }

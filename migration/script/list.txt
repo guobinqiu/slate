@@ -43,7 +43,7 @@ migration_region_mapping
 #$sop_respondent: "id","panelist_id","status_flag","stash_data","updated_at","created_at"
 
 #import jili csv
-#$user :"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
+#$user :"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice","fav_music",monthly_wish,"industry_code","work_section_code"
 #$user_wenwen_cross :"id","user_id","created_at","email"
 #$weibo_user :"id","user_id","open_id","regist_date"
 #$migration_region_mapping :  region_id, province_id, city_id

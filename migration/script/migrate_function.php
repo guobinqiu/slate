@@ -40,6 +40,7 @@ function initialise_csv()
     //export_csv_row(Constants::$sop_respondent_title, Constants::$migrate_sop_respondent_name);
     //export_csv_row(Constants::$vote_answer_title, Constants::$migrate_vote_answer_name);
 
+
     //check file
     global $panelist_file_handle;
     $panelist_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panelist.csv");
@@ -239,23 +240,22 @@ function use_file_index(&$index, $col_val, $fh, $with_unset = true)
  * @param $fh file hanlder
  * @return  array( cross_id=> $email) ;
  */
-function get_max_user_id( $fh)
+function get_max_user_id($fh)
 {
     rewind($fh);
     $max_id = 0;
-    while($row = fgets($fh) ){
-      $id_pos = strpos($row, ',');
+    while ($row = fgets($fh)) {
+        $id_pos = strpos($row, ',');
 
-      if (false === $id_pos) {
-        continue;
-      }
-      $id  = (int) substr($row, 1, $id_pos - 2);
-      if(  $max_id < $id) {
-        $max_id = $id;
-      }
-    };
+        if (false === $id_pos) {
+            continue;
+        }
+        $id = (int) substr($row, 1, $id_pos - 2);
+        if ($max_id < $id) {
+            $max_id = $id;
+        }
+    }
     return $max_id;
-
 }
 
 /**
@@ -463,8 +463,19 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row, $user_row);
 
+    //is_from_wenwen
+    if (empty($user_row[4]) || $user_row[4] == 'NULL') {
+        $user_row[4] = Constants::$is_from_wenwen['jili_register'];
+    }
+
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen_jili'];
+
+    for ($i = 0; $i <= 38; $i++) {
+        if (!isset($user_row[$i])) {
+            $user_row[$i] = "";
+        }
+    }
 
     export_csv_row($user_row, Constants::$migrate_user_name);
 }
@@ -479,18 +490,18 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     //is_email_confirmed
     $user_row[3] = 1;
 
+    //is_from_wenwen
+    $user_row[4] = Constants::$is_from_wenwen['wenwen_only'];
+
     //reward_multiple
     $user_row[20] = 1;
 
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen'];
 
-    //is_from_wenwen
-    $user_row[4] = Constants::$is_from_wenwen_only_wenwen;
-
     for ($i = 0; $i <= 38; $i++) {
         if (!isset($user_row[$i])) {
-            $user_row[$i] = null;
+            $user_row[$i] = "";
         }
     }
     export_csv_row($user_row, Constants::$migrate_user_name);
@@ -505,6 +516,9 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //password
     $user_row[2] = $panelist_row[5];
 
+    //is_email_confirmed
+    $user_row[3] = 1;
+
     //sex
     $user_row[8] = $panelist_row[13];
 
@@ -515,7 +529,24 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[21] = $panelist_row[9];
 
     //last_login_date(panelist.panelist.last_login_time)
-    $user_row[22] = $panelist_row[17];
+    if ($panelist_row[17] == "NULL") {
+        $user_row[22] = $panelist_row[9];
+    } else {
+        $user_row[22] = $panelist_row[17];
+    }
+
+    //todo:last_login_ip
+    //$user_row[23] = '';
+
+
+    //delete_flag todo: 是否要查看问问的黑名单处理
+    $user_row[25] = 0;
+
+    //is_info_set
+    $user_row[26] = 0;
+
+    //token_created_at
+    $user_row[29] = "0000-00-00 00:00:00";
 
     //created_remote_addr
     $user_row[31] = $panelist_row[10];
@@ -533,6 +564,12 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     global $panelist_mobile_indexs;
     if (isset($panelist_mobile_indexs[$panelist_row[0]])) {
         $user_row[10] = $panelist_mobile_indexs[$panelist_row[0]]['mobile_number'];
+
+        //is_tel_confirmed
+        $user_row[11] = 1;
+    } else {
+        //is_tel_confirmed
+        $user_row[11] = 0;
     }
 
     //province , city : panelist.panel_region_id
@@ -561,10 +598,18 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[16] = $panelist_detail_row[26];
 
         //industry_code: detail.industry_code
-        $user_row[37] = $panelist_detail_row[28];
+        if (!empty($panelist_detail_row[28])) {
+            $user_row[37] = $panelist_detail_row[28];
+        } else {
+            $user_row[37] = "";
+        }
 
         //work_section_code: detail.work_section_code
-        $user_row[38] = $panelist_detail_row[29];
+        if (!empty($panelist_detail_row[29])) {
+            $user_row[38] = $panelist_detail_row[29];
+        } else {
+            $user_row[38] = "";
+        }
     }
 
     global $panelist_profile_indexs;
@@ -588,10 +633,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[36] = $panelist_profile_row[8];
     }
 
-    //todo:last_login_ip
-    //$user_row[23] = '';
-
-
     //points: panel_91wenwen_panelist_point.point_value
     global $panelist_point_indexs;
     if (isset($panelist_point_indexs[$panelist_row[0]])) {
@@ -602,6 +643,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[24] = $jili_user_point + $panelist_point_indexs[$panelist_row[0]]['point_value'];
 
         //todo: point_history
+
 
         //todo: task_history
     }

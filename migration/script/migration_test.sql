@@ -565,7 +565,7 @@ INSERT INTO `migration_region_mapping` (`region_id`, `province_id`, `city_id`) V
 (2355, 36, 375);
 
 
-LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/3/migrate_vote.csv' 
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_vote.csv' 
 INTO TABLE vote 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -573,7 +573,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '"' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/3/migrate_user.csv' 
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_user.csv' 
 INTO TABLE user 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -581,7 +581,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '"' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/3/migrate_user_wenwen_login.csv' 
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_user_wenwen_login.csv' 
 INTO TABLE user_wenwen_login 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -589,7 +589,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '"' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/3/migrate_weibo_user.csv' 
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_weibo_user.csv' 
 INTO TABLE weibo_user 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -597,7 +597,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '"' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/3/migrate_sop_respondent.csv' 
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_sop_respondent.csv' 
 INTO TABLE sop_respondent 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -605,7 +605,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '"' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/3/migrate_vote_answer.csv' 
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_vote_answer.csv' 
 INTO TABLE vote_answer 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  

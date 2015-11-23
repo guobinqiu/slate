@@ -35,6 +35,13 @@ class Constants
     );
 
     //is_from_wenwen
+    public static $is_from_wenwen = array (
+        'jili_register' => 0,
+        'wenwen_come' => 1,
+        'wenwen_register' => 2,
+        'wenwen_only' => 3
+    );
+
     public static $is_from_wenwen_only_wenwen = 3;
 
     # password_choice ,== PWD_WENWEN, verify the user_wenwen_login
