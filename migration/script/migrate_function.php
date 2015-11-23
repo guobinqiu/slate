@@ -487,9 +487,6 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
 
     $user_row[0] = $user_id;
 
-    //is_email_confirmed
-    $user_row[3] = 1;
-
     //is_from_wenwen
     $user_row[4] = Constants::$is_from_wenwen['wenwen_only'];
 

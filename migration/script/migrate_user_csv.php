@@ -121,9 +121,17 @@ function do_process()
         fseek($user_file_handle, $pointer);
         $user_row = fgetcsv($user_file_handle);
 
+        //is_email_confirmed todo
+        $user_row[3] = 1;
+
         //is_from_wenwen
         if (empty($user_row[4]) || $user_row[4] == 'NULL') {
             $user_row[4] = Constants::$is_from_wenwen['jili_register'];
+        }
+
+        //sex
+        if (empty($user_row[8]) || $user_row[8] == 'NULL') {
+            $user_row[8] = "";
         }
 
         //origin_flag
