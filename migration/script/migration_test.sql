@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `icon_path` varchar(255) DEFAULT NULL,
   `uniqkey` varchar(250) DEFAULT NULL,
   `token_created_at` datetime DEFAULT NULL COMMENT 'remember me cookie token created at',
-  `origin_flag` tinyint(4) DEFAULT NULL COMMENT 'which sites does the user from',
+  `origin_flag` smallint(4) DEFAULT NULL COMMENT 'which sites does the user from',
   `created_remote_addr` varchar(20) DEFAULT NULL COMMENT 'remote IP when create',
   `created_user_agent` text COMMENT 'remote User Agent when create',
   `campaign_code` varchar(100) DEFAULT NULL COMMENT 'recruit campaign code',
