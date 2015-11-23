@@ -239,18 +239,23 @@ function use_file_index(&$index, $col_val, $fh, $with_unset = true)
  * @param $fh file hanlder
  * @return  array( cross_id=> $email) ;
  */
-function get_max_user_id_by_index($index, $fh)
+function get_max_user_id( $fh)
 {
-    $last = end($index);
-    fseek($fh, $last);
-    $row = fgets($fh);
+    rewind($fh);
+    $max_id = 0;
+    while($row = fgets($fh) ){
+      $id_pos = strpos($row, ',');
 
-    $id_pos = strpos($row, ',');
+      if (false === $id_pos) {
+        continue;
+      }
+      $id  = (int) substr($row, 1, $id_pos - 2);
+      if(  $max_id < $id) {
+        $max_id = $id;
+      }
+    };
+    return $max_id;
 
-    if (false === $id_pos) {
-        return null;
-    }
-    return substr($row, 1, $id_pos - 2);
 }
 
 /**

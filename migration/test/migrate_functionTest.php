@@ -172,7 +172,8 @@ EOD
     fclose($fh);
   }
 
-  function test_getPointExchangeByPanelistId() {
+  function test_getPointExchangeByPanelistId() 
+  {
     $fh = tmpfile();
     fwrite($fh, <<<EOD
 "panelist_id","jili_email","status_flag","stash_data","updated_at","created_at"
@@ -215,7 +216,8 @@ EOD
     fclose($fh);
   }
 
-  function test_getUser() {
+  function test_getUser() 
+  {
     $fh = tmpfile();
     fwrite($fh, <<<EOD
 "id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
@@ -255,7 +257,8 @@ EOD
 
     fclose($fh);
   }
-  function test_get_max_user_id_by_index() 
+
+  function test_get_max_user_id() 
   {
     $fh = tmpfile();
     fwrite($fh, <<<EOD
@@ -283,11 +286,10 @@ EOD
 EOD
   );
 
-    $index = build_index_by_panelist_id($fh, 'email');
-    $id = get_max_user_id_by_index($index, $fh);
+    $id = get_max_user_id( $fh);
 
 
-    $this->assertEquals( '1132079' ,$id, 'the id in last line is max id');
+    $this->assertEquals( '1379445' ,$id, 'the id in last line is max id');
     fclose($fh);
   }
 
@@ -384,6 +386,7 @@ EOD
     );
 
   }
+
   function test_export_csv()
   {
     $this->markTestIncomplete(
@@ -392,7 +395,7 @@ EOD
 
   }
 
-  function test_build_index_by_panelist_id( ) 
+  function test_build_file_index( ) 
   {
     $fh = fopen('php://memory','r+');
     fwrite($fh, <<<EOD
@@ -403,7 +406,7 @@ EOD
 EOD
 );
 
-    $return = build_index_by_panelist_id($fh, 'mobile_number');
+    $return = build_file_index($fh, 'mobile_number');
 
     $this->assertCount(2, $return);
     $this->assertArrayHasKey('13052550759', $return, 'panelist_id  6 as key');
@@ -413,7 +416,7 @@ EOD
     fseek($fh, $return['17715018917']);
     $this->assertEquals('"2230806","17715018917","1","2015-11-17 17:16:38","2015-11-17 17:16:38"'.PHP_EOL, fgets($fh) , 'the 1st data row ');
 
-    $return = build_index_by_panelist_id($fh);
+    $return = build_file_index($fh);
 
     $this->assertCount(2, $return);
     $this->assertArrayHasKey(6, $return, 'panelist_id  6 as key');
@@ -432,7 +435,7 @@ EOD
 "412569","2230879","xingting520","0","0","NULL","NULL","NULL","NULL","NULL","2015-11-17 17:38:39","2015-11-17 17:38:39"
 EOD
 );
-    $return = build_index_by_panelist_id($fh);
+    $return = build_file_index($fh);
     $this->assertCount(2, $return);
     $this->assertArrayHasKey(6, $return, 'panelist_id  6 as key');
     $this->assertArrayHasKey(2230879, $return, 'panelist_id  6 as key');
@@ -447,7 +450,7 @@ EOD
 
   }
 
-  function test_build_index_by_selected() 
+  function test_build_key_value_index() 
   {
     $fh = fopen('php://memory','r+');
     fwrite($fh, <<<EOD
@@ -474,33 +477,33 @@ EOD
 
 EOD
 );
-    $return = build_index_by_selected($fh, 'id', 'email');
+    $return = build_key_value_index($fh, 'id', 'email');
 
     $this->assertCount(19, $return );
     $this->assertEquals("xujf@voyagegroup.com.cn", $return[1] ['email']);
     $this->assertEquals("854799320@qq.com", $return["61433"] ['email']);
     $this->assertEquals("854799320@qq.com", $return[61433] ['email']);
         
-    $return = build_index_by_selected($fh,  'email','id');
+    $return = build_key_value_index($fh,  'email','id');
     $this->assertCount(19, $return );
     $this->assertEquals(1, $return["xujf@voyagegroup.com.cn"] ['id']);
     $this->assertEquals(61433, $return["854799320@qq.com"] ['id']);
 
-    $return = build_index_by_selected($fh,  'user_id','id');
+    $return = build_key_value_index($fh,  'user_id','id');
     $this->assertCount(19, $return );
     $this->assertEquals(1, $return["91"] ['id']);
     $this->assertEquals(61433, $return[1421745] ['id']);
 
 
-    $return = build_index_by_selected($fh,  'id','user_id');
+    $return = build_key_value_index($fh,  'id','user_id');
     $this->assertCount(19, $return );
     $this->assertEquals(91, $return[1] ['user_id']);
     $this->assertEquals(1421745, $return[61433] ['user_id']);
 
-    $return = build_index_by_selected($fh,  'id_','user_id');
+    $return = build_key_value_index($fh,  'id_','user_id');
     $this->assertNull($return);
 
-    $return = build_index_by_selected($fh,  'email','user_id');
+    $return = build_key_value_index($fh,  'email','user_id');
     $this->assertCount(19, $return );
     $this->assertEquals(91, $return['xujf@voyagegroup.com.cn'] ['user_id']);
     $this->assertEquals(1421745, $return["854799320@qq.com"] ['user_id']);
@@ -510,7 +513,7 @@ EOD
   }
 
 
-  function test_use_index_by_panelist_id() 
+  function test_use_file_index() 
   {
     $fh = fopen('php://memory','r+');
     fwrite($fh, <<<EOD
@@ -519,21 +522,21 @@ EOD
 "412569","2230879","xingting520","0","0","NULL","NULL","NULL","NULL","NULL","2015-11-17 17:38:39","2015-11-17 17:38:39"
 EOD
 );
-    $index = build_index_by_panelist_id($fh);
+    $index = build_file_index($fh);
 
-    $return = use_index_by_panelist_id( $index, 2230879 ,$fh , false);
+    $return = use_file_index( $index, 2230879 ,$fh , false);
     $this->assertCount(2, $index);
     $this->assertCount(12, $return,'csv array return' );
 
     $this->assertEquals(412569, $return[0],'csv array return' );
     $this->assertEquals('2015-11-17 17:38:39', $return[11],'csv array return' );
 
-    $return = use_index_by_panelist_id( $index, 6,$fh , true);
+    $return = use_file_index( $index, 6,$fh , true);
     $this->assertCount(1, $index);
 
   }
 
-  function test_use_index_by_selected() 
+  function test_use_key_value_index() 
   {
     $fh = fopen('php://memory','r+');
     fwrite($fh, <<<EOD
@@ -560,12 +563,12 @@ EOD
 
 EOD
 );
-    $index = build_index_by_selected($fh, 'id', 'email');
+    $index = build_key_value_index($fh, 'id', 'email');
 
-    $return = use_index_by_selected($index, 61431, false );
+    $return = use_key_value_index($index, 61431, false );
     $this->assertCount(19, $index);
     $this->assertEquals('861522677@qq.com' ,$return['email'], ' found email of id 61431');
-    $return = use_index_by_selected($index, 61431  );
+    $return = use_key_value_index($index, 61431  );
     $this->assertCount(18, $index);
 
     fclose($fh);
