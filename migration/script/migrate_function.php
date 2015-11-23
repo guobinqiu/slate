@@ -485,6 +485,9 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen'];
 
+    //is_from_wenwen
+    $user_row[4] = Constants::$is_from_wenwen_only_wenwen;
+
     for ($i = 0; $i <= 38; $i++) {
         if (!isset($user_row[$i])) {
             $user_row[$i] = null;
