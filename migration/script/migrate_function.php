@@ -508,13 +508,13 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //sex
     $user_row[8] = $panelist_row[13];
 
-    //birthday(panelist.birthday todo: check 格式)
+    //birthday varchar(50) :1986-8 (panelist.birthday:1983-12-01)
     $user_row[9] = $panelist_row[14];
 
     //register_date
     $user_row[21] = $panelist_row[9];
 
-    //last_login_date(panelist.panelist.last_login_time todo: 格式转化)
+    //last_login_date(panelist.panelist.last_login_time)
     $user_row[22] = $panelist_row[17];
 
     //created_remote_addr
@@ -538,8 +538,8 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //province , city : panelist.panel_region_id
     global $region_mapping_indexs;
     global $migration_region_mapping_file_handle;
-    if (isset($region_mapping_indexs[$panelist_row[0]])) {
-        $region_mapping_row = use_file_index($region_mapping_indexs, $panelist_row[0], $migration_region_mapping_file_handle, false);
+    if (isset($region_mapping_indexs[$panelist_row[1]])) {
+        $region_mapping_row = use_file_index($region_mapping_indexs, $panelist_row[1], $migration_region_mapping_file_handle, false);
         //province
         $user_row[12] = $region_mapping_row[1];
         //city
@@ -561,7 +561,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[16] = $panelist_detail_row[26];
 
         //industry_code: detail.industry_code
-        $user_row[37] = $panelist_detail_row[31];
+        $user_row[37] = $panelist_detail_row[28];
 
         //work_section_code: detail.work_section_code
         $user_row[38] = $panelist_detail_row[29];
@@ -572,7 +572,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     if (isset($panelist_profile_indexs[$panelist_row[0]])) {
         $panelist_profile_row = use_file_index($panelist_profile_indexs, $panelist_row[0], $panelist_profile_file_handle, true);
 
-        //nick todo profile.nickname
+        //nick profile.nickname
         $user_row[7] = $panelist_profile_row[2];
 
         //hobby: profile.hobby
@@ -588,8 +588,8 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[36] = $panelist_profile_row[8];
     }
 
-    //last_login_ip todo
-    //$user_row[23] = 'todo';
+    //todo:last_login_ip
+    //$user_row[23] = '';
 
 
     //points: panel_91wenwen_panelist_point.point_value
@@ -600,6 +600,10 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
             $jili_user_point = $user_row[24];
         }
         $user_row[24] = $jili_user_point + $panelist_point_indexs[$panelist_row[0]]['point_value'];
+
+        //todo: point_history
+
+        //todo: task_history
     }
 
     //icon_path:panelist_profile_image
