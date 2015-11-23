@@ -32,12 +32,13 @@ $sina_connection_indexs = '';
 # load csv lines into 2-dim array
 function initialise_csv()
 {
-    //export csv file
-    export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_name);
-    export_csv_row(Constants::$user_wenwen_login_title, Constants::$migrate_user_wenwen_login_name);
-    export_csv_row(Constants::$weibo_user_title, Constants::$migrate_weibo_user_name);
-    export_csv_row(Constants::$sop_respondent_title, Constants::$migrate_sop_respondent_name);
-    export_csv_row(Constants::$vote_answer_title, Constants::$migrate_vote_answer_name);
+    //export csv file : title
+    //don't need title
+    //export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_name);
+    //export_csv_row(Constants::$user_wenwen_login_title, Constants::$migrate_user_wenwen_login_name);
+    //export_csv_row(Constants::$weibo_user_title, Constants::$migrate_weibo_user_name);
+    //export_csv_row(Constants::$sop_respondent_title, Constants::$migrate_sop_respondent_name);
+    //export_csv_row(Constants::$vote_answer_title, Constants::$migrate_vote_answer_name);
 
     //check file
     global $panelist_file_handle;
@@ -496,19 +497,16 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //password
     $user_row[2] = $panelist_row[5];
 
-    //nick todo profile.nickname
-    $user_row[7] = $panelist_row[5];
-
     //sex
     $user_row[8] = $panelist_row[13];
 
-    //birthday(todo: check 格式)
-    $user_row[9] = $panelist_row[9];
+    //birthday(panelist.birthday todo: check 格式)
+    $user_row[9] = $panelist_row[14];
 
     //register_date
     $user_row[21] = $panelist_row[9];
 
-    //last_login_date(todo: 格式转化)
+    //last_login_date(panelist.panelist.last_login_time todo: 格式转化)
     $user_row[22] = $panelist_row[17];
 
     //created_remote_addr
@@ -565,6 +563,10 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     global $panelist_profile_file_handle;
     if (isset($panelist_profile_indexs[$panelist_row[0]])) {
         $panelist_profile_row = use_file_index($panelist_profile_indexs, $panelist_row[0], $panelist_profile_file_handle, true);
+
+        //nick todo profile.nickname
+        $user_row[7] = $panelist_profile_row[2];
+
         //hobby: profile.hobby
         $user_row[17] = $panelist_profile_row[6];
 
@@ -672,6 +674,7 @@ function generate_vote_answer_data($panelist_id, $user_id)
 
 function export_csv_row($data, $file_name)
 {
+    ksort($data);
     $csvline = FileUtil::joinCsv($data);
 
     // generate a csv file
