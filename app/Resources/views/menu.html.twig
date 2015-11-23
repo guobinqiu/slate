@@ -66,6 +66,54 @@ $(document).ready(function(){
     	温馨提示：积粒网已经全新改版，为保证您的正常浏览，请使用快捷键<em class="corGlobRed">Ctrl+F5</em>清除缓存。 
     </div>-->
 {% endif %}
+
+<!-- 改版通知 开始-->
+{% if app.request.attributes.get('_route') == '_homepage' %}
+<div class="noticeM">
+    <div class="wrap brown fontYH font14">
+        <div class="txt">亲爱的积粒网会员，为了给您带来更好的用户体验，积粒网将于<span class="emph">近期进行改版</span></div>
+        <div class="unfold font12" id="unfold"><span>点击展开</span><em></em></div>
+    </div>
+    <div class="noticeCont" id="noticeCont">
+        <div class="noticeDetail fontYH">
+            <div class="wrap">
+                  <ul>
+                    <li>
+                        <img src="/images/merge/scroll.png">
+                        <div class="txt font14">
+                            <span class="tit">增加问卷和投票的功能</span>
+                            <span class="font16 lh28">一份问卷最高可得10000积分，您还可以成为有奖出题者，用您的声音改变世界！</span>
+                        </div>
+                    </li>
+                  </ul>  
+               
+            </div>
+        </div>
+        <div class="warn fontYH">
+            <div class="cont">
+             <table cellpadding="10" cellspacing="10">
+               <tbody>
+                 <tr><td colspan="2" class="font13" style="padding:0;">积粒网即将与91问问调查网合并，新网站地址为91问问地址<a class="font14 bg" href="http://www.91wenwen.net" target="_blank">www.91wenwen.net</a>，关于账号和积分规则的变化，请大家注意：</td></tr>
+                 <tr><td colspan="2" style="height:5px;"></td></tr>
+                 <tr><td style="width:28%; margin-right:5px;" class="bg">只有<a href="http://www.91jili.com/" target="_blank">积粒网</a>的账号</td><td class="bg">账号保持不变</td></tr>
+                 <tr><td>只有<a href="http://www.91wenwen.net/" target="_blank">91问问</a>的账号</td><td>账号保持不变</td></tr>
+                 <tr><td class="bg">既有积粒网又有91问问的账号</td><td class="bg" style="padding: 1% 2%;">两边都有账号并且<strong class="font14">没有绑定</strong>的，原账号仍然可用。两边都有账号但是<strong class="font14">绑定过</strong>的，只能用91问问的账号，积分合并到该账号。如果您想查看自己的绑定状态请登录91问问<a class="bind" href="https://www.91wenwen.net/connect_jili/description" target="_blank">点击这里</a></td></tr>
+                 <tr><td colspan="2" style="padding:0; height:20px!important;"></td></tr>
+                 <tr><td colspan="2" class="thanks font13">感谢您一直以来对我们的支持，给您造成的不便，敬请谅解！我们正在努力前进的路上，希望有你的一路陪伴，我们才能走的更远~！</td></tr>
+                 <tr><td colspan="2" class="sign">91问问开发团队<br>2015年11月24日</td></tr>
+               </tbody>
+             </table>
+             <a class="contact" title="联系客服" href="{{ path('_default_support') }}" target="_blank"></a>
+          </div>
+            <div class="fold">点击收起<em></em></div>
+            <div class="btm"></div>
+        </div>
+    </div>
+</div>
+{% else %}
+{% endif %}
+<!-- 改版通知 结束-->
+
     <div class="topNavs w1000">
     {% if app.session.has('uid') %}
       <ul id="userbar">
@@ -91,19 +139,7 @@ $(document).ready(function(){
     <a href="{{ path('_user_login') }}" title="登录">登录</a><span class="division">|</span><a href="{{ path('_user_reg') }}" title="注册">注册</a>
     {% endif %}  
     </div>
-{% if app.request.attributes.get('_route') == '_homepage' %}
-    <div class="indexTopbannerWrap">
-        <div id="top" class="indexTopbanner">
-            <a href="{{ path('jili_api_monthactivity_gatheringindex', {'l':1}) }}" class="allPointer"></a>
-            <div class="rule">
-                <a href="{{ path('jili_api_monthactivity_gatheringindex',{'l':2}) }}" class="ruleLink"></a>
-                <a href="{{ path('jili_api_monthactivity_gatheringindex', {'l':3}) }}" class="commander"><img src="{{ asset('images/january/crown.png') }}" width="145" height="74" /></a>
-                <div class="splitLvTxt">再拼<span class="needNum"></span>单，瓜分<strong><img src="{{ asset('images/january/lv1TxtHome.png')}}" width="104" height="35" /></strong>米粒</div>
-            </div>
-        </div>
-    </div>
-{% else %}
-{% endif %}
+
     <div class="headerConWrapper">
         <div class="headerCon w1000">
             <div class="headerConUp clearfix">
