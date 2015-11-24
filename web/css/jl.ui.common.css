@@ -453,7 +453,6 @@ a.tencent{
 	background: #ffcc42;
 }
 .noticeM .wrap{
-	width: 1406px;
 	height: 75px;
 	background: #ffcc42 url(/images/merge/bgNotice.jpg) no-repeat;
 	margin: 0 auto;
@@ -499,21 +498,25 @@ a.tencent{
 }
 #noticeCont{
 	display: none;
+	overflow-x: hidden;
 }
 .noticeCont .noticeDetail{
 	background: #ffcc42 url(/images/merge/bgxScroll.jpg) repeat-x center;
 	height: 293px;
 }
 .noticeCont .noticeDetail .wrap{
-	width: 1406px;
+	width: 100%;
 	height: 100%;
 	background: url(/images/merge/bgScroll.jpg) no-repeat center;
 }
 .noticeCont .warn{
 	background: #ffdd8c;
+	margin: 0 auto;
 }
 .noticeCont .warn .cont{
+	width: 912px;
 	height: 409px;
+	margin: 0 auto;
     position: relative;;
 	background: #ffdd8c url(/images/merge/bgCont.jpg) no-repeat center;
 }
@@ -614,7 +617,7 @@ a.tencent{
 .noticeCont .warn .cont table{
     width: 520px;
     position: absolute;
-    left: 641px;
+    left: 146px;
     top: 108px;
 }
 .noticeCont .warn .cont table tr td{
@@ -655,7 +658,7 @@ a.tencent{
 }
 .noticeCont .warn .cont .contact{
     position: absolute;
-    left: 1218px;
+    left: 720px;
     top: 196px;
     width: 227px;
     height: 206px;
