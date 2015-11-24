@@ -43,26 +43,25 @@ foreach ($vote_image as $value) {
     $votes[$value[1]]['vote_image'] = $value[2];
 }
 
-$csvline = array ();
-
-// prepare the output content
+// generate a csv file
+$migrate_vote_handle = fopen($export_path . "/migrate_vote.csv", "w");
 #id,title,description,start_time,end_time,point_value,stash_data,vote_image,updated_at,created_at
-$csvline[] = FileUtil::joinCsv(array (
-    'id',
-    'title',
-    'description',
-    'start_time',
-    'end_time',
-    'point_value',
-    'stash_data',
-    'vote_image',
-    'updated_at',
-    'created_at'
-));
+// $title = array (
+//     'id',
+//     'title',
+//     'description',
+//     'start_time',
+//     'end_time',
+//     'point_value',
+//     'stash_data',
+//     'vote_image',
+//     'updated_at',
+//     'created_at'
+// );
+// fputcsv($migrate_vote_handle, $title);
 
-// prepare the output content
 foreach ($votes as $vote) {
-    $csvline[] = FileUtil::joinCsv(array (
+    $data = array (
         $vote['id'],
         $vote['title'],
         $vote['description'],
@@ -73,13 +72,10 @@ foreach ($votes as $vote) {
         isset($vote['vote_image']) ? $vote['vote_image'] : '',
         $vote['updated_at'],
         $vote['created_at']
-    ));
+    );
+    fputcsv($migrate_vote_handle, $data);
 }
 
-// generate a csv file
-$migrate_vote_csv = $export_path . "/migrate_vote.csv";
-$migrate_vote_handle = fopen($migrate_vote_csv, "w");
-fwrite($migrate_vote_handle, implode("\n", $csvline));
 fclose($migrate_vote_handle);
 
 /**

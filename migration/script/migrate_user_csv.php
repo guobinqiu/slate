@@ -17,6 +17,7 @@ function do_process()
     global $log_handle;
     global $panelist_file_handle;
     global $user_file_handle;
+    global $weibo_user_file_handle;
     global $user_wenwen_cross_file_handle;
     global $pointexchange_91jili_account_file_handle;
     global $panelist_91jili_connection_file_handle;
@@ -40,6 +41,10 @@ function do_process()
     //get max user id
     $max_user_id = get_max_user_id($user_file_handle);
     FileUtil::writeContents($log_handle, "max_user_id:" . $max_user_id);
+
+    //get max weibo_user id
+    $max_weibo_user_id = get_max_user_id($weibo_user_file_handle);
+    FileUtil::writeContents($log_handle, "max_weibo_user_id:" . $max_weibo_user_id);
 
     //遍历panelist表
     $i = 0;
@@ -85,14 +90,14 @@ function do_process()
             //遍历jili user 表
             if (isset($user_indexs[strtolower($jili_email)])) {
                 $both_exist_count = $both_exist_count + 1;
-                $user_row = use_file_index($user_indexs, $jili_email, $user_file_handle, true);
+                $user_row = use_file_index($user_indexs, strtolower($jili_email), $user_file_handle, true);
                 $jili_user_id = $user_row[0];
 
                 //生成新的user数据：拥有两边账号，相同的部分取问问数据
                 generate_user_data_both_exsit($panelist_row, $user_row);
 
                 //其他要迁移的数据
-                migrate_common($panelist_row, $jili_user_id);
+                migrate_common($panelist_row, $jili_user_id, $i);
 
                 continue;
             }
@@ -105,10 +110,10 @@ function do_process()
             generate_user_data_only_wenwen($panelist_row, $jili_user_id);
 
             //新浪数据迁移
-            generate_weibo_user_data($panelist_row[0], $jili_user_id);
+            generate_weibo_user_data($panelist_row[0], $jili_user_id, $max_weibo_user_id);
 
             //其他要迁移的数据
-            migrate_common($panelist_row, $jili_user_id);
+            migrate_common($panelist_row, $jili_user_id, $i);
         }
     } catch (Exception $e) {
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
@@ -134,7 +139,7 @@ function do_process()
 
         for ($i = 0; $i <= 38; $i++) {
             if (!isset($user_row[$i])) {
-                $user_row[$i] = '';
+                $user_row[$i] = 'NULL';
             }
         }
 
@@ -152,11 +157,11 @@ function do_process()
     echo date('Y-m-d H:i:s') . " end!\r\n\r\n";
 }
 
-function migrate_common($panelist_row, $jili_user_id)
+function migrate_common($panelist_row, $jili_user_id, $user_wenwen_login_id)
 {
 
     //问问的账号的password数据迁移到user_wenwen_login
-    generate_user_wenwen_login_data($panelist_row, $jili_user_id);
+    generate_user_wenwen_login_data($panelist_row, $jili_user_id, $user_wenwen_login_id);
 
     //sop_respondent数据迁移
     generate_sop_respondent_data($panelist_row[0], $jili_user_id);
