@@ -83,7 +83,7 @@ function do_process()
             }
 
             //遍历jili user 表
-            if (isset($user_indexs[$jili_email])) {
+            if (isset($user_indexs[strtolower($jili_email)])) {
                 $both_exist_count = $both_exist_count + 1;
                 $user_row = use_file_index($user_indexs, $jili_email, $user_file_handle, true);
                 $jili_user_id = $user_row[0];
@@ -121,18 +121,8 @@ function do_process()
         fseek($user_file_handle, $pointer);
         $user_row = fgetcsv($user_file_handle);
 
-        //is_email_confirmed todo
-        $user_row[3] = 1;
-
-        //is_from_wenwen
-        if (empty($user_row[4]) || $user_row[4] == 'NULL') {
-            $user_row[4] = Constants::$is_from_wenwen['jili_register'];
-        }
-
-        //sex
-        if (empty($user_row[8]) || $user_row[8] == 'NULL') {
-            $user_row[8] = "";
-        }
+        //is_tel_confirmed
+        $user_row[11] = 0;
 
         //origin_flag
         $user_row[30] = Constants::$origin_flag['jili'];
@@ -140,14 +130,12 @@ function do_process()
         //password_choice
         $user_row[34] = Constants::$password_choice['pwd_jili'];
 
-        //token_created_at
-        if (empty($user_row[29])) {
-            $user_row[29] = "0000-00-00 00:00:00";
-        }
+        $user_row = set_default_value($user_row);
 
-        //industry_code
-        if (empty($user_row[37])) {
-            $user_row[37] = "";
+        for ($i = 0; $i <= 38; $i++) {
+            if (!isset($user_row[$i])) {
+                $user_row[$i] = '';
+            }
         }
 
         export_csv_row($user_row, Constants::$migrate_user_name);
