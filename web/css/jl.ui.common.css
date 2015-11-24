@@ -453,8 +453,8 @@ a.tencent{
 	background: #ffcc42;
 }
 .noticeM .wrap{
-	height: 75px;
-	background: #ffcc42 url(/images/merge/bgNotice.jpg) no-repeat;
+	min-height: 74px;
+	background: #ffcc42 url(/images/merge/bgNotice.jpg) no-repeat 0 5px;
 	margin: 0 auto;
 }
 .noticeM .wrap .txt{
@@ -545,7 +545,7 @@ a.tencent{
 	background: url(/images/merge/bgxBottom.jpg) repeat-x;
 }
 .noticeCont {
-    padding-top: 47px;
+    /* padding-top: 47px; */
 }
 .noticeCont ul li {
     margin: 0 auto;
@@ -615,14 +615,14 @@ a.tencent{
     background: url(/images/merge/arrowRight.png) no-repeat;
 }
 .noticeCont .warn .cont table{
-    width: 520px;
+    width: 578px;
     position: absolute;
-    left: 146px;
-    top: 108px;
+    left: 86px;
+    top: 86px;
 }
 .noticeCont .warn .cont table tr td{
-    height: 26px;
-    line-height: 20px;
+    height: 29px;
+    line-height: 29px;
     padding: 0 2%;
 }
 .noticeCont .warn .cont table tr td, .noticeCont .warn .cont table tr td a{
@@ -633,21 +633,18 @@ a.tencent{
 .noticeCont .warn .cont table tr td a{
 	text-decoration: underline;
 }
-.noticeCont .warn .cont table td.bg, .noticeCont .warn .cont table td a.bg{
-    background: #feedc4;
-    text-decoration: none;
-}
 .noticeCont .warn .cont table tr td.sign{
     text-align: right;
     right: 0;
-    bottom: -14px;
+    bottom: -8px;
     position: absolute;
+    line-height: 16px;
 }
 .noticeCont .warn .cont table tr td.thanks{
     color: #f7612a;
     line-height: 18px;
     padding: 0;
-    line-height: 23px;
+    line-height: 21px;
 }
 .noticeCont .warn .cont table tr td a.bind{
     padding: 0.6% 2%;
