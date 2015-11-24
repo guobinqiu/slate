@@ -463,20 +463,14 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row, $user_row);
 
-    //is_from_wenwen
-    if (empty($user_row[4]) || $user_row[4] == 'NULL') {
-        $user_row[4] = Constants::$is_from_wenwen['jili_register'];
-    }
-
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen_jili'];
 
     for ($i = 0; $i <= 38; $i++) {
         if (!isset($user_row[$i])) {
-            $user_row[$i] = "";
+            $user_row[$i] = null;
         }
     }
-
     export_csv_row($user_row, Constants::$migrate_user_name);
 }
 
@@ -498,9 +492,10 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
 
     for ($i = 0; $i <= 38; $i++) {
         if (!isset($user_row[$i])) {
-            $user_row[$i] = "";
+            $user_row[$i] = null;
         }
     }
+
     export_csv_row($user_row, Constants::$migrate_user_name);
 }
 
@@ -516,6 +511,9 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //is_email_confirmed
     $user_row[3] = 1;
 
+    // token
+    $user_row[6] = '';
+
     //sex
     $user_row[8] = $panelist_row[13];
 
@@ -526,7 +524,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[21] = $panelist_row[9];
 
     //last_login_date(panelist.panelist.last_login_time)
-    if ($panelist_row[17] == "NULL") {
+    if (empty($panelist_row[17]) || $panelist_row[17] == "NULL") {
         $user_row[22] = $panelist_row[9];
     } else {
         $user_row[22] = $panelist_row[17];
@@ -540,10 +538,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[25] = 0;
 
     //is_info_set
-    $user_row[26] = 0;
-
-    //token_created_at
-    $user_row[29] = "0000-00-00 00:00:00";
+    $user_row[26] = 1;
 
     //created_remote_addr
     $user_row[31] = $panelist_row[10];
@@ -595,18 +590,10 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[16] = $panelist_detail_row[26];
 
         //industry_code: detail.industry_code
-        if (!empty($panelist_detail_row[28])) {
-            $user_row[37] = $panelist_detail_row[28];
-        } else {
-            $user_row[37] = "";
-        }
+        $user_row[37] = $panelist_detail_row[28];
 
         //work_section_code: detail.work_section_code
-        if (!empty($panelist_detail_row[29])) {
-            $user_row[38] = $panelist_detail_row[29];
-        } else {
-            $user_row[38] = "";
-        }
+        $user_row[38] = $panelist_detail_row[29];
     }
 
     global $panelist_profile_indexs;
@@ -632,6 +619,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
     //points: panel_91wenwen_panelist_point.point_value
     global $panelist_point_indexs;
+    $user_row[24] = 0;
     if (isset($panelist_point_indexs[$panelist_row[0]])) {
         $jili_user_point = 0;
         if (isset($user_row[24])) {
@@ -649,6 +637,78 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     global $panelist_image_indexs;
     if (isset($panelist_image_indexs[$panelist_row[0]])) {
         $user_row[27] = $panelist_image_indexs[$panelist_row[0]]['hash'];
+    }
+
+    $user_row = set_default_value($user_row);
+
+    return $user_row;
+}
+
+function set_default_value($user_row)
+{
+    //is_email_confirmed todo
+    if ($user_row[3] == 'NULL') {
+        $user_row[3] = 0;
+    }
+
+    //is_from_wenwen
+    if (!isset($user_row[4]) || $user_row[4] == "NULL") {
+        $user_row[4] = 0;
+    }
+
+    //sex:todo
+    if ($user_row[8] == "NULL") {
+        $user_row[8] = -1;
+    }
+
+    //todo,  province , city (默认其他)
+    if (!isset($user_row[12]) || $user_row[12] == "NULL") {
+        $user_row[12] = 36;
+    }
+
+    //city
+    if (!isset($user_row[13]) || $user_row[13] == "NULL") {
+        $user_row[13] = 375;
+    }
+
+    //education
+    if (!isset($user_row[14]) || $user_row[14] == "NULL") {
+        $user_row[14] = 0;
+    }
+
+    //profession
+    if (!isset($user_row[15]) || $user_row[15] == "NULL") {
+        $user_row[15] = 0;
+    }
+
+    //income
+    if (!isset($user_row[16]) || $user_row[16] == "NULL") {
+        $user_row[16] = 0;
+    }
+
+    //points
+    if ($user_row[24] == "NULL") {
+        $user_row[24] = 0;
+    }
+
+    //delete_flag
+    if ($user_row[25] == "NULL") {
+        $user_row[25] = 0;
+    }
+
+    //token_created_at
+    if (!isset($user_row[29]) || $user_row[29] == "NULL") {
+        $user_row[29] = '0000-00-00 00:00:00';
+    }
+
+    //industry_code
+    if (empty($user_row[37])) {
+        $user_row[37] = 0;
+    }
+
+    //work_section_code
+    if (empty($user_row[38])) {
+        $user_row[38] = 0;
     }
 
     return $user_row;
