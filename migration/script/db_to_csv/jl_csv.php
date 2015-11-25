@@ -17,7 +17,7 @@ from %1\$s;
 SQL;
 
 $sed_partial=<<<CMD
-sed 's/\\\\/\\\\\\\\/g;s/"/\\\\"/g;s/,/\\\\,/g;s/\\t/,/g;s/\\n//g' 
+sed 's/\\\\/\\\\\\\\/g;s/"/\"/g;s/\\t/","/g;s/^/"/;s/\$/"/;s/\\n//g' 
 CMD;
 
 $cmd1=<<<CMD
