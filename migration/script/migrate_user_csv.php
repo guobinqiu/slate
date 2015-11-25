@@ -10,6 +10,9 @@ $log_handle = fopen(LOG_PATH, "a");
 echo date('Y-m-d H:i:s') . " start!\r\n\r\n";
 FileUtil::writeContents($log_handle, "start!\r\n\r\n");
 
+//export vote csv
+exec('php migrate_vote_csv.php > vote.txt');
+
 initialise_csv();
 
 function do_process()
@@ -106,7 +109,7 @@ function do_process()
             generate_user_data_only_wenwen($panelist_row, $jili_user_id);
 
             //新浪数据迁移
-            generate_weibo_user_data($panelist_row[0], $jili_user_id, $max_weibo_user_id);
+            generate_weibo_user_data($panelist_row[0], $jili_user_id);
 
             //其他要迁移的数据
             migrate_common($panelist_row, $jili_user_id, $i);

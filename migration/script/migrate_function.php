@@ -513,7 +513,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //birthday varchar(50) :1986-8 (panelist.birthday:1983-12-01)
     $user_row[9] = $panelist_row[14];
 
-    //register_date
+    //register_date (panelist.created_at)
     $user_row[21] = $panelist_row[9];
 
     //last_login_date(panelist.panelist.last_login_time)
