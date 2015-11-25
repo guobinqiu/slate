@@ -466,11 +466,8 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen_jili'];
 
-    for ($i = 0; $i <= 38; $i++) {
-        if (!isset($user_row[$i])) {
-            $user_row[$i] = 'NULL';
-        }
-    }
+    $user_row = set_default_value($user_row);
+
     export_csv_row($user_row, Constants::$migrate_user_name);
 }
 
@@ -490,11 +487,7 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen'];
 
-    for ($i = 0; $i <= 38; $i++) {
-        if (!isset($user_row[$i])) {
-            $user_row[$i] = 'NULL';
-        }
-    }
+    $user_row = set_default_value($user_row);
 
     export_csv_row($user_row, Constants::$migrate_user_name);
 }
@@ -639,78 +632,16 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[27] = $panelist_image_indexs[$panelist_row[0]]['hash'];
     }
 
-    $user_row = set_default_value($user_row);
-
     return $user_row;
 }
 
 function set_default_value($user_row)
 {
-    //is_email_confirmed todo
-    if ($user_row[3] == 'NULL') {
-        $user_row[3] = 'NULL';
+    for ($i = 0; $i <= 38; $i++) {
+        if (!isset($user_row[$i])) {
+            $user_row[$i] = 'NULL';
+        }
     }
-
-    //is_from_wenwen
-    if (!isset($user_row[4]) || $user_row[4] == "NULL") {
-        $user_row[4] = 'NULL';
-    }
-
-    //sex:todo
-    if ($user_row[8] == "NULL") {
-        $user_row[8] = 'NULL';
-    }
-
-    //todo,  province , city (默认其他)
-    if (!isset($user_row[12]) || $user_row[12] == "NULL") {
-        $user_row[12] = 36;
-    }
-
-    //city
-    if (!isset($user_row[13]) || $user_row[13] == "NULL") {
-        $user_row[13] = 375;
-    }
-
-    //education
-    if (!isset($user_row[14]) || $user_row[14] == "NULL") {
-        $user_row[14] = 'NULL';
-    }
-
-    //profession
-    if (!isset($user_row[15]) || $user_row[15] == "NULL") {
-        $user_row[15] = 'NULL';
-    }
-
-    //income
-    if (!isset($user_row[16]) || $user_row[16] == "NULL") {
-        $user_row[16] = 'NULL';
-    }
-
-    //points
-    if ($user_row[24] == "NULL") {
-        $user_row[24] = 'NULL';
-    }
-
-    //delete_flag
-    if ($user_row[25] == "NULL") {
-        $user_row[25] = 'NULL';
-    }
-
-    //token_created_at
-    if (!isset($user_row[29]) || $user_row[29] == "NULL") {
-        $user_row[29] = 'NULL';
-    }
-
-    //industry_code
-    if (empty($user_row[37])) {
-        $user_row[37] = 'NULL';
-    }
-
-    //work_section_code
-    if (empty($user_row[38])) {
-        $user_row[38] = 'NULL';
-    }
-
     return $user_row;
 }
 

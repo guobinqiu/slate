@@ -137,12 +137,6 @@ function do_process()
 
         $user_row = set_default_value($user_row);
 
-        for ($i = 0; $i <= 38; $i++) {
-            if (!isset($user_row[$i])) {
-                $user_row[$i] = 'NULL';
-            }
-        }
-
         export_csv_row($user_row, Constants::$migrate_user_name);
     }
 
