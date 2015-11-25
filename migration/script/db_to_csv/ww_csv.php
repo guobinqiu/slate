@@ -1,13 +1,17 @@
 <?php
 // sed 's/"/\\"/g;s/,/\\,/g;s/\t/\",\"/g;s/^/\"/;s/$/\"/;s/\n//g' 
 // sed 's/"/""/g;s/\t/\",\"/g;s/^/\"/;s/$/\"/;s/\n//g' 
+// sed 's/"/\\"/g;s/,/\\,/g;s/\\/\\\\/g;s/\t/,/g;s/\n//g' 
+$sed_partial=<<<CMD
+sed 's/\\\\/\\\\\\\\/g;s/"/\\\\"/g;s/,/\\\\,/g;s/\\t/,/g;s/\\n//g' 
+CMD;
 
 $cmd0=<<<CMD
-time mysql -B -u \${WW_DB_USER} -p\${WW_DB_PWD}  -h \${WW_DB_HOST}  \${WW_DB_NAME} -e "select * from panelist where panel_id = 2 order by id asc "| sed 's/"/""/g;s/\\t/\",\"/g;s/^/\"/;s/$/\"/;s/\\n//g' > /mnt/tmp/merge/ww_csv/panelist.csv
+time mysql -B -u \${WW_DB_USER} -p\${WW_DB_PWD}  -h \${WW_DB_HOST}  \${WW_DB_NAME} -e "select * from panelist where panel_id = 2 order by id asc "| $sed_partial > /mnt/tmp/merge/ww_csv/panelist.csv
 CMD;
 
 $cmd1=<<<CMD
-time mysql -B -u \${WW_DB_USER} -p\${WW_DB_PWD}  -h \${WW_DB_HOST}  \${WW_DB_NAME}  -e "select * from %1\$s %2\$s"| sed 's/"/""/g;s/\\t/\",\"/g;s/^/\"/;s/$/\"/;s/\\n//g' >  /mnt/tmp/merge/ww_csv/%1\$s.csv
+time mysql -B -u \${WW_DB_USER} -p\${WW_DB_PWD}  -h \${WW_DB_HOST}  \${WW_DB_NAME}  -e "select * from %1\$s %2\$s"| $sed_partial > /mnt/tmp/merge/ww_csv/%1\$s.csv
 CMD;
 
 
