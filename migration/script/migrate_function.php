@@ -505,7 +505,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[3] = 1;
 
     // token
-    $user_row[6] = 'NULL';
+    $user_row[6] = '';
 
     //sex
     $user_row[8] = $panelist_row[13];
@@ -646,10 +646,10 @@ function set_default_value($user_row)
 }
 
 //user_wenwen_login data
-function generate_user_wenwen_login_data($panelist_row, $user_id, $user_wenwen_login_id)
+function generate_user_wenwen_login_data($panelist_row, $user_id)
 {
     //id
-    $user_wenwen_login_row[0] = $user_wenwen_login_id;
+    $user_wenwen_login_row[0] = 'NULL';
 
     //user_id
     $user_wenwen_login_row[1] = $user_id;
@@ -667,7 +667,7 @@ function generate_user_wenwen_login_data($panelist_row, $user_id, $user_wenwen_l
 }
 
 //weibo_user data
-function generate_weibo_user_data($panelist_id, $user_id, & $weibo_user_id)
+function generate_weibo_user_data($panelist_id, $user_id)
 {
     global $sina_connection_indexs;
     global $panelist_sina_connection_file_handle;
@@ -675,8 +675,7 @@ function generate_weibo_user_data($panelist_id, $user_id, & $weibo_user_id)
     if (isset($sina_connection_indexs[$panelist_id])) {
         $panelist_sina_row = use_file_index($sina_connection_indexs, $panelist_id, $panelist_sina_connection_file_handle, true);
         //id
-        $weibo_user_id++;
-        $weibo_user_row[0] = $weibo_user_id;
+        $weibo_user_row[0] = 'NULL';
 
         //user_id
         $weibo_user_row[1] = $user_id;

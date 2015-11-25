@@ -42,10 +42,6 @@ function do_process()
     $max_user_id = get_max_user_id($user_file_handle);
     FileUtil::writeContents($log_handle, "max_user_id:" . $max_user_id);
 
-    //get max weibo_user id
-    $max_weibo_user_id = get_max_user_id($weibo_user_file_handle);
-    FileUtil::writeContents($log_handle, "max_weibo_user_id:" . $max_weibo_user_id);
-
     //遍历panelist表
     $i = 0;
     fgetcsv($panelist_file_handle, 2000, ",");
@@ -97,7 +93,7 @@ function do_process()
                 generate_user_data_both_exsit($panelist_row, $user_row);
 
                 //其他要迁移的数据
-                migrate_common($panelist_row, $jili_user_id, $i);
+                migrate_common($panelist_row, $jili_user_id);
 
                 continue;
             }
@@ -151,11 +147,11 @@ function do_process()
     echo date('Y-m-d H:i:s') . " end!\r\n\r\n";
 }
 
-function migrate_common($panelist_row, $jili_user_id, $user_wenwen_login_id)
+function migrate_common($panelist_row, $jili_user_id)
 {
 
     //问问的账号的password数据迁移到user_wenwen_login
-    generate_user_wenwen_login_data($panelist_row, $jili_user_id, $user_wenwen_login_id);
+    generate_user_wenwen_login_data($panelist_row, $jili_user_id);
 
     //sop_respondent数据迁移
     generate_sop_respondent_data($panelist_row[0], $jili_user_id);

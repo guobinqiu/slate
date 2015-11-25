@@ -38,19 +38,6 @@ class FileUtil
         return $file_handle;
     }
 
-    public static function joinCsv($row)
-    {
-        $csvline = '';
-
-        $csv_array = array ();
-        foreach ($row as $column) {
-            //$csv_array[] = (preg_match('/[\",\n]/', $column)) ? '"' . preg_replace('/\"/', '""', $column) . '"' : $column;
-            $csv_array[] = (preg_match('/[\"]/', $column)) ? '"' . preg_replace('/\"/', '""', $column) . '"' : '"' . $column . '"';
-        }
-        $csvline .= implode(',', $csv_array);
-
-        return $csvline;
-    }
 
     public static function closeFile($file_handle)
     {
