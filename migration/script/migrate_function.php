@@ -466,11 +466,8 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen_jili'];
 
-    for ($i = 0; $i <= 38; $i++) {
-        if (!isset($user_row[$i])) {
-            $user_row[$i] = null;
-        }
-    }
+    $user_row = set_default_value($user_row);
+
     export_csv_row($user_row, Constants::$migrate_user_name);
 }
 
@@ -490,11 +487,7 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen'];
 
-    for ($i = 0; $i <= 38; $i++) {
-        if (!isset($user_row[$i])) {
-            $user_row[$i] = null;
-        }
-    }
+    $user_row = set_default_value($user_row);
 
     export_csv_row($user_row, Constants::$migrate_user_name);
 }
@@ -520,7 +513,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //birthday varchar(50) :1986-8 (panelist.birthday:1983-12-01)
     $user_row[9] = $panelist_row[14];
 
-    //register_date
+    //register_date (panelist.created_at)
     $user_row[21] = $panelist_row[9];
 
     //last_login_date(panelist.panelist.last_login_time)
@@ -639,78 +632,16 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[27] = $panelist_image_indexs[$panelist_row[0]]['hash'];
     }
 
-    $user_row = set_default_value($user_row);
-
     return $user_row;
 }
 
 function set_default_value($user_row)
 {
-    //is_email_confirmed todo
-    if ($user_row[3] == 'NULL') {
-        $user_row[3] = 0;
+    for ($i = 0; $i <= 38; $i++) {
+        if (!isset($user_row[$i])) {
+            $user_row[$i] = 'NULL';
+        }
     }
-
-    //is_from_wenwen
-    if (!isset($user_row[4]) || $user_row[4] == "NULL") {
-        $user_row[4] = 0;
-    }
-
-    //sex:todo
-    if ($user_row[8] == "NULL") {
-        $user_row[8] = -1;
-    }
-
-    //todo,  province , city (默认其他)
-    if (!isset($user_row[12]) || $user_row[12] == "NULL") {
-        $user_row[12] = 36;
-    }
-
-    //city
-    if (!isset($user_row[13]) || $user_row[13] == "NULL") {
-        $user_row[13] = 375;
-    }
-
-    //education
-    if (!isset($user_row[14]) || $user_row[14] == "NULL") {
-        $user_row[14] = 0;
-    }
-
-    //profession
-    if (!isset($user_row[15]) || $user_row[15] == "NULL") {
-        $user_row[15] = 0;
-    }
-
-    //income
-    if (!isset($user_row[16]) || $user_row[16] == "NULL") {
-        $user_row[16] = 0;
-    }
-
-    //points
-    if ($user_row[24] == "NULL") {
-        $user_row[24] = 0;
-    }
-
-    //delete_flag
-    if ($user_row[25] == "NULL") {
-        $user_row[25] = 0;
-    }
-
-    //token_created_at
-    if (!isset($user_row[29]) || $user_row[29] == "NULL") {
-        $user_row[29] = '0000-00-00 00:00:00';
-    }
-
-    //industry_code
-    if (empty($user_row[37])) {
-        $user_row[37] = 0;
-    }
-
-    //work_section_code
-    if (empty($user_row[38])) {
-        $user_row[38] = 0;
-    }
-
     return $user_row;
 }
 
@@ -718,7 +649,7 @@ function set_default_value($user_row)
 function generate_user_wenwen_login_data($panelist_row, $user_id)
 {
     //id
-    $user_wenwen_login_row[0] = null;
+    $user_wenwen_login_row[0] = 'NULL';
 
     //user_id
     $user_wenwen_login_row[1] = $user_id;
@@ -744,7 +675,7 @@ function generate_weibo_user_data($panelist_id, $user_id)
     if (isset($sina_connection_indexs[$panelist_id])) {
         $panelist_sina_row = use_file_index($sina_connection_indexs, $panelist_id, $panelist_sina_connection_file_handle, true);
         //id
-        $weibo_user_row[0] = null;
+        $weibo_user_row[0] = 'NULL';
 
         //user_id
         $weibo_user_row[1] = $user_id;
@@ -786,26 +717,7 @@ function generate_vote_answer_data($panelist_id, $user_id)
 function export_csv_row($data, $file_name)
 {
     ksort($data);
-    $csvline = FileUtil::joinCsv($data);
-
-    // generate a csv file
-    $path = EXPORT_PATH . "/" . $file_name;
-    $handle = fopen($path, "a");
-    fwrite($handle, $csvline . "\n");
-    fclose($handle);
-}
-
-function export_csv($datas, $file_name)
-{
-    $csvline = array ();
-
-    // prepare the output content
-    foreach ($datas as $data) {
-        $csvline[] = FileUtil::joinCsv($data);
-    }
-    // generate a csv file
-    $path = EXPORT_PATH . "/" . $file_name;
-    $handle = fopen($path, "w");
-    fwrite($handle, implode("\n", $csvline));
+    $handle = fopen(EXPORT_PATH . "/" . $file_name, "a");
+    fputcsv($handle, $data);
     fclose($handle);
 }

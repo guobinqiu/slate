@@ -10,6 +10,9 @@ $log_handle = fopen(LOG_PATH, "a");
 echo date('Y-m-d H:i:s') . " start!\r\n\r\n";
 FileUtil::writeContents($log_handle, "start!\r\n\r\n");
 
+//export vote csv
+exec('php migrate_vote_csv.php > vote.txt');
+
 initialise_csv();
 
 function do_process()
@@ -17,6 +20,7 @@ function do_process()
     global $log_handle;
     global $panelist_file_handle;
     global $user_file_handle;
+    global $weibo_user_file_handle;
     global $user_wenwen_cross_file_handle;
     global $pointexchange_91jili_account_file_handle;
     global $panelist_91jili_connection_file_handle;
@@ -85,7 +89,7 @@ function do_process()
             //遍历jili user 表
             if (isset($user_indexs[strtolower($jili_email)])) {
                 $both_exist_count = $both_exist_count + 1;
-                $user_row = use_file_index($user_indexs, $jili_email, $user_file_handle, true);
+                $user_row = use_file_index($user_indexs, strtolower($jili_email), $user_file_handle, true);
                 $jili_user_id = $user_row[0];
 
                 //生成新的user数据：拥有两边账号，相同的部分取问问数据
@@ -108,7 +112,7 @@ function do_process()
             generate_weibo_user_data($panelist_row[0], $jili_user_id);
 
             //其他要迁移的数据
-            migrate_common($panelist_row, $jili_user_id);
+            migrate_common($panelist_row, $jili_user_id, $i);
         }
     } catch (Exception $e) {
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
@@ -131,12 +135,6 @@ function do_process()
         $user_row[34] = Constants::$password_choice['pwd_jili'];
 
         $user_row = set_default_value($user_row);
-
-        for ($i = 0; $i <= 38; $i++) {
-            if (!isset($user_row[$i])) {
-                $user_row[$i] = '';
-            }
-        }
 
         export_csv_row($user_row, Constants::$migrate_user_name);
     }

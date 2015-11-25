@@ -18,6 +18,8 @@ ADD  `monthly_wish` VARCHAR( 255 ) NULL COMMENT  '本月心愿',
 ADD  `industry_code` INT NULL COMMENT  '行业',
 ADD  `work_section_code` INT NULL COMMENT  '部门';
 
+ALTER TABLE  `user_wenwen_login` CHANGE  `id`  `id` INT( 11 ) NOT NULL AUTO_INCREMENT ;
+
 
 UPDATE  `month_income` SET  `income` =  '1000元-1999元' WHERE  `month_income`.`id` =101;
 UPDATE  `month_income` SET  `income` =  '2000元-2999元' WHERE  `month_income`.`id` =102;
@@ -48,7 +50,7 @@ INTO TABLE vote
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
 LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_user.csv' 
@@ -56,7 +58,7 @@ INTO TABLE user
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
 LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_user_wenwen_login.csv' 
@@ -64,7 +66,7 @@ INTO TABLE user_wenwen_login
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
 LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_weibo_user.csv' 
@@ -72,7 +74,7 @@ INTO TABLE weibo_user
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
 LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_sop_respondent.csv' 
@@ -80,7 +82,7 @@ INTO TABLE sop_respondent
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
 LOAD DATA INFILE '/data/91jili/merge/script/vote/migrate_vote_answer.csv' 
@@ -88,5 +90,5 @@ INTO TABLE vote_answer
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
