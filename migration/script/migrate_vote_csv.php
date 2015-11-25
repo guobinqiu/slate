@@ -2,13 +2,10 @@
 include_once ('config.php');
 include_once ('FileUtil.php');
 
-$import_path = IMPORT_PATH;
-$export_path = EXPORT_PATH;
-
 // import file
-$vote_file = $import_path . "/panel_91wenwen_vote.csv";
-$vote_image_file = $import_path . "/panel_91wenwen_vote_image.csv";
-$vote_choice_file = $import_path . "/panel_91wenwen_vote_choice.csv";
+$vote_file = IMPORT_WW_PATH . "/panel_91wenwen_vote.csv";
+$vote_image_file = IMPORT_WW_PATH . "/panel_91wenwen_vote_image.csv";
+$vote_choice_file = IMPORT_WW_PATH . "/panel_91wenwen_vote_choice.csv";
 
 // get file content
 $vote = FileUtil::readCsvContent($vote_file);
@@ -44,7 +41,7 @@ foreach ($vote_image as $value) {
 }
 
 // generate a csv file
-$migrate_vote_handle = fopen($export_path . "/migrate_vote.csv", "w");
+$migrate_vote_handle = fopen(EXPORT_PATH . "/migrate_vote.csv", "w");
 #id,title,description,start_time,end_time,point_value,stash_data,vote_image,updated_at,created_at
 // $title = array (
 //     'id',
@@ -60,6 +57,7 @@ $migrate_vote_handle = fopen($export_path . "/migrate_vote.csv", "w");
 // );
 // fputcsv($migrate_vote_handle, $title);
 
+
 foreach ($votes as $vote) {
     $data = array (
         $vote['id'],
@@ -69,7 +67,7 @@ foreach ($votes as $vote) {
         $vote['end_time'],
         $vote['point_value'],
         generate_stash_data($vote['choice']),
-        isset($vote['vote_image']) ? $vote['vote_image'] : '',
+        isset($vote['vote_image']) ? $vote['vote_image'] : 'NULL',
         $vote['updated_at'],
         $vote['created_at']
     );
