@@ -1,6 +1,6 @@
 <?php
 
-$tables =array(
+$tables = array(
 //  'user' ,
   'weibo_user' ,
 //  'user_wenwen_cross' ,
@@ -16,9 +16,12 @@ into outfile '~/tmp/jili_csv/%1\$s.csv'
 from %1\$s;
 SQL;
 
+$sed_partial=<<<CMD
+sed 's/\\\\/\\\\\\\\/g;s/"/\\\\"/g;s/,/\\\\,/g;s/\\t/,/g;s/\\n//g' 
+CMD;
 
 $cmd1=<<<CMD
-time mysql -B -u\${JILI_DB_USER}  -h \${JILI_DB_HOST} \${JILI_DB_NAME} -e "select * from %1\$s "| sed "s/'/\'/;s/\\t/\",\"/g;s/^/\"/;s/$/\"/;s/\\n//g" > /data/91jili/merge/jl_csv/%1\$s.csv
+time mysql -B -u\${JILI_DB_USER}  -h \${JILI_DB_HOST} \${JILI_DB_NAME} -e "select * from %1\$s "| $sed_partial > /data/91jili/merge/jl_csv/%1\$s.csv
 CMD;
 
 echo <<<EOD
@@ -29,9 +32,9 @@ source \${CUR_DIR}/config.bashrc
 
 export MYSQL_PWD=\${JILI_DB_PWD}
 
-time mysql -B -u\${JILI_DB_USER}  -h \${JILI_DB_HOST} \${JILI_DB_NAME}  -e "select *  from  user   order by email asc"| sed "s/'/\'/;s/\\t/\",\"/g;s/^/\"/;s/$/\"/;s/\\n//g" > /data/91jili/merge/jl_csv/user.csv
+time mysql -B -u\${JILI_DB_USER}  -h \${JILI_DB_HOST} \${JILI_DB_NAME}  -e "select *  from  user   order by email asc"| $sed_partial > /data/91jili/merge/jl_csv/user.csv
 
-time mysql -B -u\${JILI_DB_USER}  -h \${JILI_DB_HOST} \${JILI_DB_NAME} -e "select c.*, u.email from  user_wenwen_cross c left join user u on c.user_id = u.id order by c.id asc"| sed "s/'/\'/;s/\\t/\",\"/g;s/^/\"/;s/$/\"/;s/\\n//g" > /data/91jili/merge/jl_csv/user_wenwen_cross.csv
+time mysql -B -u\${JILI_DB_USER}  -h \${JILI_DB_HOST} \${JILI_DB_NAME} -e "select c.*, u.email from  user_wenwen_cross c left join user u on c.user_id = u.id order by c.id asc"| $sed_partial > /data/91jili/merge/jl_csv/user_wenwen_cross.csv
 
 EOD;
 
@@ -50,6 +53,7 @@ time scp -P9012 jl_csv.tar.bz jiangtao@testgroup.91jili.com:/data/91jili/merge
 
 
 exit ;
+screen -S dump
 bash bin/jl_csv.sh  1> perf_log_`date +"T%H%M%SD%Y%m%d"`.txt  2>&1
 
 
