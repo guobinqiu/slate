@@ -1,3 +1,5 @@
+select now();
+
 DROP DATABASE `jili_mig_dev`;
 
 --
@@ -63,14 +65,14 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 CREATE TABLE IF NOT EXISTS `user_wenwen_login` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `login_password_salt` text COMMENT 'The salt for encrypt password',
   `login_password_crypt_type` varchar(50) DEFAULT NULL COMMENT 'the encrypt method name',
   `login_password` text COMMENT 'the encrypted text',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -565,50 +567,65 @@ INSERT INTO `migration_region_mapping` (`region_id`, `province_id`, `city_id`) V
 (2355, 36, 375);
 
 
+select "migrate_vote";
+
 LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_vote.csv' 
 INTO TABLE vote 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
+
+select "migrate_user";
 
 LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_user.csv' 
 INTO TABLE user 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
+
+select "migrate_user_wenwen_login";
 
 LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_user_wenwen_login.csv' 
 INTO TABLE user_wenwen_login 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
+
+select "migrate_weibo_user";
 
 LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_weibo_user.csv' 
 INTO TABLE weibo_user 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
+
+select "migrate_sop_respondent";
 
 LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_sop_respondent.csv' 
 INTO TABLE sop_respondent 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
+
+select "migrate_vote_answer";
 
 LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_vote_answer.csv' 
 INTO TABLE vote_answer 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
-ESCAPED BY '"' LINES 
+ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
+
+
+select now();
