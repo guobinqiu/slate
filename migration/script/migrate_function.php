@@ -683,7 +683,8 @@ function generate_weibo_user_data($panelist_id, $user_id)
             if ($panelist_sina_row[1] != $weibo_user_row[2]) {
                 global $log_handle;
                 FileUtil::writeContents($log_handle, "绑定的微博账号不同, panelist_id: " . $panelist_id . " panelist_sina_row[1]: " . $panelist_sina_row[1] . " user_id: " . $user_id . " weibo_user_row[2]: " . $weibo_user_row[2]);
-                //todo
+                //weibo_user :  change
+                export_weibo_csv_data($weibo_user_row, $panelist_sina_row);
             }
         } else {
             //id
@@ -692,15 +693,21 @@ function generate_weibo_user_data($panelist_id, $user_id)
             //user_id
             $weibo_user_row[1] = $user_id;
 
-            //open_id
-            $weibo_user_row[2] = $panelist_sina_row[1];
-
-            //regist_date
-            $weibo_user_row[3] = get_an_hour_before_time($panelist_sina_row[7]);
-
-            export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
+            //weibo_user :  add
+            export_weibo_csv_data($weibo_user_row, $panelist_sina_row);
         }
     }
+}
+
+function export_weibo_csv_data($weibo_user_row, $panelist_sina_row)
+{
+    //open_id
+    $weibo_user_row[2] = $panelist_sina_row[1];
+
+    //regist_date
+    $weibo_user_row[3] = get_an_hour_before_time($panelist_sina_row[7]);
+
+    export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
 }
 
 function generate_sop_respondent_data($panelist_id, $user_id)

@@ -25,6 +25,8 @@ function do_process()
     global $pointexchange_91jili_account_file_handle;
     global $panelist_91jili_connection_file_handle;
 
+    global $weibo_user_indexs;
+
     $cross_exist_count = 0;
     $exchange_exist_count = 0;
     $both_exist_count = 0; //cross_exist_count+exchange_exist_count+wenwen_email
@@ -134,6 +136,13 @@ function do_process()
         $user_row = set_default_value($user_row);
 
         export_csv_row($user_row, Constants::$migrate_user_name);
+    }
+
+    //weibo_user : no change
+    foreach ($weibo_user_indexs as $user_id => $pointer) {
+        fseek($weibo_user_file_handle, $pointer);
+        $weibo_user = fgetcsv($weibo_user_file_handle);
+        export_csv_row($weibo_user, Constants::$migrate_weibo_user_name);
     }
 
     FileUtil::writeContents($log_handle, "\n\tcross_exist_count:" . $cross_exist_count . "\n\texchange_exist_count:" . $exchange_exist_count . "\n\tboth_exist_count:" . $both_exist_count . "\n\tonly_wenwen_count:" . $only_wenwen_count . "\n\tonly_jili_count:" . $only_jili_count . "\n\timport_wenwen_count:" . ($both_exist_count + $only_wenwen_count) . "\n\texport user total:" . ($both_exist_count + $only_wenwen_count + $only_jili_count));
