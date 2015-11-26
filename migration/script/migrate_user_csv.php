@@ -13,8 +13,14 @@ FileUtil::writeContents($log_handle, "start!\r\n\r\n");
 //export vote csv
 exec('php migrate_vote_csv.php > vote.txt');
 
+
+// initialise csv file handle, create index
 initialise_csv();
 
+/**
+ * Import data process, and generate export data
+ * @return void
+ */
 function do_process()
 {
     global $log_handle;
@@ -156,9 +162,14 @@ function do_process()
     echo date('Y-m-d H:i:s') . " end!\r\n\r\n";
 }
 
+/**
+ * migrate process
+ * @param array $panelist_row One line data of panelist csv
+ * @param integer $jili_user_id $time
+ * @return void
+ */
 function migrate_common($panelist_row, $jili_user_id)
 {
-
     //问问的账号的password数据迁移到user_wenwen_login
     generate_user_wenwen_login_data($panelist_row, $jili_user_id);
 

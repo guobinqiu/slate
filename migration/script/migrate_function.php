@@ -30,7 +30,7 @@ $vote_answer_indexs = '';
 $sina_connection_indexs = '';
 $weibo_user_indexs = '';
 
-# load csv lines into 2-dim array
+// initialise csv file handle, create index
 function initialise_csv()
 {
     //export csv file : title
@@ -461,7 +461,12 @@ function getPointExchangeByPanelistId($fh, $panelist_id_input, $current)
     return $current;
 }
 
-//user data of both exist on wenwen and jili
+/**
+ * Export the user data of both exist on wenwen and jili
+ * @param array $panelist_row One line data of panelist csv
+ * @param array $user_row  One line data of user csv
+ * @return  void
+ */
 function generate_user_data_both_exsit($panelist_row, $user_row)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row, $user_row);
@@ -474,7 +479,12 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
     export_csv_row($user_row, Constants::$migrate_user_name);
 }
 
-//user data of only exist on wenwen
+/**
+ * Export the user data of only exist on wenwen
+ * @param array $panelist_row One line data of panelist csv
+ * @param integer $user_id
+ * @return void
+ */
 function generate_user_data_only_wenwen($panelist_row, $user_id)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row);
@@ -496,7 +506,12 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     export_csv_row($user_row, Constants::$migrate_user_name);
 }
 
-//user common data of wenwen
+/**
+ * Generate the user common data
+ * @param array $panelist_row One line data of panelist csv
+ * @param array $user_row One line data of user csv
+ * @return  array $user_row
+ */
 function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 {
     //email
@@ -518,10 +533,10 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[9] = $panelist_row[14];
 
     //register_date (panelist.created_at)
-    $user_row[21] = get_an_hour_before_time($panelist_row[9]);
+    $user_row[21] = get_one_hour_ago_time($panelist_row[9]);
 
     //last_login_date(panelist.panelist.last_login_time)
-    $user_row[22] = get_an_hour_before_time($panelist_row[17]);
+    $user_row[22] = get_one_hour_ago_time($panelist_row[17]);
 
     //todo:last_login_ip
     //$user_row[23] = '';
@@ -635,6 +650,11 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     return $user_row;
 }
 
+/**
+ * Set default value
+ * @param array $user_row
+ * @return  array $user_row
+ */
 function set_default_value($user_row)
 {
     for ($i = 0; $i <= 38; $i++) {
@@ -645,7 +665,12 @@ function set_default_value($user_row)
     return $user_row;
 }
 
-//user_wenwen_login data
+/**
+ * Export the user_wenwen_login data
+ * @param array $panelist_row One line data of panelist csv
+ * @param integer $user_id
+ * @return void
+ */
 function generate_user_wenwen_login_data($panelist_row, $user_id)
 {
     //id
@@ -666,7 +691,12 @@ function generate_user_wenwen_login_data($panelist_row, $user_id)
     export_csv_row($user_wenwen_login_row, Constants::$migrate_user_wenwen_login_name);
 }
 
-//weibo_user data
+/**
+ * Generate the weibo_user data
+ * @param integer $panelist_id
+ * @param integer $user_id
+ * @return void
+ */
 function generate_weibo_user_data($panelist_id, $user_id)
 {
     global $sina_connection_indexs;
@@ -699,17 +729,29 @@ function generate_weibo_user_data($panelist_id, $user_id)
     }
 }
 
+/**
+ * Export the weibo_user data
+ * @param array $weibo_user_row One line data of weibo_user csv
+ * @param array $panelist_sina_row One line data of panelist_sina_connection csv
+ * @return void
+ */
 function export_weibo_csv_data($weibo_user_row, $panelist_sina_row)
 {
     //open_id
     $weibo_user_row[2] = $panelist_sina_row[1];
 
     //regist_date
-    $weibo_user_row[3] = get_an_hour_before_time($panelist_sina_row[7]);
+    $weibo_user_row[3] = get_one_hour_ago_time($panelist_sina_row[7]);
 
     export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
 }
 
+/**
+ * Export the sop_respondent data
+ * @param integer $panelist_id
+ * @param integer $user_id
+ * @return void
+ */
 function generate_sop_respondent_data($panelist_id, $user_id)
 {
     global $sop_respondent_indexs;
@@ -718,12 +760,18 @@ function generate_sop_respondent_data($panelist_id, $user_id)
     if (isset($sop_respondent_indexs[$panelist_id])) {
         $sop_respondent_row = use_file_index($sop_respondent_indexs, $panelist_id, $sop_respondent_file_handle, true);
         $sop_respondent_row[1] = $user_id;
-        $sop_respondent_row[4] = get_an_hour_before_time($sop_respondent_row[4]);
-        $sop_respondent_row[5] = get_an_hour_before_time($sop_respondent_row[5]);
+        $sop_respondent_row[4] = get_one_hour_ago_time($sop_respondent_row[4]);
+        $sop_respondent_row[5] = get_one_hour_ago_time($sop_respondent_row[5]);
         export_csv_row($sop_respondent_row, Constants::$migrate_sop_respondent_name);
     }
 }
 
+/**
+ * Export the vote_answer data
+ * @param integer $panelist_id
+ * @param integer $user_id
+ * @return void
+ */
 function generate_vote_answer_data($panelist_id, $user_id)
 {
     global $vote_answer_indexs;
@@ -732,13 +780,18 @@ function generate_vote_answer_data($panelist_id, $user_id)
     if (isset($vote_answer_indexs[$panelist_id])) {
         $vote_answer_row = use_file_index($vote_answer_indexs, $panelist_id, $vote_answer_file_handle, true);
         $vote_answer_row[1] = $user_id;
-        $vote_answer_row[4] = get_an_hour_before_time($vote_answer_row[4]);
-        $vote_answer_row[5] = get_an_hour_before_time($vote_answer_row[5]);
+        $vote_answer_row[4] = get_one_hour_ago_time($vote_answer_row[4]);
+        $vote_answer_row[5] = get_one_hour_ago_time($vote_answer_row[5]);
         export_csv_row($vote_answer_row, Constants::$migrate_vote_answer_name);
     }
 }
 
-function get_an_hour_before_time($time)
+/**
+ * Get the time of 1 hour ago
+ * @param String $time
+ * @return String
+ */
+function get_one_hour_ago_time($time)
 {
     if (empty($time) || $time == 'NULL') {
         return 'NULL';
@@ -746,6 +799,12 @@ function get_an_hour_before_time($time)
     return date('Y-m-d H:i:s', strtotime("$time-1 hour"));
 }
 
+/**
+ * Generate a CSV file
+ * @param array $data
+ * @param String $file_name
+ * @return void
+ */
 function export_csv_row($data, $file_name)
 {
     ksort($data);
