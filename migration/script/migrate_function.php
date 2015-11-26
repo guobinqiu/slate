@@ -28,6 +28,7 @@ $panelist_profile_indexs = '';
 $sop_respondent_indexs = '';
 $vote_answer_indexs = '';
 $sina_connection_indexs = '';
+$weibo_user_indexs = '';
 
 # load csv lines into 2-dim array
 function initialise_csv()
@@ -92,6 +93,8 @@ function initialise_csv()
     $sop_respondent_indexs = build_file_index($sop_respondent_file_handle, 'panelist_id');
     global $vote_answer_indexs;
     $vote_answer_indexs = build_file_index($vote_answer_file_handle, 'panelist_id');
+    global $weibo_user_indexs;
+    $weibo_user_indexs = build_file_index($weibo_user_file_handle, 'user_id');
 }
 
 /**
@@ -672,21 +675,34 @@ function generate_weibo_user_data($panelist_id, $user_id)
     global $sina_connection_indexs;
     global $panelist_sina_connection_file_handle;
 
+    global $weibo_user_indexs;
+    global $weibo_user_file_handle;
+
     if (isset($sina_connection_indexs[$panelist_id])) {
         $panelist_sina_row = use_file_index($sina_connection_indexs, $panelist_id, $panelist_sina_connection_file_handle, true);
-        //id
-        $weibo_user_row[0] = 'NULL';
 
-        //user_id
-        $weibo_user_row[1] = $user_id;
+        if (isset($weibo_user_indexs[$user_id])) {
+            $weibo_user_row = use_file_index($weibo_user_indexs, $user_id, $weibo_user_file_handle, true);
+            if ($panelist_sina_row[1] != $weibo_user_row[2]) {
+                global $log_handle;
+                FileUtil::writeContents($log_handle, "绑定的微博账号不同, panelist_id: " . $panelist_id . " panelist_sina_row[1]: " . $panelist_sina_row[1] . " user_id: " . $user_id . " weibo_user_row[2]: " . $weibo_user_row[2]);
+                //todo
+            }
+        } else {
+            //id
+            $weibo_user_row[0] = 'NULL';
 
-        //open_id
-        $weibo_user_row[2] = $panelist_sina_row[1];
+            //user_id
+            $weibo_user_row[1] = $user_id;
 
-        //regist_date
-        $weibo_user_row[3] = $panelist_sina_row[7];
+            //open_id
+            $weibo_user_row[2] = $panelist_sina_row[1];
 
-        export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
+            //regist_date
+            $weibo_user_row[3] = $panelist_sina_row[7];
+
+            export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
+        }
     }
 }
 

@@ -108,11 +108,8 @@ function do_process()
             //生成仅存在问问的账号的user数据
             generate_user_data_only_wenwen($panelist_row, $jili_user_id);
 
-            //新浪数据迁移
-            generate_weibo_user_data($panelist_row[0], $jili_user_id);
-
             //其他要迁移的数据
-            migrate_common($panelist_row, $jili_user_id, $i);
+            migrate_common($panelist_row, $jili_user_id);
         }
     } catch (Exception $e) {
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
@@ -155,6 +152,9 @@ function migrate_common($panelist_row, $jili_user_id)
 
     //问问的账号的password数据迁移到user_wenwen_login
     generate_user_wenwen_login_data($panelist_row, $jili_user_id);
+
+    //新浪数据迁移
+    generate_weibo_user_data($panelist_row[0], $jili_user_id);
 
     //sop_respondent数据迁移
     generate_sop_respondent_data($panelist_row[0], $jili_user_id);
