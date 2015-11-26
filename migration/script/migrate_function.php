@@ -479,6 +479,7 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row);
 
+    //id
     $user_row[0] = $user_id;
 
     //is_from_wenwen
@@ -517,14 +518,10 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[9] = $panelist_row[14];
 
     //register_date (panelist.created_at)
-    $user_row[21] = $panelist_row[9];
+    $user_row[21] = get_an_hour_before_time($panelist_row[9]);
 
     //last_login_date(panelist.panelist.last_login_time)
-    if (empty($panelist_row[17]) || $panelist_row[17] == "NULL") {
-        $user_row[22] = $panelist_row[9];
-    } else {
-        $user_row[22] = $panelist_row[17];
-    }
+    $user_row[22] = get_an_hour_before_time($panelist_row[17]);
 
     //todo:last_login_ip
     //$user_row[23] = '';
@@ -699,7 +696,7 @@ function generate_weibo_user_data($panelist_id, $user_id)
             $weibo_user_row[2] = $panelist_sina_row[1];
 
             //regist_date
-            $weibo_user_row[3] = $panelist_sina_row[7];
+            $weibo_user_row[3] = get_an_hour_before_time($panelist_sina_row[7]);
 
             export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
         }
@@ -714,6 +711,8 @@ function generate_sop_respondent_data($panelist_id, $user_id)
     if (isset($sop_respondent_indexs[$panelist_id])) {
         $sop_respondent_row = use_file_index($sop_respondent_indexs, $panelist_id, $sop_respondent_file_handle, true);
         $sop_respondent_row[1] = $user_id;
+        $sop_respondent_row[4] = get_an_hour_before_time($sop_respondent_row[4]);
+        $sop_respondent_row[5] = get_an_hour_before_time($sop_respondent_row[5]);
         export_csv_row($sop_respondent_row, Constants::$migrate_sop_respondent_name);
     }
 }
@@ -726,8 +725,18 @@ function generate_vote_answer_data($panelist_id, $user_id)
     if (isset($vote_answer_indexs[$panelist_id])) {
         $vote_answer_row = use_file_index($vote_answer_indexs, $panelist_id, $vote_answer_file_handle, true);
         $vote_answer_row[1] = $user_id;
+        $vote_answer_row[4] = get_an_hour_before_time($vote_answer_row[4]);
+        $vote_answer_row[5] = get_an_hour_before_time($vote_answer_row[5]);
         export_csv_row($vote_answer_row, Constants::$migrate_vote_answer_name);
     }
+}
+
+function get_an_hour_before_time($time)
+{
+    if (empty($time) || $time == 'NULL') {
+        return 'NULL';
+    }
+    return date('Y-m-d H:i:s', strtotime("$time-1 hour"));
 }
 
 function export_csv_row($data, $file_name)
