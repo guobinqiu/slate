@@ -477,6 +477,8 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
     $user_row = set_default_value($user_row);
 
     export_csv_row($user_row, Constants::$migrate_user_name);
+
+    export_history_data($panelist_row[0], $user_row[0]);
 }
 
 /**
@@ -504,6 +506,8 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     $user_row = set_default_value($user_row);
 
     export_csv_row($user_row, Constants::$migrate_user_name);
+
+    export_history_data($panelist_row[0], $user_id);
 }
 
 /**
@@ -634,11 +638,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
             $jili_user_point = $user_row[24];
         }
         $user_row[24] = $jili_user_point + $panelist_point_indexs[$panelist_row[0]]['point_value'];
-
-        //todo: point_history
-
-
-        //todo: task_history
     }
 
     //icon_path:panelist_profile_image
@@ -783,6 +782,66 @@ function generate_vote_answer_data($panelist_id, $user_id)
         $vote_answer_row[4] = get_one_hour_ago_time($vote_answer_row[4]);
         $vote_answer_row[5] = get_one_hour_ago_time($vote_answer_row[5]);
         export_csv_row($vote_answer_row, Constants::$migrate_vote_answer_name);
+    }
+}
+
+/**
+ * Export the task_history and point_history  data
+ * @param Integer $point
+ * @return void
+ */
+function export_history_data($panelist_id, $user_id)
+{
+    global $panelist_point_indexs;
+
+    if (isset($panelist_point_indexs[$panelist_id])) {
+        $wenwen_point = $panelist_point_indexs[$panelist_id]['point_value'];
+        if ($wenwen_point > 0) {
+
+            $index = $user_id % 10;
+            $task_history_name = Constants::$migrate_task_history_name;
+            $point_history_name = Constants::$migrate_point_history_name;
+
+            // task_history : id, order_id, user_id, task_type, category_type, task_name, reward_percent, point, ocd_created_date, date, status
+            //id
+            $task_history[0] = 'NULL';
+            //order_id
+            $task_history[1] = 0;
+            //user_id
+            $task_history[2] = $user_id;
+            //task_type
+            $task_history[3] = 4;
+            //category_type
+            $task_history[4] = Constants::$ad_category_type_web_merge;
+            //task_name
+            $task_history[5] = '合并前91问问的积分数';
+            //reward_percent
+            $task_history[6] = 'NULL';
+            //point
+            $task_history[7] = $wenwen_point;
+            //ocd_created_date
+            $task_history[8] = date('Y-m-d H:i:s');
+            //date
+            $task_history[9] = date('Y-m-d H:i:s');
+            //status
+            $task_history[10] = 1;
+
+            export_csv_row($task_history, $task_history_name . $index . ".csv");
+
+            // point_history: # id, user_id, point_change_num, reason, create_time
+            //id
+            $point_history[0] = 'NULL';
+            //user_id
+            $point_history[1] = $user_id;
+            //point_change_num
+            $point_history[2] = $wenwen_point;
+            //reason
+            $point_history[3] = Constants::$ad_category_type_web_merge;
+            //create_time
+            $point_history[4] = date('Y-m-d H:i:s');
+
+            export_csv_row($point_history, $point_history_name . $index . ".csv");
+        }
     }
 }
 
