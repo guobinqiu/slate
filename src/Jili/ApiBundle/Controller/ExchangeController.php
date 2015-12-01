@@ -975,8 +975,8 @@ class  ExchangeController extends Controller
     {
         $birthday = self::getBirthDay($identityCard);
 
-        $today=date('Y-m-d');
-        if(strtotime($today)<strtotime($birthday['year'].'-'.$birthday['month'].'-'.$birthday['day'])){
+        $today = date('Ymd');
+        if ($today < $birthday['year'] . $birthday['month'] . $birthday['day']) {
             return false;
         }
 
