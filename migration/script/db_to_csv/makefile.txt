@@ -20,17 +20,19 @@ dump-ww:
 #	ssh  t-jiang@rpa-staff01 'bash /mnt/tmp/merge/bin/ww_csv.sh'
 
 # on 235 
-#  time scp t-jiang@54.254.98.246:/mnt/tmp/merge/ww_csv.tar.bz /tmp/  1>~/merge_db_scp.log  $2>1
+#  time scp t-jiang@54.254.98.246:/mnt/tmp/merge/ww_csv.tar.bz /tmp/  1>~/merge_db_scp.log  2>&1
 #  real    4m43.764s
 #  real    3m19.486s
 #
-#  time scp -P9012 /tmp/ww_csv.tar.bz jiangtao@testgroup.91jili.com:/data/91jili/merge/ 1>>~/merge_db_scp.log  $2>1
+#  time scp -P9012 /tmp/ww_csv.tar.bz jiangtao@testgroup.91jili.com:/data/91jili/merge/ 1>>~/merge_db_scp.log  2>&1
 
 #  real    0m57.179s
 #  real    0m44.756s
 
 # on testgroup.com
-# ssh jiangtao@testgroup.91jili.com -p9012 'cd /data/91jili/merge;time tar xjvf ww_csv.tar.bz'
+# ssh jiangtao@testgroup.91jili.com -p9012 'cd /data/91jili/merge;
+# /usr/bin/time -ao logs/decompress_ww.log -f "real\t%E\nuser\t%U\nsys\t%S\n" tar xjvf ww_csv.tar.bz 1> logs/decompress_ww.log 2>&1
+# '
 #  real    1m3.397s
 
 
