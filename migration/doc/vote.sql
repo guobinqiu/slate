@@ -24,3 +24,7 @@ CREATE TABLE `vote_answer` (
    KEY `vote_id` (`vote_id`)
  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+INSERT INTO `ad_category` (`id`, `category_name`, `asp`, `display_name`) VALUES
+(92, 'questionnaire_cost', '91wenwen', '问卷回答'),
+(93, 'questionnaire_expense', '91wenwen', '快速问答'),
+(94, 'web_merge', '91wenwen', '网站合并');

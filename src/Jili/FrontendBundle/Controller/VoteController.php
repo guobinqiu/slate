@@ -66,9 +66,6 @@ class VoteController extends Controller
 
         $arr['page'] = $page;
 
-        //todo:返回快速问答一览 是否保存页码
-
-
         return $this->render('JiliFrontendBundle:Vote:index.html.twig', $arr);
     }
 
@@ -244,7 +241,6 @@ class VoteController extends Controller
 
             $db_connection->commit();
 
-            //todo: Cross posting
         } catch (\Exception $e) {
             $db_connection->rollback();
             $this->get('logger')->critical('[JiliFrontend][vote][click]' . $e->getMessage());
