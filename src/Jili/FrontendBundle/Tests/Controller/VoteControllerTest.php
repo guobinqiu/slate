@@ -218,7 +218,7 @@ class VoteControllerTest extends WebTestCase
             'csrf_token' => $csrf_token
         ));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $this->assertRegExp('/\/vote\/show\?id=1$/', $client->getResponse()->headers->get('location'), 'user has answered');
+        $this->assertRegExp('/\/vote\/result\?id=1$/', $client->getResponse()->headers->get('location'), 'user has answered');
 
         $crawler = $client->request('POST', $url, array (
             'id' => 3,
