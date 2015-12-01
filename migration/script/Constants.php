@@ -26,6 +26,9 @@ class Constants
         20 => 119
     );
 
+    //ad_category : web_merge
+    public static $ad_category_type_web_merge = 94;
+
     //origin_flag
     public static $origin_flag = array (
         'new' => 0,
@@ -135,6 +138,8 @@ class Constants
     public static $migrate_weibo_user_name = "/migrate_weibo_user.csv";
     public static $migrate_sop_respondent_name = "/migrate_sop_respondent.csv";
     public static $migrate_vote_answer_name = "/migrate_vote_answer.csv";
+    public static $migrate_task_history_name = "/task_history0";
+    public static $migrate_point_history_name = "/point_history0";
 }
 
 ?>

@@ -163,6 +163,16 @@ CREATE TABLE IF NOT EXISTS `month_income` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+
+CREATE TABLE `ad_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(45) DEFAULT NULL,
+  `asp` varchar(64) DEFAULT NULL COMMENT '平台供应商',
+  `display_name` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
+
+
 --
 -- 限制导出的表
 --
@@ -567,6 +577,291 @@ INSERT INTO `migration_region_mapping` (`region_id`, `province_id`, `city_id`) V
 (2355, 36, 375);
 
 
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (1,'CPA',NULL,'广告体验');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (2,'CPS','chanet','购物返利');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (3,NULL,NULL,'游戏广告');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (4,NULL,NULL,'游戏积分码');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (5,NULL,NULL,'游戏通关');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (6,NULL,NULL,'游戏排名');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (7,NULL,NULL,'游戏全勤');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (8,NULL,NULL,'91问问积分兑换');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (9,NULL,NULL,'完善资料');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (10,NULL,NULL,'亚马逊礼品卡');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (11,NULL,NULL,'支付宝');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (12,NULL,NULL,'手机费');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (13,NULL,NULL,'91问问兑换米粒');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (14,NULL,NULL,'名片录力');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (15,NULL,NULL,'积分失效');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (16,NULL,NULL,'每天签到');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (17,'OfferWow',NULL,'体验广告');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (18,'Offer99',NULL,'体验广告');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (19,'cps','emar','购物返利');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (20,'cpa','emar','亿玛活动');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (21,'event',NULL,'活动送积分');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (22,'bangwoya','天芒云','体验广告');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (23,'cps','duomai','购物返利');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (24,NULL,NULL,'流量包');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (30,'game','91jili','游戏寻宝箱');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (31,'game','91jili','游戏砸金蛋');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (90,NULL,NULL,'手动返还积分');
+INSERT INTO `ad_category` (`id`,`category_name`,`asp`,`display_name`) VALUES (91,'system',NULL,'米粒误发修改');
+
+
+INSERT INTO `ad_category` (`id`, `category_name`, `asp`, `display_name`) VALUES
+(94, 'web_merge', '91wenwen', '网站合并');
+
+CREATE TABLE `point_history00` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `point_change_num` int(11) NOT NULL,
+  `reason` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_point_history_00_user` (`user_id`),
+  CONSTRAINT `fk_point_history_00_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `point_history01` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `point_change_num` int(11) NOT NULL,
+  `reason` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_point_history_00_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `point_history02` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `point_change_num` int(11) NOT NULL,
+  `reason` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_point_history_00_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `point_history03` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `point_change_num` int(11) NOT NULL,
+  `reason` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_point_history_00_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `point_history04` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `point_change_num` int(11) NOT NULL,
+  `reason` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_point_history_00_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `point_history05` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `point_change_num` int(11) NOT NULL,
+  `reason` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_point_history_00_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `point_history06` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `point_change_num` int(11) NOT NULL,
+  `reason` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_point_history_00_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `point_history07` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `point_change_num` int(11) NOT NULL,
+  `reason` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_point_history_00_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `point_history08` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `point_change_num` int(11) NOT NULL,
+  `reason` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_point_history_00_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `point_history09` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `point_change_num` int(11) NOT NULL,
+  `reason` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_point_history_00_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `task_history00` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `task_type` int(11) NOT NULL,
+  `category_type` int(11) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `reward_percent` float DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `ocd_created_date` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `task_history01` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `task_type` int(11) NOT NULL,
+  `category_type` int(11) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `reward_percent` float DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `ocd_created_date` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `task_history02` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `task_type` int(11) NOT NULL,
+  `category_type` int(11) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `reward_percent` float DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `ocd_created_date` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `task_history03` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `task_type` int(11) NOT NULL,
+  `category_type` int(11) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `reward_percent` float DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `ocd_created_date` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `task_history04` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `task_type` int(11) NOT NULL,
+  `category_type` int(11) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `reward_percent` float DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `ocd_created_date` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `task_history05` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `task_type` int(11) NOT NULL,
+  `category_type` int(11) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `reward_percent` float DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `ocd_created_date` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `task_history06` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `task_type` int(11) NOT NULL,
+  `category_type` int(11) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `reward_percent` float DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `ocd_created_date` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `task_history07` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `task_type` int(11) NOT NULL,
+  `category_type` int(11) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `reward_percent` float DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `ocd_created_date` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `task_history08` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `task_type` int(11) NOT NULL,
+  `category_type` int(11) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `reward_percent` float DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `ocd_created_date` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `task_history09` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `task_type` int(11) NOT NULL,
+  `category_type` int(11) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `reward_percent` float DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `ocd_created_date` datetime DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
 select "migrate_vote";
 
 LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_vote.csv' 
@@ -621,6 +916,167 @@ select "migrate_vote_answer";
 
 LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/migrate_vote_answer.csv' 
 INTO TABLE vote_answer 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/task_history00.csv' 
+INTO TABLE task_history00 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/task_history01.csv' 
+INTO TABLE task_history01 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/task_history02.csv' 
+INTO TABLE task_history02 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/task_history03.csv' 
+INTO TABLE task_history03 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/task_history04.csv' 
+INTO TABLE task_history04 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/task_history05.csv' 
+INTO TABLE task_history05 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/task_history06.csv' 
+INTO TABLE task_history06 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/task_history07.csv' 
+INTO TABLE task_history07 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/task_history08.csv' 
+INTO TABLE task_history08 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/task_history09.csv' 
+INTO TABLE task_history09 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/point_history00.csv' 
+INTO TABLE point_history00 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/point_history01.csv' 
+INTO TABLE point_history01 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/point_history02.csv' 
+INTO TABLE point_history02 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/point_history03.csv' 
+INTO TABLE point_history03 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/point_history04.csv' 
+INTO TABLE point_history04 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/point_history05.csv' 
+INTO TABLE point_history05 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/point_history06.csv' 
+INTO TABLE point_history06 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/point_history07.csv' 
+INTO TABLE point_history07 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/point_history08.csv' 
+INTO TABLE point_history08 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/var/www/html/jili-zhang/migration/script/export/point_history09.csv' 
+INTO TABLE point_history09 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 

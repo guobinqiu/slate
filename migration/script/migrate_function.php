@@ -28,8 +28,9 @@ $panelist_profile_indexs = '';
 $sop_respondent_indexs = '';
 $vote_answer_indexs = '';
 $sina_connection_indexs = '';
+$weibo_user_indexs = '';
 
-# load csv lines into 2-dim array
+// initialise csv file handle, create index
 function initialise_csv()
 {
     //export csv file : title
@@ -92,6 +93,8 @@ function initialise_csv()
     $sop_respondent_indexs = build_file_index($sop_respondent_file_handle, 'panelist_id');
     global $vote_answer_indexs;
     $vote_answer_indexs = build_file_index($vote_answer_file_handle, 'panelist_id');
+    global $weibo_user_indexs;
+    $weibo_user_indexs = build_file_index($weibo_user_file_handle, 'user_id');
 }
 
 /**
@@ -458,7 +461,12 @@ function getPointExchangeByPanelistId($fh, $panelist_id_input, $current)
     return $current;
 }
 
-//user data of both exist on wenwen and jili
+/**
+ * Export the user data of both exist on wenwen and jili
+ * @param array $panelist_row One line data of panelist csv
+ * @param array $user_row  One line data of user csv
+ * @return  void
+ */
 function generate_user_data_both_exsit($panelist_row, $user_row)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row, $user_row);
@@ -469,13 +477,21 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
     $user_row = set_default_value($user_row);
 
     export_csv_row($user_row, Constants::$migrate_user_name);
+
+    export_history_data($panelist_row[0], $user_row[0]);
 }
 
-//user data of only exist on wenwen
+/**
+ * Export the user data of only exist on wenwen
+ * @param array $panelist_row One line data of panelist csv
+ * @param integer $user_id
+ * @return void
+ */
 function generate_user_data_only_wenwen($panelist_row, $user_id)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row);
 
+    //id
     $user_row[0] = $user_id;
 
     //is_from_wenwen
@@ -490,9 +506,16 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     $user_row = set_default_value($user_row);
 
     export_csv_row($user_row, Constants::$migrate_user_name);
+
+    export_history_data($panelist_row[0], $user_id);
 }
 
-//user common data of wenwen
+/**
+ * Generate the user common data
+ * @param array $panelist_row One line data of panelist csv
+ * @param array $user_row One line data of user csv
+ * @return  array $user_row
+ */
 function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 {
     //email
@@ -514,14 +537,10 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[9] = $panelist_row[14];
 
     //register_date (panelist.created_at)
-    $user_row[21] = $panelist_row[9];
+    $user_row[21] = get_one_hour_ago_time($panelist_row[9]);
 
     //last_login_date(panelist.panelist.last_login_time)
-    if (empty($panelist_row[17]) || $panelist_row[17] == "NULL") {
-        $user_row[22] = $panelist_row[9];
-    } else {
-        $user_row[22] = $panelist_row[17];
-    }
+    $user_row[22] = get_one_hour_ago_time($panelist_row[17]);
 
     //todo:last_login_ip
     //$user_row[23] = '';
@@ -619,11 +638,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
             $jili_user_point = $user_row[24];
         }
         $user_row[24] = $jili_user_point + $panelist_point_indexs[$panelist_row[0]]['point_value'];
-
-        //todo: point_history
-
-
-        //todo: task_history
     }
 
     //icon_path:panelist_profile_image
@@ -635,6 +649,11 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     return $user_row;
 }
 
+/**
+ * Set default value
+ * @param array $user_row
+ * @return  array $user_row
+ */
 function set_default_value($user_row)
 {
     for ($i = 0; $i <= 38; $i++) {
@@ -645,7 +664,12 @@ function set_default_value($user_row)
     return $user_row;
 }
 
-//user_wenwen_login data
+/**
+ * Export the user_wenwen_login data
+ * @param array $panelist_row One line data of panelist csv
+ * @param integer $user_id
+ * @return void
+ */
 function generate_user_wenwen_login_data($panelist_row, $user_id)
 {
     //id
@@ -666,30 +690,67 @@ function generate_user_wenwen_login_data($panelist_row, $user_id)
     export_csv_row($user_wenwen_login_row, Constants::$migrate_user_wenwen_login_name);
 }
 
-//weibo_user data
+/**
+ * Generate the weibo_user data
+ * @param integer $panelist_id
+ * @param integer $user_id
+ * @return void
+ */
 function generate_weibo_user_data($panelist_id, $user_id)
 {
     global $sina_connection_indexs;
     global $panelist_sina_connection_file_handle;
 
+    global $weibo_user_indexs;
+    global $weibo_user_file_handle;
+
     if (isset($sina_connection_indexs[$panelist_id])) {
         $panelist_sina_row = use_file_index($sina_connection_indexs, $panelist_id, $panelist_sina_connection_file_handle, true);
-        //id
-        $weibo_user_row[0] = 'NULL';
 
-        //user_id
-        $weibo_user_row[1] = $user_id;
+        if (isset($weibo_user_indexs[$user_id])) {
+            $weibo_user_row = use_file_index($weibo_user_indexs, $user_id, $weibo_user_file_handle, true);
+            if ($panelist_sina_row[1] != $weibo_user_row[2]) {
+                global $log_handle;
+                FileUtil::writeContents($log_handle, "绑定的微博账号不同, panelist_id: " . $panelist_id . " panelist_sina_row[1]: " . $panelist_sina_row[1] . " user_id: " . $user_id . " weibo_user_row[2]: " . $weibo_user_row[2]);
+                //weibo_user :  change
+                export_weibo_csv_data($weibo_user_row, $panelist_sina_row);
+            }
+        } else {
+            //id
+            $weibo_user_row[0] = 'NULL';
 
-        //open_id
-        $weibo_user_row[2] = $panelist_sina_row[1];
+            //user_id
+            $weibo_user_row[1] = $user_id;
 
-        //regist_date
-        $weibo_user_row[3] = $panelist_sina_row[7];
-
-        export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
+            //weibo_user :  add
+            export_weibo_csv_data($weibo_user_row, $panelist_sina_row);
+        }
     }
 }
 
+/**
+ * Export the weibo_user data
+ * @param array $weibo_user_row One line data of weibo_user csv
+ * @param array $panelist_sina_row One line data of panelist_sina_connection csv
+ * @return void
+ */
+function export_weibo_csv_data($weibo_user_row, $panelist_sina_row)
+{
+    //open_id
+    $weibo_user_row[2] = $panelist_sina_row[1];
+
+    //regist_date
+    $weibo_user_row[3] = get_one_hour_ago_time($panelist_sina_row[7]);
+
+    export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
+}
+
+/**
+ * Export the sop_respondent data
+ * @param integer $panelist_id
+ * @param integer $user_id
+ * @return void
+ */
 function generate_sop_respondent_data($panelist_id, $user_id)
 {
     global $sop_respondent_indexs;
@@ -698,10 +759,18 @@ function generate_sop_respondent_data($panelist_id, $user_id)
     if (isset($sop_respondent_indexs[$panelist_id])) {
         $sop_respondent_row = use_file_index($sop_respondent_indexs, $panelist_id, $sop_respondent_file_handle, true);
         $sop_respondent_row[1] = $user_id;
+        $sop_respondent_row[4] = get_one_hour_ago_time($sop_respondent_row[4]);
+        $sop_respondent_row[5] = get_one_hour_ago_time($sop_respondent_row[5]);
         export_csv_row($sop_respondent_row, Constants::$migrate_sop_respondent_name);
     }
 }
 
+/**
+ * Export the vote_answer data
+ * @param integer $panelist_id
+ * @param integer $user_id
+ * @return void
+ */
 function generate_vote_answer_data($panelist_id, $user_id)
 {
     global $vote_answer_indexs;
@@ -710,10 +779,91 @@ function generate_vote_answer_data($panelist_id, $user_id)
     if (isset($vote_answer_indexs[$panelist_id])) {
         $vote_answer_row = use_file_index($vote_answer_indexs, $panelist_id, $vote_answer_file_handle, true);
         $vote_answer_row[1] = $user_id;
+        $vote_answer_row[4] = get_one_hour_ago_time($vote_answer_row[4]);
+        $vote_answer_row[5] = get_one_hour_ago_time($vote_answer_row[5]);
         export_csv_row($vote_answer_row, Constants::$migrate_vote_answer_name);
     }
 }
 
+/**
+ * Export the task_history and point_history  data
+ * @param Integer $point
+ * @return void
+ */
+function export_history_data($panelist_id, $user_id)
+{
+    global $panelist_point_indexs;
+
+    if (isset($panelist_point_indexs[$panelist_id])) {
+        $wenwen_point = $panelist_point_indexs[$panelist_id]['point_value'];
+        if ($wenwen_point > 0) {
+
+            $index = $user_id % 10;
+            $task_history_name = Constants::$migrate_task_history_name;
+            $point_history_name = Constants::$migrate_point_history_name;
+
+            // task_history : id, order_id, user_id, task_type, category_type, task_name, reward_percent, point, ocd_created_date, date, status
+            //id
+            $task_history[0] = 'NULL';
+            //order_id
+            $task_history[1] = 0;
+            //user_id
+            $task_history[2] = $user_id;
+            //task_type
+            $task_history[3] = 4;
+            //category_type
+            $task_history[4] = Constants::$ad_category_type_web_merge;
+            //task_name
+            $task_history[5] = '合并前91问问的积分数';
+            //reward_percent
+            $task_history[6] = 'NULL';
+            //point
+            $task_history[7] = $wenwen_point;
+            //ocd_created_date
+            $task_history[8] = date('Y-m-d H:i:s');
+            //date
+            $task_history[9] = date('Y-m-d H:i:s');
+            //status
+            $task_history[10] = 1;
+
+            export_csv_row($task_history, $task_history_name . $index . ".csv");
+
+            // point_history: # id, user_id, point_change_num, reason, create_time
+            //id
+            $point_history[0] = 'NULL';
+            //user_id
+            $point_history[1] = $user_id;
+            //point_change_num
+            $point_history[2] = $wenwen_point;
+            //reason
+            $point_history[3] = Constants::$ad_category_type_web_merge;
+            //create_time
+            $point_history[4] = date('Y-m-d H:i:s');
+
+            export_csv_row($point_history, $point_history_name . $index . ".csv");
+        }
+    }
+}
+
+/**
+ * Get the time of 1 hour ago
+ * @param String $time
+ * @return String
+ */
+function get_one_hour_ago_time($time)
+{
+    if (empty($time) || $time == 'NULL') {
+        return 'NULL';
+    }
+    return date('Y-m-d H:i:s', strtotime("$time-1 hour"));
+}
+
+/**
+ * Generate a CSV file
+ * @param array $data
+ * @param String $file_name
+ * @return void
+ */
 function export_csv_row($data, $file_name)
 {
     ksort($data);

@@ -13,8 +13,14 @@ FileUtil::writeContents($log_handle, "start!\r\n\r\n");
 //export vote csv
 exec('php migrate_vote_csv.php > vote.txt');
 
+
+// initialise csv file handle, create index
 initialise_csv();
 
+/**
+ * Import data process, and generate export data
+ * @return void
+ */
 function do_process()
 {
     global $log_handle;
@@ -24,6 +30,8 @@ function do_process()
     global $user_wenwen_cross_file_handle;
     global $pointexchange_91jili_account_file_handle;
     global $panelist_91jili_connection_file_handle;
+
+    global $weibo_user_indexs;
 
     $cross_exist_count = 0;
     $exchange_exist_count = 0;
@@ -108,11 +116,8 @@ function do_process()
             //生成仅存在问问的账号的user数据
             generate_user_data_only_wenwen($panelist_row, $jili_user_id);
 
-            //新浪数据迁移
-            generate_weibo_user_data($panelist_row[0], $jili_user_id);
-
             //其他要迁移的数据
-            migrate_common($panelist_row, $jili_user_id, $i);
+            migrate_common($panelist_row, $jili_user_id);
         }
     } catch (Exception $e) {
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
@@ -139,6 +144,13 @@ function do_process()
         export_csv_row($user_row, Constants::$migrate_user_name);
     }
 
+    //weibo_user : no change
+    foreach ($weibo_user_indexs as $user_id => $pointer) {
+        fseek($weibo_user_file_handle, $pointer);
+        $weibo_user = fgetcsv($weibo_user_file_handle);
+        export_csv_row($weibo_user, Constants::$migrate_weibo_user_name);
+    }
+
     FileUtil::writeContents($log_handle, "\n\tcross_exist_count:" . $cross_exist_count . "\n\texchange_exist_count:" . $exchange_exist_count . "\n\tboth_exist_count:" . $both_exist_count . "\n\tonly_wenwen_count:" . $only_wenwen_count . "\n\tonly_jili_count:" . $only_jili_count . "\n\timport_wenwen_count:" . ($both_exist_count + $only_wenwen_count) . "\n\texport user total:" . ($both_exist_count + $only_wenwen_count + $only_jili_count));
     FileUtil::writeContents($log_handle, round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB');
     FileUtil::writeContents($log_handle, "end!");
@@ -150,11 +162,19 @@ function do_process()
     echo date('Y-m-d H:i:s') . " end!\r\n\r\n";
 }
 
+/**
+ * migrate process
+ * @param array $panelist_row One line data of panelist csv
+ * @param integer $jili_user_id $time
+ * @return void
+ */
 function migrate_common($panelist_row, $jili_user_id)
 {
-
     //问问的账号的password数据迁移到user_wenwen_login
     generate_user_wenwen_login_data($panelist_row, $jili_user_id);
+
+    //新浪数据迁移
+    generate_weibo_user_data($panelist_row[0], $jili_user_id);
 
     //sop_respondent数据迁移
     generate_sop_respondent_data($panelist_row[0], $jili_user_id);

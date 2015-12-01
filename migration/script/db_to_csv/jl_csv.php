@@ -16,8 +16,10 @@ into outfile '~/tmp/jili_csv/%1\$s.csv'
 from %1\$s;
 SQL;
 
+#sed 's/\\\\/\\\\\\\\/g;s/"/\"/g;s/\\t/","/g;s/^/"/;s/\$/"/;s/\\n//g' 
+
 $sed_partial=<<<CMD
-sed 's/\\\\/\\\\\\\\/g;s/"/\"/g;s/\\t/","/g;s/^/"/;s/\$/"/;s/\\n//g' 
+sed 's/"/""/g;s/\\t/","/g;s/^/"/;s/$/"/g;s/\\n//g' 
 CMD;
 
 $cmd1=<<<CMD
