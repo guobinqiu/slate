@@ -192,7 +192,7 @@ class VoteController extends Controller
         $user_id = $this->get('session')->get('uid');
         $user_answer_count = $em->getRepository('JiliApiBundle:VoteAnswer')->getUserAnswerCount($user_id, $vote_id);
         if ($user_answer_count) {
-            return $this->redirect($this->generateUrl('jili_frontend_vote_show', array (
+            return $this->redirect($this->generateUrl('jili_frontend_vote_result', array (
                 'id' => $vote_id
             )));
         }
@@ -370,7 +370,12 @@ class VoteController extends Controller
         ));
 
         $subject = '[QS] ' . $values['title'];
-        $message = \Swift_Message::newInstance()->setSubject($subject)->setFrom($user_email)->setTo($mail_to)->setReturnPath($mailer_return_path)->setBody($content);
+        $message = \Swift_Message::newInstance()
+                        ->setSubject($subject)
+                        ->setFrom($user_email)
+                        ->setTo($mail_to)
+                        ->setReturnPath($mailer_return_path)
+                        ->setBody($content);
 
         $mailer = $this->container->get('mailer');
         $mailer->send($message);
