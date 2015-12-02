@@ -49,7 +49,7 @@ INSERT INTO `ad_category` (`id`, `category_name`, `asp`, `display_name`) VALUES
 (94, 'web_merge', '91wenwen', '网站合并');
 
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/migrate_vote.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/migrate_vote.csv' 
 INTO TABLE vote 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -57,7 +57,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/migrate_user.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/migrate_user.csv' 
 INTO TABLE user 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -65,7 +65,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/migrate_user_wenwen_login.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/migrate_user_wenwen_login.csv' 
 INTO TABLE user_wenwen_login 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -73,7 +73,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/migrate_weibo_user.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/migrate_weibo_user.csv' 
 INTO TABLE weibo_user 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -81,7 +81,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/migrate_sop_respondent.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/migrate_sop_respondent.csv' 
 INTO TABLE sop_respondent 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -89,7 +89,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/migrate_vote_answer.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/migrate_vote_answer.csv' 
 INTO TABLE vote_answer 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -97,7 +97,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/task_history00.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/task_history00.csv' 
 INTO TABLE task_history00 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -105,7 +105,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/task_history01.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/task_history01.csv' 
 INTO TABLE task_history01 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -113,7 +113,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/task_history02.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/task_history02.csv' 
 INTO TABLE task_history02 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -121,7 +121,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/task_history03.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/task_history03.csv' 
 INTO TABLE task_history03 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -129,7 +129,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/task_history04.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/task_history04.csv' 
 INTO TABLE task_history04 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -137,7 +137,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/task_history05.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/task_history05.csv' 
 INTO TABLE task_history05 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -145,7 +145,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/task_history06.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/task_history06.csv' 
 INTO TABLE task_history06 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -153,7 +153,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/task_history07.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/task_history07.csv' 
 INTO TABLE task_history07 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -161,7 +161,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/task_history08.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/task_history08.csv' 
 INTO TABLE task_history08 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -169,7 +169,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/task_history09.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/task_history09.csv' 
 INTO TABLE task_history09 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -177,7 +177,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/point_history00.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/point_history00.csv' 
 INTO TABLE point_history00 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -185,7 +185,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/point_history01.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/point_history01.csv' 
 INTO TABLE point_history01 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -193,7 +193,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/point_history02.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/point_history02.csv' 
 INTO TABLE point_history02 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -201,7 +201,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/point_history03.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/point_history03.csv' 
 INTO TABLE point_history03 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -209,7 +209,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/point_history04.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/point_history04.csv' 
 INTO TABLE point_history04 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -217,7 +217,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/point_history05.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/point_history05.csv' 
 INTO TABLE point_history05 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -225,7 +225,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/point_history06.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/point_history06.csv' 
 INTO TABLE point_history06 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -233,7 +233,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/point_history07.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/point_history07.csv' 
 INTO TABLE point_history07 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -241,7 +241,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/point_history08.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/point_history08.csv' 
 INTO TABLE point_history08 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
@@ -249,7 +249,7 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\' LINES 
 TERMINATED BY '\n';
 
-LOAD DATA INFILE '/data/91jili/merge/script/export/point_history09.csv' 
+LOAD DATA INFILE '/data/91jili/merge/export/point_history09.csv' 
 INTO TABLE point_history09 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  

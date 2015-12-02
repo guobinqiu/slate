@@ -10,7 +10,7 @@ class FileUtil
         $file_handle = FileUtil::checkFile($filename);
 
         if ($file_handle !== FALSE) {
-            while (($data = fgetcsv($file_handle, 2000, ",")) !== FALSE) {
+            while (($data = fgetcsv($file_handle, 0, ",")) !== FALSE) {
                 $contents[] = $data;
             }
         }
@@ -58,6 +58,7 @@ class FileUtil
         foreach ($content as $l => $r) {
             $c = count($r);
             if (count($r) != $x) {
+print_r($r);
                 throw new Exception("read file error: $file_path,\n\trequired cols number: $x;\n\tline number: $l\n\tcontent:" . json_encode($r, true));
             }
         }
