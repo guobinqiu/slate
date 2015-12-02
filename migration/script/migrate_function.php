@@ -128,14 +128,14 @@ function build_key_value_index($fh, $key_name, $val_name)
     $max_col_seq = substr_count(substr($title, 0, $max_pos), ',');
 
     $index = array ();
-    while ($row = fgets($fh, 1024)) {
+    while ($row = fgets($fh )) {
 
         $min_head = 0;
         for ($i = $min_col_seq; $i > 0; $i--) {
             $min_head = strpos($row, ',', $min_head) + 1;
         }
         $min_tail = strpos($row, ',', $min_head);
-        $min_col_value = strtolower(substr($row, $min_head , $min_tail - $min_head  ));
+        $min_col_value = strtolower(substr($row, $min_head, $min_tail - $min_head ));
         $min_col_value = trim($min_col_value ,  '"');
 
         if ($key_pos == $val_pos) {
@@ -203,7 +203,7 @@ function build_file_index($fh, $col_name = 'panelist_id')
         return; //
     }
 
-    $col_seq = substr_count(substr($title, 0, $col_pos), ',');
+    $col_seq = substr_count(substr($title, 0, $col_pos  ), ',');
 
     $p = ftell($fh);
 
@@ -213,12 +213,12 @@ function build_file_index($fh, $col_name = 'panelist_id')
         $head_pos = 0;
 
         for ($i = $col_seq; $i > 0; $i--) {
-            $head_pos = strpos($row, ',', $head_pos) + 1;
+            $head_pos = strpos($row, ',', $head_pos)  +1;
         }
 
-        $tail_pos = strpos($row, ',', $head_pos + 1);
+        $tail_pos = strpos($row, ',', $head_pos );
 
-        $col_value = strtolower(substr($row, $head_pos , $tail_pos - $head_pos  ));
+        $col_value = strtolower(substr($row, $head_pos , $tail_pos - $head_pos ));
         $col_value  = trim($col_value, '"');
         $built[$col_value] = $p;
 
@@ -238,7 +238,7 @@ function use_file_index(&$index, $col_val, $fh, $with_unset = true)
     if ($with_unset) {
         unset($index[$col_val]);
     }
-    return fgetcsv($fh);
+    return fgetcsv($fh,0);
 }
 
 /**
@@ -412,12 +412,13 @@ function getUser($fh)
 
 /**
  * 遍历panel_91wenwen_pointexchange_91jili_account表
+ *   
  * "panelist_id","jili_email","status_flag","stash_data","updated_at","created_at"
  * "305","28216843@qq.com","1","NULL","2014-02-24 10:21:34","2014-02-20 11:58:08"
  * "2229759","syravia@gmail.com","0","{""activation_url"":""https://www.91jili.com/user/setPassFromWenwen/944966ca79a14e49c74009896922bf13/1436557""}","2015-11-16 11:38:00","2015-11-16 11:38:00"
  * @return array('matched'=> ,jili_email=> panelist_id=>)  or null
  */
-function getPointExchangeByPanelistId($fh, $panelist_id_input, $current)
+function getPointExchangeByPanelistId($fh, $panelist_id_input, $current )
 {
     if (empty($panelist_id_input)) {
         $current['matched'] = 0;
@@ -615,6 +616,11 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     if (isset($panelist_profile_indexs[$panelist_row[0]])) {
         $panelist_profile_row = use_file_index($panelist_profile_indexs, $panelist_row[0], $panelist_profile_file_handle, true);
 
+if(! isset($panelist_profile_row[2])) {
+echo "panelist_id:$panelist_row[0]\n";
+print_r($panelist_profile_row);
+die();
+}
         //nick profile.nickname
         $user_row[7] = $panelist_profile_row[2];
 
