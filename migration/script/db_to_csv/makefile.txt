@@ -1,7 +1,7 @@
 
 dump-jili:
 	/usr/bin/php -f jl_csv.php > /data/91jili/merge/bin/jl_csv.sh
-	scp -P9012 /data/91jili/merge/bin/jl_csv.sh config.bashrc.dist jiangtao@www.91jili.com:/data/91jili/merge/bin/
+	scp -P9012 ./db_to_csv.php  /data/91jili/merge/bin/jl_csv.sh config.bashrc.dist jiangtao@www.91jili.com:/data/91jili/merge/bin/
 #	ssh jiangtao@www.91jili 'time bash jl_csv.sh';
 
 #	scp jili_csv.sh jiangtao@${JILI_DB}:~/
@@ -17,21 +17,29 @@ dump-ww:
 	/usr/bin/php -f ww_csv.php > ww_csv.sh
 	cp config.bashrc.dist  /data/91jili/merge/bin/
 # on rpa-staff01
-#	ssh  t-jiang@rpa-staff01 'bash /mnt/tmp/merge/bin/ww_csv.sh'
-
+#	scp -P9012  jiangtao@testgroup.91jili.com:/data/91jili/merge/bin/db_to_csv.php  /mnt/tmp/merge/bin/
+#	scp -P9012  jiangtao@testgroup.91jili.com:/data/91jili/merge/bin/ww_csv.sh  /mnt/tmp/merge/bin/
+#	scp -P9012  jiangtao@testgroup.91jili.com:/data/91jili/merge/bin/config.bashrc.dist  /mnt/tmp/merge/bin/
+#	ssh  t-jiang@rpa-staff01 "bash /mnt/tmp/merge/bin/ww_csv.sh"
+# 
 # on 235 
-#  time scp t-jiang@54.254.98.246:/mnt/tmp/merge/ww_csv.tar.bz /tmp/  1>~/merge_db_scp.log  $2>1
+#  time scp t-jiang@54.254.98.246:/mnt/tmp/merge/ww_csv.tar.bz /tmp/  1>~/merge_db_scp.log  2>&1
 #  real    4m43.764s
 #  real    3m19.486s
 #
-#  time scp -P9012 /tmp/ww_csv.tar.bz jiangtao@testgroup.91jili.com:/data/91jili/merge/ 1>>~/merge_db_scp.log  $2>1
+#  time scp -P9012 /tmp/ww_csv.tar.bz jiangtao@testgroup.91jili.com:/data/91jili/merge/ 1>>~/merge_db_scp.log  2>&1
 
 #  real    0m57.179s
 #  real    0m44.756s
 
 # on testgroup.com
-# ssh jiangtao@testgroup.91jili.com -p9012 'cd /data/91jili/merge;time tar xjvf ww_csv.tar.bz'
+# ssh jiangtao@testgroup.91jili.com -p9012 'cd /data/91jili/merge;
+# /usr/bin/time -ao logs/decompress_ww.log -f "real\t%E\nuser\t%U\nsys\t%S\n" tar xjvf ww_csv.tar.bz 1> logs/decompress_ww.log 2>&1
+# '
 #  real    1m3.397s
+#
+#  sum the real time
+# grep log/   | cut -b 5-100 | awk -F '[m|s]' 'BEGIN{m=0;s=0;} { m=m+$1;s=s+$2; } END{ print  m "m" s "s"}'
 
 
 

@@ -135,7 +135,8 @@ function build_key_value_index($fh, $key_name, $val_name)
             $min_head = strpos($row, ',', $min_head) + 1;
         }
         $min_tail = strpos($row, ',', $min_head);
-        $min_col_value = strtolower(substr($row, $min_head + 1, $min_tail - $min_head - 2));
+        $min_col_value = strtolower(substr($row, $min_head , $min_tail - $min_head  ));
+        $min_col_value = trim($min_col_value ,  '"');
 
         if ($key_pos == $val_pos) {
             $index[$min_col_value] = array (
@@ -154,7 +155,8 @@ function build_key_value_index($fh, $key_name, $val_name)
             $max_tail = strlen($row) - 1;
         }
 
-        $max_col_value = strtolower(substr($row, $max_head + 1, $max_tail - $max_head - 2));
+        $max_col_value = strtolower(substr($row, $max_head , $max_tail - $max_head ));
+        $max_col_value = trim($max_col_value , '"');
 
         if ($key_pos > $val_pos) {
             $index[$max_col_value] = array (
@@ -216,8 +218,8 @@ function build_file_index($fh, $col_name = 'panelist_id')
 
         $tail_pos = strpos($row, ',', $head_pos + 1);
 
-        $col_value = strtolower(substr($row, $head_pos + 1, $tail_pos - $head_pos - 2));
-
+        $col_value = strtolower(substr($row, $head_pos , $tail_pos - $head_pos  ));
+        $col_value  = trim($col_value, '"');
         $built[$col_value] = $p;
 
         $p = ftell($fh);
