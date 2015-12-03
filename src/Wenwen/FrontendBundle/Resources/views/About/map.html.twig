@@ -18,13 +18,13 @@
 			<div class="box">
 				<h3>账户相关</h3>
 				<ul class="clearfix">
-					<li class="font16"><strong>注册登录</strong></li><li><a href="{{ path('wenwen_frontend_user_register') }}" title="注册">注册</a></li><li><a href="{{ path('wenwen_frontend_user_registeractive') }}" title="登录">登录</a></li><li><a href="{{ path('wenwen_frontend_user_weibo') }}" title="微博登录">微博登录</a></li><li><a href="{{ path('wenwen_frontend_user_resetpwd') }}" title="忘记密码">忘记密码</a></li>
+					<li class="font16"><strong>注册登录</strong></li><li><a href="{{ path('_user_reg') }}" title="注册">注册</a></li><li><a href="{{ path('wenwen_frontend_home_home') }}" title="登录">登录</a></li><li><a href="{{ path('_user_login') }}" title="微博登录">微博登录</a></li><li><a href="{{ path('_user_reset') }}" title="忘记密码">忘记密码</a></li>
 				</ul>
 				<ul class="clearfix">
-					<li class="font16"><strong>个人中心</strong></li><li><a href="{{ path('wenwen_frontend_personal_profile') }}" title="个人资料">个人资料</a></li><li><a href="{{ path('wenwen_frontend_personal_account') }}" title="账户设置">账户设置</a></li><li><a href="{{ path('wenwen_frontend_personal_task') }}" title="任务历史">任务历史</a></li><li><a href="{{ path('wenwen_frontend_personal_exchange') }}" title="兑换历史">兑换历史</a></li><li></li><li><a href="{{ path('wenwen_frontend_personal_message') }}" title="我的消息">我的消息</a></li>
+					<li class="font16"><strong>个人中心</strong></li><li><a href="{{ path('_user_info') }}" title="个人资料">个人资料</a></li><li><a href="" title="账户设置">账户设置</a></li><li><a href="{{ path('_user_adtaste',{'type':0}) }}" title="任务历史">任务历史</a></li><li><a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}" title="兑换历史">兑换历史</a></li><li></li><li><a href="{{ path('_user_message',{'sid': 1}) }}" title="我的消息">我的消息</a></li>
 				</ul>
 				<ul class="clearfix">
-					<li class="font16"><strong>账户设置</strong></li><li><a href="{{ path('wenwen_frontend_personal_account') }}" title="修改密码">修改密码</a></li><li><a href="{{ path('wenwen_frontend_personal_account') }}" title="手机号码">手机号码</a></li><li><a href="{{ path('wenwen_frontend_personal_account') }}" title="绑定设置">绑定设置</a></li><li><a href="{{ path('wenwen_frontend_personal_account') }}" title="订退邮件">订退邮件</a></li><li></li><li><a href="{{ path('wenwen_frontend_personal_account') }}" title="注销账户">注销账户</a></li>
+					<li class="font16"><strong>账户设置</strong></li><li><a href="" title="修改密码">修改密码</a></li><li><a href="" title="手机号码">手机号码</a></li><li><a href="" title="绑定设置">绑定设置</a></li><li><a href="" title="订退邮件">订退邮件</a></li><li></li><li><a href="" title="注销账户">注销账户</a></li>
 				</ul>
 			</div>
 			<div class="box">
@@ -60,7 +60,7 @@
 					<li class="font16"><strong>集团网站</strong></li><li><a target="_blank" href="http://www.researchpanelasia.com/" title="Research Panel Asia">Research Panel Asia</a></li><li><a target="_blank" href="https://research-panel.jp/" title="Japan Panel">Japan Panel</a></li><li><a target="_blank" href="http://www.panelnow.co.kr/" title="South Korea Panel">South Korea Panel</a></li>
 				</ul>
 				<ul class="clearfix">
-					<li class="font16"><strong>帮助中心</strong></li><li><a href="{{ path('_default_support') }}" title="新手上路">新手上路</a></li><li><a href="{{ path('_default_support') }}" title="常见问题">常见问题</a></li><li><a href="{{ path('wenwen_frontend_help_feedback') }}" title="我要反馈">我要反馈</a></li><li><a href="{{ path('_default_about_map') }}" title="网站地图">网站地图</a></li>
+					<li class="font16"><strong>帮助中心</strong></li><li><a href="{{ path('_default_support') }}" title="新手上路">新手上路</a></li><li><a href="{{ path('_default_support') }}" title="常见问题">常见问题</a></li><li><a href="{{ path('_default_feedback') }}" title="我要反馈">我要反馈</a></li><li><a href="{{ path('_default_about_map') }}" title="网站地图">网站地图</a></li>
 				</ul>
 			</div>
 		</div>
