@@ -128,45 +128,52 @@ function build_key_value_index($fh, $key_name, $val_name)
     $max_col_seq = substr_count(substr($title, 0, $max_pos), ',');
 
     $index = array ();
+    $csv_line = '';
     while ($row = fgets($fh )) {
+        $csv_line .= $row;
+        if( "\r\n" == substr($row, -2) ) {
+            continue;
+        }
 
         $min_head = 0;
         for ($i = $min_col_seq; $i > 0; $i--) {
-            $min_head = strpos($row, ',', $min_head) + 1;
+            $min_head = strpos($csv_line, ',', $min_head) + 1;
         }
-        $min_tail = strpos($row, ',', $min_head);
-        $min_col_value = strtolower(substr($row, $min_head, $min_tail - $min_head ));
+        $min_tail = strpos($csv_line, ',', $min_head);
+        $min_col_value = strtolower(substr($csv_line, $min_head, $min_tail - $min_head ));
         $min_col_value = trim($min_col_value ,  '"');
 
         if ($key_pos == $val_pos) {
             $index[$min_col_value] = array (
-                $val_name => $min_col_value
-            );
+                    $val_name => $min_col_value
+                    );
             continue;
         }
         $max_head = $min_tail;
         for ($i = $max_col_seq - $min_col_seq; $i > 0; $i--) {
-            $max_head = strpos($row, ',', $max_head) + 1;
+            $max_head = strpos($csv_line, ',', $max_head) + 1;
         }
 
-        $max_tail = strpos($row, ',', $max_head);
+        $max_tail = strpos($csv_line, ',', $max_head);
 
         if ($max_tail === false) {
-            $max_tail = strlen($row) - 1;
+            $max_tail = strlen($csv_line) - 1;
         }
 
-        $max_col_value = strtolower(substr($row, $max_head , $max_tail - $max_head ));
+        $max_col_value = strtolower(substr($csv_line, $max_head , $max_tail - $max_head ));
         $max_col_value = trim($max_col_value , '"');
 
         if ($key_pos > $val_pos) {
             $index[$max_col_value] = array (
-                $val_name => $min_col_value
-            );
+                    $val_name => $min_col_value
+                    );
         } else {
             $index[$min_col_value] = array (
-                $val_name => $max_col_value
-            );
+                    $val_name => $max_col_value
+                    );
         }
+
+        $csv_line = '';
     }
 
     return $index;
@@ -203,26 +210,33 @@ function build_file_index($fh, $col_name = 'panelist_id')
         return; //
     }
 
+
     $col_seq = substr_count(substr($title, 0, $col_pos  ), ',');
 
     $p = ftell($fh);
 
     $built = array ();
+    $csv_line = '';
     while ($row = fgets($fh)) {
+        $csv_line .= $row;
+        if( "\r\n" == substr($row, -2) ) {
+           continue;
+        }
 
         $head_pos = 0;
 
         for ($i = $col_seq; $i > 0; $i--) {
-            $head_pos = strpos($row, ',', $head_pos)  +1;
+            $head_pos = strpos($csv_line, ',', $head_pos) + 1;
         }
 
-        $tail_pos = strpos($row, ',', $head_pos );
-
-        $col_value = strtolower(substr($row, $head_pos , $tail_pos - $head_pos ));
+        $tail_pos = strpos($csv_line, ',', $head_pos );
+        $col_value = strtolower(substr($csv_line, $head_pos , $tail_pos - $head_pos ));
         $col_value  = trim($col_value, '"');
+
         $built[$col_value] = $p;
 
         $p = ftell($fh);
+        $csv_line = '';
     }
 
     return $built;
@@ -238,7 +252,8 @@ function use_file_index(&$index, $col_val, $fh, $with_unset = true)
     if ($with_unset) {
         unset($index[$col_val]);
     }
-    return fgetcsv($fh,0);
+
+    return fgetcsv($fh,2048, ',','"','"');
 }
 
 /**
@@ -616,11 +631,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     if (isset($panelist_profile_indexs[$panelist_row[0]])) {
         $panelist_profile_row = use_file_index($panelist_profile_indexs, $panelist_row[0], $panelist_profile_file_handle, true);
 
-if(! isset($panelist_profile_row[2])) {
-echo "panelist_id:$panelist_row[0]\n";
-print_r($panelist_profile_row);
-die();
-}
         //nick profile.nickname
         $user_row[7] = $panelist_profile_row[2];
 
@@ -632,7 +642,6 @@ die();
 
         //fav_music: profile.fav_music
         $user_row[35] = $panelist_profile_row[7];
-
         //monthly_wish:profile.monthly_wish
         $user_row[36] = $panelist_profile_row[8];
     }

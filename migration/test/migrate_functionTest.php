@@ -400,6 +400,97 @@ EOD
   {
     $fh = fopen('php://memory','r+');
     fwrite($fh, <<<EOD
+id,panelist_id,nickname,show_sex,show_birthday,biography,hobby,fav_music,monthly_wish,website_url,updated_at,created_at
+14436,2471,安森,1,1,"我想所有的事情都有它结束的劫数，
+正如我手中的每一枚香烟。
+当无法延续的时候，
+就要懂得放手，懂得结束。可我并不潇洒
+我总是将烟放下之后，还舍不得熄灭",音乐,轻音乐,顺顺利利就好,,"2010-12-22 13:16:27","2010-12-22 13:16:11"
+80229,2720,落翎葬,0,0,"不如意事常八九，可与人言无二三
+",看书,,,,"2011-10-31 22:56:10","2011-10-31 22:56:10"
+30195,137921,Goking_Bo,1,1," __呮想咹咹靜靜   
+　   ‘*..★'*
+　     ☆　 　★
+   ★.＠＠.＠＠.＠＠.★
+　    ＼﹋★★﹋/ /／       
+         開開❤❤",篮球，足球，看书，音乐,很多,希望心里的TA健康！,,"2011-03-05 11:43:35","2011-03-05 11:43:35"
+14373,142703,海无颜,1,0,"                                         鸟啼花落
+                                         皆与神通
+                                         人不能悟
+                                         付之飘风",,,,,"2010-12-22 11:48:16","2010-12-22 11:48:16"
+3079,466118,思念远方的你,1,1,"
+
+
+看完《投名状》发现，兄弟靠不住 
+
+看完《集结号》发现，组织靠不住 
+
+看完《妈妈再爱我一次》发现，老爸靠不住 
+
+看完《新警察故事》发现，儿子靠不住 
+
+看完《满城尽带黄金甲》发现，老婆老公靠不住 
+
+看完《红楼梦》发现，祖母和嫂子也靠不住 
+
+
+看完《西游记》发现，师傅靠不住 
+
+看完《霍元甲》发现，徒弟靠不住 
+
+看完《无间道》发现，警察靠不住 
+
+看完《水浒》发现，领导靠不住 
+
+看完《肖申克的救赎》发现，出纳靠不住 
+
+看完《史密斯夫妇》发现，公司也是靠不住的 
+
+
+看完《无极》发现，馒头靠不住 
+
+看完《青蛇》发现，动物靠不住 
+
+看完《越狱》发现，牢房靠不住 
+
+看完《阳光灿烂的日子》发现，避孕套靠不住 
+
+看完《午夜凶铃》发现，电话靠不住，电视更靠不住 
+
+看完《疯狂的石头》发现，国际高手是靠不住滴 
+
+
+看完《长江7号》发现，地球人靠不住 
+
+看完《变形金刚》发现，外星人也靠不住 
+
+看完《黑客帝国》发现，一切现实都靠不住 
+
+结论：只有“我”靠得住 
+
+",玩,伤感歌曲,找到一个自己爱的人,,"2010-12-14 18:06:47","2010-12-14 18:06:47"
+2225,484258,简荇,1,0,"瀞瀞dê ⒈個人︵.o.︵.o.
+
+          、 '╅`、    站在⑽字架喕前```
+        、‖  
+             
+ゃ.        __‖ __、       黙黙許願..  
+
+你要幸福...!",,,,,"2010-12-14 20:36:24","2010-12-14 12:53:41"
+EOD
+);
+
+    $index = build_file_index($fh);
+    $this->assertCount(6, $index,'lines with carriage');
+    fclose($fh);
+    $this->assertArrayHasKey('2471', $index, 'panelist_id  ');
+    $this->assertArrayHasKey('2720', $index, 'panelist_id  ');
+    $this->assertArrayHasKey('137921', $index, 'panelist_id  ');
+    $this->assertArrayHasKey('466118', $index, 'panelist_id  ');
+    $this->assertArrayHasKey('484258', $index, 'panelist_id  ');
+
+    $fh = fopen('php://memory','r+');
+    fwrite($fh, <<<EOD
 "panelist_id","mobile_number","status_flag","updated_at","created_at"
 "6","13052550759","1","2012-10-20 13:13:01","2012-10-20 13:13:01"
 "2230806","17715018917","1","2015-11-17 17:16:38","2015-11-17 17:16:38"
@@ -616,6 +707,19 @@ EOD
 
   function test_use_file_index() 
   {
+
+    $fh = fopen('php://memory','r+');
+    fwrite($fh, <<<EOD
+id,panelist_id,nickname,show_sex,show_birthday,biography,hobby,fav_music,monthly_wish,website_url,updated_at,created_at
+32856,11036,我心永飞翔,1,1,潜心修炼,"足球\旅游",白狐,和阿娟在一起,,"2011-04-19 09:00:18","2011-04-19 09:00:05"
+EOD
+);
+    $index = build_file_index($fh);
+
+    $return = use_file_index( $index, 11036,$fh , false);
+    $this->assertCount(12, $return,'csv array return' );
+
+
     $fh = fopen('php://memory','r+');
     fwrite($fh, <<<EOD
 id,panelist_id,nickname,show_sex,show_birthday,biography,hobby,fav_music,monthly_wish,website_url,updated_at,created_at
@@ -655,7 +759,7 @@ EOD
     $return = use_file_index( $index, 6,$fh , true);
     $this->assertCount(1, $index);
 
-fclose($fh);
+    fclose($fh);
 
     $fh = fopen('php://memory','r+');
     fwrite($fh, <<<EOD
@@ -675,9 +779,14 @@ id,panelist_id,nickname,show_sex,show_birthday,biography,hobby,fav_music,monthly
 419133,2240863,多拉拉,0,0,,,,,,"2015-12-02 15:45:45","2015-12-02 15:45:45"
 419134,2240864,LiangD,0,0,,,,,,"2015-12-02 15:46:04","2015-12-02 15:46:04"
 419135,2240865,wood2508,0,0,,,,,,"2015-12-02 15:47:39","2015-12-02 15:47:39"
-419136,2240867,jyq33404,0,0,,,,,,"2015-12-02 15:48:03","2015-12-02 15:48:03"
-419137,2240868,linlin0927,0,0,,,,,,"2015-12-02 15:50:22","2015-12-02 15:50:22"
-24408,78912,做了也就做了,1,1,,花钱,,有花不完的钱,,"2011-01-22 13:11:13","2011-01-22 13:11:13"
+51780,654709,小刺一一,1,1,"谢谢你们
+我的名字叫做小刺。",旅游,很多,赚钱,,"2011-07-22 21:28:14","2011-07-22 21:28:14"
+51735,654510,李江华,1,1,"如果不坚强，懦弱给谁？
+",打球，篮球,dj等等吧..,还没呢,,"2011-07-22 17:44:27","2011-07-22 17:44:27"
+51844,654285,chanel,1,1,"c
+V ","music ","i swear"," buy popular telphone ",,"2011-07-23 09:49:55","2011-07-23 09:49:55"
+51633,654159,蜗牛_木木,1,1,"为了儿子为了生活
+",12,12,有花不完的钱,,"2011-07-27 12:18:36","2011-07-22 12:26:46"
 419139,2240870,翁乐天,0,0,,,,,,"2015-12-02 15:52:46","2015-12-02 15:52:46"
 EOD
 );
@@ -687,11 +796,16 @@ EOD
     $row = use_file_index($index,177 , $fh, true);
     $this->assertCount(12, $row,'profile has  12 items');
 
-    $row = use_file_index($index,78912, $fh, true);
+    $row = use_file_index($index,654159, $fh, true);
+
+    $this->assertCount(12, $row, 'profile has  12 items');
+
+    $row = use_file_index($index,654285, $fh, true);
+    $this->assertCount(12, $row, 'profile has  12 items');
+
+    $row = use_file_index($index,654709, $fh, true);
     $this->assertCount(12, $row, 'profile has  12 items');
     fclose($fh);
-
-
   }
 
   function test_use_key_value_index() 
