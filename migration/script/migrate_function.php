@@ -584,6 +584,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //password_choice
     $user_row[34] = Constants::$password_choice['pwd_wenwen'];
 
+    var_dump($user_row[11]);
     //tel: panel_91wenwen_panelist_mobile_number.mobile_number
     global $panelist_mobile_indexs;
     if (isset($panelist_mobile_indexs[$panelist_row[0]])) {
@@ -593,7 +594,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[11] = 1;
     } else {
         //is_tel_confirmed
-        $user_row[11] = 0;
+//        $user_row[11] = 0;
     }
 
     //province , city : panelist.panel_region_id
