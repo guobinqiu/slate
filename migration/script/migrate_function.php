@@ -540,7 +540,9 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[1] = $panelist_row[3];
 
     //password
-    $user_row[2] = $panelist_row[5];
+    if( ! isset($user_row[2]) ) {
+        $user_row[2] = ''; //$panelist_row[5];
+    }
 
     //is_email_confirmed
     $user_row[3] = 1;
