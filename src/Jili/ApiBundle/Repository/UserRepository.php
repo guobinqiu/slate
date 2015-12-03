@@ -733,14 +733,14 @@ EOT;
      * @param array array('id'=> , 'points');
      * @return integer rows updated
      */
-    public function updatePointById($params) 
+    public function updatePointById($params)
     {
         $em = $this->getEntityManager();
         $stm = $em->getConnection()->prepare('update user u set u.points = u.points + :points where u.id  = :id');
         return $stm->execute($params);
     }
 
-    public function migrateUserWenwenLogin($password, $user_id) 
+    public function migrateUserWenwenLogin($password, $user_id)
     {
         $user = new User();
         $new_pwd= $user->pw_encode($password);
@@ -753,5 +753,71 @@ EOT;
         ));
 
         return  $sql_update->execute();
+    }
+
+    public function getSearchUserList($values, $type)
+    {
+        $param = array ();
+
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode,sp.id as app_mid');
+
+        $query = $query->Where('1 = 1');
+
+        if (isset($values['app_mid']) && $type == 'registered') {
+            $query = $query->innerJoin('JiliApiBundle:SopRespondent', 'sp', 'WITH', 'u.id = sp.userId');
+            $query = $query->andWhere('sp.id = :app_mid');
+            $param['app_mid'] = $values['app_mid'];
+        } else {
+            $query = $query->leftJoin('JiliApiBundle:SopRespondent', 'sp', 'WITH', 'u.id = sp.userId');
+        }
+
+        if (isset($values['user_id'])) {
+            $query = $query->andWhere('u.id = :id');
+            $param['id'] = $values['user_id'];
+        }
+
+        if (isset($values['email'])) {
+            $query = $query->andWhere('u.email = :email');
+            $param['email'] = $values['email'];
+        }
+
+        if (isset($values['nickname'])) {
+            $query = $query->andWhere('u.nick LIKE :nick');
+            $param['nick'] = '%' . $values['nickname'] . '%';
+        }
+
+        if (isset($values['mobile_number'])) {
+            $query = $query->andWhere('u.tel = :tel');
+            $param['tel'] = $values['mobile_number'];
+        }
+
+        if (isset($values['birthday'])) {
+            $query = $query->andWhere('u.birthday = :birthday');
+            $param['birthday'] = $values['birthday'];
+        }
+
+        if (isset($values['registered_from'])) {
+            $query = $query->andWhere('u.registerDate >= :registerDate');
+            $param['registerDate'] = $values['registered_from'] . ' 00:00:00';
+        }
+
+        if (isset($values['registered_to'])) {
+            $query = $query->andWhere('u.registerDate <= :registerDate');
+            $param['registerDate'] = $values['registered_to'] . ' 23:59:59';
+        }
+
+        if ($type == 'registered') {
+            $query = $query->andWhere('u.deleteFlag IS NULL OR u.deleteFlag = 0');
+        } elseif ($type == 'withdrawal') {
+            $query = $query->andWhere('u.deleteFlag = 1');
+        }
+
+        $query = $query->addOrderBy('u.id', 'DESC');
+
+        $query = $query->setParameters($param);
+        $query = $query->getQuery();
+        // echo $query->getSql();
+        return $query->getResult();
     }
 }

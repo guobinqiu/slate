@@ -380,6 +380,15 @@ parameters:
     jili_app.logs_dir: /data/91jili/logs
     admin_vote_log_path: /data/91jili/logs/admin/admin_vote.log
     vote_suggest_mail_to: support@91wenwen.com
+
+    sop:
+        partner_id: 1
+        admin_host:   staff.surveyon.com.dev.researchpanelasia.com
+        console_host: console.partners.surveyon.com.dev.researchpanelasia.com
+        auth:
+            app_id: 24
+            app_secret: 1413548805-7b6639b3944e1fc12dfb8676deee8759c3fa6250
+
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%
