@@ -1,0 +1,159 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block title %}
+{{ parent()}} - panel search
+{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+<link href="{{ asset('css/pagenav.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+{{ parent()}}
+<script src="{{ asset('js/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
+{% endblock %}
+
+{% block body%}
+
+<h1>panel search</h1>
+<form id="panelsearch" method="post" action="{{ path('_admin_panelist_index')}}" >
+    <div class="float_left">
+        <table>
+            <tr>
+                <th>{{form_label(form.user_id)}}</th>
+                <td>{{form_widget(form.user_id)}}</td>
+            </tr>
+            <tr>
+                <th>{{form_label(form.app_mid)}}</th>
+                <td>{{form_widget(form.app_mid)}}</td>
+            </tr>
+            <tr>
+                  <th>{{form_label(form.email)}}</th>
+                  <td>{{form_widget(form.email)}}</td>
+            </tr>
+            <tr>
+                <th>{{form_label(form.nickname)}}</th>
+                <td>{{form_widget(form.nickname)}}</td>
+            </tr>
+            <tr>
+                <th>{{form_label(form.mobile_number)}}</th>
+                <td>{{form_widget(form.mobile_number)}}</td>
+            </tr>
+            <tr>
+                <th>{{form_label(form.birthday)}}</th>
+                <td>{{form_widget(form.birthday, {'attr': {'class':'Wdate', 'onClick':'WdatePicker()','style':'cursor:pointer' }})}}</td>
+            </tr>
+            <tr>
+                <th>{{form_label(form.registered_from)}}</th>
+                <td>{{form_widget(form.registered_from, {'attr': {'class':'Wdate', 'onClick':'WdatePicker()','style':'cursor:pointer' }})}}</td>
+            </tr>
+            <tr>
+                <th>{{form_label(form.registered_to)}}</th>
+                <td>{{form_widget(form.registered_to, {'attr': {'class':'Wdate', 'onClick':'WdatePicker()','style':'cursor:pointer' }})}}</td>
+            </tr>
+            <tr>
+                <th>{{form_label(form.type_registered)}}</th>
+                <td>{{form_widget(form.type_registered)}}</td>
+            </tr>
+            <tr>
+                <th>{{form_label(form.type_withdrawal)}}</th>
+                <td>{{form_widget(form.type_withdrawal)}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="clear_both">
+        <input type="submit" name="s" value="search">
+    </div>
+</form>
+
+{% if pagination_registered is defined  or pagination_withdrawal is defined %}
+<h2>result</h2>
+ {% endif %}
+ 
+ {% if pagination_registered is defined %}
+<table>
+    <tr>
+        <th>PID</th>
+        <th>App MID</th>
+        <th>email</th>
+        <th>birthday</th>
+        <th>gender</th>
+        <th>nickname</th>
+        <th>mobile number</th>
+        <th>register date</th>
+        <th>last-login date</th>
+        <th>ip</th>
+        <th>route</th>
+        <th>activity detail</th>
+        <th>PID</th>
+    </tr>
+        {% for item in pagination_registered %}
+    <tr>
+        <td align="left">{{ item.id}}</td>
+        <td align="left">
+        {% if item.app_mid is defined %}
+        <a href={{ "https://%s/sop/partners/p/%d/a/%d/app_member?app_mid=%d"|format(sop.admin_host, sop.partner_id,sop.auth.app_id,item.app_mid)}} target="_blank">{{ item.app_mid}}</a>
+        {% endif %}
+        </td>
+        <td align="left">{{ item.email}}</td>
+        <td align="left">{{ item.birthday}}</td>
+        <td align="left">{{ item.sex == '1' ? 'male' : (item.sex == '2' ? 'female' : '')}}</td>
+        <td align="left">{{ item.nick}}</td>
+        <td align="left">{{ item.tel is null ? '--' : item.tel}}</td>
+        <td align="left">{{ item.registerDate | date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.lastLoginDate| date("Y-m-d H:i:s")}}</td>
+        <td align="left">{{ item.createdRemoteAddr}}</td>
+        <td align="left">{{ item.campaignCode}}</td>
+        <td align="left">activity detail</td>
+        <td align="left">{{ item.id}}</td>
+   </tr>
+    {% endfor %}
+    <tr>
+    <td colspan="5">
+    {% if pagination_registered is defined %}{{ knp_pagination_render(pagination_registered) }}{%endif %}
+    </td>
+    </tr>
+</table>
+ {% endif %}
+ 
+ {% if pagination_withdrawal is defined %}
+<table>
+    <tr>
+        <th>PID</th>
+        <th>email</th>
+        <th>birthday</th>
+        <th>gender</th>
+        <th>nickname</th>
+        <th>mobile number</th>
+        <th>register date</th>
+        <th>last-login date</th>
+        <th>ip</th>
+        <th>route</th>
+        <th>PID</th>
+    </tr>
+    {% for item in pagination_withdrawal %}
+    <tr>
+        <td align="left">{{ item.id}}</td>
+        <td align="left">{{ item.email}}</td>
+        <td align="left">{{ item.birthday}}</td>
+        <td align="left">{{ item.sex}}</td>
+        <td align="left">{{ item.nick}}</td>
+        <td align="left">{{ item.tel}}</td>
+        <td align="left">{{ item.registerDate | date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.lastLoginDate| date("Y-m-d H:i:s")}}</td>
+        <td align="left">{{ item.createdRemoteAddr}}</td>
+        <td align="left">{{ item.campaignCode}}</td>
+        <td align="left">{{ item.id}}</td>
+   </tr>
+    {% endfor %}
+    <tr>
+    <td colspan="5">
+    {% if pagination_withdrawal is defined %}{{ knp_pagination_render(pagination_withdrawal) }}{%endif %}
+    </td>
+    </tr>
+</table>
+ {% endif %}
+
+{% endblock %}
