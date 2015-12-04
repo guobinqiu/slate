@@ -25,11 +25,14 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
      */
     public function searchAction(Request $request)
     {
-        $maxrows = 50;
+        $page = $request->request->get('page', 1);
+        $pageSize = 50;
         $em = $this->getDoctrine()->getManager();
 
         //create vote form
         $form = $this->createForm(new PanelistSearchType());
+        $pagination = null;
+        $total_count = 0;
 
         if ($request->getMethod() === 'POST') {
             $form->bind($request);
@@ -44,28 +47,45 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
                 if ($values['type_registered'] == 1) {
                     $registeredList = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'registered');
-
-                    //分页显示
-                    $arr['pagination_registered'] = $paginator->paginate($registeredList, $request->query->get('page', 1), $maxrows);
+                    $arr['pagination_registered'] = $paginator->paginate($registeredList, $page, $pageSize);
                     $arr['pagination_registered']->setTemplate('JiliApiBundle::pagination.html.twig');
+
+                    if ($arr['pagination_registered']->getTotalItemCount() > 0) {
+                        $pagination = $arr['pagination_registered'];
+                        $total_count = $arr['pagination_registered']->getTotalItemCount();
+                    }
                 }
                 if ($values['type_withdrawal'] == 1) {
                     $withdrawalList = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'withdrawal');
-                    //分页显示
-                    $arr['pagination_withdrawal'] = $paginator->paginate($withdrawalList, $request->query->get('page', 1), $maxrows);
-                    $arr['pagination_withdrawal']->setTemplate('JiliApiBundle::pagination.html.twig');
-                }
 
+                    $arr['pagination_withdrawal'] = $paginator->paginate($withdrawalList, $page, $pageSize);
+                    $arr['pagination_withdrawal']->setTemplate('JiliApiBundle::pagination.html.twig');
+
+                    if ($arr['pagination_withdrawal']->getTotalItemCount() > $total_count || ($total_count == 0 && $arr['pagination_withdrawal']->getTotalItemCount() > 0)) {
+                        $pagination = $arr['pagination_withdrawal'];
+                    }
+                }
                 $arr['form'] = $form->createView();
                 $arr['sop'] = $sop;
+                $arr['pagination'] = $pagination;
+                $arr['total_count'] = $total_count;
                 return $this->render('JiliBackendBundle:Panelist:search.html.twig', $arr);
             }
         }
 
         //todo: 了解一下enqueteHistory, PartnerPublicationPanelistManager
 
+
         return $this->render('JiliBackendBundle:Panelist:search.html.twig', array (
             'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Route("/edit", name="_admin_panelist_edit")
+     */
+    public function editAction(Request $request)
+    {
+
     }
 }
