@@ -777,69 +777,82 @@ EOT;
         return $sql_update->execute();
     }
 
-    public function getSearchUserList($values, $type)
+    public function getSearchUserCount($values, $type)
     {
         $param = array ();
+        $em = $this->getEntityManager();
 
-        $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode,sp.id as app_mid');
+        $sql = 'SELECT COUNT(u) FROM JiliApiBundle:User u';
+        $sql = $sql . $this->getSearchUserSqlCondition($values, $type);
 
-        $query = $query->Where('1 = 1');
+        $count = $em->createQuery($sql)->getSingleScalarResult();
+        return $count;
+    }
 
+    public function getSearchUserSql($values, $type)
+    {
+        $param = array ();
+        $em = $this->getEntityManager();
+
+        $sql = 'SELECT u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode FROM JiliApiBundle:User u';
         if (isset($values['app_mid']) && $type == 'registered') {
-            $query = $query->innerJoin('JiliApiBundle:SopRespondent', 'sp', 'WITH', 'u.id = sp.userId');
-            $query = $query->andWhere('sp.id = :app_mid');
-            $param['app_mid'] = $values['app_mid'];
+            $sql .= ' INNER JOIN JiliApiBundle:SopRespondent sp WITH u.id = sp.userId';
         } else {
-            $query = $query->leftJoin('JiliApiBundle:SopRespondent', 'sp', 'WITH', 'u.id = sp.userId');
+            $sql .= ' LEFT JOIN JiliApiBundle:SopRespondent sp WITH u.id = sp.userId';
         }
 
+        $sql = $sql . $this->getSearchUserSqlCondition($values, $type);
+
+        return $sql;
+    }
+
+    public function getSearchUserSqlCondition($values, $type)
+    {
+        $sql = ' WHERE 1=1';
+
         if (isset($values['user_id'])) {
-            $query = $query->andWhere('u.id = :id');
+            $sql .= ' AND u.id = :id';
             $param['id'] = $values['user_id'];
         }
 
         if (isset($values['email'])) {
-            $query = $query->andWhere('u.email = :email');
+            $sql .= ' AND u.email = :email';
             $param['email'] = $values['email'];
         }
 
         if (isset($values['nickname'])) {
-            $query = $query->andWhere('u.nick LIKE :nick');
+            $sql .= ' AND u.nick LIKE :nick';
             $param['nick'] = '%' . $values['nickname'] . '%';
         }
 
         if (isset($values['mobile_number'])) {
-            $query = $query->andWhere('u.tel = :tel');
+            $sql .= ' AND u.tel = :tel';
             $param['tel'] = $values['mobile_number'];
         }
 
         if (isset($values['birthday'])) {
-            $query = $query->andWhere('u.birthday = :birthday');
+            $sql .= ' AND u.birthday = :birthday';
             $param['birthday'] = $values['birthday'];
         }
 
         if (isset($values['registered_from'])) {
-            $query = $query->andWhere('u.registerDate >= :registerDate');
+            $sql .= ' AND u.registerDate >= :registerDate';
             $param['registerDate'] = $values['registered_from'] . ' 00:00:00';
         }
 
         if (isset($values['registered_to'])) {
-            $query = $query->andWhere('u.registerDate <= :registerDate');
+            $sql .= ' AND u.registerDate <= :registerDate';
             $param['registerDate'] = $values['registered_to'] . ' 23:59:59';
         }
 
         if ($type == 'registered') {
-            $query = $query->andWhere('u.deleteFlag IS NULL OR u.deleteFlag = 0');
+            $sql .= ' AND u.deleteFlag IS NULL OR u.deleteFlag = 0';
         } elseif ($type == 'withdrawal') {
-            $query = $query->andWhere('u.deleteFlag = 1');
+            $sql .= 'AND u.deleteFlag = 1';
         }
 
-        $query = $query->addOrderBy('u.id', 'DESC');
+        $sql .= ' ORDER BY u.id DESC';
 
-        $query = $query->setParameters($param);
-        $query = $query->getQuery();
-        // echo $query->getSql();
-        return $query->getResult();
+        return $sql;
     }
 }

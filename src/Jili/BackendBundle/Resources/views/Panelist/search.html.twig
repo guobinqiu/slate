@@ -21,8 +21,12 @@
 $(function() {
     $('ul.pageNav li').click(function(e) {
         var page = $(this).text();
-        $('input#page').attr('value', page);
+        var tmp_page = $('input#panelsearch_pager_page').attr('value');
+
+        $('input#panelsearch_pager_page').attr('value', Number(page));
         $('form#panelsearch').submit();
+
+        $('input#panelsearch_pager_page').attr('value', Number(tmp_page));
         return false;
     });
 });
@@ -30,7 +34,7 @@ $(function() {
 
 <h1>panel search</h1>
 <form id="panelsearch" method="post" action="{{ path('_admin_panelist_index') }}" >
-    <input type="hidden" name="page" id="page" value="">
+    <input type="hidden" name="page" id="panelsearch_pager_page" value="">
     <div class="float_left">
         <table>
             <tr>
@@ -85,7 +89,7 @@ $(function() {
 {% endif %}
 
 {% if pagination_registered is defined %}
- <h3>registered user</h3>
+ <h3>registered user {{registeredCount}}</h3>
 <table>
     <tr>
         <th>PID</th>
@@ -127,7 +131,7 @@ $(function() {
  {% endif %}
 
  {% if pagination_withdrawal is defined %}
-  <h3>withdrawal user</h3>
+  <h3>withdrawal user {{withdrawalCount}}</h3>
 <table>
     <tr>
         <th>PID</th>
@@ -159,9 +163,10 @@ $(function() {
     {% endfor %}
 </table>
 {% endif %}
-
-{% if pagination is defined and pagination is not null %}
-{{ knp_pagination_render(pagination) }}
+{% if registeredCount > withdrawalCount %}
+    {{ knp_pagination_render(pagination_registered) }}
+{% elseif withdrawalCount > registeredCount %}
+    {{ knp_pagination_render(pagination_withdrawal) }}
 {% endif %}
 
 {% endblock %}

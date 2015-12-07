@@ -25,14 +25,20 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
      */
     public function searchAction(Request $request)
     {
+
         $page = $request->request->get('page', 1);
-        $pageSize = 50;
+        if(!$page){
+           $page = $request->query->get('page', 1);
+        }
+
+        $pageSize = 2;
         $em = $this->getDoctrine()->getManager();
 
         //create vote form
         $form = $this->createForm(new PanelistSearchType());
         $pagination = null;
-        $total_count = 0;
+        $registeredCount = 0;
+        $withdrawalCount = 0;
 
         if ($request->getMethod() === 'POST') {
             $form->bind($request);
@@ -46,39 +52,42 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
                 $paginator = $this->get('knp_paginator');
 
                 if ($values['type_registered'] == 1) {
-                    $registeredList = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'registered');
-                    $arr['pagination_registered'] = $paginator->paginate($registeredList, $page, $pageSize);
+                    $registeredCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'registered');
+                    $registeredSql = $em->getRepository('JiliApiBundle:User')->getSearchUserSql($values, 'registered');
+                    $registeredQuery = $em->createQuery($registeredSql)->setHint('knp_paginator.count', $registeredCount);
+                    $arr['pagination_registered'] = $paginator->paginate($registeredQuery, $page, $pageSize, array (
+                        'distinct' => false
+                    ));
+
+                    echo "<br>line_".__LINE__."_aaaaaaaaaa<pre>";
+                    print_r($arr['pagination_registered']);
                     $arr['pagination_registered']->setTemplate('JiliApiBundle::pagination.html.twig');
-
-                    if ($arr['pagination_registered']->getTotalItemCount() > 0) {
-                        $pagination = $arr['pagination_registered'];
-                        $total_count = $arr['pagination_registered']->getTotalItemCount();
-                    }
                 }
+
                 if ($values['type_withdrawal'] == 1) {
-                    $withdrawalList = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'withdrawal');
-
-                    $arr['pagination_withdrawal'] = $paginator->paginate($withdrawalList, $page, $pageSize);
+                    $withdrawalCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'withdrawal');
+                    $withdrawalSql = $em->getRepository('JiliApiBundle:User')->getSearchUserSql($values, 'withdrawal', $withdrawalCount);
+                    $withdrawalQuery = $em->createQuery($withdrawalSql)->setHint('knp_paginator.count', $withdrawalCount);
+                    $arr['pagination_withdrawal'] = $paginator->paginate($withdrawalQuery, $page, $pageSize, array (
+                        'distinct' => false
+                    ));
                     $arr['pagination_withdrawal']->setTemplate('JiliApiBundle::pagination.html.twig');
-
-                    if ($arr['pagination_withdrawal']->getTotalItemCount() > $total_count || ($total_count == 0 && $arr['pagination_withdrawal']->getTotalItemCount() > 0)) {
-                        $pagination = $arr['pagination_withdrawal'];
-                    }
                 }
-                $arr['form'] = $form->createView();
+
                 $arr['sop'] = $sop;
-                $arr['pagination'] = $pagination;
-                $arr['total_count'] = $total_count;
-                return $this->render('JiliBackendBundle:Panelist:search.html.twig', $arr);
+
             }
         }
 
         //todo: 了解一下enqueteHistory, PartnerPublicationPanelistManager
 
 
-        return $this->render('JiliBackendBundle:Panelist:search.html.twig', array (
-            'form' => $form->createView()
-        ));
+        $arr['page'] = $page;
+        $arr['form'] = $form->createView();
+        $arr['registeredCount'] = $registeredCount;
+        $arr['withdrawalCount'] = $withdrawalCount;
+
+        return $this->render('JiliBackendBundle:Panelist:search.html.twig', $arr);
     }
 
     /**
@@ -86,6 +95,5 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
      */
     public function editAction(Request $request)
     {
-
     }
 }
