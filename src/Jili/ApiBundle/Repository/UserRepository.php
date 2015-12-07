@@ -795,11 +795,11 @@ EOT;
         $em = $this->getEntityManager();
 
         $sql = 'SELECT u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode FROM JiliApiBundle:User u';
-        if (isset($values['app_mid']) && $type == 'registered') {
-            $sql .= ' INNER JOIN JiliApiBundle:SopRespondent sp WITH u.id = sp.userId';
-        } else {
-            $sql .= ' LEFT JOIN JiliApiBundle:SopRespondent sp WITH u.id = sp.userId';
-        }
+//         if (isset($values['app_mid']) && $type == 'registered') {
+//             $sql .= ' INNER JOIN JiliApiBundle:SopRespondent sp WITH u.id = sp.userId';
+//         } else {
+//             $sql .= ' LEFT JOIN JiliApiBundle:SopRespondent sp WITH u.id = sp.userId';
+//         }
 
         $sql = $sql . $this->getSearchUserSqlCondition($values, $type);
 
