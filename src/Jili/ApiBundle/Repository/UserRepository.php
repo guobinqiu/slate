@@ -779,80 +779,82 @@ EOT;
 
     public function getSearchUserCount($values, $type)
     {
-        $param = array ();
-        $em = $this->getEntityManager();
-
-        $sql = 'SELECT COUNT(u) FROM JiliApiBundle:User u';
-        $sql = $sql . $this->getSearchUserSqlCondition($values, $type);
-
-        $count = $em->createQuery($sql)->getSingleScalarResult();
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('COUNT(u.id)');
+        $query = $this->getSearchUserSqlQuery($query, $values, $type);
+        $count = $query->getSingleScalarResult();
         return $count;
     }
 
-    public function getSearchUserSql($values, $type)
+    public function getSearchUserSql($values, $type, $pageSize, $currentPage)
     {
-        $param = array ();
-        $em = $this->getEntityManager();
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode,sp.id as app_mid');
+        $query = $this->getSearchUserSqlQuery($query, $values, $type);
+        $query = $query->setFirstResult($pageSize * ($currentPage - 1));
+        $query = $query->setMaxResults($pageSize);
 
-        $sql = 'SELECT u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode FROM JiliApiBundle:User u';
-//         if (isset($values['app_mid']) && $type == 'registered') {
-//             $sql .= ' INNER JOIN JiliApiBundle:SopRespondent sp WITH u.id = sp.userId';
-//         } else {
-//             $sql .= ' LEFT JOIN JiliApiBundle:SopRespondent sp WITH u.id = sp.userId';
-//         }
-
-        $sql = $sql . $this->getSearchUserSqlCondition($values, $type);
-
-        return $sql;
+        return $query->getResult();
     }
 
-    public function getSearchUserSqlCondition($values, $type)
+    public function getSearchUserSqlQuery($query, $values, $type)
     {
-        $sql = ' WHERE 1=1';
+        $query = $query->Where('1 = 1');
+        $param = array ();
+
+        if (isset($values['app_mid']) && $type == 'registered') {
+            $query = $query->innerJoin('JiliApiBundle:SopRespondent', 'sp', 'WITH', 'u.id = sp.userId');
+            $query = $query->andWhere('sp.id = :app_mid');
+            $param['app_mid'] = $values['app_mid'];
+        } else {
+            $query = $query->leftJoin('JiliApiBundle:SopRespondent', 'sp', 'WITH', 'u.id = sp.userId');
+        }
 
         if (isset($values['user_id'])) {
-            $sql .= ' AND u.id = :id';
+            $query = $query->andWhere('u.id = :id');
             $param['id'] = $values['user_id'];
         }
 
         if (isset($values['email'])) {
-            $sql .= ' AND u.email = :email';
+            $query = $query->andWhere('u.email = :email');
             $param['email'] = $values['email'];
         }
 
         if (isset($values['nickname'])) {
-            $sql .= ' AND u.nick LIKE :nick';
+            $query = $query->andWhere('u.nick LIKE :nick');
             $param['nick'] = '%' . $values['nickname'] . '%';
         }
 
         if (isset($values['mobile_number'])) {
-            $sql .= ' AND u.tel = :tel';
+            $query = $query->andWhere('u.tel = :tel');
             $param['tel'] = $values['mobile_number'];
         }
 
         if (isset($values['birthday'])) {
-            $sql .= ' AND u.birthday = :birthday';
+            $query = $query->andWhere('u.birthday = :birthday');
             $param['birthday'] = $values['birthday'];
         }
 
         if (isset($values['registered_from'])) {
-            $sql .= ' AND u.registerDate >= :registerDate';
+            $query = $query->andWhere('u.registerDate >= :registerDate');
             $param['registerDate'] = $values['registered_from'] . ' 00:00:00';
         }
 
         if (isset($values['registered_to'])) {
-            $sql .= ' AND u.registerDate <= :registerDate';
+            $query = $query->andWhere('u.registerDate <= :registerDate');
             $param['registerDate'] = $values['registered_to'] . ' 23:59:59';
         }
 
         if ($type == 'registered') {
-            $sql .= ' AND u.deleteFlag IS NULL OR u.deleteFlag = 0';
+            $query = $query->andWhere('u.deleteFlag IS NULL OR u.deleteFlag = 0');
         } elseif ($type == 'withdrawal') {
-            $sql .= 'AND u.deleteFlag = 1';
+            $query = $query->andWhere('u.deleteFlag = 1');
         }
 
-        $sql .= ' ORDER BY u.id DESC';
+        $query = $query->addOrderBy('u.id', 'DESC');
 
-        return $sql;
+        $query = $query->setParameters($param);
+
+        return $query->getQuery();
     }
 }

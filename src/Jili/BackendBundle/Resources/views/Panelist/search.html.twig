@@ -88,7 +88,7 @@ $(function() {
 <h2>result</h2>
 {% endif %}
 
-{% if pagination_registered is defined %}
+{% if registeredUserList is defined %}
  <h3>registered user {{registeredCount}}</h3>
 <table>
     <tr>
@@ -106,7 +106,7 @@ $(function() {
         <th>activity detail</th>
         <th>PID</th>
     </tr>
-        {% for item in pagination_registered %}
+        {% for item in registeredUserList %}
     <tr>
         <td align="left"><a href="{{ path('_admin_panelist_edit',{'id':item.id}) }}">{{ item.id}}</a></td>
         <td align="left">
@@ -130,7 +130,7 @@ $(function() {
 </table>
  {% endif %}
 
- {% if pagination_withdrawal is defined %}
+ {% if withdrawalUserList is defined %}
   <h3>withdrawal user {{withdrawalCount}}</h3>
 <table>
     <tr>
@@ -146,7 +146,7 @@ $(function() {
         <th>route</th>
         <th>PID</th>
     </tr>
-    {% for item in pagination_withdrawal %}
+    {% for item in withdrawalUserList %}
     <tr>
         <td align="left">{{ item.id}}</td>
         <td align="left">{{ item.email}}</td>
@@ -163,10 +163,9 @@ $(function() {
     {% endfor %}
 </table>
 {% endif %}
-{% if registeredCount > withdrawalCount %}
-    {{ knp_pagination_render(pagination_registered) }}
-{% elseif withdrawalCount > registeredCount %}
-    {{ knp_pagination_render(pagination_withdrawal) }}
-{% endif %}
+
+<div style="display: inline-block; width: 100%;">
+  {% include "JiliBackendBundle:Panelist:search_page_nav.html.twig" %}
+</div>
 
 {% endblock %}

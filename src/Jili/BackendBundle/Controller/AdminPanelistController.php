@@ -25,13 +25,13 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
      */
     public function searchAction(Request $request)
     {
-
         $page = $request->request->get('page', 1);
-        if(!$page){
-           $page = $request->query->get('page', 1);
+        if (!$page) {
+            $page = $request->query->get('page', 1);
         }
 
-        $pageSize = 2;
+        $pageSize = 1;
+        $arr['sop'] = $this->container->getParameter('sop');
         $em = $this->getDoctrine()->getManager();
 
         //create vote form
@@ -39,6 +39,8 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $pagination = null;
         $registeredCount = 0;
         $withdrawalCount = 0;
+        $pageCount = 0;
+        $pages = 0;
 
         if ($request->getMethod() === 'POST') {
             $form->bind($request);
@@ -47,42 +49,29 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
                 $values = $form->getData();
 
-                $sop = $this->container->getParameter('sop');
-
-                $paginator = $this->get('knp_paginator');
-
                 if ($values['type_registered'] == 1) {
                     $registeredCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'registered');
-                    $registeredSql = $em->getRepository('JiliApiBundle:User')->getSearchUserSql($values, 'registered');
-                    $registeredQuery = $em->createQuery($registeredSql)->setHint('knp_paginator.count', $registeredCount);
-                    $arr['pagination_registered'] = $paginator->paginate($registeredQuery, $page, $pageSize, array (
-                        'distinct' => false
-                    ));
-
-                    echo "<br>line_".__LINE__."_aaaaaaaaaa<pre>";
-                    print_r($arr['pagination_registered']);
-                    $arr['pagination_registered']->setTemplate('JiliApiBundle::pagination.html.twig');
+                    $arr['registeredUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserSql($values, 'registered', $pageSize, $page);
                 }
 
                 if ($values['type_withdrawal'] == 1) {
                     $withdrawalCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'withdrawal');
-                    $withdrawalSql = $em->getRepository('JiliApiBundle:User')->getSearchUserSql($values, 'withdrawal', $withdrawalCount);
-                    $withdrawalQuery = $em->createQuery($withdrawalSql)->setHint('knp_paginator.count', $withdrawalCount);
-                    $arr['pagination_withdrawal'] = $paginator->paginate($withdrawalQuery, $page, $pageSize, array (
-                        'distinct' => false
-                    ));
-                    $arr['pagination_withdrawal']->setTemplate('JiliApiBundle::pagination.html.twig');
+                    $arr['withdrawalUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserSql($values, 'withdrawal', $pageSize, $page);
                 }
-
-                $arr['sop'] = $sop;
-
             }
         }
 
         //todo: 了解一下enqueteHistory, PartnerPublicationPanelistManager
 
 
+        if ($registeredCount > $withdrawalCount) {
+            $arr['total'] = $registeredCount;
+        } else {
+            $arr['total'] = $withdrawalCount;
+        }
+
         $arr['page'] = $page;
+        $arr['page_size'] = $pageSize;
         $arr['form'] = $form->createView();
         $arr['registeredCount'] = $registeredCount;
         $arr['withdrawalCount'] = $withdrawalCount;
