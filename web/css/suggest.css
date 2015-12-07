@@ -285,6 +285,7 @@ body {
     display: inline-block;
     *display: inline;
     *zoom: 1; }
+
 .form input[type='text'], .form input[type='password'] {
   padding: 0 5px;
   height: 34px;
@@ -338,6 +339,7 @@ body {
     .form span a.more {
       font-size: 12px;
       display: inline; }
+
 .form .btn span {
   width: 74px;
   text-align: center;
