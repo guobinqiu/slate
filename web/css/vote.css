@@ -106,6 +106,7 @@ body {
     padding-left: 0; }
   .header-top-con a.last {
     border-right: none; }
+
 .header-top-con em {
   width: 20px;
   height: 15px;
@@ -171,6 +172,7 @@ body {
 .header-top-con span:hover b {
   transform: rotate(180deg);
   -webkit-transform: rotate(180deg); }
+
 .header-top-con .personal {
   position: absolute;
   z-index: 9999;
@@ -283,6 +285,7 @@ body {
   padding-left: 20px;
   border-bottom: 1px solid #f6f6f6;
   font-weight: bold; }
+
 .main-con-left .title a {
   color: #0078b6;
   font-size: 15px;

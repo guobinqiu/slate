@@ -1,4 +1,5 @@
 <?php
+
 namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -6,7 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Controller\ExchangeController;
 use Jili\ApiBundle\Entity\PointsExchange;
 
-class ExchangeControllerTest extends WebTestCase {
+class ExchangeControllerTest extends WebTestCase
+{
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -16,10 +18,11 @@ class ExchangeControllerTest extends WebTestCase {
     /**
      * {@inheritDoc}
      */
-    public function setUp() {
-        static :: $kernel = static :: createKernel();
-        static :: $kernel->boot();
-        $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
+    public function setUp()
+    {
+        static::$kernel = static::createKernel();
+        static::$kernel->boot();
+        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
 
         $this->em = $em;
     }
@@ -27,16 +30,18 @@ class ExchangeControllerTest extends WebTestCase {
     /**
      * {@inheritDoc}
      */
-    protected function tearDown() {
-        parent :: tearDown();
+    protected function tearDown()
+    {
+        parent::tearDown();
     }
 
     /**
      * @group issue_682
      */
-    public function testFlowInfoAction() {
-        $client = static :: createClient();
-        $container = static :: $kernel->getContainer();
+    public function testFlowInfoAction()
+    {
+        $client = static::createClient();
+        $container = static::$kernel->getContainer();
         $em = $this->em;
         $session = $container->get('session');
 
@@ -58,9 +63,10 @@ class ExchangeControllerTest extends WebTestCase {
     /**
      * @group issue_682
      */
-    public function testGetFlowListAction() {
-        $client = static :: createClient();
-        $container = static :: $kernel->getContainer();
+    public function testGetFlowListAction()
+    {
+        $client = static::createClient();
+        $container = static::$kernel->getContainer();
         $em = $this->em;
         $session = $container->get('session');
 
@@ -82,8 +88,9 @@ class ExchangeControllerTest extends WebTestCase {
     /**
      * @group issue_682
      */
-    public function testCheckFlowMobile() {
-        $client = static :: createClient();
+    public function testCheckFlowMobile()
+    {
+        $client = static::createClient();
         $container = $client->getContainer();
         $controller = new ExchangeController();
         $controller->setContainer($container);
@@ -140,11 +147,12 @@ class ExchangeControllerTest extends WebTestCase {
     }
 
     /**
-    * @group issue_682
-    */
-    public function testGetFlowSaveAction() {
-        $client = static :: createClient();
-        $container = static :: $kernel->getContainer();
+     * @group issue_682
+     */
+    public function testGetFlowSaveAction()
+    {
+        $client = static::createClient();
+        $container = static::$kernel->getContainer();
         $em = $this->em;
         $session = $container->get('session');
 
@@ -161,5 +169,37 @@ class ExchangeControllerTest extends WebTestCase {
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @group check_birthday
+     */
+    public function testBirthdayIsValid()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $controller = new ExchangeController();
+        $controller->setContainer($container);
+
+        $today = date("Ymd", time());
+        $yesterday = date("Ymd", strtotime("-1 day"));
+        $tomorrow = date("Ymd", strtotime("+1 day"));
+        $valid_date = date("Ym", strtotime("-1 day")) . '32';
+
+        $identityCard = '110912' . $tomorrow . '3734';
+        $return = $controller::birthdayIsValid($identityCard);
+        $this->assertFalse($return, 'birthday is after today ' . $identityCard);
+
+        $identityCard = '110912' . $valid_date . '3734';
+        $return = $controller::birthdayIsValid($identityCard);
+        $this->assertFalse($return, 'birthday is invalid ' . $identityCard);
+
+        $identityCard = '110912' . $today . '3734';
+        $return = $controller::birthdayIsValid($identityCard);
+        $this->assertTrue($return, 'birthday is today ' . $identityCard);
+
+        $identityCard = '110912' . $yesterday . '3734';
+        $return = $controller::birthdayIsValid($identityCard);
+        $this->assertTrue($return, 'birthday is valid ' . $identityCard);
     }
 }

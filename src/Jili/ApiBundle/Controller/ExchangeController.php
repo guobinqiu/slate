@@ -966,6 +966,11 @@ class  ExchangeController extends Controller
     public static function birthdayIsValid($identityCard)
     {
         $birthday = self::getBirthDay($identityCard);
+
+        if (time() < strtotime($birthday['year'].'-'.$birthday['month'].'-'.$birthday['day'])) {
+            return false;
+        }
+
         return checkdate($birthday['month'], $birthday['day'], $birthday['year']);
     }
 

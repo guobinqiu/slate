@@ -1,0 +1,17 @@
+{% if app.session.get('uid') %}
+<div class="survey-recomend">
+    <h2><span>为您推荐的快速问答</span></h2>
+    <table>
+        <tbody>
+            {% for vote in votes %}
+            <tr>
+                <td class="first"><p>{{vote.title}}</p></td>
+                <td>时间：{{vote.startTime|date("m/d")}} ~ {{vote.endTime|date("m/d")}}</td>
+                <td>积分数：{{ vote.pointValue }}</td>
+                <td class="last"><a href="{{ path('jili_frontend_vote_show',{'id':vote.id}) }}">投票</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
