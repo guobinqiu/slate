@@ -29,7 +29,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
            $form->bind( $request);
            if ($form->isValid()) {
                $data = $form->getData();
-               $entity = $this->getDoctrine()->getEntityManager()
+               $entity = $this->getDoctrine()->getManager()
                    ->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder' )
                    ->findOneByOrderId($data['orderId']);
 
@@ -86,7 +86,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
        $request = $this->get('request'); 
        $page_size = $this->container->getParameter('page_num');
 
-       $em = $this->getDoctrine()->getEntityManager();
+       $em = $this->getDoctrine()->getManager();
 
        $filters = array();
 
@@ -117,7 +117,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
     {
 
         $request = $this->get('request');
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')->findOneForAudit($id);
         $logger = $this->get('logger');
         if(! $entity)  {
