@@ -32,6 +32,9 @@ class WebsitesController extends Controller
      */
     public function hotAction($tmpl, $max)
     {
+        if( $tmpl != 'top' ) {
+               throw $this->createNotFoundException('页面没找到');
+        }
         //todo restrice the request ip ?
         $logger = $this->get('logger');
 
