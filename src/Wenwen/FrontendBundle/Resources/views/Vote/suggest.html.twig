@@ -19,23 +19,26 @@
 			<p><em>●</em>一旦您提供的“快速问答”被采用，您将获得<strong>200积分</strong>的奖励，并且您的名字将显示在该题“出题者”一栏，让更多91问问的网友来认识你！</p>
 		</div>
 		<div class="form">
-			<form action="" id="suggest_form" method="post" onsubmit="return false;">
-				<ul>
-					<li><label for="title">标题：</label><input type="text" id="title" name="title"><span id="title_succeed"></span><span id="title_error"></span></li>
-					<li><label for="content">相关说明及描述：</label><textarea id="content" name="content"></textarea><span id="content_succeed"></span><span id="content_error"></span></li>
-					<li><label for="option1">选项1：</label><input type="text" id="option1" name="option1" class="option"><span id="option1_succeed"></span><span id="option1_error"></span></li>
-					<li><label for="option2">选项2：</label><input type="text" id="option2" name="option2" class="option"></li>
-					<li><label for="option3">选项3：</label><input type="text" id="option3" name="option3" class="option"></li>
-					<li><label for="option4">选项4：</label><input type="text" id="option4" name="option4" class="option"></li>
-					<li><label for="option5">选项5：</label><input type="text" id="option5" name="option5" class="option"></li>
-					<li><label for="option6">选项6：</label><input type="text" id="option6" name="option6" class="option"></li>
-					<li><label for="option7">选项7：</label><input type="text" id="option7" name="option7" class="option"></li>
-					<li><label for="option8">选项8：</label><input type="text" id="option8" name="option8" class="option"></li>
-					<li><label for="option9">选项9：</label><input type="text" id="option9" name="option9" class="option"></li>
-					<li><label for="option10">选项10：</label><input type="text" id="option10" name="option10" class="option"></li>
-				</ul>
-				<div class="btn"><span id="suggest_save">提交</span></div>
-			</form>
+			<form action="{{ path('jili_frontend_vote_suggest') }}" id="suggest_form" method="post" >
+                <ul>
+                    <li>{{form_label(form.title)}}{{form_widget(form.title)}}<span id="voteSuggest_title_succeed"></span><span id="voteSuggest_title_error">{{ form_errors(form.title) }}</span></li>
+                    <li>{{form_label(form.description)}}{{form_widget(form.description)}}<span id="voteSuggest_description_succeed"></span><span id="voteSuggest_description_error">{{ form_errors(form.description) }}</span></li>
+                    <li>{{form_label(form.option1)}}{{form_widget(form.option1, {'attr': {'class':'option' }}) }}<span id="voteSuggest_option1_succeed"></span><span id="voteSuggest_option1_error">{{ form_errors(form.option1) }}</span></li>
+                    <li>{{form_label(form.option2)}}{{form_widget(form.option2, {'attr': {'class':'option' }}) }}<span id="option2_error">{{ form_errors(form.option2) }}</span></li>
+                    <li>{{form_label(form.option3)}}{{form_widget(form.option3, {'attr': {'class':'option' }}) }}<span id="option3_error">{{ form_errors(form.option3) }}</span></li>
+                    <li>{{form_label(form.option4)}}{{form_widget(form.option4, {'attr': {'class':'option' }}) }}<span id="option4_error">{{ form_errors(form.option4) }}</span></li>
+                    <li>{{form_label(form.option5)}}{{form_widget(form.option5, {'attr': {'class':'option' }}) }}<span id="option5_error">{{ form_errors(form.option5) }}</span></li>
+                    <li>{{form_label(form.option6)}}{{form_widget(form.option6, {'attr': {'class':'option' }}) }}<span id="option6_error">{{ form_errors(form.option6) }}</span></li>
+                    <li>{{form_label(form.option7)}}{{form_widget(form.option7, {'attr': {'class':'option' }}) }}<span id="option7_error">{{ form_errors(form.option7) }}</span></li>
+                    <li>{{form_label(form.option8)}}{{form_widget(form.option8, {'attr': {'class':'option' }}) }}<span id="option8_error">{{ form_errors(form.option8) }}</span></li>
+                    <li>{{form_label(form.option9)}}{{form_widget(form.option9, {'attr': {'class':'option' }}) }}<span id="option9_error">{{ form_errors(form.option9) }}</span></li>
+                    <li>{{form_label(form.option10)}}{{form_widget(form.option10, {'attr': {'class':'option' }}) }}<span id="option10_error">{{ form_errors(form.option10) }}</span></li>
+                </ul>
+                {{ form_rest(form)}}
+                <div class="btn">
+                    <span id="suggest_save"><input type="submit" name="" value="提交"/></span>
+                </div>
+            </form>
 		</div>
 		<div class="tips">
 			<div>注意事项：</div>

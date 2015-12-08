@@ -12,14 +12,5 @@ require(['../../config'],function(){
                 description.css({'height': '33px', 'padding-bottom': '0'});
             }
         });
-
-        var optionBox = $('.options'),
-            options = optionBox.find('dd');
-
-        var results = {data: ['30%', '15%', '8%', '3%', '11%', '2%', '14%', '6%', '1%', '10%']};
-
-        options.each(function(i, e){
-            $(e).find('p').css('width', results.data[i]);
-        });
     });
 });

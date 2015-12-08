@@ -62,11 +62,13 @@ class VoteController extends Controller
         // 分页显示
         $paginator = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate($result, $page, $page_size);
-        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
 
         $arr['page'] = $page;
 
-        return $this->render('JiliFrontendBundle:Vote:index.html.twig', $arr);
+        // return $this->render('JiliFrontendBundle:Vote:index.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Vote:index.html.twig', $arr);
     }
 
     /**
@@ -128,7 +130,8 @@ class VoteController extends Controller
         $session->set('csrf_token', $csrf_token);
         $arr['csrf_token'] = $csrf_token;
 
-        return $this->render('JiliFrontendBundle:Vote:show.html.twig', $arr);
+        // return $this->render('JiliFrontendBundle:Vote:show.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Vote:show.html.twig', $arr);
     }
 
     /**
@@ -294,7 +297,8 @@ class VoteController extends Controller
         $arr['choices'] = $choices;
         $arr['answer_count'] = $answer_count;
 
-        return $this->render('JiliFrontendBundle:Vote:result.html.twig', $arr);
+        // return $this->render('JiliFrontendBundle:Vote:result.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Vote:result.html.twig', $arr);
     }
 
     /**
@@ -304,7 +308,7 @@ class VoteController extends Controller
     {
         $user_id = $this->get('session')->get('uid');
         if (!$user_id) {
-            return $this->render('JiliFrontendBundle:Vote:recommend.html.twig', array ());
+            return $this->render('WenwenFrontendBundle:Vote:_recommend.html.twig', array ());
         }
         $em = $this->getDoctrine()->getManager();
 
@@ -316,7 +320,8 @@ class VoteController extends Controller
             }
         }
         $arr['votes'] = $votes;
-        return $this->render('JiliFrontendBundle:Vote:recommend.html.twig', $arr);
+        // return $this->render('JiliFrontendBundle:Vote:recommend.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Vote:_recommend.html.twig', $arr);
     }
 
     /**
@@ -347,7 +352,8 @@ class VoteController extends Controller
                 )));
             }
         }
-        return $this->render('JiliFrontendBundle:Vote:suggest.html.twig', array (
+        // return $this->render('JiliFrontendBundle:Vote:suggest.html.twig', array (
+        return $this->render('WenwenFrontendBundle:Vote:suggest.html.twig', array (
             'form' => $form->createView(),
             'send_ok' => $send_ok
         ));
@@ -364,7 +370,7 @@ class VoteController extends Controller
         $mailer_return_path = $this->container->getParameter('mailer_return_path');
 
         $engine = $this->container->get('templating');
-        $content = $engine->render('JiliFrontendBundle:Vote:mailbody.html.twig', array (
+        $content = $engine->render('WenwenFrontendBundle:Vote:mailbody.html.twig', array (
             'email' => $user_email,
             'values' => $values
         ));

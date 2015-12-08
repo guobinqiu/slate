@@ -83,7 +83,7 @@ require(['../../config'],function(){
             return true;
         }
         var title = {
-            ele: '#title',
+            ele: '#voteSuggest_title',
             prompt: {
                 isNull: '请输入标题',
                 maxLen: '标题长度不超过20个字符'
@@ -91,7 +91,7 @@ require(['../../config'],function(){
             max: 20
         };
         var content = {
-            ele: '#content',
+            ele: '#voteSuggest_description',
             prompt: {
                 isNull: '请输入相关说明及描述',
                 maxLen: '说明及描述不超过100个字符'
@@ -99,7 +99,7 @@ require(['../../config'],function(){
             max: 100
         };
         var options = {
-            ele: '#option1',
+            ele: '#voteSuggest_option1',
             prompt: {
                 isNull: '请至少输入3个选项内容',
                 maxLen: '选项内容不超过20个字符'
