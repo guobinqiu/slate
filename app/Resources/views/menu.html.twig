@@ -177,8 +177,8 @@ $(document).ready(function(){
         </div>
     </div>
     <!--start checkin div-->
-    {% if app.session.has('uid') %}{# todo add && checkin_task_uncomplete_yet #}
-    	{{ render(controller('JiliApiBundle:Top:checkIn' , {auto_checkin: app.request.get('auto_checkin',0)}) ) }}{# 签到 #}
+    {% if app.session.has('uid') %}
+        {{ render(controller('JiliApiBundle:Top:checkIn'  ) ) }}{# 签到 #}
 	{% endif %}
     <!--end checkin div-->
     

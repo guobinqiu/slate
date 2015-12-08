@@ -113,8 +113,6 @@ class TopController extends Controller
             //获取签到商家
             $arr['arrList'] = $this->checkinList();
 
-            $checkin_form= $this->createForm(new CheckinConfigType(), array('flag_name'=>'auto_checkin'));
-            $arr['checkinConfForm'] = $checkin_form->createView();
 
             return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
         } else {
@@ -203,9 +201,8 @@ class TopController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
         $reward_multiple = $user->getRewardMultiple();
-        $is_auto_checkin =  $request->get('auto_checkin',0);
-        $operation = (! $is_auto_checkin) ? CheckinAdverList::ANY_OP_METHOD : CheckinAdverList::AUTO_OP_METHOD; 
-        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid, $operation);
+
+        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
 
         $count_for_checkin =  6;
         $cal_count = count($cal);
