@@ -26,6 +26,24 @@ class VoteController extends Controller
     const RECENT_BONUS_POINT = 1;
 
     /**
+     * @Route("/top")
+     * @Template
+     */
+    public function topAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //get vote list
+        $result = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, 5);
+
+        $user_id = $request->getSession()->get('uid');
+        $result = $this->getVoteData($result, $user_id);
+
+        $arr['pagination'] = $result;
+        return $this->render('JiliFrontendBundle:Vote:top.html.twig', $arr);
+    }
+
+    /**
      * @Route("/index")
      * @Template
      */
@@ -33,37 +51,13 @@ class VoteController extends Controller
     {
         $page = $request->query->get('page', 1);
         $page_size = $this->container->getParameter('page_num');
-
         $em = $this->getDoctrine()->getManager();
 
         //get vote list
         $result = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList();
+        $user_id = $request->getSession()->get('uid');
+        $result = $this->getVoteData($result, $user_id);
 
-        foreach ($result as $key => $value) {
-            //get vote answer count
-            $result[$key]['answerCount'] = $em->getRepository('JiliApiBundle:VoteAnswer')->getAnswerCount($value['id']);
-            //get user answer count
-            $user_id = $request->getSession()->get('uid');
-            if ($user_id) {
-                $result[$key]['userAnswerCount'] = $em->getRepository('JiliApiBundle:VoteAnswer')->getUserAnswerCount($user_id, $value['id']);
-            } else {
-                $result[$key]['userAnswerCount'] = 0;
-            }
-
-            if ($result[$key]['voteImage']) {
-                //get sq image path
-                $vote = new Vote();
-                $vote->setSrcImagePath($result[$key]['voteImage']);
-                $result[$key]['sqPath'] = $this->container->getParameter('upload_vote_image_dir') . $vote->getDstImagePath('s');
-            } else {
-                $result[$key]['sqPath'] = false;
-            }
-
-            //BonusHour
-            if ($this->isInBonusHour($value['startTime'])) {
-                $result[$key]['timelimit'] = $this->getBonusTimeLimitDt($value['startTime'])->getTimestamp();
-            }
-        }
         // 分页显示
         $paginator = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate($result, $page, $page_size);
@@ -72,6 +66,39 @@ class VoteController extends Controller
         $arr['page'] = $page;
 
         return $this->render('JiliFrontendBundle:Vote:index.html.twig', $arr);
+    }
+
+    public function getVoteData($votes, $user_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        foreach ($votes as $key => $value) {
+            //get vote answer count
+            $votes[$key]['answerCount'] = $em->getRepository('JiliApiBundle:VoteAnswer')->getAnswerCount($value['id']);
+
+            //get user answer count
+            if ($user_id) {
+                $votes[$key]['userAnswerCount'] = $em->getRepository('JiliApiBundle:VoteAnswer')->getUserAnswerCount($user_id, $value['id']);
+            } else {
+                $votes[$key]['userAnswerCount'] = 0;
+            }
+
+            if ($votes[$key]['voteImage']) {
+                //get sq image path
+                $vote = new Vote();
+                $vote->setSrcImagePath($votes[$key]['voteImage']);
+                $votes[$key]['sqPath'] = $this->container->getParameter('upload_vote_image_dir') . $vote->getDstImagePath('s');
+            } else {
+                $votes[$key]['sqPath'] = false;
+            }
+
+            //BonusHour
+            if ($this->isInBonusHour($value['startTime'])) {
+                $votes[$key]['timelimit'] = $this->getBonusTimeLimitDt($value['startTime'])->getTimestamp();
+            }
+        }
+
+        return $votes;
     }
 
     /**
@@ -245,7 +272,6 @@ class VoteController extends Controller
             $em->flush();
 
             $db_connection->commit();
-
         } catch (\Exception $e) {
             $db_connection->rollback();
             $this->get('logger')->critical('[JiliFrontend][vote][click]' . $e->getMessage());

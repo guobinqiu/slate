@@ -107,6 +107,7 @@ class VoteControllerTest extends WebTestCase
 
     /**
      * @group user_vote
+     * @group user_vote_ui
      */
     public function testIndexAction()
     {

@@ -14,7 +14,7 @@ class VoteRepository extends EntityRepository
      *
      * @return array The objects.
      */
-    public function fetchVoteList($active_flag = true)
+    public function fetchVoteList($active_flag = true, $limit = false)
     {
         $query = $this->createQueryBuilder('v');
         $query->select('v.id,v.title,v.startTime,v.endTime,v.description,v.voteImage');
@@ -28,6 +28,11 @@ class VoteRepository extends EntityRepository
 
         $parameters['startTime'] = new \Datetime();
         $query->setParameters($parameters);
+
+        if ($limit) {
+            $query = $query->setFirstResult(0);
+            $query = $query->setMaxResults($limit);
+        }
 
         $query = $query->getQuery();
         return $query->getResult();

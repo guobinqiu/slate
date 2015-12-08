@@ -56,6 +56,7 @@ class VoteRepositoryTest extends KernelTestCase
     /**
      * @group admin_vote
      * @group user_vote
+     * @group user_vote_ui
      */
     public function testFetchVoteList()
     {
@@ -66,6 +67,9 @@ class VoteRepositoryTest extends KernelTestCase
         $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(false);
         $this->assertEquals(1, count($voteList), 'active_flag:false, the count of vote is ' . count($voteList));
         $this->assertEquals(2, $voteList[0]['id'], 'vote id is ' . $voteList[0]['id']);
+
+        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, 1);
+        $this->assertEquals(1, count($voteList), 'active_flag:true, limit=1 , the count of vote is' . count($voteList));
     }
 
     /**
