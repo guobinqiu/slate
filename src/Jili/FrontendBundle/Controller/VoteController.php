@@ -58,6 +58,11 @@ class VoteController extends Controller
             } else {
                 $result[$key]['sqPath'] = false;
             }
+
+            //BonusHour
+            if ($this->isInBonusHour($value['startTime'])) {
+                $result[$key]['timelimit'] = $this->getBonusTimeLimitDt($value['startTime'])->getTimestamp();
+            }
         }
         // 分页显示
         $paginator = $this->get('knp_paginator');
@@ -395,11 +400,18 @@ class VoteController extends Controller
     public function isInBonusHour($start_time)
     {
         $dt = new \DateTime();
-        $time_limit_dt = $start_time;
-        $time_limit_dt->modify(sprintf('+%d hour', self::RECENT_BONUS_HOUR));
+        $time_limit_dt = $this->getBonusTimeLimitDt($start_time);
+
         if ($dt < $time_limit_dt) {
             return true;
         }
         return false;
+    }
+
+    public function getBonusTimeLimitDt($start_time)
+    {
+        $start_time->modify(sprintf('+%d hour', self::RECENT_BONUS_HOUR));
+
+        return $start_time;
     }
 }
