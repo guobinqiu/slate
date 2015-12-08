@@ -6,6 +6,6 @@ CREATE TABLE `activity_gathering_taobao_order` (
       `user_id` int(11) NOT NULL,
       `created_at` datetime DEFAULT NULL,
       PRIMARY KEY (`id`),
-      UNIQUE KEY `user_id` (`user_id`),
+      UNIQUE KEY `user_order` (`user_id`,`order_identity`),
       CONSTRAINT `activity_gathering_taobao_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
