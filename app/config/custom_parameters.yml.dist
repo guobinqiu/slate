@@ -1,4 +1,7 @@
 parameters:
+    cron_alertTo_contacts:  "rpa-sys-china@d8aspring.com"
+    alert_subject: '积粒网-定时任务提醒邮件'
+
     offerwow_com.websiteid: 1162
     offerwow_com.key: "91jili2offerwow"
     offerwow_com.name: "体验广告"
@@ -21,7 +24,7 @@ parameters:
         client_ip: "121.40.71.200" #正式121.40.71.200，测试：121.40.71.200 本机127.0.0.1,::1
         mail_subject: "积粒网-bangwoya体验广告接口数据处理失败"
         bangwoya_api_log: "/data/91jili/logs/api/bangwoya_api.log"
-        alertTo_contacts: rpa-sys-china@d8aspring.com
+        alertTo_contacts: %cron_alertTo_contacts%
         validations:
             1: { errorno: "1001", message: "缺少参数(检查参数是否传递,nonceStr是否为32位)"}
             2: { errorno: "1002", message: "密码验证不通过" }
@@ -313,9 +316,6 @@ parameters:
     webpower_email_password: 'nUshkwu#9'
     webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
 
-    cron_alertTo_contacts: [ "miaomiao.zhang@d8aspring.com",  "tao.jiang@d8aspring.com", "xiaoyi.chai@d8aspring.com" ]
-
-    alert_subject: '积粒网-定时任务提醒邮件'
 
     # the uri relative to web/
     taobao_self_promotion_picture_uri_path: images/taobao_products_picture/
@@ -342,7 +342,7 @@ parameters:
         2: 59.83.33.60
     flow_file_path_flow_api_log: /data/91jili/logs/api/flow_api.log
     flow_mail_subject: "积粒网-flow流量包接口数据处理失败"
-    flow_alertTo_contacts: rpa-sys-china@d8aspring.com
+    flow_alertTo_contacts: %cron_alertTo_contacts%
     flow_exchange_error: "对不起，不能兑换，请联系客服！"
     flow_mobile_validate_api: "mobile_validateV1.php"
     flow_createorder_api: "createorder_api.php"
