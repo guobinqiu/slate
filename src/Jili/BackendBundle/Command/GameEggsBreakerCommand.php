@@ -92,7 +92,7 @@ $container = $this->getContainer();
                     $recipients  = 'chiang_32@126.com';
                 } else {
                     $title ='';
-                    $recipients = 'vctech-system@voyagegroup.info';
+                    $recipients = $container->getParameter('cron_alertTo_contacts');
                 }
 
                 $title .='积粒网-砸金蛋活动状态报告';
