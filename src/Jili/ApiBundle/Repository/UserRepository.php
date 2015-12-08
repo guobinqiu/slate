@@ -791,6 +791,10 @@ EOT;
         $query = $this->createQueryBuilder('u');
         $query = $query->select('u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode,sp.id as app_mid');
         $query = $this->getSearchUserSqlQuery($query, $values, $type);
+
+        if ($currentPage < 1) {
+            $currentPage = 1;
+        }
         $query = $query->setFirstResult($pageSize * ($currentPage - 1));
         $query = $query->setMaxResults($pageSize);
 

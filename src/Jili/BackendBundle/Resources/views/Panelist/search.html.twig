@@ -19,8 +19,16 @@
 
 <script language="JavaScript">
 $(function() {
-    $('ul.pageNav li').click(function(e) {
-        var page = $(this).text();
+    $('ul.pageNav li a').click(function(e) {
+        var page
+        var href = $(this).attr('href');
+        var matches = href.match(/\?page=([^&]+)/);
+        if (matches) {
+            var page = matches[1];
+        } else {
+            page = 1;
+        }
+
         var tmp_page = $('input#panelsearch_pager_page').attr('value');
 
         $('input#panelsearch_pager_page').attr('value', Number(page));
@@ -165,7 +173,7 @@ $(function() {
 {% endif %}
 
 <div style="display: inline-block; width: 100%;">
-  {% include "JiliBackendBundle:Panelist:search_page_nav.html.twig" %}
+  {% include '::pagination.html.twig' %}
 </div>
 
 {% endblock %}
