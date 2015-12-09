@@ -297,7 +297,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="monthly_wish", type="string", length=255, nullable=true)
+     * @ORM\Column(name="fav_music", type="string", length=255, nullable=true)
      */
     private $favMusic;
 
