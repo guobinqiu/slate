@@ -126,18 +126,23 @@ require(['../../config'],function(){
             checkOffline(content, true);
             checkOption();
             if(checkOffline(title, true)&&checkOffline(content, true)&&checkOption()){
-                reSubmit();
+                // reSubmit();
+                $('#suggest_form').submit();
             }
         });
-        function reSubmit(){
-            var str = $('#suggest_form').serialize();
-            console.log('表单数据：'+str);
-//            $.ajax({
-//                url: "{{ path('_user_reset') }}?email="+$('#title').val(),
-//                post: "GET",
-//                success:function(data){
-//                }
-//            });
+        var sendState = $('#sendState').val();
+        if(sendState === "true"){
+            alert('您的题目已经提交，等待审核！');
         }
+        // function reSubmit(){
+        //     var str = $('#suggest_form').serialize();
+        //     console.log('表单数据：'+str);
+        //    $.ajax({
+        //        url: "{{ path('_user_reset') }}?email="+$('#title').val(),
+        //        post: "GET",
+        //        success:function(data){
+        //        }
+        //    });
+        // }
     });
 });

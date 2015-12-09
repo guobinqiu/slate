@@ -72,7 +72,7 @@
 			<h2>同类商家推荐</h2>
 			<ul class="similar-shops clearfix">
 				{% for row in same_cat_websites %}
-				<li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}"><img src="{{asset('img/website_logos/'~row.hostHashAsLogoName~'.jpg')}}" alt="{{ row.websiteName }}">{%if row.max_commission is defined %}<div>最高返<b>{{row.max_commission}}%</b></div>{%endif%}</a></li>
+				<li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}"><img src="{{asset('img/website_logos/'~row.hostHashAsLogoName~'.jpg')}}" alt="{{ row.website_name }}">{%if row.max_commission is defined %}<div>最高返<b>{{row.max_commission}}%</b></div>{%endif%}</a></li>
 				{% endfor %}
 			</ul>
 		</div>

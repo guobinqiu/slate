@@ -35,8 +35,15 @@
                     <li>{{form_label(form.option10)}}{{form_widget(form.option10, {'attr': {'class':'option' }}) }}<span id="option10_error">{{ form_errors(form.option10) }}</span></li>
                 </ul>
                 {{ form_rest(form)}}
+                {% if send_ok == true %}
+                <input type="hidden" value="true" id="sendState">
+                {% else %}
+                <input type="hidden" value="false" id="sendState">
+                {% endif %}
+                
                 <div class="btn">
-                    <span id="suggest_save"><input type="submit" name="" value="提交"/></span>
+                    <span id="suggest_save">提交</span>
+                    <!-- <input type="submit" name="" value="提交"/> -->
                 </div>
             </form>
 		</div>

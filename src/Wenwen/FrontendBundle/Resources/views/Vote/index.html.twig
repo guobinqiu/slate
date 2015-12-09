@@ -21,7 +21,7 @@
                     <li {% if (item.startTime|date("Ymd") == "now"|date('Ymd')) %} class="vote-new" {% endif %}>
                         <span class="vote-img">
                             {% if (item.sqPath) %}
-                            <a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.sqPath}}"></a>
+                            <a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>
                             {% else %}
                             <img src="{{ asset('images/vote/no_image.jpg') }}" height="90" width="90">
                             {% endif %}
@@ -44,7 +44,7 @@
                             {% if item.userAnswerCount == 0 %}
                             <div class="survey-btn"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">立即投票</a></div>
                             {% else %}
-                            <div class="survey-btn"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">查看结果</a></div>
+                            <div class="survey-btn"><a href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}">查看结果</a></div>
                             {% endif %}
                         {% endif %}
                     </li>

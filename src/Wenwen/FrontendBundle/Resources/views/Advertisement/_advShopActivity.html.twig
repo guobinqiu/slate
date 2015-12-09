@@ -7,7 +7,7 @@
 					<span>
 						<h2>{{ item.businessName}}</h2>
 						<p>{{ item.activityDescription}}</p>
-						<a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2">去购物，最高返{% if item.incentiveType==1 %}
+						<a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank">去购物，最高返{% if item.incentiveType==1 %}
                              {{ item.incentive }}积分
                         {% elseif item.incentiveType==2 %}
                              {{ item.reward_rate }}%
@@ -17,7 +17,7 @@
 							<div class="attention"><em></em>{{ item.click}}</div>
 						</div>
 					</span>
-					<a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" title="{{ item.businessName}}"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName}}"></a>
+					<a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" title="{{ item.businessName}}" target="_blank"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName}}"></a>
 				</li>
 			    {% endfor %}
 			</ul>

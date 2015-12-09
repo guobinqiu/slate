@@ -17,7 +17,7 @@
             <h1>{{vote.title}}<a href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览</a></h1>
             <div class="relate">
                 {% if vote_image_path %}
-                <img src="{{ asset(vote_image_path)}}" alt="{{vote_image_path}}">
+                <img src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
                 {% else %}
                 <img src="{{ asset('images/vote/no_image.jpg') }}" height="90" width="90">
                 {% endif %}
