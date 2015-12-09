@@ -106,6 +106,19 @@ class VoteControllerTest extends WebTestCase
     }
 
     /**
+     * @group user_vote_ui
+     */
+    public function testTopAction()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $url = '/vote/top';
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
+    /**
      * @group user_vote
      * @group user_vote_ui
      */
