@@ -1,4 +1,5 @@
 parameters:
+    wenwen_support_email_address:  support@91wenwen.com
     cron_alertTo_contacts:  "rpa-sys-china@d8aspring.com"
     alert_subject: '积粒网-定时任务提醒邮件'
 
@@ -378,8 +379,8 @@ parameters:
             FAILED: -1            #-1 表示推送失败
 
     jili_app.logs_dir: /data/91jili/logs
-    admin_vote_log_path: /data/91jili/logs/admin/admin_vote.log
-    vote_suggest_mail_to: support@91wenwen.com
+    admin_vote_log_path: %jili_app.logs_dir%/admin/admin_vote.log
+    vote_suggest_mail_to: %wenwen_support_email_address%
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%
