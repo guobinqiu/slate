@@ -296,21 +296,29 @@ class User
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="monthly_wish", type="string", length=255, nullable=true)
      */
     private $favMusic;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="monthly_wish", type="string", length=255, nullable=true)
      */
     private $monthlyWish;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="industry_code", type="integer", nullable=true)
      */
     private $industryCode;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="work_section_code", type="integer", nullable=true)
      */
     private $workSectionCode;
 
