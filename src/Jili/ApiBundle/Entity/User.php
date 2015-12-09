@@ -28,16 +28,16 @@ class User
     const FROM_QQ_PREFIX = "QQ";
     const FROM_WEIBO_PREFIX = "WeiBo_";
 
- // check password by UserWenwenLogin 0: new 1:jili,2:wenwen 3: jili & wenwen 
+ // check password by UserWenwenLogin 0: new 1:jili,2:wenwen 3: jili & wenwen
     const ORIGIN_FLAG_NEW = 0 ;
-    const ORIGIN_FLAG_JILI = 1; 
-    const ORIGIN_FLAG_WENWEN = 2; 
+    const ORIGIN_FLAG_JILI = 1;
+    const ORIGIN_FLAG_WENWEN = 2;
     const ORIGIN_FLAG_WENWEN_JILI = 3;
 
-   # password_choice ,== PWD_WENWEN, verify the user_wenwen_login 
+   # password_choice ,== PWD_WENWEN, verify the user_wenwen_login
    # == PWD_JILI or NULL , verify by user.password
     const PWD_WENWEN = 1;
-    const PWD_JILI = 2; 
+    const PWD_JILI = 2;
 
     public function __construct()
     {
@@ -293,6 +293,26 @@ class User
      * @ORM\Column(name="password_choice", type="smallint", nullable=true)
      */
     private $passwordChoice;
+
+    /**
+     * @var string
+     */
+    private $favMusic;
+
+    /**
+     * @var string
+     */
+    private $monthlyWish;
+
+    /**
+     * @var integer
+     */
+    private $industryCode;
+
+    /**
+     * @var integer
+     */
+    private $workSectionCode;
 
     /**
      * upload resizeimage to temp dir
@@ -1171,7 +1191,7 @@ class User
     /**
      * Get originFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getOriginFlag()
     {
@@ -1194,7 +1214,7 @@ class User
     /**
      * Get createdRemoteAddr
      *
-     * @return string 
+     * @return string
      */
     public function getCreatedRemoteAddr()
     {
@@ -1217,7 +1237,7 @@ class User
     /**
      * Get createdUserAgent
      *
-     * @return string 
+     * @return string
      */
     public function getCreatedUserAgent()
     {
@@ -1240,7 +1260,7 @@ class User
     /**
      * Get campaignCode
      *
-     * @return string 
+     * @return string
      */
     public function getCampaignCode()
     {
@@ -1251,11 +1271,11 @@ class User
     public function isOriginFlagWenwen()
     {
         $origin_flag =  $this->getOriginFlag();
-        return  !(is_null($origin_flag) ) && 
+        return  !(is_null($origin_flag) ) &&
             intval($origin_flag) === self::ORIGIN_FLAG_WENWEN;
     }
 
-    public function isPwdCorrect($pwd) 
+    public function isPwdCorrect($pwd)
     {
         return (!empty($pwd)) && $this->pw_encode($pwd) === $this->getPwd();
     }
@@ -1276,16 +1296,108 @@ class User
     /**
      * Get passwordChoice
      *
-     * @return integer 
+     * @return integer
      */
     public function getPasswordChoice()
     {
         return $this->passwordChoice;
     }
 
-    public function isPasswordWenwen() 
+    public function isPasswordWenwen()
     {
-       $selected = $this->getPasswordChoice();      
+       $selected = $this->getPasswordChoice();
       return !is_null($selected ) && $selected  === self::PWD_WENWEN;
+    }
+
+    /**
+     * Set favMusic
+     *
+     * @param string $favMusic
+     * @return User
+     */
+    public function setFavMusic($favMusic)
+    {
+        $this->favMusic = $favMusic;
+
+        return $this;
+    }
+
+    /**
+     * Get favMusic
+     *
+     * @return string
+     */
+    public function getFavMusic()
+    {
+        return $this->favMusic;
+    }
+
+    /**
+     * Set monthlyWish
+     *
+     * @param string $monthlyWish
+     * @return User
+     */
+    public function setMonthlyWish($monthlyWish)
+    {
+        $this->monthlyWish = $monthlyWish;
+
+        return $this;
+    }
+
+    /**
+     * Get monthlyWish
+     *
+     * @return string
+     */
+    public function getMonthlyWish()
+    {
+        return $this->monthlyWish;
+    }
+
+    /**
+     * Set industryCode
+     *
+     * @param integer $industryCode
+     * @return User
+     */
+    public function setIndustryCode($industryCode)
+    {
+        $this->industryCode = $industryCode;
+
+        return $this;
+    }
+
+    /**
+     * Get industryCode
+     *
+     * @return integer
+     */
+    public function getIndustryCode()
+    {
+        return $this->industryCode;
+    }
+
+    /**
+     * Set workSectionCode
+     *
+     * @param integer $workSectionCode
+     * @return User
+     */
+    public function setWorkSectionCode($workSectionCode)
+    {
+        $this->workSectionCode = $workSectionCode;
+
+        return $this;
+    }
+
+    /**
+     * Get workSectionCode
+     *
+     * @return integer
+     */
+    public function getWorkSectionCode()
+    {
+        return $this->workSectionCode;
     }
 }
