@@ -29,7 +29,7 @@ class VoteRepository extends EntityRepository
         $parameters['startTime'] = new \Datetime();
         $query->setParameters($parameters);
 
-        if ($limit) {
+        if ($limit > 0) {
             $query = $query->setFirstResult(0);
             $query = $query->setMaxResults($limit);
         }

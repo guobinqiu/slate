@@ -68,8 +68,15 @@ class VoteRepositoryTest extends KernelTestCase
         $this->assertEquals(1, count($voteList), 'active_flag:false, the count of vote is ' . count($voteList));
         $this->assertEquals(2, $voteList[0]['id'], 'vote id is ' . $voteList[0]['id']);
 
+        //test limit
         $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, 1);
         $this->assertEquals(1, count($voteList), 'active_flag:true, limit=1 , the count of vote is' . count($voteList));
+        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, 0);
+        $this->assertEquals(2, count($voteList), 'active_flag:true, limit=0 , the count of vote is' . count($voteList));
+        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, -1);
+        $this->assertEquals(2, count($voteList), 'active_flag:true, limit=-1 , the count of vote is' . count($voteList));
+        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, 'a');
+        $this->assertEquals(2, count($voteList), 'active_flag:true, limit=a , the count of vote is' . count($voteList));
     }
 
     /**
