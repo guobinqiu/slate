@@ -57,6 +57,7 @@ class VoteControllerTest extends WebTestCase
 
     /**
      * @group user_vote
+     * @group user_vote_ui
      */
     public function testIsInBonusHour()
     {
@@ -69,6 +70,22 @@ class VoteControllerTest extends WebTestCase
         $time = date_create(date('Y-m-d'));
         $return = $controller->isInBonusHour($time);
         $this->assertTrue($return);
+    }
+
+    /**
+     * @group user_vote_ui
+     */
+    public function testGetBonusTimeLimitDt()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $controller = new VoteController();
+        $controller->setContainer($container);
+
+        $time = date_create('2015-12-08 16:51:00');
+        $bonusTime = $controller->getBonusTimeLimitDt($time);
+        $this->assertEquals('2015-12-09 16:51:00', $bonusTime->format('Y-m-d H:i:s'));
     }
 
     /**
@@ -89,7 +106,21 @@ class VoteControllerTest extends WebTestCase
     }
 
     /**
+     * @group user_vote_ui
+     */
+    public function testTopAction()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $url = '/vote/top';
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
+    /**
      * @group user_vote
+     * @group user_vote_ui
      */
     public function testIndexAction()
     {
