@@ -15,48 +15,13 @@
 		<div class="vote vote-sub">
 			<em></em>
 			<h1>快速问答</h1>
-			<ul>
-				{% if pagination is defined %}
-                {% for item in pagination %}
-                    <li {% if (item.startTime|date("Ymd") == "now"|date('Ymd')) %} class="vote-new" {% endif %}>
-                        <span class="vote-img">
-                            {% if (item.sqPath) %}
-                            <a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>
-                            {% else %}
-                            <img src="{{ asset('images/vote/no_image.jpg') }}" height="90" width="90">
-                            {% endif %}
-                        </span>
-                        <span class="vote-txt">
-                            <div class="title"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">{{ item.title }}</a></div>
-                            <div class="con">{% autoescape false %}{{ item.description }}{% endautoescape %}</div>
-                            <div class="relate">
-                                <span>参与人气：<strong>{{ item.answerCount }}</strong></span><span class="vline"></span>
-                                <span>截止日期：{{ item.endTime|date("Y-m-d") }}</span>
-                            </div>
-                        </span>
-                        {% if (item.startTime|date("Ymd") == "now"|date('Ymd')) %}
-                        <div><input type="hidden" name="timelimit_ut" value="1440777600" /><div id="countdown" class="countdown"></div></div>
-                        <div class="tips expand-btn">
-                            <span></span>
-                            <div class="tips-con expand-con"><p>倒计时内回答此份快速回答，将额外获得1积分。</p><b class="arrow"></b></div>
-                        </div>
-                        {% else %}
-                            {% if item.userAnswerCount == 0 %}
-                            <div class="survey-btn"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">立即投票</a></div>
-                            {% else %}
-                            <div class="survey-btn"><a href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}">查看结果</a></div>
-                            {% endif %}
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            {% endif %}
-			</ul>
+            {% include 'WenwenFrontendBundle:Vote:_voteList.html.twig' %}
 			<div class="page-wrapper">
 			{% if pagination is defined %}{{ knp_pagination_render(pagination) }}{%endif %}
 			</div>
 		</div>
 	</div>
-	{% include 'WenwenFrontendBundle:Vote:_vote_right.html.twig' %}
+	{% include 'WenwenFrontendBundle:Vote:_voteRight.html.twig' %}
 </div>
 {% endblock %}
 

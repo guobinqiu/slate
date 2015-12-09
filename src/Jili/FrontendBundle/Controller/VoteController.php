@@ -40,7 +40,7 @@ class VoteController extends Controller
         $result = $this->getVoteData($result, $user_id);
 
         $arr['pagination'] = $result;
-        return $this->render('JiliFrontendBundle:Vote:top.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Vote:_topVoteList.html.twig', $arr);
     }
 
     /**
@@ -61,11 +61,11 @@ class VoteController extends Controller
         // 分页显示
         $paginator = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate($result, $page, $page_size);
-        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+        $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
 
         $arr['page'] = $page;
 
-        return $this->render('JiliFrontendBundle:Vote:index.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Vote:index.html.twig', $arr);
     }
 
     public function getVoteData($votes, $user_id)
@@ -91,14 +91,12 @@ class VoteController extends Controller
             } else {
                 $votes[$key]['sqPath'] = false;
             }
-        }
 
             //BonusHour
             if ($this->isInBonusHour($value['startTime'])) {
                 $votes[$key]['timelimit'] = $this->getBonusTimeLimitDt($value['startTime'])->getTimestamp();
             }
         }
-
 
         return $votes;
     }
@@ -162,7 +160,6 @@ class VoteController extends Controller
         $session->set('csrf_token', $csrf_token);
         $arr['csrf_token'] = $csrf_token;
 
-        // return $this->render('JiliFrontendBundle:Vote:show.html.twig', $arr);
         return $this->render('WenwenFrontendBundle:Vote:show.html.twig', $arr);
     }
 
@@ -328,7 +325,6 @@ class VoteController extends Controller
         $arr['choices'] = $choices;
         $arr['answer_count'] = $answer_count;
 
-        // return $this->render('JiliFrontendBundle:Vote:result.html.twig', $arr);
         return $this->render('WenwenFrontendBundle:Vote:result.html.twig', $arr);
     }
 
@@ -351,7 +347,7 @@ class VoteController extends Controller
             }
         }
         $arr['votes'] = $votes;
-        // return $this->render('JiliFrontendBundle:Vote:recommend.html.twig', $arr);
+        
         return $this->render('WenwenFrontendBundle:Vote:_recommend.html.twig', $arr);
     }
 
@@ -383,7 +379,7 @@ class VoteController extends Controller
                 )));
             }
         }
-        // return $this->render('JiliFrontendBundle:Vote:suggest.html.twig', array (
+        
         return $this->render('WenwenFrontendBundle:Vote:suggest.html.twig', array (
             'form' => $form->createView(),
             'send_ok' => $send_ok

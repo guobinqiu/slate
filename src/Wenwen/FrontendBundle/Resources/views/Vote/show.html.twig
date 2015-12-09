@@ -38,20 +38,20 @@
                     <li>{% if user_answer_count==0 %}<input type="radio" name="answer_number" id="answer_number_{{key}}" value="{{key}}" />{% endif %}<span>{{key}}.{{voteChoice}}</span></li>
                 {% endfor %}
                 </ul>
-                <div class="btn"><a href="{{ path('jili_frontend_vote_result',{'id':vote.id}) }}">仅查看结果>></a>
+                <div class="btn"><a href="{{ path('jili_frontend_vote_result',{'id':vote.id}) }}" class="result">仅查看结果>></a>
                 {% if app.session.get('uid') %}
                     {% if user_answer_count==0 %}
-                    <span><input type="submit" value="投  票" /></span>
+                    <input type="submit" value="投  票" class="submit" />
                     {% endif %}
                 {% else %}
-                    <span><a href="{{ path('_user_login') }}">请登陆后</a>参加投票。</span>
+                    <div class="loginTips"><a href="{{ path('_user_login') }}">请登录后</a>参加投票。</div>
                 {% endif %}
                 </div>
             </div>
             </form>
         </div>
     </div>
-    {% include 'WenwenFrontendBundle:Vote:_vote_right.html.twig' %}
+    {% include 'WenwenFrontendBundle:Vote:_voteRight.html.twig' %}
 </div>
 {% endblock %}
 

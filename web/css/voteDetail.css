@@ -362,12 +362,13 @@ body {
       margin-left: 5px; }
   .vote-sub .options .btn {
     padding: 20px 0 0 0; }
-    .vote-sub .options .btn span {
+    .vote-sub .options .btn .submit {
       width: 140px;
       text-align: center;
       height: 36px;
       line-height: 36px;
       font-size: 14px;
+      font-weight: bold;
       color: #fff;
       background: #ff6700;
       border: 1px solid #ff6700;
@@ -380,14 +381,18 @@ body {
       display: inline-block;
       *display: inline;
       *zoom: 1;
-      vertical-align: middle; }
-      .vote-sub .options .btn span:hover {
+      vertical-align: middle;
+      outline: none; }
+      .vote-sub .options .btn .submit:hover {
         background: #f25807;
         border: 1px solid #f25807; }
+    .vote-sub .options .btn .loginTips {
+      line-height: 35px; }
     .vote-sub .options .btn a {
-      float: right;
-      color: #0078b6;
-      margin-top: 12px; }
+      color: #0078b6; }
+      .vote-sub .options .btn a.result {
+        float: right;
+        margin-top: 12px; }
   .vote-sub .options dt {
     margin-top: 25px;
     font-size: 13px;

@@ -87,20 +87,27 @@
  		}
  		.btn{
  			padding:20px 0 0 0;
-			span{
+			.submit{
 				width: 140px;
 				text-align: center;
 				height: 36px;
 				line-height: 36px;
 				font-size: 14px;
+				font-weight: bold;
 				@include btn();
 				@include dib();
 				vertical-align: middle;
+				outline: none;
+			}
+			.loginTips{
+				line-height: 35px;
 			}
 			a{
-				float: right;
+				&.result{
+					float: right;
+					margin-top: 12px;	
+				}
 				color: $main-title-color;
-				margin-top: 12px;
 			}
  		}
  		dt{

@@ -33,7 +33,8 @@ class TopController extends Controller
         if( ! empty($tmpl_prefix)) {
             $tmpl_prefix =  '_'. $tmpl_prefix;
         }
-        return $this->render('JiliApiBundle:Top:event'.$tmpl_prefix.'.html.twig', $arr);
+        // return $this->render('JiliApiBundle:Top:event'.$tmpl_prefix.'.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Vote:_topEvent'.$tmpl_prefix.'.html.twig', $arr);
     }
 
     /**
