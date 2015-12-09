@@ -11,7 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use Jili\EmarBundle\Form\Type\SearchGeneralType;
 
 use Jili\EmarBundle\Entity\EmarWebsites;
 
