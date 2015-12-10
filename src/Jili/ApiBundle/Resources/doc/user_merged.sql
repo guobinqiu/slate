@@ -24,6 +24,6 @@ CREATE TABLE `user_wenwen_login` (
 
 -- Thu Oct 15 13:19:11 CST 2015 
 -- PR #740
-alter table user MODIFY `password_choice` SMALLINT(4) NULL COMMENT 'which password to use for login',
+alter table user ADD `password_choice` SMALLINT(4) NULL COMMENT 'which password to use for login',
 MODIFY `origin_flag` SMALLINT( 4 ) NULL COMMENT 'which sites does the user from';
 

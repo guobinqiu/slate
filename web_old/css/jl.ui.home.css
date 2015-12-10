@@ -69,7 +69,7 @@ a.more{
 }
 .hotShops{
 	width: 978px;
-	padding: 10px;
+	padding: 17px 10px;
 	border: 1px solid #eaeae8;
 	background-color: #fff;
 	margin-top: 10px;
@@ -106,7 +106,7 @@ a.more{
 .shopSliderMask{
 	margin: 0 auto;
 	width: 975px;
-	height: 74px;
+	height: 42px;
 	overflow: hidden;
 	position: relative;
 	z-index: 1;
@@ -494,7 +494,7 @@ div.notice, div.rank{
 	padding-bottom: 13px;
 }
 div.notice{ 
-	margin-top: 117px;
+	margin-top: 97px;
 	padding: 5px 0 28px 15px;
 }
 .notice .mask{

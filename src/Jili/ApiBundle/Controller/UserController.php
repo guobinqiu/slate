@@ -866,7 +866,7 @@ class UserController extends Controller
                     $this->get('login.listener')->updateInfoSession($user);
                     return $this->redirect($this->generateUrl('_user_info'));
                 }else{
-                    $form->bindRequest($request);
+                    $form->bind($request);
                     $path =  $this->container->getParameter('upload_tmp_dir');
                     $code = $user->upload($path);
                     if($code == $this->container->getParameter('init_one')){
@@ -1039,7 +1039,7 @@ class UserController extends Controller
             $code = $this->container->getParameter('init_one');
         }else{
             $id = $em_email[0]->getId();
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
             if($user->pw_encode($pwd) != $user->getPwd()){
                 $code = $this->container->getParameter('init_one');

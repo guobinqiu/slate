@@ -114,25 +114,6 @@ $(document).ready(function(){
 
 });
 
-// duplicated to  
-//function isNewMs(uid ){
-//   {% if app.session.get('uid') %}
-//   $.ajax({
-//          url: "{{ path('_user_isNewMs',{'id':app.session.get('uid')}) }}",
-//          type: "POST",
-//          success:function(data){
-//              var sid = 1
-//              if(data){
-//                  sid = 2;
-//              }
-//              var msg_url = Routing.generate( "_user_message", {"sid": sid});
-//                   $('.newms').attr('href',msg_url); 
-//                   $('.myMes').attr('href',msg_url); 
-//                   $('.message').attr('href',msg_url); 
-//          }
-//        });
-//  {% endif %}
-//}
 
 </script>
 {% block javascript %}
@@ -149,10 +130,7 @@ $(document).ready(function(){
 </div>	
 {% include 'JiliApiBundle::footer.html.twig' %} 
 
-{# 如果不是自动签到页面 #}
-{% if (0 == app.request.get('auto_checkin',0) ) %}
 {% include '::userinfo.html.twig' %}
-{% endif %}
 <div class="blackBg" style="display: none;"></div>
 </body>
 </html>

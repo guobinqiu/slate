@@ -135,7 +135,7 @@ class MonthActivityController extends Controller {
         $uid = $this->get('request')->getSession()->get('uid');
         if( $uid) {
             // no form render if has checked in
-            $em  = $this->getDoctrine()->getEntityManager();
+            $em  = $this->getDoctrine()->getManager();
             $is_checked   = $em->getRepository('JiliApiBundle:ActivityGatheringTaobaoOrder')
                 ->isCheckedCurrentYearMonth(array('userId'=>$uid));
 
@@ -173,7 +173,7 @@ class MonthActivityController extends Controller {
         if($form->isValid()) {
             $data  = $form->getData();
 
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = new ActivityGatheringTaobaoOrder();
             $entity->setUser( $em->getReference('Jili\\ApiBundle\\Entity\\User', $uid))
                 ->setOrderIdentity($data['orderIdentity']);
@@ -183,7 +183,7 @@ class MonthActivityController extends Controller {
             if(count($errors)>0) {
                 foreach($errors as $error ) {
                     $messages[] = $error->getMessage();
-                    $this->get('session')->setFlash('error', $messages);
+                    $this->get('session')->getFlashBag()->add('error', $messages);
                 }
                 return $this->render('JiliApiBundle:MonthActivity/Gathering:index.html.twig', array('form'=>$form->createView() ));
             } 
@@ -193,7 +193,7 @@ class MonthActivityController extends Controller {
                 'orderIdentity'=> $data['orderIdentity']
             ));
 
-            $this->get('session')->setFlash('notice','成功提交订单号!');
+            $this->get('session')->getFlashBag()->add('notice','成功提交订单号!');
             return $this->redirect( $this->generateUrl('jili_api_monthactivity_gatheringindex'));
         }
 

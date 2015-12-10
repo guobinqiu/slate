@@ -64,18 +64,26 @@ class QQLoginController extends Controller
     public function qqLoginAction()
     {
         $request = $this->get('request');
+
         $qq_access_token = $request->getSession()->get('qq_token');
+
         $user_login = $this->get('user_login');
         $user_login->setSession($request->getSession());
         $login_flag = $user_login->checkLoginStatus();
         if($login_flag) {
             return $this->redirect($this->generateUrl('_homepage'));
-        } else {
-            // 首次qq登陆,到授权页面
-            $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_access_token);
-            $login_url = $qq_auth->login_url($this->container->getParameter('callback_url'), $this->container->getParameter('scope'));
-            return  new RedirectResponse($login_url, '301');
         }
+
+        // 首次qq登陆,到授权页面
+        $qq_auth = $this->get('user_qq_login')
+            ->getQQAuth($this->container->getParameter('qq_appid'),
+                    $this->container->getParameter('qq_appkey'),
+                    $qq_access_token);
+
+        $login_url = $qq_auth->login_url($this->container->getParameter('callback_url'),
+                $this->container->getParameter('scope'));
+
+        return  new RedirectResponse($login_url, '301');
     }
 
     /**
@@ -134,13 +142,14 @@ class QQLoginController extends Controller
     public function qqBindAction()
     {
         $request = $this->get('request');
-        $param['nick'] = $request->request->get('qqnickname');
-        $param['email'] = $request->request->get('jili_email');
-        $param['pwd']= $request->request->get('jili_pwd');
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
         if(!$param['open_id']){
             return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请稍后再试。'));
         }
+        $param['nick'] = $request->request->get('qqnickname');
+        $param['email'] = $request->request->get('jili_email');
+        $param['pwd']= $request->request->get('jili_pwd');
+
         $request->request->set('pwd', $param['pwd']);
         $request->request->set('email',$param['email']);
         $code = $this->get('login.listener')->login($request);
@@ -165,13 +174,21 @@ class QQLoginController extends Controller
     public function qqFirstLoginAction()
     {
         $request = $this->get('request');
+        if(! $request->getSession()->has('qq_token') ) {
+            return $this->redirect($this->generateUrl('qq_api_login'));
+        }
+
         $qq_token = $request->getSession()->get('qq_token');
         $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
+
         //获取登录用户open id
         $openid = $request->getSession()->get('open_id');
         if(!$openid){
             $qq_oid = $qq_auth->get_openid();
             $openid = $qq_oid['openid'];
+            if( !isset($qq_oid['openid'])) {
+                return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，验证故障，请稍后再试。'));
+            }
             $request->getSession()->set('open_id',$openid);
         }
 

@@ -66,6 +66,61 @@ $(document).ready(function(){
     	温馨提示：积粒网已经全新改版，为保证您的正常浏览，请使用快捷键<em class="corGlobRed">Ctrl+F5</em>清除缓存。 
     </div>-->
 {% endif %}
+
+<!-- 改版通知 开始-->
+{% if app.request.attributes.get('_route') == '_homepage' %}
+<div class="noticeM">
+    <div class="wrap brown fontYH font14">
+        <div class="txt">亲爱的积粒网会员，为了给您带来更好的用户体验，积粒网将于<span class="emph">近期进行改版</span></div>
+        <div class="unfold font12" id="unfold"><span>点击展开</span><em></em></div>
+    </div>
+    <div class="noticeCont" id="noticeCont">
+        <div class="noticeDetail fontYH">
+            <div class="wrap">
+                  <ul>
+                    <li>
+                        <img src="/images/merge/scroll.png">
+                        <div class="txt font14">
+                            <span class="tit">增加问卷和投票的功能</span>
+                            <span class="font16 lh28">一份问卷最高可得10000积分，您还可以成为有奖出题者，用您的声音改变世界！</span>
+                        </div>
+                    </li>
+                  </ul>  
+               
+            </div>
+        </div>
+        <div class="warn fontYH">
+            <div class="cont">
+             <table cellpadding="10" cellspacing="10">
+               <tbody>
+                 <tr><td colspan="2" class="font13" style=" padding-bottom: 1.8%; line-height: 22px;">积粒网即将与91问问调查网合并，新网站地址为91问问地址<a class="font14 bg" href="http://www.91wenwen.net" target="_blank">www.91wenwen.net</a>，关于账号和积分规则的变化，请大家注意：</td></tr>
+                 
+                 <tr><td>只有<a href="http://www.91jili.com/" target="_blank">积粒网</a>的账号</td><td>账号保持不变</td></tr>
+                 <tr><td>只有<a href="http://www.91wenwen.net/" target="_blank">91问问</a>的账号</td><td>账号保持不变</td></tr>
+                 <tr>
+                     <td rowspan="2" style="width:43%;">既有<a title="积粒网" href="http://www.91jili.com/" target="_blank">积粒网</a>又有<a title="91问问" href="http://www.91wenwen.net/" target="_blank">91问问</a>的账号</td>
+                     <td style=" line-height: 19px; padding-top: 2.1%;">两边的账号已经绑定的，只能使用91问问账号，积粒网账号停用，积分自动合并到91问问账号。</td>
+                 </tr>
+                 <tr>
+                     <td style=" line-height: 19px; padding-top: 2.8%;">两边的账号没有绑定的，积分不会合并，两边的账号都可用。如果您想绑定账号合并积分，请到91问问<a title="点击这里查看是否绑定账号" class="bind" href="https://www.91wenwen.net/connect_jili/description" target="_blank">绑定</a></td>
+                 </tr>
+
+                 <tr><td colspan="2" style="padding:0; height:12px!important;"></td></tr>
+                 <tr><td colspan="2" class="thanks font13">感谢您一直以来对我们的支持，给您造成的不便，敬请谅解！我们正在努力前进的路上，希望有你的一路陪伴，我们才能走的更远~！</td></tr>
+                 <tr><td colspan="2" class="sign">积粒网开发团队<br>2015年11月24日</td></tr>
+               </tbody>
+             </table>
+             <a class="contact" title="联系客服" href="{{ path('_default_support') }}" target="_blank"></a>
+          </div>
+            <div class="fold">点击收起<em></em></div>
+            <div class="btm"></div>
+        </div>
+    </div>
+</div>
+{% else %}
+{% endif %}
+<!-- 改版通知 结束-->
+
     <div class="topNavs w1000">
     {% if app.session.has('uid') %}
       <ul id="userbar">
@@ -91,27 +146,44 @@ $(document).ready(function(){
     <a href="{{ path('_user_login') }}" title="登录">登录</a><span class="division">|</span><a href="{{ path('_user_reg') }}" title="注册">注册</a>
     {% endif %}  
     </div>
-{% if app.request.attributes.get('_route') == '_homepage' %}
-    <div class="indexTopbannerWrap">
-        <div id="top" class="indexTopbanner">
-            <a href="{{ path('jili_api_monthactivity_gatheringindex', {'l':1}) }}" class="allPointer"></a>
-            <div class="rule">
-                <a href="{{ path('jili_api_monthactivity_gatheringindex',{'l':2}) }}" class="ruleLink"></a>
-                <a href="{{ path('jili_api_monthactivity_gatheringindex', {'l':3}) }}" class="commander"><img src="{{ asset('images/january/crown.png') }}" width="145" height="74" /></a>
-                <div class="splitLvTxt">再拼<span class="needNum"></span>单，瓜分<strong><img src="{{ asset('images/january/lv1TxtHome.png')}}" width="104" height="35" /></strong>米粒</div>
-            </div>
-        </div>
-    </div>
-{% else %}
-{% endif %}
+
     <div class="headerConWrapper">
         <div class="headerCon w1000">
             <div class="headerConUp clearfix">
                 <a href="{{ path('_homepage') }}" title="91积粒logo" class="logo fnLeft"><img src="{{ asset('images/logo.png') }}" width="160" height="46" alt="91积粒logo" title="91积粒logo"/></a>
                 {% if app.request.attributes.get('_route') == '_homepage' %}
-                    {% block search_box %}
-                    	{{ render(controller('JiliEmarBundle:Search:form', {'rt' : 1 } )) }}{# 商城检索 #}
-                    {% endblock %}
+                     <form action="#"  id="search_box">
+                     
+                         <div class="search fnRight">
+                             <div class="tbSearch"><a data-type="6" data-tmpl="573x66" data-tmplid="140" data-style="2" data-border="0" biz-s_logo="1" biz-s_hot="1" href="#"></a>
+                                 <div class="tbTipsWrap">
+                                     <a class="tbTipsIco"></a>
+                                     <div class="tbTipsCon">
+                                         <em></em>通过这里去爱淘宝购物，即可参加<a style="text-decoration:underline;" href="{{ path('jili_api_monthactivity_gatheringindex',{'l':7}) }}" target="_blank">抱团大作战</a>活动，最高可瓜分<a>2,888,888</a>米粒
+                                     </div>
+                                 </div>
+                             </div>
+                             <a href="{{ path('_default_support') }}" class="hpIco" title="帮助中心"></a>
+                         </div>
+                         {% include "JiliFrontendBundle::alimama.html.twig" with { pid:"mm_49376465_4372428_28778243" } %}
+                     </form> 
+                     <script type="text/javascript">
+                     var search_form_rt_config = search_form_rt_config || {};
+                     search_form_rt_config = {{ rt_of_search_form|json_encode|raw   }};
+                     var search = function() {
+                          $('#search_box').submit();
+                          return false;
+                     };
+                     //taobaoTips
+                     var tbTipsCon = $(".tbTipsCon");
+                     $(".tbTipsWrap").hover(function(){
+                             tbTipsCon.show();
+                         }, function(){
+                             tbTipsCon.hide();
+                     });
+                     </script>
+
+                        {# toabao检索 #}
 				{% endif %}
             </div>
             <ul class="mainNavs clearfix">
@@ -134,8 +206,8 @@ $(document).ready(function(){
         </div>
     </div>
     <!--start checkin div-->
-    {% if app.session.has('uid') %}{# todo add && checkin_task_uncomplete_yet #}
-    	{{ render(controller('JiliApiBundle:Top:checkIn' , {auto_checkin: app.request.get('auto_checkin',0)}) ) }}{# 签到 #}
+    {% if app.session.has('uid') %}
+        {{ render(controller('JiliApiBundle:Top:checkIn'  ) ) }}{# 签到 #}
 	{% endif %}
     <!--end checkin div-->
     

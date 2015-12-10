@@ -48,9 +48,6 @@ jili_emar:
     prefix:   /emar
 
 
-jili_backend:
-    resource: "@JiliBackendBundle/Resources/config/routing.yml"
-    prefix:   /backend
 
 gregwar_captcha_routing:
     resource: "@GregwarCaptchaBundle/Resources/config/routing/routing.yml"

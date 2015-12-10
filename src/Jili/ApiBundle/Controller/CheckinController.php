@@ -166,7 +166,7 @@ class CheckinController extends Controller
 
             break;
         default:
-            # code...
+            throw $this->createNotFoundException('错误的请求参数');
             break;
         }
 
