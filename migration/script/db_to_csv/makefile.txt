@@ -17,7 +17,7 @@ fetch-jili: dump-jili
 	echo 'decompress jili ball' >> ${jili_log} 
 	/usr/bin/time -ao ${jili_log}  -f "${time_fmt}" tar -xjf  ${merge_dir}/jl_csv.tar.bz -C ${merge_dir} 1>>${jili_log}  2>&1
 	echo 'completed' >> ${jili_log} 
-	cp ${jili_log}  ${$jili_log_bk}
+	cp ${jili_log}  ${jili_log_bk}
 
 
 # 235
@@ -45,7 +45,7 @@ fetch-ww: dump-ww
 	echo 'decompress jili tarball' >> ${ww_log} 
 	/usr/bin/time -ao ${ww_log}  -f "${time_fmt}" tar -xjf  ${merge_dir}/ww_csv.tar.bz -C ${merge_dir} 1>>${ww_log}  2>&1
 	echo 'completed' >> ${ww_log} 
-	cp ${ww_log}  ${$ww_log_bk}
+	cp ${ww_log}  ${ww_log_bk}
 
 .SILENT:
 
