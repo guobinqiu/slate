@@ -9,7 +9,7 @@
             {% set router_current = app.request.attributes.get('_route') %}
             <a href="{{ path('wenwen_frontend_home_home') }}" title="首页" {{ router_current == 'wenwen_frontend_home_home' ? 'class="first active"':'class="first"' }}>首页</a>
             <a href="{{ path('wenwen_frontend_survey_index') }}" title="问卷列表" {{ router_current == 'wenwen_frontend_survey_index' ? 'class="active"':'' }}>问卷列表</a>
-            <a href="{{ path('wenwen_frontend_vote_index') }}" title="快速问答" {{ router_current == 'wenwen_frontend_vote_index' ? 'class="active"':'' }}>快速问答</a>
+            <a href="{{ path('jili_frontend_vote_index') }}" title="快速问答" {{ router_current == 'jili_frontend_vote_index' ? 'class="active"':'' }}>快速问答</a>
             {% if app.session.has('uid') %} 
             <a href="{{ path('_advertiserment_list') }}" title="体验广告" {{ router_current == '_advertiserment_list' ? 'class="active"':'' }}>体验广告</a>
             {% endif %}
