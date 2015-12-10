@@ -444,3 +444,220 @@ a.tencent{
 }
 .l834Taobao{ width:834px; height:90px; background:#fff; margin-bottom:10px;}
 
+/* merge notice start */
+.brown{
+	color: #60522e;
+}
+.noticeM{
+	min-height: 75px;
+	background: #ffcc42;
+}
+.noticeM .wrap{
+	min-height: 74px;
+	background: #ffcc42 url(/images/merge/bgNotice.jpg) no-repeat 0 5px;
+	margin: 0 auto;
+}
+.noticeM .wrap .txt{
+	padding-top: 15px;
+}
+.noticeM .wrap .txt .emph{
+	padding: 2px 5px;
+	border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    background: #dc0000;
+    color: #fff;
+}
+.noticeM .wrap .unfold{
+	text-align: center;
+    margin: 10px auto 0;
+    width: 100px;
+	border: 1px solid #997326;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;	
+}
+.noticeM .wrap .unfold em{
+	width: 11px;
+	height: 7px;
+	display: inline-block;
+    margin-left: 5px;
+	background: #ffcc42 url(/images/merge/unfoldArrow.png) no-repeat;
+}
+.noticeM .wrap .unfold .arrow-unfolded{
+   -moz-transform: rotate(180deg);
+   -ms-transform: rotate(180deg);
+   -webkit-transform: rotate(180deg);
+   transform: rotate(180deg);
+}
+#noticeCont{
+	display: none;
+	overflow-x: hidden;
+}
+.noticeCont .noticeDetail{
+	background: #ffcc42 url(/images/merge/bgxScroll.jpg) repeat-x center;
+	height: 293px;
+}
+.noticeCont .noticeDetail .wrap{
+	width: 100%;
+	height: 100%;
+	background: url(/images/merge/bgScroll.jpg) no-repeat center;
+}
+.noticeCont .warn{
+	background: #ffdd8c;
+	margin: 0 auto;
+}
+.noticeCont .warn .cont{
+	width: 912px;
+	height: 409px;
+	margin: 0 auto;
+    position: relative;;
+	background: #ffdd8c url(/images/merge/bgCont.jpg) no-repeat center;
+}
+.noticeCont .warn .fold{
+	text-align: center;
+    margin: 10px auto;
+    width: 100px;
+	border: 1px solid #997326;	
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    color: #916a24;
+    cursor: pointer;
+}
+.noticeCont .warn .fold em{
+	width: 11px;
+	height: 7px;
+	display: inline-block;
+    margin-left: 5px;
+	background: url(/images/merge/foldArrow.png) no-repeat;
+}
+.noticeCont .warn .btm{
+	height: 14px;
+	background: url(/images/merge/bgxBottom.jpg) repeat-x;
+}
+.noticeCont {
+    /* padding-top: 47px; */
+}
+.noticeCont ul li {
+    margin: 0 auto;
+    width: 756px;
+    position: relative;
+}
+.noticeCont ul li img{
+	float: left;
+	margin-top: 20px;
+}
+.noticeCont ul li .txt{
+	width: 305px;
+    color: #895c21;
+    right: 0;
+    position: absolute;
+    text-align: left;
+    margin-top: 53px;
+}
+.noticeCont ul li .txt .tit{
+	font-weight: bold;
+	font-size: 30px;
+ 	-moz-text-shadow:1px 1px 0 #ffe9bd;
+ 	-webkit-text-shadow:1px 1px 0 #ffe9bd;
+ 	text-shadow:1px 1px 0 #ffe9bd;
+	filter: Shadow(Color='#ffe9bd', Direction='135', Strength='6');
+	filter: dropshadow(OffX=1, OffY=1, Color='#ffe9bd', Positive='true');
+}
+.noticeCont ul li .txt span{
+    height: 60px;
+    float: left;
+}
+.noticeCont a.control_prev, a.control_next {
+    position: absolute;
+    top: 40%;
+    z-index: 999;
+    display: block;
+    padding: 1%;
+    width: auto;
+    height: auto;
+    text-decoration: none;
+    background: #946f16;
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.noticeCont a.control_prev:hover, a.control_next:hover {
+    opacity: 0.8;
+    -webkit-transition: all 0.2s ease;
+}
+.noticeCont a.control_prev{
+    left: 10%;
+    border-radius: 0 2px 2px 0;
+ }
+.noticeCont a.control_next{
+    right: 10%;
+    border-radius: 2px 0 0 2px;
+}
+.noticeCont a.control_prev span,a.control_next span{
+    width: 15px;
+    height: 23px;
+    display: block;
+}
+.noticeCont a.control_prev span{
+    background: url(/images/merge/arrowLeft.png) no-repeat; 
+}
+.noticeCont a.control_next span{
+    background: url(/images/merge/arrowRight.png) no-repeat;
+}
+.noticeCont .warn .cont table{
+    width: 578px;
+    position: absolute;
+    left: 86px;
+    top: 86px;
+}
+.noticeCont .warn .cont table tr td{
+    height: 29px;
+    line-height: 29px;
+    padding: 0 2%;
+}
+.noticeCont .warn .cont table tr td, .noticeCont .warn .cont table tr td a{
+    color: #4d4d4d;
+    text-align: left;
+    font-family:'Microsoft YaHei',sans-serif;
+}
+.noticeCont .warn .cont table tr td a{
+	text-decoration: underline;
+}
+.noticeCont .warn .cont table tr td.sign{
+    text-align: right;
+    right: 0;
+    bottom: -8px;
+    position: absolute;
+    line-height: 16px;
+}
+.noticeCont .warn .cont table tr td.thanks{
+    color: #f7612a;
+    line-height: 18px;
+    padding: 0;
+    line-height: 21px;
+}
+.noticeCont .warn .cont table tr td a.bind{
+    padding: 0.6% 2%;
+    background: #19c706;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 5px;
+}
+.noticeCont .warn .cont .contact{
+    position: absolute;
+    left: 720px;
+    top: 196px;
+    width: 227px;
+    height: 206px;
+}
+/* merge notice end /*/

@@ -187,3 +187,26 @@
 			$(document.body).limit(); 
 		}) 
 })(jQuery);
+
+$(document).ready(function(){
+    //fold and unfold while click button
+        var unfold = $('#unfold');
+        var text = $('#unfold span');
+        var arrow = $('#unfold em');
+        var target = $('#noticeCont');
+        var fold = $('.noticeCont .warn .fold');
+
+        unfold.click(function() {
+            arrow.toggleClass('arrow-unfolded');
+            if (target.css('display') !== 'none'){
+                text.html("点击展开");
+                target.slideUp(600);
+                }else{
+                text.html("点击收起");
+                target.slideDown(800);
+                }
+        });
+        fold.click(function() {
+            target.slideUp(600);
+        });
+});

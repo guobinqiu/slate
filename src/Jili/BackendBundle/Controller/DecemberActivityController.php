@@ -29,7 +29,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
            $form->bind( $request);
            if ($form->isValid()) {
                $data = $form->getData();
-               $entity = $this->getDoctrine()->getEntityManager()
+               $entity = $this->getDoctrine()->getManager()
                    ->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder' )
                    ->findOneByOrderId($data['orderId']);
 
@@ -86,7 +86,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
        $request = $this->get('request'); 
        $page_size = $this->container->getParameter('page_num');
 
-       $em = $this->getDoctrine()->getEntityManager();
+       $em = $this->getDoctrine()->getManager();
 
        $filters = array();
 
@@ -117,15 +117,23 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
     {
 
         $request = $this->get('request');
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('JiliFrontendBundle:GameEggsBreakerTaobaoOrder')->findOneForAudit($id);
+
         $logger = $this->get('logger');
-        if(! $entity)  {
+
+        if( ! $entity) {
             $this->get('session')->getFlashBag()->add('error', '没找到审核订单');
             return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_listall'));
         } 
         $user = $em->getRepository('JiliApiBundle:User')
             ->findOneById($entity->getUserId());
+
+        if( ! $user ) {
+            $this->get('session')->getFlashBag()->add('error', '没找到订单关联的用户');
+            return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_listall'));
+        } 
+
         $form = $this->createForm( new GameEggsBreakerAuditType(), $entity);
 
         if( 'POST' === $request->getMethod()) {
@@ -135,7 +143,7 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
                 $this->get('december_activity.game_eggs_breaker')
                     ->auditImmdiateOrderEntity($data);
 
-                $this->get('session')->setFlash('notice','审核成功');
+                $this->get('session')->getFlashBag()->add('notice','审核成功');
                 return $this->redirect($this->generateUrl('jili_backend_decemberactivity_listall'));
             }
         }
@@ -174,17 +182,17 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
 
                try {
                    $this->get('december_activity.game_eggs_breaker')->publishPointsStrategy( $data['rules'], 'consolation');
-                   $this->get('session')->setFlash('notice','发布成功');
+                   $this->get('session')->getFlashBag()->add('notice','发布成功');
 
                    if(true === $data['whether_clean_current']) {
                        $this->get('december_activity.game_eggs_breaker')->cleanPointsPool('consolation');
-                       $this->get('session')->setFlash('notice','当前奖池成功清空');
+                       $this->get('session')->getFlashBag()->add('notice','当前奖池成功清空');
                    }
 
                    return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_pointspoolpulishedsuccess') );
                } catch(\Exception $e) {
                    $this->get('logger')->crit('[backend][decemberActivity][consolationPointsPool] points strategy publish internal error. '.$e->getMessage() );
-                   $this->get('session')->setFlash('error','发布失败! ');
+                   $this->get('session')->getFlashBag()->add('error','发布失败! ');
 
                }
            }
@@ -211,15 +219,15 @@ class DecemberActivityController extends Controller implements IpAuthenticatedCo
                $logger->debug('{jarod}'. var_export($data, true));
                try {
                    $this->get('december_activity.game_eggs_breaker')->publishPointsStrategy( $data['rules'], 'common');
-                   $this->get('session')->setFlash('notice','发布成功');
+                   $this->get('session')->getFlashBag()->add('notice','发布成功');
                    if(true === $data['whether_clean_current']) {
                        $this->get('december_activity.game_eggs_breaker')->cleanPointsPool('common');
-                       $this->get('session')->setFlash('notice','当前奖池成功清空');
+                       $this->get('session')->getFlashBag()->add('notice','当前奖池成功清空');
                    }
                    return $this->redirect( $this->generateUrl('jili_backend_decemberactivity_pointspoolpulishedsuccess') );
                } catch(\Exception $e) {
                    $this->get('logger')->crit('[backend][decemberActivity][commonPointsPool] points strategy publish internal error. '.$e->getMessage() );
-                   $this->get('session')->setFlash('error','发布失败! ');
+                   $this->get('session')->getFlashBag()->add('error','发布失败! ');
 
                }
            }

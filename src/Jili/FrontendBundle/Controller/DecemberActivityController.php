@@ -88,7 +88,7 @@ class DecemberActivityController extends Controller
                 if(count($errors)>0) {
                     foreach($errors as $error ) {
                         $messages[] = $error->getMessage();
-                        $this->get('session')->setFlash('error', $messages);
+                        $this->get('session')->getFlashBag()->add('error', $messages);
                     }
                 } else {
                     $em  = $this->getDoctrine()->getManager();
@@ -97,7 +97,7 @@ class DecemberActivityController extends Controller
                             'orderAt'=> new \Datetime($data['orderAt']), 
                             'orderId'=>$order_id, 
                         ));
-                    $this->get('session')->setFlash('notice','提交成功，等待审核');
+                    $this->get('session')->getFlashBag()->add('notice','提交成功，等待审核');
                 }
                 return $this->redirect($this->generateUrl('jili_frontend_decemberactivity_index'));
             }

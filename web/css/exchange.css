@@ -200,11 +200,12 @@
 }
 /*by wlt, 2015-3-18*/
 .exchangeV2 ul{
+	float: left;
 	margin-top: -20px;
 	margin-right: -40px;
 }
 .exchangeV2 li{
-	float: left;
+	float:left;
 	margin-top: 40px;
 	margin-right: 40px;
 	background-color: #fff;

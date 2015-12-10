@@ -21,6 +21,7 @@ $(document).ready(function(){
         $("#exchangeForm").submit();
     });
     $("#flowBtn").click(function(){
+        return false;
         $('#exchangeForm').attr("action", "{{ path('_exchange_flowInfo') }}");
         $("#exchangeForm").submit();
     });
@@ -47,11 +48,11 @@ function alipayClick(){
 <div class="main w1000">
     <div class="exchangeV2">
         <form method="post" name="exchangeForm" id="exchangeForm">
-        <ul class="clearfix">
+        <ul>
             <li>
                 <div class="clearfix">
                     <div class="pic">
-                        <img src="{{asset('images/exchange/mobile.png')}}" alt="示意图"/>
+                        <img src="{{asset('images/exchange/mobile.png')}}" alt="手机示意图"/>
                     </div>
                     <dl>
                         <dt>手机充值</dt>
@@ -65,7 +66,7 @@ function alipayClick(){
             <li>
                 <div class="clearfix">
                     <div class="pic">
-                        <img src="{{asset('images/exchange/alipay.png')}}" alt="示意图"/>
+                        <img src="{{asset('images/exchange/alipay.png')}}" alt="支付宝现金兑换示意图"/>
                     </div>
                     <dl>
                         <dt>支付宝现金兑换</dt>
@@ -79,13 +80,14 @@ function alipayClick(){
             <li>
                 <div class="clearfix">
                     <div class="pic">
-                        <img src="{{asset('images/exchange/flow.png')}}" alt="示意图"/>
+                        <img src="{{asset('images/exchange/flow.png')}}" alt="上网流量包兑换示意图"/>
                     </div>
                     <dl>
                         <dt>上网流量包兑换</dt>
                         <dd class="text">用积分兑换上网流量包，电信、联通<strong>1590米粒</strong>起兑，移动<strong>1660米粒</strong>起兑</dd>
                         <dd class="exchangeBtn">
-                            <span id="flowBtn">立即兑换</span>
+                            <!-- <span id="flowBtn">立即兑换</span> -->
+                            <span class="disabled" id="flowBtn">暂时关闭</span>
                         </dd>
                     </dl>
                     <span class="newIcon"></span>
@@ -94,7 +96,7 @@ function alipayClick(){
             <li>
                 <div class="clearfix">
                     <div class="pic">
-                        <img src="{{asset('images/exchange/amazon.png')}}" alt="示意图"/>
+                        <img src="{{asset('images/exchange/amazon.png')}}" alt="亚马逊礼品卡兑换示意图"/>
                     </div>
                     <dl>
                         <dt>亚马逊礼品卡兑换</dt>
