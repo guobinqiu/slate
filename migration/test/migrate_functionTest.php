@@ -909,5 +909,66 @@ EOD
 );
   }
 
+    public function test_strip_vote_description_links() 
+    {
+
+        $description  ='[该题由热心用户：<a href="http://www.91wenwen.net/user/152136"><font color="red">侧耳倾听</font></a> 提供，恭喜他获得了<font color="red">200</font>积分！]';
+        $description_expected = '[该题由热心用户：<font color="red">侧耳倾听</font> 提供，恭喜他获得了<font color="red">200</font>积分！]';
+
+        $this->assertEquals( $description_expected, strip_vote_description_links( $description) , 'stip the old link');
+
+
+$description=<<<EOD
+[该题由热心用户：<a href="http://www.91wenwen.net/user/    143704"><font color="red">吹风的鱼</font></a> 提供，恭喜他获得了<font color="red">200</font>积分！]
+现如今的社会，开始起步的职场新人，都希望自己多赚一点钱而去参加兼职工作。你对此有何看法？';
+EOD;
+
+$description_expected=<<<EOD
+[该题由热心用户：<font color="red">吹风的鱼</font> 提供，恭喜他获得了<font color="red">200</font>积分！]
+现如今的社会，开始起步的职场新人，都希望自己多赚一点钱而去参加兼职工作。你对此有何看法？';
+EOD;
+        $this->assertEquals( $description_expected, strip_vote_description_links( $description) , 'stip the old link');
+
+$description=<<<EOD
+ [该题由热心用户：<a href="http://www.91wenwen.net/user/178048"><font 
+
+color="red">缘来缘去缘如风</font></a> 提供，恭喜她获得了<font color="red">200</font>积分！]
+近两年来民间借贷盛行，它可能救活了部分小企业,但也带来的负面影响。请问你对此有何看法？';
+EOD;
+
+$description_expected=<<<EOD
+ [该题由热心用户：<font 
+
+color="red">缘来缘去缘如风</font> 提供，恭喜她获得了<font color="red">200</font>积分！]
+近两年来民间借贷盛行，它可能救活了部分小企业,但也带来的负面影响。请问你对此有何看法？';
+EOD;
+        $this->assertEquals( $description_expected, strip_vote_description_links( $description) , 'stip the old link');
+
+$description=<<<EOD
+ [该题由热心用户：<a href="http://www.91wenwen.net/user/    317558"><font color="red">待解救</font></a> 提供，恭喜她获得了<font color="red">200积分</font>！]每到年末，很多公司都会举办尾牙晚宴 ，有的比较大规模的公司甚至还会举办尾牙晚会，做下年终总结以及新的一年的公司发展前景等等。但是大多数比较铺张浪费。很多在职人员褒贬不一，你是如何看待的？
+EOD;
+$description_expected=<<<EOD
+ [该题由热心用户：<font color="red">待解救</font> 提供，恭喜她获得了<font color="red">200积分</font>！]每到年末，很多公司都会举办尾牙晚宴 ，有的比较大规模的公司甚至还会举办尾牙晚会，做下年终总结以及新的一年的公司发展前景等等。但是大多数比较铺张浪费。很多在职人员褒贬不一，你是如何看待的？
+EOD;
+
+        $this->assertEquals( $description_expected, strip_vote_description_links( $description) , 'stip the old link');
+$description=<<<EOD
+ [该题由热心用户：<a href="http://www.91wenwen.net/user/honey0303 "><font color="red">344780</font></a> 提供，恭喜她获得了<font color="red">200积分</font>！]打呼噜在医学上被称为鼾症，是一种很 常见的睡眠疾病，它不仅影响他人的休息，更重要的是危害自身健康。具体有哪些危害您知道吗？
+EOD;
+$description_expected=<<<EOD
+ [该题由热心用户：<font color="red">344780</font> 提供，恭喜她获得了<font color="red">200积分</font>！]打呼噜在医学上被称为鼾症，是一种很 常见的睡眠疾病，它不仅影响他人的休息，更重要的是危害自身健康。具体有哪些危害您知道吗？
+EOD;
+        $this->assertEquals( $description_expected, strip_vote_description_links( $description) , 'stip the old link');
+
+$description=<<<EOD
+ [该题由热心用户：<a href="http://www.91wenwen.net/user37069"><font color="red">pipilhp</font></a> 提供，恭喜她获得了<font color="red">200积分</font>！]很多人都采取过年在酒店订年夜饭的方式和家人一起团聚，您认为这样的方式好吗？
+EOD;
+$description_expected=<<<EOD
+ [该题由热心用户：<font color="red">pipilhp</font> 提供，恭喜她获得了<font color="red">200积分</font>！]很多人都采取过年在酒店订年夜饭的方式和家人一起团聚，您认为这样的方式好吗？
+EOD;
+
+        $this->assertEquals( $description_expected, strip_vote_description_links( $description) , 'stip the old link');
+
+    }
 }
 

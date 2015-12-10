@@ -891,3 +891,17 @@ function export_csv_row($data, $file_name)
     fputcsv($handle, $data);
     fclose($handle);
 }
+
+function strip_vote_description_links($description) 
+{
+    return preg_replace('/<a\s+href="http:\/\/www\.91wenwen\.net\/user\/?\s*[\w\d]+\s*">(.*)<\/a>/s', '\1', $description);
+}
+
+/**
+ * generate stash data
+ */
+function generate_vote_choice_stash_data($choice)
+{
+    $stash_data['choices'] = $choice;
+    return json_encode($stash_data,JSON_UNESCAPED_UNICODE );
+}
