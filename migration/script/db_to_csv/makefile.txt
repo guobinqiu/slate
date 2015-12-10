@@ -11,9 +11,9 @@ init:
 	mkdir -p ${merge_dir} 
 
 # 235
-fetch-jili:	dump-jili
+fetch-jili: dump-jili	
 	echo 'fetch jili tarball' >> ${jili_log} 
-	/usr/bin/time -ao ${jili_log}  -f "${time_fmt}" scp -q -P9012 jiangtao@www.91jili.com:/data/91jili/merge/jl_csv.tar.bz ${merge_dir}  1>>${fetch_log}  2>&1
+	/usr/bin/time -ao ${jili_log}  -f "${time_fmt}" scp -q -P9012 jiangtao@www.91jili.com:/data/91jili/merge/jl_csv.tar.bz ${merge_dir}  1>>${jili_log}  2>&1
 	echo 'decompress jili ball' >> ${jili_log} 
 	/usr/bin/time -ao ${jili_log}  -f "${time_fmt}" tar -xjf  ${merge_dir}/jl_csv.tar.bz -C ${merge_dir} 1>>${jili_log}  2>&1
 	echo 'completed' >> ${jili_log} 
@@ -23,17 +23,15 @@ fetch-jili:	dump-jili
 # 235
 dump-jili: init
 	echo 'generate the dump-db script' > ${jili_log} 
-	/usr/bin/time -ao ${jili_log}  -f "real\t%E\nuser\t%U\nsys\t%S\n" php -f jl_csv.php > /data/91jili/merge/bin/jl_csv.sh
+	/usr/bin/time -ao ${jili_log}  -f "${time_fmt}" php -f jl_csv.php > /data/91jili/merge/bin/jl_csv.sh
 	echo 'deploy dump-db script' >> ${jili_log} 
-	/usr/bin/time -ao ${jili_log}  -f "real\t%E\nuser\t%U\nsys\t%S\n" scp -P9012 ./db_to_csv.php  /data/91jili/merge/bin/jl_csv.sh config.bashrc.dist jiangtao@www.91jili.com:/data/91jili/merge/bin/
+	/usr/bin/time -ao ${jili_log}  -f "${time_fmt}" scp -P9012 ./db_to_csv.php  /data/91jili/merge/bin/jl_csv.sh config.bashrc.dist jiangtao@www.91jili.com:/data/91jili/merge/bin/
 	while true;do read -p "Have you update the db config on remote server?[y/n]" yn;case $$yn in   [Yy]* ) echo "Go next";break;;* ) echo "Please do it.";;esac;done
 	echo 'run dump-db script' >> ${jili_log} 
 	ssh -p 9012 jiangtao@www.91jili.com 'cd /data/91jili/merge; bash bin/jl_csv.sh 2>&1 ' >> ${jili_log}
 
-
-
 dump-ww: init
-	echo 'generate the dump-db script' > ${jili_log} 
+	echo 'generate the dump-db script' > ${ww_log} 
 	/usr/bin/time -ao ${ww_log}  -f "${time_fmt}"  php -f ww_csv.php > ${merge_dir}/ww_csv.sh
 	echo 'deploy dump-db script' > ${ww_log} 
 	/usr/bin/time -ao ${ww_log}  -f "${time_fmt}" scp -q db_to_csv.php ${merge_dir}/ww_csv.sh  config.bashrc.dist  t-jiang@54.254.98.246:/mnt/tmp/merge/bin/
@@ -45,8 +43,8 @@ fetch-ww: dump-ww
 	echo 'fetch wenwen tarball' >> ${ww_log} 
 	/usr/bin/time -ao ${ww_log}  -f "${time_fmt}" scp -q t-jiang@54.254.98.246:/mnt/tmp/merge/ww_csv.tar.bz  ${merge_dir}  1>>${ww_log}  2>&1
 	echo 'decompress jili tarball' >> ${ww_log} 
-	/usr/bin/time -ao ${ww_log}  -f "${time_fmt}" tar -xjf  ${merge_dir}/ww_csv.tar.bz -C ${merge_dir} 1>>${fetch_jili_log}  2>&1
-	echo 'completed' >> ${jili_log} 
+	/usr/bin/time -ao ${ww_log}  -f "${time_fmt}" tar -xjf  ${merge_dir}/ww_csv.tar.bz -C ${merge_dir} 1>>${ww_log}  2>&1
+	echo 'completed' >> ${ww_log} 
 	cp ${ww_log}  ${$ww_log_bk}
 
 .SILENT:
