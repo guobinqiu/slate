@@ -5,6 +5,8 @@ include(__DIR__.'/../script/FileUtil.php');
 include(__DIR__.'/../script/Constants.php');
 include( __DIR__.'/../script/migrate_function.php');
 
+Constants::$environment = 'test';
+
 class migrate_functionTest extends PHPUnit_Framework_TestCase
 {
   public function test_getJiliConnectionByPanelistId() 
@@ -294,9 +296,33 @@ EOD
 
   function test_generate_user_data_both_exsit()
   {
-    $this->markTestIncomplete(
-      'This test has not been implemented yet.'
-    );
+
+    $this->before_test();
+
+
+//"id","panel_region_id","panel_id","email","login_id","login_password","login_password_crypt_type","login_password_salt","updated_at","created_at","created_remote_addr","created_user_agent","login_valid_flag","sex_code","birthday","panelist_status","campaign_code","last_login_time"
+
+    $panelist_row = str_getcsv(<<<EOD
+"6","2000","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
+
+EOD
+) ;
+//"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
+    $user_row = str_getcsv(<<<EOD
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+) ;
+
+     generate_user_data_both_exsit($panelist_row, $user_row);
+     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+     $this->assertCount(39, $return, 'merged user array has 39 items');
+//
+
+
+     $this->after_test();
+//     @exec('rm -rf '.$expected_user_csv_file);
 
   }
 
@@ -317,7 +343,7 @@ EOD
     $this->before_test();
 
     $return = generate_user_data_wenwen_common(array(), array());
-   $this->assertEquals('', $return);
+    $this->assertEquals('', $return);
 
 //"id","panel_region_id","panel_id","email","login_id","login_password","login_password_crypt_type","login_password_salt","updated_at","created_at","created_remote_addr","created_user_agent","login_valid_flag","sex_code","birthday","panelist_status","campaign_code","last_login_time"
 

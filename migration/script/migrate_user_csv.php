@@ -68,12 +68,12 @@ function do_process()
             $j = 0;
             $k = 0;
 
-            //遍历panel_91wenwen_panelist_91jili_connection表
+            // 遍历panel_91wenwen_panelist_91jili_connection表 , I connection
             $connection_current = getJiliConnectionByPanelistId($panelist_91jili_connection_file_handle, $panelist_id, $connection_current);
             $jili_cross_id = ($connection_current['matched'] == 1) ? $connection_current['jili_id'] : null;
 
             if ($jili_cross_id) {
-                //遍历user_wenwen_cross表
+                // 遍历user_wenwen_cross表
                 $cross_found = use_key_value_index($cross_indexs, $jili_cross_id);
                 if ($cross_found) {
                     $jili_email = $cross_found['email'];
@@ -85,7 +85,7 @@ function do_process()
                 }
             }
 
-            //遍历panel_91wenwen_pointexchange_91jili_account表
+            // 遍历panel_91wenwen_pointexchange_91jili_account表 II exchange
             $exchange_current = getPointExchangeByPanelistId($pointexchange_91jili_account_file_handle, $panelist_id, $exchange_current);
             $exchang_jili_email = ($exchange_current['matched'] == 1) ? $exchange_current['jili_email'] : null;
             if ($exchang_jili_email) {
@@ -94,13 +94,13 @@ function do_process()
                 continue;
             }
 
-            //遍历jili user 表
+            // 遍历jili user 表 III eamil
             if (isset($user_indexs[strtolower($jili_email)])) {
                 $both_exist_count = $both_exist_count + 1;
                 $user_row = use_file_index($user_indexs, strtolower($jili_email), $user_file_handle, true);
                 $jili_user_id = $user_row[0];
 
-                //生成新的user数据：拥有两边账号，相同的部分取问问数据
+                // 生成新的user数据：拥有两边账号，相同的部分取问问数据
                 generate_user_data_both_exsit($panelist_row, $user_row);
 
                 //其他要迁移的数据
@@ -123,7 +123,7 @@ function do_process()
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
     }
 
-    //user_only
+    //  user_only , no matched 
     foreach ($user_indexs as $email => $pointer) {
         $only_jili_count++;
 

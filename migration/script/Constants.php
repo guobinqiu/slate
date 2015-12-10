@@ -2,6 +2,7 @@
 
 class Constants
 {
+    public static $environment = 'dev';
     //income
     public static $income = array (
         1 => 100,

@@ -33,14 +33,6 @@ $weibo_user_indexs = '';
 // initialise csv file handle, create index
 function initialise_csv()
 {
-    //export csv file : title
-    //don't need title
-    //export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_name);
-    //export_csv_row(Constants::$user_wenwen_login_title, Constants::$migrate_user_wenwen_login_name);
-    //export_csv_row(Constants::$weibo_user_title, Constants::$migrate_weibo_user_name);
-    //export_csv_row(Constants::$sop_respondent_title, Constants::$migrate_sop_respondent_name);
-    //export_csv_row(Constants::$vote_answer_title, Constants::$migrate_vote_answer_name);
-
 
     //check file
     global $panelist_file_handle;
@@ -491,7 +483,6 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
 
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen_jili'];
-
     $user_row = set_default_value($user_row);
 
     export_csv_row($user_row, Constants::$migrate_user_name);
@@ -536,6 +527,9 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
  */
 function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 {
+    if(empty($panelist_row)) {
+        return '';
+    }
     //email
     $user_row[1] = $panelist_row[3];
 
@@ -584,7 +578,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //password_choice
     $user_row[34] = Constants::$password_choice['pwd_wenwen'];
 
-    var_dump($user_row[11]);
     //tel: panel_91wenwen_panelist_mobile_number.mobile_number
     global $panelist_mobile_indexs;
     if (isset($panelist_mobile_indexs[$panelist_row[0]])) {
@@ -592,7 +585,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
         //is_tel_confirmed
         $user_row[11] = 1;
-    } else {
+//    } else {
         //is_tel_confirmed
 //        $user_row[11] = 0;
     }
@@ -677,7 +670,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 function set_default_value($user_row)
 {
     for ($i = 0; $i <= 38; $i++) {
-        if (!isset($user_row[$i])) {
+        if (! isset($user_row[$i]) ) {
             $user_row[$i] = 'NULL';
         }
     }
@@ -887,7 +880,13 @@ function get_one_hour_ago_time($time)
 function export_csv_row($data, $file_name)
 {
     ksort($data);
-    $handle = fopen(EXPORT_PATH . "/" . $file_name, "a");
+     if (  isset(Constants::$environment) &&  Constants::$environment === 'test' ) {
+         $file_name = 'test.'.$file_name;
+         $handle = fopen(EXPORT_PATH . '/' . $file_name, 'w+');
+     } else{
+         $handle = fopen(EXPORT_PATH . '/' . $file_name, 'a');
+     }
+
     fputcsv($handle, $data);
     fclose($handle);
 }
