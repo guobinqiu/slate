@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 // use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\BackendBundle\Form\PanelistSearchType;
 use Jili\ApiBundle\Utility\String;
+use Jili\BackendBundle\Form\PanelistEditFormType;
+// use jili\ApiBundle\Entity\User;
+
 
 /**
  * @Route("/admin/panelist",requirements={"_scheme"="https"})
@@ -25,9 +28,13 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
      */
     public function searchAction(Request $request)
     {
-        $page = $request->request->get('page', 1);
+        $page = (int) $request->request->get('page', 1);
         if (!$page) {
-            $page = $request->query->get('page', 1);
+            $page = (int) $request->query->get('page', 1);
+        }
+
+        if ($page < 1) {
+            $page = 1;
         }
 
         $pageSize = 1;
@@ -51,13 +58,13 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
                 if ($values['type_registered'] == 1) {
                     $registeredCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'registered');
-                    $registered_page = $page>(int)ceil($registeredCount/$pageSize) ? (int)ceil($registeredCount/$pageSize):$page;
+                    $registered_page = $page > (int) ceil($registeredCount / $pageSize) ? (int) ceil($registeredCount / $pageSize) : $page;
                     $arr['registeredUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserSql($values, 'registered', $pageSize, $registered_page);
                 }
 
                 if ($values['type_withdrawal'] == 1) {
                     $withdrawalCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'withdrawal');
-                    $withdrawal_page = $page>(int)ceil($withdrawalCount/$pageSize) ? (int)ceil($withdrawalCount/$pageSize):$page;
+                    $withdrawal_page = $page > (int) ceil($withdrawalCount / $pageSize) ? (int) ceil($withdrawalCount / $pageSize) : $page;
                     $arr['withdrawalUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserSql($values, 'withdrawal', $pageSize, $withdrawal_page);
                 }
             }
@@ -86,5 +93,145 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
      */
     public function editAction(Request $request)
     {
+        $user_id = $request->query->get('id');
+        $completed = $request->query->get('completed');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+
+        if (!$user) {
+            $arr['user'] = null;
+            return $this->render('JiliBackendBundle:Panelist:edit.html.twig', $arr);
+        }
+
+        if (is_null($user->getDeleteFlag())) {
+            $user->setDeleteFlag(0);
+        }
+
+        $form = $this->createForm(new PanelistEditFormType(), $user);
+
+        $arr['form'] = $form->createView();
+
+        $arr['user'] = $user;
+        $arr['user_hobby_name'] = $this->getUserHobbyName($user->getHobby());
+        $arr['completed'] = $completed;
+        return $this->render('JiliBackendBundle:Panelist:edit.html.twig', $arr);
+    }
+
+    /**
+     * @Route("/editConfirm", name="_admin_panelist_edit_confirm")
+     * @Method("POST")
+     */
+    public function editConfirmAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //create vote form and get form data
+        $form = $this->createForm(new PanelistEditFormType());
+        $form->bind($request);
+
+        $values = $form->getData();
+
+        # If PID don't match, reset things and return to search
+        if (!$values || !isset($values['id'])) {
+            return $this->redirect($this->generateUrl('_admin_panelist_index'));
+        }
+
+        $user = $em->getRepository('JiliApiBundle:User')->find($values['id']);
+        if (!$user) {
+            return $this->redirect($this->generateUrl('_admin_panelist_index'));
+        }
+
+        # Undo is clicked
+        if ($request->request->get('undo')) {
+            return $this->redirect($this->generateUrl('_admin_panelist_edit', array (
+                'id' => $values['id']
+            )));
+        }
+
+        if ($form->isValid()) {
+
+            return $this->render('JiliBackendBundle:Panelist:editConfirm.html.twig', array (
+                'form' => $form->createView(),
+                'user' => $user,
+                'values' => $values,
+                'user_hobby_name' => $this->getUserHobbyName($user->getHobby())
+            ));
+        }
+
+        //form invalid
+        $error_meeeages = $form->getErrors();
+        return $this->render('JiliBackendBundle:Panelist:edit.html.twig', array (
+            'form' => $form->createView(),
+            'error_meeeages' => $error_meeeages,
+            'user' => $user,
+            'user_hobby_name' => $this->getUserHobbyName($user->getHobby())
+        ));
+    }
+
+    /**
+     * @Route("/editCommit", name="_admin_panelist_edit_commit")
+     * @Method("POST")
+     */
+    public function editCommitAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(new PanelistEditFormType());
+        $form->bind($request);
+
+        $values = $form->getData();
+
+        # If PID don't match, reset things and return to search
+        if (!$values || !isset($values['id'])) {
+            return $this->redirect($this->generateUrl('_admin_panelist_index'));
+        }
+
+        $user = $em->getRepository('JiliApiBundle:User')->find($values['id']);
+        if (!$user) {
+            return $this->redirect($this->generateUrl('_admin_panelist_index'));
+        }
+
+        # Undo is clicked
+        if ($request->request->get('undo')) {
+            return $this->redirect($this->generateUrl('_admin_panelist_edit', array (
+                'id' => $values['id']
+            )));
+        }
+
+        if ($form->isValid()) {
+
+            $user->setBirthday($values['birthday']);
+            $user->setNick($values['nick']);
+            $user->setTel($values['tel']);
+            $user->setDeleteFlag($values['deleteFlag']);
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('_admin_panelist_edit', array (
+                'id' => $values['id'],
+                'completed' => 1
+            )));
+        }
+
+        //form invalid
+        return $this->redirect($this->generateUrl('_admin_panelist_edit', array (
+            'id' => $values['id']
+        )));
+    }
+
+    public function getUserHobbyName($user_hobby)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user_hobby_name = '';
+
+        $user_hobby_arr = explode(",", $user_hobby);
+        foreach ($user_hobby_arr as $key => $value) {
+            $hobby = $em->getRepository('JiliApiBundle:HobbyList')->find($value);
+            $user_hobby_names[] = $hobby->getHobbyName();
+        }
+        $user_hobby_name = implode(',', $user_hobby_names);
+        return $user_hobby_name;
     }
 }
