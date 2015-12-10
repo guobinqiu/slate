@@ -130,7 +130,7 @@ $(function() {
         <td align="left">{{ item.lastLoginDate| date("Y-m-d H:i:s") }}</td>
         <td align="left">{{ item.createdRemoteAddr}}</td>
         <td align="left">{{ item.campaignCode}}</td>
-        <td align="left">activity detail</td>
+        <td align="left"><a href="{{ path('_admin_panelist_pointhistory',{'id':item.id}) }}">Point History</a></td>
         <td align="left"><a href="{{ path('_admin_panelist_edit',{'id':item.id}) }}">{{ item.id}}</a></td>
    </tr>
     {% endfor %}

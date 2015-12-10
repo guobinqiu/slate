@@ -107,4 +107,39 @@ class PointHistoryRepository extends EntityRepository
         $query =  $query->getQuery();
         return $query->getResult();
     }
+
+    public function userPointHistoryCount($user_id)
+    {
+        $query = $this->createQueryBuilder('ph');
+        $query = $query->select('COUNT(ph.id)');
+        $query = $query->Where('ph.userId = :userId');
+        $param['userId'] = $user_id;
+        $query = $query->setParameters($param);
+        $query =  $query->getQuery();
+        $count = $query->getSingleScalarResult();
+        return $count;
+    }
+
+    public function userPointHistorySearch($user_id,$pageSize, $currentPage)
+    {
+        $query = $this->createQueryBuilder('ph');
+
+        $query = $query->select('ph.id, ph.userId, a.displayName, ph.pointChangeNum, ph.createTime');
+        $query = $query->innerJoin('JiliApiBundle:AdCategory', 'a', 'WITH', 'ph.reason = a.id ');
+
+        $query = $query->Where('ph.userId = :userId');
+
+        $param['userId'] = $user_id;
+        $query = $query->setParameters($param);
+
+        if ($currentPage < 1) {
+            $currentPage = 1;
+        }
+
+        $query = $query->setFirstResult($pageSize * ($currentPage - 1));
+        $query = $query->setMaxResults($pageSize);
+        $query =  $query->getQuery();
+        return $query->getResult();
+    }
+
 }

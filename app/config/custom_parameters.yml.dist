@@ -169,6 +169,7 @@ parameters:
     upload_tmp_image_dir: uploads/tmp/
     upload_vote_image_dir: uploads/vote_image/
     page_num: 10
+    page_size_50: 50
     init: 0
     init_one: 1
     init_two: 2
