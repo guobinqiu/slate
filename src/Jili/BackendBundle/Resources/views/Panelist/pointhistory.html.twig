@@ -67,12 +67,12 @@
     {% for item in pointHistoryList %}
     <tr>
         <td class="center">{{item.createTime|date("Y-m-d H:i:s")}}</td>
-        <td class="right">--</td>
+        <td class="right">{{item.total_point}}</td>
         <td class="right">{{item.pointChangeNum}}</td>
         <td class="left">{{item.displayName}}</td>
       </tr>
        {% endfor %}
-     {% else %} 
+     {% else %}
     <tr class="odd">
       <td colspan="5" class="center">No history</td>
     </tr>

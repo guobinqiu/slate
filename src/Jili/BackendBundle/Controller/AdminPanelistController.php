@@ -237,13 +237,23 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
             $page = 1;
         }
 
+        // total count
         $pointHistoryCount = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistoryCount($user_id);
-        $arr['pointHistoryList'] = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistorySearch($user_id, $pageSize, $page);
+
+        //list
+        $pointHistoryList = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistorySearch($user_id, $pageSize, $page);
+
+        //total_point
+        $total_point = 0;
+        foreach ($pointHistoryList as $key => $value) {
+            $pointHistoryList[$key]['total_point'] = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userTotalPoint($value['id']);
+        }
 
         $arr['page'] = $page;
         $arr['page_size'] = $pageSize;
         $arr['total'] = $pointHistoryCount;
         $arr['user'] = $user;
+        $arr['pointHistoryList'] = $pointHistoryList;
         return $this->render('JiliBackendBundle:Panelist:pointhistory.html.twig', $arr);
     }
 

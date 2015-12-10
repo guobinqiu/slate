@@ -138,8 +138,21 @@ class PointHistoryRepository extends EntityRepository
 
         $query = $query->setFirstResult($pageSize * ($currentPage - 1));
         $query = $query->setMaxResults($pageSize);
+        $query->orderBy('ph.id', 'DESC');
         $query =  $query->getQuery();
         return $query->getResult();
+    }
+
+    public function userTotalPoint($id)
+    {
+        $query = $this->createQueryBuilder('ph');
+        $query = $query->select('sum(ph.pointChangeNum)');
+        $query = $query->Where('ph.id <= :id');
+        $param['id'] = $id;
+        $query = $query->setParameters($param);
+        $query =  $query->getQuery();
+        $totalPoint = $query->getSingleScalarResult();
+        return $totalPoint;
     }
 
 }
