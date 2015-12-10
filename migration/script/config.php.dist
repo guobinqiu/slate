@@ -4,7 +4,6 @@
 // define('EXPORT_PATH',  '/data/91jili/merge/script/vote');
 
 define('BASE_PATH', '/data/91jili/merge');
-define('ENV', 'dev');
 
 //define('BASE_PATH', dirname(__FILE__));
 
