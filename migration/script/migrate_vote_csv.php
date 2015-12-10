@@ -41,7 +41,7 @@ foreach ($vote_image as $value) {
 }
 
 // generate a csv file
-$migrate_vote_handle = fopen(EXPORT_PATH . "/migrate_vote.csv", "w");
+$migrate_vote_handle = fopen(EXPORT_PATH . '/migrate_vote.csv', 'w');
 #id,title,description,start_time,end_time,point_value,stash_data,vote_image,updated_at,created_at
 // $title = array (
 //     'id',
@@ -82,7 +82,7 @@ fclose($migrate_vote_handle);
 function generate_stash_data($choice)
 {
     $stash_data['choices'] = $choice;
-    return json_encode($stash_data);
+    return json_encode($stash_data,JSON_UNESCAPED_UNICODE );
 }
 
 echo "\r\n\r\n" . date('c') . "   end!\r\n\r\n";
