@@ -122,26 +122,13 @@ function do_process()
     } catch (Exception $e) {
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
     }
-
     //  user_only , no matched 
     foreach ($user_indexs as $email => $pointer) {
         $only_jili_count++;
 
         fseek($user_file_handle, $pointer);
         $user_row = fgetcsv($user_file_handle);
-
-        //is_tel_confirmed
-        $user_row[11] = 0;
-
-        //origin_flag
-        $user_row[30] = Constants::$origin_flag['jili'];
-
-        //password_choice
-        $user_row[34] = Constants::$password_choice['pwd_jili'];
-
-        $user_row = set_default_value($user_row);
-
-        export_csv_row($user_row, Constants::$migrate_user_name);
+        generate_user_data_only_jili($user_row);
     }
 
     //weibo_user : no change

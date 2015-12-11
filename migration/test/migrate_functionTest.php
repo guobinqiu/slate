@@ -297,6 +297,9 @@ EOD
   function test_generate_user_data_both_exsit()
   {
     $this->before_test();
+      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+      @exec('rm -rf '.$expected_user_csv_file);
+
 //"id","panel_region_id","panel_id","email","login_id","login_password","login_password_crypt_type","login_password_salt","updated_at","created_at","created_remote_addr","created_user_agent","login_valid_flag","sex_code","birthday","panelist_status","campaign_code","last_login_time"
     $panelist_row = str_getcsv(<<<EOD
 "6","2000","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
@@ -305,7 +308,7 @@ EOD
 ) ;
 //"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
     $user_row = str_getcsv(<<<EOD
-"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","tao.jiang@d8aspring.com","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
 EOD
 ) ;
 
@@ -319,22 +322,70 @@ EOD
      $this->assertEquals('2ef75e7c46e06b90507e4d47780fd8426857c0ab', $return[2], 'use ww pass, just keep the jili"pass unchanged ');
 
      $this->assertEquals('1', $return[3], 'ww email is confirmedis_email_confirmed ');
+     $this->assertEquals('1', $return[4], 'keep jili is_from_wenwen unchanged ');
+     $this->assertEquals('tao.jiang@d8aspring.com', $return[5], 'keep jili wenwen_user unchanged ');
+     $this->assertEquals('', $return[6], 'keep jili token unchanged ');
+     $this->assertEquals("琪琪琪", $return[7], 'use ww profile.nickname');
 
      $this->after_test();
-//     @exec('rm -rf '.$expected_user_csv_file);
-
   }
 
-  function test_generate_user_data_only_wenwen()
+  function test_generate_user_data_both_exsit_is_from_wenwen_2()
   {
     $this->before_test();
+    @exec('rm -rf '.$expected_user_csv_file);
     $panelist_row = str_getcsv(<<<EOD
 "6","2000","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
 
 EOD
 ) ;
-     generate_user_data_only_wenwen($panelist_row, 1);
+    $user_row = str_getcsv(<<<EOD
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","2","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+) ;
+     generate_user_data_both_exsit($panelist_row, $user_row);
      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+     $this->assertEquals('2', $return[4], 'always 3 is merged with  wenwen');
+    $this->after_test();
+  }
+
+  function test_generate_user_data_both_exsit_is_from_wenwen_null()
+  {
+    //
+    $this->before_test();
+    @exec('rm -rf '.$expected_user_csv_file);
+    $panelist_row = str_getcsv(<<<EOD
+"6","2000","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
+
+EOD
+) ;
+    $user_row = str_getcsv(<<<EOD
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","NULL","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+) ;
+     generate_user_data_both_exsit($panelist_row, $user_row);
+     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+     $this->assertEquals('NULL', $return[4], 'always 3 is merged with  wenwen');
+     $this->after_test();
+  }
+
+  function test_generate_user_data_only_wenwen()
+  {
+    $this->before_test();
+      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+      @exec('rm -rf '.$expected_user_csv_file);
+
+    $panelist_row = str_getcsv(<<<EOD
+"6","2000","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
+
+EOD
+) ;
+
+     generate_user_data_only_wenwen($panelist_row, 1);
      $this->assertFileExists($expected_user_csv_file); 
      $return = str_getcsv(file_get_contents($expected_user_csv_file));
 
@@ -344,33 +395,61 @@ EOD
      $this->assertEquals('', $return[2], 'pwd is empty for ww only');
 
      $this->assertEquals('1', $return[3], 'empty is_email_confirmed ');
+     $this->assertEquals('3', $return[4], 'always 3 is merged with  wenwen is_from_wenwen');
+     $this->assertEquals('NULL', $return[5], 'set wenwe_user to NULL');
+      $this->assertEquals('', $return[6], 'set  token ""');
 
-    $this->after_test();
+     $this->after_test();
   }
 
-  function test_user_data_no_matched()
+  /**
+   * @group debug 
+   */
+  function test_generate_user_data_only_jili()
   {
-    $this->before_test();
-    $user_row = str_getcsv(<<<EOD
+
+      $this->before_test();
+      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+      @exec('rm -rf '.$expected_user_csv_file);
+
+      $user_row = str_getcsv(<<<EOD
 "1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
 EOD
 );
-      $user_row[11] = 0; //is_tel_confirmed
-      $user_row[30] = Constants::$origin_flag['jili'];//origin_flag
-      $user_row[34] = Constants::$password_choice['pwd_jili'];//password_choice
-      $user_row = set_default_value($user_row);
-      export_csv_row($user_row, Constants::$migrate_user_name);
+      generate_user_data_only_jili($user_row);
 
-     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
-     $this->assertFileExists($expected_user_csv_file); 
-     $return = str_getcsv(file_get_contents($expected_user_csv_file));
-     $this->assertCount(39, $return, 'merged user array has 39 items');
-     $this->assertEquals(1291363, $return[0], 'user id is 1');
-     $this->assertEquals('tao_jiang@voyagegroup.com', $return[1], 'use ww email ');
-     $this->assertEquals('2ef75e7c46e06b90507e4d47780fd8426857c0ab', $return[2], 'password choice');
-     $this->assertEquals('NULL', $return[3], 'empty is_email_confirmed ');
+      $this->assertFileExists($expected_user_csv_file); 
 
-    $this->after_test();
+      $return = str_getcsv(file_get_contents($expected_user_csv_file));
+
+      $this->assertCount(39, $return, 'merged user array has 39 items');
+      $this->assertEquals(1291363, $return[0], 'user id is 1');
+      $this->assertEquals('tao_jiang@voyagegroup.com', $return[1], 'use ww email ');
+      $this->assertEquals('2ef75e7c46e06b90507e4d47780fd8426857c0ab', $return[2], 'password choice');
+      $this->assertEquals('NULL', $return[3], 'empty is_email_confirmed ');
+      $this->assertEquals('1', $return[4], 'keep 1');
+      $this->assertEquals('NULL', $return[5], 'keep original value NULL');
+      $this->assertEquals('', $return[6], 'keep original token value NULL');
+
+      $this->after_test();
+  }
+
+  function test_generate_user_data_only_jili_is_email_set()
+  {
+      $this->before_test();
+// is_email_confirmed not nll
+      $user_row = str_getcsv(<<<EOD
+"1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","1","1","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+);
+      generate_user_data_only_jili($user_row);
+
+      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+      $this->assertFileExists($expected_user_csv_file); 
+      $return = str_getcsv(file_get_contents($expected_user_csv_file));
+      $this->assertEquals('1', $return[3], 'is_email_confirmed should not null');
+
+      $this->after_test();
   }
 
   function test_generate_user_data_wenwen_common()
@@ -928,7 +1007,8 @@ EOD
     unset($panelist_profile_image_data);
   }
 
-  private function before_test() {
+  private function before_test() 
+  {
     global $panelist_mobile_data;
     global $region_mapping_data;
     global $panelist_detail_data;

@@ -520,6 +520,30 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
 }
 
 /**
+ * Generate the user jili only data
+ * @param array $row  , the row in jili user csv
+ * @return  array $row
+ */
+function generate_user_data_only_jili($row = array())
+{
+    // is_email_set
+    if(''===$row[3] ) {
+        $row[3] = 'NULL';
+    }
+
+    //is_tel_confirmed
+    $row[11] = 0;
+
+    //origin_flag
+    $row[30] = Constants::$origin_flag['jili'];
+
+    //password_choice
+    $row[34] = Constants::$password_choice['pwd_jili'];
+
+    $row = set_default_value($row);
+    export_csv_row($row, Constants::$migrate_user_name);
+}
+/**
  * Generate the user common data
  * @param array $panelist_row One line data of panelist csv
  * @param array $user_row One line data of user csv
@@ -658,7 +682,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     if (isset($panelist_image_indexs[$panelist_row[0]])) {
         $user_row[27] = $panelist_image_indexs[$panelist_row[0]]['hash'];
     }
-
     return $user_row;
 }
 
