@@ -53,3 +53,6 @@ static:
 	sed "/^$$/d;/^user/d;/^sys/d" ${ww_log} ${jili_log}
 	grep -h real ${ww_log} ${jili_log}   | cut -b 5-100 | awk -F '[m|:|s]' 'BEGIN{m=0;s=0;} { m=m+$$1;s=s+$$2; } END{ print  (m + int(s/60)) "m" (s % 60) "s"}' 
 
+verification:
+	# dump the imported user 
+	# dump the imported user_wenwen_login

@@ -37,6 +37,7 @@ function initialise_csv()
     //check file
     global $panelist_file_handle;
     global $panelist_profile_file_handle;
+    global $panelist_detail_file_handle;
     global $panelist_profile_image_file_handle;
     global $panelist_mobile_number_file_handle;
     global $panelist_point_file_handle;
@@ -52,6 +53,7 @@ function initialise_csv()
 
     $panelist_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panelist.csv");
     $panelist_profile_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile.csv");
+    $panelist_detail_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_detail.csv");
     $panelist_profile_image_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile_image.csv");
     $panelist_mobile_number_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv");
     $panelist_point_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv");
