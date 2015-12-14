@@ -116,7 +116,6 @@ class PointHistoryRepositoryTest extends KernelTestCase
 
     /**
      * @group issue_600
-     * @group dev-backend_panelist
      */
     public function testPointHistorySearch()
     {
@@ -126,20 +125,17 @@ class PointHistoryRepositoryTest extends KernelTestCase
         $start_time = '';
         $end_time = '';
         $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->pointHistorySearch($user->getId(), $category_id, $start_time, $end_time);
-        $this->assertCount(3, $result);
-
+        $this->assertCount(2, $result);
         $category_id = 16;
         $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->pointHistorySearch($user->getId(), $category_id, $start_time, $end_time);
         $this->assertCount(1, $result);
-
         $category_id = '';
         $start_time = date('Y-m-d');
         $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->pointHistorySearch($user->getId(), $category_id, $start_time, $end_time);
-        $this->assertCount(2, $result);
-
+        $this->assertCount(1, $result);
         $end_time = date('Y-m-d');
         $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->pointHistorySearch($user->getId(), $category_id, $start_time, $end_time);
-        $this->assertCount(2, $result);
+        $this->assertCount(1, $result);
     }
 
     /**
@@ -147,10 +143,10 @@ class PointHistoryRepositoryTest extends KernelTestCase
      */
     public function testUserPointHistoryCount()
     {
-        $user = LoadIssetInsertData::$USERS[1];
+        $user_id = 31;
         $em = $this->em;
-        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->userPointHistoryCount($user->getId());
-        $this->assertEquals(3, $result, 'user point history count: ' . $result);
+        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistoryCount($user_id);
+        $this->assertEquals(7, $result, 'user point history count: ' . $result);
     }
 
     /**
@@ -158,18 +154,18 @@ class PointHistoryRepositoryTest extends KernelTestCase
      */
     public function testUserPointHistorySearch()
     {
-        $user = LoadIssetInsertData::$USERS[1];
+        $user_id = 31;
         $em = $this->em;
 
-        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->userPointHistorySearch($user->getId(), 1, 0);
+        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistorySearch($user_id, 1, 0);
 
         $this->assertCount(1, $result, 'pagesize:1 currentPage:0 list count: ' . count($result));
-        $this->assertEquals(4, $result[0]['id'], 'pagesize:1 currentPage:0 PointHistory.id: ' . $result[0]['id']);
+        $this->assertEquals(37, $result[0]['id'], 'pagesize:1 currentPage:0 PointHistory.id: ' . $result[0]['id']);
 
-        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->userPointHistorySearch($user->getId(), 2, 2);
+        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistorySearch($user_id, 2, 2);
 
-        $this->assertCount(1, $result, 'pagesize:2 currentPage:2 list count: ' . count($result));
-        $this->assertEquals(2, $result[0]['id'], 'pagesize:2 currentPage:2 PointHistory.id: ' . $result[0]['id']);
+        $this->assertCount(2, $result, 'pagesize:2 currentPage:2 list count: ' . count($result));
+        $this->assertEquals(35, $result[0]['id'], 'pagesize:2 currentPage:2 PointHistory.id: ' . $result[0]['id']);
     }
 
     /**
@@ -177,10 +173,10 @@ class PointHistoryRepositoryTest extends KernelTestCase
      */
     public function testUserTotalPoint()
     {
-        $user = LoadIssetInsertData::$USERS[1];
+        $user_id = 31;
         $em = $this->em;
 
-        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->userTotalPoint($user->getId(), 4);
-        $this->assertEquals(3, $result, 'user total points : ' . $result);
+        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userTotalPoint($user_id, 34);
+        $this->assertEquals(61, $result, 'user total points : ' . $result);
     }
 }

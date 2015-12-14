@@ -58,7 +58,7 @@ INSERT INTO `point_history01` (`id`, `user_id`, `point_change_num`, `reason`, `c
 (39,32,1,9,'2014-03-04 00:24:44'),
 (40,32,1,10,'2014-03-04 00:25:25'),
 (41,32,1,11,'2014-03-04 00:29:46'),
-(42,32,1,12,'2014-03-04 00:31:53'),
+(42,32,1,12,'2014-03-04 00:31:53');
 
 
 INSERT INTO `sop_respondent` (`id`, `user_id`, `status_flag`, `stash_data`, `updated_at`, `created_at`) VALUES
