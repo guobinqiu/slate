@@ -667,7 +667,11 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         }
 
         //work_section_code: detail.work_section_code
-        $user_row[38] = $panelist_detail_row[29];
+        if( $panelist_detail_row[29] === '' ) {
+            $user_row[38] ='NULL';
+        } else {
+            $user_row[38] = $panelist_detail_row[29];
+        }
     }
 
     global $panelist_profile_indexs;

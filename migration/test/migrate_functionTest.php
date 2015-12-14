@@ -657,9 +657,11 @@ EOD
   $this->before_test();
   $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
   @exec('rm -rf '.$expected_user_csv_file);
+
 /*
 45168,guxiansiu@126.com,,1,3,NULL,,NULL,0,0000-00-00,NULL,NULL,32,363,,,,NULL,NULL,NULL,1,"2009-11-10 19:38:36",NULL,NULL,0,0,1,NULL,NULL,NULL,2,,,manmanzou_optout20091110,1,NULL,NULL,,
-45168,guxiansiu@126.com,,1,3,NULL,,NULL,0,0000-00-00,NULL,NULL,32,363,,,,NULL,NULL,NULL,1,"2009-11-10 19:38:36",NULL,NULL,0,0,1,NULL,NULL,NULL,2,,,manmanzou_optout20091110,1,NULL,NULL,,
+45168,guxiansiu@126.com,,1,3,NULL,,NULL,0,0000-00-00,NULL,NULL,32,363,NULL,NULL,NULL,NULL,NULL,NULL,1,"2009-11-10 19:38:36",NULL,NULL,0,0,1,NULL,NULL,NULL,2,,,manmanzou_optout20091110,1,NULL,NULL,NULL,
+
 */
 
   global $panelist_detail_file_handle ;
@@ -683,6 +685,10 @@ EOD
   $this->assertFileExists($expected_user_csv_file); 
   $return = str_getcsv(file_get_contents($expected_user_csv_file));
   $this->assertEquals('NULL', $return[14], 'education, NULL is default   detail.graduation_code');
+  $this->assertEquals('NULL', $return[15], 'job_code, NULL is default   detail.graduation_code');
+  $this->assertEquals('NULL', $return[16], 'income_personal_code, NULL is default   detail.graduation_code');
+  $this->assertEquals('NULL', $return[37], 'industry_code, NULL is default   detail.graduation_code');
+  $this->assertEquals('NULL', $return[38], 'work_section_code, NULL is default   detail.graduation_code');
   $this->after_test();
   }
 
