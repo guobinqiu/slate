@@ -777,6 +777,11 @@ EOT;
         return $sql_update->execute();
     }
 
+    /**
+     * @param array $values array();
+     * @param String $type: registered or withdrawal
+     * @return integer
+     */
     public function getSearchUserCount($values, $type)
     {
         $query = $this->createQueryBuilder('u');
@@ -786,7 +791,14 @@ EOT;
         return $count;
     }
 
-    public function getSearchUserSql($values, $type, $pageSize, $currentPage)
+    /**
+     * @param array $values array();
+     * @param String $type: registered or withdrawal
+     * @param integer $pageSize
+     * @param integer $currentPage
+     * @return array
+     */
+    public function getSearchUserList($values, $type, $pageSize, $currentPage)
     {
         $query = $this->createQueryBuilder('u');
         $query = $query->select('u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode,sp.id as app_mid');
@@ -801,6 +813,12 @@ EOT;
         return $query->getResult();
     }
 
+    /**
+     * @param $query
+     * @param array $values array();
+     * @param String $type: registered or withdrawal
+     * @return $query
+     */
     public function getSearchUserSqlQuery($query, $values, $type)
     {
         $query = $query->Where('1 = 1');

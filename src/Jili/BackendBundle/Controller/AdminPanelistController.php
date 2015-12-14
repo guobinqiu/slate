@@ -58,13 +58,13 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
                 if ($values['type_registered'] == 1) {
                     $registeredCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'registered');
                     $registered_page = $page > (int) ceil($registeredCount / $pageSize) ? (int) ceil($registeredCount / $pageSize) : $page;
-                    $arr['registeredUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserSql($values, 'registered', $pageSize, $registered_page);
+                    $arr['registeredUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'registered', $pageSize, $registered_page);
                 }
 
                 if ($values['type_withdrawal'] == 1) {
                     $withdrawalCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'withdrawal');
                     $withdrawal_page = $page > (int) ceil($withdrawalCount / $pageSize) ? (int) ceil($withdrawalCount / $pageSize) : $page;
-                    $arr['withdrawalUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserSql($values, 'withdrawal', $pageSize, $withdrawal_page);
+                    $arr['withdrawalUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'withdrawal', $pageSize, $withdrawal_page);
                 }
             }
         }
