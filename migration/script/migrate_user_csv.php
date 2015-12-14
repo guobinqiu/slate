@@ -67,7 +67,6 @@ function do_process()
 
             $j = 0;
             $k = 0;
-        echo __LINE__;die();
 
             // 遍历panel_91wenwen_panelist_91jili_connection表 , I connection
             $connection_current = getJiliConnectionByPanelistId($panelist_91jili_connection_file_handle, $panelist_id, $connection_current);
