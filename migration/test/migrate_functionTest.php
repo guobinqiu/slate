@@ -294,11 +294,16 @@ EOD
     fclose($fh);
   }
 
+  /**
+   * @group debug 
+   */
   function test_generate_user_data_both_exsit()
   {
     $this->before_test();
-      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
-      @exec('rm -rf '.$expected_user_csv_file);
+
+    $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+
+    @exec('rm -rf '.$expected_user_csv_file);
 
 //"id","panel_region_id","panel_id","email","login_id","login_password","login_password_crypt_type","login_password_salt","updated_at","created_at","created_remote_addr","created_user_agent","login_valid_flag","sex_code","birthday","panelist_status","campaign_code","last_login_time"
     $panelist_row = str_getcsv(<<<EOD
@@ -402,9 +407,6 @@ EOD
      $this->after_test();
   }
 
-  /**
-   * @group debug 
-   */
   function test_generate_user_data_only_jili()
   {
 
@@ -529,6 +531,22 @@ EOD
     $this->markTestIncomplete(
       'This test has not been implemented yet.'
     );
+     $fh = fopen('php://memory','r+');
+     fwrite($fh, <<<EOD
+region_id,province_id,city_id
+2000,1,2
+2001,1,2
+2352,31,360
+2353,31,361
+2354,31,362
+2355,32,363
+EOD
+);
+
+    $index = build_file_index($fh, 'region_id');
+$this->assertCount(6, $index, 'region_mapping index' );
+     fclose($fh);
+
 
   }
 
@@ -992,66 +1010,117 @@ EOD
 
   private function after_test() 
   {
-    global $panelist_mobile_data;
-    global $region_mapping_data;
-    global $panelist_detail_data;
-    global $panelist_profile_data;
-    global $panelist_point_data;
-    global $panelist_profile_image_data;
+    global $panelist_mobile_indexs;
+    global $region_mapping_indexs;
+    global $panelist_detail_indexs;
+    global $panelist_profile_indexs;
+    global $panelist_point_indexs;
+    global $panelist_image_indexs;
 
-    unset($panelist_mobile_data);
-    unset($region_mapping_data);
-    unset($panelist_detail_data);
-    unset($panelist_profile_data);
-    unset($panelist_point_data);
-    unset($panelist_profile_image_data);
+    unset($panelist_mobile_indexs);
+    unset($region_mapping_indexs);
+    unset($panelist_detail_indexs);
+    unset($panelist_profile_indexs);
+    unset($panelist_point_indexs);
+    unset($panelist_image_indexs);
+
+
+
+    global $panelist_mobile_number_file_handle ;
+    global $migration_region_mapping_file_handle ;
+    global $panelist_detail_file_handle ;
+    global $panelist_profile_file_handle ;
+    global $panelist_point_file_handle ;
+    global $panelist_profile_image_file_handle ;
+
+    fclose( $panelist_mobile_number_file_handle );
+    fclose( $migration_region_mapping_file_handle );
+    fclose( $panelist_detail_file_handle );
+    fclose( $panelist_profile_file_handle );
+    fclose( $panelist_point_file_handle );
+    fclose( $panelist_profile_image_file_handle );
   }
 
   private function before_test() 
   {
-    global $panelist_mobile_data;
-    global $region_mapping_data;
-    global $panelist_detail_data;
-    global $panelist_profile_data;
-    global $panelist_point_data;
-    global $panelist_profile_image_data;
+      global $panelist_mobile_number_file_handle ;
+      global $migration_region_mapping_file_handle ;
+      global $panelist_detail_file_handle ;
+      global $panelist_profile_file_handle ;
+      global $panelist_point_file_handle ;
+      global $panelist_profile_image_file_handle ;
 
-     $panelist_mobile_data       = str_getcsv(<<<EOD
+
+
+      $panelist_mobile_number_file_handle = fopen('php://memory','r+');
+      $migration_region_mapping_file_handle = fopen('php://memory','r+');
+      $panelist_detail_file_handle = fopen('php://memory','r+');
+      $panelist_profile_file_handle = fopen('php://memory','r+');
+      $panelist_point_file_handle = fopen('php://memory','r+');
+      $panelist_profile_image_file_handle = fopen('php://memory','r+');
+
+
+      fwrite($panelist_mobile_number_file_handle,<<<EOD
 "panelist_id","mobile_number","status_flag","updated_at","created_at"
 "6","13052550759","1","2012-10-20 13:13:01","2012-10-20 13:13:01"
 "2230806","17715018917","1","2015-11-17 17:16:38","2015-11-17 17:16:38"
 EOD
-) ;
-     $region_mapping_data        = str_getcsv(<<<EOD
+);
+
+     fwrite($migration_region_mapping_file_handle,<<<EOD
 "region_id","province_id","city_id"
 "2000","1","2"
 "2355","32","363"
 EOD
 ) ;
-     $panelist_detail_data       = str_getcsv(<<<EOD
+
+     fwrite($panelist_detail_file_handle,<<<EOD
 "panelist_id","name_first","name_middle","name_last","furigana_first","furigana_middle","furigana_last","age","zip1","zip2","address1","address2","address3","home_type_code","home_year","tel1","tel2","tel3","tel_mobile1","tel_mobile2","tel_mobile3","mobile_number","marriage_code","child_code","child_num","income_family_code","income_personal_code","job_code","industry_code","work_section_code","graduation_code","industry_code_family","internet_starttime_code","internet_usetime_code","last_answer_date","updated_at","created_at"
 "6","广广广广","NULL","祥广","NULL","NULL","NULL","NULL","","","","taiwan","","0","","NULL","NULL","NULL","NULL","NULL","NULL","010101010","NULL","NULL","NULL","NULL","20","4","3","9","3","NULL","NULL","NULL","2010-01-18 11:31:22","2010-01-19 17:53:20","2009-10-30 09:41:38"
 "2230880","zyatwork","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL","20","99","30","16","5","NULL","NULL","NULL","NULL","2015-11-17 17:39:49","2015-11-17 17:39:49"
 EOD
-) ;
-     $panelist_profile_data      = str_getcsv(<<<EOD
+);
+
+
+     fwrite($panelist_profile_file_handle, <<<EOD
 "id","panelist_id","nickname","show_sex","show_birthday","biography","hobby","fav_music","monthly_wish","website_url","updated_at","created_at"
 "2255","6","琪琪琪","1","1","出生:毕业:工作:经历:","数码控","都一般","要不中个500万玩玩？","NULL","2010-12-14 13:03:21","2010-12-14 13:03:21"
 "412569","2230879","xingting520","0","0","NULL","NULL","NULL","NULL","NULL","2015-11-17 17:38:39","2015-11-17 17:38:39"
 EOD
 ) ;
-     $panelist_point_data        = str_getcsv(<<<EOD
+
+
+     fwrite($panelist_point_file_handle, <<<EOD
 "panelist_id","point_value","last_add_time","last_add_log_yyyymm","last_add_log_id","last_active_time","updated_at","created_at"
 "6","11","2014-01-10 18:06:59","new","0","NULL","2014-01-10 18:06:59","2014-01-10 18:06:59"
 "2230880","12","2015-11-17 17:41:00","201511","854791","2015-11-17 17:41:00","2015-11-17 17:41:00","2015-11-17 17:39:49"
 EOD
 ) ;
-     $panelist_profile_image_data= str_getcsv(<<<EOD
+
+
+     fwrite($panelist_profile_image_file_handle,<<<EOD
 "panelist_id","hash","s_file","s_width","s_height","m_file","m_width","m_height","l_file","l_width","l_height","delete_flag","updated_at","created_at"
 "6","c05fc2fdb476d327e418b9950ba89c32c443394c","c/0/5/c05fc2fdb476d327e418b9950ba89c32c443394c_s.jpg","30","30","c/0/5/c05fc2fdb476d327e418b9950ba89c32c443394c_m.jpg","90","90","c/0/5/c05fc2fdb476d327e418b9950ba89c32c443394c_l.jpg","270","270","0","2012-12-31 10:24:28","2012-12-31 10:23:15"
 "2230654","a58b61794e61191590bafb832c3fe29cd11c0eb1","a/5/8/a58b61794e61191590bafb832c3fe29cd11c0eb1_s.jpg","30","30","a/5/8/a58b61794e61191590bafb832c3fe29cd11c0eb1_m.jpg","90","90","a/5/8/a58b61794e61191590bafb832c3fe29cd11c0eb1_l.jpg","270","270","0","2015-11-17 14:15:00","2015-11-17 14:14:28"
 EOD
 );
+
+
+    global $panelist_mobile_indexs;
+    global $region_mapping_indexs;
+    global $panelist_detail_indexs;
+    global $panelist_profile_indexs;
+    global $panelist_point_indexs;
+    global $panelist_image_indexs;
+
+
+    $panelist_mobile_indexs = build_key_value_index($panelist_mobile_number_file_handle, 'panelist_id', 'mobile_number');
+    $region_mapping_indexs = build_file_index($migration_region_mapping_file_handle, 'region_id');
+    $panelist_detail_indexs = build_file_index($panelist_detail_file_handle, 'panelist_id');
+    $panelist_profile_indexs = build_file_index($panelist_profile_file_handle, 'panelist_id');
+
+    $panelist_point_indexs = build_key_value_index($panelist_point_file_handle, 'panelist_id', 'point_value');
+    $panelist_image_indexs = build_key_value_index($panelist_profile_image_file_handle, 'panelist_id', 'hash');
   }
 
     public function test_strip_vote_description_links() 

@@ -36,56 +36,55 @@ function initialise_csv()
 
     //check file
     global $panelist_file_handle;
-    $panelist_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panelist.csv");
-    global $panelist_detail_file_handle;
-    $panelist_detail_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_detail.csv");
     global $panelist_profile_file_handle;
-    $panelist_profile_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile.csv");
     global $panelist_profile_image_file_handle;
-    $panelist_profile_image_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile_image.csv");
     global $panelist_mobile_number_file_handle;
-    $panelist_mobile_number_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv");
     global $panelist_point_file_handle;
-    $panelist_point_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv");
     global $panelist_sina_connection_file_handle;
-    $panelist_sina_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_sina_connection.csv");
     global $pointexchange_91jili_account_file_handle;
-    $pointexchange_91jili_account_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_pointexchange_91jili_account.csv");
     global $vote_answer_file_handle;
-    $vote_answer_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/" . VOTE_ANSWER . ".csv");
     global $panelist_91jili_connection_file_handle;
-    $panelist_91jili_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_91jili_connection.csv");
     global $sop_respondent_file_handle;
-    $sop_respondent_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/sop_respondent.csv");
     global $user_file_handle;
-    $user_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/user.csv");
     global $user_wenwen_cross_file_handle;
-    $user_wenwen_cross_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/user_wenwen_cross.csv");
     global $weibo_user_file_handle;
-    $weibo_user_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/weibo_user.csv");
     global $migration_region_mapping_file_handle;
+
+    $panelist_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panelist.csv");
+    $panelist_profile_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile.csv");
+    $panelist_profile_image_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_profile_image.csv");
+    $panelist_mobile_number_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_mobile_number.csv");
+    $panelist_point_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv");
+    $panelist_sina_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_sina_connection.csv");
+    $pointexchange_91jili_account_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_pointexchange_91jili_account.csv");
+    $vote_answer_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/" . VOTE_ANSWER . ".csv");
+    $panelist_91jili_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_91jili_connection.csv");
+    $sop_respondent_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/sop_respondent.csv");
+    $user_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/user.csv");
+    $user_wenwen_cross_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/user_wenwen_cross.csv");
+    $weibo_user_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/weibo_user.csv");
     $migration_region_mapping_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/migration_region_mapping.csv");
 
     //创建索引
     global $panelist_image_indexs;
-    $panelist_image_indexs = build_key_value_index($panelist_profile_image_file_handle, 'panelist_id', 'hash');
     global $panelist_point_indexs;
-    $panelist_point_indexs = build_key_value_index($panelist_point_file_handle, 'panelist_id', 'point_value');
     global $panelist_mobile_indexs;
-    $panelist_mobile_indexs = build_key_value_index($panelist_mobile_number_file_handle, 'panelist_id', 'mobile_number');
     global $region_mapping_indexs;
-    $region_mapping_indexs = build_file_index($migration_region_mapping_file_handle, 'region_id');
     global $panelist_detail_indexs;
-    $panelist_detail_indexs = build_file_index($panelist_detail_file_handle, 'panelist_id');
     global $panelist_profile_indexs;
-    $panelist_profile_indexs = build_file_index($panelist_profile_file_handle, 'panelist_id');
     global $sina_connection_indexs;
-    $sina_connection_indexs = build_file_index($panelist_sina_connection_file_handle, 'panelist_id');
     global $sop_respondent_indexs;
-    $sop_respondent_indexs = build_file_index($sop_respondent_file_handle, 'panelist_id');
     global $vote_answer_indexs;
-    $vote_answer_indexs = build_file_index($vote_answer_file_handle, 'panelist_id');
     global $weibo_user_indexs;
+    $panelist_image_indexs = build_key_value_index($panelist_profile_image_file_handle, 'panelist_id', 'hash');
+    $panelist_point_indexs = build_key_value_index($panelist_point_file_handle, 'panelist_id', 'point_value');
+    $panelist_mobile_indexs = build_key_value_index($panelist_mobile_number_file_handle, 'panelist_id', 'mobile_number');
+    $region_mapping_indexs = build_file_index($migration_region_mapping_file_handle, 'region_id');
+    $panelist_detail_indexs = build_file_index($panelist_detail_file_handle, 'panelist_id');
+    $panelist_profile_indexs = build_file_index($panelist_profile_file_handle, 'panelist_id');
+    $sina_connection_indexs = build_file_index($panelist_sina_connection_file_handle, 'panelist_id');
+    $sop_respondent_indexs = build_file_index($sop_respondent_file_handle, 'panelist_id');
+    $vote_answer_indexs = build_file_index($vote_answer_file_handle, 'panelist_id');
     $weibo_user_indexs = build_file_index($weibo_user_file_handle, 'user_id');
 }
 
@@ -485,6 +484,7 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
     $user_row[30] = Constants::$origin_flag['wenwen_jili'];
     $user_row = set_default_value($user_row);
 
+
     export_csv_row($user_row, Constants::$migrate_user_name);
 
     export_history_data($panelist_row[0], $user_row[0]);
@@ -648,6 +648,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
     global $panelist_profile_indexs;
     global $panelist_profile_file_handle;
+
     if (isset($panelist_profile_indexs[$panelist_row[0]])) {
         $panelist_profile_row = use_file_index($panelist_profile_indexs, $panelist_row[0], $panelist_profile_file_handle, true);
 
