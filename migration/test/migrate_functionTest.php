@@ -295,10 +295,6 @@ EOD
   }
 
 
-  /**
-   * @group debug
-   *
-   **/
   function test_generate_user_data_both_exsit_debug()
   {
     $this->before_test();
@@ -322,6 +318,7 @@ EOD
      $this->assertEquals('NULL', $return[4], 'keep jili is_from_wenwen unchanged ');
      $this->assertEquals('NULL', $return[5], 'keep jili wenwen_user unchanged ');
      $this->assertEquals('NULL', $return[11], 'use ww mobile always confirmed');
+     $this->assertEquals('NULL', $return[29], 'token_created_at');
 
     $this->after_test();
   }
@@ -633,7 +630,8 @@ EOD
      $this->assertEquals('2013-12-19 23:48:55', $return[22], 'last login date, last login time');
      $this->assertEquals('NULL', $return[23], 'last login ip , use jili if exists');
      $this->assertEquals('11', $return[24], 'sum');
-
+     $this->assertEquals('0', $return[25], 'delete_flag, ww always');
+     $this->assertEquals('1', $return[26], 'is_info_set, ww always');
      $this->assertEquals('c05fc2fdb476d327e418b9950ba89c32c443394c', $return[27], 'icon_path');
      $this->assertEquals('NULL', $return[28], 'uniqkey');
      $this->assertEquals('NULL', $return[29], 'token_created_at');
@@ -647,10 +645,47 @@ EOD
      $this->assertEquals('要不中个500万玩玩？', $return[36], 'monthly_wish, profile');
      $this->assertEquals('3', $return[37], 'industry_code, detail ');
      $this->assertEquals('9', $return[38], 'work_section_code, detail');
-     $this->assertEquals('0', $return[25], 'delete_flag, ww always');
-     $this->assertEquals('1', $return[26], 'is_info_set, ww always');
      $this->after_test();
   }
+
+  /**
+   * @group debug
+   *
+   **/
+  function test_generate_user_data_only_wenwen_debug()
+  {
+  $this->before_test();
+  $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+  @exec('rm -rf '.$expected_user_csv_file);
+/*
+45168,guxiansiu@126.com,,1,3,NULL,,NULL,0,0000-00-00,NULL,NULL,32,363,,,,NULL,NULL,NULL,1,"2009-11-10 19:38:36",NULL,NULL,0,0,1,NULL,NULL,NULL,2,,,manmanzou_optout20091110,1,NULL,NULL,,
+45168,guxiansiu@126.com,,1,3,NULL,,NULL,0,0000-00-00,NULL,NULL,32,363,,,,NULL,NULL,NULL,1,"2009-11-10 19:38:36",NULL,NULL,0,0,1,NULL,NULL,NULL,2,,,manmanzou_optout20091110,1,NULL,NULL,,
+*/
+
+  global $panelist_detail_file_handle ;
+  $panelist_detail_file_handle = fopen('php://memory','r+');
+  fwrite($panelist_detail_file_handle,<<<EOD
+"panelist_id","name_first","name_middle","name_last","furigana_first","furigana_middle","furigana_last","age","zip1","zip2","address1","address2","address3","home_type_code","home_year","tel1","tel2","tel3","tel_mobile1","tel_mobile2","tel_mobile3","mobile_number","marriage_code","child_code","child_num","income_family_code","income_personal_code","job_code","industry_code","work_section_code","graduation_code","industry_code_family","internet_starttime_code","internet_usetime_code","last_answer_date","updated_at","created_at"
+410,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"2009-11-10 20:38:36","2009-11-10 20:38:36"
+EOD
+);
+
+  global $panelist_detail_indexs;
+  $panelist_detail_indexs = build_file_index($panelist_detail_file_handle, 'panelist_id');
+
+  $panelist_row = str_getcsv(<<<EOD
+410,2355,2,guxiansiu@126.com,,1d1741f52606db8734952d6cd39a2590,md5_plain,,"2010-05-10 08:08:37","2009-11-10 20:38:36",,,1,0,0000-00-00,2,manmanzou_optout20091110,
+
+EOD
+) ;
+
+  generate_user_data_only_wenwen($panelist_row, 1);
+  $this->assertFileExists($expected_user_csv_file); 
+  $return = str_getcsv(file_get_contents($expected_user_csv_file));
+  $this->assertEquals('NULL', $return[14], 'education, NULL is default   detail.graduation_code');
+  $this->after_test();
+  }
+
 
 
   function test_generate_user_data_only_jili()

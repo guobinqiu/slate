@@ -639,16 +639,32 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $panelist_detail_row = use_file_index($panelist_detail_indexs, $panelist_row[0], $panelist_detail_file_handle, true);
 
         //education: detail.graduation_code
-        $user_row[14] = $panelist_detail_row[30];
+        if($panelist_detail_row[30] === '') {
+            $user_row[14] = 'NULL';
+        }else {
+            $user_row[14] = $panelist_detail_row[30];
+        }
 
         //profession: detail.detail.job_code
-        $user_row[15] = $panelist_detail_row[27];
+        if( $panelist_detail_row[27] === '') {
+            $user_row[15] ='NULL';
+        } else {
+            $user_row[15] = $panelist_detail_row[27];
+        }
 
         //income : detail.income_personal_code
-        $user_row[16] = $panelist_detail_row[26];
+        if( $panelist_detail_row[26] === '') {
+            $user_row[16] ='NULL';
+        } else {
+            $user_row[16] = $panelist_detail_row[26];
+        }
 
         //industry_code: detail.industry_code
-        $user_row[37] = $panelist_detail_row[28];
+        if($panelist_detail_row[28] === '') {
+            $user_row[37] ='NULL';
+        } else {
+            $user_row[37] = $panelist_detail_row[28];
+        }
 
         //work_section_code: detail.work_section_code
         $user_row[38] = $panelist_detail_row[29];
@@ -704,9 +720,11 @@ function set_default_value($row)
 
 
     for ($i = 0; $i <= 38; $i++) {
+
         if (! isset($row[$i]) ) {
             $row[$i] = 'NULL';
         }
+
     }
 
     // is_from_wenwen 
@@ -721,6 +739,11 @@ function set_default_value($row)
     // is_tel_confirmed 
     if(''=== $row[11] ) {
         $row[11] = 'NULL';
+    }
+
+    // is_tel_confirmed 
+    if(''=== $row[29] ) {
+        $row[29] = 'NULL';
     }
 
     return $row;
