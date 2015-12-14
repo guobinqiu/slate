@@ -313,7 +313,7 @@ EOD
 ) ;
 //"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
     $user_row = str_getcsv(<<<EOD
-"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","tao.jiang@d8aspring.com","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","tao.jiang@d8aspring.com","","QQ懂你","2","1988-1","13732634246","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
 EOD
 ) ;
 
@@ -330,7 +330,11 @@ EOD
      $this->assertEquals('1', $return[4], 'keep jili is_from_wenwen unchanged ');
      $this->assertEquals('tao.jiang@d8aspring.com', $return[5], 'keep jili wenwen_user unchanged ');
      $this->assertEquals('', $return[6], 'keep jili token unchanged ');
-     $this->assertEquals("琪琪琪", $return[7], 'use ww profile.nickname');
+     $this->assertEquals('琪琪琪', $return[7], 'use ww profile.nickname');
+     $this->assertEquals(1, $return[8], 'use ww sex code');
+#     $this->assertEquals('1988-1', $return[9], 'use jili birthday  ToDEbug:');
+     $this->assertEquals('13052550759', $return[10], 'use ww mobile ');
+     $this->assertEquals('1', $return[11], 'use ww mobile always confirmed');
 
      $this->after_test();
   }
@@ -402,7 +406,12 @@ EOD
      $this->assertEquals('1', $return[3], 'empty is_email_confirmed ');
      $this->assertEquals('3', $return[4], 'always 3 is merged with  wenwen is_from_wenwen');
      $this->assertEquals('NULL', $return[5], 'set wenwe_user to NULL');
-      $this->assertEquals('', $return[6], 'set  token ""');
+     $this->assertEquals('', $return[6], 'set  token ""');
+     $this->assertEquals("琪琪琪", $return[7], 'use ww profile.nickname');
+     $this->assertEquals(1, $return[8], 'use ww sex code');
+#     $this->assertEquals('1981-8', $return[9], 'use jili birthday  ToDEbug:');
+     $this->assertEquals('13052550759', $return[10], 'use ww mobile ');
+     $this->assertEquals('1', $return[11], 'use ww mobile always confirmed');
 
      $this->after_test();
   }
@@ -415,7 +424,7 @@ EOD
       @exec('rm -rf '.$expected_user_csv_file);
 
       $user_row = str_getcsv(<<<EOD
-"1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","NULL","","QQ懂你","2","1988-1","13732634246","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
 EOD
 );
       generate_user_data_only_jili($user_row);
@@ -432,6 +441,13 @@ EOD
       $this->assertEquals('1', $return[4], 'keep 1');
       $this->assertEquals('NULL', $return[5], 'keep original value NULL');
       $this->assertEquals('', $return[6], 'keep original token value NULL');
+     $this->assertEquals('QQ懂你', $return[7], 'keep jili.user.nick');
+     $this->assertEquals(2, $return[8], 'keep  sex code');
+     $this->assertEquals('1988-1', $return[9], 'use jili birthday  ');
+     $this->assertEquals('13732634246', $return[10], 'use jili user.tel');
+
+     $this->assertEquals('NULL', $return[11], 'use keep jili user.is_tel_confirmed ');
+
 
       $this->after_test();
   }
