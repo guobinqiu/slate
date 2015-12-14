@@ -689,6 +689,27 @@ EOD
 
       $this->after_test();
   }
+  function test_generate_user_data_only_jili_is_from_wenwen_null()
+  {
+
+      $this->before_test();
+      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+      @exec('rm -rf '.$expected_user_csv_file);
+
+      $user_row = str_getcsv(<<<EOD
+"1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","","NULL","","QQ懂你","2","1988-1","13732634246","NULL","3","18","NULL","NULL","101","1,9,11","简历","132103198010310032","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","uploads/user/91/1377046582_2187.jpeg","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+);
+      generate_user_data_only_jili($user_row);
+
+      $this->assertFileExists($expected_user_csv_file); 
+
+      $return = str_getcsv(file_get_contents($expected_user_csv_file));
+
+      $this->assertEquals('NULL', $return[4], 'empty is_email_confirmed ');
+
+      $this->after_test();
+  }
 
   function test_generate_user_data_only_jili_is_email_set()
   {

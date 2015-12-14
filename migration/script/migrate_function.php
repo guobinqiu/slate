@@ -528,9 +528,24 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
  */
 function generate_user_data_only_jili($row = array())
 {
-    // is_email_set
+    // is_email_confirmed
     if(''===$row[3] ) {
         $row[3] = 'NULL';
+    }
+
+    // is_from_wenwen 
+    if(''=== $row[4] ) {
+        $row[4] = 'NULL';
+    }
+
+    // wenwen_user 
+    if(''=== $row[5] ) {
+        $row[5] = 'NULL';
+    }
+
+    // is_tel_confirmed 
+    if(''=== $row[11] ) {
+        $row[11] = 'NULL';
     }
 
     //origin_flag
