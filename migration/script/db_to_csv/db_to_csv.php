@@ -52,6 +52,7 @@ $q->closeCursor();
   $result = $dbh->query($query);
   $result->setFetchMode(PDO::FETCH_NUM);
   while($row = $result->fetch()) { 
+
     fputcsv( $fh, $row );
   }
 

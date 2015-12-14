@@ -634,6 +634,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     }
 
     global $panelist_detail_indexs;
+    print_r($panelist_detail_indexs);
     global $panelist_detail_file_handle;
     if (isset($panelist_detail_indexs[$panelist_row[0]])) {
         $panelist_detail_row = use_file_index($panelist_detail_indexs, $panelist_row[0], $panelist_detail_file_handle, true);
@@ -645,6 +646,13 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
             $user_row[14] = $panelist_detail_row[30];
         }
 
+        //income : detail.income_personal_code
+        if( $panelist_detail_row[26] === '') {
+            $user_row[16] ='NULL';
+        } else {
+            $user_row[16] = $panelist_detail_row[26];
+        }
+
         //profession: detail.detail.job_code
         if( $panelist_detail_row[27] === '') {
             $user_row[15] ='NULL';
@@ -652,12 +660,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
             $user_row[15] = $panelist_detail_row[27];
         }
 
-        //income : detail.income_personal_code
-        if( $panelist_detail_row[26] === '') {
-            $user_row[16] ='NULL';
-        } else {
-            $user_row[16] = $panelist_detail_row[26];
-        }
 
         //industry_code: detail.industry_code
         if($panelist_detail_row[28] === '') {
@@ -944,7 +946,7 @@ function get_one_hour_ago_time($time)
     if (empty($time) || $time == 'NULL') {
         return 'NULL';
     }
-    return date('Y-m-d H:i:s', strtotime("$time-1 hour"));
+    return date('Y-m-d H:i:s', strtotime("$time -1 hour"));
 }
 
 /**
@@ -956,10 +958,14 @@ function get_one_hour_ago_time($time)
 function export_csv_row($data, $file_name)
 {
     ksort($data);
+
      if (  isset(Constants::$environment) &&  Constants::$environment === 'test' ) {
+
          $file_name = 'test.'.$file_name;
          $handle = fopen(EXPORT_PATH . '/' . $file_name, 'w+');
+
      } else{
+
          $handle = fopen(EXPORT_PATH . '/' . $file_name, 'a');
      }
 
