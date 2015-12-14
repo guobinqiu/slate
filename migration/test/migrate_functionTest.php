@@ -294,10 +294,38 @@ EOD
     fclose($fh);
   }
 
+
   /**
    * @group debug
    *
    **/
+  function test_generate_user_data_both_exsit_debug()
+  {
+    $this->before_test();
+
+    $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+
+    @exec('rm -rf '.$expected_user_csv_file);
+    $panelist_row = str_getcsv(<<<EOD
+19,2002,2,qianqizhen@sina.com,,DIqpJ2jiaHM=,blowfish,76acb8b7f6d767bdf6955c02f0a7c128,"2011-02-25 19:42:21","2009-10-30 10:44:21",116.228.205.38,"Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET",1,1,1981-08-04,2,,"2013-12-19 17:48:55"
+EOD
+);
+    $user_row = str_getcsv(<<<EOD
+118,qianqizhen@sina.com,38a124223e4c09ed42b9a16b320a3dbbb29b4776,,,,,Qianqizhen,,,,,,,,,,,,,1,"2013-06-14 14:48:28","2013-06-14 14:48:28",,0,,0,,,,,,,,
+EOD
+) ;
+     generate_user_data_both_exsit($panelist_row, $user_row);
+     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+     $this->assertEquals('NULL', $return[4], 'keep jili is_from_wenwen unchanged ');
+     $this->assertEquals('NULL', $return[5], 'keep jili wenwen_user unchanged ');
+     $this->assertEquals('NULL', $return[11], 'use ww mobile always confirmed');
+
+    $this->after_test();
+  }
+
   function test_generate_user_data_both_exsit()
   {
     $this->before_test();

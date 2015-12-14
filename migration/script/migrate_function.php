@@ -482,6 +482,7 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row, $user_row);
 
+
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen_jili'];
     $user_row = set_default_value($user_row);
@@ -533,20 +534,8 @@ function generate_user_data_only_jili($row = array())
         $row[3] = 'NULL';
     }
 
-    // is_from_wenwen 
-    if(''=== $row[4] ) {
-        $row[4] = 'NULL';
-    }
 
-    // wenwen_user 
-    if(''=== $row[5] ) {
-        $row[5] = 'NULL';
-    }
 
-    // is_tel_confirmed 
-    if(''=== $row[11] ) {
-        $row[11] = 'NULL';
-    }
 
     //origin_flag
     $row[30] = Constants::$origin_flag['jili'];
@@ -578,6 +567,9 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
     //is_email_confirmed
     $user_row[3] = 1;
+
+
+
 
     // token
     $user_row[6] = '';
@@ -707,14 +699,31 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
  * @param array $user_row
  * @return  array $user_row
  */
-function set_default_value($user_row)
+function set_default_value($row)
 {
+
+
     for ($i = 0; $i <= 38; $i++) {
-        if (! isset($user_row[$i]) ) {
-            $user_row[$i] = 'NULL';
+        if (! isset($row[$i]) ) {
+            $row[$i] = 'NULL';
         }
     }
-    return $user_row;
+
+    // is_from_wenwen 
+    if(''=== $row[4] ) {
+        $row[4] = 'NULL';
+    }
+    // wenwen_user 
+    if(''=== $row[5] ) {
+        $row[5] = 'NULL';
+    }
+
+    // is_tel_confirmed 
+    if(''=== $row[11] ) {
+        $row[11] = 'NULL';
+    }
+
+    return $row;
 }
 
 /**
