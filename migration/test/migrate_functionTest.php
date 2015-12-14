@@ -295,8 +295,9 @@ EOD
   }
 
   /**
-   * @group debug 
-   */
+   * @group debug
+   *
+   **/
   function test_generate_user_data_both_exsit()
   {
     $this->before_test();
@@ -310,10 +311,11 @@ EOD
 "6","2000","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
 
 EOD
-) ;
+);
+
 //"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
     $user_row = str_getcsv(<<<EOD
-"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","tao.jiang@d8aspring.com","","QQ懂你","2","1988-1","13732634246","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","tao.jiang@d8aspring.com","","QQ懂你","2","1988-1","13732634246","NULL","3","18","NULL","NULL","101","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
 EOD
 ) ;
 
@@ -332,9 +334,39 @@ EOD
      $this->assertEquals('', $return[6], 'keep jili token unchanged ');
      $this->assertEquals('琪琪琪', $return[7], 'use ww profile.nickname');
      $this->assertEquals(1, $return[8], 'use ww sex code');
-#     $this->assertEquals('1988-1', $return[9], 'use jili birthday  ToDEbug:');
+     $this->assertEquals('1981-08-04', $return[9], 'use jili birthday ');
      $this->assertEquals('13052550759', $return[10], 'use ww mobile ');
      $this->assertEquals('1', $return[11], 'use ww mobile always confirmed');
+     $this->assertEquals('1', $return[12], 'province, 1 in region_mapping ');
+     $this->assertEquals('2', $return[13], 'city, 2 in region_mapping');
+     $this->assertEquals('3', $return[14], 'education, 3 is from ww detail.graduation_code');
+     $this->assertEquals('4',$return[15], 'profession, 18 is from ww detail.job_cdoe');
+     $this->assertEquals('20', $return[16], 'income, 3 is from ww detail.income_personal_code');
+     $this->assertEquals('1,9,11', $return[17], 'hobby, profile.hobby ');
+     $this->assertEquals('出生:毕业:工作:经历:', $return[18], 'personalDes, profile.biography ');
+     $this->assertEquals('NULL', $return[19], 'identity_num, ww NULL ');
+     $this->assertEquals('1', $return[20], 'reward_multiple, always 1');
+     $this->assertEquals('2009-10-30 09:44:21', $return[21], 'created_at, 1 hour after ');
+     $this->assertEquals('2013-12-19 16:48:55', $return[22], 'last login date, last login time');
+     $this->assertEquals('11.22.33.44', $return[23], 'last login ip, use jili if exists');
+     $this->assertEquals('88', $return[24], 'sum');
+     $this->assertEquals('0', $return[25], 'delete_flag, ww always');
+     $this->assertEquals('1', $return[26], 'is_info_set, ww always');
+     $this->assertEquals('c05fc2fdb476d327e418b9950ba89c32c443394c', $return[27], 'icon_path');
+     $this->assertEquals('NULL', $return[28], 'uniqkey');
+     $this->assertEquals('NULL', $return[29], 'token_created_at');
+     $this->assertEquals('3', $return[30], 'origin_flag');
+     $this->assertEquals('116.228.205.38', $return[31], 'created_remote_addr');
+     $this->assertEquals('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET', $return[32], 'created_user_agent');
+     $this->assertEquals('offer99', $return[33], 'campaign_code');
+     $this->assertEquals('1', $return[34], 'password_choice, 1:ww');
+     $this->assertEquals('都一般', $return[35], 'fav_music, ww profile');
+     $this->assertEquals('要不中个500万玩玩？', $return[36], 'monthly_wish, profile');
+     $this->assertEquals('3', $return[37], 'industry_code, detail ');
+     $this->assertEquals('9', $return[38], 'work_section_code, detail');
+
+
+
 
      $this->after_test();
   }
@@ -382,6 +414,152 @@ EOD
      $this->after_test();
   }
 
+
+  function test_generate_user_data_both_exsit_ww_mobile_null()
+  {
+    $this->before_test();
+    $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+    @exec('rm -rf '.$expected_user_csv_file);
+
+    $panelist_row = str_getcsv(<<<EOD
+"19","2000","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
+
+EOD
+) ;
+    $user_row = str_getcsv(<<<EOD
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","tao.jiang@d8aspring.com","","QQ懂你","2","1988-1","13732634246","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+) ;
+
+     generate_user_data_both_exsit($panelist_row, $user_row);
+     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+
+     $this->assertEquals('13732634246', $return[10], 'no ww mobile, use jili.user.tel');
+     $this->assertEquals('NULL', $return[11], 'ww mobile no exits,use jili.user.is_tel_confirmed');
+
+     $this->after_test();
+
+  }
+
+
+  function test_generate_user_data_both_exsit_all_mobile_null()
+  {
+    $this->before_test();
+    $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+    @exec('rm -rf '.$expected_user_csv_file);
+
+    $panelist_row = str_getcsv(<<<EOD
+"19","2000","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
+
+EOD
+) ;
+    $user_row = str_getcsv(<<<EOD
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","tao.jiang@d8aspring.com","","QQ懂你","2","1988-1","","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+) ;
+
+     generate_user_data_both_exsit($panelist_row, $user_row);
+     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+
+     $this->assertEquals('', $return[10], 'no ww mobile , no jili mobile ');
+     $this->assertEquals('NULL', $return[11], 'ww& jili  mobile no exits, no confirmed');
+
+     $this->after_test();
+
+  }
+
+  function test_generate_user_data_both_exsit_ww_region_null()
+  {
+    $this->before_test();
+    $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+    @exec('rm -rf '.$expected_user_csv_file);
+
+    $panelist_row = str_getcsv(<<<EOD
+"19","NULL","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
+
+EOD
+) ;
+    $user_row = str_getcsv(<<<EOD
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","tao.jiang@d8aspring.com","","QQ懂你","2","1988-1","","NULL","5","19","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+) ;
+
+     generate_user_data_both_exsit($panelist_row, $user_row);
+     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+
+     $this->assertEquals('5', $return[12], 'province, 3 is from jili.user');
+     $this->assertEquals('19', $return[13], 'city, 18 is from jili.user');
+
+
+     $this->after_test();
+
+  }
+
+function test_generate_user_data_both_exsit_all_region_null()
+  {
+    $this->before_test();
+    $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+    @exec('rm -rf '.$expected_user_csv_file);
+
+    $panelist_row = str_getcsv(<<<EOD
+"19","NULL","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
+
+EOD
+) ;
+    $user_row = str_getcsv(<<<EOD
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","tao.jiang@d8aspring.com","","QQ懂你","2","1988-1","","NULL","NULL","NULL","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+) ;
+
+     generate_user_data_both_exsit($panelist_row, $user_row);
+     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+
+     $this->assertEquals('NULL', $return[12], 'province, 3 is from jili.user');
+     $this->assertEquals('NULL', $return[13], 'city, 18 is from jili.user');
+
+     $this->after_test();
+
+  }
+
+
+function test_generate_user_data_both_exsit_ww_detail_null()
+{
+    $this->before_test();
+    $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+    @exec('rm -rf '.$expected_user_csv_file);
+
+    $panelist_row = str_getcsv(<<<EOD
+"19","NULL","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
+
+EOD
+) ;
+    $user_row = str_getcsv(<<<EOD
+"1291365","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","tao.jiang@d8aspring.com","","QQ懂你","2","1988-1","","NULL","NULL","NULL","NULL","NULL","101","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+) ;
+
+     generate_user_data_both_exsit($panelist_row, $user_row);
+     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+
+     $this->assertEquals('NULL', $return[14], 'education, no ww detail  ');
+     $this->assertEquals('NULL',$return[15], 'profession,no ww detail   ');
+     $this->assertEquals('101', $return[16], 'income, no ww detail , use jili.income');
+
+     $this->after_test();
+
+  }
+
+
   function test_generate_user_data_only_wenwen()
   {
     $this->before_test();
@@ -389,7 +567,7 @@ EOD
       @exec('rm -rf '.$expected_user_csv_file);
 
     $panelist_row = str_getcsv(<<<EOD
-"6","2000","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 10:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-19 17:48:55"
+"6","2355","2","tao.jiang@d8aspring.com","NULL","DIqpJ2jiaHM=","blowfish","76acb8b7f6d767bdf6955c02f0a7c128","2011-02-25 19:42:21","2009-10-30 00:44:21","116.228.205.38","Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET","1","1","1981-08-04","2","offer99","2013-12-20 00:48:55"
 
 EOD
 ) ;
@@ -413,8 +591,39 @@ EOD
      $this->assertEquals('13052550759', $return[10], 'use ww mobile ');
      $this->assertEquals('1', $return[11], 'use ww mobile always confirmed');
 
+     $this->assertEquals('32', $return[12], 'province, 1 in region_mapping ');
+     $this->assertEquals('363', $return[13], 'city, 2 in region_mapping');
+     $this->assertEquals('3', $return[14], 'education, 3 is from ww detail.graduation_code');
+     $this->assertEquals('4',$return[15], 'profession, 18 is from ww detail.job_cdoe');
+     $this->assertEquals('20', $return[16], 'income, 3 is from ww detail.income_personal_code');
+
+     $this->assertEquals('NULL', $return[17], 'hobby, profile.hobby ToDebug:');
+     $this->assertEquals('出生:毕业:工作:经历:', $return[18], 'personalDes, profile.biography ');
+     $this->assertEquals('NULL', $return[19], 'identity_num, ww NULL ');
+     $this->assertEquals('1', $return[20], 'reward_multiple, always 1');
+     $this->assertEquals('2009-10-29 23:44:21', $return[21], 'created_at, 1 hour after, day changed');
+     $this->assertEquals('2013-12-19 23:48:55', $return[22], 'last login date, last login time');
+     $this->assertEquals('NULL', $return[23], 'last login ip , use jili if exists');
+     $this->assertEquals('11', $return[24], 'sum');
+
+     $this->assertEquals('c05fc2fdb476d327e418b9950ba89c32c443394c', $return[27], 'icon_path');
+     $this->assertEquals('NULL', $return[28], 'uniqkey');
+     $this->assertEquals('NULL', $return[29], 'token_created_at');
+     $this->assertEquals('2', $return[30], 'origin_flag');
+
+     $this->assertEquals('116.228.205.38', $return[31], 'created_remote_addr');
+     $this->assertEquals('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET', $return[32], 'created_user_agent');
+     $this->assertEquals('offer99', $return[33], 'campaign_code');
+     $this->assertEquals('1', $return[34], 'password_choice');
+     $this->assertEquals('都一般', $return[35], 'fav_music, ww profile');
+     $this->assertEquals('要不中个500万玩玩？', $return[36], 'monthly_wish, profile');
+     $this->assertEquals('3', $return[37], 'industry_code, detail ');
+     $this->assertEquals('9', $return[38], 'work_section_code, detail');
+     $this->assertEquals('0', $return[25], 'delete_flag, ww always');
+     $this->assertEquals('1', $return[26], 'is_info_set, ww always');
      $this->after_test();
   }
+
 
   function test_generate_user_data_only_jili()
   {
@@ -423,8 +632,9 @@ EOD
       $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
       @exec('rm -rf '.$expected_user_csv_file);
 
+//"id","email","pwd","is_email_confirmed","is_from_wenwen","wenwen_user","token","nick","sex","birthday","tel","is_tel_confirmed","province","city","education","profession","income","hobby","personalDes","identity_num","reward_multiple","register_date","last_login_date","last_login_ip","points","delete_flag","is_info_set","icon_path","uniqkey","token_created_at","origin_flag","created_remote_addr","created_user_agent","campaign_code","password_choice"
       $user_row = str_getcsv(<<<EOD
-"1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","NULL","","QQ懂你","2","1988-1","13732634246","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+"1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","","1","NULL","","QQ懂你","2","1988-1","13732634246","NULL","3","18","NULL","NULL","101","1,9,11","简历","132103198010310032","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","uploads/user/91/1377046582_2187.jpeg","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
 EOD
 );
       generate_user_data_only_jili($user_row);
@@ -447,7 +657,35 @@ EOD
      $this->assertEquals('13732634246', $return[10], 'use jili user.tel');
 
      $this->assertEquals('NULL', $return[11], 'use keep jili user.is_tel_confirmed ');
+     $this->assertEquals('3', $return[12], 'use keep jili user.province');
+     $this->assertEquals('18', $return[13], 'use keep jili user.city');
 
+     $this->assertEquals('NULL', $return[14], 'education, null in jili ');
+     $this->assertEquals('NULL',$return[15], 'profession,null in jili');
+     $this->assertEquals('101', $return[16], 'income, keep jili.user.income ');
+     $this->assertEquals('1,9,11', $return[17], 'hobby, profile.hobby ToDebug:');
+     $this->assertEquals('简历', $return[18], 'personalDes, keep jili');
+     $this->assertEquals('132103198010310032', $return[19], 'identity_num, ww NULL ');
+     $this->assertEquals('1', $return[20], 'reward_multiple, always 1');
+     $this->assertEquals('2015-01-24 10:29:25', $return[21], 'created_at, always 1');
+     $this->assertEquals('11.22.33.44', $return[23], 'last login ip');
+     $this->assertEquals('77', $return[24], 'sum');
+
+
+     $this->assertEquals('uploads/user/91/1377046582_2187.jpeg', $return[27], 'icon_path');
+     $this->assertEquals('NULL', $return[28], 'uniqkey');
+     $this->assertEquals('NULL', $return[29], 'token_created_at');
+     $this->assertEquals('1', $return[30], 'origin_flag');
+     $this->assertEquals('NULL', $return[31], 'created_remote_addr');
+     $this->assertEquals('NULL', $return[32], 'created_user_agent');
+     $this->assertEquals('NULL', $return[33], 'campaign_code');
+     $this->assertEquals('2', $return[34], 'password_choice');
+     $this->assertEquals('NULL', $return[35], 'fav_music');
+     $this->assertEquals('NULL', $return[36], 'monthly_wish');
+     $this->assertEquals('NULL', $return[37], 'industry_code');
+     $this->assertEquals('NULL', $return[38], 'work_section_code');
+     $this->assertEquals('0', $return[25], 'delete_flag, ww always');
+     $this->assertEquals('1', $return[26], 'is_info_set, ww always');
 
       $this->after_test();
   }
@@ -467,6 +705,73 @@ EOD
       $return = str_getcsv(file_get_contents($expected_user_csv_file));
       $this->assertEquals('1', $return[3], 'is_email_confirmed should not null');
 
+      $this->after_test();
+  }
+
+  function test_generate_user_data_only_jili_personalDes_null()
+  {
+      $this->before_test();
+// is_email_confirmed not nll
+      $user_row = str_getcsv(<<<EOD
+"1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","1","1","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+);
+      generate_user_data_only_jili($user_row);
+
+      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+      $this->assertFileExists($expected_user_csv_file); 
+      $return = str_getcsv(file_get_contents($expected_user_csv_file));
+      $this->assertEquals('NULL', $return[18], 'personalDes is null');
+
+      $this->after_test();
+  }
+
+  function test_generate_user_data_only_jili_identity_num_null()
+  {
+      $this->before_test();
+// is_email_confirmed not nll
+      $user_row = str_getcsv(<<<EOD
+"1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","1","1","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","0","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+);
+      generate_user_data_only_jili($user_row);
+      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+      $this->assertFileExists($expected_user_csv_file); 
+      $return = str_getcsv(file_get_contents($expected_user_csv_file));
+      $this->assertEquals('NULL', $return[19], 'identity_num');
+      $this->after_test();
+  }
+
+
+  function test_generate_user_data_only_jili_delete_flag_1()
+  {
+      $this->before_test();
+// is_email_confirmed not nll
+      $user_row = str_getcsv(<<<EOD
+"1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","1","1","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","1","1","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+);
+      generate_user_data_only_jili($user_row);
+      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+      $this->assertFileExists($expected_user_csv_file); 
+      $return = str_getcsv(file_get_contents($expected_user_csv_file));
+      $this->assertEquals('1', $return[25], 'delete flag is 1');
+      $this->after_test();
+  }
+
+  function test_generate_user_data_only_jili_is_info_set_0()
+  {
+      $this->before_test();
+// is_email_confirmed not nll
+      $user_row = str_getcsv(<<<EOD
+"1291363","tao_jiang@voyagegroup.com","2ef75e7c46e06b90507e4d47780fd8426857c0ab","1","1","NULL","","QQ懂你","2","1988-1","13052550759","NULL","3","18","NULL","NULL","NULL","1,9,11","NULL","NULL","1","2015-01-24 10:29:25","2015-01-24 10:29:25","11.22.33.44","77","1","0","NULL","NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+EOD
+);
+      generate_user_data_only_jili($user_row);
+      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+      $this->assertFileExists($expected_user_csv_file); 
+      $return = str_getcsv(file_get_contents($expected_user_csv_file));
+      $this->assertEquals('0', $return[26], 'is info set is 0');
       $this->after_test();
   }
 
@@ -541,6 +846,8 @@ EOD
     $this->after_test();
 
   }
+
+
 
   function test_generate_user_wenwen_login_data()
   {

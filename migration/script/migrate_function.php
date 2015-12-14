@@ -531,9 +531,6 @@ function generate_user_data_only_jili($row = array())
         $row[3] = 'NULL';
     }
 
-    //is_tel_confirmed
-    $row[11] = 0;
-
     //origin_flag
     $row[30] = Constants::$origin_flag['jili'];
 
@@ -572,7 +569,9 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[8] = $panelist_row[13];
 
     //birthday varchar(50) :1986-8 (panelist.birthday:1983-12-01)
-    $user_row[9] = $panelist_row[14];
+    if( ! empty($panelist_row[14]) ) {
+        $user_row[9] = $panelist_row[14];
+    }
 
     //register_date (panelist.created_at)
     $user_row[21] = get_one_hour_ago_time($panelist_row[9]);
@@ -580,8 +579,8 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //last_login_date(panelist.panelist.last_login_time)
     $user_row[22] = get_one_hour_ago_time($panelist_row[17]);
 
-    //todo:last_login_ip
-    //$user_row[23] = '';
+    //last_login_ip
+    //$user_row[23] = $panelist_row[23];
 
 
     //delete_flag todo: 是否要查看问问的黑名单处理
@@ -618,7 +617,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     global $region_mapping_indexs;
     global $migration_region_mapping_file_handle;
     if (isset($region_mapping_indexs[$panelist_row[1]])) {
-        $region_mapping_row = use_file_index($region_mapping_indexs, $panelist_row[1], $migration_region_mapping_file_handle, false);
+       $region_mapping_row = use_file_index($region_mapping_indexs, $panelist_row[1], $migration_region_mapping_file_handle, false);
         //province
         $user_row[12] = $region_mapping_row[1];
         //city
@@ -656,7 +655,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[7] = $panelist_profile_row[2];
 
         //hobby: profile.hobby
-        $user_row[17] = $panelist_profile_row[6];
+        // $user_row[17] = $panelist_profile_row[6];
 
         //personalDes: profile.biography
         $user_row[18] = $panelist_profile_row[5];
@@ -669,13 +668,13 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
     //points: panel_91wenwen_panelist_point.point_value
     global $panelist_point_indexs;
-    $user_row[24] = 0;
+
     if (isset($panelist_point_indexs[$panelist_row[0]])) {
-        $jili_user_point = 0;
-        if (isset($user_row[24])) {
-            $jili_user_point = $user_row[24];
+
+        if( !isset($user_row[24]) ) {
+            $user_row[24] =  0;
         }
-        $user_row[24] = $jili_user_point + $panelist_point_indexs[$panelist_row[0]]['point_value'];
+        $user_row[24]  +=  $panelist_point_indexs[$panelist_row[0]]['point_value'];
     }
 
     //icon_path:panelist_profile_image
