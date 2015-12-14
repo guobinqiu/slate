@@ -92,7 +92,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
      */
     public function editAction(Request $request)
     {
-        $user_id = $request->query->get('id');
+        $user_id = $request->query->get('id', '');
         $completed = $request->query->get('completed');
 
         $em = $this->getDoctrine()->getManager();
@@ -146,6 +146,9 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
                 'id' => $values['id']
             )));
         }
+
+        //todo: 是否要判断nick重复
+
 
         if ($form->isValid()) {
             return $this->render('JiliBackendBundle:Panelist:editConfirm.html.twig', array (
@@ -221,7 +224,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
      */
     public function pointHistoryAction(Request $request)
     {
-        $user_id = $request->query->get('id');
+        $user_id = $request->query->get('id', '');
         $pageSize = $this->container->getParameter('page_size_50');
 
         $em = $this->getDoctrine()->getManager();
@@ -259,13 +262,19 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
     public function getUserHobbyName($user_hobby)
     {
+        if (empty($user_hobby)) {
+            return '';
+        }
+
         $em = $this->getDoctrine()->getManager();
         $user_hobby_name = '';
 
         $user_hobby_arr = explode(",", $user_hobby);
         foreach ($user_hobby_arr as $key => $value) {
             $hobby = $em->getRepository('JiliApiBundle:HobbyList')->find($value);
-            $user_hobby_names[] = $hobby->getHobbyName();
+            if ($hobby) {
+                $user_hobby_names[] = $hobby->getHobbyName();
+            }
         }
         $user_hobby_name = implode(',', $user_hobby_names);
         return $user_hobby_name;

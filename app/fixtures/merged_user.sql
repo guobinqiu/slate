@@ -63,3 +63,17 @@ INSERT INTO `point_history01` (`id`, `user_id`, `point_change_num`, `reason`, `c
 
 INSERT INTO `sop_respondent` (`id`, `user_id`, `status_flag`, `stash_data`, `updated_at`, `created_at`) VALUES
 (1, 31, NULL, NULL, NULL, NULL);
+
+INSERT INTO `hobby_list` (`id`, `hobby_name`) VALUES
+(1, '上网'),
+(2, '音乐'),
+(3, '旅游'),
+(4, '购物'),
+(5, '运动'),
+(6, '看书'),
+(7, '游戏'),
+(8, '娱乐'),
+(9, '影视'),
+(10, '动漫'),
+(11, '时尚'),
+(12, '艺术');
