@@ -246,7 +246,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         //total_point
         $total_point = 0;
         foreach ($pointHistoryList as $key => $value) {
-            $pointHistoryList[$key]['total_point'] = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userTotalPoint($value['id']);
+            $pointHistoryList[$key]['total_point'] = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userTotalPoint($user_id, $value['id']);
         }
 
         $arr['page'] = $page;

@@ -5,6 +5,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 use Doctrine\Common\Collections\ArrayCollection;
 use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
+use Jili\ApiBundle\EventListener\PointHistory;
 
 
 class PointHistoryRepository extends EntityRepository
@@ -108,6 +109,10 @@ class PointHistoryRepository extends EntityRepository
         return $query->getResult();
     }
 
+    /**
+     * @param integer $user_id
+     * @return integer
+     */
     public function userPointHistoryCount($user_id)
     {
         $query = $this->createQueryBuilder('ph');
@@ -120,7 +125,13 @@ class PointHistoryRepository extends EntityRepository
         return $count;
     }
 
-    public function userPointHistorySearch($user_id,$pageSize, $currentPage)
+    /**
+     * @param integer $user_id
+     * @param integer $pageSize
+     * @param integer $currentPage
+     * @return array PointHistory
+     */
+    public function userPointHistorySearch($user_id, $pageSize, $currentPage)
     {
         $query = $this->createQueryBuilder('ph');
 
@@ -143,12 +154,18 @@ class PointHistoryRepository extends EntityRepository
         return $query->getResult();
     }
 
-    public function userTotalPoint($id)
+    /**
+     * @param PointHistory.id
+     * @return total points
+     */
+    public function userTotalPoint($user_id, $id)
     {
         $query = $this->createQueryBuilder('ph');
         $query = $query->select('sum(ph.pointChangeNum)');
         $query = $query->Where('ph.id <= :id');
+        $query = $query->andWhere('ph.userId = :userId');
         $param['id'] = $id;
+        $param['userId'] = $user_id;
         $query = $query->setParameters($param);
         $query =  $query->getQuery();
         $totalPoint = $query->getSingleScalarResult();
