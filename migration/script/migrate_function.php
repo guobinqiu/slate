@@ -518,7 +518,6 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
 
     $user_row = set_default_value($user_row);
 
-    $user_row[18] = addslashes($user_row[18]);
 
     export_csv_row($user_row, Constants::$migrate_user_name);
 
@@ -659,7 +658,11 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         if( $panelist_detail_row[26] === '') {
             $user_row[16] ='NULL';
         } else {
-            $user_row[16] = $panelist_detail_row[26];
+            if ( isset(Constants::$income[$panelist_detail_row[26]]) ) {
+                $user_row[16] = Constants::$income[$panelist_detail_row[26]];
+            }else {
+                throw new \Exception($panelist_detail_row[26] , ' income mapping not defined');
+            }
         }
 
         //profession: detail.detail.job_code
@@ -725,7 +728,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         // $user_row[17] = $panelist_profile_row[6];
 
         //personalDes: profile.biography
-        $user_row[18] = $panelist_profile_row[5];
+        $user_row[18] = addslashes($panelist_profile_row[5]);
 
         //fav_music: profile.fav_music
         $user_row[35] = $panelist_profile_row[7];

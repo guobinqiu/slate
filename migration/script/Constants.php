@@ -3,7 +3,7 @@
 class Constants
 {
     public static $environment = 'dev';
-    //income
+    //income ww.income_code => merged.income_code
     public static $income = array (
         1 => 100,
         2 => 101,

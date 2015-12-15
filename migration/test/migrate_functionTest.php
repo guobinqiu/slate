@@ -299,6 +299,81 @@ EOD
    * @group debug
    *
    **/
+  function test_generate_user_data_both_exsit_debug_slash()
+  {
+     // ERROR 1292 (22007) at line 877: Incorrect datetime value: '0' for column 'register_date' at row 120173
+  $this->before_test();
+  $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+  @exec('rm -rf '.$expected_user_csv_file);
+
+// profile 
+  global $panelist_profile_file_handle ;
+  $panelist_profile_file_handle = fopen('php://memory','r+');
+  fwrite($panelist_profile_file_handle,<<<EOD
+id,panelist_id,nickname,show_sex,show_birthday,biography,hobby,fav_music,monthly_wish,website_url,updated_at,created_at
+72212,638663,nic,1,1,"/\```/\",,mj,,,"2011-10-12 16:56:15","2011-10-12 16:56:15"
+EOD
+);
+  global $panelist_profile_indexs;
+  $panelist_profile_indexs= build_file_index($panelist_profile_file_handle, 'panelist_id');
+
+// detail 
+  global $panelist_detail_file_handle ;
+  $panelist_detail_file_handle = fopen('php://memory','r+');
+  fwrite($panelist_detail_file_handle,<<<EOD
+panelist_id,name_first,name_middle,name_last,furigana_first,furigana_middle,furigana_last,age,zip1,zip2,address1,address2,address3,home_type_code,home_year,tel1,tel2,tel3,tel_mobile1,tel_mobile2,tel_mobile3,mobile_number,marriage_code,child_code,child_num,income_family_code,income_personal_code,job_code,industry_code,work_section_code,graduation_code,industry_code_family,internet_starttime_code,internet_usetime_code,last_answer_date,updated_at,created_at
+638663,何绮华,,,,,,,,,,,,,,,,,,,,,,,,,3,11,99,99,3,,,,"2014-03-09 20:37:50","2014-03-09 20:37:50","2011-07-10 01:44:21"
+EOD
+);
+
+  global $panelist_detail_indexs;
+  $panelist_detail_indexs= build_file_index($panelist_detail_file_handle, 'panelist_id');
+
+  // image
+      global $panelist_profile_image_file_handle ;
+      $panelist_profile_image_file_handle = fopen('php://memory','r+');
+      fwrite($panelist_profile_image_file_handle,<<<EOD
+panelist_id,hash,s_file,s_width,s_height,m_file,m_width,m_height,l_file,l_width,l_height,delete_flag,updated_at,created_at
+638663,e26363e3cac065170b663c2233e93b44866930ea,e/2/6/e26363e3cac065170b663c2233e93b44866930ea_s.jpg,30,30,e/2/6/e26363e3cac065170b663c2233e93b44866930ea_m.jpg,90,90,e/2/6/e26363e3cac065170b663c2233e93b44866930ea_l.jpg,270,270,0,"2011-07-10 01:57:13","2011-07-10 01:57:13"
+EOD
+);
+    global $panelist_image_indexs;
+    $panelist_image_indexs = build_key_value_index($panelist_profile_image_file_handle, 'panelist_id', 'hash');
+
+  // mobile 
+      global $panelist_mobile_number_file_handle ;
+      $panelist_mobile_number_file_handle = fopen('php://memory','r+');
+      fwrite($panelist_mobile_number_file_handle,<<<EOD
+"panelist_id","mobile_number","status_flag","updated_at","created_at"
+638663,13660036338,1,"2013-10-31 22:54:55","2013-10-31 22:54:55"
+EOD
+);
+
+    global $panelist_mobile_indexs;
+    $panelist_mobile_indexs = build_key_value_index($panelist_mobile_number_file_handle, 'panelist_id', 'mobile_number');
+
+  $panelist_row = str_getcsv(<<<EOD
+638663,2199,2,393141702@qq.com,,ATZ1h54q5B8=,blowfish,★★★★★アジア事業戦略室★★★★★,"2013-12-09 10:57:46","2011-07-10 01:44:21",113.111.122.122,"Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.450",1,2,1992-11-30,2,Google_01,"2014-07-17 18:46:50"
+EOD
+);
+  
+  $user_row = str_getcsv(<<<EOD
+1119889,393141702@qq.com,8ef4e8d43e373ea6e8df90d492c343819ec9e82e,,1,,,nic0,2,1992-11,13660036338,,17,209,,,100,"1,2,3,5,6,7,9,10",,,1,"2014-03-09 19:39:34","2014-03-12 18:06:33",59.41.205.64,0,,1,,5ebbf5283c73a5eea90416e4ea95f75bd74a04ec,,,,,,
+EOD
+) ;
+  generate_user_data_both_exsit($panelist_row, $user_row);
+
+  $expected = <<<EOD
+1119889,393141702@qq.com,8ef4e8d43e373ea6e8df90d492c343819ec9e82e,1,1,NULL,,nic,2,1992-11-30,13660036338,1,17,209,3,11,102,"1,2,3,5,6,7,9,10","/\\\\```/\\\\",,1,"2011-07-10 00:44:21","2014-07-17 17:46:50",59.41.205.64,0,0,1,e26363e3cac065170b663c2233e93b44866930ea,5ebbf5283c73a5eea90416e4ea95f75bd74a04ec,NULL,3,113.111.122.122,"Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.450",Google_01,1,mj,,99,99
+
+EOD;
+    $this->assertFileExists($expected_user_csv_file); 
+
+    $this->assertEquals($expected, file_get_contents($expected_user_csv_file));
+
+    $this->after_test();
+
+  }
   function test_generate_user_data_both_exsit_debug_province_null()
   {
     $this->before_test();
@@ -317,7 +392,6 @@ EOD
 EOD
 ) ;
      generate_user_data_both_exsit($panelist_row, $user_row);
-     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
 
      $this->assertFileExists($expected_user_csv_file); 
      $return = str_getcsv(file_get_contents($expected_user_csv_file));
@@ -433,7 +507,7 @@ EOD
      $this->assertEquals('2', $return[13], 'city, 2 in region_mapping');
      $this->assertEquals('3', $return[14], 'education, 3 is from ww detail.graduation_code');
      $this->assertEquals('4',$return[15], 'profession, 18 is from ww detail.job_cdoe');
-     $this->assertEquals('20', $return[16], 'income, 3 is from ww detail.income_personal_code');
+     $this->assertEquals('119', $return[16], 'income, 3 is from ww detail.income_personal_code');
      $this->assertEquals('1,9,11', $return[17], 'hobby, profile.hobby ');
      $this->assertEquals('出生:毕业:工作:经历:', $return[18], 'personalDes, profile.biography ');
      $this->assertEquals('NULL', $return[19], 'identity_num, ww NULL ');
@@ -687,7 +761,7 @@ EOD
      $this->assertEquals('363', $return[13], 'city, 2 in region_mapping');
      $this->assertEquals('3', $return[14], 'education, 3 is from ww detail.graduation_code');
      $this->assertEquals('4',$return[15], 'profession, 18 is from ww detail.job_cdoe');
-     $this->assertEquals('20', $return[16], 'income, 3 is from ww detail.income_personal_code');
+     $this->assertEquals('119', $return[16], 'income, 3 is from ww detail.income_personal_code');
 
      $this->assertEquals('NULL', $return[17], 'hobby, profile.hobby ToDebug:');
      $this->assertEquals('出生:毕业:工作:经历:', $return[18], 'personalDes, profile.biography ');
@@ -796,7 +870,7 @@ EOD
     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
      // 164778,蒋晓磊,,,,,,,,,,,,,,,,,,,,13782704295,,,,,4,4,3,6,4,,,,"2011-08-20 11:05:02","2011-08-20 11:05:02","2010-04-25 15:44:21"
     $expected = <<<EOD
-160129,897987651@qq.com,,1,3,NULL,,smader,1,1986-06-05,NULL,NULL,1,1,4,4,4,NULL,"muyou\\\\",NULL,1,"2010-04-25 14:44:21","2012-12-22 15:43:41",NULL,0,0,1,NULL,NULL,NULL,2,10.210.43.82,"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Sicent; Mozilla/4.0 (compatible; MSIE 6.0; W",,1,,,3,6
+160129,897987651@qq.com,,1,3,NULL,,smader,1,1986-06-05,NULL,NULL,1,1,4,4,103,NULL,"muyou\\\\",NULL,1,"2010-04-25 14:44:21","2012-12-22 15:43:41",NULL,0,0,1,NULL,NULL,NULL,2,10.210.43.82,"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Sicent; Mozilla/4.0 (compatible; MSIE 6.0; W",,1,,,3,6
 
 EOD;
     $this->assertFileExists($expected_user_csv_file); 
