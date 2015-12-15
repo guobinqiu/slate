@@ -639,7 +639,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     global $panelist_detail_file_handle;
     if (isset($panelist_detail_indexs[$panelist_row[0]])) {
         $panelist_detail_row = use_file_index($panelist_detail_indexs, $panelist_row[0], $panelist_detail_file_handle, true);
-
         //education: detail.graduation_code
         if($panelist_detail_row[30] === '') {
             $user_row[14] = 'NULL';
@@ -675,6 +674,33 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         } else {
             $user_row[38] = $panelist_detail_row[29];
         }
+    } else {
+        //education: detail.graduation_code
+        if(empty($user_row[14] )) {
+            $user_row[14] = 'NULL';
+        }
+
+        //income : detail.income_personal_code
+        if(empty($user_row[16] )) {
+            $user_row[16] ='NULL';
+        }
+
+        //profession: detail.detail.job_code
+        if(empty($user_row[15] )) {
+            $user_row[15] ='NULL';
+        }
+
+
+        //industry_code: detail.industry_code
+        if(empty($user_row[37] )) {
+            $user_row[37] ='NULL';
+        }
+
+        //work_section_code: detail.work_section_code
+        if(empty($user_row[38] )) {
+            $user_row[38] ='NULL';
+        }
+
     }
 
     global $panelist_profile_indexs;

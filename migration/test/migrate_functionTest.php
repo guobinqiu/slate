@@ -294,6 +294,46 @@ EOD
     fclose($fh);
   }
 
+  /**
+   * @group debug
+   *
+   **/
+  function test_generate_user_data_both_exsit_debug_education_null()
+  {
+    $this->before_test();
+
+    $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+
+    @exec('rm -rf '.$expected_user_csv_file);
+  global $panelist_detail_file_handle ;
+  $panelist_detail_file_handle = fopen('php://memory','r+');
+  fwrite($panelist_detail_file_handle,<<<EOD
+panelist_id,name_first,name_middle,name_last,furigana_first,furigana_middle,furigana_last,age,zip1,zip2,address1,address2,address3,home_type_code,home_year,tel1,tel2,tel3,tel_mobile1,tel_mobile2,tel_mobile3,mobile_number,marriage_code,child_code,child_num,income_family_code,income_personal_code,job_code,industry_code,work_section_code,graduation_code,industry_code_family,internet_starttime_code,internet_usetime_code,last_answer_date,updated_at,created_at
+
+EOD
+);
+
+  global $panelist_detail_indexs;
+  $panelist_detail_indexs = build_file_index($panelist_detail_file_handle, 'panelist_id');
+
+    $panelist_row = str_getcsv(<<<EOD
+226761,2355,2,sdxyh3616@sina.com,,cb8de994c51efb6998b549d6e0c3497f,md5_plain,,"2010-05-31 03:11:24","2010-05-31 03:11:24",,,1,0,0000-00-00,1,manmanzou_201005,
+EOD
+);
+    $user_row = str_getcsv(<<<EOD
+1052922,sdxyh3616@sina.com,6b25ec90e2ad59d8f5046840de21ea348154363f,,1,,,bete2000,,,,,,,,,,,,,1,"2013-08-10 21:04:17","2013-08-10 21:04:17",,0,,0,,,,,,,,
+EOD
+) ;
+     generate_user_data_both_exsit($panelist_row, $user_row);
+     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+     $this->assertEquals('NULL', $return[14], 'education');
+
+    $this->after_test();
+  }
+
   function test_generate_user_data_both_exsit_debug()
   {
     $this->before_test();
@@ -689,10 +729,6 @@ EOD
 
 
 
-  /**
-   * @group debug
-   *
-   **/
   function test_generate_user_data_only_wenwen_debug_register_date_0()
   {
      // ERROR 1292 (22007) at line 877: Incorrect datetime value: '0' for column 'register_date' at row 120173
