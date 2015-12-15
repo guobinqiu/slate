@@ -32,7 +32,7 @@ UPDATE `month_income` SET `income` = '9000元-9999元' WHERE `month_income`.`id`
 UPDATE `month_income` SET `income` = '10000元-11999元' WHERE `month_income`.`id` =110;
 
 INSERT INTO `month_income` (`id` ,`income`) VALUES 
-('111', '12000元-13999元');
+('111', '12000元-13999元'),
 ('112', '14000元-15999元'),
 ('113', '16000元-17999元'),
 ('114', '18000元-19999元'),
