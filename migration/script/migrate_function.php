@@ -519,6 +519,8 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     $user_row = set_default_value($user_row);
 
 
+
+
     export_csv_row($user_row, Constants::$migrate_user_name);
 
     export_history_data($panelist_row[0], $user_id);
@@ -540,53 +542,6 @@ function generate_user_data_only_jili($row = array())
 
     $row = set_default_value($row);
 
-
-    // is_email_confirmed
-    if(''===$row[3] ) {
-        $row[3] = 'NULL';
-    }
-
-    // nick
-    $row[7] = addslashes($row[7]);
-
-    // sex 
-    if(''===$row[8] ) {
-        $row[8] = 'NULL';
-    }
-
-// is_tel_confirmed
-    if(''===$row[11] ) {
-        $row[11] = 'NULL';
-    }
-
-    // province
-    if(''===$row[12] ) {
-        $row[12] = 'NULL';
-    }
-
-    // city
-    if(''===$row[13] ) {
-        $row[13] = 'NULL';
-    }
-
-    //education 
-    if(''===$row[14] ) {
-        $row[14] = 'NULL';
-    }
-
-    //profession: detail.detail.job_code
-    if( $row[15] === '') {
-        $row[15] ='NULL';
-    }
-
-    //income
-    if( $row[16] === '') {
-        $row[16] ='NULL';
-    }
-    //delete_flag
-    if( $row[25] === '') {
-        $row[25] ='NULL';
-    }
 
 
     export_csv_row($row, Constants::$migrate_user_name);
@@ -821,6 +776,12 @@ function set_default_value($row)
 
     }
 
+
+
+    // is_email_confirmed
+    if(''===$row[3] ) {
+        $row[3] = 'NULL';
+    }
     // is_from_wenwen 
     if(''=== $row[4] ) {
         $row[4] = 'NULL';
@@ -830,10 +791,48 @@ function set_default_value($row)
         $row[5] = 'NULL';
     }
 
-    // is_tel_confirmed 
-    if(''=== $row[11] ) {
+    // nick
+    $row[7] = addslashes($row[7]);
+
+    // sex 
+    if(''===$row[8] ) {
+        $row[8] = 'NULL';
+    }
+
+// is_tel_confirmed
+    if(''===$row[11] ) {
         $row[11] = 'NULL';
     }
+
+    // province
+    if(''===$row[12] ) {
+        $row[12] = 'NULL';
+    }
+
+    // city
+    if(''===$row[13] ) {
+        $row[13] = 'NULL';
+    }
+
+    //education 
+    if(''===$row[14] ) {
+        $row[14] = 'NULL';
+    }
+
+    //profession: detail.detail.job_code
+    if( $row[15] === '') {
+        $row[15] ='NULL';
+    }
+
+    //income
+    if( $row[16] === '') {
+        $row[16] ='NULL';
+    }
+    //delete_flag
+    if( $row[25] === '') {
+        $row[25] ='NULL';
+    }
+
 
     // is_tel_confirmed 
     if(''=== $row[29] ) {
