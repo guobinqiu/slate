@@ -56,9 +56,9 @@ function do_process()
 
     //遍历panelist表
     $i = 0;
-    fgetcsv($panelist_file_handle, 2000, ",");
+    fgetcsv($panelist_file_handle, 2000, ',','"','"');
     try {
-        while (($panelist_row = fgetcsv($panelist_file_handle, 2000, ",")) !== FALSE) {
+        while (($panelist_row = fgetcsv($panelist_file_handle, 2000, ',','"','"')) !== FALSE) {
 
             $i++;
 
@@ -128,14 +128,15 @@ function do_process()
         $only_jili_count++;
 
         fseek($user_file_handle, $pointer);
-        $user_row = fgetcsv($user_file_handle);
+        $user_row = fgetcsv($user_file_handle,',','"','"');
+
         generate_user_data_only_jili($user_row);
     }
 
     //weibo_user : no change
     foreach ($weibo_user_indexs as $user_id => $pointer) {
         fseek($weibo_user_file_handle, $pointer);
-        $weibo_user = fgetcsv($weibo_user_file_handle);
+        $weibo_user = fgetcsv($weibo_user_file_handle,',','"','"');
         export_csv_row($weibo_user, Constants::$migrate_weibo_user_name);
     }
 

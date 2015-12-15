@@ -531,6 +531,16 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
  */
 function generate_user_data_only_jili($row = array())
 {
+
+    //origin_flag
+    $row[30] = Constants::$origin_flag['jili'];
+
+    //password_choice
+    $row[34] = Constants::$password_choice['pwd_jili'];
+
+    $row = set_default_value($row);
+
+
     // is_email_confirmed
     if(''===$row[3] ) {
         $row[3] = 'NULL';
@@ -578,13 +588,7 @@ function generate_user_data_only_jili($row = array())
         $row[25] ='NULL';
     }
 
-    //origin_flag
-    $row[30] = Constants::$origin_flag['jili'];
 
-    //password_choice
-    $row[34] = Constants::$password_choice['pwd_jili'];
-
-    $row = set_default_value($row);
     export_csv_row($row, Constants::$migrate_user_name);
 }
 /**
@@ -695,12 +699,12 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         }
 
         //income : detail.income_personal_code
-        if( $panelist_detail_row[26] === '') {
+        if( $panelist_detail_row[26] === ''||$panelist_detail_row[26] ===  '0' ||$panelist_detail_row[26] ===  'NULL' ) {
             $user_row[16] ='NULL';
         } else {
             if ( isset(Constants::$income[$panelist_detail_row[26]]) ) {
                 $user_row[16] = Constants::$income[$panelist_detail_row[26]];
-            }else {
+            }else  {
                 throw new \Exception($panelist_detail_row[26] . ' income mapping not defined');
             }
         }

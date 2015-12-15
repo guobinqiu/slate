@@ -887,7 +887,8 @@ EOD;
       $this->before_test();
       $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
       @exec('rm -rf '.$expected_user_csv_file);
-$csv = <<<EOD
+
+      $csv = <<<EOD
 1397556,2950546297@qq.com,a78ad7a18c4986259f6b4a704cbfe16768e9cfe5,,,,,"QQ/[.=.]\\",1,1990-8,13729714659,,17,209,,,103,"1,2,8,10",,,1,"2015-08-06 10:38:49","2015-08-06 10:38:58",14.209.198.164,146,0,1,,,,,,,,
 EOD;
 
@@ -895,11 +896,12 @@ EOD;
       generate_user_data_only_jili($user_row);
 
       $this->assertFileExists($expected_user_csv_file); 
-
       $return = str_getcsv(file_get_contents($expected_user_csv_file));
 
       $this->assertEquals('QQ/[.=.]\\\\', $return[7], 'nick escaped' );
-      $this->assertEquals('NULL', $return[14], 'education' );
+      $this->assertEquals('1', $return[20], 'hobby' );
+      $this->assertEquals('1,2,8,10', $return[17], 'reward_multiple' );
+
 
       $this->after_test();
   }
