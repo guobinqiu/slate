@@ -265,7 +265,6 @@ function get_max_user_id($fh)
         }
         $id = (int) trim(substr($row, 0, $id_pos ));
 
-
         if ($max_id < $id) {
             $max_id = $id;
         }
@@ -635,6 +634,14 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[12] = $region_mapping_row[1];
         //city
         $user_row[13] = $region_mapping_row[2];
+    } else {
+        if(empty($user_row[12])) {
+            $user_row[12] = 'NULL';
+        }
+        if(empty($user_row[13])) {
+            $user_row[13] = 'NULL';
+        }
+
     }
 
     global $panelist_detail_indexs;

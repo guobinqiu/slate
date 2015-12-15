@@ -259,10 +259,6 @@ EOD
     fclose($fh);
   }
 
-  /**
-   * @group debug
-   *
-   **/
   function test_get_max_user_id() 
   {
     $fh = tmpfile();
@@ -296,6 +292,38 @@ EOD
 
     $this->assertEquals( '1379445' ,$id, 'the id in last line is max id');
     fclose($fh);
+  }
+
+
+  /**
+   * @group debug
+   *
+   **/
+  function test_generate_user_data_both_exsit_debug_province_null()
+  {
+    $this->before_test();
+
+    $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+
+    @exec('rm -rf '.$expected_user_csv_file);
+
+
+    $panelist_row = str_getcsv(<<<EOD
+440058,,2,1326671454@qq.com,,zRKJGjLNww4=,blowfish,★★★★★アジア事業戦略室★★★★★,"2011-05-10 07:00:45","2010-10-26 14:12:08",112.115.30.128,"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; 360SE)",1,2,0000-00-00,2,Google_01,"2010-10-26 14:12:09"
+EOD
+);
+    $user_row = str_getcsv(<<<EOD
+1056325,1326671454@qq.com,4109120729f5a146b35d920875ba5cdbe704a696,,1,,,天使之恋,,,,,,,,,,,,,1,"2013-08-14 16:52:34","2013-08-14 16:52:34",,0,,0,,,,,,,,
+EOD
+) ;
+     generate_user_data_both_exsit($panelist_row, $user_row);
+     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+
+     $this->assertFileExists($expected_user_csv_file); 
+     $return = str_getcsv(file_get_contents($expected_user_csv_file));
+     $this->assertEquals('NULL', $return[12], 'province');
+
+    $this->after_test();
   }
 
   function test_generate_user_data_both_exsit_debug_education_null()
