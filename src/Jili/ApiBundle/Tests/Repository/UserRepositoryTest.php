@@ -69,7 +69,7 @@ class UserRepositoryTest extends KernelTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        //         $this->em->close();
+        $this->em->close();
     }
 
     /**
@@ -358,11 +358,11 @@ class UserRepositoryTest extends KernelTestCase
         $pageSize = 3;
         $currentPage = 0;
         $result = $this->em->getRepository('JiliApiBundle:User')->getSearchUserList(array (), "registered", $pageSize, $currentPage);
-        $this->assertCount(3, $result);
+        $this->assertCount(3, $result, 'registered user, pageSize:3, currentPage:0, user count: ' . count($result));
 
         $currentPage = ceil(8 / 3);
         $result = $this->em->getRepository('JiliApiBundle:User')->getSearchUserList(array (), "registered", $pageSize, $currentPage);
-        $this->assertCount(2, $result);
+        $this->assertCount(2, $result, 'registered user, pageSize:3, currentPage:last page, user count: ' . count($result));
 
         $this->assertEquals(32, $result[0]['id']);
         $this->assertEquals('zhangmmX@voyagegroup.com.cn', $result[0]['email']);

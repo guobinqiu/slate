@@ -8,14 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-// use Symfony\Component\HttpFoundation\JsonResponse;
-// use Symfony\Component\HttpKernel\HttpKernelInterface;
-// use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\BackendBundle\Form\PanelistSearchType;
 use Jili\ApiBundle\Utility\String;
 use Jili\BackendBundle\Form\PanelistEditFormType;
-// use jili\ApiBundle\Entity\User;
-
 
 /**
  * @Route("/admin/panelist",requirements={"_scheme"="https"})
@@ -28,8 +23,10 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
      */
     public function searchAction(Request $request)
     {
+        // page size
         $pageSize = $this->container->getParameter('page_size_50');
 
+        //get page
         $page = (int) $request->request->get('page', 1);
         if (!$page) {
             $page = (int) $request->query->get('page', 1);
@@ -39,15 +36,16 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
             $page = 1;
         }
 
-        //create vote form
+        // create form
         $form = $this->createForm(new PanelistSearchType());
-        $pagination = null;
+
+        // default value
         $registeredCount = 0;
         $withdrawalCount = 0;
-        $pageCount = 0;
-        $pages = 0;
 
         $em = $this->getDoctrine()->getManager();
+
+        // commit search
         if ($request->getMethod() === 'POST') {
             $form->bind($request);
 
@@ -55,12 +53,14 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
                 $values = $form->getData();
 
+                // get registered user list
                 if ($values['type_registered'] == 1) {
                     $registeredCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'registered');
                     $registered_page = $page > (int) ceil($registeredCount / $pageSize) ? (int) ceil($registeredCount / $pageSize) : $page;
                     $arr['registeredUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'registered', $pageSize, $registered_page);
                 }
 
+                // get withdrawal user list
                 if ($values['type_withdrawal'] == 1) {
                     $withdrawalCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'withdrawal');
                     $withdrawal_page = $page > (int) ceil($withdrawalCount / $pageSize) ? (int) ceil($withdrawalCount / $pageSize) : $page;
@@ -69,9 +69,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
             }
         }
 
-        //todo: 了解一下enqueteHistory, PartnerPublicationPanelistManager
-
-
+        // page choose
         if ($registeredCount > $withdrawalCount) {
             $arr['total'] = $registeredCount;
         } else {
@@ -83,7 +81,10 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $arr['form'] = $form->createView();
         $arr['registeredCount'] = $registeredCount;
         $arr['withdrawalCount'] = $withdrawalCount;
+
+        //get sop config
         $arr['sop'] = $this->container->getParameter('sop');
+
         return $this->render('JiliBackendBundle:Panelist:search.html.twig', $arr);
     }
 
@@ -98,21 +99,25 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
 
+        // user not exist
         if (!$user) {
             $arr['user'] = null;
             return $this->render('JiliBackendBundle:Panelist:edit.html.twig', $arr);
         }
 
+        // set delete flag
         if (is_null($user->getDeleteFlag())) {
             $user->setDeleteFlag(0);
         }
 
-        $form = $this->createForm(new PanelistEditFormType(), $user);
+        // get user hobby name
+        $arr['user_hobby_name'] = $em->getRepository('JiliApiBundle:HobbyList')->getUserHobbyName($user->getHobby());
 
+        // create form
+        $form = $this->createForm(new PanelistEditFormType(), $user);
         $arr['form'] = $form->createView();
 
         $arr['user'] = $user;
-        $arr['user_hobby_name'] = $this->getUserHobbyName($user->getHobby());
         $arr['completed'] = $completed;
         return $this->render('JiliBackendBundle:Panelist:edit.html.twig', $arr);
     }
@@ -136,6 +141,8 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($values['id']);
+
+        // user not exist
         if (!$user) {
             return $this->redirect($this->generateUrl('_admin_panelist_index'));
         }
@@ -147,15 +154,12 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
             )));
         }
 
-        //todo: 是否要判断nick重复
-
-
         if ($form->isValid()) {
             return $this->render('JiliBackendBundle:Panelist:editConfirm.html.twig', array (
                 'form' => $form->createView(),
                 'user' => $user,
                 'values' => $values,
-                'user_hobby_name' => $this->getUserHobbyName($user->getHobby())
+                'user_hobby_name' => $em->getRepository('JiliApiBundle:HobbyList')->getUserHobbyName($user->getHobby())
             ));
         }
 
@@ -165,7 +169,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
             'form' => $form->createView(),
             'error_meeeages' => $error_meeeages,
             'user' => $user,
-            'user_hobby_name' => $this->getUserHobbyName($user->getHobby())
+            'user_hobby_name' => $em->getRepository('JiliApiBundle:HobbyList')->getUserHobbyName($user->getHobby())
         ));
     }
 
@@ -187,6 +191,8 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($values['id']);
+
+        // user not exist
         if (!$user) {
             return $this->redirect($this->generateUrl('_admin_panelist_index'));
         }
@@ -200,6 +206,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
         if ($form->isValid()) {
 
+            // update user info
             $user->setBirthday($values['birthday']);
             $user->setNick($values['nick']);
             $user->setTel($values['tel']);
@@ -230,6 +237,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
 
+        // user not exist
         if (!$user) {
             $arr['user'] = null;
             return $this->render('JiliBackendBundle:Panelist:pointhistory.html.twig', $arr);
@@ -240,13 +248,13 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
             $page = 1;
         }
 
-        // total count
+        // user point history total count
         $pointHistoryCount = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistoryCount($user_id);
 
-        //list
+        //user point history list
         $pointHistoryList = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistorySearch($user_id, $pageSize, $page);
 
-        //total_point
+        //user total_point by point history
         $total_point = 0;
         foreach ($pointHistoryList as $key => $value) {
             $pointHistoryList[$key]['total_point'] = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userTotalPoint($user_id, $value['id']);
@@ -258,25 +266,5 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $arr['user'] = $user;
         $arr['pointHistoryList'] = $pointHistoryList;
         return $this->render('JiliBackendBundle:Panelist:pointhistory.html.twig', $arr);
-    }
-
-    public function getUserHobbyName($user_hobby)
-    {
-        if (empty($user_hobby)) {
-            return '';
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $user_hobby_name = '';
-
-        $user_hobby_arr = explode(",", $user_hobby);
-        foreach ($user_hobby_arr as $key => $value) {
-            $hobby = $em->getRepository('JiliApiBundle:HobbyList')->find($value);
-            if ($hobby) {
-                $user_hobby_names[] = $hobby->getHobbyName();
-            }
-        }
-        $user_hobby_name = implode(',', $user_hobby_names);
-        return $user_hobby_name;
     }
 }

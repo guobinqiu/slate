@@ -146,7 +146,7 @@ class PointHistoryRepositoryTest extends KernelTestCase
         $user_id = 31;
         $em = $this->em;
         $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistoryCount($user_id);
-        $this->assertEquals(7, $result, 'user point history count: ' . $result);
+        $this->assertEquals(7, $result, 'user id: ' . $user_id . ', user point history count: ' . $result);
     }
 
     /**
@@ -158,14 +158,12 @@ class PointHistoryRepositoryTest extends KernelTestCase
         $em = $this->em;
 
         $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistorySearch($user_id, 1, 0);
-
-        $this->assertCount(1, $result, 'pagesize:1 currentPage:0 list count: ' . count($result));
-        $this->assertEquals(37, $result[0]['id'], 'pagesize:1 currentPage:0 PointHistory.id: ' . $result[0]['id']);
+        $this->assertCount(1, $result, 'user id: ' . $user_id . ', pagesize:1 currentPage:0 list count: ' . count($result));
+        $this->assertEquals(37, $result[0]['id'], 'user id: ' . $user_id . ', pagesize:1 currentPage:0 PointHistory.id: ' . $result[0]['id']);
 
         $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistorySearch($user_id, 2, 2);
-
-        $this->assertCount(2, $result, 'pagesize:2 currentPage:2 list count: ' . count($result));
-        $this->assertEquals(35, $result[0]['id'], 'pagesize:2 currentPage:2 PointHistory.id: ' . $result[0]['id']);
+        $this->assertCount(2, $result, 'user id: ' . $user_id . ', pagesize:2 currentPage:2 list count: ' . count($result));
+        $this->assertEquals(35, $result[0]['id'], 'user id: ' . $user_id . ', pagesize:2 currentPage:2 PointHistory.id: ' . $result[0]['id']);
     }
 
     /**
@@ -177,6 +175,6 @@ class PointHistoryRepositoryTest extends KernelTestCase
         $em = $this->em;
 
         $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userTotalPoint($user_id, 34);
-        $this->assertEquals(61, $result, 'user total points : ' . $result);
+        $this->assertEquals(61, $result, 'user id: ' . $user_id . ', user total points : ' . $result);
     }
 }

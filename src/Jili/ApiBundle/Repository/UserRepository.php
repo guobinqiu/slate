@@ -778,9 +778,10 @@ EOT;
     }
 
     /**
-     * @param array $values array();
-     * @param String $type: registered or withdrawal
-     * @return integer
+     * Get the total number of users
+     * @param array $values search condition
+     * @param String $type registered or withdrawal
+     * @return integer count
      */
     public function getSearchUserCount($values, $type)
     {
@@ -792,11 +793,12 @@ EOT;
     }
 
     /**
-     * @param array $values array();
-     * @param String $type: registered or withdrawal
+     * Get user list by search condition
+     * @param array $values search condition
+     * @param String $type registered or withdrawal
      * @param integer $pageSize
      * @param integer $currentPage
-     * @return array
+     * @return array user
      */
     public function getSearchUserList($values, $type, $pageSize, $currentPage)
     {
@@ -815,8 +817,8 @@ EOT;
 
     /**
      * @param $query
-     * @param array $values array();
-     * @param String $type: registered or withdrawal
+     * @param array $values search condition
+     * @param String $type registered or withdrawal
      * @return $query
      */
     public function getSearchUserSqlQuery($query, $values, $type)

@@ -73,7 +73,7 @@ class AdminPanelistControllerTest extends WebTestCase
         $form['panelistSerach[user_id]'] = 31;
         $crawler = $client->submit($form);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('zhangmm@ec-navi.com.cn"', $client->getResponse()->getContent());
+        $this->assertContains('zhangmm@ec-navi.com.cn', $client->getResponse()->getContent());
     }
 
     /**
@@ -143,33 +143,5 @@ class AdminPanelistControllerTest extends WebTestCase
         $this->assertContains('211', $client->getResponse()->getContent());
         $this->assertContains('60', $client->getResponse()->getContent());
         $this->assertContains('游戏全勤', $client->getResponse()->getContent());
-    }
-
-    /**
-     * @group dev-backend_panelist
-     */
-    public function testGetUserHobbyName()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-
-        $controller = new AdminPanelistController();
-        $controller->setContainer($container);
-
-        $user_hobby = null;
-        $user_hobby_name = $controller->getUserHobbyName($user_hobby);
-        $this->assertEquals('', $user_hobby_name);
-
-        $user_hobby = '';
-        $user_hobby_name = $controller->getUserHobbyName($user_hobby);
-        $this->assertEquals('', $user_hobby_name);
-
-        $user_hobby = '1';
-        $user_hobby_name = $controller->getUserHobbyName($user_hobby);
-        $this->assertEquals('上网', $user_hobby_name);
-
-        $user_hobby = '1,2,13';
-        $user_hobby_name = $controller->getUserHobbyName($user_hobby);
-        $this->assertEquals('上网,音乐', $user_hobby_name);
     }
 }
