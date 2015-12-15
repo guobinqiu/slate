@@ -570,14 +570,15 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //is_email_confirmed
     $user_row[3] = 1;
 
-
-
-
     // token
     $user_row[6] = '';
 
     //sex
-    $user_row[8] = $panelist_row[13];
+    if('' === $panelist_row[13])  {
+        $user_row[8] = 'NULL';
+    } else{
+        $user_row[8] = $panelist_row[13];
+    }
 
     //birthday varchar(50) :1986-8 (panelist.birthday:1983-12-01)
     if( ! empty($panelist_row[14]) ) {
@@ -661,7 +662,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
             if ( isset(Constants::$income[$panelist_detail_row[26]]) ) {
                 $user_row[16] = Constants::$income[$panelist_detail_row[26]];
             }else {
-                throw new \Exception($panelist_detail_row[26] , ' income mapping not defined');
+                throw new \Exception($panelist_detail_row[26] . ' income mapping not defined');
             }
         }
 
