@@ -786,6 +786,7 @@ function set_default_value($row)
     if(''=== $row[4] ) {
         $row[4] = 'NULL';
     }
+
     // wenwen_user 
     if(''=== $row[5] ) {
         $row[5] = 'NULL';
@@ -793,6 +794,15 @@ function set_default_value($row)
 
     // nick
     $row[7] = addslashes($row[7]);
+
+//personalDes	text	YES		NULL	
+    $row[18] = addslashes($row[18]);
+    // agent
+    $row[32] = addslashes($row[32]);
+// fav_music	varchar(255)	YES		NULL	
+    $row[35] = addslashes($row[35]);
+//monthly_wish	varchar(255)	YES		NULL	
+    $row[36] = addslashes($row[36]);
 
     // sex 
     if(''===$row[8] ) {

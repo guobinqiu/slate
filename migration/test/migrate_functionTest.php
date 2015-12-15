@@ -360,7 +360,7 @@ EOD
   generate_user_data_both_exsit($panelist_row, $user_row);
 
   $expected = <<<EOD
-1119889,393141702@qq.com,8ef4e8d43e373ea6e8df90d492c343819ec9e82e,1,1,NULL,,nic,2,1992-11-30,13660036338,1,17,209,3,11,102,"1,2,3,5,6,7,9,10","/\\\\```/\\\\",,1,"2011-07-10 00:44:21","2014-07-17 17:46:50",59.41.205.64,0,0,1,e26363e3cac065170b663c2233e93b44866930ea,5ebbf5283c73a5eea90416e4ea95f75bd74a04ec,NULL,3,113.111.122.122,"Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.450",Google_01,1,mj,,99,99
+1119889,393141702@qq.com,8ef4e8d43e373ea6e8df90d492c343819ec9e82e,1,1,NULL,,nic,2,1992-11-30,13660036338,1,17,209,3,11,102,"1,2,3,5,6,7,9,10","/\\\\\\\\```/\\\\\\\\",,1,"2011-07-10 00:44:21","2014-07-17 17:46:50",59.41.205.64,0,0,1,e26363e3cac065170b663c2233e93b44866930ea,5ebbf5283c73a5eea90416e4ea95f75bd74a04ec,NULL,3,113.111.122.122,"Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.450",Google_01,1,mj,,99,99
 
 EOD;
     $this->assertFileExists($expected_user_csv_file); 
@@ -863,6 +863,10 @@ EOD
 );
  
      generate_user_data_only_wenwen($panelist_row,160129 );
+    // is_tel_confirmed 
+    if(''=== $row[11] ) {
+        $row[11] = 'NULL';
+    }
     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
      // 164778,蒋晓磊,,,,,,,,,,,,,,,,,,,,13782704295,,,,,4,4,3,6,4,,,,"2011-08-20 11:05:02","2011-08-20 11:05:02","2010-04-25 15:44:21"
     $expected = <<<EOD
