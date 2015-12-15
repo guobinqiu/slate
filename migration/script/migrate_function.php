@@ -536,8 +536,47 @@ function generate_user_data_only_jili($row = array())
         $row[3] = 'NULL';
     }
 
+    // nick
+    $row[7] = addslashes($row[7]);
 
+    // sex 
+    if(''===$row[8] ) {
+        $row[8] = 'NULL';
+    }
 
+// is_tel_confirmed
+    if(''===$row[11] ) {
+        $row[11] = 'NULL';
+    }
+
+    // province
+    if(''===$row[12] ) {
+        $row[12] = 'NULL';
+    }
+
+    // city
+    if(''===$row[13] ) {
+        $row[13] = 'NULL';
+    }
+
+    //education 
+    if(''===$row[14] ) {
+        $row[14] = 'NULL';
+    }
+
+    //profession: detail.detail.job_code
+    if( $row[15] === '') {
+        $row[15] ='NULL';
+    }
+
+    //income
+    if( $row[16] === '') {
+        $row[16] ='NULL';
+    }
+    //delete_flag
+    if( $row[25] === '') {
+        $row[25] ='NULL';
+    }
 
     //origin_flag
     $row[30] = Constants::$origin_flag['jili'];
