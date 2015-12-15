@@ -51,6 +51,7 @@ function do_process()
 
     //get max user id
     $max_user_id = get_max_user_id($user_file_handle);
+
     FileUtil::writeContents($log_handle, "max_user_id:" . $max_user_id);
 
     //遍历panelist表

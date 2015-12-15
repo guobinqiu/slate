@@ -263,7 +263,9 @@ function get_max_user_id($fh)
         if (false === $id_pos) {
             continue;
         }
-        $id = (int) substr($row, 1, $id_pos - 2);
+        $id = (int) trim(substr($row, 0, $id_pos ));
+
+
         if ($max_id < $id) {
             $max_id = $id;
         }
