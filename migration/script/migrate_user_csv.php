@@ -128,7 +128,7 @@ function do_process()
         $only_jili_count++;
 
         fseek($user_file_handle, $pointer);
-        $user_row = fgetcsv($user_file_handle,',','"','"');
+        $user_row = fgetcsv($user_file_handle);
 
         generate_user_data_only_jili($user_row);
     }
@@ -136,7 +136,7 @@ function do_process()
     //weibo_user : no change
     foreach ($weibo_user_indexs as $user_id => $pointer) {
         fseek($weibo_user_file_handle, $pointer);
-        $weibo_user = fgetcsv($weibo_user_file_handle,',','"','"');
+        $weibo_user = fgetcsv($weibo_user_file_handle);
         export_csv_row($weibo_user, Constants::$migrate_weibo_user_name);
     }
 

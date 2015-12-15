@@ -542,8 +542,6 @@ function generate_user_data_only_jili($row = array())
 
     $row = set_default_value($row);
 
-
-
     export_csv_row($row, Constants::$migrate_user_name);
 }
 /**
@@ -618,9 +616,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
         //is_tel_confirmed
         $user_row[11] = 1;
-//    } else {
-        //is_tel_confirmed
-//        $user_row[11] = 0;
     }
 
     //province , city : panelist.panel_region_id
@@ -633,12 +628,12 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         //city
         $user_row[13] = $region_mapping_row[2];
     } else {
-        if(empty($user_row[12])) {
-            $user_row[12] = 'NULL';
-        }
-        if(empty($user_row[13])) {
-            $user_row[13] = 'NULL';
-        }
+#        if(empty($user_row[12])) {
+#            $user_row[12] = 'NULL';
+#        }
+#        if(empty($user_row[13])) {
+#            $user_row[13] = 'NULL';
+#        }
 
     }
 
@@ -686,31 +681,31 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
             $user_row[38] = $panelist_detail_row[29];
         }
     } else {
-        //education: detail.graduation_code
-        if(empty($user_row[14] )) {
-            $user_row[14] = 'NULL';
-        }
-
-        //income : detail.income_personal_code
-        if(empty($user_row[16] )) {
-            $user_row[16] ='NULL';
-        }
-
-        //profession: detail.detail.job_code
-        if(empty($user_row[15] )) {
-            $user_row[15] ='NULL';
-        }
-
-
-        //industry_code: detail.industry_code
-        if(empty($user_row[37] )) {
-            $user_row[37] ='NULL';
-        }
-
-        //work_section_code: detail.work_section_code
-        if(empty($user_row[38] )) {
-            $user_row[38] ='NULL';
-        }
+#        //education: detail.graduation_code
+#        if(empty($user_row[14] )) {
+#            $user_row[14] = 'NULL';
+#        }
+#
+#        //income : detail.income_personal_code
+#        if(empty($user_row[16] )) {
+#            $user_row[16] ='NULL';
+#        }
+#
+#        //profession: detail.detail.job_code
+#        if(empty($user_row[15] )) {
+#            $user_row[15] ='NULL';
+#        }
+#
+#
+#        //industry_code: detail.industry_code
+#        if(empty($user_row[37] )) {
+#            $user_row[37] ='NULL';
+#        }
+#
+#        //work_section_code: detail.work_section_code
+#        if(empty($user_row[38] )) {
+#            $user_row[38] ='NULL';
+#        }
 
     }
 
@@ -767,7 +762,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 function set_default_value($row)
 {
 
-
     for ($i = 0; $i <= 38; $i++) {
 
         if (! isset($row[$i]) ) {
@@ -775,7 +769,6 @@ function set_default_value($row)
         }
 
     }
-
 
 
     // is_email_confirmed
@@ -849,6 +842,15 @@ function set_default_value($row)
         $row[29] = 'NULL';
     }
 
+    //industry_code: detail.industry_code
+    if(empty($row[37] )) {
+        $row[37] ='NULL';
+    }
+
+    //work_section_code: detail.work_section_code
+    if(empty($row[38] )) {
+        $row[38] ='NULL';
+    }
     return $row;
 }
 

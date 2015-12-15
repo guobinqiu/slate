@@ -863,14 +863,10 @@ EOD
 );
  
      generate_user_data_only_wenwen($panelist_row,160129 );
-    // is_tel_confirmed 
-    if(''=== $row[11] ) {
-        $row[11] = 'NULL';
-    }
     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
      // 164778,蒋晓磊,,,,,,,,,,,,,,,,,,,,13782704295,,,,,4,4,3,6,4,,,,"2011-08-20 11:05:02","2011-08-20 11:05:02","2010-04-25 15:44:21"
     $expected = <<<EOD
-160129,897987651@qq.com,,1,3,NULL,,smader,1,1986-06-05,NULL,NULL,1,1,4,4,103,NULL,"muyou\\\\",NULL,1,"2010-04-25 14:44:21","2012-12-22 15:43:41",NULL,0,0,1,NULL,NULL,NULL,2,10.210.43.82,"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Sicent; Mozilla/4.0 (compatible; MSIE 6.0; W",,1,,,3,6
+160129,897987651@qq.com,,1,3,NULL,,smader,1,1986-06-05,NULL,NULL,1,1,4,4,103,NULL,"muyou\\\\\\\\",NULL,1,"2010-04-25 14:44:21","2012-12-22 15:43:41",NULL,0,0,1,NULL,NULL,NULL,2,10.210.43.82,"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Sicent; Mozilla/4.0 (compatible; MSIE 6.0; W",,1,,,3,6
 
 EOD;
     $this->assertFileExists($expected_user_csv_file); 
@@ -881,10 +877,44 @@ EOD;
 
   }
 
-  /**
-   * @group debug
-   *
-   **/
+/**
+ * @group debug
+ *
+ **/
+  function test_generate_user_data_only_jili_debug_quoted_id()
+{
+      $this->before_test();
+      $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+      @exec('rm -rf '.$expected_user_csv_file);
+
+      $user_file_handle = fopen('php://memory','r+');
+
+
+       fwrite( $user_file_handle, <<<EOD
+id,email,pwd,is_email_confirmed,is_from_wenwen,wenwen_user,token,nick,sex,birthday,tel,is_tel_confirmed,province,city,education,profession,income,hobby,personalDes,identity_num,reward_multiple,register_date,last_login_date,last_login_ip,points,delete_flag,is_info_set,icon_path,uniqkey,token_created_at,origin_flag,created_remote_addr,created_user_agent,campaign_code,password_choice,fav_music,monthly_wish,industry_code,work_section_code
+1291365," 1160595417@qq.com",2ef75e7c46e06b90507e4d47780fd8426857c0ab,,,,,QQ懂你,,,,,,,,,,,,,1,"2015-01-24 10:29:25","2015-01-24 10:29:25",,0,0,1,,,,,,,,,,,,
+EOD
+);
+    $user_indexs = build_file_index($user_file_handle, 'email');
+    $this->assertArrayHasKey(' 1160595417@qq.com', $user_indexs, '  1160595417@qq.com is the key of file index'); 
+    $pointer = $user_indexs[' 1160595417@qq.com'];
+
+        fseek($user_file_handle, $pointer);
+        $user_row = fgetcsv($user_file_handle);
+        generate_user_data_only_jili($user_row);
+      $this->assertFileExists($expected_user_csv_file); 
+      $return = str_getcsv(file_get_contents($expected_user_csv_file));
+
+      $this->assertEquals('1291365', $return[0], 'nick escaped' );
+
+      //  fseek($user_file_handle, $pointer);
+
+#1063374,zz_dd_mm@sina.com,c82b47a16d592a09f2740469ab4f163080065d15,,1,,,zz_dd_mm,2,1957-9,,,1,1,,,103,"1,2,8",,,1,"2013-09-20 13:04:04","2015-07-07 14:49:54",116.232.104.198,548,,1,,25c0d969b1e60d677bee11242ff65fe06b272724,"2015-07-07 10:30:57",,,,,,,,,
+
+
+      $this->after_test();
+  }
+
   function test_generate_user_data_only_jili_debug_slashes()
   {
 
