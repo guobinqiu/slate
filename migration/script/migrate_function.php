@@ -517,6 +517,8 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
 
     $user_row = set_default_value($user_row);
 
+    $user_row[18] = addslashes($user_row[18]);
+
     export_csv_row($user_row, Constants::$migrate_user_name);
 
     export_history_data($panelist_row[0], $user_id);
@@ -634,7 +636,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     }
 
     global $panelist_detail_indexs;
-    print_r($panelist_detail_indexs);
     global $panelist_detail_file_handle;
     if (isset($panelist_detail_indexs[$panelist_row[0]])) {
         $panelist_detail_row = use_file_index($panelist_detail_indexs, $panelist_row[0], $panelist_detail_file_handle, true);
@@ -700,12 +701,17 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //points: panel_91wenwen_panelist_point.point_value
     global $panelist_point_indexs;
 
+
     if (isset($panelist_point_indexs[$panelist_row[0]])) {
 
         if( !isset($user_row[24]) ) {
             $user_row[24] =  0;
         }
-        $user_row[24]  +=  $panelist_point_indexs[$panelist_row[0]]['point_value'];
+        $user_row[24]  +=  (int) $panelist_point_indexs[$panelist_row[0]]['point_value'];
+    } else {
+        if( ! isset($user_row[24])  ){
+            $user_row[24] = 0;
+        }
     }
 
     //icon_path:panelist_profile_image

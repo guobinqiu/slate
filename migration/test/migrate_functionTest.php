@@ -700,6 +700,7 @@ EOD
   $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
   @exec('rm -rf '.$expected_user_csv_file);
 
+// profile 
   global $panelist_profile_file_handle ;
   $panelist_profile_file_handle = fopen('php://memory','r+');
   fwrite($panelist_profile_file_handle,<<<EOD
@@ -710,6 +711,7 @@ EOD
   global $panelist_profile_indexs;
   $panelist_profile_indexs= build_file_index($panelist_profile_file_handle, 'panelist_id');
 
+// detail 
   global $panelist_detail_file_handle ;
   $panelist_detail_file_handle = fopen('php://memory','r+');
   fwrite($panelist_detail_file_handle,<<<EOD
@@ -720,25 +722,25 @@ EOD
   global $panelist_detail_indexs;
   $panelist_detail_indexs= build_file_index($panelist_detail_file_handle, 'panelist_id');
 
-    $panelist_row = str_getcsv(<<<EOD
+  $panelist_row = str_getcsv(<<<EOD
 164778,2002,2,897987651@qq.com,,ZPeCGP1n+qKFXicIdA40Ug==,blowfish,664396c4f3d46705872dc562d6ed4a23,"2011-07-30 09:56:28","2010-04-25 15:44:21",10.210.43.82,"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Sicent; Mozilla/4.0 (compatible; MSIE 6.0; W",1,1,1986-06-05,2,,"2012-12-22 16:43:41"
 EOD
 
 );
- ;
+ 
      generate_user_data_only_wenwen($panelist_row,160129 );
-     $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
-// 164778,蒋晓磊,,,,,,,,,,,,,,,,,,,,13782704295,,,,,4,4,3,6,4,,,,"2011-08-20 11:05:02","2011-08-20 11:05:02","2010-04-25 15:44:21"
+    $expected_user_csv_file ='/data/91jili/merge/export/test.migrate_user.csv'; 
+     // 164778,蒋晓磊,,,,,,,,,,,,,,,,,,,,13782704295,,,,,4,4,3,6,4,,,,"2011-08-20 11:05:02","2011-08-20 11:05:02","2010-04-25 15:44:21"
+    $expected = <<<EOD
+160129,897987651@qq.com,,1,3,NULL,,smader,1,1986-06-05,NULL,NULL,1,1,4,4,4,NULL,"muyou\\\\",NULL,1,"2010-04-25 14:44:21","2012-12-22 15:43:41",NULL,0,0,1,NULL,NULL,NULL,2,10.210.43.82,"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Sicent; Mozilla/4.0 (compatible; MSIE 6.0; W",,1,,,3,6
 
+EOD;
+    $this->assertFileExists($expected_user_csv_file); 
 
-     $this->assertFileExists($expected_user_csv_file); 
-     $this->assertEquals(<<<EOD
-160129,897987651@qq.com,,1,3,NULL,,smader,1,1986-06-05,NULL,NULL,1,1,4,4,4,NULL,"muyou\\",NULL,1,"2010-04-25 14:44:21","2012-12-22 15:43:41",NULL,0,0,1,NULL,NULL,NULL,2,10.210.43.82,"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Sicent; Mozilla/4.0 (compatible; MSIE 6.0; W",,1,,,3,6
-EOD
-     , file_get_contents($expected_user_csv_file));
-
+    $this->assertEquals($expected, file_get_contents($expected_user_csv_file));
 
     $this->after_test();
+
   }
 
   function test_generate_user_data_only_jili()
@@ -805,6 +807,7 @@ EOD
 
       $this->after_test();
   }
+
   function test_generate_user_data_only_jili_is_from_wenwen_null()
   {
 
@@ -1530,6 +1533,7 @@ EOD
      fwrite($migration_region_mapping_file_handle,<<<EOD
 "region_id","province_id","city_id"
 "2000","1","2"
+"2002","1","1"
 "2355","32","363"
 EOD
 ) ;
