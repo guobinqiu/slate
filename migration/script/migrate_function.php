@@ -901,7 +901,7 @@ function generate_weibo_user_data($panelist_id, $user_id)
             $weibo_user_row = use_file_index($weibo_user_indexs, $user_id, $weibo_user_file_handle, true);
             if ($panelist_sina_row[1] != $weibo_user_row[2]) {
                 global $log_handle;
-                FileUtil::writeContents($log_handle, "绑定的微博账号不同, panelist_id: " . $panelist_id . " panelist_sina_row[1]: " . $panelist_sina_row[1] . " user_id: " . $user_id . " weibo_user_row[2]: " . $weibo_user_row[2]);
+                FileUtil::writeContents($log_handle, '绑定的微博账号不同, panelist_id: ' . $panelist_id . ' panelist_sina_row[1]: ' . $panelist_sina_row[1] . ' user_id: ' . $user_id . ' weibo_user_row[2]: ' . $weibo_user_row[2]);
                 //weibo_user :  change
                 export_weibo_csv_data($weibo_user_row, $panelist_sina_row);
             }

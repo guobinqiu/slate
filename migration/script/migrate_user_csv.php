@@ -137,6 +137,10 @@ function do_process()
     foreach ($weibo_user_indexs as $user_id => $pointer) {
         fseek($weibo_user_file_handle, $pointer);
         $weibo_user = fgetcsv($weibo_user_file_handle);
+
+        //id set default to avoid duplicated PK when insert.
+        $weibo_user[0] = 'NULL';
+
         export_csv_row($weibo_user, Constants::$migrate_weibo_user_name);
     }
 
