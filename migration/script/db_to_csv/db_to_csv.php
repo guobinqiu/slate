@@ -29,9 +29,14 @@ try {
   exit;
 }
 # get csv head line
-$q = $dbh->prepare("DESCRIBE $table");
+$q = $dbh->prepare($sql . ' limit 1');
 $q->execute();
-$table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
+$column_count = $q->columnCount();
+$table_fields =array(); 
+for($i=0;$i<$column_count; $i++ ) {
+    $meta  =  $q->getColumnMeta($i);
+    $table_fields [] = $meta['name'];
+}
 fputcsv( $fh, $table_fields);
 
 $q->closeCursor();

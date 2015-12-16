@@ -42,9 +42,9 @@ export MYSQL_PWD=\${JILI_DB_PWD}
 time php -f bin/db_to_csv.php  \${JILI_DB_HOST} \${JILI_DB_USER} \${JILI_DB_PWD} \${JILI_DB_NAME} user "select * from user order by email asc"  > /data/91jili/merge/jl_csv/user.csv
 
 
-#time mysql -B -u\${JILI_DB_USER}  -h \${JILI_DB_HOST} \${JILI_DB_NAME} -e "select c.*, u.email from  user_wenwen_cross c left join user u on c.user_id = u.id order by c.id asc"| $sed_partial > /data/91jili/merge/jl_csv/user_wenwen_cross.csv
+#time mysql -B -u\${JILI_DB_USER}  -h \${JILI_DB_HOST} \${JILI_DB_NAME} -e "select c.*, u.email as email from  user_wenwen_cross c left join user u on c.user_id = u.id order by c.id asc"| $sed_partial > /data/91jili/merge/jl_csv/user_wenwen_cross.csv
 
-time php -f bin/db_to_csv.php  \${JILI_DB_HOST} \${JILI_DB_USER} \${JILI_DB_PWD} \${JILI_DB_NAME} user_wenwen_cross "select c.*, u.email from  user_wenwen_cross c left join user u on c.user_id = u.id order by c.id asc" > /data/91jili/merge/jl_csv/user_wenwen_cross.csv
+time php -f bin/db_to_csv.php  \${JILI_DB_HOST} \${JILI_DB_USER} \${JILI_DB_PWD} \${JILI_DB_NAME} user_wenwen_cross "select c.id , c.user_id , u.email  from  user_wenwen_cross c left join user u on c.user_id = u.id order by c.id asc" > /data/91jili/merge/jl_csv/user_wenwen_cross.csv
 
 
 EOD;
