@@ -78,6 +78,7 @@ function initialise_csv()
     global $sop_respondent_indexs;
     global $vote_answer_indexs;
     global $weibo_user_indexs;
+
     $panelist_image_indexs = build_key_value_index($panelist_profile_image_file_handle, 'panelist_id', 'hash');
     $panelist_point_indexs = build_key_value_index($panelist_point_file_handle, 'panelist_id', 'point_value');
     $panelist_mobile_indexs = build_key_value_index($panelist_mobile_number_file_handle, 'panelist_id', 'mobile_number');
@@ -88,6 +89,8 @@ function initialise_csv()
     $sop_respondent_indexs = build_file_index($sop_respondent_file_handle, 'panelist_id');
     $vote_answer_indexs = build_file_index($vote_answer_file_handle, 'panelist_id');
     $weibo_user_indexs = build_file_index($weibo_user_file_handle, 'user_id');
+
+
 }
 
 /**

@@ -1,0 +1,17 @@
+image_log=/data/91jili/merge/log/image.log
+image_log_bk=/data/91jili/merge/log/image_`date +%Y%m%d-%H`.log
+time_fmt=real\t%E\nuser\t%U\nsys\t%S\n
+
+fetch:
+	/usr/bin/time -ao ${image_log}  -f "${time_fmt}" bash wget_user_images.sh 1>>${image_log} 2>&1 
+	/usr/bin/time -ao ${image_log}  -f "${time_fmt}" bash mv_user_images.sh 1>>${image_log} 2>&1 
+
+all: init   fetch
+	echo 'all completed ' >> ${image_log} 
+#	sed "/^$$/d;/^user/d;/^sys/d"  ${image_log}
+	grep -h real  ${image_log}   | cut -b 5-100 | awk -F '[m|:|s]' 'BEGIN{m=0;s=0;} { m=m+$$1;s=s+$$2; } END{ print  (m + int(s/60)) "m" (s % 60) "s"}' 
+	cp ${image_log}  ${merge_log_bk}
+	rm -rf ${image_log}
+
+.SILENT:
+

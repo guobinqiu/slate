@@ -30,7 +30,9 @@ function do_process()
     global $user_wenwen_cross_file_handle;
     global $pointexchange_91jili_account_file_handle;
     global $panelist_91jili_connection_file_handle;
+    global $panelist_sina_connection_file_handle;
 
+    global $sina_connection_indexs;
     global $weibo_user_indexs;
 
     $cross_exist_count = 0;
@@ -45,6 +47,8 @@ function do_process()
     //创建索引
     $cross_indexs = build_key_value_index($user_wenwen_cross_file_handle, 'id', 'email');
     $user_indexs = build_file_index($user_file_handle, 'email');
+    $weibo_user_indexes_by_open_id = build_key_value_index($weibo_user_file_handle, 'open_id', 'user_id');
+    $user_indexs_by_id = build_key_value_index($user_file_handle,'id', 'email');
 
     // 遍历user_wenwen_cross表
     $exchange_current = array ();
@@ -109,6 +113,37 @@ function do_process()
 
                 continue;
             }
+
+            // 遍历wenwen_sina  user_weibo表 IV  open_id connected user
+            if( isset( $sina_connection_indexs[$panelist_id]) ) {
+                $panelist_sina_row = use_file_index($sina_connection_indexs, $panelist_id, $panelist_sina_connection_file_handle, false);
+                if( $panelist_sina_row && isset($panelist_sina_row[1]) ) {
+                    // check open_id exists in jili.weibo_user 
+                    $weibo_user_indexes_by_open_id_found  = use_key_value_index($weibo_user_indexes_by_open_id, $panelist_sina_row[1]) ;
+                    if($weibo_user_indexes_by_open_id_found) {
+
+                        // unset found panelist_id in  ww_sina_index
+                        unset( $sina_connection_indexs[$panelist_id]);
+
+                        $user_indexs_by_id_found  = use_key_value_index($user_indexs_by_id, $weibo_user_indexes_by_open_id_found['user_id'] );
+
+                        if($user_indexs_by_id_found ) {
+                            $user_row = use_file_index($user_indexs, strtolower($user_indexs_by_id_found['email'] ), $user_file_handle, true);
+
+                            // 生成新的user数据：拥有两边账号，相同的部分取问问数据
+                            generate_user_data_both_exsit($panelist_row, $user_row);
+
+                            //其他要迁移的数据
+                            migrate_common($panelist_row, $jili_user_id);
+
+                            continue;
+                        }
+
+                    }
+                }
+            }
+            
+
             $only_wenwen_count++;
 
             $max_user_id++;
@@ -123,6 +158,11 @@ function do_process()
     } catch (Exception $e) {
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
     }
+
+
+
+
+
     //  user_only , no matched 
     foreach ($user_indexs as $email => $pointer) {
         $only_jili_count++;
@@ -135,6 +175,7 @@ function do_process()
 
     //weibo_user : no change
     foreach ($weibo_user_indexs as $user_id => $pointer) {
+
         fseek($weibo_user_file_handle, $pointer);
         $weibo_user = fgetcsv($weibo_user_file_handle);
 
