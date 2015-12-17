@@ -210,3 +210,14 @@ $(document).ready(function(){
             target.slideUp(600);
         });
 });
+
+$(document).ready(function(){
+    //close popPAG game box when click closeTag
+    $(".popPAG").css("display","block");
+    $(".closeTag").click(function(){
+        var h = $(".popPAG").height();
+        $(".popPAG").animate({ height: 0, marginTop: h+"px" }, 500, function() {
+            $(this).hide();   
+        });
+    });
+});

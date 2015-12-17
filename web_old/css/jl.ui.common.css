@@ -454,7 +454,7 @@ a.tencent{
 }
 .noticeM .wrap{
 	min-height: 74px;
-	background: #ffcc42 url(/images/merge/bgNotice.jpg) no-repeat 0 5px;
+	background: #ffcc42 url(/images/notice/bgNotice.jpg) no-repeat 0 5px;
 	margin: 0 auto;
 }
 .noticeM .wrap .txt{
@@ -488,7 +488,7 @@ a.tencent{
 	height: 7px;
 	display: inline-block;
     margin-left: 5px;
-	background: #ffcc42 url(/images/merge/unfoldArrow.png) no-repeat;
+	background: #ffcc42 url(/images/notice/unfoldArrow.png) no-repeat;
 }
 .noticeM .wrap .unfold .arrow-unfolded{
    -moz-transform: rotate(180deg);
@@ -501,13 +501,13 @@ a.tencent{
 	overflow-x: hidden;
 }
 .noticeCont .noticeDetail{
-	background: #ffcc42 url(/images/merge/bgxScroll.jpg) repeat-x center;
+	background: #ffcc42 url(/images/notice/bgxScroll.jpg) repeat-x center;
 	height: 293px;
 }
 .noticeCont .noticeDetail .wrap{
 	width: 100%;
 	height: 100%;
-	background: url(/images/merge/bgScroll.jpg) no-repeat center;
+	background: url(/images/notice/bgScroll.jpg) no-repeat center;
 }
 .noticeCont .warn{
 	background: #ffdd8c;
@@ -518,7 +518,7 @@ a.tencent{
 	height: 409px;
 	margin: 0 auto;
     position: relative;;
-	background: #ffdd8c url(/images/merge/bgCont.jpg) no-repeat center;
+	background: #ffdd8c url(/images/notice/bgCont.jpg) no-repeat center;
 }
 .noticeCont .warn .fold{
 	text-align: center;
@@ -538,11 +538,11 @@ a.tencent{
 	height: 7px;
 	display: inline-block;
     margin-left: 5px;
-	background: url(/images/merge/foldArrow.png) no-repeat;
+	background: url(/images/notice/foldArrow.png) no-repeat;
 }
 .noticeCont .warn .btm{
 	height: 14px;
-	background: url(/images/merge/bgxBottom.jpg) repeat-x;
+	background: url(/images/notice/bgxBottom.jpg) repeat-x;
 }
 .noticeCont {
     /* padding-top: 47px; */
@@ -609,10 +609,10 @@ a.tencent{
     display: block;
 }
 .noticeCont a.control_prev span{
-    background: url(/images/merge/arrowLeft.png) no-repeat; 
+    background: url(/images/notice/arrowLeft.png) no-repeat; 
 }
 .noticeCont a.control_next span{
-    background: url(/images/merge/arrowRight.png) no-repeat;
+    background: url(/images/notice/arrowRight.png) no-repeat;
 }
 .noticeCont .warn .cont table{
     width: 578px;
@@ -661,3 +661,63 @@ a.tencent{
     height: 206px;
 }
 /* merge notice end /*/
+
+/* PAG close start */
+.popPAG{
+    width: 100%;
+    height: 180px;
+    margin: 0 auto;
+    position: fixed;
+    bottom: 0;
+    z-index: 9999;
+}
+.popPAG .popPAGWrap{
+    position: relative;
+    width: 100%;
+}
+.popPAG .popPAGWrap .popPAGBg{
+    width: 100%;
+    height: 128px;
+    background: #000;
+    position: absolute;
+    bottom: 0;
+    filter:alpha(opacity=80);     
+    -moz-opacity: 0.8;             
+    -khtml-opacity: 0.8;              
+    opacity: 0.8; 
+}
+.popPAG .popPAGWrap .popPAGBox{
+    width: 1134px;
+    height: 180px;
+    position: relative;
+    margin: 0 auto;
+    background: url(/images/notice/PAGclose.png) no-repeat 0px 2px;
+
+}
+.popPAG .popPAGWrap .popPAGBox .text{
+    width: 590px;
+    position: absolute;
+    left: 304px;
+    top: 122px;
+    text-align: left;
+}
+.popPAG .popPAGWrap .popPAGBox .text em{ 
+    color: #ffc000;
+}
+.popPAG .popPAGWrap .popPAGBox .closeTag{
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    right: -21px;
+    top: 52px;
+    cursor: pointer;
+}
+.popPAG .popPAGWrap .popPAGBox .support{
+    width: 154px;
+    height: 76px;
+    position: absolute;
+    right: 75px;
+    top: 103px;
+    cursor: pointer;
+}
+/* PAG close end */
