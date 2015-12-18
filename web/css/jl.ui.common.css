@@ -218,7 +218,7 @@ span.expandIcon{
 	background: url(../images/icons.png) no-repeat 0 -165px;
 }
 .dailyQuest li{
-	height: 43px;
+	height: 59px;
 	padding: 10px 20px;
 	line-height: 22px;
 	overflow: hidden; 
@@ -238,6 +238,7 @@ span.expandIcon{
 	overflow: hidden;
 }
 em.signIcon{
+	margin-top: 13px;
 	background: url(../images/taskIcons.png) no-repeat 0 0;
 }
 em.taskHallIcon{
@@ -245,16 +246,18 @@ em.taskHallIcon{
 	margin-bottom: 5px;
 }
 em.shoppingIcon{
+	vertical-align: -10px;
+	margin-top: 14px;
 	background: url(../images/taskIcons.png) no-repeat 0 -70px;
 }
 em.quickQIcon{
+	margin-top: 14px;
 	background: url(../images/taskIcons.png) no-repeat 0 -105px;
 }
 em.chickenIcon{
 	background: url(../images/taskIcons.png) no-repeat 0 -140px;
 }
 .dailyQuest li span{
-	line-height: 18px;
 	padding-left: 15px;
 }
 .dailyQuest li span.taskHallTxt{
@@ -293,16 +296,6 @@ em.chickenIcon{
 .dailyQuest span.hasMark{
 	background:url(../images/icons.png) no-repeat 0 -200px;
 	right: -7px;
-}
-.dailyQuest li.shopping{
-	height: 32px;
-	padding: 16px 20px;
-}
-.dailyQuest li.shopping span{
-	height: 28px;
-	line-height: 28px;
-	vertical-align: top;
-	overflow: hidden;
 }
 .footer{
 	padding: 20px 0 60px;

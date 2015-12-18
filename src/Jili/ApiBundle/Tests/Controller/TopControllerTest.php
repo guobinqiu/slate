@@ -489,79 +489,7 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals(1, count($records));
     }  
 
-    /**
-     * game visit
-     * @group session
-     * @group task_list
-     **/
-    public function testTaskListGameAction()
-    {
-        echo 'game  visit in task list',PHP_EOL;
-        $client = static::createClient();
-        $container = $client->getContainer();
-        $logger= $container->get('logger');
-        $router = $container->get('router');
-
-        $em = $this->em;
-        // set session for login
-        $query = array('email'=> 'alice.nima@gmail.com');
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-        if(! $user) {
-            echo 'bad email:',$query['email'], PHP_EOL;
-            return false;
-        }
-
-        // adv visit: remove records
-        $day=date('Ymd');
-        $records =  $em->getRepository('JiliApiBundle:UserGameVisit')->findBy(array('userid'=>$user->getId()  ,'visitDate'=> $day));
-        foreach( $records as $record) {
-            $em->remove($record);
-        }
-        $em->flush();
-        $em->clear();
-
-        // set session for login
-        $session = $client->getContainer()->get('session');
-        $session->set('uid', $user->getId());
-        $session->save();
-
-
-        // adv visit:  get partial & check html
-        $url_task = $container->get('router')->generate('jili_api_top_task');
-        $url = $url_task;
-        echo $url, PHP_EOL;
-        $crawler = $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-
-        $link_name = '小鸡找米最高5888米粒';
-        $link = $crawler->selectLink($link_name);
-
-        $this->assertEquals(1, count($link));
-        $this->assertEquals($link_name,$link->text());
-        $href= $link->attr('href');
-        $href_parsed = parse_url($href);
-        $url_adv_list = $container->get('router')->generate('_game_chick');
-        $this->assertEquals($href_parsed['path'],$url_adv_list);
-
-        // adv visit: analouge the event
-        $url = $router->generate('_default_gameVisit');
-        $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), ' clicked '. $url  );
-
-
-        // adv visit: check the result html
-        $url = $url_task;
-        echo $url, PHP_EOL;
-        $crawler = $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'after '.$url.'visit'  );
-        $link = $crawler->selectLink($link_name);
-        $this->assertEquals(0, count($link));
-        // adv visit: check db status
-
-        $records =  $em->getRepository('JiliApiBundle:UserGameVisit')->findBy(array('userid'=>$user->getId()  ,'visitDate'=> $day));
-        $this->assertEquals(1, count($records));
-    }
-
+    
     /**
      * adv visit , on click  ad offer99.
      * @group session
@@ -650,7 +578,6 @@ class TopControllerTest extends WebTestCase
 
         //user_91ww_visit              |
         //| user_advertiserment_visit    |
-        //| user_game_visit              |
         //| user_info_visit
 
         // set session for login
