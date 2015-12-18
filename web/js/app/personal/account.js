@@ -1,6 +1,6 @@
 require(['../../config'],function(){
     require(['common']);
-    require(['jquery'],function($){
+    require(['jquery', 'routing'],function($, routing){
        	var eles = $('.main-personal-account>ul>li');
        	var btns = eles.find('.edit'),
        		cons = eles.find('.con');
@@ -45,26 +45,40 @@ require(['../../config'],function(){
         function savePwd(){
             var str = $('#curPwd').val();
             str = $.trim(str);
-            if (str == "" || (isEmail(str) == false)) {
+            if (str == "") {
                 eError('请输入当前密码');
                 return false;
             }
-//            $.ajax({
-//                type : "POST",
-//                url : "../register/regService?r=" + Math.random() + "&"
-//                    + location.search.substring(1),
-//                contentType : "application/x-www-form-urlencoded; charset=utf-8",
-//                data : curPwd.val(),
+            $.ajax({
+                type : "POST",
+                url : Routing.generate('_profile_changepwd'),
+                contentType : "application/x-www-form-urlencoded; charset=utf-8",
+                data: { curPwd: $("#curPwd").val(), pwd: $("#pwd").val(), pwdRepeat: $("#pwdRepeat").val(), csrf_token: $("#csrf_token").val()},
+
 //                success : function(data) {
-                    var data = { result: false};
-                    if (data.result) {
-                    }else{
-                        $('#curPwd').removeClass().addClass('input_error');
-                        $('#curPwd_succeed').removeClass();
-                        $('#curPwd_error').removeClass().addClass('error').html('您当前密码输入错误');
-                    }
+//                    var data = { result: false};
+//                    if (data.result) {
+//                    }else{
+//                        $('#curPwd').removeClass().addClass('input_error');
+//                        $('#curPwd_succeed').removeClass();
+//                        $('#curPwd_error').removeClass().addClass('error').html('您当前密码输入错误');
+//                    }
 //                }
-//            });
+
+                success : function(msg) {
+                    if(msg != null && data.trim() != ''){
+                        if(msg == 'Need login'){
+                            // 跳转到登录画面
+
+                        }else if(msg == 'Access Forbidden'){
+                            // 跳转到账户设置首页画面
+
+                        }else{
+                            alert(msg);
+                        }
+                    }
+                }
+            });
         }
 //        function eFocus(prompt){
 //            curPwdInput.removeClass();
