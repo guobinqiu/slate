@@ -111,18 +111,6 @@ function countMs(){
         });
 }
 
-function isVisit(){
-   $.ajax({
-          url: "{{ path('_default_isExistVist') }}",
-          type: "GET",
-          success:function(data){
-              if(data==1){
-                $("#playGame").addClass("gameset");
-              }
-          }
-        });
-}
-
 function amazonReward(){
    $('.blackBg').show();
    $('.amazon').show();
