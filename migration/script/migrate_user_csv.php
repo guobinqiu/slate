@@ -1,5 +1,5 @@
 <?php
-ini_set('memory_limit', '2048M');
+#ini_set('memory_limit', '2048M');
 
 include ('config.php');
 include ('FileUtil.php');
@@ -12,7 +12,6 @@ FileUtil::writeContents($log_handle, "start!\r\n\r\n");
 
 //export vote csv
 exec('php migrate_vote_csv.php > vote.txt');
-
 
 // initialise csv file handle, create index
 initialise_csv();
@@ -34,17 +33,16 @@ function do_process()
     global $sina_connection_indexs;
     global $weibo_user_indexs;
 
+    global $open_ids_dismatched;
     $cross_exist_count = 0;
     $exchange_exist_count = 0;
     $email_exist_count = 0;
     $weibo_exist_count = 0;
     $both_exist_count = 0; // cross_exist_count+exchange_exist_count+wenwen_email + weibo_exist_count
-
     $only_wenwen_count = 0;
     $only_jili_count = 0;
     // panel_91wenwen_panelist_91jili_connection 记录当前的connection csv handler中的行。
     $connection_current = array ();
-
     //创建索引
     $connection_indexes = build_key_value_index($panelist_91jili_connection_file_handle, 'panelist_id', 'jili_id');
     $cross_indexs = build_key_value_index($user_wenwen_cross_file_handle, 'id', 'email');
@@ -55,7 +53,6 @@ function do_process()
 
     // for backup the a_j 
     $both_but_diff_emails = array();
-
 
     //get max user id
     $max_user_id = get_max_user_id($user_file_handle);
@@ -77,6 +74,9 @@ function do_process()
                 if ($cross_found ) {
                     $user_row = use_file_index($user_indexs, strtolower($cross_found['email']), $user_file_handle);
                     if( $user_row) {
+                        if( strtolower($panelist_row[3]) !== strtolower($user_row[1])  ) {
+                            $both_but_diff_emails [] = strtolower($panelist_row[3]);
+                        }
 
                         // 生成新的user数据：拥有两边账号，相同的部分取问问数据
                         generate_user_data_both_exsit($panelist_row, $user_row);
@@ -88,12 +88,7 @@ function do_process()
                             "\t".'cross_exist_count:'.  $cross_exist_count.
                             "\t".$panelist_row[3] . '+' .$user_row[1] ;
 
-                        if( strtolower($panelist_row[3]) !== strtolower($user_row[1])  ) {
-                            $both_but_diff_emails [] = strtolower($panelist_row[3]);
-                        }
-
                         FileUtil::writeContents($log_handle, $log_msg);
-
                         continue;
                     }
                 }
@@ -104,6 +99,9 @@ function do_process()
             if ($exchange_indexes_found) {
                 $user_row = use_file_index($user_indexs, strtolower( $exchange_indexes_found['jili_email'] ), $user_file_handle);
                 if( $user_row) {
+                    if( strtolower($panelist_row[3]) !== strtolower($user_row[1])  ) {
+                        $both_but_diff_emails [] =strtolower($panelist_row[3]);
+                    }
                     // 生成新的user数据：拥有两边账号，相同的部分取问问数据
                     generate_user_data_both_exsit($panelist_row, $user_row);
                     //其他要迁移的数据
@@ -112,10 +110,6 @@ function do_process()
                     $log_msg = "\n". 
                         "\t".'exchange_exist_count:'.  $exchange_exist_count.
                         "\t".$panelist_row[3] . '+' .$user_row[1] ;
-
-                    if( strtolower($panelist_row[3]) !== strtolower($user_row[1])  ) {
-                        $both_but_diff_emails [] =strtolower($panelist_row[3]);
-                    }
                     FileUtil::writeContents($log_handle, $log_msg);
                     continue;
                 }
@@ -143,12 +137,9 @@ function do_process()
                 // check open_id exists in jili.weibo_user 
                 $weibo_user_indexes_by_open_id_found  = use_key_value_index($weibo_user_indexes_by_open_id, $panelist_sina_row[1]) ;
                 if($weibo_user_indexes_by_open_id_found) {
-
                     // unset found panelist_id in  ww_sina_index manually
-                    unset( $sina_connection_indexs[$panelist_id]);
-
+                    unset($sina_connection_indexs[$panelist_id]);
                     $user_indexs_by_id_found  = use_key_value_index($user_indexs_by_id, $weibo_user_indexes_by_open_id_found['user_id'] );
-
                     if($user_indexs_by_id_found ) {
                         $user_row = use_file_index($user_indexs, strtolower($user_indexs_by_id_found['email'] ), $user_file_handle);
                         if(  $user_row) {
@@ -166,10 +157,7 @@ function do_process()
                     }
                 }
             }
-
-
             $max_user_id++;
-
             //生成仅存在问问的账号的user数据
             generate_user_data_only_wenwen($panelist_row,  $max_user_id);
 
@@ -217,7 +205,6 @@ function do_process()
     global $sop_respondent_indexs;
     global $vote_answer_indexs;
 
-
     unset($panelist_image_indexs);
     unset($panelist_point_indexs);
     unset($panelist_mobile_indexs);
@@ -234,20 +221,27 @@ function do_process()
     unset($user_indexs_by_id);
     unset($weibo_user_indexes_by_open_id);
 
+
+    $log_msg = "\n". 
+        "\t".'count of $both_but_diff_emails: '. count($both_but_diff_emails);
+    FileUtil::writeContents($log_handle, $log_msg);
+
+    $user_ids_ignored= array();
+
     //  user_only , no matched 
     foreach ($user_indexs as $email => $pointer) {
-
-
-        if( in_array( strtolower($email) , $both_but_diff_emails )); {
-            $log_msg = "\n". 
-                "\t".'Ignored for merged both already:'.  $email.
-                "\t". json_encode($user_row , true);
-            FileUtil::writeContents($log_handle, $log_msg);
-            continue;
-        }
-
+        $email = strtolower($email) ;
         fseek($user_file_handle, $pointer);
         $user_row = fgetcsv($user_file_handle);
+        
+        if( in_array( $email , $both_but_diff_emails )) {
+            $log_msg = "\n". 
+                "\t".'Ignored user for merged already, email:'.  $email.
+                "\t". json_encode($user_row , true);
+            FileUtil::writeContents($log_handle, $log_msg);
+            $user_ids_ignored[] =  $user_row[1];
+            continue;
+        }
 
         generate_user_data_only_jili($user_row);
 
@@ -258,11 +252,31 @@ function do_process()
         FileUtil::writeContents($log_handle, $log_msg);
     }
 
+    $log_msg = "\n". 
+        "\t".'count of $user_ids_ignored: '. count($user_ids_ignored).
+        "\t".'count of $open_ids_dismatched: '. count($open_ids_dismatched);
+    FileUtil::writeContents($log_handle, $log_msg);
 
     // weibo_user: no changed
     foreach($weibo_user_indexs as $user_id => $pointer) {
+        if( in_array($user_id , $user_ids_ignored)) {
+            unset($user_ids_ignored);
+            $log_msg = "\n". 
+                "\t".'Ignored weib_user for user_ignored,jili.user.id:'.  $user_id;
+            FileUtil::writeContents($log_handle, $log_msg);
+            continue;
+        }
+
         fseek($weibo_user_file_handle, $pointer);
         $weibo_user = fgetcsv($weibo_user_file_handle);
+
+        if ( in_array( $weibo_user[1] , $open_ids_dismatched ) ) {
+
+            $log_msg = "\n". 
+                "\t".'Ignored weib_user for open_id used,open_id:'.  $weibo_user[1] ;
+            FileUtil::writeContents($log_handle, $log_msg);
+            continue;
+        }
         //id set default to avoid duplicated PK when insert.
         $weibo_user[0] = 'NULL';
         export_csv_row($weibo_user, Constants::$migrate_weibo_user_name);

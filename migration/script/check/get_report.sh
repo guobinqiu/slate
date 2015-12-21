@@ -1,6 +1,6 @@
 #!/bin/bash
 
-grep  -iE  '(cross_exist_count|exchange_exist_count)'  /data/91jili/merge/log_20151217_0941.txt  |
+grep  -iE  '(cross_exist_count|exchange_exist_count)'  /data/91jili/merge/log/migrate_user_csv_20151221_2023.log  |
 grep '+' |
 awk -F "\t" '{print $3}' |
 sed -e "s/[\r\n\"]//g" |
