@@ -1,6 +1,6 @@
 #! /bin/bash
 
-src=/tmp/user_images/
+src=/data/91jili/merge/user_images/
 dst=/data/91jili/web/uploads/user/
 
 
