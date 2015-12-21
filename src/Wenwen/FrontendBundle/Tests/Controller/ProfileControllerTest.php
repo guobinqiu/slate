@@ -55,7 +55,7 @@ class ProfileControllerTest extends WebTestCase
     }
 
     /**
-     * @group profile12
+     * @group dev-merge-ui-set-password
      */
     public function testChangePwdAction()
     {
@@ -123,7 +123,7 @@ class ProfileControllerTest extends WebTestCase
     }
 
     /**
-     * @group profile
+     * @group dev-merge-ui-set-password
      */
     public function testCheckPassword()
     {

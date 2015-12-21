@@ -69,10 +69,10 @@ require(['../../config'],function(){
                     if(msg != null && data.trim() != ''){
                         if(msg == 'Need login'){
                             // 跳转到登录画面
-
+                            window.location.href = Routing.generate('_user_login');
                         }else if(msg == 'Access Forbidden'){
                             // 跳转到账户设置首页画面
-
+                            window.location.href = Routing.generate('_profile_index');
                         }else{
                             alert(msg);
                         }
