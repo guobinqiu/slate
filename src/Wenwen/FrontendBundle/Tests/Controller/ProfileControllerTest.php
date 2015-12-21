@@ -57,6 +57,22 @@ class ProfileControllerTest extends WebTestCase
     /**
      * @group dev-merge-ui-set-password
      */
+    public function testIndexAction()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_profile_index');
+        $crawler = $client->request('GET', $url);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $session = $container->get('session');
+        $this->assertContains($session->get('csrf_token'), $client->getResponse()->getContent());
+    }
+
+    /**
+     * @group dev-merge-ui-set-password
+     */
     public function testChangePwdAction()
     {
         $client = static::createClient();
