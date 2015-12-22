@@ -15,7 +15,7 @@
 		{% set href_ = path('jili_frontend_cpsadvertisement_redirect', {'wid':app.request.get('wid') })  %}
 		<div class="main-con-shop">
 			<div class="crumbs">
-			     <a href="{{ path('wenwen_frontend_home_home') }}" class="home"></a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('_advertiserment_list') }}">体验广告</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('jili_frontend_cpsadvertisement_list') }}">商家列表</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;返利详情
+			     <a href="{{ path('_homepage') }}" class="home"></a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('_advertiserment_list') }}">体验广告</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('jili_frontend_cpsadvertisement_list') }}">商家列表</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;返利详情
 			</div>
 			<span>
 				<div class="img"><img src="{{asset('img/website_logos/'~website.hostHashAsLogoName ~ '.jpg' )}}" alt="">{% if website.commission is defined and website.commission is not empty %}<div>最高返<b>{{ website.commission }}%</b></div>{% endif %}</div>

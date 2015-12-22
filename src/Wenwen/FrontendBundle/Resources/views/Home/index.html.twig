@@ -29,9 +29,9 @@
 					</ul>
 					<div class="login-btn" id="submit_button"><!-- <a href="home.html"> -->登录<!-- </a> --></div>
 					</form>
-					<p><a href="{{ path('_user_reset') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
+					<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
 					<div class="login-btn-others">
-						<span><a href="{{ path('_user_login') }}">微博登录</a><a href="{{ path('_user_login') }}" class="qq-login">QQ登录</a></span>
+						<span><a href="{{ path('weibo_api_login') }}">微博登录</a><a href="{{ path('qq_api_login') }}" class="qq-login">QQ登录</a></span>
 					</div>
 				</div>
 			</div>
@@ -81,7 +81,7 @@
 	<div class="w1000">
 		<h1>马上开启91问问之旅，加入小伙伴们赚钱的队伍中来吧！</h1>
 		<p>点击以下按钮完成5秒注册</p>
-		<a href="#" class="button">现在注册</a>
+		<a href="{{ path('_user_reg') }}" class="button">现在注册</a>
 	</div>
 </div>
 {% endblock %}

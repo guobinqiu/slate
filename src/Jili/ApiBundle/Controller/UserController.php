@@ -1111,7 +1111,8 @@ class UserController extends Controller
             }
             return $response;
         }
-        return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
+        // return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
+        return $this->render('WenwenFrontendBundle:Home:index.html.twig',array('code'=>$code,'email'=>$email));
     }
 
     /**
@@ -1488,7 +1489,7 @@ class UserController extends Controller
     }
 
     /**
-	 * @Route("/captcha", name="_user_captcha")
+	 * @Route("/captcha", name="_user_captcha", options={"expose"=true})
 	 */
     public function captchaAction()
     {

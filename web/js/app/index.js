@@ -45,18 +45,20 @@ require(['../config'],function(){
             loginValidate : function() {
                 $("#email").RPAValidate(validatePrompt.email, validate.func.email, true);
                 $("#pwd").RPAValidate(validatePrompt.pwd, validate.func.pwd, true);
-                $("#authcode").RPAValidate(validatePrompt.authCode, validate.func.authCode, true);
-                return validate.func.FORM_submit([ "#email", "#pwd", "#authcode" ]);
+                // $("#authcode").RPAValidate(validatePrompt.authCode, validate.func.authCode, true);
+                // return validate.func.FORM_submit([ "#email", "#pwd", "#authcode" ]);
+                return validate.func.FORM_submit([ "#email", "#pwd"]);
             }
         });
 
         $("#email").RPAValidate(validatePrompt.email, validate.func.email);
         $("#pwd").RPAValidate(validatePrompt.pwd, validate.func.pwd);
-        $("#authcode").RPAValidate(validatePrompt.authCode, validate.func.authCode);
+        // $("#authcode").RPAValidate(validatePrompt.authCode, validate.func.authCode);
 
         var isSubmit = false;
         var submitBtn = $("#submit_button");
-        var errors = ['#email_error', '#pwd_error', '#authcode_error'];
+        var errors = ['#email_error', '#pwd_error'];
+        // var errors = ['#email_error', '#pwd_error', '#authcode_error'];
         function login() {
             var passed = false;
             for(var i = 0; i < errors.length; i++){
