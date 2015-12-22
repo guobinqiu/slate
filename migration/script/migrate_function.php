@@ -30,6 +30,9 @@ $vote_answer_indexs = '';
 $sina_connection_indexs = '';
 $weibo_user_indexs = '';
 
+// weibo_ids
+$open_ids_dismatched = array();
+
 // initialise csv file handle, create index
 function initialise_csv()
 {
@@ -90,7 +93,8 @@ function initialise_csv()
     $vote_answer_indexs = build_file_index($vote_answer_file_handle, 'panelist_id');
     $weibo_user_indexs = build_file_index($weibo_user_file_handle, 'user_id');
 
-
+    // insert title for merged user, in order to build index
+    export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_name);
 }
 
 /**
@@ -141,8 +145,8 @@ function build_key_value_index($fh, $key_name, $val_name)
 
         if ($key_pos == $val_pos) {
             $index[$min_col_value] = array (
-                    $val_name => $min_col_value
-                    );
+                $val_name => $min_col_value
+            );
             continue;
         }
         $max_head = $min_tail;
@@ -161,12 +165,12 @@ function build_key_value_index($fh, $key_name, $val_name)
 
         if ($key_pos > $val_pos) {
             $index[$max_col_value] = array (
-                    $val_name => $min_col_value
-                    );
+                $val_name => $min_col_value
+            );
         } else {
             $index[$min_col_value] = array (
-                    $val_name => $max_col_value
-                    );
+                $val_name => $max_col_value
+            );
         }
 
         $csv_line = '';
@@ -485,15 +489,10 @@ function getPointExchangeByPanelistId($fh, $panelist_id_input, $current )
 function generate_user_data_both_exsit($panelist_row, $user_row)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row, $user_row);
-
-
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen_jili'];
     $user_row = set_default_value($user_row);
-
-
     export_csv_row($user_row, Constants::$migrate_user_name);
-
     export_history_data($panelist_row[0], $user_row[0]);
 }
 
@@ -506,26 +505,16 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
 function generate_user_data_only_wenwen($panelist_row, $user_id)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row);
-
     //id
     $user_row[0] = $user_id;
-
     //is_from_wenwen
     $user_row[4] = Constants::$is_from_wenwen['wenwen_only'];
-
     //reward_multiple
     $user_row[20] = 1;
-
     //origin_flag
     $user_row[30] = Constants::$origin_flag['wenwen'];
-
     $user_row = set_default_value($user_row);
-
-
-
-
     export_csv_row($user_row, Constants::$migrate_user_name);
-
     export_history_data($panelist_row[0], $user_id);
 }
 
@@ -536,17 +525,14 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
  */
 function generate_user_data_only_jili($row = array())
 {
-
     //origin_flag
     $row[30] = Constants::$origin_flag['jili'];
-
     //password_choice
     $row[34] = Constants::$password_choice['pwd_jili'];
-
     $row = set_default_value($row);
-
     export_csv_row($row, Constants::$migrate_user_name);
 }
+
 /**
  * Generate the user common data
  * @param array $panelist_row One line data of panelist csv
@@ -867,19 +853,14 @@ function generate_user_wenwen_login_data($panelist_row, $user_id)
 {
     //id
     $user_wenwen_login_row[0] = 'NULL';
-
     //user_id
     $user_wenwen_login_row[1] = $user_id;
-
     //login_password_salt
     $user_wenwen_login_row[2] = $panelist_row[7];
-
     //login_password_crypt_type
     $user_wenwen_login_row[3] = $panelist_row[6];
-
     //login_password
     $user_wenwen_login_row[4] = $panelist_row[5];
-
     export_csv_row($user_wenwen_login_row, Constants::$migrate_user_wenwen_login_name);
 }
 
@@ -897,27 +878,33 @@ function generate_weibo_user_data($panelist_id, $user_id)
     global $weibo_user_indexs;
     global $weibo_user_file_handle;
 
+    // look for ww_sina_conn
     if (isset($sina_connection_indexs[$panelist_id])) {
-        $panelist_sina_row = use_file_index($sina_connection_indexs, $panelist_id, $panelist_sina_connection_file_handle, true);
-
+        $panelist_sina_row = use_file_index($sina_connection_indexs, $panelist_id, $panelist_sina_connection_file_handle);
+        // look for jili_web_conn
         if (isset($weibo_user_indexs[$user_id])) {
-            $weibo_user_row = use_file_index($weibo_user_indexs, $user_id, $weibo_user_file_handle, true);
+            $weibo_user_row = use_file_index($weibo_user_indexs, $user_id, $weibo_user_file_handle);
+            // different open_id
             if ($panelist_sina_row[1] != $weibo_user_row[2]) {
                 global $log_handle;
-                FileUtil::writeContents($log_handle, '绑定的微博账号不同, panelist_id: ' . $panelist_id . ' panelist_sina_row[1]: ' . $panelist_sina_row[1] . ' user_id: ' . $user_id . ' weibo_user_row[2]: ' . $weibo_user_row[2]);
+                global $open_ids_dismatched;
+
+                $open_ids_dismatched[] = $panelist_sina_row[1] ;
+                FileUtil::writeContents($log_handle, '绑定的微博账号不同, panelist_id: ' .$panelist_id . 
+                        ' panelist_sina_row[1]: ' . $panelist_sina_row[1] . 
+                        ' user_id: ' . $user_id . 
+                        ' weibo_user_row[2]: ' . $weibo_user_row[2]);
                 //weibo_user :  change
                 export_weibo_csv_data($weibo_user_row, $panelist_sina_row);
-            }
-        } else {
-            //id
-            $weibo_user_row[0] = 'NULL';
-
-            //user_id
-            $weibo_user_row[1] = $user_id;
-
-            //weibo_user :  add
-            export_weibo_csv_data($weibo_user_row, $panelist_sina_row);
+                return 0;
+            } 
         }
+
+        $weibo_user_row[0] = 'NULL';
+        $weibo_user_row[1] = $user_id;
+        //weibo_user :  add
+        export_weibo_csv_data($weibo_user_row, $panelist_sina_row);
+        return 0;
     }
 }
 
@@ -929,12 +916,11 @@ function generate_weibo_user_data($panelist_id, $user_id)
  */
 function export_weibo_csv_data($weibo_user_row, $panelist_sina_row)
 {
+
     //open_id
     $weibo_user_row[2] = $panelist_sina_row[1];
-
     //regist_date
     $weibo_user_row[3] = get_one_hour_ago_time($panelist_sina_row[7]);
-
     export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
 }
 
@@ -1057,22 +1043,17 @@ function get_one_hour_ago_time($time)
  * @param String $file_name
  * @return void
  */
-function export_csv_row($data, $file_name)
+function export_csv_row($data, $file_name )
 {
     ksort($data);
-
      if (  isset(Constants::$environment) &&  Constants::$environment === 'test' ) {
-
          $file_name = 'test.'.$file_name;
          $handle = fopen(EXPORT_PATH . '/' . $file_name, 'w+');
-
      } else{
-
          $handle = fopen(EXPORT_PATH . '/' . $file_name, 'a');
      }
-
     fputcsv($handle, $data);
-    fclose($handle);
+    return fclose($handle);
 }
 
 function strip_vote_description_links($description) 
@@ -1087,4 +1068,25 @@ function generate_vote_choice_stash_data($choice)
 {
     $stash_data['choices'] = $choice;
     return json_encode($stash_data,JSON_UNESCAPED_UNICODE );
+}
+
+/**
+ * migrate process
+ * @param array $panelist_row One line data of panelist csv
+ * @param integer $jili_user_id $time
+ * @return void
+ */
+function migrate_common($panelist_row, $jili_user_id)
+{
+    //问问的账号的password数据迁移到user_wenwen_login
+    generate_user_wenwen_login_data($panelist_row, $jili_user_id);
+
+    //新浪数据迁移
+    generate_weibo_user_data($panelist_row[0], $jili_user_id);
+
+    //sop_respondent数据迁移
+    generate_sop_respondent_data($panelist_row[0], $jili_user_id);
+
+    //vote_answer 数据迁移
+    generate_vote_answer_data($panelist_row[0], $jili_user_id);
 }

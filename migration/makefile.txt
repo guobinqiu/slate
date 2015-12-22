@@ -18,10 +18,20 @@ merge-vote:
 	echo 'merge vote' >> ${merge_log} 
 	/usr/bin/time -ao ${merge_log}  -f "${time_fmt}" php -f script/migrate_vote_csv.php 1>>${merge_log} 2>&1  
 	
-# 
+
+merge-debug: init  merge-user merge-vote
+	echo 'merge completed ' >> ${merge_log} 
+	sed "/^$$/d;/^user/d;/^sys/d"  ${merge_log}
+	grep -h real  ${merge_log}   | cut -b 5-100 | awk -F '[m|:|s]' 'BEGIN{m=0;s=0;} { m=m+$$1;s=s+$$2; } END{ print  (m + int(s/60)) "m" (s % 60) "s"}' 
+	cp ${merge_log}  ${merge_log_bk}
+	rm -rf ${merge_log}
+
+#impor : # merge
+
+#$ debuggin 
 import:  
-	echo 'start import' >> ${merge_log} 
-	/usr/bin/time -ao ${merge_log}  -f "${time_fmt}" mysql -u${db_user} -p${db_pwd} < m.sql
+	echo 'start import' >> ${merge_log}  
+	/usr/bin/time -ao ${merge_log}  -f "${time_fmt}" mysql -uroot -pecnavi < script/m.sql 1>>${merge_log} 2>&1
 	
 all: init  merge-user merge-vote import
 	echo 'all completed ' >> ${merge_log} 
