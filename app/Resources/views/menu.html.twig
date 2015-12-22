@@ -210,17 +210,3 @@ $(document).ready(function(){
 	{% endif %}
     <!--end checkin div-->
     
-<!-- PAG游戏下线通知 开始-->
-{% if app.request.attributes.get('_route') == '_homepage' %}
-<div class="popPAG">
-    <div class="popPAGWrap">
-        <div class="popPAGBg"></div>
-        <div class="popPAGBox">
-            <span class="text fontYH font14 corWhite">小鸡找米游戏将于<em class="font16">2015年12月20日24:00正式下线</em>，对于此前参与游戏未返还积分的用户，我们将会陆续帮您完成结算。感谢您一直以来的支持，后续我们有更精彩的游戏等着你哦！</span>
-            <span class="closeTag"></span>
-            <a class="support" href="{{ path('_default_support')}}" title="点击帮助中心页面左侧的“我要提问”"></a>
-        </div>
-    </div>
-</div>
-{% endif %}
-<!-- PAG游戏下线通知 结束-->
