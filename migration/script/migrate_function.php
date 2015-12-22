@@ -880,31 +880,38 @@ function generate_weibo_user_data($panelist_id, $user_id)
 
     // look for ww_sina_conn
     if (isset($sina_connection_indexs[$panelist_id])) {
+        $is_open_id_match = false ;
         $panelist_sina_row = use_file_index($sina_connection_indexs, $panelist_id, $panelist_sina_connection_file_handle);
         // look for jili_web_conn
         if (isset($weibo_user_indexs[$user_id])) {
+
+
             $weibo_user_row = use_file_index($weibo_user_indexs, $user_id, $weibo_user_file_handle);
             // different open_id
             if ($panelist_sina_row[1] != $weibo_user_row[2]) {
                 global $log_handle;
-                global $open_ids_dismatched;
-
-                $open_ids_dismatched[] = $panelist_sina_row[1] ;
                 FileUtil::writeContents($log_handle, '绑定的微博账号不同, panelist_id: ' .$panelist_id . 
                         ' panelist_sina_row[1]: ' . $panelist_sina_row[1] . 
                         ' user_id: ' . $user_id . 
                         ' weibo_user_row[2]: ' . $weibo_user_row[2]);
                 //weibo_user :  change
-                export_weibo_csv_data($weibo_user_row, $panelist_sina_row);
-                return 0;
-            } 
+                //$weibo_user[0] = 'NULL';
+            } else {
+                $is_open_id_match =  true;
+            }  
+
+        }  else {
+            //$weibo_user_row[0] = 'NULL';
+            $weibo_user_row[1] = $user_id;
         }
 
-        $weibo_user_row[0] = 'NULL';
-        $weibo_user_row[1] = $user_id;
         //weibo_user :  add
         export_weibo_csv_data($weibo_user_row, $panelist_sina_row);
-        return 0;
+
+        if( false == $is_open_id_match) {
+            global $open_ids_dismatched;
+            $open_ids_dismatched[] = $panelist_sina_row[1] ;
+        }
     }
 }
 
@@ -921,6 +928,9 @@ function export_weibo_csv_data($weibo_user_row, $panelist_sina_row)
     $weibo_user_row[2] = $panelist_sina_row[1];
     //regist_date
     $weibo_user_row[3] = get_one_hour_ago_time($panelist_sina_row[7]);
+
+    // id
+    $weibo_user_row[0] = 'NULL';
     export_csv_row($weibo_user_row, Constants::$migrate_weibo_user_name);
 }
 
