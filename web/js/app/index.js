@@ -77,8 +77,15 @@ require(['../config'],function(){
                 }
             }
         }
+        console.log('服务器返回的错误代码：'+$('#error_code').val());
+        var errorCode = $('#error_code').val();
+        // var errorCode = 'sssss';
+        if(errorCode != undefined){
+            $('#email_error').html(errorCode).addClass('error').attr('display', 'block');
+        }
         submitBtn.on('click', function(){
-            login();
+            // login();
+            $('#form1').submit();
         });
     });
     require(['jquery'], function($){
