@@ -63,7 +63,8 @@ CHARACTER SET UTF8
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 
 ESCAPED BY '\\' LINES 
-TERMINATED BY '\n';
+TERMINATED BY '\n'
+IGNORE 1 LINES;
 
 LOAD DATA INFILE '/data/91jili/merge/export/migrate_user_wenwen_login.csv' 
 INTO TABLE user_wenwen_login 
