@@ -3,7 +3,6 @@ namespace Jili\ApiBundle\Controller;
 use Gregwar\CaptchaBundle\GregwarCaptchaBundle;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
-use Jili\ApiBundle\Form\FirstRegType;
 use Jili\ApiBundle\Form\ForgetPasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -960,7 +959,6 @@ class UserController extends Controller
         $id = $this->get('request')->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        // 		$form  = $this->createForm(new RegType(), $user);
         $request = $this->get('request');
         $ck = $request->query->get('ck');
         $tel = $request->query->get('tel');
