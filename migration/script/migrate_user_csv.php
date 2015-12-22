@@ -115,6 +115,7 @@ function do_process()
                 }
             }
 
+
             // 遍历jili user 表 III eamil
             $panelist_email = $panelist_row[3];
             $user_row = use_file_index($user_indexs, strtolower($panelist_email), $user_file_handle);
@@ -131,6 +132,7 @@ function do_process()
                 continue;
             }
 
+
             // 遍历wenwen_sina  user_weibo表 IV  user connected by open_id
             $panelist_sina_row = use_file_index($sina_connection_indexs, $panelist_id, $panelist_sina_connection_file_handle, false);
             if( $panelist_sina_row  ) {
@@ -143,8 +145,14 @@ function do_process()
                     if($user_indexs_by_id_found ) {
                         $user_row = use_file_index($user_indexs, strtolower($user_indexs_by_id_found['email'] ), $user_file_handle);
                         if(  $user_row) {
+
+                            if( strtolower($panelist_row[3]) !== strtolower($user_row[1])  ) {
+                                $both_but_diff_emails [] =strtolower($panelist_row[3]);
+                            }
+
                             // 生成新的user数据：拥有两边账号，相同的部分取问问数据
                             generate_user_data_both_exsit($panelist_row, $user_row);
+
                             //其他要迁移的数据
                             migrate_common($panelist_row, $user_row[0]);
                             $weibo_exist_count++;
@@ -157,6 +165,7 @@ function do_process()
                     }
                 }
             }
+
             $max_user_id++;
             //生成仅存在问问的账号的user数据
             generate_user_data_only_wenwen($panelist_row,  $max_user_id);
@@ -239,7 +248,7 @@ function do_process()
                 "\t".'Ignored user for merged already, email:'.  $email.
                 "\t". json_encode($user_row , true);
             FileUtil::writeContents($log_handle, $log_msg);
-            $user_ids_ignored[] =  $user_row[1];
+            $user_ids_ignored[] =  $user_row[0];
             continue;
         }
 
@@ -260,7 +269,6 @@ function do_process()
     // weibo_user: no changed
     foreach($weibo_user_indexs as $user_id => $pointer) {
         if( in_array($user_id , $user_ids_ignored)) {
-            unset($user_ids_ignored);
             $log_msg = "\n". 
                 "\t".'Ignored weib_user for user_ignored,jili.user.id:'.  $user_id;
             FileUtil::writeContents($log_handle, $log_msg);
@@ -270,10 +278,10 @@ function do_process()
         fseek($weibo_user_file_handle, $pointer);
         $weibo_user = fgetcsv($weibo_user_file_handle);
 
-        if ( in_array( $weibo_user[1] , $open_ids_dismatched ) ) {
+        if ( in_array( $weibo_user[2] , $open_ids_dismatched ) ) {
 
             $log_msg = "\n". 
-                "\t".'Ignored weib_user for open_id used,open_id:'.  $weibo_user[1] ;
+                "\t".'Ignored weibo_user for open_id used,open_id:'.  $weibo_user[1] ;
             FileUtil::writeContents($log_handle, $log_msg);
             continue;
         }
