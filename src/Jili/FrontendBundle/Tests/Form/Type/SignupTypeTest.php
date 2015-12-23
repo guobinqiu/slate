@@ -66,20 +66,27 @@ class SignupActivateTypeTest extends TypeTestCase
     {
 
   // Stop here and mark this test as incomplete.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
         $type = new SignupType();
         $form = $this->factory->create($type);
-        $formData = array (   'signup' =>    array (     'email' => 'alice_nima@gmail.com',     'nickname' => 'alice32',     'captcha' => 'x4x3'/*,     '_token' => 'ce18bf4f139a6821ef48e331579da3284be1cc8e',*/   ),   'login' => 'Sign Up', );
+        $formData = array (   'signup' =>    array (     
+                    'email' => 'alice_nima@gmail.com',
+                    'nickname' => 'alice32',
+                    'captcha' => 'x4x3' ),
+                'login' => 'Sign Up',
+                );
 
-        $data = array (     'email' => 'alice_nima@gmail.com',     'nickname' => 'alice32',     'captcha' => 'x4x3'/*,     '_token' => 'ce18bf4f139a6821ef48e331579da3284be1cc8e',   */);
+        $data = array ( 
+                'email' => 'alice_nima@gmail.com',
+                'nickname' => 'alice32',
+                'captcha' => 'x4x3');;
 
         $form->bind($formData);
+
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($data, $form->getData());
 
         $view = $form->createView();
+
         $children = $view->children;
 
         foreach (array_keys($formData) as $key) {
