@@ -66,7 +66,7 @@ require(['../../config'],function(){
 //                }
 
                 success : function(msg) {
-                    if(msg != null && data.trim() != ''){
+                    if(msg != null && msg.trim() != ''){
                         if(msg == 'Need login'){
                             // 跳转到登录画面
                             window.location.href = Routing.generate('_user_login');
@@ -75,6 +75,8 @@ require(['../../config'],function(){
                             window.location.href = Routing.generate('_profile_index');
                         }else{
                             alert(msg);
+                            // 跳转到账户设置首页画面
+                            window.location.href = Routing.generate('_profile_index');
                         }
                     }
                 }

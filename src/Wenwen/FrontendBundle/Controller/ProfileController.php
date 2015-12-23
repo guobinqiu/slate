@@ -19,7 +19,7 @@ class ProfileController extends Controller
 {
 
     /**
-     * @Route("/index", name="_profile_index")
+     * @Route("/index", name="_profile_index", options={"expose"=true})
      * @Template
      */
     public function indexAction(Request $request)
@@ -28,7 +28,7 @@ class ProfileController extends Controller
         $csrf_token = $csrfProvider->generateCsrfToken('profile');
         $request->getSession()->set('csrf_token', $csrf_token);
         $arr['csrf_token'] = $csrf_token;
-        return $this->render('WenwenFrontendBundle:Profile:index.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Personal:account.html.twig', $arr);
     }
 
     /**
