@@ -68,17 +68,31 @@ class SignupActivateTypeTest extends TypeTestCase
   // Stop here and mark this test as incomplete.
         $type = new SignupType();
         $form = $this->factory->create($type);
-        $formData = array (   'signup' =>    array (     
-                    'email' => 'alice_nima@gmail.com',
-                    'nickname' => 'alice32',
-                    'captcha' => 'x4x3' ),
-                'login' => 'Sign Up',
-                );
+        $formData = array(   
+          'signup' =>    array( 
+            'nickname' => 'alice32',
+            'email' => 'alice_nima@gmail.com',
+            'password'=>array(
+              'first'=> '123qwe',
+              'second'=> '123qwe',
+            ),
+
+            'captcha' => 'x4x3' ),
+            'agreement'=> true,
+            'unsubscribe'=> true,
+        );
 
         $data = array ( 
-                'email' => 'alice_nima@gmail.com',
-                'nickname' => 'alice32',
-                'captcha' => 'x4x3');;
+          'nickname' => 'alice32',
+          'email' => 'alice_nima@gmail.com',
+          'password'=>array(
+            'first'=> '123qwe',
+            'second'=> '123qwe',
+          ),
+          'captcha' => 'x4x3' ,
+          'agreement'=> true,
+          'unsubscribe'=> true
+        );
 
         $form->bind($formData);
 
