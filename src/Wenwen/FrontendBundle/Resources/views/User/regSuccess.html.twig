@@ -14,7 +14,11 @@
 	<div class="main-register-active">
 		<div class="con finish">
 			<div class="text">
-				<div class="title">恭喜！您已成功激活了您的账户，并获得了<b>10</b>积分！</div>
+				{% for flashMessage in app.session.flashbag.get('notice') %}
+				    <h2 class="title">{{ flashMessage }}</h2>
+				{% else %}
+				    <h2 class="title">恭喜！您已成功激活了您的账户，并获得了<b>10</b>积分！</h2>
+				{% endfor %}
 			</div>
 		</div>
 		<div class="tips">

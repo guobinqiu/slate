@@ -64,7 +64,7 @@ class HomeController extends Controller
         }
         $this->get('user_sign_up_route.listener')->log();
 
-        return array ();
+        return $this->render('WenwenFrontendBundle:Home:home.html.twig', array ());
     }
 
     /**

@@ -48,6 +48,7 @@
 		&.text{
 			margin-left: 30px;
 			width: 450px;
+			vertical-align: top;
 		}
 	}
 	.img{
@@ -129,7 +130,6 @@
 		z-index: 1;
 		width: 132px;
 		height: 100px;
-		padding-bottom: 30px;
 		border-left: 1px solid #eee;
 		border-bottom: 1px solid #eee;
 		text-align: center;

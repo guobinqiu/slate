@@ -2,11 +2,7 @@
 	<h2><em></em>返利商家</h2>
 	<ul class="shops clearfix">
 		{% for row in websites %}
-        <li><a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.webUrl|url_encode  }}" target="_blank"><img src="{{ row.logoUrl }}" alt="{{ row.webName }}"></a><a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.webUrl|url_encode  }}" class="prompt" target="_blank">{% if row.commission > 0 %}
-            最高返<b>{{ row.commission }}%</b>
-            {% else %}
-            视情况而定
-            {% endif %}</a></li>
+        <li><a href="{{ path('jili_emar_default_redirect') ~ '?m=' ~ row.webUrl|url_encode  }}" target="_blank"><img src="{{ row.logoUrl }}" alt="{{ row.webName }}"></a></li>
         {% endfor %}
 		<li><a href="{{ path('jili_frontend_cpsadvertisement_list') }}">全部>></a></li>
 	</ul>
