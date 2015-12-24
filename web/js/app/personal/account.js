@@ -1,6 +1,6 @@
 require(['../../config'],function(){
     require(['common']);
-    require(['jquery', 'routing'],function($, routing){
+    require(['jquery'],function($){
        	var eles = $('.main-personal-account>ul>li');
        	var btns = eles.find('.edit'),
        		cons = eles.find('.con');
@@ -25,7 +25,7 @@ require(['../../config'],function(){
         });
    	});
     //修改密码（交互）
-    require(['jquery', 'validate'], function($, rpaValidate){
+    require(['jquery', 'validate', 'routing'], function($, rpaValidate, routing){
         $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
         $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
         $('#pwd_save').on('click', function(){
@@ -50,21 +50,10 @@ require(['../../config'],function(){
                 return false;
             }
             $.ajax({
-                type : "POST",
-                url : Routing.generate('_profile_changepwd'),
+                type: "POST",
+                url: Routing.generate('_profile_changepwd'),
                 contentType : "application/x-www-form-urlencoded; charset=utf-8",
                 data: { curPwd: $("#curPwd").val(), pwd: $("#pwd").val(), pwdRepeat: $("#pwdRepeat").val(), csrf_token: $("#csrf_token").val()},
-
-//                success : function(data) {
-//                    var data = { result: false};
-//                    if (data.result) {
-//                    }else{
-//                        $('#curPwd').removeClass().addClass('input_error');
-//                        $('#curPwd_succeed').removeClass();
-//                        $('#curPwd_error').removeClass().addClass('error').html('您当前密码输入错误');
-//                    }
-//                }
-
                 success : function(msg) {
                     if(msg != null && msg.trim() != ''){
                         if(msg == 'Need login'){

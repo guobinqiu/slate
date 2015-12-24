@@ -1050,7 +1050,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/login", name="_user_login",requirements={"_scheme"="https"})
+     * @Route("/login", name="_user_login",requirements={"_scheme"="https"}, options={"expose"=true})
      */
     public function loginAction()
     {
