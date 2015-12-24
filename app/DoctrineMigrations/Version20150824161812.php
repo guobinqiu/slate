@@ -1,0 +1,308 @@
+<?php
+
+namespace Jili\Application\Migrations;
+
+use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\DBAL\Schema\Schema;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+class Version20150824161812 extends AbstractMigration
+{
+    /**
+     * @param Schema $schema
+     */
+    public function up(Schema $schema)
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $this->addSql('CREATE TABLE checkin_auto_shop (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, checkin_adver_list_id INT NOT NULL, created_at DATETIME NOT NULL, INDEX fk_checkin_auto_shop_user1 (user_id), UNIQUE INDEX uniq_user_id1_checkin_adver_list_id1 (user_id, checkin_adver_list_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('DROP TABLE checkin_click_list_bk');
+        $this->addSql('DROP TABLE checkin_user_list_bk');
+        $this->addSql('DROP TABLE exchange_from_wenwen_back20141015');
+        $this->addSql('DROP TABLE kpi_summary');
+        $this->addSql('DROP TABLE reward_type');
+        $this->addSql('DROP TABLE user_last');
+        $this->addSql('ALTER TABLE activity_gathering_taobao_order CHANGE user_id user_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE ad_activity CHANGE title title VARCHAR(127) DEFAULT NULL, CHANGE description description VARCHAR(255) DEFAULT NULL, CHANGE started_at started_at DATETIME NOT NULL, CHANGE finished_at finished_at DATETIME NOT NULL, CHANGE percentage percentage DOUBLE PRECISION NOT NULL, CHANGE is_deleted is_deleted TINYINT(1) NOT NULL, CHANGE is_hidden is_hidden TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE ad_banner CHANGE icon_image icon_image VARCHAR(250) NOT NULL, CHANGE ad_url ad_url VARCHAR(250) NOT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE ad_category CHANGE asp asp VARCHAR(64) DEFAULT NULL');
+        $this->addSql('ALTER TABLE ad_position DROP FOREIGN KEY fk_ad_position_advertiserment1');
+        $this->addSql('DROP INDEX fk_ad_position_advertiserment1 ON ad_position');
+        $this->addSql('ALTER TABLE ad_position CHANGE position position INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE advertiserment CHANGE action_id action_id INT DEFAULT NULL, CHANGE is_expired is_expired TINYINT(1) DEFAULT NULL, CHANGE reward_rate reward_rate DOUBLE PRECISION NOT NULL, CHANGE category category INT DEFAULT NULL, CHANGE delete_flag delete_flag INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE adw_access_history DROP FOREIGN KEY fk_adw_access_record_advertiserment1');
+        $this->addSql('DROP INDEX fk_adw_access_record_user1 ON adw_access_history');
+        $this->addSql('DROP INDEX fk_adw_access_record_advertiserment1 ON adw_access_history');
+        $this->addSql('ALTER TABLE adw_access_history CHANGE access_time access_time DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE adw_order CHANGE incentive_type incentive_type INT NOT NULL, CHANGE order_price order_price INT DEFAULT NULL, CHANGE order_status order_status INT NOT NULL, CHANGE delete_flag delete_flag INT NOT NULL, CHANGE order_type order_type INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE amazon_coupon CHANGE user_id user_id INT NOT NULL, CHANGE coupon_od coupon_od VARCHAR(50) NOT NULL, CHANGE coupon_elec coupon_elec VARCHAR(50) NOT NULL');
+        $this->addSql('ALTER TABLE bangwoya_order CHANGE delete_flag delete_flag INT NOT NULL');
+        $this->addSql('ALTER TABLE black_users CHANGE blacked_date blacked_date DATETIME NOT NULL, CHANGE status status INT NOT NULL');
+        $this->addSql('ALTER TABLE callboard CHANGE author author VARCHAR(100) NOT NULL, CHANGE cb_type cb_type INT NOT NULL');
+        $this->addSql('ALTER TABLE cb_category CHANGE category_name category_name VARCHAR(30) DEFAULT NULL');
+        $this->addSql('ALTER TABLE checkin_adver_list CHANGE inter_space inter_space INT NOT NULL, CHANGE operation_method operation_method INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE checkin_click_list CHANGE open_shop_times open_shop_times INT NOT NULL');
+        $this->addSql('ALTER TABLE checkin_point_times CHANGE checkin_type checkin_type INT NOT NULL');
+        $this->addSql('ALTER TABLE checkin_user_list CHANGE open_shop_id open_shop_id INT NOT NULL');
+        $this->addSql('ALTER TABLE duomai_order CHANGE user_id user_id INT NOT NULL, CHANGE ocd ocd VARCHAR(32) NOT NULL, CHANGE ads_id ads_id INT NOT NULL, CHANGE ads_name ads_name VARCHAR(128) NOT NULL, CHANGE site_id site_id INT NOT NULL, CHANGE link_id link_id INT NOT NULL, CHANGE order_sn order_sn VARCHAR(32) NOT NULL, CHANGE order_time order_time DATETIME NOT NULL, CHANGE orders_price orders_price DOUBLE PRECISION NOT NULL, CHANGE comm comm DOUBLE PRECISION NOT NULL, CHANGE status status INT NOT NULL, CHANGE deactivated_at deactivated_at DATETIME NOT NULL, CHANGE confirmed_at confirmed_at DATETIME NOT NULL, CHANGE balanced_at balanced_at DATETIME NOT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE exchange_amazon_result CHANGE exchange_id exchange_id INT NOT NULL, CHANGE amazonCard_one amazonCard_one VARCHAR(50) NOT NULL, CHANGE amazonCard_two amazonCard_two VARCHAR(50) NOT NULL, CHANGE amazonCard_three amazonCard_three VARCHAR(50) NOT NULL, CHANGE amazonCard_four amazonCard_four VARCHAR(50) NOT NULL, CHANGE amazonCard_five amazonCard_five VARCHAR(50) NOT NULL, CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE exchange_danger CHANGE danger_type danger_type INT NOT NULL, CHANGE danger_content danger_content VARCHAR(50) NOT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE exchange_flow_order CHANGE user_id user_id INT NOT NULL, CHANGE exchange_id exchange_id INT DEFAULT NULL, CHANGE provider provider VARCHAR(16) NOT NULL, CHANGE province province VARCHAR(64) NOT NULL, CHANGE custom_product_id custom_product_id VARCHAR(5) NOT NULL, CHANGE packagesize packagesize VARCHAR(8) NOT NULL, CHANGE custom_prise custom_prise NUMERIC(8, 3) NOT NULL');
+        $this->addSql('ALTER TABLE flow_order_api_return CHANGE content content LONGTEXT NOT NULL');
+        $this->addSql('ALTER TABLE game_log CHANGE game_score game_score INT NOT NULL, CHANGE game_type game_type INT NOT NULL, CHANGE mass_point mass_point INT NOT NULL, CHANGE goal_point goal_point INT NOT NULL, CHANGE ranking_point ranking_point INT NOT NULL, CHANGE attendance_point attendance_point INT NOT NULL');
+        $this->addSql('ALTER TABLE hobby_list CHANGE hobby_name hobby_name VARCHAR(250) DEFAULT NULL');
+        $this->addSql('ALTER TABLE identity_confirm CHANGE identity_card identity_card VARCHAR(50) NOT NULL, CHANGE identity_validate_time identity_validate_time DATETIME NOT NULL');
+        $this->addSql('DROP INDEX kpi_YMD ON kpi_daily_RR');
+        $this->addSql('ALTER TABLE kpi_daily_RR CHANGE kpi_YMD kpi_YMD VARCHAR(10) NOT NULL, CHANGE register_YMD register_YMD VARCHAR(10) NOT NULL, CHANGE RR_day RR_day INT NOT NULL, CHANGE register_user register_user INT NOT NULL, CHANGE active_user active_user INT NOT NULL, CHANGE RR RR INT NOT NULL');
+        $this->addSql('DROP INDEX fk_limit_ad_advertiserment1 ON limit_ad');
+        $this->addSql('ALTER TABLE market_activity CHANGE business_name business_name VARCHAR(250) NOT NULL, CHANGE category_id category_id VARCHAR(250) NOT NULL, CHANGE activity_url activity_url VARCHAR(1000) NOT NULL, CHANGE activity_image activity_image VARCHAR(250) NOT NULL, CHANGE start_time start_time DATETIME NOT NULL, CHANGE end_time end_time DATETIME NOT NULL, CHANGE create_time create_time DATETIME NOT NULL, CHANGE delete_flag delete_flag INT NOT NULL');
+        $this->addSql('ALTER TABLE offer99_order CHANGE delete_flag delete_flag INT NOT NULL');
+        $this->addSql('ALTER TABLE offerwow_order CHANGE status status INT NOT NULL, CHANGE delete_flag delete_flag INT NOT NULL');
+        $this->addSql('ALTER TABLE point_history00 DROP FOREIGN KEY fk_point_history_00_user');
+        $this->addSql('DROP INDEX fk_point_history_00_user ON point_history00');
+        $this->addSql('ALTER TABLE point_history00 CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('DROP INDEX fk_point_history_00_user ON point_history01');
+        $this->addSql('ALTER TABLE point_history01 CHANGE user_id user_id INT DEFAULT NULL, CHANGE point_change_num point_change_num VARCHAR(45) DEFAULT NULL, CHANGE reason reason INT DEFAULT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('DROP INDEX fk_point_history_00_user ON point_history02');
+        $this->addSql('ALTER TABLE point_history02 CHANGE user_id user_id INT DEFAULT NULL, CHANGE point_change_num point_change_num VARCHAR(45) DEFAULT NULL, CHANGE reason reason INT DEFAULT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('DROP INDEX fk_point_history_00_user ON point_history03');
+        $this->addSql('ALTER TABLE point_history03 CHANGE user_id user_id INT DEFAULT NULL, CHANGE point_change_num point_change_num VARCHAR(45) DEFAULT NULL, CHANGE reason reason INT DEFAULT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('DROP INDEX fk_point_history_00_user ON point_history04');
+        $this->addSql('ALTER TABLE point_history04 CHANGE user_id user_id INT DEFAULT NULL, CHANGE point_change_num point_change_num VARCHAR(45) DEFAULT NULL, CHANGE reason reason INT DEFAULT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('DROP INDEX fk_point_history_00_user ON point_history05');
+        $this->addSql('ALTER TABLE point_history05 CHANGE user_id user_id INT DEFAULT NULL, CHANGE point_change_num point_change_num VARCHAR(45) DEFAULT NULL, CHANGE reason reason INT DEFAULT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('DROP INDEX fk_point_history_00_user ON point_history06');
+        $this->addSql('ALTER TABLE point_history06 CHANGE user_id user_id INT DEFAULT NULL, CHANGE point_change_num point_change_num VARCHAR(45) DEFAULT NULL, CHANGE reason reason INT DEFAULT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('DROP INDEX fk_point_history_00_user ON point_history07');
+        $this->addSql('ALTER TABLE point_history07 CHANGE user_id user_id INT DEFAULT NULL, CHANGE point_change_num point_change_num VARCHAR(45) DEFAULT NULL, CHANGE reason reason INT DEFAULT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('DROP INDEX fk_point_history_00_user ON point_history08');
+        $this->addSql('ALTER TABLE point_history08 CHANGE user_id user_id INT DEFAULT NULL, CHANGE point_change_num point_change_num VARCHAR(45) DEFAULT NULL, CHANGE reason reason INT DEFAULT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('DROP INDEX fk_point_history_00_user ON point_history09');
+        $this->addSql('ALTER TABLE point_history09 CHANGE user_id user_id INT DEFAULT NULL, CHANGE point_change_num point_change_num VARCHAR(45) DEFAULT NULL, CHANGE reason reason INT DEFAULT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE points_exchange CHANGE exchange_date exchange_date DATETIME NOT NULL, CHANGE target_account target_account VARCHAR(45) NOT NULL, CHANGE real_name real_name VARCHAR(45) DEFAULT NULL, CHANGE exchange_item_number exchange_item_number INT NOT NULL, CHANGE ip ip VARCHAR(20) NOT NULL');
+        $this->addSql('ALTER TABLE qq_user DROP INDEX openid_index, ADD UNIQUE INDEX UNIQ_1998BCAF89B8A9C (open_id)');
+        $this->addSql('DROP INDEX userid_index ON qq_user');
+        $this->addSql('ALTER TABLE qq_user CHANGE open_id open_id VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE rate_ad DROP FOREIGN KEY fk_rate_ad_advertiserment1');
+        $this->addSql('DROP INDEX fk_rate_ad_advertiserment1 ON rate_ad');
+        $this->addSql('ALTER TABLE rate_ad CHANGE income_rate income_rate INT NOT NULL');
+        $this->addSql('ALTER TABLE rate_ad_result DROP FOREIGN KEY fk_rate_ad_result_rate_ad1');
+        $this->addSql('ALTER TABLE rate_ad_result DROP FOREIGN KEY fk_rate_ad_result_user1');
+        $this->addSql('DROP INDEX fk_rate_ad_result_rate_ad1 ON rate_ad_result');
+        $this->addSql('DROP INDEX fk_rate_ad_result_user1 ON rate_ad_result');
+        $this->addSql('ALTER TABLE register_reward CHANGE rewards rewards INT NOT NULL');
+        $this->addSql('ALTER TABLE send_callboard CHANGE sendFrom sendFrom INT DEFAULT NULL, CHANGE sendTo sendTo INT DEFAULT NULL, CHANGE createtime createtime DATETIME NOT NULL, CHANGE read_flag read_flag INT DEFAULT NULL, CHANGE delete_flag delete_flag INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_message00 CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE send_message01 CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE send_message02 CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE send_message03 CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE send_message04 CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE send_message05 CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE send_message06 CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE send_message07 CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE send_message08 CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE send_message09 CHANGE createtime createtime DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE set_password_code CHANGE code code VARCHAR(45) NOT NULL, CHANGE create_time create_time DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE task_history00 CHANGE order_id order_id INT NOT NULL, CHANGE point point INT NOT NULL, CHANGE date date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE task_history01 CHANGE order_id order_id INT NOT NULL, CHANGE point point INT NOT NULL, CHANGE date date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE task_history02 CHANGE order_id order_id INT NOT NULL, CHANGE point point INT NOT NULL, CHANGE date date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE task_history03 CHANGE order_id order_id INT NOT NULL, CHANGE point point INT NOT NULL, CHANGE date date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE task_history04 CHANGE order_id order_id INT NOT NULL, CHANGE point point INT NOT NULL, CHANGE date date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE task_history05 CHANGE order_id order_id INT NOT NULL, CHANGE point point INT NOT NULL, CHANGE date date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE task_history06 CHANGE order_id order_id INT NOT NULL, CHANGE point point INT NOT NULL, CHANGE date date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE task_history07 CHANGE order_id order_id INT NOT NULL, CHANGE point point INT NOT NULL, CHANGE date date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE task_history08 CHANGE order_id order_id INT NOT NULL, CHANGE point point INT NOT NULL, CHANGE date date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE task_history09 CHANGE order_id order_id INT NOT NULL, CHANGE point point INT NOT NULL, CHANGE date date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE user CHANGE token token VARCHAR(32) NOT NULL, CHANGE education education INT DEFAULT NULL, CHANGE profession profession INT DEFAULT NULL, CHANGE hobby hobby VARCHAR(250) DEFAULT NULL, CHANGE personalDes personalDes LONGTEXT DEFAULT NULL, CHANGE reward_multiple reward_multiple DOUBLE PRECISION NOT NULL, CHANGE token_created_at token_created_at DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE user_advertiserment_visit CHANGE visit_date visit_date VARCHAR(30) NOT NULL');
+        $this->addSql('ALTER TABLE user_game_visit CHANGE visit_date visit_date VARCHAR(30) NOT NULL');
+        $this->addSql('ALTER TABLE user_info_visit CHANGE visit_date visit_date VARCHAR(30) NOT NULL');
+        $this->addSql('ALTER TABLE user_91ww_visit CHANGE visit_date visit_date VARCHAR(30) NOT NULL');
+        $this->addSql('DROP INDEX userid_index ON weibo_user');
+        $this->addSql('ALTER TABLE weibo_user CHANGE user_id user_id INT NOT NULL, CHANGE open_id open_id VARCHAR(255) NOT NULL, CHANGE regist_date regist_date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE game_seeker_points_pool CHANGE points points INT NOT NULL, CHANGE send_frequency send_frequency INT NOT NULL, CHANGE is_published is_published TINYINT(1) NOT NULL, CHANGE published_at published_at DATETIME NOT NULL, CHANGE is_valid is_valid TINYINT(1) NOT NULL, CHANGE updated_at updated_at DATETIME NOT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE emar_access_history CHANGE ad_id ad_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE emar_activity_commission CHANGE activity_id activity_id INT NOT NULL, CHANGE activity_name activity_name VARCHAR(100) DEFAULT NULL, CHANGE activity_category activity_category VARCHAR(100) DEFAULT NULL, CHANGE commission_id commission_id INT NOT NULL, CHANGE commission_number commission_number VARCHAR(100) DEFAULT NULL, CHANGE commission_name commission_name VARCHAR(200) DEFAULT NULL, CHANGE commission commission VARCHAR(100) DEFAULT NULL, CHANGE commission_period commission_period VARCHAR(100) DEFAULT NULL, CHANGE apply_products apply_products VARCHAR(200) DEFAULT NULL, CHANGE description description LONGTEXT DEFAULT NULL, CHANGE mall_name mall_name VARCHAR(100) DEFAULT NULL, CHANGE rebate_type rebate_type INT DEFAULT NULL, CHANGE rebate rebate VARCHAR(10) DEFAULT NULL');
+        $this->addSql('DROP INDEX adid_ocd_uniq ON emar_order');
+        $this->addSql('DROP INDEX ad_id_ref ON emar_order');
+        $this->addSql('ALTER TABLE emar_order CHANGE ad_type ad_type VARCHAR(16) NOT NULL, CHANGE status status INT NOT NULL, CHANGE delete_flag delete_flag INT NOT NULL');
+        $this->addSql('ALTER TABLE emar_products_cron CHANGE pid pid INT NOT NULL, CHANGE p_name p_name VARCHAR(128) DEFAULT NULL, CHANGE web_id web_id INT NOT NULL, CHANGE web_name web_name VARCHAR(128) DEFAULT NULL, CHANGE ori_price ori_price VARCHAR(128) DEFAULT NULL, CHANGE cur_price cur_price VARCHAR(128) DEFAULT NULL, CHANGE pic_url pic_url VARCHAR(128) DEFAULT NULL, CHANGE catid catid INT NOT NULL, CHANGE cname cname VARCHAR(128) DEFAULT NULL, CHANGE p_o_url p_o_url VARCHAR(128) DEFAULT NULL, CHANGE short_intro short_intro LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE emar_products_croned CHANGE pid pid INT NOT NULL, CHANGE p_name p_name VARCHAR(128) DEFAULT NULL, CHANGE web_id web_id INT NOT NULL, CHANGE web_name web_name VARCHAR(128) DEFAULT NULL, CHANGE ori_price ori_price VARCHAR(128) DEFAULT NULL, CHANGE cur_price cur_price VARCHAR(128) DEFAULT NULL, CHANGE pic_url pic_url VARCHAR(128) DEFAULT NULL, CHANGE catid catid INT NOT NULL, CHANGE cname cname VARCHAR(128) DEFAULT NULL, CHANGE p_o_url p_o_url VARCHAR(128) DEFAULT NULL, CHANGE short_intro short_intro VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE emar_request CHANGE tag tag VARCHAR(16) NOT NULL, CHANGE count count INT NOT NULL, CHANGE size_up size_up INT NOT NULL, CHANGE size_down size_down INT NOT NULL, CHANGE time_consumed_total time_consumed_total NUMERIC(10, 4) NOT NULL');
+        $this->addSql('DROP INDEX web_id ON emar_websites');
+        $this->addSql('ALTER TABLE emar_websites CHANGE web_id web_id INT NOT NULL, CHANGE web_catid web_catid INT DEFAULT NULL, CHANGE commission commission VARCHAR(128) DEFAULT NULL, CHANGE is_deleted is_deleted TINYINT(1) DEFAULT NULL, CHANGE position position INT NOT NULL, CHANGE is_hidden is_hidden TINYINT(1) DEFAULT NULL, CHANGE is_hot is_hot TINYINT(1) NOT NULL, CHANGE hot_at hot_at DATETIME DEFAULT NULL, CHANGE updated_at updated_at DATETIME DEFAULT NULL, CHANGE created_at created_at DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE emar_websites_category CHANGE web_id web_id INT NOT NULL, CHANGE category_id category_id INT NOT NULL, CHANGE count count INT NOT NULL');
+        $this->addSql('ALTER TABLE emar_websites_category_cron CHANGE web_id web_id INT NOT NULL, CHANGE category_id category_id INT NOT NULL, CHANGE count count INT NOT NULL');
+        $this->addSql('ALTER TABLE emar_websites_cron CHANGE web_id web_id INT NOT NULL, CHANGE web_name web_name VARCHAR(128) DEFAULT NULL, CHANGE web_catid web_catid INT DEFAULT NULL, CHANGE logo_url logo_url VARCHAR(128) DEFAULT NULL, CHANGE web_url web_url VARCHAR(255) DEFAULT NULL, CHANGE information information LONGTEXT DEFAULT NULL, CHANGE begin_date begin_date VARCHAR(128) DEFAULT NULL, CHANGE end_date end_date VARCHAR(128) DEFAULT NULL, CHANGE commission commission LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE emar_websites_croned CHANGE web_id web_id INT NOT NULL, CHANGE web_name web_name VARCHAR(128) DEFAULT NULL, CHANGE web_catid web_catid INT DEFAULT NULL, CHANGE logo_url logo_url VARCHAR(128) DEFAULT NULL, CHANGE web_url web_url VARCHAR(255) DEFAULT NULL, CHANGE information information LONGTEXT DEFAULT NULL, CHANGE begin_date begin_date VARCHAR(128) DEFAULT NULL, CHANGE end_date end_date VARCHAR(128) DEFAULT NULL, CHANGE commission commission LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE chanet_advertisement CHANGE ads_id ads_id INT NOT NULL, CHANGE ads_name ads_name VARCHAR(64) NOT NULL, CHANGE category category VARCHAR(128) NOT NULL, CHANGE ads_url_type ads_url_type VARCHAR(128) NOT NULL, CHANGE ads_url ads_url VARCHAR(128) NOT NULL, CHANGE marketing_url marketing_url LONGTEXT NOT NULL, CHANGE selected_at selected_at DATETIME DEFAULT NULL, CHANGE fixed_hash fixed_hash VARCHAR(64) NOT NULL, CHANGE is_activated is_activated INT NOT NULL');
+        $this->addSql('ALTER TABLE chanet_commission CHANGE ads_id ads_id INT NOT NULL, CHANGE fixed_hash fixed_hash VARCHAR(64) NOT NULL, CHANGE is_activated is_activated INT NOT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE chanet_commission_data CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE commission_id commission_id INT NOT NULL, CHANGE commission_serial_number commission_serial_number INT NOT NULL, CHANGE commission_name commission_name VARCHAR(200) DEFAULT NULL, CHANGE commission commission VARCHAR(100) DEFAULT NULL, CHANGE commission_period commission_period VARCHAR(100) DEFAULT NULL, CHANGE description description LONGTEXT DEFAULT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE cps_advertisement CHANGE ad_category_id ad_category_id INT NOT NULL, CHANGE ad_id ad_id INT NOT NULL, CHANGE title title VARCHAR(64) NOT NULL, CHANGE marketing_url marketing_url LONGTEXT NOT NULL, CHANGE ads_url ads_url VARCHAR(128) NOT NULL, CHANGE commission commission VARCHAR(100) DEFAULT NULL, CHANGE website_name website_name VARCHAR(64) NOT NULL, CHANGE website_name_dictionary_key website_name_dictionary_key VARCHAR(1) NOT NULL, CHANGE website_category website_category VARCHAR(128) NOT NULL, CHANGE website_host website_host VARCHAR(128) NOT NULL, CHANGE selected_at selected_at DATETIME DEFAULT NULL, CHANGE is_activated is_activated INT NOT NULL');
+        $this->addSql('ALTER TABLE duomai_advertisement CHANGE ads_id ads_id INT NOT NULL, CHANGE ads_name ads_name VARCHAR(64) NOT NULL, CHANGE ads_url ads_url VARCHAR(128) NOT NULL, CHANGE ads_commission ads_commission VARCHAR(64) NOT NULL, CHANGE start_time start_time DATE NOT NULL, CHANGE end_time end_time DATE NOT NULL, CHANGE category category VARCHAR(128) NOT NULL, CHANGE return_day return_day INT NOT NULL, CHANGE billing_cycle billing_cycle VARCHAR(255) NOT NULL, CHANGE link_custom link_custom VARCHAR(128) NOT NULL, CHANGE selected_at selected_at DATETIME DEFAULT NULL, CHANGE fixed_hash fixed_hash VARCHAR(64) NOT NULL, CHANGE is_activated is_activated INT NOT NULL');
+        $this->addSql('ALTER TABLE duomai_commission CHANGE ads_id ads_id INT NOT NULL, CHANGE fixed_hash fixed_hash VARCHAR(64) NOT NULL, CHANGE is_activated is_activated INT NOT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE duomai_commission_data CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE commission_id commission_id INT NOT NULL, CHANGE commission_serial_number commission_serial_number INT NOT NULL, CHANGE commission_name commission_name VARCHAR(200) DEFAULT NULL, CHANGE commission commission VARCHAR(100) DEFAULT NULL, CHANGE commission_period commission_period VARCHAR(100) DEFAULT NULL, CHANGE description description LONGTEXT DEFAULT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE emar_advertisement CHANGE ads_id ads_id INT NOT NULL, CHANGE ads_name ads_name VARCHAR(64) NOT NULL, CHANGE category category VARCHAR(128) NOT NULL, CHANGE commission commission VARCHAR(128) NOT NULL, CHANGE commission_period commission_period VARCHAR(100) DEFAULT NULL, CHANGE ads_url ads_url VARCHAR(128) NOT NULL, CHANGE can_customize_target can_customize_target INT NOT NULL, CHANGE feedback_tag feedback_tag VARCHAR(4) NOT NULL, CHANGE marketing_url marketing_url LONGTEXT NOT NULL, CHANGE selected_at selected_at DATETIME DEFAULT NULL, CHANGE fixed_hash fixed_hash VARCHAR(64) NOT NULL, CHANGE is_activated is_activated INT NOT NULL');
+        $this->addSql('ALTER TABLE emar_commission CHANGE ads_id ads_id INT NOT NULL, CHANGE fixed_hash fixed_hash VARCHAR(64) NOT NULL, CHANGE is_activated is_activated INT NOT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE emar_commission_data CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE commission_id commission_id INT NOT NULL, CHANGE commission_serial_number commission_serial_number INT NOT NULL, CHANGE commission_name commission_name VARCHAR(200) DEFAULT NULL, CHANGE commission commission VARCHAR(100) DEFAULT NULL, CHANGE commission_period commission_period VARCHAR(100) DEFAULT NULL, CHANGE product_apply_to product_apply_to VARCHAR(100) DEFAULT NULL, CHANGE description description LONGTEXT DEFAULT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE experience_advertisement CHANGE mission_hall mission_hall INT NOT NULL, CHANGE point point INT DEFAULT NULL, CHANGE mission_img_url mission_img_url VARCHAR(250) DEFAULT NULL, CHANGE mission_title mission_title VARCHAR(250) DEFAULT NULL');
+        $this->addSql('DROP INDEX user_visit_token ON game_eggs_breaker_eggs_info');
+        $this->addSql('ALTER TABLE game_eggs_breaker_eggs_info CHANGE total_paid total_paid DOUBLE PRECISION NOT NULL, CHANGE offcut_for_next offcut_for_next DOUBLE PRECISION NOT NULL');
+        $this->addSql('ALTER TABLE game_eggs_breaker_taobao_order CHANGE order_paid order_paid DOUBLE PRECISION NOT NULL, CHANGE audit_status audit_status INT NOT NULL, CHANGE is_valid is_valid INT NOT NULL, CHANGE is_egged is_egged INT NOT NULL');
+        $this->addSql('ALTER TABLE game_eggs_broken_log CHANGE egg_type egg_type INT NOT NULL');
+        $this->addSql('ALTER TABLE game_seeker_daily CHANGE points points INT NOT NULL, CHANGE clicked_day clicked_day DATE NOT NULL, CHANGE token token VARCHAR(32) NOT NULL');
+        $this->addSql('ALTER TABLE taobao_category CHANGE delete_flag delete_flag INT NOT NULL');
+        $this->addSql('DROP INDEX component_index ON taobao_component');
+        $this->addSql('ALTER TABLE taobao_component CHANGE component_id component_id INT NOT NULL, CHANGE sort sort INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE taobao_self_promotion_products CHANGE taobao_category_id taobao_category_id INT DEFAULT NULL, CHANGE price price DOUBLE PRECISION NOT NULL, CHANGE price_promotion price_promotion DOUBLE PRECISION NOT NULL, CHANGE picture_name picture_name VARCHAR(64) DEFAULT NULL, CHANGE comment_description comment_description VARCHAR(255) DEFAULT NULL, CHANGE promotion_rate promotion_rate DOUBLE PRECISION NOT NULL');
+        $this->addSql('ALTER TABLE user_visit_log CHANGE target_flag target_flag INT DEFAULT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+    }
+
+    /**
+     * @param Schema $schema
+     */
+    public function down(Schema $schema)
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $this->addSql('CREATE TABLE checkin_click_list_bk (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, click_date VARCHAR(20) NOT NULL, open_shop_times INT NOT NULL COMMENT \'点击的数量\', status INT DEFAULT NULL, create_time DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE checkin_user_list_bk (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, click_date VARCHAR(20) NOT NULL, open_shop_id INT NOT NULL COMMENT \'对应 checkin_adver_list的id\', create_time DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE exchange_from_wenwen_back20141015 (id INT DEFAULT 0 NOT NULL, wenwen_exchange_id VARCHAR(50) NOT NULL, user_id INT DEFAULT NULL, email VARCHAR(250) DEFAULT NULL, payment_point INT NOT NULL, status INT DEFAULT NULL, reason VARCHAR(50) DEFAULT NULL, create_time DATETIME NOT NULL) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE kpi_summary (ID INT AUTO_INCREMENT NOT NULL, kpi_month VARCHAR(11) DEFAULT NULL, title LONGTEXT DEFAULT NULL, summary INT DEFAULT NULL, PRIMARY KEY(ID)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE reward_type (id INT AUTO_INCREMENT NOT NULL, type_name VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user_last (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, points INT DEFAULT 0, last_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('DROP TABLE checkin_auto_shop');
+        $this->addSql('ALTER TABLE activity_gathering_taobao_order CHANGE user_id user_id INT NOT NULL');
+        $this->addSql('ALTER TABLE ad_activity CHANGE percentage percentage DOUBLE PRECISION DEFAULT \'1.00\' NOT NULL COMMENT \'比例。default: 100%\', CHANGE is_deleted is_deleted TINYINT(1) DEFAULT \'0\' NOT NULL COMMENT \'1: 失效; 0: 有效\', CHANGE is_hidden is_hidden TINYINT(1) DEFAULT \'0\' NOT NULL COMMENT \'0: 显示; 1: 隐藏\'');
+        $this->addSql('ALTER TABLE ad_banner CHANGE create_time create_time DATETIME DEFAULT NULL, CHANGE icon_image icon_image VARCHAR(250) DEFAULT NULL, CHANGE ad_url ad_url LONGTEXT NOT NULL');
+        $this->addSql('ALTER TABLE ad_position CHANGE position position INT NOT NULL');
+        $this->addSql('ALTER TABLE ad_position ADD CONSTRAINT fk_ad_position_advertiserment1 FOREIGN KEY (ad_id) REFERENCES advertiserment (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('CREATE INDEX fk_ad_position_advertiserment1 ON ad_position (ad_id)');
+        $this->addSql('ALTER TABLE advertiserment CHANGE is_expired is_expired TINYINT(1) DEFAULT \'0\' COMMENT \'imageurl response reports expired\', CHANGE reward_rate reward_rate DOUBLE PRECISION DEFAULT \'30\', CHANGE category category INT DEFAULT 0, CHANGE delete_flag delete_flag INT DEFAULT 0');
+        $this->addSql('ALTER TABLE adw_access_history CHANGE access_time access_time DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE adw_access_history ADD CONSTRAINT fk_adw_access_record_advertiserment1 FOREIGN KEY (ad_id) REFERENCES advertiserment (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('CREATE INDEX fk_adw_access_record_user1 ON adw_access_history (user_id)');
+        $this->addSql('CREATE INDEX fk_adw_access_record_advertiserment1 ON adw_access_history (ad_id)');
+        $this->addSql('ALTER TABLE adw_order CHANGE incentive_type incentive_type INT DEFAULT NULL, CHANGE order_price order_price DOUBLE PRECISION DEFAULT NULL, CHANGE order_status order_status INT DEFAULT 0 NOT NULL, CHANGE delete_flag delete_flag INT DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE amazon_coupon CHANGE user_id user_id INT DEFAULT NULL, CHANGE coupon_od coupon_od VARCHAR(50) DEFAULT NULL, CHANGE coupon_elec coupon_elec VARCHAR(50) DEFAULT NULL');
+        $this->addSql('ALTER TABLE bangwoya_order CHANGE delete_flag delete_flag INT DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE black_users CHANGE blacked_date blacked_date DATETIME DEFAULT NULL, CHANGE status status INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE callboard CHANGE author author VARCHAR(100) DEFAULT NULL, CHANGE cb_type cb_type INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE cb_category CHANGE category_name category_name VARCHAR(30) NOT NULL');
+        $this->addSql('ALTER TABLE chanet_commission_data CHANGE id id INT UNSIGNED AUTO_INCREMENT NOT NULL');
+        $this->addSql('ALTER TABLE checkin_adver_list CHANGE operation_method operation_method INT DEFAULT 0 COMMENT \'3: manual, 5:auto, 0 or 15: all \'');
+        $this->addSql('ALTER TABLE checkin_point_times CHANGE checkin_type checkin_type TINYINT(1) DEFAULT \'1\' NOT NULL');
+        $this->addSql('ALTER TABLE cps_advertisement CHANGE commission commission VARCHAR(100) DEFAULT \'\' COMMENT \'返利详情\', CHANGE website_name_dictionary_key website_name_dictionary_key CHAR(1) DEFAULT \'\' NOT NULL COMMENT \'商家名称索引\', CHANGE is_activated is_activated INT DEFAULT 0 NOT NULL COMMENT \'1: 使用中, 0: 不在使用 , 2: 丢弃\'');
+        $this->addSql('ALTER TABLE duomai_advertisement CHANGE return_day return_day INT DEFAULT 0 NOT NULL COMMENT \'效果认定期RD\', CHANGE is_activated is_activated INT DEFAULT 0 NOT NULL COMMENT \'1: 使用中, 0: 不在使用\'');
+        $this->addSql('ALTER TABLE duomai_commission CHANGE is_activated is_activated INT DEFAULT 0 NOT NULL COMMENT \'1: 使用中, 0: 不在使用\'');
+        $this->addSql('ALTER TABLE duomai_commission_data CHANGE id id INT UNSIGNED AUTO_INCREMENT NOT NULL');
+        $this->addSql('ALTER TABLE duomai_order CHANGE order_time order_time DATETIME DEFAULT \'0000-00-00 00:00:00\' NOT NULL COMMENT \'下单时间\', CHANGE orders_price orders_price DOUBLE PRECISION DEFAULT \'0.00\' NOT NULL COMMENT \'订单金额\', CHANGE comm comm DOUBLE PRECISION DEFAULT \'0.00\' NOT NULL COMMENT \'siter_commission 订单佣金\', CHANGE status status INT DEFAULT 0 NOT NULL COMMENT \'订单状态  -1 无效 0 未确认 1 确认 2 结算\', CHANGE deactivated_at deactivated_at DATETIME DEFAULT \'0000-00-00 00:00:00\' NOT NULL COMMENT \'status= -1 的时间\', CHANGE confirmed_at confirmed_at DATETIME DEFAULT \'0000-00-00 00:00:00\' NOT NULL COMMENT \'status= 1 的时间\', CHANGE balanced_at balanced_at DATETIME DEFAULT \'0000-00-00 00:00:00\' NOT NULL COMMENT \'status= 2 的时间\', CHANGE created_at created_at DATETIME DEFAULT \'0000-00-00 00:00:00\' NOT NULL COMMENT \'status= 0 的时间\'');
+        $this->addSql('ALTER TABLE emar_access_history CHANGE ad_id ad_id INT NOT NULL');
+        $this->addSql('ALTER TABLE emar_advertisement CHANGE category category VARCHAR(128) DEFAULT \'\' NOT NULL COMMENT \'活动分类\', CHANGE commission commission VARCHAR(128) DEFAULT \'\' NOT NULL COMMENT \'佣金\', CHANGE commission_period commission_period VARCHAR(100) DEFAULT \'\' COMMENT \'结算周期\', CHANGE can_customize_target can_customize_target INT DEFAULT 1 NOT NULL COMMENT \'是否允许修改目标地址\', CHANGE feedback_tag feedback_tag VARCHAR(4) DEFAULT \'c\' NOT NULL COMMENT \'反馈标签\', CHANGE is_activated is_activated INT DEFAULT 0 NOT NULL COMMENT \'1: 使用中, 0: 不在使用\'');
+        $this->addSql('ALTER TABLE emar_commission CHANGE is_activated is_activated INT DEFAULT 0 NOT NULL COMMENT \'1: 使用中, 0: 不在使用\'');
+        $this->addSql('ALTER TABLE emar_commission_data CHANGE id id INT UNSIGNED AUTO_INCREMENT NOT NULL, CHANGE commission_name commission_name VARCHAR(200) DEFAULT \'\' COMMENT \'佣金类目\', CHANGE commission commission VARCHAR(100) DEFAULT \'\' COMMENT \'佣金\', CHANGE commission_period commission_period VARCHAR(100) DEFAULT \'\' COMMENT \'佣金周期\', CHANGE product_apply_to product_apply_to VARCHAR(100) DEFAULT \'\' COMMENT \'适用商品\'');
+        $this->addSql('ALTER TABLE emar_order CHANGE ad_type ad_type VARCHAR(16) DEFAULT \'emar\' NOT NULL COMMENT \'表示ad_id对应, local: advertiserment, emar: open.yiqifa.ad.get\', CHANGE status status INT DEFAULT 0 NOT NULL, CHANGE delete_flag delete_flag INT DEFAULT 0 NOT NULL');
+        $this->addSql('CREATE UNIQUE INDEX adid_ocd_uniq ON emar_order (ad_id, ocd)');
+        $this->addSql('CREATE INDEX ad_id_ref ON emar_order (ad_id, ad_type)');
+        $this->addSql('ALTER TABLE emar_products_cron CHANGE p_name p_name VARCHAR(128) DEFAULT \'\' COMMENT \'商品名称\', CHANGE web_name web_name VARCHAR(128) DEFAULT \'\' COMMENT \'商家网站名称\', CHANGE ori_price ori_price VARCHAR(128) DEFAULT \'0.0\' COMMENT \'参考价格，原始价格\', CHANGE cur_price cur_price VARCHAR(128) DEFAULT \'0.0\' COMMENT \'实际价格，现在价格\', CHANGE pic_url pic_url VARCHAR(128) DEFAULT \'\' COMMENT \'图片链接\', CHANGE cname cname VARCHAR(128) DEFAULT \'\' COMMENT \'商品分类名称\', CHANGE p_o_url p_o_url VARCHAR(128) DEFAULT \'\' COMMENT \'商品的计费链接\'');
+        $this->addSql('ALTER TABLE emar_products_croned CHANGE p_name p_name VARCHAR(128) DEFAULT \'\' COMMENT \'商品名称\', CHANGE web_name web_name VARCHAR(128) DEFAULT \'\' COMMENT \'商家网站名称\', CHANGE ori_price ori_price VARCHAR(128) DEFAULT \'0.0\' COMMENT \'参考价格，原始价格\', CHANGE cur_price cur_price VARCHAR(128) DEFAULT \'0.0\' COMMENT \'实际价格，现在价格\', CHANGE pic_url pic_url VARCHAR(128) DEFAULT \'\' COMMENT \'图片链接\', CHANGE cname cname VARCHAR(128) DEFAULT \'\' COMMENT \'商品分类名称\', CHANGE p_o_url p_o_url VARCHAR(128) DEFAULT \'\' COMMENT \'商品的计费链接\', CHANGE short_intro short_intro LONGTEXT DEFAULT NULL COMMENT \'商品详情\'');
+        $this->addSql('ALTER TABLE emar_request CHANGE count count INT DEFAULT 0 NOT NULL COMMENT \'对emar api请求的次数\', CHANGE size_up size_up INT DEFAULT 0 NOT NULL COMMENT \'对emar api请求 的size之和\', CHANGE size_down size_down INT DEFAULT 0 NOT NULL COMMENT \'对emar api返回的size之和\', CHANGE time_consumed_total time_consumed_total NUMERIC(10, 4) DEFAULT \'0.0000\' NOT NULL COMMENT \'使用时间之和\'');
+        $this->addSql('ALTER TABLE emar_websites CHANGE commission commission VARCHAR(128) DEFAULT \'\' COMMENT \' 推广佣金比例信息\', CHANGE is_deleted is_deleted TINYINT(1) DEFAULT \'0\' COMMENT \'是否已经弃用, 0:末弃用\', CHANGE position position INT DEFAULT NULL COMMENT \'商家网站显示的顺序\', CHANGE is_hidden is_hidden TINYINT(1) DEFAULT \'1\' COMMENT \'是否不显示, 1:不用做页面显示\', CHANGE is_hot is_hot TINYINT(1) DEFAULT \'0\' COMMENT \'是否为热卖商家\', CHANGE hot_at hot_at DATETIME DEFAULT \'0000-00-00 00:00:00\' NOT NULL COMMENT \'热卖商家 排序\', CHANGE updated_at updated_at DATETIME DEFAULT \'0000-00-00 00:00:00\' NOT NULL, CHANGE created_at created_at DATETIME DEFAULT \'0000-00-00 00:00:00\' NOT NULL');
+        $this->addSql('CREATE UNIQUE INDEX web_id ON emar_websites (web_id)');
+        $this->addSql('ALTER TABLE emar_websites_category CHANGE count count INT DEFAULT 0 NOT NULL COMMENT \'计数\'');
+        $this->addSql('ALTER TABLE emar_websites_category_cron CHANGE count count INT DEFAULT 0 NOT NULL COMMENT \'计数\'');
+        $this->addSql('ALTER TABLE emar_websites_cron CHANGE web_name web_name VARCHAR(128) DEFAULT \'\' COMMENT \'商家网站的中文名称\', CHANGE logo_url logo_url VARCHAR(128) DEFAULT \'\' COMMENT \'网站LOGO图片的URL\', CHANGE begin_date begin_date VARCHAR(128) DEFAULT \'\' COMMENT \'网站推广开始时间\', CHANGE end_date end_date VARCHAR(128) DEFAULT \'\' COMMENT \'网站推广结束时间\'');
+        $this->addSql('ALTER TABLE emar_websites_croned CHANGE web_name web_name VARCHAR(128) DEFAULT \'\' COMMENT \'商家网站的中文名称\', CHANGE logo_url logo_url VARCHAR(128) DEFAULT \'\' COMMENT \'网站LOGO图片的URL\', CHANGE begin_date begin_date VARCHAR(128) DEFAULT \'\' COMMENT \'网站推广开始时间\', CHANGE end_date end_date VARCHAR(128) DEFAULT \'\' COMMENT \'网站推广结束时间\'');
+        $this->addSql('ALTER TABLE exchange_amazon_result CHANGE exchange_id exchange_id INT DEFAULT NULL, CHANGE amazonCard_one amazonCard_one VARCHAR(50) DEFAULT NULL, CHANGE amazonCard_two amazonCard_two VARCHAR(50) DEFAULT NULL, CHANGE amazonCard_three amazonCard_three VARCHAR(50) DEFAULT NULL, CHANGE amazonCard_four amazonCard_four VARCHAR(50) DEFAULT NULL, CHANGE amazonCard_five amazonCard_five VARCHAR(50) DEFAULT NULL, CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE exchange_danger CHANGE danger_content danger_content VARCHAR(50) DEFAULT NULL, CHANGE created_at created_at DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE exchange_flow_order CHANGE exchange_id exchange_id INT DEFAULT 0 COMMENT \'points_exchange.id\'');
+        $this->addSql('ALTER TABLE experience_advertisement CHANGE mission_hall mission_hall INT DEFAULT 1 NOT NULL COMMENT \'1 任务大厅1
+        2 任务大厅2
+        \'');
+        $this->addSql('ALTER TABLE game_eggs_breaker_eggs_info CHANGE total_paid total_paid DOUBLE PRECISION DEFAULT \'0.00\' NOT NULL, CHANGE offcut_for_next offcut_for_next DOUBLE PRECISION DEFAULT \'0.00\' NOT NULL');
+        $this->addSql('CREATE INDEX user_visit_token ON game_eggs_breaker_eggs_info (user_id, token)');
+        $this->addSql('ALTER TABLE game_eggs_breaker_taobao_order CHANGE order_paid order_paid DOUBLE PRECISION DEFAULT \'0.00\' NOT NULL, CHANGE audit_status audit_status INT DEFAULT 0 NOT NULL, CHANGE is_valid is_valid INT DEFAULT 0 NOT NULL, CHANGE is_egged is_egged INT DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE game_eggs_broken_log CHANGE egg_type egg_type INT DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE game_log CHANGE game_score game_score INT DEFAULT 0, CHANGE game_type game_type INT DEFAULT 0, CHANGE mass_point mass_point INT DEFAULT 0, CHANGE goal_point goal_point INT DEFAULT 0, CHANGE ranking_point ranking_point INT DEFAULT 0, CHANGE attendance_point attendance_point INT DEFAULT 0');
+        $this->addSql('ALTER TABLE game_seeker_daily CHANGE points points INT DEFAULT -1 NOT NULL');
+        $this->addSql('ALTER TABLE hobby_list CHANGE hobby_name hobby_name VARCHAR(250) NOT NULL');
+        $this->addSql('ALTER TABLE identity_confirm CHANGE identity_card identity_card VARCHAR(50) DEFAULT NULL, CHANGE identity_validate_time identity_validate_time DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE kpi_daily_RR CHANGE kpi_YMD kpi_YMD VARCHAR(10) DEFAULT \'\', CHANGE register_YMD register_YMD VARCHAR(10) DEFAULT \'\', CHANGE RR_day RR_day INT DEFAULT 0 NOT NULL, CHANGE register_user register_user INT DEFAULT 0 NOT NULL, CHANGE active_user active_user INT DEFAULT 0 NOT NULL, CHANGE RR RR INT DEFAULT 0 NOT NULL');
+        $this->addSql('CREATE UNIQUE INDEX kpi_YMD ON kpi_daily_RR (kpi_YMD, RR_day)');
+        $this->addSql('CREATE INDEX fk_limit_ad_advertiserment1 ON limit_ad (ad_id)');
+        $this->addSql('ALTER TABLE market_activity CHANGE business_name business_name VARCHAR(250) DEFAULT NULL, CHANGE category_id category_id VARCHAR(250) DEFAULT NULL, CHANGE activity_url activity_url VARCHAR(1000) DEFAULT NULL, CHANGE activity_image activity_image VARCHAR(250) DEFAULT NULL, CHANGE start_time start_time DATETIME DEFAULT NULL, CHANGE end_time end_time DATETIME DEFAULT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL, CHANGE delete_flag delete_flag INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE offer99_order CHANGE delete_flag delete_flag INT DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE offerwow_order CHANGE status status INT DEFAULT 0 NOT NULL, CHANGE delete_flag delete_flag INT DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE point_history00 CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE point_history00 ADD CONSTRAINT fk_point_history_00_user FOREIGN KEY (user_id) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('CREATE INDEX fk_point_history_00_user ON point_history00 (user_id)');
+        $this->addSql('ALTER TABLE point_history01 CHANGE user_id user_id INT NOT NULL, CHANGE point_change_num point_change_num INT NOT NULL, CHANGE reason reason INT NOT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('CREATE INDEX fk_point_history_00_user ON point_history01 (user_id)');
+        $this->addSql('ALTER TABLE point_history02 CHANGE user_id user_id INT NOT NULL, CHANGE point_change_num point_change_num INT NOT NULL, CHANGE reason reason INT NOT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('CREATE INDEX fk_point_history_00_user ON point_history02 (user_id)');
+        $this->addSql('ALTER TABLE point_history03 CHANGE user_id user_id INT NOT NULL, CHANGE point_change_num point_change_num INT NOT NULL, CHANGE reason reason INT NOT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('CREATE INDEX fk_point_history_00_user ON point_history03 (user_id)');
+        $this->addSql('ALTER TABLE point_history04 CHANGE user_id user_id INT NOT NULL, CHANGE point_change_num point_change_num INT NOT NULL, CHANGE reason reason INT NOT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('CREATE INDEX fk_point_history_00_user ON point_history04 (user_id)');
+        $this->addSql('ALTER TABLE point_history05 CHANGE user_id user_id INT NOT NULL, CHANGE point_change_num point_change_num INT NOT NULL, CHANGE reason reason INT NOT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('CREATE INDEX fk_point_history_00_user ON point_history05 (user_id)');
+        $this->addSql('ALTER TABLE point_history06 CHANGE user_id user_id INT NOT NULL, CHANGE point_change_num point_change_num INT NOT NULL, CHANGE reason reason INT NOT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('CREATE INDEX fk_point_history_00_user ON point_history06 (user_id)');
+        $this->addSql('ALTER TABLE point_history07 CHANGE user_id user_id INT NOT NULL, CHANGE point_change_num point_change_num INT NOT NULL, CHANGE reason reason INT NOT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('CREATE INDEX fk_point_history_00_user ON point_history07 (user_id)');
+        $this->addSql('ALTER TABLE point_history08 CHANGE user_id user_id INT NOT NULL, CHANGE point_change_num point_change_num INT NOT NULL, CHANGE reason reason INT NOT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('CREATE INDEX fk_point_history_00_user ON point_history08 (user_id)');
+        $this->addSql('ALTER TABLE point_history09 CHANGE user_id user_id INT NOT NULL, CHANGE point_change_num point_change_num INT NOT NULL, CHANGE reason reason INT NOT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('CREATE INDEX fk_point_history_00_user ON point_history09 (user_id)');
+        $this->addSql('ALTER TABLE points_exchange CHANGE exchange_date exchange_date DATETIME DEFAULT NULL, CHANGE target_account target_account VARCHAR(45) DEFAULT NULL, CHANGE real_name real_name VARCHAR(50) DEFAULT NULL, CHANGE exchange_item_number exchange_item_number INT DEFAULT NULL, CHANGE ip ip VARCHAR(20) DEFAULT NULL');
+        $this->addSql('ALTER TABLE qq_user DROP INDEX UNIQ_1998BCAF89B8A9C, ADD INDEX openid_index (open_id)');
+        $this->addSql('ALTER TABLE qq_user CHANGE open_id open_id VARCHAR(255) DEFAULT NULL');
+        $this->addSql('CREATE INDEX userid_index ON qq_user (user_id)');
+        $this->addSql('ALTER TABLE rate_ad CHANGE income_rate income_rate INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE rate_ad ADD CONSTRAINT fk_rate_ad_advertiserment1 FOREIGN KEY (ad_id) REFERENCES advertiserment (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('CREATE INDEX fk_rate_ad_advertiserment1 ON rate_ad (ad_id)');
+        $this->addSql('ALTER TABLE rate_ad_result ADD CONSTRAINT fk_rate_ad_result_rate_ad1 FOREIGN KEY (rate_ad_id) REFERENCES rate_ad (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('ALTER TABLE rate_ad_result ADD CONSTRAINT fk_rate_ad_result_user1 FOREIGN KEY (user_id) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('CREATE INDEX fk_rate_ad_result_rate_ad1 ON rate_ad_result (rate_ad_id)');
+        $this->addSql('CREATE INDEX fk_rate_ad_result_user1 ON rate_ad_result (user_id)');
+        $this->addSql('ALTER TABLE register_reward CHANGE rewards rewards INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_callboard CHANGE sendFrom sendFrom INT DEFAULT 0, CHANGE sendTo sendTo INT DEFAULT 0, CHANGE createtime createtime DATETIME DEFAULT NULL, CHANGE read_flag read_flag INT DEFAULT 0, CHANGE delete_flag delete_flag INT DEFAULT 0');
+        $this->addSql('ALTER TABLE send_message00 CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_message01 CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_message02 CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_message03 CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_message04 CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_message05 CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_message06 CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_message07 CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_message08 CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE send_message09 CHANGE createtime createtime DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE set_password_code CHANGE code code VARCHAR(45) DEFAULT NULL, CHANGE create_time create_time DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE taobao_category CHANGE delete_flag delete_flag INT DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE taobao_component CHANGE sort sort TINYINT(1) DEFAULT \'0\'');
+        $this->addSql('CREATE INDEX component_index ON taobao_component (component_id, category_id)');
+        $this->addSql('ALTER TABLE taobao_self_promotion_products CHANGE taobao_category_id taobao_category_id INT NOT NULL, CHANGE price price DOUBLE PRECISION DEFAULT \'0.00\' NOT NULL, CHANGE price_promotion price_promotion DOUBLE PRECISION DEFAULT \'0.00\' NOT NULL, CHANGE picture_name picture_name VARCHAR(64) NOT NULL, CHANGE comment_description comment_description VARCHAR(255) DEFAULT \'\', CHANGE promotion_rate promotion_rate DOUBLE PRECISION DEFAULT \'0.00\' NOT NULL');
+        $this->addSql('ALTER TABLE task_history00 CHANGE order_id order_id INT DEFAULT 0, CHANGE point point INT DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE task_history01 CHANGE order_id order_id INT DEFAULT 0, CHANGE point point INT DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE task_history02 CHANGE order_id order_id INT DEFAULT 0, CHANGE point point INT DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE task_history03 CHANGE order_id order_id INT DEFAULT 0, CHANGE point point INT DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE task_history04 CHANGE order_id order_id INT DEFAULT 0, CHANGE point point INT DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE task_history05 CHANGE order_id order_id INT DEFAULT 0, CHANGE point point INT DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE task_history06 CHANGE order_id order_id INT DEFAULT 0, CHANGE point point INT DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE task_history07 CHANGE order_id order_id INT DEFAULT 0, CHANGE point point INT DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE task_history08 CHANGE order_id order_id INT DEFAULT 0, CHANGE point point INT DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE task_history09 CHANGE order_id order_id INT DEFAULT 0, CHANGE point point INT DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE user CHANGE token token VARCHAR(32) DEFAULT \'\' NOT NULL COMMENT \'remember me cookie token \', CHANGE reward_multiple reward_multiple DOUBLE PRECISION DEFAULT \'1\'');
+        $this->addSql('ALTER TABLE user_91ww_visit CHANGE visit_date visit_date VARCHAR(20) NOT NULL');
+        $this->addSql('ALTER TABLE user_advertiserment_visit CHANGE visit_date visit_date VARCHAR(20) NOT NULL');
+        $this->addSql('ALTER TABLE user_game_visit CHANGE visit_date visit_date VARCHAR(20) NOT NULL');
+        $this->addSql('ALTER TABLE user_info_visit CHANGE visit_date visit_date DATE NOT NULL');
+        $this->addSql('ALTER TABLE user_visit_log CHANGE target_flag target_flag INT DEFAULT -1 COMMENT \'分类标志位\'');
+        $this->addSql('ALTER TABLE weibo_user CHANGE open_id open_id VARCHAR(255) DEFAULT NULL COMMENT \'微博id唯一标识\'');
+        $this->addSql('CREATE INDEX userid_index ON weibo_user (user_id)');
+    }
+}
