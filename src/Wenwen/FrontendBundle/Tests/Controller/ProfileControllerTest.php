@@ -64,9 +64,18 @@ class ProfileControllerTest extends WebTestCase
         $url = $container->get('router')->generate('_profile_index');
         $crawler = $client->request('GET', $url);
 
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $session = $container->get('session');
+
+        //login 后
+        $session->set('uid', 1);
+        $session->save();
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
         $this->assertContains($session->get('csrf_token'), $client->getResponse()->getContent());
     }
 
@@ -87,7 +96,7 @@ class ProfileControllerTest extends WebTestCase
         $post_data = array ();
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('Need login', $client->getResponse()->getContent());
+        $this->assertEquals('{"status":0,"message":"Need login"}', $client->getResponse()->getContent());
 
         //set login id
         $session = $container->get('session');
@@ -100,7 +109,7 @@ class ProfileControllerTest extends WebTestCase
 
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('Access Forbidden', $client->getResponse()->getContent());
+        $this->assertEquals('{"status":0,"message":"Access Forbidden"}', $client->getResponse()->getContent());
 
         //set csrf token
         $csrfProvider = new DefaultCsrfProvider('SECRET');
@@ -119,7 +128,10 @@ class ProfileControllerTest extends WebTestCase
 
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('请输入旧的用户密码', $client->getResponse()->getContent());
+        $return = $client->getResponse()->getContent();
+        $return = json_decode($return, true);
+        $this->assertEquals(0,$return['status']);
+        $this->assertEquals('请输入旧的用户密码',$return['message']);
 
         // csrf is valiad , no error
         $post_data = array ();
@@ -130,7 +142,10 @@ class ProfileControllerTest extends WebTestCase
 
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('密码修改成功', $client->getResponse()->getContent());
+        $return = $client->getResponse()->getContent();
+        $return = json_decode($return, true);
+        $this->assertEquals(1,$return['status']);
+        $this->assertEquals('密码修改成功',$return['message']);
 
         //确认密码修改成功
         $em = $this->em;

@@ -24,6 +24,11 @@ class ProfileController extends Controller
      */
     public function indexAction(Request $request)
     {
+        if (!$request->getSession()->get('uid')) {
+            $this->get('request')->getSession()->set('referer', $this->generateUrl('_profile_index'));
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
         $csrfProvider = new DefaultCsrfProvider('SECRET');
         $csrf_token = $csrfProvider->generateCsrfToken('profile');
         $request->getSession()->set('csrf_token', $csrf_token);
@@ -39,9 +44,13 @@ class ProfileController extends Controller
     public function changePwdAction()
     {
         $request = $this->get('request');
+        $result['status'] = 0;
 
         if (!$request->getSession()->get('uid')) {
-            return new Response('Need login');
+            $result['message'] = 'Need login';
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'application/json');
+            return $resp;
         }
 
         $curPwd = $request->get('curPwd');
@@ -51,23 +60,41 @@ class ProfileController extends Controller
 
         //check csrf_token
         if (!$csrf_token || ($csrf_token != $request->getSession()->get('csrf_token'))) {
-            return new Response('Access Forbidden');
+            $result['message'] = 'Access Forbidden';
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'application/json');
+            return $resp;
         }
 
         //check input
         $id = $request->getSession()->get('uid');
         $error_message = $this->checkPassword($curPwd, $pwd, $pwdRepeat, $id);
         if ($error_message) {
-            return new Response($error_message);
+            $result['message'] = $error_message;
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'application/json');
+            return $resp;
         }
 
         //update user password
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        $user->setPwd($pwd);
-        $em->flush();
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $user->setPwd($pwd);
+            $em->flush();
 
-        return new Response($this->container->getParameter('forget_su_pwd'));
+            $result['status'] = 1;
+            $result['message'] = $this->container->getParameter('forget_su_pwd');
+        } catch (Exception $e) {
+            $logger = $this->get('logger');
+            $logger->error('{ProfileController:changePwdAction}' . $e->getMessage() . "user id: " . $id);
+
+            $result['message'] = $this->container->getParameter('update_password_fail');
+        }
+
+        $resp = new Response(json_encode($result));
+        $resp->headers->set('Content-Type', 'application/json');
+        return $resp;
     }
 
     public function checkPassword($curPwd, $pwd, $pwdRepeat, $id)
