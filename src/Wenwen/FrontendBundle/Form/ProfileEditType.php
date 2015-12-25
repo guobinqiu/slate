@@ -16,21 +16,22 @@ class ProfileEditType extends AbstractType
             'label' => 'nick',
             'required' => true,
             'constraints' => array (
+                new Assert\NotBlank(array (
+                    'message' => '请输入昵称'
+                )),
                 new Assert\Length(array (
                     'min' => 2,
                     'max' => 20,
-                    'minMessage' => '用户昵称为2-20个字符',
-                    'maxMessage' => '用户昵称为2-20个字符'
+                    'minMessage' => '昵称为2-20个字符',
+                    'maxMessage' => '昵称为2-20个字符'
                 ))
-            ),
-            'invalid_message' => '请输入用户昵称'
+            )
         ));
 
         $builder->add('birthday', 'text', array (
             'label' => 'birthday',
             'required' => false,
-            'read_only' => 'true',
-            'invalid_message' => '请选择正确的生日'
+            'read_only' => 'true'
         ));
 
         $builder->add('tel', 'text', array (
@@ -40,15 +41,13 @@ class ProfileEditType extends AbstractType
                 new Assert\Length(array (
                     'min' => 11,
                     'max' => 11,
-                    'minMessage' => '输入的手机格式不正确1',
-                    'maxMessage' => '输入的手机格式不正确2'
+                    'exactMessage' => '您输入的手机号码格式不正确'
                 )),
                 new Assert\Type(array (
                     'type' => 'numeric',
-                    'message' => '输入的手机格式不正确3'
+                    'message' => '您输入的手机号码格式不正确'
                 ))
-            ),
-            'invalid_message' => '输入的手机格式不正确4'
+            )
         ));
 
         $builder->add('sex', 'choice', array (
@@ -73,8 +72,7 @@ class ProfileEditType extends AbstractType
                     'max' => 512,
                     'maxMessage' => '大于512个文字'
                 ))
-            ),
-            'invalid_message' => 'Invalid personalDes'
+            )
         ));
 
         $builder->add('favMusic', 'text', array (
@@ -85,8 +83,7 @@ class ProfileEditType extends AbstractType
                     'max' => 64,
                     'maxMessage' => '大于64个文字'
                 ))
-            ),
-            'invalid_message' => 'Invalid favMusic'
+            )
         ));
 
         $builder->add('monthlyWish', 'text', array (
@@ -97,8 +94,43 @@ class ProfileEditType extends AbstractType
                     'max' => 64,
                     'maxMessage' => '大于64个文字'
                 ))
-            ),
-            'invalid_message' => 'Invalid monthlyWish'
+            )
+        ));
+
+        $builder->add('province', 'text', array (
+            'mapped' => false
+        ));
+
+        $builder->add('city', 'text', array (
+            'mapped' => false
+        ));
+
+        $builder->add('income', 'text', array (
+            'mapped' => false
+        ));
+
+        $builder->add('profession', 'text', array (
+            'mapped' => false
+        ));
+
+        $builder->add('industry_code', 'text', array (
+            'mapped' => false
+        ));
+
+        $builder->add('work_section_code', 'text', array (
+            'mapped' => false
+        ));
+
+        $builder->add('education', 'text', array (
+            'mapped' => false
+        ));
+
+        $builder->add('hobby', 'text', array (
+            'mapped' => false
+        ));
+
+        $builder->add('user_city', 'text', array (
+            'mapped' => false
         ));
 
         $builder->add('attachment', 'file', array (

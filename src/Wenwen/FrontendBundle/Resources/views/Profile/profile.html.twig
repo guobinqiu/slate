@@ -6,12 +6,12 @@
 {% endblock %}
 
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
 <div class="main-personal w1000 clearfix">
-    {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
+    {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
     <div class="main-personal-right right">
         <h2>个人资料</h2>
         <div class="main-personal-profile">
@@ -29,7 +29,7 @@
                     </form>
                 </div>
                 <div class="picCut">
-                    <form action="{{ path('_user_resUp') }}" method="post">
+                    <form action="{{ path('_user_resUp') }}" method="post" name="imageForm">
                     <div class="imageInfo left"></div>
                     <div class="resDiv left">
                         <div class="resImg"><p class="resizeimage"></p></div>
@@ -48,7 +48,7 @@
                 {% if completed is defined and completed == 1%}
                 <div class="successMess">个人资料修改成功!</div>
                 {% endif %}
-                <form action="{{ path('_profile_edit_commit') }}" method="post" id="form1">
+                <form action="{{ path('_profile_edit_commit') }}" method="post" id="form1" name="profileForm">
                 <ul class="con">
                     <li><label for="nick">昵称：</label>{{ form_widget(form.nick) }}{{ form_errors(form.nick) }}</li>
                     <li><label for="tel">手机号码：</label>{{ form_widget(form.tel) }}{{ form_errors(form.tel) }}</li>
@@ -118,7 +118,7 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}
