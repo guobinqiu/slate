@@ -144,4 +144,37 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals($parameters['favMusic'], $user->getFavMusic());
         $this->assertEquals($parameters['monthlyWish'], $user->getMonthlyWish());
     }
+
+    /**
+     * @group dev-merge-ui-profile-edit
+     */
+    public function testGetDefaultValue()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $controller = new ProfileController();
+        $controller->setContainer($container);
+
+        $user = $this->em->getRepository('JiliApiBundle:User')->find(1);
+        $return = $controller->getDefaultValue($user);
+
+        $this->assertNotNull($return['user']);
+        $this->assertEquals(1, $return['province'][0]->getId());
+        $this->assertEquals('直辖市', $return['province'][0]->getProvinceName());
+
+        $this->assertEquals(100, $return['income'][4]->getId());
+        $this->assertEquals('1000元以下', $return['income'][4]->getIncome());
+
+        $this->assertEquals(1, $return['hobbyList'][0]->getId());
+        $this->assertEquals('上网', $return['hobbyList'][0]->getHobbyName());
+
+        $this->assertEquals(1, $return['userProHobby'][0]);
+        $this->assertEquals(2, $return['userProHobby'][1]);
+
+        $this->assertEquals('公务员', $return['profession'][1]);
+        $this->assertEquals('农业/水产', $return['industry_code'][1]);
+        $this->assertEquals('总务/人事/管理', $return['work_section_code'][1]);
+        $this->assertEquals('高中以下', $return['education'][1]);
+    }
 }
