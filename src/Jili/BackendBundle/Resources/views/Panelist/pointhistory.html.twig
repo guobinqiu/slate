@@ -1,0 +1,90 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block title %}
+{{ parent() }} - Panel Search
+{% endblock %}
+
+{% block stylesheets %}
+{{parent() }}
+<link href="{{ asset('css/pagenav.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}
+
+{% block body%}
+
+<h1>Panelist Point History</h1>
+
+{% if user is null %}
+<h2>No such panelist_id</h2>
+{% else %}
+
+<h2>Panelist Info</h2>
+<div class="panelist_info">
+  <table class="stripe">
+    <tr>
+      <th class="left">PID</th>
+      <td class="left">{{ user.id }}</td>
+      <th class="left">Nick Name</th>
+      <td class="left">{{ user.nick }}</td>
+    </tr>
+    <tr>
+      <th class="left">Email</th>
+      <td class="left">{{ user.email }}</td>
+      <th class="left">Birthday</th>
+      <td class="left">{{ user.birthday }}</td>
+    </tr>
+    <tr>
+      <th class="left">Register Date</th>
+      <td class="left">{{ user.registerDate|date("Y-m-d H:i:s") }}</td>
+       <th class="left">Last Login Date</th>
+      <td class="left">{{ user.lastLoginDate|date("Y-m-d H:i:s") }}</td>
+    </tr>
+    <tr>
+      <th class="left">Current Point</th>
+      <td class="right">{{ user.points }}</td>
+      <th></th>
+      <td></td>
+    </tr>
+  </table>
+</div><!-- /.panelist_info -->
+
+<h2>Panelist Point History</h2>
+<div class="panelist_point_history" style="width:580px;">
+  <table class="stripe" style="width:100%">
+    <thead>
+    <tr>
+      <th>Time</th>
+      <th>Total Point(s)</th>
+      <th>Added Point(s)</th>
+      <th>Comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if total > 0 %}
+    {% for item in pointHistoryList %}
+    <tr>
+        <td class="center">{{item.createTime|date("Y-m-d H:i:s")}}</td>
+        <td class="right">{{item.total_point}}</td>
+        <td class="right">{{item.pointChangeNum}}</td>
+        <td class="left">{{item.displayName}}</td>
+      </tr>
+       {% endfor %}
+     {% else %}
+    <tr class="odd">
+      <td colspan="5" class="center">No history</td>
+    </tr>
+     {% endif %}
+    </tbody>
+  </table>
+
+  <div style="display: inline-block; width: 100%;">
+    {% include '::pagination.html.twig' %}
+  </div>
+</div><!-- /.panelist_point_history -->
+
+{% endif %} {# if $user #}
+
+{% endblock %}
