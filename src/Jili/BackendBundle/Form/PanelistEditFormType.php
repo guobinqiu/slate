@@ -23,7 +23,7 @@ class PanelistEditFormType extends AbstractType
             'constraints' => array (
                 new Assert\Length(array (
                     'min' => 2,
-                    'minMessage' => '昵称太短了'
+                    'minMessage' => 'nickname is too short'
                 ))
             )
         ));
@@ -34,7 +34,7 @@ class PanelistEditFormType extends AbstractType
             'read_only' => 'true',
             'constraints' => array (
                 new Assert\Date(array (
-                    'message' => '请选择正确的生日，包含年月日'
+                    'message' => 'Invalid birthday(yyyy-MM-dd)'
                 ))
             )
         ));
@@ -46,12 +46,12 @@ class PanelistEditFormType extends AbstractType
                 new Assert\Length(array (
                     'min' => 11,
                     'max' => 11,
-                    'minMessage' => '请输入11位手机号码',
-                    'maxMessage' => '请输入11位手机号码'
+                    'minMessage' => 'telephone_is_invalid',
+                    'maxMessage' => 'telephone_is_invalid'
                 )),
                 new Assert\Type(array (
                     'type' => 'numeric',
-                    'message' => '请输入11位手机号码'
+                    'message' => 'The value {{ value }} is not a valid {{ type }}.'
                 ))
             )
         ));
