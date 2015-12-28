@@ -54,24 +54,23 @@ class ProfileControllerTest extends WebTestCase
         $this->em->close();
     }
 
-    /**
+     /**
      * @group dev-merge-ui-profile-edit
      */
     public function testEditProfile()
     {
         $client = static::createClient();
-        $container = $client->getContainer();
-        $url = $container->get('router')->generate('_profile_edit');
+
+        $url = '/profile/edit';
 
         //没有登录
         $crawler = $client->request('GET', $url);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
-        $session = $container->get('session');
-
-        //login, 用户不存在
+        //login, 但用户不存在
+        $session = $client->getRequest()->getSession();
         $session->set('uid', 1000);
         $session->save();
 
@@ -95,6 +94,7 @@ class ProfileControllerTest extends WebTestCase
         $form['sex'] = '1';
         $form['birthday'] = '1900-01-01';
         $form['province'] = '2';
+
         /*
          * *note: Symfony functional tests exercise your code by directly calling the Symfony kernel. They're not run through a web browser and therefore don't support javascript (which is simply not executed).
          */
@@ -104,10 +104,13 @@ class ProfileControllerTest extends WebTestCase
         $form['industry_code'] = '1';
         $form['work_section_code'] = '1';
         $form['education'] = '1';
-        $form['hobby'] = array (
-            1,
-            2
-        );
+
+        //不理解，如果不去掉，值会变成 1,2,1,2(原本数据是：1,2)
+        $form['hobby'][0]->untick();
+        $form['hobby'][1]->untick();
+        //选择
+        $form['hobby'][5]->tick();
+
         $form['personalDes'] = 'personalDes';
         $form['favMusic'] = 'favMusic';
         $form['monthlyWish'] = 'monthlyWish';
@@ -122,22 +125,23 @@ class ProfileControllerTest extends WebTestCase
 
         $value = $form->getValues();
 
-        echo "<br>line_" . __LINE__ . "_aaaaaaaaaa<pre>";
-        print_r($value);
+        //[[5.1] Parse multi-dimensional form fields to multi-dimensional array in Testing/CrawlerTrait submitForm() method. by martiros · Pull Request #9058 · laravel/framework](https://github.com/laravel/framework/pull/9058/files)
+        //有多选的话，不能直接用$form->getValues()取值
+        parse_str(http_build_query($form->getValues()), $parameters);
 
-        $this->assertEquals($value['nick'], $user->getNick());
-        $this->assertEquals($value['tel'], $user->getTel());
-        $this->assertEquals($value['sex'], $user->getSex());
-        $this->assertEquals($value['birthday'], $user->getBirthday());
-        $this->assertEquals($value['province'], $user->getProvince());
-        $this->assertEquals($value['income'], $user->getIncome());
-        $this->assertEquals($value['profession'], $user->getProfession());
-        $this->assertEquals($value['industry_code'], $user->getIndustryCode());
-        $this->assertEquals($value['work_section_code'], $user->getWorkSectionCode());
-        $this->assertEquals($value['education'], $user->getEducation());
-        $this->assertEquals(implode(',', $value['hobby']), $user->getHobby());
-        $this->assertEquals($value['personalDes'], $user->getPersonalDes());
-        $this->assertEquals($value['favMusic'], $user->getFavMusic());
-        $this->assertEquals($value['monthlyWish'], $user->getMonthlyWish());
+        $this->assertEquals($parameters['nick'], $user->getNick());
+        $this->assertEquals($parameters['tel'], $user->getTel());
+        $this->assertEquals($parameters['sex'], $user->getSex());
+        $this->assertEquals($parameters['birthday'], $user->getBirthday());
+        $this->assertEquals($parameters['province'], $user->getProvince());
+        $this->assertEquals($parameters['income'], $user->getIncome());
+        $this->assertEquals($parameters['profession'], $user->getProfession());
+        $this->assertEquals($parameters['industry_code'], $user->getIndustryCode());
+        $this->assertEquals($parameters['work_section_code'], $user->getWorkSectionCode());
+        $this->assertEquals($parameters['education'], $user->getEducation());
+        $this->assertEquals(implode(',', $parameters['hobby']), $user->getHobby());
+        $this->assertEquals($parameters['personalDes'], $user->getPersonalDes());
+        $this->assertEquals($parameters['favMusic'], $user->getFavMusic());
+        $this->assertEquals($parameters['monthlyWish'], $user->getMonthlyWish());
     }
 }

@@ -37,8 +37,8 @@ class ProfileController extends Controller
 
         // user not exist
         if (!$user) {
-            // 跳转到网站首页
-            return $this->redirect($this->generateUrl('wenwen_frontend_home_home'));
+            // 跳转异常画面
+            return $this->redirect($this->generateUrl('_default_error'));
         }
 
         $form = $this->createForm(new ProfileEditType(), $user);
