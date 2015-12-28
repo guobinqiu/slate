@@ -69,17 +69,8 @@ class ProfileControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
-        //login, 但用户不存在
-        $session = $client->getRequest()->getSession();
-        $session->set('uid', 1000);
-        $session->save();
-
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
         //login, 用户 存在
+        $session = $client->getRequest()->getSession();
         $session->set('uid', 1);
         $session->save();
 

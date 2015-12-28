@@ -35,12 +35,6 @@ class ProfileController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
 
-        // user not exist
-        if (!$user) {
-            // 跳转异常画面
-            return $this->redirect($this->generateUrl('_default_error'));
-        }
-
         $form = $this->createForm(new ProfileEditType(), $user);
 
         //获取默认值
