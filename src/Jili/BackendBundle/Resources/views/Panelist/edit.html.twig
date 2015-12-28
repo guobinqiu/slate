@@ -26,9 +26,9 @@
 <h2>No such panelist_id</h2>
 {% else %}
 
-{% if error_meeeages is defined %}
-    {% for error_meeeage in error_meeeages %}
-     <center><font color='red'>{{ error_meeeage }}</font></center>
+{% if error_messages is defined %}
+    {% for error_message in error_messages %}
+     <center><font color='red'>{{ error_message }}</font></center>
     {% endfor %}
 {%endif%}
 

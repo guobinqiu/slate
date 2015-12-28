@@ -6,9 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-// use Symfony\Component\Validator\Constraints\NotBlank;
-// use Symfony\Component\Validator\Constraints\Length;
-
 
 class PanelistEditFormType extends AbstractType
 {
@@ -26,17 +23,20 @@ class PanelistEditFormType extends AbstractType
             'constraints' => array (
                 new Assert\Length(array (
                     'min' => 2,
-                    'minMessage' => 'nickname_is_too_short'
+                    'minMessage' => '昵称太短了'
                 ))
-            ),
-            'invalid_message' => 'Invalid nickname'
+            )
         ));
 
         $builder->add('birthday', 'text', array (
             'label' => 'birthday',
             'required' => false,
             'read_only' => 'true',
-            'invalid_message' => 'Invalid birthday'
+            'constraints' => array (
+                new Assert\Date(array (
+                    'message' => '请选择正确的生日，包含年月日'
+                ))
+            )
         ));
 
         $builder->add('tel', 'text', array (
@@ -46,15 +46,14 @@ class PanelistEditFormType extends AbstractType
                 new Assert\Length(array (
                     'min' => 11,
                     'max' => 11,
-                    'minMessage' => 'telephone_is_invalid',
-                    'maxMessage' => 'telephone_is_invalid'
+                    'minMessage' => '请输入11位手机号码',
+                    'maxMessage' => '请输入11位手机号码'
                 )),
                 new Assert\Type(array (
                     'type' => 'numeric',
-                    'message' => 'The value {{ value }} is not a valid {{ type }}.'
+                    'message' => '请输入11位手机号码'
                 ))
-            ),
-            'invalid_message' => 'Invalid telephone number'
+            )
         ));
 
         $builder->add('deleteFlag', 'choice', array (
@@ -72,7 +71,7 @@ class PanelistEditFormType extends AbstractType
     {
         $resolver->setDefaults(array (
             //'data_class' => 'Jili\ApiBundle\Entity\User',
-//             'data_class' => NULL,
+            //'data_class' => NULL,
             'csrf_protection' => true,
             'csrf_field_name' => 'token',
             'intention' => 'task_item'

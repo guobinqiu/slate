@@ -164,10 +164,10 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         }
 
         //form invalid
-        $error_meeeages = $form->getErrors();
+        $error_messages = $form->getErrors();
         return $this->render('JiliBackendBundle:Panelist:edit.html.twig', array (
             'form' => $form->createView(),
-            'error_meeeages' => $error_meeeages,
+            'error_messages' => $error_messages,
             'user' => $user,
             'user_hobby_name' => $em->getRepository('JiliApiBundle:HobbyList')->getUserHobbyName($user->getHobby())
         ));
@@ -255,7 +255,6 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $pointHistoryList = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userPointHistorySearch($user_id, $pageSize, $page);
 
         //user total_point by point history
-        $total_point = 0;
         foreach ($pointHistoryList as $key => $value) {
             $pointHistoryList[$key]['total_point'] = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->userTotalPoint($user_id, $value['id']);
         }

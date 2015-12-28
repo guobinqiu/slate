@@ -29,7 +29,7 @@ INSERT INTO `ad_category` (`id`, `category_name`, `asp`, `display_name`) VALUES
 (12, NULL, NULL, '手机费'),
 (13, NULL, NULL, '91问问兑换米粒'),
 (14, NULL, NULL, '名片录力'),
-(15, NULL, NULL, '积分失效\r\n'),
+(15, NULL, NULL, '积分失效'),
 (16, NULL, NULL, '每天签到'),
 (17, 'OfferWow', NULL, '体验广告'),
 (18, 'Offer99', NULL, '体验广告'),
