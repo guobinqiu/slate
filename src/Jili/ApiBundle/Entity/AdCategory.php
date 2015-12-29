@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AdCategory
 {
     const ID_91WENWEN_POINTS = 8;//91问问积分
+    const ID_PROFILE_ACCOMPLISHMENT = 9;//完善资料
     const ID_AMAZON = 10;//亚马逊礼品卡
     const ID_ALIPAY = 11;//支付宝
     const ID_MOBILE = 12;//手机费

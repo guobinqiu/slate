@@ -42,13 +42,13 @@ class SignupType extends AbstractType
                 'invalid_message' => '2次输入的用户密码不相同',
                 'options' => array('attr' => array('class' => 'password')),
                 'first_options'=> array(
-                    'label' =>'密码：',
+                    'label' =>'设置密码',
                     'required' => true,
                     'error_bubbling'=>false,
                     'constraints' => array(new PasswordRegex(),)
                 ),
                 'second_options'=> array(
-                    'label' =>'重复密码：',
+                    'label' =>'重复密码',
                     'required' => true,
                     'error_bubbling'=> false
                 ),
