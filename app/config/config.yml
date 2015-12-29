@@ -7,7 +7,7 @@ imports:
 
 framework:
     esi:             ~
-    #translator:      { fallback: %locale% }
+    translator:      { fallback: %locale% }
     secret:          %secret%
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -60,6 +60,10 @@ twig:
         tb_self_promot_pic_path: %taobao_self_promotion_picture_uri_path%
 
         upload_tmp_image_dir: %upload_tmp_image_dir%
+    form:
+        resources:
+            - 'form/fields.html.twig'
+
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
@@ -159,6 +163,7 @@ gregwar_captcha:
     height: 40 
     length: 6
     as_url: true
+    reload: true
     invalid_message: %reg_wr_captcha%
     background_color: [255,255,255]
 
