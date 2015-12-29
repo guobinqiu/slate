@@ -5,10 +5,8 @@ namespace Jili\FrontendBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\Length;
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
-use Symfony\Component\Validator\Constraints\True;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 class SignupType extends AbstractType
@@ -21,7 +19,7 @@ class SignupType extends AbstractType
             'required' => true,
             'error_bubbling'=>false,
             'constraints'=> array(
-                new Length(array(
+                new Assert\Length(array(
                     'min'=> 2,
                     'max'=> 20,
                     'minMessage'=> '最少2个字符',
@@ -34,7 +32,7 @@ class SignupType extends AbstractType
                 'required' => true,
                 'error_bubbling'=>false,
                 'constraints'=> array(
-                    new Email(array('message' => '邮箱"{{ value }}"是无效的.','checkMX' => true,))
+                    new Assert\Email(array('message' => '邮箱"{{ value }}"是无效的.','checkMX' => true,))
                 )
             ))
             ->add('password', 'repeated',array(
@@ -45,7 +43,7 @@ class SignupType extends AbstractType
                     'label' =>'设置密码',
                     'required' => true,
                     'error_bubbling'=>false,
-                    'constraints' => array(new PasswordRegex(),)
+                    'constraints' => array(new PasswordRegex())
                 ),
                 'second_options'=> array(
                     'label' =>'重复密码',
@@ -69,7 +67,10 @@ class SignupType extends AbstractType
                 'data'=> true,
                 'error_bubbling'=> false,
                 'invalid_message'=> '请同意接受《积粒网会员协议》',
-                'constraints' => array(new True())
+                'constraints' => array(new Assert\Choice( array(
+                    'choices'=> array(true, false),    
+                    'message'=> '请同意或不同意接受《积粒网会员协议》',
+                 )))
             ))
             ->add('unsubscribe', 'checkbox',array(
                 'label' =>'我已阅读并接收《会员协议》',
@@ -78,7 +79,9 @@ class SignupType extends AbstractType
                 'data'=> true,
                 'error_bubbling'=> false,
                 'invalid_message'=> '请同意接受《会员协议》',
-                'constraints' => array(new True())
+                'constraints' => array(new Assert\True( array(
+                    'message'=> '请同意接受《会员协议》'
+                )))
             ));
     }
 

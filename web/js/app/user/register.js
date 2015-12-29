@@ -45,7 +45,7 @@ require(['../../config'],function(){
         }
         function validateRegName() {
             var regName = $("#signup_nickname"),
-                regNameError = $("#regName_error");
+                regNameError = $("#signup_nickname_error");
             var loginName = regName.val();
             if (validate.rules.isNull(loginName) || loginName == '') {
                 regName.val("");
@@ -114,7 +114,7 @@ require(['../../config'],function(){
         }
         $('#submit_button').on('click', function(){
             // reg();
-            $('#form1').submit();
+            $('#signup_form').submit();
         });
     });
 });

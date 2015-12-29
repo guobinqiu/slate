@@ -23,6 +23,9 @@ class SignupHandler
     private $form;
     private $params;
 
+    private $userAgent ;
+    private $remoteAddress;
+
     public function setForm(FormInterface $form)
     {
         $this->form = $form;
@@ -40,13 +43,13 @@ class SignupHandler
         // check exsits email
         $userByEmail = $em->getRepository('JiliApiBundle:User')->findOneByEmail($data['email']);
         if(  $userByEmail ) {
-            $password = $userByEmail->getPwd();
             if( empty($password)){
                 $errors['email'] = $this->getParameter('reg_noal_mail'); // not activated
             } else {
                 $errors['email'] = $this->getParameter('reg_al_mail'); // has been taken
             }
         }
+
         // check exsits nick 
         $userByNick = $em->getRepository('JiliApiBundle:User')->findNick($data['email'], $data['nickname']);
         if($userByNick) {
@@ -62,10 +65,14 @@ class SignupHandler
         $logger = $this->logger;
         $data = $this->form->getData();
         $em = $this->em;
+
         // create user
         $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array( 
             'nick'=> $data['nickname'],
-            'email'=>$data['email']
+            'email'=>$data['email'],
+            'password'=>$data['password'],
+            'user_agent' => $this->userAgent,
+            'remote_address' => $this->remoteAddress,
         ));
 
         $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->create(array(
@@ -73,10 +80,22 @@ class SignupHandler
         ));
 
         // sent signup activate email
-        $result = $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode() );
-
+        $result = $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode());
 
         return array( 'user'=> $user, 'setPasswordCode'=> $setPasswordCode);
+    }
+
+    /**
+     * array(
+     *   'user_agent'=>$request->headers->get('USER_AGENT'),
+     *  'remote_address'=>$request->getClientIp()
+     *   ))
+     */
+    public function setClientInfo(array $info) 
+    {
+       $this->userAgent = $info['user_agent'];
+       $this->remoteAddress = $info['remote_address'];
+       return $this;
     }
 
     public function setLogger(LoggerInterface $logger)

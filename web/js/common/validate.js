@@ -315,7 +315,7 @@ define(['jquery'],function($){
         },
         pwdRepeat: function(option) {
             var str1 = option.value;
-            var str2 = $("#singup_password_second").val();
+            var str2 = $("#signup_password_second").val();
             var length = validateRules.betweenLength(option.value, 6, 20);
             var format2 = validateRules.isPwdRepeat(str1, str2);
             var format1 = validateRules.isPwd(str1);
@@ -339,7 +339,6 @@ define(['jquery'],function($){
                 return false;
             }
             var authCode = option.value;
-            console.log('authCode: '+ authCode);
             //模拟交互数据true：验证码正确，flase：验证码错误
             var flg = true;
             if (flg == false) {

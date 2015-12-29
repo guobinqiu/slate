@@ -629,6 +629,9 @@ EOT;
         $user->setCreatedRemoteAddr($param['remote_address']);
         $user->setCreatedUserAgent($param['user_agent']);
 
+        $user->setPwd($param['password']);
+        $user->setPasswordChoice(User::PWD_JILI);
+
         $em = $this->getEntityManager();
         $em->persist($user);
         $em->flush();
