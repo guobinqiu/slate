@@ -1410,8 +1410,6 @@ class UserController extends Controller
                     '恭喜，注册成功！'
                 );
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
-            }  else {
-                $logger->debug(__FUNCTION__.' form errors:' .var_export($form->getErrors(), true) );
             }
         }
 

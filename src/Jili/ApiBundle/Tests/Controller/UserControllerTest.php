@@ -456,8 +456,9 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
         $this->assertEquals(200, $client->getResponse()->getStatusCode() ,'get the register page return 200');
 
         $session = $container->get('session'); 
-        $captcha = $session->get('phrase');
+        $captcha = $session->get('gcb_captcha');
         $phrase = $captcha ['phrase'] ;
+
         $email = 'alice.nima@gmail.com';
 
         $form = $crawler->filter('form[name=signup_form]')->form();
@@ -465,18 +466,17 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
         $form['signup[email]']->setValue( $email );
         $form['signup[password][first]'] ->setValue( 'qwe123');
         $form['signup[password][second]'] ->setValue( 'qwe123');
+        $form['signup[captcha]']->setValue( $phrase );
         $form['signup[unsubscribe]']->tick() ;
         $form['signup[agreement]']->tick() ;
-        $form['signup[captcha]']->setValue( $phrase );
+
 
         $crawler = $client->submit($form );
-
+        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email );
 
         $this->assertNotNull($user, 'user should not be null');
         $this->assertEquals('symonfy/2.0',$user->getCreatedUserAgent(), 'user_agent should be symfony/2.0');
         $this->assertEquals('121.199.27.128',$user->getCreatedRemoteAddr(), 'client ip when reg should be 121.199.27.128');
-        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
-
     }
 }
