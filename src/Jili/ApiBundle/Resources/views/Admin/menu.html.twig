@@ -582,6 +582,26 @@
                 <TD><A class=menuChild href="{{ path('_admin_vote_index') }}" target=main>vote管理</A></TD>
             </TR>
         </TABLE>
+
+        <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+            <TR height=22>
+                <TD style="PADDING-LEFT: 30px" background="{{ asset('images/admin/menu_bt.jpg')}}">
+                    <A class=menuParent onclick=expand(33) href="javascript:void(0);">Panel Management</A>
+                </TD>
+            </TR>
+            <TR height=4>
+                <TD></TD>
+            </TR>
+        </TABLE>
+        <TABLE id=child33 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
+            <TR height=20>
+                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+                <TD><A class=menuChild href="{{ path('_admin_panelist_index') }}" target=main>Panel Search</A></TD>
+            </TR>
+            <TR height=4>
+                <TD colSpan=2></TD>
+            </TR>
+        </TABLE>
         </TD>
     </TR>
 </TABLE>
