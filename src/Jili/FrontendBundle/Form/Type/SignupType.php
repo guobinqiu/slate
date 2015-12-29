@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
+use Jili\ApiBundle\Validator\Constraints\EmailUnique;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -32,7 +33,8 @@ class SignupType extends AbstractType
                 'required' => true,
                 'error_bubbling'=>false,
                 'constraints'=> array(
-                    new Assert\Email(array('message' => '邮箱"{{ value }}"是无效的.','checkMX' => true,))
+                    new Assert\Email(array('message' => '邮箱"{{ value }}"是无效的.','checkMX' => true)),
+                    new EmailUnique()
                 )
             ))
             ->add('password', 'repeated',array(
@@ -58,7 +60,6 @@ class SignupType extends AbstractType
                 'invalid_message' => '验证码无效',
                 'required' => true,
                 'error_bubbling'=> false,
-#                'mapped'=> true
             ))
             ->add('agreement', 'checkbox',array(
                 'label' =>'我愿意接收91问问发出的会员邮件',
@@ -76,6 +77,7 @@ class SignupType extends AbstractType
                 'label' =>'我已阅读并接收《会员协议》',
                 'required' => true,
                 'value'=> '1',
+                'mapped'=>false,
                 'data'=> true,
                 'error_bubbling'=> false,
                 'invalid_message'=> '请同意接受《会员协议》',

@@ -1,0 +1,12 @@
+parameters:
+    user.validator.email.unique.class: Jili\ApiBundle\Validator\Constraints\EmailUniqueValidator
+
+services:
+    user.validator.email.unique:
+        class: %user.validator.email.unique.class%
+        calls:
+            - [ setEntityManager, ["@doctrine.orm.entity_manager"] ]
+        tags:
+            - { name: validator.constraint_validator, alias: user_validator_email_unique }
+
+
