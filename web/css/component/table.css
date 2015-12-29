@@ -1,18 +1,7 @@
-table {
-  width: 100%; }
+table { width: 100%; }
 
-th, td {
-  height: 45px;
-  line-height: 45px;
-  padding-left: 30px;
-  text-align: left; }
+th, td { height: 45px; line-height: 45px; padding-left: 30px; text-align: left; }
 
-th {
-  font-size: 14px;
-  font-weight: bold;
-  color: #555;
-  background: #fafafc;
-  border-bottom: 1px solid #ebebed; }
+th { font-size: 14px; font-weight: bold; color: #555; background: #fafafc; border-bottom: 1px solid #ebebed; }
 
-td {
-  border-bottom: 1px solid #f6f6f6; }
+td { border-bottom: 1px solid #f6f6f6; }

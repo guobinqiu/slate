@@ -276,7 +276,7 @@ define(['jquery'],function($){
             var regName = option.value;
             if(validateRules.isNull(regName) || regName == ""){
                 option.element.removeClass(validateSettings.INPUT_style2).removeClass(validateSettings.INPUT_style1);
-                $("#regName_error").removeClass().empty();
+                $("#signup_nickname_error").removeClass().empty();
                 return;
             }
             checkPinF(option);
@@ -286,7 +286,7 @@ define(['jquery'],function($){
         },
         pwd: function(option){
             var str1 = option.value;
-            var regName = $("#regName").val();
+            var regName = $("#signup_nickname").val();
             var pwdStrength = $("#pwdStrength");
             if((validateRules.isNull(regName) == false) && (regName != "") && regName ==str1){
                 pwdStrength.hide();
@@ -315,7 +315,7 @@ define(['jquery'],function($){
         },
         pwdRepeat: function(option) {
             var str1 = option.value;
-            var str2 = $("#pwd").val();
+            var str2 = $("#singup_password_second").val();
             var length = validateRules.betweenLength(option.value, 6, 20);
             var format2 = validateRules.isPwdRepeat(str1, str2);
             var format1 = validateRules.isPwd(str1);
@@ -359,9 +359,8 @@ define(['jquery'],function($){
         },
         pwdStrength: function() {
             var pwdStrength = $("#pwdStrength"),
-                pwdError = $("#pwd_error");
-            var value = $("#pwd").val();
-            console.log(value);
+                pwdError = $("#signup_password_first_error");
+            var value = $("#signup_password_first").val();
             if (value.length >= 6 && validateRules.isPwd(value)) {
                 pwdError.removeClass('focus');
                 pwdError.empty();
@@ -460,6 +459,7 @@ define(['jquery'],function($){
                 }
                 switch (type) {
                     case "text":
+                    case "email":
                     case "password":
                         ele.bind("focus",
                             function() {

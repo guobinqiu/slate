@@ -1,48 +1,9 @@
-.main-about-con {
-  padding-top: 20px; }
-  .main-about-con .aboutL {
-    -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-    width: 190px;
-    background: #fff;
-    border: 1px solid #ebedf2; }
-    .main-about-con .aboutL h2 {
-      height: 75px;
-      line-height: 75px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold; }
-    .main-about-con .aboutL .tabNav li {
-      height: 50px;
-      line-height: 50px;
-      margin-bottom: -1px;
-      cursor: pointer;
-      font-size: 14px; }
-      .main-about-con .aboutL .tabNav li a {
-        padding-left: 74px;
-        display: block; }
-        .main-about-con .aboutL .tabNav li a.active, .main-about-con .aboutL .tabNav li a:hover {
-          color: #ff6700;
-          font-weight: bold;
-          background: #f6f6f6;
-          border-left-width: 3px;
-          border-left-style: solid;
-          border-left-color: #ff6700; }
-  .main-about-con .aboutR {
-    width: 729px;
-    margin-left: -1px;
-    padding: 10px 30px 20px;
-    background: #fff;
-    border: 1px solid #ebedf2;
-    font-size: 14px;
-    min-height: 645px; }
-    .main-about-con .aboutR h2 {
-      height: 45px;
-      line-height: 45px;
-      color: #ff5500;
-      font-size: 22px;
-      border-bottom: 1px solid #ebedf2;
-      margin-bottom: 30px; }
-    .main-about-con .aboutR .w732 {
-      width: 732px; }
+.main-about-con { padding-top: 20px; }
+.main-about-con .aboutL { -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); width: 190px; background: #fff; border: 1px solid #ebedf2; }
+.main-about-con .aboutL h2 { height: 75px; line-height: 75px; text-align: center; font-size: 24px; font-weight: bold; }
+.main-about-con .aboutL .tabNav li { height: 50px; line-height: 50px; margin-bottom: -1px; cursor: pointer; font-size: 14px; }
+.main-about-con .aboutL .tabNav li a { padding-left: 74px; display: block; }
+.main-about-con .aboutL .tabNav li a.active, .main-about-con .aboutL .tabNav li a:hover { color: #ff6700; font-weight: bold; background: #f6f6f6; border-left-width: 3px; border-left-style: solid; border-left-color: #ff6700; }
+.main-about-con .aboutR { width: 729px; margin-left: -1px; padding: 10px 30px 20px; background: #fff; border: 1px solid #ebedf2; font-size: 14px; min-height: 645px; }
+.main-about-con .aboutR h2 { height: 45px; line-height: 45px; color: #ff5500; font-size: 22px; border-bottom: 1px solid #ebedf2; margin-bottom: 30px; }
+.main-about-con .aboutR .w732 { width: 732px; }

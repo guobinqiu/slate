@@ -1,55 +1,26 @@
-.w1000 {
-  width: 1000px;
-  margin: 0 auto; }
+.w1000 { width: 1000px; margin: 0 auto; }
 
-.left {
-  float: left; }
+.left { float: left; }
 
-.right {
-  float: right; }
+.right { float: right; }
 
-.hide {
-  display: none; }
+.hide { display: none; }
 
-body {
-  font-family: "Microsoft YaHei", Tohoma, Arial;
-  font-size: 12px;
-  background: #f2f3f5;
-  color: #333; }
+body { font-family: "Microsoft YaHei", Tohoma, Arial; font-size: 12px; background: #f2f3f5; color: #333; }
 
-.main {
-  margin-top: 111px; }
-  .main.unlogin {
-    margin-top: 81px; }
+.main { margin-top: 111px; }
+.main.unlogin { margin-top: 81px; }
 
-.main-con-left > div, .main-con-right > div {
-  margin-top: 20px;
-  background: #fff;
-  border: 1px solid #ebedf2; }
+.main-con-left > div, .main-con-right > div { margin-top: 20px; background: #fff; border: 1px solid #ebedf2; }
 
-.main-con-left > div {
-  padding: 10px 25px; }
+.main-con-left > div { padding: 10px 25px; }
 
-.main-con-left {
-  width: 75%; }
+.main-con-left { width: 75%; }
 
-.main-con-right {
-  width: 23%; }
-  .main-con-right h2 {
-    padding: 0 15px;
-    line-height: 35px;
-    color: #000;
-    font-size: 14px;
-    font-weight: bold;
-    border-bottom: 1px solid #f6f6f6; }
-  .main-con-right .weibo {
-    height: 550px;
-    overflow: hidden; }
+.main-con-right { width: 23%; }
+.main-con-right h2 { padding: 0 15px; line-height: 35px; color: #000; font-size: 14px; font-weight: bold; border-bottom: 1px solid #f6f6f6; }
+.main-con-right .weibo { height: 550px; overflow: hidden; }
 
-.clearfix {
-  zoom: 1; }
+.clearfix { zoom: 1; }
 
-.clearfix:after {
-  content: "";
-  display: table;
-  clear: both; }
+.clearfix:after { content: ""; display: table; clear: both; }

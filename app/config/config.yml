@@ -155,11 +155,12 @@ monolog:
             channels: [user_source]
 
 gregwar_captcha:
-    width: 100
-    height: 35
-    length: 4
+    width: 150
+    height: 40 
+    length: 6
     as_url: true
     invalid_message: %reg_wr_captcha%
+    background_color: [255,255,255]
 
 parameters:
     #流量包

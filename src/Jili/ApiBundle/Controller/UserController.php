@@ -1,18 +1,18 @@
 <?php
 namespace Jili\ApiBundle\Controller;
-use Gregwar\CaptchaBundle\GregwarCaptchaBundle;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Cookie;
-use Jili\ApiBundle\Form\ForgetPasswordType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Jili\ApiBundle\Form\RegType;
-use Jili\ApiBundle\Form\Type\SignupActivateType;
-use Jili\ApiBundle\Form\CaptchaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Jili\ApiBundle\Form\ForgetPasswordType;
+use Jili\ApiBundle\Form\RegType;
+use Jili\ApiBundle\Form\Type\SignupActivateType;
+use Jili\FrontendBundle\Form\Type\SignupType;
+
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\TaskOrder;
 use Jili\ApiBundle\Entity\PointsExchange;
@@ -21,8 +21,10 @@ use Jili\ApiBundle\Entity\SetPasswordCode;
 use Jili\ApiBundle\Entity\AmazonCoupon;
 use Jili\ApiBundle\Entity\RegisterReward;
 use Gregwar\Captcha\CaptchaBuilder;
+
 use Jili\ApiBundle\Entity\SendCallboard;
 use Jili\ApiBundle\Entity\IsReadCallboard;
+
 use Jili\ApiBundle\Entity\PointHistory00;
 use Jili\ApiBundle\Entity\PointHistory01;
 use Jili\ApiBundle\Entity\PointHistory02;
@@ -43,6 +45,7 @@ use Jili\ApiBundle\Entity\TaskHistory06;
 use Jili\ApiBundle\Entity\TaskHistory07;
 use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
+
 use Jili\ApiBundle\Utility\ValidateUtil;
 
 class UserController extends Controller
@@ -349,7 +352,16 @@ class UserController extends Controller
                 $reward->setRewards($this->container->getParameter('init_fivty'));
                 $em->persist($reward);
                 $em->flush();
-                $this->getPointHistory($userid,$this->container->getParameter('init_fivty'));
+
+                // insert point_history
+                $points_params = array (
+                    'userid' => $userid,
+                    'point' => $this->container->getParameter('init_fivty'),
+                    'type' => AdCategory::ID_PROFILE_ACCOMPLISHMENT
+                );
+
+                $this->get('general_api.point_history')->get($points_params);
+
                 $user = $em->getRepository('JiliApiBundle:User')->find($userid);
                 $user->setPoints(intval($user->getPoints()+$this->container->getParameter('init_fivty')));
                 $em->persist($user);
@@ -1370,110 +1382,111 @@ class UserController extends Controller
 	 */
     public function regAction()
     {
-        $code_nick = '';
-        $code_cha = '';
-        $code_email = '';
-        $code_re = '';
         if($this->get('request')->getSession()->get('uid')){
             return $this->redirect($this->generateUrl('_homepage'));
         }
+
+
         $request = $this->get('request');
-        $form = $this->createForm(new CaptchaType(), array());
-        $email = $request->request->get('email');
-        $nick = $request->request->get('regName');
-        //获取签到积分
-        $checkInLister = $this->get('check_in.listener');
-        $checkInPoint = $checkInLister->getCheckinPointForReg($this->get('request'));
+        $form = $this->createForm(new SignupType(), array());
 
-        if ($request->getMethod() == 'POST'){
+        if ($request->getMethod() == 'POST') {
+            $code_nick = '';
+            $code_cha = '';
+            $code_email = '';
+            $code_re = '';
+            $email = $request->request->get('email');
+            $nick = $request->request->get('regName');
+
+            //获取签到积分
+            $checkInLister = $this->get('check_in.listener');
+            $checkInPoint = $checkInLister->getCheckinPointForReg($this->get('request'));
+
             if($this->get('request')->getSession()->get('phrase') != $request->request->get('captcha')){
-                    $this->get('request')->getSession()->remove('phrase');
-                    // $code_cha = $this->container->getParameter('init_one');
-                    $code_cha = $this->container->getParameter('reg_wr_captcha');
-                }else{
-                    $this->get('request')->getSession()->remove('phrase');
-                    if($email){
-                        if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$email)){
-                            // $code_email = $this->container->getParameter('init_two');
-                            $code_email = $this->container->getParameter('reg_wr_mail');
+                $this->get('request')->getSession()->remove('phrase');
+                // $code_cha = $this->container->getParameter('init_one');
+                $code_cha = $this->container->getParameter('reg_wr_captcha');
+            }else{
+                $this->get('request')->getSession()->remove('phrase');
+                if($email){
+                    if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/",$email)){
+                        // $code_email = $this->container->getParameter('init_two');
+                        $code_email = $this->container->getParameter('reg_wr_mail');
+                    }else{
+                        $em = $this->getDoctrine()->getManager();
+                        $user_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+                        if($user_email){
+                            $wenwen = $this->issetReg($email);
+                            if($wenwen==$this->container->getParameter('init_one')){
+                                $code_email = $this->container->getParameter('reg_al_mail');
+                            }
+                            if($wenwen==$this->container->getParameter('init_two')){
+                                $code_re = $this->container->getParameter('init_one');
+                                $code_email = $this->container->getParameter('reg_noal_mail');
+                            }
                         }else{
-                            $em = $this->getDoctrine()->getManager();
-                            $user_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-                            if($user_email){
-                                $wenwen = $this->issetReg($email);
-                                if($wenwen==$this->container->getParameter('init_one')){
-                                    $code_email = $this->container->getParameter('reg_al_mail');
-                                }
-                                if($wenwen==$this->container->getParameter('init_two')){
-                                    $code_re = $this->container->getParameter('init_one');
-                                    $code_email = $this->container->getParameter('reg_noal_mail');
-                                }
-                            }else{
-                                if($nick){
-                                    //$user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
-                                    $user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email, $nick);
-                                    if($user_nick)
-                                        $code_nick = $this->container->getParameter('reg_al_nick');
-                                    else{
-                                        if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick)){
-                                                // $code_nick = $this->container->getParameter('init_three');
+                            if($nick){
+                                //$user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
+                                $user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email, $nick);
+                                if($user_nick)
+                                    $code_nick = $this->container->getParameter('reg_al_nick');
+                                else{
+                                    if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick)){
+                                        // $code_nick = $this->container->getParameter('init_three');
+                                        $code_nick = $this->container->getParameter('reg_wr_nick');
+                                    }else{
+                                        $count = (strlen($nick) + mb_strlen($nick,'UTF8')) / 2;
+                                        if($count > 20) {
                                             $code_nick = $this->container->getParameter('reg_wr_nick');
-                                        }else{
-                                            $count = (strlen($nick) + mb_strlen($nick,'UTF8')) / 2;
-                                            if($count > 20) {
-                                                $code_nick = $this->container->getParameter('reg_wr_nick');
-                                            } else {
-                                                $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array(
-                                                    'nick'=> $nick, 
-                                                    'email'=>$email,
-                                                    'remote_address'=>$request->getClientIp(),
-                                                    'user_agent'=>$request->headers->get('USER_AGENT'),
-                                                ));
+                                        } else {
+                                            $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array(
+                                                'nick'=> $nick, 
+                                                'email'=>$email,
+                                                'remote_address'=>$request->getClientIp(),
+                                                'user_agent'=>$request->headers->get('USER_AGENT'),
+                                            ));
 
-                                                $str = 'jilifirstregister';
-                                                $code = md5($user->getId().str_shuffle($str));
-                                                $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
-                                                if($this->sendMail($url, $user->getEmail(),$user->getNick())){
-                                                    $setPasswordCode = new SetPasswordCode();
-                                                    $setPasswordCode->setUserId($user->getId());
-                                                    $setPasswordCode->setCode($code);
-                                                    $setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
-                                                    $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
-                                                    $em->persist($setPasswordCode);
-                                                    $em->flush();
+                                            $str = 'jilifirstregister';
+                                            $code = md5($user->getId().str_shuffle($str));
+                                            $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user->getId()),true);
+                                            if($this->sendMail($url, $user->getEmail(),$user->getNick())){
+                                                $setPasswordCode = new SetPasswordCode();
+                                                $setPasswordCode->setUserId($user->getId());
+                                                $setPasswordCode->setCode($code);
+                                                $setPasswordCode->setCreateTime(date_create(date('Y-m-d H:i:s')));
+                                                $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
+                                                $em->persist($setPasswordCode);
+                                                $em->flush();
 
-                                                    $this->get('user_sign_up_route.listener')->signed(array('user_id'=> $user->getId() ) );
+                                                $this->get('user_sign_up_route.listener')->signed(array('user_id'=> $user->getId() ) );
 
-                                                    return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
-                                                }
-
+                                                return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user->getId()),true));
                                             }
 
                                         }
-                                    }
-                                }else{
-                                    $code_nick = $this->container->getParameter('reg_en_nick');
-                                }
 
+                                    }
+                                }
+                            }else{
+                                $code_nick = $this->container->getParameter('reg_en_nick');
                             }
+
                         }
-                    }else{
-                        $code_email = $this->container->getParameter('reg_en_mail');
                     }
+                }else{
+                    $code_email = $this->container->getParameter('reg_en_mail');
                 }
-//        } elseif( $request->getMethod()==='GET') {
-//             $this->get('user_sign_up_route.listener')->log( );
+            }
         }
-        
         return $this->render('WenwenFrontendBundle:User:register.html.twig',array(
                 'form' => $form->createView(),
-                'code_nick'=>$code_nick,
-                'code_cha'=>$code_cha,
-                'code_email'=>$code_email,
-                'code_re'=>$code_re,
-                'email'=>$email,
-                'nick' =>$nick,
-                'checkInPoint' =>$checkInPoint
+//                'code_nick'=>$code_nick,
+//                'code_cha'=>$code_cha,
+//                'code_email'=>$code_email,
+//                'code_re'=>$code_re,
+//                'email'=>$email,
+//                'nick' =>$nick,
+//                'checkInPoint' =>$checkInPoint
                 ));
     }
 

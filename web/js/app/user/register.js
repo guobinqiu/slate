@@ -17,23 +17,23 @@ require(['../../config'],function(){
         });
         $.extend(validate.func, {
             regValidate : function() {
-                $("#regName").RPAValidate(validate.prompt.regName, validate.func.regName, true);
-                $("#email").RPAValidate(validate.prompt.email, validate.func.email, true);
-                $("#pwd").RPAValidate(validate.prompt.pwd, validate.func.pwd, true);
-                $("#pwdRepeat").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat, true);
-                $("#authcode").RPAValidate(validate.prompt.authCode, validate.func.authCode, true);
-                return validate.func.FORM_submit([ "#regName", "#email", "#pwd", "#pwdRepeat","#authcode" ]);
+                $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName, true);
+                $("#signup_email").RPAValidate(validate.prompt.email, validate.func.email, true);
+                $("#signup_password_first").RPAValidate(validate.prompt.pwd, validate.func.pwd, true);
+                $("#signup_password_second").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat, true);
+                $("#signup_captcha").RPAValidate(validate.prompt.authCode, validate.func.authCode, true);
+                return validate.func.FORM_submit([ "#signup_nickname", "#signup_email", "#signup_password_first", "#signup_password_second","#signup_captcha" ]);
             }
         });
 
-        $("#regName").RPAValidate(validate.prompt.regName, validate.func.regName);
-        $("#email").RPAValidate(validate.prompt.email, validate.func.email);
-        $("#pwd").bind("keyup", function(){ validate.func.pwdStrength(); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
-        $("#pwdRepeat").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat);
-        $("#authcode").RPAValidate(validate.prompt.authCode, validate.func.authCode);
+        $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName);
+        $("#signup_email").RPAValidate(validate.prompt.email, validate.func.email);
+        $("#signup_password_first").bind("keyup", function(){ validate.func.pwdStrength(); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
+        $("#signup_password_second").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat);
+        $("#signup_captcha").RPAValidate(validate.prompt.authCode, validate.func.authCode);
         function checkReadMe() {
-            var  readme = $("#readme"),
-                protocolError = $("#protocol_error");
+            var  readme = $("#signup_unsubscribe"),
+                protocolError = $("#signup_agreement");
             console.log((readme.prop("checked") == "checked") +"------是否阅读用户协议--------"+(readme.prop("checked") == true));
             if (readme.prop("checked") == "checked" || readme.prop("checked") == true) {
                 protocolError.removeClass();
@@ -44,7 +44,7 @@ require(['../../config'],function(){
             }
         }
         function validateRegName() {
-            var regName = $("#regName"),
+            var regName = $("#signup_nickname"),
                 regNameError = $("#regName_error");
             var loginName = regName.val();
             if (validate.rules.isNull(loginName) || loginName == '') {
