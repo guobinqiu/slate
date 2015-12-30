@@ -23,9 +23,10 @@ require(['../../config'],function(){
             $('.step1').hide();
             $('.step2').show();
         });
+
    	});
-    //修改密码（交互）
-    require(['jquery', 'validate'], function($, rpaValidate){
+    require(['jquery', 'validate', 'routing'], function($, rpaValidate, routing){
+        //修改密码（交互）
         $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
         $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
         $('#pwd_save').on('click', function(){
@@ -37,6 +38,14 @@ require(['../../config'],function(){
             curPwdSucceed = $('#curPwd_succeed'),
             curPwdError = $('#curPwd_error');
 
+        function closeSlider(){
+            var eles = $('.main-personal-account>ul>li');
+            var btns = eles.find('.edit'),
+                cons = eles.find('.con');
+            eles.removeClass('active');
+            cons.slideUp();
+            btns.html('编辑');
+        }
         function eError(prompt){
             curPwdInput.removeClass().addClass('input_error');
             curPwdSucceed.removeClass();
@@ -45,112 +54,37 @@ require(['../../config'],function(){
         function savePwd(){
             var str = $('#curPwd').val();
             str = $.trim(str);
-            if (str == "" || (isEmail(str) == false)) {
+            if (str == "") {
                 eError('请输入当前密码');
                 return false;
             }
-//            $.ajax({
-//                type : "POST",
-//                url : "../register/regService?r=" + Math.random() + "&"
-//                    + location.search.substring(1),
-//                contentType : "application/x-www-form-urlencoded; charset=utf-8",
-//                data : curPwd.val(),
-//                success : function(data) {
-                    var data = { result: false};
-                    if (data.result) {
+            $.ajax({
+                type: "POST",
+                url: Routing.generate('_profile_changepwd'),
+                contentType : "application/x-www-form-urlencoded; charset=utf-8",
+                data: { curPwd: $("#curPwd").val(), pwd: $("#pwd").val(), pwdRepeat: $("#pwdRepeat").val(), csrf_token: $("#csrf_token").val()},
+                success : function(data) {
+                    var msg = data.message;
+                    if(data.status == 1){
+                        alert(msg);
+                        closeSlider();
                     }else{
-                        $('#curPwd').removeClass().addClass('input_error');
-                        $('#curPwd_succeed').removeClass();
-                        $('#curPwd_error').removeClass().addClass('error').html('您当前密码输入错误');
+                        if(msg != null && msg.trim() != ''){
+                            if(msg == 'Need login'){
+                                // 跳转到登录画面
+                                window.location.href = Routing.generate('_user_login');
+                            }else if(msg == 'Access Forbidden'){
+                                // 跳转到账户设置首页画面
+                                window.location.href = Routing.generate('_profile_index');
+                            }else{
+                                $('.backError').html(msg);
+                            }
+                        }
                     }
-//                }
-//            });
+                }
+            });
         }
-//        function eFocus(prompt){
-//            curPwdInput.removeClass();
-//            curPwdError.removeClass().html(prompt);
-//        }
-//        curPwdInput.bind('focus',
-//            function() {
-//                var str = $('#curPwd').val();
-//                eFocus('');
-//            }).bind('blur',
-//            function() {
-//                var str = $('#curPwd').val();
-//                str = $.trim(str);
-//                if (str == "" || (isEmail(str) == false)) {
-//                    eError('请输入当前密码');
-//                    return false;
-//                }
-//            });
-    });
-    //修改手机（交互）
-    require(['jquery', 'mobile'],function($, mobile){
-        var mobileSave = $('#mobile_save'),
-            mobileSucceed = $('#mobile_succeed'),
-            mobileError = $('#mobile_error');
-        var mobileInput = '#mobile';
-        var seconds, s;
-        function countdown(){
-            if (seconds > 0) {
-                seconds = seconds - 1;
-                var second = Math.floor(seconds % 10);             // 计算秒
-                $("#second").html(second);
-            } else {
-                $("#second").html('10');
-                $('#send_code').removeClass('disabled');
-                mobileSucceed.removeClass();
-                clearInterval(s);
-            }
-        }
-        function reSendCode(code){
-            var sendCode = $('#send_code'),
-                message = $(".message");
-            code = $.trim(code);
-            if (code == "" || (obj.isPhone(code) == false)) {
-                obj.eError(mobileInput, '请输入有效的手机号码');
-                return false;
-            }
-            //交互模拟结果数据
-            var data = 1;
-            if(data==1){
-                seconds = 10;
-                s = setInterval(countdown, 1000);
-                obj.eSucceed(mobileInput, '<strong id="second">10</strong>秒');
-                sendCode.addClass('disabled').html('重新发送');
-                sendCode.onclick = null;
-            }else if(data==2){
-                code = $('#email').val();
-                //var url = "{{ path('_user_activeEmail',{'email': "email" }) }}";
-                var url = "http://www.91jili.com";
-                url = url.replace('email',encodeURIComponent(code));
-                var html = "<p>邮箱地址未激活，请重新<a href='"+url+"'>激活</a></p>";
-                message.show().html(html);
-            }else{
-                $('#email').val('');
-            }
-        }
-        var obj = new mobile({ mobileInput: mobileInput, isSendCode: false, isRepeatInput: false, isFocusPrompt: true});
-        var sendCode = $('#send_code');
-        sendCode.on('click', function(){
-            var code = $('#mobile').val().trim();
-            if(sendCode.hasClass('disabled')){
-                return false;
-            }else{
-                reSendCode(code);
-            }
-        });
-        mobileSave.on('click', function(){
-            var code = $('#mobile').val().trim();
-            if (code == "" || (obj.isPhone(code) == false)) {
-                obj.eError(mobileInput, '请输入有效的手机号码');
-                return false;
-            }
-            //ajax提交
-        });
-    });
-    //绑定、退订、注销
-    require(['jquery'],function($){
+        //绑定、退订、注销
         var weiboSave = $('#weibo_save');
         weiboSave.on('click', function(){
             saveWeibo();
