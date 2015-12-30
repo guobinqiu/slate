@@ -19,7 +19,6 @@ use Wenwen\FrontendBundle\Form\ProfileEditType;
 class ProfileController extends Controller
 {
     /**
-    /**
      * @Route("/edit", name="_profile_edit",requirements={"_scheme"="https"})
      */
     public function editAction(Request $request)
