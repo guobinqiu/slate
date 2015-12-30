@@ -33,31 +33,6 @@ class SignupHandler
     }
 
     /**
-     * @return array('error'=> THE_MESSAGE) when error 
-     */
-    public function validate()
-    {
-        $em = $this->em;
-        $data = $this->form->getData();
-        $errors = array();
-        // check exsits email
-        $userByEmail = $em->getRepository('JiliApiBundle:User')->findOneByEmail($data['email']);
-        if(  $userByEmail ) {
-            if( empty($password)){
-                $errors['email'] = $this->getParameter('reg_noal_mail'); // not activated
-            } else {
-                $errors['email'] = $this->getParameter('reg_al_mail'); // has been taken
-            }
-        }
-
-        // check exsits nick 
-        $userByNick = $em->getRepository('JiliApiBundle:User')->findNick($data['email'], $data['nickname']);
-        if($userByNick) {
-            $errors['nickname']= $this->container->getParameter('reg_al_nick');
-        }
-        return $errors;
-    }
-    /**
      * array('user'=> object, 'setPasswordCode'=> object) when success;
      */
     public function process()

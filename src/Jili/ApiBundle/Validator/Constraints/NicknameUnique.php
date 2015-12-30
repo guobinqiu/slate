@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class NicknameUnique extends Constraint
 {
-    public $message_nickname_unavailable = 'user_nickname_has_been_activated';
+    public $message_nickname_unavailable = 'user_nickname_is_unavailable';
 
     public function validatedBy() 
     {
