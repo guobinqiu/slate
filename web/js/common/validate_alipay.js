@@ -58,7 +58,7 @@ define(['jquery'],function($){
             }
         },
         isIdCard: function(str){
-            return new RegExp("^[1-9]([0-9]{14}|[0-9]{17})$").test(str);
+            return new RegExp("^[1-9]([0-9]{14}|[0-9]{16}([0-9]|X|x))$").test(str);
         },
         isAlipay: function(str){
             return new RegExp("^[A-Za-z0-9_\\-\\u4e00-\\u9fa5]+$").test(str);

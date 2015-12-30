@@ -33,6 +33,8 @@ body{
 			float: left;
 			text-align: center;
 			.btn{
+				position: relative;
+				z-index: 1;
 				width: 117px;
 				height: 79px;
 				margin: 0 auto;
@@ -44,20 +46,26 @@ body{
 						height: 0px;
 					}
 					a.hover{
+						top: 35px;
+						left: 35px;
 						height: 42px;
 					}
 				}
 				a{
 					margin: 0 auto;
 					background: url(../img/gadget/gadgetIcon.png) no-repeat;
-					@include transition(all, 1s);
+					@include transition(all, 500ms);
 					display: block;
 				}
 				a.hover{
+					position: absolute;
+					z-index: 1999;
+					top: 0px;
+					left: 35px;
 					width: 42px;
 					height: 0px;
-					background-position: -123px 0;
-					@include transition(height, 1s);
+					background-position: -123px 0px;
+					@include transition(all, 1s);
 				}
 			}
 			.deskIco{
