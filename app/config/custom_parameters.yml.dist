@@ -169,6 +169,7 @@ parameters:
     upload_tmp_image_dir: uploads/tmp/
     upload_vote_image_dir: uploads/vote_image/
     page_num: 10
+    page_size_50: 50
     init: 0
     init_one: 1
     init_two: 2
@@ -459,6 +460,13 @@ parameters:
         '3': "大专毕业"
         '4': "大学本科毕业"
         '5': "研究生，博士毕业"
+    sop:
+        partner_id: 1
+        admin_host:   staff.surveyon.com.dev.researchpanelasia.com
+        console_host: console.partners.surveyon.com.dev.researchpanelasia.com
+        auth:
+            app_id: 24
+            app_secret: 1413548805-7b6639b3944e1fc12dfb8676deee8759c3fa6250
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%
