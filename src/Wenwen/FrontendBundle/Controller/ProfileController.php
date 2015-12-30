@@ -230,6 +230,8 @@ class ProfileController extends Controller
             $em->persist($user);
             $em->flush();
 
+            $this->get('login.listener')->updateInfoSession($user);
+
             return $this->redirect($this->generateUrl('_profile_edit', array (
                 'completed' => 1
             )));
