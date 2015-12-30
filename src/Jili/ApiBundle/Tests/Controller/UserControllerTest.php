@@ -438,9 +438,6 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
         $this->assertEquals('1', $client->getResponse()->getContent());
     }
     
-    /**
-     * @group debug
-     */
     public function testRegActionExistingEmail() 
     {
         $client = static::createClient(array(), array('HTTP_USER_AGENT'=>'symonfy/2.0' ,'REMOTE_ADDR'=>'121.199.27.128') );
@@ -490,6 +487,12 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
 
     public function testRegAction() 
     {
+        $em=$this->em;
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
 
         $client = static::createClient(array(), array('HTTP_USER_AGENT'=>'symonfy/2.0' ,'REMOTE_ADDR'=>'121.199.27.128') );
         $container = $client->getContainer();
@@ -515,7 +518,7 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
 
         $crawler = $client->submit($form );
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email );
 
         $this->assertNotNull($user, 'user should not be null');
