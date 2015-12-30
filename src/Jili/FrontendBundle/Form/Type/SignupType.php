@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
 use Jili\ApiBundle\Validator\Constraints\EmailUnique;
+use Jili\ApiBundle\Validator\Constraints\NicknameUnique;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -24,7 +25,8 @@ class SignupType extends AbstractType
                     'min'=> 2,
                     'max'=> 20,
                     'minMessage'=> '最少2个字符',
-                    'maxMessage'=> '最多20个字符') )
+                    'maxMessage'=> '最多20个字符') ),
+                new NicknameUnique()
                 )
             ))
             ->add('email', 'email',array(

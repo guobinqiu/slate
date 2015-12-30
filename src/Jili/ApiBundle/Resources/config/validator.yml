@@ -1,5 +1,6 @@
 parameters:
     user.validator.email.unique.class: Jili\ApiBundle\Validator\Constraints\EmailUniqueValidator
+    user.validator.nickname.unique.class: Jili\ApiBundle\Validator\Constraints\NicknameUniqueValidator
 
 services:
     user.validator.email.unique:
@@ -8,5 +9,13 @@ services:
             - [ setEntityManager, ["@doctrine.orm.entity_manager"] ]
         tags:
             - { name: validator.constraint_validator, alias: user_validator_email_unique }
+
+
+    user.validator.nickname.unique:
+        class: %user.validator.nickname.unique.class%
+        calls:
+            - [ setEntityManager, ["@doctrine.orm.entity_manager"] ]
+        tags:
+            - { name: validator.constraint_validator, alias: user_validator_nickname_unique }
 
 

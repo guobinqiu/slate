@@ -477,12 +477,15 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
         $form['signup[agreement]']->tick() ;
 
         $crawler = $client->submit($form );
-        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email );
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email );
         $this->assertNotNull($user, 'user should not be null');
-        $this->assertEquals('symonfy/2.0',$user->getCreatedUserAgent(), 'user_agent should be symfony/2.0');
-        $this->assertEquals('121.199.27.128',$user->getCreatedRemoteAddr(), 'client ip when reg should be 121.199.27.128');
+
+        $this->assertEquals('邮箱"user@voyagegroup.com.cn"是无效的.用户邮箱已经被使用,需要重新激活',
+            $crawler->filter('input[id=signup_email]')->siblings()->last()->text(),
+            'voyagegroup.com.cn is invalid mail server; user with same email exists');
+
     }
 
     public function testRegAction() 
