@@ -18,15 +18,24 @@
             <div class="profile-base">
                 <h3>基本信息</h3>
                 <div class="con clearfix">
-                    <div class="face left"><div class="face-wapper">{% if user.iconPath %}<img src='{{ asset(user.iconPath) }}'/>{% else %}<img src="{{ asset('img/common/default_tx.png') }}" alt="头像">{% endif %}</div><label class="set" for="attachment">设置头像</label><input type="file" id="attachment" name="attachment"><p class="errorInfo"></p></div>
-                    <form action="" id="regName_form" name="regName_form">
+                    <div class="face left">
+                    <div class="face-wapper">
+                    {% if user.iconPath %}
+                    <img src='{{ asset(user.iconPath) }}' height="110" />
+                    {% else %}
+                    <img src="{{ asset('img/common/default_tx.png') }}" alt="头像">
+                    {% endif %}
+                    </div>
+                    <form action="{{ path('_profile_upload') }}" method="post" {{ form_enctype(form) }} id="form1">
+                    {{ form_widget(form.attachment) }}<p class="errorInfo"></p>
+                    </form>
+                    </div>
                     <ul class="form text left">
                         <li>
                             <label for="">登录账号：</label>
                             <span>{{ user.email }}</span>
                         </li>
                     </ul>
-                    </form>
                 </div>
                 <div class="picCut">
                     <form action="{{ path('_user_resUp') }}" method="post" name="imageForm">

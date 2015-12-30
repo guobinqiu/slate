@@ -288,4 +288,30 @@ class ProfileController extends Controller
 
         return $data;
     }
+
+    /**
+     * @Route("/upload", name="_profile_upload",requirements={"_scheme"="https"})
+     */
+    public function uploadAction(Request $request)
+    {
+        $user_id = $request->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+
+        $form = $this->createForm(new ProfileEditType(), $user);
+
+        $form->bind($request);
+        $path =  $this->container->getParameter('upload_tmp_dir');
+        $code = $user->upload($path);
+        if($code == $this->container->getParameter('init_one')){
+            $code =  $this->container->getParameter('upload_img_type');
+        }
+        if($code == $this->container->getParameter('init_two')){
+            $code =  $this->container->getParameter('upload_img_size');
+        }
+
+        $this->get('login.listener')->updateInfoSession($user);
+        return new Response(json_encode($code));
+
+    }
 }

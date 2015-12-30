@@ -93,13 +93,10 @@ require(['../../config'],function(){
            done: function (e, data) {
                 console.log(data.result);
                 if(data.result.substr(0,7)!='uploads'){
-                   $(".errorInfo").html(data.result);
+                    $(".errorInfo").html(data.result);
                 }else{
-                    $(".img img").attr("src",path+data.result);
-        // $('#attachment').on('change',function(){
-        //     var data = { result: "uploads\/user\/6\/1369644344.jpeg"},
-        //         path = '../../web/';
-                    var path = '../../web/';
+                    //$(".img img").attr("src",path+data.result);
+                    var path = '../../';
                     $('.picCut').show();
                     $(".imageInfo").html("<img src='"+path+data.result+"' id='target'/>");
                     $("#resizePath").val(data.result);
@@ -114,7 +111,6 @@ require(['../../config'],function(){
                     });
                     $(".resizeimage").html("<img src='"+path+data.result+"' id='preview'/>");
                     $(".resizeSubmit").html("<input type='submit' value='上传图片' name='resize' class='resBtn'/><br/><input type='submit' value='取消上传' name='cancer' class='cancelBtn'/>");
-        // });
                }
            }
         });

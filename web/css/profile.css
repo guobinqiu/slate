@@ -517,7 +517,7 @@ h1 {
   cursor: pointer;
 }
 .main-personal-profile .profile-base .face #attachment {
-  display: none;
+  #display: none;
 }
 .main-personal-profile .profile-base ul {
   margin-top: 10px;
@@ -577,7 +577,7 @@ h1 {
   margin-right: 20px;
 }
 .main-personal-profile .profile-base .imageInfo img {
-  width: 582px;
+  width: 512px;
   height: auto;
 }
 .main-personal-profile .profile-base .resImg {
