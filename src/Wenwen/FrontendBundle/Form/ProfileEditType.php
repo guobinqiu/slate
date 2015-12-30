@@ -31,7 +31,12 @@ class ProfileEditType extends AbstractType
         $builder->add('birthday', 'text', array (
             'label' => 'birthday',
             'required' => false,
-            'read_only' => 'true'
+            'read_only' => 'true',
+            'constraints' => array (
+                new Assert\Date(array (
+                    'message' => '请选择正确的生日，包含年月日'
+                ))
+            )
         ));
 
         $builder->add('tel', 'text', array (
