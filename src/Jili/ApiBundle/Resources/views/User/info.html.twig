@@ -1,0 +1,604 @@
+{% extends 'JiliFrontendBundle::base.html.twig' %}
+{% block title %}积粒网-个人中心{% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/personal.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/amazonBlg.css')}}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{ asset('css/jquery.Jcrop.css')}}" type="text/css" />
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js/jquery.zclip.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/personal.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/jquery.ui.widget.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/jquery.iframe-transport.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/jquery.fileupload.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/jquery.Jcrop.min.js')}}"></script>
+<script type="text/javascript">
+var path = '{{ asset("") }}';
+$(document).ready(function(){
+  $(".amClose").click(function (){
+        $(".web_click_bg").hide();
+        $(".am_blackBg").hide();
+    })
+  $("#moreExchange").attr('href',"{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}");
+    function showPreview(coords){
+      var rx = 100 / coords.w;
+      var ry = 100 / coords.h;
+      $('#preview').css({
+        width: Math.round(rx * $('#target').width()) + 'px',
+        height: Math.round(ry * $('#target').height()) + 'px',
+        marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+        marginTop: '-' + Math.round(ry * coords.y) + 'px'
+      });
+    }
+    function checkCoords(){
+      if (parseInt($('#w').val())) return true;
+      alert('Please select a crop region then press submit.');
+      return false;
+    }
+    function updateCoords(c){
+      jQuery('#x').val(c.x);
+      jQuery('#y').val(c.y);
+      jQuery('#w').val(c.w);
+      jQuery('#h').val(c.h);
+    }
+  $('#attachment').fileupload({
+        dataType: 'json',
+        done: function (e, data) {
+          if(data.result.substr(0,7)!='uploads'){
+            $(".errorInfo").html("<font color='red'>"+data.result+"</font>");
+          }else{
+            //$(".img img").attr("src",path+data.result);
+            $(".resDiv").show();
+            $(".imageInfo").html("<img src='"+path+data.result+"' id='target'/>");
+            $("#resizePath").val(data.result);
+            var Jcrop_api;
+            $('#target').Jcrop({
+              aspectRatio: 1,
+              onChange: showPreview,
+              onSelect: showPreview,
+              onSelect: updateCoords
+            },function(){
+              this.animateTo([0,0,256,256]);
+            });
+            $(".resizeimage").html("<img src='"+path+data.result+"' id='preview'/>");
+            $(".resizeSubmit").html("<input type='submit' value='上传图片' name='resize' class='resBut'/><br/><input type='submit' value='取消上传' name='cancer' class='cancerBut'/>");
+          }
+        }
+    });
+  {% if codeflag %}
+      $("#info").hide();
+      $("#updateInfo").show();
+      var year = $("#yearInfo");
+      var month = $("#monthInfo");
+      var newYear = {{ newYear }};
+      var newMonth = {{ newMonth }};
+      var yearhtml = '';
+      var monthhtml = '';
+      var date = new Date();
+      var y = date.getFullYear();
+      yearhtml += "<option value='0'>请选择年</option>";
+      for (var i = 1940; i <= y ; i++) {
+         if({{ year }}){
+            var usernewYear = {{ year }};
+            var selected = (usernewYear == i)?"selected='selected'":"";
+         }else{
+            var selected = (newYear == i)?"selected='selected'":"";
+         }
+         yearhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>";
+      }
+      year.html(yearhtml);
+      monthhtml += "<option value='0'>请选择月</option>";
+      for (var i = 1; i < 13; i++) {
+          var selected = '';
+          if({{ month }}){
+            var usernewMonth = {{ month }};
+            var selected = (usernewMonth == i)?"selected='selected'":"";
+          }
+          if(newMonth)
+              selected = (newMonth == i)?"selected='selected'":"";
+          monthhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>";
+      }
+      month.html(monthhtml);
+      var html = '';
+      {% if provinceId %}
+      $.ajax({
+            url: "{{ path('_user_getCity') }}?cid={{ provinceId }}",
+            type: "POST",
+            success:function(data){
+              var obj = eval(data);
+              for(var i=0;i<obj.length;i++){
+                  var selected = '';
+                 if({{ city }}){
+                    var oldcity = {{ city }};
+                    selected = ( oldcity == obj[i]['id'])?"selected='selected'":"";
+                 }
+                 html += "<option value='"+obj[i]['id']+"'  " + selected+ " >"+obj[i]['cityName']+"</option>";
+              }
+              $("#cityInfo").html(html);
+            }
+        });
+    {% endif %}
+  {% else %}
+      $("#updateInfo").hide();
+  {% endif %}
+  $(".upload").click(function (){
+      $("#form1").submit();
+  });
+  $("#change").click(function (){
+      {% if existUserinfo %}
+          $("#info").hide();
+          $("#updateInfo").show();
+          // var oldcity = {{ user.city }};
+          var html = '';
+          {% if user.province %}
+            $.ajax({
+                  url: "{{ path('_user_getCity') }}?cid={{ user.province }}",
+                  type: "POST",
+                  success:function(data){
+                    var obj = eval(data);
+                    for(var i=0;i<obj.length;i++){
+                        var selected = '';
+                       if({{ user.city }}){
+                          var oldcity = {{ user.city }};
+                          selected = ( oldcity == obj[i]['id'])?"selected='selected'":"";
+                       }
+
+                       html += "<option value='"+obj[i]['id']+"'  " + selected+ " >"+obj[i]['cityName']+"</option>";
+                    }
+                    $("#cityInfo").html(html);
+                  }
+              });
+          {% endif %}
+          var year = $("#yearInfo");
+          var month = $("#monthInfo");
+          var newYear = {{ newYear }};
+          var newMonth = {{ newMonth }};
+          var yearhtml = '';
+          var monthhtml = '';
+          var date = new Date();
+          var y = date.getFullYear();
+          yearhtml += "<option value='0'>请选择年</option>";
+          for (var i = 1940; i <= y ; i++) {
+             var selected = (newYear == i)?"selected='selected'":"";
+             yearhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>";
+          }
+          year.html(yearhtml);
+          monthhtml += "<option value='0'>请选择月</option>";
+          for (var i = 1; i < 13; i++) {
+              var selected = '';
+                if(newMonth)
+                  selected = (newMonth == i)?"selected='selected'":"";
+                monthhtml += "<option value='"+i+ "' " + selected+ " >"+i+"</option>";
+          }
+          month.html(monthhtml);
+
+
+      {% else %}
+           window.location.href = "{{ path('_user_registerReward') }}";
+      {% endif %}
+  })
+
+});
+function selectYear(){
+  var month = $("#monthInfo");
+  if($("#yearInfo").val()=='0'){
+    month.get(0).options.length = 0;
+    month.get(0).options.add(new Option("请选择月", "0"));
+  }else{
+    month.get(0).options.length = 0;
+    month.get(0).options.add(new Option("请选择月", "0"));
+    for (var i = 1; i < 13; i++) {
+            month.get(0).options.add(new Option(i, i));
+    }
+  }
+}
+function selectCity(){
+  var html = '';
+  if($("#provinceInfo").val()!=0){
+     $.ajax({
+              url: "{{ path('_user_getCity') }}?cid="+$('#provinceInfo').val(),
+              type: "POST",
+              success:function(data){
+                var obj = eval(data);
+                for(var i=0;i<obj.length;i++){
+                    html += "<option value='"+obj[i]['id']+"'>"+obj[i]['cityName']+"</option>";
+                }
+                $("#cityInfo").html(html);
+              }
+          });
+  }else{
+      html += "<option value='0'>请选择地区</option>";
+      $("#cityInfo").html(html);
+  }
+}
+function copy(){
+    var text = $("#amz").html();
+    urlCp = text.split("<a");
+    $('.copy').zclip({
+        path: "{{ asset('js/ZeroClipboard.swf')}}",
+        copy: urlCp[0],
+        afterCopy: function(){//复制成功
+           alert('复制成功');
+        }
+    })
+}
+function look(eid){
+        $.ajax({
+            url: "{{ path('_user_exchangeLook') }}?exid="+eid,
+            type: "GET",
+            success:function(data){
+              var html='';
+              var obj = eval(data);
+              for(var i=0;i<obj.length;i++){
+                if(obj[i]['a'])
+                  html += "<p id='amz' class='amz_"+i+"'>"+obj[i]['a']+"<a class='copy' href='javascript:void(0);'>复制</a></p>";
+              }
+              $(".web_click_bg .cardNumberArea").html(html);
+              $(".am_blackBg").show();
+              $(".web_click_bg").show();
+              copy();
+            }
+          });
+}
+function addClass(id){
+  switch(id){
+        case 1:
+             $(".screen a:last").removeClass("hover");
+             $(".screen a:first").addClass("hover");
+             $("#exfromjili").show();
+             $("#exfromwen").hide();
+             $("#moreExchange").attr('href',"{{ path('_user_exchange',{'type': 0,'exchangeType':1 }) }}");
+            break;
+        case 2:
+             $(".screen a:first").removeClass("hover");
+             $(".screen a:last").addClass("hover");
+             $("#exfromjili").hide();
+             $("#exfromwen").show();
+             $("#moreExchange").attr('href',"{{ path('_user_exchange',{'type': 0,'exchangeType':2 }) }}");
+            break;
+       default:
+            break;
+        }
+}
+</script>
+{% endblock %}
+
+{% block body %}
+<div class="am_blackBg"></div>
+<div class="web_click_bg" style="display:none;">
+  <h3>您的亚马逊礼品卡编号为：<a class="amClose"></a></h3>
+  <div class="cardNumberArea">
+  </div>
+</div>
+<div class="personalWrap">
+  <section class="line">
+    <div class="photo">
+      <div class="img">
+          {% if user.iconPath %}
+              <img src='{{ asset(user.iconPath) }}' height='110'/>
+          {% else %}
+              <img src='{{ asset("images/default_face.jpg") }}' height='110'/>
+          {% endif %}
+        </div>
+        <form action="{{ path('_user_info') }}" method="post" {{ form_enctype(form) }} id="form1">
+        <p><span>{{ user.nick }}</span>,欢迎您</p><p><img class="mili" src='{{ asset("images/mili.jpg") }}' alt="米粒" />我的米粒：<span>{{ user.points }}</span>&nbsp;&nbsp;确认中的米粒：<span>{{ confirmPoints }}</span>
+        {% if countMessage %}
+          <a href="{{ path('_user_message',{'sid': 2}) }}" class="message" style="margin-left:50px">
+        {% else %}
+          <a href="{{ path('_user_message',{'sid': 1}) }}" class="message" style="margin-left:50px">
+        {% endif %}
+        站内消息</a><a href="{{ asset(path('_user_changePwd'),'cdn1') }}" class="passwordEdit">修改密码</a></p><p>{{ form_widget(form.attachment) }}</p>
+        <p class="errorInfo"></p></form>
+        <div class="clear"></div>
+        <form action="{{ path('_user_resUp') }}" method="post">
+        <div style="float:left; margin-left:150px;"><p class="imageInfo"></p></div>
+        <div class="resDiv">
+         <div class="resImg"><p class="resizeimage" style="margin:0;"></p></div>
+          <input type="hidden" id="x" name="x" />
+          <input type="hidden" id="y" name="y" />
+          <input type="hidden" id="w" name="w" />
+          <input type="hidden" id="h" name="h" />
+          <input type="hidden" id="resizePath"  name="resizePath" />
+          <div class="resizeSubmit">
+          </div>
+         </div>
+        </form>
+        <div class="clear">
+         </div>
+    </div>
+  </section>
+
+<section id= "info">
+    <h3>个人信息<a></a></h3>
+    <div class="info" style="border-top: 1px #e0e0e0 dashed;">
+      <a class="edit fontNormal" href="javascript:void(0);" id="change">修改 »</a>
+      <ul>
+        <li>
+          <dd>登录账号：</dd>
+          <dt>{{ user.email }} </dt>
+        </li>
+        <li style="width:40%;">
+          <dd>昵  称：</dd>
+          <dt>{{ user.nick }}</dt>
+        </li>
+        <li style="width:60%;">
+          <dd>性  别：</dd>
+          <dt>{% if user.sex==1 %}
+         男{% elseif user.sex==2 %}女{% else %}&nbsp;{% endif %}</dt>
+        </li>
+
+         <li  style="width:40%;">
+          <dd>出  生：</dd>
+          <dt>{% if newYear %}
+                {% if newMonth %}
+                    {{ newYear }}年{{ newMonth }}月
+                {% else %}
+                    {{ newYear }}年
+                {% endif %}
+              {% else %}
+                  &nbsp;
+              {% endif %}</dt>
+        </li>
+
+        <li style="width:60%;">
+          <dd>地  区：</dd>
+          <dt>
+            {{ disarea }}
+          </dt>
+        </li>
+
+        <li>
+          <dd>手机号码：</dd>
+          <dt>
+            {{ user.tel }}
+          </dt>
+        </li>
+
+        <li>
+          <dd>个人月收入:</dd>
+          <dt>
+            {{ usercomes }}
+          </dt>
+        </li>
+
+        <li>
+          <dd>兴趣爱好：</dd>
+          <dt>
+            {{ userHobby }}
+          </dt>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <section id= "updateInfo">
+   <form action="{{ path('_user_info') }}" method="post">
+    <h3>个人信息<a></a></h3>
+    <div class="info" style="border-top: 1px #e0e0e0 dashed;">
+      <a class="edit fontNormal" href="javascript:void(0);" id="change">修改 »</a>
+      <ul>
+        <li>
+          <dd>登录账号：</dd>
+          <dt>{{ user.email }}  </dt>
+        </li>
+        <li style="width:40%;">
+          <dd>昵  称：</dd>
+          <dt>
+             {{ user.nick }}
+          </dt>
+        </li>
+        <li style="width:60%;">
+          <dd><font style="color:#EE472C;"> * </font>性  别：</dd>
+          <dt>
+            <input name="sex" type="radio" {% if sex %}{% if sex==1 %} checked='checked' {% endif %}{% endif %}{% if user.sex==1 %} checked='checked' {% endif %} value="1">
+            男
+            <input name="sex" type="radio" {% if sex %}{% if sex==2 %} checked='checked' {% endif %}{% endif %}{% if user.sex==2 %} checked='checked' {% endif %} value="2">
+            女</dt>
+        </li>
+
+
+       <li style="width:40%;"><dd><font style="color:#EE472C;"> * </font>出生年月：</dd>
+            <dt><select id="yearInfo" name="year" onchange="selectYear()"></select>
+            &nbsp;<select id="monthInfo" name="month"></select>
+          </dt>
+      </li>
+
+          <li style="width:60%;"><dd><font style="color:#EE472C;"> * </font>地区：</dd>
+            <dt><select id="provinceInfo" name="province" onchange="selectCity()">
+            <option value="0">请选择省</option>
+              {% for item in province %}
+               <option value="{{ item.id }}" {% if provinceId %} {% if provinceId == item.id %} selected = "selected" {% endif %} {% endif %}{% if user.province == item.id %} selected = "selected" {% endif %}>{{ item.provinceName }}</option>
+              {% endfor %}
+
+            </select>
+            <select id="cityInfo" name="city"><option value='0'>请选择地区</option>
+              </select>
+              </dt></li>
+
+
+        <li>
+          <dd>手机号码：</dd>
+          <dt>
+        <input name="tel" type="text" value="{% if tel %}{{ tel }}{% else %}{{ user.tel }}{% endif %}">
+          </dt>
+        </li>
+
+         <li>
+          <dd><font style="color:#EE472C;"> * </font>个人月收入：</dd>
+          <dt>
+           <select id="income" name="income">
+           <option value="0">请选择收入</option>
+           {% for item in income %}
+            <option value="{{ item.id }}" {% if month_income %} {% if month_income == item.id %} selected = "selected" {% endif %} {% endif %}{% if user.income == item.id %} selected = "selected" {% endif %}>{{ item.income }}</option>
+            {% endfor %}
+            </select>
+          </dt>
+        </li>
+
+         <li>
+          <dd><font style="color:#EE472C;"> * </font>兴趣爱好：</dd>
+          <dt>
+           {% for item in hobbyList %}
+            <input type="checkbox"  name="hobby[]" value="{{ item.id }}" {% if hobby %}{% for i in hobby %} {% if i ==item.id %} checked = "checked" {% endif %}{% endfor %}{% endif %}  {% if newHobby %}{% for i in newHobby %} {% if i ==item.id %} checked = "checked" {% endif %}{% endfor %}{% endif %}>{{ item.hobbyName }}
+           {% endfor %}
+                  <br/>
+                   {% if codeflag  %}
+                     <font color='red'>{{ codeflag }}</font>
+                   {% endif %}
+          </dt>
+        </li>
+
+        <li><dd>&nbsp;</dd>
+          <dt>
+            <input name="update" type="submit" value="保存" class="infoFinish">
+            <input name="reset" type="submit" value="取消" class="infoReset">
+          </dt>
+        </li>
+      </ul>
+    </div>
+</form>
+  </section>
+
+  <section>
+
+    <h3>我的任务历史<a></a></h3>
+    <div class="content ad">
+    {% if adtasteNum > 0 %}
+      <a href="{{ asset(path('_user_adtaste',{'type': 0}),'cdn1') }}" class="more edit">更多 »</a>
+    {% endif %}
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th>任务类型</th>
+          <th>任务名称</th>
+          <th>奖励积分</th>
+          <th>更新时间</th>
+          <th>任务状态</th>
+        </tr>
+         {% for item in adtaste %}
+        <tr>
+          <td>
+        {{ item.displayName }}
+          </td>
+          <td>
+              {% if item.adid %}
+                  <a href="{{ asset(path('_advertiserment_index',{'id':item.adid}),'cdn1') }}" target="_blank">{{ item.title }}</a>
+              {% else%}
+                  {% if item.incentiveType == 17 %}
+                    <a href="{{ path('_advertiserment_list') }}" target="_blank">{{ item.title }}</a>
+                  {% elseif item.incentiveType == 18 %}
+                    <a href="{{ asset(path('_advertiserment_offer99')) }}" target="_blank">{{ item.title }}</a>
+                  {% elseif item.incentiveType == bangwoya_com.category_type %}
+                    <a href="{{ asset(path('_advertiserment_bangwoya')) }}" target="_blank">{{ item.title }}</a>
+                  {% else %}
+                    {{ item.title }}
+                  {% endif %}
+              {% endif %}
+          </td>
+
+          <td>{% if item.incentiveType==2 or item.incentiveType == 19 or item.incentiveType == 23 %}
+                     {% if item.orderStatus > 1 %}
+                        {{ item.incentive }}米粒
+                     {% else %}
+                     {% endif %}
+              {% else %}
+                     {{ item.incentive }}米粒
+              {% endif %}</td>
+          <td>{{ item.createTime.date | date('Y-m-d')}}</td>
+          <td>{% if item.incentiveType==1 or item.incentiveType==2 or item.incentiveType==17 or item.incentiveType == 19 or item.incentiveType == 23%}
+                  {% if item.orderStatus==1  %} 已参加
+                  {% elseif item.orderStatus==2  %} 确认中
+                  {% elseif item.orderStatus==3  %} 已完成
+                  {% elseif item.orderStatus==4  %} 已拒绝
+                  {% else %}{% endif %}
+              {% else %}
+                  {% if item.orderStatus==0  %} 确认中
+                  {% elseif item.orderStatus==1  %} 已完成
+                  {% else %} 已拒绝
+                  {% endif %}
+              {% endif %}
+          </td>
+        </tr>
+         {% endfor %}
+        {% if adtasteNum == 0 %}
+        <tr><td align="center" colspan="5">没有任务记录</td></tr>
+        {% endif %}
+      </table>
+
+    </div>
+  </section>
+  <section>
+    <h3>我的兑换历史<a></a></h3>
+    <div class="content score">
+    <div class="screen">
+      <a onclick="addClass(1);" class="hoverCb hover" href="javascript:void(0);">兑出</a>
+      <a onclick="addClass(2);" class="hoverMs" href="javascript:void(0);">兑入</a>
+    </div>
+      <a id="moreExchange" class="more edit">更多 »</a>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" id="exfromjili">
+        <tr>
+          <th>兑换申请时间</th>
+          <th>兑换方式</th>
+          <th>米粒数</th>
+          <th>兑换物品</th>
+          <th>兑换完成时间</th>
+          <th>状态</th>
+        </tr>
+        {% if exchange %}
+        {% for item in exchange %}
+        <tr>
+          <td>{{ item.exchangeDate.date | date('Y-m-d') }}</td>
+          <td>{{ item.type }}</td>
+          <td>{{ item.targetPoint }}</td>
+          {% if item.exType == 1 %}
+                 <td>{{ item.targetPoint }}问问积分</td>
+            {% elseif item.exType == 2 %}
+                 <td>{{ item.exchangeItemNumber }}张亚马逊礼品卡
+                 {% if item.status == 1 %}
+                 <a href="javascript:void(0);" class="lookMore" onclick="look({{ item.id }});">查看</a>
+                 {% else %}
+                 {% endif %}</td>
+            {% elseif item.exType == 3 %}
+                 <td>{{ item.exchangeItemNumber }}元支付宝</td>
+            {% elseif item.exType == 4 %}
+                 <td>{{ item.exchangeItemNumber }}元手机话费</td>
+            {% elseif item.exType == 5 %}
+                  <td>{{ item.exchangeItemNumber }}M流量包</td>
+            {% endif %}
+          <td>{% if item.status %} {{ item.finishDate.date | date('Y-m-d')  }} {% else %} {% endif %}</td>
+          <td>{% if item.status %}{% if item.status==1 %}兑换成功 {% elseif item.status==2 %}兑换失败 {% else %} {% endif %} {% else %} 处理中 {% endif %}</td>
+        </tr>
+        {% endfor %}
+
+        {% else %}
+        <tr><td align="center" colspan="6">没有兑换记录</td></tr>
+        {% endif %}
+
+      </table>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" id="exfromwen" style="display:none">
+        <tr>
+          <th>兑换来自</th>
+          <th>米粒数</th>
+          <th>兑换完成时间</th>
+        </tr>
+        {% if exFrWen %}
+        {% for item in exFrWen %}
+        <tr>
+          <td>91问问</td>
+          <td>{{ item.paymentPoint }}</td>
+          <td>{{ item.createTime.date | date('Y-m-d') }}</td>
+        </tr>
+        {% endfor %}
+          <!-- <a href="{{  asset(path('_user_exchange',{'type': 0,'exchangeType':2 }),'cdn1') }}" class="more edit">更多 »</a> -->
+        {% else %}
+        <tr><td align="center" colspan="3">没有兑换记录</td></tr>
+        {% endif %}
+      </table>
+
+    </div>
+  </section>
+
+</div>
+{% endblock %}

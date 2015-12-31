@@ -734,6 +734,213 @@ class UserController extends Controller
         return new Response('');
     }
 
+
+
+    /**
+     * @Route("/info", name="_user_info",requirements={"_scheme"="https"})
+     */
+    public function infoAction()
+    {
+        // $existUserinfo = '';
+        $existUserinfo = $this->container->getParameter('init_one');
+        $countMessage = '';
+        $code = '';
+        $flag = '';
+        $codeflag = '';
+        $birthday = '';
+        $city = '';
+        $month_income = '';
+        $newYear = $this->container->getParameter('init');
+        $newMonth = $this->container->getParameter('init');
+        $newHobby = '';
+        $disarea = '';
+        $usercomes = '';
+        $userProHobby = '';
+        $daydate =  date("Y-m-d H:i:s", strtotime(' -30 day'));
+        $request = $this->get('request');
+        $id = $request->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        if($user->getHobby()){
+            $userProHobby = explode(",",$user->getHobby());
+            foreach ($userProHobby as $key => $value) {
+                $userHobby = $em->getRepository('JiliApiBundle:HobbyList')->find($value);
+                $userHobbyList[] = $userHobby->getHobbyName();
+            }
+            $newHobby = implode(',',$userHobbyList);
+        }
+
+        if($user->getBirthday()){
+            if(strlen($user->getBirthday())>5){
+                $newBirthday = explode("-",$user->getBirthday());
+                $newYear = $newBirthday[0];
+                $newMonth = $newBirthday[1];
+            }else{
+                $newYear = $user->getBirthday();
+            }
+        }
+        $hobbyList = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
+        $province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        $income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
+        unset($income[0]);
+        unset($income[1]);
+        unset($income[2]);
+        unset($income[3]);
+        $option = array('status' => 0 ,'offset'=>'1','limit'=>'10');
+        $option_ex = array('daytype' => 0 ,'offset'=>'1','limit'=>'10');
+#       $adtaste = $this->selTaskHistory($id,$option);
+        $this->get('session.my_task_list')->remove(array('alive'));
+        $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
+        foreach ($adtaste as $key => $value) {
+            if($value['orderStatus'] == 1 && $value['type'] ==1){
+                unset($adtaste[$key]);
+            }
+        }
+        $adtasteNum = count($adtaste);
+        $exchange = $em->getRepository('JiliApiBundle:PointsExchange');
+        $exchange = $exchange->getUserExchange($id,$option_ex);
+        $exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenByIdMaxTen($id);
+        $sex = $request->request->get('sex');
+        $tel = $request->request->get('tel');
+        $year = $request->request->get('year');
+        $month = $request->request->get('month');
+        $day = $request->request->get('day');
+        $provinceId = $request->request->get('province');
+        $city = $request->request->get('city');
+        $month_income = $request->request->get('income');
+        $profession = $request->request->get('profession');
+        $category = $request->request->get('category');
+        $department = $request->request->get('department');
+        $education = $request->request->get('education');
+        $hobby = $request->request->get('hobby');
+        $signature = $request->request->get('signature');
+        $music = $request->request->get('music');
+        $wish = $request->request->get('wish');
+        $form  = $this->createForm(new RegType(), $user);
+        if ($request->getMethod() == 'POST') {
+            if($request->request->get('update')){
+                if($sex && $year && $city && $month_income && $hobby){
+                    if($year){
+                        $birthday = $year;
+                        if($month)
+                            $birthday = $birthday.'-'.$month;
+                    }
+                    if($hobby)
+                        $hobbys = implode(",",$hobby);
+                    if($tel){
+                        if(!(ValidateUtil::validateMobile($tel))){
+                            $codeflag = $this->container->getParameter('update_wr_mobile');
+                        }else{
+                            $user->setSex($sex);
+                            $user->setBirthday($birthday);
+                            $user->setProvince($provinceId);
+                            $user->setCity($city);
+                            $user->setTel($tel);
+                            $user->setIncome($month_income);
+                            $user->setHobby($hobbys);
+                            $user->setIsInfoSet($this->container->getParameter('init_one'));
+                            $em->flush();
+
+                            $this->get('login.listener')->updateInfoSession($user);
+                            return $this->redirect($this->generateUrl('_user_info'));
+                        }
+                    }else{
+                        $user->setSex($sex);
+                        $user->setBirthday($birthday);
+                        $user->setProvince($provinceId);
+                        $user->setCity($city);
+                        $user->setTel($tel);
+                        $user->setIncome($month_income);
+                        $user->setHobby($hobbys);
+                        $user->setIsInfoSet($this->container->getParameter('init_one'));
+                        $em->flush();
+
+                        $this->get('login.listener')->updateInfoSession($user);
+                        return $this->redirect($this->generateUrl('_user_info'));
+                    }
+                }else{
+                    $codeflag = $codeflag = $this->container->getParameter('reg_mobile');
+                }
+            }else{
+                if($request->request->get('reset')){
+                    $this->get('login.listener')->updateInfoSession($user);
+                    return $this->redirect($this->generateUrl('_user_info'));
+                }else{
+                    $form->bind($request);
+                    $path =  $this->container->getParameter('upload_tmp_dir');
+                    $code = $user->upload($path);
+                    if($code == $this->container->getParameter('init_one')){
+                        $code =  $this->container->getParameter('upload_img_type');
+                    }
+                    if($code == $this->container->getParameter('init_two')){
+                        $code =  $this->container->getParameter('upload_img_size');
+                    }
+
+                    $this->get('login.listener')->updateInfoSession($user);
+                    return new Response(json_encode($code));
+                }
+            }
+        }
+        //用户地区
+        if($user->getProvince()){
+            $userProvince = $em->getRepository('JiliApiBundle:ProvinceList')->find($user->getProvince());
+            if($user->getCity()){
+                $userCity = $em->getRepository('JiliApiBundle:CityList')->find($user->getCity());
+                $disarea = $userProvince->getProvinceName()." ".$userCity->getCityName();
+            }else{
+                $disarea = $userProvince->getProvinceName();
+            }
+        }
+        //月收入
+        if($user->getIncome()){
+            $userIncome = $em->getRepository('JiliApiBundle:MonthIncome')->find($user->getIncome());
+            $usercomes = $userIncome->getIncome();
+        }
+        if($this->notReadCb() == 0 && $this->notReadMs($id)>0){
+            $countMessage = $this->container->getParameter('init_one');
+        }
+
+        //确认中的米粒数
+        $confirmPoints = $this->get('session.points')
+            ->reset()
+            ->getConfirm();
+
+        $form_view = $form->createView();
+
+        $this->get('login.listener')->updateInfoSession($user);
+        return $this->render('JiliApiBundle:User:info.html.twig', array(
+            'form' => $form_view,
+            'form_upload' =>$form_view,
+            'user' => $user,
+            'adtaste' => $adtaste,
+            'exchange' => $exchange,
+            'code' => $code,
+            'codeflag' => $codeflag,
+            'existUserinfo' => $existUserinfo,
+            'adtasteNum' => $adtasteNum,
+            'hobbyList' => $hobbyList,
+            'province' => $province,
+            'income' => $income,
+            'newHobby' => $userProHobby,
+            'newYear' => $newYear,
+            'newMonth' => $newMonth,
+            'userHobby' =>    $newHobby,
+            'disarea' => $disarea,
+            'usercomes'=> $usercomes,
+            'sex' => $sex,
+            'tel' => $tel,
+            'month_income' => $month_income,
+            'hobby' => $hobby,
+            'year' => $year,
+            'month' => $month,
+            'provinceId' => $provinceId,
+            'city' => $city,
+            'countMessage'=>$countMessage,
+            'exFrWen'=> $exFrWen,
+            'confirmPoints' => $confirmPoints
+        ));
+    }
+
     /**
      * @Route("/upload", name="_user_upload")
      */
