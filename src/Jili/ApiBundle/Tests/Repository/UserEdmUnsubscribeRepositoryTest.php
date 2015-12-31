@@ -66,4 +66,20 @@ class UserEdmUnsubscribeRepositoryTest extends KernelTestCase {
         $this->assertEquals('1', count($return));
         $this->assertEquals($email, $return[0]['email']);
     }
+
+    public function testInsertOne() 
+    {
+        $em = $this->em;
+        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->insertOne('aaa');
+        $this->assertNull($return);
+        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->insertOne(-1);
+        $this->assertNull($return);
+        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->insertOne(0);
+        $this->assertNull($return);
+
+        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->insertOne(1000);
+        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByUserId(1000);
+        $this->assertEquals('1', count($return));
+    }
+
 }

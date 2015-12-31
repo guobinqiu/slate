@@ -54,6 +54,11 @@ class SignupHandler
             'user_id' => $user->getId()
         ));
 
+        if( false === $data['unsubscribe'] ) {
+            $em->getRepository('JiliApiBundle:UserEdmUnsubscribeRepository')
+                ->insertOne( $user->getId());
+        }
+
         // sent signup activate email
         $result = $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode());
 

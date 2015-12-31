@@ -1,10 +1,152 @@
 {% spaceless %}
-<html> 
-<head></head> 
-<body>亲爱的{{ nick }}<br/>
-<br/>感谢您注册成为“积粒网”会员！请点击<a href="{{ url }}" target="_blank">这里</a>，立即激活您的帐户！<br/>
-<br/>
-<br/>注：激活邮件有效期是14天，如果过期后不能激活，请到网站首页重新注册激活。<br/>
-<br/>++++++++++++++++++++++++++++++++++<br/>积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title></title><style type="text/css">
+body {
+    background-color:#F2F2F2;
+    font-size:12px;
+    line-height:200%;
+    color:#666666;
+    font-family:Verdana;
+    text-align:left;
+}
+img {
+    border:0px;
+}
+h1 {
+    margin:10px 0px;
+    color:#FF0000;
+    font-size:14px;
+}
+h2 {
+    margin:0px;
+    font-size:14px;
+    color:#000;
+}
+p {
+    margin:5px 0px;
+    width:530px;
+}
+p.black {
+    color:#000000;
+}
+p.contact {
+    margin-top:10px;
+}
+p.contact a {
+    font-weight:bold;
+    margin:0px 3px;
+    color:#E57F13;
+}
+p.btn {
+    font-size:14px;
+    text-align:center;
+    margin:10px 0;
+}
+p.btn a {
+    margin:0px 10px;
+}
+hr {
+    margin:3px 0px;
+    border-top:dotted 1px #b9b9b9;
+    color:#F9F9F9;
+}
+.clear {
+    clear:both;
+}
+div.table {
+    width:615px;
+    margin:auto;
+    border:0px;
+}
+div.top {
+    background-image: url("images/top_bg.jpg");
+    float: left;
+    height: 82px;
+    margin: 0;
+    padding: 18px 38px 0;
+    width: 539px;
+}
+div.top div.logo {
+    float:left;
+}
+div.top div.points {
+    float:right;
+    margin-top: 35px;
+}
+div.top div.points span {
+    font-size:14px;
+    font-weight:bold;
+    color:#FF0000;
+}
+div.main {
+    background-image:url("images/main_bg.jpg");
+    padding:0px 45px 0 40px;
+    margin:0px;
+    width:530px;
+    float:left;
+ word-break:break-all;
+}
+div.main span {
+    color:#F8510B;
+    font-weight:bold;
+}
+div.main div.messageBox {
+    width:528px;
+}
+div.main div.messageBox div.m_top {
+    float:left;
+}
+div.main div.messageBox div.m_main {
+    float:left;
+    background-color:#EEE;
+    width:498px;
+    padding:3px 15px;
+}
+div.main div.messageBox div.m_bottom {
+    float:left;
+}
+div.bottom {
+    background-image: url("images/bottom_bg.jpg");
+    float: left;
+    height: 87px;
+    margin: 0;
+    padding: 18px 38px 0;
+    text-align: center;
+    width: 539px;
+    color:#999999;
+}
+div.bottom a {
+    color:#666666;
+    margin:0 5px;
+}
+</style>
+ </head>
+ <body>
+<div class="editable">
+<div style="width: 595px; text-align: right; margin: auto; padding-right: 20px;">如果邮件无法正常显示，请点击<a title="DMDlink 1" href="{$WEBLINK}" target="_blank">这里</a></div>
+<div class="table">
+<div class="top" style="background-image: url('/mailings/1/9/images/top_bg.jpg');">
+<div class="logo"><img src="/mailings/1/9/images/logo.jpg" alt="91问问调查网" width="242" height="60" /></div>
+<div class="clear">&nbsp;</div>
+</div>
+<div class="main" style="background-image: url('/mailings/1/9/images/main_bg.jpg');">
+<h2>亲爱的 {{ nick }} </h2>
+<p>您好，感谢您注册91问问调查网。</p>
+<h1><a title="DMDlink 2" href="{{ url }}" target="_blank"><img src="/mailings/1/9/images/signup.jpg" alt="您离注册成功只差最后一步了！" width="528" height="34" /></a></h1>
+<p class="black">请您点击下面的链接完成最后的邮件验证，激活您的账户，领取积分。<br /> <a title="DMDlink 3" href="https://www.91wenwen.net/signup/confirmRegister/register_key/{$register_key}">https://www.91wenwen.net/signup/confirmRegister/register_key/{$register_key}</a><br /> <span style="color: #999; font-weight: normal;">如果无法点击以上地址，请将以上URL复制到浏览器的地址栏，并确认。</span></p>
+<p class="btn"><a title="DMDlink 4" href="{{ url }}" target="_blank"><img src="/mailings/1/9/images/activation_btn.jpg" alt="点击激活" width="154" height="41" /></a></p>
+<p>感谢您的支持，立刻来参加我们的有奖市场调查活动，支付宝积分，现金大奖等你拿！</p>
+</div>
+<div class="bottom" style="background-image: url('/mailings/1/9/images/bottom_bg.jpg');">
+<p>请把support@91wenwen.com加到您的邮箱联系人中，以确保能够正确接收此邮件。</p>
+<p><a title="DMDlink 5" href="http://www.91wenwen.net" target="_blank">网站首页</a> <a title="DMDlink 6" href="https://www.91wenwen.net/faq/" target="_blank">客服中心</a> <a title="DMDlink 7" href="https://www.91wenwen.net/corp/sitemap" target="_blank">网站地图</a></p>
+</div>
+<div class="clear">&nbsp;</div>
+</div>
+</div>
+</body>
 </html>
 {% endspaceless %}

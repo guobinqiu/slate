@@ -64,27 +64,27 @@ class SignupType extends AbstractType
                 'error_bubbling'=> false,
             ))
             ->add('agreement', 'checkbox',array(
+                'label' =>'我已阅读并接收《会员协议》',
+                'required' => true,
+                'value'=> '1',
+                'data'=> true,
+                'mapped'=>false,
+                'error_bubbling'=> false,
+                'invalid_message'=> '请同意接受《会员协议》',
+                'constraints' => array(new Assert\True( array(
+                    'message'=> '请同意接受《会员协议》'
+                 )))
+            ))
+            ->add('unsubscribe', 'checkbox',array(
                 'label' =>'我愿意接收91问问发出的会员邮件',
                 'required' => true,
                 'value'=> '1',
                 'data'=> true,
                 'error_bubbling'=> false,
-                'invalid_message'=> '请同意接受《积粒网会员协议》',
+                'invalid_message'=> '请同意或不同意接收91问问发出的会员邮件',
                 'constraints' => array(new Assert\Choice( array(
                     'choices'=> array(true, false),    
-                    'message'=> '请同意或不同意接受《积粒网会员协议》',
-                 )))
-            ))
-            ->add('unsubscribe', 'checkbox',array(
-                'label' =>'我已阅读并接收《会员协议》',
-                'required' => true,
-                'value'=> '1',
-                'mapped'=>false,
-                'data'=> true,
-                'error_bubbling'=> false,
-                'invalid_message'=> '请同意接受《会员协议》',
-                'constraints' => array(new Assert\True( array(
-                    'message'=> '请同意接受《会员协议》'
+                    'message'=> '请同意或不同意接收91问问发出的会员邮件',
                 )))
             ));
     }
