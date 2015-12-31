@@ -60,8 +60,8 @@ require(['../../config'],function(){
 
         var submitBtn = $('#profile_save');
         submitBtn.on('click', function(){
-            console.log($('#profile_form').serialize());
-            $('#form1').submit();
+            console.log($('#profileForm').serialize());
+            $('#profileForm').submit();
         });
     });
 
@@ -88,7 +88,7 @@ require(['../../config'],function(){
             jQuery('#w').val(c.w);
             jQuery('#h').val(c.h);
         }
-        $('#attachment').fileupload({
+        $('#profile_attachment').fileupload({
            dataType: 'json',
            done: function (e, data) {
                 console.log(data.result);

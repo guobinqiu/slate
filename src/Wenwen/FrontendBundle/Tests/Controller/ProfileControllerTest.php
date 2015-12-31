@@ -261,31 +261,31 @@ class ProfileControllerTest extends WebTestCase
         $form = $crawler->filter('form[name=profileForm]')->form();
 
         // set some values
-        $form['nick'] = 'nick';
-        $form['tel'] = '12345678901';
-        $form['sex'] = '1';
-        $form['birthday'] = '1900-01-01';
-        $form['province'] = '2';
+        $form['profile[nick]'] = 'nick';
+        $form['profile[tel]'] = '12345678901';
+        $form['profile[sex]'] = '1';
+        $form['profile[birthday]'] = '1900-01-01';
+        $form['profile[province]'] = '2';
 
         /*
          * *note: Symfony functional tests exercise your code by directly calling the Symfony kernel. They're not run through a web browser and therefore don't support javascript (which is simply not executed).
          */
         //$form['city'] = '8';  //城市js动态加载的
-        $form['income'] = '102';
-        $form['profession'] = '1';
-        $form['industry_code'] = '1';
-        $form['work_section_code'] = '1';
-        $form['education'] = '1';
+        $form['profile[income]'] = '102';
+        $form['profile[profession]'] = '1';
+        $form['profile[industry_code]'] = '1';
+        $form['profile[work_section_code]'] = '1';
+        $form['profile[education]'] = '1';
 
         //不理解，如果不去掉，值会变成 1,2,1,2(原本数据是：1,2)
-        $form['hobby'][0]->untick();
-        $form['hobby'][1]->untick();
+        $form['profile[hobby]'][0]->untick();
+        $form['profile[hobby]'][1]->untick();
         //选择
-        $form['hobby'][5]->tick();
+        $form['profile[hobby]'][5]->tick();
 
-        $form['personalDes'] = 'personalDes';
-        $form['favMusic'] = 'favMusic';
-        $form['monthlyWish'] = 'monthlyWish';
+        $form['profile[personalDes]'] = 'personalDes';
+        $form['profile[favMusic]'] = 'favMusic';
+        $form['profile[monthlyWish]'] = 'monthlyWish';
         $crawler = $client->submit($form);
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
@@ -300,6 +300,7 @@ class ProfileControllerTest extends WebTestCase
         //[[5.1] Parse multi-dimensional form fields to multi-dimensional array in Testing/CrawlerTrait submitForm() method. by martiros · Pull Request #9058 · laravel/framework](https://github.com/laravel/framework/pull/9058/files)
         //有多选的话，不能直接用$form->getValues()取值
         parse_str(http_build_query($form->getValues()), $parameters);
+        $parameters = $parameters['profile'];
 
         $this->assertEquals($parameters['nick'], $user->getNick());
         $this->assertEquals($parameters['tel'], $user->getTel());

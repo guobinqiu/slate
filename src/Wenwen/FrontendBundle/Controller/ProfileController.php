@@ -169,6 +169,7 @@ class ProfileController extends Controller
 
     /**
      * @Route("/editCommit", name="_profile_edit_commit",requirements={"_scheme"="https"})
+     * @Method({"POST"});
      */
     public function editCommitAction(Request $request)
     {
@@ -182,7 +183,8 @@ class ProfileController extends Controller
         $form->bind($request);
 
         $values = $form->getData();
-        $params = $request->request->all();
+
+        $params = $request->request->get('profile');
 
         $em = $this->getDoctrine()->getManager();
         $user_id = $request->getSession()->get('uid');
@@ -299,10 +301,11 @@ class ProfileController extends Controller
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
 
         $form = $this->createForm(new ProfileEditType(), $user);
-
         $form->bind($request);
+
         $path =  $this->container->getParameter('upload_tmp_dir');
         $code = $user->upload($path);
+
         if($code == $this->container->getParameter('init_one')){
             $code =  $this->container->getParameter('upload_img_type');
         }
@@ -311,6 +314,7 @@ class ProfileController extends Controller
         }
 
         $this->get('login.listener')->updateInfoSession($user);
+
         return new Response(json_encode($code));
 
     }
