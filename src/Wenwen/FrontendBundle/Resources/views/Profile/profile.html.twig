@@ -27,7 +27,8 @@
                     {% endif %}
                     </div>
                     <form action="{{ path('_profile_upload') }}" method="post" {{ form_enctype(form) }} id="form1">
-                    {{ form_widget(form.attachment) }}<p class="errorInfo"></p>
+                    {{ form_widget(form.attachment) }}
+                    <p class="errorInfo"></p>
                     </form>
                     </div>
                     <ul class="form text left">
