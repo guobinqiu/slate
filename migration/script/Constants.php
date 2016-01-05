@@ -54,55 +54,55 @@ class Constants
     );
 
     //export csv title: user
-    public static $jili_user_title = array (
-        'id',
-        'email',
-        'pwd',
-        'is_email_confirmed',
-        'is_from_wenwen',
-        'wenwen_user',
-        'token',
-        'nick',
-        'sex',
-        'birthday',
-        'tel',
-        'is_tel_confirmed',
-        'province',
-        'city',
-        'education',
-        'profession',
-        'income',
-        'hobby',
-        'personalDes',
-        'identity_num',
-        'reward_multiple',
-        'register_date',
-        'last_login_date',
-        'last_login_ip',
-        'points',
-        'delete_flag',
-        'is_info_set',
-        'icon_path',
-        'uniqkey',
-        'token_created_at',
-        'origin_flag',
-        'created_remote_addr',
-        'created_user_agent',
-        'campaign_code',
-        'password_choice',
-        'fav_music',
-        'monthly_wish',
-        'industry_code',
-        'work_section_code'
-    );
+    public static $jili_user_title = array(
+        0  => 'id',
+        1  => 'email',
+        2  => 'pwd',
+        3  => 'is_email_confirmed',
+        4  => 'is_from_wenwen',
+        5  => 'wenwen_user',
+        6  => 'token',
+        7  => 'nick',
+        8  => 'sex',
+        9  => 'birthday',
+        10 => 'tel',
+        11 => 'is_tel_confirmed',
+        12 => 'province',
+        13 => 'city',
+        14 => 'education',
+        15 => 'profession',
+        16 => 'income',
+        17 => 'hobby',
+        18 => 'personalDes',
+        19 => 'identity_num',
+        20 => 'reward_multiple',
+        21 => 'register_date',
+        22 => 'last_login_date',
+        23 => 'last_login_ip',
+        24 => 'points',
+        25 => 'delete_flag',
+        26 => 'is_info_set',
+        27 => 'icon_path',
+        28 => 'uniqkey',
+        29 => 'token_created_at',
+        30 => 'origin_flag',
+        31 => 'created_remote_addr',
+        32 => 'created_user_agent',
+        33 => 'campaign_code',
+        34 => 'password_choice',
+        35 => 'fav_music',
+        36 => 'monthly_wish',
+        37 => 'industry_code',
+        38 => 'work_section_code'
+);
 
     //export csv title: user_wenwen_login
     public static $user_wenwen_login_title = array (
-        'id',
-        'user_id',
-        'login_password_salt',
-        'login_password_crypt_type',
-        'login_password'
+        0=>'id',
+        1=>'user_id',
+        2=>'login_password_salt',
+        3=>'login_password_crypt_type',
+        4=>'login_password'
     );
 
     //export csv title: weibo_user
@@ -141,6 +141,10 @@ class Constants
     public static $migrate_vote_answer_name = 'migrate_vote_answer.csv';
     public static $migrate_task_history_name = 'task_history0';
     public static $migrate_point_history_name = 'point_history0';
+
+    //export csv for check 
+    public static $chk_user_name= 'user.csv';
+    public static $chk_user_wenwen_login_name= 'user_wenwen_login.csv';
 }
 
 ?>

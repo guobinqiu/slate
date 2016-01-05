@@ -95,6 +95,7 @@ function initialise_csv()
 
     // insert title for merged user, in order to build index
     export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_name);
+    export_csv_row(Constants::$user_wenwen_login_title, Constants::$migrate_user_wenwen_login_name);
 }
 
 /**

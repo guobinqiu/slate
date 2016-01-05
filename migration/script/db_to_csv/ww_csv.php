@@ -10,17 +10,11 @@ $sed_partial=<<<CMD
 sed "s/\"/\"\"/g;s/\\t/\",\"/g;s/^/\"/;s/$/\"/g;s/\\n//g" 
 CMD;
 
-$cmd0=<<<CMD
-time mysql -B -u \${WW_DB_USER} -p\${WW_DB_PWD}  -h \${WW_DB_HOST}  \${WW_DB_NAME} -e "select * from panelist where panel_id = 2 order by id asc "| $sed_partial > /mnt/tmp/merge/ww_csv/panelist.csv
-CMD;
 
 $cmd0=<<<CMD
 time php -f bin/db_to_csv.php  \${WW_DB_HOST} \${WW_DB_USER} \${WW_DB_PWD} \${WW_DB_NAME}  panelist "select * from panelist where panel_id = 2 order by id asc "  > /mnt/tmp/merge/ww_csv/panelist.csv
 CMD;
 
-$cmd1=<<<CMD
-time mysql -B -u \${WW_DB_USER} -p\${WW_DB_PWD}  -h \${WW_DB_HOST}  \${WW_DB_NAME}  -e "select * from %1\$s %2\$s"| $sed_partial > /mnt/tmp/merge/ww_csv/%1\$s.csv
-CMD;
 
 $cmd1=<<<CMD
 time php -f bin/db_to_csv.php  \${WW_DB_HOST} \${WW_DB_USER} \${WW_DB_PWD} \${WW_DB_NAME} %1\$s "select * from %1\$s %2\$s"  > /mnt/tmp/merge/ww_csv/%1\$s.csv
