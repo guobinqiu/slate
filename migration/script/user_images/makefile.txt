@@ -15,8 +15,9 @@ fetch_v3:
 	bash wget_user_images_v3.sh 1>${image_log} 2>&1
 	cp ${image_log} ${image_log_bk}
 
+# /tmp/log5 is the output of fetch_v3 , the ${image_log}
 check_failed:
-	grep '^LACK:' /tmp/log5 | cut -c36- > /tmp/lack_images.txt
+	grep '^LACK:' ${image_log} | cut -c36- > /tmp/lack_images.txt
 	php -f check_download_failed_images.php > check_download_failed_images.sql
 	scp check_download_failed_images.sh check_download_failed_images.sql t-jiang@54.254.98.246:/mnt/tmp/merge/bin/ 
 	ssh t-jiang@54.254.98.246  'cd /mnt/tmp/merge/; bash bin/check_download_failed_images.sh 2>&1 '|sed -n '/s_file/!p' | tee /tmp/lack.user_images.csv
