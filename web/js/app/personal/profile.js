@@ -4,7 +4,7 @@ require(['../../config'],function(){
     //初始化表单
     require(['jquery', 'routing', 'layDate'], function($, routing){
         //生日下拉框
-        $('#birthday').on('click', function(){
+        $('.laydate-icon').on('click', function(){
             laydate();
         });
 
