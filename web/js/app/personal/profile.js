@@ -36,15 +36,19 @@ require(['../../config'],function(){
                 url: Routing.generate("_user_getCity", {"cid": provinceId }),
                 type: "POST",
                 success:function(data){
-                    var str = '', citys = eval(data);
-                    for(var i = 0; i < citys.length ; i++){
-                        var selected = '';
-                        if (citys[i].id == cityId ){
-                            selected = 'selected = "selected"';
+                    if(data == '') {
+                        addressCity.append('');
+                    }else{
+                        var str = '', citys = eval(data);
+                        for(var i = 0; i < citys.length ; i++){
+                            var selected = '';
+                            if (citys[i].id == cityId ){
+                                selected = 'selected = "selected"';
+                            }
+                            str += '<option value="' + citys[i].id + '"'+selected+'>' + citys[i].cityName + '</option>';
                         }
-                        str += '<option value="' + citys[i].id + '"'+selected+'>' + citys[i].cityName + '</option>';
+                        addressCity.html(str);
                     }
-                    addressCity.html(str);
                 }
             });
         }
