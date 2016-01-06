@@ -1,7 +1,9 @@
 parameters:
 # user related
     login.listener.class: Jili\ApiBundle\Services\UserLogin
-    soap.mail.listener.class: Jili\ApiBundle\EventListener\SoapMailListener
+
+    soap.mail.listener.class: Jili\ApiBundle\Services\Dmdelivery\Client
+
     user_sign_up_route.class: Jili\ApiBundle\Services\UserSignUpTracer
     user_source.logger.class: Jili\ApiBundle\Services\Logger\UserSourceLogger
     monolog.logger.import_adw_cps.class: Jili\ApiBundle\Services\Logger\ImportAdwCpsLogger
@@ -73,9 +75,9 @@ services:
             - [setTaskList, [ @session.task_list ]]
             - [setUserConfig, [ @session.user_configs]]
 
-
     soap.mail.listener:
         class: %soap.mail.listener.class%
+        arguments: [ %webpower_soap_uri%,%webpower_email_username%,%webpower_email_password% ]
         calls:
             - [setLogger, ["@logger"]]
 

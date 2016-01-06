@@ -1,22 +1,26 @@
 <?php
-namespace Jili\ApiBundle\EventListener;
+namespace Jili\ApiBundle\Services\Dmdelivery;
 
 /**
  *
  **/
-class SoapMailListener
+class Client 
 {
-    private $soap = 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php';
-    private $username = 'admin';
-    private $password = 'nUshkwu#9';//'Nvpiyjh1-';
+    private $soap ;
+    private $username ;
+    private $password ;
+
     private $campaignId;
     private $mailingId;
     private $group;
 
     private $logger;
 
-    public function __construct()
+    public function __construct($url, $user, $pass)
     {
+        $this->soap = $url; 
+        $this->username = $user;
+        $this->password =  $pass;
     }
 
     public function setCampaignId($campaignId)
@@ -168,3 +172,4 @@ class SoapMailListener
         $this->logger = $logger;
     }
 }
+
