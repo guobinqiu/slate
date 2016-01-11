@@ -32,7 +32,7 @@ require(['../config'],function(){
             });
             //添加cookie
             var oDate = new Date();
-            oDate.setDate(oDate.getDate()+30);
+            oDate.setDate(oDate.getDate() + 10000);
             document.cookie="name=guide;expires=" + oDate;
         }
     });    
