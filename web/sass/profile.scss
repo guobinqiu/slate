@@ -81,7 +81,7 @@ $color: #0078b6;
 			z-index: 1;
 			.set{
 				margin-top: 10px;
-				padding-left: 6px;
+				padding-left: 30px;
 				color: $color;
 				cursor: pointer;
 			}
@@ -89,15 +89,15 @@ $color: #0078b6;
 				position: absolute;
 				z-index: 1000;
 				width: 65px;
-				top: 64px;
-				left: 50px;
+				top: 118px;
+				left: 72px;
 				opacity: 0;
 				filter:alpha(opacity=0); 
 				cursor: pointer; 
 			}
 		}
 		ul{
-			margin-top: 10px;
+			margin-top: 42px;
 		}
 		li{
 			&.prompt{
@@ -157,7 +157,7 @@ $color: #0078b6;
 		.imageInfo{
 			margin-right: 20px;
 			img{
-				width: 582px;
+				width: 512px;
 				height: auto;
 			}
 		}

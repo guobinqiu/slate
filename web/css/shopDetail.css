@@ -213,6 +213,10 @@ body {
     .header-top-con .personal-con span strong {
       font-size: 16px;
       color: #ff6700; }
+    .header-top-con .personal-con span img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%; }
 
 .header-nav {
   background: #fff;
@@ -515,5 +519,3 @@ body {
         background-position: 0 -18px; }
       .footer .footer-con-right .goTop:hover span {
         background-position: -19px -18px; }
-
-/*# sourceMappingURL=shopDetail.css.map */

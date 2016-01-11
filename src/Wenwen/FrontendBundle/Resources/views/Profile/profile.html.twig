@@ -21,9 +21,9 @@
                     <div class="face left">
                     <div class="face-wapper">
                     {% if user.iconPath %}
-                    <img src='{{ asset(user.iconPath) }}' height="58" />
+                    <img src='{{ asset(user.iconPath) }}' height="110" />
                     {% else %}
-                    <img src="{{ asset('img/common/default_tx.jpg') }}" alt="头像" height="58">
+                    <img src="{{ asset('img/common/default_tx.png') }}" alt="头像" height="110">
                     {% endif %}
                     </div>
                     <form action="{{ path('_profile_upload') }}" method="post" {{ form_enctype(form) }} id="uploadForm" name="uploadForm" >
