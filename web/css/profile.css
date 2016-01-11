@@ -419,14 +419,23 @@ h1 {
     border-bottom: 1px solid #f6f6f6; }
     .main-personal-profile .profile-base .face {
       margin-right: 10px;
-      padding: 0 50px; }
+      padding: 0 50px;
+      position: relative;
+      z-index: 1; }
       .main-personal-profile .profile-base .face .set {
         margin-top: 10px;
         padding-left: 6px;
         color: #0078b6;
         cursor: pointer; }
       .main-personal-profile .profile-base .face #profile_attachment {
-        display: none; }
+        position: absolute;
+        z-index: 1000;
+        width: 65px;
+        top: 64px;
+        left: 50px;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer; }
     .main-personal-profile .profile-base ul {
       margin-top: 10px; }
     .main-personal-profile .profile-base li.prompt {
@@ -534,7 +543,6 @@ h1 {
       .main-personal-profile .profile-detail li input[type='text']:focus {
         border: 1px solid #3bc570; }
     .main-personal-profile .profile-detail li input[type='checkbox'] {
-      border: 1px solid #ededf0;
       vertical-align: middle; }
     .main-personal-profile .profile-detail li span {
       line-height: 34px;

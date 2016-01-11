@@ -77,6 +77,8 @@ $color: #0078b6;
 		.face{
 			margin-right: 10px;
 			padding: 0 50px;
+			position: relative;
+			z-index: 1;
 			.set{
 				margin-top: 10px;
 				padding-left: 6px;
@@ -84,7 +86,14 @@ $color: #0078b6;
 				cursor: pointer;
 			}
 			#profile_attachment{
-				display: none;
+				position: absolute;
+				z-index: 1000;
+				width: 65px;
+				top: 64px;
+				left: 50px;
+				opacity: 0;
+				filter:alpha(opacity=0); 
+				cursor: pointer; 
 			}
 		}
 		ul{
@@ -224,7 +233,6 @@ $color: #0078b6;
 				vertical-align: middle;
 			}
 			input[type='checkbox']{
-				border: $border;
 				vertical-align: middle;
 			}
 			span{
