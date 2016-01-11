@@ -25,7 +25,7 @@ class SignupType extends AbstractType
                 new Assert\Length(array(
                     'min'=> 1,
                     'max'=> 100,
-                    'minMessrge'=> '最少1个字符',
+                    'minMessage'=> '最少1个字符',
                     'maxMessage'=> '最多100个字符') ),
                 new NickRegex(),
                 new NicknameUnique()
