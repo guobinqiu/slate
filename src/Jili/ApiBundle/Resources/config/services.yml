@@ -3,6 +3,9 @@ parameters:
     login.listener.class: Jili\ApiBundle\Services\UserLogin
 
     soap.mail.listener.class: Jili\ApiBundle\Services\Dmdelivery\Client
+    webpower.91wenwen_signup.mailer.class: Jili\ApiBundle\Services\Dmdelivery\Client
+    webpower.91wenwen.mailer.class: Jili\ApiBundle\Services\Dmdelivery\Client
+ 
 
     user_sign_up_route.class: Jili\ApiBundle\Services\UserSignUpTracer
     user_source.logger.class: Jili\ApiBundle\Services\Logger\UserSourceLogger
@@ -78,6 +81,18 @@ services:
     soap.mail.listener:
         class: %soap.mail.listener.class%
         arguments: [ %webpower_soap_uri%,%webpower_email_username%,%webpower_email_password% ]
+        calls:
+            - [setLogger, ["@logger"]]
+
+    webpower.91wenwen.mailer:
+        class: %webpower.91wenwen.mailer.class%
+        arguments: [ %webpower.91wenwen.soap_uri% , %webpower.91wenwen.username%, %webpower.91wenwen.password% ]
+        calls:
+            - [setLogger, ["@logger"]]
+
+    webpower.91wenwen_signup.mailer:
+        class: %webpower.91wenwen_signup.mailer.class%
+        arguments: [ %webpower.91wenwen_signup.soap_uri% , %webpower.91wenwen_signup.username%,%webpower.91wenwen_signup.password% ]
         calls:
             - [setLogger, ["@logger"]]
 

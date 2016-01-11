@@ -5,6 +5,7 @@ namespace Jili\FrontendBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+use Jili\ApiBundle\Validator\Constraints\NickRegex;
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
 use Jili\ApiBundle\Validator\Constraints\EmailUnique;
 use Jili\ApiBundle\Validator\Constraints\NicknameUnique;
@@ -17,15 +18,16 @@ class SignupType extends AbstractType
     {
         $builder->add('nickname', 'text', array(
             'label'=>'昵称',
-            'invalid_message' => '只允许2-20个字符',
+            'invalid_message' => '只允许1-100个字符',
             'required' => true,
             'error_bubbling'=>false,
             'constraints'=> array(
                 new Assert\Length(array(
-                    'min'=> 2,
-                    'max'=> 20,
-                    'minMessage'=> '最少2个字符',
-                    'maxMessage'=> '最多20个字符') ),
+                    'min'=> 1,
+                    'max'=> 100,
+                    'minMessrge'=> '最少1个字符',
+                    'maxMessage'=> '最多100个字符') ),
+                new NickRegex(),
                 new NicknameUnique()
                 )
             ))

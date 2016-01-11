@@ -1,6 +1,8 @@
 <?php
 namespace Jili\ApiBundle\Services\Dmdelivery;
 
+use Psr\Log\LoggerInterface;
+
 /**
  *
  **/
@@ -12,11 +14,17 @@ class Client
 
     private $campaignId;
     private $mailingId;
+    private $groupId;
     private $group;
 
     private $logger;
 
-    public function __construct($url, $user, $pass)
+    public function __construct($url , $user, $pass )
+    {
+        $this->updateConfig($url , $user, $pass);
+    }
+
+    public function updateConfig($url , $user, $pass )
     {
         $this->soap = $url; 
         $this->username = $user;
@@ -26,21 +34,31 @@ class Client
     public function setCampaignId($campaignId)
     {
         $this->campaignId = $campaignId;
+        return $this;
     }
 
     public function setMailingId($mailingId)
     {
         $this->mailingId = $mailingId;
+        return $this;
+    }
+
+    public function setGroupId($groupId)
+    {
+        $this->groupId = $groupId;
+        return $this;
     }
 
     public function setGroup($group)
     {
         $this->group = $group;
+        return $this;
     }
 
     private function init_client()
     {
         ini_set('soap.wsdl_cache_enabled', '0');
+        $this->logger->info('soap:'.$this->soap);
         $client = new \SoapClient($this->soap, array (
             'encoding' => 'utf-8',
             'features' => SOAP_SINGLE_ELEMENT_ARRAYS
@@ -95,6 +113,9 @@ class Client
         }
     }
 
+    /**
+     *
+     */
     public function addRecipientsSendMailing($recipient_arr)
     {
         $login = $this->login_info();
@@ -167,7 +188,47 @@ class Client
         }
     }
 
-    public function setLogger($logger)
+    public function singleEmail(array $recipient) 
+    {
+        $login = $this->login_info();
+        $client = $this->init_client();
+        try {
+
+            $addDuplisToGroups = true;
+            $overwrite = true;
+
+            $result = $client->addRecipientsSendMailing($login,
+                $this->campaignId,
+                $this->mailingId,
+                array($this->groupId), 
+                $this->buildRecipientData( array( $recipient)),
+                $addDuplisToGroups,$overwrite);
+
+            if ($result->status != 'ERROR') {
+                $rs = 'Email send success';
+            } else {
+                $rs = 'Email send fail';
+            }
+            return $rs;
+        } catch (\SoapFault $e) {
+            $this->logger->crit($e->getMessage());
+        }
+    }
+
+    public function buildRecipientData(array $recipientsData) 
+    {
+        $recipients = array();
+        foreach(  $recipientsData as $recipient ) {
+            $fields = array();
+                foreach( $recipient as $name => $value ) {
+                    $fields [] = array( 'name'=> $name, 'value'=> $value);
+                }
+            $recipients [] = array( 'fields' => $fields);
+        }
+        return array('recipients'=>$recipients);
+    }
+
+    public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
