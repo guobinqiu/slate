@@ -43,13 +43,8 @@ class ProfileEditType extends AbstractType
             'label' => 'telephone',
             'required' => false,
             'constraints' => array (
-                new Assert\Length(array (
-                    'min' => 11,
-                    'max' => 11,
-                    'exactMessage' => '您输入的手机号码格式不正确'
-                )),
-                new Assert\Type(array (
-                    'type' => 'numeric',
+                new Assert\Regex(array (
+                    'pattern' => "/^1\d{10}$/",
                     'message' => '您输入的手机号码格式不正确'
                 ))
             )
