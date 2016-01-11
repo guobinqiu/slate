@@ -77,14 +77,23 @@ $color: #0078b6;
 		.face{
 			margin-right: 10px;
 			padding: 0 50px;
+			position: relative;
+			z-index: 1;
 			.set{
 				margin-top: 10px;
-				padding-left: 10px;
+				padding-left: 6px;
 				color: $color;
 				cursor: pointer;
 			}
-			#attachment{
-				display: none;
+			#profile_attachment{
+				position: absolute;
+				z-index: 1000;
+				width: 65px;
+				top: 64px;
+				left: 50px;
+				opacity: 0;
+				filter:alpha(opacity=0); 
+				cursor: pointer; 
 			}
 		}
 		ul{
@@ -135,9 +144,10 @@ $color: #0078b6;
 			}
 		}
 		.face-wapper{
-			padding: 5px;
-			border: 2px solid #e7e7e7;
-			border-radius: 50%;
+			img{
+				border: 1px solid #e7e7e7;
+				border-radius: 50%;
+			}
 		}
 		.picCut{
 			margin-bottom: 20px;
@@ -168,6 +178,7 @@ $color: #0078b6;
 				border-radius: 3px;
 				background: #83c44e;
 				border: 1px solid #83c44e;
+				outline: none;
 				@include transition(all, 0.4s);
 				@include dib();
 				&:hover{
@@ -183,6 +194,16 @@ $color: #0078b6;
 		}
 	}
 	.profile-detail{
+		.successMess{
+			width: 150px;
+			margin: 0 auto;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			border: 2px solid #ade378;
+			background: #f7f7f7;
+			border-radius: 5px;
+		}
 		li{
 			margin-top: 10px;
 			color: #a1a1a1;
@@ -191,6 +212,12 @@ $color: #0078b6;
 				width: 115px;
 				line-height: 36px;
 				text-align: right;
+			}
+			#profile_sex{
+				label{
+					margin-right: 5px;
+					width: 15px;
+				}
 			}
 			input[type='text']{
 				padding: 0 5px;
@@ -206,7 +233,6 @@ $color: #0078b6;
 				vertical-align: middle;
 			}
 			input[type='checkbox']{
-				border: $border;
 				vertical-align: middle;
 			}
 			span{
@@ -240,6 +266,12 @@ $color: #0078b6;
 				outline: none;
 				&:focus{
 					border: $input-border-focus;
+				}
+			}
+			ul{
+				margin-left: 145px;
+				li{
+					color: $error-color;
 				}
 			}
 		}

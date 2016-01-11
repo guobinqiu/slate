@@ -21,13 +21,13 @@
                     <div class="face left">
                     <div class="face-wapper">
                     {% if user.iconPath %}
-                    <img src='{{ asset(user.iconPath) }}' height="110" />
+                    <img src='{{ asset(user.iconPath) }}' height="58" />
                     {% else %}
-                    <img src="{{ asset('img/common/default_tx.png') }}" alt="头像">
+                    <img src="{{ asset('img/common/default_tx.jpg') }}" alt="头像" height="58">
                     {% endif %}
                     </div>
                     <form action="{{ path('_profile_upload') }}" method="post" {{ form_enctype(form) }} id="uploadForm" name="uploadForm" >
-                    {{ form_widget(form.attachment) }}
+                    <label class="set" for="profile_attachment">设置头像</label>{{ form_widget(form.attachment) }}
                     <p class="errorInfo"></p>
                     </form>
                     </div>
@@ -62,8 +62,10 @@
                 <ul class="con">
                     <li><label for="nick">昵称：</label>{{ form_widget(form.nick) }}{{ form_errors(form.nick) }}</li>
                     <li><label for="tel">手机号码：</label>{{ form_widget(form.tel) }}{{ form_errors(form.tel) }}</li>
-                    <li><label for="sex">性别：</label>{{ form_widget(form.sex) }}{{ form_errors(form.sex) }}</li>
-                    <li><label for="birthday">生日：</label>{{ form_widget(form.birthday, {'attr': {'class':'laydate-icon' }}) }}{{ form_errors(form.birthday) }}{% if birthday_error is defined %}{{birthday_error}}{% endif %}</li>
+                    <li><label for="sex">性别：</label><span>{{ form_widget(form.sex) }}{{ form_errors(form.sex) }}</span></li>
+                    <li><label for="birthday">生日：</label>{{ form_widget(form.birthday, {'attr': {'class':'laydate-icon' }}) }}{{ form_errors(form.birthday) }}{% if birthday_error is defined %}<ul>
+                        <li>{{birthday_error}}</li>
+                    </ul>{% endif %}</li>
                     <li><label for="address">居住地：</label>
                         <select id="province" name="profile[province]">
                         <option value="0" selected="selected">省、市</option>
