@@ -134,12 +134,12 @@ define(['jquery'],function($){
     //验证文本
     var validatePrompt = {
         regName: {
-            onFocus:"2-20位字符,支持汉字、字母、数字及\"-\"、\"_\"组合",
+            onFocus:"1-100位字符,支持汉字、字母、数字及\"-\"、\"_\"组合",
             succeed: "OK!",
             isNull: "请输入用户名",
             error: {
                 beUsed: "该昵称已被使用，请重新输入。",
-                badLength: "用户名长度只能在2-20位字符之间",
+                badLength: "用户名长度只能在1-100位字符之间",
                 badFormat: "用户名只能由中文、英文、数字及\"-\"、\"_\"组成",
                 fullNumberName: "用户名不能是纯数字，请重新输入"
             },
@@ -540,7 +540,7 @@ define(['jquery'],function($){
     var checkPin = -10;
     function checkPinF(option) {
         var pin = option.value;
-        if (!validateRules.betweenLength(pin.replace(/[^\x00-\xff]/g, "**"), 2, 20)) {
+        if (!validateRules.betweenLength(pin.replace(/[^\x00-\xff]/g, "**"), 1, 100)) {
             validateSettings.error.run(option, option.prompts.error.badLength);
             return false;
         }
