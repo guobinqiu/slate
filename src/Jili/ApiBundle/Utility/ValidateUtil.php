@@ -39,7 +39,7 @@ class ValidateUtil
     }
 
     /**
-     * validate password, 用户密码为6-20个字符，不能含特殊符号
+     * validate password 用户密码为5-100个字符，密码至少包含1位字母和1位数字
      *
      * @param string $password
      *
@@ -47,7 +47,18 @@ class ValidateUtil
      */
     public static function validatePassword($password)
     {
-        if (!preg_match("/^[0-9A-Za-z_]{6,20}$/", $password)) {
+        if (empty($password)) {
+            return false;
+        }
+
+        $length = strlen($password);
+        if ($length < 5) {
+            return false;
+        } else if ($length > 100) {
+            return false;
+        }
+
+        if (!preg_match('/^.*(?=.*?[A-Za-z])(?=.*?[0-9]).*$/', $password)) {
             return false;
         }
         return true;

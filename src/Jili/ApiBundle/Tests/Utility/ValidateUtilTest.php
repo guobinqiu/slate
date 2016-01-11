@@ -37,14 +37,26 @@ class ValidateUtilTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @group dev-merge-ui-set-password
+     * @group dev-merge-ui-profile-edit
      */
     public function testValidatePassword()
     {
-        $return = ValidateUtil::validatePassword('%');
-        $this->assertFalse($return, 'password is %');
+        $return = ValidateUtil::validatePassword('');
+        $this->assertFalse($return, 'password is empty');
+
         $return = ValidateUtil::validatePassword('aa');
-        $this->assertFalse($return, 'password is aa');
-        $return = ValidateUtil::validatePassword('123456');
-        $this->assertTrue($return, 'password is 123456');
+        $this->assertFalse($return, 'password length < 5 ');
+
+        $return = ValidateUtil::validatePassword('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        $this->assertFalse($return, 'password length > 100 ');
+
+        $return = ValidateUtil::validatePassword('12345');
+        $this->assertFalse($return, 'password has no character');
+
+        $return = ValidateUtil::validatePassword('aaaaa');
+        $this->assertFalse($return, 'password has no number');
+
+        $return = ValidateUtil::validatePassword('aaaa1');
+        $this->assertTrue($return, 'password is ok');
     }
 }

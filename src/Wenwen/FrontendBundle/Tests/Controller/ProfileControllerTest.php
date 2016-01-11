@@ -126,6 +126,9 @@ class ProfileControllerTest extends WebTestCase
         $post_data['pwdRepeat'] = '';
         $post_data['csrf_token'] = $csrf_token;
 
+        $crawler = $client->request('GET', $url, $post_data);
+        $this->assertEquals(405, $client->getResponse()->getStatusCode());
+
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $return = $client->getResponse()->getContent();
@@ -349,5 +352,18 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals('农业/水产', $return['industry_code'][1]);
         $this->assertEquals('总务/人事/管理', $return['work_section_code'][1]);
         $this->assertEquals('高中以下', $return['education'][1]);
+    }
+
+    /**
+     * only test method, other tests are in testEditProfile
+     * @group dev-merge-ui-profile-edit
+     */
+    public function testEditCommitAction()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_profile_edit_commit');
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(405, $client->getResponse()->getStatusCode());
     }
 }

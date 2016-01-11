@@ -39,7 +39,6 @@ class ProfileController extends Controller
 
     /**
      * @Route("/changePwd", name="_profile_changepwd", options={"expose"=true})
-     *
      * @Method("POST")
      */
     public function changePwdAction()
@@ -169,7 +168,7 @@ class ProfileController extends Controller
 
     /**
      * @Route("/editCommit", name="_profile_edit_commit",requirements={"_scheme"="https"})
-     * @Method({"POST"});
+     * @Method("POST")
      */
     public function editCommitAction(Request $request)
     {
@@ -303,19 +302,18 @@ class ProfileController extends Controller
         $form = $this->createForm(new ProfileEditType(), $user);
         $form->bind($request);
 
-        $path =  $this->container->getParameter('upload_tmp_dir');
+        $path = $this->container->getParameter('upload_tmp_dir');
         $code = $user->upload($path);
 
-        if($code == $this->container->getParameter('init_one')){
-            $code =  $this->container->getParameter('upload_img_type');
+        if ($code == $this->container->getParameter('init_one')) {
+            $code = $this->container->getParameter('upload_img_type');
         }
-        if($code == $this->container->getParameter('init_two')){
-            $code =  $this->container->getParameter('upload_img_size');
+        if ($code == $this->container->getParameter('init_two')) {
+            $code = $this->container->getParameter('upload_img_size');
         }
 
         $this->get('login.listener')->updateInfoSession($user);
 
         return new Response(json_encode($code));
-
     }
 }

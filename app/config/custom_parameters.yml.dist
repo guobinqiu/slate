@@ -225,11 +225,11 @@ parameters:
     forget_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
     forget_unsame_pwd: 2次输入的用户密码不相同
     forget_su_pwd: 密码修改成功
-    update_password_fail:  密码修改失败，请稍后再试。
+    update_password_fail: 密码修改失败，请稍后再试。
     change_wr_oldpwd: 旧密码不正确
     change_en_oldpwd: 请输入旧的用户密码
     change_en_newpwd: 请输入新的用户密码
-    change_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
+    change_wr_pwd: 用户密码为5-100个字符，密码至少包含1位字母和1位数字
     change_unsame_pwd: 2次输入的用户密码不相同
     chnage_no_email: 邮箱地址未注册
     exchange_ing_amazon_tilte: “亚马逊礼品卡”兑换申请
@@ -468,6 +468,7 @@ parameters:
         auth:
             app_id: 24
             app_secret: 1413548805-7b6639b3944e1fc12dfb8676deee8759c3fa6250
+
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%
