@@ -20,10 +20,10 @@ class ProfileEditType extends AbstractType
                     'message' => '请输入昵称'
                 )),
                 new Assert\Length(array (
-                    'min' => 2,
-                    'max' => 20,
-                    'minMessage' => '昵称为2-20个字符',
-                    'maxMessage' => '昵称为2-20个字符'
+                    'min' => 1,
+                    'max' => 100,
+                    'minMessage' => '昵称为1-100个字符',
+                    'maxMessage' => '昵称为1-100个字符'
                 ))
             )
         ));
