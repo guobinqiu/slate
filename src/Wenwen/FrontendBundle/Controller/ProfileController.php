@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\ApiBundle\Utility\ValidateUtil;
 use Wenwen\FrontendBundle\Form\ProfileEditType;
+use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
 
 /**
  * @Route("/profile",requirements={"_scheme"="https"})
@@ -114,8 +115,10 @@ class ProfileController extends Controller
             return $this->container->getParameter('change_unsame_pwd');
         }
 
-        //用户密码为6-20个字符，不能含特殊符号
-        if (!ValidateUtil::validatePassword($pwd)) {
+        //用户密码为5-100个字符，密码至少包含1位字母和1位数字
+        $passwordConstraint = new PasswordRegex();
+        $errorList = $this->get('validator')->validateValue($pwd, $passwordConstraint);
+        if (count($errorList) >= 0) {
             return $this->container->getParameter('change_wr_pwd');
         }
 

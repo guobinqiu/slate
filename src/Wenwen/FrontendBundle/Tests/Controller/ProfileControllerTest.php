@@ -158,6 +158,7 @@ class ProfileControllerTest extends WebTestCase
 
     /**
      * @group dev-merge-ui-set-password
+     * @group dev-merge-ui-profile-edit
      */
     public function testCheckPassword()
     {
@@ -198,42 +199,42 @@ class ProfileControllerTest extends WebTestCase
         $pwd = '123';
         $pwdRepeat = '123';
         $return = $controller->checkPassword($curPwd, $pwd, $pwdRepeat, $id);
-        $this->assertEquals('用户密码为6-20个字符，不能含特殊符号', $return);
+        $this->assertEquals('用户密码为5-100个字符，密码至少包含1位字母和1位数字', $return);
 
         $curPwd = '123';
-        $pwd = '111111';
-        $pwdRepeat = '111111';
+        $pwd = '11111a';
+        $pwdRepeat = '11111a';
         $return = $controller->checkPassword($curPwd, $pwd, $pwdRepeat, $id);
         $this->assertEquals('旧密码不正确', $return);
 
         // 旧密码正确, jili密码
         $curPwd = '111111';
-        $pwd = '222222';
-        $pwdRepeat = '222222';
+        $pwd = '22222a';
+        $pwdRepeat = '22222a';
         $return = $controller->checkPassword($curPwd, $pwd, $pwdRepeat, $id);
         $this->assertFalse($return);
 
         // 旧密码不正确, UserWenwenLogin不存在, wenwen密码
         $id = 3;
         $curPwd = '123456';
-        $pwd = '222222';
-        $pwdRepeat = '222222';
+        $pwd = '22222a';
+        $pwdRepeat = '22222a';
         $return = $controller->checkPassword($curPwd, $pwd, $pwdRepeat, $id);
         $this->assertEquals('旧密码不正确', $return);
 
         // 旧密码不正确, UserWenwenLogin存在, wenwen密码不正确
         $id = 2;
         $curPwd = '123456';
-        $pwd = '222222';
-        $pwdRepeat = '222222';
+        $pwd = '22222a';
+        $pwdRepeat = '22222a';
         $return = $controller->checkPassword($curPwd, $pwd, $pwdRepeat, $id);
         $this->assertEquals('旧密码不正确', $return);
 
         // 旧密码正确, wenwen密码
         $id = 2;
         $curPwd = '111111';
-        $pwd = '222222';
-        $pwdRepeat = '222222';
+        $pwd = '22222a';
+        $pwdRepeat = '22222a';
         $return = $controller->checkPassword($curPwd, $pwd, $pwdRepeat, $id);
         $this->assertFalse($return);
     }
