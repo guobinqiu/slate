@@ -6,7 +6,7 @@
 
 {% block stylesheets %}
 {{parent() }}
-<link href="{{ asset('css/pagenav.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/pageNav.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block javascripts %}
@@ -38,12 +38,12 @@ $(function() {
     });
 });
 </script>
-
+<div class="panelist">
+<div>
 <h1>panel search</h1>
 <form id="panelsearch" method="post" action="{{ path('_admin_panelist_index') }}" >
     <input type="hidden" name="page" id="panelsearch_pager_page" value="">
-    <div class="float_left">
-        <table>
+        <table align='center' class="inputForm">
             <tr>
                 <th>{{ form_label(form.user_id) }}</th>
                 <td>{{ form_widget(form.user_id) }}</td>
@@ -85,19 +85,21 @@ $(function() {
                 <td>{{ form_widget(form.type_withdrawal) }}</td>
             </tr>
         </table>
-    </div>
+    
     <div class="clear_both">
         <input type="submit" name="s" value="search">
     </div>
 </form>
+</div>
 
+<div>
 {% if pagination_registered is defined or pagination_withdrawal is defined %}
 <h2>result</h2>
 {% endif %}
 
 {% if registeredUserList is defined %}
  <h3>registered user {{registeredCount}}</h3>
-<table>
+<table class="list">
     <tr>
         <th>PID</th>
         <th>App MID</th>
@@ -136,10 +138,11 @@ $(function() {
     {% endfor %}
 </table>
  {% endif %}
-
+ </div>
+<div>
  {% if withdrawalUserList is defined %}
   <h3>withdrawal user {{withdrawalCount}}</h3>
-<table>
+<table class="list">
     <tr>
         <th>PID</th>
         <th>email</th>
@@ -170,9 +173,10 @@ $(function() {
     {% endfor %}
 </table>
 {% endif %}
-
+</div>
 <div style="display: inline-block; width: 100%;">
   {% include '::pagination.html.twig' %}
+</div>
 </div>
 
 {% endblock %}
