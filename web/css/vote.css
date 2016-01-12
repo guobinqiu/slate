@@ -106,7 +106,6 @@ body {
     padding-left: 0; }
   .header-top-con a.last {
     border-right: none; }
-
 .header-top-con em {
   width: 20px;
   height: 15px;
@@ -172,7 +171,6 @@ body {
 .header-top-con span:hover b {
   transform: rotate(180deg);
   -webkit-transform: rotate(180deg); }
-
 .header-top-con .personal {
   position: absolute;
   z-index: 9999;
@@ -285,7 +283,6 @@ body {
   padding-left: 20px;
   border-bottom: 1px solid #f6f6f6;
   font-weight: bold; }
-
 .main-con-left .title a {
   color: #0078b6;
   font-size: 15px;
@@ -574,40 +571,34 @@ body {
   font-size: 0; }
 
 .page {
-  text-align: center;
-}
-.page span {
-  border: 1px solid #dbdbdb;
-  color: #adadad;
-  font-size: 12px;
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-  height: 22px;
-  text-center: center;
-  line-height: 22px;
-  margin-right: 5px;
-  cursor: pointer;
-}
-.page span:hover, .page span.active {
-  border: 1px solid #ff6700;
-  color: #ff6700;
-}
-.page span:hover a, .page span.active a {
-  color: #ff6700;
-}
-.page a {
-  color: #adadad;
-  height: 22px;
-  line-height: 22px;
-  padding: 0px 8px;
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-}
-.page a:hover, .page a.active {
-  color: #ff6700;
-}
+  text-align: center; }
+  .page span {
+    border: 1px solid #dbdbdb;
+    color: #adadad;
+    font-size: 12px;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    height: 22px;
+    text-center: center;
+    line-height: 22px;
+    margin-right: 5px;
+    cursor: pointer; }
+    .page span:hover, .page span.active {
+      border: 1px solid #ff6700;
+      color: #ff6700; }
+      .page span:hover a, .page span.active a {
+        color: #ff6700; }
+  .page a {
+    color: #adadad;
+    height: 22px;
+    line-height: 22px;
+    padding: 0px 8px;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1; }
+    .page a:hover, .page a.active {
+      color: #ff6700; }
 
 .footer {
   margin-top: 50px;
