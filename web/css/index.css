@@ -293,7 +293,7 @@ body {
   border-radius: 5px;
   overflow: hidden; }
   .login .login-con {
-    padding: 35px 38px; }
+    padding: 40px 38px; }
     .login .login-con p {
       font-size: 12px; }
   .login h2 {
@@ -394,7 +394,7 @@ body {
     .login li input[type="checkbox"] {
       vertical-align: middle; }
   .login .login-btn {
-    margin-top: 30px;
+    margin-top: 20px;
     width: 100%;
     height: 40px;
     line-height: 40px;
