@@ -15,7 +15,7 @@
   border-radius: 5px;
   overflow: hidden; }
   .login .login-con {
-    padding: 30px 38px; }
+    padding: 35px 38px; }
     .login .login-con p {
       font-size: 12px; }
   .login h2 {
@@ -26,9 +26,13 @@
     background: #313035;
     padding: 0 38px; }
   .login li {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     position: relative;
     z-index: 1; }
+    .login li.remember {
+      font-size: 14px;
+      height: 24px;
+      line-height: 24px; }
     .login li img {
       vertical-align: middle; }
     .login li span {
@@ -87,7 +91,7 @@
       *display: inline;
       *zoom: 1;
       vertical-align: middle; }
-    .login li input {
+    .login li input[type="text"], .login li input[type="password"] {
       width: 252px;
       height: 32px;
       line-height: 30px;
@@ -103,12 +107,14 @@
       -webkit-transition: all 0.3s;
       -o-transition: all 0.3s;
       vertical-align: middle; }
-      .login li input:focus, .login li input.active {
+      .login li input[type="text"]:focus, .login li input[type="text"].active, .login li input[type="password"]:focus, .login li input[type="password"].active {
         border: 1px solid #3bc570;
         box-shadow: 0 0 5px #3bc570; }
-      .login li input#authcode {
+      .login li input[type="text"]#authcode, .login li input[type="password"]#authcode {
         width: 90px;
         margin-left: 10px; }
+    .login li input[type="checkbox"] {
+      vertical-align: middle; }
   .login .login-btn {
     margin-top: 30px;
     width: 100%;
