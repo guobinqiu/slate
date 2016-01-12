@@ -317,6 +317,13 @@ parameters:
     webpower_email_password: 'nUshkwu#9'
     webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
 
+    webpower.91wenwen_signup.username: 
+    webpower.91wenwen_signup.password:
+    webpower.91wenwen_signup.soap_uri: 
+
+    webpower.91wenwen.username:  
+    webpower.91wenwen.password: 
+    webpower.91wenwen.soap_uri: 
 
     # the uri relative to web/
     taobao_self_promotion_picture_uri_path: images/taobao_products_picture/
@@ -381,6 +388,28 @@ parameters:
     jili_app.logs_dir: /data/91jili/logs
     admin_vote_log_path: %jili_app.logs_dir%/admin/admin_vote.log
     vote_suggest_mail_to: %wenwen_support_email_address%
+
+    recruit_offer99:
+        callback:
+          url: 
+          ad_key: 
+          return_strings:
+            error_tid: 交易号错误
+            error_1: 交易号重复处理过
+            error_2: Ip完成过
+            error_3: 一天内ip段完成过
+            error_safe_filename: 回调文件与交易号不匹配
+            error_callback_ip: 广告方IP加调不正确
+            error_sign: 签名不正确
+            success: 成功
+
+    recruit_offerwow:
+        api:
+          recruit: 
+          pid: 
+          tier: 
+
+            
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%

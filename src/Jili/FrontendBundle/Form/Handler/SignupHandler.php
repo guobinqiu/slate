@@ -45,14 +45,19 @@ class SignupHandler
         $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array( 
             'nick'=> $data['nickname'],
             'email'=>$data['email'],
-            'password'=>$data['password'],
             'user_agent' => $this->userAgent,
             'remote_address' => $this->remoteAddress,
         ));
+ 
 
         $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->create(array(
             'user_id' => $user->getId()
         ));
+
+        $em->getRepository('JiliApiBundle:UserWenwenLogin')->create(array('user_id'=> $user->getId() ,
+            'password'=>$data['password'],
+            'crypt_type '=>'',
+            'salt'=> '' ));
 
         if( false === $data['unsubscribe'] ) {
             $em->getRepository('JiliApiBundle:UserEdmUnsubscribeRepository')

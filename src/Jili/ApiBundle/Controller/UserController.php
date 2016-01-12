@@ -47,8 +47,9 @@ use Jili\ApiBundle\Entity\TaskHistory08;
 use Jili\ApiBundle\Entity\TaskHistory09;
 
 use Jili\ApiBundle\Utility\ValidateUtil;
+use Jili\FrontendBundle\Controller\CampaignTrackingController;
 
-class UserController extends Controller
+class UserController extends Controller implements CampaignTrackingController
 {
     /**
 	* @Route("/createFlag", name="_user_createFlag", options={"expose"=true})
@@ -1396,13 +1397,55 @@ class UserController extends Controller
             $logger->debug(__FUNCTION__. ' post data:' .var_export($form->getData(), true) );
 
             if($form->isValid()) {
-                $this->get('signup.form_handler')
+
+                $user_data_inserted = $this->get('signup.form_handler')
                     ->setForm($form)
                     ->setClientInfo(array(
                         'user_agent'=>$request->headers->get('USER_AGENT'),
                         'remote_address'=>$request->getClientIp()
                     ))
                     ->process();
+
+                if( isset($user_data_inserted['user']) && isset($user_data_inserted['setPasswordCode'])  ) {
+                    $user = $user_data_inserted['user'];
+                    $setPasswordCode = $user_data_inserted['setPasswordCode'];
+                    // send signup confirm email
+                    $args = array( '--campaign_id=1',
+                        '--group_id=81',
+                        '--mailing_id=9',
+                        '--email='. $user->getEmail(),
+                        '--title=',
+                        '--name='. $user->getNick(),
+                        '--register_key='. $setPasswordCode->getToken() ); //check the verification
+
+                    $job = new Job('webpower-mailer:signup-confirm',$args,  true, '91wenwen_signup');
+                    $em->persist($job);
+                    $em->flush($job);
+
+                    // check the campaign
+                    if( $session->has('campaign_code') && $session->has('campaign_code_token') ) {
+                        $em = $this->getDoctrine()->getManager();
+
+                        $campagin_code = $session->get('campaign_code');
+                        $campagin_code_token  = $session->get('campaign_code_token');
+                        if(preg_match('/^offer99/',  $campagin_code) ) {
+
+                            $job = new Job('recruit-notification:offer99',
+                                array('--user_id='.$user->getId(), '--txid='.$campagin_code_token) ,
+                                true, 'offer99-recruit');
+                            $em->persist($job);
+                            $em->flush($job);
+
+                        } elseif (preg_match('/^offerwow/',  $campagin_code )) {
+                            $job = new Job('recruit-notification:offerwow',
+                                array('--user_id='.$user->getId() ,'--tid='. $campagin_code_token ),
+                                true, 'offerwow-recruit');
+                            $em->persist($job);
+                            $em->flush($job);
+                        }
+
+                    }
+                } 
 
                 // set sucessful message flash
                 $this->get('session')->getFlashBag()->add(
@@ -1547,6 +1590,9 @@ class UserController extends Controller
 	 */
     public function regSuccessAction()
     {
+        $session = $this->get('session');
+        $session->set('campaign_code','');
+        $session->set('campaign_code_token','');
         return $this->render('WenwenFrontendBundle:User:finished.html.twig');
     }
 
