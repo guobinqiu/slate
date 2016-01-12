@@ -15,7 +15,7 @@
                 <span class="txt"><div class="nickname">{{ app.session.get('nick')[:12] }}</div><div><label for="points">积分：</label><strong id="points" name="points">3050</strong></div></span>
             </div>
             <ul>
-                <li><a href="{{ path('_user_info') }}">个人资料</a></li>
+                <li><a href="{{ path('_profile_edit') }}">个人资料</a></li>
                 <li><a href="{{ path('_profile_index') }}">账户设置</a></li>
                 <li><a href="{{ path('_user_adtaste',{'type':0}) }}">任务历史</a></li>
                 <li><a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}">兑换历史</a></li>

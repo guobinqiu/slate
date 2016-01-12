@@ -99,17 +99,6 @@ require(['../../config'],function(){
             }
         }
 
-        var subscribeSave = $('#subscribe_save');
-        subscribeSave.on('click', function(){
-            saveSubscribe();
-        });
-        function saveSubscribe(){
-            var isSubscribe = true;
-            var subscribe = $('#subscribe');
-            console.log(subscribe.prop('checked'));
-            isSubscribe = subscribe.prop('checked');
-        }
-
         var reasons = $('.reason-options'),
             withdrawSave = $('#withdraw_save');
         withdrawSave.on('click', function(){
