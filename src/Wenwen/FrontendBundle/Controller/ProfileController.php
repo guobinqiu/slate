@@ -118,7 +118,7 @@ class ProfileController extends Controller
         //用户密码为5-100个字符，密码至少包含1位字母和1位数字
         $passwordConstraint = new PasswordRegex();
         $errorList = $this->get('validator')->validateValue($pwd, $passwordConstraint);
-        if (count($errorList) >= 0) {
+        if (count($errorList) > 0) {
             return $this->container->getParameter('change_wr_pwd');
         }
 
