@@ -1,8 +1,9 @@
-{% extends "::base.html.twig" %}
+{% extends "::adminBase.html.twig" %}
 
 {% block title %}JiliBackendBundle:GameSeekerPool:adjust{% endblock %}
 
 {% block body %}
+<div class="autoCenter">
 <h1>找宝箱-每轮宝箱出现个数设置</h1>
 <form action="{{ path('jili_backend_gameseeker_managechest') }}" method="POST">
 {{ form_label(form.quantity) }}
@@ -14,4 +15,5 @@
 
 {# form #}
 {# menu #}
+</div>
 {% endblock %}

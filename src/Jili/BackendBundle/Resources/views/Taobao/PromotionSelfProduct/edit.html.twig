@@ -118,15 +118,12 @@ Taobao self promotion Edit-{{ parent() }}
 </form>
 
         <form action="{{ path('jili_backend_admintaobao_deletepromotionselfproduct', { 'id': entity.id }) }}" method="post">
-<table align="center">
-
+<table align="autoCenter">
             <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
 <tr>
-    <td>&nbsp;</td>
     <td>
             <button type="submit" value="delete">删除</button>
-
     </td>
 </tr>
 </table>

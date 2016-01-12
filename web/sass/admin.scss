@@ -1,3 +1,4 @@
+$admin-width: 90%;
 *{
   margin: 0; padding: 0;
 }
@@ -10,117 +11,6 @@ body{
 }
 img{
   vertical-align: top;
-}
-th{
-  background-color: #f6f6f6;
-}
-table{
-  border-collapse: collapse;
-  font-size: 12px;
-  font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
-  &.menu{ 
-    table{
-      margin-bottom: 5px;
-      &.first{
-        margin-top: 5px;
-      }
-    }
-    th, td{
-      height: 22px;
-      line-height: 22px;
-    }
-  }
-  &.header{
-    border-bottom: 4px solid #1c5db6;
-  }
-  &.test{
-    width: 90%;
-    margin: 10px auto 20px;
-  }
-  &.search{
-    margin: 10px auto;
-  }
-  &.list{
-    width: 90%;
-    text-align: center;
-    margin: 20px auto;
-    border: 1px solid #eee;
-    word-break:break-all; 
-    word-wrap:break-word;
-    th, td{
-      height: 30px;
-      border: 1px solid #eee;
-    }
-    td{
-      &.oper{
-        width: 100px;
-      }
-      &.longCon{
-        width: 25%;
-      }
-    }
-    td:last{
-      width: 80px;
-    }
-    a{
-      color: #2e79e8;
-    }
-  }
-  &.inputForm{
-    width: 90%;
-    margin: 20px auto;
-    th{
-      width: 150px;
-      text-align: right;
-      line-height: 24px;
-      padding-right: 10px;
-      border: 3px solid #fff;
-    }
-  }
-}
-form table{
-  width: 90%;
-  margin: 0 auto;
-}
-input, textarea, select, table.ke-container, input.Wdate{
-  margin-bottom: 5px;
-  border: 1px solid #dbdbdb;
-}
-input[type="file"]{
-  border: none;
-}
-input[type="text"], input.Wdate{
-  padding: 0 3px;
-  height: 24px;
-  line-height: 24px;
-}
-input[type="submit"], input[type="button"]{
-  margin: 10px 10px 20px 0;
-  width: 65px;
-  height: 24px;
-  line-height: 24px;
-  border: 1px solid #999;
-}
-input[type="button"].J_JumpTo{
-  margin: 0;
-}
-.tips{
-  width: 90%;
-  margin: 0 auto;
-}
-ul.tips{
-  list-style: none;
-}
-h1, h2, h3{
-  margin-top: 10px;
-}
-.panelist{
-  h1, h2, h3, .clear_both, .successMess{
-    padding-left: 5%;
-  }
-  table{
-    margin-top: 10px;
-  }
 }
 A:link {
   COLOR: #036;
@@ -249,4 +139,143 @@ TR.editFooterTr {
 
 TD.editFooterTd {
   PADDING-LEFT: 150px;
+}
+ul, li{
+  list-style-type: none;
+}
+th{
+  background-color: #f6f6f6;
+}
+table{
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+  &.menu{ 
+    table{
+      margin-bottom: 5px;
+      &.first{
+        margin-top: 5px;
+      }
+    }
+    th, td{
+      height: 22px;
+      line-height: 22px;
+    }
+  }
+  &.header{
+    border-bottom: 4px solid #1c5db6;
+  }
+  &.test{
+    width: 90%;
+    margin: 10px auto 20px;
+  }
+  &.search{
+    margin: 10px auto;
+  }
+  &.list{
+    width: 90%;
+    text-align: center;
+    margin: 20px auto;
+    border: 1px solid #eee;
+    word-break:break-all; 
+    word-wrap:break-word;
+    th, td{
+      height: 30px;
+      border: 1px solid #eee;
+    }
+    td{
+      &.oper{
+        width: 100px;
+      }
+      &.longCon{
+        width: 25%;
+      }
+    }
+    td:last{
+      width: 80px;
+    }
+    a{
+      color: #2e79e8;
+    }
+  }
+  &.inputForm{
+    width: 90%;
+    margin: 20px auto;
+    th{
+      width: 150px;
+      text-align: right;
+      line-height: 24px;
+      padding-right: 10px;
+      border: 3px solid #fff;
+    }
+  }
+  &.stripe{
+    th,td{
+      height: 24px;
+      line-height: 24px;
+      border: 1px solid #eee;
+      padding: 5px;
+    }
+    .left{
+      text-align: left;
+    }
+    .right{
+      text-align: right; 
+    }
+  }
+}
+form table{
+  width: 90%;
+  margin: 0 auto;
+}
+input, textarea, select, table.ke-container, input.Wdate{
+  margin-bottom: 5px;
+  border: 1px solid #dbdbdb;
+}
+input[type="file"]{
+  border: none;
+}
+input[type="text"], input.Wdate{
+  padding: 0 3px;
+  height: 24px;
+  line-height: 24px;
+}
+input[type="submit"], input[type="button"]{
+  margin: 10px 10px 20px 0;
+  width: 65px;
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid #999;
+}
+input[type="button"].J_JumpTo{
+  margin: 0;
+}
+.tips{
+  width: 90%;
+  margin: 0 auto;
+}
+ul.tips{
+  list-style: none;
+}
+h1, h2, h3{
+  margin-top: 10px;
+}
+.panelist{
+  h1, h2, h3, .clear_both, .successMess{
+    padding-left: 5%;
+  }
+  table{
+    margin-top: 10px;
+  }
+  h2{
+    height: 30px;
+    line-height: 30px;
+  }
+}
+.autoCenter{
+  width: 90%;
+  margin: 0 auto;
+}
+.mt10{
+  margin-top: 10px;
 }
