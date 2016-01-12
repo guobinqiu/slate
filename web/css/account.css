@@ -512,6 +512,9 @@ h1 {
     .main-personal-account .form li span.succeed, .main-personal-account .form li span strong {
       border: none;
       background: transparent; }
+  .main-personal-account .form .backError {
+    padding-left: 120px;
+    color: #ff0000; }
   .main-personal-account .con {
     padding: 15px 30px;
     display: none; }

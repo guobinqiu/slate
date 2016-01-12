@@ -304,6 +304,8 @@ body {
       float: left;
       text-align: center; }
       .main-con .gadgetBtn li .btn {
+        position: relative;
+        z-index: 1;
         width: 117px;
         height: 79px;
         margin: 0 auto;
@@ -313,23 +315,29 @@ body {
         .main-con .gadgetBtn li .btn:hover a, .main-con .gadgetBtn li .btn.active a {
           height: 0px; }
         .main-con .gadgetBtn li .btn:hover a.hover, .main-con .gadgetBtn li .btn.active a.hover {
+          top: 35px;
+          left: 35px;
           height: 42px; }
         .main-con .gadgetBtn li .btn a {
           margin: 0 auto;
           background: url(../img/gadget/gadgetIcon.png) no-repeat;
+          transition: all 500ms;
+          -moz-transition: all 500ms;
+          -webkit-transition: all 500ms;
+          -o-transition: all 500ms;
+          display: block; }
+        .main-con .gadgetBtn li .btn a.hover {
+          position: absolute;
+          z-index: 1999;
+          top: 0px;
+          left: 35px;
+          width: 42px;
+          height: 0px;
+          background-position: -123px 0px;
           transition: all 1s;
           -moz-transition: all 1s;
           -webkit-transition: all 1s;
-          -o-transition: all 1s;
-          display: block; }
-        .main-con .gadgetBtn li .btn a.hover {
-          width: 42px;
-          height: 0px;
-          background-position: -123px 0;
-          transition: height 1s;
-          -moz-transition: height 1s;
-          -webkit-transition: height 1s;
-          -o-transition: height 1s; }
+          -o-transition: all 1s; }
       .main-con .gadgetBtn li .deskIco {
         background-position: 0 -243px; }
         .main-con .gadgetBtn li .deskIco a {

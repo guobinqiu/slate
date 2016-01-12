@@ -82,14 +82,20 @@ require(['../../config'],function(){
    		titles.unbind('click');
    		sysTitles.unbind('click');
        	titles.on('click', function(){
-            var idStr = $(this).attr('class'),
-            	id = idStr.substr(('isRead').length, 5);
-			showMs(id);
+            var idStr = $(this).attr('class'), id;
+            if(idStr){
+            	id = idStr.substr(5, idStr.length-10);
+            	showMs(id);
+            }
         });
        	sysTitles.on('click', function(){
-            var idStr = $(this).attr('id'), 
-            	id = idStr.substr(('isRead').length, 5);
-			showCb(id);
+            var idStr = $(this).attr('class'), id;
+            if(idStr.indexOf('new') == -1){
+            	id = idStr.substr(6, idStr.length-6);            	
+            }else{
+            	id = idStr.substr(6, idStr.length-10);
+            }
+            showCb(id);
         });
    	});
 });

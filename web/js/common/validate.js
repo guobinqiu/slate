@@ -58,7 +58,7 @@ define(['jquery'],function($){
         // 日期
         email: "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$",
         // 邮件
-        idcard: "^[1-9]([0-9]{14}|[0-9]{17})$",
+        idcard: "^[1-9]([0-9]{14}|[0-9]{16}([0-9]|X|x))$",
         // 身份证
         ip4: "^(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)$",
         // ip地址
@@ -134,12 +134,12 @@ define(['jquery'],function($){
     //验证文本
     var validatePrompt = {
         regName: {
-            onFocus:"4-20位字符,支持汉字、字母、数字及\"-\"、\"_\"组合",
+            onFocus:"1-100位字符,支持汉字、字母、数字及\"-\"、\"_\"组合",
             succeed: "OK!",
             isNull: "请输入用户名",
             error: {
                 beUsed: "该昵称已被使用，请重新输入。",
-                badLength: "用户名长度只能在4-20位字符之间",
+                badLength: "用户名长度只能在1-100位字符之间",
                 badFormat: "用户名只能由中文、英文、数字及\"-\"、\"_\"组成",
                 fullNumberName: "用户名不能是纯数字，请重新输入"
             },
@@ -161,12 +161,12 @@ define(['jquery'],function($){
             }
         },
         pwd: {
-            onFocus: "6-20位字符，建议由字母，数字和符号两种以上组合",
+            onFocus: "5-100位字符，密码至少包含1位字母和1位数字",
             succeed: "OK!",
             isNull: "请输入密码",
             error: {
-                badLength: "密码长度只能在6-20位字符之间",
-                badFormat: "密码只能由英文、数字及标点符号组成",
+                badLength: "密码长度只能在5-100位字符之间",
+                badFormat: "密码至少包含1位字母和1位数字",
                 simplePwd: "该密码比较简单，建议您更改"
             },
             onFocusExpand: function() {
@@ -178,9 +178,9 @@ define(['jquery'],function($){
             succeed: "OK!",
             isNull: "请确认密码",
             error: {
-                badLength: "密码长度只能在6-20位字符之间",
+                badLength: "密码长度只能在5-100位字符之间",
                 badFormat2: "两次输入密码不一致",
-                badFormat1: "密码只能由英文、数字及标点符号组成"
+                badFormat1: "密码至少包含1位字母和1位数字"
             }
         },
         protocol: {
@@ -294,7 +294,7 @@ define(['jquery'],function($){
                 return;
             }
             var format = validateRules.isPwd(option.value);
-            var length = validateRules.betweenLength(option.value, 6, 20);
+            var length = validateRules.betweenLength(option.value, 5, 100);
 
             pwdStrength.hide();
             if(!length && format){
@@ -316,7 +316,7 @@ define(['jquery'],function($){
         pwdRepeat: function(option) {
             var str1 = option.value;
             var str2 = $("#pwd").val();
-            var length = validateRules.betweenLength(option.value, 6, 20);
+            var length = validateRules.betweenLength(option.value, 5, 100);
             var format2 = validateRules.isPwdRepeat(str1, str2);
             var format1 = validateRules.isPwd(str1);
             if (!length) {
@@ -540,7 +540,7 @@ define(['jquery'],function($){
     var checkPin = -10;
     function checkPinF(option) {
         var pin = option.value;
-        if (!validateRules.betweenLength(pin.replace(/[^\x00-\xff]/g, "**"), 4, 20)) {
+        if (!validateRules.betweenLength(pin.replace(/[^\x00-\xff]/g, "**"), 1, 100)) {
             validateSettings.error.run(option, option.prompts.error.badLength);
             return false;
         }

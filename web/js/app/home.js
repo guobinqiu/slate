@@ -12,4 +12,28 @@ require(['../config'],function(){
     //    }});
     //});
     require(['countdown']);
+    require(['jquery'], function($){
+        //读取cookie
+        var res = document.cookie.substring(5,10);
+        //如果没有cookie执行以下操作
+        //新手引导部分
+        if(res!="guide"){
+            var omar = $('.main-con').height() + 385;
+            $('#newguideWrap').css('margin-top','-'+ omar +'px')
+            $('#mask, #newguideWrap, #newguideWrap div:eq(0)').show();
+            $('#newguideWrap a.ngbtn').click(function(){
+                var current = $(this).parent().parent();
+                current.hide();
+                current.next().show();
+            });
+
+            $('.ngclose, #newguideWrap div a:last').click(function(){
+                $('#mask, #newguideWrap').hide();
+            });
+            //添加cookie
+            var oDate = new Date();
+            oDate.setDate(oDate.getDate() + 10000);
+            document.cookie="name=guide;expires=" + oDate;
+        }
+    });    
 });
