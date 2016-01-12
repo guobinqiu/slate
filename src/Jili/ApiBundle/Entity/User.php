@@ -39,6 +39,9 @@ class User
     const PWD_WENWEN = 1;
     const PWD_JILI = 2;
 
+    const EMAIL_NOT_CONFIRMED = 0;
+    const EMAIL_CONFIRMED = 1;
+
     public function __construct()
     {
         $this->setRegisterDate ( new \DateTime())
@@ -46,7 +49,8 @@ class User
             ->setPoints( self::POINT_SIGNUP)
             ->setIsInfoSet( self::INFO_IS_SET)
             ->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE)
-            ->setToken( '');
+            ->setToken( '')
+            ->setIsEmailConfirmed(self::EMAIL_NOT_CONFIRMED);
     }
 
     /**
@@ -1407,5 +1411,10 @@ class User
     public function getWorkSectionCode()
     {
         return $this->workSectionCode;
+    }
+
+    public function emailIsConfirmed () 
+    {
+        return  (bool) $this->getIsEmailConfirmed();
     }
 }

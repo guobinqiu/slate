@@ -59,36 +59,36 @@ class UserLogin
             return $code;
         }
 
-        if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/", $email)) {
+        if ( ! preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/", $email)) {
             $code = $this->getParameter('login_wr_mail');
             return $code;
         }
 
         $em = $this->em;
-        $em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        if (!$em_email) {
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        if (!user) {
             $code = $this->getParameter('login_wr');
             return $code;
         }
 
-        $user = $em_email[0];
         $id = $user->getId();
-        if ($user->getDeleteFlag() == 1) {
+        if ($user->getDeleteFlag() == 1 || ! $user->emailIsConfirmed()) {
             $code = $this->getParameter('login_wr');
             return $code;
         }
 
-        // check the password
+        //  checking password 
         $password = $params['pwd'];
 
         if( $user->isPasswordWenwen() ) {
-            // check wenwen password 
+
+            // using wenwen password 
             $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
             if(! $wenwenLogin || ! $wenwenLogin->getLoginPasswordCryptType() ) {
                 return $this->getParameter('login_wr'); 
             }
 
-            // check jili password 
+            // using jili  password 
             if(! $wenwenLogin->isPwdCorrect($password) ) {
                     return $this->getParameter('login_wr'); 
             }

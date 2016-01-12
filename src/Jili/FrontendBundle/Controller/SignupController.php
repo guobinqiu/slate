@@ -5,6 +5,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Jili\ApiBundle\Entity\User;
+use JMS\JobQueueBundle\Entity\Job;
 
 class SignupController extends Controller 
 {
@@ -23,22 +26,18 @@ class SignupController extends Controller
         }
 
        $user = $em->getRepository('JiliApiBundle:User')
-           ->findOneBy($passwordToken->getUserId());
+           ->findOneById($passwordToken->getUserId());
 
        // user  not found!
        if( ! $user ) {
            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
        }
 
-
        $user->setLastLoginDate(new \Datetime());
        $user->setLastLoginIp($this->getRequest()->getClientIp());
+       $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED );
 
-       $passwordToken->setIsAvailable($this->getParameter('init'));
-
-       if( $user->isPasswordWenwen()) {
-           $user->setPasswordChoice(User::PWD_WENWEN);
-       }
+       $passwordToken->setToUnavailable();
 
        // transaction
        $em->getConnection()->beginTransaction(); // suspend auto-commit
@@ -64,9 +63,9 @@ class SignupController extends Controller
        $em->persist($job);
        $em->flush($job);
 
-       $this->get('login_listener')->initSession($user);
+       $this->get('login.listener')->initSession($user);
        // The user was insert when regAction
-       $this->get('login_listener')->log($user);
+       $this->get('login.listener')->log($user);
         return new RedirectResponse('_home');
     } 
 }

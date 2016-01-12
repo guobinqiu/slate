@@ -119,7 +119,6 @@ class SignupActivateTypeTest extends TypeTestCase
           'nickname' => 'alice32',
           'email' => 'alice_nima@gmail.com',
           'password'=>'123qwe',
-          'agreement'=> true,
           'unsubscribe'=> true
         );
 

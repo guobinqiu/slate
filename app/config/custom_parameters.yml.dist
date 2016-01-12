@@ -409,6 +409,8 @@ parameters:
           pid: 
           tier: 
 
+    signup.crypt_method: 
+    signup.salt: 
             
 twig:
     globals:

@@ -48,6 +48,7 @@ use Jili\ApiBundle\Entity\TaskHistory09;
 
 use Jili\ApiBundle\Utility\ValidateUtil;
 use Jili\FrontendBundle\Controller\CampaignTrackingController;
+use JMS\JobQueueBundle\Entity\Job;
 
 class UserController extends Controller implements CampaignTrackingController
 {
@@ -1068,6 +1069,7 @@ class UserController extends Controller implements CampaignTrackingController
     {
         $request = $this->get('request');
         $session = $request->getSession();
+
         $goToUrl =  $session->get('referer');
         if(substr($goToUrl, -10) != 'user/login' && strlen($goToUrl)>0 ){
             $session->set('goToUrl', $goToUrl);
@@ -1407,6 +1409,8 @@ class UserController extends Controller implements CampaignTrackingController
                     ->process();
 
                 if( isset($user_data_inserted['user']) && isset($user_data_inserted['setPasswordCode'])  ) {
+                    $em = $this->getDoctrine()->getManager();
+
                     $user = $user_data_inserted['user'];
                     $setPasswordCode = $user_data_inserted['setPasswordCode'];
                     // send signup confirm email
@@ -1416,15 +1420,16 @@ class UserController extends Controller implements CampaignTrackingController
                         '--email='. $user->getEmail(),
                         '--title=',
                         '--name='. $user->getNick(),
-                        '--register_key='. $setPasswordCode->getToken() ); //check the verification
+                        '--register_key='. $setPasswordCode->getCode() ); //check the verification
 
                     $job = new Job('webpower-mailer:signup-confirm',$args,  true, '91wenwen_signup');
                     $em->persist($job);
                     $em->flush($job);
 
+                    $session=$this->get('session');
+
                     // check the campaign
                     if( $session->has('campaign_code') && $session->has('campaign_code_token') ) {
-                        $em = $this->getDoctrine()->getManager();
 
                         $campagin_code = $session->get('campaign_code');
                         $campagin_code_token  = $session->get('campaign_code_token');

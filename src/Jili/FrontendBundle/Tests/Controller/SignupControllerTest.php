@@ -55,6 +55,9 @@ class SingupControllerTest extends WebTestCase
         $this->em->close();
     }
 
+    /**
+     * @group debug
+     */
     public function testRegisterConfirmActionInvalidCode()
     {
         $client= $this->client;
@@ -67,11 +70,9 @@ class SingupControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'not exists password code'  );
 
+        $this->assertContains('404错误，这个页面被大鲨鱼劫走了~', $client->getResponse()->getContent(),' 404');
     }
 
-    /**
-     * @group debug
-     */
     public function testRegisterConfirmAction()
     {
         $client= $this->client;
@@ -84,9 +85,13 @@ class SingupControllerTest extends WebTestCase
         $url = $container->get('router')->generate('_signup_confirm_register', array('register_key'=>$password_code->getCode()) );
         $crawler = $client->request('GET', $url ) ;
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'request with a valide password code'  );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'request with a valide password code'  );
+        
 
- 
+        $user_stm =   $em->getConnection()->prepare('select * from user where id =  '.$user->getId());
+        $user_stm->execute();
+        $user_updated =$user_stm->fetchAll();
+        $this->assertEquals(1, $user_updated[0]['is_email_confirmed'], 'is_email_confirmed should be true');
     }
 
 }

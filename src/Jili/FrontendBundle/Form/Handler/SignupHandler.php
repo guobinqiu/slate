@@ -6,8 +6,10 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\EntityManager;
+use Jili\ApiBundle\Utility\PasswordEncoder;
 
 use Jili\FrontendBundle\Mailer\Mailer;
+
 
 /**
  *
@@ -25,6 +27,15 @@ class SignupHandler
 
     private $userAgent ;
     private $remoteAddress;
+
+    private $password_salt;
+    private $password_encrypt_type;
+
+    public function __construct( $crypt_method,$salt) 
+    {
+        $this->password_crypt_type = $crypt_method;
+        $this->password_salt = $salt;
+    }
 
     public function setForm(FormInterface $form)
     {
@@ -49,23 +60,25 @@ class SignupHandler
             'remote_address' => $this->remoteAddress,
         ));
  
-
         $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->create(array(
             'user_id' => $user->getId()
         ));
 
-        $em->getRepository('JiliApiBundle:UserWenwenLogin')->create(array('user_id'=> $user->getId() ,
-            'password'=>$data['password'],
-            'crypt_type '=>'',
-            'salt'=> '' ));
+        $password = PasswordEncoder::encode($this->password_crypt_type,$data['password'] , $this->password_salt);; 
+
+
+        $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array('user_id'=> $user->getId() ,
+            'password' => $password,
+            'crypt_type' => $this->password_crypt_type ,
+            'salt'=> $this->password_salt ));
 
         if( false === $data['unsubscribe'] ) {
-            $em->getRepository('JiliApiBundle:UserEdmUnsubscribeRepository')
+            $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')
                 ->insertOne( $user->getId());
         }
 
         // sent signup activate email
-        $result = $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode());
+        // $result = $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode());
 
         return array( 'user'=> $user, 'setPasswordCode'=> $setPasswordCode);
     }
@@ -99,18 +112,4 @@ class SignupHandler
     }
 
 
-    public function setContainer($container)
-    {
-        $this->container = $container;
-    }
-
-    private function getParameter($key)
-    {
-        return $this->container->getParameter($key);
-    }
-
-    public function setMailer(Mailer $mailer)
-    {
-        $this->mailer = $mailer;
-    }
 }

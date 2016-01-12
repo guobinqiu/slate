@@ -1,7 +1,7 @@
 <?php
 namespace Jili\ApiBundle\Tests\Command\Worker;
 
-use Jili\ApiBundle\Command\Worker\WebpowerCommand;
+use Jili\ApiBundle\Command\Worker\JmsDemoCommand;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -45,12 +45,13 @@ class WebpowerCommandTest extends KernelTestCase
      */
     public function testExecute() 
     {
+        $this->markTestSkipped('This is a command for research JmsQueueBundle');
         // mock the Kernel or create one depending on your needs
         $em = $this->em;
         $application = new Application(static :: $kernel);
-        $application->add(new WebpowerCommand());
+        $application->add(new JmsDemoCommand());
 
-        $command = $application->find('webpower:mailer');
+        $command = $application->find('jms:demo');
         $commandTester = new CommandTester($command);
         $i=0;
         while($i < 10 )  {
@@ -61,8 +62,5 @@ class WebpowerCommandTest extends KernelTestCase
                 $em->flush($job);
             }
         }
-       $this->assertEquals('1',1);
     }
-
-
 }

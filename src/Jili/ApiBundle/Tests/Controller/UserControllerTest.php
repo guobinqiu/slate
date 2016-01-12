@@ -11,7 +11,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserSetPasswordCodeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserResetPasswordCodeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserReSendCodeData;
-
+use JMS\JobQueueBundle\Entity\Job;
 
 class UserControllerTest extends WebTestCase
 {
@@ -528,39 +528,59 @@ $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
         $this->assertEquals('symonfy/2.0',$user->getCreatedUserAgent(), 'user_agent should be symfony/2.0');
         $this->assertEquals('121.199.27.128',$user->getCreatedRemoteAddr(), 'client ip when reg should be 121.199.27.128');
 
-        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
-
-        // Check that an e-mail was sent
-        $this->assertEquals(1, $mailCollector->getMessageCount());
-        $collectedMessages = $mailCollector->getMessages();
-        $message = $collectedMessages[0];
+        // check passsword token
 
         $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneBy(array('userId'=>$user->getId()));
-        $userEdmUnsubscriber = $em->getRepository('JiliApiBundle:UserEdmUnsubscribeRepository')->findOneBy(array('userId'=>$user->getId()));
+         $this->assertNotNull($setPasswordCode, 'check the set_password_code for the created user');
+         $this->assertNotEmpty($setPasswordCode->getCode(), 'check the set_password_code.code not empty for the created user');
+
+        //check email job inserted
+        $jobs =  $em->getRepository('JMSJobQueueBundle:Job')->findAll();
+        $this->assertCount(1, $jobs, 'only 1 job ' );
+        $job=$jobs[0];
+        $this->assertEquals(Job::STATE_PENDING,$job->getState() ,'pending');
+        $this->assertEquals('webpower-mailer:signup-confirm',$job->getCommand() ,'the comand ');
+        $this->assertEquals('91wenwen_signup',$job->getQueue() ,'the queue');
+
+
+        $args = array( '--campaign_id=1','--group_id=81','--mailing_id=9','--email=alice.nima@gmail.com',
+            '--title=',
+            '--name=alice32',
+            '--register_key='.$setPasswordCode->getCode() );
+
+        $this->assertEquals($args ,$job->getArgs() ,'pending');
+
+
+
+        $userEdmUnsubscriber = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findOneBy(array('userId'=>$user->getId()));
 
         $this->assertNotNull($userEdmUnsubscriber, 'unsubscribe edm');
 
-        $this->assertNotNull($setPasswordCode, 'check the set_password_code for the created user');
-        $this->assertNotEmpty($setPasswordCode->getCode(), 'check the set_password_code.code not empty for the created user');
-        $url = $container->get('router')->generate('_user_forgetPass',array('code'=>$setPasswordCode->getCode(), 'id'=>$user->getId()),true);
 
-        $body_expected = '<html>' .
-            '<head></head>' .
-            '<body>' .
-            '亲爱的'.$user->getNick().'<br/>'.
-            '<br/>'.
-            '感谢您注册成为“积粒网”会员！请点击<a href="'.$url.'" target="_blank">这里</a>，立即激活您的帐户！<br/><br/><br/>' .
-            '注：激活邮件有效期是14天，如果过期后不能激活，请到网站首页重新注册激活。<br/><br/>' .
-            '++++++++++++++++++++++++++++++++++<br/>' .
-            '积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
-            '</body>' .
-            '</html>';
-        // Asserting e-mail data
-        $this->assertInstanceOf('Swift_Message', $message);
-        $this->assertEquals('91问问网-注册激活邮件', $message->getSubject(),'trans by domain mailings,"signup_title" ');
-        $this->assertEquals('account@91jili.com', key($message->getFrom()));
-        $this->assertEquals($user->getEmail(), key($message->getTo()));
-//#        $this->assertEquals($body_expected,$message->getBody());
+        // Check that an e-mail was sent
+        // $mailCollector = $client->getProfile()->getCollector('swiftmailer');
+        // $this->assertEquals(1, $mailCollector->getMessageCount());
+        // $collectedMessages = $mailCollector->getMessages();
+        // $message = $collectedMessages[0];
+
+        // $url = $container->get('router')->generate('_user_forgetPass',array('code'=>$setPasswordCode->getCode(), 'id'=>$user->getId()),true);
+
+        // $body_expected = '<html>' .
+        //     '<head></head>' .
+        //     '<body>' .
+        //     '亲爱的'.$user->getNick().'<br/>'.
+        //     '<br/>'.
+        //     '感谢您注册成为“积粒网”会员！请点击<a href="'.$url.'" target="_blank">这里</a>，立即激活您的帐户！<br/><br/><br/>' .
+        //     '注：激活邮件有效期是14天，如果过期后不能激活，请到网站首页重新注册激活。<br/><br/>' .
+        //     '++++++++++++++++++++++++++++++++++<br/>' .
+        //     '积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
+        //     '</body>' .
+        //     '</html>';
+        // // Asserting e-mail data
+        // $this->assertInstanceOf('Swift_Message', $message);
+        // $this->assertEquals('91问问网-注册激活邮件', $message->getSubject(),'trans by domain mailings,"signup_title" ');
+        // $this->assertEquals('account@91jili.com', key($message->getFrom()));
+        // $this->assertEquals($user->getEmail(), key($message->getTo()));
 
     }
 }
