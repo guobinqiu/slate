@@ -463,6 +463,10 @@ body {
           .main-con .gadgetList ul li .text p {
             font-size: 14px;
             line-height: 23px; }
+  .main-con #divInstaller a {
+    margin-left: 130px;
+    margin-bottom: 10px;
+    display: inline-block; }
 
 .footer {
   margin-top: 0 !important; }

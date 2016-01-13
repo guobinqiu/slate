@@ -1,14 +1,14 @@
 require(['../config'],function(){
     require(['common']);
-    require(['installer', 'swfobject'], function(installer, swfobject){
+    require(['swfobject', 'installer'], function(swfobject, installer){
         window.__startAirInstall(
             'divInstaller',
-            'http://www.91wenwen.net/swf/gadget/AIRInstallBadge.swf',
+            'http://wang1-jili.com/swf/gadget/AIRInstallBadge.swf',
             '2.6',
             '91wenwen.com.DesktopWidget',
             '91问问桌面工具',
             '1.0.9',
-            'http://www.91wenwen.net/dl/gadget/91wenwenDesktopWidget_1_0_9.air'
+            'http://wang1-jili.com/dl/gadget/91wenwenDesktopWidget_1_0_9.air'
         );
     });
     require(['jquery'], function($){
