@@ -37,19 +37,4 @@ class ValidateUtil
         }
         return true;
     }
-
-    /**
-     * validate password, 用户密码为6-20个字符，不能含特殊符号
-     *
-     * @param string $password
-     *
-     * @return boolean
-     */
-    public static function validatePassword($password)
-    {
-        if (!preg_match("/^[0-9A-Za-z_]{6,20}$/", $password)) {
-            return false;
-        }
-        return true;
-    }
 }

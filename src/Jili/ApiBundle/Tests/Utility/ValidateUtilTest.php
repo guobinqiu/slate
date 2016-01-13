@@ -34,17 +34,4 @@ class ValidateUtilTest extends \PHPUnit_Framework_TestCase
         $return = ValidateUtil::validatePeriod('2015-09-01', '2015-09-01');
         $this->assertTrue($return, 'Start time is before than the end of time');
     }
-
-    /**
-     * @group dev-merge-ui-set-password
-     */
-    public function testValidatePassword()
-    {
-        $return = ValidateUtil::validatePassword('%');
-        $this->assertFalse($return, 'password is %');
-        $return = ValidateUtil::validatePassword('aa');
-        $this->assertFalse($return, 'password is aa');
-        $return = ValidateUtil::validatePassword('123456');
-        $this->assertTrue($return, 'password is 123456');
-    }
 }

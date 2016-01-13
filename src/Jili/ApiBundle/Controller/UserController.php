@@ -208,7 +208,7 @@ class UserController extends Controller
                     $em->flush();
 
                 }
-                return $this->redirect($this->generateUrl('_user_info'));
+                return $this->redirect($this->generateUrl('_profile_edit'));
 
             }
         }
@@ -908,9 +908,7 @@ class UserController extends Controller
         $form_view = $form->createView();
 
         $this->get('login.listener')->updateInfoSession($user);
-
-        
-        return $this->render('WenwenFrontendBundle:Personal:profile.html.twig', array(
+        return $this->render('JiliApiBundle:User:info.html.twig', array(
             'form' => $form_view,
             'form_upload' =>$form_view,
             'user' => $user,
@@ -1420,7 +1418,7 @@ class UserController extends Controller
                                                 $code_nick = $this->container->getParameter('reg_wr_nick');
                                             } else {
                                                 $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array(
-                                                    'nick'=> $nick, 
+                                                    'nick'=> $nick,
                                                     'email'=>$email,
                                                     'remote_address'=>$request->getClientIp(),
                                                     'user_agent'=>$request->headers->get('USER_AGENT'),
@@ -1460,7 +1458,7 @@ class UserController extends Controller
 //        } elseif( $request->getMethod()==='GET') {
 //             $this->get('user_sign_up_route.listener')->log( );
         }
-        
+
         return $this->render('WenwenFrontendBundle:User:register.html.twig',array(
                 'form' => $form->createView(),
                 'code_nick'=>$code_nick,

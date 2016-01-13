@@ -20,12 +20,12 @@ require(['../config'],function(){
                 }
             },
             pwd: {
-                onFocus: "6-20位字符，建议由字母，数字和符号两种以上组合",
+                onFocus: "5-100位字符，密码至少包含1位字母和1位数字",
                 succeed: "OK!",
                 isNull: "请输入密码",
                 error: {
-                    badLength: "密码长度只能在6-20位字符之间",
-                    badFormat: "密码只能由英文、数字及标点符号组成",
+                    badLength: "密码长度只能在5-100位字符之间",
+                    badFormat: "密码至少包含1位字母和1位数字",
                     simplePwd: "该密码比较简单，建议您更改"
                 },
                 onFocusExpand: function() {
