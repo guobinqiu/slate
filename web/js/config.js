@@ -40,7 +40,7 @@ require.config({
     // shim里面的配置，表示某个js加载前，必须加载指定的js文件
     shim: {
         installer:{
-            deps:['swfobject'],
+            deps:[],
             exports: 'installer'
         },
         swfobject:{
