@@ -1,4 +1,4 @@
-mail:
+mail_send:
     to:    vctech-system@voyagegroup.info
 interface:
     balance:    1000
