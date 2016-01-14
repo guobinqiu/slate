@@ -108,7 +108,7 @@ class WeiBoLoginController extends Controller
             $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
             if($check_user){
                 $code = '此账号已存在，请点击下方【已有积粒网账号】按钮进行绑定!';
-                return $this->render('WenwenFrontendBundle:User:weibo.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'form' => $form->createView(), 'regcode'=>$code));
+                return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'form' => $form->createView(), 'regcode'=>$code));
             } 
             //openid check
             $check_weibouser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneByOpenId($param['open_id']);
@@ -132,7 +132,7 @@ class WeiBoLoginController extends Controller
             $code = '请填写正确的邮箱或密码!';
         }
         $weibo_user_img = $request->getSession()->get('weibo_user_img');
-        return $this->render('WenwenFrontendBundle:User:weibo.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'weibo_user_img'=>$weibo_user_img,'form' => $form->createView(), 'regcode'=>$code));
+        return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'weibo_user_img'=>$weibo_user_img,'form' => $form->createView(), 'regcode'=>$code));
     }
     
     /**
@@ -158,7 +158,7 @@ class WeiBoLoginController extends Controller
         }
         $form  = $this->createForm(new WeiBoFirstRegist());
         $weibo_user_img = $request->getSession()->get('weibo_user_img');
-        return $this->render('WenwenFrontendBundle:User:weibo.html.twig',
+        return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',
                 array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'], 'weibo_user_img'=>$weibo_user_img,'form' => $form->createView(),'bindcode'=>$code));
     }
     
@@ -180,7 +180,7 @@ class WeiBoLoginController extends Controller
         //$request->getSession()->remove('weibo_name');
         //设置form跳转注册页
         $form  = $this->createForm(new WeiBoFirstRegist());
-        return $this->render('WenwenFrontendBundle:User:weibo.html.twig',
+        return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',
                 array('email'=>'', 'pwd'=>'','open_id'=>$weibo_openid,'nickname'=>$weibo_name, 'weibo_user_img'=>$weibo_user_img, 'form' => $form->createView()));
     }
 }
