@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "::adminBase.html.twig" %}
 
 {% block title %}
 {% if title is defined %}
@@ -7,8 +7,12 @@
 创建积分策略
 {% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+{{parent() }}
+{% endblock %}
 
+{% block body %}
+<div class="autoCenter">
 <h1>
 {% if title is defined %}
 {{ title }} - 
@@ -21,7 +25,7 @@
         {{ flashMessage }}
     </div>
 {% endfor %}
-<div>
+<div class="mt10">
 <p>格式要求:</p>
 <pre>
 分发频率1:分值1
@@ -30,5 +34,6 @@
 </pre>
 </div>
 {# form here #}
+</div>
 {% endblock %}
 

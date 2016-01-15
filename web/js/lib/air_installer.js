@@ -21,7 +21,7 @@ if (window.__startAirInstall == undefined)
 
         //	set width and height
         var _width = 380;
-        var _height = 60;
+        var _height = 145;
 
         //	create swf object
         var _so = new SWFObject(

@@ -378,11 +378,16 @@ body {
       .main-con .slideDown .slideCon .deskCon .txtL #divInstaller {
         margin-left: -75px;
         margin-top: 46px; }
-      .main-con .slideDown .slideCon .deskCon .txtL p {
+        .main-con .slideDown .slideCon .deskCon .txtL #divInstaller a {
+          margin-left: 130px;
+          margin-bottom: 10px;
+          display: inline-block; }
+      .main-con .slideDown .slideCon .deskCon .txtM {
+        margin-top: 46px;
         font-size: 14px;
         line-height: 23px;
-        margin-left: 54px; }
-        .main-con .slideDown .slideCon .deskCon .txtL p a {
+        margin-left: 24px; }
+        .main-con .slideDown .slideCon .deskCon .txtM a {
           color: #0078b6; }
       .main-con .slideDown .slideCon .deskCon .txtR {
         width: 466px;

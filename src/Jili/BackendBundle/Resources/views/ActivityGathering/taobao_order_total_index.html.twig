@@ -7,16 +7,14 @@ Taobao订单数量-201501月活动-{{ parent() }}
 {% block body %}
 
 {% include("JiliBackendBundle::session_notification.html.twig") %}
-<div align="center">
+<div class="autoCenter">
     <table>
         {% if total is null %}
         <a href="{{ path('jili_backend_activitygathering_createordertotal')  }}">新建</a>
         {% else %}
         <tr><td>当前订单数量</td><td>{{ total }}</td></tr>
-
-        <tr><td>&nbsp;</td><td>
-                <a href="{{ path('jili_backend_activitygathering_editordertotal')  }}">更新</a>
-        </td></tr>
+        <tr><td height="10"></td><td></td></tr>
+        <tr><td><a href="{{ path('jili_backend_activitygathering_editordertotal')  }}">更新</a></td><td></td></tr>
         {% endif %}
     </table>
 </div>

@@ -1,6 +1,6 @@
 require(['../config'],function(){
     require(['common']);
-    require(['installer', 'swfobject'], function(installer, swfobject){
+    require(['swfobject', 'installer'], function(swfobject, installer){
         window.__startAirInstall(
             'divInstaller',
             'http://www.91wenwen.net/swf/gadget/AIRInstallBadge.swf',
