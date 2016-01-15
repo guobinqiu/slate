@@ -1,8 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}QQ登录：{{ parent() }} {% endblock %}
+{% block title %}QQ注册：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/weiboQQ.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
  
 {% block header %}
@@ -11,8 +11,52 @@
 
 {% block body %}
 <div class="main-con w1000">
-    <h1>以注册页面示例</h1>
-    <p>1、头部的css每个页面对应一个<br/>2、底部的js每个页面对应写入名字</p>
+    <div class="form main-register weibo">
+    	<p class="welcome">尊敬的QQ会员，欢迎来到91问问网站！</p>
+    	<div class="basicInfo">
+    		<h4>您的基本信息</h4>
+    		<div class="con">您的昵称：老师看见耽搁了<br>性别：女</div>
+    	</div>
+    	<div class="otherRegForm tabCon">
+    		<div class="tabs tabNav"><span class="active">没有91问问账号</span><span>已有91问问账号</span></div>
+    		<div class="con">
+    			<form action="{{ path('qq_registe') }}" method="post" name="form1" id="form1" >
+    			<ul class="addAccount">
+    				<li>为保障您的账户安全，请设置QQ邮箱和91问问网站密码。</li>
+	                <li><label for="qqEmail">邮箱地址</label><br><input name="qqEmail" type="text" value=""/>@qq.com</li>
+	                <li><label for="setPwd">设置密码</label><br><input name="pwd" type="password" value=""/></li>
+	                <li>
+	                    <strong class="errorMsg" id="regist_emailError">
+	                        {% if regcode is  defined %}
+	                            {{ regcode }}
+	                        {% endif %}
+	                    </strong>
+	                </li>
+	                <li><span class="submitBtn" id='reg' >立即注册</span></li>
+	            </ul>
+    			</form>
+    		</div>
+    		<div class="con">
+    			<form action="{{ path('qq_bind') }}" method="post" name="form2" id="form2" >
+                <ul class="bindAccount">
+                    <li>将已有的91问问账号与QQ账号绑定。</li>
+                    <li><label for="kxUser">91问问账号</label><br><input name="jili_email" type="text" value=""/></li>
+                    <li><label for="kxPwd">登录密码</label><br><input id="pwd" name="jili_pwd" type="password" value=""/></li>
+                    <li><strong class="errorMsg" id="bind_emailError">
+                            {% if bindcode is  defined %}
+                                {{ bindcode }}
+                            {% endif %}
+                        </strong>
+                    </li>
+                    <li><span id='bind' class="submitBtn">立即绑定</span><a class="corGlobBlue" href="{{ path('_user_resetPwd') }}">忘记密码</a></li>
+                </ul>
+                <button style="display:none">binding</button>
+            	</form>
+    		</div>
+    		<div class="bdingImg"><img src="{{ asset('img/user/qqLogin.png') }}" alt="微博绑定图片"></div>
+    	</div>
+    	<div class="icon"></div>
+	</div>
 </div>
 {% endblock %}
 
@@ -21,5 +65,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/register')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/weiboQQ')}}"></script>
 {% endblock %}

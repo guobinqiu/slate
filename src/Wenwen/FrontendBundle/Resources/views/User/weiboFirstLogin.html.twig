@@ -1,8 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}微博登录：{{ parent() }} {% endblock %}
+{% block title %}微博注册：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/weiboQQ.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
@@ -12,27 +12,50 @@
 {% block body %}
 <div class="main-con w1000">
 	<div class="form main-register weibo">
-		<form id="signup_form" action="/signup/profile" method="post">
-		<input type="hidden" name="region_id" id="region_id" /><input type="hidden" name="_csrf_token" value="3e820125858940ba4c409723ac2e4a81" id="_csrf_token" /> 
-		<ul class="w460">
-			<li>
-				<label for="regName">昵称</label>
-				<div><input name="regName" id="regName" type="text" ><span id="regName_succeed" class="succeed"></span><span id="regName_error" class="msg_normal">请输入您的昵称</span></div>
-			</li>
-			<li>
-				<label for="email">电子邮件</label>
-				<div><input name="email" id="email" type="text"><span id="email_succeed" class="succeed"></span><span id="email_error" class="msg_normal">输入有误</span></div>
-			</li>
-			<li>
-				<div class="subscribe"><input type="checkbox" checked="checked">我愿意接收91问问发出的会员邮件<div class="tips expand-btn">
-					<b>?</b>
-					<div class="tips-con expand-con"><p>91问问将为会员定期发出问卷提醒、活动邀请等会员专享服务，您也可以在邮箱内取消订阅。</p><b class="arrow"></b></div>
-				</div></div>
-				<div><input type="checkbox" checked="checked">我已阅读并接收<a href="">《会员协议》</a></div>
-			</li>
-		</ul>
-		<div class="main-register-btn w460"><span id="submit_button">注&nbsp;&nbsp;&nbsp;册</span><img src="{{ asset('img/user/regPoint.png') }}" alt=""></div>
-		</form>
+    	<p class="welcome">尊敬的新浪微博会员，欢迎来到91问问网站！</p>
+    	<div class="basicInfo">
+    		<h4>您的基本信息</h4>
+    		<div class="con"><div class="tx"><label>头像：</label><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt="微博头像" height="55"></div>昵称：老师看见耽搁了</div>
+    	</div>
+    	<div class="otherRegForm tabCon">
+    		<div class="tabs tabNav"><span class="active">没有91问问账号</span><span>已有91问问账号</span></div>
+    		<div class="con">
+    			<form action="{{ path('qq_registe') }}" method="post" name="form1" id="form1" >
+    			<ul class="addAccount">
+    				<li>为保障您的账户安全，请设置一个邮箱和91问问网站密码。</li>
+	                <li><label for="weiboEmail">邮箱地址</label><br><input name="weiboEmail" type="text" value=""/></li>
+	                <li><label for="setPwd">设置密码</label><br><input name="pwd" type="password" value=""/></li>
+	                <li>
+	                    <strong class="errorMsg" id="regist_emailError">
+	                        {% if regcode is  defined %}
+	                            {{ regcode }}
+	                        {% endif %}
+	                    </strong>
+	                </li>
+	                <li><span class="submitBtn" id='reg' >立即注册</span></li>
+	            </ul>
+    			</form>
+    		</div>
+    		<div class="con">
+    			<form action="{{ path('qq_bind') }}" method="post" name="form2" id="form2" >
+                <ul class="bindAccount">
+                    <li>将已有的91问问账号与新浪微博账号绑定。</li>
+                    <li><label for="kxUser">91问问账号</label><br><input name="jili_email" type="text" value=""/></li>
+                    <li><label for="kxPwd">登录密码</label><br><input id="pwd" name="jili_pwd" type="password" value=""/></li>
+                    <li><strong class="errorMsg" id="bind_emailError">
+                            {% if bindcode is  defined %}
+                                {{ bindcode }}
+                            {% endif %}
+                        </strong>
+                    </li>
+                    <li><span id='bind' class="submitBtn">立即绑定</span><a class="corGlobBlue" href="{{ path('_user_resetPwd') }}">忘记密码</a></li>
+                </ul>
+                <button style="display:none">binding</button>
+            	</form>
+    		</div>
+    		<div class="bdingImg"><img src="{{ asset('img/user/weiboLogin.png') }}" alt="微博绑定图片"></div>
+    	</div>
+    	<div class="icon"></div>
 	</div>
 </div>
 {% endblock %}
@@ -42,5 +65,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/register')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/weiboQQ')}}"></script>
 {% endblock %}
