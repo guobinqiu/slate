@@ -15,15 +15,17 @@
     	<p class="welcome">尊敬的新浪微博会员，欢迎来到91问问网站！</p>
     	<div class="basicInfo">
     		<h4>您的基本信息</h4>
-    		<div class="con"><div class="tx"><label>头像：</label><img src="{{ asset('img/temp/qsurveyImg.jpg') }}" alt="微博头像" height="55"></div>昵称：老师看见耽搁了</div>
+    		<div class="con">{% if weibo_user_img is defined %}<div class="tx"><label>头像：</label><img src="{{ weibo_user_img }}" alt="微博头像" height="55"></div>{% endif %}昵称：{{ nickname }}</div>
     	</div>
     	<div class="otherRegForm tabCon">
     		<div class="tabs tabNav"><span class="active">没有91问问账号</span><span>已有91问问账号</span></div>
+    		{# if( newregist )#}
     		<div class="con">
     			<form action="{{ path('qq_registe') }}" method="post" name="form1" id="form1" >
+    			<input type="hidden" name="weibonickname" value="{{ nickname }}"/>
     			<ul class="addAccount">
     				<li>为保障您的账户安全，请设置一个邮箱和91问问网站密码。</li>
-	                <li><label for="weiboEmail">邮箱地址</label><br><input name="weiboEmail" type="text" value=""/></li>
+	                <li><label for="weiboEmail">邮箱地址</label><br>{{ form_widget(form.email, { 'attr': {'class': 'weiboEmail'} }) }}</li>
 	                <li><label for="setPwd">设置密码</label><br><input name="pwd" type="password" value=""/></li>
 	                <li>
 	                    <strong class="errorMsg" id="regist_emailError">
@@ -34,13 +36,15 @@
 	                </li>
 	                <li><span class="submitBtn" id='reg' >立即注册</span></li>
 	            </ul>
+	            {{ form_rest(form) }}
     			</form>
     		</div>
     		<div class="con">
     			<form action="{{ path('qq_bind') }}" method="post" name="form2" id="form2" >
+    			<input type="hidden" name="weibonickname" value="{{ nickname }}"/>
                 <ul class="bindAccount">
                     <li>将已有的91问问账号与新浪微博账号绑定。</li>
-                    <li><label for="kxUser">91问问账号</label><br><input name="jili_email" type="text" value=""/></li>
+                    <li><label for="kxUser">91问问账号</label><br><input name="jili_email" type="text" value="{{ email }}"/></li>
                     <li><label for="kxPwd">登录密码</label><br><input id="pwd" name="jili_pwd" type="password" value=""/></li>
                     <li><strong class="errorMsg" id="bind_emailError">
                             {% if bindcode is  defined %}
