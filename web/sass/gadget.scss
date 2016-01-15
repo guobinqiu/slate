@@ -116,15 +116,21 @@ body{
 					#divInstaller{
 						margin-left: -75px;
 	  					margin-top: 46px;
+	  					a{
+							margin-left: 130px;
+							margin-bottom: 10px;
+							display: inline-block;
+						}
 					}
-					p{
-					    font-size: 14px;
-					    line-height: 23px;
-					    margin-left: 54px;
-					    a{
-					    	color: $main-title-color;
-					    }
-					}
+				}
+				.txtM{
+					margin-top: 46px;
+				    font-size: 14px;
+				    line-height: 23px;
+				    margin-left: 24px;
+				    a{
+				    	color: $main-title-color;
+				    }
 				}
 				.txtR{
 					width: 466px; 
