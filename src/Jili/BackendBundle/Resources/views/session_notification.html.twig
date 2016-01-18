@@ -1,7 +1,7 @@
 
 {% set flashbag = app.session.flashbag.all %}
 {% if flashbag is not empty %}
-    <div class="messages-container">
+    <div class="messages-container autoCenter">
     {% for type, messages in flashbag %}
         {% for message in messages %}
              <div class="alert alert-{{ type }}">
