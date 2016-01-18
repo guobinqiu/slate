@@ -4,9 +4,9 @@
 {% block stylesheet %}
 <link href="{{ asset('css/survey.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,10 @@
 		<div class="survey survey-sub">
 			<em></em>
 			<h1>问卷列表</h1>
-			<ul>
+            <ul>
+            {% if  votes|length > 10  %}
+                <li>现在还没有新的问卷调查。</li>
+            {% endif %}
 				<li>
 					<div class="survey-item">
 						<div class="title"><a href="">关于饮用水品牌调查</a></div>
@@ -113,6 +116,9 @@
 					<div class="survey-btn"><a href="">可回答</a></div>
 				</li>
 			</ul>
+
+            {{ include( 'WenwenFrontendBundle:Survey:_sopSurveyList.html.twig', {'sop_params': sop_params, 'preview': preview} ) }}
+
 			<div class="page-wrapper">
 				<p class="page">
 					<span class="active">1</span>
@@ -133,9 +139,9 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/survey/survey.js')}}"></script>
 {% endblock %}
