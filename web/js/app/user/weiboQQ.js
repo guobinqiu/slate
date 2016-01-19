@@ -15,7 +15,7 @@ require(['../../config'],function(){
                 error: {
                     beUsed: "该邮箱已被注册,请更换其它邮箱,或使用该<a href=\"signin.php?Email={#Email#}\" name=\"email_login_link\" class=\"more\">邮箱登录</a>",
                     badLength: "邮箱地址长度应在4-50个字符之间",
-                    badFormat: "邮件地址格式不正确"
+                    badFormat: "邮箱地址格式不正确"
                 }
             },
             pwd: {
@@ -37,7 +37,7 @@ require(['../../config'],function(){
                 isNull: "请输入您的邮箱",
                 error: {
                     badLength: "邮箱地址长度应在4-50个字符之间",
-                    badFormat: "邮件地址格式不正确"
+                    badFormat: "邮箱地址格式不正确"
                 }
             },
             jili_pwd: {
