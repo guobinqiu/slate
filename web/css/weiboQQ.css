@@ -173,7 +173,7 @@ body {
       text-align: left;
       color: #575757; }
     .main-register li input[type='text'], .main-register li input[type='password'] {
-      width: 245px;
+      width: 205px;
       border: 1px solid #ebedf2;
       border-radius: 2px; }
       .main-register li input[type='text']#authcode, .main-register li input[type='password']#authcode {
@@ -224,6 +224,7 @@ body {
     font-size: 14px;
     background: #fb7920;
     border-radius: 3px;
+    cursor: pointer;
     display: inline-block;
     *display: inline;
     *zoom: 1; }
@@ -247,17 +248,19 @@ body {
         border: 2px solid #fc6e0d; }
   .otherRegForm > div {
     margin-top: 40px; }
+  .otherRegForm .con {
+    display: none; }
+    .otherRegForm .con .errorMsg {
+      margin-top: 10px;
+      color: #ff0000; }
   .otherRegForm .bdingImg {
     position: absolute;
     z-index: 100;
-    right: 30px;
+    right: 5px;
     bottom: 50px; }
   .otherRegForm .corGlobBlue {
     margin-left: 20px;
     color: #007ec2; }
-
-.none {
-  display: none; }
 
 .footer {
   padding: 20px 0;

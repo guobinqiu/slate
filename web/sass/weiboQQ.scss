@@ -16,7 +16,7 @@
 			color: #575757;
 		}
 		input[type='text'], input[type='password']{
-			width: 245px;
+			width: 205px;
 			border: $input-border;
 			border-radius: 2px;
 			&#authcode{
@@ -78,6 +78,7 @@
 		font-size: 14px;
 		background: #fb7920;
 		border-radius: 3px;
+		cursor: pointer;
 		@include dib();
 	}
 	.tabs{
@@ -102,18 +103,22 @@
 	&>div{
 		margin-top: 40px;
 	}
+	.con{
+		display:none;
+		.errorMsg{
+			margin-top: 10px;
+			color: $error-color;
+		}
+	}
 	.bdingImg{
 		position: absolute;
 		z-index: 100;
-		right: 30px;
+		right: 5px;
 		bottom: 50px;
 	}
 	.corGlobBlue{
 		margin-left: 20px;
 		color: #007ec2;
 	}
-}
-.none{
-	display: none;
 }
 @import "layout/footer-simple";

@@ -107,7 +107,7 @@ class WeiBoLoginController extends Controller
             //email存在check
             $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
             if($check_user){
-                $code = '此账号已存在，请点击下方【已有积粒网账号】按钮进行绑定!';
+                $code = '此账号已存在，请点击下方【已有91问问账号】按钮进行绑定!';
                 return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'form' => $form->createView(), 'regcode'=>$code));
             } 
             //openid check
@@ -125,7 +125,7 @@ class WeiBoLoginController extends Controller
             if($code == 'ok') {
                 return $this->redirect($this->generateUrl('_homepage'));
             } elseif($check_weibouser) {
-                $code = "您的微博ID已在积粒网注册，请直接登录，如有问题请联系客服。";
+                $code = "您的微博ID已在91问问注册，请直接登录，如有问题请联系客服。";
             }
         } else {
             //入力验证不通过
