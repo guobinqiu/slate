@@ -8,10 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
  * SopRespondent
  *
  * @ORM\Table(name="sop_respondent", uniqueConstraints={@ORM\UniqueConstraint(name="user_uniq", columns={"user_id"})}, indexes={@ORM\Index(name="user_status_idx", columns={"status_flag", "user_id"}), @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}), @ORM\Index(name="updated_at_idx", columns={"updated_at"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\SopRespondentRepository")
  */
 class SopRespondent
 {
+    const STATUS_INACTIVE =0;
+    const STATUS_ACTIVE=1;
+
     /**
      * @var integer
      *
@@ -67,14 +70,14 @@ class SopRespondent
     public function setUserId($userId)
     {
         $this->userId = $userId;
-    
+
         return $this;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -90,14 +93,14 @@ class SopRespondent
     public function setStatusFlag($statusFlag)
     {
         $this->statusFlag = $statusFlag;
-    
+
         return $this;
     }
 
     /**
      * Get statusFlag
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getStatusFlag()
     {
@@ -113,14 +116,14 @@ class SopRespondent
     public function setStashData($stashData)
     {
         $this->stashData = $stashData;
-    
+
         return $this;
     }
 
     /**
      * Get stashData
      *
-     * @return string 
+     * @return string
      */
     public function getStashData()
     {
@@ -136,14 +139,14 @@ class SopRespondent
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -159,14 +162,14 @@ class SopRespondent
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -176,7 +179,7 @@ class SopRespondent
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
