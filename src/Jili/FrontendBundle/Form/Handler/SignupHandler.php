@@ -77,8 +77,6 @@ class SignupHandler
                 ->insertOne( $user->getId());
         }
 
-        // sent signup activate email
-        // $result = $this->mailer->sendSignupActivate($user->getEmail(), $user->getNick(), $user->getId(), $setPasswordCode->getCode());
 
         return array( 'user'=> $user, 'setPasswordCode'=> $setPasswordCode);
     }

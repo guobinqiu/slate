@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\AdCategory;
 use JMS\JobQueueBundle\Entity\Job;
 
 class SignupController extends Controller 
@@ -39,9 +40,21 @@ class SignupController extends Controller
 
        $passwordToken->setToUnavailable();
 
+       // send out register  points, insert point_history
+       $points_for_register = 10;
+
+       $points_params = array (
+           'userid' => $user->getId(),
+           'point' => $points_for_register,
+           'type' => AdCategory::ID_SINGUP
+       );
+
+       $user->setPoints(intval($user->getPoints()+$points_for_register));
+
        // transaction
        $em->getConnection()->beginTransaction(); // suspend auto-commit
        try {
+           $this->get('general_api.point_history')->get($points_params);
            $em->persist($user);
            $em->persist($passwordToken);
            $em->flush();
@@ -62,6 +75,18 @@ class SignupController extends Controller
        $job = new Job('webpower-mailer:signup-confirm',$args,  true, '91wenwen_signup');
        $em->persist($job);
        $em->flush($job);
+
+        // campaign logging
+       $logger = $this->get('campaign_code.tracking');
+       $logger->track( array(
+           'md5_sessionid' => md5($this->get('session')->getId()),
+           'campaign_code'=> $user->getCampaignCode(),
+           'module' => 'JiliFrontendBundle::SignupController', 
+           'action' =>'confirmRegisterAction',
+           'logged_at' => date('Y-m-d H:i:s P')
+
+       ));
+
 
        $this->get('login.listener')->initSession($user);
        // The user was insert when regAction

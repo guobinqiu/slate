@@ -18,6 +18,7 @@ class AdCategory
     const ID_ALIPAY = 11;//支付宝
     const ID_MOBILE = 12;//手机费
     const ID_FLOW = 24;//流量包
+    const ID_SINGUP= 32;//注册并验证
     const ID_QUESTIONNAIRE_COST = 92;//问卷回答
     const ID_QUESTIONNAIRE_EXPENSE = 93;//快速问答
 

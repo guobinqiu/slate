@@ -23,7 +23,7 @@ class CampaignTrackingListener
                 $campaign_code= $event->getRequest()->query->get('c');
                 $this->session->set('campaign_code' , $campaign_code);
 
-                if( $event->getRequest()->query->has('c')) {
+                if( $event->getRequest()->query->has('c_token')) {
                     $campaign_code_token = $event->getRequest()->query->has('c_token');
                     $this->session->set('campaign_code_token' , $campaign_code_token);
                 }
