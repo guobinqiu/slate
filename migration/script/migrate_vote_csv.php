@@ -27,6 +27,7 @@ function do_process()
         $votes[$value[0]]['start_time'] = $value[4];
         $votes[$value[0]]['end_time'] = $value[5];
         $votes[$value[0]]['point_value'] = $value[6];
+        $votes[$value[0]]['delete_flag'] = $value[7];
         $votes[$value[0]]['updated_at'] = $value[8];
         $votes[$value[0]]['created_at'] = $value[9];
     }
@@ -72,6 +73,7 @@ function do_process()
                 $vote['point_value'],
                 generate_vote_choice_stash_data($vote['choice']),
                 isset($vote['vote_image']) ? $vote['vote_image'] : 'NULL',
+                $vote['delete_flag'],
                 $vote['updated_at'],
                 $vote['created_at']
                 );
