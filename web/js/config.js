@@ -6,6 +6,7 @@ require.config({
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {//设置路径
         'jquery': 'lib/jquery-1.11.1.min',
+        'jqueryCookie': 'lib/jquery.cookie',
         'installer':'lib/air_installer',
         'swfobject':'lib/swfobject',
         'backbone': 'lib/backbone-1.1.2.min',
