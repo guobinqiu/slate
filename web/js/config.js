@@ -8,6 +8,8 @@ require.config({
         'jquery': 'lib/jquery-1.11.1.min',
         'installer':'lib/air_installer',
         'swfobject':'lib/swfobject',
+        'backbone': 'lib/backbone-1.1.2.min',
+        'underscore': 'lib/underscore-min',
         'jquery.ui.widget': 'plugin/fileUpload/jquery.ui.widget',
         'fileUpload': 'plugin/fileUpload/jquery.fileupload',
         'transport': 'plugin/fileUpload/jquery.iframe-transport',
@@ -62,6 +64,13 @@ require.config({
         routing: {
             deps: ['router'],
             exports: 'routing'
+        },
+        'backbone': {
+            deps: ['underscore', 'jquery'],
+            exports: 'Backbone'
+        },
+        'underscore': {
+            exports: '_'
         }
     }
 });

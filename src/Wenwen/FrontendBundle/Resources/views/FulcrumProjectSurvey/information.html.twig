@@ -1,0 +1,120 @@
+<div class="info-container">
+  <div class="info-contents">
+    <div id="detail" class="clearfix">
+      <dl>
+        <dt>问卷标题</dt>
+        <dd>Fulcrum问卷调查</dd>
+      </dl>
+      <dl>
+        <dt>问卷编号：</dt>
+        <dd id="no"></dd>
+      </dl>
+      <dl>
+        <dt>积分数：</dt>
+        <dd id="point" class="point"><span></span> 分</dd>
+      </dl>
+      <dl>
+      <ul id="note" style="padding: 10px 0px;">
+      		<li>此问卷很短，请尽快作答。</li>
+            <li>如果您的属性不符合该问卷标准，将不会收到任何积分。</li>
+            <li>在回答问卷过程中，请不要中断，避免失去获得积分的机会。</li>
+            <li>当用户成功完成问卷后，积分通常在<span>2-3天</span>累积到您的账户。</li>
+      </ul>
+      </dl>
+    </div>
+    <div id="attention">
+      <h2>注意事项</h2>
+      <ul>
+        <li>回答中请不要点击浏览器的<span><返回></span>按钮</li>
+        <li>请开启浏览器对JAVA的支持</li>
+        <li>推荐浏览器:6.0版本以上的Internet Explorer</li>
+        <li>根据用户会员协议，请不要向第三者泄漏，复制，销售，公开问卷的内容。</li>
+        <li>保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</li>
+      </ul>
+    </div>
+    <div class="nextpage">
+      <p>请确认内容之后点击<下一步><br /> （之后无法返回现在的页面）
+      </p>
+      <a id="survey-link" href="#">
+        <img src="/img/common/start_answering.png" alt="开始回答问卷">
+      </a>
+    </div>
+  </div>
+  <div class="error-message" style="display:none;">
+  </div>
+</div>
+
+<script type="text/javascript">
+(function (exports, $) {
+    var survey_id = '<?php echo $survey_id ?>';
+    var showMessage = function(message){
+        $(".error-message").html(message);
+        $(".error-message").show();
+    };
+    exports.surveylistCallback = function (res) {
+        // show alert if error code
+        if (res.meta.code != '200') {
+            showMessage('Oops! Something went wrong.');
+            return;
+        }
+        // get research
+        var research = _.find(res.data.fulcrum_research, function(research){
+            return research.survey_id == survey_id;
+        });
+
+        // no reasearch
+        if ( !research ){
+            showMessage("您好!本次调查已经结束。");
+            return;
+        }
+
+        // interpolate label
+        $('#title > h1').text(research.title);
+        $('#no').text('f' + research.survey_id);
+        $('#point > span').text(research.extra_info.point.complete);
+        if(research.extra_info.content){
+          $('#note').append($('<li>' + research.extra_info.content+ '</li>'));
+        }
+        $('#survey-link').attr({"href": research.url});
+        $('.info-contents').show();
+    };
+    <?php if ($preview): ?>
+    mockResponse(exports);
+    <?php endif ?>
+    $.ajaxSetup({ cache: true });
+    $.getScript( "<?php echo $sf_data->getRaw('url');?>" )
+     .fail(function( script, textStatus ) {
+            showMessage("System Error");
+    });
+
+})(window, jQuery);
+
+<?php if ($preview): ?>
+// You can preview this page without valid data by accessing fulcrum_project_survey/information/preview
+function mockResponse (exports) {
+  var callback = exports.surveylistCallback;
+  exports.surveylistCallback = function(res){
+    dummy_res = { 'meta' : {'code': '200' },
+                  'data': {
+                    'fulcrum_research':[
+                      {
+                        "survey_id": "preview",
+                        "quota_id": "10",
+                        "cpi": "0.00",
+                        "ir": "80",
+                        "loi": "10",
+                        "title": "Survey from Fulcrum",
+                        "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                        "date": "2015-01-01",
+                        "extra_info": {
+                            "point" : {"complete": "10"}
+                        }
+                      }
+                    ]}};
+    callback(dummy_res);
+  };
+}
+<?php endif ?>
+
+
+</script>

@@ -1,0 +1,25 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}fulcrum dev demo{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/gadget.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+
+{{ include("WenwenFrontendBundle:FulcrumProjectSurvey:_fulcrumSurveyList.html.twig", { "sop_params": sop_params } ) }}
+
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/survey/fulcrum')}}"></script>
+
+{% endblock %}
