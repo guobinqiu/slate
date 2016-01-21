@@ -72,7 +72,11 @@ require.config({
         },
         'underscore': {
             exports: '_'
+        },
+        'jqueryCookie': {
+            deps: [ 'jquery'],
         }
+                  
     }
 });
 

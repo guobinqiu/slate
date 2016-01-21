@@ -80,11 +80,17 @@ class FulcrumProjectSurveyController extends Controller
     }
 
     /**
-     * @Route("/endlink/$survey_id/$answer_status")
+     * @Route("/endlink/{survey_id}/{answer_status}")
      * @Template("WenwenFrontendBundle:FulcrumProjectSurvey:endlink.html.twig")
      */
-    public function endlinkAction(Request $request)
+    public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
+
+        if (!preg_match('/\A(?:complete|screenout|quotafull|error)\z/', $answer_status)) {
+            throw $this->createNotFoundException('The the answer status  not exist');
+
+        }
+
         return array();
     }
 
