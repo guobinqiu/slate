@@ -360,9 +360,10 @@ body {
         .main .qnWrap .qnCon .qnTxt .qnBtn {
           text-align: center; }
           .main .qnWrap .qnCon .qnTxt .qnBtn a {
-            padding: 18px 68px;
-            *height: 75px;
-            *line-height: 75px;
+            width: 230px;
+            text-align: center;
+            height: 75px;
+            line-height: 75px;
             background: #1466d6;
             border-radius: 5px;
             -webkit-border-radius: 5px;
@@ -374,7 +375,14 @@ body {
             box-shadow: 0 3px 0 #0650b8;
             color: #fff;
             font-size: 16px;
-            text-align: center; }
+            text-align: center;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1; }
+        .main .qnWrap .qnCon .qnTxt .tips {
+          margin-top: 10px;
+          text-align: center;
+          line-height: 20px; }
     .main .qnWrap .qnEnd {
       width: 903px; }
       .main .qnWrap .qnEnd .qnEndTxt {
