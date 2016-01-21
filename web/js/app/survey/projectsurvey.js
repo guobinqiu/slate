@@ -4,9 +4,9 @@ require(['../../config'], function() {
     require(['jquery'], function($) {
 
         console.log("survey_id: " + $('#survey_id').val());
-        
+
         var survey_id = $('#survey_id').val();
-        
+
         var showMessage = function(message){
             $(".error-message").html(message);
             $(".error-message").show();
@@ -19,7 +19,7 @@ require(['../../config'], function() {
 //            jsonp: false,
 //            cache: true
 //        });
-        
+
 //        var openSurvey = function(pageURL,name) {
 //            console.log("openSurvey:" + pageURL);
 //            // todo: Mark item as "done"
@@ -61,9 +61,7 @@ require(['../../config'], function() {
 
         };
 
-        //$.ajaxSetup({ cache: true });
-        $.ajaxSetup({ cache: false });
-        
+        $.ajaxSetup({ cache: true });
         $.getScript( $('#url').val() )
          .fail(function( script, textStatus ) {
                 showMessage("System Error");

@@ -35,9 +35,8 @@ class ProjectSurveyController extends Controller
         //create sop JSONP URL
         $sop_config = $this->container->getParameter('sop_frontend');
 
-        //todo: $sop_respondent 如果不存在就创建
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByUserId($user_id);
-        //         $sop_respondent = SopRespondentPeer::retrieveOrInsertByPanelistId($panelist->getId());
+        //sop_respondent 如果不存在就创建
+        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
 
         $sop_params = array (
             'app_id' => $sop_config['auth']['app_id'],
