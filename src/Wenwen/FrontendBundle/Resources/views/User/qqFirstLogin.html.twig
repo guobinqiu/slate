@@ -1,0 +1,72 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}QQ注册：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/weiboQQ.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000">
+    <div class="form main-register weibo">
+    	<p class="welcome">尊敬的QQ会员，欢迎来到91问问网站！</p>
+    	<div class="basicInfo">
+    		<h4>您的基本信息</h4>
+    		<div class="con">您的昵称：{{ nickname }}<br>性别：{{ sex }}</div>
+    	</div>
+    	<div class="otherRegForm tabCon">
+    		<div class="tabs tabNav"><span class="active">没有91问问账号</span><span>已有91问问账号</span></div>
+    		<div class="con">
+    			<form action="{{ path('qq_registe') }}" method="post" name="form1" id="form1" >
+    			<input type="hidden" name="qqnickname" value="{{ nickname }}"/>
+                <input type="hidden" name="sex" value="{{ sex }}"/>
+    			<ul class="addAccount">
+    				<li>为保障您的账户安全，请设置QQ邮箱和91问问网站密码。</li>
+	                <li><label for="qqregist_email_id">邮箱地址</label><br>{{ form_widget(form.email_id, { 'attr': {'class': 'qqEmail'} }) }}@qq.com<span id="qqregist_email_id_error"></span></li>
+	                <li><label for="pwd">设置密码</label><br><input id="pwd" name="pwd" type="password" value=""/><span id="pwd_error"></span></li>
+	                <li><div class="errorMsg" id="regist_emailError">
+	                        {% if regcode is  defined %}
+	                            {{ regcode }}
+	                        {% endif %}
+	                    </div></li>
+	                <li><span class="submitBtn" id='reg' >立即注册</span></li>
+	            </ul>
+	            {{ form_rest(form) }}
+               	<button style="display:none">register</button>
+    			</form>
+    		</div>
+    		<div class="con">
+    			<form action="{{ path('qq_bind') }}" method="post" name="form2" id="form2" >
+    			<input type="hidden" name="qqnickname" value="{{ nickname }}"/>
+                <input type="hidden" name="sex" value="{{ sex }}"/>
+                <ul class="bindAccount">
+                    <li>将已有的91问问账号与QQ账号绑定。</li>
+                    <li><label for="jili_email">91问问账号</label><br><input id="jili_email" name="jili_email" type="text" value="{{ email }}"/><span id="jili_email_error"></span></li>
+                    <li><label for="jili_pwd">登录密码</label><br><input id="jili_pwd" name="jili_pwd" type="password" value=""/><span id="jili_pwd_error"></span></li>
+                    <li><div class="errorMsg" id="bind_emailError">
+                            {% if bindcode is  defined %}
+                                {{ bindcode }}
+                            {% endif %}
+                        </div></li>
+                    <li><span id='bind' class="submitBtn">立即绑定</span><a class="corGlobBlue" href="{{ path('_user_resetPwd') }}">忘记密码</a></li>
+                </ul>
+                <button style="display:none">binding</button>
+            	</form>
+    		</div>
+    		<div class="bdingImg"><img src="{{ asset('img/user/qqLogin.png') }}" alt="微博绑定图片"></div>
+    	</div>
+    	<div class="icon"></div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/weiboQQ')}}"></script>
+{% endblock %}

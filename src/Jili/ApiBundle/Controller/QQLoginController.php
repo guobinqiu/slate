@@ -131,7 +131,7 @@ class QQLoginController extends Controller
                 $code = '请填写正确的邮箱或密码!';
             }
         }
-        return $this->render('WenwenFrontendBundle:User:qq.html.twig',
+        return $this->render('WenwenFrontendBundle:User:qqFirstLogin.html.twig',
                 array('email'=>$qqForm['email_id'], 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
                     'sex'=>$request->request->get('sex'),'form' => $form->createView(), 'regcode'=>$code));
     }
@@ -163,7 +163,7 @@ class QQLoginController extends Controller
             return $this->redirect($this->generateUrl('_homepage'));
         }
         $form  = $this->createForm(new QQFirstRegist());
-        return $this->render('WenwenFrontendBundle:User:qq.html.twig',
+        return $this->render('WenwenFrontendBundle:User:qqFirstLogin.html.twig',
                 array('email'=>$request->request->get('email_id'), 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
                     'sex'=>$request->request->get('sex'),'form' => $form->createView(),'bindcode'=>$code));
     }
@@ -194,6 +194,6 @@ class QQLoginController extends Controller
 
         $result = $qq_auth->get_user_info($openid);
         $form  = $this->createForm(new QQFirstRegist());
-        return $this->render('WenwenFrontendBundle:User:qq.html.twig',array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
+        return $this->render('WenwenFrontendBundle:User:qqFirstLogin.html.twig',array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
     }
 }

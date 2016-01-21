@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+@import "layout/common-simple";
+@import "layout/header-simple";
+@import "component/form";
+.main-register{
+	position: relative;
+	z-index: 1;
+	padding: 35px 60px 50px;
+	li{
+		margin-top: 5px;
+		color: #a1a1a1;
+		label{
+			line-height: 30px;
+			text-align: left;
+			color: #575757;
+		}
+		input[type='text'], input[type='password']{
+			width: 205px;
+			border: $input-border;
+			border-radius: 2px;
+			&#authcode{
+				width: 70px;
+			}
+		}
+		img{
+			vertical-align: middle;
+		}
+		span{
+			margin-left: 5px;
+			line-height: 34px;
+			padding: 0 15px;
+			border-radius: 3px;
+		}
+	}
+	.basicInfo{
+		margin-top: 20px;
+		background: #fafafa;
+		padding: 5px 20px 10px;
+		line-height: 24px;
+		h4{
+			line-height: 35px;
+			font-size: 16px;
+			border-bottom: 1px solid #eee;
+		}
+		.con{
+			margin-top: 10px;
+			.tx{
+				line-height: 50px;
+			}
+		}
+	}
+	.welcome{
+		font-size: 14px;
+		padding-bottom: 5px;
+	}
+	.icon{
+		position: absolute;
+		z-index: 1999;
+		left: 0;
+		top: 31px;
+		width: 5px;
+		height: 20px;
+		background: #fb7920;
+	}
+}
+.otherRegForm{
+	position: relative;
+	z-index: 1;
+	margin-top: 50px;
+	.submitBtn{
+		margin-top: 10px;
+		margin-left: 0px;
+		width: 65px;
+		text-align: center;
+		line-height: 40px;
+		color: #fff;
+		font-size: 14px;
+		background: #fb7920;
+		border-radius: 3px;
+		cursor: pointer;
+		@include dib();
+	}
+	.tabs{
+		height: 50px;
+		span{
+			margin-right: 5px;
+			width: 200px;
+			text-align: center;
+			height: 45px;
+			line-height: 45px;
+			background: #eeeeee;
+			font-size: 18px;
+			border: 2px solid #eee;
+			@include dib();
+			cursor: pointer;
+			&.active{
+				color: #fc6e0d;
+				border: 2px solid #fc6e0d;
+			}
+		}
+	}
+	&>div{
+		margin-top: 40px;
+	}
+	.con{
+		display:none;
+		.errorMsg{
+			margin-top: 10px;
+			color: $error-color;
+		}
+	}
+	.bdingImg{
+		position: absolute;
+		z-index: 100;
+		right: 5px;
+		bottom: 50px;
+	}
+	.corGlobBlue{
+		margin-left: 20px;
+		color: #007ec2;
+	}
+}
+@import "layout/footer-simple";

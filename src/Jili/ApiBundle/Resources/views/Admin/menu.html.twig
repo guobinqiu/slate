@@ -55,6 +55,10 @@
                 <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
                 <TD><A class=menuChild href="{{ path('_admin_addPostion') }}" target=main>添加广告位置</A></TD>
             </TR>
+            <TR height=20>
+                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+                <TD><A class=menuChild href="{{ path('_admin_infoPostion') }}" target=main>广告位置编辑</A></TD>
+            </TR>
         </TABLE>
 
 
@@ -123,16 +127,6 @@
             <TR height=20>
                 <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
                 <TD><A class=menuChild href="{{ path('_admin_exchangeIn') }}" target=main>兑换信息导入</A></TD>
-            </TR>
-
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('_admin_exchangeInWen') }}" target=main>91问问积分列表导入</A></TD>
-            </TR>
-
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('_admin_exchangeCsvWen') }}" target=main>91问问积分列表导出</A></TD>
             </TR>
         </TABLE>
 
@@ -203,6 +197,28 @@
             <TR height=20>
                 <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
                 <TD><A class=menuChild href="{{ path('_admin_emergencyAnnouncement') }}" target=main>紧急公告内容设定</A></TD>
+            </TR>
+        </TABLE>
+
+        <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+            <TR height=22>
+                <TD style="PADDING-LEFT: 30px" background={{asset('images/admin/menu_bt.jpg')}}>
+                    <A class=menuParent onclick=expand(18) href="javascript:void(0);">Emar商家管理</A>
+                </TD>
+            </TR>
+        </TABLE>
+        <TABLE id=child18 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
+            <TR height=20>
+                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+                <TD><A class=menuChild href="{{ path('admin_emarwebsitescroned') }}" target=main>同步列表</A></TD>
+            </TR>
+            <TR height=20>
+                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+                <TD><A class=menuChild href="{{ path('admin_emar_websites') }}" target=main>列表/编辑</A></TD>
+            </TR>
+            <TR height=20>
+                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+                <TD><A class=menuChild href="{{ path('admin_emar_websites_new') }}" target=main>添加</A></TD>
             </TR>
         </TABLE>
 
