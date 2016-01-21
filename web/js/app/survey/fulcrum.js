@@ -100,6 +100,23 @@ require(['./../../config'], function() {
         });
     };
 
+    var addSuveyItem = function (el) {
+
+            console.log(el);
+return 0;
+        var tbodyEl = $('#survey-list > tbody:first');
+
+        $(el).find('span.each').after('<div class="NPSPrompt"><span class="text">此问卷由<em class="darkYellow">60~126道</em>小题组成，可分多次回答，中途关闭不影响继续回答哦！<a class="darkYellow" href="campaign/newProfile" target="_blank">了解详情</a></span><span class="closeTag" onClick="this.close"></span><span class="notShow">不再提示</span></div>');
+        $(el).find('span.each').parent().css('position','relative');
+            // Insert the item as the 2rd row of the table if table has more than 0 row
+        if (tbodyEl.children().length ) {
+            tbodyEl.find('tr:first').after($(el));
+            return;
+        }
+        // Append the item to the table if already elements exist
+        tbodyEl.append($(el));
+    };
+
     window.surveylistCallback = function (res) {
 
         console.log('ajax jsonp returned');
