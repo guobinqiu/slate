@@ -23,7 +23,7 @@
         "gregwar/captcha-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "@stable",
         "oro/doctrine-extensions": "^1.0",
-        "nategood/httpful": "^0.2.20"
+        "nategood/httpful": "^0.2.20",
         "jms/job-queue-bundle": "^1.2"
     },
     "require-dev": {
