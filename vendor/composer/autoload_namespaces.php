@@ -29,6 +29,7 @@ return array(
     'JMS\\DiExtraBundle' => array($vendorDir . '/jms/di-extra-bundle'),
     'JMS\\AopBundle' => array($vendorDir . '/jms/aop-bundle'),
     'JMS\\' => array($vendorDir . '/jms/parser-lib/src'),
+    'Httpful' => array($vendorDir . '/nategood/httpful/src'),
     'Gregwar\\CaptchaBundle' => array($vendorDir . '/gregwar/captcha-bundle'),
     'Gregwar\\Captcha' => array($vendorDir . '/gregwar/captcha'),
     'Doctrine\\ORM\\' => array($vendorDir . '/doctrine/orm/lib'),

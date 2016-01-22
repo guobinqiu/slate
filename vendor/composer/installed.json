@@ -1010,7 +1010,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/84accca9c921dcbdc9c4be3ba0366a25f8d779b3",
+            "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/5147740faff4d32e6f42acf64475314c35320fa4",
             "reference": "5990419ed9cfb54fac4a4b63056c3cd2ceb2f14a",
             "shasum": ""
         },
@@ -1317,12 +1317,12 @@
         "target-dir": "Symfony/Bundle/AsseticBundle",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/AsseticBundle.git",
+            "url": "https://github.com/symfony/assetic-bundle.git",
             "reference": "90d3e238743a5c8def765079ad8084151d4e4fee"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/90d3e238743a5c8def765079ad8084151d4e4fee",
+            "url": "https://api.github.com/repos/symfony/assetic-bundle/zipball/90d3e238743a5c8def765079ad8084151d4e4fee",
             "reference": "90d3e238743a5c8def765079ad8084151d4e4fee",
             "shasum": ""
         },
@@ -1435,12 +1435,12 @@
         "target-dir": "Symfony/Bundle/SwiftmailerBundle",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/SwiftmailerBundle.git",
+            "url": "https://github.com/symfony/swiftmailer-bundle.git",
             "reference": "f5e5d12629c26a835c7aa1d74e2e041486b92d93"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/f5e5d12629c26a835c7aa1d74e2e041486b92d93",
+            "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/f5e5d12629c26a835c7aa1d74e2e041486b92d93",
             "reference": "f5e5d12629c26a835c7aa1d74e2e041486b92d93",
             "shasum": ""
         },
@@ -1568,12 +1568,12 @@
         "target-dir": "Symfony/Bundle/MonologBundle",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/MonologBundle.git",
+            "url": "https://github.com/symfony/monolog-bundle.git",
             "reference": "b492800896b6abe2a6fe622c0f03e04a2d5b3fae"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/b492800896b6abe2a6fe622c0f03e04a2d5b3fae",
+            "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/b492800896b6abe2a6fe622c0f03e04a2d5b3fae",
             "reference": "b492800896b6abe2a6fe622c0f03e04a2d5b3fae",
             "shasum": ""
         },
@@ -3734,7 +3734,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Gregwar/CaptchaBundle/zipball/8d3ee7334fbf313cb53c2832ae3fe491292a6efa",
+            "url": "https://api.github.com/repos/Gregwar/CaptchaBundle/zipball/e91cb1a3b7dd79b579c93358622c8ab160d57b03",
             "reference": "a4176fcf74d9232cadbbce9a15c8d712d60c9c28",
             "shasum": ""
         },
@@ -3777,6 +3777,58 @@
             "security",
             "spam",
             "visual"
+        ]
+    },
+    {
+        "name": "nategood/httpful",
+        "version": "0.2.20",
+        "version_normalized": "0.2.20.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/nategood/httpful.git",
+            "reference": "c1cd4d46a4b281229032cf39d4dd852f9887c0f6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/nategood/httpful/zipball/c1cd4d46a4b281229032cf39d4dd852f9887c0f6",
+            "reference": "c1cd4d46a4b281229032cf39d4dd852f9887c0f6",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "php": ">=5.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*"
+        },
+        "time": "2015-10-26 16:11:30",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Httpful": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nate Good",
+                "email": "me@nategood.com",
+                "homepage": "http://nategood.com"
+            }
+        ],
+        "description": "A Readable, Chainable, REST friendly, PHP HTTP Client",
+        "homepage": "http://github.com/nategood/httpful",
+        "keywords": [
+            "api",
+            "curl",
+            "http",
+            "requests",
+            "rest",
+            "restful"
         ]
     }
 ]
