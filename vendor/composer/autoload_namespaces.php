@@ -26,6 +26,7 @@ return array(
     'Knp\\Component' => array($vendorDir . '/knplabs/knp-components/src'),
     'JsonpCallbackValidator' => array($vendorDir . '/willdurand/jsonp-callback-validator/src'),
     'JMS\\SecurityExtraBundle' => array($vendorDir . '/jms/security-extra-bundle'),
+    'JMS\\JobQueueBundle' => array($vendorDir . '/jms/job-queue-bundle'),
     'JMS\\DiExtraBundle' => array($vendorDir . '/jms/di-extra-bundle'),
     'JMS\\AopBundle' => array($vendorDir . '/jms/aop-bundle'),
     'JMS\\' => array($vendorDir . '/jms/parser-lib/src'),
