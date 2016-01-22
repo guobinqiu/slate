@@ -52,4 +52,26 @@ class ProjectSurveyController extends Controller
 
         return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', $arr);
     }
+
+    /**
+     * @Route("/endlink", name="_project_survey_endlink")
+     * @Template
+     */
+    public function endlinkAction(Request $request)
+    {
+        //$app_mid = $request->query->get('app_mid');
+        $survey_id = $request->query->get('sid');
+        $answer_status = $request->query->get('status');
+
+        if (!preg_match('/\A(?:complete|screenout|quotafull|error)\z/', $answer_status)) {
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
+        }
+
+        $template = $answer_status == 'complete'
+                ? 'complete' : 'noComplete';
+
+        $arr['answer_status'] = $answer_status;
+        return $this->render('WenwenFrontendBundle:ProjectSurvey:complete.html.twig', $arr);
+
+    }
 }

@@ -40,7 +40,6 @@ require(['../../config'], function() {
             // get research
             var research;
             $.each(res.data.research, function( index, value ) {
-                alert( index + ": " + value );
                 if(value.survey_id == survey_id
                         && value.is_answered == '0'){
                     research = value;
