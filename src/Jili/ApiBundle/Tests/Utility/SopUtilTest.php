@@ -67,7 +67,7 @@ class SopUtilTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateSignature_fail_on_incompatible_type()
     {
-        SopUtil::createSignature(new stdClass(), 'hogehoge');
+        SopUtil::createSignature(new \stdClass(), 'hogehoge');
     }
 
     public function testIsSignatureValid_on_missing_time()
