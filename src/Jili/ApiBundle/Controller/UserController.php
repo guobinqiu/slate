@@ -212,7 +212,7 @@ class UserController extends Controller implements CampaignTrackingController
                     $em->flush();
 
                 }
-                return $this->redirect($this->generateUrl('_user_info'));
+                return $this->redirect($this->generateUrl('_profile_edit'));
 
             }
         }
@@ -921,9 +921,7 @@ class UserController extends Controller implements CampaignTrackingController
         $form_view = $form->createView();
 
         $this->get('login.listener')->updateInfoSession($user);
-
-        
-        return $this->render('WenwenFrontendBundle:Personal:profile.html.twig', array(
+        return $this->render('JiliApiBundle:User:info.html.twig', array(
             'form' => $form_view,
             'form_upload' =>$form_view,
             'user' => $user,
@@ -1032,7 +1030,6 @@ class UserController extends Controller implements CampaignTrackingController
      */
     public function resetPwdAction()
     {
-        // return $this->render('JiliApiBundle:User:resetPwd.html.twig');
         return $this->render('WenwenFrontendBundle:User:resetPwdEmail.html.twig');
     }
 
@@ -1063,7 +1060,7 @@ class UserController extends Controller implements CampaignTrackingController
     }
 
     /**
-     * @Route("/login", name="_user_login",requirements={"_scheme"="https"})
+     * @Route("/login", name="_user_login",requirements={"_scheme"="https"}, options={"expose"=true})
      */
     public function loginAction()
     {
@@ -1124,7 +1121,6 @@ class UserController extends Controller implements CampaignTrackingController
             }
             return $response;
         }
-        // return $this->render('JiliApiBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
         return $this->render('WenwenFrontendBundle:Home:index.html.twig',array('code'=>$code,'email'=>$email));
     }
 
@@ -1141,7 +1137,7 @@ class UserController extends Controller implements CampaignTrackingController
             return $this->redirect($this->generateUrl('_default_error'));
         $arr['gotoEmial'] = $user->gotomail($info[0]['email']);
         $arr['user'] = $info[0];
-        return $this->render('JiliApiBundle:User:checkReg.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:User:active.html.twig',$arr);
     }
 
     /**
@@ -1250,13 +1246,11 @@ class UserController extends Controller implements CampaignTrackingController
         $arr['user'] = $user;
         $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByUserId($id);
         if($setPasswordCode->getIsAvailable()==0){
-            // return $this->render('JiliApiBundle::error.html.twig');
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
         $arr['pwdcode'] = $setPasswordCode;
         $time = $setPasswordCode->getCreateTime();
         if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24){
-            // return $this->render('JiliApiBundle::error.html.twig');
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }else{
             if($setPasswordCode->getCode() == $code){
@@ -1292,7 +1286,6 @@ class UserController extends Controller implements CampaignTrackingController
                     }
 
                 }
-                // return $this->render('JiliApiBundle:User:resetPass.html.twig',$arr);
                 return $this->render('WenwenFrontendBundle:User:resetPwd.html.twig',$arr);
             }
         }
@@ -1360,7 +1353,6 @@ class UserController extends Controller implements CampaignTrackingController
 
             return $this->redirect($this->generateUrl('_user_checkReg', array('id'=>$user[0]->getId()),true));
         }else{
-            // return $this->render('JiliApiBundle::error.html.twig');
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
     }
@@ -1473,7 +1465,6 @@ class UserController extends Controller implements CampaignTrackingController
 	 */
     public function agreementAction()
     {
-        // return $this->render('JiliApiBundle:User:agreement.html.twig');
         return $this->render('WenwenFrontendBundle:About:regulations.html.twig');
     }
 
@@ -1535,7 +1526,6 @@ class UserController extends Controller implements CampaignTrackingController
             $arr['pagination'] = $paginator
                     ->paginate($exchange,
                     $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-            // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
             $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
         }else if($exchangeType==2){
             $exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenById($id);
@@ -1544,7 +1534,6 @@ class UserController extends Controller implements CampaignTrackingController
             $arr['pagination'] = $paginator
                     ->paginate($exFrWen,
                     $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-            // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
             $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
 
         }else{
@@ -1553,7 +1542,6 @@ class UserController extends Controller implements CampaignTrackingController
         }
         $arr['exchangeType'] = $exchangeType;
         $arr['type'] = $type;
-        // return $this->render('JiliApiBundle:User:exchange.html.twig',$arr);
         return $this->render('WenwenFrontendBundle:Personal:exchangeHistory.html.twig',$arr);
     }
 
@@ -1584,9 +1572,7 @@ class UserController extends Controller implements CampaignTrackingController
         $arr['pagination'] = $paginator
         ->paginate($adtaste,
                 $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-        // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
         $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
-        // return $this->render('JiliApiBundle:User:adtaste.html.twig',$arr);
         return $this->render('WenwenFrontendBundle:Personal:taskHistory.html.twig',$arr);
     }
 
@@ -1595,10 +1581,14 @@ class UserController extends Controller implements CampaignTrackingController
 	 */
     public function regSuccessAction()
     {
+<<<<<<< HEAD
         $session = $this->get('session');
         $session->set('campaign_code','');
         $session->set('campaign_code_token','');
         return $this->render('WenwenFrontendBundle:User:finished.html.twig');
+=======
+        return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig');
+>>>>>>> dev-merge-ui
     }
 
 
@@ -1615,13 +1605,11 @@ class UserController extends Controller implements CampaignTrackingController
         // check the uid
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
         if( ! $user ) {
-            // return $this->render('JiliApiBundle::error.html.twig');
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
         // check the token
         $passwordToken = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken(array('user_id'=> $uid, 'token' => $token )  );
         if( !$passwordToken  ) {
-            // return $this->render('JiliApiBundle::error.html.twig');
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
 
@@ -1644,8 +1632,7 @@ class UserController extends Controller implements CampaignTrackingController
         $vars['pwdcode'] = $passwordToken;
         $vars['user'] = $user;
 
-        // return $this->render('JiliApiBundle:User:signup_activate.html.twig',$vars);
-        return $this->render('WenwenFrontendBundle:User:active.html.twig',$vars);
+        return $this->render('WenwenFrontendBundle:User:emailActive.html.twig',$vars);
     }
 
     /**
@@ -1673,7 +1660,7 @@ class UserController extends Controller implements CampaignTrackingController
         $return = $this->checkCodeValid($setPasswordCode, $code);
         if(!$return){
             $arr['errorMessage'] = "该链接已经失效，您可能已经激活过。";
-            return $this->render('JiliApiBundle::error.html.twig', $arr);
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', $arr);
         }
 
         $request = $this->get('request');
@@ -1858,7 +1845,6 @@ class UserController extends Controller implements CampaignTrackingController
             $arr['pagination'] = $paginator
             ->paginate($sendCb,
                     $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-            // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
             $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
         }
         if($sid == $this->container->getParameter('init_one')){//消息
@@ -1868,11 +1854,9 @@ class UserController extends Controller implements CampaignTrackingController
             $arr['pagination'] = $paginator
             ->paginate($showMs,
                     $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-            // $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
             $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
         }
         $arr['sid'] = $sid;
-        // return $this->render('JiliApiBundle:User:message.html.twig',$arr);
         return $this->render('WenwenFrontendBundle:Personal:message.html.twig',$arr);
     }
 

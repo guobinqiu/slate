@@ -1,65 +1,291 @@
-BODY { MARGIN: 0px; }
+* {
+  margin: 0;
+  padding: 0;
+}
 
-P { MARGIN: 0px; }
+body {
+  line-height: 150%;
+  font-size: 12px;
+  font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+  color: #000;
+  background-color: #fff;
+}
 
-BODY { COLOR: #000; BACKGROUND-COLOR: #fff; }
+img {
+  vertical-align: top;
+}
 
-BODY { FONT-SIZE: 12px; LINE-HEIGHT: 150%; FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"; }
+A:link {
+  COLOR: #036;
+  TEXT-DECORATION: none;
+}
 
-TABLE { FONT-SIZE: 12px; LINE-HEIGHT: 150%; FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"; }
+A:visited {
+  COLOR: #036;
+  TEXT-DECORATION: none;
+}
 
-INPUT { FONT-SIZE: 12px; FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"; }
+A:hover {
+  COLOR: #f60;
+  TEXT-DECORATION: underline;
+}
 
-SELECT { FONT-SIZE: 12px; FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"; }
+A.menuChild:link {
+  COLOR: #036;
+  TEXT-DECORATION: none;
+}
 
-TEXTAREA { FONT-SIZE: 12px; FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"; }
+A.menuChild:visited {
+  COLOR: #036;
+  TEXT-DECORATION: none;
+}
 
-A:link { COLOR: #036; TEXT-DECORATION: none; }
+A.menuChild:hover {
+  COLOR: #f60;
+  TEXT-DECORATION: underline;
+}
 
-A:visited { COLOR: #036; TEXT-DECORATION: none; }
+A.menuParent:link {
+  COLOR: #000;
+  TEXT-DECORATION: none;
+}
 
-A:hover { COLOR: #f60; TEXT-DECORATION: underline; }
+A.menuParent:visited {
+  COLOR: #000;
+  TEXT-DECORATION: none;
+}
 
-A.menuChild:link { COLOR: #036; TEXT-DECORATION: none; }
+A.menuParent:hover {
+  COLOR: #f60;
+  TEXT-DECORATION: none;
+}
 
-A.menuChild:visited { COLOR: #036; TEXT-DECORATION: none; }
+TABLE.position {
+  WIDTH: 100%;
+}
 
-A.menuChild:hover { COLOR: #f60; TEXT-DECORATION: underline; }
+TR.position {
+  HEIGHT: 25px;
+  BACKGROUND-COLOR: #f4f7fc;
+}
 
-A.menuParent:link { COLOR: #000; TEXT-DECORATION: none; }
+TD.position {
+  BORDER-RIGHT: #adceff 1px solid;
+  PADDING-LEFT: 20px;
+  BORDER-BOTTOM: #adceff 1px solid;
+}
 
-A.menuParent:visited { COLOR: #000; TEXT-DECORATION: none; }
+TABLE.listTable {
+  WIDTH: 98%;
+  BACKGROUND-COLOR: #b1ceee;
+}
 
-A.menuParent:hover { COLOR: #f60; TEXT-DECORATION: none; }
+TR.listHeaderTr {
+  FONT-WEIGHT: bold;
+  HEIGHT: 25px;
+  BACKGROUND-COLOR: #ebf4fd;
+  TEXT-ALIGN: center;
+}
 
-TABLE.position { WIDTH: 100%; }
+TR.listTr {
+  HEIGHT: 25px;
+  BACKGROUND-COLOR: #fff;
+  TEXT-ALIGN: center;
+}
 
-TR.position { HEIGHT: 25px; BACKGROUND-COLOR: #f4f7fc; }
+TR.listAlternatingTr {
+  HEIGHT: 25px;
+  BACKGROUND-COLOR: #fffdf0;
+  TEXT-ALIGN: center;
+}
 
-TD.position { BORDER-RIGHT: #adceff 1px solid; PADDING-LEFT: 20px; BORDER-BOTTOM: #adceff 1px solid; }
+TR.listFooterTr {
+  HEIGHT: 30px;
+  BACKGROUND-COLOR: #ebf4fd;
+  TEXT-ALIGN: center;
+}
 
-TABLE.listTable { WIDTH: 98%; BACKGROUND-COLOR: #b1ceee; }
+TABLE.editTable {
+  WIDTH: 98%;
+  BACKGROUND-COLOR: #b1ceee;
+}
 
-TR.listHeaderTr { FONT-WEIGHT: bold; HEIGHT: 25px; BACKGROUND-COLOR: #ebf4fd; TEXT-ALIGN: center; }
+TR.editHeaderTr {
+  HEIGHT: 25px;
+  BACKGROUND-COLOR: #ebf4fd;
+}
 
-TR.listTr { HEIGHT: 25px; BACKGROUND-COLOR: #fff; TEXT-ALIGN: center; }
+TD.editHeaderTd {
+  PADDING-LEFT: 50px;
+  FONT-WEIGHT: bold;
+}
 
-TR.listAlternatingTr { HEIGHT: 25px; BACKGROUND-COLOR: #fffdf0; TEXT-ALIGN: center; }
+TR.editTr {
+  HEIGHT: 30px;
+}
 
-TR.listFooterTr { HEIGHT: 30px; BACKGROUND-COLOR: #ebf4fd; TEXT-ALIGN: center; }
+TD.editLeftTd {
+  WIDTH: 150px;
+  BACKGROUND-COLOR: #fffdf0;
+  TEXT-ALIGN: center;
+}
 
-TABLE.editTable { WIDTH: 98%; BACKGROUND-COLOR: #b1ceee; }
+TD.editRightTd {
+  PADDING-LEFT: 10px;
+  BACKGROUND-COLOR: #fff;
+}
 
-TR.editHeaderTr { HEIGHT: 25px; BACKGROUND-COLOR: #ebf4fd; }
+TR.editFooterTr {
+  HEIGHT: 40px;
+  BACKGROUND-COLOR: #ebf4fd;
+}
 
-TD.editHeaderTd { PADDING-LEFT: 50px; FONT-WEIGHT: bold; }
+TD.editFooterTd {
+  PADDING-LEFT: 150px;
+}
 
-TR.editTr { HEIGHT: 30px; }
+ul, li {
+  list-style-type: none;
+}
 
-TD.editLeftTd { WIDTH: 150px; BACKGROUND-COLOR: #fffdf0; TEXT-ALIGN: center; }
+th {
+  background-color: #f6f6f6;
+}
 
-TD.editRightTd { PADDING-LEFT: 10px; BACKGROUND-COLOR: #fff; }
+table {
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+}
+table.menu table {
+  margin-bottom: 5px;
+}
+table.menu table.first {
+  margin-top: 5px;
+}
+table.menu th, table.menu td {
+  height: 22px;
+  line-height: 22px;
+}
+table.header {
+  border-bottom: 4px solid #1c5db6;
+}
+table.test {
+  width: 90%;
+  margin: 10px auto 20px;
+}
+table.search {
+  margin: 10px auto;
+}
+table.list {
+  width: 90%;
+  text-align: center;
+  margin: 20px auto;
+  border: 1px solid #eee;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+table.list th, table.list td {
+  height: 30px;
+  border: 1px solid #eee;
+}
+table.list td.oper {
+  width: 100px;
+}
+table.list td.longCon {
+  width: 25%;
+}
+table.list td:last {
+  width: 80px;
+}
+table.list a {
+  color: #2e79e8;
+}
+table.inputForm {
+  width: 90%;
+  margin: 20px auto;
+}
+table.inputForm th {
+  width: 150px;
+  text-align: right;
+  line-height: 24px;
+  padding-right: 10px;
+  border: 3px solid #fff;
+}
+table.stripe th, table.stripe td {
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid #eee;
+  padding: 5px;
+}
+table.stripe .left {
+  text-align: left;
+}
+table.stripe .right {
+  text-align: right;
+}
 
-TR.editFooterTr { HEIGHT: 40px; BACKGROUND-COLOR: #ebf4fd; }
+form table {
+  width: 90%;
+  margin: 0 auto;
+}
 
-TD.editFooterTd { PADDING-LEFT: 150px; }
+input, textarea, select, table.ke-container, input.Wdate {
+  margin-bottom: 5px;
+  border: 1px solid #dbdbdb;
+}
+
+input[type="file"] {
+  border: none;
+}
+
+input[type="text"], input.Wdate {
+  padding: 0 3px;
+  height: 24px;
+  line-height: 24px;
+}
+
+input[type="submit"], input[type="button"] {
+  margin: 10px 10px 20px 0;
+  width: 65px;
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid #999;
+}
+
+input[type="button"].J_JumpTo {
+  margin: 0;
+}
+
+.tips {
+  width: 90%;
+  margin: 0 auto;
+}
+
+ul.tips {
+  list-style: none;
+}
+
+h1, h2, h3 {
+  margin-top: 10px;
+}
+
+.panelist h1, .panelist h2, .panelist h3, .panelist .clear_both, .panelist .successMess {
+  padding-left: 5%;
+}
+.panelist table {
+  margin-top: 10px;
+}
+.panelist h2 {
+  height: 30px;
+  line-height: 30px;
+}
+
+.autoCenter {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.mt10 {
+  margin-top: 10px;
+}

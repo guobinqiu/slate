@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * HobbyList
  *
  * @ORM\Table(name="hobby_list")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\HobbyListRepository")
  */
 class HobbyList
 {

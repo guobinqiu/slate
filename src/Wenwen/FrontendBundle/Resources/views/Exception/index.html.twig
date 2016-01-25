@@ -13,8 +13,12 @@
 <div class="main-about-con w1000 clearfix">
 	<div class="errorCon">
 		<div class="errorText">
-			<p class="txt">404错误，这个页面被大鲨鱼劫走了~</p>
-			<p class="btn"><a href="">返回首页</a><a href="">联系客服</a></p>
+			{% if errorMessage is defined and errorMessage is not empty %}
+				<p class="txt">{{ errorMessage }}</p>
+			{% else %}
+				<p class="txt">404错误，这个页面被大鲨鱼劫走了~</p>	
+			{% endif %}
+				<p class="btn"><a href="{{ path('_homepage') }}">返回首页</a><a href="{{ path('_default_feedback') }}">联系客服</a></p>
 		</div>
 	</div>
 </div>

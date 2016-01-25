@@ -1,0 +1,51 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}激活：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000">
+	<div class="main-register-active">
+		<div class="con">
+			<div class="text">
+				<div class="title">就差一步了，快去激活您的账户吧！</div>
+				{% if gotoEmial %}
+					<p>我们已经向您的邮箱{{ user.email }}发送了一封激活邮件，请点击邮件中的链接完成注册。</p>
+		            <a href="http://{{ gotoEmial }}" target="_blank">立即进入邮箱</a>
+		        {% endif %}
+		        <p><span id="sendAgain">已发送</span><a class="again">没收到？再次发送！</a><span id="prompt"><span id="second">59</span>秒后可重新发送</span></p>
+		        <input type='hidden' id='uid' value='{{ user.id }}'/>
+		        <input type='hidden' id='code' value='{{ user.code }}'/>
+		        <input type='hidden' id='nick'  value='{{ user.nick  }}'/>
+		        <input type='hidden' id='email' value='{{ user.email }}'/>
+		        <input type="hidden" id="secondNum" value="59"/>
+			</div>
+		</div>
+		<div class="tips">
+			<dl>
+				<dt>注册成功后，您可以享受：</dt>
+				<dd>回答问卷赚积分，快速问答投票，做任务赢取奖励，参加活动，邀请好友...</dd>
+			</dl>
+			<dl>
+				<dt>还未收到确认邮件，您可以：</dt>
+				<dd>1.查看您的垃圾邮件箱，并将support@91wenwen.com加为您的联系人。</dd>
+				<dd>2.如果还是没有收到，请点击这里联系客服人员。</dd>
+			</dl>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/emailActive')}}"></script>
+{% endblock %}

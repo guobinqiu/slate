@@ -4,9 +4,9 @@
 {% block stylesheet %}
 <link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -21,13 +21,19 @@
 			<div class="login">
 				<h2>用户登录</h2>
 				<div class="login-con">
-					<form action="">
+					<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1">
 					<ul>
-						<li><label for="email">邮箱</label><input id="email" type="text"><span id="email_succeed"></span><span id="email_error"></span></li>
-						<li><label for="pwd">密码</label><input id="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
-						<li><label for="authcode">验证码</label><img src="{{ asset('img/home/identify.jpg') }}" alt="验证码"><span class="authcodeInput"><input id="authcode" type="text"><div class="change">换一张</div></span><span id="authcode_succeed"></span><span id="authcode_error"></span></li>
+						<li><label for="email">邮箱</label><input id="email" name="email" type="text"><span id="email_succeed"></span><span id="email_error"></span></li>
+						<li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
+						<li class="remember"><input id="remember_me" name="remember_me" type="checkbox" value="1" checked>记住我</li>
 					</ul>
-					<div class="login-btn" id="submit_button"><!-- <a href="home.html"> -->登录<!-- </a> --></div>
+					{% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
+					<input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
+					{% endif %}
+					{% if code %}
+            		<input type="hidden" id="error_code" class="error" value="{{ code }}">
+       				{% endif %}
+					<div class="login-btn" id="submit_button">登录</div>
 					</form>
 					<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
 					<div class="login-btn-others">
@@ -87,7 +93,7 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}

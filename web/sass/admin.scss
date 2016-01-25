@@ -1,101 +1,281 @@
-@charset "UTF-8";
-
-BODY {
-	MARGIN: 0px
+$admin-width: 90%;
+*{
+  margin: 0; padding: 0;
 }
-P {
-	MARGIN: 0px
+body{
+  line-height: 150%;
+  font-size: 12px;
+  font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+  color: #000;
+  background-color: #fff;
 }
-BODY {
-	COLOR: #000; BACKGROUND-COLOR: #fff
-}
-BODY {
-	FONT-SIZE: 12px; LINE-HEIGHT: 150%; FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"
-}
-TABLE {
-	FONT-SIZE: 12px; LINE-HEIGHT: 150%; FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"
-}
-INPUT {
-	FONT-SIZE: 12px; FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"
-}
-SELECT {
-	FONT-SIZE: 12px; FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"
-}
-TEXTAREA {
-	FONT-SIZE: 12px; FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"
+img{
+  vertical-align: top;
 }
 A:link {
-	COLOR: #036; TEXT-DECORATION: none
+  COLOR: #036;
+  TEXT-DECORATION: none;
 }
+
 A:visited {
-	COLOR: #036; TEXT-DECORATION: none
+  COLOR: #036;
+  TEXT-DECORATION: none;
 }
+
 A:hover {
-	COLOR: #f60; TEXT-DECORATION: underline
+  COLOR: #f60;
+  TEXT-DECORATION: underline;
 }
+
 A.menuChild:link {
-	COLOR: #036; TEXT-DECORATION: none
+  COLOR: #036;
+  TEXT-DECORATION: none;
 }
+
 A.menuChild:visited {
-	COLOR: #036; TEXT-DECORATION: none
+  COLOR: #036;
+  TEXT-DECORATION: none;
 }
+
 A.menuChild:hover {
-	COLOR: #f60; TEXT-DECORATION: underline
+  COLOR: #f60;
+  TEXT-DECORATION: underline;
 }
+
 A.menuParent:link {
-	COLOR: #000; TEXT-DECORATION: none
+  COLOR: #000;
+  TEXT-DECORATION: none;
 }
+
 A.menuParent:visited {
-	COLOR: #000; TEXT-DECORATION: none
+  COLOR: #000;
+  TEXT-DECORATION: none;
 }
+
 A.menuParent:hover {
-	COLOR: #f60; TEXT-DECORATION: none
+  COLOR: #f60;
+  TEXT-DECORATION: none;
 }
+
 TABLE.position {
-	WIDTH: 100%
+  WIDTH: 100%;
 }
+
 TR.position {
-	HEIGHT: 25px; BACKGROUND-COLOR: #f4f7fc
+  HEIGHT: 25px;
+  BACKGROUND-COLOR: #f4f7fc;
 }
+
 TD.position {
-	BORDER-RIGHT: #adceff 1px solid; PADDING-LEFT: 20px; BORDER-BOTTOM: #adceff 1px solid
+  BORDER-RIGHT: #adceff 1px solid;
+  PADDING-LEFT: 20px;
+  BORDER-BOTTOM: #adceff 1px solid;
 }
+
 TABLE.listTable {
-	WIDTH: 98%; BACKGROUND-COLOR: #b1ceee
+  WIDTH: 98%;
+  BACKGROUND-COLOR: #b1ceee;
 }
+
 TR.listHeaderTr {
-	FONT-WEIGHT: bold; HEIGHT: 25px; BACKGROUND-COLOR: #ebf4fd; TEXT-ALIGN: center
+  FONT-WEIGHT: bold;
+  HEIGHT: 25px;
+  BACKGROUND-COLOR: #ebf4fd;
+  TEXT-ALIGN: center;
 }
+
 TR.listTr {
-	HEIGHT: 25px; BACKGROUND-COLOR: #fff; TEXT-ALIGN: center
+  HEIGHT: 25px;
+  BACKGROUND-COLOR: #fff;
+  TEXT-ALIGN: center;
 }
+
 TR.listAlternatingTr {
-	HEIGHT: 25px; BACKGROUND-COLOR: #fffdf0; TEXT-ALIGN: center
+  HEIGHT: 25px;
+  BACKGROUND-COLOR: #fffdf0;
+  TEXT-ALIGN: center;
 }
+
 TR.listFooterTr {
-	HEIGHT: 30px; BACKGROUND-COLOR: #ebf4fd; TEXT-ALIGN: center
+  HEIGHT: 30px;
+  BACKGROUND-COLOR: #ebf4fd;
+  TEXT-ALIGN: center;
 }
+
 TABLE.editTable {
-	WIDTH: 98%; BACKGROUND-COLOR: #b1ceee
+  WIDTH: 98%;
+  BACKGROUND-COLOR: #b1ceee;
 }
+
 TR.editHeaderTr {
-	HEIGHT: 25px; BACKGROUND-COLOR: #ebf4fd
+  HEIGHT: 25px;
+  BACKGROUND-COLOR: #ebf4fd;
 }
+
 TD.editHeaderTd {
-	PADDING-LEFT: 50px; FONT-WEIGHT: bold
+  PADDING-LEFT: 50px;
+  FONT-WEIGHT: bold;
 }
+
 TR.editTr {
-	HEIGHT: 30px
+  HEIGHT: 30px;
 }
+
 TD.editLeftTd {
-	WIDTH: 150px; BACKGROUND-COLOR: #fffdf0; TEXT-ALIGN: center
+  WIDTH: 150px;
+  BACKGROUND-COLOR: #fffdf0;
+  TEXT-ALIGN: center;
 }
+
 TD.editRightTd {
-	PADDING-LEFT: 10px; BACKGROUND-COLOR: #fff
+  PADDING-LEFT: 10px;
+  BACKGROUND-COLOR: #fff;
 }
+
 TR.editFooterTr {
-	HEIGHT: 40px; BACKGROUND-COLOR: #ebf4fd
+  HEIGHT: 40px;
+  BACKGROUND-COLOR: #ebf4fd;
 }
+
 TD.editFooterTd {
-	PADDING-LEFT: 150px
+  PADDING-LEFT: 150px;
+}
+ul, li{
+  list-style-type: none;
+}
+th{
+  background-color: #f6f6f6;
+}
+table{
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+  &.menu{ 
+    table{
+      margin-bottom: 5px;
+      &.first{
+        margin-top: 5px;
+      }
+    }
+    th, td{
+      height: 22px;
+      line-height: 22px;
+    }
+  }
+  &.header{
+    border-bottom: 4px solid #1c5db6;
+  }
+  &.test{
+    width: 90%;
+    margin: 10px auto 20px;
+  }
+  &.search{
+    margin: 10px auto;
+  }
+  &.list{
+    width: 90%;
+    text-align: center;
+    margin: 20px auto;
+    border: 1px solid #eee;
+    word-break:break-all; 
+    word-wrap:break-word;
+    th, td{
+      height: 30px;
+      border: 1px solid #eee;
+    }
+    td{
+      &.oper{
+        width: 100px;
+      }
+      &.longCon{
+        width: 25%;
+      }
+    }
+    td:last{
+      width: 80px;
+    }
+    a{
+      color: #2e79e8;
+    }
+  }
+  &.inputForm{
+    width: 90%;
+    margin: 20px auto;
+    th{
+      width: 150px;
+      text-align: right;
+      line-height: 24px;
+      padding-right: 10px;
+      border: 3px solid #fff;
+    }
+  }
+  &.stripe{
+    th,td{
+      height: 24px;
+      line-height: 24px;
+      border: 1px solid #eee;
+      padding: 5px;
+    }
+    .left{
+      text-align: left;
+    }
+    .right{
+      text-align: right; 
+    }
+  }
+}
+form table{
+  width: 90%;
+  margin: 0 auto;
+}
+input, textarea, select, table.ke-container, input.Wdate{
+  margin-bottom: 5px;
+  border: 1px solid #dbdbdb;
+}
+input[type="file"]{
+  border: none;
+}
+input[type="text"], input.Wdate{
+  padding: 0 3px;
+  height: 24px;
+  line-height: 24px;
+}
+input[type="submit"], input[type="button"]{
+  margin: 10px 10px 20px 0;
+  width: 65px;
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid #999;
+}
+input[type="button"].J_JumpTo{
+  margin: 0;
+}
+.tips{
+  width: 90%;
+  margin: 0 auto;
+}
+ul.tips{
+  list-style: none;
+}
+h1, h2, h3{
+  margin-top: 10px;
+}
+.panelist{
+  h1, h2, h3, .clear_both, .successMess{
+    padding-left: 5%;
+  }
+  table{
+    margin-top: 10px;
+  }
+  h2{
+    height: 30px;
+    line-height: 30px;
+  }
+}
+.autoCenter{
+  width: 90%;
+  margin: 0 auto;
+}
+.mt10{
+  margin-top: 10px;
 }

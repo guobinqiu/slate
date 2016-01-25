@@ -1,0 +1,5 @@
+services:
+    validator.unique.password:
+        class: JJili\ApiBundle\Validator\Constraints\PasswordRegexValidator
+        tags:
+            - { name: validator.constraint_validator, alias: PasswordRegexValidator }

@@ -18,12 +18,11 @@
 			     <a href="{{ path('_homepage') }}" class="home"></a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('_advertiserment_list') }}">体验广告</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('jili_frontend_cpsadvertisement_list') }}">商家列表</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;返利详情
 			</div>
 			<span>
-				<div class="img"><img src="{{asset('img/website_logos/'~website.hostHashAsLogoName ~ '.jpg' )}}" alt="">{% if website.commission is defined and website.commission is not empty %}<div>最高返<b>{{ website.commission }}%</b></div>{% endif %}</div>
+				<div class="img"><img src="{{asset('img/website_logos/'~website.hostHashAsLogoName ~ '.jpg' )}}" alt="{{ website.websiteName }}"></div>
 				<div class="btn"><a href="{{ href_ }}" target="_blank">去购物，赚积分</a></div>
 			</span>
 			<span class="text">
 				<h1>{{ website.websiteName }}</h1>
-				<p>商城简介：京东商城是中国B2C市场最大的3C网购专业平台。是中国电子商务领域最受消费者欢迎和最具影响力的电子商务网站之一。</p>
 				<div class="prompts">返利比率：正常商品：7%  团购商品：2%  优惠券、礼品卡商品：4%</div>
 			</span>
 		</div>

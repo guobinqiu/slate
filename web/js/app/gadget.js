@@ -1,6 +1,6 @@
 require(['../config'],function(){
     require(['common']);
-    require(['installer', 'swfobject'], function(installer, swfobject){
+    require(['swfobject', 'installer'], function(swfobject, installer){
         window.__startAirInstall(
             'divInstaller',
             'http://www.91wenwen.net/swf/gadget/AIRInstallBadge.swf',
@@ -20,10 +20,17 @@ require(['../config'],function(){
         btns.on('click', function(){
             var index = btns.index(this);
             var arrows = ['arrowUp', 'arrowUp second', 'arrowUp third'];
-            btns.removeClass('active').eq(index).addClass('active');
-            cons.hide().eq(index).show();
-            arrow.removeClass().addClass(arrows[index]);
-            slideD.slideDown();
+            if($(this).hasClass('active')){
+                btns.eq(index).removeClass('active');
+                cons.eq(index).hide();
+                arrow.removeClass();
+                slideD.slideUp();
+            }else{
+                btns.removeClass('active').eq(index).addClass('active');
+                cons.hide().eq(index).show();
+                arrow.removeClass().addClass(arrows[index]);
+                slideD.slideDown();
+            }
         });
         close.on('click', function(){
             slideD.slideUp();
