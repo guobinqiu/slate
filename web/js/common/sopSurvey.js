@@ -137,7 +137,7 @@ define(['backbone'], function(Backbone) {
         }
         ,openSurvey: function (e) {
             window.open(
-                 '/index.php/project_survey/information/' + this.model.get('survey_id')
+                 Routing.generate("_project_survey_information", {"survey_id": this.model.get('survey_id') })
                 ,'sop_research_window'
                 ,'resizable=yes,scrollbars=yes,toolbar=no'
             );
