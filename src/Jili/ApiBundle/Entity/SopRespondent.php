@@ -8,10 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
  * SopRespondent
  *
  * @ORM\Table(name="sop_respondent", uniqueConstraints={@ORM\UniqueConstraint(name="user_uniq", columns={"user_id"})}, indexes={@ORM\Index(name="user_status_idx", columns={"status_flag", "user_id"}), @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}), @ORM\Index(name="updated_at_idx", columns={"updated_at"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\SopRespondentRepository")
  */
 class SopRespondent
 {
+    const STATUS_INACTIVE =0;
+    const STATUS_ACTIVE=1;
+
     /**
      * @var integer
      *
