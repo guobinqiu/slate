@@ -67,7 +67,11 @@ class SopUtilTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateSignature_fail_on_incompatible_type()
     {
+<<<<<<< HEAD
         SopUtil::createSignature(new stdClass(), 'hogehoge');
+=======
+        SopUtil::createSignature(new \stdClass(), 'hogehoge');
+>>>>>>> dev-merge-ui
     }
 
     public function testIsSignatureValid_on_missing_time()
@@ -152,4 +156,8 @@ class SopUtilTest extends \PHPUnit_Framework_TestCase
     {
         SopUtil::isSignatureValid('signature', '{"mal":"formed"', 'hogehoge', '1234');
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> dev-merge-ui
