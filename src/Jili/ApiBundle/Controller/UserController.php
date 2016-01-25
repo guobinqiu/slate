@@ -1388,7 +1388,6 @@ class UserController extends Controller implements CampaignTrackingController
             $form->bind($request);
 
             $logger = $this->get('logger');
-            $logger->debug(__FUNCTION__. ' post data:' .var_export($form->getData(), true) );
 
             if($form->isValid()) {
 
