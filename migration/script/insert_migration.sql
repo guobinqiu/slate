@@ -6,6 +6,20 @@
 truncate user;
 truncate weibo_user;
 
+CREATE TABLE `ssi_respondent` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `panelist_id` int(11) NOT NULL,
+  `status_flag` tinyint(4) DEFAULT '1',
+  `stash_data` text,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `panelist_uniq` (`panelist_id`),
+  KEY `panelist_status_idx` (`status_flag`,`panelist_id`),
+  KEY `ssi_status_idx` (`status_flag`,`id`),
+  KEY `updated_at_idx` (`updated_at`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 LOAD DATA INFILE '/data/91jili/merge/export/migrate_vote.csv' 
 INTO TABLE vote 
 CHARACTER SET UTF8  
@@ -42,6 +56,14 @@ TERMINATED BY '\n';
 
 LOAD DATA INFILE '/data/91jili/merge/export/migrate_sop_respondent.csv' 
 INTO TABLE sop_respondent 
+CHARACTER SET UTF8  
+FIELDS  TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' 
+ESCAPED BY '\\' LINES 
+TERMINATED BY '\n';
+
+LOAD DATA INFILE '/data/91jili/merge/export/migrate_ssi_respondent.csv' 
+INTO TABLE ssi_respondent 
 CHARACTER SET UTF8  
 FIELDS  TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' 

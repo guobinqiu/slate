@@ -17,6 +17,7 @@ $user_wenwen_cross_file_handle = '';
 $weibo_user_file_handle = '';
 $migration_region_mapping_file_handle = '';
 $sop_respondent_file_handle = '';
+$ssi_respondent_file_handle = '';
 
 //索引
 $panelist_image_indexs = '';
@@ -26,6 +27,7 @@ $region_mapping_indexs = '';
 $panelist_detail_indexs = '';
 $panelist_profile_indexs = '';
 $sop_respondent_indexs = '';
+$ssi_respondent_indexs = '';
 $vote_answer_indexs = '';
 $sina_connection_indexs = '';
 $weibo_user_indexs = '';
@@ -49,6 +51,7 @@ function initialise_csv()
     global $vote_answer_file_handle;
     global $panelist_91jili_connection_file_handle;
     global $sop_respondent_file_handle;
+    global $ssi_respondent_file_handle;
     global $user_file_handle;
     global $user_wenwen_cross_file_handle;
     global $weibo_user_file_handle;
@@ -65,6 +68,7 @@ function initialise_csv()
     $vote_answer_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/" . VOTE_ANSWER . ".csv");
     $panelist_91jili_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_91jili_connection.csv");
     $sop_respondent_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/sop_respondent.csv");
+    $ssi_respondent_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/ssi_respondent.csv");
     $user_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/user.csv");
     $user_wenwen_cross_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/user_wenwen_cross.csv");
     $weibo_user_file_handle = FileUtil::checkFile(IMPORT_JL_PATH . "/weibo_user.csv");
@@ -79,6 +83,7 @@ function initialise_csv()
     global $panelist_profile_indexs;
     global $sina_connection_indexs;
     global $sop_respondent_indexs;
+    global $ssi_respondent_indexs;
     global $vote_answer_indexs;
     global $weibo_user_indexs;
 
@@ -90,6 +95,7 @@ function initialise_csv()
     $panelist_profile_indexs = build_file_index($panelist_profile_file_handle, 'panelist_id');
     $sina_connection_indexs = build_file_index($panelist_sina_connection_file_handle, 'panelist_id');
     $sop_respondent_indexs = build_file_index($sop_respondent_file_handle, 'panelist_id');
+    $ssi_respondent_indexs = build_file_index($ssi_respondent_file_handle, 'panelist_id');
     $vote_answer_indexs = build_file_index($vote_answer_file_handle, 'panelist_id');
     $weibo_user_indexs = build_file_index($weibo_user_file_handle, 'user_id');
 
@@ -955,6 +961,20 @@ function generate_sop_respondent_data($panelist_id, $user_id)
     }
 }
 
+function generate_ssi_respondent_data($panelist_id, $user_id)
+{
+    global $ssi_respondent_indexs;
+    global $ssi_respondent_file_handle;
+
+    if (isset($ssi_respondent_indexs[$panelist_id])) {
+        $ssi_respondent_row = use_file_index($ssi_respondent_indexs, $panelist_id, $ssi_respondent_file_handle, true);
+        $ssi_respondent_row[1] = $user_id;
+        $ssi_respondent_row[4] = get_one_hour_ago_time($ssi_respondent_row[4]);
+        $ssi_respondent_row[5] = get_one_hour_ago_time($ssi_respondent_row[5]);
+        export_csv_row($ssi_respondent_row, Constants::$migrate_ssi_respondent_name);
+    }
+}
+
 /**
  * Export the vote_answer data
  * @param integer $panelist_id
@@ -1097,6 +1117,10 @@ function migrate_common($panelist_row, $jili_user_id)
 
     //sop_respondent数据迁移
     generate_sop_respondent_data($panelist_row[0], $jili_user_id);
+
+
+    //ssi_respondent数据迁移
+    generate_ssi_respondent_data($panelist_row[0], $jili_user_id);
 
     //vote_answer 数据迁移
     generate_vote_answer_data($panelist_row[0], $jili_user_id);

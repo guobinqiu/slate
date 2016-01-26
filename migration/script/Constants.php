@@ -123,6 +123,16 @@ class Constants
         'created_at'
     );
 
+    //export csv title: ssi_respondent
+    public static $ssi_respondent_title = array (
+            'id',          
+            'panelist_id', 
+            'status_flag', 
+            'stash_data',  
+            'updated_at',  
+            'created_at'  
+    );
+
     //export csv title: vote_answer
     public static $vote_answer_title = array (
         'id',
@@ -138,6 +148,7 @@ class Constants
     public static $migrate_user_wenwen_login_name = 'migrate_user_wenwen_login.csv';
     public static $migrate_weibo_user_name = 'migrate_weibo_user.csv';
     public static $migrate_sop_respondent_name = 'migrate_sop_respondent.csv';
+    public static $migrate_ssi_respondent_name = 'migrate_ssi_respondent.csv';
     public static $migrate_vote_answer_name = 'migrate_vote_answer.csv';
     public static $migrate_task_history_name = 'task_history0';
     public static $migrate_point_history_name = 'point_history0';

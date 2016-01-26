@@ -15,9 +15,13 @@ $cmd0=<<<CMD
 time php -f bin/db_to_csv.php  \${WW_DB_HOST} \${WW_DB_USER} \${WW_DB_PWD} \${WW_DB_NAME}  panelist "select * from panelist where panel_id = 2 order by id asc "  > /mnt/tmp/merge/ww_csv/panelist.csv
 CMD;
 
-
 $cmd1=<<<CMD
 time php -f bin/db_to_csv.php  \${WW_DB_HOST} \${WW_DB_USER} \${WW_DB_PWD} \${WW_DB_NAME} %1\$s "select * from %1\$s %2\$s"  > /mnt/tmp/merge/ww_csv/%1\$s.csv
+CMD;
+
+# 'sop_respondent'
+$cmd2=<<<CMD
+time php -f bin/db_to_csv.php  \${WW_DB_HOST} \${WW_DB_USER} \${WW_DB_PWD} \${WW_DB_NAME}  ssi_respondent "select ssi.* from ssi_respondent ssi inner join panelist p on p.id = ssi.panelist_id  where p.panel_id = 2 order by ssi.panelist_id asc "  > /mnt/tmp/merge/ww_csv/ssi_respondent.csv
 CMD;
 
 $a = array(
@@ -38,7 +42,6 @@ $a = array(
         'panel_faq',// (根据情况)
         'panel_faq_category',//(根据情况)
 );
-
 $orders= array(
         'panel_91wenwen_panelist_profile' => 'order by panelist_id asc',
         'panel_91wenwen_panelist_profile_image'=> ' order by panelist_id asc',
@@ -79,6 +82,9 @@ foreach ($a as $v){
     echo "\n";
     echo "\n";
 }
+
+echo 'echo ssi_respondent' ,"\n";
+echo $cmd2, "\n";
 
 echo <<<CMD
 
