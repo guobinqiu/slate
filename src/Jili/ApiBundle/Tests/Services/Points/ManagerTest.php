@@ -39,7 +39,7 @@ class ManagerTest extends KernelTestCase
         $executor->execute($loader->getFixtures());
 
 // run test
-$service->updatePoints(1,7,93, '同意参加Fulcrum调查' );
+        $service->updatePoints(1,7,93,9, '同意参加Fulcrum调查' );
 // check result
 
         $user_stm =   $em->getConnection()->prepare('select * from user where id =  1');
@@ -66,6 +66,7 @@ $service->updatePoints(1,7,93, '同意参加Fulcrum调查' );
 
         $this->assertNotEmpty($task_history,'1 point history record');
         $this->assertCount(1, $task_history,'1 point history record');
+        $this->assertEquals(9, $task_history[0]['task_type'],'suvey task9');
         $this->assertEquals(93, $task_history[0]['category_type'],'ad_cateogry 93');
         $this->assertEquals('同意参加Fulcrum调查', $task_history[0]['task_name'],'task name');
     }

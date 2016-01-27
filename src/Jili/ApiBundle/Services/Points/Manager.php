@@ -15,7 +15,7 @@ class Manager
     /**
      * 更新point: user, point_history , task_history
      */
-    public function updatePoints($user_id, $point, $ad_category_id, $task_name)
+    public function updatePoints($user_id, $point,  $ad_category_id, $task_type_id, $task_name)
     {
 
         $em = $this->em;//getDoctrine()->getManager();
@@ -40,15 +40,15 @@ class Manager
             $params = array (
                 'userid' => $user_id,
                 'point' => $point,
-                'type' => $ad_category_id,//9:完善资料
+                'type' => $ad_category_id,//ad_category.id
             );
             $this->point_history->get($params);
             //更新task_history表分数
             $params = array (
                 'userid' => $user_id,
                 'orderId' => 0,
-                'taskType' => 4,
-                'categoryType' => $ad_category_id,//9:完善资料
+                'taskType' => $task_type_id, // refer to task_history00 entity 
+                'categoryType' => $ad_category_id,
                 'task_name' => $task_name ,
                 'point' => $point,
                 'date' => date_create(date('Y-m-d H:i:s')),
