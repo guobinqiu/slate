@@ -8,7 +8,7 @@ truncate weibo_user;
 
 CREATE TABLE `ssi_respondent` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `panelist_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `status_flag` tinyint(4) DEFAULT '1',
   `stash_data` text,
   `updated_at` datetime DEFAULT NULL,
