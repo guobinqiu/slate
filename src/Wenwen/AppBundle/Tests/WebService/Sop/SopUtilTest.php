@@ -1,8 +1,8 @@
 <?php
 
-namespace Jili\ApiBundle\Tests\Utility;
+namespace Wenwen\AppBundle\Tests\WebService\Sop;
 
-use src\Wenwen\AppBundle\web_service\sop\SopUtil;
+use Wenwen\AppBundle\WebService\Sop\SopUtil;
 
 class SopUtilTest extends \PHPUnit_Framework_TestCase
 {
