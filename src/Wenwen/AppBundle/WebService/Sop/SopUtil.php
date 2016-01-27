@@ -8,7 +8,7 @@ class SopUtil
         $required = array('app_id', 'app_mid', 'sig', 'time', 'sop_callback');
 
         if(count(array_intersect_key(array_flip($required), $sop_params)) !== count($required)) {
-            throw new Exception("Insuffucient parameter", 1);
+            throw new \Exception("Insuffucient parameter", 1);
         }
 
         $query = http_build_query(array(
