@@ -14,8 +14,8 @@ CREATE TABLE `ssi_respondent` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `panelist_uniq` (`panelist_id`),
-  KEY `panelist_status_idx` (`status_flag`,`panelist_id`),
+  UNIQUE KEY `user_uniq` (`user_id`),
+  KEY `user_status_idx` (`status_flag`,`user_id`),
   KEY `ssi_status_idx` (`status_flag`,`id`),
   KEY `updated_at_idx` (`updated_at`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
