@@ -17,11 +17,12 @@ $survey-border-color: #f6f6f6;
 		font-weight: bold;
 	}
 	.title{
+		color: $main-title-color;
+		font-size: 15px;
+		font-weight: bold;
+		line-height: 35px;
 		a{
 			color: $main-title-color;
-			font-size: 15px;
-			font-weight: bold;
-			line-height: 35px;
 		}
 	}
 	ul{
@@ -87,7 +88,7 @@ $survey-border-color: #f6f6f6;
 .survey-btn{
 	width: 0%;
 	height: 100%;
-	line-height: 800%;
+	line-height: 1000%;
 	position: absolute;
 	z-index: 1000;
 	top: 0;
