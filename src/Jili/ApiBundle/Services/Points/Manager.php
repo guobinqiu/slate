@@ -22,7 +22,7 @@ class Manager
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
 
         if( ! isset($user ) ) {
-            $logger->info('UpdatePoints , user not exists user.id='.var_export($user_id,true));
+            $this->logger->info('UpdatePoints , user not exists user.id='.var_export($user_id,true));
             return ;
         }
 
