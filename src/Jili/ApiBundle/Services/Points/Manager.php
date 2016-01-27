@@ -1,6 +1,11 @@
 <?php
 namespace Jili\ApiBundle\Services\Points; 
 
+use Jili\ApiBundle\EventListener\TaskHistory;
+use Jili\ApiBundle\EventListener\PointHistory;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
+
 class Manager
 {
     private $point_history;
@@ -10,62 +15,76 @@ class Manager
     /**
      * 更新point: user, point_history , task_history
      */
-    public function updatePoint($userId,$point, $ad_category_id, $task_name)
+    public function updatePoints($user_id, $point, $ad_category_id, $task_name)
     {
-        $em = $this->em;//getDoctrine()->getManager();
-        $dbh = $em->getConnection();
-        // transaction start
-        $dbh->beginTransaction();
 
-        //更新user表总分数
-        $user = $em->getRepository('JiliApiBundle:User')->find($userId);
-        if( ! isset($userId)) {
+        $em = $this->em;//getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+
+        if( ! isset($user ) ) {
+            $logger->info('UpdatePoints , user not exists user.id='.var_export($user_id,true));
             return ;
         }
 
+        // transaction start
+        $dbh = $em->getConnection();
+        $dbh->beginTransaction();
+
         try {
 
-            $oldPoint = $user->getPoints();
-            $user->setPoints(intval($oldPoint+$point));
+            //更新user表总分数
+            $old_point = $user->getPoints();
+            $user->setPoints(intval($old_point + $point));
 
             //更新point_history表分数
             $params = array (
-                'userid' => $userId,
+                'userid' => $user_id,
                 'point' => $point,
                 'type' => $ad_category_id,//9:完善资料
             );
             $this->point_history->get($params);
             //更新task_history表分数
             $params = array (
-                'userid' => $userId,
+                'userid' => $user_id,
                 'orderId' => 0,
                 'taskType' => 4,
                 'categoryType' => $ad_category_id,//9:完善资料
-                'task_name' => $task_name 
+                'task_name' => $task_name ,
                 'point' => $point,
                 'date' => date_create(date('Y-m-d H:i:s')),
                 'status' => 1
             );
-            $this->task_history->init($params);
-            $em->flush();
 
+            $this->task_history->init($params);
+
+            $em->flush();
             $dbh->commit();
         } catch(\Exception $e) {
             $dbh->rollback();
+            $this->logger->crit( $e->getMessage() );
         }
 
     }
 
-    public function setTaskHistory( $th) 
+    public function setTaskHistory( TaskHistory $th) 
     {
         $this->task_history = $th;
+        return $this;
     }
-    public function setPointHistory( $ph) 
+    public function setPointHistory(PointHistory  $ph) 
     {
         $this->point_history = $ph;
+        return $this;
     }
-    public function  setEntityManager($em)
+    public function  setEntityManager(EntityManager $em)
     {
         $this->em = $em;
+        return $this;
     }
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+        return $this;
+    }
+
 }
