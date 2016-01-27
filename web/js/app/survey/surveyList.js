@@ -22,11 +22,8 @@ require(['../../config'], function() {
         var addSuveyItem = function (el) {
             
             var surveyList = $('#surveyList');
-
-            $(el).find('span.each').after('<div class="NPSPrompt"><span class="text">此问卷由<em class="darkYellow">60~126道</em>小题组成，可分多次回答，中途关闭不影响继续回答哦！<a class="darkYellow" href="campaign/newProfile" target="_blank">了解详情</a></span><span class="closeTag" onClick="this.close"></span><span class="notShow">不再提示</span></div>');
-            $(el).find('span.each').parent().css('position','relative');
                 // Insert the item as the 2rd row of the table if table has more than 0 row
-                console.log(surveyList.children().length);
+            console.log(surveyList.children().length);
             if (surveyList.children().length) {
                 surveyList.find('li:first').before($(el));
                 return;
@@ -77,7 +74,7 @@ require(['../../config'], function() {
             if( res.data.profiling.length == 0 && res.data.research.length == 0 ) return;
 
             // remove no survey label
-            var tbodyEl = $('#survey-list > tbody:first tr.no-survey-available').remove();
+            $('#survey-list li.no-survey-available').remove();
 
             // load Fulcrum research data
             // renderFulcrumResearchItems(res.data.fulcrum_research)
@@ -104,7 +101,6 @@ require(['../../config'], function() {
             jsonp: false,
             cache: true
         });
-console.log($('#sop_api_url').val());
 
     // preview 
 
