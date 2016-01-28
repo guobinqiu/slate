@@ -1,3 +1,8 @@
+wenwen_app:
+    resource: "@WenwenAppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 api:
     resource: "@JiliApiBundle/Controller"
     type: annotation
