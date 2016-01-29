@@ -19,25 +19,17 @@ class SurveyController extends Controller
 {
 
     /**
-     * @Route("/top")
-     * @Template
-     */
-    public function topAction(Request $request)
-    {
-    }
-
-    /**
-     * @Route("/index")
+     * @Route("/index", name="_survey_index")
      * @Template
      */
     public function indexAction(Request $request)
     {
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('wenwen_frontend_survey_index'));
+            $this->get('request')->getSession()->set('referer', $this->generateUrl('_survey_index'));
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $user_id = $request->getSession()->get('uid'); //1057737
+        $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
 
         // todo: 快速問答

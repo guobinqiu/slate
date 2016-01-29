@@ -25,7 +25,7 @@ class ProjectSurveyController extends Controller
     public function informationAction(Request $request)
     {
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('wenwen_frontend_survey_index'));
+            $this->get('request')->getSession()->set('referer', $this->generateUrl('_survey_index'));
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
