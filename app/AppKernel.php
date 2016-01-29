@@ -26,6 +26,9 @@ class AppKernel extends Kernel
             new Jili\BackendBundle\JiliBackendBundle(),
             new Jili\EmarBundle\JiliEmarBundle(),
             new Jili\FrontendBundle\JiliFrontendBundle(),
+            new Wenwen\FrontendBundle\WenwenFrontendBundle(),
+            new Wenwen\BackenddBundle\WenwenBackenddBundle(),
+            new Wenwen\AppBundle\WenwenAppBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
