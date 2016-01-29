@@ -29,9 +29,9 @@ class SsiRespondent
     private $userId;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true)
+     * @ORM\Column(name="status_flag", type="smallint", nullable=true)
      */
     private $statusFlag;
 
@@ -94,7 +94,7 @@ class SsiRespondent
     /**
      * Set statusFlag
      *
-     * @param boolean $statusFlag
+     * @param integer $statusFlag
      * @return SsiRespondent
      */
     public function setStatusFlag($statusFlag)
@@ -107,7 +107,7 @@ class SsiRespondent
     /**
      * Get statusFlag
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getStatusFlag()
     {

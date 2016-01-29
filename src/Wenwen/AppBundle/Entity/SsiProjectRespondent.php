@@ -36,9 +36,9 @@ class SsiProjectRespondent
     private $startUrlId;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="answer_status", type="boolean", nullable=false)
+     * @ORM\Column(name="answer_status", type="smallint", nullable=false)
      */
     private $answerStatus;
 
@@ -151,7 +151,7 @@ class SsiProjectRespondent
     /**
      * Set answerStatus
      *
-     * @param boolean $answerStatus
+     * @param integer $answerStatus
      * @return SsiProjectRespondent
      */
     public function setAnswerStatus($answerStatus)
@@ -164,7 +164,7 @@ class SsiProjectRespondent
     /**
      * Get answerStatus
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getAnswerStatus()
     {
