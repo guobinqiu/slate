@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `ssi_respondent` ;
 CREATE TABLE IF NOT EXISTS `ssi_respondent` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT(10) UNSIGNED NOT NULL,
-  `status_flag` SMALLINT(3) UNSIGNED NULL DEFAULT '1',
+  `status_flag` SMALLINT(3) UNSIGNED NULL DEFAULT '1' COMMENT '0:permission_no,1:permission_yes, 10:active',
   `stash_data` TEXT NULL DEFAULT NULL,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` TIMESTAMP NULL DEFAULT NULL,
@@ -37,7 +37,7 @@ DROP TABLE IF EXISTS `ssi_project` ;
 
 CREATE TABLE IF NOT EXISTS `ssi_project` (
   `id` INT UNSIGNED NOT NULL,
-  `status_flag` TINYINT(1) UNSIGNED NULL DEFAULT 1,
+  `status_flag` TINYINT(1) UNSIGNED NULL DEFAULT 1 COMMENT '1: active,0:inactive',
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `ssi_project_respondent` (
   `ssi_mail_batch_id` INT NOT NULL,
   `ssi_respondent_id` INT UNSIGNED NOT NULL,
   `start_url_id` VARCHAR(255) NOT NULL,
-  `answer_status` SMALLINT NOT NULL DEFAULT 1,
+  `answer_status` SMALLINT NOT NULL DEFAULT 1 COMMENT '0:init, 2:reopened, 5:forwarded ,11:completed',
   `stash_data` TEXT NULL DEFAULT NULL,
   `completed_at` TIMESTAMP NULL DEFAULT NULL,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
