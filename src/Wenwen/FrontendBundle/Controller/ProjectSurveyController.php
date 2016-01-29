@@ -9,14 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Jili\ApiBundle\Utility\SopUtil;
+use Wenwen\AppBundle\WebService\Sop\SopUtil;
+use SOPx\Auth\V1_1\Util;
 
 /**
- * @Route("/projectSurvey",requirements={"_scheme"="http"})
+ * @Route("/project_survey",requirements={"_scheme"="https"})
  */
 class ProjectSurveyController extends Controller
 {
-
 
     /**
      * @Route("/information", name="_project_survey_information", options={"expose"=true})
@@ -29,11 +29,11 @@ class ProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $user_id = $request->getSession()->get('uid'); //1057737
+        $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
 
         //create sop JSONP URL
-        $sop_config = $this->container->getParameter('sop_frontend');
+        $sop_config = $this->container->getParameter('sop');
 
         //sop_respondent 如果不存在就创建
         $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
@@ -43,35 +43,40 @@ class ProjectSurveyController extends Controller
             'app_mid' => $sop_respondent->getId(),
             'time' => time()
         );
-        $sop_params['sig'] = SopUtil::createSignature($sop_params, $sop_config['auth']['app_secret']);
+        $sop_params['sig'] = Util::createSignature($sop_params, $sop_config['auth']['app_secret']);
         $sop_params['sop_callback'] = 'surveylistCallback';
 
-        $arr['url']       = SopUtil::getJsopURL($sop_params, $sop_config['host']);
-        //$arr['survey_id'] = $request->getParameter('survey_id');
+        $arr['url'] = SopUtil::getJsopURL($sop_params, $sop_config['host']);
         $arr['survey_id'] = $request->query->get('survey_id');
+
+        // for preview mode
+        $arr['preview'] = $this->container->get('kernel')->getEnvironment() === 'dev' && $request->query->get('preview') === '1';
 
         return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', $arr);
     }
 
     /**
-     * @Route("/endlink", name="_project_survey_endlink")
+     * @Route("/endlink/{survey_id}/{answer_status}", name="_project_survey_endlink")
      * @Template
      */
     public function endlinkAction(Request $request)
     {
-        //$app_mid = $request->query->get('app_mid');
-        $survey_id = $request->query->get('sid');
-        $answer_status = $request->query->get('status');
+        $survey_id = $request->get('survey_id');
+        $answer_status = $request->get('answer_status');
+
+        if (!$request->getSession()->get('uid')) {
+            $this->get('request')->getSession()->set('referer', $this->generateUrl('_project_survey_endlink', array (
+                'survey_id' => $survey_id,
+                'answer_status' => $answer_status
+            )));
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
 
         if (!preg_match('/\A(?:complete|screenout|quotafull|error)\z/', $answer_status)) {
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
 
-        $template = $answer_status == 'complete'
-                ? 'complete' : 'noComplete';
-
         $arr['answer_status'] = $answer_status;
         return $this->render('WenwenFrontendBundle:ProjectSurvey:complete.html.twig', $arr);
-
     }
 }

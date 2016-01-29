@@ -13,23 +13,10 @@ require(['../../config'], function() {
             $(".error-message").show();
         };
 
-//        $.ajax({
-//            type: 'GET',
-//            url: $('#sop_api_url').val(),
-//            dataType: 'jsonp',
-//            jsonp: false,
-//            cache: true
-//        });
-
-//        var openSurvey = function(pageURL,name) {
-//            console.log("openSurvey:" + pageURL);
-//            // todo: Mark item as "done"
-//            window.open(url, name, 'resizable=yes,scrollbars=yes,toolbar=no');
-//        };
-
         surveylistCallback = function(res) {
 
             console.log("surveylistCallback: code:" + res.meta.code);
+            console.log("surveylistCallback: code:" +survey_id);
 
             // show alert if error code
             if (res.meta.code != '200') {

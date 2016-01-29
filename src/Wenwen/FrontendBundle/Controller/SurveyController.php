@@ -60,9 +60,6 @@ class SurveyController extends Controller
         $sop_params['sig'] = Util::createSignature($sop_params, $sop_config['auth']['app_secret']);
         $arr['sop_params'] = $sop_params;
 
-        // for preview mode
-        $arr['preview'] = $this->container->get('kernel')->getEnvironment() === 'dev' && $request->query->get('preview') === '1';
-
         $arr['sop_params'] = $sop_params;
 
         $arr['sop_api_url'] = 'https://' . $sop_config['host'] . '/api/v1_1/surveys/js?' . http_build_query(array (
@@ -74,6 +71,9 @@ class SurveyController extends Controller
         ));
 
         $arr['sop_point'] = $sop_config['point']['profile'];
+
+        // for preview mode
+        $arr['preview'] = $this->container->get('kernel')->getEnvironment() === 'dev' && $request->query->get('preview') === '1';
 
         return $this->render('WenwenFrontendBundle:Survey:index.html.twig', $arr);
     }
