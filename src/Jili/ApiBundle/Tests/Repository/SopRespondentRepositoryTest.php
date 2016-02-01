@@ -59,7 +59,7 @@ class SopRespondentRepositoryTest extends KernelTestCase
     /**
      * @group dev-merge-ui-survey-list
      */
-    public function retrieveOrInsertByUserId()
+    public function testRetrieveOrInsertByUserId()
     {
         $em = $this->em;
 

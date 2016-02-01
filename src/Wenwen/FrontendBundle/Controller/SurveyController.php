@@ -50,7 +50,6 @@ class SurveyController extends Controller
             'time' => time()
         );
         $sop_params['sig'] = Util::createSignature($sop_params, $sop_config['auth']['app_secret']);
-        $arr['sop_params'] = $sop_params;
 
         $arr['sop_params'] = $sop_params;
 
