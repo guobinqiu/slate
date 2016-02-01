@@ -4,6 +4,10 @@ namespace Wenwen\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
 
 class SurveyControllerTest extends WebTestCase
 {
@@ -21,6 +25,18 @@ class SurveyControllerTest extends WebTestCase
         static::$kernel->boot();
         $em = static::$kernel->getContainer()->get('doctrine')->getManager();
         $container = static::$kernel->getContainer();
+
+        // purge tables
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        $fixture = new LoadUserData();
+        $fixture->setContainer($container);
+
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $executor->execute($loader->getFixtures());
 
         $this->container = $container;
         $this->em = $em;
@@ -44,6 +60,7 @@ class SurveyControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
+        $em = $this->em;
 
         $url = $container->get('router')->generate('_survey_index');
         $crawler = $client->request('GET', $url);
@@ -54,7 +71,8 @@ class SurveyControllerTest extends WebTestCase
 
         //login 后
         $session = $container->get('session');
-        $session->set('uid', 1);
+        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $session->set('uid', $users[0]->getId());
         $session->save();
 
         $crawler = $client->request('GET', $url);
