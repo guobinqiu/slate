@@ -1,7 +1,7 @@
 mail_send:
-    to:    vctech-system@voyagegroup.info
+    to:    d8aspring-china-office@d8aspring.com
 interface:
     balance:    1000
     url:    http://59.83.33.14/custom_balanceV1.php
     custom_sn:    B772AA94ABDC6BEE
-    prv_key:    5E703068E764D3DC
+    prv_key:    ***********
