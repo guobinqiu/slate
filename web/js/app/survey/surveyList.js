@@ -1,23 +1,6 @@
 require(['../../config'], function() {
     require(['common']);
     require(['jquery', 'sopSurvey', 'backbone', 'routing','jqueryCookie'], function($, survey, backbone, routing) {
-        //close popup box when click closeTag
-        // var closePrompt = function () {
-        //   $(".closeTag").click(function(){
-        //     $(this).parent().hide( "drop", { direction: "right" }, 300 );
-        //   });
-        // };
-        // //This episode is for set cookie for NPS prompt bubble.
-        // var notShowPrompt = function () {
-        //   if ($.cookie('NPSPrompt') == 'closed') {
-        //       return $('.NPSPrompt').hide();
-        //       }
-        //       $('.NPSPrompt').show();
-        //   $('.notShow').click(function(e) {
-        //       $.cookie('NPSPrompt','closed', { path: '/' });
-        //       $('.NPSPrompt').hide( "drop", { direction: "down" }, 300 );
-        //   });
-        // }
 
         var addSuveyItem = function (el) {
 
@@ -46,24 +29,7 @@ require(['../../config'], function() {
                 addSuveyItem(view.render().el);
             });
         };
-        // var renderFulcrumUserAgreementItems = function (items) {
-        //     _.chain(items)
-        //     .filter(function (item) {
-        //         return item.type == 'Fulcrum';
-        //     })
-        //     .each(function (item) {
-        //         var model = new FulcrumAgreementModel(item);
-        //         var view = new FulcrumUserAgreementView({"model": model});
-        //         view.render();
-        //     });
-        // };
-        // var renderFulcrumResearchItems = function (items) {
-        //     _.each(items, function (item) {
-        //         var model = new FulcrumResearchItemModel(item);
-        //         var view  = new FulcrumResearchItemView({ model: model });
-        //         addSuveyItem(view.render().el);
-        //     });
-        // };
+
         surveylistCallback = function (res) {
 
             console.log('ajax jsonp returned');
@@ -76,22 +42,13 @@ require(['../../config'], function() {
             // remove no survey label
             $('#survey-list li.no-survey-available').remove();
 
-            // load Fulcrum research data
-            // renderFulcrumResearchItems(res.data.fulcrum_research)
-            // load Cint research data
-            // renderCintResearchItems(res.data.cint_research)
             // load research data
             renderResearchItems(res.data.research.reverse());
+
             // load profiling data
             renderProfilingItems(res.data.profiling);
-            // load Fulcrum usr agreemetns
-            // renderFulcrumUserAgreementItems(res.data.user_agreement)
-            // load Cint usr agreemetns
-            // renderCintUserAgreementItems(res.data.user_agreement)
 
-            // closePrompt();
-            // notShowPrompt();
-            // return 0;
+            return 0;
         };
 
         var $preview = $('#preview').val();
