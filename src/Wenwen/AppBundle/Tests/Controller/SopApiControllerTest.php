@@ -179,10 +179,22 @@ class SopApiControllerTest extends WebTestCase
         }
 
         // check DB
+        $user_id = $sopRespondent[0]->getUserId();
         $sopProfilePoint = $em->getRepository('WenwenAppBundle:SopProfilePoint')->findOneBy(array (
-            'userId' => $sopRespondent[0]->getUserId(),
+            'userId' => $user_id,
             'name' => 'q001'
         ));
         $this->assertEquals($sopProfilePoint->getHash(), $params['hash']);
+
+        $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findOneByUserId($user_id);
+        $this->assertEquals($task->getPoint(), 1);
+        $this->assertEquals($task->getTaskName(), 'q001 属性问卷');
+
+        $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
+        $this->assertEquals($point->getPointChangeNum(), 1);
+        $this->assertEquals($point->getReason(), 93);
+
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $this->assertEquals($user->getPoints(), 101);
     }
 }
