@@ -47,8 +47,6 @@ require(['../../config'], function() {
 
             // load profiling data
             renderProfilingItems(res.data.profiling);
-
-            return 0;
         };
 
         var $preview = $('#preview').val();
