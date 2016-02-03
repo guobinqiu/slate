@@ -4,9 +4,9 @@
 {% block stylesheet %}
 <link href="{{ asset('css/404.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -14,9 +14,9 @@
 	<div class="errorCon">
 		<div class="errorText">
 			{% if errorMessage is defined and errorMessage is not empty %}
-				<p class="txt">{{ errorMessage }}</p>
+				<p class="txt">{{ errorMessage|nl2br }}</p>
 			{% else %}
-				<p class="txt">404错误，这个页面被大鲨鱼劫走了~</p>	
+				<p class="txt">404错误，这个页面被大鲨鱼劫走了~</p>
 			{% endif %}
 				<p class="btn"><a href="{{ path('_homepage') }}">返回首页</a><a href="{{ path('_default_feedback') }}">联系客服</a></p>
 		</div>
@@ -26,7 +26,7 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}
