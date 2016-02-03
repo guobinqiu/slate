@@ -46,6 +46,7 @@ class SopApiController extends Controller
             return $response;
         }
 
+        $params['app_id'] = $request->request->get('app_id');
         $params['app_mid'] = $request->request->get('app_mid');
         $params['hash'] = $request->request->get('hash');
         $params['name'] = $request->request->get('name');

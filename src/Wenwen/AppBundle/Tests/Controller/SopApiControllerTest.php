@@ -137,6 +137,7 @@ class SopApiControllerTest extends WebTestCase
         {
             $params = array (
                 'hash' => 'hashhashhash',
+                'app_id' => '27',
                 'app_mid' => $sopRespondent[0]->getId(),
                 'name' => 'q001',
                 'time' => time()
@@ -152,6 +153,7 @@ class SopApiControllerTest extends WebTestCase
         {
             $params = array (
                 'hash' => 'duplicated',
+                'app_id' => '27',
                 'app_mid' => $sopRespondent[0]->getId(),
                 'name' => 'q001',
                 'time' => time()
@@ -167,6 +169,7 @@ class SopApiControllerTest extends WebTestCase
         {
             $params = array (
                 'hash' => 'my-hash' . time(),
+                'app_id' => '27',
                 'app_mid' => $sopRespondent[0]->getId(),
                 'name' => 'q001',
                 'time' => time()
