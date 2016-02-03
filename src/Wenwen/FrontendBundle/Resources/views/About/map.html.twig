@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -30,7 +30,7 @@
 			<div class="box">
 				<h3>问卷与奖励</h3>
 				<ul class="clearfix">
-					<li class="font16"><strong>问卷列表</strong></li><li><a href="{{ path('wenwen_frontend_survey_index') }}" title="问卷列表">问卷列表</a></li><li><a href="http://www.91wenwen.net/cint/permission" title="参与海外市场调查项目" target="_blank">参与海外市场调查项目</a></li>
+					<li class="font16"><strong>问卷列表</strong></li><li><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li><li><a href="http://www.91wenwen.net/cint/permission" title="参与海外市场调查项目" target="_blank">参与海外市场调查项目</a></li>
 				</ul>
 				<ul class="clearfix">
 					<li class="font16"><strong>快速问答</strong></li><li><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答">快速问答</a></li><li><a href="{{ path('jili_frontend_vote_suggest') }}" title="有奖出题">有奖出题</a></li>
@@ -66,7 +66,7 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}
