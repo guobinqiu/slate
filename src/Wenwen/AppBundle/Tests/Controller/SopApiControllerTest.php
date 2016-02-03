@@ -72,10 +72,9 @@ class SopApiControllerTest extends WebTestCase
             'time' => '1234',
             'sig' => '1234abc'
         ));
+
         $this->assertEquals(405, $client->getResponse()->getStatusCode(), 'API /sop/v1_1/profile_point: GET Request is forbidden');
-        //todo: test can't pass
-        //$this->assertContains('{"meta":{"code":405,"message":"method not allowed"}}', $client->getResponse()->getContent());
-        $this->assertContains('405 Method Not Allowed', $client->getResponse()->getContent());
+        $this->assertContains('{"meta":{"code":405,"message":"method not allowed"}}', $client->getResponse()->getContent());
 
         /** API /sop/v1_1/profile_point **/
         // no http param

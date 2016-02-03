@@ -20,21 +20,20 @@ use Jili\ApiBundle\Entity\TaskHistory00;
  */
 class SopApiController extends Controller
 {
-
     private static $point_comment = '%s 属性问卷';
 
     public function preExecute()
     {
-        if ( $this->get('request')->getMethod() !== 'POST') {
-            $response = $this->renderJSONResponse(array(
-                'meta' => array(
+        if ($this->get('request')->getMethod() !== 'POST') {
+            $response = $this->renderJSONResponse(array (
+                'meta' => array (
                     'code' => 405,
-                    'message' => 'method not allowed',
-                ),
+                    'message' => 'method not allowed'
+                )
             ), 405);
-            $response->send();
-            throw new MethodNotAllowedHttpException(array('POST'));
+            return $response;
         }
+        return false;
     }
 
     /**
@@ -42,7 +41,10 @@ class SopApiController extends Controller
      */
     public function addPointAction(Request $request)
     {
-        $this->preExecute();
+        $response = $this->preExecute();
+        if ($response) {
+            return $response;
+        }
 
         $params['app_mid'] = $request->request->get('app_mid');
         $params['hash'] = $request->request->get('hash');
@@ -64,7 +66,7 @@ class SopApiController extends Controller
         $em = $this->getDoctrine()->getManager();
         $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveById($app_mid);
         if (!$sop_respondent) {
-           return $this->render400Response('invalid app_mid');
+            return $this->render400Response('invalid app_mid');
         }
         $user_id = $sop_respondent->getUserId();
 
@@ -80,10 +82,7 @@ class SopApiController extends Controller
         unset($params['sig']);
 
         // Verify signature
-        $auth = new \SOPx\Auth\V1_1\Client(
-            $sop_config['auth']['app_id'],
-            $sop_config['auth']['app_secret']
-        );
+        $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
 
         if (!$auth->verifySignature($sig, $params)) {
             return $this->render400Response('authentication failed');
@@ -105,18 +104,17 @@ class SopApiController extends Controller
             // add point
             $service = $this->container->get('points_manager');
             $ad_category_id = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
-            $task_type_id = TaskHistory00::TASK_TYPE_SURVEY ;
-            $service->updatePoints($user_id,$point_value,$ad_category_id,$task_type_id, $name.' 属性问卷' );
+            $task_type_id = TaskHistory00::TASK_TYPE_SURVEY;
+            $service->updatePoints($user_id, $point_value, $ad_category_id, $task_type_id, $name . ' 属性问卷');
 
             $em->getConnection()->commit();
-
         } catch (\Exception $e) {
             //duplicated hash
             if (preg_match('/Duplicate entry/', $e->getMessage())) {
                 return $this->render400Response('point already added');
             }
 
-           $em->getConnection()->rollback();
+            $em->getConnection()->rollback();
             throw $e;
         }
 
@@ -126,20 +124,33 @@ class SopApiController extends Controller
 
     public function render200Response()
     {
-        $body_array = array('meta' => array('code' => 200));
+        $body_array = array (
+            'meta' => array (
+                'code' => 200
+            )
+        );
         return $this->renderJSONResponse($body_array);
     }
 
     public function render400Response($error)
     {
-        $body_array = array('meta' => array('code'    => 400,
-            'message' => $error));
+        $body_array = array (
+            'meta' => array (
+                'code' => 400,
+                'message' => $error
+            )
+        );
         return $this->renderJSONResponse($body_array, 400);
     }
+
     public function render403Response($error)
     {
-        $body_array = array('meta' => array('code'    => 403,
-            'message' => $error));
+        $body_array = array (
+            'meta' => array (
+                'code' => 403,
+                'message' => $error
+            )
+        );
         return $this->renderJSONResponse($body_array, 403);
     }
 
