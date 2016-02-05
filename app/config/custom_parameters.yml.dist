@@ -478,6 +478,9 @@ parameters:
         api_v1_1_fulcrum_surveys_research_participation_history: https://%sop_console_host%/api/v1_1/fulcrum/surveys/research/participation_history
         api_v1_1_fulcrum_user_agreement_participation_history: https://%sop_console_host%/api/v1_1/fulcrum/surveys/user_agreement/participation_history
         api_v1_1_cint_surveys_research_participation_history: https://%sop_console_host%/api/v1_1/cint/surveys/research/participation_history
+        sop_point_type:
+            11: 92
+            61: 93
 
 twig:
     globals:
