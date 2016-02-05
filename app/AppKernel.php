@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Jili\EmarBundle\JiliEmarBundle(),
             new Jili\FrontendBundle\JiliFrontendBundle(),
             new Wenwen\FrontendBundle\WenwenFrontendBundle(),
+            new Wenwen\BackenddBundle\WenwenBackenddBundle(),
             new Wenwen\AppBundle\WenwenAppBundle(),
         );
 

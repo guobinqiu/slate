@@ -3,6 +3,16 @@ wenwen_app:
     type:     annotation
     prefix:   /
 
+wenwen_backendd:
+    resource: "@WenwenBackenddBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+wenwen_frontend:
+    resource: "@WenwenFrontendBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 api:
     resource: "@JiliApiBundle/Controller"
     type: annotation

@@ -1,0 +1,3 @@
+[submodule "ssi_api"]
+	path = ssi_api
+	url = git@github.com:voyagechinagroup/ssi_api.git

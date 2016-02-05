@@ -3,6 +3,9 @@
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
         "psr-0": { "": ["src/", "lib/"] }
+        "psr-4": {
+                   "VendorIntegration\\SSI\\": "ssi_api/src/"
+                 }
     },
     "require": {
         "php": ">=5.3.3",
@@ -35,7 +38,9 @@
         "phploc/phploc": "2.0.*",
         "phpunit/phpunit": "4.3.*",
         "theseer/phpdox": "0.7.*",
-        "fabpot/php-cs-fixer": "0.5.*"
+        "fabpot/php-cs-fixer": "0.5.*",
+        "piece/stagehand-testrunner": "4.1.*",
+        "phake/phake": "^2.2"
     },
     "scripts": {
         "post-install-cmd": [
