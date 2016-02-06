@@ -3,8 +3,8 @@ require(['../../config'], function() {
 
     require(['jquery'], function($) {
 
-        console.log("survey_id: " + $('#survey_id').val());
-        console.log("url: " + $('#url').val());
+        // console.log("survey_id: " + $('#survey_id').val());
+        // console.log("url: " + $('#url').val());
 
         var survey_id = $('#survey_id').val();
 
@@ -15,8 +15,8 @@ require(['../../config'], function() {
 
         surveylistCallback = function(res) {
 
-            console.log("surveylistCallback: code:" + res.meta.code);
-            console.log("surveylistCallback: code:" +survey_id);
+            // console.log("surveylistCallback: code:" + res.meta.code);
+            // console.log("surveylistCallback: code:" +survey_id);
 
             // show alert if error code
             if (res.meta.code != '200') {

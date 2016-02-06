@@ -340,14 +340,13 @@ body {
     .main .qnWrap .qnCon {
       position: absolute;
       z-index: 3;
-      top: 80px;
+      top: 100px;
       left: 50%;
       width: 940px;
       margin-left: -470px; }
       .main .qnWrap .qnCon .qnTxt {
         width: 796px;
-        margin: 50px auto 0;
-        *margin: 50px auto 0 0;
+        margin: 30px auto 0;
         color: #4d4d4d; }
         .main .qnWrap .qnCon .qnTxt h2 {
           font-size: 28px;
@@ -393,6 +392,10 @@ body {
           margin-top: 10px;
           text-align: center;
           line-height: 20px; }
+      .main .qnWrap .qnCon .error-message {
+        font-size: 16px;
+        text-align: center;
+        margin-top: 50px; }
     .main .qnWrap .qnEnd .qnEndTxt {
       margin: 180px 0 0 170px; }
       .main .qnWrap .qnEnd .qnEndTxt .txt {
