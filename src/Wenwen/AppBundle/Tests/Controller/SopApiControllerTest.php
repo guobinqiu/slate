@@ -213,7 +213,7 @@ class SopApiControllerTest extends WebTestCase
         $sop_config = $container->getParameter('sop');
         $sopRespondent = $this->sopRespondent;
 
-        $url = $container->get('router')->generate('_sop_delivery_notification');
+        $url = $container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
 
         $params = array (
             'time' => time(),
@@ -290,11 +290,6 @@ class SopApiControllerTest extends WebTestCase
 
             $sig = \SOPx\Auth\V1_1\Util::createSignature($request_body, $sop_config['auth']['app_secret']);
 
-//                                 $auth = new \SOPx\Auth\V1_1\Client(
-//                                         $sop_config['auth']['app_id'],
-//                                         $sop_config['auth']['app_secret']
-//                                 );
-
             $crawler = $client->request('POST', $url, array (
                 'request_body' => $request_body
             ), array (), array (
@@ -325,17 +320,89 @@ class SopApiControllerTest extends WebTestCase
             $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to 91wenwen');
 
             $res = json_decode($client->getResponse()->getContent(), true);
-            $this->assertEquals(array (
-                'meta' => array (
-                    'code' => 200,
-                    'message' => ''
-                ),
-                'data' => array (
-                    'respondents-not-found' => array (
-                        '2'
+            //             $this->assertEquals(array (
+            //                 'meta' => array (
+            //                     'code' => 200,
+            //                     'message' => ''
+            //                 ),
+            //                 'data' => array (
+            //                     'respondents-not-found' => array (
+            //                         '2'
+            //                     )
+            //                 )
+            //             ), $res);
+        }
+    }
+
+    /**
+     * @group dev-merge-ui-delivery-notification
+     */
+    public function testdeliveryFulcrumDeliveryNotificationFor91wenwenAction()
+    {
+        //Test delivery notification
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+        $sop_config = $container->getParameter('sop');
+        $sopRespondent = $this->sopRespondent;
+
+        $url = $container->get('router')->generate('fulcrum_delivery_notification_v1_1_91wenwen');
+
+        $fulcum_params = array (
+            'time' => time(),
+            'data' => array (
+                'respondents' => array (
+                    array (
+                        'app_mid' => $sopRespondent[0]->getId(),
+                        'survey_id' => '123',
+                        'quota_id' => '1234',
+                        'loi' => '10',
+                        'title' => 'Example survey title',
+                        'extra_info' => array (
+                            'point' => array (
+                                'complete' => '1234'
+                            )
+                        )
+                    ),
+                    array (
+                        'app_mid' => $sopRespondent[1]->getId(),
+                        'survey_id' => '123',
+                        'quota_id' => '1234',
+                        'loi' => '10',
+                        'title' => 'Example survey title',
+                        'extra_info' => array (
+                            'point' => array (
+                                'complete' => '1234'
+                            )
+                        )
                     )
                 )
-            ), $res);
-        }
+            )
+        );
+
+        //Valid request to Fulcrum 91wenwen
+        $request_body = json_encode($fulcum_params);
+
+        $sig = \SOPx\Auth\V1_1\Util::createSignature($request_body, $sop_config['auth']['app_secret']);
+
+        $crawler = $client->request('POST', $url, array (
+            'request_body' => $request_body
+        ), array (), array (
+            'HTTP_X-Sop-Sig' => $sig
+        ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to Fulcrum 91wenwen');
+        $res = json_decode($client->getResponse()->getContent(), true);
+//         $this->assertEquals(array (
+//             'meta' => array (
+//                 'code' => 200,
+//                 'message' => ''
+//             ),
+//             'data' => array (
+//                 'respondents-not-found' => array (
+//                     '2'
+//                 )
+//             )
+//         ), $res);
     }
 }

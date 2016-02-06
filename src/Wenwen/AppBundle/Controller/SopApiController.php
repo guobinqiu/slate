@@ -17,7 +17,7 @@ use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\WebService\Sop\SopDeliveryNotificationHandler;
 
 /**
- * @Route("/sop/v1_1",requirements={"_scheme"="https"})
+ * @Route("/",requirements={"_scheme"="https"})
  */
 class SopApiController extends Controller
 {
@@ -38,7 +38,7 @@ class SopApiController extends Controller
     }
 
     /**
-     * @Route("/profile_point", name="_sop_profile_point")
+     * @Route("sop/v1_1/profile_point", name="_sop_profile_point")
      */
     public function addPointAction(Request $request)
     {
@@ -120,11 +120,19 @@ class SopApiController extends Controller
     }
 
     /**
-     * @Route("/deliveryNotificationFor91wenwen", name="_sop_delivery_notification")
+     * @Route("sop/v1_1/deliveryNotificationFor91wenwen", name="sop_delivery_notification_v1_1_91wenwen")
      */
     public function deliveryNotificationFor91wenwenAction(Request $request)
     {
         return $this->doHandleDeliveryNotification(SopDeliveryNotificationHandler::TYPE_SOP);
+    }
+
+    /**
+     * @Route("fulcrum/v1_1/deliveryNotificationFor91wenwen", name="fulcrum_delivery_notification_v1_1_91wenwen")
+     */
+    public function deliveryFulcrumDeliveryNotificationFor91wenwenAction(Request $request)
+    {
+        return $this->doHandleDeliveryNotification(SopDeliveryNotificationHandler::TYPE_FULCRUM);
     }
 
     public function doHandleDeliveryNotification($type)
