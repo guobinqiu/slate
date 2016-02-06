@@ -340,6 +340,7 @@ body {
     .main .qnWrap .qnCon {
       position: absolute;
       z-index: 3;
+      top: 80px;
       left: 50%;
       width: 940px;
       margin-left: -470px; }
@@ -358,7 +359,7 @@ body {
           .main .qnWrap .qnCon .qnTxt .subtit .point {
             color: #ff6700; }
         .main .qnWrap .qnCon .qnTxt .prompt {
-          width: 100%;
+          width: 716px;
           padding: 15px 40px;
           background: #f2f2f5;
           color: #666;

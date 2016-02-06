@@ -42,7 +42,7 @@ require(['../../config'], function() {
             // interpolate label
             $('h2').text(research.title);
             $('#no').text('r' + research.survey_id);
-            $('#point').text(research.extra_info.point.complete);
+            $('#point').text(research.extra_info.point.complete+'分');
             if(research.extra_info.content){
               $('#note').append('<br>※' + research.extra_info.content);
             }

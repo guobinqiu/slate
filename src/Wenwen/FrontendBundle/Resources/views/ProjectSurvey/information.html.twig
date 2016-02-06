@@ -16,11 +16,11 @@
 
 <div class="qnWrap">
     <div class="qnCon">
-        <div class="qnTxt" style="display:none;">
+        <div class="qnTxt" >
             <h2></h2>
             <div class="subtit">
                 <strong>问卷编号： <span id="no"></span><br></strong>
-                <strong>积分数：<span class="point" id="point"></span>分</strong>
+                <strong>积分数：<span class="point" id="point"></span></strong>
             </div>
             <div class="prompt" id="note">※ 积分会在本次问卷回答期间完全结束后自动累计<br>※ 如果超过了回答期限将无法参加本次调查</div>
             <div class="notice">
@@ -34,9 +34,9 @@
             <div class="qnBtn">
                 <a id="survey-link" href="">开始回答问卷</a>
             </div>
-            <div class="tips">请确认内容之后点击<下一步><br /> （之后无法返回现在的页面）</div>
+            <div class="tips">请确认内容之后点击&lt;开始回答问卷&gt;<br /> （之后无法返回现在的页面）</div>
         </div>
-        <div class="error-message" style="display:none;"></div>
+        <div class="error-message"></div>
     </div>
     {% include 'WenwenFrontendBundle:ProjectSurvey:_footer.html.twig' %}
 </div>
