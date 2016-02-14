@@ -41,7 +41,9 @@ if (defined($config_return)) {
                 log("tzy_api","[天纵云流量包余额监控]邮件发送成功");
                 log("tzy_api","天纵云流量包余额不足,余额为".$money);
             }else{
-                log("tzy_api_error","[天纵云流量包余额监控]邮件发送失败");
+                log("tzy_api_error","[天纵云流量包余额监控]邮件发送失败,SMTP RETURN = ".$send_return);
+                log("tzy_api_error","[天纵云流量包余额监控]邮件发送失败,". $mail_to.' '.$mail_subject.' '.$mail_content );
+
             }
         }else{
             #余额高于阈值

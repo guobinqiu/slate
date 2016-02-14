@@ -32,7 +32,8 @@ require.config({
         'autoJump': 'common/autoJump',
         'layer': 'common/layer',
         'exchange': 'common/exchange',
-        'goTop': 'common/backTop'
+        'goTop': 'common/backTop',
+        'sopSurvey':'common/sopSurvey'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {
@@ -66,14 +67,14 @@ require.config({
             deps: ['router'],
             exports: 'routing'
         },
-        'backbone': {
+        backbone: {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
         },
-        'underscore': {
+        underscore: {
             exports: '_'
         },
-        'jqueryCookie': {
+        jqueryCookie: {
             deps: [ 'jquery'],
         }
                   

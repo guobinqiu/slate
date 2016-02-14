@@ -209,7 +209,13 @@ body {
       line-height: 20px;
       margin-left: 5px; }
       .header-top-con .personal-con span.txt .nickname {
-        margin-bottom: 5px; }
+        margin-bottom: 5px;
+        width: 70px;
+        height: 30px;
+        line-height: 30px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; }
     .header-top-con .personal-con span strong {
       font-size: 16px;
       color: #ff6700; }
@@ -326,11 +332,13 @@ body {
   padding-left: 20px;
   border-bottom: 1px solid #f6f6f6;
   font-weight: bold; }
-.main-con-left .title a {
+.main-con-left .title {
   color: #0078b6;
   font-size: 15px;
   font-weight: bold;
   line-height: 35px; }
+  .main-con-left .title a {
+    color: #0078b6; }
 .main-con-left ul {
   width: 100%; }
 .main-con-left li {
@@ -384,7 +392,7 @@ body {
 .survey-btn {
   width: 0%;
   height: 100%;
-  line-height: 800%;
+  line-height: 1000%;
   position: absolute;
   z-index: 1000;
   top: 0;

@@ -1,5 +1,5 @@
-mail:
-    to:    vctech-system@voyagegroup.info
+mail_send:
+    to:    d8aspring-china-office@d8aspring.com
 interface:
     balance:    1000
     url:    http://59.83.33.14/custom_balanceV1.php
