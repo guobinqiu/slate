@@ -495,13 +495,23 @@ parameters:
         '3': "大专毕业"
         '4': "大学本科毕业"
         '5': "研究生，博士毕业"
+
+#SOP
+    sop_console_host: console.partners.surveyon.com.dev.researchpanelasia.com
     sop:
         partner_id: 1
         admin_host:   staff.surveyon.com.dev.researchpanelasia.com
-        console_host: console.partners.surveyon.com.dev.researchpanelasia.com
+        console_host: %sop_console_host%
+        host: partners.surveyon.com.dev.researchpanelasia.com
         auth:
-            app_id: 24
-            app_secret: 1413548805-7b6639b3944e1fc12dfb8676deee8759c3fa6250
+            app_id: 27
+            app_secret: 1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a
+        point:
+            profile: 1
+        api_v1_1_surveys_research_participation_history: https://%sop_console_host%/api/v1_1/surveys/research/participation_history
+        api_v1_1_fulcrum_surveys_research_participation_history: https://%sop_console_host%/api/v1_1/fulcrum/surveys/research/participation_history
+        api_v1_1_fulcrum_user_agreement_participation_history: https://%sop_console_host%/api/v1_1/fulcrum/surveys/user_agreement/participation_history
+        api_v1_1_cint_surveys_research_participation_history: https://%sop_console_host%/api/v1_1/cint/surveys/research/participation_history
 
 twig:
     globals:

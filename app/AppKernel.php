@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new Jili\FrontendBundle\JiliFrontendBundle(),
             new Wenwen\FrontendBundle\WenwenFrontendBundle(),
             new JMS\JobQueueBundle\JMSJobQueueBundle(),
+            new Wenwen\AppBundle\WenwenAppBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

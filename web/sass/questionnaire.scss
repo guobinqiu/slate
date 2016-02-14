@@ -93,16 +93,23 @@
 				.qnBtn{
 					text-align: center;
 					a{
-						padding: 18px 68px;
-						*height: 75px;
-						*line-height: 75px;
+						width: 230px;
+						text-align: center;
+						height: 75px;
+						line-height: 75px;
 						background: #1466d6;
 						@include border-radius(5px);
 						@include box-shadow(0 3px 0 #0650b8);
 						color: #fff;
 						font-size: 16px;
 						text-align: center;
+						@include dib();
 					}
+				}
+				.tips{
+					margin-top: 10px;
+					text-align: center;
+					line-height: 20px;
 				}
 			}
 		}

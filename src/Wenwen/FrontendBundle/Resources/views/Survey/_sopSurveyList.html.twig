@@ -1,0 +1,61 @@
+<input type="hidden" id="sop_api_url" value="{{ sop_api_url }}">
+<input type="hidden" id="sop_point" value="{{ sop_point}}">
+<input type="hidden" id="preview" value="{{ preview }}">
+
+<input type="hidden" id="sop_app_id"   value="{{ sop_params.app_id }}" />
+<input type="hidden" id="sop_app_mid"  value="{{ sop_params.app_mid }}" />
+<input type="hidden" id="sop_sig"      value="{{ sop_params.sig }}" />
+<input type="hidden" id="sop_time"     value="{{ sop_params.time }}" />
+
+<!-- <ul id="sop-profiling-item-template"></ul>
+
+<ul id="sop-research-item-template"></ul> -->
+<script type="text/template" id="sop-profiling-item-template">
+	<div class="survey-item">
+		<div class="title"><%- model.get('title') %></div>
+		<ul class="con clearfix">
+			<li class="first">
+				<span>问卷编号</span>
+				<p><%- model.get('name') %></p>
+			</li>
+			<li>
+				<span>问卷类型</span>
+				<p title="用于判断您的基本属性，以便发送适合您的商业问卷">属性问卷</p>
+			</li>
+			<li>
+				<span>回答期限</span>
+				<p>--</p>
+			</li>
+			<li class="last">
+				<span>积分数</span>
+				<p><strong>{{ sop_point}}</strong></p>
+			</li>
+		</ul>
+	</div>
+	<div class="survey-btn"><a href="javascript:void(0)" class="open-link">可回答</a></div>
+</script>
+
+<script type="text/template" id="sop-research-item-template">
+	<div class="survey-item">
+		<div class="title"><%- model.get('title') %></div>
+		<ul class="con clearfix">
+			<li class="first">
+				<span>问卷编号</span>
+				<p><%- model.getNumLabel() %></p>
+			</li>
+			<li>
+				<span>问卷类型</span>
+				<p title="高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答">商业问卷</p>
+			</li>
+			<li>
+				<span>回答期限</span>
+				<p>--</p>
+			</li>
+			<li class="last">
+				<span>积分数</span>
+				<p><strong><%- model.get('extra_info').point.complete %></strong></p>
+			</li>
+		</ul>
+	</div>
+	<div class="survey-btn"><% print(model.getAnswerLabel()) %></div>
+</script>
