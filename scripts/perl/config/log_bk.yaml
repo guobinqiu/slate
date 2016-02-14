@@ -2,7 +2,7 @@ dir:
     log:      /var/log
     httpd:      /var/log/httpd
 keywords:
-    log:      maillog,messages,spooler
-    httpd:      access_log,error_log,ssl_access_log
+    log:      cron,maillog,secure,spooler,yum.log
+    httpd:    91jili-access.log,91jili-error.log,access_log,error_log,ssl_access_log,ssl_error_log,ssl_request_log
 mail_to:
-    to:     vctech-system@voyagegroup.info 
+    to:      rpa-sys-china@d8aspring.com
