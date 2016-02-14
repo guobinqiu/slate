@@ -17,12 +17,13 @@ logpath("./logs");
 my $config=eval{YAML::XS::LoadFile('./config/file_monitor.yaml')};
 if (defined($config)) {
             my $mail_to=$config->{mail}->{to};
+	    my $host_name=`/bin/hostname`;
             #获取监控进程的数目
             my $process_num=`ps -ef|grep inotifywait|grep -v grep|wc -l`;
             if ($process_num == 1) {
                         #系统内监控进程数为1的时候#
                         #打开log文件
-                        my $file_return=tie my @log_array,"Tie::File","/data/log.txt";
+                        my $file_return=tie my @log_array,"Tie::File","/data/file_monitor/log.txt";
                         if ($file_return) {
                                     my $log_lines=@log_array;
                                     #判断log文件内是否有内容
@@ -32,7 +33,7 @@ if (defined($config)) {
                                                 for(my $i=1;$i<=$log_lines;$i++){
                                                             push(@mail_body,$log_array[$i-1]);
                                                 }
-                                                my $mail_title="文件已发生变更,请检查";
+                                                my $mail_title="$host_name file is changed";
                                                 my $mail_content=join("\n",@mail_body);
                                                 my $mail_return=sendmail($mail_to,$mail_title,$mail_content);
                                                 if ($mail_return == 1) {
@@ -41,7 +42,7 @@ if (defined($config)) {
                                                             log("monitor_error","[文件以改变]邮件发送失败,错误代码是".$mail_return);
                                                             exit;
                                                 }
-                                                my $clean_retun=`cat /dev/null > /data/log.txt`;
+                                                my $clean_retun=`cat /dev/null > /data/file_monitor/log.txt`;
                                                 if (!$clean_retun) {
                                                             log("monitor_log","log文件已成功清空");
                                                 }else{
@@ -77,7 +78,7 @@ if (defined($config)) {
                         }
             }elsif($process_num < 1){
                         #监控进程不存在的时候
-                        my $mail_title="监控进程不存在";
+                        my $mail_title="$host_name 监控进程不存在";
                         my $mail_body="检测到监控进程不存下,请检查";
                         my $mail_return=sendmail($mail_to,$mail_title,$mail_body);
                         if ($mail_return == 1) {
@@ -88,7 +89,7 @@ if (defined($config)) {
 
             }else{
                         #监控进程数大于1的时候
-                        my $mail_title="系统监控进程大于1";
+                        my $mail_title="$host_name 系统监控进程大于1";
                         my $mail_body="系统内监控进程数异常,请立马检查系统情况";
                         my $mail_return=sendmail($mail_to,$mail_title,$mail_body);
                         if ($mail_return == 1) {

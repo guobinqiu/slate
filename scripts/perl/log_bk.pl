@@ -66,11 +66,11 @@ if (defined($open_file)) {
                     my $sendmail_return;
                     if ($file_num == $num) {
                         #日志备份成功
-                        my $mail_subject="本周备份log文件perl脚本已经成功执行完成\n备份的文件为:\n $file_body";
+                        my $mail_subject="本周备份log文件perl脚本已经成功执行完成\n备份的文件为:\n".$file_body;
                         $sendmail_return=sendmail($mail_to,$mail_title,$mail_subject);
                     }else{
                         #日志备份有错误发生
-                        my $mail_subject="本周备份log文件perl脚本有错误发生\n备份的文件为:\n $file_body";
+                        my $mail_subject="本周备份log文件perl脚本有错误发生\n备份的文件为:\n".$file_body;
                         $sendmail_return=sendmail($mail_to,$mail_title,$mail_subject);
                     }
                     if ($sendmail_return != 1) {
