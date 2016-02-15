@@ -496,7 +496,7 @@ body {
     color: #666;
     background: transparent;
     width: 30%;
-    line-height: 950%;
+    line-height: 170px;
     cursor: default;
     transition: width 0;
     -moz-transition: width 0;
