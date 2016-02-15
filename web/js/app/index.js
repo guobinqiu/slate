@@ -87,6 +87,12 @@ require(['../config'],function(){
             // login();
             $('#form1').submit();
         });
+
+        // 点击登录按钮，呈现输入状态
+        var logFoc = $("a[title='登录']");
+        logFoc.click(function(){
+            $("#email").focus(); 
+        });
     });
     require(['jquery'], function($){
         var $window = $(window),
