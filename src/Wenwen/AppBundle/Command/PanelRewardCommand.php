@@ -18,22 +18,19 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 {
     protected $logger;
 
-    //public function execute($arguments = array(), $options = array())
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $date = $input->getArgument('date');
-        //todo: default yesterday
-
 
         $env = $this->getContainer()->get('kernel')->getEnvironment();
 
+        // options
         $definitive = ($input->hasOption('definitive')) ? true : false;
 
         $this->log('Start executing');
         $this->log('    definitive= ' . ($definitive ? 'true' : 'false'));
         $this->log('    date=' . $date);
 
-        // options
         // configs
         $url = $this->url();
         $auth = $this->sop_configure['auth'];
@@ -134,7 +131,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
             $this->getContainer()->get('send_mail')->sendMails($alertSubject, $alertTo, $content);
 
-            throw new \Exception($message);
+            throw new \Exception($content);
         }
 
         $body = $response->body;
