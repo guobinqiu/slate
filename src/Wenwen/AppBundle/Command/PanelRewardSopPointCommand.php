@@ -16,29 +16,24 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
 {
 
     const USER_AGREEMENT_ACTIVE = 'ACTIVE';
-
-    // 61 => 93
     const TYPE_EXPENSE = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
-
     const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
-    protected $comment = '';
-    protected $point = 0;
 
     protected function configure()
     {
-        $this->setName('panel:reward-sop-point')->setDescription('request SOP API and reward points based on retrived data')->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
+        $this->setName('panel:reward-sop-point')
+                ->setDescription('request SOP API and reward points based on retrived data')
+                ->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')
+                ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('start...');
+
         $app_name = 'site91wenwen';
-
-        //         $this->comment = '同意Fulcrum问卷调查';
-        $this->point = 1; # hard coding
-
-
         $this->setLogger($app_name . '-reward-sop-point');
+
         $this->sop_configure = $this->getContainer()->getParameter('sop');
 
         return parent::execute($input, $output);
