@@ -13,28 +13,24 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
 use Jili\ApiBundle\Utility\SopUtil;
-use Wenwen\AppBundle\Entity\FulcrumUserAgreementParticipationHistory;
 
 abstract class PanelRewardCommand extends ContainerAwareCommand
 {
     protected $logger;
 
-    //public function execute($arguments = array(), $options = array())
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $date = $input->getArgument('date');
-        //todo: default yesterday
-
 
         $env = $this->getContainer()->get('kernel')->getEnvironment();
 
+        // options
         $definitive = ($input->hasOption('definitive')) ? true : false;
 
         $this->log('Start executing');
         $this->log('    definitive= ' . ($definitive ? 'true' : 'false'));
         $this->log('    date=' . $date);
 
-        // options
         // configs
         $url = $this->url();
         $auth = $this->sop_configure['auth'];
@@ -43,6 +39,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $this->log('request URL: ' . $url);
 
         $history_list = $this->requestSOP($url, $date, $date, $auth['app_id'], $auth['app_secret']);
+        $this->log("history_list: " . print_r($history_list, 1));
 
         // initialize the database connection
         $em = $this->getContainer()->get('doctrine')->getManager();
@@ -116,11 +113,25 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $sop_params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($sop_params, $secret);
 
         $response = $this->getContainer()->get('sop_api.client')->get($url . '?' . http_build_query($sop_params));
+
         // invalid request. Httpful retrun array if request are valid.
         if (!is_array($response->body)) {
-            //todo: log, notice
 
-            throw new \Exception('failed to request SOP API: ' . $response->raw_body);
+            $content = 'failed to request SOP API: ' . $response->raw_body;
+
+            //log
+            $this->log($content);
+
+            // slack notice
+            $this->getContainer()->get('alert_to_slack')->sendAlertToSlack($content);
+
+            //emai notice
+            $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
+            $alertSubject = 'failed to request SOP API';
+
+            $this->getContainer()->get('send_mail')->sendMails($alertSubject, $alertTo, $content);
+
+            throw new \Exception($content);
         }
 
         $body = $response->body;
@@ -160,6 +171,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 }
             }
         }
+
         return $rtn_array;
     }
 

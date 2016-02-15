@@ -1,0 +1,3 @@
+services:
+    sop_api.client:
+        class: Wenwen\AppBundle\Services\SopHttpfulClient
