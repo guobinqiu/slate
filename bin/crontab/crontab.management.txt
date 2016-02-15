@@ -1,0 +1,6 @@
+To modify crontab, use cron-rpa user.
+
+Example@rpa-staff01
+$ ssh rpa-staff01
+$ sudo su -l cron-rpa
+$ crontab /path/to/repository/crontab/rpa-staff01.ec2

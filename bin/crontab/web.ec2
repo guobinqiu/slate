@@ -1,0 +1,30 @@
+0 2 * * * /bin/sh /home/cron/bash/Dmdelivery.sh
+30 2 * * * /bin/sh /home/cron/bash/DmdeliveryForWeek.sh
+0 3 * * * /bin/sh /home/cron/bash/DmdeliveryForMonth.sh
+#get data
+0 3 * * * /bin/sh /var/www/html/jili/bin/schedule/point_recent.sh
+20 3 * * * /usr/bin/curl http://www.91jili.com/topcron/rankingMonth
+40 3 * * * /usr/bin/curl http://www.91jili.com/topcron/rankingYear
+#mail
+0 1 * * * /usr/bin/curl http://www.91jili.com/remindLogin
+30 1 * * * /usr/bin/curl http://www.91jili.com/remindPoint
+#91wenwen
+#30 4 * * * /bin/sh /var/www/html/jili/cron/91wenwen.sh
+#del sessions
+#0 ​*/6 *​ * * /bin/sh /var/www/html/jili/app/cache/rm-session.sh
+#chick in
+30 16 * * * /usr/bin/php /var/www/html/jili/bin/schedule/checkin_immigration_v2.php
+#91wenwen
+0 2 * * * /bin/sh /var/www/html/jili/bin/schedule/vote_api.sh
+# game egg breaker pool stat report 
+0 5,17 * * * /bin/sh /var/www/html/jili/bin/schedule/game_eggs_breaker_pool_stat.sh
+#monitor file perl
+0 ​*/2 *​ * * cd /data/script/perl/ && perl ./file_monitor.pl 2>&1 >> /data/file_monitor/file_monitor_run.log
+#log backup perl
+0 4 * * 1 cd /data/script/perl/ && perl ./log_bk.pl 2>&1 >> /data/script/perl/logs/log_bk_run.log
+
+# clear jili symfony cache,  once
+59 23 20 12 * sh /var/www/html/jili/app/cache/rm-cache.sh 1>>/data/91jili/logs/cron/cron_logs/rm_cache.log  2>&1
+
+# tzy api check
+30 8 * * * cd /data/script/perl/ && /usr/bin/perl ./tzy_balance.pl 2>&1 >> /data/script/perl/logs/tzy_run_log.txt
