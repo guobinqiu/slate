@@ -289,7 +289,7 @@ body {
 .login-wrapper {
   position: absolute;
   z-index: 1000;
-  right: -70px;
+  right: -4px;
   top: 50px;
   background: url(../img/home/loginBg.png) no-repeat center bottom;
   padding: 0 70px 5px; }
@@ -473,16 +473,20 @@ body {
   margin-top: 80px; }
 
 .main-ad {
-  height: 470px;
-  background: #eb7020 url(../img/home/adBg.png) no-repeat 300px bottom; }
+  height: 549px;
+  background: url(../img/home/adBgx.gif) repeat-x; }
 
 .main-ad-con {
   position: relative;
-  z-index: 1; }
+  z-index: 1;
+  background: url(../img/home/adBg.png) no-repeat -7px -38px;
+  height: 535px;
+  width: 1130px; }
 
 .main-ad-con-text {
   color: #fff;
-  padding-top: 135px; }
+  padding-top: 115px;
+  padding-left: 70px; }
   .main-ad-con-text p {
     margin-top: 20px;
     line-height: 32px;
@@ -524,40 +528,37 @@ body {
       *display: inline;
       *zoom: 1; }
 
-.main-con {
-  padding: 45px 0; }
-  .main-con h2 {
-    margin-bottom: 45px; }
+.main-con h2 {
+  margin-bottom: 45px; }
 
-.main-con-rewardprocess {
-  background: #fff; }
+.main-con-process {
+  background: #fffaa9;
+  padding: 50px 0; }
+  .main-con-process img {
+    text-align: center;
+    margin: 0 auto;
+    display: block; }
+  .main-con-process .sLog {
+    padding-top: 20px;
+    display: block; }
+
+.main-con-reward {
+  background: #c5e6f7;
+  padding-bottom: 75px; }
+  .main-con-reward img {
+    text-align: center;
+    margin: 0 auto;
+    display: block; }
 
 .main-con-detail {
-  text-align: center; }
-  .main-con-detail .text {
-    margin-top: 20px; }
-  .main-con-detail li {
-    float: left;
-    width: 27%; }
-    .main-con-detail li.step2 {
-      width: 46%; }
-    .main-con-detail li .title {
-      width: 170px;
-      margin: 0 auto;
-      line-height: 45px;
-      color: #fc701e;
-      font-size: 22px;
-      font-weight: bold; }
-    .main-con-detail li p {
-      width: 170px;
-      margin: 0 auto;
-      color: #828282;
-      line-height: 24px; }
+  background: #ecf7d5;
+  padding-bottom: 90px; }
   .main-con-detail .party {
     background: url(../img/home/wallCon.png) no-repeat;
-    height: 415px;
-    width: 928px;
-    position: relative; }
+    height: 521px;
+    width: 1003px;
+    position: relative;
+    margin: 0 auto; }
     .main-con-detail .party .party-item {
       background: url(../img/home/wallPortrait.png) no-repeat;
       display: block;
@@ -574,7 +575,7 @@ body {
       width: 34px; }
     .main-con-detail .party .party02 {
       background-position: -41px 0;
-      height: 78px;
+      height: 79px;
       width: 78px; }
     .main-con-detail .party .party03 {
       background-position: -121px -9px;
@@ -582,12 +583,12 @@ body {
       width: 57px; }
     .main-con-detail .party .party04 {
       background-position: 0 -84px;
-      height: 57px;
-      width: 57px; }
+      height: 59px;
+      width: 59px; }
     .main-con-detail .party .party05 {
       background-position: -59px -84px;
-      height: 58px;
-      width: 57px; }
+      height: 59px;
+      width: 59px; }
     .main-con-detail .party .party06 {
       background-position: -122px -96px;
       height: 27px;
@@ -596,33 +597,33 @@ body {
     opacity: 1; }
   .main-con-detail .animateing .party01 {
     left: 143px;
-    top: 135px; }
+    top: 275px; }
   .main-con-detail .animateing .party02 {
-    left: 290px;
-    top: 124px; }
+    left: 309px;
+    top: 264px; }
   .main-con-detail .animateing .party03 {
-    left: 530px;
-    top: -10px; }
+    left: 612px;
+    top: 170px; }
   .main-con-detail .animateing .party04 {
-    left: 363px;
-    top: 363px; }
+    left: 303px;
+    top: 473px; }
   .main-con-detail .animateing .party05 {
-    left: 505px;
-    top: 246px; }
+    left: 582px;
+    top: 355px; }
   .main-con-detail .animateing .party06 {
     left: 714px;
-    top: 144px; }
+    top: 284px; }
 
 .main-con-action {
   text-align: center;
   background: #fff;
-  height: 200px; }
+  height: 200px;
+  padding: 25px 0 0; }
   .main-con-action h1 {
     font-size: 24px;
     font-weight: bold;
     color: #323232;
-    line-height: 46px;
-    margin-top: 15px; }
+    line-height: 46px; }
   .main-con-action p {
     color: #929293;
     font-size: 16px;
