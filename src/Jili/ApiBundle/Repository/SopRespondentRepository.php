@@ -28,4 +28,18 @@ class SopRespondentRepository extends EntityRepository
         $em->flush();
         return $sop_respondent;
     }
+
+    public function retrieveById($app_mid)
+    {
+        $sop_respondent = new SopRespondent();
+
+       $query = $this->createQueryBuilder('sp');
+        $query = $query->select('sp');
+        $query = $query->Where('sp.id = :id');
+        $query = $query->andWhere('sp. statusFlag = :statusFlag');
+        $query = $query->setParameter('id', $app_mid);
+        $query = $query->setParameter('statusFlag', $sop_respondent::STATUS_ACTIVE);
+        $query = $query->getQuery();
+        return $query->getOneOrNullResult();
+    }
 }
