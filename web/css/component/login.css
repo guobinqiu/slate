@@ -1,7 +1,7 @@
 .login-wrapper {
   position: absolute;
   z-index: 1000;
-  right: -4px;
+  right: -70px;
   top: 50px;
   background: url(../img/home/loginBg.png) no-repeat center bottom;
   padding: 0 70px 5px; }
