@@ -20,7 +20,11 @@
         {% else %}
         <div class="login-btn right">
             <a href="{{ path('_user_reg') }}" title="注册">注册</a>
+            {% if app.request.attributes.get('_route') == '_user_login' %}
+            <a href="javascript: void(0)" title="登录">登录</a>
+            {% else %}
             <a href="{{ path('_user_login') }}" title="登录">登录</a>
+            {% endif %}
         </div>
         {% endif %}
     </div>

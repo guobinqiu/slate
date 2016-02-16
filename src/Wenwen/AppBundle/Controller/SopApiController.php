@@ -106,12 +106,14 @@ class SopApiController extends Controller
 
             $em->getConnection()->commit();
         } catch (\Exception $e) {
+
+            $em->getConnection()->rollback();
+
             //duplicated hash
             if (preg_match('/Duplicate entry/', $e->getMessage())) {
                 return $this->render400Response('point already added');
             }
 
-            $em->getConnection()->rollback();
             throw $e;
         }
 
