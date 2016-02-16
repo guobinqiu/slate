@@ -4,6 +4,7 @@ imports:
     - { resource: custom_parameters.yml }
     - { resource: security.yml }
     - { resource: mysql.yml }
+    - { resource: jms_job.yml }
 
 framework:
     esi:             ~
