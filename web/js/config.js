@@ -33,7 +33,8 @@ require.config({
         'layer': 'common/layer',
         'exchange': 'common/exchange',
         'goTop': 'common/backTop',
-        'sopSurvey':'common/sopSurvey'
+        'sopSurvey':'common/sopSurvey',
+        'angular': 'lib/angular.min'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {
@@ -71,11 +72,19 @@ require.config({
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
         },
+        backbone: {
+            deps: ['underscore', 'jquery'],
+            exports: 'Backbone'
+        },
         underscore: {
             exports: '_'
         },
         jqueryCookie: {
             deps: [ 'jquery'],
+        },
+        angular: {
+            deps: [ 'jquery'],
+            exports: 'angular'
         }
                   
     }

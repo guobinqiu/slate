@@ -90,7 +90,8 @@ require(['../config'],function(){
 
         // 点击登录按钮，呈现输入状态
         var logFoc = $("a[title='登录']");
-        logFoc.click(function(){
+        var surList = $("a[title='问卷列表']");
+        logFoc.add(surList).click(function(){
             $("#email").focus(); 
         });
     });
@@ -122,5 +123,39 @@ require(['../config'],function(){
         }
 
         revealOnScroll();
+    });
+    require(['jquery', 'angular', 'jqueryCookie'], function($, angular){
+    //feedback
+    var app = angular.module('myapp', []);
+    app.config(['$interpolateProvider', function ($interpolateProvider) {
+        $interpolateProvider.startSymbol('{[');
+        $interpolateProvider.endSymbol(']}');
+    }]);
+    app.controller('myappController', function ($scope) {
+        $scope.shouldShow = function() {
+            var vp  = $.cookie('ShoudShowDialog92');
+            if (vp == undefined || vp == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        $scope.closeDialog = function() {
+            $.cookie('ShoudShowDialog92', 0, { expires: 7, path: '/' });
+            location.reload();
+        };
+
+        $scope.fdclick = function() {
+            $(".fdWrap").animate({right: '-130px'}, 300);
+            $(".unfdWrap").animate({right: '0'}, 300)
+        };
+
+        $scope.changeclick = function() {
+            $(".unfdWrap").animate({right: '-420px'}, 300);
+            $(".fdWrap").animate({right: '0'}, 300);
+        };
+    });    
+    
     });
 });

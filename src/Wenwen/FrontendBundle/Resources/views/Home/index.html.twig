@@ -2,14 +2,17 @@
 {% block title %}{{ parent() }}_资深问卷调查网，在线调查，商业调查，免费，市场调查，调查问卷{% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
+	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+	{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
+
+
+
 <div class="main-ad">
 	<div class="main-ad-con w1000">
 		<div class="main-ad-con-text">
@@ -68,6 +71,45 @@
 		<a href="{{ path('_user_reg') }}" class="button">现在注册</a>
 	</div>
 </div>
+{# Feedback Start #}
+
+	
+
+	<div class="fbCon" ng-app="myapp" ng-controller="myappController">
+		<div class="fdWrap" ng-if="shouldShow()" ng-click="fdclick()">
+			<div class="fdBox">
+				<div class="closeTag" ng-click="closeDialog()"></div>
+			</div>
+		</div>
+
+		<div class="unfdWrap" ng-if="shouldShow()">
+			<div class="unfdBox">
+				<form>
+					<ul>
+						<li>
+							<label for="content"><em>*</em>您想咨询的内容：</label>
+							<textarea id="content" name="content"></textarea>
+							<span id="content_succeed"></span>
+							<span id="content_error" class="focus"></span>
+						</li>
+						<li>
+							<label for="email"><em>*</em>91问问注册邮箱：</label>
+							<input type="text" id="email" name="email">
+							<span id="email_succeed"></span>
+							<span id="email_error"></span>
+						</li>
+						<li>
+							<a href="" class="btn">提交问题</a>
+						</li>
+					</ul>
+				</form>
+				<div class="closeTag" ng-click="closeDialog()"></div>
+				<div class="closeBtn" ng-click="changeclick()"></div>		
+			</div>
+		</div>
+	</div>
+	
+{# Feedback End #}
 {% endblock %}
 
 {% block footer %}
@@ -76,4 +118,6 @@
 
 {% block javascript %}
 <script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/index')}}"></script>
+
+	
 {% endblock %}
