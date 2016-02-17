@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -157,7 +156,8 @@ class SopApiController extends Controller
             return $this->render400Response('data.respondents not found!');
         }
 
-        $handler = new SopDeliveryNotificationHandler($request_data['data']['respondents'], $type);
+        $em = $this->getDoctrine()->getManager();
+        $handler = new SopDeliveryNotificationHandler($request_data['data']['respondents'], $type, $em, $this->container);
         $handler->setUpRespondentsToMail();
         $handler->sendMailingToRespondents();
 

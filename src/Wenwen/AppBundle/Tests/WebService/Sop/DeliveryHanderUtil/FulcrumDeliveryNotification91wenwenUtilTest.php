@@ -1,11 +1,45 @@
 <?php
-
 namespace Wenwen\AppBundle\Tests\WebService\Sop\DeliveryHanderUtil;
 
 use Wenwen\AppBundle\WebService\Sop\DeliveryHanderUtil\FulcrumDeliveryNotification91wenwenUtil;
+use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 
-class FulcrumDeliveryNotification91wenwenUtilTest extends \PHPUnit_Framework_TestCase
+class FulcrumDeliveryNotification91wenwenUtilTest extends KernelTestCase
 {
+    private $em;
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUp()
+    {
+        static::$kernel = static::createKernel(array (
+            'environment' => 'test',
+            'debug' => false
+        ));
+        static::$kernel->boot();
+        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
+
+        // purge tables
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        $this->em = $em;
+        $this->container = static::$kernel->getContainer();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->em->close();
+    }
 
     /**
      * @dataProvider respondentsProvider
@@ -13,7 +47,7 @@ class FulcrumDeliveryNotification91wenwenUtilTest extends \PHPUnit_Framework_Tes
      */
     public function test_sendMailing($respondents)
     {
-        $job_ids = FulcrumDeliveryNotification91wenwenUtil::sendMailing($respondents);
+        $job_ids = FulcrumDeliveryNotification91wenwenUtil::sendMailing($this->container, $respondents);
         //         $this->assertCount(1, $job_ids);
 
 

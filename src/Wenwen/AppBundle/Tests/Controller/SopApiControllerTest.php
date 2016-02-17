@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -320,17 +319,17 @@ class SopApiControllerTest extends WebTestCase
             $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to 91wenwen');
 
             $res = json_decode($client->getResponse()->getContent(), true);
-            //             $this->assertEquals(array (
-            //                 'meta' => array (
-            //                     'code' => 200,
-            //                     'message' => ''
-            //                 ),
-            //                 'data' => array (
-            //                     'respondents-not-found' => array (
-            //                         '2'
-            //                     )
-            //                 )
-            //             ), $res);
+            $this->assertEquals(array (
+                'meta' => array (
+                    'code' => 200,
+                    'message' => ''
+                ),
+                'data' => array (
+                    'respondents-not-found' => array (
+                        $sopRespondent[1]->getId()
+                    )
+                )
+            ), $res);
         }
     }
 
@@ -393,16 +392,16 @@ class SopApiControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to Fulcrum 91wenwen');
         $res = json_decode($client->getResponse()->getContent(), true);
-//         $this->assertEquals(array (
-//             'meta' => array (
-//                 'code' => 200,
-//                 'message' => ''
-//             ),
-//             'data' => array (
-//                 'respondents-not-found' => array (
-//                     '2'
-//                 )
-//             )
-//         ), $res);
+        $this->assertEquals(array (
+            'meta' => array (
+                'code' => 200,
+                'message' => ''
+            ),
+            'data' => array (
+                'respondents-not-found' => array (
+                    $sopRespondent[1]->getId()
+                )
+            )
+        ), $res);
     }
 }
