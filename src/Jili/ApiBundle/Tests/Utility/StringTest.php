@@ -68,4 +68,26 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertNull( String::parseChanetCallbackUrl('123123_78979','123123_' ), 'null should return ');
     }
 
+    public function test_encodeForCommandArgument( ) 
+    {
+
+        $data = array(    'name1'=>'Jarod',
+            'email'=>'chiangtor@gmail.com',
+            'title'=>'test',
+            'survey_title'=>'survey_title_test',
+            'survey_point'=>'101'  );
+
+        $this->assertEquals('eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3JAZ21haWwuY29tIiwidGl0bGUiOiJ0ZXN0Iiwic3VydmV5X3RpdGxlIjoic3VydmV5X3RpdGxlX3Rlc3QiLCJzdXJ2ZXlfcG9pbnQiOiIxMDEifQ==', String::encodeForCommandArgument($data ), 'array to json , then base64');
+    }
+
+    public function test_dencodeForCommandArgument() 
+    {
+        $string = 'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3JAZ21haWwuY29tIiwidGl0bGUiOiJ0ZXN0Iiwic3VydmV5X3RpdGxlIjoic3VydmV5X3RpdGxlX3Rlc3QiLCJzdXJ2ZXlfcG9pbnQiOiIxMDEifQ==';
+        $data = array(    'name1'=>'Jarod',
+            'email'=>'chiangtor@gmail.com',
+            'title'=>'test',
+            'survey_title'=>'survey_title_test',
+            'survey_point'=>'101'  );
+        $this->assertEquals($data, String::decodeForCommandArgument($string), ' string to array');
+    }
 }
