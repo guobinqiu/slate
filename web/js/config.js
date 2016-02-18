@@ -34,7 +34,7 @@ require.config({
         'exchange': 'common/exchange',
         'goTop': 'common/backTop',
         'sopSurvey':'common/sopSurvey',
-        'angular': 'lib/angular.min'
+        'angular': 'lib/angular-1.3.14.min'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {
@@ -45,11 +45,9 @@ require.config({
     // shim里面的配置，表示某个js加载前，必须加载指定的js文件
     shim: {
         installer:{
-            deps:[],
             exports: 'installer'
         },
         swfobject:{
-            deps:[],
             exports: 'swfobject'
         },
         fileUpload: {
@@ -61,16 +59,11 @@ require.config({
             exports: 'jcrop'
         },
         iframeResizer: {
-            deps: [],
             exports: 'iframeResizer'
         },
         routing: {
             deps: ['router'],
             exports: 'routing'
-        },
-        backbone: {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
         },
         backbone: {
             deps: ['underscore', 'jquery'],
@@ -83,10 +76,8 @@ require.config({
             deps: [ 'jquery'],
         },
         angular: {
-            deps: [ 'jquery'],
             exports: 'angular'
         }
-                  
     }
 });
 

@@ -73,8 +73,6 @@
 </div>
 {# Feedback Start #}
 
-	
-
 	<div class="fbCon" ng-app="myapp" ng-controller="myappController">
 		<div class="fdWrap" ng-if="shouldShow()" ng-click="fdclick()">
 			<div class="fdBox">
@@ -117,7 +115,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/index')}}"></script>
-
-	
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/index')}}"></script>	
 {% endblock %}
