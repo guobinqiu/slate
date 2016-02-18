@@ -1,0 +1,41 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}问卷结束：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_headerSimpleQ.html.twig' %}
+{% endblock %}
+
+{% block body %}
+<div class="qnWrap">
+    <div class="qnCon qnEnd">
+        <div class="qnEndTxt clearfix">
+            <span class="left"><img src="{{ asset('img/questionnaire/normalface.png') }}" alt="图片"></span>
+            <span class="txt left"><h2>亲爱的用户！您好！</h2>
+                {% if answer_status is defined %}
+                    {% if answer_status == 'complete' %}
+                    感谢您参加并成功完成本次问卷调查。<br>
+                积分会在调查结束审核过后自动累计到您的账户！
+                    {% elseif answer_status == 'screenout' or  answer_status == 'quotafull' %}
+                   亲爱的用户！非常感谢您参加本次调查。<br>
+                由于您不符合本次调查内容，您将获得1个积分，积分会在调查结束后自动累计到您的账户！
+                    {% endif %}
+                {% endif %}
+                {% if errorMessage is defined %}
+                    {{ errorMessage|nl2br }}
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% include 'WenwenFrontendBundle:Questionnaire:_footer.html.twig' %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

@@ -14,13 +14,18 @@
 	<div class="qnCon qnEnd">
 		<div class="qnEndTxt clearfix">
 			<span class="left"><img src="{{ asset('img/questionnaire/normalface.png') }}" alt="图片"></span>
-			<span class="txt left"><h2>亲爱的用户！</h2>
-                {% if answer_status == 'complete' %}
-                感谢您参加本次的问卷调查，积分会在调查结束后的3周内自动累计。
-                {% elseif answer_status == 'screenout' %}
-                感谢您参加本次的问卷调查，非常抱歉，您不符合本次调查的要求。
-                {% else %}
-                感谢您参加本次的问卷调查，非常抱歉，您慢了一步，本次问卷调查名额已满。
+			<span class="txt left"><h2>亲爱的用户！您好！</h2>
+                {% if answer_status is defined %}
+                    {% if answer_status == 'complete' %}
+                    感谢您参加本次的问卷调查，积分会在调查结束后的3周内自动累计。
+                    {% elseif answer_status == 'screenout' %}
+                    感谢您参加本次的问卷调查，非常抱歉，您不符合本次调查的要求。
+                    {% else %}
+                    感谢您参加本次的问卷调查，非常抱歉，您慢了一步，本次问卷调查名额已满。
+                    {% endif %}
+                {% endif %}
+                {% if errorMessage is defined %}
+                    {{ errorMessage|nl2br }}
                 {% endif %}
             </span>
 		</div>
