@@ -30,6 +30,27 @@ require(['../../config'], function() {
             });
         };
 
+    var renderFulcrumUserAgreementItems = function (items) {
+        _.chain(items)
+        .filter(function (item) {
+            return item.type == 'Fulcrum';
+        })
+        .each(function (item) {
+console.log(item);
+            var model = new survey.FulcrumAgreementModel(item);
+            var view = new survey.FulcrumUserAgreementView({ model: model });
+            view.render();
+        });
+    };
+
+    var renderFulcrumResearchItems = function (items) {
+        _.each(items, function (item) {
+            var model = new survey.FulcrumResearchItemModel(item);
+            var view  = new survey.FulcrumResearchItemView({ model: model });
+            addSuveyItem(view.render().el);
+        });
+    };
+
         surveylistCallback = function (res) {
 
             console.log('ajax jsonp returned');
@@ -47,6 +68,15 @@ require(['../../config'], function() {
 
             // load profiling data
             renderProfilingItems(res.data.profiling);
+
+            // load Fulcrum research data
+ //           renderFulcrumResearchItems(res.data.fulcrum_research)
+    
+            // load Fulcrum user agreemetns
+            renderFulcrumUserAgreementItems(res.data.user_agreement)
+
+        // load Cint research data
+        // load Cint usr agreemetns
         };
 
         var $preview = $('#preview').val();
@@ -61,7 +91,6 @@ require(['../../config'], function() {
             jsonp: false,
             cache: true
         });
-
         // preview
         if ($preview){
             function mockResponse() {
