@@ -1,3 +1,20 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+
+{% block title %}问卷开始：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_headerSimpleQ.html.twig' %}
+{% endblock %}
+
+{% block body %}
+
+<input type="hidden" id="survey_id" value="{{ app.request.get('survey_id') }}">
+<input type="hidden" id="url" value="{% autoescape %}{{ url|raw }}{% endautoescape %}">
+<input type="hidden" id="preview" value="{{  ( app.environment != 'prod' and  app.request.get('preview') == 1 ) ? 1 : 0 }}">
 <div class="info-container">
   <div class="info-contents">
     <div id="detail" class="clearfix">
@@ -43,78 +60,11 @@
   <div class="error-message" style="display:none;">
   </div>
 </div>
+{% endblock %}
 
-<script type="text/javascript">
-(function (exports, $) {
-    var survey_id = '<?php echo $survey_id ?>';
-    var showMessage = function(message){
-        $(".error-message").html(message);
-        $(".error-message").show();
-    };
-    exports.surveylistCallback = function (res) {
-        // show alert if error code
-        if (res.meta.code != '200') {
-            showMessage('Oops! Something went wrong.');
-            return;
-        }
-        // get research
-        var research = _.find(res.data.fulcrum_research, function(research){
-            return research.survey_id == survey_id;
-        });
+{% block footer %}
+{% endblock %}
 
-        // no reasearch
-        if ( !research ){
-            showMessage("您好!本次调查已经结束。");
-            return;
-        }
-
-        // interpolate label
-        $('#title > h1').text(research.title);
-        $('#no').text('f' + research.survey_id);
-        $('#point > span').text(research.extra_info.point.complete);
-        if(research.extra_info.content){
-          $('#note').append($('<li>' + research.extra_info.content+ '</li>'));
-        }
-        $('#survey-link').attr({"href": research.url});
-        $('.info-contents').show();
-    };
-    <?php if ($preview): ?>
-    mockResponse(exports);
-    <?php endif ?>
-    $.ajaxSetup({ cache: true });
-    $.getScript( "<?php echo $sf_data->getRaw('url');?>" )
-     .fail(function( script, textStatus ) {
-            showMessage("System Error");
-    });
-
-})(window, jQuery);
-
-<?php if ($preview): ?>
-// You can preview this page without valid data by accessing fulcrum_project_survey/information/preview
-function mockResponse (exports) {
-  var callback = exports.surveylistCallback;
-  exports.surveylistCallback = function(res){
-    dummy_res = { 'meta' : {'code': '200' },
-                  'data': {
-                    'fulcrum_research':[
-                      {
-                        "survey_id": "preview",
-                        "quota_id": "10",
-                        "cpi": "0.00",
-                        "ir": "80",
-                        "loi": "10",
-                        "title": "Survey from Fulcrum",
-                        "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-                        "date": "2015-01-01",
-                        "extra_info": {
-                            "point" : {"complete": "10"}
-                        }
-                      }
-                    ]}};
-    callback(dummy_res);
-  };
-}
-<?php endif ?>
-
-
-</script>
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/survey/projectfulcrum.js')}}"></script>
+{% endblock %}

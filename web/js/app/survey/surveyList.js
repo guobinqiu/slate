@@ -6,7 +6,6 @@ require(['../../config'], function() {
 
             var surveyList = $('#surveyList');
                 // Insert the item as the 2rd row of the table if table has more than 0 row
-            console.log(surveyList.children().length);
             if (surveyList.children().length) {
                 surveyList.find('li:first').before($(el));
                 return;
@@ -36,7 +35,6 @@ require(['../../config'], function() {
             return item.type == 'Fulcrum';
         })
         .each(function (item) {
-console.log(item);
             var model = new survey.FulcrumAgreementModel(item);
             var view = new survey.FulcrumUserAgreementView({ model: model });
             view.render();
@@ -53,7 +51,6 @@ console.log(item);
 
         surveylistCallback = function (res) {
 
-            console.log('ajax jsonp returned');
             // return if error code
             if (res.meta.code != '200')  return;
 
@@ -70,7 +67,7 @@ console.log(item);
             renderProfilingItems(res.data.profiling);
 
             // load Fulcrum research data
- //           renderFulcrumResearchItems(res.data.fulcrum_research)
+           renderFulcrumResearchItems(res.data.fulcrum_research)
     
             // load Fulcrum user agreemetns
             renderFulcrumUserAgreementItems(res.data.user_agreement)
