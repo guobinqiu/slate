@@ -19,36 +19,6 @@ use SOPx\Auth\V1_1\Util;
 class FulcrumProjectSurveyController extends Controller
 {
 
-    /**
-     * @Route("/demo" )
-     * @Template("WenwenFrontendBundle:FulcrumProjectSurvey:demo.html.twig")
-     */
-    public function demoAction(Request $request )
-    {
-
-        if (! $request->getSession()->has('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('wenwen_frontend_fulcrumprojectsurvey_demo'));
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-        $user_id = $request->getSession()->get('uid');
-
-        // create sop JSONP URL
-        $sop_config     = $this->container->getParameter('sop');
-        $em = $this->getDoctrine()->getManager();
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
-        $sop_params = array (
-            'app_id' => $sop_config['auth']['app_id'],
-            'app_mid' => $sop_respondent->getId(),
-            'time' => time()
-        );
-        $sop_params['sig'] = Util::createSignature($sop_params, $sop_config['auth']['app_secret']);
-        $sop_params['sop_callback'] = 'surveylistCallback';
-
-
-        $env =  $this->get('kernel')->getEnvironment();
-
-        return array('sop_params'=> $sop_params,  'env'=>$env);
-    }
   
     /**
      * @Route("/information/{survey_id}", options={"expose"=true} )
