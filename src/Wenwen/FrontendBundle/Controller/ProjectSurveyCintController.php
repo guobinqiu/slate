@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -20,11 +19,10 @@ use SOPx\Auth\V1_1\Util;
  */
 class ProjectSurveyCintController extends Controller
 {
-
     const AGREEMENT_POINT = 1;
-    const TYPE_EXPENSE    = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
-    const TASK_TYPE_ID         = TaskHistory00::TASK_TYPE_SURVEY;
-    const COMMENT         = '同意Cint问卷';
+    const TYPE_EXPENSE = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
+    const TASK_TYPE_ID = TaskHistory00::TASK_TYPE_SURVEY;
+    const COMMENT = '同意Cint问卷';
 
     /**
      * @Route("/agreement_complete", name="_cint_project_survey_agreement_complete")
@@ -49,19 +47,18 @@ class ProjectSurveyCintController extends Controller
 
         $sop_config = $this->container->getParameter('sop');
         $cint_config = $this->container->getParameter('cint');
-        $status_map= $cint_config['user_agreement'];
+        $status_map = $cint_config['user_agreement'];
 
         // Verify signature
         $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
         $sig = $params['sig'];
         unset($params['sig']);
         if (!$auth->verifySignature($sig, $params)) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array (
-                'errorMessage' => 'authentication failed'
-            ));
+            //todo,如何修改404頁面
+            throw $this->createNotFoundException();
         }
 
-         // start transaction
+        // start transaction
         $em->getConnection()->beginTransaction();
 
         try {
@@ -79,9 +76,9 @@ class ProjectSurveyCintController extends Controller
             $em->getConnection()->commit();
         } catch (\Exception $e) {
 
-            $this->get('logger')->error("Exception: ". $e->getMessage());
+            $this->get('logger')->error("Exception: " . $e->getMessage());
 
-           $em->getConnection()->rollback();
+            $em->getConnection()->rollback();
             throw $e;
         }
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:agreementComplete.html.twig');
@@ -125,16 +122,6 @@ class ProjectSurveyCintController extends Controller
     }
 
     /**
-     * @Route("/endlink/{survey_id}/error", name="_cint_project_survey_error")
-     * @Template
-     */
-    public function errorAction(Request $request)
-    {
-        //注：此action 需要在endlinkAction之前，这样error时才会跳到此页面
-        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:error.html.twig');
-    }
-
-    /**
      * @Route("/endlink/{survey_id}/{answer_status}", name="_cint_project_survey_endlink")
      * @Template
      */
@@ -151,20 +138,8 @@ class ProjectSurveyCintController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        if (!preg_match('/\A(?:complete|screenout|quotafull)\z/', $answer_status)) {
-
-            $errorMessage = "编号为 c" . $survey_id . " 的问卷出现了一些小问题，此时无法确认您的回答是否有效。
-请联系我们的客服，告知问卷编号（c" . $survey_id . "）和您的账号，我们的客服会尽最快的速度答复您。
-给您添麻烦了，请继续关注91问问，谢谢！";
-
-            return $this->render('WenwenFrontendBundle:ProjectSurveyCint:complete.html.twig', array (
-                'errorMessage' => $errorMessage
-            ));
-        }
-
         $arr['answer_status'] = $answer_status;
+        $arr['survey_id'] = $survey_id;
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:complete.html.twig', $arr);
     }
-
-
 }

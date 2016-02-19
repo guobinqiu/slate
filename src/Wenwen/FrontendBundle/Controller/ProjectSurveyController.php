@@ -72,18 +72,8 @@ class ProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        if (!preg_match('/\A(?:complete|screenout|quotafull)\z/', $answer_status)) {
-
-            $errorMessage = "编号为 r" . $survey_id . " 的问卷出现了一些小问题，此时无法确认您的回答是否有效。
-请联系我们的客服，告知问卷编号（r" . $survey_id . "）和您的账号，我们的客服会尽最快的速度答复您。
-给您添麻烦了，请继续关注91问问，谢谢！";
-
-            return $this->render('WenwenFrontendBundle:ProjectSurvey:complete.html.twig', array (
-                'errorMessage' => $errorMessage
-            ));
-        }
-
         $arr['answer_status'] = $answer_status;
+        $arr['survey_id'] = $survey_id;
         return $this->render('WenwenFrontendBundle:ProjectSurvey:complete.html.twig', $arr);
     }
 }

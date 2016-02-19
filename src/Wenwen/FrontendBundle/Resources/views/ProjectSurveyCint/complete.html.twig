@@ -15,17 +15,18 @@
         <div class="qnEndTxt clearfix">
             <span class="left"><img src="{{ asset('img/questionnaire/normalface.png') }}" alt="图片"></span>
             <span class="txt left"><h2>亲爱的用户！您好！</h2>
-                {% if answer_status is defined %}
-                    {% if answer_status == 'complete' %}
-                    感谢您参加并成功完成本次问卷调查。<br>
+                {% if answer_status == 'complete' %}
+                感谢您参加并成功完成本次问卷调查。<br>
                 积分会在调查结束审核过后自动累计到您的账户！
-                    {% elseif answer_status == 'screenout' or  answer_status == 'quotafull' %}
-                   亲爱的用户！非常感谢您参加本次调查。<br>
+                {% elseif answer_status == 'screenout' or  answer_status == 'quotafull' %}
+                非常感谢您参加本次调查。<br>
                 由于您不符合本次调查内容，您将获得1个积分，积分会在调查结束后自动累计到您的账户！
-                    {% endif %}
-                {% endif %}
-                {% if errorMessage is defined %}
-                    {{ errorMessage|nl2br }}
+                {% elseif answer_status == 'error' %}
+                对不起，您不符合这次问卷的要求，敬请期待下次的高积分问卷。
+                {% else %}
+                编号为 c{{survey_id}} 的问卷出现了一些小问题，此时无法确认您的回答是否有效。<br>
+                请联系我们的客服，告知问卷编号（c{{survey_id}}）和您的账号，我们的客服会尽最快的速度答复您。<br>
+                给您添麻烦了，请继续关注91问问，谢谢！
                 {% endif %}
             </span>
         </div>
