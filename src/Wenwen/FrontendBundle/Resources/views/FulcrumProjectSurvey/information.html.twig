@@ -1,5 +1,4 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-
 {% block title %}问卷开始：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
@@ -15,51 +14,36 @@
 <input type="hidden" id="survey_id" value="{{ app.request.get('survey_id') }}">
 <input type="hidden" id="url" value="{% autoescape %}{{ url|raw }}{% endautoescape %}">
 <input type="hidden" id="preview" value="{{  ( app.environment != 'prod' and  app.request.get('preview') == 1 ) ? 1 : 0 }}">
-<div class="info-container">
-  <div class="info-contents">
-    <div id="detail" class="clearfix">
-      <dl>
-        <dt>问卷标题</dt>
-        <dd>Fulcrum问卷调查</dd>
-      </dl>
-      <dl>
-        <dt>问卷编号：</dt>
-        <dd id="no"></dd>
-      </dl>
-      <dl>
-        <dt>积分数：</dt>
-        <dd id="point" class="point"><span></span> 分</dd>
-      </dl>
-      <dl>
-      <ul id="note" style="padding: 10px 0px;">
-      		<li>此问卷很短，请尽快作答。</li>
-            <li>如果您的属性不符合该问卷标准，将不会收到任何积分。</li>
-            <li>在回答问卷过程中，请不要中断，避免失去获得积分的机会。</li>
-            <li>当用户成功完成问卷后，积分通常在<span>2-3天</span>累积到您的账户。</li>
-      </ul>
-      </dl>
+
+
+<div class="qnWrap">
+    <div class="qnCon">
+        <div class="qnTxt" style="display:none;">
+            <h2 id="title"></h2>
+            <div class="subtit">
+                <strong >问卷标题： Fulcrum问卷调查<br></strong>
+                <strong id="no">问卷编号： <span></span><br></strong>
+                <strong id="points">积分数：<span class="point"></span></strong>
+            </div>
+            <div class="prompt" id="note">※ 注意：在回答问卷过程中，请不要中断，避免失去获得积分的机会。</div>
+            <div class="notice">
+                <strong>注意事项：</strong>
+                <p>回答中请不要点击浏览器的返回按钮。<br>
+                    请开启浏览器对JAVA的支持。<br>
+                    推荐浏览器6.0版本以上的Internet Explorer。<br>
+                    根据用户会员协议，请不要向第三者泄露，复制，销售，公开问卷的内容。<br>
+                    保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</p>
+            </div>
+            <div class="qnBtn">
+                <a id="survey-link" href="">开始回答问卷</a>
+            </div>
+            <div class="tips">请确认内容之后点击&lt;开始回答问卷&gt;<br /> （之后无法返回现在的页面）</div>
+        </div>
+        <div class="error-message" style="display: none;"></div>
     </div>
-    <div id="attention">
-      <h2>注意事项</h2>
-      <ul>
-        <li>回答中请不要点击浏览器的<span><返回></span>按钮</li>
-        <li>请开启浏览器对JAVA的支持</li>
-        <li>推荐浏览器:6.0版本以上的Internet Explorer</li>
-        <li>根据用户会员协议，请不要向第三者泄漏，复制，销售，公开问卷的内容。</li>
-        <li>保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</li>
-      </ul>
-    </div>
-    <div class="nextpage">
-      <p>请确认内容之后点击<下一步><br /> （之后无法返回现在的页面）
-      </p>
-      <a id="survey-link" href="#">
-        <img src="/img/common/start_answering.png" alt="开始回答问卷">
-      </a>
-    </div>
-  </div>
-  <div class="error-message" style="display:none;">
-  </div>
+    {% include 'WenwenFrontendBundle:ProjectSurvey:_footer.html.twig' %}
 </div>
+
 {% endblock %}
 
 {% block footer %}

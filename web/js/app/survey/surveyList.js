@@ -92,7 +92,6 @@ require(['../../config'], function() {
         if ($preview){
             function mockResponse() {
                 var callback = surveylistCallback;
-                console.log("mockResponse:2222");
                 surveylistCallback = function(res){
                     dummy_res = { 'meta' : {'code': '200' },
                            'data': {
