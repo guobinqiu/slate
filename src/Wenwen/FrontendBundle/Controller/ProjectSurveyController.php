@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +12,7 @@ use Wenwen\AppBundle\WebService\Sop\SopUtil;
 use SOPx\Auth\V1_1\Util;
 
 /**
- * @Route("/project_survey",requirements={"_scheme"="https"})
+ * @Route("/project_survey")
  */
 class ProjectSurveyController extends Controller
 {
@@ -25,7 +24,7 @@ class ProjectSurveyController extends Controller
     public function informationAction(Request $request)
     {
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_survey_index'));
+            $this->get('request')->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -65,10 +64,7 @@ class ProjectSurveyController extends Controller
         $answer_status = $request->get('answer_status');
 
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_project_survey_endlink', array (
-                'survey_id' => $survey_id,
-                'answer_status' => $answer_status
-            )));
+            $this->get('request')->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 

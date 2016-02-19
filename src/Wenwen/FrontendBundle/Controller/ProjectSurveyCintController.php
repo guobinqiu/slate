@@ -15,7 +15,7 @@ use Wenwen\AppBundle\Entity\CintUserAgreementParticipationHistory;
 use SOPx\Auth\V1_1\Util;
 
 /**
- * @Route("/cint_project_survey",requirements={"_scheme"="https"})
+ * @Route("/cint_project_survey")
  */
 class ProjectSurveyCintController extends Controller
 {
@@ -31,7 +31,7 @@ class ProjectSurveyCintController extends Controller
     public function agreementCompleteAction(Request $request)
     {
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_survey_index'));
+            $this->get('request')->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -91,7 +91,7 @@ class ProjectSurveyCintController extends Controller
     public function informationAction(Request $request)
     {
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_survey_index'));
+            $this->get('request')->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -131,10 +131,7 @@ class ProjectSurveyCintController extends Controller
         $answer_status = $request->get('answer_status');
 
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_cint_project_survey_endlink', array (
-                'survey_id' => $survey_id,
-                'answer_status' => $answer_status
-            )));
+            $this->get('request')->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
