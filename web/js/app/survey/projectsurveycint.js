@@ -1,10 +1,7 @@
 require(['../../config'], function() {
     require(['common']);
 
-    require(['jquery'], function($) {
-
-        console.log("survey_id: " + $('#survey_id').val());
-        console.log("url: " + $('#url').val());
+    require(['jquery', 'backbone'], function($, backbone) {
 
         var survey_id = $('#survey_id').val();
 
@@ -15,29 +12,16 @@ require(['../../config'], function() {
 
         surveylistCallback = function(res) {
 
-            console.log("surveylistCallback: code:" + res.meta.code);
-            console.log("surveylistCallback: code:" +survey_id);
-
             // show alert if error code
             if (res.meta.code != '200') {
                 showMessage('Oops! Something went wrong.');
                 return;
             }
 
-//            // get research
-//            var research = $.each(res.data.cint_research, function(research){
-//                return research.survey_id == survey_id;
-//            });
-//            
             // get research
-            var research;
-            $.each(res.data.cint_research, function( index, value ) {
-                if(value.survey_id == survey_id
-                        && value.is_answered == '0'){
-                    research = value;
-                    return ;
-                }
-              });
+            var research = _.find(res.data.cint_research, function(research){
+                return research.survey_id == survey_id;
+            });
 
             // no reasearch
             if ( !research ){
