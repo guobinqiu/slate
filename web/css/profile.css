@@ -424,7 +424,7 @@ h1 {
     *display: inline;
     *zoom: 1; }
   .main-personal-profile .con {
-    padding: 10px 10px 30px; }
+    padding: 17px 10px 45px; }
   .main-personal-profile .profile-base {
     border-bottom: 1px solid #f6f6f6; }
     .main-personal-profile .profile-base .face {
@@ -441,19 +441,24 @@ h1 {
         position: absolute;
         z-index: 1000;
         width: 65px;
-        top: 118px;
-        left: 72px;
-        opacity: 0;
-        filter: alpha(opacity=0);
+        top: -22px;
+        left: -58px;
         cursor: pointer; }
     .main-personal-profile .profile-base ul {
-      margin-top: 42px; }
+      margin-top: 15px; }
+    .main-personal-profile .profile-base li.nk {
+      font-size: 24px;
+      margin-bottom: 10px; }
+    .main-personal-profile .profile-base li #points {
+      color: #ff6700;
+      font-size: 18px;
+      vertical-align: -2px; }
     .main-personal-profile .profile-base li.prompt {
       margin-top: 5px; }
       .main-personal-profile .profile-base li.prompt span {
         display: none; }
     .main-personal-profile .profile-base li label {
-      width: 75px;
+      width: 64px;
       line-height: 30px;
       text-align: left; }
     .main-personal-profile .profile-base li input[type='text'], .main-personal-profile .profile-base li input[type='password'] {
@@ -479,9 +484,32 @@ h1 {
     .main-personal-profile .profile-base li a {
       margin-left: 10px;
       color: #0078b6; }
-    .main-personal-profile .profile-base .face-wapper img {
-      border: 1px solid #e7e7e7;
-      border-radius: 50%; }
+    .main-personal-profile .profile-base .face-wapper {
+      position: relative; }
+      .main-personal-profile .profile-base .face-wapper img {
+        border: 1px solid #e7e7e7;
+        border-radius: 50%; }
+      .main-personal-profile .profile-base .face-wapper form {
+        position: absolute;
+        right: 0;
+        bottom: 0; }
+        .main-personal-profile .profile-base .face-wapper form input#profile_attachment {
+          border-radius: 5px;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          -ms-border-radius: 5px;
+          -o-border-radius: 5px;
+          filter: alpha(opacity=60);
+          -moz-opacity: 0.6;
+          -khtml-opacity: 0.6;
+          opacity: 0.6;
+          padding: 5px 10px; }
+        .main-personal-profile .profile-base .face-wapper form .errorInfo {
+          position: absolute;
+          width: 170px;
+          right: -24px;
+          top: 10px;
+          color: #ff0000; }
     .main-personal-profile .profile-base .picCut {
       margin-bottom: 20px;
       display: none; }

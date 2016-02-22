@@ -70,7 +70,7 @@ $color: #0078b6;
 		@include dib();
 	}
 	.con{
-		padding: 10px 10px 30px;
+		padding: 17px 10px 45px;
 	}
 	.profile-base{
 		border-bottom: $block-inner-border;
@@ -89,17 +89,24 @@ $color: #0078b6;
 				position: absolute;
 				z-index: 1000;
 				width: 65px;
-				top: 118px;
-				left: 72px;
-				opacity: 0;
-				filter:alpha(opacity=0); 
+				top: -22px;
+				left: -58px;
 				cursor: pointer; 
 			}
 		}
 		ul{
-			margin-top: 42px;
+			margin-top: 15px;
 		}
 		li{
+			&.nk{
+				font-size: 24px;
+			    margin-bottom: 10px;
+			}
+			#points{
+				color: #ff6700;
+				font-size: 18px;
+				vertical-align: -2px;
+			}
 			&.prompt{
 				margin-top: 5px;
 				span{
@@ -107,7 +114,7 @@ $color: #0078b6;
 				}
 			}
 			label{
-				width: 75px;
+				width: 64px;
 				line-height: 30px;
 				text-align: left;
 			}
@@ -144,9 +151,27 @@ $color: #0078b6;
 			}
 		}
 		.face-wapper{
+			position: relative;
 			img{
 				border: 1px solid #e7e7e7;
 				border-radius: 50%;
+			}
+			& form{
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				& input#profile_attachment{
+					@include border-radius(5px);
+					@include opacity(60, 0.6);
+					padding: 5px 10px;
+				}
+				.errorInfo{
+				    position: absolute;
+				    width: 170px;
+				    right: -24px;
+				    top: 10px;
+				    color: #ff0000;
+				}
 			}
 		}
 		.picCut{

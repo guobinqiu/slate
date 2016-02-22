@@ -11,7 +11,13 @@
             <li><em class="tool"></em><a href="{{ path('wenwen_frontend_gadget_index') }}" title="调查工具">调查工具</a></li>
             <li><a href="{{ path('_user_message',{'sid': 1}) }}" class="last"><em class="mail">{% if  count_new_msgs|length > 0 %}<div class="mark"></div>{% endif %}</em></a><span class="special expand-btn"><div class="expand-title"><label for="personal_links">个人中心</label><b></b></div><div id="personal_links" class="personal expand-con">
             <div class="personal-con">
-                <span><img src="{{ asset('img/common/default_tx.png') }}" alt="头像"></span>
+                <span>
+                    {% if user.iconPath %}
+                    <img src='{{ asset(user.iconPath) }}' height="60" />
+                    {% else %}
+                    <img src="{{ asset('img/common/default_tx.png') }}" alt="头像" height="60">
+                    {% endif %}
+                </span>
                 <span class="txt"><div class="nickname">{{ app.session.get('nick')[:12] }}</div><div><label for="points">积分：</label><strong id="points" name="points">3050</strong></div></span>
             </div>
             <ul>
