@@ -326,7 +326,17 @@ body {
       *zoom: 1; }
 
 .main-con {
-  padding-top: 20px; }
+  padding-top: 20px;
+  position: relative; }
+
+.tbSearchWrap {
+  width: 764px;
+  height: 66px;
+  padding: 27px 0;
+  background: #fff;
+  border: 1px solid #ebedf2;
+  margin-bottom: 10px;
+  text-align: center; }
 
 .main-slider {
   margin-right: 2px;
@@ -334,7 +344,7 @@ body {
   border: 1px solid #ebedf2; }
   .main-slider .mask {
     width: 764px;
-    height: 220px; }
+    height: 212px; }
   .main-slider ul {
     position: absolute;
     z-index: 1999;
@@ -364,7 +374,7 @@ body {
   .main-slider span {
     left: 0;
     top: 0;
-    padding: 10px 20px 20px;
+    padding: 8px 20px 20px;
     width: 204px;
     display: inline-block;
     *display: inline;
@@ -428,7 +438,6 @@ body {
       width: 520px; }
 
 .main-con-shop {
-  height: 222px;
   overflow: hidden; }
   .main-con-shop em {
     margin-right: 3px;
@@ -583,6 +592,41 @@ body {
         .main-con-advertisement .taskFlow .con li p {
           margin-top: 10px;
           line-height: 18px; }
+
+.promptS {
+  width: 168px;
+  height: 159px;
+  position: absolute;
+  top: 204px;
+  right: -154px;
+  display: none;
+  z-index: 9999;
+  background: url(../img/advertisement/promptCPS.png) no-repeat; }
+
+.promptSText {
+  width: 137px;
+  padding: 25px 0 0 45px;
+  text-align: left;
+  line-height: 22px;
+  color: #fff; }
+
+.promptSText .sz {
+  font-size: 18px; }
+
+.promptSText .cor1 {
+  color: #000;
+  line-height: 35px; }
+
+.promptSText .cor2 {
+  color: #ffda00; }
+
+.promptSClose {
+  width: 45px;
+  height: 45px;
+  float: right;
+  margin-top: -36px;
+  margin-right: -7px;
+  cursor: pointer; }
 
 .footer {
   margin-top: 50px;
