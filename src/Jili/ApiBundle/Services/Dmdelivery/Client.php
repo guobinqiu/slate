@@ -170,11 +170,11 @@ class Client
                 $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $re );
                 return $rs;
             }
-
+            $is_test  =( isset($this->group['test'] ) && true === $this->group['test'] ) ? true: false;
             $result = $client->sendMailing($login,
                 $this->campaignId,
                 $this->mailingId,
-                true,
+                $is_test, # is test
                 $this->resultsEmail,
                 array ($group->id), "", "", "", "");
 
