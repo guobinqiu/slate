@@ -54,8 +54,9 @@ class ProjectSurveyCintController extends Controller
         $sig = $params['sig'];
         unset($params['sig']);
         if (!$auth->verifySignature($sig, $params)) {
-            //todo,如何修改404頁面
-            throw $this->createNotFoundException();
+            $response = new Response();
+            $response->setStatusCode(404);
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array (), $response);
         }
 
         // start transaction
