@@ -40,7 +40,7 @@ require(['../../config'], function() {
             if( res.data.profiling.length == 0 && res.data.research.length == 0 ) return;
 
             // remove no survey label
-            $('#survey-list li.no-survey-available').remove();
+            $('#surveyList li.no-survey-available').remove();
 
             // load research data
             renderResearchItems(res.data.research.reverse());

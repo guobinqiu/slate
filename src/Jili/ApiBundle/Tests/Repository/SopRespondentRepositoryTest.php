@@ -75,4 +75,22 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $this->assertEquals(2, $sop_respondent->getUserId());
         $this->assertEquals(1, $sop_respondent->getStatusFlag());
     }
+
+    /**
+     * @group dev-merge-ui-profile_point
+     */
+    public function testRetrieveById()
+    {
+        $em = $this->em;
+
+        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1);
+
+        //测试已经存在的数据
+        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveById($sop_respondent->getId());
+        $this->assertNotEmpty($sop_respondent);
+
+        //测试不存在的数据
+        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveById(99);
+        $this->assertEmpty($sop_respondent);
+    }
 }
