@@ -85,7 +85,7 @@ class SopDeliveryNotificationHandlerTest extends KernelTestCase
     {
         $this->handler->setUpRespondentsToMail();
         $job_ids = $this->handler->sendMailingToRespondents();
-        //         $this->assertCount(1, $job_ids);
+        $this->assertCount(1, $job_ids);
     }
 
     /**

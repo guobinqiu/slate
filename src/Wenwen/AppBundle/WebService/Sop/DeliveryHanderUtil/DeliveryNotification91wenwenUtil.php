@@ -2,6 +2,8 @@
 namespace Wenwen\AppBundle\WebService\Sop\DeliveryHanderUtil;
 
 use Doctrine\ORM\EntityManager;
+use JMS\JobQueueBundle\Entity\Job;
+use Jili\ApiBundle\Utility\String;
 
 class DeliveryNotification91wenwenUtil
 {
@@ -11,69 +13,39 @@ class DeliveryNotification91wenwenUtil
         return $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
     }
 
-    public static function sendMailing($container, $respondents)
+    public static function sendMailing($container, $respondents, $em)
     {
-        //todo: 调用共通的发邮件系统
-        //$delivery_service  = $container->get('webpower.91wenwen.mailer');
+        $respondent_groups = array_chunk($respondents, static::$EMAIL_PER_JOB, true);
+        $job_ids = array ();
 
+        $group_name_tmpl = sprintf('tmp_sop_notification-%d-%s', date('YmdHis'), bin2hex(openssl_random_pseudo_bytes(4)));
 
-        //         $pager = new rpaPager(sizeof($respondents), static::$EMAIL_PER_JOB, 1);
-        //         $job_ids = array();
+        foreach ($respondent_groups as $key => $respondent_group) {
 
+            # group_name
+            $group_name = $group_name_tmpl . "-page" . ($key + 1);
 
-        //         $group_name_tmpl = sprintf('tmp_sop_notification-%d-%s', date('YmdHis'), bin2hex(openssl_random_pseudo_bytes(4)));
+            $add_recipients = array ();
 
+            foreach ($respondent_group as $respondent) {
+                $data = static::getRecipientFromRespondent($respondent);
+                $add_recipients[] = String::encodeForCommandArgument($data);
+            }
 
-        //         for ($p = 1; $p <= $pager->getLastPage(); $p++) {
+            $args = array (
+                '--campaign_id=' . static::$CAMPAIGN_ID,
+                '--mailing_id=' . static::$MAILING_ID,
+                '--group_name=' . $group_name,
+                'recipients=' . implode(' ', $add_recipients)
+            );
 
-
-        //             $respondent_group = array_splice(
-        //                 $respondents,
-        //                 $pager->getOffset(),
-        //                 $pager->getEntriesPerPage()
-        //             );
-
-
-        //             # 送信先がない
-        //             if (!sizeof($respondent_group)) {
-        //                 break;
-        //             }
-
-
-        //             # group_name
-        //             $group_name = $group_name_tmpl . "-page$p";
-
-
-        //             $add_recipients = array();
-        //             foreach ($respondent_group as $respondent) {
-        //                 $add_recipients[] = static::getRecipientFromRespondent($respondent);
-        //             }
-
-
-        //             $job = new TheSchwartzJob(array(
-        //                 'funcname' => 'RPA::TheSchwartz::Worker::DMDelivery',
-        //                 'arg' => array(
-        //                     'platform' => static::$PLATFORM,
-        //                     'campaign_id' => static::$CAMPAIGN_ID,
-        //                     'mailing_id' => static::$MAILING_ID,
-        //                     'add_group' => array(
-        //                         'group_name' => $group_name,
-        //                     ),
-        //                     'add_recipients' => $add_recipients,
-        //                     'send_mailing' => array(
-        //                         'results_email' => 'rpa-sys@d8aspring.com',
-        //                     ),
-        //                 ),
-        //             ));
-        //             $job_ids[] = $job->save();
-
-
-        //             $pager->setCurrentPage($pager->getCurrentPage() + 1);
-        //         }
-
-
-        //         return $job_ids;
-        return array ();
+            //调用共通的发邮件系统
+            $job = new Job('research_survey:delivery_notification', $args, true, '91wenwen');
+            $em->persist($job);
+            $em->flush($job);
+            $job_ids[] = $job->getId();
+        }
+        return $job_ids;
     }
 
     public static function getRecipientFromRespondent($respondent)

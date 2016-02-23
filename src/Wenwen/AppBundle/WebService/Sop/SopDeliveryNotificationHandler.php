@@ -6,9 +6,7 @@ use Wenwen\AppBundle\WebService\Sop\DeliveryHanderUtil\FulcrumDeliveryNotificati
 
 class SopDeliveryNotificationHandler
 {
-
     const TYPE_SOP = 0;
-
     const TYPE_FULCRUM = 1;
     private $respondents = null;
     private $panel_id = null;
@@ -53,7 +51,6 @@ class SopDeliveryNotificationHandler
     public function setUpRespondentsToMail()
     {
         $respondents = $this->getRespondents();
-
         $em = $this->em;
 
         $util_class = $this->util_class;
@@ -63,6 +60,7 @@ class SopDeliveryNotificationHandler
         foreach ($respondents as $respondent) {
 
             $recipient = $util_class::retrieveValidRecipientData($respondent['app_mid'], $em);
+
             if ($recipient) {
                 $respondent['recipient'] = $recipient;
                 $this->valid_respondents[] = $respondent;
@@ -76,10 +74,11 @@ class SopDeliveryNotificationHandler
     {
         $util_class = $this->util_class;
         $container = $this->container;
+        $em = $this->em;
 
-        //todo: 使用use的方式找不到
+        //备注: 使用use的方式找不到
         $util_class = '\Wenwen\AppBundle\WebService\Sop\DeliveryHanderUtil\\' . $util_class;
         # jobids
-        return $util_class::sendMailing($container, $this->getValidRespondents());
+        return $util_class::sendMailing($container, $this->getValidRespondents(), $em);
     }
 }

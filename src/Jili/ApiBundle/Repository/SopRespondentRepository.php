@@ -65,7 +65,7 @@ EOT;
             $id,
             $sop::STATUS_ACTIVE
         ));
-        $res = $stmt->fetchAll();
+        $res = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $res;
     }
 }

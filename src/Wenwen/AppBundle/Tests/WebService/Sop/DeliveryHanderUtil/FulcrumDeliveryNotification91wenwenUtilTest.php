@@ -5,6 +5,7 @@ use Wenwen\AppBundle\WebService\Sop\DeliveryHanderUtil\FulcrumDeliveryNotificati
 use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use JMS\JobQueueBundle\Entity\Job;
 
 class FulcrumDeliveryNotification91wenwenUtilTest extends KernelTestCase
 {
@@ -47,17 +48,19 @@ class FulcrumDeliveryNotification91wenwenUtilTest extends KernelTestCase
      */
     public function test_sendMailing($respondents)
     {
-        $job_ids = FulcrumDeliveryNotification91wenwenUtil::sendMailing($this->container, $respondents);
-        //         $this->assertCount(1, $job_ids);
+        $em = $this->em;
 
+        $job_ids = FulcrumDeliveryNotification91wenwenUtil::sendMailing($this->container, $respondents, $em);
+        $this->assertCount(1, $job_ids);
 
-        //         $job = TheSchwartzJob::select($job_ids[0]);
-        //         $arg = json_decode($job['arg'], true);
-        //         $this->assertSame('message', $arg['platform']);
-        //         $this->assertSame('90004', $arg['mailing_id']);
-        //         $this->assertSame('23', $arg['campaign_id']);
-        //         $this->assertCount(2, $arg['add_recipients']);
-        //         $this->assertRegExp('/tmp_sop_notification-\d\d\d\d\d\d\d\d\d\d\d\d\d\d-........-page1/', $arg['add_group']['group_name']);
+        $job = $em->getRepository('JMSJobQueueBundle:Job')->find($job_ids[0]);
+        $args = $job->getArgs();
+
+        $this->assertEquals('91wenwen', $job->getQueue());
+        $this->assertEquals('--campaign_id=23', $args[0]);
+        $this->assertEquals('--mailing_id=90004', $args[1]);
+        $this->assertRegExp('/--group_name=tmp_sop_notification-/', $args[2]);
+        $this->assertRegExp('/recipients/', $args[3]);
     }
 
     /**
@@ -68,7 +71,7 @@ class FulcrumDeliveryNotification91wenwenUtilTest extends KernelTestCase
     {
         $this->assertEquals(array (
             'name1' => 'name_f_1',
-            'email' => 'takafumi_sekiguchi+1@voyagegroup.com',
+            'email' => 'miaomiao.zhang+1@d8aspring.com',
             'title' => '先生',
             'survey_title' => 'Example survey title',
             'survey_point' => '1234'
@@ -93,7 +96,7 @@ class FulcrumDeliveryNotification91wenwenUtilTest extends KernelTestCase
                             )
                         ),
                         'recipient' => array (
-                            'email' => 'takafumi_sekiguchi+1@voyagegroup.com',
+                            'email' => 'miaomiao.zhang+1@d8aspring.com',
                             'name1' => 'name_f_1',
                             'title' => '先生'
                         )
@@ -110,7 +113,7 @@ class FulcrumDeliveryNotification91wenwenUtilTest extends KernelTestCase
                             )
                         ),
                         'recipient' => array (
-                            'email' => 'takafumi_sekiguchi+2@voyagegroup.com',
+                            'email' => 'miaomiao.zhang+2@d8aspring.com',
                             'name1' => 'name_f_2',
                             'title' => '先生'
                         )
