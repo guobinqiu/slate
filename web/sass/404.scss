@@ -4,20 +4,26 @@
 @import "layout/header";
 @import "layout/footer";
 .main{
+	background: #f2f3f5;
 	.main-error-con{
+		margin: 0 auto;
+		background: url(../img/404/errorbox.png) no-repeat center;
 		.errorCon{
-			height: 536px;
-			background: url(../img/404/errorbox.png) no-repeat 0 50px;
+			width: 1000px;
+			height: 436px;
+			margin: 0 auto;
 			position: relative;
 			.errorText{
-				width: 330px;
-				height: 100px;
+				width: 480px;
 				position: absolute;
-				top: 75px;
-				left: 250px;
+				top: 178px;
+				left: 455px;
 				.txt{
 					font-size: 14px;
-					line-height: 18px;
+					line-height: 24px;
+					h2{
+						font-size: 18px;
+					}
 				}
 				.btn{
 					margin-top: 31px;
@@ -39,5 +45,10 @@
 	}
 }
 .footer{
-	  margin-top: 0;
+	background: #4b95d7;
+	margin-top: 0;
+	border: none;
+}
+body{
+	background: #4b95d7;
 }
