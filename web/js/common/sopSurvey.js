@@ -195,9 +195,9 @@ define(['backbone'], function(Backbone) {
                 $(this.template).html(), { model: this.model }
             );
             this.$el.html(tmpl);
-            $('#survey-list')
+            $('#surveyList')
                 .find('li:first')
-                .after(this.$el);
+                .before(this.$el);
             return this;
         }
         ,openSurvey: function (e) {
@@ -223,9 +223,9 @@ define(['backbone'], function(Backbone) {
                 $(this.template).html(), { model: this.model }
             );
             this.$el.html(tmpl);
-            $('#survey-list')
+            $('#surveyList')
                 .find('li:first')
-                .after(this.$el);
+                .before(this.$el);
             return this;
         }
         ,openSurvey: function (e) {
@@ -251,9 +251,9 @@ define(['backbone'], function(Backbone) {
                 $(this.template).html(), { model: this.model }
             );
             this.$el.html(tmpl);
-            $('#survey-list')
+            $('#surveyList')
                 .find('li:first')
-                .after(this.$el);
+                .before(this.$el);
             return this;
         }
         ,openSurvey: function (e) {
@@ -279,9 +279,9 @@ define(['backbone'], function(Backbone) {
                 $(this.template).html(), { model: this.model }
             );
             this.$el.html(tmpl);
-            $('#survey-list')
+            $('#surveyList')
                 .find('li:first')
-                .after(this.$el);
+                .before(this.$el);
             return this;
         }
         ,openSurvey: function (e) {
