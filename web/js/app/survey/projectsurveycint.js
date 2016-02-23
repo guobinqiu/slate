@@ -29,7 +29,7 @@ require(['../../config'], function() {
                 return;
             }
             // interpolate label
-            $('h2').text(research.title);
+            $('h2#title').text(research.title);
             $('#no').text('c' + research.survey_id);
             $('#point').text(research.extra_info.point.complete);
             if(research.extra_info.content){
