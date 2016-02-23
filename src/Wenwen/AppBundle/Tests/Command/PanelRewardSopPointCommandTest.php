@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\AppBundle\Tests\Command;
 
 use Phake;
@@ -154,6 +153,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
         );
         // execute
         try {
+
             $data = $commandTester->execute($commandParam);
         } catch (\Exception $e) {
             $this->assertEquals('No SopRespondent for: Invalid-app-mid', $e->getMessage());
@@ -262,37 +262,41 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
         $this->assertNotEmpty($history_list);
         $this->assertCount(2, $history_list);
 
-        $this->assertEquals($history_list[0]['partner_app_project_id'], '10001');
-        $this->assertEquals($history_list[0]['partner_app_project_quota_id'], '10002');
-        $this->assertEquals($history_list[0]['app_member_id'], $app_mid);
-        $this->assertEquals($history_list[0]['point'], '30');
-        $this->assertEquals($history_list[0]['type'], '92');
+        $this->assertEquals('10001', $history_list[0]['partner_app_project_id']);
+        $this->assertEquals('10002', $history_list[0]['partner_app_project_quota_id']);
+        $this->assertEquals($app_mid, $history_list[0]['app_member_id']);
+        $this->assertEquals('30', $history_list[0]['point']);
+        $this->assertEquals('92', $history_list[0]['type']);
+        $this->assertEquals(date('Y-m-d'), substr($history_list[0]['created_at'], 0, 10));
+        $this->assertEquals(date('Y-m-d'), substr($history_list[0]['updated_at'], 0, 10));
 
-        $this->assertEquals($history_list[1]['partner_app_project_id'], '20001');
-        $this->assertEquals($history_list[1]['partner_app_project_quota_id'], '20002');
-        $this->assertEquals($history_list[1]['app_member_id'], $app_mid);
-        $this->assertEquals($history_list[1]['point'], '100');
-        $this->assertEquals($history_list[1]['type'], '93');
+        $this->assertEquals('20001', $history_list[1]['partner_app_project_id']);
+        $this->assertEquals('20002', $history_list[1]['partner_app_project_quota_id']);
+        $this->assertEquals($app_mid, $history_list[1]['app_member_id']);
+        $this->assertEquals('100', $history_list[1]['point']);
+        $this->assertEquals('93', $history_list[1]['type']);
+        $this->assertEquals(date('Y-m-d'), substr($history_list[1]['created_at'], 0, 10));
+        $this->assertEquals(date('Y-m-d'), substr($history_list[1]['updated_at'], 0, 10));
 
         $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->find($app_mid);
         $user_id = $sop_respondent->getUserId();
 
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);
-        $this->assertEquals($task[0]->getPoint(), 30);
-        $this->assertEquals($task[0]->getTaskName(), 'r10001 This is a title1');
-        $this->assertEquals($task[0]->getCategoryType(), '92');
+        $this->assertEquals(30, $task[0]->getPoint());
+        $this->assertEquals('r10001 This is a title1', $task[0]->getTaskName());
+        $this->assertEquals('92', $task[0]->getCategoryType());
 
-        $this->assertEquals($task[1]->getPoint(), 100);
-        $this->assertEquals($task[1]->getTaskName(), 'r20001 This is a title2');
-        $this->assertEquals($task[1]->getCategoryType(), '93');
+        $this->assertEquals(100, $task[1]->getPoint());
+        $this->assertEquals('r20001 This is a title2', $task[1]->getTaskName());
+        $this->assertEquals('93', $task[1]->getCategoryType());
 
         $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findByUserId($user_id);
-        $this->assertEquals($point[0]->getPointChangeNum(), 30);
-        $this->assertEquals($point[0]->getReason(), 92);
-        $this->assertEquals($point[1]->getPointChangeNum(), 100);
-        $this->assertEquals($point[1]->getReason(), 93);
+        $this->assertEquals(30, $point[0]->getPointChangeNum());
+        $this->assertEquals(92, $point[0]->getReason());
+        $this->assertEquals(100, $point[1]->getPointChangeNum());
+        $this->assertEquals(93, $point[1]->getReason());
 
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $this->assertEquals($user->getPoints(), 330);
+        $this->assertEquals(330, $user->getPoints());
     }
 }

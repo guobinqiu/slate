@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\AppBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -14,7 +13,6 @@ use Wenwen\AppBundle\Entity\SopResearchSurveyParticipationHistory;
 
 class PanelRewardSopPointCommand extends PanelRewardCommand
 {
-
     const USER_AGREEMENT_ACTIVE = 'ACTIVE';
     const TYPE_EXPENSE = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
     const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
