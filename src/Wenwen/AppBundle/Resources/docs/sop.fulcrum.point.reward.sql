@@ -1,3 +1,24 @@
+CREATE TABLE `fulcrum_research_survey_participation_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fulcrum_project_id` int(11) NOT NULL,
+  `fulcrum_project_quota_id` int(11) NOT NULL,
+  `app_member_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `point` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `stash_data` longtext COLLATE utf8_unicode_ci,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `fulcrum_project_member_uniq` (`fulcrum_project_id`,`app_member_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
-CREATE TABLE fulcrum_research_survey_participation_history (id INT AUTO_INCREMENT NOT NULL, fulcrum_project_id INT NOT NULL, fulcrum_project_quota_id INT NOT NULL, app_member_id VARCHAR(255) NOT NULL, point INT NOT NULL, type INT NOT NULL, stash_data LONGTEXT DEFAULT NULL, updated_at DATETIME DEFAULT NULL, created_at DATETIME DEFAULT NULL, UNIQUE INDEX fulcrum_project_member_uniq (fulcrum_project_id, app_member_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
-CREATE TABLE fulcrum_user_agreement_participation_history (id INT AUTO_INCREMENT NOT NULL, app_member_id VARCHAR(255) NOT NULL, agreement_status INT NOT NULL, stash_data LONGTEXT DEFAULT NULL, updated_at DATETIME DEFAULT NULL, created_at DATETIME DEFAULT NULL, UNIQUE INDEX app_member_id_uniq_key (app_member_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+CREATE TABLE `fulcrum_user_agreement_participation_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app_member_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `agreement_status` int(11) NOT NULL,
+  `stash_data` longtext COLLATE utf8_unicode_ci,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `app_member_id_uniq_key` (`app_member_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
