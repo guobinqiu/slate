@@ -3,7 +3,7 @@ require(['../config'],function(){
     require(['numScroll'], function(RPANumScroll){
         new RPANumScroll({ numScrollEle: '.digits b', config: {
             digitH : 30,
-            num: 89754,
+            num: 3688002,
             animateTimer: 5000
         }});
     });
@@ -92,6 +92,16 @@ require(['../config'],function(){
         var logFoc = $("a[title='登录']");
         logFoc.click(function(){
             $("#email").focus(); 
+        });
+
+        // keyboard获取登录按钮焦点以后，按Enter键触发click事件
+        $('#submit_button').keypress(function(e){
+            var key = e.which;
+            if(key == 13) // the enter key code
+            {
+                $(this).click();
+                return false;
+            }
         });
     });
     require(['jquery'], function($){
