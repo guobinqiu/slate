@@ -10,9 +10,6 @@
 {% endblock %}
 
 {% block body %}
-
-
-
 <div class="main-ad">
 	<div class="main-ad-con w1000">
 		<div class="main-ad-con-text">
@@ -72,41 +69,39 @@
 	</div>
 </div>
 {# Feedback Start #}
-
-	<div class="fbCon" ng-app="myapp" ng-controller="myappController">
-		<div class="fdWrap" ng-if="shouldShow()" ng-click="fdclick()">
-			<div class="fdBox">
-				<div class="closeTag" ng-click="closeDialog()"></div>
-			</div>
-		</div>
-
-		<div class="unfdWrap" ng-if="shouldShow()">
-			<div class="unfdBox">
-				<form>
-					<ul>
-						<li>
-							<label for="content"><em>*</em>您想咨询的内容：</label>
-							<textarea id="content" name="content"></textarea>
-							<span id="content_succeed"></span>
-							<span id="content_error" class="focus"></span>
-						</li>
-						<li>
-							<label for="email"><em>*</em>91问问注册邮箱：</label>
-							<input type="text" id="email" name="email">
-							<span id="email_succeed"></span>
-							<span id="email_error"></span>
-						</li>
-						<li>
-							<a href="" class="btn">提交问题</a>
-						</li>
-					</ul>
-				</form>
-				<div class="closeTag" ng-click="closeDialog()"></div>
-				<div class="closeBtn" ng-click="changeclick()"></div>		
-			</div>
+<div class="fbCon">
+	<div class="fdWrap">
+		<div class="fdBox">
+			<div class="closeTag"></div>
 		</div>
 	</div>
-	
+	<div class="unfdWrap">
+		<div class="unfdBox">
+			<form id="feedback_form">
+			<ul>
+				<li>
+					<div class="feedback-con"><label for="content"><em>*</em>您想咨询的内容：</label><textarea id="content" name="content"></textarea></div>
+					<div class="feedback-error"><span id="content_succeed"></span><span id="content_error"></span></div>
+				</li>
+				<li>
+					<div class="feedback-email"><label for="feedbackEmail"><em>*</em>91问问注册邮箱：</label><input type="text" id="feedbackEmail" name="feedbackEmail"></div>
+					<div class="feedback-error"><span id="feedbackEmail_succeed"></span><span id="feedbackEmail_error"></span></div>
+				</li>
+				<li>
+					<a href="javascript:void(0)" id="feedback_save" class="btn">提交问题</a>
+				</li>
+			</ul>
+			</form>
+			<div id="sys_error"></div>
+			<div class="submitSucceed">
+				<div class="img"><img src="{{ asset('img/common/finished.png') }}" alt="提交成功"></div>
+				<p>您已提交成功，感谢您的意见，我们的客服小问将根据您的问题，在24小时内联系您。</p>
+			</div>
+			<div class="closeTag"></div>
+			<div class="closeBtn"></div>		
+		</div>
+	</div>
+</div>	
 {# Feedback End #}
 {% endblock %}
 

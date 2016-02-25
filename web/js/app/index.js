@@ -1,5 +1,6 @@
 require(['../config'],function(){
     require(['common']);
+    require(['feedbackForm']);
     require(['numScroll'], function(RPANumScroll){
         new RPANumScroll({ numScrollEle: '.digits b', config: {
             digitH : 30,
@@ -77,9 +78,8 @@ require(['../config'],function(){
                 }
             }
         }
-        console.log('服务器返回的错误代码：'+$('#error_code').val());
+        // console.log('服务器返回的错误代码：'+$('#error_code').val());
         var errorCode = $('#error_code').val();
-        // var errorCode = 'sssss';
         if(errorCode != undefined){
             $('#email_error').html(errorCode).addClass('error').attr('display', 'block');
         }
@@ -121,41 +121,34 @@ require(['../config'],function(){
                 }
             });
         }
-
         revealOnScroll();
     });
-    require(['jquery', 'angular', 'jqueryCookie'], function($, angular){
-    //feedback
-    var app = angular.module('myapp', []);
-    app.config(['$interpolateProvider', function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('{[');
-        $interpolateProvider.endSymbol(']}');
-    }]);
-    app.controller('myappController', function ($scope) {
-        $scope.shouldShow = function() {
+    require(['jquery', 'jqueryCookie'], function($){
+        //feedback
+        function shouldShow(){
             var vp  = $.cookie('ShoudShowDialog92');
             if (vp == undefined || vp == 1) {
                 return true;
             } else {
                 return false;
             }
-        };
-
-        $scope.closeDialog = function() {
-            $.cookie('ShoudShowDialog92', 0, { expires: 7, path: '/' });
-            location.reload();
-        };
-
-        $scope.fdclick = function() {
-            $(".fdWrap").animate({right: '-130px'}, 300);
-            $(".unfdWrap").animate({right: '0'}, 300)
-        };
-
-        $scope.changeclick = function() {
+        }
+        $('.closeTag').on('click', function(){
+            $.cookie('ShoudShowDialog92', 0, { expires: 10000, path: '/' });
+            $('.fbCon').hide();
+        });
+        $('.closeBtn').on('click', function(){
             $(".unfdWrap").animate({right: '-420px'}, 300);
             $(".fdWrap").animate({right: '0'}, 300);
-        };
-    });    
-    
+        });
+        $('.fdWrap').on('click', function(){
+            $(".fdWrap").animate({right: '-130px'}, 300);
+            $(".unfdWrap").animate({right: '0'}, 300);
+        });
+        if(shouldShow()){
+            $('.fbCon').show();
+        }else{
+            $('.fbCon').hide();
+        }
     });
 });

@@ -34,7 +34,7 @@ require.config({
         'exchange': 'common/exchange',
         'goTop': 'common/backTop',
         'sopSurvey':'common/sopSurvey',
-        'angular': 'lib/angular-1.3.14.min'
+        'feedbackForm':'common/feedbackForm'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {
@@ -74,9 +74,6 @@ require.config({
         },
         jqueryCookie: {
             deps: [ 'jquery'],
-        },
-        angular: {
-            exports: 'angular'
         }
     }
 });
