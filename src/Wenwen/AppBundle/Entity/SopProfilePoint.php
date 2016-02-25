@@ -81,6 +81,8 @@ class SopProfilePoint
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+        $this->setPointValue(0);
+        $this->setStatusFlag(1);
     }
 
     /**
