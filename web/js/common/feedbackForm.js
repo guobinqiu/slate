@@ -1,4 +1,4 @@
-define(['jquery', 'routing'],function($){
+define(['jquery', 'autoJump', 'routing'],function($, autoJump){
     function isEmail(str){
         return new RegExp("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$").test(str);
     }
@@ -74,12 +74,33 @@ define(['jquery', 'routing'],function($){
             reSubmit();
         } 
     });
+    var fbCon = $('.fbCon'), fdWrap = $(".fdWrap"), unfdWrap = $(".unfdWrap"), 
+        closeTag = $('.closeTag'), closeBtn = $('.closeBtn');
+    function countDown(){
+        var secs = 3;
+        $('#secs').text(secs+'s');
+        s = setInterval(function(){
+            if(secs <= 0){
+                clearInterval(s);
+            }
+            $('#secs').text(secs+'s');
+            secs--;
+        }, 1000);
+    }
     function submitCallback(){
-        var submitSucceed = $('.submitSucceed');
+        var submitSucceed = $('.submitSucceed'), feedbackForm = $('#feedback_form');
         if(submitSucceed.length >= 1){
             $('#sys_error').hide();
-            $('#feedback_form').hide();
-            $('.submitSucceed').show();    
+            feedbackForm.hide();
+            submitSucceed.show(500, function(){
+                countDown();
+                setTimeout(function(){
+                    $(this).hide();
+                    feedbackForm.show();
+                }, 3500);
+            });
+            $("#content").val('');  
+            $("#feedbackEmail").val(''); 
         }else{
             window.location.href = Routing.generate("_default_feedback_finished");
         }
