@@ -77,7 +77,11 @@ class SopProfilePoint
      */
     private $id;
 
-
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
 
     /**
      * Set userId
@@ -95,7 +99,7 @@ class SopProfilePoint
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -118,7 +122,7 @@ class SopProfilePoint
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -141,7 +145,7 @@ class SopProfilePoint
     /**
      * Get pointValue
      *
-     * @return integer 
+     * @return integer
      */
     public function getPointValue()
     {
@@ -164,7 +168,7 @@ class SopProfilePoint
     /**
      * Get hash
      *
-     * @return string 
+     * @return string
      */
     public function getHash()
     {
@@ -187,7 +191,7 @@ class SopProfilePoint
     /**
      * Get statusFlag
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getStatusFlag()
     {
@@ -210,7 +214,7 @@ class SopProfilePoint
     /**
      * Get stashData
      *
-     * @return string 
+     * @return string
      */
     public function getStashData()
     {
@@ -233,7 +237,7 @@ class SopProfilePoint
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -256,7 +260,7 @@ class SopProfilePoint
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -266,7 +270,7 @@ class SopProfilePoint
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

@@ -42,7 +42,11 @@ class CintPermission
      */
     private $userId;
 
-
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
 
     /**
      * Set permissionFlag
@@ -60,7 +64,7 @@ class CintPermission
     /**
      * Get permissionFlag
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPermissionFlag()
     {
@@ -83,7 +87,7 @@ class CintPermission
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -106,7 +110,7 @@ class CintPermission
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -116,7 +120,7 @@ class CintPermission
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {

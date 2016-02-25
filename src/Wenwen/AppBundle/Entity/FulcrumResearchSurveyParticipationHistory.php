@@ -77,7 +77,11 @@ class FulcrumResearchSurveyParticipationHistory
      */
     private $createdAt;
 
-
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
 
     /**
      * Get id
