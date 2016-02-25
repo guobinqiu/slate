@@ -15,7 +15,7 @@
 		<div class="main-ad-con-text">
 			<h1><img src="{{ asset('img/home/adTitle.png') }}" alt="问卷调查_动动手指就能赚钱" title="问卷调查_动动手指就能赚钱"></h1>
 			<p class="digits"><img src="{{ asset('img/home/pointsText.png') }}" alt="91问问调查网当前已发放人民币" title="91问问调查网当前已发放人民币"><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
-			<div class="more-btn"><a href="{{ path('_default_support') }}" title="了解更多">了解更多？</a></div>
+			<div class="more-btn"><a href="{{ path('_default_support_newGuide') }}" title="了解更多">了解更多？</a></div>
 		</div>
 		<div class="login-wrapper">
 			<div class="login">
@@ -33,7 +33,7 @@
 					{% if code %}
             		<input type="hidden" id="error_code" class="error" value="{{ code }}">
        				{% endif %}
-					<div class="login-btn" id="submit_button">登录</div>
+					<div class="login-btn" id="submit_button" tabindex="0">登录</div>
 					</form>
 					<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
 					<div class="login-btn-others">

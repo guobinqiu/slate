@@ -5,6 +5,16 @@
 @import "component/slider";
 .main-con{
 	padding-top: 20px;
+	position: relative;
+}
+.tbSearchWrap{
+	width: 764px;
+	height: 66px;
+	padding: 27px 0;
+	background: #fff;
+	border: 1px solid #ebedf2;
+	margin-bottom: 10px;
+	text-align: center;
 }
 .main-slider{
 	margin-right: 2px;
@@ -12,7 +22,7 @@
 	border: $block-border;
 	.mask{
 		width: 764px;
-		height: 220px;
+		height: 212px;
 	}
 	ul{
 		position: absolute;
@@ -48,7 +58,7 @@
 	span{
 		left: 0;
 		top: 0;
-		padding: 10px 20px 20px;
+		padding: 8px 20px 20px;
 		width: 204px;
 		@include dib();
 		vertical-align: top;
@@ -100,7 +110,6 @@
 	}
 }
 .main-con-shop{
-	height: 222px;
 	overflow: hidden;
 	em{
 		margin-right: 3px;
@@ -277,5 +286,41 @@
 			}
 		}
 	}
+}
+.promptS{
+	width: 168px;
+	height: 159px;
+	position: absolute;
+	top: 204px;
+	right: -154px;
+	display: none;
+	z-index: 9999;
+	background: url(../img/advertisement/promptCPS.png) no-repeat;
+	
+}
+.promptSText{
+	width: 137px;
+	padding: 25px 0 0 45px;
+	text-align: left;
+	line-height: 22px;
+	color: #fff;
+}
+.promptSText .sz{
+	font-size: 18px;
+}
+.promptSText .cor1{
+	color: #000;
+	line-height: 35px;
+}
+.promptSText .cor2{
+	color: #ffda00;
+}
+.promptSClose{
+	width: 45px;
+	height: 45px;
+	float: right;
+	margin-top: -36px;
+	margin-right: -7px;
+	cursor: pointer;
 }
 @import "layout/footer";

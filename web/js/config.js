@@ -7,8 +7,6 @@ require.config({
     paths: {//设置路径
         'jquery': 'lib/jquery-1.11.1.min',
         'jqueryCookie': 'lib/jquery.cookie',
-        'installer':'lib/air_installer',
-        'swfobject':'lib/swfobject',
         'backbone': 'lib/backbone-1.1.2.min',
         'underscore': 'lib/underscore-min',
         'jquery.ui.widget': 'plugin/fileUpload/jquery.ui.widget',
@@ -44,12 +42,6 @@ require.config({
     },
     // shim里面的配置，表示某个js加载前，必须加载指定的js文件
     shim: {
-        installer:{
-            exports: 'installer'
-        },
-        swfobject:{
-            exports: 'swfobject'
-        },
         fileUpload: {
             deps: ['jquery','jquery.ui.widget', 'transport'],
             exports: 'fileUpload'
