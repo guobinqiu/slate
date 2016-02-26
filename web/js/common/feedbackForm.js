@@ -77,13 +77,13 @@ define(['jquery', 'autoJump', 'routing'],function($, autoJump){
     var fbCon = $('.fbCon'), fdWrap = $(".fdWrap"), unfdWrap = $(".unfdWrap"), 
         closeTag = $('.closeTag'), closeBtn = $('.closeBtn');
     function countDown(){
-        var secs = 3;
-        $('#secs').text(secs+'s');
+        var secs = 6, s;
+        $('#secs').text(secs+'秒后自动返回');
         s = setInterval(function(){
             if(secs <= 0){
                 clearInterval(s);
             }
-            $('#secs').text(secs+'s');
+            $('#secs').text(secs+'秒后自动返回');
             secs--;
         }, 1000);
     }
@@ -97,7 +97,7 @@ define(['jquery', 'autoJump', 'routing'],function($, autoJump){
                 setTimeout(function(){
                     $(this).hide();
                     feedbackForm.show();
-                }, 3500);
+                }, 6500);
             });
             $("#content").val('');  
             $("#feedbackEmail").val(''); 
