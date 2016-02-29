@@ -47,7 +47,7 @@ $container = $this->getContainer();
         } else if( $input->getOption('refresh-ranking')) {
         } else if( $input->getOption('pool-alarm')) {
             
-            $logger->crit('[command][gameEggBreaker][statReport] ignored :pool-alarm'.);
+            $logger->crit('[command][gameEggBreaker][statReport] ignored :pool-alarm');
             return;
 
             try {
