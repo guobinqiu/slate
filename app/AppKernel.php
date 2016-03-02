@@ -28,7 +28,6 @@ class AppKernel extends Kernel
             new Jili\EmarBundle\JiliEmarBundle(),
             new Jili\FrontendBundle\JiliFrontendBundle(),
             new Wenwen\FrontendBundle\WenwenFrontendBundle(),
-            new JMS\JobQueueBundle\JMSJobQueueBundle(),
             new Wenwen\AppBundle\WenwenAppBundle()
         );
 
