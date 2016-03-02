@@ -19,6 +19,8 @@ class Client
 
     private $logger;
 
+    private $resultsEmail;
+
     public function __construct($url , $user, $pass )
     {
         $this->updateConfig($url , $user, $pass);
@@ -168,9 +170,8 @@ class Client
                 return $rs;
             }
 
-            $resultsEmail = 'rpa-sys-china@d8aspring.com';
 
-            $result = $client->sendMailing($login, $this->campaignId, $this->mailingId, true, $resultsEmail, array (
+            $result = $client->sendMailing($login, $this->campaignId, $this->mailingId, true, $this->resultsEmail, array (
                 $group->id
             ), "", "", "", "");
 
@@ -231,6 +232,11 @@ class Client
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
+    }
+
+    public function setResultsEmail ( $email) 
+    {
+        $this->resultsEmail = $email; 
     }
 }
 

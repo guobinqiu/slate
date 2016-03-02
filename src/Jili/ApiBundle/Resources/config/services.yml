@@ -83,6 +83,7 @@ services:
         arguments: [ %webpower_soap_uri%,%webpower_email_username%,%webpower_email_password% ]
         calls:
             - [setLogger, ["@logger"]]
+            - [ setResultsEmail, [ %cron_alertTo_contacts% ] ]
 
     webpower.91wenwen.mailer:
         class: %webpower.91wenwen.mailer.class%
