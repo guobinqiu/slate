@@ -19,41 +19,30 @@
 				<div>{{ form_widget(form.nickname ) }}
                   <span id="signup_nickname_succeed" class="succeed"></span>
                   <span id="signup_nickname_error" class="msg_normal">请输入您的昵称</span>
-                   {{ form_errors(form.nickname) }}
                 </div>
-<!-- p '' -->
 			</li>
 			<li>
 				{{ form_label(form.email) }}
 				<div> {{ form_widget(form.email ) }}
                     <span id="signup_email_succeed" class="succeed"></span>
                     <span id="signup_email_error" class="msg_normal">输入有误</span>
-                   {{ form_errors(form.email) }}
                 </div>
 			</li>
 			<li>
 				{{ form_label(form.password.first) }}
 {# <input name="pwd" id="pwd" type="password"> #}
 				<div>{{ form_widget(form.password.first)}}<span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span><span id="signup_password_first_succeed" class="succeed"></span><span id="signup_password_first_error" class="msg"></span>
-                   {{ form_errors(form.password.first) }}
                 </div>
 			</li>
 			<li>
 				{{ form_label(form.password.second) }}
 				<div>{{ form_widget(form.password.second )}}<span id="signup_password_second_succeed" class="succeed"></span><span id="signup_password_second_error" class="msg"></span>
-                   {{ form_errors(form.password.second) }}
                 </div>
 			</li>
 			<li id="vcode">
 				{{ form_label(form.captcha) }}
 				<div>{{ form_widget(form.captcha) }}
-				<!-- <img id="captcha" src="{{ asset('img/user/captcha.jpg') }}" alt="CAPTCHA Image" /> 
-				<img id="verificationImg" class="verificationImg" name="captcha" onclick="this.src='{{  path('_user_captcha') }}?r='+100000*Math.random()" src="{{ path('_user_captcha') }}" />
-				<img id="changeCode" src="{{ asset('img/user/change.png') }}" alt="换一张"/>
-				<b>换一张</b>
--->
 				<span id="signup_captcha_succeed" class="succeed"></span><span id="signup_captcha_error" class="msg"></span>
-                    {{ form_errors(form.captcha) }}
                 </div>
 			</li>
 			<li>
