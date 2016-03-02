@@ -14,6 +14,12 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 {
     const USER_AGREEMENT_ACTIVE = 'ACTIVE';
     const TYPE_EXPENSE = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
+    const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
+
+//    const USER_AGREEMENT_ACTIVE = 'ACTIVE';
+ //   const TYPE_EXPENSE          = 61;
+    private $comment = '';
+    private $point   = 0;
 
 
     protected function configure()
@@ -27,14 +33,11 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('start...');
-
         $this->sop_configure = $this->getContainer()->getParameter('sop');
-
-        $this->comment = '同意Fulcrum问卷调';
+        $this->comment = '同意Fulcrum问卷调查';
         $this->setLogger('reward-fulcrum-agreement');
-#        return parent::execute($input, $output);
-
-
+        $this->point = 1;
+        return parent::execute($input, $output);
     }
 
     protected function point($history)
@@ -45,6 +48,11 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     protected function type($history)
     {
         return self::TYPE_EXPENSE;
+    }
+
+    protected function task($history)
+    {
+        return self::TYPE_TASK;
     }
 
     protected function comment($history)
@@ -74,14 +82,13 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function createParticipationHistory($history)
     {
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $history_model = new FulcrumUserAgreementParticipationHistory();
         $history_model->setAppMemberID($history['app_mid']);
         $history_model->setAgreementStatus(self::USER_AGREEMENT_ACTIVE === $history['agreement_status']);
-        $history_model->save();
+        $em->persist($history_model);
+        $em->flush();
     }
 
-    protected function task($history)
-    {
-    }
 }
 

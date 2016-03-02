@@ -13,6 +13,8 @@ use Wenwen\AppBundle\Entity\FulcrumResearchSurveyParticipationHistory;
 class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 {
 
+    const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
+
     protected function configure()
     {
       $this->setName('panel:reward-fulcrum-point')
@@ -25,7 +27,7 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         $output->writeln('start...');
         $this->sop_configure = $this->getContainer()->getParameter('sop');
         $this->setLogger('reward-fulcrum-point');
-#        return parent::execute($input, $output);
+        return parent::execute($input, $output);
 
     }
 
@@ -37,6 +39,11 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
     protected function type($history)
     {
         return $history['extra_info']['point_type'];
+    }
+
+    protected function task($history)
+    {
+        return self::TYPE_TASK;
     }
 
     protected function comment($history)
@@ -73,20 +80,19 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function createParticipationHistory($history)
     {
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $history_model = new FulcrumResearchSurveyParticipationHistory();
+
         $history_model->setFulcrumProjectID($history['survey_id']);
         $history_model->setFulcrumProjectQuotaID($history['quota_id']);
         $history_model->setAppMemberID($history['app_mid']);
         $history_model->setPoint($history['extra_info']['point']);
         $history_model->setType($history['extra_info']['point_type']);
-        $history_model->save();
+        $em->persist($history_model);
+        $em->flush();
     }
 
 
-    protected function task($history)
-    {
-
-    }
 }
 
 

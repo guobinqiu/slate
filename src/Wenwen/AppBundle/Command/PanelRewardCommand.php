@@ -78,7 +78,11 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $this->createParticipationHistory($history);
 
                 // insert point history, task history, user points
-                $this->getContainer()->get('points_manager')->updatePoints($respondent->getUserId(), $this->point($history), $this->type($history), $this->task($history), $this->comment($history));
+                $this->getContainer()->get('points_manager')->updatePoints($respondent->getUserId(),
+                  $this->point($history),
+                  $this->type($history), // ad_category_id or point.exec_type
+                  $this->task($history), //task_type_id
+                  $this->comment($history));// task_name 
             }
         } catch (\Exception $e) {
             $dbh->rollBack();
