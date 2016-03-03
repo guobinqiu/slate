@@ -4,13 +4,13 @@ require(['../../config'], function() {
 
     var $survey_id = $('#survey_id').val();
     var $preview = $('#preview').val();
-
     var showMessage = function(message){
         $(".error-message").html(message);
         $(".error-message").show();
     };
 
     surveylistCallback = function (res) {
+
         // show alert if error code
         if (res.meta.code != '200') {
             showMessage('Oops! Something went wrong.');
@@ -41,8 +41,7 @@ require(['../../config'], function() {
 
 
 
-    
-    if ($preview) { 
+    if (false ) { 
          // You can preview this page without valid data by accessing fulcrum_project_survey/information/preview
             var mockResponse =function() {
              var callback = surveylistCallback;
@@ -63,7 +62,6 @@ require(['../../config'], function() {
                                  }
                                }
                              ]}};
-console.log(dummy_res);
              callback(dummy_res);
          }();
     
