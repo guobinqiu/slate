@@ -15,7 +15,7 @@ require(['../../config'],function(){
         $('#changeCode').on('click', function(){
             $('#verificationImg').prop('src', Routing.generate("_user_captcha") + '?r=' + 100000*Math.random());
         });
-        validate.prompt.pwdRepeat.elements.pwd = "#signup_password_first";
+        validate.prompt.pwdRepeat.elements.pwd = "#signup_password_first", validate.prompt.pwd.elements.regName = "#signup_nickname";
         $.extend(validate.func, {
             regValidate : function() {
                 $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName, true);
