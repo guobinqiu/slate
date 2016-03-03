@@ -50,61 +50,24 @@ $footer-copyright-font-color: #989898;
 	}
 	.footer-con-right{
 		position: relative;
-		.client, .goTop{
+		.goTop{
 			width: 60px;
-		    height: 40px;
-		    line-height: 40px;
-		    *line-height: 0;
+		    height: 56px;
+		    line-height: 56px;
 		    background: #f5f6f8;
-		    border: 1px solid #dfe1e6;
-		    position: absolute;
-    		right: 0;
 		    cursor: pointer;
 		    font-size: 0;
-		    color: #949494;
 		    display: block;
 		    overflow: hidden;
-		    @include transition2(width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s);
-			& span{ 
-				width:18px; 
-				height: 16px; 
-				display: inline-block; 
-				background: url(../img/common/widget.png) no-repeat;
-				margin: 13px 50px 0 20px;
-				position: absolute;
-			}
-			& em{
-				margin-left: 46px;
-			}
+		    background: url(../img/common/icons_common.png) no-repeat 0 -100px;
 			&:hover{
-				width: 130px;
-			    height: 40px;
-			    display: inline-block;
-			    vertical-align: 20px;
-			    font-size: 12px;
-			    & em{
-			    	display: inline-block;
-        			font-style: normal;
-        			color: #333;
-			    }
-			}
-		}
-		.client{
-			& span{ 
-				background-position: 0 0;
-			}
-			&:hover span{
-				background-position: -19px 0;
-			}
-		}
-		.goTop{
-			top: 41px;
-			& span{ 
-				margin-top: 15px;
-				background-position: 0 -18px;
-			}
-			&:hover span{
-				background-position: -19px -18px;
+				text-align: center;
+			    font-size: 14px;
+			    background: #b8bbbf;
+			    height: 46px;
+			    line-height: 17px;
+			    padding-top: 10px;
+			    color: #fff;
 			}
 		}
 	}

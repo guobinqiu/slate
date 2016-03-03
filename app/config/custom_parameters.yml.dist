@@ -515,6 +515,11 @@ parameters:
         sop_point_type:
             11: 92  # 91wenwen.point.exec_types: 11, アンケート回答, questionnaire(cost)
             61: 93  # 91wenwen.point.exec_types: 61, アンケート回答（自社）, questionnaire(expense)
+    cint:
+        user_agreement:
+          inactive: 0
+          active: 1
+          agreed: 10
 
 twig:
     globals:
