@@ -5,6 +5,11 @@
 @import "component/login";
 $main-ad-color: #eb7020;
 .header{
+	position: fixed;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	right: 0;
 	height: 80px;
 	box-shadow: none;
 }
