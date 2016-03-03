@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FulcrumResearchSurveyParticipationHistory
 {
+  public function __construct()
+  {
+    $this->setCreatedAt(new \DateTime());
+    $this->setUpdatedAt(new \DateTime());
+  }
     /**
      * @var integer
      *

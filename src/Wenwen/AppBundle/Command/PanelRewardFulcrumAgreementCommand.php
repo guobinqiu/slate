@@ -15,9 +15,6 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     const USER_AGREEMENT_ACTIVE = 'ACTIVE';
     const TYPE_EXPENSE = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
     const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
-
-//    const USER_AGREEMENT_ACTIVE = 'ACTIVE';
- //   const TYPE_EXPENSE          = 61;
     private $comment = '';
     private $point   = 0;
 
@@ -75,10 +72,6 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         return false;
     }
 
-    protected function canInsertPoint($history)
-    {
-        return true;
-    }
 
     protected function createParticipationHistory($history)
     {

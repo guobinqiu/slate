@@ -74,10 +74,6 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         return true;
     }
 
-    protected function canInsertPoint($history)
-    {
-        return true;
-    }
 
     protected function createParticipationHistory($history)
     {
@@ -88,7 +84,7 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         $history_model->setFulcrumProjectQuotaID($history['quota_id']);
         $history_model->setAppMemberID($history['app_mid']);
         $history_model->setPoint($history['extra_info']['point']);
-        $history_model->setType($history['extra_info']['point_type']);
+        $history_model->setType($this->type($history));
         $em->persist($history_model);
         $em->flush();
     }
