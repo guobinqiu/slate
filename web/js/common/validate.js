@@ -293,7 +293,7 @@ define(['jquery'],function($){
         },
         pwd: function(option){
             var str1 = option.value;
-            var regName = $(option.prompts.elements.regName).trim().val();
+            var regName = $(option.prompts.elements.regName).val().trim();
             var pwdStrength = $(option.prompts.elements.pwdStrength);
             if((validateRules.isNull(regName) == false) && (regName != "") && regName ==str1){
                 pwdStrength.hide();
@@ -322,7 +322,7 @@ define(['jquery'],function($){
         },
         pwdRepeat: function(option) {
             var str1 = option.value;
-            var str2 = $(option.prompts.elements.pwd).trim().val();
+            var str2 = $(option.prompts.elements.pwd).val().trim();
             var length = validateRules.betweenLength(option.value, 5, 100);
             var format2 = validateRules.isPwdRepeat(str1, str2);
             var format1 = validateRules.isPwd(str1);
@@ -432,7 +432,7 @@ define(['jquery'],function($){
             var _isNull = $("#" + id + validateSettings.isNull.container);
             var _error = $("#" + id + validateSettings.error.container);
             if (def == true) {
-                var str = ele.trim().val();
+                var str = ele.val().trim();
                 var tag = ele.attr("sta");
 
                 if (str == "" || str == "-1") {
@@ -469,7 +469,7 @@ define(['jquery'],function($){
                     case "password":
                         ele.bind("focus",
                             function() {
-                                var str = ele.trim().val();
+                                var str = ele.val().trim();
                                 if (str == def) {
                                     ele.val("");
                                 }
@@ -483,7 +483,7 @@ define(['jquery'],function($){
                                     option.onFocus, option.onFocusExpand);
                             }).bind("blur",
                             function() {
-                                var str = ele.trim().val();
+                                var str = ele.val().trim();
                                 if (str == "") {
                                     ele.val(def);
                                 }
@@ -513,7 +513,7 @@ define(['jquery'],function($){
                         if (rel && rel == "select") {
                             ele.bind("change",
                                 function() {
-                                    var str = ele.trim().val();
+                                    var str = ele.val().trim();
                                     callback({
                                         prompts: option,
                                         element: ele,

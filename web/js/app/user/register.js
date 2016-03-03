@@ -26,7 +26,7 @@ require(['../../config'],function(){
                 return validate.func.FORM_submit([ "#signup_nickname", "#signup_email", "#signup_password_first", "#signup_password_second","#signup_captcha" ]);
             }
         });
-        var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#signup_password_first_error"), value: $("#signup_password_first").trim().val()}
+        var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#signup_password_first_error"), value: $("#signup_password_first").val().trim()}
         $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName);
         $("#signup_email").RPAValidate(validate.prompt.email, validate.func.email);
         $("#signup_password_first").bind("keyup", function(){ validate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
@@ -47,7 +47,7 @@ require(['../../config'],function(){
         function validateRegName() {
             var regName = $("#signup_nickname"),
                 regNameError = $("#signup_nickname_error");
-            var loginName = regName.trim().val();
+            var loginName = regName.val().trim();
             if (validate.rules.isNull(loginName) || loginName == '') {
                 regName.val("");
                 regName.attr({
@@ -114,8 +114,10 @@ require(['../../config'],function(){
             }
         }
         $('#submit_button').on('click', function(){
-            // reg();
-            $('#signup_form').submit();
+            console.log('validate.func.regValidate:'+validate.func.regValidate);
+            if(validate.func.regValidate){
+                $('#signup_form').submit();    
+            }
         });
     });
 });
