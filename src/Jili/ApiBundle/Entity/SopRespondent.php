@@ -59,6 +59,12 @@ class SopRespondent
      */
     private $id;
 
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+        $this->setStatusFlag(1);
+    }
 
 
     /**

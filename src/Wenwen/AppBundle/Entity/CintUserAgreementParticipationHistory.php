@@ -56,7 +56,11 @@ class CintUserAgreementParticipationHistory
      */
     private $id;
 
-
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
 
     /**
      * Set userId
@@ -74,7 +78,7 @@ class CintUserAgreementParticipationHistory
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -97,7 +101,7 @@ class CintUserAgreementParticipationHistory
     /**
      * Get agreementStatus
      *
-     * @return integer 
+     * @return integer
      */
     public function getAgreementStatus()
     {
@@ -120,7 +124,7 @@ class CintUserAgreementParticipationHistory
     /**
      * Get stashData
      *
-     * @return string 
+     * @return string
      */
     public function getStashData()
     {
@@ -143,7 +147,7 @@ class CintUserAgreementParticipationHistory
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -166,7 +170,7 @@ class CintUserAgreementParticipationHistory
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -176,7 +180,7 @@ class CintUserAgreementParticipationHistory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

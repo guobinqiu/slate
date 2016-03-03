@@ -1,4 +1,4 @@
-CREATE TABLE `sop_profile_point` (
+CREATE TABLE IF NOT EXISTS `sop_profile_point` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `name` varchar(16) DEFAULT NULL,

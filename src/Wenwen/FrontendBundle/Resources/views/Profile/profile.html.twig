@@ -19,22 +19,27 @@
                 <h3>基本信息</h3>
                 <div class="con clearfix">
                     <div class="face left">
-                    <div class="face-wapper">
-                    {% if user.iconPath %}
-                    <img src='{{ asset(user.iconPath) }}' height="110" />
-                    {% else %}
-                    <img src="{{ asset('img/common/default_tx.png') }}" alt="头像" height="110">
-                    {% endif %}
-                    </div>
-                    <form action="{{ path('_profile_upload') }}" method="post" {{ form_enctype(form) }} id="uploadForm" name="uploadForm" >
-                    <label class="set" for="profile_attachment">设置头像</label>{{ form_widget(form.attachment) }}
-                    <p class="errorInfo"></p>
-                    </form>
+                        <div class="face-wapper">
+                            {% if user.iconPath %}
+                            <img src='{{ asset(user.iconPath) }}' width="90" height="90" />
+                            {% else %}
+                            <img src="{{ asset('img/common/default_tx.png') }}" alt="头像" width="90" height="90">
+                            {% endif %}
+                            <form action="{{ path('_profile_upload') }}" method="post" {{ form_enctype(form) }} id="uploadForm" name="uploadForm" >
+                                <label class="set" for="profile_attachment">设置头像</label>{{ form_widget(form.attachment) }}
+                                <p class="errorInfo"></p>
+                            </form>
+                        </div>
                     </div>
                     <ul class="form text left">
+                        <li class="nk">{{ app.session.get('nick')[:12] }}</li>
                         <li>
                             <label for="">登录账号：</label>
                             <span>{{ user.email }}</span>
+                        </li>
+                        <li>
+                            <label for="">当前积分：</label>
+                            <span><strong id="points" name="points">3050</strong></span>
                         </li>
                     </ul>
                 </div>

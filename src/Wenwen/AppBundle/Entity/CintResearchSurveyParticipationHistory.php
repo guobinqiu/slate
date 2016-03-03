@@ -77,7 +77,11 @@ class CintResearchSurveyParticipationHistory
      */
     private $id;
 
-
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
 
     /**
      * Set cintProjectId
@@ -95,7 +99,7 @@ class CintResearchSurveyParticipationHistory
     /**
      * Get cintProjectId
      *
-     * @return integer 
+     * @return integer
      */
     public function getCintProjectId()
     {
@@ -118,7 +122,7 @@ class CintResearchSurveyParticipationHistory
     /**
      * Get cintProjectQuotaId
      *
-     * @return integer 
+     * @return integer
      */
     public function getCintProjectQuotaId()
     {
@@ -141,7 +145,7 @@ class CintResearchSurveyParticipationHistory
     /**
      * Get appMemberId
      *
-     * @return string 
+     * @return string
      */
     public function getAppMemberId()
     {
@@ -164,7 +168,7 @@ class CintResearchSurveyParticipationHistory
     /**
      * Get point
      *
-     * @return integer 
+     * @return integer
      */
     public function getPoint()
     {
@@ -187,7 +191,7 @@ class CintResearchSurveyParticipationHistory
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
     public function getType()
     {
@@ -210,7 +214,7 @@ class CintResearchSurveyParticipationHistory
     /**
      * Get stashData
      *
-     * @return string 
+     * @return string
      */
     public function getStashData()
     {
@@ -233,7 +237,7 @@ class CintResearchSurveyParticipationHistory
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -256,7 +260,7 @@ class CintResearchSurveyParticipationHistory
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -266,7 +270,7 @@ class CintResearchSurveyParticipationHistory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

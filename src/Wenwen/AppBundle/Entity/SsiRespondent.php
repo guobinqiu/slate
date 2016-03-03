@@ -56,12 +56,16 @@ class SsiRespondent
      */
     private $createdAt;
 
-
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -84,7 +88,7 @@ class SsiRespondent
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -107,7 +111,7 @@ class SsiRespondent
     /**
      * Get statusFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatusFlag()
     {
@@ -130,7 +134,7 @@ class SsiRespondent
     /**
      * Get stashData
      *
-     * @return string 
+     * @return string
      */
     public function getStashData()
     {
@@ -153,7 +157,7 @@ class SsiRespondent
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -176,7 +180,7 @@ class SsiRespondent
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
