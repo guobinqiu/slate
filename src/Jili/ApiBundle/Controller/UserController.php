@@ -1583,7 +1583,7 @@ class UserController extends Controller implements CampaignTrackingController
         $session = $this->get('session');
         $session->set('campaign_code','');
         $session->set('campaign_code_token','');
-        return $this->render('WenwenFrontendBundle:User:finished.html.twig');
+        return $this->render('WenwenFrontendBundle:User:emailActive.html.twig');
     }
 
 
