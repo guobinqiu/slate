@@ -66,7 +66,7 @@ class UserLogin
 
         $em = $this->em;
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
-        if (!user) {
+        if (! $user) {
             $code = $this->getParameter('login_wr');
             return $code;
         }
