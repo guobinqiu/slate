@@ -1,7 +1,7 @@
 require(['../../config'], function() {
     require(['common']);
 
-    require(['jquery'], function($) {
+    require(['jquery', 'backbone'], function($, backbone) {
 
         var survey_id = $('#survey_id').val();
 
@@ -19,14 +19,9 @@ require(['../../config'], function() {
             }
 
             // get research
-            var research;
-            $.each(res.data.research, function( index, value ) {
-                if(value.survey_id == survey_id
-                        && value.is_answered == '0'){
-                    research = value;
-                    return ;
-                }
-              });
+            var research = _.find(res.data.cint_research, function(research){
+                return research.survey_id == survey_id;
+            });
 
             // no reasearch
             if ( !research ){
@@ -34,9 +29,9 @@ require(['../../config'], function() {
                 return;
             }
             // interpolate label
-            $('h2').text(research.title);
-            $('#no').text('r' + research.survey_id);
-            $('#point').text(research.extra_info.point.complete+'分');
+            $('h2#title').text(research.title);
+            $('#no').text('c' + research.survey_id);
+            $('#point').text(research.extra_info.point.complete);
             if(research.extra_info.content){
               $('#note').append('<br>※' + research.extra_info.content);
             }
