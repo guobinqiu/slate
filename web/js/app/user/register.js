@@ -114,8 +114,7 @@ require(['../../config'],function(){
             }
         }
         $('#submit_button').on('click', function(){
-            console.log('validate.func.regValidate:'+validate.func.regValidate);
-            if(validate.func.regValidate){
+            if(validate.func.regValidate()){
                 $('#signup_form').submit();    
             }
         });
