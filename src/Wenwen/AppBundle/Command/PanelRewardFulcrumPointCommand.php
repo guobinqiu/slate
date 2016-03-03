@@ -33,12 +33,13 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function point($history)
     {
-        return $history['extra_info']['point'];
+         return  $history['extra_info']['point'];
     }
 
     protected function type($history)
     {
-        return $history['extra_info']['point_type'];
+        $point_exec_type = $history['extra_info']['point_type'];
+        return $this->sop_configure['sop_point_type'][$point_exec_type];
     }
 
     protected function task($history)
