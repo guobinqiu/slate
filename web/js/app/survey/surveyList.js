@@ -22,10 +22,31 @@ require(['../../config'], function() {
                 addSuveyItem(view.render().el);
             });
         };
+
         var renderResearchItems = function (items) {
             _.each(items, function (item) {
                 var model = new survey.ResearchItemModel(item);
                 var view  = new survey.ResearchItemView({ model: model });
+                addSuveyItem(view.render().el);
+            });
+        };
+
+        var renderCintUserAgreementItems = function (items) {
+            _.chain(items)
+            .filter(function (item) {
+                return item.type == 'Cint';
+            })
+            .each(function (item) {
+                var model = new survey.CintAgreementModel(item);
+                var view = new survey.CintUserAgreementView({"model": model});
+                view.render();
+            });
+        };
+
+        var renderCintResearchItems = function (items) {
+            _.each(items, function (item) {
+                var model = new survey.CintResearchItemModel(item);
+                var view  = new survey.CintResearchItemView({ model: model });
                 addSuveyItem(view.render().el);
             });
         };
@@ -40,13 +61,20 @@ require(['../../config'], function() {
             if( res.data.profiling.length == 0 && res.data.research.length == 0 ) return;
 
             // remove no survey label
-            $('#survey-list li.no-survey-available').remove();
+            $('#surveyList li.no-survey-available').remove();
 
             // load research data
             renderResearchItems(res.data.research.reverse());
 
             // load profiling data
             renderProfilingItems(res.data.profiling);
+
+            // load Cint research data
+            renderCintResearchItems(res.data.cint_research)
+
+            // load Cint usr agreemetns
+            renderCintUserAgreementItems(res.data.user_agreement)
+
         };
 
         var $preview = $('#preview').val();

@@ -1,4 +1,4 @@
-CREATE TABLE `sop_research_survey_participation_history` (
+CREATE TABLE IF NOT EXISTS `sop_research_survey_participation_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `partner_app_project_id` int(11) NOT NULL,
   `partner_app_project_quota_id` int(11) NOT NULL,

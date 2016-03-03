@@ -12,16 +12,31 @@ $main-ad-color: #eb7020;
 	margin-top: 80px;
 }
 .main-ad{
-	height: 470px;
-	background: $main-ad-color url(../img/home/adBg.png) no-repeat 300px bottom;
+	height: 549px;
+	background: url(../img/home/adBgx.gif) repeat-x;
+	overflow: hidden;
 }
 .main-ad-con{
+	width: 1000px;
+	height: 549px;
 	position: relative;
 	z-index: 1;
 }
+.introBg{
+	background: url(../img/home/adBg.png) no-repeat;
+    height: 575px;
+    width: 807px;
+    position: absolute;
+    left: -80px;
+    top: -26px;
+    z-index: 2;
+}
 .main-ad-con-text{
 	color: #fff;
-	padding-top: 135px;
+	padding-top: 115px;
+	padding-left: 70px;
+	position: absolute;
+	z-index: 3;
 	p{
 		margin-top: 20px;
 		line-height: 32px;
@@ -66,45 +81,44 @@ $main-ad-color: #eb7020;
 	}
 }
 .main-con{
-	padding: 45px 0;
 	h2{
 		margin-bottom: 45px;
 	}
 }
-.main-con-rewardprocess{
-	background: #fff;
+.main-con-process{
+	padding: 50px 0;
+	height: 461px;
+	background: url(../img/home/adProcess.png) no-repeat center #fffaa9;
+	overflow: hidden;
+	position: relative;
+	.sLog{
+		width: 700px;
+	    height: 105px;
+	    position: absolute;
+	    bottom: 54px;
+	    left: 20%;
+	}
+}
+.main-con-reward{
+	background: #c5e6f7;
+	padding-bottom: 75px;
+	overflow: hidden;
+	& img{
+		text-align: center;
+		margin: 0 auto;
+		display: block;
+	}
 }
 .main-con-detail{
-	text-align: center;
-	.text{
-		margin-top: 20px;
-	}
-	li{
-		float: left;
-		width: 27%;
-		&.step2{
-			width: 46%;
-		}
-		.title{
-			width: 170px;
-			margin: 0 auto;
-			line-height: 45px;
-			color: #fc701e;
-			font-size: 22px;
-			font-weight: bold;
-		}
-		p{
-			width: 170px;
-			margin: 0 auto;
-			color: #828282;
-			line-height: 24px;
-		}
-	}
+	background: #ecf7d5;
+	padding-bottom: 90px;
+	overflow: hidden;
 	.party{
 		    background: url(../img/home/wallCon.png) no-repeat;
-  			height: 415px;
-			width: 928px;
+  			height: 521px;
+  			width: 1003px;
 			position: relative;
+			margin: 0 auto;
 			.party-item {
 				background: url(../img/home/wallPortrait.png) no-repeat;
 				display: block;
@@ -123,7 +137,7 @@ $main-ad-color: #eb7020;
 			}
 			.party02{
 				background-position: -41px 0;
-				height: 78px;
+				height: 79px;
 				width: 78px;
 			}
 			.party03{
@@ -133,13 +147,13 @@ $main-ad-color: #eb7020;
 			}
 			.party04{
 				background-position: 0 -84px;
-				height: 57px;
-				width: 57px;
+				height: 59px;
+				width: 59px;
 			}
 			.party05{
 				background-position: -59px -84px;
-				height: 58px;
-				width: 57px;
+				height: 59px;
+				width: 59px;
 			}
 			.party06{
 				background-position: -122px -96px;
@@ -153,27 +167,27 @@ $main-ad-color: #eb7020;
 		}
 		.party01{
 			left: 143px;
-			top: 135px;
+			top: 275px;
 		}
 		.party02{
-			left: 290px;
-			top: 124px;
+			left: 309px;
+			top: 264px;
 		}
 		.party03{
-			left: 530px;
-			top: -10px;
+			left: 612px;
+			top: 170px;
 		}
 		.party04{
-			left: 363px;
-			top: 363px;
+			left: 303px;
+			top: 473px;
 		}
 		.party05{
-			left: 505px;
-			top: 246px;
+			left: 582px;
+			top: 355px;
 		}
 		.party06{
 			left: 714px;
-			top: 144px;
+			top: 284px;
 		}
 	}
 }
@@ -181,12 +195,12 @@ $main-ad-color: #eb7020;
 	text-align: center;
 	background: #fff;
 	height: 200px;
+	padding: 25px 0 0;
 	h1{
 	    font-size: 24px;
 	    font-weight: bold;
 	    color: #323232;
 	    line-height: 46px;
-	    margin-top: 15px;
 	}
 	p{
 		color: #929293;
@@ -212,5 +226,149 @@ $main-ad-color: #eb7020;
 }
 .footer{
 	margin-top: 0!important;
+}
+
+// feedback 
+.fbCon{
+	z-index: 9999;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	display: none;
+}
+.fdWrap{
+	width: 100px;
+    height: 147px;
+	position: absolute;
+	z-index: 1999;
+	right: 0;
+	bottom: 0;
+	background: url(../img/home/feebackF.png) no-repeat;
+	cursor: pointer;
+}
+.fdBox{
+	position: relative;
+	z-index: 1;
+}
+.unfdWrap{
+	width: 311px;
+	position: absolute;
+	z-index: 1999;
+	right: -340px;
+	bottom: 0;
+	background: url(../img/home/feebackUnf.png) no-repeat;
+	ul{
+		padding-right: 40px;
+	    padding-top: 20px;
+	    margin-left: 24px;
+		margin-top: 50px;
+	}
+	li {
+	    line-height: 35px;
+	    label {
+		    vertical-align: top;
+		    display: block;
+		    height: 30px;
+		    line-height: 30px;
+		}
+		textarea, input{
+		    width: 100%;
+		}
+		textarea{
+			width: 100%;
+			height: 100px;
+		    line-height: 20px;
+		    padding: 5px;
+		}
+		em {
+		    color: #ff0000;
+		}
+		.btn{
+			margin-top: 5px;
+			font-size: 16px;
+		    width: 100%;
+		    height: 48px;
+		    text-align: center;
+		    line-height: 48px;
+		    color: #000;
+		    background: #ffdc6b;
+		    border-radius: 3px;
+		    cursor: pointer;
+		    transition: all 0.4s;
+		    -moz-transition: all 0.4s;
+		    -webkit-transition: all 0.4s;
+		    -o-transition: all 0.4s;
+		    display: inline-block;
+		    cursor: pointer;
+		}
+		span{
+			&.error{
+				color: #ff0000;
+			}
+		}
+	}
+	.feedback-con{
+		height: 145px;
+	}
+	.feedback-email{
+		height: 60px;
+	}
+	.feedback-error, #sys_error{
+		height: 24px;
+		line-height: 24px;
+	}
+	#sys_error{
+		margin-top: 5px;
+		color: #ff0000;
+		padding-left: 25px;
+	}
+}
+.unfdBox{
+	position: relative;
+	z-index: 1;
+	padding-top: 3px;
+	height: 438px;
+}
+.submitSucceed{
+	padding: 150px 70px;
+	display: none;
+	.img, p{
+		text-align: center;
+	}
+	p{
+		line-height: 24px;
+	}
+}
+.fdBox .closeTag{
+	width: 28px;
+	height: 27px;
+	right: 0;
+	top: 0;
+	position: absolute;
+	z-index: 1999;
+	cursor: pointer;
+}
+.unfdBox .closeTag{
+	width: 98px;
+    height: 67px;
+	right: 0;
+	top: 0;
+	position: absolute;
+	z-index: 1999;
+	cursor: pointer;
+}
+.closeBtn{
+	width: 66px;
+	height: 30px;
+	right: 0;
+	bottom: 0;
+	position: absolute;
+	z-index: 1999;
+	cursor: pointer;
+}
+#secs{
+	line-height: 30px;
+	text-align: center;
+	color: #ff0000;
 }
 @import "layout/footer";
