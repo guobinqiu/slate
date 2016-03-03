@@ -94,14 +94,16 @@ require(['../../config'],function(){
                     return false;
                 }
             });
-        var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#pwd_error"), value: $("#pwd").val().trim()};
-        var savePwd = $('#savePwd');
-        savePwd.on('click', function(){
-            $("#pwd").bind("keyup", function(){ rpaValidate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
-            $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat, true);
-            $("#form1").submit();
-        });
-        $("#pwd").bind("keyup", function(){ rpaValidate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
-        $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
+        if($("#pwd").length > 1){
+            var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#pwd_error"), value: $("#pwd").val().trim()};
+            var savePwd = $('#savePwd');
+            savePwd.on('click', function(){
+                $("#pwd").bind("keyup", function(){ rpaValidate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
+                $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat, true);
+                $("#form1").submit();
+            });
+            $("#pwd").bind("keyup", function(){ rpaValidate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
+            $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
+        }  
     });
 });
