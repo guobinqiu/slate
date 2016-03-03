@@ -52,7 +52,7 @@ require(['../../config'],function(){
             curPwdError.removeClass().addClass('error').html(prompt);
         }
         function savePwd(){
-            var str = $('#curPwd').val();
+            var str = $('#curPwd').val().trim();
             str = $.trim(str);
             if (str == "") {
                 eError('请输入当前密码');
@@ -62,7 +62,7 @@ require(['../../config'],function(){
                 type: "POST",
                 url: Routing.generate('_profile_changepwd'),
                 contentType : "application/x-www-form-urlencoded; charset=utf-8",
-                data: { curPwd: $("#curPwd").val(), pwd: $("#pwd").val(), pwdRepeat: $("#pwdRepeat").val(), csrf_token: $("#csrf_token").val()},
+                data: { curPwd: $("#curPwd").val().trim(), pwd: $("#pwd").val().trim(), pwdRepeat: $("#pwdRepeat").val().trim(), csrf_token: $("#csrf_token").val().trim()},
                 success : function(data) {
                     var msg = data.message;
                     if(data.status == 1){
@@ -107,7 +107,7 @@ require(['../../config'],function(){
         function saveWithdraw(){
             var checked = [], len = reasons.find('input:checked').length;
             for(var i = 0; i < len; i++){
-                checked[i] = reasons.find('input:checked').eq(i).val();
+                checked[i] = reasons.find('input:checked').eq(i).val().trim();
             }
         }
     });
