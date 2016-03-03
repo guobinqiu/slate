@@ -189,15 +189,15 @@ class SopApiControllerTest extends WebTestCase
         $this->assertEquals($sopProfilePoint->getHash(), $params['hash']);
 
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findOneByUserId($user_id);
-        $this->assertEquals($task->getPoint(), 1);
-        $this->assertEquals($task->getTaskName(), 'q001 属性问卷');
+        $this->assertEquals(1, $task->getPoint());
+        $this->assertEquals('q001 属性问卷', $task->getTaskName());
 
         $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
-        $this->assertEquals($point->getPointChangeNum(), 1);
-        $this->assertEquals($point->getReason(), 93);
+        $this->assertEquals(1, $point->getPointChangeNum());
+        $this->assertEquals(93, $point->getReason());
 
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $this->assertEquals($user->getPoints(), 101);
+        $this->assertEquals(101, $user->getPoints());
     }
 
     /**

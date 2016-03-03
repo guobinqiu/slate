@@ -153,16 +153,8 @@ $(document).ready(function(){
                 <a href="{{ path('_homepage') }}" title="91积粒logo" class="logo fnLeft"><img src="{{ asset('images/logo.png') }}" width="160" height="46" alt="91积粒logo" title="91积粒logo"/></a>
                 {% if app.request.attributes.get('_route') == '_homepage' %}
                      <form action="#"  id="search_box">
-                     
                          <div class="search fnRight">
-                             <div class="tbSearch"><a data-type="6" data-tmpl="573x66" data-tmplid="140" data-style="2" data-border="0" biz-s_logo="1" biz-s_hot="1" href="#"></a>
-                                 <div class="tbTipsWrap">
-                                     <a class="tbTipsIco"></a>
-                                     <div class="tbTipsCon">
-                                         <em></em>通过这里去爱淘宝购物，即可参加<a style="text-decoration:underline;" href="{{ path('jili_api_monthactivity_gatheringindex',{'l':7}) }}" target="_blank">抱团大作战</a>活动，最高可瓜分<a>2,888,888</a>米粒
-                                     </div>
-                                 </div>
-                             </div>
+                             <div class="tbSearch"><a data-type="6" data-tmpl="573x66" data-tmplid="140" data-style="2" data-border="0" biz-s_logo="1" biz-s_hot="1" href="#"></a></div>
                              <a href="{{ path('_default_support') }}" class="hpIco" title="帮助中心"></a>
                          </div>
                          {% include "JiliFrontendBundle::alimama.html.twig" with { pid:"mm_49376465_4372428_28778243" } %}
@@ -174,13 +166,6 @@ $(document).ready(function(){
                           $('#search_box').submit();
                           return false;
                      };
-                     //taobaoTips
-                     var tbTipsCon = $(".tbTipsCon");
-                     $(".tbTipsWrap").hover(function(){
-                             tbTipsCon.show();
-                         }, function(){
-                             tbTipsCon.hide();
-                     });
                      </script>
 
                         {# toabao检索 #}
@@ -195,7 +180,6 @@ $(document).ready(function(){
                 <li {{ router_current == '_exchange_index' ? 'class="active"':'' }}><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
                 <li {{ router_current == 'jili_frontend_taobao_index' ? 'class="active"':'' }}><a href="{{ path('jili_frontend_taobao_index') }}" title="淘宝购物" class="navTB">淘宝购物<span class="iconTB"></span></a></li>
             </ul>
-            <a href="{{ path('jili_frontend_decemberactivity_index', {'l': 7}) }}" class="decActivityGif"></a>
             {% if app.request.attributes.get('_route') == '_homepage' and app.session.has('uid') %}
             <span class="eggTag"></span>
             {% endif %}

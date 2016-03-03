@@ -22,4 +22,10 @@ require(['../../config'],function(){
             });
         }
     });
+    require(['alimama'], function(alimama){
+        var win = window;
+        alimama.pid = 'mm_49376465_4372428_28778243';
+        win.alimamatk_onload = win.alimamatk_onload || [];
+        win.alimamatk_onload.push(alimama);
+    });
 });
